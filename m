@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA4F950BCD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 19:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEC2950BD3
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 19:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A900610E3BB;
-	Tue, 13 Aug 2024 17:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D3F10E3C3;
+	Tue, 13 Aug 2024 17:59:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AHVHvwJ0";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VuY2Az3n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 270EA10E3BA
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 17:59:06 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7387B1C0003;
- Tue, 13 Aug 2024 17:59:03 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5197110E3BB
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 17:59:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9C3AE40004;
+ Tue, 13 Aug 2024 17:59:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1723571944;
+ t=1723571945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xQvAnLoB3dqiNmiLK/gxaUFy0NoW7VZ5gvH+QxJXzCw=;
- b=AHVHvwJ0cciz5zcQzUZlCOBDx87r215qDd/JVE4UE++OslvJ9JTqNe2NhaQQPKU2Tvx7vd
- +L7EsJXtTbm8vXLs1nKwq8J2iBMzjDsSEYJ8R7mDbOQcFKlOLIrboCOrqU3FjNZFA4GhZX
- l5ygzBiHLJC/oiuVwOjoPk2F3GkLs9yTva+ZDFvoPaD6F2rrWcfMt/a/XamsPDKTCkdq/x
- pcwe/lxpiKEhhR8iX5uH11ZAyXkvr2FCVHprktvcNkPgYax250Hka4pqXJOXy3FEQ/XEBN
- q0rT/dcAfTCi7jz88UNFP8DKeu7hg96OCQ6Jd7Xg0hMSrIX+I7QnhzVDKzYY+A==
-Date: Tue, 13 Aug 2024 19:58:57 +0200
+ bh=O0iO3GOAWKe67x9zMAONdJ2m4wVUEYwmNeIGg4oZQP8=;
+ b=VuY2Az3n6Ae0d6i1V3XQyfayj8s8Hkqt78T7lTTMbKpPJ5Q8hX0efxpsZTewvgtFCk5U2E
+ cBdfUt+L7bx/YYB3gox+/csEk/YM4HX/yPZM04YNXf8XrLzbKBNZIDV8NjlYtBoisEJDMw
+ XATSwIg5c8ZitILEP4LFJ9fKcswwikgJT18dWB4MSENTFjYG1dGKfEqWalaFdIM6ySe62h
+ fahQZZSyXzFJPju62ZcQoRjLkSBuyDW60FRHJ3OiFxtKKIcf7oap8tZEsrPd2CEvNe+H85
+ HRx9HtVagmpSHrgdVeLhjzcfgv6BbSW7DNCg2CzT7oh3z7EM4RB7YKYxJb3bQw==
+Date: Tue, 13 Aug 2024 19:58:58 +0200
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
@@ -38,8 +38,9 @@ Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 05/17] drm/vkms: Use managed memory to create encoders
-Message-ID: <Zrue4dAQ_11w_FaW@louis-chauvet-laptop>
+Subject: Re: [RFC PATCH 09/17] drm/vkms: Allow to configure multiple overlay
+ planes
+Message-ID: <Zrue4p9OEK12W59A@louis-chauvet-laptop>
 Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  <jose.exposito89@gmail.com>, 
  rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
@@ -48,12 +49,12 @@ Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20240813105134.17439-1-jose.exposito89@gmail.com>
- <20240813105134.17439-6-jose.exposito89@gmail.com>
+ <20240813105134.17439-10-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240813105134.17439-6-jose.exposito89@gmail.com>
+In-Reply-To: <20240813105134.17439-10-jose.exposito89@gmail.com>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,132 +72,346 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Le 13/08/24 - 12:44, José Expósito a écrit :
-> A future patch will allow to create multiple encoders. Use managed
-> memory to simplify the code.
+> Add a list of overlay planes to vkms_config and add as many overlay
+> planes as configured during output initialization.
 > 
-> Refactor, no functional changes.
+> For backwards compatibility, add NUM_OVERLAY_PLANES to the default
+> configuration.
+> 
+> Note that a primary plane is created for each CRTC and it is not
+> possible to configure it.
+> A cursor plane is added conditionally if it is enabled in the CRTC
+> configuration.
 > 
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 > ---
->  drivers/gpu/drm/vkms/vkms_drv.h    |  1 -
->  drivers/gpu/drm/vkms/vkms_output.c | 45 ++++++++++++++++++++----------
->  2 files changed, 30 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_config.c | 53 +++++++++++++++++++++++++++---
+>  drivers/gpu/drm/vkms/vkms_config.h | 16 +++++++--
+>  drivers/gpu/drm/vkms/vkms_drv.c    |  2 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h    |  5 +--
+>  drivers/gpu/drm/vkms/vkms_output.c | 43 ++++++++++++------------
+>  drivers/gpu/drm/vkms/vkms_plane.c  |  6 ++--
+>  6 files changed, 91 insertions(+), 34 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 3156ff896c33..2466e8b0231f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -122,7 +122,6 @@ struct vkms_crtc {
->  struct vkms_config;
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index a456f9db3c66..d95a42a6745a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -17,6 +17,7 @@ struct vkms_config *vkms_config_create(char *dev_name)
+>  		return ERR_PTR(-ENOMEM);
 >  
->  struct vkms_output {
-> -	struct drm_encoder encoder;
->  	struct drm_connector connector;
->  };
+>  	config->dev_name = dev_name;
+> +	config->planes = (struct list_head)LIST_HEAD_INIT(config->planes);
+>  	config->crtcs = (struct list_head)LIST_HEAD_INIT(config->crtcs);
+>  	config->encoders = (struct list_head)LIST_HEAD_INIT(config->encoders);
+>  	config->connectors = (struct list_head)LIST_HEAD_INIT(config->connectors);
+> @@ -32,15 +33,22 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
+>  	struct vkms_config_crtc *crtc_cfg;
+>  	struct vkms_config_encoder *encoder_cfg;
+>  	struct vkms_config_connector *connector_cfg;
+> +	struct vkms_config_plane *plane_cfg;
+> +	int n;
 >  
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index dcd32bc30e17..15f0b72af325 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -4,6 +4,7 @@
->  #include "vkms_drv.h"
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_edid.h>
-> +#include <drm/drm_managed.h>
->  #include <drm/drm_probe_helper.h>
+>  	config = vkms_config_create(DEFAULT_DEVICE_NAME);
+>  	if (IS_ERR(config))
+>  		return config;
 >  
->  static const struct drm_connector_funcs vkms_connector_funcs = {
-> @@ -14,10 +15,6 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->  };
+> -	config->cursor = enable_cursor;
+> -	config->overlay = enable_overlay;
+> +	if (enable_overlay) {
+> +		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
+> +			plane_cfg = vkms_config_add_overlay_plane(config, BIT(0));
+> +			if (IS_ERR(plane_cfg))
+> +				return ERR_CAST(plane_cfg);
+
+The config pointer is leaked here.
+
+> +		}
+> +	}
 >  
-> -static const struct drm_encoder_funcs vkms_encoder_funcs = {
-> -	.destroy = drm_encoder_cleanup,
-> -};
-> -
->  static int vkms_conn_get_modes(struct drm_connector *connector)
+> -	crtc_cfg = vkms_config_add_crtc(config, enable_writeback);
+> +	crtc_cfg = vkms_config_add_crtc(config, enable_cursor, enable_writeback);
+>  	if (IS_ERR(crtc_cfg))
+>  		return ERR_CAST(crtc_cfg);
+>  
+> @@ -57,10 +65,14 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
+>  
+>  void vkms_config_destroy(struct vkms_config *config)
 >  {
->  	int count;
-> @@ -32,6 +29,31 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
->  	.get_modes    = vkms_conn_get_modes,
->  };
+> +	struct vkms_config_plane *plane_cfg, *plane_tmp;
+>  	struct vkms_config_crtc *crtc_cfg, *crtc_tmp;
+>  	struct vkms_config_encoder *encoder_cfg, *encoder_tmp;
+>  	struct vkms_config_connector *connector_cfg, *connector_tmp;
 >  
-> +static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device,
-> +					     uint32_t possible_crtcs)
+> +	list_for_each_entry_safe(plane_cfg, plane_tmp, &config->planes, list)
+> +		vkms_config_destroy_overlay_plane(config, plane_cfg);
+> +
+>  	list_for_each_entry_safe(crtc_cfg, crtc_tmp, &config->crtcs, list)
+>  		vkms_config_destroy_crtc(config, crtc_cfg);
+>  
+> @@ -78,17 +90,24 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  	struct drm_debugfs_entry *entry = m->private;
+>  	struct drm_device *dev = entry->dev;
+>  	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+> +	struct vkms_config_plane *plane_cfg;
+>  	struct vkms_config_crtc *crtc_cfg;
+>  	struct vkms_config_encoder *encoder_cfg;
+>  	struct vkms_config_connector *connector_cfg;
+>  	int n;
+>  
+>  	seq_printf(m, "dev_name=%s\n", vkmsdev->config->dev_name);
+> -	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+> -	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+> +
+> +	n = 0;
+> +	list_for_each_entry(plane_cfg, &vkmsdev->config->planes, list) {
+> +		seq_printf(m, "plane(%d).possible_crtcs=%d\n", n,
+> +			   plane_cfg->possible_crtcs);
+> +		n++;
+> +	}
+>  
+>  	n = 0;
+>  	list_for_each_entry(crtc_cfg, &vkmsdev->config->crtcs, list) {
+> +		seq_printf(m, "crtc(%d).cursor=%d\n", n, crtc_cfg->cursor);
+>  		seq_printf(m, "crtc(%d).writeback=%d\n", n,
+>  			   crtc_cfg->writeback);
+>  		n++;
+> @@ -121,7 +140,30 @@ void vkms_config_debugfs_init(struct vkms_device *vkms_device)
+>  			      ARRAY_SIZE(vkms_config_debugfs_list));
+>  }
+>  
+> +struct vkms_config_plane *vkms_config_add_overlay_plane(struct vkms_config *config,
+> +							uint32_t possible_crtcs)
 > +{
-> +	struct drm_encoder *encoder;
-> +	int ret;
+> +	struct vkms_config_plane *plane_cfg;
 > +
-> +	encoder = drmm_kzalloc(&vkms_device->drm, sizeof(*encoder), GFP_KERNEL);
-> +	if (!encoder) {
-> +		DRM_ERROR("Failed to allocate encoder\n");
+> +	plane_cfg = kzalloc(sizeof(*plane_cfg), GFP_KERNEL);
+> +	if (!plane_cfg)
 > +		return ERR_PTR(-ENOMEM);
-> +	}
-
-Thanks, I forgot this error handling in my implementation!
-
-And while checking, I also found the drmm_encoder_alloc macro, which do 
-the kzalloc AND the _init. Maybe we should use this?
-
 > +
-> +	ret = drmm_encoder_init(&vkms_device->drm, encoder, NULL,
-> +				DRM_MODE_ENCODER_VIRTUAL, NULL);
-> +	if (ret) {
-> +		DRM_ERROR("Failed to init encoder\n");
-> +		kfree(encoder);
-
-Are you sure about this kfree? As the encoder was initialized by 
-drmm_kzalloc, it should be freed by drm?
-
-Or at least, drmm_kfree?
-
-> +		return ERR_PTR(ret);
-> +	}
+> +	plane_cfg->possible_crtcs = possible_crtcs;
+> +	list_add_tail(&plane_cfg->list, &config->planes);
 > +
-> +	encoder->possible_crtcs = possible_crtcs;
-> +
-> +	return encoder;
+> +	return plane_cfg;
 > +}
 > +
->  static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index)
+> +void vkms_config_destroy_overlay_plane(struct vkms_config *config,
+> +				       struct vkms_config_plane *plane_cfg)
+> +{
+> +	list_del(&plane_cfg->list);
+> +	kfree(plane_cfg);
+> +}
+> +
+>  struct vkms_config_crtc *vkms_config_add_crtc(struct vkms_config *config,
+> +					      bool enable_cursor,
+>  					      bool enable_writeback)
+>  {
+>  	struct vkms_config_crtc *crtc_cfg;
+> @@ -130,6 +172,7 @@ struct vkms_config_crtc *vkms_config_add_crtc(struct vkms_config *config,
+>  	if (!crtc_cfg)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> +	crtc_cfg->cursor = enable_cursor;
+>  	crtc_cfg->writeback = enable_writeback;
+>  
+>  	crtc_cfg->index = 0;
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> index f1dd59fc6300..25dab63e7ae7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -8,9 +8,15 @@
+>  
+>  struct vkms_device;
+>  
+> +struct vkms_config_plane {
+> +	struct list_head list;
+> +	uint32_t possible_crtcs;
+
+As for encoder and connector, the crtc cleanup does not change 
+possible_crtcs value, so you may end up with an invalid configuration.
+
+> +};
+> +
+>  struct vkms_config_crtc {
+>  	struct list_head list;
+>  	unsigned int index;
+> +	bool cursor;
+>  	bool writeback;
+>  };
+>  
+> @@ -27,8 +33,7 @@ struct vkms_config_connector {
+>  
+>  struct vkms_config {
+>  	char *dev_name;
+> -	bool cursor;
+> -	bool overlay;
+> +	struct list_head planes;
+>  	struct list_head crtcs;
+>  	struct list_head encoders;
+>  	struct list_head connectors;
+> @@ -46,8 +51,15 @@ void vkms_config_destroy(struct vkms_config *config);
+>  /* DebugFS */
+>  void vkms_config_debugfs_init(struct vkms_device *vkms_device);
+>  
+> +/* Planes */
+> +struct vkms_config_plane *vkms_config_add_overlay_plane(struct vkms_config *config,
+> +							uint32_t possible_crtcs);
+> +void vkms_config_destroy_overlay_plane(struct vkms_config *config,
+> +				       struct vkms_config_plane *plane_cfg);
+> +
+>  /* CRTCs */
+>  struct vkms_config_crtc *vkms_config_add_crtc(struct vkms_config *config,
+> +					      bool enable_cursor,
+>  					      bool enable_writeback);
+>  void vkms_config_destroy_crtc(struct vkms_config *config,
+>  			      struct vkms_config_crtc *crtc_cfg);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 15a2ba26d190..b0a079eb4598 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -154,7 +154,7 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>  	dev->mode_config.preferred_depth = 0;
+>  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>  
+> -	return vkms_output_init(vkmsdev, 0);
+> +	return vkms_output_init(vkmsdev);
+>  }
+>  
+>  static int vkms_create(struct vkms_config *config)
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index cac37d21654a..76394285dc68 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -149,10 +149,11 @@ struct vkms_crtc *vkms_crtc_init(struct drm_device *dev,
+>  				 struct drm_plane *cursor,
+>  				 unsigned int index);
+>  
+> -int vkms_output_init(struct vkms_device *vkmsdev, int index);
+> +int vkms_output_init(struct vkms_device *vkmsdev);
+>  
+>  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> -				   enum drm_plane_type type, int index);
+> +				   enum drm_plane_type type,
+> +				   uint32_t possible_crtcs);
+>  
+>  /* CRC Support */
+>  const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 021a491de817..a5b1ab326cdd 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -82,21 +82,22 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device,
+>  	return encoder;
+>  }
+>  
+> -static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index)
+> +static int vkms_add_overlay_plane(struct vkms_device *vkmsdev,
+> +				  uint32_t possible_crtcs)
 >  {
 >  	struct vkms_plane *overlay;
-> @@ -51,7 +73,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	struct vkms_output *output = &vkmsdev->output;
+>  
+> -	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
+> +	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, possible_crtcs);
+>  	if (IS_ERR(overlay))
+>  		return PTR_ERR(overlay);
+>  
+>  	if (!overlay->base.possible_crtcs)
+> -		overlay->base.possible_crtcs = BIT(index);
+> +		overlay->base.possible_crtcs = possible_crtcs;
+>  
+>  	return 0;
+>  }
+>  
+> -int vkms_output_init(struct vkms_device *vkmsdev, int index)
+> +int vkms_output_init(struct vkms_device *vkmsdev)
+>  {
 >  	struct drm_device *dev = &vkmsdev->drm;
->  	struct drm_connector *connector = &output->connector;
-> -	struct drm_encoder *encoder = &output->encoder;
-> +	struct drm_encoder *encoder;
+>  	struct drm_connector *connector;
+> @@ -106,29 +107,27 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
 >  	struct vkms_crtc *vkms_crtc;
 >  	struct vkms_config_crtc *crtc_cfg;
 >  	struct vkms_plane *primary, *cursor = NULL;
-> @@ -101,13 +123,9 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+> +	struct vkms_config_plane *plane_cfg;
+>  	int ret;
+>  	int writeback;
+> -	unsigned int n;
 >  
->  	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
->  
-> -	ret = drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
-> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-> -	if (ret) {
-> -		DRM_ERROR("Failed to init encoder\n");
-> -		goto err_encoder;
-> -	}
-> -	encoder->possible_crtcs = 1;
-> +	encoder = vkms_encoder_init(vkmsdev, BIT(0));
-> +	if (IS_ERR(encoder))
-> +		return PTR_ERR(encoder);
->  
->  	ret = drm_connector_attach_encoder(connector, encoder);
->  	if (ret) {
-> @@ -120,9 +138,6 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	return 0;
->  
->  err_attach:
-> -	drm_encoder_cleanup(encoder);
+> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
+> -	if (IS_ERR(primary))
+> -		return PTR_ERR(primary);
 > -
-> -err_encoder:
->  	drm_connector_cleanup(connector);
+> -	if (vkmsdev->config->overlay) {
+> -		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
+> -			ret = vkms_add_overlay_plane(vkmsdev, index);
+> -			if (ret)
+> -				return ret;
+> -		}
+> -	}
+> -
+> -	if (vkmsdev->config->cursor) {
+> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+> -		if (IS_ERR(cursor))
+> -			return PTR_ERR(cursor);
+> +	list_for_each_entry(plane_cfg, &vkmsdev->config->planes, list) {
+> +		ret = vkms_add_overlay_plane(vkmsdev, plane_cfg->possible_crtcs);
+> +		if (ret)
+> +			return ret;
+>  	}
 >  
->  	return ret;
+>  	list_for_each_entry(crtc_cfg, &vkmsdev->config->crtcs, list) {
+> +		primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, 0);
+> +		if (IS_ERR(primary))
+> +			return PTR_ERR(primary);
+> +
+> +		if (crtc_cfg->cursor) {
+> +			cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, 0);
+
+Why are you hardcoding the primary and cursor plane here? I think it is 
+easier to manage them as "normal" planes with vkms_config_plane, and use 
+the enum drm_plane_type to find the correct one here.
+
+Otherwise we will need either to:
+- duplicate all the plane configuration for those primary and cursor 
+  planes
+- rework this part of the code to use vkms_config_plane.
+
+> +			if (IS_ERR(cursor))
+> +				return PTR_ERR(cursor);
+> +		}
+> +
+>  		vkms_crtc = vkms_crtc_init(dev, &primary->base, &cursor->base,
+>  					   crtc_cfg->index);
+>  		if (IS_ERR(vkms_crtc))
+> @@ -141,6 +140,8 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  			if (writeback)
+>  				DRM_ERROR("Failed to init writeback connector\n");
+>  		}
+> +
+> +		cursor = NULL;
+>  	}
+>  
+>  	list_for_each_entry(encoder_cfg, &vkmsdev->config->encoders, list) {
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index e5c625ab8e3e..eb3edf4cb928 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -198,13 +198,13 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
+>  };
+>  
+>  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> -				   enum drm_plane_type type, int index)
+> +				   enum drm_plane_type type, uint32_t possible_crtcs)
+>  {
+>  	struct drm_device *dev = &vkmsdev->drm;
+>  	struct vkms_plane *plane;
+>  
+> -	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
+> -					   &vkms_plane_funcs,
+> +	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base,
+> +					   possible_crtcs, &vkms_plane_funcs,
+>  					   vkms_formats, ARRAY_SIZE(vkms_formats),
+>  					   NULL, type, NULL);
+>  	if (IS_ERR(plane))
 > -- 
 > 2.46.0
 > 
