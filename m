@@ -2,138 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA1B95076A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0A29507AE
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:33:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBA3F10E377;
-	Tue, 13 Aug 2024 14:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C30458876A;
+	Tue, 13 Aug 2024 14:33:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Wf3YFOOT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XZZ37yuN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wf3YFOOT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XZZ37yuN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hM1gpYPZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5723610E36D
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 14:19:41 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9DDF521C28;
- Tue, 13 Aug 2024 14:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723558779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MZ6pewPt89yQdlc0XoKuqorIXm6ukABazpsUHdg/EgY=;
- b=Wf3YFOOTypME0z94Rg/EMYLk2lgmYMUYMKSj3kdc8Gzjl7JMRnOF3DlZRLV5OHae2drr7+
- e1tFECfnU55vvOjbQWhl5LfvUg2TJph9d9n31oZ2MN/yhZJ0lkEgLp7LO08IQG0UvmZPpN
- mjfBoep+c9X1f6pqDjHi/aYJOWwkFJg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723558779;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MZ6pewPt89yQdlc0XoKuqorIXm6ukABazpsUHdg/EgY=;
- b=XZZ37yuN9RzgHAWwwR9ozYWpc4hoAn1BZ/PFPPsrpwwHH4SHvxHw+VMPXxu0ijDt50HNDc
- gBS+U5iMdZa/oNBQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Wf3YFOOT;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XZZ37yuN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723558779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MZ6pewPt89yQdlc0XoKuqorIXm6ukABazpsUHdg/EgY=;
- b=Wf3YFOOTypME0z94Rg/EMYLk2lgmYMUYMKSj3kdc8Gzjl7JMRnOF3DlZRLV5OHae2drr7+
- e1tFECfnU55vvOjbQWhl5LfvUg2TJph9d9n31oZ2MN/yhZJ0lkEgLp7LO08IQG0UvmZPpN
- mjfBoep+c9X1f6pqDjHi/aYJOWwkFJg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723558779;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MZ6pewPt89yQdlc0XoKuqorIXm6ukABazpsUHdg/EgY=;
- b=XZZ37yuN9RzgHAWwwR9ozYWpc4hoAn1BZ/PFPPsrpwwHH4SHvxHw+VMPXxu0ijDt50HNDc
- gBS+U5iMdZa/oNBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6544013983;
- Tue, 13 Aug 2024 14:19:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6HATF3tru2aSJgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 13 Aug 2024 14:19:39 +0000
-Message-ID: <dbcb9144-559d-4df3-8f9e-e6cf1dcd37dc@suse.de>
-Date: Tue, 13 Aug 2024 16:19:38 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43A6E8876A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 14:32:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723559579; x=1755095579;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yYmSADZI5opGeLzpfk5KFVFuK9V4rm2ESSze6SWYrc0=;
+ b=hM1gpYPZ9dMWyNQmVI/rcGf00rjndsHqxlwG+0de/Uh77YAkNJ5L3lrk
+ QVUlW4LBHVSKDQJV0Lj0ziCz/HvsbvDL7otC0AFirMV0w/SVBjjkRhQzR
+ QqrYxuqZhTNOztTx3thj8bObQYMhmbSneP0spf/0d8JFwZY/Z/Vh6YQKG
+ a2VlxJWfDpWf0uvBWrP1Iup+uNsgSjr5+CR+QB03NhmI7jEmcigvDgTkB
+ fOLkUFotyZtEp5jfV4KZHJ+12l2qFYh6k4SVWEPxNKIu1iB3HmA7qnp+k
+ yMQX1T9NtHzZ8Pfqp7VQIleKoQSDbwoZ/CT9EgWfE4XQ2n4WcygKZYBq2 g==;
+X-CSE-ConnectionGUID: P8lfrHJ+STyjwxP3q0Ws4w==
+X-CSE-MsgGUID: /6LtY/6FQ3CfRiCeXRO0Fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="25490183"
+X-IronPort-AV: E=Sophos;i="6.09,286,1716274800"; d="scan'208";a="25490183"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2024 07:32:59 -0700
+X-CSE-ConnectionGUID: 96evE7TcQXy6fBhvy5nVQw==
+X-CSE-MsgGUID: JtW4SInQStyxOwsut3YheA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,286,1716274800"; d="scan'208";a="58561914"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.4])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2024 07:32:54 -0700
+Date: Tue, 13 Aug 2024 16:32:50 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: use dev_err_probe when failing
+ to get panel bridge
+Message-ID: <ZrtuksiarZNS8L79@ashyti-mobl2.lan>
+References: <20240808-ti-sn65dsi83-dev_err_probe-v1-1-72417aa275ab@bootlin.com>
+ <ZrSfayN4U6Lk3UCj@ashyti-mobl2.lan> <20240813101643.5bf8d245@booty>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/hisilicon: Remove unused delarations
-To: Zhang Zekun <zhangzekun11@huawei.com>, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, kong.kongxinwei@hisilicon.com,
- sumit.semwal@linaro.org, yongqin.liu@linaro.org, jstultz@google.com,
- dri-devel@lists.freedesktop.org
-References: <20240812123543.64300-1-zhangzekun11@huawei.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240812123543.64300-1-zhangzekun11@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.50
-X-Rspamd-Queue-Id: 9DDF521C28
-X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; XM_UA_NO_VERSION(0.01)[];
- RCPT_COUNT_SEVEN(0.00)[8]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240813101643.5bf8d245@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,40 +80,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Luca,
 
+On Tue, Aug 13, 2024 at 10:16:43AM +0200, Luca Ceresoli wrote:
+> On Thu, 8 Aug 2024 11:35:23 +0100
+> Andi Shyti <andi.shyti@linux.intel.com> wrote:
+> > On Thu, Aug 08, 2024 at 12:26:14PM +0200, Luca Ceresoli wrote:
+> > > When devm_drm_of_get_bridge() fails, the probe fails silently. Use
+> > > dev_err_probe() instead to log an error or report the deferral reason,
+> > > whichever is applicable.
+> > > 
+> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > index 57a7ed13f996..60b9f14d769a 100644
+> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > @@ -606,7 +606,7 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+> > >  
+> > >  	panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 2, 0);
+> > >  	if (IS_ERR(panel_bridge))
+> > > -		return PTR_ERR(panel_bridge);
+> > > +		return dev_err_probe(dev, PTR_ERR(panel_bridge), "Failed to get panel bridge\n");  
+> > 
+> > patch looks good, but the message is a bit misleading. You are
+> > not failing to get the panel bridge, but you are failing to find
+> > a panel bridge in a DT node. Right?
+> 
+> As I can see from both the documentation and the code,
+> devm_drm_of_get_bridge() is really returning a pointer to a panel
+> bridge, potentially allocating and adding it in case it was not present
+> before. Navigating the device tree is only a part of what it does.
+> 
+> Do you think I am missing something?
 
-Am 12.08.24 um 14:35 schrieb Zhang Zekun:
-> hibmc_mm_init() has been removed since commit 28645ae064d1
-> ("drm/hisilicon/hibmc: Remove hibmc_ttm.c"), but remain the declaration
-> untouched in the header files. So, let's remove this unused declaration.
->
-> Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+No, maybe it's me being a bit pedantic. In the sense that we are
+not really failing to get the panel, but most probably the panel
+is not installed. I'm not strong on this comment, though, so that
+feel free to add:
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-> ---
->   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> index 207aa3f660b0..6b566f3aeecb 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> @@ -57,7 +57,6 @@ void hibmc_set_current_gate(struct hibmc_drm_private *priv,
->   int hibmc_de_init(struct hibmc_drm_private *priv);
->   int hibmc_vdac_init(struct hibmc_drm_private *priv);
->   
-> -int hibmc_mm_init(struct hibmc_drm_private *hibmc);
->   int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
->   
->   #endif
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Thanks,
+Andi
