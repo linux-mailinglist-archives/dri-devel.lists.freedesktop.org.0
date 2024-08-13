@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7F8950D58
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 21:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8776D950D41
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 21:39:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAAF710E3EC;
-	Tue, 13 Aug 2024 19:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2DEE10E3E8;
+	Tue, 13 Aug 2024 19:39:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="bih1wxBI";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Zs15MILW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 901 seconds by postgrey-1.36 at gabe;
- Tue, 13 Aug 2024 19:47:48 UTC
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6A9710E3EC
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 19:47:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1723577566; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=GA7tea0kqO6gqC6hHcyjtMdmiqZOeUeYTPYjoDSktQ4qEEsMaSLI9/Mp5YYY2daUIu6EltQ98dxg7r3oGfh1ING3jXjNMBmD2XviHaOIqRsN1gyuPBuBx6DNbKDkbDfGBR5+5AZwPaLn/bwfo71kzbDtaHRQPz+WFl6AcpNiwS0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723577566;
- h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=X7xDkpm8xGfo7/rI4PuVKf8UzfBn9D+QiiV+0nKhLA8=; 
- b=l/XKmC+zUSE4zWuE3PzAg7t5VnKw1w6whgFyQ6mvhBW6ZzzD3ZT19XKvfqW7JNvH9t0jNuJSNg02kKdBXpc4PC5O6SalPXtItcyYhyK26pjbrIrGNE1ebGdP2toi/7ABUKUmvuqtSHs4pwtzx3hFZWefagufFFCHXxopAeP7Vwo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mark.filion@collabora.com;
- dmarc=pass header.from=<mark.filion@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723577566; 
- s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
- bh=X7xDkpm8xGfo7/rI4PuVKf8UzfBn9D+QiiV+0nKhLA8=;
- b=bih1wxBIjcXK1rRlRXw9kh7GPwvsm3NjAIDxIUnlu9T/ixHGips1/pB14tNE7wL9
- IrVSbPItD8HKSDaIFCIM9PSB6Jjh9ZwKlxU2fTeP9IJbj5DBC4gZ0dwjFE74LX4hTMp
- 2KIQPG/SVyzQ9QVZrA/EpIRCgD3pk/uK1FHwRXT4=
-Received: by mx.zohomail.com with SMTPS id 1723577563959652.7885675450119;
- Tue, 13 Aug 2024 12:32:43 -0700 (PDT)
-Message-ID: <e912861a52ad474a664d4946d94482320d716015.camel@collabora.com>
-Subject: XDC 2024: Call for Proposals deadline extended to August 19
-From: Mark Filion <mark.filion@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Date: Tue, 13 Aug 2024 15:32:43 -0400
-Content-Type: multipart/alternative; boundary="=-mZ9/0z+bCBeaNwoI6pYY"
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E66910E3E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 19:39:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4772B4AB;
+ Tue, 13 Aug 2024 21:38:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1723577921;
+ bh=BqRNvzQDOJ/GHo5ioyhI06Ug3jShS1tIwzfi+ejCMUY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zs15MILWOckLiTdukNf5bPHTz7M6Z8DErobZMaX49SzEItbCdfQvHOgZwFqrSfMNS
+ +0dczsYq2YzVWVhXUSHMx/t53KsIRjP9HvB1XOFlWI473JbLXh0femNl5ECkXKQTQc
+ DbYZ8nI/SjM8Gql4k+VSWLmm2E394n6j98zj8RX0=
+Date: Tue, 13 Aug 2024 22:39:13 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/G2UL DU bindings
+Message-ID: <20240813193913.GH24634@pendragon.ideasonboard.com>
+References: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
+ <20240805155242.151661-2-biju.das.jz@bp.renesas.com>
+ <20240813163220.GA1164014-robh@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240813163220.GA1164014-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,124 +68,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-mZ9/0z+bCBeaNwoI6pYY
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Rob,
 
-Hello!
+On Tue, Aug 13, 2024 at 10:32:20AM -0600, Rob Herring wrote:
+> On Mon, Aug 05, 2024 at 04:52:35PM +0100, Biju Das wrote:
+> > Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
+> > SoC, but has only DPI interface.
+> > 
+> > While at it, add missing required property port@1 for RZ/G2L and RZ/V2L
+> > SoCs. Currently there is no user for the DPI interface and hence there
+> > won't be any ABI breakage for adding port@1 as required property for
+> > RZ/G2L and RZ/V2L SoCs.
+> > 
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v2->v3:
+> >  * Replaced ports->port property for RZ/G2UL as it supports only DPI.
+> >    and retained ports property for RZ/{G2L,V2L} as it supports both DSI
+> >    and DPI output interface.
+> 
+> Why? Having port and ports is just a needless complication.
 
-The CfP deadline for talks, workshops=C2=A0and demos at XDC=C2=A02024 has b=
-een
-extended to next Monday, 19 August 2024.=C2=A0
+I agree that making the ports node mandatory, even when the device has a
+single port, will simplify the bindings. In hindsight we should never
+have made ports optional, but that can't be changed.
 
-You have one more week to submit, don't wait!
+> >  * Added missing blank line before example.
+> >  * Dropped tags from Conor and Geert as there are new changes.
+> > v1->v2:
+> >  * Updated commit description related to non ABI breakage.
+> >  * Added Ack from Conor.
+> > ---
+> >  .../bindings/display/renesas,rzg2l-du.yaml    | 35 +++++++++++++++++--
+> >  1 file changed, 32 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > index 08e5b9478051..ca01bf26c4c0 100644
+> > --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > @@ -18,6 +18,7 @@ properties:
+> >    compatible:
+> >      oneOf:
+> >        - enum:
+> > +          - renesas,r9a07g043u-du # RZ/G2UL
+> >            - renesas,r9a07g044-du # RZ/G2{L,LC}
+> >        - items:
+> >            - enum:
+> > @@ -60,8 +61,9 @@ properties:
+> >          $ref: /schemas/graph.yaml#/properties/port
+> >          unevaluatedProperties: false
+> >  
+> > -    required:
+> > -      - port@0
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description: Connection to the DU output video port.
+> >  
+> >      unevaluatedProperties: false
+> >  
+> > @@ -83,11 +85,38 @@ required:
+> >    - clock-names
+> >    - resets
+> >    - power-domains
+> > -  - ports
+> >    - renesas,vsps
+> >  
+> >  additionalProperties: false
+> >  
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,r9a07g043u-du
+> > +    then:
+> > +      properties:
+> > +        port:
+> > +          description: DPI
+> 
+> This is equivalent to 'port@0'. IMO, this case should have a 'port@1' 
+> node so that DPI interface is *always* the same port.
 
-https://indico.freedesktop.org/event/6/abstracts/
+That's what Biju did in the previous version, and I recommended to
+number the ports based on hardware indices, not types. Mapping port
+numbers to the hardware documentation makes it more consistent for DT
+writers, makes the logic simpler to understand (in my opinion, based on
+my experience with the R-Car DU) on the driver side, but most
+importantly, type-based numbering wouldn't scale as SoCs could have
+multiple ports of the same type (we've seen that happening with R-Car).
 
-While any serious proposal will be gratefully=C2=A0considered, topics of
-interest to X.Org and freedesktop.org developers are encouraged. The
-program focus is on new development, ongoing challenges and anything
-else that will spark discussions among attendees in the hallway track.
+> > +
+> > +      required:
+> > +        - port
+> > +    else:
+> > +      properties:
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DSI
+> > +            port@1:
+> > +              description: DPI
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +      required:
+> > +        - ports
+> > +
+> >  examples:
+> >    # RZ/G2L DU
+> >    - |
 
-We are open to talks across all layers of the graphics stack, from the
-kernel to desktop environments / graphical applications and about how
-to make things better for the developers who build them. Head to the
-CfP page to learn more!
-=C2=A0=C2=A0=C2=A0
-As usual, the conference is free of charge and open to the general
-public. If you plan on attending, please make sure to register as early
-as possible!
+-- 
+Regards,
 
-And don't forget, you can follow us on Mastodon for all the latest
-updates and to stay connected:
-
-=C2=A0=C2=A0=C2=A0=C2=A0https://floss.social/@XOrgDevConf
-
-Best,
-
-Mark
-
---=-mZ9/0z+bCBeaNwoI6pYY
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><div><span style=3D"caret-color: rgb(46, 52, 54); colo=
-r: rgb(46, 52, 54); font-family: &quot;Source Code Pro&quot;; font-size: 13=
-.333333px;">Hello!</span><br><br><span style=3D"caret-color: rgb(46, 52, 54=
-); color: rgb(46, 52, 54); font-family: &quot;Source Code Pro&quot;; font-s=
-ize: 13.333333px;">The CfP deadline for talks, workshops&nbsp;and demos at =
-XDC</span>&nbsp;<span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46,=
- 52, 54); font-family: &quot;Source Code Pro&quot;; font-size: 13.333333px;=
-">2024 has been<br>extended to next Monday, 19 August 2024.&nbsp;</span></d=
-iv><div><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54)=
-; font-family: &quot;Source Code Pro&quot;; font-size: 13.333333px;"><br></=
-span></div><div><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46,=
- 52, 54); font-family: &quot;Source Code Pro&quot;; font-size: 13.333333px;=
-">You have one more week to submit, don't wait!</span><br><br><a href=3D"ht=
-tps://indico.freedesktop.org/event/6/abstracts/" title=3D"Click to open htt=
-ps://indico.freedesktop.org/event/6/abstracts/">https://indico.freedesktop.=
-org/event/6/abstracts/</a><br><br><span style=3D"caret-color: rgb(46, 52, 5=
-4); color: rgb(46, 52, 54); font-family: &quot;Source Code Pro&quot;; font-=
-size: 13.333333px;">While any serious proposal will be gratefully&nbsp;cons=
-idered, topics of</span><br><span style=3D"caret-color: rgb(46, 52, 54); co=
-lor: rgb(46, 52, 54); font-family: &quot;Source Code Pro&quot;; font-size: =
-13.333333px;">interest to X.Org and freedesktop.org developers are encourag=
-ed. The</span><br><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(4=
-6, 52, 54); font-family: &quot;Source Code Pro&quot;; font-size: 13.333333p=
-x;">program focus is on new development, ongoing challenges and anything</s=
-pan><br><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54)=
-; font-family: &quot;Source Code Pro&quot;; font-size: 13.333333px;">else t=
-hat will spark discussions among attendees in the hallway track.</span><br>=
-<br><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); fo=
-nt-family: &quot;Source Code Pro&quot;; font-size: 13.333333px;">We are ope=
-n to talks across all layers of the graphics stack, from the</span><br><spa=
-n style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-famil=
-y: &quot;Source Code Pro&quot;; font-size: 13.333333px;">kernel to desktop =
-environments / graphical applications and about how</span><br><span style=
-=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quo=
-t;Source Code Pro&quot;; font-size: 13.333333px;">to make things better for=
- the developers who build them. Head to the</span><br><span style=3D"caret-=
-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Source C=
-ode Pro&quot;; font-size: 13.333333px;">CfP page to learn more!</span><br><=
-span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-fa=
-mily: &quot;Source Code Pro&quot;; font-size: 13.333333px;">&nbsp;&nbsp;&nb=
-sp;</span><br><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 5=
-2, 54); font-family: &quot;Source Code Pro&quot;; font-size: 13.333333px;">=
-As usual, the conference is free of charge and open to the general</span><b=
-r><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font=
--family: &quot;Source Code Pro&quot;; font-size: 13.333333px;">public. If y=
-ou plan on attending, please make sure to register as early</span><br><span=
- style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family=
-: &quot;Source Code Pro&quot;; font-size: 13.333333px;">as possible!</span>=
-<br><br><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54)=
-; font-family: &quot;Source Code Pro&quot;; font-size: 13.333333px;">And do=
-n't forget, you can follow us on Mastodon for all the latest</span><br><spa=
-n style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-famil=
-y: &quot;Source Code Pro&quot;; font-size: 13.333333px;">updates and to sta=
-y connected:</span><br><br><span style=3D"caret-color: rgb(46, 52, 54); col=
-or: rgb(46, 52, 54); font-family: &quot;Source Code Pro&quot;; font-size: 1=
-3.333333px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><a href=3D"https://floss.social=
-/@XOrgDevConf" title=3D"Click to open https://floss.social/@XOrgDevConf">ht=
-tps://floss.social/@XOrgDevConf</a><br><br><span style=3D"caret-color: rgb(=
-46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Source Code Pro&quo=
-t;; font-size: 13.333333px;">Best,</span><br><br><span style=3D"caret-color=
-: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Source Code P=
-ro&quot;; font-size: 13.333333px;">Mark</span></div><div><span></span></div=
-></body></html>
-
---=-mZ9/0z+bCBeaNwoI6pYY--
+Laurent Pinchart
