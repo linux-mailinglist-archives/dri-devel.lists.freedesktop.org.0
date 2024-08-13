@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07F494FD33
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 07:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FC494FD62
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 07:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B68110E055;
-	Tue, 13 Aug 2024 05:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1385510E294;
+	Tue, 13 Aug 2024 05:45:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="jjFMs/bx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IBBBzPNm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6641D10E055
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 05:26:59 +0000 (UTC)
-Delivered-To: helen.koike@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723526817; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=TBuwrM0saWZPCqAeR7bOvoAJihweig4uRIiqtFMaQcMknDrOMpCmIJBPkfhWBb/NtamDcFA8H6wk0yg25GPIz0U5CcYN4EjNzL2XDDoASBI08ZiWaPD2FZoNbGzlIenX7tTJKVFv/IITMggF84Alj36eJF3GXH09XoZhyv/y/Qc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723526817;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=rFEqiFqQaYU8I5HFp17toWrFMIexxBuRoUMGPBJIvrU=; 
- b=RZon6LfWR33o09NNUuZKztLslmFEcfZXGPoJnA8mM6S6yPlNGkkEDhgoPCOjnnaTatTZe701t81EGZto56SXVtPGXhxJU0gPrdI8vO+TQxSDKmGR/d1DtHGR8gtqPZFPzpgfaokLoXWa99tgejNegP+zzD5MPTcAjbW2XPT+SZw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
- dmarc=pass header.from=<vignesh.raman@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723526817; 
- s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=rFEqiFqQaYU8I5HFp17toWrFMIexxBuRoUMGPBJIvrU=;
- b=jjFMs/bxjBn8qsxZGBSFk4th52rWaa9lem6b4lmP4A1R4oxUVXvI1haG4Yaf/unq
- raBvCNEwqdVerna8SQhI0uU5WCUre4GDKad+iXrNfDUTFhKHrE+rgPA4rSGaMUuuaiE
- GenIhZ1JU+psHFBkMp6+fEny4YMVRbmnFBh0rryE=
-Received: by mx.zohomail.com with SMTPS id 1723526814512715.4805688385032;
- Mon, 12 Aug 2024 22:26:54 -0700 (PDT)
-Message-ID: <0a3db7dc-4533-4111-bec9-35cc68e35d83@collabora.com>
-Date: Tue, 13 Aug 2024 10:56:48 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8839010E294;
+ Tue, 13 Aug 2024 05:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723527928; x=1755063928;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YwpuBVSFNyDvfJmlX29Z5q0LHVN5p+qw1by/SJOWLDk=;
+ b=IBBBzPNmfKJfeSmquIWfuEhWAp9gNHVBpGccp2ZbodAyR05Z7wSXgLt+
+ 9j8QwioHk6/TDOPIy6+k8SgO8nnXtHk1rP1AkHM3wG8gLK+gQWXW2iwwN
+ sBsXCIyLpSukoHI5u6Qjb46xiA1QYfk4h22XGRj5fx2K6jmBdmXO1fGv0
+ pAdNjrXmYbf9zysnDG9juPUFTOl3VYCWsGxkhRJmDUaxGblwR+bmpxYdX
+ fa+kd9OG64w/PBdkAWUx6ZIGjUrHPQYPJ7+Vk54VAgNZfyZq2UHQrA8fh
+ Gw5WuglU9zgrtmAiXqf66dTM3LIDizS5eLXC3sP9bJ/DalKqK54ocwDVI Q==;
+X-CSE-ConnectionGUID: tZsEBqaETGey7Ho7PODEcA==
+X-CSE-MsgGUID: oWSZpQQpTQWj/RUgQvIqSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21538927"
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="21538927"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2024 22:45:27 -0700
+X-CSE-ConnectionGUID: c9dFyZmbSLqazA9E/vH8Og==
+X-CSE-MsgGUID: oXlUV/1dR6SazqjesTO58g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="81776598"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2024 22:45:22 -0700
+Date: Tue, 13 Aug 2024 08:45:19 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch, linux@roeck-us.net, andi.shyti@linux.intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ anshuman.gupta@intel.com, badal.nilawar@intel.com,
+ riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
+Subject: Re: [PATCH v5] drm/i915/hwmon: expose fan speed
+Message-ID: <Zrry71BfJ31q3iOi@black.fi.intel.com>
+References: <20240812081538.1457396-1-raag.jadav@intel.com>
+ <ZroK4oSAte9qdnA8@smile.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/ci: enable lockdep detection
-To: Helen Mae Koike Fornazier <helen.koike@collabora.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- daniels <daniels@collabora.com>, airlied <airlied@gmail.com>,
- daniel <daniel@ffwll.ch>, robdclark <robdclark@gmail.com>,
- "guilherme.gallo" <guilherme.gallo@collabora.com>,
- "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
- "deborah.brouwer" <deborah.brouwer@collabora.com>,
- linux-kernel <linux-kernel@vger.kernel.org>
-References: <20240812112030.81774-1-vignesh.raman@collabora.com>
- <191483d05a3.129198f97500814.8001634600010504645@collabora.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <191483d05a3.129198f97500814.8001634600010504645@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZroK4oSAte9qdnA8@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,85 +74,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helen,
-
-On 13/08/24 01:47, Helen Mae Koike Fornazier wrote:
+On Mon, Aug 12, 2024 at 04:15:14PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 12, 2024 at 01:45:38PM +0530, Raag Jadav wrote:
+> > Add hwmon support for fan1_input attribute, which will expose fan speed
+> > in RPM. With this in place we can monitor fan speed using lm-sensors tool.
+> > 
+> > $ sensors
+> > i915-pci-0300
+> > Adapter: PCI adapter
+> > in0:         653.00 mV
+> > fan1:        3833 RPM
+> > power1:           N/A  (max =  43.00 W)
+> > energy1:      32.02 kJ
 > 
-> Hi Vignesh,
+> ...
 > 
-> Thanks for your patch.
+> > +static int
+> > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
+> > +{
+> > +	struct i915_hwmon *hwmon = ddat->hwmon;
+> > +	struct hwm_fan_info *fi = &ddat->fi;
+> > +	u64 rotations, time_now, time;
+> > +	intel_wakeref_t wakeref;
+> > +	u32 reg_val, pulses;
+> > +	int ret = 0;
+> > +
+> > +	if (attr != hwmon_fan_input)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
+> > +	mutex_lock(&hwmon->hwmon_lock);
+> > +
+> > +	reg_val = intel_uncore_read(ddat->uncore, hwmon->rg.fan_speed);
+> > +	time_now = get_jiffies_64();
 > 
+> > +	/* Handle HW register overflow */
+> > +	if (reg_val >= fi->reg_val_prev)
+> > +		pulses = reg_val - fi->reg_val_prev;
+> > +	else
+> > +		pulses = UINT_MAX - fi->reg_val_prev + reg_val;
 > 
-> ---- On Mon, 12 Aug 2024 08:20:28 -0300 Vignesh Raman  wrote ---
-> 
->   > We have enabled PROVE_LOCKING (which enables LOCKDEP) in drm-ci.
->   > This will output warnings when kernel locking errors are encountered
->   > and will continue executing tests. To detect if lockdep has been
->   > triggered, check the debug_locks value in /proc/lockdep_stats after
->   > the tests have run. When debug_locks is 0, it indicates that lockdep
->   > has detected issues and turned itself off. So check this value and
->   > exit with an error if lockdep is detected.
-> 
-> Should we exit with an error? Or with a warning? (GitLab-CI supports that).
-> Well, I guess it is serious enough.
+> Isn't it the abs_diff() reimplementation?
 
-I think we can exit with an error since we check the status at the end 
-of the tests.
+Not exactly. This is specific to 32 bit register overflow, so we count
+from max value.
 
-> 
-> Should we also track on the xfail folder? So we can annotate those errors as well?
-
-Do you mean reporting this error in expectation files?
-
-> Did you have an entire pipeline with this? To see if everything is still green?
-
-Yes. https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/62177711
-
-This is a test branch in which I reverted a fix for the lockdep issue.
-We see 'WARNING: bad unlock balance detected!' in logs and pipeline is 
-still green.
-
-Regards,
-Vignesh
-
-> 
-> Helen
-> 
->   >
->   > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com>
->   > ---
->   >
->   > v1:
->   >  - Pipeline link to show lockdep_stats before and after tests,
->   >  https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721
->   >
->   > ---
->   >  drivers/gpu/drm/ci/igt_runner.sh | 11 +++++++++++
->   >  1 file changed, 11 insertions(+)
->   >
->   > diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
->   > index f38836ec837c..d2c043cd8c6a 100755
->   > --- a/drivers/gpu/drm/ci/igt_runner.sh
->   > +++ b/drivers/gpu/drm/ci/igt_runner.sh
->   > @@ -85,6 +85,17 @@ deqp-runner junit \
->   >  --limit 50 \
->   >  --template "See https://$CI_PROJECT_ROOT_NAMESPACE.pages.freedesktop.org/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/results/{{testcase}}.xml"
->   >
->   > +# Check if /proc/lockdep_stats exists
->   > +if [ -f /proc/lockdep_stats ]; then
->   > +    # If debug_locks is 0, it indicates lockdep is detected and it turns itself off.
->   > +    debug_locks=$(grep 'debug_locks:' /proc/lockdep_stats | awk '{print $2}')
->   > +    if [ "$debug_locks" -eq 0 ]; then
->   > +        echo "LOCKDEP issue detected. Please check dmesg logs for more information."
->   > +        cat /proc/lockdep_stats
->   > +        ret=1
->   > +    fi
->   > +fi
->   > +
->   >  # Store the results also in the simpler format used by the runner in ChromeOS CI
->   >  #sed -r 's/(dmesg-warn|pass)/success/g' /results/results.txt > /results/results_simple.txt
->   >
->   > --
->   > 2.43.0
->   >
->   >
+Raag
