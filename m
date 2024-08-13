@@ -2,89 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68399507B4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BB09507C6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 16:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52BAE10E373;
-	Tue, 13 Aug 2024 14:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3F810E371;
+	Tue, 13 Aug 2024 14:34:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nAXt0UBa";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cNpbyv8T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2DC10E373
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 14:33:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7358B61740;
- Tue, 13 Aug 2024 14:33:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44B31C4AF0B;
- Tue, 13 Aug 2024 14:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723559603;
- bh=sFtPPJXw+oDaZO18986PArH/7XXzUe8DO5XJvEGKSxM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nAXt0UBalXvRn5zwD1LdgdqfsSHBNoAVzH7FOq28vl2bdsMsjXxBOPrVhyzduT5fk
- ZOdKEve+Q7qIR8SptTGdTkU+N79oXR6c72PuXovvAWYmTa+/i3BSLJNHB7fJkcnSTB
- ZnBanDEqYplCz3PPD5kCrTc5ETqDkdCcdBL2+J+HckGXQkmZtVedZyW8AlPfQC44lJ
- 3UDTeCym8iKlUNEnnYvc+JLEW4/esRUVAGrYu45/ASzO9kqLwDXCMY6gZQdwHE85Oq
- G2WszNB9e7ZDzWCR7R0rryd3z94kTMCr7pUSaJQBgF4tsx7T66UCmY0QRAgVQWENY0
- /cgHRiYx1Af9A==
-Date: Tue, 13 Aug 2024 07:33:20 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
- Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
- Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240813073320.3e5c3a7e@kernel.org>
-In-Reply-To: <CAHS8izPyGwe_i4eNemW+A+MgMVHqJ0fdp=+-ju2ynqgc0mb_Ow@mail.gmail.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com>
- <20240806135924.5bb65ec7@kernel.org>
- <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
- <20240808192410.37a49724@kernel.org>
- <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
- <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
- <20240809205236.77c959b0@kernel.org>
- <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
- <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
- <20240812105732.5d2845e4@kernel.org>
- <7e2ffe62-032a-4c5e-953b-b7117ab076be@gmail.com>
- <71260e3c-dee4-4bf0-b257-cdabd8cff3f1@gmail.com>
- <20240812171548.509ca539@kernel.org>
- <CAHS8izPyGwe_i4eNemW+A+MgMVHqJ0fdp=+-ju2ynqgc0mb_Ow@mail.gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F0410E371
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 14:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1723559671;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=78IsUJKw9IqeoT5lC9OSKM4PAO7hFbDugoVudFsVevs=;
+ b=cNpbyv8THQzuqaawjFJXG8OgRHlLz9Ce0ODWxwKWP1mWMF573Dh8d75BdcXyJuMidSu4fO
+ vHd9rEKjS5jtnAGFFksCU70iBJyptFMNrJRjnc2MjiYl/VgQHF5R/BSv7k2o7eF6OEBh6I
+ TKczKV/Z7yFaQAtisueK9Aic+UcEReE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-187-f4sQg2w7Oi-4ku9y9mIcBQ-1; Tue, 13 Aug 2024 10:34:29 -0400
+X-MC-Unique: f4sQg2w7Oi-4ku9y9mIcBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4282164fcbcso42968505e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 07:34:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723559668; x=1724164468;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=78IsUJKw9IqeoT5lC9OSKM4PAO7hFbDugoVudFsVevs=;
+ b=o5GhYubGEfDn07Ootd6td8QPt8BK/PLbmN8q3tP1GqGN1l3Ax5ItGMCiwFWgP5IId9
+ Yl73lQ30GA5gE1rLEaLdqIC+dMHO40PkSoxbwVk5zG/YgqJAyF0100mfZ1EmhIOVpaRG
+ Li7kxaknEO3wBHSQ1xxkKur+QQM24GW/yGDh0Y8fPZwmWGfwXHAEaoYQUD7ZliGEQR27
+ zQKHbTTkFFRcEUo2CY8CCjdAuQFcUB6vET7KuXDEYfmnc8X3wAERXY6LkAM9sQQacz1O
+ tJNtLnfKqIQdNJd6vVPoqDLpbEgtaAyF85cE5gTAMTIDlWHyhViXaaIRQdy+UWcSu4W/
+ j9kw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWknONFtueZ1yxY+q7bLNwE691RVZ5VLutYj5tPMTzMjZcachKC/4pK7lXdztkFv5HAW6vmehq/NT9c9LEtD04lJK4PETZ+yIhBsV7hSmfs
+X-Gm-Message-State: AOJu0YwwXBlePcQdV2Y+ag8+NvXcQ1jRL1m8F2M/f3Svz7HQnPuqTfl5
+ kg+ohpBZYVTyS6BooOPfArcMYE/U+Z/3AzjHRRr0tTt+Evj2K41W4pNX3Y4ETW8xyasyeW2D0mi
+ iJy83xT4REws2Rdg+iI8iqByhiOIwzxs4gTAZUpN6pclUX6WRLDGWXDTnxw0B1yTkOQ==
+X-Received: by 2002:a05:600c:548b:b0:427:fa39:b0db with SMTP id
+ 5b1f17b1804b1-429d487347dmr30344075e9.27.1723559668289; 
+ Tue, 13 Aug 2024 07:34:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG9S1VIbZLOEd8TYuQEWYafYxx7AV0xbNqaDFtZ2nyxoqmDI3atbQHIXjCKmWBf0/FxeiUD2w==
+X-Received: by 2002:a05:600c:548b:b0:427:fa39:b0db with SMTP id
+ 5b1f17b1804b1-429d487347dmr30343785e9.27.1723559667737; 
+ Tue, 13 Aug 2024 07:34:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-36e4c938045sm10585470f8f.43.2024.08.13.07.34.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Aug 2024 07:34:27 -0700 (PDT)
+Message-ID: <bbbd7a97-6d40-4fd8-b70d-17e02481ba3c@redhat.com>
+Date: Tue, 13 Aug 2024 16:34:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/4] drm/rect: Add drm_rect_overlap()
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>
+References: <20240812123147.81356-1-jfalempe@redhat.com>
+ <20240812123147.81356-3-jfalempe@redhat.com> <87sev926na.fsf@intel.com>
+ <60e55a9d-70bb-45d1-ac97-e4f6f6ffa9a9@redhat.com> <87frr924nj.fsf@intel.com>
+ <87mslgzf52.fsf@intel.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <87mslgzf52.fsf@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,35 +108,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Aug 2024 04:39:47 -0400 Mina Almasry wrote:
-> On Mon, Aug 12, 2024 at 8:15=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> =
-wrote:
-> > BTW, Mina, the core should probably also check that XDP isn't installed
-> > before / while the netmem is bound to a queue. =20
->=20
-> Sorry if noob question, but what is the proper check for this?
+On 13/08/2024 16:11, Jani Nikula wrote:
+> On Mon, 12 Aug 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> On Mon, 12 Aug 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>> On 12/08/2024 15:49, Jani Nikula wrote:
+>>>> On Mon, 12 Aug 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>>>> Check if two rectangles overlap.
+>>>>> It's a bit similar to drm_rect_intersect() but this won't modify
+>>>>> the rectangle.
+>>>>> Simplifies a bit drm_panic.
+>>>>
+>>>> Based on the name, I'd expect drm_rect_overlap() to return true for
+>>>> *any* overlap, while this one seems to mean if one rectangle is
+>>>> completely within another, with no adjacent borders.
+>>>
+>>> It's what I intended, but I may have messed up the formula.
+>>
+>> Hmm, then I may have messed up the review. :)
+> 
+> Yeah, my bad, sorry for the noise.
+> 
+> I think I was thrown off by the comparisons mixing r1 and r2 as the
+> first operand. Something like this might have been easier for *me* to
+> parse, but not sure if it's worth changing anything:
+> 
+> return (a->x1 < b->x2 && a->x2 > b->x1 &&
+>          a->y1 < b->y2 && a->y2 > b->y1);
 
-	if (dev_xdp_prog_count(netdev))
+You're right, I've used r1 and r2 for consistency with other functions, 
+but for this case it's confusing, I prefer the a/b.
 
-> I tried adding this to net_devmem_bind_dmabuf_to_queue():
->=20
-> if (xdp_rxq_info_is_reg(&rxq->xdp_rxq))
->                  return -EEXIST;
->=20
-> But quickly found out that in  netif_alloc_rx_queues() we initialize
-> all the rxq->xdp_rxq to state REGISTERED regardless whether xdp is
-> installed or not, so this check actually fails.
->=20
-> Worthy of note is that GVE holds an instance of xdp_rxq_info in
-> gve_rx_ring, and seems to use that for its xdp information, not the
-> one that hangs off of netdev_rx_queue in core.
->=20
-> Additionally, my understanding of XDP is limited, but why do we want
-> to disable it? My understanding is that XDP is a kernel bypass that
-> hands the data directly to userspace. In theory at least there should
-> be no issue binding dmabuf to a queue, then getting the data in the
-> queue via an XDP program instead of via TCP sockets or io uring. Is
-> there some fundamental reason why dmabuf and XDP are incompatible?
+If I send a v7 I will do this change.
 
-You're conflating XDP with AF_XDP, two different things, slightly
-related but different.
+I can also rename when pushing, but I was already bitten by doing this.
+
+Best regards,
+
+-- 
+
+Jocelyn
+
+> 
+> 
+> BR,
+> Jani.
+> 
+> 
+>>
+>> Gotta run now, but I'll get back.
+>>
+>> BR,
+>> Jani.
+>>
+>>
+>>
+>>>>
+>>>> I'd expect a drm_rect_overlap() to return true for this:
+>>>>
+>>>>    +-------+
+>>>>    |   +---+---+
+>>>>    |   |       |
+>>>>    +---+       |
+>>>>        |       |
+>>>>        +-------+
+>>>
+>>> if r1 is the top left rectangle, you've got:
+>>>
+>>> r1->x2 > r2->x1   => true
+>>> r2->x2 > r1->x1   => true
+>>> r1->y2 > r2->y1   => true
+>>> r2->y2 > r1->y1   => true
+>>>
+>>> So they count as overlap.
+>>>
+>>> Checking in stackoverflow, they use the same formula:
+>>> https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other
+>>>
+>>>>
+>>>> While this seems to be required instead:
+>>>>
+>>>>    +-------+
+>>>>    | +---+ |
+>>>>    | |   | |
+>>>>    | +---+ |
+>>>>    +-------+
+>>>>
+>>>>
+>>>> IOW, I find the name misleading.
+>>>>
+>>>> BR,
+>>>> Jani.
+>>>>
+>>>>
+>>>>>
+>>>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/drm_panic.c |  3 +--
+>>>>>    include/drm/drm_rect.h      | 15 +++++++++++++++
+>>>>>    2 files changed, 16 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+>>>>> index 0a047152f88b8..59fba23e5fd7a 100644
+>>>>> --- a/drivers/gpu/drm/drm_panic.c
+>>>>> +++ b/drivers/gpu/drm/drm_panic.c
+>>>>> @@ -529,8 +529,7 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+>>>>>    	/* Fill with the background color, and draw text on top */
+>>>>>    	drm_panic_fill(sb, &r_screen, bg_color);
+>>>>>    
+>>>>> -	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
+>>>>> -	    logo_width <= sb->width && logo_height <= sb->height) {
+>>>>> +	if (!drm_rect_overlap(&r_logo, &r_msg)) {
+>>>>>    		if (logo_mono)
+>>>>>    			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
+>>>>>    				       fg_color);
+>>>>> diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
+>>>>> index 73fcb899a01da..7bafde747d560 100644
+>>>>> --- a/include/drm/drm_rect.h
+>>>>> +++ b/include/drm/drm_rect.h
+>>>>> @@ -238,6 +238,21 @@ static inline void drm_rect_fp_to_int(struct drm_rect *dst,
+>>>>>    		      drm_rect_height(src) >> 16);
+>>>>>    }
+>>>>>    
+>>>>> +/**
+>>>>> + * drm_rect_overlap - Check if two rectangles overlap
+>>>>> + * @r1: first rectangle
+>>>>> + * @r2: second rectangle
+>>>>> + *
+>>>>> + * RETURNS:
+>>>>> + * %true if the rectangles overlap, %false otherwise.
+>>>>> + */
+>>>>> +static inline bool drm_rect_overlap(const struct drm_rect *r1,
+>>>>> +				    const struct drm_rect *r2)
+>>>>> +{
+>>>>> +	return (r1->x2 > r2->x1 && r2->x2 > r1->x1 &&
+>>>>> +		r1->y2 > r2->y1 && r2->y2 > r1->y1);
+>>>>> +}
+>>>>> +
+>>>>>    bool drm_rect_intersect(struct drm_rect *r, const struct drm_rect *clip);
+>>>>>    bool drm_rect_clip_scaled(struct drm_rect *src, struct drm_rect *dst,
+>>>>>    			  const struct drm_rect *clip);
+>>>>
+>>>
+> 
+
