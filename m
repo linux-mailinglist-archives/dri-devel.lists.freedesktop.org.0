@@ -2,68 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1EE94FFCF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 10:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6BA094FFE1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 10:31:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD9B10E1BC;
-	Tue, 13 Aug 2024 08:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3295F10E202;
+	Tue, 13 Aug 2024 08:31:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AABL3Y+g";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HWFRYbEf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB9CD10E1BC;
- Tue, 13 Aug 2024 08:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723537650; x=1755073650;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RyDHZHG1qM+4Ggl8UqXwMYT3dj0QzqQytYDcJf5gWcw=;
- b=AABL3Y+g6WUARhf0QFyO4tiQabJ+vuzdQCFHJa9x63ultWNjVDsysvUq
- JwRK+2kDMcHx1+/ggiZMLDDkSvro9+C9vG8q/FkSutvVI9I+F7hatA3aa
- jP38ftBSAhCIaFHKQ/JGfF0nk7/xn6vlAjnsx/uXIrTSJMmM3RAYHui6S
- FHPJQMsAT5PtcH9V29kbJM3KWZoLKTtlZVnt1M81jPXPAki7rc8RWtA5e
- 5SUZJA+US10ceaaYui5fl4n/WldjWQ6ozetFSFsOcJEnKMiaycS6FMLjP
- SGiyQn1R8Yo3BqYo6Gg7j81+jZrX+6IVABS3g6J8FxPbk2UK+EmJwZGJK g==;
-X-CSE-ConnectionGUID: XMBJhdC9SiSziC2v3qc13A==
-X-CSE-MsgGUID: YHdqdhzISJqcaKbPu6IqWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="44206969"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="44206969"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 01:27:30 -0700
-X-CSE-ConnectionGUID: V9r30wDxRkWwvgSwb20/Qw==
-X-CSE-MsgGUID: PUr0OWqzQleZMmjieiro2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="63432409"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 01:27:26 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sdmsE-0000000Eeuo-1cOg; Tue, 13 Aug 2024 11:27:22 +0300
-Date: Tue, 13 Aug 2024 11:27:22 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net, andi.shyti@linux.intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v5] drm/i915/hwmon: expose fan speed
-Message-ID: <ZrsY6tMts81T-uFa@smile.fi.intel.com>
-References: <20240812081538.1457396-1-raag.jadav@intel.com>
- <ZroK4oSAte9qdnA8@smile.fi.intel.com>
- <Zrry71BfJ31q3iOi@black.fi.intel.com>
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 043A510E219
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 08:30:59 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-7c2595f5c35so834573a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 01:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1723537859; x=1724142659;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mte+8SBXU4fsMgf1dqa+xia4zg6iVcJujhUtX3mlIL4=;
+ b=HWFRYbEfkULCC2iE653W5ELUSIJ4ZSmEGb60H581jggCK7Xt5ywOjwmQhxYBGTVK/y
+ 1I4zea90/5OJ92EPEiUrkdVtBEd3+AmJ+kqHpYAxIURobgYfpxtbXiX5u4fFj+39gzbg
+ fPsWN9kQq9fu+jvTsuy0INrQ2AtQ6UrK4hTEc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723537859; x=1724142659;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mte+8SBXU4fsMgf1dqa+xia4zg6iVcJujhUtX3mlIL4=;
+ b=R/sPkbBMTI41eI46XtLamybI4eNMTqWkDI6urHN6+z6K7mNL0psjZdr9eOdHUy+PHk
+ p6jFoRELfmFz74xadlwYb6mr99HDa0k+gGklxx9p0VkAt6ABzyMtwGNmo6QoKq9XDO0b
+ Azae7r6IeUvW5b4hd+LAbWI0SzBPfkBR7L5W/jO8QqpoFwkxeMq/1NS3fKmQ5CmCcx39
+ ipDkZJKGa4IDlati79onVeqADLS9IXpYHQt+QD9S1DTYuOVCvH23povLmN/jpIUXNnn/
+ cKl8WUS5NaNaKnIy4RhbEDuL0Vjzs1s/myj+F50nM+8DSaEhGlPR0r1cUoQWgyfs9XJQ
+ zb4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWFZGwwnkXUlqHQRPPgFsmEC7qMjiIiaiAPzLREirV/8acGhp8/X/6xmuKcQArI/8vV+DwrYutdpmU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyB+s07d53VWLy5CwCRk08rchLv/l+NsuY46EKMATlRWN/Oz+d2
+ Gw02FuaEGUa1V/hFKEE16PQLLmJKywdnWOj8GaahSCIDwuFtkpbjYhpmmVg5WUk=
+X-Google-Smtp-Source: AGHT+IH+G4nGhI0UfmV7v12uHGx5Nk07nrbH2qcW0vXTaroCsC8U1dDUEWx60DGbADoAQQeROmNokA==
+X-Received: by 2002:a17:90a:6fa5:b0:2cc:fce3:3022 with SMTP id
+ 98e67ed59e1d1-2d3968f829fmr1039667a91.5.1723537859250; 
+ Tue, 13 Aug 2024 01:30:59 -0700 (PDT)
+Received: from [192.168.104.75] ([223.118.51.112])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2d1c9c5dbaesm9835229a91.10.2024.08.13.01.30.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Aug 2024 01:30:58 -0700 (PDT)
+Message-ID: <2aabc166-bf34-49b3-b938-bbfb0f85e8bb@linuxfoundation.org>
+Date: Tue, 13 Aug 2024 02:30:54 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zrry71BfJ31q3iOi@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] gpu: ipu-v3: Add cleanup attribute for prg_node for
+ auto cleanup
+To: Abhinav Jain <jain.abhinav177@gmail.com>
+Cc: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ javier.carrasco.cruz@gmail.com, julia.lawall@inria.fr,
+ linux-kernel@vger.kernel.org, p.zabel@pengutronix.de,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240704132142.1003887-1-jain.abhinav177@gmail.com>
+ <20240812193714.1094339-1-jain.abhinav177@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240812193714.1094339-1-jain.abhinav177@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,55 +87,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 13, 2024 at 08:45:19AM +0300, Raag Jadav wrote:
-> On Mon, Aug 12, 2024 at 04:15:14PM +0300, Andy Shevchenko wrote:
-> > On Mon, Aug 12, 2024 at 01:45:38PM +0530, Raag Jadav wrote:
+On 8/12/24 13:37, Abhinav Jain wrote:
+> Hello,
+> Can this be kindly reviewed? Thanks.
 
-...
+You removed all the relevant information for people to be able to review the
+patch :)
 
-> > > +static int
-> > > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
-> > > +{
-> > > +	struct i915_hwmon *hwmon = ddat->hwmon;
-> > > +	struct hwm_fan_info *fi = &ddat->fi;
-> > > +	u64 rotations, time_now, time;
-> > > +	intel_wakeref_t wakeref;
-> > > +	u32 reg_val, pulses;
-> > > +	int ret = 0;
-> > > +
-> > > +	if (attr != hwmon_fan_input)
-> > > +		return -EOPNOTSUPP;
-> > > +
-> > > +	wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
-> > > +	mutex_lock(&hwmon->hwmon_lock);
-> > > +
-> > > +	reg_val = intel_uncore_read(ddat->uncore, hwmon->rg.fan_speed);
-> > > +	time_now = get_jiffies_64();
-> > 
-> > > +	/* Handle HW register overflow */
-> > > +	if (reg_val >= fi->reg_val_prev)
-> > > +		pulses = reg_val - fi->reg_val_prev;
-> > > +	else
-> > > +		pulses = UINT_MAX - fi->reg_val_prev + reg_val;
-> > 
-> > Isn't it the abs_diff() reimplementation?
-> 
-> Not exactly. This is specific to 32 bit register overflow, so we count
-> from max value.
-
-I see. But since you have the both variables of u32, why:
-1) UINT_MAX?
-2) Not simply using
-
-	pulses = reg_val - fi->reg_val_prev;
-
-which will wrap over correctly?
-
-Note, in your case (in comparison to the wrap over variant) the off-by-one is
-present. Is it on purpose?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+thanks,
+-- Shuah
