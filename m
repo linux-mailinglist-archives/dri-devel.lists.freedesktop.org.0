@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9C994FDDB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 08:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D72B94FDDC
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 08:31:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16DF110E2BD;
-	Tue, 13 Aug 2024 06:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 200E110E2BE;
+	Tue, 13 Aug 2024 06:31:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Lue/M2yO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ARc/rjCN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
- [209.85.167.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C965610E2BD
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 06:30:56 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id
- 5614622812f47-3db14339fb0so3060669b6e.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 23:30:56 -0700 (PDT)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
+ [209.85.167.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706DB10E2BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 06:31:00 +0000 (UTC)
+Received: by mail-oi1-f175.google.com with SMTP id
+ 5614622812f47-3db130a872fso3706888b6e.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 23:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723530656; x=1724135456; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1723530659; x=1724135459; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UnhRO8oIbYzeyc2+UcIe5cCUCjnBIooF0x4NCKcs5c0=;
- b=Lue/M2yOcuP4mHG4ezBkrOcFviQGdaGxqdm2Ip4DvBhnrd1SRvZq9kMtCOUXIa+J1F
- 9XEUKoHNscVKI9N8mBhcTcHs9B17+MqZewanFy8Wg3jHcskjyAv4DG3IWBU5Xsn1ielD
- wEaXltGGJXwNRu848kCKxjNjMy38dncjAafnYgcaJfP0/n4Tcosil8SmUvaKEenGR1mf
- MOXrnPVmuNVLzq5YdFCii6W1aYzMAKfwkIVpgjPSlsEzGQp5EwX0o7FmQn44SKWU2Mxx
- NsK8W3QLBPlhAMpKnILxRQMqfD4AfoPkyiteHCNeAs0w76OLio+k+aWRwWEQehOOZDj9
- cNvg==
+ bh=BCRwCY9EDZcaC0Ax+MD/I4e/vXfkLFmA0dK7jr+FvWs=;
+ b=ARc/rjCNYjbV28i/PspN8Aukr56yVNUg2QRsUx/TBVK86uj51gaP4w/gyRElUYW9gP
+ 9U9OImBPNgv2C0ofJARTtetn/kXjPqQGyaAjWGbMNC2RXGDvc7X2a6Oi0QS5envf4aIg
+ trK2GIqmjl+GkWKYoSFfvihntFjoaqFF5HQw+lV5xSMAG9CMuc1f3t7zLK61lD3uGdN2
+ 8wud3g3sJSH0QNqhI5u1+JeTwdc4ploms9vpP7RNIMXyAxKKz2GlcXk5J2TIgLSlXCnV
+ 77mMA3SGUcNAHd64Mi3WTU9w6+CjvfCRBqSh8WJExq7Y34/wz7aZpr/LFZSxApoBW4g3
+ YK8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723530656; x=1724135456;
+ d=1e100.net; s=20230601; t=1723530659; x=1724135459;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UnhRO8oIbYzeyc2+UcIe5cCUCjnBIooF0x4NCKcs5c0=;
- b=BAZ1l+3zJtUMkgIZdLsUf8I8kA4/mxkE1soSYMJoyb3mtFANYoc91M0hcp5RxTpDtp
- A5JAgpfse7CV8uNUbWj58fEAyoMJkRvy3+UAV13ostVq0YH8cBejv9IL6ZL3OFAb6zto
- NbvtSM5J7JXxQBXmd+v3rKbfbY2sG78hxJ/Lz3+w0/ZMHIJJ3M4A2AT6xNTMcewWaTcg
- MjfAZ5qNr0HceJe+Uz1BijMo6YLBrobBown5u2qF/l2jF0mA0v542myhMhrR1ImsAoH/
- pOz0/xV8xub7KpsAaX6HoisaWueENYtbKW4XqFpLg6OkZ7YtocHv65X/RAID4WbYDlYi
- AkxA==
+ bh=BCRwCY9EDZcaC0Ax+MD/I4e/vXfkLFmA0dK7jr+FvWs=;
+ b=HCy/f7PLKPHf4ASts1gj+p1MLvxI4UWd+nOOdG5Zl0eRimr6Ap32UTFY75BCajKaW/
+ S+I7q6mjh3lMk0WemxDUpkOxXfxC2kZiXZ60LZHYcsp0wm56R1WjutLKvfR056gWSnOy
+ ARp7+KxffVnU419QBXNkzlfu9n/hLRFXe59/x9OJc4QQOnMMfXvY57WvKEhHgFK0lvgS
+ /Y3oTWYU+//M4fRna8D9oc/CEFHhyagLV6YqjxOWrzxPg/9owmKt1r82Q8l2RMHSQfk2
+ dFqbZ9exdWpNhFBP4UpKKpMx3yk5I+HDIG5snEz44Q1xuOfikSdCLX0uQTMvb3p5KDk8
+ vHbw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmJJKCXSMoUfoPxFUhlo70/N0Cx80+3aj3Oo9xNhy+2x1eBvyMMDeykkbqIT/tUaLKpr3tqWL5pAZ0hS/fexwrUE4hANUUiwfXeGJMgCF8
-X-Gm-Message-State: AOJu0YxahtQfgRHGO7/HYwoTY5eIYMTAyPPGwy6/80Ni2IhYtWHPUs+N
- uZokZlyaxZq+tNZu7BWAvjD+IUDZ64pNzK/jXz/Ns5pVhp4TyISi
-X-Google-Smtp-Source: AGHT+IGl8lpHE28XNKZxP+IXMifzfzU3TnIAs1cjru610NhqeJHIbTIlZ1khvSkQ6UxuCEbZ5iaDAw==
-X-Received: by 2002:a05:6808:f8b:b0:3da:ab86:bfd7 with SMTP id
- 5614622812f47-3dd1edd2f60mr3438679b6e.3.1723530655907; 
- Mon, 12 Aug 2024 23:30:55 -0700 (PDT)
+ AJvYcCW47pOWMq8Bpyw5BKODsvfqlCyAbCg3elI+kPHPcNcj4HdW3jDjB7SMPU7m7h4MAFh84YcTnAfCjGo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCuuoa5ppxwQiLeJRKL4NNoAt7QHmlp1qiD5Sqf+sW8o5WZowz
+ PVbqkfv7jn2MpOtT6VtozrF6KlwgIvesVXAQMb6IOefjvpfhqX1v
+X-Google-Smtp-Source: AGHT+IEdAD3lQBiintdbrrYL9Q9u1r8Hb7gnuu2Rg873fjM/Qkagyegk+fduHZKHHicbc3C/esKghA==
+X-Received: by 2002:a05:6808:199d:b0:3da:b35d:52e0 with SMTP id
+ 5614622812f47-3dd1eee0effmr2829791b6e.43.1723530659653; 
+ Mon, 12 Aug 2024 23:30:59 -0700 (PDT)
 Received: from distilledx.srmu.edu.in
  ([2401:4900:6325:9539:8b89:ebee:b1a0:5ff9])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-710e5874ef7sm4991965b3a.38.2024.08.12.23.30.52
+ d2e1a72fcca58-710e5874ef7sm4991965b3a.38.2024.08.12.23.30.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Aug 2024 23:30:55 -0700 (PDT)
+ Mon, 12 Aug 2024 23:30:59 -0700 (PDT)
 From: Tejas Vipin <tejasvipin76@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  neil.armstrong@linaro.org, quic_jesszhan@quicinc.com
 Cc: dianders@chromium.org, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH v2 1/2] drm/mipi-dsi: Add mipi_dsi_dcs_set_tear_scanline_multi
-Date: Tue, 13 Aug 2024 11:59:11 +0530
-Message-ID: <20240813062912.467280-2-tejasvipin76@gmail.com>
+Subject: [PATCH v2 2/2] drm/panel: jdi-fhd-r63452: transition to mipi_dsi
+ wrapped functions
+Date: Tue, 13 Aug 2024 11:59:12 +0530
+Message-ID: <20240813062912.467280-3-tejasvipin76@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240813062912.467280-1-tejasvipin76@gmail.com>
 References: <20240813062912.467280-1-tejasvipin76@gmail.com>
@@ -86,79 +87,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mipi_dsi_dcs_set_tear_scanline_multi can heavily benefit from being
-converted to a multi style function as it is often called in the context of
-similar functions.
+Changes the jdi-fhd-r63452 panel to use multi style functions for
+improved error handling.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 31 +++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     |  2 ++
- 2 files changed, 33 insertions(+)
+ drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 150 ++++++-------------
+ 1 file changed, 49 insertions(+), 101 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 8d0a866cf1e0..b7ad18c148c2 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -1339,6 +1339,9 @@ EXPORT_SYMBOL(mipi_dsi_dcs_set_pixel_format);
-  * @dsi: DSI peripheral device
-  * @scanline: scanline to use as trigger
-  *
-+ * This function is deprecated. Use mipi_dsi_dcs_set_tear_scanline_multi()
-+ * instead.
-+ *
-  * Return: 0 on success or a negative error code on failure
-  */
- int mipi_dsi_dcs_set_tear_scanline(struct mipi_dsi_device *dsi, u16 scanline)
-@@ -1833,6 +1836,34 @@ void mipi_dsi_dcs_set_page_address_multi(struct mipi_dsi_multi_context *ctx,
- }
- EXPORT_SYMBOL(mipi_dsi_dcs_set_page_address_multi);
- 
-+/**
-+ * mipi_dsi_dcs_set_tear_scanline_multi() - set the scanline to use as trigger for
-+ *    the Tearing Effect output signal of the display module
-+ * @ctx: Context for multiple DSI transactions
-+ * @scanline: scanline to use as trigger
-+ *
-+ * Like mipi_dsi_dcs_set_tear_scanline() but deals with errors in a way that
-+ * makes it convenient to make several calls in a row.
-+ */
-+void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
-+					  u16 scanline)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	if (ctx->accum_err)
-+		return;
-+
-+	ret = mipi_dsi_dcs_set_tear_scanline(dsi, scanline);
-+	if (ret < 0) {
-+		ctx->accum_err = ret;
-+		dev_err(dev, "Failed to set tear scanline: %d\n",
-+			ctx->accum_err);
-+	}
-+}
-+EXPORT_SYMBOL(mipi_dsi_dcs_set_tear_scanline_multi);
-+
- static int mipi_dsi_drv_probe(struct device *dev)
+diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+index 483dc88d16d8..9ec567b4a8e2 100644
+--- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
++++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+@@ -41,142 +41,90 @@ static void jdi_fhd_r63452_reset(struct jdi_fhd_r63452 *ctx)
+ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
  {
- 	struct mipi_dsi_driver *drv = to_mipi_dsi_driver(dev->driver);
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 602be6ce081a..c823cc13ad1f 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -375,6 +375,8 @@ void mipi_dsi_dcs_set_column_address_multi(struct mipi_dsi_multi_context *ctx,
- 					   u16 start, u16 end);
- void mipi_dsi_dcs_set_page_address_multi(struct mipi_dsi_multi_context *ctx,
- 					   u16 start, u16 end);
-+void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
-+					u16 scanline);
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
- /**
-  * mipi_dsi_generic_write_seq - transmit data using a generic write packet
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 
+-	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
+-	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
+-	mipi_dsi_generic_write_seq(dsi, 0xec,
+-				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
+-				   0x13, 0x15, 0x68, 0x0b, 0xb5);
+-	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
+-
+-	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set tear on: %d\n", ret);
+-		return ret;
+-	}
+-
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
++					 0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
++					 0x13, 0x15, 0x68, 0x0b, 0xb5);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
+ 
+-	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set pixel format: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 0x0437);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set column address: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+ 
+-	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 0x077f);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set page address: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
+ 
+-	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0x0000);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x77);
++	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0x0000, 0x0437);
++	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0x0000, 0x077f);
++	mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx, 0x0000);
++	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x00ff);
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display brightness: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
+ 
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 20);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 80);
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display on: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(20);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc8, 0x11);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
+ 
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(80);
+-
+-	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
+-	mipi_dsi_generic_write_seq(dsi, 0xc8, 0x11);
+-	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
+-
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+-static int jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
++static void jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
+-	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
+-	mipi_dsi_generic_write_seq(dsi, 0xec,
+-				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
+-				   0x13, 0x15, 0x68, 0x0b, 0x95);
+-	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
+-
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display off: %d\n", ret);
+-		return ret;
+-	}
+-	usleep_range(2000, 3000);
+-
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(120);
+-
+-	return 0;
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
++					 0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
++					 0x13, 0x15, 0x68, 0x0b, 0x95);
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
++
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	if (!dsi_ctx.accum_err)
++		usleep_range(2000, 3000);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ }
+ 
+ static int jdi_fhd_r63452_prepare(struct drm_panel *panel)
+ {
+ 	struct jdi_fhd_r63452 *ctx = to_jdi_fhd_r63452(panel);
+-	struct device *dev = &ctx->dsi->dev;
+ 	int ret;
+ 
+ 	jdi_fhd_r63452_reset(ctx);
+ 
+ 	ret = jdi_fhd_r63452_on(ctx);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to initialize panel: %d\n", ret);
++	if (ret < 0)
+ 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+-		return ret;
+-	}
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int jdi_fhd_r63452_unprepare(struct drm_panel *panel)
+ {
+ 	struct jdi_fhd_r63452 *ctx = to_jdi_fhd_r63452(panel);
+-	struct device *dev = &ctx->dsi->dev;
+-	int ret;
+ 
+-	ret = jdi_fhd_r63452_off(ctx);
+-	if (ret < 0)
+-		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++	/*
++	 * NOTE: We don't return an error here as while the panel won't have
++	 * been cleanly turned off at least we've asserted the reset signal
++	 * so it should be safe to power it back on again later
++	 */
++	jdi_fhd_r63452_off(ctx);
+ 
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 
 -- 
 2.46.0
 
