@@ -2,70 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796B49505E2
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 15:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D855195063C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 15:18:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EF510E341;
-	Tue, 13 Aug 2024 13:07:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GqpTOnQb";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1FF510E340;
+	Tue, 13 Aug 2024 13:18:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8932110E33F;
- Tue, 13 Aug 2024 13:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723554444; x=1755090444;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1SsjcRHn8DjWskGdveSNsQlKaaFlgtYez08ulurzBwM=;
- b=GqpTOnQbFx6/+iJMqz/O95uWKXxvBV66DD6oM3UQ93tFORm0gEn1BdFF
- RRseEECw1MuoLEeQ01wLtBsKjLWi943DvdkJt/VkdEyakIHFoPI4s+7TU
- sjUREVO27mAt3eM6WaI6swGkc+nYg/4FTYnncYhVioqfAHvnw30YLpwLy
- oU3FD7hHmlMzulRWHT3e0FKnSTwUEcFQNwgCZ7QwKQIMsvr4sj5/+Vc2B
- fpWfy0aD5o960UedoA2JyiwLl3TLSLbDOSCrXfa1SWcDmGMaFx5Hq09n9
- uJwQJhq2zXxD1tlEoDFbE+P1SiW8N30V4ZKzgcnGCBknLFAUV4Hxyb/+2 Q==;
-X-CSE-ConnectionGUID: zn+/6twZSiKUAquhIrFFpQ==
-X-CSE-MsgGUID: 8Wn4XluoRsOUzXhnDiyfRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="21576991"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="21576991"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 06:07:23 -0700
-X-CSE-ConnectionGUID: U9SN55OaQxG0TKcDYafbeQ==
-X-CSE-MsgGUID: yVuekMmaQvydIIHB4aIdVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="63604817"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 06:07:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sdrF5-0000000Ejnv-3Bk5; Tue, 13 Aug 2024 16:07:15 +0300
-Date: Tue, 13 Aug 2024 16:07:15 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net, andi.shyti@linux.intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v4] drm/i915/hwmon: expose fan speed
-Message-ID: <Zrtag2qgxsCNiocc@smile.fi.intel.com>
-References: <20240809061525.1368153-1-raag.jadav@intel.com>
- <ZrYB-GI9L2RSc2bt@smile.fi.intel.com>
- <ZrtCIU8On4ZKILmh@black.fi.intel.com>
- <ZrtHz1aY_Lf_XIsL@smile.fi.intel.com>
- <ZrtXReujITKx4rHH@black.fi.intel.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7C410E340
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 13:18:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=u74mvDQoeCXxOK3A7GukZyX7dsdADP3JWCfmDGUIEGM=; b=G244lL1ngDJeW4mSEkMPunTGgZ
+ /ehrSjWm/ejw43wPeicvWorefz2lc/yZzFO9V++8XJA6BHY004sOLTnhHx1rJz5cY04Ckd6u0jRNx
+ h/tJKWztwZmdKL4/33O0V+WL1HurI2lCZG1XhgieX+sUc/iNNE+ofdzPsqOktTecwwOZVbzrMS4IS
+ GASCXYL8nNBHR47cVUG0wLVEjNVWuBI2x7+vFhxpsYOEfoZo4D9O8G6w2TWxYt8JLaQnuUijHWBfE
+ YDJ/GX8SZ/s+tJ+SS4CobMFdwEkcfGiLetiny2/HOprCClkNqU/ZF+oXVsaZ9kkwAjC+7jGL6a4u8
+ nxzQdBYQ==;
+Received: from i53875b02.versanet.de ([83.135.91.2] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1sdrP9-0001iC-Ii; Tue, 13 Aug 2024 15:17:39 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
+ Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [PATCH v3 0/5] Add initial support for the Rockchip RK3588 HDMI TX
+ Controller
+Date: Tue, 13 Aug 2024 15:17:37 +0200
+Message-ID: <2006431.fxN4lLDhpz@diego>
+In-Reply-To: <20240807-b4-rk3588-bridge-upstream-v3-0-60d6bab0dc7c@collabora.com>
+References: <20240807-b4-rk3588-bridge-upstream-v3-0-60d6bab0dc7c@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrtXReujITKx4rHH@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,40 +72,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 13, 2024 at 03:53:25PM +0300, Raag Jadav wrote:
-> On Tue, Aug 13, 2024 at 02:47:27PM +0300, Andy Shevchenko wrote:
-> > On Tue, Aug 13, 2024 at 02:23:13PM +0300, Raag Jadav wrote:
-> > > On Fri, Aug 09, 2024 at 02:48:08PM +0300, Andy Shevchenko wrote:
-> > > > On Fri, Aug 09, 2024 at 11:45:25AM +0530, Raag Jadav wrote:
-
-...
-
-> > > > > +	/*
-> > > > > +	 * HW register value is accumulated count of pulses from
-> > > > > +	 * PWM fan with the scale of 2 pulses per rotation.
-> > > > > +	 */
-> > > > > +	rotations = pulses >> 1;
-> > > > 
-> > > > In accordance with the comment the
-> > > > 
-> > > > 	rotations = pulses / 2;
-> > > > 
-> > > > looks better.
-> > > 
-> > > This change seems to cause a build error in v5.
-> > > Something to do with __udivdi3 on i386.
-> > 
-> > No, it's not this change.
-> > Please, read report carefully.
+Am Mittwoch, 7. August 2024, 13:07:22 CEST schrieb Cristian Ciocaltea:
+> The Rockchip RK3588 SoC family integrates the Synopsys DesignWare HDMI
+> 2.1 Quad-Pixel (QP) TX controller, which is a new IP block, quite
+> different from those used in the previous generations of Rockchip SoCs.
 > 
-> CI seems to point to DIV_ROUND_UP(), but it's been there since v1.
-> So not sure if I entirely understand.
+> The controller supports the following features, among others:
+> 
+> * Fixed Rate Link (FRL)
+> * Display Stream Compression (DSC)
+> * 4K@120Hz and 8K@60Hz video modes
+> * Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
+> * Fast Vactive (FVA)
+> * SCDC I2C DDC access
+> * Multi-stream audio
+> * Enhanced Audio Return Channel (EARC)
+> 
+> This is the last component that needs to be supported in order to enable
+> the HDMI output functionality on the RK3588 based SBCs, such as the
+> RADXA Rock 5B.  The other components are the Video Output Processor
+> (VOP2) and the Samsung IP based HDMI/eDP TX Combo PHY, for which basic
+> support has been already made available via [1] and [2], respectively.
+> 
+> Please note this is a reworked version of the original series, which
+> relied on a commonized dw-hdmi approach.  Since the general consensus
+> was to handle it as an entirely new IP, I dropped all patches related to
+> the old dw-hdmi and Rockchip glue code - a few of them might still make
+> sense as general improvements and will be submitted separately.
+> 
+> It's worth mentioning the HDMI output support is currently limited to
+> RGB output up to 4K@60Hz, without audio, CEC or any of the HDMI 2.1
+> specific features.  Moreover, the VOP2 driver is not able to properly
+> handle all display modes supported by the connected screens, e.g. it
+> doesn't cope with non-integer refresh rates.
+> 
+> A possible workaround consists of enabling the display controller to
+> make use of the clock provided by the HDMI PHY PLL.  This is still work
+> in progress and will be submitted later, as well as the required DTS
+> updates.
+> 
+> To facilitate testing and experimentation, all HDMI output related
+> patches, including those part of this series, are available at [3].
+> 
+> So far I could only verify this on the RADXA Rock 5B board.
 
-Yes, that's the issue. You always can reproduce on your side. LKP sent you
-comprehensive information about their setup.
+On a rk3588-tiger-haikou (including its DSI hat and my preliminary DSI
+driver) it also works.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Even with both DSI and HDMI at the same time. Both hdmi plugged in on
+boot and also plugging it in during runtime of the board, generates a
+clean image on my 1080p display.
+
+So, series
+Tested-by: Heiko Stuebner <heiko@sntech.de>
+
 
 
