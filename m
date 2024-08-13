@@ -2,65 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1995E9501E4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1AC950261
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 12:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02FBF10E2D7;
-	Tue, 13 Aug 2024 10:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C2F10E2DE;
+	Tue, 13 Aug 2024 10:25:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B9QwbK0V";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="h+QPiFjL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02CBD10E2D8;
- Tue, 13 Aug 2024 10:03:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723543390; x=1755079390;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=uAMAIU2rNUtIJG4IQj+VwcR3lSGm3E5jiddPfvFc3lg=;
- b=B9QwbK0Vo8H7ah53w8OQshTXjTweVxqVgxO0WyzBRIrJxgRt3eN2hZOm
- VSb1wfIW8Z68KsJaDwkEQNgtm0gi+E6KHUCAsm6n10MIblvKZ+rBgFGfn
- qK4V5dedCfzBJo7X22oNbcj4KYe5eE74d0nykpCDJ9cEG37zNrpoiPtCo
- e5jjnh/2/MmmJ/LGmoez87rJ7jhxt3icXPe0RzmwEG0MTfs1906dH9pAi
- 52lJrt3xBI5I0U9A9l1MPlYTifnF+3IgMXJkdHpTjcoJjQlC1pkWXrBiW
- VY78I+k1cRFrZcmcZfkt/MON8RH3/sPExlvVLJTeCeQG83aP5KSIw1EkI Q==;
-X-CSE-ConnectionGUID: rh+DKyHORKGzEoC5HEkxfg==
-X-CSE-MsgGUID: ZmgVLnyMTqinRUyRQjBb/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="32268462"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="32268462"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 03:03:10 -0700
-X-CSE-ConnectionGUID: iurrRxMEQbK0kZEmRhUkJA==
-X-CSE-MsgGUID: uNIHJ3wGS22d1YRrHibNDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; d="scan'208";a="59184596"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 03:03:06 -0700
-Date: Tue, 13 Aug 2024 13:03:01 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net, andi.shyti@linux.intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v5] drm/i915/hwmon: expose fan speed
-Message-ID: <ZrsvVSu8rdNYfsSo@black.fi.intel.com>
-References: <20240812081538.1457396-1-raag.jadav@intel.com>
- <ZroK4oSAte9qdnA8@smile.fi.intel.com>
- <Zrry71BfJ31q3iOi@black.fi.intel.com>
- <ZrsY6tMts81T-uFa@smile.fi.intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 232A710E2DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 10:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=RmMAaQVLm22R4ky3+deRS6uCjPL1oBLCXQkikvomZHM=; b=h+QPiFjL6JDkVQwAbqCYzt3YWu
+ ncU81jOWWiEHXqei1BAPF5X+LaNEEjHss1H8/83MTCWdnebF8puhmOASRy+UwOZpT1Dgc4Ivpbq3Y
+ KCYDkHVfAtmJt3rLj9k3LNtmhMOGLqXiBp9yy78H+3W+KhqGegFEStH+mTz2hoOcVJmrsNLlB62RA
+ YXM57586KJvvJDT3Aj1PRs/ojukLLZX7FxJ4eXfXueAQlRavaURfsQnmnMvhbvkOsKhIo0nlinVCJ
+ dXUWUfVYIifO+s8ZUmFk+lzNb5XW1TwW8oTQCZhMsNmhhsmASzvMr7SrKUw+vtIa7uarbRPnOuIB6
+ iAyy6T8Q==;
+Received: from [84.69.19.168] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sdoiC-00Bsut-0b; Tue, 13 Aug 2024 12:25:08 +0200
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, stable@vger.kernel.org
+Subject: [PATCH 1/2] drm/v3d: Disable preemption while updating GPU stats
+Date: Tue, 13 Aug 2024 11:25:04 +0100
+Message-ID: <20240813102505.80512-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrsY6tMts81T-uFa@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,51 +58,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 13, 2024 at 11:27:22AM +0300, Andy Shevchenko wrote:
-> On Tue, Aug 13, 2024 at 08:45:19AM +0300, Raag Jadav wrote:
-> > On Mon, Aug 12, 2024 at 04:15:14PM +0300, Andy Shevchenko wrote:
-> > > On Mon, Aug 12, 2024 at 01:45:38PM +0530, Raag Jadav wrote:
-> 
-> ...
-> 
-> > > > +static int
-> > > > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
-> > > > +{
-> > > > +	struct i915_hwmon *hwmon = ddat->hwmon;
-> > > > +	struct hwm_fan_info *fi = &ddat->fi;
-> > > > +	u64 rotations, time_now, time;
-> > > > +	intel_wakeref_t wakeref;
-> > > > +	u32 reg_val, pulses;
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	if (attr != hwmon_fan_input)
-> > > > +		return -EOPNOTSUPP;
-> > > > +
-> > > > +	wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
-> > > > +	mutex_lock(&hwmon->hwmon_lock);
-> > > > +
-> > > > +	reg_val = intel_uncore_read(ddat->uncore, hwmon->rg.fan_speed);
-> > > > +	time_now = get_jiffies_64();
-> > > 
-> > > > +	/* Handle HW register overflow */
-> > > > +	if (reg_val >= fi->reg_val_prev)
-> > > > +		pulses = reg_val - fi->reg_val_prev;
-> > > > +	else
-> > > > +		pulses = UINT_MAX - fi->reg_val_prev + reg_val;
-> > > 
-> > > Isn't it the abs_diff() reimplementation?
-> > 
-> > Not exactly. This is specific to 32 bit register overflow, so we count
-> > from max value.
-> 
-> I see. But since you have the both variables of u32, why:
-> 1) UINT_MAX?
-> 2) Not simply using
-> 
-> 	pulses = reg_val - fi->reg_val_prev;
-> 
-> which will wrap over correctly?
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Agree. Will update.
+We forgot to disable preemption around the write_seqcount_begin/end() pair
+while updating GPU stats:
 
-Raag
+  [ ] WARNING: CPU: 2 PID: 12 at include/linux/seqlock.h:221 __seqprop_assert.isra.0+0x128/0x150 [v3d]
+  [ ] Workqueue: v3d_bin drm_sched_run_job_work [gpu_sched]
+ <...snip...>
+  [ ] Call trace:
+  [ ]  __seqprop_assert.isra.0+0x128/0x150 [v3d]
+  [ ]  v3d_job_start_stats.isra.0+0x90/0x218 [v3d]
+  [ ]  v3d_bin_job_run+0x23c/0x388 [v3d]
+  [ ]  drm_sched_run_job_work+0x520/0x6d0 [gpu_sched]
+  [ ]  process_one_work+0x62c/0xb48
+  [ ]  worker_thread+0x468/0x5b0
+  [ ]  kthread+0x1c4/0x1e0
+  [ ]  ret_from_fork+0x10/0x20
+
+Fix it.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: 6abe93b621ab ("drm/v3d: Fix race-condition between sysfs/fdinfo and interrupt handler")
+Cc: Maíra Canal <mcanal@igalia.com>
+Cc: <stable@vger.kernel.org> # v6.10+
+Acked-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/v3d/v3d_sched.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 42d4f4a2dba2..cc2e5a89467b 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -136,6 +136,8 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
+ 	struct v3d_stats *local_stats = &file->stats[queue];
+ 	u64 now = local_clock();
+ 
++	preempt_disable();
++
+ 	write_seqcount_begin(&local_stats->lock);
+ 	local_stats->start_ns = now;
+ 	write_seqcount_end(&local_stats->lock);
+@@ -143,6 +145,8 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
+ 	write_seqcount_begin(&global_stats->lock);
+ 	global_stats->start_ns = now;
+ 	write_seqcount_end(&global_stats->lock);
++
++	preempt_enable();
+ }
+ 
+ static void
+@@ -164,8 +168,10 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+ 	struct v3d_stats *local_stats = &file->stats[queue];
+ 	u64 now = local_clock();
+ 
++	preempt_disable();
+ 	v3d_stats_update(local_stats, now);
+ 	v3d_stats_update(global_stats, now);
++	preempt_enable();
+ }
+ 
+ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
+-- 
+2.44.0
+
