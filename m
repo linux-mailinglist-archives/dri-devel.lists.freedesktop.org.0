@@ -2,119 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D5394FBC4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 04:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F4194FBD1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 04:31:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE8610E186;
-	Tue, 13 Aug 2024 02:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE5410E1F4;
+	Tue, 13 Aug 2024 02:31:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GjnNYJCR";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="ggfCc1dw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0AC910E1F4
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 02:30:47 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-428163f7635so39103825e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2024 19:30:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723516246; x=1724121046; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XKrMThMFjWs/aD3lNtT8IXEfZvkhz9Tsh1qYW/MU/qc=;
- b=GjnNYJCRFU1vKMuEY1Q4We9U4ci95Zl27M5RtfaMg8vcYee7oPscHvht59S3Cmg+/Y
- FR3RGxsWeE4pktySrJZC/W29f9rzBawf31Kj6dYHJbfz3YsvgVGgExukBcSCySJ46S5l
- Lw/V7VVwYY677sHeRSYtC67ENDVrrXjujN8CKwvK6z9fl2uGYn7cXFaYNt6F8VH13NEe
- /GYa2oEkvQUHUW2f1waYplMxXaKlm4hp0fE7vnYPEZ/lqR3KGJWg9GSAO4mZp3UXwmml
- hKJDnNPvSMXG0qGOzBH+dpMFTsz3ZMwCg6uvbFJpsmlvmKcFOrdQqlKCrw9xu3PYxSzD
- wyGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723516246; x=1724121046;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XKrMThMFjWs/aD3lNtT8IXEfZvkhz9Tsh1qYW/MU/qc=;
- b=OTl/pOz8aXa3cIyU+zQpKVMvJAq5RX7rRHqEwhcHayBUxj9NRjVfq1Tg/2+0IxPP3u
- PFESc8gJ7+d0Z+rrq5brfMIO3qcEci4y+VroTUnSx1HV88TbDPA23+nZEta3bZ0il2TM
- BYKffEFJgysDMY+49hGFaZCiNdyriZcWuXiDElNMg+NkTRVcvIT/rQ7+JTTEi5ZmieVU
- mNFuyIFV2xouHl74S0Sa7W+n+ztOhlIoVpPnbVlaoHzZ/0V5ZHPtrAiaXtZTXkETLrxV
- loWzsECCIQ4gsiyyknELMLC/D76i1Ri0orkZnUTT2ftdfMPtB32HgHCXlhr2+Wwcqvdb
- wpiQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW6WynzM7VRkuWSuxuPto88j+Mh/+UTcCNaZXOt/Ob3n43kzluqR/5UfXqHoG0OLQWqsRhlGwq2V1YU6nDqXdyRPYjR94TIM8iSt688XX3N
-X-Gm-Message-State: AOJu0YwaaN2/LsyM+wR03v5AMmsHPRNCTgdtWC4qrSQ/bWFPz+uRS5d0
- d5VMzM7KBeRtKQVLY0LcgCQYTw/CAr9GD7xvnsqPpPb5ibj1U8kL
-X-Google-Smtp-Source: AGHT+IFcGtH1OGYfYfxBsWgRvAXHGpU7ZE/PdqDWYMcWWlG30R+CNhYXxUTKsBTiy9zS5HWhRnTsbg==
-X-Received: by 2002:a05:600c:450d:b0:428:14b6:ce32 with SMTP id
- 5b1f17b1804b1-429d480c40emr16491485e9.9.1723516245973; 
- Mon, 12 Aug 2024 19:30:45 -0700 (PDT)
-Received: from [192.168.42.116] ([85.255.232.227])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4290c738e01sm204324535e9.11.2024.08.12.19.30.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Aug 2024 19:30:45 -0700 (PDT)
-Message-ID: <5a51b11d-9c35-42a5-879b-08dc7ca2ca18@gmail.com>
-Date: Tue, 13 Aug 2024 03:31:13 +0100
-MIME-Version: 1.0
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+ (mail-northeuropeazon11011026.outbound.protection.outlook.com [52.101.65.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0093810E1F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 02:31:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VDuWMrExQ+nNuHmbqkhZJjVQIdkBNgDUmyStGIQ8GPw+gvuuudbIUJZhw09w0/LxEF+HTd4VJ7aqpf4NSkUZ+8kC0iMtdTdJZOfxdaz5h9Bzo6SBsxlakhIw/2wBnQ55cfPWbK+d/SJdSIV721VDLFnDDWt4MKP+9A5azmsbXnDdR7fp4smbB+xiUnEDfV6i2vWmrqddRmgD66mdlIIyA2SZm6ECOeW4r78mLaf4r+SBU+C30mEN+hy4+CLKdBb3tr0+VQRU3Kwzl4oWmJ7S/3zyw0+iPW8LPAbZ0fvsYjD8QJyl84pN+Sfa27KVkAJEefKu1/nCLDpIIOY225+5AA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wYaj27BcNAUZ2Xo9CyBvUHkvS6WQzLu0qLOIaKttPYs=;
+ b=DnnyBNZh/ufhxxMXdUBEHNb0ac3bX48j37r1lesN31EuXizz2A3V0Se4Y0w6JHkxVngA2KFT4j5tXjTBBGrmYrVCHiKwPXE0xV8aqHNXByK0e0kOEs6h8aJxuIBex3OLhAmNqbnI0md5rHqbc/DitMNjVMNHiPQIPc/HcgOrllUYV7eDw4jmoDWGPW6ToJ/I4FsxcbMQaHjqf7xBJtRfUuBfP4k+NebPrmrOWAZB61gdInkAuAxcsZhEueVN3up1ZfVIOpGDXJlqQNEBxg8UZnun41zWTDEzzICqD1AivwAy+OL+L8+ILJtdA39eLUNOZhvEsHHpPZj06qRPRgmmXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wYaj27BcNAUZ2Xo9CyBvUHkvS6WQzLu0qLOIaKttPYs=;
+ b=ggfCc1dwPOk3yvBRb0fNNJujVS/COjM9DlIOHLSIQz91ZQm9AlPMOdzOZ1MR4XSAc4RxwfXmR5lXV7OCD+VjiCfCywtyCtJHpf9enYVgYfouNA4TsWmF2SWLHDIsMuKwUwtiA99UzfUsAGyvasC6RWIoBLejbx5LBASym2gsHPyDXcZTCdlNXjmkUX/pVVYHmo7UcdU3aG2WvrMNA2sarmcpqVAX+SxI6yCQIKTtKqaKu7o0SaEmtG2JtH0F9xLDoYwjOnqy5fvVcRFV4ch+JvB7oCqIaQ8Dsgb8kge/2Nw0YBS2gtc5ZmFOoCC5yB0ELCNjka1GringwhZVMKXhGQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by GV1PR04MB10608.eurprd04.prod.outlook.com (2603:10a6:150:20e::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Tue, 13 Aug
+ 2024 02:31:37 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%2]) with mapi id 15.20.7849.021; Tue, 13 Aug 2024
+ 02:31:37 +0000
+Message-ID: <143d7bcb-c3ee-4f9f-833c-6680a25681b2@nxp.com>
+Date: Tue, 13 Aug 2024 10:32:04 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory
- provider
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com>
- <20240806135924.5bb65ec7@kernel.org>
- <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
- <20240808192410.37a49724@kernel.org>
- <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
- <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
- <20240809205236.77c959b0@kernel.org>
- <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
- <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
- <20240812105732.5d2845e4@kernel.org>
- <CAHS8izPb51gvEHGHeQwWTs4YmimLLamau1c4j=Z4KGM8ZJrx5g@mail.gmail.com>
- <a6747b29-ed79-49d4-9ffe-b62074db1e09@gmail.com>
- <20240812165708.33234ed6@kernel.org>
+Subject: Re: [PATCH 1/1] dt-bindings: display: panel-simple-lvds-dual-ports:
+ use unevaluatedProperties
+To: Frank Li <Frank.Li@nxp.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Cc: imx@lists.linux.dev
+References: <20240812193626.3826250-1-Frank.Li@nxp.com>
+From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240812165708.33234ed6@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20240812193626.3826250-1-Frank.Li@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR01CA0186.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:189::14) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GV1PR04MB10608:EE_
+X-MS-Office365-Filtering-Correlation-Id: 515a7cf7-4afd-49f2-67d5-08dcbb400e6e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NE83M2RCdFJiWTg4bVpwZ0E5VGh6ZlUxbW5iS0F3L0lESVBURnNUbHlDQ1lt?=
+ =?utf-8?B?QlNlU3JCRHM5WFljY1VXYnJ6elRPSmsrOEtTaDhybTdDQ0dtWnJNNldkbXFv?=
+ =?utf-8?B?Z2FIV1ZwcG5PTUo1SERQcE9vNlpsUnU1akQzMURRTE52eXVXRVpLZHNxMWhX?=
+ =?utf-8?B?VEJkeUZUdUM3OFJZOVlXV2ZDQ0NJRDdwNWJQUXQ1enYzc3F5MlUvNzVRZDNv?=
+ =?utf-8?B?eS9TdDRWSGdJUEV6ZE54VG5MYTFJLzlNb1hERXlHSnllTnREU3ZpZjlnMm5K?=
+ =?utf-8?B?eFlDVzZmb09sWXQ4TXFkWXM1WTBlQlM3eGJTK1Bjc2ljOVNBS3lLYTlsL201?=
+ =?utf-8?B?cDAxMFhFcFllS2ZSR1J0KzNmanp6anFselBnYmVqSWdwNWFUUFJUek1Lb1hF?=
+ =?utf-8?B?WVBRZ29Yd01nbkVhc1owTjFMT2Z2cW1GeUxIQjJ5YWoySUkzbUFoV3B4RlIy?=
+ =?utf-8?B?T3h0bG12N0syU2tnVmFEZWpyYWZvM1g1U2s4STNNbDdhQkNPYWRtN1dkcjZm?=
+ =?utf-8?B?STlNdDRyS21PTWJuSWdHNUtsUzhOVzUzV01ZOEFOT20wMHYxRndPR0xhY3NM?=
+ =?utf-8?B?dE1FTG0zc05yOGs4SS82MmxOeTZpUnpaeGowQ295OUtsZUpKMmUzcEF5MjlU?=
+ =?utf-8?B?Zkdxa3hpbWR5TGFCUW5ZNzlCV2xTNWE1TzBJWGUwNGc4VjRoZGlSVTdZYkJw?=
+ =?utf-8?B?YWIvZ2pDcGNKUGorOVRaTEE4QzVHSnZaMzRqeElkWnlzbGNkbnBiZWRJSllC?=
+ =?utf-8?B?MlF5L3BHZnNHcExWRDN5Ykg4NWtIL3VMQmRtVXRXd3lHd2I2SmN2d3pna3gz?=
+ =?utf-8?B?TGVSaEg3SWVCVld4dUx6MmJ2Q2hNdUFNRHkxazgwMGw5dGplTVQxTzJ5R0Qy?=
+ =?utf-8?B?Nit6L2ExWGszNU1xNVQ3Z2Q5WUhJUUdSVjZmN1JaUTVXa0gwMU9VRnh4UzEy?=
+ =?utf-8?B?aCtod3hYeW9Wb3FhQ1Rlb1E3dHd4REJTb09JVGh6eDZlSm15UVVFWEdaV2FK?=
+ =?utf-8?B?c3Y3c0FFY0lnaHN2dDJRUFVMRUZEMDkySC9GTzk3MzN2Nkh0U0pQYkM1SWp2?=
+ =?utf-8?B?ZU1MQ0lCb2NMRE1ZbWRxQklQSm9tRDY1Q0tnNExZY2NVNmtSZE5Pa3R6eU40?=
+ =?utf-8?B?OTFlYjJTMGpZYWE3NU52MjRMa1lBWWpXaHMwU3dDOHg2RUdBMXcwUDY1bnpt?=
+ =?utf-8?B?WVBKUlRsTjBhWTJVVXZ4UE9EUlR2TnhkbCs3cXpGbVhERHRVTnBWRHVhWW80?=
+ =?utf-8?B?cGNmWXphR01QUThYTTIwVWpueFhiengwdWJJVFEvZFJXQVBORFhXTGFTUEky?=
+ =?utf-8?B?a0ZrbFAyQTNNQmNBdXdCWGZKSGxHZ1VESFJZeDFxVGY3UGlJSjBTV3M3Z1Jz?=
+ =?utf-8?B?MzZDb2E2TU5YcGwvRDhaWDJ5bjdZQ0trRTlEYk5JVmUvbENValdGbWI2YjNZ?=
+ =?utf-8?B?OHM5b0JHY2dNTDY3TlZSc1h3Yis1T1VuZ2VCT1Vpd2tNQjVIZU9jVUVVQ3g3?=
+ =?utf-8?B?ZUxScUxaUTVkZERwUnJEZEs4VmtnWnAyNTR4d3dKTWRMRHZia3I1ZXpaWkJl?=
+ =?utf-8?B?aGljY25YYzhoYm9VMjdYZ1VrUjBaYlJzZzY1OXNHNmt0WjZJQm1JTVdkZ1ZH?=
+ =?utf-8?B?b1pCK1dwTmRwd3h2cmgzMnRLMUQ2YW5OWkxiZnNnODByc0ZxWU10amFFYXRE?=
+ =?utf-8?B?aEFHLzE2SXZZK25NS0pSUXJ3bklZVXdtZ0VaVXZiMm9ZZEwwL2VHUys4NEJq?=
+ =?utf-8?B?c0YxbmVzdkZnQzRWWUY3clY2MitOcTV4bC80L3FLdFZQWXBzQmZwckpDTWxn?=
+ =?utf-8?B?S2ZBVktjNXRJV1c3ZG5KZz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?amI1Q2hhYXBmdGNxVmlBR3dkU1JjQTdhbnVJc2NUNCs3aHNYaXdvVVdiRHBa?=
+ =?utf-8?B?YjJOM3ZOOXVTRzQyMGYzV3Z0bmlzNzU0dk5ONGdxK29XbW95RWtVSURJRXFh?=
+ =?utf-8?B?Vm5aTXQzbDg3alViMnZxb09uT3BQU1o5TDJZMGdNZGlPNUF4TzZSMERTSldS?=
+ =?utf-8?B?ME9QMWVuSHlLbWc2QmExUTRJbXRUVElkaGVBNjlScy9PSklMWm8xUElUQVNa?=
+ =?utf-8?B?eGwwY1I3N0pORUFsNk9BRWJPMnZRZUlSVnBGWnNwc0lVdS81WEtBTGZmcmt3?=
+ =?utf-8?B?Z1lTWExPbDNMT3NON2YzdVhGS1ByeSsxTFdITitJRzRWdjlXVFBMQmlERmZX?=
+ =?utf-8?B?eFRqcnhnNm9FN2lkWkJqblRvZkpobjNINHdWSkFRNUpBWkpaUGRrdFdTMlFh?=
+ =?utf-8?B?QlhpSmZZYWxIUGh1NGY0TTk0YnhFWStRTmNJQlNiQzY3T3hnY1J1K2FGQlAr?=
+ =?utf-8?B?aW1VMDNaamJYN25QQjdxQWE3b1prT3IrNEtWRUZXdVlUTGt0YiszNi9Sc05H?=
+ =?utf-8?B?Z25UbWVXWG5sczJsTmNZclBaMXo5aFhVZXVmRGFtNnVOUEhSL3AzMlFiT3Vi?=
+ =?utf-8?B?c21NdWNIZmNkVFFubmUzRHliQVUwNldmRTJDcVZhMVZHVlBIUktFY2Ria0FV?=
+ =?utf-8?B?MG5Zb3R3MGVDa1ROd0dwd2hkeGtrYXZMcytVWUFOSGI2eFQrQWsva04vMVVH?=
+ =?utf-8?B?N2JDY3JkUEhJTVhXZ1VvRmFuWmZCS3lwaUpaY0J4UTl2WGxuZGZrd3Z5VmF4?=
+ =?utf-8?B?WHhJb3YzcTFrUXI3K0ZoM0tySFdVUlc4S3Z0QXFxRmZEU21GSXFYV2lzeW0r?=
+ =?utf-8?B?WGdHMHNJVXBvampNdlQyVVNGeklGZVdkTUFlQTBCa1lXa1ZzN1UydE13T3dz?=
+ =?utf-8?B?aTI0cFpVZmpyajNiWWszaXltUExlOUJiZ21TSXg3anY0UGQ5T0p2d0xRUUVj?=
+ =?utf-8?B?eDdwQ3llQk1lY2g3MTIwL0ZlV0dqNUZWcmRKazdqay9FbFd4RlJIcitlZXNh?=
+ =?utf-8?B?OEZGU1Myck9MaURhbVlRM3QrY2dOM1Y1MTVzRmNtMWFIZmE1Y2VIUk1zcXls?=
+ =?utf-8?B?WFpxeW1ZWXBsaUpJem03WW96Nm5lakRDS2pYRXBYRXRXZ0R2S1FhN2pBc3dX?=
+ =?utf-8?B?VHByN0RhVGJJMVhPdWtSQzQwMzdPV2g3VDQwRmtwZndXUjVtaHpJMVZBbHlB?=
+ =?utf-8?B?R0FYRzF1VDgzWkZCZkRILzdvNDU3Kzl1dTcvVk9aSHlHeFM5Q1hneDNWd3J6?=
+ =?utf-8?B?Z28zV2dKSmNBZ1hpQTZMTDBwRThaeGpRL1J3V2tCYkVPMFlrSUtPWVVUZzMy?=
+ =?utf-8?B?LzI3VFZMby8vVmpSZEZzN0ROWC93QTJ0SEZGUE8xY0NBeXZtZTdXOFdRcXp1?=
+ =?utf-8?B?a3R1THpRNGlkV21WNDVhSmxTWmRDalBMQ2VPbklQYVhPUGxyQlFiWWFrL2hx?=
+ =?utf-8?B?cklUSHVKRVdicFA1YktnVUxWVVJLU1ZYM2xNTVpOd1dMUTI1WVJRcUNjbnVy?=
+ =?utf-8?B?dVZMckZZMXVpZnViYmJmbGhLdUdtK05LMEpqWlpOZkcwZmw1cnNCcTZBblhP?=
+ =?utf-8?B?Uk1LWkxaMFFtaEFNZnNFTHEzcGFYWFBuTXEzQm9rL1d3SWdyejZiZUxLcjlu?=
+ =?utf-8?B?UUxWY2hNQXVUQUY4eUhxbGh4L29CT1FDU3N2bGpQOFZZMW9WcDNQQUZyME0r?=
+ =?utf-8?B?R2dFc3creG12ell3SFlKSjJMZG1OUXMrYlpwanU4UjJ6Q0I5OHVRUDVQTFVr?=
+ =?utf-8?B?aW1FenRwNWV3NkV4dy9CdFR1MHIyelBKMG94c2U5cDdSaFhia0Y5VHNKZFFh?=
+ =?utf-8?B?ZjlHZTl5SXNiQU9xZU02cXFSRmtHclByWXNEeGYySytnNm5EUitSeWpGTVpK?=
+ =?utf-8?B?M3BQTmkwK1FzNUhmcUluMkNxZWZ5bmVrVHIyMnIwbkZxeHhoMzk5OS9pZGJ5?=
+ =?utf-8?B?VzVFYVJLTW5LZFpZOW4wTmVzZzNnQlArY2pXL05BMlptd3BaR1JCb3V1RVdK?=
+ =?utf-8?B?bVU5WWFzajZ1OEJZM3A4RDBvWmd2VUhtYlRmbkw0dUhIRXFJeVFkMmIxbEhs?=
+ =?utf-8?B?UlZNUVU1RlFMVXRGZjZrZEY0a2x5c1dOZnZYTDBHZ1FndEp3UVpoYk4wUWc2?=
+ =?utf-8?Q?3vQr4cR2pT8HSDFRZM8Et5lL+?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 515a7cf7-4afd-49f2-67d5-08dcbb400e6e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2024 02:31:37.5682 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SpDkGJcr0Fa0gOVTHIu4BG886hVURcQ9oGwh8bE+M3g1WKatjBqIpNH4F3T737GJounwnx7hCabbnOT7cJxyAg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10608
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,68 +171,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/13/24 00:57, Jakub Kicinski wrote:
-> On Mon, 12 Aug 2024 20:10:39 +0100 Pavel Begunkov wrote:
->>> 1. Drivers need to be able to say "I support unreadable netmem".
->>> Failure to report unreadable netmem support should cause the netlink
->>> API to fail when the user tries to bind dmabuf/io uring memory.
->>>
->>> 2. Drivers need to be able to say "I want a header pool (with readable
->>> netmem)" or "I want a data pool (potentially with unreadable netmem)".
->>>
->>> Pavel is suggesting implementing both of these in 2 different flags.
->>>
->>> Jakub is suggesting implementing both with 1 flag which says "I can
->>> support unreadable netmem for this pool" , and guarding against #1
->>> with a refcount check to detect if a dmabuf pool should have been
->>> created but wasn't.
->>
->> That would be iffy IIUC, but I think Jakub just explicitly said
->> that the refcount trick was just for debugging purposes and not
->> for gauging errors like "providers are not supported by the driver".
->>
->> "Yup, the refcount (now: check of the page pool list) was meant
->> as a WARN_ONCE() to catch bad drivers."
+On 08/13/2024, Frank Li wrote:
+> Replace additionalProperties with unevaluatedProperties because it ref to
+> panel-common.yaml.
+
+This would allow all properties in panel-common.yaml, which is not expected.
+Isn't adding 'panel-timing: true' next to 'enable-gpios: true' enough?
+
 > 
-> Sorry, insufficient caffeine level in the morning.
-> We can't WARN_ONCE(), indeed.
-
-I'm getting lost, so repeating myself a bit. What I think
-would be a good approach is if we get an error back from
-the driver if it doesn't support netiov / providers.
-
-netdev_rx_queue_restart() {
-	...
-	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc();
-	if (err == -EOPNOTSUPP) // the driver doesn't support netiov
-		return -EOPNOTSUPP;
-	...
-}
-
-That can be done if drivers opt in to support providers,
-e.g. via a page pool flag.
-
-What I think wouldn't be a great option is getting back a
-"success" from the driver even though it ignored
-
-netdev_rx_queue_restart() {
-	...
-	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc();
-	if (err)
-		return err;
-
-	// we get err==0 even if the driver doesn't support
-	// providers, verify it is _actually_ installed
-	if (rxq->mp_params) {
-		// or walking pp list, same thing
-		if (rxq->mp_params->refcount == 0)
-			goto fail;
-	}
-}
-
-And if we go with the first version, the refcount check can
-also be added but as a warning. Maybe it's easier to put it
-into code and discuss then.
+> Remove properties (backlight, enable-gpios and power-supply), which defined
+> in panel-common.yaml.
+> 
+> Fix below warning:
+> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: panel-lvds: 'panel-timing' does not match any of the regexes: 'pinctrl-[0-9]+'
+>         from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  .../display/panel/panel-simple-lvds-dual-ports.yaml         | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+> index e78160d1aa24c..10ed4b57232b9 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+> @@ -84,11 +84,7 @@ properties:
+>        - port@0
+>        - port@1
+>  
+> -  backlight: true
+> -  enable-gpios: true
+> -  power-supply: true
+> -
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>  
+>  required:
+>    - compatible
 
 -- 
-Pavel Begunkov
+Regards,
+Liu Ying
+
