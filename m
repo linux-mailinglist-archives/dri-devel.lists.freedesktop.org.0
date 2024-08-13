@@ -2,76 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6BA094FFE1
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 10:31:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2B0950003
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2024 10:40:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3295F10E202;
-	Tue, 13 Aug 2024 08:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A49310E219;
+	Tue, 13 Aug 2024 08:40:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HWFRYbEf";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="i5MCwfX4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 043A510E219
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 08:30:59 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-7c2595f5c35so834573a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 01:30:59 -0700 (PDT)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
+ [209.85.219.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB5610E219
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 08:40:02 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id
+ 6a1803df08f44-6b5dfcfb165so29176526d6.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 01:40:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1723537859; x=1724142659;
+ d=google.com; s=20230601; t=1723538402; x=1724143202;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mte+8SBXU4fsMgf1dqa+xia4zg6iVcJujhUtX3mlIL4=;
- b=HWFRYbEfkULCC2iE653W5ELUSIJ4ZSmEGb60H581jggCK7Xt5ywOjwmQhxYBGTVK/y
- 1I4zea90/5OJ92EPEiUrkdVtBEd3+AmJ+kqHpYAxIURobgYfpxtbXiX5u4fFj+39gzbg
- fPsWN9kQq9fu+jvTsuy0INrQ2AtQ6UrK4hTEc=
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tfIvxCWgLL4atIJlIA0PqbGSOJqgAf1LTciUfWWJUn8=;
+ b=i5MCwfX4CiZMJipUIz66PNrzjPeoQO2CzKL7bzzP/Yzma00ccFm6EB+LAWoLMX/db0
+ H0/QM4ldvTTh8yEq+G8q5ICBuL+VlWbKyXVrORHme5HN4a17eyC4wJKHAPvFQ1JZLYy4
+ q3hFTRs6Plj1k+EBF/2RMrOqqhhBB/Se1xiGxeHv1Fn52NWkrd6omJ8qk/hGKkEutV4I
+ 3OmwMs/1c/N1r+H6FlL9aFLuyhfO90hLCrKRDrf9POZ0pBYCJwhEG4P0vr2RIR5HLL6S
+ 3sJd6gvFzjnrvvEZydotWeI/TIgGt0KWnf+UXGOfpPlJs2TEgTtrsJBfPlMFSqrNzBud
+ dasg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723537859; x=1724142659;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mte+8SBXU4fsMgf1dqa+xia4zg6iVcJujhUtX3mlIL4=;
- b=R/sPkbBMTI41eI46XtLamybI4eNMTqWkDI6urHN6+z6K7mNL0psjZdr9eOdHUy+PHk
- p6jFoRELfmFz74xadlwYb6mr99HDa0k+gGklxx9p0VkAt6ABzyMtwGNmo6QoKq9XDO0b
- Azae7r6IeUvW5b4hd+LAbWI0SzBPfkBR7L5W/jO8QqpoFwkxeMq/1NS3fKmQ5CmCcx39
- ipDkZJKGa4IDlati79onVeqADLS9IXpYHQt+QD9S1DTYuOVCvH23povLmN/jpIUXNnn/
- cKl8WUS5NaNaKnIy4RhbEDuL0Vjzs1s/myj+F50nM+8DSaEhGlPR0r1cUoQWgyfs9XJQ
- zb4Q==
+ d=1e100.net; s=20230601; t=1723538402; x=1724143202;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tfIvxCWgLL4atIJlIA0PqbGSOJqgAf1LTciUfWWJUn8=;
+ b=efcxOov2vnMAbmPJtVsyRKQpZn2inV/sYp1FzfIk26h0GDQ0BoW6qS3N1iqysg4KpI
+ yZ9Ffju7wfH6aXh/bhZ1KRy+ZwsHWv5bn3zYZJpRzOmBmMcTkkQmVz4oDbUj19rzQJpE
+ sd+taP3xgFPbKykWgznVHRlrGUN100YRWaEAAqTLupNZrBPf2GlbK+asPlX6RjGZJVfD
+ x+YXABTFM5cFQt3vjoDiHHKGKt3RzxzUBtMHIkZjNE7kdhaqdq4igUZA+tD1A/k9Bbrp
+ IjgiIBAUIPImTqbZJ7RCdKj3lJWrxuiYiblAjns8EfejZh/Igx8+oV10d7GGwSG+zhmk
+ 9G7Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFZGwwnkXUlqHQRPPgFsmEC7qMjiIiaiAPzLREirV/8acGhp8/X/6xmuKcQArI/8vV+DwrYutdpmU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyB+s07d53VWLy5CwCRk08rchLv/l+NsuY46EKMATlRWN/Oz+d2
- Gw02FuaEGUa1V/hFKEE16PQLLmJKywdnWOj8GaahSCIDwuFtkpbjYhpmmVg5WUk=
-X-Google-Smtp-Source: AGHT+IH+G4nGhI0UfmV7v12uHGx5Nk07nrbH2qcW0vXTaroCsC8U1dDUEWx60DGbADoAQQeROmNokA==
-X-Received: by 2002:a17:90a:6fa5:b0:2cc:fce3:3022 with SMTP id
- 98e67ed59e1d1-2d3968f829fmr1039667a91.5.1723537859250; 
- Tue, 13 Aug 2024 01:30:59 -0700 (PDT)
-Received: from [192.168.104.75] ([223.118.51.112])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2d1c9c5dbaesm9835229a91.10.2024.08.13.01.30.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Aug 2024 01:30:58 -0700 (PDT)
-Message-ID: <2aabc166-bf34-49b3-b938-bbfb0f85e8bb@linuxfoundation.org>
-Date: Tue, 13 Aug 2024 02:30:54 -0600
+ AJvYcCUakajwR6hWnOoQpapNGwAowQFJUoX7rZZSQnKC9Ccqlp9MFB2Js4oF0Zodrr416TneLnf1Ctilfpsynzg//jpM9S0yDc0FZw4EM9tKEHsm
+X-Gm-Message-State: AOJu0Yy5SptwLbRbMUwgXywfQLshRb2DKO4UYZeSSUWiARUbsfKJod6e
+ 4yuEIFXkBau1RDUSMvdySBH8DolimQstN8M4xUyT1OoayCPn5M2M1XBavvd8b4Isbuc5N7W1UpT
+ hViU/TDVzg6UjIt0hsBDoLYRWMRtv83pV4gCD
+X-Google-Smtp-Source: AGHT+IF5vZpwMEwyKOsMjByGok50VQq9OHjXt2iZMdoR51xqc5PshbKjWlTOU09k9dSw6zDIWNspGRLkyEdh4LkEteM=
+X-Received: by 2002:a05:6214:4410:b0:6b5:e2da:8bec with SMTP id
+ 6a1803df08f44-6bf4f89a375mr28560176d6.55.1723538401526; Tue, 13 Aug 2024
+ 01:40:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] gpu: ipu-v3: Add cleanup attribute for prg_node for
- auto cleanup
-To: Abhinav Jain <jain.abhinav177@gmail.com>
-Cc: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- javier.carrasco.cruz@gmail.com, julia.lawall@inria.fr,
- linux-kernel@vger.kernel.org, p.zabel@pengutronix.de,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240704132142.1003887-1-jain.abhinav177@gmail.com>
- <20240812193714.1094339-1-jain.abhinav177@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240812193714.1094339-1-jain.abhinav177@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-8-almasrymina@google.com>
+ <20240806135924.5bb65ec7@kernel.org>
+ <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+ <20240808192410.37a49724@kernel.org>
+ <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+ <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
+ <20240809205236.77c959b0@kernel.org>
+ <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
+ <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
+ <20240812105732.5d2845e4@kernel.org>
+ <7e2ffe62-032a-4c5e-953b-b7117ab076be@gmail.com>
+ <71260e3c-dee4-4bf0-b257-cdabd8cff3f1@gmail.com>
+ <20240812171548.509ca539@kernel.org>
+In-Reply-To: <20240812171548.509ca539@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 13 Aug 2024 04:39:47 -0400
+Message-ID: <CAHS8izPyGwe_i4eNemW+A+MgMVHqJ0fdp=+-ju2ynqgc0mb_Ow@mail.gmail.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory
+ provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ David Wei <dw@davidwei.uk>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,12 +127,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/12/24 13:37, Abhinav Jain wrote:
-> Hello,
-> Can this be kindly reviewed? Thanks.
+On Mon, Aug 12, 2024 at 8:15=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+> BTW, Mina, the core should probably also check that XDP isn't installed
+> before / while the netmem is bound to a queue.
 
-You removed all the relevant information for people to be able to review the
-patch :)
+Sorry if noob question, but what is the proper check for this? I tried
+adding this to net_devmem_bind_dmabuf_to_queue():
 
-thanks,
--- Shuah
+if (xdp_rxq_info_is_reg(&rxq->xdp_rxq))
+                 return -EEXIST;
+
+But quickly found out that in  netif_alloc_rx_queues() we initialize
+all the rxq->xdp_rxq to state REGISTERED regardless whether xdp is
+installed or not, so this check actually fails.
+
+Worthy of note is that GVE holds an instance of xdp_rxq_info in
+gve_rx_ring, and seems to use that for its xdp information, not the
+one that hangs off of netdev_rx_queue in core.
+
+Additionally, my understanding of XDP is limited, but why do we want
+to disable it? My understanding is that XDP is a kernel bypass that
+hands the data directly to userspace. In theory at least there should
+be no issue binding dmabuf to a queue, then getting the data in the
+queue via an XDP program instead of via TCP sockets or io uring. Is
+there some fundamental reason why dmabuf and XDP are incompatible?
+
+--=20
+Thanks,
+Mina
