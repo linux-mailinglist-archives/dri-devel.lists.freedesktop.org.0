@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E54951AB4
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 14:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB593951AC9
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 14:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2EA10E45E;
-	Wed, 14 Aug 2024 12:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F73B10E460;
+	Wed, 14 Aug 2024 12:25:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gb7FFiZ+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZCqHBxRX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
- [209.85.219.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2F4210E45C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 12:19:06 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-e115ee08372so433967276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 05:19:06 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+ [209.85.219.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A11F10E460
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 12:25:49 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-e03caab48a2so725668276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 05:25:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1723637946; x=1724242746; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1723638348; x=1724243148; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GkO7BE2UO9+ru7pUnpn1jnINQAT3cICAUmPfXNrgDqo=;
- b=gb7FFiZ+41438sddR31t94mdRkSKTYcMveEyKxRzwutmD3coUkMPGjLsB61V3Ep2f6
- L75k+G05HlNU84UjnC91CZE2UpPW0OLBs6uMlfmnsfL8o4RGIHovaNA8Q93WqoAzrbKU
- GvmXWrin2ZJPbWstYLbFoT1WRclNVGuWkwjmtKMlHacF/zeABopz2TlAyd75J6qQpBoc
- 22K0cxYlYQ/td4r8A1GX9N2frhsGDf1CjcbagXzeLtjMWwELCB/owXm/fyzLetVVAfBD
- uLjeY5glMWQBjUASF21cZ/CMzX+EC7XO3f1W5Rz95b18NnLvWh3nGEV4I1M5zcNSzPji
- 0IQg==
+ bh=c9W+rcl3/x6n/YcRtLISn/hkiAh/kVAHqezbuzoZlzs=;
+ b=ZCqHBxRXwkhbNNdNJ0XMBHECg5x/xGHjWSF4TvCWtp9+20XGMRFiO89xH23S6qdfOi
+ C4iCb3mEMWxOfZHVBgeR8Tu3hvEb5vbJikvoBwMIKiB7DYJizp7JFZ2lSW4B9PBTZ7IC
+ TYIykDvtri+XhqERTmMFcGFsSSw1CKAUc/AVxaWCVAaZD9YkQvBBjbJluBu+vgsy+YxU
+ CDevsHocj0SjJ+vSmd84s1gCrZcor/rZeMkhv45+62xVlS4ITtWLVehliAYXrH4NhoEz
+ 2ZxWAMFOWty7DMLj36yZBVlkqzazm5F69svb4m9G8oMBKhP0WanuYWl1uuAZrRV7HGfh
+ fZQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723637946; x=1724242746;
+ d=1e100.net; s=20230601; t=1723638348; x=1724243148;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GkO7BE2UO9+ru7pUnpn1jnINQAT3cICAUmPfXNrgDqo=;
- b=Ye/775njLDBI6p0WSkmSKc9kJ6odytnrQvlcdJxFcKy8gsmd1x7fkmELPlh7czLI2V
- 6GHy0zX/EeZpXnw3RpT+f8BtDKJ2z/N+XHbV+bEfS2SS3NpBaP10xY/MBT+S9OeHpzzm
- Jmxz0P4w5ONnCGlXO/rLQObR4bnMstYN9wz8cZtzqP8JwSjKb/So4uMtONgPtLicCK+D
- aPFvOsRWbykDW1AGY5g/G+SgsAmLvzwVu/Y6zSTLMf8EvreUMpAjN3mlK5pcnOv4QRmR
- Op/KgIhnFg7jjZEsncc64gygRY6wzswX+PrvLPUF8wemS0MacGKcvWERFZYPGUVxYbgE
- Pu3g==
+ bh=c9W+rcl3/x6n/YcRtLISn/hkiAh/kVAHqezbuzoZlzs=;
+ b=YYwvcDB7I/iS2uG8o4yfCq+i7sX7miI0OHZ98s/xFgOE5EcbOP0puYNWz+8PQc5P5Q
+ GYZSmUWDW8/SL6ucJSvHxiKlUL63AGXUwsuZWUYTkLWt/z+TW/SlsR3LTKI0zTD4Ggdg
+ ts5yTFyc9NVHi5goxcCq2ENzE1Ruk4e+dp4ITi8JjJ/qsFAVTnnjK1+RaNCayNECg+r2
+ WRns3CzlKbcbxIqKDPaKEENaIqO3Kndm0P29WUz1oFPx6Wc773vH0tnOnpNHIw9AMbCz
+ euZ82yrJzBJ+K7S6ML5SXUMP0+Ic+vCar3wDvZvDn2wUnnjI5CC6YfKREg8iNuYkvayC
+ 67sQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVnx53G/xSmjoe+soGQJ7Ot1Y1PgeBI+vcr5CseG+kHbjDZ9zkPSqLE4eMPjKqMf+VtT561In9Y1YZHc101PaNXfYhqGDCoA/dso44FhYbR
-X-Gm-Message-State: AOJu0YxCTO0XPAv/6EsssVuwuVvRMjSJejQXxFZiW0NHxoLuZraeZE7N
- 4t5FZAqJfKNsZY5Ug6r55FD6nTcnH3RIrVWgRQhRVSjgjCbYXDHvC/qshMcSXbsSvVvypDBqynB
- c04Eapci88hFK/PXn3DnyLMebmG/nPv8ZCCHfWA==
-X-Google-Smtp-Source: AGHT+IGjt5Gtd47+v4F9si1piYkQh5EGe0K9dfdnK1s/935m+Ubkmif2Bq5NIc2x2lXYaVSpzgpxhQW9gwzCUMfPSuo=
-X-Received: by 2002:a05:6902:1895:b0:e03:a6b3:9f28 with SMTP id
- 3f1490d57ef6-e1155a38eb4mr3847917276.10.1723637945672; Wed, 14 Aug 2024
- 05:19:05 -0700 (PDT)
+ AJvYcCXOdQ1eCL0rUT0l+7OOq9EwkxcbMXX1E2+SuDnm/PnuwU4hNGyk5T0pshD3Hstcj+tZ+dh5fqF4jaTAb7cK6VAsqTCtTxnUhT43kEsOSahY
+X-Gm-Message-State: AOJu0YwnnOd2ISxIjlEa506PRL5p8IKuRbADP1ZxkYZYBr5ed3YbyQoy
+ XroaXjhIS5G114TlOjMslAhmddpOtLaGNfgMQJCZ//xeHmiddDU4AraXsXCIOAnpDhTY/cmVfp4
+ A5ldRVU5aZwed7y+iIMfT3n9NkX/rdPv7i5S/6A==
+X-Google-Smtp-Source: AGHT+IG9s5zKEuElzdmu8nYTv+TuYXsEEzkAtXGAXraUgcr2mrfhNdPpz8+DdeopqaF18UtxfyTI7E1EKXrMGt7AwqI=
+X-Received: by 2002:a25:d685:0:b0:e0b:f963:263e with SMTP id
+ 3f1490d57ef6-e1140cd0625mr5768707276.9.1723638348494; Wed, 14 Aug 2024
+ 05:25:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240728114200.75559-1-wahrenst@gmx.net>
- <20240728130029.78279-1-wahrenst@gmx.net>
- <20240728130029.78279-7-wahrenst@gmx.net>
-In-Reply-To: <20240728130029.78279-7-wahrenst@gmx.net>
+ <20240728114200.75559-6-wahrenst@gmx.net>
+In-Reply-To: <20240728114200.75559-6-wahrenst@gmx.net>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 14 Aug 2024 14:18:29 +0200
-Message-ID: <CAPDyKFoJh3j8xSeXZ9o031YZLTCDYVA+dgvURuwozjDpU_aauA@mail.gmail.com>
-Subject: Re: [PATCH V2 15/16] serial: 8250_bcm2835aux: add PM suspend/resume
- support
+Date: Wed, 14 Aug 2024 14:25:12 +0200
+Message-ID: <CAPDyKFpNbrgLOrtofdR3s0hHvao3gt4+6C0Oj5_phrRYi=enCQ@mail.gmail.com>
+Subject: Re: [PATCH V2 05/16] pmdomain: raspberrypi-power: set flag
+ GENPD_FLAG_ACTIVE_WAKEUP
 To: Stefan Wahren <wahrenst@gmx.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
@@ -95,84 +94,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 28 Jul 2024 at 15:07, Stefan Wahren <wahrenst@gmx.net> wrote:
+On Sun, 28 Jul 2024 at 13:47, Stefan Wahren <wahrenst@gmx.net> wrote:
 >
-> This adds suspend/resume support for the 8250_bcm2835aux
-> driver to provide power management support on attached
-> devices.
+> Set flag GENPD_FLAG_ACTIVE_WAKEUP to rpi_power genpd, then when a device
+> is set as wakeup source using device_set_wakeup_enable, the power
+> domain could be kept on to make sure the device could wakeup the system.
 >
 > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->  drivers/tty/serial/8250/8250_bcm2835aux.c | 37 +++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->
-> diff --git a/drivers/tty/serial/8250/8250_bcm2835aux.c b/drivers/tty/serial/8250/8250_bcm2835aux.c
-> index 121a5ce86050..36e2bb34d82b 100644
-> --- a/drivers/tty/serial/8250/8250_bcm2835aux.c
-> +++ b/drivers/tty/serial/8250/8250_bcm2835aux.c
-> @@ -13,6 +13,7 @@
->   */
->
->  #include <linux/clk.h>
-> +#include <linux/console.h>
->  #include <linux/io.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> @@ -213,11 +214,47 @@ static const struct acpi_device_id bcm2835aux_serial_acpi_match[] = {
->  };
->  MODULE_DEVICE_TABLE(acpi, bcm2835aux_serial_acpi_match);
->
-> +static int bcm2835aux_suspend(struct device *dev)
-> +{
-> +       struct bcm2835aux_data *data = dev_get_drvdata(dev);
-> +       struct uart_8250_port *up = serial8250_get_port(data->line);
-> +
-> +       serial8250_suspend_port(data->line);
-> +
-> +       if (device_may_wakeup(dev))
-> +               return 0;
-> +
-> +       if (uart_console(&up->port) && !console_suspend_enabled)
-> +               return 0;
-> +
-> +       clk_disable_unprepare(data->clk);
-> +       return 0;
-> +}
-> +
-> +static int bcm2835aux_resume(struct device *dev)
-> +{
-> +       struct bcm2835aux_data *data = dev_get_drvdata(dev);
-> +       int ret;
-> +
-> +       ret = clk_prepare_enable(data->clk);
 
-Doesn't this create clk prepare/enable - unprepare/disable imbalance
-problem when the uart is configured for system wakeup?
-
-> +       if (ret)
-> +               return ret;
-> +
-> +       serial8250_resume_port(data->line);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct dev_pm_ops bcm2835aux_dev_pm_ops = {
-> +       SYSTEM_SLEEP_PM_OPS(bcm2835aux_suspend, bcm2835aux_resume)
-> +};
-> +
->  static struct platform_driver bcm2835aux_serial_driver = {
->         .driver = {
->                 .name = "bcm2835-aux-uart",
->                 .of_match_table = bcm2835aux_serial_match,
->                 .acpi_match_table = bcm2835aux_serial_acpi_match,
-> +               .pm = pm_ptr(&bcm2835aux_dev_pm_ops),
->         },
->         .probe  = bcm2835aux_serial_probe,
->         .remove_new = bcm2835aux_serial_remove,
-> --
-> 2.34.1
->
+Patch 3 -> 5, applied for next to my pmdomain tree, thanks!
 
 Kind regards
 Uffe
+
+
+> ---
+>  drivers/pmdomain/bcm/raspberrypi-power.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/pmdomain/bcm/raspberrypi-power.c b/drivers/pmdomain/bcm/raspberrypi-power.c
+> index fadedfc9c645..b87ea7adb7be 100644
+> --- a/drivers/pmdomain/bcm/raspberrypi-power.c
+> +++ b/drivers/pmdomain/bcm/raspberrypi-power.c
+> @@ -91,6 +91,7 @@ static void rpi_common_init_power_domain(struct rpi_power_domains *rpi_domains,
+>         dom->fw = rpi_domains->fw;
+>
+>         dom->base.name = name;
+> +       dom->base.flags = GENPD_FLAG_ACTIVE_WAKEUP;
+>         dom->base.power_on = rpi_domain_on;
+>         dom->base.power_off = rpi_domain_off;
+>
+> --
+> 2.34.1
+>
+>
