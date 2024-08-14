@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D7C951C4A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 15:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A3E951C62
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 15:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD0A10E49A;
-	Wed, 14 Aug 2024 13:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A38BF10E49C;
+	Wed, 14 Aug 2024 13:59:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bo7J5Iya";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81A810E49A;
- Wed, 14 Aug 2024 13:53:47 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-01 (Coremail) with SMTP id qwCowAD3PsPXtrxm46l4Bg--.47134S2;
- Wed, 14 Aug 2024 21:53:35 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, mwen@igalia.com,
- aurabindo.pillai@amd.com, joshua@froggi.es, hamza.mahfooz@amd.com,
- marek.olsak@amd.com, HaoPing.Liu@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>,
- stable@vger.kernel.org
-Subject: [PATCH] drm/amd/display: avoid using null object of framebuffer
-Date: Wed, 14 Aug 2024 21:53:25 +0800
-Message-Id: <20240814135325.48117-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA5810E49C
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 13:59:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 3810ACE1957;
+ Wed, 14 Aug 2024 13:59:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83D39C116B1;
+ Wed, 14 Aug 2024 13:59:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723643958;
+ bh=i2XInDiKAjKFZ/WCnSnrMBUbrC57+wTSUjcr1ZI14hU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bo7J5IyaqAZMcWE4jq4EC8jYNr+t8VU8JaJ5Bd8iOtVmU6W3X9tLeALH897enyLil
+ MpSE8dU/ZQUdowOK3CPs+Gc+l93MZlzDQRiSKKrcLVnHkQqBGwQpH3BisUkMKM3k9l
+ A0dkvNt7N4+IXssfHSjVGsmtKIsKal7ApNc7wJm+px5eNjgV6LoI23u+ScWNoVOYML
+ ER9UyXniAiDGDTZpOJ3si8EkLMINPkneifqHka2tEOGbqAHHDo3LnMeu31ipL4ydlX
+ KgeRUzXx1C1lWrTixV1g/wXxYAc0NfSBnMxapyjHORCAIAqoH74u3l2QZdMrJcT3hu
+ jiqbh3rGANdyg==
+Date: Wed, 14 Aug 2024 14:59:11 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux@armlinux.org.uk,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, arnd@arndb.de, geert+renesas@glider.be,
+ mpe@ellerman.id.au, rdunlap@infradead.org, dharma.b@microchip.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/4] dt-bindings: display: bridge: add
+ sam9x75-mipi-dsi binding
+Message-ID: <20240814-anaerobic-unpainted-532b8b117b79@spud>
+References: <20240814105256.177319-1-manikandan.m@microchip.com>
+ <20240814105256.177319-2-manikandan.m@microchip.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAD3PsPXtrxm46l4Bg--.47134S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF4xWF4xKw18Ar48KFWUCFg_yoW8Xw43pF
- sxAFy5Xr1UZF47t347CF1I9FZ0ka93XF1xKrWUuw1Svw15trn8Zws8Grs2gF4xXFWjkw4S
- qFy7ArW2yF1qvw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
- rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
- 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRBVb9UUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+8ausa8IKd49KxfE"
+Content-Disposition: inline
+In-Reply-To: <20240814105256.177319-2-manikandan.m@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,46 +69,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of using state->fb->obj[0] directly, get object from framebuffer
-by calling drm_gem_fb_get_obj() and return error code when object is
-null to avoid using null object of framebuffer.
 
-Cc: stable@vger.kernel.org
-Fixes: 5d945cbcd4b1 ("drm/amd/display: Create a file dedicated to planes")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+--+8ausa8IKd49KxfE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index a83bd0331c3b..5cb11cc2d063 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -28,6 +28,7 @@
- #include <drm/drm_blend.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_plane_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_fourcc.h>
- 
- #include "amdgpu.h"
-@@ -935,10 +936,14 @@ static int amdgpu_dm_plane_helper_prepare_fb(struct drm_plane *plane,
- 	}
- 
- 	afb = to_amdgpu_framebuffer(new_state->fb);
--	obj = new_state->fb->obj[0];
-+	obj = drm_gem_fb_get_obj(new_state->fb, 0);
-+	if (!obj) {
-+		DRM_ERROR("Failed to get obj from framebuffer\n");
-+		return -EINVAL;
-+	}
-+
- 	rbo = gem_to_amdgpu_bo(obj);
- 	adev = amdgpu_ttm_adev(rbo->tbo.bdev);
--
- 	r = amdgpu_bo_reserve(rbo, true);
- 	if (r) {
- 		dev_err(adev->dev, "fail to reserve bo (%d)\n", r);
--- 
-2.25.1
+On Wed, Aug 14, 2024 at 04:22:53PM +0530, Manikandan Muralidharan wrote:
+> Add the 'sam9x75-mipi-dsi' compatible binding, which describes the
+> Microchip's specific wrapper for the Synopsys DesignWare MIPI DSI HOST
+> Controller for the sam9x75 series System-on-Chip (SoC) devices.
+>=20
+> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> ---
+> changes in v3:
+> - Describe the clocks used
+>=20
+> changes in v2:
+> - List the clocks with description
+> - remove describing 'remove-endpoint' properties
+> - remove unused label, node and fix example DT indentation
+> - cosmetic fixes
+> ---
+>  .../bridge/microchip,sam9x75-mipi-dsi.yaml    | 116 ++++++++++++++++++
+>  1 file changed, 116 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/micr=
+ochip,sam9x75-mipi-dsi.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/bridge/microchip,s=
+am9x75-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/mic=
+rochip,sam9x75-mipi-dsi.yaml
+> new file mode 100644
+> index 000000000000..3c86f0cd49e9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-=
+mipi-dsi.yaml
+> @@ -0,0 +1,116 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-mipi=
+-dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Microchip SAM9X75 MIPI DSI Controller
+> +
+> +maintainers:
+> +  - Manikandan Muralidharan <manikandan.m@microchip.com>
+> +
+> +description:
+> +  Microchip specific extensions or wrapper to the Synopsys Designware MI=
+PI DSI.
+> +  The MIPI Display Serial Interface (DSI) Host Controller implements all
+> +  protocol functions defined in the MIPI DSI Specification.The DSI Host
+> +  provides an interface between the LCD Controller (LCDC) and the MIPI D=
+-PHY,
+> +  allowing communication with a DSI-compliant display.
+> +
+> +allOf:
+> +  - $ref: /schemas/display/dsi-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: microchip,sam9x75-mipi-dsi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description:
+> +          Peripheral Bus Clock between LCDC and MIPI DPHY
+> +      - description:
+> +          MIPI DPHY Interface reference clock for PLL block
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pclk
+> +      - const: refclk
+> +
+> +  microchip,sfr:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to Special Function Register (SFR) node.To enable the DSI/=
+CSI
+> +      selection bit in SFR's ISS Configuration Register.
 
+I'm curious - why is this phandle required? How many SFR nodes are there
+on the platform?
+
+--+8ausa8IKd49KxfE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZry4LwAKCRB4tDGHoIJi
+0jgGAQCNlJez7U3bg6KubO9BcmyXeM+Ooq60GqLPvS/jU0f6LgD/ep76NL779/5C
+MBFLfGv3IMIHjffXUIBEpJSOsnvPnAI=
+=UfmW
+-----END PGP SIGNATURE-----
+
+--+8ausa8IKd49KxfE--
