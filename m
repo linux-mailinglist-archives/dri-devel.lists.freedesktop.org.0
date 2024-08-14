@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E509510FD
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 02:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9DC951106
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 02:28:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 509E410E3E3;
-	Wed, 14 Aug 2024 00:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401D510E3EF;
+	Wed, 14 Aug 2024 00:28:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="NZYIvlMA";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="SHY1uJPb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF4A310E3E3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 00:21:03 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-710ece280b6so2630724b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 17:21:03 -0700 (PDT)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5DD10E347
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 00:28:51 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-70d1fb6c108so4446954b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 17:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1723594863; x=1724199663;
+ d=broadcom.com; s=google; t=1723595331; x=1724200131;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:content-language:from
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Yo8qByJpwK5ue8wU6fp7zYfaHZGt3cBHSps+Q3gbC34=;
- b=NZYIvlMAgCKDHjdLAy+CVngEO6FUKJup0CT5Q1mesZKXDHBzlejUKglH3wwU0paItg
- MJ+TqZzNhuauYWlOjfZtO4CZB6FOP8wZ0sOPaiuL8O4IKTg825IPGpWzYNFf6maH8Itp
- BliMf5hhuSNjeOyFLxnsypuWr7KiZLXXCoVfI=
+ bh=VhqvxtsoSwNwxr5Jjd+awQeFEA3CdtcC5PD6Cr4xSzg=;
+ b=SHY1uJPby7I8+/Z6vE+9FA/0vGXN14rHuWphDqyFE77XeJY+NQ2DbVESAVF2Y3Kk1V
+ wW+ZTj2Eq2hnR1nwZyojPPB2ffwKITgn3RXKv95UFA0CcO1AgGso+M2QGC3LG6L6tEVY
+ 4v2DxbM4uOmo8fkCs/lQxINVgQWBD9DpRp6C4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723594863; x=1724199663;
+ d=1e100.net; s=20230601; t=1723595331; x=1724200131;
  h=content-transfer-encoding:in-reply-to:content-language:from
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yo8qByJpwK5ue8wU6fp7zYfaHZGt3cBHSps+Q3gbC34=;
- b=KpWXLdN5/WWQGk5m0ZomiNUkXSV2Mn1/r6yR91X1USXVBHa5VSbmvq6/qCeoflsuS8
- VIL68fX8s0kQWoeoZoCjd9Z9IRhQw5+5wKcUC2zo176ErGK2506KPzg45SF1BHHaeOfc
- KHdB3hVCl+glTltpL7NC6PDmeczvwYQvhKEmuVH5al8ctXOmUbUUGxvef1ArEo8V4quC
- K9+HuvvUyokmOiamVzmKo8X/BtrTHGM/9Ao6ehmrxBxkMdPgm1+wIeB5kIw0w8OS1jnb
- IFRzUSeUZn+mwg5e6Bnj7+TuCI3cQZeP7Lo6yYJ/eXgZkdd83iu3x7kvALU+xS4tKs4H
- AFtw==
+ bh=VhqvxtsoSwNwxr5Jjd+awQeFEA3CdtcC5PD6Cr4xSzg=;
+ b=mUx0BEPQCPH2cL7oWzMDj3UhQe0YOmRgeMi6W91xWf8LpMg2N4cCDQlp1mUCRjzox0
+ PwYy5ggmArVAHahC2LpZSx4sRu5Gg+n6CPe0YeQ5Mk0IaochXOmc7+8hpux9qOH3/J59
+ YUlYt7KeOXYApqRA8DR1xvoKyYYVcGAoa3f8aGnwRbYCiOAKhlfgGEXtzQjOyCgbcYJa
+ y8TgM1mzWOXKNJ6i5Vuh6reuu6NS7sD9YA6l2Ebdx6lPlUpK8JHPeCMMEfbdtJHgDxm8
+ NDz7mXPO6RNHgaICe1JZBmcWYNDMhsqIsGUxoqdK4r1XVmiYFF5IdDWAgXwAizGNPVMu
+ ejVg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvG6b96EdnFDeVfaILXu8kbuV49EsAL0R3pPRsWIY/5kTMf/QGWaepx47aBuarqw6OwzT8FBtL694I8dwwGuznmuL5jhq2UlJH5OmTEXR7
-X-Gm-Message-State: AOJu0Ywq6bRPQb51SwB8XTIRsn2FWMXVgQf0CUuOVHb63syLIp2d5VIf
- xtmvhv9ZIRBelU5NL2BLClCsktSHSx9g35zmx9+QBQErVduoVE86YFt2nW0BGw==
-X-Google-Smtp-Source: AGHT+IF92O+1lnGcWi0fCwZJU+MsE2l32aB4cTMe79I8TX2TSlRSnaaR3jnI2YjAoeexYkefmpwyGA==
-X-Received: by 2002:a05:6a20:4392:b0:1c4:8876:2ae with SMTP id
- adf61e73a8af0-1c8eaf5cd68mr1565327637.41.1723594863334; 
- Tue, 13 Aug 2024 17:21:03 -0700 (PDT)
+ AJvYcCX0nPdS83VnJkPVzJIRRSGHCq9FTNaLXX8zrX53sy2i9Qb/swGvRvl7gHe3jtbNuGVpunYjVeKdkCvpII7MzuMhM9JCUHTEEuygeCybtnxN
+X-Gm-Message-State: AOJu0YyKnA8izZCQV2VmfDuc3vtL39NeGQvi468Lf5wyC/2PVX5l1Ur/
+ pbtbxbOXBAkdEQ7kFih9yo9HmooZzCdU5gC9FvH73ZhhfKODb0xXr129rXPJvQ==
+X-Google-Smtp-Source: AGHT+IGdhRYoSwp5tG4mBSBiS7xFlKdpDsew9wYyDZz5NpATPRrWf22js/1XxEICy6sgFSFgcGLkyg==
+X-Received: by 2002:a05:6a20:33aa:b0:1c3:a411:dc49 with SMTP id
+ adf61e73a8af0-1c8eaf8aff5mr1203174637.51.1723595331197; 
+ Tue, 13 Aug 2024 17:28:51 -0700 (PDT)
 Received: from [10.211.41.59] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-710e5872bfdsm6276039b3a.26.2024.08.13.17.21.02
+ d9443c01a7336-201cd1c4556sm19050385ad.248.2024.08.13.17.28.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Aug 2024 17:21:02 -0700 (PDT)
-Message-ID: <f7da3c46-abb9-460d-8fee-7d70189f9846@broadcom.com>
-Date: Tue, 13 Aug 2024 17:21:01 -0700
+ Tue, 13 Aug 2024 17:28:50 -0700 (PDT)
+Message-ID: <d8690b7a-2608-4c7f-b730-c10096573cff@broadcom.com>
+Date: Tue, 13 Aug 2024 17:28:49 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vmwgfx: Bump the minor version of the driver
-To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
+Subject: Re: [PATCH] drm/vmwgfx: Trigger a modeset when the screen moves
+To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
  martin.krastev@broadcom.com
-References: <20240723043543.536675-1-zack.rusin@broadcom.com>
+References: <20240624205951.23343-1-ian.forbes@broadcom.com>
 From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 Content-Language: en-US
-In-Reply-To: <20240723043543.536675-1-zack.rusin@broadcom.com>
+In-Reply-To: <20240624205951.23343-1-ian.forbes@broadcom.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,36 +82,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/22/24 21:35, Zack Rusin wrote:
-> Provide a way to query for the fixed support for dumb buffers with kms.
+On 6/24/24 13:59, Ian Forbes wrote:
+> When multi-monitor is cycled the X,Y position of the Screen Target will
+> likely change but the resolution will not. We need to trigger a modeset
+> when this occurs in order to recreate the Screen Target with the correct
+> X,Y position.
 > 
-> Lets mesa svga return a buffer id, instead of a surface id from
-> resource_to_handle which fixes a lot of userspace apps that assume
-> that those handles are gem buffers.
+> Fixes a bug where multiple displays are shown in a single scrollable
+> host window rather than in 2+ windows on separate host displays.
 > 
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> Fixes: 426826933109 ("drm/vmwgfx: Filter modes which exceed graphics memory")
+> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 29 +++++++++++++++++++++++++++-
+>  1 file changed, 28 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> index 8de973549b5e..ced881fdca4a 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -57,9 +57,9 @@
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> index a04e0736318da..9becd71bc93bc 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> @@ -877,6 +877,32 @@ vmw_stdu_connector_mode_valid(struct drm_connector *connector,
+>  	return MODE_OK;
+>  }
 >  
->  
->  #define VMWGFX_DRIVER_NAME "vmwgfx"
-> -#define VMWGFX_DRIVER_DATE "20211206"
-> +#define VMWGFX_DRIVER_DATE "20240722"
->  #define VMWGFX_DRIVER_MAJOR 2
-> -#define VMWGFX_DRIVER_MINOR 20
-> +#define VMWGFX_DRIVER_MINOR 21
->  #define VMWGFX_DRIVER_PATCHLEVEL 0
->  #define VMWGFX_FIFO_STATIC_SIZE (1024*1024)
->  #define VMWGFX_MAX_DISPLAYS 16
+> +/*
+> + * Trigger a modeset if the X,Y position of the Screen Target changes.
+> + * This is needed when multi-mon is cycled. The original Screen Target will have
+> + * the same mode but its relative X,Y position in the topology will change.
+> + */
+> +static int vmw_stdu_connector_atomic_check(struct drm_connector *conn,
+> +					   struct drm_atomic_state *state)
+> +{
+> +	struct drm_connector_state *conn_state;
+> +	struct vmw_screen_target_display_unit *du;
+> +	struct drm_crtc_state *new_crtc_state;
+> +
+> +	conn_state = drm_atomic_get_connector_state(state, conn);
+> +	du = vmw_connector_to_stdu(conn);
+> +
+> +	if (!conn_state->crtc)
+> +		return 0;
+> +
+> +	new_crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
 
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+We should be checking for new_crtc_state being NULL here.
+
+> +	if (du->base.gui_x != du->base.set_gui_x ||
+> +	    du->base.gui_y != du->base.set_gui_y)
+> +		new_crtc_state->mode_changed = true;
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+>  	.dpms = vmw_du_connector_dpms,
+>  	.detect = vmw_du_connector_detect,
+> @@ -891,7 +917,8 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
+>  static const struct
+>  drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
+>  	.get_modes = vmw_connector_get_modes,
+> -	.mode_valid = vmw_stdu_connector_mode_valid
+> +	.mode_valid = vmw_stdu_connector_mode_valid,
+> +	.atomic_check = vmw_stdu_connector_atomic_check,
+>  };
+>  
+>  
 
 Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+
 
