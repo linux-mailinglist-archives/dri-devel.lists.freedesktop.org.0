@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A24951C41
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 15:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D7C951C4A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 15:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C79410E499;
-	Wed, 14 Aug 2024 13:52:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Pu+KV+uK";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD0A10E49A;
+	Wed, 14 Aug 2024 13:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6742C10E494;
- Wed, 14 Aug 2024 13:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723643544; x=1755179544;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8sELu0ZN8+Jm1Zbq5sAGW9Anpsxmnzfr1mCzydBwHKs=;
- b=Pu+KV+uKHTZ2BNU5PTgZltu4bwfQth4tarQiSKjFr3rq6OQUNH9R0iB8
- kgDQ4vOfZaIMJ4K4RbSOMoZHPJEjO9BYi9GvIweGTv2DCUSLI8QtaeXFS
- eOJKcQzfiGhkqXEv2F+bBRgOmuIteye6HlOCyJZwkOzGN07vOdaIlQQc1
- AeE5/W5qr05Dgp4sWoEQcbvMOfO4rgiywzCy8q4jKQSa6U1WPjIa5V9wO
- lqjQmWp/9fIpoSbYQR12yxIpqBHLkmvEPRKvQ0Y7dZNWqq6gYTsf2E7Rv
- Vza4RdNxDKlDDNMCp/8YD++OZQp35SrA95Xg7ufc3J2bC35o0NY9uOZ8V g==;
-X-CSE-ConnectionGUID: We97PijESnqdzs95Ts68bQ==
-X-CSE-MsgGUID: if+8YSUCSwSSX2ncLh+f8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="21828367"
-X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; d="scan'208";a="21828367"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2024 06:52:02 -0700
-X-CSE-ConnectionGUID: mpcN4dZRTpWrmBv66yKqgQ==
-X-CSE-MsgGUID: uCCiYO59S02amEAuvAOByw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; d="scan'208";a="58654011"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.62])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2024 06:51:55 -0700
-Date: Wed, 14 Aug 2024 15:51:51 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Sima <daniel.vetter@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH v2 0/2] Allow partial memory mapping for cpu memory
-Message-ID: <Zry2d2LtQLiPY58x@ashyti-mobl2.lan>
-References: <20240814134837.116498-1-andi.shyti@linux.intel.com>
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81A810E49A;
+ Wed, 14 Aug 2024 13:53:47 +0000 (UTC)
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+ by APP-01 (Coremail) with SMTP id qwCowAD3PsPXtrxm46l4Bg--.47134S2;
+ Wed, 14 Aug 2024 21:53:35 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, mwen@igalia.com,
+ aurabindo.pillai@amd.com, joshua@froggi.es, hamza.mahfooz@amd.com,
+ marek.olsak@amd.com, HaoPing.Liu@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/amd/display: avoid using null object of framebuffer
+Date: Wed, 14 Aug 2024 21:53:25 +0800
+Message-Id: <20240814135325.48117-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240814134837.116498-1-andi.shyti@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAD3PsPXtrxm46l4Bg--.47134S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF4xWF4xKw18Ar48KFWUCFg_yoW8Xw43pF
+ sxAFy5Xr1UZF47t347CF1I9FZ0ka93XF1xKrWUuw1Svw15trn8Zws8Grs2gF4xXFWjkw4S
+ qFy7ArW2yF1qvw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+ rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcV
+ C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+ 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+ CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRBVb9UUUUU=
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,65 +64,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Argh... sorry, I messed up with format-patch and send-mail and
-sent it twice.
+Instead of using state->fb->obj[0] directly, get object from framebuffer
+by calling drm_gem_fb_get_obj() and return error code when object is
+null to avoid using null object of framebuffer.
 
-Maybe I need to resend it if CI complains.
+Cc: stable@vger.kernel.org
+Fixes: 5d945cbcd4b1 ("drm/amd/display: Create a file dedicated to planes")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Andi
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index a83bd0331c3b..5cb11cc2d063 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -28,6 +28,7 @@
+ #include <drm/drm_blend.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_plane_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_fourcc.h>
+ 
+ #include "amdgpu.h"
+@@ -935,10 +936,14 @@ static int amdgpu_dm_plane_helper_prepare_fb(struct drm_plane *plane,
+ 	}
+ 
+ 	afb = to_amdgpu_framebuffer(new_state->fb);
+-	obj = new_state->fb->obj[0];
++	obj = drm_gem_fb_get_obj(new_state->fb, 0);
++	if (!obj) {
++		DRM_ERROR("Failed to get obj from framebuffer\n");
++		return -EINVAL;
++	}
++
+ 	rbo = gem_to_amdgpu_bo(obj);
+ 	adev = amdgpu_ttm_adev(rbo->tbo.bdev);
+-
+ 	r = amdgpu_bo_reserve(rbo, true);
+ 	if (r) {
+ 		dev_err(adev->dev, "fail to reserve bo (%d)\n", r);
+-- 
+2.25.1
 
-On Wed, Aug 14, 2024 at 03:48:32PM +0200, Andi Shyti wrote:
-> Hi,
-> 
-> I am resending this patch series, not to disregard the previous
-> discussions, but to ensure it gets tested with the IGTs that
-> Krzysztof has provided.
-> 
-> This patch series finalizes the memory mapping fixes and
-> improvements by enabling partial memory mapping for CPU memory as
-> well.
-> 
-> The concept of partial memory mapping, achieved by adding an
-> object offset, was implicitly introduced in commit 8bdd9ef7e9b1
-> ("drm/i915/gem: Fix Virtual Memory mapping boundaries
-> calculation") for GTT memory.
-> 
-> To address a previous discussion with Sima and Matt, this feature
-> is used by Mesa and is required across all platforms utilizing
-> Mesa. Although Nirmoy suggested using the Fixes tag to backport
-> this to previous kernels, I view this as a new feature rather
-> than a fix.
-> 
-> Lionel, please let me know if you have a different perspective
-> and believe this should be treated as a bug fix, requiring it
-> to be backported to stable kernels.
-> 
-> The IGTs have been developed in collaboration with the Mesa team
-> to replicate the exact Mesa use case[*].
-> 
-> Thanks Chris for the support, thanks Krzysztof for taking care of
-> the IGT tests, thanks Nirmoy for your reviews and thanks Sima and
-> Matt for the discussion on this series.
-> 
-> Andi
-> 
-> [*] https://patchwork.freedesktop.org/patch/608232/?series=137303&rev=1
-> 
-> Test-with: 20240814132404.18392-1-krzysztof.niemiec@intel.com
-> 
-> Changelog:
-> ==========
-> v1 -> v2
->  - Added Nirmoy's tags.
-> 
-> Andi Shyti (2):
->   drm/i915/gem: Do not look for the exact address in node
->   drm/i915/gem: Calculate object page offset for partial memory mapping
-> 
->  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 10 ++++++----
->  drivers/gpu/drm/i915/i915_mm.c           | 12 +++++++++++-
->  drivers/gpu/drm/i915/i915_mm.h           |  3 ++-
->  3 files changed, 19 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 2.45.2
