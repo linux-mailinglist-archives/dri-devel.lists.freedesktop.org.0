@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5EC952130
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 19:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF073952137
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 19:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0118410E4F5;
-	Wed, 14 Aug 2024 17:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B394010E4FB;
+	Wed, 14 Aug 2024 17:32:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="KT4zjpKV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="FD55nFFr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 883A910E475
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 13:10:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFA010E475
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 13:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
  s=default2211; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID;
- bh=6cpVotNXuvb07HW/+C7ruuxkNz/vHRVa4M+bUyvesUY=; b=KT4zjpKVr6jp2f1ocymeKtNDR3
- jb1bf8VvhnsQrhRVH+qE+NQQWyG4jZ52AXJpilaZu8iXjeL4akn4TJ93KP35P5bD4qTb7ft1FZxZr
- p8NNBfIvkHNjqx4/cZO1DYdorE+UAcmtCGG1Nakz+7B396arq6frA8cFC6SdqyXLLEzElRCFZqr6d
- p3KNK447e0lnU++yT5lJ9zJddk2THwl8qsxJaESQUcdMtXA83tK/LnpiW9m0q3qxOkQU+s496ZeU3
- 7wMuw+LHs+i5sAQ9xh9CMhw97jL8TsWkMjgx7C3EOb2Hyj6PyZLN/kOWn4hn8huzzKo8CMH1Xn3nZ
- X0yI8tww==;
+ bh=I3NBjEI7N/Ip0iGg1mV/AVkW0RXIprWyuAjTu/uC354=; b=FD55nFFraZHfhUv2WhWbSSzn44
+ MKwOQFOLTdX3qTLBJTG5LKsgH+CLGOjB6fWe98Gn4R5fAYoId/bLwPf3oTI7ZalOO95A0+Ek4JAdY
+ 6V/ON18zlER83XRGmdu+dvJBcSwZrkUGnv9yDluyEUZu+oUYgJ9F8z7srkEnD4ACbLMj0cxN++QJq
+ LD4iarZ9HpZk/dEUj4ase3HqvPRNahgbK+BMAtoMx5JRldupONamAtu71rPYrqWgPXUC+LXQr/TgQ
+ kKMRRu34vbzVs89Hb+8QQUY0BSe5VW+msOIchYz6QzPVtqUPhwR9SZGfRqZYiz1+cysBlGV6LRSsA
+ qc+d0rxg==;
 Received: from sslproxy03.your-server.de ([88.198.220.132])
  by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
  (Exim 4.94.2) (envelope-from <esben@geanix.com>)
- id 1seDm2-0009GM-Di; Wed, 14 Aug 2024 15:10:46 +0200
+ id 1seDm3-0009GP-01; Wed, 14 Aug 2024 15:10:47 +0200
 Received: from [185.17.218.86] (helo=localhost)
  by sslproxy03.your-server.de with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.96) (envelope-from <esben@geanix.com>) id 1seDm1-000H8L-34;
+ (Exim 4.96) (envelope-from <esben@geanix.com>) id 1seDm2-000HB6-1h;
  Wed, 14 Aug 2024 15:10:46 +0200
 From: Esben Haabendal <esben@geanix.com>
-Date: Wed, 14 Aug 2024 15:10:35 +0200
-Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: Add JMO Tech
+Date: Wed, 14 Aug 2024 15:10:36 +0200
+Subject: [PATCH 2/3] dt-bindings: ili9881c: Add JMO LCM-JM800WX LCD panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240814-drm-panel-ili9881c-lcm-jm800wx-v1-1-22a5e58599be@geanix.com>
+Message-Id: <20240814-drm-panel-ili9881c-lcm-jm800wx-v1-2-22a5e58599be@geanix.com>
 References: <20240814-drm-panel-ili9881c-lcm-jm800wx-v1-0-22a5e58599be@geanix.com>
 In-Reply-To: <20240814-drm-panel-ili9881c-lcm-jm800wx-v1-0-22a5e58599be@geanix.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -53,11 +53,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, Esben Haabendal <esben@geanix.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723641045; l=769;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723641045; l=869;
  i=esben@geanix.com; s=20240523; h=from:subject:message-id;
- bh=85liRaEpl2I8niazgGfo1LURcRMDZrJ2sJ8OrSt3uNI=;
- b=2GEtZwBTcuB5RBMQIIOjy7fYIgcSMNBbiQ+5C96Lq3rtQuVDhv4zMG52wGPO2Opr6X5UkH3av
- SlwYnuNAw1aAKVksRkrGtBGBtgB7IBLJXwklBY3S0LoYPfqKPIlkHho
+ bh=H7wQC7vAmTQ7i03aRdlETI0vQg9JdGIdza7y56E1jAg=;
+ b=wOZ3k4Z5Rt5+iwzdURFXqVsQM3pGUIQd6DO43D5TNANlKblEOYBj3ke5y1EVVXWeVnD9oFj5c
+ vLS0Nbvo8UqD/2p4/cdAAtYDLO1U5/n9IilBG8JU3YCcTf08xbaRpqk
 X-Developer-Key: i=esben@geanix.com; a=ed25519;
  pk=PbXoezm+CERhtgVeF/QAgXtEzSkDIahcWfC7RIXNdEk=
 X-Authenticated-Sender: esben@geanix.com
@@ -78,26 +78,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vendor prefix for JMO Tech CO., LTD. (http://www.jmolcd.com/).
+Document the compatible value for LCM-JM800WX LCD panels from JMO Tech.
 
 Signed-off-by: Esben Haabendal <esben@geanix.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index a70ce43b3dc0..5d2ada6cfa61 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -758,6 +758,8 @@ patternProperties:
-     description: Jiandangjing Technology Co., Ltd.
-   "^jide,.*":
-     description: Jide Tech
-+  "^jmo,.*":
-+    description: JMO Tech
-   "^joz,.*":
-     description: JOZ BV
-   "^kam,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+index baf5dfe5f5eb..c3f1ffb0c207 100644
+--- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+@@ -19,6 +19,7 @@ properties:
+           - ampire,am8001280g
+           - bananapi,lhr050h41
+           - feixin,k101-im2byl02
++          - jmo,lcm-jm800wx
+           - startek,kd050hdfia020
+           - tdo,tl050hdv35
+           - wanchanglong,w552946aba
 
 -- 
 2.46.0
