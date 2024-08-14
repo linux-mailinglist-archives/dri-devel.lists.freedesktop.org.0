@@ -2,60 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9746D95131E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 05:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE25B951342
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 05:57:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5CE910E405;
-	Wed, 14 Aug 2024 03:30:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1901A10E406;
+	Wed, 14 Aug 2024 03:57:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K+nt2jwO";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="iX2rBDey";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3241810E32E;
- Wed, 14 Aug 2024 03:30:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723606239; x=1755142239;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=IRG2HoilNLCV3MWbYyl9BQgmgBOkKVLTEiD0+Tvq3XQ=;
- b=K+nt2jwOGh+ER9r+00SlgmRzz5dHXreXczZl7QYfeo2qscxNNTTih47E
- XHnL2nBtZG7PEZWejaPt1Qv+YNDeF6QXJdF05/bo9VRRyC4BJUlki1H2C
- ZM5z0DE8+D7c0jzVeQ5o8+tffRGkTZF3uvekFvSRGm6TO61FCQ8h+RTPi
- t/85X8iHmv8rQVvBwNJuY9WkLOdp0eIwraDhZBS9yiJ2AZvNhdiUHwOBU
- 4dkKx8PwQedJIFSamHfjd9joGJNmjAGGN6XHKj77ugBvMtH2pfU1OhnwJ
- 9xXe4kfayxi/yk9kVKJAtEi+eXfHy//1UhzUHxm5DRki12XyQBUYpsrzO g==;
-X-CSE-ConnectionGUID: /7k2PamZTTSaqCJh1bhQNg==
-X-CSE-MsgGUID: 4Fhs9dgzSRq+qN7FrfYlwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="21957709"
-X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
- d="asc'?scan'208";a="21957709"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2024 20:30:38 -0700
-X-CSE-ConnectionGUID: FhVFhCKIS7yc54nUYs8z5g==
-X-CSE-MsgGUID: Y78UXkCjS8+6kNzzRVElag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
- d="asc'?scan'208";a="58809244"
-Received: from debian-skl.sh.intel.com (HELO debian-skl) ([10.239.160.45])
- by orviesa009.jf.intel.com with ESMTP; 13 Aug 2024 20:30:36 -0700
-Date: Wed, 14 Aug 2024 11:32:13 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Zhi Wang <zhiwang@kernel.rog>, Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.wang.linux@gmail.com>, intel-gvt-dev@lists.freedesktop.org
-Subject: Re: [RESEND 1/2] drm/i915/gvt: stop using drm_edid_block_valid()
-Message-ID: <ZrwlPUVhp3v59rzS@debian-scheme>
-References: <20240812142849.1588006-1-jani.nikula@intel.com>
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBC7210E406
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 03:57:06 +0000 (UTC)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20240814035704epoutp042df5506d384bb78314bf11f6d6d4aff6~rfC8uRFst2312023120epoutp04X
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 03:57:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20240814035704epoutp042df5506d384bb78314bf11f6d6d4aff6~rfC8uRFst2312023120epoutp04X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1723607824;
+ bh=HTqK/5k9pVCbavgyjKOD0KpBgoWSb07DTHK36P6SGto=;
+ h=From:Date:Subject:To:Cc:References:From;
+ b=iX2rBDeyZBKWLGIhimtDEGCKy0FxO+s7/yI7iOkAMOtzrizmqfyo3Usx0RW6LlYzv
+ 5RJdrc6Y5AhJBZDOpKLy+2joNMT5CHb0S1B2v51pLL0uZRIeExplbZ35VuN91Wy5e1
+ MsgRDCnWtUfh33BG5AA+uOn0zKXqRHs/UKG1HZg4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+ 20240814035703epcas1p384b73af4c67560e8c513c57960e7fb88~rfC7xhBX00359503595epcas1p3b;
+ Wed, 14 Aug 2024 03:57:03 +0000 (GMT)
+Received: from epsmgec1p1.samsung.com (unknown [182.195.36.132]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4WkDwG3dfdz4x9Pt; Wed, 14 Aug
+ 2024 03:57:02 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+ epsmgec1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 33.8B.08992.E0B2CB66; Wed, 14 Aug 2024 12:57:02 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4~rfC6EsxUz0998609986epcas1p2s;
+ Wed, 14 Aug 2024 03:57:01 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20240814035701epsmtrp2ec69754bda65afa4b784046fccebafba~rfC6DmPx91686716867epsmtrp29;
+ Wed, 14 Aug 2024 03:57:01 +0000 (GMT)
+X-AuditID: b6c32a33-96dfa70000002320-ac-66bc2b0e7180
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 56.2E.08964.D0B2CB66; Wed, 14 Aug 2024 12:57:01 +0900 (KST)
+Received: from [127.0.1.1] (unknown [10.113.111.204]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240814035701epsmtip14f65cacc864072a6566c66c0400c650e~rfC5vWges3044930449epsmtip1k;
+ Wed, 14 Aug 2024 03:57:01 +0000 (GMT)
+From: Kwanghoon Son <k.son@samsung.com>
+Date: Wed, 14 Aug 2024 12:57:01 +0900
+Subject: [PATCH] drm/exynos: Remove unnecessary code
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="DqdRhSWku2VpMsMe"
-Content-Disposition: inline
-In-Reply-To: <20240812142849.1588006-1-jani.nikula@intel.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240814-remove_define-v1-1-7947ae6f747d@samsung.com>
+X-B4-Tracking: v=1; b=H4sIAAwrvGYC/x2MQQqAIBQFrxJ/naCRFF0lIkxf9RdpKEgQ3j1pO
+ QMzLyVERqKpeSkic+LgK6i2IXsaf0Cwq0yd7Ho5ql5EXCFjddjZQ+hRykFvFsaAanPH6p//Ny+
+ lfFX6MClfAAAA
+To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,  Kwanghoon
+ Son <k.son@samsung.com>
+X-Mailer: b4 0.14.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIJsWRmVeSWpSXmKPExsWy7bCmri6f9p40g2utUhYnri9isngwbxub
+ xf9tE5ktrnx9z2Yx6f4EFoveNVeZLM6f38BucbbpDbvFpsfXWC0u75rDZjHj/D4mixmTX7I5
+ 8Hjs/baAxWPnrLvsHptWdbJ53O8+zuSxeUm9R9+WVYwenzfJBbBHZdtkpCampBYppOYl56dk
+ 5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAB2qpFCWmFMKFApILC5W0rezKcov
+ LUlVyMgvLrFVSi1IySkwLdArTswtLs1L18tLLbEyNDAwMgUqTMjOuNm2krlgCUfF/8/cDYwz
+ 2LsYOTkkBEwkWtbvYexi5OIQEtjBKNHfeJ4dwvnEKNHed4QVpEpI4BujxM/HmjAd77+ug+rY
+ yyix6FsvVMcrRolLf5+CdbAJqEssaVsLtoNFQFWi9fxhti5GDg5hoO6TXSwgYV4BQYmTM5+A
+ 2cwC8hLb385hhog7Sdzob2IDmSkhsIJR4v3SV2DbRAT6mCTmH3vNAuIwC2xilDh3cR0LxE3C
+ Ep93r4FqWcghsfTmAmaIhIvEupn32WGKXh3fAmVLSXx+t5cNws6WOPoRxi6RuD5rESuEbSyx
+ f+lkJpCzmQU0Jdbv0oc4lU/i3dceVpCwhACvREebEIQpL3GrsxyiUVTizNOPUAM9JBY/3cAM
+ CcVYifunXjFOYJSfheT/WUj+n4WwawEj8ypGsdSC4tz01GTDAkN4pCbn525iBKdVLeMdjJfn
+ /9M7xMjEwXiIUYKDWUmEN9BkV5oQb0piZVVqUX58UWlOavEhRlNgJExklhJNzgcm9rySeEMT
+ SwMTMyNjEwtDM0Mlcd4zV8pShQTSE0tSs1NTC1KLYPqYODilGphU7lqEX3mYa3/j3evqcK+D
+ KS+dbiiq1G+Z0eH05L5+ZxVvn2J/cqjPvquWj17NWNGRa+CnY6B7+EP0U71DeqlHFPwfSr6t
+ ELfJZpOQ8Hy4lPen8RYXBYeJuzo/l21tfrp1XQpjb9cCQfZNFrdMHt0odXBrmHpp3r9QDwWB
+ ibyqMcFnZe+WLkx9u86oN2nrbZbzy6/nn6pz/Pj/mZD9ttdbVZW2tB3fOvFR7Qn7p4ed/+lt
+ ZedqDNda77lEJa803iZO919/p5ZOcEv+9US+pcw7W86cd/5mEW4zi8P7QcWOLz5O86b8z75d
+ pLSzTK6xnZvbvOVh5/NT2nevmsw2irzrfKiP72u5/IfErfotH5RYijMSDbWYi4oTAVQw0ow0
+ BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMLMWRmVeSWpSXmKPExsWy7bCSnC6v9p40gz3XpSxOXF/EZPFg3jY2
+ i//bJjJbXPn6ns1i0v0JLBa9a64yWZw/v4Hd4mzTG3aLTY+vsVpc3jWHzWLG+X1MFjMmv2Rz
+ 4PHY+20Bi8fOWXfZPTat6mTzuN99nMlj85J6j74tqxg9Pm+SC2CP4rJJSc3JLEst0rdL4Mq4
+ 2baSuWAJR8X/z9wNjDPYuxg5OSQETCTef13H2MXIxSEksJtRYmVrOxtEQlSi43IjUIIDyBaW
+ OHy4GKLmBaNE2+wHYDVsAuoSS9rWgg1iEVCVaD1/mA2kXhho6MkuFpAwr4CgxMmZT1hAwswC
+ mhLrd+mDhJkF5CW2v53DDFHiJHGjv4kNZLyEwApGicXT/zOBOCICE5gk2mY+YwVxmAU2A2Vm
+ b2eCOE5Y4vPuNWwTGAVmIVkyC2HJLCRLFjAyr2KUTC0ozk3PLTYsMMxLLdcrTswtLs1L10vO
+ z93ECI4XLc0djNtXfdA7xMjEwXiIUYKDWUmEN9BkV5oQb0piZVVqUX58UWlOavEhRmkOFiVx
+ XvEXvSlCAumJJanZqakFqUUwWSYOTqkGJmklPq/opd/39VoILbh2U+vcnWabKt6Vv8/35jVd
+ vlbEWpxWu8DBeuOFt9dlgx+0FVyedu+q3hRbnq8JVk9Vl6ay1iw7uOgPy3bJ2i2ZyZfPs6zT
+ FtqRxuHIoF/5X+pYaFd2dpl8YYNYgPjq0/7nvlmeOXW98pkSb5nYxgDOcMb/+mGCi//vWPo+
+ IsaP+eTCHsapqb7ujg/Nb51dwpQ0Y40nt0fviRmm85lZtr3pWzn9XXOlwfNHjUsVw5nTJqlE
+ hn8MPbPVfdKGI/s4HUT3XPcqVZt/ImO1qbzNdIkJl102mB2S5845EzbZ5JD7DB3Fi/J33fs8
+ Vv1qNtssvXCh3c7Wi9tflliwaHowvUqcpMRSnJFoqMVcVJwIAP6EEVAGAwAA
+X-CMS-MailID: 20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4
+References: <CGME20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4@epcas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +124,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Function usage exynos_atomic_commit was removed in
+commit 41cbf0fdaa28 ("drm/exynos: use atomic helper commit").
+Remove unnecessary function declare.
 
---DqdRhSWku2VpMsMe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Kwanghoon Son <k.son@samsung.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_drv.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-On 2024.08.12 17:28:48 +0300, Jani Nikula wrote:
-> We'll want to stop drm_edid_block_valid() usage. KVMGT is the last
-> user. Replace with drm_edid_valid(), which unfortunately requires an
-> allocated drm_edid. However, on the plus side, this would be required to
-> handle the TODO comment about EDID extension block support.
->=20
-> Acked-by: Zhi Wang <zhiwang@kernel.rog>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+index 81d501efd013..23646e55f142 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
++++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+@@ -254,10 +254,6 @@ static inline int exynos_drm_check_fimc_device(struct device *dev)
+ }
+ #endif
+ 
+-int exynos_atomic_commit(struct drm_device *dev, struct drm_atomic_state *state,
+-			 bool nonblock);
+-
+-
+ extern struct platform_driver fimd_driver;
+ extern struct platform_driver exynos5433_decon_driver;
+ extern struct platform_driver decon_driver;
 
-Looks fine to me. Feel free to merge.
+---
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+change-id: 20240814-remove_define-580075bceaae
 
-Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+Best regards,
+-- 
+Kwanghoon Son <k.son@samsung.com>
 
-> ---
->=20
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
-> Cc: intel-gvt-dev@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/i915/gvt/kvmgt.c | 18 +++++++++++++-----
->  1 file changed, 13 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/=
-kvmgt.c
-> index 38830818c120..ca0fb126b02d 100644
-> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> @@ -425,6 +425,18 @@ static const struct intel_vgpu_regops intel_vgpu_reg=
-ops_opregion =3D {
->  	.release =3D intel_vgpu_reg_release_opregion,
->  };
-> =20
-> +static bool edid_valid(const void *edid, size_t size)
-> +{
-> +	const struct drm_edid *drm_edid;
-> +	bool is_valid;
-> +
-> +	drm_edid =3D drm_edid_alloc(edid, size);
-> +	is_valid =3D drm_edid_valid(drm_edid);
-> +	drm_edid_free(drm_edid);
-> +
-> +	return is_valid;
-> +}
-> +
->  static int handle_edid_regs(struct intel_vgpu *vgpu,
->  			struct vfio_edid_region *region, char *buf,
->  			size_t count, u16 offset, bool is_write)
-> @@ -443,11 +455,7 @@ static int handle_edid_regs(struct intel_vgpu *vgpu,
->  		switch (offset) {
->  		case offsetof(struct vfio_region_gfx_edid, link_state):
->  			if (data =3D=3D VFIO_DEVICE_GFX_LINK_STATE_UP) {
-> -				if (!drm_edid_block_valid(
-> -					(u8 *)region->edid_blob,
-> -					0,
-> -					true,
-> -					NULL)) {
-> +				if (!edid_valid(region->edid_blob, EDID_SIZE)) {
->  					gvt_vgpu_err("invalid EDID blob\n");
->  					return -EINVAL;
->  				}
-> --=20
-> 2.39.2
->=20
-
---DqdRhSWku2VpMsMe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCZrwlOQAKCRCxBBozTXgY
-J07dAJ0ZTZ8Fd/2wGBj8i44MsFb1iOm/XwCeIuq/32BDPLTjDt02E543ifdRqvk=
-=ZrFf
------END PGP SIGNATURE-----
-
---DqdRhSWku2VpMsMe--
