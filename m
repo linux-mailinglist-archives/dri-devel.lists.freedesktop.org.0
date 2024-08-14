@@ -2,116 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE25B951342
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 05:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CF895136B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 06:17:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1901A10E406;
-	Wed, 14 Aug 2024 03:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0C810E408;
+	Wed, 14 Aug 2024 04:17:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="iX2rBDey";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lXFt9dDh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBC7210E406
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 03:57:06 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20240814035704epoutp042df5506d384bb78314bf11f6d6d4aff6~rfC8uRFst2312023120epoutp04X
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 03:57:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20240814035704epoutp042df5506d384bb78314bf11f6d6d4aff6~rfC8uRFst2312023120epoutp04X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1723607824;
- bh=HTqK/5k9pVCbavgyjKOD0KpBgoWSb07DTHK36P6SGto=;
- h=From:Date:Subject:To:Cc:References:From;
- b=iX2rBDeyZBKWLGIhimtDEGCKy0FxO+s7/yI7iOkAMOtzrizmqfyo3Usx0RW6LlYzv
- 5RJdrc6Y5AhJBZDOpKLy+2joNMT5CHb0S1B2v51pLL0uZRIeExplbZ35VuN91Wy5e1
- MsgRDCnWtUfh33BG5AA+uOn0zKXqRHs/UKG1HZg4=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTP id
- 20240814035703epcas1p384b73af4c67560e8c513c57960e7fb88~rfC7xhBX00359503595epcas1p3b;
- Wed, 14 Aug 2024 03:57:03 +0000 (GMT)
-Received: from epsmgec1p1.samsung.com (unknown [182.195.36.132]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4WkDwG3dfdz4x9Pt; Wed, 14 Aug
- 2024 03:57:02 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
- epsmgec1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 33.8B.08992.E0B2CB66; Wed, 14 Aug 2024 12:57:02 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4~rfC6EsxUz0998609986epcas1p2s;
- Wed, 14 Aug 2024 03:57:01 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20240814035701epsmtrp2ec69754bda65afa4b784046fccebafba~rfC6DmPx91686716867epsmtrp29;
- Wed, 14 Aug 2024 03:57:01 +0000 (GMT)
-X-AuditID: b6c32a33-96dfa70000002320-ac-66bc2b0e7180
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 56.2E.08964.D0B2CB66; Wed, 14 Aug 2024 12:57:01 +0900 (KST)
-Received: from [127.0.1.1] (unknown [10.113.111.204]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20240814035701epsmtip14f65cacc864072a6566c66c0400c650e~rfC5vWges3044930449epsmtip1k;
- Wed, 14 Aug 2024 03:57:01 +0000 (GMT)
-From: Kwanghoon Son <k.son@samsung.com>
-Date: Wed, 14 Aug 2024 12:57:01 +0900
-Subject: [PATCH] drm/exynos: Remove unnecessary code
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C692710E273;
+ Wed, 14 Aug 2024 04:17:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VOJ+v07MlBRiK/GIKSs6qydpHOpOyx4wotDv0SWjLL36lYzVyt13r1JGB8IL90TcO9aMYqtokPamtyTGxxVCipKjGdznpx5QZ9eSpK//ueypsrDM5XapgnL9kFZuPMWbOJNkn6cLY61MmLVBEfjv+oMW+SGnq31VRBizHweYRAQccGnsdKLVrNWTGI/+DJu15Yq8cWnfUDolumH2MNe5cE8d7NVq27lOo+2r11T+tQxFUBL1u40hop87riH6eX1F71wXu8Lgo1niXjH+Y6bVMiiAVcAqipzgJZhO6qjFoLGfu+Fh+KJ2OoLIYVMHuc+a870+a05S5ztt/VapoJJcvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZVyp/Y2DX2yA1WEESLfQJK6NqR2yrqMV+ZRePUM+UZc=;
+ b=NTAC1lA4fE8fxOFc04k79p2CV2ffDvJnnSYq/u5vxBFx63qFzD7jS/Z2GLgjWFpAVWK9nJb8KaZf1Oiyr6KPoqkMMdj0+mkxTwacLBTqwWXYpmRj65ocNHaVVHs/74PzlbYIf68qUYNRo0csJYePDEBLNQ+IIfMNep6em+J/lsEp+DapK+bejSIQJPFW1ZSyF6s/t9aG/e7gRAVJGYjJ0F5aoZcJoIisiwFMH2Cmnj/r1GQaHpIFNiK1Om9q47Z5ZGDD0O/NYBpUAjYEstt/29bK/3m3wNv5Wh0giFz9zcFT9yy0ojUmnBX4HtRR267RjjQ1sguxjMK2L6Hhli3KAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZVyp/Y2DX2yA1WEESLfQJK6NqR2yrqMV+ZRePUM+UZc=;
+ b=lXFt9dDhQFA+Ajyna3a0ktnmjMamVqKL7L+8Gp46rRrZ/jOXzqcgrdwSt/dtEvgZUr54X9DKpRzCU2BS6arbV4Y3Ockot/cjNU4InGbASGm8MVABPs+CK0qUw6YkTWcFY7WrXlF3nvdk9Z3KfTC2wWf82mJzpcKxa212sl1tW6U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB6760.namprd12.prod.outlook.com (2603:10b6:a03:44c::18)
+ by CH2PR12MB4150.namprd12.prod.outlook.com (2603:10b6:610:a6::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Wed, 14 Aug
+ 2024 04:17:41 +0000
+Received: from SJ0PR12MB6760.namprd12.prod.outlook.com
+ ([fe80::25c8:f399:b2e8:1947]) by SJ0PR12MB6760.namprd12.prod.outlook.com
+ ([fe80::25c8:f399:b2e8:1947%5]) with mapi id 15.20.7849.023; Wed, 14 Aug 2024
+ 04:17:40 +0000
+Content-Type: multipart/alternative;
+ boundary="------------bNofUzotORi7Jxwb7XlLJu3P"
+Message-ID: <adb96f92-ca20-43b5-b94d-085baeac8f83@amd.com>
+Date: Wed, 14 Aug 2024 00:16:54 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] drm: Use full allocated minor range for DRM
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Alex Deucher <alexdeucher@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ David Airlie <airlied@linux.ie>, Oded Gabbay <ogabbay@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Matthew Wilcox <willy@infradead.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, James Zhu <James.Zhu@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20230724211428.3831636-1-michal.winiarski@intel.com>
+ <CADnq5_NwDn5DXPadzZtegUJ=y=LfVHykO7kG3edmiqRTTCxMNQ@mail.gmail.com>
+ <nqsuaaibncfcnu3d5376ulujxfswbjwq3ptrivh6djpmvcpuih@fepbhcbik272>
+Content-Language: en-US
+From: James Zhu <jamesz@amd.com>
+Organization: AMD RTG
+In-Reply-To: <nqsuaaibncfcnu3d5376ulujxfswbjwq3ptrivh6djpmvcpuih@fepbhcbik272>
+X-ClientProxiedBy: YQZPR01CA0052.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:88::21) To SJ0PR12MB6760.namprd12.prod.outlook.com
+ (2603:10b6:a03:44c::18)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240814-remove_define-v1-1-7947ae6f747d@samsung.com>
-X-B4-Tracking: v=1; b=H4sIAAwrvGYC/x2MQQqAIBQFrxJ/naCRFF0lIkxf9RdpKEgQ3j1pO
- QMzLyVERqKpeSkic+LgK6i2IXsaf0Cwq0yd7Ho5ql5EXCFjddjZQ+hRykFvFsaAanPH6p//Ny+
- lfFX6MClfAAAA
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,  Kwanghoon
- Son <k.son@samsung.com>
-X-Mailer: b4 0.14.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIJsWRmVeSWpSXmKPExsWy7bCmri6f9p40g2utUhYnri9isngwbxub
- xf9tE5ktrnx9z2Yx6f4EFoveNVeZLM6f38BucbbpDbvFpsfXWC0u75rDZjHj/D4mixmTX7I5
- 8Hjs/baAxWPnrLvsHptWdbJ53O8+zuSxeUm9R9+WVYwenzfJBbBHZdtkpCampBYppOYl56dk
- 5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAB2qpFCWmFMKFApILC5W0rezKcov
- LUlVyMgvLrFVSi1IySkwLdArTswtLs1L18tLLbEyNDAwMgUqTMjOuNm2krlgCUfF/8/cDYwz
- 2LsYOTkkBEwkWtbvYexi5OIQEtjBKNHfeJ4dwvnEKNHed4QVpEpI4BujxM/HmjAd77+ug+rY
- yyix6FsvVMcrRolLf5+CdbAJqEssaVsLtoNFQFWi9fxhti5GDg5hoO6TXSwgYV4BQYmTM5+A
- 2cwC8hLb385hhog7Sdzob2IDmSkhsIJR4v3SV2DbRAT6mCTmH3vNAuIwC2xilDh3cR0LxE3C
- Ep93r4FqWcghsfTmAmaIhIvEupn32WGKXh3fAmVLSXx+t5cNws6WOPoRxi6RuD5rESuEbSyx
- f+lkJpCzmQU0Jdbv0oc4lU/i3dceVpCwhACvREebEIQpL3GrsxyiUVTizNOPUAM9JBY/3cAM
- CcVYifunXjFOYJSfheT/WUj+n4WwawEj8ypGsdSC4tz01GTDAkN4pCbn525iBKdVLeMdjJfn
- /9M7xMjEwXiIUYKDWUmEN9BkV5oQb0piZVVqUX58UWlOavEhRlNgJExklhJNzgcm9rySeEMT
- SwMTMyNjEwtDM0Mlcd4zV8pShQTSE0tSs1NTC1KLYPqYODilGphU7lqEX3mYa3/j3evqcK+D
- KS+dbiiq1G+Z0eH05L5+ZxVvn2J/cqjPvquWj17NWNGRa+CnY6B7+EP0U71DeqlHFPwfSr6t
- ELfJZpOQ8Hy4lPen8RYXBYeJuzo/l21tfrp1XQpjb9cCQfZNFrdMHt0odXBrmHpp3r9QDwWB
- ibyqMcFnZe+WLkx9u86oN2nrbZbzy6/nn6pz/Pj/mZD9ttdbVZW2tB3fOvFR7Qn7p4ed/+lt
- ZedqDNda77lEJa803iZO919/p5ZOcEv+9US+pcw7W86cd/5mEW4zi8P7QcWOLz5O86b8z75d
- pLSzTK6xnZvbvOVh5/NT2nevmsw2irzrfKiP72u5/IfErfotH5RYijMSDbWYi4oTAVQw0ow0
- BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMLMWRmVeSWpSXmKPExsWy7bCSnC6v9p40gz3XpSxOXF/EZPFg3jY2
- i//bJjJbXPn6ns1i0v0JLBa9a64yWZw/v4Hd4mzTG3aLTY+vsVpc3jWHzWLG+X1MFjMmv2Rz
- 4PHY+20Bi8fOWXfZPTat6mTzuN99nMlj85J6j74tqxg9Pm+SC2CP4rJJSc3JLEst0rdL4Mq4
- 2baSuWAJR8X/z9wNjDPYuxg5OSQETCTef13H2MXIxSEksJtRYmVrOxtEQlSi43IjUIIDyBaW
- OHy4GKLmBaNE2+wHYDVsAuoSS9rWgg1iEVCVaD1/mA2kXhho6MkuFpAwr4CgxMmZT1hAwswC
- mhLrd+mDhJkF5CW2v53DDFHiJHGjv4kNZLyEwApGicXT/zOBOCICE5gk2mY+YwVxmAU2A2Vm
- b2eCOE5Y4vPuNWwTGAVmIVkyC2HJLCRLFjAyr2KUTC0ozk3PLTYsMMxLLdcrTswtLs1L10vO
- z93ECI4XLc0djNtXfdA7xMjEwXiIUYKDWUmEN9BkV5oQb0piZVVqUX58UWlOavEhRmkOFiVx
- XvEXvSlCAumJJanZqakFqUUwWSYOTqkGJmklPq/opd/39VoILbh2U+vcnWabKt6Vv8/35jVd
- vlbEWpxWu8DBeuOFt9dlgx+0FVyedu+q3hRbnq8JVk9Vl6ay1iw7uOgPy3bJ2i2ZyZfPs6zT
- FtqRxuHIoF/5X+pYaFd2dpl8YYNYgPjq0/7nvlmeOXW98pkSb5nYxgDOcMb/+mGCi//vWPo+
- IsaP+eTCHsapqb7ujg/Nb51dwpQ0Y40nt0fviRmm85lZtr3pWzn9XXOlwfNHjUsVw5nTJqlE
- hn8MPbPVfdKGI/s4HUT3XPcqVZt/ImO1qbzNdIkJl102mB2S5845EzbZ5JD7DB3Fi/J33fs8
- Vv1qNtssvXCh3c7Wi9tflliwaHowvUqcpMRSnJFoqMVcVJwIAP6EEVAGAwAA
-X-CMS-MailID: 20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4
-References: <CGME20240814035701epcas1p21fdecb1ea56edb88951ea789a2123dd4@epcas1p2.samsung.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB6760:EE_|CH2PR12MB4150:EE_
+X-MS-Office365-Filtering-Correlation-Id: 425ea385-ccd9-481f-a8e4-08dcbc18093d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: PomTOQC47km3WP0vldS8OlhRFFK6UAsKq99x4Iir1AjHnDLd8cUh9y09DMtm3LvI+M5BPPEvmda2lVlk1tgleNVchh7jY1jYqrHxZV2wWh7izazjIKCydWvGI5qF4RNlbAIJj/RdfeNZRTMv3yf6ko7XpXNGCEhuJ6FtEonHGj2lgf48oPcnbi6JACo0DNd/ZgXN/LjSLJHbQQdm9vY5t7SP6nLy5qkfrxKkvqXVfmI0TwnuinsT77eczZPpk6DS/D6y/dSUNBUEB0r3AhbRTNK3WePsyo+9dCgiYidUuomsR8XY8xGGJ5w18DGnyWp3eTGMqMRJFmhTU0mbSJWS+VKPp7BN27050mtfIqJLh6LxJ45W+4MwLrVcMcoxajqqGiQXXMxkfHao/S7lSeonqJYi+8Q9afSeT/bbihjAGaMwlkernA8i7y9NczmsG15Obiz1wiTMla3pFReeqxGY7gUKVEgVt8mZwU6bKT7tqyWND0Ft/miCbYBVSCu/7wxo79NSMIefoFt+VDNM7YyIZujkTdNfjl0jrsAuIPk+lIOCG4FiZQjwV2718SaDi9KeonKu7+UTuleHy8pQ4TmkM4dkuVy/Mqu61+l7QvnkyNiuKOs1gMKmFo+xCENGjvJJNc7sAfZk5E9EcZtsHlEyjlFgMp59s4ze4u1aw2slVn0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB6760.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YW5CY0h5NjN6NGRGU0VGTUl1TElzaXdZM21mUDl5LytMemVaczBrbkxGaWcz?=
+ =?utf-8?B?TlkxNmVaY1JRVWJRMjhFNm5ub2xhWkpKU2psZGR1T0ZWYjFjcmJ0czRIcm04?=
+ =?utf-8?B?MExSTWdScksxR2hUNlRUNXpYdnJSWS9HZk1ZTTIreU92ZzVpL3BxOWx1TTRI?=
+ =?utf-8?B?MjdVZWlCbDR0MVVBbHBxMUZPVStYT2ZMcFQ1akpNbzZQM1hnanlEU3JSNmJV?=
+ =?utf-8?B?YWM2OEhZYWdpZFpLUUM1STlBV045REc0eVNhOGlyMUJPTlZLTDArUGxqNzV6?=
+ =?utf-8?B?cWp1dnhhYjBGRHkzZnMybk12RDNNY2RiUWpYMnZWN3h2U2hWaUNKMWxQVmYx?=
+ =?utf-8?B?UStjZzJTNFF4VDNjWnJmZ0Zwd2IwN053cFQ1NHB2TGp3QlRROFN4NFRPOTVo?=
+ =?utf-8?B?d2txSUs0bmJDaXplNFB3dndzcEZnQzdVS1ppTnNsZ2RoQUtxLzJlY1djV3Nw?=
+ =?utf-8?B?akdUc2VNSHhaUzJ6Nk00Y05OK29UaEU1YmZGYUlzeDROQUZDeDdicER6SUoy?=
+ =?utf-8?B?dmxqb1NnZlpxNTFjSGhjNWg5Q3FKcng0VWtBQjF0dW5wRjlReUN5STYrY2Va?=
+ =?utf-8?B?NFExK2R0NTgwTDNXc1FibzVtVWxvby90YTk1QVp5N29CTEZ6anBvd3N5dEtU?=
+ =?utf-8?B?VG0vNTdzbXkzb09PN0lvd2RGd2hQSVpmU2VhTmNSUlJaV21aUHZMeDhnZTRH?=
+ =?utf-8?B?TnRnc1dwNVVuSDE3OUd6dW5VNkFxQTRMdGp2VW1ydGZqaEdOQUNXR0tFdnQ0?=
+ =?utf-8?B?SjNKRER0RGxkSUdERWRrZVROZmQxUm5iTDcwYkR4Y2JYRGlZSXc4UWozV2h1?=
+ =?utf-8?B?L3NCeUl2djEvcVg4UTJFZkVtRllQcmcvZlF4TjZ3OE5IYkFPTlJpdmh4OU13?=
+ =?utf-8?B?dUFtQXhCM0VZdFIzYS92dG1oMlN1WXFQZjdVZkxUcVBFM3ZsTzRBd2VKZVlP?=
+ =?utf-8?B?S0lseVR0WStuM0FiVC9qTXdtNW9SdGtpZXdmZGpDNjdodis1MXlhQTJkZkRl?=
+ =?utf-8?B?cEk4NzkxeHV0YlQvT2Fpa3h3bjVrV3N5SEhLVjU5OGFTaGh2ZmxESWxaQnpB?=
+ =?utf-8?B?bTBuNmptT3Q2NUMwV0NoUVhJL3RUWG0xSzVidXdnMmhFNjZkWVJVZER5aVhY?=
+ =?utf-8?B?eTg3L3YzaWRwYkdSZEJnUzM1VmhQeHkyUXo2SFVaOFc3QVFLeHBBWlhmNjRn?=
+ =?utf-8?B?MG9kaHlIemFWSDFqOGt4cmdkaXZPWk0vVmJselZKK0dIbHpLMG11enFHdmxY?=
+ =?utf-8?B?K1NBSCtISTZWV09tZWdYaWJ3ck9HZExTenFXekQwSE1MQlFhV0lySmMyU1Zl?=
+ =?utf-8?B?d2lYd29hOURhUGo1dEVONm1za084QVJkem8wSUNocFhtcmVKSWFmMGU4eW9O?=
+ =?utf-8?B?bjBqT3I2b1QwUTJIWVYyYkJCTnVibmZGZ3VCenNBWHcvcG1IL2hWbHdNcnhy?=
+ =?utf-8?B?WG5KbDdrOWhtY1p3emVYUndpZmRNMWVpTGxvcFU0Rmsya0pYR3lPOEFESDl2?=
+ =?utf-8?B?UUtpcGo5YXM1bmdaaFZlUjZHWXFIWDJOajkvTE9sU2YrWHdoc2ZMU0podGdj?=
+ =?utf-8?B?bFA4ZmtkbGlqVlhIQXlXSFdmcHU4dzV1OU1uVHJmVGNRQ2dCTGcydXFvempY?=
+ =?utf-8?B?VG1CV0N2RkhlNkxMV3RUWXBXUlRiSnVSOUZwUnhIdjlDeUdka3FnSm5hOEs2?=
+ =?utf-8?B?WDBQdGx5Um9oZ3V1YjZJR0I2YUJYUU54eWtvWXAxNGtKc0lObUtCNVJwb0VU?=
+ =?utf-8?B?SzFrR25CMGoydHEwTmhGbGEvbklyS2IvRldKVWo1U2p4ZjY0TnR2cEtuRGVt?=
+ =?utf-8?B?Qi93RWdHS0htenFGU2NScXJVZDFDa3l0R2lMZmtSbUdaOTVIQUpYbkJYRDFj?=
+ =?utf-8?B?eFFWcVNCNzV3RnRwSUhOdjVNV0pKelZKMm1iZnI2UC9yeWtYMWRaeWQ1WFlv?=
+ =?utf-8?B?RDZDTlRPU2U0TENNbkh1cktkYjdIV2I5Ykw3MG9pcmhXYy9WQjFQN2pxQ0dO?=
+ =?utf-8?B?cWZCamsxbXJPWVVqQkJ3RXQra1RJU0JXSTRJbitwb3A5MklYZkdFSUhXTm5z?=
+ =?utf-8?B?Z3p5aE9uWVBiWnlEUVZYRjZ2d3NZV252WElvQVZVMmdRZVJMejJFcDAyM0RE?=
+ =?utf-8?Q?4nGs=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 425ea385-ccd9-481f-a8e4-08dcbc18093d
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB6760.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2024 04:17:40.1974 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W6jdqL5lLBi3nB7w0QJqVtac7nsLGHU0I/txwLxJz9Zd26TXwTr9uzYBHjj08qzq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,36 +140,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Function usage exynos_atomic_commit was removed in
-commit 41cbf0fdaa28 ("drm/exynos: use atomic helper commit").
-Remove unnecessary function declare.
+--------------bNofUzotORi7Jxwb7XlLJu3P
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Kwanghoon Son <k.son@samsung.com>
----
- drivers/gpu/drm/exynos/exynos_drm_drv.h | 4 ----
- 1 file changed, 4 deletions(-)
+Hi Michal
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-index 81d501efd013..23646e55f142 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-@@ -254,10 +254,6 @@ static inline int exynos_drm_check_fimc_device(struct device *dev)
- }
- #endif
- 
--int exynos_atomic_commit(struct drm_device *dev, struct drm_atomic_state *state,
--			 bool nonblock);
--
--
- extern struct platform_driver fimd_driver;
- extern struct platform_driver exynos5433_decon_driver;
- extern struct platform_driver decon_driver;
+I did give Tested-by before. If you need Acks, Here I can give
 
----
-base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
-change-id: 20240814-remove_define-580075bceaae
+Acked-by:JamesZhu<James.Zhu@amd.com>fortheseries
 
-Best regards,
--- 
-Kwanghoon Son <k.son@samsung.com>
+Best Regards!
 
+James
+
+On 2024-08-13 20:18, Michał Winiarski wrote:
+> On Mon, Aug 12, 2024 at 01:38:38PM GMT, Alex Deucher wrote:
+>> Are there any objections to this series?  We have been running into
+>> this limit as a problem for a while now on big servers.
+> I don't think there were any objections, just a general lack of
+> interest - so there are no R-b / Acks.
+> If you're interested to have a go at it - I can resend it.
+> It should still apply on latest drm-tip.
+>
+> -Michał
+>
+>> Alex
+>>
+>> On Mon, Jul 24, 2023 at 5:15 PM Michał Winiarski
+>> <michal.winiarski@intel.com>  wrote:
+>>> 64 DRM device nodes is not enough for everyone.
+>>> Upgrade it to ~512K (which definitely is more than enough).
+>>>
+>>> To allow testing userspace support for >64 devices, add additional DRM
+>>> modparam (force_extended_minors) which causes DRM to skip allocating minors
+>>> in 0-192 range.
+>>> Additionally - convert minors to use XArray instead of IDR to simplify the
+>>> locking.
+>>>
+>>> v1 -> v2:
+>>> Don't touch DRM_MINOR_CONTROL and its range (Simon Ser)
+>>>
+>>> v2 -> v3:
+>>> Don't use legacy scheme for >=192 minor range (Dave Airlie)
+>>> Add modparam for testing (Dave Airlie)
+>>> Add lockdep annotation for IDR (Daniel Vetter)
+>>>
+>>> v3 -> v4:
+>>> Convert from IDR to XArray (Matthew Wilcox)
+>>>
+>>> v4 -> v5:
+>>> Fixup IDR to XArray conversion (Matthew Wilcox)
+>>>
+>>> v5 -> v6:
+>>> Also convert Accel to XArray
+>>> Rename skip_legacy_minors to force_extended_minors
+>>>
+>>> Michał Winiarski (4):
+>>>    drm: Use XArray instead of IDR for minors
+>>>    accel: Use XArray instead of IDR for minors
+>>>    drm: Expand max DRM device number to full MINORBITS
+>>>    drm: Introduce force_extended_minors modparam
+>>>
+>>>   drivers/accel/drm_accel.c      | 110 +++------------------------------
+>>>   drivers/gpu/drm/drm_drv.c      | 105 ++++++++++++++++---------------
+>>>   drivers/gpu/drm/drm_file.c     |   2 +-
+>>>   drivers/gpu/drm/drm_internal.h |   4 --
+>>>   include/drm/drm_accel.h        |  18 +-----
+>>>   include/drm/drm_file.h         |   5 ++
+>>>   6 files changed, 69 insertions(+), 175 deletions(-)
+>>>
+>>> --
+>>> 2.41.0
+>>>
+--------------bNofUzotORi7Jxwb7XlLJu3P
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p>Hi Michal</p>
+    <p>I did give&nbsp;Tested-by before. If you need Acks, Here  I can give </p>
+    Acked-by:<span style=" color:#c0c0c0;"> </span>James<span style=" color:#c0c0c0;"> </span>Zhu<span style=" color:#c0c0c0;">
+    </span><a class="moz-txt-link-rfc2396E" href="mailto:James.Zhu@amd.com">&lt;James.Zhu@amd.com&gt;</a><span style=" color:#c0c0c0;"> </span><span style=" color:#ff9d04;">for</span><span style=" color:#c0c0c0;"> </span>the<span style=" color:#c0c0c0;"> </span>series
+    <p><style type="text/css">p, li { white-space: pre-wrap; }</style></p>
+    <p>Best Regards!</p>
+    <p>James</p>
+    <div class="moz-cite-prefix">On 2024-08-13 20:18, Michał Winiarski
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:nqsuaaibncfcnu3d5376ulujxfswbjwq3ptrivh6djpmvcpuih@fepbhcbik272">
+      <pre class="moz-quote-pre" wrap="">On Mon, Aug 12, 2024 at 01:38:38PM GMT, Alex Deucher wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Are there any objections to this series?  We have been running into
+this limit as a problem for a while now on big servers.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I don't think there were any objections, just a general lack of
+interest - so there are no R-b / Acks.
+If you're interested to have a go at it - I can resend it.
+It should still apply on latest drm-tip.
+
+-Michał
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+Alex
+
+On Mon, Jul 24, 2023 at 5:15 PM Michał Winiarski
+<a class="moz-txt-link-rfc2396E" href="mailto:michal.winiarski@intel.com">&lt;michal.winiarski@intel.com&gt;</a> wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+64 DRM device nodes is not enough for everyone.
+Upgrade it to ~512K (which definitely is more than enough).
+
+To allow testing userspace support for &gt;64 devices, add additional DRM
+modparam (force_extended_minors) which causes DRM to skip allocating minors
+in 0-192 range.
+Additionally - convert minors to use XArray instead of IDR to simplify the
+locking.
+
+v1 -&gt; v2:
+Don't touch DRM_MINOR_CONTROL and its range (Simon Ser)
+
+v2 -&gt; v3:
+Don't use legacy scheme for &gt;=192 minor range (Dave Airlie)
+Add modparam for testing (Dave Airlie)
+Add lockdep annotation for IDR (Daniel Vetter)
+
+v3 -&gt; v4:
+Convert from IDR to XArray (Matthew Wilcox)
+
+v4 -&gt; v5:
+Fixup IDR to XArray conversion (Matthew Wilcox)
+
+v5 -&gt; v6:
+Also convert Accel to XArray
+Rename skip_legacy_minors to force_extended_minors
+
+Michał Winiarski (4):
+  drm: Use XArray instead of IDR for minors
+  accel: Use XArray instead of IDR for minors
+  drm: Expand max DRM device number to full MINORBITS
+  drm: Introduce force_extended_minors modparam
+
+ drivers/accel/drm_accel.c      | 110 +++------------------------------
+ drivers/gpu/drm/drm_drv.c      | 105 ++++++++++++++++---------------
+ drivers/gpu/drm/drm_file.c     |   2 +-
+ drivers/gpu/drm/drm_internal.h |   4 --
+ include/drm/drm_accel.h        |  18 +-----
+ include/drm/drm_file.h         |   5 ++
+ 6 files changed, 69 insertions(+), 175 deletions(-)
+
+--
+2.41.0
+
+</pre>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------bNofUzotORi7Jxwb7XlLJu3P--
