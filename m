@@ -2,75 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591F4951679
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 10:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F27951687
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 10:23:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D183410E423;
-	Wed, 14 Aug 2024 08:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC08D10E41E;
+	Wed, 14 Aug 2024 08:23:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pRLqf4j+";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="HeuzP6A+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D66010E41F
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 08:19:56 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DE332C0008;
- Wed, 14 Aug 2024 08:19:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1723623594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/zuFuAELsFfeHuKjmDwBJ7LuklizkVl2A5HyoJYo+hw=;
- b=pRLqf4j+Dr7oPP8PJPbGgRpdPi9JT732Y4anVTfA+HB27lympxMn5FS5J8BUzI7lORFLAY
- 9TA1/LWSuzPZdIdWz2QZ8mVYKSlrKEwimIUqG0pkCvUf1flFR7zX9jh/4nwk1GBmNPZKw0
- 1zUCmNFL6n/aODl2nkUBgikDsLOsZhN7sg7UhKyE2x29yeGwg1qPNX/p3x5Un/RyCO3Wtg
- 4pOaUA9DwaHh3oAKNzFd/ZxAOgG4ZpwWfgknYncbGQI1IZyLFtkTA+MzB0qrDVvE0c0reK
- L5jmin5QNWmWzwVvSmeb6F5Rmyy5b3kapbObVpF8izspiLjDT49/0PpnT83E8Q==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 14 Aug 2024 10:19:41 +0200
-Subject: [PATCH v2 8/8] drm/vkms: Add P01* formats
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85A4310E41E
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 08:23:17 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-530d0882370so6185264e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 01:23:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723623795; x=1724228595;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xk10wNvxLrP/sk7V6x9kzu7jdVHg9lMcvom23sK8kpk=;
+ b=HeuzP6A+dSUU3YsRsMHpCjbqBuTWCkCuwmgteRV4jLXOsA0HQAWA/rCbzDdbc17Wng
+ mNwi0bVHzySkL458tBavCboP3vg88wMpfytQWwEkgpx1l5laQGtszM17mXzpSGLvsIe9
+ uCo4GeHHuuI28TBSSXZiSWR0aTadXnVX5fJ41B/dqlteJIvXsNgomHn6zNzi6q4Xsshu
+ b0aoYXOyD/UCrPHN6qMYug3XF6ZjBJA0PZPZp/nrfhGe83XImgBsdc0eoO/Hww4gbNZ+
+ fenotx3G9ByrgzQLQe+UrRDeuNkOH3kcTfWD+6QEPNJZwM2O0KR7Wsu0tshLraQST7PZ
+ 0kmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723623795; x=1724228595;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xk10wNvxLrP/sk7V6x9kzu7jdVHg9lMcvom23sK8kpk=;
+ b=liaZEZCmrFtrBRcN4+Hcm5eSVKIGmUUyr/GoZsb0jY1VeRrTnf02iEzzWHrevAU4e9
+ iaa9k5rFbcMKUcVHnafmtgzKCuDOgi/c49P811O5Dm4rAHkRDAA5pLW4BRPuz5tb14Jr
+ pEwGyN1Tr8BOvLsOssilH0kfpoV6TIoTWVSJYCzhRWCLeaJdLNYhnZZKEHxOgkC7V5/I
+ YzZ8h9aySuFutOQRNPjRb0611yYPbJb4sxskKoeYHpsq/xJ0AkXuWlrsI5AggF1+61oL
+ ebPtUpx9ZEKfNOWseNclS1f9csnXI3G6MH78jb+WDZ86oBpIGBrv3X993CVLN3LHK64o
+ a49w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUZ8AlPWdyhs+z/Pn8z+3OOcJI+NL6rtllcluA54JNvi+B/7WGyRPE6OKMYQWDlqnGhjnKSKRZjMQ4JEkG6jwmNU+Ccv+i1OXV0RtR9aZHm
+X-Gm-Message-State: AOJu0YwF8AiSmROMCr4qJLE8pH6yF7K0Dm8yMVhUo7VEUsent/DO0//+
+ StKox4fHNGtGxnrmQLAO+XlBtRgs4wBTArwz8IW9a0ig04pkgOwyU+jOLqO3CKc=
+X-Google-Smtp-Source: AGHT+IG6QSK40+UiY4L+iFUDmpExRkRbgPPw1TX9OKeTaKxcEceJXBh+o1azq0f3RjCLgFSJ+P0yEg==
+X-Received: by 2002:a05:6512:3e0c:b0:530:ad8b:de11 with SMTP id
+ 2adb3069b0e04-532eda8e5ddmr1174870e87.9.1723623795153; 
+ Wed, 14 Aug 2024 01:23:15 -0700 (PDT)
+Received: from [192.168.0.172] (88-127-185-239.subs.proxad.net.
+ [88.127.185.239]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-36e4e51ebcdsm12266411f8f.78.2024.08.14.01.23.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Aug 2024 01:23:14 -0700 (PDT)
+Message-ID: <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
+Date: Wed, 14 Aug 2024 10:23:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/16] Add audio support for the MediaTek Genio 350-evk
+ board
+To: Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: khilman@baylibre.com, linux-sound@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>,
+ Will Deacon <will@kernel.org>, linux-media@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Nicolas Belin <nbelin@baylibre.com>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Catalin Marinas <catalin.marinas@arm.com>
+References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240814-b4-new-color-formats-v2-8-8b3499cfe90e@bootlin.com>
-References: <20240814-b4-new-color-formats-v2-0-8b3499cfe90e@bootlin.com>
-In-Reply-To: <20240814-b4-new-color-formats-v2-0-8b3499cfe90e@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- 20240809-yuv-v10-0-1a7c764166f7@bootlin.com
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1885;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=TMTnR4P98mlZAZ+WK5vWeKSerKkdvqWXG9xVfF8Pg2U=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmvGif7IJe69h1cW5j6EMURpnNlQxaewd5nu+J3
- uhS/QjHeuuJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrxonwAKCRAgrS7GWxAs
- 4kJiD/oDGFmw1++hs7b8As2dRYG7+HSel6E/jMXOEPE6q0uNmun3A0rOrvPDf6S8YrchrSsUtaX
- pdani5UYLpURqTbm41kZZ5umPMk7FE7VWLdQkzz/pzhhTm8MweupC62ydiRYAuqxtoAlCrIDYHh
- W0oVvsZNvtMTHqA1iKBd4JMBycYGvV1niicBasB0JQlQzWZTVBY4a5a8R6isnqvjaTDCR94DxDZ
- 77AnbALvSUHJqoAaLxdDRaL+J3zA5KcDQ3Pi26baiM4RBo1QxLpqSXj05O6Gq54+U4yNxlbd94E
- geayKBzFRa0ZBkFqjPHpOsX4Dg4uYJJ3TgHLydJJtTwnX/50qWyzIjmgQOFE0p+99N1Evxg+1Ba
- LDXFfCfiz9iz67fUHJl0/7rU/FMbIc5ERcbwzYhLvn1tH73FwHGsqaeW23xtzKuGQr03zE7hZhE
- U0meepjVM54uMn2angftJYbQrRx1ycK1Zd5zD7RXRXuRbrSNysV1GIPFl6686OUf4s8FCt3W/Rb
- z8AVdy8D+bHfHElFCW/SqEcbTU7Yze0m1IXSN4x8mO6Yc6YxhrH7QcnYeIUSixhmuJVst/iS9hp
- 4lyvp+f7cvk44VbmF889L5R9EfQFP/1hnlH37BsnZeBhGczFwHEue5Fiy5t0HjJgsFgdwaeK6RO
- uLfoyDE7X3csQ6w==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,58 +102,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The formats NV 12/16/24/21/61/42 were already supported.
-Add support for:
-- P010
-- P012
-- P016
+Hi guys !
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 7 ++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   | 3 +++
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 129672a555ce..d1abfb1c3e3c 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -533,7 +533,8 @@ static void function_name(const struct vkms_plane_state *plane, int x_start,			\
- 
- READ_LINE_YUV_SEMIPLANAR(YUV888_semiplanar_read_line, y, uv, u8, u8, argb_u16_from_yuv161616,
- 			 y[0] * 257, uv[0] * 257, uv[1] * 257)
--
-+READ_LINE_YUV_SEMIPLANAR(YUV161616_semiplanar_read_line, y, uv, u16, u16, argb_u16_from_yuv161616,
-+			 y[0], uv[0], uv[1])
- /*
-  * This callback can be used for YUV format where each color component is
-  * stored in a different plane (often called planar formats). It will
-@@ -726,6 +727,10 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_NV61:
- 	case DRM_FORMAT_NV42:
- 		return &YUV888_semiplanar_read_line;
-+	case DRM_FORMAT_P010:
-+	case DRM_FORMAT_P012:
-+	case DRM_FORMAT_P016:
-+		return &YUV161616_semiplanar_read_line;
- 	case DRM_FORMAT_YUV420:
- 	case DRM_FORMAT_YUV422:
- 	case DRM_FORMAT_YUV444:
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 0fa589abc53a..03716616f819 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -41,6 +41,9 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_P010,
-+	DRM_FORMAT_P012,
-+	DRM_FORMAT_P016,
- 	DRM_FORMAT_R1,
- 	DRM_FORMAT_R2,
- 	DRM_FORMAT_R4,
+Simple gentle ping, the serie seems ready to be applied.
+Thanks
 
 -- 
-2.44.2
-
+Regards,
+Alexandre
