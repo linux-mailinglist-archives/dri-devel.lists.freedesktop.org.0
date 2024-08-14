@@ -2,88 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D61951A7F
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 14:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E54951AB4
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 14:19:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5A210E45D;
-	Wed, 14 Aug 2024 12:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2EA10E45E;
+	Wed, 14 Aug 2024 12:19:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FE2Oo+A5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gb7FFiZ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
- [209.85.160.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1CD810E455
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 12:01:42 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id
- 586e51a60fabf-26b5173e861so3943639fac.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 05:01:42 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F4210E45C
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 12:19:06 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-e115ee08372so433967276.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 05:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1723636902; x=1724241702; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8v3FACRVLInU72mQIn8ZRnsPtKqtsflxvY7ocPKv6dM=;
- b=FE2Oo+A5X0N1iuykd0cOA0/Y8XoPndRLqw6y15DmJacAZ6DVKZ/hGL1NfxekBMqTmT
- rx3KgWvk15xSljhkY3IiFp0ysSpTlELRFC4+QmARoK+zu6cz2v5Fta861CH9dsHNBdWe
- vtR3GOXMRBeraPuW0GSOq5KoTMwLQaGLujYaMzWMk0MIAn7g271vJSiMswGrRuzALJa+
- R3EQPqluqVC7YBZt9ZpRbhZ13mh4g/bpZLcboOEt+7kaod61pmlZY9lP4odML9Jx2p9W
- m/QOgd/aQwn2v1j/08a3lzqJNSI359R6A0rKNJbsNHuBr7+xGBVlkHCQ903BsJJ8U1Ru
- oYlQ==
+ d=linaro.org; s=google; t=1723637946; x=1724242746; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=GkO7BE2UO9+ru7pUnpn1jnINQAT3cICAUmPfXNrgDqo=;
+ b=gb7FFiZ+41438sddR31t94mdRkSKTYcMveEyKxRzwutmD3coUkMPGjLsB61V3Ep2f6
+ L75k+G05HlNU84UjnC91CZE2UpPW0OLBs6uMlfmnsfL8o4RGIHovaNA8Q93WqoAzrbKU
+ GvmXWrin2ZJPbWstYLbFoT1WRclNVGuWkwjmtKMlHacF/zeABopz2TlAyd75J6qQpBoc
+ 22K0cxYlYQ/td4r8A1GX9N2frhsGDf1CjcbagXzeLtjMWwELCB/owXm/fyzLetVVAfBD
+ uLjeY5glMWQBjUASF21cZ/CMzX+EC7XO3f1W5Rz95b18NnLvWh3nGEV4I1M5zcNSzPji
+ 0IQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723636902; x=1724241702;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8v3FACRVLInU72mQIn8ZRnsPtKqtsflxvY7ocPKv6dM=;
- b=l0wkhWScQznBPAg1D+ysDMEBDdBEdlEOA3fr3xTl9b8YCbbhkQLDUSUwMnT8Z95OWu
- vKVYYnej8BzyjsgMPQYnpigLnqm0U2VoEG/LtPQHqZ3IhQVixF0D9AUZQxvwZvhcuNAb
- bdLj5kQ31L1gUmtDj3q5CMaEfowID/8z1gVAUzNNCwzxCfdoqG45+Z3Msk4uhvfmT1in
- aBn3ku1vzBccLHSRefiUc718w8wlUXXwUtYBx2FEjz7Ki+BnxLrA555YB7vfJQxV8SfM
- tslAYM6AEF7WZ5lRMaPNRUAamT/ozqG8WBVowipehHBUtwZhDEwa2tf/9jBP6OTG22XX
- zGnw==
+ d=1e100.net; s=20230601; t=1723637946; x=1724242746;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GkO7BE2UO9+ru7pUnpn1jnINQAT3cICAUmPfXNrgDqo=;
+ b=Ye/775njLDBI6p0WSkmSKc9kJ6odytnrQvlcdJxFcKy8gsmd1x7fkmELPlh7czLI2V
+ 6GHy0zX/EeZpXnw3RpT+f8BtDKJ2z/N+XHbV+bEfS2SS3NpBaP10xY/MBT+S9OeHpzzm
+ Jmxz0P4w5ONnCGlXO/rLQObR4bnMstYN9wz8cZtzqP8JwSjKb/So4uMtONgPtLicCK+D
+ aPFvOsRWbykDW1AGY5g/G+SgsAmLvzwVu/Y6zSTLMf8EvreUMpAjN3mlK5pcnOv4QRmR
+ Op/KgIhnFg7jjZEsncc64gygRY6wzswX+PrvLPUF8wemS0MacGKcvWERFZYPGUVxYbgE
+ Pu3g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVh896th4tQ7QVTK/Gwah5n+XjomKzqDigHaKfzpWVZUpDqT9lPe79DrQh4z2//BpQnC52/9n/HRpZCOkY4B/mCtAMTyRdYmmqNh+xcArfO
-X-Gm-Message-State: AOJu0YxtscpFiQsuYfnq6XPfUNuH9SEgp52tOFHg7BnNZ1Qqz3xmsxhx
- BJHBoL5CMDpBiHUr1xvcDafBzdRgXMjA85p0SdcQmvSMhzcIZc9yCsWHtzq1CowFTtfu5nQOGf2
- vztcSjT5qeaSrcdGF92M8Hc0EptMaKDlFKrVCUQ==
-X-Google-Smtp-Source: AGHT+IEXSwpG1/ytUAZ81Sed/BezfzFf7vKHrDMjRAM0bw/+RsQs5+LfgEea53duY74tvzqpXFM+Zl+QBtuu66uJRnY=
-X-Received: by 2002:a05:6871:e014:b0:268:79bd:9edb with SMTP id
- 586e51a60fabf-26fe5c707b0mr2896389fac.47.1723636901739; Wed, 14 Aug 2024
- 05:01:41 -0700 (PDT)
+ AJvYcCVnx53G/xSmjoe+soGQJ7Ot1Y1PgeBI+vcr5CseG+kHbjDZ9zkPSqLE4eMPjKqMf+VtT561In9Y1YZHc101PaNXfYhqGDCoA/dso44FhYbR
+X-Gm-Message-State: AOJu0YxCTO0XPAv/6EsssVuwuVvRMjSJejQXxFZiW0NHxoLuZraeZE7N
+ 4t5FZAqJfKNsZY5Ug6r55FD6nTcnH3RIrVWgRQhRVSjgjCbYXDHvC/qshMcSXbsSvVvypDBqynB
+ c04Eapci88hFK/PXn3DnyLMebmG/nPv8ZCCHfWA==
+X-Google-Smtp-Source: AGHT+IGjt5Gtd47+v4F9si1piYkQh5EGe0K9dfdnK1s/935m+Ubkmif2Bq5NIc2x2lXYaVSpzgpxhQW9gwzCUMfPSuo=
+X-Received: by 2002:a05:6902:1895:b0:e03:a6b3:9f28 with SMTP id
+ 3f1490d57ef6-e1155a38eb4mr3847917276.10.1723637945672; Wed, 14 Aug 2024
+ 05:19:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240728114200.75559-1-wahrenst@gmx.net>
  <20240728130029.78279-1-wahrenst@gmx.net>
- <20240728130029.78279-6-wahrenst@gmx.net>
- <65de7db8-4f81-4c31-be8d-3a03c9aee989@gmx.net>
- <CAD=FV=W7sdi1+SHfhY6RrjK32r8iAGe4w+O_u5Sp982vgBU6EQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=W7sdi1+SHfhY6RrjK32r8iAGe4w+O_u5Sp982vgBU6EQ@mail.gmail.com>
+ <20240728130029.78279-7-wahrenst@gmx.net>
+In-Reply-To: <20240728130029.78279-7-wahrenst@gmx.net>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 14 Aug 2024 14:01:05 +0200
-Message-ID: <CAPDyKFpj0C1Bifmx=4zH3r8YooOrNfn_iDB+1sfRb0gTaKnT2Q@mail.gmail.com>
-Subject: Re: [PATCH V2 14/16] WIP: usb: dwc2: Implement recovery after PM
- domain off
-To: Stefan Wahren <wahrenst@gmx.net>, Doug Anderson <dianders@chromium.org>
-Cc: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Minas Harutyunyan <hminas@synopsys.com>,
+Date: Wed, 14 Aug 2024 14:18:29 +0200
+Message-ID: <CAPDyKFoJh3j8xSeXZ9o031YZLTCDYVA+dgvURuwozjDpU_aauA@mail.gmail.com>
+Subject: Re: [PATCH V2 15/16] serial: 8250_bcm2835aux: add PM suspend/resume
+ support
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+ Scott Branden <sbranden@broadcom.com>, Maxime Ripard <mripard@kernel.org>, 
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Jiri Slaby <jirislaby@kernel.org>, Minas Harutyunyan <hminas@synopsys.com>, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Lukas Wunner <lukas@wunner.de>, 
- Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
  Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
  Peter Robinson <pbrobinson@gmail.com>, 
  dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
  linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
  linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kernel-list@raspberrypi.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Jiri Slaby <jirislaby@kernel.org>
+ kernel-list@raspberrypi.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,92 +95,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Aug 2024 at 21:57, Doug Anderson <dianders@chromium.org> wrote:
+On Sun, 28 Jul 2024 at 15:07, Stefan Wahren <wahrenst@gmx.net> wrote:
 >
-> Hi,
+> This adds suspend/resume support for the 8250_bcm2835aux
+> driver to provide power management support on attached
+> devices.
 >
-> On Mon, Aug 12, 2024 at 4:48=E2=80=AFPM Stefan Wahren <wahrenst@gmx.net> =
-wrote:
-> >
-> > Hi Doug,
-> >
-> > Am 28.07.24 um 15:00 schrieb Stefan Wahren:
-> > > DO NOT MERGE
-> > >
-> > > According to the dt-bindings there are some platforms, which have a
-> > > dedicated USB power domain for DWC2 IP core supply. If the power doma=
-in
-> > > is switched off during system suspend then all USB register will lose
-> > > their settings.
-> > >
-> > > So use the power on/off notifier in order to save & restore the USB
-> > > registers during system suspend.
-> > sorry for bothering you with this DWC2 stuff, but it would great if you
-> > can gave some feedback about this patch.
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> ---
+>  drivers/tty/serial/8250/8250_bcm2835aux.c | 37 +++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 >
-> Boy, it's been _ages_ since I looked at anything to do with dwc2, but
-> I still have some fondness in my heart for the crufty old driver :-P I
-> know I was involved with some of the patches to get
-> wakeup-from-suspend working on dwc2 host controllers in the past but,
-> if I remember correctly, I mostly shepherded / fixed patches from
-> Rockchip. Not sure I can spend the days trawling through the driver
-> and testing things with printk that really answering properly would
-> need, but let's see...
+> diff --git a/drivers/tty/serial/8250/8250_bcm2835aux.c b/drivers/tty/serial/8250/8250_bcm2835aux.c
+> index 121a5ce86050..36e2bb34d82b 100644
+> --- a/drivers/tty/serial/8250/8250_bcm2835aux.c
+> +++ b/drivers/tty/serial/8250/8250_bcm2835aux.c
+> @@ -13,6 +13,7 @@
+>   */
 >
+>  #include <linux/clk.h>
+> +#include <linux/console.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> @@ -213,11 +214,47 @@ static const struct acpi_device_id bcm2835aux_serial_acpi_match[] = {
+>  };
+>  MODULE_DEVICE_TABLE(acpi, bcm2835aux_serial_acpi_match);
 >
-> > I was working a lot to get
-> > suspend to idle working on Raspberry Pi. And this patch is the most
-> > complex part of the series.
-> >
-> > Would you agree with this approach or did i miss something?
-> >
-> > The problem is that the power domain driver acts independent from dwc2,
-> > so we cannot prevent the USB domain power down except declaring a USB
-> > device as wakeup source. So i decided to use the notifier approach. Thi=
-s
-> > has been successful tested on some older Raspberry Pi boards.
->
-> My genpd knowledge is probably not as good as it should be. Don't tell
-> anyone (aside from all the people and lists CCed here). ;-)
->
-> ...so I guess you're relying on the fact that
-> dev_pm_genpd_add_notifier() will return an error if a power-domain
-> wasn't specified for dwc2 in the device tree, then you ignore that
-> error and your callback will never happen. You assume that the power
-> domain isn't specified then the dwc2 registers will be saved?
->
-> I guess one thing is that I'd wonder if that's really reliable. Maybe
-> some dwc2 controllers lose their registers over system suspend but
-> _don't_ specify a power domain? Maybe the USB controller just gets its
-> power yanked as part of system suspend. Maybe that's why the functions
-> for saving / restoring registers are already there? It looks like
-> there are ways for various platforms to specify that registers are
-> lost in some cases...
->
-> ...but I guess you can't use the existing ways to say that registers
-> are lost because you're trying to be dynamic. You're saying that your
-> registers get saved _unless_ the power domain gets turned off, right?
-> ...and the device core keeps power domains on for suspended devices if
-> they are wakeup sources, which makes sense.
->
-> So with that, your patch sounds like a plausible way to do it. I guess
-> one other way to do it would be some sort of "canary" approach. You
-> could _always_ save registers and then, at resume time, you could
-> detect if some "canary" register had reset to its power-on default. If
-> you see this then you can assume power was lost and re-init all the
-> registers. This could be pretty much any register that you know won't
-> be its power on default. In some ways a "canary" approach is uglier
-> but it also might be more reliable across more configurations?
->
-> I guess those would be my main thoughts on the topic. Is that roughly
-> the feedback you were looking for?
+> +static int bcm2835aux_suspend(struct device *dev)
+> +{
+> +       struct bcm2835aux_data *data = dev_get_drvdata(dev);
+> +       struct uart_8250_port *up = serial8250_get_port(data->line);
+> +
+> +       serial8250_suspend_port(data->line);
+> +
+> +       if (device_may_wakeup(dev))
+> +               return 0;
+> +
+> +       if (uart_console(&up->port) && !console_suspend_enabled)
+> +               return 0;
+> +
+> +       clk_disable_unprepare(data->clk);
+> +       return 0;
+> +}
+> +
+> +static int bcm2835aux_resume(struct device *dev)
+> +{
+> +       struct bcm2835aux_data *data = dev_get_drvdata(dev);
+> +       int ret;
+> +
+> +       ret = clk_prepare_enable(data->clk);
 
-Thanks Doug for sharing your thoughts. For the record, I agree with
-these suggestions.
+Doesn't this create clk prepare/enable - unprepare/disable imbalance
+problem when the uart is configured for system wakeup?
 
-Using the genpd on/off notifiers is certainly fine, but doing a
-save/restore unconditionally via some of the PM callbacks is usually
-preferred - if it works.
+> +       if (ret)
+> +               return ret;
+> +
+> +       serial8250_resume_port(data->line);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct dev_pm_ops bcm2835aux_dev_pm_ops = {
+> +       SYSTEM_SLEEP_PM_OPS(bcm2835aux_suspend, bcm2835aux_resume)
+> +};
+> +
+>  static struct platform_driver bcm2835aux_serial_driver = {
+>         .driver = {
+>                 .name = "bcm2835-aux-uart",
+>                 .of_match_table = bcm2835aux_serial_match,
+>                 .acpi_match_table = bcm2835aux_serial_acpi_match,
+> +               .pm = pm_ptr(&bcm2835aux_dev_pm_ops),
+>         },
+>         .probe  = bcm2835aux_serial_probe,
+>         .remove_new = bcm2835aux_serial_remove,
+> --
+> 2.34.1
+>
 
 Kind regards
 Uffe
