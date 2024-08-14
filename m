@@ -2,71 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9DC951106
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 02:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296A795110B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 02:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 401D510E3EF;
-	Wed, 14 Aug 2024 00:28:53 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="SHY1uJPb";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B0310E3E4;
+	Wed, 14 Aug 2024 00:32:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5DD10E347
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 00:28:51 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-70d1fb6c108so4446954b3a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 17:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1723595331; x=1724200131;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VhqvxtsoSwNwxr5Jjd+awQeFEA3CdtcC5PD6Cr4xSzg=;
- b=SHY1uJPby7I8+/Z6vE+9FA/0vGXN14rHuWphDqyFE77XeJY+NQ2DbVESAVF2Y3Kk1V
- wW+ZTj2Eq2hnR1nwZyojPPB2ffwKITgn3RXKv95UFA0CcO1AgGso+M2QGC3LG6L6tEVY
- 4v2DxbM4uOmo8fkCs/lQxINVgQWBD9DpRp6C4=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD5710E347
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 00:32:04 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id
+ ca18e2360f4ac-821dabd4625so777258139f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2024 17:32:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723595331; x=1724200131;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1723595524; x=1724200324;
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VhqvxtsoSwNwxr5Jjd+awQeFEA3CdtcC5PD6Cr4xSzg=;
- b=mUx0BEPQCPH2cL7oWzMDj3UhQe0YOmRgeMi6W91xWf8LpMg2N4cCDQlp1mUCRjzox0
- PwYy5ggmArVAHahC2LpZSx4sRu5Gg+n6CPe0YeQ5Mk0IaochXOmc7+8hpux9qOH3/J59
- YUlYt7KeOXYApqRA8DR1xvoKyYYVcGAoa3f8aGnwRbYCiOAKhlfgGEXtzQjOyCgbcYJa
- y8TgM1mzWOXKNJ6i5Vuh6reuu6NS7sD9YA6l2Ebdx6lPlUpK8JHPeCMMEfbdtJHgDxm8
- NDz7mXPO6RNHgaICe1JZBmcWYNDMhsqIsGUxoqdK4r1XVmiYFF5IdDWAgXwAizGNPVMu
- ejVg==
+ bh=KN5LyX62t8kajm/Aoto7iYQTQrVYYSEk/pn2RlwMI5k=;
+ b=tDmyJ1aLnX2t47osN9+GeB+Atv0qK31UmeusVUhv9ahOjiYYxVNn9rDuJF4ZvtBz1I
+ Zems2MfoHAVaPPGFI+qQycS9iESqipWhjIyy6LBc4l4uEtL/4Tgx+3GJ033wfKgf3VQ2
+ 2F8sld/tjukJq1ZpKtGYYBOjgvCbNgEKDs4+CUb24Sk9cUnWmYQWLGHFGyAEnMHlBPqE
+ g3iaczq8Ny/PHLpToTqfEXbDORqTcPl8M6BR06HxzG2kBgJgDamdxezHFGXQ1ni8tZpw
+ nPWxRAzpebEjPtR6K/iKIWcSJBI83qFMjXqluYleTztIoErZWLKGqgZuunkkGsonPoap
+ ZMqw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX0nPdS83VnJkPVzJIRRSGHCq9FTNaLXX8zrX53sy2i9Qb/swGvRvl7gHe3jtbNuGVpunYjVeKdkCvpII7MzuMhM9JCUHTEEuygeCybtnxN
-X-Gm-Message-State: AOJu0YyKnA8izZCQV2VmfDuc3vtL39NeGQvi468Lf5wyC/2PVX5l1Ur/
- pbtbxbOXBAkdEQ7kFih9yo9HmooZzCdU5gC9FvH73ZhhfKODb0xXr129rXPJvQ==
-X-Google-Smtp-Source: AGHT+IGdhRYoSwp5tG4mBSBiS7xFlKdpDsew9wYyDZz5NpATPRrWf22js/1XxEICy6sgFSFgcGLkyg==
-X-Received: by 2002:a05:6a20:33aa:b0:1c3:a411:dc49 with SMTP id
- adf61e73a8af0-1c8eaf8aff5mr1203174637.51.1723595331197; 
- Tue, 13 Aug 2024 17:28:51 -0700 (PDT)
-Received: from [10.211.41.59] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-201cd1c4556sm19050385ad.248.2024.08.13.17.28.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Aug 2024 17:28:50 -0700 (PDT)
-Message-ID: <d8690b7a-2608-4c7f-b730-c10096573cff@broadcom.com>
-Date: Tue, 13 Aug 2024 17:28:49 -0700
+ AJvYcCU921mQES6GzBePqomd+gHJfak2/Y7xilsf3KkmrGOHYmxp6tcomVmtm+bH+Z+QDTDJQFZRoZyzu+0zg5d9qQB6PoUS6zwEv4uKZrRRQEOQ
+X-Gm-Message-State: AOJu0YyqK1N6qi8xSYkxA2w7sfMsGTzbSGN6LViB5ESMsfogTEUsun4C
+ EOC+RgKSWPgfSrLR2iAPAzS9WM+n1njk1lktpVQ4N0W7syfINdexBxj9rsyeqzm4v/8HBbStfHg
+ uwg9vwxLTo5GvES1mwCRt+6sWVaZa262peLJtHHVb6M8bd686jHWRYWY=
+X-Google-Smtp-Source: AGHT+IH/g8aCJGElQ8/VklE5ry7A0gnFjQgBbmtCcpZz0jkOADdHDRelv0/VaixlspNKb+4RvqquWD/KTAwBB1bAKcnlGLxEbNk8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vmwgfx: Trigger a modeset when the screen moves
-To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- martin.krastev@broadcom.com
-References: <20240624205951.23343-1-ian.forbes@broadcom.com>
-From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Content-Language: en-US
-In-Reply-To: <20240624205951.23343-1-ian.forbes@broadcom.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:1c49:b0:374:9a34:a0a with SMTP id
+ e9e14a558f8ab-39d12505416mr900485ab.6.1723595523843; Tue, 13 Aug 2024
+ 17:32:03 -0700 (PDT)
+Date: Tue, 13 Aug 2024 17:32:03 -0700
+In-Reply-To: <000000000000be3c1a0604b53a1c@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ef7be4061f99da2f@google.com>
+Subject: Re: [syzbot] [mm?] kernel BUG in filemap_unaccount_folio
+From: syzbot <syzbot+17a207d226b8a5fb0fd9@syzkaller.appspotmail.com>
+To: airlied@redhat.com, akpm@linux-foundation.org, christian.koenig@amd.com, 
+ daniel@ffwll.ch, david@redhat.com, dri-devel@lists.freedesktop.org, 
+ fengwei.yin@intel.com, gurchetansingh@chromium.org, hughd@google.com, 
+ kraxel@redhat.com, linaro-mm-sig-bounces@lists.linaro.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-mm@kvack.org, sumit.semwal@linaro.org, 
+ syzkaller-bugs@googlegroups.com, vivek.kasireddy@intel.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,72 +67,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/24/24 13:59, Ian Forbes wrote:
-> When multi-monitor is cycled the X,Y position of the Screen Target will
-> likely change but the resolution will not. We need to trigger a modeset
-> when this occurs in order to recreate the Screen Target with the correct
-> X,Y position.
-> 
-> Fixes a bug where multiple displays are shown in a single scrollable
-> host window rather than in 2+ windows on separate host displays.
-> 
-> Fixes: 426826933109 ("drm/vmwgfx: Filter modes which exceed graphics memory")
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 29 +++++++++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> index a04e0736318da..9becd71bc93bc 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> @@ -877,6 +877,32 @@ vmw_stdu_connector_mode_valid(struct drm_connector *connector,
->  	return MODE_OK;
->  }
->  
-> +/*
-> + * Trigger a modeset if the X,Y position of the Screen Target changes.
-> + * This is needed when multi-mon is cycled. The original Screen Target will have
-> + * the same mode but its relative X,Y position in the topology will change.
-> + */
-> +static int vmw_stdu_connector_atomic_check(struct drm_connector *conn,
-> +					   struct drm_atomic_state *state)
-> +{
-> +	struct drm_connector_state *conn_state;
-> +	struct vmw_screen_target_display_unit *du;
-> +	struct drm_crtc_state *new_crtc_state;
-> +
-> +	conn_state = drm_atomic_get_connector_state(state, conn);
-> +	du = vmw_connector_to_stdu(conn);
-> +
-> +	if (!conn_state->crtc)
-> +		return 0;
-> +
-> +	new_crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+syzbot suspects this issue was fixed by commit:
 
-We should be checking for new_crtc_state being NULL here.
+commit 7d79cd784470395539bda91bf0b3505ff5b2ab6d
+Author: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Date:   Mon Jun 24 06:36:13 2024 +0000
 
-> +	if (du->base.gui_x != du->base.set_gui_x ||
-> +	    du->base.gui_y != du->base.set_gui_y)
-> +		new_crtc_state->mode_changed = true;
-> +
-> +	return 0;
-> +}
-> +
->  static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
->  	.dpms = vmw_du_connector_dpms,
->  	.detect = vmw_du_connector_detect,
-> @@ -891,7 +917,8 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
->  static const struct
->  drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
->  	.get_modes = vmw_connector_get_modes,
-> -	.mode_valid = vmw_stdu_connector_mode_valid
-> +	.mode_valid = vmw_stdu_connector_mode_valid,
-> +	.atomic_check = vmw_stdu_connector_atomic_check,
->  };
->  
->  
+    udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap
 
-Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17dad691980000
+start commit:   9b6de136b5f0 Merge tag 'loongarch-fixes-6.7-1' of git://gi..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6ae1a4ee971a7305
+dashboard link: https://syzkaller.appspot.com/bug?extid=17a207d226b8a5fb0fd9
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15f58d67680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10a78c62e80000
 
+If the result looks correct, please mark the issue as fixed by replying with:
 
+#syz fix: udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
