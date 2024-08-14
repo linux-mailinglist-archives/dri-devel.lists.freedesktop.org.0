@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3F8951E4E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 17:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0196951E52
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 17:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8F1C10E4C6;
-	Wed, 14 Aug 2024 15:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C404310E4CA;
+	Wed, 14 Aug 2024 15:16:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="BkPNgfIj";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SsBxRMZe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
  [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED3710E4C3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 15:16:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1C2496000C;
- Wed, 14 Aug 2024 15:16:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE2F10E4C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 15:16:08 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 11DFD6000F;
+ Wed, 14 Aug 2024 15:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
  t=1723648566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZtHdgw9McHanJ5bgqEq9uSdi74niZL2dpQLUKRPjzOU=;
- b=BkPNgfIj7lzx08jG3e3/K2pbTyUPcF5iXTw/ho9ACTIoCqF+yUCGEvjOsOzEfMbPoyYwrs
- 1inTWqg9LmvtK/SmG71dQD2apILkJvqMOOJ9HkwPoYvENWjyypWZrV0Uk5l1HpwJlYkjGQ
- sEJgRjICurqGYHXC1ifVNKmYMk/D5+97cVMRNUu9DH332tGSosjP0E4SQ0ioF/GjJOc6Rd
- u9vGowgFnsyTNC3Bb/5DsjDaF9zgoAZIFCF7c1wj2UnOskekTCW5dJzNXdhdcMMSpomNp1
- SKP+kVmuXQOP9x9zN3EsZGx7kDzrnlvMgh1l0eLrd0ZXqpX1j+9q/sOOmqi4Dw==
+ bh=MaTjbXPWIRzTBUyMwGINxQZs0jxBhFozYAqNlfR9KmE=;
+ b=SsBxRMZeqybDYVbztyYH4dC0904IXI5pGf3Zek9POFDl7Gc0UCb26WxeGymfKTLW4y0raX
+ LNnM+dNFsRNlDvDsDFc7lxBdqYOBqRRgOom8oArZx/2LWX1Dt/1ziMY3QRBsLu4P7x2B1y
+ +3Mbmlo42Xv+w1SPhm8BMsqYqss5J6qfTZ4kQvfFFVH4KG0xGOhBuXrT4yAOL/gbwu7C4H
+ 9of4JjNV3q0w0dG1iV8GW2CkjDSw+xtfncM3B/t5FL+TKvLKcOnqCc3jLJtGfAKr9SQUni
+ OSoT50hwwmEcZpOVhnK4zGkNdGihGZe4D6ejSYaynoYoMhlTQjdVQUEkM+Ul4g==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 14 Aug 2024 17:15:53 +0200
-Subject: [PATCH RFC 6/7] drm/vkms: Add color range in ConfigFS
+Date: Wed, 14 Aug 2024 17:15:54 +0200
+Subject: [PATCH RFC 7/7] drm/vkms: Add crtc and encoder configuration in
+ ConfigFS
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240814-google-config-fs-v1-6-8363181907a6@bootlin.com>
+Message-Id: <20240814-google-config-fs-v1-7-8363181907a6@bootlin.com>
 References: <20240814-google-config-fs-v1-0-8363181907a6@bootlin.com>
 In-Reply-To: <20240814-google-config-fs-v1-0-8363181907a6@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -52,21 +53,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  seanpaul@google.com, nicolejadeyee@google.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5517;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=20727;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=UwfWjkDRUSPTIpDVCjvKIClHTrQ+CQ4DCl4x+NwGblw=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmvMouw1bQlgtzsLxesTAO9Pp5Dmg7I7dl32SPZ
- QU6egIGqXyJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrzKLgAKCRAgrS7GWxAs
- 4iMxEACrdScEUMyOO/jJ053MWzOFSgbEYepGRtExWLtPPnm9+5AUUKkcnsG1OhvPaQUt01+mdqq
- IQGZGP1OWrUnQT+QeRmyASiJMXXL5TeHtKYZiP+5zPa5WMQH684PVwWiGcx8Sg9awp/o2fG+gUu
- OB+L9quTbAZOJ0HQLeBWplv3/9UiNnRJ7I8IG8zVeWnYSZxaqwvEAVxMe2C8zJnx0z6HFyLv+cL
- w/5/7Nq5f+PvYDsLRQUf2/islVyD+O1lWcA9A49ufCNiTJTwyaPgz+dkq0NBReQOHxlAIsPoPwt
- /6z1FR7jLss/VPtL0ISd52wmjJ5dUw4ZgnJsIcfV8W+aiBbSV83ZjPGOjUqM2Ih97JcMYWMV6jD
- Ehp3wkiIx2o1oAPoT6if4WuuQFw5OAE1N6d604mFBdv7gFFYQz8Y3pqu6FBA8xqLOj9+8+DfhuO
- IDtiwAU77SzsmTiSWfeV2EOT/oyPDxT3ZnzNkT4uCBLNloP2YYqRrjziezrfYzWxuElpYLq+hqL
- 0YA5E7ms3NHmXY1y/c1omia8ybwK9uGzMWr2jFxD2ZYW6iExhNhl5ueQ5gUVJuDAqIADMsdBNuU
- yuMaHIZWMGuc7TlJlnlPtwIYYl5wkzcWsE6vtTPegaiwNLmLeGAUZVqR8+/n5YwXfZYAFkXQDBO
- AVmX7eTU1ya6gAg==
+ bh=Nsg/uRD+2tjnA4hgI+v/8HLJQELciWuCytDhk8mD3jU=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmvMou5lkcipOcd3X60wbj02dn6IJsw43+YyCPo
+ OTYFDBKcm2JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrzKLgAKCRAgrS7GWxAs
+ 4jy7EADPULHBS5PfvafU7PC+e5LcX8M5CHKAKAYljEYw6wPtj5bxnxmhOV+sWtOBkrFfFR5NIaC
+ 3p8xiX0jqF983y2ba5igzN1Ve2zbSAwK+jUqeicVaSKccOUk0kxCSy243eMj2lNLiNaSmJHcpy5
+ rCXziLHYLf+bcKWgLnj2sK1/YJx6weKz4AiP7Utw4HCjG9GIhEIKYjqtHzirO50GKVstW6wsVt8
+ 4hKloy3PlK70mlFtk5tYiW9PR99navIbYCT9PX4cIj/kW5ZaeSiTdXFsW2KF+R1i36Y9VeXo7YJ
+ bIp4xA47DxraExl1/13yBZSQ4Uqxmq4LUhbSG6oGSIPCIIOMIeRmBlDZStcY/eW1CmNT4oCTWas
+ L8ytWqGx+Q7AY+40TdqiumJVIPDHe++xXgDeyo1BDWrI3pUYokASwI2b9D/t58KbNfTBJUpfnIz
+ LiVRCz7JTwROHWbBH8aRCr85GIWX4YIc829IUPy864oYd8tMXqepxP4MT24YxLW2hJ82H8T6ATy
+ GNhTcmfP0EH3eHbnco+8yR8Sb1KfzQtnawJ3iOqayWL+Ky0rx1yGM4jijIRcaFHU07ip8l3t5E3
+ KweQ7qq65+sfeInmokMmPY0fIM4G6ZkudN7oG9NV8x79GBhrZvvaaHaJqWYQNhLgVuzZESu9g6R
+ e/WPAAVust5wlxw==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -86,163 +87,608 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 To allows the userspace to test many hardware configuration, introduce a
-new interface to configure the available color ranges per planes. VKMS
-supports multiple color ranges, so the userspace can choose any
-combination.
+new interface to configure CRTCs and encoders.
 
-The supported color ranges are configured by writing a color range bitmask
-to the file `supported_color_ranges` and the default color range is
-chosen by writing a color encoding bitmask to `default_color_range`.
+The CRTCs and encoders are created in their own directory. To link the
+CRTC, symlinks are used in the `possible_crtcs` folders.
 
 The current interface is:
 /config/vkms
-       	DEVICE_1
-       	┣━ enable
-       	┣━ planes
-       	┃  ┗━ PLANE_1
-       	┃     ┣━ type
-       	┃     ┣━ supported_rotations
-       	┃     ┣━ supported_color_encoding
-       	┃     ┣━ supported_color_ranges
-       	┃     ┣━ default_rotation
-       	┃     ┣━ default_color_encoding
-       	┃     ┗━ default_color_range
-       	DEVICE_2
-       	┗━ ditto
+	DEVICE_1
+	┣━ enable
+	┣━ planes
+	┃  ┗━ PLANE_1
+	┃     ┣━ type
+	┃     ┣━ supported_rotations
+	┃     ┣━ supported_color_encoding
+	┃     ┣━ supported_color_ranges
+	┃     ┣━ default_rotation
+	┃     ┣━ default_color_encoding
+	┃     ┣━ default_color_range
+	┃     ┗━ possible_crtcs
+	┃        ┗━ >> /config/vkms/DEVICE_1/crtcs/CRTC_1
+	┣━ encoders
+	┃  ┗━ ENCODER_1
+	┃     ┗━ possible_crtcs
+	┃        ┗━ >> /config/vkms/DEVICE_1/crtcs/CRTC_1
+	┣━ crtcs
+	┃  ┗━ CRTC_1
+	DEVICE_2
+	┗━ ditto
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_configfs.c | 103 +++++++++++++++++++++++++++++++++++
- 1 file changed, 103 insertions(+)
+ drivers/gpu/drm/vkms/vkms_configfs.c | 404 +++++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/vkms/vkms_configfs.h |  54 ++++-
+ 2 files changed, 437 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index a3dab5986882..aabc83283626 100644
+index aabc83283626..50628ec91b9a 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -152,6 +152,105 @@ static ssize_t plane_default_rotation_store(struct config_item *item,
- 	return count;
+@@ -5,6 +5,7 @@
+ #include <drm/drm_print.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/generic-radix-tree.h>
+ 
+ #include "vkms_configfs.h"
+ #include "vkms_drv.h"
+@@ -394,6 +395,83 @@ static const struct config_item_type subgroup_plane = {
+ 	.ct_item_ops	= &plane_item_operations,
+ 	.ct_owner	= THIS_MODULE,
+ };
++static const struct config_item_type crtc_item_type;
++static const struct config_item_type planes_item_type;
++
++static int possible_crtcs_allow_link(struct config_item *src,
++				     struct config_item *target)
++{
++	struct vkms_configfs_device *vkms_configfs = plane_possible_crtc_src_item_to_vkms_configfs_device(src);
++	struct vkms_config_crtc *crtc;
++
++	mutex_lock(&vkms_configfs->lock);
++
++	if (target->ci_type != &crtc_item_type) {
++		mutex_unlock(&vkms_configfs->lock);
++		return -EINVAL;
++	}
++
++	crtc = crtc_item_to_vkms_configfs_crtc(target)->vkms_config_crtc;
++	struct vkms_config_plane *plane = plane_possible_crtc_src_item_to_vkms_configfs_plane(src)->vkms_config_plane;
++
++	struct vkms_config_crtc *crtc_entry;
++	unsigned long idx = 0;
++
++	xa_for_each(&plane->possible_crtcs, idx, crtc_entry) {
++		if (crtc_entry == crtc) {
++			mutex_unlock(&vkms_configfs->lock);
++			return -EINVAL;
++		}
++	}
++
++	if (vkms_config_plane_attach_crtc(plane, crtc))
++		return -EINVAL;
++
++	mutex_unlock(&vkms_configfs->lock);
++
++	return 0;
++}
++
++static void possible_crtcs_drop_link(struct config_item *src,
++				     struct config_item *target)
++{
++	struct vkms_config_crtc *crtc;
++	struct vkms_configfs_device *vkms_configfs = plane_possible_crtc_src_item_to_vkms_configfs_device(src);
++
++	mutex_lock(&vkms_configfs->lock);
++
++	crtc = crtc_item_to_vkms_configfs_crtc(target)->vkms_config_crtc;
++	struct vkms_config_plane *plane = plane_possible_crtc_src_item_to_vkms_configfs_plane(src)->vkms_config_plane;
++
++	struct vkms_config_crtc  *crtc_entry;
++	struct vkms_config_plane *plane_entry;
++	unsigned long crtc_idx  = -1;
++
++	xa_for_each(&plane->possible_crtcs, crtc_idx, crtc_entry) {
++		if (crtc_entry == crtc)
++			break;
++	}
++	unsigned long plane_idx = -1;
++
++	xa_erase(&plane->possible_crtcs, crtc_idx);
++	xa_for_each(&crtc->possible_planes, plane_idx, plane_entry) {
++		if (plane_entry == plane)
++			break;
++	}
++	xa_erase(&crtc->possible_planes, plane_idx);
++
++	mutex_unlock(&vkms_configfs->lock);
++}
++
++static struct configfs_item_operations plane_possible_crtcs_item_ops = {
++	.allow_link = &possible_crtcs_allow_link,
++	.drop_link = &possible_crtcs_drop_link,
++};
++
++static struct config_item_type plane_possible_crtcs_group_type = {
++	.ct_item_ops = &plane_possible_crtcs_item_ops,
++	.ct_owner = THIS_MODULE,
++};
+ 
+ static struct config_group *planes_make_group(struct config_group *config_group,
+ 					      const char *name)
+@@ -419,10 +497,7 @@ static struct config_group *planes_make_group(struct config_group *config_group,
+ 
+ 	if (list_count_nodes(&vkms_configfs->vkms_config->planes) == 1)
+ 		vkms_configfs_plane->vkms_config_plane->type = DRM_PLANE_TYPE_PRIMARY;
+-
+-	if (!vkms_configfs_plane->vkms_config_plane ||
+-	    vkms_config_plane_attach_crtc(vkms_configfs_plane->vkms_config_plane,
+-					  vkms_configfs->vkms_config_crtc)) {
++	if (!vkms_configfs_plane->vkms_config_plane) {
+ 		kfree(vkms_configfs_plane);
+ 		mutex_unlock(&vkms_configfs->lock);
+ 		return ERR_PTR(-ENOMEM);
+@@ -439,7 +514,12 @@ static struct config_group *planes_make_group(struct config_group *config_group,
+ 
+ 	config_group_init_type_name(&vkms_configfs_plane->group, name, &subgroup_plane);
+ 
++	config_group_init_type_name(&vkms_configfs_plane->possible_crtc_group, "possible_crtcs",
++				    &plane_possible_crtcs_group_type);
++	configfs_add_default_group(&vkms_configfs_plane->possible_crtc_group,
++				   &vkms_configfs_plane->group);
+ 	vkms_configfs_plane->vkms_configfs_device = vkms_configfs;
++
+ 	mutex_unlock(&vkms_configfs->lock);
+ 
+ 	return &vkms_configfs_plane->group;
+@@ -454,6 +534,287 @@ static const struct config_item_type planes_item_type = {
+ 	.ct_owner	= THIS_MODULE,
+ };
+ 
++static void crtc_release(struct config_item *item)
++{
++	struct vkms_configfs_crtc *vkms_configfs_crtc = crtc_item_to_vkms_configfs_crtc(item);
++
++	mutex_lock(&vkms_configfs_crtc->vkms_configfs_device->lock);
++	vkms_config_delete_crtc(vkms_configfs_crtc->vkms_config_crtc,
++				vkms_configfs_crtc->vkms_configfs_device->vkms_config);
++	mutex_unlock(&vkms_configfs_crtc->vkms_configfs_device->lock);
++
++	kfree(vkms_configfs_crtc);
++}
++
++static struct configfs_item_operations crtc_item_operations = {
++	.release = crtc_release,
++};
++
++static const struct config_item_type crtc_item_type = {
++	.ct_owner	= THIS_MODULE,
++	.ct_item_ops	= &crtc_item_operations,
++};
++
++static struct config_group *crtcs_make_group(struct config_group *config_group,
++					     const char *name)
++{
++	struct config_item *root_item = config_group->cg_item.ci_parent;
++	struct vkms_configfs_device *vkms_configfs = config_item_to_vkms_configfs_device(root_item);
++	struct vkms_configfs_crtc *vkms_configfs_crtc;
++
++	vkms_configfs_crtc = kzalloc(sizeof(*vkms_configfs_crtc), GFP_KERNEL);
++
++	if (!vkms_configfs_crtc)
++		return ERR_PTR(-ENOMEM);
++
++	mutex_lock(&vkms_configfs->lock);
++	vkms_configfs_crtc->vkms_configfs_device = vkms_configfs;
++
++	if (vkms_configfs->enabled) {
++		kfree(vkms_configfs_crtc);
++		mutex_unlock(&vkms_configfs->lock);
++		return ERR_PTR(-EINVAL);
++	}
++
++	vkms_configfs_crtc->vkms_config_crtc = vkms_config_create_crtc(vkms_configfs->vkms_config);
++
++	if (!vkms_configfs_crtc->vkms_config_crtc) {
++		kfree(vkms_configfs_crtc);
++		mutex_unlock(&vkms_configfs->lock);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	vkms_configfs_crtc->vkms_config_crtc->name = kzalloc(strlen(name) + 1, GFP_KERNEL);
++	if (!vkms_configfs_crtc->vkms_config_crtc->name) {
++		kfree(vkms_configfs_crtc->vkms_config_crtc);
++		kfree(vkms_configfs_crtc);
++		mutex_unlock(&vkms_configfs->lock);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	vkms_configfs_crtc->vkms_configfs_device = vkms_configfs;
++
++	strscpy(vkms_configfs_crtc->vkms_config_crtc->name, name, strlen(name) + 1);
++	config_group_init_type_name(&vkms_configfs_crtc->group, name,
++				    &crtc_item_type);
++
++
++	mutex_unlock(&vkms_configfs->lock);
++
++	return &vkms_configfs_crtc->group;
++}
++
++
++static struct configfs_group_operations crtcs_group_operations = {
++	.make_group	= &crtcs_make_group,
++};
++
++
++static const struct config_item_type crtcs_item_type = {
++	.ct_group_ops    = &crtcs_group_operations,
++	.ct_owner        = THIS_MODULE,
++};
++
++static int encoder_possible_crtcs_allow_link(struct config_item *src,
++					     struct config_item *target)
++{
++	struct vkms_config_crtc *crtc;
++	struct vkms_configfs_device *vkms_configfs = encoder_possible_crtc_src_item_to_vkms_configfs_device(src);
++
++	mutex_lock(&vkms_configfs->lock);
++
++	if (target->ci_type != &crtc_item_type) {
++		DRM_ERROR("Unable to link non-CRTCs.\n");
++		mutex_unlock(&vkms_configfs->lock);
++		return -EINVAL;
++	}
++
++	crtc = crtc_item_to_vkms_configfs_crtc(target)->vkms_config_crtc;
++	struct vkms_config_encoder *encoder = encoder_possible_crtc_src_item_to_vkms_configfs_encoder(src)->vkms_config_encoder;
++
++	struct vkms_config_crtc *crtc_entry;
++	unsigned long idx = 0;
++
++	xa_for_each(&encoder->possible_crtcs, idx, crtc_entry) {
++		if (crtc_entry == crtc) {
++			pr_err("Tried to add two symlinks to the same CRTC from the same object.\n");
++			mutex_unlock(&vkms_configfs->lock);
++			return -EINVAL;
++		}
++	}
++
++	if (vkms_config_encoder_attach_crtc(encoder, crtc))
++		return -EINVAL;
++
++	mutex_unlock(&vkms_configfs->lock);
++
++	return 0;
++}
++
++static void encoder_possible_crtcs_drop_link(struct config_item *src,
++					     struct config_item *target)
++{
++	struct vkms_config_crtc *crtc;
++	struct vkms_configfs_device *vkms_configfs = encoder_possible_crtc_src_item_to_vkms_configfs_device(src);
++
++	mutex_lock(&vkms_configfs->lock);
++
++	crtc = crtc_item_to_vkms_configfs_crtc(target)->vkms_config_crtc;
++	struct vkms_config_encoder *encoder = encoder_possible_crtc_src_item_to_vkms_configfs_encoder(src)->vkms_config_encoder;
++
++	struct vkms_config_encoder *encoder_entry;
++	struct vkms_config_crtc *crtc_entry;
++	unsigned long encoder_idx = -1;
++	unsigned long crtc_idx = -1;
++
++	xa_for_each(&encoder->possible_crtcs, crtc_idx, crtc_entry) {
++		if (crtc_entry == crtc)
++			break;
++	}
++	xa_erase(&encoder->possible_crtcs, crtc_idx);
++	xa_for_each(&crtc->possible_encoders, encoder_idx, encoder_entry) {
++		if (encoder_entry == encoder)
++			break;
++	}
++	xa_erase(&crtc->possible_encoders, encoder_idx);
++
++	mutex_unlock(&vkms_configfs->lock);
++}
++
++static struct configfs_item_operations encoder_possible_crtcs_item_operations = {
++	.allow_link	= &encoder_possible_crtcs_allow_link,
++	.drop_link	= &encoder_possible_crtcs_drop_link,
++};
++
++static struct config_item_type encoder_possible_crtcs_item_type = {
++	.ct_item_ops	= &encoder_possible_crtcs_item_operations,
++	.ct_owner	= THIS_MODULE,
++};
++
++static void encoder_release(struct config_item *item)
++{
++	struct vkms_configfs_encoder *vkms_configfs_encoder = encoder_item_to_vkms_configfs_encoder(item);
++
++	mutex_lock(&vkms_configfs_encoder->vkms_configfs_device->lock);
++	vkms_config_delete_encoder(vkms_configfs_encoder->vkms_config_encoder, vkms_configfs_encoder->vkms_configfs_device->vkms_config);
++	mutex_unlock(&vkms_configfs_encoder->vkms_configfs_device->lock);
++
++	kfree(vkms_configfs_encoder);
++}
++
++static struct configfs_item_operations encoder_item_operations = {
++	.release	= encoder_release,
++};
++
++static const struct config_item_type encoder_item_type = {
++	.ct_item_ops	= &encoder_item_operations,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group *encoder_make_group(struct config_group *config_group,
++					       const char *name)
++{
++	struct vkms_configfs_device *vkms_configfs = encoder_item_to_vkms_configfs_device(&config_group->cg_item);
++	struct vkms_configfs_encoder *vkms_configfs_encoder;
++
++	vkms_configfs_encoder = kzalloc(sizeof(*vkms_configfs_encoder), GFP_KERNEL);
++
++	if (!vkms_configfs_encoder)
++		return ERR_PTR(-ENOMEM);
++
++	mutex_lock(&vkms_configfs->lock);
++
++	if (vkms_configfs->enabled) {
++		kfree(vkms_configfs_encoder);
++		mutex_unlock(&vkms_configfs->lock);
++		return ERR_PTR(-EINVAL);
++	}
++
++	vkms_configfs_encoder->vkms_config_encoder = vkms_config_create_encoder(
++		vkms_configfs->vkms_config);
++
++	if (!vkms_configfs_encoder->vkms_config_encoder) {
++		kfree(vkms_configfs_encoder);
++		mutex_unlock(&vkms_configfs->lock);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	vkms_configfs_encoder->vkms_config_encoder->name = kzalloc(strlen(name) + 1, GFP_KERNEL);
++	if (!vkms_configfs_encoder->vkms_config_encoder->name) {
++		kfree(vkms_configfs_encoder->vkms_config_encoder);
++		kfree(vkms_configfs_encoder);
++		mutex_unlock(&vkms_configfs->lock);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	strscpy(vkms_configfs_encoder->vkms_config_encoder->name, name, strlen(name) + 1);
++	config_group_init_type_name(&vkms_configfs_encoder->group, name,
++				    &encoder_item_type);
++
++	config_group_init_type_name(&vkms_configfs_encoder->possible_crtc_group, "possible_crtcs",
++				    &encoder_possible_crtcs_item_type);
++	configfs_add_default_group(&vkms_configfs_encoder->possible_crtc_group,
++				   &vkms_configfs_encoder->group);
++	vkms_configfs_encoder->vkms_configfs_device = vkms_configfs;
++
++	mutex_unlock(&vkms_configfs->lock);
++
++	return &vkms_configfs_encoder->group;
++}
++
++static struct configfs_group_operations encoder_group_operations = {
++	.make_group	= &encoder_make_group,
++};
++
++static const struct config_item_type encoders_item_type = {
++	.ct_group_ops	= &encoder_group_operations,
++	.ct_owner	= THIS_MODULE,
++};
++
++/**
++ * configfs_lock_dependencies() - In order to forbid the userspace to delete items when the
++ * device is enabled, mark all configfs items as dependent
++ *
++ * @vkms_configfs_device - Device to lock
++ */
++static void configfs_lock_dependencies(struct vkms_configfs_device *vkms_configfs_device)
++{
++	/* Lock the group itself */
++	configfs_depend_item_unlocked(vkms_configfs_device->group.cg_subsys,
++				      &vkms_configfs_device->group.cg_item);
++	/* Lock the planes elements */
++	struct config_item *item;
++
++	list_for_each_entry(item, &vkms_configfs_device->plane_group.cg_children, ci_entry) {
++		configfs_depend_item_unlocked(vkms_configfs_device->plane_group.cg_subsys,
++					      item);
++	}
++	list_for_each_entry(item, &vkms_configfs_device->crtc_group.cg_children, ci_entry) {
++		configfs_depend_item_unlocked(vkms_configfs_device->crtc_group.cg_subsys,
++					      item);
++	}
++}
++
++/**
++ * configfs_unlock_dependencies() - Once the device is disable, its configuration can be modified.
++ *
++ * @vkms_configfs_device - Device to unlock
++ */
++static void configfs_unlock_dependencies(struct vkms_configfs_device *vkms_configfs_device)
++{
++	struct config_item *item;
++
++	configfs_undepend_item_unlocked(&vkms_configfs_device->group.cg_item);
++
++	list_for_each_entry(item, &vkms_configfs_device->plane_group.cg_children, ci_entry) {
++		configfs_undepend_item_unlocked(item);
++	}
++	list_for_each_entry(item, &vkms_configfs_device->crtc_group.cg_children, ci_entry) {
++		configfs_undepend_item_unlocked(item);
++	}
++}
++
++
+ static ssize_t device_enable_show(struct config_item *item, char *page)
+ {
+ 	return sprintf(page, "%d\n",
+@@ -474,13 +835,25 @@ static ssize_t device_enable_store(struct config_item *item,
+ 		return -EINVAL;
+ 
+ 	mutex_lock(&vkms_configfs_device->lock);
++	if (vkms_configfs_device->enabled == value) {
++		mutex_unlock(&vkms_configfs_device->lock);
++		return (ssize_t) count;
++	}
++
++	if (value && !vkms_config_is_valid(vkms_configfs_device->vkms_config)) {
++		mutex_unlock(&vkms_configfs_device->lock);
++		return -EINVAL;
++	}
+ 
+ 	vkms_configfs_device->enabled = value;
+ 
+-	if (value)
++	if (value) {
++		configfs_lock_dependencies(vkms_configfs_device);
+ 		vkms_create(vkms_configfs_device->vkms_config);
+-	else
++	} else {
++		configfs_unlock_dependencies(vkms_configfs_device);
+ 		vkms_destroy(vkms_configfs_device->vkms_config);
++	}
+ 
+ 	mutex_unlock(&vkms_configfs_device->lock);
+ 
+@@ -519,9 +892,6 @@ static const struct config_item_type device_item_type = {
+ static struct config_group *root_make_group(struct config_group *group,
+ 					    const char *name)
+ {
+-	struct vkms_config_plane *plane;
+-	struct vkms_config_crtc *crtc;
+-	struct vkms_config_encoder *encoder;
+ 	struct vkms_configfs_device *configfs = kzalloc(sizeof(*configfs), GFP_KERNEL);
+ 
+ 	if (!configfs)
+@@ -536,22 +906,18 @@ static struct config_group *root_make_group(struct config_group *group,
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+-	configfs->vkms_config_crtc = vkms_config_create_crtc(configfs->vkms_config);
+-	configfs->vkms_config_encoder = vkms_config_create_encoder(configfs->vkms_config);
+-	if (!configfs->vkms_config_crtc || !configfs->vkms_config_encoder ||
+-	    vkms_config_encoder_attach_crtc(configfs->vkms_config_encoder,
+-					    configfs->vkms_config_crtc)) {
+-		vkms_config_destroy(configfs->vkms_config);
+-		kfree(configfs);
+-		return ERR_PTR(-ENOMEM);
+-	}
+-
+ 	config_group_init_type_name(&configfs->group, name,
+ 				    &device_item_type);
+ 
+ 	config_group_init_type_name(&configfs->plane_group, "planes", &planes_item_type);
+ 	configfs_add_default_group(&configfs->plane_group, &configfs->group);
+ 
++	config_group_init_type_name(&configfs->crtc_group, "crtcs", &crtcs_item_type);
++	configfs_add_default_group(&configfs->crtc_group, &configfs->group);
++
++	config_group_init_type_name(&configfs->encoder_group, "encoders", &encoders_item_type);
++	configfs_add_default_group(&configfs->encoder_group, &configfs->group);
++
+ 	return &configfs->group;
  }
  
-+static ssize_t plane_color_range_show(struct config_item *item, char *page)
-+{
-+	struct vkms_config_plane *plane;
-+	unsigned int plane_type;
-+	struct vkms_configfs_device *vkms_configfs = plane_item_to_vkms_configfs_device(item);
-+
-+	mutex_lock(&vkms_configfs->lock);
-+	plane = plane_item_to_vkms_configfs_plane(item)->vkms_config_plane;
-+	plane_type = plane->supported_color_range;
-+	mutex_unlock(&vkms_configfs->lock);
-+
-+	return sprintf(page, "%u", plane_type);
-+}
-+
-+static ssize_t plane_color_range_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct vkms_config_plane *plane;
-+	struct vkms_configfs_device *vkms_configfs = plane_item_to_vkms_configfs_device(item);
-+	int ret, val = 0;
-+
-+	ret = kstrtouint(page, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
-+		return -EINVAL;
-+	/* Should at least provide one color range */
-+	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) == 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&vkms_configfs->lock);
-+
-+	plane = plane_item_to_vkms_configfs_plane(item)->vkms_config_plane;
-+
-+	/* Ensures that the default rotation is included in supported rotation */
-+	if (vkms_configfs->enabled || (val & plane->default_color_range) !=
-+				      plane->default_color_range) {
-+		mutex_unlock(&vkms_configfs->lock);
-+		return -EINVAL;
-+	}
-+	plane->supported_color_range = val;
-+	mutex_unlock(&vkms_configfs->lock);
-+
-+	return count;
-+}
-+
-+static ssize_t plane_default_color_range_show(struct config_item *item, char *page)
-+{
-+	struct vkms_config_plane *plane;
-+	unsigned int plane_type;
-+	struct vkms_configfs_device *vkms_configfs = plane_item_to_vkms_configfs_device(item);
-+
-+	mutex_lock(&vkms_configfs->lock);
-+	plane = plane_item_to_vkms_configfs_plane(item)->vkms_config_plane;
-+	plane_type = plane->default_color_range;
-+	mutex_unlock(&vkms_configfs->lock);
-+
-+	return sprintf(page, "%u", plane_type);
-+}
-+
-+static ssize_t plane_default_color_range_store(struct config_item *item,
-+					       const char *page, size_t count)
-+{
-+	struct vkms_config_plane *plane;
-+	struct vkms_configfs_device *vkms_configfs = plane_item_to_vkms_configfs_device(item);
-+	int ret, val = 0;
-+
-+	ret = kstrtouint(page, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
-+		return -EINVAL;
-+	/* Should at least provide one color range */
-+	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) == 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&vkms_configfs->lock);
-+
-+	plane = plane_item_to_vkms_configfs_plane(item)->vkms_config_plane;
-+
-+	/* Ensures that the default rotation is included in supported rotation */
-+	if (vkms_configfs->enabled || (val & plane->supported_color_range) != val) {
-+		mutex_unlock(&vkms_configfs->lock);
-+		return -EINVAL;
-+	}
-+	plane->default_color_range = val;
-+	mutex_unlock(&vkms_configfs->lock);
-+
-+	return count;
-+}
-+
- static ssize_t plane_supported_color_encoding_show(struct config_item *item, char *page)
- {
- 	struct vkms_config_plane *plane;
-@@ -258,6 +357,8 @@ static ssize_t plane_default_color_encoding_store(struct config_item *item,
- CONFIGFS_ATTR(plane_, type);
- CONFIGFS_ATTR(plane_, supported_rotations);
- CONFIGFS_ATTR(plane_, default_rotation);
-+CONFIGFS_ATTR(plane_, color_range);
-+CONFIGFS_ATTR(plane_, default_color_range);
- CONFIGFS_ATTR(plane_, supported_color_encoding);
- CONFIGFS_ATTR(plane_, default_color_encoding);
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.h b/drivers/gpu/drm/vkms/vkms_configfs.h
+index 6dc4d34a9e44..df743e0107f4 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.h
++++ b/drivers/gpu/drm/vkms/vkms_configfs.h
+@@ -20,34 +20,84 @@ struct vkms_configfs_device {
+ 	struct config_group group;
  
-@@ -265,6 +366,8 @@ static struct configfs_attribute *plane_attrs[] = {
- 	&plane_attr_type,
- 	&plane_attr_supported_rotations,
- 	&plane_attr_default_rotation,
-+	&plane_attr_color_range,
-+	&plane_attr_default_color_range,
- 	&plane_attr_supported_color_encoding,
- 	&plane_attr_default_color_encoding,
- 	NULL,
+ 	struct config_group plane_group;
++	struct config_group crtc_group;
++	struct config_group encoder_group;
+ 
+ 	struct mutex lock;
+ 	bool enabled;
+ 
+ 	struct vkms_config *vkms_config;
+-	struct vkms_config_crtc *vkms_config_crtc;
+-	struct vkms_config_encoder *vkms_config_encoder;
+ };
+ 
+ struct vkms_configfs_plane {
+ 	struct config_group group;
++	struct config_group possible_crtc_group;
+ 
+ 	struct vkms_configfs_device *vkms_configfs_device;
+ 	struct vkms_config_plane *vkms_config_plane;
+ };
+ 
++struct vkms_configfs_crtc {
++	struct config_group group;
++
++	struct vkms_configfs_device *vkms_configfs_device;
++	struct vkms_config_crtc *vkms_config_crtc;
++};
++
++struct vkms_configfs_encoder {
++	/* must be first because it is a krefcounted stuff */
++	struct config_group group;
++
++	struct config_group possible_crtc_group;
++	struct vkms_configfs_device *vkms_configfs_device;
++	struct vkms_config_encoder *vkms_config_encoder;
++};
++
+ #define config_item_to_vkms_configfs_device(item) \
+ 	container_of(to_config_group((item)), struct vkms_configfs_device, group)
+ 
+ #define planes_item_to_vkms_configfs_device(item) \
+ 	config_item_to_vkms_configfs_device((item)->ci_parent)
+ 
++#define encoders_item_to_vkms_configfs_device(item) \
++	config_item_to_vkms_configfs_device((item)->ci_parent)
++
++#define crtc_item_to_vkms_configfs_crtc(item) \
++	container_of(to_config_group((item)), struct vkms_configfs_crtc, group)
++
++#define encoder_item_to_vkms_configfs_encoder(item) \
++	container_of(to_config_group((item)), struct vkms_configfs_encoder, group)
++
+ #define plane_item_to_vkms_configfs_device(item) \
+ 	planes_item_to_vkms_configfs_device((item)->ci_parent)
+ 
+ #define plane_item_to_vkms_configfs_plane(item) \
+ 	container_of(to_config_group((item)), struct vkms_configfs_plane, group)
+ 
++#define plane_possible_crtc_src_item_to_vkms_configfs_device(item) \
++	plane_item_to_vkms_configfs_device((item)->ci_parent)
++
++#define plane_possible_crtc_src_item_to_vkms_configfs_plane(item) \
++	plane_item_to_vkms_configfs_plane((item)->ci_parent)
++
++#define crtc_item_to_vkms_configfs_device(item) \
++	config_item_to_vkms_configfs_device((item)->ci_parent)
++
++#define crtc_child_item_to_vkms_configfs_device(item) \
++	crtc_item_to_vkms_configfs_device((item)->ci_parent)
++
++#define encoder_item_to_vkms_configfs_device(item) \
++	config_item_to_vkms_configfs_device((item)->ci_parent)
++
++#define encoder_child_item_to_vkms_configfs_device(item) \
++	encoder_item_to_vkms_configfs_device((item)->ci_parent)
++
++#define encoder_possible_crtc_src_item_to_vkms_configfs_device(item) \
++	encoder_child_item_to_vkms_configfs_device((item)->ci_parent)
++
++#define encoder_possible_crtc_src_item_to_vkms_configfs_encoder(item) \
++	encoder_item_to_vkms_configfs_encoder((item)->ci_parent)
++
+ /* ConfigFS Support */
+ int vkms_init_configfs(void);
+ void vkms_unregister_configfs(void);
 
 -- 
 2.44.2
