@@ -2,114 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3619515B1
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 09:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906BF951672
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 10:19:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 630F610E0C8;
-	Wed, 14 Aug 2024 07:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBCC10E05C;
+	Wed, 14 Aug 2024 08:19:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="rcO4NZSn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KeUKsbMG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C3010E0C8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 07:42:51 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20240814074248epoutp01666aadfe4348a82fe523d1358ef5c33a~riICxptqk2743527435epoutp01K
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 07:42:48 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20240814074248epoutp01666aadfe4348a82fe523d1358ef5c33a~riICxptqk2743527435epoutp01K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1723621368;
- bh=XRrSZrKYhO1Jt5/oeubOXU865fR8qNCCy0GNGhbI0lU=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=rcO4NZSndFqPqmqwjPUPbVf+TFwH2WvuHq2AI2oS0PB4oJJoXAMt51W4eoRKaZ8kY
- XxzlP98chqmDTimHSe+26WDz1Ayt40v2ZWJ5GLsBKkO2qrtRE36e4fqNtpZ1U9o+LH
- szv9FBFkH96hgDRNgFAt6VuGqzyZgRZLLwEm0doU=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20240814074248epcas1p48bb65801bb98f164c91fb151b9946b73~riICa-zYd1226912269epcas1p4o;
- Wed, 14 Aug 2024 07:42:48 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.38.232]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4WkKwl5vZ9z4x9Q0; Wed, 14 Aug
- 2024 07:42:47 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- DC.6F.09734.7FF5CB66; Wed, 14 Aug 2024 16:42:47 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20240814074247epcas1p23e178263d8534eabaf9af0718f32a532~riIBanF5F0620406204epcas1p2F;
- Wed, 14 Aug 2024 07:42:47 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20240814074247epsmtrp217e051cb6c63384ed06cb6d5dc4ac91e~riIBZv5941759317593epsmtrp2C;
- Wed, 14 Aug 2024 07:42:47 +0000 (GMT)
-X-AuditID: b6c32a35-c03b870000002606-ca-66bc5ff7eecd
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 56.CD.19367.7FF5CB66; Wed, 14 Aug 2024 16:42:47 +0900 (KST)
-Received: from [10.113.111.204] (unknown [10.113.111.204]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20240814074246epsmtip245917554ca3cf653ca823b64f047870f~riIBKamyC2359123591epsmtip2f;
- Wed, 14 Aug 2024 07:42:46 +0000 (GMT)
-Message-ID: <70586c17c515984c3e31506926be026ead9ea58b.camel@samsung.com>
-Subject: Re: [PATCH] drm/exynos: cleanup header include
-From: Kwanghoon Son <k.son@samsung.com>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,  Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 14 Aug 2024 16:42:46 +0900
-In-Reply-To: <20240813-clean_header-v1-1-6f950d09b877@samsung.com>
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB1B10E05C
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 08:19:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CADADC0002;
+ Wed, 14 Aug 2024 08:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1723623585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qXT2OR2U85EEVIw4IJJAjl0CcFk1v3cp4pbVQDnQAik=;
+ b=KeUKsbMGUDtukmZwyEB0BSkwD6YKMr3zhQOX9674T/VCti625uoCsK5GcEidnitUu0KZtc
+ I+NJbTKh9D/za6CV/OiaquAZsydID85v+JE2t290fgKx8S6OOsorIdYFM/GRzEF5QrhR5/
+ LdLUsqrj2t7V701k0pIS9kZUzEuenDIVy1t/8/nVn0Bo6SPL3DCu9S8LDVTEAhhNrhcSv+
+ PeZwUvuxUqCENdO9eQ/Nv2fBjWInpuk79Koe1CYPgNZkEum8jl0ZbSEK5HnrcMdskTAB3+
+ AedWrEA4gyHfAfumoYS6YfBT9mFhSp3+DJ4hfqAv1yJI3uB9V6eY9m6zJTrRbg==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v2 0/8] drm/vkms: Add support for multiple plane formats
+Date: Wed, 14 Aug 2024 10:19:33 +0200
+Message-Id: <20240814-b4-new-color-formats-v2-0-8b3499cfe90e@bootlin.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPJsWRmVeSWpSXmKPExsWy7bCmnu73+D1pBucu6VqcuL6IyeLBvG1s
- Fv+3TWS2uPL1PZvFpPsTWCzOn9/AbnG26Q27xabH11gtLu+aw2Yx4/w+JosZk1+yOXB77P22
- gMVj56y77B6bVnWyedzvPs7ksXlJvUffllWMHp83yQWwR2XbZKQmpqQWKaTmJeenZOal2yp5
- B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gDdqKRQlphTChQKSCwuVtK3synKLy1JVcjI
- Ly6xVUotSMkpMC3QK07MLS7NS9fLSy2xMjQwMDIFKkzIzuhd/pil4CVXxdU/LWwNjDM5uxg5
- OSQETCRW3W1l7GLk4hAS2MEoMaVrChOE84lRYsP6vWxwzpLHF5hhWlbvO8MKkdjJKNG75C9U
- y3tGiYkte9lBqngFPCRef73MCGILC5hLnJ9xAizOJqAusaRtLTtIg4hAH5PE61uzWUAcZoEe
- RonzH5aAVbEIqEpsufeNDcTmFHCS2D/1NZjNLKAtsWzha7A7RAXkJRoenmCG2CYocXLmE7BB
- EgIrOSSebN3BDnGsi8T6Ka+gDheWeHV8C1RcSuLzu71sEHa2xNGPMHaJxPVZi1ghbGOJ/Usn
- A/3GAbRYU2L9Ln2IG/gk3n3tYQUJSwjwSnS0CUGY8hK3OsshGkUlzjz9CDXQQ+L/3ivMkACa
- yijxb8YulgmM8rOQfDMLyQezEJYtYGRexSiWWlCcm55abFhgCI/X5PzcTYzglKpluoNx4tsP
- eocYmTgYDzFKcDArifAGmuxKE+JNSaysSi3Kjy8qzUktPsRoCgzTicxSosn5wKSeVxJvaGJp
- YGJmZGxiYWhmqCTOe+ZKWaqQQHpiSWp2ampBahFMHxMHp1QD093DTf9XnLK6nHVF7uvllyye
- lVn8PbNUeROKXt67cTxlwZ5b18xDNI6lvjr75ZhI0SmnK7rVoR1VORf+NR6SLlt3Na/8KrdU
- ZemTox0rn/6Yu0PCSYd1xt8lu9kcVCdvMa6La+azPSL1bkZ9V+9UntUncy1jJW8qcfw+etP6
- fgavrr3A4+OLjdjP9XzfcNr8U5ONHl/4ntRFX38rps1tTFio6+Y3NZ9FwtvI5YC9n616i+6p
- qdv0fRXPnH4lvuHNhjVLr3z/ozll5ia336ttEv99sjrRIbEpatGj/i35G9hmTny4y4TbMqx4
- 3gvTp4xft9Wzq1ltuha2Nnafceoak97W2uN3EnmPPGVhOSWc8lWJpTgj0VCLuag4EQAz/z+s
- MgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsWy7bCSvO73+D1pBtNOsVucuL6IyeLBvG1s
- Fv+3TWS2uPL1PZvFpPsTWCzOn9/AbnG26Q27xabH11gtLu+aw2Yx4/w+JosZk1+yOXB77P22
- gMVj56y77B6bVnWyedzvPs7ksXlJvUffllWMHp83yQWwR3HZpKTmZJalFunbJXBlbGo5xFaw
- lavi2v2jjA2MTzm6GDk5JARMJFbvO8PaxcjFISSwnVHib8sWFoiEqETH5UbGLkYOIFtY4vDh
- Yoiat4wSqw6eYAOp4RXwkHj99TIjiC0sYC5xfsYJdhCbTUBdYknbWnaQBhGBfiaJtn39bCAO
- s0AvUPeuN2BVLAKqElvufQObxCngJLF/6ms2iBUzGSXOfpgNdgazgKZE6/bf7BC2tsSyha+Z
- QWxRAXmJhocnmCHOEJQ4OfMJywRGwVlIWmYhaZmFpGwBI/MqRtHUguLc9NzkAkO94sTc4tK8
- dL3k/NxNjODo0Qrawbhs/V+9Q4xMHIyHGCU4mJVEeANNdqUJ8aYkVlalFuXHF5XmpBYfYpTm
- YFES51XO6UwREkhPLEnNTk0tSC2CyTJxcEo1ME27LOHM5P1Md+4C7mM/t204XR3nrTR5xbx7
- lo+vT/rZtdPz7zdz/p/KlyzvTzPd8mUFl1F82YzQ6VxtK35VWH3e+MR8x3vxmovTzum+Mesx
- 2+e1mWFpzp8laxfOrtv+/CyToHmhQNHkgKVl3Ktz/7yKU0g8ILFoVtC0wmab4quCvM9fZHy2
- +aI687XYGy2BUEmLuNcS9bdXO/5Nfyw2uy/yz6UvR1zzVlYdnP2KdWP83kSjxSzP9EImLpDY
- sovVuyxn/UwR1r33hd6GW6rp5h1cWirmF2c5/5L4dta1JXNmdMa1yx3M5vl891SB7kl25XrB
- iimzFicGVnQee9dfqVR19cnxOS3Kscxvjjp9/lqtxFKckWioxVxUnAgARa9f6w0DAAA=
-X-CMS-MailID: 20240814074247epcas1p23e178263d8534eabaf9af0718f32a532
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240813075621epcas1p13a114c471fa953a5038d1897994edca5
-References: <CGME20240813075621epcas1p13a114c471fa953a5038d1897994edca5@epcas1p1.samsung.com>
- <20240813-clean_header-v1-1-6f950d09b877@samsung.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJVovGYC/22PQW7DIBBFr2Kx7qRAHLCtquo9oiwADw1SMC0QN
+ 1GUu2diq4tK3c0fad77c2MFc8DChubGMs6hhDRRkC8Nc0czfSKEkTKTXLZ8KyTYFib8AZdOKYN
+ POZpaQFjsR9V1VgrD6PQrow+XBbs/UD6GUlO+LpZZPLcrcCfU/8BZAAfdOt975Hor9IdNqZ7Ct
+ HEpssN9dWT8PlPjuoqYNQWJE2OoQzPmCDEU9/o7kOVSn+UilmKWx4bmbanR8R6u55msnLTCaKd
+ VK5Tyf7Tv5L0/AFRNKzAxAQAA
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ 20240809-yuv-v10-0-1a7c764166f7@bootlin.com
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2913;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=ZPC3atLxXoEtrqJl2fA9luVfBUd/q7A8/GXQUFWKIdA=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmvGierxBxuguWDbOTC16U0701DGMEr4t1blwOc
+ 6dlN8CWSHGJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrxongAKCRAgrS7GWxAs
+ 4ueID/wJB8hfh94MPCNBMm4UMK/PvYWcNT3ZTiAuctqndMPBc4pr2XZ3Gn+NnsStuBXlwFiGhMf
+ J8d8lOVf6fhw4IhY6V9YjzUB5GwfpPj7gemV33AwyOEszmz8hz225Pr+4Al4kGlNM5bslh4TxG2
+ FcmHxIy2wMPNTJSCph7YLjEkFYoMw2zxq58W2+CK9h01C1oYaBChHVkGMy0BQTfmcU2V6mqJUac
+ AFxV6nm0OKEowfIChKbrtJdNKyZsml9pKiG0DSm6iWHJ0VH1gbij45V1z3BPFkmpDMAz/7adnSI
+ M40HkDirtZ6qhK40aSl+96HIWjXlXyEUCZFG21SG32NRwhr3+okQXgSq72sC3tl44nTF4ikleV+
+ Norvuv3aKfSx6r+D6USatmVxzaKE/JyMBRTaAwV021Y24HLZUtWoNaaFay+8G8hpEsdWgHPMbkG
+ fZt+nTM5FewAa1c1XMy+ouUVBop6GchCnuDJuncASQHDomtTDg9RwkYrO52IfWQnPbZvZEMxGlx
+ aLSiXVOkZ9IDPi+g12KSaAv+0kUqm1o+JyuRsLCsO14gxdtlwScZsLs5mzYjLxLq0EFTRamJ9V+
+ sgdQKEuXpAhQxuUN3AkON3zUDbbJyuIczjf7l0hT17nWoipoYUqx6WCI5v2X2xCAhFN9U8XyBrl
+ 7wI9wax7g4VamEg==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,48 +88,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-08-13 at 16:55 +0900, Kwanghoon Son wrote:
-> Cleanup header include
->=20
-> Signed-off-by: Kwanghoon Son <k.son=40samsung.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_fb.c =7C 5 -----
->  1 file changed, 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fb.c b/drivers/gpu/drm/exy=
-nos/exynos_drm_fb.c
-> index fc1c5608db96..b6139e179aa9 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fb.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fb.c
-> =40=40 -10,17 +10,12 =40=40
-> =20
->  =23include <drm/drm_atomic.h>
->  =23include <drm/drm_atomic_helper.h>
-> -=23include <drm/drm_crtc.h>
->  =23include <drm/drm_framebuffer.h>
-> -=23include <drm/drm_fourcc.h>
->  =23include <drm/drm_gem_framebuffer_helper.h>
-> -=23include <drm/drm_probe_helper.h>
->  =23include <drm/exynos_drm.h>
-> =20
-> -=23include =22exynos_drm_crtc.h=22
->  =23include =22exynos_drm_drv.h=22
->  =23include =22exynos_drm_fb.h=22
-> -=23include =22exynos_drm_fbdev.h=22
+This series introduce a macro to generate a function to read simple
+formats. It avoid duplication of the same logic for similar formats.
 
-Please don't merge this.
-This has compile error when add more devices (more than defconfig).
-I'll fix and send v2.
+PATCH 1 is the introduction of the macro and adaptation of the existing
+code to avoid duplication
+PATCH 2-6 introduce new formats with the help of this macro.
 
-kwang.
+This series must be applied on top of [1].
 
-> =20
->  static int check_fb_gem_memory_type(struct drm_device *drm_dev,
->  				    struct exynos_drm_gem *exynos_gem)
->=20
-> ---
-> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
-> change-id: 20240813-clean_header-863930a8f82f
->=20
-> Best regards,
+[1]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/ 
+
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v2:
+- Add proper casting/type to __le16 when needed to avoid warnings with 
+  sparse
+- Change the function argb_u16_from_yuv8888 to argb_u16_from_yuv161616 to 
+  support 16 bits values.
+- Add support for P010/P012/P016 format
+- Link to v1: https://lore.kernel.org/r/20240516-b4-new-color-formats-v1-0-74cf9fe07317@bootlin.com
+
+---
+Louis Chauvet (8):
+      drm/vkms: Create helpers macro to avoid code duplication in format  callbacks
+      drm/vkms: Add support for ARGB8888 formats
+      drm/vkms: Add support for ARGB16161616 formats
+      drm/vkms: Add support for RGB565 formats
+      drm/vkms: Add support for RGB888 formats
+      drm/vkms: Change YUV helpers to support u16 inputs for conversion
+      drm/vkms: Create helper macro for YUV formats
+      drm/vkms: Add P01* formats
+
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c |   3 +-
+ drivers/gpu/drm/vkms/vkms_formats.c           | 320 ++++++++++++++------------
+ drivers/gpu/drm/vkms/vkms_formats.h           |   4 +-
+ drivers/gpu/drm/vkms/vkms_plane.c             |  14 ++
+ 4 files changed, 195 insertions(+), 146 deletions(-)
+---
+base-commit: 219b45d023ed0902b05c5902a4f31c2c38bcf68c
+change-id: 20240312-b4-new-color-formats-1be9d688b21a
+prerequisite-message-id: <20240809-yuv-v10-0-1a7c764166f7@bootlin.com>
+prerequisite-patch-id: ae2d8b2efbbaa9decce56632c498c87e708288b3
+prerequisite-patch-id: c26b6d4867eaf6566195aa0002765357d4f69f8c
+prerequisite-patch-id: 8791d34a6f3148dc518da5249453067e40d346e3
+prerequisite-patch-id: 26ec7cd5a449004bcfd6ce483671f87655f8635c
+prerequisite-patch-id: 2e855ba871f2e99d4b6b7d85da2ddac6bb32262e
+prerequisite-patch-id: 82523a917646793deeec7cdcc7ff286bd924fd21
+prerequisite-patch-id: 0e355e5316281f53ab5e97ab6e63b0a682f3eb9e
+prerequisite-patch-id: 7a63d245a377d5f5283f48e8f52421b912811752
+prerequisite-patch-id: dda6bf4692cd1795c489ff58e72c0841ea8ffbc4
+prerequisite-patch-id: f70e535b6086cc587975fbfa75741f485f679a32
+prerequisite-patch-id: 6c2aa2645c7d854951608aa4d15a02e076abe1fe
+prerequisite-patch-id: dc61c6d3db73053fc36e115af561e0c42b467de2
+prerequisite-patch-id: deda292af6d8bbf6762b0bf4d351ffd2225995d8
+prerequisite-patch-id: 18554f49b53cbcfd4a8ca50dc83b17dd3cf96474
+prerequisite-patch-id: 5633292e10132d29be2467812e6e2e824cfedb67
+prerequisite-patch-id: 43f37e9c1bc041d491e41dfb59548ed258a1e071
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
