@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706B4951E81
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 17:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0207F951E8B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 17:28:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7C610E4CC;
-	Wed, 14 Aug 2024 15:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8658E10E4CF;
+	Wed, 14 Aug 2024 15:28:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hzFyzc5i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pco3XWSs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3960D10E4CC
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 15:27:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE3EF10E4CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 15:28:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5910261AC3;
- Wed, 14 Aug 2024 15:27:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4DDC116B1;
- Wed, 14 Aug 2024 15:26:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2781761A51;
+ Wed, 14 Aug 2024 15:28:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 296E0C116B1;
+ Wed, 14 Aug 2024 15:28:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723649220;
- bh=0+ROfI81T2PdimCQTVNjRB4AVhQ0BgeJ6Fh32ouXTic=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hzFyzc5iNPjsRhosfMjDgZiVP7d3DKrrOQEuRIFO1ZXBaLM9kkLTbBaQ7UePzvYcY
- TLdySakwa4PpP1a4o1nOd4JAzj++IhEgzijmNemWnNDs/rciToULUDFesZ50VqSVnI
- nBU8tpfoqvGk+YSnl7+rEjWLXofTQRLRpn8umC8MqYUHWMBK7C5LxBSwLXBmS2ZKU7
- IY0ZU185+yad3JCL7Cp/gfdBohTv9yZScJcsFDlywnyVkYxlLpxu5vfqbsO+yHgT9e
- 7ViQftOkY72oRqkMv7wYRD/3XJZilMmG459UxoGh+AZTZPpbD2zD2egHcmhIGjxRO6
- UfZZ6HaoL38sg==
-Message-ID: <97f60cd3-1433-4dc5-9dc4-ad9a53c1b35a@kernel.org>
-Date: Wed, 14 Aug 2024 17:26:49 +0200
+ s=k20201202; t=1723649317;
+ bh=4xOvY7ZUGBscotWO0gF1rUpNxDJ/2bsRi1+aocWjgnk=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=pco3XWSsNCk5xwrkySFqbpr2EoRoBszgtgcrAYQgvEs+v9LkONAWhBJvoem8mKPxT
+ Uc9BmHPAuDsUBcKHDfzQlIB0UikuqSddP3nNoPtNwsuwI65TcgOj56TmXrg/uJnFWr
+ RPGhyfyZYIgzhLlP4mGQf4qiSK/FGlOf/TurzbdNHwapDS9KHTCT56G5gBNAzAOzcb
+ vmixeCYPZxgD5KAqLXzvLSmiNaYTpH8WFi4AA4D+nTbSjZNXKavf2fC9bW/jRn7tZD
+ 19yUim8yDroDQ1m+PKlHGw9BB1OYVJFh+FP+w0XM/top8fDO/sYig2AznJ5wkJxLQl
+ Swtr/zQG7E2aA==
+Message-ID: <28a917ac-2b90-474c-8a3b-3298dedf87bc@kernel.org>
+Date: Wed, 14 Aug 2024 17:28:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add JMO Tech
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Esben Haabendal <esben@geanix.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
@@ -47,7 +48,7 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 References: <20240814-drm-panel-ili9881c-lcm-jm800wx-v1-0-22a5e58599be@geanix.com>
  <20240814-drm-panel-ili9881c-lcm-jm800wx-v1-1-22a5e58599be@geanix.com>
  <ec3462d8-e300-4273-9ce5-5380b506821e@kernel.org> <871q2r5fnq.fsf@geanix.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <97f60cd3-1433-4dc5-9dc4-ad9a53c1b35a@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -92,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <871q2r5fnq.fsf@geanix.com>
+In-Reply-To: <97f60cd3-1433-4dc5-9dc4-ad9a53c1b35a@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,34 +111,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/08/2024 16:43, Esben Haabendal wrote:
-> Krzysztof Kozlowski <krzk@kernel.org> writes:
-> 
->> On 14/08/2024 15:10, Esben Haabendal wrote:
->>> Add vendor prefix for JMO Tech CO., LTD. (http://www.jmolcd.com/).
->>>
->>> Signed-off-by: Esben Haabendal <esben@geanix.com>
->>> ---
->>>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>>  1 file changed, 2 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> index a70ce43b3dc0..5d2ada6cfa61 100644
->>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> @@ -758,6 +758,8 @@ patternProperties:
->>>      description: Jiandangjing Technology Co., Ltd.
->>>    "^jide,.*":
->>>      description: Jide Tech
->>> +  "^jmo,.*":
+On 14/08/2024 17:26, Krzysztof Kozlowski wrote:
+> On 14/08/2024 16:43, Esben Haabendal wrote:
+>> Krzysztof Kozlowski <krzk@kernel.org> writes:
 >>
->> Wevsite is jmolcd, so prefix should match it - jmolcd.
+>>> On 14/08/2024 15:10, Esben Haabendal wrote:
+>>>> Add vendor prefix for JMO Tech CO., LTD. (http://www.jmolcd.com/).
+>>>>
+>>>> Signed-off-by: Esben Haabendal <esben@geanix.com>
+>>>> ---
+>>>>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>>>>  1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>>>> index a70ce43b3dc0..5d2ada6cfa61 100644
+>>>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>>>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>>>> @@ -758,6 +758,8 @@ patternProperties:
+>>>>      description: Jiandangjing Technology Co., Ltd.
+>>>>    "^jide,.*":
+>>>>      description: Jide Tech
+>>>> +  "^jmo,.*":
+>>>
+>>> Wevsite is jmolcd, so prefix should match it - jmolcd.
+>>
+>> Ok. Even though the companies name is "JMO Tech CO.,LTD", and does not
+>> hint at "jmolcd"?
 > 
-> Ok. Even though the companies name is "JMO Tech CO.,LTD", and does not
-> hint at "jmolcd"?
+> We use domain names as vendor prefixes, so when another "jmo.com" comes,
+> they will get "jmo", not something else.
 
-We use domain names as vendor prefixes, so when another "jmo.com" comes,
-they will get "jmo", not something else.
+Although probably that's too far fetched... let it be then:
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
