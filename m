@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73ECC951D42
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 16:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AA5951D4A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 16:36:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E35EC10E4B4;
-	Wed, 14 Aug 2024 14:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F08E410E4BD;
+	Wed, 14 Aug 2024 14:36:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="R8BbihmT";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZrQhpDcb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D700A10E4B2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 14:36:39 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A1FB81C0011;
- Wed, 14 Aug 2024 14:36:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA0710E4B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 14:36:40 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8E6191C0018;
+ Wed, 14 Aug 2024 14:36:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1723646198;
+ t=1723646199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=exr93NbJHH1MlNSiTo8r2EJM59HebLID6gRxLw+2zrQ=;
- b=R8BbihmTed7j0v5zUZhIHIvmMbpwnJErHuffKS3/bRRRGXjNWq9VHrhK1dAcNg+kAbH2df
- ihdk03anLjK08GhQZRRz3Z/jJpv1rjtLSHJgJqA1IHlJmzRTxdY6moBTgHRFQb1KfXBCCs
- yLrRjsMMgeD6+RkxUqCtckZboqeWP9LEvGWH/dJCsxMxkVGqZt+jjN6ehqWnLNnMGlyzMN
- AgdlQaDWxmxjakLJ2evYzcly83Sl90r5R/+yCu2K6gBQfOrbfU20+2uDMgsSF0qKDf1jVO
- rBPNjs4e7CF8ErX90C76Fqz9adWLJCfc/4ryZYSBn0XGvk9mTBUW3M8s1Y2nzw==
+ bh=qTzJTdqCcC1+FQ3s6IZb2V6Dy36Za0dGp0XBs510Djs=;
+ b=ZrQhpDcbqqyl4hg/GfPX8VSMqaaLqN2dKzG46VH3h2Y7YzRQHbar44c5HpvUIq81KdNt63
+ YcMoy/rMiWb02lixQ7CAaufsaz5dAp9zN4F9L1FrJIzldjQMFip0QChBVxHd4IylAq2qgz
+ ut+M20ceSUUNyEi3eVgosPGuQRuq4co46IsGIseBkuX6WxPJpGPR+K1Fo1J2PSsX3Wqwc3
+ PFHJJ/n5EKaNdjNpThiZy3XdcwjP1PhwvqbuW3IquXgyeM0UyHWAU6BGwMBPsAZVNFg/xO
+ bodgvHvasKfee5fZGGub4V+LhXXMvQUja0WVTzWbQMKMwUFPlL3jn2WiGseJ2Q==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 14 Aug 2024 16:36:31 +0200
-Subject: [PATCH RFC 09/15] drm/vkms: Introduce configuration for plane
- color encoding
+Date: Wed, 14 Aug 2024 16:36:32 +0200
+Subject: [PATCH RFC 10/15] drm/vkms: Introduce configuration for plane
+ color range
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240814-google-remove-crtc-index-from-parameter-v1-9-6e179abf9fd4@bootlin.com>
+Message-Id: <20240814-google-remove-crtc-index-from-parameter-v1-10-6e179abf9fd4@bootlin.com>
 References: <20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com>
 In-Reply-To: <20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -53,21 +53,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  seanpaul@google.com, nicolejadeyee@google.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4266;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4055;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=roexYR8lijwFeTIa49SgBUoPN3tjM1s+BV+z3H4eZvQ=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmvMDrPPw2Fuyl3KoFXT298AI8LDJ6IEG6Ak70T
- OevBVrEpBOJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrzA6wAKCRAgrS7GWxAs
- 4r/bEADCmLzL4RFCr1UjfTq3vAQLCzYLM2TFMx99cBrPfBjpeEzjG0wyQ+KjSss1WKS+pntK/cJ
- 2LcmAOlLnYXrfmgxWad3XBKE3/b7UpdiYp+fc2gDWSu6HAG2fULmC05nKz0ScFhlToVCtFo7MVy
- iKOzzOqSmq2IGaRodMSK9aCNZ4I8SnObLx7N9wph5IqPl+B+jAlT5g4hmezIzOzI5/bDGZtJwBM
- cdhRvHWXv4Eh+wcYJD/xmv6NWLH5vjVuof8y5eFHj20psTc1rLyxk/tY21EKYuUknB3tSGua/Ho
- xXbJzpo5zykKOXDSoFuWf68qiEMhS7UGcc/sg3l00DhCazSVTDBNYxkH9E/ZYJtLYWhNiOc6fYE
- J43pQ71YtxijtoGVEiqc/3FtViJPNYLIy3z+tEANyQ59bEs1aOKw1EgZ8TQupXyaO9tTOhYFVQh
- te4TXlOmUtLjE+z50YoUY0AhTtcpL2QfYIekuhQtCK0s8gqrHJtYfuiiyhIaG+oioN4Bos32IfQ
- kDZ+8QLGWn0PdANODpoHchxnjhXjZDnIDHnZQfn+ir8NsLtQw3wWJJlKIuKAlmtZdnd+IMqtVx/
- F7SSRJYGjpx0TdJaBeA0I6Q3v5V/WPai7t4N6W/AcSwreC2o7UopGs5sjH2K4IPY74EKC7wuhLZ
- 0AkGkH2+KylG9XQ==
+ bh=n9VPKadJ0Gfeu1GqQvFJ1hXBtbm3Y/iFV6hNgIT98iA=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmvMDriBn6dfYmApqULXo+hRdf5GNGoUO/I7qN0
+ dRdo/RXo/SJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrzA6wAKCRAgrS7GWxAs
+ 4ivuD/4tmWZQtc4L41tnQ+2Rapur8BHqHMgmPqu5nPpnVMtp0i7xwLv+Jd5xEuOloLQkuD2bqiF
+ N79ThDvPjAizfR2OCJyj3n00pB0b58tvFrlXG/oChy3t70R4IIuWPTd+GJqOUVOJG+PHYsCKQwT
+ PeLnAXP3v6xz3qSq72+r0CB1EKE1jlHR11BtLPPQx/VU150KRsRh9rfUjhwXqTym4qOw9O8zv/2
+ DJJ+9xQ5T44bghwF4DmxD3MZeVLsASl2Ha5Q6jNMCQylgVxMwPs6IZv011GwCFWJaNBRgVCVA0Y
+ kEkVR06Bl9ZstUWhO/vxTIheut8uv6kqv3GhXMKuD3oX22rB4KVglCAiqnNPCui2EJt3Bi8WMzK
+ TfQ4zL2iwqA04XdpzamZjnlTC32bAKpONwzLtA7UXs5kSRUgwOt57oHlEApQ7C6j1eyFKE3il+d
+ GiNXB0N8uvx8+72/pEoB+9o/lTcmmS7HpKnQBG/N0kND/xNzuBt5zarWdQa34Ifb4qZzboFPPsl
+ oBji4I9uFcjZf45B0TkKneYu9VSbTbzE4vTOlDAnbpnDoZkv/uEL2kHVuB8GFmd3hFScuT7E4UH
+ xl0FKezyDEp7WNGov/DxJNOUbcQbz/YrvqX6XTSgMdL6OEgcDSM2XX+i9Z3Cz7kladWKehS9pVp
+ bsKWEVqH0Mvwxkw==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -86,98 +86,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VKMS driver supports all the color encoding on planes, but for testing it
-can be useful to only advertise few of them. This new configuration
-interface will allow configuring the color encoding per planes.
+VKMS driver supports all the color range on planes, but for testing it can
+be useful to only advertise few of them. This new configuration interface
+will allow configuring the color range per planes.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_config.c | 15 +++++++++++++++
+ drivers/gpu/drm/vkms/vkms_config.c | 15 ++++++++++++++-
  drivers/gpu/drm/vkms/vkms_config.h |  4 ++++
- drivers/gpu/drm/vkms/vkms_plane.c  |  6 ++----
- 3 files changed, 21 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vkms/vkms_plane.c  |  5 ++---
+ 3 files changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 2a24da9c0fc9..dabb8cb13314 100644
+index dabb8cb13314..e9e30974523a 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.c
 +++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -82,6 +82,11 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *vkms_conf
- 	vkms_config_overlay->type = DRM_PLANE_TYPE_OVERLAY;
- 	vkms_config_overlay->supported_rotations = DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK;
- 	vkms_config_overlay->default_rotation = DRM_MODE_ROTATE_0;
-+	vkms_config_overlay->supported_color_encoding = BIT(DRM_COLOR_YCBCR_BT601) |
-+							BIT(DRM_COLOR_YCBCR_BT709) |
-+							BIT(DRM_COLOR_YCBCR_BT2020);
-+	vkms_config_overlay->default_color_encoding = DRM_COLOR_YCBCR_BT601;
-+
+@@ -86,7 +86,9 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *vkms_conf
+ 							BIT(DRM_COLOR_YCBCR_BT709) |
+ 							BIT(DRM_COLOR_YCBCR_BT2020);
+ 	vkms_config_overlay->default_color_encoding = DRM_COLOR_YCBCR_BT601;
+-
++	vkms_config_overlay->supported_color_range = BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
++						     BIT(DRM_COLOR_YCBCR_FULL_RANGE);
++	vkms_config_overlay->default_color_range = DRM_COLOR_YCBCR_FULL_RANGE;
  
  	list_add(&vkms_config_overlay->link, &vkms_config->planes);
  
-@@ -121,6 +126,12 @@ bool vkms_config_is_valid(struct vkms_config *config)
- 		    config_plane->default_rotation)
+@@ -132,6 +134,13 @@ bool vkms_config_is_valid(struct vkms_config *config)
+ 		    BIT(config_plane->default_color_encoding))
  			return false;
  
++
 +		// Default color range not in supported color range
-+		if ((BIT(config_plane->default_color_encoding) &
-+		     config_plane->supported_color_encoding) !=
-+		    BIT(config_plane->default_color_encoding))
++		if ((BIT(config_plane->default_color_range) &
++		     config_plane->supported_color_range) !=
++		    BIT(config_plane->default_color_range))
 +			return false;
 +
  		if (config_plane->type == DRM_PLANE_TYPE_PRIMARY) {
  			// Multiple primary planes for only one CRTC
  			if (has_primary)
-@@ -155,6 +166,10 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 		seq_printf(m, "\ttype: %d\n", config_plane->type);
- 		seq_printf(m, "\tsupported rotations: 0x%x\n", config_plane->supported_rotations);
- 		seq_printf(m, "\tdefault rotation: 0x%x\n", config_plane->default_rotation);
-+		seq_printf(m, "\tsupported color encoding: 0x%x\n",
-+			   config_plane->supported_color_encoding);
-+		seq_printf(m, "\tdefault color encoding: %d\n",
-+			   config_plane->default_color_encoding);
+@@ -170,6 +179,10 @@ static int vkms_config_show(struct seq_file *m, void *data)
+ 			   config_plane->supported_color_encoding);
+ 		seq_printf(m, "\tdefault color encoding: %d\n",
+ 			   config_plane->default_color_encoding);
++		seq_printf(m, "\tsupported color range: 0x%x\n",
++			   config_plane->supported_color_range);
++		seq_printf(m, "\tdefault color range: %d\n",
++			   config_plane->default_color_range);
  	}
  
  	return 0;
 diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index 77a72a3a637c..c8802bfb9ab2 100644
+index c8802bfb9ab2..d668aeab9d26 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.h
 +++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -30,6 +30,8 @@ struct vkms_config {
-  *        plane is primary.
-  * @default_rotation: Default rotation that should be used by this plane
+@@ -32,6 +32,8 @@ struct vkms_config {
   * @supported_rotation: Rotation that this plane will support
-+ * @default_color_encoding: Default color encoding that should be used by this plane
-+ * @supported_color_encoding: Color encoding that this plane will support
+  * @default_color_encoding: Default color encoding that should be used by this plane
+  * @supported_color_encoding: Color encoding that this plane will support
++ * @default_color_range: Default color range that should be used by this plane
++ * @supported_color_range: Color range that this plane will support
   * @plane: Internal usage. This pointer should never be considered as valid. It can be used to
   *         store a temporary reference to a vkms plane during device creation. This pointer is
   *         not managed by the configuration and must be managed by other means.
-@@ -41,6 +43,8 @@ struct vkms_config_plane {
- 	enum drm_plane_type type;
- 	unsigned int default_rotation;
+@@ -45,6 +47,8 @@ struct vkms_config_plane {
  	unsigned int supported_rotations;
-+	enum drm_color_encoding default_color_encoding;
-+	unsigned int supported_color_encoding;
+ 	enum drm_color_encoding default_color_encoding;
+ 	unsigned int supported_color_encoding;
++	enum drm_color_range default_color_range;
++	unsigned int supported_color_range;
  
  	/* Internal usage */
  	struct vkms_plane *plane;
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 3a2b8b0b5980..ef20da7ccb17 100644
+index ef20da7ccb17..e7e890f730dd 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -242,12 +242,10 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 					   config->supported_rotations);
+@@ -243,10 +243,9 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
  
  	drm_plane_create_color_properties(&plane->base,
--					  BIT(DRM_COLOR_YCBCR_BT601) |
--					  BIT(DRM_COLOR_YCBCR_BT709) |
--					  BIT(DRM_COLOR_YCBCR_BT2020),
-+					  config->supported_color_encoding,
- 					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
- 					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
--					  DRM_COLOR_YCBCR_BT601,
-+					  config->default_color_encoding,
- 					  DRM_COLOR_YCBCR_FULL_RANGE);
+ 					  config->supported_color_encoding,
+-					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+-					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
++					  config->supported_color_range,
+ 					  config->default_color_encoding,
+-					  DRM_COLOR_YCBCR_FULL_RANGE);
++					  config->default_color_range);
  
  	return plane;
+ }
 
 -- 
 2.44.2
