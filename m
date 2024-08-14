@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1BC951828
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 12:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE30A95184F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 12:06:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52BD010E25D;
-	Wed, 14 Aug 2024 10:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8881F10E27A;
+	Wed, 14 Aug 2024 10:06:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M2cpNHXM";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Rn42RNkl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E399510E25A;
- Wed, 14 Aug 2024 10:00:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723629656; x=1755165656;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=fbyDemeCEd+Wj+VZzePbEzVldroXXA4In/tCe5qY8c8=;
- b=M2cpNHXMfyXR6TfnOH2OZ0IC40gJrIird4uXrgeatSi3Pk9ydq3HsEsQ
- 54xg51dMgTytovRLpYdyI7bddoD1uLAYV/B4OnVHpWHnKvexsL8euzWeH
- o91oKSglDShnrqGy5ucMvwqn26adTB73nRyKwv7Wx3DiLulOaaJ1G8vIX
- QLlj82JdvYHP6C/LSKxxAxadPeDCt8SuYPLB4GASnACwIshbjdOvsGP4s
- faxp7Q8ppKYtNr+QFvjUWsH60fdurlKEXCuFtUDcPS7anVmzpHVx7kckM
- XvkKpxSeF3Wxft0ACDHGCoXMI2lHcCFKFUMQDINDB0tLWxDIcQefqVmT1 w==;
-X-CSE-ConnectionGUID: BzSUUCpjRWaRDDPV0gEWPQ==
-X-CSE-MsgGUID: zuAiKFdJRVqMzdMuNjMztw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="21993262"
-X-IronPort-AV: E=Sophos;i="6.09,145,1716274800"; d="scan'208";a="21993262"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2024 03:00:55 -0700
-X-CSE-ConnectionGUID: 8wCEPYKcTne7qDTJ/5n0aw==
-X-CSE-MsgGUID: EQvajPwfSFCxcj/HMqie0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,145,1716274800"; d="scan'208";a="63831566"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.65])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2024 03:00:53 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
- Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v2 2/2] drm: use mem_is_zero() instead of !memchr_inv(s, 0, n)
-Date: Wed, 14 Aug 2024 13:00:35 +0300
-Message-Id: <20240814100035.3100852-2-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240814100035.3100852-1-jani.nikula@intel.com>
-References: <20240814100035.3100852-1-jani.nikula@intel.com>
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C86010E27A
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 10:06:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A0043240004;
+ Wed, 14 Aug 2024 10:06:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1723630004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NYc690m3jlqMQIbbYnvvIiqzbdiOT8lJJYhlVIWqL+4=;
+ b=Rn42RNklbrjC6iMYoxN6SRytNi7lbUOSp1GpODKA3kK8AWKXiz0kMNKb3g03GRMOxAM/Ix
+ tGoTeONI9Mso+M/Yl7mOIm9EYoXA8UphpCNqq9OnZUIc3BIgq4yestU2kjfKAV6UfuUEZF
+ BM6WikvbdLu8DP1EYENP/fu3VS7/6Lu2mm47sJurArGGyxOITEcmgmEc26MJ+iY+VmmAEV
+ 0o8rVMRwe0GM5JDoOf5uOqQJFMIDWep/ZgbfH5hQoVGFLFjPDEoU/wrdOj+pIySI4taCIe
+ 3P86JVVUQvLcgDwP0vh94fskkS/3PGSm4c3mF0KiUwhIo8ih1xytrFrHOdFW0w==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH RFC 0/4] drm/vkms: Switch all vkms object to DRM managed
+ objects
+Date: Wed, 14 Aug 2024 12:06:33 +0200
+Message-Id: <20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com>
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKmBvGYC/5XRUWvDIBAA4L8SfN5tmhpNwhiDwX7AXkcpxlxSa
+ Yyd2rSl9L/Ppt3DHgbdk5563516IgG9wUDq7EQ8TiYYN6aAPWREr9XYI5g2xSSnOadFzqB3rh8
+ Qpo0NYNWoemyBK9RVxQVTUpKUufXYmcOsfpKP9zeyvC56/NqlCvG206iAoJ21JtZZ6y1YE/TTz
+ wRGPMSLZjEENTdSZ89zHyWt4LibYGIUKKSqWgrOhOjka+NcHMz4mNiXP5IZh4YnfZ9qD85D57x
+ VMcCUJ6xsFryqdIcVxTuxvU83apTerNJZXDXHebxyC1FwpiWThaju5G4PrAflTWe0iulHUnPso
+ iFK0cqW6rz8nxa2g4mwRtWiv2EFkyzvaFl2RfsbW57P37M//k4YAgAA
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4173;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=GVE1bZ9+AZQFWtRaVy0kBd4xiNgOmkYOy/TyzCncui4=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmvIGy3jon50JgOL+Sh1RQtoBD8Zmd8ON8rUOq+
+ nS+4BdgwjaJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZryBsgAKCRAgrS7GWxAs
+ 4jIAD/wOL1SEfnxDYQHb0I3lhzDwbcGcr6FXSQIRc9EUpqT0FgKSBfCo3XX+9fWglShZkipJxGf
+ /QtqUuCfZnQ8WzB4B7QcLb7yuH7be3lGGRsstE6ALtxrvwZ/G/TCnfi33VtfWozm/1zdEEFx0Gj
+ +O3PgIaI7EEeQd1cqLYhpEUlH07j/VjzjAvb04NkpUy2lupx5ZWIfkpNXiYQwPgjc0hN4EIuzZN
+ N7Ml0HFLAeIIErcvTeaorD6X/ufk8uS2POUxKxTlDsjN3/TIXBymzzPCjWlm5hCtSq1237NTxnB
+ 5bqo8KxXn8wOZrUxyUZU66GyaNG0PcaH5ucwgjjO9IbqNakBhxsGWh1Ft/Nl7rVd4gkGcfhbi5m
+ RW8g7vSjuNUOlqd8gAw0gB2bTQX6/TVX1cZc/iwCypRVE5uAMMH4E/LnW1KUkk7NbJzFqEIsh8d
+ IGKvhV6S/6Nviek98lJDsAc7gAj70UvV71U/87zB2h4VhoXvoy/gxRGYJqMkLdH/TGFzoBePRED
+ /E80PcWe/aJb0s4d7PICCdYIneti0DiAZH0HcDLrJCYDpbGNvqqDxMFDmQ5M1ShoONlc2RjApbY
+ vwg3ymZ8WCsssTO8rtN8zNzwedzANtr/XffiyG2cxOkxlF9OySCvPis0AH3FTgXqr2PVXMU0JSS
+ wDEuAjdHeRCEkew==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,125 +89,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the mem_is_zero() helper where possible.
+To simplify the memory managment this series replace all allocation by 
+drm-managed one. This way the VKMS code don't have to manage it directly 
+and the DRM core will handle the object destruction.
 
-Conversion done using cocci:
+This series depends on [1].
 
-| @@
-| expression PTR;
-| expression SIZE;
-| @@
-|
-|   <...
-| (
-| - memchr_inv(PTR, 0, SIZE) == NULL
-| + mem_is_zero(PTR, SIZE)
-| |
-| - !memchr_inv(PTR, 0, SIZE)
-| + mem_is_zero(PTR, SIZE)
-| |
-| - memchr_inv(PTR, 0, SIZE)
-| + !mem_is_zero(PTR, SIZE)
-| )
-|   ...>
+[1]: https://lore.kernel.org/all/20240814-google-split-headers-v1-0-51712f088f5d@bootlin.com/
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
+Louis Chauvet (4):
+      drm/vkms: Switch to managed for connector
+      drm/vkms: Switch to managed for encoder
+      drm/vkms: Switch to managed for crtc
+      drm/vkms: Rename all vkms_crtc instance to be consistent
 
-v2: Exclude GUID conversions, which are covered in [1].
-
-[1] https://lore.kernel.org/r/20240812122312.1567046-1-jani.nikula@intel.com
-
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Andy Shevchenko <andy@kernel.org>
+ drivers/gpu/drm/vkms/vkms_composer.c  |  30 ++++----
+ drivers/gpu/drm/vkms/vkms_composer.h  |   2 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 111 ++++++++++++++++-----------
+ drivers/gpu/drm/vkms/vkms_crtc.h      |  19 +++--
+ drivers/gpu/drm/vkms/vkms_drv.c       | 134 +++++++++++++++++++++++++++++---
+ drivers/gpu/drm/vkms/vkms_drv.h       |  45 -----------
+ drivers/gpu/drm/vkms/vkms_output.c    | 140 ----------------------------------
+ drivers/gpu/drm/vkms/vkms_writeback.c |  28 ++++---
+ drivers/gpu/drm/vkms/vkms_writeback.h |   2 +-
+ 9 files changed, 229 insertions(+), 282 deletions(-)
 ---
- drivers/gpu/drm/drm_edid.c                           | 2 +-
- drivers/gpu/drm/i915/display/intel_dp.c              | 2 +-
- drivers/gpu/drm/i915/display/intel_opregion.c        | 2 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 2 +-
- drivers/gpu/drm/imagination/pvr_device.h             | 2 +-
- drivers/gpu/drm/udl/udl_edid.c                       | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+base-commit: 219b45d023ed0902b05c5902a4f31c2c38bcf68c
+change-id: 20240521-google-vkms-managed-4aec99461a77
+prerequisite-message-id: <20240809-yuv-v10-0-1a7c764166f7@bootlin.com>
+prerequisite-patch-id: ae2d8b2efbbaa9decce56632c498c87e708288b3
+prerequisite-patch-id: c26b6d4867eaf6566195aa0002765357d4f69f8c
+prerequisite-patch-id: 8791d34a6f3148dc518da5249453067e40d346e3
+prerequisite-patch-id: 26ec7cd5a449004bcfd6ce483671f87655f8635c
+prerequisite-patch-id: 2e855ba871f2e99d4b6b7d85da2ddac6bb32262e
+prerequisite-patch-id: 82523a917646793deeec7cdcc7ff286bd924fd21
+prerequisite-patch-id: 0e355e5316281f53ab5e97ab6e63b0a682f3eb9e
+prerequisite-patch-id: 7a63d245a377d5f5283f48e8f52421b912811752
+prerequisite-patch-id: dda6bf4692cd1795c489ff58e72c0841ea8ffbc4
+prerequisite-patch-id: f70e535b6086cc587975fbfa75741f485f679a32
+prerequisite-patch-id: 6c2aa2645c7d854951608aa4d15a02e076abe1fe
+prerequisite-patch-id: dc61c6d3db73053fc36e115af561e0c42b467de2
+prerequisite-patch-id: deda292af6d8bbf6762b0bf4d351ffd2225995d8
+prerequisite-patch-id: 18554f49b53cbcfd4a8ca50dc83b17dd3cf96474
+prerequisite-patch-id: 5633292e10132d29be2467812e6e2e824cfedb67
+prerequisite-patch-id: 43f37e9c1bc041d491e41dfb59548ed258a1e071
+prerequisite-message-id: <20240814-b4-new-color-formats-v2-0-8b3499cfe90e@bootlin.com>
+prerequisite-patch-id: d10db4cb12a88de2e5f6440e9fcf5ddda191e3cd
+prerequisite-patch-id: 16bac0ef1f1dc010a72ce2faae66631797d23d3f
+prerequisite-patch-id: 8e0e5cc0727e8fd2d14ebafc5538fd987c2dd38e
+prerequisite-patch-id: 32bad3bf3df46d042e9edd4c1259c2e2a3fb8975
+prerequisite-patch-id: 4bd9e4cef308abd17b7b274a5575a3de73a1503b
+prerequisite-patch-id: a98fac5a2c60fe23fbc6a455e9a4ab8b0f187ee8
+prerequisite-patch-id: 62c8d109a22b9978f755255b67f13fe74fb7008d
+prerequisite-patch-id: baa8da4871dd90b03a07c6d9ddb45e10929ee70a
+prerequisite-message-id: <20240814-writeback_line_by_line-v2-0-36541c717569@bootlin.com>
+prerequisite-patch-id: df699289213021fa202fcdf1b4bdff513d09caa2
+prerequisite-patch-id: 59d021ccb166fbe2962de9cda72aceb3caa9cabe
+prerequisite-patch-id: 895ace6d58b3776798791705b7b05e26b8d37c7b
+prerequisite-message-id: <20240814-google-clarifications-v1-0-3ee76d7d0c28@bootlin.com>
+prerequisite-patch-id: a4408d1de7730262456bdd618d3cb86f5f5b01ba
+prerequisite-patch-id: f215b5aee5644d2e5b1b2af0bb0f4f1e7609558b
+prerequisite-patch-id: d4f3b4c714324c5f326af3daba394899e6663d75
+prerequisite-message-id: <20240814-google-split-headers-v1-0-51712f088f5d@bootlin.com>
+prerequisite-patch-id: 55e5c2ded8332cd6600d9c0c2b7be657c793e2a0
+prerequisite-patch-id: 88323ab9ea04fb21a0a4c65642bcd499f2354042
+prerequisite-patch-id: 437b67cf9bdc036fa7c5e11b5c9ab387b10cc151
+prerequisite-patch-id: d34801b7f3035ab15facd42281c1c96e61d35a4c
+prerequisite-patch-id: 37862a6437ff407a42e5aaff0b8e742fc9901e03
+prerequisite-patch-id: 43a5079497a1579aef713ea9c4ec47ef53a177a2
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index ff1e47a9c83e..855beafb76ff 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1817,7 +1817,7 @@ static int edid_block_tag(const void *_block)
- 
- static bool edid_block_is_zero(const void *edid)
- {
--	return !memchr_inv(edid, 0, EDID_LENGTH);
-+	return mem_is_zero(edid, EDID_LENGTH);
- }
- 
- static bool drm_edid_eq(const struct drm_edid *drm_edid,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 977f149551f6..6a0c7ae654f4 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5184,7 +5184,7 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
- 			ack[3] |= DP_TUNNELING_IRQ;
- 		}
- 
--		if (!memchr_inv(ack, 0, sizeof(ack)))
-+		if (mem_is_zero(ack, sizeof(ack)))
- 			break;
- 
- 		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index dfa1d9f30d33..ff11836459de 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -1117,7 +1117,7 @@ const struct drm_edid *intel_opregion_get_edid(struct intel_connector *connector
- 
- 	/* Validity corresponds to number of 128-byte blocks */
- 	len = (opregion->asle_ext->phed & ASLE_PHED_EDID_VALID_MASK) * 128;
--	if (!len || !memchr_inv(edid, 0, len))
-+	if (!len || mem_is_zero(edid, len))
- 		return NULL;
- 
- 	drm_edid = drm_edid_alloc(edid, len);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index 3527b8f446fe..2fda549dd82d 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -506,7 +506,7 @@ static int igt_dmabuf_export_vmap(void *arg)
- 		goto out;
- 	}
- 
--	if (memchr_inv(ptr, 0, dmabuf->size)) {
-+	if (!mem_is_zero(ptr, dmabuf->size)) {
- 		pr_err("Exported object not initialised to zero!\n");
- 		err = -EINVAL;
- 		goto out;
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index ecdd5767d8ef..b574e23d484b 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -668,7 +668,7 @@ pvr_ioctl_union_padding_check(void *instance, size_t union_offset,
- 	void *padding_start = ((u8 *)instance) + union_offset + member_size;
- 	size_t padding_size = union_size - member_size;
- 
--	return !memchr_inv(padding_start, 0, padding_size);
-+	return mem_is_zero(padding_start, padding_size);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/udl/udl_edid.c b/drivers/gpu/drm/udl/udl_edid.c
-index d67e6bf1f2ae..12f48ae17073 100644
---- a/drivers/gpu/drm/udl/udl_edid.c
-+++ b/drivers/gpu/drm/udl/udl_edid.c
-@@ -69,7 +69,7 @@ bool udl_probe_edid(struct udl_device *udl)
- 	 * The adapter sends all-zeros if no monitor has been
- 	 * connected. We consider anything else a connection.
- 	 */
--	return !!memchr_inv(hdr, 0, sizeof(hdr));
-+	return !mem_is_zero(hdr, sizeof(hdr));
- }
- 
- const struct drm_edid *udl_edid_read(struct drm_connector *connector)
+Best regards,
 -- 
-2.39.2
+Louis Chauvet <louis.chauvet@bootlin.com>
 
