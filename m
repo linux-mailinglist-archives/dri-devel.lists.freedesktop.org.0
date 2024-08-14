@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72AC9517BD
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 11:31:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9CC9517E6
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 11:42:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E46B10E0A0;
-	Wed, 14 Aug 2024 09:31:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB88410E0BB;
+	Wed, 14 Aug 2024 09:42:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EsPcZ1Tq";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="C4eYxQCb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 326B010E0A0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 09:31:04 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-53301d46c54so151712e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 02:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1723627863; x=1724232663; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Y+KbS6E5jHMJIDLTLixLRMsMiOWTcgBIJLTFtv7w7UE=;
- b=EsPcZ1Tq/wGS9g1BEmT7L0IYm/vJ8c0Zq4J6xN3Up/1Gttg3wKgf4pfA/6PcBNss00
- zAxub09yQobddnTRajeRdHv36LURGcUBp4Zq/N/0IJjsqxAx5G0G+lbrptB/A4AJKQ17
- FxcfnIhmvHC4CkEmtzcg1V51HTthLuiB+87moFL4AlX3DcGir5H56YcFGgBFh9eJReVe
- iv2XRn2jlueA8A43bqau4q8QiCnKKMpjRFQjkqjB1u5QmQq4OyZXVyArLK4GfeQby2yK
- QSdbl8Z21bAJGYjN9EOEHHbt+dDpSRS7ZBdklh7IMfn+xBS94vwwFNBHAXC5i46di7Dq
- z77Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723627863; x=1724232663;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Y+KbS6E5jHMJIDLTLixLRMsMiOWTcgBIJLTFtv7w7UE=;
- b=rlPHr9FuFx9DEOVCBYCPTVP2t2jQ8L2v/XLukRF2AI/BqBMbs6DxPCsg57WY3/0kNN
- HayPy1XagReCKi++6coAHVGIDVELi8g+9etxYjOkZ42W15DfiULJqTc2RHhaZ45EZ+S+
- o8a1pynIIK2fSLU/lQfUt1LwmvCcbdryZ809ZfeXAXdoJiooyDmbSSMXF4DE0U/piYKz
- 7HZr4zxmdfQyW6T0CSi+QmzVl0YJYVRQptx4QzoXK2g7IW8K/EmCkQViNPNIvPsHeI7H
- +I2dY2ithLQ/S5MENOQjygA4qMO1ncmMXgsksmfAjptalkde7GgBPPxzoYljlhlNaw83
- Q6EQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXXV4vj7k35Pe3pQ/bcnBzUopVjxsSONoYRPttssh5UeTK6GHHqMaioXRDWZYcwqKMJbS7kA1tnwI3yvMg7JyVsJoHL3AI7Qh2h/DPKHlur
-X-Gm-Message-State: AOJu0Yzjmoftyw+OOOTk/osHUvhY40e94b9xoxIF1W/UKVafkxNLOuf2
- 9H7Guph4uni++3c5Yj0+NOTMcsq4S1eYxTvELmmiBFnnXajsyKZsioofhdALBwa9Qotv6GyFF40
- T
-X-Google-Smtp-Source: AGHT+IGLOjNiO2yF+uZM/WShxzq79zjBJ21zqgaSpWhugas9BKUwHG0KuNYWyEZ1yCqqo26VlQTFIg==
-X-Received: by 2002:a05:6512:1249:b0:530:c3e9:5bcf with SMTP id
- 2adb3069b0e04-532edc04875mr1103977e87.60.1723627862785; 
- Wed, 14 Aug 2024 02:31:02 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429ded32538sm14023275e9.16.2024.08.14.02.31.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2024 02:31:02 -0700 (PDT)
-Date: Wed, 14 Aug 2024 12:30:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Riyan Dhiman <riyandhiman14@gmail.com>
-Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vme_user: vme_bridge.h: Document mutex in
- vme_dma_resource structure
-Message-ID: <545da5b5-fe99-41c8-9cc2-a5861a04ba2b@stanley.mountain>
-References: <20240803001814.7752-1-riyandhiman14@gmail.com>
- <1e74a5ef-7d15-451e-8cb8-2743ef95089a@suswa.mountain>
- <CAAjz0QY9jDUx-URQTtdW3kO2mkfV4dhUsJhB9-k12SEt++Gp8g@mail.gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF90E10E051
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 09:42:27 +0000 (UTC)
+Delivered-To: helen.koike@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1723628545; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=D1rJcxESAtBdt6i8nWdAh0w8/sRVVAlSEhDWMMJzPZOSL8C+as9cABEP9xhYwv7zkKr5kul+Xn2Tpk7uh4uDfJfFDr+yt+Pb8BRnGj5B/EISKXomQ90+bx/NgT8guQpex32BA025GqLwk74BOzi7R5yQcWn7Ov6MQjE0uUJbZDI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1723628545;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=w1lj4Ku49BfHwbSHApbEdIO8jbS21dyuVJ1bMcM9HxE=; 
+ b=DGtgCWGHXFKXPw2X9LCjuPpe21UFvqthtsZwE2p2/FUF3hQsxeP0Ry/o+PylaoavrVwNAK5yosfMhM54F9Lr+A7ZQDJ3aXNGHlYlsnTy3uKswpaO4ZqhWTO9RgloDBFRGVKS7Eg5cDaotQYJDHkQ0601f2KyDPHWuOBNaHytEfM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
+ dmarc=pass header.from=<vignesh.raman@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723628545; 
+ s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=w1lj4Ku49BfHwbSHApbEdIO8jbS21dyuVJ1bMcM9HxE=;
+ b=C4eYxQCbm66rnLSCnBPdTOPY6pf/WYLAOEMXXFTgxAEFgCMqjqCn4J3zAqjrW1qb
+ DkCEC9Z8qizHs7FuadnBBO7oaiZLZi/d9BVHK03ga3YrJK1sE9SBV04UnKYOSH4UbIE
+ TZAynknCHDHTWDimepJZCPJjFoq3cC3hEKS9Bcwg=
+Received: by mx.zohomail.com with SMTPS id 1723628542404965.8729371058215;
+ Wed, 14 Aug 2024 02:42:22 -0700 (PDT)
+Message-ID: <42753719-9619-45f1-b76a-8ff8d19cec22@collabora.com>
+Date: Wed, 14 Aug 2024 15:12:12 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAjz0QY9jDUx-URQTtdW3kO2mkfV4dhUsJhB9-k12SEt++Gp8g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/ci: enable lockdep detection
+To: Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ daniels <daniels@collabora.com>, airlied <airlied@gmail.com>,
+ daniel <daniel@ffwll.ch>, robdclark <robdclark@gmail.com>,
+ "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
+ "deborah.brouwer" <deborah.brouwer@collabora.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+References: <20240812112030.81774-1-vignesh.raman@collabora.com>
+ <191483d05a3.129198f97500814.8001634600010504645@collabora.com>
+ <0a3db7dc-4533-4111-bec9-35cc68e35d83@collabora.com>
+ <1914d612d8e.f2d5101b916106.3138016556910118397@collabora.com>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <1914d612d8e.f2d5101b916106.3138016556910118397@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,40 +76,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 14, 2024 at 09:11:22AM +0530, Riyan Dhiman wrote:
-> Yes, I agree 'mt' is a vague name and doesn't convey much information.
-> In this patch, I have added only comments to address the checkpatch error.
-> Given your suggestion to change the variable name, I'd like to confirm,
-> Should I create a new patch that includes both the comment and the 'mtx'
-> variable name change?
-> Or should I leave this current patch with comments only and
-> create a separate patch for the variable name changes?
+Hi Helen,
 
-I feel like renaming the spinlock is more useful than adding a comment.  Plus
-you can't really understand the locking without at least doing a temporary
-rename to see what places break.
+On 14/08/24 01:44, Helen Mae Koike Fornazier wrote:
+> 
+> 
+> 
+> 
+> ---- On Tue, 13 Aug 2024 02:26:48 -0300 Vignesh Raman  wrote ---
+> 
+>   > Hi Helen,
+>   >
+>   > On 13/08/24 01:47, Helen Mae Koike Fornazier wrote:
+>   > >
+>   > > Hi Vignesh,
+>   > >
+>   > > Thanks for your patch.
+>   > >
+>   > >
+>   > > ---- On Mon, 12 Aug 2024 08:20:28 -0300 Vignesh Raman  wrote ---
+>   > >
+>   > >   > We have enabled PROVE_LOCKING (which enables LOCKDEP) in drm-ci.
+>   > >   > This will output warnings when kernel locking errors are encountered
+>   > >   > and will continue executing tests. To detect if lockdep has been
+>   > >   > triggered, check the debug_locks value in /proc/lockdep_stats after
+>   > >   > the tests have run. When debug_locks is 0, it indicates that lockdep
+>   > >   > has detected issues and turned itself off. So check this value and
+>   > >   > exit with an error if lockdep is detected.
+>   > >
+>   > > Should we exit with an error? Or with a warning? (GitLab-CI supports that).
+>   > > Well, I guess it is serious enough.
+>   >
+>   > I think we can exit with an error since we check the status at the end
+>   > of the tests.
+> 
+> I mean, we can exit with a specific error and configure this specific error in gitlab-ci to be a warning,
+> so the job will be yellow and not red.
+> 
+> But maybe the lockdep issue should be a strong error.
 
-To be honest, we don't merge a lot of "add locking comments" because it's
-probably one of the trickiest checkpatch warnings.  You need to understand
-the locking before you can add a useful comment.
+Yes agree. We can exit with an error for lockdep issue instead of a warning.
 
-When you're writing the comment, your target audience is Greg.  Greg is
-obviously a very experienced kernel developer.  He works in USB, stable kernels,
-staging, tty, device models stuff, and a bunch of other things.  But, he doesn't
-know *this* driver in great depth.
+> 
+>   >
+>   > >
+>   > > Should we also track on the xfail folder? So we can annotate those errors as well?
+>   >
+>   > Do you mean reporting this error in expectation files?
+> 
+> I wonder if there will be cases were we are getting this error and we should ignore it, so in the code
+> we should check the xfail files to see if we should exit with an error or ignore it.
+> 
+> For instance, if we have a case where we are having this error, and it is flaky, we might want to add it
+> to the flakes file list.
+> 
+> Maybe this is not the case, I'm just wondering.
 
-When Greg takes a look at this code, it doesn't take him long to make a very
-educated guess what the locking is for.  If the comment has less information
-than Greg can see on his own at a glance then it's just a waste of time.  If
-someone had questions about the locking would they be better off asking you or
-asking Greg?  Until you can answer questions better than Greg then it's not
-much point in it.  Again, Greg doesn't know this driver very deeply because he's
-focused on a million other things so it's not that hard.
 
-Trying to figure out the locking is a good exercise.  It wouldn't surprise me
-if there were some locking bugs in this code and you should try to fix those.
-But it's not super easy either.
+The tests are passing but log shows lockdep warning 
+(https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/62177711).
 
-regards,
-dan carpenter
+Moreover if the lockdep warning is emitted, lockdep will not continue to 
+run and there is no need to check this warning for each tests.
+So added the check at the end of the tests.
 
+> 
+> 
+>   >
+>   > > Did you have an entire pipeline with this? To see if everything is still green?
+>   >
+>   > Yes. https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/62177711
+>   >
+>   > This is a test branch in which I reverted a fix for the lockdep issue.
+>   > We see 'WARNING: bad unlock balance detected!' in logs and pipeline is
+>   > still green.
+> 
+> But with your patch, it would red right?
+
+Yes it would fail and the pipeline will be red.
+
+> With the current patch, is the pipeline still all green?
+
+With this current patch, it will fail.
+Pipeline link to show lockdep_stats before and after tests,
+https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721
+
+Regards,
+Vignesh
+
+> 
+> Regards,
+> Helen
+> 
+>   >
+>   > Regards,
+>   > Vignesh
+>   >
+>   > >
+>   > > Helen
+>   > >
+>   > >   >
+>   > >   > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com>
+>   > >   > ---
+>   > >   >
+>   > >   > v1:
+>   > >   >  - Pipeline link to show lockdep_stats before and after tests,
+>   > >   > https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721
+>   > >   >
+>   > >   > ---
+>   > >   >  drivers/gpu/drm/ci/igt_runner.sh | 11 +++++++++++
+>   > >   >  1 file changed, 11 insertions(+)
+>   > >   >
+>   > >   > diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+>   > >   > index f38836ec837c..d2c043cd8c6a 100755
+>   > >   > --- a/drivers/gpu/drm/ci/igt_runner.sh
+>   > >   > +++ b/drivers/gpu/drm/ci/igt_runner.sh
+>   > >   > @@ -85,6 +85,17 @@ deqp-runner junit \
+>   > >   >  --limit 50 \
+>   > >   >  --template "See https://$CI_PROJECT_ROOT_NAMESPACE.pages.freedesktop.org/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/results/{{testcase}}.xml"
+>   > >   >
+>   > >   > +# Check if /proc/lockdep_stats exists
+>   > >   > +if [ -f /proc/lockdep_stats ]; then
+>   > >   > +    # If debug_locks is 0, it indicates lockdep is detected and it turns itself off.
+>   > >   > +    debug_locks=$(grep 'debug_locks:' /proc/lockdep_stats | awk '{print $2}')
+>   > >   > +    if [ "$debug_locks" -eq 0 ]; then
+>   > >   > +        echo "LOCKDEP issue detected. Please check dmesg logs for more information."
+>   > >   > +        cat /proc/lockdep_stats
+>   > >   > +        ret=1
+>   > >   > +    fi
+>   > >   > +fi
+>   > >   > +
+>   > >   >  # Store the results also in the simpler format used by the runner in ChromeOS CI
+>   > >   >  #sed -r 's/(dmesg-warn|pass)/success/g' /results/results.txt > /results/results_simple.txt
+>   > >   >
+>   > >   > --
+>   > >   > 2.43.0
+>   > >   >
+>   > >   >
+>   >
