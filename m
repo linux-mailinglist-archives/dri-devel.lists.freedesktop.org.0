@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEDF9522B9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 21:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A10395230E
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 22:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2726510E52A;
-	Wed, 14 Aug 2024 19:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADE7F10E0AD;
+	Wed, 14 Aug 2024 20:00:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="RpmQPgbd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="HIIOlntl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 741DD10E52A
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 19:35:47 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-690b6cbce11so2920347b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 12:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1723664146; x=1724268946;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lXKYkmuG/SU6rLkPPinW1g80glKtRtQVhMpRCtKKj8A=;
- b=RpmQPgbd/5BjvIn5hn1WYu3MrIQkTz4iQ8uF9WKhw4Wi0LWC1xWqyCScA0sSbi68C1
- 677iIJWQHMLytZ0K1ZTwziwduzlrRCBdWE7zh2vZ8zRvHQGrvTNWcZerQ2LEWBZS37re
- VikKtf6xp14nagkS7/kpHhA7CZ6nnPqR6nv2k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723664146; x=1724268946;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lXKYkmuG/SU6rLkPPinW1g80glKtRtQVhMpRCtKKj8A=;
- b=kWOIrLCp5Q8PjlNHi5y/8YtJr+bX9RfzK55eaZmoRQ4QnXlTFgzRaZDxhWw5klhIm8
- xOO1a2TTMjTFx/Ra4cpyOP/mqwYZ9P9oNNNTVItmoU+Tul5swvZu95wcpwzQmUjsznvC
- IeytF0ayme1SzCUIjzglshYQwwhaTU4y+0wfEbfgez9Ywg6+DYtF8QS/HO+Yq2ff6GDn
- XN60DU0zqWp/8uxAXsafn39+N8rol3XLVecDxxIKrYW3s6/f1od9m2VE1VdttXrLlHlx
- iX1CyCy5mgyfXSa2nyV7xD39W+NbrOv6y4MgB+tZp1Bt9NRH10FPzONkXjLe/VESoCtm
- t8hA==
-X-Gm-Message-State: AOJu0Ywv9DKhTy2HBj/kxO2C72/TqgPitFZ/RzPsnQIoViA/TDetRk6n
- 9nAMBiujoMa7PK8ycqxfXiTpMpHOhwT9uv4FJ+yMCmzQ1OXjx0WKTX09vBoAiAyQsQlNzLELZGq
- Lj8UUDfEzQuVOMSTDK3UJEqM1SavJiS9RXvA6
-X-Google-Smtp-Source: AGHT+IE7lpozbo57felRmsSQr4ai2rs4R3ER9HGxXfX32TS2VRfQKIj+17yMahwS4vWORjT4Ir13rVg9MI6jY42fexo=
-X-Received: by 2002:a05:690c:578f:b0:6af:5295:6673 with SMTP id
- 00721157ae682-6af5295692fmr3468097b3.28.1723664146311; Wed, 14 Aug 2024
- 12:35:46 -0700 (PDT)
+X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
+ Wed, 14 Aug 2024 20:00:38 UTC
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
+ [136.143.188.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4FA891D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 20:00:38 +0000 (UTC)
+Delivered-To: mary.guillemard@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1723664725; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Re8WgGTd3avPI6gFETUMNMiDvYoQrh7h/uERDXg77J27cd4FrMZJhZy6JICofFJfMUNdwbtBK05jmcLmKnjl6xDGn1WvQgFQiavB0FD60RaOJ6Ao/xIlz7QjARCBtWy789CzcPbwhwixOKdA/oz8mrEhSy8j2RglGOxAkI+Y9Yg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1723664725;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=fETJPviGHXcE+Ld/AZrSoFltK3dyQEM46ti6Tm3HR58=; 
+ b=i8CqvaGak7drpo8ORG9MiFxCGDjKnpPbQnY17FeiF3ytJDeehLF5LYkII9SPCQIG1OXEsaA57UcrP9szRuVJVTFUYIvY4ifFJ2xiWEHF9lDC9nlR3RD0g4ZOXTCdNnPNANi5tXDPeNIpbUc7LEoBGF1yWAoN8lyXqSYwepwomzs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723664725; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=fETJPviGHXcE+Ld/AZrSoFltK3dyQEM46ti6Tm3HR58=;
+ b=HIIOlntlp4N/uMLb0OXTjrAQupXmkTRztOVAzc+v7qHx8XjsoqGif8f6mEeT2+iw
+ nRuC9Lo4KGAM2YMOSsX7Ij3xoM9+V0aJKvMJTKKkGtWEESKsGFo2G6O/5PrJkDDqGBB
+ j34VxHpbbyehypXlB/YHbmqfUbajDgqH188SOTB0=
+Received: by mx.zohomail.com with SMTPS id 1723664723598981.6010620006847;
+ Wed, 14 Aug 2024 12:45:23 -0700 (PDT)
+Date: Wed, 14 Aug 2024 20:45:19 +0100
+From: Adrian Larumbe <adrian.larumbe@collabora.com>
+To: Mary Guillemard <mary.guillemard@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ kernel@collabora.com, Christopher Healy <healych@amazon.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/panthor: Add DEV_QUERY_TIMESTAMP_INFO dev query
+Message-ID: <i5zkhbafhidjozr2pf2wuw63ubrigh26zddgh6bo23o2wg46xu@gbe7463qt45j>
+References: <20240812122814.177544-2-mary.guillemard@collabora.com>
 MIME-Version: 1.0
-References: <20240814192824.56750-1-zack.rusin@broadcom.com>
-In-Reply-To: <20240814192824.56750-1-zack.rusin@broadcom.com>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Wed, 14 Aug 2024 14:35:36 -0500
-Message-ID: <CAO6MGti4NYG8-kqUb2+xmQkQc7eJGsGcxa+YJ6Xt5pUf1CgY7A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/vmwgfx: Prevent unmapping active read buffers
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- martin.krastev@broadcom.com, 
- maaz.mombasawala@broadcom.com, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240812122814.177544-2-mary.guillemard@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,112 +72,248 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Looks Good
-Thanks,
+Hi Mary,
 
-Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
-
-On Wed, Aug 14, 2024 at 2:28=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.com=
-> wrote:
->
-> The kms paths keep a persistent map active to read and compare the cursor
-> buffer. These maps can race with each other in simple scenario where:
-> a) buffer "a" mapped for update
-> b) buffer "a" mapped for compare
-> c) do the compare
-> d) unmap "a" for compare
-> e) update the cursor
-> f) unmap "a" for update
-> At step "e" the buffer has been unmapped and the read contents is bogus.
->
-> Prevent unmapping of active read buffers by simply keeping a count of
-> how many paths have currently active maps and unmap only when the count
-> reaches 0.
->
-> v2: Update doc strings
->
-> Fixes: 485d98d472d5 ("drm/vmwgfx: Add support for CursorMob and CursorByp=
-ass 4")
-> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
-om.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v5.19+
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+On 12.08.2024 14:28, Mary Guillemard wrote:
+> Expose timestamp information supported by the GPU with a new device
+> query.
+> 
+> Mali uses an external timer as GPU system time. On ARM, this is wired to
+> the generic arch timer so we wire cntfrq_el0 as device frequency.
+> 
+> This new uAPI will be used in Mesa to implement timestamp queries and
+> VK_KHR_calibrated_timestamps.
+> 
+> Since this extends the uAPI and because userland needs a way to advertise
+> those features conditionally, this also bumps the driver minor version.
+> 
+> v2:
+> - Rewrote to use GPU timestamp register
+> - Added timestamp_offset to drm_panthor_timestamp_info
+> - Add missing include for arch_timer_get_cntfrq
+> - Rework commit message
+> 
+> Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 13 +++++++++++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h |  3 +++
->  2 files changed, 14 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/=
-vmwgfx_bo.c
-> index f42ebc4a7c22..a0e433fbcba6 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> @@ -360,6 +360,8 @@ void *vmw_bo_map_and_cache_size(struct vmw_bo *vbo, s=
-ize_t size)
->         void *virtual;
->         int ret;
->
-> +       atomic_inc(&vbo->map_count);
+>  drivers/gpu/drm/panthor/panthor_drv.c | 43 ++++++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_gpu.c | 32 ++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gpu.h |  2 ++
+>  include/uapi/drm/panthor_drm.h        | 19 ++++++++++++
+>  4 files changed, 95 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index b8a84f26b3ef..7589f2373ec0 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -3,6 +3,10 @@
+>  /* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
+>  /* Copyright 2019 Collabora ltd. */
+>  
+> +#ifdef CONFIG_ARM_ARCH_TIMER
+> +#include <asm/arch_timer.h>
+> +#endif
 > +
->         virtual =3D ttm_kmap_obj_virtual(&vbo->map, &not_used);
->         if (virtual)
->                 return virtual;
-> @@ -383,11 +385,17 @@ void *vmw_bo_map_and_cache_size(struct vmw_bo *vbo,=
- size_t size)
->   */
->  void vmw_bo_unmap(struct vmw_bo *vbo)
->  {
-> +       int map_count;
-> +
->         if (vbo->map.bo =3D=3D NULL)
->                 return;
->
-> -       ttm_bo_kunmap(&vbo->map);
-> -       vbo->map.bo =3D NULL;
-> +       map_count =3D atomic_dec_return(&vbo->map_count);
-> +
-> +       if (!map_count) {
-> +               ttm_bo_kunmap(&vbo->map);
-> +               vbo->map.bo =3D NULL;
-> +       }
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/of_platform.h>
+> @@ -164,6 +168,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  	_Generic(_obj_name, \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_timestamp_info, current_timestamp), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+> @@ -750,10 +755,33 @@ static void panthor_submit_ctx_cleanup(struct panthor_submit_ctx *ctx,
+>  	kvfree(ctx->jobs);
 >  }
->
->
-> @@ -421,6 +429,7 @@ static int vmw_bo_init(struct vmw_private *dev_priv,
->         vmw_bo->tbo.priority =3D 3;
->         vmw_bo->res_tree =3D RB_ROOT;
->         xa_init(&vmw_bo->detached_resources);
-> +       atomic_set(&vmw_bo->map_count, 0);
->
->         params->size =3D ALIGN(params->size, PAGE_SIZE);
->         drm_gem_private_object_init(vdev, &vmw_bo->tbo.base, params->size=
-);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/=
-vmwgfx_bo.h
-> index 62b4342d5f7c..43b5439ec9f7 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> @@ -71,6 +71,8 @@ struct vmw_bo_params {
->   * @map: Kmap object for semi-persistent mappings
->   * @res_tree: RB tree of resources using this buffer object as a backing=
- MOB
->   * @res_prios: Eviction priority counts for attached resources
-> + * @map_count: The number of currently active maps. Will differ from the
-> + * cpu_writers because it includes kernel maps.
->   * @cpu_writers: Number of synccpu write grabs. Protected by reservation=
- when
->   * increased. May be decreased without reservation.
->   * @dx_query_ctx: DX context if this buffer object is used as a DX query=
- MOB
-> @@ -90,6 +92,7 @@ struct vmw_bo {
->         u32 res_prios[TTM_MAX_BO_PRIORITY];
->         struct xarray detached_resources;
->
-> +       atomic_t map_count;
->         atomic_t cpu_writers;
->         /* Not ref-counted.  Protected by binding_mutex */
->         struct vmw_resource *dx_query_ctx;
-> --
-> 2.43.0
->
+>  
+> +static int panthor_ioctl_query_timestamp(struct panthor_device *ptdev,
+> +					 struct drm_panthor_timestamp_info *arg)
+> +{
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(ptdev->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +#ifdef CONFIG_ARM_ARCH_TIMER
+> +	arg->timestamp_frequency = arch_timer_get_cntfrq();
+> +#else
+> +	arg->timestamp_frequency = 0;
+> +#endif
+> +	arg->current_timestamp = panthor_gpu_read_timestamp(ptdev);
+> +	arg->timestamp_offset = panthor_gpu_read_timestamp_offset(ptdev);
+> +
+> +	pm_runtime_put(ptdev->base.dev);
+> +	return 0;
+> +}
+> +
+>  static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
+
+I think we should not keep the 'ioctl' part in the function name, because those
+are reserved for DRM entry points, as defined in the panthor_drm_driver_ioctls
+array. But then again panthor_ioctl_vm_bind does branch off into a couple
+'ioctl' infixed functions depending on on the type of VM binding, so maybe Boris
+could shed some light on this?
+
+>  {
+>  	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+>  	struct drm_panthor_dev_query *args = data;
+> +	struct drm_panthor_timestamp_info timestamp_info;
+> +	int ret;
+>  
+>  	if (!args->pointer) {
+>  		switch (args->type) {
+> @@ -765,6 +793,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  			args->size = sizeof(ptdev->csif_info);
+>  			return 0;
+>  
+> +		case DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO:
+> +			args->size = sizeof(timestamp_info);
+> +			return 0;
+> +
+>  		default:
+>  			return -EINVAL;
+>  		}
+> @@ -777,6 +809,14 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  	case DRM_PANTHOR_DEV_QUERY_CSIF_INFO:
+>  		return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->csif_info);
+>  
+> +	case DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO:
+> +		ret = panthor_ioctl_query_timestamp(ptdev, &timestamp_info);
+> +
+> +		if (ret)
+> +			return ret;
+> +
+> +		return PANTHOR_UOBJ_SET(args->pointer, args->size, timestamp_info);
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -1372,6 +1412,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>  /*
+>   * PanCSF driver version:
+>   * - 1.0 - initial interface
+> + * - 1.1 - adds DEV_QUERY_TIMESTAMP_INFO query
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1385,7 +1426,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.desc = "Panthor DRM driver",
+>  	.date = "20230801",
+>  	.major = 1,
+> -	.minor = 0,
+> +	.minor = 1,
+>  
+>  	.gem_create_object = panthor_gem_create_object,
+>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 5251d8764e7d..2ffd9fa34486 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -480,3 +480,35 @@ void panthor_gpu_resume(struct panthor_device *ptdev)
+>  	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
+>  	panthor_gpu_l2_power_on(ptdev);
+>  }
+> +
+> +/**
+> + * panthor_gpu_read_timestamp() - Read the timstamp register.
+> + * @ptdev: Device.
+> + *
+> + * Return: The GPU timestamp value.
+> + */
+> +unsigned long long panthor_gpu_read_timestamp(struct panthor_device *ptdev)
+> +{
+> +	u32 hi, lo;
+> +
+> +	hi = gpu_read(ptdev, GPU_TIMESTAMP_HI);
+> +	lo = gpu_read(ptdev, GPU_TIMESTAMP_LO);
+> +
+> +	return ((u64)hi << 32) | lo;
+> +}
+
+For this function and the following one, you might want to test for the case of overflow
+between the time the higher and lower parts of the timestamp register are read, as follows:
+
+do {
+	hi = gpu_read(ptdev, GPU_TIMESTAMP_HI);
+	lo = gpu_read(ptdev, GPU_TIMESTAMP_LO);
+} while (hi != gpu_read(pfdev, GPU_TIMESTAMP_HI));
+
+> +/**
+> + * panthor_gpu_read_timestamp_offset() - Read the timstamp offset register.
+> + * @ptdev: Device.
+> + *
+> + * Return: The GPU timestamp offset value.
+> + */
+> +unsigned long long panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev)
+> +{
+> +	u32 hi, lo;
+> +
+> +	hi = gpu_read(ptdev, GPU_TIMESTAMP_OFFSET_HI);
+> +	lo = gpu_read(ptdev, GPU_TIMESTAMP_OFFSET_LO);
+> +
+> +	return ((u64)hi << 32) | lo;
+> +}
+
+I feel that maybe there's a way to refactor these two functions into a single one, and pass
+only the higher timestamp register offset, and add 0x04 to the former to access the lower half.
+I suppose this is safe to do because register offsets won't be changing for any device this
+driver could ever handle.
+
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
+> index bba7555dd3c6..73d335859db8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.h
+> @@ -48,5 +48,7 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
+>  int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+>  			     u32 l2, u32 lsc, u32 other);
+>  int panthor_gpu_soft_reset(struct panthor_device *ptdev);
+> +unsigned long long panthor_gpu_read_timestamp(struct panthor_device *ptdev);
+> +unsigned long long panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev);
+>  
+>  #endif
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index aaed8e12ad0b..d4899d9bd507 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -260,6 +260,9 @@ enum drm_panthor_dev_query_type {
+>  
+>  	/** @DRM_PANTHOR_DEV_QUERY_CSIF_INFO: Query command-stream interface information. */
+>  	DRM_PANTHOR_DEV_QUERY_CSIF_INFO,
+> +
+> +	/** @DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO: Query timestamp information. */
+> +	DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO,
+>  };
+>  
+>  /**
+> @@ -377,6 +380,22 @@ struct drm_panthor_csif_info {
+>  	__u32 pad;
+>  };
+>  
+> +/**
+> + * struct drm_panthor_timestamp_info - Timestamp information
+> + *
+> + * Structure grouping all queryable information relating to the GPU timestamp.
+> + */
+> +struct drm_panthor_timestamp_info {
+> +	/** @timestamp_frequency: The frequency of the timestamp timer. */
+> +	__u64 timestamp_frequency;
+> +
+> +	/** @current_timestamp: The current timestamp. */
+> +	__u64 current_timestamp;
+> +
+> +	/** @timestamp_offset: The offset of the timestamp timer. */
+> +	__u64 timestamp_offset;
+> +};
+> +
+>  /**
+>   * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
+>   */
+> 
+> base-commit: 219b45d023ed0902b05c5902a4f31c2c38bcf68c
+> -- 
+> 2.45.2
+
+Adrian Larumbe
