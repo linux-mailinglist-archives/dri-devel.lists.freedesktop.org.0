@@ -2,61 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077AD9519D1
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 13:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D61951A7F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2024 14:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F07710E43A;
-	Wed, 14 Aug 2024 11:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF5A210E45D;
+	Wed, 14 Aug 2024 12:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="BEJC3ehC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FE2Oo+A5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 998A210E435
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 11:24:32 +0000 (UTC)
-Delivered-To: kernel@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723634664; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=XXBWEihLQFZqFfntEC50XZl8XpZQU8QFerZ9BjItdMxuYdS2lnXggRCFS5Z/GZ5ywVjl9mu8vITs/fj2QD6uZbvcD78RqDWdzmf761MJ//6zkq/TyrXfSryUC7T6U0R56lc96vgZMLUKtfHtYEi4PptBjP1PqJK66hT39vXRmnI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723634664;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=dqiFKqE0gbXnM9IqXYHKQzJjNYy7JMZYaPUwduwL4og=; 
- b=BhMVy6Q49E1VQgC1dARgEciokL2UT/W4sQ/vdtUc6mw4M/EHgOuMVPszgzjZBOv6hkpSIemefP8/dQsnnggkTwVBn3bxkjp/CF34NsKv5jCDCr+USa9xgeTl7IpD2BnQu30B3zYFh+CPIDTJLQ6vPTybPc42bPLZvfFelAiDTM0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
- dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723634664; 
- s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=dqiFKqE0gbXnM9IqXYHKQzJjNYy7JMZYaPUwduwL4og=;
- b=BEJC3ehCP1ATW7omm0jSp+2JPxqRwBaKgZyjJZpfWuDCpRHYtacDlMoLUDVvgUyA
- SSmsLMeExSLKH68DwN9UoGmUb+e3JD9iwwUrf6yxWBcEApOG2vBIvITNF4YVEbG0JFC
- 80yvJU+P/neJi7IuIu/G9R6JgxjhxGFuYreP8Ybo=
-Received: by mx.zohomail.com with SMTPS id 1723634663431628.3090562709767;
- Wed, 14 Aug 2024 04:24:23 -0700 (PDT)
-From: Mary Guillemard <mary.guillemard@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Mary Guillemard <mary.guillemard@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 2/2] drm/panfrost: Add cycle counter job requirement
-Date: Wed, 14 Aug 2024 13:21:22 +0200
-Message-ID: <20240814112121.61137-4-mary.guillemard@collabora.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240814112121.61137-2-mary.guillemard@collabora.com>
-References: <20240814112121.61137-2-mary.guillemard@collabora.com>
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1CD810E455
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 12:01:42 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-26b5173e861so3943639fac.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2024 05:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1723636902; x=1724241702; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8v3FACRVLInU72mQIn8ZRnsPtKqtsflxvY7ocPKv6dM=;
+ b=FE2Oo+A5X0N1iuykd0cOA0/Y8XoPndRLqw6y15DmJacAZ6DVKZ/hGL1NfxekBMqTmT
+ rx3KgWvk15xSljhkY3IiFp0ysSpTlELRFC4+QmARoK+zu6cz2v5Fta861CH9dsHNBdWe
+ vtR3GOXMRBeraPuW0GSOq5KoTMwLQaGLujYaMzWMk0MIAn7g271vJSiMswGrRuzALJa+
+ R3EQPqluqVC7YBZt9ZpRbhZ13mh4g/bpZLcboOEt+7kaod61pmlZY9lP4odML9Jx2p9W
+ m/QOgd/aQwn2v1j/08a3lzqJNSI359R6A0rKNJbsNHuBr7+xGBVlkHCQ903BsJJ8U1Ru
+ oYlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723636902; x=1724241702;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8v3FACRVLInU72mQIn8ZRnsPtKqtsflxvY7ocPKv6dM=;
+ b=l0wkhWScQznBPAg1D+ysDMEBDdBEdlEOA3fr3xTl9b8YCbbhkQLDUSUwMnT8Z95OWu
+ vKVYYnej8BzyjsgMPQYnpigLnqm0U2VoEG/LtPQHqZ3IhQVixF0D9AUZQxvwZvhcuNAb
+ bdLj5kQ31L1gUmtDj3q5CMaEfowID/8z1gVAUzNNCwzxCfdoqG45+Z3Msk4uhvfmT1in
+ aBn3ku1vzBccLHSRefiUc718w8wlUXXwUtYBx2FEjz7Ki+BnxLrA555YB7vfJQxV8SfM
+ tslAYM6AEF7WZ5lRMaPNRUAamT/ozqG8WBVowipehHBUtwZhDEwa2tf/9jBP6OTG22XX
+ zGnw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVh896th4tQ7QVTK/Gwah5n+XjomKzqDigHaKfzpWVZUpDqT9lPe79DrQh4z2//BpQnC52/9n/HRpZCOkY4B/mCtAMTyRdYmmqNh+xcArfO
+X-Gm-Message-State: AOJu0YxtscpFiQsuYfnq6XPfUNuH9SEgp52tOFHg7BnNZ1Qqz3xmsxhx
+ BJHBoL5CMDpBiHUr1xvcDafBzdRgXMjA85p0SdcQmvSMhzcIZc9yCsWHtzq1CowFTtfu5nQOGf2
+ vztcSjT5qeaSrcdGF92M8Hc0EptMaKDlFKrVCUQ==
+X-Google-Smtp-Source: AGHT+IEXSwpG1/ytUAZ81Sed/BezfzFf7vKHrDMjRAM0bw/+RsQs5+LfgEea53duY74tvzqpXFM+Zl+QBtuu66uJRnY=
+X-Received: by 2002:a05:6871:e014:b0:268:79bd:9edb with SMTP id
+ 586e51a60fabf-26fe5c707b0mr2896389fac.47.1723636901739; Wed, 14 Aug 2024
+ 05:01:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20240728114200.75559-1-wahrenst@gmx.net>
+ <20240728130029.78279-1-wahrenst@gmx.net>
+ <20240728130029.78279-6-wahrenst@gmx.net>
+ <65de7db8-4f81-4c31-be8d-3a03c9aee989@gmx.net>
+ <CAD=FV=W7sdi1+SHfhY6RrjK32r8iAGe4w+O_u5Sp982vgBU6EQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=W7sdi1+SHfhY6RrjK32r8iAGe4w+O_u5Sp982vgBU6EQ@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 14 Aug 2024 14:01:05 +0200
+Message-ID: <CAPDyKFpj0C1Bifmx=4zH3r8YooOrNfn_iDB+1sfRb0gTaKnT2Q@mail.gmail.com>
+Subject: Re: [PATCH V2 14/16] WIP: usb: dwc2: Implement recovery after PM
+ domain off
+To: Stefan Wahren <wahrenst@gmx.net>, Doug Anderson <dianders@chromium.org>
+Cc: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>, 
+ Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+ Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+ Peter Robinson <pbrobinson@gmail.com>, 
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
+ linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kernel-list@raspberrypi.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Jassi Brar <jassisinghbrar@gmail.com>, Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,143 +99,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the uAPI with a new job requirement flag for cycle
-counters. This requirement is used by userland to indicate that a job
-requires cycle counters or system timestamp to be propagated. (for use
-with write value timestamp jobs)
+On Tue, 13 Aug 2024 at 21:57, Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Mon, Aug 12, 2024 at 4:48=E2=80=AFPM Stefan Wahren <wahrenst@gmx.net> =
+wrote:
+> >
+> > Hi Doug,
+> >
+> > Am 28.07.24 um 15:00 schrieb Stefan Wahren:
+> > > DO NOT MERGE
+> > >
+> > > According to the dt-bindings there are some platforms, which have a
+> > > dedicated USB power domain for DWC2 IP core supply. If the power doma=
+in
+> > > is switched off during system suspend then all USB register will lose
+> > > their settings.
+> > >
+> > > So use the power on/off notifier in order to save & restore the USB
+> > > registers during system suspend.
+> > sorry for bothering you with this DWC2 stuff, but it would great if you
+> > can gave some feedback about this patch.
+>
+> Boy, it's been _ages_ since I looked at anything to do with dwc2, but
+> I still have some fondness in my heart for the crufty old driver :-P I
+> know I was involved with some of the patches to get
+> wakeup-from-suspend working on dwc2 host controllers in the past but,
+> if I remember correctly, I mostly shepherded / fixed patches from
+> Rockchip. Not sure I can spend the days trawling through the driver
+> and testing things with printk that really answering properly would
+> need, but let's see...
+>
+>
+> > I was working a lot to get
+> > suspend to idle working on Raspberry Pi. And this patch is the most
+> > complex part of the series.
+> >
+> > Would you agree with this approach or did i miss something?
+> >
+> > The problem is that the power domain driver acts independent from dwc2,
+> > so we cannot prevent the USB domain power down except declaring a USB
+> > device as wakeup source. So i decided to use the notifier approach. Thi=
+s
+> > has been successful tested on some older Raspberry Pi boards.
+>
+> My genpd knowledge is probably not as good as it should be. Don't tell
+> anyone (aside from all the people and lists CCed here). ;-)
+>
+> ...so I guess you're relying on the fact that
+> dev_pm_genpd_add_notifier() will return an error if a power-domain
+> wasn't specified for dwc2 in the device tree, then you ignore that
+> error and your callback will never happen. You assume that the power
+> domain isn't specified then the dwc2 registers will be saved?
+>
+> I guess one thing is that I'd wonder if that's really reliable. Maybe
+> some dwc2 controllers lose their registers over system suspend but
+> _don't_ specify a power domain? Maybe the USB controller just gets its
+> power yanked as part of system suspend. Maybe that's why the functions
+> for saving / restoring registers are already there? It looks like
+> there are ways for various platforms to specify that registers are
+> lost in some cases...
+>
+> ...but I guess you can't use the existing ways to say that registers
+> are lost because you're trying to be dynamic. You're saying that your
+> registers get saved _unless_ the power domain gets turned off, right?
+> ...and the device core keeps power domains on for suspended devices if
+> they are wakeup sources, which makes sense.
+>
+> So with that, your patch sounds like a plausible way to do it. I guess
+> one other way to do it would be some sort of "canary" approach. You
+> could _always_ save registers and then, at resume time, you could
+> detect if some "canary" register had reset to its power-on default. If
+> you see this then you can assume power was lost and re-init all the
+> registers. This could be pretty much any register that you know won't
+> be its power on default. In some ways a "canary" approach is uglier
+> but it also might be more reliable across more configurations?
+>
+> I guess those would be my main thoughts on the topic. Is that roughly
+> the feedback you were looking for?
 
-We cannot enable cycle counters unconditionally as this would result in
-an increase of GPU power consumption. As a result, they should be left
-off unless required by the application.
+Thanks Doug for sharing your thoughts. For the record, I agree with
+these suggestions.
 
-If a job requires cycle counters or system timestamps propagation, we
-must enable cycle counting before issuing a job and disable it right
-after the job completes.
+Using the genpd on/off notifiers is certainly fine, but doing a
+save/restore unconditionally via some of the PM callbacks is usually
+preferred - if it works.
 
-Since this extends the uAPI and because userland needs a way to advertise
-features like VK_KHR_shader_clock conditionally, we bumps the driver
-minor version.
-
-v2:
-- Rework commit message
-- Squash uAPI changes and implementation in this commit
-- Simplify changes based on Steven Price comments
-
-Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c |  8 +++++--
- drivers/gpu/drm/panfrost/panfrost_job.c | 28 +++++++++++++++----------
- include/uapi/drm/panfrost_drm.h         |  1 +
- 3 files changed, 24 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 83696d06d697..07a09f32c32e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -25,6 +25,8 @@
- #include "panfrost_gpu.h"
- #include "panfrost_perfcnt.h"
- 
-+#define JOB_REQUIREMENTS (PANFROST_JD_REQ_FS | PANFROST_JD_REQ_CYCLE_COUNT)
-+
- static bool unstable_ioctls;
- module_param_unsafe(unstable_ioctls, bool, 0600);
- 
-@@ -280,7 +282,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 	if (!args->jc)
- 		return -EINVAL;
- 
--	if (args->requirements && args->requirements != PANFROST_JD_REQ_FS)
-+	if (args->requirements & ~JOB_REQUIREMENTS)
- 		return -EINVAL;
- 
- 	if (args->out_sync > 0) {
-@@ -619,6 +621,8 @@ static const struct file_operations panfrost_drm_driver_fops = {
-  * - 1.0 - initial interface
-  * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
-  * - 1.2 - adds AFBC_FEATURES query
-+ * - 1.3 - adds JD_REQ_CYCLE_COUNT job requirement for SUBMIT
-+ *       - adds SYSTEM_TIMESTAMP and SYSTEM_TIMESTAMP_FREQUENCY queries
-  */
- static const struct drm_driver panfrost_drm_driver = {
- 	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-@@ -632,7 +636,7 @@ static const struct drm_driver panfrost_drm_driver = {
- 	.desc			= "panfrost DRM",
- 	.date			= "20180908",
- 	.major			= 1,
--	.minor			= 2,
-+	.minor			= 3,
- 
- 	.gem_create_object	= panfrost_gem_create_object,
- 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index df49d37d0e7e..e5e62ee356ef 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -159,16 +159,17 @@ panfrost_dequeue_job(struct panfrost_device *pfdev, int slot)
- 	struct panfrost_job *job = pfdev->jobs[slot][0];
- 
- 	WARN_ON(!job);
--	if (job->is_profiled) {
--		if (job->engine_usage) {
--			job->engine_usage->elapsed_ns[slot] +=
--				ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
--			job->engine_usage->cycles[slot] +=
--				panfrost_cycle_counter_read(pfdev) - job->start_cycles;
--		}
--		panfrost_cycle_counter_put(job->pfdev);
-+
-+	if (job->is_profiled && job->engine_usage) {
-+		job->engine_usage->elapsed_ns[slot] +=
-+			ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
-+		job->engine_usage->cycles[slot] +=
-+			panfrost_cycle_counter_read(pfdev) - job->start_cycles;
- 	}
- 
-+	if (job->requirements & PANFROST_JD_REQ_CYCLE_COUNT || job->is_profiled)
-+		panfrost_cycle_counter_put(pfdev);
-+
- 	pfdev->jobs[slot][0] = pfdev->jobs[slot][1];
- 	pfdev->jobs[slot][1] = NULL;
- 
-@@ -243,9 +244,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 	subslot = panfrost_enqueue_job(pfdev, js, job);
- 	/* Don't queue the job if a reset is in progress */
- 	if (!atomic_read(&pfdev->reset.pending)) {
--		if (pfdev->profile_mode) {
-+		job->is_profiled = pfdev->profile_mode;
-+
-+		if (job->requirements & PANFROST_JD_REQ_CYCLE_COUNT ||
-+		    job->is_profiled)
- 			panfrost_cycle_counter_get(pfdev);
--			job->is_profiled = true;
-+
-+		if (job->is_profiled) {
- 			job->start_time = ktime_get();
- 			job->start_cycles = panfrost_cycle_counter_read(pfdev);
- 		}
-@@ -693,7 +698,8 @@ panfrost_reset(struct panfrost_device *pfdev,
- 	spin_lock(&pfdev->js->job_lock);
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
- 		for (j = 0; j < ARRAY_SIZE(pfdev->jobs[0]) && pfdev->jobs[i][j]; j++) {
--			if (pfdev->jobs[i][j]->is_profiled)
-+			if (pfdev->jobs[i][j]->requirements & PANFROST_JD_REQ_CYCLE_COUNT ||
-+				pfdev->jobs[i][j]->is_profiled)
- 				panfrost_cycle_counter_put(pfdev->jobs[i][j]->pfdev);
- 			pm_runtime_put_noidle(pfdev->dev);
- 			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 52b050e2b660..568724be6628 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -40,6 +40,7 @@ extern "C" {
- #define DRM_IOCTL_PANFROST_PERFCNT_DUMP		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_PERFCNT_DUMP, struct drm_panfrost_perfcnt_dump)
- 
- #define PANFROST_JD_REQ_FS (1 << 0)
-+#define PANFROST_JD_REQ_CYCLE_COUNT (1 << 1)
- /**
-  * struct drm_panfrost_submit - ioctl argument for submitting commands to the 3D
-  * engine.
--- 
-2.45.2
-
+Kind regards
+Uffe
