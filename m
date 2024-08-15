@@ -2,108 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D8E952EEE
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 15:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8901E9531B6
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 15:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E092310E147;
-	Thu, 15 Aug 2024 13:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE5CA10E3FF;
+	Thu, 15 Aug 2024 13:57:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mZEBrXLa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lgE1YEmT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mZEBrXLa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lgE1YEmT";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mxqam55c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B857210E134;
- Thu, 15 Aug 2024 13:17:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3FAD4211BB;
- Thu, 15 Aug 2024 13:17:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723727873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LS94qsNam5prkKC5CID4alIhK/BVn36zRi4KUiz9E6E=;
- b=mZEBrXLaac9+yuGlEjZ+8Kv1aGhOsAV0kvrgGMxh3VPnuVkG53nZrNFLnU4Xkp+8ABa4hj
- 5yOkzzMEV+wWh8XfHLBs1OhtAEvaRmKcrL83DCz6ZwUp/bLbSp5r+eLk7UUruF96sOrAPD
- iX9DMh1YHRv15dbvBS2HMuqBPZ6mhis=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723727873;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LS94qsNam5prkKC5CID4alIhK/BVn36zRi4KUiz9E6E=;
- b=lgE1YEmTBflFxwb+m3COiUr5Sr0aTs4kwc/7GoZr9+6YtWg3DLdhC8qzrQO5daCAseSGeE
- D/ehMgcg9B0tr/Dw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723727873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LS94qsNam5prkKC5CID4alIhK/BVn36zRi4KUiz9E6E=;
- b=mZEBrXLaac9+yuGlEjZ+8Kv1aGhOsAV0kvrgGMxh3VPnuVkG53nZrNFLnU4Xkp+8ABa4hj
- 5yOkzzMEV+wWh8XfHLBs1OhtAEvaRmKcrL83DCz6ZwUp/bLbSp5r+eLk7UUruF96sOrAPD
- iX9DMh1YHRv15dbvBS2HMuqBPZ6mhis=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723727873;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LS94qsNam5prkKC5CID4alIhK/BVn36zRi4KUiz9E6E=;
- b=lgE1YEmTBflFxwb+m3COiUr5Sr0aTs4kwc/7GoZr9+6YtWg3DLdhC8qzrQO5daCAseSGeE
- D/ehMgcg9B0tr/Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D199313983;
- Thu, 15 Aug 2024 13:17:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tNvnMQAAvmbaZAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 15 Aug 2024 13:17:52 +0000
-Date: Thu, 15 Aug 2024 15:17:51 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240815131751.GA151031@linux.fritz.box>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADF6110E3FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 13:57:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 938C0CE1C79;
+ Thu, 15 Aug 2024 13:57:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5818CC32786;
+ Thu, 15 Aug 2024 13:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1723730243;
+ bh=QzxffVVHF5NbYd4SHa/JzNbT2iprt19zMSfWzH2kMvk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Mxqam55cPaiRmg6XeYCo4roYjNXQSKR9D7RLup63nQ2kHax1HR472/mX/3+bgLOwK
+ RjSaaXGwPGnvEFXKGgnz0pwanHjUECJg77/LFV3Cr4HBHBEVOiWC9VVXfoJjp/63PC
+ LCA5BTZU6Kig+G+Apc8V6oXeYwEjDFzPoYutdP/g=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ dri-devel@lists.freedesktop.org,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>
+Subject: [PATCH 5.15 349/484] drm/vmwgfx: Fix a deadlock in dma buf fence
+ polling
+Date: Thu, 15 Aug 2024 15:23:27 +0200
+Message-ID: <20240815131954.906187365@linuxfoundation.org>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240815131941.255804951@linuxfoundation.org>
+References: <20240815131941.255804951@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- MISSING_XM_UA(0.00)[]; FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,81 +62,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
-here's the weekly PR for drm-misc-fixes. It resolves an OOB access
-in v3d and a few minor errors.
+------------------
 
-Best regards
-Thomas
+From: Zack Rusin <zack.rusin@broadcom.com>
 
-drm-misc-fixes-2024-08-15:
-Short summary of fixes pull:
+commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
 
-panel:
-- dt-bindings style fixes
+Introduce a version of the fence ops that on release doesn't remove
+the fence from the pending list, and thus doesn't require a lock to
+fix poll->fence wait->fence unref deadlocks.
 
-panel-orientation:
-- add quirk for Any Loki Max
-- add quirk for Any Loki Zero
+vmwgfx overwrites the wait callback to iterate over the list of all
+fences and update their status, to do that it holds a lock to prevent
+the list modifcations from other threads. The fence destroy callback
+both deletes the fence and removes it from the list of pending
+fences, for which it holds a lock.
 
-rockchip:
-- inno-hdmi: fix infoframe upload
+dma buf polling cb unrefs a fence after it's been signaled: so the poll
+calls the wait, which signals the fences, which are being destroyed.
+The destruction tries to acquire the lock on the pending fences list
+which it can never get because it's held by the wait from which it
+was called.
 
-v3d:
-- fix OOB access in v3d_csd_job_run()
-The following changes since commit 929725bd7eb4eea1f75197d9847f3f1ea5afdad1:
+Old bug, but not a lot of userspace apps were using dma-buf polling
+interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
 
-  drm/atomic: allow no-op FB_ID updates for async flips (2024-08-06 20:16:31 +0200)
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.2+
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |   17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-are available in the Git repository at:
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -32,7 +32,6 @@
+ #define VMW_FENCE_WRAP (1 << 31)
+ 
+ struct vmw_fence_manager {
+-	int num_fence_objects;
+ 	struct vmw_private *dev_priv;
+ 	spinlock_t lock;
+ 	struct list_head fence_list;
+@@ -127,13 +126,13 @@ static void vmw_fence_obj_destroy(struct
+ {
+ 	struct vmw_fence_obj *fence =
+ 		container_of(f, struct vmw_fence_obj, base);
+-
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
+ 
+-	spin_lock(&fman->lock);
+-	list_del_init(&fence->head);
+-	--fman->num_fence_objects;
+-	spin_unlock(&fman->lock);
++	if (!list_empty(&fence->head)) {
++		spin_lock(&fman->lock);
++		list_del_init(&fence->head);
++		spin_unlock(&fman->lock);
++	}
+ 	fence->destroy(fence);
+ }
+ 
+@@ -260,7 +259,6 @@ static const struct dma_fence_ops vmw_fe
+ 	.release = vmw_fence_obj_destroy,
+ };
+ 
+-
+ /*
+  * Execute signal actions on fences recently signaled.
+  * This is done from a workqueue so we don't have to execute
+@@ -363,7 +361,6 @@ static int vmw_fence_obj_init(struct vmw
+ 		goto out_unlock;
+ 	}
+ 	list_add_tail(&fence->head, &fman->fence_list);
+-	++fman->num_fence_objects;
+ 
+ out_unlock:
+ 	spin_unlock(&fman->lock);
+@@ -411,7 +408,7 @@ static bool vmw_fence_goal_new_locked(st
+ 				      u32 passed_seqno)
+ {
+ 	u32 goal_seqno;
+-	struct vmw_fence_obj *fence;
++	struct vmw_fence_obj *fence, *next_fence;
+ 
+ 	if (likely(!fman->seqno_valid))
+ 		return false;
+@@ -421,7 +418,7 @@ static bool vmw_fence_goal_new_locked(st
+ 		return false;
+ 
+ 	fman->seqno_valid = false;
+-	list_for_each_entry(fence, &fman->fence_list, head) {
++	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
+ 		if (!list_empty(&fence->seq_passed_actions)) {
+ 			fman->seqno_valid = true;
+ 			vmw_fence_goal_write(fman->dev_priv,
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-08-15
 
-for you to fetch changes up to fd45cc614b8acca5bb435ba37fe9b3f9a17fab84:
-
-  drm/rockchip: inno-hdmi: Fix infoframe upload (2024-08-15 12:31:47 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-panel:
-- dt-bindings style fixes
-
-panel-orientation:
-- add quirk for Any Loki Max
-- add quirk for Any Loki Zero
-
-rockchip:
-- inno-hdmi: fix infoframe upload
-
-v3d:
-- fix OOB access in v3d_csd_job_run()
-
-----------------------------------------------------------------
-Alex Bee (1):
-      drm/rockchip: inno-hdmi: Fix infoframe upload
-
-Bouke Sybren Haarsma (2):
-      drm: panel-orientation-quirks: Add quirk for Ayn Loki Zero
-      drm: panel-orientation-quirks: Add quirk for Ayn Loki Max
-
-Douglas Anderson (1):
-      dt-bindings: display: panel: samsung,atna45dc02: Fix indentation
-
-Maíra Canal (1):
-      drm/v3d: Fix out-of-bounds read in `v3d_csd_job_run()`
-
- .../bindings/display/panel/samsung,atna33xc20.yaml         | 12 ++++++------
- drivers/gpu/drm/drm_panel_orientation_quirks.c             | 12 ++++++++++++
- drivers/gpu/drm/rockchip/inno_hdmi.c                       |  4 +---
- drivers/gpu/drm/v3d/v3d_sched.c                            | 14 +++++++++++---
- 4 files changed, 30 insertions(+), 12 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
