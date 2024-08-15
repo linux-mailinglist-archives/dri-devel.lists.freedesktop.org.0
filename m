@@ -2,48 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FF29535C5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 16:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8785953267
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 16:05:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5812E10E450;
-	Thu, 15 Aug 2024 14:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2A810E41C;
+	Thu, 15 Aug 2024 14:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nMKUGStp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="U6Sj2ZbX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4839810E450
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 14:42:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id EA55DCE1C79;
- Thu, 15 Aug 2024 14:41:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A047EC32786;
- Thu, 15 Aug 2024 14:41:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723732918;
- bh=x0N8jQwsK/HCOvqdsvy0TJR2PTtkg7PHYTH5Y8Z6WdQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nMKUGStptm5SzDFieSjq6w7rlin2i3uIIPt5C6s0ncrN7R1eWseyTHKkGmF6sprxd
- B2bmSc7OG25UAnM6ce0mHC4A50k6JxV2V9uESVCsznNQaXdgGcf9XyTXNIoCHUYRai
- I0nCYMmTLnpyNusdSFcirCRkWcnQtV0H5kFVvghc=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.10 327/352] drm/mgag200: Set DDC timeout in milliseconds
-Date: Thu, 15 Aug 2024 15:26:33 +0200
-Message-ID: <20240815131932.090249827@linuxfoundation.org>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240815131919.196120297@linuxfoundation.org>
-References: <20240815131919.196120297@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8555D10E41C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 14:05:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=WUfv7OJc/PU4NaEESy5pBsrSe8xHadm8pC7Og5dgBmo=; b=U6Sj2ZbXAH4RrhmNigHv+tLjxU
+ ReYKQDr7bYwPIilHf4jPXPSRQl6QKQrgyzRi2MXawuJDLTXL4WOwyDu6SqnrQ4rORrWl56n5IeiIo
+ uu/e1xwp68nMxgsxIxDGjHkSXtqrkRs9zYsX3K0zyx0q8ppJmQYaXPH0VeYQd0q0mu3B8c7wTFkVq
+ 6FD4KFbZhRw3czpSAVFLq6UpoEca+Gw2MO+pNBoKKwYY1icZMqdSOnVjgs79E6UEpitIuE2LLmfMQ
+ UgU0EylDGRsEaXtiDvN6xNTevDbFIWwBa9m0mFWci1ZXO85YSH1clHWvz6Oh8Wse56LpB5wP7u+rx
+ d6NfyMTg==;
+Received: from [187.36.213.55] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1seb6e-000dqO-Ql; Thu, 15 Aug 2024 16:05:36 +0200
+Message-ID: <24a660e1-0f59-4214-96c1-aab29b266be4@igalia.com>
+Date: Thu, 15 Aug 2024 11:05:27 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/vkms: Formatting and typo fix
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+References: <20240814-google-clarifications-v1-0-3ee76d7d0c28@bootlin.com>
+ <20240814-google-clarifications-v1-1-3ee76d7d0c28@bootlin.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240814-google-clarifications-v1-1-3ee76d7d0c28@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,45 +79,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+On 8/14/24 05:46, Louis Chauvet wrote:
+> Some newlines were missing around comments.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-------------------
+Applied to drm/misc/drm-misc-next!
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+Best Regards,
+- Maíra
 
-commit ecde5db1598aecab54cc392282c15114f526f05f upstream.
-
-Compute the i2c timeout in jiffies from a value in milliseconds. The
-original values of 2 jiffies equals 2 milliseconds if HZ has been
-configured to a value of 1000. This corresponds to 2.2 milliseconds
-used by most other DRM drivers. Update mgag200 accordingly.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Fixes: 414c45310625 ("mgag200: initial g200se driver (v2)")
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.5+
-Link: https://patchwork.freedesktop.org/patch/msgid/20240513125620.6337-2-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/mgag200/mgag200_i2c.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-@@ -134,7 +134,7 @@ struct mga_i2c_chan *mgag200_i2c_create(
- 	i2c->adapter.algo_data = &i2c->bit;
- 
- 	i2c->bit.udelay = 10;
--	i2c->bit.timeout = 2;
-+	i2c->bit.timeout = usecs_to_jiffies(2200);
- 	i2c->bit.data = i2c;
- 	i2c->bit.setsda		= mga_gpio_setsda;
- 	i2c->bit.setscl		= mga_gpio_setscl;
-
-
+> ---
+>   drivers/gpu/drm/vkms/vkms_drv.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 6860bee8e981..5aeb43592960 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -163,9 +163,11 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>   	dev->mode_config.max_height = YRES_MAX;
+>   	dev->mode_config.cursor_width = 512;
+>   	dev->mode_config.cursor_height = 512;
+> -	/* FIXME: There's a confusion between bpp and depth between this and
+> +	/*
+> +	 * FIXME: There's a confusion between bpp and depth between this and
+>   	 * fbdev helpers. We have to go with 0, meaning "pick the default",
+> -	 * which ix XRGB8888 in all cases. */
+> +	 * which is XRGB8888 in all cases.
+> +	 */
+>   	dev->mode_config.preferred_depth = 0;
+>   	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>   
+> 
