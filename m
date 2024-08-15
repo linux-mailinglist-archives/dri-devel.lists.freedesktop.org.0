@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CE49542E8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 09:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E005D9542E1
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 09:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADA310E5B8;
-	Fri, 16 Aug 2024 07:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0133210E5B1;
+	Fri, 16 Aug 2024 07:39:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KP6KJPl0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xd4N3p1l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1FE10E4E8;
- Thu, 15 Aug 2024 18:27:41 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-5bd1a9bdce4so1629629a12.3; 
- Thu, 15 Aug 2024 11:27:41 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3740A10E4E8;
+ Thu, 15 Aug 2024 18:27:42 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-5a156557029so1483433a12.2; 
+ Thu, 15 Aug 2024 11:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723746459; x=1724351259; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1723746460; x=1724351260; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=IJZcAdXengnxQsRuBCfXSm3/IR7ldhfXkm+AS24y8lo=;
- b=KP6KJPl0V4LH8ng39rItus3Ic9tOA2t3BSOMl2Yyik521ao5okoDXfvz9VKJnkCE7g
- rgh3kLw7t5WyWADcJPhvBJRdZlzUtVcy9Z0woX5jau1IKyDT7BXkx7uBBNF7piZ2U7RF
- t3v267JmMeidHyj05QbAg0R+41MppFHH3lf9Z/tPe6tioKGqZ9/sVWkWlqgvM3cYju7R
- KCqhKCiqLGBgUdr0JonaxaztrO6qOBbLkYeXw0tL36f/5mndOr8NtJHfLV2Bmi/E3rv6
- zbniEDTUAnQj3/M69YH4J5Vj6ALxNcXmTBvxGLykUj0HAQWGNpA9GjU9WaI4gz72ni2T
- guFQ==
+ :reply-to; bh=urijkc3f3VRhrpzAWKCHRZEPKCuPoQovMvk9GPz7bsI=;
+ b=Xd4N3p1lrjn6qnlKEasfl9xNXZmFKW8HgeTd8dgR92slnOovc/HNvHM7n6HnFyr5j2
+ 28+nF5vzNsbbPIDpc3W24dMr2onjsztf7JCHD0ZHlvr0OhfgdYLzv0/r1I3jDwH4YBoa
+ 9wNWbuLqdEEhOr8lz+BHn0xuOEL/sk/52SIp9aGdXd2SZrVcrCh0J8KM65cBICAwrozF
+ I52zNpfHaZ8G+Qrgatcx0KPZvn1AwOdgSaSiMwmEb+csszmQyMFiv0rHTyhzyiTQVXut
+ 2O6vnY4HB8H3dY1kN2Y1i2uMX4FJlmrQh2l9NEJ/iwtaFdyvN6sFFs4Cm6lnqo4nIYrw
+ uGiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723746459; x=1724351259;
+ d=1e100.net; s=20230601; t=1723746460; x=1724351260;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IJZcAdXengnxQsRuBCfXSm3/IR7ldhfXkm+AS24y8lo=;
- b=EZE64qbQS+fmqXn7sHJybmE5q5y3tKG8XGZ2WTn5NKn0xxTnIlPjwtcdRGdFTbeM5r
- i7GTknYrpITCZ+uardMOCYf4KdCMl/YiLTUQKGfNesMQfDUk71CDcwpRXYW+9tJf3Nyq
- sTr6hblCKtLOY07w0gLsyqwkfj6PuzFEw95tFRh3CnQLUXTuxLZxSMXXBjc8GptfRJoe
- ZTD/y2xdYQT6mfU+kQDx5tvoSJzWxpC1lmZIJt5wTQq+LLa5xW0eMFxGa9sKgqimcNyZ
- 3jkxDO/u6eM0/djHnT/Z1kCQiqPHM80/ulOktPWxM7jFk0Qjaq6HJOmEXCc5sL4m9M7t
- uz3g==
+ bh=urijkc3f3VRhrpzAWKCHRZEPKCuPoQovMvk9GPz7bsI=;
+ b=XkSv93GOJYyWg31vGH1N+Irs/i05tQtExwnv3EMIdgarQp9Jzpw1R+NOhtcHgrvis2
+ MSUri0dr9e2A7wOOFfCmNiXQoR9ryyjgU7003QCC5GIRNMb7EumobkmtoCKX7qwjL8d+
+ 4W+FdSe9dBCd5yKZnOGTD3BFCeypjR3/n4VEWwyH46tnBYFdSm+gBz4IFOCbUaK72tvT
+ 4OTVCMDJ1B9x/ZFAWqQC0qnLxGnYviZE+lxIr6j3KFFERo3hQGsj1+GcrminA5O65MUK
+ AQF6mQqZMbob4qx7hSxyaA2LL4czYmoFVPHcxGcJ13GEMLfYD2G5lqrQzIVoDINml/+N
+ VnuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWxGL/QIsL0FrFVejbmcxNLaEARlV6vcVPABBt9mKVIb7IJCsgwDSgJLQmVpRcgocVtmFiW3d73Em7bGcFy1ESKDATz+zjDOE1zQJt2Y/sL/C5nZadv7//v/B5OmQIVeZW021cL4fO1XgC3JmTiILc7
-X-Gm-Message-State: AOJu0Yzi1H921QVe1/FMcYxHFjNlWrBrdIcPOP54wG1gDXpB1RrHT6Yl
- /Yk9GALqe7PIQiz0uwfJp4pOn4+JV9Q0ipGcRkjh2ddcUfdsa+qv
-X-Google-Smtp-Source: AGHT+IHF29C4IC0GAOmzG1LjmAPZsf2ZGqUe1rN816bkCVSN1Wb+2P06Jr/oWhrvp2Jca9UErpPefQ==
-X-Received: by 2002:a17:906:d54e:b0:a77:aa6d:e0c7 with SMTP id
- a640c23a62f3a-a839293e973mr28486566b.30.1723746458735; 
- Thu, 15 Aug 2024 11:27:38 -0700 (PDT)
+ AJvYcCV3jjaetszaBiAlq22jM8CWzmc9TLsdzLxd+2av2NUfgjelEVzEoaIIosfTNx6BVCQtMZaQiAUrgb99G6PuBbChO/SfOY94CquuNY5SVNbcEgRgtN0KKhJNEUQOS22EfSDTJF0LRI+qm1gWRNqcevn5
+X-Gm-Message-State: AOJu0YwGw8INxB13pKjwrqnSVEccZAByN3Y361URWkNMHXZ7K4jBkYU5
+ JRpsKIlnzlELIDaK/bn9DFCfijB27qEmnVsADVQQ7rD7Qq5ijVvu
+X-Google-Smtp-Source: AGHT+IFPZ04x5q729U6SozDVg01mhTEcXdVagZpRJc7WA7XSPWNkD+YY2Ys5R20/caD9P8YjpOsVag==
+X-Received: by 2002:a17:907:2da6:b0:a7a:9144:e23b with SMTP id
+ a640c23a62f3a-a83928d3597mr32453666b.19.1723746460231; 
+ Thu, 15 Aug 2024 11:27:40 -0700 (PDT)
 Received: from [192.168.1.13] (host-79-35-172-29.retail.telecomitalia.it.
  [79.35.172.29]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a8383947187sm133814366b.166.2024.08.15.11.27.37
+ a640c23a62f3a-a8383947187sm133814366b.166.2024.08.15.11.27.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Aug 2024 11:27:38 -0700 (PDT)
+ Thu, 15 Aug 2024 11:27:39 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 15 Aug 2024 20:26:12 +0200
-Subject: [PATCH 2/7] drm/msm: Add submitqueue setup and close
+Date: Thu, 15 Aug 2024 20:26:13 +0200
+Subject: [PATCH 3/7] drm/msm: Add a `preempt_record_size` field
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240815-preemption-a750-t-v1-2-7bda26c34037@gmail.com>
+Message-Id: <20240815-preemption-a750-t-v1-3-7bda26c34037@gmail.com>
 References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
 In-Reply-To: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -74,14 +74,13 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Antonino Maniscalco <antomani103@gmail.com>, 
- Sharat Masetty <smasetty@codeaurora.org>
+ Antonino Maniscalco <antomani103@gmail.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723746454; l=2616;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723746454; l=1771;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=20oAYS3mWUIGbiEDLsRaCMFHZNrME6mT7hQZgI2Sra8=;
- b=vSb1NAIThr44gOy1adLEVkRxa/kzpiR9f4HJ/bpnUqNFI0dToOp74LyZ/El4114l5ebgPe7oT
- 7zYefoUGrPpA0Sj1m4eI+T3puPlPLI0vLUu2IaZ+1tO/TWm9qvPGIln
+ bh=WIdWkEj6n6EKxeTaGaPrvswEStAjEcIUss+Uq6HmkxU=;
+ b=cdA5UOeldSfzsfOh+2uPqUWo4UgfkDMyDFPeXHAf7JKUKQafh23+o+lNgxZesuz8HMBjNfJT2
+ XbSJ7pdMUM5AcJb2XW8N5sEn/s5iwrMC+/Huel9if6lm001Kp49EV+9
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-Mailman-Approved-At: Fri, 16 Aug 2024 07:39:16 +0000
@@ -100,82 +99,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a bit of infrastructure to give the different Adreno
-targets the flexibility to setup the submitqueues per their needs.
+Adds a field to `adreno_info` to store the GPU specific preempt record
+size.
 
-Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 ---
- drivers/gpu/drm/msm/msm_gpu.h         |  7 +++++++
- drivers/gpu/drm/msm/msm_submitqueue.c | 10 ++++++++++
- 2 files changed, 17 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 3 +++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 1f02bb9956be..70f5c18e5aee 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -92,6 +92,10 @@ struct msm_gpu_funcs {
- 	 * for cmdstream that is buffered in this FIFO upstream of the CP fw.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+index 68ba9aed5506..4cee54d57646 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+@@ -1190,6 +1190,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			.protect = &a730_protect,
+ 		},
+ 		.address_space_size = SZ_16G,
++		.preempt_record_size = 2860 * SZ_1K,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x43050a01), /* "C510v2" */
+ 		.family = ADRENO_7XX_GEN2,
+@@ -1209,6 +1210,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			.gmu_chipid = 0x7020100,
+ 		},
+ 		.address_space_size = SZ_16G,
++		.preempt_record_size = 4192 * SZ_1K,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x43050c01), /* "C512v2" */
+ 		.family = ADRENO_7XX_GEN2,
+@@ -1245,6 +1247,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			.gmu_chipid = 0x7090100,
+ 		},
+ 		.address_space_size = SZ_16G,
++		.preempt_record_size = 3572 * SZ_1K,
+ 	}
+ };
+ DECLARE_ADRENO_GPULIST(a7xx);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 1ab523a163a0..6b1888280a83 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -111,6 +111,7 @@ struct adreno_info {
+ 	 * {SHRT_MAX, 0} sentinal.
  	 */
- 	bool (*progress)(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
-+	int (*submitqueue_setup)(struct msm_gpu *gpu,
-+			struct msm_gpu_submitqueue *queue);
-+	void (*submitqueue_close)(struct msm_gpu *gpu,
-+			struct msm_gpu_submitqueue *queue);
+ 	struct adreno_speedbin *speedbins;
++	u64 preempt_record_size;
  };
  
- /* Additional state for iommu faults: */
-@@ -522,6 +526,9 @@ struct msm_gpu_submitqueue {
- 	struct mutex lock;
- 	struct kref ref;
- 	struct drm_sched_entity *entity;
-+	struct msm_gpu *gpu;
-+	struct drm_gem_object *bo;
-+	uint64_t bo_iova;
- };
- 
- struct msm_gpu_state_bo {
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 0e803125a325..4ffb336d9a60 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -71,6 +71,11 @@ void msm_submitqueue_destroy(struct kref *kref)
- 	struct msm_gpu_submitqueue *queue = container_of(kref,
- 		struct msm_gpu_submitqueue, ref);
- 
-+	struct msm_gpu *gpu = queue->gpu;
-+
-+	if (gpu && gpu->funcs->submitqueue_close)
-+		gpu->funcs->submitqueue_close(gpu, queue);
-+
- 	idr_destroy(&queue->fence_idr);
- 
- 	msm_file_private_put(queue->ctx);
-@@ -160,6 +165,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- {
- 	struct msm_drm_private *priv = drm->dev_private;
- 	struct msm_gpu_submitqueue *queue;
-+	struct msm_gpu *gpu = priv->gpu;
- 	enum drm_sched_priority sched_prio;
- 	unsigned ring_nr;
- 	int ret;
-@@ -195,6 +201,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 
- 	queue->ctx = msm_file_private_get(ctx);
- 	queue->id = ctx->queueid++;
-+	queue->gpu = gpu;
- 
- 	if (id)
- 		*id = queue->id;
-@@ -207,6 +214,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 
- 	write_unlock(&ctx->queuelock);
- 
-+	if (gpu && gpu->funcs->submitqueue_setup)
-+		gpu->funcs->submitqueue_setup(gpu, queue);
-+
- 	return 0;
- }
- 
+ #define ADRENO_CHIP_IDS(tbl...) (uint32_t[]) { tbl, 0 }
 
 -- 
 2.46.0
