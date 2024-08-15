@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB83953422
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 16:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FF29535C5
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 16:42:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC71810E425;
-	Thu, 15 Aug 2024 14:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5812E10E450;
+	Thu, 15 Aug 2024 14:42:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ol3wdKvr";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nMKUGStp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFBC310E425
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 14:23:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4839810E450
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 14:42:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 97A2ECE1C95;
- Thu, 15 Aug 2024 14:23:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6116AC32786;
- Thu, 15 Aug 2024 14:23:38 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id EA55DCE1C79;
+ Thu, 15 Aug 2024 14:41:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A047EC32786;
+ Thu, 15 Aug 2024 14:41:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723731818;
- bh=VdZir4ic9gD1nK0EpfVPfO9IiWIQ5y+viMeq3LaxOOM=;
+ s=korg; t=1723732918;
+ bh=x0N8jQwsK/HCOvqdsvy0TJR2PTtkg7PHYTH5Y8Z6WdQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ol3wdKvrySNkXFdCWUPk+j3Sv35IPxuMVaSRRn39rB9n3ZkZjdbujbAeqI+o0ivxN
- PTIQ1jJVXXrRZ8UnMrFf3PKcTXY9kK3TbopWaiV+352Wx7di843h5gnYticE0Nc6EP
- pvvf9+SQm+7bgiLKGwWF2sO/xRG6QBlOizf5g6bg=
+ b=nMKUGStptm5SzDFieSjq6w7rlin2i3uIIPt5C6s0ncrN7R1eWseyTHKkGmF6sprxd
+ B2bmSc7OG25UAnM6ce0mHC4A50k6JxV2V9uESVCsznNQaXdgGcf9XyTXNIoCHUYRai
+ I0nCYMmTLnpyNusdSFcirCRkWcnQtV0H5kFVvghc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -34,12 +34,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.4 248/259] drm/mgag200: Set DDC timeout in milliseconds
-Date: Thu, 15 Aug 2024 15:26:21 +0200
-Message-ID: <20240815131912.346931235@linuxfoundation.org>
+Subject: [PATCH 5.10 327/352] drm/mgag200: Set DDC timeout in milliseconds
+Date: Thu, 15 Aug 2024 15:26:33 +0200
+Message-ID: <20240815131932.090249827@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240815131902.779125794@linuxfoundation.org>
-References: <20240815131902.779125794@linuxfoundation.org>
+In-Reply-To: <20240815131919.196120297@linuxfoundation.org>
+References: <20240815131919.196120297@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -60,7 +60,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.4-stable review patch.  If anyone has any objections, please let me know.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -91,7 +91,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-@@ -135,7 +135,7 @@ struct mga_i2c_chan *mgag200_i2c_create(
+@@ -134,7 +134,7 @@ struct mga_i2c_chan *mgag200_i2c_create(
  	i2c->adapter.algo_data = &i2c->bit;
  
  	i2c->bit.udelay = 10;
