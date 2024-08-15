@@ -2,42 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300989534E9
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 16:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A8E953559
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 16:36:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A71C110E44D;
-	Thu, 15 Aug 2024 14:31:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33E7510E44B;
+	Thu, 15 Aug 2024 14:36:47 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mNR5sZQJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0421710E44D
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 14:31:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A07D216F3;
- Thu, 15 Aug 2024 07:32:07 -0700 (PDT)
-Received: from [10.1.36.19] (e122027.cambridge.arm.com [10.1.36.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A7DF63F58B;
- Thu, 15 Aug 2024 07:31:39 -0700 (PDT)
-Message-ID: <f89178c5-81f6-460c-8bb8-56ba83461f8e@arm.com>
-Date: Thu, 15 Aug 2024 15:31:36 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3886D10E44B
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 14:36:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wIEVspMbU9fqPswpsbQbvg0YjTrVOAC5HuQmag4EBQw=; b=mNR5sZQJzFo/Mhes3Y5WWV2OI+
+ rF9/b7M085MxTSLhciN9o+8Vg3Tb+LCRREtIcxb1jTdP6O+KHC3QO6ccc9ZQxIQOC84HoXBuxXSJf
+ nkBx//ea7XZRkRf8O0nTzL2ndY/NeVugGllmQhJaSjv/SN85VIQgCY4wkNlHdvBTkCiGth8cELN3I
+ ymPqLlLwvnBuOOeD07gm4LYioUzQ0pfW5IzkmZOTtzViYT/d+o1Qheia7ukqUDWy/G2JFVeEDzyLy
+ rjzXl0pWuD4WBjVz5nJFGEqtLmJzmhwUPQlfg+bG6ytDLSMsxUjrPezLg60QkXXJflx6MfI6nO6Xj
+ 9nbmZ7VQ==;
+Received: from [187.36.213.55] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sebaa-000eMa-JS; Thu, 15 Aug 2024 16:36:32 +0200
+Message-ID: <ddde5dd8-8dac-47e3-a92c-8f97bf6b7bd9@igalia.com>
+Date: Thu, 15 Aug 2024 11:36:23 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/panfrost: Add cycle counter job requirement
-To: Mary Guillemard <mary.guillemard@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH RFC 1/6] drm/vkms: Properly extract vkms_formats header
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20240814112121.61137-2-mary.guillemard@collabora.com>
- <20240814112121.61137-4-mary.guillemard@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240814112121.61137-4-mary.guillemard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+References: <20240814-google-split-headers-v1-0-51712f088f5d@bootlin.com>
+ <20240814-google-split-headers-v1-1-51712f088f5d@bootlin.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240814-google-split-headers-v1-1-51712f088f5d@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,148 +79,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/08/2024 12:21, Mary Guillemard wrote:
-> Extend the uAPI with a new job requirement flag for cycle
-> counters. This requirement is used by userland to indicate that a job
-> requires cycle counters or system timestamp to be propagated. (for use
-> with write value timestamp jobs)
-> 
-> We cannot enable cycle counters unconditionally as this would result in
-> an increase of GPU power consumption. As a result, they should be left
-> off unless required by the application.
-> 
-> If a job requires cycle counters or system timestamps propagation, we
-> must enable cycle counting before issuing a job and disable it right
-> after the job completes.
-> 
-> Since this extends the uAPI and because userland needs a way to advertise
-> features like VK_KHR_shader_clock conditionally, we bumps the driver
-> minor version.
-> 
-> v2:
-> - Rework commit message
-> - Squash uAPI changes and implementation in this commit
-> - Simplify changes based on Steven Price comments
-> 
-> Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
+Hi Louis,
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Most of the code extracted in this patch was previously introduced by
+you in patches that I didn't apply yet. Therefore, I believe you could
+just add the code in vkms_formats.c in the original series.
 
-Thanks,
-Steve
+Best Regards,
+- Maíra
 
+On 8/14/24 06:08, Louis Chauvet wrote:
+> The vkms_format.h header was already separated from vkms_drv.h, but some
+> function were missing. Move those function in vkms_format.h.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c |  8 +++++--
->  drivers/gpu/drm/panfrost/panfrost_job.c | 28 +++++++++++++++----------
->  include/uapi/drm/panfrost_drm.h         |  1 +
->  3 files changed, 24 insertions(+), 13 deletions(-)
+>   drivers/gpu/drm/vkms/vkms_drv.h     | 74 +---------------------------------
+>   drivers/gpu/drm/vkms/vkms_formats.c |  3 ++
+>   drivers/gpu/drm/vkms/vkms_formats.h | 80 ++++++++++++++++++++++++++++++++++++-
+>   3 files changed, 84 insertions(+), 73 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 83696d06d697..07a09f32c32e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -25,6 +25,8 @@
->  #include "panfrost_gpu.h"
->  #include "panfrost_perfcnt.h"
->  
-> +#define JOB_REQUIREMENTS (PANFROST_JD_REQ_FS | PANFROST_JD_REQ_CYCLE_COUNT)
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 8f6c9e67e671..0db443924a15 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -12,6 +12,8 @@
+>   #include <drm/drm_encoder.h>
+>   #include <drm/drm_writeback.h>
+>   
+> +#include "vkms_formats.h"
 > +
->  static bool unstable_ioctls;
->  module_param_unsafe(unstable_ioctls, bool, 0600);
->  
-> @@ -280,7 +282,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->  	if (!args->jc)
->  		return -EINVAL;
->  
-> -	if (args->requirements && args->requirements != PANFROST_JD_REQ_FS)
-> +	if (args->requirements & ~JOB_REQUIREMENTS)
->  		return -EINVAL;
->  
->  	if (args->out_sync > 0) {
-> @@ -619,6 +621,8 @@ static const struct file_operations panfrost_drm_driver_fops = {
->   * - 1.0 - initial interface
->   * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
->   * - 1.2 - adds AFBC_FEATURES query
-> + * - 1.3 - adds JD_REQ_CYCLE_COUNT job requirement for SUBMIT
-> + *       - adds SYSTEM_TIMESTAMP and SYSTEM_TIMESTAMP_FREQUENCY queries
->   */
->  static const struct drm_driver panfrost_drm_driver = {
->  	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-> @@ -632,7 +636,7 @@ static const struct drm_driver panfrost_drm_driver = {
->  	.desc			= "panfrost DRM",
->  	.date			= "20180908",
->  	.major			= 1,
-> -	.minor			= 2,
-> +	.minor			= 3,
->  
->  	.gem_create_object	= panfrost_gem_create_object,
->  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index df49d37d0e7e..e5e62ee356ef 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -159,16 +159,17 @@ panfrost_dequeue_job(struct panfrost_device *pfdev, int slot)
->  	struct panfrost_job *job = pfdev->jobs[slot][0];
->  
->  	WARN_ON(!job);
-> -	if (job->is_profiled) {
-> -		if (job->engine_usage) {
-> -			job->engine_usage->elapsed_ns[slot] +=
-> -				ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
-> -			job->engine_usage->cycles[slot] +=
-> -				panfrost_cycle_counter_read(pfdev) - job->start_cycles;
-> -		}
-> -		panfrost_cycle_counter_put(job->pfdev);
+>   #define XRES_MIN    10
+>   #define YRES_MIN    10
+>   
+> @@ -43,29 +45,6 @@ struct vkms_frame_info {
+>   	unsigned int rotation;
+>   };
+>   
+> -struct pixel_argb_u16 {
+> -	u16 a, r, g, b;
+> -};
+> -
+> -struct line_buffer {
+> -	size_t n_pixels;
+> -	struct pixel_argb_u16 *pixels;
+> -};
+> -
+> -struct vkms_writeback_job;
+> -/**
+> - * typedef pixel_write_line_t - These functions are used to read a pixel line from a
+> - * struct pixel_argb_u16 buffer, convert it and write it in the @wb job.
+> - *
+> - * @wb: the writeback job to write the output of the conversion
+> - * @in_pixels: Source buffer containing the line to convert
+> - * @count: The width of a line
+> - * @x_start: The x (width) coordinate in the destination plane
+> - * @y_start: The y (height) coordinate in the destination plane
+> - */
+> -typedef void (*pixel_write_line_t)(struct vkms_writeback_job *wb,
+> -			      struct pixel_argb_u16 *in_pixels, int count, int x_start,
+> -			      int y_start);
+>   
+>   struct vkms_writeback_job {
+>   	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+> @@ -73,53 +52,10 @@ struct vkms_writeback_job {
+>   	pixel_write_line_t pixel_write;
+>   };
+>   
+> -/**
+> - * enum pixel_read_direction - Enum used internaly by VKMS to represent a reading direction in a
+> - * plane.
+> - */
+> -enum pixel_read_direction {
+> -	READ_BOTTOM_TO_TOP,
+> -	READ_TOP_TO_BOTTOM,
+> -	READ_RIGHT_TO_LEFT,
+> -	READ_LEFT_TO_RIGHT
+> -};
+>   
+>   struct vkms_plane_state;
+>   
+> -/**
+> - * typedef pixel_read_line_t - These functions are used to read a pixel line in the source frame,
+> - * convert it to `struct pixel_argb_u16` and write it to @out_pixel.
+> - *
+> - * @plane: plane used as source for the pixel value
+> - * @x_start: X (width) coordinate of the first pixel to copy. The caller must ensure that x_start
+> - * is non-negative and smaller than @plane->frame_info->fb->width.
+> - * @y_start: Y (height) coordinate of the first pixel to copy. The caller must ensure that y_start
+> - * is non-negative and smaller than @plane->frame_info->fb->height.
+> - * @direction: direction to use for the copy, starting at @x_start/@y_start
+> - * @count: number of pixels to copy
+> - * @out_pixel: pointer where to write the pixel values. They will be written from @out_pixel[0]
+> - * (included) to @out_pixel[@count] (excluded). The caller must ensure that out_pixel have a
+> - * length of at least @count.
+> - */
+> -typedef void (*pixel_read_line_t)(const struct vkms_plane_state *plane, int x_start,
+> -				  int y_start, enum pixel_read_direction direction, int count,
+> -				  struct pixel_argb_u16 out_pixel[]);
+>   
+> -/**
+> - * struct conversion_matrix - Matrix to use for a specific encoding and range
+> - *
+> - * @matrix: Conversion matrix from yuv to rgb. The matrix is stored in a row-major manner and is
+> - * used to compute rgb values from yuv values:
+> - *     [[r],[g],[b]] = @matrix * [[y],[u],[v]]
+> - *   OR for yvu formats:
+> - *     [[r],[g],[b]] = @matrix * [[y],[v],[u]]
+> - *  The values of the matrix are signed fixed-point values with 32 bits fractional part.
+> - * @y_offset: Offset to apply on the y value.
+> - */
+> -struct conversion_matrix {
+> -	s64 matrix[3][3];
+> -	int y_offset;
+> -};
+>   
+>   /**
+>    * struct vkms_plane_state - Driver specific plane state
+> @@ -140,12 +76,6 @@ struct vkms_plane {
+>   	struct drm_plane base;
+>   };
+>   
+> -struct vkms_color_lut {
+> -	struct drm_color_lut *base;
+> -	size_t lut_length;
+> -	s64 channel_value2index_ratio;
+> -};
+> -
+>   /**
+>    * struct vkms_crtc_state - Driver specific CRTC state
+>    *
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index 65fdd3999441..5ab84801d8da 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -6,9 +6,12 @@
+>   #include <drm/drm_blend.h>
+>   #include <drm/drm_rect.h>
+>   #include <drm/drm_fixed.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_framebuffer.h>
+>   
+>   #include <kunit/visibility.h>
+>   
+> +#include "vkms_drv.h"
+>   #include "vkms_formats.h"
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+> index 852ab9a4cee5..62b06bc26e79 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.h
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> @@ -3,7 +3,85 @@
+>   #ifndef _VKMS_FORMATS_H_
+>   #define _VKMS_FORMATS_H_
+>   
+> -#include "vkms_drv.h"
+> +#include <drm/drm_color_mgmt.h>
 > +
-> +	if (job->is_profiled && job->engine_usage) {
-> +		job->engine_usage->elapsed_ns[slot] +=
-> +			ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
-> +		job->engine_usage->cycles[slot] +=
-> +			panfrost_cycle_counter_read(pfdev) - job->start_cycles;
->  	}
->  
-> +	if (job->requirements & PANFROST_JD_REQ_CYCLE_COUNT || job->is_profiled)
-> +		panfrost_cycle_counter_put(pfdev);
+> +struct vkms_plane_state;
+> +struct vkms_writeback_job;
 > +
->  	pfdev->jobs[slot][0] = pfdev->jobs[slot][1];
->  	pfdev->jobs[slot][1] = NULL;
->  
-> @@ -243,9 +244,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->  	subslot = panfrost_enqueue_job(pfdev, js, job);
->  	/* Don't queue the job if a reset is in progress */
->  	if (!atomic_read(&pfdev->reset.pending)) {
-> -		if (pfdev->profile_mode) {
-> +		job->is_profiled = pfdev->profile_mode;
+> +struct pixel_argb_u16 {
+> +	u16 a, r, g, b;
+> +};
 > +
-> +		if (job->requirements & PANFROST_JD_REQ_CYCLE_COUNT ||
-> +		    job->is_profiled)
->  			panfrost_cycle_counter_get(pfdev);
-> -			job->is_profiled = true;
+> +/**
+> + * typedef pixel_write_line_t - These functions are used to read a pixel line from a
+> + * struct pixel_argb_u16 buffer, convert it and write it in the @wb_job.
+> + *
+> + * @wb: the writeback job to write the output of the conversion
+> + * @in_pixels: Source buffer containing the line to convert
+> + * @count: The width of a line
+> + * @x_start: The x (width) coordinate in the destination plane
+> + * @y_start: The y (height) coordinate in the destination plane
+> + */
+> +typedef void (*pixel_write_line_t)(struct vkms_writeback_job *wb,
+> +				   struct pixel_argb_u16 *in_pixels, int count, int x_start,
+> +				   int y_start);
 > +
-> +		if (job->is_profiled) {
->  			job->start_time = ktime_get();
->  			job->start_cycles = panfrost_cycle_counter_read(pfdev);
->  		}
-> @@ -693,7 +698,8 @@ panfrost_reset(struct panfrost_device *pfdev,
->  	spin_lock(&pfdev->js->job_lock);
->  	for (i = 0; i < NUM_JOB_SLOTS; i++) {
->  		for (j = 0; j < ARRAY_SIZE(pfdev->jobs[0]) && pfdev->jobs[i][j]; j++) {
-> -			if (pfdev->jobs[i][j]->is_profiled)
-> +			if (pfdev->jobs[i][j]->requirements & PANFROST_JD_REQ_CYCLE_COUNT ||
-> +				pfdev->jobs[i][j]->is_profiled)
->  				panfrost_cycle_counter_put(pfdev->jobs[i][j]->pfdev);
->  			pm_runtime_put_noidle(pfdev->dev);
->  			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 52b050e2b660..568724be6628 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -40,6 +40,7 @@ extern "C" {
->  #define DRM_IOCTL_PANFROST_PERFCNT_DUMP		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_PERFCNT_DUMP, struct drm_panfrost_perfcnt_dump)
->  
->  #define PANFROST_JD_REQ_FS (1 << 0)
-> +#define PANFROST_JD_REQ_CYCLE_COUNT (1 << 1)
->  /**
->   * struct drm_panfrost_submit - ioctl argument for submitting commands to the 3D
->   * engine.
-
+> +struct line_buffer {
+> +	size_t n_pixels;
+> +	struct pixel_argb_u16 *pixels;
+> +};
+> +
+> +/**
+> + * enum pixel_read_direction - Enum used internaly by VKMS to represent a reading direction in a
+> + * plane.
+> + */
+> +enum pixel_read_direction {
+> +	READ_BOTTOM_TO_TOP,
+> +	READ_TOP_TO_BOTTOM,
+> +	READ_RIGHT_TO_LEFT,
+> +	READ_LEFT_TO_RIGHT
+> +};
+> +
+> +/**
+> + * struct conversion_matrix - Matrix to use for a specific encoding and range
+> + *
+> + * @matrix: Conversion matrix from yuv to rgb. The matrix is stored in a row-major manner and is
+> + * used to compute rgb values from yuv values:
+> + *     [[r],[g],[b]] = @matrix * [[y],[u],[v]]
+> + *   OR for yvu formats:
+> + *     [[r],[g],[b]] = @matrix * [[y],[v],[u]]
+> + *  The values of the matrix are signed fixed-point values with 32 bits fractional part.
+> + * @y_offset: Offset to apply on the y value.
+> + */
+> +struct conversion_matrix {
+> +	s64 matrix[3][3];
+> +	int y_offset;
+> +};
+> +
+> +struct vkms_color_lut {
+> +	struct drm_color_lut *base;
+> +	size_t lut_length;
+> +	s64 channel_value2index_ratio;
+> +};
+> +
+> +/**
+> + * typedef pixel_read_line_t - These functions are used to read a pixel line in the source frame,
+> + * convert it to `struct pixel_argb_u16` and write it to @out_pixel.
+> + *
+> + * @plane: plane used as source for the pixel value
+> + * @x_start: X (width) coordinate of the first pixel to copy. The caller must ensure that x_start
+> + * is non-negative and smaller than @plane->frame_info->fb->width.
+> + * @y_start: Y (height) coordinate of the first pixel to copy. The caller must ensure that y_start
+> + * is non-negative and smaller than @plane->frame_info->fb->height.
+> + * @direction: direction to use for the copy, starting at @x_start/@y_start
+> + * @count: number of pixels to copy
+> + * @out_pixel: pointer where to write the pixel values. They will be written from @out_pixel[0]
+> + * (included) to @out_pixel[@count] (excluded). The caller must ensure that out_pixel have a
+> + * length of at least @count.
+> + */
+> +typedef void (*pixel_read_line_t)(const struct vkms_plane_state *plane, int x_start,
+> +				  int y_start, enum pixel_read_direction direction, int count,
+> +				  struct pixel_argb_u16 out_pixel[]);
+>   
+>   pixel_read_line_t get_pixel_read_line_function(u32 format);
+>   
+> 
