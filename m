@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CD3952DD2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 14:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F14B952E97
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 14:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B90A10E31C;
-	Thu, 15 Aug 2024 12:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14BA210E012;
+	Thu, 15 Aug 2024 12:55:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KrWYFW4w";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wj/F70lD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0D610E31C;
- Thu, 15 Aug 2024 12:04:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62C510E012
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 12:55:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723723457; x=1755259457;
+ t=1723726552; x=1755262552;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=7nMDbWuL5d4Ld2FOrp4EEJYNhkUzu9OCM8essQa4VWY=;
- b=KrWYFW4wDpstuJ3QCwTUWsx6kdV4Ba9LA4Ae1Ccq7X1zKt8xHUIjawPd
- 34ofFO7ADhAdBfa+OSz4FP1qGRV8uElAiaoYHJuSIpPqeMkKkZvm1gM4R
- 7oonHxkHfYvTh21M64Tx46ccFfAhdMvpRFkr1s+ANAZVTpV8fZUMYdSB5
- yapm+8GfDZDzNwZ7u9TUe8o6TC9368NMiKlwXRMgA/SpBWLb+ENvgHoCh
- 1mqHq7tWcY7mG/cZdCxsIAU/rGQgEt39WlGWXKPc71DsF24FhtA5C3S/d
- D5598lZB03Ej3mofH3ZVXUzs2AL/v6zMm09o/BpgTloXLOYzXk9RmmvRk w==;
-X-CSE-ConnectionGUID: 6/oh7g64R5SwVGGoAyjhog==
-X-CSE-MsgGUID: 8I+Ku72iTLmW0rsNJqVPrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="24878577"
-X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; d="scan'208";a="24878577"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2024 05:04:16 -0700
-X-CSE-ConnectionGUID: WoesS/dzQnav97dq4Z+oKQ==
-X-CSE-MsgGUID: W6UE0PfRREaSACHR+XK7ZA==
+ bh=2X9G21GfySd/3z6sUyOyAGem1WNWSQkR8WKYFXbYVmo=;
+ b=Wj/F70lDfTKc1vL/6GynWfvSqQjAGe7yT6unICnhAhnLrsQNGrTFsVb0
+ Tdulw7V3xlpCQjS2237b8kuIahiKeMd/dOgWy499sRN9Rrw37SGUz5QaW
+ Tx0JvfdjcuJKahIzR2Ore688RL/U1Ll85pvMbw9RO1wXqcz/GAVU+duoR
+ 1qDYlr4rDfrRYZ4VL1RNZAHlu8P6jXvp4wHm8xwsAWqbOu6Gv2LpkU3OP
+ DJ+LY2ntM31cXKhd/WwvH3ISH7Y5EpQMrFuGoZg7x6jIt/udbQ4MkgdOL
+ S0xBrf3MKOet8JpAybt9pQRcfS9oQzCEQSqD36Q1eb4MnzBd6SZl1GoOj Q==;
+X-CSE-ConnectionGUID: f3zc9AsASV+FDPhK8W8XsA==
+X-CSE-MsgGUID: oMddbYIDR2mGBvtchNF3EA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="33369564"
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; d="scan'208";a="33369564"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2024 05:55:36 -0700
+X-CSE-ConnectionGUID: nOnh68cWRNOGH4sUDzc4NQ==
+X-CSE-MsgGUID: qH0V5UOYSDiL/QqEHui67w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; d="scan'208";a="59612461"
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; d="scan'208";a="60108144"
 Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.160])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2024 05:04:14 -0700
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2024 05:55:34 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Zhi Wang <zhiwang@kernel.rog>, Zhenyu
- Wang <zhenyuw@linux.intel.com>, Zhi
- Wang <zhi.wang.linux@gmail.com>, intel-gvt-dev@lists.freedesktop.org
-Subject: Re: [RESEND 2/2] drm/edid: make drm_edid_block_valid() static
-In-Reply-To: <20240812142849.1588006-2-jani.nikula@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Alain Volmat
+ <alain.volmat@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 02/11] drm/sti/sti_hdmi: convert to struct drm_edid
+In-Reply-To: <Znk6y4_attY361en@phenom.ffwll.local>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240812142849.1588006-1-jani.nikula@intel.com>
- <20240812142849.1588006-2-jani.nikula@intel.com>
-Date: Thu, 15 Aug 2024 15:04:11 +0300
-Message-ID: <87mslexa9w.fsf@intel.com>
+References: <cover.1715691257.git.jani.nikula@intel.com>
+ <dd1c232cb85d5e0815af73c918953fa3b852baa2.1715691257.git.jani.nikula@intel.com>
+ <Znk6y4_attY361en@phenom.ffwll.local>
+Date: Thu, 15 Aug 2024 15:55:30 +0300
+Message-ID: <87jzgix7wd.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,84 +72,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Aug 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> drm_edid_block_valid() is no longer used outside of drm_edid.c. Make it
-> static.
+On Mon, 24 Jun 2024, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Tue, May 14, 2024 at 03:55:08PM +0300, Jani Nikula wrote:
+>> Prefer the struct drm_edid based functions for reading the EDID and
+>> updating the connector.
+>> 
+>> The functional change is that the CEC physical address gets invalidated
+>> when the EDID could not be read.
+>> 
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> 
+>> ---
+>> 
+>> Cc: Alain Volmat <alain.volmat@foss.st.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/sti/sti_hdmi.c | 24 ++++++++++++++----------
+>>  1 file changed, 14 insertions(+), 10 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+>> index 500936d5743c..3b62ec2d742f 100644
+>> --- a/drivers/gpu/drm/sti/sti_hdmi.c
+>> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
+>> @@ -974,28 +974,32 @@ static const struct drm_bridge_funcs sti_hdmi_bridge_funcs = {
+>>  
+>>  static int sti_hdmi_connector_get_modes(struct drm_connector *connector)
+>>  {
+>> +	const struct drm_display_info *info = &connector->display_info;
+>>  	struct sti_hdmi_connector *hdmi_connector
+>>  		= to_sti_hdmi_connector(connector);
+>>  	struct sti_hdmi *hdmi = hdmi_connector->hdmi;
+>> -	struct edid *edid;
+>> +	const struct drm_edid *drm_edid;
+>>  	int count;
+>>  
+>>  	DRM_DEBUG_DRIVER("\n");
+>>  
+>> -	edid = drm_get_edid(connector, hdmi->ddc_adapt);
+>> -	if (!edid)
+>> -		goto fail;
+>> +	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc_adapt);
 >
-> Acked-by: Zhi Wang <zhiwang@kernel.rog>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> I think you can use drm_edid_read here since the ddc is correctly set up
+> with drm_connector_init_with_ddc()
+>
+>> +
+>> +	drm_edid_connector_update(connector, drm_edid);
+>>  
+>> -	cec_notifier_set_phys_addr_from_edid(hdmi->notifier, edid);
+>> +	cec_notifier_set_phys_addr(hdmi->notifier,
+>> +				   connector->display_info.source_physical_address);
+>> +
+>> +	if (!drm_edid)
+>> +		goto fail;
+>
+> Unless I missed something, all the functions can cope with a NULL edid,
+> but this jump means in the failure case you'll return stack garbage in
+> count. Just drop this check?
 
-Both pushed to drm-misc-next with Sima's R-b on patch 2.
+Reviving an old thread... the goto fail path returns 0, not count.
 
 BR,
 Jani.
 
 
 >
-> ---
+>>  
+>> -	count = drm_add_edid_modes(connector, edid);
+>> -	drm_connector_update_edid_property(connector, edid);
+>> +	count = drm_edid_connector_add_modes(connector);
+>>  
+>>  	DRM_DEBUG_KMS("%s : %dx%d cm\n",
+>> -		      (connector->display_info.is_hdmi ? "hdmi monitor" : "dvi monitor"),
+>> -		      edid->width_cm, edid->height_cm);
+>> +		      info->is_hdmi ? "hdmi monitor" : "dvi monitor",
+>> +		      info->width_mm / 10, info->height_mm / 10);
+>>  
+>> -	kfree(edid);
+>> +	drm_edid_free(drm_edid);
+>>  	return count;
 >
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
-> Cc: intel-gvt-dev@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/drm_edid.c | 17 ++++-------------
->  include/drm/drm_edid.h     |  2 --
->  2 files changed, 4 insertions(+), 15 deletions(-)
+> With the two items addressed:
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index f68a41eeb1fa..13b3fd351b16 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1966,22 +1966,14 @@ static void edid_block_dump(const char *level, const void *block, int block_num)
->  		       block, EDID_LENGTH, false);
->  }
->  
-> -/**
-> - * drm_edid_block_valid - Sanity check the EDID block (base or extension)
-> - * @_block: pointer to raw EDID block
-> - * @block_num: type of block to validate (0 for base, extension otherwise)
-> - * @print_bad_edid: if true, dump bad EDID blocks to the console
-> - * @edid_corrupt: if true, the header or checksum is invalid
-> - *
-> +/*
->   * Validate a base or extension EDID block and optionally dump bad blocks to
->   * the console.
-> - *
-> - * Return: True if the block is valid, false otherwise.
->   */
-> -bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
-> -			  bool *edid_corrupt)
-> +static bool drm_edid_block_valid(void *_block, int block_num, bool print_bad_edid,
-> +				 bool *edid_corrupt)
->  {
-> -	struct edid *block = (struct edid *)_block;
-> +	struct edid *block = _block;
->  	enum edid_block_status status;
->  	bool is_base_block = block_num == 0;
->  	bool valid;
-> @@ -2024,7 +2016,6 @@ bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
->  
->  	return valid;
->  }
-> -EXPORT_SYMBOL(drm_edid_block_valid);
->  
->  /**
->   * drm_edid_is_valid - sanity check EDID data
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 6bdfa254a1c1..eaac5e665892 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -440,8 +440,6 @@ int drm_add_modes_noedid(struct drm_connector *connector,
->  			 int hdisplay, int vdisplay);
->  
->  int drm_edid_header_is_valid(const void *edid);
-> -bool drm_edid_block_valid(u8 *raw_edid, int block, bool print_bad_edid,
-> -			  bool *edid_corrupt);
->  bool drm_edid_is_valid(struct edid *edid);
->  void drm_edid_get_monitor_name(const struct edid *edid, char *name,
->  			       int buflen);
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+>>  
+>>  fail:
+>> -- 
+>> 2.39.2
+>> 
 
 -- 
 Jani Nikula, Intel
