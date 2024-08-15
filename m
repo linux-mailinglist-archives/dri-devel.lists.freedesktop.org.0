@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D410C952C79
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 12:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2764952C7E
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 12:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5190A10E107;
-	Thu, 15 Aug 2024 10:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2FE10E108;
+	Thu, 15 Aug 2024 10:41:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="BNvAh2yJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="T9wp4ksg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEA410E112
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 10:40:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE9F910E108
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 10:41:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:
@@ -22,33 +22,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZfYK7CYAUIxMbRcTcFjunsEAy/oAQUNbSaQ1fM7YYXY=; b=BNvAh2yJ2Ar5mFtoajYWdpn1vE
- cTvt45WFpfMt3Wa+9OH92u9nf4ZISyRgfbZP9dt+FPVs/jzsNwEj0JcLPl9qCvDz8kPZxeXath+7G
- p4iJnf6IkFLovBjYppTzUFIpzEOiog0k3kvM9Y3ArNz6IFUgn5NhZtmdq+S5IxFScLAKQhfnCyu+a
- XxSpdzFxjQwNSESHQK6jcW4E0U0Q5AAZHgGIFQ4MvnyOar9GoS6AVdvMgDREozm99I9xhUXzkU84W
- LdXkSR12fvCZ4wcjVLg2XRgyH7vm7SqXDD+0fn7+NkqmC4aNuqjyCT6NRfhZxJJHdr4iyz39CyG3T
- Tioa8Igw==;
+ bh=GgTI0NyTQzsStScrcGO6aMDCmPA8tFa+LOqjkXlw7B4=; b=T9wp4ksgpK8kyWUBawTO2KYM1Y
+ Py9VnW/j4d3UV7Sc5w3+L/RKZMIk7NBvlQm4xkBvOPQ2VsHUszJRQwTgD6G2x/0+2kWrP7GFXYoEQ
+ cie44dv3b3mE8nKJfvGfDH8ASdZqD6rFpcHuIsH+E45wNfJXq69vfxZBLZoc9PtY9Zg1r864hruXx
+ 65l5Wr11sIb3oQAqF0SBsfEqegb2fP2FNeH740fWj90A9pcsnDK5VbmJsVddW0Yjw+HQJkbB2BrNW
+ lsQrY+gqNJuS7bsXvco5YCd4sqJ5AEI6++dB0J48I/JqaGxpA5JrW+UtUXCux1kKV9err0jUt17Mt
+ iNCLug3Q==;
 Received: from i53875a9f.versanet.de ([83.135.90.159] helo=phil.lan)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1seXuF-0000nZ-IW; Thu, 15 Aug 2024 12:40:35 +0200
+ id 1seXuG-0000nZ-Lf; Thu, 15 Aug 2024 12:40:36 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: Daniel Vetter <daniel@ffwll.ch>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Maxime Ripard <mripard@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Mark Yao <markyao0591@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ Andy Yan <andy.yan@rock-chips.com>, Robert Foss <rfoss@kernel.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, Alexandre ARNOUD <aarnoud@me.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 0/4] Rockchip DW HDMI driver cleanup/improvements
-Date: Thu, 15 Aug 2024 12:40:29 +0200
-Message-Id: <172371788340.684432.15742063069748528028.b4-ty@sntech.de>
+ devicetree@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>,
+ Luis de Arquer <ldearquer@gmail.com>, linux-rockchip@lists.infradead.org
+Subject: Re: (subset) [PATCH v3 0/5] Add initial support for the Rockchip
+ RK3588 HDMI TX Controller
+Date: Thu, 15 Aug 2024 12:40:30 +0200
+Message-Id: <172371788339.684432.3349154890008070129.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
-References: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
+In-Reply-To: <20240807-b4-rk3588-bridge-upstream-v3-0-60d6bab0dc7c@collabora.com>
+References: <20240807-b4-rk3588-bridge-upstream-v3-0-60d6bab0dc7c@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -67,27 +78,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Aug 2024 00:15:07 +0300, Cristian Ciocaltea wrote:
-> This series provides a few patches to cleanup/improve the Rockchip DW
-> HDMI platform driver.
+On Wed, 07 Aug 2024 14:07:22 +0300, Cristian Ciocaltea wrote:
+> The Rockchip RK3588 SoC family integrates the Synopsys DesignWare HDMI
+> 2.1 Quad-Pixel (QP) TX controller, which is a new IP block, quite
+> different from those used in the previous generations of Rockchip SoCs.
 > 
-> Note the patches were initially sent as part of [1], in an attempt to
-> add support for the RK3588 HDMI TX Controller, but were removed in the
-> next revision as the patchset followed a different development path,
-> i.e. not relying on the existing driver anymore.
+> The controller supports the following features, among others:
+> 
+> * Fixed Rate Link (FRL)
+> * Display Stream Compression (DSC)
+> * 4K@120Hz and 8K@60Hz video modes
+> * Variable Refresh Rate (VRR) including Quick Media Switching (QMS)
+> * Fast Vactive (FVA)
+> * SCDC I2C DDC access
+> * Multi-stream audio
+> * Enhanced Audio Return Channel (EARC)
 > 
 > [...]
 
 Applied, thanks!
 
-[1/4] drm/rockchip: dw_hdmi: Use modern drm_device based logging
-      commit: 1b8f576c69588ddee9e093d322449bb069e51f6c
-[2/4] drm/rockchip: dw_hdmi: Simplify clock handling
-      commit: d2a80cb57a017c97d40c35f6b0cc7d103065f0cd
-[3/4] drm/rockchip: dw_hdmi: Use devm_regulator_get_enable()
-      commit: 6a3283603c73e366c946195f0cfd30fe56d603be
-[4/4] drm/rockchip: dw_hdmi: Drop superfluous assignments of mpll_cfg, cur_ctr and phy_config
-      commit: ee689a9500efb4daeab45f44d43c782fc214dada
+[4/5] drm/rockchip: Explicitly include bits header
+      commit: ab03974df27e471ff03402265292f1bafafb5df6
 
 Best regards,
 -- 
