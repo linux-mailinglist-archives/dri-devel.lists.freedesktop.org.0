@@ -2,104 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D5D953AF2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 21:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11255953B61
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 22:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7651E10E154;
-	Thu, 15 Aug 2024 19:37:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jIKJN3uj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD9E10E53D;
+	Thu, 15 Aug 2024 20:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 894A610E154
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 19:37:45 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-7a337501630so88636285a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 12:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1723750664; x=1724355464;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WgHv8qIghW/XGbfA3/inME7zpGlhOrWspJ9Qn/7HUik=;
- b=jIKJN3ujfjQS82BT2ekTjYzUPDhhRm13QCwRN3KoarkqMPaH91qmbZ4UgsoLvwUzNp
- lCpLfo5qhwYff4ruUr4UbiZoeJPB8Cqco1QhA5TwFO9/MfQgdyt+RldB/V3V3eAnR9Qd
- I9izdOPdMWA/3zmkRPR2ThcfyVHjcGX1lwL+U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723750664; x=1724355464;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WgHv8qIghW/XGbfA3/inME7zpGlhOrWspJ9Qn/7HUik=;
- b=j4CbE15QuAU6Wnq9s8VqYgRjLS/oXb3Ahm4zryaWmi0onSwWT+Lrt62YSST/93gl3x
- n6BChkPZyHmSIMBmMGVud+TxVuFAp2BA03Swr2oG5mEPIPVJARsfgwRGoD28cRECqPhx
- /yUaa9bMNxCWzS7myeju2KUvVlk5HZmiJxcQJgh+jPXDi9zhXShA+NJAE9o0DOTdwfvm
- VDEy/4vrV0if1pHkJFBbSntqKoIqmq/8sEFogmt9Vo6E5g3+6EEsddMqLobZ0Xk+azQN
- k+9cVZyBKaHuU2n9IE6bLPPDtmbmANcqicjKxyxTmp6B4fKaSUM0uS0XMMlIiPtw4MEa
- 8Oiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzEz+JUT7S5jL5vBQL5YhPtJYGDU5lEiKdX5sfkn8FBgEvF3X9xvvzdUOhUw0PCDv9kSn1uKOn6XfbO1n5LCdjArdaPPRiy+PF690cqUpp
-X-Gm-Message-State: AOJu0Yx6Cr3WsXRa5UheMBIaPmd0CSOaJpKHsBqgqT0uEBXvnp+YeYvC
- 4qIWj6NWwWQeV6aXI9H58/rGsroACHKalwpMZ5Z89XbwNO8FdizL7mvr4lDBixR82AhNX8LRVJI
- =
-X-Google-Smtp-Source: AGHT+IGi+hX4t8kAbkpOCK6YA/+iMhzgk1k5uAthS33rlGB2HLXumxZLm+RtWe8YoURfkHnZR/47CQ==
-X-Received: by 2002:a05:620a:2448:b0:79f:1916:6b86 with SMTP id
- af79cd13be357-7a5068eabbcmr74208085a.10.1723750664063; 
- Thu, 15 Aug 2024 12:37:44 -0700 (PDT)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com.
- [209.85.219.42]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7a4ff11d9b8sm91017185a.132.2024.08.15.12.37.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Aug 2024 12:37:43 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id
- 6a1803df08f44-6bf6755323cso7338446d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 12:37:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVeNgpVF+C3PR2XrehWCbv6kIF1zQaX0pA9HulBeqCAQxJC5FZjLAqX349O12HdfkO1qbqwvLfdGBBe9uRW4UAGIQaa+Sr8/xBFR2CqJHvv
-X-Received: by 2002:a05:6214:3186:b0:6bf:66e6:4754 with SMTP id
- 6a1803df08f44-6bf7ce7c3efmr5290586d6.48.1723750663162; Thu, 15 Aug 2024
- 12:37:43 -0700 (PDT)
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C9210E53D
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 20:21:01 +0000 (UTC)
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-637-PbOJIVbGN2amJy1OMmbvSQ-1; Thu,
+ 15 Aug 2024 16:19:32 -0400
+X-MC-Unique: PbOJIVbGN2amJy1OMmbvSQ-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 1E794187487C; Thu, 15 Aug 2024 20:19:28 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.9])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id CA6A51955DD1; Thu, 15 Aug 2024 20:19:25 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org,
+	dakr@redhat.com
+Subject: [PATCH] nouveau/firmware: using dma non-coherent interfaces for fw
+ loading. (v2)
+Date: Fri, 16 Aug 2024 06:19:23 +1000
+Message-ID: <20240815201923.632803-1-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20240728114200.75559-1-wahrenst@gmx.net>
- <20240728130029.78279-1-wahrenst@gmx.net>
- <20240728130029.78279-6-wahrenst@gmx.net>
- <65de7db8-4f81-4c31-be8d-3a03c9aee989@gmx.net>
- <CAD=FV=W7sdi1+SHfhY6RrjK32r8iAGe4w+O_u5Sp982vgBU6EQ@mail.gmail.com>
- <CAPDyKFpj0C1Bifmx=4zH3r8YooOrNfn_iDB+1sfRb0gTaKnT2Q@mail.gmail.com>
- <51b63ea5-808e-41e4-92a9-50e20afd155b@gmx.net>
-In-Reply-To: <51b63ea5-808e-41e4-92a9-50e20afd155b@gmx.net>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 15 Aug 2024 12:37:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XHnKJT4ubmV8EPRYi-qPFH21tNFzWEWMezY2PGEFEKrw@mail.gmail.com>
-Message-ID: <CAD=FV=XHnKJT4ubmV8EPRYi-qPFH21tNFzWEWMezY2PGEFEKrw@mail.gmail.com>
-Subject: Re: [PATCH V2 14/16] WIP: usb: dwc2: Implement recovery after PM
- domain off
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Minas Harutyunyan <hminas@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>, 
- Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
- Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
- Peter Robinson <pbrobinson@gmail.com>, 
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kernel-list@raspberrypi.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Jiri Slaby <jirislaby@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,51 +58,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Dave Airlie <airlied@redhat.com>
 
-On Wed, Aug 14, 2024 at 2:48=E2=80=AFPM Stefan Wahren <wahrenst@gmx.net> wr=
-ote:
->
-> >> You're saying that your
-> >> registers get saved _unless_ the power domain gets turned off, right?
-> On BCM2835 there is no need to store the registers because there is no
-> power management supported by USB core except of the power domain. So
-> DWC2 don't expect a register loss.
-> >> ...and the device core keeps power domains on for suspended devices if
-> >> they are wakeup sources, which makes sense.
-> >>
-> >> So with that, your patch sounds like a plausible way to do it. I guess
-> >> one other way to do it would be some sort of "canary" approach. You
-> >> could _always_ save registers and then, at resume time, you could
-> >> detect if some "canary" register had reset to its power-on default. If
-> >> you see this then you can assume power was lost and re-init all the
-> >> registers. This could be pretty much any register that you know won't
-> >> be its power on default. In some ways a "canary" approach is uglier
-> >> but it also might be more reliable across more configurations?
-> I don't have enough knowledge about DWC2 and i also don't have the
-> databook to figure out if there is a magic register which could be used
-> for the canary approach. But all these different platforms, host vs
-> gadget role, different low modes let me think the resulting solution
-> would be also fragile and ugly.
+Currently, enabling SG_DEBUG in the kernel will cause nouveau to hit a
+BUG() on startup, when the iommu is enabled:
 
-I won't admit to having a DWC2 databook. ;-)
+kernel BUG at include/linux/scatterlist.h:187!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 7 PID: 930 Comm: (udev-worker) Not tainted 6.9.0-rc3Lyude-Test+ #30
+Hardware name: MSI MS-7A39/A320M GAMING PRO (MS-7A39), BIOS 1.I0 01/22/2019
+RIP: 0010:sg_init_one+0x85/0xa0
+Code: 69 88 32 01 83 e1 03 f6 c3 03 75 20 a8 01 75 1e 48 09 cb 41 89 54
+24 08 49 89 1c 24 41 89 6c 24 0c 5b 5d 41 5c e9 7b b9 88 00 <0f> 0b 0f 0b
+0f 0b 48 8b 05 5e 46 9a 01 eb b2 66 66 2e 0f 1f 84 00
+RSP: 0018:ffffa776017bf6a0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffffa77600d87000 RCX: 000000000000002b
+RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffa77680d87000
+RBP: 000000000000e000 R08: 0000000000000000 R09: 0000000000000000
+R10: ffff98f4c46aa508 R11: 0000000000000000 R12: ffff98f4c46aa508
+R13: ffff98f4c46aa008 R14: ffffa77600d4a000 R15: ffffa77600d4a018
+FS:  00007feeb5aae980(0000) GS:ffff98f5c4dc0000(0000) knlGS:000000000000000=
+0
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f22cb9a4520 CR3: 00000001043ba000 CR4: 00000000003506f0
+Call Trace:
+ <TASK>
+ ? die+0x36/0x90
+ ? do_trap+0xdd/0x100
+ ? sg_init_one+0x85/0xa0
+ ? do_error_trap+0x65/0x80
+ ? sg_init_one+0x85/0xa0
+ ? exc_invalid_op+0x50/0x70
+ ? sg_init_one+0x85/0xa0
+ ? asm_exc_invalid_op+0x1a/0x20
+ ? sg_init_one+0x85/0xa0
+ nvkm_firmware_ctor+0x14a/0x250 [nouveau]
+ nvkm_falcon_fw_ctor+0x42/0x70 [nouveau]
+ ga102_gsp_booter_ctor+0xb4/0x1a0 [nouveau]
+ r535_gsp_oneinit+0xb3/0x15f0 [nouveau]
+ ? srso_return_thunk+0x5/0x5f
+ ? srso_return_thunk+0x5/0x5f
+ ? nvkm_udevice_new+0x95/0x140 [nouveau]
+ ? srso_return_thunk+0x5/0x5f
+ ? srso_return_thunk+0x5/0x5f
+ ? ktime_get+0x47/0xb0
 
-...but don't think it's too hard to find a good canary. What about
-"GAHBCFG_GLBL_INTR_EN" ? From a quick glance it looks like the driver
-seems to set that bit during driver startup and then it stays on until
-driver shutdown. The databook that I definitely won't admit to having
-almost certainly says that this register resets to 0 on all hardware
-and it's applicable to both host and device. I think you could say
-that if the register is 0 at resume time that registers must have been
-lost and you can restore them.
+Fix this by using the non-coherent allocator instead, I think there
+might be a better answer to this, but it involve ripping up some of
+APIs using sg lists.
 
-I guess if that doesn't work then "GUSBCFG_TOUTCAL" could be used (I
-think that resets to 0 but must be initted to non-0 by the driver).
+v2: fix build warning
 
-Yet another register that could probably work as a canary would be
-"GINTMSK". I believe that inits to all 0 (everything is masked) and
-obviously to use the device we've got to unmask _some_ interrupts.
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 9 ++++++---
+ drivers/gpu/drm/nouveau/nvkm/falcon/fw.c     | 6 ++++++
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
-I can look for more, if need be.
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm=
+/nouveau/nvkm/core/firmware.c
+index adc60b25f8e6..0af01a0ec601 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+@@ -205,7 +205,8 @@ nvkm_firmware_dtor(struct nvkm_firmware *fw)
+ =09=09break;
+ =09case NVKM_FIRMWARE_IMG_DMA:
+ =09=09nvkm_memory_unref(&memory);
+-=09=09dma_free_coherent(fw->device->dev, sg_dma_len(&fw->mem.sgl), fw->img=
+, fw->phys);
++=09=09dma_free_noncoherent(fw->device->dev, sg_dma_len(&fw->mem.sgl),
++=09=09=09=09     fw->img, fw->phys, DMA_TO_DEVICE);
+ =09=09break;
+ =09case NVKM_FIRMWARE_IMG_SGT:
+ =09=09nvkm_memory_unref(&memory);
+@@ -236,10 +237,12 @@ nvkm_firmware_ctor(const struct nvkm_firmware_func *f=
+unc, const char *name,
+ =09=09break;
+ =09case NVKM_FIRMWARE_IMG_DMA: {
+ =09=09dma_addr_t addr;
+-
+ =09=09len =3D ALIGN(fw->len, PAGE_SIZE);
+=20
+-=09=09fw->img =3D dma_alloc_coherent(fw->device->dev, len, &addr, GFP_KERN=
+EL);
++=09=09fw->img =3D dma_alloc_noncoherent(fw->device->dev,
++=09=09=09=09=09=09len, &addr,
++=09=09=09=09=09=09DMA_TO_DEVICE,
++=09=09=09=09=09=09GFP_KERNEL);
+ =09=09if (fw->img) {
+ =09=09=09memcpy(fw->img, src, fw->len);
+ =09=09=09fw->phys =3D addr;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c b/drivers/gpu/drm/nou=
+veau/nvkm/falcon/fw.c
+index 80a480b12174..a1c8545f1249 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c
++++ b/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c
+@@ -89,6 +89,12 @@ nvkm_falcon_fw_boot(struct nvkm_falcon_fw *fw, struct nv=
+km_subdev *user,
+ =09=09nvkm_falcon_fw_dtor_sigs(fw);
+ =09}
+=20
++=09/* after last write to the img, sync dma mappings */
++=09dma_sync_single_for_device(fw->fw.device->dev,
++=09=09=09=09   fw->fw.phys,
++=09=09=09=09   sg_dma_len(&fw->fw.mem.sgl),
++=09=09=09=09   DMA_TO_DEVICE);
++
+ =09FLCNFW_DBG(fw, "resetting");
+ =09fw->func->reset(fw);
+=20
+--=20
+2.46.0
 
--Doug
