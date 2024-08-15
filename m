@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2918A952C76
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 12:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181CC952C78
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 12:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D5310E105;
-	Thu, 15 Aug 2024 10:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5099710E106;
+	Thu, 15 Aug 2024 10:40:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="uPemGt1/";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="gSWfRbD9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFA2E10E106
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 10:40:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2FEB10E106
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 10:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:
@@ -22,31 +22,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=5W9Wpx+Nnjyhf+vekam8upWRPfSyFjdBVs1M3EoZVFw=; b=uPemGt1/Ke+dHFyYvX18I4VYkm
- hSvvRaWdLH+nC42xtFH3zJza+93Ew4YaeWy2tx42RzGeQn20mak+fp+pT63yeDibTePn1+YjPaSlG
- Uq1CxO9MTcBPrFE3m74t7uPVPyVA5VMZY7fsS0RI+vWskFD07mT7LWgpTcjHWBqPFYWAElhBbuvXi
- aRITjN6snq5uruze94Jv5u4FTVlo3qHnKrLKxz73MN/7jXTuiOrA+jrdDRYXX9b5ZmFgliyQlvA0+
- cKOou6jerwlt6JLJJRLrpDRlG3kYn3hiG7bPizIFNiI262ptF0eWaZBcbE/R+wotCccH++Ug7Vvv2
- 9cIzP/3Q==;
+ bh=JtSYMyjFwSHhr4JtGadybcU9/7LYdzxEw3v7M77JOOI=; b=gSWfRbD9AgJemxejQrnE4jm7Z+
+ yogtanjJkf9uoZTJp1wo11bDeGrPq+AhivlTvFWYrkkOzMXbtQGDoYu2ZJDDTjOz5KoKCYG1IIhXz
+ ma08MKO6MPdooJ/ppqXLN5l9cWnO2oFpDplHhm9pADOkD6ihvs7x/T5Vbq0sFjlb9jIFuUom0A6lC
+ 9zE2JiKvkXsqF5cXHFngitFfAYUgN5piYur+dqQPCbCpsFwlirbtJu6bOZpCNs0A7mKM1ERYxv+t7
+ BVRDOH1DQAMAt7yCxSGOuPQCS5rv78T1DV9xHa/giPjTq3+XFz3NsPmzepr9gYPh7fKzFuLlK7LGV
+ HuuY0YiA==;
 Received: from i53875a9f.versanet.de ([83.135.90.159] helo=phil.lan)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1seXuH-0000nZ-7E; Thu, 15 Aug 2024 12:40:37 +0200
+ id 1seXuH-0000nZ-PS; Thu, 15 Aug 2024 12:40:37 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org
-Cc: Heiko Stuebner <heiko@sntech.de>, airlied@gmail.com, daniel@ffwll.ch,
- andy.yan@rock-chips.com, mripard@kernel.org,
- linux-arm-kernel@lists.infradead.org, hjc@rock-chips.com,
- tzimmermann@suse.de, maarten.lankhorst@linux.intel.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/rockchip: cdn-dp: Clean up a few logged messages
-Date: Thu, 15 Aug 2024 12:40:31 +0200
-Message-Id: <172371788340.684432.3183669049968037964.b4-ty@sntech.de>
+To: Val Packett <val@packett.cool>
+Cc: Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v4 0/2] drm/rockchip: vop: Support internal display on
+ RK3066
+Date: Thu, 15 Aug 2024 12:40:32 +0200
+Message-Id: <172371788341.684432.2581958703388281846.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <92db74a313547c087cc71059428698c4ec37a9ae.1720048818.git.dsimic@manjaro.org>
-References: <92db74a313547c087cc71059428698c4ec37a9ae.1720048818.git.dsimic@manjaro.org>
+In-Reply-To: <20240624204054.5524-1-val@packett.cool>
+References: <20240624204054.5524-1-val@packett.cool>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -65,18 +67,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Jul 2024 01:32:20 +0200, Dragan Simic wrote:
-> Clean up a few logged messages, which were previously worded as rather
-> incomplete sentences separated by periods.  This was both a bit unreadable
-> and grammatically incorrect, so convert them into partial sentences separated
-> (or connected) by semicolons, together with some wording improvements.
+On Mon, 24 Jun 2024 17:40:47 -0300, Val Packett wrote:
+> This tiny patch series makes the changes required to enable the RGB
+> display output on the Rockchip RK3066 SoC. Final version as discussed.
 > 
+> Val Packett (2):
+>   drm/rockchip: vop: clear DMA stop bit on RK3066
+>   drm/rockchip: vop: enable VOP_FEATURE_INTERNAL_RGB on RK3066
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] drm/rockchip: cdn-dp: Clean up a few logged messages
-      commit: f7f4df8851194d2635fb7989582014329dcffa12
+[1/2] drm/rockchip: vop: clear DMA stop bit on RK3066
+      commit: 6b44aa559d6c7f4ea591ef9d2352a7250138d62a
+[2/2] drm/rockchip: vop: enable VOP_FEATURE_INTERNAL_RGB on RK3066
+      commit: 6ed51ba95e27221ce87979bd2ad5926033b9e1b9
 
 Best regards,
 -- 
