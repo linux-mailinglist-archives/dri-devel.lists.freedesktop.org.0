@@ -2,79 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38C6953653
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 16:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0685F9536F3
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 17:20:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F71D10E453;
-	Thu, 15 Aug 2024 14:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD8BA10E467;
+	Thu, 15 Aug 2024 15:20:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Q9/ZTAUo";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TdnPLLvl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+rZf8ECh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D6XzBfe8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x4S0urnw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD0B10E453
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 14:55:05 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a7aa4ca9d72so146931666b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 07:55:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1723733703; x=1724338503; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kRsVMvhV1m4jnkyYapmQ2mhT4HUKsi82zyg3o1vJhj4=;
- b=Q9/ZTAUonSusVP8TloNeygZt2D5WFwhmEdBmRavuoJPOUFTOMIairZ5YeaGZ9uM+8h
- ohS28rJYqRLeqppGLZgRHsO1b++1uQ/FvOMY565V4iHXNkYweIthnvxf333HF9D/cTBw
- aG9Rp799cWGhEpneWtSQsXea6u4U62b7eX9f5RogmRJy+1T+IuwmkvAOv+gzpsUDLole
- qOy0fIVDmUd8J3fYAC0fUoDJskTo2QctlFr0m17i3cZ1NrF0AzkYhJrZSMTlAJMW2zA0
- 2M0JA4MsMrEzlAi4e3KU2m+RxbeheH0U3RuQ+NkMeo9S2s2thTDBFu8KUH7qw6agx8ns
- ETMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723733703; x=1724338503;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kRsVMvhV1m4jnkyYapmQ2mhT4HUKsi82zyg3o1vJhj4=;
- b=SIUrS5yLYbTaUOiiEhyM1+UzcPslV54zkwIYS8RRtgQIaLUQxGbnuAMBMBneSRSswE
- mll0hsxMpF9WskDKiib7aS36o82urcJUMQwFkzLhLdhaNs/kH/YLrtWwHlCkrZjp5rzY
- zYKIiLz7/hCkkiltYLujtj+9euT9WCW3xNPGvTykFWNzDVpNNAmG4+DqrB4CWx+qhpEX
- m4N6gcDSXjYIGKejtB9tAIQrz7HFpJh6t6IBpvi1Sn8GX4SRwAXMJPJ5gOxG5a/puXUi
- KoZviNfoBeABiFVPfkC0oArXxR+0Clhs80GuBCMmQFgISXJlFk8l9RO3m10RAmNM6OiT
- QwHQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUimZX0LAOlw2opNxNcT7KPNFX/pVsyrvgZEpOmqUBKIRAl0ijeU1egg18jBvy0RC2xBwyuuXy7i5efMNfzDuhXPp7Zf0LXcoNsc6BEpiPA
-X-Gm-Message-State: AOJu0YzJ0V5lIkHxaVPPeCHfM4Q5Fe0FmObMI5481Lf8jOCccQwGbkga
- CTzRZ6A0V97r0SL7Ir2ncvbRNb6DsAJbTO+ArWgNViXVj+zAQa7IJqQmJcf4Gig=
-X-Google-Smtp-Source: AGHT+IGOnLR0ehKGNshAowR/t71XZukLfFAAiAx7KkDRy7tTRlkvpQgdTikiClXZ8+TFuO8RPTOe0w==
-X-Received: by 2002:a17:907:e6e4:b0:a7a:bae8:f29e with SMTP id
- a640c23a62f3a-a8366d43f97mr425022066b.29.1723733703106; 
- Thu, 15 Aug 2024 07:55:03 -0700 (PDT)
-Received: from [192.168.68.116] ([5.133.47.210])
- by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a8383935663sm113133966b.121.2024.08.15.07.55.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Aug 2024 07:55:02 -0700 (PDT)
-Message-ID: <b93eda80-828c-4873-a52b-34428f3570df@linaro.org>
-Date: Thu, 15 Aug 2024 15:55:01 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA2A10E456
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 15:19:59 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DB0932002A;
+ Thu, 15 Aug 2024 15:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723735198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=okm7Oii76d5Rw+SbOWckA+1vQbiH9Hp4TocxBvMQytQ=;
+ b=TdnPLLvlvdPh4IL3J4TF6ZgO6sX7DTUpOJKfclDKmlRuSACAYwk7SeQ9BMpiGKpQ35yJT8
+ pQ4F0PK55oQU68RMJ2TCIeXeYmCPkZevvQ4JGnQhMBWLm3FCR0OQaxQb6052EO/HJKfDa4
+ 8oY0h6QrCzXWeV872ChlCtOYRrXETVQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723735198;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=okm7Oii76d5Rw+SbOWckA+1vQbiH9Hp4TocxBvMQytQ=;
+ b=+rZf8EChVNrtJxJ0Mlp+FKV6/PIJtrpO6Do/UHJssnEhvatkYi7j7JMkKHWHV4lh95oiRm
+ Qr46xQEsyyPwkSAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723735197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=okm7Oii76d5Rw+SbOWckA+1vQbiH9Hp4TocxBvMQytQ=;
+ b=D6XzBfe8ln8u5rpo+OgMHJAC9AVmi7FXIv38kJCGiD/O6JqN9CWeJjgsSNEIs0GJK0W9Ep
+ HAQbSRNI6/2GmWHtpADWaeDwGnFE3zgivV06YfzWOp+U28RxzwmpBMRraoaDU6joWkXked
+ zveEabWSVp8XZwkwCUorztpYXolBKH4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723735197;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=okm7Oii76d5Rw+SbOWckA+1vQbiH9Hp4TocxBvMQytQ=;
+ b=x4S0urnwcZC9QfmP60quHvq+sCzKXmgZlkHuOpA89An5Y9SMcapaxmgEjJV8/dCjV9jQiQ
+ 9n/NvLQrTSsehjAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A28B413983;
+ Thu, 15 Aug 2024 15:19:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2sV9Jp0cvmb6DAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Aug 2024 15:19:57 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 00/11] drm/ast: Transparently handle BMC in outputs
+Date: Thu, 15 Aug 2024 17:18:42 +0200
+Message-ID: <20240815151953.184679-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "misc: fastrpc: Restrict untrusted app to attach
- to privileged PD"
-To: Griffin Kroah-Hartman <griffin@kroah.com>, amahesh@qti.qualcomm.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable <stable@kernel.org>,
- Ekansh Gupta <quic_ekangupt@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Selvaraj <joelselvaraj.oss@gmail.com>
-References: <20240815094920.8242-1-griffin@kroah.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240815094920.8242-1-griffin@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,102 +106,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add transparent BMC support to all outputs. If the user disconnects
+the physical display, each output will now return display modes for
+the BMC. Makes the BMC connector obsolete, so remove it.
 
+The benefit of the new approach is that is works with any userspace.
+Most userspace compositors have problems configuring the current BMC
+connector. The BMC connector is now gone and only a physical connector
+is present.
 
-On 15/08/2024 10:49, Griffin Kroah-Hartman wrote:
-> This reverts commit bab2f5e8fd5d2f759db26b78d9db57412888f187.
-> 
-> Joel reported that this commit breaks userspace and stops sensors in
-> SDM845 from working. Also breaks other qcom SoC devices running postmarketOS.
-> 
-> Cc: stable <stable@kernel.org>
-> Cc: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reported-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
-> Link: https://lore.kernel.org/r/9a9f5646-a554-4b65-8122-d212bb665c81@umsystem.edu
-> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
-> ---
+Also clean up some of the EDID handling in preparation. Switching to
+struct drm_edid and its helpers simplifies the code for inclusion of
+the BMC support.
 
+A similar approach has been taken for mgag200. [1] Here a server's
+display hardware also contains an internal BMC that needs to display
+even without the presence of a physical display.
 
-Lets fix this properly by updating existing device tree entries and 
-bindings to enforce misuse of "qcom,non-secure-domain" on all Qcom SoC's.
+v3:
+- track physical connector status in struct ast_connector
+v2:
+- fix reading EDID data on ASTDP and DP501 chips (Jocelyn)
 
-As this patch is only doing part of the job and breaking existing 
-platforms,
+[1] https://patchwork.freedesktop.org/series/136885/
 
-Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Thomas Zimmermann (11):
+  drm/ast: Move code for physical outputs into separate files
+  drm/ast: Add struct ast_connector
+  drm/ast: astdp: Move locking into EDID helper
+  drm/ast: astdp: Use struct drm_edid and helpers
+  drm/ast: astdp: Simplify power management when detecting display
+  drm/ast: astdp: Transparently handle BMC support
+  drm/ast: dp501: Use struct drm_edid and helpers
+  drm/ast: dp501: Transparently handle BMC support
+  drm/ast: sil164: Transparently handle BMC support
+  drm/ast: vga: Transparently handle BMC support
+  drm/ast: Remove BMC output
 
---srini
+ drivers/gpu/drm/ast/Makefile     |   4 +-
+ drivers/gpu/drm/ast/ast_dp.c     | 242 ++++++++++++-
+ drivers/gpu/drm/ast/ast_dp501.c  | 184 ++++++++--
+ drivers/gpu/drm/ast/ast_drv.h    |  42 +--
+ drivers/gpu/drm/ast/ast_mode.c   | 578 -------------------------------
+ drivers/gpu/drm/ast/ast_sil164.c | 127 +++++++
+ drivers/gpu/drm/ast/ast_vga.c    | 127 +++++++
+ 7 files changed, 667 insertions(+), 637 deletions(-)
+ create mode 100644 drivers/gpu/drm/ast/ast_sil164.c
+ create mode 100644 drivers/gpu/drm/ast/ast_vga.c
 
+-- 
+2.46.0
 
-
---srini
->   drivers/misc/fastrpc.c      | 22 +++-------------------
->   include/uapi/misc/fastrpc.h |  3 ---
->   2 files changed, 3 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 5204fda51da3..339d126414d4 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -2085,16 +2085,6 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
->   	return err;
->   }
->   
-> -static int is_attach_rejected(struct fastrpc_user *fl)
-> -{
-> -	/* Check if the device node is non-secure */
-> -	if (!fl->is_secure_dev) {
-> -		dev_dbg(&fl->cctx->rpdev->dev, "untrusted app trying to attach to privileged DSP PD\n");
-> -		return -EACCES;
-> -	}
-> -	return 0;
-> -}
-> -
->   static long fastrpc_device_ioctl(struct file *file, unsigned int cmd,
->   				 unsigned long arg)
->   {
-> @@ -2107,19 +2097,13 @@ static long fastrpc_device_ioctl(struct file *file, unsigned int cmd,
->   		err = fastrpc_invoke(fl, argp);
->   		break;
->   	case FASTRPC_IOCTL_INIT_ATTACH:
-> -		err = is_attach_rejected(fl);
-> -		if (!err)
-> -			err = fastrpc_init_attach(fl, ROOT_PD);
-> +		err = fastrpc_init_attach(fl, ROOT_PD);
->   		break;
->   	case FASTRPC_IOCTL_INIT_ATTACH_SNS:
-> -		err = is_attach_rejected(fl);
-> -		if (!err)
-> -			err = fastrpc_init_attach(fl, SENSORS_PD);
-> +		err = fastrpc_init_attach(fl, SENSORS_PD);
->   		break;
->   	case FASTRPC_IOCTL_INIT_CREATE_STATIC:
-> -		err = is_attach_rejected(fl);
-> -		if (!err)
-> -			err = fastrpc_init_create_static_process(fl, argp);
-> +		err = fastrpc_init_create_static_process(fl, argp);
->   		break;
->   	case FASTRPC_IOCTL_INIT_CREATE:
->   		err = fastrpc_init_create_process(fl, argp);
-> diff --git a/include/uapi/misc/fastrpc.h b/include/uapi/misc/fastrpc.h
-> index 91583690bddc..f33d914d8f46 100644
-> --- a/include/uapi/misc/fastrpc.h
-> +++ b/include/uapi/misc/fastrpc.h
-> @@ -8,14 +8,11 @@
->   #define FASTRPC_IOCTL_ALLOC_DMA_BUFF	_IOWR('R', 1, struct fastrpc_alloc_dma_buf)
->   #define FASTRPC_IOCTL_FREE_DMA_BUFF	_IOWR('R', 2, __u32)
->   #define FASTRPC_IOCTL_INVOKE		_IOWR('R', 3, struct fastrpc_invoke)
-> -/* This ioctl is only supported with secure device nodes */
->   #define FASTRPC_IOCTL_INIT_ATTACH	_IO('R', 4)
->   #define FASTRPC_IOCTL_INIT_CREATE	_IOWR('R', 5, struct fastrpc_init_create)
->   #define FASTRPC_IOCTL_MMAP		_IOWR('R', 6, struct fastrpc_req_mmap)
->   #define FASTRPC_IOCTL_MUNMAP		_IOWR('R', 7, struct fastrpc_req_munmap)
-> -/* This ioctl is only supported with secure device nodes */
->   #define FASTRPC_IOCTL_INIT_ATTACH_SNS	_IO('R', 8)
-> -/* This ioctl is only supported with secure device nodes */
->   #define FASTRPC_IOCTL_INIT_CREATE_STATIC _IOWR('R', 9, struct fastrpc_init_create_static)
->   #define FASTRPC_IOCTL_MEM_MAP		_IOWR('R', 10, struct fastrpc_mem_map)
->   #define FASTRPC_IOCTL_MEM_UNMAP		_IOWR('R', 11, struct fastrpc_mem_unmap)
