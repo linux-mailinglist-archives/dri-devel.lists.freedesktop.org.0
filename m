@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2725952C7C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 12:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D410C952C79
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 12:40:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B14410E112;
-	Thu, 15 Aug 2024 10:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5190A10E107;
+	Thu, 15 Aug 2024 10:40:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="KnZffoTb";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="BNvAh2yJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76AAA10E112
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 10:40:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEA410E112
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 10:40:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:
@@ -22,33 +22,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=a9GBbYPkeTfUE5fCEbTb5Vw8tBG93HmtU9gtgrmT2E4=; b=KnZffoTboGeiLJ31fWWRKFDwo8
- gj8Ve/5+yxpOV6um7lLHc8KK4lyjkpPHARerdBEoi1xe4aupb2DWRJZF41FaR/zyzb/maEN6EKJBS
- ozdIBQerQM9CUW5TBcCzcbUWqSf2UpF6/W33zSHPR0wIsVDTJlqrJ49qMipD5oyMhiE/hxr9G95eR
- qVSd0IBduLgAnKu5pqnj69AN3uX3LoaN4Y8qexV1+B9BcNrpZdYzfAP8PGhtqQ9gKLHicaQeSsviZ
- g7UBWPcr6yZqIClmLcrctpZDlu6i2aZySE0DB6T8mGy9aviB36/8Sx+n3BGIqjwM+kcrRCQeInA42
- /Oa88cIg==;
+ bh=ZfYK7CYAUIxMbRcTcFjunsEAy/oAQUNbSaQ1fM7YYXY=; b=BNvAh2yJ2Ar5mFtoajYWdpn1vE
+ cTvt45WFpfMt3Wa+9OH92u9nf4ZISyRgfbZP9dt+FPVs/jzsNwEj0JcLPl9qCvDz8kPZxeXath+7G
+ p4iJnf6IkFLovBjYppTzUFIpzEOiog0k3kvM9Y3ArNz6IFUgn5NhZtmdq+S5IxFScLAKQhfnCyu+a
+ XxSpdzFxjQwNSESHQK6jcW4E0U0Q5AAZHgGIFQ4MvnyOar9GoS6AVdvMgDREozm99I9xhUXzkU84W
+ LdXkSR12fvCZ4wcjVLg2XRgyH7vm7SqXDD+0fn7+NkqmC4aNuqjyCT6NRfhZxJJHdr4iyz39CyG3T
+ Tioa8Igw==;
 Received: from i53875a9f.versanet.de ([83.135.90.159] helo=phil.lan)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1seXuE-0000nZ-US; Thu, 15 Aug 2024 12:40:35 +0200
+ id 1seXuF-0000nZ-IW; Thu, 15 Aug 2024 12:40:35 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: Daniel Vetter <daniel@ffwll.ch>, Andy Yan <andy.yan@rock-chips.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- David Airlie <airlied@gmail.com>, Sandy Huang <hjc@rock-chips.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>
 Cc: Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, kernel-janitors@vger.kernel.org,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] drm/rockchip: Constify struct drm_encoder_helper_funcs
-Date: Thu, 15 Aug 2024 12:40:28 +0200
-Message-Id: <172371788341.684432.4454726624748844330.b4-ty@sntech.de>
+Subject: Re: [PATCH 0/4] Rockchip DW HDMI driver cleanup/improvements
+Date: Thu, 15 Aug 2024 12:40:29 +0200
+Message-Id: <172371788340.684432.15742063069748528028.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <128f9941aab3b1367eb7abca4ac26e2e5dd6ad21.1720903899.git.christophe.jaillet@wanadoo.fr>
-References: <128f9941aab3b1367eb7abca4ac26e2e5dd6ad21.1720903899.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
+References: <20240813-dw-hdmi-rockchip-cleanup-v1-0-b3e73b5f4fd6@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -67,24 +67,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 13 Jul 2024 22:52:05 +0200, Christophe JAILLET wrote:
-> 'struct drm_encoder_helper_funcs' is not modified in these drivers.
+On Tue, 13 Aug 2024 00:15:07 +0300, Cristian Ciocaltea wrote:
+> This series provides a few patches to cleanup/improve the Rockchip DW
+> HDMI platform driver.
 > 
-> Constifying this structure moves some data to a read-only section, so
-> increase overall security.
-> 
-> On a x86_64, with allmodconfig:
-> Before:
-> ======
->    text	   data	    bss	    dec	    hex	filename
->    7458	    552	      0	   8010	   1f4a	drivers/gpu/drm/rockchip/analogix_dp-rockchip.o
+> Note the patches were initially sent as part of [1], in an attempt to
+> add support for the RK3588 HDMI TX Controller, but were removed in the
+> next revision as the patchset followed a different development path,
+> i.e. not relying on the existing driver anymore.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] drm/rockchip: Constify struct drm_encoder_helper_funcs
-      commit: 7af62003181f8589b3b597ef96b147d4303771c4
+[1/4] drm/rockchip: dw_hdmi: Use modern drm_device based logging
+      commit: 1b8f576c69588ddee9e093d322449bb069e51f6c
+[2/4] drm/rockchip: dw_hdmi: Simplify clock handling
+      commit: d2a80cb57a017c97d40c35f6b0cc7d103065f0cd
+[3/4] drm/rockchip: dw_hdmi: Use devm_regulator_get_enable()
+      commit: 6a3283603c73e366c946195f0cfd30fe56d603be
+[4/4] drm/rockchip: dw_hdmi: Drop superfluous assignments of mpll_cfg, cur_ctr and phy_config
+      commit: ee689a9500efb4daeab45f44d43c782fc214dada
 
 Best regards,
 -- 
