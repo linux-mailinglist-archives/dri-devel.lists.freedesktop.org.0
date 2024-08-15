@@ -2,59 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D479536EC
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 17:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F989536EE
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 17:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4FF10E456;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4E3610E463;
 	Thu, 15 Aug 2024 15:20:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="stF/cc64";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Btuusd8x";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="stF/cc64";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Btuusd8x";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFBDE10E45A
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 15:19:59 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 229B910E43B
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 15:20:00 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6AD74221DA;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A635422201;
  Thu, 15 Aug 2024 15:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723735198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7eaCXpmrtqImURgy8KRW2g50hCr+N/hQ6QAErpCt51U=;
+ b=stF/cc642UGX91LfyvqPVuHxxcK3i/7PSGRT4q7YIq7So5IdbSicDlq89W35G6aNwodGRe
+ /owmYGiY74VJflWNfNKQKNNxt4sX8SZIs5xg1mKifzm3h3BjQ/ddtlQdcNYEAGxPGh8aAi
+ 6646UBDZLhBTSilDa/oQ4KdESHx6ukY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723735198;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7eaCXpmrtqImURgy8KRW2g50hCr+N/hQ6QAErpCt51U=;
+ b=Btuusd8x692AQwouEEBXTn7A2GBlQ/BWySMrhZ6LipguMhD9/orArU4Y7zwRfzxs+R4L15
+ Cc2FeStuFsrbrpAw==
 Authentication-Results: smtp-out1.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723735198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7eaCXpmrtqImURgy8KRW2g50hCr+N/hQ6QAErpCt51U=;
+ b=stF/cc642UGX91LfyvqPVuHxxcK3i/7PSGRT4q7YIq7So5IdbSicDlq89W35G6aNwodGRe
+ /owmYGiY74VJflWNfNKQKNNxt4sX8SZIs5xg1mKifzm3h3BjQ/ddtlQdcNYEAGxPGh8aAi
+ 6646UBDZLhBTSilDa/oQ4KdESHx6ukY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723735198;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7eaCXpmrtqImURgy8KRW2g50hCr+N/hQ6QAErpCt51U=;
+ b=Btuusd8x692AQwouEEBXTn7A2GBlQ/BWySMrhZ6LipguMhD9/orArU4Y7zwRfzxs+R4L15
+ Cc2FeStuFsrbrpAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3288213983;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7050513B0C;
  Thu, 15 Aug 2024 15:19:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id +D0jC54cvmb6DAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id gBA8Gp4cvmb6DAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Thu, 15 Aug 2024 15:19:58 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 02/11] drm/ast: Add struct ast_connector
-Date: Thu, 15 Aug 2024 17:18:44 +0200
-Message-ID: <20240815151953.184679-3-tzimmermann@suse.de>
+Subject: [PATCH v3 03/11] drm/ast: astdp: Move locking into EDID helper
+Date: Thu, 15 Aug 2024 17:18:45 +0200
+Message-ID: <20240815151953.184679-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240815151953.184679-1-tzimmermann@suse.de>
 References: <20240815151953.184679-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Score: -4.00
 X-Spam-Flag: NO
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 6AD74221DA
+X-Spam-Score: -6.80
 X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
+X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
+ BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,278 +115,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add struct ast_connector to track a connector's physical status. With
-the upcoming BMC support, the physical status can be different from the
-reported status.
+The modeset mutex protects EDID retrival from concurrent modeset
+operations. Acquire the lock in ast_astdp_read_edid(). Prepares the
+code for conversion to struct drm_edid.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/ast/ast_dp.c     |  7 ++++++-
- drivers/gpu/drm/ast/ast_dp501.c  | 11 +++++++++--
- drivers/gpu/drm/ast/ast_drv.h    | 24 ++++++++++++++++++++----
- drivers/gpu/drm/ast/ast_mode.c   |  8 ++++----
- drivers/gpu/drm/ast/ast_sil164.c | 20 ++++++++++++++++++--
- drivers/gpu/drm/ast/ast_vga.c    | 20 ++++++++++++++++++--
- 6 files changed, 75 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/ast/ast_dp.c | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 549c823c9529..c7f0f9b5dc3a 100644
+index c7f0f9b5dc3a..c2b08a414ae4 100644
 --- a/drivers/gpu/drm/ast/ast_dp.c
 +++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -364,6 +364,7 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
- 						 struct drm_modeset_acquire_ctx *ctx,
- 						 bool force)
+@@ -26,6 +26,12 @@ static int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ 	int ret = 0;
+ 	u8 i;
+ 
++	/*
++	 * Protect access to I/O registers from concurrent modesetting
++	 * by acquiring the I/O-register lock.
++	 */
++	mutex_lock(&ast->modeset_lock);
++
+ 	/* Start reading EDID data */
+ 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5, (u8)~AST_IO_VGACRE5_EDID_READ_DONE, 0x00);
+ 
+@@ -95,6 +101,8 @@ static int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xe5, (u8)~AST_IO_VGACRE5_EDID_READ_DONE,
+ 			       AST_IO_VGACRE5_EDID_READ_DONE);
+ 
++	mutex_unlock(&ast->modeset_lock);
++
+ 	return ret;
+ }
+ 
+@@ -324,9 +332,6 @@ static const struct drm_encoder_helper_funcs ast_astdp_encoder_helper_funcs = {
+ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
  {
-+	struct ast_connector *ast_connector = to_ast_connector(connector);
- 	struct drm_device *dev = connector->dev;
- 	struct ast_device *ast = to_ast_device(connector->dev);
- 	enum drm_connector_status status = connector_status_disconnected;
-@@ -392,6 +393,8 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
+ 	void *edid;
+-	struct drm_device *dev = connector->dev;
+-	struct ast_device *ast = to_ast_device(dev);
+-
+ 	int succ;
+ 	int count;
  
- 	mutex_unlock(&ast->modeset_lock);
+@@ -334,17 +339,9 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+ 	if (!edid)
+ 		goto err_drm_connector_update_edid_property;
  
-+	ast_connector->physical_status = status;
-+
- 	return status;
- }
+-	/*
+-	 * Protect access to I/O registers from concurrent modesetting
+-	 * by acquiring the I/O-register lock.
+-	 */
+-	mutex_lock(&ast->modeset_lock);
+-
+ 	succ = ast_astdp_read_edid(connector->dev, edid);
+ 	if (succ < 0)
+-		goto err_mutex_unlock;
+-
+-	mutex_unlock(&ast->modeset_lock);
++		goto err_kfree;
  
-@@ -432,7 +435,8 @@ int ast_astdp_output_init(struct ast_device *ast)
- 	struct drm_device *dev = &ast->base;
- 	struct drm_crtc *crtc = &ast->crtc;
- 	struct drm_encoder *encoder = &ast->output.astdp.encoder;
--	struct drm_connector *connector = &ast->output.astdp.connector;
-+	struct ast_connector *ast_connector = &ast->output.astdp.connector;
-+	struct drm_connector *connector = &ast_connector->base;
- 	int ret;
+ 	drm_connector_update_edid_property(connector, edid);
+ 	count = drm_add_edid_modes(connector, edid);
+@@ -352,8 +349,7 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
  
- 	ret = drm_encoder_init(dev, encoder, &ast_astdp_encoder_funcs,
-@@ -446,6 +450,7 @@ int ast_astdp_output_init(struct ast_device *ast)
- 	ret = ast_astdp_connector_init(dev, connector);
- 	if (ret)
- 		return ret;
-+	ast_connector->physical_status = connector->status;
+ 	return count;
  
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
-diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-index 478efa226170..3904f98ef846 100644
---- a/drivers/gpu/drm/ast/ast_dp501.c
-+++ b/drivers/gpu/drm/ast/ast_dp501.c
-@@ -540,11 +540,16 @@ static int ast_dp501_connector_helper_detect_ctx(struct drm_connector *connector
- 						 struct drm_modeset_acquire_ctx *ctx,
- 						 bool force)
- {
-+	struct ast_connector *ast_connector = to_ast_connector(connector);
- 	struct ast_device *ast = to_ast_device(connector->dev);
-+	enum drm_connector_status status = connector_status_disconnected;
- 
- 	if (ast_dp501_is_connected(ast))
- 		return connector_status_connected;
--	return connector_status_disconnected;
-+
-+	ast_connector->physical_status = status;
-+
-+	return status;
- }
- 
- static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs = {
-@@ -584,7 +589,8 @@ int ast_dp501_output_init(struct ast_device *ast)
- 	struct drm_device *dev = &ast->base;
- 	struct drm_crtc *crtc = &ast->crtc;
- 	struct drm_encoder *encoder = &ast->output.dp501.encoder;
--	struct drm_connector *connector = &ast->output.dp501.connector;
-+	struct ast_connector *ast_connector = &ast->output.dp501.connector;
-+	struct drm_connector *connector = &ast_connector->base;
- 	int ret;
- 
- 	ret = drm_encoder_init(dev, encoder, &ast_dp501_encoder_funcs,
-@@ -598,6 +604,7 @@ int ast_dp501_output_init(struct ast_device *ast)
- 	ret = ast_dp501_connector_init(dev, connector);
- 	if (ret)
- 		return ret;
-+	ast_connector->physical_status = connector->status;
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 3a4f80cb5c0f..b29625d45a11 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -146,6 +146,22 @@ static inline struct ast_plane *to_ast_plane(struct drm_plane *plane)
- 	return container_of(plane, struct ast_plane, base);
- }
- 
-+/*
-+ * Connector
-+ */
-+
-+struct ast_connector {
-+	struct drm_connector base;
-+
-+	enum drm_connector_status physical_status;
-+};
-+
-+static inline struct ast_connector *
-+to_ast_connector(struct drm_connector *connector)
-+{
-+	return container_of(connector, struct ast_connector, base);
-+}
-+
- /*
-  * BMC
-  */
-@@ -192,19 +208,19 @@ struct ast_device {
- 	struct {
- 		struct {
- 			struct drm_encoder encoder;
--			struct drm_connector connector;
-+			struct ast_connector connector;
- 		} vga;
- 		struct {
- 			struct drm_encoder encoder;
--			struct drm_connector connector;
-+			struct ast_connector connector;
- 		} sil164;
- 		struct {
- 			struct drm_encoder encoder;
--			struct drm_connector connector;
-+			struct ast_connector connector;
- 		} dp501;
- 		struct {
- 			struct drm_encoder encoder;
--			struct drm_connector connector;
-+			struct ast_connector connector;
- 		} astdp;
- 		struct {
- 			struct drm_encoder encoder;
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index d823e9d85b04..8ce1637268e1 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1502,25 +1502,25 @@ int ast_mode_config_init(struct ast_device *ast)
- 		ret = ast_vga_output_init(ast);
- 		if (ret)
- 			return ret;
--		physical_connector = &ast->output.vga.connector;
-+		physical_connector = &ast->output.vga.connector.base;
- 	}
- 	if (ast->tx_chip_types & AST_TX_SIL164_BIT) {
- 		ret = ast_sil164_output_init(ast);
- 		if (ret)
- 			return ret;
--		physical_connector = &ast->output.sil164.connector;
-+		physical_connector = &ast->output.sil164.connector.base;
- 	}
- 	if (ast->tx_chip_types & AST_TX_DP501_BIT) {
- 		ret = ast_dp501_output_init(ast);
- 		if (ret)
- 			return ret;
--		physical_connector = &ast->output.dp501.connector;
-+		physical_connector = &ast->output.dp501.connector.base;
- 	}
- 	if (ast->tx_chip_types & AST_TX_ASTDP_BIT) {
- 		ret = ast_astdp_output_init(ast);
- 		if (ret)
- 			return ret;
--		physical_connector = &ast->output.astdp.connector;
-+		physical_connector = &ast->output.astdp.connector.base;
- 	}
- 	ret = ast_bmc_output_init(ast, physical_connector);
- 	if (ret)
-diff --git a/drivers/gpu/drm/ast/ast_sil164.c b/drivers/gpu/drm/ast/ast_sil164.c
-index 6e17d84f994e..05f991aa34ca 100644
---- a/drivers/gpu/drm/ast/ast_sil164.c
-+++ b/drivers/gpu/drm/ast/ast_sil164.c
-@@ -21,9 +21,23 @@ static const struct drm_encoder_funcs ast_sil164_encoder_funcs = {
-  * Connector
-  */
- 
-+static int ast_sil164_connector_helper_detect_ctx(struct drm_connector *connector,
-+						  struct drm_modeset_acquire_ctx *ctx,
-+						  bool force)
-+{
-+	struct ast_connector *ast_connector = to_ast_connector(connector);
-+	enum drm_connector_status status;
-+
-+	status = drm_connector_helper_detect_from_ddc(connector, ctx, force);
-+
-+	ast_connector->physical_status = status;
-+
-+	return status;
-+}
-+
- static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
- 	.get_modes = drm_connector_helper_get_modes,
--	.detect_ctx = drm_connector_helper_detect_from_ddc,
-+	.detect_ctx = ast_sil164_connector_helper_detect_ctx,
- };
- 
- static const struct drm_connector_funcs ast_sil164_connector_funcs = {
-@@ -67,7 +81,8 @@ int ast_sil164_output_init(struct ast_device *ast)
- 	struct drm_device *dev = &ast->base;
- 	struct drm_crtc *crtc = &ast->crtc;
- 	struct drm_encoder *encoder = &ast->output.sil164.encoder;
--	struct drm_connector *connector = &ast->output.sil164.connector;
-+	struct ast_connector *ast_connector = &ast->output.sil164.connector;
-+	struct drm_connector *connector = &ast_connector->base;
- 	int ret;
- 
- 	ret = drm_encoder_init(dev, encoder, &ast_sil164_encoder_funcs,
-@@ -79,6 +94,7 @@ int ast_sil164_output_init(struct ast_device *ast)
- 	ret = ast_sil164_connector_init(dev, connector);
- 	if (ret)
- 		return ret;
-+	ast_connector->physical_status = connector->status;
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
-diff --git a/drivers/gpu/drm/ast/ast_vga.c b/drivers/gpu/drm/ast/ast_vga.c
-index 2ea0763844f3..fdbd0daca7dc 100644
---- a/drivers/gpu/drm/ast/ast_vga.c
-+++ b/drivers/gpu/drm/ast/ast_vga.c
-@@ -21,9 +21,23 @@ static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
-  * Connector
-  */
- 
-+static int ast_vga_connector_helper_detect_ctx(struct drm_connector *connector,
-+					       struct drm_modeset_acquire_ctx *ctx,
-+					       bool force)
-+{
-+	struct ast_connector *ast_connector = to_ast_connector(connector);
-+	enum drm_connector_status status;
-+
-+	status = drm_connector_helper_detect_from_ddc(connector, ctx, force);
-+
-+	ast_connector->physical_status = status;
-+
-+	return status;
-+}
-+
- static const struct drm_connector_helper_funcs ast_vga_connector_helper_funcs = {
- 	.get_modes = drm_connector_helper_get_modes,
--	.detect_ctx = drm_connector_helper_detect_from_ddc,
-+	.detect_ctx = ast_vga_connector_helper_detect_ctx,
- };
- 
- static const struct drm_connector_funcs ast_vga_connector_funcs = {
-@@ -67,7 +81,8 @@ int ast_vga_output_init(struct ast_device *ast)
- 	struct drm_device *dev = &ast->base;
- 	struct drm_crtc *crtc = &ast->crtc;
- 	struct drm_encoder *encoder = &ast->output.vga.encoder;
--	struct drm_connector *connector = &ast->output.vga.connector;
-+	struct ast_connector *ast_connector = &ast->output.vga.connector;
-+	struct drm_connector *connector = &ast_connector->base;
- 	int ret;
- 
- 	ret = drm_encoder_init(dev, encoder, &ast_vga_encoder_funcs,
-@@ -79,6 +94,7 @@ int ast_vga_output_init(struct ast_device *ast)
- 	ret = ast_vga_connector_init(dev, connector);
- 	if (ret)
- 		return ret;
-+	ast_connector->physical_status = connector->status;
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
+-err_mutex_unlock:
+-	mutex_unlock(&ast->modeset_lock);
++err_kfree:
+ 	kfree(edid);
+ err_drm_connector_update_edid_property:
+ 	drm_connector_update_edid_property(connector, NULL);
 -- 
 2.46.0
 
