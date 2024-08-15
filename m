@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8901E9531B6
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 15:57:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445B4952FE3
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 15:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE5CA10E3FF;
-	Thu, 15 Aug 2024 13:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73CB110E3FC;
+	Thu, 15 Aug 2024 13:37:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mxqam55c";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fQNzQaBT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADF6110E3FF
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 13:57:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F211F10E395
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 13:37:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 938C0CE1C79;
- Thu, 15 Aug 2024 13:57:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5818CC32786;
- Thu, 15 Aug 2024 13:57:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id CA25861EAF;
+ Thu, 15 Aug 2024 13:37:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A71DC4AF0D;
+ Thu, 15 Aug 2024 13:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723730243;
- bh=QzxffVVHF5NbYd4SHa/JzNbT2iprt19zMSfWzH2kMvk=;
+ s=korg; t=1723729024;
+ bh=eJMUQbCU/3bt2wLkONvo8I0PPbl8MrYqEEe8ewwHlRU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Mxqam55cPaiRmg6XeYCo4roYjNXQSKR9D7RLup63nQ2kHax1HR472/mX/3+bgLOwK
- RjSaaXGwPGnvEFXKGgnz0pwanHjUECJg77/LFV3Cr4HBHBEVOiWC9VVXfoJjp/63PC
- LCA5BTZU6Kig+G+Apc8V6oXeYwEjDFzPoYutdP/g=
+ b=fQNzQaBT+I9uMvb/lWHvg7Y2NyC79uw5iZU5o4kcaHGHlYQDrfZfZUvspOB/V/OxT
+ 0crdgcC/tUYxMt/IZNSdG0yzM3l5P6aVqxtiLf7Bl6kKCGkuVUDoCmBNL4YkhX8fgf
+ pFwp7sUD2sZ6MTTagwig3EvvRSVG6oCAPeGIBrlA=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- dri-devel@lists.freedesktop.org,
- Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
- Martin Krastev <martin.krastev@broadcom.com>
-Subject: [PATCH 5.15 349/484] drm/vmwgfx: Fix a deadlock in dma buf fence
- polling
-Date: Thu, 15 Aug 2024 15:23:27 +0200
-Message-ID: <20240815131954.906187365@linuxfoundation.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: [PATCH 4.19 187/196] drm/mgag200: Set DDC timeout in milliseconds
+Date: Thu, 15 Aug 2024 15:25:04 +0200
+Message-ID: <20240815131859.224783574@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240815131941.255804951@linuxfoundation.org>
-References: <20240815131941.255804951@linuxfoundation.org>
+In-Reply-To: <20240815131852.063866671@linuxfoundation.org>
+References: <20240815131852.063866671@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,108 +60,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+4.19-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
-From: Zack Rusin <zack.rusin@broadcom.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
+commit ecde5db1598aecab54cc392282c15114f526f05f upstream.
 
-Introduce a version of the fence ops that on release doesn't remove
-the fence from the pending list, and thus doesn't require a lock to
-fix poll->fence wait->fence unref deadlocks.
+Compute the i2c timeout in jiffies from a value in milliseconds. The
+original values of 2 jiffies equals 2 milliseconds if HZ has been
+configured to a value of 1000. This corresponds to 2.2 milliseconds
+used by most other DRM drivers. Update mgag200 accordingly.
 
-vmwgfx overwrites the wait callback to iterate over the list of all
-fences and update their status, to do that it holds a lock to prevent
-the list modifcations from other threads. The fence destroy callback
-both deletes the fence and removes it from the list of pending
-fences, for which it holds a lock.
-
-dma buf polling cb unrefs a fence after it's been signaled: so the poll
-calls the wait, which signals the fences, which are being destroyed.
-The destruction tries to acquire the lock on the pending fences list
-which it can never get because it's held by the wait from which it
-was called.
-
-Old bug, but not a lot of userspace apps were using dma-buf polling
-interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
-
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Fixes: 414c45310625 ("mgag200: initial g200se driver (v2)")
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.2+
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
+Cc: <stable@vger.kernel.org> # v3.5+
+Link: https://patchwork.freedesktop.org/patch/msgid/20240513125620.6337-2-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |   17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_i2c.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -32,7 +32,6 @@
- #define VMW_FENCE_WRAP (1 << 31)
+--- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
++++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
+@@ -133,7 +133,7 @@ struct mga_i2c_chan *mgag200_i2c_create(
+ 	i2c->adapter.algo_data = &i2c->bit;
  
- struct vmw_fence_manager {
--	int num_fence_objects;
- 	struct vmw_private *dev_priv;
- 	spinlock_t lock;
- 	struct list_head fence_list;
-@@ -127,13 +126,13 @@ static void vmw_fence_obj_destroy(struct
- {
- 	struct vmw_fence_obj *fence =
- 		container_of(f, struct vmw_fence_obj, base);
--
- 	struct vmw_fence_manager *fman = fman_from_fence(fence);
- 
--	spin_lock(&fman->lock);
--	list_del_init(&fence->head);
--	--fman->num_fence_objects;
--	spin_unlock(&fman->lock);
-+	if (!list_empty(&fence->head)) {
-+		spin_lock(&fman->lock);
-+		list_del_init(&fence->head);
-+		spin_unlock(&fman->lock);
-+	}
- 	fence->destroy(fence);
- }
- 
-@@ -260,7 +259,6 @@ static const struct dma_fence_ops vmw_fe
- 	.release = vmw_fence_obj_destroy,
- };
- 
--
- /*
-  * Execute signal actions on fences recently signaled.
-  * This is done from a workqueue so we don't have to execute
-@@ -363,7 +361,6 @@ static int vmw_fence_obj_init(struct vmw
- 		goto out_unlock;
- 	}
- 	list_add_tail(&fence->head, &fman->fence_list);
--	++fman->num_fence_objects;
- 
- out_unlock:
- 	spin_unlock(&fman->lock);
-@@ -411,7 +408,7 @@ static bool vmw_fence_goal_new_locked(st
- 				      u32 passed_seqno)
- {
- 	u32 goal_seqno;
--	struct vmw_fence_obj *fence;
-+	struct vmw_fence_obj *fence, *next_fence;
- 
- 	if (likely(!fman->seqno_valid))
- 		return false;
-@@ -421,7 +418,7 @@ static bool vmw_fence_goal_new_locked(st
- 		return false;
- 
- 	fman->seqno_valid = false;
--	list_for_each_entry(fence, &fman->fence_list, head) {
-+	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
- 		if (!list_empty(&fence->seq_passed_actions)) {
- 			fman->seqno_valid = true;
- 			vmw_fence_goal_write(fman->dev_priv,
+ 	i2c->bit.udelay = 10;
+-	i2c->bit.timeout = 2;
++	i2c->bit.timeout = usecs_to_jiffies(2200);
+ 	i2c->bit.data = i2c;
+ 	i2c->bit.setsda		= mga_gpio_setsda;
+ 	i2c->bit.setscl		= mga_gpio_setscl;
 
 
