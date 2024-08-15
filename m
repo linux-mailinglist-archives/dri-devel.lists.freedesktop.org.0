@@ -2,47 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11255953B61
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 22:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A12B953B90
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2024 22:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD9E10E53D;
-	Thu, 15 Aug 2024 20:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C180910E546;
+	Thu, 15 Aug 2024 20:41:03 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gtvzzYXl";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C9210E53D
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 20:21:01 +0000 (UTC)
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-637-PbOJIVbGN2amJy1OMmbvSQ-1; Thu,
- 15 Aug 2024 16:19:32 -0400
-X-MC-Unique: PbOJIVbGN2amJy1OMmbvSQ-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 1E794187487C; Thu, 15 Aug 2024 20:19:28 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.9])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id CA6A51955DD1; Thu, 15 Aug 2024 20:19:25 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org,
-	dakr@redhat.com
-Subject: [PATCH] nouveau/firmware: using dma non-coherent interfaces for fw
- loading. (v2)
-Date: Fri, 16 Aug 2024 06:19:23 +1000
-Message-ID: <20240815201923.632803-1-airlied@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55D7B10E546
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 20:41:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 92B7761FEE;
+ Thu, 15 Aug 2024 20:41:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAE30C4AF12;
+ Thu, 15 Aug 2024 20:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723754462;
+ bh=F8oflxuYzG6QdmTBIJevLlwno17ji+vnYLGMIEdxVhs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gtvzzYXljiGysfQNrXF6eT54sgX1myIhBlIamCwyn03R4erw/QpDXKc+zfWSs/cLv
+ F63p7ZYOY2up+KNcxl4Km8/VfHca6SWsXhYM4F9Elzmtp72lllkk933Glq0Ap4NcGg
+ 2+LZSkMmsdWBaG02qniyQK+pcBcZcfpXBUcBEn3C/Jc0/zVt9y4z8JsUUu8NgD+8Z4
+ bY61USDIfCpXlUv1ncryT3T9b/9QXahbjSUQYSjtQzBxCI1CWYS0YrzNTqU2VWRzJc
+ /sMqafXWGgGN8v2fl8Kf83dnn6fl519XGOdufYwLxPcx/X58PkVHH2a7IZKYK6C11n
+ KVBD/bz5S8wFg==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Tengfei Fan <quic_tengfan@quicinc.com>, Ling Xu <quic_lxu5@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: (subset) [PATCH v4 0/6] arm64: qcom: sa8775p: enable remoteprocs
+ - ADSP, CDSP and GPDSP
+Date: Thu, 15 Aug 2024 15:40:21 -0500
+Message-ID: <172375444827.1011236.6685787299327190589.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240805-topic-sa8775p-iot-remoteproc-v4-0-86affdc72c04@linaro.org>
+References: <20240805-topic-sa8775p-iot-remoteproc-v4-0-86affdc72c04@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,116 +73,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
 
-Currently, enabling SG_DEBUG in the kernel will cause nouveau to hit a
-BUG() on startup, when the iommu is enabled:
+On Mon, 05 Aug 2024 19:08:01 +0200, Bartosz Golaszewski wrote:
+> Add DT bindings, relevant DT defines, DTS nodes and driver changes
+> required to enable the remoteprocs on sa8775p.
+> 
+> To: Bjorn Andersson <andersson@kernel.org>
+> To: Mathieu Poirier <mathieu.poirier@linaro.org>
+> To: Rob Herring <robh@kernel.org>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> To: Jassi Brar <jassisinghbrar@gmail.com>
+> To: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: linux-remoteproc@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> [...]
 
-kernel BUG at include/linux/scatterlist.h:187!
-invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-CPU: 7 PID: 930 Comm: (udev-worker) Not tainted 6.9.0-rc3Lyude-Test+ #30
-Hardware name: MSI MS-7A39/A320M GAMING PRO (MS-7A39), BIOS 1.I0 01/22/2019
-RIP: 0010:sg_init_one+0x85/0xa0
-Code: 69 88 32 01 83 e1 03 f6 c3 03 75 20 a8 01 75 1e 48 09 cb 41 89 54
-24 08 49 89 1c 24 41 89 6c 24 0c 5b 5d 41 5c e9 7b b9 88 00 <0f> 0b 0f 0b
-0f 0b 48 8b 05 5e 46 9a 01 eb b2 66 66 2e 0f 1f 84 00
-RSP: 0018:ffffa776017bf6a0 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffffa77600d87000 RCX: 000000000000002b
-RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffa77680d87000
-RBP: 000000000000e000 R08: 0000000000000000 R09: 0000000000000000
-R10: ffff98f4c46aa508 R11: 0000000000000000 R12: ffff98f4c46aa508
-R13: ffff98f4c46aa008 R14: ffffa77600d4a000 R15: ffffa77600d4a018
-FS:  00007feeb5aae980(0000) GS:ffff98f5c4dc0000(0000) knlGS:000000000000000=
-0
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f22cb9a4520 CR3: 00000001043ba000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- ? die+0x36/0x90
- ? do_trap+0xdd/0x100
- ? sg_init_one+0x85/0xa0
- ? do_error_trap+0x65/0x80
- ? sg_init_one+0x85/0xa0
- ? exc_invalid_op+0x50/0x70
- ? sg_init_one+0x85/0xa0
- ? asm_exc_invalid_op+0x1a/0x20
- ? sg_init_one+0x85/0xa0
- nvkm_firmware_ctor+0x14a/0x250 [nouveau]
- nvkm_falcon_fw_ctor+0x42/0x70 [nouveau]
- ga102_gsp_booter_ctor+0xb4/0x1a0 [nouveau]
- r535_gsp_oneinit+0xb3/0x15f0 [nouveau]
- ? srso_return_thunk+0x5/0x5f
- ? srso_return_thunk+0x5/0x5f
- ? nvkm_udevice_new+0x95/0x140 [nouveau]
- ? srso_return_thunk+0x5/0x5f
- ? srso_return_thunk+0x5/0x5f
- ? ktime_get+0x47/0xb0
+Applied, thanks!
 
-Fix this by using the non-coherent allocator instead, I think there
-might be a better answer to this, but it involve ripping up some of
-APIs using sg lists.
+[2/6] dt-bindings: mailbox: qcom-ipcc: Add GPDSP0 and GPDSP1 clients
+      commit: 89817522b1a58970ac1247f65af009b046344fb0
+[5/6] arm64: dts: qcom: sa8775p: add ADSP, CDSP and GPDSP nodes
+      commit: df54dcb34ff2eaabc5f74afbdb2fec104e2263e6
+[6/6] arm64: dts: qcom: sa8775p-ride: enable remoteprocs
+      commit: 2bec6f6a22815c6a5651d2b9aa4f54baf1ae5e73
 
-v2: fix build warning
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
-Cc: stable@vger.kernel.org
----
- drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 9 ++++++---
- drivers/gpu/drm/nouveau/nvkm/falcon/fw.c     | 6 ++++++
- 2 files changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm=
-/nouveau/nvkm/core/firmware.c
-index adc60b25f8e6..0af01a0ec601 100644
---- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-@@ -205,7 +205,8 @@ nvkm_firmware_dtor(struct nvkm_firmware *fw)
- =09=09break;
- =09case NVKM_FIRMWARE_IMG_DMA:
- =09=09nvkm_memory_unref(&memory);
--=09=09dma_free_coherent(fw->device->dev, sg_dma_len(&fw->mem.sgl), fw->img=
-, fw->phys);
-+=09=09dma_free_noncoherent(fw->device->dev, sg_dma_len(&fw->mem.sgl),
-+=09=09=09=09     fw->img, fw->phys, DMA_TO_DEVICE);
- =09=09break;
- =09case NVKM_FIRMWARE_IMG_SGT:
- =09=09nvkm_memory_unref(&memory);
-@@ -236,10 +237,12 @@ nvkm_firmware_ctor(const struct nvkm_firmware_func *f=
-unc, const char *name,
- =09=09break;
- =09case NVKM_FIRMWARE_IMG_DMA: {
- =09=09dma_addr_t addr;
--
- =09=09len =3D ALIGN(fw->len, PAGE_SIZE);
-=20
--=09=09fw->img =3D dma_alloc_coherent(fw->device->dev, len, &addr, GFP_KERN=
-EL);
-+=09=09fw->img =3D dma_alloc_noncoherent(fw->device->dev,
-+=09=09=09=09=09=09len, &addr,
-+=09=09=09=09=09=09DMA_TO_DEVICE,
-+=09=09=09=09=09=09GFP_KERNEL);
- =09=09if (fw->img) {
- =09=09=09memcpy(fw->img, src, fw->len);
- =09=09=09fw->phys =3D addr;
-diff --git a/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c b/drivers/gpu/drm/nou=
-veau/nvkm/falcon/fw.c
-index 80a480b12174..a1c8545f1249 100644
---- a/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c
-@@ -89,6 +89,12 @@ nvkm_falcon_fw_boot(struct nvkm_falcon_fw *fw, struct nv=
-km_subdev *user,
- =09=09nvkm_falcon_fw_dtor_sigs(fw);
- =09}
-=20
-+=09/* after last write to the img, sync dma mappings */
-+=09dma_sync_single_for_device(fw->fw.device->dev,
-+=09=09=09=09   fw->fw.phys,
-+=09=09=09=09   sg_dma_len(&fw->fw.mem.sgl),
-+=09=09=09=09   DMA_TO_DEVICE);
-+
- =09FLCNFW_DBG(fw, "resetting");
- =09fw->func->reset(fw);
-=20
---=20
-2.46.0
-
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
