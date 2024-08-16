@@ -2,82 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5142D954DCC
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 17:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7721B954DEB
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 17:37:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37FE10E7FA;
-	Fri, 16 Aug 2024 15:35:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA69B10E7F4;
+	Fri, 16 Aug 2024 15:37:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bKSTGrm8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z2t12zKa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98AC410E7FA
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 15:35:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 124E2CE2016;
- Fri, 16 Aug 2024 15:35:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C32C32782;
- Fri, 16 Aug 2024 15:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723822513;
- bh=Q18cNSCViMkznglQB7U8THt2jlE6uRjEx/JSrUARwzc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bKSTGrm8LaF2gwztx+/6SinSoy24s5gR4CldYRBEkiNOSwgcpm7hLvrrK2gtq0Pvx
- hMOv7Np2xjcElkjbz06G6kxT1paCcuIl6tgDnhA1FReWgEk0VrJIV5VnmY28VW+uM3
- rZACO8v+MYhjqas3sNB0o4umHsNfCDqpROl01Mt/tH5odX/nLSTCmpnMqAFo9lHFii
- 7gaHt6gXGlFMnEUaVC739Sgm/hKhGjvNlG4yZPxcjScZu7DwFyzYVs8aZxgV2ToxjC
- MflEhOxEm/9blSXnL7eNEt3U0O1uRbAir3rluhSYsWuh/JjkeQLFqL1D7S/NCKi2I7
- 8SQyYhQ0iAcDw==
-Date: Fri, 16 Aug 2024 08:35:10 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240816083510.3386fb10@kernel.org>
-In-Reply-To: <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
-References: <20240813211317.3381180-7-almasrymina@google.com>
- <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
- <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
- <31640ff4-25a6-4115-85e6-82092ce57393@gmail.com>
- <20240815182245.2b5e3f44@kernel.org>
- <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D680E10E7F4;
+ Fri, 16 Aug 2024 15:37:07 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-6b443880945so309247b3.0; 
+ Fri, 16 Aug 2024 08:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1723822627; x=1724427427; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tzNM0AA9xntFTf2RXz/yks0bBfTi9noMOikasbHbbu4=;
+ b=Z2t12zKazoaAOVmV93FgdhWEJLRHdDSFGKQf0q3R3Q1Te6X1JwKNcs9k/zSo6g7iuS
+ g00H5cZkghK/ORO/C1d27WZkILVDzFjjFuJCX9jWxHYD72APAFM9CrV6J9IXLng72DI6
+ +EzHcs5F3ETRzEmQU7xS/orYSgtlTFLEDjs68jI4qeZZeEDSUSTqaMBCZIEj5BOLFVwv
+ U+j/wCWjxjMWbhwyXmZinGyzyn53UxmiN9xn/KEE6g2TAaiO1p5B2H8NYLF1Pbw6taqd
+ AltDhbq2Siq+ylEAn4/bKX6efo8k87bG0nAG8opGau2+t6hr7NornCMG9l6Qg5xWgrev
+ HErA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723822627; x=1724427427;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tzNM0AA9xntFTf2RXz/yks0bBfTi9noMOikasbHbbu4=;
+ b=ZXMezvKza1mfGKRxn11pwL2tYz9e3iHPFaQhq1/ANIGS26pxRBnQ4nCLee3Unt+U2/
+ OwyxF1eW0q+uugWSrydS07XUkLGprEWESc/tMFPrSOOJpELkJ/VrjlAW675riCAmBR/2
+ F1pDnnSFK9/fMH8Rs3WQWXobsO9hig5QKXUyB6Lq/W/6wtAG1bXqDUMhMkWTnA5y5Bsv
+ Y6bTFQ5CJb73SMUwABGguzvdgd3PzQkefKSCDYQWdw9M7GFeFWbxyI4/UcFxJkGz3n7M
+ r7nhbhdUm5Hg01d7igXjJU6NJI4lQ7lRmPCi5eilsA2BpXqQFfmbJgiecsvcuh07Pgg4
+ nstQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW/dSsXJMm+BETFTDVxyixHorEJ8rth/+IRFrks34fsEGfKPedDeviNg5M6KnPj8wRI0lzJ5975VTSlUh3Dgi4P5dZx+6hsovUHLKf4nrT+kXCnLYUAOxVctO+m0FCS+FwWYaalfdnKFTsY9gmrf2jsqEb3dltgdUjogvFbEdQ6a1grd584qRIPbPaAbHe7kr9TANA3RvCmIUOyz56E1DltA5DSpjLDyuzfdmxai+ixjDB43yypgb6IRJPLRoPv9iTcUAc7ajd63zmeQKnjCg==
+X-Gm-Message-State: AOJu0Yy3YT7fMMPKoCiRI2+cz7z66b+Xrgm3IUiAm0FHxz2LiQWJemnO
+ n03Ca7qOigRm/YNieC9SpajgboR1lxy7V42M/bGdwN1K+9M7spARAgBxM+Rfx1q/0hozIrvqRtw
+ 8z8FELjk6zlmyPbvkwxjSRVIWYk4=
+X-Google-Smtp-Source: AGHT+IENPTqD3CAvuVgtrBE+LadrBjEy9w12rrQn3kw5b6eR3pYhJO5bQriCQH4X41FgJUosHcVqnrP21MmRdDACkJ0=
+X-Received: by 2002:a05:690c:4e8a:b0:6ad:b01a:9469 with SMTP id
+ 00721157ae682-6b1bc3f877cmr29215657b3.39.1723822626590; Fri, 16 Aug 2024
+ 08:37:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240816125408.310253-1-tzimmermann@suse.de>
+ <20240816125408.310253-56-tzimmermann@suse.de>
+In-Reply-To: <20240816125408.310253-56-tzimmermann@suse.de>
+From: Deepak Rawat <drawat.floss@gmail.com>
+Date: Fri, 16 Aug 2024 08:36:55 -0700
+Message-ID: <CAHFnvW3zK0VsQKzqjncTTuNNenh6Lxr4mf2fqzX+gR1Z9i6yOA@mail.gmail.com>
+Subject: Re: [PATCH 55/86] drm/hyperv_drm: Run DRM default client setup
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, 
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,22 +82,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Aug 2024 08:20:44 -0400 Mina Almasry wrote:
-> > I'd keep the current check with a WARN_ON_ONCE(), tho.
-> > Given the absence of tests driver developers can use.
-> > Especially those who _aren't_ supporting the feature.
-> 
-> Yes what I have locally is the driver setting
-> netdev_rx_queue->unreadable_netmem_supported when header split is
-> turned on, and additionally a WARN_ON_ONCE around the check in core. I
-> was about to send that when I read your email. I'm hoping we don't
-> have to go through the scope creep of adding configuration via the
-> queue API, which I think is a very significant undertaking.
+Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
 
-I don't like adding more and more transient stuff to netdev_rx_queue.
-It's one thing if we create a temporary solution in the core, which
-we can easily redo later. It's another altogether when we expect drivers
-to keep some bit up to date across all the reconfiguration paths they
-have. Just to then got an replace that with another API.
-
-If the post-check works let's go with that for now.
+On Fri, Aug 16, 2024 at 5:54=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> Call drm_client_setup() to run the kernel's default client setup
+> for DRM. Set fbdev_probe in struct drm_driver, so that the client
+> setup can start the common fbdev client.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Deepak Rawat <drawat.floss@gmail.com>
+> ---
+>  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hy=
+perv/hyperv_drm_drv.c
+> index ff93e08d5036..3077ce5470f6 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> @@ -10,6 +10,7 @@
+>
+>  #include <drm/drm_aperture.h>
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_client_setup.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_fbdev_shmem.h>
+>  #include <drm/drm_gem_shmem_helper.h>
+> @@ -36,6 +37,7 @@ static struct drm_driver hyperv_driver =3D {
+>
+>         .fops            =3D &hv_fops,
+>         DRM_GEM_SHMEM_DRIVER_OPS,
+> +       DRM_FBDEV_SHMEM_DRIVER_OPS,
+>  };
+>
+>  static int hyperv_pci_probe(struct pci_dev *pdev,
+> @@ -149,7 +151,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
+>                 goto err_free_mmio;
+>         }
+>
+> -       drm_fbdev_shmem_setup(dev, 0);
+> +       drm_client_setup(dev, NULL);
+>
+>         return 0;
+>
+> --
+> 2.46.0
+>
