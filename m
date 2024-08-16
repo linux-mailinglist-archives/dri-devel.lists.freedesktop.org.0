@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4E59551A9
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 21:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E0195521C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 22:57:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74A2E10E83E;
-	Fri, 16 Aug 2024 19:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB11C10E044;
+	Fri, 16 Aug 2024 20:57:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="FPV42YSL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZVNv2GD7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E0F10E83B
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 19:55:48 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-201cd78c6a3so18345635ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 12:55:48 -0700 (PDT)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8899210E044;
+ Fri, 16 Aug 2024 20:57:21 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-710ec581999so2103840b3a.2; 
+ Fri, 16 Aug 2024 13:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1723838148; x=1724442948;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1723841841; x=1724446641; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MGWxg1wOx8lJ4g1VL18IcZyVgXvmEtS03cqmIV5LuWw=;
- b=FPV42YSLZRCbnoBYt3DfxHE7zHQilelDmILUgLMdkRoMQF0FtSOmFYPBt9k49/9z9x
- trW1mBjWN1gfeYOc22lNLFy8P1R0/5r1KOpl5EVRpEjpuOBt3hQ9rpBhrJvx0E+JGzae
- KOJFeo7E9ZtQR5HZrbPgQDKL0ehqWmLkC0F+qtMDBDHn43P05TSOCsiFMzsDgFZc80Ne
- Yv67g/5UffNeNrJqDktrubI4p7M9Wjl0+OS6W1O/OyoiZoqZv6flvEdVY9aTaVnRvNIT
- LA0qT719SphUOwWeVJ1QXRELFCTzsFbkFj5A4YhLyMhoTBEh3KvorxUsSAYJaRNk8G5x
- BTEg==
+ bh=OsIivMm/44noRoy/gkZcdnVTe5dyE8L520DECYextvY=;
+ b=ZVNv2GD7B414zUKS/CiK2UH704f9/yXyjXvbEDGz5TOSeE1Dyet0SHmkkbvHZaMeaX
+ om3+Ejgtv7K2Y2ADZxnQNr53wel2pCwWtIf4y/lLUfBc6vGJq3SzHk0RjfbllhgMETld
+ cHshuYae2gK+LdRJceSvgB//AGCzYdARRCrwV3RM+i/zmf8XqUjEOPBrUHOXNU+KhmvI
+ NxoC6MGRpoJf26aMNtDGCBGxKh7HJckh7WtZJLxUe6g8E9IollKz1buHtb3YYvrGPAyf
+ u95jtY69muEL9tDK9PLB/01eJvHs+Iqkmq2xmogEXf/YNLrUil8ZuWWiHQhygcbbhNAY
+ gzqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723838148; x=1724442948;
+ d=1e100.net; s=20230601; t=1723841841; x=1724446641;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MGWxg1wOx8lJ4g1VL18IcZyVgXvmEtS03cqmIV5LuWw=;
- b=AHJ29WCwMAPECtKpUsk8zucPNUPXnR4Y0Ps8P8FNsEMw0he6u/GdWBz5w2xG3+1Hbl
- QSHIrh8DYFJP4lGNcHRMXTyio70LOySCwButsL/zx31E6aesqRwJinCJQhHPgDzbcHcw
- eX5VT6Az6t/gPgd6bu7bO/Y73arx8EmVwmjp+k2O5pEL1nOaS7WaCoClsERQoZ3kMCLX
- yjreAsETqUKE6b4WgC+HqG09kN+otFT2vEF+D7MXh1ujjIyqO81+E3gepCo45ZgT39Ke
- mF/v3Q2eeWbhhLeh7fhOQ2gvr0xrnqXGEqm+04Pz9+VW1ePgzn2lZfEAE5EqRCPEV2CU
- kRnA==
+ bh=OsIivMm/44noRoy/gkZcdnVTe5dyE8L520DECYextvY=;
+ b=Zs6Pj1X05NBRPLTQGSjLiO/qkWfdEhcZqOs2J6wlJz4gEkEdh59Yyfx8uFqA8cULUZ
+ 87knQqpd9UlT8d9+qm8o0VdBCDsdCWHBHbyQI+0+HG5G+5AjlGGBGFUCrrMKfS75r2pd
+ Wz9O2oqA0uUZ9Qof423SBuQXsyvnXPs/5nOW3wKWyB22ubxUfL6dsaf9UnXHWHxoqkVz
+ W8RRoDa0+/PxBlzs/938ZDdr6CUAgAB23THXbIrLPJ0tSEc5iLBXd0bsXMEy2ntUosKk
+ 6g+MOoShspsHlc91pEF4EqleeGlxkiAoAkv4i2Fe0vf8sHK/y4h+3jMtyQF9l5HrpxGW
+ q+sQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX3hJFyFnj1PzYt7MfBsSz7NlVfs3yqzkLt08dQRC+MjQJ5wBuSeftHhXcCx9SOsgAd9pd/b2WD5bXO6hl9VQtyF9QXsarS0UUuXn0pBWvc
-X-Gm-Message-State: AOJu0Yz+ItATwZ5JhJAOImsF45pdO/NQeTy+gkeAfQrbF73sn+iugotj
- i72yFgzO/q1vbCEdIIgoTDusZ+w5OC/T2c5/hxfEJ42p+4PwzNXHl2qk09Bht/tGvhrArAqx6Rf
- 4xmSNGj/XNz2Q+k07we+rrZ9tLPU=
-X-Google-Smtp-Source: AGHT+IGH6vqIACm8gz7WSIiK1hLIMfs+2kbloGFsHHYX1GswdRuWB0AyXiwovzGrueJUPrhdZoQKawfIyTwS/JlzZ5M=
-X-Received: by 2002:a17:902:ce91:b0:1fd:9e6e:7c1f with SMTP id
- d9443c01a7336-20203f514a7mr51522695ad.56.1723838147914; Fri, 16 Aug 2024
- 12:55:47 -0700 (PDT)
+ AJvYcCXxul+yQuSrhLRQ2yEtZlYxl8AFWNvFvUosDlllWeEbRdfC5wxdlu4FbsqlwIjzNApUFZpNMatkwpcmyPX52D1RFUKKYekOKpRMz3fZEIXBVxsxi6S814pVHhR0Sc/apL4J8bG+U9NLSfj7UgmPSeIhW0FHl0yPcZQvgUgfydlb2SXxpmFbOSM2EhetO8Ynpg==
+X-Gm-Message-State: AOJu0YzUMOL/93kdI1YCC99NFjNwNdpiz8+IC1S5Hjba0QgyD+g3sneX
+ 6SCTbRN7AtBxhbJv1CBP70pllojB92zJeapsdeh+u8J92aoTYg2CiCODyZvOzwSiIMOnS3t/Cqg
+ Rk4mS8ZizjAMPsCb7SvfI/gwcQtc=
+X-Google-Smtp-Source: AGHT+IHoJOQTzqfb2dX42ndnbhiCwYWlaSqh3MOp7ckz4PAyV7UzPO/MMniS0UAlRLhYKkyGF87KLMkSXx3UN7HFtik=
+X-Received: by 2002:a05:6a20:bd1d:b0:1c8:a0c4:2286 with SMTP id
+ adf61e73a8af0-1c90507506bmr3555008637.51.1723841840710; Fri, 16 Aug 2024
+ 13:57:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240809124725.17956-1-abelova@astralinux.ru>
- <CAFBinCATiUnR=P9VRBxWeQhf49k6PVxK+nU95G7w94f-mR2HWQ@mail.gmail.com>
- <bb45ed80-7871-47ba-a1fd-ee71dc21a409@astralinux.ru>
-In-Reply-To: <bb45ed80-7871-47ba-a1fd-ee71dc21a409@astralinux.ru>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Fri, 16 Aug 2024 21:55:37 +0200
-Message-ID: <CAFBinCCW6E46+cMUC0M+n_4d7A6AhoJkQT=EHBxOD5wjn9O1hw@mail.gmail.com>
-Subject: Re: [PATCH] drm/meson: add check to prevent dereference of NULL
-To: Anastasia Belova <abelova@astralinux.ru>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org
+References: <20240809150327.2485848-1-alexander.deucher@amd.com>
+ <202408101951.tXyqYOzv-lkp@intel.com>
+ <1c77f913-4707-4300-b84a-36fcf99942f4@suse.de>
+In-Reply-To: <1c77f913-4707-4300-b84a-36fcf99942f4@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 16 Aug 2024 16:57:09 -0400
+Message-ID: <CADnq5_NjCFyy+bQY+uyijcZwvwXYkvVLLUQdtzN_ODvHAj193Q@mail.gmail.com>
+Subject: Re: [PATCH] video/aperture: match the pci device when calling
+ sysfb_disable()
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kernel test robot <lkp@intel.com>, Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
+ Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,38 +86,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Anastasia,
-
-On Mon, Aug 12, 2024 at 11:32=E2=80=AFAM Anastasia Belova <abelova@astralin=
-ux.ru> wrote:
-[...]
-> > As an alternative to your suggested approach: could you please look
-> > into whether devm_drm_dev_alloc() is a suitable replacement (if not:
-> > just explain why - then this patch is good to be merged)?
+On Mon, Aug 12, 2024 at 8:10=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
 >
-> If I understood correctly, devm_drm_dev_alloc allows to delete drm_dev_pu=
-t
-> from error path in meson_drv_bind_master and in meson_drv_unbind.
-Correct, that's the idea.
+> Hi
+>
+> Am 10.08.24 um 13:44 schrieb kernel test robot:
+> > Hi Alex,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on drm-misc/drm-misc-next]
+> > [also build test ERROR on linus/master v6.11-rc2 next-20240809]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Deucher/vid=
+eo-aperture-match-the-pci-device-when-calling-sysfb_disable/20240810-021357
+> > base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> > patch link:    https://lore.kernel.org/r/20240809150327.2485848-1-alexa=
+nder.deucher%40amd.com
+> > patch subject: [PATCH] video/aperture: match the pci device when callin=
+g sysfb_disable()
+> > config: csky-randconfig-001-20240810 (https://download.01.org/0day-ci/a=
+rchive/20240810/202408101951.tXyqYOzv-lkp@intel.com/config)
+> > compiler: csky-linux-gcc (GCC) 14.1.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240810/202408101951.tXyqYOzv-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408101951.tXyqYOzv-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >     csky-linux-ld: drivers/video/aperture.o: in function `aperture_remo=
+ve_conflicting_pci_devices':
+> >>> aperture.c:(.text+0x222): undefined reference to `screen_info_pci_dev=
+'
+>
+> Strange. There's a already placeholder [1] for architectures without
+> PCI. Otherwise the source file is listed at [2].
 
-> Then the proposed check may be ommited and function may just return
-> instead of jumping to free_drm.
-That's right
+So I dug into this, and the problem seems to be that
+CONFIG_SCREEN_INFO is not defined in that config.  I can't figure out
+how this should work in that case or why this is not a problem in
+drivers/firmware/sysfb.c.
 
-> And would it be better to rename free_drm to remove_encoders?
-That free_drm label is very confusing anyways.
-The short answer is: yes
-The longer answer is: we'll need to work on the removal order again:
-- encoders are probed *after* afbcd
-- removal should happen in opposite order of probe, so encoders should
-be freed *before* afbcd
-- however, this order is not implemented
+Something like this works:
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 56a5a0bc2b1af..50e98210c9fe5 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -347,7 +347,9 @@ EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
+  */
+ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev,
+const char *name)
+ {
++#if defined(CONFIG_SCREEN_INFO)
+        struct screen_info *si =3D &screen_info;
++#endif
+        bool primary =3D false;
+        resource_size_t base, size;
+        int bar, ret =3D 0;
+@@ -355,8 +357,10 @@ int
+aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
+char *na
+        if (pdev =3D=3D vga_default_device())
+                primary =3D true;
 
-There's no harm for you to rename the label now. It just means that we
-need to do some more cleanups.
++#if defined(CONFIG_SCREEN_INFO)
+        if (pdev =3D=3D screen_info_pci_dev(si))
+                sysfb_disable();
++#endif
 
-Looking forward to v2 of the patch!
+        for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
+                if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
 
+But that can't be the right fix...  Any ideas?
 
-Best regards,
-Martin
+Alex
+
+>
+> [1]
+> https://elixir.bootlin.com/linux/v6.10/source/include/linux/screen_info.h=
+#L127
+> [2] https://elixir.bootlin.com/linux/v6.10/source/drivers/video/Makefile#=
+L11
+>
+> Best regards
+> Thomas
+>
+> >     csky-linux-ld: drivers/video/aperture.o: in function `devm_aperture=
+_acquire_release':
+> >>> aperture.c:(.text+0x2c0): undefined reference to `screen_info'
+> >>> csky-linux-ld: aperture.c:(.text+0x2c4): undefined reference to `scre=
+en_info_pci_dev'
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
