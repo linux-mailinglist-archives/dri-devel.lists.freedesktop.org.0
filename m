@@ -2,58 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9936955966
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 21:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927A3955965
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 21:28:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2493510E0E5;
-	Sat, 17 Aug 2024 19:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17C3610E0DA;
+	Sat, 17 Aug 2024 19:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="E0bkcHva";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LnVX41Zb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE40510E841
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 20:24:03 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Wltk76Mlqz9smd;
- Fri, 16 Aug 2024 22:23:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1723839839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y2a5uwxoWmK4hGq387/Bj9tHFW7u7XNQSFK7pAHa9AI=;
- b=E0bkcHvajiOa+ioQ9d6R959bOkg5yCiLLrj9cjdg22FWipTMe/cDKtzPFs0GeP26UVcMgX
- ziqA8k/nCKxqCXVYu+rc39h9GqoEmH9UOWiL4bL8Oo0TcWCHyafPo1RdhHlGRiTNZwQlSr
- SFAkQqhX24A8N1xSK6VhLU4h6RQQjSPjfQTPYdB6PUxPnczeMTTFNN3HVHJy6y8pgGUjH1
- mppCFhVBQ2AX6Fes1RKvRKiHE04DD6YiQ7mdZ8DqeAuBQg0EAtIpW5hp1X2qTOalhv/Rhf
- Tpf67i9nUlR7y9LUS19Y0HhIxQKtpbkCZ9c4s0T7BqFTCxEvLZjE3mLbW9X0wg==
-Message-ID: <e345252b-9370-4491-ac5d-d2dbe1005451@mailbox.org>
-Date: Fri, 16 Aug 2024 22:23:54 +0200
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 363B110E06B;
+ Fri, 16 Aug 2024 23:42:47 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a7a94aa5080so291776866b.3; 
+ Fri, 16 Aug 2024 16:42:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1723851765; x=1724456565; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RH/rPI35J13TIcTmDXM4xAWE7+R4US73obFliUuHk8g=;
+ b=LnVX41ZbixWPxffPts7zD4cjaWUaX0MVCeqR8QwUfqmD0DdX8RitvB8J4zGEBWKVpp
+ PQrT104LAvSg8Rn+uSHYMaxYuIX4OWjFw0/yKpR0RUW7lgRXzwdDKkwB3OkPITLGc/e0
+ DIINLNRwOyy0XHR79pbpq3WvURVSMVaNpsdIRZMNpC7esHPgFVnIh66q4KDOiFX5+tUw
+ bTX5HaS63DQFggFEaphspt4hgr//DiF+WDsgaOSWyjQXKndOrRLI2zdgeSCkwrX4xp5v
+ Yc5/EPXSP4UaFtXktsLKGrg4wF5PaBUymZ2p11S9tZZMTXqDCQnUDFBHTxU9uxbhO451
+ 4oMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723851765; x=1724456565;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RH/rPI35J13TIcTmDXM4xAWE7+R4US73obFliUuHk8g=;
+ b=fP4jO9hgXiRcbaOzrkuE8l6lhK2n/vUk/PEg7uw4MlkdZOzrcW23f8kSTmjKA8Hb7H
+ tfQK4EdO65JebMi7jCaRKozl7LzHOB7bOg7OhNc5slclnyAtKGR7RZ8R7ZuVtYbHQPo0
+ Q+ITMNDK1+SGqSU/91iuF7UfJZ8S9ikS/Z3oPUPKSW9ixahaabz5PdgX07vomGTI8Hcn
+ XOJ+PSBjQMH89t/utjsvSQELuhstQ1H3XxOJF7OVx/nqRVWKmbPdgwgpr4kRqghYGjDM
+ fhleEs5wKRzt34Ge4rAeiqr7r/KvxKORzXbgXuQdjK3fmQdDU2KkHoJwCMj0ZsXviWQO
+ YsoA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXp3ILcnjViMgXFqWBaRnsj1RbngA44HS8U1/b87VFp0u9Y1Nuqm/Gj1/wdQRjLclXb2aBeSBw/JHjTjz3R5spoEa8WPayQL/jRUW9J4nUVe049cSmTzlrvJKFeV8ZJKL36YJswXD+kGKtOtLzKXuSh
+X-Gm-Message-State: AOJu0Yxqb3ZitgzLxaBLeOesyd4uZpAqgUgFF0t/iLzzVpMKeOO6y4bK
+ PmZbroRPDtYIooW4MI8xiv2TUFsFLxjpvS6YacMfSUrzwYG7GRTZ
+X-Google-Smtp-Source: AGHT+IFHh3rJK/WkfcHOF52rAbjLG1pNSReXF3Ompen1dC2c00uCWocEwRcDw+ckHU2wnMDrRLmmaA==
+X-Received: by 2002:a17:907:7fa5:b0:a80:aefa:14d3 with SMTP id
+ a640c23a62f3a-a8392a4128amr351909366b.63.1723851764930; 
+ Fri, 16 Aug 2024 16:42:44 -0700 (PDT)
+Received: from [192.168.1.13] (host-95-235-164-146.retail.telecomitalia.it.
+ [95.235.164.146]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a838393599asm319803166b.132.2024.08.16.16.42.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Aug 2024 16:42:44 -0700 (PDT)
+Message-ID: <78d36089-5a65-41b3-a9fa-102266736d9b@gmail.com>
+Date: Sat, 17 Aug 2024 01:42:42 +0200
 MIME-Version: 1.0
-Subject: Re: [REGRESSION][BISECTED] vmwgfx crashes with command buffer error
- after update
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: bcm-kernel-feedback-list@broadcom.com, christian@heusel.eu,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com,
- rdkehn@gmail.com, regressions@lists.linux.dev, spender@grsecurity.net
-References: <CABQX2QM09V=+G=9T6Ax8Ad3F85hU0Cg4WqD82hTN=yhktXNDaQ@mail.gmail.com>
- <40cf01ab-73ad-4243-b851-a02c377bdbde@mailbox.org>
- <CABQX2QM1A9yWCuOHV6kgi3YbPvPHz-zazkOXM6Up9RWrZ-CgPQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] Preemption support for A7XX
+To: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>
+References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
+ <CAF6AEGsiu2OBbwQJO5nS55CAQtCvKebc59-mu2h0BDiu4C2gxg@mail.gmail.com>
 Content-Language: en-US
-From: Andreas Piesk <a.piesk@mailbox.org>
-In-Reply-To: <CABQX2QM1A9yWCuOHV6kgi3YbPvPHz-zazkOXM6Up9RWrZ-CgPQ@mail.gmail.com>
+From: Antonino Maniscalco <antomani103@gmail.com>
+In-Reply-To: <CAF6AEGsiu2OBbwQJO5nS55CAQtCvKebc59-mu2h0BDiu4C2gxg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: jjckur8ysfr994hsbwpexesbwirt7yay
-X-MBO-RS-ID: 970057b013337eca572
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 17 Aug 2024 19:28:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,25 +95,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.08.24 um 20:56 schrieb Zack Rusin:
+On 8/16/24 7:47 PM, Rob Clark wrote:
+> On Thu, Aug 15, 2024 at 11:27 AM Antonino Maniscalco
+> <antomani103@gmail.com> wrote:
+>>
+>> This series implements preemption for A7XX targets, which allows the GPU to
+>> switch to an higher priority ring when work is pushed to it, reducing latency
+>> for high priority submissions.
+>>
+>> This series enables L1 preemption with skip_save_restore which requires
+>> the following userspace patches to function:
+>>
+>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
+>>
+>> A flag is added to `msm_gem_submit` to only allow submissions from compatible
+>> userspace to be preempted, therefore maintaining compatibility.
 > 
-> Thanks! I see. I have a patch out that fixes it, but in general I
-> think those vm's with 16mb for graphics are very risky and I'd suggest
-> bumping them to at least 32mb. The vram portion can stay at 16mb, but
-> the graphicsMemoryKB can be safely set to fourth or even half of
-> memsize (in your config 256mb or even 512mb), which will make the vm's
-> a lot safer and allow actual ui usage because with console being
-> pinned we just don't have a lot of wiggle room otherwise and we just
-> can't migrate pinned framebuffers.
-> The patch that "regressed" this makes dumb buffers surface that
-> actually respect pinning, but as long as you don't have gpu host side
-> things will be ok. Otherwise we can't make a config with 16mb of
-> available graphics memory and graphics acceleration work.
+> I guess this last para is from an earlier iteration of this series?
+> Looks like instead you are making this a submitqueue flag (which is an
+> approach that I prefer)
+> 
+> BR,
+> -R
+> 
 
-Thanks for the looking into it and fixing it.
-The explanation with details is much appreciated and I will keep your suggestions in mind.
-I just used the VMware defaults for Linux 6.x+ in ESXi 8, maybe they should be bumped up a little bit.
+That is correct, I got confused on which one I ended up going with when 
+I wrote that.
 
-Best,
--ap
+Thanks for spotting it!
+
+>> Some commits from this series are based on a previous series to enable
+>> preemption on A6XX targets:
+>>
+>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
+>>
+>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>> ---
+>> Antonino Maniscalco (7):
+>>        drm/msm: Fix bv_fence being used as bv_rptr
+>>        drm/msm: Add submitqueue setup and close
+>>        drm/msm: Add a `preempt_record_size` field
+>>        drm/msm/A6xx: Implement preemption for A7XX targets
+>>        drm/msm/A6xx: Add traces for preemption
+>>        drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
+>>        drm/msm/A6xx: Enable preemption for A7xx targets
+>>
+>>   drivers/gpu/drm/msm/Makefile              |   1 +
+>>   drivers/gpu/drm/msm/adreno/a6xx_catalog.c |   3 +
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 339 ++++++++++++++++++++++-
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 ++++++++++++
+>>   drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 441 ++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h   |   1 +
+>>   drivers/gpu/drm/msm/msm_gpu.h             |   7 +
+>>   drivers/gpu/drm/msm/msm_gpu_trace.h       |  28 ++
+>>   drivers/gpu/drm/msm/msm_ringbuffer.h      |   8 +
+>>   drivers/gpu/drm/msm/msm_submitqueue.c     |  10 +
+>>   include/uapi/drm/msm_drm.h                |   5 +-
+>>   11 files changed, 995 insertions(+), 16 deletions(-)
+>> ---
+>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+>> change-id: 20240815-preemption-a750-t-fcee9a844b39
+>>
+>> Best regards,
+>> --
+>> Antonino Maniscalco <antomani103@gmail.com>
+>>
+
+Best regards,
+-- 
+Antonino Maniscalco <antomani103@gmail.com>
 
