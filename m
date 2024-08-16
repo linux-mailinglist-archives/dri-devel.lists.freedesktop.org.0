@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5DF954A60
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80E2954A63
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:57:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A7010E771;
-	Fri, 16 Aug 2024 12:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A93D410E77F;
+	Fri, 16 Aug 2024 12:54:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12CC10E701;
- Fri, 16 Aug 2024 12:54:39 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141B410E716;
+ Fri, 16 Aug 2024 12:54:40 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5291922899;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AE28F200BE;
  Fri, 16 Aug 2024 12:54:38 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F2A0713ACA;
- Fri, 16 Aug 2024 12:54:37 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 58A9C13A2F;
+ Fri, 16 Aug 2024 12:54:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id EGT8OQ1Mv2bdbgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Aug 2024 12:54:37 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id QD5oFA5Mv2bdbgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Aug 2024 12:54:38 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-Subject: [PATCH 78/86] drm/radeon: Run DRM default client setup
-Date: Fri, 16 Aug 2024 14:23:44 +0200
-Message-ID: <20240816125408.310253-79-tzimmermann@suse.de>
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Subject: [PATCH 79/86] drm/tegra: Run DRM default client setup
+Date: Fri, 16 Aug 2024 14:23:45 +0200
+Message-ID: <20240816125408.310253-80-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240816125408.310253-1-tzimmermann@suse.de>
 References: <20240816125408.310253-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
@@ -55,10 +54,10 @@ X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 5291922899
+X-Rspamd-Queue-Id: AE28F200BE
 X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
+X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
+ TAGGED_RCPT(0.00)[]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,117 +82,124 @@ Call drm_client_setup() to run the kernel's default client setup
 for DRM. Set fbdev_probe in struct drm_driver, so that the client
 setup can start the common fbdev client.
 
-The radeon driver specifies a preferred color mode depending on
-the available video memory, with a default of 32. Adapt this for
-the new client interface.
+The tegra driver specifies a preferred color mode of 32. As this
+is the default if no format has been given, leave it out entirely.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
 ---
- drivers/gpu/drm/radeon/radeon_drv.c   |  13 ++-
- drivers/gpu/drm/radeon/radeon_fbdev.c | 114 ++------------------------
- drivers/gpu/drm/radeon/radeon_mode.h  |  12 ++-
- 3 files changed, 26 insertions(+), 113 deletions(-)
+ drivers/gpu/drm/tegra/drm.c   |  5 +-
+ drivers/gpu/drm/tegra/drm.h   | 12 +++--
+ drivers/gpu/drm/tegra/fbdev.c | 98 +++--------------------------------
+ 3 files changed, 19 insertions(+), 96 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index 7bf08164140e..08ccfec6f6ec 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -38,8 +38,10 @@
- #include <linux/pci.h>
- 
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index d9f0728c3afd..6186524cf1a4 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -15,6 +15,7 @@
  #include <drm/drm_aperture.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_client_setup.h>
+ #include <drm/drm_debugfs.h>
  #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_fourcc.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_pciids.h>
-@@ -260,6 +262,7 @@ static int radeon_pci_probe(struct pci_dev *pdev,
- {
- 	unsigned long flags = 0;
- 	struct drm_device *dev;
-+	struct radeon_device *rdev;
- 	int ret;
+ #include <drm/drm_fourcc.h>
+@@ -891,6 +892,8 @@ static const struct drm_driver tegra_drm_driver = {
  
- 	if (!ent)
-@@ -314,7 +317,13 @@ static int radeon_pci_probe(struct pci_dev *pdev,
- 	if (ret)
- 		goto err_agp;
+ 	.dumb_create = tegra_bo_dumb_create,
  
--	radeon_fbdev_setup(dev->dev_private);
-+	rdev = dev->dev_private;
-+	if (rdev->mc.real_vram_size <= (8 * 1024 * 1024))
-+		drm_client_setup(dev, drm_format_info(DRM_FORMAT_C8));
-+	else if (ASIC_IS_RN50(rdev) || rdev->mc.real_vram_size <= (32 * 1024 * 1024))
-+		drm_client_setup(dev, drm_format_info(DRM_FORMAT_RGB565));
-+	else
-+		drm_client_setup(dev, NULL);
++	TEGRA_FBDEV_DRIVER_OPS,
++
+ 	.ioctls = tegra_drm_ioctls,
+ 	.num_ioctls = ARRAY_SIZE(tegra_drm_ioctls),
+ 	.fops = &tegra_drm_fops,
+@@ -1268,7 +1271,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 	if (err < 0)
+ 		goto hub;
+ 
+-	tegra_fbdev_setup(drm);
++	drm_client_setup(drm, NULL);
  
  	return 0;
  
-@@ -581,6 +590,8 @@ static const struct drm_driver kms_driver = {
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index 682011166a8f..0bc8d6625aef 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -25,6 +25,9 @@
+ /* XXX move to include/uapi/drm/drm_fourcc.h? */
+ #define DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT BIT_ULL(22)
  
- 	.gem_prime_import_sg_table = radeon_gem_prime_import_sg_table,
- 
-+	RADEON_FBDEV_DRIVER_OPS,
++struct drm_fb_helper;
++struct drm_fb_helper_surface_size;
 +
- 	.name = DRIVER_NAME,
- 	.desc = DRIVER_DESC,
- 	.date = DRIVER_DATE,
-diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-index 02bf25759059..4c81f9a87c16 100644
---- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-+++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-@@ -198,12 +198,11 @@ static const struct fb_ops radeon_fbdev_fb_ops = {
- 	.fb_destroy = radeon_fbdev_fb_destroy,
+ struct edid;
+ struct reset_control;
+ 
+@@ -190,10 +193,13 @@ struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
+ 					const struct drm_mode_fb_cmd2 *cmd);
+ 
+ #ifdef CONFIG_DRM_FBDEV_EMULATION
+-void tegra_fbdev_setup(struct drm_device *drm);
++int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
++				   struct drm_fb_helper_surface_size *sizes);
++#define TEGRA_FBDEV_DRIVER_OPS \
++	.fbdev_probe = tegra_fbdev_driver_fbdev_probe
+ #else
+-static inline void tegra_fbdev_setup(struct drm_device *drm)
+-{ }
++#define TEGRA_FBDEV_DRIVER_OPS \
++	.fbdev_probe = NULL
+ #endif
+ 
+ extern struct platform_driver tegra_display_hub_driver;
+diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
+index db6eaac3d30e..cd9d798f8870 100644
+--- a/drivers/gpu/drm/tegra/fbdev.c
++++ b/drivers/gpu/drm/tegra/fbdev.c
+@@ -66,8 +66,11 @@ static const struct fb_ops tegra_fb_ops = {
+ 	.fb_destroy = tegra_fbdev_fb_destroy,
  };
  
--/*
-- * Fbdev helpers and struct drm_fb_helper_funcs
-- */
-+static const struct drm_fb_helper_funcs radeon_fbdev_fb_helper_funcs = {
+-static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+-			     struct drm_fb_helper_surface_size *sizes)
++static const struct drm_fb_helper_funcs tegra_fbdev_helper_funcs = {
 +};
- 
--static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
--					   struct drm_fb_helper_surface_size *sizes)
-+int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
-+				    struct drm_fb_helper_surface_size *sizes)
++
++int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
++				   struct drm_fb_helper_surface_size *sizes)
  {
- 	struct radeon_device *rdev = fb_helper->dev->dev_private;
- 	struct drm_mode_fb_cmd2 mode_cmd = { };
-@@ -243,6 +242,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	struct tegra_drm *tegra = helper->dev->dev_private;
+ 	struct drm_device *drm = helper->dev;
+@@ -112,6 +115,7 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 		return PTR_ERR(fb);
  	}
  
- 	/* setup helper */
-+	fb_helper->funcs = &radeon_fbdev_fb_helper_funcs;
- 	fb_helper->fb = fb;
++	helper->funcs = &tegra_fbdev_helper_funcs;
+ 	helper->fb = fb;
+ 	helper->info = info;
  
- 	/* okay we have an object now allocate the framebuffer */
-@@ -288,110 +288,6 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
- 	return ret;
+@@ -144,93 +148,3 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 	drm_framebuffer_remove(fb);
+ 	return err;
  }
- 
--static const struct drm_fb_helper_funcs radeon_fbdev_fb_helper_funcs = {
--	.fb_probe = radeon_fbdev_fb_helper_fb_probe,
+-
+-static const struct drm_fb_helper_funcs tegra_fb_helper_funcs = {
+-	.fb_probe = tegra_fbdev_probe,
 -};
 -
 -/*
-- * Fbdev client and struct drm_client_funcs
+- * struct drm_client
 - */
 -
--static void radeon_fbdev_client_unregister(struct drm_client_dev *client)
+-static void tegra_fbdev_client_unregister(struct drm_client_dev *client)
 -{
 -	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
--	struct drm_device *dev = fb_helper->dev;
--	struct radeon_device *rdev = dev->dev_private;
 -
 -	if (fb_helper->info) {
--		vga_switcheroo_client_fb_set(rdev->pdev, NULL);
--		drm_helper_force_disable_all(dev);
 -		drm_fb_helper_unregister_info(fb_helper);
 -	} else {
 -		drm_client_release(&fb_helper->client);
@@ -202,19 +208,17 @@ index 02bf25759059..4c81f9a87c16 100644
 -	}
 -}
 -
--static int radeon_fbdev_client_restore(struct drm_client_dev *client)
+-static int tegra_fbdev_client_restore(struct drm_client_dev *client)
 -{
 -	drm_fb_helper_lastclose(client->dev);
--	vga_switcheroo_process_delayed_switch();
 -
 -	return 0;
 -}
 -
--static int radeon_fbdev_client_hotplug(struct drm_client_dev *client)
+-static int tegra_fbdev_client_hotplug(struct drm_client_dev *client)
 -{
 -	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
 -	struct drm_device *dev = client->dev;
--	struct radeon_device *rdev = dev->dev_private;
 -	int ret;
 -
 -	if (dev->fb_helper)
@@ -231,92 +235,47 @@ index 02bf25759059..4c81f9a87c16 100644
 -	if (ret)
 -		goto err_drm_fb_helper_fini;
 -
--	vga_switcheroo_client_fb_set(rdev->pdev, fb_helper->info);
--
 -	return 0;
 -
 -err_drm_fb_helper_fini:
 -	drm_fb_helper_fini(fb_helper);
 -err_drm_err:
--	drm_err(dev, "Failed to setup radeon fbdev emulation (ret=%d)\n", ret);
+-	drm_err(dev, "Failed to setup fbdev emulation (ret=%d)\n", ret);
 -	return ret;
 -}
 -
--static const struct drm_client_funcs radeon_fbdev_client_funcs = {
+-static const struct drm_client_funcs tegra_fbdev_client_funcs = {
 -	.owner		= THIS_MODULE,
--	.unregister	= radeon_fbdev_client_unregister,
--	.restore	= radeon_fbdev_client_restore,
--	.hotplug	= radeon_fbdev_client_hotplug,
+-	.unregister	= tegra_fbdev_client_unregister,
+-	.restore	= tegra_fbdev_client_restore,
+-	.hotplug	= tegra_fbdev_client_hotplug,
 -};
 -
--void radeon_fbdev_setup(struct radeon_device *rdev)
+-void tegra_fbdev_setup(struct drm_device *dev)
 -{
--	struct drm_fb_helper *fb_helper;
--	int bpp_sel = 32;
+-	struct drm_fb_helper *helper;
 -	int ret;
 -
--	if (rdev->mc.real_vram_size <= (8 * 1024 * 1024))
--		bpp_sel = 8;
--	else if (ASIC_IS_RN50(rdev) || rdev->mc.real_vram_size <= (32 * 1024 * 1024))
--		bpp_sel = 16;
+-	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
+-	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
 -
--	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
--	if (!fb_helper)
+-	helper = kzalloc(sizeof(*helper), GFP_KERNEL);
+-	if (!helper)
 -		return;
--	drm_fb_helper_prepare(rdev->ddev, fb_helper, bpp_sel, &radeon_fbdev_fb_helper_funcs);
+-	drm_fb_helper_prepare(dev, helper, 32, &tegra_fb_helper_funcs);
 -
--	ret = drm_client_init(rdev->ddev, &fb_helper->client, "radeon-fbdev",
--			      &radeon_fbdev_client_funcs);
--	if (ret) {
--		drm_err(rdev->ddev, "Failed to register client: %d\n", ret);
+-	ret = drm_client_init(dev, &helper->client, "fbdev", &tegra_fbdev_client_funcs);
+-	if (ret)
 -		goto err_drm_client_init;
--	}
 -
--	drm_client_register(&fb_helper->client);
+-	drm_client_register(&helper->client);
 -
 -	return;
 -
 -err_drm_client_init:
--	drm_fb_helper_unprepare(fb_helper);
--	kfree(fb_helper);
+-	drm_fb_helper_unprepare(helper);
+-	kfree(helper);
 -}
--
- void radeon_fbdev_set_suspend(struct radeon_device *rdev, int state)
- {
- 	if (rdev->ddev->fb_helper)
-diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
-index e0a5af180801..8e916729f393 100644
---- a/drivers/gpu/drm/radeon/radeon_mode.h
-+++ b/drivers/gpu/drm/radeon/radeon_mode.h
-@@ -38,6 +38,9 @@
- #include <linux/i2c.h>
- #include <linux/i2c-algo-bit.h>
- 
-+struct drm_fb_helper;
-+struct drm_fb_helper_surface_size;
-+
- struct edid;
- struct radeon_bo;
- struct radeon_device;
-@@ -935,12 +938,15 @@ void dce8_program_fmt(struct drm_encoder *encoder);
- 
- /* fbdev layer */
- #if defined(CONFIG_DRM_FBDEV_EMULATION)
--void radeon_fbdev_setup(struct radeon_device *rdev);
-+int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
-+				    struct drm_fb_helper_surface_size *sizes);
-+#define RADEON_FBDEV_DRIVER_OPS \
-+	.fbdev_probe = radeon_fbdev_driver_fbdev_probe
- void radeon_fbdev_set_suspend(struct radeon_device *rdev, int state);
- bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj);
- #else
--static inline void radeon_fbdev_setup(struct radeon_device *rdev)
--{ }
-+#define RADEON_FBDEV_DRIVER_OPS \
-+	.fbdev_probe = NULL
- static inline void radeon_fbdev_set_suspend(struct radeon_device *rdev, int state)
- { }
- static inline bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
 -- 
 2.46.0
 
