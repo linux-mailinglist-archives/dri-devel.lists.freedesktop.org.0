@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB12954A9A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595BD954A92
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE44310E64C;
-	Fri, 16 Aug 2024 12:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A93610E5FE;
+	Fri, 16 Aug 2024 12:54:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Sz2p/HCx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ccqst9i5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88B1610E67C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 12:57:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1723813023;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=looOAfiU4DDTvwoOvVmVttRGSbYiAApbPeTzZkmFOJc=;
- b=Sz2p/HCxjvqLdA8deZe8MHbtmwuUnOOsb0BAN70q9j/d9I2GgtCNQkGEc0eIxHGS42VLo5
- +dGnjKfl4kgxrk0WGShz7godkxG+cMP7poutwgz2nKTl0ncd0/banKwGHRlMn1zVWUHZwZ
- yTbBOc4mpHnLQNhA/260WF/DDNmejSg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-516-612EfI8lOYiiz7cLYw_KvA-1; Fri,
- 16 Aug 2024 08:57:00 -0400
-X-MC-Unique: 612EfI8lOYiiz7cLYw_KvA-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id E08F619560B4; Fri, 16 Aug 2024 12:56:57 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.28])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 55F7F19560A3; Fri, 16 Aug 2024 12:56:53 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v2 5/5] drm/log: Color the timestamp, to improve readability
-Date: Fri, 16 Aug 2024 14:52:37 +0200
-Message-ID: <20240816125612.1003295-6-jfalempe@redhat.com>
-In-Reply-To: <20240816125612.1003295-1-jfalempe@redhat.com>
-References: <20240816125612.1003295-1-jfalempe@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCB110E5FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 12:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723812899; x=1755348899;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=OSCzB+p00nSVW/dHRk7hsNkN+RR7Pek+A4z85VZMYuU=;
+ b=ccqst9i548UGMuEgqqoGlKB6DJ1xnfGu6cc2xDgTaZ5dFCb73wVoGCJj
+ RbazYnVEZ15B2oCqSDJFMKAYfRVW0AhzvDbSb9bteZtcsmxuGQuVbx/Un
+ tYKEcxyUBdp+yHJFbeVyBKdlcNAptzl1ndKi+3Mgic8uCG9Qpz12BD9LC
+ yhk/L83BXqPbboA3/mRdRlPJKyKo4tr6FLME8scAwWfHbkGq8M0dvWF4x
+ z6ioI3u53ED50KFoYG0Slqk7/MIzh6k5ZptuEXAzx6+BLWDL0vevKXnFz
+ RQcfoDBR61ed2XFzh+V76k+XlYnE1Q/acQsa7pB+8YgzBznc8AdW7bw1s Q==;
+X-CSE-ConnectionGUID: 21bkRMkBQiuUEw4TnvQL9w==
+X-CSE-MsgGUID: FJSPzrFdSYq8fJKyaPdcWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="33259272"
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="33259272"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2024 05:54:58 -0700
+X-CSE-ConnectionGUID: QDVynEIoRQ270siWOnAKdw==
+X-CSE-MsgGUID: m3JGk3tFT6SARvoiCDI1VA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="90440914"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 16 Aug 2024 05:54:54 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sewTk-0006Qs-2B;
+ Fri, 16 Aug 2024 12:54:52 +0000
+Date: Fri, 16 Aug 2024 20:54:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Huan Yang <link@vivo.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
+ Huan Yang <link@vivo.com>
+Subject: Re: [PATCH v3 5/5] udmabuf: remove udmabuf_folio
+Message-ID: <202408162012.cL9pnFSm-lkp@intel.com>
+References: <20240813090518.3252469-6-link@vivo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240813090518.3252469-6-link@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,98 +74,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Color the timesamp prefix, similar to dmesg.
+Hi Huan,
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_log.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/drm_log.c b/drivers/gpu/drm/drm_log.c
-index b94ce3ea48a0..effdf6ee20b1 100644
---- a/drivers/gpu/drm/drm_log.c
-+++ b/drivers/gpu/drm/drm_log.c
-@@ -45,6 +45,7 @@ struct drm_log_scanout {
- 	u32 format;
- 	u32 px_width;
- 	u32 front_color;
-+	u32 prefix_color;
- };
- 
- struct drm_log_client {
-@@ -186,7 +187,7 @@ static void drm_log_clear_line(struct drm_log_scanout *scanout, u32 line)
- }
- 
- static void drm_log_draw_line(struct drm_log_scanout *scanout, const char *s,
--			      unsigned int len)
-+			      unsigned int len, unsigned int prefix_len)
- {
- 	struct drm_framebuffer *fb = scanout->buffer->fb;
- 	struct iosys_map map;
-@@ -203,9 +204,10 @@ static void drm_log_draw_line(struct drm_log_scanout *scanout, const char *s,
- 
- 	iosys_map_incr(&map, r.y1 * fb->pitches[0]);
- 	for (i = 0; i < len && i < scanout->columns; i++) {
-+		u32 color = (i < prefix_len) ? scanout->prefix_color : scanout->front_color;
- 		src = drm_draw_get_char_bitmap(font, s[i], font_pitch);
- 		drm_log_blit(&map, fb->pitches[0], src, font_pitch, font->height, font->width,
--			     1, px_width, scanout->front_color);
-+			     1, px_width, color);
- 		iosys_map_incr(&map, font->width * px_width);
- 	}
- 
-@@ -217,7 +219,7 @@ static void drm_log_draw_line(struct drm_log_scanout *scanout, const char *s,
- }
- 
- static void drm_log_draw_new_line(struct drm_log_scanout *scanout,
--				  const char *s, unsigned int len)
-+				  const char *s, unsigned int len, unsigned int prefix_len)
- {
- 	if (scanout->line == 0) {
- 		drm_log_clear_line(scanout, 0);
-@@ -226,20 +228,31 @@ static void drm_log_draw_new_line(struct drm_log_scanout *scanout,
- 	} else if (scanout->line + 2 < scanout->rows)
- 		drm_log_clear_line(scanout, scanout->line + 2);
- 
--	drm_log_draw_line(scanout, s, len);
-+	drm_log_draw_line(scanout, s, len, prefix_len);
- }
- 
-+/*
-+ * Depends on print_time() in printk.c
-+ * Timestamp is written with "[%5lu.%06lu]"
-+ */
-+#define TS_PREFIX_LEN 13
-+
- static void drm_log_draw_kmsg_record(struct drm_log_scanout *scanout,
- 				     const char *s, unsigned int len)
- {
-+	u32 prefix_len = 0;
-+
-+	if (len > TS_PREFIX_LEN && s[0] == '[' && s[6] == '.' && s[TS_PREFIX_LEN] == ']')
-+		prefix_len = TS_PREFIX_LEN + 1;
- 
- 	while (len > scanout->columns) {
--		drm_log_draw_new_line(scanout, s, scanout->columns);
-+		drm_log_draw_new_line(scanout, s, scanout->columns, prefix_len);
- 		s += scanout->columns;
- 		len -= scanout->columns;
-+		prefix_len = 0;
- 	}
- 	if (len)
--		drm_log_draw_new_line(scanout, s, len);
-+		drm_log_draw_new_line(scanout, s, len, prefix_len);
- }
- 
- static u32 drm_log_find_usable_format(struct drm_plane *plane)
-@@ -279,6 +292,7 @@ static int drm_log_setup_modeset(struct drm_client_dev *client,
- 	scanout->rows = height / scanout->font->height;
- 	scanout->columns = width / scanout->font->width;
- 	scanout->front_color = drm_draw_color_from_xrgb8888(0xffffff, format);
-+	scanout->prefix_color = drm_draw_color_from_xrgb8888(0x4e9a06, format);
- 	return 0;
- }
- 
+[auto build test WARNING on 033a4691702cdca3a613256b0623b8eeacb4985e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/udmabuf-cancel-mmap-page-fault-direct-map-it/20240814-231504
+base:   033a4691702cdca3a613256b0623b8eeacb4985e
+patch link:    https://lore.kernel.org/r/20240813090518.3252469-6-link%40vivo.com
+patch subject: [PATCH v3 5/5] udmabuf: remove udmabuf_folio
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240816/202408162012.cL9pnFSm-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162012.cL9pnFSm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408162012.cL9pnFSm-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/dma-buf/udmabuf.c:175: warning: Function parameter or struct member 'ubuf' not described in 'unpin_all_folios'
+
+
+vim +175 drivers/dma-buf/udmabuf.c
+
+17a7ce20349045 Gurchetan Singh 2019-12-02  165  
+d934739404652b Huan Yang       2024-08-13  166  /**
+d934739404652b Huan Yang       2024-08-13  167   * unpin_all_folios:		unpin each folio we pinned in create
+d934739404652b Huan Yang       2024-08-13  168   * The udmabuf set all folio in folios and pinned it, but for large folio,
+d934739404652b Huan Yang       2024-08-13  169   * We may have only used a small portion of the physical in the folio.
+d934739404652b Huan Yang       2024-08-13  170   * we will repeatedly, sequentially set the folio into the array to ensure
+d934739404652b Huan Yang       2024-08-13  171   * that the offset can index the correct folio at the corresponding index.
+d934739404652b Huan Yang       2024-08-13  172   * Hence, we only need to unpin the first iterred folio.
+d934739404652b Huan Yang       2024-08-13  173   */
+d934739404652b Huan Yang       2024-08-13  174  static void unpin_all_folios(struct udmabuf *ubuf)
+c6a3194c05e7e6 Vivek Kasireddy 2024-06-23 @175  {
+d934739404652b Huan Yang       2024-08-13  176  	pgoff_t pg;
+d934739404652b Huan Yang       2024-08-13  177  	struct folio *last = NULL;
+c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  178  
+d934739404652b Huan Yang       2024-08-13  179  	for (pg = 0; pg < ubuf->pagecount; pg++) {
+d934739404652b Huan Yang       2024-08-13  180  		struct folio *tmp = ubuf->folios[pg];
+c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  181  
+d934739404652b Huan Yang       2024-08-13  182  		if (tmp == last)
+d934739404652b Huan Yang       2024-08-13  183  			continue;
+c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  184  
+d934739404652b Huan Yang       2024-08-13  185  		last = tmp;
+d934739404652b Huan Yang       2024-08-13  186  		unpin_folio(tmp);
+d934739404652b Huan Yang       2024-08-13  187  	}
+c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  188  }
+c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  189  
+
 -- 
-2.46.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
