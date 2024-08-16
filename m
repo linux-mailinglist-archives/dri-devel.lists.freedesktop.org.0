@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347B3954034
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 06:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B96954060
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 06:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 039D110E572;
-	Fri, 16 Aug 2024 04:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20CCD10E17A;
+	Fri, 16 Aug 2024 04:09:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YpulM9WS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bG4fl5XG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4BC510E572
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 04:03:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B834ECE1EB1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 04:03:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9CC3C32782
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 04:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723780986;
- bh=4GAZmM/9DtLX0KB1XpogjgnI+I82wrlfm93YsGzxfUE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=YpulM9WSv+RAreGrhLOZzVMEctYr+39PKge11VfVK/L0iyOSyvQaQ8K1Nh4Z0Kef8
- 3JckG1nkxddUT0Cm40RTBVBcNtTx4mlGmVX51ortbQ+PBYQt/F2Ejb+XB9X3E7kMVS
- EZZtSMbhzlAj6yKzStQL+wTz/LZdKHosIrhvKCgjbdslNG+8l9TQpILs9aW0IIN8Br
- NZ3mGifkhlzwBdl20pvc+b+s0FqHU9oagTwkTZ5hRz561Dm8gOhVEFMoGcnYsy7PHC
- rUrXJYQLIimZcki+QSv4m4lNpojEEa/VdY95Vwwl7ZC/0XPTvvh2kY615tkzc0wuNG
- gb48QGfABc7GA==
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-2d3e46ba5bcso309139a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 21:03:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcB0/wFHwFXVtorPMxLaxveV0zNNY5JWQFWTK6qUte8rih5b9yrG7Hp5uIyjsuaekglbb/BLfzT4U6qmME6nq3bX4E/l3K4cNmzfhZHSLf
-X-Gm-Message-State: AOJu0Yx6PhHnODCP1VpSU5+Dn4DM0e33m6YWhnE+X0zsLZTRzSz9009n
- 2amS/RbspoG5tdeQTALJ5qDR8xerKWXk+F1KUoIfptxzOFP3lfFQavCifiYgG7eWY6PogHDLMcp
- 1Lw2x/oKyjw+QrPba/bg5Y1kWyg==
-X-Google-Smtp-Source: AGHT+IEOGuaBfZk2Mttwbtdt3blKF/XU9pCPPCi7eO6Mh8VFFnf3M2v3Xsh5ll49RERqc+5RGbfiKUdsPEq0KZMsMrY=
-X-Received: by 2002:a17:90a:6fa3:b0:2c9:7616:dec7 with SMTP id
- 98e67ed59e1d1-2d3dfc2b2dbmr1932025a91.6.1723780986477; Thu, 15 Aug 2024
- 21:03:06 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EADA710E17A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 04:09:41 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a83562f9be9so164111366b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 21:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1723781380; x=1724386180; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=J9FB5ZtYyx1upxRdGOB5sK2UwyMxegssFSy87xK3ELM=;
+ b=bG4fl5XGYBNdOAL+muteUWIvebcn3dEkPvI1EyDI4P8/JTZJC1+584KxYGKEP1xLSJ
+ Mt5wp491uE2I2u6c/H29U13V/dCSvUFIcXwtM+EnESor2iXL2c0Ro/EDTjgGTIlqd08N
+ 3UUa9FWLvx1kWS8/M2vYsP6QUj4MhVCOFqRjNlwEaUxcgviQyp4JNdR3GSdTW5wFRlNk
+ +lpVCDHb4IYa29UG7NiURhiWEHk1IYDzckBdBKLw5yK1r1Usaxv3axZqUZRDcGz+pb3b
+ +01FfQqKStkBTksI9LKXKHqkSGCi4dTBAkOGBFUy2DqIEMBOAuNnRH6KHPGOJ5mI4q+6
+ 8qPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723781380; x=1724386180;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J9FB5ZtYyx1upxRdGOB5sK2UwyMxegssFSy87xK3ELM=;
+ b=OuFjRUGAMA1CzM6dtDSGKois4kwbRQzgoveX6cYUsMEWV+xcHjQENSu4luP5oZfZR4
+ iL3DnGpYgKVzTSlmGdZkavOSqAanV4qD54sZHJn1PdABqOlIDHIXHd0wjAE1fkv/dghL
+ CV7CkzuAOHfeHWex7YR5M8VwWfh4i9iBIICFoWn21QKp6ymQNXP4JNikTL9FsbJgyTEX
+ Yo44imMIGjFeD2PZn+G3blzrqqucOCI5bVKGikjxBWlSbb0tyQ39cYNNTYzoGmEzxw5B
+ +u0jOgC4mH5dlI6xtjZLrvLLIwcdBMuYv1xsYI0qmtZUWOmcFR8LJNpNlbeXSOO81NDN
+ KUgQ==
+X-Gm-Message-State: AOJu0YzI27LmIei5p1Vuij502YZ/JC5ii5QcwO0O/6DWxCdtwYk0CTpO
+ iwbJCpPXqmKD77nrSZfOgX+QCX9CFuzFvnw9uzsfZx0WEXLUUrCohKmtqDFeQegYtK+fdU+DDxW
+ 5YCzpXQWuXennGmekOLbOtO0rgbQ=
+X-Google-Smtp-Source: AGHT+IEmy+T4Ij7z6geiw2IBenuEOQ/aHEiJ6n1kf3YGpoNd78pVlQpuHTqmaAJOo9UAZ5yp8xu+p8EazorYl02G9lE=
+X-Received: by 2002:a17:906:d7d0:b0:a7a:ab1a:2d67 with SMTP id
+ a640c23a62f3a-a83928aa0e9mr114603566b.1.1723781379680; Thu, 15 Aug 2024
+ 21:09:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240703103308.10198-1-jason-jh.lin@mediatek.com>
-In-Reply-To: <20240703103308.10198-1-jason-jh.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 16 Aug 2024 12:03:18 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__xOVgdF1iEtcbXrmnM40og8XJGZ+-5K02q58XbYY3GGQ@mail.gmail.com>
-Message-ID: <CAAOTY__xOVgdF1iEtcbXrmnM40og8XJGZ+-5K02q58XbYY3GGQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Fix missing configuration flags in
- mtk_crtc_ddp_config()
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Singo Chang <singo.chang@mediatek.com>, 
- Nancy Lin <nancy.lin@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- Jeffrey Kardatzke <jkardatzke@google.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 16 Aug 2024 14:09:28 +1000
+Message-ID: <CAPM=9tx8NORNyjwOMapLrZwGEVxgVxYDmChmkLOwz1vyYUgoGw@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.11-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,132 +75,231 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
+Hi Linus,
 
-Jason-JH.Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2024=E5=B9=B47=E6=9C=883=
-=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:33=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> In mtk_crtc_ddp_config(), mtk_crtc will use some configuration flags to
-> generate instructions to cmdq_handle, such as:
->   state->pending_config
->   mtk_crtc->pending_planes
->   plane_state->pending.config
->   mtk_crtc->pending_async_planes
->   plane_state->pending.async_config
->
-> These configuration flags may be set to false when a GCE IRQ comes callin=
-g
-> ddp_cmdq_cb(). This may result in missing prepare instructions,
-> especially if mtk_crtc_update_config() with the flase need_vblank (no nee=
-d
-> to wait for vblank) cases.
->
-> Therefore, use the mtk_crtc->config_updating flag set at the beginning of
-> mtk_crtc_update_config() to ensure that these configuration flags won't b=
-e
-> changed when the mtk_crtc_ddp_config() is preparing instructions.
->
-> Fixes: 7f82d9c43879 ("drm/mediatek: Clear pending flag when cmdq packet i=
-s done")
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_crtc.c | 34 +++++++++++++++--------------
->  1 file changed, 18 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediat=
-ek/mtk_crtc.c
-> index 6f34f573e127..bc3bf0c3edd9 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-> @@ -314,30 +314,32 @@ static void ddp_cmdq_cb(struct mbox_client *cl, voi=
-d *mssg)
->
->         state =3D to_mtk_crtc_state(mtk_crtc->base.state);
->
-> -       state->pending_config =3D false;
-> +       if (!mtk_crtc->config_updating) {
-> +               state->pending_config =3D false;
+Weekly drm fixes, mostly amdgpu and xe. The larger amdgpu fix is for a
+new IP block introduced in rc1, so should be fine. The xe fixes
+contain some missed fixes from the end of the previous round along
+with some fixes which required precursor changes, but otherwise
+everything seems fine,
 
-I think if mtk_crtc->config_updating =3D=3D true, the whole clear job
-could be skipped.
-And use spin_lock to protect the clear job in irq.
+Dave.
 
-/*
-spin_lock():
-if (mtk_crtc->config_updating) {
-        spin_unlock();
-        goto out;
-}
+drm-fixes-2024-08-16:
+drm fixes for 6.11-rc4
 
-/* clear job */
+mediatek:
+- fix cursor crash
 
-spin_unlock();
-*/
-out:
+amdgpu:
+- Fix MES ring buffer overflow
+- DCN 3.5 fix
+- DCN 3.2.1 fix
+- DP MST fix
+- Cursor fixes
+- JPEG fixes
+- Context ops validation
+- MES 12 fixes
+- VCN 5.0 fix
+- HDP fix
 
-In mtk_crtc_config_update(), use spin_lock to protect mtk_crtc->config_upda=
-ting:
+panel:
+- dt bindings style fix
+- orientation quirks
 
-spin_lock();
-mtk_crtc->config_updating =3D true;
-spin_unlock();
-...
-spin_lock();
-mtk_crtc->config_updating =3D false;
-spin_unlock();
+rockchip:
+- inno-hdmi: fix infoframe upload
 
-Regards,
-Chun-Kuang.
+v3d:
+- fix OOB access in v3d_csd_job_run()
 
+xe:
+- Validate user fence during creation
+- Fix use after free when client stats are captured
+- SRIOV fixes
+- Runtime PM fixes
+The following changes since commit 7c626ce4bae1ac14f60076d00eafe71af30450ba=
+:
 
->
-> -       if (mtk_crtc->pending_planes) {
-> -               for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> -                       struct drm_plane *plane =3D &mtk_crtc->planes[i];
-> -                       struct mtk_plane_state *plane_state;
-> +               if (mtk_crtc->pending_planes) {
-> +                       for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> +                               struct drm_plane *plane =3D &mtk_crtc->pl=
-anes[i];
-> +                               struct mtk_plane_state *plane_state;
->
-> -                       plane_state =3D to_mtk_plane_state(plane->state);
-> +                               plane_state =3D to_mtk_plane_state(plane-=
->state);
->
-> -                       plane_state->pending.config =3D false;
-> +                               plane_state->pending.config =3D false;
-> +                       }
-> +                       mtk_crtc->pending_planes =3D false;
->                 }
-> -               mtk_crtc->pending_planes =3D false;
-> -       }
->
-> -       if (mtk_crtc->pending_async_planes) {
-> -               for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> -                       struct drm_plane *plane =3D &mtk_crtc->planes[i];
-> -                       struct mtk_plane_state *plane_state;
-> +               if (mtk_crtc->pending_async_planes) {
-> +                       for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> +                               struct drm_plane *plane =3D &mtk_crtc->pl=
-anes[i];
-> +                               struct mtk_plane_state *plane_state;
->
-> -                       plane_state =3D to_mtk_plane_state(plane->state);
-> +                               plane_state =3D to_mtk_plane_state(plane-=
->state);
->
-> -                       plane_state->pending.async_config =3D false;
-> +                               plane_state->pending.async_config =3D fal=
-se;
-> +                       }
-> +                       mtk_crtc->pending_async_planes =3D false;
->                 }
-> -               mtk_crtc->pending_async_planes =3D false;
->         }
->
->         mtk_crtc->cmdq_vblank_cnt =3D 0;
-> --
-> 2.18.0
->
+  Linux 6.11-rc3 (2024-08-11 14:27:14 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-08-16
+
+for you to fetch changes up to fee9d135e2fd5963a7f466cd1ef2060731a1ab29:
+
+  Merge tag 'mediatek-drm-fixes-20240805' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes (2024-08-16 13:16:47 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.11-rc4
+
+mediatek:
+- fix cursor crash
+
+amdgpu:
+- Fix MES ring buffer overflow
+- DCN 3.5 fix
+- DCN 3.2.1 fix
+- DP MST fix
+- Cursor fixes
+- JPEG fixes
+- Context ops validation
+- MES 12 fixes
+- VCN 5.0 fix
+- HDP fix
+
+panel:
+- dt bindings style fix
+- orientation quirks
+
+rockchip:
+- inno-hdmi: fix infoframe upload
+
+v3d:
+- fix OOB access in v3d_csd_job_run()
+
+xe:
+- Validate user fence during creation
+- Fix use after free when client stats are captured
+- SRIOV fixes
+- Runtime PM fixes
+
+----------------------------------------------------------------
+Alex Bee (1):
+      drm/rockchip: inno-hdmi: Fix infoframe upload
+
+Alex Deucher (2):
+      drm/amdgpu/jpeg2: properly set atomics vmid field
+      drm/amdgpu/jpeg4: properly set atomics vmid field
+
+AngeloGioacchino Del Regno (1):
+      drm/mediatek: Set sensible cursor width/height values to fix crash
+
+Bas Nieuwenhuizen (1):
+      drm/amdgpu: Actually check flags for all context ops.
+
+Bouke Sybren Haarsma (2):
+      drm: panel-orientation-quirks: Add quirk for Ayn Loki Zero
+      drm: panel-orientation-quirks: Add quirk for Ayn Loki Max
+
+Dave Airlie (4):
+      Merge tag 'amd-drm-fixes-6.11-2024-08-14' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2024-08-15' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-08-15' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'mediatek-drm-fixes-20240805' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+
+David (Ming Qiang) Wu (1):
+      drm/amd/amdgpu: command submission parser for JPEG
+
+Douglas Anderson (1):
+      dt-bindings: display: panel: samsung,atna45dc02: Fix indentation
+
+Fangzhi Zuo (1):
+      drm/amd/display: Fix MST BW calculation Regression
+
+Hamza Mahfooz (1):
+      drm/amd/display: fix s2idle entry for DCN3.5+
+
+Jack Xiao (9):
+      drm/amdgpu/mes: fix mes ring buffer overflow
+      drm/amdgpu/mes12: update mes_v12_api_def.h
+      drm/amdgpu/mes: add multiple mes ring instances support
+      drm/amdgpu/mes12: load unified mes fw on pipe0 and pipe1
+      drm/amdgpu/mes12: add mes pipe switch support
+      drm/amdgpu/mes12: adjust mes12 sw/hw init for multiple pipes
+      drm/amdgpu/mes12: configure two pipes hardware resources
+      drm/amdgpu/mes12: sw/hw fini for unified mes
+      drm/amdgpu/mes12: fix suspend issue
+
+Kenneth Feng (1):
+      drm/amd/amdgpu: add HDP_SD support on gc 12.0.0/1
+
+Loan Chen (1):
+      drm/amd/display: Enable otg synchronization logic for DCN321
+
+Matthew Brost (5):
+      drm/xe: Validate user fence during creation
+      drm/xe: Build PM into GuC CT layer
+      drm/xe: Add xe_gt_tlb_invalidation_fence_init helper
+      drm/xe: Drop xe_gt_tlb_invalidation_wait
+      drm/xe: Hold a PM ref when GT TLB invalidations are inflight
+
+Ma=C3=ADra Canal (1):
+      drm/v3d: Fix out-of-bounds read in `v3d_csd_job_run()`
+
+Melissa Wen (1):
+      drm/amd/display: fix cursor offset on rotation 180
+
+Michal Wajdeczko (2):
+      drm/xe/vf: Fix register value lookup
+      drm/xe/pf: Fix VF config validation on multi-GT platforms
+
+Rodrigo Siqueira (1):
+      drm/amd/display: Adjust cursor position
+
+Umesh Nerlige Ramappa (4):
+      drm/xe: Move part of xe_file cleanup to a helper
+      drm/xe: Add ref counting for xe_file
+      drm/xe: Take a ref to xe file when user creates a VM
+      drm/xe: Fix use after free when client stats are captured
+
+Yinjie Yao (1):
+      drm/amdgpu: Update kmd_fw_shared for VCN5
+
+ .../bindings/display/panel/samsung,atna33xc20.yaml |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |   8 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  26 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |  83 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |  16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |  27 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c             |   4 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c           |  63 ++++-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.h           |   7 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_0.c           |   1 +
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  59 ++--
+ drivers/gpu/drm/amd/amdgpu/mes_v12_0.c             | 296 +++++++++++------=
+----
+ drivers/gpu/drm/amd/amdgpu/soc15d.h                |   6 +
+ drivers/gpu/drm/amd/amdgpu/soc24.c                 |   2 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   3 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  33 ++-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    |   3 +
+ .../drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c    |   4 +-
+ .../display/dc/resource/dcn321/dcn321_resource.c   |   3 +
+ drivers/gpu/drm/amd/include/mes_v12_api_def.h      |   7 +-
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     |  12 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |   4 +-
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |   4 +-
+ drivers/gpu/drm/v3d/v3d_sched.c                    |  14 +-
+ drivers/gpu/drm/xe/xe_device.c                     |  59 +++-
+ drivers/gpu/drm/xe/xe_device.h                     |   3 +
+ drivers/gpu/drm/xe/xe_device_types.h               |   3 +
+ drivers/gpu/drm/xe/xe_drm_client.c                 |   5 +-
+ drivers/gpu/drm/xe/xe_exec_queue.c                 |  10 +-
+ drivers/gpu/drm/xe/xe_exec_queue_types.h           |   7 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         |  11 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.c                |   2 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c        | 201 +++++++-------
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h        |  12 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation_types.h  |   4 +
+ drivers/gpu/drm/xe/xe_guc_ct.c                     |  10 +-
+ drivers/gpu/drm/xe/xe_guc_submit.c                 |   4 +
+ drivers/gpu/drm/xe/xe_pt.c                         |  26 +-
+ drivers/gpu/drm/xe/xe_sync.c                       |  12 +-
+ drivers/gpu/drm/xe/xe_vm.c                         |  38 +--
+ 47 files changed, 699 insertions(+), 426 deletions(-)
