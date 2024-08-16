@@ -2,71 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD327953E4D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 02:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DC1953E54
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 02:49:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7FB10E549;
-	Fri, 16 Aug 2024 00:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5648510E116;
+	Fri, 16 Aug 2024 00:48:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="BuxttVlC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e5ITK+WQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E658510E549
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 00:30:19 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id
- 41be03b00d2f7-7163489149eso1149364a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2024 17:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1723768219; x=1724373019;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=rz5OUzDKeK1e6myajUk4xLeU7veZVkhnEruzLGaiaK4=;
- b=BuxttVlCfK1WEHgqSqTH/ie27mRavYoA77e7Pgtd6ooR22cL925DRUgvHG5/g5q3Pk
- T8M8SVJb6uWMwHOr7y/1Qsz/r6aCLwr6870rKo0dXXbejW9Y41rw7z4dl0j2xMTkQR/W
- 9lhfAsP5SmHtXm+sQREZ2LAvuKQIAOKFA8kAc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723768219; x=1724373019;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rz5OUzDKeK1e6myajUk4xLeU7veZVkhnEruzLGaiaK4=;
- b=WJ8fjGBIm4T+y/o+5Z88vIIvAsazQAR35+YaCbhapxYecdPiECrfj1RD4iFQy10zaN
- DXB5rTc4DN1Oc4fxqlI6wpwGtFHRr88nU7u4ANSvsIwW64zyjnVub+rL3DcLIXBAhj4P
- JoVQYcpcylNBp9cs9kAoyLn/MhNPf7EVxvPB+0Gy5sbTCFzsZjjxVDZpxxnMiq0jdiBm
- Mp5kQr1lbzmJEktX3pAU87dIIyVz9b17D9BDZuyjvg/1RnGwFvYIQ0wjr7GAf29jdnw3
- HLB1T4GKaasJ3TI0aI3so6FavoapbvGkiGFKukrllp3yAUjKscMUx5I1C//ZwAG4o6rT
- MsDw==
-X-Gm-Message-State: AOJu0YxKAP0HAOoNAI6SR2bS5ftMxrATJnR6ue4/PWd2TXPZ+JksqbNW
- Om8P7UTsTFCg7hTZdTIzVHNjj++F0dklgJo/sQSXJZVWz4Yrf49oXJOV/ETIAg==
-X-Google-Smtp-Source: AGHT+IE7VkXP2eZtLm+asWDhcvPkwbDtTjXACzET0Rbzbtp5WO1i+V0XkbTv73MCz2+4kee0GWSrdQ==
-X-Received: by 2002:a17:903:2310:b0:1fb:715d:df83 with SMTP id
- d9443c01a7336-20203e4f29bmr19762815ad.13.1723768219224; 
- Thu, 15 Aug 2024 17:30:19 -0700 (PDT)
-Received: from [10.211.41.59] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-201f03755fbsm15543335ad.164.2024.08.15.17.30.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Aug 2024 17:30:18 -0700 (PDT)
-Message-ID: <4e7a21ed-b8db-43a5-a8ca-a7960c24faa9@broadcom.com>
-Date: Thu, 15 Aug 2024 17:30:17 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCF610E116
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 00:48:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2BB1461479;
+ Fri, 16 Aug 2024 00:48:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AD2C32786;
+ Fri, 16 Aug 2024 00:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723769335;
+ bh=Ytv9yoDmPpxLpzsc/yRsSXmYq/2gwEitzTmx7ZSGLI4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=e5ITK+WQTBSBd0ONLrV8Z07tHWXazMUo9DUF+ybTMbIx8l9X8e7vv9fHgLRLwkL+F
+ fUFlVZCO1aZmTn7HWjJSb1AFkTLPqJqexHx6JDAUHI/lE1ooDN/ZmbwRaq0hcD2sIc
+ /F7bmJ0uF7YPbeEXlceauH+SehcI+RC1efSfm1PYPBCp+HRMArbvvawNtTwYtB8POl
+ 9zKqa00MUqjxTyPKr3oN4UM5dGM6BoxIx87kHA8X+R1VWZcpQ8zvTvKpwX3WbVenMV
+ YHtccFvyDipTPgy5bT8DeAmspcKtDeaACtk8f7jp3VsmXF75Z6u27ITubBXiFFaH7U
+ ddgfGM5Dpvcxw==
+Date: Thu, 15 Aug 2024 17:48:52 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Donald
+ Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240815174852.48bbfccf@kernel.org>
+In-Reply-To: <20240813211317.3381180-4-almasrymina@google.com>
+References: <20240813211317.3381180-4-almasrymina@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] drm/vmwgfx: Add support for userspace managed
- surfaces.
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- ian.forbes@broadcom.com, martin.krastev@broadcom.com
-References: <20240812191639.649841-1-maaz.mombasawala@broadcom.com>
- <CABQX2QPKKr6H5_sMYUkx4meTJQ_FOsTebYM0cukW4JR8d3FF4w@mail.gmail.com>
-From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Content-Language: en-US
-In-Reply-To: <CABQX2QPKKr6H5_sMYUkx4meTJQ_FOsTebYM0cukW4JR8d3FF4w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,61 +88,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/13/24 19:33, Zack Rusin wrote:
-> On Mon, Aug 12, 2024 at 3:16 PM Maaz Mombasawala
-> <maaz.mombasawala@broadcom.com> wrote:
->>
->> This series introduces basic support for userspace managed surfaces. The
->> lifetime and id's of these surfaces is managed by userspace submitted
->> commands instead of relying on the kernel to manage them.
->>
->> Maaz Mombasawala (3):
->>   drm/vmwgfx: Introduce userspace managed surfaces
->>   drm/vmwgfx: Support hw_destroy for userspace managed surfaces
->>   drm/vmwgfx: Add support for older define commands for userspace
->>     surfaces
->>
->>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  24 +-
->>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 331 ++++++++++++++++++++++--
->>  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 196 +++++++++++++-
->>  3 files changed, 518 insertions(+), 33 deletions(-)
->>
-> 
-> In general that looks great. Do you happen to have the userspace patch
-> somewhere where we could see it? In particular there are three things
-> I'm wondering about:
+On Tue, 13 Aug 2024 21:13:05 +0000 Mina Almasry wrote:
+> +int dev_get_max_mp_channel(const struct net_device *dev)
+> +{
+> +	int i, max = -1;
 
-There is a patch for mesa, I'll work on getting that upstreamed too.
+I presume the bug from yesterday is self evident once reported? :)
 
-> 1) In the first patch you mark the gb surface as may_evict = false;
-> correctly, because if user space is the thing that attaches mob's then
-> kernel can not switch them underneath but then I'd like to see how are
-> the memory pressure situations handled on the user-side,
+> +	ASSERT_RTNL();
+> +
+> +	for (i = 0; i < dev->real_num_rx_queues; i++)
+> +		if (dev->_rx[i].mp_params.mp_priv)
+> +			/* The number of queues is the idx plus 1. */
+> +			max = i + 1;
 
-I haven't tested this under memory pressure conditions. That should be a
-userspace issue though.
+The +1 is odd. The function as it stands reports min channel count.
+Not max_mp_channel, if you ask me. And if you renamed it, you don't
+have to use -1 as "not installed".
 
-> 2) Since now we allow surface destroy commands from userspace could
-> one trigger some kernel oops when running old surface defines with
-> mob_create flag set and issuing the gb surface destroy or will the
-> res->id be reset properly?
-
-For userspace managed surfaces, the driver only accepts ids in the range
-1 to 32768 (VMWGFX_NUM_GB_SURFACE) and for an old kernel managed surfaces
-it only returns ids in range starting at 53040 (VMWGFX_NUM_MOB).
-So if userspace defines a surface with the old ioctls and then tries to
-issue the gb_surface_destroy on that surface with that id then the command
-buffer submission will fail because it won't pass the res checks.
-
-> 3) how is userspace able to select whether it should self-manage the
-> mob's or let the kernel do it? i.e. what flag signifies that the
-> userspace is running on a kernel that is capable of handling this?
-
-There is no such flag right now, I will add this.
-
-> 
-> z
-
-
--- 
-Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+> +	return max;
