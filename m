@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F36954B2A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 15:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A2B954B33
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 15:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11AF910E715;
-	Fri, 16 Aug 2024 13:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEF310E726;
+	Fri, 16 Aug 2024 13:37:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QJJoqmY6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="leyUQ7Qu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3322E10E715
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 13:36:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B68A310E721;
+ Fri, 16 Aug 2024 13:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723815363; x=1755351363;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=UdpgyUFrZAf8j3dkewoxOErRAvBtqhfOMgKE6Oyyyxw=;
- b=QJJoqmY6wIFR5k3fxwyRqdwICcNOxxYhOQcTKXioFIL3+jX3a2TXoHU9
- gdZwSSD6YUQ9EuPg0DhfIm2BDKL5+RaIhzy4gKxrRV0Xpn7k/oKqK0Rki
- sA8lFAZxXI3TXIYKmk34U6w7zPNwMBsUBWWTxf+lsQPtWtj88ks2q+0NW
- YSziI3dDgS16Unf/BYrSSgzLwf3oOxSnOQQFA/V3311OfJTeriNe69EjU
- BSGJNLRtidm6jAGyivwJXGH+DhxMuVntZicovcqTP+Y+kKzKmpPWApdas
- K3V5qkqOrASlR81xE0ZTbu48Arqicmg+HsfF0+0fzRTqZISaRXuwpIAhS A==;
-X-CSE-ConnectionGUID: 78TJzqjwT1Wcz4bsIzX79Q==
-X-CSE-MsgGUID: 7xRpVNl0Q6y/ZeiHEDdjZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22270473"
-X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="22270473"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2024 06:36:03 -0700
-X-CSE-ConnectionGUID: 1xOv6KyARO2RyfklF3Cr2A==
-X-CSE-MsgGUID: 0cQkTY5FT/OOy8Hc6ngyFQ==
+ t=1723815464; x=1755351464;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SEZBzZBXmmjGtMAXyxbx4Cb7EyJbmJy+NcdrJuyqFnI=;
+ b=leyUQ7QuKynnqitftfebrUUNoe/YlJYZwa3kJK4GQSd+7D02HUX6GYey
+ heVqnIt72Tyq44q5PEIN159E4S2lG/ySi3sHkx/zFQ7HnQiYVOm4qnsT3
+ qLgsSfDjGThAqcUllIrfm1nvPawuJ7O4vVqbGEVj0N4dhQFUHtc+GQxEU
+ DT+TStLNE9cPNo3HcMnvDdSKwTdYEmrplEywtltqfpHKAlw4b4efcA60X
+ ipzfXsmFAOY32Kh3Xw8mUFZBEbEV3cvwm3b11DmglETCKiRdo2qercamF
+ 63jjCNb2aYW4TnH1IS6oXOYSep/JIVr4uu/wApaK1dbV5v8oCRyg5/3JZ w==;
+X-CSE-ConnectionGUID: 32IOy2wYSlWyeYSv4MrD7Q==
+X-CSE-MsgGUID: vfZHFTGiR6Wadt/ESn/4dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="13053087"
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="13053087"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2024 06:37:43 -0700
+X-CSE-ConnectionGUID: U5uo1LYfRQS3Pmnyqs8m9Q==
+X-CSE-MsgGUID: vcKnzizKTauf3tM08ctDUg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="90404751"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
- by orviesa002.jf.intel.com with ESMTP; 16 Aug 2024 06:35:56 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sex7R-0006Sg-37;
- Fri, 16 Aug 2024 13:35:53 +0000
-Date: Fri, 16 Aug 2024 21:35:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, linux@armlinux.org.uk,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, arnd@arndb.de, geert+renesas@glider.be,
- mpe@ellerman.id.au, rdunlap@infradead.org, dharma.b@microchip.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, manikandan.m@microchip.com
-Subject: Re: [PATCH v3 2/4] drm/bridge: add Microchip DSI controller support
- for sam9x7 SoC series
-Message-ID: <202408162158.TlOqyoUA-lkp@intel.com>
-References: <20240814105256.177319-3-manikandan.m@microchip.com>
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="59639343"
+Received: from johunt-mobl9.ger.corp.intel.com (HELO fedora..)
+ ([10.245.245.232])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2024 06:37:41 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Paulo Zanoni <paulo.r.zanoni@intel.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v8 0/6] TTM shrinker helpers and xe buffer object shrinker
+Date: Fri, 16 Aug 2024 15:37:11 +0200
+Message-ID: <20240816133717.3102-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240814105256.177319-3-manikandan.m@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,126 +71,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Manikandan,
+This series implements TTM shrinker / eviction helpers and an xe bo
+shrinker. It builds on a previous series, *and obsoletes that one*.
 
-kernel test robot noticed the following build warnings:
+https://lore.kernel.org/linux-mm/b7491378-defd-4f1c-31e2-29e4c77e2d67@amd.com/T/
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on drm-misc/drm-misc-next linus/master v6.11-rc3 next-20240816]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Where the comment about layering
+https://lore.kernel.org/linux-mm/b7491378-defd-4f1c-31e2-29e4c77e2d67@amd.com/T/#ma918844aa8a6efe8768fdcda0c6590d5c93850c9
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/dt-bindings-display-bridge-add-sam9x75-mipi-dsi-binding/20240814-234923
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240814105256.177319-3-manikandan.m%40microchip.com
-patch subject: [PATCH v3 2/4] drm/bridge: add Microchip DSI controller support for sam9x7 SoC series
-config: arm-randconfig-r071-20240816 (https://download.01.org/0day-ci/archive/20240816/202408162158.TlOqyoUA-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+now addressed, and this version also implements shmem objects for backup
+rather than direct swap-cache insertions, which was used in the previuos
+series. It turns out that with per-page backup / shrinking, shmem objects
+appears to work just as well as direct swap-cache insertions with the
+added benefit that was introduced in the previous TTM shrinker series to
+avoid running out of swap entries isn't really needed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408162158.TlOqyoUA-lkp@intel.com/
+The series earlier consisted of a LRU traversal part and the current part.
+The LRU traversal part is merged, but is still mentioned in the history
+below.
 
-smatch warnings:
-drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:293 dw_mipi_dsi_mchp_get_lane_mbps() warn: unsigned 'bpp' is never less than zero.
-drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:293 dw_mipi_dsi_mchp_get_lane_mbps() warn: error code type promoted to positive: 'bpp'
-drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:314 dw_mipi_dsi_mchp_get_lane_mbps() error: uninitialized symbol 'target_mbps'.
+Patch 1 could in theory be skipped but introduces a possibility to easily
+add or test multiple backup backends, like the direct swap-cache
+insertion or even files into fast dedicated nvme storage for for example.
 
-vim +/bpp +293 drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c
+Patch 2 introduces helpers in the ttm_pool code for page-by-page shrinking
+and recovery. It avoids having to temporarily allocate a huge amount of
+memory to be able to shrink a buffer object. It also introduces the
+possibility to immediately write-back pages if needed, since that tends
+to be a bit delayed when left to kswapd.
 
-   276	
-   277	static int dw_mipi_dsi_mchp_get_lane_mbps(void *priv_data,
-   278						  const struct drm_display_mode *mode,
-   279						  unsigned long mode_flags, u32 lanes,
-   280						  u32 format, unsigned int *lane_mbps)
-   281	{
-   282		struct dw_mipi_dsi_mchp *dsi = priv_data;
-   283		unsigned long best_freq, fvco_min, fvco_max, fin, fout;
-   284		unsigned long min_delta = ULONG_MAX, delta;
-   285		unsigned int mpclk, target_mbps, desired_mbps;
-   286		unsigned int max_mbps = dppa_map[ARRAY_SIZE(dppa_map) - 1].max_mbps;
-   287		unsigned int bpp, min_prediv, max_prediv;
-   288		unsigned int _fbdiv, best_fbdiv, _prediv, best_prediv;
-   289		u64 freq_factor;
-   290	
-   291		dsi->format = format;
-   292		bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
- > 293		if (bpp < 0) {
-   294			dev_err(dsi->dev,
-   295				"failed to get bpp for pixel format %d\n",
-   296				dsi->format);
-   297			return bpp;
-   298		}
-   299	
-   300		mpclk = DIV_ROUND_UP(mode->clock, MSEC_PER_SEC);
-   301		if (mpclk) {
-   302			/* take 1/0.8, since mbps must be bigger than bandwidth of RGB */
-   303			desired_mbps = mpclk * (bpp / lanes) * 10 / 8;
-   304			if (desired_mbps < max_mbps) {
-   305				target_mbps = desired_mbps;
-   306			} else {
-   307				dev_err(dsi->dev,
-   308					"DPHY clock frequency is out of range\n");
-   309				return -ERANGE;
-   310			}
-   311		}
-   312	
-   313		fin = clk_get_rate(dsi->pllref_clk);
- > 314		fout = target_mbps * USEC_PER_SEC;
-   315	
-   316		/* constraint: 5Mhz <= Fref / N <= 40MHz */
-   317		min_prediv = DIV_ROUND_UP(fin, 40 * USEC_PER_SEC);
-   318		max_prediv = fin / (5 * USEC_PER_SEC);
-   319	
-   320		/* constraint: 80MHz <= Fvco <= 1000Mhz */
-   321		fvco_min = 80 * USEC_PER_SEC;
-   322		fvco_max = 1000 * USEC_PER_SEC;
-   323	
-   324		for (best_freq = 0, _prediv = min_prediv; _prediv <= max_prediv; _prediv++) {
-   325			/* Fvco = Fref * M / N */
-   326			freq_factor = fout * _prediv;
-   327			do_div(freq_factor, fin);
-   328			_fbdiv = freq_factor;
-   329			/*
-   330			 * Due to the use of a "by 2 pre-scaler," the range of the
-   331			 * feedback multiplication value M is limited to even division
-   332			 * numbers, and m must be greater than 6, not bigger than 512.
-   333			 */
-   334			if (_fbdiv < 6 || _fbdiv > 512)
-   335				continue;
-   336	
-   337			_fbdiv += _fbdiv % 2;
-   338	
-   339			freq_factor = _fbdiv * fin;
-   340			do_div(freq_factor, _prediv);
-   341			if (freq_factor < fvco_min || freq_factor > fvco_max)
-   342				continue;
-   343	
-   344			delta = abs(fout - freq_factor);
-   345			if (delta < min_delta) {
-   346				best_prediv = _prediv;
-   347				best_fbdiv = _fbdiv;
-   348				min_delta = delta;
-   349				best_freq = freq_factor;
-   350			}
-   351		}
-   352	
-   353		if (best_freq) {
-   354			dsi->lane_mbps = DIV_ROUND_UP(best_freq, USEC_PER_SEC);
-   355			*lane_mbps = dsi->lane_mbps;
-   356			dsi->input_div = best_prediv;
-   357			dsi->feedback_div = best_fbdiv;
-   358		} else {
-   359			dev_err(dsi->dev, "Can not find best_freq for DPHY\n");
-   360			return -EINVAL;
-   361		}
-   362	
-   363		return 0;
-   364	}
-   365	
+Patch 3 Adds a simple error injection to the above code to help increase
+test coverage.
+
+Patch 4 Implements a shrinker helper in TTM, and exports the LRU walker.
+
+Patch 5 Implements the xe bo shrinker.
+
+Patch 6 Increases (removes) the XE_PL_TT watermark.
+
+v2:
+- Squash obsolete revision history in the patch commit messages.
+- Fix a couple of review comments by Christian
+- Don't store the mem_type in the TTM managers but in the
+  resource cursor.
+- Rename introduced TTM *back_up* function names to *backup*
+- Add ttm pool recovery fault injection.
+- Shrinker xe kunit test
+- Various bugfixes
+
+v3:
+- Address some review comments from Matthew Brost and Christian König.
+- Use the restartable LRU walk for TTM swapping and eviction.
+- Provide a POC drm_exec locking implementation for exhaustive
+  eviction. (Christian König).
+
+v4:
+- Remove the RFC exhaustive eviction part. While the path to exhaustive
+  eviction is pretty clear and demonstrated in v3, there is still some
+  drm_exec work that needs to be agreed and implemented.
+- Add shrinker power management. On some hw we need to wake when shrinking.
+- Fix the lru walker helper for -EALREADY errors.
+- Add drm/xe: Increase the XE_PL_TT watermark.
+
+v5:
+- Update also TTM kunit tests
+- Handle ghost- and zombie objects in the shrinker.
+- A couple of compile- and UAF fixes reported by Kernel Build Robot and
+  Dan Carpenter.
+
+v6:
+- Address review comments from Matthew Brost on the
+  restartable LRU traversal path.
+
+v7:
+- Split out TTM restartable LRU traversal path and merge that.
+- Adapt the review comments on that seires.
+
+v8:
+- Address review comments from Matthew Brost as detailed in the
+  respective patches.
+
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>
+Cc: <dri-devel@lists.freedesktop.org>
+
+Thomas Hellström (12):
+  drm/ttm: Allow TTM LRU list nodes of different types
+  drm/ttm: Slightly clean up LRU list iteration
+  drm/ttm: Use LRU hitches
+  drm/ttm, drm/amdgpu, drm/xe: Consider hitch moves within bulk sublist
+    moves
+  drm/ttm: Provide a generic LRU walker helper
+  drm/ttm: Use the LRU walker helper for swapping
+  drm/ttm: Use the LRU walker for eviction
+  drm/ttm: Add a virtual base class for graphics memory backup
+  drm/ttm/pool: Provide a helper to shrink pages
+  drm/ttm: Use fault-injection to test error paths
+  drm/ttm, drm/xe: Add a shrinker for xe bos
+  drm/xe: Increase the XE_PL_TT watermark
+
+ drivers/gpu/drm/Kconfig                       |  10 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |   4 +
+ drivers/gpu/drm/ttm/Makefile                  |   2 +-
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c       |   6 +-
+ drivers/gpu/drm/ttm/tests/ttm_resource_test.c |   2 +-
+ drivers/gpu/drm/ttm/ttm_backup_shmem.c        | 139 ++++++
+ drivers/gpu/drm/ttm/ttm_bo.c                  | 458 ++++++++----------
+ drivers/gpu/drm/ttm/ttm_bo_util.c             | 223 +++++++++
+ drivers/gpu/drm/ttm/ttm_device.c              |  29 +-
+ drivers/gpu/drm/ttm/ttm_pool.c                | 412 +++++++++++++++-
+ drivers/gpu/drm/ttm/ttm_resource.c            | 268 ++++++++--
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  37 ++
+ drivers/gpu/drm/xe/Makefile                   |   1 +
+ drivers/gpu/drm/xe/tests/xe_bo.c              | 118 +++++
+ drivers/gpu/drm/xe/tests/xe_bo_test.c         |   1 +
+ drivers/gpu/drm/xe/tests/xe_bo_test.h         |   1 +
+ drivers/gpu/drm/xe/xe_bo.c                    | 155 +++++-
+ drivers/gpu/drm/xe/xe_bo.h                    |  26 +
+ drivers/gpu/drm/xe/xe_device.c                |   8 +
+ drivers/gpu/drm/xe/xe_device_types.h          |   2 +
+ drivers/gpu/drm/xe/xe_shrinker.c              | 287 +++++++++++
+ drivers/gpu/drm/xe/xe_shrinker.h              |  18 +
+ drivers/gpu/drm/xe/xe_ttm_sys_mgr.c           |   3 +-
+ drivers/gpu/drm/xe/xe_vm.c                    |   4 +
+ include/drm/ttm/ttm_backup.h                  | 137 ++++++
+ include/drm/ttm/ttm_bo.h                      |  51 +-
+ include/drm/ttm/ttm_pool.h                    |   5 +
+ include/drm/ttm/ttm_resource.h                |  99 +++-
+ include/drm/ttm/ttm_tt.h                      |  20 +
+ 29 files changed, 2149 insertions(+), 377 deletions(-)
+ create mode 100644 drivers/gpu/drm/ttm/ttm_backup_shmem.c
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.c
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.h
+ create mode 100644 include/drm/ttm/ttm_backup.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.44.0
+
+
+
+Thomas Hellström (6):
+  drm/ttm: Add a virtual base class for graphics memory backup
+  drm/ttm/pool: Provide a helper to shrink pages
+  drm/ttm: Use fault-injection to test error paths
+  drm/ttm: Add a shrinker helper and export the LRU walker for driver
+    use
+  drm/xe: Add a shrinker for xe bos
+  drm/xe: Increase the XE_PL_TT watermark
+
+ drivers/gpu/drm/ttm/Makefile           |   2 +-
+ drivers/gpu/drm/ttm/ttm_backup_shmem.c | 139 +++++++++
+ drivers/gpu/drm/ttm/ttm_bo_util.c      |  65 ++++
+ drivers/gpu/drm/ttm/ttm_pool.c         | 417 ++++++++++++++++++++++++-
+ drivers/gpu/drm/ttm/ttm_tt.c           |  37 +++
+ drivers/gpu/drm/xe/Makefile            |   1 +
+ drivers/gpu/drm/xe/tests/xe_bo.c       | 225 +++++++++++++
+ drivers/gpu/drm/xe/xe_bo.c             | 166 +++++++++-
+ drivers/gpu/drm/xe/xe_bo.h             |  36 +++
+ drivers/gpu/drm/xe/xe_device.c         |   8 +
+ drivers/gpu/drm/xe/xe_device_types.h   |   2 +
+ drivers/gpu/drm/xe/xe_shrinker.c       | 289 +++++++++++++++++
+ drivers/gpu/drm/xe/xe_shrinker.h       |  18 ++
+ drivers/gpu/drm/xe/xe_ttm_sys_mgr.c    |   3 +-
+ include/drm/ttm/ttm_backup.h           | 137 ++++++++
+ include/drm/ttm/ttm_bo.h               |  17 +
+ include/drm/ttm/ttm_pool.h             |   6 +
+ include/drm/ttm/ttm_tt.h               |  29 ++
+ 18 files changed, 1565 insertions(+), 32 deletions(-)
+ create mode 100644 drivers/gpu/drm/ttm/ttm_backup_shmem.c
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.c
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.h
+ create mode 100644 include/drm/ttm/ttm_backup.h
+
+-- 
+2.44.0
+
