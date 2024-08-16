@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678DF9545A1
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 11:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE509545A6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 11:28:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F77410E57B;
-	Fri, 16 Aug 2024 09:27:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3CC910E59A;
+	Fri, 16 Aug 2024 09:28:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sRwvUPPm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a+tYWzJ6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBCA10E57B
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 09:27:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C084810E5AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 09:28:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 722986211E;
- Fri, 16 Aug 2024 09:27:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87492C4AF0E;
- Fri, 16 Aug 2024 09:27:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 211B96211E;
+ Fri, 16 Aug 2024 09:28:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57119C32782;
+ Fri, 16 Aug 2024 09:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723800463;
- bh=tDR89ak2l2SPfJ+mx0sQVNnqXSp+xVYft90d0/lUyQQ=;
+ s=k20201202; t=1723800495;
+ bh=AuimXfUTiQgApyci6+abdXRJ2G3kLinLtAqHP+vtiPk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sRwvUPPmh9bXjc46bjyA8Kwopv0dTV9T0zkI3UDuxImvam3FzzI6GPAcLLRpP344b
- X0I5TIUhUoaFUym2Y+037JUMtUxMml5NrnZ4j0f9yA5xkNuW/LsX01hx7tbrOIXj9g
- sbtICvo3h9k0FAL6SKgFRtImZLyxm+P/BHr6Tf5PeMXq+ZQfFMtXYTm88cXzgZ52JK
- pJ6EY2O4kiAAa2LbFWgDJJi6hXweFfYbDTnzzgZLHpdBZNbrZ3WdGdzFv70dFGRhDe
- Y/1KZFkaA58d1k1FawSOvpDtQJ4Exdlukg6YEqClcEpF5PxP9U/krm5l560tu6gdhk
- L+9MmbGUwKraw==
-Message-ID: <faf56b73-2143-4f5d-8e35-5cfe5f8d72d5@kernel.org>
-Date: Fri, 16 Aug 2024 11:27:33 +0200
+ b=a+tYWzJ6tCyOsrv+rK0n0tiRTplOM0hRY8xfaS+vB6ljvdezSJ/e51Er8AAF97+pa
+ vUjXXLX5pqu1UXytAsPgWbewYGE0YAFxRV3jE9L2a+Eli2ZE6Oy3bWWDdRC9ArMHZF
+ Z+762RedN9sncxqvpQEguuWP/Y0WIm+C2se38ZMZkFKDdaellOmCFywnGlAcCoFT1E
+ 6dBLU24sOEeMbAC3ZDSDizWOSm6Ol0Uw/umHpRM/7GWPiagn37ImyHgrqpf0Qpl97h
+ N/eSCiJb+VdM46iAeFEEGf5SPqdRtbJCK7rWOGqs5aELDQB4VfAG76NghaHY1Lazbf
+ T3eZsa4PXXmTg==
+Message-ID: <5f372884-8499-40a8-9c60-5f49b29a1792@kernel.org>
+Date: Fri, 16 Aug 2024 11:28:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 RESEND 2/2] drm/bridge: imx: Add i.MX93 parallel
- display format configuration support
-To: Liu Ying <victor.liu@nxp.com>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- peng.fan@nxp.com
-References: <20240816080933.440594-1-victor.liu@nxp.com>
- <20240816080933.440594-3-victor.liu@nxp.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel-simple: Add On Tat
+ Industrial Company KD50G21-40NT-A1
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
+References: <20240816085004.491494-1-victor.liu@nxp.com>
+ <20240816085004.491494-2-victor.liu@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +89,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240816080933.440594-3-victor.liu@nxp.com>
+In-Reply-To: <20240816085004.491494-2-victor.liu@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,60 +107,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/08/2024 10:09, Liu Ying wrote:
-> NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
-> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> field. Add a DRM bridge driver to support the display format configuration.
+On 16/08/2024 10:50, Liu Ying wrote:
+> Document On Tat Industrial Company KD50G21-40NT-A1 5" WVGA TFT LCD panel.
+> 
+> The LCD module specification can be found at:
+> https://cdn-shop.adafruit.com/datasheets/KD50G21-40NT-A1.pdf
 > 
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
 
-...
-
-> +
-> +static int imx93_pdfc_bridge_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct imx93_pdfc *pdfc;
-> +	int ret;
-> +
-> +	pdfc = devm_kzalloc(dev, sizeof(*pdfc), GFP_KERNEL);
-> +	if (!pdfc)
-> +		return -ENOMEM;
-> +
-> +	pdfc->regmap = syscon_node_to_regmap(dev->of_node->parent);
-> +	if (IS_ERR(pdfc->regmap)) {
-> +		ret = PTR_ERR(pdfc->regmap);
-> +		if (ret != -EPROBE_DEFER)
-> +			DRM_DEV_ERROR(dev, "failed to get regmap: %d\n", ret);
-> +		return ret;
-
-Nope, you just open-coded dev_err_probe. Syntax is - return
-dev_err_probe(). if you need wrapper for DRM, add such.
-
-> +	}
-> +
-> +	pdfc->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> +	if (IS_ERR(pdfc->next_bridge)) {
-> +		ret = PTR_ERR(pdfc->next_bridge);
-> +		if (ret != -EPROBE_DEFER)
-> +			DRM_DEV_ERROR(dev, "failed to get next bridge: %d\n", ret);
-> +		return ret;
-
-Ditto
-
-
-> +	}
-> +
-
-...
-
-> +MODULE_DESCRIPTION("NXP i.MX93 parallel display format configuration driver");
-> +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:" DRIVER_NAME);
-
-Which other driver needs this platform alias?
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
