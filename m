@@ -2,72 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5647F9552FC
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 00:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB462955303
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 00:02:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5341B10E772;
-	Fri, 16 Aug 2024 22:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2477510E843;
+	Fri, 16 Aug 2024 22:02:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="cnrrZ19m";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rlgB+i/w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF32610E772
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 22:01:28 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-70eaf5874ddso2042106b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 15:01:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1723845688; x=1724450488;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LgYbK43aGwAGDFsh2G/orDGPKoPLKqPAZlb8hVQ7jyk=;
- b=cnrrZ19mhD9M9evcSN8RNogAs6yATGNTZtl+puxx8EhJHEF1zv8IzuE1rFUN9lc532
- m1Ki4DkKcolcYJ1L5V87SEo+Gj9TxwpfPqk0+2DO3wgIZV8EUc7kWqSfRIzRGwaupx3z
- WaoYTwJgdAllfQLmTe+UOYYb11CT+blWN3yUQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723845688; x=1724450488;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LgYbK43aGwAGDFsh2G/orDGPKoPLKqPAZlb8hVQ7jyk=;
- b=E3D1kpfRz/DHQr9q+4LrbBzl3UN/7722MQhPbchrR4unNrqCCydR5GEmW+ov769Xfp
- 6djGHVn/ozJuEPCC3Kh98d5L3UxxM5UwjPjrJPhSq40aobKu+uMcVlzxhem4V+QSgzZF
- M7EhD4qjXmNMfxQ3uXgYn3s0Ntlpv7ek0KmvB7sx4E5kULljBAeZ+9mep8SLZ9ESJWO7
- ks2TuFI72P1ghyKP3WjX4g4jSLQAAh9SaP1fWyCleM03IlLecfzIvehF0wurKVPknAk7
- Zb9c3aUXeF6YCkXomGnt5lYZ3P5kWS5RaUFfiOKyadQUUx8ccx3L5FB532sO9jBnsUb6
- v42w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlMs+d/7E78po6rmjYL+Upe45Wo201DysBQQ9nFtc3vqkdOx4ps/UDmCUJRt7Tv5kDEg+rFfEk1nLUsxCjwGwNdUWw/z3wCK4hQ/zVSbe+
-X-Gm-Message-State: AOJu0YwujCPa0iLcwb/q8qBISYwsJwyEpgjlxw6G30S/yrVBAyaNHTsb
- WOKkxk7JiAX+XkYaOww+ygoCYbfGAIpkJLiwAe7IgL2SftJVkEBQdOWtuxzfCA==
-X-Google-Smtp-Source: AGHT+IETZ8eaLaE4B3x+bJR+tPYhwTevDdDt/Kt8K15TFD6sknvXCq42uH3VGHr3pU5Kqog4MIlK6A==
-X-Received: by 2002:a05:6a20:cf8b:b0:1c6:a777:4cf6 with SMTP id
- adf61e73a8af0-1c904f6e00bmr4695993637.10.1723845688003; 
- Fri, 16 Aug 2024 15:01:28 -0700 (PDT)
-Received: from [10.211.41.59] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7127add7cc8sm3055015b3a.36.2024.08.16.15.01.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Aug 2024 15:01:27 -0700 (PDT)
-Message-ID: <fd12bedc-7c71-40dc-95ee-9583b9d9ff15@broadcom.com>
-Date: Fri, 16 Aug 2024 15:01:26 -0700
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC0E210E843
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 22:02:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id E0AD6CE1FF6;
+ Fri, 16 Aug 2024 22:02:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDECFC32782;
+ Fri, 16 Aug 2024 22:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723845770;
+ bh=C7weTXHP5DZBvZKNrnFze/Hiwgy5qiIv6X3bg5485vU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rlgB+i/wdBxZDnIfAhM6wRJNvY7OgDrPc38z3dxY38q1grTJ8qJ15hpB5yxwbPRu2
+ 7tufqgtCoAjyOzZBJuYJCbtHykjrv4kug4OATK8qDplZ6T2xdO7JvqQ2Jb1VCtatqs
+ tHYBcGhPpj5OQVnc3jOpCcdJ4eig5tZkhTQ6AKnCpD62H23JuiIMMS63kIzHQf8uoL
+ hu8Yq7fL3cOZbmQ8yo0+1JZQZSmgnpw7hEDhyTsZ4Mddd6oW9NhGTFret8LeOU0exp
+ YV9w/R4SMA1h8xl+xavo5eDbC6QgZHi3ERfbmPpS8aRnEctqQ+RfFZkVEbwI5eX9gr
+ RHRQd+G1qCOFA==
+Date: Fri, 16 Aug 2024 16:02:49 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+Subject: Re: [PATCH v3 1/1] dt-bindings: display:
+ panel-simple-lvds-dual-ports: add panel-timing: true
+Message-ID: <172384576729.2335127.2343168496385011708.robh@kernel.org>
+References: <20240814191656.4035551-1-Frank.Li@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] Various prime/dumb buffer fixes
-To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
- martin.krastev@broadcom.com
-References: <20240816183332.31961-1-zack.rusin@broadcom.com>
-From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Content-Language: en-US
-In-Reply-To: <20240816183332.31961-1-zack.rusin@broadcom.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240814191656.4035551-1-Frank.Li@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,29 +66,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/16/24 11:32, Zack Rusin wrote:
-> This is the same series I've sent out earlier but with one extra patch,
-> that fixes the dumb buffer coherency on low mem systems.
+
+On Wed, 14 Aug 2024 15:16:56 -0400, Frank Li wrote:
+> Add property panel-timing: true to allow use 'panel-timing', which defined
+> in panel-common.yaml.
 > 
-> The second patch has also been updated to not use math functions.
+> Fix below warning:
+> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: panel-lvds: 'panel-timing' does not match any of the regexes: 'pinctrl-[0-9]+'
+>         from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
 > 
-> Zack Rusin (3):
->   drm/vmwgfx: Prevent unmapping active read buffers
->   drm/vmwgfx: Fix prime with external buffers
->   drm/vmwgfx: Disable coherent dumb buffers without 3d
+> Suggested-by: Liu Ying <victor.liu@nxp.com>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Change from v2 to v3
+> - move it after enable-gpios: true' to sort the referenced properties
+> alphabetically
 > 
->  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c    | 114 +++++++++++++++++++++++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      |  13 ++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h      |   3 +
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |   4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c    |  12 +--
->  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |   6 +-
->  6 files changed, 136 insertions(+), 16 deletions(-)
+> Change from v1 to v2
+> - add panel-timing instead of change to unevaluatedProperties
+> ---
+>  .../bindings/display/panel/panel-simple-lvds-dual-ports.yaml     | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
-LGTM for the series.
+Applied, thanks!
 
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-
--- 
-Maaz Mombasawala <maaz.mombasawala@broadcom.com>
