@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11299543B5
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 10:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC1D9543FA
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 10:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC3EF10E5D3;
-	Fri, 16 Aug 2024 08:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64F2610E5D5;
+	Fri, 16 Aug 2024 08:22:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TsY50GMA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VQf5FBp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C214D10E5D3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 08:11:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3869410E5D4;
+ Fri, 16 Aug 2024 08:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723795919; x=1755331919;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=B6ijVtvq333790x5NOOPZFYqaLuciwlR5s0fwIqohdM=;
- b=TsY50GMAEC69Tyx6dgmKvFzAUJYX8H3JndquPCiIVUf/lFawEAKY5JER
- LZzn90r4F6B4VeYHNqzRMDRg7OYngTgxUiQ6Wpr8Rs9QfBG1lu5P9KzHv
- 011iSAbCTMaeoDnw8/fG0fO3TuN0sOV/NGjYd9hAyRJUkeoBcSlQDssKY
- tqVYx64nuc6hqz9J8SimJYwVPGxnI4c4GPk3b+/EwLQlLObtZP1QzWr/K
- nwNstLGksGKqn7wH28GCw/zpxanGbrFjyTSOues9NE1jd2RLaUg7Nx7mG
- dZQkb5eOJpzjaqq2RGvl99EYfeZzCczUdZ1Q6wMLAprC+ceY6AJvktGql g==;
-X-CSE-ConnectionGUID: buwcGRlyQLOtXwQp44iFfw==
-X-CSE-MsgGUID: tOwQGT49TpuNc2mNhqCpyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="39598413"
-X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="39598413"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2024 01:11:58 -0700
-X-CSE-ConnectionGUID: RJ7TxJhlSvCs824BjS/Dkg==
-X-CSE-MsgGUID: c1Npsl40TTqgIy3fypTYew==
+ t=1723796577; x=1755332577;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iA501M7x+eWGO79y2wUFKc/3KW9ojoAR3YIL1ztKzAg=;
+ b=VQf5FBp6djenJ1q253fuiiU9K8wz37XV4V0+EdVV64uT9oMhDBaExvIZ
+ uN/daf/44fmPBAczrH5/5sJE4oa+23vW4hn35ZLwl4D1rXfZ+jX7wRcJG
+ ZEb8B+z5dbjlkeHsrb4HGkEWeCyOhgViLapJsHA1MDR/XrToYFouca5tZ
+ e+rRbFxreV019ACPtSKTsON9e87rWUiKCINd6ysRP0u8NpgauPBqxlkzW
+ VeUjnYTN0xE23Zl+VgOryiuaKNWTj/nUwrNj4OxJBkOIfUBKG1n1KTbTd
+ asqo1nRhQVTgzy3j436MqqxAKFGH9tAOQ6p2THpaHpNnhn3wVr1s3br4y g==;
+X-CSE-ConnectionGUID: gh77nbhRQye9Le2LsFFjhw==
+X-CSE-MsgGUID: YnTtKqdfTqutHXLS0JSPww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="44604625"
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="44604625"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2024 01:20:55 -0700
+X-CSE-ConnectionGUID: sLafJmHSRjeeMCmdU6MbFA==
+X-CSE-MsgGUID: UimII1aUQFqEa6SZkW0ZhA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="59620945"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.214])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2024 01:11:56 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH 0/9] fbdev: Use backlight power constants
-In-Reply-To: <dfa6d633-1825-4bc3-bca2-326ed18e34b9@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240731123502.1145082-1-tzimmermann@suse.de>
- <dfa6d633-1825-4bc3-bca2-326ed18e34b9@suse.de>
-Date: Fri, 16 Aug 2024 11:11:50 +0300
-Message-ID: <87ttfk7upl.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="59770547"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.213])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2024 01:20:52 -0700
+Date: Fri, 16 Aug 2024 10:20:48 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/gem: Remove unnecessary cast
+Message-ID: <Zr8L4BqjFn67UoLl@ashyti-mobl2.lan>
+References: <20240814175947.169590-1-andi.shyti@linux.intel.com>
+ <Zr5P0XW6sPGwKCrG@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zr5P0XW6sPGwKCrG@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,48 +73,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Aug 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Ping for review
+Hi Rodrigo,
 
-On the series,
+On Thu, Aug 15, 2024 at 02:58:25PM -0400, Rodrigo Vivi wrote:
+> On Wed, Aug 14, 2024 at 07:59:47PM +0200, Andi Shyti wrote:
+> > The cast from "long" to "unsigned long" is unnecessary. Remove
+> > it.
+> 
+> I don't believe we can be that bold in this statement.
+> Some static analyzer tools might not agree and tell that
+> if the start or end are negative values we could have
+> undefined behavior.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Right, but we do check for negative values before. If we reach
+this point I'm sure this is positive and I'm also sure that a
+positive long fits into an unsigned long.
 
+Maybe I should have been clearer in the commit log.
 
+> > In this case, the variables "start" and "end" are of type long
+> > because they need to account for the possibility of negative
+> > values. However, they are subsequently moved to "unsigned long"
+> > since addresses are typically handled as unsigned values.
+> 
+> right, but the static analyzer tools won't agree and complain
+> and people will start try to add this back.
+> 
+> Do we really need this patch?
 
->
-> Am 31.07.24 um 14:33 schrieb Thomas Zimmermann:
->> Commit a1cacb8a8e70 ("backlight: Add BACKLIGHT_POWER_ constants for
->> power states") introduced dedicated constants for backlight power states.
->> Convert fbdev drivers to the new constants.
->>
->> The new constants replace the fbdev constants. This is part of a larger
->> effort to make kernel subsystems more independent from fbdev code and
->> headers.
->>
->> Thomas Zimmermann (9):
->>    fbdev: atmel_lcdfb: Use backlight power constants
->>    fbdev: aty128fb: Use backlight power constants
->>    fbdev: atyfb: Use backlight power constants
->>    fbdev: chipsfb: Use backlight power constants
->>    fbdev: nvidiafb: Use backlight power constants
->>    fbdev: omapfb: Use backlight power constants
->>    fbdev: radeonfb: Use backlight power constants
->>    fbdev: rivafb: Use backlight power constants
->>    fbdev: sh_mobile_lcdc_fb: Use backlight power constants
->>
->>   drivers/video/fbdev/atmel_lcdfb.c                           | 4 ++--
->>   drivers/video/fbdev/aty/aty128fb.c                          | 6 +++---
->>   drivers/video/fbdev/aty/atyfb_base.c                        | 2 +-
->>   drivers/video/fbdev/aty/radeon_backlight.c                  | 2 +-
->>   drivers/video/fbdev/chipsfb.c                               | 2 +-
->>   drivers/video/fbdev/nvidia/nv_backlight.c                   | 2 +-
->>   drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c    | 4 ++--
->>   .../fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c      | 2 +-
->>   drivers/video/fbdev/riva/fbdev.c                            | 2 +-
->>   drivers/video/fbdev/sh_mobile_lcdcfb.c                      | 6 +++---
->>   10 files changed, 16 insertions(+), 16 deletions(-)
->>
+It's a cleanup, like removing trailing spaces, none of them is
+really needed :-)
 
--- 
-Jani Nikula, Intel
+Trivial removals of unnecessary casts are normally done around
+the kernel, but, of course we can drop this patch.
+
+Thanks,
+Andi
