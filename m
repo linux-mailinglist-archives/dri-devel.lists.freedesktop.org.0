@@ -2,59 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF77955112
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 20:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0990955122
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 20:56:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6697F10E823;
-	Fri, 16 Aug 2024 18:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C79610E824;
+	Fri, 16 Aug 2024 18:56:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="RphIE0n/";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="VvamEgFQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CFA10E823
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 18:53:12 +0000 (UTC)
-Delivered-To: boris.brezillon@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723834385; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=PvjJLdJGrEwGkNxiG1NN0bediiICmKLJEmiksHZksCtL82OQXZKQDJuYZ7ynwVsAcT8WIdc1POVTKM0doCFK4HOxfGnVyeaEMkGnLKI87yZx+aTwwR4hLvsIXCq5MPvDUJoSivDF15IT/WCSm7idGV6wbDfZCf76/ca8VEsUGIA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723834385;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ztxF76TZgv+brVRtCdzY0Nv6BgqovuZ4B6bXmanbuPU=; 
- b=J6EemvsK5sLdNa6WAmnPmPpW7drPukskC6zUJifF0bglGNR049dRhjMhOPOazJPX7bUocGCU1H85S6VsIRted2wiSWwB9AYRk0NyE8JIzMIdF9GSsbvNjWSR47uvxRDEF09aoV1QSuCRuhzHUmk9+IWZtORWtqHG7eAb+3FHlaY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723834385; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=ztxF76TZgv+brVRtCdzY0Nv6BgqovuZ4B6bXmanbuPU=;
- b=RphIE0n/lgyC6M88Ej/FBUfrrvNnKpg1yxCCKN0ywfX/RZ+WQKhzmQxmnL7YHjV+
- 3Hs/HoVT+fzRsTUUQppWUH7Ak1jX+PshN6oDNTkLCpkS+jK2VyeKQZ79/yKeee37Jlg
- UTlLABgh+99a+4fFigTcRa/ghK0HTBZfd4N7pi6Q=
-Received: by mx.zohomail.com with SMTPS id 1723834383348713.5360808921143;
- Fri, 16 Aug 2024 11:53:03 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panthor: flush FW AS caches in slow reset path
-Date: Fri, 16 Aug 2024 19:52:49 +0100
-Message-ID: <20240816185250.344080-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.46.0
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3DB910E824
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 18:56:31 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e1161ee54f7so2495112276.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 11:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1723834591; x=1724439391;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=q+RwyLKvh3UIcOVfcaxSgjkMZTMy6zOQrBzrBolUKbQ=;
+ b=VvamEgFQFAwaJvMWc76XYs/Ncw9omzAC9miSN0J3Iu5b4ZuZzgEa95WkpiNG3iAYWW
+ UIJMwzjMJlLSJ0LTR1fws0U5OCb8roXrpSb+tUgngyF1hqM4ATfkAZCEyLf6Q7BR2n6K
+ wuXZ29b5WJuey+d30lJaywEWClCNh7ef9+oTE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723834591; x=1724439391;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=q+RwyLKvh3UIcOVfcaxSgjkMZTMy6zOQrBzrBolUKbQ=;
+ b=kjMsm5PdXQiVFvEou2y3uPPQD5AL32SBmEDefgPIQK40Q0Pfs10ZcJvlNSpU/EmpQ9
+ vOTa6hyWw6Jzpsiz5VIvv3uf/KBSLqj8o+uuBOiMEOwJOR7t+Hph0DAkJ5oBcz/lSzWd
+ fqkfhHZ+tKA1sbVIo8GEbgHPkzQBjlMA5tIZ7ndhnioGx8l5DtMpkT/cZd+7ntYEXadU
+ Axszsz/ODj6mEpusArsHMZ8FzQK31Mv1pQWzGAT+y+hBOUQMJaPzlSijwM8MpJzWCDDh
+ WbJGQxFLgfNMwpbzCxtOh7bo9uCXI/ERvl6X6Plu6KZnx5qGCBpvnToNVOeqLphozjAq
+ o7eg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2q8yQDjJjpADnWzsG5so6TWhgMY43YfdQiJLh6xKYoBthbUSk6vHEpZgKJHs6a6j9V6w3VW8UZvjCPln9+XZ/uQ5KSmrq0/uFvI/NTUcW
+X-Gm-Message-State: AOJu0YwCNHFLUlvyIIJIcC/xJNDrtk19TmyOME7jzHvuDES4SScPdAYW
+ MXmndFsGjZvq4aWEA12UA73qAoN36jD5AA04+jgDTnkDLwWOXNDGqFRnUNz2uuMf/AOQoM2kqdT
+ JcRYRXj+Ov+KQCG8dInYYlyOrVNcfSpL53SVHi89clAzI9lhTqw==
+X-Google-Smtp-Source: AGHT+IEJ86OUuUV6ntheKjcJx7UnZj41T2D1bjC3vczY0XJSYxj6wSoCZ/gigl4V7uSZxjWkRVAEVYMjOlVRqfJGhXw=
+X-Received: by 2002:a05:6902:1546:b0:e0b:ab65:19c8 with SMTP id
+ 3f1490d57ef6-e11810032c4mr4637525276.48.1723834590550; Fri, 16 Aug 2024
+ 11:56:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CABQX2QM09V=+G=9T6Ax8Ad3F85hU0Cg4WqD82hTN=yhktXNDaQ@mail.gmail.com>
+ <40cf01ab-73ad-4243-b851-a02c377bdbde@mailbox.org>
+In-Reply-To: <40cf01ab-73ad-4243-b851-a02c377bdbde@mailbox.org>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Fri, 16 Aug 2024 14:56:19 -0400
+Message-ID: <CABQX2QM1A9yWCuOHV6kgi3YbPvPHz-zazkOXM6Up9RWrZ-CgPQ@mail.gmail.com>
+Subject: Re: [REGRESSION][BISECTED] vmwgfx crashes with command buffer error
+ after update
+To: Andreas Piesk <a.piesk@mailbox.org>
+Cc: bcm-kernel-feedback-list@broadcom.com, christian@heusel.eu, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com, rdkehn@gmail.com, 
+ regressions@lists.linux.dev, spender@grsecurity.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,91 +81,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the off-chance that waiting for the firmware to signal its booted status
-timed out in the fast reset path, one must flush the cache lines for the
-entire FW VM address space before reloading the regions, otherwise stale
-values eventually lead to a scheduler job timeout.
+On Thu, Aug 15, 2024 at 4:30=E2=80=AFPM Andreas Piesk <a.piesk@mailbox.org>=
+ wrote:
+>
+> Hello,
+>
+> the bug was first reported on VMware Workstation by rdkehn.
+>
+> On my setup (archlinux text mode only VM on ESXi 8.0U3 latest) the kernel=
+ does NOT crash, the screen just goes dark after switching the console from
+>
+> [    2.745694] Console: switching to colour dummy device 80x25
+>
+> to
+>
+> [    2.771998] Console: switching to colour frame buffer device 160x50
+>
+> You see the VMware remote console resizing, then going black and from thi=
+s point no more output.
+>
+> I have attached boot_journal and vmware.log from my setup. VM uses EFI bo=
+ot and SVGA with defaults as display adapter, I attached the vmx file too.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c  |  8 +++++++-
- drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++++---
- drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
- 3 files changed, 24 insertions(+), 4 deletions(-)
+Thanks! I see. I have a patch out that fixes it, but in general I
+think those vm's with 16mb for graphics are very risky and I'd suggest
+bumping them to at least 32mb. The vram portion can stay at 16mb, but
+the graphicsMemoryKB can be safely set to fourth or even half of
+memsize (in your config 256mb or even 512mb), which will make the vm's
+a lot safer and allow actual ui usage because with console being
+pinned we just don't have a lot of wiggle room otherwise and we just
+can't migrate pinned framebuffers.
+The patch that "regressed" this makes dumb buffers surface that
+actually respect pinning, but as long as you don't have gpu host side
+things will be ok. Otherwise we can't make a config with 16mb of
+available graphics memory and graphics acceleration work.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 857f3f11258a..ef232c0c2049 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -1089,6 +1089,12 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
- 		panthor_fw_stop(ptdev);
- 		ptdev->fw->fast_reset = false;
- 		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
-+
-+		ret = panthor_vm_flush_all(ptdev->fw->vm);
-+		if (ret) {
-+			drm_err(&ptdev->base, "FW slow reset failed (couldn't flush FW's AS l2cache)");
-+			return ret;
-+		}
- 	}
- 
- 	/* Reload all sections, including RO ones. We're not supposed
-@@ -1099,7 +1105,7 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
- 
- 	ret = panthor_fw_start(ptdev);
- 	if (ret) {
--		drm_err(&ptdev->base, "FW slow reset failed");
-+		drm_err(&ptdev->base, "FW slow reset failed (couldn't start the FW )");
- 		return ret;
- 	}
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index d47972806d50..a77ee5ce691d 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -874,14 +874,27 @@ static int panthor_vm_flush_range(struct panthor_vm *vm, u64 iova, u64 size)
- 	if (!drm_dev_enter(&ptdev->base, &cookie))
- 		return 0;
- 
--	/* Flush the PTs only if we're already awake */
--	if (pm_runtime_active(ptdev->base.dev))
--		ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
-+	/*
-+	 * If we made it this far, that means the device is awake, because
-+	 * upon device suspension, all active VMs are given an AS id of -1
-+	 */
-+	ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
- 
- 	drm_dev_exit(cookie);
- 	return ret;
- }
- 
-+/**
-+ * panthor_vm_flush_all() - Flush L2 caches for the entirety of a VM's AS
-+ * @vm: VM whose cache to flush
-+ *
-+ * Return: 0 on success, a negative error code if flush failed.
-+ */
-+int panthor_vm_flush_all(struct panthor_vm *vm)
-+{
-+	return panthor_vm_flush_range(vm, vm->base.mm_start, vm->base.mm_range);
-+}
-+
- static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
- {
- 	struct panthor_device *ptdev = vm->ptdev;
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-index f3c1ed19f973..6788771071e3 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.h
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-@@ -31,6 +31,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset);
- int panthor_vm_active(struct panthor_vm *vm);
- void panthor_vm_idle(struct panthor_vm *vm);
- int panthor_vm_as(struct panthor_vm *vm);
-+int panthor_vm_flush_all(struct panthor_vm *vm);
- 
- struct panthor_heap_pool *
- panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
--- 
-2.46.0
-
+z
