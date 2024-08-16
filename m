@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E115954EDE
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 18:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DACD954F14
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 18:43:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A788C10E59F;
-	Fri, 16 Aug 2024 16:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085FB10E80D;
+	Fri, 16 Aug 2024 16:43:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oRvGps54";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JRI3UACH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8602810E59F
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 16:32:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B6EFF6224C;
- Fri, 16 Aug 2024 16:32:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69ED1C32782;
- Fri, 16 Aug 2024 16:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723825959;
- bh=EPs0IqSoJTfi4M7WPh40SrWqMnzvWxfTqkGPO3jiRnQ=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=oRvGps54XkvBUTtCqz4PwCZl7oLA7IH9tpJBT1ADuMe0vfzfMDzpdpYzLAC1ik4LH
- vdgnHe0L1ZJMdePLzK2/n8meL4sxQp+mkj+HZwrHOctNNwhguboj/Rd48e9Li+z07E
- yK9Ei/NqA7mplB5BtmljWaXeKR7hW3ldvjS1Wf5G64EaiUN1OAJS4uFG0Ewv4OgaPD
- 7Prugn9ntmc07Ghhjt8RJnAFo4bo8amyyX98BMktK++lzX2OJv1UzUO/RsXsOXeKiS
- fvLUjN0JkVjVtgSM1kyUyen5cdG+47lZndKxlixyUUMJ8aEbIIhIO9/Cu8Zyqt7EOL
- CyGgpb02IGRww==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
- by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- EB42138231F8; Fri, 16 Aug 2024 16:32:39 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.11-rc4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tx8NORNyjwOMapLrZwGEVxgVxYDmChmkLOwz1vyYUgoGw@mail.gmail.com>
-References: <CAPM=9tx8NORNyjwOMapLrZwGEVxgVxYDmChmkLOwz1vyYUgoGw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tx8NORNyjwOMapLrZwGEVxgVxYDmChmkLOwz1vyYUgoGw@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-fixes-2024-08-16
-X-PR-Tracked-Commit-Id: fee9d135e2fd5963a7f466cd1ef2060731a1ab29
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 37b20e9a5810e132a21c54f858043b22671396dd
-Message-Id: <172382595844.3569819.178240747837345650.pr-tracker-bot@kernel.org>
-Date: Fri, 16 Aug 2024 16:32:38 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E292F10E80D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 16:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723826587; x=1755362587;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=s+RQV6PGC3uVHE7m6vUGArXaA2d1pLNwa8KRwlQhtxg=;
+ b=JRI3UACHr5TfrZ/gq1H/MrEtSau5eeNd8X7dXlO+0KkORtOiFSTyCvd6
+ C9Ch/N3BZEsg1/8xOA8NJPZrBw9GzcrfnbqynBArkxnYLGnfrSPdA7zas
+ 3Cln3rZv1GROS8OU2mMK1tLmmAzMBwObn79oAc8+VNOw1HMq45yWdId1w
+ G36ehCtnnjLrkN6BZTRlmuHS3ar+R20ts1Lm2eeRCLK1RAExqmpC9rf3U
+ c87RwC2J+Yl2DNQn3BeMlCOjsQiYwqeyRU8pANzj+og8/NRI/9zzKrK1q
+ a9MEG6t6zlDBW3g0MIBA21I4N9QOfXVQTUida0ppIfSe/Oh/81a9zPYqn A==;
+X-CSE-ConnectionGUID: aFSErB1fTZqgDx4vf+XOXw==
+X-CSE-MsgGUID: xUD7xgl0RP26nbWN0Uf8NA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22275354"
+X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; d="scan'208";a="22275354"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2024 09:43:06 -0700
+X-CSE-ConnectionGUID: DACMLw01TR2IEgF6vZ9iMg==
+X-CSE-MsgGUID: r5nXrdmxR42MnH/wvDMqEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; d="scan'208";a="59745117"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+ by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2024 09:43:05 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sf02Y-0006eY-2T;
+ Fri, 16 Aug 2024 16:43:02 +0000
+Date: Sat, 17 Aug 2024 00:42:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Philipp Stanner <pstanner@redhat.com>
+Subject: [drm-misc:topic/rust-drm 9/19] error[E0425]: cannot find function
+ `iounmap` in crate `bindings`
+Message-ID: <202408170035.K8VPd6FK-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,15 +68,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 16 Aug 2024 14:09:28 +1000:
+tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
+head:   ac3b90930f007514defbf06ec63a07122b02ba8a
+commit: 41bf8ed78cc51e13c60dbc7ff755a74ca968b91f [9/19] rust: add `io::Io` base type
+config: um-randconfig-001-20240816 (https://download.01.org/0day-ci/archive/20240817/202408170035.K8VPd6FK-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408170035.K8VPd6FK-lkp@intel.com/reproduce)
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-08-16
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408170035.K8VPd6FK-lkp@intel.com/
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/37b20e9a5810e132a21c54f858043b22671396dd
+All errors (new ones prefixed by >>):
 
-Thank you!
+>> error[E0425]: cannot find function `iounmap` in crate `bindings`
+   --> rust/doctests_kernel_generated.rs:2439:28
+   |
+   2439 |         unsafe { bindings::iounmap(self.0.base_addr() as _); };
+   |                            ^^^^^^^ not found in `bindings`
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
