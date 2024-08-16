@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84DC1953E54
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 02:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C7E953E65
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 02:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5648510E116;
-	Fri, 16 Aug 2024 00:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4251510E47D;
+	Fri, 16 Aug 2024 00:50:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e5ITK+WQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q/yX59CT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCF610E116
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 00:48:57 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6BA010E47D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 00:50:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2BB1461479;
- Fri, 16 Aug 2024 00:48:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AD2C32786;
- Fri, 16 Aug 2024 00:48:53 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2C153CE1B8A;
+ Fri, 16 Aug 2024 00:50:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD5FC32786;
+ Fri, 16 Aug 2024 00:50:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723769335;
- bh=Ytv9yoDmPpxLpzsc/yRsSXmYq/2gwEitzTmx7ZSGLI4=;
+ s=k20201202; t=1723769428;
+ bh=qD+gWLDqKaHuiOr76pTdf8osGmw137rkKAK9HLs+pZ0=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=e5ITK+WQTBSBd0ONLrV8Z07tHWXazMUo9DUF+ybTMbIx8l9X8e7vv9fHgLRLwkL+F
- fUFlVZCO1aZmTn7HWjJSb1AFkTLPqJqexHx6JDAUHI/lE1ooDN/ZmbwRaq0hcD2sIc
- /F7bmJ0uF7YPbeEXlceauH+SehcI+RC1efSfm1PYPBCp+HRMArbvvawNtTwYtB8POl
- 9zKqa00MUqjxTyPKr3oN4UM5dGM6BoxIx87kHA8X+R1VWZcpQ8zvTvKpwX3WbVenMV
- YHtccFvyDipTPgy5bT8DeAmspcKtDeaACtk8f7jp3VsmXF75Z6u27ITubBXiFFaH7U
- ddgfGM5Dpvcxw==
-Date: Thu, 15 Aug 2024 17:48:52 -0700
+ b=Q/yX59CTbrhndkfDiANrULjY+4RS4tIYA8vdUHOs81mKmKqU3mNdo6QRNMA69qPk+
+ aa3D+D+NqeNBD4fvkJsk84cBp/lxjlCjRtNq+moCqUIqeESyH3pgIUMOsAGWFST5pR
+ /JYsbFYK7HAYmgzHTadiwuf+aBp6oCj8CTORCdWUuveeugfHiJ41Be8OlhkFV5tItG
+ 3rOQMeK+jH82QItDhKEmWdvuQKvKc1n+2xUpQzamlfASf4dfWms2gBSAyIGLoJm8KN
+ s3IFrvCvvtAIRpumD3vuva00vpJjiZvhhUi8aKJRcHDiKt82lnzYB5uLD9UCKG+J+m
+ ygrT2UWki5oyg==
+Date: Thu, 15 Aug 2024 17:50:24 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -67,7 +67,7 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
 Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
  netdevice
-Message-ID: <20240815174852.48bbfccf@kernel.org>
+Message-ID: <20240815175024.0a87b1ca@kernel.org>
 In-Reply-To: <20240813211317.3381180-4-almasrymina@google.com>
 References: <20240813211317.3381180-4-almasrymina@google.com>
 MIME-Version: 1.0
@@ -89,21 +89,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, 13 Aug 2024 21:13:05 +0000 Mina Almasry wrote:
-> +int dev_get_max_mp_channel(const struct net_device *dev)
-> +{
-> +	int i, max = -1;
-
-I presume the bug from yesterday is self evident once reported? :)
-
-> +	ASSERT_RTNL();
+> +		if (NL_REQ_ATTR_CHECK(info->extack, attr, tb,
+> +				      NETDEV_A_QUEUE_ID)) {
+> +			err = -EINVAL;
+> +			goto err_unlock;
+> +		}
 > +
-> +	for (i = 0; i < dev->real_num_rx_queues; i++)
-> +		if (dev->_rx[i].mp_params.mp_priv)
-> +			/* The number of queues is the idx plus 1. */
-> +			max = i + 1;
+> +		if (NL_REQ_ATTR_CHECK(info->extack, attr, tb,
+> +				      NETDEV_A_QUEUE_TYPE)) {
+> +			err = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +
+> +		if (nla_get_u32(tb[NETDEV_A_QUEUE_TYPE]) !=
+> +		    NETDEV_QUEUE_TYPE_RX) {
+> +			err = -EINVAL;
+> +			goto err_unlock;
+> +		}
 
-The +1 is odd. The function as it stands reports min channel count.
-Not max_mp_channel, if you ask me. And if you renamed it, you don't
-have to use -1 as "not installed".
-
-> +	return max;
+nit: you can || these three into as single if statement
