@@ -2,83 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F75955326
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 00:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2FA955364
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 00:37:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA7BD10E013;
-	Fri, 16 Aug 2024 22:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 863AC10E84B;
+	Fri, 16 Aug 2024 22:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mGfIY3jj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kUCKfCOP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2F3210E013
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 22:12:56 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-6bf6606363fso13455206d6.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 15:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1723846375; x=1724451175;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=27Aa5uP6ynSRq3MyGqYDRl/zOjMC3BQBnPalcqJi/4g=;
- b=mGfIY3jjLMbg67hhDQpf/bTnPR5FylIS3aDM3klEX17yD52RHv17hrOIjn9x3MM04g
- T1Jo67atYCzyNvd/i60vefAwdwQxPA+cl8He1s0VaTJ0EsiZ24BtVOkLu/8fPOLzIrHm
- UUQDMy751bd9GRy99xes8kQ2Ft+b/OhB/63N0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723846375; x=1724451175;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=27Aa5uP6ynSRq3MyGqYDRl/zOjMC3BQBnPalcqJi/4g=;
- b=xC6hzEOwyjKa24cCVQkF2kXsEcgj7VJfk/Ib9B8CFdH+bqwIG+AvdOToA/y0pqGj+J
- hpRkhJwXXRqkKBIWkMktw1j6S5QJdaaFCFWMGObL6jUvOPlLWa9plJ1LukdtBwGu4bO6
- 0Yw9p35A+B3sBw+0VCfC9j7uqG/biL4DWmtA9zf31tkyQ4Q5Nz0Me41OpieSY/V3WcjI
- GMEjfZlm3bZEzxqsTBXPSorgaAPyVzyPfF0RppdbcKDPCQHse9Hc+5TX/ilUlFhpFYjB
- hQrqhuHdrNqOJI7N48uyleO/Pv7esVDl2XKrFfTsClKkxMJowwmToeiKk3WPDKf3v2VN
- mSzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMOOM4fKU4NZ5MYTvsS5tcije3s+dc0v4yhvYQDEoCD51KV90fIi5n5TNmQyqPMKg4cEGKW8j3/S4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBgfITA5XtBblQdmG//wQ5V7+w0sRC4I/F0w5Ek5lm7gzEtguO
- O9J2nK2+63/3ponFl9efGjoPwL3WBRc915bJ3Otb4i9wlAMlUBzaO6TNRVxOEyDCMeDjGgKlTAl
- BeRiau+MHLB/W/5QX2iBAFMwLnLpi/ISvJBAU
-X-Google-Smtp-Source: AGHT+IEXgJVhNBbiykq2c9JLQpgdG+hj5r76CFo72LJUCN7wWKauh3tPqJtN47pGnDcVtY+0kRff3bANoaG4a/doWjY=
-X-Received: by 2002:a05:6214:4a93:b0:6b7:9bc1:708a with SMTP id
- 6a1803df08f44-6bf7cea2549mr55681266d6.55.1723846375483; Fri, 16 Aug 2024
- 15:12:55 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 16 Aug 2024 22:12:54 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 023F110E84B
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 22:37:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0D911622D8;
+ Fri, 16 Aug 2024 22:37:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AD2C32782;
+ Fri, 16 Aug 2024 22:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723847831;
+ bh=RyCJlWYK9S6rt9Lmx7407UIS/Kt3nkIojR6T7QOcSVI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kUCKfCOPIoWnxxtaNhk3XFGhAPyv43yiKbbDVhG7Zr0kkKGjzYCAr9mcWiY+aP4m+
+ ESeW/leStl9x6YpaczZi/gZGDTjISCRl6pEUuZ64fLoD6w6fc8jAjEcVUTE753NY88
+ 5/y8QS889uZcKOAnh8p2llfxUrNGYdo4eg00NBbhL5GxfcgkWtrVOb0Qe/rQuq9Pz1
+ y/0WWsXo6MA2VkQ6Hfzhi08zHyyS4jk+fAXAQQ0vtpEjBqcPt1GYT7bItwArEtlYb2
+ s0rd0/z7RnPSVBMnoaf51tTn68B6WYxinvj5WAP+jUXvfFcRPT+ROGpCPoaXAPdKnT
+ GCxd9VQUbpDNA==
+Date: Fri, 16 Aug 2024 16:37:10 -0600
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
+ kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
+ francesco@dolcini.it, frank.li@nxp.com
+Subject: Re: [PATCH v3 06/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller command sequencer
+Message-ID: <20240816223710.GA2394350-robh@kernel.org>
+References: <20240724092950.752536-1-victor.liu@nxp.com>
+ <20240724092950.752536-7-victor.liu@nxp.com>
 MIME-Version: 1.0
-In-Reply-To: <20240815003417.1175506-1-swboyd@chromium.org>
-References: <20240815003417.1175506-1-swboyd@chromium.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 16 Aug 2024 22:12:54 +0000
-Message-ID: <CAE-0n50J3vuSKEPM5Pum+8CiQ6_X=Q0eCzyEJLkyof0awCWjow@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] platform/chrome: Add DT USB/DP muxing/topology
- support
-To: chrome-platform@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
- devicetree@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
- Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Benson Leung <bleung@chromium.org>, Conor Dooley <conor+dt@kernel.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240724092950.752536-7-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,25 +67,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Stephen Boyd (2024-08-14 17:34:05)
->
-> I'm thinking of working in changes so that the drm_dp_typec_bridge
-> registers a 'struct typec_mux_dev' as well. If that is done then we can
-> register a drm_dp_typec_bridge from the port manager and let the type-c
-> framework drive the pin assignment and orientation directly instead of
-> calling it from the port manager layer. To get there I need to add the
-> ability for a 'struct typec_mux_dev' to associate with more than one
-> typec_port (technically already done) and then make sure that the
-> cros_ec_typec driver doesn't try to enable DP altmode on the type-c port
-> that isn't muxed for DP. I'm working on this now but I'm sending this
-> out to get some feedback because I've reached a good stopping place.
->
+On Wed, Jul 24, 2024 at 05:29:37PM +0800, Liu Ying wrote:
+> i.MX8qxp Display Controller contains a command sequencer is designed to
+> autonomously process command lists.
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v3:
+> * New patch. (Rob)
+> 
+>  .../imx/fsl,imx8qxp-dc-command-sequencer.yaml | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
+> new file mode 100644
+> index 000000000000..2e0e8e40a185
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qxp Display Controller Command Sequencer
+> +
+> +description: |
+> +  The Command Sequencer is designed to autonomously process command lists.
+> +  By that it can load setups into the DC configuration and synchronize to
+> +  hardware events.  This releases a system's CPU from workload, because it
+> +  does not need to wait for certain events.  Also it simplifies SW architecture,
+> +  because no interrupt handlers are required.  Setups are read via AXI bus,
+> +  while write access to configuration registers occurs directly via an internal
+> +  bus.  This saves bandwidth for the AXI interconnect and improves the system
+> +  architecture in terms of safety aspects.
+> +
+> +maintainers:
+> +  - Liu Ying <victor.liu@nxp.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8qxp-dc-command-sequencer
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 5
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: error
+> +      - const: sw0
+> +      - const: sw1
+> +      - const: sw2
+> +      - const: sw3
+> +
+> +  fsl,iram:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: phandle pointing to the mmio-sram device node
 
-I've done this now, and it works well. I've extended the usb-switch.yaml
-file to support a third graph endpoint for DP. And I've moved the hpd
-notifying and lane remapping to be internal to the drm_dp_typec_bridge
-code so that any device that registers the auxiliary device can follow
-the usb-switch binding and connect the endpoint to the usb-c-connector
-to get hpd notifications and pin assignment basically for free.
+'sram' is the standard property for this.
 
-I'll send a v3 next week.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - interrupts
+> +  - interrupt-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8-lpcg.h>
+> +
+> +    command-sequencer@56180400 {
+> +        compatible = "fsl,imx8qxp-dc-command-sequencer";
+> +        reg = <0x56180400 0x1a4>;
+> +        clocks = <&dc0_lpcg IMX_LPCG_CLK_5>;
+> +        interrupt-parent = <&dc0_intc>;
+> +        interrupts = <36>, <37>, <38>, <39>, <40>;
+> +        interrupt-names = "error", "sw0", "sw1", "sw2", "sw3";
+> +    };
+> -- 
+> 2.34.1
+> 
