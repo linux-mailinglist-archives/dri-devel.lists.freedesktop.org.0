@@ -2,77 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77BB954D3C
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 16:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5142D954DCC
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 17:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4B510E054;
-	Fri, 16 Aug 2024 14:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C37FE10E7FA;
+	Fri, 16 Aug 2024 15:35:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XMQbS8qE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bKSTGrm8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A909E10E054
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 14:57:29 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47GA6xI9017862
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 14:57:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- qymygs/GVKuQxXMUGUzlyqRfc0plgeVS3FvPH2z+wy8=; b=XMQbS8qEnbwH7p90
- RLM19uXvZPQWmltyZ8hlVbqA5fJ2AWi6kwPn81IrE6pVIJwRcawnd6B4pQmMXMOP
- hm6JF/oCGu6VtAHzbU6cIO75bbe+hmW2UJAPqTwSs8Bm6UyynDpOLoMbWJT8ftEQ
- kMlyz5IFfCL5oXhSx2dT6QakZlz+Os2gXyxCRHGgYgbKkO+ZkhWA5TCDycWqCYh0
- u0mp6ZglsitzJYb6aqihldNgQJ6cBI2XMANGRHPAhwFWemIPTWZWxZj44Q5jLlRQ
- 1ldAd4v1sQTpnib7nfAtGHm3NgYWRm3yis0yPSyxGa9FjRbECZL5kwbgB09yM5E1
- Tvm9vw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 411rvra7y6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 14:57:27 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47GEvQc7009414
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 14:57:26 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 16 Aug
- 2024 07:57:26 -0700
-Message-ID: <442effaa-15f4-3214-2ce3-08a29eb591d7@quicinc.com>
-Date: Fri, 16 Aug 2024 08:57:24 -0600
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98AC410E7FA
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 15:35:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 124E2CE2016;
+ Fri, 16 Aug 2024 15:35:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C32C32782;
+ Fri, 16 Aug 2024 15:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723822513;
+ bh=Q18cNSCViMkznglQB7U8THt2jlE6uRjEx/JSrUARwzc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=bKSTGrm8LaF2gwztx+/6SinSoy24s5gR4CldYRBEkiNOSwgcpm7hLvrrK2gtq0Pvx
+ hMOv7Np2xjcElkjbz06G6kxT1paCcuIl6tgDnhA1FReWgEk0VrJIV5VnmY28VW+uM3
+ rZACO8v+MYhjqas3sNB0o4umHsNfCDqpROl01Mt/tH5odX/nLSTCmpnMqAFo9lHFii
+ 7gaHt6gXGlFMnEUaVC739Sgm/hKhGjvNlG4yZPxcjScZu7DwFyzYVs8aZxgV2ToxjC
+ MflEhOxEm/9blSXnL7eNEt3U0O1uRbAir3rluhSYsWuh/JjkeQLFqL1D7S/NCKi2I7
+ 8SQyYhQ0iAcDw==
+Date: Fri, 16 Aug 2024 08:35:10 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
+ Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240816083510.3386fb10@kernel.org>
+In-Reply-To: <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
+References: <20240813211317.3381180-7-almasrymina@google.com>
+ <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
+ <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
+ <31640ff4-25a6-4115-85e6-82092ce57393@gmail.com>
+ <20240815182245.2b5e3f44@kernel.org>
+ <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] MAINTAINERS: qaic: Drop Pranjal as reviewer
-Content-Language: en-US
-To: <dri-devel@lists.freedesktop.org>, <quic_carlv@quicinc.com>
-References: <20240726155310.765164-1-quic_jhugo@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240726155310.765164-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: iHqud8ZKrQpn_Kx464MURyhoX7th5fOk
-X-Proofpoint-ORIG-GUID: iHqud8ZKrQpn_Kx464MURyhoX7th5fOk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-16_08,2024-08-16_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 malwarescore=0 spamscore=0 phishscore=0
- mlxlogscore=925 priorityscore=1501 clxscore=1015 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408160108
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,27 +93,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/26/2024 9:53 AM, Jeffrey Hugo wrote:
-> Pranjal's email address is bouncing.
+On Fri, 16 Aug 2024 08:20:44 -0400 Mina Almasry wrote:
+> > I'd keep the current check with a WARN_ON_ONCE(), tho.
+> > Given the absence of tests driver developers can use.
+> > Especially those who _aren't_ supporting the feature.
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->   MAINTAINERS | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 71b739b40921..258f6236ac1c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18461,7 +18461,6 @@ F:	include/dt-bindings/clock/qcom,*
->   QUALCOMM CLOUD AI (QAIC) DRIVER
->   M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
->   R:	Carl Vanderlip <quic_carlv@quicinc.com>
-> -R:	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->   L:	linux-arm-msm@vger.kernel.org
->   L:	dri-devel@lists.freedesktop.org
->   S:	Supported
+> Yes what I have locally is the driver setting
+> netdev_rx_queue->unreadable_netmem_supported when header split is
+> turned on, and additionally a WARN_ON_ONCE around the check in core. I
+> was about to send that when I read your email. I'm hoping we don't
+> have to go through the scope creep of adding configuration via the
+> queue API, which I think is a very significant undertaking.
 
-Pushed to drm-misc-next
+I don't like adding more and more transient stuff to netdev_rx_queue.
+It's one thing if we create a temporary solution in the core, which
+we can easily redo later. It's another altogether when we expect drivers
+to keep some bit up to date across all the reconfiguration paths they
+have. Just to then got an replace that with another API.
 
--Jeff
+If the post-check works let's go with that for now.
