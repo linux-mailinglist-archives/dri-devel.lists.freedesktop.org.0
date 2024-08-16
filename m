@@ -2,78 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D582D955023
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 19:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A2B95503A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 19:48:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D8DE10E033;
-	Fri, 16 Aug 2024 17:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D795110E811;
+	Fri, 16 Aug 2024 17:48:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ExaKS6h8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RZPvsO7E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B4510E033
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 17:42:00 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47G8Yldp026847;
- Fri, 16 Aug 2024 17:41:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- w6x3V93yXeelddB4K/3iELJK/EZHe1LNqYghcj33GY4=; b=ExaKS6h8RxHALzT/
- eLWTXsqHKJl6YEaSZ5a6NOIrfNBtSMkDcV4n0rACELP6hGuRixTRYLy+sBQXNu6S
- Xli9/eQNqDtt8rZOgMAl/BqwiF3x0NlTLLSXZnZHaWIPvJxmoZVQ88aB8g408hYI
- kdFT44f7qKmAztGLyYZKqJhWuzBQkFK4bxAtk5/fe5dB+iZYg4aj1QM5MoMqcvJw
- I1N1Y9rSUesX55Eh97m9Sjrn8VUobo+fNnnVFeiAVwj0BB6xsNe/vuOcz6qdwOAC
- LRBKKogIatMcc2imQEIiOXXCPXztMMPZg47KyPzqu9AvVsCCVo/fndS0+uJQ3tud
- bwVp9A==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4123cr9b8s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Aug 2024 17:41:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47GHfqkV004705
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Aug 2024 17:41:52 GMT
-Received: from [10.110.127.113] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 16 Aug
- 2024 10:41:51 -0700
-Message-ID: <4a4b6009-f54a-4c4f-9cf7-d0e7b807e1f2@quicinc.com>
-Date: Fri, 16 Aug 2024 10:41:38 -0700
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B44010E811;
+ Fri, 16 Aug 2024 17:48:04 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2f189a2a841so22020281fa.3; 
+ Fri, 16 Aug 2024 10:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1723830482; x=1724435282; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=riGddCBVcMqSZhpZl90A7CFiqL1QqGXrr5oPhf+7eSE=;
+ b=RZPvsO7E5eRx14GBLvCrTN8SGEB6yNopKtYQzWzeKcTJNKKoh1hWD2ZhoA+1jp1NDn
+ XYsbQzIeb3y3Ld+8DRZNSj2Riuxb3lc+A41O5vBOP9jBfJxK1sNPf0f58fo9kdYbjxZ2
+ evUV5h/RCM/SyFjQONsR7JZoQe0kWFjXQSNpCgrWjTG2myTlTpfcgU7F8x+opnyEIclq
+ F105cjZYD1WZhnLP5MnTEsps2yUsAkY2SS2xYfHVCd2epCwIpe9s2i5XHR4lt/jiWrWd
+ Doz/K3uns3dfcjyVhAw/PJRBOPmUEU8A/IL9uFZd0gGN25ULWTNVNhkPkIOTC8JMRWeQ
+ QF1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723830482; x=1724435282;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=riGddCBVcMqSZhpZl90A7CFiqL1QqGXrr5oPhf+7eSE=;
+ b=ZQXvcu2Z2RYXhs50SeM3bMV1yOrKuqwySwha/m6Tmus9wquxr9E/8nT7RmXJ7wOChq
+ wofJ7c+ZES/W62FVCEpftIBoXbc37CUcjKRM4aeFY0gt2l7L71fUI+mD2YPaGesRItmY
+ uuw2pU6Rv/gIqNau1EnmUbXFRZ3Ftjetn2wCovlXQXD2mntK9HoJ6yaCfXhplfKs6e2z
+ erEW/BAyW9sLLgmpD0l6dw9OAz7BAKlZue+DONli30g3kQsJd8rTBZtSDxOW+OWp1g/g
+ 30KhrblouxUZ4ZiuZBmF4hNPLyPo3rRmIK5ePl9ojo5FZ8vlze855g4PwntQkU9TkRmk
+ 6AEQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJW8mn7SGodSle05A3x3CDntEzecK4yv3M30thVBqv+9TevznC1EGDuwKWdgItB3PoU39zipvYQNTJjYj4ZLn/olLwTsgnezaMRRQqJFQV9m5BQqR3bE8I/Fy4Bx6jiXHYMjqs4w29P4CR/ifrEa3a
+X-Gm-Message-State: AOJu0YyC9sGKW02HzVrTX+C3nGikI6nH8kRK+fimOjPJ6Pz2sdQbOUsQ
+ yrDbjXkc9fXfif93Z7Uu9uv+uNC+FajJ7g1kOzkoC9Y0sQbc8eDZaksyOjqHfpe10oZlkuK9G0t
+ /wUJa6zNbkl0W6UATufaI8Rn8UlY=
+X-Google-Smtp-Source: AGHT+IHZcHSyJ6Txw10o7YcCIzKf1ZlMMY3wB8pM2a/ajfH8agQCa9ezf0fW4JTyRoX4ydmf7qdRDClG5I7cxWTXrmY=
+X-Received: by 2002:a2e:9084:0:b0:2ef:2d58:ec24 with SMTP id
+ 38308e7fff4ca-2f3be5899a2mr23608561fa.17.1723830481402; Fri, 16 Aug 2024
+ 10:48:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm: Remove unused declaraions
-To: Zhang Zekun <zhangzekun11@huawei.com>, <robdclark@gmail.com>,
- <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <dri-devel@lists.freedesktop.org>
-References: <20240815111936.78601-1-zhangzekun11@huawei.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240815111936.78601-1-zhangzekun11@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: h7kZeAfBlMEIdZXlcft1aJKu3HWFXGqq
-X-Proofpoint-ORIG-GUID: h7kZeAfBlMEIdZXlcft1aJKu3HWFXGqq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-16_12,2024-08-16_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 adultscore=0
- mlxlogscore=598 bulkscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 mlxscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408160124
+References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
+In-Reply-To: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 16 Aug 2024 10:47:48 -0700
+Message-ID: <CAF6AEGsiu2OBbwQJO5nS55CAQtCvKebc59-mu2h0BDiu4C2gxg@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Preemption support for A7XX
+To: Antonino Maniscalco <antomani103@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,27 +87,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Aug 15, 2024 at 11:27=E2=80=AFAM Antonino Maniscalco
+<antomani103@gmail.com> wrote:
+>
+> This series implements preemption for A7XX targets, which allows the GPU =
+to
+> switch to an higher priority ring when work is pushed to it, reducing lat=
+ency
+> for high priority submissions.
+>
+> This series enables L1 preemption with skip_save_restore which requires
+> the following userspace patches to function:
+>
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
+>
+> A flag is added to `msm_gem_submit` to only allow submissions from compat=
+ible
+> userspace to be preempted, therefore maintaining compatibility.
 
+I guess this last para is from an earlier iteration of this series?
+Looks like instead you are making this a submitqueue flag (which is an
+approach that I prefer)
 
-On 8/15/2024 4:19 AM, Zhang Zekun wrote:
-> The definition of msm_atomic_state_clear() and msm_atomic_state_free()
-> has been removed since commit c21c731d93e8 ("drm/msm: Don't subclass
-> drm_atomic_state anymore").
-> 
-> Also, the definition of msm_dsi_host_set_src_pll() has been removed
-> since commit 9b077c1581cf ("drm/msm/dsi: stop setting clock parents
-> manually"). So, let's remove this unused declarations.
-> 
-> Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+BR,
+-R
+
+> Some commits from this series are based on a previous series to enable
+> preemption on A6XX targets:
+>
+> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeau=
+rora.org
+>
+> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 > ---
->   drivers/gpu/drm/msm/dsi/dsi.h | 2 --
->   drivers/gpu/drm/msm/msm_drv.h | 2 --
->   2 files changed, 4 deletions(-)
-> 
-
-It looks like you did not run get_maintainers.pl because freedreno list 
-is not CCed on this. For future reference, please do to get our attention.
-
-The change itself is fine, hence
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Antonino Maniscalco (7):
+>       drm/msm: Fix bv_fence being used as bv_rptr
+>       drm/msm: Add submitqueue setup and close
+>       drm/msm: Add a `preempt_record_size` field
+>       drm/msm/A6xx: Implement preemption for A7XX targets
+>       drm/msm/A6xx: Add traces for preemption
+>       drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
+>       drm/msm/A6xx: Enable preemption for A7xx targets
+>
+>  drivers/gpu/drm/msm/Makefile              |   1 +
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c |   3 +
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 339 ++++++++++++++++++++++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 ++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 441 ++++++++++++++++++++++++=
+++++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   |   1 +
+>  drivers/gpu/drm/msm/msm_gpu.h             |   7 +
+>  drivers/gpu/drm/msm/msm_gpu_trace.h       |  28 ++
+>  drivers/gpu/drm/msm/msm_ringbuffer.h      |   8 +
+>  drivers/gpu/drm/msm/msm_submitqueue.c     |  10 +
+>  include/uapi/drm/msm_drm.h                |   5 +-
+>  11 files changed, 995 insertions(+), 16 deletions(-)
+> ---
+> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+> change-id: 20240815-preemption-a750-t-fcee9a844b39
+>
+> Best regards,
+> --
+> Antonino Maniscalco <antomani103@gmail.com>
+>
