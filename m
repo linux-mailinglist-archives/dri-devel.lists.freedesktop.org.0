@@ -2,108 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B85954A80
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24BE9548AE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:24:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA2F10E602;
-	Fri, 16 Aug 2024 12:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE7A10E452;
+	Fri, 16 Aug 2024 12:23:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DyrpS7gt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x4FrcBD7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DyrpS7gt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x4FrcBD7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aYqtBBdg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856FB10E6F5;
- Fri, 16 Aug 2024 12:54:36 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 27EF82288B;
- Fri, 16 Aug 2024 12:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723812875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jr0GyWTDQ7Hr5aziWI9ND9fDtmidChf7W4Xbb7I/avg=;
- b=DyrpS7gtC2RDZJ6tF4xX+DNbj+zKgncHHW735Mz65iEwt/jGmV04PMkvxccWGngVSZKqEV
- JBBbC+gxEeOaMm57c3vl0hwH0phwZnv1i6cn+S1VKGZcXqBQ3pyrsZ56hYxpuVTwv6eyrU
- uTt7OeTgg8dfcqZdRPX/r3N17r0PGN4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723812875;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jr0GyWTDQ7Hr5aziWI9ND9fDtmidChf7W4Xbb7I/avg=;
- b=x4FrcBD7cOy8BZOY0IHP22MrpZr4pnsKOtxVlSsLMjPqQEAmZB/r0RV6GT897tQmauQ4hK
- lSD1RLLDWImfduBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1723812875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jr0GyWTDQ7Hr5aziWI9ND9fDtmidChf7W4Xbb7I/avg=;
- b=DyrpS7gtC2RDZJ6tF4xX+DNbj+zKgncHHW735Mz65iEwt/jGmV04PMkvxccWGngVSZKqEV
- JBBbC+gxEeOaMm57c3vl0hwH0phwZnv1i6cn+S1VKGZcXqBQ3pyrsZ56hYxpuVTwv6eyrU
- uTt7OeTgg8dfcqZdRPX/r3N17r0PGN4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1723812875;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jr0GyWTDQ7Hr5aziWI9ND9fDtmidChf7W4Xbb7I/avg=;
- b=x4FrcBD7cOy8BZOY0IHP22MrpZr4pnsKOtxVlSsLMjPqQEAmZB/r0RV6GT897tQmauQ4hK
- lSD1RLLDWImfduBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C68A413A2F;
- Fri, 16 Aug 2024 12:54:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id EOE+LwpMv2bdbgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Aug 2024 12:54:34 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH 69/86] drm/nouveau: Run DRM default client setup
-Date: Fri, 16 Aug 2024 14:23:35 +0200
-Message-ID: <20240816125408.310253-70-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240816125408.310253-1-tzimmermann@suse.de>
-References: <20240816125408.310253-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2FD10E452;
+ Fri, 16 Aug 2024 12:23:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723811038; x=1755347038;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=0XjBuQ5Ujk4jTqxw19KMbPoC57UVqxNo9JAgL8Zw148=;
+ b=aYqtBBdgNnNTSV5pfAszHc7lgscHK0UzHc01ktKYC3lfFZjo0+opPpN2
+ 4CGEVnstYDzgptBz1bTXFXn+I2617VLhkrt6QB42zVIaqyW6vxj3Lv3lX
+ WgO9zFWC1U0GSJdK588geEg4Shrn7ZLN1Q0zd67o8grF964usTZ/nNi8g
+ jNo1YO/ZJc9aH0dNk79EtOKUZXRcc5/n9XQpzYei8uGNUzVeVwbxO9RYm
+ 3wkIfTwoDsx8kMjXuM2NEAY/0CtTV3+8Kjn1RNtKAjyprgEKa5/UQ4lyY
+ ++30kDoNYZA8xJ0pyKZtBwBiMBm4kdo44dHULc7xO6oOgzwDWbMuSQboH w==;
+X-CSE-ConnectionGUID: pZW+88LESpmehENVouP8Ng==
+X-CSE-MsgGUID: whSn46kZSq64NoOFo4Sgeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22250473"
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="22250473"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2024 05:23:57 -0700
+X-CSE-ConnectionGUID: jTI0ERjdQYOOOYnshjCUog==
+X-CSE-MsgGUID: S9gzk8e6RFu1PRuXaiBdrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; d="scan'208";a="60218489"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 16 Aug 2024 05:23:54 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sevzj-0006Os-1J;
+ Fri, 16 Aug 2024 12:23:51 +0000
+Date: Fri, 16 Aug 2024 20:23:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>,
+ Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
+Message-ID: <202408161951.81zgvcJ5-lkp@intel.com>
+References: <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
- RCPT_COUNT_TWELVE(0.00)[13]; MIME_TRACE(0.00)[0:+];
- TO_DN_SOME(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- R_RATELIMIT(0.00)[to_ip_from(RLw9gjjhh8cousxs3wi4trssza)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,55 +80,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call drm_client_setup() to run the kernel's default client setup
-for DRM. Set fbdev_probe in struct drm_driver, so that the client
-setup can start the common fbdev client.
+Hi Antonino,
 
-The nouveau driver specifies a preferred color mode depending on
-the available video memory, with a default of 32. Adapt this for
-the new client interface.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_drm.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+[auto build test WARNING on 7c626ce4bae1ac14f60076d00eafe71af30450ba]
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 4a9a9b9c3935..445ebedf70d6 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -31,6 +31,7 @@
- #include <linux/dynamic_debug.h>
- 
- #include <drm/drm_aperture.h>
-+#include <drm/drm_client_setup.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_ttm.h>
- #include <drm/drm_gem_ttm_helper.h>
-@@ -873,9 +874,9 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
- 		goto fail_pci;
- 
- 	if (drm->client.device.info.ram_size <= 32 * 1024 * 1024)
--		drm_fbdev_ttm_setup(drm->dev, 8);
-+		drm_client_setup(drm->dev, drm_format_info(DRM_FORMAT_C8));
- 	else
--		drm_fbdev_ttm_setup(drm->dev, 32);
-+		drm_client_setup(drm->dev, NULL);
- 
- 	quirk_broken_nv_runpm(pdev);
- 	return 0;
-@@ -1317,6 +1318,8 @@ driver_stub = {
- 	.dumb_create = nouveau_display_dumb_create,
- 	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
- 
-+	DRM_FBDEV_TTM_DRIVER_OPS,
-+
- 	.name = DRIVER_NAME,
- 	.desc = DRIVER_DESC,
- #ifdef GIT_REVISION
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonino-Maniscalco/drm-msm-Fix-bv_fence-being-used-as-bv_rptr/20240816-023442
+base:   7c626ce4bae1ac14f60076d00eafe71af30450ba
+patch link:    https://lore.kernel.org/r/20240815-preemption-a750-t-v1-4-7bda26c34037%40gmail.com
+patch subject: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
+config: i386-buildonly-randconfig-001-20240816 (https://download.01.org/0day-ci/archive/20240816/202408161951.81zgvcJ5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408161951.81zgvcJ5-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408161951.81zgvcJ5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/msm/adreno/a6xx_preempt.c: In function 'update_wptr':
+>> drivers/gpu/drm/msm/adreno/a6xx_preempt.c:49:24: warning: unused variable 'cur_wptr' [-Wunused-variable]
+      49 |         uint32_t wptr, cur_wptr;
+         |                        ^~~~~~~~
+
+
+vim +/cur_wptr +49 drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+
+    44	
+    45	/* Write the most recent wptr for the given ring into the hardware */
+    46	static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+    47	{
+    48		unsigned long flags;
+  > 49		uint32_t wptr, cur_wptr;
+    50	
+    51		if (!ring)
+    52			return;
+    53	
+    54		spin_lock_irqsave(&ring->preempt_lock, flags);
+    55	
+    56		if (ring->skip_inline_wptr) {
+    57			wptr = get_wptr(ring);
+    58	
+    59			gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
+    60	
+    61			ring->skip_inline_wptr = false;
+    62		}
+    63	
+    64		spin_unlock_irqrestore(&ring->preempt_lock, flags);
+    65	}
+    66	
+
 -- 
-2.46.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
