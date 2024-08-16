@@ -2,77 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16AD9548B8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1167B954A95
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 303D610E511;
-	Fri, 16 Aug 2024 12:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 351CE10E61C;
+	Fri, 16 Aug 2024 12:56:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Qk/kjwq/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gFH7adOw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B521410E4DB
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 12:30:11 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53301d46c54so2681297e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 05:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1723811409; x=1724416209;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w96eQaH+JFVwUc2NHdKcq4o8sWhYVnxpQd6m10yEznM=;
- b=Qk/kjwq/EO1on53z+qyDO6+XK+Lgr8hig8wTss4VR8JN1BGrHArX9zaj/1ZrgUz0iY
- moLyXh0G4Emx6kWSrlGD5ImN/yFgNptwgsNMT0JU0sU45kctp+IdgdknHM4/qMPjLSjT
- mczNJaiT3vArDowhMGzezCbsuWHCpI8dv+nfxam5X0HcBXr8fevRMyzekRD2jsjFh6bz
- OmCKneb/4LkyZ1P1Hg6X5He7WxaYNf84NaQxbr46zT05MTGlUBeG8QqxM8RGOwgFwM0N
- WTvoTUTQSu1SpjZpa1sajOBW7TtGFMoaGyn7TjLQIaYUPeD5JNxsSl2h3LculuSOEArT
- 7UVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723811409; x=1724416209;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w96eQaH+JFVwUc2NHdKcq4o8sWhYVnxpQd6m10yEznM=;
- b=FgiSaFaGZMQK0jQ5K1fU2TVpkbXpedjnHHzgmM5dB1y4QnRcgqxLyCfIRiT4YA7R8u
- sm97BFh0IWeKVnvFOA/Ws4bfUZZ2KSyOAzkXxEO6vhe/jZ7uJeYsQE9QYBYu1nCs9o+V
- IrD518LyjCK/S9YU9WlrzfKm52XHy9aE4b7GxghjQFy3e5g5nD+RDS8jiKG+EADfe4bY
- popybBdZE0qLi8muWqojZdg74/WdM6qTAIy1/ZunxXQLzDCc+XsZ96QG2WkHOpcOenLh
- g0xmMeWYz2u/ZF8agzTJJuA6UtLAr/CJOBSv9XcZ9rxm3CTzodxM8WjVannYp8FwErfq
- FbZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXS86No/BJTG5/qGVyoCntiP6ESQzaPDOBC99K6rsxOnN6bH8Kc1Cfr64nX6bU6f9wT77YD/9J1LjL7CVmGL5tvn8crQb7F5u0cHIt1O6+U
-X-Gm-Message-State: AOJu0YxQEy7jePB7kOkXQCKeQeOXKOFJ1UDDyV7Bh0fYAQIn5Wu0dJPa
- Sc1lcVRwciN7jsid6xmH/fwTsvUFggn3WQLOCMg4QphTr/hj0zykBLf5gV9C7/lXKjYHpr4Tu0P
- 2hc6jE61pzwINIgR8Ow1pC8d9fpmxDVI65Sxzzg==
-X-Google-Smtp-Source: AGHT+IFZaK4vjw4Aem+81rYMCtAGdtY0O6D4wq9Y8v3rCLdzZcg4Vb5soplVtVkp/6l3JtM6+jGW1KtRA1lR1iP6gzQ=
-X-Received: by 2002:a05:6512:3dab:b0:52c:c5c4:43d4 with SMTP id
- 2adb3069b0e04-5331c6f0065mr1560017e87.53.1723811408941; Fri, 16 Aug 2024
- 05:30:08 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC5510E08F
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 12:56:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1723813003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PbvZorZrTLiJIcsIRreQJ4q0L+3ldT0TNULndS/qqPA=;
+ b=gFH7adOwmhAlRAIk9AkST3yZP1J1Z5I477p/PnQUIJvgQbiyR9gLQZkVWqBlu7LBYEIWW2
+ cdc/Y5khUmsceJyFCKcKFrjtlo+gNUsMyaFu7XoOnKPvwC9FP4RU1/y+Y+Da+YTP2iHM2J
+ I0zyzvTGGfAYVEgIpfBHe/W9ItwgzO0=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-595-L73TajsFPAivaDBHb4TVDg-1; Fri,
+ 16 Aug 2024 08:56:38 -0400
+X-MC-Unique: L73TajsFPAivaDBHb4TVDg-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id D50BB1955BF1; Fri, 16 Aug 2024 12:56:36 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.28])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 9F71719560A3; Fri, 16 Aug 2024 12:56:32 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [RFC PATCH v2 0/5] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Date: Fri, 16 Aug 2024 14:52:32 +0200
+Message-ID: <20240816125612.1003295-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-References: <20240816102345.16481-1-brgl@bgdev.pl>
- <c0af2eec-c289-4147-aca2-aac438451f5e@kernel.org>
-In-Reply-To: <c0af2eec-c289-4147-aca2-aac438451f5e@kernel.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 16 Aug 2024 14:29:56 +0200
-Message-ID: <CAMRc=MdmgcRUfYGo25spPOKqjpebiaZUP34B7PuuoAxMAupAYA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: misc: qcom,
- fastrpc: document new domain ID
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Tengfei Fan <quic_tengfan@quicinc.com>, Ling Xu <quic_lxu5@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,41 +73,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 16, 2024 at 1:21=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 16/08/2024 12:23, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > Add "cdsp1" as the new supported label for the CDSP1 fastrpc domain.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > ---
-> >  Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b=
-/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> > index c27a8f33d8d7..2a5b18982804 100644
-> > --- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> > +++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> > @@ -26,6 +26,7 @@ properties:
-> >        - mdsp
-> >        - sdsp
-> >        - cdsp
-> > +      - cdsp1
->
-> Are there more than one cdsp domains? Why adding suffixes? Driver source
-> code does not have "cdsp1" domain, so this is confusing.
->
-> Best regards,
-> Krzysztof
->
+drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
+This is not a full replacement to fbcon, as it will only print the kmsg.
+It will never handle user input, or a terminal because this is better done in userspace.
 
-It does, Srini picked up this patch earlier today. I'm not an expert
-in fast RPC but it looks like the domain ID number matters here.
+If you're curious on how it looks like, I've put a small demo here:
+https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
 
-Bart
+Design decisions:
+  * It uses the drm_client API, so it should work on all drm drivers from the start.
+  * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
+    It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
+  * It uses a circular buffer so the console->write() callback is very quick, and will never stall.
+  * Drawing is done asynchronously using a workqueue.
+  * drm_log can only be built-in (and drm must be built-in too).
+    The reason is that, if you build it as a module, then a userspace application will be more appropriate than this module.
+  * When nbcon will be ready, I will use it. It should simplify this a lot, but I prefer not to depend on it yet.
+ 
+The first patch is not for review/merge, it's a squash of my pending drm_panic series:
+https://patchwork.freedesktop.org/series/135944/
 
-[1] https://lore.kernel.org/all/20240805-topic-sa8775p-iot-remoteproc-v4-4-=
-86affdc72c04@linaro.org/
+The second patch, moves the drawing function from drm_panic.c, to drm_draw.c, so they can be re-used by drm_log.
+The next patches are the actual drm_log implementation.
+
+v2:
+ * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+ * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+ * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+ * Add color support for the timestamp prefix, like what dmesg does.
+ * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
+
+Thanks and best regards,
+
+-- 
+
+Jocelyn
+
+Jocelyn Falempe (5):
+  [NOT FOR REVIEW] drm/panic: Squash of pending series
+  drm/panic: Move drawing functions to drm_draw
+  drm/log: Introduce a new boot logger to draw the kmsg on the screen
+  drm/log: Do not draw if drm_master is taken
+  drm/log: Color the timestamp, to improve readability
+
+ drivers/gpu/drm/Kconfig             |   50 ++
+ drivers/gpu/drm/Makefile            |    4 +
+ drivers/gpu/drm/drm_crtc_internal.h |    4 +
+ drivers/gpu/drm/drm_draw.c          |  216 ++++++
+ drivers/gpu/drm/drm_draw.h          |   56 ++
+ drivers/gpu/drm/drm_drv.c           |    5 +
+ drivers/gpu/drm/drm_log.c           |  515 ++++++++++++++
+ drivers/gpu/drm/drm_log.h           |   11 +
+ drivers/gpu/drm/drm_panic.c         |  569 ++++++++-------
+ drivers/gpu/drm/drm_panic_qr.rs     | 1003 +++++++++++++++++++++++++++
+ include/drm/drm_rect.h              |   15 +
+ 11 files changed, 2193 insertions(+), 255 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_draw.c
+ create mode 100644 drivers/gpu/drm/drm_draw.h
+ create mode 100644 drivers/gpu/drm/drm_log.c
+ create mode 100644 drivers/gpu/drm/drm_log.h
+ create mode 100644 drivers/gpu/drm/drm_panic_qr.rs
+
+
+base-commit: 8befe8fa5a4e4b30787b17e078d9d7b5cb92ea19
+-- 
+2.46.0
+
