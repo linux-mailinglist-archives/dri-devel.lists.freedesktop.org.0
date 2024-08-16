@@ -2,34 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752D39549B9
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495049549BD
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 14:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B835810E67E;
-	Fri, 16 Aug 2024 12:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B44210E68B;
+	Fri, 16 Aug 2024 12:54:28 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="o4abSWHY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rZunmR5y";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o4abSWHY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rZunmR5y";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D48010E624;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE7510E610;
  Fri, 16 Aug 2024 12:54:22 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 219B7200BC;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 910C622316;
  Fri, 16 Aug 2024 12:54:21 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723812861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FWxTWsvgN5fXLWGcI6d0R+QGPKfzj7NQLJ3W/1/yNF8=;
+ b=o4abSWHYU2xz0/M3QbdJ4a6Uo3tHkFJ1Tao9Z9ddTJrvdzX1BzpTzs9/e7zvqHLCeEJniv
+ yN+ehA2ZZE9vXWJZkeRCsGPDP08hwullGL6/D0g1NGDKAe9TifstqyDqKlIfmjFBKuBDGL
+ 4kmJBBTh6vnvCVk1Hpu89H1No3GJ9Mw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723812861;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FWxTWsvgN5fXLWGcI6d0R+QGPKfzj7NQLJ3W/1/yNF8=;
+ b=rZunmR5ytRRuKiL9ZNxHkc+OiG7InyKMn08mIMvIOltoLCxiud1Pktisx9ko7ecMl/AC2v
+ I10QD/Z4+jMOiKCQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1723812861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FWxTWsvgN5fXLWGcI6d0R+QGPKfzj7NQLJ3W/1/yNF8=;
+ b=o4abSWHYU2xz0/M3QbdJ4a6Uo3tHkFJ1Tao9Z9ddTJrvdzX1BzpTzs9/e7zvqHLCeEJniv
+ yN+ehA2ZZE9vXWJZkeRCsGPDP08hwullGL6/D0g1NGDKAe9TifstqyDqKlIfmjFBKuBDGL
+ 4kmJBBTh6vnvCVk1Hpu89H1No3GJ9Mw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1723812861;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FWxTWsvgN5fXLWGcI6d0R+QGPKfzj7NQLJ3W/1/yNF8=;
+ b=rZunmR5ytRRuKiL9ZNxHkc+OiG7InyKMn08mIMvIOltoLCxiud1Pktisx9ko7ecMl/AC2v
+ I10QD/Z4+jMOiKCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B10F813A2F;
- Fri, 16 Aug 2024 12:54:20 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 292D313A2F;
+ Fri, 16 Aug 2024 12:54:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ON/6KfxLv2bdbgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Aug 2024 12:54:20 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4LV1CP1Lv2bdbgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Aug 2024 12:54:21 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -39,26 +80,34 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH 29/86] drm/mxsfb/lcdif: Run DRM default client setup
-Date: Fri, 16 Aug 2024 14:22:55 +0200
-Message-ID: <20240816125408.310253-30-tzimmermann@suse.de>
+Subject: [PATCH 30/86] drm/msxfb: Run DRM default client setup
+Date: Fri, 16 Aug 2024 14:22:56 +0200
+Message-ID: <20240816125408.310253-31-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240816125408.310253-1-tzimmermann@suse.de>
 References: <20240816125408.310253-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Score: -4.00
+X-Spam-Score: -6.80
 X-Spam-Flag: NO
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 219B7200BC
+X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
+ BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[16];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,suse.de,denx.de,agner.ch,kernel.org,pengutronix.de,gmail.com];
+ FROM_HAS_DN(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ R_RATELIMIT(0.00)[to_ip_from(RL6e75e7xiqh135443e1d3zo16)];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,7 +127,7 @@ Call drm_client_setup() to run the kernel's default client setup
 for DRM. Set fbdev_probe in struct drm_driver, so that the client
 setup can start the common fbdev client.
 
-The lcdif driver specifies a preferred color mode of 32. As this
+The msxfb driver specifies a preferred color mode of 32. As this
 is the default if no format has been given, leave it out entirely.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
@@ -89,30 +138,30 @@ Cc: Sascha Hauer <s.hauer@pengutronix.de>
 Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
 Cc: Fabio Estevam <festevam@gmail.com>
 ---
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 4 +++-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index 0f895b8a99d6..58ccad9c425d 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -16,6 +16,7 @@
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index cb5ce4e81fc7..34a98717b72c 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -19,6 +19,7 @@
  
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_bridge.h>
 +#include <drm/drm_client_setup.h>
+ #include <drm/drm_connector.h>
  #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
  #include <drm/drm_fbdev_dma.h>
-@@ -243,6 +244,7 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
- static const struct drm_driver lcdif_driver = {
+@@ -331,6 +332,7 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
+ static const struct drm_driver mxsfb_driver = {
  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
  	DRM_GEM_DMA_DRIVER_OPS,
 +	DRM_FBDEV_DMA_DRIVER_OPS,
  	.fops	= &fops,
- 	.name	= "imx-lcdif",
- 	.desc	= "i.MX LCDIF Controller DRM",
-@@ -275,7 +277,7 @@ static int lcdif_probe(struct platform_device *pdev)
+ 	.name	= "mxsfb-drm",
+ 	.desc	= "MXSFB Controller DRM",
+@@ -364,7 +366,7 @@ static int mxsfb_probe(struct platform_device *pdev)
  	if (ret)
  		goto err_unload;
  
