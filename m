@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9E5954BC6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 16:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2EC954BCB
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2024 16:06:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 317CD10E7A0;
-	Fri, 16 Aug 2024 14:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6AC110E7A1;
+	Fri, 16 Aug 2024 14:05:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="czPIoSKH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W49MYjsA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4071B10E7A0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 14:05:48 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3789210E7A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 14:05:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8EFB7621F3;
+ by sin.source.kernel.org (Postfix) with ESMTP id 6D02BCE1C79;
+ Fri, 16 Aug 2024 14:05:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12861C4AF0C;
  Fri, 16 Aug 2024 14:05:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E84CC4AF0C;
- Fri, 16 Aug 2024 14:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723817147;
- bh=cpZ3CxSVI/YRguz9ZMTPzxGBv9o8g/KQ+M0ueG23F5E=;
+ s=k20201202; t=1723817153;
+ bh=mTwBE8FWythFJ/eb/9Scg+hZubeRcMzx9DTi1kVoUp8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=czPIoSKHNTuSqDmOYBo13qbWUTtRwuDUijy2GULrkJqz+bB4QgpqxpccDx7Fuf+b1
- DTw7UYq2xSoylBAndxeUEw9+C0YKu47bc+pk42oRe/9Kw9ObBv7tWmiPKpgXte8LSB
- vpfYL4bOU4NUPM+6T+uyB5fZsD43CrjiauvOxIWNv5Cq6pS2C151RldRvBhW4lnW72
- pAm12xbwFexypKWTse2rfw+C25vzAiZSlFsTrP7WK6PKrEeXcpC4ejIkt5+14zTp5U
- m2Tu+u5Mltx/DB0Y3dKbtJ2Yq5g9OIkXUqwohYlpC8Q4Yqiual6qcfhLeCXEL5gkep
- 2U1hEUuzmpE2g==
-Message-ID: <32fe92aa-e2ca-4cce-9bd2-84c65304a6ad@kernel.org>
-Date: Fri, 16 Aug 2024 16:05:40 +0200
+ b=W49MYjsAteRirH9gbHk90Z2aVvS+LUGUlQAmdbodh3i0wRmEAvnFZ5EYnE3i4RfJL
+ hwrpMDnryWBVYbfSarZph0bX3TUVUhs3OP/ajJ8YKtdfblXYC0k0RrIoBEnQUp7zp1
+ ajYsV4lyXFvPp9UhRBz47Hm64NPD/JscBsGgAUwbl5UtUx+AbGick6L/9swXiWv/iX
+ EziTurgO1jDSWkpTUK7L/zNQUoypCYEMZz90MDVX26W5ttITwFPI4fV97omV5wJtYn
+ Jn/1Xy4TnlKJUbO6fEPi4+h6dPXIYVD4GeYo7B66iryZ92TFNnN/9EBxrdm3IQdO2A
+ h1yVzzQ03WCHg==
+Message-ID: <b34c0826-44fc-46cf-93ca-e07afb5df4e5@kernel.org>
+Date: Fri, 16 Aug 2024 16:05:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: misc: qcom, fastrpc: document new domain
- ID
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: sa8775p: fix the fastrpc label
 To: Bartosz Golaszewski <brgl@bgdev.pl>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Amol Maheshwari <amahesh@qti.qualcomm.com>, Rob Herring <robh@kernel.org>,
@@ -45,10 +44,12 @@ To: Bartosz Golaszewski <brgl@bgdev.pl>,
  Tengfei Fan <quic_tengfan@quicinc.com>, Ling Xu <quic_lxu5@quicinc.com>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Ekansh Gupta <quic_ekangupt@quicinc.com>
 References: <20240816102345.16481-1-brgl@bgdev.pl>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <20240816102345.16481-2-brgl@bgdev.pl>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -92,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240816102345.16481-1-brgl@bgdev.pl>
+In-Reply-To: <20240816102345.16481-2-brgl@bgdev.pl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,10 +114,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 16/08/2024 12:23, Bartosz Golaszewski wrote:
 > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > 
-> Add "cdsp1" as the new supported label for the CDSP1 fastrpc domain.
+> The fastrpc driver uses the label to determine the domain ID and create
+> the device nodes. It should be "cdsp1" as this is the engine we use here.
 > 
+> Fixes: df54dcb34ff2 ("arm64: dts: qcom: sa8775p: add ADSP, CDSP and GPDSP nodes")
+> Reported-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
 > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
