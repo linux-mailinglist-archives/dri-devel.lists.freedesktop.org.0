@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2AC955379
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 00:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE8395537C
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 00:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F83710E850;
-	Fri, 16 Aug 2024 22:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5BC10E852;
+	Fri, 16 Aug 2024 22:45:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FBgBKNyS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o5tVgNn/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 116DD10E850
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 22:43:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3B3510E852
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2024 22:45:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 321D6CE2016;
- Fri, 16 Aug 2024 22:43:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E24CC32782;
- Fri, 16 Aug 2024 22:43:53 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 0AD2ECE20D5;
+ Fri, 16 Aug 2024 22:45:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB398C32782;
+ Fri, 16 Aug 2024 22:45:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723848233;
- bh=gG10md2RbDIZ1lWzCtyZyAMAPeUvAi0J/ZffRkMvvv8=;
+ s=k20201202; t=1723848348;
+ bh=iDrX16u0LelpRPgCqYpDAtw45aROAMIdsf3ytPkWCjs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FBgBKNySTRq/4kgHL3EXUf/cn2I3TuDvyylObzVXzO3ebexdY4amhCIvTfg5Jk80v
- o0eXYWbo6L9gGKHRIh+jJ/qsJpoJseduxUHNHKERSoKTOisVaZEudHHtRjGI3bjg81
- y7wkDOK/0qZZ1SYapU2r27hUZT894D+b1djKlvtEkgIFdSIdrwwYz7C6IwnDgHmlcJ
- 1ltjhyjTDP894mKLmZz7yEbWNTO9bytpMmzZuZ+u5rBZEwAwbcuH8aAgOWXQbKXD9u
- DyyYuGcWEP7QFPOvllztBdpNp5yPspQ0MKsNFm/Tnr3Ayp0NWvgAwS+Fr9I9qThRds
- lgfkL6BNUsr9w==
-Date: Fri, 16 Aug 2024 16:43:52 -0600
+ b=o5tVgNn/hemXq7NvKi/HfI7Sshqi9puD6hK31NaE2j+J4KFAcHQAcbwtsG7pmxRaC
+ qWP2roWS/1RyUFsylYf65vDG9x99ofiOV9Ft+hbMWsZX4fekuhmqmTZMac6OYhZJ1A
+ KGxx/8c48If8JFyYSNr68wjiKGA2ccEmU6hVo9Fl0gfm+uTytX9Iv/N+5B0UxI5Ina
+ x9PpLFFhdzto6KhWyvfzKEXyNcho+db74mdhsvSU2RySSLPFpuO8Sn2tTqVqASXSzR
+ fxLMJwMFbgmUzBmcHCZYdBsGmPW2vrxlIwE1DcH6MWDk29BJAAa92Wa8/yFoXycf7T
+ cnN17B1cQYU4w==
+Date: Fri, 16 Aug 2024 16:45:48 -0600
 From: Rob Herring <robh@kernel.org>
 To: Liu Ying <victor.liu@nxp.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
@@ -43,15 +43,15 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
  kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
  francesco@dolcini.it, frank.li@nxp.com
-Subject: Re: [PATCH v3 01/19] dt-bindings: display: imx: Add i.MX8qxp Display
- Controller processing units
-Message-ID: <20240816224352.GE2394350-robh@kernel.org>
+Subject: Re: [PATCH v3 02/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller blit engine
+Message-ID: <20240816224548.GF2394350-robh@kernel.org>
 References: <20240724092950.752536-1-victor.liu@nxp.com>
- <20240724092950.752536-2-victor.liu@nxp.com>
+ <20240724092950.752536-3-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724092950.752536-2-victor.liu@nxp.com>
+In-Reply-To: <20240724092950.752536-3-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,58 +67,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 24, 2024 at 05:29:32PM +0800, Liu Ying wrote:
-> Freescale i.MX8qxp Display Controller is implemented as construction set of
-> building blocks with unified concept and standardized interfaces.  Document
-> all existing processing units.
+On Wed, Jul 24, 2024 at 05:29:33PM +0800, Liu Ying wrote:
+> i.MX8qxp Display Controller contains a blit engine for raster graphics.
+> It may read up to 3 source images from memory and computes one destination
+> image from it, which is written back to memory.
 > 
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
 > v3:
-> * Combine fsl,imx8qxp-dc-fetchunit-common.yaml,
->   fsl,imx8qxp-dc-fetchlayer.yaml and fsl,imx8qxp-dc-fetchwarp.yaml
->   into 1 schema doc fsl,imx8qxp-dc-fetchunit.yaml. (Rob)
-> * Document all processing units. (Rob)
+> * New patch. (Rob)
 > 
-> v2:
-> * Drop fsl,dc-*-id DT properties. (Krzysztof)
-> * Add port property to fsl,imx8qxp-dc-tcon.yaml. (Krzysztof)
-> * Fix register range sizes in examples.
-> 
->  .../display/imx/fsl,imx8qxp-dc-blitblend.yaml |  41 +++++
->  .../display/imx/fsl,imx8qxp-dc-clut.yaml      |  44 ++++++
->  .../imx/fsl,imx8qxp-dc-constframe.yaml        |  44 ++++++
->  .../display/imx/fsl,imx8qxp-dc-dither.yaml    |  45 ++++++
->  .../display/imx/fsl,imx8qxp-dc-extdst.yaml    |  72 +++++++++
->  .../display/imx/fsl,imx8qxp-dc-fetchunit.yaml | 141 ++++++++++++++++++
->  .../display/imx/fsl,imx8qxp-dc-filter.yaml    |  43 ++++++
->  .../display/imx/fsl,imx8qxp-dc-framegen.yaml  |  64 ++++++++
->  .../display/imx/fsl,imx8qxp-dc-gammacor.yaml  |  32 ++++
->  .../imx/fsl,imx8qxp-dc-layerblend.yaml        |  39 +++++
->  .../display/imx/fsl,imx8qxp-dc-matrix.yaml    |  44 ++++++
->  .../display/imx/fsl,imx8qxp-dc-rop.yaml       |  43 ++++++
->  .../display/imx/fsl,imx8qxp-dc-safety.yaml    |  34 +++++
->  .../imx/fsl,imx8qxp-dc-scaling-engine.yaml    |  83 +++++++++++
->  .../display/imx/fsl,imx8qxp-dc-signature.yaml |  53 +++++++
->  .../display/imx/fsl,imx8qxp-dc-store.yaml     |  96 ++++++++++++
->  .../display/imx/fsl,imx8qxp-dc-tcon.yaml      |  45 ++++++
->  17 files changed, 963 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-clut.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-dither.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-filter.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-gammacor.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-matrix.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-rop.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-safety.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-signature.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-store.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
+>  .../imx/fsl,imx8qxp-dc-blit-engine.yaml       | 204 ++++++++++++++++++
+>  1 file changed, 204 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blit-engine.yaml
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
