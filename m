@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED079556A1
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 11:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED24A955724
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 12:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A871810E052;
-	Sat, 17 Aug 2024 09:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D27510E057;
+	Sat, 17 Aug 2024 10:14:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=boris.brezillon@collabora.com header.b="YHyzc5CT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bYZ3+5a3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE2D10E052
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 09:10:36 +0000 (UTC)
-Delivered-To: adrian.larumbe@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723885826; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CbrN9dpWmzKfek/bxGD2cjr0qnzrH1R4rJO+Ik3UV5DvOdLg82rMQYGb4t2EsOWPojY8EvNcmminoVtHrIF1234d55qVlqDEWsmxgW7tKNsAJ4z683Cq9Dtmc+KEskb4oqt1LuPhzSIAnc8hCb6pRVgvmvQMN65AkxMcrHXu4fk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1723885826;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=XoPSY4Cd9si3YzzbvJeVCGbi2dYJUaq/FxmYhusGRcI=; 
- b=Niy4CJdVjbcgB+hshkVaJpbkILohdNL4OXGsMOjWzKk5JchZ3iOXNodGBKy0qdLWLdOr8OJTC503BMpkGxBskXJEiLbIjYM8vXpxHcWbba93zaB42RRod7NUvqlwrATcC4NSkEk9BYrxB5vgs/W+NGOYCH1prYedCsOaHXZyYV0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=boris.brezillon@collabora.com;
- dmarc=pass header.from=<boris.brezillon@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723885826; 
- s=zohomail; d=collabora.com; i=boris.brezillon@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=XoPSY4Cd9si3YzzbvJeVCGbi2dYJUaq/FxmYhusGRcI=;
- b=YHyzc5CTTRpnd2HLQcqrSK11jqV913fO5ejbPtrisyVPhLJrQWDUP9ZOwol66I8T
- cB471ygbRqBkRCBJsopXCns9ds18lmN5JO9IoyKkYkFbnJD+6XCF5QA+/pJFabMGTFk
- h+IKb7MlYyNjjoNjMTiq+lAhpU6UgsNI6+SBauzo=
-Received: by mx.zohomail.com with SMTPS id 1723885825146813.2587767508453;
- Sat, 17 Aug 2024 02:10:25 -0700 (PDT)
-Date: Sat, 17 Aug 2024 11:10:17 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: flush FW AS caches in slow reset path
-Message-ID: <20240817111017.2a010061@collabora.com>
-In-Reply-To: <20240816185250.344080-1-adrian.larumbe@collabora.com>
-References: <20240816185250.344080-1-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76F1310E037;
+ Sat, 17 Aug 2024 10:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1723889676; x=1755425676;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qn363W5Vxq2cwBv149RyNnUUhY+ADXHMAUkKKo3FvGY=;
+ b=bYZ3+5a3WGgvDur0caJ4BALRUdf+RDkRN3hQKtDUyKa7PndklIOLwNkf
+ L1aDzabdGcDcpdcU/iU06f3and8Qc0xyUDAviqktYiNH6FLmjp6Rn0mjV
+ n5lx4jr5FPbbm711Frxoz9ktuDMPGk5ttgBKCfGzte2BrIaLxyDRgmB8C
+ cQJAz/dJAAA/pG8udBltZB0FpFEYG1E+Y93jQ4qwOw27Rav4vlsvR6udX
+ n/03vJbEn7lxMr8W0aDLLNnT13mVukS+UsSUr0VKVAjBaZyCNdWALoWJ6
+ S5hcg1EFE/A6qg5pDydiZd91ujTZ9oXG0C8ZtLwfBe7oweyD+4qEHj339 g==;
+X-CSE-ConnectionGUID: 9Q8KVxSySXuf4hNfvIbyuA==
+X-CSE-MsgGUID: DAcss0nhSi+hfMSK4Uaxbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22352445"
+X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; d="scan'208";a="22352445"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2024 03:14:36 -0700
+X-CSE-ConnectionGUID: rG9m58IYR3ulX2M5Cg016g==
+X-CSE-MsgGUID: fYKMSDfgSDWpf+HHlwhyYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; d="scan'208";a="60074409"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 17 Aug 2024 03:14:33 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sfGS6-0007LW-1I;
+ Sat, 17 Aug 2024 10:14:30 +0000
+Date: Sat, 17 Aug 2024 18:14:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH 83/86] drm/{i915,xe}: Run DRM default client setup
+Message-ID: <202408171746.ju5Kg2D3-lkp@intel.com>
+References: <20240816125408.310253-84-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240816125408.310253-84-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,115 +79,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Aug 2024 19:52:49 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Hi Thomas,
 
-> In the off-chance that waiting for the firmware to signal its booted stat=
-us
-> timed out in the fast reset path, one must flush the cache lines for the
-> entire FW VM address space before reloading the regions, otherwise stale
-> values eventually lead to a scheduler job timeout.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+kernel test robot noticed the following build errors:
 
-We probably want Fixes/Cc-stable tags here.
+[auto build test ERROR on 70d6d55dea574b7b78ccf714699cc5d8d62fcc2c]
 
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c  |  8 +++++++-
->  drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++++---
->  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
->  3 files changed, 24 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panth=
-or/panthor_fw.c
-> index 857f3f11258a..ef232c0c2049 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1089,6 +1089,12 @@ int panthor_fw_post_reset(struct panthor_device *p=
-tdev)
->  		panthor_fw_stop(ptdev);
->  		ptdev->fw->fast_reset =3D false;
->  		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
-> +
-> +		ret =3D panthor_vm_flush_all(ptdev->fw->vm);
-> +		if (ret) {
-> +			drm_err(&ptdev->base, "FW slow reset failed (couldn't flush FW's AS l=
-2cache)");
-> +			return ret;
-> +		}
->  	}
-> =20
->  	/* Reload all sections, including RO ones. We're not supposed
-> @@ -1099,7 +1105,7 @@ int panthor_fw_post_reset(struct panthor_device *pt=
-dev)
-> =20
->  	ret =3D panthor_fw_start(ptdev);
->  	if (ret) {
-> -		drm_err(&ptdev->base, "FW slow reset failed");
-> +		drm_err(&ptdev->base, "FW slow reset failed (couldn't start the FW )");
->  		return ret;
->  	}
-> =20
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
-hor/panthor_mmu.c
-> index d47972806d50..a77ee5ce691d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -874,14 +874,27 @@ static int panthor_vm_flush_range(struct panthor_vm=
- *vm, u64 iova, u64 size)
->  	if (!drm_dev_enter(&ptdev->base, &cookie))
->  		return 0;
-> =20
-> -	/* Flush the PTs only if we're already awake */
-> -	if (pm_runtime_active(ptdev->base.dev))
-> -		ret =3D mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
-> +	/*
-> +	 * If we made it this far, that means the device is awake, because
-> +	 * upon device suspension, all active VMs are given an AS id of -1
-> +	 */
-> +	ret =3D mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-fbdev-helper-Move-color-mode-lookup-into-4CC-format-helper/20240816-210651
+base:   70d6d55dea574b7b78ccf714699cc5d8d62fcc2c
+patch link:    https://lore.kernel.org/r/20240816125408.310253-84-tzimmermann%40suse.de
+patch subject: [PATCH 83/86] drm/{i915,xe}: Run DRM default client setup
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240817/202408171746.ju5Kg2D3-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408171746.ju5Kg2D3-lkp@intel.com/reproduce)
 
-I would normally prefer this change to be in its own commit, but given
-this is needed to be able to flush caches in the resume path, I'm fine
-keeping it in the same patch. The comment is a bit odd now that you
-dropped the pm_runtime_active() call though. I would rather have a
-comment in mmu_hw_do_operation_locked(), after the AS ID check
-explaining that as.id >=3D 0 guarantees that the HW is up and running,
-and that we can proceed with the flush operation without calling
-pm_runtime_active().
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408171746.ju5Kg2D3-lkp@intel.com/
 
-> =20
->  	drm_dev_exit(cookie);
->  	return ret;
->  }
-> =20
-> +/**
-> + * panthor_vm_flush_all() - Flush L2 caches for the entirety of a VM's AS
-> + * @vm: VM whose cache to flush
-> + *
-> + * Return: 0 on success, a negative error code if flush failed.
-> + */
-> +int panthor_vm_flush_all(struct panthor_vm *vm)
-> +{
-> +	return panthor_vm_flush_range(vm, vm->base.mm_start, vm->base.mm_range);
-> +}
-> +
->  static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 s=
-ize)
->  {
->  	struct panthor_device *ptdev =3D vm->ptdev;
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/pant=
-hor/panthor_mmu.h
-> index f3c1ed19f973..6788771071e3 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-> @@ -31,6 +31,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va,=
- u64 *bo_offset);
->  int panthor_vm_active(struct panthor_vm *vm);
->  void panthor_vm_idle(struct panthor_vm *vm);
->  int panthor_vm_as(struct panthor_vm *vm);
-> +int panthor_vm_flush_all(struct panthor_vm *vm);
-> =20
->  struct panthor_heap_pool *
->  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
+All errors (new ones prefixed by >>):
 
+>> drivers/gpu/drm/xe/xe_device.c:20:10: fatal error: intel_fbdev.h: No such file or directory
+      20 | #include "intel_fbdev.h"
+         |          ^~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +20 drivers/gpu/drm/xe/xe_device.c
+
+    19	
+  > 20	#include "intel_fbdev.h"
+    21	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
