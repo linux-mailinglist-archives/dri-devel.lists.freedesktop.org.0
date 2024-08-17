@@ -2,55 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE7A955986
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 22:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1573C9559C8
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 23:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A136A10E0E8;
-	Sat, 17 Aug 2024 20:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8E910E11A;
+	Sat, 17 Aug 2024 21:02:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=holm.dev header.i=@holm.dev header.b="xAEGVIcP";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="ZunYbkwC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
- [95.215.58.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E04610E0E8
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 20:30:47 +0000 (UTC)
-Message-ID: <e518ef00-4c7a-4719-bc58-90d782e34b30@holm.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=holm.dev; s=key1;
- t=1723926645;
+X-Greylist: delayed 508 seconds by postgrey-1.36 at gabe;
+ Sat, 17 Aug 2024 21:02:40 UTC
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7C710E111;
+ Sat, 17 Aug 2024 21:02:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1723928050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RiMzr2mOghlf7iiDaqEMg26CjM/eQ8wr+mNOVNBO9T4=;
- b=xAEGVIcPQJt5llu96Y8JewrBti+W3MjnLAKMZadCVm5MruQjiBAKEN2skzp8aTFjwPjX8u
- 8HPDBLLrEA7tyzsraZrdiWCfBGKVC7AlK0OQ+zpB7UqoMsN/VLkXb1YhdBlvHye/+vxKXk
- qGi2JTZ1s+lprhbPrkppOY+2AiBxGNaZfQRb94U7Hx918DkNMuh2mNLCiup2x1CpAcw6NY
- d+fQ1eL2yJKm/IKfaSHooV3SMJHHhxjYwNi9vBM6ZOW+hAWpN9EZRyESmoUtK9wg22Iqr5
- KPYzKv4eHL5r82wuOVG6+EE74AHBgs0U9ZLWL+DaR6WwAdMtti910CvHdnSdxA==
-Date: Sat, 17 Aug 2024 22:30:41 +0200
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WVIEqwFIHNGgAN6qGUvxQku++RkpPwaMRzWZN5sESeY=;
+ b=ZunYbkwC4ZwrSY6CABaaBQwU/7MDq7uN0QkS4Lzl+muHxoGrRHFXa2IorYuFkgCSdpb5Xb
+ H3HqV5OMaUk6PXq3k6H3mzjZRkK9MGKrSUx51tf185UbEpEAk9bYPoWUPvtAAIn+lDhSA4
+ elN3j5urMgWWjBf3iAARhfIkvxWySkk=
+Message-ID: <8e1fbdb1fe4e16b702a23a1eba01f43df6331317.camel@crapouillou.net>
+Subject: Re: [PATCH 22/86] drm/ingenic: Run DRM default client setup
+From: Paul Cercueil <paul@crapouillou.net>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com,  jfalempe@redhat.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org
+Date: Sat, 17 Aug 2024 22:54:07 +0200
+In-Reply-To: <20240816125408.310253-23-tzimmermann@suse.de>
+References: <20240816125408.310253-1-tzimmermann@suse.de>
+ <20240816125408.310253-23-tzimmermann@suse.de>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
+ qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
+ JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
+ 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
+ X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
+ AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
+ Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
+ Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
+ McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
+ 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
+ LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Subject: Re: [PATCH 6.10] drm/amd/display: Refactor function
- dm_dp_mst_is_port_support_mode()
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
- amd-gfx@lists.freedesktop.org, ML dri-devel
- <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>,
- Wayne Lin <wayne.lin@amd.com>, Jerry Zuo <jerry.zuo@amd.com>,
- Zaeem Mohamed <zaeem.mohamed@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-References: <20240730185339.543359-1-kevin@holm.dev>
- <2024081739-suburb-manor-e6c3@gregkh>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Kevin Holm <kevin@holm.dev>
-Content-Language: en-US
-In-Reply-To: <2024081739-suburb-manor-e6c3@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,126 +80,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
+Le vendredi 16 ao=C3=BBt 2024 =C3=A0 14:22 +0200, Thomas Zimmermann a =C3=
+=A9crit=C2=A0:
+> Call drm_client_setup() to run the kernel's default client setup
+> for DRM. Set fbdev_probe in struct drm_driver, so that the client
+> setup can start the common fbdev client.
+>=20
+> The ingenic driver specifies a preferred color mode of 32. As this
+> is the default if no format has been given, leave it out entirely.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Paul Cercueil <paul@crapouillou.net>
 
-On 17.08.24 10:42, Greg KH wrote:
-> On Tue, Jul 30, 2024 at 08:53:39PM +0200, Kevin Holm wrote:
->> From: Wayne Lin <wayne.lin@amd.com>
->>
->> [ Upstream commit fa57924c76d995e87ca3533ec60d1d5e55769a27 ]
->>
->> [Why]
->> dm_dp_mst_is_port_support_mode() is a bit not following the original design rule and cause
->> light up issue with multiple 4k monitors after mst dsc hub.
->>
->> [How]
->> Refactor function dm_dp_mst_is_port_support_mode() a bit to solve the light up issue.
->>
->> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
->> Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
->> Signed-off-by: Wayne Lin <wayne.lin@amd.com>
->> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
->> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->> [kevin@holm.dev: Resolved merge conflict in .../amdgpu_dm_mst_types.c]
->> Fixes: 4df96ba6676034 ("drm/amd/display: Add timing pixel encoding for mst mode validation")
->> Link: https://lore.kernel.org/stable/d74a7768e957e6ce88c27a5bece0c64dff132e24@holm.dev/T/#u
->> Signed-off-by: Kevin Holm <kevin@holm.dev>
->> ---
->> I resolved the merge conflict so that, after this patch is applied to the
->> linux-6.10.y branch of the stable git repository, the resulting function
->> dm_dp_mst_is_port_support_mode (and also the new function
->> dp_get_link_current_set_bw) is identical to the original commit.
->>
->> I've confirmed that it fixes the regression I reported for my use case.
-> 
-> And it turns out this change breaks the arm and arm64 builds.  I tried
-> to fix it up by applying the fixup afterward for this file, but it's
-> just too much of a mess to unwind this, so I'm going to have to revert
-> this now, sorry.
-That sucks, sorry for the problems my patch caused. :(
+Acked-by: Paul Cercueil <paul@crapouillou.net>
 
-> See:
-> 	https://lore.kernel.org/r/b27c5434-f1b1-4697-985b-91bb3e9a22df@roeck-us.net
-> for details.
-I unfortunately don't know the amdgpu driver and kernel code in general enough to help fix
-that. The back-ported patch I send was my first patch to the kernel.
+Cheers,
+-Paul
 
-In the email thread where I reported the problem I send a patch that reverts
-4df96ba6676034 ("drm/amd/display: Add timing pixel encoding for mst mode validation") to
-fix the problem that way [1]. I've included a copy of that below.
-I've tested that it still applies to 6.10.6-rc3 without conflicts and compiles for me. I
-could not test if the 6.10.6-rc3 with the revert applied fixes the problem as I'm
-traveling and don't have access to my normal setup. I can only say that reverting it on
-v6.10.2 fixed the problem for me.
+> ---
+> =C2=A0drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 4 +++-
+> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 39fa291f43dd..056b70b63554 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -24,6 +24,7 @@
+> =C2=A0#include <drm/drm_atomic_helper.h>
+> =C2=A0#include <drm/drm_bridge.h>
+> =C2=A0#include <drm/drm_bridge_connector.h>
+> +#include <drm/drm_client_setup.h>
+> =C2=A0#include <drm/drm_color_mgmt.h>
+> =C2=A0#include <drm/drm_crtc.h>
+> =C2=A0#include <drm/drm_damage_helper.h>
+> @@ -960,6 +961,7 @@ static const struct drm_driver
+> ingenic_drm_driver_data =3D {
+> =C2=A0	.fops			=3D &ingenic_drm_fops,
+> =C2=A0	.gem_create_object	=3D ingenic_drm_gem_create_object,
+> =C2=A0	DRM_GEM_DMA_DRIVER_OPS,
+> +	DRM_FBDEV_DMA_DRIVER_OPS,
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct drm_plane_funcs ingenic_drm_primary_plane_funcs
+> =3D {
+> @@ -1399,7 +1401,7 @@ static int ingenic_drm_bind(struct device *dev,
+> bool has_components)
+> =C2=A0		goto err_clk_notifier_unregister;
+> =C2=A0	}
+> =C2=A0
+> -	drm_fbdev_dma_setup(drm, 32);
+> +	drm_client_setup(drm, NULL);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0
 
-I don't know how to compile for other architectures so I did not test that.
-
-Not sure what would be best, reverting the problem commit so the regression is fixed in
-the 6.10 stable kernel (and maybe breaking something else?) or waiting for someone at AMD
-with better knowledge of the amdgpu driver to back-port the fixing commit in a non-broken
-way.
-
-~kevin
-
-[1] https://lore.kernel.org/regressions/7bf26283474fbb6ea915f93f4db0bc614a627617@holm.dev/
-> 
-> greg k-h
----
-  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 33 +++----------------
-  1 file changed, 5 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c 
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index a5e1a93ddaea..5c555a37e367 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -1599,7 +1599,7 @@ enum dc_status dm_dp_mst_is_port_support_mode(
-         struct amdgpu_dm_connector *aconnector,
-         struct dc_stream_state *stream)
-  {
--       int pbn, branch_max_throughput_mps = 0;
-+       int bpp, pbn, branch_max_throughput_mps = 0;
-         struct dc_link_settings cur_link_settings;
-         unsigned int end_to_end_bw_in_kbps = 0;
-         unsigned int upper_link_bw_in_kbps = 0, down_link_bw_in_kbps = 0;
-@@ -1649,34 +1649,11 @@ enum dc_status dm_dp_mst_is_port_support_mode(
-                         }
-                 }
-         } else {
--               /* Check if mode could be supported within max slot
--                * number of current mst link and full_pbn of mst links.
--                */
--               int pbn_div, slot_num, max_slot_num;
--               enum dc_link_encoding_format link_encoding;
--               uint32_t stream_kbps =
--                       dc_bandwidth_in_kbps_from_timing(&stream->timing,
--                               dc_link_get_highest_encoding_format(stream->link));
--
--               pbn = kbps_to_peak_pbn(stream_kbps);
--               pbn_div = dm_mst_get_pbn_divider(stream->link);
--               slot_num = DIV_ROUND_UP(pbn, pbn_div);
--
--               link_encoding = dc_link_get_highest_encoding_format(stream->link);
--               if (link_encoding == DC_LINK_ENCODING_DP_8b_10b)
--                       max_slot_num = 63;
--               else if (link_encoding == DC_LINK_ENCODING_DP_128b_132b)
--                       max_slot_num = 64;
--               else {
--                       DRM_DEBUG_DRIVER("Invalid link encoding format\n");
-+               /* check if mode could be supported within full_pbn */
-+               bpp = convert_dc_color_depth_into_bpc(stream->timing.display_color_depth) * 3;
-+               pbn = drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp << 4);
-+               if (pbn > aconnector->mst_output_port->full_pbn)
-                         return DC_FAIL_BANDWIDTH_VALIDATE;
--               }
--
--               if (slot_num > max_slot_num ||
--                       pbn > aconnector->mst_output_port->full_pbn) {
--                       DRM_DEBUG_DRIVER("Mode can not be supported within mst links!");
--                       return DC_FAIL_BANDWIDTH_VALIDATE;
--               }
-         }
-
-         /* check is mst dsc output bandwidth branch_overall_throughput_0_mps */
--- 
-2.45.2
