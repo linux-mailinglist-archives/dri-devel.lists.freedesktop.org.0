@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865E8955670
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 10:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782A5955676
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 10:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F64810E036;
-	Sat, 17 Aug 2024 08:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A117810E07A;
+	Sat, 17 Aug 2024 08:48:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jrf2ipw+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Uwag4ecI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7A910E036;
- Sat, 17 Aug 2024 08:42:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4925D10E06C
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 08:48:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B83D9CE0FFC;
- Sat, 17 Aug 2024 08:42:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 765E7C116B1;
- Sat, 17 Aug 2024 08:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1723884173;
- bh=wCPDpgJU3wZjcbdksuUtn6o6BHEmcbYJwksedTAOdnk=;
+ by sin.source.kernel.org (Postfix) with ESMTP id 652D5CE0FFC;
+ Sat, 17 Aug 2024 08:48:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E68BC116B1;
+ Sat, 17 Aug 2024 08:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1723884495;
+ bh=y+GQ801+56Qy38J6PlOE3jEeIZQ6gl38pFHqBSE07mM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jrf2ipw+XP2hHIoE9izV0sNQF5Nl4z321jHbyn0zWZPoZqPL1LR02dn/0ycdsYPSK
- hNCp7UJ6cf+jtTaAIWFzs5JOehixXWZND8OCkVRRgV5H22njOjNNr5IZJwcoZ78M21
- fESXQWNCsepCSQQsZRxrfoW/kfbb/ovifwsYjtxo=
-Date: Sat, 17 Aug 2024 10:42:51 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kevin Holm <kevin@holm.dev>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
- amd-gfx@lists.freedesktop.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Wayne Lin <wayne.lin@amd.com>,
- Jerry Zuo <jerry.zuo@amd.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: Re: [PATCH 6.10] drm/amd/display: Refactor function
- dm_dp_mst_is_port_support_mode()
-Message-ID: <2024081739-suburb-manor-e6c3@gregkh>
-References: <20240730185339.543359-1-kevin@holm.dev>
+ b=Uwag4ecIv7SyLksRVrw758JAs/w9VL4kFVVtuawF0QJONmUWJh+UNbMist7MYW4h9
+ empQz2XHkr7lF8FAWA+gO+Jnp7942pie99CT7dmHDNGlegl0wjd7VhYhmAtlSURaqn
+ HThZyMGPUVcvwKym2NQt8dviuYWyoGr96M8TRlRMph7s0c3KGiemmmVyR9zmax6vWE
+ xoXf3nJ1dRAHRd3ndaOpOmiPJqOJJfxRkfmFkVqxCaaGxaqm/yDEwIilUyADUWcoyu
+ uR7B8fBCl1v6MghLBxULfUB1erKub/VJ3504HgOlXkQV5Fz8z6T/y8S0nRrIjOq7Lh
+ eZ/ZVgdVBJp8Q==
+Date: Sat, 17 Aug 2024 10:48:10 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
+ justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
+ rostedt@goodmis.org, catalin.marinas@arm.com,
+ penguin-kernel@i-love.sakura.ne.jp, 
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
+ linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 5/8] mm/util: Fix possible race condition in kstrdup()
+Message-ID: <w6fx3gozq73slfpge4xucpezffrdioauzvoscdw2is5xf7viea@a4doumg264s4>
+References: <20240817025624.13157-1-laoar.shao@gmail.com>
+ <20240817025624.13157-6-laoar.shao@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fmddhafpzo3fg7cn"
 Content-Disposition: inline
-In-Reply-To: <20240730185339.543359-1-kevin@holm.dev>
+In-Reply-To: <20240817025624.13157-6-laoar.shao@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,42 +66,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 30, 2024 at 08:53:39PM +0200, Kevin Holm wrote:
-> From: Wayne Lin <wayne.lin@amd.com>
-> 
-> [ Upstream commit fa57924c76d995e87ca3533ec60d1d5e55769a27 ]
-> 
-> [Why]
-> dm_dp_mst_is_port_support_mode() is a bit not following the original design rule and cause
-> light up issue with multiple 4k monitors after mst dsc hub.
-> 
-> [How]
-> Refactor function dm_dp_mst_is_port_support_mode() a bit to solve the light up issue.
-> 
-> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
-> Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-> Signed-off-by: Wayne Lin <wayne.lin@amd.com>
-> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> [kevin@holm.dev: Resolved merge conflict in .../amdgpu_dm_mst_types.c]
-> Fixes: 4df96ba6676034 ("drm/amd/display: Add timing pixel encoding for mst mode validation")
-> Link: https://lore.kernel.org/stable/d74a7768e957e6ce88c27a5bece0c64dff132e24@holm.dev/T/#u
-> Signed-off-by: Kevin Holm <kevin@holm.dev>
+
+--fmddhafpzo3fg7cn
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
+	justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
+	rostedt@goodmis.org, catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 5/8] mm/util: Fix possible race condition in kstrdup()
+References: <20240817025624.13157-1-laoar.shao@gmail.com>
+ <20240817025624.13157-6-laoar.shao@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20240817025624.13157-6-laoar.shao@gmail.com>
+
+Hi Yafang,
+
+On Sat, Aug 17, 2024 at 10:56:21AM GMT, Yafang Shao wrote:
+> In kstrdup(), it is critical to ensure that the dest string is always
+> NUL-terminated. However, potential race condidtion can occur between a
+> writer and a reader.
+>=20
+> Consider the following scenario involving task->comm:
+>=20
+>     reader                    writer
+>=20
+>   len =3D strlen(s) + 1;
+>                              strlcpy(tsk->comm, buf, sizeof(tsk->comm));
+>   memcpy(buf, s, len);
+>=20
+> In this case, there is a race condition between the reader and the
+> writer. The reader calculate the length of the string `s` based on the
+> old value of task->comm. However, during the memcpy(), the string `s`
+> might be updated by the writer to a new value of task->comm.
+>=20
+> If the new task->comm is larger than the old one, the `buf` might not be
+> NUL-terminated. This can lead to undefined behavior and potential
+> security vulnerabilities.
+>=20
+> Let's fix it by explicitly adding a NUL-terminator.
+>=20
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
 > ---
-> I resolved the merge conflict so that, after this patch is applied to the
-> linux-6.10.y branch of the stable git repository, the resulting function
-> dm_dp_mst_is_port_support_mode (and also the new function 
-> dp_get_link_current_set_bw) is identical to the original commit.
-> 
-> I've confirmed that it fixes the regression I reported for my use case.
+>  mm/util.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/mm/util.c b/mm/util.c
+> index 983baf2bd675..4542d8a800d9 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -62,8 +62,14 @@ char *kstrdup(const char *s, gfp_t gfp)
+> =20
+>  	len =3D strlen(s) + 1;
+>  	buf =3D kmalloc_track_caller(len, gfp);
+> -	if (buf)
+> +	if (buf) {
+>  		memcpy(buf, s, len);
+> +		/* During memcpy(), the string might be updated to a new value,
+> +		 * which could be longer than the string when strlen() is
+> +		 * called. Therefore, we need to add a null termimator.
+> +		 */
+> +		buf[len - 1] =3D '\0';
+> +	}
 
-And it turns out this change breaks the arm and arm64 builds.  I tried
-to fix it up by applying the fixup afterward for this file, but it's
-just too much of a mess to unwind this, so I'm going to have to revert
-this now, sorry.
+I would compact the above to:
 
-See:
-	https://lore.kernel.org/r/b27c5434-f1b1-4697-985b-91bb3e9a22df@roeck-us.net
-for details.
+	len =3D strlen(s);
+	buf =3D kmalloc_track_caller(len + 1, gfp);
+	if (buf)
+		strcpy(mempcpy(buf, s, len), "");
 
-greg k-h
+It allows _FORTIFY_SOURCE to track the copy of the NUL, and also uses
+less screen.  It also has less moving parts.  (You'd need to write a
+mempcpy() for the kernel, but that's as easy as the following:)
+
+	#define mempcpy(d, s, n)  (memcpy(d, s, n) + n)
+
+In shadow utils, I did a global replacement of all buf[...] =3D '\0'; by
+strcpy(..., "");.  It ends up being optimized by the compiler to the
+same code (at least in the experiments I did).
+
+
+Have a lovely day!
+Alex
+
+>  	return buf;
+>  }
+>  EXPORT_SYMBOL(kstrdup);
+> --=20
+> 2.43.5
+>=20
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--fmddhafpzo3fg7cn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmbAY8kACgkQnowa+77/
+2zJy9w//VpNvNlz0qkO1e7GsXV2Oay7F3Mv07UYbMUQROCVAnkJ5089Gt5oQTGqt
+KofcZ8qVFOpVffW33J9WD2NmbWwDHudXlWSpsC98H4YlmmbpwZQOqTnA7OoZjn5V
+L8N5qXReoJTBCJ/nFO8FIu6FWYiZzb0yiIvDBdJ9wx3NvOVXaN9Id+YOU4OgzDBc
+HshTJLYpyK3iVgI2PEVf9nHnsgqqJaBLNCBQwqGkjO3eJJZBrpq+YcwB7JEbSzz1
+q/ETj+JDUKBTCSQKKV1vGnrfe6/lQWfLA6fc9XHzIYlrwLeJsfXqnGyqSxSLRm45
+HzYZbCiHqqIrIeK7EP6F3VrRvOFhT7pWKnopvysQ9LajuM8zWzHXOQuBXr1+M46O
+Uz5u/J9ZX9+ZzEmtgtSO9rIVGE4LfKd+ngF/gZCCYMobkUPet+e99uOhtIelLzD8
+VviJU+xlRcLFPXMod7N/dfK6kfHxZ87K7KCetn68h2T5XDntslmoXXqed+W2Xi8p
+d6woLOoIM/AeQdMlzirWDhr/fXOG+X2+7ojkEpIK0fkv2bTWs5H0iu/qcoespWtJ
+ifPmabJGLvIN/8K/dDZKYNKKssIbS2ePuMpzghMbknKx3fQiB14LWaGUZ0fTzb8W
+YT4Ic9hLiqgcPLVyVEjw+qa28m+qnJ4nwMXDFbu08oqn/VVa9vE=
+=8JvT
+-----END PGP SIGNATURE-----
+
+--fmddhafpzo3fg7cn--
