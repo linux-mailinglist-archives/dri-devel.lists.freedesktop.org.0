@@ -2,71 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E130A9558DE
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 18:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071B49558E8
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 18:26:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B39EF10E0BC;
-	Sat, 17 Aug 2024 16:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C954D10E0C1;
+	Sat, 17 Aug 2024 16:26:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R0jGffrv";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CFZq26xM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DD710E0CA
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 16:20:35 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id
- 5614622812f47-3db51133978so1927608b6e.3
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 09:20:35 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC0EF10E0C4
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 16:26:43 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2f3bfcc2727so31121691fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 09:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723911635; x=1724516435; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kP1WVQQ5Bv5vxEC3CBtv7f+mOuVDTnPEQv3oVhBSEyg=;
- b=R0jGffrvtl8skAZPvWtSB4V4Vh7CUdWDt5msckOyq/QCEQ+rTb+vYVsGbr6GIv5P1l
- YFlk9jQU6/WLFB87mNEtZcFInfhClRLhmxwEWqgd2MpHMktH0MaTZTBELPwFNBd37fvl
- OeY+Fk+t5c9DbBuOoLAnFMmoR64oOtwZ1ObIOFMKGID7iE0ydnJTGrg9BdExpkgJHHZt
- 0rZzQ0/wj1lZUb6WA2/ybU8Z8eCqUX7NuWfQCdVthdGK/xtktiofWxkFxPuxZ0MlOkud
- saaq206zjhc+MCAzogn2pNRfJxe4Ki40XaxJYLiabcrsRRN0DLAoMn1q+FCziSihHl60
- K2WQ==
+ d=linux-foundation.org; s=google; t=1723912001; x=1724516801;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bJUpF+ZilJ5tJUWYdG1B4XodSC5itu+LywsKXdFMvvc=;
+ b=CFZq26xMbdQL3gBW2OxhDlFRMoIcsQCZwcFs6JPbCEHRjjC/CIzYmkj3qZ0/sAuauv
+ 3lCpjhLLYJ9GZiDyocFmy/vUU/OlOz2GUVV7DPgzWTKW/vfxe+PQ/6hxVUNCe9qjh7HB
+ iOyA5QI+SKJALIZjrQv3WnlZLhLLhJEDO9dq0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723911635; x=1724516435;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1723912001; x=1724516801;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kP1WVQQ5Bv5vxEC3CBtv7f+mOuVDTnPEQv3oVhBSEyg=;
- b=Xw7KAbAfr2FvSvfeUYwwwg2Cq08m4HDjPTjA9nXAqD58X/BFTl05KHZ38kWG0QPjf7
- LsHN8SYOtgHYuv5gFovPRe1vOsKXMHrrV93Ee3gkAQTuSc8AIsigvlU5QjMkfBA/Oc1z
- wL4B5rWBxkALiSp8NF2l8CySuodFz6np+ZmN0/rMpnu/cqeuL7XKn2S3hL4vTSjOBzBN
- +XGrlVGPXki7TiA4JyLmSbEJPvJgA5ihqs/l8wpSQpr8N/otIluZ9jkjg07TR/LSHbxo
- XSMSO5Leh0LbmnTAnpQOd+pXsVpd5ajuxzL/xxtT5Vg3tlNpHs79JVuofYTxsTCqXh2J
- hdpA==
+ bh=bJUpF+ZilJ5tJUWYdG1B4XodSC5itu+LywsKXdFMvvc=;
+ b=hQmpR214EvMsFRYZASaZR4YB2awnYzK0Ex7MmYjZSxX8xwFRmwNOhQefw5fbzEwFUZ
+ BPAG6dX80t4miL6zMmaWiu+8m+svQF0X7PuwF5X9oOhLGH0ughFKyFOiFbdE1PEg81nJ
+ GWlCRfNxPWGudpr8/EJnNPN9pn0teGt0XL/H51/ejIe6b5GlGjBQ1rg9NOg176oYQ98s
+ 2zBngOcxjk8MEuAotKBjrc2lzNGH4En6VA1Kd66zThRdoX+vddnxlRK2krE4fKrYnREb
+ kbUBnt9vRKzotXowN9ASiicYM0VEfhuk/4V6sak1u1BRqAvBPrhvFTFRKOIf04FWMDOi
+ hNxA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW1pHDYetLQlpBa4CwKz6ET53CM3TJdrwd5/XridURJQfX1X9tcTcusocmNRsxuWFtyCH0eUnWpF8Srv7VNBHYZP7DbHHwlH03bSufK6QCG
-X-Gm-Message-State: AOJu0YzFFYQ/AKWI7SjuSRoShdky9GJw0WxhHsHff9pzrPrWEVEhvjUe
- nDNGtsPj6C7Ypsc7Sinv2U1DXPQVEJTcwGuvxMoKjcdh4VwJIV5Q
-X-Google-Smtp-Source: AGHT+IGtnjHFRx3Qp4aKtlGFHGnuR8QNSWs2lim3Z4YbIn2a/1+v2IR7KoPlS+OHSEswXtNKCPILhA==
-X-Received: by 2002:a05:6808:1911:b0:3db:2afc:b19 with SMTP id
- 5614622812f47-3dd3aceab17mr8169782b6e.12.1723911634629; 
- Sat, 17 Aug 2024 09:20:34 -0700 (PDT)
-Received: from ubuntu.worldlink.com.np ([27.34.65.188])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-7c6b61e799asm4258049a12.44.2024.08.17.09.20.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Aug 2024 09:20:34 -0700 (PDT)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: ltuikov89@gmail.com, matthew.brost@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: Dipendra Khadka <kdipendra88@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] Initialize symbol 'entity' in sched_main.c
-Date: Sat, 17 Aug 2024 16:20:24 +0000
-Message-ID: <20240817162026.84761-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ AJvYcCVlfoA381xAn7t93KkOzQ7nBurhcE31V3BHwxd0dqIblYLPe8HWw5AxZNbt9cJZZ80kAAGhFSf72gIseA2T4puw9e7Y0H8oi6yquwcX1Hg0
+X-Gm-Message-State: AOJu0YwuFdM2Dw82uAiqpn7gwS3HoL5MUQxvo6OtaopsX8BjaPH1qTBS
+ hq/r1imglaLknQrpq+95+urZvfOzWAg5HGbmnvinVsi5rZPnsCxcYWaWq4D4WtVBkBmsyJ/wonS
+ MsP7hlQ==
+X-Google-Smtp-Source: AGHT+IEPMCypP9qXO0RvaGuM4VgITU5QLgzqlG04rhgp5J4k84UGcYifk87jufMYjm+QHwA0EFLDjg==
+X-Received: by 2002:a2e:be28:0:b0:2ef:29cd:3191 with SMTP id
+ 38308e7fff4ca-2f3be5d9997mr56289061fa.35.1723912000919; 
+ Sat, 17 Aug 2024 09:26:40 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com.
+ [209.85.208.41]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a83838eee8bsm421088966b.92.2024.08.17.09.26.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Aug 2024 09:26:39 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-5b8c2a6117aso1263122a12.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 09:26:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIgN4jw/2OOV6jBgvcXefQ4+wpe7Fi3DHOqjjJPqEUrGvEZYrNZKvmSNE9NIyCDeZsWctF15+lA1iY0fzWijfO2eFxQOhhRXr9VIlx07gx
+X-Received: by 2002:a05:6402:278b:b0:5a1:b6d8:b561 with SMTP id
+ 4fb4d7f45d1cf-5beca527ec4mr6027442a12.9.1723911998605; Sat, 17 Aug 2024
+ 09:26:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240817025624.13157-1-laoar.shao@gmail.com>
+ <20240817025624.13157-6-laoar.shao@gmail.com>
+ <w6fx3gozq73slfpge4xucpezffrdioauzvoscdw2is5xf7viea@a4doumg264s4>
+In-Reply-To: <w6fx3gozq73slfpge4xucpezffrdioauzvoscdw2is5xf7viea@a4doumg264s4>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 17 Aug 2024 09:26:21 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi_U7S=R2ptr3dN21fOVbDGimY3-qpkSebeGtYh6pDCKA@mail.gmail.com>
+Message-ID: <CAHk-=wi_U7S=R2ptr3dN21fOVbDGimY3-qpkSebeGtYh6pDCKA@mail.gmail.com>
+Subject: Re: [PATCH v7 5/8] mm/util: Fix possible race condition in kstrdup()
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
+ justinstitt@google.com, 
+ ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org, 
+ catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, 
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+ bpf@vger.kernel.org, netdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +98,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smatch reported following error:
+On Sat, 17 Aug 2024 at 01:48, Alejandro Colomar <alx@kernel.org> wrote:
+>
+> I would compact the above to:
+>
+>         len = strlen(s);
+>         buf = kmalloc_track_caller(len + 1, gfp);
+>         if (buf)
+>                 strcpy(mempcpy(buf, s, len), "");
 
-'''
-staging/drivers/gpu/drm/scheduler/sched_main.c:1063 drm_sched_select_entity() error: uninitialized symbol 'entity'.
-'''
+No, we're not doing this kind of horror.
 
-The symbol entity is initialized.
+If _FORTIFY_SOURCE has problems with a simple "memcpy and add NUL",
+then _FORTIFY_SOURCE needs to be fixed.
 
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We don't replace a "buf[len] = 0" with strcpy(,""). Yes, compilers may
+simplify it, but dammit, it's an unreadable incomprehensible mess to
+humans, and humans still matter a LOT more.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 7e90c9f95611..dcfd4d0f7c6e 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1047,7 +1047,7 @@ void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
- static struct drm_sched_entity *
- drm_sched_select_entity(struct drm_gpu_scheduler *sched)
- {
--	struct drm_sched_entity *entity;
-+	struct drm_sched_entity *entity = NULL;
- 	int i;
- 
- 	/* Start with the highest priority.
--- 
-2.43.0
-
+                Linus
