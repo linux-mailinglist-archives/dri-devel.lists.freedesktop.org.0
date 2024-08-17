@@ -2,68 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30489557BD
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 14:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCE4955824
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 15:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F34B510E0B1;
-	Sat, 17 Aug 2024 12:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE0310E088;
+	Sat, 17 Aug 2024 13:45:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VUyFU02l";
+	dkim=pass (2048-bit key; unprotected) header.d=verizon.net header.i=@verizon.net header.b="NrAmeryo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8822F10E09D;
- Sat, 17 Aug 2024 12:07:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1723896460; x=1755432460;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=0E4qHRWxQycgZwCCTQdnYUaH2mCgBlnpZ8yLGUOGW58=;
- b=VUyFU02l5mhrBLPpDlEvyQ3pVPpU/FBX0noYeU03srMAtCiikOBG2Rg8
- znSJWmXTzSclV7GlSOxk4laRxN2O639KHMFeXw7KDIqXBlQWu824ekJBC
- v4DR84P8pbTsD1LHGYC28URXTLBj8Xd/fiLr3dob0AmgBLcM921UsZCLz
- obnF8oVVrqg/IUix5NnyigXLF6AF3kNXA2mr2NPArBMgIsLdnxddtrgV/
- /2FmRd1pPlEaDyyk8gKqKrIoJFXEZVEPvQvWWB0fhqberVmyTXvAhBQgt
- V89hdaq4s4IjR2lXiJPc2jam+WP5n/Br7C1+gn6RrCf1fV7gWRRMVqV4V Q==;
-X-CSE-ConnectionGUID: ywGLcWIRShOv1USq2JCUaA==
-X-CSE-MsgGUID: wSZ2WCReS3eEj7FzbjeTvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="21730410"
-X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; d="scan'208";a="21730410"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2024 05:07:39 -0700
-X-CSE-ConnectionGUID: 0OUhR4qTSy61wGP3AQLQCQ==
-X-CSE-MsgGUID: jjuNWhtkQP2hsLtQooMZ0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; d="scan'208";a="60090562"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
- by fmviesa010.fm.intel.com with ESMTP; 17 Aug 2024 05:07:35 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sfIDV-0007QC-0A;
- Sat, 17 Aug 2024 12:07:33 +0000
-Date: Sat, 17 Aug 2024 20:07:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH 83/86] drm/{i915,xe}: Run DRM default client setup
-Message-ID: <202408171913.L3jTjYJX-lkp@intel.com>
-References: <20240816125408.310253-84-tzimmermann@suse.de>
+Received: from sonic316-11.consmr.mail.bf2.yahoo.com
+ (sonic316-11.consmr.mail.bf2.yahoo.com [74.6.130.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBF810E088
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 13:45:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verizon.net; s=a2048;
+ t=1723902324; bh=vp1ZIKZj8k1K41caezVgW55kRks0QRPON9MRRH5jLto=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=NrAmeryofeepKacrRmfuSwwsyOJoONk7SOt7na5RQ1oURiYZQp2NS+y6wlGgQsxev3xuZLvm7p1IqUK7F7zwEbbOR9soBKAr1cKJ2x5oRWABu2xnnH5dPkJ02HdFZqvgBjWKJ+FcFlGH12r1Ww2BrUZ76gVEud+xz6S4KqF1aQ3vaEOfZHXPIA6hJLvxfTQd+20re0xSU5pd507Se5rVsqD0LYBVMNE/3LnEwwwdoa+CstD3GzmwlSSiTDfngUVB1XHyvg5iut/cUYeUyncNvF/aUgALc+LFqvo6MmcZJlj91Aeg0BjuKMpqGVonT+rsxxMcaenngWgcMfrUjnJFPw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1723902324; bh=b1v4NMYmFZ1aeabhl3sYQ6Z+H8XLnEi15xTIoQql87i=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=ZDPo3q8jNqJNpuwa79/XCN3pKq8PqET+2dYrXiNrjwgyNljcCKm5+AktkUZ2k5Zoc1jqpvDWNwIicj6EiIYy4nmeMvfg1ZOu5hsck8XIdS2+5MoVdeAoFJGWlM8WE6whloWAJMKlDF8zzJqJCHAeanzSpiGewJG6ZFnVJm1OAkRfuCp1SPZBgP0qtna/BOV49E7YDa5r1P5CCcOapuFF2f/X7eJvz5x9mPix5ddC2IQtSVOcT3IcwdoF0ThKhT06mth/w3mwxtF/I6oKUZCXaYBuRvFFNlwMnF9pMYTw4fx/Ap+tpBfGFZ0yyWhcEd7vxnR1lD32LWQgtOeOFQn7oQ==
+X-YMail-OSG: fGod_h8VM1nBhmyhLpaBQXflgGYNjJiP3oDUczVkdgXyqA8htvNpy6yfOwfh.3k
+ TuRXz.B_.iGxMBfx7ghjMv79KokwhnrA4aEBFlKxNFy3iUmHxf2KFL7.GKcA7_QQJIIr90v.v._E
+ _mREgBzmvR9cManPACqw.gvD2hCioyK9qtv9zTd18lgbKu_VnvuIvJgscI5CNkncbRhBlWAUAqmq
+ 9vjmGBuJggcbxOa__JOx2CQ6zILkP1qR9x62C5jt8Jfkv3Uo.iEJahSR_tkUSHlLiHAAR3CZ8bcF
+ Xc1aYumYwQb15HmYHbgtyOZ.noWqmsy9mqvyxKlRJlJAUAVPCj2Jfzabc9O5x.hTN_M.KpCo2_2S
+ NAkt12fuokb0Y62DYm_O6GDK8BRK8609a5qzFYftb0Qtu.RlStC6pir5IS0GPBdV3bQc0EjjXnOh
+ yORu1EL.juH3L0rl60e.7AeSqYDifE9W8wElir_F1slPu8Un5Fi8PgYkjXT21g6a7gUQw6chs6Fi
+ PiJIAYaTdUuzXOwxzQOVy7COnTSd1qR6aHTCQV1g4RhJYvqkDDrnBqQcfT3ynp2cDeUbcTscT717
+ doEZnqt3aAkAxMp41fZKGCMMVBj23n4eHwJPnHawjRCGlePLY2dyz55dKTnehJONKznoT.4qerm7
+ Rff0U3ejZ_sDRzNc4QaKhL0PMHS5Mo2w5sVzOg1ppxfZLlUmddy.qvyTig1Zg8c2Wyw1oZg6AAgQ
+ cEIeOrgdykhISdkYmsqpNevMuwESgkoenNvsUH5XiHCS5TjB2lsseuVPFxdONMBQLig0DLk6n9HL
+ mO3tpELyZD_jlBRzapM822CQrc57KxNBItAIlxVcFCSd0tQF._rDgz393rZWNxR6jwEvYvxfLAIa
+ eh0Ziqk1WgeISI2FbulbXNxyn3Ww8WlVgOMjR1CX5SYbeYo7j..WRJQ2LAEB5EO6tc.BZMCeDM4a
+ XfAEcEmvCKJjfpFK7ZWxH7ziD7ztc_ED3ye0KhuPsBv4Esn16OLVuN0B2y0YUQD24hXLQ4TWesBd
+ _532ZaDCDMX4jsh7svqtKYoleWcdsBoiEK1PsX8m_F_PLBMxW9tAVdXMaG2cdruBIYj1ohpAMyyA
+ Awg69Mgb7UptfzzMDp6UwAaGlqAn_8x6XYp7UIMw2WD9iLkQyJMKha99Bbjlyk..5Zf8dyV4qZjT
+ Nsd.z8UgFlpv2OtMdqyLQR6ZscQmuFEat9wxChLk7Ubibecwu8wx43Ydl0PbEiY4UdXYrizOzt3M
+ dCYEiV5VsunLe1LvKtPK3hshJ7utNVgjXtg1pxbSpTIQd9vTPK8jLm3ZkzETujoDblnThgq8FGNo
+ eMVMfa6XNxPgIooiB1kVgFgHspWpRcd5CO_bjqeq.EpofB75_aDxUekSZbRU.hKhdwDjNp0aD6tX
+ dBzc2CjyG2tFEK2f_9dwI45zJlp2G4TQu61HAktixbxIDZ8KfRGBERK0Ve.t2shePhYes3qHe5rI
+ qjQyHZ_T81G5iqHgtR6BNPMzW4y6BX4KzJmHAP0MVQk5J43XDuF.mfzFwHgQmu71CdG0hfQW9lyf
+ 9vbNQhLWNEv7hjc6iQQLFbbwa.JOBqjYHJei8Yfgj4TpYuHQixKukkUKESR5RzgIAu7OdtSpwfNn
+ 3aI_AXLrYHO31TdEHAbeIqUBFGWeE0H9wqYD0g3VpBQ3naFW3t0kvr4rE7xW6Z2InN88ZeXvtFWn
+ GtxOA6wbKIuTG1X0zRq_W6mu8wqINN3qMyzw1hqcA9wclOiujtwXI3ZvBgZWsoYJQJBuSLCApTNT
+ ps5DTVvIujF2Q0vb7gUayhEIr4CQeKibT7C6iQ23A6yWGy2De8TITebGB3cp1nS4JXvuzLn9UY.n
+ tibSjosM8yNMSNFhnmdL8yZcRaq56YwODl64xhrrdlhEgRoJToPyf5TApbqozNsf52e8E2kjDhap
+ 0O2ENSeFxj2PHBY2idgGkrPBAPEJeacqhqqzaTxho3wcAQ7DLwO_cNHZmGY6avzJlHOeXwGN.DO3
+ nw61Td2n_PZyBbwQ2FaYMLtupG3nFRVrH1jppTpc7Y318Dau6CjZQMssXuUAeuGp8Y5hm8cpPkZh
+ 7WJ6FXXwLG3fDc0Mixh.7g726AcmP12v09lcLDjD4gwW_qNfnBGi4uennosPqn4RLmH8966JXIcp
+ koCHZ7MnWEAFg1Bi1d9ihxYnqvdsObWRZ_DrBVHa3KNjnEhFY.88ICOORyg8ULl2X83ap6G4lOj7
+ __q_JLHSCtNP4WFa8vupmUtMoIRMf0ecT3kpynt9ErjWPgkNsZHSN08f.KzP51F4y0C5dFD46Djz
+ M2fiPqBM-
+X-Sonic-MF: <bluescreen_avenger@verizon.net>
+X-Sonic-ID: 8fd3c1d2-0703-4aff-8fd9-043a92bc5d9c
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic316.consmr.mail.bf2.yahoo.com with HTTP; Sat, 17 Aug 2024 13:45:24 +0000
+Received: by hermes--production-bf1-774ddfff8-xjgzc (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 8e4c07eb80e93175ad9bf94c00d9ce30; 
+ Sat, 17 Aug 2024 13:45:23 +0000 (UTC)
+From: nerdopolis <bluescreen_avenger@verizon.net>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [RFC PATCH v2 0/5] drm/log: Introduce a new boot logger to draw
+ the kmsg on the screen
+Date: Sat, 17 Aug 2024 09:45:22 -0400
+Message-ID: <3578804.V25eIC5XRa@nerdopolis2>
+In-Reply-To: <20240816125612.1003295-1-jfalempe@redhat.com>
+References: <20240816125612.1003295-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240816125408.310253-84-tzimmermann@suse.de>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Mailer: WebService/1.1.22544
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,68 +98,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 70d6d55dea574b7b78ccf714699cc5d8d62fcc2c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-fbdev-helper-Move-color-mode-lookup-into-4CC-format-helper/20240816-210651
-base:   70d6d55dea574b7b78ccf714699cc5d8d62fcc2c
-patch link:    https://lore.kernel.org/r/20240816125408.310253-84-tzimmermann%40suse.de
-patch subject: [PATCH 83/86] drm/{i915,xe}: Run DRM default client setup
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20240817/202408171913.L3jTjYJX-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408171913.L3jTjYJX-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408171913.L3jTjYJX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/xe/xe_device.c:6:
-   In file included from drivers/gpu/drm/xe/xe_device.h:9:
-   In file included from include/drm/drm_util.h:35:
-   In file included from include/linux/interrupt.h:22:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/xe/xe_device.c:20:10: fatal error: 'intel_fbdev.h' file not found
-      20 | #include "intel_fbdev.h"
-         |          ^~~~~~~~~~~~~~~
-   5 warnings and 1 error generated.
+On Friday, August 16, 2024 8:52:32 AM EDT Jocelyn Falempe wrote:
+> drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
+> This is not a full replacement to fbcon, as it will only print the kmsg.
+> It will never handle user input, or a terminal because this is better done in userspace.
+> 
+> If you're curious on how it looks like, I've put a small demo here:
+> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
+> 
+> Design decisions:
+>   * It uses the drm_client API, so it should work on all drm drivers from the start.
+>   * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
+>     It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
+>   * It uses a circular buffer so the console->write() callback is very quick, and will never stall.
+>   * Drawing is done asynchronously using a workqueue.
+>   * drm_log can only be built-in (and drm must be built-in too).
+>     The reason is that, if you build it as a module, then a userspace application will be more appropriate than this module.
+>   * When nbcon will be ready, I will use it. It should simplify this a lot, but I prefer not to depend on it yet.
+>  
+> The first patch is not for review/merge, it's a squash of my pending drm_panic series:
+> https://patchwork.freedesktop.org/series/135944/
+> 
+> The second patch, moves the drawing function from drm_panic.c, to drm_draw.c, so they can be re-used by drm_log.
+> The next patches are the actual drm_log implementation.
+> 
+> v2:
+>  * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+>  * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+>  * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+>  * Add color support for the timestamp prefix, like what dmesg does.
+>  * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
+> 
+> Thanks and best regards,
+> 
+> 
+I tested it, and it seems pretty cool. And fast, it seems to keep up when I echo 100,000 lines to /dev/kmsg with seq
 
 
-vim +20 drivers/gpu/drm/xe/xe_device.c
 
-    19	
-  > 20	#include "intel_fbdev.h"
-    21	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
