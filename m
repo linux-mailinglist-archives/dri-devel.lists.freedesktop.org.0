@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662AB955664
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 10:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 865E8955670
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 10:43:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28CB68985A;
-	Sat, 17 Aug 2024 08:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F64810E036;
+	Sat, 17 Aug 2024 08:42:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X4qRGs68";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jrf2ipw+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5AD28985A
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 08:39:04 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7A910E036;
+ Sat, 17 Aug 2024 08:42:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F386360598;
- Sat, 17 Aug 2024 08:39:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30869C116B1;
- Sat, 17 Aug 2024 08:39:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723883943;
- bh=drcR0Ggvob9Xsaq04tuibw0a3w723D1cXfmcavnp7v8=;
+ by sin.source.kernel.org (Postfix) with ESMTP id B83D9CE0FFC;
+ Sat, 17 Aug 2024 08:42:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 765E7C116B1;
+ Sat, 17 Aug 2024 08:42:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1723884173;
+ bh=wCPDpgJU3wZjcbdksuUtn6o6BHEmcbYJwksedTAOdnk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X4qRGs68mHWdMwsIm8IcqoC0AjlA9unRAZyZItSaeap7PHizirk/hNNBeXaBbSGyi
- 8TXQAjPdxFfBxyi7yYHq6mqApaR7yxkD08nUzjQj/awldhvM9VJr1i07GxDJn/8scG
- h28lmq1aJ4tliJZ6C4qTmJbhnufQdVSICkHH28rbualNjCN+dMGOAKFWA7bYRML9Dp
- zwk6+UUbpp+JiZxIrb3mn6+4/C5QLDZrwDqVugy8N3Q+dWQyhmirfyEUCVdCO3dsJH
- B0bz++Fwz+qpQzZ2Ia9SU0OIHOlNdgLk+3ah1rTJqAY9M7W4pASoQ/+TjDqoROGXH3
- JeShGAxlHtFsQ==
-Date: Sat, 17 Aug 2024 10:38:58 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
- justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
- rostedt@goodmis.org, catalin.marinas@arm.com,
- penguin-kernel@i-love.sakura.ne.jp, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
- linux-security-module@vger.kernel.org, 
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Quentin Monnet <qmo@kernel.org>
-Subject: Re: [PATCH v7 4/8] bpftool: Ensure task comm is always NUL-terminated
-Message-ID: <teajtay63uw2ukcwhna7yfblnjeyrppw4zcx2dfwtdz3tapspn@rntw3luvstci>
-References: <20240817025624.13157-1-laoar.shao@gmail.com>
- <20240817025624.13157-5-laoar.shao@gmail.com>
+ b=jrf2ipw+XP2hHIoE9izV0sNQF5Nl4z321jHbyn0zWZPoZqPL1LR02dn/0ycdsYPSK
+ hNCp7UJ6cf+jtTaAIWFzs5JOehixXWZND8OCkVRRgV5H22njOjNNr5IZJwcoZ78M21
+ fESXQWNCsepCSQQsZRxrfoW/kfbb/ovifwsYjtxo=
+Date: Sat, 17 Aug 2024 10:42:51 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kevin Holm <kevin@holm.dev>
+Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Wayne Lin <wayne.lin@amd.com>,
+ Jerry Zuo <jerry.zuo@amd.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: Re: [PATCH 6.10] drm/amd/display: Refactor function
+ dm_dp_mst_is_port_support_mode()
+Message-ID: <2024081739-suburb-manor-e6c3@gregkh>
+References: <20240730185339.543359-1-kevin@holm.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="psoj2t3rvkbpqmnp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240817025624.13157-5-laoar.shao@gmail.com>
+In-Reply-To: <20240730185339.543359-1-kevin@holm.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,97 +60,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---psoj2t3rvkbpqmnp
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
-	justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
-	rostedt@goodmis.org, catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Quentin Monnet <qmo@kernel.org>
-Subject: Re: [PATCH v7 4/8] bpftool: Ensure task comm is always NUL-terminated
-References: <20240817025624.13157-1-laoar.shao@gmail.com>
- <20240817025624.13157-5-laoar.shao@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20240817025624.13157-5-laoar.shao@gmail.com>
-
-Hi Yafang,
-
-On Sat, Aug 17, 2024 at 10:56:20AM GMT, Yafang Shao wrote:
-> Let's explicitly ensure the destination string is NUL-terminated. This wa=
-y,
-> it won't be affected by changes to the source string.
->=20
-> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> Reviewed-by: Quentin Monnet <qmo@kernel.org>
+On Tue, Jul 30, 2024 at 08:53:39PM +0200, Kevin Holm wrote:
+> From: Wayne Lin <wayne.lin@amd.com>
+> 
+> [ Upstream commit fa57924c76d995e87ca3533ec60d1d5e55769a27 ]
+> 
+> [Why]
+> dm_dp_mst_is_port_support_mode() is a bit not following the original design rule and cause
+> light up issue with multiple 4k monitors after mst dsc hub.
+> 
+> [How]
+> Refactor function dm_dp_mst_is_port_support_mode() a bit to solve the light up issue.
+> 
+> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
+> Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+> Signed-off-by: Wayne Lin <wayne.lin@amd.com>
+> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> [kevin@holm.dev: Resolved merge conflict in .../amdgpu_dm_mst_types.c]
+> Fixes: 4df96ba6676034 ("drm/amd/display: Add timing pixel encoding for mst mode validation")
+> Link: https://lore.kernel.org/stable/d74a7768e957e6ce88c27a5bece0c64dff132e24@holm.dev/T/#u
+> Signed-off-by: Kevin Holm <kevin@holm.dev>
 > ---
->  tools/bpf/bpftool/pids.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/tools/bpf/bpftool/pids.c b/tools/bpf/bpftool/pids.c
-> index 9b898571b49e..23f488cf1740 100644
-> --- a/tools/bpf/bpftool/pids.c
-> +++ b/tools/bpf/bpftool/pids.c
-> @@ -54,6 +54,7 @@ static void add_ref(struct hashmap *map, struct pid_ite=
-r_entry *e)
->  		ref =3D &refs->refs[refs->ref_cnt];
->  		ref->pid =3D e->pid;
->  		memcpy(ref->comm, e->comm, sizeof(ref->comm));
-> +		ref->comm[sizeof(ref->comm) - 1] =3D '\0';
+> I resolved the merge conflict so that, after this patch is applied to the
+> linux-6.10.y branch of the stable git repository, the resulting function
+> dm_dp_mst_is_port_support_mode (and also the new function 
+> dp_get_link_current_set_bw) is identical to the original commit.
+> 
+> I've confirmed that it fixes the regression I reported for my use case.
 
-Why doesn't this use strscpy()?  Isn't the source terminated?
+And it turns out this change breaks the arm and arm64 builds.  I tried
+to fix it up by applying the fixup afterward for this file, but it's
+just too much of a mess to unwind this, so I'm going to have to revert
+this now, sorry.
 
-Both the source and the destination measure 16 characters.  If it is
-true that the source is not terminated, then this copy might truncate
-the (non-)string by overwriting the last byte with a NUL.  Is that
-truncation a good thing?
+See:
+	https://lore.kernel.org/r/b27c5434-f1b1-4697-985b-91bb3e9a22df@roeck-us.net
+for details.
 
->  		refs->ref_cnt++;
-> =20
->  		return;
-> @@ -77,6 +78,7 @@ static void add_ref(struct hashmap *map, struct pid_ite=
-r_entry *e)
->  	ref =3D &refs->refs[0];
->  	ref->pid =3D e->pid;
->  	memcpy(ref->comm, e->comm, sizeof(ref->comm));
-> +	ref->comm[sizeof(ref->comm) - 1] =3D '\0';
-
-Same question here.
-
->  	refs->ref_cnt =3D 1;
->  	refs->has_bpf_cookie =3D e->has_bpf_cookie;
->  	refs->bpf_cookie =3D e->bpf_cookie;
-> --=20
-> 2.43.5
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---psoj2t3rvkbpqmnp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmbAYZwACgkQnowa+77/
-2zKmIA/9Gqjb53CpMspqZM8sUUCdmGhqPv1cYcL2EDkg7W9lkRgn0GLudREK/roq
-y4QBmGljgAhm3UbecLPiKvAPtiYmGoOmndrjJ4mq8E6lSqkMjHoaiMZ2EEPI7u+p
-xPTHJklCQHIAndCjVjC7A4cIx2RZuBtx6Xg/JMgO7i/s0jtb2SqiQtXEEIHjuUd5
-q0YybNl407qq/IRSt72qEL+rKEBVdcZppyDfoxPVKEZYOgbmhYpyyViq6Rli9HhU
-loprXpAdwiumkNZQHJ7It8nXlC5/J3VDuazDN193PNRprMfzC5TjBpWezf+KY7Wn
-Vx5tAC4H6ZTNdhD5a+NwfaApt9xqOcRVaYe2E1m1dMfIgojmUvJYd4zcRZBYRE5M
-uhQxkrRLueuJoKeqVcIlbPRTafIUd6lev0ccKam+Ao9J5Nt4TmqAUMyYIOymQ90B
-ldUgSSiofzyioNhrKNS1mLBCOVjTKClEBH+rbjKfO7KLf6Qo2dtvLoOCC5f7YZvy
-k9GsCv9jGEF64bGdcK82pM+LjftAWuTbO3Uwlw7qUNDKJb7OWjQS5BtejgQpiOh6
-RB4z4wZkDZ/Skwke7F16AsEeMugdcRyD1Wyl4paqcw8sXhc1AquvuymC6OPV5u8z
-GZt0uJeVRKbg7CVQEny1jGFO8BiPLK6JzTHLRV3KRlTKCGc5vEY=
-=fb44
------END PGP SIGNATURE-----
-
---psoj2t3rvkbpqmnp--
+greg k-h
