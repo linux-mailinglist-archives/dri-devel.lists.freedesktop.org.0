@@ -2,87 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCE4955824
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 15:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C32955835
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 15:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAE0310E088;
-	Sat, 17 Aug 2024 13:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14BB110E09B;
+	Sat, 17 Aug 2024 13:58:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=verizon.net header.i=@verizon.net header.b="NrAmeryo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MtcOUHXn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic316-11.consmr.mail.bf2.yahoo.com
- (sonic316-11.consmr.mail.bf2.yahoo.com [74.6.130.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBF810E088
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 13:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verizon.net; s=a2048;
- t=1723902324; bh=vp1ZIKZj8k1K41caezVgW55kRks0QRPON9MRRH5jLto=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=NrAmeryofeepKacrRmfuSwwsyOJoONk7SOt7na5RQ1oURiYZQp2NS+y6wlGgQsxev3xuZLvm7p1IqUK7F7zwEbbOR9soBKAr1cKJ2x5oRWABu2xnnH5dPkJ02HdFZqvgBjWKJ+FcFlGH12r1Ww2BrUZ76gVEud+xz6S4KqF1aQ3vaEOfZHXPIA6hJLvxfTQd+20re0xSU5pd507Se5rVsqD0LYBVMNE/3LnEwwwdoa+CstD3GzmwlSSiTDfngUVB1XHyvg5iut/cUYeUyncNvF/aUgALc+LFqvo6MmcZJlj91Aeg0BjuKMpqGVonT+rsxxMcaenngWgcMfrUjnJFPw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1723902324; bh=b1v4NMYmFZ1aeabhl3sYQ6Z+H8XLnEi15xTIoQql87i=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=ZDPo3q8jNqJNpuwa79/XCN3pKq8PqET+2dYrXiNrjwgyNljcCKm5+AktkUZ2k5Zoc1jqpvDWNwIicj6EiIYy4nmeMvfg1ZOu5hsck8XIdS2+5MoVdeAoFJGWlM8WE6whloWAJMKlDF8zzJqJCHAeanzSpiGewJG6ZFnVJm1OAkRfuCp1SPZBgP0qtna/BOV49E7YDa5r1P5CCcOapuFF2f/X7eJvz5x9mPix5ddC2IQtSVOcT3IcwdoF0ThKhT06mth/w3mwxtF/I6oKUZCXaYBuRvFFNlwMnF9pMYTw4fx/Ap+tpBfGFZ0yyWhcEd7vxnR1lD32LWQgtOeOFQn7oQ==
-X-YMail-OSG: fGod_h8VM1nBhmyhLpaBQXflgGYNjJiP3oDUczVkdgXyqA8htvNpy6yfOwfh.3k
- TuRXz.B_.iGxMBfx7ghjMv79KokwhnrA4aEBFlKxNFy3iUmHxf2KFL7.GKcA7_QQJIIr90v.v._E
- _mREgBzmvR9cManPACqw.gvD2hCioyK9qtv9zTd18lgbKu_VnvuIvJgscI5CNkncbRhBlWAUAqmq
- 9vjmGBuJggcbxOa__JOx2CQ6zILkP1qR9x62C5jt8Jfkv3Uo.iEJahSR_tkUSHlLiHAAR3CZ8bcF
- Xc1aYumYwQb15HmYHbgtyOZ.noWqmsy9mqvyxKlRJlJAUAVPCj2Jfzabc9O5x.hTN_M.KpCo2_2S
- NAkt12fuokb0Y62DYm_O6GDK8BRK8609a5qzFYftb0Qtu.RlStC6pir5IS0GPBdV3bQc0EjjXnOh
- yORu1EL.juH3L0rl60e.7AeSqYDifE9W8wElir_F1slPu8Un5Fi8PgYkjXT21g6a7gUQw6chs6Fi
- PiJIAYaTdUuzXOwxzQOVy7COnTSd1qR6aHTCQV1g4RhJYvqkDDrnBqQcfT3ynp2cDeUbcTscT717
- doEZnqt3aAkAxMp41fZKGCMMVBj23n4eHwJPnHawjRCGlePLY2dyz55dKTnehJONKznoT.4qerm7
- Rff0U3ejZ_sDRzNc4QaKhL0PMHS5Mo2w5sVzOg1ppxfZLlUmddy.qvyTig1Zg8c2Wyw1oZg6AAgQ
- cEIeOrgdykhISdkYmsqpNevMuwESgkoenNvsUH5XiHCS5TjB2lsseuVPFxdONMBQLig0DLk6n9HL
- mO3tpELyZD_jlBRzapM822CQrc57KxNBItAIlxVcFCSd0tQF._rDgz393rZWNxR6jwEvYvxfLAIa
- eh0Ziqk1WgeISI2FbulbXNxyn3Ww8WlVgOMjR1CX5SYbeYo7j..WRJQ2LAEB5EO6tc.BZMCeDM4a
- XfAEcEmvCKJjfpFK7ZWxH7ziD7ztc_ED3ye0KhuPsBv4Esn16OLVuN0B2y0YUQD24hXLQ4TWesBd
- _532ZaDCDMX4jsh7svqtKYoleWcdsBoiEK1PsX8m_F_PLBMxW9tAVdXMaG2cdruBIYj1ohpAMyyA
- Awg69Mgb7UptfzzMDp6UwAaGlqAn_8x6XYp7UIMw2WD9iLkQyJMKha99Bbjlyk..5Zf8dyV4qZjT
- Nsd.z8UgFlpv2OtMdqyLQR6ZscQmuFEat9wxChLk7Ubibecwu8wx43Ydl0PbEiY4UdXYrizOzt3M
- dCYEiV5VsunLe1LvKtPK3hshJ7utNVgjXtg1pxbSpTIQd9vTPK8jLm3ZkzETujoDblnThgq8FGNo
- eMVMfa6XNxPgIooiB1kVgFgHspWpRcd5CO_bjqeq.EpofB75_aDxUekSZbRU.hKhdwDjNp0aD6tX
- dBzc2CjyG2tFEK2f_9dwI45zJlp2G4TQu61HAktixbxIDZ8KfRGBERK0Ve.t2shePhYes3qHe5rI
- qjQyHZ_T81G5iqHgtR6BNPMzW4y6BX4KzJmHAP0MVQk5J43XDuF.mfzFwHgQmu71CdG0hfQW9lyf
- 9vbNQhLWNEv7hjc6iQQLFbbwa.JOBqjYHJei8Yfgj4TpYuHQixKukkUKESR5RzgIAu7OdtSpwfNn
- 3aI_AXLrYHO31TdEHAbeIqUBFGWeE0H9wqYD0g3VpBQ3naFW3t0kvr4rE7xW6Z2InN88ZeXvtFWn
- GtxOA6wbKIuTG1X0zRq_W6mu8wqINN3qMyzw1hqcA9wclOiujtwXI3ZvBgZWsoYJQJBuSLCApTNT
- ps5DTVvIujF2Q0vb7gUayhEIr4CQeKibT7C6iQ23A6yWGy2De8TITebGB3cp1nS4JXvuzLn9UY.n
- tibSjosM8yNMSNFhnmdL8yZcRaq56YwODl64xhrrdlhEgRoJToPyf5TApbqozNsf52e8E2kjDhap
- 0O2ENSeFxj2PHBY2idgGkrPBAPEJeacqhqqzaTxho3wcAQ7DLwO_cNHZmGY6avzJlHOeXwGN.DO3
- nw61Td2n_PZyBbwQ2FaYMLtupG3nFRVrH1jppTpc7Y318Dau6CjZQMssXuUAeuGp8Y5hm8cpPkZh
- 7WJ6FXXwLG3fDc0Mixh.7g726AcmP12v09lcLDjD4gwW_qNfnBGi4uennosPqn4RLmH8966JXIcp
- koCHZ7MnWEAFg1Bi1d9ihxYnqvdsObWRZ_DrBVHa3KNjnEhFY.88ICOORyg8ULl2X83ap6G4lOj7
- __q_JLHSCtNP4WFa8vupmUtMoIRMf0ecT3kpynt9ErjWPgkNsZHSN08f.KzP51F4y0C5dFD46Djz
- M2fiPqBM-
-X-Sonic-MF: <bluescreen_avenger@verizon.net>
-X-Sonic-ID: 8fd3c1d2-0703-4aff-8fd9-043a92bc5d9c
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic316.consmr.mail.bf2.yahoo.com with HTTP; Sat, 17 Aug 2024 13:45:24 +0000
-Received: by hermes--production-bf1-774ddfff8-xjgzc (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 8e4c07eb80e93175ad9bf94c00d9ce30; 
- Sat, 17 Aug 2024 13:45:23 +0000 (UTC)
-From: nerdopolis <bluescreen_avenger@verizon.net>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [RFC PATCH v2 0/5] drm/log: Introduce a new boot logger to draw
- the kmsg on the screen
-Date: Sat, 17 Aug 2024 09:45:22 -0400
-Message-ID: <3578804.V25eIC5XRa@nerdopolis2>
-In-Reply-To: <20240816125612.1003295-1-jfalempe@redhat.com>
-References: <20240816125612.1003295-1-jfalempe@redhat.com>
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7D4A10E09B
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 13:58:19 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2ef2d96164aso35096491fa.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 06:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1723903098; x=1724507898; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=K9TIBszC0lTg0a5cdvWq0x+E0HKul2PwBkMOHzpxJ40=;
+ b=MtcOUHXnd1ma2wGfuQQ9xeLtJH/HHKwwd4XtlC97h97oPXLCO9BmBYCFXEAaE1adq2
+ fGPPGqBDGWIiFYAOAFdndA0pfqACwpqXAMnmz/DHeWmt/8xnHg6e6D7G70OMriBuLWhq
+ 953WntJ7V+9ctW6ThDFm8NmLvxezVCT5iASa0wtPI3pZdYaK+GyldbvVFN7v36Ci2qoI
+ o49uODtZnR8yVyGEVvVuMKncB4sEaBgyhJgnk2xdkHW0ti0vrnHzTEGtktFGVs3frUeL
+ oqFEdnYYMF9dTe5BYMnJjjGF5QqSfoJoAHcJPjD8vL1Vt3DTJFt5THAmV282cHN/Fql8
+ ItLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1723903098; x=1724507898;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=K9TIBszC0lTg0a5cdvWq0x+E0HKul2PwBkMOHzpxJ40=;
+ b=IVxsUSqaXYxXJA3H5HybUtDQLmk5JWdGZhzWoD0Q64b478Gffc6rQsLF/P38vTbELc
+ 50O+U4IgF5O4FEgn6pNCyn49skB/0CdTSP86JrbKaTEJKbgbLwch5sJxx3V/fm8Vr1Tp
+ Xyd/IbnmJVs3cPIM3B7O1uc1pkRtbrpcLTy6l6WNVyhlFTx5UGTpBvlsWHXdcHjf2tdG
+ 5b8H0Zih/x7d761vwIZG4PrTNduoEHzX/XYpXg4Rj/pFTjeOx7yCDfPddxy6tj91hDPb
+ ppqVvRhMUSLAKsQDV2sh9Lzh+ZIGMjKBcMHurjokJ+b4+TnQdzPdqXogUODNdRjXnXD4
+ OaLA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2K+dbjabxiGvTj7iJhsMpc3kZiz+fkkDPh1ayYkwpOXu0bXrsCuhXrLEOgyPi1URG5yaHwEwlRMSHsLmP/aGHhc5LBnF9yL9ana8SB+wj
+X-Gm-Message-State: AOJu0Yx1uPlWaCFTxUbj+NVar2QYWbrXqofNJ7KyEeGKs5bru36ToSaW
+ P6CkiMd8k5RJ+rdvD7QW2QftvQLLdPmek6msVRpOPr9B0hK+F9EhW85TFRZ7ABJFrjy8vlQnFG9
+ OPT0eLAPrao6yZ4vViiiTAl8fy3s=
+X-Google-Smtp-Source: AGHT+IGRqAI4xbQi7G5rNn6wjqK70/AWIwz2X3RJm/UJK9kycUAJz2BP4MuZfRHRppsCskJFGYPWnok88joZfAGwlcY=
+X-Received: by 2002:a2e:743:0:b0:2f3:ac52:416b with SMTP id
+ 38308e7fff4ca-2f3be5de448mr37160891fa.35.1723903097184; Sat, 17 Aug 2024
+ 06:58:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Mailer: WebService/1.1.22544
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+References: <20240813211317.3381180-10-almasrymina@google.com>
+In-Reply-To: <20240813211317.3381180-10-almasrymina@google.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Sat, 17 Aug 2024 22:58:05 +0900
+Message-ID: <CAMArcTW=mg2gF_e6spPWOCuQdDAWSuKTCdCNPWGqcU1ciq30EQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 09/13] tcp: RX path for devmem TCP
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,41 +115,708 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, August 16, 2024 8:52:32 AM EDT Jocelyn Falempe wrote:
-> drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
-> This is not a full replacement to fbcon, as it will only print the kmsg.
-> It will never handle user input, or a terminal because this is better done in userspace.
-> 
-> If you're curious on how it looks like, I've put a small demo here:
-> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
-> 
-> Design decisions:
->   * It uses the drm_client API, so it should work on all drm drivers from the start.
->   * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
->     It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
->   * It uses a circular buffer so the console->write() callback is very quick, and will never stall.
->   * Drawing is done asynchronously using a workqueue.
->   * drm_log can only be built-in (and drm must be built-in too).
->     The reason is that, if you build it as a module, then a userspace application will be more appropriate than this module.
->   * When nbcon will be ready, I will use it. It should simplify this a lot, but I prefer not to depend on it yet.
->  
-> The first patch is not for review/merge, it's a squash of my pending drm_panic series:
-> https://patchwork.freedesktop.org/series/135944/
-> 
-> The second patch, moves the drawing function from drm_panic.c, to drm_draw.c, so they can be re-used by drm_log.
-> The next patches are the actual drm_log implementation.
-> 
-> v2:
->  * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
->  * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
->  * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
->  * Add color support for the timestamp prefix, like what dmesg does.
->  * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
-> 
-> Thanks and best regards,
-> 
-> 
-I tested it, and it seems pretty cool. And fast, it seems to keep up when I echo 100,000 lines to /dev/kmsg with seq
+On Wed, Aug 14, 2024 at 6:13=E2=80=AFAM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
 
+Hi Mina,
 
+> In tcp_recvmsg_locked(), detect if the skb being received by the user
+> is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVMEM
+> flag - pass it to tcp_recvmsg_devmem() for custom handling.
+>
+> tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> buffer, and returns a cmsg to the user indicating the number of bytes
+> returned in the linear buffer.
+>
+> tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> and returns to the user a cmsg_devmem indicating the location of the
+> data in the dmabuf device memory. cmsg_devmem contains this information:
+>
+> 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
 
+I have been testing this patch and I found a bug.
+While testing it with the ncdevmem cmd, it fails to validate buffers
+after some period.
+This is because tcp_recvmsg_dmabuf() can't handle skb properly when
+the parameter offset !=3D 0.
+The tcp_recvmsg_dmabuf() already has the code that handles skb if
+offset is not 0 but it doesn't work for a specific case.
+
+> 2. the size of the frag. 'frag_size'.
+> 3. an opaque token 'frag_token' to return to the kernel when the buffer
+> is to be released.
+>
+> The pages awaiting freeing are stored in the newly added
+> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
+> This reference is dropped once the userspace indicates that it is
+> done reading this page.  All pages are released when the socket is
+> destroyed.
+>
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+> Reviewed-by: Eric Dumazet <edumazet@google.com>
+>
+> ---
+>
+> v16:
+> - Fix number assignement (Arnd).
+>
+> v13:
+> - Refactored user frags cleanup into a common function to avoid
+>   __maybe_unused. (Pavel)
+> - change to offset =3D 0 for some improved clarity.
+>
+> v11:
+> - Refactor to common function te remove conditional lock sparse warning
+>   (Paolo)
+>
+> v7:
+> - Updated the SO_DEVMEM_* uapi to use the next available entries (Arnd).
+> - Updated dmabuf_cmsg struct to be __u64 padded (Arnd).
+> - Squashed fix from Eric to initialize sk_user_frags for passive
+>   sockets (Eric).
+>
+> v6
+> - skb->dmabuf -> skb->readable (Pavel)
+> - Fixed asm definitions of SO_DEVMEM_LINEAR/SO_DEVMEM_DMABUF not found
+>   on some archs.
+> - Squashed in locking optimizations from edumazet@google.com. With this
+>   change we lock the xarray once per per tcp_recvmsg_dmabuf() rather
+>   than once per frag in xa_alloc().
+>
+> Changes in v1:
+> - Added dmabuf_id to dmabuf_cmsg (David/Stan).
+> - Devmem -> dmabuf (David).
+> - Change tcp_recvmsg_dmabuf() check to skb->dmabuf (Paolo).
+> - Use __skb_frag_ref() & napi_pp_put_page() for refcounting (Yunsheng).
+>
+> RFC v3:
+> - Fixed issue with put_cmsg() failing silently.
+>
+> ---
+>  arch/alpha/include/uapi/asm/socket.h  |   5 +
+>  arch/mips/include/uapi/asm/socket.h   |   5 +
+>  arch/parisc/include/uapi/asm/socket.h |   5 +
+>  arch/sparc/include/uapi/asm/socket.h  |   5 +
+>  include/linux/socket.h                |   1 +
+>  include/net/netmem.h                  |  13 ++
+>  include/net/sock.h                    |   2 +
+>  include/uapi/asm-generic/socket.h     |   5 +
+>  include/uapi/linux/uio.h              |  13 ++
+>  net/ipv4/tcp.c                        | 255 +++++++++++++++++++++++++-
+>  net/ipv4/tcp_ipv4.c                   |  16 ++
+>  net/ipv4/tcp_minisocks.c              |   2 +
+>  12 files changed, 322 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/ua=
+pi/asm/socket.h
+> index e94f621903fe..ef4656a41058 100644
+> --- a/arch/alpha/include/uapi/asm/socket.h
+> +++ b/arch/alpha/include/uapi/asm/socket.h
+> @@ -140,6 +140,11 @@
+>  #define SO_PASSPIDFD           76
+>  #define SO_PEERPIDFD           77
+>
+> +#define SO_DEVMEM_LINEAR       78
+> +#define SCM_DEVMEM_LINEAR      SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF       79
+> +#define SCM_DEVMEM_DMABUF      SO_DEVMEM_DMABUF
+> +
+>  #if !defined(__KERNEL__)
+>
+>  #if __BITS_PER_LONG =3D=3D 64
+> diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi=
+/asm/socket.h
+> index 60ebaed28a4c..414807d55e33 100644
+> --- a/arch/mips/include/uapi/asm/socket.h
+> +++ b/arch/mips/include/uapi/asm/socket.h
+> @@ -151,6 +151,11 @@
+>  #define SO_PASSPIDFD           76
+>  #define SO_PEERPIDFD           77
+>
+> +#define SO_DEVMEM_LINEAR       78
+> +#define SCM_DEVMEM_LINEAR      SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF       79
+> +#define SCM_DEVMEM_DMABUF      SO_DEVMEM_DMABUF
+> +
+>  #if !defined(__KERNEL__)
+>
+>  #if __BITS_PER_LONG =3D=3D 64
+> diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/=
+uapi/asm/socket.h
+> index be264c2b1a11..2b817efd4544 100644
+> --- a/arch/parisc/include/uapi/asm/socket.h
+> +++ b/arch/parisc/include/uapi/asm/socket.h
+> @@ -132,6 +132,11 @@
+>  #define SO_PASSPIDFD           0x404A
+>  #define SO_PEERPIDFD           0x404B
+>
+> +#define SO_DEVMEM_LINEAR       78
+> +#define SCM_DEVMEM_LINEAR      SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF       79
+> +#define SCM_DEVMEM_DMABUF      SO_DEVMEM_DMABUF
+> +
+>  #if !defined(__KERNEL__)
+>
+>  #if __BITS_PER_LONG =3D=3D 64
+> diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/ua=
+pi/asm/socket.h
+> index 682da3714686..00248fc68977 100644
+> --- a/arch/sparc/include/uapi/asm/socket.h
+> +++ b/arch/sparc/include/uapi/asm/socket.h
+> @@ -133,6 +133,11 @@
+>  #define SO_PASSPIDFD             0x0055
+>  #define SO_PEERPIDFD             0x0056
+>
+> +#define SO_DEVMEM_LINEAR         0x0057
+> +#define SCM_DEVMEM_LINEAR        SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF         0x0058
+> +#define SCM_DEVMEM_DMABUF        SO_DEVMEM_DMABUF
+> +
+>  #if !defined(__KERNEL__)
+>
+>
+> diff --git a/include/linux/socket.h b/include/linux/socket.h
+> index df9cdb8bbfb8..d18cc47e89bd 100644
+> --- a/include/linux/socket.h
+> +++ b/include/linux/socket.h
+> @@ -327,6 +327,7 @@ struct ucred {
+>                                           * plain text and require encryp=
+tion
+>                                           */
+>
+> +#define MSG_SOCK_DEVMEM 0x2000000      /* Receive devmem skbs as cmsg */
+>  #define MSG_ZEROCOPY   0x4000000       /* Use user data in kernel path *=
+/
+>  #define MSG_SPLICE_PAGES 0x8000000     /* Splice the pages from the iter=
+ator in sendmsg() */
+>  #define MSG_FASTOPEN   0x20000000      /* Send data in TCP SYN */
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index 284f84a312c2..84043fbdd797 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -65,6 +65,19 @@ static inline unsigned int net_iov_idx(const struct ne=
+t_iov *niov)
+>         return niov - net_iov_owner(niov)->niovs;
+>  }
+>
+> +static inline unsigned long net_iov_virtual_addr(const struct net_iov *n=
+iov)
+> +{
+> +       struct dmabuf_genpool_chunk_owner *owner =3D net_iov_owner(niov);
+> +
+> +       return owner->base_virtual +
+> +              ((unsigned long)net_iov_idx(niov) << PAGE_SHIFT);
+> +}
+> +
+> +static inline u32 net_iov_binding_id(const struct net_iov *niov)
+> +{
+> +       return net_iov_owner(niov)->binding->id;
+> +}
+> +
+>  static inline struct net_devmem_dmabuf_binding *
+>  net_iov_binding(const struct net_iov *niov)
+>  {
+> diff --git a/include/net/sock.h b/include/net/sock.h
+> index cce23ac4d514..f8ec869be238 100644
+> --- a/include/net/sock.h
+> +++ b/include/net/sock.h
+> @@ -337,6 +337,7 @@ struct sk_filter;
+>    *    @sk_txtime_report_errors: set report errors mode for SO_TXTIME
+>    *    @sk_txtime_unused: unused txtime flags
+>    *    @ns_tracker: tracker for netns reference
+> +  *    @sk_user_frags: xarray of pages the user is holding a reference o=
+n.
+>    */
+>  struct sock {
+>         /*
+> @@ -542,6 +543,7 @@ struct sock {
+>  #endif
+>         struct rcu_head         sk_rcu;
+>         netns_tracker           ns_tracker;
+> +       struct xarray           sk_user_frags;
+>  };
+>
+>  struct sock_bh_locked {
+> diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic=
+/socket.h
+> index 8ce8a39a1e5f..e993edc9c0ee 100644
+> --- a/include/uapi/asm-generic/socket.h
+> +++ b/include/uapi/asm-generic/socket.h
+> @@ -135,6 +135,11 @@
+>  #define SO_PASSPIDFD           76
+>  #define SO_PEERPIDFD           77
+>
+> +#define SO_DEVMEM_LINEAR       78
+> +#define SCM_DEVMEM_LINEAR      SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF       79
+> +#define SCM_DEVMEM_DMABUF      SO_DEVMEM_DMABUF
+> +
+>  #if !defined(__KERNEL__)
+>
+>  #if __BITS_PER_LONG =3D=3D 64 || (defined(__x86_64__) && defined(__ILP32=
+__))
+> diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
+> index 059b1a9147f4..3a22ddae376a 100644
+> --- a/include/uapi/linux/uio.h
+> +++ b/include/uapi/linux/uio.h
+> @@ -20,6 +20,19 @@ struct iovec
+>         __kernel_size_t iov_len; /* Must be size_t (1003.1g) */
+>  };
+>
+> +struct dmabuf_cmsg {
+> +       __u64 frag_offset;      /* offset into the dmabuf where the frag =
+starts.
+> +                                */
+> +       __u32 frag_size;        /* size of the frag. */
+> +       __u32 frag_token;       /* token representing this frag for
+> +                                * DEVMEM_DONTNEED.
+> +                                */
+> +       __u32  dmabuf_id;       /* dmabuf id this frag belongs to. */
+> +       __u32 flags;            /* Currently unused. Reserved for future
+> +                                * uses.
+> +                                */
+> +};
+> +
+>  /*
+>   *     UIO_MAXIOV shall be at least 16 1003.1g (5.4.1.1)
+>   */
+> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+> index 30e0aa38ba9b..40e7335dae6e 100644
+> --- a/net/ipv4/tcp.c
+> +++ b/net/ipv4/tcp.c
+> @@ -471,6 +471,7 @@ void tcp_init_sock(struct sock *sk)
+>
+>         set_bit(SOCK_SUPPORT_ZC, &sk->sk_socket->flags);
+>         sk_sockets_allocated_inc(sk);
+> +       xa_init_flags(&sk->sk_user_frags, XA_FLAGS_ALLOC1);
+>  }
+>  EXPORT_SYMBOL(tcp_init_sock);
+>
+> @@ -2323,6 +2324,220 @@ static int tcp_inq_hint(struct sock *sk)
+>         return inq;
+>  }
+>
+> +/* batch __xa_alloc() calls and reduce xa_lock()/xa_unlock() overhead. *=
+/
+> +struct tcp_xa_pool {
+> +       u8              max; /* max <=3D MAX_SKB_FRAGS */
+> +       u8              idx; /* idx <=3D max */
+> +       __u32           tokens[MAX_SKB_FRAGS];
+> +       netmem_ref      netmems[MAX_SKB_FRAGS];
+> +};
+> +
+> +static void tcp_xa_pool_commit_locked(struct sock *sk, struct tcp_xa_poo=
+l *p)
+> +{
+> +       int i;
+> +
+> +       /* Commit part that has been copied to user space. */
+> +       for (i =3D 0; i < p->idx; i++)
+> +               __xa_cmpxchg(&sk->sk_user_frags, p->tokens[i], XA_ZERO_EN=
+TRY,
+> +                            (__force void *)p->netmems[i], GFP_KERNEL);
+> +       /* Rollback what has been pre-allocated and is no longer needed. =
+*/
+> +       for (; i < p->max; i++)
+> +               __xa_erase(&sk->sk_user_frags, p->tokens[i]);
+> +
+> +       p->max =3D 0;
+> +       p->idx =3D 0;
+> +}
+> +
+> +static void tcp_xa_pool_commit(struct sock *sk, struct tcp_xa_pool *p)
+> +{
+> +       if (!p->max)
+> +               return;
+> +
+> +       xa_lock_bh(&sk->sk_user_frags);
+> +
+> +       tcp_xa_pool_commit_locked(sk, p);
+> +
+> +       xa_unlock_bh(&sk->sk_user_frags);
+> +}
+> +
+> +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
+> +                             unsigned int max_frags)
+> +{
+> +       int err, k;
+> +
+> +       if (p->idx < p->max)
+> +               return 0;
+> +
+> +       xa_lock_bh(&sk->sk_user_frags);
+> +
+> +       tcp_xa_pool_commit_locked(sk, p);
+> +
+> +       for (k =3D 0; k < max_frags; k++) {
+> +               err =3D __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
+> +                                XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL)=
+;
+> +               if (err)
+> +                       break;
+> +       }
+> +
+> +       xa_unlock_bh(&sk->sk_user_frags);
+> +
+> +       p->max =3D k;
+> +       p->idx =3D 0;
+> +       return k ? 0 : err;
+> +}
+> +
+> +/* On error, returns the -errno. On success, returns number of bytes sen=
+t to the
+> + * user. May not consume all of @remaining_len.
+> + */
+> +static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb=
+,
+> +                             unsigned int offset, struct msghdr *msg,
+> +                             int remaining_len)
+> +{
+> +       struct dmabuf_cmsg dmabuf_cmsg =3D { 0 };
+> +       struct tcp_xa_pool tcp_xa_pool;
+> +       unsigned int start;
+> +       int i, copy, n;
+> +       int sent =3D 0;
+> +       int err =3D 0;
+> +
+> +       tcp_xa_pool.max =3D 0;
+> +       tcp_xa_pool.idx =3D 0;
+> +       do {
+> +               start =3D skb_headlen(skb);
+> +
+> +               if (skb_frags_readable(skb)) {
+> +                       err =3D -ENODEV;
+> +                       goto out;
+> +               }
+> +
+> +               /* Copy header. */
+> +               copy =3D start - offset;
+> +               if (copy > 0) {
+> +                       copy =3D min(copy, remaining_len);
+> +
+> +                       n =3D copy_to_iter(skb->data + offset, copy,
+> +                                        &msg->msg_iter);
+> +                       if (n !=3D copy) {
+> +                               err =3D -EFAULT;
+> +                               goto out;
+> +                       }
+> +
+> +                       offset +=3D copy;
+> +                       remaining_len -=3D copy;
+> +
+> +                       /* First a dmabuf_cmsg for # bytes copied to user
+> +                        * buffer.
+> +                        */
+> +                       memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
+> +                       dmabuf_cmsg.frag_size =3D copy;
+> +                       err =3D put_cmsg(msg, SOL_SOCKET, SO_DEVMEM_LINEA=
+R,
+> +                                      sizeof(dmabuf_cmsg), &dmabuf_cmsg)=
+;
+> +                       if (err || msg->msg_flags & MSG_CTRUNC) {
+> +                               msg->msg_flags &=3D ~MSG_CTRUNC;
+> +                               if (!err)
+> +                                       err =3D -ETOOSMALL;
+> +                               goto out;
+> +                       }
+> +
+> +                       sent +=3D copy;
+> +
+> +                       if (remaining_len =3D=3D 0)
+> +                               goto out;
+> +               }
+> +
+> +               /* after that, send information of dmabuf pages through a
+> +                * sequence of cmsg
+> +                */
+> +               for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
+> +                       skb_frag_t *frag =3D &skb_shinfo(skb)->frags[i];
+> +                       struct net_iov *niov;
+> +                       u64 frag_offset;
+> +                       int end;
+> +
+> +                       /* !skb_frags_readable() should indicate that ALL=
+ the
+> +                        * frags in this skb are dmabuf net_iovs. We're c=
+hecking
+> +                        * for that flag above, but also check individual=
+ frags
+> +                        * here. If the tcp stack is not setting
+> +                        * skb_frags_readable() correctly, we still don't=
+ want
+> +                        * to crash here.
+> +                        */
+> +                       if (!skb_frag_net_iov(frag)) {
+> +                               net_err_ratelimited("Found non-dmabuf skb=
+ with net_iov");
+> +                               err =3D -ENODEV;
+> +                               goto out;
+> +                       }
+> +
+> +                       niov =3D skb_frag_net_iov(frag);
+> +                       end =3D start + skb_frag_size(frag);
+> +                       copy =3D end - offset;
+> +
+> +                       if (copy > 0) {
+> +                               copy =3D min(copy, remaining_len);
+> +
+> +                               frag_offset =3D net_iov_virtual_addr(niov=
+) +
+> +                                             skb_frag_off(frag) + offset=
+ -
+> +                                             start;
+> +                               dmabuf_cmsg.frag_offset =3D frag_offset;
+> +                               dmabuf_cmsg.frag_size =3D copy;
+> +                               err =3D tcp_xa_pool_refill(sk, &tcp_xa_po=
+ol,
+> +                                                        skb_shinfo(skb)-=
+>nr_frags - i);
+> +                               if (err)
+> +                                       goto out;
+> +
+> +                               /* Will perform the exchange later */
+> +                               dmabuf_cmsg.frag_token =3D tcp_xa_pool.to=
+kens[tcp_xa_pool.idx];
+> +                               dmabuf_cmsg.dmabuf_id =3D net_iov_binding=
+_id(niov);
+> +
+> +                               offset +=3D copy;
+> +                               remaining_len -=3D copy;
+> +
+> +                               err =3D put_cmsg(msg, SOL_SOCKET,
+> +                                              SO_DEVMEM_DMABUF,
+> +                                              sizeof(dmabuf_cmsg),
+> +                                              &dmabuf_cmsg);
+> +                               if (err || msg->msg_flags & MSG_CTRUNC) {
+> +                                       msg->msg_flags &=3D ~MSG_CTRUNC;
+> +                                       if (!err)
+> +                                               err =3D -ETOOSMALL;
+> +                                       goto out;
+> +                               }
+> +
+> +                               atomic_long_inc(&niov->pp_ref_count);
+> +                               tcp_xa_pool.netmems[tcp_xa_pool.idx++] =
+=3D skb_frag_netmem(frag);
+> +
+> +                               sent +=3D copy;
+> +
+> +                               if (remaining_len =3D=3D 0)
+> +                                       goto out;
+> +                       }
+> +                       start =3D end;
+> +               }
+> +
+> +               tcp_xa_pool_commit(sk, &tcp_xa_pool);
+> +               if (!remaining_len)
+> +                       goto out;
+> +
+> +               /* if remaining_len is not satisfied yet, we need to go t=
+o the
+> +                * next frag in the frag_list to satisfy remaining_len.
+> +                */
+> +               skb =3D skb_shinfo(skb)->frag_list ?: skb->next;
+> +
+> +               offset =3D 0;
+
+If the offset is 5000 and only 4500 bytes are skipped at this point,
+the offset should be 500, not 0.
+We need to add a condition to set the offset correctly.
+
+> +       } while (skb);
+> +
+> +       if (remaining_len) {
+> +               err =3D -EFAULT;
+> +               goto out;
+> +       }
+> +
+> +out:
+> +       tcp_xa_pool_commit(sk, &tcp_xa_pool);
+> +       if (!sent)
+> +               sent =3D err;
+> +
+> +       return sent;
+> +}
+> +
+>  /*
+>   *     This routine copies from a sock struct into the user buffer.
+>   *
+> @@ -2336,6 +2551,7 @@ static int tcp_recvmsg_locked(struct sock *sk, stru=
+ct msghdr *msg, size_t len,
+>                               int *cmsg_flags)
+>  {
+>         struct tcp_sock *tp =3D tcp_sk(sk);
+> +       int last_copied_dmabuf =3D -1; /* uninitialized */
+>         int copied =3D 0;
+>         u32 peek_seq;
+>         u32 *seq;
+> @@ -2515,15 +2731,44 @@ static int tcp_recvmsg_locked(struct sock *sk, st=
+ruct msghdr *msg, size_t len,
+>                 }
+>
+>                 if (!(flags & MSG_TRUNC)) {
+> -                       err =3D skb_copy_datagram_msg(skb, offset, msg, u=
+sed);
+> -                       if (err) {
+> -                               /* Exception. Bailout! */
+> -                               if (!copied)
+> -                                       copied =3D -EFAULT;
+> +                       if (last_copied_dmabuf !=3D -1 &&
+> +                           last_copied_dmabuf !=3D !skb_frags_readable(s=
+kb))
+>                                 break;
+> +
+> +                       if (skb_frags_readable(skb)) {
+> +                               err =3D skb_copy_datagram_msg(skb, offset=
+, msg,
+> +                                                           used);
+> +                               if (err) {
+> +                                       /* Exception. Bailout! */
+> +                                       if (!copied)
+> +                                               copied =3D -EFAULT;
+> +                                       break;
+> +                               }
+> +                       } else {
+> +                               if (!(flags & MSG_SOCK_DEVMEM)) {
+> +                                       /* dmabuf skbs can only be receiv=
+ed
+> +                                        * with the MSG_SOCK_DEVMEM flag.
+> +                                        */
+> +                                       if (!copied)
+> +                                               copied =3D -EFAULT;
+> +
+> +                                       break;
+> +                               }
+> +
+> +                               err =3D tcp_recvmsg_dmabuf(sk, skb, offse=
+t, msg,
+> +                                                        used);
+> +                               if (err <=3D 0) {
+> +                                       if (!copied)
+> +                                               copied =3D -EFAULT;
+> +
+> +                                       break;
+> +                               }
+> +                               used =3D err;
+>                         }
+>                 }
+>
+> +               last_copied_dmabuf =3D !skb_frags_readable(skb);
+> +
+>                 WRITE_ONCE(*seq, *seq + used);
+>                 copied +=3D used;
+>                 len -=3D used;
+> diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+> index fd17f25ff288..f3b2ae0823c4 100644
+> --- a/net/ipv4/tcp_ipv4.c
+> +++ b/net/ipv4/tcp_ipv4.c
+> @@ -79,6 +79,7 @@
+>  #include <linux/seq_file.h>
+>  #include <linux/inetdevice.h>
+>  #include <linux/btf_ids.h>
+> +#include <linux/skbuff_ref.h>
+>
+>  #include <crypto/hash.h>
+>  #include <linux/scatterlist.h>
+> @@ -2507,10 +2508,25 @@ static void tcp_md5sig_info_free_rcu(struct rcu_h=
+ead *head)
+>  }
+>  #endif
+>
+> +static void tcp_release_user_frags(struct sock *sk)
+> +{
+> +#ifdef CONFIG_PAGE_POOL
+> +       unsigned long index;
+> +       void *netmem;
+> +
+> +       xa_for_each(&sk->sk_user_frags, index, netmem)
+> +               WARN_ON_ONCE(!napi_pp_put_page((__force netmem_ref)netmem=
+));
+> +#endif
+> +}
+> +
+>  void tcp_v4_destroy_sock(struct sock *sk)
+>  {
+>         struct tcp_sock *tp =3D tcp_sk(sk);
+>
+> +       tcp_release_user_frags(sk);
+> +
+> +       xa_destroy(&sk->sk_user_frags);
+> +
+>         trace_tcp_destroy_sock(sk);
+>
+>         tcp_clear_xmit_timers(sk);
+> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+> index a19a9dbd3409..9ab87a41255d 100644
+> --- a/net/ipv4/tcp_minisocks.c
+> +++ b/net/ipv4/tcp_minisocks.c
+> @@ -625,6 +625,8 @@ struct sock *tcp_create_openreq_child(const struct so=
+ck *sk,
+>
+>         __TCP_INC_STATS(sock_net(sk), TCP_MIB_PASSIVEOPENS);
+>
+> +       xa_init_flags(&newsk->sk_user_frags, XA_FLAGS_ALLOC1);
+> +
+>         return newsk;
+>  }
+>  EXPORT_SYMBOL(tcp_create_openreq_child);
+> --
+> 2.46.0.76.ge559c4bf1a-goog
+>
+
+I have been testing with modified code like below, it has been working
+correctly for 24+ hours.
+This modification is only for simple testing.
+So, could you please look into this problem?
+
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 40e7335dae6e..b9df6ac28477 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -2396,9 +2396,11 @@ static int tcp_recvmsg_dmabuf(struct sock *sk,
+const struct sk_buff *skb,
+       struct dmabuf_cmsg dmabuf_cmsg =3D { 0 };
+       struct tcp_xa_pool tcp_xa_pool;
+       unsigned int start;
++       int skip =3D offset;
+       int i, copy, n;
+       int sent =3D 0;
+       int err =3D 0;
++       int end =3D 0;
+
+       tcp_xa_pool.max =3D 0;
+       tcp_xa_pool.idx =3D 0;
+@@ -2452,7 +2454,6 @@ static int tcp_recvmsg_dmabuf(struct sock *sk,
+const struct sk_buff *skb,
+                       skb_frag_t *frag =3D &skb_shinfo(skb)->frags[i];
+                       struct net_iov *niov;
+                       u64 frag_offset;
+-                       int end;
+
+                       /* !skb_frags_readable() should indicate that ALL th=
+e
+                        * frags in this skb are dmabuf net_iovs. We're chec=
+king
+@@ -2522,7 +2523,14 @@ static int tcp_recvmsg_dmabuf(struct sock *sk,
+const struct sk_buff *skb,
+                */
+               skb =3D skb_shinfo(skb)->frag_list ?: skb->next;
+
+-               offset =3D 0;
++               if (skip > 0) {
++                       skip -=3D end;
++                       offset =3D skip;
++               }
++               if (skip <=3D 0) {
++                       offset =3D 0;
++                       skip =3D 0;
++               }
+       } while (skb);
+
+       if (remaining_len) {
+
+Thanks a lot!
+Taehee Yoo
