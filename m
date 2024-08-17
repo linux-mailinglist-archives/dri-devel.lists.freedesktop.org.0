@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD8F95568A
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 11:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED079556A1
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2024 11:10:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6734010E078;
-	Sat, 17 Aug 2024 09:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A871810E052;
+	Sat, 17 Aug 2024 09:10:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uHZuxKob";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=boris.brezillon@collabora.com header.b="YHyzc5CT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81DE410E078
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 09:05:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CAC1B61F92;
- Sat, 17 Aug 2024 09:05:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA74EC116B1;
- Sat, 17 Aug 2024 09:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1723885512;
- bh=v/bo9jddffzD66AkTiZN77T4QpmXWOzZY5qpNjnaKaQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uHZuxKobkZPexs4wQXgy+BigHynUnVn2wGZXIYK3rG4h1ghhRi91iSqYmk1RnU63k
- MYVCdI6WXmjOKe7vXj9nBcdZr2YbbrM+4cxYpWJnBOzHYN8WBZYmnx6wTiP4pjScM+
- a/38aDduZcDlZxZVablIYLfBKHjroH/uEmZroFJijBXpSek36A1Vq0124G01TH8w0V
- 349jwsrENGcMoLN4tKqn/Ly5mzH+uaU1bEjYR6cmhq5vnxcfuxX9XmftRtil9AjQ5X
- ZZp+c56fp7/mSI3ovhzAorNflOdFGMQvkdTuHSISLpP32Gg7Nqy6zjelHnwHbFIEv+
- WQ4Hzf798ofiA==
-Date: Sat, 17 Aug 2024 11:05:06 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
- justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
- rostedt@goodmis.org, catalin.marinas@arm.com,
- penguin-kernel@i-love.sakura.ne.jp, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
- linux-security-module@vger.kernel.org, 
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Simon Horman <horms@kernel.org>, 
- Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v7 6/8] mm/util: Deduplicate code in
- {kstrdup,kstrndup,kmemdup_nul}
-Message-ID: <qdzuvazxkvueook2a64qo2jcdrrbnkp2pn2dbury34ad47jvno@eu6ul4fso6yi>
-References: <20240817025624.13157-1-laoar.shao@gmail.com>
- <20240817025624.13157-7-laoar.shao@gmail.com>
- <nmhexn3mkwhgu5e6o3i7gvipboisbuwdoloshf64ulgzdxr5nv@3gwujx2y5jre>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE2D10E052
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 09:10:36 +0000 (UTC)
+Delivered-To: adrian.larumbe@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1723885826; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=CbrN9dpWmzKfek/bxGD2cjr0qnzrH1R4rJO+Ik3UV5DvOdLg82rMQYGb4t2EsOWPojY8EvNcmminoVtHrIF1234d55qVlqDEWsmxgW7tKNsAJ4z683Cq9Dtmc+KEskb4oqt1LuPhzSIAnc8hCb6pRVgvmvQMN65AkxMcrHXu4fk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1723885826;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=XoPSY4Cd9si3YzzbvJeVCGbi2dYJUaq/FxmYhusGRcI=; 
+ b=Niy4CJdVjbcgB+hshkVaJpbkILohdNL4OXGsMOjWzKk5JchZ3iOXNodGBKy0qdLWLdOr8OJTC503BMpkGxBskXJEiLbIjYM8vXpxHcWbba93zaB42RRod7NUvqlwrATcC4NSkEk9BYrxB5vgs/W+NGOYCH1prYedCsOaHXZyYV0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=boris.brezillon@collabora.com;
+ dmarc=pass header.from=<boris.brezillon@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723885826; 
+ s=zohomail; d=collabora.com; i=boris.brezillon@collabora.com; 
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=XoPSY4Cd9si3YzzbvJeVCGbi2dYJUaq/FxmYhusGRcI=;
+ b=YHyzc5CTTRpnd2HLQcqrSK11jqV913fO5ejbPtrisyVPhLJrQWDUP9ZOwol66I8T
+ cB471ygbRqBkRCBJsopXCns9ds18lmN5JO9IoyKkYkFbnJD+6XCF5QA+/pJFabMGTFk
+ h+IKb7MlYyNjjoNjMTiq+lAhpU6UgsNI6+SBauzo=
+Received: by mx.zohomail.com with SMTPS id 1723885825146813.2587767508453;
+ Sat, 17 Aug 2024 02:10:25 -0700 (PDT)
+Date: Sat, 17 Aug 2024 11:10:17 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: flush FW AS caches in slow reset path
+Message-ID: <20240817111017.2a010061@collabora.com>
+In-Reply-To: <20240816185250.344080-1-adrian.larumbe@collabora.com>
+References: <20240816185250.344080-1-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4u7yqqf3o53fozhu"
-Content-Disposition: inline
-In-Reply-To: <nmhexn3mkwhgu5e6o3i7gvipboisbuwdoloshf64ulgzdxr5nv@3gwujx2y5jre>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,241 +71,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 16 Aug 2024 19:52:49 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
---4u7yqqf3o53fozhu
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
-	justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
-	rostedt@goodmis.org, catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Simon Horman <horms@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v7 6/8] mm/util: Deduplicate code in
- {kstrdup,kstrndup,kmemdup_nul}
-References: <20240817025624.13157-1-laoar.shao@gmail.com>
- <20240817025624.13157-7-laoar.shao@gmail.com>
- <nmhexn3mkwhgu5e6o3i7gvipboisbuwdoloshf64ulgzdxr5nv@3gwujx2y5jre>
-MIME-Version: 1.0
-In-Reply-To: <nmhexn3mkwhgu5e6o3i7gvipboisbuwdoloshf64ulgzdxr5nv@3gwujx2y5jre>
-
-On Sat, Aug 17, 2024 at 10:58:02AM GMT, Alejandro Colomar wrote:
-> Hi Yafang,
+> In the off-chance that waiting for the firmware to signal its booted stat=
+us
+> timed out in the fast reset path, one must flush the cache lines for the
+> entire FW VM address space before reloading the regions, otherwise stale
+> values eventually lead to a scheduler job timeout.
 >=20
-> On Sat, Aug 17, 2024 at 10:56:22AM GMT, Yafang Shao wrote:
-> > These three functions follow the same pattern. To deduplicate the code,
-> > let's introduce a common helper __kmemdup_nul().
-> >=20
-> > Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> > Cc: Simon Horman <horms@kernel.org>
-> > Cc: Matthew Wilcox <willy@infradead.org>
-> > ---
-> >  mm/util.c | 67 +++++++++++++++++++++----------------------------------
-> >  1 file changed, 26 insertions(+), 41 deletions(-)
-> >=20
-> > diff --git a/mm/util.c b/mm/util.c
-> > index 4542d8a800d9..310c7735c617 100644
-> > --- a/mm/util.c
-> > +++ b/mm/util.c
-> > @@ -45,33 +45,40 @@ void kfree_const(const void *x)
-> >  EXPORT_SYMBOL(kfree_const);
-> > =20
-> >  /**
-> > - * kstrdup - allocate space for and copy an existing string
-> > - * @s: the string to duplicate
-> > + * __kmemdup_nul - Create a NUL-terminated string from @s, which might=
- be unterminated.
-> > + * @s: The data to copy
-> > + * @len: The size of the data, including the null terminator
-> >   * @gfp: the GFP mask used in the kmalloc() call when allocating memory
-> >   *
-> > - * Return: newly allocated copy of @s or %NULL in case of error
-> > + * Return: newly allocated copy of @s with NUL-termination or %NULL in
-> > + * case of error
-> >   */
-> > -noinline
-> > -char *kstrdup(const char *s, gfp_t gfp)
-> > +static __always_inline char *__kmemdup_nul(const char *s, size_t len, =
-gfp_t gfp)
-> >  {
-> > -	size_t len;
-> >  	char *buf;
-> > =20
-> > -	if (!s)
-> > +	buf =3D kmalloc_track_caller(len, gfp);
-> > +	if (!buf)
-> >  		return NULL;
-> > =20
-> > -	len =3D strlen(s) + 1;
-> > -	buf =3D kmalloc_track_caller(len, gfp);
-> > -	if (buf) {
-> > -		memcpy(buf, s, len);
-> > -		/* During memcpy(), the string might be updated to a new value,
-> > -		 * which could be longer than the string when strlen() is
-> > -		 * called. Therefore, we need to add a null termimator.
-> > -		 */
-> > -		buf[len - 1] =3D '\0';
-> > -	}
-> > +	memcpy(buf, s, len);
-> > +	/* Ensure the buf is always NUL-terminated, regardless of @s. */
-> > +	buf[len - 1] =3D '\0';
-> >  	return buf;
-> >  }
-> > +
-> > +/**
-> > + * kstrdup - allocate space for and copy an existing string
-> > + * @s: the string to duplicate
-> > + * @gfp: the GFP mask used in the kmalloc() call when allocating memory
-> > + *
-> > + * Return: newly allocated copy of @s or %NULL in case of error
-> > + */
-> > +noinline
-> > +char *kstrdup(const char *s, gfp_t gfp)
-> > +{
-> > +	return s ? __kmemdup_nul(s, strlen(s) + 1, gfp) : NULL;
-> > +}
-> >  EXPORT_SYMBOL(kstrdup);
-> > =20
-> >  /**
-> > @@ -106,19 +113,7 @@ EXPORT_SYMBOL(kstrdup_const);
-> >   */
-> >  char *kstrndup(const char *s, size_t max, gfp_t gfp)
-> >  {
-> > -	size_t len;
-> > -	char *buf;
-> > -
-> > -	if (!s)
-> > -		return NULL;
-> > -
-> > -	len =3D strnlen(s, max);
-> > -	buf =3D kmalloc_track_caller(len+1, gfp);
-> > -	if (buf) {
-> > -		memcpy(buf, s, len);
-> > -		buf[len] =3D '\0';
-> > -	}
-> > -	return buf;
-> > +	return s ? __kmemdup_nul(s, strnlen(s, max) + 1, gfp) : NULL;
-> >  }
-> >  EXPORT_SYMBOL(kstrndup);
-> > =20
-> > @@ -192,17 +187,7 @@ EXPORT_SYMBOL(kvmemdup);
-> >   */
-> >  char *kmemdup_nul(const char *s, size_t len, gfp_t gfp)
-> >  {
-> > -	char *buf;
-> > -
-> > -	if (!s)
-> > -		return NULL;
-> > -
-> > -	buf =3D kmalloc_track_caller(len + 1, gfp);
-> > -	if (buf) {
-> > -		memcpy(buf, s, len);
-> > -		buf[len] =3D '\0';
-> > -	}
-> > -	return buf;
-> > +	return s ? __kmemdup_nul(s, len + 1, gfp) : NULL;
-> >  }
-> >  EXPORT_SYMBOL(kmemdup_nul);
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+
+We probably want Fixes/Cc-stable tags here.
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_fw.c  |  8 +++++++-
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++++---
+>  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+>  3 files changed, 24 insertions(+), 4 deletions(-)
 >=20
-> I like the idea of the patch, but it's plagued with all those +1 and -1.
-> I think that's due to a bad choice of value being passed by.  If you
-> pass the actual length of the string (as suggested in my reply to the
-> previous patch) you should end up with a cleaner set of APIs.
->=20
-> The only remaining +1 is for kmalloc_track_caller(), which I ignore what
-> it does.
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panth=
+or/panthor_fw.c
+> index 857f3f11258a..ef232c0c2049 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -1089,6 +1089,12 @@ int panthor_fw_post_reset(struct panthor_device *p=
+tdev)
+>  		panthor_fw_stop(ptdev);
+>  		ptdev->fw->fast_reset =3D false;
+>  		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
+> +
+> +		ret =3D panthor_vm_flush_all(ptdev->fw->vm);
+> +		if (ret) {
+> +			drm_err(&ptdev->base, "FW slow reset failed (couldn't flush FW's AS l=
+2cache)");
+> +			return ret;
+> +		}
+>  	}
+> =20
+>  	/* Reload all sections, including RO ones. We're not supposed
+> @@ -1099,7 +1105,7 @@ int panthor_fw_post_reset(struct panthor_device *pt=
+dev)
+> =20
+>  	ret =3D panthor_fw_start(ptdev);
+>  	if (ret) {
+> -		drm_err(&ptdev->base, "FW slow reset failed");
+> +		drm_err(&ptdev->base, "FW slow reset failed (couldn't start the FW )");
+>  		return ret;
+>  	}
+> =20
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
+hor/panthor_mmu.c
+> index d47972806d50..a77ee5ce691d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -874,14 +874,27 @@ static int panthor_vm_flush_range(struct panthor_vm=
+ *vm, u64 iova, u64 size)
+>  	if (!drm_dev_enter(&ptdev->base, &cookie))
+>  		return 0;
+> =20
+> -	/* Flush the PTs only if we're already awake */
+> -	if (pm_runtime_active(ptdev->base.dev))
+> -		ret =3D mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
+> +	/*
+> +	 * If we made it this far, that means the device is awake, because
+> +	 * upon device suspension, all active VMs are given an AS id of -1
+> +	 */
+> +	ret =3D mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
 
-D'oh, of course that's the malloc.  Yes, it makes sense to have a +1
-there.
+I would normally prefer this change to be in its own commit, but given
+this is needed to be able to flush caches in the resume path, I'm fine
+keeping it in the same patch. The comment is a bit odd now that you
+dropped the pm_runtime_active() call though. I would rather have a
+comment in mmu_hw_do_operation_locked(), after the AS ID check
+explaining that as.id >=3D 0 guarantees that the HW is up and running,
+and that we can proceed with the flush operation without calling
+pm_runtime_active().
 
->=20
-> 	char *
-> 	__kmemdup_nul(const char *s, size_t len, gfp_t gfp)
-> 	{
-> 		char *buf;
->=20
-> 		buf =3D kmalloc_track_caller(len + 1, gfp);
-> 		if (!buf)
-> 			return NULL;
->=20
-> 		strcpy(mempcpy(buf, s, len), "");
-> 		return buf;
+> =20
+>  	drm_dev_exit(cookie);
+>  	return ret;
+>  }
+> =20
+> +/**
+> + * panthor_vm_flush_all() - Flush L2 caches for the entirety of a VM's AS
+> + * @vm: VM whose cache to flush
+> + *
+> + * Return: 0 on success, a negative error code if flush failed.
+> + */
+> +int panthor_vm_flush_all(struct panthor_vm *vm)
+> +{
+> +	return panthor_vm_flush_range(vm, vm->base.mm_start, vm->base.mm_range);
+> +}
+> +
+>  static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 s=
+ize)
+>  {
+>  	struct panthor_device *ptdev =3D vm->ptdev;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/pant=
+hor/panthor_mmu.h
+> index f3c1ed19f973..6788771071e3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -31,6 +31,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va,=
+ u64 *bo_offset);
+>  int panthor_vm_active(struct panthor_vm *vm);
+>  void panthor_vm_idle(struct panthor_vm *vm);
+>  int panthor_vm_as(struct panthor_vm *vm);
+> +int panthor_vm_flush_all(struct panthor_vm *vm);
+> =20
+>  struct panthor_heap_pool *
+>  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
 
-Alternatively, you can also rewrite the above two lines into one as:
-
-		return strncat(strcpy(buf, ""), s, len);
-
-The good thing is that you have strncat() in the kernel, AFAICS.
-I reminded myself when checking the definitions that I wrote in shadow:
-
-	#define XSTRNDUP(s)                                           \
-	(                                                             \
-	    STRNCAT(strcpy(XMALLOC(strnlen(s, NITEMS(s)) + 1, char), ""), s) \
-	)
-	#define STRNDUPA(s)                                           \
-	(                                                             \
-	    STRNCAT(strcpy(alloca(strnlen(s, NITEMS(s)) + 1), ""), s) \
-	)
-
-
-Cheers,
-Alex
-
-> 	}
->=20
-> 	char *
-> 	kstrdup(const char *s, gfp_t gfp)
-> 	{
-> 		return s ? __kmemdup_nul(s, strlen(s), gfp) : NULL;
-> 	}
->=20
-> 	char *
-> 	kstrndup(const char *s, size_t n, gfp_t gfp)
-> 	{
-> 		return s ? __kmemdup_nul(s, strnlen(s, n), gfp) : NULL;
-> 	}
->=20
-> 	char *
-> 	kmemdup_nul(const char *s, size_t len, gfp_t gfp)
-> 	{
-> 		return s ? __kmemdup_nul(s, len, gfp) : NULL;
-> 	}
->=20
-> Have a lovely day!
-> Alex
->=20
-> --=20
-> <https://www.alejandro-colomar.es/>
-
-
-
---=20
-<https://www.alejandro-colomar.es/>
-
---4u7yqqf3o53fozhu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmbAZ8IACgkQnowa+77/
-2zLvOA//Z/lDWnXjHMZFqj20EeCk/sOJvw2j0zS6ByjjhPwbF0QB4deovmQwO1rB
-UfUFQNBO+A+m7nw8x/mLrYWRp9QX1koU8+XGacYS2fA/3zREzEbEDkWgaRej0TkD
-lI5oQJysXdRk4zv0t+oSPS42Ga+OLoqOogKapp40DpFcY/PfC0lI/dP32nYeKIpL
-H6XRqcEwqTOSNl8LOg3YkNO6Z93l+zsqDRCeiqze77O0QnrxDYY5gZdQkBfTiWDv
-w5CzMOKn55JzbPrbPiQID2PKvokrMvtE0cS6WpBOjLNguoEyrPWaOJY9wTe3zJx0
-jYczxxaqMVJOy+e/JzejKO7/8UaL4BjsKRkQxDUqX9JT2M1Mx94U/x4NdJ74Qpjg
-BT5tAy0REvgQ5nfchZzwMxj94NK8fQ1kls54V3RcZ4SwF8Y8TL/UIXO0n3OHbHAZ
-dDSam/sQaJCtIDEfeSjIAMISt2mUPaSu+K9IUQl5xlL+7hvtP7YJzOy0W5cP87uT
-OIswibfrvvKaeBSmpPx2reAdydjV0ErJia59TA8Qr1gbtFl5N4y6V6KCAojgjKL/
-RMowH5Jeai7WuTHla5CCBRc9sSpx2BFHpdcfW1+Kt8SvhOQ9BOcEq42xaM2megcd
-weFqBQ6+YsgwWcVz7UNoMIi2UfQQpAvIflidVV9krOZsjk3OT9s=
-=BouQ
------END PGP SIGNATURE-----
-
---4u7yqqf3o53fozhu--
