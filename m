@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45607955C33
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 12:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1EC955C31
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 12:43:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADDA510E069;
-	Sun, 18 Aug 2024 10:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF50610E065;
+	Sun, 18 Aug 2024 10:43:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="CUloWEMS";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="fUOT8yLp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3618810E048;
- Sun, 18 Aug 2024 10:43:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2690510E021;
+ Sun, 18 Aug 2024 10:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1723977821;
- bh=egW2yxJoVHO8L9Qj2nOkUgi3LPFo8IuMg/0XCAJcySs=;
+ bh=+g9tdiVlfWP8HZuj22GaUD3ReR3pbnKtUcNnPSBesLo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=CUloWEMSusPCYujVRg7X4GHX3L6Mhmj079byOzFcuXodqvWZKzAx+YN6znvXy/ExG
- R4BJJs6PN4jDwxPeVddoShZvwhjMgCY/daRXJRG6+c9uQb3SKxKi7rKdqXst1ibg0R
- Qb6CfLE7UndSOqpGnngeB+YijvYPzfsG3pFwnj3E=
+ b=fUOT8yLpqufsCiExNm+0QfGrpjBvp/z18Qcg68bBU6sto3RGWBXeQueKap3ZOykey
+ d9sD4Wwic0Bp8qD8WZl/koQ6gu+L07fmTQZEQTy3mgi9/S+ttiCUzhsDLDQGPjBT2L
+ UHL2hOps5p06Sq3QSk/H3jofx6Xj2kRu7NCEpYEM=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 18 Aug 2024 12:43:29 +0200
-Subject: [PATCH 05/12] drm/amd/display: Constify raw_edid handling in
- dm_helpers_parse_edid_caps()
+Date: Sun, 18 Aug 2024 12:43:30 +0200
+Subject: [PATCH 06/12] drm/amd/display: Constify 'struct edid' in parsing
+ functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240818-amdgpu-drm_edid-v1-5-aea66c1f7cf4@weissschuh.net>
+Message-Id: <20240818-amdgpu-drm_edid-v1-6-aea66c1f7cf4@weissschuh.net>
 References: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
 In-Reply-To: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -47,11 +47,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Harry Wentland <Harry.Wentland@amd.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723977820; l=1803;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723977820; l=2869;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=egW2yxJoVHO8L9Qj2nOkUgi3LPFo8IuMg/0XCAJcySs=;
- b=KCJ5usCuvuNccDdqHeBOG4t930/Xd/jo/7BqqPm3k/nOSL83ZqBtJnbURJIG6Dt4l63PTB9Nz
- x+pjRj/R2w3C8ZE/Ki2FYJUEzb6eIl0dMEGLfq2E9cjC7XvsLrvZzUa
+ bh=+g9tdiVlfWP8HZuj22GaUD3ReR3pbnKtUcNnPSBesLo=;
+ b=WVMzyhAnRYEnW/0NlScNahsAycBKkMDyvQ/ts3npHme/RJLOKcvCJ8Q1ee7DYBhK193QHS/e4
+ q6iULo4Aa8VDu4BHdeRoDip5Z7pdE3NNk/LiUs+Rd67YA9dDi4aosCU
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,54 +69,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The argument edid is passed in as const.
-Preserve this constness through the edid_buf variable and the used
-helper functions.
+The parsing functions do not modify their edid argument.
+Mark the const to reflect this to the caller.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 +++++++-------
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 3cc0808f391a..98d1d5abafa7 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -45,14 +45,14 @@
- #include "dm_helpers.h"
- #include "ddc_service_types.h"
- 
--static u32 edid_extract_panel_id(struct edid *edid)
-+static u32 edid_extract_panel_id(const struct edid *edid)
- {
- 	return (u32)edid->mfg_id[0] << 24   |
- 	       (u32)edid->mfg_id[1] << 16   |
- 	       (u32)EDID_PRODUCT_ID(edid);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 7d999e352df3..4e7f40481379 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -11834,7 +11834,7 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
  }
  
--static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
-+static void apply_edid_quirks(const struct edid *edid, struct dc_edid_caps *edid_caps)
+ static void parse_edid_displayid_vrr(struct drm_connector *connector,
+-		struct edid *edid)
++		const struct edid *edid)
  {
- 	uint32_t panel_id = edid_extract_panel_id(edid);
+ 	u8 *edid_ext = NULL;
+ 	int i;
+@@ -11877,7 +11877,7 @@ static void parse_edid_displayid_vrr(struct drm_connector *connector,
+ }
  
-@@ -94,7 +94,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+-			  struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
++			  const struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
  {
- 	struct amdgpu_dm_connector *aconnector = link->priv;
- 	struct drm_connector *connector = &aconnector->base;
--	struct edid *edid_buf;
-+	const struct edid *edid_buf;
- 	struct cea_sad *sads;
- 	int sad_count = -1;
- 	int sadb_count = -1;
-@@ -106,7 +106,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 	if (!edid_caps || !edid)
- 		return EDID_BAD_INPUT;
+ 	u8 *edid_ext = NULL;
+ 	int i;
+@@ -11912,7 +11912,7 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+ }
  
--	edid_buf = (struct edid *)edid->raw_edid;
-+	edid_buf = (const struct edid *)edid->raw_edid;
+ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+-		struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
++		const struct edid *edid, struct amdgpu_hdmi_vsdb_info *vsdb_info)
+ {
+ 	u8 *edid_ext = NULL;
+ 	int i;
+@@ -11954,12 +11954,12 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+  * FreeSync parameters.
+  */
+ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+-				    struct edid *edid)
++				    const struct edid *edid)
+ {
+ 	int i = 0;
+-	struct detailed_timing *timing;
+-	struct detailed_non_pixel *data;
+-	struct detailed_data_monitor_range *range;
++	const struct detailed_timing *timing;
++	const struct detailed_non_pixel *data;
++	const struct detailed_data_monitor_range *range;
+ 	struct amdgpu_dm_connector *amdgpu_dm_connector =
+ 			to_amdgpu_dm_connector(connector);
+ 	struct dm_connector_state *dm_con_state = NULL;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 2d7755e2b6c3..27c0017707dd 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -951,7 +951,7 @@ void dm_restore_drm_connector_state(struct drm_device *dev,
+ 				    struct drm_connector *connector);
  
- 	if (!drm_edid_is_valid(edid_buf))
- 		result = EDID_BAD_CHECKSUM;
+ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+-					struct edid *edid);
++					const struct edid *edid);
+ 
+ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+ 
 
 -- 
 2.46.0
