@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6983F955C32
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 12:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45607955C33
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 12:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE8710E047;
-	Sun, 18 Aug 2024 10:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADDA510E069;
+	Sun, 18 Aug 2024 10:43:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="GupqK+Wr";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="CUloWEMS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00BED10E01F;
- Sun, 18 Aug 2024 10:43:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3618810E048;
+ Sun, 18 Aug 2024 10:43:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1723977821;
- bh=fKGZWTylCrkUKzQxU1idZr4kJxvtu34DylGKZuIhUtA=;
+ bh=egW2yxJoVHO8L9Qj2nOkUgi3LPFo8IuMg/0XCAJcySs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=GupqK+WrC/nHKVQ5eWB9kr93LX9LI6thKXSmKxYtAVW1ijm/f+ffxRvsdc0QgIrAy
- D1HMYMDaCwnEgcfh2gfd6oKBmUZ6H9Q9vjwQvelhd8rbP77BGxPczu5nq8EBfXdzWj
- IJX0GZbbNw6KQIWE+p3yo476z/JDy9mF1S7L5wtM=
+ b=CUloWEMSusPCYujVRg7X4GHX3L6Mhmj079byOzFcuXodqvWZKzAx+YN6znvXy/ExG
+ R4BJJs6PN4jDwxPeVddoShZvwhjMgCY/daRXJRG6+c9uQb3SKxKi7rKdqXst1ibg0R
+ Qb6CfLE7UndSOqpGnngeB+YijvYPzfsG3pFwnj3E=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 18 Aug 2024 12:43:28 +0200
-Subject: [PATCH 04/12] drm/amd/display: Simplify raw_edid handling in
+Date: Sun, 18 Aug 2024 12:43:29 +0200
+Subject: [PATCH 05/12] drm/amd/display: Constify raw_edid handling in
  dm_helpers_parse_edid_caps()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240818-amdgpu-drm_edid-v1-4-aea66c1f7cf4@weissschuh.net>
+Message-Id: <20240818-amdgpu-drm_edid-v1-5-aea66c1f7cf4@weissschuh.net>
 References: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
 In-Reply-To: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -47,11 +47,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Harry Wentland <Harry.Wentland@amd.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723977820; l=1951;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723977820; l=1803;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=fKGZWTylCrkUKzQxU1idZr4kJxvtu34DylGKZuIhUtA=;
- b=D+2ZzYzLkZGs1ZeuVCYAu/pTWlUI0ONm5mk0bbsmU6kf5nUOmkTVd8DylIc43uDOMTa63uem3
- UdTFJEirwidAlIhNDuac7hDAswD6GOTLuWTrqVB0QK2uUqayvmPTDao
+ bh=egW2yxJoVHO8L9Qj2nOkUgi3LPFo8IuMg/0XCAJcySs=;
+ b=KCJ5usCuvuNccDdqHeBOG4t930/Xd/jo/7BqqPm3k/nOSL83ZqBtJnbURJIG6Dt4l63PTB9Nz
+ x+pjRj/R2w3C8ZE/Ki2FYJUEzb6eIl0dMEGLfq2E9cjC7XvsLrvZzUa
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,55 +69,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reduce the number of casts needed by reusing the edid_buf variable.
-Also initialize edid_buf after the !edid case has been handled to avoid
-the ternary expression.
+The argument edid is passed in as const.
+Preserve this constness through the edid_buf variable and the used
+helper functions.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 165e010fe69c..3cc0808f391a 100644
+index 3cc0808f391a..98d1d5abafa7 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -45,14 +45,14 @@
+ #include "dm_helpers.h"
+ #include "ddc_service_types.h"
+ 
+-static u32 edid_extract_panel_id(struct edid *edid)
++static u32 edid_extract_panel_id(const struct edid *edid)
+ {
+ 	return (u32)edid->mfg_id[0] << 24   |
+ 	       (u32)edid->mfg_id[1] << 16   |
+ 	       (u32)EDID_PRODUCT_ID(edid);
+ }
+ 
+-static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
++static void apply_edid_quirks(const struct edid *edid, struct dc_edid_caps *edid_caps)
+ {
+ 	uint32_t panel_id = edid_extract_panel_id(edid);
+ 
 @@ -94,7 +94,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
  {
  	struct amdgpu_dm_connector *aconnector = link->priv;
  	struct drm_connector *connector = &aconnector->base;
--	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
-+	struct edid *edid_buf;
+-	struct edid *edid_buf;
++	const struct edid *edid_buf;
  	struct cea_sad *sads;
  	int sad_count = -1;
  	int sadb_count = -1;
-@@ -106,6 +106,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+@@ -106,7 +106,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
  	if (!edid_caps || !edid)
  		return EDID_BAD_INPUT;
  
-+	edid_buf = (struct edid *)edid->raw_edid;
-+
+-	edid_buf = (struct edid *)edid->raw_edid;
++	edid_buf = (const struct edid *)edid->raw_edid;
+ 
  	if (!drm_edid_is_valid(edid_buf))
  		result = EDID_BAD_CHECKSUM;
- 
-@@ -125,7 +127,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 
- 	apply_edid_quirks(edid_buf, edid_caps);
- 
--	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
-+	sad_count = drm_edid_to_sad(edid_buf, &sads);
- 	if (sad_count <= 0)
- 		return result;
- 
-@@ -139,7 +141,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 		edid_caps->audio_modes[i].sample_size = sad->byte2;
- 	}
- 
--	sadb_count = drm_edid_to_speaker_allocation((struct edid *) edid->raw_edid, &sadb);
-+	sadb_count = drm_edid_to_speaker_allocation(edid_buf, &sadb);
- 
- 	if (sadb_count < 0) {
- 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sadb_count);
 
 -- 
 2.46.0
