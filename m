@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5FA955C28
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 12:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E06955C2B
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 12:43:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD3CD10E029;
-	Sun, 18 Aug 2024 10:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2130410E041;
+	Sun, 18 Aug 2024 10:43:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="RzNS7DA7";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="JbJOCE6J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ADB110E01F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D3C110E01F;
  Sun, 18 Aug 2024 10:43:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1723977821;
- bh=Lpqh2jSd9QADVKkj1nBrAHY5oYAEKgK5CLTaDTesv0s=;
+ bh=m6tZ+bkNum+lT9LuP45n39o3Kd/bRgn7J6zpoZystEI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=RzNS7DA7DmymbVrEZrpYJY2HDQt1EN5qkBELCmYGpfFAsib4F+y+OC3oT7v/1ZJs7
- +HbcA6qSK2hycyedD2FUw+IYUcJ477dAF6mIM8S3FlurGCrAo0BlCvN7IeT+RZf8Lc
- JVCzSZBSSRLNPYMv8U5vFXi/nKP3ZzcIMxzIySys=
+ b=JbJOCE6Jlx5RCqqXzNzh049IuNIn7N0JMls5JihdAFZXtJRJD5t1He053nvvFm2Qt
+ uPZJ9pyYeMEncFSXEnNpjshmStP+FdR6HlUSEBIWa0oOQpSk+pjeuHsvN3YAQ+Catk
+ fBJH/AQpXUhenjhKIO1495YZTIgkIYwzC5oauy1Q=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 18 Aug 2024 12:43:25 +0200
-Subject: [PATCH 01/12] drm/amd/display: remove spurious definition for
- dm_helpers_get_sbios_edid()
+Date: Sun, 18 Aug 2024 12:43:26 +0200
+Subject: [PATCH 02/12] drm/amd/display: Remove EDID members of ddc_service
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240818-amdgpu-drm_edid-v1-1-aea66c1f7cf4@weissschuh.net>
+Message-Id: <20240818-amdgpu-drm_edid-v1-2-aea66c1f7cf4@weissschuh.net>
 References: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
 In-Reply-To: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -47,11 +46,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Harry Wentland <Harry.Wentland@amd.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723977820; l=1119;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723977820; l=806;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=Lpqh2jSd9QADVKkj1nBrAHY5oYAEKgK5CLTaDTesv0s=;
- b=6cPhRmU6AKisqobu394usiyHTuANxRVUXzhK+EvvTKfzWW1/CVS4lNNk+aO0p3QeecO/DZ5iE
- FKsNNNdnU1cCK4MKcae9jFshk8Q09Qw6PujjZKTfN2NkuJcP380w3bc
+ bh=m6tZ+bkNum+lT9LuP45n39o3Kd/bRgn7J6zpoZystEI=;
+ b=ozRNgTI5VgAdH6JDcIzjC2DrBbm2VMGUqtREn5p8IP4s3WC9TgD+uDngpZxIXuBVqA29YXg90
+ kDNFbGJaNhUAud/a/fNH1lKngn+Y35Vl25dJjIR+ZsqjA9CIKq2mJAS
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,29 +68,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The prototype is the whole content of commit
-575d0df6dae4 ("drm/amd/display: refine the EDID override").
-Apparently the definition was never added.
+All usages of these fields have been removed.
 
-Fixes: 575d0df6dae4 ("drm/amd/display: refine the EDID override")
+Fixes: 7c7f5b15be65 ("drm/amd/display: Refactor edid read.")
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/amd/display/dc/dm_helpers.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dc_ddc_types.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-index 2e4a46f1b499..483d8c292618 100644
---- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-+++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-@@ -208,8 +208,6 @@ int dm_helpers_dmub_set_config_sync(struct dc_context *ctx,
- 		enum set_config_status *operation_result);
- enum adaptive_sync_type dm_get_adaptive_sync_support_type(struct dc_link *link);
- 
--enum dc_edid_status dm_helpers_get_sbios_edid(struct dc_link *link, struct dc_edid *edid);
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_ddc_types.h b/drivers/gpu/drm/amd/display/dc/dc_ddc_types.h
+index 428e3a9ab65a..7dd1cfb9ab76 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_ddc_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_ddc_types.h
+@@ -189,10 +189,6 @@ struct ddc_service {
+ 	enum display_dongle_type dongle_type;
+ 	struct dc_context *ctx;
+ 	struct dc_link *link;
 -
- bool dm_helpers_is_fullscreen(struct dc_context *ctx, struct dc_stream_state *stream);
- bool dm_helpers_is_hdr_on(struct dc_context *ctx, struct dc_stream_state *stream);
+-	uint32_t address;
+-	uint32_t edid_buf_len;
+-	uint8_t edid_buf[DC_MAX_EDID_BUFFER_SIZE];
+ };
  
+ #endif /* DC_DDC_TYPES_H_ */
 
 -- 
 2.46.0
