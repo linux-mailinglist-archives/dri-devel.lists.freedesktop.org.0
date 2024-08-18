@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DE9955CC5
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 15:40:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1032F955CC8
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 15:42:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9761F10E03A;
-	Sun, 18 Aug 2024 13:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB9B10E049;
+	Sun, 18 Aug 2024 13:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECE910E03A
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 13:40:21 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2ef32fea28dso40523461fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:40:20 -0700 (PDT)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B9CD10E049
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 13:42:03 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id
+ e9e14a558f8ab-39d30f0f831so5740375ab.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:42:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723988419; x=1724593219;
+ d=1e100.net; s=20230601; t=1723988522; x=1724593322;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :reply-to:in-reply-to:references:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qvRzy9hrujHqDH8ifWbdcELEDvdI4LK/lGCJqnW2vRs=;
- b=YVb8ZF9w804A/bgcgz4SayAf7jk+rIojc1i1iloEgWUF28mfN8d1tXGP7DL6UZ8L4R
- OpuXAOO44phZjquFyG1WZcaajmALFl5dSkecDfm4DaXRDlEDzUqmtP55+oFh4vjpvokQ
- 7zvHJBCLUtoJDBhAyCMf+YCjpFKf1SEDx8eTFiNcofxPs9Rcuxikia6xaPALAwMS8Wcr
- p49js7LH9qMRNHsJJr1cCSw7gq0O8eqjG+d1hdTWQ5Dr62TmIFKSHq0J6IsIJLag7eQk
- Ap/DVxSGlfWRRYbuA524ybfW+9jWfFa5Yt4MDdAb8TVx/pWH8lAe8gZrVMLIEVmXrzpB
- DEXw==
+ bh=whPaRlGmH+NJXjZNAC8fa7shH0Iu+3/wkcGkkBavjHg=;
+ b=jiG4Lb6rDPZMi57NllbudbOSra0a6/Tnbngw0RaUdjH/hslTmDrZCbWmkljnYFVlCQ
+ 9b8XcIPBiPBARwYp9ZXmTqFK2WOwl7mME/eS87qaXcY09kChgjF23n0xrsJJLJyhDHLI
+ Qvv0kAiDvu0uq+GLSD+xGn9tb2u5Zwp3xVknW5/NurkjcDhC/di+6yxUN+Wi63VXTJDD
+ pvgrbuT9W0hEkxUqr3bi3v62Z76+kNRAqrd2cWFEVVztMnVbEMBBva7h80BxsyXDKDw9
+ CZndnSgnoyi7Urcl0qGarTlqdcczCFJpBOjn0I38ZaRB+p/cW4QK51a1C33+NU7rBmO0
+ se2A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXeZKW10nyNQJSVWtecSxTU5omvqMPuVlsx9WfTwpIt1b28obo+b1bXMvxzu45oQ8xnpQCzyvr3F5E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyICNubkKS1xZpRfm/i9rhBYNGe9b5P1EmULHarMAc4wn7roDz6
- SauihFmXxne1B338meC5DYaVlMXGdf9RMelfIdoozwntPl5SsxUxvNKSIaq9
-X-Google-Smtp-Source: AGHT+IHkYfJ79bEfWyHxxi4nrWg9rKSIFNadt/XRmgANHY5r2Ji158LUOJSU0C1ZOcFWs5j3QDfwjQ==
-X-Received: by 2002:a05:6512:690:b0:530:b76c:65df with SMTP id
- 2adb3069b0e04-5331c6ba1b6mr6253611e87.35.1723988418619; 
- Sun, 18 Aug 2024 06:40:18 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com.
- [209.85.208.171]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5330d3b8ed1sm1205339e87.73.2024.08.18.06.40.18
+ AJvYcCWc7zOSVrcDVCe37a+Ka5rn6CrAKZEmbCfozP69s+Hh/rs0HCaDZWTeyRvtmjsRuEpsCivES5Qf/51fHyd48CfIggrM73h0BXMCqrByuVFE
+X-Gm-Message-State: AOJu0YyhR8Y1QKt85FsGdT1PV35Xr+/QPkA6vc/ypcyavQel1L13xHsE
+ Kn12hDGmg2VhCeNmLPYMfrO3lVxYCs/aykPj46tkEyMJvZt+my36r8uzgQibYy0=
+X-Google-Smtp-Source: AGHT+IGxA3Kd2w9zlfMnbB8o2D+/PwVAnrN/zL5Nbsx1fnCYCE/VLyEHh6nlTT5YkCSTZ7kL9rfPbQ==
+X-Received: by 2002:a05:6e02:1a4f:b0:381:40be:4ce6 with SMTP id
+ e9e14a558f8ab-39d26cfbcb7mr92535855ab.11.1723988522231; 
+ Sun, 18 Aug 2024 06:42:02 -0700 (PDT)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
+ [209.85.166.45]) by smtp.gmail.com with ESMTPSA id
+ e9e14a558f8ab-39d1ed5dc70sm26645935ab.54.2024.08.18.06.42.01
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Aug 2024 06:40:18 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2f0271b0ae9so44496221fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:40:18 -0700 (PDT)
+ Sun, 18 Aug 2024 06:42:02 -0700 (PDT)
+Received: by mail-io1-f45.google.com with SMTP id
+ ca18e2360f4ac-81f8f0198beso120231639f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:42:01 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU9pM9TCmn7LX6AVrq0udEagz3tnsZ43UwPuIsTOe5kQYS7A5+ckM7fP7E1atBdSAwn3L+ilK410IA=@lists.freedesktop.org
-X-Received: by 2002:a2e:b55a:0:b0:2ec:500c:b2e0 with SMTP id
- 38308e7fff4ca-2f3be595f74mr47743761fa.22.1723988418234; Sun, 18 Aug 2024
- 06:40:18 -0700 (PDT)
+ AJvYcCVQfBUTUeoH78hUBcbLhKmKMCZF4gKZe1SKccMqPG0aSb5eL2d+YSa+ZvrKLYWI/G5zRv4KzGPLj5rAadMpcAffE3p1UK580RiOyyJmKPgp
+X-Received: by 2002:a05:6602:2d94:b0:824:d6ed:e479 with SMTP id
+ ca18e2360f4ac-824f266b92emr827432839f.7.1723988521614; Sun, 18 Aug 2024
+ 06:42:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240817230503.158889-1-ryan@testtoast.com>
- <20240817230503.158889-23-ryan@testtoast.com>
-In-Reply-To: <20240817230503.158889-23-ryan@testtoast.com>
+ <20240817230503.158889-5-ryan@testtoast.com>
+In-Reply-To: <20240817230503.158889-5-ryan@testtoast.com>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 18 Aug 2024 21:40:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64Fpt_tP5gSZftmexOY-sS6dsC=+KmgAJmMoRuhsEvK7g@mail.gmail.com>
-Message-ID: <CAGb2v64Fpt_tP5gSZftmexOY-sS6dsC=+KmgAJmMoRuhsEvK7g@mail.gmail.com>
-Subject: Re: [PATCH v3 22/26] clk: sunxi-ng: ccu: add Display Engine 3.3
- (DE33) support
+Date: Sun, 18 Aug 2024 21:41:48 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67OCPz4O38Lgduu1pasjE56dCuGbzYNL_RtjqsnTJZqCA@mail.gmail.com>
+Message-ID: <CAGb2v67OCPz4O38Lgduu1pasjE56dCuGbzYNL_RtjqsnTJZqCA@mail.gmail.com>
+Subject: Re: [PATCH v3 04/26] drm: sun4i: de2: Initialize layer fields earlier
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -91,101 +90,17 @@ Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 18, 2024 at 7:08=E2=80=AFAM Ryan Walklin <ryan@testtoast.com> w=
+On Sun, Aug 18, 2024 at 7:06=E2=80=AFAM Ryan Walklin <ryan@testtoast.com> w=
 rote:
 >
 > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> The DE33 is a newer version of the Allwinner Display Engine IP block,
-> found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
-> supported by the mainline driver.
+> drm_universal_plane_init() can already call some callbacks, like
+> format_mod_supported, during initialization. Because of that, fields
+> should be initialized beforehand.
 >
-> The DE33 in the H616 has mixer0 and writeback units. The clocks
-> and resets required are identical to the H3 and H5 respectively, so use
-> those existing structs for the H616 description.
->
-> There are two additional 32-bit registers (at offsets 0x24 and 0x28)
-> which require clearing and setting respectively to bring up the
-> hardware. The function of these registers is currently unknown, and the
-> values are taken from the out-of-tree driver.
->
-> Add the required clock description struct and compatible string to the
-> DE2 driver.
->
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Co-developed-by: Ryan Walklin <ryan@testtoast.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
->
-> --
-> Changelog v2..v3:
-> - Lowercase hex value
-> - Correct #include for writel()
-> ---
->  drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/=
-ccu-sun8i-de2.c
-> index 7683ea08d8e30..e0fdf9bda10b1 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> @@ -7,6 +7,7 @@
->  #include <linux/clk-provider.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_address.h>
 
-Still incorrect.
-
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
->
-> @@ -239,6 +240,16 @@ static const struct sunxi_ccu_desc sun50i_h5_de2_clk=
-_desc =3D {
->         .num_resets     =3D ARRAY_SIZE(sun50i_h5_de2_resets),
->  };
->
-> +static const struct sunxi_ccu_desc sun50i_h616_de33_clk_desc =3D {
-> +       .ccu_clks       =3D sun8i_de2_ccu_clks,
-> +       .num_ccu_clks   =3D ARRAY_SIZE(sun8i_de2_ccu_clks),
-> +
-> +       .hw_clks        =3D &sun8i_h3_de2_hw_clks,
-> +
-> +       .resets         =3D sun50i_h5_de2_resets,
-> +       .num_resets     =3D ARRAY_SIZE(sun50i_h5_de2_resets),
-> +};
-> +
->  static int sunxi_de2_clk_probe(struct platform_device *pdev)
->  {
->         struct clk *bus_clk, *mod_clk;
-> @@ -290,6 +301,16 @@ static int sunxi_de2_clk_probe(struct platform_devic=
-e *pdev)
->                         "Couldn't deassert reset control: %d\n", ret);
->                 goto err_disable_mod_clk;
->         }
-> +
-> +       /*
-> +        * The DE33 requires these additional (unknown) registers set
-> +        * during initialisation.
-> +        */
-> +       if (of_device_is_compatible(pdev->dev.of_node,
-> +                                   "allwinner,sun50i-h616-de33-clk")) {
-> +               writel(0, reg + 0x24);
-> +               writel(0x0000a980, reg + 0x28);
-> +       }
->
->         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
->         if (ret)
-> @@ -335,6 +356,10 @@ static const struct of_device_id sunxi_de2_clk_ids[]=
- =3D {
->                 .compatible =3D "allwinner,sun50i-h6-de3-clk",
->                 .data =3D &sun50i_h5_de2_clk_desc,
->         },
-> +       {
-> +               .compatible =3D "allwinner,sun50i-h616-de33-clk",
-> +               .data =3D &sun50i_h616_de33_clk_desc,
-> +       },
->         { }
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_de2_clk_ids);
-> --
-> 2.46.0
->
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
