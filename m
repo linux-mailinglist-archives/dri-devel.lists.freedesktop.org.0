@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F88955B18
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 08:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FDB955BA5
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 08:58:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5545910E066;
-	Sun, 18 Aug 2024 06:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9FC610E165;
+	Sun, 18 Aug 2024 06:58:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HPf6GF4K";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="erBoN4tt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F098810E066
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:08:35 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2d41b082aecso363495a91.0
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2024 23:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1723961315; x=1724566115; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q7ad08V9dWOOHyWHL258V3QEERYZAETpc4J3fM7chOc=;
- b=HPf6GF4KK7aLQd6dLtMF8ma/EIsdfsCoZo+xNZlzeYN93FluYOVbdRizKy8tvAZN7Z
- kvRPQmfRVzhlfnYLed+3GknF03xNlbClR4LVOLTUwACMX0+9sOYsXTg/7PRzsxO9NXOY
- eSbn8XuvA4TtEdZSvfWeFsZfY5/ZohJxW5QYKYrQ+O+E1pIBoFAYokJVGb6VXk/ErR5Z
- mObIF98CQsrJ4Z5uE9ZfzEFsD45su0M9Rq0sT0zPyHuPBrL/DVINWzAWD02ARXmGyQEw
- CuJEjlvqiAaE2Ll8hhWgS5IXyPpRupIHaBhEyM0aFUpBOho2rEL0cvU49HmQ7Fa9DQNu
- TR1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723961315; x=1724566115;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=q7ad08V9dWOOHyWHL258V3QEERYZAETpc4J3fM7chOc=;
- b=Us26LmNORxRwCez21vLo+7hnh5x9sJT7ApmIS9LIRBMfIAw10TYB7vj85BsCzxspnR
- FdxVpvKciKnTIqjCChT/YXdhDT7c5iZf7NhV31KlnVSY5BpF2NW644QhXN+0hD8kUEpy
- SWaX1ZvxTMGz1tSdMgWEw6y+qChz9QY2wBSO21tf1Tok0Vwq0yq2x7ChDnJnmfpPXLlY
- loT/ACHzo484d1TZ/zYF7S76SNZAeUI2XOWASe6iTSTtBpAWtzlpISZtXj+PhjWRO4lD
- onc2ibfwkP7Q5KDxa3gJPKJCPCF3mGYR1/nYZd9LkZh3R5HAACSnPcWn6H8ECU8Z9rqw
- U2pw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZXk2/1NXnmZEkIbSHO2O1nP08qm1XD4xGItsQBSt4l2mk2kBNfarbkhFtebEtWR6sXbVhxW0T1amVRj9PwqgVlorD6X5byoLMT8lkWACd
-X-Gm-Message-State: AOJu0YwbSt5J4QdtIqP3l5NPSN9zS4/xvcXmG4JjuKAFsOqcsnL3BZLi
- HNB4njqeIHqePpb6jn9QZsOq5g63D3ymM1jdzjFE4JOufIX4Sy+Y
-X-Google-Smtp-Source: AGHT+IFRtCSERfuy675a0jOJLl4KWwWGVGXXS4VlR/U2FYPHZXXE4rpb1RZGXKMSWZ1kKar/w+HVqA==
-X-Received: by 2002:a17:90b:124b:b0:2d3:ad05:7240 with SMTP id
- 98e67ed59e1d1-2d3c3aa98bbmr16548494a91.22.1723961315162; 
- Sat, 17 Aug 2024 23:08:35 -0700 (PDT)
-Received: from distilledx.srmu.edu.in
- ([2401:4900:6322:f541:ea23:e535:a48c:3c88])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2d4394e01b4sm236228a91.46.2024.08.17.23.08.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Aug 2024 23:08:34 -0700 (PDT)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- neil.armstrong@linaro.org, quic_jesszhan@quicinc.com
-Cc: dianders@chromium.org, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH v3 2/2] drm/panel: jdi-fhd-r63452: transition to mipi_dsi
- wrapped functions
-Date: Sun, 18 Aug 2024 11:38:16 +0530
-Message-ID: <20240818060816.848784-3-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240818060816.848784-1-tejasvipin76@gmail.com>
-References: <20240818060816.848784-1-tejasvipin76@gmail.com>
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC7C610E164;
+ Sun, 18 Aug 2024 06:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+ s=mail; t=1723964282;
+ bh=kNCKiT1FN6YahGLa2oSLHTz2Alz/wRPZwTWTFClaIjg=;
+ h=From:Subject:Date:To:Cc:From;
+ b=erBoN4tte68H/WaTM29ouoFi4ZXbyhZy7DBczgz69veu7xLn86PfuNWYd6o4o6fLT
+ QfI3dTyUN8vQneXBazl73Dkyd1/DsyCQwooVNHP4yyj6atLrpxz2Q/V+F1PxnecHqm
+ j/8xWVYdfuTTv0lbAsKxu9omL/rk9MAC85RdoSGI=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH v5 0/4] drm: Minimum backlight overrides and implementation
+ for amdgpu
+Date: Sun, 18 Aug 2024 08:56:36 +0200
+Message-Id: <20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIACSbwWYC/43NS07DMBSF4a1UHmNkX787Yh+IgZ+xVZoWOwmgK
+ nvH7aRIVBHD/wy+c0Et1hIb2u8uqMaltHIae4inHfLZjkPEJfRGQIATSQm2xzCcZ3wsI3bWH97
+ LkCf8MZd6wJoTSEFHxaRFHTjXmMrXDX99651Lm071+/a10Ov6L3ahmHZbGG2EFQ7sy2csrTWf5
+ /w8xgld7QV+ecA2PcAE++iTStwEa9xDj909xeimx7rHZeDEOaBWwkOP3z1NYdPj3RPSSpaSNsq
+ pP966rj82dFsSuQEAAA==
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723964281; l=2448;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=kNCKiT1FN6YahGLa2oSLHTz2Alz/wRPZwTWTFClaIjg=;
+ b=7h3BBPZuOZAF4p/CtlZ3V4u4Xa1fmy2PSEC1mrAH6U6xvkgEpJ6UXtejd5lgu/N1MNmYHeGKw
+ lStgNTZuvpbB4NpvCMvpv1JFeR6JPVL3gADixG75tjuLlEjvd7Lpld6
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,210 +74,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the jdi-fhd-r63452 panel to use multi style functions for
-improved error handling.
+The value of "min_input_signal" returned from ATIF on a Framework AMD 13
+is "12". This leads to a fairly bright minimum display backlight.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+Introduce a quirk to override "min_input_signal" to "0" which leads to a
+much lower minimum brightness, which is still readable even in daylight.
+
+Tested on a Framework AMD 13 BIOS 3.05 and Framework AMD 16.
+
+One solution would be a fixed firmware version, which was announced but
+has no timeline.
+
 ---
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 149 ++++++-------------
- 1 file changed, 48 insertions(+), 101 deletions(-)
+Changes in v5:
+- Forward-declare struct drm_edid
+- Reorder patches, quirk entries are last
+- Add patch from Dustin for additional quirk entries
+- Link to v4: https://lore.kernel.org/r/20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-index 483dc88d16d8..4eb71e85e9e9 100644
---- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-@@ -41,142 +41,89 @@ static void jdi_fhd_r63452_reset(struct jdi_fhd_r63452 *ctx)
- static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
--	mipi_dsi_generic_write_seq(dsi, 0xec,
--				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
--				   0x13, 0x15, 0x68, 0x0b, 0xb5);
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
--
--	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set tear on: %d\n", ret);
--		return ret;
--	}
--
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
-+					 0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+					 0x13, 0x15, 0x68, 0x0b, 0xb5);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
- 
--	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set pixel format: %d\n", ret);
--		return ret;
--	}
--
--	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 0x0437);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set column address: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
- 
--	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 0x077f);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set page address: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
- 
--	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0x0000);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, 0x77);
-+	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0x0000, 0x0437);
-+	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0x0000, 0x077f);
-+	mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx, 0x0000);
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x00ff);
- 
--	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display brightness: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
- 
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 80);
- 
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
--	msleep(20);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x84, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xc8, 0x11);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
- 
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(80);
--
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x04);
--	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xc8, 0x11);
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
--
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
--static int jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
-+static void jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
--	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
--	mipi_dsi_generic_write_seq(dsi, 0xec,
--				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
--				   0x13, 0x15, 0x68, 0x0b, 0x95);
--	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
--
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
--	usleep_range(2000, 3000);
--
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
--
--	return 0;
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xd6, 0x01);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xec,
-+					 0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+					 0x13, 0x15, 0x68, 0x0b, 0x95);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0xb0, 0x03);
-+
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_usleep_range(&dsi_ctx, 2000, 3000);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- }
- 
- static int jdi_fhd_r63452_prepare(struct drm_panel *panel)
- {
- 	struct jdi_fhd_r63452 *ctx = to_jdi_fhd_r63452(panel);
--	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
- 	jdi_fhd_r63452_reset(ctx);
- 
- 	ret = jdi_fhd_r63452_on(ctx);
--	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+	if (ret < 0)
- 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
--		return ret;
--	}
- 
--	return 0;
-+	return ret;
- }
- 
- static int jdi_fhd_r63452_unprepare(struct drm_panel *panel)
- {
- 	struct jdi_fhd_r63452 *ctx = to_jdi_fhd_r63452(panel);
--	struct device *dev = &ctx->dsi->dev;
--	int ret;
- 
--	ret = jdi_fhd_r63452_off(ctx);
--	if (ret < 0)
--		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+	/*
-+	 * NOTE: We don't return an error here as while the panel won't have
-+	 * been cleanly turned off at least we've asserted the reset signal
-+	 * so it should be safe to power it back on again later
-+	 */
-+	jdi_fhd_r63452_off(ctx);
- 
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 
+Changes in v4:
+- Switch back to v2 implementation
+- Add MODULE_DESCRIPTION()
+- Simplify quirk infrastructure to only handle min backlight quirks.
+  It can be extended if necessary.
+- Expand documentation.
+- Link to v3: https://lore.kernel.org/r/20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net
+
+Changes in v3:
+- Switch to cmdline override parameter
+- Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
+
+Changes in v2:
+- Introduce proper drm backlight quirk infrastructure
+- Quirk by EDID and DMI instead of only DMI
+- Limit quirk to only single Framework 13 matte panel
+- Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
+
+---
+Dustin L. Howett (1):
+      drm: panel-backlight-quirks: Add Framework 13 glossy and 2.8k panels
+
+Thomas Weißschuh (3):
+      drm: Add panel backlight quirks
+      drm/amd/display: Add support for minimum backlight quirk
+      drm: panel-backlight-quirks: Add Framework 13 matte panel
+
+ Documentation/gpu/drm-kms-helpers.rst             |  3 +
+ drivers/gpu/drm/Kconfig                           |  4 +
+ drivers/gpu/drm/Makefile                          |  1 +
+ drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++
+ drivers/gpu/drm/drm_panel_backlight_quirks.c      | 94 +++++++++++++++++++++++
+ include/drm/drm_utils.h                           |  4 +
+ 7 files changed, 117 insertions(+)
+---
+base-commit: c3f2d783a459980eafd24c5af94ccd56a615961f
+change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
+
+Best regards,
 -- 
-2.46.0
+Thomas Weißschuh <linux@weissschuh.net>
 
