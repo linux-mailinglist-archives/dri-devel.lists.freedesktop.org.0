@@ -2,157 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14439955EB0
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 21:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D38955E8A
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 20:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08AE110E11D;
-	Sun, 18 Aug 2024 19:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924F710E06F;
+	Sun, 18 Aug 2024 18:49:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="PkHxwJ44";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V2jl9bii";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 367 seconds by postgrey-1.36 at gabe;
- Sun, 18 Aug 2024 17:02:01 UTC
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBBA10E034;
- Sun, 18 Aug 2024 17:02:01 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20240818165551euoutp0258140a37ef73bcc4656173befe53d6b1~s4QD8OiMy2193121931euoutp02x;
- Sun, 18 Aug 2024 16:55:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20240818165551euoutp0258140a37ef73bcc4656173befe53d6b1~s4QD8OiMy2193121931euoutp02x
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1724000151;
- bh=pgk63OzM4MV5B1YZ1Q6RhX/k/tQPgbLegYhXhPxJ50g=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=PkHxwJ44aZhmcYMdzJKAGZXelphodr77bbg9/BPcudcGnFtavaJMJ9p2nd51Tj6yl
- EaF87ID3nxhu/IEgZzyY2TPZYcEWqlo0jRREP2U3hZ6UDipar0KJoHoGGOhd9+mR8o
- njp4oTr7P/w9+o/j0eFte/CLOGU+aG0zzrs/aqcg=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20240818165551eucas1p2cfad7c58437449945b2cf154473a035d~s4QDrLzpK2264222642eucas1p2-;
- Sun, 18 Aug 2024 16:55:51 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 50.EF.09620.79722C66; Sun, 18
- Aug 2024 17:55:51 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20240818165550eucas1p29e0c2db56a8031d550147a0305929f47~s4QC3qo8m2264222642eucas1p2_;
- Sun, 18 Aug 2024 16:55:50 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20240818165550eusmtrp1f22f7444782d04f43e5ceb6ffa5e8082~s4QC2rdl71394913949eusmtrp1b;
- Sun, 18 Aug 2024 16:55:50 +0000 (GMT)
-X-AuditID: cbfec7f5-d31ff70000002594-c8-66c227976f5c
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 98.94.09010.69722C66; Sun, 18
- Aug 2024 17:55:50 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20240818165550eusmtip2d54ec6aadacf9035b826ccd01848f656~s4QChYpRJ2514925149eusmtip2C;
- Sun, 18 Aug 2024 16:55:50 +0000 (GMT)
-Received: from localhost (106.210.248.197) by CAMSVWEXC02.scsc.local
- (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 18 Aug 2024 17:55:45 +0100
-Date: Sun, 18 Aug 2024 18:55:45 +0200
-From: Klaus Jensen <k.jensen@samsung.com>
-To: Barry Song <21cnbao@gmail.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Gomez
- <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, "Nathan
- Chancellor" <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, William Hubbs
- <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, Kirk Reiser
- <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, Paul
- Moore <paul@paul-moore.com>, Stephen Smalley
- <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James
- Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
- <linux-kbuild@vger.kernel.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "speakup@linux-speakup.org"
- <speakup@linux-speakup.org>, "selinux@vger.kernel.org"
- <selinux@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
- <kvmarm@lists.linux.dev>, "linux-serial@vger.kernel.org"
- <linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
- <llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
- (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com"
- <gost.dev@samsung.com>, Nick Desaulniers <nick.desaulniers@gmail.com>
-Subject: Re: [PATCH 00/12] Enable build system on macOS hosts
-Message-ID: <ZsInkfDqwzd2ojHz@AALNPWKJENSEN.aal.scsc.local>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E44B10E06F
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 18:48:59 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-371ba7e46easo295270f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 11:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1724006938; x=1724611738; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=4+ZVP0Q6mYnMoBlZBM0BE6acICxLb0FvKrUD3jvzYGg=;
+ b=V2jl9biioRwaNj88VTrmkpUTYnlLW33GTIJd5uxZJqqtf2yFfqWiMMQ61MRR829GBd
+ uSkls8vQTYolmNke+7XSOOpMzaVEn83ZDxkRdukxsEdPUS1lyglluYZFDhUga1juy+Zm
+ W5fkK7B922dTBp5enIISqdCS4otbf1GSVdRXENXmzs9zykBBG8UyYrtZH4IWb8upPCaB
+ F7qbehFk4Tl3INn3djUd/PfosZLEwM71jNDis/Qrv7XH97uidD0XJZ8TjoKC+k9I8zFE
+ MbK2993dJzm3RumoZYZhSlPG+sch03GGurSJCcik6nEwGf/AJFjbxoY5u1LGiE5fa3P9
+ U2fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724006938; x=1724611738;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4+ZVP0Q6mYnMoBlZBM0BE6acICxLb0FvKrUD3jvzYGg=;
+ b=QFErqydsfvegNWzqg90eRCbx3+NDm0g25s1tRTR9n6fv4Qtnxw3OUKhWEPg33Avz2a
+ yoIAh+9JgBgGzCm7YnCXfQDu0Fobv3r4EvnkLTD/9bfUo1fze08G6E+yb6uIb4hFHCid
+ dqwMxJvT/rG59Y+V3q99SWWzoHG/aLZCnGIsAnQjc4TU8xm/G0PMNfj5r6GRsesAyOee
+ IruT7DL8UVTp6bXlf5ytbBpVNyexL0N0nGqqLqQ71G9t0M2Tjslx2fjZQm5HPJlhfQzY
+ YqqDrzsYCH7Da8uIBHOHnf3UecUf4wvdddzfdSyXZuno38wVzDgLd2JY9TOn3ODK2mp0
+ 52JA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLRA9NH6RAeBMD4Hop6tpSqBHhkOugNRcCbU70fe9BLuHoBB15hztscge1KIoUR/3jb9P/IQLlaIch3YGvwwijHQHb2yaE/tdtdhbubY31
+X-Gm-Message-State: AOJu0YyEOREHoTbsQN9w/MJg4msRt+aMAUnXmaNJZMWmzPSnPBz+FmeS
+ RE4NrKkIfqbswqsFo+4832tnb73Ch72qJv+e0Y5ArNcH4L3aU2SJqLyh8MLP92g=
+X-Google-Smtp-Source: AGHT+IGdY03TPYHjen0YAzZR6SdVE9U3GU2ptlbdonStmceL8AePz4MTAvqlUNsmy/NvuKmbJIFU5g==
+X-Received: by 2002:a5d:6784:0:b0:371:7c71:9ab2 with SMTP id
+ ffacd0b85a97d-371946bf3f5mr5056266f8f.52.1724006937330; 
+ Sun, 18 Aug 2024 11:48:57 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.215.209])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37189849606sm8696349f8f.32.2024.08.18.11.48.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Aug 2024 11:48:56 -0700 (PDT)
+Message-ID: <526b6f56-7807-4bb6-9365-077b1cc490b2@linaro.org>
+Date: Sun, 18 Aug 2024 20:48:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGsJ_4zA6=ajoOgAm9kweeiBFKz4TJxxjYFGHHd3HQY8dxHpWA@mail.gmail.com>
-X-Originating-IP: [106.210.248.197]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1BUZRiH5zvn7Dm7y6weFxo+wYlplaE1wryg30gaZOEpGmutqHHGcpXD
- JW62CyqVI+aKgGIgIcMGC7LTchEC14VwBQnU5bIyGwOzaLiIAYEIKIEERbuxHEz/e+Z7f887
- 7++Pj4+LT1Ee/Ki4BFYRJ4+RkEKi1jRneTXXpzn8NdPgcjRlE6PWnmIMPdKdAchUPoKjqw4b
- jhy1WTjqfvKIRCe0VSSavTyCoXvXSjA0UbAKnb+oJZGms41Ao4brBNIPWHlo3liHoS5jPolu
- aTMoNPh9I4mGBnQkujBZQ6D7/bd56Ep+Gw81VHWRSN81xUMpaToeOlU2RKLHmQ4MGRvnCPRH
- QysP5cyNkWg88yaFes/lEqhRbaVQ6WwuQJYWE4Vq6zoAGrZkA5TX2wvQw7qFzYaxLB4qTtmC
- VHf90Z0fq6lAX6ZCUwGYelMHyTTMFBGMsfkyyVxR2yimSJ/IqG6M8xht/QOM0ZenkYwmTYMx
- jox+HnPDUUwxF5JzcEbTJmMaCyoo5t7pFuwDuEf4ehgbE3WIVazbvk8Y+e/JSnDQ5nLEmnwJ
- TwZ5gnQg4EN6E0y3GnAni+lSAOdngzmeBrC9iU4HwgWeAvB66d/gqZA610hygxIAL2rU2P+p
- saHCpUkNgFOTasKpELQ3bMtQk04maSn8ed6x+O5GS2B2zgzhFHC6nIYlQzk858CV3gZHSuoX
- BREdADuGb2Ecr4BteYMLAn9BkMIq4zoOPWGJne9M4LQXPFHzw2IdAS2DOrMe465eDS/1WAiO
- j8J2w2+LR0P6qgssmzmLOfdA+i3YmhrIZVzhaIuB4ngVNGefIbj8NQCnC3uoJRnAm7/ocC4V
- AFXdg0tGEBwr1lPc0mXw9vgK7rhl8FxtLs49i2BqijgTrFE/V0z9rJj6WTH1c8WKAFEO3NlE
- ZWwEq9wYxx72U8pjlYlxEX4H4mP1YOGvmO0tT+pA6eikXzPA+KAZQD4ucROdftAULhaFyZO+
- YhXxnysSY1hlM/DkExJ3kXeYFyumI+QJbDTLHmQVT6cYX+CRjL0ZYvLj/SW7v1Vmtg2FiAdC
- g9ZumPDK9JxcLUkCazK0BhdbpVTkio0GhmyulAaogo/oNrxj/FZ4nGzYvtmu2nf07V3xc2mf
- YJbsTdKv31/5cHdEzP5dd8XS/r1/Tpz9Yrr9fExZeOl8mS099pW6mm1s6GhCL7XTN9Kc5R+d
- K6yIdmO6h5f3bWQKP6tw73r5pTCw8hgxINjZae/67vcX9xzzlX8c7GFNMh6qjq//8Mt3/wn9
- SeCdaffx3Jtd9M3ERNMOmV/fbOtxcpkqSGXU+t/pjN0Rr0uv9nkhQ/T4gD0n6o3Ivizb/qBe
- 8+H3in8NsKyPtH4q21qQgBEfddQMSLeczN8dKCGUkfL1a3GFUv4fl9bBPJoEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTdxjGdy49bYEuZxXZGZpp6uaFSKHl9pYiYYtLzr64kRlxuoV19ABG
- oKyXKVvmiFwUHQYGSKil4xKugwDlYulg5eKABpGMCtIgogMEuQwJDiUButZu0W+//N/n+eWf
- Ny8H4zcQ3pwzSWpGmSRLEBBu+OB2/wPf6wd6Yv0HR71gbZIPA/fKUFip/AmBvtp5DH6zT2Jg
- b8vF4O4/KwSklTcQ8KJ5HoWp36tQ+Lt4N1z/tZwA/Z8WHBZaenEwTI+xYNNkRMFq0hFwuzyb
- DTP5ZgJmpysJKF1txeHRw3EWtOssLOhssBJgsK6xIDOrkgWXamYJeJpjR8Fk3sDhcecACwo2
- lghYzvmDDRM/F+Jg1o6xofpFIQLD/X1saDMOITA3nIdA0cQEAotGh7llKZcFZZkhkH4/CGwV
- jeyIw3Sdvg6hO/qGCLpzvQSnTT3NBN2unWTTJQYNnX5rmUWXdzxBaUNtFkHrs/Qobc9+yKJv
- 2cvYdGlqAUbrLZG0ubiOTU9d7Uc/pU4Jw5QKjZrZG69QqY8ITotALBRJQCgOlAhFASFfhoqD
- BH7hYXIm4cy3jNIv/Cth/FZGPZI86X5+LLUJS0WKuFcQLociA6nLG2bCyXyyAqG6GuSu991U
- 07NRlot3UJtjV/7LrCJUmy3Sxa0IVTnKOBkn36cs2dqXGYI8RN3ctONO9iQFVF7BuoPdOBhZ
- S1JL1VWoc7CDPELNV3W8LPBIKTU0dxt1hvjkJkrNL5eyXIO3KEvRjKPNcbQPUQ0mPxfuoqq2
- Oc4ERu6h0lpvYE7mkpFU5aABdf15H9V0bxh38Q/U2tZjJAfx1L4m1b6Sal9Jta9JSxC8FvFk
- NKrEuESVWKiSJao0SXHCGEWiAXFcblvfRosRqVlYFfYgKAfpQSgOJvDkXX3SHcvnyWUp3zFK
- RbRSk8CoepAgx4ZyMe+dMQrH6Sepo0XB/kGiwGCJf5AkOEDwNu/j5MsyPhknUzNnGSaZUf7f
- Qzlc71TUQyeJOmk0HfilscueyI8w88TpsdrjvaUlx2Y/y+IWP7rTEf7jex5sbY0043D0CU7E
- 1ORzjy9O8o6GVbhZqq9B2xtevrlHM3W9kgsf+WY8bb8/5R5l0JQGGnVWQq7+hPzeR34tlCsx
- 7bVlfpjXOLsn5lzKxW2fVL5nre3zNOsHophTN985t7gkjyx6tn8t/2DgyGKe7k699EHoN50J
- zTWCr+sDukXP94csuh8MPd3Ypbq7s+Li9Oq7dZsl56t3hU/TwXkXcuKkM8k+xVLbgu14ing9
- aqYmaUN69s2Rlb8WV/ZFWW/EbG2ZDc0DhSvj9dsnGK9Ls+P6sO1j+R6t3SMKRcGcAFfFy0Q+
- mFIl+xfttvvaQgQAAA==
-X-CMS-MailID: 20240818165550eucas1p29e0c2db56a8031d550147a0305929f47
-X-Msg-Generator: CA
-X-RootMTR: 20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4
-References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <CGME20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4@eucas1p2.samsung.com>
- <2024080753-debug-roulette-8cb1@gregkh>
- <3jnp6tnkjpvnisefomxagazu2u3uzzt7rcon3r5jssraxzwegb@gsxc7c5sfh7v>
- <2024080758-dedicator-smoky-44be@gregkh>
- <CAGsJ_4zA6=ajoOgAm9kweeiBFKz4TJxxjYFGHHd3HQY8dxHpWA@mail.gmail.com>
-X-Mailman-Approved-At: Sun, 18 Aug 2024 19:24:13 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: display: renesas,du: narrow interrupts
+ and resets per variants
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
+ <20240818174137.GC29465@pendragon.ideasonboard.com>
+ <4615f52b-4e4c-4fe4-bfef-a66e196410d7@linaro.org>
+ <20240818175118.GF29465@pendragon.ideasonboard.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240818175118.GF29465@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,33 +142,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Aug 17 13:11, Barry Song wrote:
-> On Thu, Aug 8, 2024 at 2:20 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Aug 07, 2024 at 01:56:38PM +0000, Daniel Gomez wrote:
-> > > On Wed, Aug 07, 2024 at 01:01:08PM GMT, Greg Kroah-Hartman wrote:
-> > > > On Wed, Aug 07, 2024 at 01:09:14AM +0200, Daniel Gomez via B4 Relay wrote:
-> > > > > This patch set allows for building the Linux kernel for arm64 in macOS with
-> > > > > LLVM.
-> > > >
-> > > > Is this a requirement somewhere that this must work?  It seems like an
-> > > > odd request, what workflows require cross-operating-system builds like
-> > > > this?
-> > >
-> > > This isn't a requirement, but it would, for example, support workflows for QEMU
-> > > users and developers on macOS. They could build/compile the kernel natively and
-> > > use it to launch QEMU instances, simplifying their process.
-> >
-> > But that's not a real workload of anyone?  How often does this ever come
-> > up?  Who is going to maintain this cross-build functionality over time?
+On 18/08/2024 19:51, Laurent Pinchart wrote:
+> On Sun, Aug 18, 2024 at 07:44:22PM +0200, Krzysztof Kozlowski wrote:
+>> On 18/08/2024 19:41, Laurent Pinchart wrote:
+>>> Hi Krzysztof,
+>>>
+>>> Thank you for the patch.
+>>>
+>>> On Sun, Aug 18, 2024 at 07:30:02PM +0200, Krzysztof Kozlowski wrote:
+>>>> Each variable-length property like interrupts or resets must have fixed
+>>>> constraints on number of items for given variant in binding.  The
+>>>> clauses in "if:then:" block should define both limits: upper and lower.
+>>>
+>>> I thought that, when only one of minItems or maxItems was specified, the
+>>> other automatically defaulted to the same value. I'm pretty sure I
+>>> recall Rob asking me to drop one of the two in some bindings. Has the
+>>> rule changes ? Is it documented somewhere ?
+>>
+>> New dtschema changed it and, even if previous behavior is restored, the
+>> size in if:then: always had to be constrained. You could have skipped
+>> one side of limit if it was equal to outer/top-level limit, e.g:
+>>
+>> properties:
+>>   clocks:
+>>     minItems: 1
+>>     maxItems: 2
+>>
+>>
+>> if:then:properties:
+>>   clocks:
+>>     minItems: 2
 > 
-> it is a real workload of me,  i was running qemu-system-aarch64 on x86
-> and it was
-> pretty slow. so got a M3 pro to accelerate my development. frequently changing
-> kernel's source code, i am using qemu-system-aarch64 to do quick verification.
-> 
+> Where can I find a description of the behaviour of the new dtschema
+> (hopefully with some documentation) ?
 
-Allow me to chime in as well. Working with qemu-system-aarch64 on an Mx
-are a daily thing for me as well. Working with custom built kernels have
-been a pain, and this really helps.
+No clue, but I feel there is some core concept missing. Your earlier
+statement:
+"I thought that, when only one of minItems or maxItems was specified, the"
+
+was never logically correct for the "if:then", except for the case I
+mentioned above. That's why all schema used as examples had it explicit:
+
+My talk from 2022, page 30:
+https://static.sched.com/hosted_files/osseu2022/bd/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro.pdf?_gl=1*kmzqmt*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
+all constraints defined,.
+
+My talk from 2023, page 34:
+https://static.sched.com/hosted_files/eoss2023/a8/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro%20-%20ELCE%202023.pdf?_gl=1*1jgx6d3*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
+
+Recently, I started using other example as "useful reference":
+https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L132
+
+That's nothing. All three above reference examples I keep giving are
+already there and repeated in emails all the time.
+
+So aren't you confusing the entire "skip one limit" for top-level
+properties? This patch is not about it all and dtschema did not change.
+
+Best regards,
+Krzysztof
+
