@@ -2,131 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D38955E8A
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 20:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C3B955EAF
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 21:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 924F710E06F;
-	Sun, 18 Aug 2024 18:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE9110E11B;
+	Sun, 18 Aug 2024 19:23:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V2jl9bii";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jXD+lLeN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E44B10E06F
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 18:48:59 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-371ba7e46easo295270f8f.0
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 11:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724006938; x=1724611738; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=4+ZVP0Q6mYnMoBlZBM0BE6acICxLb0FvKrUD3jvzYGg=;
- b=V2jl9biioRwaNj88VTrmkpUTYnlLW33GTIJd5uxZJqqtf2yFfqWiMMQ61MRR829GBd
- uSkls8vQTYolmNke+7XSOOpMzaVEn83ZDxkRdukxsEdPUS1lyglluYZFDhUga1juy+Zm
- W5fkK7B922dTBp5enIISqdCS4otbf1GSVdRXENXmzs9zykBBG8UyYrtZH4IWb8upPCaB
- F7qbehFk4Tl3INn3djUd/PfosZLEwM71jNDis/Qrv7XH97uidD0XJZ8TjoKC+k9I8zFE
- MbK2993dJzm3RumoZYZhSlPG+sch03GGurSJCcik6nEwGf/AJFjbxoY5u1LGiE5fa3P9
- U2fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724006938; x=1724611738;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4+ZVP0Q6mYnMoBlZBM0BE6acICxLb0FvKrUD3jvzYGg=;
- b=QFErqydsfvegNWzqg90eRCbx3+NDm0g25s1tRTR9n6fv4Qtnxw3OUKhWEPg33Avz2a
- yoIAh+9JgBgGzCm7YnCXfQDu0Fobv3r4EvnkLTD/9bfUo1fze08G6E+yb6uIb4hFHCid
- dqwMxJvT/rG59Y+V3q99SWWzoHG/aLZCnGIsAnQjc4TU8xm/G0PMNfj5r6GRsesAyOee
- IruT7DL8UVTp6bXlf5ytbBpVNyexL0N0nGqqLqQ71G9t0M2Tjslx2fjZQm5HPJlhfQzY
- YqqDrzsYCH7Da8uIBHOHnf3UecUf4wvdddzfdSyXZuno38wVzDgLd2JY9TOn3ODK2mp0
- 52JA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXLRA9NH6RAeBMD4Hop6tpSqBHhkOugNRcCbU70fe9BLuHoBB15hztscge1KIoUR/3jb9P/IQLlaIch3YGvwwijHQHb2yaE/tdtdhbubY31
-X-Gm-Message-State: AOJu0YyEOREHoTbsQN9w/MJg4msRt+aMAUnXmaNJZMWmzPSnPBz+FmeS
- RE4NrKkIfqbswqsFo+4832tnb73Ch72qJv+e0Y5ArNcH4L3aU2SJqLyh8MLP92g=
-X-Google-Smtp-Source: AGHT+IGdY03TPYHjen0YAzZR6SdVE9U3GU2ptlbdonStmceL8AePz4MTAvqlUNsmy/NvuKmbJIFU5g==
-X-Received: by 2002:a5d:6784:0:b0:371:7c71:9ab2 with SMTP id
- ffacd0b85a97d-371946bf3f5mr5056266f8f.52.1724006937330; 
- Sun, 18 Aug 2024 11:48:57 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.215.209])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37189849606sm8696349f8f.32.2024.08.18.11.48.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Aug 2024 11:48:56 -0700 (PDT)
-Message-ID: <526b6f56-7807-4bb6-9365-077b1cc490b2@linaro.org>
-Date: Sun, 18 Aug 2024 20:48:54 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC4610E07E;
+ Sun, 18 Aug 2024 19:22:59 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33FEE541;
+ Sun, 18 Aug 2024 21:21:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1724008917;
+ bh=CvpF9Axts1Rhln4SlNgoaOVrEnnikVcpPooqmvH2aOc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jXD+lLeNzoANdptO6sQa7HndAyTGFbRvmHM9vtoxOjybatIzk+GJKYK0yH5yDlgHP
+ A8QB2Gh2TsQvcxXkWzljdPtQlgc7jt75KYB5WSJvnENpYBab1/56dZIzescjTNPeas
+ 7MTsC0CLobC0VWhhn2sQUkRuFrzcXmVIQlZ5/+eY=
+Date: Sun, 18 Aug 2024 22:22:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH 01/86] drm/fbdev-helper: Move color-mode lookup into 4CC
+ format helper
+Message-ID: <20240818192230.GA729@pendragon.ideasonboard.com>
+References: <20240816125408.310253-1-tzimmermann@suse.de>
+ <20240816125408.310253-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display: renesas,du: narrow interrupts
- and resets per variants
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
- <20240818174137.GC29465@pendragon.ideasonboard.com>
- <4615f52b-4e4c-4fe4-bfef-a66e196410d7@linaro.org>
- <20240818175118.GF29465@pendragon.ideasonboard.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240818175118.GF29465@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240816125408.310253-2-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,63 +58,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/08/2024 19:51, Laurent Pinchart wrote:
-> On Sun, Aug 18, 2024 at 07:44:22PM +0200, Krzysztof Kozlowski wrote:
->> On 18/08/2024 19:41, Laurent Pinchart wrote:
->>> Hi Krzysztof,
->>>
->>> Thank you for the patch.
->>>
->>> On Sun, Aug 18, 2024 at 07:30:02PM +0200, Krzysztof Kozlowski wrote:
->>>> Each variable-length property like interrupts or resets must have fixed
->>>> constraints on number of items for given variant in binding.  The
->>>> clauses in "if:then:" block should define both limits: upper and lower.
->>>
->>> I thought that, when only one of minItems or maxItems was specified, the
->>> other automatically defaulted to the same value. I'm pretty sure I
->>> recall Rob asking me to drop one of the two in some bindings. Has the
->>> rule changes ? Is it documented somewhere ?
->>
->> New dtschema changed it and, even if previous behavior is restored, the
->> size in if:then: always had to be constrained. You could have skipped
->> one side of limit if it was equal to outer/top-level limit, e.g:
->>
->> properties:
->>   clocks:
->>     minItems: 1
->>     maxItems: 2
->>
->>
->> if:then:properties:
->>   clocks:
->>     minItems: 2
+Hi Thomas,
+
+Thank you for the patch.
+
+On Fri, Aug 16, 2024 at 02:22:27PM +0200, Thomas Zimmermann wrote:
+> The color mode specified on the kernel command line gives the user's
+> preferred color depth and number of bits per pixel. Move the
+> color-mode-to-format conversion form fbdev helpers into a 4CC helper,
+
+s/form/from/
+
+> so that is can be shared among DRM clients.
 > 
-> Where can I find a description of the behaviour of the new dtschema
-> (hopefully with some documentation) ?
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-No clue, but I feel there is some core concept missing. Your earlier
-statement:
-"I thought that, when only one of minItems or maxItems was specified, the"
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-was never logically correct for the "if:then", except for the case I
-mentioned above. That's why all schema used as examples had it explicit:
+> ---
+>  drivers/gpu/drm/drm_fb_helper.c | 70 +++++++--------------------------
+>  drivers/gpu/drm/drm_fourcc.c    | 30 +++++++++++++-
+>  include/drm/drm_fourcc.h        |  1 +
+>  3 files changed, 45 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 29c53f9f449c..af1fe79c701d 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1441,67 +1441,27 @@ int drm_fb_helper_pan_display(struct fb_var_screeninfo *var,
+>  EXPORT_SYMBOL(drm_fb_helper_pan_display);
+>  
+>  static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const uint32_t *formats,
+> -					  size_t format_count, uint32_t bpp, uint32_t depth)
+> +					  size_t format_count, unsigned int color_mode)
+>  {
+>  	struct drm_device *dev = fb_helper->dev;
+>  	uint32_t format;
+>  	size_t i;
+>  
+> -	/*
+> -	 * Do not consider YUV or other complicated formats
+> -	 * for framebuffers. This means only legacy formats
+> -	 * are supported (fmt->depth is a legacy field), but
+> -	 * the framebuffer emulation can only deal with such
+> -	 * formats, specifically RGB/BGA formats.
+> -	 */
+> -	format = drm_mode_legacy_fb_format(bpp, depth);
+> -	if (!format)
+> -		goto err;
+> +	format = drm_driver_color_mode_format(dev, color_mode);
+> +	if (!format) {
+> +		drm_info(dev, "unsupported color mode of %d\n", color_mode);
+> +		return DRM_FORMAT_INVALID;
+> +	}
+>  
+>  	for (i = 0; i < format_count; ++i) {
+>  		if (formats[i] == format)
+>  			return format;
+>  	}
+> -
+> -err:
+> -	/* We found nothing. */
+> -	drm_warn(dev, "bpp/depth value of %u/%u not supported\n", bpp, depth);
+> +	drm_warn(dev, "format %p4cc not supported\n", &format);
+>  
+>  	return DRM_FORMAT_INVALID;
+>  }
+>  
+> -static uint32_t drm_fb_helper_find_color_mode_format(struct drm_fb_helper *fb_helper,
+> -						     const uint32_t *formats, size_t format_count,
+> -						     unsigned int color_mode)
+> -{
+> -	struct drm_device *dev = fb_helper->dev;
+> -	uint32_t bpp, depth;
+> -
+> -	switch (color_mode) {
+> -	case 1:
+> -	case 2:
+> -	case 4:
+> -	case 8:
+> -	case 16:
+> -	case 24:
+> -		bpp = depth = color_mode;
+> -		break;
+> -	case 15:
+> -		bpp = 16;
+> -		depth = 15;
+> -		break;
+> -	case 32:
+> -		bpp = 32;
+> -		depth = 24;
+> -		break;
+> -	default:
+> -		drm_info(dev, "unsupported color mode of %d\n", color_mode);
+> -		return DRM_FORMAT_INVALID;
+> -	}
+> -
+> -	return drm_fb_helper_find_format(fb_helper, formats, format_count, bpp, depth);
+> -}
+> -
+>  static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+>  				      struct drm_fb_helper_surface_size *sizes)
+>  {
+> @@ -1531,10 +1491,10 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+>  			if (!cmdline_mode->bpp_specified)
+>  				continue;
+>  
+> -			surface_format = drm_fb_helper_find_color_mode_format(fb_helper,
+> -									      plane->format_types,
+> -									      plane->format_count,
+> -									      cmdline_mode->bpp);
+> +			surface_format = drm_fb_helper_find_format(fb_helper,
+> +								   plane->format_types,
+> +								   plane->format_count,
+> +								   cmdline_mode->bpp);
+>  			if (surface_format != DRM_FORMAT_INVALID)
+>  				break; /* found supported format */
+>  		}
+> @@ -1544,10 +1504,10 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+>  			break; /* found supported format */
+>  
+>  		/* try preferred color mode */
+> -		surface_format = drm_fb_helper_find_color_mode_format(fb_helper,
+> -								      plane->format_types,
+> -								      plane->format_count,
+> -								      fb_helper->preferred_bpp);
+> +		surface_format = drm_fb_helper_find_format(fb_helper,
+> +							   plane->format_types,
+> +							   plane->format_count,
+> +							   fb_helper->preferred_bpp);
+>  		if (surface_format != DRM_FORMAT_INVALID)
+>  			break; /* found supported format */
+>  	}
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 193cf8ed7912..3a94ca211f9c 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -36,7 +36,6 @@
+>   * @depth: bit depth per pixel
+>   *
+>   * Computes a drm fourcc pixel format code for the given @bpp/@depth values.
+> - * Useful in fbdev emulation code, since that deals in those values.
+>   */
+>  uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth)
+>  {
+> @@ -140,6 +139,35 @@ uint32_t drm_driver_legacy_fb_format(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_driver_legacy_fb_format);
+>  
+> +/**
+> + * drm_driver_color_mode_format - Compute DRM 4CC code from color mode
+> + * @dev: DRM device
+> + * @color_mode: command-line color mode
+> + *
+> + * Computes a DRM 4CC pixel format code for the given color mode using
+> + * drm_driver_color_mode(). The color mode is in the format used and the
+> + * kernel command line. It specifies the number of bits per pixel
+> + * and color depth in a single value.
+> + *
+> + * Useful in fbdev emulation code, since that deals in those values. The
+> + * helper does not consider YUV or other complicated formats. This means
+> + * only legacy formats are supported (fmt->depth is a legacy field), but
+> + * the framebuffer emulation can only deal with such formats, specifically
+> + * RGB/BGA formats.
+> + */
+> +uint32_t drm_driver_color_mode_format(struct drm_device *dev, unsigned int color_mode)
+> +{
+> +	switch (color_mode) {
+> +	case 15:
+> +		return drm_driver_legacy_fb_format(dev, 16, 15);
+> +	case 32:
+> +		return drm_driver_legacy_fb_format(dev, 32, 24);
+> +	default:
+> +		return drm_driver_legacy_fb_format(dev, color_mode, color_mode);
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_driver_color_mode_format);
+> +
+>  /*
+>   * Internal function to query information for a given format. See
+>   * drm_format_info() for the public API.
+> diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
+> index ccf91daa4307..c3f4405d6662 100644
+> --- a/include/drm/drm_fourcc.h
+> +++ b/include/drm/drm_fourcc.h
+> @@ -313,6 +313,7 @@ drm_get_format_info(struct drm_device *dev,
+>  uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth);
+>  uint32_t drm_driver_legacy_fb_format(struct drm_device *dev,
+>  				     uint32_t bpp, uint32_t depth);
+> +uint32_t drm_driver_color_mode_format(struct drm_device *dev, unsigned int color_mode);
+>  unsigned int drm_format_info_block_width(const struct drm_format_info *info,
+>  					 int plane);
+>  unsigned int drm_format_info_block_height(const struct drm_format_info *info,
+> -- 
+> 2.46.0
+> 
 
-My talk from 2022, page 30:
-https://static.sched.com/hosted_files/osseu2022/bd/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro.pdf?_gl=1*kmzqmt*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
-all constraints defined,.
+-- 
+Regards,
 
-My talk from 2023, page 34:
-https://static.sched.com/hosted_files/eoss2023/a8/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro%20-%20ELCE%202023.pdf?_gl=1*1jgx6d3*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
-
-Recently, I started using other example as "useful reference":
-https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L132
-
-That's nothing. All three above reference examples I keep giving are
-already there and repeated in emails all the time.
-
-So aren't you confusing the entire "skip one limit" for top-level
-properties? This patch is not about it all and dtschema did not change.
-
-Best regards,
-Krzysztof
-
+Laurent Pinchart
