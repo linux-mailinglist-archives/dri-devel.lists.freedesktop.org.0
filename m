@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E134B955CD0
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 15:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 081BD955CD3
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 15:48:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6327F10E082;
-	Sun, 18 Aug 2024 13:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 793AC10E095;
+	Sun, 18 Aug 2024 13:48:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C9D10E082
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 13:47:57 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5314c6dbaa5so4682856e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:47:57 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A74910E095
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 13:48:08 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-52f01afa11cso4444515e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:48:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723988871; x=1724593671;
+ d=1e100.net; s=20230601; t=1723988885; x=1724593685;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :reply-to:in-reply-to:references:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=DOrE88eK7FNtec8CjcuF9Kbf1J+Xv+uNq/yKCjxMpHc=;
- b=ExjN4oPjRkgLjJFcp2ddGVUifpnnsuGPP/TjKk1fNknR2Nbdd1lqOyf+N78SCwuLP0
- TpYgSbgFr2e2gWtGUOvBps69Aq+AvEw/bZXn8A8x22wr2/LxGwIH6KmkGJKbBypXTWOx
- 657090VbCrJGO4U//FhB3CisMNjwLbgokOgdB9ArpYBdpCNWYsOGfxCld0p8S4oWp+R5
- L597wHitWaSX1tntU4un5viBV3fzNTuSXICSD0RdFLpoC1u4JnRhpk5+57TQi4eHtMYU
- wF7HWhXWgenilT/dBN3v457Fmy59N8OkZsERLALSZRQMdq+KoptFbptC7Qy8BL7SBOxC
- rgEQ==
+ bh=086ANeHmrRDjdN2Mwc5Rp1d2iaH69nmzevA2WRPm9Xg=;
+ b=bxh4VXW1+aJCca+0/mfMvAtOezaR9rsJPDMWQdpb+fUzHGWTi9/CmmrLdXB5RZQzOe
+ 2/HfgQ+hIJyYu1PRvGVTKdb+uL6Ql2DWMueoD5atY4h1ft2na85TGs7OOWct5/bemI3v
+ mUcHSQ9iWctC73B/52mE88YUfMq02XQjBA/11FkZ+o6pQcuI9US3zbzal9lJ/FiwJV2x
+ 6CN3gFBp8VmdKOyTjdt+1h6MRLL9hZEVbTFyxuGNE6ftzP1RR0HvzS3xy8R5KxEa6Kks
+ Pqp8CsyHiEFyxbiELJRRoJpblSjgyIBuVTh2tihKVDxxTnhDiriCWC3hd70qjeUxd7Il
+ 161g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1Bura3EpeNVCPJSbq4HNirOga8pNHrnrvgxzRfwM04WJioREUlS7oiePqrAUnXg0weJbrdAMCmpXhIY/RP0VH6DrSnFMLHUzrmJwHIcTu
-X-Gm-Message-State: AOJu0YxepZC7JVXo1uW1dI+XKGcwaC0861T5lU7Leb/A0YM7rBwmJT8o
- tV/sXVM1OWKtWQQfmUPzo1mESBco6eQzyBJcDNtWwQLesv6afiJYsEOs7W497mU=
-X-Google-Smtp-Source: AGHT+IGoEPUdHkvGgfIWKvfeChvQq+3RlbtdQ/wVNsO6q4hDV33JeDFUIeFcLImHzxkUJL3ZepnL/A==
-X-Received: by 2002:a05:6512:1594:b0:52c:df77:6507 with SMTP id
- 2adb3069b0e04-5331c6dca63mr5817238e87.37.1723988870692; 
- Sun, 18 Aug 2024 06:47:50 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
- [209.85.208.174]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5330d41e2dasm1221048e87.200.2024.08.18.06.47.50
+ AJvYcCVf9SJq0edmEBm3RzbrDXKCsQ8+BtbzuB2ESfUdBoKIp7gDfUSnwC1Dq3XSnkIhSpIyGmDFTUfyhdqfYK/9ovIMCTSp4/LnHDaRKCXzy+Br
+X-Gm-Message-State: AOJu0YyqWHs39oIU8cZ2ximKtS0+S/KqZoJG9EgB8XenUDvXCH6EJwAE
+ tj47jzsfgrblNFJT96bYufyqkg3c85Rkbo0FNoXrP92WCj9O1e2nzieQVjpYKf0=
+X-Google-Smtp-Source: AGHT+IGcvLNm33UI4eMnaNHWotcn1P6zGFuwC1pCSblILgYlwGS/b2O0T/kvmJewPRPYtmZRfwGHZw==
+X-Received: by 2002:a05:6512:3b81:b0:52e:be84:225c with SMTP id
+ 2adb3069b0e04-5331c6ba239mr4868086e87.33.1723988884743; 
+ Sun, 18 Aug 2024 06:48:04 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com.
+ [209.85.208.171]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5330d3ff293sm1210019e87.131.2024.08.18.06.48.04
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Aug 2024 06:47:50 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2ef2c56d9dcso42674071fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:47:50 -0700 (PDT)
+ Sun, 18 Aug 2024 06:48:04 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2f0271b0ae9so44550751fa.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:48:04 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5TY7qgTZ9e6fcQPYXScbza1SB4CAy2JEUD4TD/rU/rb6Te09w8dHd5Bxus1P6FV1xNyM8O6SvAC/8cwutMo+CFfiPjha9V44Zi1hXtyRn
-X-Received: by 2002:a2e:b8ca:0:b0:2ef:2dc7:a8f7 with SMTP id
- 38308e7fff4ca-2f3be57e7acmr67887371fa.7.1723988869939; Sun, 18 Aug 2024
- 06:47:49 -0700 (PDT)
+ AJvYcCV1fjrsKu9sZ+ZHaE97FwJCZ8dyA+MEwKDyTWEGjQRNF7ZJn2Aku7xwSBsbJD/4e8yNDa6qF3dPy9Ap5pMqp7OoPLHUdI4FmiV2HpeSOEGz
+X-Received: by 2002:a05:651c:2209:b0:2f3:bfcc:245f with SMTP id
+ 38308e7fff4ca-2f3bfcc27dfmr53848211fa.32.1723988884396; Sun, 18 Aug 2024
+ 06:48:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240817230503.158889-1-ryan@testtoast.com>
- <20240817230503.158889-22-ryan@testtoast.com>
-In-Reply-To: <20240817230503.158889-22-ryan@testtoast.com>
+ <20240817230503.158889-21-ryan@testtoast.com>
+In-Reply-To: <20240817230503.158889-21-ryan@testtoast.com>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 18 Aug 2024 21:47:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65gppDuoUDNhWbZj5vVj7jNiPkiZLPisXK_PKQnPAr=_w@mail.gmail.com>
-Message-ID: <CAGb2v65gppDuoUDNhWbZj5vVj7jNiPkiZLPisXK_PKQnPAr=_w@mail.gmail.com>
-Subject: Re: [PATCH v3 21/26] dt-bindings: allwinner: add H616 DE33 mixer
+Date: Sun, 18 Aug 2024 21:47:52 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66d18WWQTu4YGsL8=qsRELKx675f+s8S1ezLj3eLmSmUg@mail.gmail.com>
+Message-ID: <CAGb2v66d18WWQTu4YGsL8=qsRELKx675f+s8S1ezLj3eLmSmUg@mail.gmail.com>
+Subject: Re: [PATCH v3 20/26] dt-bindings: allwinner: add H616 DE33 clock
  binding
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
@@ -98,13 +98,8 @@ rote:
 > The Allwinner H616 and variants have a new display engine revision
 > (DE33).
 >
-> The mixer configuration registers are significantly different to the DE3
-> and DE2 revisions, being split into separate top and display blocks,
-> therefore a fallback for the mixer compatible is not provided.
->
-> Add a display engine mixer binding for the DE33.
+> Add a clock binding for the DE33.
 >
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
