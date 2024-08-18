@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1032F955CC8
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 15:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 101FD955CCD
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 15:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB9B10E049;
-	Sun, 18 Aug 2024 13:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BACD410E06D;
+	Sun, 18 Aug 2024 13:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
- [209.85.166.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B9CD10E049
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 13:42:03 +0000 (UTC)
-Received: by mail-il1-f181.google.com with SMTP id
- e9e14a558f8ab-39d30f0f831so5740375ab.0
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:42:03 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D63310E06D
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 13:47:17 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-52f04b4abdcso4388057e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:47:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1723988522; x=1724593322;
+ d=1e100.net; s=20230601; t=1723988832; x=1724593632;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :reply-to:in-reply-to:references:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=whPaRlGmH+NJXjZNAC8fa7shH0Iu+3/wkcGkkBavjHg=;
- b=jiG4Lb6rDPZMi57NllbudbOSra0a6/Tnbngw0RaUdjH/hslTmDrZCbWmkljnYFVlCQ
- 9b8XcIPBiPBARwYp9ZXmTqFK2WOwl7mME/eS87qaXcY09kChgjF23n0xrsJJLJyhDHLI
- Qvv0kAiDvu0uq+GLSD+xGn9tb2u5Zwp3xVknW5/NurkjcDhC/di+6yxUN+Wi63VXTJDD
- pvgrbuT9W0hEkxUqr3bi3v62Z76+kNRAqrd2cWFEVVztMnVbEMBBva7h80BxsyXDKDw9
- CZndnSgnoyi7Urcl0qGarTlqdcczCFJpBOjn0I38ZaRB+p/cW4QK51a1C33+NU7rBmO0
- se2A==
+ bh=+uvtxgs6kWiB9/v6Xs7WCMNnd37h4d8Ese9LrJ+mZCI=;
+ b=EelWwKE5IT9ZW2BHziI9IPgiMpKnzDUwCe6thcRVZCIbr91KnT4E+tV9x2opxoSL/k
+ GA7vVsvvgajb+bNkJY31LhXa79XqSolGlkJm8GhYMKueRgJdAfdyFYYTY2H74alde5Y+
+ 9hiW7n46+LEvYBddjJ2Wu0UltIXBrwhZvdemHsU5CWEQ8LrYJ+qUMR4w6mO6FTXYCKBK
+ 1ZXTMhC31M/TBHRgX53s4O7pXEyhfmTkyBG5jk9Z2INgU9KJRUkbgeA6rTjWCoxamAZi
+ lEu7vkEm06yEQNaBWxA1w1FAICRn5PcI8iPRZhkgmmy7PM3OPN83Ak58pt4sQfrl1ja4
+ UyZw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWc7zOSVrcDVCe37a+Ka5rn6CrAKZEmbCfozP69s+Hh/rs0HCaDZWTeyRvtmjsRuEpsCivES5Qf/51fHyd48CfIggrM73h0BXMCqrByuVFE
-X-Gm-Message-State: AOJu0YyhR8Y1QKt85FsGdT1PV35Xr+/QPkA6vc/ypcyavQel1L13xHsE
- Kn12hDGmg2VhCeNmLPYMfrO3lVxYCs/aykPj46tkEyMJvZt+my36r8uzgQibYy0=
-X-Google-Smtp-Source: AGHT+IGxA3Kd2w9zlfMnbB8o2D+/PwVAnrN/zL5Nbsx1fnCYCE/VLyEHh6nlTT5YkCSTZ7kL9rfPbQ==
-X-Received: by 2002:a05:6e02:1a4f:b0:381:40be:4ce6 with SMTP id
- e9e14a558f8ab-39d26cfbcb7mr92535855ab.11.1723988522231; 
- Sun, 18 Aug 2024 06:42:02 -0700 (PDT)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
- [209.85.166.45]) by smtp.gmail.com with ESMTPSA id
- e9e14a558f8ab-39d1ed5dc70sm26645935ab.54.2024.08.18.06.42.01
+ AJvYcCVz34MWlP6PHG2DnUa/PK8S4haNOD/ty7a6yeVB6SMpRtRS9t+jZb8rltr1wV+pfvFaRXmnwAyAVqtvL9lormlzS5XwfR9y1ikwRxFF3jU4
+X-Gm-Message-State: AOJu0YzLiZ4bpENBFL8Gbj4vOI0j491T+0MHyVg3/Z6GiT8/uJSDw/XA
+ PTz+LBrsklEPdm0oqT+FVOsV0Gmqsahn2uVrpvEGXoeVroDLseBgB0xp3PQKLU0=
+X-Google-Smtp-Source: AGHT+IG2s6Qh7QLTa23WihqE2GfBQJZW+QmRSZB4CDo6WpJSHz4wD+x9S4CSfbu4vxSyW8yZrPkoag==
+X-Received: by 2002:a05:6512:2528:b0:530:d088:234a with SMTP id
+ 2adb3069b0e04-5331c6ede52mr5260005e87.54.1723988830975; 
+ Sun, 18 Aug 2024 06:47:10 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
+ [209.85.208.174]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5330d3afa00sm1198081e87.46.2024.08.18.06.47.10
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Aug 2024 06:42:02 -0700 (PDT)
-Received: by mail-io1-f45.google.com with SMTP id
- ca18e2360f4ac-81f8f0198beso120231639f.1
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:42:01 -0700 (PDT)
+ Sun, 18 Aug 2024 06:47:10 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2ef2d96164aso42379821fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 06:47:10 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQfBUTUeoH78hUBcbLhKmKMCZF4gKZe1SKccMqPG0aSb5eL2d+YSa+ZvrKLYWI/G5zRv4KzGPLj5rAadMpcAffE3p1UK580RiOyyJmKPgp
-X-Received: by 2002:a05:6602:2d94:b0:824:d6ed:e479 with SMTP id
- ca18e2360f4ac-824f266b92emr827432839f.7.1723988521614; Sun, 18 Aug 2024
- 06:42:01 -0700 (PDT)
+ AJvYcCXfgd+dI1iAOZXHxRZtMSO1CCLiOqS6/zSDWQKny8IwT7VWAQ8HOujgZ3SIXrS6ETCECev/EwYZOXt9xQQhF7z3s7RgrkmIu6ZSFxUYrUpO
+X-Received: by 2002:a2e:9a83:0:b0:2ef:1c0a:9b94 with SMTP id
+ 38308e7fff4ca-2f3be5864d9mr51081381fa.16.1723988830128; Sun, 18 Aug 2024
+ 06:47:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240817230503.158889-1-ryan@testtoast.com>
- <20240817230503.158889-5-ryan@testtoast.com>
-In-Reply-To: <20240817230503.158889-5-ryan@testtoast.com>
+ <20240817230503.158889-20-ryan@testtoast.com>
+In-Reply-To: <20240817230503.158889-20-ryan@testtoast.com>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 18 Aug 2024 21:41:48 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67OCPz4O38Lgduu1pasjE56dCuGbzYNL_RtjqsnTJZqCA@mail.gmail.com>
-Message-ID: <CAGb2v67OCPz4O38Lgduu1pasjE56dCuGbzYNL_RtjqsnTJZqCA@mail.gmail.com>
-Subject: Re: [PATCH v3 04/26] drm: sun4i: de2: Initialize layer fields earlier
+Date: Sun, 18 Aug 2024 21:46:56 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65_UGEJaqoUs8j9-wfsKKez_UPXTHnL3sj0ZA6NYt2vTQ@mail.gmail.com>
+Message-ID: <CAGb2v65_UGEJaqoUs8j9-wfsKKez_UPXTHnL3sj0ZA6NYt2vTQ@mail.gmail.com>
+Subject: Re: [PATCH v3 19/26] dt-bindings: allwinner: add H616 DE33 bus binding
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -71,7 +71,8 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Andre Przywara <andre.przywara@arm.com>, Chris Morgan <macroalpha82@gmail.com>,
  John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
+ Conor Dooley <conor.dooley@microchip.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,17 +91,47 @@ Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 18, 2024 at 7:06=E2=80=AFAM Ryan Walklin <ryan@testtoast.com> w=
+On Sun, Aug 18, 2024 at 7:08=E2=80=AFAM Ryan Walklin <ryan@testtoast.com> w=
 rote:
 >
-> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> The Allwinner H616 and variants have a new display engine revision
+> (DE33).
 >
-> drm_universal_plane_init() can already call some callbacks, like
-> format_mod_supported, during initialization. Because of that, fields
-> should be initialized beforehand.
+> Add a display engine bus binding for the DE33.
 >
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Co-developed-by: Ryan Walklin <ryan@testtoast.com>
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+
+>
+> --
+> Changelog v1..v2:
+> - Correct DE2 bus enum to reflect fallback devices accurately.
+>
+> Changelog v2..v3:
+> - Separate content into three patches for three separate subsystems
+> ---
+>  .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml     | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-d=
+e2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.ya=
+ml
+> index 9845a187bdf65..ea7ee89158c61 100644
+> --- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+> +++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+> @@ -24,7 +24,9 @@ properties:
+>      oneOf:
+>        - const: allwinner,sun50i-a64-de2
+>        - items:
+> -          - const: allwinner,sun50i-h6-de3
+> +          - enum:
+> +              - allwinner,sun50i-h6-de3
+> +              - allwinner,sun50i-h616-de33
+>            - const: allwinner,sun50i-a64-de2
+>
+>    reg:
+> --
+> 2.46.0
+>
