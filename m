@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21C5955E5D
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 19:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2C4955E66
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2024 19:51:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3D710E06E;
-	Sun, 18 Aug 2024 17:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64E5110E071;
+	Sun, 18 Aug 2024 17:51:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wcnk5txf";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XJPEn9w3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A227A10E06E
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 17:47:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C3E10E071
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 17:51:47 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC618541;
- Sun, 18 Aug 2024 19:46:21 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AC57541;
+ Sun, 18 Aug 2024 19:50:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1724003182;
- bh=mSqn4Gb3nYN7bq1wMWuPkirN69s9DYJDsLSC1UO7f3A=;
+ s=mail; t=1724003445;
+ bh=tidVSY8rGlKZOZ/mG0BgYK99Ekuv0IZphfvjl/fYTac=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wcnk5txfIBp7NE0L7x5uh59YFtx7okufy3TuElfDwUIvPUbVh8D/PSkXvwAmYUcvu
- gCHU0D64VxcEWJPjgxr7rL2aQGzFdKv8shGKSYcZ4rn3vgYihKVtNkIiNidmUFcnmK
- DoYiCAgazwNMLAtmPeHmDAAQE47ZFr2jj9nAG8uU=
-Date: Sun, 18 Aug 2024 20:46:55 +0300
+ b=XJPEn9w358MvTwtX9mZJn4kwOCClwMA9nTvzWfvCUsCSXYW0tXEIm9nUbkT/Zcm51
+ U575WtWwgZVHkV808z4eMjUADz8zbVaPfaz4bBCMcL/w9FnPjN6HCTpaicl52ru8zC
+ bCqtaoRLB5jovSx5CXxohuVgF3CluwiVfdlAT1Wo=
+Date: Sun, 18 Aug 2024 20:51:18 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -41,15 +41,16 @@ Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Magnus Damm <magnus.damm@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: display: renesas,du: add top-level
- constraints
-Message-ID: <20240818174655.GD29465@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: renesas,du: narrow interrupts
+ and resets per variants
+Message-ID: <20240818175118.GF29465@pendragon.ideasonboard.com>
 References: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
- <20240818173003.122025-2-krzysztof.kozlowski@linaro.org>
+ <20240818174137.GC29465@pendragon.ideasonboard.com>
+ <4615f52b-4e4c-4fe4-bfef-a66e196410d7@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240818173003.122025-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <4615f52b-4e4c-4fe4-bfef-a66e196410d7@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +66,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
-
-Thank you for the patch.
-
-On Sun, Aug 18, 2024 at 07:30:03PM +0200, Krzysztof Kozlowski wrote:
-> Properties with variable number of items per each device are expected to
-> have widest constraints in top-level "properties:" block and further
-> customized (narrowed) in "if:then:".  Add missing top-level constraints
-> for clocks, clock-names, interrupts, resets, reset-names, renesas,cmms
-> and renesas,vsps.
+On Sun, Aug 18, 2024 at 07:44:22PM +0200, Krzysztof Kozlowski wrote:
+> On 18/08/2024 19:41, Laurent Pinchart wrote:
+> > Hi Krzysztof,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Sun, Aug 18, 2024 at 07:30:02PM +0200, Krzysztof Kozlowski wrote:
+> >> Each variable-length property like interrupts or resets must have fixed
+> >> constraints on number of items for given variant in binding.  The
+> >> clauses in "if:then:" block should define both limits: upper and lower.
+> > 
+> > I thought that, when only one of minItems or maxItems was specified, the
+> > other automatically defaulted to the same value. I'm pretty sure I
+> > recall Rob asking me to drop one of the two in some bindings. Has the
+> > rule changes ? Is it documented somewhere ?
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  .../bindings/display/renesas,du.yaml          | 26 ++++++++++++++++---
->  1 file changed, 22 insertions(+), 4 deletions(-)
+> New dtschema changed it and, even if previous behavior is restored, the
+> size in if:then: always had to be constrained. You could have skipped
+> one side of limit if it was equal to outer/top-level limit, e.g:
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> index 147842b6465a..9a2d1c08cb1f 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -46,12 +46,26 @@ properties:
->      maxItems: 1
->  
->    # See compatible-specific constraints below.
-> -  clocks: true
-> -  clock-names: true
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 8
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 8
-> +
->    interrupts:
-> +    minItems: 1
-> +    maxItems: 4
->      description: Interrupt specifiers, one per DU channel
-> -  resets: true
-> -  reset-names: true
-> +
-> +  resets:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    minItems: 1
-> +    maxItems: 2
->  
->    power-domains:
->      maxItems: 1
-> @@ -77,6 +91,8 @@ properties:
->  
->    renesas,cmms:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 2
-> +    maxItems: 4
->      items:
->        maxItems: 1
->      description:
-> @@ -85,6 +101,8 @@ properties:
->  
->    renesas,vsps:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    maxItems: 4
->      items:
->        items:
->          - description: phandle to VSP instance that serves the DU channel
+> properties:
+>   clocks:
+>     minItems: 1
+>     maxItems: 2
+> 
+> 
+> if:then:properties:
+>   clocks:
+>     minItems: 2
+
+Where can I find a description of the behaviour of the new dtschema
+(hopefully with some documentation) ?
 
 -- 
 Regards,
