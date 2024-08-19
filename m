@@ -2,66 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A81995724E
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E4C95725F
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2026B10E337;
-	Mon, 19 Aug 2024 17:44:58 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l/+eIxfS";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D62110E340;
+	Mon, 19 Aug 2024 17:49:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B262010E334;
- Mon, 19 Aug 2024 17:44:56 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-454b12cc82cso15131111cf.1; 
- Mon, 19 Aug 2024 10:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724089495; x=1724694295; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=wgl1BIT1Iozvq+rn/hswreZzgz/VlUWJ1e7JlV7+eKs=;
- b=l/+eIxfSdCc8t9DrQLdjeqAYYvwQlKAPuakSmhMQfsG3ZDjvCkJCYbGfgqGhvYtCga
- vkSqtSF2gmSIiJ2QgW1M8lMShpGEWKEywG7K342i++1Om/D4z630K2ikmFOxLoM64a03
- 9PT9MDl2KOCgHVitRu+Hp+CXznm/1l0VjxlkZqHT1Hde2Jwo1k5YcU8F5CsK82Cy8l5V
- hK1mCnBoMmY+R13INIDOvrkFpEA+fEYD4nBrf1FGTIlV3mnr8rXuGtjiD/o10FnQh7QJ
- YS+rHS1DTjrCIK6+fLb/qHRJ5SeH5H5ZmQ97DXqvIaSZe859+tA0TSRSGuRgA7t7ZW2Q
- oCqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724089495; x=1724694295;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wgl1BIT1Iozvq+rn/hswreZzgz/VlUWJ1e7JlV7+eKs=;
- b=G0UyKVCzvpeVGy5HFAM0+LlEWH9RZM5CZyNOEinnWagA/RlWqsFBxLqcaRQZA08Jet
- a7nDBGIjp8/+kCC+9bYmFM4DZkiu55u49vozhJvrDAMPah7y3DrePWrLl62FijKOmg3T
- GDMo83NdnfWxhetJkDNlg06T//tfuah5nTzt42XuCA2PORyj3QbWdMO42yV5TvLnZQgs
- soMbcESdzsDS15V23m0PbtKqojHpddp76xfJ7ZhDUxIxPlzbv0qltOamkpg8C1uBwVmK
- OCYhs7vIRzWmxx9eSgXd+W4vXd7r8TilaufIwHfXx06db4D1JL5XXz8NxN6OTDoO5rFt
- kG7A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUAzekAXmbNg5wzINUXGraz03hkXmRvwFPOBBfcAgkgEwg8addFwafyRbQVEEV+5U1gcByP/pj1Zkh+LrjBkR6PxOGpTiYr3NhF27hTHPBW
-X-Gm-Message-State: AOJu0YwPxL7Y7FzePGRbyaUVVTx8wKGpkDRJZ3tmVPaMhVXksqhz6By8
- aRSAh4Ffx3KweICJ8hctphgmdrpwtY7bH+f4BGXdT3+Hc+JLxhsCVNM1kKPr/hf9RtDj8C+WpDe
- DRV0i1ek/59TvbZXh0uXSWOLBugQ=
-X-Google-Smtp-Source: AGHT+IHUDWyeHAWncFwmJ3gO/XndoAN8ewNPeGsyFPpfqXOgHze3iG++N1bdhT8TIQWKdZvcy9tcj394w7QRjDtw8nQ=
-X-Received: by 2002:a05:622a:2486:b0:451:c93a:5aa5 with SMTP id
- d75a77b69052e-453743ac25bmr164309471cf.56.1724089495295; Mon, 19 Aug 2024
- 10:44:55 -0700 (PDT)
+Received: from PAUP264CU001.outbound.protection.outlook.com
+ (mail-francecentralazon11021084.outbound.protection.outlook.com
+ [40.107.160.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C7910E340
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 17:49:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tTzL+F3PgOr9JAZhp5puMrKzJfc/S6yfRJzVPf8/nFQHelT5w96ajm/LcwJsy2XSi7Vd8MIdi+TieTOsoBX2OuqawKo96njpKqc+SeenQOprSwGUwPUGIQZ/ZveG76Cf0imsE+FIVcI0JaEGK2Ei06hfT19RGjCyBENSCPnObD+s7kA/bWSzb3lDL0lXqb2mxxMqPVTe6BAk3wOXig+YdHpOAAJGjae7eEKAQGIqcAlVE8+EqCRwkA+dFrcejWElSrdE+dvmRJO0HuYZOzMjjrW7oYhFfdDJEI+xKtF5+FZM2aWma+83RfB0wevZAcaXjCZAIYSE/50ESpxStF5OJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AuAKuipX2Pv5VI25Nr/AWES1c7/0LGjdEF1atWqXJ00=;
+ b=CcekLrEdahUZpSZk6UmCE0nUbEgp+6znfAFipZToPFun9AMywVpRTB4hMvGDfAyh9TPXmCjwqFsF2rp/FejVjCojOG0TEoFQDiKbkd3xqCYdipALImEcrb3YOW0PK3IDxzS25VGo4iq5Z4QKA8gz3lHb2Lk9s6TNN9Qjx74UC/UdlbZ5Y6bxZq8RbNH94h+oCwTqXJ7h68n8oSoB+ohQaIIbRA3BQ/g+h14Gc7WXo/oD8jcQc/29RFUStiS+18p1fSCk/x/srrAts8bq7rN95FqWZcmeS28oYDjcxZvlvSoJ3LNMUavU7C/uF5rz7H9f4asYTatn42D9rqnJjE8q7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=witbe.net; dmarc=pass action=none header.from=witbe.net;
+ dkim=pass header.d=witbe.net; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=witbe.net;
+Received: from MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:17::5) by
+ MR0P264MB4923.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:4b::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7875.21; Mon, 19 Aug 2024 17:49:12 +0000
+Received: from MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::4a3d:42ec:6933:fa65]) by MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::4a3d:42ec:6933:fa65%4]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
+ 17:49:12 +0000
+Date: Mon, 19 Aug 2024 19:49:11 +0200
+From: Paul Rolland <rol@witbe.net>
+To: Christian Heusel <christian@heusel.eu>
+Cc: Zack Rusin <zack.rusin@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Martin Krastev
+ <martin.krastev@broadcom.com>, Maaz Mombasawala
+ <maaz.mombasawala@broadcom.com>, dri-devel@lists.freedesktop.org, Brad
+ Spengler <spender@grsecurity.net>, rdkehn@gmail.com,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev, rol@witbe.net
+Subject: Re: [REGRESSION][BISECTED] vmwgfx crashes with command buffer error
+ after update
+Message-ID: <20240819194911.7999bec1@riri>
+In-Reply-To: <0d0330f3-2ac0-4cd5-8075-7f1cbaf72a8e@heusel.eu>
+References: <0d0330f3-2ac0-4cd5-8075-7f1cbaf72a8e@heusel.eu>
+Organization: Witbe
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+X-Ncc-RegId: fr.witbe
+x-ms-reactions: disallow
+Content-Type: multipart/signed; boundary="Sig_/kfW3cN.5WtImt5YMA+9A4dO";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-ClientProxiedBy: PAZP264CA0022.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:122::9) To MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:17::5)
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 19 Aug 2024 10:44:42 -0700
-Message-ID: <CAF6AEGvxF2p3-AsjUydmSYrA0Vb+Ea7nh3VtNX0pT0Ae_Me-Kw@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2024-08-19 for v6.11-rc5
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MRZP264MB1704:EE_|MR0P264MB4923:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8708154-a17c-4ca4-1e40-08dcc0773c1d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?sugCAx7NYZwSqUgmzkF9/eFmePNMvQi87TaDA61uUmjt4W5GYeUAVi4B+JYW?=
+ =?us-ascii?Q?PtJIxYprKLVHX02MRLJ8u0zFNXAjb9suKxfYPCkIKLkOF/CQAvqNEhVOnsRN?=
+ =?us-ascii?Q?lL7FW2Bia6mGN4sLEdCCDlOh+bqxztsEjhGU4fNYjyeT+FZgI7EgloKgvQDG?=
+ =?us-ascii?Q?Iqz5KsIVF6XiuEdjoa/00hKBd3N4T/IzuTKqy3+LYb+zIS+aiJMy2PzxtuzM?=
+ =?us-ascii?Q?c4sJTMV5sgVjw/pqwR2PwZsiedtuwUrORLolLbtSg2WhOuN/oKKVGDPFD74+?=
+ =?us-ascii?Q?DEmxSUpUjrsC8oONKY4qmZAU7lNog1QYQSE6TUJLyWadCy64jUmlxvKpIfJP?=
+ =?us-ascii?Q?rosDlAe0r6Shxv0RnlqLgmqqzhR/tWWRreuQztHPAKgVZ4+e0zRCYI9cdPZ5?=
+ =?us-ascii?Q?LzqAD7T8YaReyksiqBlElJXhTzrzuWJr8CrQLvS7X5ayVqs1LSKC4/LtCoiB?=
+ =?us-ascii?Q?0TB2yctaqaxyyI2nF23DhZWiR3rLhAhlXhH7oQ+W/XBFkY+w//NjiUcRhKsi?=
+ =?us-ascii?Q?dTnOb5AVB4HXSeL1ptcnutLR+qCS5WP1jeg2ffEku9pTnqoIuN1aQQ+nyee1?=
+ =?us-ascii?Q?6rFpalNiMGoq23qvA/RMnsQDQiSz6WMDHCronhCs4qxGmn9boff+7WTzUBzT?=
+ =?us-ascii?Q?3vBUxUmZSt2UIAnMUp5vBxkK8j2X3uvDSRXQTUUJYnC6AnS3MVZlAxltAVkS?=
+ =?us-ascii?Q?T/hEsmQs28v3+lrBawLP22hQ22SZanKLEWnLZUOvbHSBaPy8crV0SeIr2eYL?=
+ =?us-ascii?Q?lSrvbFV+AT5h2UNmuUB2PPLE9pea3e9cc627UP2xbw6xcXFDk6pKZA8Execo?=
+ =?us-ascii?Q?ZkzZnk70K2EeZkDQikC3e3zENJXNpnQqztlW9nqFT/zIdFjCnoUUZgo+/dqQ?=
+ =?us-ascii?Q?SGaiX9CyPDtroTFT+BRJh+51+ojyY2u2G+PlAzSck0h+S9ZLZvXd+DFYgi3c?=
+ =?us-ascii?Q?bwvKCVzv495QNzTBAbgCjhwf1kpTnrq/2k42q2ohfEZXoGLSX+pQDBKhxRnW?=
+ =?us-ascii?Q?5I3nBo73oozlUCL/o9CFau3dZAGXOQBxPPOVttT2maoUeDMT0Rl7oD0bBgiX?=
+ =?us-ascii?Q?AS2b/PjiSVIj/FgcXRgHy4Ub5uNF5gKg/81xsmCDTSm4Fg9mKBMrIG29g6jq?=
+ =?us-ascii?Q?ZbhtBylaxpqxFC/WpTCJllH1mE3n4nHeM3AUw87SpSvlyk7KUzON+4mbndFX?=
+ =?us-ascii?Q?Gg4RdO3VIyWBVTXOCK5KvSAWFN1Jsbn2fzKNgthMH5UOXcTHY/mO8sPGuSlA?=
+ =?us-ascii?Q?Z4OAAhzaQJLsxi+kp2BgEmAHqXFEHsg8peKZTlg5SLWKfF5rVllQD/YxxVdU?=
+ =?us-ascii?Q?l1ne7nlg/MWgpY53ckAYHl+U4vSKb5vh8HJRmc/3ZfBTRw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cEArghQzsXVeCoc5iEA45V6GPV36jlzYlfuidOGnWOw/7m+jp4vCw+ITd1q8?=
+ =?us-ascii?Q?79FjQb9h54OpvFkekFeZ/Do+UtDiGcenR7bQzISJznmTV3eZx520whJ33n5x?=
+ =?us-ascii?Q?i+CzbPV6obLircfpLfW4qOz1cq/djbHqmWB2iouZ+oAzU8hCIRCZhikODZbh?=
+ =?us-ascii?Q?32Gen550hN6NoXbHiyuT4VfS18427DnCrwumTTZm6RdMj1ZKmIVQ68FDlj0j?=
+ =?us-ascii?Q?w0Fpj5qSI2ixcs3MDtANjgUSyKxLEsq7IUP3fAId5nZoDoz0U5DCjBzegJtH?=
+ =?us-ascii?Q?VkdOM5xMzEcaOg6DqMa48EvhB3RhwjCS7oJE3lYagmGDA+Rdo7vhqpGj3F0X?=
+ =?us-ascii?Q?Se7SFrF6QwOjlQFFVX4SS5yz070hehbZZ5roT+HWzWeiiDzp9XqzXh01ETzu?=
+ =?us-ascii?Q?QvWoLf5L6g2Sit2QefeypmxJxvyKDeKNfnyn1wOkr1bBTJnOSMPd5RDaFW+V?=
+ =?us-ascii?Q?w2T6qKYPoab3wfSMtuf49ouC2zu9LQxVwY5X6Juf5RXDoeSj5Rsu91owz0Iw?=
+ =?us-ascii?Q?dLKhz0vmU8FOgEdj4wmkw62AhkTar1RB0JqdxoR46YdoMQLbSZQ2sCO4ZOQA?=
+ =?us-ascii?Q?T6S/iCc8wKZlP3FbEjkc1DI8ATMdF/7UdsECoYBkWDMVwGg95ZqdUXR10uvv?=
+ =?us-ascii?Q?uJoQE0RhCTUVrfSB+aQ2AHA2ldk5WW7qnG8sembkyEV1eHAhDlGxw/neZ9tP?=
+ =?us-ascii?Q?XkVdXCPIGA2LzIFAcSq0wKVNJwELYn7NZdzGLRMoFAsr38BGCVzPVxexj6mH?=
+ =?us-ascii?Q?jhEwcbu61GCxQbuIiAgAsxx5VDVDc3QnR/aSI4jXGj/0zIb4SB6ocalTM1h8?=
+ =?us-ascii?Q?4bOvb/paQFfHh+QTwJSC4BAl0JY1l/YrJSALWkHvVS2hAYtE4/OFoAIS53iB?=
+ =?us-ascii?Q?jgRsJVNdEA0dFwZL9phKuEEEPJAWpKKw0LmJ6Djb/CFurmIuBXSlZ3R05J8X?=
+ =?us-ascii?Q?a4RRQR4DnITzqeibHlopULTpxnZjcPnxr27T3LKQeR5aV7hn8fDY1tBiuF7j?=
+ =?us-ascii?Q?rEw/XsQs1lSWALH01f6MavoeL8Zd09TQvKM5XwtQTzjVsVJIoSY0v5KBhwV8?=
+ =?us-ascii?Q?3zq+TqcVWrAiZSiM4fGzqdH6IMqbIrUgIPnlm2CKTNBnyJhHm7fEe77zVsJF?=
+ =?us-ascii?Q?3AIaZO9Jm98f8FnEcM7tguZ3PP/7m9lkxSkQv18LgvR4IKcPQ8M4ojc9Y/Pt?=
+ =?us-ascii?Q?SGoKrOJ1f/gj9sf/v7Cc3MizDa9xkmAMOir1Z5ez6GlqLARrvLyLjHsJx7yM?=
+ =?us-ascii?Q?KUMyvtZAd8W/pdGlQnst88JHX4psqNt9gNk/TYbXSuu12Ibo1gVnBR75OYG9?=
+ =?us-ascii?Q?NSeavHmwmAArlnHBQA+imO98mG4+A43V1MNRQT8MjujJou3tjLzRZ7NtDEaI?=
+ =?us-ascii?Q?v/9IIbkWKAY8CjheKi3VbleYkxF2t168hZPBfVMQGEVb3xrtQMrBOTCphMKo?=
+ =?us-ascii?Q?InL7rE6Z+W44M6urQaw8oXNK2e3TybOg0SMUQPw3neqjQVukfxdq0YDJVyhj?=
+ =?us-ascii?Q?NzFHs6S3b5wF/4WOaEd98s3rhVG5PFv4XoeBC+HcNgc3KAb3Ls4R9zlnlX4C?=
+ =?us-ascii?Q?UfZbkwd4Bsw3dT9W0biGbnuuVZBrhlDXB8+XCpXh?=
+X-OriginatorOrg: witbe.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8708154-a17c-4ca4-1e40-08dcc0773c1d
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 17:49:12.3481 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3f8d401f-95c5-4cdd-94d3-64af2479cf89
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C26mrQdNUq0BXnpCfTbCUQomKGLUOz+cYTAR2IdSS/Y4M37b1K/xiVTz+ITGIqaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR0P264MB4923
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,80 +144,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+--Sig_/kfW3cN.5WtImt5YMA+9A4dO
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-A few fixes for v6.11, see description below.
+Hello,
 
-The following changes since commit fe34394ecdad459d2d7b1f30e4a39ac27fcd77f8:
+On Thu, 15 Aug 2024 19:48:47 +0200
+Christian Heusel <christian@heusel.eu> wrote:
 
-  dt-bindings: display/msm: dsi-controller-main: Add SM7150
-(2024-07-03 05:57:35 -0700)
+> While we were still debugging the issue Brad (also CC'ed) messaged me
+> that they were seeing similar failures in their ESXi based test
+> pipelines except for one box that was running on legacy BIOS (so maybe
+> that is relevant). They noticed this because they had set panic_on_warn.
 
-are available in the Git repository at:
+I have the same problem at home using ESXi and UEFI Bios with my VMs:
+kernel 6.10.4 and 6.10.5 are showing an error with vmwgfx while booting and
+there is no console available, though it's still possible to remotely
+access the VMs using SSH.
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2024-08-19
+Reverting to 6.10.3 solves the problem.
 
-for you to fetch changes up to 624ab9cde26a9f150b4fd268b0f3dae3184dc40c:
+Regards,
+Paul
 
-  drm/msm/adreno: Fix error return if missing firmware-name
-(2024-08-15 10:12:07 -0700)
 
-----------------------------------------------------------------
-Fixes for v6.11-rc5
+--Sig_/kfW3cN.5WtImt5YMA+9A4dO
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-1) Fixes from the virtual plane series, namely
-   - fix the list of formats for QCM2290 since it has no YUV support
-   - minor fix in dpu_plane_atomic_check_pipe() to check only for csc and
-     not csc and scaler while allowing yuv formats
-   - take rotation into account while allocating virtual planes
+-----BEGIN PGP SIGNATURE-----
 
-2) Fix to cleanup FB if dpu_format_populate_layout() fails. This fixes the
-   warning splat during DRM file closure
+iQGzBAEBCAAdFiEEfJBudf4KU8bw8ox368Rc5Xmx8y0FAmbDhZcACgkQ68Rc5Xmx
+8y2b+wv/auNGhWsEJVA1iJZktKXzRWjI6sW8sslf2tHbtlzStRbJw4oE/TKzL/xQ
+3+pGW4k08zxmF2n5HotKCguk2iIo+GKsLc93d2bdtC6NJDKPcIzoaA/ePhiQDRqA
+TMRXS1i4MWGXIdZCjjdrDouze7o/uO4PYPewFjB8FY7Oj3t301JkDh6xfHyUP56m
+pUbndRFj7mowuTsGeSE0HlQTKIOE2HX3NUny2Q/+cDCHqajm1zZu7Jhy/1Fx4BJf
+N6u65gmkEyTFO15qqFDSv2DBiAdyc3JaJ5NZ/i03mETsnh92DVnLsk9p4iI5RVTc
+2NzqA49u7v7whkvtWeIy6ymJhzgkX49cPPj0GUBkdvIg1ZvO8hWZNT4G+ezaXaFX
+yZQ43sxPQMTsJ2SRS+jCemjwzlFS34nHv5DQiiNiuQKWJMw6MqwtiuQFmcLKrGDT
+/nzFK3MkV2ievZasO3mSdAoYMozhKD2c8bkuxqsBZ5yDUlK3XlogzSzeED2z/573
+JURSwI5z
+=9ID1
+-----END PGP SIGNATURE-----
 
-3) Fix to reset the phy link params before re-starting link training. This
-   fixes the 100% link training failure when someone starts modetest while
-   cable is connected
-
-4) Long pending fix to fix a visual corruption seen for 4k modes. Root-cause
-   was we cannot support 4k@30 with 30bpp with 2 lanes so this is a critical
-   fix to use 24bpp for such cases
-
-5) Fix to move dpu encoder's connector assignment to atomic_enable(). This
-   fixes the NULL ptr crash for cases when there is an atomic_enable()
-   without atomic_modeset() after atomic_disable() . This happens for
-   connectors_changed case of crtc. It fixes a NULL ptr crash reported
-   during hotplug.
-
-6) Fix to simplify DPU's debug macros without which dynamic debug does not
-   work as expected
-
-7) Fix the highest bank bit setting for sc7180
-
-8) adreno: fix error return if missing firmware-name
-
-----------------------------------------------------------------
-Abhinav Kumar (4):
-      drm/msm/dp: fix the max supported bpp logic
-      drm/msm/dpu: move dpu_encoder's connector assignment to atomic_enable()
-      drm/msm/dp: reset the link phy params before link training
-      drm/msm: fix the highest_bank_bit for sc7180
-
-Dmitry Baryshkov (5):
-      drm/msm/dpu: don't play tricks with debug macros
-      drm/msm/dpu: cleanup FB if dpu_format_populate_layout fails
-      drm/msm/dpu: limit QCM2290 to RGB formats only
-      drm/msm/dpu: relax YUV requirements
-      drm/msm/dpu: take plane rotation into account for wide planes
-
-Rob Clark (1):
-      drm/msm/adreno: Fix error return if missing firmware-name
-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c        |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c    |  4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h        | 14 ++------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 20 +++++++++++++++++---
- drivers/gpu/drm/msm/dp/dp_ctrl.c               |  2 ++
- drivers/gpu/drm/msm/dp/dp_panel.c              | 19 ++++++++++---------
- drivers/gpu/drm/msm/msm_mdss.c                 |  2 +-
- 8 files changed, 37 insertions(+), 30 deletions(-)
+--Sig_/kfW3cN.5WtImt5YMA+9A4dO--
