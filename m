@@ -2,52 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBD595738D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 20:39:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477FE95740C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 20:59:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E1A10E1D9;
-	Mon, 19 Aug 2024 18:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6035510E2AA;
+	Mon, 19 Aug 2024 18:59:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="CbM97Au7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nz/mWHlE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D326D10E1D9;
- Mon, 19 Aug 2024 18:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1724092775;
- bh=Ltk+QjD6TRFkUieOvzjHHGmhAHcUXUyF1zlxMr4s/ak=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CbM97Au747P0rOaRji839hbO98/BxUXvWF9WV/wWVTPme6eer9Z0LvQ/K2qStjoKj
- 1O5DMBb+SZmGnY8bjAGoR/FZbrS2Y+kY5L9lcgkeD5sqL5rt4zC/4AGNaKsQHitgvq
- h2G/EJ6INozifm97jdsmsp3RZDgphxUT9t/sF8+A=
-Date: Mon, 19 Aug 2024 20:39:34 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Melissa Wen <mwen@igalia.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- jinzh <jinzh@github.amd.com>, 
- Aric Cyr <Aric.Cyr@amd.com>, Alan Liu <HaoPing.Liu@amd.com>,
- Tony Cheng <Tony.Cheng@amd.com>, 
- Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/12] drm/amd: Switch over to struct drm_edid
-Message-ID: <f2664caa-8bf5-4f6d-903c-3de01977e89e@t-8ch.de>
-References: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
- <3v3yvr6adlnqgbwbnvhfwj3ylpptunqyvosazyebvov3osdprb@znkx32uxku5q>
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2975010E2AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 18:59:03 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a7a975fb47eso540679466b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 11:59:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1724093941; x=1724698741; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZhXaD4TmAYPGJmmjQn+4I4Uac9SX5K7718COKYqQjHs=;
+ b=nz/mWHlECrCml9KptJm7THmAl293T196XMzT4YQ64Rm1jeaJEqj6Bwhah2cFyrU85D
+ PovDLkjWACP+2FIu07GDZFSQuLqM7a46Kowp2+cLXqMuMqmvCcksFOGCmqePDuegfkxV
+ aPS94mGIHYoLAx7NofAHSaM7PZf+f4omRS4ZOj/5qtDZAQRUBENO12Hg/ncTLbbZEX0n
+ FrcqP5ZR9qZ45Dm1xLsqru8X6TMSlyAgtdGKd2dLo6jRT/pEwPISjkuu6WDUqSmswZUQ
+ U0VM5PI7yh+igkzQ6SYP/KlTksSbplQXPsKLQR7jPkgr3vXUDbsAPaX4Gfhze4883Pj7
+ HcKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724093941; x=1724698741;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZhXaD4TmAYPGJmmjQn+4I4Uac9SX5K7718COKYqQjHs=;
+ b=NHqsc9WfUB0qqC/BTCV1+fLhFPiIAzZiXxOC0JkPr4SFn9Cykga/7SYLZPF3FN7In+
+ JQONnijxP/CdNmXNXKpLPzh++d8pInNitB7uLAxNT0Uj7LjSKKwzQpMtzm5bo/KuSF0t
+ v+oOoEWOlFCI+i/WUM2t1ZGOQrBdP/PV8kdSs/j5bWz6esJqrccnc4bbK5lp/TBkfbEc
+ XITHe880hMCZ2VpT3m9c5PUI9jh1eUywrrXbOs1q1AftCmlZ1I+3KHiC3bzAyPL1yIk6
+ o2MrgZtblEB1AFer1Aajkba2yA0vxat6vrvwk+hPNc9lI9HgESsmNrrtjtTuJs6KHEUm
+ ECdA==
+X-Gm-Message-State: AOJu0YypElFyBXk+xuUAs2owKkTgDP9DZX4EIrgbvZgGzKqKWLnROK1/
+ kiOyeXId7lQuxap7wkfaXVf04tiudH9HzEcmBFacXGoJP59W6Yy1SX2T3GnC1yI=
+X-Google-Smtp-Source: AGHT+IEJRGxbatmrLjd5LVKHSQycRAjwqUJEEY5fMV9vnlrMXeeU158H4xsRX/uxs3GdId5S/YxVtg==
+X-Received: by 2002:a17:907:2cc2:b0:a80:bf0f:2256 with SMTP id
+ a640c23a62f3a-a83928a5fc3mr912478766b.8.1724093941348; 
+ Mon, 19 Aug 2024 11:59:01 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a8383947151sm663359066b.161.2024.08.19.11.59.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Aug 2024 11:59:01 -0700 (PDT)
+Date: Mon, 19 Aug 2024 21:58:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Subject: [bug report] accel/ivpu: Add GEM buffer object management
+Message-ID: <35bdf086-adc6-408c-9cc8-a342eeebf313@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3v3yvr6adlnqgbwbnvhfwj3ylpptunqyvosazyebvov3osdprb@znkx32uxku5q>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,94 +75,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Melissa,
+Hello Jacek Lawrynowicz,
 
-On 2024-08-19 11:31:44+0000, Melissa Wen wrote:
-> On 08/18, Thomas Weißschuh wrote:
-> > The AMD DRM drivers use 'struct edid', raw pointers and even custom
-> > structs to represent EDID data.
-> > Uniformly switch to the safe and recommended "struct drm_edid".
-> > 
-> > Some uses of "struct edid" are left because some ad-hoc parsing is still
-> > being done inside the drivers.
-> 
-> Hi Thomas,
-> 
-> It's great to see more people working on removing raw edid from amd
-> display driver in favor of drm_edid.
-> 
-> I glanced over your series and I found it similar to my recent proposal
-> to migrate amdgpu_dm_connector from edid to drm_edid. You can find the
-> v5 of this work here:
-> https://lore.kernel.org/amd-gfx/20240807203207.2830-1-mwen@igalia.com/
+This is a semi-automatic email about new static checker warnings.
 
-thanks for the pointer.
+Commit 647371a6609d ("accel/ivpu: Add GEM buffer object management")
+from Jan 17, 2023, leads to the following Smatch complaint:
 
-> I believe it's more productive if we can join efforts and improve that
-> proposal instead of duplicating work. I'll look at your patches more
-> carefully this week. If you can review my work, I'd be happy to hear
-> your feedback too.
+    ./drivers/accel/ivpu/ivpu_drv.c:119 ivpu_file_priv_put()
+    warn: variable dereferenced before check 'file_priv' (see line 117)
 
-Indeed. I'll take a look at your patches.
-Let's see how they can be combined.
+./drivers/accel/ivpu/ivpu_drv.c
+   116		struct ivpu_file_priv *file_priv = *link;
+   117		struct ivpu_device *vdev = file_priv->vdev;
+                                           ^^^^^^^^^^^^^^^
+Dereference
 
-> Thanks,
-> 
-> Melissa
-> 
-> > 
-> > The patch "drm/amd/display: Switch amdgpu_dm_connector to struct drm_edid"
-> > will conflict with my backlight quirk series [0].
-> > The conflict will result in an obvious and easy to fix build failure.
-> > 
-> > Patches 1 and 2 delete some dead code.
-> > Patches 3 to 6 constify some arguments and shuffle around some code.
-> > The remaining patches perform the actual conversion in steps.
-> > 
-> > [0] https://lore.kernel.org/lkml/20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net/
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> > Thomas Weißschuh (12):
-> >       drm/amd/display: remove spurious definition for dm_helpers_get_sbios_edid()
-> >       drm/amd/display: Remove EDID members of ddc_service
-> >       drm/edid: constify argument of drm_edid_is_valid()
-> >       drm/amd/display: Simplify raw_edid handling in dm_helpers_parse_edid_caps()
-> >       drm/amd/display: Constify raw_edid handling in dm_helpers_parse_edid_caps()
-> >       drm/amd/display: Constify 'struct edid' in parsing functions
-> >       drm/amd/display: Use struct edid in dc_link_add_remote_sink()
-> >       drm/amdgpu: Switch amdgpu_connector to struct drm_edid
-> >       drm/amd/display: Switch amdgpu_dm_connector to struct drm_edid
-> >       drm/edid: add a helper to compare two EDIDs
-> >       drm/amd/display: Switch dc_sink to struct drm_edid
-> >       drm/amd/display: Switch dc_link_add_remote_sink() to struct drm_edid
-> > 
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     | 56 ++++++++-------
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |  3 +-
-> >  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c             |  4 +-
-> >  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c             |  4 +-
-> >  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c              |  4 +-
-> >  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c              |  4 +-
-> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 84 +++++++++++-----------
-> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  5 +-
-> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 34 +++++----
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 28 ++++----
-> >  .../gpu/drm/amd/display/dc/core/dc_link_exports.c  |  5 +-
-> >  drivers/gpu/drm/amd/display/dc/dc.h                |  8 +--
-> >  drivers/gpu/drm/amd/display/dc/dc_ddc_types.h      |  7 --
-> >  drivers/gpu/drm/amd/display/dc/dc_types.h          |  5 --
-> >  drivers/gpu/drm/amd/display/dc/dm_helpers.h        |  4 +-
-> >  drivers/gpu/drm/amd/display/dc/inc/link.h          |  3 +-
-> >  .../gpu/drm/amd/display/dc/link/link_detection.c   | 42 ++++-------
-> >  .../gpu/drm/amd/display/dc/link/link_detection.h   |  3 +-
-> >  drivers/gpu/drm/drm_edid.c                         | 20 +++++-
-> >  include/drm/drm_edid.h                             |  3 +-
-> >  20 files changed, 155 insertions(+), 171 deletions(-)
-> > ---
-> > base-commit: 207565ee2594ac47261cdfc8a5048f4dc322c878
-> > change-id: 20240615-amdgpu-drm_edid-32d969dfb899
-> > 
-> > Best regards,
-> > -- 
-> > Thomas Weißschuh <linux@weissschuh.net>
-> > 
+   118	
+   119		drm_WARN_ON(&vdev->drm, !file_priv);
+                                         ^^^^^^^^^
+Pointless check.  If there is a NULL dereference it already prints a stack
+trace.  Also it's really unlikely that we're going to predict which pointer is
+going to lead to a NULL dereference ahead of time.
+
+   120	
+   121		ivpu_dbg(vdev, KREF, "file_priv put: ctx %u refcount %u\n",
+
+regards,
+dan carpenter
