@@ -2,62 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5687F956AAA
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 14:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70469956AF9
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 14:37:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC2610E255;
-	Mon, 19 Aug 2024 12:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8DF10E25C;
+	Mon, 19 Aug 2024 12:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=boris.brezillon@collabora.com header.b="J+Y6G6bW";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="uGPdnoBl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7A910E255
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 12:22:41 +0000 (UTC)
-Delivered-To: adrian.larumbe@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724070149; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lbrCuRDi2b8TTE0uILQKAQr2JaQM+zbpeaz+gGY7SLbw+2uLn2ZODXD7Q247cGNsFmQT8UxksSy7F0yrp1r9nOQApZ3OTjsazrlYJbQwkE3g+InWgbUjNrNTI2WSx0CDWL3kOEFpOWdk1gJ4sNRUdcXZbzYjMB1M9YPT3Uy4it0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1724070149;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=v58YvdbH5F26ghoiybS4a6zu1SOtPE3yXwioSFKF11E=; 
- b=AQQq2+at5vHKqn0O9VV84+74WbsVdp0acQptkseuLzNcoogR96V5AU26T7gH4O1kdMh8QuuUC1FwLPTKcSTVSDwmElcHi4nQ4VIaTyLlAdlWN8LVpjhqByxR64ekxbhDrqgOv3JlAhUzrqB1CwndYvQaQkOyUOshgBICKUdbNHY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=boris.brezillon@collabora.com;
- dmarc=pass header.from=<boris.brezillon@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724070149; 
- s=zohomail; d=collabora.com; i=boris.brezillon@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=v58YvdbH5F26ghoiybS4a6zu1SOtPE3yXwioSFKF11E=;
- b=J+Y6G6bW7jpWVSx/T1O72m/RJ76hfaMWovSqGz36BHl99yf59Zw8QRY1QMqqZy1m
- RPjcvq9+7zee2yDWFzHIyCyE5VfWquckXMMj1Pz1cwwjCZWndTE+iY+o9v4lGRem52o
- 6pJmLhJOwHU5PbAAclMuYxx0B4sdMgwxx+cz6tVA=
-Received: by mx.zohomail.com with SMTPS id 1724070149070910.5299131862226;
- Mon, 19 Aug 2024 05:22:29 -0700 (PDT)
-Date: Mon, 19 Aug 2024 14:22:20 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <20240819142220.10ed0c10@collabora.com>
-In-Reply-To: <20240716201302.2939894-2-adrian.larumbe@collabora.com>
-References: <20240716201302.2939894-1-adrian.larumbe@collabora.com>
- <20240716201302.2939894-2-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from OS0P286CU011.outbound.protection.outlook.com
+ (mail-japanwestazon11010022.outbound.protection.outlook.com [52.101.228.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84EE010E25C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 12:37:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TlHi1Tmuw6TtBAskDQwGZZe1v/e0mNw/QwuwDIvKDZeABQRwI8XS0t0f/9v8iYj2S4yzYxzVSnkxKGCK20J2JOC9dBwVozWdjG7IjwO6vgfgjwhy0ivALyZvQZ06PLCU6T9Mhr5zwE1wbJ5rp9fZHxnp6Btkyux8EOXDU533EpPLIJ9vYK1ufZizCSlGoZrotbKMnLbRzQcn3djycaryEqbZzea6inMepcp14gav1nmXxQZCf8/lELuMDRZ4/sgCTWdeB1OwfCY/kGtfxjSorDyd0xzR1Pe/gdmu7Hvr8EKHj8KfZ5Fnq6jZejyRQU7zKybiyWDj1PJeoJS8G/CfaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KXZGMSuC+nXkSW+cXQSwscgNbfDwO+4PKfFbr5bTuNA=;
+ b=LMGrxFDPbsPsLE84ZqP+R4eW3GnoGp+PYMA4YTMBpjQCgeBRW8bAPytg0Kqn0R5DD3mJIpXr+3BHSRrWdkNB0V3VK1t0o6ckXOORWKxyik3yQ5Rbaj/r4hn41g2ydZhj6CQmq2zx0MqJlihjA1kKSnHJsYAYI+dlKwrQK0eZ4081Mo1xK7U33q+jnGPRNr25CAltkO+5eFsfIrWUqlokxxhdtF8qk8LkW0LsiS1aFhlPuu0Llb4lKRshmeaSl0GLekroT++4UljMdhs3q3VpaMvtvvN4gs/OxuirhEy8cVyfohOSt/eEo+b9Ylprxz6OzOH4j+J7vuN+SUw49OBi8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KXZGMSuC+nXkSW+cXQSwscgNbfDwO+4PKfFbr5bTuNA=;
+ b=uGPdnoBl1o6U1sVwV9d7oDTVAvNpa6NbwbCncTv6MRtOeQ7opEIL1PQ07zG/2mPkiUOdIRssDfg+APYNXle6cpyJKFgDDkko4vJI3Ri1247qr1M/ox2bBae+Rl6rGwXfvLJBS9hIMF7hLci4d97K9NIzLYttndWYNZxRujCPhzc=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS3PR01MB9945.jpnprd01.prod.outlook.com (2603:1096:604:1e1::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Mon, 19 Aug
+ 2024 12:37:08 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
+ 12:37:08 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring
+ <robh@kernel.org>
+CC: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
+ Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+ <biju.das.au@gmail.com>
+Subject: RE: [PATCH v3 1/4] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/G2UL DU bindings
+Thread-Topic: [PATCH v3 1/4] dt-bindings: display: renesas, rzg2l-du: Document
+ RZ/G2UL DU bindings
+Thread-Index: AQHa51OeDAJ50N6hlE+dnXg1qW6SlbIlbhQAgAA0N4CACPdU0A==
+Date: Mon, 19 Aug 2024 12:37:08 +0000
+Message-ID: <TY3PR01MB11346EC4C14C99A1771DE9A6C868C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
+ <20240805155242.151661-2-biju.das.jz@bp.renesas.com>
+ <20240813163220.GA1164014-robh@kernel.org>
+ <20240813193913.GH24634@pendragon.ideasonboard.com>
+In-Reply-To: <20240813193913.GH24634@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB9945:EE_
+x-ms-office365-filtering-correlation-id: 370adc74-c8f7-4653-c8e8-08dcc04ba3ac
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?N1BUOW5OY2I3clJ3VHE1SldjM0NOd2o4V2paMHcyc2loL0lnOVpyYnU5M3Jv?=
+ =?utf-8?B?L21NeUtidUpkQTVMTWE2WnkwSUtFSDE2cWpqamFFUld2aEhIVjhlTHh0OEg4?=
+ =?utf-8?B?VGszMElMRTJqOXE4RW8ycWVtaHRVL1JuUGRWQnZhNjJHSGtZNFQwOU9ZYmJn?=
+ =?utf-8?B?UEFJeTk3eFUxcFZ0bEVmVEUzUlVBZUZkbDNUNkp5SWJaMVdSWHpvVStCTmtv?=
+ =?utf-8?B?TGx0UnQ0VjZrR0FEZDg3NkNoSFlmNjl4a1Y3VXROcnU5bElsS3NocHN4aVkr?=
+ =?utf-8?B?dTJwY0VoV1ZpZUR2SFpYalRzeUY0bWY0anhkaGdzcFJRLytzcDR3aXg2Vjhq?=
+ =?utf-8?B?amdzVitWem4yUFVadGgyMmFBRHU3SjViMVJMK2p0MTlSRVEvandsTmRIMUF2?=
+ =?utf-8?B?ODhNcDh6clFGc3BnaVkzdTJXa3lOY1BOT0IwYnZ2VEw2bnNITFhhNW1WejRF?=
+ =?utf-8?B?VWJLZU9NV1pNSVlXZ0ZRVGkwNWdXQUVtenhRRGlwTDdoZjUrUE1HNzQ0dU5Q?=
+ =?utf-8?B?RFk5U0tUMjVQOU9BZkQ2SHIzL1RLSjN2aFZJQ3lPazNHK1lOZGZDTjFCUGMz?=
+ =?utf-8?B?Z0d3elRwemV2cjl1bUxVRGVUdjZPN09hZDNtVTJkR0hndWdXOUdKZ1ovY2kx?=
+ =?utf-8?B?VGFvUWljM0xaTDlqNmQyTDVkS1JUVXJZRS9VNC85S25IRzVMcXpyZjlhL0cy?=
+ =?utf-8?B?QXQ4bE9Xa2FMY2I3bndvZFYyMG1GRHowakYxUnZ5K2RISEVYUU9BLy94OGtW?=
+ =?utf-8?B?SjduSXRIWmI5UVR2N1VxR2t6MWI4MklTSU4zUE4zSlZsSzQ3VmJZbkEzc1JR?=
+ =?utf-8?B?WkhKWFYvSXcyQlpPTW0yM3hjTzVnRkhwZ3hLelpnSUpjWFYvbmlqRVFSTUpp?=
+ =?utf-8?B?UEFXZUhDMG9RRThERnBqc3JBUzBLYnJtSXBMTFREZkVxbXphaWlYUHY2akdL?=
+ =?utf-8?B?Z1hGOElwK2V3QXpnamFHVzBZMHAxeFVWTndLTVNJTVh4TTc0WU5JOGJZcFpZ?=
+ =?utf-8?B?WTFhTDRRWUJOVHJnUzR5d3VZNGc5RittSi9vMmU2WjRIbWxtaEYwekptTE0v?=
+ =?utf-8?B?c2FHUlduNW81RUd6NWZRckdCenJ5ekRITmg4TXlNT2JzK2orcUVKNVhNM2NU?=
+ =?utf-8?B?OEFlejAwN0hDM1lwSzIzWTgyM0VNK0hHelZhdEdxTjBmSC8zMDBpVHd4d3Vq?=
+ =?utf-8?B?QzJrT3lPQ2p5dkVzU1lEcWhiRDgrMHVXVmlQRkJ6ZzlRVjA3RDhxUTFIK2o3?=
+ =?utf-8?B?N0xRNW5QNVBsYnRoOU5vZzFhRklJeEl3MzZyQzRianFySW5nc3BZNGFtV3E5?=
+ =?utf-8?B?TUw2OGNkaHY1cHQ3K2dwNFV5RGR3Z1dOTHZtVHh2OTlaYVZXN0dMczVaWDJR?=
+ =?utf-8?B?dWNLd2o5Q0dlelJXMG1YN2RCUzM5Q1ExTXBORVppdjVreVhFWkNHVm5RUjdz?=
+ =?utf-8?B?ZEI0TVQzS2ZjV3Zqa2xldDk5eEExTDJsUjMyUUR3V1BFVTdKSUhhOVRVYlJC?=
+ =?utf-8?B?WklXNzFOMmo3RlZjR05iWkxGc25MOHhaNjRNaW5IdUVOVnRndzBlM0FIRGd4?=
+ =?utf-8?B?eURUTmRGc0Q0My9FWlJNME5hV0JZZXJ4TW4rNmZncnl6Und2TnZBY0ZmU0dS?=
+ =?utf-8?B?cFJBL3lrYTNENHlnNGtBTWI3UVNsUWcvd2Rsc3MwRmkvYjZ3SncyMXRsT1Vo?=
+ =?utf-8?B?ZUw2YmE4WjlpOXR2S3JKTzNDaWc3SlR6NThUR245alFuRkpFbndWYUZ1RzFD?=
+ =?utf-8?B?eWx4SnRMOXV6cVp0RjdqNmJyRU5LQWROK3FTaStnT1hMdGl3RVZlaEwwZVRB?=
+ =?utf-8?B?QXhPdmw2ZFRnN0JDNWNEYk5wSXBtN0dxN2Q3ZlNBMlVLUU5sZXpJd0xjREdy?=
+ =?utf-8?B?S2VCZTdwM0VYemNsdEFlakdRU0dNSXVQMGF3bU5mM3dTZEE9PQ==?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RHhWUCt2cUgrcFJaREx5WEdjaEtvQzdaZU1xeHQ0dXZ5UERXN1BMMDFHTG5m?=
+ =?utf-8?B?ZWVzd2xXbWhYQjdMRU9sL0thSEl0WXdWcFRQNmliWmV5ZHpwRXpqcm9DcENh?=
+ =?utf-8?B?SGJmSzc5ZVB0UStjczdwVkdqU3VYYW13M0lNQ3hDY2VsMG5KRnlCVzFaTGV2?=
+ =?utf-8?B?UXlYaVlnOU1jcVQ0MDZkWml3MHUzOERoem1TV2xaZVQzRWFFWDJGc0JZemI4?=
+ =?utf-8?B?WEo2NWw4SmRQdkVjeC9MamJMS1h3ZHUyVExBZUFXOUcyZE1LZGMweWxHS2gz?=
+ =?utf-8?B?S0QwR3FlbWh1ZVRBcnQ3UWtHRkhJRTUxa081bXNlYURxUHlwaURsQnRlb0cr?=
+ =?utf-8?B?SnJXV1gwZWg5N2NyTlRmOXdwcm9QMkJYQmsxb1dTMFJPeU4zcktjeXFiRjNH?=
+ =?utf-8?B?S21mR1Y3NFhWb0lhUG9wa25pWHNGL253ZDV6enlPZ1V3dlp6QTRScjZ5Yzcw?=
+ =?utf-8?B?bmZ6eFdSMHM3TWhhdDEzc1JzUk84c3pwUHJDNVVGNTdFS1ozMU5McTg0VE9X?=
+ =?utf-8?B?NHVvbUIxemJ3RHpHd2VuL0EyN2xISXV0ejRORFhDSFNHRjFpV1I5Y3JIc1ZU?=
+ =?utf-8?B?UnpmSHNMb0ZwZUhFWDdzUDlGM3ZEN0lpVnJXMThOSzBIL3k3cVFKVnpkRDJC?=
+ =?utf-8?B?S3FHbWJMRDVwQ2Y3MTgwMTZLd0psayswcXZHUjVYZk1CeDVpSEdHZ25LWXFL?=
+ =?utf-8?B?bUpQTytkL0hrN0V2K0lTcENGZnF3eGdMbVZBOUxyd1pZT0dLSFBKWnFIK0FR?=
+ =?utf-8?B?L3NqeVpmZnNqNnlnSWE4cUxDTm5JQkRSMmFFV3EyYVRjMFRPZVN6RzU2OGZU?=
+ =?utf-8?B?V3laL0sxa3ZPSFFsR2V4aHBBMU5ScUM3Y1dKL3pjanlVK0JKNC9mMlg4Und5?=
+ =?utf-8?B?MXh6YUVpNFJCNDl2V3BLZ3lqRm5oQzBHdGYyMGpRdkUrQkVNbDhtNTkzMUlK?=
+ =?utf-8?B?UUdidGhlanpUZ1hnbzhjZlZTSWJNSnRHOGJjZFZOSDBLK0xrRldEU0pMWFJ3?=
+ =?utf-8?B?RUVFTWFzZEtSMWtPSnBTTklpeXdyZnBFek5MNlNHcU92dUF4K0VISURnQlZU?=
+ =?utf-8?B?eDI5bldDMWwydmpTNTlGd2VtdlgxOExTeUxGZG5tM29FOWZHeGVOSzdWdHcr?=
+ =?utf-8?B?NlFrVDc5Vzg3cGQ0MCtJdU5UVkZTaUxTNGhoQUFLd0cwbFJzY2ZGTktzaUd4?=
+ =?utf-8?B?NE9UZC9MVWFRampkZ2NjUWlDY0wySndGcVl2aW9PcG8zMG5INjlFRHg1alli?=
+ =?utf-8?B?TlNoNVFKUUhINkZLUFRvYkFEV3BFTVR6MzF4NnB1QjRYdm1aNytuSGs3aVNK?=
+ =?utf-8?B?UTdCa2I2RzRiT21Fb3J1YzBITlRTRWpIWlk1TUI5b09OQjE2OHg1cW9DaCs1?=
+ =?utf-8?B?eVdTQkFKM2tWRW5NU1N1MFVGdlhsYjJEUjdFTStnZGdzRElFUHNNQ0g4Y3ZO?=
+ =?utf-8?B?d0JzS1dGRkhpTGI1MG1DSVJaTm1RdWlRUW5sYklmTlZEWnNjMzRHNERCQitH?=
+ =?utf-8?B?L3ZZSmFmUVU1ODVOOS90U2ZzeUZPajZyNGhTdmFxUmhHSGtQM3c4YU9qL2ZU?=
+ =?utf-8?B?UDJUelBJQWxaTjJGYS83SlFydm5WSUF5TVVkL3pnS0E4MkxJYTNBTTBIN3hW?=
+ =?utf-8?B?ZWZjTHlhVlJ0QUtBV05JMTdvTDFjSG9NZFBaZjFnZWg5VTJHS2gyTG41RHN6?=
+ =?utf-8?B?cDBGb0IxSS9IYXAxcmdkanVpdzhVZ0NndzN0UHo4SjhRQzl3b2VTN2ZGSisw?=
+ =?utf-8?B?SmhCdnV4cFgzc2dTdWM5emhWSjAzRlhVbzBkNEVHTWgwMm9BTFhmTUg3RDFY?=
+ =?utf-8?B?Q2plYjhLRTZNaTV0c2pWVjJKc0xuZ2xnNitsSCt3S3N0eTVoTzhmM0tpdG5Z?=
+ =?utf-8?B?NDlmV1h0SUQ2clpmendqRFZSQ1JKeCtNOWQzdnBUSnpDdEhyZ1UwZTMzcWdm?=
+ =?utf-8?B?ZUpESUVRcm00QnphdXFJM01QRUxTaXlUbzFIb3BpUG9BREVwa3F2WGx4VCti?=
+ =?utf-8?B?RDdwOXZZOEZzcTZYano2UDNhWUdrczVMNkkxWnBCMEl3bnpyS20wZ2N3aVVl?=
+ =?utf-8?B?aHpEclQ1TGcyRmJvM2Q1aTNzVGp0d3pZRTd5b0tQWXhTMzB6bnNHVW04WWxJ?=
+ =?utf-8?B?c3U3OFlBanVrbkxTSHU4YVR1cmp6bi9IaGh6QVc5Q3RObFBJdVM5NlowTjZP?=
+ =?utf-8?B?amc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 370adc74-c8f7-4653-c8e8-08dcc04ba3ac
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2024 12:37:08.0541 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: b9Axjguo+7hcVWuwYdQz09aSIhIN5RZRw/k4fe3Bfl6sAzcSwAxcr740t6B/vcTEmejWB7AqfCE86FZ9DCxzJ2ce9qd8P00XvmpMWkI48+M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9945
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,628 +181,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrian,
-
-Sorry for chiming so late, but I think I have a few concerns with this
-patch. Nothing major, but I'd prefer to have it addressed now rather
-than in a follow-up series.
-
-On Tue, 16 Jul 2024 21:11:40 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
-
-> Enable calculations of job submission times in clock cycles and wall
-> time. This is done by expanding the boilerplate command stream when runni=
-ng
-> a job to include instructions that compute said times right before an aft=
-er
-> a user CS.
->=20
-> Those numbers are stored in the queue's group's sync objects BO, right
-> after them. Because the queues in a group might have a different number of
-> slots, one must keep track of the overall slot tally when reckoning the
-> offset of a queue's time sample structs, one for each slot.
->=20
-> This commit is done in preparation for enabling DRM fdinfo support in the
-> Panthor driver, which depends on the numbers calculated herein.
->=20
-> A profile mode device flag has been added that will in a future commit
-> allow UM to toggle time sampling behaviour, which is disabled by default =
-to
-> save power. It also enables marking jobs as being profiled and picks one =
-of
-> two call instruction arrays to insert into the ring buffer. One of them
-> includes FW logic to sample the timestamp and cycle counter registers and
-> write them into the job's syncobj, and the other does not.
->=20
-> A profiled job's call sequence takes up two ring buffer slots, and this is
-> reflected when initialising the DRM scheduler for each queue, with a
-> profiled job contributing twice as many credits.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.h |   2 +
->  drivers/gpu/drm/panthor/panthor_sched.c  | 244 ++++++++++++++++++++---
->  2 files changed, 216 insertions(+), 30 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index e388c0472ba7..3ede2f80df73 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -162,6 +162,8 @@ struct panthor_device {
->  		 */
->  		struct page *dummy_latest_flush;
->  	} pm;
-> +
-> +	bool profile_mode;
-
-Should we make it a u32 bitmask, with a panthor_device_profiling_mode
-enum defining all the flags, so we can easily add extra profiling flags
-in the future?
-
->  };
-> =20
->  /**
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
-nthor/panthor_sched.c
-> index 79ffcbc41d78..6438e5ea1f2b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -93,6 +93,9 @@
->  #define MIN_CSGS				3
->  #define MAX_CSG_PRIO				0xf
-> =20
-> +#define NUM_INSTRS_PER_SLOT			16
-> +#define SLOTSIZE				(NUM_INSTRS_PER_SLOT * sizeof(u64))
-> +
->  struct panthor_group;
-> =20
->  /**
-> @@ -466,6 +469,9 @@ struct panthor_queue {
->  		 */
->  		struct list_head in_flight_jobs;
->  	} fence_ctx;
-> +
-> +	/** @time_offset: Offset of panthor_job_times structs in group's syncob=
-j bo. */
-> +	unsigned long time_offset;
-
-As mentioned in my other reply, it's probably simpler if you have a
-profiling BO per queue, or, at the very least, if you have something
-like that so you don't have to re-add the per-queue offset every time:
-
-	struct {
-		struct panthor_job_times *cpu;
-		uint64_t gpu;
-	} job_profiling_slots;
-
->  };
-> =20
->  /**
-> @@ -592,7 +598,17 @@ struct panthor_group {
->  	 * One sync object per queue. The position of the sync object is
->  	 * determined by the queue index.
->  	 */
-> -	struct panthor_kernel_bo *syncobjs;
-> +
-> +	struct {
-> +		/** @bo: Kernel BO holding the sync objects. */
-> +		struct panthor_kernel_bo *bo;
-> +
-> +		/**
-> +		 * @job_times_offset: Beginning of panthor_job_times struct samples af=
-ter
-> +		 * the group's array of sync objects.
-> +		 */
-> +		size_t job_times_offset;
-> +	} syncobjs;
-
-You're about to add new stuff to the BO, so I don't think syncobjs is a
-relevant name anymore.
-
-> =20
->  	/** @state: Group state. */
->  	enum panthor_group_state state;
-> @@ -651,6 +667,18 @@ struct panthor_group {
->  	struct list_head wait_node;
->  };
-> =20
-> +struct panthor_job_times {
-> +	struct {
-> +		u64 before;
-> +		u64 after;
-> +	} cycles;
-> +
-> +	struct {
-> +		u64 before;
-> +		u64 after;
-> +	} time;
-> +};
-> +
->  /**
->   * group_queue_work() - Queue a group work
->   * @group: Group to queue the work for.
-> @@ -730,6 +758,9 @@ struct panthor_job {
->  	/** @queue_idx: Index of the queue inside @group. */
->  	u32 queue_idx;
-> =20
-> +	/** @ringbuf_idx: Index of the ringbuffer inside @queue. */
-> +	u32 ringbuf_idx;
-
-The name is a bit confusing, how about job_slot_idx? BTW, if the job
-slot size is fixed (as seems to be implied by the SLOTSIZE definition)
-and the number of instructions per job is a power of two, the slot index
-can be extracted from panthor_job::call_info::start with something like:
-
-static u32 get_job_slot_id(struct panthor_job *job)
-{
-	struct panthor_queue *queue =3D
-		job->group->queues[job->queue_idx];
-	u32 ringbuf_size =3D panthor_kernel_bo_size(queue->ringbuf);
-	u32 first_instr =3D
-		panthor_job::call_info::start & (ringbuf_size - 1);
-
-	return first_instr / NUM_INSTRS_PER_SLOT;
-}
-
-> +
->  	/** @call_info: Information about the userspace command stream call. */
->  	struct {
->  		/** @start: GPU address of the userspace command stream. */
-> @@ -764,6 +795,9 @@ struct panthor_job {
-> =20
->  	/** @done_fence: Fence signaled when the job is finished or cancelled. =
-*/
->  	struct dma_fence *done_fence;
-> +
-> +	/** @is_profiled: Whether timestamp and cycle numbers were gathered for=
- this job */
-> +	bool is_profiled;
-
-As mentioned above, I'm tempted to make it a bitmask so we can enable
-more profiling modes in the future. If we do that, maybe we should make
-cycle count and timestamp two different flags, even if we're likely to
-enable both.
-
->  };
-> =20
->  static void
-> @@ -844,7 +878,7 @@ static void group_release_work(struct work_struct *wo=
-rk)
-> =20
->  	panthor_kernel_bo_destroy(group->suspend_buf);
->  	panthor_kernel_bo_destroy(group->protm_suspend_buf);
-> -	panthor_kernel_bo_destroy(group->syncobjs);
-> +	panthor_kernel_bo_destroy(group->syncobjs.bo);
-> =20
->  	panthor_vm_put(group->vm);
->  	kfree(group);
-> @@ -1969,8 +2003,6 @@ tick_ctx_init(struct panthor_scheduler *sched,
->  	}
->  }
-> =20
-> -#define NUM_INSTRS_PER_SLOT		16
-> -
->  static void
->  group_term_post_processing(struct panthor_group *group)
->  {
-> @@ -2007,7 +2039,7 @@ group_term_post_processing(struct panthor_group *gr=
-oup)
->  		spin_unlock(&queue->fence_ctx.lock);
-> =20
->  		/* Manually update the syncobj seqno to unblock waiters. */
-> -		syncobj =3D group->syncobjs->kmap + (i * sizeof(*syncobj));
-> +		syncobj =3D group->syncobjs.bo->kmap + (i * sizeof(*syncobj));
->  		syncobj->status =3D ~0;
->  		syncobj->seqno =3D atomic64_read(&queue->fence_ctx.seqno);
->  		sched_queue_work(group->ptdev->scheduler, sync_upd);
-> @@ -2780,7 +2812,7 @@ static void group_sync_upd_work(struct work_struct =
-*work)
->  		if (!queue)
->  			continue;
-> =20
-> -		syncobj =3D group->syncobjs->kmap + (queue_idx * sizeof(*syncobj));
-> +		syncobj =3D group->syncobjs.bo->kmap + (queue_idx * sizeof(*syncobj));
-> =20
->  		spin_lock(&queue->fence_ctx.lock);
->  		list_for_each_entry_safe(job, job_tmp, &queue->fence_ctx.in_flight_job=
-s, node) {
-> @@ -2815,22 +2847,81 @@ queue_run_job(struct drm_sched_job *sched_job)
->  	struct panthor_scheduler *sched =3D ptdev->scheduler;
->  	u32 ringbuf_size =3D panthor_kernel_bo_size(queue->ringbuf);
->  	u32 ringbuf_insert =3D queue->iface.input->insert & (ringbuf_size - 1);
-> +	u32 ringbuf_index =3D ringbuf_insert / (SLOTSIZE);
-> +	bool ringbuf_wraparound =3D
-> +		job->is_profiled && ((ringbuf_size/SLOTSIZE) =3D=3D ringbuf_index + 1);
->  	u64 addr_reg =3D ptdev->csif_info.cs_reg_count -
->  		       ptdev->csif_info.unpreserved_cs_reg_count;
->  	u64 val_reg =3D addr_reg + 2;
-> -	u64 sync_addr =3D panthor_kernel_bo_gpuva(group->syncobjs) +
-> -			job->queue_idx * sizeof(struct panthor_syncobj_64b);
-> +	u64 cycle_reg =3D addr_reg;
-> +	u64 time_reg =3D val_reg;
-> +	u64 sync_addr =3D panthor_kernel_bo_gpuva(group->syncobjs.bo) +
-> +		job->queue_idx * sizeof(struct panthor_syncobj_64b);
-> +	u64 times_addr =3D panthor_kernel_bo_gpuva(group->syncobjs.bo) + queue-=
->time_offset +
-> +		(ringbuf_index * sizeof(struct panthor_job_times));
-> +	size_t call_insrt_size;
-> +	u64 *call_instrs;
-> +
->  	u32 waitall_mask =3D GENMASK(sched->sb_slot_count - 1, 0);
->  	struct dma_fence *done_fence;
->  	int ret;
-> =20
-> -	u64 call_instrs[NUM_INSTRS_PER_SLOT] =3D {
-> +	u64 call_instrs_simple[NUM_INSTRS_PER_SLOT] =3D {
-> +		/* MOV32 rX+2, cs.latest_flush */
-> +		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
-> +
-> +		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
-> +		(36ull << 56) | (0ull << 48) | (val_reg << 40) | (0 << 16) | 0x233,
-> +
-> +		/* MOV48 rX:rX+1, cs.start */
-> +		(1ull << 56) | (addr_reg << 48) | job->call_info.start,
-> +
-> +		/* MOV32 rX+2, cs.size */
-> +		(2ull << 56) | (val_reg << 48) | job->call_info.size,
-> +
-> +		/* WAIT(0) =3D> waits for FLUSH_CACHE2 instruction */
-> +		(3ull << 56) | (1 << 16),
-> +
-> +		/* CALL rX:rX+1, rX+2 */
-> +		(32ull << 56) | (addr_reg << 40) | (val_reg << 32),
-> +
-> +		/* MOV48 rX:rX+1, sync_addr */
-> +		(1ull << 56) | (addr_reg << 48) | sync_addr,
-> +
-> +		/* MOV48 rX+2, #1 */
-> +		(1ull << 56) | (val_reg << 48) | 1,
-> +
-> +		/* WAIT(all) */
-> +		(3ull << 56) | (waitall_mask << 16),
-> +
-> +		/* SYNC_ADD64.system_scope.propage_err.nowait rX:rX+1, rX+2*/
-> +		(51ull << 56) | (0ull << 48) | (addr_reg << 40) | (val_reg << 32) | (0=
- << 16) | 1,
-> +
-> +		/* ERROR_BARRIER, so we can recover from faults at job
-> +		 * boundaries.
-> +		 */
-> +		(47ull << 56),
-> +	};
-> +
-> +	u64 call_instrs_profile[NUM_INSTRS_PER_SLOT*2] =3D {
-
-Looks like I was wrong, NUM_INSTRS_PER_SLOT is not necessarily the
-number of instruction per job, it's just the granularity of your
-ring buffer.
-
-This being said, I'm not a huge fan of how the specialization is done
-here, as we're basically duplicating call_instrs_simple, and making it
-error prone for any future fixes we might do on call_instrs_simple (it's
-very easy to omit porting the fix to call_instrs_profile).
-
-How about we define:
-
-#define MAX_INSTRS_PER_JOB 32
-
-struct panthor_job_ringbuf_instrs {
-	u64 buffer[MAX_INSTRS_PER_JOB];
-	u32 count;
-};
-
-static void
-push_instr(struct panthor_job_ringbuf_instrs *instrs, u64 instr)
-{
-	if (WARN_ON(instrs->count >=3D ARRAY_SIZE(instrs->buffer))) {
-		instrs->count =3D UINT32_MAX;
-		return;
-	}
-
-	instrs->buffer[instrs->count++] =3D instr;
-}
-
-Then you can emit the profiling prologue/epilogue and CS call sections
-using dedicated emit_{profiling_prologue,profiling_epilogue,cs_call}()
-helpers.
-
->  		/* MOV32 rX+2, cs.latest_flush */
->  		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
-> =20
->  		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
->  		(36ull << 56) | (0ull << 48) | (val_reg << 40) | (0 << 16) | 0x233,
-> =20
-> +		/* MOV48 rX:rX+1, cycles_offset */
-> +		(1ull << 56) | (cycle_reg << 48) | (times_addr + offsetof(struct panth=
-or_job_times, cycles.before)),
-> +
-> +		/* MOV48 rX:rX+1, time_offset */
-> +		(1ull << 56) | (time_reg << 48) | (times_addr + offsetof(struct pantho=
-r_job_times, time.before)),
-> +
-> +		/* STORE_STATE cycles */
-> +		(40ull << 56) |  (cycle_reg << 40) | (1ll << 32),
-> +
-> +		/* STORE_STATE timer */
-> +		(40ull << 56) |  (time_reg << 40) | (0ll << 32),
-> +
->  		/* MOV48 rX:rX+1, cs.start */
->  		(1ull << 56) | (addr_reg << 48) | job->call_info.start,
-> =20
-> @@ -2843,6 +2934,18 @@ queue_run_job(struct drm_sched_job *sched_job)
->  		/* CALL rX:rX+1, rX+2 */
->  		(32ull << 56) | (addr_reg << 40) | (val_reg << 32),
-> =20
-> +		/* MOV48 rX:rX+1, cycles_offset */
-> +		(1ull << 56) | (cycle_reg << 48) | (times_addr + offsetof(struct panth=
-or_job_times, cycles.after)),
-> +
-> +		/* MOV48 rX:rX+1, time_offset */
-> +		(1ull << 56) | (time_reg << 48) | (times_addr + offsetof(struct pantho=
-r_job_times, time.after)),
-> +
-> +		/* STORE_STATE cycles */
-> +		(40ull << 56) |  (cycle_reg << 40) | (1ll << 32),
-> +
-> +		/* STORE_STATE timer */
-> +		(40ull << 56) |  (time_reg << 40) | (0ll << 32),
-> +
->  		/* MOV48 rX:rX+1, sync_addr */
->  		(1ull << 56) | (addr_reg << 48) | sync_addr,
-> =20
-> @@ -2862,9 +2965,18 @@ queue_run_job(struct drm_sched_job *sched_job)
->  	};
-> =20
->  	/* Need to be cacheline aligned to please the prefetcher. */
-> -	static_assert(sizeof(call_instrs) % 64 =3D=3D 0,
-> +	static_assert(sizeof(call_instrs_simple) % 64 =3D=3D 0 && sizeof(call_i=
-nstrs_profile) % 64 =3D=3D 0,
->  		      "call_instrs is not aligned on a cacheline");
-> =20
-> +	if (job->is_profiled) {
-> +		call_instrs =3D call_instrs_profile;
-> +		call_insrt_size =3D sizeof(call_instrs_profile);
-> +
-> +	} else {
-> +		call_instrs =3D call_instrs_simple;
-> +		call_insrt_size =3D sizeof(call_instrs_simple);
-> +	}
-> +
->  	/* Stream size is zero, nothing to do =3D> return a NULL fence and let
->  	 * drm_sched signal the parent.
->  	 */
-> @@ -2887,8 +2999,23 @@ queue_run_job(struct drm_sched_job *sched_job)
->  		       queue->fence_ctx.id,
->  		       atomic64_inc_return(&queue->fence_ctx.seqno));
-> =20
-> -	memcpy(queue->ringbuf->kmap + ringbuf_insert,
-> -	       call_instrs, sizeof(call_instrs));
-> +	/*
-> +	 * Need to handle the wrap-around case when copying profiled instructio=
-ns
-> +	 * from an odd-indexed slot. The reason this can happen is user space is
-> +	 * able to control the profiling status of the driver through a sysfs
-> +	 * knob, so this might lead to a timestamp and cycles-profiling call
-> +	 * instruction stream beginning at an odd-number slot. The GPU should
-> +	 * be able to gracefully handle this.
-
-NUM_INSTRS_PER_SLOT*2 is still a power of two, so that shouldn't be a
-problem until we need more than 32 instructions. Note that this
-wraparound handling might be interesting to have if we make the
-granularity 8 instructions (a cache-line), and the aligned amount of
-instructions is not a power of two.
-
-> +	 */
-> +	if (!ringbuf_wraparound) {
-> +		memcpy(queue->ringbuf->kmap + ringbuf_insert,
-> +		       call_instrs, call_insrt_size);
-> +	} else {
-> +		memcpy(queue->ringbuf->kmap + ringbuf_insert,
-> +		       call_instrs, call_insrt_size/2);
-> +		memcpy(queue->ringbuf->kmap, call_instrs +
-> +		       NUM_INSTRS_PER_SLOT, call_insrt_size/2);
-
-Uh, a lot of assumptions on SLOTSIZE are made here. I'd rather have
-a copy_instrs_to_ringbuf() that does all of the wraparound handling in
-a generic way based on the current position, the ringbuf size and the
-size to copy.
-
-static void
-copy_instrs_to_ringbuf(struct panthor_queue *queue,
-		       struct panthor_job_ringbuf_instrs *instrs)
-{
-	u32 ringbuf_size =3D panthor_kernel_bo_size(queue->ringbuf);
-	u32 start =3D panthor_job::call_info::start & (ringbuf_size - 1);
-	u32 size;
-
-	/* Make sure things are aligned on a cache line */
-	size =3D ALIGN_TO(instrs->count * sizeof(u64), 64);
-
-	if (start + size > ringbuf_size) {
-		memcpy(queue->ringbuf->kmap + start,
-		       ringbuf_size - start);
-		memcpy(queue->ringbuf->kmap,
-		       start + size - ringbuf_size);
-	} else {
-		memcpy(queue->ringbuf->kmap + start, size);
-	}
-}
-
-> +	}
-> =20
->  	panthor_job_get(&job->base);
->  	spin_lock(&queue->fence_ctx.lock);
-> @@ -2896,7 +3023,8 @@ queue_run_job(struct drm_sched_job *sched_job)
->  	spin_unlock(&queue->fence_ctx.lock);
-> =20
->  	job->ringbuf.start =3D queue->iface.input->insert;
-> -	job->ringbuf.end =3D job->ringbuf.start + sizeof(call_instrs);
-> +	job->ringbuf.end =3D job->ringbuf.start + call_insrt_size;
-> +	job->ringbuf_idx =3D ringbuf_index;
-> =20
->  	/* Make sure the ring buffer is updated before the INSERT
->  	 * register.
-> @@ -2987,7 +3115,8 @@ static const struct drm_sched_backend_ops panthor_q=
-ueue_sched_ops =3D {
-> =20
->  static struct panthor_queue *
->  group_create_queue(struct panthor_group *group,
-> -		   const struct drm_panthor_queue_create *args)
-> +		   const struct drm_panthor_queue_create *args,
-> +		   unsigned int slots_so_far)
->  {
->  	struct drm_gpu_scheduler *drm_sched;
->  	struct panthor_queue *queue;
-> @@ -3038,9 +3167,17 @@ group_create_queue(struct panthor_group *group,
->  		goto err_free_queue;
->  	}
-> =20
-> +	queue->time_offset =3D group->syncobjs.job_times_offset +
-> +		(slots_so_far * sizeof(struct panthor_job_times));
-
-Let's just pass an explicit GPU/CPU pointer to group_create_queue(), or
-allocate a BO per-queue.
-
-> +
-> +	/*
-> +	 * Credit limit argument tells us the total number of instructions
-> +	 * across all CS slots in the ringbuffer, with some jobs requiring
-> +	 * twice as many as others, depending on their profiling status.
-> +	 */
->  	ret =3D drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
->  			     group->ptdev->scheduler->wq, 1,
-> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
-> +			     args->ringbuf_size / sizeof(u64),
->  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
->  			     group->ptdev->reset.wq,
->  			     NULL, "panthor-queue", group->ptdev->base.dev);
-> @@ -3068,7 +3205,9 @@ int panthor_group_create(struct panthor_file *pfile,
->  	struct panthor_scheduler *sched =3D ptdev->scheduler;
->  	struct panthor_fw_csg_iface *csg_iface =3D panthor_fw_get_csg_iface(ptd=
-ev, 0);
->  	struct panthor_group *group =3D NULL;
-> +	unsigned int total_slots;
->  	u32 gid, i, suspend_size;
-> +	size_t syncobj_bo_size;
->  	int ret;
-> =20
->  	if (group_args->pad)
-> @@ -3134,33 +3273,75 @@ int panthor_group_create(struct panthor_file *pfi=
-le,
->  		goto err_put_group;
->  	}
-> =20
-> -	group->syncobjs =3D panthor_kernel_bo_create(ptdev, group->vm,
-> -						   group_args->queues.count *
-> -						   sizeof(struct panthor_syncobj_64b),
-> -						   DRM_PANTHOR_BO_NO_MMAP,
-> -						   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
-> -						   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -						   PANTHOR_VM_KERNEL_AUTO_VA);
-> -	if (IS_ERR(group->syncobjs)) {
-> -		ret =3D PTR_ERR(group->syncobjs);
-> +	/*
-> +	 * Need to add size for the panthor_job_times structs, as many as the s=
-um
-> +	 * of the number of job slots for every single queue ringbuffer.
-> +	 */
-> +	for (i =3D 0, total_slots =3D 0; i < group_args->queues.count; i++)
-> +		total_slots +=3D (queue_args[i].ringbuf_size / (SLOTSIZE));
-> +
-> +	syncobj_bo_size =3D (group_args->queues.count * sizeof(struct panthor_s=
-yncobj_64b))
-> +		+ (total_slots * sizeof(struct panthor_job_times));
-> +
-> +	/*
-> +	 * Memory layout of group's syncobjs BO
-> +	 * group->syncobjs.bo {
-> +	 *	struct panthor_syncobj_64b sync1;
-> +	 *	struct panthor_syncobj_64b sync2;
-> +	 *		...
-> +	 *		As many as group_args->queues.count
-> +	 *		...
-> +	 *	struct panthor_syncobj_64b syncn;
-> +	 *	struct panthor_job_times queue1_slot1
-> +	 *	struct panthor_job_times queue1_slot2
-> +	 *		...
-> +	 *		As many as queue[i].ringbuf_size / SLOTSIZE
-> +	 *		...
-> +	 *	struct panthor_job_times queue1_slotP
-> +	 *		...
-> +	 *		As many as group_args->queues.count
-> +	 *		...
-> +	 *	struct panthor_job_times queueN_slot1
-> +	 *	struct panthor_job_times queueN_slot2
-> +	 *		...
-> +	 *		As many as queue[n].ringbuf_size / SLOTSIZE
-> +	 *	struct panthor_job_times queueN_slotQ
-> +	 *
-> +	 *	Linearly, group->syncobjs.bo =3D {syncojb1,..,syncobjN,
-> +	 *	{queue1 =3D {js1,..,jsP},..,queueN =3D {js1,..,jsQ}}}
-> +	 * }
-> +	 *
-> +	 */
-> +
-> +	group->syncobjs.bo =3D panthor_kernel_bo_create(ptdev, group->vm,
-> +						      syncobj_bo_size,
-> +						      DRM_PANTHOR_BO_NO_MMAP,
-> +						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
-> +						      DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> +						      PANTHOR_VM_KERNEL_AUTO_VA);
-> +	if (IS_ERR(group->syncobjs.bo)) {
-> +		ret =3D PTR_ERR(group->syncobjs.bo);
->  		goto err_put_group;
->  	}
-> =20
-> -	ret =3D panthor_kernel_bo_vmap(group->syncobjs);
-> +	ret =3D panthor_kernel_bo_vmap(group->syncobjs.bo);
->  	if (ret)
->  		goto err_put_group;
-> =20
-> -	memset(group->syncobjs->kmap, 0,
-> -	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
-> +	memset(group->syncobjs.bo->kmap, 0, syncobj_bo_size);
-> =20
-> -	for (i =3D 0; i < group_args->queues.count; i++) {
-> -		group->queues[i] =3D group_create_queue(group, &queue_args[i]);
-> +	group->syncobjs.job_times_offset =3D
-> +		group_args->queues.count * sizeof(struct panthor_syncobj_64b);
-> +
-> +	for (i =3D 0, total_slots =3D 0; i < group_args->queues.count; i++) {
-> +		group->queues[i] =3D group_create_queue(group, &queue_args[i], total_s=
-lots);
->  		if (IS_ERR(group->queues[i])) {
->  			ret =3D PTR_ERR(group->queues[i]);
->  			group->queues[i] =3D NULL;
->  			goto err_put_group;
->  		}
-> =20
-> +		total_slots +=3D (queue_args[i].ringbuf_size / (SLOTSIZE));
->  		group->queue_count++;
->  	}
-> =20
-> @@ -3384,9 +3565,12 @@ panthor_job_create(struct panthor_file *pfile,
->  		goto err_put_job;
->  	}
-> =20
-> +	job->is_profiled =3D pfile->ptdev->profile_mode;
-> +
->  	ret =3D drm_sched_job_init(&job->base,
->  				 &job->group->queues[job->queue_idx]->entity,
-> -				 1, job->group);
-> +				 job->is_profiled ? NUM_INSTRS_PER_SLOT * 2 :
-> +				 NUM_INSTRS_PER_SLOT, job->group);
-
-Can we have an helper calculating the job credits instead of hardcoding
-it here? This way, once we decide to make things more dynamic, we only
-have one place to patch.
-
->  	if (ret)
->  		goto err_put_job;
-> =20
-
-
-Regards,
-
-Boris
+SGkgTGF1cmVudCBhbmQgUm9iLA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjaw0KDQo+IC0tLS0t
+T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQu
+cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4NCj4gU2VudDogVHVlc2RheSwgQXVndXN0IDEzLCAy
+MDI0IDg6MzkgUE0NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MyAxLzRdIGR0LWJpbmRpbmdzOiBk
+aXNwbGF5OiByZW5lc2FzLHJ6ZzJsLWR1OiBEb2N1bWVudCBSWi9HMlVMIERVIGJpbmRpbmdzDQo+
+IA0KPiBIaSBSb2IsDQo+IA0KPiBPbiBUdWUsIEF1ZyAxMywgMjAyNCBhdCAxMDozMjoyMEFNIC0w
+NjAwLCBSb2IgSGVycmluZyB3cm90ZToNCj4gPiBPbiBNb24sIEF1ZyAwNSwgMjAyNCBhdCAwNDo1
+MjozNVBNICswMTAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiA+IERvY3VtZW50IERVIGZvdW5kIGlu
+IFJaL0cyVUwgU29DLiBUaGUgRFUgYmxvY2sgaXMgaWRlbnRpY2FsIHRvDQo+ID4gPiBSWi9HMkwg
+U29DLCBidXQgaGFzIG9ubHkgRFBJIGludGVyZmFjZS4NCj4gPiA+DQo+ID4gPiBXaGlsZSBhdCBp
+dCwgYWRkIG1pc3NpbmcgcmVxdWlyZWQgcHJvcGVydHkgcG9ydEAxIGZvciBSWi9HMkwgYW5kDQo+
+ID4gPiBSWi9WMkwgU29Dcy4gQ3VycmVudGx5IHRoZXJlIGlzIG5vIHVzZXIgZm9yIHRoZSBEUEkg
+aW50ZXJmYWNlIGFuZA0KPiA+ID4gaGVuY2UgdGhlcmUgd29uJ3QgYmUgYW55IEFCSSBicmVha2Fn
+ZSBmb3IgYWRkaW5nIHBvcnRAMSBhcyByZXF1aXJlZA0KPiA+ID4gcHJvcGVydHkgZm9yIFJaL0cy
+TCBhbmQgUlovVjJMIFNvQ3MuDQo+ID4gPg0KPiA+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMg
+PGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiB2Mi0+djM6DQo+
+ID4gPiAgKiBSZXBsYWNlZCBwb3J0cy0+cG9ydCBwcm9wZXJ0eSBmb3IgUlovRzJVTCBhcyBpdCBz
+dXBwb3J0cyBvbmx5IERQSS4NCj4gPiA+ICAgIGFuZCByZXRhaW5lZCBwb3J0cyBwcm9wZXJ0eSBm
+b3IgUlove0cyTCxWMkx9IGFzIGl0IHN1cHBvcnRzIGJvdGggRFNJDQo+ID4gPiAgICBhbmQgRFBJ
+IG91dHB1dCBpbnRlcmZhY2UuDQo+ID4NCj4gPiBXaHk/IEhhdmluZyBwb3J0IGFuZCBwb3J0cyBp
+cyBqdXN0IGEgbmVlZGxlc3MgY29tcGxpY2F0aW9uLg0KPiANCj4gSSBhZ3JlZSB0aGF0IG1ha2lu
+ZyB0aGUgcG9ydHMgbm9kZSBtYW5kYXRvcnksIGV2ZW4gd2hlbiB0aGUgZGV2aWNlIGhhcyBhIHNp
+bmdsZSBwb3J0LCB3aWxsIHNpbXBsaWZ5DQo+IHRoZSBiaW5kaW5ncy4gSW4gaGluZHNpZ2h0IHdl
+IHNob3VsZCBuZXZlciBoYXZlIG1hZGUgcG9ydHMgb3B0aW9uYWwsIGJ1dCB0aGF0IGNhbid0IGJl
+IGNoYW5nZWQuDQo+IA0KPiA+ID4gICogQWRkZWQgbWlzc2luZyBibGFuayBsaW5lIGJlZm9yZSBl
+eGFtcGxlLg0KPiA+ID4gICogRHJvcHBlZCB0YWdzIGZyb20gQ29ub3IgYW5kIEdlZXJ0IGFzIHRo
+ZXJlIGFyZSBuZXcgY2hhbmdlcy4NCj4gPiA+IHYxLT52MjoNCj4gPiA+ICAqIFVwZGF0ZWQgY29t
+bWl0IGRlc2NyaXB0aW9uIHJlbGF0ZWQgdG8gbm9uIEFCSSBicmVha2FnZS4NCj4gPiA+ICAqIEFk
+ZGVkIEFjayBmcm9tIENvbm9yLg0KPiA+ID4gLS0tDQo+ID4gPiAgLi4uL2JpbmRpbmdzL2Rpc3Bs
+YXkvcmVuZXNhcyxyemcybC1kdS55YW1sICAgIHwgMzUgKysrKysrKysrKysrKysrKystLQ0KPiA+
+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzMiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiA+
+ID4NCj4gPiA+IGRpZmYgLS1naXQNCj4gPiA+IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2Rpc3BsYXkvcmVuZXNhcyxyemcybC1kdS55YW1sDQo+ID4gPiBiL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3JlbmVzYXMscnpnMmwtZHUueWFtbA0KPiA+
+ID4gaW5kZXggMDhlNWI5NDc4MDUxLi5jYTAxYmYyNmM0YzAgMTAwNjQ0DQo+ID4gPiAtLS0NCj4g
+PiA+IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcmVuZXNhcyxy
+emcybC1kdS55YW1sDQo+ID4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvZGlzcGxheS9yZW5lc2FzLHJ6ZzJsLWR1LnlhbQ0KPiA+ID4gKysrIGwNCj4gPiA+IEBAIC0x
+OCw2ICsxOCw3IEBAIHByb3BlcnRpZXM6DQo+ID4gPiAgICBjb21wYXRpYmxlOg0KPiA+ID4gICAg
+ICBvbmVPZjoNCj4gPiA+ICAgICAgICAtIGVudW06DQo+ID4gPiArICAgICAgICAgIC0gcmVuZXNh
+cyxyOWEwN2cwNDN1LWR1ICMgUlovRzJVTA0KPiA+ID4gICAgICAgICAgICAtIHJlbmVzYXMscjlh
+MDdnMDQ0LWR1ICMgUlovRzJ7TCxMQ30NCj4gPiA+ICAgICAgICAtIGl0ZW1zOg0KPiA+ID4gICAg
+ICAgICAgICAtIGVudW06DQo+ID4gPiBAQCAtNjAsOCArNjEsOSBAQCBwcm9wZXJ0aWVzOg0KPiA+
+ID4gICAgICAgICAgJHJlZjogL3NjaGVtYXMvZ3JhcGgueWFtbCMvcHJvcGVydGllcy9wb3J0DQo+
+ID4gPiAgICAgICAgICB1bmV2YWx1YXRlZFByb3BlcnRpZXM6IGZhbHNlDQo+ID4gPg0KPiA+ID4g
+LSAgICByZXF1aXJlZDoNCj4gPiA+IC0gICAgICAtIHBvcnRAMA0KPiA+ID4gKyAgcG9ydDoNCj4g
+PiA+ICsgICAgJHJlZjogL3NjaGVtYXMvZ3JhcGgueWFtbCMvcHJvcGVydGllcy9wb3J0DQo+ID4g
+PiArICAgIGRlc2NyaXB0aW9uOiBDb25uZWN0aW9uIHRvIHRoZSBEVSBvdXRwdXQgdmlkZW8gcG9y
+dC4NCj4gPiA+DQo+ID4gPiAgICAgIHVuZXZhbHVhdGVkUHJvcGVydGllczogZmFsc2UNCj4gPiA+
+DQo+ID4gPiBAQCAtODMsMTEgKzg1LDM4IEBAIHJlcXVpcmVkOg0KPiA+ID4gICAgLSBjbG9jay1u
+YW1lcw0KPiA+ID4gICAgLSByZXNldHMNCj4gPiA+ICAgIC0gcG93ZXItZG9tYWlucw0KPiA+ID4g
+LSAgLSBwb3J0cw0KPiA+ID4gICAgLSByZW5lc2FzLHZzcHMNCj4gPiA+DQo+ID4gPiAgYWRkaXRp
+b25hbFByb3BlcnRpZXM6IGZhbHNlDQo+ID4gPg0KPiA+ID4gK2FsbE9mOg0KPiA+ID4gKyAgLSBp
+ZjoNCj4gPiA+ICsgICAgICBwcm9wZXJ0aWVzOg0KPiA+ID4gKyAgICAgICAgY29tcGF0aWJsZToN
+Cj4gPiA+ICsgICAgICAgICAgY29udGFpbnM6DQo+ID4gPiArICAgICAgICAgICAgY29uc3Q6IHJl
+bmVzYXMscjlhMDdnMDQzdS1kdQ0KPiA+ID4gKyAgICB0aGVuOg0KPiA+ID4gKyAgICAgIHByb3Bl
+cnRpZXM6DQo+ID4gPiArICAgICAgICBwb3J0Og0KPiA+ID4gKyAgICAgICAgICBkZXNjcmlwdGlv
+bjogRFBJDQo+ID4NCj4gPiBUaGlzIGlzIGVxdWl2YWxlbnQgdG8gJ3BvcnRAMCcuIElNTywgdGhp
+cyBjYXNlIHNob3VsZCBoYXZlIGEgJ3BvcnRAMScNCj4gPiBub2RlIHNvIHRoYXQgRFBJIGludGVy
+ZmFjZSBpcyAqYWx3YXlzKiB0aGUgc2FtZSBwb3J0Lg0KPiANCj4gVGhhdCdzIHdoYXQgQmlqdSBk
+aWQgaW4gdGhlIHByZXZpb3VzIHZlcnNpb24sIGFuZCBJIHJlY29tbWVuZGVkIHRvIG51bWJlciB0
+aGUgcG9ydHMgYmFzZWQgb24gaGFyZHdhcmUNCj4gaW5kaWNlcywgbm90IHR5cGVzLiBNYXBwaW5n
+IHBvcnQgbnVtYmVycyB0byB0aGUgaGFyZHdhcmUgZG9jdW1lbnRhdGlvbiBtYWtlcyBpdCBtb3Jl
+IGNvbnNpc3RlbnQgZm9yIERUDQo+IHdyaXRlcnMsIG1ha2VzIHRoZSBsb2dpYyBzaW1wbGVyIHRv
+IHVuZGVyc3RhbmQgKGluIG15IG9waW5pb24sIGJhc2VkIG9uIG15IGV4cGVyaWVuY2Ugd2l0aCB0
+aGUgUi1DYXINCj4gRFUpIG9uIHRoZSBkcml2ZXIgc2lkZSwgYnV0IG1vc3QgaW1wb3J0YW50bHks
+IHR5cGUtYmFzZWQgbnVtYmVyaW5nIHdvdWxkbid0IHNjYWxlIGFzIFNvQ3MgY291bGQgaGF2ZQ0K
+PiBtdWx0aXBsZSBwb3J0cyBvZiB0aGUgc2FtZSB0eXBlICh3ZSd2ZSBzZWVuIHRoYXQgaGFwcGVu
+aW5nIHdpdGggUi1DYXIpLg0KDQpPSywgSSB3aWxsIHNlbmQgYmluZGluZ3MgYmFzZWQgb24gaGFy
+ZHdhcmUgaW5kaWNlcy4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+IA0KPiA+ID4gKw0KPiA+ID4gKyAg
+ICAgIHJlcXVpcmVkOg0KPiA+ID4gKyAgICAgICAgLSBwb3J0DQo+ID4gPiArICAgIGVsc2U6DQo+
+ID4gPiArICAgICAgcHJvcGVydGllczoNCj4gPiA+ICsgICAgICAgIHBvcnRzOg0KPiA+ID4gKyAg
+ICAgICAgICBwcm9wZXJ0aWVzOg0KPiA+ID4gKyAgICAgICAgICAgIHBvcnRAMDoNCj4gPiA+ICsg
+ICAgICAgICAgICAgIGRlc2NyaXB0aW9uOiBEU0kNCj4gPiA+ICsgICAgICAgICAgICBwb3J0QDE6
+DQo+ID4gPiArICAgICAgICAgICAgICBkZXNjcmlwdGlvbjogRFBJDQo+ID4gPiArDQo+ID4gPiAr
+ICAgICAgICAgIHJlcXVpcmVkOg0KPiA+ID4gKyAgICAgICAgICAgIC0gcG9ydEAwDQo+ID4gPiAr
+ICAgICAgICAgICAgLSBwb3J0QDENCj4gPiA+ICsgICAgICByZXF1aXJlZDoNCj4gPiA+ICsgICAg
+ICAgIC0gcG9ydHMNCj4gPiA+ICsNCj4gPiA+ICBleGFtcGxlczoNCj4gPiA+ICAgICMgUlovRzJM
+IERVDQo+ID4gPiAgICAtIHwNCj4gDQo+IC0tDQo+IFJlZ2FyZHMsDQo+IA0KPiBMYXVyZW50IFBp
+bmNoYXJ0DQo=
