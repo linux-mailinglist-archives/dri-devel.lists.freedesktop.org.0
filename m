@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDD09565B4
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 10:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D2E9565E5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 10:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E7F10E208;
-	Mon, 19 Aug 2024 08:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1940410E20F;
+	Mon, 19 Aug 2024 08:45:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jr2VRqDL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IA6x6PZc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB9D10E204;
- Mon, 19 Aug 2024 08:35:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1895310E20F;
+ Mon, 19 Aug 2024 08:45:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724056518; x=1755592518;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0KFU9ZMergHZ/SU1J2ekt+OnEkGu+cCrtUWZv5+geK4=;
- b=Jr2VRqDLV8WKG7HG3WmVSsZIZUEOQXK2ZFn6fgYv1hn5PPKJfSr7ZYAD
- sNgainHYjsmVGDKVBPkJ0RbkdlTOTAqlLMLQeyUxlPG+T+0umawTZzqog
- gcxY0Qch7Q9CYa/vqxQlxPxos34n6EvbFVHi7X8amGwWAq0rNZ2EF+1RE
- 7tA/jeb14uT2Y37yi3V/xiRpnRaS/p+RRNLbya7Q03aKDhVDzBLBGnVXI
- 7Ihlfu6wZxQa6s+LIFxiRG8x43jaqB23kd0aGeLMT1dbahWO24f1MBZrm
- UKhfemExIUnWbRfj4GyFNJT7HD+G5/ugG0joLuRSjBVgvLhDkJA1p8mlr w==;
-X-CSE-ConnectionGUID: rXn94rx4QjKb0hiqH73MqA==
-X-CSE-MsgGUID: P1IWpsxKQwikFfKwqJPtrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="32958510"
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="32958510"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2024 01:35:18 -0700
-X-CSE-ConnectionGUID: YPPdtB8oQd2jprwVTpHSLw==
-X-CSE-MsgGUID: 9miYVEapRa6jZY+oGzuMEg==
+ t=1724057144; x=1755593144;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=BwO9G9DSxzsNbJAx83jRWAZlxWASmFoV86cMBGMNnX8=;
+ b=IA6x6PZcX5xw0r8UaP6y7FnKIy7N/3NI3VQaNC9ni/Sb8pSf8UUKFrW0
+ 5IK15gLvDwzwb+MJOFJsTtublpzlvcC2QQAyradZhPcqDPRqLJinqwdtz
+ qhI0dFrQtmXoRAsSeqYfRvIvl91GFxxD4i8vgjWm2UAKi0GXrPZGibIvr
+ BBZv47bWiupDHvbNAHDriGOZRcqCgxvRpJ7dmmRuEZurOqXSqlCgripCK
+ hF0/DMaALu5tlX6NTIKdByueauVgC4VCGamWogEaCLfqBq6J/5tJUObjg
+ Sy16vcBgl04q4NyPn78rJbZQ1h5drxSKUBPhEW+LaaT4hpyIrZURJu+VX g==;
+X-CSE-ConnectionGUID: yWmyTJYZT/mQx69Y9cBN5g==
+X-CSE-MsgGUID: tp0HeTQZTy6eQ73y6iOsRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="22451312"
+X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="22451312"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 01:45:44 -0700
+X-CSE-ConnectionGUID: K2j25Us7SbStyTFdemgwLg==
+X-CSE-MsgGUID: iw+RIGyQTc+pBwxsD/u7rA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="59962299"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO fedora..)
- ([10.245.244.132])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2024 01:35:16 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Paulo Zanoni <paulo.r.zanoni@intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 6/6] drm/xe: Increase the XE_PL_TT watermark
-Date: Mon, 19 Aug 2024 10:34:49 +0200
-Message-ID: <20240819083449.56701-7-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240819083449.56701-1-thomas.hellstrom@linux.intel.com>
-References: <20240819083449.56701-1-thomas.hellstrom@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="60358532"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.70])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 01:45:37 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Harry Wentland
+ <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira
+ <Rodrigo.Siqueira@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Xinhui Pan
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, jinzh <jinzh@github.amd.com>, Aric Cyr
+ <Aric.Cyr@amd.com>, Alan Liu <HaoPing.Liu@amd.com>, Tony Cheng
+ <Tony.Cheng@amd.com>, Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Harry Wentland <Harry.Wentland@amd.com>,
+ Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH 10/12] drm/edid: add a helper to compare two EDIDs
+In-Reply-To: <20240818-amdgpu-drm_edid-v1-10-aea66c1f7cf4@weissschuh.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net>
+ <20240818-amdgpu-drm_edid-v1-10-aea66c1f7cf4@weissschuh.net>
+Date: Mon, 19 Aug 2024 11:45:34 +0300
+Message-ID: <871q2k7vf5.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,43 +81,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The XE_PL_TT watermark was set to 50% of system memory.
-The idea behind that was unclear since the net effect is that
-TT memory will be evicted to TTM_PL_SYSTEM memory if that
-watermark is exceeded, requiring PPGTT rebinds and dma
-remapping. But there is no similar watermark for TTM_PL_1SYSTEM
-memory.
+On Sun, 18 Aug 2024, Thomas Wei=C3=9Fschuh <linux@weissschuh.net> wrote:
+> As struct drm_edid is opaque, drivers can't directly memcmp() the
+> contained data. Add a helper to provide this functionality.
 
-The TTM functionality that tries to swap out system memory to
-shmem objects if a 50% limit of total system memory is reached
-is orthogonal to this, and with the shrinker added, it's no
-longer in effect.
+I'm not sure why drivers would need to compare EDIDs.
 
-Replace the 50% TTM_PL_TT limit with a 100% limit, in effect
-allowing all graphics memory to be bound to the device unless it
-has been swapped out by the shrinker.
+The only user was added in commit eb815442e840 ("drm/amd/display: don't
+create new dc_sink if nothing changed at detection") with absolutely no
+explanation why.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_ttm_sys_mgr.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Other drivers use connector->epoch_counter to see if the EDID or status
+changed.
 
-diff --git a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-index 9844a8edbfe1..d38b91872da3 100644
---- a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-+++ b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-@@ -108,9 +108,8 @@ int xe_ttm_sys_mgr_init(struct xe_device *xe)
- 	u64 gtt_size;
- 
- 	si_meminfo(&si);
-+	/* Potentially restrict amount of TT memory here. */
- 	gtt_size = (u64)si.totalram * si.mem_unit;
--	/* TTM limits allocation of all TTM devices by 50% of system memory */
--	gtt_size /= 2;
- 
- 	man->use_tt = true;
- 	man->func = &xe_ttm_sys_mgr_func;
--- 
-2.44.0
 
+BR,
+Jani.
+
+
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 18 ++++++++++++++++++
+>  include/drm/drm_edid.h     |  1 +
+>  2 files changed, 19 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 69fb11741abd..c2493c983a64 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1840,6 +1840,24 @@ static bool drm_edid_eq(const struct drm_edid *drm=
+_edid,
+>  	return true;
+>  }
+>=20=20
+> +/**
+> + * drm_edid_equal - compare two EDID
+> + * @drm_edid_a: First EDID data
+> + * @drm_edid_b: Second EDID data
+> + *
+> + * Compare two EDIDs for equality (including extensions)
+> + *
+> + * Return: True if the EDIDs are equal, false otherwise.
+> + */
+> +bool drm_edid_equal(const struct drm_edid *drm_edid_a, const struct drm_=
+edid *drm_edid_b)
+> +{
+> +	if (!drm_edid_b)
+> +		return !drm_edid_a;
+> +
+> +	return drm_edid_eq(drm_edid_a, drm_edid_b->edid, drm_edid_b->size);
+> +}
+> +EXPORT_SYMBOL(drm_edid_equal);
+> +
+>  enum edid_block_status {
+>  	EDID_BLOCK_OK =3D 0,
+>  	EDID_BLOCK_READ_FAIL,
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index a5b377c4a342..35b40a9d3350 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -456,6 +456,7 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
+>  const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
+>  const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
+>  void drm_edid_free(const struct drm_edid *drm_edid);
+> +bool drm_edid_equal(const struct drm_edid *drm_edid_a, const struct drm_=
+edid *drm_edid_b);
+>  bool drm_edid_valid(const struct drm_edid *drm_edid);
+>  const struct edid *drm_edid_raw(const struct drm_edid *drm_edid);
+>  const struct drm_edid *drm_edid_read(struct drm_connector *connector);
+
+--=20
+Jani Nikula, Intel
