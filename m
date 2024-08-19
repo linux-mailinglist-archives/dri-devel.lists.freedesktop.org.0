@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7264E956FFC
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 18:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C1095701B
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 18:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CEAD10E302;
-	Mon, 19 Aug 2024 16:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C436D10E0E3;
+	Mon, 19 Aug 2024 16:22:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Bxi62ZYN";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fKDtoBjD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9918710E313
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 16:14:51 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id
- af79cd13be357-7a1dea79e1aso276379985a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:14:51 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 218C610E0E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 16:22:40 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52efd530a4eso6967658e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724084088; x=1724688888;
+ d=chromium.org; s=google; t=1724084557; x=1724689357;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qIO91E6aNJoytIdsntCTP0hK3bjqHc3xM1HLhirFIT0=;
- b=Bxi62ZYNuTUuYoTd9J1BoGhQ19h4m/u31uePEu+P70Xh6xhOWFMQYCrT5aM9HsYrhr
- WRpKSsKv4+RB3SI/VIZTlBJezuAnKsyZRmf2+3jD3Os/UVMClp6AOvX1vcTVgLeEuHCo
- NsTTcElcEbyCOiFuyouuIIBV12vSqwxoEcjAc=
+ bh=eq6CqCexN7qwRZZu9MMa8QuaMBEJlO3dqJ9z90a/SMY=;
+ b=fKDtoBjDerFUR3exSMrGEFPdbPar9L4oe+j0Di/+rX32QM4m1hQfAVkMlvXALm6OnV
+ YV6Lk+LsTcA3HvklBt25frBmP55tvpLxeVSMaVWGPP6uE+07AUSsEbU0w4D4GcG84esa
+ SrcnqGLAe+YhCtruMZ0rtd8gnk0Nmqbo6X7kY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724084088; x=1724688888;
+ d=1e100.net; s=20230601; t=1724084557; x=1724689357;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qIO91E6aNJoytIdsntCTP0hK3bjqHc3xM1HLhirFIT0=;
- b=MVo9LadBygJBHRwgPaehh9piZPzX315v0PrIs6rBuvNCf9k26SBGK97xU0K9gTiMgH
- vw9FNC/NMMV1CLziiBBXp74NHoaZP59UQZolDnbMNGwF9g9INJLY2AVxVOdoGF18g+HF
- GJdHT4dvG1Zp5oWKT7wMDHiN9R2oTh9ccOYi3GPVbZMJP9Kh6rbIVsqwrEPeH5UnwiLI
- jP/llsbyKoEfHYgSzvBYvcdvEt6DVdT8TvSFhMjP0SYXwDBp/PNHTkcxs0yqujRID2aM
- 7G6/E1tVcDvZKvBp+4I+MzjQ/uX+1heBe/dT1kS5Wbs5ZtA/Kxl94wePV/osBGfkG2O4
- 3Vug==
+ bh=eq6CqCexN7qwRZZu9MMa8QuaMBEJlO3dqJ9z90a/SMY=;
+ b=nyXcWCKG5lJEhvvz/+m0gWFvbnXRq+pHaZF30tQHph9hCIfnxT0ek4R8sov/AXMmiS
+ iksM1RtFAtNhVUe2ar6I0TEIKjIm5rTc4xBIvjW4VoizNcbkvW/gwKJ0hD1k/2nk0XNB
+ mruOq2aVUM1Uxb61KDKCb/5rWmtyOLMYyYpKpPBbEUGXbHsKAzKDrvXSwd13tk7d05K8
+ 2KhiN42/NfZmzM+/iAE8DHR1z9HWYeQzXsBGmnKv8EVDNmPUdixrC2ujIH2D+CwBW6CF
+ 5SLE8Bpd71W6hzPrYpZ0YJVdF/UJ0TO852KUV480xUftS13IwklYBJxY8ZfWMuuTDu9G
+ nDsg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVN8IkoliDPlGAggXzvMb9wwIns8oYKOAisFkcIzPeb77N7cQz7fcLcGisI+Ao419mGUQUa5hbfzsixoGaAJkd/A9UF/GUKcffye/4R6DHU
-X-Gm-Message-State: AOJu0YyLP8dHjBFEYnkkVa4+D+/WsWU9/xkp49rQRwRoxNyHkF3r16LQ
- ffDx4Xjou/0+KGxEvglUt/GU07cDGTOTj1lDEsGXnvp8mcTkZkIHtmDARLFSCehQvWo+An3C2W8
- =
-X-Google-Smtp-Source: AGHT+IE+0j15lZ/X2xxCGBHOTFHcd0I0nWp52EAFU1Uhv+uwV83aIRznhOCtVnJc94lGulNIgbRdPw==
-X-Received: by 2002:a05:620a:bcd:b0:79d:6d7d:e5b3 with SMTP id
- af79cd13be357-7a50696f956mr1398634985a.42.1724084087990; 
- Mon, 19 Aug 2024 09:14:47 -0700 (PDT)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com.
- [209.85.219.53]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7a4ff02ae42sm445269185a.27.2024.08.19.09.14.46
+ AJvYcCV6dfJhsbXj/OXNn42hvNmESBuxHADyAVC+ceyeqCzVkLJxEeb/EAFK+Q/+t3GYrH/h2XFfrhZUv+k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycQmlAUbBYODRPjJ2yQtmXZqY8LRUJDNAZkMj9FLMt97HfxO3j
+ 8uxa4iIBvC+eLZ2KetjJAuBomhy6xRMzUnjOuxbIwarBo8kS2f/yjvSNAmMp1RZdjovDAjn/7Qe
+ KCw==
+X-Google-Smtp-Source: AGHT+IGi+/QF++W3M/nJAmyDKcvByLpt5qvaOsWeveCd7QKfQAnkIsIS+bWfaM0Tajup9WJbz4BwIQ==
+X-Received: by 2002:a05:6512:31d6:b0:52e:fd53:a251 with SMTP id
+ 2adb3069b0e04-5331c6f599dmr7751663e87.59.1724084556646; 
+ Mon, 19 Aug 2024 09:22:36 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
+ [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5330d3b8f1asm1522157e87.91.2024.08.19.09.22.35
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Aug 2024 09:14:46 -0700 (PDT)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-6bf7ad1ec3aso22907626d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:14:46 -0700 (PDT)
+ Mon, 19 Aug 2024 09:22:35 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-42816ca797fso36900435e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:22:35 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWTMiJ0TTm/s82FCXqSGx7KHBrnStaQ9RyP1o4gzcXxIsrPlLtofl1tokL+gOt1Tdos0H7IyfLMB0RDF3jOTg2ThCtC248R1MGl1gZHGcld
-X-Received: by 2002:a05:6214:3a06:b0:6bf:836b:2c18 with SMTP id
- 6a1803df08f44-6bf836b2d69mr91124376d6.14.1724084086193; Mon, 19 Aug 2024
- 09:14:46 -0700 (PDT)
+ AJvYcCVpPglHuYNPoGnf9ID+2KyQz9Vh8DHM4SBZfvvMGmz6YG5j/zlyaRr3mMbp2JrAq+SWeFRdNhTDCSQ=@lists.freedesktop.org
+X-Received: by 2002:a5d:5e0c:0:b0:371:a844:d332 with SMTP id
+ ffacd0b85a97d-371a844d589mr4254441f8f.46.1724084554233; Mon, 19 Aug 2024
+ 09:22:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240818072356.870465-1-tejasvipin76@gmail.com>
- <4be2f1d1-534c-4c99-a35e-f354c75c88b4@linaro.org>
-In-Reply-To: <4be2f1d1-534c-4c99-a35e-f354c75c88b4@linaro.org>
+References: <20240818060816.848784-1-tejasvipin76@gmail.com>
+In-Reply-To: <20240818060816.848784-1-tejasvipin76@gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 19 Aug 2024 09:14:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UaYCW3hDp-eV9Wio-3iB2-PViy5Jj9VZxPEK2j+PPLkA@mail.gmail.com>
-Message-ID: <CAD=FV=UaYCW3hDp-eV9Wio-3iB2-PViy5Jj9VZxPEK2j+PPLkA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: mantix-mlaf057we51: transition to mipi_dsi
- wrapped functions
-To: neil.armstrong@linaro.org
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, agx@sigxcpu.org, kernel@puri.sm, 
- quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Mon, 19 Aug 2024 09:22:11 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WaSyEC=Tu6CoUUGR9YDWpfOUTx84NmVPe1kbjL=O4ZSg@mail.gmail.com>
+Message-ID: <CAD=FV=WaSyEC=Tu6CoUUGR9YDWpfOUTx84NmVPe1kbjL=O4ZSg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] extend "multi" functions and use them in
+ jdi-fhd-r63452
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,41 +97,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Aug 19, 2024 at 8:36=E2=80=AFAM <neil.armstrong@linaro.org> wrote:
+On Sat, Aug 17, 2024 at 11:08=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.co=
+m> wrote:
 >
-> Hi,
+> This patch adds mipi_dsi_dcs_set_tear_scanline_multi to the list of multi
+> functions and uses it with other multi functions in the jdi-fhd-r63452
+> panel.
 >
-> On 18/08/2024 09:23, Tejas Vipin wrote:
-> > Changes the mantix-mlaf057we51 panel to use multi style functions for
-> > improved error handling.
-> >
-> > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> > ---
-> >   .../gpu/drm/panel/panel-mantix-mlaf057we51.c  | 79 +++++++-----------=
--
-> >   1 file changed, 27 insertions(+), 52 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers=
-/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> > index ea4a6bf6d35b..4db852ffb0f6 100644
-> > --- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> > +++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> > @@ -23,7 +23,7 @@
-> >
-> >   /* Manufacturer specific Commands send via DSI */
-> >   #define MANTIX_CMD_OTP_STOP_RELOAD_MIPI 0x41
-> > -#define MANTIX_CMD_INT_CANCEL           0x4C
-> > +#define MANTIX_CMD_INT_CANCEL           0x4c
+> This patch uses functions introduced in [1] and must be applied after
+> it.
 >
-> Please move cleanups to separate patches
+> [1] https://lore.kernel.org/all/20240806135949.468636-1-tejasvipin76@gmai=
+l.com/
+> ---
+> Changes in v3:
+>     - use mipi_dsi_usleep_range
 
-LOL, in a previous patch series I had the upper-to-lowercase in a
-separate patch and someone yelled at me to do the opposite and squash
-it together [1]. It doesn't really matter too much to me, but given
-the previous feedback I've just been suggesting that Tejas squash it
-together with his conversions. I'm OK either way, though.
-
-[1] https://lore.kernel.org/r/CAA8EJpo4WzMPNjpnkHt-_GJe2TAF_i_G+eTaJrGipMEz=
-ppc3rQ@mail.gmail.com
+Oh! Thanks for updating this. I had been debating whether we should
+add mipi_dsi_usleep_range() but hadn't noticed that someone already
+had. Nice! :-) I think this series is pretty much ready to apply, but
+I'll give it one more day (or Neil can apply them if he's good w/
+them).
 
 -Doug
