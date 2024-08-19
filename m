@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0633956BDA
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 15:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D4A956C26
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 15:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1985D10E268;
-	Mon, 19 Aug 2024 13:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4160010E27A;
+	Mon, 19 Aug 2024 13:33:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dv4G4Q8e";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="byE4dY67";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF2F10E268
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 13:25:49 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5037310E27B
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 13:33:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7FDFD60C67;
- Mon, 19 Aug 2024 13:25:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F39C32782;
- Mon, 19 Aug 2024 13:25:43 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A7C07CE0ABA;
+ Mon, 19 Aug 2024 13:33:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32B0C4AF0F;
+ Mon, 19 Aug 2024 13:33:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724073947;
- bh=nVi0MFOHh0oHapJVb1x3xrZyc535Kwym8cv2KbMkFU4=;
+ s=k20201202; t=1724074407;
+ bh=5qvpBIw8uzv3nxKxx4KUdm+35UYTokqviRkRhaMimwQ=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=dv4G4Q8eoIOdD/kJ82Oo4daqKc22bf8ZNdElU3nXLEOVtKIch1o3l2kdaZFAyY1b3
- BWcza/eEW1SyjyFDdBnCB8TAc2VvbwjnUjTKorTaz6wdrrjlXMPAOGSWPL3/6sXKY5
- 4Rw+WSetzYUsldYkfSg3uM/+ZPxK9Cee9zwgFSdVBf/NIhnLEHDZnlPjMo9TKyeUa1
- 7rA3755nKQzONPpOaoeWv3kuidTL5sXLwQlaWd0GqAu2s/R3ljlgBYU4raZvpZzHPb
- gIkn+8soWgNf/vW8mDW8Ly55GtBNvLW5EmiX/bIBxjqx/q3GAQc+6DSRL0HnT3XheF
- w7U/cR4Q+Vc4w==
+ b=byE4dY67yrPNWy/u7DbowN6EI5QRrnaIeQALVFl13qv/VV96esQdazaXTRF+ZoxGA
+ 2sLcXjXePGCEeRj9vaXeDoXRiM98RQhhrkIrcFrycHoSlFnX1JdfryY12/pRnX/kO4
+ ch5S7vPi8q29mL3I/dgB9fO6NdVaVMY8pGOA1O7Oj5kOVTaPqKHITVOE/II+collRl
+ jqBEtO8DlLQtGPFquk+97j19f8F0DT7bSndRGFYrkQmS2gdOCWV65/lhqd/Fr3xSRX
+ r/H3ULYg3dgU150bskMFVy9LQQG/WFhpiejPNf5h9TYfk7pnSFC5Y9YY5S/iMdvAn0
+ Ua2wXnBEkVoBg==
 From: Robert Foss <rfoss@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -38,14 +38,14 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240813-dw-hdmi-simple-clk-v1-1-78d45cef02a9@collabora.com>
-References: <20240813-dw-hdmi-simple-clk-v1-1-78d45cef02a9@collabora.com>
-Subject: Re: [PATCH] drm/bridge: dw-hdmi: Simplify clock handling
-Message-Id: <172407394373.1400799.11053153831131515135.b4-ty@kernel.org>
-Date: Mon, 19 Aug 2024 15:25:43 +0200
+ "Rob Herring (Arm)" <robh@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240731201407.1838385-4-robh@kernel.org>
+References: <20240731201407.1838385-4-robh@kernel.org>
+Subject: Re: [PATCH] drm: bridge: anx7625: Use
+ of_property_read_variable_u8_array()
+Message-Id: <172407440450.1407402.570433127422255941.b4-ty@kernel.org>
+Date: Mon, 19 Aug 2024 15:33:24 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -65,20 +65,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Aug 2024 00:23:21 +0300, Cristian Ciocaltea wrote:
-> Make use of devm_clk_get_enabled() to replace devm_clk_get() and
-> clk_prepare_enable() for isfr and iahb clocks, and drop the now
-> unnecessary calls to clk_disable_unprepare().
+On Wed, 31 Jul 2024 14:13:59 -0600, Rob Herring (Arm) wrote:
+> There's no need to get the length of an DT array property before
+> parsing the array. of_property_read_variable_u8_array() takes a minimum
+> and maximum length and returns the actual length (or error code).
 > 
-> Similarly, use devm_clk_get_optional_enabled() helper for cec clock,
-> which additionally allows to remove the -ENOENT test.
+> This is part of a larger effort to remove callers of of_get_property()
+> and similar functions. of_get_property() leaks the DT property data
+> pointer which is a problem for dynamically allocated nodes which may
+> be freed.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] drm/bridge: dw-hdmi: Simplify clock handling
-      (no commit info)
+[1/1] drm: bridge: anx7625: Use of_property_read_variable_u8_array()
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/11c742bb5a26
 
 
 
