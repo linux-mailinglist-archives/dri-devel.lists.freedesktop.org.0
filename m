@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B22956FA1
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 18:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D040956FA0
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 18:03:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7E710E2FE;
-	Mon, 19 Aug 2024 16:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E113A10E2FC;
+	Mon, 19 Aug 2024 16:03:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WFTTAUp+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uCVUZlqq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE2E10E2FA
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 16:03:03 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-371b015572cso1675734f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:03:03 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D955D10E2FA
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 16:03:04 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-371afae614aso1393526f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:03:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724083382; x=1724688182; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1724083383; x=1724688183; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QSGdUUsmjOuUqs3Sb/HBP7VBG8yMf91ri1hASSPUnjM=;
- b=WFTTAUp+aI8xR+PDIWZpjetLvnX/Kg7G9EF1bTFhRabL0vwrvkmhFKG86+iRBI87OO
- BgahooyTDng/0irbruxdE9eqqeqp1oo53yAutROFzLNv32CKlX/poXxYzvaGcXVk4eMn
- CLFKlmLIroC8rIwRUdx3dj2ECOhRcrxIi8TZ3NZGfAzrGNQm2joQpqL3u7Vn4O/2Is+W
- q/iS5QqQYKoYgmVtDlL8bKEu4YA0Ng9OYI5aDjzpwSGt+nHsXFQVw+6LqK7wz1WqS5Zq
- /GWy1/GYUR+LtoDZ1i5oFZrssSZJH8yGbwY+9JapFmdl3SnfEuET+dOqlNL0DFMgYsxb
- CSXw==
+ bh=MygLjWxd/cuymlBwTrUlqtMUCrnCHV/7Hdz0OscdB14=;
+ b=uCVUZlqqu7UrD7Cm6dlj9hJ+bs4RcNxZ3wkh+kkkC5Z1puTfD+U03gLZUbF46z6cjQ
+ hk62PcNW1F8EdGLriYRPP4i6YDRm9TqIBA/wogf1svqpPsWrPv12ccYRbFQWX2Zh+kc+
+ e5MuRpZaIMY+/9lm/a98JdEmP4H3y/kbE2M6G4XCIJOKmu9oSMVymA7j5JwqnsFCy8dV
+ ye68C0VYUjwMR91ccLu+PMnDjW+akytqc3pvufmRjH1BoSXV/SFoyALZdvzigmy+eb0S
+ PYtN1f1f5Is10hD8C8jzQHJrvFSDDZO9oGuUyV5gXaTfSNty1YoVQmpNK0uWwzuoBZ3m
+ T9Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724083382; x=1724688182;
+ d=1e100.net; s=20230601; t=1724083383; x=1724688183;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QSGdUUsmjOuUqs3Sb/HBP7VBG8yMf91ri1hASSPUnjM=;
- b=JlWefVdUASyIvtIDmWwlnnwAlFssO1KPMvGVTByB9fADpxQlUjBHxRnFnuBMoC001z
- 2MDD5bf/yFEaNZ4EmMH8vIS4E2M7FU35T0hPbwfA61m82T3whs5lpwI7+BICROimnymk
- isZG2pnEEi08iup3H3VbqEiPMi19fQSM8GVvO1BAXWkuMLXjoCPlfR7XC+0KKgsxyFwg
- e+3Bh3k2+BCo6LE0sVg5GaUIYqKRg+BgNQMqAnJkz5+jaB78ovZ8LvFFALxRUpsItjCs
- fXkwigS5zkcdGW0Zq5/IF37zs+S1aFCce5qk51YwJ74R558Wz3MAZa31vPUvaro7IMlV
- MGxA==
-X-Gm-Message-State: AOJu0YwdxZVinrojSSxs8uJS++kZ2cK3CENzMhtVYrIc+TNIE9+rZroi
- O4abZMUHCC1Hrh+KcGSMfa9zSZy+Tdy7EnIXC5Ia4/FvNSPI5Q77+JURMV4RT/E=
-X-Google-Smtp-Source: AGHT+IE027jEWALLQjfHSgPFYDvatdKVAfuyDGITo5V0HDNJZ1Z7dl4sInpAcLoDEHOXsxvRP+KByg==
-X-Received: by 2002:a5d:5a15:0:b0:371:8e9c:e608 with SMTP id
- ffacd0b85a97d-371946a1a0dmr14651679f8f.52.1724083381406; 
- Mon, 19 Aug 2024 09:03:01 -0700 (PDT)
+ bh=MygLjWxd/cuymlBwTrUlqtMUCrnCHV/7Hdz0OscdB14=;
+ b=gUroahqmOwlEkrhW9yj5jBszL99qbGCl5ZrFlhGH/gygK+UyjvJEow5Ii6s53e+w/T
+ rIv/seT3YQbxd6zyX5jTyEkL6hKTZdxKa/WXhYNnEGkdFpZzmwbf+/fcOCGV7QMrL1r6
+ t8PKtraLD08NWxJiWllIEISepM2kE5JO6aAlTm5skCq8snDK3tLFOAornWzMuSSYa4a2
+ xj4xFASJw7BEDl/djo1aINKWX7kXaKFRm3Dp15s0uRHkO/2ZMWoPFd1uWhwT+hvAqFQg
+ E9Bpxy2GAoZrjaD0qO5rv3o5IKPPbR6haQOyv/NxSAFjmQ1ndKvtspBynMyur++B953j
+ rdUA==
+X-Gm-Message-State: AOJu0Yx9kjNGD4OePTGBZh1W8fgGlu47p3AqwdNzAOqLTsgs2JM3XnCw
+ XsOTSy9InlTryJmKkDBaYRU9LqJIqPsRKYUN2802ZU5H7e0//+xI8zcRIhfrwAw=
+X-Google-Smtp-Source: AGHT+IGDL1BghlbSzux3yJZeahaJWCA9neTeVGdK794uq57vTBevwaiQ6Y3pvsnu4kDp2NGOiX5ylQ==
+X-Received: by 2002:a05:6000:1006:b0:371:890c:3157 with SMTP id
+ ffacd0b85a97d-371946a4611mr8314976f8f.38.1724083382820; 
+ Mon, 19 Aug 2024 09:03:02 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-371898aabe9sm10907638f8f.92.2024.08.19.09.03.00
+ ffacd0b85a97d-371898aabe9sm10907638f8f.92.2024.08.19.09.03.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2024 09:03:00 -0700 (PDT)
+ Mon, 19 Aug 2024 09:03:02 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Liu Ying <victor.liu@nxp.com>
-Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- thierry.reding@gmail.com, sam@ravnborg.org
-In-Reply-To: <20240816085004.491494-1-victor.liu@nxp.com>
-References: <20240816085004.491494-1-victor.liu@nxp.com>
-Subject: Re: [PATCH 0/2] drm/panel: simple: Add ON Tat Industrial Company
- KD50G21-40NT-A1 panel
-Message-Id: <172408338025.1748689.1253255812043892050.b4-ty@linaro.org>
-Date: Mon, 19 Aug 2024 18:03:00 +0200
+To: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, dianders@chromium.org, 
+ hsinyi@google.com, airlied@gmail.com, daniel@ffwll.ch, jagan@edgeble.ai, 
+ dmitry.baryshkov@linaro.org, jani.nikula@linux.intel.com, 
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240807100429.13260-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240807100429.13260-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: Re: [PATCH v3 0/2] Modify the method of sending "exit sleep
+Message-Id: <172408338165.1748689.14599426466774624687.b4-ty@linaro.org>
+Date: Mon, 19 Aug 2024 18:03:01 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -88,26 +88,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 16 Aug 2024 16:50:02 +0800, Liu Ying wrote:
-> This patch series aims at adding ON Tat Industrial Company KD50G21-40NT-A1
-> 5" WVGA LCD panel support.  The panel has a DPI interface.
+On Wed, 07 Aug 2024 18:04:27 +0800, Zhaoxiong Lv wrote:
+> This "exit sleep mode" and "set display on" command needs to
+> be sent in LP mode, so move "exit sleep mode" and "set display
+> on" command to the init() function.
 > 
-> The LCD module specification can be found at:
-> https://cdn-shop.adafruit.com/datasheets/KD50G21-40NT-A1.pdf
+> Modify the Melfas panel init code to satisfy the gamma value of 2.2.
 > 
-> Liu Ying (2):
->   dt-bindings: display: panel-simple: Add On Tat Industrial Company
->     KD50G21-40NT-A1
->   drm/panel: simple: Add ON Tat Industrial Company KD50G21-40NT-A1 panel
+> Changes between V3 and V2:
+> - PATCH 1/2: Modify the commit message and subject.
+> - PATCH 2/2: No changes.
+> - Link to v2: https://lore.kernel.org/all/20240806034015.11884-1-lvzhaoxiong@huaqin.corp-partner.google.com/
 > 
 > [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/2] dt-bindings: display: panel-simple: Add On Tat Industrial Company KD50G21-40NT-A1
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/773a0e3e89b354f14ec9ea8bddf3e86a602d162d
-[2/2] drm/panel: simple: Add ON Tat Industrial Company KD50G21-40NT-A1 panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91a759d402b5c17263f82097c647e784f217e2d4
+[1/2] drm/panel: jd9365da: Move "exit sleep mode" and "set display on" cmds
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/97d1f449c359207b2fb5bc62eaefb7e21ad619ae
+[2/2] drm/panel: jd9365da: Modify the init code of Melfas
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/64ddf5123eff2edf47202e08744c3c14a9d28f59
 
 -- 
 Neil
