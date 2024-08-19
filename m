@@ -2,133 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E4C95725F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07BF957266
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:50:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D62110E340;
-	Mon, 19 Aug 2024 17:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABCF10E341;
+	Mon, 19 Aug 2024 17:50:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D8XPM1DW";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PAUP264CU001.outbound.protection.outlook.com
- (mail-francecentralazon11021084.outbound.protection.outlook.com
- [40.107.160.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33C7910E340
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 17:49:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tTzL+F3PgOr9JAZhp5puMrKzJfc/S6yfRJzVPf8/nFQHelT5w96ajm/LcwJsy2XSi7Vd8MIdi+TieTOsoBX2OuqawKo96njpKqc+SeenQOprSwGUwPUGIQZ/ZveG76Cf0imsE+FIVcI0JaEGK2Ei06hfT19RGjCyBENSCPnObD+s7kA/bWSzb3lDL0lXqb2mxxMqPVTe6BAk3wOXig+YdHpOAAJGjae7eEKAQGIqcAlVE8+EqCRwkA+dFrcejWElSrdE+dvmRJO0HuYZOzMjjrW7oYhFfdDJEI+xKtF5+FZM2aWma+83RfB0wevZAcaXjCZAIYSE/50ESpxStF5OJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AuAKuipX2Pv5VI25Nr/AWES1c7/0LGjdEF1atWqXJ00=;
- b=CcekLrEdahUZpSZk6UmCE0nUbEgp+6znfAFipZToPFun9AMywVpRTB4hMvGDfAyh9TPXmCjwqFsF2rp/FejVjCojOG0TEoFQDiKbkd3xqCYdipALImEcrb3YOW0PK3IDxzS25VGo4iq5Z4QKA8gz3lHb2Lk9s6TNN9Qjx74UC/UdlbZ5Y6bxZq8RbNH94h+oCwTqXJ7h68n8oSoB+ohQaIIbRA3BQ/g+h14Gc7WXo/oD8jcQc/29RFUStiS+18p1fSCk/x/srrAts8bq7rN95FqWZcmeS28oYDjcxZvlvSoJ3LNMUavU7C/uF5rz7H9f4asYTatn42D9rqnJjE8q7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witbe.net; dmarc=pass action=none header.from=witbe.net;
- dkim=pass header.d=witbe.net; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witbe.net;
-Received: from MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:17::5) by
- MR0P264MB4923.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:4b::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7875.21; Mon, 19 Aug 2024 17:49:12 +0000
-Received: from MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4a3d:42ec:6933:fa65]) by MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4a3d:42ec:6933:fa65%4]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
- 17:49:12 +0000
-Date: Mon, 19 Aug 2024 19:49:11 +0200
-From: Paul Rolland <rol@witbe.net>
-To: Christian Heusel <christian@heusel.eu>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Martin Krastev
- <martin.krastev@broadcom.com>, Maaz Mombasawala
- <maaz.mombasawala@broadcom.com>, dri-devel@lists.freedesktop.org, Brad
- Spengler <spender@grsecurity.net>, rdkehn@gmail.com,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev, rol@witbe.net
-Subject: Re: [REGRESSION][BISECTED] vmwgfx crashes with command buffer error
- after update
-Message-ID: <20240819194911.7999bec1@riri>
-In-Reply-To: <0d0330f3-2ac0-4cd5-8075-7f1cbaf72a8e@heusel.eu>
-References: <0d0330f3-2ac0-4cd5-8075-7f1cbaf72a8e@heusel.eu>
-Organization: Witbe
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
-X-Ncc-RegId: fr.witbe
-x-ms-reactions: disallow
-Content-Type: multipart/signed; boundary="Sig_/kfW3cN.5WtImt5YMA+9A4dO";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-ClientProxiedBy: PAZP264CA0022.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:122::9) To MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:17::5)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD41310E341
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 17:50:36 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-20203988f37so30384725ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 10:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724089836; x=1724694636; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mOf43rLdvXlX2YVrcERQm/M+ITZnbYWg68aFZLl8QSU=;
+ b=D8XPM1DWBXm2hzlzq2YDgEnctbG/HHnLTULiCASn8zONz92TSrjC2YPRwdPCRyo8Bg
+ y17yAlgd5kRrvDtwR7wzS7yYLM4xAGtuUce6ML94PaefA5dZqoxfLTx7ONd18Bj534FG
+ QzV8c68dvfcMzhgek9KmDtXRUYJe0K0R8E2o9zpl6iobUZtSVS9I7bAcEVVCCSJy/DvR
+ rQLkXsyNuYWqoP9XFPAMTLZ8/xDcMpMnXrn5gehwzAy6eWCDKp9Oim5fEhdQmWaKdlcv
+ eyRR8MNA5MVpXdqnnuJoayM8YYeINwtHiNIVEOFGNe5S0GqpKCfKd7X+zvR2AZTx5sI8
+ vnbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724089836; x=1724694636;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mOf43rLdvXlX2YVrcERQm/M+ITZnbYWg68aFZLl8QSU=;
+ b=eipH/SuUKJuR/PaSYj/5U0/Ph0M++Rej3YRSLgmJ5yTWaEFkfX9qivOCOYMYAQn6Sf
+ jxn/DnF12JT4ktk1DSv7OdZ8x/ju7tO86JtYORwhyEnAVH2ia6u6a+vcq3rusPe/UsCM
+ UtSPr3lXC7X3yCHRgJ9mjDxJRvD+iC9tHz6qs5kwCsdlanF+z7ZfToesBzfQ6zH+DKd5
+ X9oFO6GYecdWlFWI9RIa+6GIOuLoYZIq+Mq03HXEgbjb5mrQMwLs9zUVoVGLsh0oGKpq
+ oXESghA6jgMK3g04jQdKJn5SMx8713uVx3uzClwC/NmwWZ8QsbtrlpWiYmq2NMVLtHhr
+ M58A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVqh8I+P1+LjSd1UqhLsOPT52l2nAB9gX1YJPYL6ck/rR7k3yMZMa7UT1m8ZRNIIk93KHaSp8qxe7RBMhUYHvr2MbLTT5cu2PEMEXTaFkfT
+X-Gm-Message-State: AOJu0YxAo/sW4Y/9IDpPa2bwA6IKxjj9Ty0SMJO+/cqsXY+0Iqf2qGV5
+ DFWplIvaPoYcTpALDra2K2/QHujE7v7m/oFIvJl9VplVwXMqcc3l
+X-Google-Smtp-Source: AGHT+IHthh45koxlcqVb51AsdJSIiP+ADIZPw47JXoa3D6QFq1yXv+bLoH3499/vUQxg94w0/AWJPw==
+X-Received: by 2002:a17:902:d2c2:b0:202:5ac:fa49 with SMTP id
+ d9443c01a7336-20205acfb5fmr141255095ad.51.1724089836004; 
+ Mon, 19 Aug 2024 10:50:36 -0700 (PDT)
+Received: from embed-PC.myguest.virtualbox.org ([106.222.231.54])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-201f02fa4e0sm65064025ad.7.2024.08.19.10.50.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Aug 2024 10:50:34 -0700 (PDT)
+Date: Mon, 19 Aug 2024 23:19:20 +0530
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
+ skhan@linuxfoundation.org, rbmarliere@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel: ili9341: Add comments for ILI9341 register
+Message-ID: <ZsOFoP+NR/pGNC5M@embed-PC.myguest.virtualbox.org>
+References: <20240812171019.561321-1-abhishektamboli9@gmail.com>
+ <b783f932-851f-4ea5-a2cc-d39061c60652@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MRZP264MB1704:EE_|MR0P264MB4923:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8708154-a17c-4ca4-1e40-08dcc0773c1d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?sugCAx7NYZwSqUgmzkF9/eFmePNMvQi87TaDA61uUmjt4W5GYeUAVi4B+JYW?=
- =?us-ascii?Q?PtJIxYprKLVHX02MRLJ8u0zFNXAjb9suKxfYPCkIKLkOF/CQAvqNEhVOnsRN?=
- =?us-ascii?Q?lL7FW2Bia6mGN4sLEdCCDlOh+bqxztsEjhGU4fNYjyeT+FZgI7EgloKgvQDG?=
- =?us-ascii?Q?Iqz5KsIVF6XiuEdjoa/00hKBd3N4T/IzuTKqy3+LYb+zIS+aiJMy2PzxtuzM?=
- =?us-ascii?Q?c4sJTMV5sgVjw/pqwR2PwZsiedtuwUrORLolLbtSg2WhOuN/oKKVGDPFD74+?=
- =?us-ascii?Q?DEmxSUpUjrsC8oONKY4qmZAU7lNog1QYQSE6TUJLyWadCy64jUmlxvKpIfJP?=
- =?us-ascii?Q?rosDlAe0r6Shxv0RnlqLgmqqzhR/tWWRreuQztHPAKgVZ4+e0zRCYI9cdPZ5?=
- =?us-ascii?Q?LzqAD7T8YaReyksiqBlElJXhTzrzuWJr8CrQLvS7X5ayVqs1LSKC4/LtCoiB?=
- =?us-ascii?Q?0TB2yctaqaxyyI2nF23DhZWiR3rLhAhlXhH7oQ+W/XBFkY+w//NjiUcRhKsi?=
- =?us-ascii?Q?dTnOb5AVB4HXSeL1ptcnutLR+qCS5WP1jeg2ffEku9pTnqoIuN1aQQ+nyee1?=
- =?us-ascii?Q?6rFpalNiMGoq23qvA/RMnsQDQiSz6WMDHCronhCs4qxGmn9boff+7WTzUBzT?=
- =?us-ascii?Q?3vBUxUmZSt2UIAnMUp5vBxkK8j2X3uvDSRXQTUUJYnC6AnS3MVZlAxltAVkS?=
- =?us-ascii?Q?T/hEsmQs28v3+lrBawLP22hQ22SZanKLEWnLZUOvbHSBaPy8crV0SeIr2eYL?=
- =?us-ascii?Q?lSrvbFV+AT5h2UNmuUB2PPLE9pea3e9cc627UP2xbw6xcXFDk6pKZA8Execo?=
- =?us-ascii?Q?ZkzZnk70K2EeZkDQikC3e3zENJXNpnQqztlW9nqFT/zIdFjCnoUUZgo+/dqQ?=
- =?us-ascii?Q?SGaiX9CyPDtroTFT+BRJh+51+ojyY2u2G+PlAzSck0h+S9ZLZvXd+DFYgi3c?=
- =?us-ascii?Q?bwvKCVzv495QNzTBAbgCjhwf1kpTnrq/2k42q2ohfEZXoGLSX+pQDBKhxRnW?=
- =?us-ascii?Q?5I3nBo73oozlUCL/o9CFau3dZAGXOQBxPPOVttT2maoUeDMT0Rl7oD0bBgiX?=
- =?us-ascii?Q?AS2b/PjiSVIj/FgcXRgHy4Ub5uNF5gKg/81xsmCDTSm4Fg9mKBMrIG29g6jq?=
- =?us-ascii?Q?ZbhtBylaxpqxFC/WpTCJllH1mE3n4nHeM3AUw87SpSvlyk7KUzON+4mbndFX?=
- =?us-ascii?Q?Gg4RdO3VIyWBVTXOCK5KvSAWFN1Jsbn2fzKNgthMH5UOXcTHY/mO8sPGuSlA?=
- =?us-ascii?Q?Z4OAAhzaQJLsxi+kp2BgEmAHqXFEHsg8peKZTlg5SLWKfF5rVllQD/YxxVdU?=
- =?us-ascii?Q?l1ne7nlg/MWgpY53ckAYHl+U4vSKb5vh8HJRmc/3ZfBTRw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cEArghQzsXVeCoc5iEA45V6GPV36jlzYlfuidOGnWOw/7m+jp4vCw+ITd1q8?=
- =?us-ascii?Q?79FjQb9h54OpvFkekFeZ/Do+UtDiGcenR7bQzISJznmTV3eZx520whJ33n5x?=
- =?us-ascii?Q?i+CzbPV6obLircfpLfW4qOz1cq/djbHqmWB2iouZ+oAzU8hCIRCZhikODZbh?=
- =?us-ascii?Q?32Gen550hN6NoXbHiyuT4VfS18427DnCrwumTTZm6RdMj1ZKmIVQ68FDlj0j?=
- =?us-ascii?Q?w0Fpj5qSI2ixcs3MDtANjgUSyKxLEsq7IUP3fAId5nZoDoz0U5DCjBzegJtH?=
- =?us-ascii?Q?VkdOM5xMzEcaOg6DqMa48EvhB3RhwjCS7oJE3lYagmGDA+Rdo7vhqpGj3F0X?=
- =?us-ascii?Q?Se7SFrF6QwOjlQFFVX4SS5yz070hehbZZ5roT+HWzWeiiDzp9XqzXh01ETzu?=
- =?us-ascii?Q?QvWoLf5L6g2Sit2QefeypmxJxvyKDeKNfnyn1wOkr1bBTJnOSMPd5RDaFW+V?=
- =?us-ascii?Q?w2T6qKYPoab3wfSMtuf49ouC2zu9LQxVwY5X6Juf5RXDoeSj5Rsu91owz0Iw?=
- =?us-ascii?Q?dLKhz0vmU8FOgEdj4wmkw62AhkTar1RB0JqdxoR46YdoMQLbSZQ2sCO4ZOQA?=
- =?us-ascii?Q?T6S/iCc8wKZlP3FbEjkc1DI8ATMdF/7UdsECoYBkWDMVwGg95ZqdUXR10uvv?=
- =?us-ascii?Q?uJoQE0RhCTUVrfSB+aQ2AHA2ldk5WW7qnG8sembkyEV1eHAhDlGxw/neZ9tP?=
- =?us-ascii?Q?XkVdXCPIGA2LzIFAcSq0wKVNJwELYn7NZdzGLRMoFAsr38BGCVzPVxexj6mH?=
- =?us-ascii?Q?jhEwcbu61GCxQbuIiAgAsxx5VDVDc3QnR/aSI4jXGj/0zIb4SB6ocalTM1h8?=
- =?us-ascii?Q?4bOvb/paQFfHh+QTwJSC4BAl0JY1l/YrJSALWkHvVS2hAYtE4/OFoAIS53iB?=
- =?us-ascii?Q?jgRsJVNdEA0dFwZL9phKuEEEPJAWpKKw0LmJ6Djb/CFurmIuBXSlZ3R05J8X?=
- =?us-ascii?Q?a4RRQR4DnITzqeibHlopULTpxnZjcPnxr27T3LKQeR5aV7hn8fDY1tBiuF7j?=
- =?us-ascii?Q?rEw/XsQs1lSWALH01f6MavoeL8Zd09TQvKM5XwtQTzjVsVJIoSY0v5KBhwV8?=
- =?us-ascii?Q?3zq+TqcVWrAiZSiM4fGzqdH6IMqbIrUgIPnlm2CKTNBnyJhHm7fEe77zVsJF?=
- =?us-ascii?Q?3AIaZO9Jm98f8FnEcM7tguZ3PP/7m9lkxSkQv18LgvR4IKcPQ8M4ojc9Y/Pt?=
- =?us-ascii?Q?SGoKrOJ1f/gj9sf/v7Cc3MizDa9xkmAMOir1Z5ez6GlqLARrvLyLjHsJx7yM?=
- =?us-ascii?Q?KUMyvtZAd8W/pdGlQnst88JHX4psqNt9gNk/TYbXSuu12Ibo1gVnBR75OYG9?=
- =?us-ascii?Q?NSeavHmwmAArlnHBQA+imO98mG4+A43V1MNRQT8MjujJou3tjLzRZ7NtDEaI?=
- =?us-ascii?Q?v/9IIbkWKAY8CjheKi3VbleYkxF2t168hZPBfVMQGEVb3xrtQMrBOTCphMKo?=
- =?us-ascii?Q?InL7rE6Z+W44M6urQaw8oXNK2e3TybOg0SMUQPw3neqjQVukfxdq0YDJVyhj?=
- =?us-ascii?Q?NzFHs6S3b5wF/4WOaEd98s3rhVG5PFv4XoeBC+HcNgc3KAb3Ls4R9zlnlX4C?=
- =?us-ascii?Q?UfZbkwd4Bsw3dT9W0biGbnuuVZBrhlDXB8+XCpXh?=
-X-OriginatorOrg: witbe.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8708154-a17c-4ca4-1e40-08dcc0773c1d
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 17:49:12.3481 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3f8d401f-95c5-4cdd-94d3-64af2479cf89
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C26mrQdNUq0BXnpCfTbCUQomKGLUOz+cYTAR2IdSS/Y4M37b1K/xiVTz+ITGIqaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR0P264MB4923
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b783f932-851f-4ea5-a2cc-d39061c60652@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,48 +87,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/kfW3cN.5WtImt5YMA+9A4dO
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi, Neil
+Thanks for the feedback.
 
-Hello,
-
-On Thu, 15 Aug 2024 19:48:47 +0200
-Christian Heusel <christian@heusel.eu> wrote:
-
-> While we were still debugging the issue Brad (also CC'ed) messaged me
-> that they were seeing similar failures in their ESXi based test
-> pipelines except for one box that was running on legacy BIOS (so maybe
-> that is relevant). They noticed this because they had set panic_on_warn.
-
-I have the same problem at home using ESXi and UEFI Bios with my VMs:
-kernel 6.10.4 and 6.10.5 are showing an error with vmwgfx while booting and
-there is no console available, though it's still possible to remotely
-access the VMs using SSH.
-
-Reverting to 6.10.3 solves the problem.
-
+On Mon, Aug 19, 2024 at 05:41:07PM +0200, neil.armstrong@linaro.org wrote:
+> On 12/08/2024 19:10, Abhishek Tamboli wrote:
+> > TODO : Add missing comments for ILI9341 register definition.
+> 
+> Please rephrase the commit message, and explain why in a proper english sentence.
+Sure
+> Neil
+> 
+> > 
+> > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> > ---
+> >   drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 14 +++++++-------
+> >   1 file changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > index 775d5d5e828c..cba6a6952568 100644
+> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > @@ -121,19 +121,19 @@ struct ili9341_config {
+> >   	const struct drm_display_mode mode;
+> >   	/* ca: TODO: need comments for this register */
+> >   	u8 ca[ILI9341_CA_LEN];
+> > -	/* power_b: TODO: need comments for this register */
+> > +	/* power_b: Power control B (CFh) */
+> >   	u8 power_b[ILI9341_POWER_B_LEN];
+> > -	/* power_seq: TODO: need comments for this register */
+> > +	/* pdtcaower_seq: Power on sequence control (EDh) */
+> >   	u8 power_seq[ILI9341_POWER_SEQ_LEN];
+> > -	/* dtca: TODO: need comments for this register */
+> > +	/* dtca: Driver timing control A (E8h) */
+> >   	u8 dtca[ILI9341_DTCA_LEN];
+> > -	/* dtcb: TODO: need comments for this register */
+> > +	/* dtcb: Driver timing control B (EAh) */
+> >   	u8 dtcb[ILI9341_DTCB_LEN];
+> > -	/* power_a: TODO: need comments for this register */
+> > +	/* power_a: Power control A (CBh) */
+> >   	u8 power_a[ILI9341_POWER_A_LEN];
+> >   	/* frc: Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
+> >   	u8 frc[ILI9341_FRC_LEN];
+> > -	/* prc: TODO: need comments for this register */
+> > +	/* prc: Pump ratio control (F7h) */
+> >   	u8 prc;
+> >   	/* dfc_1: B6h DISCTRL (Display Function Control) */
+> >   	u8 dfc_1[ILI9341_DFC_1_LEN];
+> > @@ -147,7 +147,7 @@ struct ili9341_config {
+> >   	u8 vcom_2;
+> >   	/* address_mode: Memory Access Control (36h) */
+> >   	u8 address_mode;
+> > -	/* g3amma_en: TODO: need comments for this register */
+> > +	/* g3amma_en: Enable 3G (F2h) */
+> >   	u8 g3amma_en;
+> >   	/* rgb_interface: RGB Interface Signal Control (B0h) */
+> >   	u8 rgb_interface;
+> > --
+> > 2.34.1
+> > 
 Regards,
-Paul
-
-
---Sig_/kfW3cN.5WtImt5YMA+9A4dO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAEBCAAdFiEEfJBudf4KU8bw8ox368Rc5Xmx8y0FAmbDhZcACgkQ68Rc5Xmx
-8y2b+wv/auNGhWsEJVA1iJZktKXzRWjI6sW8sslf2tHbtlzStRbJw4oE/TKzL/xQ
-3+pGW4k08zxmF2n5HotKCguk2iIo+GKsLc93d2bdtC6NJDKPcIzoaA/ePhiQDRqA
-TMRXS1i4MWGXIdZCjjdrDouze7o/uO4PYPewFjB8FY7Oj3t301JkDh6xfHyUP56m
-pUbndRFj7mowuTsGeSE0HlQTKIOE2HX3NUny2Q/+cDCHqajm1zZu7Jhy/1Fx4BJf
-N6u65gmkEyTFO15qqFDSv2DBiAdyc3JaJ5NZ/i03mETsnh92DVnLsk9p4iI5RVTc
-2NzqA49u7v7whkvtWeIy6ymJhzgkX49cPPj0GUBkdvIg1ZvO8hWZNT4G+ezaXaFX
-yZQ43sxPQMTsJ2SRS+jCemjwzlFS34nHv5DQiiNiuQKWJMw6MqwtiuQFmcLKrGDT
-/nzFK3MkV2ievZasO3mSdAoYMozhKD2c8bkuxqsBZ5yDUlK3XlogzSzeED2z/573
-JURSwI5z
-=9ID1
------END PGP SIGNATURE-----
-
---Sig_/kfW3cN.5WtImt5YMA+9A4dO--
+Abhishek
