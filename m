@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938F9956EDB
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F05956EE0
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA72510E2CE;
-	Mon, 19 Aug 2024 15:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A0810E2CF;
+	Mon, 19 Aug 2024 15:36:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GZrLT+pq";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dk13XKpS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C2210E2D0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 15:34:36 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4280ca0791bso36488385e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 08:34:36 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC1DF10E2CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 15:36:19 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-4280bbdad3dso34787215e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 08:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724081675; x=1724686475; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1724081778; x=1724686578; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=gELSb0mONNzrVXHjZTppbBGkLEu9pviFKrK4IGH6TKs=;
- b=GZrLT+pqXP11hU3AynWgNmW04ZmaORZYObuqYaYonbqWcEwc8AAFcNdn8/VXQ2+7n/
- whTPk7rsxpfDlLVZrUyIdttiGc/csuHcrTVZ4IqFyqmCT430AEVxsE4a1hNUbitfHwIf
- c97jR/WhVcZe3DCB7937XK2V2AeknCRmJeP6iJDDZrK3Wbt88Ak1ABwizuIiWv0u6lOO
- rBvRLJa9v7RWfrkqPeq6qQUWDz8hdor60S1mRTcwOvlSrBeTNo5jUCu1ktZsin/dycBa
- PKSI8rGTa4rQ9MRL8BEmeUzNgkUykVdHUnHVupI78mo3jKhoc3INEw9TbipxZ3L0beNE
- 7NOg==
+ :reply-to; bh=Zaj59aKVrAtowXfAlcri02aQYdNUrJ98uxFca+ipLVk=;
+ b=dk13XKpSk5NdpUfFA8ao0xHM8mtDMIUkxmAxob0sjHK2Fa9Ev3oDcY//pJyBRdYuDY
+ 08h9VHIinrjQ1qumIv6xiY7169gAj7bZnmPepQ3Wp5HMvBdf3FEeAP/vutCVdubKXx5r
+ fIxuxfU9/nOChvw1CkBlUAqaX0CGwSSr4CBWhiYfffUyqjy2yrVrkOe/vwKP1c15GGui
+ SFj4dZ8CKP7KkjoXq9DRF5Md6orGbDHY/N3mTWH+chaPVuSxBEC6Iu2T8dcUpwDQxfKg
+ 8+Oj+MRd+Xuyq0k7JmQCLjxcPiU98lxrjH/uJ6n0cBEitF2ZFCqpatUWQhkpU7zEwon7
+ YLGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724081675; x=1724686475;
+ d=1e100.net; s=20230601; t=1724081778; x=1724686578;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=gELSb0mONNzrVXHjZTppbBGkLEu9pviFKrK4IGH6TKs=;
- b=ZC5DoPiYjqZAZVIwRfRtjolobuO6Ccr10GM1GtzW7FCzESqrQGpra6kGSsGjfsgWRY
- 3uceodRmkpVkKw712M4I64MMEJ3oYwDZFASIm6dmWvxwCQpBUTgwGF4/0zN1nwJP5R70
- RPpFLRZmFmw4hB4WF77q7h/H5tKl60LbVM5FtWkgF5CbCcyFXMGWyZIAot9lAmGhs/6D
- 5bq8SzENXR/LfffF+NlVkBQ/qx7/R43WrXQreCS1UWNN1g0MHmfQSSo8nk4OcHw6gXyg
- fn03YT/gXxICgCH+SflUQsJK8N6kk2VpL17odaMtiuUvEWVsfpvX2Q7Ek+fwOygFMMGF
- tMPg==
+ bh=Zaj59aKVrAtowXfAlcri02aQYdNUrJ98uxFca+ipLVk=;
+ b=AeioaWS5jyWylC2rKIaITohjz2as/Dxs2Yr0N6XUxenAiTEiR0FTn4BvMcKq0kVvkw
+ VE1mfLc3p+neGvvMu5D8qq70LDJxtkuUhhjQl72tpSx7iX1T9AA29orGI5lLQY17vnmK
+ f0j1mUVy9C9lduHIc0yWaRTGOyu1gJ1aJwz7+iik04HNW2+uTgWlEJKyzIYle923OHMH
+ u65uoo02gNpst2ceqpwMo5nLebYuQl8/ohYpJqnbsVvxVU+sqN5RrGLg/Rp+9HqhEMik
+ 34fMIriQjSRk17oT3QYT9r7gi2PbyufcJOQPIooQHddIc/8ANhRjhqs7GMVKmbA2ysqu
+ l+ZQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpoKmFBtGSTTm45Gbh+n5ZLCi4vKQCCwptC32UunyWMMiLHJo5+ufW74K2yBEM95lPS2erE8QK+D2oRpGbRqedlwzvDIuS75lisqQJMRKS
-X-Gm-Message-State: AOJu0YyDi+uj6Om1I0FVoufzvRRQ2giDoxDLEf6er8ibJHghV/aHx0Lo
- GOOhe4/c9TPsiYO95z/g0vWiYhY1NATiDKXIpw+1IJjom6NcFzwFux+SovzOa9W3JuHaVj++CaS
- o
-X-Google-Smtp-Source: AGHT+IHMaUUYq+Edi91ZeQKQp/ozhDLsN2BfvaefQx6mMZkbY2NlgErzK4DrnNKPD89uUTge96ByFw==
-X-Received: by 2002:a05:6000:1112:b0:371:728e:d000 with SMTP id
- ffacd0b85a97d-3719431768fmr6655547f8f.1.1724081674040; 
- Mon, 19 Aug 2024 08:34:34 -0700 (PDT)
+ AJvYcCU+otM5LDiGkuwGzvj/qWYl3hFocYpNZFMBGE/Ov/+72F1csYrF3Ah2GRV5ETJd8WSVi/YTmdc9pDxD+iAWcWkM+tScXvhbulRbuXABnQTF
+X-Gm-Message-State: AOJu0Yw9pvPrX99gyN5DYIz+wE0ELdlopXOHb1gJAA+WUGlY5+2a46SF
+ LgszCnRgXx0HV17ocdMAx/axYLE8gzSPy9fAaFhr0iCrrjbCV8Jk0t9NM7z83jQ=
+X-Google-Smtp-Source: AGHT+IHIIiLXfwadBpfqfQEoziKcvHPzTsUe1RZgWRiLWLfv1Xy/IHTASLKF6VG4I94sfleVZcYjQA==
+X-Received: by 2002:a05:600c:4f96:b0:426:686f:cb4c with SMTP id
+ 5b1f17b1804b1-429ed7db8eemr70822855e9.32.1724081777634; 
+ Mon, 19 Aug 2024 08:36:17 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:f54e:4b0a:5175:5727?
  ([2a01:e0a:982:cbb0:f54e:4b0a:5175:5727])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429ed7945b8sm114207095e9.44.2024.08.19.08.34.33
+ 5b1f17b1804b1-429ed79be15sm113319105e9.48.2024.08.19.08.36.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Aug 2024 08:34:33 -0700 (PDT)
-Message-ID: <cd53b240-0db6-4d27-85d6-e2004086fd29@linaro.org>
-Date: Mon, 19 Aug 2024 17:34:32 +0200
+ Mon, 19 Aug 2024 08:36:17 -0700 (PDT)
+Message-ID: <4be2f1d1-534c-4c99-a35e-f354c75c88b4@linaro.org>
+Date: Mon, 19 Aug 2024 17:36:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH -next 6/8] drm/panel: khadas-ts050: Make ts050_panel_data
- and ts050v2_panel_data static
-To: Jinjie Ruan <ruanjinjie@huawei.com>, quic_jesszhan@quicinc.com,
+Subject: Re: [PATCH] drm/panel: mantix-mlaf057we51: transition to mipi_dsi
+ wrapped functions
+To: Tejas Vipin <tejasvipin76@gmail.com>, agx@sigxcpu.org, kernel@puri.sm
+Cc: dianders@chromium.org, quic_jesszhan@quicinc.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20240819120043.3884933-1-ruanjinjie@huawei.com>
+References: <20240818072356.870465-1-tejasvipin76@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -97,7 +97,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240819120043.3884933-1-ruanjinjie@huawei.com>
+In-Reply-To: <20240818072356.870465-1-tejasvipin76@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,40 +116,145 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/08/2024 14:00, Jinjie Ruan wrote:
-> The sparse tool complains as follows:
-> 
-> drivers/gpu/drm/panel/panel-khadas-ts050.c:620:32: warning:
-> 	symbol 'ts050_panel_data' was not declared. Should it be static?
-> 
-> drivers/gpu/drm/panel/panel-khadas-ts050.c:625:32: warning:
-> 	symbol 'ts050v2_panel_data' was not declared. Should it be static?
-> 
-> These symbols are not used outside panel-khadas-ts050.c, so marks them static.
-> 
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->   drivers/gpu/drm/panel/panel-khadas-ts050.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-khadas-ts050.c b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> index 14932cb3defc..0e5e8e57bd1e 100644
-> --- a/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> +++ b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> @@ -617,12 +617,12 @@ static const struct khadas_ts050_panel_cmd ts050_init_code[] = {
->   	{0xd4, {0x04}, 0x01}, /* RGBMIPICTRL: VSYNC front porch = 4 */
->   };
->   
-> -struct khadas_ts050_panel_data ts050_panel_data = {
-> +static struct khadas_ts050_panel_data ts050_panel_data = {
->   	.init_code = (struct khadas_ts050_panel_cmd *)ts050_init_code,
->   	.len = ARRAY_SIZE(ts050_init_code)
->   };
->   
-> -struct khadas_ts050_panel_data ts050v2_panel_data = {
-> +static struct khadas_ts050_panel_data ts050v2_panel_data = {
->   	.init_code = (struct khadas_ts050_panel_cmd *)ts050v2_init_code,
->   	.len = ARRAY_SIZE(ts050v2_init_code)
->   };
+Hi,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 18/08/2024 09:23, Tejas Vipin wrote:
+> Changes the mantix-mlaf057we51 panel to use multi style functions for
+> improved error handling.
+> 
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+>   .../gpu/drm/panel/panel-mantix-mlaf057we51.c  | 79 +++++++------------
+>   1 file changed, 27 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> index ea4a6bf6d35b..4db852ffb0f6 100644
+> --- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> +++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> @@ -23,7 +23,7 @@
+>   
+>   /* Manufacturer specific Commands send via DSI */
+>   #define MANTIX_CMD_OTP_STOP_RELOAD_MIPI 0x41
+> -#define MANTIX_CMD_INT_CANCEL           0x4C
+> +#define MANTIX_CMD_INT_CANCEL           0x4c
+
+Please move cleanups to separate patches
+
+
+Otherwise it looks good.
+
+Neil
+
+>   #define MANTIX_CMD_SPI_FINISH           0x90
+>   
+>   struct mantix {
+> @@ -45,82 +45,57 @@ static inline struct mantix *panel_to_mantix(struct drm_panel *panel)
+>   	return container_of(panel, struct mantix, panel);
+>   }
+>   
+> -static int mantix_init_sequence(struct mantix *ctx)
+> +static void mantix_init_sequence(struct mipi_dsi_multi_context *dsi_ctx)
+>   {
+> -	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> -	struct device *dev = ctx->dev;
+> -
+>   	/*
+>   	 * Init sequence was supplied by the panel vendor.
+>   	 */
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
+> -
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_INT_CANCEL, 0x03);
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
+> -	mipi_dsi_generic_write_seq(dsi, 0x80, 0xA9, 0x00);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a);
+>   
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
+> -	mipi_dsi_generic_write_seq(dsi, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
+> -	msleep(20);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_INT_CANCEL, 0x03);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x03);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0xa9, 0x00);
+>   
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_SPI_FINISH, 0xA5);
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
+> -	msleep(20);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x09);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
+> +	mipi_dsi_msleep(dsi_ctx, 20);
+>   
+> -	dev_dbg(dev, "Panel init sequence done\n");
+> -	return 0;
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xa5);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2f);
+> +	mipi_dsi_msleep(dsi_ctx, 20);
+>   }
+>   
+>   static int mantix_enable(struct drm_panel *panel)
+>   {
+>   	struct mantix *ctx = panel_to_mantix(panel);
+> -	struct device *dev = ctx->dev;
+> -	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
+> -	int ret;
+> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+>   
+> -	ret = mantix_init_sequence(ctx);
+> -	if (ret < 0) {
+> -		dev_err(ctx->dev, "Panel init sequence failed: %d\n", ret);
+> -		return ret;
+> -	}
+> +	mantix_init_sequence(&dsi_ctx);
+> +	if (!dsi_ctx.accum_err)
+> +		dev_dbg(ctx->dev, "Panel init sequence done\n");
+>   
+> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to exit sleep mode\n");
+> -		return ret;
+> -	}
+> -	msleep(20);
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 20);
+>   
+> -	ret = mipi_dsi_dcs_set_display_on(dsi);
+> -	if (ret)
+> -		return ret;
+> -	usleep_range(10000, 12000);
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> +	mipi_dsi_usleep_range(&dsi_ctx, 10000, 12000);
+>   
+> -	ret = mipi_dsi_turn_on_peripheral(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to turn on peripheral\n");
+> -		return ret;
+> -	}
+> +	mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
+>   
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>   }
+>   
+>   static int mantix_disable(struct drm_panel *panel)
+>   {
+>   	struct mantix *ctx = panel_to_mantix(panel);
+>   	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> -	int ret;
+> -
+> -	ret = mipi_dsi_dcs_set_display_off(dsi);
+> -	if (ret < 0)
+> -		dev_err(ctx->dev, "Failed to turn off the display: %d\n", ret);
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+>   
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> -	if (ret < 0)
+> -		dev_err(ctx->dev, "Failed to enter sleep mode: %d\n", ret);
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+>   
+> -
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>   }
+>   
+>   static int mantix_unprepare(struct drm_panel *panel)
+
