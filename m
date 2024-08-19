@@ -2,72 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564C495726B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B931A9572A2
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 20:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 522B410E346;
-	Mon, 19 Aug 2024 17:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46EA10E344;
+	Mon, 19 Aug 2024 18:05:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E8uCxRnW";
+	dkim=pass (2048-bit key; unprotected) header.d=heusel.eu header.i=christian@heusel.eu header.b="gxkMUBLh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 565D810E351
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 17:52:37 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-2cd5d6b2581so3158740a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 10:52:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724089957; x=1724694757; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Vrl19mqws/+cluViI8m9rcTcYnyGlPjI1zYV7NRxDIE=;
- b=E8uCxRnWWH9xuAJ1h3O4/EXZLQQXH9N7yRv7n51D/SeNaCD++dq5fvB13jQBOxwk59
- ykB2QNvAnjywSbfybOO8RjbMq6cmQi2yF4wYRaEdtM4rw1RHCIpN4Jk7exLzQAxNmwLC
- 1nbTIzTIZ45C5urW2+kDLOoPnsnEhNgNm9o9guxPPHUOLet0AM14W3pP6DgXcFuxgwLZ
- gC6WyO/ki/aN/RrbcRXDxZZwVt/pCDakOrbZHK3KH1UsOmAWnpm6PMItwNs5CL40/r7v
- HsWiarjs3/6phw70dEcefnRlMFc3JZnTMD9SJfbedoRNCTgrkj2dMM1EnYvbhp2byZ2N
- RhXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724089957; x=1724694757;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Vrl19mqws/+cluViI8m9rcTcYnyGlPjI1zYV7NRxDIE=;
- b=jW3gThrg2s1jjz7zELouv1feGKt1y9pmtcjaakulmOjlksud0HS2wMlO72jf4CusfM
- ISVYrxIzPm6NSMFI3AW+RnmGACfcIu78x2fC89HNCQ3K6Aydu6elm+VFZj2krbtKyn8l
- yKk5AizWeMeUWblsJkPDewQ8RBJPciKg29jZWEvvYG5o4Li4u8nvBZ36j2vaWsaZ+4zs
- 1bEy/zHguDIC2eGHt6NNtqBjrdI/GxAfmhkYF/9WHAlccildj0j32GZs6mlQq440FUuJ
- ywdRFxCQcX1vu5HeYzbBC3CMsm/xdrjcososA4iMpNicPrJaIO38Z1zuQ7e1WYHzQfvj
- aHdQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEglWY3FFrvabArmWyy6TJbN+ZstsC6ZeZ/RiiMyMAydU9+0Et2L0YNN34aMmSUgrCrePPCiqyhRrMkCukQfvoWoYt3F7Yqgaot/H0CVhg
-X-Gm-Message-State: AOJu0YzMQGaweL2W8CfanoP/2S94HnsctX1dfSc3nQwSef8jSY6mJKF/
- uUt9bhJqYh3KXONLs3M276nyTKH3LvTiPxqD7CKFExw3Js7Vdugs
-X-Google-Smtp-Source: AGHT+IHvY5FsJmcFyBLd68H463HEg+9AYFBSgdZgFa0Uo2yp0Vuaagu34O0T61d8e5QdpKKdaRHXNQ==
-X-Received: by 2002:a17:90b:234f:b0:2cf:28c1:4cc9 with SMTP id
- 98e67ed59e1d1-2d3dfc2ae5bmr10731210a91.3.1724089956692; 
- Mon, 19 Aug 2024 10:52:36 -0700 (PDT)
-Received: from embed-PC.. ([106.222.231.54]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2d3e317527csm7538297a91.26.2024.08.19.10.52.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2024 10:52:35 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
- skhan@linuxfoundation.org, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/panel: ili9341: Add comments for registers in
- ili9341_config()
-Date: Mon, 19 Aug 2024 23:21:22 +0530
-Message-Id: <20240819175122.33176-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6616710E344
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 18:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
+ s=s1-ionos; t=1724090705; x=1724695505; i=christian@heusel.eu;
+ bh=4Pm+E0/loXkoQyjwWE7IGgEIAhB5sOcCKAleBPDQgSU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=gxkMUBLh2W1HaXvSnMBiTfRGm/grLr8hRUD/lqUzXA9ExJoo6s6ysijrwXDwGzvI
+ sxWt5EsjRhd8KvfGdqXsVF7XABH7To/aZ9oKWJ2YaXiNe3jSJaR1QGveDYrdEUb2N
+ z//AVLatdfPE8QAv4wTW8FrslvoUyJWATy813OGMZQPZXksvBmoEt6tyrfecZD55y
+ f5JaITYagn7JOKkC8B4CCrPdCyKb6EcN8qom0FlQMNRQTB34xqG5FJl50GFEaOR0Y
+ frp8+gjGHatN256iIrSeyN2d3Sa2OuKQcR5fyZLb+d0SwdpHWwa7Frpi3c2TiQAoC
+ Yza5JhIWMSaYwbNwag==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from localhost ([141.70.80.5]) by mrelayeu.kundenserver.de (mreue010
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MBlgy-1ssEmK3QSK-006jhX; Mon, 19
+ Aug 2024 20:05:04 +0200
+Date: Mon, 19 Aug 2024 20:05:03 +0200
+From: Christian Heusel <christian@heusel.eu>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ ian.forbes@broadcom.com, martin.krastev@broadcom.com, 
+ maaz.mombasawala@broadcom.com, stable@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/vmwgfx: Disable coherent dumb buffers without 3d
+Message-ID: <f0e9f76d-c10b-444d-aed3-20fc71eeb8d8@heusel.eu>
+References: <20240816183332.31961-1-zack.rusin@broadcom.com>
+ <20240816183332.31961-4-zack.rusin@broadcom.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ifdveldrmwazhoxl"
+Content-Disposition: inline
+In-Reply-To: <20240816183332.31961-4-zack.rusin@broadcom.com>
+X-Provags-ID: V03:K1:6Uwtrz96JdZujZZuER3x34/NT3gYUuqWN/fiHwjlyc5YR8LGdSc
+ fHv9qXqljs+z1KWGz6XbZ0MGZ+HKZAde2Pj21hWNM5XqcM90jauQgedCgK7ZKwlCTUjT/JP
+ 7b4lIHMeLguwM1zDEkdRkBlq4oF32xJXxitoJxXSg1t7DtSYrPckpBZLiaE4N6+71Nrhw3R
+ mrZrzCRvNrtXPmvyEppTQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:UbMkRbRh3vU=;2vSX5w3CsJaUapyQWuW2EZg2EQ2
+ eZCE1fofxg+e1AHcTjTOHQ0BxTiDoFKjNZISzzPBGJw7Fx+DM5gY7YejRVTQdbvQEIvPNVH7o
+ 6agV47oV20yBoVxn92DiKRvkkp/EqjI6Fa+zj339mlFNoLS4Nq8pBXX+5U3L9wfQPB7494Vgc
+ mnXbT/1lqqdo8RxakD70r1IfLov/fHFY9LpmxT3g1GmMTCgLetI6VTwoDR4yJUlbIHbQ/BybE
+ n8Zag7jidVtCyxS0CBi98vBoOlysPsRR4yNluJO+XGAHxqF5jmck5FIG847jxUa53tghfvDW8
+ Qm7Zbun870mn2vx222n9vE8tnOqnO5TEpF3lIcTsT3ow5rwZklk9H/LLjM+C2VQL9zMpf0LNR
+ rlqrZdZdMgsCjSFvo9oC8jkJNe6B7MMns0vZ8Adt8iAb2qGaluRA1Xyg95P1kk0mSlpCyBkuW
+ htNFXgbBW2iovsdk1d1bUfTXefbRIbYilH9zFe6fyFGP0OLhhQE2sZGLsIFcUZ1tlGU713zrU
+ WFrwsX7/Iav908tqrCDKBkjVr7fpct9EqVTlHTjraGf5rwzBgelzyT6ZxZfr0Z/yetw5eUzJ+
+ HibO0g2lc7j6vGqyC1MlG+oITHgsXc5H0fjdrPoqfooY2+q/psSKd8eFt/x26mdMM7QYeCWeo
+ EmzxiZGHsfZAqTAHVRFsniIXmaGqzY9kf6xebibfKl6FOYOY5oJ7ZyvIcpvzQl+RCwQODhzLO
+ lsGscI6KZQD7plwnBPkKS8nEemYQAbIsw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,56 +80,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add detail comments for registers definitions in struct ili9341_config().
-Replace TODO with comment for each registers.
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
-Changes in v2:
-- Rephrased the commit message.
+--ifdveldrmwazhoxl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+On 24/08/16 02:32PM, Zack Rusin wrote:
+> Coherent surfaces make only sense if the host renders to them using
+> accelerated apis. Without 3d the entire content of dumb buffers stays
+> in the guest making all of the extra work they're doing to synchronize
+> between guest and host useless.
+>=20
+> Configurations without 3d also tend to run with very low graphics
+> memory limits. The pinned console fb, mob cursors and graphical login
+> manager tend to run out of 16MB graphics memory that those guests use.
+>=20
+> Fix it by making sure the coherent dumb buffers are only used on
+> configs with 3d enabled.
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-index 775d5d5e828c..1fbc5d433d75 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -121,19 +121,19 @@ struct ili9341_config {
- 	const struct drm_display_mode mode;
- 	/* ca: TODO: need comments for this register */
- 	u8 ca[ILI9341_CA_LEN];
--	/* power_b: TODO: need comments for this register */
-+	/* power_b: Power control B (CFh) */
- 	u8 power_b[ILI9341_POWER_B_LEN];
--	/* power_seq: TODO: need comments for this register */
-+	/* power_seq: Power on sequence control (EDh) */
- 	u8 power_seq[ILI9341_POWER_SEQ_LEN];
--	/* dtca: TODO: need comments for this register */
-+	/* dtca: Driver timing control A (E8h) */
- 	u8 dtca[ILI9341_DTCA_LEN];
--	/* dtcb: TODO: need comments for this register */
-+	/* dtcb: Driver timing control B (EAh) */
- 	u8 dtcb[ILI9341_DTCB_LEN];
--	/* power_a: TODO: need comments for this register */
-+	/* power_a: Power control A (CBh) */
- 	u8 power_a[ILI9341_POWER_A_LEN];
- 	/* frc: Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
- 	u8 frc[ILI9341_FRC_LEN];
--	/* prc: TODO: need comments for this register */
-+	/* prc: Pump ratio control (F7h) */
- 	u8 prc;
- 	/* dfc_1: B6h DISCTRL (Display Function Control) */
- 	u8 dfc_1[ILI9341_DFC_1_LEN];
-@@ -147,7 +147,7 @@ struct ili9341_config {
- 	u8 vcom_2;
- 	/* address_mode: Memory Access Control (36h) */
- 	u8 address_mode;
--	/* g3amma_en: TODO: need comments for this register */
-+	/* g3amma_en: Enable 3G (F2h) */
- 	u8 g3amma_en;
- 	/* rgb_interface: RGB Interface Signal Control (B0h) */
- 	u8 rgb_interface;
---
-2.34.1
+Hello Zack,
 
+just FYI: somebody on the Arch Linux Forums tested the suggested patch
+and found it working:
+
+https://bbs.archlinux.org/viewtopic.php?pid=3D2190679#p2190679
+
+Cheers,
+Chris
+
+--ifdveldrmwazhoxl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmbDiU8ACgkQwEfU8yi1
+JYUoXg//fI5+kMtwg+UzC2lw0QKOixwt35LGbjXzYvcGMO9RSuEOs7eEUvjIM9NZ
+Szp/8uQIN8BzC1ncvE5Bd9d39zBek5JEf3bomy+ncuMjSSnZmWXtxk201+aezCZI
+uQvICS0YF8ItIsT84BrD1wHDS424kQKqxsqo7KTzHXyh8LNOsMKsbCLQsaQYm2Ty
+pC6eXCxX/2Kv2rngyk50WxgbW7o8gHx5ZIG9JhA0j64w7GUEcdYePapqdprTUisB
+GTSbPAus3eZ04/L5ORFo6Ir1G9fdj4+tWvoQuygLB8lLudVtv4dNx+us6VWpgpDX
+ImJYhTWKXqSJ7BJrr4L4UyahcZgi0aOGcVHafW6b+knXL/YnGLtvG//i87ycFebS
+UBAibiw6bLMrIR5DZwsawI9OIv/WY4sq/dET9GdjKUrUneLmecrjo5U2zTEMuYM0
+UCZ3s8qmFkFBDbdLEMdh572QzMZ9OxWqEREhh6Z3x8Jr0YXdEMrU8musXu0ivA0T
+DFKIWomazpgPz8yq0ZwNJAzje1r/eC1P4ibdsYOA98txv3WQyID/U2Uj/MEmVg7E
+tP7eOfo+AI7jXQq7flR+sESmU6V6DGPhbbObyZ7k4TZjLE5hbSJPZub7tAThd2TI
+cuiggSppYWvQjLjKf3Ozq8/7hUU9WGHu0+DCPPuvhLYPVAUf6bw=
+=y1Ha
+-----END PGP SIGNATURE-----
+
+--ifdveldrmwazhoxl--
