@@ -2,39 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7459564B2
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 09:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE329564BE
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 09:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33C7110E190;
-	Mon, 19 Aug 2024 07:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8840310E1CE;
+	Mon, 19 Aug 2024 07:34:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y3FRYoNh";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E92D510E1CE
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 07:30:35 +0000 (UTC)
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gauss.telenet-ops.be (Postfix) with ESMTPS id 4WnPQJ5WCkz4x9gF
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:30:32 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:7674:86dc:e300:ce10])
- by laurent.telenet-ops.be with bizsmtp
- id 1jWY2D0052ltMuT01jWYrk; Mon, 19 Aug 2024 09:30:32 +0200
-Received: from geert (helo=localhost)
- by ramsan.of.borg with local-esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1sfwqW-000Hig-1Z;
- Mon, 19 Aug 2024 09:30:32 +0200
-Date: Mon, 19 Aug 2024 09:30:32 +0200 (CEST)
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: linux-kernel@vger.kernel.org
-cc: sparclinux@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Subject: Re: Build regressions/improvements in v6.11-rc4
-In-Reply-To: <20240819070639.2558629-1-geert@linux-m68k.org>
-Message-ID: <e43d6c-90df-32d2-c7ac-2991e8c5672f@linux-m68k.org>
-References: <CAHk-=wgP=qzODR60Xxzem5LQi6sH+6EFCDMOApAgBy37SQ59hA@mail.gmail.com>
- <20240819070639.2558629-1-geert@linux-m68k.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A25610E1CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 07:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724052859; x=1755588859;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=jWCdw6+Mt7vTwAMd410byNxcR/efNsh0Co3i6REIQqE=;
+ b=Y3FRYoNhJ9Zjhq1jbTMr/rJNEf6RwPUe4hWt4u/A+YilWreXM6da3GmS
+ H9kMalzuuulCtvCS32f02sP3LTYHj/AKCrhe/bbx4kVAtLCctgzU+UTQt
+ 6tBLiztABzatagXE/a4QRU9VR7Jw5m+75tvg/yDrpiFfSxX1HdGJ7YEog
+ QjG3rUnAuQ1TMsz+t5o0ez4uJVjRyh9hcCA1TzEoKMUM6yNmcmQCEv8xZ
+ yFIM8ACsul53PYYsejRpDRjF/QTwc1xga0T2+R/b6KSMDWApUza9+Oiy/
+ IM1rZugCVEksgG+MB2mJ4TXsbEBINXP9IXqMHonSNmy/vimDnCnEbXDUP Q==;
+X-CSE-ConnectionGUID: IlE44thwRxKGvXeAPIRCCg==
+X-CSE-MsgGUID: CkXzgHiKSF+HnDD3A/WgQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="22445170"
+X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="22445170"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 00:34:19 -0700
+X-CSE-ConnectionGUID: O+B60iEqRGqYo4fRX3CQFg==
+X-CSE-MsgGUID: FTEnVBr5RkuC77QyZMAnGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="60587214"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.70])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 00:34:13 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: abid-sayyad <sayyad.abid16@gmail.com>, airlied@gmail.com
+Cc: daniel@ffwll.ch, dmitry.baryshkov@linaro.org, mripard@kernel.org,
+ ankit.k.nautiyal@intel.com, imre.deak@intel.com,
+ mitulkumar.ajitkumar.golani@intel.com, quic_abhinavk@quicinc.com,
+ dianders@chromium.org, marilene.agarcia@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tytso@mit.edu, jack@suse.com, linux-ext4@vger.kernel.org,
+ skhan@linuxfoundation.org, abid-sayyad <sayyad.abid16@gmail.com>
+Subject: Re: [PATCH] fix member variable description warnings while building
+ docs
+In-Reply-To: <20240818112543.1089986-1-sayyad.abid16@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240818112543.1089986-1-sayyad.abid16@gmail.com>
+Date: Mon, 19 Aug 2024 10:34:09 +0300
+Message-ID: <87a5h96k5q.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,37 +75,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Aug 2024, Geert Uytterhoeven wrote:
-> JFYI, when comparing v6.11-rc4[1] to v6.11-rc3[3], the summaries are:
->  - build errors: +6/-4
+On Sun, 18 Aug 2024, abid-sayyad <sayyad.abid16@gmail.com> wrote:
+> Fix the following warnings while building the docs :-
+>
+> ./include/linux/jbd2.h:1303: warning: Function parameter or struct member
+> 		'j_transaction_overhead_buffers' not described in 'journal_s'
+> ./include/linux/jbd2.h:1303: warning: Excess struct member
+> 		'j_transaction_overhead' description in 'journal_s'
+>
+> Fix spelling error for j_transaction_overhead to j_transaction_overhead_buffers.
+>
+> ./include/drm/display/drm_dp_helper.h:127: warning: Function parameter or struct
+> 		member 'target_rr_divider' not described in 'drm_dp_as_sdp'
+>
+> Add description for the 'target_rr_divider' member.
 
-   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_clock_gettime' [-Werror=missing-prototypes]:  => 254:1
-   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_clock_gettime_stick' [-Werror=missing-prototypes]:  => 282:1
-   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_gettimeofday' [-Werror=missing-prototypes]:  => 307:1
-   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_gettimeofday_stick' [-Werror=missing-prototypes]:  => 343:1
+Please send the two separately. They are part of two completely
+different subsystems.
 
-sparc64-gcc13/sparc64-allmodconfig
-(pre-existing, but now emitted twice in this config only?)
+BR,
+Jani.
 
-   + /kisskb/src/include/linux/compiler_types.h: error: call to '__compiletime_assert_952' declared with attribute error: FIELD_GET: mask is not constant:  => 510:38
-   + /kisskb/src/include/linux/compiler_types.h: error: call to '__compiletime_assert_953' declared with attribute error: FIELD_GET: mask is not constant:  => 510:38
+>
+> Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
+> ---
+>  include/drm/display/drm_dp_helper.h | 1 +
+>  include/linux/jbd2.h                | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index ea03e1dd26ba..7f2567fa230d 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -112,6 +112,7 @@ struct drm_dp_vsc_sdp {
+>   * @target_rr: Target Refresh
+>   * @duration_incr_ms: Successive frame duration increase
+>   * @duration_decr_ms: Successive frame duration decrease
+> + * @target_rr_divider: Target refresh rate divider
+>   * @mode: Adaptive Sync Operation Mode
+>   */
+>  struct drm_dp_as_sdp {
+> diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
+> index 5157d92b6f23..17662eae408f 100644
+> --- a/include/linux/jbd2.h
+> +++ b/include/linux/jbd2.h
+> @@ -1086,7 +1086,7 @@ struct journal_s
+>  	int			j_revoke_records_per_block;
+>
+>  	/**
+> -	 * @j_transaction_overhead:
+> +	 * @j_transaction_overhead_buffers:
+>  	 *
+>  	 * Number of blocks each transaction needs for its own bookkeeping
+>  	 */
+> --
+> 2.39.2
+>
 
-powerpc-gcc5/powerpc-all{mod,yes}config
-
-In function 'decode_oa_format.isra.26',
-     inlined from 'xe_oa_set_prop_oa_format' at drivers/gpu/drm/xe/xe_oa.c:1664:6:
-drivers/gpu/drm/xe/xe_oa.c:1573:18: note: in expansion of macro 'FIELD_GET'
-   u32 bc_report = FIELD_GET(DRM_XE_OA_FORMAT_MASK_BC_REPORT, fmt);
-                   ^
-Seen before, patch available.
-
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    - Linus Torvalds
+-- 
+Jani Nikula, Intel
