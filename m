@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024C99575ED
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 22:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D2D9575F1
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 22:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B63B10E374;
-	Mon, 19 Aug 2024 20:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3652610E381;
+	Mon, 19 Aug 2024 20:57:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EH2gnvPm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="a2qMJciQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2054.outbound.protection.outlook.com [40.107.94.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A202010E372;
- Mon, 19 Aug 2024 20:57:23 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2079.outbound.protection.outlook.com [40.107.93.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD8D10E376;
+ Mon, 19 Aug 2024 20:57:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ykiZ17h/xP9u3w+PTy4si/c8v4PeL19Yz/GwAdUEuw12CphLsONMoZKncHWBXFxQyJ7Q6xx0pfP+EK2tQ20CBxxgzE3190a4X6gWWPIFP18nTR+pfR0CBuqhoo9C5dXFIkYTDEfGrzHMWWiywKB/pyLzoMl6ehNgJNEXfty36BsO0/0BlXv6+8nLB5gUV9ktBUA4nWasSMqRg4wUCmFQkK5NVnwA/C6OJO+9Q7/b+MpWOkLN8U8XECY0HQB1ee3XslDQUXtWhsD5O1BQTO9d5+TeXHzTVwnPaI5RPiS/eu0sr1iX1kxhcMiknjIks7C/CCiTjhiO1j9FMrUiAB5HsQ==
+ b=ajYp9aZFAhwhrefXSXor9LZFubXForaLXPRn3yGOu2V0SdQ8pZX62gZ/SiZ3qFpF3AC0aGj36YfNIsvjrXTnzbRm9vgADNnJPF9RBdGCK+eSAhHXxtRwowy3Q5tfWNv+70d8bqf+HqMEznXbhB8yV+RfT7LuNYmqMV/D+XQkUDePNADx96ZChYdDMNDHbGSYjxCx1EarU0oXKYL0RvjIirhKRPCL+awpEmtDLZjScK0m4EQqI0ftSitrR7vkRAYbjZ0b1iEUaW/tmVqMDQqKVj0HLdjYneNyzrs2Xhd4Vq1kr6LYJBVpN95f0qx6NfW0haHBjF6NSICJ4q8CELaUzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EdOccGs6aU9L4rPu4P4SBXWXOH+goe+i0KuW8i6Hpjc=;
- b=GUnvYNj/GHvA7b64IUf6x+567qnSuOqSlISLhkej7kvHK+Hm5OWjhyDt1ydybwnbAaheGA0Ho3UYdEssNBgm3LMkIf4QOfr+KHbzrEpLzR6BJ3xxqhTZ2AUAazFVYWZpIe6vko4NqOgrBIlpAi8Z6Y2mGEu4RqibInQjfYZUlYLvMC181W7rOcVFiMDbVXv2/ICIcvCAuwGwD1G5ODzBQDxo49vbQe8Rn+J0fogdXhbMNhLZnCBOQy4hB4b/7Wbaj05SCg2RBOLI7rDwXQZV5G8yY06UunBEiyxxHl8cVpPEupvE3EzWy5srLg9xhMaqvP6nam0cPTbItiVbCrDUog==
+ bh=qAUtF+kv0gHf8MZXsDyua0YqvpF509d2f6+DRqvrA54=;
+ b=O5y1pcPjFmQDjTZVzbAcJpma7EEBDWQJELbQAI5+idCdUzdmokhlLJOOW3vsEO300o1eW9T1/lZokurl41CT7DUoKP9E4r5Jn8tSi3iIWq7NSaaAl+drcPGSJF3TO2PXgpi8g3KU3bDfl6rV5OL0BR4H11RP49FJtGk62fENmmZRQ4SX6rRyAeFFt/ESh0p4FcdRyPcbaUzxwOCap+0Etfc8cN5FxdYQDLvLeDRcom1SC1adn7D8uqlMC017tXRg/8yptUTLuF3aPUipIKInXikhlI9rt+0Jyj5UsH5BRedknC1ar/YCzcAsljJz4Qe36fK+DzkHJCPp9Msszn647A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EdOccGs6aU9L4rPu4P4SBXWXOH+goe+i0KuW8i6Hpjc=;
- b=EH2gnvPmVMcHzwFl0EP3Q003mE7G4sXBrw87mZVi1Y8fKwOu7ENmhgQ4tHyVoboZZrvMJVwO1yjhXrdK2faO9CTLyAEs4sFu7VohMqRD98QXwHF1zFf/XurtND6Hvrk6gF52/T7oDXx030THsQTHj7EE9nwGfyOOal7eG8Qrasc=
-Received: from MN2PR17CA0022.namprd17.prod.outlook.com (2603:10b6:208:15e::35)
- by LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ bh=qAUtF+kv0gHf8MZXsDyua0YqvpF509d2f6+DRqvrA54=;
+ b=a2qMJciQtpYQS3lng/+r90XpQ5E2/p/J35x2TR2wU6yTBv+pieRVSHvNkITgdh2rud3XSkGPPmZnj+fgbwhGGXqiro36ininfbfSE+hbFV2vAsg/8/8s8dV8v587hasKM19net8CGZoYsAnu6Kat9mkTmPA33ooNTBx0TlOknfY=
+Received: from MN2PR17CA0018.namprd17.prod.outlook.com (2603:10b6:208:15e::31)
+ by IA0PR12MB7773.namprd12.prod.outlook.com (2603:10b6:208:431::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Mon, 19 Aug
- 2024 20:57:20 +0000
+ 2024 20:57:21 +0000
 Received: from MN1PEPF0000ECD9.namprd02.prod.outlook.com
- (2603:10b6:208:15e:cafe::d5) by MN2PR17CA0022.outlook.office365.com
- (2603:10b6:208:15e::35) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:208:15e:cafe::32) by MN2PR17CA0018.outlook.office365.com
+ (2603:10b6:208:15e::31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21 via Frontend
  Transport; Mon, 19 Aug 2024 20:57:20 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -57,14 +57,14 @@ Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
  2024 15:57:19 -0500
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 19 Aug 2024 15:57:18 -0500
+ Transport; Mon, 19 Aug 2024 15:57:19 -0500
 From: Harry Wentland <harry.wentland@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, Harry Wentland
  <harry.wentland@amd.com>
-Subject: [PATCH v5 01/44] drm: Add helper for conversion from signed-magnitude
-Date: Mon, 19 Aug 2024 16:56:28 -0400
-Message-ID: <20240819205714.316380-2-harry.wentland@amd.com>
+Subject: [PATCH v5 02/44] drm/vkms: Round fixp2int conversion in lerp_u16
+Date: Mon, 19 Aug 2024 16:56:29 -0400
+Message-ID: <20240819205714.316380-3-harry.wentland@amd.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240819205714.316380-1-harry.wentland@amd.com>
 References: <20240819205714.316380-1-harry.wentland@amd.com>
@@ -75,51 +75,51 @@ Received-SPF: None (SATLEXMB03.amd.com: harry.wentland@amd.com does not
  designate permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|LV2PR12MB5869:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56a63ede-c451-4ced-f3cb-08dcc0918482
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|IA0PR12MB7773:EE_
+X-MS-Office365-Filtering-Correlation-Id: e39e04af-e284-4aaa-2c2c-08dcc09184bc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|82310400026|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?4owasCf7iFzGQ+8rNCm3vV7q+Oo/upH5F8vH50HHO5iQRLw2BJiuG4F8iNIZ?=
- =?us-ascii?Q?gGk5u+Pod/rufN1LPgaVgAPl1Gy+WtS2bi33ZzKbVO/IWQgvGJTH0ffajLoM?=
- =?us-ascii?Q?6uL7WfWFaoRuGCBIYEpn6tucrrM7uj0hTHSrsazhgmXNT/6pUii7EvoqBBRJ?=
- =?us-ascii?Q?V3th3v1Vyvr3yZmMxidTNK8vl0GygbUN6LPv7/2q9sW+bpAi8MOjseQXN3ly?=
- =?us-ascii?Q?AC6ewcpQ3ac7hBQ3S2gS6CoeJgYf6yZ/Mt2PKNr4JRycjKtgzcsiHVkVNz+S?=
- =?us-ascii?Q?vPgA4HLp5ShraKYG7LwC1FW5iwaF8ruta6MDR9MSD+2guJyaPG/Ur7kT2ilm?=
- =?us-ascii?Q?Nd2/79T2KWOeeAQ4z6/k5AMAiF8hTK92iqRho8cQxp2cOWaaliGMCxQ4euXp?=
- =?us-ascii?Q?rZgHm4YrGX5pzWPpH4JmqurHyXKwz6mKQkPt4OOqEn1ePgvi66rAjRkZ0yi8?=
- =?us-ascii?Q?GxSk+uR5fFmLOUyCnyUeJ6JWLz2RAsSiZTWNU/5NgC7ESkg+ZZ64FK7bAwsb?=
- =?us-ascii?Q?nrO892fDH+AA6PnOJ4pKa33XMOM0QOhc+sgMfkk2zIsA3p5f6c63+TtxUqa9?=
- =?us-ascii?Q?e48AwhLNqoqoh+NFNT/3vO1y3REh5VQSWybi+20RB8BH5ugQGkYcINm3KBPM?=
- =?us-ascii?Q?ZMEUUuGCWHxiFd7Cnzm4gxy9m/u0B6AABBeiOhg1VGGlvFtnwDlrpK5ule7R?=
- =?us-ascii?Q?BMi7rN8s4AMnZqTF82adC/uUo/sZI/JXGVPXwsFX405A+OaYTY1AzeUIlNDa?=
- =?us-ascii?Q?AkyXE3UCMsXd/4dpRBeRHfX7s9oK0dNK55CyKJ89NX8V0jaZY1KklaQhatoZ?=
- =?us-ascii?Q?R4Mp2ep6JLOZzC0BwTGyLC1eu6A+9TgdoMVsW6iKJNKbDreeki5c9xJ98i40?=
- =?us-ascii?Q?wVkbGGXgnGaDgkpSiQwWEWKTrK7wRFknW8NjJDBeedgBZv60ABvoHdEOuPKb?=
- =?us-ascii?Q?KEdyO9h2Haz0kTDsB1nElALObg5/HzAsqBj9K32vh/sLoY0oZEX4JLmvM3qz?=
- =?us-ascii?Q?OdHUrrXJocQhlymP62CXe9cD7NgUhfCgNAULAAmJbMKShHvnaX3G6Xn61Gkc?=
- =?us-ascii?Q?8s7BzlMPFEWMAgKzB5GoOVQYJUfeCj2cC5uGnC3psaWSmP+983Ny2eRgaoXi?=
- =?us-ascii?Q?Bz/CcxM1LbDa75Ur7fJDs/fKqvBeoV+dWH36kYKnagWdKdq7Q73qrE4ctKCv?=
- =?us-ascii?Q?37vqa6J8bkl+THxjBLJFykg6NGAlMS87VzsA9dgL+tGUSJ+ELX1VCl0phGgW?=
- =?us-ascii?Q?lByjKtv4dEX46nrPat8dssoI/VpXk77h0XndFYzugvMmvOuyyyDn9wHie23C?=
- =?us-ascii?Q?kf1D/rGhulxkdVV0TrcThDu4qeyyRhcF/BqlyjvN8uoDvDjeHAym0lQLzSjA?=
- =?us-ascii?Q?S5k9Hr1PHq5R0h4m+XnauiojFsDz6P9PSjUCRaLPLLApW1BMKZnWnZhZQ75L?=
- =?us-ascii?Q?9T4l4YQ8FMcB5jCEbZ3vnAZP+4FrHGjr?=
+ ARA:13230040|82310400026|376014|36860700013|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?urr8FWvxMieQwXWnalwk1PkdfA5oOgQjz+Rs6WeDtpr/Wx2fePoTptgNj5yi?=
+ =?us-ascii?Q?R9Ze8Nt8M10GcUuQFg+Tnzi45Q5oz5dE1tm4KBdWfZ4McUehd2q9X0Bxvf9X?=
+ =?us-ascii?Q?z4JrZCqQ0U+sObsWi1OJari8ViDO23ewslYHJz+BpJyfUBmvffVHcPzHrWSb?=
+ =?us-ascii?Q?sW6XYRX89POtmWSfqGl324HDP/RJHORTPFt3PBtHYSJnD2+OJqWCJqN11R0b?=
+ =?us-ascii?Q?zM7q1lN8+qodBocjLduNaaPxwkaJNw6Hy/CTK2fnZoBLxO9kHukcwNoAdxKo?=
+ =?us-ascii?Q?noYBEdwDDxGvLtLB4WhIMalIyXR+TuVMbfIWszxihfEPEcdF6B0GUTcFKni7?=
+ =?us-ascii?Q?cXKW5OO5XJlx3I6DsvLHMZX+HBZsUJbICwhkoe5We3E4vNMzlNKeF2CV4wrn?=
+ =?us-ascii?Q?YCcGK0KC3VoLN3trLvzlx1L6m3/gNKJAfb+b8C9C6RArDK0I/XRnCc0HL7Ct?=
+ =?us-ascii?Q?r9JYzvDdGpzqyQDnGzO0HjLVlde8JUMEs85Jg5UQjMhhJ9Sru452p6x+iWCu?=
+ =?us-ascii?Q?kCOhGBXn3xgJzQfi5pVjpgBNqK4XGNg8EqI4/b6ID87+FWtPn6ilK1ulvxZm?=
+ =?us-ascii?Q?q+0p8wUII7nnW6+HZedUyl5wdoGS+uVWxZLIBeLVaPQDh3bEGdcun1xME2Xc?=
+ =?us-ascii?Q?/B5xMYErsxo4kRJW5ZPjR+Gs86YaOL6LgqsE7xYITErMqtLSnHTQFD20JXci?=
+ =?us-ascii?Q?5pt5VlDrrm5PTxewBhGbNhlYG6dFWOJAgPqIPdBG6HLwJIK4tQODmYASUxfk?=
+ =?us-ascii?Q?QGrqT84iswPZFcv1aMxLqd0VaAuHEuCp5QlJbTZ7fjLV51GSYYJ5PHu8P8I+?=
+ =?us-ascii?Q?7G17ymg21raFVzSDB16CwR3BS4BdV4cP8iWh9lV/pMrnC3QK0AXon9ztAbZC?=
+ =?us-ascii?Q?ZpOR+r1UNZZqvIXuXEgtHeTLlVBaNrfynQd1waFhETQFGQI0l50QrbHO6vaJ?=
+ =?us-ascii?Q?NyMa8P5STQhrGaHDKYNT+3YfCNy5VrkZUbHU9E0qvOzRi1uYyNdDIlcKSPPM?=
+ =?us-ascii?Q?1lBdKmciJvipDLl7/uQfVtbumlw4Zqpa4wPdYy6tFIeazBopryBgSHXr0JPr?=
+ =?us-ascii?Q?8WVFvL7YgoWm/VIn2xhQLlv08LygdU3Q3FBjyEu2KQ2g23LeK+U8Yv8XzuA2?=
+ =?us-ascii?Q?JM1XEtYGryvKiUQ8w/1/VB86x90QQW7e7OcImffAtfVbxvbfxhmyM6PzzioX?=
+ =?us-ascii?Q?gz7kZfRSN8Qhud7GkCS5XCEXen/WlDPWJk2OZO8t+AodVqJCmBDEk50iviR1?=
+ =?us-ascii?Q?pMT0dgA6tsgUhgmyzDU61frVLmilWA5ikpyp6FBxqpjsr/xDCRPswNP4qpug?=
+ =?us-ascii?Q?CBu0TYVL5Ndo02sC6e7QO5fAJf1TgbqMKpYq/uAZgz4s58mRauBgiqHwKHKN?=
+ =?us-ascii?Q?ot+QalFMQl5hAj7VmkjXxXO1L+3FUIK+lO1CGjyjV2P+1gFNrJgZBHirVex/?=
+ =?us-ascii?Q?ODm/4irq13LKUbqcl3MoidPKGqR5qFpa?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024); DIR:OUT;
+ SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 20:57:20.4952 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56a63ede-c451-4ced-f3cb-08dcc0918482
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 20:57:20.8858 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e39e04af-e284-4aaa-2c2c-08dcc09184bc
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECD9.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5869
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7773
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,45 +135,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CTM values are defined as signed-magnitude values. Add
-a helper that converts from CTM signed-magnitude fixed
-point value to the twos-complement value used by
-drm_fixed.
+fixp2int always rounds down, fixp2int_ceil rounds up. We need
+the new fixp2int_round.
 
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 ---
- include/drm/drm_fixed.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/vkms/vkms_composer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-index ef8bc8d72039..793768c1e776 100644
---- a/include/drm/drm_fixed.h
-+++ b/include/drm/drm_fixed.h
-@@ -77,6 +77,24 @@ static inline u32 dfixed_div(fixed20_12 A, fixed20_12 B)
- #define DRM_FIXED_EPSILON	1LL
- #define DRM_FIXED_ALMOST_ONE	(DRM_FIXED_ONE - DRM_FIXED_EPSILON)
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index e7441b227b3c..3d6785d081f2 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -98,7 +98,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
  
-+/**
-+ * @drm_sm2fixp
-+ *
-+ * Convert a 1.31.32 signed-magnitude fixed point to 32.32
-+ * 2s-complement fixed point
-+ *
-+ * @return s64 2s-complement fixed point
-+ */
-+static inline s64 drm_sm2fixp(__u64 a)
-+{
-+	if ((a & (1LL << 63))) {
-+		return -(a & 0x7fffffffffffffffll);
-+	} else {
-+		return a;
-+	}
-+
-+}
-+
- static inline s64 drm_int2fixp(int a)
- {
- 	return ((s64)a) << DRM_FIXED_POINT;
+ 	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
+ 
+-	return drm_fixp2int(a_fp + delta);
++	return drm_fixp2int_round(a_fp + delta);
+ }
+ 
+ static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
 -- 
 2.46.0
 
