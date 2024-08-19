@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41779576D2
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 23:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 759AF9576D5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 23:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA8410E02C;
-	Mon, 19 Aug 2024 21:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC03810E056;
+	Mon, 19 Aug 2024 21:50:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="alaeRfbI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kR+y5v4Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
- [209.85.210.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D416A10E02C
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 21:50:17 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id
- 46e09a7af769-70936061d0dso2963327a34.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 14:50:17 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A32F010E056
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 21:50:32 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-44ff7cc5432so37397721cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 14:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724104217; x=1724709017; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZsX0vPn3VODiXEEmMvN5E790VYxq/T9uwkFRTYpicVI=;
- b=alaeRfbIzVHYaSYRD+GdOui7Wal1w38ECaPiUP0w6QN0rznaFVqfRApYDUPUBdIwPV
- S9ObPO30YlwJmmw++A++/Y0qnMXu87Cj/hpbfhjAZUnEY/dO6siXbyxiNLlAlM5wlZJa
- Xm8A6J0LH2HTLqBVeeosTIhU/r0FNF14gECxGmvERSko3ZRLzXCiJEju4+w+CXp8isju
- OgXBaOk5/UKaDZ6tJUhp8DUXqvAmqH6lqeonrjqPzZ46fcgvV/BpkzAPkUV9RmGtu2Zx
- MosCbKibjKWAgScekwMi1mb/TN3Y5ugKFGiVcORqn4M7HQAabtyzcZsXCIMoqRu4YDmm
- SLJw==
+ d=gmail.com; s=20230601; t=1724104231; x=1724709031; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6TlDE69PdaRI6NEvJJ9HZjIBwXM2vSCyzFfsf9EOO6M=;
+ b=kR+y5v4Y4JfFs2IVVdO1BchTyTouFclYWi34YrPUmRgA25gQut1mXW2bTPpxfPPA0j
+ ubf+idOdHZxj37jE+0+BkiEvPCqfnCmbi2NztZed5QQJcyJrlPp9/KLWwwX6kNfyfWEp
+ pniHujk20V7OYL3CnhK0p8eSvstd0fEqp5+a6t7DA3lzfn/h2l0cR2k2I4iBEwQN3I3T
+ +Hm6I6GelhANU0jR0+kwEXXq4SYIcvBP2uT/ltF8noJVMJApUYxx62S2wTDKw6bEwB8G
+ g1af4/zj0AoVMWFpxikk96q4E7KplDZ+4H29sgrD7WwlVVu1JfUmgon/gUGY9JqLERnz
+ sGUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724104217; x=1724709017;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZsX0vPn3VODiXEEmMvN5E790VYxq/T9uwkFRTYpicVI=;
- b=OtWsPdEIQRvUOqiUtvpcFpr50g2aRz0l0DYkVoSJ3GCzPTSxYtPzXH8PSwSA/2GNiV
- P/fnMqQrrjEAnaRP9sESELP+p9izUEP+V+PwHnmZ22FU3/369HUjowe1suNAEnDSLziG
- qpVavqIo8LmseqT4mLguH6zVwgPcBbjquMt3U5pmMM4KidUZFKuqgvlXgOM08KY7o8JA
- eyJSLzEuOhmNSQ8Cr+0zmWVveF1/uphiEs61GJYfZxaDyGxD6jjJxzyAqySYSed/MdkH
- iVEBya1P0tLOGdtQgiFeKGQbCsqceVFuqfhQn+cq1vUzmXza48eBQPCcdjdIcuaneFk6
- 75mA==
+ d=1e100.net; s=20230601; t=1724104231; x=1724709031;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6TlDE69PdaRI6NEvJJ9HZjIBwXM2vSCyzFfsf9EOO6M=;
+ b=rVSDHQpaEUi1JaQHfSO/9XY1vDVxXc8iRJ8iwFuhN/q36il1GGB6Gp8eEsCcbFgVOW
+ Ju+XEFKy8a/hb+ijqLfHw0dpmivjT51MmgYVeUD4XzOB3RVug2f9nFPg88bniIFB9SPZ
+ lc549+1WRbC4dVshEuxWQWbQWWTtMPfF4JCqXVkw+5P8X6LoJrF+/pUTjyjanHHClsTM
+ UL9X2DhJvq2eBjAfeG6c5ymsHFWnQJ6LQAtk3NyzpyOQOaup4S9dwSLDXdS+9B6lc/Yt
+ TIE64GZQjLRO1eXlHyXUl+J5ai7jpFjRrsx+xZAaQ1TIOW1sRpxf5q7iayDduadnl1/Y
+ aKWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUlCA3VnC0wCb4KFBSFKIGFPh+pN0Z5ysMk4SvTDU7WHUM6V8ZkhanJ9IQp354d2iR09YdFPJW5CLM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yycn8/2oLFIQqASdLXlq6HpSEgYGKZgLqmB0+RrKMZ7OsKqYweR
- 7fBI9UKQic2bq3yXIWYf1WmQi46FSmMXEVPUrPxiGyA1G+t9CCf+
-X-Google-Smtp-Source: AGHT+IF8lRfjvuUw72IwxAv1oLnDVPpLNWK7tjRn9lxxCoLd1VPxtPvwrsyGtsANNHGHJ39LlnYTOA==
-X-Received: by 2002:a05:6830:43aa:b0:703:68d0:a267 with SMTP id
- 46e09a7af769-70cac82e9d6mr10568079a34.3.1724104216717; 
- Mon, 19 Aug 2024 14:50:16 -0700 (PDT)
+ AJvYcCUkdBOLQufjU8Xx/c0Aer6BoUTUmoA5tIQ8sINK4WhX0PNR7yZHmH6J4XmSlmrzu+b2UkPOKnv7fhI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyjg7qJ89uLxH8RK8m45jiwghyK1ujTg2Kubp+UNP8qswqoz3QV
+ wl2rNyNfnZWGRLlzAbl+DtFTUHkMtCB/ii2Xv6YahtTxBMZTQogK
+X-Google-Smtp-Source: AGHT+IF6hQkzKGEVguizB2ir6vco/5XQNO5iNu2WFO0gqnzobzfo2UQ+E8rKz1lTljZcmKX1+FvUzg==
+X-Received: by 2002:a05:622a:2b44:b0:447:ef39:7188 with SMTP id
+ d75a77b69052e-45374247650mr159918511cf.15.1724104231325; 
+ Mon, 19 Aug 2024 14:50:31 -0700 (PDT)
 Received: from localhost.localdomain (23.sub-174-193-28.myvzw.com.
  [174.193.28.23]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-454e5b2b0dfsm2432741cf.53.2024.08.19.14.50.09
+ d75a77b69052e-454e5b2b0dfsm2432741cf.53.2024.08.19.14.50.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2024 14:50:16 -0700 (PDT)
+ Mon, 19 Aug 2024 14:50:30 -0700 (PDT)
 From: Alex Lanzano <lanzano.alex@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -63,12 +64,17 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: christophe.jaillet@wanadoo.fr, Alex Lanzano <lanzano.alex@gmail.com>,
- Mehdi Djait <mehdi.djait@bootlin.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH v4 0/2] Add driver for Sharp Memory LCD
-Date: Mon, 19 Aug 2024 17:48:59 -0400
-Message-ID: <20240819214943.1610691-1-lanzano.alex@gmail.com>
+ Mehdi Djait <mehdi.djait@bootlin.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v4 1/2] dt-bindings: display: Add Sharp Memory LCD
+ bindings
+Date: Mon, 19 Aug 2024 17:49:00 -0400
+Message-ID: <20240819214943.1610691-2-lanzano.alex@gmail.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240819214943.1610691-1-lanzano.alex@gmail.com>
+References: <20240819214943.1610691-1-lanzano.alex@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,51 +92,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series add support for the monochrome Sharp Memory LCD
-panels. This series is based off of the work done by Mehdi Djait.
-
-References:
-https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
-https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
+Add device tree bindings for the monochrome Sharp Memory LCD
 
 Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
 Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
 Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Changes in v4:
-- Remove redundant dev_err
-
-Changes in v3:
-- Fix file path in MAINTAINERS file
-- Address review comments
-- Simplify mode selection based on match data instead of model
-
-Changes in v2:
-- Credited Mehdi Djait in commit messages
-- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
-- Using strings instead of int for vcom-mode in dt-binding
-- Fixed indentation of binding example
-- Removed binding header
-- Removed extra whitespace in sharp-memory.c
-- Fixed error handling in sharp-memory.c
-- Added match data to of_device_id table to be in-sync with spi_device_id table
-- Replaced redundant function with spi_get_device_match_data
-- Sorted header files in sharp-memory.c
----
-
-Alex Lanzano (2):
-  dt-bindings: display: Add Sharp Memory LCD bindings
-  drm/tiny: Add driver for Sharp Memory LCD
-
- .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/tiny/Kconfig                  |  20 +
- drivers/gpu/drm/tiny/Makefile                 |   1 +
- drivers/gpu/drm/tiny/sharp-memory.c           | 682 ++++++++++++++++++
- 5 files changed, 801 insertions(+)
+ .../bindings/display/sharp,ls010b7dh04.yaml   | 92 +++++++++++++++++++
+ 1 file changed, 92 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
- create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
 
+diff --git a/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml b/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+new file mode 100644
+index 000000000000..8097f091c2a5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+@@ -0,0 +1,92 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sharp,ls010b7dh04.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sharp Memory LCD panels
++
++maintainers:
++  - Alex Lanzano <lanzano.alex@gmail.com>
++
++description:
++  Sharp Memory LCDs are a series of monochrome displays that operate over
++  a SPI bus. The displays require a signal (VCOM) to be generated to prevent
++  DC bias build up resulting in pixels being unable to change. Three modes
++  can be used to provide the VCOM signal ("software", "external", "pwm").
++
++properties:
++  compatible:
++    enum:
++      - sharp,ls010b7dh04
++      - sharp,ls011b7dh03
++      - sharp,ls012b7dd01
++      - sharp,ls013b7dh03
++      - sharp,ls013b7dh05
++      - sharp,ls018b7dh02
++      - sharp,ls027b7dh01
++      - sharp,ls027b7dh01a
++      - sharp,ls032b7dd02
++      - sharp,ls044q7dh01
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 2000000
++
++  sharp,vcom-mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: |
++      software - This mode relies on a software operation to send a
++      "maintain display" message to the display, toggling the vcom
++      bit on and off with each message
++
++      external - This mode relies on an external clock to generate
++      the signal on the EXTCOMM pin
++
++      pwm - This mode relies on a pwm device to generate the signal
++      on the EXTCOMM pin
++
++    enum: [software, external, pwm]
++
++  enable-gpios: true
++
++  pwms:
++    maxItems: 1
++    description: External VCOM signal
++
++required:
++  - compatible
++  - reg
++  - sharp,vcom-mode
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++  - if:
++      properties:
++        sharp,vcom-mode:
++          const: pwm
++    then:
++      required:
++        - pwms
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "sharp,ls013b7dh03";
++            reg = <0>;
++            spi-cs-high;
++            spi-max-frequency = <1000000>;
++            sharp,vcom-mode = "software";
++        };
++    };
++...
 -- 
 2.45.2
 
