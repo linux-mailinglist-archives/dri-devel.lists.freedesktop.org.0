@@ -2,77 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0818D956E3A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD714956E5B
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:14:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1F710E2B6;
-	Mon, 19 Aug 2024 15:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEEF10E2BA;
+	Mon, 19 Aug 2024 15:14:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f92iy1zC";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ByLZoEiy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hAWdifuD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ByLZoEiy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hAWdifuD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A409810E2B6
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 15:07:40 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-42817bee9e8so34380525e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 08:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724080059; x=1724684859; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VDuEF/M0sRtn0Nnhbuwdy99rZg4XrOo8Jz9M322w1Qk=;
- b=f92iy1zCsrcJC4XMkvnjL3AMy3TSvUcWUvPQOX0HvGmP+8qyUW9gXAAYNu7dFXx8HC
- V8aHcqxv0VeMb8V7axuYn8/boG4dkzmivJrFVvIbU4Dbu9bCBHH3SNy5usz3236x7KdD
- IQD+xUXqqetEfmARPuJ2zpUXBifJJUu2QgoshmTdEKbV9j56oHjQITMuhwkSDNBVkzK8
- EiVhRnXfMK37i4ql517rjzzcm5nSXg9/Qwp3KPi5k1GqHMg1n1skIDWykbgrUFnM6Ofu
- VBu5K8WI8quLy8MPDRIOJIpeilx7EwTu8dSakgiZy+jwD+ts1Ms3S7LHQteTOa+rB84d
- 1XTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724080059; x=1724684859;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VDuEF/M0sRtn0Nnhbuwdy99rZg4XrOo8Jz9M322w1Qk=;
- b=Ti1GZCf983zfm/pDjwwoeUxEfjNAI0kC/qV7qSPscdKmQdW00CC5Dt5qPFy8ZISoyj
- QHIpDBw8lm4y8C+8wpR0u7Ac3R1PNoB8wp9HFjtP7FmOVaPd4G8OVljkcPZemiw75uA/
- YShfFBlK3Ls/470m71FWlUM5Yzu6uOS12YsSEpjVUEiM6rVCm6LFJPTJ9JE35Y15XbVo
- aDIPEITo/rdLdBO7FzBtp7ObbtbjoAXjce45+Nb2e/lWEiV/sDbCtSPwrKbPjK4C4lZV
- crwSf+F/j1/ORM5eLf2o1gRaY2si/bBKKPz9aNCEDbbPKCkDqXpaj/eo5a3wzXNartQh
- 69jA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV64Y6yfppUBCECM6h2m6E2EEd5+kiq07beC9RbeNZN//bkBHgTk0aTPvYvtMK3t7XaVdRn9lN2n6LuR9RPGaiJlil9073QhBWtvf28p2ca
-X-Gm-Message-State: AOJu0YxECS7dByNC6EldHAHuO9sK3umb7M94cgvLnzXdQeujqWaUDP5w
- xYukSM7WirhvLhJxvJqRRHB9rWHU3Eo+flUpv+eushMSO3gAoniM
-X-Google-Smtp-Source: AGHT+IFzlOpU+prBYB9wMf99ByrRAx9YP54K/H6BHsBiTC+SMhLeA4EqzVFDwZ4PXZgX5PUy3M195g==
-X-Received: by 2002:a05:600c:4688:b0:429:a05:32fb with SMTP id
- 5b1f17b1804b1-429ed79dc4dmr79399085e9.10.1724080058498; 
- Mon, 19 Aug 2024 08:07:38 -0700 (PDT)
-Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429ded287d0sm168635185e9.12.2024.08.19.08.07.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2024 08:07:37 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: louis.chauvet@bootlin.com
-Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- jeremie.dautheribes@bootlin.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- marcheu@google.com, melissa.srw@gmail.com, miquel.raynal@bootlin.com,
- mripard@kernel.org, nicolejadeyee@google.com,
- rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
- thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: [PATCH 3/3] drm/vkms: Add documentation
-Date: Mon, 19 Aug 2024 17:07:36 +0200
-Message-ID: <20240819150736.16839-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240814-google-clarifications-v1-3-3ee76d7d0c28@bootlin.com>
-References: <20240814-google-clarifications-v1-3-3ee76d7d0c28@bootlin.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBBF10E0B0;
+ Mon, 19 Aug 2024 15:14:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1A35421ED1;
+ Mon, 19 Aug 2024 15:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724080472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
+ b=ByLZoEiy9Zqj+jusKjzCUjM7CcDAKJBRZu2gS4Q+90/sKidXcuCiDGJ9wAHdEeNTvV++jh
+ B6/edI/CckS/W//pt9jb59hKsw2gpT00IzktxRdRK+2QXD17EONvkKvVpGm+/AOiE9Yecm
+ YJVNAw47PArUw+MPOc8seAVeij+858c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724080472;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
+ b=hAWdifuDBGPUaH3YtbZGWx9R4dOwNQKB/UfM2bmwmF2uPZmQlY6SBeNuAV2XxiQLlGKsGv
+ WQoG4adn61E4ywCQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ByLZoEiy;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hAWdifuD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724080472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
+ b=ByLZoEiy9Zqj+jusKjzCUjM7CcDAKJBRZu2gS4Q+90/sKidXcuCiDGJ9wAHdEeNTvV++jh
+ B6/edI/CckS/W//pt9jb59hKsw2gpT00IzktxRdRK+2QXD17EONvkKvVpGm+/AOiE9Yecm
+ YJVNAw47PArUw+MPOc8seAVeij+858c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724080472;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
+ b=hAWdifuDBGPUaH3YtbZGWx9R4dOwNQKB/UfM2bmwmF2uPZmQlY6SBeNuAV2XxiQLlGKsGv
+ WQoG4adn61E4ywCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDDAF137C3;
+ Mon, 19 Aug 2024 15:14:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 3ZwZLVdhw2Z3GQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Aug 2024 15:14:31 +0000
+Message-ID: <3fdacb13-6b91-4266-9fa5-8a14f46527b5@suse.de>
+Date: Mon, 19 Aug 2024 17:14:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] video/aperture: match the pci device when calling
+ sysfb_disable()
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: kernel test robot <lkp@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ stable@vger.kernel.org
+References: <20240809150327.2485848-1-alexander.deucher@amd.com>
+ <202408101951.tXyqYOzv-lkp@intel.com>
+ <1c77f913-4707-4300-b84a-36fcf99942f4@suse.de>
+ <CADnq5_NjCFyy+bQY+uyijcZwvwXYkvVLLUQdtzN_ODvHAj193Q@mail.gmail.com>
+ <8bbf3f92-3719-4ff4-9587-e076635758d1@suse.de>
+Content-Language: en-US
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8bbf3f92-3719-4ff4-9587-e076635758d1@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 1A35421ED1
+X-Spam-Score: -6.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_TO(0.00)[gmail.com];
+ RCPT_COUNT_TWELVE(0.00)[12]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ MID_RHS_MATCH_FROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[intel.com,amd.com,lists.freedesktop.org,lists.linux.dev,redhat.com,gmx.de,ravnborg.org,ffwll.ch,vger.kernel.org];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,git-scm.com:url,01.org:url];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,266 +159,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
 
-Thanks for this patch, adding some minor review comments:
 
-> Add documentation around vkms_output and its initialization.
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.h    | 81 ++++++++++++++++++++++++++++++++------
->  drivers/gpu/drm/vkms/vkms_output.c | 12 +++++-
->  2 files changed, 80 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 3028678e4f9b..8f6c9e67e671 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -147,29 +147,51 @@ struct vkms_color_lut {
->  };
->  
->  /**
-> - * vkms_crtc_state - Driver specific CRTC state
-> + * struct vkms_crtc_state - Driver specific CRTC state
+Am 19.08.24 um 10:04 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 16.08.24 um 22:57 schrieb Alex Deucher:
+>> On Mon, Aug 12, 2024 at 8:10 AM Thomas Zimmermann 
+>> <tzimmermann@suse.de> wrote:
+>>> Hi
+>>>
+>>> Am 10.08.24 um 13:44 schrieb kernel test robot:
+>>>> Hi Alex,
+>>>>
+>>>> kernel test robot noticed the following build errors:
+>>>>
+>>>> [auto build test ERROR on drm-misc/drm-misc-next]
+>>>> [also build test ERROR on linus/master v6.11-rc2 next-20240809]
+>>>> [If your patch is applied to the wrong git tree, kindly drop us a 
+>>>> note.
+>>>> And when submitting patch, we suggest to use '--base' as documented in
+>>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>>
+>>>> url: 
+>>>> https://github.com/intel-lab-lkp/linux/commits/Alex-Deucher/video-aperture-match-the-pci-device-when-calling-sysfb_disable/20240810-021357
+>>>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+>>>> patch link: 
+>>>> https://lore.kernel.org/r/20240809150327.2485848-1-alexander.deucher%40amd.com
+>>>> patch subject: [PATCH] video/aperture: match the pci device when 
+>>>> calling sysfb_disable()
+>>>> config: csky-randconfig-001-20240810 
+>>>> (https://download.01.org/0day-ci/archive/20240810/202408101951.tXyqYOzv-lkp@intel.com/config)
+>>>> compiler: csky-linux-gcc (GCC) 14.1.0
+>>>> reproduce (this is a W=1 build): 
+>>>> (https://download.01.org/0day-ci/archive/20240810/202408101951.tXyqYOzv-lkp@intel.com/reproduce)
+>>>>
+>>>> If you fix the issue in a separate patch/commit (i.e. not just a 
+>>>> new version of
+>>>> the same patch/commit), kindly add following tags
+>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>> | Closes: 
+>>>> https://lore.kernel.org/oe-kbuild-all/202408101951.tXyqYOzv-lkp@intel.com/
+>>>>
+>>>> All errors (new ones prefixed by >>):
+>>>>
+>>>>      csky-linux-ld: drivers/video/aperture.o: in function 
+>>>> `aperture_remove_conflicting_pci_devices':
+>>>>>> aperture.c:(.text+0x222): undefined reference to 
+>>>>>> `screen_info_pci_dev'
+>>> Strange. There's a already placeholder [1] for architectures without
+>>> PCI. Otherwise the source file is listed at [2].
+>> So I dug into this, and the problem seems to be that
+>> CONFIG_SCREEN_INFO is not defined in that config.  I can't figure out
+>> how this should work in that case or why this is not a problem in
+>> drivers/firmware/sysfb.c.
+>>
+>> Something like this works:
+>> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+>> index 56a5a0bc2b1af..50e98210c9fe5 100644
+>> --- a/drivers/video/aperture.c
+>> +++ b/drivers/video/aperture.c
+>> @@ -347,7 +347,9 @@ EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
+>>    */
+>>   int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev,
+>> const char *name)
+>>   {
+>> +#if defined(CONFIG_SCREEN_INFO)
+>>          struct screen_info *si = &screen_info;
+>> +#endif
+>>          bool primary = false;
+>>          resource_size_t base, size;
+>>          int bar, ret = 0;
+>> @@ -355,8 +357,10 @@ int
+>> aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
+>> char *na
+>>          if (pdev == vga_default_device())
+>>                  primary = true;
+>>
+>> +#if defined(CONFIG_SCREEN_INFO)
+>>          if (pdev == screen_info_pci_dev(si))
+>>                  sysfb_disable();
+>> +#endif
+>>
+>>          for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+>>                  if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+>>
+>> But that can't be the right fix...  Any ideas?
+>
+> Thanks for investigating. I'd say we should pass the device 
+> (pdev->dev) to sysfb_disable() and  do the test there. In sysfb.c, 
+> next to sysfb_disable(), you'll find sysfb_parent_dev(), which gives 
+> the Linux device of the screen_info.
+>
+> The code then looks something like this:
+>
+> sysfb_disable(struct device *dev)
+> {
+>     if (dev && dev == sysfb_parent_dev(screen_info))
 
-Not in this line, but around line 55, the documentation for vkms_plane_state
-is missing the "struct" keyword:
+s/==/!=
 
-- * vkms_plane_state - Driver specific plane state
-+ * struct vkms_plane_state - Driver specific plane state
+> return
+>
+>   /* else do the current code */
+> }
+>
+> there's an invocation of sysfb_disable() in drivers/of/platform.c 
+> where you can pass NULL.
+>
+> Best regards
+> Thomas
+>
+>>
+>> Alex
+>>
+>>> [1]
+>>> https://elixir.bootlin.com/linux/v6.10/source/include/linux/screen_info.h#L127 
+>>>
+>>> [2] 
+>>> https://elixir.bootlin.com/linux/v6.10/source/drivers/video/Makefile#L11 
+>>>
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>>>      csky-linux-ld: drivers/video/aperture.o: in function 
+>>>> `devm_aperture_acquire_release':
+>>>>>> aperture.c:(.text+0x2c0): undefined reference to `screen_info'
+>>>>>> csky-linux-ld: aperture.c:(.text+0x2c4): undefined reference to 
+>>>>>> `screen_info_pci_dev'
+>>> -- 
+>>> -- 
+>>> Thomas Zimmermann
+>>> Graphics Driver Developer
+>>> SUSE Software Solutions Germany GmbH
+>>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>>> HRB 36809 (AG Nuernberg)
+>>>
+>
 
-I'd be nice to add it since we are improving the documentation.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> + *
->   * @base: base CRTC state
->   * @composer_work: work struct to compose and add CRC entries
-> - * @n_frame_start: start frame number for computed CRC
-> - * @n_frame_end: end frame number for computed CRC
-> + *
-> + * @num_active_planes: Number of active planes
-> + * @active_planes: List containing all the active planes (counted by
-> + *  @num_active_planes). They should be stored in z-order.
-> + * @active_writeback: Current active writeback job
-> + * @gamma_lut: Look up table for gamma used in this CRTC
-> + * @crc_pending: Protected by @vkms_output.composer_lock.
-> + * @wb_pending: Protected by @vkms_output.composer_lock.
-> + * @frame_start: Protected by @vkms_output.composer_lock.
-> + * @frame_end: Protected by @vkms_output.composer_lock.
->   */
->  struct vkms_crtc_state {
->  	struct drm_crtc_state base;
->  	struct work_struct composer_work;
->  
->  	int num_active_planes;
-> -	/* stack of active planes for crc computation, should be in z order */
->  	struct vkms_plane_state **active_planes;
->  	struct vkms_writeback_job *active_writeback;
->  	struct vkms_color_lut gamma_lut;
->  
-> -	/* below four are protected by vkms_output.composer_lock */
->  	bool crc_pending;
->  	bool wb_pending;
->  	u64 frame_start;
->  	u64 frame_end;
->  };
->  
-> +/**
-> + * struct vkms_output - Internal representation of all output components in vkms
-
-I think that VKMS is usually spelled in capital letters in other places.
-
-> + *
-> + * @crtc: Base crtc in drm
-> + * @encoder: DRM encoder used for this output
-> + * @connector: DRM connector used for this output
-> + * @wb_connecter: DRM writeback connector used for this output
-> + * @vblank_hrtimer:
-> + * @period_ns:
-
-My suggestion when reviewing a previous version of this patch in your
-GitHub fork was:
-
- @vblank_hrtimer: Timer used to simulate vblank events
- @period_ns: vblank period, in nanoseconds
-
-> + * @composer_workq: Ordered workqueue for composer_work
-> + * @lock: Lock used to project concurrent acces to the composer
-> + * @composer_enabled: Protected by @lock.
-> + * @composer_state:
-
-I think that @composer_state is "Protected by @lock" as well.
-
-> + * @composer_lock: Lock used internally to protect @composer_state members
-> + */
->  struct vkms_output {
->  	struct drm_crtc crtc;
->  	struct drm_encoder encoder;
-> @@ -177,28 +199,38 @@ struct vkms_output {
->  	struct drm_writeback_connector wb_connector;
->  	struct hrtimer vblank_hrtimer;
->  	ktime_t period_ns;
-> -	/* ordered wq for composer_work */
->  	struct workqueue_struct *composer_workq;
-> -	/* protects concurrent access to composer */
->  	spinlock_t lock;
->  
-> -	/* protected by @lock */
->  	bool composer_enabled;
->  	struct vkms_crtc_state *composer_state;
->  
->  	spinlock_t composer_lock;
->  };
->  
-> -struct vkms_device;
-> -
-> +/**
-> + * struct vkms_config - General configuration for VKMS driver
-> + *
-> + * @writeback: If true, a writeback buffer can be attached to the CRTC
-> + * @cursor: If true, a cursor plane is created in the VKMS device
-> + * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
-> + * @dev: Used to store the current vkms device. Only set when the device is instancied.
-
-s/vkms/VKMS and s/instancied/instantiated
-
-> + */
->  struct vkms_config {
->  	bool writeback;
->  	bool cursor;
->  	bool overlay;
-> -	/* only set when instantiated */
->  	struct vkms_device *dev;
->  };
->  
-> +/**
-> + * struct vkms_device - Description of a vkms device
-
-s/vkms/VKMS
-
-> + *
-> + * @drm - Base device in drm
-> + * @platform - Associated platform device
-> + * @output - Configuration and sub-components of the vkms device
-
-s/vkms/VKMS
-
-> + * @config: Configuration used in this vkms device
-
-s/vkms/VKMS
-
-> + */
->  struct vkms_device {
->  	struct drm_device drm;
->  	struct platform_device *platform;
-> @@ -206,6 +238,10 @@ struct vkms_device {
->  	const struct vkms_config *config;
->  };
->  
-> +/*
-> + * The following helpers are used to convert a member of a struct into its parent.
-> + */
-> +
->  #define drm_crtc_to_vkms_output(target) \
->  	container_of(target, struct vkms_output, crtc)
->  
-> @@ -218,12 +254,33 @@ struct vkms_device {
->  #define to_vkms_plane_state(target)\
->  	container_of(target, struct vkms_plane_state, base.base)
->  
-> -/* CRTC */
-> +/**
-> + * vkms_crtc_init() - Initialize a crtc for vkms
-
-s/vkms/VKMS
-
-> + * @dev: drm_device associated with the vkms buffer
-
-s/vkms/VKMS
-
-> + * @crtc: uninitialized crtc device
-> + * @primary: primary plane to attach to the crtc
-> + * @cursor plane to attach to the crtc
-> + */
->  int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
->  		   struct drm_plane *primary, struct drm_plane *cursor);
-> +/**
-> + * vkms_output_init() - Initialize all sub-components needed for a vkms device.
-
-s/vkms/VKMS
-
-> + *
-> + * @vkmsdev: vkms device to initialize
-
-s/vkms/VKMS
-
-> + * @possible_crtc_index: Crtc which can be attached to the planes. The caller must ensure that
-> + * possible_crtc_index is positive and less or equals to 31.
-
-Missing "@". Also, since the second patch of this series won't be applied,
-remember to rename the documentation to "@index".
-> + */
->  
->  int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index);
->  
-> +/**
-> + * vkms_plane_init() - Initialize a plane
-> + *
-> + * @vkmsdev: vkms device containing the plane
-
-s/vkms/VKMS
-
-> + * @type: type of plane to initialize
-> + * @possible_crtc_index: Crtc which can be attached to the plane. The caller must ensure that
-> + * possible_crtc_index is positive and less or equals to 31.
-> + */
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
->  				   enum drm_plane_type type, int possible_crtc_index);
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index d42ca7d10389..36db2c8923cb 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -21,6 +21,7 @@ static int vkms_conn_get_modes(struct drm_connector *connector)
->  {
->  	int count;
->  
-> +	/* Use the default modes list from drm */
->  	count = drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
->  	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
->  
-> @@ -58,8 +59,13 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
->  	int writeback;
->  	unsigned int n;
->  
-> +	/*
-> +	 * Initialize used plane. One primary plane is required to perform the composition.
-> +	 *
-> +	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
-> +	 * composition.
-> +	 */
->  	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, possible_crtc_index);
-> -
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
->  
-> @@ -96,6 +102,10 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
->  		DRM_ERROR("Failed to init encoder\n");
->  		goto err_encoder;
->  	}
-> +	/*
-> +	 * This is an hardcoded value to select crtc for the encoder.
-
-s/an/a
-
-> +	 * 1 here designate the first registered CRTC, the one allocated in [1]
-> +	 */
-
-I think that replacing "= 1;" with "= BIT(0);" might help to understand
-that possible_crtcs is a bitmask and also that CRTC 0 is used by default.
-We might even be able to drop the comment... Even though this will change
-with our configfs changes quite a lot.
-
->  	encoder->possible_crtcs = 1;
->  
->  	ret = drm_connector_attach_encoder(connector, encoder);
