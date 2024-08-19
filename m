@@ -2,68 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3130E95649E
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 09:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7459564B2
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 09:30:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A14A510E1CF;
-	Mon, 19 Aug 2024 07:26:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="ZjqXSSKC";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33C7110E190;
+	Mon, 19 Aug 2024 07:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF9E10E1CD;
- Mon, 19 Aug 2024 07:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1724052399; x=1724657199; i=friedrich.vock@gmx.de;
- bh=c1sF4ndnmCaZCdtKLnjrI2lhixESGVTdKbzNRWmRr5k=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
- References:MIME-Version:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=ZjqXSSKCoZTAxZpntRsEpYLZSGaPjqeLGQJgDaaGoXG1tBcDz3UuvG5ix3N2fAfp
- C9fTLkSFN9GjVfdUtAQDNR+dbbMFXoDvInjlO3jiEDP03VmtX/4VF00ODnk2ZFy9U
- YYPQW9Le6Cv/3RizsTSwDBjXRjbjh8aHshbGbQ59YTBW5YYipJiSpvezEMpuB15pO
- szm/fa/w0+wthmWTf0XQTdgyfq+zER2MawEv/9RgOj/oyAt7amx9KBf1e1fwfns4Q
- ZVqtJIZaIHL7KxiF1wHo03UJzsB+fVsgqmR8ehnpiarQ26/ekHlFh6JBP4JJxC8t/
- f+dW5sC2uBUYexLa3g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from rizzler.fritz.box ([213.152.114.245]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M8QS8-1skKPy16nY-000DeM; Mon, 19
- Aug 2024 09:21:30 +0200
-From: Friedrich Vock <friedrich.vock@gmx.de>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
-Subject: [PATCH v3 3/3] drm/amdgpu: Bump amdgpu driver version.
-Date: Mon, 19 Aug 2024 09:21:10 +0200
-Message-ID: <20240819072110.108715-4-friedrich.vock@gmx.de>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240819072110.108715-1-friedrich.vock@gmx.de>
-References: <20240819072110.108715-1-friedrich.vock@gmx.de>
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E92D510E1CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 07:30:35 +0000 (UTC)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gauss.telenet-ops.be (Postfix) with ESMTPS id 4WnPQJ5WCkz4x9gF
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 09:30:32 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:7674:86dc:e300:ce10])
+ by laurent.telenet-ops.be with bizsmtp
+ id 1jWY2D0052ltMuT01jWYrk; Mon, 19 Aug 2024 09:30:32 +0200
+Received: from geert (helo=localhost)
+ by ramsan.of.borg with local-esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1sfwqW-000Hig-1Z;
+ Mon, 19 Aug 2024 09:30:32 +0200
+Date: Mon, 19 Aug 2024 09:30:32 +0200 (CEST)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: linux-kernel@vger.kernel.org
+cc: sparclinux@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: Build regressions/improvements in v6.11-rc4
+In-Reply-To: <20240819070639.2558629-1-geert@linux-m68k.org>
+Message-ID: <e43d6c-90df-32d2-c7ac-2991e8c5672f@linux-m68k.org>
+References: <CAHk-=wgP=qzODR60Xxzem5LQi6sH+6EFCDMOApAgBy37SQ59hA@mail.gmail.com>
+ <20240819070639.2558629-1-geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6ZsNFelE5kPKkAv/c74ore6LzsR1emwrfsZX+CzTKkqTMQ6YhuR
- 9cSfg+Q7xdGfRDXQPXj9SkK7HSbxAAem3HjwLgtQ0gJETymP0BS2Y66vqQG0fGojUss4kXU
- 1ZnsPO9qZPQEo5BBfoCYPgJzkS8nZun/MYGHFBkJIqirpb8ky+nJ6dg6IooQHprOPF6qFqn
- JqORL/eTFv/3YkkfeMjAg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/idKLCl6FC8=;7osojkf0rnUunH22F+4G7YLSKr/
- zs7FUzbHe/KOuMeqGc4JurNUcLmSlHKiNqMx9FaWaRR/Gr1nCUB1jdVRgVZ7sjqDCx/C0p+1r
- dbyZ2TLuGwrIvkHLsbsbxSIqDFVfvHZCWF+1s5vzvExRH3vK10mVfgc9yodLud9nXs7ueEyK9
- ChiJN6X7LsSoS2obw2coeJXDwCzObwAR0TnEgDgFwkqBXG3ACvUVcSAUEFuW4Tdxl9snq3cyG
- 4EKzMRf/KxuuKg/SRgH2uvXScxTdAFwEr3dcatzNSw9LibyX+9Y+LZuImoZFACsj/hi5f1c4j
- vHaDZ1x9MvdglxG+BzaJto1HvALu+H0lwHrIABj01pXGB35fikah/KKkwt/ewIL4Yg3BzoNNd
- ON7bnC61PemHNze6zOTRM804q9odUdWdRyeoom6wETenJiubkOgDOGmP2lJc9kNb0r2qRwif9
- Ta9CohJ8ZMq1K09jmCJgCH7q/sL+Pjy5Io+1ozAIENYRz8+5kMq5JFqgn+kiutoBOpHSFzFEQ
- etMYqMWsNUlb2conrADQJDxoezniT2j3KZkNSXmFPY27tpywyF9cMhiyRURVO3MYqOJUVXRP1
- snaMyRhbyTncmfI6XsHl77730Jc0WXy5mpk6PnPE2U4y0f1Xm8Uy3X9B5yZyznbNPCh6itkvj
- Jo4YNkbOMuKsG9XjXS3hhphgFkfg6cFdu3ATDn1fQyn+mu2A0lhP4eLbt2AcVUW1ViJKMPgku
- 72XM7WxL84z4WgOhNQGtvi+B7W1Z2Bm/Ns5hd4u2hRNMvMWnVojOj0kkxKBKyi7oAO2NZ6vcJ
- 8ncl7ncNrRIptSm0Cp9WUFzYc0FXvXEPUef3vsvx+V2bs=
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,34 +50,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
+On Mon, 19 Aug 2024, Geert Uytterhoeven wrote:
+> JFYI, when comparing v6.11-rc4[1] to v6.11-rc3[3], the summaries are:
+>  - build errors: +6/-4
 
-For detection of the new explicit sync functionality without having to try
-the ioctl.
+   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_clock_gettime' [-Werror=missing-prototypes]:  => 254:1
+   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_clock_gettime_stick' [-Werror=missing-prototypes]:  => 282:1
+   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_gettimeofday' [-Werror=missing-prototypes]:  => 307:1
+   + /kisskb/src/arch/sparc/vdso/vdso32/../vclock_gettime.c: error: no previous prototype for '__vdso_gettimeofday_stick' [-Werror=missing-prototypes]:  => 343:1
 
-Signed-off-by: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
-=2D--
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+sparc64-gcc13/sparc64-allmodconfig
+(pre-existing, but now emitted twice in this config only?)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_drv.c
-index b9529948f2b2..7fdd73be0a87 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -118,9 +118,10 @@
-  * - 3.57.0 - Compute tunneling on GFX10+
-  * - 3.58.0 - Add GFX12 DCC support
-  * - 3.59.0 - Add AMDGPU_IDS_FLAGS_MODE_PF, AMDGPU_IDS_FLAGS_MODE_VF & AM=
-DGPU_IDS_FLAGS_MODE_PT
-+ * - 3.60.0 - Add AMDGPU_VM_EXPLICIT_SYNC flag for GEM operations.
-  */
- #define KMS_DRIVER_MAJOR	3
--#define KMS_DRIVER_MINOR	59
-+#define KMS_DRIVER_MINOR	60
- #define KMS_DRIVER_PATCHLEVEL	0
+   + /kisskb/src/include/linux/compiler_types.h: error: call to '__compiletime_assert_952' declared with attribute error: FIELD_GET: mask is not constant:  => 510:38
+   + /kisskb/src/include/linux/compiler_types.h: error: call to '__compiletime_assert_953' declared with attribute error: FIELD_GET: mask is not constant:  => 510:38
 
- /*
-=2D-
-2.46.0
+powerpc-gcc5/powerpc-all{mod,yes}config
 
+In function 'decode_oa_format.isra.26',
+     inlined from 'xe_oa_set_prop_oa_format' at drivers/gpu/drm/xe/xe_oa.c:1664:6:
+drivers/gpu/drm/xe/xe_oa.c:1573:18: note: in expansion of macro 'FIELD_GET'
+   u32 bc_report = FIELD_GET(DRM_XE_OA_FORMAT_MASK_BC_REPORT, fmt);
+                   ^
+Seen before, patch available.
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    - Linus Torvalds
