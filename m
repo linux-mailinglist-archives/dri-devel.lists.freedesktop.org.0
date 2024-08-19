@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFD99564E1
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 09:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A619564ED
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 09:48:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B4E10E1DC;
-	Mon, 19 Aug 2024 07:43:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.b="q/QX5wAe";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16EEB10E1DD;
+	Mon, 19 Aug 2024 07:48:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F4010E1DC
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 07:43:44 +0000 (UTC)
-Received: from localhost (unknown [213.135.10.150])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by mail.3ffe.de (Postfix) with ESMTPSA id 47F465E;
- Mon, 19 Aug 2024 09:43:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2022082101; t=1724053422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=ZOpBNrOI92TQ4ZWPkl1Is98B6yTzoIz6bUl81y4zhEA=;
- b=q/QX5wAeJOuGxW1q3+OqRP/H2LXUNKUUsK5i99wGbcsHcWd2b+91UQQU7YKylBjWf3OG0P
- cDe/Jp+dxaDN8XYh6B9f069LqIWZh5em36kmqSb/QeSEW8eOx9/dASIjV8xXIby/nClq9k
- 5WWF6LLibrcoztsUVig7CJzeXVJgqXnD3o7i+iZjitlkn0nxl64QMdmbnRKxa/Gdkz9GSc
- v+ZvCWzIuRdaw4L1nL5v+qBVCaZoyevct5dp8a/WVpOrWERc67LNDbBVNZ/FFDrtJaNAaf
- gz7TVZwQNApVIXn/7Z9DwgTXZ6VB7XQYvUtd9NjMfDHEN2MVDq6SqCVXhOEUUg==
-Content-Type: multipart/signed;
- boundary=324b8864c0f2f3444bbff5e9243c444c17712f463423f9f78bbd8be049ba;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Mon, 19 Aug 2024 09:43:40 +0200
-Message-Id: <D3JPXJBLA5IH.2FIM5TL0SQ6QB@walle.cc>
-From: "Michael Walle" <michael@walle.cc>
-To: "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- <chunkuang.hu@kernel.org>, <ck.hu@mediatek.com>
-Subject: Re: [PATCH v8 0/3] drm/mediatek: Add support for OF graphs
-Cc: <robh@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <conor+dt@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
- <shawn.sung@mediatek.com>, <yu-chang.lee@mediatek.com>,
- <jitao.shi@mediatek.com>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <wenst@chromium.org>,
- <kernel@collabora.com>, <sui.jingfeng@linux.dev>
-X-Mailer: aerc 0.16.0
-References: <20240618101726.110416-1-angelogioacchino.delregno@collabora.com>
- <d84f1469-e82a-42de-94a0-8ee0da0cba02@collabora.com>
- <eef10e9f-dac5-4a05-a79c-f8026f27f051@collabora.com>
-In-Reply-To: <eef10e9f-dac5-4a05-a79c-f8026f27f051@collabora.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7A38C10E1DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 07:48:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD8711063;
+ Mon, 19 Aug 2024 00:48:54 -0700 (PDT)
+Received: from [10.57.85.21] (unknown [10.57.85.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 941733F73B;
+ Mon, 19 Aug 2024 00:48:26 -0700 (PDT)
+Message-ID: <0f089616-2d63-4ac7-a3ba-b6909f9d9ade@arm.com>
+Date: Mon, 19 Aug 2024 08:48:24 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] drm/panthor: introduce job cycle and timestamp
+ accounting
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240716201302.2939894-1-adrian.larumbe@collabora.com>
+ <20240716201302.2939894-2-adrian.larumbe@collabora.com>
+ <e46310c7-27b8-4548-93db-56b780873c12@arm.com>
+ <5u7pv27ifao57iagnasycxg4oe5hqq42kajbf4xnllxefg7oet@c362omtcizaj>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <5u7pv27ifao57iagnasycxg4oe5hqq42kajbf4xnllxefg7oet@c362omtcizaj>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,70 +56,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---324b8864c0f2f3444bbff5e9243c444c17712f463423f9f78bbd8be049ba
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hi Adrián,
 
-Hi,
+On 31/07/2024 13:41, Adrián Larumbe wrote:
+> Hi Steven, thanks for the remarks.
+> 
+> On 19.07.2024 15:14, Steven Price wrote:
+>> On 16/07/2024 21:11, Adrián Larumbe wrote:
+>>> Enable calculations of job submission times in clock cycles and wall
+>>> time. This is done by expanding the boilerplate command stream when running
+>>> a job to include instructions that compute said times right before an after
+>>> a user CS.
+>>>
+>>> Those numbers are stored in the queue's group's sync objects BO, right
+>>> after them. Because the queues in a group might have a different number of
+>>> slots, one must keep track of the overall slot tally when reckoning the
+>>> offset of a queue's time sample structs, one for each slot.
+>>>
+>>> This commit is done in preparation for enabling DRM fdinfo support in the
+>>> Panthor driver, which depends on the numbers calculated herein.
+>>>
+>>> A profile mode device flag has been added that will in a future commit
+>>> allow UM to toggle time sampling behaviour, which is disabled by default to
+>>> save power. It also enables marking jobs as being profiled and picks one of
+>>> two call instruction arrays to insert into the ring buffer. One of them
+>>> includes FW logic to sample the timestamp and cycle counter registers and
+>>> write them into the job's syncobj, and the other does not.
+>>>
+>>> A profiled job's call sequence takes up two ring buffer slots, and this is
+>>> reflected when initialising the DRM scheduler for each queue, with a
+>>> profiled job contributing twice as many credits.
+>>>
+>>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>>
+>> Thanks for the updates, this looks better. A few minor comments below.
+>>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_device.h |   2 +
+>>>  drivers/gpu/drm/panthor/panthor_sched.c  | 244 ++++++++++++++++++++---
+>>>  2 files changed, 216 insertions(+), 30 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+>>> index e388c0472ba7..3ede2f80df73 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_device.h
+>>> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+>>> @@ -162,6 +162,8 @@ struct panthor_device {
+>>>  		 */
+>>>  		struct page *dummy_latest_flush;
+>>>  	} pm;
+>>> +
+>>> +	bool profile_mode;
+>>>  };
+>>>  
+>>>  /**
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+>>> index 79ffcbc41d78..6438e5ea1f2b 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+>>> @@ -93,6 +93,9 @@
+>>>  #define MIN_CSGS				3
+>>>  #define MAX_CSG_PRIO				0xf
+>>>  
+>>> +#define NUM_INSTRS_PER_SLOT			16
+>>> +#define SLOTSIZE				(NUM_INSTRS_PER_SLOT * sizeof(u64))
+>>> +
+>>>  struct panthor_group;
+>>>  
+>>>  /**
+>>> @@ -466,6 +469,9 @@ struct panthor_queue {
+>>>  		 */
+>>>  		struct list_head in_flight_jobs;
+>>>  	} fence_ctx;
+>>> +
+>>> +	/** @time_offset: Offset of panthor_job_times structs in group's syncobj bo. */
+>>> +	unsigned long time_offset;
+>>
+>> AFAICT this doesn't need to be stored. We could just pass this value
+>> into group_create_queue() as an extra parameter where it's used.
+> 
+> I think we need to keep this offset value around, because queues within the same group
+> could have a variable number of slots, so when fetching the sampled values from the
+> syncobjs BO in update_fdinfo_stats, it would have to traverse the entire array of
+> preceding queues and figure out their size in slots so as to jump over as many
+> struct panthor_job_times after the preceding syncobj array.
 
-On Thu Jul 4, 2024 at 10:29 AM CEST, AngeloGioacchino Del Regno wrote:
-> Il 19/06/24 12:56, AngeloGioacchino Del Regno ha scritto:
-> > Il 18/06/24 12:17, AngeloGioacchino Del Regno ha scritto:
-> >> Changes in v8:
-> >> =C2=A0 - Rebased on next-20240617
-> >> =C2=A0 - Changed to allow probing a VDO with no available display outp=
-uts
-> >>
-> >=20
-> > Hello CK,
-> >=20
-> > At the time of writing, this series was well reviewed and tested by mul=
-tiple people
-> > on multiple SoCs and boards.
-> >=20
-> > We've got a bunch of series that are waiting for this to get upstreamed=
-, including
-> > the addition of support for MT8365-EVK (already on mailing lists), MT83=
-95 Radxa
-> > NIO 12L, MT8395 Kontron SBC i1200 (not on mailing lists yet, waiting fo=
-r this to
-> > get merged), other than some other conversion commits for other MediaTe=
-k DTs from
-> > myself.
-> >=20
-> > As for the MT8195/NIO12L commits, I'm planning to send them on the list=
-s tomorrow,
-> > along with some code to properly support devicetree overlays (DTBO) gen=
-eration for
-> > MediaTek boards.
-> >=20
-> > Alexandre tested it on MT8365-EVK;
-> > Michael tested on Kontron SBC-i1200;
-> > I tested on Radxa NIO-12L, Cherry Tomato Chromebook, MT6795 Sony Xperia
-> > M5 (dsi video panel) smartphone and MT8192 Asurada Chromebook.
-> >=20
-> > So, is there anything else to address on this, or can we proceed?
-> >=20
->
-> Gentle ping
+Yes I think I was getting myself confused - for some reason I'd thought
+the ring buffers in each queue were the same size. It makes sense to
+keep this.
 
-Any news here? Angelo, maybe you can just resend the patches?
-Because there is already a new kernel release, I'm not sure how this
-is handled.
+<snip>
 
--michael
+>>> @@ -3384,9 +3565,12 @@ panthor_job_create(struct panthor_file *pfile,
+>>>  		goto err_put_job;
+>>>  	}
+>>>  
+>>> +	job->is_profiled = pfile->ptdev->profile_mode;
+>>> +
+>>>  	ret = drm_sched_job_init(&job->base,
+>>>  				 &job->group->queues[job->queue_idx]->entity,
+>>> -				 1, job->group);
+>>> +				 job->is_profiled ? NUM_INSTRS_PER_SLOT * 2 :
+>>> +				 NUM_INSTRS_PER_SLOT, job->group);
+>>
+>> Is there a good reason to make the credits the number of instructions,
+>> rather than the number of slots? If we were going to count the actual
+>> number of non-NOP instructions then there would be some logic (although
+>> I'm not convinced that makes much sense), but considering we only allow
+>> submission in "slot granules" we might as well use that as the unit of
+>> "credit".
+> 
+> In my initial pre-ML version of the patch series I was passing the number of
+> queue slots as the total credit count, but Boris was keener on setting it to
+> the total number of instructions instead.
+> 
+> I agree with you that both are equivalent, one just being an integer multiple
+> of the other, so I'm fine with either choice. Maybe Boris can pitch in, in
+> case he has a strong opinion about this.
 
---324b8864c0f2f3444bbff5e9243c444c17712f463423f9f78bbd8be049ba
-Content-Type: application/pgp-signature; name="signature.asc"
+I wouldn't say I have a strong opinion, it just seems a little odd to be
+multiplying the value by a constant everywhere. If you'd got some
+changes planned where the instructions could vary more dynamically that
+would be good to know about.
 
------BEGIN PGP SIGNATURE-----
+If Boris is "keener" on this approach then that's fine, we'll leave it
+this way.
 
-iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZsL3rBEcbWljaGFlbEB3
-YWxsZS5jYwAKCRASJzzuPgIf+FUbAYDwODh5ZmA5CgDyBJFBWhdWhPocmMAeADIf
-YIj7wM7SyDI0yrNuwDwDHkWqsgqP6zUBf3DRKglqYDugQsOqPOiPOacc7FY1jJNE
-JTe4vU6fiHuUR6s+hkfsCPvpec2A98PhmA==
-=v4Vj
------END PGP SIGNATURE-----
-
---324b8864c0f2f3444bbff5e9243c444c17712f463423f9f78bbd8be049ba--
+Steve
