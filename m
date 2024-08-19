@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DE0956E7C
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B9D956EA0
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8D810E2BB;
-	Mon, 19 Aug 2024 15:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 755A688FB2;
+	Mon, 19 Aug 2024 15:22:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dn81dvE/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aiMxgfGf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5EBB10E2BB;
- Mon, 19 Aug 2024 15:16:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48D0888FB2;
+ Mon, 19 Aug 2024 15:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724080575; x=1755616575;
+ t=1724080957; x=1755616957;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=MON53pjJRt/NJhE1tpToOCGRZJvVjvvDQXnEYBo0jwo=;
- b=dn81dvE/5lQ+v4okt8ZaUqkcecJ5Gsg7HjFnufcmbyUWMKQ2zD0KOl8a
- hpeE7AlYwNhJemGAR1B7IzYeodyCe2zS+6HKYNrs1TbgwExAucPuGtaIX
- ZVoz8dr3UQCnCctIUK2yHZWQ6cYtVHTIkm/Jpyf2Z4ijRBK5kuj5lrG5b
- WrXyEoazL/Jr8l8/LWr6WqnQPPZ/vA6Y/P6AkT6+mCzPE9bU7R6KoeWas
- dasKivLTo2nlI3Q+aBPaAcYyUPYt1cY7oGjfQiTJ4h8zD/5JoVzqE/53d
- /DBDN03nVW8vlnluyP11ZcRyoW8fr++hwp5G3ZUy6Hj0CjE+yWEJQQdk3 g==;
-X-CSE-ConnectionGUID: Nnh0KPt4QmC9Ja3tep0efg==
-X-CSE-MsgGUID: 4gYrzPOyRZCEAnAS29Z7yA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="21879145"
-X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; d="scan'208";a="21879145"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2024 08:16:15 -0700
-X-CSE-ConnectionGUID: w3sXov8yR5mOeQD0SioEQA==
-X-CSE-MsgGUID: xZVl/PShTaGVcbFmJSgd6w==
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=9JWfjIa1vdn38FsVkvDYMYCfzjwxvlY4s9IpqPG8eFw=;
+ b=aiMxgfGfxC3vrOV271O2cOnS73Cr6pn5gbnOlGw2UkN3Cq54isbJ65BH
+ 07BH+FEXpRvA6Enaqje0MxJrKkke90Za+afPocIYo6/ADCqTExI03tkqy
+ amFZqs/PualnJFyxDDaBJ/ygOqIzGaESoYFBSJa9fZ1K5WT+gtJvoBund
+ I88mxgDX6jPF7KXlxqb9ZRH3ClVuVeTM/NR/axUd7qgujs0qVv7QnuFaw
+ 0k/8UCW77g9NREaDOqR7WCPhxmLsZz/6+ozeY7P9WeC8mNufyI3P1N9f0
+ Bx/4aYNpyWZ7pqXGNJk8fk1KX2lxEDHSJ8VcT/V/7GWIA/NUERwZg2m8q g==;
+X-CSE-ConnectionGUID: 9nmMqK9HScGgyTsyHxem7Q==
+X-CSE-MsgGUID: hVx9kR5vSfqsYMnwdg1f4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22509907"
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; d="scan'208";a="22509907"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 08:22:37 -0700
+X-CSE-ConnectionGUID: h/Lf2QjnTJWLwtRYtsKpRw==
+X-CSE-MsgGUID: FkCpXxoHSjSKEccMTCJLlw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; d="scan'208";a="91147865"
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; d="scan'208";a="60068171"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.245.246.73])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2024 08:16:12 -0700
-Date: Mon, 19 Aug 2024 17:16:09 +0200
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 08:22:32 -0700
+Date: Mon, 19 Aug 2024 17:22:29 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Sima <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 0/2] Allow partial memory mapping for cpu memory
-Message-ID: <ZsNhua9FIrDT92-r@ashyti-mobl2.lan>
-References: <20240814134837.116498-1-andi.shyti@linux.intel.com>
- <ZrzWJiJ2Yr0DJPG2@DUT025-TGLU.fm.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: "Nilawar, Badal" <badal.nilawar@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch, linux@roeck-us.net,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ anshuman.gupta@intel.com, riana.tauro@intel.com,
+ ashutosh.dixit@intel.com, karthik.poosa@intel.com,
+ andriy.shevchenko@linux.intel.com
+Subject: Re: [PATCH v4] drm/i915/hwmon: expose fan speed
+Message-ID: <ZsNjNSu5tCsRUxJ9@ashyti-mobl2.lan>
+References: <20240809061525.1368153-1-raag.jadav@intel.com>
+ <23dc7824-50cd-4ba3-be5a-df141e8fe69a@intel.com>
+ <ZrXslA1c-BhO6zYr@ashyti-mobl2.lan>
+ <88320f60-d55b-4aa5-881f-530375659c27@intel.com>
+ <ZsLrJVdBmfZhZaaR@black.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZrzWJiJ2Yr0DJPG2@DUT025-TGLU.fm.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZsLrJVdBmfZhZaaR@black.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,65 +82,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Hi Raag,
 
-On Wed, Aug 14, 2024 at 04:07:02PM +0000, Matthew Brost wrote:
-> On Wed, Aug 14, 2024 at 03:48:32PM +0200, Andi Shyti wrote:
-> > I am resending this patch series, not to disregard the previous
-> > discussions, but to ensure it gets tested with the IGTs that
-> > Krzysztof has provided.
-> > 
-> > This patch series finalizes the memory mapping fixes and
-> > improvements by enabling partial memory mapping for CPU memory as
-> > well.
-> > 
-> > The concept of partial memory mapping, achieved by adding an
-> > object offset, was implicitly introduced in commit 8bdd9ef7e9b1
-> > ("drm/i915/gem: Fix Virtual Memory mapping boundaries
-> > calculation") for GTT memory.
-> > 
-> > To address a previous discussion with Sima and Matt, this feature
-> > is used by Mesa and is required across all platforms utilizing
-> > Mesa. Although Nirmoy suggested using the Fixes tag to backport
-> 
-> Other vendors than Intel too?
+I'm sorry, I missed this mail.
 
-Yes, that's what I understood.
-
-I hope Lionel can jump in and explain the use cases from Mesa
-perspective.
-
-> > this to previous kernels, I view this as a new feature rather
-> > than a fix.
+On Mon, Aug 19, 2024 at 09:50:13AM +0300, Raag Jadav wrote:
+> On Wed, Aug 14, 2024 at 02:07:44PM +0530, Nilawar, Badal wrote:
+> > On 09-08-2024 15:46, Andi Shyti wrote:
+> > > > > +static int
+> > > > > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
+> > > > > +{
+> > > > > +	struct i915_hwmon *hwmon = ddat->hwmon;
+> > > > > +	struct hwm_fan_info *fi = &ddat->fi;
+> > > > > +	u32 reg_val, pulses, time, time_now;
+> > > > > +	intel_wakeref_t wakeref;
+> > > > > +	long rotations;
+> > > > > +	int ret = 0;
+> > > > > +
+> > > > > +	if (attr != hwmon_fan_input)
+> > > > > +		return -EOPNOTSUPP;
+> > > > Using a switch case in rev3 is more logical here. It will also simplify
+> > > > adding more fan attributes in the future. This is why switch cases are used
+> > > > in other parts of the file.
+> > > 
+> > > it was my suggestion and to be honest I would rather prefer it
+> > > this way. I can understand it if we were expecting more cases in
+> > > the immediate, like it was in your case.
+> > > 
+> > > But I wouldn't have an ugly and unreadable one-case-switch in the
+> > > eventuality that something comes in the future. In that case, we
+> > > can always convert it.
 > > 
-> > Lionel, please let me know if you have a different perspective
-> > and believe this should be treated as a bug fix, requiring it
-> > to be backported to stable kernels.
+> > My rationale for suggesting a switch case is that in the current alignment
+> > hwm_XX_read() function is designed to handle all possible/supported
+> > attributes of the XX sensor type.
+> > With the proposed change, hwm_fan_read() would only manage the
+> > hwmon_fan_input attribute.
+> > If a single switch case isn’t preferred, I would recommend creating a helper
+> > function dedicated to hwmon_fan_input.
 > > 
-> > The IGTs have been developed in collaboration with the Mesa team
-> > to replicate the exact Mesa use case[*].
-> > 
-> > Thanks Chris for the support, thanks Krzysztof for taking care of
-> > the IGT tests, thanks Nirmoy for your reviews and thanks Sima and
-> > Matt for the discussion on this series.
-> > 
-> > Andi
-> > 
-> > [*] https://patchwork.freedesktop.org/patch/608232/?series=137303&rev=1
-> 
-> So here is really quick test [1] which I put together in Xe to test
-> partial mmaps, not as complete as the i915 one though.
-> 
-> It fails on the Xe baseline.
-> 
-> It pass if with [2] in drm_gem.c:drm_gem_mmap. Blindly changing that
-> function might not be the correct solution but thought I'd share as a
-> reference.
+> > hwm_fan_read()
+> > {
+> > 	if (attr == hwmon_fan_input)
+> > 		return helper(); //hwmon_fan_input_read()
 
-Thanks for sharing it. I took a quick look and I think there are
-a few things missing there. If you want and if this is not in
-anyone's task list, I can try to "port" this in XE.
+I'm not really understanding what is the point of the helper, but
+if it looks cleaner, I have no objection.
 
-Is there any other objection to getting this merged into i915?
-
+Thanks,
 Andi
