@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC7895637D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 08:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002909563F8
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 08:50:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E334910E1AF;
-	Mon, 19 Aug 2024 06:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F196910E1B2;
+	Mon, 19 Aug 2024 06:50:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="uD7w1lyd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TqsNvE5h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 497C910E16C
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 06:13:44 +0000 (UTC)
-X-UUID: 2b1514d85df211ef8b96093e013ec31c-20240819
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=QE567wxaZYFj8kwiVIzL4/viZ/NIGTuq9+uq6fgydvM=; 
- b=uD7w1lydlSP/2HaaHdgw5Rl/slz44EK04KenunCh3Km88rbcdGskt9hh2mKcHbTtaUPF/lVNcyTWWYMTMU6prjB4Z994snwtJ8vcyFeydw1HkfXT/7mHgcQ4b6/VmXj09EQNgZQ+V8DYS4hA9xjE2+tt88sY3iJflwu7x6IIimc=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:ddacd687-d0e5-4fc7-ab3c-6071fa2256b3, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:e578a95b-248b-45cb-bde8-d789f49f4e1e,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 2b1514d85df211ef8b96093e013ec31c-20240819
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1393039332; Mon, 19 Aug 2024 14:13:35 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 19 Aug 2024 14:13:35 +0800
-Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 19 Aug 2024 14:13:35 +0800
-From: Shuijing Li <shuijing.li@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, Shuijing Li
- <shuijing.li@mediatek.com>
-Subject: [PATCH v7] drm/mediatek: dsi: Add dsi per-frame lp code for mt8188
-Date: Mon, 19 Aug 2024 14:12:51 +0800
-Message-ID: <20240819061333.26069-1-shuijing.li@mediatek.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 651D410E1B1;
+ Mon, 19 Aug 2024 06:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724050238; x=1755586238;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=oj3Y9pH17xNfiWjKVNwaUDErHrAbG48YkAEs7w5hNqE=;
+ b=TqsNvE5hkaDymDqTXH/iBaoCLEg4paEbPvrdjrEd0SZPjWtpfqYPQsd9
+ bA4ALg6Np2iTJQWOrqsj0x/pgtI5eQarDk2o4VaL0vjCUAcxxGCG51lkT
+ xj4dKuaJX5VzEG3nFcTZach62ntiplKTWIxLkNLxvlR1c1gmSeKqcgZC3
+ Ct94ZrIVbCM3V2nlfLmNwPUHU7dVOKo5Ahg1tXzNe/SSLicPfMxCaxEND
+ 5fdZ0WLpk3GQ1c+Jfsz7oWjiGTEe1zKTj5odqmRYtpYknTdEq5IhBhGse
+ RQ/M47KdC1/qR5Xmo5+AgGZ3+PZ0CYPYKZ1Ae2Fas348WdPKu8yAIS9Pe g==;
+X-CSE-ConnectionGUID: qzKzQC63Tqiirf6012OCEQ==
+X-CSE-MsgGUID: xO6EBUvhSwupsWQxzAyoHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="26149682"
+X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="26149682"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2024 23:50:34 -0700
+X-CSE-ConnectionGUID: 0atrH+wPTZeHjmFXJYOQxQ==
+X-CSE-MsgGUID: mC6FAfWsTryxmG5IwJ3sBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; d="scan'208";a="91020759"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2024 23:50:16 -0700
+Date: Mon, 19 Aug 2024 09:50:13 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: "Nilawar, Badal" <badal.nilawar@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch, linux@roeck-us.net,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ anshuman.gupta@intel.com, riana.tauro@intel.com,
+ ashutosh.dixit@intel.com, karthik.poosa@intel.com,
+ andriy.shevchenko@linux.intel.com
+Subject: Re: [PATCH v4] drm/i915/hwmon: expose fan speed
+Message-ID: <ZsLrJVdBmfZhZaaR@black.fi.intel.com>
+References: <20240809061525.1368153-1-raag.jadav@intel.com>
+ <23dc7824-50cd-4ba3-be5a-df141e8fe69a@intel.com>
+ <ZrXslA1c-BhO6zYr@ashyti-mobl2.lan>
+ <88320f60-d55b-4aa5-881f-530375659c27@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <88320f60-d55b-4aa5-881f-530375659c27@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,214 +79,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding the per-frame lp function of mt8188, which can keep HFP in HS and
-reduce the time required for each line to enter and exit low power.
-Per Frame LP:
-  |<----------One Active Frame-------->|
---______________________________________----___________________
-  ^HSA+HBP^^RGB^^HFP^^HSA+HBP^^RGB^^HFP^    ^HSA+HBP^^RGB^^HFP^
+On Wed, Aug 14, 2024 at 02:07:44PM +0530, Nilawar, Badal wrote:
+> 
+> Hi Andi,
+> 
+> On 09-08-2024 15:46, Andi Shyti wrote:
+> > Hi Badal,
+> > 
+> > > > +static int
+> > > > +hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
+> > > > +{
+> > > > +	struct i915_hwmon *hwmon = ddat->hwmon;
+> > > > +	struct hwm_fan_info *fi = &ddat->fi;
+> > > > +	u32 reg_val, pulses, time, time_now;
+> > > > +	intel_wakeref_t wakeref;
+> > > > +	long rotations;
+> > > > +	int ret = 0;
+> > > > +
+> > > > +	if (attr != hwmon_fan_input)
+> > > > +		return -EOPNOTSUPP;
+> > > Using a switch case in rev3 is more logical here. It will also simplify
+> > > adding more fan attributes in the future. This is why switch cases are used
+> > > in other parts of the file.
+> > 
+> > it was my suggestion and to be honest I would rather prefer it
+> > this way. I can understand it if we were expecting more cases in
+> > the immediate, like it was in your case.
+> > 
+> > But I wouldn't have an ugly and unreadable one-case-switch in the
+> > eventuality that something comes in the future. In that case, we
+> > can always convert it.
+> 
+> My rationale for suggesting a switch case is that in the current alignment
+> hwm_XX_read() function is designed to handle all possible/supported
+> attributes of the XX sensor type.
+> With the proposed change, hwm_fan_read() would only manage the
+> hwmon_fan_input attribute.
+> If a single switch case isn’t preferred, I would recommend creating a helper
+> function dedicated to hwmon_fan_input.
+> 
+> hwm_fan_read()
+> {
+> 	if (attr == hwmon_fan_input)
+> 		return helper(); //hwmon_fan_input_read()
+> 	return -EOPNOTSUPP;
+> }
 
-Per Line LP:
-  |<---------------One Active Frame----------->|
---______________--______________--______________----______________
-  ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^    ^HSA+HBP^^RGB^
+Hi Andi,
 
-Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
----
-Changes in v7:
-Fix code style and simplify the code per suggestion from previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240813022315.18502-1-shuijing.li@mediatek.com/
-Changes in v6:
-Simplify the code per suggestion from previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240812070341.26053-1-shuijing.li@mediatek.com/
-Changes in v5:
-Fix code style issue and add per-line-lp function to be symmetrical with per-frame-lp.
-per suggestion from previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240801081144.22372-1-shuijing.li@mediatek.com/
-Changes in v4:
-Drop the code related to bllp_en and bllp_wc, adjust ps_wc to dsi->vm.hactive *
-dsi_buf_bpp.
-Changes in v3:
-Use function in bitfield.h and get value from phy timing, per suggestion
-from previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240424091639.22759-1-shuijing.li@mediatek.com/
-Changes in v2:
-Use bitfield macros and add new function for per prame lp and improve
-the format, per suggestion from previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240314094238.3315-1-shuijing.li@mediatek.com/
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 110 +++++++++++++++++++++++++----
- 1 file changed, 98 insertions(+), 12 deletions(-)
+If you agree with this, please let me know.
+Will send out a v6 accordingly.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index b6e3c011a12d..58518f3257a8 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -88,12 +88,15 @@
- #define DSI_HSA_WC		0x50
- #define DSI_HBP_WC		0x54
- #define DSI_HFP_WC		0x58
-+#define HFP_HS_VB_PS_WC		GENMASK(30, 16)
-+#define HFP_HS_EN			BIT(31)
- 
- #define DSI_CMDQ_SIZE		0x60
- #define CMDQ_SIZE			0x3f
- #define CMDQ_SIZE_SEL		BIT(15)
- 
- #define DSI_HSTX_CKL_WC		0x64
-+#define HSTX_CKL_WC			GENMASK(15, 2)
- 
- #define DSI_RX_DATA0		0x74
- #define DSI_RX_DATA1		0x78
-@@ -187,6 +190,7 @@ struct mtk_dsi_driver_data {
- 	bool has_shadow_ctl;
- 	bool has_size_ctl;
- 	bool cmdq_long_packet_ctl;
-+	bool support_per_frame_lp;
- };
- 
- struct mtk_dsi {
-@@ -426,7 +430,79 @@ static void mtk_dsi_ps_control(struct mtk_dsi *dsi, bool config_vact)
- 	writel(ps_val, dsi->regs + DSI_PSCTRL);
- }
- 
--static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
-+static void mtk_dsi_config_vdo_timing_per_frame_lp(struct mtk_dsi *dsi)
-+{
-+	u32 horizontal_sync_active_byte;
-+	u32 horizontal_backporch_byte;
-+	u32 horizontal_frontporch_byte;
-+	u32 hfp_byte_adjust, v_active_adjust;
-+	u32 cklp_wc_min_adjust, cklp_wc_max_adjust;
-+	u32 dsi_tmp_buf_bpp;
-+	unsigned int da_hs_trail;
-+	unsigned int ps_wc, hs_vb_ps_wc;
-+	u32 v_active_roundup, hstx_cklp_wc;
-+	u32 hstx_cklp_wc_max, hstx_cklp_wc_min;
-+	struct videomode *vm = &dsi->vm;
-+
-+	if (dsi->format == MIPI_DSI_FMT_RGB565)
-+		dsi_tmp_buf_bpp = 2;
-+	else
-+		dsi_tmp_buf_bpp = 3;
-+
-+	da_hs_trail = dsi->phy_timing.da_hs_trail;
-+	ps_wc = vm->hactive * dsi_tmp_buf_bpp;
-+
-+	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
-+		horizontal_sync_active_byte =
-+			vm->hsync_len * dsi_tmp_buf_bpp - 10;
-+		horizontal_backporch_byte =
-+			vm->hback_porch * dsi_tmp_buf_bpp - 10;
-+		hfp_byte_adjust = 12;
-+		v_active_adjust = 32 + horizontal_sync_active_byte;
-+		cklp_wc_min_adjust = 12 + 2 + 4 + horizontal_sync_active_byte;
-+		cklp_wc_max_adjust = 20 + 6 + 4 + horizontal_sync_active_byte;
-+	} else {
-+		horizontal_sync_active_byte = vm->hsync_len * dsi_tmp_buf_bpp - 4;
-+		horizontal_backporch_byte = (vm->hback_porch + vm->hsync_len) *
-+			dsi_tmp_buf_bpp - 10;
-+		cklp_wc_min_adjust = 4;
-+		cklp_wc_max_adjust = 12 + 4 + 4;
-+		if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
-+			hfp_byte_adjust = 18;
-+			v_active_adjust = 28;
-+		} else {
-+			hfp_byte_adjust = 12;
-+			v_active_adjust = 22;
-+		}
-+	}
-+	horizontal_frontporch_byte = vm->hfront_porch * dsi_tmp_buf_bpp - hfp_byte_adjust;
-+	v_active_roundup = (v_active_adjust + horizontal_backporch_byte + ps_wc +
-+			   horizontal_frontporch_byte) % dsi->lanes;
-+	if (v_active_roundup)
-+		horizontal_backporch_byte += dsi->lanes - v_active_roundup;
-+	hstx_cklp_wc_min = (DIV_ROUND_UP(cklp_wc_min_adjust, dsi->lanes) + da_hs_trail + 1)
-+			   * dsi->lanes / 6 - 1;
-+	hstx_cklp_wc_max = (DIV_ROUND_UP((cklp_wc_max_adjust + horizontal_backporch_byte +
-+			   ps_wc), dsi->lanes) + da_hs_trail + 1) * dsi->lanes / 6 - 1;
-+
-+	hstx_cklp_wc = FIELD_GET(HSTX_CKL_WC, readl(dsi->regs + DSI_HSTX_CKL_WC));
-+
-+	if (hstx_cklp_wc <= hstx_cklp_wc_min || hstx_cklp_wc >= hstx_cklp_wc_max) {
-+		hstx_cklp_wc = FIELD_PREP(HSTX_CKL_WC, (hstx_cklp_wc_min + hstx_cklp_wc_max) / 2);
-+		writel(hstx_cklp_wc, dsi->regs + DSI_HSTX_CKL_WC);
-+	}
-+
-+	hs_vb_ps_wc = ps_wc - (dsi->phy_timing.lpx + dsi->phy_timing.da_hs_exit +
-+		      dsi->phy_timing.da_hs_prepare + dsi->phy_timing.da_hs_zero + 2) * dsi->lanes;
-+	horizontal_frontporch_byte |= FIELD_PREP(HFP_HS_EN, 1) |
-+				      FIELD_PREP(HFP_HS_VB_PS_WC, hs_vb_ps_wc);
-+
-+	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
-+	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
-+	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
-+}
-+
-+static void mtk_dsi_config_vdo_timing_per_line_lp(struct mtk_dsi *dsi)
- {
- 	u32 horizontal_sync_active_byte;
- 	u32 horizontal_backporch_byte;
-@@ -436,7 +512,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 	u32 dsi_tmp_buf_bpp, data_phy_cycles;
- 	u32 delta;
- 	struct mtk_phy_timing *timing = &dsi->phy_timing;
--
- 	struct videomode *vm = &dsi->vm;
- 
- 	if (dsi->format == MIPI_DSI_FMT_RGB565)
-@@ -444,16 +519,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 	else
- 		dsi_tmp_buf_bpp = 3;
- 
--	writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
--	writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
--	writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
--	writel(vm->vactive, dsi->regs + DSI_VACT_NL);
--
--	if (dsi->driver_data->has_size_ctl)
--		writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
--		       FIELD_PREP(DSI_WIDTH, vm->hactive),
--		       dsi->regs + DSI_SIZE_CON);
--
- 	horizontal_sync_active_byte = (vm->hsync_len * dsi_tmp_buf_bpp - 10);
- 
- 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-@@ -499,6 +564,26 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
- 	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
- 	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
-+}
-+
-+static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
-+{
-+	struct videomode *vm = &dsi->vm;
-+
-+	writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
-+	writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
-+	writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
-+	writel(vm->vactive, dsi->regs + DSI_VACT_NL);
-+
-+	if (dsi->driver_data->has_size_ctl)
-+		writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
-+			FIELD_PREP(DSI_WIDTH, vm->hactive),
-+			dsi->regs + DSI_SIZE_CON);
-+
-+	if (dsi->driver_data->support_per_frame_lp)
-+		mtk_dsi_config_vdo_timing_per_frame_lp(dsi);
-+	else
-+		mtk_dsi_config_vdo_timing_per_line_lp(dsi);
- 
- 	mtk_dsi_ps_control(dsi, false);
- }
-@@ -1197,6 +1282,7 @@ static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
- 	.has_shadow_ctl = true,
- 	.has_size_ctl = true,
- 	.cmdq_long_packet_ctl = true,
-+	.support_per_frame_lp = true,
- };
- 
- static const struct of_device_id mtk_dsi_of_match[] = {
--- 
-2.45.2
-
+Raag
