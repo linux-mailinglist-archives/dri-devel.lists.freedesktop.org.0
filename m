@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5686E9571AF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076459571B6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFC9C10E310;
-	Mon, 19 Aug 2024 17:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8116210E313;
+	Mon, 19 Aug 2024 17:13:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hoZfb1pV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ys22w7Ei";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2B3310E310
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 17:11:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1293010E313
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 17:13:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id AB887CE0AD0;
- Mon, 19 Aug 2024 17:11:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECA4C32782;
- Mon, 19 Aug 2024 17:11:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 526D460BBB;
+ Mon, 19 Aug 2024 17:13:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD86C32782;
+ Mon, 19 Aug 2024 17:13:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724087513;
- bh=yxprBbzXIBreAd4YHR01Nx4Vzjx/xfk6ZsgZ20Vi1C8=;
+ s=k20201202; t=1724087585;
+ bh=1YUwhTkKQuYH/5TElmbzoXnn4fa4YlXoJnkDBxAa+zo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hoZfb1pVyS8RNG47epcVVwfA4Z+MrQWiW3ZH9/Bld0xoj7PCXasdTiQrAQjXQNLJH
- 0ILEux1Zzhd2il3gVgONY5U+P/VVFNgytAJoaFXVcNpyKwqLUSRflOGjYS87lypn89
- cwLsoC8Ox9/4oQCdakE39SCmI3a8Kflv9JP9xaVBS211aTAb9Kp8YGdVXwP1LACrRz
- sj9xcnfd1Zi91xmDQyj/ICkXSK4yzcx92ZZf5I28DwH7T/P/BNAnQYbpNqCLXxab5j
- Rv1x5v2D/Ob0fPKAkz/EHpYwkCBEDPIHbnuzZMoB2vzDPvBSyEjtQGk7SNokpphG8E
- RESaOJeSN2MQw==
-Date: Mon, 19 Aug 2024 18:11:48 +0100
+ b=Ys22w7EiHHHRoGumTUbPFSawlSz7sDUgPDBI0K5FlkLh3SW923Fn+5EVdtrmy+1YM
+ pb1f9NB32raKnuvPQYOyNsVXt4Olm0h7cmBcwxvfsJbfChoGXvwFg6dv+poAKJhIRc
+ 7jp0sDNQPYS2cccA81vdmR9dr11sAdZs+HNVKIzkKSJy7piE42x2qhOL8IcPAcaUuS
+ IuHyxSkIipFeJFRB2+Bem4+z28idh91eKVRlbvT/kr95jtg/ZPzifHq5sXx24y/5ZY
+ 8elODxvlMXOPVT5zk9KVWXyckJrV1/0iYP9ZdXKqa67en/xKKvypriJrhzs9+ssvOZ
+ SVsnDifu1MRKw==
+Date: Mon, 19 Aug 2024 18:12:59 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -45,16 +45,15 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Magnus Damm <magnus.damm@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: display: renesas,du: add top-level
- constraints
-Message-ID: <20240819-destiny-sampling-e9bdaa79e128@spud>
+Subject: Re: [PATCH 1/2] dt-bindings: display: renesas,du: narrow interrupts
+ and resets per variants
+Message-ID: <20240819-slam-pandemic-1e8464f8694f@spud>
 References: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
- <20240818173003.122025-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xUU/JYu+XtKbnnug"
+ protocol="application/pgp-signature"; boundary="uDC2vKcryAk+Ed2e"
 Content-Disposition: inline
-In-Reply-To: <20240818173003.122025-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,93 +70,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---xUU/JYu+XtKbnnug
+--uDC2vKcryAk+Ed2e
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 18, 2024 at 07:30:03PM +0200, Krzysztof Kozlowski wrote:
-> Properties with variable number of items per each device are expected to
-> have widest constraints in top-level "properties:" block and further
-> customized (narrowed) in "if:then:".  Add missing top-level constraints
-> for clocks, clock-names, interrupts, resets, reset-names, renesas,cmms
-> and renesas,vsps.
+On Sun, Aug 18, 2024 at 07:30:02PM +0200, Krzysztof Kozlowski wrote:
+> Each variable-length property like interrupts or resets must have fixed
+> constraints on number of items for given variant in binding.  The
+> clauses in "if:then:" block should define both limits: upper and lower.
 >=20
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-> ---
->  .../bindings/display/renesas,du.yaml          | 26 ++++++++++++++++---
->  1 file changed, 22 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/=
-Documentation/devicetree/bindings/display/renesas,du.yaml
-> index 147842b6465a..9a2d1c08cb1f 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -46,12 +46,26 @@ properties:
->      maxItems: 1
-> =20
->    # See compatible-specific constraints below.
-> -  clocks: true
-> -  clock-names: true
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 8
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 8
-> +
->    interrupts:
-> +    minItems: 1
-> +    maxItems: 4
->      description: Interrupt specifiers, one per DU channel
-> -  resets: true
-> -  reset-names: true
-> +
-> +  resets:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    minItems: 1
-> +    maxItems: 2
-> =20
->    power-domains:
->      maxItems: 1
-> @@ -77,6 +91,8 @@ properties:
-> =20
->    renesas,cmms:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 2
-> +    maxItems: 4
->      items:
->        maxItems: 1
->      description:
-> @@ -85,6 +101,8 @@ properties:
-> =20
->    renesas,vsps:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    maxItems: 4
->      items:
->        items:
->          - description: phandle to VSP instance that serves the DU channel
-> --=20
-> 2.43.0
->=20
-
---xUU/JYu+XtKbnnug
+--uDC2vKcryAk+Ed2e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsN81AAKCRB4tDGHoIJi
-0lqzAQDEzNVptamgSWR7ZQT4b0vDeHuVE/bagG1JpSirSojIkgD5AYcRIBIW8BLr
-eqgIzbzIMcv8p4Npru/ForYsRWGYWww=
-=R730
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsN9GwAKCRB4tDGHoIJi
+0qPVAP98hiUU5eVPGOTJ1UGLU2LGxJEw1yP/JSQO5PogiR6iZAD/RzmaR4O4KwZp
+lvFvfmz3HHReF1QQAOG6BlAjM85Zqwk=
+=/aZ7
 -----END PGP SIGNATURE-----
 
---xUU/JYu+XtKbnnug--
+--uDC2vKcryAk+Ed2e--
