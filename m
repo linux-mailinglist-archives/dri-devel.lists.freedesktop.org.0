@@ -2,104 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2399575CA
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 22:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1949F9575DF
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 22:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0ED10E36B;
-	Mon, 19 Aug 2024 20:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A277B10E371;
+	Mon, 19 Aug 2024 20:41:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="A1KyTfAq";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UbBGO0sA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF2F10E36B
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 20:38:47 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-7a35eff1d06so336692585a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 13:38:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1724099926; x=1724704726;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WfUQmRn/EFhMiTzRoHA7ZDzm1OmxjBuZj9W18S8T8rE=;
- b=A1KyTfAq6uexZNAZ6RkKiFVVY+tQKFL/+FeDLwH7yPytfeu5ZMNkZs6oqqcnR1Wec5
- /m1q5aSjRfiMpZLC2aAxVqV25gq+01MAAOS3smUBCKrzMY9zCg+AVHb5n2xE3BfHeP+H
- QKdR907vlSHqK+kFJRhYUfW75s1WO0O8FyzeituReGuSmd0D06j0WBNwGxOTNk/Kg+HN
- 3xUU8G8ciQ5KSTJ4YEmJqCORLnwwiYzRHlSjpvywkUrZliy0GqIIqBqLLNkg8HWp2fvM
- tppW5IsDLB7kmU28hisTz83+kv4AzKkgSq82e8aQGgskkmIWoqnsju2iwbdpzkQ7qOHw
- 7xsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724099926; x=1724704726;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WfUQmRn/EFhMiTzRoHA7ZDzm1OmxjBuZj9W18S8T8rE=;
- b=Yc25MNu/GIEgblfRcptKSrrYpb33v5C+04l45+ueuptWg1k8uEd/e/QZeHX2kUex0l
- Tj2Vx+VYxxAYcQaCdPioLl2m/xYyG/1B4cVQ5APWGYLdAJVSR6TJBJ1QSpgdeW7XiOKZ
- 5BQ5zc3pz/Ewg6HxC+bZum4HYFe6lpFJBrSEEIttKPnFfspUgbuq5dLoVfwHX+b8gnTA
- wdAq4zgNKLgA8bD6nPJZB1ZWgvPHeVDJ702W/vkhDBzTW2bMyS/UYMJtv/+L8v8yTsA0
- 9xmef+rVlkGkOqRqksNj0BgI+qHsvPf5FdnziYqdd7V5FEXwdZMRr7IHlUQEoYn4K4DA
- bjng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWWCYJL72gotFSn1Vczo4P8Z/Y5HLu+9QbITi5U+G7eSCjUYK4s/bXi5q5IEPCTYRSfqdfYajieHYg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywe++qyJdUodUJrkM2JTS8Cig47beW+W5zWqhg6W80jsLjvIdwi
- TyHXhpKwrWoKDJv87z19QV5NQrPr3iccyM3VAYxERC39PEBY26wHG7blGrWPVFjOC4ZiTSDcMmu
- 83zDpnYsHPIAm8ZC4QUeKhIOZ+hRprhCJfllt
-X-Google-Smtp-Source: AGHT+IH9NK+VEbJYkN3LP0eycR7QieY0LFTeKOUKys5z+kSU7zJQmMHAEMe3u1Xxmij2PKgwfzIhek+Uv3hwzgQnvEA=
-X-Received: by 2002:a05:6214:53c5:b0:6b7:ab98:b8b4 with SMTP id
- 6a1803df08f44-6bf7ce6839cmr162319456d6.48.1724099926079; Mon, 19 Aug 2024
- 13:38:46 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A50610E36D;
+ Mon, 19 Aug 2024 20:41:20 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JBGZhq023383;
+ Mon, 19 Aug 2024 20:41:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=UrVYAyWClBfPZIuMpSgpl1hc
+ Co+15rrUjpgphJBxI7M=; b=UbBGO0sA4yxx8MQpBaAaLKJyt7r4RRFwUT97Etj1
+ 4M459GUO1pJQfQ/0utlm9CgKKpank2FuKPpQIIQkb3gRXoorgAsHWJlZ3b0be+4w
+ 58+Q/WjLl+pc9TbqTTmKntgaMkD+HM5khlWPj5qIrkBejYGF61pG7osfw6ZyejoS
+ jXjZTtJp30lFdNvHkdrl13GaDetX00rP+03YHsl/6z2+dDYyq1bheqRVj/i/Ywe1
+ 1KN5h0lByNIeG0sDsqICS1hO3Jw7RwEbkiMNuuFyQ/y/JAGa+pBWZD0QEoqlbfgG
+ MxqUgDB/+mz52inDJpGpYysIUj8jT0upl3ezASS7FZD75Q==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 412jtrwgqa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Aug 2024 20:41:14 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47JKfDph009010
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Aug 2024 20:41:13 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 19 Aug 2024 13:41:08 -0700
+Date: Tue, 20 Aug 2024 02:11:04 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Antonino Maniscalco <antomani103@gmail.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konrad.dybcio@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 7/7] drm/msm/A6xx: Enable preemption for A7xx targets
+Message-ID: <20240819204104.ifa4cgefdnr3olhb@hu-akhilpo-hyd.qualcomm.com>
+References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
+ <20240815-preemption-a750-t-v1-7-7bda26c34037@gmail.com>
 MIME-Version: 1.0
-References: <20240819035448.2473195-1-almasrymina@google.com>
-In-Reply-To: <20240819035448.2473195-1-almasrymina@google.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 19 Aug 2024 16:38:32 -0400
-Message-ID: <CAHS8izMqcLnmo9792FPkkXPQSBWSjFGO+QHhkou=PaDHLwtsRw@mail.gmail.com>
-Subject: Re: [PATCH net-next v20 00/13] Device Memory TCP
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- bpf@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240815-preemption-a750-t-v1-7-7bda26c34037@gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: dkCXm6kb_9hGGkZZW7GhZXL1MVcxgwpn
+X-Proofpoint-GUID: dkCXm6kb_9hGGkZZW7GhZXL1MVcxgwpn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-19_16,2024-08-19_03,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015
+ suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408190140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,42 +95,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 18, 2024 at 11:54=E2=80=AFPM Mina Almasry <almasrymina@google.c=
-om> wrote:
->
-> v20: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D879373=
-&state=3D*
-> =3D=3D=3D=3D
->
-> v20 aims to resolve a couple of bug reports against v19, and addresses
-> some review comments around the page_pool_check_memory_provider
-> mechanism.
->
-> Major changes:
-> - Test edge cases such as header split disabled in selftest.
-> - Change `offset =3D 0` back to `offset =3D offset - start` to resolve is=
-sue
->   found in RX path by Taehee (thanks!)
-> - Address a few comments around page_pool_check_memory_provider() from
->   Pavel & Jakub.
-> - Removed some unnecessary includes across various patches in the
->   series.
-> - Removed unnecessary EXPORT_SYMBOL(page_pool_mem_providers) (Jakub).
-> - Fix regression caused by incorrect dev_get_max_mp_channel check, along
->   with rename (Jakub).
->
+On Thu, Aug 15, 2024 at 08:26:17PM +0200, Antonino Maniscalco wrote:
+> Initialize with 4 rings to enable preemption.
+> 
+> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 86357016db8d..dfcbe08f2161 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -2598,7 +2598,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>  	}
+>  
+>  	if (is_a7xx)
+> -		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 1);
+> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 4);
 
-Looks like in this iteration I resolved the previous test failure, but
-introduced a build regression with certain configs:
+Ideally, we should test each a7x target before enabling preemption
+support. We don't know for sure if the save-restore list is accurate or the firmware
+used has all the necessary support for preemption.
 
-ld: vmlinux.o: in function `netdev_rx_queue_restart':
-(.text+0x6a4133): undefined reference to `page_pool_check_memory_provider'
-make[3]: *** [../scripts/Makefile.vmlinux:34: vmlinux] Error 1
-make[2]: *** [/home/kunit/testing/Makefile:1156: vmlinux] Error 2
-make[1]: *** [/home/kunit/testing/Makefile:224: __sub-make] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
+-Akhil.
 
-Looks like I'm not build testing with enough config variations (in
-this case CONFIG_NET=3Dy but CONFIG_PAGE_POOL=3Dn). I've fixed the issue
-locally and added a test to my presubmit checks with this config and a
-couple of risky others. Sorry about that.
+>  	else if (adreno_has_gmu_wrapper(adreno_gpu))
+>  		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
+>  	else
+> 
+> -- 
+> 2.46.0
+> 
+> 
