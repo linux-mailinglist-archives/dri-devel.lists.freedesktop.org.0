@@ -2,83 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B0895720E
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:23:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A81995724E
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 19:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9564210E332;
-	Mon, 19 Aug 2024 17:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2026B10E337;
+	Mon, 19 Aug 2024 17:44:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EJPEMbLM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l/+eIxfS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 234DB10E32F
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 17:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724088219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fSh+AKHfROTY2o6Hz6Tk9lBXTICcXCJ9yq1Q239cTB8=;
- b=EJPEMbLMDI7QT5/fvJDZEI96fhtWPzoKOXzVu5+l8pS6/SNP0cu5rRMLvo4UHbmrNKDM+b
- JDosMeIdtCM8DTU0oJkOt4ndjMtwfOVL6/lYFJb6KZolk9YVOzhzh2Wa9v9mMDGEFSfflS
- roN4FRiGTrNXPhYfHdkMFqqo2RWCXi0=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-mL2Xm1guN7ePkHbj2VRipg-1; Mon, 19 Aug 2024 13:23:37 -0400
-X-MC-Unique: mL2Xm1guN7ePkHbj2VRipg-1
-Received: by mail-pf1-f200.google.com with SMTP id
- d2e1a72fcca58-7106ed795deso2402859b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 10:23:37 -0700 (PDT)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B262010E334;
+ Mon, 19 Aug 2024 17:44:56 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-454b12cc82cso15131111cf.1; 
+ Mon, 19 Aug 2024 10:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724089495; x=1724694295; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=wgl1BIT1Iozvq+rn/hswreZzgz/VlUWJ1e7JlV7+eKs=;
+ b=l/+eIxfSdCc8t9DrQLdjeqAYYvwQlKAPuakSmhMQfsG3ZDjvCkJCYbGfgqGhvYtCga
+ vkSqtSF2gmSIiJ2QgW1M8lMShpGEWKEywG7K342i++1Om/D4z630K2ikmFOxLoM64a03
+ 9PT9MDl2KOCgHVitRu+Hp+CXznm/1l0VjxlkZqHT1Hde2Jwo1k5YcU8F5CsK82Cy8l5V
+ hK1mCnBoMmY+R13INIDOvrkFpEA+fEYD4nBrf1FGTIlV3mnr8rXuGtjiD/o10FnQh7QJ
+ YS+rHS1DTjrCIK6+fLb/qHRJ5SeH5H5ZmQ97DXqvIaSZe859+tA0TSRSGuRgA7t7ZW2Q
+ oCqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724088217; x=1724693017;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fSh+AKHfROTY2o6Hz6Tk9lBXTICcXCJ9yq1Q239cTB8=;
- b=ZSUEAbKWXS72dplbJ2BxK1g7ekSR3flhmOua3m6odDivKwqcuJux2IHfe4JWRAkL5L
- 7dQ4OIjVnRH5dAPKrHefXyQTNZkkfIYdmzl+65e+ZUR3D82qi6AKicbQ/v5AZfOlLzgj
- /QB25WEe7/6pBVmAzECKVRnFLHJQ53sxQJYxvDKCDpMNMiqTNypfqGjK/MYeDE5quajd
- tOd3FO1Y3mEpnUvSNbr7USbpV93H8KBbojYgDBEO6d462dWfpqotsmweLAxX7Ek+lzRD
- U+7mxYHsA84izZN1QLUi0TKtojUs/hptafWVZhgt2iLgORA23BT9X8udoGLzZXbjFEzo
- b9wg==
+ d=1e100.net; s=20230601; t=1724089495; x=1724694295;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wgl1BIT1Iozvq+rn/hswreZzgz/VlUWJ1e7JlV7+eKs=;
+ b=G0UyKVCzvpeVGy5HFAM0+LlEWH9RZM5CZyNOEinnWagA/RlWqsFBxLqcaRQZA08Jet
+ a7nDBGIjp8/+kCC+9bYmFM4DZkiu55u49vozhJvrDAMPah7y3DrePWrLl62FijKOmg3T
+ GDMo83NdnfWxhetJkDNlg06T//tfuah5nTzt42XuCA2PORyj3QbWdMO42yV5TvLnZQgs
+ soMbcESdzsDS15V23m0PbtKqojHpddp76xfJ7ZhDUxIxPlzbv0qltOamkpg8C1uBwVmK
+ OCYhs7vIRzWmxx9eSgXd+W4vXd7r8TilaufIwHfXx06db4D1JL5XXz8NxN6OTDoO5rFt
+ kG7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXKFfGd3Wo8lEAQTw2hgKkIqZ/g1/yQNB2YgAGm/sOUldQDjfg7EKAOMsq3TOE4XsPxEmgCnc4Fe8jO7taQB7f2cxVysaldvj/fXGRdta3T
-X-Gm-Message-State: AOJu0YxKdv8+63IjX7EoJftKTqFVsIfqJzaeEee0LCfFT60YNepHDpHf
- Ht7mzOY35KcSMM7Ddnzx4szZy3/E3lJzKta71M2kEoc7IGBC+7oGb41tI2aIwSqAhBXg3AScHDN
- bvXK6BwsuCGfhQHmaitaFOLJOTy4js9QALQk9XOqrXu9/5d5ZM5zN/SRUHHYqc5YZ5w==
-X-Received: by 2002:a05:6a20:9d8f:b0:1c4:b843:fa25 with SMTP id
- adf61e73a8af0-1c904fb656bmr11943414637.26.1724088216821; 
- Mon, 19 Aug 2024 10:23:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHSDHyDrjBuGFu+b/kmVXsnPxa87OiRQHTdxkMfzpoHRCn+Sotx/RfRkFNZUyRweZND934hmQ==
-X-Received: by 2002:a05:6a20:9d8f:b0:1c4:b843:fa25 with SMTP id
- adf61e73a8af0-1c904fb656bmr11943383637.26.1724088216373; 
- Mon, 19 Aug 2024 10:23:36 -0700 (PDT)
-Received: from localhost ([2803:2a00:8:776f:e199:77:1ec5:b560])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7127aef8996sm6790756b3a.122.2024.08.19.10.23.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2024 10:23:35 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Alex Deucher
- <alexander.deucher@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Helge Deller <deller@gmx.de>, Sam
- Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- stable@vger.kernel.org
-Subject: Re: [PATCH V2] video/aperture: match the pci device when calling
- sysfb_disable()
-In-Reply-To: <20240819165341.799848-1-alexander.deucher@amd.com>
-References: <20240819165341.799848-1-alexander.deucher@amd.com>
-Date: Mon, 19 Aug 2024 19:23:33 +0200
-Message-ID: <87frr0a0kq.fsf@minerva.mail-host-address-is-not-set>
+ AJvYcCUAzekAXmbNg5wzINUXGraz03hkXmRvwFPOBBfcAgkgEwg8addFwafyRbQVEEV+5U1gcByP/pj1Zkh+LrjBkR6PxOGpTiYr3NhF27hTHPBW
+X-Gm-Message-State: AOJu0YwPxL7Y7FzePGRbyaUVVTx8wKGpkDRJZ3tmVPaMhVXksqhz6By8
+ aRSAh4Ffx3KweICJ8hctphgmdrpwtY7bH+f4BGXdT3+Hc+JLxhsCVNM1kKPr/hf9RtDj8C+WpDe
+ DRV0i1ek/59TvbZXh0uXSWOLBugQ=
+X-Google-Smtp-Source: AGHT+IHUDWyeHAWncFwmJ3gO/XndoAN8ewNPeGsyFPpfqXOgHze3iG++N1bdhT8TIQWKdZvcy9tcj394w7QRjDtw8nQ=
+X-Received: by 2002:a05:622a:2486:b0:451:c93a:5aa5 with SMTP id
+ d75a77b69052e-453743ac25bmr164309471cf.56.1724089495295; Mon, 19 Aug 2024
+ 10:44:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 19 Aug 2024 10:44:42 -0700
+Message-ID: <CAF6AEGvxF2p3-AsjUydmSYrA0Vb+Ea7nh3VtNX0pT0Ae_Me-Kw@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2024-08-19 for v6.11-rc5
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,102 +77,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Alex Deucher <alexander.deucher@amd.com> writes:
+Hi Dave,
 
-Hello Alex,
+A few fixes for v6.11, see description below.
 
-> In aperture_remove_conflicting_pci_devices(), we currently only
-> call sysfb_disable() on vga class devices.  This leads to the
-> following problem when the pimary device is not VGA compatible:
->
-> 1. A PCI device with a non-VGA class is the boot display
-> 2. That device is probed first and it is not a VGA device so
->    sysfb_disable() is not called, but the device resources
->    are freed by aperture_detach_platform_device()
-> 3. Non-primary GPU has a VGA class and it ends up calling sysfb_disable()
-> 4. NULL pointer dereference via sysfb_disable() since the resources
->    have already been freed by aperture_detach_platform_device() when
->    it was called by the other device.
->
-> Fix this by passing a device pointer to sysfb_disable() and checking
-> the device to determine if we should execute it or not.
->
-> v2: Fix build when CONFIG_SCREEN_INFO is not set
->
-> Fixes: 5ae3716cfdcd ("video/aperture: Only remove sysfb on the default vga pci device")
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Cc: stable@vger.kernel.org
-> ---
+The following changes since commit fe34394ecdad459d2d7b1f30e4a39ac27fcd77f8:
 
-The patch looks good to me.
+  dt-bindings: display/msm: dsi-controller-main: Add SM7150
+(2024-07-03 05:57:35 -0700)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+are available in the Git repository at:
 
-I just have to minor comments below:
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2024-08-19
 
-...
+for you to fetch changes up to 624ab9cde26a9f150b4fd268b0f3dae3184dc40c:
 
->  /**
->   * sysfb_disable() - disable the Generic System Framebuffers support
-> + * @dev:	the device to check if non-NULL
->   *
->   * This disables the registration of system framebuffer devices that match the
->   * generic drivers that make use of the system framebuffer set up by firmware.
-> @@ -61,8 +64,12 @@ static bool sysfb_unregister(void)
->   * Context: The function can sleep. A @disable_lock mutex is acquired to serialize
->   *          against sysfb_init(), that registers a system framebuffer device.
->   */
-> -void sysfb_disable(void)
-> +void sysfb_disable(struct device *dev)
->  {
-> +	struct screen_info *si = &screen_info;
-> +
-> +	if (dev && dev != sysfb_parent_dev(si))
-> +		return;
+  drm/msm/adreno: Fix error return if missing firmware-name
+(2024-08-15 10:12:07 -0700)
 
-Does this need to be protected by the disable_lock mutex? i.e:
+----------------------------------------------------------------
+Fixes for v6.11-rc5
 
-        mutex_lock(&disable_lock);
-        if (!dev || dev == sysfb_parent_dev(si) {
-                sysfb_unregister();
-                disabled = true;
-        }
-        mutex_unlock(&disable_lock);
+1) Fixes from the virtual plane series, namely
+   - fix the list of formats for QCM2290 since it has no YUV support
+   - minor fix in dpu_plane_atomic_check_pipe() to check only for csc and
+     not csc and scaler while allowing yuv formats
+   - take rotation into account while allocating virtual planes
 
-...
+2) Fix to cleanup FB if dpu_format_populate_layout() fails. This fixes the
+   warning splat during DRM file closure
 
-> @@ -353,8 +353,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
->  	if (pdev == vga_default_device())
->  		primary = true;
->
-> -	if (primary)
-> -		sysfb_disable();
-> +	sysfb_disable(&pdev->dev);
->
+3) Fix to reset the phy link params before re-starting link training. This
+   fixes the 100% link training failure when someone starts modetest while
+   cable is connected
 
-After this change the primary variable is only used to determine whether 
-__aperture_remove_legacy_vga_devices(pdev) should be called or not. So I
-wonder if could just be dropped and instead have:
+4) Long pending fix to fix a visual corruption seen for 4k modes. Root-cause
+   was we cannot support 4k@30 with 30bpp with 2 lanes so this is a critical
+   fix to use 24bpp for such cases
 
-	/*
-	 * If this is the primary adapter, there could be a VGA device
-	 * that consumes the VGA framebuffer I/O range. Remove this
-	 * device as well.
-	 */
-	if (pdev == vga_default_device())
-		ret = __aperture_remove_legacy_vga_devices(pdev);
+5) Fix to move dpu encoder's connector assignment to atomic_enable(). This
+   fixes the NULL ptr crash for cases when there is an atomic_enable()
+   without atomic_modeset() after atomic_disable() . This happens for
+   connectors_changed case of crtc. It fixes a NULL ptr crash reported
+   during hotplug.
 
+6) Fix to simplify DPU's debug macros without which dynamic debug does not
+   work as expected
 
+7) Fix the highest bank bit setting for sc7180
 
--- 
-Best regards,
+8) adreno: fix error return if missing firmware-name
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+----------------------------------------------------------------
+Abhinav Kumar (4):
+      drm/msm/dp: fix the max supported bpp logic
+      drm/msm/dpu: move dpu_encoder's connector assignment to atomic_enable()
+      drm/msm/dp: reset the link phy params before link training
+      drm/msm: fix the highest_bank_bit for sc7180
 
+Dmitry Baryshkov (5):
+      drm/msm/dpu: don't play tricks with debug macros
+      drm/msm/dpu: cleanup FB if dpu_format_populate_layout fails
+      drm/msm/dpu: limit QCM2290 to RGB formats only
+      drm/msm/dpu: relax YUV requirements
+      drm/msm/dpu: take plane rotation into account for wide planes
+
+Rob Clark (1):
+      drm/msm/adreno: Fix error return if missing firmware-name
+
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c        |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c    |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h        | 14 ++------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 20 +++++++++++++++++---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c               |  2 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c              | 19 ++++++++++---------
+ drivers/gpu/drm/msm/msm_mdss.c                 |  2 +-
+ 8 files changed, 37 insertions(+), 30 deletions(-)
