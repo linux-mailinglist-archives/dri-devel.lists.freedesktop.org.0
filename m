@@ -2,148 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD714956E5B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DE0956E7C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 17:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEEF10E2BA;
-	Mon, 19 Aug 2024 15:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8D810E2BB;
+	Mon, 19 Aug 2024 15:16:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ByLZoEiy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hAWdifuD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ByLZoEiy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hAWdifuD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dn81dvE/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBBF10E0B0;
- Mon, 19 Aug 2024 15:14:33 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1A35421ED1;
- Mon, 19 Aug 2024 15:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724080472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
- b=ByLZoEiy9Zqj+jusKjzCUjM7CcDAKJBRZu2gS4Q+90/sKidXcuCiDGJ9wAHdEeNTvV++jh
- B6/edI/CckS/W//pt9jb59hKsw2gpT00IzktxRdRK+2QXD17EONvkKvVpGm+/AOiE9Yecm
- YJVNAw47PArUw+MPOc8seAVeij+858c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724080472;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
- b=hAWdifuDBGPUaH3YtbZGWx9R4dOwNQKB/UfM2bmwmF2uPZmQlY6SBeNuAV2XxiQLlGKsGv
- WQoG4adn61E4ywCQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ByLZoEiy;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hAWdifuD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724080472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
- b=ByLZoEiy9Zqj+jusKjzCUjM7CcDAKJBRZu2gS4Q+90/sKidXcuCiDGJ9wAHdEeNTvV++jh
- B6/edI/CckS/W//pt9jb59hKsw2gpT00IzktxRdRK+2QXD17EONvkKvVpGm+/AOiE9Yecm
- YJVNAw47PArUw+MPOc8seAVeij+858c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724080472;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=51YdApFs8jsVtd2RKoqunhnxphP9DtzQ+7ug6Ap7uko=;
- b=hAWdifuDBGPUaH3YtbZGWx9R4dOwNQKB/UfM2bmwmF2uPZmQlY6SBeNuAV2XxiQLlGKsGv
- WQoG4adn61E4ywCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDDAF137C3;
- Mon, 19 Aug 2024 15:14:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 3ZwZLVdhw2Z3GQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 19 Aug 2024 15:14:31 +0000
-Message-ID: <3fdacb13-6b91-4266-9fa5-8a14f46527b5@suse.de>
-Date: Mon, 19 Aug 2024 17:14:31 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5EBB10E2BB;
+ Mon, 19 Aug 2024 15:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724080575; x=1755616575;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=MON53pjJRt/NJhE1tpToOCGRZJvVjvvDQXnEYBo0jwo=;
+ b=dn81dvE/5lQ+v4okt8ZaUqkcecJ5Gsg7HjFnufcmbyUWMKQ2zD0KOl8a
+ hpeE7AlYwNhJemGAR1B7IzYeodyCe2zS+6HKYNrs1TbgwExAucPuGtaIX
+ ZVoz8dr3UQCnCctIUK2yHZWQ6cYtVHTIkm/Jpyf2Z4ijRBK5kuj5lrG5b
+ WrXyEoazL/Jr8l8/LWr6WqnQPPZ/vA6Y/P6AkT6+mCzPE9bU7R6KoeWas
+ dasKivLTo2nlI3Q+aBPaAcYyUPYt1cY7oGjfQiTJ4h8zD/5JoVzqE/53d
+ /DBDN03nVW8vlnluyP11ZcRyoW8fr++hwp5G3ZUy6Hj0CjE+yWEJQQdk3 g==;
+X-CSE-ConnectionGUID: Nnh0KPt4QmC9Ja3tep0efg==
+X-CSE-MsgGUID: 4gYrzPOyRZCEAnAS29Z7yA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="21879145"
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; d="scan'208";a="21879145"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 08:16:15 -0700
+X-CSE-ConnectionGUID: w3sXov8yR5mOeQD0SioEQA==
+X-CSE-MsgGUID: xZVl/PShTaGVcbFmJSgd6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; d="scan'208";a="91147865"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.73])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2024 08:16:12 -0700
+Date: Mon, 19 Aug 2024 17:16:09 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Sima <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 0/2] Allow partial memory mapping for cpu memory
+Message-ID: <ZsNhua9FIrDT92-r@ashyti-mobl2.lan>
+References: <20240814134837.116498-1-andi.shyti@linux.intel.com>
+ <ZrzWJiJ2Yr0DJPG2@DUT025-TGLU.fm.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] video/aperture: match the pci device when calling
- sysfb_disable()
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: kernel test robot <lkp@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
- intel-gfx@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- stable@vger.kernel.org
-References: <20240809150327.2485848-1-alexander.deucher@amd.com>
- <202408101951.tXyqYOzv-lkp@intel.com>
- <1c77f913-4707-4300-b84a-36fcf99942f4@suse.de>
- <CADnq5_NjCFyy+bQY+uyijcZwvwXYkvVLLUQdtzN_ODvHAj193Q@mail.gmail.com>
- <8bbf3f92-3719-4ff4-9587-e076635758d1@suse.de>
-Content-Language: en-US
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <8bbf3f92-3719-4ff4-9587-e076635758d1@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1A35421ED1
-X-Spam-Score: -6.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_TO(0.00)[gmail.com];
- RCPT_COUNT_TWELVE(0.00)[12]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- MID_RHS_MATCH_FROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[intel.com,amd.com,lists.freedesktop.org,lists.linux.dev,redhat.com,gmx.de,ravnborg.org,ffwll.ch,vger.kernel.org];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,git-scm.com:url,01.org:url];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZrzWJiJ2Yr0DJPG2@DUT025-TGLU.fm.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,152 +76,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Matt,
 
+On Wed, Aug 14, 2024 at 04:07:02PM +0000, Matthew Brost wrote:
+> On Wed, Aug 14, 2024 at 03:48:32PM +0200, Andi Shyti wrote:
+> > I am resending this patch series, not to disregard the previous
+> > discussions, but to ensure it gets tested with the IGTs that
+> > Krzysztof has provided.
+> > 
+> > This patch series finalizes the memory mapping fixes and
+> > improvements by enabling partial memory mapping for CPU memory as
+> > well.
+> > 
+> > The concept of partial memory mapping, achieved by adding an
+> > object offset, was implicitly introduced in commit 8bdd9ef7e9b1
+> > ("drm/i915/gem: Fix Virtual Memory mapping boundaries
+> > calculation") for GTT memory.
+> > 
+> > To address a previous discussion with Sima and Matt, this feature
+> > is used by Mesa and is required across all platforms utilizing
+> > Mesa. Although Nirmoy suggested using the Fixes tag to backport
+> 
+> Other vendors than Intel too?
 
-Am 19.08.24 um 10:04 schrieb Thomas Zimmermann:
-> Hi
->
-> Am 16.08.24 um 22:57 schrieb Alex Deucher:
->> On Mon, Aug 12, 2024 at 8:10 AM Thomas Zimmermann 
->> <tzimmermann@suse.de> wrote:
->>> Hi
->>>
->>> Am 10.08.24 um 13:44 schrieb kernel test robot:
->>>> Hi Alex,
->>>>
->>>> kernel test robot noticed the following build errors:
->>>>
->>>> [auto build test ERROR on drm-misc/drm-misc-next]
->>>> [also build test ERROR on linus/master v6.11-rc2 next-20240809]
->>>> [If your patch is applied to the wrong git tree, kindly drop us a 
->>>> note.
->>>> And when submitting patch, we suggest to use '--base' as documented in
->>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>
->>>> url: 
->>>> https://github.com/intel-lab-lkp/linux/commits/Alex-Deucher/video-aperture-match-the-pci-device-when-calling-sysfb_disable/20240810-021357
->>>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->>>> patch link: 
->>>> https://lore.kernel.org/r/20240809150327.2485848-1-alexander.deucher%40amd.com
->>>> patch subject: [PATCH] video/aperture: match the pci device when 
->>>> calling sysfb_disable()
->>>> config: csky-randconfig-001-20240810 
->>>> (https://download.01.org/0day-ci/archive/20240810/202408101951.tXyqYOzv-lkp@intel.com/config)
->>>> compiler: csky-linux-gcc (GCC) 14.1.0
->>>> reproduce (this is a W=1 build): 
->>>> (https://download.01.org/0day-ci/archive/20240810/202408101951.tXyqYOzv-lkp@intel.com/reproduce)
->>>>
->>>> If you fix the issue in a separate patch/commit (i.e. not just a 
->>>> new version of
->>>> the same patch/commit), kindly add following tags
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Closes: 
->>>> https://lore.kernel.org/oe-kbuild-all/202408101951.tXyqYOzv-lkp@intel.com/
->>>>
->>>> All errors (new ones prefixed by >>):
->>>>
->>>>      csky-linux-ld: drivers/video/aperture.o: in function 
->>>> `aperture_remove_conflicting_pci_devices':
->>>>>> aperture.c:(.text+0x222): undefined reference to 
->>>>>> `screen_info_pci_dev'
->>> Strange. There's a already placeholder [1] for architectures without
->>> PCI. Otherwise the source file is listed at [2].
->> So I dug into this, and the problem seems to be that
->> CONFIG_SCREEN_INFO is not defined in that config.  I can't figure out
->> how this should work in that case or why this is not a problem in
->> drivers/firmware/sysfb.c.
->>
->> Something like this works:
->> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
->> index 56a5a0bc2b1af..50e98210c9fe5 100644
->> --- a/drivers/video/aperture.c
->> +++ b/drivers/video/aperture.c
->> @@ -347,7 +347,9 @@ EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
->>    */
->>   int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev,
->> const char *name)
->>   {
->> +#if defined(CONFIG_SCREEN_INFO)
->>          struct screen_info *si = &screen_info;
->> +#endif
->>          bool primary = false;
->>          resource_size_t base, size;
->>          int bar, ret = 0;
->> @@ -355,8 +357,10 @@ int
->> aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
->> char *na
->>          if (pdev == vga_default_device())
->>                  primary = true;
->>
->> +#if defined(CONFIG_SCREEN_INFO)
->>          if (pdev == screen_info_pci_dev(si))
->>                  sysfb_disable();
->> +#endif
->>
->>          for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
->>                  if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
->>
->> But that can't be the right fix...  Any ideas?
->
-> Thanks for investigating. I'd say we should pass the device 
-> (pdev->dev) to sysfb_disable() and  do the test there. In sysfb.c, 
-> next to sysfb_disable(), you'll find sysfb_parent_dev(), which gives 
-> the Linux device of the screen_info.
->
-> The code then looks something like this:
->
-> sysfb_disable(struct device *dev)
-> {
->     if (dev && dev == sysfb_parent_dev(screen_info))
+Yes, that's what I understood.
 
-s/==/!=
+I hope Lionel can jump in and explain the use cases from Mesa
+perspective.
 
-> return
->
->   /* else do the current code */
-> }
->
-> there's an invocation of sysfb_disable() in drivers/of/platform.c 
-> where you can pass NULL.
->
-> Best regards
-> Thomas
->
->>
->> Alex
->>
->>> [1]
->>> https://elixir.bootlin.com/linux/v6.10/source/include/linux/screen_info.h#L127 
->>>
->>> [2] 
->>> https://elixir.bootlin.com/linux/v6.10/source/drivers/video/Makefile#L11 
->>>
->>>
->>> Best regards
->>> Thomas
->>>
->>>>      csky-linux-ld: drivers/video/aperture.o: in function 
->>>> `devm_aperture_acquire_release':
->>>>>> aperture.c:(.text+0x2c0): undefined reference to `screen_info'
->>>>>> csky-linux-ld: aperture.c:(.text+0x2c4): undefined reference to 
->>>>>> `screen_info_pci_dev'
->>> -- 
->>> -- 
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->>> HRB 36809 (AG Nuernberg)
->>>
->
+> > this to previous kernels, I view this as a new feature rather
+> > than a fix.
+> > 
+> > Lionel, please let me know if you have a different perspective
+> > and believe this should be treated as a bug fix, requiring it
+> > to be backported to stable kernels.
+> > 
+> > The IGTs have been developed in collaboration with the Mesa team
+> > to replicate the exact Mesa use case[*].
+> > 
+> > Thanks Chris for the support, thanks Krzysztof for taking care of
+> > the IGT tests, thanks Nirmoy for your reviews and thanks Sima and
+> > Matt for the discussion on this series.
+> > 
+> > Andi
+> > 
+> > [*] https://patchwork.freedesktop.org/patch/608232/?series=137303&rev=1
+> 
+> So here is really quick test [1] which I put together in Xe to test
+> partial mmaps, not as complete as the i915 one though.
+> 
+> It fails on the Xe baseline.
+> 
+> It pass if with [2] in drm_gem.c:drm_gem_mmap. Blindly changing that
+> function might not be the correct solution but thought I'd share as a
+> reference.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Thanks for sharing it. I took a quick look and I think there are
+a few things missing there. If you want and if this is not in
+anyone's task list, I can try to "port" this in XE.
 
+Is there any other objection to getting this merged into i915?
+
+Andi
