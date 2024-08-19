@@ -2,107 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318779561A0
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 05:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC7895637D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2024 08:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 937D010E19F;
-	Mon, 19 Aug 2024 03:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E334910E1AF;
+	Mon, 19 Aug 2024 06:13:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="sa0S00ta";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="uD7w1lyd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
- [209.85.219.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DFD910E19F
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 03:55:16 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id
- 3f1490d57ef6-e0353b731b8so6294608276.2
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2024 20:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1724039715; x=1724644515;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=boXjESgdTWQLiG6t6XpDdGr7L3LSCk/sMDntOjdOAS4=;
- b=sa0S00taxeaCOvukAZqcSLCfyXCnt3xLnPGaH3U+TxDl+F2yv577toL2Y/yK06WzT3
- rbMZX1LmPg5D9Kt/6hH4J69c0ulexZn6BmbIwXslGasQphy7h2iwvhrL8a7A8F57zq+1
- VVbD32hLtyw7QdwABDBaBPbxzKArO7SeFTZgCHMHQc5XzSi1GsqQt3bI0Tk5AGs4VNC8
- sdXFiL7YQiAnVwjNNZ6J2DIM/4BxuJ2zjCAMjYuImxG4HqpXsdL9vQ9+MqgC5jjkqEvk
- FVmg5IPBFPe6tp8hIwOmcu3Kaf1H6do8o3fSj7Qh5KF5Acawu1JoAVloy31W/cRmX3ep
- eNIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724039715; x=1724644515;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=boXjESgdTWQLiG6t6XpDdGr7L3LSCk/sMDntOjdOAS4=;
- b=CivSeub6aAA22sY8JtZcVCtmbFwHQbUAK7Ko+FdGrCwONdPqRqF63smrzRYy3dR/36
- rFtQNcbO29ozi8VJUQt0WA70MW439xMvQu4eos59V7p+taJQydUdEYEquRZSUoyFUz2L
- SoBosKwRXRTB72Lptj/pJOnc85snVrnqYl7vqrRXifkaUYhtBSdsqRltCWiPIBAvMWwB
- 0cn1vh4Q4ovp1EZIAvQUax9AQxnUisbngc13NiuFsZ5/g45dvl4S6IziUpu3V63jdfIP
- XRNFnnlRqC775OW3Ntdfjb+xVwSHHDaQQULtoRXLXS72vlpBaa7YyIvq0dRtUxWoftKn
- iLwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWAtVzTROD4QV4f/sd2m7pQLBd3PbYfYexO5J5LKpcFmBjiWLy+05HkebfGZsGjSbu6PTWD5fPTKqQnTae7CxqqXCRVs9P0oumbfd4JuGXE
-X-Gm-Message-State: AOJu0YwDgEOmAqMWmQJBcwsQbt5lHq3ak7jd29RBKrahD8hSgdqE2y82
- UCAdBpik91AmVgPwftqBi8iAJ3FO2pMCobryXcX6nKmxhIxFRMiClvQjOehDJt2DZ+lkrAA0MQ3
- zGDQG2Q+U8vhYHaAJFhJ7Mg==
-X-Google-Smtp-Source: AGHT+IGYA+amTKThCk7veM6D3f5sThh4Cg+j7ljIkYvvrsRv3uMSTVwGF5elitD5+B+ElOczfN8dTxbGAnzb+sPMzA==
-X-Received: from almasrymina.c.googlers.com
- ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a05:6902:1005:b0:e0e:4350:d7de with
- SMTP id 3f1490d57ef6-e1180f71ae2mr23359276.9.1724039715311; Sun, 18 Aug 2024
- 20:55:15 -0700 (PDT)
-Date: Mon, 19 Aug 2024 03:54:48 +0000
-In-Reply-To: <20240819035448.2473195-1-almasrymina@google.com>
-Mime-Version: 1.0
-References: <20240819035448.2473195-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
-Message-ID: <20240819035448.2473195-14-almasrymina@google.com>
-Subject: [PATCH net-next v20 13/13] netdev: add dmabuf introspection
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- bpf@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>,
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 497C910E16C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2024 06:13:44 +0000 (UTC)
+X-UUID: 2b1514d85df211ef8b96093e013ec31c-20240819
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=QE567wxaZYFj8kwiVIzL4/viZ/NIGTuq9+uq6fgydvM=; 
+ b=uD7w1lydlSP/2HaaHdgw5Rl/slz44EK04KenunCh3Km88rbcdGskt9hh2mKcHbTtaUPF/lVNcyTWWYMTMU6prjB4Z994snwtJ8vcyFeydw1HkfXT/7mHgcQ4b6/VmXj09EQNgZQ+V8DYS4hA9xjE2+tt88sY3iJflwu7x6IIimc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:ddacd687-d0e5-4fc7-ab3c-6071fa2256b3, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:e578a95b-248b-45cb-bde8-d789f49f4e1e,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 2b1514d85df211ef8b96093e013ec31c-20240819
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw02.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1393039332; Mon, 19 Aug 2024 14:13:35 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 19 Aug 2024 14:13:35 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 19 Aug 2024 14:13:35 +0800
+From: Shuijing Li <shuijing.li@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, Shuijing Li
+ <shuijing.li@mediatek.com>
+Subject: [PATCH v7] drm/mediatek: dsi: Add dsi per-frame lp code for mt8188
+Date: Mon, 19 Aug 2024 14:12:51 +0800
+Message-ID: <20240819061333.26069-1-shuijing.li@mediatek.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,208 +77,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add dmabuf information to page_pool stats:
+Adding the per-frame lp function of mt8188, which can keep HFP in HS and
+reduce the time required for each line to enter and exit low power.
+Per Frame LP:
+  |<----------One Active Frame-------->|
+--______________________________________----___________________
+  ^HSA+HBP^^RGB^^HFP^^HSA+HBP^^RGB^^HFP^    ^HSA+HBP^^RGB^^HFP^
 
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump page-pool-get
-...
- {'dmabuf': 10,
-  'id': 456,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 455,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 454,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 453,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 452,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 451,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 450,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 449,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
+Per Line LP:
+  |<---------------One Active Frame----------->|
+--______________--______________--______________----______________
+  ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^    ^HSA+HBP^^RGB^
 
-And queue stats:
-
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump queue-get
-...
-{'dmabuf': 10, 'id': 8, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 9, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 10, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 11, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 12, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 13, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 14, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 15, 'ifindex': 3, 'type': 'rx'},
-
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
-
+Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
 ---
- Documentation/netlink/specs/netdev.yaml | 10 ++++++++++
- include/uapi/linux/netdev.h             |  2 ++
- net/core/netdev-genl.c                  | 10 ++++++++++
- net/core/page_pool_user.c               |  4 ++++
- tools/include/uapi/linux/netdev.h       |  2 ++
- 5 files changed, 28 insertions(+)
+Changes in v7:
+Fix code style and simplify the code per suggestion from previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240813022315.18502-1-shuijing.li@mediatek.com/
+Changes in v6:
+Simplify the code per suggestion from previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240812070341.26053-1-shuijing.li@mediatek.com/
+Changes in v5:
+Fix code style issue and add per-line-lp function to be symmetrical with per-frame-lp.
+per suggestion from previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240801081144.22372-1-shuijing.li@mediatek.com/
+Changes in v4:
+Drop the code related to bllp_en and bllp_wc, adjust ps_wc to dsi->vm.hactive *
+dsi_buf_bpp.
+Changes in v3:
+Use function in bitfield.h and get value from phy timing, per suggestion
+from previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240424091639.22759-1-shuijing.li@mediatek.com/
+Changes in v2:
+Use bitfield macros and add new function for per prame lp and improve
+the format, per suggestion from previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240314094238.3315-1-shuijing.li@mediatek.com/
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 110 +++++++++++++++++++++++++----
+ 1 file changed, 98 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
-index 0c747530c275..08412c279297 100644
---- a/Documentation/netlink/specs/netdev.yaml
-+++ b/Documentation/netlink/specs/netdev.yaml
-@@ -167,6 +167,10 @@ attribute-sets:
-           "re-attached", they are just waiting to disappear.
-           Attribute is absent if Page Pool has not been detached, and
-           can still be used to allocate new memory.
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf this page-pool is attached to.
-+        type: u32
-   -
-     name: page-pool-info
-     subset-of: page-pool
-@@ -268,6 +272,10 @@ attribute-sets:
-         name: napi-id
-         doc: ID of the NAPI instance which services this queue.
-         type: u32
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf attached to this queue, if any.
-+        type: u32
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index b6e3c011a12d..58518f3257a8 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -88,12 +88,15 @@
+ #define DSI_HSA_WC		0x50
+ #define DSI_HBP_WC		0x54
+ #define DSI_HFP_WC		0x58
++#define HFP_HS_VB_PS_WC		GENMASK(30, 16)
++#define HFP_HS_EN			BIT(31)
  
-   -
-     name: qstats
-@@ -543,6 +551,7 @@ operations:
-             - inflight
-             - inflight-mem
-             - detach-time
-+            - dmabuf
-       dump:
-         reply: *pp-reply
-       config-cond: page-pool
-@@ -607,6 +616,7 @@ operations:
-             - type
-             - napi-id
-             - ifindex
-+            - dmabuf
-       dump:
-         request:
-           attributes:
-diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/include/uapi/linux/netdev.h
-+++ b/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
+ #define DSI_CMDQ_SIZE		0x60
+ #define CMDQ_SIZE			0x3f
+ #define CMDQ_SIZE_SEL		BIT(15)
  
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
+ #define DSI_HSTX_CKL_WC		0x64
++#define HSTX_CKL_WC			GENMASK(15, 2)
  
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index 4201f9555772..c2ae57e7f291 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -293,6 +293,7 @@ static int
- netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 			 u32 q_idx, u32 q_type, const struct genl_info *info)
- {
-+	struct net_devmem_dmabuf_binding *binding;
- 	struct netdev_rx_queue *rxq;
- 	struct netdev_queue *txq;
- 	void *hdr;
-@@ -312,6 +313,15 @@ netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 		if (rxq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
- 					     rxq->napi->napi_id))
- 			goto nla_put_failure;
+ #define DSI_RX_DATA0		0x74
+ #define DSI_RX_DATA1		0x78
+@@ -187,6 +190,7 @@ struct mtk_dsi_driver_data {
+ 	bool has_shadow_ctl;
+ 	bool has_size_ctl;
+ 	bool cmdq_long_packet_ctl;
++	bool support_per_frame_lp;
+ };
+ 
+ struct mtk_dsi {
+@@ -426,7 +430,79 @@ static void mtk_dsi_ps_control(struct mtk_dsi *dsi, bool config_vact)
+ 	writel(ps_val, dsi->regs + DSI_PSCTRL);
+ }
+ 
+-static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
++static void mtk_dsi_config_vdo_timing_per_frame_lp(struct mtk_dsi *dsi)
++{
++	u32 horizontal_sync_active_byte;
++	u32 horizontal_backporch_byte;
++	u32 horizontal_frontporch_byte;
++	u32 hfp_byte_adjust, v_active_adjust;
++	u32 cklp_wc_min_adjust, cklp_wc_max_adjust;
++	u32 dsi_tmp_buf_bpp;
++	unsigned int da_hs_trail;
++	unsigned int ps_wc, hs_vb_ps_wc;
++	u32 v_active_roundup, hstx_cklp_wc;
++	u32 hstx_cklp_wc_max, hstx_cklp_wc_min;
++	struct videomode *vm = &dsi->vm;
 +
-+		binding = (struct net_devmem_dmabuf_binding *)
-+				  rxq->mp_params.mp_priv;
-+		if (binding) {
-+			if (nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF,
-+					binding->id))
-+				goto nla_put_failure;
++	if (dsi->format == MIPI_DSI_FMT_RGB565)
++		dsi_tmp_buf_bpp = 2;
++	else
++		dsi_tmp_buf_bpp = 3;
++
++	da_hs_trail = dsi->phy_timing.da_hs_trail;
++	ps_wc = vm->hactive * dsi_tmp_buf_bpp;
++
++	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
++		horizontal_sync_active_byte =
++			vm->hsync_len * dsi_tmp_buf_bpp - 10;
++		horizontal_backporch_byte =
++			vm->hback_porch * dsi_tmp_buf_bpp - 10;
++		hfp_byte_adjust = 12;
++		v_active_adjust = 32 + horizontal_sync_active_byte;
++		cklp_wc_min_adjust = 12 + 2 + 4 + horizontal_sync_active_byte;
++		cklp_wc_max_adjust = 20 + 6 + 4 + horizontal_sync_active_byte;
++	} else {
++		horizontal_sync_active_byte = vm->hsync_len * dsi_tmp_buf_bpp - 4;
++		horizontal_backporch_byte = (vm->hback_porch + vm->hsync_len) *
++			dsi_tmp_buf_bpp - 10;
++		cklp_wc_min_adjust = 4;
++		cklp_wc_max_adjust = 12 + 4 + 4;
++		if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
++			hfp_byte_adjust = 18;
++			v_active_adjust = 28;
++		} else {
++			hfp_byte_adjust = 12;
++			v_active_adjust = 22;
 +		}
++	}
++	horizontal_frontporch_byte = vm->hfront_porch * dsi_tmp_buf_bpp - hfp_byte_adjust;
++	v_active_roundup = (v_active_adjust + horizontal_backporch_byte + ps_wc +
++			   horizontal_frontporch_byte) % dsi->lanes;
++	if (v_active_roundup)
++		horizontal_backporch_byte += dsi->lanes - v_active_roundup;
++	hstx_cklp_wc_min = (DIV_ROUND_UP(cklp_wc_min_adjust, dsi->lanes) + da_hs_trail + 1)
++			   * dsi->lanes / 6 - 1;
++	hstx_cklp_wc_max = (DIV_ROUND_UP((cklp_wc_max_adjust + horizontal_backporch_byte +
++			   ps_wc), dsi->lanes) + da_hs_trail + 1) * dsi->lanes / 6 - 1;
 +
- 		break;
- 	case NETDEV_QUEUE_TYPE_TX:
- 		txq = netdev_get_tx_queue(netdev, q_idx);
-diff --git a/net/core/page_pool_user.c b/net/core/page_pool_user.c
-index 9b69066cc07e..7995c1e3477d 100644
---- a/net/core/page_pool_user.c
-+++ b/net/core/page_pool_user.c
-@@ -213,6 +213,7 @@ static int
- page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 		  const struct genl_info *info)
++	hstx_cklp_wc = FIELD_GET(HSTX_CKL_WC, readl(dsi->regs + DSI_HSTX_CKL_WC));
++
++	if (hstx_cklp_wc <= hstx_cklp_wc_min || hstx_cklp_wc >= hstx_cklp_wc_max) {
++		hstx_cklp_wc = FIELD_PREP(HSTX_CKL_WC, (hstx_cklp_wc_min + hstx_cklp_wc_max) / 2);
++		writel(hstx_cklp_wc, dsi->regs + DSI_HSTX_CKL_WC);
++	}
++
++	hs_vb_ps_wc = ps_wc - (dsi->phy_timing.lpx + dsi->phy_timing.da_hs_exit +
++		      dsi->phy_timing.da_hs_prepare + dsi->phy_timing.da_hs_zero + 2) * dsi->lanes;
++	horizontal_frontporch_byte |= FIELD_PREP(HFP_HS_EN, 1) |
++				      FIELD_PREP(HFP_HS_VB_PS_WC, hs_vb_ps_wc);
++
++	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
++	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
++	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
++}
++
++static void mtk_dsi_config_vdo_timing_per_line_lp(struct mtk_dsi *dsi)
  {
-+	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
- 	size_t inflight, refsz;
- 	void *hdr;
+ 	u32 horizontal_sync_active_byte;
+ 	u32 horizontal_backporch_byte;
+@@ -436,7 +512,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	u32 dsi_tmp_buf_bpp, data_phy_cycles;
+ 	u32 delta;
+ 	struct mtk_phy_timing *timing = &dsi->phy_timing;
+-
+ 	struct videomode *vm = &dsi->vm;
  
-@@ -242,6 +243,9 @@ page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 			 pool->user.detach_time))
- 		goto err_cancel;
+ 	if (dsi->format == MIPI_DSI_FMT_RGB565)
+@@ -444,16 +519,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	else
+ 		dsi_tmp_buf_bpp = 3;
  
-+	if (binding && nla_put_u32(rsp, NETDEV_A_PAGE_POOL_DMABUF, binding->id))
-+		goto err_cancel;
+-	writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
+-	writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
+-	writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
+-	writel(vm->vactive, dsi->regs + DSI_VACT_NL);
+-
+-	if (dsi->driver_data->has_size_ctl)
+-		writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
+-		       FIELD_PREP(DSI_WIDTH, vm->hactive),
+-		       dsi->regs + DSI_SIZE_CON);
+-
+ 	horizontal_sync_active_byte = (vm->hsync_len * dsi_tmp_buf_bpp - 10);
+ 
+ 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
+@@ -499,6 +564,26 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
+ 	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+ 	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
++}
 +
- 	genlmsg_end(rsp, hdr);
++static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
++{
++	struct videomode *vm = &dsi->vm;
++
++	writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
++	writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
++	writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
++	writel(vm->vactive, dsi->regs + DSI_VACT_NL);
++
++	if (dsi->driver_data->has_size_ctl)
++		writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
++			FIELD_PREP(DSI_WIDTH, vm->hactive),
++			dsi->regs + DSI_SIZE_CON);
++
++	if (dsi->driver_data->support_per_frame_lp)
++		mtk_dsi_config_vdo_timing_per_frame_lp(dsi);
++	else
++		mtk_dsi_config_vdo_timing_per_line_lp(dsi);
  
- 	return 0;
-diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/tools/include/uapi/linux/netdev.h
-+++ b/tools/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
+ 	mtk_dsi_ps_control(dsi, false);
+ }
+@@ -1197,6 +1282,7 @@ static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
+ 	.has_shadow_ctl = true,
+ 	.has_size_ctl = true,
+ 	.cmdq_long_packet_ctl = true,
++	.support_per_frame_lp = true,
+ };
  
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
- 
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
+ static const struct of_device_id mtk_dsi_of_match[] = {
 -- 
-2.46.0.184.g6999bdac58-goog
+2.45.2
 
