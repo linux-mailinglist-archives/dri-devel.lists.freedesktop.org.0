@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C8A9590D8
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 01:04:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CFB9590F6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 01:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED5510E54D;
-	Tue, 20 Aug 2024 23:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56185892C8;
+	Tue, 20 Aug 2024 23:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V4d9DfIi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NSQyLNjH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9083410E54D;
- Tue, 20 Aug 2024 23:04:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724195040; x=1755731040;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=WnnlRbrqcAg01SpPX//j1Z5O3c2B//kviZT/SH1mq+A=;
- b=V4d9DfIiw8W/pfxp9kUz1iW7ljfZpCmnat904nwlY8AmmlOK9gRPU2sY
- ERMJwjrK9IZen5MFp7haLGvTivyJfibMsNzmPCWYYX9/+G3eCcaJOW0Oe
- +U4taeJt+n6ant33PFnwpd7cvoqIhASG/LdTjdwj2+6SiIQ3vLGDUbkHa
- Bch0Y+aGgnffS5Blim0mYPyibBv8ZqndxIx1D/zEf3k0ZCrUh5HZqOUP5
- l5hssWASJqkF2/VhTd/nH9fgh3d7D+ZvY98/uysPRnoUKIlBF8wp8FOw/
- xL5Kezm3aLzkiDv5tPKbt26uN5gTNgfOX6s4DKSkyq211C2WzFjwL1Egu Q==;
-X-CSE-ConnectionGUID: +gVFewpcQRys+k+NnrQD3A==
-X-CSE-MsgGUID: XeWZNoqgTlW5d8yGmGLUaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22716748"
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; d="scan'208";a="22716748"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 16:03:59 -0700
-X-CSE-ConnectionGUID: Sn+Kj9asQpqkeoV4X7v8gQ==
-X-CSE-MsgGUID: zTQ5XgucSEKZkwpsSXb6KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; d="scan'208";a="60846798"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 20 Aug 2024 16:03:57 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sgXtK-000AgA-1U;
- Tue, 20 Aug 2024 23:03:54 +0000
-Date: Wed, 21 Aug 2024 07:03:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org
-Subject: Re: [PATCH V2] video/aperture: match the pci device when calling
- sysfb_disable()
-Message-ID: <202408210620.nTCwLpCO-lkp@intel.com>
-References: <20240819165341.799848-1-alexander.deucher@amd.com>
+X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
+ Tue, 20 Aug 2024 23:16:39 UTC
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45B09892C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 23:16:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A5B09A4046B;
+ Tue, 20 Aug 2024 23:09:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62708C4AF09;
+ Tue, 20 Aug 2024 23:09:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724195366;
+ bh=Lbysj9KIY04ej/2hs+jHz/a8O+t1h3ua+LPYuOV2ITY=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=NSQyLNjH/SWpYV7mSIKlhENVXiYwzu4ehkaC87JRAScFbzqcuMo4PGMXf1B4lC4Ao
+ cv0fE0Dp1z+t0WhDvqaojIBgeUiYqtEJOSSAhvv8RxzEHDiZEGrQ1fx8DWV+l3QOuU
+ IRfESkzSfH5UJvgizll7XWU6m4hoNRihL9+oxgwsf0rfDfa9scqgzAxJg4Je76sCCa
+ BfFq9Hao9XBHJ+f7zURXgXZjWJ3FqPfv7zZOJpnPvkxCRs3rM3/VQ6JIIrmZmIa6Xs
+ Q9LdMwtiMLo8ofzHHnffkUXfcIShMdamFdSyY1db3NcyylFeg52xMJt4qcjKYZY1U4
+ pWI8G5/PWHeXg==
+Date: Wed, 21 Aug 2024 01:09:24 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
+ deller@gmx.de, bonbons@linux-vserver.org, bentiss@kernel.org, 
+ shc_work@mail.ru, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ shawnguo@kernel.org, festevam@gmail.com, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH 25/28] HID: picoLCD: Replace check_fb in favor of struct
+ fb_info.lcd_dev
+In-Reply-To: <20240820093452.68270-26-tzimmermann@suse.de>
+Message-ID: <nycvar.YFH.7.76.2408210109090.12664@cbobk.fhfr.pm>
+References: <20240820093452.68270-1-tzimmermann@suse.de>
+ <20240820093452.68270-26-tzimmermann@suse.de>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240819165341.799848-1-alexander.deucher@amd.com>
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,35 +64,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
+On Tue, 20 Aug 2024, Thomas Zimmermann wrote:
 
-kernel test robot noticed the following build warnings:
+> Store the lcd device in struct fb_info.lcd_dev. The lcd subsystem can
+> now detect the lcd's fbdev device from this field.
+> 
+> This makes the implementation of check_fb in picolcd_lcdops obsolete.
+> Remove it.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on robh/for-next drm-misc/drm-misc-next linus/master v6.11-rc4 next-20240820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Deucher/video-aperture-match-the-pci-device-when-calling-sysfb_disable/20240820-005528
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20240819165341.799848-1-alexander.deucher%40amd.com
-patch subject: [PATCH V2] video/aperture: match the pci device when calling sysfb_disable()
-config: i386-randconfig-054-20240820 (https://download.01.org/0day-ci/archive/20240821/202408210620.nTCwLpCO-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408210620.nTCwLpCO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408210620.nTCwLpCO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
->> WARNING: modpost: vmlinux: section mismatch in reference: sysfb_disable+0x7a (section: .text) -> sysfb_pci_dev_is_enabled (section: .init.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+Acked-by: Jiri Kosina <jkosina@suse.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jiri Kosina
+SUSE Labs
+
