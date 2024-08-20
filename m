@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B160B9584BD
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E589584D4
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:39:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C97210E706;
-	Tue, 20 Aug 2024 10:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A32E10E70A;
+	Tue, 20 Aug 2024 10:39:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K9lseTqv";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="lhHZx2FI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B507C10E706
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724150272; x=1755686272;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=/5IYfsKB2KztZYEV4Wt2tuXKfSym4UYpGOMOItS6pUU=;
- b=K9lseTqvo5I4ox/PVGvq/6X3SK+UPszlPuwLExbxbLo+dZN1pNzu4mxd
- bl0E2mh3Sina6itDiGc8VvZTNzivLhZdVZ8JCVJAycTSitlT7BQDiaOH3
- sHQ7atTPsk9kqECi6aeyk6mircJD6l2QXgFc7KRT3o5muCZ69BsrsF2KH
- xoSSpMxdty12zFz9NcUJGcj6v3hnqMJPIUb5rnmX01+dwlA9v48UdRBhJ
- ymbaqcksUisvlUA5n+ZxR7vMlqOuN2dszW3sTUXsTJou7q1E7dVTOQ8ZK
- UiVZvZcgyczm/6sPUInpOyY4BZgiKL1GpX5FQRrLXHIQ9vDtNa0DBjiMk A==;
-X-CSE-ConnectionGUID: 4lm0Spf3TzCKgpoQ1c9JcQ==
-X-CSE-MsgGUID: fEFp6ccwTn+pVeKE5fvR3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="26307124"
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; d="scan'208";a="26307124"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 03:37:51 -0700
-X-CSE-ConnectionGUID: gbcqTBF9SyyXkwzodARKlQ==
-X-CSE-MsgGUID: rgoWQIrKRfKFmuUy0PhuZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; d="scan'208";a="60665663"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.245.74])
- ([10.245.245.74])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 03:37:50 -0700
-Message-ID: <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
-Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
- header
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
- Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Date: Tue, 20 Aug 2024 12:37:47 +0200
-In-Reply-To: <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
-References: <20240710124301.1628-1-christian.koenig@amd.com>
- <20240710124301.1628-5-christian.koenig@amd.com>
- <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
- <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
- <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
- <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
- <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
- <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
- <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [95.215.58.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03A7F10E711
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:39:48 +0000 (UTC)
+Message-ID: <59e832ae-dd0e-4746-ad9c-327b997e992b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1724150386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+J6AUM5BA0XHMhLLUg9xC6LMZgDMWJLm3dx3v9LVjJE=;
+ b=lhHZx2FIP/RCUXZs8p29eG005r9RJMGyeMBgQ8ovBQAz2f8rtIT0wFDvnjR2Flagaf9ZGa
+ s29BHqCl/tgoW2VpLdAJfG418mIvnaeszKp4LYCtGHunZrtwlZqsm68QT+G2wpDRaNp9Kx
+ Y282my+JYqtSdE0sex8AwzrnZs2qxl8=
+Date: Tue, 20 Aug 2024 18:39:29 +0800
 MIME-Version: 1.0
+Subject: Re: [82/86] drm/i915: Move custom hotplug code into separate callback
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+References: <20240816125408.310253-83-tzimmermann@suse.de>
+ <86a55d3c-930d-4b30-9f05-82dd2966df85@linux.dev>
+ <a48a5538-b4a9-4e01-9930-b1538325b9e3@suse.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <a48a5538-b4a9-4e01-9930-b1538325b9e3@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,198 +68,95 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, 2024-08-19 at 17:26 +0200, Christian K=C3=B6nig wrote:
-> Am 19.08.24 um 16:14 schrieb Daniel Vetter:
-> > On Mon, Aug 19, 2024 at 01:38:56PM +0200, Thomas Hellstr=C3=B6m wrote:
-> > > Hi, Christian,
-> > >=20
-> > > On Mon, 2024-08-19 at 13:03 +0200, Christian K=C3=B6nig wrote:
-> > > > Am 06.08.24 um 10:29 schrieb Thomas Hellstr=C3=B6m:
-> > > > > Hi, Christian.
-> > > > >=20
-> > > > > On Thu, 2024-07-11 at 14:01 +0200, Christian K=C3=B6nig wrote:
-> > > > > > Am 10.07.24 um 20:19 schrieb Matthew Brost:
-> > > > > > > On Wed, Jul 10, 2024 at 02:42:58PM +0200, Christian K=C3=B6ni=
-g
-> > > > > > > wrote:
-> > > > > > > > That is something drivers really shouldn't mess with.
-> > > > > > > >=20
-> > > > > > > Thomas uses this in Xe to implement a shrinker [1]. Seems
-> > > > > > > to
-> > > > > > > need
-> > > > > > > to
-> > > > > > > remain available for drivers.
-> > > > > > No, that is exactly what I try to prevent with that.
-> > > > > >=20
-> > > > > > This is an internally thing of TTM and drivers should never
-> > > > > > use
-> > > > > > it
-> > > > > > directly.
-> > > > > That driver-facing LRU walker is a direct response/solution
-> > > > > to this
-> > > > > comment that you made in the first shrinker series:
-> > > > >=20
-> > > > > https://lore.kernel.org/linux-mm/b7491378-defd-4f1c-31e2-29e4c77e=
-2d67@amd.com/T/#ma918844aa8a6efe8768fdcda0c6590d5c93850c9
-> > > > Ah, yeah that was about how we are should be avoiding middle
-> > > > layer
-> > > > design.
-> > > >=20
-> > > > But a function which returns the next candidate for eviction
-> > > > and a
-> > > > function which calls a callback for eviction is exactly the
-> > > > opposite.
-> > > >=20
-> > > > > That is also mentioned in the cover letter of the recent
-> > > > > shrinker
-> > > > > series, and this walker has been around in that shrinker
-> > > > > series for
-> > > > > more than half a year now so if you think it's not the
-> > > > > correct
-> > > > > driver
-> > > > > facing API IMHO that should be addressed by a review comment
-> > > > > in
-> > > > > that
-> > > > > series rather than in posting a conflicting patch?
-> > > > I actually outlined that in the review comments for the patch
-> > > > series.
-> > > > E.g. a walker function with a callback is basically a middle
-> > > > layer.
-> > > >=20
-> > > > What outlined in the link above is that a function which
-> > > > returns the
-> > > > next eviction candidate is a better approach than a callback.
-> > > >=20
-> > > > > So assuming that we still want the driver to register the
-> > > > > shrinker,
-> > > > > IMO that helper abstracts away all the nasty locking and
-> > > > > pitfalls
-> > > > > for a
-> > > > > driver-registered shrinker, and is similar in structure to
-> > > > > for
-> > > > > example
-> > > > > the pagewalk helper in mm/pagewalk.c.
-> > > > >=20
-> > > > > An alternative that could be tried as a driver-facing API is
-> > > > > to
-> > > > > provide
-> > > > > a for_each_bo_in_lru_lock() macro where the driver open-codes
-> > > > > "process_bo()" inside the for loop but I tried this and found
-> > > > > it
-> > > > > quite
-> > > > > fragile since the driver might exit the loop without
-> > > > > performing the
-> > > > > necessary cleanup.
-> > > > The point is that the shrinker should *never* need to have
-> > > > context.
-> > > > E.g.
-> > > > a walker which allows going over multiple BOs for eviction is
-> > > > exactly
-> > > > the wrong approach for that.
-> > > >=20
-> > > > The shrinker should evict always only exactly one BO and the
-> > > > next
-> > > > invocation of a shrinker should not depend on the result of the
-> > > > previous
-> > > > one.
-> > > >=20
-> > > > Or am I missing something vital here?
-> > > A couple of things,
-> > >=20
-> > > 1) I'd like to think of the middle-layer vs helper like the
-> > > helper has
-> > > its own ops, and can be used optionally from the driver. IIRC,
-> > > the
-> > > atomic modesetting / pageflip ops are implemented in exactly this
-> > > way.
-> > >=20
-> > > Sometimes a certain loop operation can't be easily or at least
-> > > robustly
-> > > implemented using a for_each_.. approach. Like for example
-> > > mm/pagewalk.c. In this shrinking case I think it's probably
-> > > possible
-> > > using the scoped_guard() in cleanup.h. This way we could get rid
-> > > of
-> > > this middle layer discussion by turning the interface inside-out:
-> > >=20
-> > > for_each_bo_on_lru_locked(xxx)
-> > > 	driver_shrink();
-> > >=20
-> > > But I do think the currently suggested approach is less fragile
-> > > and
-> > > prone to driver error.
-> > >=20
-> > > FWIW in addition to the above examples, also drm_gem_lru_scan
-> > > works
-> > > like this.
-> > a iteration state structure (like drm_connector_iter) plus then a
-> > macro
-> > for the common case that uses cleanup.h should get the job done.
->=20
-> Yeah, completely agree. It basically boils down to which one needs to
-> pack a state bag.
->=20
-> In a mid-layer design it's the driver or the caller of functions,
-> e.g.=20
-> the much hated init callback in the DRM layer was a perfect example
-> of that.
->=20
-> In a non mid-layer approach it's the framework or the called
-> function,=20
-> examples are how the fence iterators in the dma_resv or the=20
-> drm_connector, plane etc.. work.
->=20
-> One big difference between the two approach is who and where things
-> like=20
-> preparation and cleanup are done, e.g. who takes locks for example.
 
-So what in your opinion is an acceptable solution here?=C2=A0
-The "get next object to shrink" approach won't work, since it's subject
-to the old TTM swap problem now removed:
-If shrinking fails we will get the same object upon subsequent calls.
-If we bump LRU we could end up with infinite loops.
-So IMO we need to be able to loop. I don't really care wether we do
-this as an explicit loop or whether we use the LRU walker, but I think
-from a maintainability point-of-view it is better to keep LRU walking
-in a single place.
+On 2024/8/20 15:39, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 19.08.24 um 10:52 schrieb Sui Jingfeng:
+>> Hi, Thomas
+>>
+>>
+>> I love your patch, yet ...
+>>
+>>
+>> On 2024/8/16 20:23, Thomas Zimmermann wrote:
+>>> i915's fbdev contains additional code for hotplugging a display that
+>>> cannot be ported to the common fbdev client. Introduce the callback
+>>> struct drm_fb_helper.fb_hotplug and implement it for i915. The fbdev
+>>> helpers invoke the callback before handing the hotplug event.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_fb_helper.c            |  6 +++
+>>>   drivers/gpu/drm/i915/display/intel_fbdev.c | 43 
+>>> ++++++++++++----------
+>>>   include/drm/drm_fb_helper.h                | 13 +++++++
+>>>   3 files changed, 42 insertions(+), 20 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c 
+>>> b/drivers/gpu/drm/drm_fb_helper.c
+>>> index d9e539b0fd1a..92926cb02dfb 100644
+>>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>>> @@ -1938,6 +1938,12 @@ int drm_fb_helper_hotplug_event(struct 
+>>> drm_fb_helper *fb_helper)
+>>>       if (!drm_fbdev_emulation || !fb_helper)
+>>>           return 0;
+>>>   +    if (fb_helper->funcs->fb_hotplug) {
+>>
+>> We seems need to check the existence on the 'fb_helper->funcs' here,
+>>
+>> For example:
+>>
+>>
+>> if (fb_helper->funcs && fb_helper->funcs->fb_hotplug) {
+>>
+>> Otherwise, it will de-reference NULL pointer.
+>> Can be observed on a trivial driver though,
+>> with no monitor(display) connected.
+>
+> Indeed. That needs to be fixed. Thank you for noting.
+>
 
-If we return an unlocked object, we'd need to refcount and drop the lru
-lock, but maybe that's not a bad thing.
+Thanks for you efforts then.
 
-But what's the main drawback of exporting the existing helper.
 
->=20
-> > > 2) The shrinkers suggest to shrink a number of pages, not a
-> > > single bo,
-> > > again drm_gem_lru_scan works like this. i915 works like this. I
-> > > think
-> > > we should align with those.
-> > Yeah that's how shrinkers work, so if we demidlayer then it realls
-> > needs
-> > to be a loop in the driver, not a "here's the next bo to nuke" I
-> > think.
->=20
-> Hui? Well that's not how I understand shrinkers.
->=20
-> The shrinker gives you the maximum number of objects to scan and not
-> how=20
-> many pages to free. In return you give the actual number of objects
-> to=20
-> scanned and pages freed.
->=20
-> As far as I know the number of objects are in the sense of SLUBs or=20
-> rather different LRU lists.
->=20
-> So for BO shrinking we should probably only free or rather unpin a=20
-> single BO per callback otherwise we mess up the fairness between=20
-> shrinkers in the MM layer.
+> To give some context:  I was hoping to remove drm_fb_helper_funcs at 
+> some point. 
 
-Hm. AFAICT all drm shrinkers use pages as objects, and the docs of
-nr_to_scan says it's the number of objects to scan and try to reclaim.
-I think this strategy has had a fair amount of testing with the i915
-driver.
-In any case, I don't think TTM should enforce a different way of
-shrinking by the means of a severely restricted helper?
 
-/Thomas
+Yeah, too many helper functions may make peoples daze.
+
+
+> fb_probe is now gone with these patches and fb_dirty can certainly be 
+> replaced as well. (I once had prototype patches to do that). 
+
+
+Well, the grammar of "ret = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);" looks strange, 
+It's lengthy and I observed you have cleaned it up at the last patch. 
+Which also eliminates one pair "if and else" clause, the codes looks 
+more fluent now.
+
+
+> This leaves the new callbacks for 915, for which I don't have a good 
+> alternative solution. So it seems that drm_fb_helper_funcs will only 
+> be used by i915/xe in the long term.
+>
+
+Well, since it is a DRM client now, maybe we could try to drop it into struct drm_driver.
+Just like the '.fbdev_probe' callback, this may help to achieve a 100% DRM-based console/logger IMO.
+
+Besides, a lot of DRM driver instances has the DMA/2D acceleration hardware, promote it
+into drm_driver structure may has the potential to utilize hardware acceleration. Drivers
+will more easily to have custom implementation. I'm not 100% sure if it will only be used
+by i915 in the future.
+
+Best regards,
+Sui
 
