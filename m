@@ -2,72 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E40958247
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E248958248
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:31:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6FA010E578;
-	Tue, 20 Aug 2024 09:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D59610E57F;
+	Tue, 20 Aug 2024 09:31:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p+nuAz3Z";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ALU3PYQy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C0C410E578
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:31:35 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2ef2c56d9dcso62314291fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 02:31:35 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F21710E57F
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:31:36 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-42808071810so42299985e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 02:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724146293; x=1724751093; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1724146294; x=1724751094; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1bNc9l8XiGEm1hW0c81TkZnlO34t4wQ/crzh+T3fF2s=;
- b=p+nuAz3Zsv8+aBTeXHH23kR0xuakgPG5DO6H5x7K2fGScGZnh63y5oOA6jX2MgkfS9
- XBUThAKoAbAcOTHFjlwGaEKDef8Y5yTa3VzqBdaS2Khr3dkBruZL+D1xMaV5jZzqr1Te
- PYlhogk2Rwr+Cb4TawWA0q2EWxOp8f4ihDgAMHBT/uZrC3EoFNEYKUiu6DsP6fNV4QuY
- VsHa/dv0lf3Tp7bxHQjeaPrnNBHkyrI2PFkJK/cPGr/cmDZoj2CI2XVLFHhOnvHuf6cV
- U1oaiqjFamUzpVflcmVrpSYTS4BGXl6ccxMLrLxtAJRGc8ncjPI8z/fP5eACHH2ZuY1o
- pdiQ==
+ bh=dR0CreoU8vpVj47jDOdAp+cTu5413/pQZmWvPzZH2KA=;
+ b=ALU3PYQyMOEWyBIIbWr6z4UUNLA7FkxPaLX2isnEwGXfBHKE/TvHH1UjZpeYNKWCoZ
+ Fr0YsyouGwj0aGiIw2Bske2puJnCHV1dmjQXPaStdVyGH69x7PPhO2X/mJYnT3Kj2AhJ
+ JVzsntbdu7RkSdvZCCb6UCWavAIZqfe48U/7Ab+8ZRvFOQnyLdN/QpaJsp7kU2YT711d
+ B/AOS6A1gE/WI6Zt09+uNGUiBDU/d1EhjgkBlb1akvZG6HlLrYhnCFNAnFvqYM/9/ma0
+ EFzxARQWLZGLzDWIPxSDg2W+nCK/41+Xu/gS7avntT4f8htL6+U6WNxkP8Ev7Ri8nIEZ
+ BIXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724146293; x=1724751093;
+ d=1e100.net; s=20230601; t=1724146294; x=1724751094;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1bNc9l8XiGEm1hW0c81TkZnlO34t4wQ/crzh+T3fF2s=;
- b=oMvZmuuybjc8jIuf8ghF6WorWX3bK7dbnWc9rYaZK2k+jhQX9NKqRisny6BdblNnts
- L08dXRhyRsZTBMmbaajnRPDaNsXaH5ycAm0iGjTB46PfXBU9V4DfI0/O7eav12M8iaSP
- lWM7EYUWm0Cf7ZhmAS8CTXnS98NcJ3Zxt4wpu/ZrBMb9dyF9mtvp8zEg6dqxnWXhQaAB
- ohoXXlh0SrKW5sCr0g4qHU8X8Od4njZIfv1iJbo6+PjOGavfhcVC3o/a4eAndL6NGg9m
- xMSSI+rFJdQSsbu2dF0awn4LVU/6ev31OqSH2iCYR/K84u//OU5YcMPC/MpjVBOoGP7u
- KxmA==
+ bh=dR0CreoU8vpVj47jDOdAp+cTu5413/pQZmWvPzZH2KA=;
+ b=LmNtigZ9r/vkOF4jyMzpK6/ITKAL4kayU9UgX4ataQcJeA2AOMLWeglaal4xxBJWvO
+ CrkLC8K34BEsqLyHhwW9GRcASk2T/RHpmpHZMSHTioc2mAvhISWLkF15KfaEDL4BceGK
+ +fRGsXQJyZ48356rdRs0yTKKFkF7e/w5+bmweCJc6/srZJ7kdMLqtpNjIXej4DoYDBZ+
+ 0AbdPhnLk/MVJeT98ObjapA+E0qsyX5HyuIr6K6F0X/HjETNyRjmpLw/puP4/jv8hH4v
+ SxS864D2OMMoYNH3Ov6ca2RNb0sEbH+NmRewnu9OUWObiR7/93S/EWSe4qcOza1vLJFv
+ li0Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXZSXiahOXc1UaJkZmVptR1nHbdUV+4DPZDsnkcdMpUYQPJEEIWtZ+WNFQ+p8K6PUpAjwIs/gCnHUg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUAlIe1VBcoYnypekFWUb19tefgjhRFFJgjrYMkU4Q54/82Qql
- cQvDw/5uMq7uxfhdVPwjTAAxxc85kfsfkpXEAyx/vMYTj6pj3eCtsSPmZftALzk=
-X-Google-Smtp-Source: AGHT+IHblW4gV3DpsU8/IHEQKTGcs6OrOgAvGPIjBHkHUBepvRVzyoB1s/Fv/Hbq19HVXW/1GWWKXQ==
-X-Received: by 2002:a05:6512:641b:b0:533:44d2:e682 with SMTP id
- 2adb3069b0e04-53344d2e7fbmr439573e87.34.1724146292925; 
- Tue, 20 Aug 2024 02:31:32 -0700 (PDT)
+ AJvYcCW2Gd/eU/Fzhr88ERuRXzOKotBXvFwDsLRr4b6/fekNMNcTOiEadUpMCGxi0TTqpTHcUTuySOhWXiI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDSVjY140dM/9fHy34slAfQKE8eF04nhIBoNp6WeaBz4L6Lwb7
+ 8YGHm5aqMmttIZELOvA+AZAs9LpXL5nPSrhEQeLJ5iTexJOSHtYUdx/WAOkPZMwj82aDeonOs9B
+ d
+X-Google-Smtp-Source: AGHT+IHX+zBO3kMosl5V3wdA7ekb2kmacB5cUU/l4MDgeLTQn+W+q0tXM80DVANeQt+/R4mbjOcPgQ==
+X-Received: by 2002:a05:600c:4f8d:b0:427:d713:a5d3 with SMTP id
+ 5b1f17b1804b1-429ed79daa4mr89507445e9.11.1724146293900; 
+ Tue, 20 Aug 2024 02:31:33 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429ed648f00sm136597505e9.7.2024.08.20.02.31.32
+ 5b1f17b1804b1-429ed648f00sm136597505e9.7.2024.08.20.02.31.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2024 02:31:32 -0700 (PDT)
+ Tue, 20 Aug 2024 02:31:33 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: agx@sigxcpu.org, kernel@puri.sm, Tejas Vipin <tejasvipin76@gmail.com>
-Cc: dianders@chromium.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
+ skhan@linuxfoundation.org, rbmarliere@gmail.com, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20240820091556.1032726-1-tejasvipin76@gmail.com>
-References: <20240820091556.1032726-1-tejasvipin76@gmail.com>
-Subject: Re: [PATCH v2 0/2] convert mantix-mlaf057we51 to use multi style
- functions and cleanup
-Message-Id: <172414629205.2571141.13215409630895562248.b4-ty@linaro.org>
-Date: Tue, 20 Aug 2024 11:31:32 +0200
+In-Reply-To: <20240819175122.33176-1-abhishektamboli9@gmail.com>
+References: <20240819175122.33176-1-abhishektamboli9@gmail.com>
+Subject: Re: [PATCH v2] drm/panel: ili9341: Add comments for registers in
+ ili9341_config()
+Message-Id: <172414629306.2571141.1078174341276677864.b4-ty@linaro.org>
+Date: Tue, 20 Aug 2024 11:31:33 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -89,17 +92,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, 20 Aug 2024 14:45:52 +0530, Tejas Vipin wrote:
-> Uses mipi_dsi_*_multi function in the mantix-mlaf057we51 panel and
-> converting uppercase hex to lowercase hex for cleanup.
+On Mon, 19 Aug 2024 23:21:22 +0530, Abhishek Tamboli wrote:
+> Add detail comments for registers definitions in struct ili9341_config().
+> Replace TODO with comment for each registers.
+> 
 > 
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/2] drm/panel: mantix-mlaf057we51: transition to mipi_dsi wrapped functions
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e139c0eb22ce5b2ab6a2056c1ff495f3a38322d7
-[2/2] drm/panel: mantix-mlaf057we51: write hex in lowercase
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b61c4bc674c6032827f2682a0c72ff577c36143f
+[1/1] drm/panel: ili9341: Add comments for registers in ili9341_config()
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1453323eac4f13817a07f40e78e76dfc635aab34
 
 -- 
 Neil
