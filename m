@@ -2,77 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123C8958BE2
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 18:03:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF91958C20
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 18:21:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD8B10E42A;
-	Tue, 20 Aug 2024 16:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDEB910E132;
+	Tue, 20 Aug 2024 16:21:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z8hZWgrc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DwZ905sq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12DB10E448
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 16:03:49 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-53346132365so537299e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:03:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724169827; x=1724774627; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=EelLEAshHFEbe/ENFdi4xWbWs41G/vbuSzZK/f4xSrE=;
- b=Z8hZWgrc8WHcv2MW40eNDm8rjXLy8KswlCo25lydYRPZRdzfrH0RMl09jfaIDPUIiU
- 9/arfkTvsdRMYp9HRav/wMoOFw9tA1icIASFOZr3OzDSjtrYgCyryUkolgYlsuVuHYSf
- hcQQ6rZhAV8RBG7f/raLi3eLuiHDJ9ckC5FPPgcagaCC+5DH4mcuF2n5OY30fTQDaPIi
- 5tPwFM+BrjfUPKm4flw+VmdyD9b5p6cLQs9pJRfr4GdMr0CW/0ftyxk7nsvw7xopPoua
- cplasSGswOjfGQjYkml6m0hq7PztGWOB8zOhIaJHh+r6LKnEHSlzIU7Jh+QoaUAxfhud
- bcEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724169827; x=1724774627;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EelLEAshHFEbe/ENFdi4xWbWs41G/vbuSzZK/f4xSrE=;
- b=PZnH0rhiCQ9lUuNpWT1tUOvKjxOrDaspho8Oa+zm9Jey9uNqQ+j1npL3uNbOahInMS
- BEituXXyVHYXUkiqFlkAt3FIRvSb4boeB9cyGw+tA3q7qztDgeACwpafwrE1Sf12k/HY
- 1ryVzgPTOsgIkWOsM0Be4BO+JhkiwO3TsTcI6QfF/MdjjHYVSokzK5duiDst2bEF5s69
- CoJgQIxqlq//q/nu3bYH4+CMM2eon+X3VIna7/fBlECndtX4WPf8J1amiVWrKUvKF52/
- SWjnbSnbOQZUP+ZScfGr6xBTuzOrZLNR+Tc6xvuoXzSr8S0yBkDv6ZtnsSf0zcdHRhXI
- AvRQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWu1ln78984SYiW4uS2JsQCQJHsJ4EvYEh4Dzmw0TwaorQQnAJRz6CpGgGcBn/TFfaJtRhgmRT+meU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzAYWry7ltv34453fjjzaP8vBaqFcP0GPo+5vu4CVpH70gHSOXu
- Z8ZHQIVNNMxIY1R/KuuudjXczHNcgNu+KofyogjinGiHWeFnmDTh
-X-Google-Smtp-Source: AGHT+IH0VkhNqgO4I1oP7RJepzs4REpjlCOgLICe9cxVNyNkQp9rp0USBqmqhAbCuyYTI8ztrYEigQ==
-X-Received: by 2002:a05:6512:e84:b0:530:b7ef:9f6a with SMTP id
- 2adb3069b0e04-5331c6b450fmr8529783e87.36.1724169826818; 
- Tue, 20 Aug 2024 09:03:46 -0700 (PDT)
-Received: from fedora ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429ded720eesm200311985e9.33.2024.08.20.09.03.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2024 09:03:45 -0700 (PDT)
-Date: Tue, 20 Aug 2024 18:03:43 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- mairacanal@riseup.net, hamohammed.sa@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
+X-Greylist: delayed 423 seconds by postgrey-1.36 at gabe;
+ Tue, 20 Aug 2024 16:21:39 UTC
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E816E10E132
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 16:21:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id CFC7FA40154;
+ Tue, 20 Aug 2024 12:14:28 -0400 (EDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC941C4AF0F;
+ Tue, 20 Aug 2024 16:14:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724170475;
+ bh=dpdsDm+bLI5JQDul4V/gUcZOykImVDR9fxONqr/1ozA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DwZ905sqtX/74jPtmeqSSunbpwyzbbzZZ8kGXXBKCzKzcCnndUKMQnonufnWBz4oX
+ KBmh8vENLBl76NV/tfxMEebtnE/WWYmJGTvlAjPz4XP7zEmDC4upBaqr9KG+h6NaHp
+ 0CierElW5i5I7eobDRTJNUzEWT9zFAReBSEG8V+KUIHpg6DxWE2e/mw/80Oi/cJa9N
+ QMdzQeEK6jCtUzjxrYaP8FRp8/qNzEYOUntYvF4lZZh15hQtZE6vx5sD/mXYhOpVel
+ G/Ci72mT1xEWFGwGIg7+4qlDv1LyQ4sufEQERdeGi/HXo8geBx9ItnCjdcYaUp3ePG
+ KwPc5PZn7SVFw==
+Date: Tue, 20 Aug 2024 17:14:27 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- louis.chauvet@bootlin.com
-Subject: Re: [RFC PATCH 00/17] VKMS: Add configfs support
-Message-ID: <ZsS-X_ANCKfqHtAY@fedora>
-References: <20240813105134.17439-1-jose.exposito89@gmail.com>
- <CAPj87rP0HZzdVoH18O6gVe1n8cHjhNn2LFSAAVvqj5m6tN2y_w@mail.gmail.com>
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>
+Subject: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema for
+ RK3588 HDMI TX Controller
+Message-ID: <20240820-tropics-hunchback-6fdcd0b37f91@spud>
+References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
+ <20240819-b4-rk3588-bridge-upstream-v4-3-6417c72a2749@collabora.com>
+ <20240819-bobbing-purplish-99e48baa2304@spud>
+ <ec84bc0b-c4c2-4735-9f34-52bc3a852aaf@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WIjEHvGhr8+cRBp+"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPj87rP0HZzdVoH18O6gVe1n8cHjhNn2LFSAAVvqj5m6tN2y_w@mail.gmail.com>
+In-Reply-To: <ec84bc0b-c4c2-4735-9f34-52bc3a852aaf@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,47 +81,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
 
-Thanks a lot for looking into this.
-On Wed, Aug 14, 2024 at 10:10:39AM +0100, Daniel Stone wrote:
-> Hi José,
-> 
-> On Tue, 13 Aug 2024 at 11:51, José Expósito <jose.exposito89@gmail.com> wrote:
-> >  - When a CRTC is added and removed before device creation, there
-> >    is a vblank warning.
-> >    The issue is caused because vblanks are referenced using the
-> >    CRTC index but, because one of the CRTCs is removed, the
-> >    indices are not consecutives and drm_crtc_vblank_crtc() tries to
-> >    access and invalid index
-> >    I'm not sure if CRTC's indices *must* start at 0 and be
-> >    consecutives or if this is a bug in the drm_crtc_vblank_crtc()
-> >    implementation.
-> 
-> CRTCs and planes are not hotpluggable. I recommend you just create a
-> lot of each of them statically at startup, and hotplug only
-> connectors.
+--WIjEHvGhr8+cRBp+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, it is an issue creating them before the device is active. Once the VKMS
-device is active, it is not possible to delete them.
+On Tue, Aug 20, 2024 at 03:37:44PM +0300, Cristian Ciocaltea wrote:
+> On 8/19/24 7:53 PM, Conor Dooley wrote:
+> > On Mon, Aug 19, 2024 at 01:29:30AM +0300, Cristian Ciocaltea wrote:
+> >> Rockchip RK3588 SoC integrates the Synopsys DesignWare HDMI 2.1
+> >> Quad-Pixel (QP) TX controller IP.
+> >>
+> >> Since this is a new IP block, quite different from those used in the
+> >> previous generations of Rockchip SoCs, add a dedicated binding file.
+> >>
+> >> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> >> ---
+> >>  .../display/rockchip/rockchip,dw-hdmi-qp.yaml      | 170 ++++++++++++=
++++++++++
+> >>  1 file changed, 170 insertions(+)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockch=
+ip,dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/rockchip/roc=
+kchip,dw-hdmi-qp.yaml
+> >> new file mode 100644
+> >> index 000000000000..de470923d823
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-h=
+dmi-qp.yaml
+> >=20
+> > Filename matching the compatible please.
+>=20
+> RK3588 happens to be the first Rockchip SoC using the QP TX controller, b=
+ut
+> more are expected to come, e.g. RK3576.  Should we add 'rk3588-' to the
+> filename and let it being dropped when the 2nd SoC is added?
 
-Because of how the CRTC index is handled, it is possible create 3 CRTCs
-(indices 0, 1 and 2), delete the second one and end up with 2 CRTCs: The
-first one with index 0 and the second one with index 2.
+Yes to the former, no to the latter.
 
-This is handled nicelly in the possible_crtcs bitmask, but drm_crtc_vblank_crtc()
-tries to access index 2 of an array of size 2.
+>=20
+> >> @@ -0,0 +1,170 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi-=
+qp.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Rockchip DW HDMI QP TX Encoder
+> >> +
+> >> +maintainers:
+> >> +  - Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> >> +
+> >> +description:
+> >> +  Rockchip RK3588 SoC integrates the Synopsys DesignWare HDMI QP TX c=
+ontroller
+> >> +  IP and a HDMI/eDP TX Combo PHY based on a Samsung IP block.
+> >> +
+> >> +allOf:
+> >> +  - $ref: /schemas/display/bridge/synopsys,dw-hdmi-qp.yaml#
+> >> +  - $ref: /schemas/sound/dai-common.yaml#
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    enum:
+> >> +      - rockchip,rk3588-dw-hdmi-qp
+> >> +
+> >> +  clocks:
+> >> +    minItems: 4
+> >> +    items:
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >=20
+> > Why have you chosen to do things like this?  I find it makes things less
+> > clear than reiterating the names of the required clocks.
+>=20
+> I've just followed the approach used in rockchip,dw-hdmi.yaml.  Personall=
+y,
+> I preferred this for making a clear distinction between common and custom
+> items, in addition to reducing content dupplication.=20
+>=20
+> If readability is more important/desired, I will expand the items.  For
+> consistency, I assume clock-names, interrupts and interrupt-names below
+> should be treated similarly.
 
-This case is not possible with actual HW, so I need to fix it on the VKMS
-side and make indices start at 0 and be consecutive.
-A check on the drm_crtc_vblank_crtc() side won't hurt us though.
+I don't feel particularly strongly here FWIW. If you chose to do it, do
+it for all properties, yes.
 
-For extra context, see Louis message on the topic. It looks like
-we are having similar issues:
-https://lore.kernel.org/dri-devel/ZsS7x2y_HKgqGUFR@fedora/T/#mccf9a9748ae67a07a7e6ad694c42afc2ccd3c7f1
+> >> +      # The next clocks are optional, but shall be specified in this
+> >> +      # order when present.
+> >> +      - description: TMDS/FRL link clock
+> >> +      - description: Video datapath clock
+> >=20
+> > I don't get what you mean by optional. You have one SoC, either they are
+> > or are not connected, unless there's multiple instances of this IP block
+> > on the SoC and some do and some do not have these clocks?
+> > Ditto for the interrupts.
+>=20
+> They were handled as such in vendor tree, probably assuming other SoC
+> variants might not need them.  I agree it doesn't make sense to have them
+> optional at this point.  Will fix this in the next revision.
+>=20
+> >> +
+> >> +  clock-names:
+> >> +    minItems: 4
+> >> +    items:
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >> +      - enum: [hdp, hclk_vo1]
+> >> +      - const: hclk_vo1
+> >> +
+> >> +  interrupts:
+> >> +    items:
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >> +      - description: HPD interrupt
+> >> +
+> >> +  interrupt-names:
+> >> +    items:
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >> +      - {}
+> >> +      - const: hpd
+> >> +
+> >> +  phys:
+> >> +    maxItems: 1
+> >> +    description: The HDMI/eDP PHY.
+> >> +
+> >> +  phy-names:
+> >> +    const: hdmi
+> >> +
+> >> +  power-domains:
+> >> +    maxItems: 1
+> >> +
+> >> +  resets:
+> >> +    minItems: 2
+> >> +    maxItems: 2
+> >> +
+> >> +  reset-names:
+> >> +    items:
+> >> +      - const: ref
+> >> +      - const: hdp
+> >> +
+> >> +  "#sound-dai-cells":
+> >> +    const: 0
+> >> +
+> >> +  rockchip,grf:
+> >> +    $ref: /schemas/types.yaml#/definitions/phandle
+> >> +    description:
+> >> +      Most HDMI QP related data is accessed through SYS GRF regs.
+> >> +
+> >> +  rockchip,vo1-grf:
+> >> +    $ref: /schemas/types.yaml#/definitions/phandle
+> >> +    description:
+> >> +      Additional HDMI QP related data is accessed through VO1 GRF reg=
+s.
+> >=20
+> > Why are these required? What prevents you looking up the syscons by
+> > compatible?
+>=20
+> That is for getting the proper instance:
 
-Best wishes,
-Jose
- 
-> Cheers,
-> Daniel
+Ah, that makes sense. I am, however, curious why these have the same
+compatible when they have different sized regions allocated to them.
+
+> 	vo0_grf: syscon@fd5a6000 {
+> 		compatible =3D "rockchip,rk3588-vo-grf", "syscon";
+> 		reg =3D <0x0 0xfd5a6000 0x0 0x2000>;
+> 		clocks =3D <&cru PCLK_VO0GRF>;
+> 	};
+>=20
+> 	vo1_grf: syscon@fd5a8000 {
+> 		compatible =3D "rockchip,rk3588-vo-grf", "syscon";
+> 		reg =3D <0x0 0xfd5a8000 0x0 0x100>;
+> 		clocks =3D <&cru PCLK_VO1GRF>;
+> 	};
+>=20
+> Thanks for reviewing,
+> Cristian
+
+--WIjEHvGhr8+cRBp+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsTA4wAKCRB4tDGHoIJi
+0nV8AP96gaUNJensDkrW5IXMKbs1E7j8608g8NJuWpUI2Z0BFwEApF0W+cODYufQ
+cQcnuTAOqAcS/MvN8IuqYHrI+fzo8A4=
+=xCAE
+-----END PGP SIGNATURE-----
+
+--WIjEHvGhr8+cRBp+--
