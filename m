@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462979583ED
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21789583FD
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6CB10E6AD;
-	Tue, 20 Aug 2024 10:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C22A310E6B9;
+	Tue, 20 Aug 2024 10:18:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E+tIGeo0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c5meRtdK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6A910E6A9;
- Tue, 20 Aug 2024 10:16:39 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9391810E6B8;
+ Tue, 20 Aug 2024 10:18:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1C86ACE068C;
- Tue, 20 Aug 2024 10:16:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01800C4AF0F;
- Tue, 20 Aug 2024 10:16:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 01A7B60DE1;
+ Tue, 20 Aug 2024 10:18:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4DC8C4AF0B;
+ Tue, 20 Aug 2024 10:18:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724148997;
- bh=VYFz7I5L5KLTqazknj1Zai/JP5hjQosrywDopQoE93k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=E+tIGeo0iURl25RExTGs5pQOg/7Ne4riA3599Qn9laJuUNeG3rju/UfWcobEr/rLL
- KY7MLVjBDGeoi3oL7FgCRTHqHNuR8i3S9Hi2fQUmGXqtSd9SxA8G6B5L9kqBj7Fs5c
- +DzDBl5T6bZCHW920X1yynZR93DPjy1vmGz770lm5zGnhzpb3ct8NiKhjk82t8ZMgU
- iTnk4cN0gPsGM5lcEJFnIqhqsNHElxLR11uJ9cjA1CUJyTPks1Kd4NKBuu+cSCZNCB
- TSVSuoVi7IYqIcVFoE63ydnI8jbqv7ho9hdcaVWvtfgyMlY4S9VASN8qCRf3m4foev
- Sz2OTq8v1/abA==
-Message-ID: <af10c83a-4a7f-46fa-8287-d57b73532986@kernel.org>
-Date: Tue, 20 Aug 2024 12:16:30 +0200
+ s=k20201202; t=1724149127;
+ bh=iLG40Q2AHLIVrku5jyBHXVAf9G9PJDBm/KoBNZ8yUwI=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=c5meRtdKTdaxQiOUyFVtpQ7XmUaFJEsD2An6yi9uDidjxc3iBbNwo4UAMbMHXlWax
+ Mv7M4xcFPjIhs9pAxjaMIl8mhnZtyl7xXhyr/2LXVVKRPtXOl6jNc9lAgiwyUM5IzP
+ x5X0YIyycRsLgimSjwnHzOfRVPIesPpWh1A7uycpAW35SrG5i2SYEDbQSjuZKHB2tY
+ 8XzvN5i10c2iGnFAaK5fvQqr/WhzAE1TCXQcT2nbk/hjdxvgOnLdEhHUPOGmFbkRD+
+ EisVak9k6q7QWLsJr9gxBKHCNb345cBsr3IzhpFn5+J2o686nlUZ9qIBn405HLP0fA
+ DazX7wTAKydHw==
+Message-ID: <5e911abd-6681-4c44-8b97-2d263f4bb13a@kernel.org>
+Date: Tue, 20 Aug 2024 12:18:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 6/7] drm/msm/A6XX: Add a flag to allow preemption to
  submitqueue_create
+From: Konrad Dybcio <konradybcio@kernel.org>
 To: Antonino Maniscalco <antomani103@gmail.com>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -48,9 +49,9 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
  <20240815-preemption-a750-t-v1-6-7bda26c34037@gmail.com>
+ <af10c83a-4a7f-46fa-8287-d57b73532986@kernel.org>
 Content-Language: en-US
-From: Konrad Dybcio <konradybcio@kernel.org>
-In-Reply-To: <20240815-preemption-a750-t-v1-6-7bda26c34037@gmail.com>
+In-Reply-To: <af10c83a-4a7f-46fa-8287-d57b73532986@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,17 +69,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.08.2024 8:26 PM, Antonino Maniscalco wrote:
-> Some userspace changes are necessary so add a flag for userspace to
-> advertise support for preemption.
+
+
+On 20.08.2024 12:16 PM, Konrad Dybcio wrote:
+> On 15.08.2024 8:26 PM, Antonino Maniscalco wrote:
+>> Some userspace changes are necessary so add a flag for userspace to
+>> advertise support for preemption.
+>>
+>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>> ---
 > 
-> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> ---
+> Squash this into the "add preemption" patch, or add the flag earlier
+> (probably the latter, as that one is already big enough)
+> 
+> As it stands, just applying patches 1..5 will break GPU IIUC.. and
+> that's no bueno for running git bisect
 
-Squash this into the "add preemption" patch, or add the flag earlier
-(probably the latter, as that one is already big enough)
-
-As it stands, just applying patches 1..5 will break GPU IIUC.. and
-that's no bueno for running git bisect
+Or not, since the ring number isn't increased until the next one..
 
 Konrad
