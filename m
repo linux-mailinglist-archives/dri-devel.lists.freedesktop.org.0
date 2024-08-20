@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6DA958812
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 15:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA885958817
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 15:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7FBE10E7DA;
-	Tue, 20 Aug 2024 13:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F220E10E7DD;
+	Tue, 20 Aug 2024 13:41:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IPi4Nx5Q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YXLCgIz9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 652AD10E7D9;
- Tue, 20 Aug 2024 13:39:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5957710E318;
+ Tue, 20 Aug 2024 13:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724161158; x=1755697158;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=TGp+Nr511qgPw1yZE5cNNOP39+SXmD9F9jl0OZBLGI4=;
- b=IPi4Nx5Q7Oz/upWWBeqajzoEjTa44DLp4l7+upWusfoSoJkaiTy1aoD/
- x1WmIXR+SAygre0pq4fOvhufTutppdCFkJNjcFWEpK7pxO28fnlOvNC2G
- REDjdvlOiKr2g0PNrnTpqdV5+3WwQ2UlJveNjgu78XnIST6aO97Lmb44c
- Ar6OeXKKD1bTLg8nhiq1NmMpCNc9xm3C8oKvGp4o0yU5VRxyVoRJ9SynS
- dp+pnlgeEZMU46w6BzxYO6LzMr76R9lii/7LXrdMcfwV4YqfjrYez3QXs
- bGLk1ZAhz6bnCw2HXv2O61rNNmJtHjqdpxG4NX/ZKEi4jKzI4lH7+/ky3 w==;
-X-CSE-ConnectionGUID: h9+hi6zjSDyZfJE0hPwhUA==
-X-CSE-MsgGUID: hKZ8jSvlRpO1/3ICRYRUQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26211508"
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="26211508"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 06:36:50 -0700
-X-CSE-ConnectionGUID: sHnFBffLSfm05yhUI/+FxA==
-X-CSE-MsgGUID: UPU1VaAgQeK3CDPUDE36qg==
+ t=1724161308; x=1755697308;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=opLrROuD54WPY7U6CTrjM/ZqQ/yWDmuZgoY7rYtgdX0=;
+ b=YXLCgIz9JGiGXdQwgSzp/yz8aL9CVxB1AgPu4+mxZovFu9iWHcbuC6aQ
+ ++t0BC+Asc9xu/yIiEvSdmeHM4f9Q6bi3F/xvnZoiAok/wlQlJEW/1jjq
+ mbVJu2P9jpdfr4aj6FVl5cOA0uorp026drtIDqETvP18od1+Nu2s0Q0P3
+ VCYKfWycIoLlijYxRbrPpxMqS7TP80g0UnR85TLN2DBmPurWwE50LeA+/
+ rMHP6q3NfaiF3Ty5eP4bqxAnoFhoFZkHFD9iImlFa+Nl59QqQAhVbvTNU
+ GliNXfqS0pPWy1MZUCrljEdwXnsfgZo0CqYpX+yJZhaCgpICx/QeA/0Nx A==;
+X-CSE-ConnectionGUID: IAGzNvGBQ2KeEnNQ62iXpA==
+X-CSE-MsgGUID: Uvx39XvQR4q0MXus0l9unQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26331034"
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="26331034"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2024 06:41:47 -0700
+X-CSE-ConnectionGUID: aFf1F+rXTfGlvlVvX2STjg==
+X-CSE-MsgGUID: fwxoflidSHyyNvmP3E+2yQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="60420809"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.245.74])
- ([10.245.245.74])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 06:36:47 -0700
-Message-ID: <77b3e3994036e4fb6874aff6a1ce39543e7eefea.camel@linux.intel.com>
-Subject: Re: [PATCH v6 2/2] drm/xe/lnl: Offload system clear page activity
- to GPU
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@linux.intel.com>, Nirmoy Das
- <nirmoy.das@intel.com>,  dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org, Himal Prasad Ghimiray
- <himal.prasad.ghimiray@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Christian Koenig <christian.koenig@amd.com>, Matthew Auld
- <matthew.auld@intel.com>
-Date: Tue, 20 Aug 2024 15:36:45 +0200
-In-Reply-To: <b393e5ab-d69c-4bde-9ba2-3801ad8d5b48@linux.intel.com>
-References: <20240816135154.19678-1-nirmoy.das@intel.com>
- <20240816135154.19678-2-nirmoy.das@intel.com>
- <5e986e65-6c6a-4243-9804-b9331a6fd9ae@intel.com>
- <b393e5ab-d69c-4bde-9ba2-3801ad8d5b48@linux.intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="60698260"
+Received: from slindbla-desk.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.197])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2024 06:41:39 -0700
+Date: Tue, 20 Aug 2024 15:41:36 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Yu Jiaoliang <yujiaoliang@vivo.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Michal Mrozek <michal.mrozek@intel.com>,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Gustavo Sousa <gustavo.sousa@intel.com>,
+ Shekhar Chauhan <shekhar.chauhan@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2] drm/i915/gt: Use kmemdup_array instead of kmemdup for
+ multiple allocation
+Message-ID: <ZsSdEHxsmkb2B2WS@ashyti-mobl2.lan>
+References: <20240820095304.2746102-1-yujiaoliang@vivo.com>
+ <ngzckr4tdknp73oki6ig7drg6vx5hapqz3226ejfuhah5khefh@6gwnuk4q2nlx>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ngzckr4tdknp73oki6ig7drg6vx5hapqz3226ejfuhah5khefh@6gwnuk4q2nlx>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,124 +84,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Nirmoy,
+Hi Lucas,
 
-On Mon, 2024-08-19 at 18:01 +0200, Nirmoy Das wrote:
->=20
-> On 8/19/2024 1:05 PM, Matthew Auld wrote:
-> > On 16/08/2024 14:51, Nirmoy Das wrote:
-> > > On LNL because of flat CCS, driver creates migrates job to clear
-> > > CCS meta data. Extend that to also clear system pages using GPU.
-> > > Inform TTM to allocate pages without __GFP_ZERO to avoid double
-> > > page
-> > > clearing by clearing out TTM_TT_FLAG_ZERO_ALLOC flag and set
-> > > TTM_TT_FLAG_CLEARED_ON_FREE while freeing to skip ttm pool's
-> > > clear
-> > > on free as XE now takes care of clearing pages. If a bo is in
-> > > system
-> > > placement such as BO created with
-> > > DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING
-> > > and there is a cpu map then for such BO gpu clear will be avoided
-> > > as
-> > > there is no dma mapping for such BO at that moment to create
-> > > migration
-> > > jobs.
-> > >=20
-> > > Tested this patch api_overhead_benchmark_l0 from
-> > > https://github.com/intel/compute-benchmarks
-> > >=20
-> > > Without the patch:
-> > > api_overhead_benchmark_l0 --testFilter=3DUsmMemoryAllocation:
-> > > UsmMemoryAllocation(api=3Dl0 type=3DHost size=3D4KB) 84.206 us
-> > > UsmMemoryAllocation(api=3Dl0 type=3DHost size=3D1GB) 105775.56 us
-> > > erf tool top 5 entries:
-> > > 71.44% api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k] clear_=
-page_erms
-> > > 6.34%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k]
-> > > __pageblock_pfn_to_page
-> > > 2.24%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k] c=
-pa_flush
-> > > 2.15%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k]
-> > > pages_are_mergeable
-> > > 1.94%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k]
-> > > find_next_iomem_res
-> > >=20
-> > > With the patch:
-> > > api_overhead_benchmark_l0 --testFilter=3DUsmMemoryAllocation:
-> > > UsmMemoryAllocation(api=3Dl0 type=3DHost size=3D4KB) 79.439 us
-> > > UsmMemoryAllocation(api=3Dl0 type=3DHost size=3D1GB) 98677.75 us
-> > > Perf tool top 5 entries:
-> > > 11.16% api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k]
-> > > __pageblock_pfn_to_page
-> > > 7.85%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k] c=
-pa_flush
-> > > 7.59%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k]
-> > > find_next_iomem_res
-> > > 7.24%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k]
-> > > pages_are_mergeable
-> > > 5.53%=C2=A0 api_overhead_be=C2=A0 [kernel.kallsyms]=C2=A0=C2=A0 [k]=
-=20
-> > > lookup_address_in_pgd_attr
-> > >=20
-> > > Without this patch clear_page_erms() dominates execution time
-> > > which is
-> > > also not pipelined with migration jobs. With this patch page
-> > > clearing
-> > > will get pipelined with migration job and will free CPU for more
-> > > work.
-> > >=20
-> > > v2: Handle regression on dgfx(Himal)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 Update commit message as no ttm API changes =
-needed.
-> > > v3: Fix Kunit test.
-> > > v4: handle data leak on cpu mmap(Thomas)
-> > > v5: s/gpu_page_clear/gpu_page_clear_sys and move setting
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 it to xe_ttm_sys_mgr_init() and other nits (=
-Matt Auld)
-> > > v6: Disable it when init_on_alloc and/or init_on_free is
-> > > active(Matt)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 Use compute-benchmarks as reporter used it t=
-o report this
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 allocation latency issue also a proper test =
-application than
-> > > mime.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 In v5, the test showed significant reduction=
- in alloc
-> > > latency but
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 that is not the case any more, I think this =
-was mostly
-> > > because
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 previous test was done on IFWI which had low=
- mem BW from
-> > > CPU.
-> > >=20
-> > > Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> > > Cc: Matthew Auld <matthew.auld@intel.com>
-> > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
-> > > Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> >=20
-> > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->=20
->=20
-> Thanks Matt.
->=20
-> Pushed this to drm-xe-next. The series contains a ttm pool change
-> which=20
-> as agreed with Christian
->=20
-> is small enough to not cause any issue so can be pulled though drm-
-> xe-next.
+On Tue, Aug 20, 2024 at 07:53:10AM -0500, Lucas De Marchi wrote:
+> On Tue, Aug 20, 2024 at 05:53:02PM GMT, Yu Jiaoliang wrote:
+> > Let the kememdup_array() take care about multiplication and possible
+> > overflows.
+> > 
+> > v2:
+> > - Change subject
+> > - Leave one blank line between the commit log and the tag section
+> > - Fix code alignment issue
+> > 
+> > Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
+> > Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > ---
+> > drivers/gpu/drm/i915/gt/intel_workarounds.c | 5 ++---
+> > 1 file changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> > index d90348c56765..0fcfd55c62b4 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> > @@ -111,9 +111,8 @@ static void wa_init_finish(struct i915_wa_list *wal)
+> > {
+> > 	/* Trim unused entries. */
+> > 	if (!IS_ALIGNED(wal->count, WA_LIST_CHUNK)) {
+> > -		struct i915_wa *list = kmemdup_array(wal->list,
+> 
+> 					^
+> 
+> it was already kmemdup_array, not kmemdup. Am I missing anything?
 
-I have a question that was sent as a reply-to on that patch.
+I see kmemdup() in drm-tip.
 
-Thanks,
-Thomas
+What Yu has done here is to change kmemdup to kmemdup_array and
+send the patch. Received the reviews and made a new commit on top
+of the previous one; then he sent only this second commit.
 
->=20
->=20
-> Regards,
->=20
-> Nirmoy
->=20
+Yu needs to make sure that:
 
+ 1. the patch applies correctly on a clean drm-tip
+ 2. drm-tip + patch compiles
+ 3. there are no checkpatch and sparse new errors
+
+We missed point 1 here :-)
+
+Andi
