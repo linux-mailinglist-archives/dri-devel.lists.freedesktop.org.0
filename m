@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822A29593BA
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 06:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B245959549
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 09:04:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA5B510E579;
-	Wed, 21 Aug 2024 04:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6D910E5A0;
+	Wed, 21 Aug 2024 07:04:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IFF0R0Rk";
+	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="fzD0JyTn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D15F10E246;
- Wed, 21 Aug 2024 04:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724215988; x=1755751988;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=e9cRXMHPwsjc4eS2oAVv7CuGsm4fG7al7v4a8+Qf4YQ=;
- b=IFF0R0Rk2BBRxqM+Sfh7Ay3swad8636F5MV7LOEdPwPEULKu5gozbbZX
- SlACGoEg074CvDGFG94jHU7qstIiOZ5ngmxMTc8jF/G2JorNbhO91DlO/
- DnbDAAZCY3Ki13fqIlvm82aJbfTV6lgZcUTrWVOModmCEGTayf8NXC1dL
- JKP0Dwh9J1XBGpO7Z7vdcOzA7ZHK1tZFmONAa9Xlrbq9c9UcOdJAEBccx
- ejOAytH+kuaQWAl5PYKCEvPoZMmx37rO7ekN5KIOONHZBjpE2vA7OmqrW
- dTC0VdPX0C7+OV450JmANnadj+82vcwicwCPZwFySMc/l1Eq0XciqTk55 A==;
-X-CSE-ConnectionGUID: G+SY/DhIQuG+ssT8v5t2CQ==
-X-CSE-MsgGUID: MyA0bPmERJu9PvuPo5E83w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="40011067"
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; d="scan'208";a="40011067"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 21:53:08 -0700
-X-CSE-ConnectionGUID: Qg/IaytxTMqaEHocC/oEOA==
-X-CSE-MsgGUID: 5DNhF1n/SRaUggpClAtcTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; d="scan'208";a="65846597"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 20 Aug 2024 21:53:08 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sgdLF-000Aug-0Z;
- Wed, 21 Aug 2024 04:53:05 +0000
-Date: Wed, 21 Aug 2024 12:52:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- wayland-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>,
- Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v5 28/44] drm/amd/display: Add support for sRGB Inverse
- EOTF in SHAPER block
-Message-ID: <202408211241.xAvubshv-lkp@intel.com>
-References: <20240819205714.316380-29-harry.wentland@amd.com>
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
+ [185.70.40.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA2FC10E366
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 20:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1724186540; x=1724445740;
+ bh=8XGUYMGE1OFUymXrkgfLYCdVIVigLdfqa86an2wYvDU=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=fzD0JyTnDwHZgwT1ljsi7cob08ou3MNybOYEorWDsGhFvtSQYHc4SydOvBPab2UWo
+ v+bUSDUGuumR4DyaAmVuXDbRZKCyOVc++jvwdyU5xlbrixWIpFbJMHZQSqEsCm3f2Y
+ EU1S9pWsmHAwFExUirWMs4Kzr+7WcAwMn/b1Q6ZFilB7v9SLk303KC5z4imjz3etUS
+ J12fK9Y6Fe0eyBKedI69Wy35IXQNrFG1CJ2g0GsgAFDPOWI+acSLzsKu8cRdH90a4G
+ /2w8vzM/bLqdiNuXoqX+KX2qNKyIChsLg6p8MNS7JD4W2XAO+mZ41xd7OxXpUntIRz
+ XuocDGIoEbzeQ==
+Date: Tue, 20 Aug 2024 20:42:15 +0000
+To: Andy Yan <andyshrk@163.com>
+From: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniel@fooishbar.org>,
+ Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>
+Subject: Re:[PATCH v4] rockchip/drm: vop2: add support for gamma LUT
+Message-ID: <acvk_AR9o8iB8dRnYZrKp6ylhzAjl5oZyE6oBIKWQttckNesM1-5k9b71jDIRhoYRwx75xe-6_mM8a0p4e15NMapX1GjdDLqPPoKZDN8U1A=@proton.me>
+In-Reply-To: <22e2b803.cd8.1916d581b67.Coremail.andyshrk@163.com>
+References: <20240815124306.189282-2-pZ010001011111@proton.me>
+ <22e2b803.cd8.1916d581b67.Coremail.andyshrk@163.com>
+Feedback-ID: 53478694:user:proton
+X-Pm-Message-ID: 7fe11dad4a52c85e539c6e124e57470cd51a72e2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240819205714.316380-29-harry.wentland@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Wed, 21 Aug 2024 07:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,77 +63,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Harry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11-rc4 next-20240820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Wentland/drm-Add-helper-for-conversion-from-signed-magnitude/20240820-050138
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20240819205714.316380-29-harry.wentland%40amd.com
-patch subject: [PATCH v5 28/44] drm/amd/display: Add support for sRGB Inverse EOTF in SHAPER block
-config: x86_64-randconfig-003-20240821 (https://download.01.org/0day-ci/archive/20240821/202408211241.xAvubshv-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211241.xAvubshv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408211241.xAvubshv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:1232:42: warning: variable 'shaper_size' is uninitialized when used here [-Wuninitialized]
-    1232 |                 return __set_output_tf(tf, shaper_lut, shaper_size, false);
-         |                                                        ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:1214:22: note: initialize the variable 'shaper_size' to silence this warning
-    1214 |         uint32_t shaper_size;
-         |                             ^
-         |                              = 0
-   1 warning generated.
 
 
-vim +/shaper_size +1232 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c
+On Tuesday, August 20th, 2024 at 3:12 AM, Andy Yan <andyshrk@163.com> wrote=
+:
 
-  1205	
-  1206	static int
-  1207	__set_colorop_in_shaper_1d_curve(struct dc_plane_state *dc_plane_state,
-  1208			       struct drm_colorop_state *colorop_state)
-  1209	{
-  1210		struct dc_transfer_func *tf = &dc_plane_state->in_shaper_func;
-  1211		struct drm_colorop *colorop = colorop_state->colorop;
-  1212		struct drm_device *drm = colorop->dev;
-  1213		const struct drm_color_lut *shaper_lut;
-  1214		uint32_t shaper_size;
-  1215	
-  1216		if (colorop->type != DRM_COLOROP_1D_CURVE &&
-  1217		    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF)
-  1218			return -EINVAL;
-  1219	
-  1220		if (colorop_state->bypass) {
-  1221			tf->type = TF_TYPE_BYPASS;
-  1222			tf->tf = TRANSFER_FUNCTION_LINEAR;
-  1223			return 0;
-  1224		}
-  1225	
-  1226		drm_dbg(drm, "Shaper colorop with ID: %d\n", colorop->base.id);
-  1227	
-  1228		if (colorop->type == DRM_COLOROP_1D_CURVE) {
-  1229			tf->type = TF_TYPE_DISTRIBUTED_POINTS;
-  1230			tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
-  1231			tf->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
-> 1232			return __set_output_tf(tf, shaper_lut, shaper_size, false);
-  1233		}
-  1234	
-  1235		return -EINVAL;
-  1236	}
-  1237	
+>=20
+> Hi Piotr=EF=BC=8C
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hi Andy!
+
+> > +static int vop2_crtc_atomic_check_gamma(struct vop2_video_port *vp,
+> > + struct drm_crtc *crtc,
+> > + struct drm_atomic_state *state,
+> > + struct drm_crtc_state *crtc_state)
+> > +{
+> > + struct vop2 *vop2 =3D vp->vop2;
+> > + unsigned int len;
+> > +
+> > + if (!vp->vop2->lut_regs || !crtc_state->color_mgmt_changed ||
+> > + !crtc_state->gamma_lut)
+> > + return 0;
+> > +
+> > + len =3D drm_color_lut_size(crtc_state->gamma_lut);
+> > + if (len !=3D crtc->gamma_size) {
+> > + DRM_DEBUG_KMS("Invalid LUT size; got %d, expected %d\n",
+> > + len, crtc->gamma_size);
+> > + return -EINVAL;
+> > + }
+> > +
+> > + // trigger full modeset only when SoC is 356x
+> > + if (!crtc_state->mode_changed && (vop2->data->soc_id =3D=3D 3566 ||
+> > + vop2->data->soc_id =3D=3D 3568)) {
+> > + int ret;
+> > +
+> > + crtc_state->mode_changed =3D true;
+> > + state->allow_modeset =3D true;
+>=20
+>=20
+>=20
+>=20
+> We don't need to trigger a modeset here. We just need to disable dsp_lut =
+befor we write gamma lut data for rk3566/8.
+
+Formerly my patch didn't trigger a modeset. Though Daniel Stone in his=20
+reply to v3[1] suggested it as the clean way to handle RK356x case[2],=20
+quote, "it would probably be better to set mode_changed when the colour=20
+management configuration changes". Let's wait for his reply to this=20
+version of the patch, perhaps he meant something different or not exactly=
+=20
+what I did.
+
+[1] https://lore.kernel.org/linux-rockchip/CAPj87rOM=3Dj0zmuWL9frGKV1xzPbJr=
+k=3DQ9ip7F_HAPYnbCqPouw@mail.gmail.com/
+[2] https://lore.kernel.org/linux-rockchip/TkgKVivuaLFLILPY-n3iZo_8KF-daKdq=
+du-0_e0HP-5Ar_8DALDeNWog2suwWKjX7eomcbGET0KZe7DlzdhK2YM6CbLbeKeFZr-MJzJMtw0=
+=3D@proton.me/
+
+Best Regards, Piotr Zalewski
+
