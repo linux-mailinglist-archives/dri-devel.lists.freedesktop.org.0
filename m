@@ -2,79 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E248958248
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455FE9582C5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:38:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D59610E57F;
-	Tue, 20 Aug 2024 09:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8B510E604;
+	Tue, 20 Aug 2024 09:38:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ALU3PYQy";
+	dkim=pass (2048-bit key; secure) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="iB8SKQno";
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="F9ZYNlh2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F21710E57F
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:31:36 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-42808071810so42299985e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 02:31:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724146294; x=1724751094; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dR0CreoU8vpVj47jDOdAp+cTu5413/pQZmWvPzZH2KA=;
- b=ALU3PYQyMOEWyBIIbWr6z4UUNLA7FkxPaLX2isnEwGXfBHKE/TvHH1UjZpeYNKWCoZ
- Fr0YsyouGwj0aGiIw2Bske2puJnCHV1dmjQXPaStdVyGH69x7PPhO2X/mJYnT3Kj2AhJ
- JVzsntbdu7RkSdvZCCb6UCWavAIZqfe48U/7Ab+8ZRvFOQnyLdN/QpaJsp7kU2YT711d
- B/AOS6A1gE/WI6Zt09+uNGUiBDU/d1EhjgkBlb1akvZG6HlLrYhnCFNAnFvqYM/9/ma0
- EFzxARQWLZGLzDWIPxSDg2W+nCK/41+Xu/gS7avntT4f8htL6+U6WNxkP8Ev7Ri8nIEZ
- BIXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724146294; x=1724751094;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dR0CreoU8vpVj47jDOdAp+cTu5413/pQZmWvPzZH2KA=;
- b=LmNtigZ9r/vkOF4jyMzpK6/ITKAL4kayU9UgX4ataQcJeA2AOMLWeglaal4xxBJWvO
- CrkLC8K34BEsqLyHhwW9GRcASk2T/RHpmpHZMSHTioc2mAvhISWLkF15KfaEDL4BceGK
- +fRGsXQJyZ48356rdRs0yTKKFkF7e/w5+bmweCJc6/srZJ7kdMLqtpNjIXej4DoYDBZ+
- 0AbdPhnLk/MVJeT98ObjapA+E0qsyX5HyuIr6K6F0X/HjETNyRjmpLw/puP4/jv8hH4v
- SxS864D2OMMoYNH3Ov6ca2RNb0sEbH+NmRewnu9OUWObiR7/93S/EWSe4qcOza1vLJFv
- li0Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2Gd/eU/Fzhr88ERuRXzOKotBXvFwDsLRr4b6/fekNMNcTOiEadUpMCGxi0TTqpTHcUTuySOhWXiI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDSVjY140dM/9fHy34slAfQKE8eF04nhIBoNp6WeaBz4L6Lwb7
- 8YGHm5aqMmttIZELOvA+AZAs9LpXL5nPSrhEQeLJ5iTexJOSHtYUdx/WAOkPZMwj82aDeonOs9B
- d
-X-Google-Smtp-Source: AGHT+IHX+zBO3kMosl5V3wdA7ekb2kmacB5cUU/l4MDgeLTQn+W+q0tXM80DVANeQt+/R4mbjOcPgQ==
-X-Received: by 2002:a05:600c:4f8d:b0:427:d713:a5d3 with SMTP id
- 5b1f17b1804b1-429ed79daa4mr89507445e9.11.1724146293900; 
- Tue, 20 Aug 2024 02:31:33 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-429ed648f00sm136597505e9.7.2024.08.20.02.31.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2024 02:31:33 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
- skhan@linuxfoundation.org, rbmarliere@gmail.com, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB3810E604
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+ t=1724146678; bh=jPGG/a/zhAKpjsY8pe/7xA2GurPE0F1jHaVRYfIHzcI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iB8SKQno1xOFtpP08RD4ydBwRm/5u2V2Y9ZPhGw9uEebBfyA2KWQcrarvwI5GQzTD
+ la4XoXVj6mfAbwaLxUBucQdaMykbEnbfCse4u/pg+a4cp/zfDud7yR2VQaU3RiRLLQ
+ UNRAdBLOtB50IhAHO9Lo5GxQH5uXmrWgo1kNyzjbf2XwV51R5MBCrisFluxc8nOaB7
+ aospHpuBnpT205wgczOHeMIK+Jmb6i3Fwl31ZOB4lUhgdYriz6U44wE6/QkOyVSTwK
+ ZcXKcsTd1GQf9RtbDfIidfRpxIQpcR70AvG2G3Ywoc+1kaLVUbWhszjRL1u0QVw+PF
+ IjV7UJeJfCOjg==
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 734D6FB03;
+ Tue, 20 Aug 2024 11:37:58 +0200 (CEST)
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5k0b3mmUCL5j; Tue, 20 Aug 2024 11:37:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+ t=1724146677; bh=jPGG/a/zhAKpjsY8pe/7xA2GurPE0F1jHaVRYfIHzcI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=F9ZYNlh2veNbwouKioDxQtER7zoZzfhTS9EBCEwyKXe5TwdTsVhC1U2iZcsaCap1a
+ f1oMBnuwq86FwCcdEyP/plxNWkypF0aP3RMFHUs0i0ZL8ah2n210zDY0aI8taBhdkd
+ pTMKPRi9TOAy6cMYNnNvkYvhRcd6Xrn5t2zRY+TVeLnXPleLAaN3BviVOYSWqCagb8
+ EIpj/3S+OoxKciRY1Co7EG7HThWlhi9Mr9NTIMSOjKdzc8nLxi4qyNLxAxFmc1zEVW
+ S4OhGxkkCVbvPzKXwvlzQ/PZ1ZvFgDSIt5Bo9VL6G4ovQhFG8cs0QEngCua9CYkDER
+ i+/PSm8duClRg==
+Date: Tue, 20 Aug 2024 11:37:54 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: kernel@puri.sm, neil.armstrong@linaro.org, dianders@chromium.org,
+ quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-In-Reply-To: <20240819175122.33176-1-abhishektamboli9@gmail.com>
-References: <20240819175122.33176-1-abhishektamboli9@gmail.com>
-Subject: Re: [PATCH v2] drm/panel: ili9341: Add comments for registers in
- ili9341_config()
-Message-Id: <172414629306.2571141.1078174341276677864.b4-ty@linaro.org>
-Date: Tue, 20 Aug 2024 11:31:33 +0200
+Subject: Re: [PATCH v2 2/2] drm/panel: mantix-mlaf057we51: write hex in
+ lowercase
+Message-ID: <ZsRj8i_tOw9BfxNB@qwark.sigxcpu.org>
+References: <20240820091556.1032726-1-tejasvipin76@gmail.com>
+ <20240820091556.1032726-3-tejasvipin76@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240820091556.1032726-3-tejasvipin76@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,18 +74,58 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
-
-On Mon, 19 Aug 2024 23:21:22 +0530, Abhishek Tamboli wrote:
-> Add detail comments for registers definitions in struct ili9341_config().
-> Replace TODO with comment for each registers.
+On Tue, Aug 20, 2024 at 02:45:54PM +0530, Tejas Vipin wrote:
+> Converts uppercase hex to lowercase hex for cleanup.
 > 
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+>  drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> index 2a365eaa4ad4..4db852ffb0f6 100644
+> --- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> +++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> @@ -23,7 +23,7 @@
+>  
+>  /* Manufacturer specific Commands send via DSI */
+>  #define MANTIX_CMD_OTP_STOP_RELOAD_MIPI 0x41
+> -#define MANTIX_CMD_INT_CANCEL           0x4C
+> +#define MANTIX_CMD_INT_CANCEL           0x4c
+>  #define MANTIX_CMD_SPI_FINISH           0x90
+>  
+>  struct mantix {
+> @@ -50,18 +50,18 @@ static void mantix_init_sequence(struct mipi_dsi_multi_context *dsi_ctx)
+>  	/*
+>  	 * Init sequence was supplied by the panel vendor.
+>  	 */
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a);
+>  
+>  	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_INT_CANCEL, 0x03);
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0xA9, 0x00);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x03);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0xa9, 0x00);
+>  
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5a, 0x09);
+>  	mipi_dsi_generic_write_seq_multi(dsi_ctx, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
+>  	mipi_dsi_msleep(dsi_ctx, 20);
+>  
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xA5);
+> -	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xa5);
+> +	mipi_dsi_generic_write_seq_multi(dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2f);
+>  	mipi_dsi_msleep(dsi_ctx, 20);
+>  }
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Reviewed-by: Guido Günther <agx@sigxcpu.org>
 
-[1/1] drm/panel: ili9341: Add comments for registers in ili9341_config()
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1453323eac4f13817a07f40e78e76dfc635aab34
+Cheers,
+ -- Guido
 
--- 
-Neil
-
+>  
+> -- 
+> 2.46.0
+> 
