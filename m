@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45E5958D50
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB90958D64
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B19F010E7F0;
-	Tue, 20 Aug 2024 17:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40E910E7F7;
+	Tue, 20 Aug 2024 17:29:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nU+36PWl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ImZw2hRh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 352DE10E7F0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 17:28:39 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 912FF10E7F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 17:29:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724174920; x=1755710920;
+ t=1724174996; x=1755710996;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=gxOpFPPyX4vEfDtz0VCkirxZGrDav49zs5925e143/I=;
- b=nU+36PWlLr2yy9b5oNKBlPOT/LX0Ijp7clA0Q1b8yXz3fl0/77P80Bz3
- XnHIOp4QTUXfhKd/HpM8zot6Ed0Ij//c+gsyyDRKJ3cDrXwYEZc0m1NCJ
- 7eGIGDfsikBPmtvtCHptpCMUBy/YE2NwdKxBHr7dQjxwbgFAAmGlgM1hE
- 2DQD2TcfjTIGdAL8GKaAwfk3YcCEsTLiostydIzqMrXSehhERZL+1Zme5
- LUYSA7ZNA4/J4SvXkh8kgH6rtJ4Y6KhxbdaeSVJU4QJtkcc4SAgrezJKI
- sxntn6dXVHS6gWDLbW9bfI+XLopO8TRb/5MiMQP1nREUJgwujHQEH5u4f g==;
-X-CSE-ConnectionGUID: cJo1DzghRyWzHojHKgqtYg==
-X-CSE-MsgGUID: TaRci3tHRQG6fpFsPtv0+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22644752"
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="22644752"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 10:28:08 -0700
-X-CSE-ConnectionGUID: M1PnaZKjTxGoD5szJQWUeQ==
-X-CSE-MsgGUID: o+OJD7p9Riqa+7SQuPBl6w==
+ bh=68ac7DKsySDSgzwlWvjjo7DcbuWc1QcmM244nl8RMHI=;
+ b=ImZw2hRhGaOIiNpn/92VgdN7vIq5WFhLRmXt0vzyWq7JkMGP2CW7Wz7X
+ pb6dS+ayQuQRsB7sJ5vdVHBa/ncmzt8qlaQrU4qgP0SZLuFsZ7PhCtt9F
+ Iq2SzRasJInfFAYYjK2VO8SkttPA5ZPQjHIIZpJYhnuTfYlN/Rc1sJnnS
+ HnTgv0ajfzvSHZ7StLHFSwu/3riVMh2RyStK7LAXgKWZEexrn5P5rSZJd
+ onI5xwmX+hW+5qOWbx6M4grPMyBel1MnYaa2pbR2KZgrv1BklhMjOYg9D
+ 3XavC99YQB5M8TD5pH55MARVHbI1Fi8jqLn14/zhfPMQGZoDb61krELtf Q==;
+X-CSE-ConnectionGUID: aSlTAYxqQw23wqtMdr31kg==
+X-CSE-MsgGUID: lEB+CojTTH6V/ywGx0tdGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22659872"
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="22659872"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2024 10:29:53 -0700
+X-CSE-ConnectionGUID: 3e5GmarEQFm3vY766fVtDA==
+X-CSE-MsgGUID: ZExBMhs5Sp2n9ruAFUwKYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="91523618"
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="83996247"
 Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 10:27:58 -0700
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2024 10:29:45 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sgSeA-0000000HOGh-1rJT; Tue, 20 Aug 2024 20:27:54 +0300
-Date: Tue, 20 Aug 2024 20:27:54 +0300
+ id 1sgSft-0000000HOIY-3G5R; Tue, 20 Aug 2024 20:29:41 +0300
+Date: Tue, 20 Aug 2024 20:29:41 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Stephen Boyd <swboyd@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -77,20 +77,19 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v3 05/17] usb: typec: Add device managed
- typec_switch_register()
-Message-ID: <ZsTSGjdz2HbqcZkJ@smile.fi.intel.com>
+Subject: Re: [PATCH v3 02/17] drm/bridge: Verify lane assignment is going to
+ work during atomic_check
+Message-ID: <ZsTShZnD-NbZqGio@smile.fi.intel.com>
 References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-6-swboyd@chromium.org>
- <ZsRs6d6uOMb4DqQQ@smile.fi.intel.com>
- <CAE-0n52O01UgrDT2=-JJpZj39BOJNyyQC4w_pgDUmKDmcN=8Yw@mail.gmail.com>
- <ZsTPeEsS1m4Y8imq@smile.fi.intel.com>
- <CAE-0n52FSUFictNQ9kotgFAZPYnJpy+3Ad__QeUN+EiJuBWGwQ@mail.gmail.com>
- <CAE-0n50uOcCHHaw=opEY089ymPBER2H7QLtORFzD6ypwHEKUJw@mail.gmail.com>
+ <20240819223834.2049862-3-swboyd@chromium.org>
+ <ZsRrWfoPPVGC4Dqy@smile.fi.intel.com>
+ <CAE-0n536OWtoOoRSM=6u=wA75A+0WtBktiY=6Y6VjKKTQWPcNw@mail.gmail.com>
+ <ZsTPuvoTIFVFHw6o@smile.fi.intel.com>
+ <CAE-0n50xcj21WiPHW9ATE7BfxKpOWvdV7of97G_U5ZrMV0zUUw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE-0n50uOcCHHaw=opEY089ymPBER2H7QLtORFzD6ypwHEKUJw@mail.gmail.com>
+In-Reply-To: <CAE-0n50xcj21WiPHW9ATE7BfxKpOWvdV7of97G_U5ZrMV0zUUw@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,54 +106,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 20, 2024 at 10:23:06AM -0700, Stephen Boyd wrote:
-> Quoting Stephen Boyd (2024-08-20 10:19:48)
-> > Quoting Andy Shevchenko (2024-08-20 10:16:40)
-> > > On Tue, Aug 20, 2024 at 10:01:07AM -0700, Stephen Boyd wrote:
-> > > > Quoting Andy Shevchenko (2024-08-20 03:16:09)
-> > > > > On Mon, Aug 19, 2024 at 03:38:19PM -0700, Stephen Boyd wrote:
+On Tue, Aug 20, 2024 at 10:24:47AM -0700, Stephen Boyd wrote:
+> Quoting Andy Shevchenko (2024-08-20 10:17:46)
+> > On Tue, Aug 20, 2024 at 10:12:55AM -0700, Stephen Boyd wrote:
+> > > Quoting Andy Shevchenko (2024-08-20 03:09:29)
+> > > > On Mon, Aug 19, 2024 at 03:38:16PM -0700, Stephen Boyd wrote:
 
 ...
 
-> > > > > > +     ptr = devres_alloc(devm_typec_switch_unregister, sizeof(*ptr), GFP_KERNEL);
-> > > > > > +     if (!ptr)
-> > > > > > +             return ERR_PTR(-ENOMEM);
-> > > > > > +
-> > > > > > +     switch_dev = typec_switch_register(parent ,desc);
-> > >
-> > > (Side note: wrong location of the white space)
-> >
-> > Thanks.
-> >
-> > >
-> > > > > > +     if (!IS_ERR(switch_dev)) {
-> > >
-> > > (Side note: positive conditional is okay)
-> > >
-> > > > > > +             *ptr = switch_dev;
-> > > > > > +             devres_add(parent, ptr);
-> > > > > > +     } else {
-> > > > > > +             devres_free(ptr);
-> > > > > > +     }
-> > > > >
-> > > > > devm_add_action_or_reset() ?
+> > > > > +     /*
+> > > > > +      * Ensure this bridge is aware that the next bridge wants to
+> > > > > +      * reassign lanes.
+> > > > > +      */
+> > > > > +     for (i = 0; i < num_input_lanes; i++)
+> > > > > +             if (i != input_lanes[i].logical && !num_output_lanes)
+> > > > > +                     return -ENOTSUPP;
 > > > >
-> > > > No. We don't want to call the 'action' devm_typec_switch_unregister()
-> > > > when it fails because that would unregister a switch that has never been
-> > > > registered.
+> > > > Besides missing {} this code is internal to the Linux kernel. Is it okay?
 > > >
-> > > Hmm... With devm_add_action_or_reset() we first do things and then try to add
-> > > them to the managed resources. In that case it won't be like you described.
-> > >
-> > > What do I miss?
+> > > ENOTSUPP is used by select_bus_fmt_recursive() so I simply followed that
+> > > style.
 > >
-> > I believe you've missed that this is a wrapper around struct device and
-> > the error path is different (put_device() vs. device_unregister()).
+> > Okay, just be aware of that side effect of that code, also checkpatch may
+> > complain (however it might be false positive).
 > 
-> Or you're suggesting devm_add_action_or_reset() after registering the
-> switch? Sorry it wasn't clear to me.
+> Yes checkpatch complained but didn't enlighten me. Please tell me the
+> side effect as I'm unaware!
 
-Yes, after successful switch registration.
+I already told you above, if this code ever appears in user space it will be
+printed as a number and very much confuse the user!
+
+That's why usage of this code either has to be documented or be subsystem
+_known_ practice (GPIO library comes to my mind as it uses it internally,\
+but filters for user space).
 
 -- 
 With Best Regards,
