@@ -2,88 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5ADB957F53
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 09:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCF7957F9D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 09:30:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08DAD10E122;
-	Tue, 20 Aug 2024 07:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABC710E085;
+	Tue, 20 Aug 2024 07:30:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="YibhQQl+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JRN2rAB8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EWB+akhd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mOr89Axg";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kLI2Kno3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7oE+Rzd1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kLI2Kno3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7oE+Rzd1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C71810E11F;
- Tue, 20 Aug 2024 07:22:39 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E95B510E085;
+ Tue, 20 Aug 2024 07:30:37 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E9A17225A1;
- Tue, 20 Aug 2024 07:22:36 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 921DC1FD07;
+ Tue, 20 Aug 2024 07:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724138558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1724139035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nxM7gUEPJonsLj0wa0Ff9i77ggfnpBC1XbLXbz5KL5Y=;
- b=YibhQQl+FZUTi7j25YKgbxVB2ssPdcR0wwq6ahr4YmGz4vJxfO+I89fjbxANXeS2KW3AbK
- KNJkfxfZtV+pRMl96vmxt+fhKNhJgPuZ8nxabiKglD/QjqNTNOi2wOJoHmOdu+28zlbxF5
- YPP6/NaE7gkiDAD8iwy51ss9NlgPsHk=
+ bh=c7owycwJTk5hM8DW4EzQS+Mn3lUXXM54kB2fZZHtgZ0=;
+ b=kLI2Kno39srksaxjMx3seTZKpx/2O18c+uLfxpmtnJCKPFtTTTQlC+rGaiQ8k/1PK9apYY
+ /79fMHCaKiocHGcNowAhLL5oY2nCnaPUSxvl3+cV4a3Pppu1Gy1q5o9zkRdtRa9Fi4e2BW
+ 7wpDjsAxnYT2jaJktUatNQ9kKQbEu54=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724138558;
+ s=susede2_ed25519; t=1724139035;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nxM7gUEPJonsLj0wa0Ff9i77ggfnpBC1XbLXbz5KL5Y=;
- b=JRN2rAB8q/LZqBm6FKi6w+8RT3fJ4Qef2RVkoom1ONCbTYI3v4XbDE4ddYrxu4Do5amtKy
- Qqv5pBXyMMqnrgCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+ bh=c7owycwJTk5hM8DW4EzQS+Mn3lUXXM54kB2fZZHtgZ0=;
+ b=7oE+Rzd19aV12rqBI+hKIAibScK6gin2lbjEAWCwKi5Lk+gs9Or5eWYAcOurYyeCDS6q4t
+ zAm/Yek2uAwcq7Bg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kLI2Kno3;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7oE+Rzd1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724138556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1724139035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nxM7gUEPJonsLj0wa0Ff9i77ggfnpBC1XbLXbz5KL5Y=;
- b=EWB+akhdb/GasL3y8Qw6RVjOtNrPMYHtGDFY54m3VKwRBUm/BMBvE0ejoH7SiLP3Cf30uD
- ScvAXIqHU85DGAvAa1TFCw3OlHeIuLROw4oOXEe8fJD9S5Eqg6f6JJdgXE1qVehY0Q9M5t
- AE60uikV1KLHiOQ7dNnBSKCQmpZQopk=
+ bh=c7owycwJTk5hM8DW4EzQS+Mn3lUXXM54kB2fZZHtgZ0=;
+ b=kLI2Kno39srksaxjMx3seTZKpx/2O18c+uLfxpmtnJCKPFtTTTQlC+rGaiQ8k/1PK9apYY
+ /79fMHCaKiocHGcNowAhLL5oY2nCnaPUSxvl3+cV4a3Pppu1Gy1q5o9zkRdtRa9Fi4e2BW
+ 7wpDjsAxnYT2jaJktUatNQ9kKQbEu54=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724138556;
+ s=susede2_ed25519; t=1724139035;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nxM7gUEPJonsLj0wa0Ff9i77ggfnpBC1XbLXbz5KL5Y=;
- b=mOr89Axgng8lyIZnBpPjjvYPU6N3S2w9uBFkmqSm6hGOKOCzCan7owFnsaQlC936dxH4CS
- BfWPsod40dpS6cBA==
+ bh=c7owycwJTk5hM8DW4EzQS+Mn3lUXXM54kB2fZZHtgZ0=;
+ b=7oE+Rzd19aV12rqBI+hKIAibScK6gin2lbjEAWCwKi5Lk+gs9Or5eWYAcOurYyeCDS6q4t
+ zAm/Yek2uAwcq7Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A110C13770;
- Tue, 20 Aug 2024 07:22:36 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F5AF13770;
+ Tue, 20 Aug 2024 07:30:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Dn+DJTxExGYJGQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Aug 2024 07:22:36 +0000
-Message-ID: <b82cb17f-4da7-4e7c-ad92-3c7c9abb45ee@suse.de>
-Date: Tue, 20 Aug 2024 09:22:36 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 8m0eEhpGxGaEGwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Aug 2024 07:30:34 +0000
+Message-ID: <e8a9512f-b350-4f31-848c-351b0c1a3301@suse.de>
+Date: Tue, 20 Aug 2024 09:30:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/86] drm: Add client-agnostic setup helper
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH 28/86] drm/mi0283qt: Run DRM default client setup
+To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, daniel@ffwll.ch,
+ airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
 References: <20240816125408.310253-1-tzimmermann@suse.de>
- <20240816125408.310253-5-tzimmermann@suse.de>
- <20240818200735.GB729@pendragon.ideasonboard.com>
+ <20240816125408.310253-29-tzimmermann@suse.de>
+ <6134a8e2-42ae-4e93-8007-01c19509a8bc@tronnes.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,26 +112,35 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240818200735.GB729@pendragon.ideasonboard.com>
+In-Reply-To: <6134a8e2-42ae-4e93-8007-01c19509a8bc@tronnes.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,redhat.com,lists.freedesktop.org];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[10]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
- imap1.dmz-prg2.suse.org:helo, ideasonboard.com:email]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 921DC1FD07
 X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[tronnes.org,ffwll.ch,gmail.com,redhat.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_TRACE(0.00)[suse.de:+]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[10]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,153 +158,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 18.08.24 um 22:07 schrieb Laurent Pinchart:
-> Hi Thomas,
+Am 16.08.24 um 18:01 schrieb Noralf Trønnes:
 >
-> Thank you for the patch.
->
-> On Fri, Aug 16, 2024 at 02:22:30PM +0200, Thomas Zimmermann wrote:
->> DRM may support multiple in-kernel clients that run as soon as a DRM
->> driver has been registered. To select the client(s) in a single place,
->> introduce drm_client_setup().
->>
->> Drivers that call the new helper automatically instantiate the kernel's
->> configured default clients. Only fbdev emulation is currently supported.
->> Later versions can add support for DRM-based logging, a boot logo or even
->> a console.
-> I really like the direction this is taking :-)
->
->> Some drivers handle the color mode for clients internally. Provide the
->> helper drm_client_setup_with_color_mode() for them.
+> On 8/16/24 14:22, Thomas Zimmermann wrote:
+>> Call drm_client_setup() to run the kernel's default client setup
+>> for DRM. Set fbdev_probe in struct drm_driver, so that the client
+>> setup can start the common fbdev client.
 >>
 >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: "Noralf Trønnes" <noralf@tronnes.org>
 >> ---
->>   drivers/gpu/drm/Makefile           |  1 +
->>   drivers/gpu/drm/drm_client_setup.c | 55 ++++++++++++++++++++++++++++++
->>   include/drm/drm_client_setup.h     | 12 +++++++
->>   3 files changed, 68 insertions(+)
->>   create mode 100644 drivers/gpu/drm/drm_client_setup.c
->>   create mode 100644 include/drm/drm_client_setup.h
+>>   drivers/gpu/drm/tiny/mi0283qt.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->> index 0beb55d028a8..e7fc77d1d573 100644
->> --- a/drivers/gpu/drm/Makefile
->> +++ b/drivers/gpu/drm/Makefile
->> @@ -129,6 +129,7 @@ drm_kms_helper-y := \
->>   	drm_atomic_helper.o \
->>   	drm_atomic_state_helper.o \
->>   	drm_bridge_connector.o \
->> +	drm_client_setup.o \
->>   	drm_crtc_helper.o \
->>   	drm_damage_helper.o \
->>   	drm_encoder_slave.o \
->> diff --git a/drivers/gpu/drm/drm_client_setup.c b/drivers/gpu/drm/drm_client_setup.c
->> new file mode 100644
->> index 000000000000..2e3315f5c3e2
->> --- /dev/null
->> +++ b/drivers/gpu/drm/drm_client_setup.c
->> @@ -0,0 +1,55 @@
->> +// SPDX-License-Identifier: MIT
->> +
->> +#include <drm/drm_client_setup.h>
->> +#include <drm/drm_device.h>
->> +#include <drm/drm_fbdev_client.h>
->> +#include <drm/drm_fourcc.h>
->> +#include <drm/drm_print.h>
->> +
->> +/**
->> + * drm_client_setup() - Setup in-kernel DRM clients
->> + * @dev: DRM device
->> + * @format: Preferred color format for the device. Use NULL, unless
-> s/color format/pixel format/
+>> diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi0283qt.c
+>> index cdc5423990ca..f1461c55dba6 100644
+>> --- a/drivers/gpu/drm/tiny/mi0283qt.c
+>> +++ b/drivers/gpu/drm/tiny/mi0283qt.c
+> <snip>
+>
+>> @@ -226,7 +228,7 @@ static int mi0283qt_probe(struct spi_device *spi)
+>>   
+>>   	spi_set_drvdata(spi, drm);
+>>   
+>> -	drm_fbdev_dma_setup(drm, 0);
+>> +	drm_client_setup(drm, NULL);
+> Would it be possible for drm_dev_register() to handle the client setup
+> so drivers won't have to? struct drm_driver could have a field for
+> drivers that want a different color format.
 
-Ah, ok.
+There's drm_mode_config.preferred_depth, which at least serves this 
+purpose to some extend.
 
->
->> + *          there is clearly a driver-preferred format.
->> + *
->> + * This function sets up the in-kernel DRM clients. Restore, hotplug
->> + * events and teardown are all taken care of.
->> + *
->> + * Drivers should call drm_client_setup() after registering the new
->> + * DRM device with drm_dev_register(). This function is safe to call
->> + * even when there are no connectors present. Setup will be retried
->> + * on the next hotplug event.
->> + *
->> + * The clients are destroyed by drm_dev_unregister().
->> + */
->> +void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
->> +{
->> +	int ret;
->> +
->> +	if (!format)
->> +		format = drm_format_info(DRM_FORMAT_XRGB8888);
->> +
->> +	ret = drm_fbdev_client_setup(dev, format);
->> +	if (ret)
->> +		drm_warn(dev, "Failed to set up DRM client; error %d\n", ret);
->> +}
->> +EXPORT_SYMBOL(drm_client_setup);
->> +
->> +/**
->> + * drm_client_setup_with_color_mode() - Setup in-kernel DRM clients for color mode
->> + * @dev: DRM device
->> + * @color_mode: Preferred color mode for the device
->> + *
->> + * This function sets up the in-kernel DRM clients. It is equivalent
->> + * to drm_client_setup(), but expects a color mode as second argument.
->> + *
->> + * Do not use this function in new drivers. Prefer drm_client_setup() with a
->> + * format of NULL.
->> + */
->> +void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode)
->> +{
->> +	uint32_t fmt = drm_driver_color_mode_format(dev, color_mode);
->> +
->> +	drm_client_setup(dev, drm_format_info(fmt));
->> +}
->> +EXPORT_SYMBOL(drm_client_setup_with_color_mode);
->> diff --git a/include/drm/drm_client_setup.h b/include/drm/drm_client_setup.h
->> new file mode 100644
->> index 000000000000..f5fd1fabd4b1
->> --- /dev/null
->> +++ b/include/drm/drm_client_setup.h
->> @@ -0,0 +1,12 @@
->> +/* SPDX-License-Identifier: MIT */
->> +
->> +#ifndef DRM_CLIENT_SETUP_H
->> +#define DRM_CLIENT_SETUP_H
->> +
->> +struct drm_device;
->> +struct drm_format_info;
->> +
->> +void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format);
->> +void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode);
-> This is not common in DRM, so we may not want to introduce it here, but
-> _Generic() gives a nice function overloading syntax:
->
-> void drm_client_setup_with_format(struct drm_device *dev, const struct drm_format_info *format);
-> void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode);
->
-> #define drm_client_setup_(dev, format_or_color_mode)							 \
-> 	_Generic(format_or_color_mode,									 \
-> 		const struct drm_format_info *: drm_client_setup_with_format(dev, format_or_color_mode), \
-> 		unsigned int: drm_client_setup_with_color_mode(dev, format_or_color_mode)		 \
-> 	)
->
-> Up to you.
+I briefly considered using drm_dev_register() while making the patches, 
+but then decided against it. In terms of design, functions should only 
+do one thing. In practical terms, there is at least one driver author 
+that explicitly decided against instantiating clients in the driver 
+(sprd IIRC). And there is at least one driver where client format and 
+preferred_depth are different (vc4).
 
-The color format is really a user interface. I'd rather like to remove 
-it from the implementation where possible.
+But hopefully this series is the final major interface rework of this 
+kind and later changes can be done within drm_client_setup() or 
+incrementally.
 
 Best regards
 Thomas
 
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Noralf.
 >
->> +
->> +#endif
+>>   
+>>   	return 0;
+>>   }
 
 -- 
 --
