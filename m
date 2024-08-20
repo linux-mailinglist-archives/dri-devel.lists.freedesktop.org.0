@@ -2,66 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5633F95843D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A41958440
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:23:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2C210E6CB;
-	Tue, 20 Aug 2024 10:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB9D10E6D1;
+	Tue, 20 Aug 2024 10:23:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OLWVkPJB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CXMLsoIW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E123910E6CA;
- Tue, 20 Aug 2024 10:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724149423; x=1755685423;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Mh4/fpGN5ZPUpaPzZDGUGUsQfXLGPzN6NmUqzUNDJwk=;
- b=OLWVkPJB16nlj2bYQ3x+Z+2HFIwyLidbC/YabvlZpTvfGuMxFsMSWn1z
- YSAbxXWHP+P/lgr0wf9TIKrdP04mGwXd3AUJ2plOUWBziwEOwqa3kpAvy
- bsB7YXq9P+DHEkNupVx9682n18YciUIAwC3oYCMHOJrjleajhj9DDvUiy
- 4sC8r4b2QFe2o2Q4jX60ib9DrN2kJDjZUfvcvMYXTNQUeyjIFbx7W3Tlz
- kZ2TdTB8YWz9hcl7QbuJX3qeDBZ8G97JmOKijtjavlulABIxkUIRnpXFP
- 1DaAe3/b+zFncdOLD5MWUlIfXyHWqAF1TcUYYdrO+4scTBl3jTxs8LHGG w==;
-X-CSE-ConnectionGUID: weau7bZqRXaorUfcRkR++A==
-X-CSE-MsgGUID: MVpk1XYqR8uAogE/Pr+jPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="33010724"
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; d="scan'208";a="33010724"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 03:23:43 -0700
-X-CSE-ConnectionGUID: c3zLvXOXTCq7yKaRKRxwWg==
-X-CSE-MsgGUID: K+l7Nfd8RU2adZ/vrTeYEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; d="scan'208";a="65642325"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 03:23:39 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sgM1X-0000000HGJy-1vnR; Tue, 20 Aug 2024 13:23:35 +0300
-Date: Tue, 20 Aug 2024 13:23:35 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net, andi.shyti@linux.intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v6] drm/i915/hwmon: expose fan speed
-Message-ID: <ZsRup8uKiqUvADFl@smile.fi.intel.com>
-References: <20240820062010.2000873-1-raag.jadav@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFBE210E6D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724149434;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z6yD7EXxtMSIEgaYn1Mu8m1V6SKjE9QoBiwRx7GBEwE=;
+ b=CXMLsoIWK640wvM4B+egcAz+yREwU/VZwIij4vO4vVZBDSMDm83wE9dZsiuq8MzmmMupWy
+ yW7w6Lycw6mtke+RCwqJUP3fybPUpHMUzfFMjDhdNSqtaYJKVSCClxN6kGjom3LjQAVc+h
+ Mg6cchgxAirX9CGwxANVBR0AYvLOrf0=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-60-2eQauKz_NZ-6X-Qm85SK_Q-1; Tue, 20 Aug 2024 06:23:53 -0400
+X-MC-Unique: 2eQauKz_NZ-6X-Qm85SK_Q-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2f3f2bf2738so288321fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 03:23:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724149432; x=1724754232;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d4c+7fu/VdEpjhH3XMlyk8gLAqXF7DZDZmgZbuAUUV0=;
+ b=qs/STFjXH/3UnpUMo9gwf510Xs/nA1i2u2HzDT2mzZNpxa1qxxFT0+EnF0S4oQfcrI
+ YZR2eRctvNVbdrctTeH02RzJu6A2IAbctX4o7ecyUyUfXD+edv1iTdRewSe6x472TPZC
+ ao0HfR4RY+tZRqVD95zryqDPyj6fNtFR33W8liL+rpA4LiDbE1DA8nn+r0R0CzTm07u0
+ LX1Jg7ndLmNfiZb2Yg6B1KYRi9TRM4DKmjLF5MJxp75Wilktotig2acFtMCgJNw8fKLi
+ mwQrzvKihhDZTBlz5PkXppHgoKEHVvdQmTKu1wpw76GFHAJjGXBcfZDdtsDrj1N/qzhJ
+ yjug==
+X-Gm-Message-State: AOJu0YwaK5h8Cj5WIOyDDFrKipfoiws0kiQ+0Xu88VAmt9E/yND0LyM1
+ oyWXcrTEHWQzZLUh6L+A3VCLvKztUrOhNv/+jogwl4ZeiR1NLNf7ys4AGX6C4q3uYrCG/P/MmPl
+ 7/7VzvPLK1ui0WsRmRrIMbzD8nV++JWNju4aLo3tgh2W0ug095fuQqj20XLAgmnTH0g==
+X-Received: by 2002:a2e:bc20:0:b0:2f1:929b:af00 with SMTP id
+ 38308e7fff4ca-2f3be5eaebbmr55822191fa.5.1724149431661; 
+ Tue, 20 Aug 2024 03:23:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEKOBhR4ojLfA+j+V5ryjxkELVaKf/dDRfbA6pDJgghg5Ap7oA8FDtLoCFdCUzkszAjQ4sRng==
+X-Received: by 2002:a2e:bc20:0:b0:2f1:929b:af00 with SMTP id
+ 38308e7fff4ca-2f3be5eaebbmr55822061fa.5.1724149431052; 
+ Tue, 20 Aug 2024 03:23:51 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3dcc:1f00:bec1:681e:45eb:77e2])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a83838c69easm747601766b.40.2024.08.20.03.23.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Aug 2024 03:23:50 -0700 (PDT)
+Message-ID: <46046055be8fcf29949d36778bdb4ee7a7b6ed67.camel@redhat.com>
+Subject: Re: [PATCH 1/2] drm/sched: memset() 'job' in drm_sched_job_init()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
+ <matthew.brost@intel.com>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 20 Aug 2024 12:23:49 +0200
+In-Reply-To: <20240806143855.29789-2-pstanner@redhat.com>
+References: <20240806143855.29789-2-pstanner@redhat.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240820062010.2000873-1-raag.jadav@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,42 +94,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 20, 2024 at 11:50:10AM +0530, Raag Jadav wrote:
-> Add hwmon support for fan1_input attribute, which will expose fan speed
-> in RPM. With this in place we can monitor fan speed using lm-sensors tool.
-> 
-> $ sensors
-> i915-pci-0300
-> Adapter: PCI adapter
-> in0:         653.00 mV
-> fan1:        3833 RPM
-> power1:           N/A  (max =  43.00 W)
-> energy1:      32.02 kJ
+*PING*
 
-> v2: Handle overflow, add mutex protection and ABI documentation
->     Aesthetic adjustments (Riana)
-> v3: Change rotations data type, ABI date and version
-> v4: Fix wakeref leak
->     Drop switch case and simplify hwm_fan_xx() (Andi)
-> v5: Rework time calculation, aesthetic adjustments (Andy)
-> v6: Drop overflow logic (Andy)
->     Aesthetic adjustments (Badal)
 
-But it still has an issue with 64-bit division on 32-bit platforms, right?
-
-...
-
-> +	/*
-> +	 * Calculate fan speed in RPM by time averaging two subsequent
-> +	 * readings in minutes.
-> +	 * RPM = number of rotations * msecs per minute / time in msecs
-> +	 */
-> +	*val = DIV_ROUND_UP(rotations * (MSEC_PER_SEC * 60), time);
-
-...somewhere here?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+On Tue, 2024-08-06 at 16:38 +0200, Philipp Stanner wrote:
+> drm_sched_job_init() has no control over how users allocate struct
+> drm_sched_job. Unfortunately, the function can also not set some
+> struct
+> members such as job->sched.
+>=20
+> This could theoretically lead to UB by users dereferencing the
+> struct's
+> pointer members too early.
+>=20
+> It is easier to debug such issues if these pointers are initialized
+> to
+> NULL, so dereferencing them causes a NULL pointer exception.
+> Accordingly, drm_sched_entity_init() does precisely that and
+> initializes
+> its struct with memset().
+>=20
+> Initialize parameter "job" to 0 in drm_sched_job_init().
+>=20
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+> Hi all,
+> I did some experiments with the scheduler recently and am trying to
+> make
+> the documentation and bits of the code more bullet proof.
+>=20
+> I tested the performance of v6.11-rc2 with and without this memset()
+> by
+> creating 1e6 jobs and found no performance regression.
+>=20
+> Cheers,
+> P.
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 8 ++++++++
+> =C2=A01 file changed, 8 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index 76969f9c59c2..1498ee3cbf39 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -936,6 +936,14 @@ int drm_sched_job_init(struct drm_sched_job
+> *job,
+> =C2=A0=09=09return -EINVAL;
+> =C2=A0=09}
+> =C2=A0
+> +=09/*
+> +=09 * We don't know for sure how the user has allocated. Thus,
+> zero the
+> +=09 * struct so that unallowed (i.e., too early) usage of
+> pointers that
+> +=09 * this function does not set is guaranteed to lead to a
+> NULL pointer
+> +=09 * exception instead of UB.
+> +=09 */
+> +=09memset(job, 0, sizeof(*job));
+> +
+> =C2=A0=09job->entity =3D entity;
+> =C2=A0=09job->credits =3D credits;
+> =C2=A0=09job->s_fence =3D drm_sched_fence_alloc(entity, owner);
 
