@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98B295826E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FA595827D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77DF510E5E4;
-	Tue, 20 Aug 2024 09:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A273B10E58C;
+	Tue, 20 Aug 2024 09:35:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CF8gUMrH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5trSQq8y";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CF8gUMrH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5trSQq8y";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kceSStU7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fwi1sle0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kceSStU7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fwi1sle0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D1010E595
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F24B510E595
  for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:35:06 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 36365225AA;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 91D3A1FFCF;
  Tue, 20 Aug 2024 09:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1724146505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gX91yI4Op6D2w4gSixX1FdiFGxsmbU0zNWwnCvimueU=;
- b=CF8gUMrHyNy0kWWnPqL61sUvKYDO6UIUYWCxSvOs00X/JVQZ9qlaafrJNYf8cCweDJGC4u
- JoIKdUUQAe/iywGN61lI9pVGusnl3OyKzKfmmP76YbNWzV8Ei8Sd8E5pbyGxbybrySnAa4
- aPlSEX13rUrvsNPudVRATVUSO7BdpN0=
+ bh=JlHClxVlB0wR5ulw4rVzp0kpT3nJf/fx0/Y25IZ3Wyk=;
+ b=kceSStU7BMEtnq418OAQWxMsjXQBxWVkqSfueTT3jTtR1a1KHrz/BLs48C4luI8XNDEgxG
+ qjMPPzAsMerUBFvA5AKJ43C5GDSMCL/zgZhAmMnu5XbGUfPTUIaqHWn7fIgFe0fXuifpBN
+ CjxiuKwOBNEMYwWKr5Sw3w0xXsAtj1w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1724146505;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gX91yI4Op6D2w4gSixX1FdiFGxsmbU0zNWwnCvimueU=;
- b=5trSQq8y/Hrp55Z5o4tEyMjkP3oUlk3wMhWmAo5M2V2PH3t4PfM9uEaegFcxxHPVzXL9ZU
- LGzrjQjqpIKLTTCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CF8gUMrH;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5trSQq8y
+ bh=JlHClxVlB0wR5ulw4rVzp0kpT3nJf/fx0/Y25IZ3Wyk=;
+ b=fwi1sle0Qrc3F4t/cgsSV9micDzs7ASyaFDZUu319oHOz2EYL3/OO+rYluzQ0HeiPbrUQs
+ AgzUD8Z6gtypFvBw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kceSStU7;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fwi1sle0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1724146505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gX91yI4Op6D2w4gSixX1FdiFGxsmbU0zNWwnCvimueU=;
- b=CF8gUMrHyNy0kWWnPqL61sUvKYDO6UIUYWCxSvOs00X/JVQZ9qlaafrJNYf8cCweDJGC4u
- JoIKdUUQAe/iywGN61lI9pVGusnl3OyKzKfmmP76YbNWzV8Ei8Sd8E5pbyGxbybrySnAa4
- aPlSEX13rUrvsNPudVRATVUSO7BdpN0=
+ bh=JlHClxVlB0wR5ulw4rVzp0kpT3nJf/fx0/Y25IZ3Wyk=;
+ b=kceSStU7BMEtnq418OAQWxMsjXQBxWVkqSfueTT3jTtR1a1KHrz/BLs48C4luI8XNDEgxG
+ qjMPPzAsMerUBFvA5AKJ43C5GDSMCL/zgZhAmMnu5XbGUfPTUIaqHWn7fIgFe0fXuifpBN
+ CjxiuKwOBNEMYwWKr5Sw3w0xXsAtj1w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1724146505;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gX91yI4Op6D2w4gSixX1FdiFGxsmbU0zNWwnCvimueU=;
- b=5trSQq8y/Hrp55Z5o4tEyMjkP3oUlk3wMhWmAo5M2V2PH3t4PfM9uEaegFcxxHPVzXL9ZU
- LGzrjQjqpIKLTTCw==
+ bh=JlHClxVlB0wR5ulw4rVzp0kpT3nJf/fx0/Y25IZ3Wyk=;
+ b=fwi1sle0Qrc3F4t/cgsSV9micDzs7ASyaFDZUu319oHOz2EYL3/OO+rYluzQ0HeiPbrUQs
+ AgzUD8Z6gtypFvBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C312B13AFE;
- Tue, 20 Aug 2024 09:35:04 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32DB513770;
+ Tue, 20 Aug 2024 09:35:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id sE10LkhjxGa3RAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Aug 2024 09:35:04 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id YC4HC0ljxGa3RAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Aug 2024 09:35:05 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  deller@gmx.de, bonbons@linux-vserver.org, jikos@kernel.org,
@@ -80,16 +80,17 @@ To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  kernel@pengutronix.de, shawnguo@kernel.org, festevam@gmail.com
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 13/28] backlight: lms501kf03: Use lcd power constants
-Date: Tue, 20 Aug 2024 11:22:51 +0200
-Message-ID: <20240820093452.68270-14-tzimmermann@suse.de>
+Subject: [PATCH 14/28] backlight: ltv350qv: Use lcd power constants
+Date: Tue, 20 Aug 2024 11:22:52 +0200
+Message-ID: <20240820093452.68270-15-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240820093452.68270-1-tzimmermann@suse.de>
 References: <20240820093452.68270-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 36365225AA
-X-Spam-Level: 
+X-Rspamd-Queue-Id: 91D3A1FFCF
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  R_MISSING_CHARSET(0.50)[];
@@ -106,16 +107,15 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[];
  RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
  FROM_EQ_ENVFROM(0.00)[];
  R_RATELIMIT(0.00)[to_ip_from(RLk469idygq4891mojaqehp6ty)];
  RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
  TO_DN_SOME(0.00)[];
  FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de,mail.ru]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,94 +137,83 @@ in functionality.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/backlight/lms501kf03.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ drivers/video/backlight/ltv350qv.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/video/backlight/lms501kf03.c b/drivers/video/backlight/lms501kf03.c
-index e051e6b6036e..28721b48b4c7 100644
---- a/drivers/video/backlight/lms501kf03.c
-+++ b/drivers/video/backlight/lms501kf03.c
-@@ -7,7 +7,6 @@
+diff --git a/drivers/video/backlight/ltv350qv.c b/drivers/video/backlight/ltv350qv.c
+index cdc4c087f230..c919b0fe4cd9 100644
+--- a/drivers/video/backlight/ltv350qv.c
++++ b/drivers/video/backlight/ltv350qv.c
+@@ -6,7 +6,6 @@
   */
- 
  #include <linux/delay.h>
+ #include <linux/err.h>
 -#include <linux/fb.h>
+ #include <linux/init.h>
  #include <linux/lcd.h>
  #include <linux/module.h>
- #include <linux/spi/spi.h>
-@@ -205,7 +204,7 @@ static int lms501kf03_ldi_disable(struct lms501kf03 *lcd)
+@@ -15,7 +14,7 @@
  
- static int lms501kf03_power_is_on(int power)
+ #include "ltv350qv.h"
+ 
+-#define POWER_IS_ON(pwr)	((pwr) <= FB_BLANK_NORMAL)
++#define POWER_IS_ON(pwr)	((pwr) <= LCD_POWER_REDUCED)
+ 
+ struct ltv350qv {
+ 	struct spi_device	*spi;
+@@ -233,7 +232,7 @@ static int ltv350qv_probe(struct spi_device *spi)
+ 		return -ENOMEM;
+ 
+ 	lcd->spi = spi;
+-	lcd->power = FB_BLANK_POWERDOWN;
++	lcd->power = LCD_POWER_OFF;
+ 	lcd->buffer = devm_kzalloc(&spi->dev, 8, GFP_KERNEL);
+ 	if (!lcd->buffer)
+ 		return -ENOMEM;
+@@ -245,7 +244,7 @@ static int ltv350qv_probe(struct spi_device *spi)
+ 
+ 	lcd->ld = ld;
+ 
+-	ret = ltv350qv_power(lcd, FB_BLANK_UNBLANK);
++	ret = ltv350qv_power(lcd, LCD_POWER_ON);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -258,7 +257,7 @@ static void ltv350qv_remove(struct spi_device *spi)
  {
--	return (power) <= FB_BLANK_NORMAL;
-+	return (power) <= LCD_POWER_REDUCED;
- }
+ 	struct ltv350qv *lcd = spi_get_drvdata(spi);
  
- static int lms501kf03_power_on(struct lms501kf03 *lcd)
-@@ -294,8 +293,8 @@ static int lms501kf03_set_power(struct lcd_device *ld, int power)
- {
- 	struct lms501kf03 *lcd = lcd_get_data(ld);
- 
--	if (power != FB_BLANK_UNBLANK && power != FB_BLANK_POWERDOWN &&
--		power != FB_BLANK_NORMAL) {
-+	if (power != LCD_POWER_ON && power != LCD_POWER_OFF &&
-+		power != LCD_POWER_REDUCED) {
- 		dev_err(lcd->dev, "power value should be 0, 1 or 4.\n");
- 		return -EINVAL;
- 	}
-@@ -349,11 +348,11 @@ static int lms501kf03_probe(struct spi_device *spi)
- 		 * current lcd status is powerdown and then
- 		 * it enables lcd panel.
- 		 */
--		lcd->power = FB_BLANK_POWERDOWN;
-+		lcd->power = LCD_POWER_OFF;
- 
--		lms501kf03_power(lcd, FB_BLANK_UNBLANK);
-+		lms501kf03_power(lcd, LCD_POWER_ON);
- 	} else {
--		lcd->power = FB_BLANK_UNBLANK;
-+		lcd->power = LCD_POWER_ON;
- 	}
- 
- 	spi_set_drvdata(spi, lcd);
-@@ -367,7 +366,7 @@ static void lms501kf03_remove(struct spi_device *spi)
- {
- 	struct lms501kf03 *lcd = spi_get_drvdata(spi);
- 
--	lms501kf03_power(lcd, FB_BLANK_POWERDOWN);
-+	lms501kf03_power(lcd, LCD_POWER_OFF);
+-	ltv350qv_power(lcd, FB_BLANK_POWERDOWN);
++	ltv350qv_power(lcd, LCD_POWER_OFF);
  }
  
  #ifdef CONFIG_PM_SLEEP
-@@ -381,16 +380,16 @@ static int lms501kf03_suspend(struct device *dev)
- 	 * when lcd panel is suspend, lcd panel becomes off
- 	 * regardless of status.
- 	 */
--	return lms501kf03_power(lcd, FB_BLANK_POWERDOWN);
-+	return lms501kf03_power(lcd, LCD_POWER_OFF);
+@@ -266,14 +265,14 @@ static int ltv350qv_suspend(struct device *dev)
+ {
+ 	struct ltv350qv *lcd = dev_get_drvdata(dev);
+ 
+-	return ltv350qv_power(lcd, FB_BLANK_POWERDOWN);
++	return ltv350qv_power(lcd, LCD_POWER_OFF);
  }
  
- static int lms501kf03_resume(struct device *dev)
+ static int ltv350qv_resume(struct device *dev)
  {
- 	struct lms501kf03 *lcd = dev_get_drvdata(dev);
+ 	struct ltv350qv *lcd = dev_get_drvdata(dev);
  
--	lcd->power = FB_BLANK_POWERDOWN;
-+	lcd->power = LCD_POWER_OFF;
- 
--	return lms501kf03_power(lcd, FB_BLANK_UNBLANK);
-+	return lms501kf03_power(lcd, LCD_POWER_ON);
+-	return ltv350qv_power(lcd, FB_BLANK_UNBLANK);
++	return ltv350qv_power(lcd, LCD_POWER_ON);
  }
  #endif
  
-@@ -401,7 +400,7 @@ static void lms501kf03_shutdown(struct spi_device *spi)
+@@ -284,7 +283,7 @@ static void ltv350qv_shutdown(struct spi_device *spi)
  {
- 	struct lms501kf03 *lcd = spi_get_drvdata(spi);
+ 	struct ltv350qv *lcd = spi_get_drvdata(spi);
  
--	lms501kf03_power(lcd, FB_BLANK_POWERDOWN);
-+	lms501kf03_power(lcd, LCD_POWER_OFF);
+-	ltv350qv_power(lcd, FB_BLANK_POWERDOWN);
++	ltv350qv_power(lcd, LCD_POWER_OFF);
  }
  
- static struct spi_driver lms501kf03_driver = {
+ static struct spi_driver ltv350qv_driver = {
 -- 
 2.46.0
 
