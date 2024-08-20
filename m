@@ -2,70 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CA6958D75
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C2E958D7A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:34:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A65010E800;
-	Tue, 20 Aug 2024 17:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3BA810E801;
+	Tue, 20 Aug 2024 17:34:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Q4YCCnXO";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="haJn6xRg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 165D810E800
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 17:33:16 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-7a1dcc7bc05so394366185a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:33:16 -0700 (PDT)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04BA910E801
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 17:34:16 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id
+ af79cd13be357-7a501dd544eso352835385a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724175195; x=1724779995;
+ d=chromium.org; s=google; t=1724175255; x=1724780055;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=9vtSBBXJK5LCYoMXhK0wAXHgfrMBnfJ+I9BOwaqkeIw=;
- b=Q4YCCnXOBxJ7LnMaMONNZMVTrXU4A/El/ax7yijoaJYBXAzkQ2YMbWsIHD31MPy82Z
- ulwmB67ZjkYOYLwP87X7HDC6321K50nr+yamD3tiEinPehvpjbhVRtTOCBE2pSRebo8S
- F2HRUiyXKkiTNOdqMWMfIoWNPGzRyQzgymF38=
+ :reply-to; bh=sT8btaeVFgKiZIC2/bVrNe0cKcp239nORrve01JKc1Q=;
+ b=haJn6xRggtaVrLs9YNsBU/gKo3+HWoO0PEGPoslg4gLdYifNHt7dlWOaVE2GPaQU4V
+ uXv0wONdFrvfPPu9CGND69KqvQhIPlaA/vnZKnz9pEk8JvgRaGk9wxpxhv4KLtAS4zzr
+ cvV0Q294imUstMTtmrq19M9IkXu4lxv4P5zX8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724175195; x=1724779995;
+ d=1e100.net; s=20230601; t=1724175255; x=1724780055;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9vtSBBXJK5LCYoMXhK0wAXHgfrMBnfJ+I9BOwaqkeIw=;
- b=qAgKfg/k4mqpYrFSK++Z9Ir8YpVhp3CpH2LcrzJXdAhES0X4IrYMXqbJfHra0Tlfe0
- XqqXioGbK5EYF78jyPx/B2LwYJMu87ALidRavQU7LYSkI0C+CyPKQXRzk8JsnukCt0hz
- vHCdgISXZYgGZEqtvSopThiPEiP56krcUuInKF/fN6zfSRv/UnCzUVn+21QrLWlHHHAi
- yo6t6cDDa7X3z6+gR63OndRsa8ysWLdE6ZUvgrL3h0sAkGthEC9Dvqle1sWgfv6LDw7P
- 3xoZNwqrXG40dASk2xWo8JyXoUTsKBD1ynJ4AlYrQdbm3cn0PUiF9gRLzpfkQbxtBSm7
- TYgQ==
+ bh=sT8btaeVFgKiZIC2/bVrNe0cKcp239nORrve01JKc1Q=;
+ b=YGyrLR8dZiEdRx4gNuKwOoRXs0QnSa7Mp9l/ztdibaJPmTbRVzRTiEFmj5I0qjnyld
+ fY85VlumiqAonVwUB6CT6BJzxNWkQlVxSnrv3+i8yZcYXuchd6r84HrTP3gMhwGifQtA
+ 0yp7pHEw8TVaq2UV2fulxdVT10ifPHZX108CZx0cQ0wUWvnKXGLBDvE2PmXOzXRavmx8
+ soCnb0vI2zVemiBaLGX42RDW6Nv1PI/KO2lZ8G1p/xtQ2ZIEUW2RbBzDJ85o8wvA6VA/
+ I/G9Fkq1/mV+EDmz+yuvOK+XtzDYi5zP70zHUGjjQG5Y5Nz8vZitc9U5ivnmzaO4CQmc
+ F13w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWeHOvw6MlLqm5f26iZH6kzyJ02+FBXF6AWzdFFvPEw6TqSYNS/ATYxFJ96cUiQXFZd5Nhcvo1jgho=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1cgPUIzT3DLAHnlyfquXQohbdht+DG1LlS1LXJDmlkROzVRml
- SB0hrpS1hsozXCEUjEPmD8K6bkgj+zyP9S+xLx7hoDqJjLe3ZEwKFUYRUUiaFBiWdWDoWH6gO1G
- Ze2/n4AW16fPyT1AeB41AGB6XLe3ecN+Z56Ab
-X-Google-Smtp-Source: AGHT+IGYOhjKEQmlHtrugQt34padsEOCiU22JleS9UeHG8yLwrBPBBWRxbXoU9frSSi4wQBqFivZBoMrIwRgXX1QdHI=
-X-Received: by 2002:a05:620a:269a:b0:7a1:d9a6:a9af with SMTP id
- af79cd13be357-7a5069f1f8dmr1864595885a.68.1724175194965; Tue, 20 Aug 2024
- 10:33:14 -0700 (PDT)
+ AJvYcCWbo8vUpT+3A36YTDTL3UnP6VSM8ym4Kw04G1iyTRnqpwfFeftYaof8XE0iIBa6SYBUaLal4C0TYSnpmcC6CfdHOzn5PHu8PO4GIkXTEFYl
+X-Gm-Message-State: AOJu0Yy5zfRq+XnY9lEs+uG7lhhLoZhmzqLHpSE1Rnp2Y1IKk+M6/1yd
+ 1jsTpSFqkePoNasIzxS3LOFaaxVyFaq8MtFvgLkD1yg97R9gpEOV7mM2neRgQPR+Yzdj3I7W7Lq
+ ZdAJY3qE24MD6OiZ3K5S8qMysy0UJoimfkljj
+X-Google-Smtp-Source: AGHT+IGGJj/BEL1gcz7E4TOfNemZPl2ZAZ1e0Im3r9+oB7B/patnof4GuWnoFzCxo19sTL6oKp0QcBKMjKB8KkoFPP4=
+X-Received: by 2002:a05:620a:2453:b0:79f:8f3:6ad4 with SMTP id
+ af79cd13be357-7a6740028d4mr2801085a.1.1724175254910; Tue, 20 Aug 2024
+ 10:34:14 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 20 Aug 2024 10:33:14 -0700
+ HTTPREST; Tue, 20 Aug 2024 10:34:13 -0700
 MIME-Version: 1.0
-In-Reply-To: <ZsTShZnD-NbZqGio@smile.fi.intel.com>
+In-Reply-To: <ZsRt_I6y9MfWLawy@smile.fi.intel.com>
 References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-3-swboyd@chromium.org>
- <ZsRrWfoPPVGC4Dqy@smile.fi.intel.com>
- <CAE-0n536OWtoOoRSM=6u=wA75A+0WtBktiY=6Y6VjKKTQWPcNw@mail.gmail.com>
- <ZsTPuvoTIFVFHw6o@smile.fi.intel.com>
- <CAE-0n50xcj21WiPHW9ATE7BfxKpOWvdV7of97G_U5ZrMV0zUUw@mail.gmail.com>
- <ZsTShZnD-NbZqGio@smile.fi.intel.com>
+ <20240819223834.2049862-11-swboyd@chromium.org>
+ <ZsRt_I6y9MfWLawy@smile.fi.intel.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 20 Aug 2024 10:33:14 -0700
-Message-ID: <CAE-0n53JBtB0YAZxMhLVJhbsUNZo4JPyXUiHu=9EQT4Bx+tHPA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/17] drm/bridge: Verify lane assignment is going to
- work during atomic_check
+Date: Tue, 20 Aug 2024 10:34:13 -0700
+Message-ID: <CAE-0n516QBSg-ODNjaM-q52UtU17DJ45VC-pov+1oSfm2E_9Sg@mail.gmail.com>
+Subject: Re: [PATCH v3 10/17] device property: Add remote endpoint to devcon
+ matcher
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
  patches@lists.linux.dev, devicetree@vger.kernel.org, 
@@ -110,40 +106,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Andy Shevchenko (2024-08-20 10:29:41)
-> On Tue, Aug 20, 2024 at 10:24:47AM -0700, Stephen Boyd wrote:
-> > Quoting Andy Shevchenko (2024-08-20 10:17:46)
-> > > On Tue, Aug 20, 2024 at 10:12:55AM -0700, Stephen Boyd wrote:
-> > > > Quoting Andy Shevchenko (2024-08-20 03:09:29)
-> > > > > On Mon, Aug 19, 2024 at 03:38:16PM -0700, Stephen Boyd wrote:
+Quoting Andy Shevchenko (2024-08-20 03:20:44)
+> On Mon, Aug 19, 2024 at 03:38:24PM -0700, Stephen Boyd wrote:
+> >  include/linux/property.h    | 5 +++--
 >
-> ...
+> > -typedef void *(*devcon_match_fn_t)(const struct fwnode_handle *fwnode, const char *id,
+> > -                                void *data);
+> > +typedef void *(*devcon_match_fn_t)(const struct fwnode_handle *fwnode,
+> > +                                const struct fwnode_handle *endpoint,
+> > +                                const char *id, void *data);
 >
-> > > > > > +     /*
-> > > > > > +      * Ensure this bridge is aware that the next bridge wants to
-> > > > > > +      * reassign lanes.
-> > > > > > +      */
-> > > > > > +     for (i = 0; i < num_input_lanes; i++)
-> > > > > > +             if (i != input_lanes[i].logical && !num_output_lanes)
-> > > > > > +                     return -ENOTSUPP;
-> > > > >
-> > > > > Besides missing {} this code is internal to the Linux kernel. Is it okay?
-> > > >
-> > > > ENOTSUPP is used by select_bus_fmt_recursive() so I simply followed that
-> > > > style.
-> > >
-> > > Okay, just be aware of that side effect of that code, also checkpatch may
-> > > complain (however it might be false positive).
-> >
-> > Yes checkpatch complained but didn't enlighten me. Please tell me the
-> > side effect as I'm unaware!
->
-> I already told you above, if this code ever appears in user space it will be
-> printed as a number and very much confuse the user!
->
-> That's why usage of this code either has to be documented or be subsystem
-> _known_ practice (GPIO library comes to my mind as it uses it internally,\
-> but filters for user space).
->
+> Seems there is no explanation of the parameters here, can we add a kernel-doc
+> to this typedef (may be a separate patch)?
 
-Ok, got it. Thanks!
+Sure. I'll throw in another patch.
