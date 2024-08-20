@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C843A958B46
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 17:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72E5958B4A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 17:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE9E10E1F2;
-	Tue, 20 Aug 2024 15:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6F610E250;
+	Tue, 20 Aug 2024 15:29:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mdDbbLZI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I632zlGT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDD6810E1F2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 15:29:25 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-42812945633so49939965e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 08:29:25 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1398310E20B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 15:29:45 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-428e0d18666so45000765e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 08:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724167764; x=1724772564; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1724167783; x=1724772583; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QkWOPQjGLs4dsHLfoUaXJd6WQ78zM6/OqatLTFO3uUs=;
- b=mdDbbLZItBNzjWlnz4Um6UhgkoSrGZVQGg0oTMC7aMuT6727fvoOyI1ui0LIOwuX0W
- p4GaFzHFD35BXQngF5AZKhCrI9CcNU9CN/Aqxsqb9pzVE6naesSh3P9Joub4y1H+icju
- A77IywBZTOzNOvoZSCUshiFzDMCtfqGEfG5Nw+NBzKtBBm7nl4UK5JraYx54YK+N03fx
- WKkilpSL+R0J2CFI7OLbaOkubt3eXIbXgVy5SkKWdPcfaEYjl/zIJE+bUQJ3QB+LjV3q
- KXs3zX2xjS3w1/srklKOfcQH/KwwWxxD2nmE/ecpchaSOCKf23xq9crJzKe7v9qUvnXi
- cMTg==
+ bh=Vmy5eyWYXSTGXe5JMYP6uHGEABCpvJZivoHkRZ/jgHs=;
+ b=I632zlGTM8y1CXQmUsnk6gGbhFZwVinoAlmfdAZDf7GidYGJiPuKMgqgoe6amSA2S0
+ 8K5Npr7dDvMueVOIKy+iAwXxb3NVtnupCYzASXVA3PIVc5W4FTvuFbO2HUlerw2ZI+tJ
+ nd66Dt3uSfbah1E19XhKL+fUr3q4PTPiW+vyNva0UqJllVH4W36xF1rmxCw3doSf3zo0
+ bVRVk5ZGbhcD5S04LcIqc0LRntyR7nwHoiIVk9Tg4ZEwBDyuPjEKdzaYqWYPBiRYEkYu
+ DdRL8f2YmX6inmDHeL3E/RJJrb/bs0SG3TjgkvgVM7X3V23mQFfODie5DDVPh4xhmUsD
+ 6JHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724167764; x=1724772564;
+ d=1e100.net; s=20230601; t=1724167783; x=1724772583;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QkWOPQjGLs4dsHLfoUaXJd6WQ78zM6/OqatLTFO3uUs=;
- b=Z22qhtbuXsokfGr459vgd58ZlDLGSidLqay+SspdC1EgHMyz3TZVzc/afw+e2SPxNP
- PtuQFzImao+0jKNRLaIMlT6Q4qlhQDnc5k6svsmbvW2yXtJteu/8YZAG0vWwU1kdED/3
- VPcVhtlwsbTRgqZdOVWFaAPC93EkvTiw+HYcojpztm+oQJDKo3C4C8N+QRUgLHpW1K1d
- b0Xw+sAkLKSLzdql/lCjCnlEmLalJATfVzk/qihwfUy7gvDa50Jv/TBOBzijLb5iz7lI
- 4/AK4vJNBHrZOnw+Ecr5Rk74v6cSYyr2GHEyYLaf6pRUDqKVjF3f9J4Thb37E3pn4trt
- Symw==
+ bh=Vmy5eyWYXSTGXe5JMYP6uHGEABCpvJZivoHkRZ/jgHs=;
+ b=mejEZH8QRqU+2Yb1d3TKghnwfiPRy0UOPQyJYj0QvROtvINdS2Hr2exbjczmX7PCGK
+ nS0XDFM4vAiXOqoyB3bzr+NehdDzGBw1VUjqdZFjw0Qy1vY1rleA8EcUgk08OWOnAs3/
+ iXGGd8UAftgOm+fw8QeX7X8f9bELrD0AbFmFzIaawR9wQaSrHQq7/lBhILcvZZwzRKp4
+ GryiS1xivguhlIqTcoodDtYxYiDMcmoOYrVUBOrYwNSS81GishbOyGDwO1jfb0C53JlV
+ 2jd9HKEFW42xAYIGeONkGFGmNR1hCgPlfSNTN5EUHOdQL8jM9LPKekea/Nz9eTxYLpKk
+ C6Qg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUtipY0UJGTm4YqX3AJ+0e1wGbLvJVoDF+rkh3IOx3xaMoJ0PpUlsEWmp+VCMktvc/7xX25LCGMnfs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2qXPWpzR0U3Fvh+9IVga8bqnUVSGCxWexNiOWU3jdlqQ/s0U+
- Y5zMv/lKMG3aEIJbZleg9Vx7gjw+tq3qylxStd6l+mqj6Wq7Qql2
-X-Google-Smtp-Source: AGHT+IFwLSLU9/bU1XD6r/0OdInxoAHXW7lfcJ9bdS4tiehk8P2PZwDqsfO42Eup8Igg4DO+ShZbGA==
-X-Received: by 2002:adf:f80e:0:b0:371:82ec:206e with SMTP id
- ffacd0b85a97d-37194314e2cmr8907152f8f.5.1724167763735; 
- Tue, 20 Aug 2024 08:29:23 -0700 (PDT)
+ AJvYcCWEFLM3wpRHCwB6roQ/a6b1oTJ/WgJpimTroumJ1/JSnexPpeOA4eqjeEKy8cr/Yg1HbefEs3pVhEvt1HXg72n2C5tMPaiue8MsfmvVtx+R
+X-Gm-Message-State: AOJu0YzJ0+HZ1PMgr3GVJxYoH5AAFxodmt8ROAfJ+6X6Es238b+hn3fu
+ f9/nZGFSbflT9OrR8AzcTF5kBhcNDpWv1yUzf9qaEqRG1LvdsvgV
+X-Google-Smtp-Source: AGHT+IF12vgFxpdR5bG3QLIVQnVILiwKKPCPu/t68ew/cyUTKRxu9tT281vOdA/VbyuuftPk2di4Hg==
+X-Received: by 2002:a05:600c:1e0c:b0:426:6765:d6b0 with SMTP id
+ 5b1f17b1804b1-429ed789bebmr84999765e9.15.1724167782957; 
+ Tue, 20 Aug 2024 08:29:42 -0700 (PDT)
 Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37189849933sm13475108f8f.36.2024.08.20.08.29.21
+ 5b1f17b1804b1-429ded7ead3sm203113735e9.47.2024.08.20.08.29.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2024 08:29:22 -0700 (PDT)
+ Tue, 20 Aug 2024 08:29:42 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
@@ -66,13 +66,12 @@ Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
  rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
  thomas.petazzoni@bootlin.com, tzimmermann@suse.de,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH RFC 4/6] drm/vkms: Rename to_vkms_plane_state to avoid
- confusion
-Date: Tue, 20 Aug 2024 17:29:18 +0200
-Message-ID: <20240820152919.2863-1-jose.exposito89@gmail.com>
+Subject: [PATCH RFC 5/6] drm/vkms: Extract vkms_crtc header
+Date: Tue, 20 Aug 2024 17:29:39 +0200
+Message-ID: <20240820152940.2881-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240814-google-split-headers-v1-4-51712f088f5d@bootlin.com>
-References: <20240814-google-split-headers-v1-4-51712f088f5d@bootlin.com>
+In-Reply-To: <20240814-google-split-headers-v1-5-51712f088f5d@bootlin.com>
+References: <20240814-google-split-headers-v1-5-51712f088f5d@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -91,66 +90,274 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> The macro to_vkms_plane_state was not explicit about its expected content.
-> Rename it to drm_plane_state_to_vkms_plane_state to avoid confusion and
-> help the reader.
+> The vkms crtc functions are defined in a different .c, so make the same
+
+The VKMS CRTC...
+
+> thing for the function declaration in the headers and create vkms_crtc.h.
 > 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 Reviewed-by: José Expósito <jose.exposito89@gmail.com>
 
 > ---
->  drivers/gpu/drm/vkms/vkms_crtc.c  | 2 +-
->  drivers/gpu/drm/vkms/vkms_plane.c | 4 ++--
->  drivers/gpu/drm/vkms/vkms_plane.h | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_composer.c  |  2 +-
+>  drivers/gpu/drm/vkms/vkms_crtc.c      |  2 +-
+>  drivers/gpu/drm/vkms/vkms_crtc.h      | 87 +++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_drv.c       |  1 +
+>  drivers/gpu/drm/vkms/vkms_drv.h       | 45 ------------------
+>  drivers/gpu/drm/vkms/vkms_output.c    |  1 +
+>  drivers/gpu/drm/vkms/vkms_plane.h     |  1 -
+>  drivers/gpu/drm/vkms/vkms_writeback.c |  1 +
+>  8 files changed, 92 insertions(+), 48 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 825011f696ee..139d249454c4 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -11,7 +11,7 @@
+>  #include <drm/drm_vblank.h>
+>  #include <linux/minmax.h>
+>  
+> -#include "vkms_drv.h"
+> +#include "vkms_crtc.h"
+>  #include "vkms_writeback.h"
+>  
+>  static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
 > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 6a4de8f7a678..08e5db07aca6 100644
+> index 08e5db07aca6..cb6e49a86745 100644
 > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
 > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -212,7 +212,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
->  			continue;
+> @@ -8,7 +8,7 @@
+>  #include <drm/drm_vblank.h>
+>  #include <drm/drm_print.h>
 >  
->  		vkms_state->active_planes[i++] =
-> -			to_vkms_plane_state(plane_state);
-> +			drm_plane_state_to_vkms_plane_state(plane_state);
->  	}
+> -#include "vkms_drv.h"
+> +#include "vkms_crtc.h"
+>  #include "vkms_plane.h"
 >  
->  	return 0;
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index de2c83e1b02c..e549c9523a34 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -80,7 +80,7 @@ vkms_plane_duplicate_state(struct drm_plane *plane)
->  static void vkms_plane_destroy_state(struct drm_plane *plane,
->  				     struct drm_plane_state *old_state)
->  {
-> -	struct vkms_plane_state *vkms_state = to_vkms_plane_state(old_state);
-> +	struct vkms_plane_state *vkms_state = drm_plane_state_to_vkms_plane_state(old_state);
->  	struct drm_crtc *crtc = vkms_state->base.base.crtc;
+>  static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.h b/drivers/gpu/drm/vkms/vkms_crtc.h
+> new file mode 100644
+> index 000000000000..9f5ce21f3425
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.h
+> @@ -0,0 +1,87 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#ifndef _VKMS_CRTC_H
+> +#define _VKMS_CRTC_H
+
+#ifndef _VKMS_CRTC_H_
+#define _VKMS_CRTC_H_
+
+> +#include <drm/drm_writeback.h>
+> +#include <drm/drm_crtc.h>
+> +#include <linux/workqueue_types.h>
+> +
+> +#include "vkms_writeback.h"
+> +#include "vkms_plane.h"
+> +
+> +/**
+> + * struct vkms_crtc_state - Driver specific CRTC state
+> + *
+> + * @base: base CRTC state
+> + * @composer_work: work struct to compose and add CRC entries
+> + *
+> + * @num_active_planes: Number of active planes
+> + * @active_planes: List containing all the active planes (counted by
+> + *  @num_active_planes). They should be stored in z-order.
+> + * @active_writeback: Current active writeback job
+> + * @gamma_lut: Look up table for gamma used in this CRTC
+> + * @crc_pending: Protected by @vkms_output.composer_lock.
+> + * @wb_pending: Protected by @vkms_output.composer_lock.
+> + * @frame_start: Protected by @vkms_output.composer_lock.
+> + * @frame_end: Protected by @vkms_output.composer_lock.
+> + */
+> +struct vkms_crtc_state {
+> +	struct drm_crtc_state base;
+> +	struct work_struct composer_work;
+> +
+> +	int num_active_planes;
+> +	struct vkms_plane_state **active_planes;
+> +	struct vkms_writeback_job *active_writeback;
+> +	struct vkms_color_lut gamma_lut;
+> +
+> +	bool crc_pending;
+> +	bool wb_pending;
+> +	u64 frame_start;
+> +	u64 frame_end;
+> +};
+> +
+> +/**
+> + * struct vkms_crtc - crtc internal representation
+> + *
+> + * @crtc: Base crtc in drm
+> + * @wb_connecter: DRM writeback connector used for this output
+> + * @vblank_hrtimer:
+> + * @period_ns:
+> + * @event:
+> + * @composer_workq: Ordered workqueue for composer_work
+> + * @lock: Lock used to project concurrent acces to the composer
+> + * @composer_enabled: Protected by @lock.
+> + * @composer_lock: Lock used internally to protect @composer_state members
+> + * @composer_state: Protected by @lock.
+> + */
+> +struct vkms_crtc {
+> +	struct drm_crtc base;
+> +
+> +	struct drm_writeback_connector wb_connector;
+> +	struct hrtimer vblank_hrtimer;
+> +	ktime_t period_ns;
+> +	struct drm_pending_vblank_event *event;
+> +	struct workqueue_struct *composer_workq;
+> +	spinlock_t lock;
+> +
+> +	bool composer_enabled;
+> +	struct vkms_crtc_state *composer_state;
+> +
+> +	spinlock_t composer_lock;
+> +};
+> +
+> +#define to_vkms_crtc_state(target)\
+> +	container_of(target, struct vkms_crtc_state, base)
+> +
+> +/**
+> + * vkms_crtc_init() - Initialize a crtc for vkms
+> + * @dev: drm_device associated with the vkms buffer
+> + * @crtc: uninitialized crtc device
+> + * @primary: primary plane to attach to the crtc
+> + * @cursor plane to attach to the crtc
+> + */
+> +int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+> +		   struct drm_plane *primary, struct drm_plane *cursor);
+> +
+> +#endif //_VKMS_CRTC_H
+
+#endif /* _VKMS_CRTC_H_ */
+
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 5aeb43592960..5907877bdfa0 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -27,6 +27,7 @@
+>  #include <drm/drm_vblank.h>
 >  
->  	if (crtc && vkms_state->frame_info->fb) {
-> @@ -139,7 +139,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->  		return;
+>  #include "vkms_drv.h"
+> +#include "vkms_crtc.h"
+
+It might make sense to leave drv.h on top as it is the main file, but if you
+are going to stick to alphabetical order:
+
++#include "vkms_crtc.h"
+ #include "vkms_drv.h"
+
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_debugfs.h>
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index ea73f01fcc74..943ad55e0172 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -12,8 +12,6 @@
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_writeback.h>
 >  
->  	fmt = fb->format->format;
-> -	vkms_plane_state = to_vkms_plane_state(new_state);
-> +	vkms_plane_state = drm_plane_state_to_vkms_plane_state(new_state);
->  	shadow_plane_state = &vkms_plane_state->base;
+> -#include "vkms_formats.h"
+> -
+>  #define XRES_MIN    10
+>  #define YRES_MIN    10
 >  
->  	frame_info = vkms_plane_state->frame_info;
+> @@ -27,37 +25,6 @@
+>  
+>  #define VKMS_LUT_SIZE 256
+>  
+> -/**
+> - * struct vkms_crtc_state - Driver specific CRTC state
+> - *
+> - * @base: base CRTC state
+> - * @composer_work: work struct to compose and add CRC entries
+> - *
+> - * @num_active_planes: Number of active planes
+> - * @active_planes: List containing all the active planes (counted by
+> - *  @num_active_planes). They should be stored in z-order.
+> - * @active_writeback: Current active writeback job
+> - * @gamma_lut: Look up table for gamma used in this CRTC
+> - * @crc_pending: Protected by @vkms_output.composer_lock.
+> - * @wb_pending: Protected by @vkms_output.composer_lock.
+> - * @frame_start: Protected by @vkms_output.composer_lock.
+> - * @frame_end: Protected by @vkms_output.composer_lock.
+> - */
+> -struct vkms_crtc_state {
+> -	struct drm_crtc_state base;
+> -	struct work_struct composer_work;
+> -
+> -	int num_active_planes;
+> -	struct vkms_plane_state **active_planes;
+> -	struct vkms_writeback_job *active_writeback;
+> -	struct vkms_color_lut gamma_lut;
+> -
+> -	bool crc_pending;
+> -	bool wb_pending;
+> -	u64 frame_start;
+> -	u64 frame_end;
+> -};
+> -
+>  /**
+>   * struct vkms_output - Internal representation of all output components in vkms
+>   *
+> @@ -129,18 +96,6 @@ struct vkms_device {
+>  #define drm_device_to_vkms_device(target) \
+>  	container_of(target, struct vkms_device, drm)
+>  
+> -#define to_vkms_crtc_state(target)\
+> -	container_of(target, struct vkms_crtc_state, base)
+> -
+> -/**
+> - * vkms_crtc_init() - Initialize a crtc for vkms
+> - * @dev: drm_device associated with the vkms buffer
+> - * @crtc: uninitialized crtc device
+> - * @primary: primary plane to attach to the crtc
+> - * @cursor plane to attach to the crtc
+> - */
+> -int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+> -		   struct drm_plane *primary, struct drm_plane *cursor);
+>  /**
+>   * vkms_output_init() - Initialize all sub-components needed for a vkms device.
+>   *
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 09fcf242ecf7..20073a00b200 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -6,6 +6,7 @@
+>  
+>  #include "vkms_writeback.h"
+>  #include "vkms_plane.h"
+> +#include "vkms_crtc.h"
+>  
+>  static const struct drm_connector_funcs vkms_connector_funcs = {
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
 > diff --git a/drivers/gpu/drm/vkms/vkms_plane.h b/drivers/gpu/drm/vkms/vkms_plane.h
-> index 161b44da0240..68170a75e9c9 100644
+> index 68170a75e9c9..90554c9fe250 100644
 > --- a/drivers/gpu/drm/vkms/vkms_plane.h
 > +++ b/drivers/gpu/drm/vkms/vkms_plane.h
-> @@ -59,7 +59,7 @@ struct vkms_frame_info {
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
->  				   enum drm_plane_type type, int possible_crtc_index);
+> @@ -8,7 +8,6 @@
+>  #include <drm/drm_gem_atomic_helper.h>
+>  #include <linux/iosys-map.h>
 >  
-> -#define to_vkms_plane_state(target)\
-> +#define drm_plane_state_to_vkms_plane_state(target) \
->  	container_of(target, struct vkms_plane_state, base.base)
+> -#include "vkms_drv.h"
+>  #include "vkms_formats.h"
 >  
->  #endif //_VKMS_PLANE_H
+>  struct vkms_plane {
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index 740d9e2f3d71..48f3f7f2e2a4 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -13,6 +13,7 @@
+>  #include <drm/drm_framebuffer.h>
+>  
+>  #include "vkms_writeback.h"
+> +#include "vkms_crtc.h"
+>  #include "vkms_formats.h"
+>  
+>  static const u32 vkms_wb_formats[] = {
 > 
