@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F869585BB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 13:24:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652839585C4
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 13:26:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5ED110E0DF;
-	Tue, 20 Aug 2024 11:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF6F710E107;
+	Tue, 20 Aug 2024 11:26:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="EArfsFLY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IDtb8Ig5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7875210E0DF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 11:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=50Coae5NR6FU87cPfowgVZGEde0sMWR7eCYkKTyNr38=; b=EArfsFLYn9Y3zmLBwGWAOPr/UX
- hB+Ku2xynsxZhBJX6gVNmS7Mu/Rb2a0dDlh/s7pi6PZyJyDfQxTPQAUt5cHnCVaw9p7wAkk6N5+sU
- 8RQIlA1FbN/IPnPEQX+jD4y0nuQjpY4ExwmDercWEsp5m2KDdH8WsaGbNaaFR5sfMboPQcOfoz0xs
- LixujdvcQiCq808Ils5Mmd7V52Z10NCfrB5Qq0vOLuWriFpWbyrvyYE7gNvrSNS/Uo/bqAbTyDuKq
- yslY01GPsLNLDxHe6DBqcGKDBf3r9vjub5/NDCt+FVYSySDFO/Cn3c/fKYoRgRJXmR+ZV9ffS0BjR
- CMmPPHDQ==;
-Received: from i53875aca.versanet.de ([83.135.90.202] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1sgMyb-0007No-FO; Tue, 20 Aug 2024 13:24:37 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Mary Guillemard <mary.guillemard@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D75D010E106;
+ Tue, 20 Aug 2024 11:26:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 3A2EBCE0B61;
+ Tue, 20 Aug 2024 11:25:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32C6BC4AF0F;
+ Tue, 20 Aug 2024 11:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724153158;
+ bh=GIZXc/5y+AL+26n0oIBGlAp3mH1MplpwRwBGavdxHQE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IDtb8Ig5XNtIXemPUKdpOrUkMh1O1LOWj4GSqsWHAFX61EzP/vPqyEuw8F1GGWwxD
+ 5kpLMdDSgXvI5ONJki7p4rgL+Dx/UR8ZUEnnabAo309e1lMon5a+5Z9b/ciB/hFXE1
+ uMuTFWd9iQLy8nU9tZ1vUtHyA0DVQA827EpXLodiPyY4xm1JZ72z72ODGUwBVN2Mga
+ yonwxhFjkHgkahkVQyfJGIEJIJHI4vtkpilqDZGMP2NnayA5G98wshGP8okpDV3Aux
+ LYXEgeRCp+AU3H+8RpRmyN8mEhETLPkb2FLrHyI4vpyHWsGYfox2ZKygBi4JNycoME
+ V7Ua2Bhx1JECA==
+Message-ID: <f6258263-cea0-45ea-bee4-613b761fbff3@kernel.org>
+Date: Tue, 20 Aug 2024 13:25:50 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] drm/msm: Fix bv_fence being used as bv_rptr
+To: Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>
+Cc: Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Mary Guillemard <mary.guillemard@collabora.com>
-Subject: Re: [PATCH v3 2/2] drm/panfrost: Add cycle counter job requirement
-Date: Tue, 20 Aug 2024 13:24:59 +0200
-Message-ID: <2939807.SvYEEZNnvj@diego>
-In-Reply-To: <20240819080224.24914-3-mary.guillemard@collabora.com>
-References: <20240819080224.24914-1-mary.guillemard@collabora.com>
- <20240819080224.24914-3-mary.guillemard@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
+ <20240815-preemption-a750-t-v1-1-7bda26c34037@gmail.com>
+ <e8d1534b-d592-43c4-8a34-4c7c4a04181a@kernel.org>
+ <CACu1E7H6g=8thZfoRh8-svjqhdTOPg5diKoj+ENa4F5==d5RxA@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konradybcio@kernel.org>
+In-Reply-To: <CACu1E7H6g=8thZfoRh8-svjqhdTOPg5diKoj+ENa4F5==d5RxA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,47 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 19. August 2024, 10:02:23 CEST schrieb Mary Guillemard:
-> Extend the uAPI with a new job requirement flag for cycle
-> counters. This requirement is used by userland to indicate that a job
-> requires cycle counters or system timestamp to be propagated. (for use
-> with write value timestamp jobs)
+On 20.08.2024 12:45 PM, Connor Abbott wrote:
+> On Tue, Aug 20, 2024 at 11:15 AM Konrad Dybcio <konradybcio@kernel.org> wrote:
+>>
+>> On 15.08.2024 8:26 PM, Antonino Maniscalco wrote:
+>>> The bv_fence field of rbmemptrs was being used incorrectly as the BV
+>>> rptr shadow pointer in some places.
+>>>
+>>> Add a bv_rptr field and change the code to use that instead.
+>>>
+>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>>> ---
+>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+>>>  drivers/gpu/drm/msm/msm_ringbuffer.h  | 1 +
+>>>  2 files changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>> index bcaec86ac67a..32a4faa93d7f 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>> @@ -1132,7 +1132,7 @@ static int hw_init(struct msm_gpu *gpu)
+>>>       /* ..which means "always" on A7xx, also for BV shadow */
+>>>       if (adreno_is_a7xx(adreno_gpu)) {
+>>>               gpu_write64(gpu, REG_A7XX_CP_BV_RB_RPTR_ADDR,
+>>> -                         rbmemptr(gpu->rb[0], bv_fence));
+>>> +                         rbmemptr(gpu->rb[0], bv_rptr));
+>>>       }
+>>>
+>>>       /* Always come up on rb 0 */
+>>> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
+>>> index 0d6beb8cd39a..40791b2ade46 100644
+>>> --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
+>>> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
+>>> @@ -31,6 +31,7 @@ struct msm_rbmemptrs {
+>>>       volatile uint32_t rptr;
+>>>       volatile uint32_t fence;
+>>>       /* Introduced on A7xx */
+>>> +     volatile uint32_t bv_rptr;
+>>
+>> This is never initialized or assigned any value, no?
+>>
+>> Konrad
 > 
-> We cannot enable cycle counters unconditionally as this would result in
-> an increase of GPU power consumption. As a result, they should be left
-> off unless required by the application.
-> 
-> If a job requires cycle counters or system timestamps propagation, we
-> must enable cycle counting before issuing a job and disable it right
-> after the job completes.
-> 
-> Since this extends the uAPI and because userland needs a way to advertise
-> features like VK_KHR_shader_clock conditionally, we bumps the driver
-> minor version.
-> 
-> v2:
-> - Rework commit message
-> - Squash uAPI changes and implementation in this commit
-> - Simplify changes based on Steven Price comments
-> 
-> v3:
-> - Add Steven Price r-b
-> - Fix a codestyle issue
-> 
-> Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
-On a rk3588-tiger with matching MESA build and 
-"RUSTICL_ENABLE=panfrost clpeak"
+> Neither is the original (retroactively BR) shadow RPTR, except
+> apparently on suspend (no idea why). It's written by the GPU as it
+> reads the ringbuffer, because CP_BV_RPTR_ADDR is set to its address.
+> For the BV shadow RPTR, we aren't really using it for anything (and
+> neither is kgsl) so we just need to point the register to a valid
+> "dummy" address that isn't used by anything else.
 
-Tested-by: Heiko Stuebner <heiko@sntech.de>
+Alright, thanks
 
-Without this change, clpeak fails with
-        clCreateCommandQueue (-35)
-
-I guess this is mainly applicable to the timestamp part, but that is
-partially in this commit too.
-
-
-Heiko
-
-
+Konrad
