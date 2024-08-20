@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE989580BA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 10:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0619580BD
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 10:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90B410E4FD;
-	Tue, 20 Aug 2024 08:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9AA10E505;
+	Tue, 20 Aug 2024 08:19:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="a0DJINeX";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="O8X+rU87";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6039510E4E6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 08:07:15 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-713eeb4e4bcso1664585b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 01:07:15 -0700 (PDT)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 599DF10E4E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 08:07:21 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-2d41b082aecso1627059a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 01:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724141235; x=1724746035;
+ d=chromium.org; s=google; t=1724141241; x=1724746041;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KkKGSAKuHmkOcXhq4rTBRZZbsedAQGMKKV0Dw3RFXH8=;
- b=a0DJINeXPviO/uAHVSZFZcuZlh72/1AFrUjNs5K/u4bIdWBJhA/AhVDyW6M6BieSmM
- ar9/OvOYbyQ8evFtpi41IpxrWQVwu9Tktgshfu9fX+6ijPPoBYcsF6CVVJ1LalBsDKjI
- Cvax4q0Z1bTOhcxIks9X99RCQ6DRnqNGKN5TA=
+ bh=Iox3pW+t1+/mCNWqBkSwh8gOTlOVaTTolmdqxDRdGuE=;
+ b=O8X+rU87eC+tm/T/vnN00MOy+klFDHfjHO/nG5FWxtwT3wgin2JW88xYRU95yd+YUZ
+ pcnvsbL+/flhYe1/bk38IPCM6Zx3GIovhiGvd6uku55QV7v6ymubP092QoDRtblcnkvq
+ 7XV1Ui2+3b6ZhT76PvFjXY6FDOTQmERZxHxmc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724141235; x=1724746035;
+ d=1e100.net; s=20230601; t=1724141241; x=1724746041;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KkKGSAKuHmkOcXhq4rTBRZZbsedAQGMKKV0Dw3RFXH8=;
- b=Xfjy+ZTFEaSudSKvY9BPlYzQyMya2PxkW85EXg4S+nUz+MBkSn+5pxD01xovmPPpOV
- Ar0EG9PLBKP6WEmWcTL1s9qWuHEUAQFbNJi3kAbaHkLobHrplJEmsNksICbgDF6GHnlP
- Q1ukabC43ukcyM0GOnrnqlWEHenG8D0CP6og5sUzQB3aytEorVj9KrZRv0/T2R6w2oVZ
- y5JNjkXXf3CG03QtnLICTPwUl49XT1y/1E2SEAwNjHY15PUxshi5kij4XI9UpTeIM2r2
- rS6wl82QGhaHuyQ/h5YrSMagh18xcRAX5EzfbKSLxcnY4fOTxrfjO1laGQFT4lPpvCjH
- iT5w==
-X-Gm-Message-State: AOJu0Yy8PCQJOobwEWOxbFdCpe/n56pE2fpgmiRNspr57nBTJKO/6aXs
- 3az3hbs+nCwoS/MrerAaozhi0pe33iL6lOikY6bBPJf+2sCEAjmuObz6Y+NzRw==
-X-Google-Smtp-Source: AGHT+IHwKaoQ6zqgeUDaUr0M0mia8HrEnOi0MHVVZtaxLErdruMh0fQ5zoE5wSNwv2WofQFKlv2X/w==
-X-Received: by 2002:a05:6a00:2e1c:b0:710:5a64:30d5 with SMTP id
- d2e1a72fcca58-713c4da0349mr17959374b3a.6.1724141234688; 
- Tue, 20 Aug 2024 01:07:14 -0700 (PDT)
+ bh=Iox3pW+t1+/mCNWqBkSwh8gOTlOVaTTolmdqxDRdGuE=;
+ b=nfHRTb1MfT7ZjaEmY1KbSh8mrKnJdBy97QvY5O9cgCn8bjr/VKuuNellHyCW32Q8O+
+ hKUiicj7jIns07PeONLoodmyjppjjbWvRB6nsYx3w8FGYHOGoiD6wgTuOXPc/VN/2Dwm
+ RB0lQFclPYJz/hMGBGLdOl/Lgr9wkNuZ/n2Cn5aUwjhsw1pHG0XS9waKjkuIMO5FzQpo
+ WSJ9voi8op7tvX65ryQ03kLnHxPgf7PkhWGRZb+Yhuau5Um6gv5l23uV/tAp5RZvEjAn
+ 5XarxiNT75wX+u7+pkRYpvxBFDnshvOJa1XIiVpbM8zNBrHhVQRHtnfYN7bZ+3e88g/U
+ WWGQ==
+X-Gm-Message-State: AOJu0Yxq7mhnqsSrxzgs0p/8tLLKdiohsUBCNa5E5alsthV7ssGyU+PA
+ zZ5hVUglAhu1bwY5NhoeaBTwsJdZT7ZqUCn7OHVthwVnXWPAFf57sOF7+tXtjw==
+X-Google-Smtp-Source: AGHT+IHQpe/xH18Gz0WxkaiRSQ8MloxnO4Qm6+EYZVdcVqYqIRvsLVNRO0UiYRv0FQyI2NXLjvAwEA==
+X-Received: by 2002:a17:90a:ce08:b0:2ab:8324:1b47 with SMTP id
+ 98e67ed59e1d1-2d47327c70bmr3278247a91.15.1724141240742; 
+ Tue, 20 Aug 2024 01:07:20 -0700 (PDT)
 Received: from localhost (185.174.143.34.bc.googleusercontent.com.
  [34.143.174.185]) by smtp.gmail.com with UTF8SMTPSA id
- 41be03b00d2f7-7c6b61c7202sm8829978a12.31.2024.08.20.01.07.10
+ 98e67ed59e1d1-2d3e3c752aesm8640053a91.42.2024.08.20.01.07.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Aug 2024 01:07:14 -0700 (PDT)
+ Tue, 20 Aug 2024 01:07:20 -0700 (PDT)
 From: Rohit Agarwal <rohiagar@chromium.org>
 To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -62,9 +62,9 @@ To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, Rohit Agarwal <rohiagar@chromium.org>
-Subject: [PATCH 1/3] dt-bindings: display: mediatek: dpi: Add power domains
-Date: Tue, 20 Aug 2024 08:06:57 +0000
-Message-ID: <20240820080659.2136906-2-rohiagar@chromium.org>
+Subject: [PATCH 2/3] arm64: dts: mediatek: mt8186: Add power domain for DPI
+Date: Tue, 20 Aug 2024 08:06:58 +0000
+Message-ID: <20240820080659.2136906-3-rohiagar@chromium.org>
 X-Mailer: git-send-email 2.46.0.295.g3b9ea8a38a-goog
 In-Reply-To: <20240820080659.2136906-1-rohiagar@chromium.org>
 References: <20240820080659.2136906-1-rohiagar@chromium.org>
@@ -86,27 +86,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add power domain binding to the mediatek DPI controller.
+Add power domain phandle to the DPI controller in mediatek
+mt8186 SoC.
 
 Signed-off-by: Rohit Agarwal <rohiagar@chromium.org>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml     | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-index 5ca7679d5427..10b8572dd922 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-@@ -62,6 +62,9 @@ properties:
-       - const: default
-       - const: sleep
+diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+index 4763ed5dc86c..e27c69ec8bdd 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+@@ -1824,6 +1824,7 @@ dpi: dpi@1400a000 {
+ 			assigned-clocks = <&topckgen CLK_TOP_DPI>;
+ 			assigned-clock-parents = <&topckgen CLK_TOP_TVDPLL_D2>;
+ 			interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_LOW 0>;
++			power-domains = <&spm MT8186_POWER_DOMAIN_DIS>;
+ 			status = "disabled";
  
-+  power-domains:
-+    maxItems: 1
-+
-   port:
-     $ref: /schemas/graph.yaml#/properties/port
-     description:
+ 			port {
 -- 
 2.46.0.295.g3b9ea8a38a-goog
 
