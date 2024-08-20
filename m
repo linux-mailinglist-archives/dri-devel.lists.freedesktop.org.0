@@ -2,59 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652839585C4
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 13:26:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9A9958654
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 13:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF6F710E107;
-	Tue, 20 Aug 2024 11:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B58C10E75F;
+	Tue, 20 Aug 2024 11:58:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IDtb8Ig5";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="nAaQh1Qq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D75D010E106;
- Tue, 20 Aug 2024 11:26:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3A2EBCE0B61;
- Tue, 20 Aug 2024 11:25:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32C6BC4AF0F;
- Tue, 20 Aug 2024 11:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724153158;
- bh=GIZXc/5y+AL+26n0oIBGlAp3mH1MplpwRwBGavdxHQE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IDtb8Ig5XNtIXemPUKdpOrUkMh1O1LOWj4GSqsWHAFX61EzP/vPqyEuw8F1GGWwxD
- 5kpLMdDSgXvI5ONJki7p4rgL+Dx/UR8ZUEnnabAo309e1lMon5a+5Z9b/ciB/hFXE1
- uMuTFWd9iQLy8nU9tZ1vUtHyA0DVQA827EpXLodiPyY4xm1JZ72z72ODGUwBVN2Mga
- yonwxhFjkHgkahkVQyfJGIEJIJHI4vtkpilqDZGMP2NnayA5G98wshGP8okpDV3Aux
- LYXEgeRCp+AU3H+8RpRmyN8mEhETLPkb2FLrHyI4vpyHWsGYfox2ZKygBi4JNycoME
- V7Ua2Bhx1JECA==
-Message-ID: <f6258263-cea0-45ea-bee4-613b761fbff3@kernel.org>
-Date: Tue, 20 Aug 2024 13:25:50 +0200
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E214310E123;
+ Tue, 20 Aug 2024 11:58:47 +0000 (UTC)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47KBWTfY019715;
+ Tue, 20 Aug 2024 13:58:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ DdJ8D6gp/gx9zXsmSEgscBz9BPoiP3bcSCkcXURtPws=; b=nAaQh1QqnXAkzN/F
+ 3f8WXxMCIE8CJla1Px9HKQw1ezrO+bXv8a1LPeqFnv4bAim+kAyl3pS1eUwe3sa1
+ bGbgL9ARG545ggqnSzmuEh/ghjdsUW4N5s9n0NTbf40t9ezQjLZibZbxHW3Nafb0
+ u8kHGtCahLlt8+p5NLMusQVLFdo651ywh9+wRihY+r4ezvdC++u85AASn1aIEAYZ
+ mlMIx8RZBptoefnIlVoQJcVGspsBoi48pLTpOY27x8+CJW43vGPDi1PCNEL80et/
+ 1taMe0fcS4kjPj/gegYy9Ja/c7/23P5KVdz3PZEWkojkO02CV+iVMzjMIWPnLe01
+ 7UAOkA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 414nrt1d7p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Aug 2024 13:58:42 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6F7B140045;
+ Tue, 20 Aug 2024 13:58:19 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0BBE1260281;
+ Tue, 20 Aug 2024 13:57:34 +0200 (CEST)
+Received: from [10.252.30.243] (10.252.30.243) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 20 Aug
+ 2024 13:57:32 +0200
+Message-ID: <bb27d633-6d89-4d59-98e9-9c4d6232b5f0@foss.st.com>
+Date: Tue, 20 Aug 2024 13:57:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] drm/msm: Fix bv_fence being used as bv_rptr
-To: Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: Antonino Maniscalco <antomani103@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
- <20240815-preemption-a750-t-v1-1-7bda26c34037@gmail.com>
- <e8d1534b-d592-43c4-8a34-4c7c4a04181a@kernel.org>
- <CACu1E7H6g=8thZfoRh8-svjqhdTOPg5diKoj+ENa4F5==d5RxA@mail.gmail.com>
+Subject: Re: [PATCH 40/86] drm/stm: Run DRM default client setup
+To: Thomas Zimmermann <tzimmermann@suse.de>, <daniel@ffwll.ch>,
+ <airlied@gmail.com>, <jfalempe@redhat.com>, <javierm@redhat.com>
+CC: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+References: <20240816125408.310253-1-tzimmermann@suse.de>
+ <20240816125408.310253-41-tzimmermann@suse.de>
 Content-Language: en-US
-From: Konrad Dybcio <konradybcio@kernel.org>
-In-Reply-To: <CACu1E7H6g=8thZfoRh8-svjqhdTOPg5diKoj+ENa4F5==d5RxA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20240816125408.310253-41-tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.252.30.243]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-20_09,2024-08-19_03,2024-05-17_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +85,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20.08.2024 12:45 PM, Connor Abbott wrote:
-> On Tue, Aug 20, 2024 at 11:15 AM Konrad Dybcio <konradybcio@kernel.org> wrote:
->>
->> On 15.08.2024 8:26 PM, Antonino Maniscalco wrote:
->>> The bv_fence field of rbmemptrs was being used incorrectly as the BV
->>> rptr shadow pointer in some places.
->>>
->>> Add a bv_rptr field and change the code to use that instead.
->>>
->>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->>> ---
->>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
->>>  drivers/gpu/drm/msm/msm_ringbuffer.h  | 1 +
->>>  2 files changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> index bcaec86ac67a..32a4faa93d7f 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> @@ -1132,7 +1132,7 @@ static int hw_init(struct msm_gpu *gpu)
->>>       /* ..which means "always" on A7xx, also for BV shadow */
->>>       if (adreno_is_a7xx(adreno_gpu)) {
->>>               gpu_write64(gpu, REG_A7XX_CP_BV_RB_RPTR_ADDR,
->>> -                         rbmemptr(gpu->rb[0], bv_fence));
->>> +                         rbmemptr(gpu->rb[0], bv_rptr));
->>>       }
->>>
->>>       /* Always come up on rb 0 */
->>> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
->>> index 0d6beb8cd39a..40791b2ade46 100644
->>> --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
->>> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
->>> @@ -31,6 +31,7 @@ struct msm_rbmemptrs {
->>>       volatile uint32_t rptr;
->>>       volatile uint32_t fence;
->>>       /* Introduced on A7xx */
->>> +     volatile uint32_t bv_rptr;
->>
->> This is never initialized or assigned any value, no?
->>
->> Konrad
-> 
-> Neither is the original (retroactively BR) shadow RPTR, except
-> apparently on suspend (no idea why). It's written by the GPU as it
-> reads the ringbuffer, because CP_BV_RPTR_ADDR is set to its address.
-> For the BV shadow RPTR, we aren't really using it for anything (and
-> neither is kgsl) so we just need to point the register to a valid
-> "dummy" address that isn't used by anything else.
 
-Alright, thanks
+On 8/16/24 14:23, Thomas Zimmermann wrote:
+> Call drm_client_setup() to run the kernel's default client setup
+> for DRM. Set fbdev_probe in struct drm_driver, so that the client
+> setup can start the common fbdev client.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
 
-Konrad
+Hi Thomas,
+
+Thanks,
+
+Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+
+Regards,
+Raphaël
+
