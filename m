@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3CF9581A4
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B33B9581A8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:09:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2F910E535;
-	Tue, 20 Aug 2024 09:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1020410E53A;
+	Tue, 20 Aug 2024 09:09:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iEXySnoj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EXiaFMGF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFAFC10E535
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:09:20 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-42816ca797fso42978655e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 02:09:20 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B256510E53A
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:09:35 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-371a6fcd863so1984651f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 02:09:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724144959; x=1724749759; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1724144974; x=1724749774; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=39nNL2+o4oHw4rNBNcBPdzYRJpF6VA3Ac0WKvhXecWg=;
- b=iEXySnojEot1vk7orjhGmaoIOYZScGXulcA79zXaVHfAwXuvJm5HZFujkA2uC8EQLe
- GsQOH149J+P0ziYF6lY1ovJirHkma1K9/aP2KJADOANz0UcHI6aOwgdTcsxgNdj9IN7H
- SnaRAjDQcVLtS5MUkYHPHMzy4lLOX3ueYiUodhQhpxeljd5D1lPDUp8poLUGuS+5hNGs
- aU5oS8cSUb2eMvCW/w1Jv7l0t91bFA+6Pnfl7DsMRoalaczcYzpZrkYUm+IicWZdQwR3
- bZSp1lz/xDTad31EtbMKeTDWIl0RO7W8ojtFCIUittwxKcPxD0kA7lcf+xTb70c8ruUk
- ojSw==
+ bh=krCYSxdDpTQrVUrzWiIkCh5CYHoHUCK7xs+My+FCoPs=;
+ b=EXiaFMGF/OqrZ9ulkd77k8B5FP0uuImh+5aRpDURzxUG3LeaQ8P2iluNyuJD4VgWrz
+ cVqO+NMqN2cITig3K7osB+adGImIVHuyZXr0Y7fsOAHW5KNx9pA0Igyyi4m6UH7GV7UU
+ YGMP1kKet+DeLTS+2rXURNVdkPpqFBzq2W8ft+DpyjmdnNsAxeya0n6fI/8QM2X2TMf+
+ AmkEtMQVEfxFLVzul69IZGpfBqlY6HrQCGZv3KnXDUknNAv6YkIP7Gg9lyU5Igg9U9Y6
+ w+Wcl3gQpIzaQsoEIpF5uYmCjsZmYXAXp3PKGcJYMN6WgMqGIUxF4HFzHIAsHODfYe7J
+ +44A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724144959; x=1724749759;
+ d=1e100.net; s=20230601; t=1724144974; x=1724749774;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=39nNL2+o4oHw4rNBNcBPdzYRJpF6VA3Ac0WKvhXecWg=;
- b=tUl4ppe6tm4zgRFn+LHFJ/m4KffqCxyMSI0nDfLFapp2lOgcbEB4ApAgwsXmfzkHb0
- WLcG5GqvRLymF1xSmLfJzc3ViDpTQrL/96mUF1I9TTX1YCES3dvIFk3G6EheeaPlPFen
- bqlMHWto0yrdDJT8UXlTAb/u/tuFYuP0SlfMrZthhjbswBwTxMFN5jM8SbyrE4Mx5C67
- xjxX9ePsFpiWrpMcukYb0o3BIN1N5Xdf3/UPjcrXXJMgquaeAMUEQH77xFYi5uwjv3zU
- h52O8SwWRbixb6Nko4a2Rdchjflb4fLRk9MlSsVLPEWJU5JfYhNlcjcNQC3AdR00OnMD
- dk3w==
+ bh=krCYSxdDpTQrVUrzWiIkCh5CYHoHUCK7xs+My+FCoPs=;
+ b=UUatWiHW+7eFYdtcqdb6Hr4ZIhP+A50ZbE84LiLzBGf3DutHGbe4WwXg2zoViL7w4f
+ RWXBbtU/MVkISEkCbWrAjneUI67tWYLz5Yqp6M+KRIwKdLbGXyH1jIgsC7PxtAlFCByS
+ jBgjjvSIKU9+n6yuMj50nc0DApWs3bBuOKHxV+LdQCNJhqzNz/9W6a2wNNFZnoYCTp0i
+ GSs5jb3CdoFbM2YJlG9ZnBPwz/OrSYpLDW2VnPE9EuX5W6LWzVOfQcqkkc870o1rH/AY
+ DykMWdJ8B3DMofNvMQUz5QxATPeIpEPjhtb9B+4PL0qQfwQVv4gJArXNECWiMB6bNpZk
+ aRTw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV6PK63GG5FpsHSOCmnXwRlDy2r4Qt74mLpjoEmMbQADjIo1qlbmOX8KxkTcG4MY6TEwBmq7asvFCQN2Hx8YJWvPt0m1QR8CN7f+72FAdno
-X-Gm-Message-State: AOJu0YzzBtxXsIoF9fYvH039pVv+AeAbEUsUBosgD2AlOnTb8ED0asBA
- H0lO48MbnBr4+JROkSirl9dNxRjd9qCGDbh3xWqQ3biwqtrR5Eup
-X-Google-Smtp-Source: AGHT+IESSlGS/R12Dy0bo/M5WH+m6NeXa45/mLfj0RMkSqzA9SSFkWXBhmym40DC1+pINyonhRv6Iw==
-X-Received: by 2002:adf:9bc3:0:b0:367:35d7:bf11 with SMTP id
- ffacd0b85a97d-37194455af1mr8074427f8f.25.1724144958748; 
- Tue, 20 Aug 2024 02:09:18 -0700 (PDT)
+ AJvYcCUZAyOhXYGJVGwGhvqZ1RUxKtwS7w0sHmna0nmWSnwIYLv7koXX9dqz6JKixk7G9hCp+WeP55/xzxs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzFfwfLvJ6TvK6CU/boMw+w75u+mUIJZm37ckHQYsvszR6ZtOcP
+ BdtoQVHd5Id9SXNFJJZkfZu6jVshFwQNtEU2U1Q7mgW3O0QWPxKX
+X-Google-Smtp-Source: AGHT+IGSlYSQWy5PrGTd8Jc5PKw3jaHd5f4fetH8Kiozuh65q2Zh7ztB+yLnmScukC/b+W02t6l4kw==
+X-Received: by 2002:adf:e78d:0:b0:368:460d:d942 with SMTP id
+ ffacd0b85a97d-37194646be4mr7681089f8f.24.1724144973344; 
+ Tue, 20 Aug 2024 02:09:33 -0700 (PDT)
 Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3718983a311sm12650575f8f.23.2024.08.20.02.09.17
+ ffacd0b85a97d-371898ac074sm12557067f8f.106.2024.08.20.02.09.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2024 02:09:18 -0700 (PDT)
+ Tue, 20 Aug 2024 02:09:33 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
@@ -65,12 +65,12 @@ Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
  nicolejadeyee@google.com, rodrigosiqueiramelo@gmail.com,
  seanpaul@google.com, thomas.petazzoni@bootlin.com, tzimmermann@suse.de,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH RFC 1/4] drm/vkms: Switch to managed for connector
-Date: Tue, 20 Aug 2024 11:09:11 +0200
-Message-ID: <20240820090912.2854-1-jose.exposito89@gmail.com>
+Subject: [PATCH RFC 2/4] drm/vkms: Switch to managed for encoder
+Date: Tue, 20 Aug 2024 11:09:27 +0200
+Message-ID: <20240820090930.2869-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240814-google-vkms-managed-v1-1-7ab8b8921103@bootlin.com>
-References: <20240814-google-vkms-managed-v1-1-7ab8b8921103@bootlin.com>
+In-Reply-To: <20240814-google-vkms-managed-v1-2-7ab8b8921103@bootlin.com>
+References: <20240814-google-vkms-managed-v1-2-7ab8b8921103@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -89,15 +89,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+> The current VKMS driver uses non-managed function to create encoders. It
+> is not an issue yet, but in order to support multiple devices easly,
 
-Thanks for these patches. Easy review as my configfs series included similar
-patches :) I think that this series could be easily rebased on drm-misc-next,
-but I don't know if that'd add a lot of work rebasing other series. I'd be nice
-to get these 4 merged.
+s/easly/easily
 
-> The current VKMS driver uses non-managed function to create connectors. It
-> is not an issue yet, but in order to support multiple devices easily,
 > convert this code to use drm and device managed helpers.
 > 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
@@ -106,103 +102,89 @@ Reviewed-by: José Expósito <jose.exposito89@gmail.com>
 
 > ---
 >  drivers/gpu/drm/vkms/vkms_drv.h    |  1 -
->  drivers/gpu/drm/vkms/vkms_output.c | 22 ++++++++++------------
->  2 files changed, 10 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_output.c | 21 +++++++++------------
+>  2 files changed, 9 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index f74a5c2045f9..cea7b2640c5d 100644
+> index cea7b2640c5d..2c9d1f20ce84 100644
 > --- a/drivers/gpu/drm/vkms/vkms_drv.h
 > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -43,7 +43,6 @@
+> @@ -42,7 +42,6 @@
+>   */
 >  struct vkms_output {
 >  	struct drm_crtc crtc;
->  	struct drm_encoder encoder;
-> -	struct drm_connector connector;
+> -	struct drm_encoder encoder;
 >  	struct drm_writeback_connector wb_connector;
 >  	struct hrtimer vblank_hrtimer;
 >  	ktime_t period_ns;
 > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 20073a00b200..4767838c3a73 100644
+> index 4767838c3a73..cb8507917b5f 100644
 > --- a/drivers/gpu/drm/vkms/vkms_output.c
 > +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -3,6 +3,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_managed.h>
-
-Nit: Keep includes sorted alphabetically if possible
-
->  
->  #include "vkms_writeback.h"
->  #include "vkms_plane.h"
-> @@ -10,7 +11,6 @@
->  
->  static const struct drm_connector_funcs vkms_connector_funcs = {
->  	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = drm_connector_cleanup,
->  	.reset = drm_atomic_helper_connector_reset,
->  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> @@ -16,9 +16,7 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
 >  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> @@ -54,7 +54,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
+>  };
+>  
+> -static const struct drm_encoder_funcs vkms_encoder_funcs = {
+> -	.destroy = drm_encoder_cleanup,
+> -};
+> +static const struct drm_encoder_funcs vkms_encoder_funcs = {};
+
+This struct is not required, drmm_encoder_init() can take a NULL value.
+
+>  
+>  static int vkms_conn_get_modes(struct drm_connector *connector)
 >  {
+> @@ -55,7 +53,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
 >  	struct vkms_output *output = &vkmsdev->output;
 >  	struct drm_device *dev = &vkmsdev->drm;
-> -	struct drm_connector *connector = &output->connector;
-> +	struct drm_connector *connector;
->  	struct drm_encoder *encoder = &output->encoder;
+>  	struct drm_connector *connector;
+> -	struct drm_encoder *encoder = &output->encoder;
+> +	struct drm_encoder *encoder;
 >  	struct drm_crtc *crtc = &output->crtc;
 >  	struct vkms_plane *primary, *cursor = NULL;
-> @@ -90,11 +90,15 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
->  	if (ret)
->  		return ret;
+>  	int ret;
+> @@ -103,8 +101,12 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
 >  
-> -	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
-> -				 DRM_MODE_CONNECTOR_VIRTUAL);
-> +	connector = drmm_kzalloc(&vkmsdev->drm, sizeof(*connector), GFP_KERNEL);
+>  	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
+>  
+> -	ret = drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
+> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	encoder = drmm_kzalloc(&vkmsdev->drm, sizeof(*encoder), GFP_KERNEL);
 
-"&vkmsdev->drm" can be replaced with "dev".
+&vkmsdev->drm => dev
 
-> +	if (!connector)
+> +	if (!encoder)
 
-For consistency with the init function, it'd be nice to log this error as well:
-
-		DRM_ERROR("Failed to allocate connector\n");
+The same here, we could log this error:
+		DRM_ERROR("Failed to allocate encoder\n");
 
 > +		return -ENOMEM;
 > +
-> +	ret = drmm_connector_init(dev, connector, &vkms_connector_funcs,
-> +				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
->  	if (ret) {
->  		DRM_ERROR("Failed to init connector\n");
-> -		goto err_connector;
-> +		return ret;
->  	}
->  
->  	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-> @@ -103,7 +107,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
->  			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	ret = drmm_encoder_init(dev, encoder, &vkms_encoder_funcs,
+
+vkms_encoder_funcs can be NULL.
+
+> +				DRM_MODE_ENCODER_VIRTUAL, NULL);
 >  	if (ret) {
 >  		DRM_ERROR("Failed to init encoder\n");
-> -		goto err_encoder;
+>  		return ret;
+> @@ -118,7 +120,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
+>  	ret = drm_connector_attach_encoder(connector, encoder);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to attach connector to encoder\n");
+> -		goto err_attach;
 > +		return ret;
 >  	}
->  	/*
->  	 * This is an hardcoded value to select crtc for the encoder.
-> @@ -130,11 +134,5 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
->  err_attach:
->  	drm_encoder_cleanup(encoder);
 >  
-> -err_encoder:
-> -	drm_connector_cleanup(connector);
+>  	if (vkmsdev->config->writeback) {
+> @@ -130,9 +132,4 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
+>  	drm_mode_config_reset(dev);
+>  
+>  	return 0;
 > -
-> -err_connector:
-> -	drm_crtc_cleanup(crtc);
+> -err_attach:
+> -	drm_encoder_cleanup(encoder);
 > -
-
-I think that, technically, err_encoder should call drm_crtc_cleanup() in this
-patch. However, since a future patch will remove this code I don't find it that
-relevant.
-
->  	return ret;
+> -	return ret;
 >  }
