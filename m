@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73360958190
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A289581A5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 11:09:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A20510E2E7;
-	Tue, 20 Aug 2024 09:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A764210E536;
+	Tue, 20 Aug 2024 09:09:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i41hJDdC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L13rjhoZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10DC10E050;
- Tue, 20 Aug 2024 09:00:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724144435; x=1755680435;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=N/2n6+TMCGjpJV1UloCrG/l1ip+b8yTgzRdVJBE9X4U=;
- b=i41hJDdCtKZVo5OnbgpY8SuDwkyxRA2cgfgtsiZAQttX99AwVgpq6IBj
- SK41mEYkAQcS8r32fMs29aQXw+ii6RQmXfO4dd4jPtu6Cg59JEhVDIFKy
- m6AxQLKIqJfeUMWrn1SqS6fvt/+qdBP+yWfdm4fTq9Nl+5BHN5FxX/CCh
- YcAtFiZfNPPJ09dwLEYv/qJ6uUnJCFVdO2Kz7k9y2yM7aAn8RtpySzscm
- BAecrkexoEWDw16Jp/VTdfKYgmmnr1RfEIvAQBmIvbt+ePxG3ITgs2lyz
- TmZ8hKDNZ2CrLtyGBQFXsT4rUStyh7YY4L87GryclcMkBiSoR/k6DZ7fA Q==;
-X-CSE-ConnectionGUID: 73esWyIDToKAcom8G1ypuw==
-X-CSE-MsgGUID: a3nYecMNSJK16IWT7scVfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22595737"
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; d="scan'208";a="22595737"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 02:00:34 -0700
-X-CSE-ConnectionGUID: C7avtJ4oRQG7WfUgBXBFQQ==
-X-CSE-MsgGUID: IOrPGsCnQNC6ISeon830uA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; d="scan'208";a="98123500"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 02:00:30 -0700
-Date: Tue, 20 Aug 2024 12:00:27 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
- daniel@ffwll.ch, linux@roeck-us.net,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v4] drm/i915/hwmon: expose fan speed
-Message-ID: <ZsRbK8TEk5GZDl0C@black.fi.intel.com>
-References: <20240809061525.1368153-1-raag.jadav@intel.com>
- <ZrYB-GI9L2RSc2bt@smile.fi.intel.com>
- <ZrYEQqs0IwDHWkGx@ashyti-mobl2.lan>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D682A10E536
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 09:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724144964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lRgqOXyBX9RvDpJkM6Di0st4mw6ssMTucyaILMSw5CA=;
+ b=L13rjhoZA58ZNhkC385lU8+JQYDyU7dDpGDQibL0ztMqmyfnqV2u12zM4k2kZIVZA+8rOw
+ OJ9S51PY6gSNKNXHMHdPMZmfe4p1NBGOZmqqLFstQ+vrxBVpoge+hCIudUjp7k3pMcn7Mi
+ 9ZvgNFWSUoP69eZ17F/HScfvY9ZCMMk=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-693-vIZOpLqvOAm3QggsuBIv9g-1; Tue,
+ 20 Aug 2024 05:09:20 -0400
+X-MC-Unique: vIZOpLqvOAm3QggsuBIv9g-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 20D691954B1B; Tue, 20 Aug 2024 09:09:19 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.88])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 675391955F45; Tue, 20 Aug 2024 09:09:14 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+Cc: Jocelyn Falempe <jfalempe@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH v2 1/2] drm/virtio: Use XRGB8888 also for big endian systems
+Date: Tue, 20 Aug 2024 11:07:40 +0200
+Message-ID: <20240820090908.151042-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrYEQqs0IwDHWkGx@ashyti-mobl2.lan>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,68 +75,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 09, 2024 at 12:57:54PM +0100, Andi Shyti wrote:
-> On Fri, Aug 09, 2024 at 02:48:08PM +0300, Andy Shevchenko wrote:
-> > On Fri, Aug 09, 2024 at 11:45:25AM +0530, Raag Jadav wrote:
-> > > Add hwmon support for fan1_input attribute, which will expose fan speed
-> > > in RPM. With this in place we can monitor fan speed using lm-sensors tool.
-> > > 
-> > > $ sensors
-> > > i915-pci-0300
-> > > Adapter: PCI adapter
-> > > in0:         653.00 mV
-> > > fan1:        3833 RPM
-> > > power1:           N/A  (max =  43.00 W)
-> > > energy1:      32.02 kJ
-> > 
-> > > v2:
-> > > - Add mutex protection
-> > > - Handle overflow
-> > > - Add ABI documentation
-> > > - Aesthetic adjustments (Riana)
-> > > 
-> > > v3:
-> > > - Declare rotations as "long" and drop redundant casting
-> > > - Change date and version in ABI documentation
-> > > - Add commenter name in changelog (Riana)
-> > > 
-> > > v4:
-> > > - Fix wakeref leak
-> > > - Drop switch case and simplify hwm_fan_xx() (Andi)
-> > 
-> > I do not understand why we pollute Git history with changelogs, but it's
-> > probably the ugly atavism in DRM workflow.
-> 
-> I never liked it! Besides it should even be against the
-> submitting patches recommendation.
-> 
-> I don't understand what interest might have someone in a couple
-> of years, reading this commit, knowing an unintellegible list of
-> differences between v2 and v3.
-> 
-> I consider it a random pollution of the commit log.
+Mesa doesn't support BGRX8888, that means most wayland compositors
+don't work on big endian guests.
 
-Isn't it already documented?
-Documentation/process/submitting-patches.rst
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_display.c |  4 ++--
+ drivers/gpu/drm/virtio/virtgpu_gem.c     |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c   | 10 ++--------
+ 3 files changed, 5 insertions(+), 11 deletions(-)
 
-Please put this information **after** the ``---`` line which separates
-the changelog from the rest of the patch. The version information is
-not part of the changelog which gets committed to the git tree. It is
-additional information for the reviewers. If it's placed above the
-commit tags, it needs manual interaction to remove it. If it is below
-the separator line, it gets automatically stripped off when applying the
-patch::
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 64baf2f22d9f0..3572a53ea2061 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -299,8 +299,8 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+ 	struct virtio_gpu_framebuffer *virtio_gpu_fb;
+ 	int ret;
+ 
+-	if (mode_cmd->pixel_format != DRM_FORMAT_HOST_XRGB8888 &&
+-	    mode_cmd->pixel_format != DRM_FORMAT_HOST_ARGB8888)
++	if (mode_cmd->pixel_format != DRM_FORMAT_XRGB8888 &&
++	    mode_cmd->pixel_format != DRM_FORMAT_ARGB8888)
+ 		return ERR_PTR(-ENOENT);
+ 
+ 	/* lookup object associated with res handle */
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 7db48d17ee3a8..601e06962530f 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -75,7 +75,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+ 	args->size = pitch * args->height;
+ 	args->size = ALIGN(args->size, PAGE_SIZE);
+ 
+-	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
++	params.format = virtio_gpu_translate_format(DRM_FORMAT_XRGB8888);
+ 	params.width = args->width;
+ 	params.height = args->height;
+ 	params.size = args->size;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index a72a2dbda031c..860b5757ec3fc 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -30,11 +30,11 @@
+ #include "virtgpu_drv.h"
+ 
+ static const uint32_t virtio_gpu_formats[] = {
+-	DRM_FORMAT_HOST_XRGB8888,
++	DRM_FORMAT_XRGB8888,
+ };
+ 
+ static const uint32_t virtio_gpu_cursor_formats[] = {
+-	DRM_FORMAT_HOST_ARGB8888,
++	DRM_FORMAT_ARGB8888,
+ };
+ 
+ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+@@ -48,12 +48,6 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+ 	case DRM_FORMAT_ARGB8888:
+ 		format = VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM;
+ 		break;
+-	case DRM_FORMAT_BGRX8888:
+-		format = VIRTIO_GPU_FORMAT_X8R8G8B8_UNORM;
+-		break;
+-	case DRM_FORMAT_BGRA8888:
+-		format = VIRTIO_GPU_FORMAT_A8R8G8B8_UNORM;
+-		break;
+ 	default:
+ 		/*
+ 		 * This should not happen, we handle everything listed
 
-  <commit message>
-  ...
-  Signed-off-by: Author <author@mail>
-  ---
-  V2 -> V3: Removed redundant helper function
-  V1 -> V2: Cleaned up coding style and addressed review comments
+base-commit: 8befe8fa5a4e4b30787b17e078d9d7b5cb92ea19
+-- 
+2.46.0
 
-  path/to/file | 5+++--
-  ...
-
-Raag
-> 
-> Andi
