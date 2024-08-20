@@ -2,53 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CFB9590F6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 01:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925AB9590E8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 01:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56185892C8;
-	Tue, 20 Aug 2024 23:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D450110E53F;
+	Tue, 20 Aug 2024 23:10:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NSQyLNjH";
+	dkim=pass (2048-bit key; unprotected) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="QZ9yVlUH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
- Tue, 20 Aug 2024 23:16:39 UTC
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B09892C8
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 23:16:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A5B09A4046B;
- Tue, 20 Aug 2024 23:09:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62708C4AF09;
- Tue, 20 Aug 2024 23:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724195366;
- bh=Lbysj9KIY04ej/2hs+jHz/a8O+t1h3ua+LPYuOV2ITY=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=NSQyLNjH/SWpYV7mSIKlhENVXiYwzu4ehkaC87JRAScFbzqcuMo4PGMXf1B4lC4Ao
- cv0fE0Dp1z+t0WhDvqaojIBgeUiYqtEJOSSAhvv8RxzEHDiZEGrQ1fx8DWV+l3QOuU
- IRfESkzSfH5UJvgizll7XWU6m4hoNRihL9+oxgwsf0rfDfa9scqgzAxJg4Je76sCCa
- BfFq9Hao9XBHJ+f7zURXgXZjWJ3FqPfv7zZOJpnPvkxCRs3rM3/VQ6JIIrmZmIa6Xs
- Q9LdMwtiMLo8ofzHHnffkUXfcIShMdamFdSyY1db3NcyylFeg52xMJt4qcjKYZY1U4
- pWI8G5/PWHeXg==
-Date: Wed, 21 Aug 2024 01:09:24 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
- deller@gmx.de, bonbons@linux-vserver.org, bentiss@kernel.org, 
- shc_work@mail.ru, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- shawnguo@kernel.org, festevam@gmail.com, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH 25/28] HID: picoLCD: Replace check_fb in favor of struct
- fb_info.lcd_dev
-In-Reply-To: <20240820093452.68270-26-tzimmermann@suse.de>
-Message-ID: <nycvar.YFH.7.76.2408210109090.12664@cbobk.fhfr.pm>
-References: <20240820093452.68270-1-tzimmermann@suse.de>
- <20240820093452.68270-26-tzimmermann@suse.de>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93AE510E53F
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 23:10:44 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5bebcdc75e9so1080657a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 16:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1724195443; x=1724800243;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=SX1ezoSJDugDwPOdGtHosBZWeg1iz+1d1+OhQfBUV7o=;
+ b=QZ9yVlUH2i9nf0c+FPxDog3NyJmMFwh83cy8qSH5Fd6npMG4WYszCtYoflIan2xvkq
+ wHBAEGwlcaLXgzXMbQck8lxc+H321KvLGqpRv9cHTvq3I/BkyXbl08K4+eioDX0+6oaM
+ dbpve+JVmks4Jb4ohSZS68IA1RT6A3MXcjjK/L54N85oCXjTrkYkD7I+0s1lvL4uI63x
+ 3r8b5Rp8gVxY1xkh3jAj0tN8l9E516FZeOAB4CKt8I5HuQuy2+fpRE0bANH4fBRJ0bLN
+ SC8X8DOppQKrOHHsOvrEXMN2kOnDclXDwMpEsQHNzFz8EnjjGybdoc7BKV0anxVpZ0x3
+ TKUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724195443; x=1724800243;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SX1ezoSJDugDwPOdGtHosBZWeg1iz+1d1+OhQfBUV7o=;
+ b=k1AzWxgXWmjmLtTAO5EfGiwKmUL4oPCAkYu8s2PLUzrSBoXBE5OiT8f3zcbXenbWtu
+ iF+VgmVBjKEfB0Vw24sw1JBz8tzGiwDKlv8PbLPsx2DMC6pdjyOaOAzUc3zh34h1iq78
+ b3NZvkbOhBhDqTzbzSE1NE6FBoU2hHI6EYaG4kYFOSZr9d2sVxgMkY7yv3bSop7lq4BW
+ XLB0YIqAiIH1qUhCQFuILkT+RRS08z0WeuVBGG5tkNpPGUmNF7bTN78yJs5dFl47oqjt
+ lXvMAOuE+XHX07iKz/xH75aEO97qkIwVNjZ8bPy1gUWAA8kR8IEH0Irez8GA6FOkXXZK
+ wbVw==
+X-Gm-Message-State: AOJu0YxxH1RStQxs3s2MDQABliCD22rgCNlKCDLyMZr9O/udF3wBc6ED
+ NoWxmZyMI/Lx5A+1pxXjJ7126LfugI4yAhWXCSo1kwy5GR4cxvZY63YbSH5Onrg=
+X-Google-Smtp-Source: AGHT+IHd9wFtG5D4Yy4a6ZJj8Q6kNR7yCZjSUshvttK1guXdXKAD1IWyRtKuhTvTSIFJnSPmC+d5Iw==
+X-Received: by 2002:a05:6402:51c6:b0:5af:6c44:6807 with SMTP id
+ 4fb4d7f45d1cf-5bf1f2c1ef2mr86786a12.6.1724195442641; 
+ Tue, 20 Aug 2024 16:10:42 -0700 (PDT)
+Received: from fedora.fritz.box (aftr-82-135-80-228.dynamic.mnet-online.de.
+ [82.135.80.228]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5bebbbe2623sm7280801a12.9.2024.08.20.16.10.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Aug 2024 16:10:42 -0700 (PDT)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: obitton@habana.ai, ogabbay@kernel.org, ttayar@habana.ai,
+ fkassabri@habana.ai, osharabi@habana.ai, dliberman@habana.ai,
+ quic_carlv@quicinc.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thorsten Blum <thorsten.blum@toblux.com>
+Subject: [RESEND PATCH] accel/habanalabs/gaudi2: Use kvfree() for memory
+ allocated with kvcalloc()
+Date: Wed, 21 Aug 2024 01:10:28 +0200
+Message-ID: <20240820231028.136126-1-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,19 +82,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Aug 2024, Thomas Zimmermann wrote:
+Use kvfree() to fix the following Coccinelle/coccicheck warning reported
+by kfree_mismatch.cocci:
 
-> Store the lcd device in struct fb_info.lcd_dev. The lcd subsystem can
-> now detect the lcd's fbdev device from this field.
-> 
-> This makes the implementation of check_fb in picolcd_lcdops obsolete.
-> Remove it.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+  WARNING kvmalloc is used to allocate this memory at line 10398
 
-Acked-by: Jiri Kosina <jkosina@suse.com>
+Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+---
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index a38b88baadf2..5722e4128d3c 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -10437,7 +10437,7 @@ static int gaudi2_memset_device_memory(struct hl_device *hdev, u64 addr, u64 siz
+ 				(u64 *)(lin_dma_pkts_arr), DEBUGFS_WRITE64);
+ 	WREG32(sob_addr, 0);
+ 
+-	kfree(lin_dma_pkts_arr);
++	kvfree(lin_dma_pkts_arr);
+ 
+ 	return rc;
+ }
 -- 
-Jiri Kosina
-SUSE Labs
+2.46.0
 
