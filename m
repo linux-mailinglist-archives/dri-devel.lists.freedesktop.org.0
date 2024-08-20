@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3154E958D25
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D399958D32
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1A510E7F3;
-	Tue, 20 Aug 2024 17:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B0F10E146;
+	Tue, 20 Aug 2024 17:24:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MijAQzIn";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="R85HC7O2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCC210E7F3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 17:23:08 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id
- a1e0cc1a2514c-842fe718899so1438574241.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:23:08 -0700 (PDT)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
+ [209.85.222.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84B8910E146
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 17:24:49 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id
+ af79cd13be357-7a1d5f6c56fso387989485a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724174587; x=1724779387;
+ d=chromium.org; s=google; t=1724174688; x=1724779488;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=jjiHfu5pkFzqUOsx+SOY2D+4odBwVmyecYJTsluInAs=;
- b=MijAQzInUKmaB+2tY8X2bonlyzEjpsEqXEAJrTXPq5GM5c6ALWk3MKI+ZjSHWsbBLa
- B70HNCWejWF2Rge2hiHM8Al8yGBKxgFNaiYqUcIHNdPt0NMnkCxkAd/+MlhEYAHGZezg
- HsEX1qXOn7rTCxIyAVm6oijQejD3Xwln+fY7o=
+ :reply-to; bh=Kivk6OVMCb2Ic/WQYTSiSJ7knOT9aLnIRhStn7/b1EY=;
+ b=R85HC7O2lVXiRYxhoy0a1ilAHue57lMiL1jD5BGPt/dJJZAL2zBxbIyEbXAMvtGe/W
+ soGBkxSg3LTNriIsVOt5TB32PZ05OWugFdw8nMUNWrUNMST5/k5sbepbAcvQ3aaKEG41
+ GuIY13ljQaa63VnQlYDJ5Bj8KWrlWSmAXWsiY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724174587; x=1724779387;
+ d=1e100.net; s=20230601; t=1724174688; x=1724779488;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jjiHfu5pkFzqUOsx+SOY2D+4odBwVmyecYJTsluInAs=;
- b=bi506cq5Op+4tDlbbb40/OQ+kBezMM/9IxpP7Ogp9GWSZgsN0k1BzjFnnp3bm3G5jq
- etip0ui/jdXNtkuC/kH1wu7+sSdeG4YHjfE9nAGTvW9LFPBJMPwjxMlP1Wd99+Xlzv74
- kpiw2mKsFWMu2bpqaVgf/4Zq9EBS9n3KhK4m0Q+zmpVmcP+l0zoK8KaozbkoFRVeTvGf
- lwx5Iloew3z5XAz248Tn9Jcg9X2E7jBAC6T76APap15U/D8uFxt9TiGsNVRDHJT7kcTE
- tSwhtSR6oeMvnIVIE/j5bsFwEbtPuv8rxUWy9DAgvq8vzrUNC49qimUwt8ENfs99yUfF
- zeRA==
+ bh=Kivk6OVMCb2Ic/WQYTSiSJ7knOT9aLnIRhStn7/b1EY=;
+ b=ri9XUCIU4mwWu75wZXIQ78MIGC3SppMMCxrKnGtdKi+JOGvZoKMUm4RQrgDScoTFmk
+ 8E39IF+grOeFBEo8b0iHcO+sAEcIXa1wd92oLehROVqqETyKMH3xu66cGa0SCwuUi1kA
+ XiFmtdPrNgH2rI6QvDQqAjjHC5PooWto8nDzX3osGqtisoiriE7st1Q3dZricAno8Mqx
+ C69M8+IkH4uTrs4Qv/giST/NfHzcWu80b1KZKiqiPJ3bTPNhxYEaXkz59wxf7aWR6Ed+
+ 23GOpvv0UIG8fMplCII40WNBQP01o6ng/84v9/DoLliHgBUdj42fqFQ73l1nU+BZLt4e
+ afkw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWIAotKaNKSZ0h4qX2RNq1deYFoZlXAr1psty/4z8fmsAgTgtsMuF1ltGfkhhynfgLGhT4p47Na7PT81Pl6HRLI+G7uSt+BkldMLNhjojM1
-X-Gm-Message-State: AOJu0Yw/zX1xZW6z4Cf1EqxVVqUa/4OjEJfnCcLDeCY/LMNyRgIYOQeJ
- PnMyq4TUx9OuCK18fW7niLY2oQz9kCLgLNoDp5+HMQKmvxDqVuki9eCBss9WlX8YksLuO5dIl+V
- KG0PKErav3tVW2ZR1YvRSPvtqwaqev6FDG/B9
-X-Google-Smtp-Source: AGHT+IGfqseqp4mRIKADD9bykOeA01y+4F/62kKEBLZLbbbLI1oVDw9K0JgFNuY/9j8342Q36vrpqnXZCv1APwGTLdw=
-X-Received: by 2002:a05:6102:f13:b0:493:d1c3:1aef with SMTP id
- ada2fe7eead31-4977990c46fmr12594753137.14.1724174586925; Tue, 20 Aug 2024
- 10:23:06 -0700 (PDT)
+ AJvYcCWDeWuHV5EJ056X9Z/cY9k5u2cxUgsOMjzqGYXxPAuWB9CYg8BbP6gZSIyNcpEtDRiRLG2+gdeiqDPsf/6pf92k99WH07xC7WMLf6GdWmZ9
+X-Gm-Message-State: AOJu0YwGN6392CASfk2PaKU8h1T4kuApSB7e3dyyR5/3taduRMrCm56I
+ 7DaNLox+yj11boZQILm1Q6Spsyf+TnTikHJcjKvXSP3nM6XJBNfboAZGT3zSdYyBC0IV0MiNpvE
+ yavDYPPI/s6Qbr2UfuWEG3h4W30swylU0Qya5
+X-Google-Smtp-Source: AGHT+IFPnbaIpKnJbRF0KVl+CpiSvIEMrBAyBLBBnH5HxEKdAtvNgsfFmldfo1C+7jIx6Rn++JaBGcZOF4ZPpQUlOKY=
+X-Received: by 2002:a05:620a:319c:b0:7a3:6dd9:efbb with SMTP id
+ af79cd13be357-7a50695402emr1528659285a.33.1724174688344; Tue, 20 Aug 2024
+ 10:24:48 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 20 Aug 2024 10:23:06 -0700
+ HTTPREST; Tue, 20 Aug 2024 10:24:47 -0700
 MIME-Version: 1.0
-In-Reply-To: <CAE-0n52FSUFictNQ9kotgFAZPYnJpy+3Ad__QeUN+EiJuBWGwQ@mail.gmail.com>
+In-Reply-To: <ZsTPuvoTIFVFHw6o@smile.fi.intel.com>
 References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-6-swboyd@chromium.org>
- <ZsRs6d6uOMb4DqQQ@smile.fi.intel.com>
- <CAE-0n52O01UgrDT2=-JJpZj39BOJNyyQC4w_pgDUmKDmcN=8Yw@mail.gmail.com>
- <ZsTPeEsS1m4Y8imq@smile.fi.intel.com>
- <CAE-0n52FSUFictNQ9kotgFAZPYnJpy+3Ad__QeUN+EiJuBWGwQ@mail.gmail.com>
+ <20240819223834.2049862-3-swboyd@chromium.org>
+ <ZsRrWfoPPVGC4Dqy@smile.fi.intel.com>
+ <CAE-0n536OWtoOoRSM=6u=wA75A+0WtBktiY=6Y6VjKKTQWPcNw@mail.gmail.com>
+ <ZsTPuvoTIFVFHw6o@smile.fi.intel.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 20 Aug 2024 10:23:06 -0700
-Message-ID: <CAE-0n50uOcCHHaw=opEY089ymPBER2H7QLtORFzD6ypwHEKUJw@mail.gmail.com>
-Subject: Re: [PATCH v3 05/17] usb: typec: Add device managed
- typec_switch_register()
+Date: Tue, 20 Aug 2024 10:24:47 -0700
+Message-ID: <CAE-0n50xcj21WiPHW9ATE7BfxKpOWvdV7of97G_U5ZrMV0zUUw@mail.gmail.com>
+Subject: Re: [PATCH v3 02/17] drm/bridge: Verify lane assignment is going to
+ work during atomic_check
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
  patches@lists.linux.dev, devicetree@vger.kernel.org, 
@@ -109,46 +108,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Stephen Boyd (2024-08-20 10:19:48)
-> Quoting Andy Shevchenko (2024-08-20 10:16:40)
-> > On Tue, Aug 20, 2024 at 10:01:07AM -0700, Stephen Boyd wrote:
-> > > Quoting Andy Shevchenko (2024-08-20 03:16:09)
-> > > > On Mon, Aug 19, 2024 at 03:38:19PM -0700, Stephen Boyd wrote:
-> > > > > +     ptr = devres_alloc(devm_typec_switch_unregister, sizeof(*ptr), GFP_KERNEL);
-> > > > > +     if (!ptr)
-> > > > > +             return ERR_PTR(-ENOMEM);
-> > > > > +
-> > > > > +     switch_dev = typec_switch_register(parent ,desc);
-> >
-> > (Side note: wrong location of the white space)
->
-> Thanks.
->
-> >
-> > > > > +     if (!IS_ERR(switch_dev)) {
-> >
-> > (Side note: positive conditional is okay)
-> >
-> > > > > +             *ptr = switch_dev;
-> > > > > +             devres_add(parent, ptr);
-> > > > > +     } else {
-> > > > > +             devres_free(ptr);
-> > > > > +     }
-> > > >
-> > > > devm_add_action_or_reset() ?
+Quoting Andy Shevchenko (2024-08-20 10:17:46)
+> On Tue, Aug 20, 2024 at 10:12:55AM -0700, Stephen Boyd wrote:
+> > Quoting Andy Shevchenko (2024-08-20 03:09:29)
+> > > On Mon, Aug 19, 2024 at 03:38:16PM -0700, Stephen Boyd wrote:
+> > > > +     /*
+> > > > +      * Ensure this bridge is aware that the next bridge wants to
+> > > > +      * reassign lanes.
+> > > > +      */
+> > > > +     for (i = 0; i < num_input_lanes; i++)
+> > > > +             if (i != input_lanes[i].logical && !num_output_lanes)
+> > > > +                     return -ENOTSUPP;
 > > >
-> > > No. We don't want to call the 'action' devm_typec_switch_unregister()
-> > > when it fails because that would unregister a switch that has never been
-> > > registered.
+> > > Besides missing {} this code is internal to the Linux kernel. Is it okay?
 > >
-> > Hmm... With devm_add_action_or_reset() we first do things and then try to add
-> > them to the managed resources. In that case it won't be like you described.
-> >
-> > What do I miss?
-> >
+> > ENOTSUPP is used by select_bus_fmt_recursive() so I simply followed that
+> > style.
 >
-> I believe you've missed that this is a wrapper around struct device and
-> the error path is different (put_device() vs. device_unregister()).
+> Okay, just be aware of that side effect of that code, also checkpatch may
+> complain (however it might be false positive).
 
-Or you're suggesting devm_add_action_or_reset() after registering the
-switch? Sorry it wasn't clear to me.
+Yes checkpatch complained but didn't enlighten me. Please tell me the
+side effect as I'm unaware!
