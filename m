@@ -2,93 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD452958CF0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F129958CF7
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 19:17:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F98B10E525;
-	Tue, 20 Aug 2024 17:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1215010E7C9;
+	Tue, 20 Aug 2024 17:17:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SsNlLfML";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ipj1TE6X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6045510E525
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 17:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724174213; x=1755710213;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1WOCN1hQxUm1krY7hl5MD+NIzVYaTnsupZFCAJLrYTs=;
- b=SsNlLfML/5llR9WXs1mG8UIFwbQFKx+j0k10VEpdhV2V5GNRcFYXcl/1
- dSxQpyCE4cYKv7wDGfA1MDJgoCMDFldjBD1+/PH/4tCYlYgwrE7NuGkji
- eRyIO8kmOwxWAxUh6DoOoIKoeP1e0i9xSATSSejT5fZZtNQRkjDeKaC9T
- D59Z48sFq7mifsiBYwwnupdQieK8HzCDW8r0ePzYpJQuvbNQRxsmvL/w0
- oJ7+G91g7mgxYflL/zip9Fqv3IQeUd7qy2NetbKZ4ZHqspOw+zBcu/sUT
- B6YN/CTGc7XcL2tscmGoGDdkdUEPPSahouMzXLNJTUuZojc+jMlJ6Hx/M A==;
-X-CSE-ConnectionGUID: /5EUGa4wSReZhZl+pvD+jA==
-X-CSE-MsgGUID: CYZ1nF3/TRyWYDtgpJ5e6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26363974"
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="26363974"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 10:16:53 -0700
-X-CSE-ConnectionGUID: 9kKj3Zq/Rcak+WCW+VHNBQ==
-X-CSE-MsgGUID: YxLX6qvOT+uBQrS9ly4vBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="65650227"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 10:16:44 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sgSTI-0000000HNl0-2L24; Tue, 20 Aug 2024 20:16:40 +0300
-Date: Tue, 20 Aug 2024 20:16:40 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, devicetree@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Benson Leung <bleung@chromium.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>,
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tzung-Bi Shih <tzungbi@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Daniel Scally <djrscally@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
- linux-usb@vger.kernel.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v3 05/17] usb: typec: Add device managed
- typec_switch_register()
-Message-ID: <ZsTPeEsS1m4Y8imq@smile.fi.intel.com>
-References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-6-swboyd@chromium.org>
- <ZsRs6d6uOMb4DqQQ@smile.fi.intel.com>
- <CAE-0n52O01UgrDT2=-JJpZj39BOJNyyQC4w_pgDUmKDmcN=8Yw@mail.gmail.com>
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 726B110E7D4;
+ Tue, 20 Aug 2024 17:17:05 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2d3ec4bacc5so2890213a91.1; 
+ Tue, 20 Aug 2024 10:17:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724174225; x=1724779025; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dx99I4gVjE0nKHxOcEFDps9UKSShAk0pVoAeBRskDVw=;
+ b=ipj1TE6XUXwsq1p5jY6Z7gHwQeX4Dnydc5ppHY8h6Fyw2fmp9g5dPWlY714aFKLEFc
+ 9MZdu8zf2DkW938Ba07tQlf4A8aXG4GZnvULrRsDojKaPsVCFWjOEjjlGX1gYfb8iyFg
+ BVKXzZXKCxocWLrEZgfOmFFoynAMRBtFR4vb1hbhfr61x3oKU+PU2n+jq+jyb5gDIwR3
+ i/NoHGTKiymxr2Fnp2xvn36JhdT7XhJ4q1N+1mMiDqG9YEDQEi9R+P3Dw4XfvxNdcg8h
+ rubFymYyGexfNhFHI8Jx8271bmurGqRlzTuPYbVwrgZtLVAN6cLIn88+xcGru8NdAwGU
+ 7hFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724174225; x=1724779025;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dx99I4gVjE0nKHxOcEFDps9UKSShAk0pVoAeBRskDVw=;
+ b=FDXxcKEQy0o2e/VHxy2KD2TMnI0TOitgklX88f2HLKDsdoAiMKIzaUfatyB/Nu+Svn
+ eyubiv0GQ5ZDa95FhSRU4Bh6e/d0rmTCMvW8t/ECWBAsmikflmwc4T5+zYcYmJed7bG8
+ JkBq6Vc1u+w9mG8jcwfoQtnn/1+iTvXdPywbTqx4b3XA2qtDIk38EKI7avAZm1Ye3Cf6
+ sUqgW+AcBbZaDPwhLbbNAkIL1ddSuYpSHj4srBwesukE9raDuTEluUBrBr9GUBoh+hum
+ r8jCQ+SI4xfKbKaTGAWwWZYTznMAFHaZWnszWyNfIgfB0qQDYz6X14HrygCtjmzuw+t/
+ d8rg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGq+JOQnypxm5qUrLSCTotjuWDOTAUAA1QqtaU5q5KLdBtY/TU6hAOXZuBdvKW1Q8npSPSwKxbgS8=@lists.freedesktop.org,
+ AJvYcCWHfgHqDHjDwPhg8OMyWG/r8T2RbG++84tUgyEj2REjKGj/KQcju3NhxBhAS3xVLPimOf/AhEA4AQHS@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywx6LZpJezqdmJgrESy8510H6IT8sWDIKWr71oTRr3Kk/LuoTcs
+ maeX6OVJJs2AVpn1aEMjiyzTX059DtjXr1BLzNlReUnExHrRL3hl
+X-Google-Smtp-Source: AGHT+IFqPaVzJwjKdCz+zT/UW2wJpDdZc+xGRDH+xt/ijn6H6ZIBqZtSC9ajtEejlFBlcXFWdHaCwg==
+X-Received: by 2002:a17:90a:ce08:b0:2ab:8324:1b47 with SMTP id
+ 98e67ed59e1d1-2d47327c70bmr5465287a91.15.1724174224643; 
+ Tue, 20 Aug 2024 10:17:04 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:bd02:d0ce:e791:dc08:a375])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2d3e3171e01sm9721042a91.30.2024.08.20.10.17.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Aug 2024 10:17:04 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: iommu@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Mostafa Saleh <smostafa@google.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robdclark@chromium.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
+ GPUs), Jason Gunthorpe <jgg@ziepe.ca>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ linux-pm@vger.kernel.org (open list:SUSPEND TO RAM),
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Nicolin Chen <nicolinc@nvidia.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sean Paul <sean@poorly.run>
+Subject: [PATCH v7 0/4] io-pgtable-arm + drm/msm: Extend iova fault debugging
+Date: Tue, 20 Aug 2024 10:16:43 -0700
+Message-ID: <20240820171652.145673-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n52O01UgrDT2=-JJpZj39BOJNyyQC4w_pgDUmKDmcN=8Yw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,40 +95,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 20, 2024 at 10:01:07AM -0700, Stephen Boyd wrote:
-> Quoting Andy Shevchenko (2024-08-20 03:16:09)
-> > On Mon, Aug 19, 2024 at 03:38:19PM -0700, Stephen Boyd wrote:
-> > > +     ptr = devres_alloc(devm_typec_switch_unregister, sizeof(*ptr), GFP_KERNEL);
-> > > +     if (!ptr)
-> > > +             return ERR_PTR(-ENOMEM);
-> > > +
-> > > +     switch_dev = typec_switch_register(parent ,desc);
+From: Rob Clark <robdclark@chromium.org>
 
-(Side note: wrong location of the white space)
+This series extends io-pgtable-arm with a method to retrieve the page
+table entries traversed in the process of address translation, and then
+beefs up drm/msm gpu devcore dump to include this (and additional info)
+in the devcore dump.
 
-> > > +     if (!IS_ERR(switch_dev)) {
+This is a respin of https://patchwork.freedesktop.org/series/94968/
+(minus a patch that was already merged)
 
-(Side note: positive conditional is okay)
+v2: Fix an armv7/32b build error in the last patch
+v3: Incorperate Will Deacon's suggestion to make the interface
+    callback based.
+v4: Actually wire up the callback
+v5: Drop the callback approach
+v6: Make walk-data struct pgtable specific and rename
+    io_pgtable_walk_data to arm_lpae_io_pgtable_walk_data
+v7: Re-use the pgtable walker added for arm_lpae_read_and_clear_dirty()
 
-> > > +             *ptr = switch_dev;
-> > > +             devres_add(parent, ptr);
-> > > +     } else {
-> > > +             devres_free(ptr);
-> > > +     }
-> >
-> > devm_add_action_or_reset() ?
-> 
-> No. We don't want to call the 'action' devm_typec_switch_unregister()
-> when it fails because that would unregister a switch that has never been
-> registered.
+Rob Clark (4):
+  iommu/io-pgtable-arm: Make pgtable walker more generic
+  iommu/io-pgtable-arm: Re-use the pgtable walk for iova_to_phys
+  iommu/io-pgtable-arm: Add way to debug pgtable walk
+  drm/msm: Extend gpu devcore dumps with pgtbl info
 
-Hmm... With devm_add_action_or_reset() we first do things and then try to add
-them to the managed resources. In that case it won't be like you described.
-
-What do I miss?
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  10 ++
+ drivers/gpu/drm/msm/msm_gpu.c           |   9 ++
+ drivers/gpu/drm/msm/msm_gpu.h           |   8 ++
+ drivers/gpu/drm/msm/msm_iommu.c         |  22 ++++
+ drivers/gpu/drm/msm/msm_mmu.h           |   3 +-
+ drivers/iommu/io-pgtable-arm.c          | 147 +++++++++++++++---------
+ include/linux/io-pgtable.h              |  15 +++
+ 7 files changed, 158 insertions(+), 56 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.46.0
 
