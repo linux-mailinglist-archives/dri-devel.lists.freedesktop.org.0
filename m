@@ -2,83 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A41958440
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB4695847A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 12:29:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB9D10E6D1;
-	Tue, 20 Aug 2024 10:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA7710E0D7;
+	Tue, 20 Aug 2024 10:29:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CXMLsoIW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Xg4RkZfo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFBE210E6D1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:23:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724149434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z6yD7EXxtMSIEgaYn1Mu8m1V6SKjE9QoBiwRx7GBEwE=;
- b=CXMLsoIWK640wvM4B+egcAz+yREwU/VZwIij4vO4vVZBDSMDm83wE9dZsiuq8MzmmMupWy
- yW7w6Lycw6mtke+RCwqJUP3fybPUpHMUzfFMjDhdNSqtaYJKVSCClxN6kGjom3LjQAVc+h
- Mg6cchgxAirX9CGwxANVBR0AYvLOrf0=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-60-2eQauKz_NZ-6X-Qm85SK_Q-1; Tue, 20 Aug 2024 06:23:53 -0400
-X-MC-Unique: 2eQauKz_NZ-6X-Qm85SK_Q-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2f3f2bf2738so288321fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 03:23:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724149432; x=1724754232;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECB1410E0D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 10:29:15 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-52efd530a4eso8286231e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 03:29:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1724149754; x=1724754554; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=d4c+7fu/VdEpjhH3XMlyk8gLAqXF7DZDZmgZbuAUUV0=;
- b=qs/STFjXH/3UnpUMo9gwf510Xs/nA1i2u2HzDT2mzZNpxa1qxxFT0+EnF0S4oQfcrI
- YZR2eRctvNVbdrctTeH02RzJu6A2IAbctX4o7ecyUyUfXD+edv1iTdRewSe6x472TPZC
- ao0HfR4RY+tZRqVD95zryqDPyj6fNtFR33W8liL+rpA4LiDbE1DA8nn+r0R0CzTm07u0
- LX1Jg7ndLmNfiZb2Yg6B1KYRi9TRM4DKmjLF5MJxp75Wilktotig2acFtMCgJNw8fKLi
- mwQrzvKihhDZTBlz5PkXppHgoKEHVvdQmTKu1wpw76GFHAJjGXBcfZDdtsDrj1N/qzhJ
- yjug==
-X-Gm-Message-State: AOJu0YwaK5h8Cj5WIOyDDFrKipfoiws0kiQ+0Xu88VAmt9E/yND0LyM1
- oyWXcrTEHWQzZLUh6L+A3VCLvKztUrOhNv/+jogwl4ZeiR1NLNf7ys4AGX6C4q3uYrCG/P/MmPl
- 7/7VzvPLK1ui0WsRmRrIMbzD8nV++JWNju4aLo3tgh2W0ug095fuQqj20XLAgmnTH0g==
-X-Received: by 2002:a2e:bc20:0:b0:2f1:929b:af00 with SMTP id
- 38308e7fff4ca-2f3be5eaebbmr55822191fa.5.1724149431661; 
- Tue, 20 Aug 2024 03:23:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKOBhR4ojLfA+j+V5ryjxkELVaKf/dDRfbA6pDJgghg5Ap7oA8FDtLoCFdCUzkszAjQ4sRng==
-X-Received: by 2002:a2e:bc20:0:b0:2f1:929b:af00 with SMTP id
- 38308e7fff4ca-2f3be5eaebbmr55822061fa.5.1724149431052; 
- Tue, 20 Aug 2024 03:23:51 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3dcc:1f00:bec1:681e:45eb:77e2])
+ bh=XLslNJbTezxw++YTtyZDg5OdRSNGulfETkjoliRRi40=;
+ b=Xg4RkZfosTumL+k8s7hpScD59/RNaNNqQrbrAitp7gg9/kx6uBBZp6tVq0HrPzTQFp
+ /4YUVd8Bf207k+IO1w2V6KgUKtwvESQob6+MIchEVcgfMfQ9mT7g761qHyvQ786VfRzr
+ tcuAAgeajKI+7Jif0UpHMkPQVvaonLKVZAdpqWv2ivvSGL2LZIvbyKiOzdZbRyrBhqrZ
+ QdtWJ1uSwb3QFnHNd4N0m9mzJ/tIkEZs7Pbca9I+u9NKgPngMG9IzZqogKHd//iqKDhq
+ Tvu6e2oT1vkoXqpY/QafmxP4OnYYclWF4c4hqP06oE4phBsLrzgc5EhmH26qiTZ+GFIV
+ eMFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724149754; x=1724754554;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XLslNJbTezxw++YTtyZDg5OdRSNGulfETkjoliRRi40=;
+ b=vAkh8OEXT1OrH5kzwiD32ZdDdUqnx/8/8MJubhHf+23EUHARGQ7ePpOBeQSszC5Mwp
+ CrKoPbxsjmAw+/fY+kEEtU2jqGxrWfdY+kAbFsJhQEeczYUJCJ66X1/sP4aFVUsIgzyW
+ XCv177xdV/6rHGHbrkQAg1VqMo436GuC/ahCIbLs8BzvMDIrKe0HrfPBolIPqY4d63iG
+ MB3sZ3ez1K9bhgMIq9TeqXxIAVs3HIbd6Wx2opfhrWoKflrPGhxGdDD0c8kgSWmj6Xp+
+ 8nyTAOuGFrysLIPzlx6MQsBFYw6aRd3zohe778uERIy54Wt5FUbTFADduDEm+iKAenUC
+ GvgQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVd3mMEKabvmIVdk8RvwQZaWD+g8n+o11AYL8VkXclWgW1vxNQQT8lBxp5tkiXGaPDCXOPyrw/nz9w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykCNj92HZh6jko8QTOw0znXUb0lXZHBuwmftPdIx/+EJRZ3+bD
+ LZpOgRDK1fINYMyh53TqAm0RQw3wpJdcVAZvpy07TJyTFCE09w8oobfjI4YBYts=
+X-Google-Smtp-Source: AGHT+IFFpLtC3+GFPbrVrEsoB2+dX1KkgyRT1pLdP3iC6fK5TrNM0kWSAyVBlIi34jBQJwPI4gYVww==
+X-Received: by 2002:a05:6512:3e09:b0:530:e254:8cdc with SMTP id
+ 2adb3069b0e04-5331c695ad9mr9263175e87.8.1724149753741; 
+ Tue, 20 Aug 2024 03:29:13 -0700 (PDT)
+Received: from ?IPV6:2a02:8109:aa0d:be00::676e? ([2a02:8109:aa0d:be00::676e])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a83838c69easm747601766b.40.2024.08.20.03.23.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2024 03:23:50 -0700 (PDT)
-Message-ID: <46046055be8fcf29949d36778bdb4ee7a7b6ed67.camel@redhat.com>
-Subject: Re: [PATCH 1/2] drm/sched: memset() 'job' in drm_sched_job_init()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
- <matthew.brost@intel.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 20 Aug 2024 12:23:49 +0200
-In-Reply-To: <20240806143855.29789-2-pstanner@redhat.com>
-References: <20240806143855.29789-2-pstanner@redhat.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+ a640c23a62f3a-a838393571bsm747673866b.98.2024.08.20.03.29.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Aug 2024 03:29:13 -0700 (PDT)
+Message-ID: <a6c23b5d-f65e-4094-9834-84840fdb0269@linaro.org>
+Date: Tue, 20 Aug 2024 12:29:12 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] misc: fastrpc: Add support for multiple PD from one
+ process
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>, srinivas.kandagatla@linaro.org, 
+ linux-arm-msm@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de
+References: <20240808104228.839629-1-quic_ekangupt@quicinc.com>
+ <ed270718-63ef-4484-9856-0ff488e01b98@linaro.org>
+ <a0b522f5-8d70-4659-be00-d37bfbc39994@quicinc.com>
+Content-Language: en-US
+From: Caleb Connolly <caleb.connolly@linaro.org>
+In-Reply-To: <a0b522f5-8d70-4659-be00-d37bfbc39994@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,67 +90,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-*PING*
 
 
-On Tue, 2024-08-06 at 16:38 +0200, Philipp Stanner wrote:
-> drm_sched_job_init() has no control over how users allocate struct
-> drm_sched_job. Unfortunately, the function can also not set some
-> struct
-> members such as job->sched.
->=20
-> This could theoretically lead to UB by users dereferencing the
-> struct's
-> pointer members too early.
->=20
-> It is easier to debug such issues if these pointers are initialized
-> to
-> NULL, so dereferencing them causes a NULL pointer exception.
-> Accordingly, drm_sched_entity_init() does precisely that and
-> initializes
-> its struct with memset().
->=20
-> Initialize parameter "job" to 0 in drm_sched_job_init().
->=20
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
-> Hi all,
-> I did some experiments with the scheduler recently and am trying to
-> make
-> the documentation and bits of the code more bullet proof.
->=20
-> I tested the performance of v6.11-rc2 with and without this memset()
-> by
-> creating 1e6 jobs and found no performance regression.
->=20
-> Cheers,
-> P.
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 8 ++++++++
-> =C2=A01 file changed, 8 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index 76969f9c59c2..1498ee3cbf39 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -936,6 +936,14 @@ int drm_sched_job_init(struct drm_sched_job
-> *job,
-> =C2=A0=09=09return -EINVAL;
-> =C2=A0=09}
-> =C2=A0
-> +=09/*
-> +=09 * We don't know for sure how the user has allocated. Thus,
-> zero the
-> +=09 * struct so that unallowed (i.e., too early) usage of
-> pointers that
-> +=09 * this function does not set is guaranteed to lead to a
-> NULL pointer
-> +=09 * exception instead of UB.
-> +=09 */
-> +=09memset(job, 0, sizeof(*job));
-> +
-> =C2=A0=09job->entity =3D entity;
-> =C2=A0=09job->credits =3D credits;
-> =C2=A0=09job->s_fence =3D drm_sched_fence_alloc(entity, owner);
+On 20/08/2024 07:18, Ekansh Gupta wrote:
+> 
+> 
+> On 8/19/2024 4:35 PM, Caleb Connolly wrote:
+>> Hi Ekansh,
+>>
+>> On 08/08/2024 12:42, Ekansh Gupta wrote:
+>>> Memory intensive applications(which requires more tha 4GB) that wants
+>>> to offload tasks to DSP might have to split the tasks to multiple
+>>> user PD to make the resources available.
+>>>
+>>> For every call to DSP, fastrpc driver passes the process tgid which
+>>> works as an identifier for the DSP to enqueue the tasks to specific PD.
+>>> With current design, if any process opens device node more than once
+>>> and makes PD init request, same tgid will be passed to DSP which will
+>>> be considered a bad request and this will result in failure as the same
+>>> identifier cannot be used for multiple DSP PD.
+>>>
+>>> Assign and pass a client ID to DSP which would be assigned during device
+>>> open and will be dependent on the index of session allocated for the PD.
+>>> This will allow the same process to open the device more than once and
+>>> spawn multiple dynamic PD for ease of processing.
+>>
+>> A test tool to validate this fix and prevent it regressing in the future would be a good addition here.
+> Thanks for reviewing the change, Caleb.
+> 
+> This is more of a feature than a bug fix as it just adding support to spawn multiple user PDs from
+> single process. Test cases for this feature was added to the recent versions of Hexagon SDK.
 
+The Hexagon SDK is not available without making an account on 
+Qualcomm.com and clicking through at least on EULA.
+
+This should be publicly available source code (e.g. on GitHub) with 
+documentation, something that someone with minimal experience using 
+fastrpc could quickly get up and running on their device to test fastrpc.
+
+> 
+> --Ekansh
+>>>
+>>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+>>> ---
+>>> Changes in v2:
+>>>     - Reformatted commit text.
+>>>     - Moved from ida to idr.
+>>>     - Changed dsp_pgid data type.
+>>>     - Resolved memory leak.
+>>> Changes in v3:
+>>>     - Modified commit text.
+>>>     - Removed idr implementation.
+>>>     - Using session index for client id.
+>>>
+>>>    drivers/misc/fastrpc.c | 30 ++++++++++++++++--------------
+>>>    1 file changed, 16 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>>> index a7a2bcedb37e..0ce1eedcb2c3 100644
+>>> --- a/drivers/misc/fastrpc.c
+>>> +++ b/drivers/misc/fastrpc.c
+>>> @@ -38,6 +38,7 @@
+>>>    #define FASTRPC_INIT_HANDLE    1
+>>>    #define FASTRPC_DSP_UTILITIES_HANDLE    2
+>>>    #define FASTRPC_CTXID_MASK (0xFF0)
+>>> +#define FASTRPC_CLIENTID_MASK (16)
+>>>    #define INIT_FILELEN_MAX (2 * 1024 * 1024)
+>>>    #define INIT_FILE_NAMELEN_MAX (128)
+>>>    #define FASTRPC_DEVICE_NAME    "fastrpc"
+>>> @@ -298,7 +299,7 @@ struct fastrpc_user {
+>>>        struct fastrpc_session_ctx *sctx;
+>>>        struct fastrpc_buf *init_mem;
+>>>    -    int tgid;
+>>> +    int client_id;
+>>>        int pd;
+>>>        bool is_secure_dev;
+>>>        /* Lock for lists */
+>>> @@ -613,7 +614,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+>>>        ctx->sc = sc;
+>>>        ctx->retval = -1;
+>>>        ctx->pid = current->pid;
+>>> -    ctx->tgid = user->tgid;
+>>> +    ctx->tgid = user->client_id;
+>>>        ctx->cctx = cctx;
+>>>        init_completion(&ctx->work);
+>>>        INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
+>>> @@ -1111,7 +1112,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
+>>>        int ret;
+>>>          cctx = fl->cctx;
+>>> -    msg->pid = fl->tgid;
+>>> +    msg->pid = fl->client_id;
+>>>        msg->tid = current->pid;
+>>>          if (kernel)
+>>> @@ -1294,7 +1295,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+>>>            }
+>>>        }
+>>>    -    inbuf.pgid = fl->tgid;
+>>> +    inbuf.pgid = fl->client_id;
+>>>        inbuf.namelen = init.namelen;
+>>>        inbuf.pageslen = 0;
+>>>        fl->pd = USER_PD;
+>>> @@ -1396,7 +1397,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+>>>            goto err;
+>>>        }
+>>>    -    inbuf.pgid = fl->tgid;
+>>> +    inbuf.pgid = fl->client_id;
+>>>        inbuf.namelen = strlen(current->comm) + 1;
+>>>        inbuf.filelen = init.filelen;
+>>>        inbuf.pageslen = 1;
+>>> @@ -1470,8 +1471,9 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+>>>    }
+>>>      static struct fastrpc_session_ctx *fastrpc_session_alloc(
+>>> -                    struct fastrpc_channel_ctx *cctx)
+>>> +                    struct fastrpc_user *fl)
+>>>    {
+>>> +    struct fastrpc_channel_ctx *cctx = fl->cctx;
+>>>        struct fastrpc_session_ctx *session = NULL;
+>>>        unsigned long flags;
+>>>        int i;
+>>> @@ -1481,6 +1483,7 @@ static struct fastrpc_session_ctx *fastrpc_session_alloc(
+>>>            if (!cctx->session[i].used && cctx->session[i].valid) {
+>>>                cctx->session[i].used = true;
+>>>                session = &cctx->session[i];
+>>> +            fl->client_id = FASTRPC_CLIENTID_MASK | i;
+>>>                break;
+>>>            }
+>>>        }
+>>> @@ -1505,7 +1508,7 @@ static int fastrpc_release_current_dsp_process(struct fastrpc_user *fl)
+>>>        int tgid = 0;
+>>>        u32 sc;
+>>>    -    tgid = fl->tgid;
+>>> +    tgid = fl->client_id;
+>>>        args[0].ptr = (u64)(uintptr_t) &tgid;
+>>>        args[0].length = sizeof(tgid);
+>>>        args[0].fd = -1;
+>>> @@ -1580,11 +1583,10 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
+>>>        INIT_LIST_HEAD(&fl->maps);
+>>>        INIT_LIST_HEAD(&fl->mmaps);
+>>>        INIT_LIST_HEAD(&fl->user);
+>>> -    fl->tgid = current->tgid;
+>>>        fl->cctx = cctx;
+>>>        fl->is_secure_dev = fdevice->secure;
+>>>    -    fl->sctx = fastrpc_session_alloc(cctx);
+>>> +    fl->sctx = fastrpc_session_alloc(fl);
+>>>        if (!fl->sctx) {
+>>>            dev_err(&cctx->rpdev->dev, "No session available\n");
+>>>            mutex_destroy(&fl->mutex);
+>>> @@ -1648,7 +1650,7 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
+>>>    static int fastrpc_init_attach(struct fastrpc_user *fl, int pd)
+>>>    {
+>>>        struct fastrpc_invoke_args args[1];
+>>> -    int tgid = fl->tgid;
+>>> +    int tgid = fl->client_id;
+>>>        u32 sc;
+>>>          args[0].ptr = (u64)(uintptr_t) &tgid;
+>>> @@ -1804,7 +1806,7 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
+>>>        int err;
+>>>        u32 sc;
+>>>    -    req_msg.pgid = fl->tgid;
+>>> +    req_msg.pgid = fl->client_id;
+>>>        req_msg.size = buf->size;
+>>>        req_msg.vaddr = buf->raddr;
+>>>    @@ -1890,7 +1892,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+>>>            return err;
+>>>        }
+>>>    -    req_msg.pgid = fl->tgid;
+>>> +    req_msg.pgid = fl->client_id;
+>>>        req_msg.flags = req.flags;
+>>>        req_msg.vaddr = req.vaddrin;
+>>>        req_msg.num = sizeof(pages);
+>>> @@ -1980,7 +1982,7 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
+>>>            return -EINVAL;
+>>>        }
+>>>    -    req_msg.pgid = fl->tgid;
+>>> +    req_msg.pgid = fl->client_id;
+>>>        req_msg.len = map->len;
+>>>        req_msg.vaddrin = map->raddr;
+>>>        req_msg.fd = map->fd;
+>>> @@ -2033,7 +2035,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
+>>>            return err;
+>>>        }
+>>>    -    req_msg.pgid = fl->tgid;
+>>> +    req_msg.pgid = fl->client_id;
+>>>        req_msg.fd = req.fd;
+>>>        req_msg.offset = req.offset;
+>>>        req_msg.vaddrin = req.vaddrin;
+>>
+> 
+
+-- 
+// Caleb (they/them)
