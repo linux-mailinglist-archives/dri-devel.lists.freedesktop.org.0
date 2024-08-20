@@ -2,137 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CC59587D5
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 15:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218C6958801
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 15:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 107E310E129;
-	Tue, 20 Aug 2024 13:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044C510E7D5;
+	Tue, 20 Aug 2024 13:33:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kX1d74CT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lP0iJCeP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kX1d74CT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lP0iJCeP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fK8z1eii";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54EB10E7D3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 13:26:01 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C5F951F83C;
- Tue, 20 Aug 2024 13:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724160359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UvNwgjta5GO0j0z4dnTenFFJz//uOp/E2WaQhkMWT4A=;
- b=kX1d74CTWKS6onuotU5oaERApySkv7MpMlqMsxtctkOYCVePPKtb+pTuowMVcQJrzWuPfw
- IGByhQcFKU3JNFn/ty5/+wfkD+RMQTFn7OvDDAJzXl/rsgVJqmdyDTV4EbYH+btYpNTyxw
- vx+3/dc5jkqMOtdJh+Mddu6JAIWljgQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724160359;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UvNwgjta5GO0j0z4dnTenFFJz//uOp/E2WaQhkMWT4A=;
- b=lP0iJCePyYjoYvs+EQ9UuLI72x53mQlNC5voqU+v2RpHwD9lYWTtKtwBNv1mkgaoF21sCG
- EzR4H8HLzzJVg0DQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724160359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UvNwgjta5GO0j0z4dnTenFFJz//uOp/E2WaQhkMWT4A=;
- b=kX1d74CTWKS6onuotU5oaERApySkv7MpMlqMsxtctkOYCVePPKtb+pTuowMVcQJrzWuPfw
- IGByhQcFKU3JNFn/ty5/+wfkD+RMQTFn7OvDDAJzXl/rsgVJqmdyDTV4EbYH+btYpNTyxw
- vx+3/dc5jkqMOtdJh+Mddu6JAIWljgQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724160359;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UvNwgjta5GO0j0z4dnTenFFJz//uOp/E2WaQhkMWT4A=;
- b=lP0iJCePyYjoYvs+EQ9UuLI72x53mQlNC5voqU+v2RpHwD9lYWTtKtwBNv1mkgaoF21sCG
- EzR4H8HLzzJVg0DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7DBCA13770;
- Tue, 20 Aug 2024 13:25:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id UTFmHWeZxGaKDgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Aug 2024 13:25:59 +0000
-Message-ID: <d2a4bf58-ce00-4ddd-a566-50a36db95cd3@suse.de>
-Date: Tue, 20 Aug 2024 15:25:59 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 342D710E7D4;
+ Tue, 20 Aug 2024 13:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724160827; x=1755696827;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=GUDTef32w6NC9/PmUaPHd4SwljSuMc10LzU6k9qeT4Y=;
+ b=fK8z1eiiTm0Uo5fMXPHVUaVd8PykApbivWa+ipzgUVbEHKxpT/UNaMKu
+ KjL934FWfw5wCK4nc0QXWi3LZB0Lcjd/mm7ZO9N0crwEAhIBRe0Yry8NF
+ ocGjti/7LP2p4sj+Rkg3TyZ2KC53OBfsLHsC+iXHIPbYqL37dB3KnhOvN
+ z5CFiJkErIHYalJ9RaJLq1xybfi/+J6Rjo+zR7LOzTCbF2EYhi6RuyLhT
+ RSijcy3n1t+QAxm6a6YL5QSwF4B8UpJVfzvOIuF52znd6XTCm3NlSk3hT
+ 8T0TbmoU2cZJ1OTXXgvw6pALIq6Bi6cE4RoQINeFSIozHkLcbrXlCHlM8 w==;
+X-CSE-ConnectionGUID: bCjpIHtARIiRUVtNBJCzEA==
+X-CSE-MsgGUID: yLzvZ46FTW2N00ct/9Yq7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33614874"
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="33614874"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2024 06:33:47 -0700
+X-CSE-ConnectionGUID: q6lcPdq5TjeESUBRSW86Sg==
+X-CSE-MsgGUID: wFFaG+C1R7q+ixiQ4ABnvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; d="scan'208";a="65596413"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.245.74])
+ ([10.245.245.74])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2024 06:33:46 -0700
+Message-ID: <a09a268099ef61c46cf53f0d8847a8f07caa210e.camel@linux.intel.com>
+Subject: Re: [PATCH v6 1/2] drm/ttm: Add a flag to allow drivers to skip
+ clear-on-free
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Date: Tue, 20 Aug 2024 15:33:43 +0200
+In-Reply-To: <20240816135154.19678-1-nirmoy.das@intel.com>
+References: <20240816135154.19678-1-nirmoy.das@intel.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/virtio: Fix host color format for big endian
- guests
-To: Jocelyn Falempe <jfalempe@redhat.com>, David Airlie <airlied@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-References: <20240820090908.151042-1-jfalempe@redhat.com>
- <20240820090908.151042-2-jfalempe@redhat.com>
- <efe083ed-b83b-45e8-a418-1861f535e31f@suse.de>
- <ddd41844-1d3e-4755-9013-9ae4e751c501@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <ddd41844-1d3e-4755-9013-9ae4e751c501@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.28
-X-Spamd-Result: default: False [-4.28 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.18)[-0.908]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[redhat.com,chromium.org,gmail.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org,lists.linux.dev];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[11]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,102 +74,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi, Nirmoy, Christian
 
-Am 20.08.24 um 14:55 schrieb Jocelyn Falempe:
-> On 20/08/2024 14:48, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 20.08.24 um 11:07 schrieb Jocelyn Falempe:
->>> The colors are inverted when testing a s390x VM on a s390x host.
->>> Changing the conversion from DRM_FORMAT -> VIRTIO_GPU_FORMAT on big
->>> endian guests fixes the colors. But it may break big-endian guest on
->>> little-endian host. In this case, the fix should be in qemu, because
->>> the host endianess is not known in the guest VM.
->>>
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
->>> ---
->>>   drivers/gpu/drm/virtio/virtgpu_plane.c | 12 ++++++++++--
->>>   1 file changed, 10 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c 
->>> b/drivers/gpu/drm/virtio/virtgpu_plane.c
->>> index 860b5757ec3fc..0ec6ecc96eb13 100644
->>> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
->>> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
->>> @@ -37,16 +37,24 @@ static const uint32_t 
->>> virtio_gpu_cursor_formats[] = {
->>>       DRM_FORMAT_ARGB8888,
->>>   };
->>> +#ifdef __BIG_ENDIAN
->>> +#define VIRTIO_GPU_HOST_XRGB8888 VIRTIO_GPU_FORMAT_X8R8G8B8_UNORM
->>> +#define VIRTIO_GPU_HOST_ARGB8888 VIRTIO_GPU_FORMAT_A8R8G8B8_UNORM
->>> +#else
->>> +#define VIRTIO_GPU_HOST_XRGB8888 VIRTIO_GPU_FORMAT_B8G8R8X8_UNORM
->>> +#define VIRTIO_GPU_HOST_ARGB8888 VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM
->>> +#endif
->>
->> As these defines are only used here, would it be beneficial to put 
->> the __BIG_ENDIAN branch directly around the switch statement?
->
-> That was my first version, but I found it difficult to read, when I 
-> mix #ifdef in a switch case.
->
->
-> or maybe something like the following would be better ?
->
->
->      switch (drm_fourcc) {
-> #ifdef _BIG_ENDIAN
->      case DRM_FORMAT_XRGB8888:
->         format = VIRTIO_GPU_FORMAT_X8R8G8B8_UNORM;
->          break;
->      case DRM_FORMAT_ARGB8888:
->         format = VIRTIO_GPU_FORMAT_A8R8G8B8_UNORM;
->          break;
-> #else
->      case DRM_FORMAT_XRGB8888:
->         format = VIRTIO_GPU_FORMAT_B8G8R8X8_UNORM;
->          break;
->      case DRM_FORMAT_ARGB8888:
->         format = VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM;
->          break;
-> #endif
+On Fri, 2024-08-16 at 15:51 +0200, Nirmoy Das wrote:
+> Add TTM_TT_FLAG_CLEARED_ON_FREE, which DRM drivers can set before
+> releasing backing stores if they want to skip clear-on-free.
+>=20
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Suggested-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-I have no preference. Maybe the virtio devs can comment.
+What happens if two devices share the same global TTM pool
+ type and one that does its own clearing. Wouldn't there be a pretty
+high chance that the the device that doesn't clear its own pages
+allocate non-cleared memory from the pool?
 
-Best regards
-Thomas
+/Thomas
 
->>
->> Best regards
->> Thomas
->>
->>> +
->>>   uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
->>>   {
->>>       uint32_t format;
->>>       switch (drm_fourcc) {
->>>       case DRM_FORMAT_XRGB8888:
->>> -        format = VIRTIO_GPU_FORMAT_B8G8R8X8_UNORM;
->>> +        format = VIRTIO_GPU_HOST_XRGB8888;
->>>           break;
->>>       case DRM_FORMAT_ARGB8888:
->>> -        format = VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM;
->>> +        format = VIRTIO_GPU_HOST_ARGB8888;
->>>           break;
->>>       default:
->>>           /*
->>
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> ---
+> =C2=A0drivers/gpu/drm/ttm/ttm_pool.c | 18 +++++++++++-------
+> =C2=A0include/drm/ttm/ttm_tt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 6 +++++-
+> =C2=A02 files changed, 16 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
+> b/drivers/gpu/drm/ttm/ttm_pool.c
+> index 8504dbe19c1a..935ab3cfd046 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -222,15 +222,18 @@ static void ttm_pool_unmap(struct ttm_pool
+> *pool, dma_addr_t dma_addr,
+> =C2=A0}
+> =C2=A0
+> =C2=A0/* Give pages into a specific pool_type */
+> -static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page
+> *p)
+> +static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page
+> *p,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool cleared)
+> =C2=A0{
+> =C2=A0	unsigned int i, num_pages =3D 1 << pt->order;
+> =C2=A0
+> -	for (i =3D 0; i < num_pages; ++i) {
+> -		if (PageHighMem(p))
+> -			clear_highpage(p + i);
+> -		else
+> -			clear_page(page_address(p + i));
+> +	if (!cleared) {
+> +		for (i =3D 0; i < num_pages; ++i) {
+> +			if (PageHighMem(p))
+> +				clear_highpage(p + i);
+> +			else
+> +				clear_page(page_address(p + i));
+> +		}
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	spin_lock(&pt->lock);
+> @@ -394,6 +397,7 @@ static void ttm_pool_free_range(struct ttm_pool
+> *pool, struct ttm_tt *tt,
+> =C2=A0				pgoff_t start_page, pgoff_t
+> end_page)
+> =C2=A0{
+> =C2=A0	struct page **pages =3D &tt->pages[start_page];
+> +	bool cleared =3D tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE;
+> =C2=A0	unsigned int order;
+> =C2=A0	pgoff_t i, nr;
+> =C2=A0
+> @@ -407,7 +411,7 @@ static void ttm_pool_free_range(struct ttm_pool
+> *pool, struct ttm_tt *tt,
+> =C2=A0
+> =C2=A0		pt =3D ttm_pool_select_type(pool, caching, order);
+> =C2=A0		if (pt)
+> -			ttm_pool_type_give(pt, *pages);
+> +			ttm_pool_type_give(pt, *pages, cleared);
+> =C2=A0		else
+> =C2=A0			ttm_pool_free_page(pool, caching, order,
+> *pages);
+> =C2=A0	}
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index 2b9d856ff388..cfaf49de2419 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -85,6 +85,9 @@ struct ttm_tt {
+> =C2=A0	 * fault handling abuses the DMA api a bit and dma_map_attrs
+> can't be
+> =C2=A0	 * used to assure pgprot always matches.
+> =C2=A0	 *
+> +	 * TTM_TT_FLAG_CLEARED_ON_FREE: Set this if a drm driver
+> handles
+> +	 * clearing backing store
+> +	 *
+> =C2=A0	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT
+> USE. This is
+> =C2=A0	 * set by TTM after ttm_tt_populate() has successfully
+> returned, and is
+> =C2=A0	 * then unset when TTM calls ttm_tt_unpopulate().
+> @@ -94,8 +97,9 @@ struct ttm_tt {
+> =C2=A0#define TTM_TT_FLAG_EXTERNAL		BIT(2)
+> =C2=A0#define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
+> =C2=A0#define TTM_TT_FLAG_DECRYPTED		BIT(4)
+> +#define TTM_TT_FLAG_CLEARED_ON_FREE	BIT(5)
+> =C2=A0
+> -#define TTM_TT_FLAG_PRIV_POPULATED	BIT(5)
+> +#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
+> =C2=A0	uint32_t page_flags;
+> =C2=A0	/** @num_pages: Number of pages in the page array. */
+> =C2=A0	uint32_t num_pages;
 
