@@ -2,149 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9287D957B0A
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 03:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F7D957B0F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2024 03:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E16910E350;
-	Tue, 20 Aug 2024 01:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1664610E3A0;
+	Tue, 20 Aug 2024 01:37:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="ACPQEUOl";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="d8+yKVl5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYVP286CU001.outbound.protection.outlook.com
- (mail-japaneastazon11011053.outbound.protection.outlook.com [52.101.125.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B18310E350
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 01:36:46 +0000 (UTC)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2089.outbound.protection.outlook.com [40.107.255.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 193CC10E39B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 01:37:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FUqddecPG83EOwb6f5j7HjFAxcv7x63siGwZSmYnZlSpnyQ0IGzwd9kya8ODTLLGSC598RI9BtUfE2h1F7AYHoSDqfoUeQEyCo1JfT1Wb06RtmxPAf38UJprgiRDak1EbohxatTX09XaWUuDcpzSUVsmVHakFiP8e03gSenIUd6rSIu03YLQsYBeMC4Ec5hnD5Hu6YwzQGp6Xho++DdMcyiK0PI7UDCsCmq0jGEz0SqLp5tTNUC0/Nt+nE7TJkKwfoWRGhSXcTsr6vmr0KVPw7zrdEFoRYfTV5lJcdJIJYj0jzCzveUPHjxQrYHUNF0jZRiglFuz3JQRp0snpsLcuw==
+ b=XABwvN29SNC8lVuFM+E9XaSv6tNQTDr6br1boGrgyS2ezavJHi1zvkOhafgO3duVwGVhxyk0lWAgmK5BnCVLG5OMWUEf8uD3JqVmfZcvK8MOvPL/jLhn5eTwKpwdMHbKlqFCPEDGJN76peKChEqZwo6QPj9iAHhibM9DanrGZ2EHSB5CfprwJIsXn3W4YWoSXNhpyI5ay2FR8piUDh6/zrpEMxu62s5vmf7xU0PyHIJhkF5VXUms1EvFFxqRpR/DbwnaEgK5yLCKMPdAovSUY59GsqERmOhVe8/5Fhq4fZ6mnzFG56hPvLmqwMphwsNiYe797y5esWx0JfbnIInkDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dA18vKKY8K9JbTVtVIkFGRw5M8O06+NHVtNAyhjGHec=;
- b=PY58vIn/sb36yEj4NZAlo+jzdjPKPNYf8pptnAe4K0juDzR523/jarJLBG4EjfdLI33qDQVofEx4te+mQZUbOy9PJwqxmsElNWhLUzMQD1Q0N3N4UvyjXQrymu3UoN5gp56PLBdQ9aKcoXKqNiAEMLDtiqTI6ysvMzJLZ1vggA3XkCTmVj3ATEIn7iYi8P/Ak6EEJzmmSJpZDu922l2zkLPDZF4+xmxaWW5Btsxkw6nfu3wt85gzR+t4d9Ek57htZ5rJbzq3jVwqkLcnbyp01z1q2uoM0Uzw8HRHhFLfyHn9Jipg5Le52yAXFKqfoah/dT61HZkEwxxfaxnHRfZmXg==
+ bh=08HvaWXHamwvdYjsoAk6oFwNqKj9SCxUOjwuECdDt/M=;
+ b=eYuOUkK0eeX7bOvaRlY0VGfv24/4YxskXBaI+Z49E1fwLrxQxQOIR52FgeLQqMNgkAZWOzP72m6V7RjcAr1ZNhi+j2qDAyUOHFNTFWzgVNAYV3m7lfMvDeHoCEcIY9JyV6kQmz43KXqtY8U8cSKnXGxKLzj9z5YwcX8DdEHcsI/v7qu7hRqLaHgRAfItBgO59MzXnzfEguB3elhiEPldZjN0XqTuKFs2SDZN6GMRZjfst7GgXXmT7IqB3w87CZ04Cmn77i9pNRHQtorOuRS7CSOlw2nofSSyU6pnQ8eZt5qzzaOW5qrJYpo7AmPKCHDKp259v/Euc46wDsjYprTDKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dA18vKKY8K9JbTVtVIkFGRw5M8O06+NHVtNAyhjGHec=;
- b=ACPQEUOln5TbGo/xnwyczqJM21yxYYcC7N9mlHmtOZz8ntocx/ieuGo6A02TotKiELGeMBneHtWi19TSHVKua6nMpYty4O8rzlVOeL83XfDPZg4/OgcqJaeh2rBxWL1W+Zj2F83I8c8h2eKWwCgp3rx7ANvywAguAell0Dc44N8=
+ bh=08HvaWXHamwvdYjsoAk6oFwNqKj9SCxUOjwuECdDt/M=;
+ b=d8+yKVl5LymgHbbBzh1jteAYMcSObMLkv0XPeWS3mp8rEUo9TfpJIg+thA+UeqPB9H1ewOHS4mcCwr78Md3u0IAQ+uDCBTIgvwgQrQzRkd0UTZ5bfPckgnPNgdOxFkUfr7kyufee9BAh97tT4Qpq6uO+yubkJU3PIY3RDqG9SDIMk6HHoaQOF6LNcj0MpzXuN6JE1nWqRjTAEt7JxCTlQy7LV0GW2PyKAVWiXsjnalx6mG11SlMyCwJRNvWGPs+qRy7Mga8aJ790PWBmGyOD6+XwXudM6emnxXbi9KXfx7e7ZIIhsxQG1q+Krm9rjrECWHxrOtL6nkPvIyP76f6A3Q==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYWPR01MB11234.jpnprd01.prod.outlook.com
- (2603:1096:400:3f2::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Tue, 20 Aug
- 2024 01:36:42 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 20 Aug 2024
- 01:36:42 +0000
-Message-ID: <87zfp8561i.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v2 1/9] of: property: add of_graph_get_next_port()
-In-Reply-To: <20240811170316.GL2270@pendragon.ideasonboard.com>
-References: <875xsa8gws.wl-kuninori.morimoto.gx@renesas.com>
- <874j7u8gw2.wl-kuninori.morimoto.gx@renesas.com>
- <20240811170316.GL2270@pendragon.ideasonboard.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 20 Aug 2024 01:36:41 +0000
-X-ClientProxiedBy: TYCP286CA0118.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by SI6PR06MB7116.apcprd06.prod.outlook.com (2603:1096:4:244::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Tue, 20 Aug
+ 2024 01:37:38 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f%5]) with mapi id 15.20.7875.019; Tue, 20 Aug 2024
+ 01:37:38 +0000
+Message-ID: <80b41d38-2912-4a34-9cd4-ac2c71b210c8@vivo.com>
+Date: Tue, 20 Aug 2024 09:37:34 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/5] udmabuf: codestyle cleanup
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
+References: <20240813090518.3252469-1-link@vivo.com>
+ <20240813090518.3252469-5-link@vivo.com>
+ <IA0PR11MB718543BE49A8C394C5CC32C7F8822@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: Huan Yang <link@vivo.com>
+In-Reply-To: <IA0PR11MB718543BE49A8C394C5CC32C7F8822@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI1PR02CA0035.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::8) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11234:EE_
-X-MS-Office365-Filtering-Correlation-Id: bddc8a73-bb94-4fbb-aaa3-08dcc0b88b14
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SI6PR06MB7116:EE_
+X-MS-Office365-Filtering-Correlation-Id: e93fa873-7674-48e0-075a-08dcc0b8acaf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|52116014|376014|7416014|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zGNTRb2d4sGq0l8B36S5czE3AjyL3a1Ro87T18qpk/o1VYSPakJAyIBTY4mg?=
- =?us-ascii?Q?9UyzKJjbMz1eAVwoyCZ93tNCXExUrrv8ceMuRdElCuBk7ao/4APMAbUqSJDS?=
- =?us-ascii?Q?wEpl4LKFL5lV/NdniZzx9sIevZ4CVcnkMdgiDjnFUHFSRtPaByGK2Gpy3SaB?=
- =?us-ascii?Q?DkhGEA48N9dZDG339QQCdy+2CHXCS8hE133OPhHsf1X0xtmzf8s00Vu2KGw/?=
- =?us-ascii?Q?wQHO0Wnbzfb+BTtOXLzzC8xeMuAkFpZxvACvzq3+YsvEbDSyawguuUL8TJAW?=
- =?us-ascii?Q?SQ57sVKlCYyemuy5HvtqeRcFFJoY+td8sReQmW/GtCWVgJDCUysGc9tuk+3p?=
- =?us-ascii?Q?aVyBAsA5UpPIhrZ5PsKIzwDr4a+1uECkA4nTNUJAdiEEEBF2rZ7h1p9nNNQq?=
- =?us-ascii?Q?mOHFH7W5kx7JNfKJWhz9a3gORaEJLIA9GnS+53uNz0JynesHCKRS2gI/9q+Y?=
- =?us-ascii?Q?NppsLa8oe2yOQxSM3vDir2eUHaV6NlA/kZeF+zpy3VmH2M54qCQS3rmChku9?=
- =?us-ascii?Q?AuUMD1u0lWO+qzEWGhOqgrwg0bDFCx5gMtjj3Nbo1+MaOS3BVVPtfKOkZPwy?=
- =?us-ascii?Q?PHLdCJEabybJzO6/r4JD4bjQD0sPG+sp2xDp3gshpPJ8PYItUYYmj9YIZ1nh?=
- =?us-ascii?Q?BFzlaNlPXRqDnE7aM4Vvhr8zBMTOV/jAR6mFLIavl6BuCi6Su+pPRR81MTCC?=
- =?us-ascii?Q?0ZAVAFyaMWS0oMbqRIM15/BLMy7JiZYm3MnyE+MQL3X1bQ/Z3VVMs18iRnmv?=
- =?us-ascii?Q?bWaxFqAnaqxqrZKjFrmuzL2CGcBfAzfIlMweXv0au1otVj0cm8Av34YO9+UQ?=
- =?us-ascii?Q?ZFtfrziGAfq3ac9nSS9VlMOc4X/lWhDlOSi3xesiwafIEvztwnAtDIWSQkeg?=
- =?us-ascii?Q?SG5D6FZlOc9keqY0xXgUzV552ZbZsd6H7sGSjADko6e+cAmRpru1uQVbDnnO?=
- =?us-ascii?Q?Qst10cCl4K9eORzoWxoE5c5wiy7lA0EMM8T43IU42ZtaCwSWT67W9UH8WtD1?=
- =?us-ascii?Q?ynZ8Aq5/hIJSYaGGOgncCH07ZJDDO1AjYQ+iHNztMB2bgDb/aERyNNlCZ+7Y?=
- =?us-ascii?Q?ADg/+ZZHk6Cixcktqkb1e3Z9N1SnYwqVJ1dK30NTrTakF/wK89BGoGi+i7LM?=
- =?us-ascii?Q?4M5IunBDYeL9/s/hc+xDHo3dl31uUVCY4OkM6ez6nsmGC0hJ1dgjV2KAY+DV?=
- =?us-ascii?Q?5g6TqE3SHnksn7KDLcDLcFnGv2OZBJMHRFLnwbhMU1qR1/kZs+1j6P+6+sfd?=
- =?us-ascii?Q?5x0DkeYULpvQeF/qPT0rOmIUWPwlQp4/GUXCqDoycTAZY2KtTj4XFj8YW0ye?=
- =?us-ascii?Q?soIoz5U1iwTySj9mi9/4H/ykoxG93MDFyT4aciBosgrXA6iORsGkFC1BTyTI?=
- =?us-ascii?Q?i4mEEQzHK86iNGrr8ZGBu4en0m0fw1P/s/2+rqdTrrc0Qm8EJg=3D=3D?=
+ ARA:13230040|1800799024|366016|52116014|376014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aVVCeTNYUHVUV3cvQ09hLzhVSVhOeWJvdXpNSlAzbGFrR1hINUQ4VGltTnJ3?=
+ =?utf-8?B?VmN1bmJXVWhmbHVDQ2x1UUdkNTZESFBDdEthZlduTnBLYWMvVzVEUDVCTSt1?=
+ =?utf-8?B?Rnh1RHdFZEU4TGprRTFjelkxV3ZaeVA4b1pGdDhCaW03YzEyaUxnVXVWeDZZ?=
+ =?utf-8?B?M1plMkp1djYxdnZxM3RLb2JwY1RDSzBaRE0zaHBFZFprRlV4UWRHTGk4MnZV?=
+ =?utf-8?B?S2k5czNWaG9GbjdTUGI3Y0J0UXRkd2NFS2RvbUVFYjBtYlBaZ1VRbWFQa3Bj?=
+ =?utf-8?B?Sis5eVluMUZ0UU9WWFY1bXpCc1FmOEM2alU3OVMrRkdjSlA0WDdDb0IyYXVF?=
+ =?utf-8?B?eEVnZGY3TWFlSXM1SklYQ0xMdnFQbGE3U1Njb3FJK0w0SllDRWZHc0JoUndh?=
+ =?utf-8?B?M0wwallvWGxOWmtFV1NEWk1YMEMyWktUZTZpM2YyWnBsK1NhU1c1cWdMWk51?=
+ =?utf-8?B?ZThmUnBTbk9saWtnUlZCcXNPUVRseUozWVhHZUw3SGRIbXNaTURqMkJNbTNU?=
+ =?utf-8?B?cnI3blo4Q0ZjVHRYUDlkVEFOSTVwZWducjREK3FlczBxd2UxdDRmZ2wrMVZ1?=
+ =?utf-8?B?TGtNL1lNSlo2SFVVRi93cms0ZTJIZ0NqMnRPaGVJMndpa2duVnRBQ3JsZWFQ?=
+ =?utf-8?B?RldURVR4WDcrL0hTNGpLTU1MUWpUNGpXWHdIVG9oUFJJMk9zaTNFVzlwUURs?=
+ =?utf-8?B?TWdvU2h6MDVjWTQ0bnFrM2dURUViZG1QQXBmM240bE41bVloTFZFWVFTYkhT?=
+ =?utf-8?B?dGpvZURIalMwMUxOUEk3WEdWSlp2NHp2Sk5MODEzcWM4b1B3OUFlcExwUzZV?=
+ =?utf-8?B?S0pyZm84ajVLeVE4VTlvSGJ0WFF0TGRROUk3clcyVDhtNi85c3pyUWc3Q2Z5?=
+ =?utf-8?B?Sm5ncnhjMm5VVlBRWVo2Y0RWY0JKREZ1bmN4ZlpTYTVrT2Vxdk94RTZBSDN0?=
+ =?utf-8?B?SVY5Y3NNZlQ5cmdKTXV4dGZqWmFEVXRxeW02WUtvaUVvVmpiYlljQ2hCZkdz?=
+ =?utf-8?B?UnQxWStZM2lsV3l5WS8xZFovQjNEbG1sblBkQkU1azlOMHBzQnFvbmJGTEZi?=
+ =?utf-8?B?cWR0dndMVkFzRE9UQlExdnArTkZ2Rk1qTWgvcjBnR3haeVJhSFhIQW1jU0ZK?=
+ =?utf-8?B?cFJqbWJoVzVEbFNyd3c0Y0JkUTBHeUQwRnUxMXE1eHhDdUxHaUlocGJXK1Fl?=
+ =?utf-8?B?ME5GZEkyVHAzQUt3RHN1NEZvYzUzbzcwanRONGh5MUhuMDdXRkRVcnRuWkJQ?=
+ =?utf-8?B?K000VUNRM2Z4TGJvTktPbVZDMkpoV0ZVdWtJckVsblVKRG5OM3NSMDJQdXBw?=
+ =?utf-8?B?YjlHc0tiODhXaTJsL1ZDUElwZ3I4cDRQVmFWSmJ5b0c1c040eFJwZ0tLSW50?=
+ =?utf-8?B?YkJpK1NybDlxeGE4ekhCTUJQZG8yYWJ4cnFzZnRHWkU0SHZtQU55MHE4SDJO?=
+ =?utf-8?B?VTVlOXVaZzN3MWQwRHQ0VFhqREc0RFVHbW85K0dlS01KVGpXbnJuZWczdFgw?=
+ =?utf-8?B?dVAxS3lWbGhMVHpqNmFETXQxWFNsYVgrTlM0YTA2NHN4emtLMzYrMjhSSFNX?=
+ =?utf-8?B?TkpmVnhwcXBnT3JYK25QdjZFNWR5MzZxYzhyZjdHTGc2RDk3TDBvWWFJUk9J?=
+ =?utf-8?B?QjRwMWdjdFdYTWs2SnFiWjAzcER2M1dEUk5MM2hlQUhLRFgxbDJSTXdlYmE2?=
+ =?utf-8?B?OTJxQ212Sk9FWDlrMU5IZ3hYdWkzRWszVUZiWXpnbVFPRWNYNit6Y2ppbytm?=
+ =?utf-8?B?SmkzOGpGUGp3a2g5NFBnQ2R6QjR4SDdNZEExdGRMYkl2WE5tZ29iWkp4blJh?=
+ =?utf-8?B?MXpWbk0wa0FTTzdDdU5waG9WZ3NsRnlHbkVWVUpSV2hVWlozSFIvcm8wQzky?=
+ =?utf-8?B?b0RxTzdlaXBUc2lDZGljNWdVUXpDNEJRT2lDcGt5VGJCL0E9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(38350700014);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/3D7JrrKmxsu2Wpgy/hHtkhQjXpu/1OHkUAn2+3ArV8ACdXbIv0p1Ra/l+f/?=
- =?us-ascii?Q?UyWtKFZ8WxN9LdYAOjpGfkBK60bPRYIt59OxEJK+EwZk9+yV/204r1uPFEQK?=
- =?us-ascii?Q?3XzejZOLyhF9vCic2D2LAp2utdwUR8yd2EW4argEfsUFnzqn7eqIMwr4AnhI?=
- =?us-ascii?Q?mUgeRluNdud2OHOgVjdZKj5LkhRRMTnA2dCYKi8sqvIX6s2o29eAz1klROlX?=
- =?us-ascii?Q?QLQW/iFiRfdSKsOCI2pKELEV1JfaByqwL7JXPkJJInKifw8SmwoH55QRLAtg?=
- =?us-ascii?Q?rlfTLpXNSFT+zlceB1BjGN4EMCYrbD9jTDqc6ilE+hOhGZB5kG9mFyVN/BX7?=
- =?us-ascii?Q?m3ezwSIUQw2RGZ6T+CXGmwRtHbu79Nb8bBy8h6s1XOYED8Fn+lXf5DrWXIOM?=
- =?us-ascii?Q?hzyQU5a+nVjNz8Vfn723YkxBWFjTyS8JLqm6fjn+962L91VY8CqMrL5m7hhZ?=
- =?us-ascii?Q?VOgOtzAb+royyz24NFg+hFyGb7GcBvhAZCAplm+a/MLO5OP6zlZy0B6yrVVy?=
- =?us-ascii?Q?o7yUtDDZgDrOx1zXlyosc8JDSZZMo2k3Iy/tJxmzAxZW9s5BtE6qBD9Bs6u5?=
- =?us-ascii?Q?i+lblLD4/smDw2Y7dRIUuKE/1n+mxrb5GcSPQNaWUSWJB6n/RYGM+Op0MOCl?=
- =?us-ascii?Q?04QxptBQQ/wBy5xRmQgK/xEaRbK7Ms3bzEbJ/nCMTkVLSVf1ecZicGnEekKP?=
- =?us-ascii?Q?DMNPlWuYI7YM0QsDXBDq8f6VXQq+IoVXpBEDAmtgdkOrbu0O3UA6JZH4wOU6?=
- =?us-ascii?Q?YIflwDCmC/iVRPM+wZ9r2wFp7iWGy5UzZDUh06GlZizlEfVdLdU4dxPiJHtY?=
- =?us-ascii?Q?hnn80KwfG0axIpobT93WKNsan7vFIviDvkkgLHz8t1PMPv7QyDm6ZLQt/pnN?=
- =?us-ascii?Q?2N8rX/gsjAdgzrlWDPnYiugnVckPOZiU0yV273rqVVAnmUv3ohQaJuvNfEnM?=
- =?us-ascii?Q?OqRig9uw2Tdc+B+bvYoVjvxwhS8Emez2hrnhiuviP8i628jp1Ho0LNqQ7qOK?=
- =?us-ascii?Q?nsfdAzEPJCWxyGwWynx3BRjFiL/YJwAf7wPR55/GT1v+wctSMotZsiVQHwrb?=
- =?us-ascii?Q?UhQg0THAKJZ4Tu0dTde0cxX/SfEhVYv2AGUc+BshlExApTDDS6CcpifCaHZH?=
- =?us-ascii?Q?z3sYkwFdlS3K7AWqaXAVEeqEF/VqTK0Ha5Vi+hTc4YrRdsYZ6N7a1KR4uQRn?=
- =?us-ascii?Q?Hnh92iD+ckKYFg5N4N4Pv8SE8I9P26/V2bDRDsrXBAdoqWlfHd4fGdcWZiKo?=
- =?us-ascii?Q?TffQHk3t9XA4iZCe878SkjzAVfgXv0BWkMa1BtpK0FDMibJtv04lDdx46u1C?=
- =?us-ascii?Q?drUa/nEOp2NPtejIfV2146cYgOE93vAdAcMon5kSzlLTQiTVymfilcEiKhAZ?=
- =?us-ascii?Q?t17M5T6SdDrPxZOoYDe8MgAbeQSC8RQnqgC152aM43zCqnVPU3cjZoV3Tuqq?=
- =?us-ascii?Q?XWAmb8wRXqFDeup/+ihpoDCXi+59+BDsaBAJVy2aUBtJFgE9Z4IREDGv9v9a?=
- =?us-ascii?Q?i5Tj9DjKniaZAAAKKQlKCcOyuQt4ISrVBHujFoQPu062WtIeatc0c07qx/d1?=
- =?us-ascii?Q?wJHW3GjND3LtmFBXctCofiHs5T5FNpXcqowfOEVwJ3XiVqZIGgC7eKvIZcMT?=
- =?us-ascii?Q?ipCV9yAek6zUenZSOdyI/N8=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bddc8a73-bb94-4fbb-aaa3-08dcc0b88b14
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cXNGemlUUDNuOFhZeUZqV3YxZTUvKzZyNmloTmQ0dUVoaXQ3ZCtkRFNXU2Zh?=
+ =?utf-8?B?TTFjNHpTcGhDME41OWRlOXV1UldtNmVwTjRYeFdJVDNnZXVoOXVMN2ZWYVlT?=
+ =?utf-8?B?aGIxZ01XZ0hHL3NQRWZrL0UzVWNMKytKbmhKRms4RFhYUHRvMms0K2RIUVQ5?=
+ =?utf-8?B?eTg3SUdmeHFXeEV3UEw1aUNXMzcvR01qQUQwZzl2OU92a1RWaTRlUlluRVZ0?=
+ =?utf-8?B?a0NpaTN4cmVRZk4wM3plc1NJRUlJcHYrcWg5WDlNdFVlMHNVM1kyVmlzSkRU?=
+ =?utf-8?B?bU9VZlJnUnI4NmJ2WElLK1QvcTNrMHhIUk5rTUVvajFuV2pWSFBpSE92SVFB?=
+ =?utf-8?B?U01EVkhDQkR0eDdVYXRPdE4wWHQ3T3piVmtyWDZ6N3Q5Snh1akhJd3Q1Zk1y?=
+ =?utf-8?B?SWVHNUVaTjhiT1dCWVJuc2RMbE81eEJTTk90RDVUNUM0NlN0dzZ1YTk1QllK?=
+ =?utf-8?B?K2MvcW9abGVrMlBUV2pSTTkrcEo1WEtieWo3RjdPQ2JFUUNGVVIzWUdkajN3?=
+ =?utf-8?B?QmRoaHhKRURLL09DamhVTm93S0RlUUkyR3hKL2x0NnFRbGNpckNhc0FLdE1C?=
+ =?utf-8?B?b29weWxUVnlpTVhhVU5laDJOWUFsRkJ5cDlERGMvRmxZMWZQTWI0SHp5MUYz?=
+ =?utf-8?B?OUJwMUlHYkFpWEkxM1p5RjF6cXFFR3liK1o0MFczaDZLNUVOZ3BGZEZPZUxn?=
+ =?utf-8?B?QlpYTU15aU05eUVYcjhIVFJrZHNuZmRtV1NmMjNZSmIwMzhnSVlaWTI4L2Nr?=
+ =?utf-8?B?NzZXV3VVcFkvdUVkdm10Z0lRNy83OS9OcU4xVVZ4WFMvSlo1SDF5VUkzM2Vn?=
+ =?utf-8?B?TEZNTFBsUnZyMWF2dmJWZ0JGdUd4TjFSTGdYbm9PbkZXL0pzazFJN2RITmRv?=
+ =?utf-8?B?SndmSTBWY3ZrMjk5TUVQc2RHcDhLY1VlZlhHOVdDTnhhVjFycS9EczRhc0Rs?=
+ =?utf-8?B?a2cyU3BuUkEwNkkyNVE4OGY5K1VScUY4RlNtWGFRT3ZaQ0pNdk5Rdmo4VjVO?=
+ =?utf-8?B?anZ4c2JkTEc4QWU0K1BTNjlWVUdDenpnM0FlTzAwZTFmWlJTZ3hIWUNKdk1r?=
+ =?utf-8?B?QU9BVXMyTlJHc1E5QU5YMmd2akpUc1NQU2JERU4xRFhuK2lDSkFOa1RqdW56?=
+ =?utf-8?B?UC9zVHZNd0ZNNmdYQi9XUUhqcUZFaUhzTDMwMGZWTWU4THpGeFJpYXM5OThY?=
+ =?utf-8?B?NSt2MDAwLytMLzhmMk85VytPWjZPdUhSdWoyNlFDWkJoNWptdU56UDRCdUwv?=
+ =?utf-8?B?RnN0SmJzVXU3Sk1obzVqR3RKZStvUWYzQ2hXQXZUVlpKMGdUaVo4L3puUkli?=
+ =?utf-8?B?clVwcmUyakFhbnNVY2YyRmhIWEtqSmY2Q1NqTmNqcGV2WmNBTUxGdGNDRXh0?=
+ =?utf-8?B?a2U0QTlFaGdlTDZHaEwyZ25pdndMRE5KeUIwcGVtcWVlMXBlcEUrZ3hxU0ds?=
+ =?utf-8?B?Wll0SzFzZ1F2eGlRVUNlSGpMQ1RCclJXeW44eVNsMERLd3Y0QTM1T1k4WWpj?=
+ =?utf-8?B?eVVpbGo2QUg4RmdrYXpWcUd6NVl4ZFhSZ1JpdUluaXZEWlI1bytNKzU1TERT?=
+ =?utf-8?B?Zmc2b3Z1bTF4djdtd3ZFQVhqOFhQVkh0MzJZa1ZXdVE3ZmczakxDbllaM0ZK?=
+ =?utf-8?B?UXFaMVpWQ2l0SUJTbDNNZ1pMZnd6a2ZYMEVzU2VxdnNGSlJRT2I3eVRETEpv?=
+ =?utf-8?B?RWcrMWNyL3BHMWVlUlJDVFhNY2ROdnhaSElra0pZVVB6ZU9rSW1hcFMvVWZC?=
+ =?utf-8?B?Y1dQMVNSRTF1WXp0ZitvbkJscjJKL0VZbHZLWS9rYUZQNGFyR0xnLzFwWWw2?=
+ =?utf-8?B?QzdKTndlbE1uait6eDJIaWVpUlRmYncwVnpSSmJ6TXFYYXUrdkRERTdrSGVR?=
+ =?utf-8?B?c2ZRYnVBblNkTVl0Y2VxZVZrQUNVeEFHL1IydzJZUEs0a2EwTDE5aFlCNkFV?=
+ =?utf-8?B?WWVZczVLZnpXanh0cStaZ1RmSEZOd2YrQWViQUVYc1JBOFc5V2FVY2ZnU2g0?=
+ =?utf-8?B?OXI1TlBzL3ZMcWlrRWVSMWhYNDNFcDdjeExHTitHWUN3c1RYdE9sS3J3cGMz?=
+ =?utf-8?B?Y0pCTU9sYURmQWg2VXJudUxHWWNHaFQveFJLdUpFZDladWFiY2oyck1EYVVJ?=
+ =?utf-8?Q?xApvrTB9KSFYIiD1NvmC7LNbp?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e93fa873-7674-48e0-075a-08dcc0b8acaf
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 01:36:42.0662 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 01:37:38.5039 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ivTU8AHtKuKYP6WB+uOZe230uGXTs8eebjYycfQdyV9J4TCUsWcOh6hC4WTwLpvJa5Xf0/G2Fh+kFB2Hpg1FC6flBXAHIbQFoq7/zlk+06TwTxMSN3DyPCJvxaxzt51j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11234
+X-MS-Exchange-CrossTenant-UserPrincipalName: xRgn2XdXq4NSLGcH9nY8GiHcpjTSpb34BVDsPtK5e/Er2V+DlTQ2eZ7nGhulSTngvGXCc9AbOsWwxBHA6674kw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI6PR06MB7116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,100 +170,173 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Hi Laurent
-
-Thank you for the review
-
-> Having multiple "ports" nodes in a device node is not something I've
-> ever seen before. There may be use cases, but how widespread are they ?
-> I would prefer handling this in driver code instead of creating a helper
-> function if the use case is rare.
-
-In Sound, basically 1 CPU device will be 1 Sound Card, but sometimes we
-want to handle 1 CPU device for 2 Sound Cards.
-In such case, it needs multiple "ports".
-
-1 example is
-	(A) arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
-	(B) arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
-
-We have ULCB board and its expand board (= KingFisher), and both have
-Sound interface. In this case, we want to handle ULCB-Sound as 1st Sound
-Card, and ULCB-KF-Sound as 2nd Sound Card. Before, it was handled as
-1 big Sound Card, but it was not intuitive for user.
-
-Our SoC's ports@0 is used for ULCB-Sound (= A), and ports@1 is used for
-ULCB-KF-Sound (= B) now.
-
-
-> > +struct device_node *of_graph_get_next_port(struct device_node *parent,
-> > +					   struct device_node *prev)
-> > +{
-> > +	if (!parent)
-> > +		return NULL;
-> > +
-> > +	if (!prev) {
-> > +		struct device_node *ports __free(device_node) =
-> > +			of_graph_get_next_ports(parent, NULL);
-> 
-> This also makes me quite uncomfortable. Iterating over all ports of a
-> device node that contains multiple "ports" children seems an ill-defined
-> use case.
-
-This is because having "ports" node is optional. The driver code will be
-pointlessly complicated without above.
-
-Below 2 cases are indicating same things. So driver want to handle these
-by same code.
-
-	/* CASE1 */
-	device {
-		ports {
-			port { ... };
-		};
-	};
-
-	/* CASE2 */
-	device {
-		port { ... };
-	};
-
-	port = of_graph_get_next_port(device, NULL);
-
-
-> > +#define for_each_of_graph_port(parent, child)			\
-> > +	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
-> > +	     child = of_graph_get_next_port(parent, child))
-> 
-> I think I've proposed something similar a looooong time ago, and was
-> told that iterating over ports is not something that drivers should do.
-> The situation may have changed since though.
-
-I guess you mean checking "endpoint" is enough ?
-But unfortunately, it is not for us.
-
-I guess this is mentioned in git-log, but we have *Generic* Sound Card
-driver which supports many type of Sound connection.
-
-	device {
-		ports {
-			port@0 {
-				endpoint@0 { ... };
-				endpoint@1 { ... };
-			};
-			port@1 {
-				endpoint { ... };
-			};
-		};
-	};
-
-Because it is *Generic* Sound Card driver, it need to know how many
-"port" are used. In this case, using "endpoint" loop is not useful.
-It want to use "port" base loop.
-
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+在 2024/8/17 8:58, Kasireddy, Vivek 写道:
+> Hi Huan,
+>
+>> There are some variables in udmabuf_create that are only used inside the
+>> loop. Therefore, there is no need to declare them outside the scope.
+>> This patch moved it into loop.
+>>
+>> It is difficult to understand the loop condition of the code that adds
+>> folio to the unpin_list.
+>>
+>> The outer loop of this patch iterates through folios, while the inner
+>> loop correctly sets the folio and corresponding offset into the udmabuf
+>> starting from the offset. if reach to pgcnt or nr_folios, end of loop.
+>>
+>> By this, more readable.
+>>
+>> Signed-off-by: Huan Yang <link@vivo.com>
+>> ---
+>>   drivers/dma-buf/udmabuf.c | 65 ++++++++++++++++++++-------------------
+>>   1 file changed, 33 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>> index 4ec54c60d76c..8f9cb0e2e71a 100644
+>> --- a/drivers/dma-buf/udmabuf.c
+>> +++ b/drivers/dma-buf/udmabuf.c
+>> @@ -296,12 +296,12 @@ static long udmabuf_create(struct miscdevice
+>> *device,
+>>   			   struct udmabuf_create_list *head,
+>>   			   struct udmabuf_create_item *list)
+>>   {
+>> -	pgoff_t pgoff, pgcnt, pglimit, pgbuf = 0;
+>> -	long nr_folios, ret = -EINVAL;
+>> +	pgoff_t upgcnt = 0, pglimit, pgbuf = 0;
+>> +	long ret = -EINVAL;
+>>   	struct file *memfd = NULL;
+>>   	struct folio **folios;
+>>   	struct udmabuf *ubuf;
+>> -	u32 i, j, k, flags;
+>> +	u32 i, flags;
+>>   	loff_t end;
+>>
+>>   	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
+>> @@ -315,22 +315,21 @@ static long udmabuf_create(struct miscdevice
+>> *device,
+>>   			goto err;
+>>   		if (!IS_ALIGNED(list[i].size, PAGE_SIZE))
+>>   			goto err;
+>> -		ubuf->pagecount += list[i].size >> PAGE_SHIFT;
+>> +		upgcnt += list[i].size >> PAGE_SHIFT;
+>>   		if (ubuf->pagecount > pglimit)
+>>   			goto err;
+>>   	}
+>>
+>> -	if (!ubuf->pagecount)
+>> +	if (!upgcnt)
+>>   		goto err;
+>>
+>> -	ubuf->folios = kvmalloc_array(ubuf->pagecount, sizeof(*ubuf-
+>>> folios),
+>> +	ubuf->folios = kvmalloc_array(upgcnt, sizeof(*ubuf->folios),
+>>   				      GFP_KERNEL);
+>>   	if (!ubuf->folios) {
+>>   		ret = -ENOMEM;
+>>   		goto err;
+>>   	}
+>> -	ubuf->offsets = kvcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
+>> -				 GFP_KERNEL);
+>> +	ubuf->offsets = kvcalloc(upgcnt, sizeof(*ubuf->offsets),
+>> GFP_KERNEL);
+>>   	if (!ubuf->offsets) {
+>>   		ret = -ENOMEM;
+>>   		goto err;
+>> @@ -338,6 +337,10 @@ static long udmabuf_create(struct miscdevice
+>> *device,
+>>
+>>   	pgbuf = 0;
+>>   	for (i = 0; i < head->count; i++) {
+>> +		pgoff_t pgoff, pgcnt;
+>> +		u32 j, cnt;
+>> +		long nr_folios;
+>> +
+>>   		memfd = fget(list[i].memfd);
+>>   		ret = check_memfd_seals(memfd);
+>>   		if (ret < 0)
+>> @@ -351,38 +354,36 @@ static long udmabuf_create(struct miscdevice
+>> *device,
+>>   		}
+>>
+>>   		end = list[i].offset + (pgcnt << PAGE_SHIFT) - 1;
+>> -		ret = memfd_pin_folios(memfd, list[i].offset, end,
+>> -				       folios, pgcnt, &pgoff);
+>> -		if (ret <= 0) {
+>> +		nr_folios = memfd_pin_folios(memfd, list[i].offset, end,
+>> folios,
+>> +					     pgcnt, &pgoff);
+>> +		if (nr_folios <= 0) {
+>>   			kvfree(folios);
+>> -			if (!ret)
+>> -				ret = -EINVAL;
+>> +			ret = nr_folios ? nr_folios : -EINVAL;
+>>   			goto err;
+>>   		}
+>>
+>> -		nr_folios = ret;
+>> -		pgoff >>= PAGE_SHIFT;
+>> -		for (j = 0, k = 0; j < pgcnt; j++) {
+>> -			ubuf->folios[pgbuf] = folios[k];
+>> -			ubuf->offsets[pgbuf] = pgoff << PAGE_SHIFT;
+>> -
+>> -			if (j == 0 || ubuf->folios[pgbuf-1] != folios[k]) {
+>> -				ret = add_to_unpin_list(&ubuf->unpin_list,
+>> -							folios[k]);
+>> -				if (ret < 0) {
+>> -					kfree(folios);
+>> -					goto err;
+>> -				}
+> I can see that having a loop that iterates from 0 to nr_folios is more intuitive
+> compared to the previous version which was a legacy carryover.
+>
+>> +		for (j = 0, cnt = 0; j < nr_folios; ++j, pgoff = 0) {
+> Can all the code in this outer loop be moved into a separate function? This
+> would reduce the length of udmabuf_create().
+I'll try this in next version
+>
+>> +			u32 k;
+>> +			long fsize = folio_size(folios[j]);
+>> +
+>> +			ret = add_to_unpin_list(&ubuf->unpin_list, folios[j]);
+>> +			if (ret < 0) {
+>> +				kfree(folios);
+>> +				goto err;
+>>   			}
+>>
+>> -			pgbuf++;
+>> -			if (++pgoff == folio_nr_pages(folios[k])) {
+>> -				pgoff = 0;
+>> -				if (++k == nr_folios)
+>> -					break;
+>> +			for (k = pgoff; k < fsize; k += PAGE_SIZE) {
+> I think renaming k to something like subpgoff or tailpgoff would make this
+> more easier to understand.
+Yes.
+>
+>> +				ubuf->folios[pgbuf] = folios[j];
+>> +				ubuf->offsets[pgbuf] = k;
+>> +				++pgbuf;
+>> +
+>> +				if (++cnt >= pgcnt)
+>> +					goto end;
+>>   			}
+>>   		}
+>> -
+>> +end:
+>> +		// update the number of pages that have already been set
+>> up.
+>> +		ubuf->pagecount += pgcnt;
+> Since pgbuf also reflects the total number of pages (or folios) processed,
+> I think you can use that instead of having to mess with pagecount.
+Yes, but need take care of when into error, ubuf->pagecount also need 
+update or else, deinit in error path will also "errorr"
+>
+> Thanks,
+> Vivek
+>
+>>   		kvfree(folios);
+>>   		fput(memfd);
+>>   		memfd = NULL;
+>> --
+>> 2.45.2
+>>
