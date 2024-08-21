@@ -2,68 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02D395993D
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 13:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1682C959965
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 13:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 498D810E8D3;
-	Wed, 21 Aug 2024 11:13:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fLQsFMr/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE8A10E8DA;
+	Wed, 21 Aug 2024 11:18:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14B2F10E8D3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 11:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724238788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/SDEBiyKRt2AqbyfyUW10WSpqwacT1LCU6PVt4AZSwU=;
- b=fLQsFMr/dNEHWS9LucIyNkqugHs81yf/FJ2pOGPPewqCtPsyyg1vToAbNSMYFBTQ99GAQc
- svIKDkwI0Dw7ZEtuQEULvaAgEGSUB1vOIJ37B6jF08rFqMeg2IbdP0cxltWMarsHR7AZMf
- 0OpvLIFTucylmH7+BY7roWgrt9f2AL4=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-449-t639QBg8Nm2YgEOIhDQ69g-1; Wed,
- 21 Aug 2024 07:13:02 -0400
-X-MC-Unique: t639QBg8Nm2YgEOIhDQ69g-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 316EF1955BFC; Wed, 21 Aug 2024 11:13:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.20])
- by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 1AA17300019C; Wed, 21 Aug 2024 11:13:00 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D8E3A18011E8; Wed, 21 Aug 2024 13:12:57 +0200 (CEST)
-Date: Wed, 21 Aug 2024 13:12:57 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: David Airlie <airlied@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BED4510E8D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 11:18:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 334E1DA7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 04:18:33 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E41BB3F73B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 04:18:06 -0700 (PDT)
+Date: Wed, 21 Aug 2024 12:17:53 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- virtualization@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 1/2] drm/virtio: Use XRGB8888 also for big endian
- systems
-Message-ID: <2734s7h2c4tbtwzdlijbf7u3fvdcqtlcdipamsf4pf6jgx2slt@aq5bm3fuqgkz>
-References: <20240820090908.151042-1-jfalempe@redhat.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: flush FW AS caches in slow reset path
+Message-ID: <ZsXM4asd99z98HYb@e110455-lin.cambridge.arm.com>
+References: <20240816185250.344080-1-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20240820090908.151042-1-jfalempe@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240816185250.344080-1-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,35 +53,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 20, 2024 at 11:07:40AM GMT, Jocelyn Falempe wrote:
-> Mesa doesn't support BGRX8888, that means most wayland compositors
-> don't work on big endian guests.
+On Fri, Aug 16, 2024 at 07:52:49PM +0100, Adrián Larumbe wrote:
+> In the off-chance that waiting for the firmware to signal its booted status
+> timed out in the fast reset path, one must flush the cache lines for the
+> entire FW VM address space before reloading the regions, otherwise stale
+> values eventually lead to a scheduler job timeout.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-So you are doing a hard switch from native endian to little endian.
+Looks good to me!
 
-While this should be fine for modern userspace API (aka ADDFB2 ioctl) it
-is not for older APIs (ADDFB ioctl, also fbdev emulation) where only
-depth=32 is specified and userspace typically expects a framebuffer in
-native byte order.
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
-Ideally virtio-gpu would support both big endian and little endian
-framebuffer formats (simliar to bochs drm driver).  That probably is a
-somewhat more invasive change because the DRM_IOCTL_MODE_CREATE_DUMB
-doesn't tell use the format which will be used.  Possible options I see:
+Best regards,
+Liviu
 
-  (1) Be lazy on creating host resources, i.e. call
-      virtio_gpu_cmd_create_resource() not at DRM_IOCTL_MODE_CREATE_DUMB
-      time but later when the resource will be actually be used (and
-      specifically after DRM_IOCTL_MODE_ADDFB(2) ioctl so we know the
-      format).  Needs additional state tracking (whenever the resource
-      has been created or not) in possibly lots of places.
+> ---
+>  drivers/gpu/drm/panthor/panthor_fw.c  |  8 +++++++-
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++++---
+>  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+>  3 files changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 857f3f11258a..ef232c0c2049 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -1089,6 +1089,12 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
+>  		panthor_fw_stop(ptdev);
+>  		ptdev->fw->fast_reset = false;
+>  		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
+> +
+> +		ret = panthor_vm_flush_all(ptdev->fw->vm);
+> +		if (ret) {
+> +			drm_err(&ptdev->base, "FW slow reset failed (couldn't flush FW's AS l2cache)");
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	/* Reload all sections, including RO ones. We're not supposed
+> @@ -1099,7 +1105,7 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
+>  
+>  	ret = panthor_fw_start(ptdev);
+>  	if (ret) {
+> -		drm_err(&ptdev->base, "FW slow reset failed");
+> +		drm_err(&ptdev->base, "FW slow reset failed (couldn't start the FW )");
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index d47972806d50..a77ee5ce691d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -874,14 +874,27 @@ static int panthor_vm_flush_range(struct panthor_vm *vm, u64 iova, u64 size)
+>  	if (!drm_dev_enter(&ptdev->base, &cookie))
+>  		return 0;
+>  
+> -	/* Flush the PTs only if we're already awake */
+> -	if (pm_runtime_active(ptdev->base.dev))
+> -		ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
+> +	/*
+> +	 * If we made it this far, that means the device is awake, because
+> +	 * upon device suspension, all active VMs are given an AS id of -1
+> +	 */
+> +	ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
+>  
+>  	drm_dev_exit(cookie);
+>  	return ret;
+>  }
+>  
+> +/**
+> + * panthor_vm_flush_all() - Flush L2 caches for the entirety of a VM's AS
+> + * @vm: VM whose cache to flush
+> + *
+> + * Return: 0 on success, a negative error code if flush failed.
+> + */
+> +int panthor_vm_flush_all(struct panthor_vm *vm)
+> +{
+> +	return panthor_vm_flush_range(vm, vm->base.mm_start, vm->base.mm_range);
+> +}
+> +
+>  static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+>  {
+>  	struct panthor_device *ptdev = vm->ptdev;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> index f3c1ed19f973..6788771071e3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -31,6 +31,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset);
+>  int panthor_vm_active(struct panthor_vm *vm);
+>  void panthor_vm_idle(struct panthor_vm *vm);
+>  int panthor_vm_as(struct panthor_vm *vm);
+> +int panthor_vm_flush_all(struct panthor_vm *vm);
+>  
+>  struct panthor_heap_pool *
+>  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
+> -- 
+> 2.46.0
+> 
 
-  (2) Support changing the resource format, i.e. in case
-      DRM_IOCTL_MODE_ADDFB(2) is called with a format different from the
-      current one go through a destroy-and-recreate cycle for the host
-      resource.  Might have tricky corner cases (resource being in use
-      when DRM_IOCTL_MODE_ADDFB(2) is called).
-
-HTH & take care,
-  Gerd
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
