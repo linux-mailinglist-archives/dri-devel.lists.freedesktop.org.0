@@ -2,72 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5226B959A49
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 13:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCC8959B0C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 14:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803A310E8DC;
-	Wed, 21 Aug 2024 11:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EBFB10E8DD;
+	Wed, 21 Aug 2024 12:00:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n/8oOeE9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D0hDcfN7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4992010E5E2;
- Wed, 21 Aug 2024 11:39:13 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4204510E8DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 12:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724240354; x=1755776354;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RIiQDcEhoxlNGd/zdSvvh5yA88ICiJ5gJYczwRbow9E=;
- b=n/8oOeE9NxbFWMr9fAFIXpJ24Wfr3MZ8+98OIO5fiLjrthBzdZ3MYZdk
- P9sM+moFeXHJrXFQIvg8EsEdCilTRg0uAiCSUsicn9AzBRES9yQG4Uekq
- nZwQ/dMY5wfJZD6tVzHipDrhWIVGmYC33x/Jr5AYU/tSB15RdzRb7hsz+
- 4FoJz6Df67B/dt6DrOHErELc2gGNvaxpfyDP63N3QIciKnE/ee/3Yi98V
- r9SAFmFcSXWlOQEoAS94b9k9MbQYrHIhZHD0Yr+gwzPHp0HR7kKF1ioV+
- hIrotyOo9dOZYwgNpypRRTXh6mCOAZWt2t7wJ7f0BW4waxOgGIAmZOrqM g==;
-X-CSE-ConnectionGUID: Sl4qQMGMSWCpYKxeMbVAJg==
-X-CSE-MsgGUID: Trh73HGHRfCQhJW3hYK0ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26388900"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="26388900"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 04:39:13 -0700
-X-CSE-ConnectionGUID: hLNacqnqSTS7jGoR+8WWNw==
-X-CSE-MsgGUID: /fpYZqKMRs+sTNfuGqUq1w==
+ t=1724241631; x=1755777631;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=9POYvc3qOrhVmNpJWvItEA1y07oL79G+PqiIlmuHSYE=;
+ b=D0hDcfN7k38S/tld+cu+6/5AxrTsqdQOoxAARUKBPAolMituZBH41GsW
+ cLKAoRyJ53t6C2nzTgDFOyZPHbQKI+v6AKOIq5ppU/YRp/FEDa/BofLEH
+ iTWfgMCHV0rFxuikRTBfZJjKI686E4w0S9oZ75YngI+hYrzTtVv7+oTMR
+ AI1tutRKoh5/O/ZVlmhYRr/08X9e4+xIp5I/cASEHib5kbr99rLjONQT8
+ 1sZgcGeMSVxkbghGikyFwDdKL/DEVUe47n/+vP8IaQ4Ncn48QyCfpC+XS
+ e5F6lKqmc/BDnzH4YQfGN6q9rVcSNKZC5vfHHh5T1vaUktCT0hM72+7qm g==;
+X-CSE-ConnectionGUID: /h5V1ZrrSqiRxEdinYqZrA==
+X-CSE-MsgGUID: gCnQky4wSGK2F2+pSzDFsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33214200"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="33214200"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2024 05:00:31 -0700
+X-CSE-ConnectionGUID: c0tKb8UmSVuWjLknBnKawg==
+X-CSE-MsgGUID: 6tgF55NARoSRWhlnUWuGPg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="65271967"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 04:39:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sgjgA-0000000036K-0ABS; Wed, 21 Aug 2024 14:39:06 +0300
-Date: Wed, 21 Aug 2024 14:39:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, daniel@ffwll.ch,
- linux@roeck-us.net, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, anshuman.gupta@intel.com,
- badal.nilawar@intel.com, riana.tauro@intel.com,
- ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v4] drm/i915/hwmon: expose fan speed
-Message-ID: <ZsXR2a6XWwc1HZGZ@smile.fi.intel.com>
-References: <20240809061525.1368153-1-raag.jadav@intel.com>
- <ZrYB-GI9L2RSc2bt@smile.fi.intel.com>
- <ZrYEQqs0IwDHWkGx@ashyti-mobl2.lan>
- <ZsRbK8TEk5GZDl0C@black.fi.intel.com> <ZsUPY4zJwEGAf_t_@intel.com>
- <ZsVkapETDCTtx2_F@black.fi.intel.com>
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="91872124"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ [10.245.245.245]) ([10.245.245.245])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2024 05:00:25 -0700
+Message-ID: <fe3a72942e558af26f1b2794f946920a33d316ab.camel@linux.intel.com>
+Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
+ header
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
+ Vetter <daniel.vetter@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ dri-devel@lists.freedesktop.org,  David Airlie <airlied@linux.ie>
+Date: Wed, 21 Aug 2024 14:00:19 +0200
+In-Reply-To: <006ba26a-48ed-43e7-8213-72ca0ae553e1@amd.com>
+References: <20240710124301.1628-1-christian.koenig@amd.com>
+ <20240710124301.1628-5-christian.koenig@amd.com>
+ <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
+ <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
+ <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
+ <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
+ <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
+ <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
+ <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
+ <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
+ <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
+ <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
+ <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
+ <13a47d22fb6753e20046a983126c6fea675beed2.camel@linux.intel.com>
+ <006ba26a-48ed-43e7-8213-72ca0ae553e1@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZsVkapETDCTtx2_F@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,74 +89,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 21, 2024 at 06:52:10AM +0300, Raag Jadav wrote:
-> On Tue, Aug 20, 2024 at 05:49:23PM -0400, Rodrigo Vivi wrote:
-> > On Tue, Aug 20, 2024 at 12:00:27PM +0300, Raag Jadav wrote:
-> > > On Fri, Aug 09, 2024 at 12:57:54PM +0100, Andi Shyti wrote:
-> > > > On Fri, Aug 09, 2024 at 02:48:08PM +0300, Andy Shevchenko wrote:
-> > > > > On Fri, Aug 09, 2024 at 11:45:25AM +0530, Raag Jadav wrote:
+Hi,
 
-...
+On Wed, 2024-08-21 at 11:48 +0200, Christian K=C3=B6nig wrote:
+> Am 21.08.24 um 10:57 schrieb Thomas Hellstr=C3=B6m:
+> > On Wed, 2024-08-21 at 10:14 +0200, Christian K=C3=B6nig wrote:
+> > > Am 20.08.24 um 18:00 schrieb Thomas Hellstr=C3=B6m:
+> > > > > Or why exactly should shrinking fail?
+> > > > A common example would be not having runtime pm and the
+> > > > particular
+> > > > bo
+> > > > needs it to unbind, we want to try the next bo. Example: i915
+> > > > GGTT
+> > > > bound bos and Lunar Lake PL_TT bos.
+> > > WHAT? So you basically block shrinking BOs because you can't
+> > > unbind
+> > > them
+> > > because the device is powered down?
+> > >=20
+> > > I would say that this is a serious NO-GO. It basically means that
+> > > powered down devices can lock down system memory for undefined
+> > > amount
+> > > of
+> > > time.
+> > >=20
+> > > In other words an application can allocate memory, map it into
+> > > GGTT
+> > > and
+> > > then suspend or even get killed and we are not able to recover
+> > > the
+> > > memory because there is no activity on the GPU any more?
+> > >=20
+> > > That really sounds like a bug in the driver design to me.
+> > It's bad but it's not as bad as it sounds.
+> >=20
+> > Problem is we can't wake up during direct reclaim IIRC due to
+> > runtime
+> > pm lockdep violations, but we can and do fire up a thread to wake
+> > the
+> > device and after the wakeup delay have subsequent shrink calls
+> > succeed,
+> > or punt to kswapd or the oom handler.
+>=20
+> Yeah that is obvious. The runtime PM is an interface designed to be
+> used=20
+> from a very high level IOCTL/system call.
+>=20
+> And delegating that from a shrinker to a worker is not valid as far
+> as I=20
+> can see, instead of reducing the memory pressure the shrinker would
+> then=20
+> increase it.
 
-> > > > > I do not understand why we pollute Git history with changelogs, but it's
-> > > > > probably the ugly atavism in DRM workflow.
-> > > > 
-> > > > I never liked it! Besides it should even be against the
-> > > > submitting patches recommendation.
-> > > > 
-> > > > I don't understand what interest might have someone in a couple
-> > > > of years, reading this commit, knowing an unintellegible list of
-> > > > differences between v2 and v3.
-> > > > 
-> > > > I consider it a random pollution of the commit log.
-> > 
-> > I agree it is ugly. But I don't agree it is just a 'random polution'.
-> > 
-> > I consider a valid and very useful information of the patch history.
-> > Very useful for a later cross check to know what exactly version
-> > of that patch got merged.
-> > Useful for distros on backports as well.
-> 
-> Isn't this why we have 'Link' as part of commit which points to
-> actual ML submission?
-> 
-> > > Isn't it already documented?
-> > > Documentation/process/submitting-patches.rst
-> > 
-> > I think it is:
-> > 
-> > "Be sure to tell the reviewers what changes you are making and to thank them
-> >  for their time.  Code review is a tiring and time-consuming process, and
-> >  reviewers sometimes get grumpy.  Even in that case, though, respond
-> >  politely and address the problems they have pointed out.  When sending a next
-> >  version, add a ``patch changelog`` to the cover letter or to individual patches
-> >  explaining difference against previous submission
-> > "
-> > 
-> > Then:
-> > 
-> > '''
-> > Example of a patch submitted by the From: author::
-> > '''
-> > 
-> > defines 'changelog' as the block above the signatures.
-> > 
-> > And
-> > 
-> > 'The canonical patch format'
-> > 
-> > also tells that anything after '---' marker line is for
-> > "Any additional comments not suitable for the changelog."
-> > 
-> > But well, the important part is to have the version information
-> > available for reviewers.
-> 
-> Can still be available below '---' marker.
+Perhaps an ignorant question, but aren't IO devices potentially woken
+up for swapout at memory pressure time using runtime PM, thereby
+increasing memory pressure in a similar way?
 
-+1 to what Raag said.
+>=20
+> > I think that's an orthogonal discussion, though. There are other
+> > reasons shrinking might fail, like the bo being busy in direct
+> > reclaim
+> > (shouldn't wait for idle there but ok in kswapd), Other points of
+> > failure is ofc shmem radix tree allocations (not seen one yet,
+> > though)
+> > which might succeed with a smaller bo.
+> > (Not saying, though, that there isn't more to be done with the xe
+> > runtime pm implementation).
+>=20
+> I don't think that argumentation is valid.
+>=20
+> When a BO is locked then that it is ok to not shrink it, but TTM
+> should=20
+> be able to determine all those prerequisites.
+>=20
+> In other words the idea of a function returning a BO to the driver is
+> that the driver is obligated to shrink that one.
 
--- 
-With Best Regards,
-Andy Shevchenko
+But that doesn't take potential driver deadlock avoidance into account,
+so it would restrict=C2=A0the driver shrinkers by assuming that all deadloc=
+k
+avoidance needed is known by TTM.
 
+And since small memory allocations are allowed even at reclaim time to
+be able so reclaim or shrink even more memory, IMO the pm resume
+problem reduces into a deadlock avoidance problem where we use
+pm_tryget similar to bo_trylock. Important thing, though, in both
+cases, that the device is woken or similarly the lock is released in
+reasonable time for the reclaim to retry and succeed.
+
+>=20
+> That other necessary allocation can fail like shmen for example is=20
+> obvious as well, but that's why we discussed to allow shrinking BOs=20
+> partially as well.
+
+Good point, that eliminates that problem.
+
+>=20
+> And I really don't think this discussion is orthogonal. We are
+> basically=20
+> discussing what drivers should do and not should do. And as far as I
+> can=20
+> see the requirement to expose the LRUs to drivers comes up only
+> because=20
+> the driver wants to do something it shouldn't.
+
+Currently we have the purgeable vs non-purgeable and driver-level
+trylock-type deadlock avoidance not falling into those categories. And
+I'd like to categorize runtime pm as a trylock-type deadlock avoidance.
+
+bo trylock and idle could, as you say, be handled in the TTM helper, so
+can purgeable and non-purgeable at lack of swap-space, provided that we
+provide such a flag in the ttm_bo ofc?
+
+>=20
+> > > > And again, all other drm bo shrinkers do this. We just want to
+> > > > do
+> > > > the
+> > > > same.
+> > > Do you have pointers?
+> > As Sima said, this is complicated but not beyond comprehension:
+> > i915
+> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/i915/=
+gem/i915_gem_shrinker.c#L317
+>=20
+> As far as I can tell what i915 does here is extremely questionable.
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0 if (sc->nr_scanned < sc->nr_to_scan && current_i=
+s_kswapd()) {
+> ....
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 with_intel_runtime_pm(&i915->=
+runtime_pm, wakeref) {
+>=20
+> with_intel_runtime_pm() then calls pm_runtime_get_sync().
+>=20
+> So basically the i915 shrinker assumes that when called from kswapd()
+> that it can synchronously wait for runtime PM to power up the device
+> again.
+>=20
+> As far as I can tell that means that a device driver makes strong and
+> completely undocumented assumptions how kswapd works internally.
+
+Admittedly that looks weird
+
+But I'd really expect a reclaim lockdep splat to happen there if the
+i915 pm did something not-allowed. IIRC, the design direction the i915
+people got from mm people regarding the shrinkers was to avoid any
+sleeps in direct reclaim and punt it to kswapd. Need to ask i915 people
+how they can get away with that.
+
+>=20
+> > msm:
+> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/i915/=
+gem/i915_gem_shrinker.c#L317
+> > which uses
+> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/drm_g=
+em.c#L1426
+> > that is very similar in structure to what I implemented for TTM.
+> >=20
+> > Panfrost: (although only purgeable objects AFAICT).
+> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/drm_g=
+em.c#L1426
+>=20
+> =C2=A0From skimming over the source only MSM actually seems to use this
+> and=20
+> the criteria for rejecting shrinking is everything TTM should know,
+> e.g.=20
+> if a BO is pinned, idle etc...
+>=20
+> > > > > > If we bump LRU we could end up with infinite loops.
+> > > > > > So IMO we need to be able to loop. I don't really care
+> > > > > > wether
+> > > > > > we do
+> > > > > > this as an explicit loop or whether we use the LRU walker,
+> > > > > > but
+> > > > > > I
+> > > > > > think
+> > > > > > from a maintainability point-of-view it is better to keep
+> > > > > > LRU
+> > > > > > walking
+> > > > > > in a single place.
+> > > > > >=20
+> > > > > > If we return an unlocked object, we'd need to refcount and
+> > > > > > drop
+> > > > > > the
+> > > > > > lru
+> > > > > > lock, but maybe that's not a bad thing.
+> > > > > >=20
+> > > > > > But what's the main drawback of exporting the existing
+> > > > > > helper.
+> > > > > Well that we re-creates exactly the mid-layer mess I worked
+> > > > > so
+> > > > > hard
+> > > > > to
+> > > > > remove from TTM.
+> > > > It doesn't IMO. I agree the first attempt did. This affects
+> > > > only
+> > > > the
+> > > > LRU iteration itself and I'm even fine to get rid of the
+> > > > callback
+> > > > using
+> > > > a for_ macro.
+> > > Well, I mean using a for_each approach is objectively better than
+> > > having
+> > > a callback and a state bag.
+> > >=20
+> > > But the fundamental question is if drivers are allowed to reject
+> > > shrinking. And I think the answer is no, they need to be designed
+> > > in
+> > > a
+> > > way where shrinking is always possible.
+> > Rejects can be out of our control, due to anticipated deadlocks,
+> > oom
+> > and deferring to kswapd.
+> >=20
+> > > What can be that we can't get the necessary locks to evict and
+> > > object
+> > > (because it's about to be used etc...), but that are the per-
+> > > requisites
+> > > TTM should be checking.
+> > >=20
+> > > > > > In any case, I don't think TTM should enforce a different
+> > > > > > way
+> > > > > > of
+> > > > > > shrinking by the means of a severely restricted helper?
+> > > > > Well, as far as I can see that is exactly what TTM should do.
+> > > > >=20
+> > > > > I mean the main advantage to make a common component is to
+> > > > > enforce
+> > > > > correct behavior.
+> > > > But if all other drivers don't agree this as correct behavior
+> > > > and
+> > > > instead want to keep behavior that is proven to work, that's a
+> > > > dead
+> > > > end.
+> > > Well no, even if all drivers agree to (for example) drop security
+> > > precautions it's still not something acceptable.
+> > >=20
+> > > And same thing here, if we block shrinking because drivers think
+> > > they
+> > > want their runtime PM implemented in a certain way then upstream
+> > > needs
+> > > to block this and push back.
+> > >=20
+> > > As far as I can see it's mandatory to have shrinkers not depend
+> > > on
+> > > runtime PM, cause otherwise you run into resources handling which
+> > > depends on the well behavior of userspace and that in turn in
+> > > something
+> > > we can't allow.
+> > Please see the above explanation for runtime pm, and for the record
+> > I
+> > agree that enforcing disallowed or security violations is a
+> > completely
+> > valid thing.
+>=20
+> Putting the TTM issue aside as far as I can tell what i915 is
+> extremely=20
+> questionable and doing the same thing in XE is most likely not
+> something=20
+> we should allow.
+
+Xe is currently not doing the same but relying on a separate thread
+rather than kswapd to wake the device.
+
+Thanks,
+Thomas
+
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > /Thomas
+> >=20
+> > > Regards,
+> > > Christian.
+> > >=20
+> > > > /Thomas
+> > > >=20
+> > > >=20
+> > > > > Regards,
+> > > > > Christian.
+> > > > >=20
+> > > > > > /Thomas
+> > > > > >=20
 
