@@ -2,67 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2BC959371
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 05:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11514959383
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 06:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3DBE10E883;
-	Wed, 21 Aug 2024 03:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757E510E583;
+	Wed, 21 Aug 2024 04:04:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ahQ3B0di";
+	dkim=pass (2048-bit key; unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com header.b="iz4Pgecd";
+	dkim=pass (2048-bit key; unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com header.b="dL86t6xE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C9BB10E882;
- Wed, 21 Aug 2024 03:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724212338; x=1755748338;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xWGpi3FNTVpDRYtQlGQLl9i3kf/YdCCoa/UwitYL1FE=;
- b=ahQ3B0diDIkYFym1Gg+JYt4hzMsDpbgiUyec5Xz1XnU4JODp615CCYus
- fGJhIP1nq/iiM/S3CTWUYqPpq6ANSxrlYNlQO36dRAzcU2VTBbJ5u+HGO
- IIiiL9UTrqc5upgWkqTeN1BS5MJFjhiSz1kW121KxSp5tn3J5qX4cyQJg
- q5LSMpfTwG3qigtG8wMWwF0BKY9njyP7t+odkSR9i9rlFzHfSbQ6v+nxL
- +A/ByuNqH91g3i0QvEjV2iL2eiB4ckgz5OU+FuVY+/JlsxFWqZTgLc4Pa
- XjX99hMQhj9RiJpttTI2ellPoFUB2L1XAwIMqY/L083Sy+ZvHHbEI2QP7 Q==;
-X-CSE-ConnectionGUID: Eg3CVZknSgWt6gAB/4wvcQ==
-X-CSE-MsgGUID: YSOheMJlS3e+1C0mn3ey2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33936396"
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; d="scan'208";a="33936396"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 20:52:17 -0700
-X-CSE-ConnectionGUID: Vofor6GeT9arpAjPlJXtmw==
-X-CSE-MsgGUID: H3o51Ve/T16jJIAkXacFSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; d="scan'208";a="65647472"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2024 20:52:13 -0700
-Date: Wed, 21 Aug 2024 06:52:10 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, daniel@ffwll.ch,
- linux@roeck-us.net, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, anshuman.gupta@intel.com,
- badal.nilawar@intel.com, riana.tauro@intel.com,
- ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v4] drm/i915/hwmon: expose fan speed
-Message-ID: <ZsVkapETDCTtx2_F@black.fi.intel.com>
-References: <20240809061525.1368153-1-raag.jadav@intel.com>
- <ZrYB-GI9L2RSc2bt@smile.fi.intel.com>
- <ZrYEQqs0IwDHWkGx@ashyti-mobl2.lan>
- <ZsRbK8TEk5GZDl0C@black.fi.intel.com> <ZsUPY4zJwEGAf_t_@intel.com>
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Wed, 21 Aug 2024 04:04:08 UTC
+Received: from gw2.atmark-techno.com (gw2.atmark-techno.com [35.74.137.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BA610E583
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 04:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=atmark-techno.com;
+ s=gw2_bookworm; t=1724212683;
+ bh=iRH6vm3f+qvme31wvecI88/Rqtmvlts9o6HozktikAk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iz4PgecdpbUrvyd4gw8XXc9uXIomOwIADrN6X00sQd4TR0jiKxHenFzb5ndyBbuLF
+ rKxSLronsPTJyXCXkjeZg05IoDhp40+VrhYfrF5ckNx7zIeyES8qZF61fdZS6JvgCx
+ WSuAkRtxNxYMamcb6lp9axAA5G/GDJTxypCBAlLpGxk/Z18KaBPqZ3UdN4LAtdLHq9
+ J93j/MPzFnlPKpsOlRAQQGmDhTiefpbM/xZVbymlycFj8sYzq+7BjjXoEkFDCPRQ7k
+ 7jV4cELlGG7fszPDiL4dppNVqzLu6iSv1pJ1VkwcExiuq4I1JtMENEkmeS3T/ValmI
+ rCqlOx2f3SZZw==
+Received: from gw2.atmark-techno.com (localhost [127.0.0.1])
+ by gw2.atmark-techno.com (Postfix) with ESMTP id 915586E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 12:58:03 +0900 (JST)
+Authentication-Results: gw2.atmark-techno.com; dkim=pass (2048-bit key;
+ unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com
+ header.a=rsa-sha256 header.s=google header.b=dL86t6xE; 
+ dkim-atps=neutral
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72])
+ by gw2.atmark-techno.com (Postfix) with ESMTPS id E0E099FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 12:57:58 +0900 (JST)
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-2d3bd8a0be3so5184520a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 20:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atmark-techno.com; s=google; t=1724212678; x=1724817478;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=V+qnGxy5w3VX94K4aj4lv3e2rRMZae3o2HZnHPaaqtQ=;
+ b=dL86t6xEESRQ32OuJGgBRYwZIVJrx6uNZBKkbzqbAZMbJd0XWznZScreSSIbYWtOeV
+ n+YPPHW9bF0hw/UaKDY3n5ag89Af55fYcT1itSl8dhfd5m0VeEg60sOWAss8JsovgH+K
+ YDcC6R56vzrOlWhSe9uXfHoADPAsr3Uxm2AD/qC14lvWCcz5v5y1oB33E6ZySl4cCkB1
+ zAgEeP+6rlj77iRd+R9JwTG+LMUEOpzLQ15dzCyLn0K+gaeiOdu/2XkfG5hAW8MmJOCm
+ rhsElPC0mgExWOMszdfnO/gSMvw1Dr660byCzdHnXDoTAkZrCoDQD+ufDRnxIjjrQGGD
+ twFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724212678; x=1724817478;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V+qnGxy5w3VX94K4aj4lv3e2rRMZae3o2HZnHPaaqtQ=;
+ b=ZAZnR0BIIJatmv8pDrMTChiEvr7zpxzZ53DuimR7eUAa9eGcu3KPDDrdCDcKhSyVPN
+ SDjkqot0xaEsdC7CcuaUM/ur2USMFOoGnJ/UkNNxSzIaZmYzoyIIla1XfFHd9VMuJTaE
+ 3qEhN8BAViE0eajhdOZEZH6f0M3jgPfmqoRBWTQwm0OL52SupuYyjDSfh8NJ37sruDsO
+ nquhyFBCGAe4XTSstU8ZZhhb60fG7eH0pKih6QJsZ8rYz6DpFq5VUCzZ1MFa4xrPuc3+
+ VgtwJTsa4wvbGUeGm5QYLHI5bdbMEq+v6fMlGClH8LusKrY7on4CDnL3/0M5wKAVO2fa
+ zIQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWeSgqollT4XUg/iSxAgtd35Q+/gtdpgzagfKa6BK0m86Yb6aRkxg+nRfiI9HuPiXesUuGz/vNThkw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8AhOKeyr7bY3CYxiEv8RyuZqvlfgus2VU6QixGQZ4baKM8REX
+ 1t4rWq2/EhMZKOPYyvcMt+QL896faR2YweefXAaKjLy/nLq4HtKyOyAaMk0UK5RH/nWAf2AhRqO
+ JPBO+0YcLWIzIDc7L+BcWFuDDFlb7Q7QwzH75j/9Fmy17Jpuh7XB+Dw9l4ZSrHKxP7UQ=
+X-Received: by 2002:a17:90b:1e50:b0:2d3:d8c9:780e with SMTP id
+ 98e67ed59e1d1-2d5e9a1c42bmr1083901a91.20.1724212677605; 
+ Tue, 20 Aug 2024 20:57:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVIiKdohXScz0/LgmYJB0F0NSJGU/plj9oicFpDF0zuctdGMznMuiv+lGTxqm9jYAS6FVvyw==
+X-Received: by 2002:a17:90b:1e50:b0:2d3:d8c9:780e with SMTP id
+ 98e67ed59e1d1-2d5e9a1c42bmr1083873a91.20.1724212677161; 
+ Tue, 20 Aug 2024 20:57:57 -0700 (PDT)
+Received: from pc-0182.atmarktech (117.209.187.35.bc.googleusercontent.com.
+ [35.187.209.117]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2d5eba30e40sm501627a91.24.2024.08.20.20.57.56
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 20 Aug 2024 20:57:56 -0700 (PDT)
+Received: from martinet by pc-0182.atmarktech with local (Exim 4.96)
+ (envelope-from <martinet@pc-zest>) id 1sgcTr-003xuT-0q;
+ Wed, 21 Aug 2024 12:57:55 +0900
+Date: Wed, 21 Aug 2024 12:57:45 +0900
+From: Dominique MARTINET <dominique.martinet@atmark-techno.com>
+To: Adam Ford <aford173@gmail.com>
+Cc: Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, marex@denx.de,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ Makoto Sato <makoto.sato@atmark-techno.com>
+Subject: Re: drm/bridge/imx8mp-hdmi-tx: Allow inexact pixel clock frequencies
+ (Was: [PATCH V8 10/12] drm/bridge: imx: add bridge wrapper driver for
+ i.MX8MP DWC HDMI)
+Message-ID: <ZsVluV50NvuGGHFX@atmark-techno.com>
+References: <20240203165307.7806-1-aford173@gmail.com>
+ <20240203165307.7806-11-aford173@gmail.com>
+ <Zm_UzO4Jmm7Aykcm@atmark-techno.com>
+ <22a3f5266260dd3915269ae3eec7724f7537eb55.camel@pengutronix.de>
+ <cd03ecb1-100e-4699-95ed-d837a2802dc7@kontron.de>
+ <CAHCN7x+bh_ka250hOCenO3Et6re4EJ=5TG8=kpG1hs-PV0dQxQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZsUPY4zJwEGAf_t_@intel.com>
+In-Reply-To: <CAHCN7x+bh_ka250hOCenO3Et6re4EJ=5TG8=kpG1hs-PV0dQxQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,91 +138,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 20, 2024 at 05:49:23PM -0400, Rodrigo Vivi wrote:
-> On Tue, Aug 20, 2024 at 12:00:27PM +0300, Raag Jadav wrote:
-> > On Fri, Aug 09, 2024 at 12:57:54PM +0100, Andi Shyti wrote:
-> > > On Fri, Aug 09, 2024 at 02:48:08PM +0300, Andy Shevchenko wrote:
-> > > > On Fri, Aug 09, 2024 at 11:45:25AM +0530, Raag Jadav wrote:
-> > > > > Add hwmon support for fan1_input attribute, which will expose fan speed
-> > > > > in RPM. With this in place we can monitor fan speed using lm-sensors tool.
-> > > > > 
-> > > > > $ sensors
-> > > > > i915-pci-0300
-> > > > > Adapter: PCI adapter
-> > > > > in0:         653.00 mV
-> > > > > fan1:        3833 RPM
-> > > > > power1:           N/A  (max =  43.00 W)
-> > > > > energy1:      32.02 kJ
-> > > > 
-> > > > > v2:
-> > > > > - Add mutex protection
-> > > > > - Handle overflow
-> > > > > - Add ABI documentation
-> > > > > - Aesthetic adjustments (Riana)
-> > > > > 
-> > > > > v3:
-> > > > > - Declare rotations as "long" and drop redundant casting
-> > > > > - Change date and version in ABI documentation
-> > > > > - Add commenter name in changelog (Riana)
-> > > > > 
-> > > > > v4:
-> > > > > - Fix wakeref leak
-> > > > > - Drop switch case and simplify hwm_fan_xx() (Andi)
-> > > > 
-> > > > I do not understand why we pollute Git history with changelogs, but it's
-> > > > probably the ugly atavism in DRM workflow.
-> > > 
-> > > I never liked it! Besides it should even be against the
-> > > submitting patches recommendation.
-> > > 
-> > > I don't understand what interest might have someone in a couple
-> > > of years, reading this commit, knowing an unintellegible list of
-> > > differences between v2 and v3.
-> > > 
-> > > I consider it a random pollution of the commit log.
-> 
-> I agree it is ugly. But I don't agree it is just a 'random polution'.
-> 
-> I consider a valid and very useful information of the patch history.
-> Very useful for a later cross check to know what exactly version
-> of that patch got merged.
-> Useful for distros on backports as well.
+Adam Ford wrote on Tue, Aug 20, 2024 at 09:49:03PM -0500:
+> > > However, this check is a bit overcautious in that it only allows exact
+> > > rate matches. IIRC HDMI allows a rate mismatch of +- 0.5%, so this
+> > > check could be relaxed quite a bit to allow for that.
+> >
+> > I checked with a 1080p display that reports 23 possible modes via EDID.
+> > Out of these 15 are accepted by the driver with the strict check.
+> >
+> > Two more would be accepted with a relaxed check that allows a 0.5% margin.
+> >
+> > For the remaining six modes, the pixel clock would deviate up to ~5%
+> > from what the display expects. Still, if I remove the check altogether,
+> > all 23 modes seem to work just fine.
 
-Isn't this why we have 'Link' as part of commit which points to
-actual ML submission?
+I can confirm the displays I tested also seem pretty tolerant in
+practice (up to ~3-4% at least), but I agree with Lucas that this isn't
+something we can rely on for a general purpose driver as having examples
+of things being tolerant doesn't mean all hardware will be as flexible..
 
-> > 
-> > Isn't it already documented?
-> > Documentation/process/submitting-patches.rst
+> > I'd really like to be able to add more PHY PLL setpoints for displays
+> > that use non-CEA-861 modes. Unfortunately I didn't manage to figure out
+> > the fractional-n PLL parameter calculation so far.
+> >
+> > The i.MX8MP Reference Manual provides formulas to calculate the
+> > parameters based on the register values and I tried to make sense of it
+> > using the existing register values in the driver. But somehow it doesn't
+> > add up for me.
+> >
+> > Lucas, did you already work with the PLL parameters? By any chance, do
+> > you now how the math behind them works?
 > 
-> I think it is:
-> 
-> "Be sure to tell the reviewers what changes you are making and to thank them
->  for their time.  Code review is a tiring and time-consuming process, and
->  reviewers sometimes get grumpy.  Even in that case, though, respond
->  politely and address the problems they have pointed out.  When sending a next
->  version, add a ``patch changelog`` to the cover letter or to individual patches
->  explaining difference against previous submission
-> "
-> 
-> Then:
-> 
-> '''
-> Example of a patch submitted by the From: author::
-> '''
-> 
-> defines 'changelog' as the block above the signatures.
-> 
-> And
-> 
-> 'The canonical patch format'
-> 
-> also tells that anything after '---' marker line is for
-> "Any additional comments not suitable for the changelog."
-> 
-> But well, the important part is to have the version information
-> available for reviewers.
+> I spent a little time trying to understand it a bit.  I created a PMS
+> calculator similar to the one used on the DSI controller,
 
-Can still be available below '---' marker.
+Great! I'll admit this also flies over my head and I don't have the
+time to study this, so this is much appreciated.
 
-Raag
+> except that
+> the M seems to be fixed at a value of 62 per the data sheet, so it's
+> more of a PS calculator.
+
+Hmm... PHY_REG2 in the datasheet only lists '0011_1110b - 62' as
+example(?) values, but it doesn't say other values are reserved either,
+I'm not sure what to make of it.
+In the current driver PHY_REG_02 (driver macro) is assigned the first
+field of .pll_div_regs, which goes anywhere from 0x4b to 0x7b -- pretty
+far from 62(0x3e)...
+
+Since other frequencies have been adjusting this main diviser ratio we
+actually tried copying neighboring values and adjusting only that reg 2
+(so the M if I get this right?), but the end result ended up not
+synchronizing properly every time... We didn't have time to check with a
+scope if the generated signal was ugly or if it just didn't lock
+properly, but the display worked when we just re-used the neighboring
+values without changing anything despite being ~3-4% off, so we took the
+easy way out here and didn't dig much further.
+
+> Anyway, When I run my P-S calculator to generate the 'best rate' I get
+> a value that's usually 0.2% variance from nominal, but I only verified
+> a handful of values:
+> 
+> Several which were +0.2%
+> 297600000 vs 297000000 (4k@30)
+> 148800000 vs 148500000 (1080p60)
+> 74400 vs 74200
+> 
+> One value was -0.16%
+> 24800000 vs 25200000
+> 
+> If the M value was a bit more flexible, we might be able to reduce
+> that variance more.
+
+Yes, I think the M value could be more flexible, but that'd require
+checking if it actually works, whereas having slightly off frequencies
+will most likely be OK so I don't think it's worth the effort -- happy
+to stick to what the datasheet describes.
+
+> If / when I get some time, I might play with trying to disable the
+> fractional mode and just use the PMS calculator for simplicity despite
+> the inaccuracy.  Maybe we could fall back to using the PMS calculator
+> if the desired frequency isn't in the look-up-table.
+
+That'd be greatly appreciated, I don't have any strong opinion on
+whether that should completely replace the table, or only be used if
+there is no exact match in the table as these are values we know will
+work; but we can definitely test any patch you can throw at us here.
+
+
+Cheers,
+-- 
+Dominique
+
+
