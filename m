@@ -2,74 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80018959718
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 11:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E46095971E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 11:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1DA10E472;
-	Wed, 21 Aug 2024 09:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D6310E467;
+	Wed, 21 Aug 2024 09:29:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="F/QdrFJb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="orW9uc8f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB86A10E472
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 09:27:29 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id
- 41be03b00d2f7-76cb5b6b3e4so4415127a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 02:27:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724232449; x=1724837249;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VF9PjinJER9wjMA+9D6wXT2j5101Rcr5iAVO00wcnuk=;
- b=F/QdrFJbqfcAfPi6O/UBPL/QAjiPqJgiMiF8J5JFnblI/tbKz/DprxX4I0VZfiwcUU
- 9k0Q0nC+0gzseGnCeSfpV1y/40o+EhrUvCq/Z9c0/aQkZni6LeeIPZDLyE0cNr3BvvCA
- wZmxsXa5dTE5XxSJGMhDtfa8ASx8ezbvuraz4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724232449; x=1724837249;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VF9PjinJER9wjMA+9D6wXT2j5101Rcr5iAVO00wcnuk=;
- b=EiJCK4YVhvg7NAwGTRhrWina0aT3YIv3kPrmJJWD0BE4NgYDz99N/4I+jqV79mjEAp
- P73xETk1FP5G2619eL5uACkP3k8A6eL1dc69f8I12RimgrUu9fswmdj2O12P+6MOB4yV
- sUCmQilh29MT+Ff/KEz70ot7b7n8Zqs9Tgc8a2yaUIXtYIaqC14hkV7WxWA7a7Y+W8Tl
- pVSQdXXqd0fGmWnQqqG0IJXYm2QNcwsbM3stKbfl0GccyKIpKh659YXGLU8XOGCgN//b
- ChfgBXKky61qBjZ2MAYGLT52vxeEzyF4a/r3C5VQrJ3TcdGJun7Mk2j+aH9oqT1cMA8v
- ihYg==
-X-Gm-Message-State: AOJu0YyaITWOd0GGOEjWDW+u1C5iSWrui8XQjx8RePkBFhqGHXS/b5E6
- rIpg4xZagFLqziVFBrAXvUu1+9YO2+YGN5uoG6F450HX3Db9iml56KsiqsI8mQ==
-X-Google-Smtp-Source: AGHT+IFnfIrNiUomfEp1ttryB9uQgWfxL55rhoeddUhSzpcz4uk60NiwIgmgyqLVCB/iQ59t6moGxQ==
-X-Received: by 2002:a05:6a20:4392:b0:1c4:b302:ad14 with SMTP id
- adf61e73a8af0-1cad8160aa4mr2007740637.24.1724232449282; 
- Wed, 21 Aug 2024 02:27:29 -0700 (PDT)
-Received: from localhost (185.174.143.34.bc.googleusercontent.com.
- [34.143.174.185]) by smtp.gmail.com with UTF8SMTPSA id
- d9443c01a7336-201f0300844sm89985195ad.47.2024.08.21.02.27.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Aug 2024 02:27:29 -0700 (PDT)
-From: Rohit Agarwal <rohiagar@chromium.org>
-To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
- jitao.shi@mediatek.com
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B87BD10E467
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 09:29:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 0DA83CE0DFF;
+ Wed, 21 Aug 2024 09:29:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1126BC32782;
+ Wed, 21 Aug 2024 09:29:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724232592;
+ bh=57xa6s32Ejckrcu1ZZVs/ds7fUKs3ZrLwFJ2FrfXvls=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=orW9uc8fl36zfMBG8j0teAt8NbpEKaG0RmFlThTOR6XYt20Ar8Sv7rgZu0q1ijTVy
+ Oje0PirkTYTWeVHhoGUUj9YLbiR7nSyvpdeVc6YbYNxZEhcQ3e65YEmDPGRANEiFH0
+ I4GPMvmbAMnpZx01r3+zbbpqvTgy4P0NhIZrHdIKpMUAIK1edjCR1e3MwCOUuyWQWi
+ o08ujnfvkCjiJz9vM0yde/rYppwH300gV5su95dbg+90m1bR1N0Yk7fYGZg7UrGbrU
+ eeno57rr6WKyLBJvz/qx57ByVAb0tV6a8eDhBmXSFWXTWJadgBx2XClm/tuWp5ax84
+ +cw/tBdu4pC/A==
+Message-ID: <415a27c7-dfdf-4cc5-9aaa-1681dd32ddcb@kernel.org>
+Date: Wed, 21 Aug 2024 11:29:42 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: mediatek: dpi: Add power
+ domains
+To: Rohit Agarwal <rohiagar@chromium.org>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ ck.hu@mediatek.com, jitao.shi@mediatek.com
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Rohit Agarwal <rohiagar@chromium.org>
-Subject: [PATCH v2 3/3] arm64: dts: mediatek: mt8186: Add svs node
-Date: Wed, 21 Aug 2024 09:26:59 +0000
-Message-ID: <20240821092659.1226250-4-rohiagar@chromium.org>
-X-Mailer: git-send-email 2.46.0.295.g3b9ea8a38a-goog
-In-Reply-To: <20240821092659.1226250-1-rohiagar@chromium.org>
+ linux-arm-kernel@lists.infradead.org
 References: <20240821092659.1226250-1-rohiagar@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20240821092659.1226250-2-rohiagar@chromium.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240821092659.1226250-2-rohiagar@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,51 +110,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add clock/irq/efuse setting in svs nodes for mt8186 SoC.
+On 21/08/2024 11:26, Rohit Agarwal wrote:
+> Add power domain binding to the mediatek DPI controller
+> for MT8186.
+> Also, add power domain binding for other SoCs like
+> MT6795 and MT8173 that already had power domain property.
+> 
+> Signed-off-by: Rohit Agarwal <rohiagar@chromium.org>
+> ---
+>  .../display/mediatek/mediatek,dpi.yaml        | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> index 5ca7679d5427..864b781fdcea 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> @@ -62,6 +62,8 @@ properties:
+>        - const: default
+>        - const: sleep
+>  
+> +  power-domains: true
 
-Signed-off-by: Rohit Agarwal <rohiagar@chromium.org>
----
- arch/arm64/boot/dts/mediatek/mt8186.dtsi | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Missing maxItems. I don't get why did you change this...
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-index e27c69ec8bdd..a51f3d8ce745 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-@@ -1361,6 +1361,18 @@ spi0: spi@1100a000 {
- 			status = "disabled";
- 		};
- 
-+		svs: svs@1100b000 {
-+			compatible = "mediatek,mt8186-svs";
-+			reg = <0 0x1100b000 0 0x400>;
-+			interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&infracfg_ao CLK_INFRA_AO_THERM>;
-+			clock-names = "main";
-+			nvmem-cells = <&svs_calibration>, <&lvts_e_data1>;
-+			nvmem-cell-names = "svs-calibration-data", "t-calibration-data";
-+			resets = <&infracfg_ao MT8186_INFRA_PTP_CTRL_RST>;
-+			reset-names = "svs_rst";
-+		};
-+
- 		pwm0: pwm@1100e000 {
- 			compatible = "mediatek,mt8186-disp-pwm", "mediatek,mt8183-disp-pwm";
- 			reg = <0 0x1100e000 0 0x1000>;
-@@ -1676,6 +1688,14 @@ efuse: efuse@11cb0000 {
- 			#address-cells = <1>;
- 			#size-cells = <1>;
- 
-+			lvts_e_data1: data@1cc {
-+				reg = <0x1cc 0x14>;
-+			};
-+
-+			svs_calibration: calib@550 {
-+				reg = <0x550 0x50>;
-+			};
-+
- 			gpu_speedbin: gpu-speedbin@59c {
- 				reg = <0x59c 0x4>;
- 				bits = <0 3>;
--- 
-2.46.0.295.g3b9ea8a38a-goog
+> +
+>    port:
+>      $ref: /schemas/graph.yaml#/properties/port
+>      description:
+> @@ -76,6 +78,23 @@ required:
+>    - clock-names
+>    - port
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - mediatek,mt6795-dpi
+> +              - mediatek,mt8173-dpi
+> +              - mediatek,mt8186-dpi
+> +    then:
+> +      properties:
+> +        power-domains:
+> +          maxItems: 1
+
+This part can be dropped. Just disallow it for other devices.
+
+
+Best regards,
+Krzysztof
 
