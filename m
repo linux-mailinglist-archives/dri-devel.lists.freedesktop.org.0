@@ -2,58 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4CD95A023
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6C095A056
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:48:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B5F10E648;
-	Wed, 21 Aug 2024 14:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6314710E647;
+	Wed, 21 Aug 2024 14:48:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="HI8cAqxm";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="knC3vJ1i";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IyjTAS8b";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="knC3vJ1i";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IyjTAS8b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5311910E648
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 14:39:22 +0000 (UTC)
-Delivered-To: boris.brezillon@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724251159; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cMTArci0MKn43HOSLMzqAMyNrW4DHr+SkmO2QF6uQ4EOiNx5+YhVjqc/ykbc4JczJO+Z47WFvY76kDGllr6lq2K8qWHhafpp75kljcN4yCrx5nYHmj9ilqgWs8R1zG6/yVwxLVxiC3uw/AEO3WznGzi5u8MU8bRjDzXvzyXs2vc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1724251159;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=4TyB7ycVJcJFce9wDMid/a6SVoBq2Z6PsVzRbtIMMJU=; 
- b=CV/8dsYqtHJRtTy0Ad6uLxgm2pfIli/W5B2OigXHlTKnyn7OM7WQB+fE1za5bynxtqs+DE6PR03igWIRXxt0UI1qhdn6vDjGFMv7MMQXx1Dy5mMhnXAawo1mcetxX8vXfyW2COdNZVp+IX8AHp+R/FhEnU6Fm2vKJFhChown8KQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724251159; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=4TyB7ycVJcJFce9wDMid/a6SVoBq2Z6PsVzRbtIMMJU=;
- b=HI8cAqxmigHRV/tAegL6DoQN4sDIxiS22h3uDo463mfGTNuP4vowLRG/MXlOdKXc
- Y2KnXFovTqKy/fUw7AUltF2QBYmPEtF2CJdzGUYGWEZJ52mpfJ2qat92fXxgjC2JWHP
- w73RECBtLWEw0CZx/EQ8kvqN1hAEUbafDA+KHQX0=
-Received: by mx.zohomail.com with SMTPS id 1724251156564908.3603744188877;
- Wed, 21 Aug 2024 07:39:16 -0700 (PDT)
-From: Daniel Almeida <daniel.almeida@collabora.com>
-To: liviu.dudau@arm.com, steven.price@arm.com, carsten.haitzler@arm.com,
- boris.brezillon@collabora.com, robh@kernel.org,
- faith.ekstrand@collabora.com
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 RESEND 5/5] drm: panthor: allow dumping multiple jobs
-Date: Wed, 21 Aug 2024 11:37:31 -0300
-Message-ID: <20240821143826.3720-6-daniel.almeida@collabora.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240821143826.3720-1-daniel.almeida@collabora.com>
-References: <20240710225011.275153-1-daniel.almeida@collabora.com>
- <20240821143826.3720-1-daniel.almeida@collabora.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86EDE10E647;
+ Wed, 21 Aug 2024 14:48:25 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2E8A420097;
+ Wed, 21 Aug 2024 14:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724251704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Njwnh70NiXwAexlb1G1nLuzn0Snw9bjqOKx37SY2BsM=;
+ b=knC3vJ1iIadWvC3tECuOCxv/+tdVz18vVcL5RpKhN7IXqmFYCW59WPonUTDi4OhDR47sCH
+ 3RxmgRN+PjlrOjsAxvDTBa005swiVJG5KbVM9qp4geU7XFhgg61U7QhtxZMsuILGBqP9Vi
+ 96m8MvQt6QLAtM7FJ5Sbm2VPk+1HImI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724251704;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Njwnh70NiXwAexlb1G1nLuzn0Snw9bjqOKx37SY2BsM=;
+ b=IyjTAS8bVx9kQqyk/by/HtkJPx0EVCTos2qrPRZg7DlHrr6xpZUin7sASpmKVNgaWjEPnx
+ FZ2OrgX4MGNsymAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724251704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Njwnh70NiXwAexlb1G1nLuzn0Snw9bjqOKx37SY2BsM=;
+ b=knC3vJ1iIadWvC3tECuOCxv/+tdVz18vVcL5RpKhN7IXqmFYCW59WPonUTDi4OhDR47sCH
+ 3RxmgRN+PjlrOjsAxvDTBa005swiVJG5KbVM9qp4geU7XFhgg61U7QhtxZMsuILGBqP9Vi
+ 96m8MvQt6QLAtM7FJ5Sbm2VPk+1HImI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724251704;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Njwnh70NiXwAexlb1G1nLuzn0Snw9bjqOKx37SY2BsM=;
+ b=IyjTAS8bVx9kQqyk/by/HtkJPx0EVCTos2qrPRZg7DlHrr6xpZUin7sASpmKVNgaWjEPnx
+ FZ2OrgX4MGNsymAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4C1613770;
+ Wed, 21 Aug 2024 14:48:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OuSmMjf+xWZHPAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Aug 2024 14:48:23 +0000
+Message-ID: <35a03177-28a8-4d8f-9e56-d48298a4edab@suse.de>
+Date: Wed, 21 Aug 2024 16:48:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/xe: Support 'nomodeset' kernel command-line option
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Gustavo Sousa <gustavo.sousa@intel.com>, airlied@gmail.com, daniel@ffwll.ch,
+ lucas.demarchi@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, rodrigo.vivi@intel.com, thomas.hellstrom@linux.intel.com
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20240821135750.102117-1-tzimmermann@suse.de>
+ <172424976000.2071.18125280900868355577@gjsousa-mobl2>
+ <87plq23q6m.fsf@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87plq23q6m.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[linux.intel.com,intel.com,gmail.com,ffwll.ch,kernel.org];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, imap1.dmz-prg2.suse.org:helo,
+ suse.de:email, suse.de:mid]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,414 +146,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When dumping successful jobs, it's useful to dump a given number of
-them if needed. This is blocked by the fact that the devcoredump
-mechanism will not create a new dump if an old one has not been read.
+Hi
 
-In particular, if we're dumping multiple jobs in sequence, there are
-sections of the dump that we do not want to include again, since they
-would be redundant.
+Am 21.08.24 um 16:29 schrieb Jani Nikula:
+> On Wed, 21 Aug 2024, Gustavo Sousa <gustavo.sousa@intel.com> wrote:
+>> Quoting Thomas Zimmermann (2024-08-21 10:56:59-03:00)
+>>> Setting 'nomodeset' on the kernel command line disables all graphics
+>>> drivers with modesetting capabilities; leaving only firmware drivers,
+>>> such as simpledrm or efifb.
+>>>
+>>> Most DRM drivers automatically support 'nomodeset' via DRM's module
+>>> helper macros. In xe, which uses regular module_init(), manually call
+>>> drm_firmware_drivers_only() to test for 'nomodeset'. Do not register
+>>> the driver if set.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>> drivers/gpu/drm/xe/xe_module.c | 5 +++++
+>>> 1 file changed, 5 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/xe/xe_module.c b/drivers/gpu/drm/xe/xe_module.c
+>>> index 923460119cec..60fb7dd26903 100644
+>>> --- a/drivers/gpu/drm/xe/xe_module.c
+>>> +++ b/drivers/gpu/drm/xe/xe_module.c
+>>> @@ -8,6 +8,8 @@
+>>> #include <linux/init.h>
+>>> #include <linux/module.h>
+>>>
+>>> +#include <drm/drm_module.h>
+>>> +
+>>> #include "xe_drv.h"
+>>> #include "xe_hw_fence.h"
+>>> #include "xe_pci.h"
+>>> @@ -92,6 +94,9 @@ static int __init xe_init(void)
+>>> {
+>>>          int err, i;
+>>>
+>>> +        if (drm_firmware_drivers_only())
+>>> +                return -ENODEV;
+>>> +
+>> Hm... But what if xe is to be used only for compute or render? Shouldn't
+>> we handle this somewhere else?
+> The question becomes, what does "nomodeset" really mean here?
 
-Allow dumping multiple jobs by keeping a counter and a list. The list
-gets appended until the counter is zero, at which point, the whole list
-is dumped at once, thereby calling into devcoredump also only once.
+That function's name 'firmware drivers only' says it better than the 
+option's name. We used 'nomodeset', because it was there already and had 
+the correct semantics.
 
-This counter is controlled through a debugfs file.
+>
+> See what i915 does in i915_module.c.
 
-Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_dump.c  | 229 ++++++++++++++++--------
- drivers/gpu/drm/panthor/panthor_dump.h  |  15 ++
- drivers/gpu/drm/panthor/panthor_sched.c |  20 ++-
- 3 files changed, 186 insertions(+), 78 deletions(-)
+i915 and the other drivers for PCI-based hardware don't load at all. 
+Drivers for external displays (e.g., SPI, USB) ignore nomodeset, as 
+these displays are not initialized by firmware.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_dump.c b/drivers/gpu/drm/panthor/panthor_dump.c
-index 7ec0e21dc7e9..d3b29359e13a 100644
---- a/drivers/gpu/drm/panthor/panthor_dump.c
-+++ b/drivers/gpu/drm/panthor/panthor_dump.c
-@@ -5,6 +5,7 @@
- #include <linux/iosys-map.h>
- #include <linux/devcoredump.h>
- #include <linux/err.h>
-+#include <linux/list.h>
- #include <linux/vmalloc.h>
- #include <linux/types.h>
- #include <uapi/drm/panthor_drm.h>
-@@ -152,22 +153,25 @@ static void count_queues(struct queue_count *count,
- }
- 
- static int compute_dump_size(struct vm_dump_count *va_count,
--			     struct queue_count *group_and_q_cnt)
-+			     struct queue_count *group_and_q_cnt,
-+			     bool job_list_is_empty)
- {
- 	int size = 0;
- 	int i;
- 
--	size += sizeof(struct drm_panthor_dump_header);
--	size += sizeof(struct drm_panthor_dump_version);
-+	if (job_list_is_empty) {
-+		size += sizeof(struct drm_panthor_dump_header);
-+		size += sizeof(struct drm_panthor_dump_version);
- 
--	size += sizeof(struct drm_panthor_dump_header);
--	size += sizeof(struct drm_panthor_gpu_info);
-+		size += sizeof(struct drm_panthor_dump_header);
-+		size += sizeof(struct drm_panthor_gpu_info);
- 
--	size += sizeof(struct drm_panthor_dump_header);
--	size += sizeof(struct drm_panthor_csif_info);
-+		size += sizeof(struct drm_panthor_dump_header);
-+		size += sizeof(struct drm_panthor_csif_info);
- 
--	size += sizeof(struct drm_panthor_dump_header);
--	size += sizeof(struct drm_panthor_fw_info);
-+		size += sizeof(struct drm_panthor_dump_header);
-+		size += sizeof(struct drm_panthor_fw_info);
-+	}
- 
- 	for (i = 0; i < va_count->vas; i++) {
- 		size += sizeof(struct drm_panthor_dump_header);
-@@ -250,6 +254,58 @@ static int dump_group_info(struct dump_group_args *dump_group_args,
- 	return ret;
- }
- 
-+static void clean_job_list(struct list_head *joblist)
-+{
-+	struct panthor_dump_job_entry *job, *tmp;
-+
-+	list_for_each_entry_safe(job, tmp, joblist, node) {
-+		list_del(&job->node);
-+		vfree(job->mem);
-+		kfree(job);
-+	}
-+}
-+
-+static int append_job(struct panthor_core_dump_args *args, void *mem,
-+		      size_t size)
-+{
-+	struct panthor_dump_job_entry *job;
-+
-+	job = kzalloc(sizeof(*job), GFP_KERNEL);
-+	if (!job)
-+		return -ENOMEM;
-+
-+	job->mem = mem;
-+	job->size = size;
-+	list_add_tail(&job->node, args->job_list);
-+	return 0;
-+}
-+
-+static int copy_from_job_list(struct list_head *job_list, void **out_mem,
-+			      u32 *out_size)
-+{
-+	u32 total_size = 0;
-+	u32 offset = 0;
-+	struct panthor_dump_job_entry *entry;
-+	void *mem;
-+
-+	list_for_each_entry(entry, job_list, node) {
-+		total_size += entry->size;
-+	}
-+
-+	mem = vzalloc(total_size);
-+	if (!mem)
-+		return -ENOMEM;
-+
-+	list_for_each_entry(entry, job_list, node) {
-+		memcpy(mem + offset, entry->mem, entry->size);
-+		offset += entry->size;
-+	}
-+
-+	*out_mem = mem;
-+	*out_size = total_size;
-+	return 0;
-+}
-+
- int panthor_core_dump(struct panthor_core_dump_args *args)
- {
- 	u8 *mem;
-@@ -273,7 +329,8 @@ int panthor_core_dump(struct panthor_core_dump_args *args)
- 
- 	count_queues(&group_and_q_cnt, &group_info);
- 
--	dump_size = compute_dump_size(&va_count, &group_and_q_cnt);
-+	dump_size = compute_dump_size(&va_count, &group_and_q_cnt,
-+				      list_empty(args->job_list));
- 
- 	mem = vzalloc(dump_size);
- 	if (!mem)
-@@ -286,69 +343,73 @@ int panthor_core_dump(struct panthor_core_dump_args *args)
- 		.capacity = dump_size,
- 	};
- 
--	hdr = alloc_header(&alloc, DRM_PANTHOR_DUMP_HEADER_TYPE_VERSION,
--			   sizeof(struct drm_panthor_dump_version));
--	if (IS_ERR(hdr)) {
--		ret = PTR_ERR(hdr);
--		goto free_valloc;
-+	if (list_empty(args->job_list)) {
-+		hdr = alloc_header(&alloc, DRM_PANTHOR_DUMP_HEADER_TYPE_VERSION,
-+				   sizeof(struct drm_panthor_dump_version));
-+		if (IS_ERR(hdr)) {
-+			ret = PTR_ERR(hdr);
-+			goto free_valloc;
-+		}
-+
-+		version = alloc_bytes(&alloc, sizeof(*version));
-+		if (IS_ERR(version)) {
-+			ret = PTR_ERR(version);
-+			goto free_valloc;
-+		}
-+
-+		*version = (struct drm_panthor_dump_version){
-+			.major = PANT_DUMP_MAJOR,
-+			.minor = PANT_DUMP_MINOR,
-+		};
-+
-+		hdr = alloc_header(&alloc,
-+				   DRM_PANTHOR_DUMP_HEADER_TYPE_GPU_INFO,
-+				   sizeof(args->ptdev->gpu_info));
-+		if (IS_ERR(hdr)) {
-+			ret = PTR_ERR(hdr);
-+			goto free_valloc;
-+		}
-+
-+		gpu_info = alloc_bytes(&alloc, sizeof(*gpu_info));
-+		if (IS_ERR(gpu_info)) {
-+			ret = PTR_ERR(gpu_info);
-+			goto free_valloc;
-+		}
-+
-+		*gpu_info = args->ptdev->gpu_info;
-+
-+		hdr = alloc_header(&alloc,
-+				   DRM_PANTHOR_DUMP_HEADER_TYPE_CSIF_INFO,
-+				   sizeof(args->ptdev->csif_info));
-+		if (IS_ERR(hdr)) {
-+			ret = PTR_ERR(hdr);
-+			goto free_valloc;
-+		}
-+
-+		csif_info = alloc_bytes(&alloc, sizeof(*csif_info));
-+		if (IS_ERR(csif_info)) {
-+			ret = PTR_ERR(csif_info);
-+			goto free_valloc;
-+		}
-+
-+		*csif_info = args->ptdev->csif_info;
-+
-+		hdr = alloc_header(&alloc, DRM_PANTHOR_DUMP_HEADER_TYPE_FW_INFO,
-+				   sizeof(args->ptdev->fw_info));
-+		if (IS_ERR(hdr)) {
-+			ret = PTR_ERR(hdr);
-+			goto free_valloc;
-+		}
-+
-+		fw_info = alloc_bytes(&alloc, sizeof(*fw_info));
-+		if (IS_ERR(fw_info)) {
-+			ret = PTR_ERR(fw_info);
-+			goto free_valloc;
-+		}
-+
-+		*fw_info = args->ptdev->fw_info;
- 	}
- 
--	version = alloc_bytes(&alloc, sizeof(*version));
--	if (IS_ERR(version)) {
--		ret = PTR_ERR(version);
--		goto free_valloc;
--	}
--
--	*version = (struct drm_panthor_dump_version){
--		.major = PANT_DUMP_MAJOR,
--		.minor = PANT_DUMP_MINOR,
--	};
--
--	hdr = alloc_header(&alloc, DRM_PANTHOR_DUMP_HEADER_TYPE_GPU_INFO,
--			   sizeof(args->ptdev->gpu_info));
--	if (IS_ERR(hdr)) {
--		ret = PTR_ERR(hdr);
--		goto free_valloc;
--	}
--
--	gpu_info = alloc_bytes(&alloc, sizeof(*gpu_info));
--	if (IS_ERR(gpu_info)) {
--		ret = PTR_ERR(gpu_info);
--		goto free_valloc;
--	}
--
--	*gpu_info = args->ptdev->gpu_info;
--
--	hdr = alloc_header(&alloc, DRM_PANTHOR_DUMP_HEADER_TYPE_CSIF_INFO,
--			   sizeof(args->ptdev->csif_info));
--	if (IS_ERR(hdr)) {
--		ret = PTR_ERR(hdr);
--		goto free_valloc;
--	}
--
--	csif_info = alloc_bytes(&alloc, sizeof(*csif_info));
--	if (IS_ERR(csif_info)) {
--		ret = PTR_ERR(csif_info);
--		goto free_valloc;
--	}
--
--	*csif_info = args->ptdev->csif_info;
--
--	hdr = alloc_header(&alloc, DRM_PANTHOR_DUMP_HEADER_TYPE_FW_INFO,
--			   sizeof(args->ptdev->fw_info));
--	if (IS_ERR(hdr)) {
--		ret = PTR_ERR(hdr);
--		goto free_valloc;
--	}
--
--	fw_info = alloc_bytes(&alloc, sizeof(*fw_info));
--	if (IS_ERR(fw_info)) {
--		ret = PTR_ERR(fw_info);
--		goto free_valloc;
--	}
--
--	*fw_info = args->ptdev->fw_info;
--
- 	dump_va_args.ptdev = args->ptdev;
- 	dump_va_args.alloc = &alloc;
- 	ret = panthor_vm_foreach_va(args->group_vm, dump_va_cb, &dump_va_args);
-@@ -365,12 +426,34 @@ int panthor_core_dump(struct panthor_core_dump_args *args)
- 			 "dump size mismatch: expected %d, got %zu\n",
- 			 dump_size, alloc.pos);
- 
--	dev_coredumpv(args->ptdev->base.dev, alloc.start, alloc.pos,
--		      GFP_KERNEL);
-+	if (args->append) {
-+		ret = append_job(args, alloc.start, alloc.pos);
-+		if (ret)
-+			goto free_valloc;
-+	} else if (!list_empty(args->job_list)) {
-+		void *mem;
-+		u32 size;
-+
-+		/* append ourselves */
-+		append_job(args, alloc.start, alloc.pos);
-+		if (ret)
-+			goto free_valloc;
-+
-+		ret = copy_from_job_list(args->job_list, &mem, &size);
-+		if (ret)
-+			goto free_valloc;
-+
-+		dev_coredumpv(args->ptdev->base.dev, mem, size, GFP_KERNEL);
-+		clean_job_list(args->job_list);
-+	} else {
-+		dev_coredumpv(args->ptdev->base.dev, alloc.start, alloc.pos,
-+			      GFP_KERNEL);
-+	}
- 
- 	return ret;
- 
- free_valloc:
-+	clean_job_list(args->job_list);
- 	vfree(mem);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/panthor/panthor_dump.h b/drivers/gpu/drm/panthor/panthor_dump.h
-index 2a02943a2dbd..f16051d7da21 100644
---- a/drivers/gpu/drm/panthor/panthor_dump.h
-+++ b/drivers/gpu/drm/panthor/panthor_dump.h
-@@ -10,10 +10,25 @@
- #include "panthor_device.h"
- #include "panthor_gem.h"
- 
-+struct panthor_dump_job_entry {
-+	void *mem;
-+	size_t size;
-+	struct list_head node;
-+};
-+
- struct panthor_core_dump_args {
- 	struct panthor_device *ptdev;
- 	struct panthor_vm *group_vm;
- 	struct panthor_group *group;
-+	/** @job_list: used if the dump contains more than one job.
-+	 *
-+	 * Note that the default devcoredump behavior is to discard dumps when a
-+	 * previous dump has not been read yet. There is also a limit on the number
-+	 * of dumps that can be stored.
-+	 */
-+	struct list_head *job_list;
-+	/** @append: whether to append the current job dump to job_list */
-+	bool append;
- };
- 
- int panthor_core_dump(struct panthor_core_dump_args *args);
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index ea2696c1075a..5f31a476866b 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -319,8 +319,10 @@ struct panthor_scheduler {
- 		struct list_head stopped_groups;
- 	} reset;
- 
--	/** @dump_successful_jobs: whether to dump successful jobs through coredumpv */
--	bool dump_successful_jobs;
-+	/** @dump_successful_jobs: Whether to dump successful jobs through coredumpv */
-+	u32 dump_next_n_successful_jobs;
-+	/** @dump_job_list: List containing dump entries if multiple jobs are being dumped */
-+	struct list_head dump_job_list;
- };
- 
- /**
-@@ -2950,11 +2952,15 @@ queue_run_job(struct drm_sched_job *sched_job)
- 	queue->iface.input->extract = queue->iface.output->extract;
- 	queue->iface.input->insert = job->ringbuf.end;
- 
--	if (sched->dump_successful_jobs) {
-+	if (sched->dump_next_n_successful_jobs > 0) {
-+		sched->dump_next_n_successful_jobs--;
-+
- 		struct panthor_core_dump_args core_dump_args = {
- 			.ptdev = ptdev,
- 			.group_vm = job->group->vm,
- 			.group = job->group,
-+			.job_list = &sched->dump_job_list,
-+			.append = !!sched->dump_next_n_successful_jobs,
- 		};
- 
- 		panthor_core_dump(&core_dump_args);
-@@ -3014,6 +3020,7 @@ queue_timedout_job(struct drm_sched_job *sched_job)
- 		.ptdev = ptdev,
- 		.group_vm = job->group->vm,
- 		.group = job->group,
-+		.job_list = &sched->dump_job_list,
- 	};
- 
- 	panthor_core_dump(&core_dump_args);
-@@ -3509,6 +3516,7 @@ static void panthor_sched_fini(struct drm_device *ddev, void *res)
- 	}
- 
- 	drm_WARN_ON(ddev, !list_empty(&sched->groups.waiting));
-+	drm_WARN_ON(ddev, !list_empty(&sched->dump_job_list));
- }
- 
- int panthor_sched_init(struct panthor_device *ptdev)
-@@ -3585,6 +3593,7 @@ int panthor_sched_init(struct panthor_device *ptdev)
- 		return ret;
- 
- 	INIT_LIST_HEAD(&sched->reset.stopped_groups);
-+	INIT_LIST_HEAD(&sched->dump_job_list);
- 
- 	/* sched->heap_alloc_wq will be used for heap chunk allocation on
- 	 * tiler OOM events, which means we can't use the same workqueue for
-@@ -3624,7 +3633,8 @@ void panthor_sched_debugfs_init(struct drm_minor *minor)
- 		container_of(minor->dev, struct panthor_device, base);
- 	struct panthor_scheduler *sched = ptdev->scheduler;
- 
--	debugfs_create_bool("dump_successful_jobs", 0644, minor->debugfs_root,
--			    &sched->dump_successful_jobs);
-+	debugfs_create_u32("dump_next_n_successful_jobs", 0644,
-+			   minor->debugfs_root,
-+			   &sched->dump_next_n_successful_jobs);
- }
- #endif /* CONFIG_DEBUG_FS */
+Best regards
+Thomas
+
+>
+> Cc: Sima.
+>
+> BR,
+> Jani.
+>
+>
+>
+>> Taking a quick look, xe_display_probe() might be a good candidate?
+>>
+>> --
+>> Gustavo Sousa
+>>
+>>>          for (i = 0; i < ARRAY_SIZE(init_funcs); i++) {
+>>>                  err = init_funcs[i].init();
+>>>                  if (err) {
+>>> -- 
+>>> 2.46.0
+>>>
+
 -- 
-2.45.2
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
