@@ -2,66 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B5495A0BE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763CB95A0EE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 17:08:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D64710E1E2;
-	Wed, 21 Aug 2024 14:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6029A10E080;
+	Wed, 21 Aug 2024 15:08:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gRGW8nDA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E9ce13Ep";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E88F10E0BD;
- Wed, 21 Aug 2024 14:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724252319; x=1755788319;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=SY9ETdA8yCdgJiCqRdXiEsxxrktg3vC2SvzDdQORJJ0=;
- b=gRGW8nDAc4TwnXrZtowDjZWNGCRFKoc5xg+ybtr2T2x5sK8xOAJUqmQR
- +OBpyEtDzRohHaHEMbertWpHUETnNjJKKxRpcZcim6jSR84L60qWvfzE/
- 2q85kXinK048ylx6BC57Op+MryoBgZH377zb4VRn7xbNsNmxyStXwwewa
- CpfBU8Yj8vExhi+vuELlc5xKxE6hXjRkKaP28DX2tvpSAc95gJHAqg+B2
- 2WL5eDN9XtKPFxQxaqFzwNCsCt0cLpisZQ2og7HZkrUUlBBITQrwyK/v4
- yPjqHgEfJxf4/9SAC44HqjBJ3VgM4A3lNQwny0JfD7Hwrj18QNlgb9pdz w==;
-X-CSE-ConnectionGUID: TQIABrPrQdeBDZXTL84zeg==
-X-CSE-MsgGUID: ktyNU8spQbughe/V/QlEQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="33768660"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="33768660"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 07:58:38 -0700
-X-CSE-ConnectionGUID: Xs4IGRm+RlKOiLFrRKdAXQ==
-X-CSE-MsgGUID: CvC3qcL6SvSpU6QwOm8CWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="61143035"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.24])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 07:58:31 -0700
-Date: Wed, 21 Aug 2024 16:58:28 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tursulin@ursulin.net, airlied@gmail.com, daniel@ffwll.ch,
- linux@roeck-us.net, andriy.shevchenko@linux.intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- anshuman.gupta@intel.com, badal.nilawar@intel.com,
- riana.tauro@intel.com, ashutosh.dixit@intel.com, karthik.poosa@intel.com
-Subject: Re: [PATCH v5] drm/i915/hwmon: expose fan speed
-Message-ID: <ZsYAlG_4MOUagcGk@ashyti-mobl2.lan>
-References: <20240812081538.1457396-1-raag.jadav@intel.com>
- <ZroTN3UudwvIJ7oR@ashyti-mobl2.lan>
- <Zrr9fobk-zahLpIO@black.fi.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6C210E080
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 15:08:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9977A6104F;
+ Wed, 21 Aug 2024 15:08:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27247C32781;
+ Wed, 21 Aug 2024 15:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724252881;
+ bh=BmuSPqL3do4aQAU03Wh1Ei296IH0Aok8vWYlYeXbHII=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E9ce13EpwGJfNj/fz3ek0H9T6tqfzB2Ang4VBOW3wXpl3SNY56ugAkcScdpvW2mYq
+ pRGIpCkIm4Js0Nl1dFSO928N+kkfOqYD4mSc6mUyjW1ORGtmC+Tu0ujQ4GOjwMuxWI
+ 5n+aHpbO2N/M/0f6Lf/rnWBjGY4xq2Q1hfqpH8p9BTAb8Yv3Ol1D2AfosnGjMY3T6p
+ 26Azakecgn5Oj0LzRFL0QDOJQzZJ9wrwApBr2QlPWhyK3WKTAaomkPhdRcL4LGMxXg
+ 7HN6TlatXlE/NiT7yCYl2XfS0M0lWkgfCcPkmCA5OFaDCgvpzNc5Iu9gJIDnNY3vJ8
+ SrcPlvCQfZ92g==
+Date: Wed, 21 Aug 2024 16:07:54 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>
+Subject: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema for
+ RK3588 HDMI TX Controller
+Message-ID: <20240821-evoke-mop-fb09ceef3597@spud>
+References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
+ <20240819-b4-rk3588-bridge-upstream-v4-3-6417c72a2749@collabora.com>
+ <20240819-bobbing-purplish-99e48baa2304@spud>
+ <ec84bc0b-c4c2-4735-9f34-52bc3a852aaf@collabora.com>
+ <20240820-tropics-hunchback-6fdcd0b37f91@spud>
+ <038073d0-d4b9-4938-9a51-ea2aeb4530f6@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZZq5NLhTZdZIQco9"
 Content-Disposition: inline
-In-Reply-To: <Zrr9fobk-zahLpIO@black.fi.intel.com>
+In-Reply-To: <038073d0-d4b9-4938-9a51-ea2aeb4530f6@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,41 +81,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > +	/*
-> > > +	 * HW register value is accumulated count of pulses from
-> > > +	 * PWM fan with the scale of 2 pulses per rotation.
-> > > +	 */
-> > > +	rotations = pulses / 2;
-> > > +
-> > > +	time = jiffies_delta_to_msecs(time_now - fi->time_prev);
-> > > +	if (unlikely(!time)) {
-> > > +		ret = -EAGAIN;
-> > > +		goto exit;
-> > > +	}
-> > 
-> > Can you please add a comment describing how you obtain the speed
-> > calculation?
-> 
-> That's what I initially tried but ended up dropping it in favour of RPM
-> formula below, which I found to be doing a better job of explaining than
-> a few lines of description.
-> 
-> > Basically at every read you store the values. Is it possible that
-> > we don't have reads for a long time and the register resets more
-> > than once?
-> 
-> Considering a fan continuously running at higher speeds (for example 4000 RPM
-> which is quite optimistic), with the scale of 2 pulses per rotation, a 32 bit
-> register will take around a year to overflow, which is more than most usecases
-> I could think of.
 
-Which can be considered as a worse case scenario. I would have
-preferred here a runtime calculation, which means read now, wait
-a bit, read again and calculate. The read might be slow, but
-efficient.
+--ZZq5NLhTZdZIQco9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Anyway, your argument makes sense, so that I'm not going to push
-on this, I already r-b'ed it.
+On Tue, Aug 20, 2024 at 11:12:45PM +0300, Cristian Ciocaltea wrote:
+> On 8/20/24 7:14 PM, Conor Dooley wrote:
+> > On Tue, Aug 20, 2024 at 03:37:44PM +0300, Cristian Ciocaltea wrote:
+> >> On 8/19/24 7:53 PM, Conor Dooley wrote:
+> >>> On Mon, Aug 19, 2024 at 01:29:30AM +0300, Cristian Ciocaltea wrote:
+> >>>> +  rockchip,grf:
+> >>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+> >>>> +    description:
+> >>>> +      Most HDMI QP related data is accessed through SYS GRF regs.
+> >>>> +
+> >>>> +  rockchip,vo1-grf:
+> >>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+> >>>> +    description:
+> >>>> +      Additional HDMI QP related data is accessed through VO1 GRF r=
+egs.
+> >>>
+> >>> Why are these required? What prevents you looking up the syscons by
+> >>> compatible?
+> >>
+> >> That is for getting the proper instance:
+> >=20
+> > Ah, that makes sense. I am, however, curious why these have the same
+> > compatible when they have different sized regions allocated to them.
+>=20
+> Good question, didn't notice.  I've just checked the TRM and, in both
+> cases, the maximum register offset is within the 0x100 range.  Presumably
+> this is nothing but an inconsistency, as the syscons have been added in
+> separate commits.
 
-Thanks,
-Andi
+Is that TRM publicly available? I do find it curious that devices sound
+like they have different contents have the same compatible. In my view,
+that is incorrect and they should have unique compatibles if the
+contents (and therefore the programming model) differs.
+
+>=20
+> >> 	vo0_grf: syscon@fd5a6000 {
+> >> 		compatible =3D "rockchip,rk3588-vo-grf", "syscon";
+> >> 		reg =3D <0x0 0xfd5a6000 0x0 0x2000>;
+> >> 		clocks =3D <&cru PCLK_VO0GRF>;
+> >> 	};
+> >>
+> >> 	vo1_grf: syscon@fd5a8000 {
+> >> 		compatible =3D "rockchip,rk3588-vo-grf", "syscon";
+> >> 		reg =3D <0x0 0xfd5a8000 0x0 0x100>;
+> >> 		clocks =3D <&cru PCLK_VO1GRF>;
+> >> 	};
+
+
+--ZZq5NLhTZdZIQco9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsYCyQAKCRB4tDGHoIJi
+0hCkAQDkrev2VngE+toZCyW7CBqkBdnhvbudk6uduFmusUQTeQD9E7e4awSNcV4K
+3sLyRNFdK2Rcc/ulk7eGAuyO21QDmAM=
+=e4n+
+-----END PGP SIGNATURE-----
+
+--ZZq5NLhTZdZIQco9--
