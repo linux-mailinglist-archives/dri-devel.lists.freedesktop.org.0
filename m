@@ -2,61 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95971959C41
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 14:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED05959C45
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 14:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E951C10E901;
-	Wed, 21 Aug 2024 12:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F339010E13F;
+	Wed, 21 Aug 2024 12:46:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ru6zmtBW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="baL5WiaL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAF3110E901;
- Wed, 21 Aug 2024 12:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724244339; x=1755780339;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=i41+sMUZ446YXE/yYL8yUaZnjB+K7nLkyeorA0pQGtQ=;
- b=Ru6zmtBWlKUyso81ERQY58qCW7zPqUTM3acvNDwEZoOSNOTaUF7+Qjyh
- 4OP8Q5Fs5MQs//pdnqFytJHD/Fv1/GqukGoVAAo7yN9uVEA98fKvvFF6Q
- w9HDwZALB5Q6ac9AnWQdEgW5jUZfQzZ8qnll6plLNcEBNhZLX4rJrQzHl
- nT3UQRNsCrZZzCm4sTo4e0ZltuFrediJN3ZU7dQ2CC0uVa7JvL0sMe40v
- e9rXti+uPzePUQeOHjIHt92P6BtLYmJeVIH0P4+2E2KhJWtFCXNAoCwD2
- Bknkgk0tMY3W/O+8BOGRYBMFHro1Jz0+eVpJnMszTzOdlkwxfjRGPW/qa g==;
-X-CSE-ConnectionGUID: eSKsigPIS7WtdmoVBmbKxQ==
-X-CSE-MsgGUID: ItqSWTE6QXCtk/eHKX6Cyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="40059790"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="40059790"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 05:45:39 -0700
-X-CSE-ConnectionGUID: ovQTO5/RSs+Mh7sWWGGlMw==
-X-CSE-MsgGUID: RLlIARBPRzW1vw9NZde2pQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="61052311"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.24])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 05:45:38 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH v1 14/14] drm/i915/gt: Allow the user to change the CCS mode
- through sysfs
-Date: Wed, 21 Aug 2024 14:43:49 +0200
-Message-ID: <20240821124349.295259-15-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240821124349.295259-1-andi.shyti@linux.intel.com>
-References: <20240821124349.295259-1-andi.shyti@linux.intel.com>
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4031210E13F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 12:46:11 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-714287e4083so355504b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 05:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724244371; x=1724849171; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GrQlo1ZtzHZaU3Kc2gC/GsCtOWVGIzkRZAXPXF1JDAc=;
+ b=baL5WiaLF0d/yn17nSa5ny8h6ucG+C//pdmBwzrvtUvMp4+iM3+Atj5DLMnwG2sCDk
+ L8BGrdonGtewZgK35/2IuJIUk53RAP+WPY7R6NBYttOkdwSHeVxe/G6PssfmHaWMPMqG
+ lU1V7/q4umJ2DIjp0JMD4c018Hb9NafzILjw4M5OZv9RN7gIuKn4ofYUhZI7GxZ/YET0
+ EkYm2OTgBaLUM/nbQFSMZeEEd9GojcoQAUuga+rcoG9dsxwLzw2nGQmR2kkh84ZnhMLx
+ ETUfjLMz50uH39WyZFAcjH1ur83zJLoFzJZWT0ADExBhelXoQBP3m1UStVj28wEeL2s/
+ gRsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724244371; x=1724849171;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GrQlo1ZtzHZaU3Kc2gC/GsCtOWVGIzkRZAXPXF1JDAc=;
+ b=b8NeqB7ykXGI/kQ25HSkO33Ogk0r/yHGsFzSDitsKkpf9/KFTRjxBxlrD9yAetbEyE
+ Mmlq3vzgi5c4KYH2NuhJytzf6NjQRmr7s/qLH5FVLriC/cBtwUiviPhtHyeE8Fy/WcR4
+ dj2JaxHOKgulrw1lmIoX9nSc/qK4nLenOx8paNRCR8dfGB5PvvOMdqPurmWoJGi0yqnA
+ teNlGLgw/zpypkNbqx/Oa14h/ZLftyvqJ3uJqz6f9l2RHAv62AbFs4ysUXXyLsu1jnGC
+ jaamiLUt3tji4/jpb9DoAUQn5aJhzV2DftCbHqDnYkzbg4GxD83ECMMlf6x1H/93kI+q
+ pcVQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4r3nMKiTmUj1KP/TqEit+yvBMrBycZ3kSccRHZdb78u1jJfXS1XBPl2hORxqxe7tNuc4okv4rOCg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1hHOozSN3lq04vxhRQit89iOA6PQVaBy0vh83zVCfn1Al+qXr
+ bg3ld64rgY2oWGVWbKfDrypvULWCeHjYdHGLLWr95f0KhcmtrN/ypcOYeDQmo3GFfDDQnhANY7p
+ U6P53Nzl7EHd1U3ipuMQ10K+Pfmk=
+X-Google-Smtp-Source: AGHT+IHKfU539ztIPvH6FNOLr/tKtolhQJBELB1tBOi+TgcP0/C3jIsojq1Lyrzv/S9i+Tdl/qwVHeal4WeR8hByttU=
+X-Received: by 2002:a05:6a21:9214:b0:1c6:fa4b:3648 with SMTP id
+ adf61e73a8af0-1cad7f962b8mr3248581637.22.1724244370398; Wed, 21 Aug 2024
+ 05:46:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240203165307.7806-1-aford173@gmail.com>
+ <20240203165307.7806-11-aford173@gmail.com>
+ <Zm_UzO4Jmm7Aykcm@atmark-techno.com>
+ <22a3f5266260dd3915269ae3eec7724f7537eb55.camel@pengutronix.de>
+ <cd03ecb1-100e-4699-95ed-d837a2802dc7@kontron.de>
+ <CAHCN7x+bh_ka250hOCenO3Et6re4EJ=5TG8=kpG1hs-PV0dQxQ@mail.gmail.com>
+ <ZsVluV50NvuGGHFX@atmark-techno.com>
+In-Reply-To: <ZsVluV50NvuGGHFX@atmark-techno.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 21 Aug 2024 07:45:58 -0500
+Message-ID: <CAHCN7xJnjfjr7HfKF+4pwbENP+p2=vvMXWW1AQShNy87vfQ=-A@mail.gmail.com>
+Subject: Re: drm/bridge/imx8mp-hdmi-tx: Allow inexact pixel clock frequencies
+ (Was: [PATCH V8 10/12] drm/bridge: imx: add bridge wrapper driver for
+ i.MX8MP DWC HDMI)
+To: Dominique MARTINET <dominique.martinet@atmark-techno.com>
+Cc: Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Lucas Stach <l.stach@pengutronix.de>, 
+ linux-arm-kernel@lists.infradead.org, marex@denx.de, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ NXP Linux Team <linux-imx@nxp.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+ Makoto Sato <makoto.sato@atmark-techno.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,144 +104,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create the 'ccs_mode' file under
+On Tue, Aug 20, 2024 at 10:58=E2=80=AFPM Dominique MARTINET
+<dominique.martinet@atmark-techno.com> wrote:
+>
+> Adam Ford wrote on Tue, Aug 20, 2024 at 09:49:03PM -0500:
+> > > > However, this check is a bit overcautious in that it only allows ex=
+act
+> > > > rate matches. IIRC HDMI allows a rate mismatch of +- 0.5%, so this
+> > > > check could be relaxed quite a bit to allow for that.
+> > >
+> > > I checked with a 1080p display that reports 23 possible modes via EDI=
+D.
+> > > Out of these 15 are accepted by the driver with the strict check.
+> > >
+> > > Two more would be accepted with a relaxed check that allows a 0.5% ma=
+rgin.
+> > >
+> > > For the remaining six modes, the pixel clock would deviate up to ~5%
+> > > from what the display expects. Still, if I remove the check altogethe=
+r,
+> > > all 23 modes seem to work just fine.
+>
+> I can confirm the displays I tested also seem pretty tolerant in
+> practice (up to ~3-4% at least), but I agree with Lucas that this isn't
+> something we can rely on for a general purpose driver as having examples
+> of things being tolerant doesn't mean all hardware will be as flexible..
+>
+> > > I'd really like to be able to add more PHY PLL setpoints for displays
+> > > that use non-CEA-861 modes. Unfortunately I didn't manage to figure o=
+ut
+> > > the fractional-n PLL parameter calculation so far.
+> > >
+> > > The i.MX8MP Reference Manual provides formulas to calculate the
+> > > parameters based on the register values and I tried to make sense of =
+it
+> > > using the existing register values in the driver. But somehow it does=
+n't
+> > > add up for me.
+> > >
+> > > Lucas, did you already work with the PLL parameters? By any chance, d=
+o
+> > > you now how the math behind them works?
+> >
+> > I spent a little time trying to understand it a bit.  I created a PMS
+> > calculator similar to the one used on the DSI controller,
+>
+> Great! I'll admit this also flies over my head and I don't have the
+> time to study this, so this is much appreciated.
+>
+> > except that
+> > the M seems to be fixed at a value of 62 per the data sheet, so it's
+> > more of a PS calculator.
+>
+> Hmm... PHY_REG2 in the datasheet only lists '0011_1110b - 62' as
+> example(?) values, but it doesn't say other values are reserved either,
+> I'm not sure what to make of it.
+> In the current driver PHY_REG_02 (driver macro) is assigned the first
+> field of .pll_div_regs, which goes anywhere from 0x4b to 0x7b -- pretty
+> far from 62(0x3e)...
 
-/sys/class/drm/cardX/gt/gt0/ccs_mode
+OK.  I will experiment with increasing the range of M from being fixed
+at 3e to a range of 3b to 7b to see if my PMS integer calculator can
+get more accurate.
 
-This file allows the user to read and set the current CCS mode.
+>
+> Since other frequencies have been adjusting this main diviser ratio we
+> actually tried copying neighboring values and adjusting only that reg 2
+> (so the M if I get this right?), but the end result ended up not
+> synchronizing properly every time... We didn't have time to check with a
+> scope if the generated signal was ugly or if it just didn't lock
+> properly, but the display worked when we just re-used the neighboring
+> values without changing anything despite being ~3-4% off, so we took the
+> easy way out here and didn't dig much further.
+>
+> > Anyway, When I run my P-S calculator to generate the 'best rate' I get
+> > a value that's usually 0.2% variance from nominal, but I only verified
+> > a handful of values:
+> >
+> > Several which were +0.2%
+> > 297600000 vs 297000000 (4k@30)
+> > 148800000 vs 148500000 (1080p60)
+> > 74400 vs 74200
+> >
+> > One value was -0.16%
+> > 24800000 vs 25200000
+> >
+> > If the M value was a bit more flexible, we might be able to reduce
+> > that variance more.
+>
+> Yes, I think the M value could be more flexible, but that'd require
+> checking if it actually works, whereas having slightly off frequencies
+> will most likely be OK so I don't think it's worth the effort -- happy
+> to stick to what the datasheet describes.
+>
+> > If / when I get some time, I might play with trying to disable the
+> > fractional mode and just use the PMS calculator for simplicity despite
+> > the inaccuracy.  Maybe we could fall back to using the PMS calculator
+> > if the desired frequency isn't in the look-up-table.
+>
+> That'd be greatly appreciated, I don't have any strong opinion on
+> whether that should completely replace the table, or only be used if
+> there is no exact match in the table as these are values we know will
+> work; but we can definitely test any patch you can throw at us here.
 
- - Reading: The user can read the current CCS mode, which can be
-   1, 2, or 4. This value is derived from the current engine
-   mask.
+I can't promise it'll be quick.  I am not fully certain I understand
+how the whole thing works, but as a rule, I don't generally like look
+up tables if they can be calculated dynamically.
 
- - Writing: The user can set the CCS mode to 1, 2, or 4,
-   depending on the desired number of exposed engines and the
-   required load balancing.
-
-The interface will return -EBUSY if other clients are connected
-to i915, or -EINVAL if an invalid value is set.
-
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 82 ++++++++++++++++++++-
- 1 file changed, 80 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-index 82de29eb4dd7..ffdcc98b0802 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -5,6 +5,7 @@
- 
- #include "i915_drv.h"
- #include "intel_gt_ccs_mode.h"
-+#include "intel_gt_pm.h"
- #include "intel_gt_print.h"
- #include "intel_gt_regs.h"
- #include "intel_gt_sysfs.h"
-@@ -160,7 +161,7 @@ static int rb_engine_cmp(struct rb_node *rb_new, const struct rb_node *rb_old)
- 	return new->uabi_instance - old->uabi_instance;
- }
- 
--static void __maybe_unused add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mode)
-+static void add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mode)
- {
- 	struct drm_i915_private *i915 = gt->i915;
- 	intel_engine_mask_t new_ccs_mask, tmp;
-@@ -194,7 +195,7 @@ static void __maybe_unused add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mod
- 	}
- }
- 
--static void __maybe_unused remove_uabi_ccs_engines(struct intel_gt *gt, u8 ccs_mode)
-+static void remove_uabi_ccs_engines(struct intel_gt *gt, u8 ccs_mode)
- {
- 	struct drm_i915_private *i915 = gt->i915;
- 	intel_engine_mask_t new_ccs_mask, tmp;
-@@ -240,8 +241,85 @@ static ssize_t num_cslices_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(num_cslices);
- 
-+static ssize_t ccs_mode_show(struct device *dev,
-+			     struct device_attribute *attr, char *buff)
-+{
-+	struct intel_gt *gt = kobj_to_gt(&dev->kobj);
-+	u32 ccs_mode;
-+
-+	ccs_mode = hweight32(gt->ccs.id_mask);
-+
-+	return sysfs_emit(buff, "%u\n", ccs_mode);
-+}
-+
-+static ssize_t ccs_mode_store(struct device *dev,
-+			      struct device_attribute *attr,
-+			      const char *buff, size_t count)
-+{
-+	struct intel_gt *gt = kobj_to_gt(&dev->kobj);
-+	int num_cslices = hweight32(CCS_MASK(gt));
-+	int ccs_mode = hweight32(gt->ccs.id_mask);
-+	ssize_t ret;
-+	u32 val;
-+
-+	ret = kstrtou32(buff, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * As of now possible values to be set are 1, 2, 4,
-+	 * up to the maximum number of available slices
-+	 */
-+	if (!val || val > num_cslices || (num_cslices % val))
-+		return -EINVAL;
-+
-+	/* Let's wait until the GT is no longer in use */
-+	ret = intel_gt_pm_wait_for_idle(gt);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&gt->wakeref.mutex);
-+
-+	/*
-+	 * Let's check again that the GT is idle,
-+	 * we don't want to change the CCS mode
-+	 * while someone is using the GT
-+	 */
-+	if (intel_gt_pm_is_awake(gt)) {
-+		ret = -EBUSY;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Nothing to do if the requested setting
-+	 * is the same as the current one
-+	 */
-+	if (val == ccs_mode)
-+		goto out;
-+	else if (val > ccs_mode)
-+		add_uabi_ccs_engines(gt, val);
-+	else
-+		remove_uabi_ccs_engines(gt, val);
-+
-+out:
-+	mutex_unlock(&gt->wakeref.mutex);
-+
-+	return ret ?: count;
-+}
-+static DEVICE_ATTR_RW(ccs_mode);
-+
- void intel_gt_sysfs_ccs_init(struct intel_gt *gt)
- {
- 	if (sysfs_create_file(&gt->sysfs_gt, &dev_attr_num_cslices.attr))
- 		gt_warn(gt, "Failed to create sysfs num_cslices files\n");
-+
-+	/*
-+	 * Do not create the ccs_mode file for non DG2 platforms
-+	 * because they don't need it as they have only one CCS engine
-+	 */
-+	if (!IS_DG2(gt->i915))
-+		return;
-+
-+	if (sysfs_create_file(&gt->sysfs_gt, &dev_attr_ccs_mode.attr))
-+		gt_warn(gt, "Failed to create sysfs ccs_mode files\n");
- }
--- 
-2.45.2
-
+adam
+>
+>
+> Cheers,
+> --
+> Dominique
+>
+>
