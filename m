@@ -2,86 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA0495A001
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D7295A01C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:39:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECF610E63C;
-	Wed, 21 Aug 2024 14:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593FF10E63E;
+	Wed, 21 Aug 2024 14:39:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m0CV3BJx";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Dxd4LFQe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD8810E638;
- Wed, 21 Aug 2024 14:34:20 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5bed68129a7so6284713a12.2; 
- Wed, 21 Aug 2024 07:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724250859; x=1724855659; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UR+KwYc9lrWNXtCafAT5/wVnX1MflyYbcpT1ZdueVMM=;
- b=m0CV3BJxU5Q3O9AheFRa4Cc7ECbT3eN1/0JWSeP/I0RiMOOOeOczl65FqpCNyX+Fku
- FD4VJK/DWDmE8bVdT4KaUHVuvNKtSrYZ3IyZuEY+KVe8MUPhFNjJLOkDUX0aVVAcKElv
- HWFUly0gjAes4KVBJFvGYPfzl0bRDqdk/MIDTszJ9h+lcVXqX2wfZgcD4QvJB6rQRWWh
- ygtKVX5E7dWQAiKNx7rH/zCIybO+Mo4wsRLAokzMFsMt1NW8UjpWsxmGx0bO33ouu9SB
- ywWSD51ktObCAInJcH2tZknkDE+zvljjoOtoThGmjQ3Y+CQ2lyYOVOKYEQmtgBSoJ00+
- mXOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724250859; x=1724855659;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UR+KwYc9lrWNXtCafAT5/wVnX1MflyYbcpT1ZdueVMM=;
- b=ArfEnbPvxv2o/LUJf5Y1qi29RyRcS0LK8COTt4iV6Gi7GGNhWYJBHRauOXRnmyf3fE
- M3ztMaJhIaFCAGl7/EE+MXZe7pIK22YwRfD1k8pwLc13aWoZZjisb53rpt11WiX2dhJx
- xlsVP9NCKeHJOdegNqV5cCiET9zFLhA0ie8Dk7mvt0gzkwNg1Md0IzhhsDRrOQeniTgo
- jzUI6CUeL7roDklR0lG3B8veoejxyHLkrt8uVjtFUJHbqQIu71Sbxx8LXPXWy46G1GXC
- IxjTBsgh0HCclZRuD2Cx+Pt8nsnTZu711jD1ZMDI49XKUmkd8GuzigltsIdrEibas8eo
- j4ew==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnyERQfZBOYoUdx+EJwK7n6y58ulbxU94SzRjyp7ThD1U6qhAgq+b5rzTU2vmoJGvXxdxu5ossGqDp@lists.freedesktop.org,
- AJvYcCWid/7ZE1AjE+u8ZEf4vGHFwibBid6y0XYHvlKsvN+Q0NckevBg4HM2RGsS3Z1FzTO1B5X0IPIFN9w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxcEhM4Gqo2IQpcFXmr6tyT5zQd+g2rg7kqYDDhcNmynnrnDuM0
- OBnQT7wTMxzfp8gz1Ky2fn9RsTb4FnMJJyqZEt2pYJQgAO2t11SM
-X-Google-Smtp-Source: AGHT+IG00gtDcFSOH4+sQGkIehK6jaUt+gJZWvpFBFTs9mKnIYjUOIRHHw+Pbxh2Ln0y3OO1unQn0g==
-X-Received: by 2002:a05:6402:320d:b0:5a3:a9f8:cf20 with SMTP id
- 4fb4d7f45d1cf-5bf1f25be42mr2012925a12.34.1724250858531; 
- Wed, 21 Aug 2024 07:34:18 -0700 (PDT)
-Received: from [192.168.1.14] (host-80-104-252-9.retail.telecomitalia.it.
- [80.104.252.9]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5bebc081db4sm8112609a12.88.2024.08.21.07.34.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Aug 2024 07:34:18 -0700 (PDT)
-Message-ID: <14591112-4455-49b4-8b1a-3feffc4d343f@gmail.com>
-Date: Wed, 21 Aug 2024 16:34:15 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9FC310E63E
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 14:39:04 +0000 (UTC)
+Delivered-To: boris.brezillon@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1724251141; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WfQDs93SYT+i9J79NlPp/I7i7EY8sgKvi6stH067ccW97XSFSFROydjpmAkbppAklVytiOcRJz2naN8CEP7j/rR1SnJ3jjNXvi5qiGW2HI3JGEP/5dDYL+INrV6tFLD3XiN8rjxPZGAhyekDklSAROcNjJlQ23WhjESElxkCmFY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1724251141;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=HL5w15xGJTVkRRqNu8utX28aSRMGFxWi99Z7omzG7fc=; 
+ b=Z2BlWgDg94ovTBh8wT0iNvs4kBI2IEgSSyZ+gA/XYkixg2yTMzHwzgkrWmymWjT+EcXhsHFJ4XMqWPxLBuqtYRyavdJnAeluBozoCKlwU08sgSHyh5mAQnbXy2nnpZ2vMV93aiNerbec2/EFkY92qdZ2uFBGxst+Fo5q1QEyD58=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724251141; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=HL5w15xGJTVkRRqNu8utX28aSRMGFxWi99Z7omzG7fc=;
+ b=Dxd4LFQeDubpsgSrMS4QohAqmZ2sd9n4Y5m18fFlnEDGBwe8z7rhlyCtxApdGBHS
+ +2wcdaaXI3KTrWLDQnvGZIOh5aJFUQ8IyetOljbfyJt0RacwEbwK+7vewE2V7XN/pGC
+ kU37W9XugwF9r5B3VU6wg9G5+gF2b3pu+iIA5G7U=
+Received: by mx.zohomail.com with SMTPS id 1724251139471361.4755537553998;
+ Wed, 21 Aug 2024 07:38:59 -0700 (PDT)
+From: Daniel Almeida <daniel.almeida@collabora.com>
+To: liviu.dudau@arm.com, steven.price@arm.com, carsten.haitzler@arm.com,
+ boris.brezillon@collabora.com, robh@kernel.org,
+ faith.ekstrand@collabora.com
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 RESEND 0/5] Panthor devcoredump support
+Date: Wed, 21 Aug 2024 11:37:26 -0300
+Message-ID: <20240821143826.3720-1-daniel.almeida@collabora.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240710225011.275153-1-daniel.almeida@collabora.com>
+References: <20240710225011.275153-1-daniel.almeida@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>
-References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
- <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
- <20240819200837.etzn7oaoamnceigr@hu-akhilpo-hyd.qualcomm.com>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <20240819200837.etzn7oaoamnceigr@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,32 +68,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/19/24 10:08 PM, Akhil P Oommen wrote:
-> On Thu, Aug 15, 2024 at 08:26:14PM +0200, Antonino Maniscalco wrote:
->> This patch implements preemption feature for A6xx targets, this allows
->> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
->> hardware as such supports multiple levels of preemption granularities,
->> ranging from coarse grained(ringbuffer level) to a more fine grained
->> such as draw-call level or a bin boundary level preemption. This patch
->> enables the basic preemption level, with more fine grained preemption
->> support to follow.
->>
->> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
->> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->> ---
-> 
-> No postamble packets which resets perfcounters? It is necessary. Also, I
-> think we should disable preemption during profiling like we disable slumber.
-> 
-> -Akhil.
-> 
 
-You mention that we disable slumber during profiling however I wasn't 
-able to find code doing that. Can you please clarify which code you are 
-referring to or a mechanism through which the kernel can know when we 
-are profiling?
+Resending this because, among other things, the patches themselves did
+not have dri-devel on cc.
 
-Best regards,
+------------------
+
+Hi all.
+
+I will refrain from writing a changelog here, since I have rewritten
+this series from the ground up in C. I removed the Rust-for-Linux people
+from the loop for now, since this has become a bit tangential to Rust.
+
+Lastly, this is no longer RFC.
+
+For those looking for a branch instead, please see [0].
+
+I have tested this with the decoder tool I wrote at [1]. Unfortunately
+the dumps are too large to share.
+
+You will notice that I added support for a new query. I am still working
+on the IGT tests for that. 
+
+
+Let me know what you think.
+
+-- Daniel
+
+[0] https://gitlab.collabora.com/dwlsalmeida/for-upstream/-/tree/panthor-devcoredump?ref_type=heads
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30651
+
+Daniel Almeida (5):
+  drm: panthor: expose some fw information through the query ioctl
+  drm: panthor: add devcoredump support
+  drm: panthor: add debugfs support in panthor_sched
+  drm: panthor: add debugfs knob to dump successful jobs
+  drm: panthor: allow dumping multiple jobs
+
+ drivers/gpu/drm/panthor/Kconfig          |   1 +
+ drivers/gpu/drm/panthor/Makefile         |   1 +
+ drivers/gpu/drm/panthor/panthor_device.h |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c    |   9 +
+ drivers/gpu/drm/panthor/panthor_dump.c   | 459 +++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_dump.h   |  36 ++
+ drivers/gpu/drm/panthor/panthor_mmu.c    |  22 ++
+ drivers/gpu/drm/panthor/panthor_mmu.h    |   6 +
+ drivers/gpu/drm/panthor/panthor_sched.c  |  92 ++++-
+ drivers/gpu/drm/panthor/panthor_sched.h  |  17 +
+ include/uapi/drm/panthor_drm.h           | 143 +++++++
+ 11 files changed, 788 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_dump.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_dump.h
+
 -- 
-Antonino Maniscalco <antomani103@gmail.com>
+2.45.2
 
