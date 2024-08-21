@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69922959FC3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5622A959F81
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E036D10E621;
-	Wed, 21 Aug 2024 14:26:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF4B910E609;
+	Wed, 21 Aug 2024 14:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFB210E620
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 14:26:41 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F98210E609
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 14:16:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 976C4A41C98;
- Wed, 21 Aug 2024 14:16:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128D9C4AF0E;
- Wed, 21 Aug 2024 14:16:51 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 56550CE0E67;
+ Wed, 21 Aug 2024 14:16:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B2CBC4AF09;
+ Wed, 21 Aug 2024 14:16:53 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [RFC PATCH 6/7] media: i2c: tda1997x: export InfoFrames to debugfs
-Date: Wed, 21 Aug 2024 16:10:20 +0200
-Message-ID: <2333708a0be80d59fb5413c1c1328d5a49e2ba37.1724249421.git.hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCH 7/7] media: i2c: tc358743: export InfoFrames to debugfs
+Date: Wed, 21 Aug 2024 16:10:21 +0200
+Message-ID: <501bb64b027022ebcfb9636e9267dfba520c4a67.1724249421.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1724249420.git.hverkuil-cisco@xs4all.nl>
 References: <cover.1724249420.git.hverkuil-cisco@xs4all.nl>
@@ -48,102 +48,82 @@ Export InfoFrames to debugfs.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/i2c/tda1997x.c | 50 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 48 insertions(+), 2 deletions(-)
+ drivers/media/i2c/tc358743.c | 36 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-index 3b7e5ff5b010..2b33fdecb2d2 100644
---- a/drivers/media/i2c/tda1997x.c
-+++ b/drivers/media/i2c/tda1997x.c
-@@ -259,6 +259,10 @@ struct tda1997x_state {
- 	struct v4l2_ctrl *detect_tx_5v_ctrl;
- 	struct v4l2_ctrl *rgb_quantization_range_ctrl;
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index 65d58ddf0287..c7652c0dbaeb 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -87,6 +87,10 @@ struct tc358743_state {
+ 	struct timer_list timer;
+ 	struct work_struct work_i2c_poll;
  
 +	/* debugfs */
 +	struct dentry *debugfs_dir;
 +	struct v4l2_debugfs_if *infoframes;
 +
- 	/* audio */
- 	u8  audio_ch_alloc;
- 	int audio_samplerate;
-@@ -1263,7 +1267,7 @@ tda1997x_parse_infoframe(struct tda1997x_state *state, u16 addr)
- {
- 	struct v4l2_subdev *sd = &state->sd;
- 	union hdmi_infoframe frame;
--	u8 buffer[40] = { 0 };
-+	u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = { 0 };
- 	u8 reg;
- 	int len, err;
+ 	/* edid  */
+ 	u8 edid_blocks_written;
  
-@@ -1938,11 +1942,44 @@ static const struct v4l2_subdev_pad_ops tda1997x_pad_ops = {
-  * v4l2_subdev_core_ops
-  */
+@@ -430,12 +434,35 @@ static void tc358743_erase_bksv(struct v4l2_subdev *sd)
+ 
+ /* --------------- AVI infoframe --------------- */
  
 +static ssize_t
-+tda1997x_debugfs_if_read(u32 type, void *priv, struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
++tc358743_debugfs_if_read(u32 type, void *priv, struct file *filp,
++			 char __user *ubuf, size_t count, loff_t *ppos)
 +{
++	u8 buf[V4L2_DEBUGFS_IF_MAX_LEN] = {};
 +	struct v4l2_subdev *sd = priv;
-+	u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = {};
-+	int addr, len;
++	int len;
 +
-+	switch (type) {
-+	case V4L2_DEBUGFS_IF_AVI:
-+		addr = AVI_IF;
-+		break;
-+	case V4L2_DEBUGFS_IF_AUDIO:
-+		addr = AUD_IF;
-+		break;
-+	case V4L2_DEBUGFS_IF_SPD:
-+		addr = SPD_IF;
-+		break;
-+	default:
++	if (!is_hdmi(sd))
 +		return 0;
-+	}
 +
-+	/* read data */
-+	len = io_readn(sd, addr, sizeof(buffer), buffer);
-+	if (len > 0) {
-+		len = buffer[2] + 4;
-+		if (len > V4L2_DEBUGFS_IF_MAX_LEN)
-+			len = -EIO;
-+	}
++	if (type != V4L2_DEBUGFS_IF_AVI)
++		return 0;
++
++	i2c_rd(sd, PK_AVI_0HEAD, buf, PK_AVI_16BYTE - PK_AVI_0HEAD + 1);
++	len = buf[2] + 3;
++	if (len > V4L2_DEBUGFS_IF_MAX_LEN)
++		len = -ENOENT;
 +	if (len > 0)
-+		len = simple_read_from_buffer(ubuf, count, ppos, buffer, len);
++		len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
 +	return len < 0 ? 0 : len;
 +}
 +
- static int tda1997x_log_infoframe(struct v4l2_subdev *sd, int addr)
+ static void print_avi_infoframe(struct v4l2_subdev *sd)
  {
- 	struct tda1997x_state *state = to_state(sd);
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	struct device *dev = &client->dev;
  	union hdmi_infoframe frame;
--	u8 buffer[40] = { 0 };
-+	u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = {};
- 	int len, err;
+-	u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
++	u8 buffer[HDMI_INFOFRAME_SIZE(AVI)] = {};
  
- 	/* read data */
-@@ -2791,6 +2828,12 @@ static int tda1997x_probe(struct i2c_client *client)
- 		goto err_free_media;
- 	}
+ 	if (!is_hdmi(sd)) {
+ 		v4l2_info(sd, "DVI-D signal - AVI infoframe not supported\n");
+@@ -2161,6 +2188,11 @@ static int tc358743_probe(struct i2c_client *client)
+ 	if (err < 0)
+ 		goto err_work_queues;
  
 +	state->debugfs_dir = debugfs_create_dir(sd->name, v4l2_debugfs_root());
 +	state->infoframes = v4l2_debugfs_if_alloc(state->debugfs_dir,
-+		V4L2_DEBUGFS_IF_AVI | V4L2_DEBUGFS_IF_AUDIO |
-+		V4L2_DEBUGFS_IF_SPD, sd,
-+		tda1997x_debugfs_if_read);
++						  V4L2_DEBUGFS_IF_AVI, sd,
++						  tc358743_debugfs_if_read);
 +
- 	return 0;
+ 	v4l2_info(sd, "%s found @ 0x%x (%s)\n", client->name,
+ 		  client->addr << 1, client->adapter->name);
  
- err_free_media:
-@@ -2815,6 +2858,9 @@ static void tda1997x_remove(struct i2c_client *client)
- 	struct tda1997x_state *state = to_state(sd);
- 	struct tda1997x_platform_data *pdata = &state->pdata;
- 
+@@ -2188,6 +2220,8 @@ static void tc358743_remove(struct i2c_client *client)
+ 		flush_work(&state->work_i2c_poll);
+ 	}
+ 	cancel_delayed_work_sync(&state->delayed_work_enable_hotplug);
 +	v4l2_debugfs_if_free(state->infoframes);
 +	debugfs_remove_recursive(state->debugfs_dir);
-+
- 	if (pdata->audout_format) {
- 		mutex_destroy(&state->audio_lock);
- 	}
+ 	cec_unregister_adapter(state->cec_adap);
+ 	v4l2_async_unregister_subdev(sd);
+ 	v4l2_device_unregister_subdev(sd);
 -- 
 2.43.0
 
