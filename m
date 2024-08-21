@@ -2,111 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9969C95A375
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 19:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640D595A3C9
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 19:21:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 726A310E671;
-	Wed, 21 Aug 2024 17:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D48A10E68B;
+	Wed, 21 Aug 2024 17:21:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CivDeHC9";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="DyQUGNr8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0CA110E671
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 17:04:31 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2f16767830dso72046011fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 10:04:31 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
+ [209.85.219.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFCBD10E687
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 17:21:20 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-e13d5cbc067so4614194276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 10:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724259870; x=1724864670; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5piVzblVPFAtLFSe16jLGKIEUz2rAIQiJS543JMertA=;
- b=CivDeHC9T65eyR32UYAFNRt3z1SoQ8ZG4ZORKMkMCBy3J5UU/vdJGl9NHAHIdDzgo7
- vxRBtAVN73g4CqRlezLLIDbRjgpTjoTxQfAYUk7gAfo3wUYtj+twows3q4gbSpp6ApWW
- hCsRXKgMJeGdYEaNNVHtQ6b73szxvcoUpkACvAzKiO+RFmVKNIdz/h5FVwPbOIPnWTl6
- RW+8pIyp+u7X4AqPKK9TPCXZNlIowLV7Cb1E+IzEKHmwAVZeBMXmgFg5jOSo5FI4aKn7
- FjF5v+qS60ICde5wkbLg1CDQbG8k2CPHVrh9s4SHHlxUcGjSPic7J6Xj0D9Km4ts9qGZ
- 6qcg==
+ d=raspberrypi.com; s=google; t=1724260880; x=1724865680;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=015rYsEP7yfhpkEIWRHux/biwfA+OwNX3ERgw0+e/fU=;
+ b=DyQUGNr8eProSRf1kLimwHhnpVxpLEllr313tII/F30t8sbOsJ/F6xiomVvwp3j8ub
+ C0hGKpkSDWwZ3E+o652+0LSKOug+KQUCtpafwT4vDPdC1UYP4JpJizVWoKYjabG3t06D
+ VTouzRtrrti8uU6n9PrtDFk4hDBbKXSwcWlcvxIIUhtKjURd/7v1oUZ+ST5OuJZuWP31
+ fUhKnIRsqObu8qDnc3s5FJzxI47X5cPDo8rFjTeRWO0b2apIb/AvX5bCWuJLqpuCxCxr
+ KY9VGagKqMFmnS06AUZijxsMZmgQXkPC2EtJRCzHixZrQsQMMgv/qe5VSSlap2ye4yr4
+ Jfmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724259870; x=1724864670;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5piVzblVPFAtLFSe16jLGKIEUz2rAIQiJS543JMertA=;
- b=G/qnGF9RFjBr8hNETqK5/sXWGiKg7cFtqJxpCyXFoFCUhYTqHgLefBZrq0cwbY011g
- MtzY6/BbafxkurfIGT/X0ECw5C4n0iyEPvCJB9KyTtutt0CnqCzZFXI9uEop+C/LEL1/
- o8UsPgSn4IZgntyQQSLXpkWVOr9tVt/bhXA1vKPxMTUXx8uztR+C5jMWSB8Cf0Uoug4z
- lDg78S2mWABLXv37GB050wsyZ+xW7QHwlRl6X8Qu9RHM3AizEaIv+5XFQEBCi+eBmdMt
- x5Jojf/R4OPhVec9d+3t+0JNvrLw/HS3XPPDAgp/f8nZbF/ydc30NMCSZR5vFV9F/9eu
- B3VQ==
+ d=1e100.net; s=20230601; t=1724260880; x=1724865680;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=015rYsEP7yfhpkEIWRHux/biwfA+OwNX3ERgw0+e/fU=;
+ b=Wr7HmiJ7FqynaXyYs8ZY1GqvKr86R8IhWiCxw3TlP2PBP33QJruP9Dyn785yseXUUj
+ 7eehHt32Tgfb14eyKiUAoxFwsQCHm6tX2//NHwjGiYKlrfo8NjRCkSRULM2OMAqZdsNG
+ kfoWTklKYlhm3ZRvhsp9sCureTWYGqd0t36cC+7AMsTMQKekqQTDWDQhHokeY+EK93MS
+ tnB0yzQORberHSUFEzvFU3z2Swuwznm9/uNrxMQpnKWWrJqNkW3GYI/yUoyYji7pSWNj
+ gvam0r1miNCf4dqRFNlFkCa1dxhxD7kZhesYBGIEmXhDLo/ScT+IWkm0/nzb32U1dB45
+ MG5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRaDXUcJHY604G/YIyx3UztI/8TeQgdfa1qTvZd4/jSfU0MWikZWjFrSUnH8wNHu+8Ea6E2rzrKoA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxorEWp2w3Tnidutk50xuc1AJp0XlZyY4PFpYBSP2IayNY0kUM2
- DUJ3/mXchJgtc1yASKwgkrso1iKilZnU7k9iwMe9l7wwJj3NfzF5aPgZ/NzBB9nWDnWx8xMnajv
- Jr0IMp6noWHnmE3mnh0GB0DwGQME=
-X-Google-Smtp-Source: AGHT+IHzZV/giO/I7s4NBO6ZU6CfBA9bjDK+AvrOdBFxdHqFSIdNI5DYOQkBjzPeLU83ZjPWGkkffh5DTbBtO3XhBTA=
-X-Received: by 2002:a05:651c:1549:b0:2ef:2a2a:aaa1 with SMTP id
- 38308e7fff4ca-2f3f890e224mr17047021fa.29.1724259869189; Wed, 21 Aug 2024
- 10:04:29 -0700 (PDT)
+ AJvYcCXaQeralUASOlj8G4afFjrm37ayc0BtX2aLQefAt+IJOAr1Jlwh2m0qUv5KkRj5ZJlWnCwEvCjQO90=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJmBJr7CdXCAdQx/uXPzKJfJigvWDLOjYqbIgP/JJ+ZYUj9DC0
+ VxAA0SMN6HCkUnRLBafKau1pgGoykn7gzgPATv28UchkwA1WcOmyJ3PPn+80DBfcrIw92rV56um
+ SAtthhbVcLE8PhHBN7rNnNg7BY2s8mni5/UeAEg==
+X-Google-Smtp-Source: AGHT+IFQIUYiqr9oXIpOCAWbvMIqreaNR6efa2UkbC2wXzdj0+7XiJlJ/bxcMVvFQA58O+M6v+X5MHJ8N7n6A61CWXI=
+X-Received: by 2002:a05:6902:100a:b0:e0b:c297:8a1c with SMTP id
+ 3f1490d57ef6-e166544e86bmr4285471276.15.1724260879808; Wed, 21 Aug 2024
+ 10:21:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240813211317.3381180-4-almasrymina@google.com>
- <CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
- <20240819155257.1148e869@kernel.org>
- <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
- <CAMArcTXvccYBPZTEuW-z=uTK7W67utd9-xjPzfxEOvUWhPS7bg@mail.gmail.com>
- <CAHS8izPZ9Jiu9Gj+Kk3cQ_+t22M4n4-mbPLhx+fti_HiWzL57Q@mail.gmail.com>
-In-Reply-To: <CAHS8izPZ9Jiu9Gj+Kk3cQ_+t22M4n4-mbPLhx+fti_HiWzL57Q@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Thu, 22 Aug 2024 02:04:17 +0900
-Message-ID: <CAMArcTX=TZ+nQkvDyOkiM5Mmh0V3L7bna7FjiUS7d6KermJwdA@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
- netdevice
-To: Mina Almasry <almasrymina@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- bpf@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, 
- Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20240821130348.73038-1-tzimmermann@suse.de>
+ <20240821130348.73038-48-tzimmermann@suse.de>
+In-Reply-To: <20240821130348.73038-48-tzimmermann@suse.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 21 Aug 2024 18:21:03 +0100
+Message-ID: <CAPY8ntCrRjRWRAuM1HzV+=VMUzhxLg5Zw4KqhK0rkA3ed5avfg@mail.gmail.com>
+Subject: Re: [PATCH v2 47/86] drm/vc4: Run DRM default client setup
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, 
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,163 +83,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 22, 2024 at 12:36=E2=80=AFAM Mina Almasry <almasrymina@google.c=
-om> wrote:
+On Wed, 21 Aug 2024 at 14:04, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> On Wed, Aug 21, 2024 at 5:15=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
-rote:
-> >
-> > On Tue, Aug 20, 2024 at 1:01=E2=80=AFPM Mina Almasry <almasrymina@googl=
-e.com> wrote:
-> > >
-> > > On Mon, Aug 19, 2024 at 6:53=E2=80=AFPM Jakub Kicinski <kuba@kernel.o=
-rg> wrote:
-> > > >
-> > > > On Mon, 19 Aug 2024 00:44:27 +0900 Taehee Yoo wrote:
-> > > > > > @@ -9537,6 +9540,10 @@ static int dev_xdp_attach(struct net_dev=
-ice *dev, struct netlink_ext_ack *extack
-> > > > > >                         NL_SET_ERR_MSG(extack, "Native and gene=
-ric XDP can't be active at the same time");
-> > > > > >                         return -EEXIST;
-> > > > > >                 }
-> > > > > > +               if (dev_get_max_mp_channel(dev) !=3D -1) {
-> > > > > > +                       NL_SET_ERR_MSG(extack, "XDP can't be in=
-stalled on a netdev using memory providers");
-> > > > > > +                       return -EINVAL;
-> > > > > > +               }
-> > > > >
-> > > > > Should we consider virtual interfaces like bonding, bridge, etc?
-> > > > > Virtual interfaces as an upper interface of physical interfaces c=
-an
-> > > > > still install XDP prog.
-> > > > >
-> > > > > # ip link add bond0 type bond
-> > > > > # ip link set eth0 master bond0
-> > > > > # ip link set bond0 xdp pin /sys/fs/bpf/x/y
-> > > > > and
-> > > > > # ip link set bond0 xdpgeneric pin /sys/fs/bpf/x/y
-> > > > >
-> > > > > All virtual interfaces can install generic XDP prog.
-> > > > > The bonding interface can install native XDP prog.
-> > > >
-> > > > Good point. We may need some common helpers to place the checks for=
- XDP.
-> > > > They are spread all over the place now.
-> > >
-> > > Took a bit of a look here. Forgive me, I'm not that familiar with XDP
-> > > and virtual interfaces, so I'm a bit unsure what to do here.
-> > >
-> > > For veth, it seems, the device behind the veth is stored in
-> > > veth_priv->peer, so it seems maybe a dev_get_max_mp_channel() check o=
-n
-> > > veth_priv->peer is the way to go to disable this for veth? I think we
-> > > need to do this check on creation of the veth and on the ndo_bpf of
-> > > veth.
-> > >
-> > > For bonding, it seems we need to add mp channel check in bond_xdp_set=
-,
-> > > and bond_enslave?
-> > >
-> > > There are a few other drivers that define ndo_add_slave, seems a chec=
-k
-> > > in br_add_slave is needed as well.
-> > >
-> > > This seems like a potentially deep rabbit hole with a few checks to
-> > > add all of the place. Is this blocking the series? AFAICT if XDP fail=
-s
-> > > with mp-bound queues with a benign error, that seems fine to me; I
-> > > don't have a use case for memory providers + xdp yet. This should onl=
-y
-> > > be blocking if someone can repro a very serious error (kernel crash)
-> > > or something with this combination.
-> > >
-> > > I can try to add these checks locally and propose as a follow up
-> > > series. Let me know if I'm on the right track with figuring out how t=
-o
-> > > implement this, and, if you feel like it's blocking.
-> > >
-> > > --
-> > > Thanks,
-> > > Mina
-> >
-> > I agree with the current approach, which uses the
-> > dev_get_min_mp_channel_count() in the dev_xdp_attach().
-> > The only problem that I am concerned about is the
-> > dev_get_min_mp_channel_count() can't check lower interfaces.
-> > So, how about just making the current code to be able to check lower
-> > interfaces?
+> Call drm_client_setup_with_fourcc() to run the kernel's default client
+> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
+> setup can start the common fbdev client.
 >
-> Thank you for the code snippet! It's very useful! I have been
-> wondering how to walk lower/upper devices!
+> v2:
+> - use drm_client_setup_with_fourcc()
 >
-> To be honest, I think maybe Jakub's suggestion to refactor all the
-> ->ndo_bpf calls needs to happen anyway. The reason is that there are
-> ->ndo_bpf calls in the core net stack, like net/xdp/xsk_buff_pool.c
-> and kernel/bpf/offload.c. AFAICT we need to add checks in these places
-> as well, so refactoring them into one place is nice?
->
-> Note I sent the refactor for review. Sorry, I forgot to CC Taehee:
-> https://patchwork.kernel.org/project/netdevbpf/patch/20240821045629.28566=
-41-1-almasrymina@google.com/
->
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
 
-I agree that it requires refactoring.
-The dev_xdp_propagate() will be useful.
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-> Additionally I'm wondering if we should disable adding mp-bound
-> devices as slaves completely, regardless of xdp. My concern is that if
-> the lower device is using unreadable memory, then the upper device may
-> see unreadable memory in its code paths, and will not be expecting
-> that, so it may break. From the look at the code, it looks like
-> net/batman-adv calls ndo_add_slave, and a bunch of code that touches
-> skb_frags:
+> ---
+>  drivers/gpu/drm/vc4/vc4_drv.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> $ ackc -i ndo_add_slave
-> soft-interface.c
-> 889:    .ndo_add_slave =3D batadv_softif_slave_add,
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+> index c133e96b8aca..86786caaf8a5 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+> @@ -32,8 +32,10 @@
 >
-> $ ackc -i skb_frag
-> fragmentation.c
-> 403:    struct sk_buff *skb_fragment;
-> 407:    skb_fragment =3D dev_alloc_skb(ll_reserved + mtu + tailroom);
-> 408:    if (!skb_fragment)
-> 411:    skb_fragment->priority =3D skb->priority;
-> 414:    skb_reserve(skb_fragment, ll_reserved + header_size);
-> 415:    skb_split(skb, skb_fragment, skb->len - fragment_size);
-> 418:    skb_push(skb_fragment, header_size);
-> 419:    memcpy(skb_fragment->data, frag_head, header_size);
-> 422:    return skb_fragment;
-> 441:    struct sk_buff *skb_fragment;
-> 513:            skb_fragment =3D batadv_frag_create(net_dev, skb, &frag_h=
-eader,
-> 515:            if (!skb_fragment) {
-> 522:                               skb_fragment->len + ETH_HLEN);
-> 523:            ret =3D batadv_send_unicast_skb(skb_fragment, neigh_node)=
-;
+>  #include <drm/drm_aperture.h>
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_client_setup.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_fbdev_dma.h>
+> +#include <drm/drm_fourcc.h>
+>  #include <drm/drm_vblank.h>
 >
-> If we disable ndo_add_slave on mp devices, then we don't need to walk
-> lower or upper devices. What do you think? If we don't disable mp
-> lower devices entirely, then yes, we can make
-> dev_get_min_mp_channel_count() do a recursive check.
+>  #include <soc/bcm2835/raspberrypi-firmware.h>
+> @@ -212,6 +214,7 @@ const struct drm_driver vc4_drm_driver = {
+>         .gem_create_object = vc4_create_object,
 >
-> Note that we can add support for mp bound devices as slaves in the
-> future if we have a use case for it, and it's well tested to be safe
-> with selftests added.
+>         DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc4_bo_dumb_create),
+> +       DRM_FBDEV_DMA_DRIVER_OPS,
 >
-> If we disable adding mp devices as lower devices, then during the mp
-> binding we should also check if the device has upper devices.
-
-I truly agree with this idea!
-Almost all virtual interfaces as an upper interface of mp_bound devices
-especially tunneling interfaces will not work.
-As you already know there are several reasons.
-1. HDS wouldn't work due to tunneling header.
-2. RSS wouldn't work due to tunneling header.
-So, I agree that we disable setting up virtual interfaces as an
-upper interface of mp_bound devices.
-Then as you said, we can allow only confirmed interface types
-in the future.
-
-The IPsec is also not working with mp_bound devices due to the same
-reason. It would be a more complex issue, unfortunately, I don't know
-how to deal with it.
+>         .ioctls = vc4_drm_ioctls,
+>         .num_ioctls = ARRAY_SIZE(vc4_drm_ioctls),
+> @@ -389,7 +392,7 @@ static int vc4_drm_bind(struct device *dev)
+>         if (ret < 0)
+>                 goto err;
+>
+> -       drm_fbdev_dma_setup(drm, 16);
+> +       drm_client_setup_with_fourcc(drm, DRM_FORMAT_RGB565);
+>
+>         return 0;
+>
+> --
+> 2.46.0
+>
