@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5DD95A020
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D634595A021
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 16:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B27DF10E644;
-	Wed, 21 Aug 2024 14:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A3C10E643;
+	Wed, 21 Aug 2024 14:39:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="AmOoqp++";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="JEclViUo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80E5510E642
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 14:39:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97EF610E643
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 14:39:21 +0000 (UTC)
 Delivered-To: boris.brezillon@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724251152; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1724251156; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=lSouNbSOWHtGAFYRRSFtnTS/+7lpmLnYYW6awc3BJzWlaRvlKLCvYrkRIApfiYq8u6SIFlMvaln11y72tjaxPCYBqmo56l50zlrOdALmu5PzF1p+PxJuPXa2uBusMqFCsYneIbJc+OB0qb9wbaxzDwZA2uXHdEUyTC9P10TNhWE=
+ b=O8cn80QB488S0hspsD2N8iSIc7nblvantThsQYfOTt5e8kO9WMEE6biVCNPZUfvhMK7s4ZyEpvA67k2Brfw9fcM1tt4/lOGyjSjJAEmZtDfjLMJvoZxHWDIANC250FrLo+xv2nnbv9osR0GeCbrWH0fJE+4fKqEcQNQ8JgVeoHE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1724251152;
+ s=zohoarc; t=1724251156;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=X7hMMm58w0Lxs4euGai67p0IMEstJ81Np3QDMu1KXrY=; 
- b=TRPwru0cbS/15fagKBO2xyvTEPMlm8LAw+X82/Qk9f+dr+GNiIqtm+7ZYItHHyVglLt9NCCmrDr5ukMTGG2xhFGpEmtQLABWMXA1JsgHSQy/Cpy5NsO7X6OYJ8PpikRQyCUmCDs1czch/iKhUl+2kF0oLqEm5g+7lNuXg9ifvdk=
+ bh=PCQWaHskTaBykjAdT2PUbBbFw9GDVrxCBS6/qxN19Uc=; 
+ b=ktg2D90Zx+fb2Jgif6jVIuH4+gP6k/gefr2yk+qpO79MrYfFfN3AhMZafQG4PcpgQypHe+pO6zWkc/IAUUxaPeRr+YiegpNqZ9krRVfQRiesnkz+iUT/rqTEF8gbuVRjftCnbiv3UaOeXL3bgFgDWtFfhIBHV5GdlUrdlLGeIG8=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
  dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724251152; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724251156; 
  s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=X7hMMm58w0Lxs4euGai67p0IMEstJ81Np3QDMu1KXrY=;
- b=AmOoqp++hKAhKeYl/NxwBsjC7h40p5qFxeHjEjDaAoTD2z1AlKdg5H5/xusTCnyS
- FrgJoXODvqhiMwwGOnpgH466FWSAE3EuR3ci63EhrXeozHCNvXQ9KsExUfo0x/JTET/
- KbcmdLtAXwNF8S5gbsAeYO66HXW5D2A4rNNEzX2Y=
-Received: by mx.zohomail.com with SMTPS id 1724251150579437.46131050444615;
- Wed, 21 Aug 2024 07:39:10 -0700 (PDT)
+ bh=PCQWaHskTaBykjAdT2PUbBbFw9GDVrxCBS6/qxN19Uc=;
+ b=JEclViUo3WR9O+C0gY/QCSDrjvBG0k44yqOSJ/q7XtNnZFNqXAtY8LXgYYl8+qcY
+ Sg2Es1IkE02R1mR6/b2YyordUghelPCdvjkotxZMESrBZ25hhMDJSh1t2uTpaoGcnHa
+ VZDz+o0I0dtDA7U3Rngp7FuBUFHsKSizZbioll1s=
+Received: by mx.zohomail.com with SMTPS id 1724251153593788.1214301888147;
+ Wed, 21 Aug 2024 07:39:13 -0700 (PDT)
 From: Daniel Almeida <daniel.almeida@collabora.com>
 To: liviu.dudau@arm.com, steven.price@arm.com, carsten.haitzler@arm.com,
  boris.brezillon@collabora.com, robh@kernel.org,
  faith.ekstrand@collabora.com
 Cc: Daniel Almeida <daniel.almeida@collabora.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 RESEND 3/5] drm: panthor: add debugfs support in
- panthor_sched
-Date: Wed, 21 Aug 2024 11:37:29 -0300
-Message-ID: <20240821143826.3720-4-daniel.almeida@collabora.com>
+Subject: [PATCH v2 RESEND 4/5] drm: panthor: add debugfs knob to dump
+ successful jobs
+Date: Wed, 21 Aug 2024 11:37:30 -0300
+Message-ID: <20240821143826.3720-5-daniel.almeida@collabora.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240821143826.3720-1-daniel.almeida@collabora.com>
 References: <20240710225011.275153-1-daniel.almeida@collabora.com>
@@ -70,71 +70,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for future patches, add support for debugfs in
-panthor_sched.c.
+It can be advantageous for userspace to have access to successful jobs.
 
-Follow-up patches will make use of debugfs files to control aspects of
-the dumping process.
+Allow this as an opt-in through a debugfs file.
+
+Note that the devcoredump infrastructure will discard new dumps if a
+previous dump hasn't been read. A future patch will add support for
+multi-job dumps which will work around this limitation.
 
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c   | 1 +
- drivers/gpu/drm/panthor/panthor_sched.c | 9 +++++++++
- drivers/gpu/drm/panthor/panthor_sched.h | 7 +++++++
- 3 files changed, 17 insertions(+)
+ drivers/gpu/drm/panthor/panthor_sched.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index fb30e119d9bf..bb759baa98bd 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1374,6 +1374,7 @@ static const struct file_operations panthor_drm_driver_fops = {
- static void panthor_debugfs_init(struct drm_minor *minor)
- {
- 	panthor_mmu_debugfs_init(minor);
-+	panthor_sched_debugfs_init(minor);
- }
- #endif
- 
 diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 59c30b311ee9..afd644c7d9f1 100644
+index afd644c7d9f1..ea2696c1075a 100644
 --- a/drivers/gpu/drm/panthor/panthor_sched.c
 +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -3602,3 +3602,12 @@ int panthor_sched_init(struct panthor_device *ptdev)
- 	ptdev->scheduler = sched;
- 	return 0;
- }
-+
-+#ifdef CONFIG_DEBUG_FS
-+void panthor_sched_debugfs_init(struct drm_minor *minor)
-+{
-+	struct panthor_device *ptdev =
-+		container_of(minor->dev, struct panthor_device, base);
-+	struct panthor_scheduler *sched = ptdev->scheduler;
-+}
-+#endif /* CONFIG_DEBUG_FS */
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
-index 9a5b53498dcc..88871f38c1ab 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.h
-+++ b/drivers/gpu/drm/panthor/panthor_sched.h
-@@ -8,6 +8,7 @@ struct drm_exec;
- struct dma_fence;
- struct drm_file;
- struct drm_gem_object;
-+struct drm_minor;
- struct drm_sched_job;
- struct drm_panthor_group_create;
- struct drm_panthor_queue_create;
-@@ -57,4 +58,10 @@ void panthor_sched_resume(struct panthor_device *ptdev);
- void panthor_sched_report_mmu_fault(struct panthor_device *ptdev);
- void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events);
+@@ -10,6 +10,7 @@
  
-+#ifdef CONFIG_DEBUG_FS
-+void panthor_sched_debugfs_init(struct drm_minor *minor);
-+#else
-+static inline void panthor_sched_debugfs_init(struct drm_minor *minor) {}
-+#endif /* CONFIG_DEBUG_FS */
+ #include <linux/build_bug.h>
+ #include <linux/clk.h>
++#include <linux/debugfs.h>
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dma-resv.h>
+@@ -317,6 +318,9 @@ struct panthor_scheduler {
+ 		 */
+ 		struct list_head stopped_groups;
+ 	} reset;
 +
- #endif
++	/** @dump_successful_jobs: whether to dump successful jobs through coredumpv */
++	bool dump_successful_jobs;
+ };
+ 
+ /**
+@@ -2946,6 +2950,16 @@ queue_run_job(struct drm_sched_job *sched_job)
+ 	queue->iface.input->extract = queue->iface.output->extract;
+ 	queue->iface.input->insert = job->ringbuf.end;
+ 
++	if (sched->dump_successful_jobs) {
++		struct panthor_core_dump_args core_dump_args = {
++			.ptdev = ptdev,
++			.group_vm = job->group->vm,
++			.group = job->group,
++		};
++
++		panthor_core_dump(&core_dump_args);
++	}
++
+ 	if (group->csg_id < 0) {
+ 		/* If the queue is blocked, we want to keep the timeout running, so we
+ 		 * can detect unbounded waits and kill the group when that happens.
+@@ -3609,5 +3623,8 @@ void panthor_sched_debugfs_init(struct drm_minor *minor)
+ 	struct panthor_device *ptdev =
+ 		container_of(minor->dev, struct panthor_device, base);
+ 	struct panthor_scheduler *sched = ptdev->scheduler;
++
++	debugfs_create_bool("dump_successful_jobs", 0644, minor->debugfs_root,
++			    &sched->dump_successful_jobs);
+ }
+ #endif /* CONFIG_DEBUG_FS */
 -- 
 2.45.2
 
