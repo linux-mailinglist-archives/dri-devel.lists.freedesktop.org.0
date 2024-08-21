@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3563F959548
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 09:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6382E9594B0
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 08:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 987A610E53C;
-	Wed, 21 Aug 2024 07:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 306BC10E587;
+	Wed, 21 Aug 2024 06:33:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1141 seconds by postgrey-1.36 at gabe;
- Wed, 21 Aug 2024 01:33:08 UTC
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E83C10E549;
- Wed, 21 Aug 2024 01:33:08 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.254])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WpSwg1LJzzhXvK;
- Wed, 21 Aug 2024 09:12:03 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
- by mail.maildlp.com (Postfix) with ESMTPS id 88BFA180101;
- Wed, 21 Aug 2024 09:14:03 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
- (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Wed, 21 Aug
- 2024 09:14:02 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <konrad.dybcio@linaro.org>,
- <quic_abhinavk@quicinc.com>, <dmitry.baryshkov@linaro.org>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>, <daniel@ffwll.ch>
-CC: <lizetao1@huawei.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-Subject: [PATCH -next] drm/msm/adreno: Use kvmemdup to simplify the code
-Date: Wed, 21 Aug 2024 09:21:34 +0800
-Message-ID: <20240821012134.1947547-1-lizetao1@huawei.com>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9288810E587;
+ Wed, 21 Aug 2024 06:33:28 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Wpc322wRPzyR9t;
+ Wed, 21 Aug 2024 14:33:02 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+ by mail.maildlp.com (Postfix) with ESMTPS id D0D4E1401E0;
+ Wed, 21 Aug 2024 14:33:24 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 21 Aug
+ 2024 14:33:23 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <chaitanya.dhere@amd.com>, <jun.lei@amd.com>, <harry.wentland@amd.com>,
+ <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <alex.hung@amd.com>, <aurabindo.pillai@amd.com>, <colin.i.king@gmail.com>,
+ <dillon.varone@amd.com>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH -next 0/5] drm/amd/display: Make some symobols static
+Date: Wed, 21 Aug 2024 14:40:35 +0800
+Message-ID: <20240821064040.2292969-1-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemd500012.china.huawei.com (7.221.188.25)
-X-Mailman-Approved-At: Wed, 21 Aug 2024 07:04:47 +0000
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +56,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use kvmemdup instead of kvmalloc() + memcpy() to simplify the code.
+Make some symobols static.
 
-No functional change intended.
+Jinjie Ruan (5):
+  drm/amd/display: Make core_dcn4_g6_temp_read_blackout_table static
+  drm/amd/display: Make core_dcn4_ip_caps_base static
+  drm/amd/display: Make dcn35_hubp_funcs static
+  drm/amd/display: Make dcn401_dsc_funcs static
+  drm/amd/display: Make dcn35_fpga_funcs static
 
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 2 +-
+ .../amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c   | 2 +-
+ .../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c | 3 ++-
+ drivers/gpu/drm/amd/display/dc/dsc/dcn401/dcn401_dsc.c         | 2 +-
+ drivers/gpu/drm/amd/display/dc/hubp/dcn35/dcn35_hubp.c         | 2 +-
+ 5 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 1c6626747b98..ef473ac88159 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -688,11 +688,9 @@ int adreno_gpu_state_get(struct msm_gpu *gpu, struct msm_gpu_state *state)
- 				size = j + 1;
- 
- 		if (size) {
--			state->ring[i].data = kvmalloc(size << 2, GFP_KERNEL);
--			if (state->ring[i].data) {
--				memcpy(state->ring[i].data, gpu->rb[i]->start, size << 2);
-+			state->ring[i].data = kvmemdup(gpu->rb[i]->start, size << 2, GFP_KERNEL);
-+			if (state->ring[i].data)
- 				state->ring[i].data_size = size << 2;
--			}
- 		}
- 	}
- 
 -- 
 2.34.1
 
