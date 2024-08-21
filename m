@@ -2,47 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278DC9594B5
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 08:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7589959505
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 08:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9240E10E891;
-	Wed, 21 Aug 2024 06:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36D2A10E88E;
+	Wed, 21 Aug 2024 06:48:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kv7Cd3JK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098D610E889
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 06:33:31 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.105])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wpc1C56JXzhY0P;
- Wed, 21 Aug 2024 14:31:27 +0800 (CST)
-Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
- by mail.maildlp.com (Postfix) with ESMTPS id 2E4961401F2;
- Wed, 21 Aug 2024 14:33:28 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
- (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 21 Aug
- 2024 14:33:27 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <chaitanya.dhere@amd.com>, <jun.lei@amd.com>, <harry.wentland@amd.com>,
- <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <alex.hung@amd.com>, <aurabindo.pillai@amd.com>, <colin.i.king@gmail.com>,
- <dillon.varone@amd.com>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next 5/5] drm/amd/display: Make dcn35_fpga_funcs static
-Date: Wed, 21 Aug 2024 14:40:40 +0800
-Message-ID: <20240821064040.2292969-6-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240821064040.2292969-1-ruanjinjie@huawei.com>
-References: <20240821064040.2292969-1-ruanjinjie@huawei.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEDE610E88E
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 06:48:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E0A4B60F84;
+ Wed, 21 Aug 2024 06:48:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C5CEC4AF0C;
+ Wed, 21 Aug 2024 06:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724222931;
+ bh=0/KRyANKUF8eJpm9kpyavQgXgai9aYL+fCertJIqr7A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Kv7Cd3JKq6c1V2apdJ0WfzxUgnZumresEw8/aSUIg+xFI93gQXKxOZ9S+DJEq43N7
+ jaVwPmoJRg8XfUCbPcJl92NCdBFQgqqKbPOEiL8d4MUJmT/XnNIs5urKXi6YHOgra9
+ fXbjt7CsadCL/9eRHTNjp11lP36meTb6dqiker5J0QGuj+vg5vbdPVGbpTx2GiB1ed
+ G4EU8GN/4/s3h9TF5AdUXSQaPUMHrAII3VFGmxpVhmHufegOsfue/c8uSsjq6wui4y
+ f1t/KJ+j5SsaYmCROzj9rsSiGvXE8solwfXJkHhVKh3ZU6bth/vRh/jKfw5YjT6n2Y
+ HQELQN2gc8bqA==
+Message-ID: <c8ed627e-42fd-4cd9-b9e4-a97177ef3ef0@kernel.org>
+Date: Wed, 21 Aug 2024 08:48:41 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemh500013.china.huawei.com (7.202.181.146)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: display: mediatek: dpi: Add power domains
+To: Rohit Agarwal <rohiagar@chromium.org>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
+ jitao.shi@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20240820080659.2136906-1-rohiagar@chromium.org>
+ <20240820080659.2136906-2-rohiagar@chromium.org>
+ <b5wtwpkwgg3tbwya6zllmymaaf2qvnyfbspkynr2ruzncej2ql@qloslxfinvos>
+ <1899ea6f-b734-4748-aa00-d7049d553994@chromium.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <1899ea6f-b734-4748-aa00-d7049d553994@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,31 +111,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sparse tool complains as follows:
+On 20/08/2024 14:18, Rohit Agarwal wrote:
+> 
+> On 20/08/24 4:40 PM, Krzysztof Kozlowski wrote:
+>> On Tue, Aug 20, 2024 at 08:06:57AM +0000, Rohit Agarwal wrote:
+>>> Add power domain binding to the mediatek DPI controller.
+>> Why? Who needs it? Why all devices suddenly have it (IOW, why is it not
+>> constrained anyhow per variant)?
+>>
+> Ok, my intent was to introduce only for this particular variant.
+> Let me constrain it to this particular compatible.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:1071:22: warning:
-	symbol 'dcn35_fpga_funcs' was not declared. Should it be static?
+Then add property in top-level properties and in if:then: disallow it
+for older devices.
 
-This symbol is not used outside of dcn35_clk_mgr.c, so marks it static.
-
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-index e2d906327e2e..818a9b0933a5 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-@@ -1068,7 +1068,7 @@ static struct clk_mgr_funcs dcn35_funcs = {
- 	.is_ips_supported = dcn35_is_ips_supported,
- };
- 
--struct clk_mgr_funcs dcn35_fpga_funcs = {
-+static struct clk_mgr_funcs dcn35_fpga_funcs = {
- 	.get_dp_ref_clk_frequency = dce12_get_dp_ref_freq_khz,
- 	.update_clocks = dcn35_update_clocks_fpga,
- 	.init_clocks = dcn35_init_clocks_fpga,
--- 
-2.34.1
+Best regards,
+Krzysztof
 
