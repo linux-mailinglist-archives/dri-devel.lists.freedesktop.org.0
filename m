@@ -2,144 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258A79592F6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 04:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D3095930C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 04:49:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9A210E2AE;
-	Wed, 21 Aug 2024 02:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0798510E548;
+	Wed, 21 Aug 2024 02:49:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="lgTit2z5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LY4mLc/Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from HK2PR02CU002.outbound.protection.outlook.com
- (mail-eastasiaazon11010040.outbound.protection.outlook.com [52.101.128.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456BA10E2AE;
- Wed, 21 Aug 2024 02:42:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TqrsweLZsxXpCXxR2GoT8BOsZie8sH29/INqhQFEDqdESkhMx4MhhKFkOfAURL0HhjaGZs6WSCsJPnSDRtunBX18aWRRDpk0FBsdEkOeP9HZ5qHKilkT5iK8P9uQsnClyh153EWDnaJW9upApzl3ER6CH5+rIxJbT34US5m24sBbvSeQ8fH1rWBZ3wkehWFnkJcar5e0hbdH4y9w2A+BY3eSyLpl6XBz2m3zI5XjhJfXl1rzL8Gj7ST71uWydIyuI7uvddPT9h3ee8JApEdAtXbtlfjfQEjnFTLpv+b3N9XPkD5N6BXM/HGWWSYV2UigItwCH55jPRfYiBncfoQmNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yZeJZiOJQ38dw74Hnem2BV8612cE8faqk0pm/TFYeKY=;
- b=i8aacaFsseyboZhTrbtk4Thl40SosVdQAAgG64L7KYNS34aEUj9tkD4e9OHmdMz+m9uZXgIJt4XOOFKwkeMxInP3dMiGMNy+Olee/p17u4AKzHAyHPQG8E42CihRFGFd43R8NwQMEZbbRR+N6SmZtRD0e+0dRhPjm1FQZOZtiG8poL3evbP+OZkzUsoycAy8mG/6BFvSiPZcgxyxiNOaTiKr1sRRKXMoQmI1kxHwFEknH5w2N3Q914ORdUxr+tmGq69xgmVCkBEf7JlRdlMwUpHaJLcB++sC9XSwlXks5uyeujr6l4SDZRnqt2neUytYNDl4VvEF96NWFa3pOYWYYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yZeJZiOJQ38dw74Hnem2BV8612cE8faqk0pm/TFYeKY=;
- b=lgTit2z58vv1gtS78BvS/sjFTy43qtN1Azen6e+5bB4x6v+YIJg3SMJmq/yXX7fgb9sJ1Yl5gHHRE1J0b4CS5dHaP5Ao2DC0RN9NTKPcS9mbEhSoD3T2FgzyKfJUyJ+tn+3H9Kp6gPz05j9rJOn80LDQuEApL0QjRS/fOWzkAQMOIayakkywrQGqx1FH1PZgMlOVU3imowFs/YfN37LxLhaguwoWCo7wCoX4ntagTqCakbUuNiPkrg897r0OcakObPnq1rv5VWAzgNpMViExKGAqQVveuEgEEAIlr4tu6HSVugqa9UT1BgFIPwlZcaNG9H6qir/q+ilqh5mGY84cWQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com (2603:1096:400:82::8)
- by SEZPR06MB7137.apcprd06.prod.outlook.com (2603:1096:101:232::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Wed, 21 Aug
- 2024 02:42:08 +0000
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70]) by TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70%6]) with mapi id 15.20.7875.023; Wed, 21 Aug 2024
- 02:42:08 +0000
-From: Yu Jiaoliang <yujiaoliang@vivo.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Michal Mrozek <michal.mrozek@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Tejas Upadhyay <tejas.upadhyay@intel.com>,
- Shekhar Chauhan <shekhar.chauhan@intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-Subject: [PATCH v3] drm/i915/gt: Use kmemdup_array instead of kmemdup for
- multiple allocation
-Date: Wed, 21 Aug 2024 10:41:27 +0800
-Message-Id: <20240821024145.3775302-1-yujiaoliang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYWP286CA0003.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:178::22) To TYZPR06MB4461.apcprd06.prod.outlook.com
- (2603:1096:400:82::8)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8991410E548
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 02:49:15 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2d3c05dc63eso4616189a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2024 19:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724208555; x=1724813355; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RE92xTzpyc1kzcm5lmkLo7kV0Lo7mv/gXSiJrqevpAQ=;
+ b=LY4mLc/YrWX6Itt1Ikjr9wBjnrMTvXRq9G0J9FM2XtpFYjAjmCBq4ZlYPT0L9HPFpX
+ DC6FuQzfMlrTm1I7QGHDK6FSO0SgNjxVDaJ0khNW/qwDeqbsSaA8VS9/6FPPlrIG4TLz
+ ldAPAOBzQWYk//WcTLpMFS6HWMt6tQCeXWmZeSW3bU9szwubPmP5y7dipDWQtkTqd0I/
+ zS5L+blVw5xmA5OPaWSGevXRsr6ETpFp+6HB9/0MYNJo+yErKSw53sEhZNZtarhtX957
+ jHIVEd7LHsRm7HOJONJaH0QVCRCxXIMtaXmTRGAsS6eQjFs903cIroCpcejSK2I1uCkL
+ AiNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724208555; x=1724813355;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RE92xTzpyc1kzcm5lmkLo7kV0Lo7mv/gXSiJrqevpAQ=;
+ b=HZyghZVyXo9Ri21zyAZHDPz4pDzns3sXfTRSch4y6VBOJd5+ddafXs9TzSIJpw0HxC
+ 6cMHFAv9FnptUTV599/B/S5hKEOnBlIPm/3S0lYxi+tU/ptMIPVRBiO/cUDmRh7pdpbp
+ zAQBfwvwr0KXWrEFmN7gAB/D3S7gCCpnBdMORPTjxz1zbh1FlYdbbdv/7MNHdBUk7lT4
+ bSlhpio7VWzjHsexnvsba4VMwl7XqDXittTAF+1hNDGKujAy/kqMMaoCEJc8+Uo/7LE3
+ G6i0Y8zagHTUEHnjXGWTglava2ezjvpImODxrG+WbTvn+dKrsjRxoOeNjVUXiXFowhIp
+ 8cRg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3SyPlq5okh7Vll0SgeTn23hikC3q9jiYw0KLuf0HHICeGDCrmMu42tz7rXBTlsRzFYLBEJhJM4ME=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrrfqU7tyEYCOp1wd5EbhgcvajrdsHTAko8i1aOBjR1mTDXbIe
+ b03ThvSQCfU+zYYfURh/e8blwB15A2yvM9jKMTOvKhzfrriLe6izvikujT21hO1soJJ38aphKgK
+ 9fHMPeDhimrIBzmwOV94BYSwWNuQ=
+X-Google-Smtp-Source: AGHT+IHPIeU+XeIHnRDwOc8ghN5MtcSzCEjHZtvnpI0kCMC3xi6zc1BgiVyooCk3wuq0/oAVIZyRNBgW98ToLF19jq4=
+X-Received: by 2002:a17:90b:3889:b0:2cd:2992:e8dc with SMTP id
+ 98e67ed59e1d1-2d5e99fb6demr1065257a91.5.1724208554836; Tue, 20 Aug 2024
+ 19:49:14 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB4461:EE_|SEZPR06MB7137:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6bca7494-bda4-42ca-9dcd-08dcc18ad9c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|52116014|7416014|376014|366016|921020|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VxFUgILAz5uicaWDteKvi1RmstyBXzylLHLOkSImz3dMOukwTcbpZ05v2+mw?=
- =?us-ascii?Q?hQHlrvgpAQK+sVeU2K603Uorz9B/tVYYGTHbUqNumcZMJtIiss/21TO42j3a?=
- =?us-ascii?Q?hYjYGUkMGMt9iIwg89NtvirQxwrvIjpRuIUjIrz98OnetrE47zLj0BMz4Y5d?=
- =?us-ascii?Q?UkK51GfarP4J+XrYMd5XbdPuLW8XfTWwpcp0NGp8hH0wZJD+HAwnda3QZyaO?=
- =?us-ascii?Q?96gAQaH+PI9xzK9xnt2desrBHBtM6CIcmqpTx/Fvct4Gc6zke2Y3xhQGa9rE?=
- =?us-ascii?Q?JKfBsiO9KC8iaYjQfPrdTZoBiFxuqyiLvrZpv6D+6h54ge736NJDFx7lqJVA?=
- =?us-ascii?Q?QJ6mqJokZTJmLaPs6nJG7eiBi24wGcj629wNl+LWIZ1Dj+IuNfOq5qi9+gT2?=
- =?us-ascii?Q?plTR05xLlVb2hihuS+bzSvgOefhINu+QUIeyhpmdanNzvhLgrKaWypOikjwA?=
- =?us-ascii?Q?w1t6Ttv1qd2oXrCgZp+uzli1j9AsvodaM1amgvuow+miO+ct51nU3hi/PUKw?=
- =?us-ascii?Q?6xjRv1GdQHLCEeCIvjVLf8CeCUkYadrO38lseCMBkYIwXICcNbxXpSNW+1bY?=
- =?us-ascii?Q?ghKvtFPTnYCVztv8KJTtE+EsamVv1bLL/PFQ3mJG2fDVvO95pZyOt8xhltpb?=
- =?us-ascii?Q?bSBEkHKuX+/4KUnImFbFV8BnV1jPFMeYk/nn8GwLgLmmfDka1KZLk2ONKmhN?=
- =?us-ascii?Q?SSI0DhWY4NB0dEUEwF1rYkJsc9cpBmJVDz5ZHb3gdqH75rWkhmmyu+AR8/PI?=
- =?us-ascii?Q?9nvLpLO0sfWoEqqbPPZGThXU2qx8AxDAdTMF/6lR878loFITDz7suJlPRw5O?=
- =?us-ascii?Q?4SGrrx8kt6AurOEJHghHU8DV3nHKCpPDM46rozKYqJ+kJkbLRv7CqhusQNi2?=
- =?us-ascii?Q?1DHwkqZ9fhjUEheQpvuSN8JhmgTwJbVlY/IeSRmTFD9qvxpgYal9UOT9tEZM?=
- =?us-ascii?Q?15ahrsjLgF+XMalLR6rWPJ8fNh8npz8qeLX1UzGKJ7Xi5QV1OSNRICZBiL8O?=
- =?us-ascii?Q?i7Rn4WFCNY+abxROqKo+eFX4hxSKC1ggaz9a1OVZ3qNgI/0ux5295BIAgjL2?=
- =?us-ascii?Q?EBAiX55T+XvBVUwbWXDdp0F8rtb3ngT1uaCrkDVHtjFNg4qQcXi85Hj1qhXH?=
- =?us-ascii?Q?YMTiCkXuI135jKopzGosau41QrmIpZs/hl5vxluLOj/LS93r9jcsPakIzTtS?=
- =?us-ascii?Q?Rtmw68sABxB9MmTX3gsk8eH2XAudIOo15Sd4JhaQUkovS5QZ/mHmP2gpKNpV?=
- =?us-ascii?Q?kymf30CZnraP3/mTTAOd7NgpryKoGC2nutp+n+E13C947OmiFFiRCIYkN9jB?=
- =?us-ascii?Q?qTRsbdoA/LL2xU7I5pLBNdRbaZ4r7ipGZgycNa3vdBlZJ5oPHeT/hUyEwJdj?=
- =?us-ascii?Q?/MZZzBg3yxpeRsXwwO1QPWFIAhTaYx9iP+fBeTHQHLiye1E7Fihuac577pXE?=
- =?us-ascii?Q?rKPzdXTZhqo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR06MB4461.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(921020)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Pba9cQuyQHyTktCRqO6iNnmNr3FqdjqbXnb/hSVATDb8ZUVvkXYvn7Fm34IE?=
- =?us-ascii?Q?6+dcT157WkpzKPlPIQ/cH9JuGTZml10FuzpBWIf8XeRbPUHuHntEgK4RDJve?=
- =?us-ascii?Q?+MxPVsfMoivFr6WGmY7YH1hmhZEATGlVh4yOz6NUjRsH4qj9UP/Z7EFzXc1P?=
- =?us-ascii?Q?RjLfEGIVQkuTdoUdeUgOta9OKGQ0RYgj7IxfslMUm0gaB/On1kTqDnPbyHae?=
- =?us-ascii?Q?BnOfTERxTl7o69A90akdq6HHk/leDxN71y/Ul/e+ZQkRxn7fb5vsdkSspoDx?=
- =?us-ascii?Q?eHECUrCY8N8Sg5fyfR4Vm5v+V69KqM0BXXErVDURa4KRq6um9uO1taLEfG3M?=
- =?us-ascii?Q?RQK+0szWrDRMT7MQAOKySkWWw7QtXBS6OkHDJSloyURwLkXinateimyTzAyS?=
- =?us-ascii?Q?JR+nvr0vJK01+Apm5NY8gJyUHj1d21PpeCbsuKZpaBUJNAQHRveS+Ik9+k+X?=
- =?us-ascii?Q?wTHPVPDPxGgE6PWO66PMn/WizWf85dAdBymsSH1dWWcjRyAyCy7s28PRhVqF?=
- =?us-ascii?Q?xBFYOf2/o2lt/SMH/MIN/fVvWRkYcK1L+V/SmnqNLTMulDp5R6O811i+M6eG?=
- =?us-ascii?Q?8U02hxwDJK/hSnklHQej5G76rP6zbGUciP6ZELA00scsqVPGskrtEhFnIsQd?=
- =?us-ascii?Q?gtfOhac4ydNNJL4WlqYOlaw6pF0SRfDg3C4j5aSkqd0ZtDOpZrq8Ok1nTWEJ?=
- =?us-ascii?Q?yW/2pMhcGZuHnzbFdkmOE/jxz1wIepQdpmVVhgv661Z9pjYwyQs3qYng34RI?=
- =?us-ascii?Q?ONbGuF7XL7Vj+A8UY7IoN0BMafuWYIvZ9IB844IH5HWchtsw0pms0BOBFrnl?=
- =?us-ascii?Q?tVXcd7gHqbYGK0GoVUHzwsZBihoUo/GC91XmegsW2eyDamqtFA3Uy8FE+59N?=
- =?us-ascii?Q?Jbl+8xVk5CmPOzccr6ZoZcPVtFiqoUgiZmguM2APjj2Y2cN+LcL8R9u7qmIT?=
- =?us-ascii?Q?xnA2HF32UWXxzeMPXyZhVNgh542wJgBDduth8wopgYoNYrVSiEgHL8bHToLw?=
- =?us-ascii?Q?LZtT1dJz7Ga0XoeyUYU6mE5YEeQkkybHz4nA1p7USrQPpnRJV3hafwg85xzD?=
- =?us-ascii?Q?0IiT3yhq+r3aXSZDbTjk9LIK1D6sTQSastP9YNCqgKc6Ed+j1vyzdWqroN6d?=
- =?us-ascii?Q?y2llQML4/IovSigLdL2ivo09/0P2tPn7K3HKNSa9RNBcMwSrgUvgnW8c3sVo?=
- =?us-ascii?Q?FnLUShKgjcLoVcWMOyEsp3nVq+Jp15OQVoqhd0Y2jpg4UcTpy1DB5J25PrTB?=
- =?us-ascii?Q?QsXy284INsHD9LHTwxeTLBRrXtIfJpe3/JabHqMKDSHqC382sVFXbCvvVSMq?=
- =?us-ascii?Q?poF8S6zA7kGgzF+qaduYmRJR/AkL4MDOWxzkWTDMN6qlmMnO0Rp7y//57XSN?=
- =?us-ascii?Q?ZpsYHeG6/Ffve7kkE/sjbKE8gfWwvlAkOHnHattIoHqugBechlIeHPq6du/y?=
- =?us-ascii?Q?uFGYeyGVSNWm1secctcsJLIyVekNPNTGECYu+g+kfkA9Q/4CVs1mnZ5pKNn9?=
- =?us-ascii?Q?HytZExw02m5ClFxexB8VviojYCM2nOxTHuQgVIF60nsf+UIlioRfuYXWd5uQ?=
- =?us-ascii?Q?pgDNBd3+ZPD85Z8G6lY0KlwPjje5nGe6J+osLs3W?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bca7494-bda4-42ca-9dcd-08dcc18ad9c6
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4461.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 02:42:08.4745 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8YYWBEGxX7WHZ2S3pi5Ho9U9ObLpamt6vOjfJPDOywquIvc6Q0pP4U2IAwE8OBe2O5tCVcEPLf3LpubcWHc8mw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB7137
+References: <20240203165307.7806-1-aford173@gmail.com>
+ <20240203165307.7806-11-aford173@gmail.com>
+ <Zm_UzO4Jmm7Aykcm@atmark-techno.com>
+ <22a3f5266260dd3915269ae3eec7724f7537eb55.camel@pengutronix.de>
+ <cd03ecb1-100e-4699-95ed-d837a2802dc7@kontron.de>
+In-Reply-To: <cd03ecb1-100e-4699-95ed-d837a2802dc7@kontron.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 20 Aug 2024 21:49:03 -0500
+Message-ID: <CAHCN7x+bh_ka250hOCenO3Et6re4EJ=5TG8=kpG1hs-PV0dQxQ@mail.gmail.com>
+Subject: Re: drm/bridge/imx8mp-hdmi-tx: Allow inexact pixel clock frequencies
+ (Was: [PATCH V8 10/12] drm/bridge: imx: add bridge wrapper driver for
+ i.MX8MP DWC HDMI)
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Lucas Stach <l.stach@pengutronix.de>, 
+ Dominique MARTINET <dominique.martinet@atmark-techno.com>,
+ linux-arm-kernel@lists.infradead.org, 
+ marex@denx.de, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ NXP Linux Team <linux-imx@nxp.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+ Makoto Sato <makoto.sato@atmark-techno.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,41 +103,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let the kememdup_array() take care about multiplication and possible
-overflows.
+On Thu, Aug 15, 2024 at 3:19=E2=80=AFAM Frieder Schrempf
+<frieder.schrempf@kontron.de> wrote:
+>
+> Hi Dominique, hi Lucas,
+>
+> On 17.06.24 6:32 PM, Lucas Stach wrote:
+> > Hi Dominique,
+> >
+> > Am Montag, dem 17.06.2024 um 15:16 +0900 schrieb Dominique MARTINET:
+> >> Adam Ford wrote on Sat, Feb 03, 2024 at 10:52:50AM -0600:
+> >>> From: Lucas Stach <l.stach@pengutronix.de>
+> >>>
+> >>> Add a simple wrapper driver for the DWC HDMI bridge driver that
+> >>> implements the few bits that are necessary to abstract the i.MX8MP
+> >>> SoC integration.
+> >>
+> >> Hi Lucas, Adam,
+> >> (trimmed ccs a bit)
+> >>
+> >> First, thank you for the effort of upstreaming all of this!! It's real=
+ly
+> >> appreciated, and with display working I'll really be wanting to upstre=
+am
+> >> our DTS as well as soon as I have time (which is going to be a while,
+> >> but better late than never ?)
+> >>
+> >> Until then, it's been a few months but I've got a question on this bit=
+:
+> >>
+> >>> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gp=
+u/drm/bridge/imx/imx8mp-hdmi-tx.c
+> >>> new file mode 100644
+> >>> index 000000000000..89fc432ac611
+> >>> --- /dev/null
+> >>> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> >>> +static enum drm_mode_status
+> >>> +imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
+> >>> +                  const struct drm_display_info *info,
+> >>> +                  const struct drm_display_mode *mode)
+> >>> +{
+> >>> +   struct imx8mp_hdmi *hdmi =3D (struct imx8mp_hdmi *)data;
+> >>> +
+> >>> +   if (mode->clock < 13500)
+> >>> +           return MODE_CLOCK_LOW;
+> >>> +
+> >>> +   if (mode->clock > 297000)
+> >>> +           return MODE_CLOCK_HIGH;
+> >>> +
+> >>> +   if (clk_round_rate(hdmi->pixclk, mode->clock * 1000) !=3D
+> >>> +       mode->clock * 1000)
+> >>> +           return MODE_CLOCK_RANGE;
+> >>
+> >> Do you know why such a check is here?
+> >
+> > Sending a HDMI signal with a different rate than what the display
+> > expects rarely ends well, so this check avoids that.
+> >
+> > However, this check is a bit overcautious in that it only allows exact
+> > rate matches. IIRC HDMI allows a rate mismatch of +- 0.5%, so this
+> > check could be relaxed quite a bit to allow for that.
+>
+> I checked with a 1080p display that reports 23 possible modes via EDID.
+> Out of these 15 are accepted by the driver with the strict check.
+>
+> Two more would be accepted with a relaxed check that allows a 0.5% margin=
+.
+>
+> For the remaining six modes, the pixel clock would deviate up to ~5%
+> from what the display expects. Still, if I remove the check altogether,
+> all 23 modes seem to work just fine.
+>
+> >>
+> >> When plugging in a screen with no frequency identically supported in i=
+ts
+> >> EDID this check causes the screen to stay black, and we've been tellin=
+g
+> >> customers to override the EDID but it's a huge pain.
+> >>
+> >> Commit 6ad082bee902 ("phy: freescale: add Samsung HDMI PHY") already
+> >> "fixed" the samsung hdmi phy driver to return the next frequency if an
+> >> exact match hasn't been found (NXP tree's match frequencies exactly, b=
+ut
+> >> this gets the first clock with pixclk <=3D rate), so if this check is =
+also
+> >> relaxed our displays would work out of the box.
+> >>
+> >> I also don't see any other bridge doing this kind of check.
+> >> drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c has a similar check with a
+> >> 0.5% leeway, and all the other drivers don't check anything.
+> >> If you want to add some level of safety, I think we could make this wo=
+rk
+> >> with a 5% margin easily... Printing a warning in dmesg could work if
+> >> you're worried about artifacts, but litteraly anything is better than =
+a
+> >> black screen with no error message in my opinion.
+> >>
+> >>
+> >> In practice the screen I'm looking at has an EDID which only supports
+> >> 51.2MHz and the closest frequency supported by the Samsung HDMI phy is
+> >> 50.4MHz, so that's a ~1.5% difference and it'd be great if it could wo=
+rk
+> >> out of the box.
+> >
+> > For rate mismatches larger than the 0.5% allowed by the HDMI spec it
+> > would be better to actually add PHY PLL parameters matching those
+> > rates.
+>
+> I'd really like to be able to add more PHY PLL setpoints for displays
+> that use non-CEA-861 modes. Unfortunately I didn't manage to figure out
+> the fractional-n PLL parameter calculation so far.
+>
+> The i.MX8MP Reference Manual provides formulas to calculate the
+> parameters based on the register values and I tried to make sense of it
+> using the existing register values in the driver. But somehow it doesn't
+> add up for me.
+>
+> Lucas, did you already work with the PLL parameters? By any chance, do
+> you now how the math behind them works?
 
-v2:
-- Change subject
-- Leave one blank line between the commit log and the tag section
-- Fix code alignment issue
+I spent a little time trying to understand it a bit.  I created a PMS
+calculator similar to the one used on the DSI controller, except that
+the M seems to be fixed at a value of 62 per the data sheet, so it's
+more of a PS calculator.
 
-v3:
-- Fix code alignment
-- Apply the patch on a clean drm-tip
+Anyway, When I run my P-S calculator to generate the 'best rate' I get
+a value that's usually 0.2% variance from nominal, but I only verified
+a handful of values:
 
-Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Several which were +0.2%
+297600000 vs 297000000 (4k@30)
+148800000 vs 148500000 (1080p60)
+74400 vs 74200
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 09a287c1aedd..3ac0213c711f 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -111,9 +111,8 @@ static void wa_init_finish(struct i915_wa_list *wal)
- {
- 	/* Trim unused entries. */
- 	if (!IS_ALIGNED(wal->count, WA_LIST_CHUNK)) {
--		struct i915_wa *list = kmemdup(wal->list,
--					       wal->count * sizeof(*list),
--					       GFP_KERNEL);
-+		struct i915_wa *list = kmemdup_array(wal->list, wal->count,
-+						     sizeof(*list), GFP_KERNEL);
- 
- 		if (list) {
- 			kfree(wal->list);
--- 
-2.34.1
+One value was -0.16%
+24800000 vs 25200000
 
+If the M value was a bit more flexible, we might be able to reduce
+that variance more.
+
+If / when I get some time, I might play with trying to disable the
+fractional mode and just use the PMS calculator for simplicity despite
+the inaccuracy.  Maybe we could fall back to using the PMS calculator
+if the desired frequency isn't in the look-up-table.
+
+adam
+
+>
+> >
+> > We could potentially add some more leeway for displays like yours that
+> > aren't actually HDMI (as it doesn't seem to have a standard HDMI
+> > resolution). But that's more of a last resort option, as it may
+> > introduce other problems for displays that aren't as tolerant with
+> > their input rates. Remember the mode_valid call is used to filter modes
+> > that aren't compatible with the source, so for a display with multiple
+> > modes allowing too much leeway may lead to incompatible modes not
+> > getting tossed, in turn allowing userspace to set a mode that the
+> > display may not like due to too much rate deviation, instead of only
+> > presenting a list of valid modes. This again would present the user
+> > with a black-screen without warning situation.
+>
+> What about adding some option to relax or remove the check for debugging
+> purposes? Maybe combined with printing a warning message?
+>
+> I agree that we should prevent incompatible modes from passing the
+> filter, but it would be really helpful if people had an easy way to
+> relax/remove the check to see whether their display could potentially
+> work without them needing to modify and recompile the kernel.
+>
+> Thanks
+> Frieder
