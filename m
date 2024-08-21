@@ -2,78 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCC8959B0C
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 14:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB54959C22
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 14:44:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EBFB10E8DD;
-	Wed, 21 Aug 2024 12:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACADA10E4E7;
+	Wed, 21 Aug 2024 12:44:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D0hDcfN7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zwgo+Z9D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4204510E8DD
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 12:00:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC3B10E4E7;
+ Wed, 21 Aug 2024 12:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724241631; x=1755777631;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=9POYvc3qOrhVmNpJWvItEA1y07oL79G+PqiIlmuHSYE=;
- b=D0hDcfN7k38S/tld+cu+6/5AxrTsqdQOoxAARUKBPAolMituZBH41GsW
- cLKAoRyJ53t6C2nzTgDFOyZPHbQKI+v6AKOIq5ppU/YRp/FEDa/BofLEH
- iTWfgMCHV0rFxuikRTBfZJjKI686E4w0S9oZ75YngI+hYrzTtVv7+oTMR
- AI1tutRKoh5/O/ZVlmhYRr/08X9e4+xIp5I/cASEHib5kbr99rLjONQT8
- 1sZgcGeMSVxkbghGikyFwDdKL/DEVUe47n/+vP8IaQ4Ncn48QyCfpC+XS
- e5F6lKqmc/BDnzH4YQfGN6q9rVcSNKZC5vfHHh5T1vaUktCT0hM72+7qm g==;
-X-CSE-ConnectionGUID: /h5V1ZrrSqiRxEdinYqZrA==
-X-CSE-MsgGUID: gCnQky4wSGK2F2+pSzDFsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33214200"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="33214200"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 05:00:31 -0700
-X-CSE-ConnectionGUID: c0tKb8UmSVuWjLknBnKawg==
-X-CSE-MsgGUID: 6tgF55NARoSRWhlnUWuGPg==
+ t=1724244255; x=1755780255;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Ow/TkFiP1R1TDO+3EXUJkvao7qwpbV6PFiGGUFrET7s=;
+ b=Zwgo+Z9Dz18SJjSSxnTIWw446kMVmUe0SMIJKu5Jtumqy3MuFfSXZHdp
+ mUPxVcayYc6DMhrd8QIOJv4VdheY+8sO/N69TMte/Q3fFT3NYFyfdRmeg
+ ZXgllsl72u4De93UjmLNCPme3o9Lfpl8+znNbfJ6zQlC1VMiUwVXXtBmE
+ OAArRyabtniiXpEjWrM4XUHRfkDYH22Q6yJneXQhqW5fy77Ef+CY2FlFJ
+ YJEXS2iKiCcaXAsNeTzwBg9muK4vWyUMIWhEpNzr4/h5Dj5r3z9XvQk4B
+ ryJ6nZWwd8Ej12qPvW+NcNHihxMbOFWFuQ0Dm2s1+T86KaHSX1XBza9br A==;
+X-CSE-ConnectionGUID: ILX6nW1mTF+1kglBNbpKVA==
+X-CSE-MsgGUID: 44yGab23SjKb7vHM0vAOAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="33754090"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="33754090"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2024 05:44:14 -0700
+X-CSE-ConnectionGUID: NXo6E/qGTsC4D9gJE1dHXA==
+X-CSE-MsgGUID: b65GMFpfT/Cs9P/ilamOcA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="91872124"
-Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
- [10.245.245.245]) ([10.245.245.245])
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="98554570"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.24])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 05:00:25 -0700
-Message-ID: <fe3a72942e558af26f1b2794f946920a33d316ab.camel@linux.intel.com>
-Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
- header
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
- Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- dri-devel@lists.freedesktop.org,  David Airlie <airlied@linux.ie>
-Date: Wed, 21 Aug 2024 14:00:19 +0200
-In-Reply-To: <006ba26a-48ed-43e7-8213-72ca0ae553e1@amd.com>
-References: <20240710124301.1628-1-christian.koenig@amd.com>
- <20240710124301.1628-5-christian.koenig@amd.com>
- <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
- <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
- <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
- <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
- <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
- <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
- <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
- <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
- <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
- <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
- <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
- <13a47d22fb6753e20046a983126c6fea675beed2.camel@linux.intel.com>
- <006ba26a-48ed-43e7-8213-72ca0ae553e1@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+ 21 Aug 2024 05:44:12 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [PATCH v1 00/14] CCS static load balance
+Date: Wed, 21 Aug 2024 14:43:35 +0200
+Message-ID: <20240821124349.295259-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,287 +71,136 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Wed, 2024-08-21 at 11:48 +0200, Christian K=C3=B6nig wrote:
-> Am 21.08.24 um 10:57 schrieb Thomas Hellstr=C3=B6m:
-> > On Wed, 2024-08-21 at 10:14 +0200, Christian K=C3=B6nig wrote:
-> > > Am 20.08.24 um 18:00 schrieb Thomas Hellstr=C3=B6m:
-> > > > > Or why exactly should shrinking fail?
-> > > > A common example would be not having runtime pm and the
-> > > > particular
-> > > > bo
-> > > > needs it to unbind, we want to try the next bo. Example: i915
-> > > > GGTT
-> > > > bound bos and Lunar Lake PL_TT bos.
-> > > WHAT? So you basically block shrinking BOs because you can't
-> > > unbind
-> > > them
-> > > because the device is powered down?
-> > >=20
-> > > I would say that this is a serious NO-GO. It basically means that
-> > > powered down devices can lock down system memory for undefined
-> > > amount
-> > > of
-> > > time.
-> > >=20
-> > > In other words an application can allocate memory, map it into
-> > > GGTT
-> > > and
-> > > then suspend or even get killed and we are not able to recover
-> > > the
-> > > memory because there is no activity on the GPU any more?
-> > >=20
-> > > That really sounds like a bug in the driver design to me.
-> > It's bad but it's not as bad as it sounds.
-> >=20
-> > Problem is we can't wake up during direct reclaim IIRC due to
-> > runtime
-> > pm lockdep violations, but we can and do fire up a thread to wake
-> > the
-> > device and after the wakeup delay have subsequent shrink calls
-> > succeed,
-> > or punt to kswapd or the oom handler.
->=20
-> Yeah that is obvious. The runtime PM is an interface designed to be
-> used=20
-> from a very high level IOCTL/system call.
->=20
-> And delegating that from a shrinker to a worker is not valid as far
-> as I=20
-> can see, instead of reducing the memory pressure the shrinker would
-> then=20
-> increase it.
+Time to promote this series from RFCv2 to PATCHv1 as I think it's
+already in a decent working condition.
 
-Perhaps an ignorant question, but aren't IO devices potentially woken
-up for swapout at memory pressure time using runtime PM, thereby
-increasing memory pressure in a similar way?
+This patch series introduces static load balancing for GPUs with
+multiple compute engines. It's a lengthy series, and some
+challenging aspects still need to be resolved.
 
->=20
-> > I think that's an orthogonal discussion, though. There are other
-> > reasons shrinking might fail, like the bo being busy in direct
-> > reclaim
-> > (shouldn't wait for idle there but ok in kswapd), Other points of
-> > failure is ofc shmem radix tree allocations (not seen one yet,
-> > though)
-> > which might succeed with a smaller bo.
-> > (Not saying, though, that there isn't more to be done with the xe
-> > runtime pm implementation).
->=20
-> I don't think that argumentation is valid.
->=20
-> When a BO is locked then that it is ok to not shrink it, but TTM
-> should=20
-> be able to determine all those prerequisites.
->=20
-> In other words the idea of a function returning a BO to the driver is
-> that the driver is obligated to shrink that one.
+I have tried to split the work as much as possible to facilitate
+the review process.
 
-But that doesn't take potential driver deadlock avoidance into account,
-so it would restrict=C2=A0the driver shrinkers by assuming that all deadloc=
-k
-avoidance needed is known by TTM.
+To summarize, in patches 1 to 13, no functional changes occur
+except for the addition of the num_cslices interface. The
+significant changes happen in patch 14, which is the core part of
+the CCS mode setting, utilizing the groundwork laid in the
+earlier patches.
 
-And since small memory allocations are allowed even at reclaim time to
-be able so reclaim or shrink even more memory, IMO the pm resume
-problem reduces into a deadlock avoidance problem where we use
-pm_tryget similar to bo_trylock. Important thing, though, in both
-cases, that the device is woken or similarly the lock is released in
-reasonable time for the reclaim to retry and succeed.
+In this updated approach, the focus is now on managing the UABI
+engine list, which controls the engines exposed to userspace.
+Instead of manipulating phuscal engines and their memory, we now
+handle engine exposure through this list.
 
->=20
-> That other necessary allocation can fail like shmen for example is=20
-> obvious as well, but that's why we discussed to allow shrinking BOs=20
-> partially as well.
+I would greatly appreciate further input from all reviewers who
+have already assisted with the previous work.
 
-Good point, that eliminates that problem.
+IGT tests have also been developed, but I haven't sent them yet.
 
->=20
-> And I really don't think this discussion is orthogonal. We are
-> basically=20
-> discussing what drivers should do and not should do. And as far as I
-> can=20
-> see the requirement to expose the LRUs to drivers comes up only
-> because=20
-> the driver wants to do something it shouldn't.
+Thank you Chris for the offline reviews.
 
-Currently we have the purgeable vs non-purgeable and driver-level
-trylock-type deadlock avoidance not falling into those categories. And
-I'd like to categorize runtime pm as a trylock-type deadlock avoidance.
+Changelog:
+==========
+RFCv2 -> PATCHv1
+----------------
+ - Removed gt->ccs.mutex
+ - Rename m -> width, ccs_id -> engine in
+   intel_gt_apply_ccs_mode().
+ - In the CCS register value calculation
+   (intel_gt_apply_ccs_mode()) the engine (ccs_id) needs to move
+   along the ccs_mask (set by the user) instead of the
+   cslice_mask.
+ - Add GEM_BUG_ON after calculating the new ccs_mask
+   (update_ccs_mask()) to make sure all angines have been
+   evaluated (i.e. ccs_mask must be '0' at the end of the
+   algorithm).
+ - move wakeref lock before evaluating intel_gt_pm_is_awake() and
+   fix exit path accordingly.
+ - Use a more compact form in intel_gt_sysfs_ccs_init() and
+   add_uabi_ccs_engines() when evaluating sysfs_create_file(): no
+   need to store the return value to the err variable which is
+   unused. Get rid of err.
+ - Print a warnging instead of a debug message if we fail to
+   create the sysfs files.
+ - If engine files creation fails in
+   intel_engine_add_single_sysfs(), print a warning, not an
+   error.
+ - Rename gt->ccs.ccs_mask to gt->ccs.id_mask and add a comment
+   to explain its purpose.
+ - During uabi engine creation, in
+   intel_engines_driver_register(), the uabi_ccs_instance is
+   redundant because the ccs_instances is already tracked in
+   engine->uabi_instance.
+ - Mark add_uabi_ccs_engines() and remove_uabi_ccs_engines() as
+   __maybe_unused not to break bisectability. They wouldn't
+   compile in their own commit. They will be used in the next
+   patch and the __maybe_unused is removed.
+ - Update engine's workaround every time a new mode is set in
+   update_ccs_mask().
+ - Mark engines as valid or invalid using their status as
+   rb_node. Invalid engines are marked as invalid using
+   RB_CLEAR_NODE(). Execbufs will check for their validity when
+   selecting the engine to be combined to a context.
+ - Create for_each_enabled_engine() which skips the non valid
+   engines and use it in selftests.
 
-bo trylock and idle could, as you say, be handled in the TTM helper, so
-can purgeable and non-purgeable at lack of swap-space, provided that we
-provide such a flag in the ttm_bo ofc?
+RFCv1 -> RFCv2
+--------------
+Compared to the first version I've taken a completely different
+approach to adding and removing engines. in v1 physical engines
+were directly added and removed, along with the memory allocated
+to them, each time the user changed the CCS mode (from the
+previous cover letter).
 
->=20
-> > > > And again, all other drm bo shrinkers do this. We just want to
-> > > > do
-> > > > the
-> > > > same.
-> > > Do you have pointers?
-> > As Sima said, this is complicated but not beyond comprehension:
-> > i915
-> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/i915/=
-gem/i915_gem_shrinker.c#L317
->=20
-> As far as I can tell what i915 does here is extremely questionable.
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0 if (sc->nr_scanned < sc->nr_to_scan && current_i=
-s_kswapd()) {
-> ....
-> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 with_intel_runtime_pm(&i915->=
-runtime_pm, wakeref) {
->=20
-> with_intel_runtime_pm() then calls pm_runtime_get_sync().
->=20
-> So basically the i915 shrinker assumes that when called from kswapd()
-> that it can synchronously wait for runtime PM to power up the device
-> again.
->=20
-> As far as I can tell that means that a device driver makes strong and
-> completely undocumented assumptions how kswapd works internally.
+Andi Shyti (14):
+  drm/i915/gt: Avoid using masked workaround for CCS_MODE setting
+  drm/i915/gt: Move the CCS mode variable to a global position
+  drm/i915/gt: Allow the creation of multi-mode CCS masks
+  drm/i915/gt: Refactor uabi engine class/instance list creation
+  drm/i915/gem: Mark and verify UABI engine validity
+  drm/i915/gt: Introduce for_each_enabled_engine() and apply it in
+    selftests
+  drm/i915/gt: Manage CCS engine creation within UABI exposure
+  drm/i915/gt: Remove cslices mask value from the CCS structure
+  drm/i915/gt: Expose the number of total CCS slices
+  drm/i915/gt: Store engine-related sysfs kobjects
+  drm/i915/gt: Store active CCS mask
+  drm/i915/gt: Isolate single sysfs engine file creation
+  drm/i915/gt: Implement creation and removal routines for CCS engines
+  drm/i915/gt: Allow the user to change the CCS mode through sysfs
 
-Admittedly that looks weird
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  28 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  23 --
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   7 +
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |  57 ++-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   3 +
+ drivers/gpu/drm/i915/gt/intel_gt.h            |  12 +
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c   | 324 +++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h   |   5 +-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.c      |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |  19 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   |   8 +-
+ drivers/gpu/drm/i915/gt/selftest_context.c    |   6 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |   4 +-
+ .../drm/i915/gt/selftest_engine_heartbeat.c   |   6 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_pm.c  |   6 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  52 +--
+ drivers/gpu/drm/i915/gt/selftest_gt_pm.c      |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  22 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |  18 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |   6 +-
+ drivers/gpu/drm/i915/gt/selftest_rc6.c        |   4 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |   8 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_rps.c        |  14 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  14 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |   2 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  14 +-
+ drivers/gpu/drm/i915/gt/sysfs_engines.c       |  76 ++--
+ drivers/gpu/drm/i915/gt/sysfs_engines.h       |   2 +
+ drivers/gpu/drm/i915/i915_drv.h               |   1 +
+ 30 files changed, 562 insertions(+), 185 deletions(-)
 
-But I'd really expect a reclaim lockdep splat to happen there if the
-i915 pm did something not-allowed. IIRC, the design direction the i915
-people got from mm people regarding the shrinkers was to avoid any
-sleeps in direct reclaim and punt it to kswapd. Need to ask i915 people
-how they can get away with that.
-
->=20
-> > msm:
-> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/i915/=
-gem/i915_gem_shrinker.c#L317
-> > which uses
-> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/drm_g=
-em.c#L1426
-> > that is very similar in structure to what I implemented for TTM.
-> >=20
-> > Panfrost: (although only purgeable objects AFAICT).
-> > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/drm_g=
-em.c#L1426
->=20
-> =C2=A0From skimming over the source only MSM actually seems to use this
-> and=20
-> the criteria for rejecting shrinking is everything TTM should know,
-> e.g.=20
-> if a BO is pinned, idle etc...
->=20
-> > > > > > If we bump LRU we could end up with infinite loops.
-> > > > > > So IMO we need to be able to loop. I don't really care
-> > > > > > wether
-> > > > > > we do
-> > > > > > this as an explicit loop or whether we use the LRU walker,
-> > > > > > but
-> > > > > > I
-> > > > > > think
-> > > > > > from a maintainability point-of-view it is better to keep
-> > > > > > LRU
-> > > > > > walking
-> > > > > > in a single place.
-> > > > > >=20
-> > > > > > If we return an unlocked object, we'd need to refcount and
-> > > > > > drop
-> > > > > > the
-> > > > > > lru
-> > > > > > lock, but maybe that's not a bad thing.
-> > > > > >=20
-> > > > > > But what's the main drawback of exporting the existing
-> > > > > > helper.
-> > > > > Well that we re-creates exactly the mid-layer mess I worked
-> > > > > so
-> > > > > hard
-> > > > > to
-> > > > > remove from TTM.
-> > > > It doesn't IMO. I agree the first attempt did. This affects
-> > > > only
-> > > > the
-> > > > LRU iteration itself and I'm even fine to get rid of the
-> > > > callback
-> > > > using
-> > > > a for_ macro.
-> > > Well, I mean using a for_each approach is objectively better than
-> > > having
-> > > a callback and a state bag.
-> > >=20
-> > > But the fundamental question is if drivers are allowed to reject
-> > > shrinking. And I think the answer is no, they need to be designed
-> > > in
-> > > a
-> > > way where shrinking is always possible.
-> > Rejects can be out of our control, due to anticipated deadlocks,
-> > oom
-> > and deferring to kswapd.
-> >=20
-> > > What can be that we can't get the necessary locks to evict and
-> > > object
-> > > (because it's about to be used etc...), but that are the per-
-> > > requisites
-> > > TTM should be checking.
-> > >=20
-> > > > > > In any case, I don't think TTM should enforce a different
-> > > > > > way
-> > > > > > of
-> > > > > > shrinking by the means of a severely restricted helper?
-> > > > > Well, as far as I can see that is exactly what TTM should do.
-> > > > >=20
-> > > > > I mean the main advantage to make a common component is to
-> > > > > enforce
-> > > > > correct behavior.
-> > > > But if all other drivers don't agree this as correct behavior
-> > > > and
-> > > > instead want to keep behavior that is proven to work, that's a
-> > > > dead
-> > > > end.
-> > > Well no, even if all drivers agree to (for example) drop security
-> > > precautions it's still not something acceptable.
-> > >=20
-> > > And same thing here, if we block shrinking because drivers think
-> > > they
-> > > want their runtime PM implemented in a certain way then upstream
-> > > needs
-> > > to block this and push back.
-> > >=20
-> > > As far as I can see it's mandatory to have shrinkers not depend
-> > > on
-> > > runtime PM, cause otherwise you run into resources handling which
-> > > depends on the well behavior of userspace and that in turn in
-> > > something
-> > > we can't allow.
-> > Please see the above explanation for runtime pm, and for the record
-> > I
-> > agree that enforcing disallowed or security violations is a
-> > completely
-> > valid thing.
->=20
-> Putting the TTM issue aside as far as I can tell what i915 is
-> extremely=20
-> questionable and doing the same thing in XE is most likely not
-> something=20
-> we should allow.
-
-Xe is currently not doing the same but relying on a separate thread
-rather than kswapd to wake the device.
-
-Thanks,
-Thomas
-
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > /Thomas
-> >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > /Thomas
-> > > >=20
-> > > >=20
-> > > > > Regards,
-> > > > > Christian.
-> > > > >=20
-> > > > > > /Thomas
-> > > > > >=20
+-- 
+2.45.2
 
