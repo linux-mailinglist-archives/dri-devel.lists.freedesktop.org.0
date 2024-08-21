@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290F495A5E3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C377695A5F7
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:38:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BD510E6C7;
-	Wed, 21 Aug 2024 20:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9554B10E6CC;
+	Wed, 21 Aug 2024 20:38:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tgdv55Me";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="G2Qgbf+f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1500810E6C0;
- Wed, 21 Aug 2024 20:29:50 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-201d99ecbb4so101445ad.2; 
- Wed, 21 Aug 2024 13:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724272189; x=1724876989; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zMGohLZNT4tHT1s57E5AexVYMwxNXCTuB+5zOwYpqCg=;
- b=Tgdv55MeU/6gJGIJbWLHTzWRZcxml68FIIR9jwRpaTa4cURmY++UvnWONUQBsH0WQd
- fsE72Z/iGn00rN5PuIltKWUvMNiDorSIZB3WfxALzjx0DZBbiKLCQCnJCrrrvNcVSTuX
- ML7R5B6xNYf9K3hOD4zpTpeg3BlD/RRIh8mVdTYl2s61MGcQfD5R5OOPJHPnmFSwj+S/
- 310TduBKOECeVcI/9wYI2osZhvwmfbypfOGXTYH3XZawhkbxQ2LaK8F5t7X9acOxOIzi
- dGA+9W9wFzG6x9FBHS8FKdcPKdLSg6TH7x7e8g/2tCkzcymlfsjlcV9hXRTG+DbYEyDV
- YjvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724272189; x=1724876989;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zMGohLZNT4tHT1s57E5AexVYMwxNXCTuB+5zOwYpqCg=;
- b=u2B5QZZR9m7MJYueNw5FUyukPfEzMpLEw2BMOh6YEfmgVJSyCF90YLRdQ9emDkTHSM
- zRo+TjXd8z7SmAJqj512bwWrNR4DO44y7oBjLow7mg2A4BHtc8sbPCKoHmOtCfsIrTeF
- vlbsL2XL6aQq4oCA2nG1fXCtk3UNEZbAJNzezU82AHVMhdo5JAf2mbEDzX1tfLpalol8
- QZ2F2JPv++r1M5906d9yUT6LQ10Ye/O5hBnAMGZebPa5pS2QgOssZD9ZTyiIuXjwhaQS
- c//oC7qroPZtP2wfyadegZeECRJhIxXwGMfm5fSKQtK7xi1L6/fFW4+UANbPiVdrZSqQ
- k/cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUPJJM36IZD1pzXwEyRvgekmmR6TOBluNHdHz2ZmcU6UUXELGat0r8oyv40uyb9gAVs/xKQHUxl@lists.freedesktop.org,
- AJvYcCXRXDPqkOTjM2ZMlXRr0k14t3IPEuG4p8MrMndj7N8J8pMBYsyipQFGVkZhvbtYI6y9oqpjMKIcR6wn@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YygwTy9MVJJc/Pm6sQWepAAcPmxnwRbFH2JlMKQoGltJ4thyQ6y
- luF3UsWjJ8ojtLnfmWSOnK+B1FwvWUyIp2M5OIIrI81jlpR7tVab8+TyJbXl4yh9c4YXltj2/ZP
- PZEb8IBHb7D6/VZr1K7wPqwBqbjQ=
-X-Google-Smtp-Source: AGHT+IEGtRum4QK+JxKr9jk5NtZWt1CaZw4I976Kw9lJP8I79xKG8phiOLq5jxX3q5+12eU8Oir2efYnr8pC3NwDzvQ=
-X-Received: by 2002:a17:902:d4c8:b0:202:3e06:818d with SMTP id
- d9443c01a7336-2036819c4ecmr21669775ad.10.1724272189272; Wed, 21 Aug 2024
- 13:29:49 -0700 (PDT)
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF3110E6CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 20:38:20 +0000 (UTC)
+Delivered-To: kernel@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1724272691; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gkPi36rxlLW4SXhcJ7TsEx9UFal77hztufoJNuKbW34wX4mFQkp1p4dH6/D9xqu+7Qw/ZdwuEmtDlHzaFcNgvic8rEXY2vmMH1T/OwiqCGo6kUSyUPPuTNU9z1L5lwKl4jvUNuHs6wbMV2n9RQoiYpF+HVNHLeqUw+mqDBdYwLI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1724272691;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=rn/jPcfndwOGlmUfjvgjuRv6xjB54zy9vNZlgxr2C8A=; 
+ b=JO26rMR7n8PfcasVMvM8FQ053kPSaxiuJY/mQkLDo6d1S6USefUkix1DBoCJ1pw7+6otUHRPKzG6JuHpyWDAKtN7YO1iEvcCrClS/I8lT3CCMB6lpzuGcl40gefkhEhBvqIESdkq/iraQQtksHDEIZb4OCO8OlUJTfXkdSNdbZ4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
+ dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724272691; 
+ s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=rn/jPcfndwOGlmUfjvgjuRv6xjB54zy9vNZlgxr2C8A=;
+ b=G2Qgbf+fYDaUCrzI4JUaB+8dp0zKq0j1FNWUxOb97NABn7Dfz+TuVicqioEEn53s
+ pUGRjYHNRirFC2ehQArQUMdPNlRXgwn1z98fsdkB0lcfGVkpCg93eZCuiGA533w8pG3
+ CWyVVIM7VJ0v2eAFLC+jTO6kioCqH5x7E3wP3A3Q=
+Received: by mx.zohomail.com with SMTPS id 1724272689131684.716009062432;
+ Wed, 21 Aug 2024 13:38:09 -0700 (PDT)
+Message-ID: <5813cea2-4890-4fa9-8826-19be5bf3e161@collabora.com>
+Date: Wed, 21 Aug 2024 23:38:01 +0300
 MIME-Version: 1.0
-References: <20240821064040.2292969-1-ruanjinjie@huawei.com>
- <20240821064040.2292969-2-ruanjinjie@huawei.com>
-In-Reply-To: <20240821064040.2292969-2-ruanjinjie@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 21 Aug 2024 16:29:37 -0400
-Message-ID: <CADnq5_Of6Up9PinPKrJP9m2LgUUNaFgaJ214DR=09AgSCdeiWg@mail.gmail.com>
-Subject: Re: [PATCH -next 1/5] drm/amd/display: Make
- core_dcn4_g6_temp_read_blackout_table static
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: chaitanya.dhere@amd.com, jun.lei@amd.com, harry.wentland@amd.com, 
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com, 
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
- daniel@ffwll.ch, alex.hung@amd.com, aurabindo.pillai@amd.com, 
- colin.i.king@gmail.com, dillon.varone@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema for
+ RK3588 HDMI TX Controller
+To: Conor Dooley <conor@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>
+References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
+ <20240819-b4-rk3588-bridge-upstream-v4-3-6417c72a2749@collabora.com>
+ <20240819-bobbing-purplish-99e48baa2304@spud>
+ <ec84bc0b-c4c2-4735-9f34-52bc3a852aaf@collabora.com>
+ <20240820-tropics-hunchback-6fdcd0b37f91@spud>
+ <038073d0-d4b9-4938-9a51-ea2aeb4530f6@collabora.com>
+ <20240821-evoke-mop-fb09ceef3597@spud>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20240821-evoke-mop-fb09ceef3597@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,50 +89,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied 1-4.
+On 8/21/24 6:07 PM, Conor Dooley wrote:
+> On Tue, Aug 20, 2024 at 11:12:45PM +0300, Cristian Ciocaltea wrote:
+>> On 8/20/24 7:14 PM, Conor Dooley wrote:
+>>> On Tue, Aug 20, 2024 at 03:37:44PM +0300, Cristian Ciocaltea wrote:
+>>>> On 8/19/24 7:53 PM, Conor Dooley wrote:
+>>>>> On Mon, Aug 19, 2024 at 01:29:30AM +0300, Cristian Ciocaltea wrote:
+>>>>>> +  rockchip,grf:
+>>>>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>>>>> +    description:
+>>>>>> +      Most HDMI QP related data is accessed through SYS GRF regs.
+>>>>>> +
+>>>>>> +  rockchip,vo1-grf:
+>>>>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>>>>> +    description:
+>>>>>> +      Additional HDMI QP related data is accessed through VO1 GRF regs.
+>>>>>
+>>>>> Why are these required? What prevents you looking up the syscons by
+>>>>> compatible?
+>>>>
+>>>> That is for getting the proper instance:
+>>>
+>>> Ah, that makes sense. I am, however, curious why these have the same
+>>> compatible when they have different sized regions allocated to them.
+>>
+>> Good question, didn't notice.  I've just checked the TRM and, in both
+>> cases, the maximum register offset is within the 0x100 range.  Presumably
+>> this is nothing but an inconsistency, as the syscons have been added in
+>> separate commits.
+> 
+> Is that TRM publicly available? I do find it curious that devices sound
+> like they have different contents have the same compatible. In my view,
+> that is incorrect and they should have unique compatibles if the
+> contents (and therefore the programming model) differs.
 
-Alex
+Don't know if there's an official location to get it from, but a quick
+search on internet shows a few repos providing them, e.g. [1].
 
-On Wed, Aug 21, 2024 at 2:33=E2=80=AFAM Jinjie Ruan <ruanjinjie@huawei.com>=
- wrote:
->
-> The sparse tool complains as follows:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_co=
-re_dcn4_calcs.c:6853:56: warning:
->         symbol 'core_dcn4_g6_temp_read_blackout_table' was not declared. =
-Should it be static?
->
-> This symbol is not used outside of dml2_core_dcn4_calcs.c, so marks it st=
-atic.
->
-> And not want to change it, so mark it const.
->
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  .../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2=
-_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_cor=
-e/dml2_core_dcn4_calcs.c
-> index c3c4d8d9525c..0c24f15d5067 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
-cn4_calcs.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
-cn4_calcs.c
-> @@ -6850,7 +6850,8 @@ struct dml2_core_internal_g6_temp_read_blackouts_ta=
-ble {
->         } entries[DML_MAX_CLK_TABLE_SIZE];
->  };
->
-> -struct dml2_core_internal_g6_temp_read_blackouts_table core_dcn4_g6_temp=
-_read_blackout_table =3D {
-> +static const struct dml2_core_internal_g6_temp_read_blackouts_table
-> +       core_dcn4_g6_temp_read_blackout_table =3D {
->         .entries =3D {
->                 {
->                         .uclk_khz =3D 96000,
-> --
-> 2.34.1
+Comparing "6.14 VO0_GRF Register Description" at pg. 777 with "6.15 VO1_GRF
+Register Description" at pg. 786 (from Part1) reveals the layout is mostly
+similar, with a few variations though.
+
+[1] https://github.com/FanX-Tek/rk3588-TRM-and-Datasheet
+
+>>
+>>>> 	vo0_grf: syscon@fd5a6000 {
+>>>> 		compatible = "rockchip,rk3588-vo-grf", "syscon";
+>>>> 		reg = <0x0 0xfd5a6000 0x0 0x2000>;
+>>>> 		clocks = <&cru PCLK_VO0GRF>;
+>>>> 	};
+>>>>
+>>>> 	vo1_grf: syscon@fd5a8000 {
+>>>> 		compatible = "rockchip,rk3588-vo-grf", "syscon";
+>>>> 		reg = <0x0 0xfd5a8000 0x0 0x100>;
+>>>> 		clocks = <&cru PCLK_VO1GRF>;
+>>>> 	};
 >
