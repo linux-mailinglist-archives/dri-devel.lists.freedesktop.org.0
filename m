@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0451D959C3B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 14:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D47E959C3D
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 14:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61AA810E8FE;
-	Wed, 21 Aug 2024 12:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC12710E8FF;
+	Wed, 21 Aug 2024 12:45:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EooVOQZw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HWAU/a0D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 183D310E8FD;
- Wed, 21 Aug 2024 12:45:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 156D310E8FF;
+ Wed, 21 Aug 2024 12:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724244322; x=1755780322;
+ t=1724244328; x=1755780328;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/2usmeWbKV9aExLWLCxw0zFs13mUPJc13Zpybup+IUs=;
- b=EooVOQZwtuDY9ZxwRrrDBcBfnmG/gowkakwUH0DdEfRap3llM5lC/47h
- ww+LIvrCOXrG/dHa4QuD1dfvbKbOZB2U7sysxNm/p7lELTWEUtMpfAGpL
- wDTFZxnkla5JyGMzCerOs2pKRmLPBlG7imxc5YsvOqNVGycjKQTzO2fnS
- tcWEEyYonduJw14wh+25U5bTtwqHrXWhGs8VhxpJwz8aataShs6rCMvWH
- Ss1j4XmWHswBrv+CBh27kGMT2a5KsWr1AskH3QVxpQZSV+sXPMo7pnss0
- yMpuwMETIRhH9iC0tyfMP90YTic8NkANJzjIRW7rxly5DB2DuXyvuMCMG g==;
-X-CSE-ConnectionGUID: apcP1y9zSyiHBXAEkzxYhA==
-X-CSE-MsgGUID: RzXb5EqSTJCNfSZ+nd64oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="40059740"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="40059740"
+ bh=avMTXjpHBEsLWS+hqfPrimZ0qbyak1ZnLZqsVuT/rJE=;
+ b=HWAU/a0D7Hw7QIq2hi7sO1zMRMFEzWYsIF1CwpJGuMsa21/sawfpXmxq
+ O7T6Kip7AuCdJJ0C9puOJMrF+jPjcYp2qNiKkfCMMW2uClfV7YOejCrQI
+ o6VUnoq4ngVYsA7DgHqWZf1BtqjrqPxD2sVr04n/gvlb5e6KHvwz/DmQk
+ QdUDFBZssr+rPC8sw0YQMSWUFsaEb/C9t3/HTnAtNHpKcUKPbrhJZqedw
+ whP+SevN62f4zkLp1kN8WlAhq+SDKVVVZIgm6Eds0TlyuEjFeLKera1kO
+ aomsZzuTkUc0ehNmQ9gEQJlK3qAbuGraClcPQSwtFhlUXvMu9dGm5sroy A==;
+X-CSE-ConnectionGUID: RTaeU6cTQhyuiJ/uiiqWKA==
+X-CSE-MsgGUID: I436D8ZnQheEE125oMHIZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="40059762"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="40059762"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 05:45:21 -0700
-X-CSE-ConnectionGUID: oViT/0jUSDaHc6CLeCCe5A==
-X-CSE-MsgGUID: vcUo7FBkQsK8FQhtdg4Cyw==
+ 21 Aug 2024 05:45:27 -0700
+X-CSE-ConnectionGUID: JezM4A/7SYKIpHXyZ/2ZZQ==
+X-CSE-MsgGUID: QwTZ2GVyShKsHnsix5l8oA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="61052260"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="61052295"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.245.246.24])
  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 05:45:20 -0700
+ 21 Aug 2024 05:45:27 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
  Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH v1 11/14] drm/i915/gt: Store active CCS mask
-Date: Wed, 21 Aug 2024 14:43:46 +0200
-Message-ID: <20240821124349.295259-12-andi.shyti@linux.intel.com>
+Subject: [PATCH v1 12/14] drm/i915/gt: Isolate single sysfs engine file
+ creation
+Date: Wed, 21 Aug 2024 14:43:47 +0200
+Message-ID: <20240821124349.295259-13-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240821124349.295259-1-andi.shyti@linux.intel.com>
 References: <20240821124349.295259-1-andi.shyti@linux.intel.com>
@@ -71,130 +72,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To support upcoming patches, we need to store the current mask
-for active CCS engines.
-
-Active engines refer to those exposed to userspace via the UABI
-engine list.
+In preparation for upcoming patches, we need the ability to
+create and remove individual sysfs files. To facilitate this,
+extract from the intel_engines_add_sysfs() function the creation
+of individual files.
 
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 54 ++++++++++++++++-----
- drivers/gpu/drm/i915/gt/intel_gt_types.h    |  7 +++
- 2 files changed, 49 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/gt/sysfs_engines.c | 76 ++++++++++++++++---------
+ drivers/gpu/drm/i915/gt/sysfs_engines.h |  2 +
+ 2 files changed, 50 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-index ed3ad881a89d..45e9280f9bac 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -12,9 +12,10 @@
- static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
- {
- 	unsigned long cslices_mask = CCS_MASK(gt);
--	u32 mode_val = 0;
-+	unsigned long ccs_mask = gt->ccs.id_mask;
- 	/* CCS mode, i.e. number of CCS engines to be enabled */
--	u32 width = 1;
-+	u32 width = hweight32(ccs_mask);
-+	u32 mode_val = 0;
- 	/* CCS engine id, i.e. the engines position in the engine's bitmask */
- 	int engine;
- 	int cslice;
-@@ -57,7 +58,7 @@ static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
- 	 *   slice 2: ccs2
- 	 *   slice 3: ccs3
- 	 */
--	engine = __ffs(cslices_mask);
-+	engine = __ffs(ccs_mask);
+diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+index f67f76df1cfe..fd1685f81505 100644
+--- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
++++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+@@ -9,6 +9,7 @@
+ #include "i915_drv.h"
+ #include "intel_engine.h"
+ #include "intel_engine_heartbeat.h"
++#include "intel_gt_print.h"
+ #include "sysfs_engines.h"
  
- 	for (cslice = 0; cslice < I915_MAX_CCS; cslice++) {
- 		if (!(cslices_mask & BIT(cslice))) {
-@@ -73,29 +74,58 @@ static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
- 		mode_val |= XEHP_CCS_MODE_CSLICE(cslice, engine);
- 
- 		if (!width) {
--			/*
--			 * CCS mode, will be used later to
--			 * reset to a flexible value
--			 */
--			width = 1;
--			engine = __ffs(cslices_mask);
-+			/* CCS mode, reset to the initial mode */
-+			width = hweight32(ccs_mask);
-+			engine = __ffs(ccs_mask);
- 			continue;
- 		}
- 
- 		width--;
--		engine = find_next_bit(&cslices_mask, I915_MAX_CCS, engine + 1);
-+		engine = find_next_bit(&ccs_mask, I915_MAX_CCS, engine + 1);
- 	}
- 
- 	gt->ccs.mode_reg_val = mode_val;
+ struct kobj_engine {
+@@ -481,7 +482,7 @@ static void add_defaults(struct kobj_engine *parent)
+ 		return;
  }
  
-+static void __update_ccs_mask(struct intel_gt *gt, u32 ccs_mode)
-+{
-+	unsigned long cslices_mask = CCS_MASK(gt);
-+	int i;
+-void intel_engines_add_sysfs(struct drm_i915_private *i915)
++int intel_engine_add_single_sysfs(struct intel_engine_cs *engine)
+ {
+ 	static const struct attribute * const files[] = {
+ 		&name_attr.attr,
+@@ -497,7 +498,50 @@ void intel_engines_add_sysfs(struct drm_i915_private *i915)
+ #endif
+ 		NULL
+ 	};
++	struct kobject *dir = engine->i915->sysfs_engine;
++	struct kobject *kobj = engine->kobj;
++	int err;
 +
-+	/* Mask off all the CCS engines */
-+	gt->ccs.id_mask = 0;
-+
-+	for_each_set_bit(i, &cslices_mask, I915_MAX_CCS) {
-+		gt->ccs.id_mask |= BIT(i);
-+
-+		ccs_mode--;
-+		if (!ccs_mode)
-+			break;
++	if (!kobj) {
++		kobj = kobj_engine(dir, engine);
++		if (!kobj) {
++			err = -EFAULT;
++			goto err_engine;
++		}
 +	}
 +
-+	/*
-+	 * It's impossible for 'ccs_mode' to be zero at this point.
-+	 * This scenario would only occur if the 'ccs_mode' provided by
-+	 * the caller exceeded the total number of CCS engines, a condition
-+	 * we check before calling the 'update_ccs_mask()' function.
-+	 */
-+	GEM_BUG_ON(ccs_mode);
++	err = sysfs_create_files(kobj, files);
++	if (err)
++		goto err_object;
 +
-+	/* Initialize the CCS mode setting */
-+	intel_gt_apply_ccs_mode(gt);
++	if (intel_engine_has_timeslices(engine)) {
++		err = sysfs_create_file(kobj, &timeslice_duration_attr.attr);
++		if (err)
++			goto err_object;
++	}
++
++	if (intel_engine_has_preempt_reset(engine)) {
++		err = sysfs_create_file(kobj, &preempt_timeout_attr.attr);
++		if (err)
++			goto err_object;
++	}
+ 
++	add_defaults(container_of(kobj, struct kobj_engine, base));
++
++	engine->kobj = kobj;
++
++	return 0;
++
++err_object:
++	kobject_put(kobj);
++err_engine:
++	gt_warn(engine->gt, "Failed to add sysfs engine '%s'\n", engine->name);
++
++	return err;
 +}
 +
- void intel_gt_ccs_mode_init(struct intel_gt *gt)
- {
- 	if (!IS_DG2(gt->i915))
- 		return;
++void intel_engines_add_sysfs(struct drm_i915_private *i915)
++{
+ 	struct device *kdev = i915->drm.primary->kdev;
+ 	struct intel_engine_cs *engine;
+ 	struct kobject *dir;
+@@ -509,34 +553,10 @@ void intel_engines_add_sysfs(struct drm_i915_private *i915)
+ 	i915->sysfs_engine = dir;
  
--	/* Initialize the CCS mode setting */
--	intel_gt_apply_ccs_mode(gt);
-+	/*
-+	 * Set CCS balance mode 1 in the ccs_mask.
-+	 *
-+	 * During init the workaround are not set up yet.
-+	 */
-+	__update_ccs_mask(gt, 1);
+ 	for_each_uabi_engine(engine, i915) {
+-		struct kobject *kobj;
+-
+-		kobj = kobj_engine(dir, engine);
+-		if (!kobj)
+-			goto err_engine;
+-
+-		if (sysfs_create_files(kobj, files))
+-			goto err_object;
++		int err;
+ 
+-		if (intel_engine_has_timeslices(engine) &&
+-		    sysfs_create_file(kobj, &timeslice_duration_attr.attr))
+-			goto err_engine;
+-
+-		if (intel_engine_has_preempt_reset(engine) &&
+-		    sysfs_create_file(kobj, &preempt_timeout_attr.attr))
+-			goto err_engine;
+-
+-		add_defaults(container_of(kobj, struct kobj_engine, base));
+-
+-		engine->kobj = kobj;
+-
+-		if (0) {
+-err_object:
+-			kobject_put(kobj);
+-err_engine:
+-			dev_err(kdev, "Failed to add sysfs engine '%s'\n",
+-				engine->name);
++		err = intel_engine_add_single_sysfs(engine);
++		if (err)
+ 			break;
+-		}
+ 	}
  }
+diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.h b/drivers/gpu/drm/i915/gt/sysfs_engines.h
+index 9546fffe03a7..2e3ec2df14a9 100644
+--- a/drivers/gpu/drm/i915/gt/sysfs_engines.h
++++ b/drivers/gpu/drm/i915/gt/sysfs_engines.h
+@@ -7,7 +7,9 @@
+ #define INTEL_ENGINE_SYSFS_H
  
- static ssize_t num_cslices_show(struct device *dev,
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-index 71e43071da0b..641be69016e1 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-@@ -219,6 +219,13 @@ struct intel_gt {
- 	 */
- 	struct {
- 		u32 mode_reg_val;
-+
-+		/*
-+		 * CCS id_mask is the command streamer instance
-+		 * exposed to the user. While the CCS_MASK(gt)
-+		 * is the available unfused compute slices.
-+		 */
-+		intel_engine_mask_t id_mask;
- 	} ccs;
+ struct drm_i915_private;
++struct intel_engine_cs;
  
- 	/*
+ void intel_engines_add_sysfs(struct drm_i915_private *i915);
++int intel_engine_add_single_sysfs(struct intel_engine_cs *engine);
+ 
+ #endif /* INTEL_ENGINE_SYSFS_H */
 -- 
 2.45.2
 
