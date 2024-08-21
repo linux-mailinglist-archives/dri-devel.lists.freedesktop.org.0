@@ -2,72 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640D595A3C9
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 19:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B3C95A3DF
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 19:28:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D48A10E68B;
-	Wed, 21 Aug 2024 17:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDC0A10E68D;
+	Wed, 21 Aug 2024 17:28:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="DyQUGNr8";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="q7qH8Z7K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
- [209.85.219.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFCBD10E687
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 17:21:20 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-e13d5cbc067so4614194276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 10:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1724260880; x=1724865680;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=015rYsEP7yfhpkEIWRHux/biwfA+OwNX3ERgw0+e/fU=;
- b=DyQUGNr8eProSRf1kLimwHhnpVxpLEllr313tII/F30t8sbOsJ/F6xiomVvwp3j8ub
- C0hGKpkSDWwZ3E+o652+0LSKOug+KQUCtpafwT4vDPdC1UYP4JpJizVWoKYjabG3t06D
- VTouzRtrrti8uU6n9PrtDFk4hDBbKXSwcWlcvxIIUhtKjURd/7v1oUZ+ST5OuJZuWP31
- fUhKnIRsqObu8qDnc3s5FJzxI47X5cPDo8rFjTeRWO0b2apIb/AvX5bCWuJLqpuCxCxr
- KY9VGagKqMFmnS06AUZijxsMZmgQXkPC2EtJRCzHixZrQsQMMgv/qe5VSSlap2ye4yr4
- Jfmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724260880; x=1724865680;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=015rYsEP7yfhpkEIWRHux/biwfA+OwNX3ERgw0+e/fU=;
- b=Wr7HmiJ7FqynaXyYs8ZY1GqvKr86R8IhWiCxw3TlP2PBP33QJruP9Dyn785yseXUUj
- 7eehHt32Tgfb14eyKiUAoxFwsQCHm6tX2//NHwjGiYKlrfo8NjRCkSRULM2OMAqZdsNG
- kfoWTklKYlhm3ZRvhsp9sCureTWYGqd0t36cC+7AMsTMQKekqQTDWDQhHokeY+EK93MS
- tnB0yzQORberHSUFEzvFU3z2Swuwznm9/uNrxMQpnKWWrJqNkW3GYI/yUoyYji7pSWNj
- gvam0r1miNCf4dqRFNlFkCa1dxhxD7kZhesYBGIEmXhDLo/ScT+IWkm0/nzb32U1dB45
- MG5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXaQeralUASOlj8G4afFjrm37ayc0BtX2aLQefAt+IJOAr1Jlwh2m0qUv5KkRj5ZJlWnCwEvCjQO90=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJmBJr7CdXCAdQx/uXPzKJfJigvWDLOjYqbIgP/JJ+ZYUj9DC0
- VxAA0SMN6HCkUnRLBafKau1pgGoykn7gzgPATv28UchkwA1WcOmyJ3PPn+80DBfcrIw92rV56um
- SAtthhbVcLE8PhHBN7rNnNg7BY2s8mni5/UeAEg==
-X-Google-Smtp-Source: AGHT+IFQIUYiqr9oXIpOCAWbvMIqreaNR6efa2UkbC2wXzdj0+7XiJlJ/bxcMVvFQA58O+M6v+X5MHJ8N7n6A61CWXI=
-X-Received: by 2002:a05:6902:100a:b0:e0b:c297:8a1c with SMTP id
- 3f1490d57ef6-e166544e86bmr4285471276.15.1724260879808; Wed, 21 Aug 2024
- 10:21:19 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1E010E690;
+ Wed, 21 Aug 2024 17:28:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UYRMtxPBnnFStZ50qiNr+kgS9Csxyq4BNIvS3treX+5/4DDP0S36oSPS2hT2FrrwkUQaqAqLUMDuZz9eFc93CGGDKGIA0OkCxMKMPqE3Gg1MMnOnR/TBHwiEaE0SG537zcRh5KduBpVe3GvnNzr4b9My+VCCwMD0q1sepiU5N+Byrp2/tZ55rn1THlo0yMAhJsAaDc9ZlwIvHSbjlHMvpsIZUFv8Tv9ZfxbahBPpgkLWLaKNRNNvrN8kCTgZWB9s2p9FRbmNgztWLf+Nu0HipGqIsl6XWkLTRfMjgh0k9flfjLvAZ87fBEnHWzmR45dAKhV6qHCipnRcg49l6Pbrzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+/YZ3VVmtvb6KUCnR64cJCjwZJ0pDo4AKCJVQrTTel0=;
+ b=uOLTHPCJ4QpTF/BGE4xoWWnkYEOxKNDmI9l98Rq8O8iTNbProwVmhKlyj/KbeRLiPeNJLtABGRL6HEOxZnWAy81cGNyzxBUSpJDVEE7PTajW8YI6j4Tkdr0h3YitIe1jY2NmFgpERyzLQgF8Jdb4Kr6sHGrrP76q+/+O32JGeKAisGhoY12sXsSgZsJgcZodMCjiIOP84RZTXXvdmro8mwVrhbe7wu8xseiKCqFxhnSoQm8K2G7XPtpM687d9ByCE+sadDEGpd69ED84e4ZGFud2BmIJE33W1EUTVMg0J9pfqiidneU2FLQ31Fsrw0FhXTNFgvDQ8rAu2QJeAM3VMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+/YZ3VVmtvb6KUCnR64cJCjwZJ0pDo4AKCJVQrTTel0=;
+ b=q7qH8Z7KUQSsdyO/kPpo4fiHD/42mlVU9jxfGaP2SHX0rg+31OBboWFN8kKwqvdgUvAYfIsq11lG17dn/kj0HlgOEMTUl+8RVMvEQ/qHF/tej8o4b8oStdme9ORlYw2shYGa2Q6k1S2fLb/fzB0b9+2H3UXG4u+Tr/SM5GjWpL4=
+Received: from CH0PR03CA0298.namprd03.prod.outlook.com (2603:10b6:610:e6::33)
+ by IA1PR12MB6459.namprd12.prod.outlook.com (2603:10b6:208:3a9::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.18; Wed, 21 Aug
+ 2024 17:28:28 +0000
+Received: from CH3PEPF0000000B.namprd04.prod.outlook.com
+ (2603:10b6:610:e6:cafe::a8) by CH0PR03CA0298.outlook.office365.com
+ (2603:10b6:610:e6::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21 via Frontend
+ Transport; Wed, 21 Aug 2024 17:28:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH3PEPF0000000B.mail.protection.outlook.com (10.167.244.38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7897.11 via Frontend Transport; Wed, 21 Aug 2024 17:28:27 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 21 Aug
+ 2024 12:28:26 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.11
+Date: Wed, 21 Aug 2024 13:28:10 -0400
+Message-ID: <20240821172810.302416-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-References: <20240821130348.73038-1-tzimmermann@suse.de>
- <20240821130348.73038-48-tzimmermann@suse.de>
-In-Reply-To: <20240821130348.73038-48-tzimmermann@suse.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 21 Aug 2024 18:21:03 +0100
-Message-ID: <CAPY8ntCrRjRWRAuM1HzV+=VMUzhxLg5Zw4KqhK0rkA3ed5avfg@mail.gmail.com>
-Subject: Re: [PATCH v2 47/86] drm/vc4: Run DRM default client setup
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, 
- javierm@redhat.com, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- Maxime Ripard <mripard@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF0000000B:EE_|IA1PR12MB6459:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a98a21c-0c2f-4e54-e68c-08dcc206ab4a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|376014|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7UwRiskx9OoocZ8cx7lopdOzqMYILOrSC9u+YsuUtS8JhYnHm+Z8yRQU5xye?=
+ =?us-ascii?Q?qg0tO16P/aqE/YIfiMWHnCfIGFn/eLoKuy5Y3VB5saYMUomF3bKXQCFm52R/?=
+ =?us-ascii?Q?x1CuifHkWZxWAmwRnosavVU+USY+ztdfRvf3jh20pkaMjC9jVdd2Pj6oIKy+?=
+ =?us-ascii?Q?R8dY9CtMlqE904mDj2zNo6DKanpm/mkPyyckp3G4izVtdSG9NCxIO8kWJafy?=
+ =?us-ascii?Q?Yfx2NycD4CjNMVgPY03QebEGnS36u452WF56DmqzPG5hG6ngf1pgXm/v89dG?=
+ =?us-ascii?Q?d+T8z8QXzPsc9MEtmp6fVgObAO51qlypUCleAln70Rg8VvXV92w18q6kGKgK?=
+ =?us-ascii?Q?EE7y8QNuXrL0p4hhOGxETbOiOsNom9vEaR4K2LL0KDS2HazB00bREmJiOglM?=
+ =?us-ascii?Q?JXGu1qTubgOHKO7g5Ja32WqYPBZc0C+cA3cJl6qOmelBOI4jQYb4Q9ry2DXM?=
+ =?us-ascii?Q?2rPTP58Vo4cRYO0HUfsO+EZ87d3RphkNAGA3xIY+rbuE3z6fCU2t4b8F85QP?=
+ =?us-ascii?Q?a/PRzS6bAfyjukuDSUFxryMVRMaJKZSx/Mysk7vx57VUv7YYqth6xdnSVxlC?=
+ =?us-ascii?Q?wQ50xS7Nw4RzDNuVE158Yk0iJr7HfzdUr2VTaQ4bAl5tufFSA2otWBGR2GKu?=
+ =?us-ascii?Q?/fCKjT79QZdXs6i4hfGl9LgWwl1WBkQOjnHcxq/BL+R8PucVb6inHVyItlNI?=
+ =?us-ascii?Q?uow4fUR/Ow1+QwqWhuNjqwpfoAEbFh4YwtkhEU7di0fISTRSFdV4lssa84EC?=
+ =?us-ascii?Q?sw96EC0XKlr8ZRvCfX+POrxALBvV/rLhyIWThOWgQX0X7/+R2C0Kay2ymBqN?=
+ =?us-ascii?Q?oxzOAMw7aAT0zup33qGYI8Ay5HG68h/+84fC2uypTkYnJ9iOSmHK03FFkOrp?=
+ =?us-ascii?Q?zc55Pj7FaF7o75u8DDTVbeLRPRAl8I2hvNO1zTy011qjqXz11nwfgkDG7hPV?=
+ =?us-ascii?Q?P4GcFHWr6XwEXwXOxU2X5cUTEIYHJQGbnLdahPf9fCXOvuXqgk98hpUEwUAn?=
+ =?us-ascii?Q?KCrfga3kTJe1NCEKNjywl8QPDlq/iG+tC/336zAzF3/VfkjrUOUoAp3rWm7s?=
+ =?us-ascii?Q?QhPDmbEaqWi3JRXNv7Jj7EvuL6dPCEXepkXx0LN+yd6YiJplgdPxpUc1QAkx?=
+ =?us-ascii?Q?PRg4LcsLa33QO8HiN281ZSvOVE3b81RaIWhWOQiDr4DrUUll/Tab6fFoUMew?=
+ =?us-ascii?Q?zgT+LStV5frwMmTVszqtNA8FVFbnrL0gLO+5ITJkHPsogLAXCWbW0n5Cge1y?=
+ =?us-ascii?Q?/GhS0Qt2HLLfGYYxaPRglHcpyytt5SraExhBThKxHPUQR3/iY7siXH5iqB/b?=
+ =?us-ascii?Q?ZZYBorCPALxwMtPBQsRz8KaGDiOfkzVJhcbxjWBjJKjnhtvcHxwflayty+IL?=
+ =?us-ascii?Q?mlvBvzp/Z9W/TFVdUwJZalW26aribz4cVdTrTQ4EzPmnLytKeg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 17:28:27.7141 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a98a21c-0c2f-4e54-e68c-08dcc206ab4a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF0000000B.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6459
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,58 +130,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Aug 2024 at 14:04, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Call drm_client_setup_with_fourcc() to run the kernel's default client
-> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
-> setup can start the common fbdev client.
->
-> v2:
-> - use drm_client_setup_with_fourcc()
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Hi Dave, Sima,
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Fixes for 6.11.
 
-> ---
->  drivers/gpu/drm/vc4/vc4_drv.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index c133e96b8aca..86786caaf8a5 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -32,8 +32,10 @@
->
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_client_setup.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_fbdev_dma.h>
-> +#include <drm/drm_fourcc.h>
->  #include <drm/drm_vblank.h>
->
->  #include <soc/bcm2835/raspberrypi-firmware.h>
-> @@ -212,6 +214,7 @@ const struct drm_driver vc4_drm_driver = {
->         .gem_create_object = vc4_create_object,
->
->         DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc4_bo_dumb_create),
-> +       DRM_FBDEV_DMA_DRIVER_OPS,
->
->         .ioctls = vc4_drm_ioctls,
->         .num_ioctls = ARRAY_SIZE(vc4_drm_ioctls),
-> @@ -389,7 +392,7 @@ static int vc4_drm_bind(struct device *dev)
->         if (ret < 0)
->                 goto err;
->
-> -       drm_fbdev_dma_setup(drm, 16);
-> +       drm_client_setup_with_fourcc(drm, DRM_FORMAT_RGB565);
->
->         return 0;
->
-> --
-> 2.46.0
->
+The following changes since commit fee9d135e2fd5963a7f466cd1ef2060731a1ab29:
+
+  Merge tag 'mediatek-drm-fixes-20240805' of https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux into drm-fixes (2024-08-16 13:16:47 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.11-2024-08-21
+
+for you to fetch changes up to 9cead81eff635e3b3cbce51b40228f3bdc6f2b8c:
+
+  drm/amdgpu: fix eGPU hotplug regression (2024-08-20 23:07:11 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.11-2024-08-21:
+
+amdgpu:
+- GFX10 firmware loading fix
+- SDMA 5.2 fix
+- Debugfs parameter validation fix
+- eGPU hotplug fix
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amdgpu/sdma5.2: limit wptr workaround to sdma 5.2.1
+      drm/amdgpu: fix eGPU hotplug regression
+
+Candice Li (1):
+      drm/amdgpu: Validate TA binary size
+
+Yang Wang (1):
+      drm/amdgpu: fixing rlc firmware loading failure issue
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c    |  3 +++
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c        |  5 +++--
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c        | 18 ++++++++++--------
+ 4 files changed, 17 insertions(+), 11 deletions(-)
