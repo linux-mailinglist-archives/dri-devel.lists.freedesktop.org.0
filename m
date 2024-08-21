@@ -2,119 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B3C95A3DF
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 19:28:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1586895A492
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 20:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDC0A10E68D;
-	Wed, 21 Aug 2024 17:28:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="q7qH8Z7K";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3E110E0A1;
+	Wed, 21 Aug 2024 18:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1E010E690;
- Wed, 21 Aug 2024 17:28:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UYRMtxPBnnFStZ50qiNr+kgS9Csxyq4BNIvS3treX+5/4DDP0S36oSPS2hT2FrrwkUQaqAqLUMDuZz9eFc93CGGDKGIA0OkCxMKMPqE3Gg1MMnOnR/TBHwiEaE0SG537zcRh5KduBpVe3GvnNzr4b9My+VCCwMD0q1sepiU5N+Byrp2/tZ55rn1THlo0yMAhJsAaDc9ZlwIvHSbjlHMvpsIZUFv8Tv9ZfxbahBPpgkLWLaKNRNNvrN8kCTgZWB9s2p9FRbmNgztWLf+Nu0HipGqIsl6XWkLTRfMjgh0k9flfjLvAZ87fBEnHWzmR45dAKhV6qHCipnRcg49l6Pbrzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+/YZ3VVmtvb6KUCnR64cJCjwZJ0pDo4AKCJVQrTTel0=;
- b=uOLTHPCJ4QpTF/BGE4xoWWnkYEOxKNDmI9l98Rq8O8iTNbProwVmhKlyj/KbeRLiPeNJLtABGRL6HEOxZnWAy81cGNyzxBUSpJDVEE7PTajW8YI6j4Tkdr0h3YitIe1jY2NmFgpERyzLQgF8Jdb4Kr6sHGrrP76q+/+O32JGeKAisGhoY12sXsSgZsJgcZodMCjiIOP84RZTXXvdmro8mwVrhbe7wu8xseiKCqFxhnSoQm8K2G7XPtpM687d9ByCE+sadDEGpd69ED84e4ZGFud2BmIJE33W1EUTVMg0J9pfqiidneU2FLQ31Fsrw0FhXTNFgvDQ8rAu2QJeAM3VMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+/YZ3VVmtvb6KUCnR64cJCjwZJ0pDo4AKCJVQrTTel0=;
- b=q7qH8Z7KUQSsdyO/kPpo4fiHD/42mlVU9jxfGaP2SHX0rg+31OBboWFN8kKwqvdgUvAYfIsq11lG17dn/kj0HlgOEMTUl+8RVMvEQ/qHF/tej8o4b8oStdme9ORlYw2shYGa2Q6k1S2fLb/fzB0b9+2H3UXG4u+Tr/SM5GjWpL4=
-Received: from CH0PR03CA0298.namprd03.prod.outlook.com (2603:10b6:610:e6::33)
- by IA1PR12MB6459.namprd12.prod.outlook.com (2603:10b6:208:3a9::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.18; Wed, 21 Aug
- 2024 17:28:28 +0000
-Received: from CH3PEPF0000000B.namprd04.prod.outlook.com
- (2603:10b6:610:e6:cafe::a8) by CH0PR03CA0298.outlook.office365.com
- (2603:10b6:610:e6::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21 via Frontend
- Transport; Wed, 21 Aug 2024 17:28:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH3PEPF0000000B.mail.protection.outlook.com (10.167.244.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7897.11 via Frontend Transport; Wed, 21 Aug 2024 17:28:27 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 21 Aug
- 2024 12:28:26 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.11
-Date: Wed, 21 Aug 2024 13:28:10 -0400
-Message-ID: <20240821172810.302416-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.46.0
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D0E910E0A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 18:15:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 78D27CE0EA7;
+ Wed, 21 Aug 2024 18:15:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468D3C32786;
+ Wed, 21 Aug 2024 18:15:16 +0000 (UTC)
+Message-ID: <0e201905-7b65-4a51-b884-6cc41d01e466@xs4all.nl>
+Date: Wed, 21 Aug 2024 20:15:14 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF0000000B:EE_|IA1PR12MB6459:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a98a21c-0c2f-4e54-e68c-08dcc206ab4a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7UwRiskx9OoocZ8cx7lopdOzqMYILOrSC9u+YsuUtS8JhYnHm+Z8yRQU5xye?=
- =?us-ascii?Q?qg0tO16P/aqE/YIfiMWHnCfIGFn/eLoKuy5Y3VB5saYMUomF3bKXQCFm52R/?=
- =?us-ascii?Q?x1CuifHkWZxWAmwRnosavVU+USY+ztdfRvf3jh20pkaMjC9jVdd2Pj6oIKy+?=
- =?us-ascii?Q?R8dY9CtMlqE904mDj2zNo6DKanpm/mkPyyckp3G4izVtdSG9NCxIO8kWJafy?=
- =?us-ascii?Q?Yfx2NycD4CjNMVgPY03QebEGnS36u452WF56DmqzPG5hG6ngf1pgXm/v89dG?=
- =?us-ascii?Q?d+T8z8QXzPsc9MEtmp6fVgObAO51qlypUCleAln70Rg8VvXV92w18q6kGKgK?=
- =?us-ascii?Q?EE7y8QNuXrL0p4hhOGxETbOiOsNom9vEaR4K2LL0KDS2HazB00bREmJiOglM?=
- =?us-ascii?Q?JXGu1qTubgOHKO7g5Ja32WqYPBZc0C+cA3cJl6qOmelBOI4jQYb4Q9ry2DXM?=
- =?us-ascii?Q?2rPTP58Vo4cRYO0HUfsO+EZ87d3RphkNAGA3xIY+rbuE3z6fCU2t4b8F85QP?=
- =?us-ascii?Q?a/PRzS6bAfyjukuDSUFxryMVRMaJKZSx/Mysk7vx57VUv7YYqth6xdnSVxlC?=
- =?us-ascii?Q?wQ50xS7Nw4RzDNuVE158Yk0iJr7HfzdUr2VTaQ4bAl5tufFSA2otWBGR2GKu?=
- =?us-ascii?Q?/fCKjT79QZdXs6i4hfGl9LgWwl1WBkQOjnHcxq/BL+R8PucVb6inHVyItlNI?=
- =?us-ascii?Q?uow4fUR/Ow1+QwqWhuNjqwpfoAEbFh4YwtkhEU7di0fISTRSFdV4lssa84EC?=
- =?us-ascii?Q?sw96EC0XKlr8ZRvCfX+POrxALBvV/rLhyIWThOWgQX0X7/+R2C0Kay2ymBqN?=
- =?us-ascii?Q?oxzOAMw7aAT0zup33qGYI8Ay5HG68h/+84fC2uypTkYnJ9iOSmHK03FFkOrp?=
- =?us-ascii?Q?zc55Pj7FaF7o75u8DDTVbeLRPRAl8I2hvNO1zTy011qjqXz11nwfgkDG7hPV?=
- =?us-ascii?Q?P4GcFHWr6XwEXwXOxU2X5cUTEIYHJQGbnLdahPf9fCXOvuXqgk98hpUEwUAn?=
- =?us-ascii?Q?KCrfga3kTJe1NCEKNjywl8QPDlq/iG+tC/336zAzF3/VfkjrUOUoAp3rWm7s?=
- =?us-ascii?Q?QhPDmbEaqWi3JRXNv7Jj7EvuL6dPCEXepkXx0LN+yd6YiJplgdPxpUc1QAkx?=
- =?us-ascii?Q?PRg4LcsLa33QO8HiN281ZSvOVE3b81RaIWhWOQiDr4DrUUll/Tab6fFoUMew?=
- =?us-ascii?Q?zgT+LStV5frwMmTVszqtNA8FVFbnrL0gLO+5ITJkHPsogLAXCWbW0n5Cge1y?=
- =?us-ascii?Q?/GhS0Qt2HLLfGYYxaPRglHcpyytt5SraExhBThKxHPUQR3/iY7siXH5iqB/b?=
- =?us-ascii?Q?ZZYBorCPALxwMtPBQsRz8KaGDiOfkzVJhcbxjWBjJKjnhtvcHxwflayty+IL?=
- =?us-ascii?Q?mlvBvzp/Z9W/TFVdUwJZalW26aribz4cVdTrTQ4EzPmnLytKeg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 17:28:27.7141 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a98a21c-0c2f-4e54-e68c-08dcc206ab4a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF0000000B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6459
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 7/7] media: i2c: tc358743: export InfoFrames to debugfs
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org
+References: <cover.1724249420.git.hverkuil-cisco@xs4all.nl>
+ <501bb64b027022ebcfb9636e9267dfba520c4a67.1724249421.git.hverkuil-cisco@xs4all.nl>
+ <CAPY8ntBz9Z-OVHpHinANN5WP6Ki8Fa0Fv0VFj+6kniRr-yOqPA@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAPY8ntBz9Z-OVHpHinANN5WP6Ki8Fa0Fv0VFj+6kniRr-yOqPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,44 +48,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On 21/08/2024 18:12, Dave Stevenson wrote:
+> Hi Hans
+> 
+> This is a very useful little series - thanks.
+> 
+> On Wed, 21 Aug 2024 at 15:16, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> Export InfoFrames to debugfs.
+> 
+> I had a tc358743 to hand, so thought this warranted a quick test.
+> I think you have an off-by-one on the length that this exposes.
+> 
+> log_status is giving me state
+>    [  428.600874] tc358743 10-000f: -----HDMI status-----
+>    [  428.600881] tc358743 10-000f: HDCP encrypted content: no
+>    [  428.600887] tc358743 10-000f: Input color space: RGB limited range
+>    [  428.601404] tc358743 10-000f: AV Mute: off
+>    [  428.601921] tc358743 10-000f: Deep color mode: 8-bits per channel
+>    [  428.604407] tc358743 10-000f: HDMI infoframe: Auxiliary Video
+> Information (AVI), version 2, length 13
+>    [  428.604425] tc358743 10-000f:     colorspace: RGB
+>    [  428.604433] tc358743 10-000f:     scan mode: Underscan
+>    [  428.604441] tc358743 10-000f:     colorimetry: No Data
+>    [  428.604449] tc358743 10-000f:     picture aspect: 16:9
+>    [  428.604456] tc358743 10-000f:     active aspect: Same as Picture
+>    [  428.604463] tc358743 10-000f:     itc: No Data
+>    [  428.604469] tc358743 10-000f:     extended colorimetry: xvYCC 601
+>    [  428.604476] tc358743 10-000f:     quantization range: Limited
+>    [  428.604483] tc358743 10-000f:     nups: Unknown Non-uniform Scaling
+>    [  428.604490] tc358743 10-000f:     video code: 4
+>    [  428.604497] tc358743 10-000f:     ycc quantization range: Limited
+>    [  428.604505] tc358743 10-000f:     hdmi content type: Graphics
+>    [  428.604511] tc358743 10-000f:     pixel repeat: 0
+>    [  428.604519] tc358743 10-000f:     bar top 0, bottom 0, left 0, right 0
+> 
+> pi@bookworm64:~/edid-decode $ xxd /sys/kernel/debug/v4l2/tc358743\
+> 10-000f/infoframes/avi
+> 00000000: 8202 0d2d 1228 0404 0000 0000 0000 0000  ...-.(..........
+> 
+> At the transmitting end I've got
+> pi@bookworm64:~/edid-decode $ sudo xxd
+> /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/avi
+> 00000000: 8202 0d2d 1228 0404 0000 0000 0000 0000  ...-.(..........
+> 00000010: 00
+> 
+> edid-decode -I decodes the latter fine, but aborts on the former.
+> Oddly the "fail" message from parse_if_hdr [1] doesn't get printed, it
+> just stops with
 
-Fixes for 6.11.
+I fixed this in edid-decode.
 
-The following changes since commit fee9d135e2fd5963a7f466cd1ef2060731a1ab29:
+> pi@bookworm64:~/edid-decode $ ./build/edid-decode -I
+> /sys/kernel/debug/v4l2/tc358743\ 10-000f/infoframes/avi
+> edid-decode InfoFrame (hex):
+> 
+> 82 02 0d 2d 12 28 04 04 00 00 00 00 00 00 00 00
+> 
+> ----------------
+> 
+> HDMI InfoFrame Checksum: 0x2d
+> 
+> AVI InfoFrame
+>   Version: 2
+>   Length: 13
+> 
+> 
+> [1] https://git.linuxtv.org/edid-decode.git/tree/parse-if.cpp#n21
+> 
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  drivers/media/i2c/tc358743.c | 36 +++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 35 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+>> index 65d58ddf0287..c7652c0dbaeb 100644
+>> --- a/drivers/media/i2c/tc358743.c
+>> +++ b/drivers/media/i2c/tc358743.c
+>> @@ -87,6 +87,10 @@ struct tc358743_state {
+>>         struct timer_list timer;
+>>         struct work_struct work_i2c_poll;
+>>
+>> +       /* debugfs */
+>> +       struct dentry *debugfs_dir;
+>> +       struct v4l2_debugfs_if *infoframes;
+>> +
+>>         /* edid  */
+>>         u8 edid_blocks_written;
+>>
+>> @@ -430,12 +434,35 @@ static void tc358743_erase_bksv(struct v4l2_subdev *sd)
+>>
+>>  /* --------------- AVI infoframe --------------- */
+>>
+>> +static ssize_t
+>> +tc358743_debugfs_if_read(u32 type, void *priv, struct file *filp,
+>> +                        char __user *ubuf, size_t count, loff_t *ppos)
+>> +{
+>> +       u8 buf[V4L2_DEBUGFS_IF_MAX_LEN] = {};
+>> +       struct v4l2_subdev *sd = priv;
+>> +       int len;
+>> +
+>> +       if (!is_hdmi(sd))
+>> +               return 0;
+>> +
+>> +       if (type != V4L2_DEBUGFS_IF_AVI)
+>> +               return 0;
+>> +
+>> +       i2c_rd(sd, PK_AVI_0HEAD, buf, PK_AVI_16BYTE - PK_AVI_0HEAD + 1);
+>> +       len = buf[2] + 3;
+> 
+> tda1997x has len = buffer[2] + 4;
+> adv7842 and adv7604 have len = buf[2] + 1; and then return len + 3;
+> adv7511 has len = buffer[2]; and return len + 4;
+> 
+> So I think this should be len = buf[2] + 4;
 
-  Merge tag 'mediatek-drm-fixes-20240805' of https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux into drm-fixes (2024-08-16 13:16:47 +1000)
+Yes, that's correct. I forgot about the extra checksum byte that HDMI
+inserts in InfoFrames.
 
-are available in the Git repository at:
+Thank you, I've updated the patch and added a Tested-by with your email.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.11-2024-08-21
+Regards,
 
-for you to fetch changes up to 9cead81eff635e3b3cbce51b40228f3bdc6f2b8c:
+	Hans
 
-  drm/amdgpu: fix eGPU hotplug regression (2024-08-20 23:07:11 -0400)
+> 
+> Doing so makes edid-decode happy.
+> pi@bookworm64:~/edid-decode $ sudo ./build/edid-decode -I
+> /sys/kernel/debug/v4l2/tc358743\ 10-000f/infoframes/avi
+> edid-decode InfoFrame (hex):
+> 
+> 82 02 0d 2d 12 28 04 04 00 00 00 00 00 00 00 00
+> 00
+> 
+> ----------------
+> 
+> HDMI InfoFrame Checksum: 0x2d
+> 
+> AVI InfoFrame
+>   Version: 2
+>   Length: 13
+>   VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
+>   Y: Color Component Sample Format: RGB
+>   A: Active Format Information Present: Yes
+>   B: Bar Data Present: Bar Data not present
+>   S: Scan Information: Composed for an underscanned display
+>   C: Colorimetry: No Data
+>   M: Picture Aspect Ratio: 16:9
+>   R: Active Portion Aspect Ratio: 8
+>   ITC: IT Content: No Data
+>   EC: Extended Colorimetry: xvYCC601
+>   Q: RGB Quantization Range: Limited Range
+>   SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
+>   YQ: YCC Quantization Range: Limited Range
+>   CN: IT Content Type: Graphics
+>   PR: Pixel Data Repetition Count: 0
+>   Line Number of End of Top Bar: 0
+>   Line Number of Start of Bottom Bar: 0
+>   Pixel Number of End of Left Bar: 0
+>   Pixel Number of Start of Right Bar: 0
+> 
+> I haven't double checked the maths to ensure that we have read that
+> extra byte via i2c_rd though.
+> 
+>   Dave
+> 
+>> +       if (len > V4L2_DEBUGFS_IF_MAX_LEN)
+>> +               len = -ENOENT;
+>> +       if (len > 0)
+>> +               len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
+>> +       return len < 0 ? 0 : len;
+>> +}
+>> +
+>>  static void print_avi_infoframe(struct v4l2_subdev *sd)
+>>  {
+>>         struct i2c_client *client = v4l2_get_subdevdata(sd);
+>>         struct device *dev = &client->dev;
+>>         union hdmi_infoframe frame;
+>> -       u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
+>> +       u8 buffer[HDMI_INFOFRAME_SIZE(AVI)] = {};
+>>
+>>         if (!is_hdmi(sd)) {
+>>                 v4l2_info(sd, "DVI-D signal - AVI infoframe not supported\n");
+>> @@ -2161,6 +2188,11 @@ static int tc358743_probe(struct i2c_client *client)
+>>         if (err < 0)
+>>                 goto err_work_queues;
+>>
+>> +       state->debugfs_dir = debugfs_create_dir(sd->name, v4l2_debugfs_root());
+>> +       state->infoframes = v4l2_debugfs_if_alloc(state->debugfs_dir,
+>> +                                                 V4L2_DEBUGFS_IF_AVI, sd,
+>> +                                                 tc358743_debugfs_if_read);
+>> +
+>>         v4l2_info(sd, "%s found @ 0x%x (%s)\n", client->name,
+>>                   client->addr << 1, client->adapter->name);
+>>
+>> @@ -2188,6 +2220,8 @@ static void tc358743_remove(struct i2c_client *client)
+>>                 flush_work(&state->work_i2c_poll);
+>>         }
+>>         cancel_delayed_work_sync(&state->delayed_work_enable_hotplug);
+>> +       v4l2_debugfs_if_free(state->infoframes);
+>> +       debugfs_remove_recursive(state->debugfs_dir);
+>>         cec_unregister_adapter(state->cec_adap);
+>>         v4l2_async_unregister_subdev(sd);
+>>         v4l2_device_unregister_subdev(sd);
+>> --
+>> 2.43.0
+>>
+> 
 
-----------------------------------------------------------------
-amd-drm-fixes-6.11-2024-08-21:
-
-amdgpu:
-- GFX10 firmware loading fix
-- SDMA 5.2 fix
-- Debugfs parameter validation fix
-- eGPU hotplug fix
-
-----------------------------------------------------------------
-Alex Deucher (2):
-      drm/amdgpu/sdma5.2: limit wptr workaround to sdma 5.2.1
-      drm/amdgpu: fix eGPU hotplug regression
-
-Candice Li (1):
-      drm/amdgpu: Validate TA binary size
-
-Yang Wang (1):
-      drm/amdgpu: fixing rlc firmware loading failure issue
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c    |  3 +++
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c        |  5 +++--
- drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c        | 18 ++++++++++--------
- 4 files changed, 17 insertions(+), 11 deletions(-)
