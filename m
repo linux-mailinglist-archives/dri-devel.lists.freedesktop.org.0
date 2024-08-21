@@ -2,168 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590DB95A719
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 23:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458B395A79F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 00:08:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C059210E6F2;
-	Wed, 21 Aug 2024 21:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A9B10E6FE;
+	Wed, 21 Aug 2024 22:08:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="WWBaYgE1";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="cLn49Py1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11011002.outbound.protection.outlook.com [52.101.70.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECA310E6F1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 21:52:41 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+ (mail-northeuropeazon11011008.outbound.protection.outlook.com [52.101.65.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E547610E6FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 22:08:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cqIIajOygrfM11wuNK7Nm7h6HJ05BMLhW/60gHFXytZCS2NA+13msHsN1FpSH+yUFdlE+cFA/UOGqf9HT/sOgR7T+E35JKK9rHBoDzqdg7hjAdUKo1PMopoJYa0IX/gheeehYyCQJ6cGkyxiwQ0PtGi0WpfEjvfh7NDOgsG7ASes9J8zZqUUP/jhQfH9vlMgM4aCx50W8tzaA43asoS3+74mEnUq3NM1iqllMEbXaiJXp70Tcn3S2g9d6JQpdNlXUAyOtFlveBpjCRZEReS96pN2LI5KG5XGGylYpjNrQFxK7g/VjvqYzmEOO+26jTu3U2fbiefbHIxyD9TVoajNSA==
+ b=AOCdj3l48ksWqgWCWDLv4ZSsZBF9SeMaJlVXKWRs6XCbnrkpYWzaKnFQ6svFt9EoCONE2xaSSbi/bvzEOACbDqiOfnOp5Opt9jbOJZEGwxwbOjoRrm8fKPJnruHLclYUJLLBEH4c7T+zpsawQydPxjNVmrlap5RosPWRQhJ6lBcejbnuBeiJBrhPWezFYktOFEp7Uvq2yjXGI6+UD0d1zQ6o8JoWg3ezCzDwjq5X4urkri80YRLZLEVmmMI1gq+lAX/2BkY6bjvFzO0MXpsyzg8J3xSN88EHlbc951OnA1FMBhlRBm8lbGnnILLS7X+CfUyhDpVSfhFCDeYHPMA7Hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iqPBA/0UC8hgauW8SlEyUHAs3+DkqvYG/BpxNM94zvQ=;
- b=aKNn+fOXL4bAG1bjCOavTPKFalKzokjxN3izwy+tz6BM6ghiZXELXzIqwHdNvw/7MxTCaVjuHxIXqe1KfIm5qjLqoXST0iksD2Q0asYTCDQ56SR2F5QKhbzQMo+aAw6fr5/JJj985zX/JEkW/h6MPecAEzY3C/crCqX2nQsiTX9xBfKBTbVEVTIR7lZTORKmlxzvZOMCBk3GH6raxij3jTwqgpjRzCjcbztMCctSiWh4UXR04OgtP1kYwpfmg1sYjm8kTL8Hl5DEv1vUSr4O0V5aKc/2u6EBuhvlUZp9HsquMdZX1AqmU+UNcxmgLnidtneA5vWih1wHiuc5g7iRaw==
+ bh=CKGKDZJgp7qInlP1pRiUdyCCG/lu/sO8uyFc+Rcbmm4=;
+ b=qZXN8Uo6i/2ZhAqNOBhjW2wfS7WbWKeo5rk0Norbgq5VEyz9nqKJi/PuJU+wltQr9++cFpIjwJrix/xdEbCVAm/z8rd4zZyGDTqFDuTIURARnpYNouciVOmdmQrLBsJ0Jl10uURNPz26ET49fpT3clH1AthUBERlvLtM6hO3V0eZBp3DhcxB+SCg420EmSxxK98rzQAw5g21xdvxjQYHG4D2Jp+uQSxGUX7ZQ5F3fRD6G/V1RupjAt6FWjzQdYyPqSt09emUo5DeE3M0s1wJmCoFcp0nacTrBVLkY4CdTPEzj5JetvprHaE8igXu7KvAtHweN5pe7jWa04B5p2B7Lw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iqPBA/0UC8hgauW8SlEyUHAs3+DkqvYG/BpxNM94zvQ=;
- b=WWBaYgE1t0gxkxegXBN9pvMDzQ41vUqKCE2KHnasWuDYsVJYTtkLXcfADtglezc3IxUZdLmRcWRk9MhUC58HqkC9VuNI5BzreMX+EwkFNCVmDBeji2P+4HHNLFiet+85nQiCwtRntl6VtGioV3pF++IBaa+uvQ06ncEL3e+seoy3/As7g3RJY3SxG9Dx53e9l0bf/QaGxMMfNSYPKzBUR2xWgEZod0GyX5UwT9c/MVr6OgBcX4LUe19T16+x8Ht0jAbboo9UUkhfBYKwyU3OXeeIt9rZ0I+wgydUMRQwLHs/nRXeXPo5v2gV4dRjOaK0Jfh1E2wxzbnDTCIC+dmT2A==
+ bh=CKGKDZJgp7qInlP1pRiUdyCCG/lu/sO8uyFc+Rcbmm4=;
+ b=cLn49Py1wY9ksCS2m++/mV4QcrjQ+7tAPh/4fjTAojY1DKeIzaAbk94JzqeoX3be59k83CXzTIxUIlefKeA6QucpZUayHyRnQS3RSd9glRwhpCHqDpo5Zwp/srKrUViLB0PSD3uk5GtzLUEYidPyjUWq1aAj2nkbnrw0uBitjJak8xVgjMDG3vfMNQPWjLOg+yCZ2MmfMVxbLyTlbFdpGY/ZbUXrgSpnE98+WqYGUDGIkWjgx9xO/K0frnVSujiLFhp8toVw/bO+o1LNZqesX1gFCaAviQXFV67YErz+SGTtR99h3n5ipJo9gquKi0BKT2wVbZq5v5tJXlFQ6Vd87w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by VI0PR04MB10566.eurprd04.prod.outlook.com (2603:10a6:800:268::10)
+ by PA1PR04MB10820.eurprd04.prod.outlook.com (2603:10a6:102:487::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Wed, 21 Aug
- 2024 21:52:36 +0000
+ 2024 22:08:37 +0000
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::9126:a61e:341d:4b06%3]) with mapi id 15.20.7875.019; Wed, 21 Aug 2024
- 21:52:36 +0000
-From: Frank Li <Frank.Li@nxp.com>
-Date: Wed, 21 Aug 2024 17:52:12 -0400
-Subject: [PATCH 2/2] drm/panel: simple: Add support for JDI TX26D202VM0BWA
- panel
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240821-jdi-v1-2-6e3ce584072a@nxp.com>
-References: <20240821-jdi-v1-0-6e3ce584072a@nxp.com>
-In-Reply-To: <20240821-jdi-v1-0-6e3ce584072a@nxp.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>, 
+ 22:08:36 +0000
+Date: Wed, 21 Aug 2024 18:08:27 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- Frank Li <Frank.Li@nxp.com>, Dong Aisheng <aisheng.dong@nxp.com>
-X-Mailer: b4 0.13-dev-e586c
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724277142; l=2187;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=GuJ89DU1Af2gXckvRsJT0KI9BvHs7/0RqeoKZOagbCI=;
- b=dcgXqX0Uz3vU0WJYTVMHNUPCVrll+9kTb4p0UtUsSeg/kA8kRwTf89OgXOMLmIXQMbQoD5AMk
- LXfsko4k8fsBsTK73z1s9qaQ+RM6anRmeALovUDaLWXsbhCdSzKAo3u
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: SJ0PR03CA0080.namprd03.prod.outlook.com
- (2603:10b6:a03:331::25) To PAXPR04MB9642.eurprd04.prod.outlook.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ Dong Aisheng <aisheng.dong@nxp.com>
+Subject: Re: [PATCH 0/2] drm/panel: simple: Add support for JDI
+ TX26D202VM0BWA panel
+Message-ID: <ZsZlW0xUCUDOkDAx@lizhi-Precision-Tower-5810>
+References: <20240821-jdi-v1-0-6e3ce584072a@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240821-jdi-v1-0-6e3ce584072a@nxp.com>
+X-ClientProxiedBy: BY3PR05CA0040.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::15) To PAXPR04MB9642.eurprd04.prod.outlook.com
  (2603:10a6:102:240::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|VI0PR04MB10566:EE_
-X-MS-Office365-Filtering-Correlation-Id: 050bcb11-649b-4be6-490e-08dcc22b91a5
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA1PR04MB10820:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5539cf20-8aa4-4423-b4be-08dcc22dce27
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|52116014|376014|366016|38350700014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SzFsc0sreUE3ZVJVVFNZOGoydUtqT2VXRGh0ZlY1TUZzNmI4N1hRZHFsL0hK?=
- =?utf-8?B?dWFVdTFjV2JzNVBqNCtaNmk5YUtLV05Va0RSUHZDQVFxQ3V2Z0wrNHFUMHkv?=
- =?utf-8?B?WndCbHRvR2VsTThWZFlkQmtSYy9FYVdhTWFaYWY1Y0hHdi9td2tGUE01L0FP?=
- =?utf-8?B?Z2Z3R2c3L0doeVhpUVNkR2NFMDJ0Um5KTGhqYnFFaFpMZVJORlIxUTRYZXZo?=
- =?utf-8?B?Sk9KNWxKM3djZW80c09uTDNEd3I1eXU5N1I5anFvWkIyRGtSNW9JcTQxcEQv?=
- =?utf-8?B?Q25kWGlGaXhNVXhMSEpBOEFZOVZoeHpCOUx0WTdRaTRmSThvdFlSdmZGRUZC?=
- =?utf-8?B?MlNTNnlVMVlEUTV6bC84d1kxNlRvK2FiMHFmcFRyMUp2RzIwVGQ5Z1RRTHdQ?=
- =?utf-8?B?OG5BOERJemtFTUpFOUhjZFpzZ2xDL1oyVWJlQzJnS3EzcFF4eDUwc1prVUhP?=
- =?utf-8?B?ZjVSN2V0VnB3RlJHS1hQRXZhVkFsSENQMis0ZWRNRFp2bG5Fa0lOTVoyZW5y?=
- =?utf-8?B?ZnhOcEwySzU0ejBhMDBuVFB5d2lqbE1LZU5YZmxCU1VuSEJLcENTcEUxTzBJ?=
- =?utf-8?B?K3JEZlpqTGNpQlJhUU56bEt6UUhDTGtDMmVpanBhVnJqbitlVDBOUmk4V0R6?=
- =?utf-8?B?YWZGM2FxNG0xeFplZ2NkNjdLTjdCWGc0RmRPMUt4SVNvdThJOGExNEQxeDI2?=
- =?utf-8?B?OXJ4ZjhQQXg2WlE5YnQzTGdGWWdKSTR3aEoxR0hwaFlhM0U4enRYVEFYWTZi?=
- =?utf-8?B?VVJ0cjVERWtsRlNUS0lIcTVzd3BVTjRUcjFQRTA2UWdPUTVoQW8ydmlhWVlh?=
- =?utf-8?B?ZTg1NWppMzg2bGFseHVpKytOai9JckM2VHFmMmxhY1dtd1Q3dE9ablJHR3NG?=
- =?utf-8?B?SUxwS0U1MnpuVlgzazJHdVJuaURvUjRCSDUzRjFhamdYMytDR1Vibi9aREsz?=
- =?utf-8?B?dzVCRzNDcGcraS9ZVGt6cFh5ZGJMd0tnbDhkWXk3L3hiUGtsMWRjT1UzNGNC?=
- =?utf-8?B?cXYwclZ1WGJ4cEJoelV0QnMrZEVUZytGWDhRQjBjbGxQSTlBcWZqNDQrUFI4?=
- =?utf-8?B?SmxWeG1ZRWhjNkdPQTl6VG5zbmxkL3VrWU1KOUI4WDZXTE4vRHY1SlcyUGs0?=
- =?utf-8?B?aWZzc3FaSHhzczF4MXNrelAyOWNQanVZaWZUVHZMaENTWXNLSWRNOG5BU1l2?=
- =?utf-8?B?RmRXQXpVMzRzNlhERFMwOUlTbnp0UXA3dFBhb1k1dzlhQW0wUEEzQzNFamZ4?=
- =?utf-8?B?dEV2bHlOaFFLTXB4S29sZmFaeHhndEx3TlRxbWZZSWxnZDVQTEVQNWk4LzA1?=
- =?utf-8?B?TzUvUFlQN3FEUjIxNWo0RjUxNHl6dFYzTlUza2djR25DY3YzLzh4aGlETlh5?=
- =?utf-8?B?MnZwaFkxc3NxWFpHZ0ZkNVpLOGtXQUY1NXFDSjZtMm0vMTFaODJWbVVMZ096?=
- =?utf-8?B?RVlpajliWGNVOUlsZ1VUWjBJbGlFRjY2SDgrMHc3d3dyY1p4RG9YazVxOFN5?=
- =?utf-8?B?ZlkxY0lFWmNPL05jSUJhT3lxNW1tOENNUkJHd2hJNUxpSU9ZYVlNVlhTbDU3?=
- =?utf-8?B?cTJiZHJHTWF1VVhUeXBWS0JkVEVJN09WUnFXczNyVkJEdVdON2VMaytPc2Rs?=
- =?utf-8?B?WVBFcE5GNTcxdjZDQnpreWpkOEdsaFkzYjVjUnVxRGIybG05a2MwaGpiY3RZ?=
- =?utf-8?B?NTZId0RSazI0bkdtWUgzR1JnUFNoWWJYWXcvaU1kQ3lhOHB1eGg4c0VJdnVF?=
- =?utf-8?B?NHZGT1BjTTExNlJVQmdBZmhBeDNaZHJkTzNuZGN5RUljVmZaZ0tSbWJQc2Ez?=
- =?utf-8?B?RENwU1FGMjRLL3kzS085cDJLUk5jK3AzeThXcmJXcktYRHJqMXFBMTVBSGZn?=
- =?utf-8?B?S1hEbVNKQ1RxMUVFWktxcXY5dWh6Vm5vS2FMT3RuMGdDTHp3MGFVQWNLdjA3?=
- =?utf-8?Q?RMbgL3H3Hyg=3D?=
+ ARA:13230040|52116014|7416014|376014|1800799024|366016|38350700014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?o0bvK4BgBYOxITrWIiuoGPxOY0TT1EOautvxr+43oqVa7VEL/7RainwDf/2n?=
+ =?us-ascii?Q?SXHk6qKI9NBWkPDnZHlYf5TQHPUJlgduFYAJ1UC9rdU3NHfHydc69vOZjM1P?=
+ =?us-ascii?Q?qcR1WN/2JO/XKTbtn4ArKRJ88rQTD7FZ7nPiLcl2/KPH3DfF1wuLvrc7y/pF?=
+ =?us-ascii?Q?YNgLPQVHGKaV01QTSolRu04xD5nxw9aopu8SVp25EggZRNI03PCGIJC+h5rs?=
+ =?us-ascii?Q?is1DKIrt5FZTnmUmS4j/hokBhFN02udL9XhRF8M/j7AgLkg+A2u94GTy6iVV?=
+ =?us-ascii?Q?u3vpm+dPNVafOOsI5g5gckRHnE9r+gUJoS88IXn7mu+S8mGiVZnCHUq39JcV?=
+ =?us-ascii?Q?OtVZLB2Z3Ts4bu64Tq4VwnplrHVXqJvTsD1pA7ev842FXzsDl8UOSQxIHxSa?=
+ =?us-ascii?Q?prHY54kNLxaLyzL7SMHJCVzGPFn1bHwzvgIpUQsVWtT1uxOPHydbEsTmKWik?=
+ =?us-ascii?Q?zZmkynh7Tc2qyc/hSKv1DvE/1WVBOVGs+MIWxeVDMwqISF9HhvEMzOpv3I9D?=
+ =?us-ascii?Q?Ynbof9JYqxog9X50VOSaPa8zXvMiZGuruD8KoT0y9lYkIo5zHFNGxKZBJGN9?=
+ =?us-ascii?Q?LrUmj4bLhHuR8KtO4AwbODxScNweF9uf5lnWzNlda1r7layVucnB2A11qbKG?=
+ =?us-ascii?Q?h4vMlJCkE9fFxsXqDrJBQm2B1hB/erUT7tmIP/8oE5+00HOh31gb0T5LcPah?=
+ =?us-ascii?Q?ohzfF9SY8C8JbPNpLKjc+juFXV+TDT9UPjo/xRNX0yU72UUrRlPEmiQL2j+c?=
+ =?us-ascii?Q?3uyyPHjPr2KEkx/nRqgZGcf/UEcmHBuGoDJD20tn/exwm3TPk9cn8PDtijBH?=
+ =?us-ascii?Q?Lbp8OJItZrsMZzE+GePy1DOxDlTpw3XWG6lvHMC6wr1b7+p71R+M7Z5OAzV4?=
+ =?us-ascii?Q?55+ohXi08F3m67i71L4eyy5W6rRUeA6F2yK6jAX6m2RcC7GLKQ0DYedOfovo?=
+ =?us-ascii?Q?rGmJ9bhd7ECnnKHflRwevBvfwIFtoQP1Z3v9+LRvk+fovhar/axPZ/h+KygP?=
+ =?us-ascii?Q?y+gipZ7s2iXSQywHJWGUChZ4v4GT1j5DBmWeI7q/e4mWF9PIhtLbdvjDIhaI?=
+ =?us-ascii?Q?gq6jLzG5vHJZgZVabASYNujPuhwwd2Soh/vu2istkZdr3zwljjbPfj5QoG1X?=
+ =?us-ascii?Q?YPSBQ4SkX6zI5v5CO4O8q1989IhZG/A7ueKP8XAgRaZg2fiwaI5QC3SP7XCd?=
+ =?us-ascii?Q?BCPpm49OVeIOxrGxCYO5TB3SOG3Goi+3FqnHtAWkHaSKKIJ9oNyYOHFLQ84X?=
+ =?us-ascii?Q?OKv1X7KXusEJ8ywWvA5nndYlbtfCEEA6jodCM7iHpTExveUkNZh02qlIezLs?=
+ =?us-ascii?Q?VuDgCuNnoBAdR0gDVrRGSw8yxLud0+nnPRN5dWBr3E7iymnOGClZTPYTkKwZ?=
+ =?us-ascii?Q?7CjhbwbgRWiR7vGxWR+0ua9tfzlXj3WETfJT0NUBD8pbrTeSFwo08nY6dvlX?=
+ =?us-ascii?Q?I622ZOoMPq0=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(52116014)(376014)(366016)(38350700014)(921020);
+ SFS:(13230040)(52116014)(7416014)(376014)(1800799024)(366016)(38350700014)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Nkh3YlgyZTBPQTdlTmJUUnJKUEpZc0hCMGt1WmJKY1BUSVNjSXI0RnhDUGIw?=
- =?utf-8?B?UnlEbTRoN0ZMUGVwcmdCSDBJWWZ3by9MTzllc2IraWczb21zZ2tVblpQbWpQ?=
- =?utf-8?B?U3RWc2tZcEpibHF1MmxBdlhtY2dQa1IrODN2RHdrSjArOXRHU1FnbWRKSnBT?=
- =?utf-8?B?OVMzTndMWkNMTE5BVGxVaEdBcjV6SlU1dzc0a0FMYXJ5SS81SjBXY0ZoWDRW?=
- =?utf-8?B?dVpoWlFQc0p1SHMxUFFFUzFCRVQvMVBJaGlETVliU0dMbDVJM2tYZkxQWDBH?=
- =?utf-8?B?N2tRVVc2djRkL1FWU1BhV2U5bE9tbmoxTitmMkJnL2VicmZNYjRFQkVVWXMx?=
- =?utf-8?B?MnhOOVliSXcyRXFtamNFckRoODVHRzJ6OWgwcEY3NUhHdXRMK2hwcW5rMStk?=
- =?utf-8?B?bFFuU3FCRFhoZFVrMnNFUnAybmxBZ2tVdkUzYVpsY0owVWlnbTIwOWVTdHlC?=
- =?utf-8?B?ZFpKQmVFeXpScndnZkluZmJ2c2o3MnNqU1pKSmhRaTY5UGRIM3pCYmhEaWMy?=
- =?utf-8?B?aHdqeENobHJlU1hjU05EN1Y0ZGpocnFwSDFkd1kxUjUrbmNQQldyaGE0VEtz?=
- =?utf-8?B?eFdiQ3lXN0Z5WHM0dURtUTFkNHNnT3BMZ0FTN2ZTQlFtck1IbHR4UDhRVHFI?=
- =?utf-8?B?NzZ0M2FhRUwwalE1cUVPOTVncEdES3ZIdExaMGkzVDVqbTErU3NIRmhCVWJV?=
- =?utf-8?B?TXZsc3phQlBNTzhJeFNuSU9RSWh3MDJuQm40bHhScDgySnJwUHlFVmV3azNC?=
- =?utf-8?B?dXNkTUh3SlhIazRPbzJ5Q25tZ05wMHBnVTFrdEE3aGNTVGFvR2RZOGFkVHFZ?=
- =?utf-8?B?RmpFSTdBd1lvSGVkY0NHS05GVElyL3VjUDIzekxyVEU1MFpRQzVnYzJHTzha?=
- =?utf-8?B?WHJ2bnNhcnZJL0thSDBqSlVOM1RPTUdsQUxyN2p1ZTl4TmNDdS9YVEJVMFVC?=
- =?utf-8?B?TTQvbmprNHR3OStVZ1g3N3BRdHg2elVrQ3c0T1o3N0prb3BEaENNSUhnQ3FN?=
- =?utf-8?B?WDlvemxJbGR3c0ppVzd3WHVFMEhvcnpweXhYTkFPVTROcERFMVZqVStGSFJZ?=
- =?utf-8?B?TVlrOEwrSllOSWFrMTdoV0JwMlJjelVYc3ZkdG5ZN1ZtdklHUHBQSUZhVUJB?=
- =?utf-8?B?S0kyRkVUdTdla0FFd2dYcVkxQ3lmdWFoNjlPelB4czR3M3RxUXZuenFieDJR?=
- =?utf-8?B?bFE1Zzhwa1NHekpxUDZ2SnVXQVZHWFQ1enErTUhSY3hiT01mWjJPQ3hwNmRt?=
- =?utf-8?B?LzFEZ1c2cTdRVndUTGxTaVhNeTZ0alZqYTdQdjNLblhQVFZzT3Zvd05Bc01w?=
- =?utf-8?B?OVJmYWdocEY3U29xTk55dFIvMm1zL2d1SjFjbUs2RVMwbmNrSFhRVDAxY1Bp?=
- =?utf-8?B?YXNiVUdLZE45QzlRMTVEN3ZUelFRYkYrMXQvby9JSUNoRklIcWwyZ0VQWk9U?=
- =?utf-8?B?NWFHTlIrMXdndXZhaW1EWjR1ejBuaDh6TWlEeDJrUUVDZEw1WEpHdXh3Mm5t?=
- =?utf-8?B?VFMwZ1lsM0xtQWI1Y21KL3BZV0tMRjB4ejIyOXRkMXFWamliUHVzS2gyRFRx?=
- =?utf-8?B?dXFmTStPaWwrY3Z2ZUNnRUJ1TXRUOXoxZ0JCanFDZFBmcFIyWmZLMXlGZ3kx?=
- =?utf-8?B?aERldDJyVW5wa1hSTFpPbXZYampQVlRSOEYxTnNPUHNQSFlqUDJRN1FIM2pJ?=
- =?utf-8?B?bnorMytJVUNwUkxYeUNPWmwvcVhaODFRTGErejdDR1dzRURZQjlEK0krR1lw?=
- =?utf-8?B?WVJ5OUU0ZGgvWGhPZmJiVEpNSC92ZzBDQTBOaHp1aWZZUGIwdm9BbVBmU1V1?=
- =?utf-8?B?d3Q2T29HdjdpY0dVbXZ3WU9YUGhQWEdhY05WdUliUDhEU0F2dnpuald3SzBD?=
- =?utf-8?B?RHg0Z2E5djByNjB3ckhnVzY5VjM3dFZFWXVadmk3U0pjdEVjZkd3M2dnS2t5?=
- =?utf-8?B?Q0YrTTI4MS80V3k3b2xvc3BJQjZsRG1Vayt3TDVJWUVYYUR6eGdiL2hBbHVy?=
- =?utf-8?B?bXZZYVpnUGwwUXJsRVFvY2tnTEY2b0FTMmVuNkNwd3VmL2xIVHBxYjY0VGJz?=
- =?utf-8?B?dXhycHBDdlBIUWZFTkdTTUFPV21maklxUllubGJHLytQVXd4T0d1aU5DNVZm?=
- =?utf-8?Q?v/0b1E/JFVpBb97vsoFmbqqgf?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QNwMQDTPP7fu/Ctqc5bB0jZ9eVS3D21QDsgp9zYEGiulsJpmrbfXrhm0XAty?=
+ =?us-ascii?Q?EJd/Xk7vRKSHRveI303gR2pJEpRvOceZp+VpmWsu6/6H1AOBUJrszn7g0H2h?=
+ =?us-ascii?Q?lEts0TR7NFejRtliCyNYWPBwulrzZ5Eas7BGeTgzsxJ/Xr9z3meQx075Vl82?=
+ =?us-ascii?Q?p5mXeAW6ZEtLa0Uwd2hQ65b6JOfKb82hRizUwOTMUzb9A3paoKdH49r/G0jf?=
+ =?us-ascii?Q?yCeRxMV1x136Es2+9HfehdJME7ZCMUsrVxRWBET7cwChMWKxldWruEvWuKu2?=
+ =?us-ascii?Q?NgP1uFkgxuIoO4ebuhO9ooq6rCLoMdloh3UTN9+06jCz0y1iyuiWRbY14r19?=
+ =?us-ascii?Q?8C3uXWnkHcAiSNIPQvaXZ9kCAtgIAPc9feSubeYboAbIN2+Pou7vMo1bkSKT?=
+ =?us-ascii?Q?BwEHq9tuf+sW/P4hU6nxzoAjSjHHHlmyDEgKE2EelDlaoj5xk8lKBJNBlP4w?=
+ =?us-ascii?Q?mTrN5TQXGpbrTOkz43TrESlaIGwytFikOUj7R26aJKUW/11OtGAha4voe92x?=
+ =?us-ascii?Q?rYaR81ESDAWpOSAtvAC4Wkpc8VeEKgdHEk+9gs7kp8PkSr6H1feiNfwxBHOe?=
+ =?us-ascii?Q?83gmXV84MsU3buI2KuBBXPilUnap64i5aub+P0D9OosQnXhp6IJHUFyDybvH?=
+ =?us-ascii?Q?gdYgUGPT55WUdIAudwneF87FElzjRCrvRh/DLXG5I+8hICrOfve6xUhDPpPd?=
+ =?us-ascii?Q?1y3xOXatZU1X3IGb45NQS1c/bRTv8hdsndporADY58fIzbF6lg1tUDKwZ+iv?=
+ =?us-ascii?Q?e4NOLLTIDpOKmdfi/5IlPoiQANHTMvBn4a3eQti9VDazOn4gAbICUyE1yhEB?=
+ =?us-ascii?Q?WVPKUZiL50ihwTt1jQt50JCCXxRIhTF7Zn/rmMtGSbG8GA7bkEcF9sveTDS3?=
+ =?us-ascii?Q?tY4N4UuwHBrp9I/tWzPrNouQfMATIgerXk6cfZBU9FGCadunTGKzUZGkMAAT?=
+ =?us-ascii?Q?SmX8LjUxq36TdcyzqOIxvC+E5hO+vcsgG7aSC/lSnTqX1EQGav6jM+mArMRS?=
+ =?us-ascii?Q?sCfWd9aseUDuoZZS3gfTiwLNM5UMsILYroYBxhDkK3xcTx2pwn9pEpwxOk3w?=
+ =?us-ascii?Q?6acVYEIh5Deex7TKWSPVhxLqguon07sFAe7kvHcFR66/Adt0ZN8OZHTiuZg7?=
+ =?us-ascii?Q?XlB5+ZYZN6bRxujCvS+39VslLBLyIZJVsDU8qaIxOBJK7UTmECTeJ10avX5O?=
+ =?us-ascii?Q?6LI6aC1u0asUVO7aYOHegLovN1pkH4O/W6uzDFVIKs2qDhipTWDQ4dVuBrvP?=
+ =?us-ascii?Q?iZCYTwv4wprsVqk88WMSF+FkBqK/j014nLLb3/0BSMJOFLR29wR65JwANTZt?=
+ =?us-ascii?Q?L3bvIYY5Vg4xLXsV1dPtzNxVWd3TMleia7JdTuABsYOMp5I+K1zm/LQ9Xa6X?=
+ =?us-ascii?Q?LOd6ForCTvAUv3nu0nhBtzQKrG7zK86fj1ZPSzu+pxsDI40XY9U1X15l1CtT?=
+ =?us-ascii?Q?Xc6h4UaG2/HZCpeJCF2DZwVypZzhJsRZfC2Bh1uxRvGedIZof668g2rqP4qE?=
+ =?us-ascii?Q?s8+lCd/eDipFCgXH/SR3RQaNlCRxZrg2u/EOgev2f7/uuxjZjbuHaqZ9BXF1?=
+ =?us-ascii?Q?EphvKfz7RisFkOqvNvjIT7XzwO0rjELe0zxIauIG?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 050bcb11-649b-4be6-490e-08dcc22b91a5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5539cf20-8aa4-4423-b4be-08dcc22dce27
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 21:52:36.3417 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 22:08:36.8681 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lpqLz+6zrCzitHmv2+jTstrPU7NN1Huc2PBIRHUEQbNrewbQ/+3eTophc836UNkc1IaKlRt2uUdo0c3mr0x4pQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10566
+X-MS-Exchange-CrossTenant-UserPrincipalName: adgVj4pZAikNipVyW6HGDNH67ii/nMwNJB5xGEVniWWlQ3GmzvnMAmtEEvbxzXHnPu2siAKBd/a4qGzfToWHRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10820
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,75 +155,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Liu Ying <victor.liu@nxp.com>
+On Wed, Aug 21, 2024 at 05:52:10PM -0400, Frank Li wrote:
+> To: Neil Armstrong <neil.armstrong@linaro.org>
+> To: Jessica Zhang <quic_jesszhan@quicinc.com>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Rob Herring <robh@kernel.org>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Liu Ying <victor.liu@nxp.com>
+> To: Thierry Reding <thierry.reding@gmail.com>
+> To: Sam Ravnborg <sam@ravnborg.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: imx@lists.linux.dev
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-Add support for Japan Display Inc. 10.1" TX26D202VM0BWA WUXGA(1920x1200)
-TFT LCD panel with LVDS interface. The panel has dual LVDS channels.
+Sorry, I just find it is same as koe,tx26d202vm0bwa after post.
+Please forget these!
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
-Signed-off-by: Dong Aisheng <aisheng.dong@nxp.com>
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 38 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Frank Li
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 86735430462fa..7d975749d84b4 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2769,6 +2769,41 @@ static const struct panel_desc innolux_zj070na_01p = {
- 	},
- };
- 
-+static const struct display_timing jdi_tx26d202vm0bwa_timing = {
-+	.pixelclock = { 151820000, 156720000, 159780000 },
-+	.hactive = { 1920, 1920, 1920 },
-+	.hfront_porch = { 76, 100, 112 },
-+	.hback_porch = { 74, 100, 112 },
-+	.hsync_len = { 30, 30, 30 },
-+	.vactive = { 1200, 1200, 1200},
-+	.vfront_porch = { 3, 5, 10 },
-+	.vback_porch = { 2, 5, 10 },
-+	.vsync_len = { 5, 5, 5 },
-+	.flags = DISPLAY_FLAGS_DE_HIGH,
-+};
-+
-+static const struct panel_desc jdi_tx26d202vm0bwa = {
-+	.timings = &jdi_tx26d202vm0bwa_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 217,
-+		.height = 136,
-+	},
-+	.delay = {
-+		/*
-+		 * The panel spec recommends one second delay to the below
-+		 * items. However, it's a bit too long in pratice.  Based on
-+		 * tests, it turns out 100 milliseconds is fine.
-+		 */
-+		.prepare = 100,
-+		.enable = 100,
-+		.unprepare = 100,
-+		.disable = 100,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+};
-+
- static const struct display_timing koe_tx14d24vm1bpa_timing = {
- 	.pixelclock = { 5580000, 5850000, 6200000 },
- 	.hactive = { 320, 320, 320 },
-@@ -4829,6 +4864,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,zj070na-01p",
- 		.data = &innolux_zj070na_01p,
-+	}, {
-+		.compatible = "jdi,tx26d202vm0bwa",
-+		.data = &jdi_tx26d202vm0bwa,
- 	}, {
- 		.compatible = "koe,tx14d24vm1bpa",
- 		.data = &koe_tx14d24vm1bpa,
-
--- 
-2.34.1
-
+> ---
+> Frank Li (1):
+>       dt-bindings: display: panel-simple-lvds-dual-ports: add jdi,tx26d202vm0bwa
+>
+> Liu Ying (1):
+>       drm/panel: simple: Add support for JDI TX26D202VM0BWA panel
+>
+>  .../panel/panel-simple-lvds-dual-ports.yaml        |  2 ++
+>  drivers/gpu/drm/panel/panel-simple.c               | 38 ++++++++++++++++++++++
+>  2 files changed, 40 insertions(+)
+> ---
+> base-commit: eb8c5ca373cbb018a84eb4db25c863302c9b6314
+> change-id: 20240821-jdi-a5e016700cfe
+>
+> Best regards,
+> ---
+> Frank Li <Frank.Li@nxp.com>
+>
