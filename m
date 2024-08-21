@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1941D95A5D5
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290F495A5E3
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:29:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 957E110E6BC;
-	Wed, 21 Aug 2024 20:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95BD510E6C7;
+	Wed, 21 Aug 2024 20:29:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HD5Obw46";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tgdv55Me";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573C410E658;
- Wed, 21 Aug 2024 20:28:30 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-20228008eebso82695ad.2; 
- Wed, 21 Aug 2024 13:28:30 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1500810E6C0;
+ Wed, 21 Aug 2024 20:29:50 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-201d99ecbb4so101445ad.2; 
+ Wed, 21 Aug 2024 13:29:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724272110; x=1724876910; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1724272189; x=1724876989; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nWXnhVui2nFYwSjIEsqfqovQFvySgCe73i8eTlEDVwA=;
- b=HD5Obw46omZn0Hj778dV4ih5+dQQ5EK64xk28+zXZ/1ZfRj1/uK6cPRZRk32hiFaIZ
- mLjQ4Q4gfOZDJh6ykVTElA4uon8XVUOoNVCUgr84ij56FW4ItUWvvLjYrOasM1XjKF+Q
- i2FLxxVy60q5NxY9jxDrPLAqoZoIgEvbXI4khIIesl6jetAmcsfj9rSJYwfOw2Ek9tzM
- XiJszzjQpBA+c8h2dlRPs8qar8zLFUNxcinMWEq+ABJZ6D9f8PCVPXWQqHsKxMb2KTHN
- D7ZWH88DDfol/g/BNiXe9nHQ5u7yF+3/+rz/EfC9o5nKr+c+JHhIKB83kx2PiTmJ1Jaf
- HAew==
+ bh=zMGohLZNT4tHT1s57E5AexVYMwxNXCTuB+5zOwYpqCg=;
+ b=Tgdv55MeU/6gJGIJbWLHTzWRZcxml68FIIR9jwRpaTa4cURmY++UvnWONUQBsH0WQd
+ fsE72Z/iGn00rN5PuIltKWUvMNiDorSIZB3WfxALzjx0DZBbiKLCQCnJCrrrvNcVSTuX
+ ML7R5B6xNYf9K3hOD4zpTpeg3BlD/RRIh8mVdTYl2s61MGcQfD5R5OOPJHPnmFSwj+S/
+ 310TduBKOECeVcI/9wYI2osZhvwmfbypfOGXTYH3XZawhkbxQ2LaK8F5t7X9acOxOIzi
+ dGA+9W9wFzG6x9FBHS8FKdcPKdLSg6TH7x7e8g/2tCkzcymlfsjlcV9hXRTG+DbYEyDV
+ YjvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724272110; x=1724876910;
+ d=1e100.net; s=20230601; t=1724272189; x=1724876989;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nWXnhVui2nFYwSjIEsqfqovQFvySgCe73i8eTlEDVwA=;
- b=Ucy4OPmflKSjEcnejnU+XP+AE4WxsSKguGPqITtCEx4Vc2/kPmNZV7fc0IIgur5Xuq
- 7wMd/U0MPX4CFR+IxjNrrhdJFw05HTqet2qnJco1yjiBP79YEmVodumvKPKf/cM1KIDB
- YZQKcIh4j689PCNh/AX592U7ImOt2Ep8RNUzlmI79uuiTd+cR5a2p4D6513E0/GLHpxg
- as8Rw6UE2tbZ2/42UoSjdz4oUip3N2pgEzjUS8dGvw7Sd2+QD1kj76IC29045GuaJNnb
- RYqcMYeWacNBdDXWb3d6arlnb2t3/0zHUZj8JF65jJc10OPUf2+1voGOo+aJGudZFQ1/
- oCRw==
+ bh=zMGohLZNT4tHT1s57E5AexVYMwxNXCTuB+5zOwYpqCg=;
+ b=u2B5QZZR9m7MJYueNw5FUyukPfEzMpLEw2BMOh6YEfmgVJSyCF90YLRdQ9emDkTHSM
+ zRo+TjXd8z7SmAJqj512bwWrNR4DO44y7oBjLow7mg2A4BHtc8sbPCKoHmOtCfsIrTeF
+ vlbsL2XL6aQq4oCA2nG1fXCtk3UNEZbAJNzezU82AHVMhdo5JAf2mbEDzX1tfLpalol8
+ QZ2F2JPv++r1M5906d9yUT6LQ10Ye/O5hBnAMGZebPa5pS2QgOssZD9ZTyiIuXjwhaQS
+ c//oC7qroPZtP2wfyadegZeECRJhIxXwGMfm5fSKQtK7xi1L6/fFW4+UANbPiVdrZSqQ
+ k/cg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUElz0UrOSn4jA1/MN0alDnx/Nme70hS8HIHb2baL10we3zxrTg0DBQukz9Mk8mesr48bBWnrhJJgmt@lists.freedesktop.org,
- AJvYcCUXbIDHOOnEtyI8corNPlNx93BSJIltgN2XqrC0Kd6xRiXXbl0NtGKFV0NYxsc1iTpcP9jOp1I0@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDlCw1kLeWLG7RmL7yzJ1dQteJPQ2CU5yTU8EcjEhMhiGhi76f
- TMPMWRZoYdNkm2EXvL+IVmFIs8ROjx4PN5uRZ1X8EBla0AzROEn9X+7EHFE6xmQKnUh9KR8bpA+
- u0IrtZMsPhVAIp25ijBdERxUjiq0=
-X-Google-Smtp-Source: AGHT+IGsvJQ6KGu9ogn//vAedYuxvsyPBtabUKbWujAuMr2pmxWCTY6LOcw3VsB+KWrDf+stA7PKf7eIrh8+UXN42fE=
-X-Received: by 2002:a17:902:f541:b0:1fc:7180:f4af with SMTP id
- d9443c01a7336-20367bf70femr22338685ad.1.1724272109477; Wed, 21 Aug 2024
- 13:28:29 -0700 (PDT)
+ AJvYcCUPJJM36IZD1pzXwEyRvgekmmR6TOBluNHdHz2ZmcU6UUXELGat0r8oyv40uyb9gAVs/xKQHUxl@lists.freedesktop.org,
+ AJvYcCXRXDPqkOTjM2ZMlXRr0k14t3IPEuG4p8MrMndj7N8J8pMBYsyipQFGVkZhvbtYI6y9oqpjMKIcR6wn@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YygwTy9MVJJc/Pm6sQWepAAcPmxnwRbFH2JlMKQoGltJ4thyQ6y
+ luF3UsWjJ8ojtLnfmWSOnK+B1FwvWUyIp2M5OIIrI81jlpR7tVab8+TyJbXl4yh9c4YXltj2/ZP
+ PZEb8IBHb7D6/VZr1K7wPqwBqbjQ=
+X-Google-Smtp-Source: AGHT+IEGtRum4QK+JxKr9jk5NtZWt1CaZw4I976Kw9lJP8I79xKG8phiOLq5jxX3q5+12eU8Oir2efYnr8pC3NwDzvQ=
+X-Received: by 2002:a17:902:d4c8:b0:202:3e06:818d with SMTP id
+ d9443c01a7336-2036819c4ecmr21669775ad.10.1724272189272; Wed, 21 Aug 2024
+ 13:29:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240821064040.2292969-1-ruanjinjie@huawei.com>
- <20240821064040.2292969-6-ruanjinjie@huawei.com>
-In-Reply-To: <20240821064040.2292969-6-ruanjinjie@huawei.com>
+ <20240821064040.2292969-2-ruanjinjie@huawei.com>
+In-Reply-To: <20240821064040.2292969-2-ruanjinjie@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 21 Aug 2024 16:28:18 -0400
-Message-ID: <CADnq5_NfynxZHrAG8cAhmMmmdMT96kAEZCVB3Tw9jrwqS4rG7w@mail.gmail.com>
-Subject: Re: [PATCH -next 5/5] drm/amd/display: Make dcn35_fpga_funcs static
+Date: Wed, 21 Aug 2024 16:29:37 -0400
+Message-ID: <CADnq5_Of6Up9PinPKrJP9m2LgUUNaFgaJ214DR=09AgSCdeiWg@mail.gmail.com>
+Subject: Re: [PATCH -next 1/5] drm/amd/display: Make
+ core_dcn4_g6_temp_read_blackout_table static
 To: Jinjie Ruan <ruanjinjie@huawei.com>
 Cc: chaitanya.dhere@amd.com, jun.lei@amd.com, harry.wentland@amd.com, 
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com, 
@@ -85,43 +86,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied 1-4.
+
+Alex
+
 On Wed, Aug 21, 2024 at 2:33=E2=80=AFAM Jinjie Ruan <ruanjinjie@huawei.com>=
  wrote:
 >
 > The sparse tool complains as follows:
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:10=
-71:22: warning:
->         symbol 'dcn35_fpga_funcs' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_co=
+re_dcn4_calcs.c:6853:56: warning:
+>         symbol 'core_dcn4_g6_temp_read_blackout_table' was not declared. =
+Should it be static?
 >
-> This symbol is not used outside of dcn35_clk_mgr.c, so marks it static.
+> This symbol is not used outside of dml2_core_dcn4_calcs.c, so marks it st=
+atic.
+>
+> And not want to change it, so mark it const.
 >
 > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c=
- b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-> index e2d906327e2e..818a9b0933a5 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-> @@ -1068,7 +1068,7 @@ static struct clk_mgr_funcs dcn35_funcs =3D {
->         .is_ips_supported =3D dcn35_is_ips_supported,
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2=
+_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_cor=
+e/dml2_core_dcn4_calcs.c
+> index c3c4d8d9525c..0c24f15d5067 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
+cn4_calcs.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
+cn4_calcs.c
+> @@ -6850,7 +6850,8 @@ struct dml2_core_internal_g6_temp_read_blackouts_ta=
+ble {
+>         } entries[DML_MAX_CLK_TABLE_SIZE];
 >  };
 >
-> -struct clk_mgr_funcs dcn35_fpga_funcs =3D {
-> +static struct clk_mgr_funcs dcn35_fpga_funcs =3D {
->         .get_dp_ref_clk_frequency =3D dce12_get_dp_ref_freq_khz,
->         .update_clocks =3D dcn35_update_clocks_fpga,
->         .init_clocks =3D dcn35_init_clocks_fpga,
-
-This structure is not used and could be removed.  Making it static
-will create a warning.
-
-Alex
-
-
+> -struct dml2_core_internal_g6_temp_read_blackouts_table core_dcn4_g6_temp=
+_read_blackout_table =3D {
+> +static const struct dml2_core_internal_g6_temp_read_blackouts_table
+> +       core_dcn4_g6_temp_read_blackout_table =3D {
+>         .entries =3D {
+>                 {
+>                         .uclk_khz =3D 96000,
 > --
 > 2.34.1
 >
