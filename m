@@ -2,75 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064529596EF
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 10:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08D5959709
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 11:15:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E765D10E50B;
-	Wed, 21 Aug 2024 08:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9764610E04D;
+	Wed, 21 Aug 2024 09:15:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lUsetYxe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gpwypHRI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70CB710E116
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 08:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724230675; x=1755766675;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=EE12/+rwqlV54hjiCtySyu66BpURlwDHC1/RpyrFVpM=;
- b=lUsetYxe/FeHD+k5MGjBNawsOMFguI7VCAcd8uq0Okd6A+2ynNlVmiEx
- xjpDh2ASfh9ArX48gHC/eg7jLvAgg2f51lZAxm7o8QuP8z1YOpsVT14za
- KQOouz89pXv3B3CtPXnMROO8pdKMaM0GD/jyYCtfI/MMEYKAbczHSz2Nb
- 6UGBFSSR7rQ+KYRhSeJGiDD2f8WfykjXiWjsw9NGp1TSYCcSCBiO/anR8
- XTa3B5/jfbJtwkkhBtJpCcYV6vrxJwMaNHmEUuN0W+HPHmBVTCzav+bY1
- KgjVKCbQ5fuNRBbEh6aL2D1+wJgOXtsSdMM1rXU0aIEYbBDuXM2CNwbmo w==;
-X-CSE-ConnectionGUID: gD1QT6elR+iaCFTWdjS89A==
-X-CSE-MsgGUID: U+YPoQEhRN+U99uxCYGlYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26374224"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="26374224"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 01:57:55 -0700
-X-CSE-ConnectionGUID: wFDNJpu4QQygn03d4DnKbQ==
-X-CSE-MsgGUID: qKS867jcQGyge6TXPjIdPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="60870179"
-Received: from mlehtone-mobl.ger.corp.intel.com (HELO [10.245.245.182])
- ([10.245.245.182])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 01:57:53 -0700
-Message-ID: <13a47d22fb6753e20046a983126c6fea675beed2.camel@linux.intel.com>
-Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
- header
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
- Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Date: Wed, 21 Aug 2024 10:57:50 +0200
-In-Reply-To: <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
-References: <20240710124301.1628-1-christian.koenig@amd.com>
- <20240710124301.1628-5-christian.koenig@amd.com>
- <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
- <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
- <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
- <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
- <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
- <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
- <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
- <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
- <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
- <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
- <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F97A10E04D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 09:15:05 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2f3ce5bc7d2so43867541fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 02:15:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724231703; x=1724836503; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g/AL1OeL8iYesAGF2KkaZ/rqFlEZKCDby71JmQLIyGU=;
+ b=gpwypHRILGQcv3cAu2bKPGXrYrHB2V+QRTwnWFhx+O4ob/KcKb4guLa7Nz+NO+eYFg
+ CoUzsenBr9finqwe2LTDRPKzngBS7fZNUwhxA1EEKb8KhdyTtcD/tbD4j6FPczI4hxX7
+ +g2hqi1T3kRylPKMeNP1u7/K/AzdXU0wUADkk1s2H5S31tNsoJ/80+Yp4dxmU4G+zYKN
+ /pX+7STWIqZ+9pklazUePr6uzHOr3KuiD9oECH616xvGwV1BzNwEec6EbptZfkHj3Ffw
+ b/ni8W6WsiWWKLg1jrMuEg/eZr4dNtEI/3MAhQbi/75ay8+jmxkLMBHgAkkrPMWM/nWP
+ T4cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724231703; x=1724836503;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=g/AL1OeL8iYesAGF2KkaZ/rqFlEZKCDby71JmQLIyGU=;
+ b=nlHcdCFQlYQUMCn2QpgMVLfqToS9VymORz0a0zfsHBeqMR0I+iuL6sE5pex6iLFTJ5
+ VEGFuoutQsul2uLl8caisY9TadnPRSNVM8Nrh4gnDZLCjpFcj2YLh1/kCj7a5+FVHSy9
+ USb/jI3buNDaiynyQ4smV0w7wzT9BEg4D4xRgMPGvUSbad7xrGBW9kMdSgaebEuR/PbL
+ BzTHIPfdyK7S4GWmynlrXLohhA6l3ymecns7GVuzX/rcbziVbE/R19+gc2OrUXyr+glU
+ wnIp9LIT6ceE4dwc/ByuRUcZ9oisewL1BbArSvthE10f8IoiPjwNJTe4Vq6PT5TJ+DMR
+ BxlA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/MZ/94+CM8KblBmvqCG3Lfyup+xn4WMLz7KQvBeLYHHxy8kFsDaw3ay9SAJu5XioYylgu1C43ROA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyRqIQEM9oob51nq2FHTc/J4tA4nwnEog+dzIij8k2hbzyPQbW
+ 8nSzne2s8hICos40Np4GnFPDAiBOsrdUY9gRLCIP1UPADTB/mpzVj1S0XimtwKmOGL6NGPcRUui
+ 1m2STXlXbHiGIgSoiSjnoQOmENFg=
+X-Google-Smtp-Source: AGHT+IGLGfjw+Fjk2rSsSnYZ7V+bLHHFrxyDZsACc2hqiPsKgWXLHNd/EC/FWx9bAUeST6qbartz/G3Ry9JaBMthtOI=
+X-Received: by 2002:a2e:988a:0:b0:2ef:2f17:9ede with SMTP id
+ 38308e7fff4ca-2f3f8b600a8mr8953001fa.49.1724231702724; Wed, 21 Aug 2024
+ 02:15:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240813211317.3381180-4-almasrymina@google.com>
+ <CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
+ <20240819155257.1148e869@kernel.org>
+ <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
+In-Reply-To: <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Wed, 21 Aug 2024 18:14:50 +0900
+Message-ID: <CAMArcTXvccYBPZTEuW-z=uTK7W67utd9-xjPzfxEOvUWhPS7bg@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
+ netdevice
+To: Mina Almasry <almasrymina@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, 
+ Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,156 +120,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-08-21 at 10:14 +0200, Christian K=C3=B6nig wrote:
-> Am 20.08.24 um 18:00 schrieb Thomas Hellstr=C3=B6m:
-> > > Or why exactly should shrinking fail?
-> > A common example would be not having runtime pm and the particular
-> > bo
-> > needs it to unbind, we want to try the next bo. Example: i915 GGTT
-> > bound bos and Lunar Lake PL_TT bos.
->=20
-> WHAT? So you basically block shrinking BOs because you can't unbind
-> them=20
-> because the device is powered down?
->=20
-> I would say that this is a serious NO-GO. It basically means that=20
-> powered down devices can lock down system memory for undefined amount
-> of=20
-> time.
->=20
-> In other words an application can allocate memory, map it into GGTT
-> and=20
-> then suspend or even get killed and we are not able to recover the=20
-> memory because there is no activity on the GPU any more?
->=20
-> That really sounds like a bug in the driver design to me.
+On Tue, Aug 20, 2024 at 1:01=E2=80=AFPM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
+> On Mon, Aug 19, 2024 at 6:53=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> =
+wrote:
+> >
+> > On Mon, 19 Aug 2024 00:44:27 +0900 Taehee Yoo wrote:
+> > > > @@ -9537,6 +9540,10 @@ static int dev_xdp_attach(struct net_device =
+*dev, struct netlink_ext_ack *extack
+> > > >                         NL_SET_ERR_MSG(extack, "Native and generic =
+XDP can't be active at the same time");
+> > > >                         return -EEXIST;
+> > > >                 }
+> > > > +               if (dev_get_max_mp_channel(dev) !=3D -1) {
+> > > > +                       NL_SET_ERR_MSG(extack, "XDP can't be instal=
+led on a netdev using memory providers");
+> > > > +                       return -EINVAL;
+> > > > +               }
+> > >
+> > > Should we consider virtual interfaces like bonding, bridge, etc?
+> > > Virtual interfaces as an upper interface of physical interfaces can
+> > > still install XDP prog.
+> > >
+> > > # ip link add bond0 type bond
+> > > # ip link set eth0 master bond0
+> > > # ip link set bond0 xdp pin /sys/fs/bpf/x/y
+> > > and
+> > > # ip link set bond0 xdpgeneric pin /sys/fs/bpf/x/y
+> > >
+> > > All virtual interfaces can install generic XDP prog.
+> > > The bonding interface can install native XDP prog.
+> >
+> > Good point. We may need some common helpers to place the checks for XDP=
+.
+> > They are spread all over the place now.
+>
+> Took a bit of a look here. Forgive me, I'm not that familiar with XDP
+> and virtual interfaces, so I'm a bit unsure what to do here.
+>
+> For veth, it seems, the device behind the veth is stored in
+> veth_priv->peer, so it seems maybe a dev_get_max_mp_channel() check on
+> veth_priv->peer is the way to go to disable this for veth? I think we
+> need to do this check on creation of the veth and on the ndo_bpf of
+> veth.
+>
+> For bonding, it seems we need to add mp channel check in bond_xdp_set,
+> and bond_enslave?
+>
+> There are a few other drivers that define ndo_add_slave, seems a check
+> in br_add_slave is needed as well.
+>
+> This seems like a potentially deep rabbit hole with a few checks to
+> add all of the place. Is this blocking the series? AFAICT if XDP fails
+> with mp-bound queues with a benign error, that seems fine to me; I
+> don't have a use case for memory providers + xdp yet. This should only
+> be blocking if someone can repro a very serious error (kernel crash)
+> or something with this combination.
+>
+> I can try to add these checks locally and propose as a follow up
+> series. Let me know if I'm on the right track with figuring out how to
+> implement this, and, if you feel like it's blocking.
+>
+> --
+> Thanks,
+> Mina
 
-It's bad but it's not as bad as it sounds.
+I agree with the current approach, which uses the
+dev_get_min_mp_channel_count() in the dev_xdp_attach().
+The only problem that I am concerned about is the
+dev_get_min_mp_channel_count() can't check lower interfaces.
+So, how about just making the current code to be able to check lower
+interfaces?
+Here is a rough modification and I tested it. it works well.
+Please look into this code.
 
-Problem is we can't wake up during direct reclaim IIRC due to runtime
-pm lockdep violations, but we can and do fire up a thread to wake the
-device and after the wakeup delay have subsequent shrink calls succeed,
-or punt to kswapd or the oom handler.
-I think that's an orthogonal discussion, though. There are other
-reasons shrinking might fail, like the bo being busy in direct reclaim
-(shouldn't wait for idle there but ok in kswapd), Other points of
-failure is ofc shmem radix tree allocations (not seen one yet, though)
-which might succeed with a smaller bo.
-(Not saying, though, that there isn't more to be done with the xe
-runtime pm implementation).
+diff --git a/net/core/dev.c b/net/core/dev.c
+index f6f40c682b83..87c7985cb242 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -6989,6 +6989,27 @@ static __latent_entropy void
+net_rx_action(struct softirq_action *h)
+        bpf_net_ctx_clear(bpf_net_ctx);
+ }
 
->=20
-> > And again, all other drm bo shrinkers do this. We just want to do
-> > the
-> > same.
->=20
-> Do you have pointers?
++static int __dev_get_min_mp_channel_count(struct net_device *dev,
++                                         struct netdev_nested_priv *priv)
++{
++       int i, max =3D 0;
++
++       ASSERT_RTNL();
++
++       for (i =3D 0; i < dev->real_num_rx_queues; i++)
++               if (dev->_rx[i].mp_params.mp_priv)
++                       /* The channel count is the idx plus 1. */
++                       max =3D i + 1;
++
++       return max;
++}
++
++u32 dev_get_min_mp_channel_count(const struct net_device *dev)
++{
++       return (u32)__dev_get_min_mp_channel_count((struct net_device *)dev=
+,
++                                                  NULL);
++}
++
+ struct netdev_adjacent {
+        struct net_device *dev;
+        netdevice_tracker dev_tracker;
+@@ -9538,7 +9559,10 @@ static int dev_xdp_attach(struct net_device
+*dev, struct netlink_ext_ack *extack
+                        NL_SET_ERR_MSG(extack, "Native and generic XDP
+can't be active at the same time");
+                        return -EEXIST;
+                }
+-               if (dev_get_min_mp_channel_count(dev)) {
++
++               if (netdev_walk_all_lower_dev(dev,
++                                             __dev_get_min_mp_channel_coun=
+t,
++                                             NULL)) {
+                        NL_SET_ERR_MSG(extack, "XDP can't be installed
+on a netdev using memory providers");
+                        return -EINVAL;
+                }
+@@ -9826,20 +9850,6 @@ int dev_change_xdp_fd(struct net_device *dev,
+struct netlink_ext_ack *extack,
+        return err;
+ }
 
-As Sima said, this is complicated but not beyond comprehension: i915
-https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/i915/gem/=
-i915_gem_shrinker.c#L317
+-u32 dev_get_min_mp_channel_count(const struct net_device *dev)
+-{
+-       u32 i, max =3D 0;
+-
+-       ASSERT_RTNL();
+-
+-       for (i =3D 0; i < dev->real_num_rx_queues; i++)
+-               if (dev->_rx[i].mp_params.mp_priv)
+-                       /* The channel count is the idx plus 1. */
+-                       max =3D i + 1;
+-
+-       return max;
+-}
+-
+ /**
+  * dev_index_reserve() - allocate an ifindex in a namespace
+  * @net: the applicable net namespace
 
-msm:
-https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/i915/gem/=
-i915_gem_shrinker.c#L317
-which uses
-https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/drm_gem.c=
-#L1426
-that is very similar in structure to what I implemented for TTM.
+How to test:
+ip link add bond2 type bond
+ip link add bond1 master bond2 type bond
+ip link add bond0 master bond1 type bond
+ip link set eth0 master bond0
+ip link set eth0 up
+ip link set bond0 up
+ip link set bond1 up
+ip link set bond2 up
 
-Panfrost: (although only purgeable objects AFAICT).
-https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm/drm_gem.c=
-#L1426
+ip link set bond2 xdp pin /sys/fs/bpf/x/y
 
+./ncdevmem -s 192.168.1.4 -c 192.168.1.2 -f eth0 -l -p 5201 -v 7 -t 0 -q 1
 
->=20
-> > > > If we bump LRU we could end up with infinite loops.
-> > > > So IMO we need to be able to loop. I don't really care wether
-> > > > we do
-> > > > this as an explicit loop or whether we use the LRU walker, but
-> > > > I
-> > > > think
-> > > > from a maintainability point-of-view it is better to keep LRU
-> > > > walking
-> > > > in a single place.
-> > > >=20
-> > > > If we return an unlocked object, we'd need to refcount and drop
-> > > > the
-> > > > lru
-> > > > lock, but maybe that's not a bad thing.
-> > > >=20
-> > > > But what's the main drawback of exporting the existing helper.
-> > > Well that we re-creates exactly the mid-layer mess I worked so
-> > > hard
-> > > to
-> > > remove from TTM.
-> > It doesn't IMO. I agree the first attempt did. This affects only
-> > the
-> > LRU iteration itself and I'm even fine to get rid of the callback
-> > using
-> > a for_ macro.
->=20
-> Well, I mean using a for_each approach is objectively better than
-> having=20
-> a callback and a state bag.
->=20
-> But the fundamental question is if drivers are allowed to reject=20
-> shrinking. And I think the answer is no, they need to be designed in
-> a=20
-> way where shrinking is always possible.
+# bond2 <-- xdp should not be installed.
+#   |
+# bond1 <-- xdp should not be installed.
+#   |
+# bond0 <-- xdp should not be installed.
+#   |
+# eth0 <--memory provider is used.
 
-Rejects can be out of our control, due to anticipated deadlocks, oom
-and deferring to kswapd.
+The netdev_walk_all_lower_dev() calls the callback function
+(__dev_get_min_mp_channel_count) while it walks its own all lower
+interfaces recursively.
+If we want to check more conditions, we can just add checks in
+__dev_get_min_mp_channel_count() or change the callback function.
 
->=20
-> What can be that we can't get the necessary locks to evict and object
-> (because it's about to be used etc...), but that are the per-
-> requisites=20
-> TTM should be checking.
->=20
-> > > > In any case, I don't think TTM should enforce a different way
-> > > > of
-> > > > shrinking by the means of a severely restricted helper?
-> > > Well, as far as I can see that is exactly what TTM should do.
-> > >=20
-> > > I mean the main advantage to make a common component is to
-> > > enforce
-> > > correct behavior.
-> > But if all other drivers don't agree this as correct behavior and
-> > instead want to keep behavior that is proven to work, that's a dead
-> > end.
->=20
-> Well no, even if all drivers agree to (for example) drop security=20
-> precautions it's still not something acceptable.
->=20
-> And same thing here, if we block shrinking because drivers think they
-> want their runtime PM implemented in a certain way then upstream
-> needs=20
-> to block this and push back.
->=20
-> As far as I can see it's mandatory to have shrinkers not depend on=20
-> runtime PM, cause otherwise you run into resources handling which=20
-> depends on the well behavior of userspace and that in turn in
-> something=20
-> we can't allow.
+Note that currently dev_xdp_attach() checks upper interfaces with
+netdev_for_each_upper_dev_rcu() but it doesn't work recursively.
+I think It should be fixed to check upper interfaces recursively in a
+separate patch.
 
-Please see the above explanation for runtime pm, and for the record I
-agree that enforcing disallowed or security violations is a completely
-valid thing.
-
-/Thomas
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > /Thomas
-> >=20
-> >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > /Thomas
-> > > >=20
-
+Thanks a lot!
+Taehee Yoo
