@@ -2,105 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F72959D5B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 15:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF02F959D77
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 15:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6D810E9AA;
-	Wed, 21 Aug 2024 13:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F3410E9BF;
+	Wed, 21 Aug 2024 13:04:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="I9wa2qTh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o0+iMP93";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I9wa2qTh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o0+iMP93";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fEODKGVH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ublGxHjn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fEODKGVH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ublGxHjn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD7D10E6DD;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A065310E92B;
  Wed, 21 Aug 2024 13:04:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0B07220090;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 557C7222B9;
  Wed, 21 Aug 2024 13:04:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1724245443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GLI7Xg+Zao6QAphKJHQVJ3p73/NmoIEtb6PHkjHJgDc=;
- b=I9wa2qThi419Bmfmj3f9KA3pVVetIzIl0toi7d3zL6jyOx0zS2a24KBPkBs5v1SgdomqIE
- GpG0vabsq7oLxopvgOzb2wm7j4QsEu37db/jJyG+sqbDHRkcHy7NlYeqcAbQi8vXs90Vw6
- al4wEpmWHomhSo/8tkknau9QUT9xaFM=
+ bh=kaALJ6lbpz/X2L9DWOk82HfvL9NXS7Elw2RBD/NLQm4=;
+ b=fEODKGVHvmILNqlzLllxzSdsIUvjDNqu74PzoWx15hqjoKSe862dI86QM9PS3fSOevZ9zi
+ fWraLXxOSLshRPD4UQppQn918e/wMFHaf8FwQrvikMeS76tMlULuljbXw3Bt1FNUlKjJW4
+ FqrkiLwE6jcna94SazYBgDJAbNUuPdk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1724245443;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GLI7Xg+Zao6QAphKJHQVJ3p73/NmoIEtb6PHkjHJgDc=;
- b=o0+iMP93Oa8pEaOlAogod03kMvKlwNPwMyg3NKra5gKQ4soFxVSeu+JjyCgYHn0qtXD7SI
- P8muuUqjDTqvaYCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=kaALJ6lbpz/X2L9DWOk82HfvL9NXS7Elw2RBD/NLQm4=;
+ b=ublGxHjnUSwNMzuD6KgNVKTHQENDnwJUeh2TVQMJO4QNlHx5k5qv5s37zulGsyPlXQGq9l
+ 2d1Z0Pk+8eMhHtCQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fEODKGVH;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ublGxHjn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1724245443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GLI7Xg+Zao6QAphKJHQVJ3p73/NmoIEtb6PHkjHJgDc=;
- b=I9wa2qThi419Bmfmj3f9KA3pVVetIzIl0toi7d3zL6jyOx0zS2a24KBPkBs5v1SgdomqIE
- GpG0vabsq7oLxopvgOzb2wm7j4QsEu37db/jJyG+sqbDHRkcHy7NlYeqcAbQi8vXs90Vw6
- al4wEpmWHomhSo/8tkknau9QUT9xaFM=
+ bh=kaALJ6lbpz/X2L9DWOk82HfvL9NXS7Elw2RBD/NLQm4=;
+ b=fEODKGVHvmILNqlzLllxzSdsIUvjDNqu74PzoWx15hqjoKSe862dI86QM9PS3fSOevZ9zi
+ fWraLXxOSLshRPD4UQppQn918e/wMFHaf8FwQrvikMeS76tMlULuljbXw3Bt1FNUlKjJW4
+ FqrkiLwE6jcna94SazYBgDJAbNUuPdk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1724245443;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GLI7Xg+Zao6QAphKJHQVJ3p73/NmoIEtb6PHkjHJgDc=;
- b=o0+iMP93Oa8pEaOlAogod03kMvKlwNPwMyg3NKra5gKQ4soFxVSeu+JjyCgYHn0qtXD7SI
- P8muuUqjDTqvaYCw==
+ bh=kaALJ6lbpz/X2L9DWOk82HfvL9NXS7Elw2RBD/NLQm4=;
+ b=ublGxHjnUSwNMzuD6KgNVKTHQENDnwJUeh2TVQMJO4QNlHx5k5qv5s37zulGsyPlXQGq9l
+ 2d1Z0Pk+8eMhHtCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B0BD013770;
- Wed, 21 Aug 2024 13:04:02 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1139613B18;
+ Wed, 21 Aug 2024 13:04:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id EMnjKcLlxWbXGQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 21 Aug 2024 13:04:02 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4J4FA8PlxWbXGQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Aug 2024 13:04:03 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: [PATCH v2 31/86] drm/panel/ili9341: Run DRM default client setup
-Date: Wed, 21 Aug 2024 14:59:28 +0200
-Message-ID: <20240821130348.73038-32-tzimmermann@suse.de>
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: [PATCH v2 32/86] drm/panel-mipi-dbi: Run DRM default client setup
+Date: Wed, 21 Aug 2024 14:59:29 +0200
+Message-ID: <20240821130348.73038-33-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240821130348.73038-1-tzimmermann@suse.de>
 References: <20240821130348.73038-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Rspamd-Queue-Id: 557C7222B9
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_DN_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
- DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,quicinc.com:email,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
  FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- R_RATELIMIT(0.00)[to_ip_from(RLw9gjjhh8cousxs3wi4trssza)];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TO_DN_SOME(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[11];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ R_RATELIMIT(0.00)[to_ip_from(RLgk4u1ri6nhg6f1rtzmk7keyw)];
+ RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,34 +132,33 @@ for DRM. Set fbdev_probe in struct drm_driver, so that the client
 setup can start the common fbdev client.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: "Noralf Trønnes" <noralf@tronnes.org>
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 4 +++-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-index 775d5d5e828c..0ef9f7b59ccb 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -31,6 +31,7 @@
- #include <video/mipi_display.h>
+diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+index f753cdffe6f8..e66729b31bd6 100644
+--- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
++++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+@@ -15,6 +15,7 @@
+ #include <linux/spi/spi.h>
  
  #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_client_setup.h>
  #include <drm/drm_drv.h>
  #include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_atomic_helper.h>
-@@ -591,6 +592,7 @@ static struct drm_driver ili9341_dbi_driver = {
+@@ -264,6 +265,7 @@ static const struct drm_driver panel_mipi_dbi_driver = {
  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &ili9341_dbi_fops,
+ 	.fops			= &panel_mipi_dbi_fops,
  	DRM_GEM_DMA_DRIVER_OPS_VMAP,
 +	DRM_FBDEV_DMA_DRIVER_OPS,
  	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "ili9341",
- 	.desc			= "Ilitek ILI9341",
-@@ -651,7 +653,7 @@ static int ili9341_dbi_probe(struct spi_device *spi, struct gpio_desc *dc,
+ 	.name			= "panel-mipi-dbi",
+ 	.desc			= "MIPI DBI compatible display panel",
+@@ -388,7 +390,7 @@ static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
  
  	spi_set_drvdata(spi, drm);
  
