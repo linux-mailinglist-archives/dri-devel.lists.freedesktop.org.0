@@ -2,74 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F209B95A614
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:48:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00B695A618
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3AE10E6D6;
-	Wed, 21 Aug 2024 20:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1811210E24A;
+	Wed, 21 Aug 2024 20:51:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HHj5Dz3b";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="g4JpQUo5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7C7610E6DD;
- Wed, 21 Aug 2024 20:48:37 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1fc47aef524so97345ad.3; 
- Wed, 21 Aug 2024 13:48:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724273317; x=1724878117; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kpZRcCD/VYBwDZRN1EAlA+jug5jtsVLt5tDHDEYvDq4=;
- b=HHj5Dz3bTwQWqmiUqUOZ2DLLNcAKCPRa4F2ioZNv+Z1jBa+A2AECMc/cIohUTtzdyS
- MzrOdJFjuQMvtMv544HcTiBNX20uyctwEl0+aRMS+pCeBBik1B++GH3YtgDZ0QwgwHs2
- 6jbkSEvFo5GLyPWlB9uPsytp+bV4kzAbYBRt15K8+/LxY6VqV3RVtXVwWBcQejy9ZPUZ
- RFrdnalrMt4PaUAskHjthePxZS0RmDUdrBRUpF6JDBD/pIvYqTNcEZ+iacjMDA2APWKm
- /k312BQ1X+wsbpQ/HBTQd+Z3ep9anxkbJq+Nk7UciKLmJltvhLR9Ep48NxE/BVz5uJMA
- 2TpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724273317; x=1724878117;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kpZRcCD/VYBwDZRN1EAlA+jug5jtsVLt5tDHDEYvDq4=;
- b=LwFr8aipIYVQhPG3/oagEMzjVCpNHwVFZnf4AXu+e3rzT0P1xf7yoEDlGQ3uL0k8tF
- Mr3FL6B/diFPJj+fQbm/FxIIXTfnUEIXKKeAUdm+0XimB98UqD+5oBqzM9C/EnIcajRg
- Qu0xb6Nkec7AT3fOcAumd9v6Q6cceGBFDb2gDAWW9d5+ARnQb80iP74/i7G+qDOVm+68
- Ca1kYj1lK9A2TEk1N1KGYypTKfsyUvROHXZpSWVkB7RKmgF0Mpxwku3GhVC9pt/FVqnh
- bqw6IK/V6bf59OcgW+A37DXRXi8dilBYt9Pttham9KKTxW9krikMyMpNNygAzuAIA9XP
- wtMw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXcGIajXxzboZ5joR487ubK+8TKuITaQuR8iUodcO4KW9ux85fI42xyizN4oMlb87oo7FFMysg4fog=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5deVYoZzs5tqPFce+zSf15auFM+hMa1NvvlWcG2YFxUCoi95D
- UedsEp2RfNNW2KEfGfsmuMK3qtHArJ+/UgvXFg2ga/ZrPUpkTg16par1vMfqopMNYi4JWPhz68l
- jX19z+GOlQsWmuypHDFpcRovS7VM=
-X-Google-Smtp-Source: AGHT+IGcsNEfidKyJzWWhmHDFkaA5diH4pNh59DVu91eiKZ+6wf48Q3rhxHt/+6Y2vyMpg2PapjH9OUHGo3xE2/PyTU=
-X-Received: by 2002:a17:902:e5c8:b0:1fa:ab4a:fb02 with SMTP id
- d9443c01a7336-20366dc3803mr23081605ad.0.1724273317099; Wed, 21 Aug 2024
- 13:48:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240813135712.82611-1-tursulin@igalia.com>
- <20240813135712.82611-3-tursulin@igalia.com>
- <CADnq5_PV8+bvCutxko-La+wkvpQ0x_Rw8kXavuy4w-OrZtszkw@mail.gmail.com>
-In-Reply-To: <CADnq5_PV8+bvCutxko-La+wkvpQ0x_Rw8kXavuy4w-OrZtszkw@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 21 Aug 2024 16:48:25 -0400
-Message-ID: <CADnq5_MHd_hnrVqOnLKYoDjYPqTdG9ruLLkDSv+ACbY_FifVbg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/amdgpu: Use drm_print_memory_stats helper from
- fdinfo
-To: Tvrtko Ursulin <tursulin@igalia.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2053.outbound.protection.outlook.com [40.107.101.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B20E110E24A;
+ Wed, 21 Aug 2024 20:51:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SuSjfuR8ppB2Tg8BogyDvDV1bGjd6dJdw9ZXPs2LvRzoQMavRB03Jd8qvbaD+6D33Yduf8wtZKI1Ve+gX/z5Z8x8ktaGnyknsWOjh6gWPi/DWK37+2upvKuD10I6njWTGECtS3uO66t+l4NBJNuzzcR64YppLJtEvUmeW17LKJRE8Ar8KI/98cltZU8MO8QooIXdCTN2gzIGV9HKt44JDX5Ci2irKnbmn5OOjVO93SHujE/v2qobLxsNgqGvNhQ8aVYZ3auXvssCFPBSVUOfrl9sezs1zo13SW+PwqTYt9P0LqnSgc1QKv4EiLM7b0QK4iPTBHWSFiyRKnIFIHqb+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9z066Ecjzq6i1CHfFY7bsRR+tQGPbhVmzK3xvGAX5Cg=;
+ b=aoPHRCnHsxPnKZ2R61Q5rfs44HQq15XStFN7z8vJttv5SH9Oz27eLq12MBFIDSQCFRUlEoXat/Px09324Oeq0cfiuELVhoy9edoo0WsdSqA5fgDB2dJ2CbqQRkSzVX7KKc4CYGX6DlA5cn4BlARcUKzbe8it5daWX/JHGWHQVFt3dZogFNv3MHLtKJr3mDSbdjeMiI+FPzFtMZZDYViajY2jSEIKpTs3pM63DvkuNa8gz5XRyItWOpR+ynt3XGRLbGUgHyGYO/O4rJ51WGIPfKgURBxwCoMWbg39vvEC63siqf4ym3bKUbsnDtIBNByE/PEtI6dmhGIlBqHdetNBXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9z066Ecjzq6i1CHfFY7bsRR+tQGPbhVmzK3xvGAX5Cg=;
+ b=g4JpQUo5blPB7TiAFFhLTtPES/kUFY0ZLzpLL5JqPUZcoRA9INDbR8ONL5ov05PObsXhFT5fC0jeyNdDrq0Tjd3BM12gsCVSN6NlikzDEWVfKDfJOwe6uMgUO8whzsoXxnTUX2TwIy5ElyDPFEHf993ucYb8isTQLTY+VtuxAZk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DM6PR12MB4060.namprd12.prod.outlook.com (2603:10b6:5:216::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Wed, 21 Aug
+ 2024 20:51:10 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.7875.016; Wed, 21 Aug 2024
+ 20:51:10 +0000
+Message-ID: <5363536d-0f96-4e96-8f1f-c8e1799b6421@amd.com>
+Date: Wed, 21 Aug 2024 15:51:17 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/4] drm: Add panel backlight quirks
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
+ linux-doc@vger.kernel.org
+References: <20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net>
+ <20240818-amdgpu-min-backlight-quirk-v5-1-b6c0ead0c73d@weissschuh.net>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240818-amdgpu-min-backlight-quirk-v5-1-b6c0ead0c73d@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0076.namprd13.prod.outlook.com
+ (2603:10b6:806:23::21) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DM6PR12MB4060:EE_
+X-MS-Office365-Filtering-Correlation-Id: d82f47d5-d78d-463e-5a1f-08dcc222fc93
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WndodDBmVHdnMDFES3NhM2J3czNvWVI4QVBUOVhjbnFONmVqRXR0ZFBWdGhO?=
+ =?utf-8?B?K25DMnNTZGY0V2RGQ1Zoa1RIaElnd01QYXpnTXdHMkdITlpSQWVoUGtETHRI?=
+ =?utf-8?B?NndnYnE4NGlKVVo2L2dZUUt2ZXlqMDMxeCtnZ2QwZ3hMYjhLL1hjZVB3MXlM?=
+ =?utf-8?B?UTYwa0RVRENqcExieDBpSWkyajJHeWpFRjdscUcyNVRhUWRLMnEyY0U5QUVH?=
+ =?utf-8?B?YmNuRDdQQjdmN252RFJTd2x6ZmhYQU9ubTNnTVFrZU5DQ2VwRFFkV1FhMWQy?=
+ =?utf-8?B?d2tJWDNPZ2U4Yll2dFllODd4MzZlQ0Iwc1RBV1I4OWR1UmR5YmpjRHBoQVJp?=
+ =?utf-8?B?endwS3FVVWE4RmlNem80ZjBYMy92WWdyRytNTDRpRFZoTWRaQUV6WWFHdU42?=
+ =?utf-8?B?N0tjMkJNMk91YW1laGxLTU9FdWZwajdrYllqUzhDNnlqbk1xQ1NNMzJpLzEx?=
+ =?utf-8?B?WC9ndVZkbFdXekUvWEJrTEZUKzhKTzZWa2sveEFCdXd5c0tuUVV0eUhBNlN6?=
+ =?utf-8?B?ajJLQzFsYUtVVVJGcVVwaGtmWXhvTmpzWDRTdUlPRFA2b3dQTjB3azJwS3RP?=
+ =?utf-8?B?UGNoZU5yNnpPaEtOeGhYd0w5N2RUZHNpRlJmM2E1a1o3VGNhc0UrRGdkczg3?=
+ =?utf-8?B?NTdZelNuU1VuQytuYW96T0RpbW5KU3lVT3B4VjA4LzJ2ck9VTzZFRkd2S2pp?=
+ =?utf-8?B?YUw5b3V1NlBicCtYUHBCYURZNmxGRk5qN1BhZHZLMCt1RFM3QTRaci96Qyty?=
+ =?utf-8?B?aDZYeFdOR05KdmMycXkra2FYSU91RVlsMmhhRmN0NzFGL2ZZck9wTkJDZHV3?=
+ =?utf-8?B?OENtZ05oc3E3Z3dBeDgzVU9vdStwbldqTVhXMXY4VEtScTMvVlV4QTVlN1N4?=
+ =?utf-8?B?Z1FIa3BxWjFoY3A3VFd0d1lOOGN5TWsvQXVhZHlFZC9lcWlpdVdEWUdlQUtM?=
+ =?utf-8?B?RkQ2OVpCWWZ4SEYva3NNUUZXZjNObzdBZXJzVFBEM2tHbEpBZEFMWDl5d3RI?=
+ =?utf-8?B?c3pQMHQwSE5vTGdnd0x0dXJyb29ETjg0RjZrdzBZYWhtQVNiaWhRMUxqNXJ5?=
+ =?utf-8?B?Z0RQY2RVYklTdXl2WDVISWc4WE1vRm01czk1ZWNHWS9uTFNtY01qRUYwNE5n?=
+ =?utf-8?B?a2cwTGxiQVE2eDMzMndxZVh1WGUyenlHOW83YjdWNFdBNWJrYW5VQ3UwN3J3?=
+ =?utf-8?B?UWpadnEzSk80aE5NVUF5R29Xd2dYQ2tlYXI0cHd4bm4vUHpZSDNoZXFaMHlW?=
+ =?utf-8?B?SCt6Zm5kRE9xR2Z4Wk5kY2JKNWdLYkh0RU5jdTJwSk4zSDhESnpwNmNUckxU?=
+ =?utf-8?B?cWtuVU1SOEdPYWJSeTFWQ2EvSVhRUzh2eGROZGhpa1BEbllpYzhoQUwvd1Bq?=
+ =?utf-8?B?S1lGcEEwbWJLN2Qxbm9sY3FQUm9WZU52TVVWVjhvNFk5SHFXYWl6SnVnU1Fr?=
+ =?utf-8?B?VE55MFBlSFBEVWU1ZlI1Ymd2MWpIQmNYRnZ2MGlzZHNVUGJSUWY3S0VWZXNN?=
+ =?utf-8?B?WkRoakVrQncyN20vM2VXTWROZUR0QzhnbHY3b3hLYWx2ZWx0S1lwb2s3d3Y4?=
+ =?utf-8?B?ZUE1VVBGNDlwU3FMNDFpN0JhQ2xpQjBMUXdhT1BqNXY1Snpib3NzS0NHbDVP?=
+ =?utf-8?B?VWRiNkVmUjQxQjBOMDgwKzEvMm9nZ2ZjYVNLbyt3VVRtdzIyRURxN210TVZx?=
+ =?utf-8?B?c3pWd0dzZXVkOVcxWkp2NDZUbFgzb2ZaYkN6MGZ4MnhLWFh3elkxSTU3YVZJ?=
+ =?utf-8?B?UE5QV2pDdzJUNFAweGlXTFFlS0MzbjAwOENKdy96SW50R2tkdVNveFJmelRL?=
+ =?utf-8?B?cjRTQ002QjRaU3RmNW85VnduTXBtUFhSYWZXYjRKUElSb0RkYXRBM2RtZk54?=
+ =?utf-8?Q?ffFBEf8FmvbqI?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2UzWlAxQjhBVlVEVDVHZGNGQ3FMZ3p4cnJ4V25rb3VJZ3V4S2RHZElYVWRK?=
+ =?utf-8?B?NGZiMFY1UFNLekxJVDMxUmkyOFhDTWpqN3VlTmVPUjM3b0xCVC8rZkRIZlht?=
+ =?utf-8?B?TllKb3VjRWhwZ3lzRHN1eStPTC9rbUQrY2kvQWtQR3ppTUtqMXN5b3BNWVNn?=
+ =?utf-8?B?dmh1R0psVWtucGhjZnVZd29EbSs4dTFxZW1KcVZUYlVKYkhaUXg2dU5qYWNY?=
+ =?utf-8?B?bnppQkNEdFA5MldBVjRtaWN3Um85OGVNS0p1QWRRZWN2MjZZZzhuSU50NWto?=
+ =?utf-8?B?MGIrTUJ1dlRseFluaWdiTUlEWTJ1TWp3SW5NZUd3aGR2TVNGbnR6MkVrNnZB?=
+ =?utf-8?B?cnRtUk95amF0UXJtbXRqMnhzSlhIUVArN1hOZzJiWDMwRGFBZnFoMFF5REM2?=
+ =?utf-8?B?eExqZnFPcEVKdVVpZXVmRFdrKzYzTmFxWkN4OW9OamtVOGdxa0dXYkc1RSsv?=
+ =?utf-8?B?SDRpMW9UZFQ3M1lwYVYzcHB4dzZYdFV4ZjV2ZXJ6ejlnam1NdkFCYUV6Uk4y?=
+ =?utf-8?B?eHRWdjByUjZQb2lTSC8yQ0o3ekM3Z3E4M21sbkZKbkJFVG5vbUhKb1U4MTFM?=
+ =?utf-8?B?cEFaY3Uxb3pNenFpbFNlaXdUWmxhMjhPcldveEY0VFFQcmJyMGdXT2dnNFlp?=
+ =?utf-8?B?cmY0QWhuSGZpVTZZVUVqYktpdzBibTMyMzloYWwzU0xja3hlbnpubDhPV0Rm?=
+ =?utf-8?B?WlVoaTl0bTdMNFpDYzlpdTFwTWVMUnVCTjZyQWtNbXFoWTIxMXhuQzNlUU42?=
+ =?utf-8?B?OElEWWRQWnk1NE0zQ3BkZFMyTllRNjNOUGltRExjeUdVVXpqUnJqWlJQbnYw?=
+ =?utf-8?B?bWxzSDFiTlltbkVvSFJqV0Y2T2pWR2tpZHY1MUFKYmJPdkI1ZzNyNHhuWTRr?=
+ =?utf-8?B?ZlpKR1RpMEtqdGozWmczNlJBbEo1b2dYdWZBQm5YamZ3N25POUpHUUlFWWxN?=
+ =?utf-8?B?OVdQUUJDN3dEcTYvU3l2VUJqb3hPSit2N2szVTR1NGg2c3c0M3QwVjVXVUVM?=
+ =?utf-8?B?Z3locXJPOEhJZlFVL1VqMWx2c2tiWTY3QU9SRGdHeGxWeThQR3p5Yk5ST252?=
+ =?utf-8?B?aERIK0daNnlFN2grQ1lyWkJaUFpoaStId1NWVDRaNjdjL3NIODZzSzFNcGVt?=
+ =?utf-8?B?UGVBaHcrbTVZdTVaNHRqN1NsbUtWblY0ZkhtT0lhVGxRZGlVZW1hODBQa2hO?=
+ =?utf-8?B?NG5zUldHdDlRNjRsZjhUUW1ieEk5eFBVZDBLUzdhTkhGRlFPMFV4VUlTYmhs?=
+ =?utf-8?B?bGJma1JZR0kwL2FPbjdTOEQzdFIvQUNsQTJTbkN2a05UeWNlcXlVRHNML0wv?=
+ =?utf-8?B?VUlrRjh5dlhTaDFjc2R6Q3IwMldsNGwxTm5NVVpGNWF3ZWgzMWdvV3NmdUIz?=
+ =?utf-8?B?bXZnM2ZkNlBBOGorYkJ2ZGZhSTZFN09YS2xHRWFQQTIwRDZLRGI4MVppSXZZ?=
+ =?utf-8?B?bHN2bjBaOUdiRk4wai96ZnduU1l6Tjh3c0M5Tjg4WGUvYTNRSUhoTWNBOE1n?=
+ =?utf-8?B?ZGVTWHFMdHE3N2R3M0dmdE1yWHUvQmsvYXVvd2VlWnNRdmVHRWgxQ1RqYk8v?=
+ =?utf-8?B?OFFLSXl1RWE4ZjRhNERwcGxxeUZJeFJwMll6VE91cGtvdTJvemdnZ05NYzlU?=
+ =?utf-8?B?eTFkS3REdVprOUozaHk4Q3ZGNm5NM052cFZwYnhkOGo0VDR6Z3NudWhGY3U5?=
+ =?utf-8?B?NzQxK1JIcXRTMStyeUQvYXVWUHRYZ05aSlpNd09lQTlCeVM0TzZDZkJCbVFY?=
+ =?utf-8?B?d3cxUlNxOGlZUVZqSEhEM1hTcysrRW1uaXJJelVLek1GWWp6ME5XdHRHV3d1?=
+ =?utf-8?B?aWsvTmxMQTNpMlBiNDJzQ0lkdFkrbWg0SjQ2WCtBYm9odnpmK2FEdFdXak5N?=
+ =?utf-8?B?NFN4YzRyL2U5cVg2MkpMK25QSmNzcnZWWUtqbTh6ZFVxV0Rsbzh6OFY5TEVT?=
+ =?utf-8?B?UXBGZzZUQk9tNnhEd01EbUtyRXNNR3ZBd3Z6bmUzajdySEI5VFN2YXg4enl3?=
+ =?utf-8?B?TDdIMm41ZkwvZC9VMFVNSXpaU0JvQ3FFT05MNytXcW1DTlJYby9iaGx5Qmxh?=
+ =?utf-8?B?M1laWHpWQkprMTFxNDFuTXNVbFdjNnAvYmRFVTgxdUhES2t4TXFXUXJBaEVR?=
+ =?utf-8?Q?O1mo8OLpPcHnvaQLLCEbsEH+d?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d82f47d5-d78d-463e-5a1f-08dcc222fc93
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 20:51:10.3259 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MASocD2PqAIpe0bVb03cbxcetJa5wCB4WxUB0pIEQqyKkgp2EAKDEMDwc6CE2ENxycgU2+vCLMzCg/r1agoyrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,469 +175,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 21, 2024 at 4:43=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
-> wrote:
->
-> On Tue, Aug 13, 2024 at 9:57=E2=80=AFAM Tvrtko Ursulin <tursulin@igalia.c=
-om> wrote:
-> >
-> > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> >
-> > Convert fdinfo memory stats to use the common drm_print_memory_stats
-> > helper.
-> >
-> > This achieves alignment with the common keys as documented in
-> > drm-usage-stats.rst, adding specifically drm-total- key the driver was
-> > missing until now.
-> >
-> > Additionally I made the code stop skipping total size for objects which
-> > currently do not have a backing store, and I added resident, active and
-> > purgeable reporting.
-> >
-> > Legacy keys have been preserved, with the outlook of only potentially
-> > removing only the drm-memory- when the time gets right.
-> >
-> > The example output now looks like this:
-> >
-> >  pos:   0
-> >  flags: 02100002
-> >  mnt_id:        24
-> >  ino:   1239
-> >  drm-driver:    amdgpu
-> >  drm-client-id: 4
-> >  drm-pdev:      0000:04:00.0
-> >  pasid: 32771
-> >  drm-total-cpu: 0
-> >  drm-shared-cpu:        0
-> >  drm-active-cpu:        0
-> >  drm-resident-cpu:      0
-> >  drm-purgeable-cpu:     0
->
-> This looks ok to me, but I'm wondering if there is any value to
-> keeping the cpu pool around in the stats?
+On 8/18/2024 01:56, Thomas Weißschuh wrote:
+> Panels using a PWM-controlled backlight source do not have a standard
+> way to communicate their valid PWM ranges.
+> On x86 the ranges are read from ACPI through driver-specific tables.
+> The built-in ranges are not necessarily correct, or may grow stale if an
+> older device can be retrofitted with newer panels.
+> 
+> Add a quirk infrastructure with which the minimum valid backlight value
+> can be maintained as part of the kernel.
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> Tested-by: Dustin L. Howett <dustin@howett.net>
 
-Actually thinking about this more, I think we'd want both the old
-fields and the new fields for backwards compatibility?
+One small nit below but otherwise this patch is fine to me.
 
-Alex
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 
->
-> Alex
->
->
-> >  drm-total-gtt: 2392 KiB
-> >  drm-shared-gtt:        0
-> >  drm-active-gtt:        0
-> >  drm-resident-gtt:      2392 KiB
-> >  drm-purgeable-gtt:     0
-> >  drm-total-vram:        44564 KiB
-> >  drm-shared-vram:       31952 KiB
-> >  drm-active-vram:       0
-> >  drm-resident-vram:     44564 KiB
-> >  drm-purgeable-vram:    0
-> >  drm-memory-vram:       44564 KiB
-> >  drm-memory-gtt:        2392 KiB
-> >  drm-memory-cpu:        0 KiB
-> >  amd-memory-visible-vram:       44564 KiB
-> >  amd-evicted-vram:      0 KiB
-> >  amd-evicted-visible-vram:      0 KiB
-> >  amd-requested-vram:    44564 KiB
-> >  amd-requested-visible-vram:    11952 KiB
-> >  amd-requested-gtt:     2392 KiB
-> >  drm-engine-compute:    46464671 ns
-> >
-> > v2:
-> >  * Track purgeable via AMDGPU_GEM_CREATE_DISCARDABLE.
-> >
-> > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 48 +++++++----
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 96 +++++++++++++++-------
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h | 35 +++-----
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  1 +
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 20 +++--
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h     |  3 +-
-> >  6 files changed, 122 insertions(+), 81 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_fdinfo.c
-> > index c7df7fa3459f..00a4ab082459 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > @@ -59,18 +59,21 @@ void amdgpu_show_fdinfo(struct drm_printer *p, stru=
-ct drm_file *file)
-> >         struct amdgpu_fpriv *fpriv =3D file->driver_priv;
-> >         struct amdgpu_vm *vm =3D &fpriv->vm;
-> >
-> > -       struct amdgpu_mem_stats stats;
-> > +       struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST + 1] =3D { };
-> >         ktime_t usage[AMDGPU_HW_IP_NUM];
-> > -       unsigned int hw_ip;
-> > +       const char *pl_name[] =3D {
-> > +               [TTM_PL_VRAM] =3D "vram",
-> > +               [TTM_PL_TT] =3D "gtt",
-> > +               [TTM_PL_SYSTEM] =3D "cpu",
-> > +       };
-> > +       unsigned int hw_ip, i;
-> >         int ret;
-> >
-> > -       memset(&stats, 0, sizeof(stats));
-> > -
-> >         ret =3D amdgpu_bo_reserve(vm->root.bo, false);
-> >         if (ret)
-> >                 return;
-> >
-> > -       amdgpu_vm_get_memory(vm, &stats);
-> > +       amdgpu_vm_get_memory(vm, stats, ARRAY_SIZE(stats));
-> >         amdgpu_bo_unreserve(vm->root.bo);
-> >
-> >         amdgpu_ctx_mgr_usage(&fpriv->ctx_mgr, usage);
-> > @@ -82,24 +85,35 @@ void amdgpu_show_fdinfo(struct drm_printer *p, stru=
-ct drm_file *file)
-> >          */
-> >
-> >         drm_printf(p, "pasid:\t%u\n", fpriv->vm.pasid);
-> > -       drm_printf(p, "drm-memory-vram:\t%llu KiB\n", stats.vram/1024UL=
-);
-> > -       drm_printf(p, "drm-memory-gtt: \t%llu KiB\n", stats.gtt/1024UL)=
-;
-> > -       drm_printf(p, "drm-memory-cpu: \t%llu KiB\n", stats.cpu/1024UL)=
-;
-> > +
-> > +       for (i =3D 0; i < TTM_PL_PRIV; i++)
-> > +               drm_print_memory_stats(p,
-> > +                                      &stats[i].drm,
-> > +                                      DRM_GEM_OBJECT_RESIDENT |
-> > +                                      DRM_GEM_OBJECT_PURGEABLE,
-> > +                                      pl_name[i]);
-> > +
-> > +       /* Legacy amdgpu keys, alias to drm-resident-memory-: */
-> > +       drm_printf(p, "drm-memory-vram:\t%llu KiB\n",
-> > +                  stats[TTM_PL_VRAM].total/1024UL);
-> > +       drm_printf(p, "drm-memory-gtt: \t%llu KiB\n",
-> > +                  stats[TTM_PL_TT].total/1024UL);
-> > +       drm_printf(p, "drm-memory-cpu: \t%llu KiB\n",
-> > +                  stats[TTM_PL_SYSTEM].total/1024UL);
-> > +
-> > +       /* Amdgpu specific memory accounting keys: */
-> >         drm_printf(p, "amd-memory-visible-vram:\t%llu KiB\n",
-> > -                  stats.visible_vram/1024UL);
-> > +                  stats[TTM_PL_VRAM].visible/1024UL);
-> >         drm_printf(p, "amd-evicted-vram:\t%llu KiB\n",
-> > -                  stats.evicted_vram/1024UL);
-> > +                  stats[TTM_PL_VRAM].evicted/1024UL);
-> >         drm_printf(p, "amd-evicted-visible-vram:\t%llu KiB\n",
-> > -                  stats.evicted_visible_vram/1024UL);
-> > +                  stats[TTM_PL_VRAM].evicted_visible/1024UL);
-> >         drm_printf(p, "amd-requested-vram:\t%llu KiB\n",
-> > -                  stats.requested_vram/1024UL);
-> > +                  stats[TTM_PL_VRAM].requested/1024UL);
-> >         drm_printf(p, "amd-requested-visible-vram:\t%llu KiB\n",
-> > -                  stats.requested_visible_vram/1024UL);
-> > +                  stats[TTM_PL_VRAM].requested_visible/1024UL);
-> >         drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
-> > -                  stats.requested_gtt/1024UL);
-> > -       drm_printf(p, "drm-shared-vram:\t%llu KiB\n", stats.vram_shared=
-/1024UL);
-> > -       drm_printf(p, "drm-shared-gtt:\t%llu KiB\n", stats.gtt_shared/1=
-024UL);
-> > -       drm_printf(p, "drm-shared-cpu:\t%llu KiB\n", stats.cpu_shared/1=
-024UL);
-> > +                  stats[TTM_PL_TT].requested/1024UL);
-> >
-> >         for (hw_ip =3D 0; hw_ip < AMDGPU_HW_IP_NUM; ++hw_ip) {
-> >                 if (!usage[hw_ip])
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_object.c
-> > index e32161f6b67a..7facddeab799 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > @@ -1284,54 +1284,92 @@ void amdgpu_bo_move_notify(struct ttm_buffer_ob=
-ject *bo,
-> >  }
-> >
-> >  void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
-> > -                         struct amdgpu_mem_stats *stats)
-> > +                         struct amdgpu_mem_stats *stats,
-> > +                         unsigned int sz)
-> >  {
-> > +       const unsigned int domain_to_pl[] =3D {
-> > +               [ilog2(AMDGPU_GEM_DOMAIN_CPU)]      =3D TTM_PL_SYSTEM,
-> > +               [ilog2(AMDGPU_GEM_DOMAIN_GTT)]      =3D TTM_PL_TT,
-> > +               [ilog2(AMDGPU_GEM_DOMAIN_VRAM)]     =3D TTM_PL_VRAM,
-> > +               [ilog2(AMDGPU_GEM_DOMAIN_GDS)]      =3D AMDGPU_PL_GDS,
-> > +               [ilog2(AMDGPU_GEM_DOMAIN_GWS)]      =3D AMDGPU_PL_GWS,
-> > +               [ilog2(AMDGPU_GEM_DOMAIN_OA)]       =3D AMDGPU_PL_OA,
-> > +               [ilog2(AMDGPU_GEM_DOMAIN_DOORBELL)] =3D AMDGPU_PL_DOORB=
-ELL,
-> > +       };
-> >         struct amdgpu_device *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
-> >         struct ttm_resource *res =3D bo->tbo.resource;
-> > +       struct drm_gem_object *obj =3D &bo->tbo.base;
-> >         uint64_t size =3D amdgpu_bo_size(bo);
-> > -       struct drm_gem_object *obj;
-> > -       bool shared;
-> > +       unsigned int type;
-> >
-> > -       /* Abort if the BO doesn't currently have a backing store */
-> > -       if (!res)
-> > -               return;
-> > +       if (!res) {
-> > +               /*
-> > +                * If no backing store use one of the preferred domain =
-for basic
-> > +                * stats. We take the MSB since that should give a reas=
-onable
-> > +                * view.
-> > +                */
-> > +               BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT ||
-> > +                            TTM_PL_VRAM < TTM_PL_SYSTEM);
-> > +               type =3D fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_=
-MASK);
-> > +               if (!type)
-> > +                       return;
-> > +               type--;
-> > +               if (drm_WARN_ON_ONCE(&adev->ddev,
-> > +                                    type >=3D ARRAY_SIZE(domain_to_pl)=
-))
-> > +                       return;
-> > +               type =3D domain_to_pl[type];
-> > +       } else {
-> > +               type =3D res->mem_type;
-> > +       }
-> >
-> > -       obj =3D &bo->tbo.base;
-> > -       shared =3D drm_gem_object_is_shared_for_memory_stats(obj);
-> > -
-> > -       switch (res->mem_type) {
-> > +       /* Squash some into 'cpu' to keep the legacy userspace view. */
-> > +       switch (type) {
-> >         case TTM_PL_VRAM:
-> > -               stats->vram +=3D size;
-> > -               if (amdgpu_res_cpu_visible(adev, res))
-> > -                       stats->visible_vram +=3D size;
-> > -               if (shared)
-> > -                       stats->vram_shared +=3D size;
-> > -               break;
-> >         case TTM_PL_TT:
-> > -               stats->gtt +=3D size;
-> > -               if (shared)
-> > -                       stats->gtt_shared +=3D size;
-> > -               break;
-> >         case TTM_PL_SYSTEM:
-> > +               break;
-> >         default:
-> > -               stats->cpu +=3D size;
-> > -               if (shared)
-> > -                       stats->cpu_shared +=3D size;
-> > +               type =3D TTM_PL_SYSTEM;
-> >                 break;
-> >         }
-> >
-> > +       if (drm_WARN_ON_ONCE(&adev->ddev, type >=3D sz))
-> > +               return;
-> > +
-> > +       /* DRM stats common fields: */
-> > +
-> > +       stats[type].total +=3D size;
-> > +       if (drm_gem_object_is_shared_for_memory_stats(obj))
-> > +               stats[type].drm.shared +=3D size;
-> > +       else
-> > +               stats[type].drm.private +=3D size;
-> > +
-> > +       if (res) {
-> > +               stats[type].drm.resident +=3D size;
-> > +
-> > +               if (!dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_B=
-OOKKEEP))
-> > +                       stats[type].drm.active +=3D size;
-> > +               else if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
-> > +                       stats[type].drm.purgeable +=3D size;
-> > +
-> > +               if (type =3D=3D TTM_PL_VRAM && amdgpu_res_cpu_visible(a=
-dev, res))
-> > +                       stats[type].visible +=3D size;
-> > +       }
-> > +
-> > +       /* amdgpu specific stats: */
-> > +
-> >         if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
-> > -               stats->requested_vram +=3D size;
-> > +               stats[TTM_PL_VRAM].requested +=3D size;
-> >                 if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED)
-> > -                       stats->requested_visible_vram +=3D size;
-> > +                       stats[TTM_PL_VRAM].requested_visible +=3D size;
-> >
-> > -               if (res->mem_type !=3D TTM_PL_VRAM) {
-> > -                       stats->evicted_vram +=3D size;
-> > +               if (type !=3D TTM_PL_VRAM) {
-> > +                       stats[TTM_PL_VRAM].evicted +=3D size;
-> >                         if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_RE=
-QUIRED)
-> > -                               stats->evicted_visible_vram +=3D size;
-> > +                               stats[TTM_PL_VRAM].evicted_visible +=3D=
- size;
-> >                 }
-> >         } else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
-> > -               stats->requested_gtt +=3D size;
-> > +               stats[TTM_PL_TT].requested +=3D size;
-> >         }
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_object.h
-> > index bc42ccbde659..44774584a29f 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > @@ -136,30 +136,14 @@ struct amdgpu_bo_vm {
-> >  };
-> >
-> >  struct amdgpu_mem_stats {
-> > -       /* current VRAM usage, includes visible VRAM */
-> > -       uint64_t vram;
-> > -       /* current shared VRAM usage, includes visible VRAM */
-> > -       uint64_t vram_shared;
-> > -       /* current visible VRAM usage */
-> > -       uint64_t visible_vram;
-> > -       /* current GTT usage */
-> > -       uint64_t gtt;
-> > -       /* current shared GTT usage */
-> > -       uint64_t gtt_shared;
-> > -       /* current system memory usage */
-> > -       uint64_t cpu;
-> > -       /* current shared system memory usage */
-> > -       uint64_t cpu_shared;
-> > -       /* sum of evicted buffers, includes visible VRAM */
-> > -       uint64_t evicted_vram;
-> > -       /* sum of evicted buffers due to CPU access */
-> > -       uint64_t evicted_visible_vram;
-> > -       /* how much userspace asked for, includes vis.VRAM */
-> > -       uint64_t requested_vram;
-> > -       /* how much userspace asked for */
-> > -       uint64_t requested_visible_vram;
-> > -       /* how much userspace asked for */
-> > -       uint64_t requested_gtt;
-> > +       struct drm_memory_stats drm;
-> > +
-> > +       uint64_t total;
-> > +       uint64_t visible;
-> > +       uint64_t evicted;
-> > +       uint64_t evicted_visible;
-> > +       uint64_t requested;
-> > +       uint64_t requested_visible;
-> >  };
-> >
-> >  static inline struct amdgpu_bo *ttm_to_amdgpu_bo(struct ttm_buffer_obj=
-ect *tbo)
-> > @@ -342,7 +326,8 @@ int amdgpu_bo_sync_wait(struct amdgpu_bo *bo, void =
-*owner, bool intr);
-> >  u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo);
-> >  u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo);
-> >  void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
-> > -                         struct amdgpu_mem_stats *stats);
-> > +                         struct amdgpu_mem_stats *stats,
-> > +                         unsigned int size);
-> >  void amdgpu_bo_add_to_shadow_list(struct amdgpu_bo_vm *vmbo);
-> >  int amdgpu_bo_restore_shadow(struct amdgpu_bo *shadow,
-> >                              struct dma_fence **fence);
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ttm.h
-> > index 138d80017f35..2852a6064c9a 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> > @@ -34,6 +34,7 @@
-> >  #define AMDGPU_PL_OA           (TTM_PL_PRIV + 2)
-> >  #define AMDGPU_PL_PREEMPT      (TTM_PL_PRIV + 3)
-> >  #define AMDGPU_PL_DOORBELL     (TTM_PL_PRIV + 4)
-> > +#define __AMDGPU_PL_LAST       (TTM_PL_PRIV + 4)
-> >
-> >  #define AMDGPU_GTT_MAX_TRANSFER_SIZE   512
-> >  #define AMDGPU_GTT_NUM_TRANSFER_WINDOWS        2
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_vm.c
-> > index 52e6a0b3f0c8..86c3ee0e86e8 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > @@ -1090,7 +1090,8 @@ int amdgpu_vm_update_range(struct amdgpu_device *=
-adev, struct amdgpu_vm *vm,
-> >  }
-> >
-> >  static void amdgpu_vm_bo_get_memory(struct amdgpu_bo_va *bo_va,
-> > -                                   struct amdgpu_mem_stats *stats)
-> > +                                   struct amdgpu_mem_stats *stats,
-> > +                                   unsigned int size)
-> >  {
-> >         struct amdgpu_vm *vm =3D bo_va->base.vm;
-> >         struct amdgpu_bo *bo =3D bo_va->base.bo;
-> > @@ -1106,34 +1107,35 @@ static void amdgpu_vm_bo_get_memory(struct amdg=
-pu_bo_va *bo_va,
-> >             !dma_resv_trylock(bo->tbo.base.resv))
-> >                 return;
-> >
-> > -       amdgpu_bo_get_memory(bo, stats);
-> > +       amdgpu_bo_get_memory(bo, stats, size);
-> >         if (!amdgpu_vm_is_bo_always_valid(vm, bo))
-> >                 dma_resv_unlock(bo->tbo.base.resv);
-> >  }
-> >
-> >  void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
-> > -                         struct amdgpu_mem_stats *stats)
-> > +                         struct amdgpu_mem_stats *stats,
-> > +                         unsigned int size)
-> >  {
-> >         struct amdgpu_bo_va *bo_va, *tmp;
-> >
-> >         spin_lock(&vm->status_lock);
-> >         list_for_each_entry_safe(bo_va, tmp, &vm->idle, base.vm_status)
-> > -               amdgpu_vm_bo_get_memory(bo_va, stats);
-> > +               amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> >
-> >         list_for_each_entry_safe(bo_va, tmp, &vm->evicted, base.vm_stat=
-us)
-> > -               amdgpu_vm_bo_get_memory(bo_va, stats);
-> > +               amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> >
-> >         list_for_each_entry_safe(bo_va, tmp, &vm->relocated, base.vm_st=
-atus)
-> > -               amdgpu_vm_bo_get_memory(bo_va, stats);
-> > +               amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> >
-> >         list_for_each_entry_safe(bo_va, tmp, &vm->moved, base.vm_status=
-)
-> > -               amdgpu_vm_bo_get_memory(bo_va, stats);
-> > +               amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> >
-> >         list_for_each_entry_safe(bo_va, tmp, &vm->invalidated, base.vm_=
-status)
-> > -               amdgpu_vm_bo_get_memory(bo_va, stats);
-> > +               amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> >
-> >         list_for_each_entry_safe(bo_va, tmp, &vm->done, base.vm_status)
-> > -               amdgpu_vm_bo_get_memory(bo_va, stats);
-> > +               amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> >         spin_unlock(&vm->status_lock);
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_vm.h
-> > index 046949c4b695..c66ec14dd3d1 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> > @@ -566,7 +566,8 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
-> >  void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
-> >                                 struct amdgpu_vm *vm);
-> >  void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
-> > -                         struct amdgpu_mem_stats *stats);
-> > +                         struct amdgpu_mem_stats *stats,
-> > +                         unsigned int size);
-> >
-> >  int amdgpu_vm_pt_clear(struct amdgpu_device *adev, struct amdgpu_vm *v=
-m,
-> >                        struct amdgpu_bo_vm *vmbo, bool immediate);
-> > --
-> > 2.44.0
-> >
+> ---
+>   Documentation/gpu/drm-kms-helpers.rst        |  3 ++
+>   drivers/gpu/drm/Kconfig                      |  4 ++
+>   drivers/gpu/drm/Makefile                     |  1 +
+>   drivers/gpu/drm/drm_panel_backlight_quirks.c | 70 ++++++++++++++++++++++++++++
+>   include/drm/drm_utils.h                      |  4 ++
+>   5 files changed, 82 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+> index 8435e8621cc0..a26989500129 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -230,6 +230,9 @@ Panel Helper Reference
+>   .. kernel-doc:: drivers/gpu/drm/drm_panel_orientation_quirks.c
+>      :export:
+>   
+> +.. kernel-doc:: drivers/gpu/drm/drm_panel_backlight_quirks.c
+> +   :export:
+> +
+>   Panel Self Refresh Helper Reference
+>   ===================================
+>   
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 6b2c6b91f962..9ebb8cdb535e 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -454,6 +454,10 @@ config DRM_HYPERV
+>   config DRM_EXPORT_FOR_TESTS
+>   	bool
+>   
+> +# Separate option as not all DRM drivers use it
+> +config DRM_PANEL_BACKLIGHT_QUIRKS
+> +	tristate
+> +
+>   config DRM_LIB_RANDOM
+>   	bool
+>   	default n
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 68cc9258ffc4..adf85999aee2 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -92,6 +92,7 @@ drm-$(CONFIG_DRM_PANIC) += drm_panic.o
+>   obj-$(CONFIG_DRM)	+= drm.o
+>   
+>   obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
+> +obj-$(CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS) += drm_panel_backlight_quirks.o
+>   
+>   #
+>   # Memory-management helpers
+> diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> new file mode 100644
+> index 000000000000..6b8bbed77c7f
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> @@ -0,0 +1,70 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/array_size.h>
+> +#include <linux/dmi.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <drm/drm_edid.h>
+> +#include <drm/drm_utils.h>
+> +
+> +struct drm_panel_min_backlight_quirk {
+> +	struct {
+> +		enum dmi_field field;
+> +		const char * const value;
+> +	} dmi_match;
+> +	struct drm_edid_ident ident;
+> +	u8 min_brightness;
+> +};
+> +
+> +static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks[] = {
+> +};
+> +
+> +static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_backlight_quirk *quirk,
+> +						  const struct drm_edid *edid)
+> +{
+> +	if (!dmi_match(quirk->dmi_match.field, quirk->dmi_match.value))
+> +		return false;
+> +
+> +	if (!drm_edid_match(edid, &quirk->ident))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +/**
+> + * drm_get_panel_min_brightness_quirk - Get minimum supported brightness level for a panel.
+> + * @edid: EDID of the panel to check
+> + *
+> + * This function checks for platform specific (e.g. DMI based) quirks
+> + * providing info on the minimum backlight brightness for systems where this
+> + * cannot be probed correctly from the hard-/firm-ware.
+> + *
+> + * Returns:
+> + * A negative error value or
+> + * an override value in the range [0, 255] representing 0-100% to be scaled to
+> + * the drivers target range.
+> + */
+> +int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid)
+> +{
+> +	const struct drm_panel_min_backlight_quirk *quirk;
+> +	size_t i;
+
+Nit: this doesn't really seem like it needs to be size_t.  Shouldn't it 
+just be an unsigned int?
+
+> +
+> +	if (!IS_ENABLED(CONFIG_DMI))
+> +		return -ENODATA;
+> +
+> +	if (!edid)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(drm_panel_min_backlight_quirks); i++) {
+> +		quirk = &drm_panel_min_backlight_quirks[i];
+> +
+> +		if (drm_panel_min_backlight_quirk_matches(quirk, edid))
+> +			return quirk->min_brightness;
+> +	}
+> +
+> +	return -ENODATA;
+> +}
+> +EXPORT_SYMBOL(drm_get_panel_min_brightness_quirk);
+> +
+> +MODULE_DESCRIPTION("Quirks for panel backlight overrides");
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
+> index 70775748d243..15fa9b6865f4 100644
+> --- a/include/drm/drm_utils.h
+> +++ b/include/drm/drm_utils.h
+> @@ -12,8 +12,12 @@
+>   
+>   #include <linux/types.h>
+>   
+> +struct drm_edid;
+> +
+>   int drm_get_panel_orientation_quirk(int width, int height);
+>   
+> +int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid);
+> +
+>   signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
+>   
+>   #endif
+> 
+
