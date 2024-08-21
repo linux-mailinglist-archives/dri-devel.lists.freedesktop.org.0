@@ -2,100 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7589959505
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 08:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A847295953B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 09:02:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D2A10E88E;
-	Wed, 21 Aug 2024 06:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C4E10E582;
+	Wed, 21 Aug 2024 07:02:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kv7Cd3JK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="faEa5gU3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEDE610E88E
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 06:48:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E0A4B60F84;
- Wed, 21 Aug 2024 06:48:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C5CEC4AF0C;
- Wed, 21 Aug 2024 06:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724222931;
- bh=0/KRyANKUF8eJpm9kpyavQgXgai9aYL+fCertJIqr7A=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Kv7Cd3JKq6c1V2apdJ0WfzxUgnZumresEw8/aSUIg+xFI93gQXKxOZ9S+DJEq43N7
- jaVwPmoJRg8XfUCbPcJl92NCdBFQgqqKbPOEiL8d4MUJmT/XnNIs5urKXi6YHOgra9
- fXbjt7CsadCL/9eRHTNjp11lP36meTb6dqiker5J0QGuj+vg5vbdPVGbpTx2GiB1ed
- G4EU8GN/4/s3h9TF5AdUXSQaPUMHrAII3VFGmxpVhmHufegOsfue/c8uSsjq6wui4y
- f1t/KJ+j5SsaYmCROzj9rsSiGvXE8solwfXJkHhVKh3ZU6bth/vRh/jKfw5YjT6n2Y
- HQELQN2gc8bqA==
-Message-ID: <c8ed627e-42fd-4cd9-b9e4-a97177ef3ef0@kernel.org>
-Date: Wed, 21 Aug 2024 08:48:41 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAE910E45A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 07:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724223738; x=1755759738;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=RD8gV2OSwGHgnTwYIfCdN8q5uQCWcvqLlYZUfDcxERk=;
+ b=faEa5gU3dv0zBmN6QK7PplPj0Lqo1hG+X8ARXarrE8kp1Z08MDOG1Oxe
+ SIzg7B9+ZBEZRv0Z3IPMTfLrFNK8WXLQczPoNf0VF2NMrzsYyNqsnG/8R
+ evs0CmQWMWeWxdr244tipre4opJ8TSffe+QqEYGpzcnCTwcVEspKTOCN2
+ mVLUhQ8FqwpW33FkdsVqrl3WJ4aePdsFBTc+4kj4pEsHH5kqlkHjrwyEq
+ V/yCxpH2klT+XCSzlsnEPlG0xpXxSX/Md9sC8YpTPrKvm0qzVvbJ5dm3y
+ 9FjQuaiSf00WNBmitORSMxcCiUlpxdch31gEX0paNQvVpWCSmMAZgQhnN A==;
+X-CSE-ConnectionGUID: Fne8bH4zTf+yy19t4rRZNQ==
+X-CSE-MsgGUID: qiJ2W6QTRqytrnuI8gpeiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22705984"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="22705984"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2024 00:02:17 -0700
+X-CSE-ConnectionGUID: +ityBOU8TumGJXAmhPToHQ==
+X-CSE-MsgGUID: GsKmle81R/mnPQzFX26l4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="91778242"
+Received: from mlehtone-mobl.ger.corp.intel.com (HELO [10.245.245.182])
+ ([10.245.245.182])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2024 00:02:15 -0700
+Message-ID: <dabacdc0d85291a57910d40a4889ef4939ee2c95.camel@linux.intel.com>
+Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
+ header
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
+ Vetter <daniel.vetter@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Date: Wed, 21 Aug 2024 09:02:13 +0200
+In-Reply-To: <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
+References: <20240710124301.1628-1-christian.koenig@amd.com>
+ <20240710124301.1628-5-christian.koenig@amd.com>
+ <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
+ <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
+ <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
+ <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
+ <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
+ <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
+ <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
+ <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
+ <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: display: mediatek: dpi: Add power domains
-To: Rohit Agarwal <rohiagar@chromium.org>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
- jitao.shi@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20240820080659.2136906-1-rohiagar@chromium.org>
- <20240820080659.2136906-2-rohiagar@chromium.org>
- <b5wtwpkwgg3tbwya6zllmymaaf2qvnyfbspkynr2ruzncej2ql@qloslxfinvos>
- <1899ea6f-b734-4748-aa00-d7049d553994@chromium.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <1899ea6f-b734-4748-aa00-d7049d553994@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,20 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/08/2024 14:18, Rohit Agarwal wrote:
-> 
-> On 20/08/24 4:40 PM, Krzysztof Kozlowski wrote:
->> On Tue, Aug 20, 2024 at 08:06:57AM +0000, Rohit Agarwal wrote:
->>> Add power domain binding to the mediatek DPI controller.
->> Why? Who needs it? Why all devices suddenly have it (IOW, why is it not
->> constrained anyhow per variant)?
->>
-> Ok, my intent was to introduce only for this particular variant.
-> Let me constrain it to this particular compatible.
+Hi, Christian,
 
-Then add property in top-level properties and in if:then: disallow it
-for older devices.
+On Tue, 2024-08-20 at 17:45 +0200, Christian K=C3=B6nig wrote:
+> Am 20.08.24 um 12:37 schrieb Thomas Hellstr=C3=B6m:
 
-Best regards,
-Krzysztof
+...
+
+>=20
+> > I don't really care wether we do
+> > this as an explicit loop or whether we use the LRU walker, but I
+> > think
+> > from a maintainability point-of-view it is better to keep LRU
+> > walking
+> > in a single place.
+> >=20
+> > If we return an unlocked object, we'd need to refcount and drop the
+> > lru
+> > lock, but maybe that's not a bad thing.
+> >=20
+> > But what's the main drawback of exporting the existing helper.
+>=20
+> Well that we re-creates exactly the mid-layer mess I worked so hard
+> to=20
+> remove from TTM.
+>=20
+> > > >=20
+
+So could you please answer whether a solution with an iterator and a
+loop macro to de-midlayer is an OK solution form your POW, or suggest
+an alternative solution that you find acceptable that also allows bo
+shrinking with LRU traversal similar to how it's done elsewhere in DRM?
+
+Thanks,
+Thomas
 
