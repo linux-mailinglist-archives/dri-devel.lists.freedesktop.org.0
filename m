@@ -2,109 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08D5959709
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 11:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8174959710
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 11:23:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9764610E04D;
-	Wed, 21 Aug 2024 09:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E30510E116;
+	Wed, 21 Aug 2024 09:23:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gpwypHRI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ACdQVvay";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F97A10E04D
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 09:15:05 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2f3ce5bc7d2so43867541fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 02:15:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724231703; x=1724836503; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=g/AL1OeL8iYesAGF2KkaZ/rqFlEZKCDby71JmQLIyGU=;
- b=gpwypHRILGQcv3cAu2bKPGXrYrHB2V+QRTwnWFhx+O4ob/KcKb4guLa7Nz+NO+eYFg
- CoUzsenBr9finqwe2LTDRPKzngBS7fZNUwhxA1EEKb8KhdyTtcD/tbD4j6FPczI4hxX7
- +g2hqi1T3kRylPKMeNP1u7/K/AzdXU0wUADkk1s2H5S31tNsoJ/80+Yp4dxmU4G+zYKN
- /pX+7STWIqZ+9pklazUePr6uzHOr3KuiD9oECH616xvGwV1BzNwEec6EbptZfkHj3Ffw
- b/ni8W6WsiWWKLg1jrMuEg/eZr4dNtEI/3MAhQbi/75ay8+jmxkLMBHgAkkrPMWM/nWP
- T4cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724231703; x=1724836503;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=g/AL1OeL8iYesAGF2KkaZ/rqFlEZKCDby71JmQLIyGU=;
- b=nlHcdCFQlYQUMCn2QpgMVLfqToS9VymORz0a0zfsHBeqMR0I+iuL6sE5pex6iLFTJ5
- VEGFuoutQsul2uLl8caisY9TadnPRSNVM8Nrh4gnDZLCjpFcj2YLh1/kCj7a5+FVHSy9
- USb/jI3buNDaiynyQ4smV0w7wzT9BEg4D4xRgMPGvUSbad7xrGBW9kMdSgaebEuR/PbL
- BzTHIPfdyK7S4GWmynlrXLohhA6l3ymecns7GVuzX/rcbziVbE/R19+gc2OrUXyr+glU
- wnIp9LIT6ceE4dwc/ByuRUcZ9oisewL1BbArSvthE10f8IoiPjwNJTe4Vq6PT5TJ+DMR
- BxlA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV/MZ/94+CM8KblBmvqCG3Lfyup+xn4WMLz7KQvBeLYHHxy8kFsDaw3ay9SAJu5XioYylgu1C43ROA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzyRqIQEM9oob51nq2FHTc/J4tA4nwnEog+dzIij8k2hbzyPQbW
- 8nSzne2s8hICos40Np4GnFPDAiBOsrdUY9gRLCIP1UPADTB/mpzVj1S0XimtwKmOGL6NGPcRUui
- 1m2STXlXbHiGIgSoiSjnoQOmENFg=
-X-Google-Smtp-Source: AGHT+IGLGfjw+Fjk2rSsSnYZ7V+bLHHFrxyDZsACc2hqiPsKgWXLHNd/EC/FWx9bAUeST6qbartz/G3Ry9JaBMthtOI=
-X-Received: by 2002:a2e:988a:0:b0:2ef:2f17:9ede with SMTP id
- 38308e7fff4ca-2f3f8b600a8mr8953001fa.49.1724231702724; Wed, 21 Aug 2024
- 02:15:02 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7117810E075;
+ Wed, 21 Aug 2024 09:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724232205; x=1755768205;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mbM2AMLOooQNzHmM2bXEle+LtiuV0rhBOs+muKnSFxw=;
+ b=ACdQVvayQs6jqYg7QE2c5Vx2F4qbiiZ3u63som2G/StGdGe2+WcM3zi8
+ 1LSfiu1OSz8ClmCOtLYLpFnp5y2MVHmaJUFIMULvurEGFljf2fbd5YtZO
+ 4PJCICL0zc166nzKee9S3NkHXwMrMKF5WJQIDI4HI514gmkbd/lxLZD0N
+ 1iMpYT2bnCOKSnH7Ktts/3GTQ/GEZbxRuc1DcQCH1rBLRJi+ysF89W4Rs
+ rX5JV3w8XaakmraTbz2j3GCYPAi6LfakNtu2subB5G2jUll+OSN+A0SA9
+ a8MwDJXr1F6fxw43V5QYGkHf4ezb+TvkFx7n3ARmkAH8ZjNAabJBJZqbb g==;
+X-CSE-ConnectionGUID: +tkan+0QQFykfj54wRDO7g==
+X-CSE-MsgGUID: 2gVMYpwfRHqCthhbcDRmoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="40037642"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="40037642"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2024 02:23:25 -0700
+X-CSE-ConnectionGUID: zvw7/BulTbaM+4Qvfle5fg==
+X-CSE-MsgGUID: bZKT3bOrQduR6/E3U3sEeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="61570020"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 21 Aug 2024 02:23:25 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sghYm-000B9q-2x;
+ Wed, 21 Aug 2024 09:23:20 +0000
+Date: Wed, 21 Aug 2024 17:22:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, wayland-devel@lists.freedesktop.org,
+ Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v5 36/44] drm/amd/display: add 3x4 matrix colorop
+Message-ID: <202408211502.eV7fXuRD-lkp@intel.com>
+References: <20240819205714.316380-37-harry.wentland@amd.com>
 MIME-Version: 1.0
-References: <20240813211317.3381180-4-almasrymina@google.com>
- <CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
- <20240819155257.1148e869@kernel.org>
- <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
-In-Reply-To: <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Wed, 21 Aug 2024 18:14:50 +0900
-Message-ID: <CAMArcTXvccYBPZTEuW-z=uTK7W67utd9-xjPzfxEOvUWhPS7bg@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
- netdevice
-To: Mina Almasry <almasrymina@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- bpf@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, 
- Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240819205714.316380-37-harry.wentland@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,186 +71,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 20, 2024 at 1:01=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Mon, Aug 19, 2024 at 6:53=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> =
-wrote:
-> >
-> > On Mon, 19 Aug 2024 00:44:27 +0900 Taehee Yoo wrote:
-> > > > @@ -9537,6 +9540,10 @@ static int dev_xdp_attach(struct net_device =
-*dev, struct netlink_ext_ack *extack
-> > > >                         NL_SET_ERR_MSG(extack, "Native and generic =
-XDP can't be active at the same time");
-> > > >                         return -EEXIST;
-> > > >                 }
-> > > > +               if (dev_get_max_mp_channel(dev) !=3D -1) {
-> > > > +                       NL_SET_ERR_MSG(extack, "XDP can't be instal=
-led on a netdev using memory providers");
-> > > > +                       return -EINVAL;
-> > > > +               }
-> > >
-> > > Should we consider virtual interfaces like bonding, bridge, etc?
-> > > Virtual interfaces as an upper interface of physical interfaces can
-> > > still install XDP prog.
-> > >
-> > > # ip link add bond0 type bond
-> > > # ip link set eth0 master bond0
-> > > # ip link set bond0 xdp pin /sys/fs/bpf/x/y
-> > > and
-> > > # ip link set bond0 xdpgeneric pin /sys/fs/bpf/x/y
-> > >
-> > > All virtual interfaces can install generic XDP prog.
-> > > The bonding interface can install native XDP prog.
-> >
-> > Good point. We may need some common helpers to place the checks for XDP=
-.
-> > They are spread all over the place now.
->
-> Took a bit of a look here. Forgive me, I'm not that familiar with XDP
-> and virtual interfaces, so I'm a bit unsure what to do here.
->
-> For veth, it seems, the device behind the veth is stored in
-> veth_priv->peer, so it seems maybe a dev_get_max_mp_channel() check on
-> veth_priv->peer is the way to go to disable this for veth? I think we
-> need to do this check on creation of the veth and on the ndo_bpf of
-> veth.
->
-> For bonding, it seems we need to add mp channel check in bond_xdp_set,
-> and bond_enslave?
->
-> There are a few other drivers that define ndo_add_slave, seems a check
-> in br_add_slave is needed as well.
->
-> This seems like a potentially deep rabbit hole with a few checks to
-> add all of the place. Is this blocking the series? AFAICT if XDP fails
-> with mp-bound queues with a benign error, that seems fine to me; I
-> don't have a use case for memory providers + xdp yet. This should only
-> be blocking if someone can repro a very serious error (kernel crash)
-> or something with this combination.
->
-> I can try to add these checks locally and propose as a follow up
-> series. Let me know if I'm on the right track with figuring out how to
-> implement this, and, if you feel like it's blocking.
->
-> --
-> Thanks,
-> Mina
+Hi Harry,
 
-I agree with the current approach, which uses the
-dev_get_min_mp_channel_count() in the dev_xdp_attach().
-The only problem that I am concerned about is the
-dev_get_min_mp_channel_count() can't check lower interfaces.
-So, how about just making the current code to be able to check lower
-interfaces?
-Here is a rough modification and I tested it. it works well.
-Please look into this code.
+kernel test robot noticed the following build errors:
 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index f6f40c682b83..87c7985cb242 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6989,6 +6989,27 @@ static __latent_entropy void
-net_rx_action(struct softirq_action *h)
-        bpf_net_ctx_clear(bpf_net_ctx);
- }
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11-rc4 next-20240821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-+static int __dev_get_min_mp_channel_count(struct net_device *dev,
-+                                         struct netdev_nested_priv *priv)
-+{
-+       int i, max =3D 0;
-+
-+       ASSERT_RTNL();
-+
-+       for (i =3D 0; i < dev->real_num_rx_queues; i++)
-+               if (dev->_rx[i].mp_params.mp_priv)
-+                       /* The channel count is the idx plus 1. */
-+                       max =3D i + 1;
-+
-+       return max;
-+}
-+
-+u32 dev_get_min_mp_channel_count(const struct net_device *dev)
-+{
-+       return (u32)__dev_get_min_mp_channel_count((struct net_device *)dev=
-,
-+                                                  NULL);
-+}
-+
- struct netdev_adjacent {
-        struct net_device *dev;
-        netdevice_tracker dev_tracker;
-@@ -9538,7 +9559,10 @@ static int dev_xdp_attach(struct net_device
-*dev, struct netlink_ext_ack *extack
-                        NL_SET_ERR_MSG(extack, "Native and generic XDP
-can't be active at the same time");
-                        return -EEXIST;
-                }
--               if (dev_get_min_mp_channel_count(dev)) {
-+
-+               if (netdev_walk_all_lower_dev(dev,
-+                                             __dev_get_min_mp_channel_coun=
-t,
-+                                             NULL)) {
-                        NL_SET_ERR_MSG(extack, "XDP can't be installed
-on a netdev using memory providers");
-                        return -EINVAL;
-                }
-@@ -9826,20 +9850,6 @@ int dev_change_xdp_fd(struct net_device *dev,
-struct netlink_ext_ack *extack,
-        return err;
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Wentland/drm-Add-helper-for-conversion-from-signed-magnitude/20240820-050138
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240819205714.316380-37-harry.wentland%40amd.com
+patch subject: [PATCH v5 36/44] drm/amd/display: add 3x4 matrix colorop
+config: parisc-randconfig-001-20240821 (https://download.01.org/0day-ci/archive/20240821/202408211502.eV7fXuRD-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211502.eV7fXuRD-lkp@intel.com/reproduce)
 
--u32 dev_get_min_mp_channel_count(const struct net_device *dev)
--{
--       u32 i, max =3D 0;
--
--       ASSERT_RTNL();
--
--       for (i =3D 0; i < dev->real_num_rx_queues; i++)
--               if (dev->_rx[i].mp_params.mp_priv)
--                       /* The channel count is the idx plus 1. */
--                       max =3D i + 1;
--
--       return max;
--}
--
- /**
-  * dev_index_reserve() - allocate an ifindex in a namespace
-  * @net: the applicable net namespace
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408211502.eV7fXuRD-lkp@intel.com/
 
-How to test:
-ip link add bond2 type bond
-ip link add bond1 master bond2 type bond
-ip link add bond0 master bond1 type bond
-ip link set eth0 master bond0
-ip link set eth0 up
-ip link set bond0 up
-ip link set bond1 up
-ip link set bond2 up
+All errors (new ones prefixed by >>):
 
-ip link set bond2 xdp pin /sys/fs/bpf/x/y
+   In file included from include/linux/device.h:15,
+                    from include/drm/drm_print.h:31,
+                    from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_ring.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_ctx.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:43,
+                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:25:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c: In function '__set_dm_plane_colorop_3x4_matrix':
+>> drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:41:22: error: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+      41 | #define dev_fmt(fmt) "amdgpu: " fmt
+         |                      ^~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   include/drm/drm_print.h:470:9: note: in expansion of macro 'dev_warn'
+     470 |         dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+         |         ^~~~
+   include/drm/drm_print.h:480:9: note: in expansion of macro '__drm_printk'
+     480 |         __drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:1247:25: note: in expansion of macro 'drm_warn'
+    1247 |                         drm_warn(dev, "blob->length (%ld) isn't equal to drm_color_ctm_3x4 (%ld)\n",
+         |                         ^~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:41:22: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'unsigned int' [-Werror=format=]
+      41 | #define dev_fmt(fmt) "amdgpu: " fmt
+         |                      ^~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   include/drm/drm_print.h:470:9: note: in expansion of macro 'dev_warn'
+     470 |         dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+         |         ^~~~
+   include/drm/drm_print.h:480:9: note: in expansion of macro '__drm_printk'
+     480 |         __drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:1247:25: note: in expansion of macro 'drm_warn'
+    1247 |                         drm_warn(dev, "blob->length (%ld) isn't equal to drm_color_ctm_3x4 (%ld)\n",
+         |                         ^~~~~~~~
+   cc1: all warnings being treated as errors
 
-./ncdevmem -s 192.168.1.4 -c 192.168.1.2 -f eth0 -l -p 5201 -v 7 -t 0 -q 1
 
-# bond2 <-- xdp should not be installed.
-#   |
-# bond1 <-- xdp should not be installed.
-#   |
-# bond0 <-- xdp should not be installed.
-#   |
-# eth0 <--memory provider is used.
+vim +41 drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h
 
-The netdev_walk_all_lower_dev() calls the callback function
-(__dev_get_min_mp_channel_count) while it walks its own all lower
-interfaces recursively.
-If we want to check more conditions, we can just add checks in
-__dev_get_min_mp_channel_count() or change the callback function.
+539489fc91ea773 Aurabindo Pillai 2020-04-08  40  
+539489fc91ea773 Aurabindo Pillai 2020-04-08 @41  #define dev_fmt(fmt) "amdgpu: " fmt
+539489fc91ea773 Aurabindo Pillai 2020-04-08  42  
 
-Note that currently dev_xdp_attach() checks upper interfaces with
-netdev_for_each_upper_dev_rcu() but it doesn't work recursively.
-I think It should be fixed to check upper interfaces recursively in a
-separate patch.
-
-Thanks a lot!
-Taehee Yoo
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
