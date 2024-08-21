@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8776195A61B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F167295A61D
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 22:51:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F01DA10E416;
-	Wed, 21 Aug 2024 20:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 553F410E493;
+	Wed, 21 Aug 2024 20:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1280 seconds by postgrey-1.36 at gabe;
- Wed, 21 Aug 2024 08:44:37 UTC
 Received: from mail03.siengine.com (mail03.siengine.com [43.240.192.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7769910E04D
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 08:44:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 618E010E04D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 08:59:19 +0000 (UTC)
 Received: from dsgsiengine01.siengine.com ([10.8.1.61])
- by mail03.siengine.com with ESMTPS id 47L8fm2N076000
+ by mail03.siengine.com with ESMTPS id 47L8wVLQ078496
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 21 Aug 2024 16:41:48 +0800 (+08)
+ Wed, 21 Aug 2024 16:58:31 +0800 (+08)
  (envelope-from hongchi.peng@siengine.com)
 Received: from SEEXMB03-2019.siengine.com (SEEXMB03-2019.siengine.com
  [10.8.1.33])
- by dsgsiengine01.siengine.com (SkyGuard) with ESMTPS id 4Wpfvb2DcFz7ZMpD;
- Wed, 21 Aug 2024 16:41:47 +0800 (CST)
+ by dsgsiengine01.siengine.com (SkyGuard) with ESMTPS id 4WpgGt48Xfz7ZMsR;
+ Wed, 21 Aug 2024 16:58:30 +0800 (CST)
 Received: from SEEXMB05-2019.siengine.com (10.8.1.153) by
  SEEXMB03-2019.siengine.com (10.8.1.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1544.11; Wed, 21 Aug 2024 16:41:47 +0800
+ 15.2.1544.11; Wed, 21 Aug 2024 16:58:30 +0800
 Received: from SEEXMB03-2019.siengine.com (10.8.1.33) by
  SEEXMB05-2019.siengine.com (10.8.1.153) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1544.9; Wed, 21 Aug 2024 16:41:46 +0800
-Received: from SEEXMB03-2019.siengine.com ([fe80::23e0:1bbb:3ec9:73fe]) by
- SEEXMB03-2019.siengine.com ([fe80::23e0:1bbb:3ec9:73fe%16]) with mapi id
- 15.02.1544.011; Wed, 21 Aug 2024 16:41:46 +0800
-From: =?gb2312?B?UGVuZyBIb25nY2hpL8Xtuumz2w==?= <hongchi.peng@siengine.com>
-To: =?gb2312?B?UGVuZyBIb25nY2hpL8Xtuumz2w==?= <hongchi.peng@siengine.com>,
- "liviu.dudau@arm.com" <liviu.dudau@arm.com>
-CC: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: =?gb2312?B?u9i4tDogW1BBVENIXSBkcm06IGtvbWVkYTogRml4IGFuIGlzc3VlIHJlbGF0?=
- =?gb2312?Q?ed_to_normalized_zpos?=
-Thread-Topic: [PATCH] drm: komeda: Fix an issue related to normalized zpos
-Thread-Index: AQHa86MyGBv66CmiKEqzP2nKr0rHV7IxYmVA
-Date: Wed, 21 Aug 2024 08:41:46 +0000
-Message-ID: <01446fc98394446eb82a6346953f4fd0@siengine.com>
-References: <20240821081910.5062-1-hongchi.peng@siengine.com>
-In-Reply-To: <20240821081910.5062-1-hongchi.peng@siengine.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.12.10.38]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+ 15.2.1544.9; Wed, 21 Aug 2024 16:58:30 +0800
+Received: from localhost (10.12.10.38) by SEEXMB03-2019.siengine.com
+ (10.8.1.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.2.1544.11 via Frontend
+ Transport; Wed, 21 Aug 2024 16:58:30 +0800
+From: "hongchi.peng" <hongchi.peng@siengine.com>
+To: <liviu.dudau@arm.com>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <hongchi.peng@siengine.com>
+Subject: [PATCH] drm: komeda: Fix an issue related to normalized zpos
+Date: Wed, 21 Aug 2024 16:56:13 +0800
+Message-ID: <20240821085613.5408-1-hongchi.peng@siengine.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-DKIM-Results: [10.8.1.61]; dkim=none;
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL: mail03.siengine.com 47L8fm2N076000
+X-MAIL: mail03.siengine.com 47L8wVLQ078496
 X-Mailman-Approved-At: Wed, 21 Aug 2024 20:51:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,62 +65,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIGFsbDoNCg0KIEknbSBzb3JyeSB0aGF0IEkgZm9yZ290IHRvIGFkZCBhIHBhaXIgb2YgYnJh
-Y2tldHMsIGFuZCBJJ2xsIHNlbmQgaXQgYWdhaW4gc29vbi4NCg0KQmVzdCBSZWdhcmRzLA0KSG9u
-Z2NoaSBQZW5nDQoNCi0tLS0t08q8/tStvP4tLS0tLQ0Kt6K8/sjLOiBob25nY2hpLnBlbmcgPGhv
-bmdjaGkucGVuZ0BzaWVuZ2luZS5jb20+IA0Kt6LLzcqxvOQ6IDIwMjTE6jjUwjIxyNUgMTY6MTkN
-CsrVvP7IyzogbGl2aXUuZHVkYXVAYXJtLmNvbQ0Ks63LzTogbWFhcnRlbi5sYW5raG9yc3RAbGlu
-dXguaW50ZWwuY29tOyBtcmlwYXJkQGtlcm5lbC5vcmc7IHR6aW1tZXJtYW5uQHN1c2UuZGU7IGFp
-cmxpZWRAZ21haWwuY29tOyBkYW5pZWxAZmZ3bGwuY2g7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmc7IFBlbmcgSG9uZ2NoaS/F7brps9sgPGhvbmdjaGkucGVuZ0BzaWVuZ2luZS5jb20+
-DQrW98ziOiBbUEFUQ0hdIGRybToga29tZWRhOiBGaXggYW4gaXNzdWUgcmVsYXRlZCB0byBub3Jt
-YWxpemVkIHpwb3MNCg0KV2UgdXNlIGtvbWVkYV9jcnRjX25vcm1hbGl6ZV96cG9zIHRvIG5vcm1h
-bGl6ZSB6cG9zIG9mIGFmZmVjdGVkIHBsYW5lcyB0byB0aGVpciBibGVuZGluZyB6b3JkZXIgaW4g
-Q1UuIElmIHRoZXJlJ3Mgb25seSBvbmUgc2xhdmUgcGxhbmUgaW4gYWZmZWN0ZWQgcGxhbmVzIGFu
-ZCBpdHMgbGF5ZXJfc3BsaXQgcHJvcGVydHkgaXMgZW5hYmxlZCwgb3JkZXIrKyBmb3IgaXRzIHNw
-bGl0IGxheWVyLCBzbyB0aGF0IHdoZW4gY2FsY3VsYXRpbmcgdGhlIG5vcm1hbGl6ZWRfenBvcyBv
-ZiBtYXN0ZXIgcGxhbmVzLCB0aGUgc3BsaXQgbGF5ZXIgb2YgdGhlIHNsYXZlIHBsYW5lIGlzIGlu
-Y2x1ZGVkLCBidXQgdGhlIG1heF9zbGF2ZV96b3JkZXIgZG9lcyBub3QgaW5jbHVkZSB0aGUgc3Bs
-aXQgbGF5ZXIgYW5kIGtlZXAgemVybyBiZWNhdXNlIHRoZXJlJ3Mgb25seSBvbmUgc2xhdmUgcGxh
-bmUgaW4gYWZmYWN0ZWQgcGxhbmVzLCBhbHRob3VnaCB3ZSBhY3R1YWxseSB1c2UgdHdvIHNsYXZl
-IGxheWVycyBpbiB0aGlzIGNvbW1pdC4NCg0KSW4gbW9zdCBjYXNlcywgdGhpcyBidWcgZG9lcyBu
-b3QgcmVzdWx0IGluIGEgY29tbWl0IGZhaWx1cmUsIGJ1dCBhc3N1bWUgdGhlIGZvbGxvd2luZyBz
-aXR1YXRpb246DQogICAgc2xhdmVfbGF5ZXIgMDogenBvcyA9IDAsIGxheWVyIHNwbGl0IGVuYWJs
-ZWQsIG5vcm1hbGl6ZWRfenBvcyA9DQogICAgMDsodXNlIHNsYXZlX2xheWVyIDIgYXMgaXRzIHNw
-bGl0IGxheWVyKQ0KICAgIG1hc3Rlcl9sYXllciAwOiB6cG9zID0gMiwgbGF5ZXJfc3BsaXQgZW5h
-YmxlZCwgbm9ybWFsaXplZF96cG9zID0NCiAgICAyOyh1c2UgbWFzdGVyX2xheWVyIDIgYXMgaXRz
-IHNwbGl0IGxheWVyKQ0KICAgIG1hc3Rlcl9sYXllciAxOiB6cG9zID0gNCwgbm9ybWFsaXplZF96
-cG9zID0gNDsNCiAgICBtYXN0ZXJfbGF5ZXIgMzogenBvcyA9IDUsIG5vcm1hbGl6ZWRfenBvcyA9
-IDU7DQogICAga2NydGNfc3QtPm1heF9zbGF2ZV96b3JkZXIgPSAwOw0KV2hlbiB3ZSB1c2UgbWFz
-dGVyX2xheWVyIDMgYXMgYSBpbnB1dCBvZiBDVSBpbiBmdW5jdGlvbiBrb21lZGFfY29tcGl6X3Nl
-dF9pbnB1dCBhbmQgY2hlY2sgaXQgd2l0aCBmdW5jdGlvbiBrb21lZGFfY29tcG9uZW50X2NoZWNr
-X2lucHV0LCB0aGUgcGFyYW1ldGVyIGlkeCBpcyBlcXVhbCB0byBub3JtYWlsemVkX3pwb3MgbWlu
-dXMgbWF4X3NsYXZlX3pvcmRlciwgdGhlIHZhbHVlIG9mIGlkeCBpcyA1IGFuZCBpcyBldXFhbCB0
-byBDVSdzIG1heF9hY3RpdmVfaW5wdXRzLCBzbyB0aGF0IGtvbWVkYV9jb21wb25lbnRfY2hlY2tf
-aW5wdXQgcmV0dXJucyBhIC1FSU5WQUwgdmFsdWUuDQoNClRvIGZpeCB0aGUgYnVnIGRlc2NyaWJl
-ZCBhYm92ZSwgd2hlbiBjYWxjdWxhdGluZyB0aGUgbWF4X3NsYXZlX3pvcmRlciB3aXRoIHRoZSBs
-YXllcl9zcGxpdCBlbmFibGVkLCBjb3VudCB0aGUgc3BsaXQgbGF5ZXIgaW4gdGhpcyBjYWxjdWxh
-dGlvbiBkaXJlY3RseS4NCg0KU2lnbmVkLW9mZi1ieTogaG9uZ2NoaS5wZW5nIDxob25nY2hpLnBl
-bmdAc2llbmdpbmUuY29tPg0KLS0tDQogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVk
-YS9rb21lZGFfa21zLmMgfCA4ICsrKysrLS0tDQogMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9u
-cygrKSwgMyBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0v
-ZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5
-L2tvbWVkYS9rb21lZGFfa21zLmMNCmluZGV4IGZlNDZiMGViZWZlYS4uMDU1NDk1NGM4Y2VhIDEw
-MDY0NA0KLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfa21z
-LmMNCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5j
-DQpAQCAtMTU5LDcgKzE1OSw3IEBAIHN0YXRpYyBpbnQga29tZWRhX2NydGNfbm9ybWFsaXplX3pw
-b3Moc3RydWN0IGRybV9jcnRjICpjcnRjLA0KIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFu
-ZV9zdDsNCiAJc3RydWN0IGRybV9wbGFuZSAqcGxhbmU7DQogCXN0cnVjdCBsaXN0X2hlYWQgem9y
-ZGVyX2xpc3Q7DQotCWludCBvcmRlciA9IDAsIGVycjsNCisJaW50IG9yZGVyID0gMCwgc2xhdmVf
-enBvcywgZXJyOw0KIA0KIAlEUk1fREVCVUdfQVRPTUlDKCJbQ1JUQzolZDolc10gY2FsY3VsYXRp
-bmcgbm9ybWFsaXplZCB6cG9zIHZhbHVlc1xuIiwNCiAJCQkgY3J0Yy0+YmFzZS5pZCwgY3J0Yy0+
-bmFtZSk7DQpAQCAtMjAwLDkgKzIwMCwxMSBAQCBzdGF0aWMgaW50IGtvbWVkYV9jcnRjX25vcm1h
-bGl6ZV96cG9zKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywNCiANCiAJCS8qIGNhbGN1bGF0ZSBtYXgg
-c2xhdmUgem9yZGVyICovDQogCQlpZiAoaGFzX2JpdChkcm1fcGxhbmVfaW5kZXgocGxhbmUpLCBr
-Y3J0Yy0+c2xhdmVfcGxhbmVzKSkNCisJCQlzbGF2ZV96cG9zID0gcGxhbmVfc3QtPm5vcm1hbGl6
-ZWRfenBvczsNCisJCQlpZiAodG9fa3BsYW5lX3N0KHBsYW5lX3N0KS0+bGF5ZXJfc3BsaXQpDQor
-CQkJCXNsYXZlX3pwb3MrKzsNCiAJCQlrY3J0Y19zdC0+bWF4X3NsYXZlX3pvcmRlciA9DQotCQkJ
-CW1heChwbGFuZV9zdC0+bm9ybWFsaXplZF96cG9zLA0KLQkJCQkgICAga2NydGNfc3QtPm1heF9z
-bGF2ZV96b3JkZXIpOw0KKwkJCQltYXgoc2xhdmVfenBvcywga2NydGNfc3QtPm1heF9zbGF2ZV96
-b3JkZXIpOw0KIAl9DQogDQogCWNydGNfc3QtPnpwb3NfY2hhbmdlZCA9IHRydWU7DQotLQ0KMi4z
-NC4xDQoNCg==
+We use komeda_crtc_normalize_zpos to normalize zpos of affected planes
+to their blending zorder in CU. If there's only one slave plane in
+affected planes and its layer_split property is enabled, order++ for
+its split layer, so that when calculating the normalized_zpos
+of master planes, the split layer of the slave plane is included, but
+the max_slave_zorder does not include the split layer and keep zero
+because there's only one slave plane in affacted planes, although we
+actually use two slave layers in this commit.
+
+In most cases, this bug does not result in a commit failure, but assume
+the following situation:
+    slave_layer 0: zpos = 0, layer split enabled, normalized_zpos =
+    0;(use slave_layer 2 as its split layer)
+    master_layer 0: zpos = 2, layer_split enabled, normalized_zpos =
+    2;(use master_layer 2 as its split layer)
+    master_layer 1: zpos = 4, normalized_zpos = 4;
+    master_layer 3: zpos = 5, normalized_zpos = 5;
+    kcrtc_st->max_slave_zorder = 0;
+When we use master_layer 3 as a input of CU in function
+komeda_compiz_set_input and check it with function
+komeda_component_check_input, the parameter idx is equal to
+normailzed_zpos minus max_slave_zorder, the value of idx is 5
+and is euqal to CU's max_active_inputs, so that
+komeda_component_check_input returns a -EINVAL value.
+
+To fix the bug described above, when calculating the max_slave_zorder
+with the layer_split enabled, count the split layer in this calculation
+directly.
+
+Signed-off-by: hongchi.peng <hongchi.peng@siengine.com>
+---
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+index fe46b0ebefea..b3db828284e4 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+@@ -159,7 +159,7 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+ 	struct drm_plane_state *plane_st;
+ 	struct drm_plane *plane;
+ 	struct list_head zorder_list;
+-	int order = 0, err;
++	int order = 0, slave_zpos, err;
+ 
+ 	DRM_DEBUG_ATOMIC("[CRTC:%d:%s] calculating normalized zpos values\n",
+ 			 crtc->base.id, crtc->name);
+@@ -199,10 +199,13 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+ 				 plane_st->zpos, plane_st->normalized_zpos);
+ 
+ 		/* calculate max slave zorder */
+-		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes))
++		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes)) {
++			slave_zpos = plane_st->normalized_zpos;
++			if (to_kplane_st(plane_st)->layer_split)
++				slave_zpos++;
+ 			kcrtc_st->max_slave_zorder =
+-				max(plane_st->normalized_zpos,
+-				    kcrtc_st->max_slave_zorder);
++				max(slave_zpos, kcrtc_st->max_slave_zorder);
++		}
+ 	}
+ 
+ 	crtc_st->zpos_changed = true;
+-- 
+2.34.1
+
