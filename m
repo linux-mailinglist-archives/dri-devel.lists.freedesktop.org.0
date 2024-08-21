@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E0895A287
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 18:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F351C95A28A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 18:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4BA10E5B9;
-	Wed, 21 Aug 2024 16:12:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6729710E602;
+	Wed, 21 Aug 2024 16:13:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="kziFd8mM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WdGOvond";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F97210E602
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 16:12:25 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-e13c2ef0f6fso5200991276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 09:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1724256744; x=1724861544;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PwcKOnzwG6QnC9n0i5TxwqfaEkJiWIM/uJRNyENilTM=;
- b=kziFd8mMNNfFEwa700w2LbNMg2WjpUEMaKAdncUKomIb4ioIOZ3POgzHKJCeBjiNbv
- E4G/4Ic+BjplcgqRgGxaKnefJsPUY01G9HdLlLyB/40Uv2dRSdeCxtlERsN+z+xyIsvl
- MqXOUWRmh23qLxSKEIVCC8wubKun/d5FEKPHiDbt3IankNv4cczp1CN6aux0F3EIXve0
- B7NNc4ZTkw7bggdWTdOGDKbalVZZUOYZSj1oIY291MpvDCT35zcQFrexLPf/tLakGZvA
- qOZwxKoI7kTmDa+CXMF3nQRgrAqIywviuDOIwj25Ovf3L0hDinWIbrw+0CZUinf6Jk2Q
- 2Img==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724256744; x=1724861544;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PwcKOnzwG6QnC9n0i5TxwqfaEkJiWIM/uJRNyENilTM=;
- b=QMM4z+lbz60myL8A++iBKazbmIoSsucQNAbY68WC6KtXPVwgdqh733G1iAWDZKyEVx
- aBVopZdfU7XVPNa7KXvTP8qpKw8tr78tIuk+K1fvGA0/v2DnAzfRUNg6kYAjO33H63mn
- qMPF8PZB/d2r5yx5b2TIsegLNDeMdAyjMcbzX8sP7GByKQ45vNc1Fz79EQAOBbMTXPKh
- E7wnZRrSrbvpYVlVHhJsVLE7YzNJewnCnFNa4UTOPuR6LMqCy9VPbZKfr2nRtK38N98g
- ciLbSKiC+qkafMLR4Q6RFKVcd4lNR5NQVbL/C+LNF1rozr1HoA+pMbtAWZJcdjGRhVXu
- DRDQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXunf2Xm0ec1iAtMV1RVf3V78i7hw0yVnhY/ZOBj0mzDw5CsdqSh2QGyMfU7/LNYsEAQamMe0dXIx8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUnxRdD7akW/wQtCu1O0GnI7Nkq4q0heVRY7ZfwSQ7Gmk8j1VJ
- o3nSwr2eJepi1/a2bNrXwOtQfOTcQ0gdZF1m3saDCaMdFLbXtCbXwcuZfcEbhNmMnsPWekpJw8P
- D3fay9e3uHEF8/BCaMHp8AL+iKwrlKkhMVTsWNw==
-X-Google-Smtp-Source: AGHT+IERa600AtL1OjLJzx8ovPfZhum5LJsFp4M6ZM7H/mFS5GrjVLzXEqqQ00xG0pFhGGg1S8NclW91lnDCVQdBiDw=
-X-Received: by 2002:a05:6902:2205:b0:e16:cfa:b2c6 with SMTP id
- 3f1490d57ef6-e166642f1c8mr2919958276.29.1724256744436; Wed, 21 Aug 2024
- 09:12:24 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D319D10E602
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 16:13:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 28EB860FF0;
+ Wed, 21 Aug 2024 16:13:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDEDC32786;
+ Wed, 21 Aug 2024 16:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724256779;
+ bh=Flc3xbOyZEOgbPFXhXlvBwVlAGJrm2mYMm8ucdPm/xU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WdGOvondpt9OBELJ5oRMPbgeR7j9EAmtqpseYb448Ex+iLf8u+j3oJVIKh/uKC9Q+
+ 1McHcxJlnMGDLm7uhZSQWmdfVHHmY9g0pS8zqiztjlU9yN3D2e53whfG8RZcdLEF22
+ MkVSRnzDDXeCQlbtQgxQjVrMY6DO8WGu1pUuaFY8uI4+EJZ4fXzIJtEZV6KzJxp2D9
+ K9qFfWQK8+8NfT/GoNMYRyRPZWmzFS7o9augM8r0z3xvLad8mUeaBK1T17lXXxXsah
+ XfRZOqHIwZcTahIyvfAvNKNvfEnrfF+EfEOKaQ/MbYHwOU65bhkdWLITcuNmWJUziN
+ 9X35K1WZU0SmQ==
+Date: Wed, 21 Aug 2024 17:12:52 +0100
+From: Lee Jones <lee@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev, devicetree@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Benson Leung <bleung@chromium.org>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH v2 07/11] dt-bindings: chrome: Add ports to
+ google,cros-ec-typec for DP altmode
+Message-ID: <20240821161252.GD6858@google.com>
+References: <20240815003417.1175506-1-swboyd@chromium.org>
+ <20240815003417.1175506-8-swboyd@chromium.org>
 MIME-Version: 1.0
-References: <cover.1724249420.git.hverkuil-cisco@xs4all.nl>
- <501bb64b027022ebcfb9636e9267dfba520c4a67.1724249421.git.hverkuil-cisco@xs4all.nl>
-In-Reply-To: <501bb64b027022ebcfb9636e9267dfba520c4a67.1724249421.git.hverkuil-cisco@xs4all.nl>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 21 Aug 2024 17:12:08 +0100
-Message-ID: <CAPY8ntBz9Z-OVHpHinANN5WP6Ki8Fa0Fv0VFj+6kniRr-yOqPA@mail.gmail.com>
-Subject: Re: [RFC PATCH 7/7] media: i2c: tc358743: export InfoFrames to debugfs
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240815003417.1175506-8-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,195 +77,373 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans
+On Wed, 14 Aug 2024, Stephen Boyd wrote:
 
-This is a very useful little series - thanks.
+> Add a DT graph binding to google,cros-ec-typec so that it can combine
+> DisplayPort (DP) and USB SuperSpeed (SS) data into a USB type-c endpoint
+> that is connected to the usb-c-connector node's SS endpoint. This also
+> allows us to connect the DP and USB nodes in the graph to the USB type-c
+> connectors, providing the full picture of the USB type-c data flows in
+> the system.
+> 
+> Allow there to be multiple typec nodes underneath the EC node so that
+> one DT graph exists per DP bridge. The EC is actually controlling TCPCs
+> and redrivers that combine the DP and USB signals together so this more
+> accurately reflects the hardware design without introducing yet another
+> DT node underneath the EC for USB type-c.
+> 
+> If the type-c ports are being shared between a single DP controller then
+> the ports need to know about each other and determine a policy to drive
+> DP to one type-c port. If the type-c ports each have their own dedicated
+> DP controller then they're able to operate independently and enter/exit
+> DP altmode independently as well. We can't connect the DP controller's
+> endpoint to one usb-c-connector port@1 endpoint and the USB controller's
+> endpoint to another usb-c-connector port@1 endpoint either because the
+> DP muxing case would have DP connected to two usb-c-connector endpoints
+> which the graph binding doesn't support.
+> 
+> Therefore, one typec node is required per the capabilities of the type-c
+> port(s) being managed. This also lets us indicate which type-c ports the
+> DP controller is wired to. For example, if DP was connected to ports 0
+> and 2, while port 1 was connected to another DP controller we wouldn't
+> be able to implement that without having some other DT property to
+> indicate which output ports are connected to the DP endpoint.
+> 
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Prashant Malani <pmalani@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: <chrome-platform@lists.linux.dev>
+> Cc: Pin-yen Lin <treapking@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-On Wed, 21 Aug 2024 at 15:16, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> Export InfoFrames to debugfs.
+Needs to be accompanied by a DT review:
 
-I had a tc358743 to hand, so thought this warranted a quick test.
-I think you have an off-by-one on the length that this exposes.
+Acked-by: Lee Jones <lee@kernel.org>
 
-log_status is giving me state
-   [  428.600874] tc358743 10-000f: -----HDMI status-----
-   [  428.600881] tc358743 10-000f: HDCP encrypted content: no
-   [  428.600887] tc358743 10-000f: Input color space: RGB limited range
-   [  428.601404] tc358743 10-000f: AV Mute: off
-   [  428.601921] tc358743 10-000f: Deep color mode: 8-bits per channel
-   [  428.604407] tc358743 10-000f: HDMI infoframe: Auxiliary Video
-Information (AVI), version 2, length 13
-   [  428.604425] tc358743 10-000f:     colorspace: RGB
-   [  428.604433] tc358743 10-000f:     scan mode: Underscan
-   [  428.604441] tc358743 10-000f:     colorimetry: No Data
-   [  428.604449] tc358743 10-000f:     picture aspect: 16:9
-   [  428.604456] tc358743 10-000f:     active aspect: Same as Picture
-   [  428.604463] tc358743 10-000f:     itc: No Data
-   [  428.604469] tc358743 10-000f:     extended colorimetry: xvYCC 601
-   [  428.604476] tc358743 10-000f:     quantization range: Limited
-   [  428.604483] tc358743 10-000f:     nups: Unknown Non-uniform Scaling
-   [  428.604490] tc358743 10-000f:     video code: 4
-   [  428.604497] tc358743 10-000f:     ycc quantization range: Limited
-   [  428.604505] tc358743 10-000f:     hdmi content type: Graphics
-   [  428.604511] tc358743 10-000f:     pixel repeat: 0
-   [  428.604519] tc358743 10-000f:     bar top 0, bottom 0, left 0, right 0
-
-pi@bookworm64:~/edid-decode $ xxd /sys/kernel/debug/v4l2/tc358743\
-10-000f/infoframes/avi
-00000000: 8202 0d2d 1228 0404 0000 0000 0000 0000  ...-.(..........
-
-At the transmitting end I've got
-pi@bookworm64:~/edid-decode $ sudo xxd
-/sys/kernel/debug/dri/1/HDMI-A-1/infoframes/avi
-00000000: 8202 0d2d 1228 0404 0000 0000 0000 0000  ...-.(..........
-00000010: 00
-
-edid-decode -I decodes the latter fine, but aborts on the former.
-Oddly the "fail" message from parse_if_hdr [1] doesn't get printed, it
-just stops with
-pi@bookworm64:~/edid-decode $ ./build/edid-decode -I
-/sys/kernel/debug/v4l2/tc358743\ 10-000f/infoframes/avi
-edid-decode InfoFrame (hex):
-
-82 02 0d 2d 12 28 04 04 00 00 00 00 00 00 00 00
-
-----------------
-
-HDMI InfoFrame Checksum: 0x2d
-
-AVI InfoFrame
-  Version: 2
-  Length: 13
-
-
-[1] https://git.linuxtv.org/edid-decode.git/tree/parse-if.cpp#n21
-
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/media/i2c/tc358743.c | 36 +++++++++++++++++++++++++++++++++++-
->  1 file changed, 35 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index 65d58ddf0287..c7652c0dbaeb 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -87,6 +87,10 @@ struct tc358743_state {
->         struct timer_list timer;
->         struct work_struct work_i2c_poll;
->
-> +       /* debugfs */
-> +       struct dentry *debugfs_dir;
-> +       struct v4l2_debugfs_if *infoframes;
+>  .../bindings/chrome/google,cros-ec-typec.yaml | 260 ++++++++++++++++++
+>  .../bindings/mfd/google,cros-ec.yaml          |   7 +-
+>  2 files changed, 264 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+> index 9f9816fbecbc..1238adfbea21 100644
+> --- a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+> +++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+> @@ -26,6 +26,137 @@ properties:
+>    '#size-cells':
+>      const: 0
+>  
+> +  mux-gpios:
+> +    description: GPIOs indicating which way the DP mux is steered
+> +    maxItems: 1
 > +
->         /* edid  */
->         u8 edid_blocks_written;
->
-> @@ -430,12 +434,35 @@ static void tc358743_erase_bksv(struct v4l2_subdev *sd)
->
->  /* --------------- AVI infoframe --------------- */
->
-> +static ssize_t
-> +tc358743_debugfs_if_read(u32 type, void *priv, struct file *filp,
-> +                        char __user *ubuf, size_t count, loff_t *ppos)
-> +{
-> +       u8 buf[V4L2_DEBUGFS_IF_MAX_LEN] = {};
-> +       struct v4l2_subdev *sd = priv;
-> +       int len;
+> +  no-hpd:
+> +    description: Indicates this endpoint doesn't signal HPD for DisplayPort
+> +    type: boolean
 > +
-> +       if (!is_hdmi(sd))
-> +               return 0;
+> +  orientation:
+> +    description:
+> +      Indicates this endpoint assigns lanes based on altmode and
+> +      type-c port orientation
+> +    type: boolean
 > +
-> +       if (type != V4L2_DEBUGFS_IF_AVI)
-> +               return 0;
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
 > +
-> +       i2c_rd(sd, PK_AVI_0HEAD, buf, PK_AVI_16BYTE - PK_AVI_0HEAD + 1);
-> +       len = buf[2] + 3;
-
-tda1997x has len = buffer[2] + 4;
-adv7842 and adv7604 have len = buf[2] + 1; and then return len + 3;
-adv7511 has len = buffer[2]; and return len + 4;
-
-So I think this should be len = buf[2] + 4;
-
-Doing so makes edid-decode happy.
-pi@bookworm64:~/edid-decode $ sudo ./build/edid-decode -I
-/sys/kernel/debug/v4l2/tc358743\ 10-000f/infoframes/avi
-edid-decode InfoFrame (hex):
-
-82 02 0d 2d 12 28 04 04 00 00 00 00 00 00 00 00
-00
-
-----------------
-
-HDMI InfoFrame Checksum: 0x2d
-
-AVI InfoFrame
-  Version: 2
-  Length: 13
-  VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
-  Y: Color Component Sample Format: RGB
-  A: Active Format Information Present: Yes
-  B: Bar Data Present: Bar Data not present
-  S: Scan Information: Composed for an underscanned display
-  C: Colorimetry: No Data
-  M: Picture Aspect Ratio: 16:9
-  R: Active Portion Aspect Ratio: 8
-  ITC: IT Content: No Data
-  EC: Extended Colorimetry: xvYCC601
-  Q: RGB Quantization Range: Limited Range
-  SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
-  YQ: YCC Quantization Range: Limited Range
-  CN: IT Content Type: Graphics
-  PR: Pixel Data Repetition Count: 0
-  Line Number of End of Top Bar: 0
-  Line Number of Start of Bottom Bar: 0
-  Pixel Number of End of Left Bar: 0
-  Pixel Number of Start of Right Bar: 0
-
-I haven't double checked the maths to ensure that we have read that
-extra byte via i2c_rd though.
-
-  Dave
-
-> +       if (len > V4L2_DEBUGFS_IF_MAX_LEN)
-> +               len = -ENOENT;
-> +       if (len > 0)
-> +               len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
-> +       return len < 0 ? 0 : len;
-> +}
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description:
+> +          Input port to receive DisplayPort (DP) data
+> +        unevaluatedProperties: false
 > +
->  static void print_avi_infoframe(struct v4l2_subdev *sd)
->  {
->         struct i2c_client *client = v4l2_get_subdevdata(sd);
->         struct device *dev = &client->dev;
->         union hdmi_infoframe frame;
-> -       u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
-> +       u8 buffer[HDMI_INFOFRAME_SIZE(AVI)] = {};
->
->         if (!is_hdmi(sd)) {
->                 v4l2_info(sd, "DVI-D signal - AVI infoframe not supported\n");
-> @@ -2161,6 +2188,11 @@ static int tc358743_probe(struct i2c_client *client)
->         if (err < 0)
->                 goto err_work_queues;
->
-> +       state->debugfs_dir = debugfs_create_dir(sd->name, v4l2_debugfs_root());
-> +       state->infoframes = v4l2_debugfs_if_alloc(state->debugfs_dir,
-> +                                                 V4L2_DEBUGFS_IF_AVI, sd,
-> +                                                 tc358743_debugfs_if_read);
+> +        properties:
+> +          endpoint@0:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            description: DisplayPort data for the type-c port(s)
+> +            unevaluatedProperties: false
+> +            properties:
+> +              data-lanes:
+> +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> +                description: |
+> +                  An array of physical DP data lane indexes
+> +                  - 0 is DP ML0 lane
+> +                  - 1 is DP ML1 lane
+> +                  - 2 is DP ML2 lane
+> +                  - 3 is DP ML3 lane
+> +                oneOf:
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +                      - const: 2
+> +                      - const: 3
 > +
->         v4l2_info(sd, "%s found @ 0x%x (%s)\n", client->name,
->                   client->addr << 1, client->adapter->name);
->
-> @@ -2188,6 +2220,8 @@ static void tc358743_remove(struct i2c_client *client)
->                 flush_work(&state->work_i2c_poll);
->         }
->         cancel_delayed_work_sync(&state->delayed_work_enable_hotplug);
-> +       v4l2_debugfs_if_free(state->infoframes);
-> +       debugfs_remove_recursive(state->debugfs_dir);
->         cec_unregister_adapter(state->cec_adap);
->         v4l2_async_unregister_subdev(sd);
->         v4l2_device_unregister_subdev(sd);
-> --
-> 2.43.0
->
+> +        required:
+> +          - endpoint@0
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port to receive USB SuperSpeed (SS) data
+> +        patternProperties:
+> +          "^endpoint@([0-8])$":
+> +            $ref: /schemas/graph.yaml#/properties/endpoint
+> +
+> +        anyOf:
+> +          - required:
+> +              - endpoint@0
+> +          - required:
+> +              - endpoint@1
+> +          - required:
+> +              - endpoint@2
+> +          - required:
+> +              - endpoint@3
+> +          - required:
+> +              - endpoint@4
+> +          - required:
+> +              - endpoint@5
+> +          - required:
+> +              - endpoint@6
+> +          - required:
+> +              - endpoint@7
+> +          - required:
+> +              - endpoint@8
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Output ports for combined DP and USB SS data
+> +        patternProperties:
+> +          "^endpoint@([0-8])$":
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> +                description: |
+> +                  An array of physical USB Type-C data lane indexes.
+> +                  - 0 is SSRX1 lane
+> +                  - 1 is SSTX1 lane
+> +                  - 2 is SSTX2 lane
+> +                  - 3 is SSRX2 lane
+> +                minItems: 4
+> +                maxItems: 4
+> +                items:
+> +                  maximum: 3
+> +
+> +        anyOf:
+> +          - required:
+> +              - endpoint@0
+> +          - required:
+> +              - endpoint@1
+> +          - required:
+> +              - endpoint@2
+> +          - required:
+> +              - endpoint@3
+> +          - required:
+> +              - endpoint@4
+> +          - required:
+> +              - endpoint@5
+> +          - required:
+> +              - endpoint@6
+> +          - required:
+> +              - endpoint@7
+> +          - required:
+> +              - endpoint@8
+> +
+> +    required:
+> +      - port@2
+> +    anyOf:
+> +      - required:
+> +          - port@0
+> +      - required:
+> +          - port@1
+> +
+>  patternProperties:
+>    '^connector@[0-9a-f]+$':
+>      $ref: /schemas/connector/usb-connector.yaml#
+> @@ -35,6 +166,38 @@ patternProperties:
+>  required:
+>    - compatible
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        no-hpd: true
+> +      required:
+> +        - no-hpd
+> +    then:
+> +      properties:
+> +        ports:
+> +          required:
+> +            - port@0
+> +  - if:
+> +      properties:
+> +        mux-gpios: true
+> +      required:
+> +        - mux-gpios
+> +    then:
+> +      properties:
+> +        ports:
+> +          required:
+> +            - port@0
+> +  - if:
+> +      properties:
+> +        orientation: true
+> +      required:
+> +        - orientation
+> +    then:
+> +      properties:
+> +        ports:
+> +          required:
+> +            - port@0
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> @@ -60,6 +223,103 @@ examples:
+>              power-role = "dual";
+>              data-role = "dual";
+>              try-power-role = "source";
+> +
+> +            ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              port@0 {
+> +                reg = <0>;
+> +                usb_c0_hs: endpoint {
+> +                  remote-endpoint = <&usb_hub_dfp3_hs>;
+> +                };
+> +              };
+> +
+> +              port@1 {
+> +                reg = <1>;
+> +                usb_c0_ss: endpoint {
+> +                  remote-endpoint = <&cros_typec_c0_ss>;
+> +                };
+> +              };
+> +            };
+> +          };
+> +
+> +          connector@1 {
+> +            compatible = "usb-c-connector";
+> +            reg = <1>;
+> +            power-role = "dual";
+> +            data-role = "dual";
+> +            try-power-role = "source";
+> +
+> +            ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              port@0 {
+> +                reg = <0>;
+> +                usb_c1_hs: endpoint {
+> +                  remote-endpoint = <&usb_hub_dfp2_hs>;
+> +                };
+> +              };
+> +
+> +              port@1 {
+> +                reg = <1>;
+> +                usb_c1_ss: endpoint {
+> +                  remote-endpoint = <&cros_typec_c1_ss>;
+> +                };
+> +              };
+> +            };
+> +          };
+> +
+> +          ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +              reg = <0>;
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              dp_in: endpoint@0 {
+> +                reg = <0>;
+> +                remote-endpoint = <&dp_phy>;
+> +                data-lanes = <0 1>;
+> +              };
+> +            };
+> +
+> +            port@1 {
+> +              reg = <1>;
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              usb_in_0: endpoint@0 {
+> +                reg = <0>;
+> +                remote-endpoint = <&usb_ss_0_out>;
+> +              };
+> +
+> +              usb_in_1: endpoint@1 {
+> +                reg = <1>;
+> +                remote-endpoint = <&usb_ss_1_out>;
+> +              };
+> +            };
+> +
+> +            port@2 {
+> +              reg = <2>;
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              cros_typec_c0_ss: endpoint@0 {
+> +                reg = <0>;
+> +                remote-endpoint = <&usb_c0_ss>;
+> +                data-lanes = <0 1 2 3>;
+> +              };
+> +
+> +              cros_typec_c1_ss: endpoint@1 {
+> +                reg = <1>;
+> +                remote-endpoint = <&usb_c1_ss>;
+> +                data-lanes = <2 3 0 1>;
+> +              };
+> +            };
+>            };
+>          };
+>        };
+> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> index aac8819bd00b..c860eb7ed3f5 100644
+> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> @@ -98,9 +98,6 @@ properties:
+>  
+>    gpio-controller: true
+>  
+> -  typec:
+> -    $ref: /schemas/chrome/google,cros-ec-typec.yaml#
+> -
+>    ec-pwm:
+>      $ref: /schemas/pwm/google,cros-ec-pwm.yaml#
+>      deprecated: true
+> @@ -166,6 +163,10 @@ patternProperties:
+>      type: object
+>      $ref: /schemas/extcon/extcon-usbc-cros-ec.yaml#
+>  
+> +  "^typec(-[0-9])*$":
+> +    type: object
+> +    $ref: /schemas/chrome/google,cros-ec-typec.yaml#
+> +
+>  required:
+>    - compatible
+>  
+> -- 
+> https://chromeos.dev
+> 
+
+-- 
+Lee Jones [李琼斯]
