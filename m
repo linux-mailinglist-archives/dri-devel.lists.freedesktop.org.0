@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A847295953B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 09:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BF7959569
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2024 09:11:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C4E10E582;
-	Wed, 21 Aug 2024 07:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5A2710E4DA;
+	Wed, 21 Aug 2024 07:11:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="faEa5gU3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a1OCz/Fs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAE910E45A
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 07:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724223738; x=1755759738;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=RD8gV2OSwGHgnTwYIfCdN8q5uQCWcvqLlYZUfDcxERk=;
- b=faEa5gU3dv0zBmN6QK7PplPj0Lqo1hG+X8ARXarrE8kp1Z08MDOG1Oxe
- SIzg7B9+ZBEZRv0Z3IPMTfLrFNK8WXLQczPoNf0VF2NMrzsYyNqsnG/8R
- evs0CmQWMWeWxdr244tipre4opJ8TSffe+QqEYGpzcnCTwcVEspKTOCN2
- mVLUhQ8FqwpW33FkdsVqrl3WJ4aePdsFBTc+4kj4pEsHH5kqlkHjrwyEq
- V/yCxpH2klT+XCSzlsnEPlG0xpXxSX/Md9sC8YpTPrKvm0qzVvbJ5dm3y
- 9FjQuaiSf00WNBmitORSMxcCiUlpxdch31gEX0paNQvVpWCSmMAZgQhnN A==;
-X-CSE-ConnectionGUID: Fne8bH4zTf+yy19t4rRZNQ==
-X-CSE-MsgGUID: qiJ2W6QTRqytrnuI8gpeiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22705984"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="22705984"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 00:02:17 -0700
-X-CSE-ConnectionGUID: +ityBOU8TumGJXAmhPToHQ==
-X-CSE-MsgGUID: GsKmle81R/mnPQzFX26l4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; d="scan'208";a="91778242"
-Received: from mlehtone-mobl.ger.corp.intel.com (HELO [10.245.245.182])
- ([10.245.245.182])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2024 00:02:15 -0700
-Message-ID: <dabacdc0d85291a57910d40a4889ef4939ee2c95.camel@linux.intel.com>
-Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
- header
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
- Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Date: Wed, 21 Aug 2024 09:02:13 +0200
-In-Reply-To: <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
-References: <20240710124301.1628-1-christian.koenig@amd.com>
- <20240710124301.1628-5-christian.koenig@amd.com>
- <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
- <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
- <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
- <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
- <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
- <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
- <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
- <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
- <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1DC10E4DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 07:11:40 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-70d1a74a43bso4406961b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 00:11:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724224299; x=1724829099; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6XHLEEVfKEFZbe4gHXKNE7btizZL5TxAufqI7CmlNpY=;
+ b=a1OCz/FsLp9q1pYaEpINvlSdQc+e86v9ziorSwQzH4nSp+3BUy1uB6x4pz0wh31pg2
+ XcNQf6GWdZAS3jhmZvFLCwgF9pZAbFB5hTHSQ9ofozBmEws7aOrbgLX5KeVeYTgxwj5W
+ VdVtXtLH0crUccxLStormxkDkVR5NEY46wBehueRUGYZeYTPO/yjoMfjEr8B0i5BkoCT
+ UN9ss+m9FvmbyjaLBC+uLjh22L/1qC7Hy2EZnlDcctK8bqplAKtykFHxqGVCa7NawOEu
+ T4OG1wy87mhjNPESekVUu5+L0CP/39iPj/FxtnisVffyVp39oyu6KO5HtZHvnkSI9nGL
+ scTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724224299; x=1724829099;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6XHLEEVfKEFZbe4gHXKNE7btizZL5TxAufqI7CmlNpY=;
+ b=RR11OmyhoUofArvUYRPqueN/Wr7ZFFdXI0O84DFCWMB1L9EK7ywSXojNrV04YtMW4d
+ tpHPHDUH3C7FW04e4HZyK7pOq8Skzb1mWTEgGCux9AF9GYcJZSIbwVBDSyqUOWlhA4tp
+ V1ELUdxdB619W4ig4x+Ui0bWnop2ZaC91EDDY6pPJG/hU7m6BNfPSbji0hO7g8z9uW/Q
+ U8HvmCOAJZDtbuORHeYzdhTa3taAzkqezSh9KKEBPN2XZ57mAV2gHeKEDY8si6Inb7gG
+ ouE/oqpxJovqgqsaXp6KmXA3FnvjQncphGNWDmAk9smg1pvVWTWavsuQwDt1T7XbSjpd
+ Qsvg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWGe7yovZ4HRjW9CVZwVgf5wR3ZBF5RdaUbZHhZim3aLYRfEOv4f5xP/mgYRdMM1eRORFb0WaAgyB4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiAVI3d5skQdvUdTYYnmlXwja0xa1sWXzWu6SyTli2fgmpgD62
+ p6zGSNvWauz+IAXOW4jEtPJpyf7oWdl5oDy7dbBgbhQYR5w1mw8r
+X-Google-Smtp-Source: AGHT+IEWYZZmObSXmhFGqh/x0J/CjMh4owQPA8Y+I+83N4QUD5z+ARl4awvtakKaj7C1gklfFrVd5w==
+X-Received: by 2002:a05:6a00:915b:b0:70d:281d:ee78 with SMTP id
+ d2e1a72fcca58-71423462324mr1665273b3a.10.1724224299489; 
+ Wed, 21 Aug 2024 00:11:39 -0700 (PDT)
+Received: from localhost.localdomain (60-250-196-139.hinet-ip.hinet.net.
+ [60.250.196.139]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7cd8b631303sm526667a12.9.2024.08.21.00.11.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Aug 2024 00:11:39 -0700 (PDT)
+From: Hui-Ping Chen <hpchen0nvt@gmail.com>
+To: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, esben@geanix.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Hui-Ping Chen <hpchen0nvt@gmail.com>
+Subject: [PATCH v3 0/2] Add support for nuvoton ma35 nand controller
+Date: Wed, 21 Aug 2024 07:11:30 +0000
+Message-Id: <20240821071132.281018-1-hpchen0nvt@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,38 +84,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
+This patch series adds the mtd nand driver for the nuvoton ma35 ARMv8 SoC.
+It includes DT binding documentation and the ma35 mtd nand driver.
 
-On Tue, 2024-08-20 at 17:45 +0200, Christian K=C3=B6nig wrote:
-> Am 20.08.24 um 12:37 schrieb Thomas Hellstr=C3=B6m:
+v3:
+  - Update ma35d1 mtd nand driver
+    - Release IRQ handler.
+    - Remove unused functions.
+    - Remove '.owner'.
 
-...
+v2:
+  - Update nuvoton,ma35d1-nand.yaml
+    - Adjust the order and remove any unnecessary items.
+    - Add 'nand-ecc-step-size' and 'nand-ecc-strength' to the required list.
+  - Update ma35d1 mtd nand driver
+    - Fix coding style.
+    - Use 'devm_clk_get' instead of 'of_clk_get'.
+    - Use 'dev_err_probe' instead of 'dev_err'.
+    - Remove 'pr_info' and 'of_match_ptr'.
+    - Remove 'module_init' and 'module_exit'.
 
->=20
-> > I don't really care wether we do
-> > this as an explicit loop or whether we use the LRU walker, but I
-> > think
-> > from a maintainability point-of-view it is better to keep LRU
-> > walking
-> > in a single place.
-> >=20
-> > If we return an unlocked object, we'd need to refcount and drop the
-> > lru
-> > lock, but maybe that's not a bad thing.
-> >=20
-> > But what's the main drawback of exporting the existing helper.
->=20
-> Well that we re-creates exactly the mid-layer mess I worked so hard
-> to=20
-> remove from TTM.
->=20
-> > > >=20
 
-So could you please answer whether a solution with an iterator and a
-loop macro to de-midlayer is an OK solution form your POW, or suggest
-an alternative solution that you find acceptable that also allows bo
-shrinking with LRU traversal similar to how it's done elsewhere in DRM?
+Hui-Ping Chen (2):
+  dt-bindings: mtd: nuvoton,ma35d1-nand: add new bindings
+  mtd: rawnand: nuvoton: add new driver for the Nuvoton MA35 SoC
 
-Thanks,
-Thomas
+ .../bindings/mtd/nuvoton,ma35d1-nand.yaml     |   93 ++
+ drivers/mtd/nand/raw/Kconfig                  |    8 +
+ drivers/mtd/nand/raw/Makefile                 |    1 +
+ drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c    | 1068 +++++++++++++++++
+ 4 files changed, 1170 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
+ create mode 100644 drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c
+
+-- 
+2.25.1
 
