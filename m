@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B158E95BD89
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7038295BD8A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFAAD10EBAC;
-	Thu, 22 Aug 2024 17:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE50F10EBAD;
+	Thu, 22 Aug 2024 17:43:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eGHjYo9q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ft5IdTNU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7C6110EBAC
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 17:43:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2469310EBAB
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 17:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724348601; x=1755884601;
+ t=1724348602; x=1755884602;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=E7weO86RaaW0WwgTg3wIfhJ+GMQh3XUa23negJ/H4uk=;
- b=eGHjYo9qxPBxeLJfxXXF7KZc1ejTnDoOIfWIbhyO065TiOPNe0+j6oG+
- vo3osOsK2jXar+FHDRWFaNKkBT89xRKut+vpL78wTN3gG5Tedl7MDQAHy
- bI5aMXAVulWJsEbJK37zlAnQCLftrvgLXgRhRtrnobR0JJtFkKGizPr7n
- q2lHp5JyYJDHyh8IiI/FEuTXjBqMe9fwvl978BgXkSDetkc0MYc52hsGz
- GL6jFXk7giJNpQCHyTlcS+Ra+7v9l9aLEuKFFkTJuxQ/F+tIj1o9F9ZVe
- 8keoyhV20kMaiWYgZdhKnApG5c2T1eeakAClLwVhxy0XOq2AmCb5TBxDo g==;
-X-CSE-ConnectionGUID: mrHHPo95S0+w/gxGTPrmFg==
-X-CSE-MsgGUID: t3ZsUoN4SJ+zaMWDqWJgXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22955371"
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="22955371"
+ bh=lq2ZDp6MTf10HE4gqxlSJaCI0iEPX29iqODst1YOJcc=;
+ b=Ft5IdTNU+Hn5Y5cKrgl0Gc7itOIrb7PeQuD9Ee+P0G/ShfMe6JL1WfPt
+ 8hZuSgSGXqh8d1DFzF7Qh2TbkR+un4hGn02A8XaqJKU6LAuVioIFlGaXm
+ 2XxMueaz0lY5L7Y7lf6usbn+NrDGF6D0hkmpsnxGuFwzCAHDOmJUZE8po
+ JxXIowsr8NUyI55+cRm6KjTymEw29IkoiRgmBhhaO5FuznnWdIjOOk4Cz
+ aq2SnS/IRxTvloF+x8hbXsChZoK8aRqEGA51/CSe6gCgC2EK+/eU1fD9K
+ PN7oW/kBoU0XTQnPriRlPEXBFH4tXSLiMoiz5M7FdRyHEGSvx85SQ9/8W w==;
+X-CSE-ConnectionGUID: 7GvqWYGcQaeEbVFe2CilmQ==
+X-CSE-MsgGUID: 57KQtnKdRrmeC+qRL5PUqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22955396"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="22955396"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 10:43:15 -0700
-X-CSE-ConnectionGUID: s3uJDQv4SrKmVtyLgQ7tmQ==
-X-CSE-MsgGUID: UbB7lboWTFCHCoz7CG6Bgw==
+ 22 Aug 2024 10:43:21 -0700
+X-CSE-ConnectionGUID: 4rHKlYFvQ3KDlZAtBi6X3w==
+X-CSE-MsgGUID: ZiejBel7QECrwpTufup+ng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="65862350"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="65862367"
 Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.121])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 10:43:11 -0700
+ 22 Aug 2024 10:43:17 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com, Inki Dae <inki.dae@samsung.com>,
@@ -50,10 +50,9 @@ Cc: jani.nikula@intel.com, Inki Dae <inki.dae@samsung.com>,
  Krzysztof Kozlowski <krzk@kernel.org>,
  Alim Akhtar <alim.akhtar@samsung.com>,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 2/6] drm/exynos: hdmi: use display_info for printing display
- dimensions
-Date: Thu, 22 Aug 2024 20:42:48 +0300
-Message-Id: <8a6fd6de1853dbc337c5c26c65268604d3e91fe2.1724348429.git.jani.nikula@intel.com>
+Subject: [PATCH 3/6] drm/exynos: hdmi: convert to struct drm_edid
+Date: Thu, 22 Aug 2024 20:42:49 +0300
+Message-Id: <be15dce66a5373a7aed797a4ef63b0ba90b231e9.1724348429.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1724348429.git.jani.nikula@intel.com>
 References: <cover.1724348429.git.jani.nikula@intel.com>
@@ -75,8 +74,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Look up display dimensions from display_info instead of the EDID
-directly. This will be helpful for the follow-up work.
+Prefer the struct drm_edid based functions for reading the EDID and
+updating the connector.
+
+The functional change is that the CEC physical address gets invalidated
+when the EDID could not be read.
+
+v2:
+- display info usage was split to a separate patch
+- check drm_edid_connector_update() return value
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
@@ -90,34 +96,53 @@ Cc: Alim Akhtar <alim.akhtar@samsung.com>
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-samsung-soc@vger.kernel.org
 ---
- drivers/gpu/drm/exynos/exynos_hdmi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/exynos/exynos_hdmi.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index 1e26cd4f8347..25d508b25921 100644
+index 25d508b25921..c9d4b9146df9 100644
 --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
 +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -883,6 +883,7 @@ static const struct drm_connector_funcs hdmi_connector_funcs = {
- static int hdmi_get_modes(struct drm_connector *connector)
+@@ -884,14 +884,21 @@ static int hdmi_get_modes(struct drm_connector *connector)
  {
  	struct hdmi_context *hdata = connector_to_hdmi(connector);
-+	const struct drm_display_info *info = &connector->display_info;
- 	struct edid *edid;
+ 	const struct drm_display_info *info = &connector->display_info;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
  	int ret;
  
-@@ -893,10 +894,10 @@ static int hdmi_get_modes(struct drm_connector *connector)
- 	if (!edid)
+ 	if (!hdata->ddc_adpt)
  		goto no_edid;
  
--	hdata->dvi_mode = !connector->display_info.is_hdmi;
-+	hdata->dvi_mode = !info->is_hdmi;
- 	DRM_DEV_DEBUG_KMS(hdata->dev, "%s : width[%d] x height[%d]\n",
- 			  (hdata->dvi_mode ? "dvi monitor" : "hdmi monitor"),
--			  edid->width_cm, edid->height_cm);
-+			  info->width_mm / 10, info->height_mm / 10);
+-	edid = drm_get_edid(connector, hdata->ddc_adpt);
+-	if (!edid)
++	drm_edid = drm_edid_read_ddc(connector, hdata->ddc_adpt);
++
++	ret = drm_edid_connector_update(connector, drm_edid);
++	if (ret)
++		return 0;
++
++	cec_notifier_set_phys_addr(hdata->notifier, info->source_physical_address);
++
++	if (!drm_edid)
+ 		goto no_edid;
  
- 	drm_connector_update_edid_property(connector, edid);
- 	cec_notifier_set_phys_addr_from_edid(hdata->notifier, edid);
+ 	hdata->dvi_mode = !info->is_hdmi;
+@@ -899,12 +906,9 @@ static int hdmi_get_modes(struct drm_connector *connector)
+ 			  (hdata->dvi_mode ? "dvi monitor" : "hdmi monitor"),
+ 			  info->width_mm / 10, info->height_mm / 10);
+ 
+-	drm_connector_update_edid_property(connector, edid);
+-	cec_notifier_set_phys_addr_from_edid(hdata->notifier, edid);
+-
+-	ret = drm_add_edid_modes(connector, edid);
++	ret = drm_edid_connector_add_modes(connector);
+ 
+-	kfree(edid);
++	drm_edid_free(drm_edid);
+ 
+ 	return ret;
+ 
 -- 
 2.39.2
 
