@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7038295BD8A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D4395BD8E
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE50F10EBAD;
-	Thu, 22 Aug 2024 17:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 974F810EBAB;
+	Thu, 22 Aug 2024 17:43:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ft5IdTNU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HzjLJ7aE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2469310EBAB
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 17:43:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0DA10EBAE
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 17:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724348602; x=1755884602;
+ t=1724348606; x=1755884606;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lq2ZDp6MTf10HE4gqxlSJaCI0iEPX29iqODst1YOJcc=;
- b=Ft5IdTNU+Hn5Y5cKrgl0Gc7itOIrb7PeQuD9Ee+P0G/ShfMe6JL1WfPt
- 8hZuSgSGXqh8d1DFzF7Qh2TbkR+un4hGn02A8XaqJKU6LAuVioIFlGaXm
- 2XxMueaz0lY5L7Y7lf6usbn+NrDGF6D0hkmpsnxGuFwzCAHDOmJUZE8po
- JxXIowsr8NUyI55+cRm6KjTymEw29IkoiRgmBhhaO5FuznnWdIjOOk4Cz
- aq2SnS/IRxTvloF+x8hbXsChZoK8aRqEGA51/CSe6gCgC2EK+/eU1fD9K
- PN7oW/kBoU0XTQnPriRlPEXBFH4tXSLiMoiz5M7FdRyHEGSvx85SQ9/8W w==;
-X-CSE-ConnectionGUID: 7GvqWYGcQaeEbVFe2CilmQ==
-X-CSE-MsgGUID: 57KQtnKdRrmeC+qRL5PUqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22955396"
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="22955396"
+ bh=O3WR6uh8GZmy2rdXUJXqCpt0BQUtQN00jH3P5Gn5m4E=;
+ b=HzjLJ7aEX4vD/EsKheurXPjvEokFHxcvlbabxziaxZTuXilsAcE52vw/
+ nt2j96jTutrEmqpRqMUQq9UGTW5ucgTVv9Fw9hheM6WpQmcASi9nvo6Uu
+ KXkreNjfa18lkmtEXcQMLfAGh2EeaqEn9fdmHJjMs6Q/WotKDLrv+VIuq
+ bNHcccIl/l9T1EGhEIxmnx1gOICBRB7LOXYsxMXMTSH6OwAkYRlLsZw1u
+ OZHadhHJ3Ph84vvuMy4yeVqGH/OHt1wbzb/7JhaMT1v5Vw2m3vQnvOCym
+ +1pgUHrCBnlPq/qa24959Y50tbC9muYqjm56+PWqhQbbQol792TtciReY g==;
+X-CSE-ConnectionGUID: 2QR+KzFATE6PSP58TIKiWw==
+X-CSE-MsgGUID: Q6OvZS2eRdaEVj3DzgAAkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22955405"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="22955405"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 10:43:21 -0700
-X-CSE-ConnectionGUID: 4rHKlYFvQ3KDlZAtBi6X3w==
-X-CSE-MsgGUID: ZiejBel7QECrwpTufup+ng==
+ 22 Aug 2024 10:43:26 -0700
+X-CSE-ConnectionGUID: dosRNWu1TVOX/pP4hlZY+A==
+X-CSE-MsgGUID: oizmzXj2T7OMj3F4t2sUhg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="65862367"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="65862389"
 Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.121])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 10:43:17 -0700
+ 22 Aug 2024 10:43:23 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 3/6] drm/exynos: hdmi: convert to struct drm_edid
-Date: Thu, 22 Aug 2024 20:42:49 +0300
-Message-Id: <be15dce66a5373a7aed797a4ef63b0ba90b231e9.1724348429.git.jani.nikula@intel.com>
+Cc: jani.nikula@intel.com, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
+Subject: [PATCH 4/6] drm/tegra: convert to struct drm_edid
+Date: Thu, 22 Aug 2024 20:42:50 +0300
+Message-Id: <e764b50f4ad2de95e449ccb37f49c3f37b3333fc.1724348429.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1724348429.git.jani.nikula@intel.com>
 References: <cover.1724348429.git.jani.nikula@intel.com>
@@ -77,72 +74,117 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Prefer the struct drm_edid based functions for reading the EDID and
 updating the connector.
 
-The functional change is that the CEC physical address gets invalidated
-when the EDID could not be read.
-
-v2:
-- display info usage was split to a separate patch
-- check drm_edid_connector_update() return value
-
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-tegra@vger.kernel.org
 ---
- drivers/gpu/drm/exynos/exynos_hdmi.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/tegra/drm.h    |  2 +-
+ drivers/gpu/drm/tegra/output.c | 29 +++++++++++++++++------------
+ 2 files changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index 25d508b25921..c9d4b9146df9 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -884,14 +884,21 @@ static int hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct hdmi_context *hdata = connector_to_hdmi(connector);
- 	const struct drm_display_info *info = &connector->display_info;
--	struct edid *edid;
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index 682011166a8f..2f3781e04b0a 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -133,7 +133,7 @@ struct tegra_output {
+ 	struct drm_bridge *bridge;
+ 	struct drm_panel *panel;
+ 	struct i2c_adapter *ddc;
+-	const struct edid *edid;
 +	const struct drm_edid *drm_edid;
- 	int ret;
+ 	struct cec_notifier *cec;
+ 	unsigned int hpd_irq;
+ 	struct gpio_desc *hpd_gpio;
+diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+index 4da3c3d1abbc..e6b5863fec71 100644
+--- a/drivers/gpu/drm/tegra/output.c
++++ b/drivers/gpu/drm/tegra/output.c
+@@ -21,7 +21,7 @@
+ int tegra_output_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct tegra_output *output = connector_to_output(connector);
+-	struct edid *edid = NULL;
++	const struct drm_edid *drm_edid;
+ 	int err = 0;
  
- 	if (!hdata->ddc_adpt)
- 		goto no_edid;
+ 	/*
+@@ -34,18 +34,17 @@ int tegra_output_connector_get_modes(struct drm_connector *connector)
+ 			return err;
+ 	}
  
--	edid = drm_get_edid(connector, hdata->ddc_adpt);
--	if (!edid)
-+	drm_edid = drm_edid_read_ddc(connector, hdata->ddc_adpt);
-+
-+	ret = drm_edid_connector_update(connector, drm_edid);
-+	if (ret)
-+		return 0;
-+
-+	cec_notifier_set_phys_addr(hdata->notifier, info->source_physical_address);
-+
-+	if (!drm_edid)
- 		goto no_edid;
+-	if (output->edid)
+-		edid = kmemdup(output->edid, sizeof(*edid), GFP_KERNEL);
++	if (output->drm_edid)
++		drm_edid = drm_edid_dup(output->drm_edid);
+ 	else if (output->ddc)
+-		edid = drm_get_edid(connector, output->ddc);
++		drm_edid = drm_edid_read_ddc(connector, output->ddc);
  
- 	hdata->dvi_mode = !info->is_hdmi;
-@@ -899,12 +906,9 @@ static int hdmi_get_modes(struct drm_connector *connector)
- 			  (hdata->dvi_mode ? "dvi monitor" : "hdmi monitor"),
- 			  info->width_mm / 10, info->height_mm / 10);
- 
+-	cec_notifier_set_phys_addr_from_edid(output->cec, edid);
 -	drm_connector_update_edid_property(connector, edid);
--	cec_notifier_set_phys_addr_from_edid(hdata->notifier, edid);
--
--	ret = drm_add_edid_modes(connector, edid);
-+	ret = drm_edid_connector_add_modes(connector);
++	drm_edid_connector_update(connector, drm_edid);
++	cec_notifier_set_phys_addr(output->cec,
++				   connector->display_info.source_physical_address);
  
--	kfree(edid);
+-	if (edid) {
+-		err = drm_add_edid_modes(connector, edid);
+-		kfree(edid);
+-	}
++	err = drm_edid_connector_add_modes(connector);
 +	drm_edid_free(drm_edid);
  
- 	return ret;
+ 	return err;
+ }
+@@ -98,6 +97,7 @@ static irqreturn_t hpd_irq(int irq, void *data)
+ int tegra_output_probe(struct tegra_output *output)
+ {
+ 	struct device_node *ddc, *panel;
++	const void *edid;
+ 	unsigned long flags;
+ 	int err, size;
  
+@@ -124,8 +124,6 @@ int tegra_output_probe(struct tegra_output *output)
+ 			return PTR_ERR(output->panel);
+ 	}
+ 
+-	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
+-
+ 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
+ 	if (ddc) {
+ 		output->ddc = of_get_i2c_adapter_by_node(ddc);
+@@ -137,6 +135,9 @@ int tegra_output_probe(struct tegra_output *output)
+ 		}
+ 	}
+ 
++	edid = of_get_property(output->of_node, "nvidia,edid", &size);
++	output->drm_edid = drm_edid_alloc(edid, size);
++
+ 	output->hpd_gpio = devm_fwnode_gpiod_get(output->dev,
+ 					of_fwnode_handle(output->of_node),
+ 					"nvidia,hpd",
+@@ -187,6 +188,8 @@ int tegra_output_probe(struct tegra_output *output)
+ 	if (output->ddc)
+ 		i2c_put_adapter(output->ddc);
+ 
++	drm_edid_free(output->drm_edid);
++
+ 	return err;
+ }
+ 
+@@ -197,6 +200,8 @@ void tegra_output_remove(struct tegra_output *output)
+ 
+ 	if (output->ddc)
+ 		i2c_put_adapter(output->ddc);
++
++	drm_edid_free(output->drm_edid);
+ }
+ 
+ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
 -- 
 2.39.2
 
