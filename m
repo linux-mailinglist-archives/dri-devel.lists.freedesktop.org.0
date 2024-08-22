@@ -2,37 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48F695B7E8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA6295B9E0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 17:16:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB38210E0BA;
-	Thu, 22 Aug 2024 14:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 394BF10EB2B;
+	Thu, 22 Aug 2024 15:16:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="KV//SAUe";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2C2CB10E0BA
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:05:35 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 886C3DA7
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 07:06:00 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 409703F66E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 07:05:34 -0700 (PDT)
-Date: Thu, 22 Aug 2024 15:05:27 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: "hongchi.peng" <hongchi.peng@siengine.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: komeda: Fix an issue related to normalized zpos
-Message-ID: <ZsdFp5Nq25q8rrVP@e110455-lin.cambridge.arm.com>
-References: <20240821085613.5408-1-hongchi.peng@siengine.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2069.outbound.protection.outlook.com [40.107.215.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3624110E81C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 09:09:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QPOdKv6W4jf0GM2UT0BgkfoXnhRQUvbQKTktN0xZqLJF+q91TsPRRTZh+Hm0aTZ7uodQasuE278nhBLYJlNkEQ9nyhDqkwn0Bbq3cUS2TOrUw6kePqOqQSIOPgfKKVq5rmcRzUcKFYkQ1B8SM0IccJ+tdgmq/N7RliVS/cOYXIUayboXzCVAgG6Q/qyJE7uAQt2lwirkQ33/yL7BjSz792Xohi6tPASWKV+JiGZARSVagAIRpPPZoQ+81YOLQh8vMBuaZcGIg5cTivPiS1fWqKoH9rjfpLE4nLh1fONco3luQe73OjrJQEHlohBnOUClEuA9N1jq8NOfZaki4752ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tAKXJHhlmiEe/bEm3eU1F3I6PANSb+CKNpLIjKQj1lg=;
+ b=HxjUJiAY7r93yTPCREcO8sh43jsMUv2JsqnlwhNTXMQaw4txPlTJtBjqJJrXjI6Tzy6Nqc47AcvJ1ctfNeUfkP/LryKw4vizbqqzv4wYud6UH8FYIb8hf1LGLD7axfgmrlZ0YAD9OUoyoCY4mYzDEludyBPAh4K0yQ/6Io9cXpzChmuc1blKrQZ/HYOLmpFu2yvmpxbrjxeFMUFLTtZNDkqb6+uW76MNBSkNlUq9igrsVVlRrNzA6CcQYUS5FQ6jzqzrtB+7bGa4fcoKjSL7TFl6a45DybxbZPie2dh7wU40PBTh7LQxMTcuU+MO4Po+egAk0SobvRstFu4HkzGJ6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAKXJHhlmiEe/bEm3eU1F3I6PANSb+CKNpLIjKQj1lg=;
+ b=KV//SAUewwXeXnCNW1y0GW827Ckh2SAofUcW/gsY53z/dl4MY9pqK7bYDvXBsYXbFGxi+wa6DChZ/kuJI3fYIoQgGnnIQCNuBcwjex784Xdiexl3ygTfWuRLRfJhq+wqjf0WPBXIMLD4Ofv4un0n5Ha+VY+73vC1U8/ZLIzP84KyLyImKrx2lRjCbs7WswdlXQpjT1XYUFfQwh/bxoCmuN6/q4mfwTzasTSld2vPdzF6dlNhcoDz88f+554lxrGH5IPuLoUCAltikHtCQOXH1KX9tQdZTHRI1CHhp4WPevWiO8bZhGFQj4pZHKzx7hE+dJIV13ke3M0r10ZIqRx77Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5724.apcprd06.prod.outlook.com (2603:1096:301:f4::9)
+ by OSQPR06MB7251.apcprd06.prod.outlook.com (2603:1096:604:29b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Thu, 22 Aug
+ 2024 09:09:47 +0000
+Received: from PUZPR06MB5724.apcprd06.prod.outlook.com
+ ([fe80::459b:70d3:1f01:e1d6]) by PUZPR06MB5724.apcprd06.prod.outlook.com
+ ([fe80::459b:70d3:1f01:e1d6%3]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
+ 09:09:47 +0000
+From: Yuesong Li <liyuesong@vivo.com>
+To: inki.dae@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ airlied@gmail.com, daniel@ffwll.ch, krzk@kernel.org
+Cc: alim.akhtar@samsung.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com,
+ Yuesong Li <liyuesong@vivo.com>
+Subject: [PATCH v1] drivers:drm:exynos_drm_gsc:Fix wrong assignment in
+ gsc_bind()
+Date: Thu, 22 Aug 2024 17:09:27 +0800
+Message-Id: <20240822090927.1444466-1-liyuesong@vivo.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240821085613.5408-1-hongchi.peng@siengine.com>
+Content-Type: text/plain
+X-ClientProxiedBy: TYAPR01CA0188.jpnprd01.prod.outlook.com
+ (2603:1096:404:ba::32) To PUZPR06MB5724.apcprd06.prod.outlook.com
+ (2603:1096:301:f4::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5724:EE_|OSQPR06MB7251:EE_
+X-MS-Office365-Filtering-Correlation-Id: 802edba2-e0f7-4828-fca5-08dcc28a2b66
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|52116014|7416014|376014|366016|1800799024|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?R78pIjoiFNnXvFSEcXncDAsQ/bjyXfmb+7KYx9eLpZlLHVGdZIaIP/R2MI1s?=
+ =?us-ascii?Q?HRlGfye0/wcOJieC45/d8trePwv1Wd/G1jh8lC7sLQTZw4g9CR+WWrMCOumw?=
+ =?us-ascii?Q?ro6jvsuopZHPC2SWhxWptOHeL/mYcEGWI7+68ESwYTLa1eQtFXrjCXxP1ALP?=
+ =?us-ascii?Q?PWFQaJPNXmPhcwFN7dLMWJYO6ABJ9HnHkrkeS9fxmfGT55/XzEETawfm/Q/d?=
+ =?us-ascii?Q?7Ovw6EM0IVgqJfXawEdv/S4Pcqb26Nw7vC6hTv2zR4R9zyvS2CSMIagAC2YG?=
+ =?us-ascii?Q?HvSM9imljLMboZQ9SgFnNJ4F0LBFsUp7jCgaxHM925VEJUJx/nRhAfmaKPhv?=
+ =?us-ascii?Q?lxjf7lr3NKEdWEtxgWEgCCxb/eMtzAj7YO+A6BSbOxftAYJ4QfBAt54EWjgh?=
+ =?us-ascii?Q?nXfbyEyg/BkLYdhfl0b4eswQLa46TMzPGYboDui2brvowe8I+VYubqWGBSGx?=
+ =?us-ascii?Q?y7O9un4vRylqO1eB3CKDs/3SlVqPAC2Du9MM3vwOIfkBSg7j0rm0r1aTum8g?=
+ =?us-ascii?Q?p/FwPjqs5RJ3cViVkUwyr4xxVq2W75bnxlhmLHCRvpKvQh/lyQtq9a+7YgWl?=
+ =?us-ascii?Q?2xrzFmoVtuCOIt0PP04U5dmnxJ4n30MYSdimwS/+qwmnMu5FDLsZuU/G8rR7?=
+ =?us-ascii?Q?3i02gifSylnT5OnFmaN+QvWP6lZLSDyN08175gHeXyanSk6E2+AADQgnMBpK?=
+ =?us-ascii?Q?auz65/lMVf+x2bOWmQLF1D95BhJBXvAkhzEiix2f0My1CZeBd71QWotkoHwK?=
+ =?us-ascii?Q?10LtT45x8Z702sBQ/aezrbDNRNRmpumQh2HiW6e55JNTr0xWgyv/hL+xmUMP?=
+ =?us-ascii?Q?P3YpGCWtQJtwyvn3sRQ7fFdKlqu87HgBDubWipHEdElY5HvkSvbo/JgLvsL3?=
+ =?us-ascii?Q?k5prxdodf1Sm7BeM4qRU0jr4ZDXFi0bBHtKqR4eg1s4LH+Bo5+87HGxEjBhG?=
+ =?us-ascii?Q?qQygNSXKR4f5kWddIRw5AychBKlfw4RcGwtSDThE9E3KS3ZnM9VPb4jE/Bs4?=
+ =?us-ascii?Q?PoTMF6EWrkUdbxKXKbfFYBn6A4ogpr7OuRyE6q6nn8Pd8bMXoTFlfLYwViCe?=
+ =?us-ascii?Q?PvRKUQHKaQ8IjvlDeYrKXHT/I2/Lme+Q31TUzIkIJdTO0gOW9Z6WPzXu7DPY?=
+ =?us-ascii?Q?1cG8KxhEulSn2G5Jq8BLT9Ur1eHC4ihZEIeIwaRIDmjzlX8q79ASVYYAFeq9?=
+ =?us-ascii?Q?Kyj5Hi/ckVqETwsE2ZtKy0+N8EjLfYZ/MQbGcRaOVezey4YIC2DWOcOIkR4+?=
+ =?us-ascii?Q?n82Mk9Mw1JpWkj8jiFD3U5mXKdU48bGoojPeRkJ2165GdgtOGqCBepjhREXH?=
+ =?us-ascii?Q?F6H60v6TV8VZTIDCYStEQxw5mjcnRWrBh6H3TEsbdblhoMDMOgMWxDi2pPPb?=
+ =?us-ascii?Q?7BTfJZe/DPdhJpUQ7/326BMvINzSb0vDYn5caqIOG3rWzYupBw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PUZPR06MB5724.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(52116014)(7416014)(376014)(366016)(1800799024)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aMHsu3SYabYKCE0fT0Emy5VQ/HX1eyjjGmbOYSu4F1nYmqyw7xUXqSbo/09x?=
+ =?us-ascii?Q?KOIrnn03xHVWhWjfjTEucI8jv+hHqSOxeUXD1HvP4DgxLU2RZ22NKbND/rSj?=
+ =?us-ascii?Q?MunosXfzZHhFWzpAzniQie4HIbj3HvhxlNVKRkoN6JQ8Pfo5tO9LknaiFJnU?=
+ =?us-ascii?Q?z8urtNjpTAPz26fyOzGtMH0GCPk81dJDRdFmue4t7W+LRmg1U/d+o0GsE4S/?=
+ =?us-ascii?Q?pZtQDcuLJWOh5cM/djVxrFcP72PeKwGSQQIAk41l42JReoISQMtQ1+ZVKaTd?=
+ =?us-ascii?Q?u4z9mpXEkvxjJuYeULT8m3kDzQyD6y6qzL8/SEh66DrVS/I3s2yxM6+Iq5+0?=
+ =?us-ascii?Q?sAC2NUSCxsSzr17OdJpW6IVfTcC/eVPj6euEo7meTGR8yzJjq5GeS80qAePQ?=
+ =?us-ascii?Q?jqDrNRDkUeqGITtq+5OwGdL5RoquSGkwwVP3+IcvvNByPzNK5WW/JFM8BbbM?=
+ =?us-ascii?Q?Fp9RTrUTDb82dSyTa4MzCg6WQObKpYPie6watbif23STT7ur+TuWUMfqjCNI?=
+ =?us-ascii?Q?4TPqG/C9gHWdDY8lSK01f9MDzQvgYNr2tMET+d5LEXUP1tY3P+4v+E4ND47D?=
+ =?us-ascii?Q?k0zP0cVYFFSjlQQow/5TgDrex4OythFPPiIfqIPMfB1fErKRjF71ZWCH7qAm?=
+ =?us-ascii?Q?T9R/+UKFzgs3OQRzGff22CYq+XJmLag+uj020Hi2iDT6uO6iJ4g0UzRx+pjT?=
+ =?us-ascii?Q?gU0XDNSgwhOXkzyO0r4xofDInplJKyKJoJPoZfwr5CJS0+lymelHQipznMDj?=
+ =?us-ascii?Q?KPax6a/rrDeFpVVbvPgjGv/WhZmuLXwSeON0JByxxCZu3OAkBHUSczV06R0n?=
+ =?us-ascii?Q?64PfbSTnJ99SekA7kPkGf8vKWfEfW70kiaIDTKzbfAKA2FXYfvgetJGyc3kM?=
+ =?us-ascii?Q?s8WJ2z4LUX1q2KFGHFoCuoiiaHvzCdkycyUHjNzh7dArWVT3hnP1TIdpo/N0?=
+ =?us-ascii?Q?JQxG6J/7CdOeCVBtMNprA6rd2u8xeKjWmyd0rWU2TEOwcvwlWqfWDa7oj0UC?=
+ =?us-ascii?Q?VrGqUOy+lP9+rKkQe/kgJhn5h5T2BYROfRrPZUbm0QeRP4Wh6vDSzWJ9KcvI?=
+ =?us-ascii?Q?DM3I66xfymcbysheEID1nOBs48tInvVKTcTMsD1TDEhcdCOF4uS/RTPG4Bro?=
+ =?us-ascii?Q?8tCRS8W51BDDNoS5Dbd9EldAuHXEdSq82hzxubw34VrSKUGVvO72yvnNsQRM?=
+ =?us-ascii?Q?5PrYIa+GpHRiGXF+BRU64/YsihHSZ1wJbYIgdy5m9pagc7yJ+1O590j4McVr?=
+ =?us-ascii?Q?W8xTX3V7yvlyAK/5UfeXcV9BnT6osQnepuhFMrxaAuHKXtbqwVvk175wyP4o?=
+ =?us-ascii?Q?Yb4a8zt3eEa09v6A3GEtDTKUeGoeZMzdyLryRk07O6W1xFr1OhIOeGwuxTmr?=
+ =?us-ascii?Q?1SKXch4tLCXugPP8ElbGy2mvIsAVg8idShji1JS4GTH32Ek+2DPtLDmlj9HM?=
+ =?us-ascii?Q?fShioqNpdevF+GHjAY41WgFeL+8qUcb28fmOpgV9b9oO/gDszsQajQykA/ZK?=
+ =?us-ascii?Q?F2cNHcjptfhze1J3Gl4xipPcABiMhu00pi8TbdUS33eXg/gIaz+pFmlwi4TW?=
+ =?us-ascii?Q?qjVwa0phNDqu+UN60wUmgw989YVQ3wwqzqaFrZyV?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 802edba2-e0f7-4828-fca5-08dcc28a2b66
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5724.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 09:09:47.0980 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zEpXmEFRHs6IZ2Vrpyxt4sPS1wnu6n60NuTqJ0hJc/Ff3ybEKa/uHb+wHVQNVY96tF5tf/JC7VHuzeKeUNggRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7251
+X-Mailman-Approved-At: Thu, 22 Aug 2024 15:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,95 +148,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hongchi,
+cocci reported a double assignment problem. Upon reviewing previous
+commits, it appears this may actually be an incorrect assignment.
 
-On Wed, Aug 21, 2024 at 04:56:13PM +0800, hongchi.peng wrote:
-> We use komeda_crtc_normalize_zpos to normalize zpos of affected planes
-> to their blending zorder in CU. If there's only one slave plane in
-> affected planes and its layer_split property is enabled, order++ for
-> its split layer, so that when calculating the normalized_zpos
-> of master planes, the split layer of the slave plane is included, but
-> the max_slave_zorder does not include the split layer and keep zero
-> because there's only one slave plane in affacted planes, although we
-> actually use two slave layers in this commit.
-> 
-> In most cases, this bug does not result in a commit failure, but assume
-> the following situation:
->     slave_layer 0: zpos = 0, layer split enabled, normalized_zpos =
->     0;(use slave_layer 2 as its split layer)
->     master_layer 0: zpos = 2, layer_split enabled, normalized_zpos =
->     2;(use master_layer 2 as its split layer)
->     master_layer 1: zpos = 4, normalized_zpos = 4;
->     master_layer 3: zpos = 5, normalized_zpos = 5;
->     kcrtc_st->max_slave_zorder = 0;
-> When we use master_layer 3 as a input of CU in function
-> komeda_compiz_set_input and check it with function
-> komeda_component_check_input, the parameter idx is equal to
-> normailzed_zpos minus max_slave_zorder, the value of idx is 5
-> and is euqal to CU's max_active_inputs, so that
-> komeda_component_check_input returns a -EINVAL value.
+Fixes: 8b9550344d39 ("drm/ipp: clean up debug messages")
+Signed-off-by: Yuesong Li <liyuesong@vivo.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, indeed, you have found a bug in the calculations when layer_split is set.
-But I was also looking through the code trying to find where layer_split gets
-set and I could not find it, do you have some extra patches?
-
-> 
-> To fix the bug described above, when calculating the max_slave_zorder
-> with the layer_split enabled, count the split layer in this calculation
-> directly.
-> 
-> Signed-off-by: hongchi.peng <hongchi.peng@siengine.com>
-> ---
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> index fe46b0ebefea..b3db828284e4 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> @@ -159,7 +159,7 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
->  	struct drm_plane_state *plane_st;
->  	struct drm_plane *plane;
->  	struct list_head zorder_list;
-> -	int order = 0, err;
-> +	int order = 0, slave_zpos, err;
-
-Also, the build bot has already flagged it, your patch needs some improvements.
-slave_zpos needs to be u32 if it's going to be compared against max_slave_zorder.
-
-Best regards,
-Liviu
-
->  
->  	DRM_DEBUG_ATOMIC("[CRTC:%d:%s] calculating normalized zpos values\n",
->  			 crtc->base.id, crtc->name);
-> @@ -199,10 +199,13 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
->  				 plane_st->zpos, plane_st->normalized_zpos);
->  
->  		/* calculate max slave zorder */
-> -		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes))
-> +		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes)) {
-> +			slave_zpos = plane_st->normalized_zpos;
-> +			if (to_kplane_st(plane_st)->layer_split)
-> +				slave_zpos++;
->  			kcrtc_st->max_slave_zorder =
-> -				max(plane_st->normalized_zpos,
-> -				    kcrtc_st->max_slave_zorder);
-> +				max(slave_zpos, kcrtc_st->max_slave_zorder);
-> +		}
->  	}
->  
->  	crtc_st->zpos_changed = true;
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+index 1b111e2c3347..752339d33f39 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+@@ -1174,7 +1174,7 @@ static int gsc_bind(struct device *dev, struct device *master, void *data)
+ 	struct exynos_drm_ipp *ipp = &ctx->ipp;
+ 
+ 	ctx->drm_dev = drm_dev;
+-	ctx->drm_dev = drm_dev;
++	ipp->drm_dev = drm_dev;
+ 	exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
+ 
+ 	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.34.1
+
