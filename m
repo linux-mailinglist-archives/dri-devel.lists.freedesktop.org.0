@@ -2,167 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECB295B538
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 14:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3F395B565
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 14:48:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 663EF10E068;
-	Thu, 22 Aug 2024 12:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA92610E976;
+	Thu, 22 Aug 2024 12:48:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="pLhacZy3";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DczE7k/H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iGKUdVGY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DczE7k/H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iGKUdVGY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010045.outbound.protection.outlook.com [52.101.228.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53E6B10E068
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 12:44:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xGVrdny2U/9Otrc/LyoruQacBjRQ2h7oSt61oPjMSv9sHHx280emofgpxF0XnXjjB4wtR4Zutc72mzDIvrtsVMBkTh6tf2vF9ad1SGZTvuv1mFNgc9BtXYyh9L8iorcxU0iVCgcLJYqopAmwj0mssxAUrKykYjypy2J9t6gddqwQhBfUHgLkRXQtloWndQ3N/SnwETd9h3iVhddJ85DHlPQkWv8KpDAiCsfwqG2MaxZeh/wyOsqd8FzXCyIxBBGzEA2H6b1j/sun9JfhGUoS8Z7iYQXy/O3EbEKNae3Vc9t+3mLwqftPREnpCXrzFZSkiJZeSp8t3KFI2igiiWJ9Qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gTAWvfw5Kov6M8mxMZzkggcPiaW86JMPPfbqKPcArak=;
- b=F86c9Ovg7uBZ2hFcI3T9SAeFow79fZoYPhXEmT1hwadFGTO2esOIjnQKQpct535p/d0OcSh4IV9K7q7QuqYZcBbKSOpsRosJ2UUG93TVadzujDUpu5IV3KSseisj5P0hszW6WNb0UXxyasrk7CvQDmDx7KBNHywun1Nd32sChCSh86lVkcrLMI52WhYkjFypfE0RVJo3miZJA8EMm46qjD5UTyXp35pXzhLs4QRCZiGAUkS/S3Nay1Vecyk2WMamApV4NcF8Mgq8OnOKI87MniqdqHOqwYwCaZkQrqoHgOcooPrhjPN39G9fC97aoSyPAacw7wiJpoHH4MFVbpVTnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gTAWvfw5Kov6M8mxMZzkggcPiaW86JMPPfbqKPcArak=;
- b=pLhacZy3ewj3JSW46jK60HFIWPli5ypT5E4+hm9eJ8VP8zMG3nlgRiJFPhzI86tnGhmEm6QEjKr+cb/7QyvwR6gLQXXedP57nRVBg4LHUcXmFLsj55gVZjNGC+J6qzzpIwskb4f4yrAAmxVJGYlTQ7GkSZULrLapRN+V3qGyJtw=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB10742.jpnprd01.prod.outlook.com (2603:1096:400:2a6::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Thu, 22 Aug
- 2024 12:44:15 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
- 12:44:15 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Magnus Damm
- <magnus.damm@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
- <biju.das.au@gmail.com>
-Subject: RE: [PATCH v3 2/4] drm: renesas: rz-du: Add RZ/G2UL DU Support
-Thread-Topic: [PATCH v3 2/4] drm: renesas: rz-du: Add RZ/G2UL DU Support
-Thread-Index: AQHa51OiM5PSXaeUbUywn0dig27zKbIzT5qAgAACLIA=
-Date: Thu, 22 Aug 2024 12:44:15 +0000
-Message-ID: <TY3PR01MB11346A7D4FC8D5D2D62E32FED868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
- <20240805155242.151661-3-biju.das.jz@bp.renesas.com>
- <CAMuHMdXAG=x0DeDtp8y792E6o5vnFsFPt72JXaRePO2rkSvwdQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXAG=x0DeDtp8y792E6o5vnFsFPt72JXaRePO2rkSvwdQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB10742:EE_
-x-ms-office365-filtering-correlation-id: dcfd13e0-1cac-43de-1ab1-08dcc2a82195
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|366016|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?SkVGRWdSVmo2R2tTVVlWckpzWEUydTR6K2NnczA5MTV6Tjh5dTRRN3Q5M2JK?=
- =?utf-8?B?T3IxZXNkUk5UVlJ0QVFuWkphWFJrTHEyb0RUcklPNXk2ZGFKaFVpTVVtS2U0?=
- =?utf-8?B?OGQ0YzFPOW1xeTdzQVFscVRGdkNDTlRQVFV2djdoY0MxQWZrcUxjMmVobm9D?=
- =?utf-8?B?NlZjVWRYS2E1a0lRTDNIcHRielBseDJjREE2YkZpWk51ZTRsUCtORUpWc2JH?=
- =?utf-8?B?K003L242VWdKcll2SFMvZnc2ZG00aE1sUHBkTHcyRkZrQko4NjZrTjJVemJl?=
- =?utf-8?B?WXNlOG1zUXBseGUxOEkzeTFOdUp6UzZrcDVScy93TEN3YlU4a0wvb05LbU4r?=
- =?utf-8?B?UUlmRGhBWUxYWWV3cSs0a2dydEZ2RjNqTHBNajNpdmlGNlBROUxNek1UMU5S?=
- =?utf-8?B?T2czN1NEU2ZBYkxZb2wySWw4amdGTWYzTGFCM3Bjb2ZHbVY3cWZWdCtuOTlB?=
- =?utf-8?B?VzdBalRHYlhCcUROWjQrMFhOV2lWc1phS0JIeXVBZXpHRW9mQXRjV0Z4UGdF?=
- =?utf-8?B?YVl4ZUw4NWpDWVplNmIwVmRKRGxyRTFDRGVjRmJvRXloWWR1bTYwM2I4Snkv?=
- =?utf-8?B?anA2MDNXQkp4U2MxdHNlZEY4UFdtOFpwdkFDVUFPZTNwWStFUllwREpnb3BR?=
- =?utf-8?B?ODJCaHArc0tnYVlmb2xHUXptNlN5YUp2dWZpY2JNa1JveHpDd2NxcmZQaSsr?=
- =?utf-8?B?YzZGTEZmaDJaUUQ4Y1BjQXc2R0RMR1ZHcmVUUWFSak5GTmxDd0NmQ01xVGdo?=
- =?utf-8?B?R1ZKQnNxRXVOWmNkUEl0WTZlaGtNT3BXMFFMaHFDVFU0U2RwZFk3dEhZYlRh?=
- =?utf-8?B?NEF0aXVzYzM4QWJXVGNjL2J6V1ZtRTdUb01wTjFSUHpZZ1V3MVdwbnlvQ3kw?=
- =?utf-8?B?RzVFZWtDL3FlZEZLU0pvaVcyTmVYUnFHZnphN0ZlVVFpQ2pNQm1EV1F5eHdv?=
- =?utf-8?B?Y09PM2V1enMvVG90bGpvUndkMDdzbTFFNVdEMDdwOVVUUzllOEQ1WlY1cEtE?=
- =?utf-8?B?WFg2RWVQKzZoVSt4SndsYVRhUmlpOWR0MjlEK2o5Q2dkMVR1TG9ac2dzamFi?=
- =?utf-8?B?ZUgxaHdNRG9uSU1EL2pYcjRuRTBIYXZhcmQxeE5FTWhFUzM4TDJBU0xUSjVi?=
- =?utf-8?B?enpmZEJnd0JaVVBic3d3eTBEbzk2Sk1DT01UNW9OTExUU1Nndzk1eStRNlVi?=
- =?utf-8?B?ejArTjV6VFp0VFI5bjJ2eHBKOEhLbFB4eFJQZGIzVnp2OXJicjdFQmV3Mitt?=
- =?utf-8?B?cnJ5VlUyZGpZYklKaXhNaEMxYVBsbFBETlNwUG8rZVRmc1BFMkE2VExJRVRM?=
- =?utf-8?B?S3pRK1hRYUlTbUEyNFF2dEdMbEx1ZEFqMjZsYm9uTDROVVJLWTU4bFgwSUJZ?=
- =?utf-8?B?YjNta3dmNkRIQkRFUTdPeGJTR002OWdoeGFEdzlweDVQYy9CSTZsZFZkY3ND?=
- =?utf-8?B?aDF3b0J0NVorUHMwRGJ6Tm9RMFFheW1oWkJ4UDJYQXdZWndzenhHNFBQWkkx?=
- =?utf-8?B?Tys0RXRQejdVNzBpTTk4bFBVdCtudEVPWkxsZjlXOEI3R3Jpc1BNVVV5ekNE?=
- =?utf-8?B?QmYyWTZFWmF5YXR4RmMwcndlK0d3enZxQ0d6WFlPTE55Nit5SkxzS04rWlhq?=
- =?utf-8?B?Y0lZYXJWUGhSb3l0WVh3QVpyZjZkVTM4emVXRkw3KzB2T2sxYm83UDdJVkdR?=
- =?utf-8?B?Q0RGTmloR20wL3hXWWRyQ2wyYnZ6eGdHdWlDMEhQVFBCZHM3SjVTZXUzdDZw?=
- =?utf-8?B?Qnlhb08wM3NsemwvTit0STRURkJtVnVnQ01yUEhaa25leDB5N1hSZzdBbnpQ?=
- =?utf-8?B?SDJRRzhQQjNHUUN5YXlaRGFBZEZwNVI1ZEx1anZWRGJ0R1N4V2IvUGg3blNG?=
- =?utf-8?B?bnJ6cXpSdHBncitpajBqVUNZUkViNHFHNE5mRmdEbnRVblE9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R1hyeXB0dnRuc3pOaDZUK3lTOFdKRzhTbDlVWHlZYWtUMjlNVk93UjFkTzBF?=
- =?utf-8?B?U2dkSWNHRE1iNGdxU3VaYy9mQ0dRalRWdDNpVm03S3pIajR1T25VeVZjYjRl?=
- =?utf-8?B?MXpLczExdDBPNk1qNEoxelJSeWhhWDJVaDlZNWh4V2RHNjd4S2NoQk9iYTZO?=
- =?utf-8?B?N3BLL0Q1NzN4VkhuRmxqQ0ZScmdIZVg3ME5TRGZnb3d5NkRCYW1pTC9ST00w?=
- =?utf-8?B?RzZyNEtlOXIwRTZoajY1RGhWUTZYZXM2eXpIdDRYNldGNE5RckRiQVFWcHhB?=
- =?utf-8?B?cXhUTms3WmdxcjFuOHdtV3d0TEd2Q0tmOW5idmwrQmRlV01SUDZrQVUwTXQ4?=
- =?utf-8?B?emFJZ3VBdlVUNmlHWnJrMEFuc2xzS3htYzd2enpUZUVUaHMxSEdRak1EbGY4?=
- =?utf-8?B?aHhxUGJiRWFITTFBKzN6MTc5VU9MMk9oSXZDTlpMaW9FMzJxbWpPeW93em4r?=
- =?utf-8?B?alYzcUtuVUlYaGpmWG85dVVtSmxvMXdwcXU0blFucnZMbWorZDFhekNkMklm?=
- =?utf-8?B?TXdFQlFsZlBBbSt1UFFUaG5kOWxacGQ4VVlGTW1aVk5oUWZoV1pRRjlhbi9S?=
- =?utf-8?B?bStGUFRiVDNnMjIrSW1EY2R0UHdxL0EwRkVoazVYN3hzamtXYUNyNDJFZHAw?=
- =?utf-8?B?bmJ1czFWb1pORS9aaE0yVm41b2haa2ltS3VNSW9La3hscGRvQWxmWGhTUGwy?=
- =?utf-8?B?K3UwUW9mWjRybDZqcnJQN3BCeEx2c0pjdFViQnRTZ3BGZ0p3UDBwL2t2VGNo?=
- =?utf-8?B?L2VTNklXQmxnZ3crdWREWm5iWFNLV3NEcVlHTUhLNzlPNVV5cmJUc0VxdXpL?=
- =?utf-8?B?Tm5rSlMzdEhGL1huM1hGdloxZnhqZU5Oam5tVXcwZ3d4bzRZbUNwNi9hTEZ5?=
- =?utf-8?B?OWpFVS9HZmtaUDBJYmY1TzNlUVdsVWROQk4zU0loMUNNZzJqbjNzMSs2RTNt?=
- =?utf-8?B?aEdHWUJJQWVPc1VkdlNCODNqc25RTVovbU4zM2FFQlBsTVprSjVCcGhUNG16?=
- =?utf-8?B?QVRDQkxDNCthb3lJNkxoNEZVK0xCekdWMGxzZzF1VG02SVA2dVhKYm9sZmcy?=
- =?utf-8?B?MXhqK3FLRmExam1sUVZNWDVBQU0ySklVVEpxUHFOTTFmaGZTcFFka3hZWXhE?=
- =?utf-8?B?ZlBmNTQ3R3Q2UVBraW03c2h5Q3VTcGREUHBVUFRHNHhjSjRmSnQwZGMvRU1t?=
- =?utf-8?B?VVZXOEVwL3cxZitxU0gxVm5DbTFMTDN6RVF6UUhEOHNnTTJ3eTZiT3lNdnJO?=
- =?utf-8?B?UXNYWXVZbmEzTlpSMFZjM3VMN3RoN0srSjhFaXNYUllwTklHYUpzNmttU1B3?=
- =?utf-8?B?TlRON2xOTkVtTjBIU1dlMG9FWTYvQ0k1dmJmT2RjeGtvekp1S3ZBWE9wNWli?=
- =?utf-8?B?SXdrTUJJK0dSajlRc3Y1OHdpVkZrNVBRVzQwR1d6TzhUZ3VlQU5BNFFwL01n?=
- =?utf-8?B?eUhQRkVyczVUeXl6cHVvNGxFSXBhU2ZHUGZCUHNEUnZvRzl5WFpWblBBcGFT?=
- =?utf-8?B?a29pMUw4MGVYL3dqSVhmSm44b1A0SlBjT0tGV3Y2b0JlQllXeVhIM3pabHlL?=
- =?utf-8?B?ZGtLRFVMak1sMWxnaUcvRGh4MmErZWQ0Skx0M2ZjV2l5RDBIbVRVM3p3ZGRN?=
- =?utf-8?B?b2MwSWJkNmloa3JXYlJnRWdqRzI4QUlyMlNLMVlMZVZlUmROWkZINmRqN0FR?=
- =?utf-8?B?dmQ5dDVGMzExOE4wdEs1dzdJUTB4cTVWNG5rcHBHZXY4ZlNoTGIyc3k1cEo5?=
- =?utf-8?B?ZVN0S05Fdisrd0hUeTU1cG9WTHBtMmh0bjB3RGhMcTB3ZFNlTW1nV2xjQlZo?=
- =?utf-8?B?YlQzMCsrQzRXRyt4QzFZU2VvYU84SW93VmcvVlhRbVNWQnErVXpuT0N2c0Jx?=
- =?utf-8?B?RXFxd1ZsUHpTK2tFeDVUVCtBamxCbTZZUTluemwwWWJrWU1DZ0F1UTZhZC9C?=
- =?utf-8?B?QVhUakFoQ2tDUFdLRG1VRUNoZDBOOC9kekJiRkp2VDlET3FmMEFVZmZUUloz?=
- =?utf-8?B?cGN2QmpZTm5JMTRqV1lCM0xlejdwYVhCaVNvYmw0V0lNRVlQNktYWW5FZGJH?=
- =?utf-8?B?MmIwbVdnWG0rOEgvTFJjaEhBV2xDRTFWS2VHazg5MEF2aEl0bzZJZnQrdU12?=
- =?utf-8?B?M0tONDNsakxzbGhLc0Q1QVdEb1EzRXF6VERlWjRNeC9KemNjVzBqcnIrdU5B?=
- =?utf-8?B?OFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6A110E971
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 12:48:27 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F3F9F201C9;
+ Thu, 22 Aug 2024 12:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724330906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
+ b=DczE7k/Hmu41o6T4lopyOwqF+iYyoqwDJ1tuL0D/14e79FKhTfaisPm+IOulXPQdVtjz67
+ Q1Rl/Coqm6v77HseA/SI17+8xwnBRZyUD9t6NpMEJvrJIFapfzdf3r+1WQ8HcqWqLUvRhD
+ PVgAF86m6eDNPd67A6qzaPG4Yhuyzbs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724330906;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
+ b=iGKUdVGYlOgtT2zjcOKbQgSLsgpvNaVkmRxEwbHt316nemmgJZ8tVHrZObEQl19JqHtjvv
+ OlgAUMHsD0QIvTBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724330906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
+ b=DczE7k/Hmu41o6T4lopyOwqF+iYyoqwDJ1tuL0D/14e79FKhTfaisPm+IOulXPQdVtjz67
+ Q1Rl/Coqm6v77HseA/SI17+8xwnBRZyUD9t6NpMEJvrJIFapfzdf3r+1WQ8HcqWqLUvRhD
+ PVgAF86m6eDNPd67A6qzaPG4Yhuyzbs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724330906;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
+ b=iGKUdVGYlOgtT2zjcOKbQgSLsgpvNaVkmRxEwbHt316nemmgJZ8tVHrZObEQl19JqHtjvv
+ OlgAUMHsD0QIvTBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83A03139D3;
+ Thu, 22 Aug 2024 12:48:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id b39gHpkzx2aeQAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Aug 2024 12:48:25 +0000
+Message-ID: <0dc75dad-c9ab-4797-81cf-07d607309902@suse.de>
+Date: Thu, 22 Aug 2024 14:48:24 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dcfd13e0-1cac-43de-1ab1-08dcc2a82195
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2024 12:44:15.3381 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DhybKDfHw/kZSDF4Vo2/vixvHhHF1LO600Yld0CoTDAPQy08Z3df5P9i0PwAtSnPYlQtyY2pJYMrHt8cVfr4VGB0SSuDS3xh9l/nU6sNyns=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10742
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/4] drm/panic: Add integer scaling to blit()
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>
+References: <20240822073852.562286-1-jfalempe@redhat.com>
+ <20240822073852.562286-2-jfalempe@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240822073852.562286-2-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,garyguo.net,protonmail.com,proton.me,samsung.com,google.com,vger.kernel.org,lists.freedesktop.org];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[18];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TAGGED_RCPT(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,47 +153,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgR2VlcnQgVXl0dGVyaG9ldmVuLA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCg0KPiAt
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdl
-ZXJ0QGxpbnV4LW02OGsub3JnPg0KPiBTZW50OiBUaHVyc2RheSwgQXVndXN0IDIyLCAyMDI0IDE6
-MzEgUE0NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MyAyLzRdIGRybTogcmVuZXNhczogcnotZHU6
-IEFkZCBSWi9HMlVMIERVIFN1cHBvcnQNCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBPbiBNb24sIEF1
-ZyA1LCAyMDI0IGF0IDY6MjLigK9QTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5j
-b20+IHdyb3RlOg0KPiA+IFRoZSBMQ0QgY29udHJvbGxlciBpcyBjb21wb3NlZCBvZiBGcmFtZSBD
-b21wcmVzc2lvbiBQcm9jZXNzb3IgKEZDUFZEKSwNCj4gPiBWaWRlbyBTaWduYWwgUHJvY2Vzc29y
-IChWU1BEKSwgYW5kIERpc3BsYXkgVW5pdCAoRFUpLg0KPiA+DQo+ID4gSXQgaGFzIERQSSBpbnRl
-cmZhY2UgYW5kIHN1cHBvcnRzIGEgbWF4aW11bSByZXNvbHV0aW9uIG9mIFdYR0EgYWxvbmcNCj4g
-PiB3aXRoIDIgUlBGcyB0byBzdXBwb3J0IHRoZSBibGVuZGluZyBvZiB0d28gcGljdHVyZSBsYXll
-cnMgYW5kIHJhc3Rlcg0KPiA+IG9wZXJhdGlvbnMgKFJPUHMpLg0KPiA+DQo+ID4gVGhlIERVIG1v
-ZHVsZSBpcyBjb25uZWN0ZWQgdG8gVlNQRC4gQWRkIFJaL0cyVUwgRFUgc3VwcG9ydC4NCj4gPg0K
-PiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4N
-Cj4gPiAtLS0NCj4gPiB2Mi0+djM6DQo+ID4gICogQXZvaWRlZCB0aGUgbGluZSBicmVhayBpbiBy
-emcybF9kdV9zdGFydF9zdG9wKCkgZm9yIHJzdGF0ZS4NCj4gPiAgKiBSZXBsYWNlZCBwb3J0LT5k
-dV9vdXRwdXQgaW4gIHN0cnVjdCByemcybF9kdV9vdXRwdXRfcm91dGluZyBhbmQNCj4gPiAgICBk
-cm9wcGVkIHVzaW5nIHRoZSBwb3J0IG51bWJlciB0byBpbmRpY2F0ZSB0aGUgb3V0cHV0IHR5cGUg
-aW4NCj4gPiAgICByemcybF9kdV9lbmNvZGVyc19pbml0KCkuDQo+ID4gICogVXBkYXRlZCByemcy
-bF9kdV9yOWEwN2cwNDN1X2luZm8gYW5kIHJ6ZzJsX2R1X3I5YTA3ZzA0NF9pbmZvDQo+IA0KPiBU
-aGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+IA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yZW5l
-c2FzL3J6LWR1L3J6ZzJsX2R1X2ttcy5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JlbmVz
-YXMvcnotZHUvcnpnMmxfZHVfa21zLmMNCj4gPiBAQCAtMTgzLDggKzE4Myw4IEBAIHN0YXRpYyBp
-bnQgcnpnMmxfZHVfZW5jb2RlcnNfaW5pdChzdHJ1Y3QNCj4gPiByemcybF9kdV9kZXZpY2UgKnJj
-ZHUpDQo+ID4NCj4gPiAgICAgICAgICAgICAgICAgLyogRmluZCB0aGUgb3V0cHV0IHJvdXRlIGNv
-cnJlc3BvbmRpbmcgdG8gdGhlIHBvcnQgbnVtYmVyLiAqLw0KPiA+ICAgICAgICAgICAgICAgICBm
-b3IgKGkgPSAwOyBpIDwgUlpHMkxfRFVfT1VUUFVUX01BWDsgKytpKSB7DQo+ID4gLSAgICAgICAg
-ICAgICAgICAgICAgICAgaWYgKHJjZHUtPmluZm8tPnJvdXRlc1tpXS5wb3J0ID09IGVwLnBvcnQp
-IHsNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG91dHB1dCA9IGk7DQo+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgaWYgKGkgPT0gcmNkdS0+aW5mby0+cm91dGVzW2ldLmR1
-X291dHB1dCkgew0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgb3V0cHV0ID0N
-Cj4gPiArIHJjZHUtPmluZm8tPnJvdXRlc1tpXS5kdV9vdXRwdXQ7DQo+IA0KPiBOb3R3aXRoc3Rh
-bmRpbmcgTGF1cmVudCdzIGNvbW1lbnQsIHRoZSBhYm92ZSByZXBsYWNlbWVudCBpcyBlcXVpdmFs
-ZW50IHRvIHRoZSBvcmlnaW5hbCAib3V0cHV0ID0gaTsiLA0KPiBzbyB0aGVyZSBpcyBubyBuZWVk
-IHRvIGNoYW5nZSB0aGlzIGxpbmUuDQoNCkFncmVlZC4gSSBtaXNzZWQgdGhhdC4NCg0KQ2hlZXJz
-LA0KQmlqdQ0KDQo+IA0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7
-DQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgfQ0KPiA+ICAgICAgICAgICAgICAgICB9DQo+
-IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIEdl
-ZXJ0DQo+IA0KPiAtLQ0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExp
-bnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LW02OGsub3JnDQo+IA0KPiBJbiBwZXJzb25h
-bCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwgSSBjYWxsIG15c2VsZiBhIGhh
-Y2tlci4gQnV0IHdoZW4gSSdtIHRhbGtpbmcgdG8NCj4gam91cm5hbGlzdHMgSSBqdXN0IHNheSAi
-cHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4NCj4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcw0K
+
+
+Am 22.08.24 um 09:33 schrieb Jocelyn Falempe:
+> Add a parameter to the blit function, to upscale the image.
+> This is necessary to draw a QR code, otherwise, the pixels are
+> usually too small to be readable by most QR code reader.
+> It can also be used later for drawing fonts on high DPI display.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/gpu/drm/drm_panic.c | 33 +++++++++++++++++++--------------
+>   1 file changed, 19 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index eff4598e2fc73..0a047152f88b8 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -257,20 +257,20 @@ static bool drm_panic_is_pixel_fg(const u8 *sbuf8, unsigned int spitch, int x, i
+>   static void drm_panic_blit16(struct iosys_map *dmap, unsigned int dpitch,
+>   			     const u8 *sbuf8, unsigned int spitch,
+>   			     unsigned int height, unsigned int width,
+> -			     u16 fg16)
+> +			     unsigned int scale, u16 fg16)
+>   {
+>   	unsigned int y, x;
+>   
+>   	for (y = 0; y < height; y++)
+>   		for (x = 0; x < width; x++)
+> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y))
+> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale))
+>   				iosys_map_wr(dmap, y * dpitch + x * sizeof(u16), u16, fg16);
+>   }
+>   
+>   static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
+>   			     const u8 *sbuf8, unsigned int spitch,
+>   			     unsigned int height, unsigned int width,
+> -			     u32 fg32)
+> +			     unsigned int scale, u32 fg32)
+>   {
+>   	unsigned int y, x;
+>   
+> @@ -278,7 +278,7 @@ static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
+>   		for (x = 0; x < width; x++) {
+>   			u32 off = y * dpitch + x * 3;
+>   
+> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y)) {
+> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale)) {
+>   				/* write blue-green-red to output in little endianness */
+>   				iosys_map_wr(dmap, off, u8, (fg32 & 0x000000FF) >> 0);
+>   				iosys_map_wr(dmap, off + 1, u8, (fg32 & 0x0000FF00) >> 8);
+> @@ -291,24 +291,25 @@ static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
+>   static void drm_panic_blit32(struct iosys_map *dmap, unsigned int dpitch,
+>   			     const u8 *sbuf8, unsigned int spitch,
+>   			     unsigned int height, unsigned int width,
+> -			     u32 fg32)
+> +			     unsigned int scale, u32 fg32)
+>   {
+>   	unsigned int y, x;
+>   
+>   	for (y = 0; y < height; y++)
+>   		for (x = 0; x < width; x++)
+> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y))
+> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale))
+>   				iosys_map_wr(dmap, y * dpitch + x * sizeof(u32), u32, fg32);
+>   }
+>   
+>   static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect *clip,
+> -				 const u8 *sbuf8, unsigned int spitch, u32 fg_color)
+> +				 const u8 *sbuf8, unsigned int spitch, unsigned int scale,
+> +				 u32 fg_color)
+>   {
+>   	unsigned int y, x;
+>   
+>   	for (y = 0; y < drm_rect_height(clip); y++)
+>   		for (x = 0; x < drm_rect_width(clip); x++)
+> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y))
+> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale))
+>   				sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, fg_color);
+>   }
+>   
+> @@ -318,18 +319,22 @@ static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect
+>    * @clip: destination rectangle
+>    * @sbuf8: source buffer, in monochrome format, 8 pixels per byte.
+>    * @spitch: source pitch in bytes
+> + * @scale: integer scale, source buffer is scale time smaller than destination
+> + *         rectangle
+>    * @fg_color: foreground color, in destination format
+>    *
+>    * This can be used to draw a font character, which is a monochrome image, to a
+>    * framebuffer in other supported format.
+>    */
+>   static void drm_panic_blit(struct drm_scanout_buffer *sb, struct drm_rect *clip,
+> -			   const u8 *sbuf8, unsigned int spitch, u32 fg_color)
+> +			   const u8 *sbuf8, unsigned int spitch,
+> +			   unsigned int scale, u32 fg_color)
+> +
+>   {
+>   	struct iosys_map map;
+>   
+>   	if (sb->set_pixel)
+> -		return drm_panic_blit_pixel(sb, clip, sbuf8, spitch, fg_color);
+> +		return drm_panic_blit_pixel(sb, clip, sbuf8, spitch, scale, fg_color);
+>   
+>   	map = sb->map[0];
+>   	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
+> @@ -337,15 +342,15 @@ static void drm_panic_blit(struct drm_scanout_buffer *sb, struct drm_rect *clip,
+>   	switch (sb->format->cpp[0]) {
+>   	case 2:
+>   		drm_panic_blit16(&map, sb->pitch[0], sbuf8, spitch,
+> -				 drm_rect_height(clip), drm_rect_width(clip), fg_color);
+> +				 drm_rect_height(clip), drm_rect_width(clip), scale, fg_color);
+>   	break;
+>   	case 3:
+>   		drm_panic_blit24(&map, sb->pitch[0], sbuf8, spitch,
+> -				 drm_rect_height(clip), drm_rect_width(clip), fg_color);
+> +				 drm_rect_height(clip), drm_rect_width(clip), scale, fg_color);
+>   	break;
+>   	case 4:
+>   		drm_panic_blit32(&map, sb->pitch[0], sbuf8, spitch,
+> -				 drm_rect_height(clip), drm_rect_width(clip), fg_color);
+> +				 drm_rect_height(clip), drm_rect_width(clip), scale, fg_color);
+>   	break;
+>   	default:
+>   		WARN_ONCE(1, "Can't blit with pixel width %d\n", sb->format->cpp[0]);
+> @@ -485,7 +490,7 @@ static void draw_txt_rectangle(struct drm_scanout_buffer *sb,
+>   		for (j = 0; j < line_len; j++) {
+>   			src = get_char_bitmap(font, msg[i].txt[j], font_pitch);
+>   			rec.x2 = rec.x1 + font->width;
+> -			drm_panic_blit(sb, &rec, src, font_pitch, color);
+> +			drm_panic_blit(sb, &rec, src, font_pitch, 1, color);
+>   			rec.x1 += font->width;
+>   		}
+>   	}
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
