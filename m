@@ -2,78 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B56D95B86D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:32:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CCE95B874
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95F3810EAEB;
-	Thu, 22 Aug 2024 14:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C84A10EAEE;
+	Thu, 22 Aug 2024 14:33:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XcXSZSe8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ln47OoDJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82FCA10EAE6;
- Thu, 22 Aug 2024 14:32:14 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-201f1fe3909so252455ad.3; 
- Thu, 22 Aug 2024 07:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724337134; x=1724941934; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jQgK1rzIXwmb3RwGA5P0Qn1wZh572puhdY49SX1RQsY=;
- b=XcXSZSe8YpSwBDw4n+pFLT2dkVltXq9GQbm1d6HBbDPzUrnoK5eI3cJEFmpkgpbPBM
- 9KAJ0pl8UD4XjEZls8IxSWtKZUvs/oNcYo0a6UTqOACvAHXhG6qww6MsnRq2dO8iirCL
- zN7S+gbt7M4Gr6imOG2ORUwSsUp+ZSb0ZLcPRjExebvGfufyRaPIrIKlD5wK/70PHX7X
- G5qqh3Onb8u2bCthJk7hXlb1Hk28HUM8Oy478m5afvAxa1IC/ldWv2CsxBs7jwPd3EnU
- GO81fvZOW6XEfQUVaYLU5DOxLrO8HDuXlNBci2/Gfm+QTbMoEnbt0AkKfOhi2AsB930i
- wXlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724337134; x=1724941934;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jQgK1rzIXwmb3RwGA5P0Qn1wZh572puhdY49SX1RQsY=;
- b=IQI7PrODfxBEeEgo/oZ1lrWnqq10DDKyyCFUvNYmMOw0NpULlyXIDQ9+VCBsP13uZ1
- tZS+ra4aQy31gjonTwxye+C1mtBZT6/EOYjmWFztLFxcnZTBZ+MQrGjbpJKBi71bWoFZ
- lyPsynnRoL+pMboKtqAR3P5AwANdoqyMUv5nAqFxbJC9H2DWyIW5Uf8TEttx4rviiHk0
- NeVYsg3V1RvRJTzRXBN3UmEFgfW6VaAJacDRpdmrSH3fMqQdv+9dndV16eVYVFEycIPw
- +poSPOBw87hFKgj9NJ2LxH7hY5QAcns/Hu2BysnURcFPoPo0K2q0wUnwPN/L6u+PGmou
- PJaA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/QmbW529Eoh0oE3WFWgAgHZaFXyrHrBB0JzcSGqpF0h+0GtL9kgCKV8N99yNRBOpFRtZq5Qjntyo=@lists.freedesktop.org,
- AJvYcCUjUSqt21ALC/J81z9yM2giseekcfqNwclOi8aCQ2NWnLXBK+6xgppcBIdIKDSZfR4ftR17em9OxiiN@lists.freedesktop.org,
- AJvYcCWH0F+Omrmf/Ym4l70Vobbj/c4kWPHZcxaLNkyRaLI4MVZfVKTLe0dSKEfYbt4CqC6yjJjuUj5cttUu@lists.freedesktop.org,
- AJvYcCX3N3s1NKGGfdbXCdtfihy/xCxy+aTrhRdxhk0FlEFyfzU0ozZtLn8qVQD4+FdKnsfxBcFzWgiu@lists.freedesktop.org,
- AJvYcCXt+oB9l5fo26F2A8uqd2ckHGhu009UhdBtJlZtVrHHYmH46HpyrJR2EqZego63kvig66DPGfnmig==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz84fMjmE/Hw/RU2aloow2yIBuNBM2JB0Jp0SEiM0s1ymoj7l0z
- ck6t0P1GZvFZnoqOJ5hDciM65uK4BxT1paF53tc3chrAn6B0O0gTpj4ft2ZXymlyFUxKfQcvc7d
- 7atdmA8n5c8oaYuicO88NEOtwIdc=
-X-Google-Smtp-Source: AGHT+IFcoi3jyv0WQ57Re9pO2UnzP8uVCsSHk1/w9ub/ssnYLVZ/EfsXb+pIpM+iMOaFWU3SIwh/eC9EQpLx3I1sncM=
-X-Received: by 2002:a17:902:d2ce:b0:202:4e99:210a with SMTP id
- d9443c01a7336-20368072948mr39657575ad.6.1724337133656; Thu, 22 Aug 2024
- 07:32:13 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3998810EAEE
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724337189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TiOSeK0uV1KVkgiWm5BAMAyKVF0fbg0HQk83Zne93d8=;
+ b=Ln47OoDJa8KyZZK0kdr3EgeKMM7aqdi40iMdle9sCQT8k8cymv9WhYpMwlZcTXk7l5BLjV
+ UEBAOXWJBuGfRHl63sksWT5k+4MpDnX01ouRVILttJL13o7hFBzyhs0Uj8F8Arsih6E4Xa
+ n8PvtBiYjDxhYe91VSy5eq0UFiCY+YY=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-484-r0P94my6NrmoCck1wVf-Ww-1; Thu,
+ 22 Aug 2024 10:33:05 -0400
+X-MC-Unique: r0P94my6NrmoCck1wVf-Ww-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0FF251955D4B; Thu, 22 Aug 2024 14:33:01 +0000 (UTC)
+Received: from [192.168.37.1] (unknown [10.22.50.5])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id E14321932D1B; Thu, 22 Aug 2024 14:32:38 +0000 (UTC)
+From: Benjamin Coddington <bcodding@redhat.com>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ ian.forbes@broadcom.com, martin.krastev@broadcom.com,
+ maaz.mombasawala@broadcom.com
+Subject: Re: [PATCH 0/3] Various prime/dumb buffer fixes
+Date: Thu, 22 Aug 2024 10:32:36 -0400
+Message-ID: <F78CFF8E-60AD-4FC7-A4A4-A9E29BDC5AA6@redhat.com>
+In-Reply-To: <20240816183332.31961-1-zack.rusin@broadcom.com>
+References: <20240816183332.31961-1-zack.rusin@broadcom.com>
 MIME-Version: 1.0
-References: <20240821130348.73038-1-tzimmermann@suse.de>
- <20240821130348.73038-66-tzimmermann@suse.de>
-In-Reply-To: <20240821130348.73038-66-tzimmermann@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 22 Aug 2024 10:32:02 -0400
-Message-ID: <CADnq5_MeNUiqUHioN9u-wpsUKFHXpo+y8P42unOhv1mOHjjPag@mail.gmail.com>
-Subject: Re: [PATCH v2 65/86] drm/amdgpu: Run DRM default client setup
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, 
- javierm@redhat.com, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,81 +72,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 21, 2024 at 9:06=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Call drm_client_setup() to run the kernel's default client setup
-> for DRM. Set fbdev_probe in struct drm_driver, so that the client
-> setup can start the common fbdev client.
->
-> The amdgpu driver specifies a preferred color mode depending on
-> the available video memory, with a default of 32. Adapt this for
-> the new client interface.
->
-> v2:
-> - style changes
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+On 16 Aug 2024, at 14:32, Zack Rusin wrote:
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> This is the same series I've sent out earlier but with one extra patch,
+> that fixes the dumb buffer coherency on low mem systems.
+>
+> The second patch has also been updated to not use math functions.
+>
+> Zack Rusin (3):
+>   drm/vmwgfx: Prevent unmapping active read buffers
+>   drm/vmwgfx: Fix prime with external buffers
+>   drm/vmwgfx: Disable coherent dumb buffers without 3d
+>
+>  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c    | 114 +++++++++++++++++++++++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      |  13 ++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h      |   3 +
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |   4 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c    |  12 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |   6 +-
+>  6 files changed, 136 insertions(+), 16 deletions(-)
+>
+> -- 
+> 2.43.0
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_drv.c
-> index 5dd39e6c6223..849d59e2bca7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -23,6 +23,7 @@
->   */
->
->  #include <drm/amdgpu_drm.h>
-> +#include <drm/drm_client_setup.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_fbdev_ttm.h>
->  #include <drm/drm_gem.h>
-> @@ -2341,11 +2342,15 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->          */
->         if (adev->mode_info.mode_config_initialized &&
->             !list_empty(&adev_to_drm(adev)->mode_config.connector_list)) =
-{
-> +               const struct drm_format_info *format;
-> +
->                 /* select 8 bpp console on low vram cards */
->                 if (adev->gmc.real_vram_size <=3D (32*1024*1024))
-> -                       drm_fbdev_ttm_setup(adev_to_drm(adev), 8);
-> +                       format =3D drm_format_info(DRM_FORMAT_C8);
->                 else
-> -                       drm_fbdev_ttm_setup(adev_to_drm(adev), 32);
-> +                       format =3D NULL;
-> +
-> +               drm_client_setup(adev_to_drm(adev), format);
->         }
->
->         ret =3D amdgpu_debugfs_init(adev);
-> @@ -2957,6 +2962,7 @@ static const struct drm_driver amdgpu_kms_driver =
-=3D {
->         .num_ioctls =3D ARRAY_SIZE(amdgpu_ioctls_kms),
->         .dumb_create =3D amdgpu_mode_dumb_create,
->         .dumb_map_offset =3D amdgpu_mode_dumb_mmap,
-> +       DRM_FBDEV_TTM_DRIVER_OPS,
->         .fops =3D &amdgpu_driver_kms_fops,
->         .release =3D &amdgpu_driver_release_kms,
->  #ifdef CONFIG_PROC_FS
-> @@ -2983,6 +2989,7 @@ const struct drm_driver amdgpu_partition_driver =3D=
- {
->         .num_ioctls =3D ARRAY_SIZE(amdgpu_ioctls_kms),
->         .dumb_create =3D amdgpu_mode_dumb_create,
->         .dumb_map_offset =3D amdgpu_mode_dumb_mmap,
-> +       DRM_FBDEV_TTM_DRIVER_OPS,
->         .fops =3D &amdgpu_driver_kms_fops,
->         .release =3D &amdgpu_driver_release_kms,
->
-> --
-> 2.46.0
->
+I applied these three to v6.11-rc4 to fix the regression:
+https://lore.kernel.org/all/0d0330f3-2ac0-4cd5-8075-7f1cbaf72a8e@heusel.eu/
+
+Thanks for the fix! Seems to make my setup work again, so FWIW you can use my:
+Tested-by: Benjamin Coddington <bcodding@redhat.com>
+
+Ben
+
