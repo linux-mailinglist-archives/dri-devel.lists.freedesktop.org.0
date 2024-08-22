@@ -2,78 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7C295BF9E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 22:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C514495BFEC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 22:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC9A310E7F2;
-	Thu, 22 Aug 2024 20:37:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2970B10E0E0;
+	Thu, 22 Aug 2024 20:50:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YEP1Qrfj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TdmAG4+q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA0F10E633;
- Thu, 22 Aug 2024 20:37:33 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47MA6Ivu027879;
- Thu, 22 Aug 2024 20:37:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=JKl+arsPd7Vxoos92K3LpOUY
- y3KZg5MRl/g6iN3vzoI=; b=YEP1Qrfj7a0mxVuivZ0Q1G5az12sU+6nyEwOcSqF
- MZkyi8hWByTJiyWKEmgLaHd7ZcHgYuM43fUvE+jfeF859mrIzyXoE85OoXyZ7csa
- c3utNj+W7XXz0UqpWn7Lk9Q/kyYtuUSqziCKXcfrxq2ndPWG9M30GCnmWfPw/ASN
- KZmcPcoOLukyCrNzLvv1ilcwIhpy48tjje1mm6dUM2t/CTxntoDpQHAdrBAZzznK
- sU0bxduhiz4EG1OKL+ydB6MIAU7zyn+BHa3zXMAPV2s2fQKNvRPwLWaTz5VonDub
- vwdfNOgb9B0LzZT06DR0F86doZHfKFH7TXMcH1syBUgusw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414v5cg0kw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Aug 2024 20:37:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47MKbMZN011524
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Aug 2024 20:37:22 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 22 Aug 2024 13:37:18 -0700
-Date: Fri, 23 Aug 2024 02:07:14 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Li Zetao <lizetao1@huawei.com>
-CC: <robdclark@gmail.com>, <sean@poorly.run>, <konrad.dybcio@linaro.org>,
- <quic_abhinavk@quicinc.com>, <dmitry.baryshkov@linaro.org>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-Subject: Re: [PATCH -next] drm/msm/adreno: Use kvmemdup to simplify the code
-Message-ID: <20240822203714.brki6blotqzoutpu@hu-akhilpo-hyd.qualcomm.com>
-References: <20240821012134.1947547-1-lizetao1@huawei.com>
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B4BC10E0E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 20:50:50 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-5bec87ececeso1684475a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 13:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724359849; x=1724964649; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Fw3+iCjTPQFvMhYVXHpivZMghgw126sYI/qUY4SnqZ8=;
+ b=TdmAG4+q3eKTLTc1LSyrbYQRWtXNgRPERnddzgYfmE2L/P6rCwfBqkGDUMZfdmL3XB
+ VsBNc9GOPVG1mAABtks8mJXfMMqiu20YOKmOwNJ5To/hgbSPL0rkIxU6/xDfknTRORaA
+ LyZvqOSD5nsFK9rXCBAZ83oYWF2U6sYd9Wwd9DTJlapXUmAeYxGCKLbgXOY5lpH0FBO+
+ 3iJm5msJGr0J+8J1VWIbysC3TfpILsMipe7P5BTXeDgS3W6dSRU0fBeTlCC0zfeZ8L4W
+ gdIlH+e1fySTo93VCPXzMVjHUqvS36inV1ujc0domIGavx86XgjjN2fTe4/a35mMc/op
+ OyQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724359849; x=1724964649;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Fw3+iCjTPQFvMhYVXHpivZMghgw126sYI/qUY4SnqZ8=;
+ b=jvK+jfn50fiLD/d0M0YQQDcSs8+AvN0fCB0D88Sq38rdeN4JC/OAddm3XDASPN5Uj1
+ hJssQvp8n9p6Qfku0Rdz3bpglXZiPsvKpzI2clcqiSs37ZWSM6wWLuRQY06FQR0gO4Wg
+ wTEkN+aZEYihRRjZQq4jvs/fn7hNyzqb5E5K0ufBJooBLoD+j9G/CsKd9OPUyV/JHavx
+ qtbLp0ujDBSsjJR+j2+LAKn0G/45JjliNUhSwCIK5CPrwS0wuY+XUzGD2MPDNAh3FMV6
+ /s/k1DEpT4iYDkxV4mSAovOAAmRrriQEBYTFZnaYQm2A61XY1fxlPXQuvVCYghW3yx97
+ IiMA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9RLI2fwB8IzbQ/F1APMx4V0EUMCWBaGRqNAKRn5nGAXfgyKicbaTq0ngKz3hbaU3G95BDqhHgz9A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytFIYsgq23NyjYSv13uCN+GSSYe0aSc7s229Re128BPX7cZ5qg
+ am4QC0vSwDLA6Bt/3NWN4SUIWnlicK9wV3iYiVMJcoS4Lq6DPrsG
+X-Google-Smtp-Source: AGHT+IHva2stwTSqG7rGZTaZUHh+/wTMO8O+48GKKMUS8dBUyWj5Buqho3Efd6rTd7pGcg1cwITIAQ==
+X-Received: by 2002:a17:906:eec4:b0:a7a:3928:3529 with SMTP id
+ a640c23a62f3a-a866f110c45mr589588266b.13.1724359848540; 
+ Thu, 22 Aug 2024 13:50:48 -0700 (PDT)
+Received: from localhost
+ (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a868f436ba2sm162067366b.120.2024.08.22.13.50.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Aug 2024 13:50:48 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/tegra: hdmi: make read-only const array
+ possible_nvram_sizes static
+Date: Thu, 22 Aug 2024 21:50:47 +0100
+Message-Id: <20240822205047.642845-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240821012134.1947547-1-lizetao1@huawei.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: DlkV6GGKzqRSxaAGK8DEN547z8zHgZ4q
-X-Proofpoint-ORIG-GUID: DlkV6GGKzqRSxaAGK8DEN547z8zHgZ4q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-22_14,2024-08-22_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- spamscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
- phishscore=0 priorityscore=1501 clxscore=1011 malwarescore=0
- mlxlogscore=817 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408220154
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,40 +86,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 21, 2024 at 09:21:34AM +0800, Li Zetao wrote:
-> Use kvmemdup instead of kvmalloc() + memcpy() to simplify the code.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
+Don't populate the const read-only array possible_nvram_sizes on the
+stack at run time, instead make it static.
 
-Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/tegra/hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--Akhil
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index 09987e372e3e..6bf2dae82ca0 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -434,7 +434,7 @@ tegra_hdmi_get_audio_config(unsigned int audio_freq, unsigned int pix_clock,
+ 
+ static void tegra_hdmi_setup_audio_fs_tables(struct tegra_hdmi *hdmi)
+ {
+-	const unsigned int freqs[] = {
++	static const unsigned int freqs[] = {
+ 		32000, 44100, 48000, 88200, 96000, 176400, 192000
+ 	};
+ 	unsigned int i;
+-- 
+2.39.2
 
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 1c6626747b98..ef473ac88159 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -688,11 +688,9 @@ int adreno_gpu_state_get(struct msm_gpu *gpu, struct msm_gpu_state *state)
->  				size = j + 1;
->  
->  		if (size) {
-> -			state->ring[i].data = kvmalloc(size << 2, GFP_KERNEL);
-> -			if (state->ring[i].data) {
-> -				memcpy(state->ring[i].data, gpu->rb[i]->start, size << 2);
-> +			state->ring[i].data = kvmemdup(gpu->rb[i]->start, size << 2, GFP_KERNEL);
-> +			if (state->ring[i].data)
->  				state->ring[i].data_size = size << 2;
-> -			}
->  		}
->  	}
->  
-> -- 
-> 2.34.1
-> 
-> 
