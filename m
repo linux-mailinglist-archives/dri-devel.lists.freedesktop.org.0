@@ -2,136 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DDD95B985
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 17:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723E995B994
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 17:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA2E10EB27;
-	Thu, 22 Aug 2024 15:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C90CA10EB2E;
+	Thu, 22 Aug 2024 15:13:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="y1jsbxlb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YOjS9iFl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JiPLEqk5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ix5qUQdV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BktS2b7h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 490D210EB27;
- Thu, 22 Aug 2024 15:12:33 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9597F21C36;
- Thu, 22 Aug 2024 15:12:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724339551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6MQZLpH8eQtdv70WxvNyxywfe3uyuFLeaB2Dv0NwMkg=;
- b=y1jsbxlb/hBLGXTqYmWXBF286muWXTf4Dj9Q+8Rdf4Fq12X3FJP4/8qNyFZcLG75NBJT3x
- cVX/LEHpkTaDney1focXrvYZGXf4SWhhQ19oGMBh8OwpTInbs3YbsHQoBpcL4Cf6Y3xBWg
- k4ki/7dFwX9gHHXcq5TmkpVeANQC26w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724339551;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6MQZLpH8eQtdv70WxvNyxywfe3uyuFLeaB2Dv0NwMkg=;
- b=YOjS9iFlYR8FMZW6TcBmD+IMCagDBzDodE5Y3p4MMEUNoywdChXdqGP5FBwWXMpEDWO70y
- ma4jj5EKQYl1LzBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724339550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6MQZLpH8eQtdv70WxvNyxywfe3uyuFLeaB2Dv0NwMkg=;
- b=JiPLEqk5Lh9nDCPeHiKRNCy3nvQGnPvBgL6WfqaXi3Jca2gtagXlVQIsf811+E3UQLQWTl
- Fj3xdHn8+syJQUmKM0fxN4dDhnCV5cV7Bvu04vuH5vrIQfGqval5ieiijuc5WCg2LZ6Ki7
- 9Mle4HeneDNgMFidScwIMknMRAd/N50=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724339550;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6MQZLpH8eQtdv70WxvNyxywfe3uyuFLeaB2Dv0NwMkg=;
- b=ix5qUQdVb78+pUrFF/1DZOIB1UkOZgPhVp36g9Y0brpNib9jg0aDFzxs2+85w96o9tfPhe
- KmCAH8KT4JXqOoCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5554C13297;
- Thu, 22 Aug 2024 15:12:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id JwEiE15Vx2aRcAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 22 Aug 2024 15:12:30 +0000
-Message-ID: <f9461a7c-f2ea-44e1-91bb-e4767517f6f2@suse.de>
-Date: Thu, 22 Aug 2024 17:12:29 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2826310EB2F;
+ Thu, 22 Aug 2024 15:13:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724339589; x=1755875589;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=ChdyoKyTwoqbwsfnBXRlP/J0ZgTA1kPrw2HULNJfj64=;
+ b=BktS2b7hv9ufJxbCDgKcEBloSNHiGR4N2JW7RbsIluy6uad4965bdie9
+ SNZ3/c+16ASijwlebZCwlDzXmKE1n0edVf9GwkzTxmE3CeBZtRPyhIP/s
+ VRahMHJjkpudw4Jjp+cauxtjO4osQqzmswZDD/DApUCLDGhl3wT9XjZ9p
+ Ot/u9OiOyI/g6ktpIFyXUn9AZ1uyXDYb77nv3udA5uOKJI7phUhcZcP0Z
+ vw9Dwoper6RLbOcgpsUfql8MAk14rgsqVKQD0fr16GgrBrdN14oagk3e1
+ igySgSAumguOxIGf7t4R9fbTK25RvZfVOW/tmYCN1LBQzajR1YfwQi6Ne A==;
+X-CSE-ConnectionGUID: T4/Du/S8QU+AR921jVlFGQ==
+X-CSE-MsgGUID: SJtVlObvRieTlQiozFKriA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22890574"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="22890574"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2024 08:13:08 -0700
+X-CSE-ConnectionGUID: nKpdii5ATTC8zf4JzDIvig==
+X-CSE-MsgGUID: 55QBnilMRj+hjUTPM+dl3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="92276117"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 22 Aug 2024 08:13:08 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 22 Aug 2024 08:13:07 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 22 Aug 2024 08:13:07 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 22 Aug 2024 08:13:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XAh1WlPejTFUqEcV7ADL6hIqiD0sfHc6C/SeH6ujC/sXn/1vNrlUvz7mTcX5VflWZlj5MIAO1xXWe9hGe3brDSBUyhnwhHfUllpAVF298iRqCZO1WfWoJk7hGe1WiwfV/psH24Q/mEbwzFdKBR1joecgjbVhVJxEI9gh8b90xqg3mySWGPbtZLsmjVxRbEa30/7U8RkTyR5a5ZFjYqaU8bcLoi7grMPOU0lzR0yLq+vH8EqoV5vyVOe55uaGhl7Cwqb9vsZsmamXRPuaIu2bAiHtfjroVlhFMiVYob+p+Uxv1QeJNBwVZYwR6c6j3RzKnHXj+px3RpXJFaGJGIdelA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OJ8LplakcEhxl5nOrKG4MwjitPod/k7SD2ZeiSrakdk=;
+ b=qrJbi77qnyPI0/hBrPnVaqbyjMvP867QySQHuk4Vaz9ewC0Omk2Z5KH0fp65cxcKJXf4o3wMFD2N5GUl9wqPfM/0D/Tct9ECUeghievB5lo7nAA0UEFNUtOqrpjCSDdtD8GXlihE9tE4E19Xje59OZALrRUQghnmCWM4zM3oqqDilUPwQdcSn+RUXlKg9ua+GVwOteRUXE9UzEFNiF5Gu0DysfPpzXaBGYsp/1La8SU1Gw1L/P3Yp6bQl+Z2lx5iANZ7q5To3ATi1t939jHcHDc6njbVGkSM+TBVOEUlx9xcvglnKkNxWG6qboRhkjfDM1uCs4/5sf9RS//txdeUUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
+ by BL1PR11MB5270.namprd11.prod.outlook.com (2603:10b6:208:313::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Thu, 22 Aug
+ 2024 15:13:04 +0000
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42%5]) with mapi id 15.20.7875.019; Thu, 22 Aug 2024
+ 15:13:04 +0000
+Date: Thu, 22 Aug 2024 11:12:59 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-fixes
+Message-ID: <ZsdVe0XI2Pq8C-ON@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SJ0PR03CA0122.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::7) To BYAPR11MB2854.namprd11.prod.outlook.com
+ (2603:10b6:a02:c9::12)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3] video/aperture: optionally match the device in
- sysfb_disable()
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- stable@vger.kernel.org
-References: <20240821191135.829765-1-alexander.deucher@amd.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240821191135.829765-1-alexander.deucher@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,redhat.com,gmx.de,ravnborg.org,ffwll.ch,vger.kernel.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, gmx.de:email, suse.de:mid,
- suse.de:email, ffwll.ch:email, ravnborg.org:email,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|BL1PR11MB5270:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f9128a3-75ad-444f-a1e4-08dcc2bceb44
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2eek2wpqN1FSxY9eXkFRleQFTeW/VpzatE/I3ouQB2LbI1mfK5665CyszPok?=
+ =?us-ascii?Q?euLWpq4Rpagwo3eJJXBMOiX6J7OBfgHo2Idk9eKQPWydB0iSIxXToLXQV7Pe?=
+ =?us-ascii?Q?RvYEjE3OO0dCOEh6bAB0M4Jy+oHu0KaA8Zr2kNtQe8QUnKq10cCqR9MScy7m?=
+ =?us-ascii?Q?h6R8sh/tkg0j/2tCFYzQyJbzvglQbXEa8jxi3v8oydiTHh4eDwrZQM7ly+mA?=
+ =?us-ascii?Q?/UMl3D9t7rpQzWmyxnjEJLYtCknzgaJOnj9I0Vvkf9us4yE+Dv6lJN47w6jo?=
+ =?us-ascii?Q?GwH/u0G8ppO4j9j3B+KuoXCH4nJdZogWJSa1Jerw49Eb6qXEGioC9ObPTdlV?=
+ =?us-ascii?Q?/KZjNgwYeNpvWTBVJwz7cDnh03ysRXfhc1J/Sf40fmtml2LLTVtk13mRe/cB?=
+ =?us-ascii?Q?IobwAFDpcIfIitEG/wKLRv1axzSkaf2WwAFzxSWxhj4n22/7UC9WBVAOe671?=
+ =?us-ascii?Q?mdQImDQLy6VJnM57lklUowjWBKzBi2G35/7SFjyScqGfnkeCByrXKC08bSQO?=
+ =?us-ascii?Q?W6rr1PzYP+Awacg+FYD0hPkldJ1E9ltw5ZV6dUt5s+pBbJOok0Lm1CDUWlZS?=
+ =?us-ascii?Q?UihfbxTNIbp/2aKqUkLAd0x+Z/omOg/d6RCiSUHvJ6Qn77Ezjkw2a1kXsQP3?=
+ =?us-ascii?Q?S+AUjJXpMgdHoEkaswD5SBfcsyK0JYnPpblEzyWsQyMAK3yJMu3iHoCXhQbm?=
+ =?us-ascii?Q?k8TE8muzYdCBIPs5JmnK6mWEiF4BoORdpLgBC4YGntjzoseho8dh3Pqq6NTz?=
+ =?us-ascii?Q?80uZgrTjVNLv0k9Ciqq5GXZt9STQdY9+k93oKxdJLjV7J5D0/t5o8tqk8PgI?=
+ =?us-ascii?Q?z9XymNeTOHXutp8KbjAw4GXlx1+VAw07KWogLPrUK8FYjZDqjKw4H73sC7cn?=
+ =?us-ascii?Q?Rb4sG/R8lK9gbrYsW3ZtzeF+Ckn54WLfwmWOGb4iGKjNFw82TkzILejFShtO?=
+ =?us-ascii?Q?Js1GAtK7Z+PfWTYnNjMsLMY8Xs3RyoI7qkpKZCTZa852ly/e1BquCEsw7L/U?=
+ =?us-ascii?Q?n7c9HGoLRI62j1ex3eSWLR/kIEx4oI/LUk6DmiRHYqkDBS5QjdOLZhARBNVh?=
+ =?us-ascii?Q?Q+SWCpmai2YWbmtZ8oimUlTkUoJME6s8qPqg4dxXvx9qlp2Rc6hDqeZZxGvZ?=
+ =?us-ascii?Q?15JGPgjdQr/n6JYbRI0K4WRowr5lw8gtniiRcll+QhAVIvnSdppn9uyiObSA?=
+ =?us-ascii?Q?836p1xDeCk3kyAkfgAQKb4WNCFNhRd5Z2ytNe2lAB9fMA/0/CAgDLDMoUA2t?=
+ =?us-ascii?Q?GapKo3G8KwWz2/6NgbZZzmOggC5ns7kWi01G34BxH8ArdoLXeaRmslR419QT?=
+ =?us-ascii?Q?uT8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nGTvqyduYWDGNfPxz4tfAYoy17mg+CkUaZye286ADULubtTdEwDZtJz6fmNP?=
+ =?us-ascii?Q?VQyKGZCQKlmskQn8BOXOP3mBppyWN3qBFXhgwelApxaJJgZmxiKjjOvUe6ql?=
+ =?us-ascii?Q?npq+yL6NMwhl8K48F8LRLGVp+b3JG0i6Jealova66braEAN8SmBTMfEQUl+3?=
+ =?us-ascii?Q?xeC11y/4dk3DIk22UB1IuABwz5DfwdB0A4MtJZCfZF1phG30aBMQBiBDIkRC?=
+ =?us-ascii?Q?LgYXDuJ48Fp7LkdjOYDv4fC0Xy8NKqB3gcsDFzp7pxzazAKE9BtDPlEwbbs+?=
+ =?us-ascii?Q?3YMGO88/HE55dQyTRdrNhxrV+IR3WpG0Pv5QKg6TgCpitXRcRDVCaD1GpUWo?=
+ =?us-ascii?Q?5ADCI38wDQAzIXVbvWoz+gJLB8zAJc5egS9YWHHk0sue7ci+q5Q9IvY4O6yb?=
+ =?us-ascii?Q?DjZCR4sPWzZqWmbRzeaFs9/0kmQ4m8uN/35s/Vr5Km/hVK0bLNfsZo3SUdHZ?=
+ =?us-ascii?Q?Q8PnpMuEhKZ4z67RL8x8dPuWsQcrfvibBSCkrxM9ZnJl3ThXrlE0JcxhClDY?=
+ =?us-ascii?Q?Q7vNz/IBwEmO9DJKVgP/K9nWkdKMnVN7LeEJr2aGuOxhhwrT4w4d5aA8xJyo?=
+ =?us-ascii?Q?RYZpwsQcLj3VpGcJ7JV7ZaYCFb0fOiaAY+FenM/0j1vBLUsKd4zJOkQRJz0z?=
+ =?us-ascii?Q?tjRk+C3XAUmWHS4IeEgz0GaRMf44+/6Rv6N192kmQLtuLu9m7iP90KsrRn/1?=
+ =?us-ascii?Q?2vBKuEWGzwrjUgUwRjtxhokoRDjo+dt0crxcfwmr+IWWof9DGoKOgld6BPhS?=
+ =?us-ascii?Q?CPftDXyo8EuKt064BfFDMuQxXiQu0mEimu4a63hYgNqyMGNi+GbnZZbKbpBs?=
+ =?us-ascii?Q?KRz5oqJEXrt/XDxdX6TnWj2TfDIdAWyTbXfi0kJL6CM4HytKKNvm8wXiPifh?=
+ =?us-ascii?Q?SCXYs2aBSaHmpU8yn6HQhx1CPwIzE0yHxiSPqnFojXgObUocPD5ge9NH2ski?=
+ =?us-ascii?Q?1yPH09wlV1duMA46ss5PTQy2FXtc8EZABnPJ6ge1Gx7HAZzRmyWDQpQkHxpf?=
+ =?us-ascii?Q?zNs4Vfmz4fxvtCG5MXFh1DA70YT5QupyU2+X+0cdHWKrvMxvJPMrT1mr/xrP?=
+ =?us-ascii?Q?tXdoTj/TeFuRZX0zgnd9zf/d2QEcsJ5TURsat6vEXF8yotsIi0uPWXyBij5n?=
+ =?us-ascii?Q?BygOHWbNbVTMcOPx7n04LQts43AZtaV9+d+9MgaTxOkGaYSk+I/Rpe69Tgap?=
+ =?us-ascii?Q?0Kd1DUuawbXQHWomqbLFzKPpV2HP2R7q8s0znb6aqiA8YqbJiMf/YeWOYctC?=
+ =?us-ascii?Q?067H9ir87j5CRDYJeXNgno43VYod3/dVtvejmEcV7NHzSnRJXhqedOjdd03Z?=
+ =?us-ascii?Q?1prjzfEnc0mY7GwfUw8Y7ilV9roHrMyrdY8Aptt8HZAI6tDXN2uJISZ1Qhrz?=
+ =?us-ascii?Q?cHhyB4hoXQvWU4CIL6do0Lw74dTW3iXa4GAJ8kYgH+9zYfvZGJjwnovDH0g5?=
+ =?us-ascii?Q?FycJR6pCk61G3obtJEMOpi8v3lKMsSGahhWhToRVZWXmZgaRYn91yE/kjrCY?=
+ =?us-ascii?Q?w6PnZ7xdUaPHXFfNUR/b45tjVY3B3K19n+G4jUy7GZcI7MIEoCNFDaMq8C2a?=
+ =?us-ascii?Q?+oU0Aya47yBDAyd/vRfO8eG5QE5nntwz7ilco0iMx6UqNHzujdKtIXyMJELG?=
+ =?us-ascii?Q?yA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f9128a3-75ad-444f-a1e4-08dcc2bceb44
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 15:13:03.9519 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DwrM8bHOdrIZriLqSi2pzZ/H7BB5GFeHBcTaeHotXkCR22seZVskT6FeB3qC9W8tgebjOmjpRirxAaGNAfAVFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5270
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,188 +179,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave and Sima,
 
+This is indeed a hectic week on our drm-xe-fixes.
 
-Am 21.08.24 um 21:11 schrieb Alex Deucher:
-> In aperture_remove_conflicting_pci_devices(), we currently only
-> call sysfb_disable() on vga class devices.  This leads to the
-> following problem when the pimary device is not VGA compatible:
->
-> 1. A PCI device with a non-VGA class is the boot display
-> 2. That device is probed first and it is not a VGA device so
->     sysfb_disable() is not called, but the device resources
->     are freed by aperture_detach_platform_device()
-> 3. Non-primary GPU has a VGA class and it ends up calling sysfb_disable()
-> 4. NULL pointer dereference via sysfb_disable() since the resources
->     have already been freed by aperture_detach_platform_device() when
->     it was called by the other device.
->
-> Fix this by passing a device pointer to sysfb_disable() and checking
-> the device to determine if we should execute it or not.
->
-> v2: Fix build when CONFIG_SCREEN_INFO is not set
-> v3: Move device check into the mutex
->      Drop primary variable in aperture_remove_conflicting_pci_devices()
->      Drop __init on pci sysfb_pci_dev_is_enabled()
->
-> Fixes: 5ae3716cfdcd ("video/aperture: Only remove sysfb on the default vga pci device")
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Cc: stable@vger.kernel.org
+- 10 of the patches here are patches that got recent merged.
+- 9 are extra patches, mostly workarounds, which were already
+in drm-xe-next, but not picked up for fixes due the lack of
+Fixes tag. Lucas had identified them on a backport effort and
+they look important for the overall stability, hence we are
+adding this for this round on top of the 10 regular fixes.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+The conflicts on taking them now were only trivial and solved
+getting the -next tree versions on a drm-tip rebuild.
+Everything recorded directly in drm-rerere, with no extra
+manual conflict handling needed.
 
-> ---
->   drivers/firmware/sysfb.c | 19 +++++++++++++------
->   drivers/of/platform.c    |  2 +-
->   drivers/video/aperture.c | 11 +++--------
->   include/linux/sysfb.h    |  4 ++--
->   4 files changed, 19 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-> index 880ffcb50088..ac4680dc463f 100644
-> --- a/drivers/firmware/sysfb.c
-> +++ b/drivers/firmware/sysfb.c
-> @@ -39,6 +39,8 @@ static struct platform_device *pd;
->   static DEFINE_MUTEX(disable_lock);
->   static bool disabled;
->   
-> +static struct device *sysfb_parent_dev(const struct screen_info *si);
-> +
->   static bool sysfb_unregister(void)
->   {
->   	if (IS_ERR_OR_NULL(pd))
-> @@ -52,6 +54,7 @@ static bool sysfb_unregister(void)
->   
->   /**
->    * sysfb_disable() - disable the Generic System Framebuffers support
-> + * @dev:	the device to check if non-NULL
->    *
->    * This disables the registration of system framebuffer devices that match the
->    * generic drivers that make use of the system framebuffer set up by firmware.
-> @@ -61,17 +64,21 @@ static bool sysfb_unregister(void)
->    * Context: The function can sleep. A @disable_lock mutex is acquired to serialize
->    *          against sysfb_init(), that registers a system framebuffer device.
->    */
-> -void sysfb_disable(void)
-> +void sysfb_disable(struct device *dev)
->   {
-> +	struct screen_info *si = &screen_info;
-> +
->   	mutex_lock(&disable_lock);
-> -	sysfb_unregister();
-> -	disabled = true;
-> +	if (!dev || dev == sysfb_parent_dev(si)) {
-> +		sysfb_unregister();
-> +		disabled = true;
-> +	}
->   	mutex_unlock(&disable_lock);
->   }
->   EXPORT_SYMBOL_GPL(sysfb_disable);
->   
->   #if defined(CONFIG_PCI)
-> -static __init bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
-> +static bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
->   {
->   	/*
->   	 * TODO: Try to integrate this code into the PCI subsystem
-> @@ -87,13 +94,13 @@ static __init bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
->   	return true;
->   }
->   #else
-> -static __init bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
-> +static bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
->   {
->   	return false;
->   }
->   #endif
->   
-> -static __init struct device *sysfb_parent_dev(const struct screen_info *si)
-> +static struct device *sysfb_parent_dev(const struct screen_info *si)
->   {
->   	struct pci_dev *pdev;
->   
-> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> index 389d4ea6bfc1..ef622d41eb5b 100644
-> --- a/drivers/of/platform.c
-> +++ b/drivers/of/platform.c
-> @@ -592,7 +592,7 @@ static int __init of_platform_default_populate_init(void)
->   			 * This can happen for example on DT systems that do EFI
->   			 * booting and may provide a GOP handle to the EFI stub.
->   			 */
-> -			sysfb_disable();
-> +			sysfb_disable(NULL);
->   			of_platform_device_create(node, NULL, NULL);
->   			of_node_put(node);
->   		}
-> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-> index 561be8feca96..2b5a1e666e9b 100644
-> --- a/drivers/video/aperture.c
-> +++ b/drivers/video/aperture.c
-> @@ -293,7 +293,7 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
->   	 * ask for this, so let's assume that a real driver for the display
->   	 * was already probed and prevent sysfb to register devices later.
->   	 */
-> -	sysfb_disable();
-> +	sysfb_disable(NULL);
->   
->   	aperture_detach_devices(base, size);
->   
-> @@ -346,15 +346,10 @@ EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
->    */
->   int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
->   {
-> -	bool primary = false;
->   	resource_size_t base, size;
->   	int bar, ret = 0;
->   
-> -	if (pdev == vga_default_device())
-> -		primary = true;
-> -
-> -	if (primary)
-> -		sysfb_disable();
-> +	sysfb_disable(&pdev->dev);
->   
->   	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
->   		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> @@ -370,7 +365,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
->   	 * that consumes the VGA framebuffer I/O range. Remove this
->   	 * device as well.
->   	 */
-> -	if (primary)
-> +	if (pdev == vga_default_device())
->   		ret = __aperture_remove_legacy_vga_devices(pdev);
->   
->   	return ret;
-> diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-> index c9cb657dad08..bef5f06a91de 100644
-> --- a/include/linux/sysfb.h
-> +++ b/include/linux/sysfb.h
-> @@ -58,11 +58,11 @@ struct efifb_dmi_info {
->   
->   #ifdef CONFIG_SYSFB
->   
-> -void sysfb_disable(void);
-> +void sysfb_disable(struct device *dev);
->   
->   #else /* CONFIG_SYSFB */
->   
-> -static inline void sysfb_disable(void)
-> +static inline void sysfb_disable(struct device *dev)
->   {
->   }
->   
+Thanks,
+Rodrigo.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+drm-xe-fixes-2024-08-22:
+UAPI Changes:
+- Fix OA format masks which were breaking build with gcc-5 (Geert)
 
+Driver Changes:
+- Fix opregion leak (Lucas)
+- Fix OA sysfs entry (Ashutosh)
+- Fix VM dma-resv lock (Brost)
+- Fix tile fini sequence (Brost)
+- Prevent UAF around preempt fence (Auld)
+- Fix DGFX display suspend/resume (Maarten)
+- Many Xe/Xe2 critical workarounds (Auld, Ngai-Mint, Bommu, Tejas, Daniele)
+- Fix devm/drmm issues (Daniele)
+- Fix missing workqueue destroy in xe_gt_pagefault (Stuart)
+- Drop HW fence pointer to HW fence ctx (Brost)
+- Free job before xe_exec_queue_put (Brost)
+The following changes since commit 47ac09b91befbb6a235ab620c32af719f8208399:
+
+  Linux 6.11-rc4 (2024-08-18 13:17:27 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-08-22
+
+for you to fetch changes up to 9e7f30563677fbeff62d368d5d2a5ac7aaa9746a:
+
+  drm/xe: Free job before xe_exec_queue_put (2024-08-21 11:53:15 -0400)
+
+----------------------------------------------------------------
+UAPI Changes:
+- Fix OA format masks which were breaking build with gcc-5 (Geert)
+
+Driver Changes:
+- Fix opregion leak (Lucas)
+- Fix OA sysfs entry (Ashutosh)
+- Fix VM dma-resv lock (Brost)
+- Fix tile fini sequence (Brost)
+- Prevent UAF around preempt fence (Auld)
+- Fix DGFX display suspend/resume (Maarten)
+- Many Xe/Xe2 critical workarounds (Auld, Ngai-Mint, Bommu, Tejas, Daniele)
+- Fix devm/drmm issues (Daniele)
+- Fix missing workqueue destroy in xe_gt_pagefault (Stuart)
+- Drop HW fence pointer to HW fence ctx (Brost)
+- Free job before xe_exec_queue_put (Brost)
+
+----------------------------------------------------------------
+Ashutosh Dixit (1):
+      drm/xe/observation: Drop empty sysctl table entry
+
+Bommu Krishnaiah (1):
+      drm/xe/xe2lpg: Extend workaround 14021402888
+
+Daniele Ceraolo Spurio (3):
+      drm/xe: fix WA 14018094691
+      drm/xe: use devm instead of drmm for managed bo
+      drm/xe/uc: Use devm to register cleanup that includes exec_queues
+
+Geert Uytterhoeven (1):
+      drm/xe/oa/uapi: Make bit masks unsigned
+
+Lucas De Marchi (1):
+      drm/xe: Fix opregion leak
+
+Maarten Lankhorst (1):
+      drm/xe/display: Make display suspend/resume work on discrete
+
+Matthew Auld (2):
+      drm/xe: prevent UAF around preempt fence
+      drm/xe/bmg: implement Wa_16023588340
+
+Matthew Brost (4):
+      drm/xe: Move VM dma-resv lock from xe_exec_queue_create to __xe_exec_queue_init
+      drm/xe: Fix tile fini sequence
+      drm/xe: Drop HW fence pointer to HW fence ctx
+      drm/xe: Free job before xe_exec_queue_put
+
+Ngai-Mint Kwan (1):
+      drm/xe/xe2lpm: Extend Wa_16021639441
+
+Stuart Summers (1):
+      drm/xe: Fix missing workqueue destroy in xe_gt_pagefault
+
+Tejas Upadhyay (3):
+      drm/xe/xe2: Make subsequent L2 flush sequential
+      drm/xe/xe2: Add Wa_15015404425
+      drm/xe/xe2hpg: Add Wa_14021821874
+
+ drivers/gpu/drm/xe/Makefile                 |  2 ++
+ drivers/gpu/drm/xe/display/xe_display.c     | 28 ++++++++++++++-
+ drivers/gpu/drm/xe/display/xe_dsb_buffer.c  |  8 +++++
+ drivers/gpu/drm/xe/display/xe_fb_pin.c      |  3 ++
+ drivers/gpu/drm/xe/regs/xe_gt_regs.h        |  9 +++++
+ drivers/gpu/drm/xe/xe_bo.c                  |  6 ++--
+ drivers/gpu/drm/xe/xe_device.c              | 32 +++++++++++++++++
+ drivers/gpu/drm/xe/xe_device.h              |  1 +
+ drivers/gpu/drm/xe/xe_exec_queue.c          | 24 +++++++------
+ drivers/gpu/drm/xe/xe_exec_queue_types.h    |  2 --
+ drivers/gpu/drm/xe/xe_gsc.c                 |  8 ++---
+ drivers/gpu/drm/xe/xe_gt.c                  | 55 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_gt_pagefault.c        | 18 ++++++++--
+ drivers/gpu/drm/xe/xe_gt_types.h            |  6 ++++
+ drivers/gpu/drm/xe/xe_guc_submit.c          |  4 +--
+ drivers/gpu/drm/xe/xe_hw_fence.c            |  9 ++---
+ drivers/gpu/drm/xe/xe_hw_fence_types.h      |  7 ++--
+ drivers/gpu/drm/xe/xe_mmio.c                | 28 ++++++++++++++-
+ drivers/gpu/drm/xe/xe_observation.c         |  1 -
+ drivers/gpu/drm/xe/xe_pat.c                 | 11 +++++-
+ drivers/gpu/drm/xe/xe_pm.c                  | 11 +++---
+ drivers/gpu/drm/xe/xe_preempt_fence.c       |  3 +-
+ drivers/gpu/drm/xe/xe_preempt_fence_types.h |  2 ++
+ drivers/gpu/drm/xe/xe_sched_job.c           |  3 +-
+ drivers/gpu/drm/xe/xe_trace.h               |  2 +-
+ drivers/gpu/drm/xe/xe_wa.c                  | 18 ++++++++++
+ drivers/gpu/drm/xe/xe_wa_oob.rules          |  1 +
+ include/uapi/drm/xe_drm.h                   |  8 ++---
+ 28 files changed, 265 insertions(+), 45 deletions(-)
