@@ -2,147 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E70FF95B95A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 17:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D0795B97C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 17:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4E0410EB24;
-	Thu, 22 Aug 2024 15:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB58210EB25;
+	Thu, 22 Aug 2024 15:12:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kuE897zH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bC4dD/6y";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="APbO0fyw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AZ3JtB7q";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y8xLFMXB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF3388EFE;
- Thu, 22 Aug 2024 15:10:33 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 56FD9224ED;
- Thu, 22 Aug 2024 15:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724339431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9afAzJUz6dEtWsCOl8qlbCIz2xeSlFY0glzGyXWwaFM=;
- b=kuE897zHs1SCsj6HgVnc1tvb3HgTN9Kw7iGuCaGwk3kWwJWu141ql52hiTf8JvpYED4fS0
- dZnzo+m9qCtyiyWieY0XltUKm5KD+NaOmzFqXugdL1wW7clB16s16aZZP+aMfqYKtKLGWG
- A5er2JdtLUAJDH3onvbuwK01zfP4Og4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724339431;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9afAzJUz6dEtWsCOl8qlbCIz2xeSlFY0glzGyXWwaFM=;
- b=bC4dD/6ykBb/9njA7SXW4BVcbKOSyUsG34xHCSAyjSmizz1wtgFoFkalq6zuLA2PXEBRdd
- Re+doNf/kfFb2LBQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=APbO0fyw;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AZ3JtB7q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724339430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9afAzJUz6dEtWsCOl8qlbCIz2xeSlFY0glzGyXWwaFM=;
- b=APbO0fywjsfvaZCQX8OKFP8/lTbowBTZhL8wFrShe1+DR//lBAe2ijEeTnHT1IJ7OJ0osB
- 9wsGHY34VIDvDRFtwdl8jmHIXYJZjn5USj3+FY5jjh1VUDQYQZMAwQj41HoMXtIyGbYAC0
- 6N+QgEJRdOBxrLNmiTDdPw93hMuY5K0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724339430;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9afAzJUz6dEtWsCOl8qlbCIz2xeSlFY0glzGyXWwaFM=;
- b=AZ3JtB7qnkz2+WHulKgbse+/a2Bm4mw1N9tVZiIMg5cKEqP4asi0IAAfL3L7sW7H8TXbJD
- duAipbzVUe8JV7Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 15C1D13297;
- Thu, 22 Aug 2024 15:10:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id fZ/YAuZUx2YUbwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 22 Aug 2024 15:10:30 +0000
-Message-ID: <f5cce7b4-dd2d-491c-8264-412ede5223ae@suse.de>
-Date: Thu, 22 Aug 2024 17:10:29 +0200
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1568510EB27
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 15:12:12 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2ef2d96164aso8411901fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 08:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1724339530; x=1724944330; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5TWv+mzh3DTgixeu4UaNi8undy9enZO8UogSQ6mlVfs=;
+ b=Y8xLFMXBvQftHsOZz6cZPsFO4Oe7vruB78TR8oyQPce9EMYC+Y2/RvNCFZEOD05hl/
+ CCmtyeoMZICy2dkGhoJDPift7ZEJJGcOJPeA+Q2+yP+NfIIF2gJrzaSNz/0VEZ2HgegN
+ WxddIwSf4hPBf95DPUq3rMqVoABKLRHdHq97Y9pBrYP5SX/9JfhD1Lrcp4KOMKY4yHsl
+ xm+QQojlAUoxUWagMjfXpt1dTKuDzbsnkbKt67GnQpUV6d16rwyQbixr5H4paXyIkmxb
+ M89kipeIJXhqPnmEMcHoeFvY4zPL+zg13SR85BlwX+qVi4yrY00cOuPdyjTD/WbFoMjX
+ QR7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724339530; x=1724944330;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5TWv+mzh3DTgixeu4UaNi8undy9enZO8UogSQ6mlVfs=;
+ b=k+ou4OK0emhYqtRBtw/RR3ssxjvWwu5wahi8k2DJLNTOGGcHWce6jED3/yfXrBSWr2
+ WW5I/9XWMYai+7XLcdd9gMEb/VXIb8Ji6Z+oUFwvd4fnTwiP7qyOBQH2XV/sIMxecIKx
+ bI7PU6JZr9/3tmchiom5QWjogTWTrWipQCKQELE0Zi385gwl0Cgs6/cK+v52X+1x0w0V
+ sW95U8F9W9l6fz8+eluLO+4n+k2P8TVIwAh8rIA9/IR9JeGw2yeTfdECkVdwpqK8zS+u
+ G5FQAryS3c5UbsB51OczRgcRYiZ6+xio+NJKLifcmPCTXjyqQ3XN5uGHyy9XZt72lDZq
+ ftHA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUtEvfr8WYlHto+nLEMgpyujflon1zUl1EAG+lN/1j23PHJswOOZ2+e3xfSH3qPGGGO0DRDW0oqlvE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkQ+I1Y9OHt0xcrb8NV8BJnr6DUCDEwLI5G+pkbRZmWK74MEy8
+ erM49bh5wfavxhUoW/MLuze6uknxsurD98qqznL2SCFK9PPAiH/LwSw6YQx6PGkQZUnGQRKHEu6
+ Y2NdUD/TznmphDp6HelBLzmIQ0o5F2BYWh2Qw4w==
+X-Google-Smtp-Source: AGHT+IFiLmEsOvYvdr3VyiyqB861aTavzd4tiwin4hjTDIgK3KZVq4VStdlXBdk3Plh+1gYEh1qgoVqRfz/lcHt5430=
+X-Received: by 2002:a05:651c:1547:b0:2ef:2b38:879c with SMTP id
+ 38308e7fff4ca-2f405c7c266mr14899621fa.3.1724339529793; Thu, 22 Aug 2024
+ 08:12:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3] video/aperture: optionally match the device in
- sysfb_disable()
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- stable@vger.kernel.org
-References: <20240821191135.829765-1-alexander.deucher@amd.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240821191135.829765-1-alexander.deucher@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 56FD9224ED
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmx.de]; RCVD_TLS_ALL(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,redhat.com,gmx.de,ravnborg.org,ffwll.ch,vger.kernel.org];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[9]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, ravnborg.org:email, amd.com:email,
- ffwll.ch:email, gmx.de:email, suse.de:email, suse.de:dkim, suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+References: <20240515112308.10171-1-yong.wu@mediatek.com>
+ <20240515112308.10171-8-yong.wu@mediatek.com>
+In-Reply-To: <20240515112308.10171-8-yong.wu@mediatek.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 22 Aug 2024 17:11:57 +0200
+Message-ID: <CAHUa44GHtEGsXagwLLAix7HxpjZt45rsZkWCb4i0LUmr54Xjqg@mail.gmail.com>
+Subject: Re: [PATCH v5 7/9] dma-buf: heaps: restricted_heap: Add MediaTek
+ restricted heap and heap_init
+To: Yong Wu <yong.wu@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ christian.koenig@amd.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, tjmercier@google.com, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Robin Murphy <robin.murphy@arm.com>, Vijayanand Jitta <quic_vjitta@quicinc.com>,
+ Joakim Bech <joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>,
+ Pavel Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>,
+ Pekka Paalanen <ppaalanen@gmail.com>, 
+ willy@infradead.org, Logan Gunthorpe <logang@deltatee.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ jianjiao.zeng@mediatek.com, kuohong.wang@mediatek.com, 
+ youlin.pei@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,188 +100,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 21.08.24 um 21:11 schrieb Alex Deucher:
-> In aperture_remove_conflicting_pci_devices(), we currently only
-> call sysfb_disable() on vga class devices.  This leads to the
-> following problem when the pimary device is not VGA compatible:
+On Wed, May 15, 2024 at 1:25=E2=80=AFPM Yong Wu <yong.wu@mediatek.com> wrot=
+e:
 >
-> 1. A PCI device with a non-VGA class is the boot display
-> 2. That device is probed first and it is not a VGA device so
->     sysfb_disable() is not called, but the device resources
->     are freed by aperture_detach_platform_device()
-> 3. Non-primary GPU has a VGA class and it ends up calling sysfb_disable()
-> 4. NULL pointer dereference via sysfb_disable() since the resources
->     have already been freed by aperture_detach_platform_device() when
->     it was called by the other device.
+> Add a MediaTek restricted heap which uses TEE service call to restrict
+> buffer. Currently this restricted heap is NULL, Prepare for the later
+> patch. Mainly there are two changes:
+> a) Add a heap_init ops since TEE probe late than restricted heap, thus
+>    initialize the heap when we require the buffer the first time.
+> b) Add a priv_data for each heap, like the special data used by MTK
+>    (such as "TEE session") can be placed in priv_data.
 >
-> Fix this by passing a device pointer to sysfb_disable() and checking
-> the device to determine if we should execute it or not.
+> Currently our heap depends on CMA which could only be bool, thus
+> depend on "TEE=3Dy".
 >
-> v2: Fix build when CONFIG_SCREEN_INFO is not set
-> v3: Move device check into the mutex
->      Drop primary variable in aperture_remove_conflicting_pci_devices()
->      Drop __init on pci sysfb_pci_dev_is_enabled()
->
-> Fixes: 5ae3716cfdcd ("video/aperture: Only remove sysfb on the default vga pci device")
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Cc: stable@vger.kernel.org
-
-This change also makes aperture_remove_conflicting_pci_devices() much 
-cleaner. Thanks a lot. Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->   drivers/firmware/sysfb.c | 19 +++++++++++++------
->   drivers/of/platform.c    |  2 +-
->   drivers/video/aperture.c | 11 +++--------
->   include/linux/sysfb.h    |  4 ++--
->   4 files changed, 19 insertions(+), 17 deletions(-)
+>  drivers/dma-buf/heaps/Kconfig               |   7 ++
+>  drivers/dma-buf/heaps/Makefile              |   1 +
+>  drivers/dma-buf/heaps/restricted_heap.c     |  11 ++
+>  drivers/dma-buf/heaps/restricted_heap.h     |   2 +
+>  drivers/dma-buf/heaps/restricted_heap_mtk.c | 115 ++++++++++++++++++++
+>  5 files changed, 136 insertions(+)
+>  create mode 100644 drivers/dma-buf/heaps/restricted_heap_mtk.c
 >
-> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-> index 880ffcb50088..ac4680dc463f 100644
-> --- a/drivers/firmware/sysfb.c
-> +++ b/drivers/firmware/sysfb.c
-> @@ -39,6 +39,8 @@ static struct platform_device *pd;
->   static DEFINE_MUTEX(disable_lock);
->   static bool disabled;
->   
-> +static struct device *sysfb_parent_dev(const struct screen_info *si);
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfi=
+g
+> index e54506f480ea..84f748fb2856 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -21,3 +21,10 @@ config DMABUF_HEAPS_RESTRICTED
+>           heap is to manage buffers that are inaccessible to the kernel a=
+nd user space.
+>           There may be several ways to restrict it, for example it may be=
+ encrypted or
+>           protected by a TEE or hypervisor. If in doubt, say N.
 > +
->   static bool sysfb_unregister(void)
->   {
->   	if (IS_ERR_OR_NULL(pd))
-> @@ -52,6 +54,7 @@ static bool sysfb_unregister(void)
->   
->   /**
->    * sysfb_disable() - disable the Generic System Framebuffers support
-> + * @dev:	the device to check if non-NULL
->    *
->    * This disables the registration of system framebuffer devices that match the
->    * generic drivers that make use of the system framebuffer set up by firmware.
-> @@ -61,17 +64,21 @@ static bool sysfb_unregister(void)
->    * Context: The function can sleep. A @disable_lock mutex is acquired to serialize
->    *          against sysfb_init(), that registers a system framebuffer device.
->    */
-> -void sysfb_disable(void)
-> +void sysfb_disable(struct device *dev)
->   {
-> +	struct screen_info *si = &screen_info;
+> +config DMABUF_HEAPS_RESTRICTED_MTK
+> +       bool "MediaTek DMA-BUF Restricted Heap"
+> +       depends on DMABUF_HEAPS_RESTRICTED && TEE=3Dy
+> +       help
+> +         Enable restricted dma-buf heaps for MediaTek platform. This hea=
+p is backed by
+> +         TEE client interfaces. If in doubt, say N.
+> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makef=
+ile
+> index a2437c1817e2..0028aa9d875f 100644
+> --- a/drivers/dma-buf/heaps/Makefile
+> +++ b/drivers/dma-buf/heaps/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)  +=3D restricted_heap.o
+> +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)      +=3D restricted_heap_mtk.=
+o
+>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
+> diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/he=
+aps/restricted_heap.c
+> index 4e45d46a6467..8bc8a5e3f969 100644
+> --- a/drivers/dma-buf/heaps/restricted_heap.c
+> +++ b/drivers/dma-buf/heaps/restricted_heap.c
+> @@ -151,11 +151,22 @@ restricted_heap_allocate(struct dma_heap *heap, uns=
+igned long size,
+>                          unsigned long fd_flags, unsigned long heap_flags=
+)
+>  {
+>         struct restricted_heap *rheap =3D dma_heap_get_drvdata(heap);
+> +       const struct restricted_heap_ops *ops =3D rheap->ops;
+>         struct restricted_buffer *restricted_buf;
+>         DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+>         struct dma_buf *dmabuf;
+>         int ret;
+>
+> +       /*
+> +        * In some implements, TEE is required to protect buffer. However=
+ TEE probe
+> +        * may be late, Thus heap_init is performed when the first buffer=
+ is requested.
+> +        */
+> +       if (ops->heap_init) {
+> +               ret =3D ops->heap_init(rheap);
+> +               if (ret)
+> +                       return ERR_PTR(ret);
+> +       }
 > +
->   	mutex_lock(&disable_lock);
-> -	sysfb_unregister();
-> -	disabled = true;
-> +	if (!dev || dev == sysfb_parent_dev(si)) {
-> +		sysfb_unregister();
-> +		disabled = true;
-> +	}
->   	mutex_unlock(&disable_lock);
->   }
->   EXPORT_SYMBOL_GPL(sysfb_disable);
->   
->   #if defined(CONFIG_PCI)
-> -static __init bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
-> +static bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
->   {
->   	/*
->   	 * TODO: Try to integrate this code into the PCI subsystem
-> @@ -87,13 +94,13 @@ static __init bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
->   	return true;
->   }
->   #else
-> -static __init bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
-> +static bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
->   {
->   	return false;
->   }
->   #endif
->   
-> -static __init struct device *sysfb_parent_dev(const struct screen_info *si)
-> +static struct device *sysfb_parent_dev(const struct screen_info *si)
->   {
->   	struct pci_dev *pdev;
->   
-> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> index 389d4ea6bfc1..ef622d41eb5b 100644
-> --- a/drivers/of/platform.c
-> +++ b/drivers/of/platform.c
-> @@ -592,7 +592,7 @@ static int __init of_platform_default_populate_init(void)
->   			 * This can happen for example on DT systems that do EFI
->   			 * booting and may provide a GOP handle to the EFI stub.
->   			 */
-> -			sysfb_disable();
-> +			sysfb_disable(NULL);
->   			of_platform_device_create(node, NULL, NULL);
->   			of_node_put(node);
->   		}
-> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-> index 561be8feca96..2b5a1e666e9b 100644
-> --- a/drivers/video/aperture.c
-> +++ b/drivers/video/aperture.c
-> @@ -293,7 +293,7 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
->   	 * ask for this, so let's assume that a real driver for the display
->   	 * was already probed and prevent sysfb to register devices later.
->   	 */
-> -	sysfb_disable();
-> +	sysfb_disable(NULL);
->   
->   	aperture_detach_devices(base, size);
->   
-> @@ -346,15 +346,10 @@ EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
->    */
->   int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
->   {
-> -	bool primary = false;
->   	resource_size_t base, size;
->   	int bar, ret = 0;
->   
-> -	if (pdev == vga_default_device())
-> -		primary = true;
-> -
-> -	if (primary)
-> -		sysfb_disable();
-> +	sysfb_disable(&pdev->dev);
->   
->   	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
->   		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> @@ -370,7 +365,7 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
->   	 * that consumes the VGA framebuffer I/O range. Remove this
->   	 * device as well.
->   	 */
-> -	if (primary)
-> +	if (pdev == vga_default_device())
->   		ret = __aperture_remove_legacy_vga_devices(pdev);
->   
->   	return ret;
-> diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-> index c9cb657dad08..bef5f06a91de 100644
-> --- a/include/linux/sysfb.h
-> +++ b/include/linux/sysfb.h
-> @@ -58,11 +58,11 @@ struct efifb_dmi_info {
->   
->   #ifdef CONFIG_SYSFB
->   
-> -void sysfb_disable(void);
-> +void sysfb_disable(struct device *dev);
->   
->   #else /* CONFIG_SYSFB */
->   
-> -static inline void sysfb_disable(void)
-> +static inline void sysfb_disable(struct device *dev)
->   {
->   }
->   
+>         restricted_buf =3D kzalloc(sizeof(*restricted_buf), GFP_KERNEL);
+>         if (!restricted_buf)
+>                 return ERR_PTR(-ENOMEM);
+> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/he=
+aps/restricted_heap.h
+> index 6d9599a4a34e..2a33a1c7a48b 100644
+> --- a/drivers/dma-buf/heaps/restricted_heap.h
+> +++ b/drivers/dma-buf/heaps/restricted_heap.h
+> @@ -19,6 +19,8 @@ struct restricted_heap {
+>         const char              *name;
+>
+>         const struct restricted_heap_ops *ops;
+> +
+> +       void                    *priv_data;
+>  };
+>
+>  struct restricted_heap_ops {
+> diff --git a/drivers/dma-buf/heaps/restricted_heap_mtk.c b/drivers/dma-bu=
+f/heaps/restricted_heap_mtk.c
+> new file mode 100644
+> index 000000000000..52e805eb9858
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/restricted_heap_mtk.c
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DMABUF restricted heap exporter for MediaTek
+> + *
+> + * Copyright (C) 2024 MediaTek Inc.
+> + */
+> +#define pr_fmt(fmt)     "rheap_mtk: " fmt
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/err.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/tee_drv.h>
+> +#include <linux/uuid.h>
+> +
+> +#include "restricted_heap.h"
+> +
+> +#define TZ_TA_MEM_UUID_MTK             "4477588a-8476-11e2-ad15-e41f1390=
+d676"
+> +
+> +#define TEE_PARAM_NUM                  4
+> +
+> +enum mtk_secure_mem_type {
+> +       /*
+> +        * MediaTek static chunk memory carved out for TrustZone. The mem=
+ory
+> +        * management is inside the TEE.
+> +        */
+> +       MTK_SECURE_MEMORY_TYPE_CM_TZ    =3D 1,
+> +};
+> +
+> +struct mtk_restricted_heap_data {
+> +       struct tee_context      *tee_ctx;
+> +       u32                     tee_session;
+> +
+> +       const enum mtk_secure_mem_type mem_type;
+> +
+> +};
+> +
+> +static int mtk_tee_ctx_match(struct tee_ioctl_version_data *ver, const v=
+oid *data)
+> +{
+> +       return ver->impl_id =3D=3D TEE_IMPL_ID_OPTEE;
+> +}
+> +
+> +static int mtk_tee_session_init(struct mtk_restricted_heap_data *data)
+> +{
+> +       struct tee_param t_param[TEE_PARAM_NUM] =3D {0};
+> +       struct tee_ioctl_open_session_arg arg =3D {0};
+> +       uuid_t ta_mem_uuid;
+> +       int ret;
+> +
+> +       data->tee_ctx =3D tee_client_open_context(NULL, mtk_tee_ctx_match=
+, NULL, NULL);
+> +       if (IS_ERR(data->tee_ctx)) {
+> +               pr_err_once("%s: open context failed, ret=3D%ld\n", __fun=
+c__,
+> +                           PTR_ERR(data->tee_ctx));
+> +               return -ENODEV;
+> +       }
+> +
+> +       arg.num_params =3D TEE_PARAM_NUM;
+> +       arg.clnt_login =3D TEE_IOCTL_LOGIN_PUBLIC;
+> +       ret =3D uuid_parse(TZ_TA_MEM_UUID_MTK, &ta_mem_uuid);
+> +       if (ret)
+> +               goto close_context;
+> +       memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+> +
+> +       ret =3D tee_client_open_session(data->tee_ctx, &arg, t_param);
+> +       if (ret < 0 || arg.ret) {
+> +               pr_err_once("%s: open session failed, ret=3D%d:%d\n",
+> +                           __func__, ret, arg.ret);
+> +               ret =3D -EINVAL;
+> +               goto close_context;
+> +       }
+> +       data->tee_session =3D arg.session;
+> +       return 0;
+> +
+> +close_context:
+> +       tee_client_close_context(data->tee_ctx);
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+There's a
+data->tee_ctx =3D NULL;
+missing here.
 
+Cheers,
+Jens
+
+> +       return ret;
+> +}
+> +
+> +static int mtk_restricted_heap_init(struct restricted_heap *rheap)
+> +{
+> +       struct mtk_restricted_heap_data *data =3D rheap->priv_data;
+> +
+> +       if (!data->tee_ctx)
+> +               return mtk_tee_session_init(data);
+> +       return 0;
+> +}
+> +
+> +static const struct restricted_heap_ops mtk_restricted_heap_ops =3D {
+> +       .heap_init              =3D mtk_restricted_heap_init,
+> +};
+> +
+> +static struct mtk_restricted_heap_data mtk_restricted_heap_data =3D {
+> +       .mem_type               =3D MTK_SECURE_MEMORY_TYPE_CM_TZ,
+> +};
+> +
+> +static struct restricted_heap mtk_restricted_heaps[] =3D {
+> +       {
+> +               .name           =3D "restricted_mtk_cm",
+> +               .ops            =3D &mtk_restricted_heap_ops,
+> +               .priv_data      =3D &mtk_restricted_heap_data,
+> +       },
+> +};
+> +
+> +static int mtk_restricted_heap_initialize(void)
+> +{
+> +       struct restricted_heap *rheap =3D mtk_restricted_heaps;
+> +       unsigned int i;
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(mtk_restricted_heaps); i++, rheap++)
+> +               restricted_heap_add(rheap);
+> +       return 0;
+> +}
+> +module_init(mtk_restricted_heap_initialize);
+> +MODULE_DESCRIPTION("MediaTek Restricted Heap Driver");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.25.1
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
