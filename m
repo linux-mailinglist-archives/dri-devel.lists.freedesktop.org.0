@@ -2,157 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E4295AFF0
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 10:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DBA95B003
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 10:16:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA6D10E353;
-	Thu, 22 Aug 2024 08:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE0010E7E3;
+	Thu, 22 Aug 2024 08:16:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="nlTqmfIL";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DJFcod9q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1BF110E353
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 08:11:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yog1sif5RX3eM1N9yIlQxgmWRAGxXjVkrdJLnnsRxc6PboBoCfkaieZaNVs4JN0kqi+4IheBC6xxqHyeMDV2MHH+SgOY16wGAPPZnK8D4hdRMrLwMb0kgRlkE4A+DSvjGLYlLYvMUXWuqTLGe2qLRw1DnU3mrC2PzDGyaFBE2W3p/oTUrYr2MGNCgt0KEVB7OE0IWXe5T0o4xIDUDFURD2r7u7+US0yW9rlPSPwdFrfkc5TFDPkW7ONwJ5YP9BugG3FfnPFeWuyYhr9d6WviypKjNLY0epUQ3Sc1Md9jCnxjD/q83V8U2MHWi1vOfrmGMrZuelFBmkdjM9wy0wmSNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=duvHtm8oCbdNlvxLKbdq08yhkcJQQiFUlJLFs6dRNc4=;
- b=IswMF1ydewNieW1XDxn9Fn/01rHma1hDSdQKXVwW6Zl4CXa70YK1CefYKd3/+cR3x1Gvsxw4d8jGVFbTF/747h838P7c4ji1NAfl2HT4l9C6hxsanA+BbdHvQLRctBrsDAx/n5Aot+75QPr0XADAWDdmkrJ9KL6E581HncuukccIoSx8gSA2LG2+amyBtacAJ72wyFP9u3x0dIsO3k2mIIceZNn8hOcnQTqp0sW+8Ki/QNVhHOcMTdrPL1tVodWfJtBPVAvpKUMJulUtHcGWb5Vn4TxkQt4kzETGacZolVH99Q+QpM/75x6iUiit+dGNZW0jUc7KdLY+R9wRQnOcUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=duvHtm8oCbdNlvxLKbdq08yhkcJQQiFUlJLFs6dRNc4=;
- b=nlTqmfILgXwpJa64EwILq4w9Y3hV1z5PVj5xOgoksX2WgU+hfdl25CHN2wPiYGZkPaTXeoWDcfQumwSMk3y7K5/tsNQXDFDife/Qx+5W6JNWVCAq0U7odljJhEL7m/jxltGl1y0PfMzxGdKTe/uRl7jHEumbfpHJMK4lxBnSh4c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB9245.namprd12.prod.outlook.com (2603:10b6:806:3a7::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Thu, 22 Aug
- 2024 08:11:47 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7875.019; Thu, 22 Aug 2024
- 08:11:47 +0000
-Message-ID: <194af8a6-fd7e-4d4d-a773-305fd9fd0a4a@amd.com>
-Date: Thu, 22 Aug 2024 10:11:41 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] udmabuf: cancel mmap page fault, direct map it
-To: Huan Yang <link@vivo.com>, "Kasireddy, Vivek"
- <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
-References: <20240805032550.3912454-1-link@vivo.com>
- <20240805032550.3912454-2-link@vivo.com>
- <IA0PR11MB718542BA11A38A5BD40ECB00F8BB2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <de3f3cc4-5e0a-4524-902f-4913addba227@vivo.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <de3f3cc4-5e0a-4524-902f-4913addba227@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0148.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F1E10E3FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 08:15:59 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3719753d365so246072f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 01:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1724314558; x=1724919358; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=75AbW8YCcPqvwKBFK7/SreyR9quK7zkhy+4xs4mwsXg=;
+ b=DJFcod9qejYfSITIPzP1M0gpsQXgFJ9UwbQ4Aa5cUDusHBZiU4W2AYA52RYgYtKFXy
+ JnT2NfN7PS5q1/dZr+G8UUFyaqrWUdhVnnMLirguebclDDpCZeu08U0/YXwi+lHaxk7t
+ cSVMLdHU4VaJwmOESLvOBZjaZShspV8TCOlvY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724314558; x=1724919358;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=75AbW8YCcPqvwKBFK7/SreyR9quK7zkhy+4xs4mwsXg=;
+ b=kfiEWKsPWKxkXfIBMMZkUHyMxQCvHjuL1PIk6iaUdlyYuxGRSGOyHj0EzSLqyZsVnp
+ E1qbJIUoGTJnlDATRGNFquK5uMI8UVQ9qJ+dnHuL9PnGyb/Jt1v5/wWOLUH+CTu/Om1q
+ NFYRyi2+OWOiq74eQqj39UspUBRt2MNwDDuP7YSqeoTXhlQv/fKeWRPWoKZMLL251Qbz
+ CjA9VWF9JQTmH5+DK/A2y9azX/193QumPKsGSDCo/G1M21FlzJHRlV2T+0zMylgNu8jx
+ YYHgVMUHjlhKxipSSZ+0O3rCYSmLmgzdvizwQO1+2tCw0wkd/kCR6bGMMGNEXCLQDpZf
+ mrYA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUiewKNWgwjFUTbnwYLAKvUd+GjYIumHEvp4oZofuLms8raXhjbF9sAf2sVelM//DsZx26yYkX8q8o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTkAjeICVyCndtRGnLoDDr+3easgW26GUN36lu7fwZP71DdKat
+ HKuL2U5Mq5QlVkZ1ZrfOun6GyU8xjcjYjiA5Yyp9PNkJMAYiSZvpc2A7hUcrie8=
+X-Google-Smtp-Source: AGHT+IEEXh+Q/+CkzsVsvEFcQ/I2Vf2dvHt8pCyu+gou90gTZKOWWPrxbLxRN1SPXddLS0cesV12Yw==
+X-Received: by 2002:a5d:59a3:0:b0:368:75:2702 with SMTP id
+ ffacd0b85a97d-372fd585cb3mr4553322f8f.13.1724314557765; 
+ Thu, 22 Aug 2024 01:15:57 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42abefeaa45sm52420865e9.39.2024.08.22.01.15.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Aug 2024 01:15:57 -0700 (PDT)
+Date: Thu, 22 Aug 2024 10:15:55 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] drm-misc-next
+Message-ID: <Zsbzu6uDoroaWXUu@phenom.ffwll.local>
+References: <20240816084109.GA229316@localhost.localdomain>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB9245:EE_
-X-MS-Office365-Filtering-Correlation-Id: d9204903-6c04-456b-b856-08dcc282112e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?d3F1eld6c0kvQVQvRXNyMzY1TS9lVHVJSzRvazZ0L21IdUlvbnFlZ2dvTzl3?=
- =?utf-8?B?dWpSV3RkZURzZlNCZEMvbXF4NFdhTGRmSU9CQk9SallLYXB5ZmNtQWZUeThr?=
- =?utf-8?B?ZDJXUk42QWJiYVJYakNuaEpwaG5vQ290dXNiUWNET0NDdGhqbkJLMmIvZHJX?=
- =?utf-8?B?Q3VCK0tsQVh1ZlpNaXZDZnArM296T1VyOG52cjVpNmdmNk5OeGhibjhPTFVK?=
- =?utf-8?B?SElOU0hCRVFPaUdrbE96NWhxdUlsajZNNlFBblhqd2wreXQ2WFVZQkIzTFpP?=
- =?utf-8?B?VHBoQmg2ZWMxUVJ5S0F3ZzZPZGRVdmh5UkRybUdYM1JOczBUaWZDSWF5NUpa?=
- =?utf-8?B?dnU0RnpMSFZzb2NYRVgvUzJKdGdiUHo2RXk0TDN1aHRpR0RNR0dpaG5rdkVj?=
- =?utf-8?B?TVNob2tLcnlHUVFxQ3FIeHpGb3dya1k1NjZzZkhjMnNNcGN5dHNTeElZVVcr?=
- =?utf-8?B?OHdxOXZYZUNtWVBkb0t4VERhbE1MZ1JSUmJEK1RnMFBqR29XMnR5WU01WE1p?=
- =?utf-8?B?RzJlbW03TE82VlRNUXVoSE9DSlRZcFpnODdtZ21LUXBncjlDMENGM2lhNEZF?=
- =?utf-8?B?dFF1TkY2dTJYeFA0Q3FZRUVwSE8zWVhONXZSbmNQdEtkbmRQTXM1VFVxdkZ5?=
- =?utf-8?B?OVMzY1FxMTNmQTBlaTBRU2l4N3YwaWMwSVk2SVp5dUJxVTd3akowd09NaTZw?=
- =?utf-8?B?NXBBU3BlY0M0TlEwdzRZR1BLTWQ4SG11VTkzY1JuS0hueTYxc09ZMmdjY1BO?=
- =?utf-8?B?cTNXTGg3NlhUM09Kd09KRVhwS2xXUHQ1c0JHQ21sT1NjNUdWTHQzWWNUeHVv?=
- =?utf-8?B?THlEL0Y4KzBWaVE5OEZpcmdOKzlqM1dJTzZMakEvbmVWSDM3OGdIcndvV25U?=
- =?utf-8?B?Zk1hWUlmM3VuVlFnUU9aUzRlNWFiZVhKVFc4MUFHOGllcUtRNnZpV2loWVdK?=
- =?utf-8?B?eGtNajhqU3IzNlc4NzgvMWlNemV6dDZ5RENFc1JteXI2SFRudnJ6VzZjS2F1?=
- =?utf-8?B?U2NlcjdxcWpDNG9jaFVzNUxXZFdML0tISVFuRG9hZ1c4cTI2ZDJiNG5GRGpM?=
- =?utf-8?B?NnVFVFo2R3FYYURXbjMwZnJBM3J3Zi9Jb2lielRrQ25QYXh6UlVja2VOV05m?=
- =?utf-8?B?L0ZvVTYvdFhBcVBLUzRLeGovekJMMWN5Qkx3b1loMFloUFA4RWM4bElhNlYw?=
- =?utf-8?B?Sk1FNm9hZ1FKUGlpU0lVejV2QlZnUHVJRGltM1NkUXVTbEhkLy9qU0V1c2ta?=
- =?utf-8?B?L3AzakFRaC9zc2xnWnZVbVg1bWFoVVEzRFNEb25LeHpIUGRPMDBiT3dPcHoy?=
- =?utf-8?B?cUxWdGtmdGdWZ05nU1JoNmNwWkY0azJENHh1UXVqaWtXbnpxcjZFM0F1T0Zj?=
- =?utf-8?B?UlVNMk9xQWx0RnE2elJWajBuMlpLM0xOT2tLYWFTUFNrREFraUxVMDF0b29Q?=
- =?utf-8?B?SkVPdklKaVRpYlR1R0pVbGN4RDZ1eVNtTU9pU3ExNmlEOTJMZjE0aEJRSXFT?=
- =?utf-8?B?RndGSTFHTW55MWtMTWFVM29Tb1U3RU53NE1BU3RqQ2dxdWI2bUVLSnUvVDl4?=
- =?utf-8?B?MDhUQ293RUlGWGsxTFkyMjBCV3JtUjdBOElWY1d2OGlKYUU0b01NTU1Ec1Ra?=
- =?utf-8?B?U2ZOWlBkQWU5RmVoWHpwZzluWU5JbUEzcTRWQjlRV2NEbGZVWTYvUXIzMDJr?=
- =?utf-8?B?SURsaVZSalJnSzRIRmZnNVRkZGFDN3E0QW5NQ3RmclZvbmx0SnBWSXpCL0ZS?=
- =?utf-8?B?MWtyUncreXM5VzhJaVFuY3RGcGZOWVpHWDZkODJBcERSaU4vK2loTHlyTCt6?=
- =?utf-8?B?TnlhbjR4OHMrZXFaUWFtUT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFlybVA0SHBack52UXJFWTcvU05jVnY4c0tneUdQVjIwMVh1SVFXUksvRXg0?=
- =?utf-8?B?SDZRR0lDdzdMT25GdUltU1ZqUGhLaE0wczlkemF2TTgrdkl1MC9rRXdKMnZo?=
- =?utf-8?B?NHFFTjF1S244ek9LeXEyMjIxQTVlVHpUKytjdFNIdkZkMFVQbjdrVkJnb3Qr?=
- =?utf-8?B?K1NrdjhaenZCQlZodUh6WTBwMnYyZ2ZUY0RCdkVEeFNPRzRkRjA4b0tTZjlB?=
- =?utf-8?B?NisxZDJvdUtZcFBvN1ZrVVZPMjZtK0JZVkR1L0V3aXc3UC9XK2Y1dE81ZGZx?=
- =?utf-8?B?SEZWTGF5RGxMYjk3MWE2YkIyRC9tQU1BYTNZY2I1WjNSM202MytXejZoL3Fi?=
- =?utf-8?B?UFBnQWUzMjlNdTZNbmd5enU2cHNTdWJUdDVDNjkvYmhiVnpxajZSTjdzN0Zn?=
- =?utf-8?B?SUhVSVN5aEpLanZBMjJ5Qmhyc1VGWkZZaitCTGR1Y1NLZEVYZDhrdEJjdGRq?=
- =?utf-8?B?YmJkRk1nMDdFVlJOdkVqSHZMa08vdmN2SW5DNGFaRlRvUjZSdk1xV1g4Z0NC?=
- =?utf-8?B?d2JKWUZGZ0RxS3ZJSlMxc3FlWTNXRHZ4UFlTSkNxendaS1U0Q2tJODVEZFQ1?=
- =?utf-8?B?K3dmMGFkV1phOFpUS0tRWjRhZGlNUlBXVjVXY3Z6dk5DVnoyWFlwNHNTZ2Y5?=
- =?utf-8?B?Z0V6TWxMdjlEUm0rNXBGcHdPRWRGMDdKVE5Xck9mTkpQM1EzVWNhRGhBWDJq?=
- =?utf-8?B?VUM4bU1ZekNvRHBZdUxWa2RZZjRiSGVzUnZ2TlF4VEZVS3lXcjBjOS9oSGhk?=
- =?utf-8?B?Wnl1a1o2UDBOb2d2dWo2TEtpK1BKRk1kMnJ0VkZ0Y2hCb2l6OEprRFJQa2Iw?=
- =?utf-8?B?VFFsbDdpL2x4bkxwa3pkZXhqeU56WFEyZG1NV2hLNGZkbDYzcVNEbzFrQkR2?=
- =?utf-8?B?cGt2Zm9YeUJQbTQ4Q3lpSmM0VXZodmhsci82K1FjbEkwclFob2lMSkNwbVdO?=
- =?utf-8?B?Wk96dFlrYy9XazlLdzdWeTBQMWUrWHR6bkEyT2Q3VFhmZW9GZnV1ZEtjM056?=
- =?utf-8?B?aWExd1JIRnRwSFYzUEVWeDltQ1lkTzhsNVYwRUNlNjJzMzZ0c1NQMUZvNVpv?=
- =?utf-8?B?bmNET0YzVVBZZy81S0NqMkF4L0pCQVR3eU1OUDVGdmFpSjRQYVFHaittNW44?=
- =?utf-8?B?Qkc1WExiamh1WGFGZ2NNOXVHQzhDcWFFVDlteklPOVR5VVBZTUZHZjRid2pO?=
- =?utf-8?B?UW0vTDFQZTNoa1BKMVIweWZiUkJlTnkrdkpGTnVhc09mVVJBT2hsamV2bXUx?=
- =?utf-8?B?dndlc1ByY1p4Smxpb1ovSVkxOGk0V2VubzJpRjEzdHpTbEsrc0d6Qmwzd252?=
- =?utf-8?B?TjJhQXpwaWFSVDBUV0NiY1pPQTNhME9BVEJEZ0IwTmNVNERzZ1B2aDBORUR1?=
- =?utf-8?B?d2d6YnJqLzhxcDhXaGVvY0EvZzl0d01NbEN1VGk1M0JEaTdCaS9PbXJtejdP?=
- =?utf-8?B?RDZHZk5CcGJYd01CQzl5SXA1MVBRY3VoV1FuNmNRWG5aTkhFRDdobklPL0hN?=
- =?utf-8?B?b08rMnFSNVlxWko0QzhHS0NmZ0pBYzkzUDR0QlM2Z3U5RmNKajJ4VHBXVnZv?=
- =?utf-8?B?bnlES0NTbWVaaUd1YzNzVFhPL2xXZEtjY2ZPc3VSc01OUGtXMElFRnhWSnVE?=
- =?utf-8?B?V1E3cUgxR1c4UnNtYzV1UEpRcFB4RGc4NDJSQWo4VzhJOHdkSkZGOWlDOXgx?=
- =?utf-8?B?WEtlUHkweWY4bmdoeld3bjNaOXVZYzRHcUVMeGVsaFVPbDc3Nk9uRUlKREVU?=
- =?utf-8?B?bzNPWW9jbjRDTzhvYkVNMzZJc055TDQ5UjZCVmpDd0NyMFprUHQwYmxXd1ls?=
- =?utf-8?B?dmxHcW5Nd04zc1hrRG1TcE55UFNjZ3k5NW9CQ0tlVThxK3pkU1Y2cXFQWmhk?=
- =?utf-8?B?T1VyT3dYazdZcXVMVXJMSGNPYWhmUXNvNUYrbDdRU0R2dDhJNkZLVENkaHNj?=
- =?utf-8?B?MjlaSnJyYkRMKzBiTGpqMTNJNUMzSFJyMlQzZ2w3Q0hnTVBLb2xvdmVNZ1p6?=
- =?utf-8?B?bkhHRDRoeTJHd1A1NEhVTTRhcFlOelg1UURyQ0VSOFpVemdiZUFJNHZqR3Vn?=
- =?utf-8?B?WWNidmhtMEVOQTFIZVgyRDNkMGNKODdLSkJjV3hlbjAyUDBic0JzL3NKL21O?=
- =?utf-8?Q?VyV1KWOoW1xdtbfXkNm3iVFss?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9204903-6c04-456b-b856-08dcc282112e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 08:11:47.0693 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /Lpze0nzJz2UH1p5DrZFcB2RvoOVJmsnfT01ea/R/fh5VKcD3Q/8LATGwX1RrJM/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9245
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240816084109.GA229316@localhost.localdomain>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,147 +90,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 12.08.24 um 04:49 schrieb Huan Yang:
->
-> 在 2024/8/10 9:28, Kasireddy, Vivek 写道:
->> [Some people who received this message don't often get email from 
->> vivek.kasireddy@intel.com. Learn why this is important at 
->> https://aka.ms/LearnAboutSenderIdentification ]
->>
->> Hi Huan,
->>
->>> The current udmabuf mmap uses a page fault mechanism to populate the
->>> vma.
->>>
->>> However, the current udmabuf has already obtained and pinned the folio
->>> upon completion of the creation.This means that the physical memory has
->>> already been acquired, rather than being accessed dynamically. The
->>> current page fault method only saves some page table memory.
->>>
->>> As a result, the page fault mechanism has lost its purpose as a 
->>> demanding
->>> page. Due to the fact that page fault requires trapping into kernel 
->>> mode
->>> and filling in when accessing the corresponding virtual address in 
->>> mmap,
->>> this means that user mode access to virtual addresses needs to trap 
->>> into
->>> kernel mode.
->>>
->>> Therefore, when creating a large size udmabuf, this represents a
->>> considerable overhead.
->>>
->>> The current patch removes the page fault method of mmap and
->>> instead fills it directly when mmap is triggered.
->> I think it makes sense to populate the vma when the first fault is 
->> triggered
->> instead of doing it during mmap. This is because the userspace may call
->> mmap but does not actually use the data. Qemu works this way 
->> depending on
-> Yes, the idea of this is also related to the concept of page fault.
->
-> However, the folio has already been pinned during creation. I think 
-> using the page fault
->
-> again is theoretically sound, but it may not save memory, only 
-> increase context switch overhead.
+On Fri, Aug 16, 2024 at 10:41:09AM +0200, Thomas Zimmermann wrote:
+> Hi Dave, Sima,
+> 
+> this is the weekly PR for drm-misc-next. Mostly small cleanups and
+> improvements. Rockchip received support for more modes and displays.
+> 
+> Best regards
+> Thomas
+> 
+> drm-misc-next-2024-08-16:
+> drm-misc-next for v6.12:
+> 
+> Core Changes:
+> 
+> ci:
+> - Update dependencies
+> 
+> docs:
+> - Cleanups
+> 
+> edid:
+> - Improve debug logging
+> - Clean up interface
+> 
+> fbdev emulation:
+> - Remove old fbdev hooks
+> - Update documentation
+> 
+> panic:
+> - Cleanups
+> 
+> Driver Changes:
+> 
+> amdgpu:
+> - Remove usage of old fbdev hooks
+> - Use backlight constants
+> 
+> ast:
+> - Fix timeout loop for DP link training
+> 
+> hisilicon:
+> - hibmc: Cleanups
+> 
+> mipi-dsi:
+> - Improve error handling
+> - startek-kd070fhfid015: Use new error handling
+> 
+> nouveau:
+> - Remove usage of old fbdev hooks
+> 
+> panel:
+> - Use backlight constants
+> 
+> radeon:
+> - Use backlight constants
+> 
+> rockchip:
+> - Improve DP sink-capability reporting
+> - Cleanups
+> - dw_hdmi: Support 4k@60Hz; Cleanups
+> - vop: Support RGB display on Rockchip RK3066; Support 4096px width
+> 
+> tilcdc:
+> - Use backlight constants
+> The following changes since commit 4e996697a443a214887ef81b008c344d183b5659:
+> 
+>   Merge tag 'drm-misc-next-2024-08-09' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2024-08-09 10:41:59 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2024-08-16
 
-This is not about saving memory but rather correctness and desired handling.
+Pulled into drm-next, thanks!
+-Sima
+> 
+> for you to fetch changes up to 8befe8fa5a4e4b30787b17e078d9d7b5cb92ea19:
+> 
+>   drm/tilcdc: Use backlight power constants (2024-08-16 09:28:01 +0200)
+> 
+> ----------------------------------------------------------------
+> drm-misc-next for v6.12:
+> 
+> Core Changes:
+> 
+> ci:
+> - Update dependencies
+> 
+> docs:
+> - Cleanups
+> 
+> edid:
+> - Improve debug logging
+> - Clean up interface
+> 
+> fbdev emulation:
+> - Remove old fbdev hooks
+> - Update documentation
+> 
+> panic:
+> - Cleanups
+> 
+> Driver Changes:
+> 
+> amdgpu:
+> - Remove usage of old fbdev hooks
+> - Use backlight constants
+> 
+> ast:
+> - Fix timeout loop for DP link training
+> 
+> hisilicon:
+> - hibmc: Cleanups
+> 
+> mipi-dsi:
+> - Improve error handling
+> - startek-kd070fhfid015: Use new error handling
+> 
+> nouveau:
+> - Remove usage of old fbdev hooks
+> 
+> panel:
+> - Use backlight constants
+> 
+> radeon:
+> - Use backlight constants
+> 
+> rockchip:
+> - Improve DP sink-capability reporting
+> - Cleanups
+> - dw_hdmi: Support 4k@60Hz; Cleanups
+> - vop: Support RGB display on Rockchip RK3066; Support 4096px width
+> 
+> tilcdc:
+> - Use backlight constants
+> 
+> ----------------------------------------------------------------
+> Alex Bee (1):
+>       drm/rockchip: vop: Allow 4096px width scaling
+> 
+> Andy Shevchenko (1):
+>       drm: fixed: Don't use "proxy" headers
+> 
+> Christophe JAILLET (1):
+>       drm/rockchip: Constify struct drm_encoder_helper_funcs
+> 
+> Cristian Ciocaltea (5):
+>       drm/rockchip: Explicitly include bits header
+>       drm/rockchip: dw_hdmi: Use modern drm_device based logging
+>       drm/rockchip: dw_hdmi: Simplify clock handling
+>       drm/rockchip: dw_hdmi: Use devm_regulator_get_enable()
+>       drm/rockchip: dw_hdmi: Drop superfluous assignments of mpll_cfg, cur_ctr and phy_config
+> 
+> Dan Carpenter (1):
+>       drm/ast: astdp: fix loop timeout check
+> 
+> Daniel Yang (1):
+>       drm/connector: kerneldoc: Fix two missing newlines in drm_connector.c
+> 
+> Dragan Simic (1):
+>       drm/rockchip: cdn-dp: Clean up a few logged messages
+> 
+> Jani Nikula (4):
+>       drm/edid: reduce DisplayID log spamming
+>       drm/rockchip: cdn-dp: get rid of drm_edid_raw()
+>       drm/i915/gvt: stop using drm_edid_block_valid()
+>       drm/edid: make drm_edid_block_valid() static
+> 
+> Jocelyn Falempe (5):
+>       drm/panic: Remove space before "!" in panic message
+>       drm/panic: Remove useless export symbols
+>       drm/panic: Move drm_panic_register prototype to drm_crtc_internal.h
+>       drm/panic: Move copyright notice to the top
+>       drm/panic: Add panic description
+> 
+> Jonas Karlman (3):
+>       drm/rockchip: dw_hdmi: Fix reading EDID when using a forced mode
+>       drm/rockchip: dw_hdmi: Allow High TMDS Bit Rates
+>       drm/rockchip: dw_hdmi: Add max_tmds_clock validation
+> 
+> Louis Chauvet (1):
+>       drm/vkms: Formatting and typo fix
+> 
+> Mohammed Anees (1):
+>       drm: Add missing documentation for struct drm_plane_size_hint
+> 
+> Tejas Vipin (2):
+>       drm/mipi-dsi: add more multi functions for better error handling
+>       drm/panel: startek-kd070fhfid015: transition to mipi_dsi wrapped functions
+> 
+> Thomas Zimmermann (18):
+>       Merge drm/drm-next into drm-misc-next
+>       drm: Do delayed switcheroo in drm_lastclose()
+>       drm/amdgpu: Do not set struct drm_driver.lastclose
+>       drm/nouveau: Do not set struct drm_driver.lastclose
+>       drm/nouveau: Do not set struct drm_mode_config_funcs.output_poll_changed
+>       drm/nouveau: Implement switcheroo reprobe with drm_client_dev_hotplug()
+>       drm/fbdev-helper: Update documentation on obsolete callbacks
+>       drm/fbdev-helper: Remove drm_fb_helper_output_poll_changed()
+>       drm: Remove struct drm_driver.lastclose
+>       drm: Remove struct drm_mode_config_funcs.output_poll_changed
+>       drm/amdgpu: Use backlight power constants
+>       drm/panel: panel-novatak-nt35510: Use backlight power constants
+>       drm/panel: panel-orisetech-otm8009a: Use backlight power constants
+>       drm/panel: panel-samsung-s6e63j0x03: Use backlight power constants
+>       drm/panel: panel-samsung-s6e3ha2: Use backlight power constants
+>       drm/panel: panel-sony-acx565akm: Use backlight power constants
+>       drm/radeon: Use backlight power constants
+>       drm/tilcdc: Use backlight power constants
+> 
+> Val Packett (2):
+>       drm/rockchip: vop: clear DMA stop bit on RK3066
+>       drm/rockchip: vop: enable VOP_FEATURE_INTERNAL_RGB on RK3066
+> 
+> Vignesh Raman (1):
+>       drm/ci: uprev mesa
+> 
+> WangYuli (1):
+>       drm/ci: Upgrade setuptools requirement to 70.0.0
+> 
+> Zhang Zekun (1):
+>       drm/hisilicon: Remove unused delarations
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  17 --
+>  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c     |   2 +-
+>  drivers/gpu/drm/ast/ast_dp.c                       |  15 +-
+>  drivers/gpu/drm/ci/container.yml                   |   8 +
+>  drivers/gpu/drm/ci/gitlab-ci.yml                   |  22 +--
+>  drivers/gpu/drm/ci/image-tags.yml                  |   8 +-
+>  drivers/gpu/drm/ci/lava-submit.sh                  |   1 +
+>  drivers/gpu/drm/ci/test.yml                        |   4 +-
+>  drivers/gpu/drm/ci/xfails/requirements.txt         |   2 +-
+>  drivers/gpu/drm/drm_connector.c                    |   4 +
+>  drivers/gpu/drm/drm_crtc_internal.h                |   4 +
+>  drivers/gpu/drm/drm_displayid.c                    |   3 -
+>  drivers/gpu/drm/drm_edid.c                         |  22 +--
+>  drivers/gpu/drm/drm_fb_helper.c                    |  37 +---
+>  drivers/gpu/drm/drm_file.c                         |  32 ++--
+>  drivers/gpu/drm/drm_internal.h                     |   1 -
+>  drivers/gpu/drm/drm_mipi_dsi.c                     | 194 +++++++++++++++++++++
+>  drivers/gpu/drm/drm_panic.c                        |  62 +++++--
+>  drivers/gpu/drm/drm_probe_helper.c                 |  10 +-
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |   1 -
+>  drivers/gpu/drm/i915/gvt/kvmgt.c                   |  18 +-
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c            |   1 -
+>  drivers/gpu/drm/nouveau/nouveau_display.c          |   1 -
+>  drivers/gpu/drm/nouveau/nouveau_drm.c              |   1 -
+>  drivers/gpu/drm/nouveau/nouveau_vga.c              |  10 +-
+>  drivers/gpu/drm/nouveau/nouveau_vga.h              |   1 -
+>  drivers/gpu/drm/panel/panel-novatek-nt35510.c      |   2 +-
+>  drivers/gpu/drm/panel/panel-orisetech-otm8009a.c   |   4 +-
+>  drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c      |  10 +-
+>  drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c   |  10 +-
+>  drivers/gpu/drm/panel/panel-sony-acx565akm.c       |   2 +-
+>  .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 115 ++++--------
+>  drivers/gpu/drm/radeon/atombios_encoders.c         |   2 +-
+>  drivers/gpu/drm/radeon/radeon_legacy_encoders.c    |   2 +-
+>  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |   2 +-
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c             |  32 ++--
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        | 107 +++++-------
+>  drivers/gpu/drm/rockchip/inno_hdmi.c               |   2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.h        |   3 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |   8 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h        |   1 +
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |   2 +
+>  drivers/gpu/drm/tilcdc/tilcdc_panel.c              |   2 +-
+>  drivers/gpu/drm/vkms/vkms_drv.c                    |   6 +-
+>  drivers/gpu/vga/vga_switcheroo.c                   |   3 +-
+>  include/drm/drm_drv.h                              |  28 ---
+>  include/drm/drm_edid.h                             |   2 -
+>  include/drm/drm_fb_helper.h                        |   6 -
+>  include/drm/drm_fixed.h                            |   3 +-
+>  include/drm/drm_mipi_dsi.h                         |  10 ++
+>  include/drm/drm_mode_config.h                      |  16 --
+>  include/drm/drm_panic.h                            |  21 +--
+>  include/uapi/drm/drm_mode.h                        |   2 +
+>  55 files changed, 471 insertions(+), 416 deletions(-)
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 
-A mmap() operation is for creating the VMA and *not* filling the page 
-tables. That might work but is not really a desired approach.
-
-Regards,
-Christian.
-
->
->
->> whether opengl is available in the environment or not.
->>
->>> Signed-off-by: Huan Yang <link@vivo.com>
->>> ---
->>>   drivers/dma-buf/udmabuf.c | 39 
->>> ++++++++++++++++-----------------------
->>>   1 file changed, 16 insertions(+), 23 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->>> index 047c3cd2ceff..475268d4ebb1 100644
->>> --- a/drivers/dma-buf/udmabuf.c
->>> +++ b/drivers/dma-buf/udmabuf.c
->>> @@ -38,36 +38,29 @@ struct udmabuf_folio {
->>>        struct list_head list;
->>>   };
->>>
->>> -static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
->>> -{
->>> -     struct vm_area_struct *vma = vmf->vma;
->>> -     struct udmabuf *ubuf = vma->vm_private_data;
->>> -     pgoff_t pgoff = vmf->pgoff;
->>> -     unsigned long pfn;
->>> -
->>> -     if (pgoff >= ubuf->pagecount)
->>> -             return VM_FAULT_SIGBUS;
->>> -
->>> -     pfn = folio_pfn(ubuf->folios[pgoff]);
->>> -     pfn += ubuf->offsets[pgoff] >> PAGE_SHIFT;
->>> -
->>> -     return vmf_insert_pfn(vma, vmf->address, pfn);
->>> -}
->>> -
->>> -static const struct vm_operations_struct udmabuf_vm_ops = {
->>> -     .fault = udmabuf_vm_fault,
->>> -};
->>> -
->>>   static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct
->>> *vma)
->>>   {
->>>        struct udmabuf *ubuf = buf->priv;
->>> +     unsigned long addr;
->>> +     unsigned long end;
->>> +     unsigned long pgoff;
->>> +     int ret;
->>>
->>>        if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
->>>                return -EINVAL;
->>>
->>> -     vma->vm_ops = &udmabuf_vm_ops;
->>> -     vma->vm_private_data = ubuf;
->>> -     vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND |
->>> VM_DONTDUMP);
->>> +     for (pgoff = vma->vm_pgoff, end = vma->vm_end, addr = vma-
->>>> vm_start;
->>> +          addr < end; pgoff++, addr += PAGE_SIZE) {
->>> +             struct page *page =
->>> +                     folio_page(ubuf->folios[pgoff],
->>> +                                ubuf->offsets[pgoff] >> PAGE_SHIFT);
->> Please don't use struct page pointers, given the recent conversion to 
->> use
->> only folios in udmabuf driver. I think what you are trying to do 
->> above can
->> be done using only folios.
-> Yes, just use pfn. Consider of HVO, must use this.
->>
->>> +
->>> +             ret = remap_pfn_range(vma, addr, page_to_pfn(page),
->>> PAGE_SIZE,
->>> +                                   vma->vm_page_prot);
->> Could you please retain the use of vmf_insert_pfn() here, given the 
->> simplicity,
->> among other reasons?
-> I will make the correction.
->
-> Thanks.
->>
->> Thanks,
->> Vivek
->>
->>> +             if (ret)
->>> +                     return ret;
->>> +     }
->>> +
->>>        return 0;
->>>   }
->>>
->>> -- 
->>> 2.45.2
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
