@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4775495B883
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B0F95B890
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B680110EAEF;
-	Thu, 22 Aug 2024 14:34:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85F6510EAF2;
+	Thu, 22 Aug 2024 14:35:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o30hDNjI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oggBKWKC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB6710EAEF
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:34:42 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBB7910EAF2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:35:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 69722A4049D;
- Thu, 22 Aug 2024 14:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B7DC32782;
- Thu, 22 Aug 2024 14:34:33 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 9D236CE0EE3;
+ Thu, 22 Aug 2024 14:35:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6F2CC4AF11;
+ Thu, 22 Aug 2024 14:35:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724337280;
- bh=TijZddx52s7dHM9dVKH3FQOQGg37tHlZWJ7WwnRJDz0=;
+ s=k20201202; t=1724337322;
+ bh=Y+k+ZeSnySUlvXeIpIB978BSbObVC7BsdVZXFENjDJg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o30hDNjICLJUBuoyylRk4f1P6fyz268BRyUz/tzs8AmEo2LJqaUdpuwY1/DCTLSbd
- NExh2Pk6Jj/7Fy54LtoOM3nnYAXw7TEM23JNcbw5jlbwDCeu5Alg4Uiw6Ej9cbN2Ge
- qpw/+b4X2GNqjD5j7J+0C4cka8NlTnVQKV0VH7oyoZTTqeSDJ9GMaKdcBMbnCGz0oK
- W4uplrEpYu6xavlLKTKEmzVAaZI8ZmJCz+EmMoBcVEr/EJ1qNVQKziaZzyoACjVglL
- bpwXXn32E2lf1uZGdH6GNI1LnxnLk/3jwwgvDWTlduFv7KADBpKed2z8LxX6QD+/eP
- TV0nHHTNpyJWA==
-Date: Thu, 22 Aug 2024 22:34:31 +0800
+ b=oggBKWKCnwj/ZBDyPl3ydL03TtQ8w7ICv3O3Bq2vzYDm5i3Sh+Fp4B1xOwUJndSRO
+ bsldW5ZjBrO3iYqTAD6yhlUKJNEFG2uVO9WSsIP/BMbZvWlmqYbi+OTJXFvURlkaJE
+ 0cXff0KY8O3HzyFpLWCHtzcStqRdOBBaAIHki3hWy/822v3kaQt018aeqnig39Ai1h
+ kepfkvgJDxBCn+AjYvnjYBoh/O6LIi93KP6YCfbGwFP77J/kxUiv8KhbeLty8xoVB9
+ 4b7UOJvS4a3mRc8Peylwth4W1WtoNWdmzeqQ7NF6cuCTju3DkmNAwBxQXYd/4hMSIG
+ PQAz44TrnEK7w==
+Date: Thu, 22 Aug 2024 22:35:13 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Stephen Boyd <swboyd@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -62,17 +62,16 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-usb@vger.kernel.org,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v3 13/17] dt-bindings: Move google,cros-ec-typec binding
- to usb
-Message-ID: <ZsdMd7Ywa2b-GDT6@tzungbi-laptop>
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v3 15/17] platform/chrome: cros_ec_typec: Add support for
+ signaling DP HPD via drm_bridge
+Message-ID: <ZsdMoRpwv5twOwqx@tzungbi-laptop>
 References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-14-swboyd@chromium.org>
+ <20240819223834.2049862-16-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819223834.2049862-14-swboyd@chromium.org>
+In-Reply-To: <20240819223834.2049862-16-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,8 +87,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 19, 2024 at 03:38:27PM -0700, Stephen Boyd wrote:
-> -title: Google Chrome OS EC(Embedded Controller) Type C port driver.
-> +title: Google Chrome OS Embedded Controller (EC) USB type-c port driver
+On Mon, Aug 19, 2024 at 03:38:29PM -0700, Stephen Boyd wrote:
+> +struct cros_typec_dp_bridge {
+> +	struct cros_typec_data *typec_data;
+> +	struct drm_dp_typec_bridge_dev *dev;
+> +};
 
-Given that it gets chance to modify, how about s/Chrome OS/ChromeOS/?
+It looks like structs are all defined in cros_ec_typec.h.  I think this struct
+definition can be also moved there.
+
+> diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
+> index deda180a646f..73d300427140 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.h
+> +++ b/drivers/platform/chrome/cros_ec_typec.h
+> @@ -27,6 +27,8 @@ struct cros_typec_altmode_node {
+>  	struct list_head list;
+>  };
+>  
+> +struct cros_typec_dp_bridge;
+
+If the struct definition moves here, it doesn't need to declare forward.
