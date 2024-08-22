@@ -2,75 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E811895AEA0
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 09:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B2095AEA3
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 09:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E761F10E796;
-	Thu, 22 Aug 2024 07:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F40B10E795;
+	Thu, 22 Aug 2024 07:15:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TF9ZU8Gu";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="KEgcYMsl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1D310E57C
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 00:35:57 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id
- af79cd13be357-7a1da7cafccso16784585a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 17:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724286956; x=1724891756; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=22zWPOj1TpYR/jHva6dX8P4bxYu0jWvouDXLuCxJapI=;
- b=TF9ZU8GuTHzvCEyQXvBofd13rjHRVOZFZpD9gBKQxvdYDF4HY0r2CDjlUhc/4xMtrV
- T2x9AsUmQ6P8R1+t2ZP2LkHDBB3G7eubjr00jBkyozHwVzg9sz3CYkwAcEBl6NctT3/o
- oncs3WxGVs5gn2bqBXiL5tz7z8dGTpjSNg6ymYLVa4rJgbxQQhq8SGInYuTE2wYi3Z7q
- BdvGUz2o2fVUbVn5l/n/beg/No4IuZLSoCcz2ifNsNb/5q6xuMhy2TISD2VA4+czOx6w
- ku56Xli4BjND/g9Hx/zk+2qtBfUtFFMhdqpAgBRH5T2mmf7dWjagq7kgVSZXCUL70xwZ
- QFjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724286956; x=1724891756;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=22zWPOj1TpYR/jHva6dX8P4bxYu0jWvouDXLuCxJapI=;
- b=YYRcDNGb5JXDi6B8fSOh99c3JTyAKAdrfrrJ9sgSpODc97RRbNE+1hggzGjzqJdD1Q
- YVoS49JfqAnWmsIVNESEcrs55VYJ02pONIneLwtdesyfJby/jtnnP2zNVMzXUL2/S2r8
- Ms1laixHKP11kYvdjUNpfNt371wD08Qez9phPmwye4glrkFkGBbqPQWKTfM+9jpl19mf
- H48RUHXdVm0V2bDzDmbSqbHQE5GjRBOBECS9N3SihbKn6Rhn9DJiADXZhEyg9Xn0bPzV
- 3O3wmygztzXDtr/VICeo5KNhREreUde4YW3JGF62BhfVkGDduvFYuZicqedjKnylaPAF
- aqhw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUipCiyN1vnvgex/qg2ryB6tbiXtOmMi1ohOIZgyXNPhbs4lAmbSG2TGmeSIO9EfzL9F4kq70e9Tt0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8ogzW8ApONXUoj+/xeqz/KYVtvWkKH77OgcQPTDGQ513299+s
- cE3tWF8zSWfoc7NinjCsACjTlWFrY9gcH52IU2vQVqp5qTU9Q1thYoG0XJhwZBNdE3ef/fI2snK
- KvxdD+1Qr8wmhdehfSQ4rLxJ/QNE=
-X-Google-Smtp-Source: AGHT+IFA7v3PE7COTekEBnadVG/BYIOlP9BEhcpwuRDzMHbYs2DiX9GTE7X59ozXJ7MpVRg4cwF21rX4O6OpKBulwMg=
-X-Received: by 2002:a05:6214:4520:b0:6b7:ae86:e33e with SMTP id
- 6a1803df08f44-6c155e09dfdmr34354096d6.37.1724286956259; Wed, 21 Aug 2024
- 17:35:56 -0700 (PDT)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2087.outbound.protection.outlook.com [40.107.255.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 402FC10E6DE;
+ Thu, 22 Aug 2024 04:01:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QsnhwEfEwxKJ0oOi/Hpo4W3UO5hFhNV6tSGJxwB5ljTGZ7kGMBqnzS52JujPIE7W3+g7dLJnLVrVlRMBvgjWAO1scE0ioFB0aKJibzhpEOGpXBaY26aPCd0uinxB/8x18R0JzW7x3YHXGM3cQlkh84O9q9yxtEtnURF/4pMuR4NFCCNU8tuTzmS82ggnTV/hh+kWtKeQxGQXDfjdGSRBeF8rLWaWOilu1xnuXlXt8Zw5kHrQWJwL0xPYIjywJCzsUZVkcBqEuWBDuaz+pjhh3ZuT4e4gtxR10jJh+joeUPu0ubMm2VA7USFnZ95Bd69K91U7YcrFMrrU6j637eJh6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tJ9VBdxKOLV5D42EXGGoUggFk0CNqWVOq4j4gWyqK3k=;
+ b=T6rTozuiyETTfXgr7zqb5loo5oOL6kR/U3evzE9lMRGdXUyihomMkszPLkIVbaFl6eguAJgXCJM4lgIZy8iqiGIMdYIKX/Hkn7zngkdaWoDefTwocT7gHpuxSllKNyOeGuqdqMXBoASXYbmyPhcImmopNr4BKdFQuidSLlClLD57kyYEIlHwbYWtoawExPvNZl6lVrkG9inCmGFqLo1D3bkuEZpsO7J9Cd2o5MNo0/v85JSESU/+6uRgy5j2d4lu9I21XidTYK27z1OFT7fA/E67b56a4ooev3oUE0E2SzQa8UzuVpk1tHuVMoFpwcLAraQpjIoHnCTGltylXHAL7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tJ9VBdxKOLV5D42EXGGoUggFk0CNqWVOq4j4gWyqK3k=;
+ b=KEgcYMslvCXfeMrPP5soMqEBVWIwwkZ67QjQWXKptyH4wBG7KH5FAwY3uonRUf3CLOjCzm4znNi1jv7SRb0DAFYYIrKqboHiggtIv9ZN1W3D9lMnCJbuaUp35IUdL4TdZq3zPbzmEKoqiUGcBMZsthdXYLMnGnWD3fNWza9yWqabB6Gnt4/WA6666Pi3wjQGwB7zL6asV6iRZCA6ICrPPrIpF0MOteXvkY36xMjxXT6TN1EBMy7gy9j3oRfvRxCjkR7T9W2gW2APTC1HVWQQlsYQKp/TGTIuDZyhJ/pb8leIqVkFU0FqXsDsHW8umGsu2F0827dFpZ425+28H5Gs3g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5724.apcprd06.prod.outlook.com (2603:1096:301:f4::9)
+ by SEZPR06MB7237.apcprd06.prod.outlook.com (2603:1096:101:238::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.22; Thu, 22 Aug
+ 2024 04:01:12 +0000
+Received: from PUZPR06MB5724.apcprd06.prod.outlook.com
+ ([fe80::459b:70d3:1f01:e1d6]) by PUZPR06MB5724.apcprd06.prod.outlook.com
+ ([fe80::459b:70d3:1f01:e1d6%3]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
+ 04:01:12 +0000
+From: Yuesong Li <liyuesong@vivo.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
+Cc: airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ opensource.kernel@vivo.com, Yuesong Li <liyuesong@vivo.com>
+Subject: [PATCH v1] drm/amd/display: Fix wrong assignment in
+ dce100_resource_construct()
+Date: Thu, 22 Aug 2024 12:01:00 +0800
+Message-Id: <20240822040100.1249714-1-liyuesong@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY2PR04CA0016.apcprd04.prod.outlook.com
+ (2603:1096:404:f6::28) To PUZPR06MB5724.apcprd06.prod.outlook.com
+ (2603:1096:301:f4::9)
 MIME-Version: 1.0
-References: <20240820125840.9032-1-rongqianfeng@vivo.com>
-In-Reply-To: <20240820125840.9032-1-rongqianfeng@vivo.com>
-From: Julian Calaby <julian.calaby@gmail.com>
-Date: Thu, 22 Aug 2024 10:35:45 +1000
-Message-ID: <CAGRGNgXn94ZPROLN4JButpnc+ffFFr1SwtTFM=bvcPH95DFQgQ@mail.gmail.com>
-Subject: Re: [PATCH] gpu: drm: Use devm_clk_get_enabled() helpers
-To: Rong Qianfeng <rongqianfeng@vivo.com>
-Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, opensource.kernel@vivo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5724:EE_|SEZPR06MB7237:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82eedaa0-02cd-4695-be4f-08dcc25f0f78
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|52116014|376014|7416014|1800799024|366016|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Em6R1+8OxommzdZI2brcGewo5HR+8gyvKDcSNKRvPqUyJOjRXC/T1Tb0hW5h?=
+ =?us-ascii?Q?6T+BQYrShyMENeYdcpojcgxUO2+e9IwJ97Gkj6b3hsWDFTTjWeOCiutHPtAE?=
+ =?us-ascii?Q?DviO2sX+8S0AOh3aPgPGX5IXwEDyJ94XxU2OE9Xn8fajZ4muFQNzrrhYJQNs?=
+ =?us-ascii?Q?3RO6u2I6y3+k+rDHzYWiRrZdNw/btnalVapby4d/GaB5/i+x32IZENqtQlrx?=
+ =?us-ascii?Q?Svb/6vQJP2JaVYGjYEXBZDl7Y929DxSKyjGiaAwCrMqPn4ELB8kw1iJt0v9f?=
+ =?us-ascii?Q?ZCfS4bU+KRuM7yjr0Vqfk7tIVHrjglJHslh677+CsAWXoj8hj2HL/5zsfYj0?=
+ =?us-ascii?Q?g9TdfNIuGK5nX/cjAk4zitmsnEg/TCCvhEoP+P56Bpnf5xHUdlcIgJrcuJvE?=
+ =?us-ascii?Q?DDSDR0tLN/NdvWpor/Fh7iH6QOKS50wUrgjEtcaU8qbIa/t1VtFEIO8Ab2Rl?=
+ =?us-ascii?Q?VDYxAJmPiQFveORwdmfEEquJDYY71Fjj9HgZdNS/jaH8DhmKPj6NnKeeSLVv?=
+ =?us-ascii?Q?KVpwDTmfl47pwQCYapX6DJIzSJdMTAW6vI2o3PizmL67n481s3XMkuHr1Ohr?=
+ =?us-ascii?Q?UvGBS+1Ve4Odso3k+1TeNshNLwubnLbna8KFSRLxY47j8pzaSzz/eI9Rwsk8?=
+ =?us-ascii?Q?5NDbH93aaqb2IxtX3w9eVbU4Get5kEG9D/664ahz94pboUI3yvHcy19IIrs2?=
+ =?us-ascii?Q?b5a9O/U6TPTziHh2/nFePrEjZR77lG96DuHSBFiGUNDK1sC9Ytx8riX1weOZ?=
+ =?us-ascii?Q?/7d4UaZoTz2gu8mS3EiRzKcz1TywZJkITak14zPoEwlJKYbBwUEK22of1iSV?=
+ =?us-ascii?Q?bNbf3WujOGVLSNl/ZEo+IVqaxpn0sPzuRS053kdNGSel9oF0M43Ijex53f3V?=
+ =?us-ascii?Q?jTmYbv1kYAhH0IJZMSdulJp/Gjq5/1qkiY8+8ybYv3P7Ek7tDCZXsjXcuu6G?=
+ =?us-ascii?Q?rtefvkucvCz6ivozjs8EVjxRZ6PbG7T5ZYltyHs8zYbuhrrervuW9cpoL6M5?=
+ =?us-ascii?Q?/WmBVz4kz9FtVdkgamyq4aixB6a5awA+CbEoxqcmG5Cwrda4plNy09Ep04Gb?=
+ =?us-ascii?Q?NZQsX52ZznKOmGw0MmM6Ww7y/IUf3W+MqlZ+0OUL+6H9clYN8DvWiNVtTuqn?=
+ =?us-ascii?Q?gW86Xc3NphFYT5TkT5lVYqc8H8znbqFNRopayu4Yom7VCLYPTyxtKds6CvGI?=
+ =?us-ascii?Q?MqqwXeLlGdKprju8+07Iys2ZV3fcaF/o/Gb17JZMjRbTlpaQjTOVRMUzW1+G?=
+ =?us-ascii?Q?qUJILzP4ce+Lqmyr2oXfTfxbMUetK4ryCcsdc19NW43yRemBxCuBFpRVXdra?=
+ =?us-ascii?Q?8BIUCR5qa6+znvhIHvQiOYtpsrAc988O1JqnOAkX53rHWBxZmSuEKYbUq7AO?=
+ =?us-ascii?Q?AkKsHHZ0/SqPmhM2nKiz81igC5YTayKjk/i/+xwlGYqrLFE4lg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PUZPR06MB5724.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(52116014)(376014)(7416014)(1800799024)(366016)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YR50vwTqpn8wdjIrkUF/SChsaEQXHsnuKEgwEAwv0rpnj1P5+UXQ0ZaxY9Gx?=
+ =?us-ascii?Q?vyIb2YpkNI1S7noF+aEzhp5vtKJIMYCpJayYBcO22MKOZyi1V4dPWy/s5Zxd?=
+ =?us-ascii?Q?RtPCXRiPsxq7sITsbEp6cOX3ED6iu6oZsIKHPakkolj1/PyJd4DQVA9HKh+M?=
+ =?us-ascii?Q?gUMsB0MknxLFKEBxYX42feIJbNBtbJXla+i5HT6n8J8B54yKEr3QnC6d6JkM?=
+ =?us-ascii?Q?dClnI4/Q8pvsBtvmXFAE0/z7slWO90eRP+jDp5B828Hoy/QpCdj0Sl8nZQ5A?=
+ =?us-ascii?Q?C0hD7XriWamOP3tDx1Wr8bYSWfmtrPwCQeZzK5GvYiBDa0D+oZzMvQkX9wdS?=
+ =?us-ascii?Q?d5Pg3XT9syDYqDBJMQeMwyIJ5eFoqs8XUwydNmZvMHNaj6TCmMWSUDzq8u50?=
+ =?us-ascii?Q?UVtlGOJulNm65hOx/yw2GbmvpfFL8fnF5O/9hECHSuUoCnZLBlPj8KjfnDxC?=
+ =?us-ascii?Q?C2NDMMy79hdT02iFwIBRqFpA4ZFP667hidDLOOvU8LZzCLLHqw0gPj9hHiS0?=
+ =?us-ascii?Q?WtHWpLah3yje0k4u6Y8G2ckJLw1QYLBIBSnrvwx2AIqR2cj+JX+ycAgPOtSw?=
+ =?us-ascii?Q?ZEqS8/48Om+vQoHKn22l15UHIMwJTNJviepPiYv/Y3IpQ89YXyMEgPEmFzpN?=
+ =?us-ascii?Q?poBhJ4UXKQnNHRGhw0z7U4a/jDZO1NNvn8qm9LUfXZHNnyANglGfI3ga12tP?=
+ =?us-ascii?Q?Z3+bPhkDOlxqF8qdi+l3deRKFVB9vr4J/cd/yDUgt9vBBhBT3jPy+Bp7Nhhi?=
+ =?us-ascii?Q?1EV3QUJTXFE0DO9B3j7EAlH675dSvnCHXtiZlTHDZvcc+55K5ODe55+xeknj?=
+ =?us-ascii?Q?f8Dphyv775jaDe+bGWh07UE3HCz/rmFCghPI6P9TOr/tWRb7bYwjsP8ynr7H?=
+ =?us-ascii?Q?3zgQZ1KfCOA+R2g0QwOUAgaqaHVltmbt8lAByFvyZhO91e+cZExnt89Q1+sP?=
+ =?us-ascii?Q?nDln0YXQo+JrMkY02d0X4w3a4hjyrGRdP8AYT/cxVqRxx6jYYTN4n/PWdk0R?=
+ =?us-ascii?Q?KBaEVGfbZbqgT044wQUgKX1yTec5wkt83xDAJqbMprn7Ey8lTIAEj1rwCvJ6?=
+ =?us-ascii?Q?uGlrwpAnriFZuBAKuITgvwuayS7gWLMdYtTE0f6xG0yDKB6jR6T45T8F8Ya8?=
+ =?us-ascii?Q?zu9L60Pti/8m0xDNeWJ8tQYOmoB10Yt9BvlzYp01ssZ+ZG9weE50vYkR87hN?=
+ =?us-ascii?Q?6HjzatslpNgC9988j67vYxAwUrWKtgDUtoqFLyH4WPmFvMfUC+AAVlrItMth?=
+ =?us-ascii?Q?0dWeJrLgcdwidpwIPC1xKafaW4AmK7i9+DQTw0AgWxGhxv2Lztx6FWc87jXx?=
+ =?us-ascii?Q?viuwt+ieDHc8iUNRZZg+p87JmlPl+aROJc4Lp04B3WF5njd6sB+kBSJbs2XL?=
+ =?us-ascii?Q?x86WIEoPP88C9HVHOCkt5gk6MIl4SudQb2dGBQONi+QvR7SP8qF02DdQCi+t?=
+ =?us-ascii?Q?Lca+o/aPuc566gSDj42KPQGIdxoqfiT50DTxl5Mt5wq8LMHGS4DR5MjT69R8?=
+ =?us-ascii?Q?XhytYqqOHFk+nEikxCZNQGap1ZlspK/Af6216W4D8Lpi2gAL1YOENfMYgGXR?=
+ =?us-ascii?Q?WO1YJDR61BA9mlH69JcJ1cQzipZSuqgcdCYPOY5w?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82eedaa0-02cd-4695-be4f-08dcc25f0f78
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5724.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 04:01:11.9277 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p1ZufoXMYNoMCSM09Gx1vWAKTxkeiMV4Pv5GDCEfYduLMSfqsLa4Ci48DiMSrLct86KV0NFtBTttcFpfUMeo/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB7237
 X-Mailman-Approved-At: Thu, 22 Aug 2024 07:15:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,71 +147,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rong,
+Fix the assignment for i2c_speed_in_khz_hdcp.
 
-On Tue, Aug 20, 2024 at 10:59=E2=80=AFPM Rong Qianfeng <rongqianfeng@vivo.c=
-om> wrote:
->
-> Replace devm_clk_get() and clk_prepare_enable() with
-> devm_clk_get_enabled() that also disables and unprepares it on
-> driver detach.
->
-> Signed-off-by: Rong Qianfeng <rongqianfeng@vivo.com>
-> ---
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 13 +++----------
->  drivers/gpu/drm/sun4i/sun6i_drc.c         | 15 ++++-----------
->  drivers/gpu/drm/sun4i/sun8i_mixer.c       | 13 +++----------
->  3 files changed, 10 insertions(+), 31 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun6i_drc.c b/drivers/gpu/drm/sun4i/su=
-n6i_drc.c
-> index 0d342f43fa93..f263ad282828 100644
-> --- a/drivers/gpu/drm/sun4i/sun6i_drc.c
-> +++ b/drivers/gpu/drm/sun4i/sun6i_drc.c
-> @@ -42,33 +42,28 @@ static int sun6i_drc_bind(struct device *dev, struct =
-device *master,
->                 return ret;
->         }
->
-> -       drc->bus_clk =3D devm_clk_get(dev, "ahb");
-> +       drc->bus_clk =3D devm_clk_get_enabled(dev, "ahb");
->         if (IS_ERR(drc->bus_clk)) {
->                 dev_err(dev, "Couldn't get our bus clock\n");
->                 ret =3D PTR_ERR(drc->bus_clk);
->                 goto err_assert_reset;
->         }
-> -       clk_prepare_enable(drc->bus_clk);
->
-> -       drc->mod_clk =3D devm_clk_get(dev, "mod");
-> +       drc->mod_clk =3D devm_clk_get_enabled(dev, "mod");
->         if (IS_ERR(drc->mod_clk)) {
->                 dev_err(dev, "Couldn't get our mod clock\n");
->                 ret =3D PTR_ERR(drc->mod_clk);
-> -               goto err_disable_bus_clk;
-> +               goto err_assert_reset;
->         }
->
->         ret =3D clk_set_rate_exclusive(drc->mod_clk, 300000000);
->         if (ret) {
->                 dev_err(dev, "Couldn't set the module clock frequency\n")=
-;
-> -               goto err_disable_bus_clk;
-> +               goto err_assert_reset;
->         }
->
-> -       clk_prepare_enable(drc->mod_clk);
+Fixex: commit b15cde19c32d ("drm/amd/display:
+ Add i2c speed arbitration for dc_i2c and hdcp_i2c")
+Signed-off-by: Yuesong Li <liyuesong@vivo.com>
+---
+ .../gpu/drm/amd/display/dc/resource/dce100/dce100_resource.c    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Am I reading this right: is this changing the init sequence so that
-the clock is enabled before setting a rate?
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dce100/dce100_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dce100/dce100_resource.c
+index 53a5f4cb648c..ea69cd36f714 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dce100/dce100_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dce100/dce100_resource.c
+@@ -1069,7 +1069,7 @@ static bool dce100_resource_construct(
+ 	pool->base.timing_generator_count = pool->base.res_cap->num_timing_generator;
+ 	dc->caps.max_downscale_ratio = 200;
+ 	dc->caps.i2c_speed_in_khz = 40;
+-	dc->caps.i2c_speed_in_khz = 40;
++	dc->caps.i2c_speed_in_khz_hdcp = 40;
+ 	dc->caps.max_cursor_size = 128;
+ 	dc->caps.min_horizontal_blanking_period = 80;
+ 	dc->caps.dual_link_dvi = true;
+-- 
+2.34.1
 
-This is the sort of thing that might cause glitches and issues in some
-hardware, so it'd be polite to test such a change on the actual
-hardware before posting it.
-
-Thanks,
-
---=20
-Julian Calaby
-
-Email: julian.calaby@gmail.com
-Profile: http://www.google.com/profiles/julian.calaby/
