@@ -2,80 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3F395B565
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 14:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B04795B599
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 14:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA92610E976;
-	Thu, 22 Aug 2024 12:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE1DC10E0A2;
+	Thu, 22 Aug 2024 12:58:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DczE7k/H";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iGKUdVGY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DczE7k/H";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iGKUdVGY";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="pHwUFx33";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J5rMZ3E8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pHwUFx33";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J5rMZ3E8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6A110E971
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 12:48:27 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2455510E0A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 12:58:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F3F9F201C9;
- Thu, 22 Aug 2024 12:48:25 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 73E73224EF;
+ Thu, 22 Aug 2024 12:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724330906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1724331488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
- b=DczE7k/Hmu41o6T4lopyOwqF+iYyoqwDJ1tuL0D/14e79FKhTfaisPm+IOulXPQdVtjz67
- Q1Rl/Coqm6v77HseA/SI17+8xwnBRZyUD9t6NpMEJvrJIFapfzdf3r+1WQ8HcqWqLUvRhD
- PVgAF86m6eDNPd67A6qzaPG4Yhuyzbs=
+ bh=EaRbppTaC7IJruVAKe85fN+TCCggtKkZnhM7fSjoEQM=;
+ b=pHwUFx33L1kfVzJlHaYSYXz+dU8ODe/9zNsZSqQIgzWGKwKXwERTuiZxoXCDaT/6nqwRq8
+ dtTNloQBWUhJ18VbFkODx61iE6iO7L3+B4FMa/sxh9NYrrd5sOKh8KzoWO6Ohh8lPqmxem
+ 1zU82T4ZMrAS6EWem2uKxIMT/7zXNrc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724330906;
+ s=susede2_ed25519; t=1724331488;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
- b=iGKUdVGYlOgtT2zjcOKbQgSLsgpvNaVkmRxEwbHt316nemmgJZ8tVHrZObEQl19JqHtjvv
- OlgAUMHsD0QIvTBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=EaRbppTaC7IJruVAKe85fN+TCCggtKkZnhM7fSjoEQM=;
+ b=J5rMZ3E8NImm5Wk2aIXhRkSvE79zaYH27OV3eOa7kjuDFGrR7A/ojh1y1oens+YHJkeBwZ
+ 1i3I53XdUbNwW1CQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pHwUFx33;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=J5rMZ3E8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724330906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1724331488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
- b=DczE7k/Hmu41o6T4lopyOwqF+iYyoqwDJ1tuL0D/14e79FKhTfaisPm+IOulXPQdVtjz67
- Q1Rl/Coqm6v77HseA/SI17+8xwnBRZyUD9t6NpMEJvrJIFapfzdf3r+1WQ8HcqWqLUvRhD
- PVgAF86m6eDNPd67A6qzaPG4Yhuyzbs=
+ bh=EaRbppTaC7IJruVAKe85fN+TCCggtKkZnhM7fSjoEQM=;
+ b=pHwUFx33L1kfVzJlHaYSYXz+dU8ODe/9zNsZSqQIgzWGKwKXwERTuiZxoXCDaT/6nqwRq8
+ dtTNloQBWUhJ18VbFkODx61iE6iO7L3+B4FMa/sxh9NYrrd5sOKh8KzoWO6Ohh8lPqmxem
+ 1zU82T4ZMrAS6EWem2uKxIMT/7zXNrc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724330906;
+ s=susede2_ed25519; t=1724331488;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/jIYJjy9NFzOE8ry/O1Sw0b0V7M7s7U2iu6xhANbkL8=;
- b=iGKUdVGYlOgtT2zjcOKbQgSLsgpvNaVkmRxEwbHt316nemmgJZ8tVHrZObEQl19JqHtjvv
- OlgAUMHsD0QIvTBg==
+ bh=EaRbppTaC7IJruVAKe85fN+TCCggtKkZnhM7fSjoEQM=;
+ b=J5rMZ3E8NImm5Wk2aIXhRkSvE79zaYH27OV3eOa7kjuDFGrR7A/ojh1y1oens+YHJkeBwZ
+ 1i3I53XdUbNwW1CQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83A03139D3;
- Thu, 22 Aug 2024 12:48:25 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02BCA139D3;
+ Thu, 22 Aug 2024 12:58:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id b39gHpkzx2aeQAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 22 Aug 2024 12:48:25 +0000
-Message-ID: <0dc75dad-c9ab-4797-81cf-07d607309902@suse.de>
-Date: Thu, 22 Aug 2024 14:48:24 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lhcEO981x2auQwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Aug 2024 12:58:07 +0000
+Message-ID: <4b5c6ba2-e16c-4884-a067-8d9ab7ad35f8@suse.de>
+Date: Thu, 22 Aug 2024 14:58:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/4] drm/panic: Add integer scaling to blit()
+Subject: Re: [PATCH v7 2/4] drm/rect: Add drm_rect_overlap()
 To: Jocelyn Falempe <jfalempe@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
@@ -90,7 +92,7 @@ To: Jocelyn Falempe <jfalempe@redhat.com>,
  dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Danilo Krummrich <dakr@redhat.com>
 References: <20240822073852.562286-1-jfalempe@redhat.com>
- <20240822073852.562286-2-jfalempe@redhat.com>
+ <20240822073852.562286-3-jfalempe@redhat.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -117,27 +119,36 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240822073852.562286-2-jfalempe@redhat.com>
+In-Reply-To: <20240822073852.562286-3-jfalempe@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 73E73224EF
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ MX_GOOD(-0.01)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,garyguo.net,protonmail.com,proton.me,samsung.com,google.com,vger.kernel.org,lists.freedesktop.org];
  MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[18];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
  FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TAGGED_RCPT(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
- imap1.dmz-prg2.suse.org:helo]
+ RCPT_COUNT_TWELVE(0.00)[18]; MID_RHS_MATCH_FROM(0.00)[];
+ TAGGED_RCPT(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TO_DN_SOME(0.00)[]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -5.01
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,139 +167,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Am 22.08.24 um 09:33 schrieb Jocelyn Falempe:
-> Add a parameter to the blit function, to upscale the image.
-> This is necessary to draw a QR code, otherwise, the pixels are
-> usually too small to be readable by most QR code reader.
-> It can also be used later for drawing fonts on high DPI display.
+> Check if two rectangles overlap.
+> It's a bit similar to drm_rect_intersect() but this won't modify
+> the rectangle.
+> Simplifies a bit drm_panic.
 >
 > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
+There's an optional comment further below.
+
 > ---
->   drivers/gpu/drm/drm_panic.c | 33 +++++++++++++++++++--------------
->   1 file changed, 19 insertions(+), 14 deletions(-)
+>
+> v7:
+>   * rename r1/r2 to a/b in drm_rect_overlap() (Jani Nikula)
+>
+>   drivers/gpu/drm/drm_panic.c |  3 +--
+>   include/drm/drm_rect.h      | 15 +++++++++++++++
+>   2 files changed, 16 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index eff4598e2fc73..0a047152f88b8 100644
+> index 0a047152f88b8..59fba23e5fd7a 100644
 > --- a/drivers/gpu/drm/drm_panic.c
 > +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -257,20 +257,20 @@ static bool drm_panic_is_pixel_fg(const u8 *sbuf8, unsigned int spitch, int x, i
->   static void drm_panic_blit16(struct iosys_map *dmap, unsigned int dpitch,
->   			     const u8 *sbuf8, unsigned int spitch,
->   			     unsigned int height, unsigned int width,
-> -			     u16 fg16)
-> +			     unsigned int scale, u16 fg16)
->   {
->   	unsigned int y, x;
+> @@ -529,8 +529,7 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+>   	/* Fill with the background color, and draw text on top */
+>   	drm_panic_fill(sb, &r_screen, bg_color);
 >   
->   	for (y = 0; y < height; y++)
->   		for (x = 0; x < width; x++)
-> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y))
-> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale))
->   				iosys_map_wr(dmap, y * dpitch + x * sizeof(u16), u16, fg16);
+> -	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
+> -	    logo_width <= sb->width && logo_height <= sb->height) {
+> +	if (!drm_rect_overlap(&r_logo, &r_msg)) {
+>   		if (logo_mono)
+>   			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
+>   				       fg_color);
+> diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
+> index 73fcb899a01da..46f09cf68458c 100644
+> --- a/include/drm/drm_rect.h
+> +++ b/include/drm/drm_rect.h
+> @@ -238,6 +238,21 @@ static inline void drm_rect_fp_to_int(struct drm_rect *dst,
+>   		      drm_rect_height(src) >> 16);
 >   }
 >   
->   static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
->   			     const u8 *sbuf8, unsigned int spitch,
->   			     unsigned int height, unsigned int width,
-> -			     u32 fg32)
-> +			     unsigned int scale, u32 fg32)
->   {
->   	unsigned int y, x;
->   
-> @@ -278,7 +278,7 @@ static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
->   		for (x = 0; x < width; x++) {
->   			u32 off = y * dpitch + x * 3;
->   
-> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y)) {
-> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale)) {
->   				/* write blue-green-red to output in little endianness */
->   				iosys_map_wr(dmap, off, u8, (fg32 & 0x000000FF) >> 0);
->   				iosys_map_wr(dmap, off + 1, u8, (fg32 & 0x0000FF00) >> 8);
-> @@ -291,24 +291,25 @@ static void drm_panic_blit24(struct iosys_map *dmap, unsigned int dpitch,
->   static void drm_panic_blit32(struct iosys_map *dmap, unsigned int dpitch,
->   			     const u8 *sbuf8, unsigned int spitch,
->   			     unsigned int height, unsigned int width,
-> -			     u32 fg32)
-> +			     unsigned int scale, u32 fg32)
->   {
->   	unsigned int y, x;
->   
->   	for (y = 0; y < height; y++)
->   		for (x = 0; x < width; x++)
-> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y))
-> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale))
->   				iosys_map_wr(dmap, y * dpitch + x * sizeof(u32), u32, fg32);
->   }
->   
->   static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect *clip,
-> -				 const u8 *sbuf8, unsigned int spitch, u32 fg_color)
-> +				 const u8 *sbuf8, unsigned int spitch, unsigned int scale,
-> +				 u32 fg_color)
->   {
->   	unsigned int y, x;
->   
->   	for (y = 0; y < drm_rect_height(clip); y++)
->   		for (x = 0; x < drm_rect_width(clip); x++)
-> -			if (drm_panic_is_pixel_fg(sbuf8, spitch, x, y))
-> +			if (drm_panic_is_pixel_fg(sbuf8, spitch, x / scale, y / scale))
->   				sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, fg_color);
->   }
->   
-> @@ -318,18 +319,22 @@ static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect
->    * @clip: destination rectangle
->    * @sbuf8: source buffer, in monochrome format, 8 pixels per byte.
->    * @spitch: source pitch in bytes
-> + * @scale: integer scale, source buffer is scale time smaller than destination
-> + *         rectangle
->    * @fg_color: foreground color, in destination format
->    *
->    * This can be used to draw a font character, which is a monochrome image, to a
->    * framebuffer in other supported format.
->    */
->   static void drm_panic_blit(struct drm_scanout_buffer *sb, struct drm_rect *clip,
-> -			   const u8 *sbuf8, unsigned int spitch, u32 fg_color)
-> +			   const u8 *sbuf8, unsigned int spitch,
-> +			   unsigned int scale, u32 fg_color)
+> +/**
+> + * drm_rect_overlap - Check if two rectangles overlap
+> + * @a: first rectangle
+> + * @b: second rectangle
+> + *
+> + * RETURNS:
+> + * %true if the rectangles overlap, %false otherwise.
+> + */
+> +static inline bool drm_rect_overlap(const struct drm_rect *a,
+> +				    const struct drm_rect *b)
+> +{
+> +	return (a->x2 > b->x1 && b->x2 > a->x1 &&
+> +		a->y2 > b->y1 && b->y2 > a->y1);
+
+I found this hard to understand. You may want to use the existing 
+_intersect helper
+
+bool overlap(a, b)
+{
+   struct drm_rect tmp = *a
+
+   return intersect(tmp, b);
+}
+
+Up to you.
+
+Best regards
+Thomas
+
+> +}
 > +
->   {
->   	struct iosys_map map;
->   
->   	if (sb->set_pixel)
-> -		return drm_panic_blit_pixel(sb, clip, sbuf8, spitch, fg_color);
-> +		return drm_panic_blit_pixel(sb, clip, sbuf8, spitch, scale, fg_color);
->   
->   	map = sb->map[0];
->   	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
-> @@ -337,15 +342,15 @@ static void drm_panic_blit(struct drm_scanout_buffer *sb, struct drm_rect *clip,
->   	switch (sb->format->cpp[0]) {
->   	case 2:
->   		drm_panic_blit16(&map, sb->pitch[0], sbuf8, spitch,
-> -				 drm_rect_height(clip), drm_rect_width(clip), fg_color);
-> +				 drm_rect_height(clip), drm_rect_width(clip), scale, fg_color);
->   	break;
->   	case 3:
->   		drm_panic_blit24(&map, sb->pitch[0], sbuf8, spitch,
-> -				 drm_rect_height(clip), drm_rect_width(clip), fg_color);
-> +				 drm_rect_height(clip), drm_rect_width(clip), scale, fg_color);
->   	break;
->   	case 4:
->   		drm_panic_blit32(&map, sb->pitch[0], sbuf8, spitch,
-> -				 drm_rect_height(clip), drm_rect_width(clip), fg_color);
-> +				 drm_rect_height(clip), drm_rect_width(clip), scale, fg_color);
->   	break;
->   	default:
->   		WARN_ONCE(1, "Can't blit with pixel width %d\n", sb->format->cpp[0]);
-> @@ -485,7 +490,7 @@ static void draw_txt_rectangle(struct drm_scanout_buffer *sb,
->   		for (j = 0; j < line_len; j++) {
->   			src = get_char_bitmap(font, msg[i].txt[j], font_pitch);
->   			rec.x2 = rec.x1 + font->width;
-> -			drm_panic_blit(sb, &rec, src, font_pitch, color);
-> +			drm_panic_blit(sb, &rec, src, font_pitch, 1, color);
->   			rec.x1 += font->width;
->   		}
->   	}
+>   bool drm_rect_intersect(struct drm_rect *r, const struct drm_rect *clip);
+>   bool drm_rect_clip_scaled(struct drm_rect *src, struct drm_rect *dst,
+>   			  const struct drm_rect *clip);
 
 -- 
 --
