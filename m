@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B0F95B890
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 042B395B8A0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85F6510EAF2;
-	Thu, 22 Aug 2024 14:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5343310EAF5;
+	Thu, 22 Aug 2024 14:37:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oggBKWKC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ctOmC7Y9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB7910EAF2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:35:25 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC7710EAF5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:37:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9D236CE0EE3;
- Thu, 22 Aug 2024 14:35:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6F2CC4AF11;
- Thu, 22 Aug 2024 14:35:15 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E4E74A40493;
+ Thu, 22 Aug 2024 14:37:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AA8C32782;
+ Thu, 22 Aug 2024 14:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724337322;
- bh=Y+k+ZeSnySUlvXeIpIB978BSbObVC7BsdVZXFENjDJg=;
+ s=k20201202; t=1724337434;
+ bh=ZkpJaD0BSKB4PQoNUPxvvmFUzWqr/hvDqpY1MhGCy+0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oggBKWKCnwj/ZBDyPl3ydL03TtQ8w7ICv3O3Bq2vzYDm5i3Sh+Fp4B1xOwUJndSRO
- bsldW5ZjBrO3iYqTAD6yhlUKJNEFG2uVO9WSsIP/BMbZvWlmqYbi+OTJXFvURlkaJE
- 0cXff0KY8O3HzyFpLWCHtzcStqRdOBBaAIHki3hWy/822v3kaQt018aeqnig39Ai1h
- kepfkvgJDxBCn+AjYvnjYBoh/O6LIi93KP6YCfbGwFP77J/kxUiv8KhbeLty8xoVB9
- 4b7UOJvS4a3mRc8Peylwth4W1WtoNWdmzeqQ7NF6cuCTju3DkmNAwBxQXYd/4hMSIG
- PQAz44TrnEK7w==
-Date: Thu, 22 Aug 2024 22:35:13 +0800
+ b=ctOmC7Y9I5pctjwa+bfvcuJQnPKxeiOldkSiZey7L8AQjTgSHSocZlA+zCq72uwB3
+ LWVTnaND1yi3ccNgiiz9wrc3Cals3TBSy4p7BVwYX94vzhmWuOJzOP3jmenujcCNcS
+ bW5GDiO9y7HxNnxU5wTD9Dn/akgxr6wDJaGfWz0YZ3L12Hl+VyO7DwR2FVy+V8+pLs
+ 9P4wbYXFM3++q8YqIGml3T1hkx8NQfayBQw3YkMI4GniXfzrHxowf/b6Lci3uYP1Mh
+ dw+8t2cS+cRA4FyWfmgXtOO3RiS5Gfx7MvRajOXarKVShQF4RViDrSa5HuO1tMNfId
+ i19liD/cvcqFg==
+Date: Thu, 22 Aug 2024 22:37:05 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Stephen Boyd <swboyd@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -63,15 +63,14 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v3 15/17] platform/chrome: cros_ec_typec: Add support for
- signaling DP HPD via drm_bridge
-Message-ID: <ZsdMoRpwv5twOwqx@tzungbi-laptop>
+Subject: Re: [PATCH v3 16/17] platform/chrome: cros_ec_typec: Support DP muxing
+Message-ID: <ZsdNEWX-eeLiokZl@tzungbi-laptop>
 References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-16-swboyd@chromium.org>
+ <20240819223834.2049862-17-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819223834.2049862-16-swboyd@chromium.org>
+In-Reply-To: <20240819223834.2049862-17-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,23 +86,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 19, 2024 at 03:38:29PM -0700, Stephen Boyd wrote:
-> +struct cros_typec_dp_bridge {
-> +	struct cros_typec_data *typec_data;
-> +	struct drm_dp_typec_bridge_dev *dev;
-> +};
-
-It looks like structs are all defined in cros_ec_typec.h.  I think this struct
-definition can be also moved there.
-
-> diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
-> index deda180a646f..73d300427140 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.h
-> +++ b/drivers/platform/chrome/cros_ec_typec.h
-> @@ -27,6 +27,8 @@ struct cros_typec_altmode_node {
->  	struct list_head list;
->  };
+On Mon, Aug 19, 2024 at 03:38:30PM -0700, Stephen Boyd wrote:
+> @@ -671,6 +674,20 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+>  	if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
+>  		return 0;
 >  
-> +struct cros_typec_dp_bridge;
+> +	dp_enabled = resp.flags & USB_PD_MUX_DP_ENABLED;
+> +	hpd_asserted = resp.flags & USB_PD_MUX_HPD_LVL;
+> +	/*
+> +	 * Assume the first port to have HPD asserted is the one muxed to DP
+> +	 * (i.e. active_port). When there's only one port this delays setting
+> +	 * the active_port until HPD is asserted, but before that the
+> +	 * drm_connector looks disconnected so active_port doesn't need to be
+> +	 * set.
+> +	 */
+> +	if (dp_bridge && hpd_asserted && !dp_bridge->active_port)
+> +		dp_bridge->active_port = port;
+> +
+> +	is_active_port = !dp_bridge || dp_bridge->active_port == port;
 
-If the struct definition moves here, it doesn't need to declare forward.
+Why `!dp_bridge`?  When will `dp_bridge` be NULL?
