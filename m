@@ -2,78 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47C295BC5D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 18:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3BA95BD0C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E746610E0BC;
-	Thu, 22 Aug 2024 16:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7BB110EB7C;
+	Thu, 22 Aug 2024 17:24:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jeQVMnx+";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fFT8lbCL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6252B10E0BC;
- Thu, 22 Aug 2024 16:48:10 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-201e2ebed48so666545ad.0; 
- Thu, 22 Aug 2024 09:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724345290; x=1724950090; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w/SYJbQoNAoEOpdSmC9AviqNRwXCtN2rcgO4mb9jx4U=;
- b=jeQVMnx+7BrEcTX8qyYcTNRAeFi1HZYis5BxSrJEXEAwdHw/G7hPWZPnfYO5MwLMDM
- K8ZQCks6rvgYjTO96sSGxsWrTtBlaNsnJd2BuoDZYTNUNGOHcypdKsclqBz63vdl//4r
- kuwaWQfYtvRH0dFBfy8D+2JaZT9XFM04gm0vPZnGnAj8u5cw5vyTGOiyZsuEkNtvUych
- nUz6vVb4IqHh3jESCX0xMAOj/uNGk0iPXbcWkc9al406WDTKkzM366SWBSWkZfKq5T0y
- LuHvuYq9igBy1G9e8STEJ2iX6atnTTWkgwJYl7pA5UOGpH6oWRsrt4GABO2cI7Hu9grq
- 726A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724345290; x=1724950090;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w/SYJbQoNAoEOpdSmC9AviqNRwXCtN2rcgO4mb9jx4U=;
- b=NIYnaZlpqlj+6IJX+IZXZAjjs/E4PKiwpzW9Z+FC31yZ1ZsxUqDE4Lz3AWhyzJqcSz
- aVf6wePJF3tov3RJFdUvfNnxyZWn2P3LzaLsRXz1KbY/RcXq6b/6Nu7I8wUoV5bZPetb
- DRUVPrb7L+lFzhHNK7gt/DO1UgmqsYviu8QWWs2sTZJGqoyyQnitaLBE2uM3uGgbonVN
- jEjtvepnYkUYFBIkWaxDJXzDWnOXvaR+089iZK50rS0zU7SUudbNFMcfyKM+oMrip6s7
- hm/NlUYxhtMjBl1IZ+jrNWltcZN0pNG08eW4P6dzvATfPxXFIeJ+9xaOi6CztTel6oeE
- CIgw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUb19R6fVQVWqJp/O19+VpO/nJIE41jTKx4L7vSnw06WxI0kF5Mxn3lj35zC4Yce2vIvynvTCx8uA==@lists.freedesktop.org,
- AJvYcCVLgLh+taeHk3bicqVfB8aWbZzcXYj00dWjBH1S4iD+OonWuqC3AVVQ9Zvg+KY9IiKRIk8YVY18@lists.freedesktop.org,
- AJvYcCWS/l4eSL5XPC1gVmLkAEJX8q0cWCyzzKKLqzfOOQFm84h2dldx//Wdp2QIZ0RpRmoiJ0QgBI4b2sc=@lists.freedesktop.org,
- AJvYcCXS1InlOZkzoT4x0gKyzCDBg1kLZWDnq/1HlGRB+cvWrTJepKcfHBPQbyVvpLkjq+w2l0izv0/CQxkJ@lists.freedesktop.org,
- AJvYcCXZkt9EoiMnBKB7u/ot9bY58YfQ9rPuVStMDKNWsk/WFF5YaDG+U/Fr5OJiBiFY8o5boN/et/nAIS6l@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVc0OdqT8TCBeBC75Wbu2zsLEDCm7zuBt9kAcG6zujZsPNwm9R
- qeo9/DEY5x1dRCq1HFf6sd7bH0mig4unU1LBTLU2fZE0pHPnxbQJ3Zf+l65C9HwH3/B5jeTLnqS
- ZvuNP1fgbd9d+Srm7TK96CmPL1wo=
-X-Google-Smtp-Source: AGHT+IHvgBbVVa76y+q8upcHev3BPXnF8VPUhaq2Jd/kXLRdgKdqVaa2tatSVZGW4P8sleR3RdFhrJ6JCPe3DriQWwk=
-X-Received: by 2002:a17:903:1c7:b0:202:301f:36fe with SMTP id
- d9443c01a7336-20367d203d3mr42552305ad.4.1724345289574; Thu, 22 Aug 2024
- 09:48:09 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDDA710E0CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 17:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724347445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eGgGTzAPnTx4/ZuB3xBVYF51gZQj30u1hvWI27T5Mi0=;
+ b=fFT8lbCLFJCFBDcKwT5hIhs3DKWoJ2lCwsyVZ5HvNWHycqEOlOIV4C9VP0SwLcSsVd+f+M
+ t+J4RuPjdRRxcyIH7LFBZ5uFvIrkP9EqlFxYibke20R2LKpG1QzQZBLJLQRnHRI/eMGaJr
+ vd0G5SEdXyjoLLppDc5rvyStcbdPmJ8=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-620-TqasFmdIOeChMud3lWd_pg-1; Thu,
+ 22 Aug 2024 13:23:59 -0400
+X-MC-Unique: TqasFmdIOeChMud3lWd_pg-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 4FB7919560B7; Thu, 22 Aug 2024 17:23:57 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.88])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 4F4A419560AA; Thu, 22 Aug 2024 17:23:53 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH 1/2] drm/virtio: Defer the host dumb buffer creation
+Date: Thu, 22 Aug 2024 19:22:00 +0200
+Message-ID: <20240822172338.698922-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-References: <20240821130348.73038-1-tzimmermann@suse.de>
- <20240821130348.73038-79-tzimmermann@suse.de>
-In-Reply-To: <20240821130348.73038-79-tzimmermann@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 22 Aug 2024 12:47:58 -0400
-Message-ID: <CADnq5_PYMSH8qhA+qZNi_Z3hCg2Wp5XNVeCjm4J6S81BQHHgfA@mail.gmail.com>
-Subject: Re: [PATCH v2 78/86] drm/radeon: Run DRM default client setup
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, 
- javierm@redhat.com, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,285 +75,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 21, 2024 at 9:06=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Rework fbdev probing to support fbdev_probe in struct drm_driver
-> and remove the old fb_probe callback. Provide an initializer macro
-> for struct drm_driver that sets the callback according to the kernel
-> configuration.
->
-> Call drm_client_setup() to run the kernel's default client setup
-> for DRM. Set fbdev_probe in struct drm_driver, so that the client
-> setup can start the common fbdev client.
->
-> The radeon driver specifies a preferred color mode depending on
-> the available video memory, with a default of 32. Adapt this for
-> the new client interface.
->
-> v2:
-> - style changes
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+The host dumb buffer command needs a format, but the
+DRM_IOCTL_MODE_CREATE_DUMB only provides a buffer size.
+So wait for the DRM_IOCTL_MODE_ADDFB(2), to get the format, and create
+the host resources at this time.
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+This will allow virtio-gpu to support multiple pixel formats.
 
-> ---
->  drivers/gpu/drm/radeon/radeon_drv.c   |  16 +++-
->  drivers/gpu/drm/radeon/radeon_fbdev.c | 114 ++------------------------
->  drivers/gpu/drm/radeon/radeon_mode.h  |  12 ++-
->  3 files changed, 29 insertions(+), 113 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon=
-/radeon_drv.c
-> index 7bf08164140e..9eb24f653008 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -38,8 +38,10 @@
->  #include <linux/pci.h>
->
->  #include <drm/drm_aperture.h>
-> +#include <drm/drm_client_setup.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_fourcc.h>
->  #include <drm/drm_gem.h>
->  #include <drm/drm_ioctl.h>
->  #include <drm/drm_pciids.h>
-> @@ -260,6 +262,8 @@ static int radeon_pci_probe(struct pci_dev *pdev,
->  {
->         unsigned long flags =3D 0;
->         struct drm_device *dev;
-> +       struct radeon_device *rdev;
-> +       const struct drm_format_info *format;
->         int ret;
->
->         if (!ent)
-> @@ -314,7 +318,15 @@ static int radeon_pci_probe(struct pci_dev *pdev,
->         if (ret)
->                 goto err_agp;
->
-> -       radeon_fbdev_setup(dev->dev_private);
-> +       rdev =3D dev->dev_private;
-> +       if (rdev->mc.real_vram_size <=3D (8 * 1024 * 1024))
-> +               format =3D drm_format_info(DRM_FORMAT_C8);
-> +       else if (ASIC_IS_RN50(rdev) || rdev->mc.real_vram_size <=3D (32 *=
- 1024 * 1024))
-> +               format =3D drm_format_info(DRM_FORMAT_RGB565);
-> +       else
-> +               format =3D NULL;
-> +
-> +       drm_client_setup(dev, format);
->
->         return 0;
->
-> @@ -581,6 +593,8 @@ static const struct drm_driver kms_driver =3D {
->
->         .gem_prime_import_sg_table =3D radeon_gem_prime_import_sg_table,
->
-> +       RADEON_FBDEV_DRIVER_OPS,
-> +
->         .name =3D DRIVER_NAME,
->         .desc =3D DRIVER_DESC,
->         .date =3D DRIVER_DATE,
-> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/rade=
-on/radeon_fbdev.c
-> index 02bf25759059..4c81f9a87c16 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> @@ -198,12 +198,11 @@ static const struct fb_ops radeon_fbdev_fb_ops =3D =
-{
->         .fb_destroy =3D radeon_fbdev_fb_destroy,
->  };
->
-> -/*
-> - * Fbdev helpers and struct drm_fb_helper_funcs
-> - */
-> +static const struct drm_fb_helper_funcs radeon_fbdev_fb_helper_funcs =3D=
+This problem was noticed in commit 42fd9e6c29b39 ("drm/virtio: fix
+DRM_FORMAT_* handling")
+
+Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_display.c | 26 ++++++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_drv.h     |  3 +++
+ drivers/gpu/drm/virtio/virtgpu_gem.c     |  1 -
+ drivers/gpu/drm/virtio/virtgpu_object.c  | 13 +++++++++---
+ 4 files changed, 39 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 64baf2f22d9f0..3f18ee0fd5155 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -290,6 +290,26 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
+ 	return 0;
+ }
+ 
++static void virtio_gpu_deferred_create(struct virtio_gpu_object *bo,
++				       struct virtio_gpu_device *vgdev,
++				       const struct drm_mode_fb_cmd2 *mode_cmd)
++{
++	struct virtio_gpu_object_params params = { 0 };
++
++	params.format = virtio_gpu_translate_format(mode_cmd->pixel_format);
++	params.width = mode_cmd->width;
++	params.height = mode_cmd->height;
++	params.size = params.height * params.width * 4;
++	params.size = ALIGN(params.size, PAGE_SIZE);
++	params.dumb = true;
++
++	virtio_gpu_cmd_create_resource(vgdev, bo, &params, NULL, NULL);
++	virtio_gpu_object_attach(vgdev, bo, bo->ents, bo->nents);
++
++	bo->deferred = false;
++	bo->ents = NULL;
++}
++
+ static struct drm_framebuffer *
+ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+ 				   struct drm_file *file_priv,
+@@ -297,6 +317,8 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
  {
-> +};
->
-> -static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_help=
-er,
-> -                                          struct drm_fb_helper_surface_s=
-ize *sizes)
-> +int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
-> +                                   struct drm_fb_helper_surface_size *si=
-zes)
->  {
->         struct radeon_device *rdev =3D fb_helper->dev->dev_private;
->         struct drm_mode_fb_cmd2 mode_cmd =3D { };
-> @@ -243,6 +242,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm=
-_fb_helper *fb_helper,
->         }
->
->         /* setup helper */
-> +       fb_helper->funcs =3D &radeon_fbdev_fb_helper_funcs;
->         fb_helper->fb =3D fb;
->
->         /* okay we have an object now allocate the framebuffer */
-> @@ -288,110 +288,6 @@ static int radeon_fbdev_fb_helper_fb_probe(struct d=
-rm_fb_helper *fb_helper,
->         return ret;
->  }
->
-> -static const struct drm_fb_helper_funcs radeon_fbdev_fb_helper_funcs =3D=
- {
-> -       .fb_probe =3D radeon_fbdev_fb_helper_fb_probe,
-> -};
-> -
-> -/*
-> - * Fbdev client and struct drm_client_funcs
-> - */
-> -
-> -static void radeon_fbdev_client_unregister(struct drm_client_dev *client=
-)
-> -{
-> -       struct drm_fb_helper *fb_helper =3D drm_fb_helper_from_client(cli=
-ent);
-> -       struct drm_device *dev =3D fb_helper->dev;
-> -       struct radeon_device *rdev =3D dev->dev_private;
-> -
-> -       if (fb_helper->info) {
-> -               vga_switcheroo_client_fb_set(rdev->pdev, NULL);
-> -               drm_helper_force_disable_all(dev);
-> -               drm_fb_helper_unregister_info(fb_helper);
-> -       } else {
-> -               drm_client_release(&fb_helper->client);
-> -               drm_fb_helper_unprepare(fb_helper);
-> -               kfree(fb_helper);
-> -       }
-> -}
-> -
-> -static int radeon_fbdev_client_restore(struct drm_client_dev *client)
-> -{
-> -       drm_fb_helper_lastclose(client->dev);
-> -       vga_switcheroo_process_delayed_switch();
-> -
-> -       return 0;
-> -}
-> -
-> -static int radeon_fbdev_client_hotplug(struct drm_client_dev *client)
-> -{
-> -       struct drm_fb_helper *fb_helper =3D drm_fb_helper_from_client(cli=
-ent);
-> -       struct drm_device *dev =3D client->dev;
-> -       struct radeon_device *rdev =3D dev->dev_private;
-> -       int ret;
-> -
-> -       if (dev->fb_helper)
-> -               return drm_fb_helper_hotplug_event(dev->fb_helper);
-> -
-> -       ret =3D drm_fb_helper_init(dev, fb_helper);
-> -       if (ret)
-> -               goto err_drm_err;
-> -
-> -       if (!drm_drv_uses_atomic_modeset(dev))
-> -               drm_helper_disable_unused_functions(dev);
-> -
-> -       ret =3D drm_fb_helper_initial_config(fb_helper);
-> -       if (ret)
-> -               goto err_drm_fb_helper_fini;
-> -
-> -       vga_switcheroo_client_fb_set(rdev->pdev, fb_helper->info);
-> -
-> -       return 0;
-> -
-> -err_drm_fb_helper_fini:
-> -       drm_fb_helper_fini(fb_helper);
-> -err_drm_err:
-> -       drm_err(dev, "Failed to setup radeon fbdev emulation (ret=3D%d)\n=
-", ret);
-> -       return ret;
-> -}
-> -
-> -static const struct drm_client_funcs radeon_fbdev_client_funcs =3D {
-> -       .owner          =3D THIS_MODULE,
-> -       .unregister     =3D radeon_fbdev_client_unregister,
-> -       .restore        =3D radeon_fbdev_client_restore,
-> -       .hotplug        =3D radeon_fbdev_client_hotplug,
-> -};
-> -
-> -void radeon_fbdev_setup(struct radeon_device *rdev)
-> -{
-> -       struct drm_fb_helper *fb_helper;
-> -       int bpp_sel =3D 32;
-> -       int ret;
-> -
-> -       if (rdev->mc.real_vram_size <=3D (8 * 1024 * 1024))
-> -               bpp_sel =3D 8;
-> -       else if (ASIC_IS_RN50(rdev) || rdev->mc.real_vram_size <=3D (32 *=
- 1024 * 1024))
-> -               bpp_sel =3D 16;
-> -
-> -       fb_helper =3D kzalloc(sizeof(*fb_helper), GFP_KERNEL);
-> -       if (!fb_helper)
-> -               return;
-> -       drm_fb_helper_prepare(rdev->ddev, fb_helper, bpp_sel, &radeon_fbd=
-ev_fb_helper_funcs);
-> -
-> -       ret =3D drm_client_init(rdev->ddev, &fb_helper->client, "radeon-f=
-bdev",
-> -                             &radeon_fbdev_client_funcs);
-> -       if (ret) {
-> -               drm_err(rdev->ddev, "Failed to register client: %d\n", re=
-t);
-> -               goto err_drm_client_init;
-> -       }
-> -
-> -       drm_client_register(&fb_helper->client);
-> -
-> -       return;
-> -
-> -err_drm_client_init:
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
-> -}
-> -
->  void radeon_fbdev_set_suspend(struct radeon_device *rdev, int state)
->  {
->         if (rdev->ddev->fb_helper)
-> diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeo=
-n/radeon_mode.h
-> index e0a5af180801..8e916729f393 100644
-> --- a/drivers/gpu/drm/radeon/radeon_mode.h
-> +++ b/drivers/gpu/drm/radeon/radeon_mode.h
-> @@ -38,6 +38,9 @@
->  #include <linux/i2c.h>
->  #include <linux/i2c-algo-bit.h>
->
-> +struct drm_fb_helper;
-> +struct drm_fb_helper_surface_size;
-> +
->  struct edid;
->  struct radeon_bo;
->  struct radeon_device;
-> @@ -935,12 +938,15 @@ void dce8_program_fmt(struct drm_encoder *encoder);
->
->  /* fbdev layer */
->  #if defined(CONFIG_DRM_FBDEV_EMULATION)
-> -void radeon_fbdev_setup(struct radeon_device *rdev);
-> +int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
-> +                                   struct drm_fb_helper_surface_size *si=
-zes);
-> +#define RADEON_FBDEV_DRIVER_OPS \
-> +       .fbdev_probe =3D radeon_fbdev_driver_fbdev_probe
->  void radeon_fbdev_set_suspend(struct radeon_device *rdev, int state);
->  bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_b=
-o *robj);
->  #else
-> -static inline void radeon_fbdev_setup(struct radeon_device *rdev)
-> -{ }
-> +#define RADEON_FBDEV_DRIVER_OPS \
-> +       .fbdev_probe =3D NULL
->  static inline void radeon_fbdev_set_suspend(struct radeon_device *rdev, =
-int state)
->  { }
->  static inline bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, s=
-truct radeon_bo *robj)
-> --
-> 2.46.0
->
+ 	struct drm_gem_object *obj = NULL;
+ 	struct virtio_gpu_framebuffer *virtio_gpu_fb;
++	struct virtio_gpu_device *vgdev = dev->dev_private;
++	struct virtio_gpu_object *bo;
+ 	int ret;
+ 
+ 	if (mode_cmd->pixel_format != DRM_FORMAT_HOST_XRGB8888 &&
+@@ -308,6 +330,10 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+ 	if (!obj)
+ 		return ERR_PTR(-EINVAL);
+ 
++	bo = gem_to_virtio_gpu_obj(obj);
++	if (bo->deferred)
++		virtio_gpu_deferred_create(bo, vgdev, mode_cmd);
++
+ 	virtio_gpu_fb = kzalloc(sizeof(*virtio_gpu_fb), GFP_KERNEL);
+ 	if (virtio_gpu_fb == NULL) {
+ 		drm_gem_object_put(obj);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 64c236169db88..8d1e8dcfa8c15 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -93,6 +93,9 @@ struct virtio_gpu_object {
+ 	bool dumb;
+ 	bool created;
+ 	bool host3d_blob, guest_blob;
++	bool deferred;
++	struct virtio_gpu_mem_entry *ents;
++	unsigned int nents;
+ 	uint32_t blob_mem, blob_flags;
+ 
+ 	int uuid_state;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 7db48d17ee3a8..33ad15fed30f6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -75,7 +75,6 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+ 	args->size = pitch * args->height;
+ 	args->size = ALIGN(args->size, PAGE_SIZE);
+ 
+-	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
+ 	params.width = args->width;
+ 	params.height = args->height;
+ 	params.size = args->size;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index c7e74cf130221..507a90681a779 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -67,6 +67,8 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ 
+ 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+ 	if (virtio_gpu_is_shmem(bo)) {
++		if (bo->deferred)
++			kvfree(bo->ents);
+ 		drm_gem_shmem_free(&bo->base);
+ 	} else if (virtio_gpu_is_vram(bo)) {
+ 		struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
+@@ -229,9 +231,14 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 						  objs, fence);
+ 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	} else {
+-		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+-					       objs, fence);
+-		virtio_gpu_object_attach(vgdev, bo, ents, nents);
++		/* Fence is used only with blob or virgl */
++		WARN_ONCE(fence != NULL, "deferred doesn't support fence\n");
++		/* Create the host resource in virtio_gpu_user_framebuffer_create()
++		 * because the pixel format is not specified yet
++		 */
++		bo->ents = ents;
++		bo->nents = nents;
++		bo->deferred = true;
+ 	}
+ 
+ 	*bo_ptr = bo;
+
+base-commit: 04b5b362bc2a36f1dfe5cad52c83b1ea9d25b87c
+-- 
+2.46.0
+
