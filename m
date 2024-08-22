@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D4395BD8E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BBE95BD8F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:43:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 974F810EBAB;
-	Thu, 22 Aug 2024 17:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F8E710EBAE;
+	Thu, 22 Aug 2024 17:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HzjLJ7aE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QhLESs4V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0DA10EBAE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 17:43:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8EFB10EBAE
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 17:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724348606; x=1755884606;
+ t=1724348614; x=1755884614;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=O3WR6uh8GZmy2rdXUJXqCpt0BQUtQN00jH3P5Gn5m4E=;
- b=HzjLJ7aEX4vD/EsKheurXPjvEokFHxcvlbabxziaxZTuXilsAcE52vw/
- nt2j96jTutrEmqpRqMUQq9UGTW5ucgTVv9Fw9hheM6WpQmcASi9nvo6Uu
- KXkreNjfa18lkmtEXcQMLfAGh2EeaqEn9fdmHJjMs6Q/WotKDLrv+VIuq
- bNHcccIl/l9T1EGhEIxmnx1gOICBRB7LOXYsxMXMTSH6OwAkYRlLsZw1u
- OZHadhHJ3Ph84vvuMy4yeVqGH/OHt1wbzb/7JhaMT1v5Vw2m3vQnvOCym
- +1pgUHrCBnlPq/qa24959Y50tbC9muYqjm56+PWqhQbbQol792TtciReY g==;
-X-CSE-ConnectionGUID: 2QR+KzFATE6PSP58TIKiWw==
-X-CSE-MsgGUID: Q6OvZS2eRdaEVj3DzgAAkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22955405"
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="22955405"
+ bh=cInaH5YhWjMHXB+Tiq+aUkG/UqKzahFJ+y1X1Oh0Rj8=;
+ b=QhLESs4VxNpG6t7Vu/1e3GqL9uM4HF8cY++9sfYoQT1iQCbnQC8ZKe8W
+ uFVusoweuyJ1ekO+hHqWcjYxiFq9wZQfiUtLq3bjjz2NVcUFmo6qFkvg4
+ VFgcVJAbG4JccR+zO5WTDXP60twTF7I3A0sNdwTLSgp7+soRJYo7OUt9Q
+ n3hgZH586h8eS6LZ9DyG8jBEAS+wlvCG0xtrjTczEliwADKI64yyCOvNO
+ BRt73eQoE1dsXIuE18E9F+5HgwQwoVDWV0BZ3G9tT4qI6BhgaxNqefySH
+ Yt4GbPtTZQo7d8e3nS+dn309/eF1ihBB6NOlD3txyXKCGBtnTLKNjlITB g==;
+X-CSE-ConnectionGUID: S4ICQdRHSiumAIs9mwyimA==
+X-CSE-MsgGUID: GpCej08CQberrsZuJyPX/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22955425"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="22955425"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 10:43:26 -0700
-X-CSE-ConnectionGUID: dosRNWu1TVOX/pP4hlZY+A==
-X-CSE-MsgGUID: oizmzXj2T7OMj3F4t2sUhg==
+ 22 Aug 2024 10:43:33 -0700
+X-CSE-ConnectionGUID: xddZFUq+STWsls54hLqKCA==
+X-CSE-MsgGUID: p9mUht6HSpSCc/xMX6OHSg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="65862389"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="65862403"
 Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.121])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 10:43:23 -0700
+ 22 Aug 2024 10:43:29 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 4/6] drm/tegra: convert to struct drm_edid
-Date: Thu, 22 Aug 2024 20:42:50 +0300
-Message-Id: <e764b50f4ad2de95e449ccb37f49c3f37b3333fc.1724348429.git.jani.nikula@intel.com>
+Cc: jani.nikula@intel.com, Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 5/6] drm/ipuv3/parallel: convert to struct drm_edid
+Date: Thu, 22 Aug 2024 20:42:51 +0300
+Message-Id: <a1698044d556072e79041d69b8702099fd17bd90.1724348429.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1724348429.git.jani.nikula@intel.com>
 References: <cover.1724348429.git.jani.nikula@intel.com>
@@ -71,120 +76,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer the struct drm_edid based functions for reading the EDID and
+Prefer the struct drm_edid based functions for storing the EDID and
 updating the connector.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-tegra@vger.kernel.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/gpu/drm/tegra/drm.h    |  2 +-
- drivers/gpu/drm/tegra/output.c | 29 +++++++++++++++++------------
- 2 files changed, 18 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index 682011166a8f..2f3781e04b0a 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -133,7 +133,7 @@ struct tegra_output {
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
- 	struct i2c_adapter *ddc;
--	const struct edid *edid;
+diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+index 55dedd73f528..91d7808a2d8d 100644
+--- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
++++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+@@ -34,7 +34,7 @@ struct imx_parallel_display_encoder {
+ 
+ struct imx_parallel_display {
+ 	struct device *dev;
+-	void *edid;
 +	const struct drm_edid *drm_edid;
- 	struct cec_notifier *cec;
- 	unsigned int hpd_irq;
- 	struct gpio_desc *hpd_gpio;
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index 4da3c3d1abbc..e6b5863fec71 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -21,7 +21,7 @@
- int tegra_output_connector_get_modes(struct drm_connector *connector)
+ 	u32 bus_format;
+ 	u32 bus_flags;
+ 	struct drm_display_mode mode;
+@@ -62,9 +62,9 @@ static int imx_pd_connector_get_modes(struct drm_connector *connector)
+ 	if (num_modes > 0)
+ 		return num_modes;
+ 
+-	if (imxpd->edid) {
+-		drm_connector_update_edid_property(connector, imxpd->edid);
+-		num_modes = drm_add_edid_modes(connector, imxpd->edid);
++	if (imxpd->drm_edid) {
++		drm_edid_connector_update(connector, imxpd->drm_edid);
++		num_modes = drm_edid_connector_add_modes(connector);
+ 	}
+ 
+ 	if (np) {
+@@ -331,7 +331,7 @@ static int imx_pd_probe(struct platform_device *pdev)
+ 
+ 	edidp = of_get_property(np, "edid", &edid_len);
+ 	if (edidp)
+-		imxpd->edid = devm_kmemdup(dev, edidp, edid_len, GFP_KERNEL);
++		imxpd->drm_edid = drm_edid_alloc(edidp, edid_len);
+ 
+ 	ret = of_property_read_string(np, "interface-pix-fmt", &fmt);
+ 	if (!ret) {
+@@ -355,7 +355,11 @@ static int imx_pd_probe(struct platform_device *pdev)
+ 
+ static void imx_pd_remove(struct platform_device *pdev)
  {
- 	struct tegra_output *output = connector_to_output(connector);
--	struct edid *edid = NULL;
-+	const struct drm_edid *drm_edid;
- 	int err = 0;
- 
- 	/*
-@@ -34,18 +34,17 @@ int tegra_output_connector_get_modes(struct drm_connector *connector)
- 			return err;
- 	}
- 
--	if (output->edid)
--		edid = kmemdup(output->edid, sizeof(*edid), GFP_KERNEL);
-+	if (output->drm_edid)
-+		drm_edid = drm_edid_dup(output->drm_edid);
- 	else if (output->ddc)
--		edid = drm_get_edid(connector, output->ddc);
-+		drm_edid = drm_edid_read_ddc(connector, output->ddc);
- 
--	cec_notifier_set_phys_addr_from_edid(output->cec, edid);
--	drm_connector_update_edid_property(connector, edid);
-+	drm_edid_connector_update(connector, drm_edid);
-+	cec_notifier_set_phys_addr(output->cec,
-+				   connector->display_info.source_physical_address);
- 
--	if (edid) {
--		err = drm_add_edid_modes(connector, edid);
--		kfree(edid);
--	}
-+	err = drm_edid_connector_add_modes(connector);
-+	drm_edid_free(drm_edid);
- 
- 	return err;
- }
-@@ -98,6 +97,7 @@ static irqreturn_t hpd_irq(int irq, void *data)
- int tegra_output_probe(struct tegra_output *output)
- {
- 	struct device_node *ddc, *panel;
-+	const void *edid;
- 	unsigned long flags;
- 	int err, size;
- 
-@@ -124,8 +124,6 @@ int tegra_output_probe(struct tegra_output *output)
- 			return PTR_ERR(output->panel);
- 	}
- 
--	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
--
- 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
- 	if (ddc) {
- 		output->ddc = of_get_i2c_adapter_by_node(ddc);
-@@ -137,6 +135,9 @@ int tegra_output_probe(struct tegra_output *output)
- 		}
- 	}
- 
-+	edid = of_get_property(output->of_node, "nvidia,edid", &size);
-+	output->drm_edid = drm_edid_alloc(edid, size);
++	struct imx_parallel_display *imxpd = platform_get_drvdata(pdev);
 +
- 	output->hpd_gpio = devm_fwnode_gpiod_get(output->dev,
- 					of_fwnode_handle(output->of_node),
- 					"nvidia,hpd",
-@@ -187,6 +188,8 @@ int tegra_output_probe(struct tegra_output *output)
- 	if (output->ddc)
- 		i2c_put_adapter(output->ddc);
- 
-+	drm_edid_free(output->drm_edid);
+ 	component_del(&pdev->dev, &imx_pd_ops);
 +
- 	return err;
++	drm_edid_free(imxpd->drm_edid);
  }
  
-@@ -197,6 +200,8 @@ void tegra_output_remove(struct tegra_output *output)
- 
- 	if (output->ddc)
- 		i2c_put_adapter(output->ddc);
-+
-+	drm_edid_free(output->drm_edid);
- }
- 
- int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+ static const struct of_device_id imx_pd_dt_ids[] = {
 -- 
 2.39.2
 
