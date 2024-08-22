@@ -2,75 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042B395B8A0
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA58495B8BA
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5343310EAF5;
-	Thu, 22 Aug 2024 14:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF7810EAFD;
+	Thu, 22 Aug 2024 14:42:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ctOmC7Y9";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1zTUDJDX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tpsywLou";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1zTUDJDX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tpsywLou";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC7710EAF5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:37:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E4E74A40493;
- Thu, 22 Aug 2024 14:37:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AA8C32782;
- Thu, 22 Aug 2024 14:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724337434;
- bh=ZkpJaD0BSKB4PQoNUPxvvmFUzWqr/hvDqpY1MhGCy+0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ctOmC7Y9I5pctjwa+bfvcuJQnPKxeiOldkSiZey7L8AQjTgSHSocZlA+zCq72uwB3
- LWVTnaND1yi3ccNgiiz9wrc3Cals3TBSy4p7BVwYX94vzhmWuOJzOP3jmenujcCNcS
- bW5GDiO9y7HxNnxU5wTD9Dn/akgxr6wDJaGfWz0YZ3L12Hl+VyO7DwR2FVy+V8+pLs
- 9P4wbYXFM3++q8YqIGml3T1hkx8NQfayBQw3YkMI4GniXfzrHxowf/b6Lci3uYP1Mh
- dw+8t2cS+cRA4FyWfmgXtOO3RiS5Gfx7MvRajOXarKVShQF4RViDrSa5HuO1tMNfId
- i19liD/cvcqFg==
-Date: Thu, 22 Aug 2024 22:37:05 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, devicetree@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Benson Leung <bleung@chromium.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>,
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
- linux-usb@vger.kernel.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v3 16/17] platform/chrome: cros_ec_typec: Support DP muxing
-Message-ID: <ZsdNEWX-eeLiokZl@tzungbi-laptop>
-References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-17-swboyd@chromium.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B612C10EAFA;
+ Thu, 22 Aug 2024 14:42:01 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 326A621FE0;
+ Thu, 22 Aug 2024 14:42:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724337720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=EaiNFercyjSU1gCDFlq9+we6qY7P7NGuCyxgdh0VoAs=;
+ b=1zTUDJDXXiAmoHgG8NG7/Bi6bOndeemeXUy+AnpD6LKzLdUIvyLjPx5EfBbcCcSsYZ7TXA
+ muEujSL2jJ2VtnHk1/wQ49BEi+TMs+CDwMSqtrpZfhf+9R76PTbP0FzkSi2bd7jewDYQms
+ u8TGqWtbL40UdESNo/r7Jw5YQHbcnMQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724337720;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=EaiNFercyjSU1gCDFlq9+we6qY7P7NGuCyxgdh0VoAs=;
+ b=tpsywLougvyw4e5fBOb3dWOIwtfsl7SCyZfaobbvWfsCj6/0ML9BB8wVnOCEj5qmXtogpC
+ HukcjKn4y/hM0+Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724337720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=EaiNFercyjSU1gCDFlq9+we6qY7P7NGuCyxgdh0VoAs=;
+ b=1zTUDJDXXiAmoHgG8NG7/Bi6bOndeemeXUy+AnpD6LKzLdUIvyLjPx5EfBbcCcSsYZ7TXA
+ muEujSL2jJ2VtnHk1/wQ49BEi+TMs+CDwMSqtrpZfhf+9R76PTbP0FzkSi2bd7jewDYQms
+ u8TGqWtbL40UdESNo/r7Jw5YQHbcnMQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724337720;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=EaiNFercyjSU1gCDFlq9+we6qY7P7NGuCyxgdh0VoAs=;
+ b=tpsywLougvyw4e5fBOb3dWOIwtfsl7SCyZfaobbvWfsCj6/0ML9BB8wVnOCEj5qmXtogpC
+ HukcjKn4y/hM0+Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 075CF139D3;
+ Thu, 22 Aug 2024 14:42:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cokIADhOx2aAZQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Aug 2024 14:41:59 +0000
+Message-ID: <57520a28-fff2-41ae-850b-fa820d2b0cfa@suse.de>
+Date: Thu, 22 Aug 2024 16:41:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240819223834.2049862-17-swboyd@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] new helper: drm_gem_prime_handle_to_dmabuf()
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240812065656.GI13701@ZenIV>
+ <20240812065906.241398-1-viro@zeniv.linux.org.uk>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240812065906.241398-1-viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,23 +139,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 19, 2024 at 03:38:30PM -0700, Stephen Boyd wrote:
-> @@ -671,6 +674,20 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
->  	if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
->  		return 0;
->  
-> +	dp_enabled = resp.flags & USB_PD_MUX_DP_ENABLED;
-> +	hpd_asserted = resp.flags & USB_PD_MUX_HPD_LVL;
-> +	/*
-> +	 * Assume the first port to have HPD asserted is the one muxed to DP
-> +	 * (i.e. active_port). When there's only one port this delays setting
-> +	 * the active_port until HPD is asserted, but before that the
-> +	 * drm_connector looks disconnected so active_port doesn't need to be
-> +	 * set.
-> +	 */
-> +	if (dp_bridge && hpd_asserted && !dp_bridge->active_port)
-> +		dp_bridge->active_port = port;
-> +
-> +	is_active_port = !dp_bridge || dp_bridge->active_port == port;
+Hi
 
-Why `!dp_bridge`?  When will `dp_bridge` be NULL?
+Am 12.08.24 um 08:59 schrieb Al Viro:
+> Once something had been put into descriptor table, the only thing you
+> can do with it is returning descriptor to userland - you can't withdraw
+> it on subsequent failure exit, etc.  You certainly can't count upon
+> it staying in the same slot of descriptor table - another thread
+> could've played with close(2)/dup2(2)/whatnot.
+
+This paragraph appears to refer to the newly added call to fd_install(). 
+Maybe spell that out.
+
+>
+> Add drm_gem_prime_handle_to_dmabuf() - the "set dmabuf up" parts of
+> drm_gem_prime_handle_to_fd() without the descriptor-related ones.
+> Instead of inserting into descriptor table and returning the file
+> descriptor it just returns the struct file.
+>
+> drm_gem_prime_handle_to_fd() becomes a wrapper for it.  Other users
+> will be introduced in the next commit.
+>
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+> ---
+>   drivers/gpu/drm/drm_prime.c | 84 +++++++++++++++++++------------------
+>   include/drm/drm_prime.h     |  3 ++
+>   2 files changed, 46 insertions(+), 41 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 03bd3c7bd0dc..467c7a278ad3 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -409,23 +409,9 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
+>   	return dmabuf;
+>   }
+>   
+> -/**
+> - * drm_gem_prime_handle_to_fd - PRIME export function for GEM drivers
+> - * @dev: dev to export the buffer from
+> - * @file_priv: drm file-private structure
+> - * @handle: buffer handle to export
+> - * @flags: flags like DRM_CLOEXEC
+> - * @prime_fd: pointer to storage for the fd id of the create dma-buf
+> - *
+> - * This is the PRIME export function which must be used mandatorily by GEM
+> - * drivers to ensure correct lifetime management of the underlying GEM object.
+> - * The actual exporting from GEM object to a dma-buf is done through the
+> - * &drm_gem_object_funcs.export callback.
+> - */
+> -int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+> +struct dma_buf *drm_gem_prime_handle_to_dmabuf(struct drm_device *dev,
+
+If it's exported it should have kernel docs. At least copy-paste the 
+docs from drm_gem_prime_handle_to_fd()
+and reword a few bits.
+
+Best regards
+Thomas
+
+>   			       struct drm_file *file_priv, uint32_t handle,
+> -			       uint32_t flags,
+> -			       int *prime_fd)
+> +			       uint32_t flags)
+>   {
+>   	struct drm_gem_object *obj;
+>   	int ret = 0;
+> @@ -434,14 +420,14 @@ int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>   	mutex_lock(&file_priv->prime.lock);
+>   	obj = drm_gem_object_lookup(file_priv, handle);
+>   	if (!obj)  {
+> -		ret = -ENOENT;
+> +		dmabuf = ERR_PTR(-ENOENT);
+>   		goto out_unlock;
+>   	}
+>   
+>   	dmabuf = drm_prime_lookup_buf_by_handle(&file_priv->prime, handle);
+>   	if (dmabuf) {
+>   		get_dma_buf(dmabuf);
+> -		goto out_have_handle;
+> +		goto out;
+>   	}
+>   
+>   	mutex_lock(&dev->object_name_lock);
+> @@ -463,7 +449,6 @@ int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>   		/* normally the created dma-buf takes ownership of the ref,
+>   		 * but if that fails then drop the ref
+>   		 */
+> -		ret = PTR_ERR(dmabuf);
+>   		mutex_unlock(&dev->object_name_lock);
+>   		goto out;
+>   	}
+> @@ -478,34 +463,51 @@ int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>   	ret = drm_prime_add_buf_handle(&file_priv->prime,
+>   				       dmabuf, handle);
+>   	mutex_unlock(&dev->object_name_lock);
+> -	if (ret)
+> -		goto fail_put_dmabuf;
+> -
+> -out_have_handle:
+> -	ret = dma_buf_fd(dmabuf, flags);
+> -	/*
+> -	 * We must _not_ remove the buffer from the handle cache since the newly
+> -	 * created dma buf is already linked in the global obj->dma_buf pointer,
+> -	 * and that is invariant as long as a userspace gem handle exists.
+> -	 * Closing the handle will clean out the cache anyway, so we don't leak.
+> -	 */
+> -	if (ret < 0) {
+> -		goto fail_put_dmabuf;
+> -	} else {
+> -		*prime_fd = ret;
+> -		ret = 0;
+> +	if (ret) {
+> +		dma_buf_put(dmabuf);
+> +		dmabuf = ERR_PTR(ret);
+>   	}
+> -
+> -	goto out;
+> -
+> -fail_put_dmabuf:
+> -	dma_buf_put(dmabuf);
+>   out:
+>   	drm_gem_object_put(obj);
+>   out_unlock:
+>   	mutex_unlock(&file_priv->prime.lock);
+> +	return dmabuf;
+> +}
+> +EXPORT_SYMBOL(drm_gem_prime_handle_to_dmabuf);
+>   
+> -	return ret;
+> +/**
+> + * drm_gem_prime_handle_to_fd - PRIME export function for GEM drivers
+> + * @dev: dev to export the buffer from
+> + * @file_priv: drm file-private structure
+> + * @handle: buffer handle to export
+> + * @flags: flags like DRM_CLOEXEC
+> + * @prime_fd: pointer to storage for the fd id of the create dma-buf
+> + *
+> + * This is the PRIME export function which must be used mandatorily by GEM
+> + * drivers to ensure correct lifetime management of the underlying GEM object.
+> + * The actual exporting from GEM object to a dma-buf is done through the
+> + * &drm_gem_object_funcs.export callback.
+> + */
+> +int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+> +			       struct drm_file *file_priv, uint32_t handle,
+> +			       uint32_t flags,
+> +			       int *prime_fd)
+> +{
+> +	struct dma_buf *dmabuf;
+> +	int fd = get_unused_fd_flags(flags);
+> +
+> +	if (fd < 0)
+> +		return fd;
+> +
+> +	dmabuf = drm_gem_prime_handle_to_dmabuf(dev, file_priv, handle, flags);
+> +	if (IS_ERR(dmabuf)) {
+> +		put_unused_fd(fd);
+> +		return PTR_ERR(dmabuf);
+> +	}
+> +
+> +	fd_install(fd, dmabuf->file);
+> +	*prime_fd = fd;
+> +	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_gem_prime_handle_to_fd);
+>   
+> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+> index 2a1d01e5b56b..fa085c44d4ca 100644
+> --- a/include/drm/drm_prime.h
+> +++ b/include/drm/drm_prime.h
+> @@ -69,6 +69,9 @@ void drm_gem_dmabuf_release(struct dma_buf *dma_buf);
+>   
+>   int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>   			       struct drm_file *file_priv, int prime_fd, uint32_t *handle);
+> +struct dma_buf *drm_gem_prime_handle_to_dmabuf(struct drm_device *dev,
+> +			       struct drm_file *file_priv, uint32_t handle,
+> +			       uint32_t flags);
+>   int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>   			       struct drm_file *file_priv, uint32_t handle, uint32_t flags,
+>   			       int *prime_fd);
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
