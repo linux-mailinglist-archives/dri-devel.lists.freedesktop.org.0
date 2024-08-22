@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59DA95B46D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 14:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD8895B4B9
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 14:11:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8FBF10E967;
-	Thu, 22 Aug 2024 12:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56FB610E08A;
+	Thu, 22 Aug 2024 12:11:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="kLm4xLi+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ioZcH+WU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EB6010E87F
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 12:00:03 +0000 (UTC)
-Delivered-To: kernel@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724327993; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=XmF4CXboFiO0+JxNj3/cf0PjAv48HwLyHaKFrCVFTibeaW6ClWVClgwFJNkyr1YVd8YPmyUoViDaa7zh6AWjZtR5ULvxvYxkyYAdTzRulKEkcppWq721rQLqfClGJKu1+jdWSR9avsY1oSnAtgaTaYe8qRF/oeKFEFs+CBS01Xk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1724327993;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=F7zXwtoEV0ZT7LXN9/C4cFaG6cOzhkCyUyT3udVmG6k=; 
- b=Uq987caBLPycf+3ikEuo2XWI45j2KHLZxpL5iHsWzlsTvj9xzE3x4i2Cblkp9et4JbT0W+B3HtYZJ38u1QZu75YrEgt+x3EMBV4vnT+/6XYZXTl7fupVQbsAw+XTSrjhK+bc4qfxYDAXbmlVBoIZiTIhPkZ5qvyx0M0GfybU0Ew=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
- dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724327993; 
- s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=F7zXwtoEV0ZT7LXN9/C4cFaG6cOzhkCyUyT3udVmG6k=;
- b=kLm4xLi+CrDZ55gPpQ35KdlJ2sruQr5As9Lq9/k0KKBeZ2+s3XgjQUyD4AzgZBa+
- FlSpAO6esGIWCKKuGZRq0PMt7De22C1SvUN75e5nyQcurvZg3RX+18C6qDHpDRY0mT2
- cgqCQJt0l5d0j9amgxgPLv/CH2MDbzgcYX8Ytt/A=
-Received: by mx.zohomail.com with SMTPS id 1724327990696635.433469686591;
- Thu, 22 Aug 2024 04:59:50 -0700 (PDT)
-Message-ID: <7fc8cbc3-43d0-43d2-9272-350ac556e2b2@collabora.com>
-Date: Thu, 22 Aug 2024 14:59:43 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema for
- RK3588 HDMI TX Controller
-To: Conor Dooley <conor@kernel.org>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6054010E08A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 12:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724328672; x=1755864672;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wBl1r1iyvYDMVZtv8y/QM6cGPiMA+r+kJ9USad8vmoA=;
+ b=ioZcH+WUR+NDHscS7T2iCzRPkYvGnDvFZqwZhGs32/QJBGGvNPf/2oVM
+ eNjzw/pJv5/Jf2S5gjSelv190PpFQoyL7KqapAO+ppWuyfQ7h6ix2qNRl
+ 7/W58/P3tjZZpD2VDVxMNT7lu9lgeIZg0UkIQMRIZP9oZGjrmLDCywsNx
+ 0xS6I/sjsPrb3OaPRGxvgr90spgabTk5PxWDbwNKkT4e0AkJ86A2hmV+H
+ dE1wkwz/8lAljboET8Vz7/lxxGpzgIMHgmipENTHELfZ2JKsCGUsUTQSC
+ JRPMPCWzqF11E8cY0gfkhkL/v1ZK+ksa7IKCuEcURLUAjQ/wiXmVLLaqT A==;
+X-CSE-ConnectionGUID: MTrKCWslSmauwz3IQdPdOw==
+X-CSE-MsgGUID: OeX8xITaRZql5aI8rUXpFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="45260388"
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="45260388"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2024 05:11:11 -0700
+X-CSE-ConnectionGUID: /PjncfjhS2K+vMx1/qUUeg==
+X-CSE-MsgGUID: Fv/q/DKJQ4WtGUg+Dfv/uA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; d="scan'208";a="61089547"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 22 Aug 2024 05:11:05 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sh6ed-000Cjg-0x;
+ Thu, 22 Aug 2024 12:11:03 +0000
+Date: Thu, 22 Aug 2024 20:10:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stefan Wahren <wahrenst@gmx.net>, Russell King <linux@armlinux.org.uk>,
+ Doug Anderson <dianders@chromium.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Minas Harutyunyan <hminas@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>
-References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
- <7E8109D4-A353-4FE3-9152-3C3C6CB7D634@sntech.de>
- <2085e998-a453-4893-9e80-3be68b0fb13d@collabora.com>
- <4167579.6PsWsQAL7t@diego> <20240822-pushchair-premises-f4055779216a@spud>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240822-pushchair-premises-f4055779216a@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+ Lukas Wunner <lukas@wunner.de>,
+ Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+ Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>
+Subject: Re: [PATCH V3 4/9] drm/vc4: hdmi: add PM suspend/resume support
+Message-ID: <202408221940.t4pWjzvz-lkp@intel.com>
+References: <20240821214052.6800-5-wahrenst@gmx.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240821214052.6800-5-wahrenst@gmx.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,26 +86,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/22/24 11:41 AM, Conor Dooley wrote:
-> On Thu, Aug 22, 2024 at 09:01:34AM +0200, Heiko Stübner wrote:
->> @Conor: just for me, did some shift happen in our understanding of dt-
->> best-practices in terms of syscon via phandle vs. syscon via compatible?
->>
->> Because Rockchip boards are referencing their GRFs via phandes forever
->> but similar to the soc vs non-soc node thing, I'd like to stay on top of
->> best-practices ;-)
-> 
-> If IP blocks, and thus drivers, are going to be reused between devices,
-> using the phandles makes sense given that it is unlikely that syscon
-> nodes can make use of fallback compatibles due to bits within that "glue"
-> changing between devices. It also makes sense when there are multiple
-> instances of an IP on the device, which need to use different syscons.
-> My goal is to ask people why they are using these type of syscons
-> phandle properties, cos often they are not required at all - for example
-> with clocks where you effectively need a whole new driver for every
-> single soc and having a phandle property buys you nothing.
+Hi Stefan,
 
-That would be also the case for this HDMI controller - need to check the
-specs for the newer RK3576 SoC, but I expect the syscons would be quite
-different when compared to RK3588, hence we should keep making use of
-the phandles.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on arm/for-next arm/fixes v6.11-rc4 next-20240822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wahren/mailbox-bcm2835-Fix-timeout-during-suspend-mode/20240822-063725
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240821214052.6800-5-wahrenst%40gmx.net
+patch subject: [PATCH V3 4/9] drm/vc4: hdmi: add PM suspend/resume support
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408221940.t4pWjzvz-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221940.t4pWjzvz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221940.t4pWjzvz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:3118:12: warning: 'vc4_hdmi_resume' defined but not used [-Wunused-function]
+    3118 | static int vc4_hdmi_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:3107:12: warning: 'vc4_hdmi_suspend' defined but not used [-Wunused-function]
+    3107 | static int vc4_hdmi_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~
+
+
+vim +/vc4_hdmi_resume +3118 drivers/gpu/drm/vc4/vc4_hdmi.c
+
+  3106	
+> 3107	static int vc4_hdmi_suspend(struct device *dev)
+  3108	{
+  3109		struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+  3110		struct drm_device *drm = vc4_hdmi->connector.dev;
+  3111	
+  3112		if (drm && drm->mode_config.poll_enabled)
+  3113			drm_kms_helper_poll_disable(drm);
+  3114	
+  3115		return pm_runtime_force_suspend(dev);
+  3116	}
+  3117	
+> 3118	static int vc4_hdmi_resume(struct device *dev)
+  3119	{
+  3120		struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+  3121		struct drm_device *drm = vc4_hdmi->connector.dev;
+  3122		int ret;
+  3123	
+  3124		ret = pm_runtime_force_resume(dev);
+  3125	
+  3126		if (drm && drm->mode_config.poll_enabled)
+  3127			drm_kms_helper_poll_enable(drm);
+  3128	
+  3129		return ret;
+  3130	}
+  3131	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
