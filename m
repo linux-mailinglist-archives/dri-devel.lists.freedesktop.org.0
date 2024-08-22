@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CCE95B874
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4775495B883
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:34:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C84A10EAEE;
-	Thu, 22 Aug 2024 14:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B680110EAEF;
+	Thu, 22 Aug 2024 14:34:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ln47OoDJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o30hDNjI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3998810EAEE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:33:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724337189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TiOSeK0uV1KVkgiWm5BAMAyKVF0fbg0HQk83Zne93d8=;
- b=Ln47OoDJa8KyZZK0kdr3EgeKMM7aqdi40iMdle9sCQT8k8cymv9WhYpMwlZcTXk7l5BLjV
- UEBAOXWJBuGfRHl63sksWT5k+4MpDnX01ouRVILttJL13o7hFBzyhs0Uj8F8Arsih6E4Xa
- n8PvtBiYjDxhYe91VSy5eq0UFiCY+YY=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-484-r0P94my6NrmoCck1wVf-Ww-1; Thu,
- 22 Aug 2024 10:33:05 -0400
-X-MC-Unique: r0P94my6NrmoCck1wVf-Ww-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 0FF251955D4B; Thu, 22 Aug 2024 14:33:01 +0000 (UTC)
-Received: from [192.168.37.1] (unknown [10.22.50.5])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id E14321932D1B; Thu, 22 Aug 2024 14:32:38 +0000 (UTC)
-From: Benjamin Coddington <bcodding@redhat.com>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- ian.forbes@broadcom.com, martin.krastev@broadcom.com,
- maaz.mombasawala@broadcom.com
-Subject: Re: [PATCH 0/3] Various prime/dumb buffer fixes
-Date: Thu, 22 Aug 2024 10:32:36 -0400
-Message-ID: <F78CFF8E-60AD-4FC7-A4A4-A9E29BDC5AA6@redhat.com>
-In-Reply-To: <20240816183332.31961-1-zack.rusin@broadcom.com>
-References: <20240816183332.31961-1-zack.rusin@broadcom.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB6710EAEF
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:34:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 69722A4049D;
+ Thu, 22 Aug 2024 14:34:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B7DC32782;
+ Thu, 22 Aug 2024 14:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724337280;
+ bh=TijZddx52s7dHM9dVKH3FQOQGg37tHlZWJ7WwnRJDz0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=o30hDNjICLJUBuoyylRk4f1P6fyz268BRyUz/tzs8AmEo2LJqaUdpuwY1/DCTLSbd
+ NExh2Pk6Jj/7Fy54LtoOM3nnYAXw7TEM23JNcbw5jlbwDCeu5Alg4Uiw6Ej9cbN2Ge
+ qpw/+b4X2GNqjD5j7J+0C4cka8NlTnVQKV0VH7oyoZTTqeSDJ9GMaKdcBMbnCGz0oK
+ W4uplrEpYu6xavlLKTKEmzVAaZI8ZmJCz+EmMoBcVEr/EJ1qNVQKziaZzyoACjVglL
+ bpwXXn32E2lf1uZGdH6GNI1LnxnLk/3jwwgvDWTlduFv7KADBpKed2z8LxX6QD+/eP
+ TV0nHHTNpyJWA==
+Date: Thu, 22 Aug 2024 22:34:31 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev, devicetree@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Benson Leung <bleung@chromium.org>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 13/17] dt-bindings: Move google,cros-ec-typec binding
+ to usb
+Message-ID: <ZsdMd7Ywa2b-GDT6@tzungbi-laptop>
+References: <20240819223834.2049862-1-swboyd@chromium.org>
+ <20240819223834.2049862-14-swboyd@chromium.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240819223834.2049862-14-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +88,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16 Aug 2024, at 14:32, Zack Rusin wrote:
+On Mon, Aug 19, 2024 at 03:38:27PM -0700, Stephen Boyd wrote:
+> -title: Google Chrome OS EC(Embedded Controller) Type C port driver.
+> +title: Google Chrome OS Embedded Controller (EC) USB type-c port driver
 
-> This is the same series I've sent out earlier but with one extra patch,
-> that fixes the dumb buffer coherency on low mem systems.
->
-> The second patch has also been updated to not use math functions.
->
-> Zack Rusin (3):
->   drm/vmwgfx: Prevent unmapping active read buffers
->   drm/vmwgfx: Fix prime with external buffers
->   drm/vmwgfx: Disable coherent dumb buffers without 3d
->
->  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c    | 114 +++++++++++++++++++++++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      |  13 ++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h      |   3 +
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |   4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c    |  12 +--
->  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |   6 +-
->  6 files changed, 136 insertions(+), 16 deletions(-)
->
-> -- 
-> 2.43.0
-
-I applied these three to v6.11-rc4 to fix the regression:
-https://lore.kernel.org/all/0d0330f3-2ac0-4cd5-8075-7f1cbaf72a8e@heusel.eu/
-
-Thanks for the fix! Seems to make my setup work again, so FWIW you can use my:
-Tested-by: Benjamin Coddington <bcodding@redhat.com>
-
-Ben
-
+Given that it gets chance to modify, how about s/Chrome OS/ChromeOS/?
