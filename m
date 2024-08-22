@@ -2,94 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EAD95AAC2
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 03:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8900A95ABCC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 05:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C98210E042;
-	Thu, 22 Aug 2024 01:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC07510E02D;
+	Thu, 22 Aug 2024 03:18:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eFhqv2wm";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="ErEpm15G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 076C810E042
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 01:59:17 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-2d3d7a1e45fso193149a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 18:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724291957; x=1724896757; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VFO2kWCGjNOD3FeA4OtRgD3pdjDivL5vvXpR1ohJQTE=;
- b=eFhqv2wmikwnCQuthjZ4HiI9Byls9y47szZ+GdDwrR03UvNWrRMBOaWxuReuB5HA9y
- wvWGjp0WNUX5UrsR2OwDxW68wnv56SVO8QQ1NT6ioNNcB8ZgJYt/+UWkA0AUBZOe123z
- TQ8BN89nC6AVmEuk5gKjzkcn09HeJdnSp/Li9jWW9jJeq682qUIlATPtpVGrMZiv4mI5
- pBDCny6t1wjr95M7CZzWu16Xi5YHZl6cHYdN4qjTz8LRabPXXADDNKMzTrH8x4DpV7oF
- Z8jufkxfed3lq0EawbOL1VH6pbMbPPXUEImpTnTuyaIQV1NjopLBAjpA5a3mN4A18Mho
- v/Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724291957; x=1724896757;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VFO2kWCGjNOD3FeA4OtRgD3pdjDivL5vvXpR1ohJQTE=;
- b=eG2gsDVnsMgfEaxThLGv680hqCZCdq3A5xBskLMY22mXWNqBHB5pzxxwjdflDs3DEU
- 3L8X2ZF/M45ViJGa631A7U6bLbuAnuSryGyevb5B1jAmUoCxE31k+P5yL2k8RONiSC31
- EkEh3tMZ8RU9+VkKQkx2YF2bpziuwl+0E3Kaf8O0t5w8v1wOR7BsL7/0uoZjBLtJvwX3
- H0/E2MaIud5xdYPIVF6Yzdh4Khfdw+cFYxj9Uw7K08pdVVAUoOsRKAmiiAO8Emq97yrl
- gVmnHQbzFPQwcCw/K0njaIJJSLUR8d2rr/BzmTEoDC8gd+zyPsvwgMV5pYPD50zKDKlO
- Gvwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1FynSSnLj5FOQwtSSmdG5wRidhGQJXfWVkakDGgvGSKn4UFy//OzOXzvR+se2PZ3uUFmng3Pj3BA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDF9MDvm6dsFWIQ+VbXawGKWSPVPKcwCLTDSfMJHOIXasf0afa
- kABtrWk01Fiv5AKQRRR86i2cViKuZmWwMRBx0EoTM29t4GgSbsHCx/Mog+Lw189Wo/qKUviQofo
- 5Ltj18pMCyKLA54PvaSjXcG9IFeM=
-X-Google-Smtp-Source: AGHT+IHo1XypQ2DhBU9dvxFb47f1VVfuO5TlGuhS61QXHHxtYiys4WJVmwOODJ9pBcwZtDtC4hQnUAZDYgMqTdynFSo=
-X-Received: by 2002:a17:90a:4d83:b0:2c9:58dd:e01d with SMTP id
- 98e67ed59e1d1-2d5e9a09e2bmr4589896a91.14.1724291957272; Wed, 21 Aug 2024
- 18:59:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240203165307.7806-1-aford173@gmail.com>
- <20240203165307.7806-11-aford173@gmail.com>
- <Zm_UzO4Jmm7Aykcm@atmark-techno.com>
- <22a3f5266260dd3915269ae3eec7724f7537eb55.camel@pengutronix.de>
- <cd03ecb1-100e-4699-95ed-d837a2802dc7@kontron.de>
- <CAHCN7x+bh_ka250hOCenO3Et6re4EJ=5TG8=kpG1hs-PV0dQxQ@mail.gmail.com>
- <ZsVluV50NvuGGHFX@atmark-techno.com>
- <CAHCN7xJnjfjr7HfKF+4pwbENP+p2=vvMXWW1AQShNy87vfQ=-A@mail.gmail.com>
-In-Reply-To: <CAHCN7xJnjfjr7HfKF+4pwbENP+p2=vvMXWW1AQShNy87vfQ=-A@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 21 Aug 2024 20:59:05 -0500
-Message-ID: <CAHCN7xKgpqfRf_2p1z5NyKiOYubbcDA7YE5ML8G56pVmcV+1xA@mail.gmail.com>
-Subject: Re: drm/bridge/imx8mp-hdmi-tx: Allow inexact pixel clock frequencies
- (Was: [PATCH V8 10/12] drm/bridge: imx: add bridge wrapper driver for
- i.MX8MP DWC HDMI)
-To: Dominique MARTINET <dominique.martinet@atmark-techno.com>
-Cc: Frieder Schrempf <frieder.schrempf@kontron.de>,
- Lucas Stach <l.stach@pengutronix.de>, 
- linux-arm-kernel@lists.infradead.org, marex@denx.de, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2060.outbound.protection.outlook.com [40.107.215.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37DC310E02D
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 03:18:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eC3KjNqbKE6M8QTjkIpd0N4csCNs28D2nlppOlHl6sPM3Tgb1ma0Jvd0V+PdnRTwBFM/V9NXqTHo0V4fGr/ZQQ4ddk3ep9rB3LKCG9lhyengHfSym7otXUcpNVOu0q1HhvuEwsHN8TZaTDXxbQG4Tn/NL7cFYBpZbCmXBlKw1P/8b86F+efJcadlLU1s5udbG/dVqWiWIxO9JbQ/9CD0yNfvennP+7R0dfGefBCZUPMrl5QlVto2hZzeU+dVAzps8otDrDCNhx8pk3lc9V4P/zAA6uNhfSYYSvFb0BXlPkEjxgx4U08hz7P3GevJ8TWsPcov+aPql+Oud5tKcVgC1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sn5TTcHUD+SAoJcTT3T74+nnlBsETwLiKCkIucBiPqs=;
+ b=m8X76CP5OCnAEY53M0+z4hrHt9J04pCKzE+g9Dw6blyb5VY8kVgA9mtsCy7osVHJKrkSsSRU97ukwsBJ8X1ELz6PFrU961i1mABSL2dRFWgfe+lVaxpvNk1QW3tvkc9K6LEnwl/dMSZ4cHXiMaoR5/tIwll0jEbOXlHk/Jk9jgetC36Is4lTW5f4vMx1BSvhtoykX7sGN5Ce7kLArBjU2Y0cZZU9alyYA2PURN0V2wudrCFR+Tv4klWkqMFQCRL6sicd7syY6nHoYlHgxu7/FoCgci/Ok9maS1ZHANXpWnOGCfTy1SR8i7sC7aVP/lN1G7Skjjay88LY0L32PWIPmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sn5TTcHUD+SAoJcTT3T74+nnlBsETwLiKCkIucBiPqs=;
+ b=ErEpm15GPsKkf74n32kdYzRTj7tPSn6/JUbrarR8StWijTvqUum1bKJtQPN8Zl4yyxt2a6kcqjnA0Kx/Gg0LmTh84MKv/ZKuY2QM2E3r7K9VVRJ70ynZ5kDHhBpN1lJKUE7xmch4I+KyCVwwEV4r9M32WbleBQUnY+0tC/cYcpGv3PIeuPS4bmrSZYVxgBJGH01eeIb/QCWspoYYSzo53pLIPv4L3B5SL4oBCcDN+eM/rhiStXid0S99r+VARppkzcbe9/vUTUV5s9aifTExK3QjP4F3AahK9KXIpv7Cx4lXV9Kn1d/d9Zq6Uk84TdKdXr7P+EsvPBfbzL+qgVzE4A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ JH0PR06MB7349.apcprd06.prod.outlook.com (2603:1096:990:a5::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7875.21; Thu, 22 Aug 2024 03:18:50 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%6]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
+ 03:18:50 +0000
+Message-ID: <01292a92-c5f5-490d-a45f-a11547854c68@vivo.com>
+Date: Thu, 22 Aug 2024 11:18:43 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: drm: Use devm_clk_get_enabled() helpers
+To: Julian Calaby <julian.calaby@gmail.com>,
+ Rong Qianfeng <rongqianfeng@vivo.com>
+Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- NXP Linux Team <linux-imx@nxp.com>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Liu Ying <victor.liu@nxp.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
- Makoto Sato <makoto.sato@atmark-techno.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, opensource.kernel@vivo.com
+References: <20240820125840.9032-1-rongqianfeng@vivo.com>
+ <CAGRGNgXn94ZPROLN4JButpnc+ffFFr1SwtTFM=bvcPH95DFQgQ@mail.gmail.com>
+Content-Language: en-US
+From: Rong Qianfeng <11065417@vivo.com>
+In-Reply-To: <CAGRGNgXn94ZPROLN4JButpnc+ffFFr1SwtTFM=bvcPH95DFQgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYCP286CA0316.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3b7::9) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|JH0PR06MB7349:EE_
+X-MS-Office365-Filtering-Correlation-Id: b5483a07-7b51-48bd-7a96-08dcc259245a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014|81742002; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K1BuMU11OE0zOHZBRENWaEIyTE55Z0hPYTNkSXo3M2NTOFlWWHpxdmFnMmds?=
+ =?utf-8?B?Q0RLbHg2RGd1a1ZkSzI3M1k3Y1RNczJVZng4Vm9aSlc4K0ZoUzBPVzJZbVps?=
+ =?utf-8?B?K3cwNmdKRjlFSWFFdndpVlE3ekFrK1owOWUwdGZMVVJNckdyTWtxd2RmbXlC?=
+ =?utf-8?B?V1FYR0RBVDA1aUJ1V2poRzQ3bC9KcmFFYWgvZGFHa1U4ZGh2T1UwSEZYNmVs?=
+ =?utf-8?B?SDlDeDFYbWdaSmxrcDkrTHlHTW1BZTY3bHB3cml3S0g0USsxZGtzYlhVSFJ1?=
+ =?utf-8?B?NlUySFlNOFpXZkNkUFRYRVNtamJkQnpBQTNTM0FDcWhzSDIzQU9hNjE3TDdk?=
+ =?utf-8?B?cjNVT3FCVU9lVS9qcE02WXJiRTN3T001M0NBcllNV2w4a1RLYzdJbFFUQVo2?=
+ =?utf-8?B?V2Ezc3lGbDgwSks2NEVSR2pIMWFhNkphVW4wSDI3N0ppeWdKUWlpNHFmaXdn?=
+ =?utf-8?B?aEdTNHFBaStqcjBldkppWVhGeGFDZDUyTDl5WDJtekR0MndPZzJtN2NPOElI?=
+ =?utf-8?B?cTg4NFVaRktyTkZWZHFKOXRjcnF4ZmFZejA3UHFlZ2xYMCtYN1didWJIQk95?=
+ =?utf-8?B?dVBRMHZPV05SSG02QStsK1pGeVJIQ1BiVVVxaWE2NjBIZ3JKN1ZLWDF5cmQ5?=
+ =?utf-8?B?akFPM3dTUWtzbms3YW95bkwzdjNuNldHWGY1VFlodkxndHdSM3BnZ0xNa08x?=
+ =?utf-8?B?UWk2U3FFTi9qbUJnSkZEWlpiWU9DQmc0TUZZQndiVzZDVERaVmllR1ZCd2xF?=
+ =?utf-8?B?bUhBUC9NWGV2L1ltcmdRZnBUYUNLaldOaHd4SHg0YzBkaW14S1djL1krb2Vh?=
+ =?utf-8?B?ZUFHZnkraVdQNFZqWTFjbENOTFpYQU5mWUpPOUxOSDhhRkdBUG5zNkZpRDVj?=
+ =?utf-8?B?dHNSV3Q5ZWlyRXBEV1g1Unc5bUZPQWxGVFQ2VStDdWk4emhZSWU2RjZRdWhX?=
+ =?utf-8?B?ME5KSUxUWUlkR1FKRXo0eU1xWkttUlVnT3RzQnZaeGdPSjVoLzVaNjkxU2xK?=
+ =?utf-8?B?dW96Z2piMjFVUE9wR2UvMmg2TVNyVmcreEsvdlZjNmU2RmdQSVdNVkVWYWZ2?=
+ =?utf-8?B?S0RYdXMrcFJBc01pNmJkN25Yb0Zrbzd1RXlPRld3Zm9KZUQwTzJFWUR5aHh4?=
+ =?utf-8?B?T2lMTkpQcnNCeXRTelJ3TldhemdjRVZSZHp1R25nMXlXQkI4NTgwTHQ2NGFi?=
+ =?utf-8?B?NXJyeXRaSzFkek9OSFptR3JTeGw3QkNXWEo5Z2F5U3JkUHpqdFp5TExETUtt?=
+ =?utf-8?B?aWVXUTNWaGRLamsyK1puUmpOVlZPYkdKbzNHV2M0WG42aTI3M2orek1KWWpz?=
+ =?utf-8?B?dCtTSXlORnNZazdlbHFRZDJkeHJCV25rbmRDVFZiN1M2SjdhaDk5WWFEV1Zv?=
+ =?utf-8?B?Tit6b2IxdkJyMHFKWXp2c0c4NWdUdkZ1NlVJVWZlWERsNGhrQXplOCsxMk9k?=
+ =?utf-8?B?TjVyN2s5SWd5SEZyNDFnNU81S3BrcHBYM3JSYzBERHhjVDZ2MU9ZTG9Iclli?=
+ =?utf-8?B?bnorSnVuK0syQXJPTzNOeDgxY1BXK1puL3pJNVVnVFBZejdycjV5c3FxQ1Vm?=
+ =?utf-8?B?SE5ML2FXVmRPTHJCd3FWRWVwL1dNczdlQWdPQ2RFZzZpR3g5NUs5SlRWY0c2?=
+ =?utf-8?B?dVNzUXAwSTR6UHc0MkVZVStReDVsOHBTd1JKU0xwWGZQV3Flb1FERFFrdTJ1?=
+ =?utf-8?B?cFJyd2w3dzIzbTNjakdabWZPZ2xIb0VWcUM5SXhVaVJTVDdxMkxRT3QrQzBw?=
+ =?utf-8?B?Z3hQd1NIOEpCaFJORUFpT3JqMlZoTXQxellXbFg3K21EVVRZR05Da2U1NUdl?=
+ =?utf-8?B?Ri9uVjVmRCtiZ2hxZ2JZSFhuMjRrZVlHdTNFVUh3Uk9FSjZZUm5icVg4Z0tK?=
+ =?utf-8?Q?Si6EymRSd8JIv?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014)(81742002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ui94RlZza2FDWWlHSE9rN0VvWnkzalBySHZCZUs4RFFyR0dwSUlOSkUwK1pD?=
+ =?utf-8?B?SklRdTFnVlI3TWkycDU1cEFwMTMvd2tqYXBXclY3QlNnRVlNY2NiZ1UzVmRZ?=
+ =?utf-8?B?NzBFVEs2WnFrZEMxSDRHdG9aU25vRzhVdTI5THlLZWFqblg2YjhoV1dFMC90?=
+ =?utf-8?B?RFY3UWJKeVJzOHdiZVRPRkVseG9yTFowU2ZvUUUvSy9QTTBjTHlXR1Yyb3BO?=
+ =?utf-8?B?dGJBOGozOEc3OEgraUFkSzJUK1VzbkJKUTBaZEF1MWppdDhrZVBMQm52c1RT?=
+ =?utf-8?B?S2IrekZ6c1NZcVVmSnVEQVlEcHRRRW9aTDFhYUc5SU1GYzBuZEpnNThBVmlH?=
+ =?utf-8?B?NlhwUk1xOWVrQzN5OHhQTFIxVmhNcnp5QXFRYi9ITlJMaTEweTNQc1BJS0VJ?=
+ =?utf-8?B?OTJxMU92c1hjbWZkaExub29nZEVYWTJsRmkwNnVDb25wQllBVEE5MHZFUFF4?=
+ =?utf-8?B?UFlPS2tta010QUYwbkllSVJ4anRycUZlVVlNV2s5c0NNMEt4blo2Uys3Mm5w?=
+ =?utf-8?B?MFh4TlRVV1dZQzV5WHkyNnNDa1ZEZDZNSEwwQVlmc0doVE5jdXEwcEtSeHpI?=
+ =?utf-8?B?Vy9MZTR0eVNOaEVzc2tkZ1JkQXVXY0xOeVJpQUlBUFNTVXZNTTF6ZDJsQ01t?=
+ =?utf-8?B?VGRXTFB6TTFxS1FwOUxVaGJocFhrOUV3a2I2c1dxR1dEMytXVXo4eG1NdWVr?=
+ =?utf-8?B?c0hnenlEZ2J3LzZJbTZMWjludlpCYnJlVzFRamxMakgwSUk1NEYwdUNrcjdL?=
+ =?utf-8?B?Z2FJNkM5VUZxZmRxbkI0Uko4MUVHb1F1MFpRR3RsWTRaNFJQTTVTOG44QzA3?=
+ =?utf-8?B?Y0ZDR2RocG5CMHJ4N3djV3M3UnpQTkpOTU92Y1Z2WXVaQnJLc2h4K2luMm82?=
+ =?utf-8?B?UDhPVWFtNUhsZDVqbjM2UWMrMjA0U1d5bGpXM0RjQ3c5b1cydWY0S3lUbW02?=
+ =?utf-8?B?M29ranltQSt1SXA3YlducXBBNmV3UDNyZXVqa1RzczF0NlhqeWpCem8wTEJw?=
+ =?utf-8?B?TXlwOUVoUDNQTDZrbS8za29PdmVzTTdNejVyem5xQ2N3YXdlbmwwVHA5VHdV?=
+ =?utf-8?B?VDdycjVqZ1FDQXZrUEJWMkRGRUNpTnVlbmtNaWorN1FLUjhyM1N3TGM3K1ZO?=
+ =?utf-8?B?ZG94TFVBck9pVk5aYWdzelh0U3lNSjlJT3gxby9MMWowN3lqbEpJbG1MUWhN?=
+ =?utf-8?B?VmNnSE5ZV2lqdERUS2hucDhqN2x5ZDNaSmxnVFd2dTE1bmE1RTlFRU0xYnRq?=
+ =?utf-8?B?My9jYzEybUl6QkM2UkdqbGxyb2FPQ1k4cTIrTGxWQVU0aGZ6UGxkQ0swN3la?=
+ =?utf-8?B?Q3ZhWU54M1cwUEN6QlovWnZJdFB6UHBsUnc1ZUNxN1RlMXRSWUo1QkV3TDR1?=
+ =?utf-8?B?amJLVHBRK2N4WW5NTmltZXNhNWFuaFJqaGFYRXBLY0FqUVJwV0YwaU41Zk5J?=
+ =?utf-8?B?c0xSTDFIVlk2djZaVVdCOFkvUTF2ckFKaERiQjJtNElmZ2Vaa29tNEJyaE45?=
+ =?utf-8?B?YW1EZjgyVm1LUngycC96cWp1WkdpTmo1ZmE4UUhGU2MvTjFCWVorNVJrWkZt?=
+ =?utf-8?B?V0xjdGJNeTRBRzdlb0ZUT3c4VDlGUFJGQmVPV0srUmVzcG1ySDhHRUl2ZFhP?=
+ =?utf-8?B?dElWdzA0RFUrT1dHTG1raHBJWFJ2QzlTL0Y0aFZpMmhNWGdhWCt2aWlLdzI4?=
+ =?utf-8?B?SmFyU2RRWkRQZzFtdnUrRVZReExERnpOQUtTOU5pSkJnN3lnR1k1dy9ReXM0?=
+ =?utf-8?B?VkpNcWpoOU56Rk1XS2ZIK0UwcTNnQmtZTHFiVldZTzRveUw4MEV5ckVWMHEy?=
+ =?utf-8?B?SGJ0cW1kUStRc3duNnJIWnMxekJTTFhtd0JpS0dhRXVFY3pHQWl5bE9jUmxX?=
+ =?utf-8?B?d0pQanI3d3htRXdYMXBQN0RtNTFDejVCQVlIODRBbWdMdnh1V05nWDR1Znl1?=
+ =?utf-8?B?Z21vWC9Sa0ErcFQvTjN1YURZNFRwYlZnMnlWY0JieFRubyswem9rRS9mTFhl?=
+ =?utf-8?B?RnM0SGRzcDdUWGZUYzJ2aGJLZmkvN29MeXVsS0ZmNGMxdm1uTXRuSW9iV3l2?=
+ =?utf-8?B?WHJGK2RDZEMwV1FRaDhtTzBzVS9McVFqWmxwWUduWFpvOFU2d3NCUXcrMlFx?=
+ =?utf-8?Q?hG3yGxBrsgjmA3dnhL3IHoRWY?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5483a07-7b51-48bd-7a96-08dcc259245a
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 03:18:49.9870 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /oCUzwp8r1kiJRUxOk6zZwVsfZ/XUpJvx6Q7WzD4IVSP0kZoKfgViFW9P6rtIUN8u5xIryO1o9sG3TW06nIZIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB7349
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,139 +171,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 21, 2024 at 7:45=E2=80=AFAM Adam Ford <aford173@gmail.com> wrot=
-e:
->
-> On Tue, Aug 20, 2024 at 10:58=E2=80=AFPM Dominique MARTINET
-> <dominique.martinet@atmark-techno.com> wrote:
-> >
-> > Adam Ford wrote on Tue, Aug 20, 2024 at 09:49:03PM -0500:
-> > > > > However, this check is a bit overcautious in that it only allows =
-exact
-> > > > > rate matches. IIRC HDMI allows a rate mismatch of +- 0.5%, so thi=
-s
-> > > > > check could be relaxed quite a bit to allow for that.
-> > > >
-> > > > I checked with a 1080p display that reports 23 possible modes via E=
-DID.
-> > > > Out of these 15 are accepted by the driver with the strict check.
-> > > >
-> > > > Two more would be accepted with a relaxed check that allows a 0.5% =
-margin.
-> > > >
-> > > > For the remaining six modes, the pixel clock would deviate up to ~5=
-%
-> > > > from what the display expects. Still, if I remove the check altoget=
-her,
-> > > > all 23 modes seem to work just fine.
-> >
-> > I can confirm the displays I tested also seem pretty tolerant in
-> > practice (up to ~3-4% at least), but I agree with Lucas that this isn't
-> > something we can rely on for a general purpose driver as having example=
-s
-> > of things being tolerant doesn't mean all hardware will be as flexible.=
-.
-> >
-> > > > I'd really like to be able to add more PHY PLL setpoints for displa=
-ys
-> > > > that use non-CEA-861 modes. Unfortunately I didn't manage to figure=
- out
-> > > > the fractional-n PLL parameter calculation so far.
-> > > >
-> > > > The i.MX8MP Reference Manual provides formulas to calculate the
-> > > > parameters based on the register values and I tried to make sense o=
-f it
-> > > > using the existing register values in the driver. But somehow it do=
-esn't
-> > > > add up for me.
-> > > >
-> > > > Lucas, did you already work with the PLL parameters? By any chance,=
- do
-> > > > you now how the math behind them works?
-> > >
-> > > I spent a little time trying to understand it a bit.  I created a PMS
-> > > calculator similar to the one used on the DSI controller,
-> >
-> > Great! I'll admit this also flies over my head and I don't have the
-> > time to study this, so this is much appreciated.
-> >
-> > > except that
-> > > the M seems to be fixed at a value of 62 per the data sheet, so it's
-> > > more of a PS calculator.
-> >
-> > Hmm... PHY_REG2 in the datasheet only lists '0011_1110b - 62' as
-> > example(?) values, but it doesn't say other values are reserved either,
-> > I'm not sure what to make of it.
-> > In the current driver PHY_REG_02 (driver macro) is assigned the first
-> > field of .pll_div_regs, which goes anywhere from 0x4b to 0x7b -- pretty
-> > far from 62(0x3e)...
->
-> OK.  I will experiment with increasing the range of M from being fixed
-> at 3e to a range of 3b to 7b to see if my PMS integer calculator can
-> get more accurate.
->
-> >
-> > Since other frequencies have been adjusting this main diviser ratio we
-> > actually tried copying neighboring values and adjusting only that reg 2
-> > (so the M if I get this right?), but the end result ended up not
-> > synchronizing properly every time... We didn't have time to check with =
-a
-> > scope if the generated signal was ugly or if it just didn't lock
-> > properly, but the display worked when we just re-used the neighboring
-> > values without changing anything despite being ~3-4% off, so we took th=
-e
-> > easy way out here and didn't dig much further.
-> >
-> > > Anyway, When I run my P-S calculator to generate the 'best rate' I ge=
-t
-> > > a value that's usually 0.2% variance from nominal, but I only verifie=
-d
-> > > a handful of values:
-> > >
-> > > Several which were +0.2%
-> > > 297600000 vs 297000000 (4k@30)
-> > > 148800000 vs 148500000 (1080p60)
-> > > 74400 vs 74200
-> > >
-> > > One value was -0.16%
-> > > 24800000 vs 25200000
-> > >
-> > > If the M value was a bit more flexible, we might be able to reduce
-> > > that variance more.
-> >
-> > Yes, I think the M value could be more flexible, but that'd require
-> > checking if it actually works, whereas having slightly off frequencies
-> > will most likely be OK so I don't think it's worth the effort -- happy
-> > to stick to what the datasheet describes.
-> >
-> > > If / when I get some time, I might play with trying to disable the
-> > > fractional mode and just use the PMS calculator for simplicity despit=
-e
-> > > the inaccuracy.  Maybe we could fall back to using the PMS calculator
-> > > if the desired frequency isn't in the look-up-table.
-> >
-> > That'd be greatly appreciated, I don't have any strong opinion on
-> > whether that should completely replace the table, or only be used if
-> > there is no exact match in the table as these are values we know will
-> > work; but we can definitely test any patch you can throw at us here.
->
-> I can't promise it'll be quick.  I am not fully certain I understand
-> how the whole thing works, but as a rule, I don't generally like look
-> up tables if they can be calculated dynamically.
 
-I updated my PMS calculator, and I randomly selected 5 resolutions and
-they all returned an exact clock match, so I'll attempt to use the PMS
-integer clock instead of the fractional one.
-
-It'll be a little while longer before I can do anything with it.
-
-adam
+在 2024/8/22 8:35, Julian Calaby 写道:
+> [Some people who received this message don't often get email from julian.calaby@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 >
-> adam
-> >
-> >
-> > Cheers,
-> > --
-> > Dominique
-> >
-> >
+> Hi Rong,
+>
+> On Tue, Aug 20, 2024 at 10:59 PM Rong Qianfeng <rongqianfeng@vivo.com> wrote:
+>> Replace devm_clk_get() and clk_prepare_enable() with
+>> devm_clk_get_enabled() that also disables and unprepares it on
+>> driver detach.
+>>
+>> Signed-off-by: Rong Qianfeng <rongqianfeng@vivo.com>
+>> ---
+>>   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 13 +++----------
+>>   drivers/gpu/drm/sun4i/sun6i_drc.c         | 15 ++++-----------
+>>   drivers/gpu/drm/sun4i/sun8i_mixer.c       | 13 +++----------
+>>   3 files changed, 10 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/sun4i/sun6i_drc.c b/drivers/gpu/drm/sun4i/sun6i_drc.c
+>> index 0d342f43fa93..f263ad282828 100644
+>> --- a/drivers/gpu/drm/sun4i/sun6i_drc.c
+>> +++ b/drivers/gpu/drm/sun4i/sun6i_drc.c
+>> @@ -42,33 +42,28 @@ static int sun6i_drc_bind(struct device *dev, struct device *master,
+>>                  return ret;
+>>          }
+>>
+>> -       drc->bus_clk = devm_clk_get(dev, "ahb");
+>> +       drc->bus_clk = devm_clk_get_enabled(dev, "ahb");
+>>          if (IS_ERR(drc->bus_clk)) {
+>>                  dev_err(dev, "Couldn't get our bus clock\n");
+>>                  ret = PTR_ERR(drc->bus_clk);
+>>                  goto err_assert_reset;
+>>          }
+>> -       clk_prepare_enable(drc->bus_clk);
+>>
+>> -       drc->mod_clk = devm_clk_get(dev, "mod");
+>> +       drc->mod_clk = devm_clk_get_enabled(dev, "mod");
+>>          if (IS_ERR(drc->mod_clk)) {
+>>                  dev_err(dev, "Couldn't get our mod clock\n");
+>>                  ret = PTR_ERR(drc->mod_clk);
+>> -               goto err_disable_bus_clk;
+>> +               goto err_assert_reset;
+>>          }
+>>
+>>          ret = clk_set_rate_exclusive(drc->mod_clk, 300000000);
+>>          if (ret) {
+>>                  dev_err(dev, "Couldn't set the module clock frequency\n");
+>> -               goto err_disable_bus_clk;
+>> +               goto err_assert_reset;
+>>          }
+>>
+>> -       clk_prepare_enable(drc->mod_clk);
+> Am I reading this right: is this changing the init sequence so that
+> the clock is enabled before setting a rate?
+>
+> This is the sort of thing that might cause glitches and issues in some
+> hardware, so it'd be polite to test such a change on the actual
+> hardware before posting it.
+
+Hi Julian ,
+
+I have seen this used in other places, but the problem you raised may be
+different on different hardware.
+
+I wonder if anyone can clarify this?
+
+Best regards,
+Qianfeng
+
+>
+> Thanks,
+>
+> --
+> Julian Calaby
+>
+> Email: julian.calaby@gmail.com
+> Profile: http://www.google.com/profiles/julian.calaby/
