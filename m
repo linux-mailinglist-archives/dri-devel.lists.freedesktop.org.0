@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35ABD95A8D7
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 02:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD21995AAA6
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 03:48:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C44310E31B;
-	Thu, 22 Aug 2024 00:29:26 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.b="gpCJK+AM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4958210E00E;
+	Thu, 22 Aug 2024 01:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2F0210E011;
- Thu, 22 Aug 2024 00:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=kGDQYbC8qypiT4m0fJt+09ZAK1zE2sNw7WPJdY9LOOA=; b=gpCJK+AMtryzj3NxN0zDt9z63c
- Jn/c7h+tY4ffYsJNq+RYN7GxikQDh3WAQpBsK9VGrJ/xL7zeyyvXFFCgC53X1oOJKE3/XyWIvGemS
- Fec0urCA0gyZhIbyk9l8Opnvf6q/Itp/9i3dfgsNM+GQc+zBri1N5eNA3QfMIh7inLYD77e7rwZ+O
- Z0jjX4o0LCGqOaoTfmrk8BbeH+Q99VC9rLDU40bj6xg76gemtSi043pNnfKm1iMTNv7uoz/0EUqv6
- RPB3USODanpez1kz5cB22epSaDJLrWnmiJ82C8QJex/Pk0uruHv8qTYA7nhOvhonqNg+d8ABs8ZMG
- zvz+OdtQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat
- Linux)) id 1sgvhZ-00000003wEk-3Fkj; Thu, 22 Aug 2024 00:29:21 +0000
-Date: Thu, 22 Aug 2024 01:29:21 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/4] amdgpu: fix a race in kfd_mem_export_dmabuf()
-Message-ID: <20240822002921.GN504335@ZenIV>
-References: <20240812065656.GI13701@ZenIV>
- <20240812065906.241398-1-viro@zeniv.linux.org.uk>
- <20240812065906.241398-2-viro@zeniv.linux.org.uk>
- <09a1d083-0960-4de7-ab66-527099076ee4@amd.com>
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9817C10E00E;
+ Thu, 22 Aug 2024 01:48:40 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Wq5cg3rCdz1HH4R;
+ Thu, 22 Aug 2024 09:45:23 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+ by mail.maildlp.com (Postfix) with ESMTPS id 4581D18001B;
+ Thu, 22 Aug 2024 09:48:36 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Aug
+ 2024 09:48:35 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <Rodrigo.Siqueira@amd.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <nicholas.kazlauskas@amd.com>, <Charlene.Liu@amd.com>,
+ <chiahsuan.chung@amd.com>, <hamza.mahfooz@amd.com>, <sungjoon.kim@amd.com>,
+ <roman.li@amd.com>, <syed.hassan@amd.com>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH -next v2] drm/amd/display: Remove unused dcn35_fpga_funcs
+Date: Thu, 22 Aug 2024 09:56:06 +0800
+Message-ID: <20240822015606.3355956-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <09a1d083-0960-4de7-ab66-527099076ee4@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,26 +56,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 14, 2024 at 06:15:46PM -0400, Felix Kuehling wrote:
-> 
-> On 2024-08-12 02:59, Al Viro wrote:
-> > Using drm_gem_prime_handle_to_fd() to set dmabuf up and insert it into
-> > descriptor table, only to have it looked up by file descriptor and
-> > remove it from descriptor table is not just too convoluted - it's
-> > racy; another thread might have modified the descriptor table while
-> > we'd been going through that song and dance.
-> > 
-> > Switch kfd_mem_export_dmabuf() to using drm_gem_prime_handle_to_dmabuf()
-> > and leave the descriptor table alone...
-> > 
-> > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-> 
-> This patch is
-> 
-> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+dcn35_fpga_funcsc is not used anywhere, remove it.
 
-Umm...  So which tree should that series go through?
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+v2:
+- Remove it instead of making it static.
+---
+ .../gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 7 -------
+ 1 file changed, 7 deletions(-)
 
-I can put it through vfs.git, or send a pull request to drm folks, or...
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+index e2d906327e2e..15977c2d256d 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+@@ -1068,13 +1068,6 @@ static struct clk_mgr_funcs dcn35_funcs = {
+ 	.is_ips_supported = dcn35_is_ips_supported,
+ };
+ 
+-struct clk_mgr_funcs dcn35_fpga_funcs = {
+-	.get_dp_ref_clk_frequency = dce12_get_dp_ref_freq_khz,
+-	.update_clocks = dcn35_update_clocks_fpga,
+-	.init_clocks = dcn35_init_clocks_fpga,
+-	.get_dtb_ref_clk_frequency = dcn31_get_dtb_ref_freq_khz,
+-};
+-
+ void dcn35_clk_mgr_construct(
+ 		struct dc_context *ctx,
+ 		struct clk_mgr_dcn35 *clk_mgr,
+-- 
+2.34.1
 
-Preferences?
