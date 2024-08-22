@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA2C95B309
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 12:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A07295B34D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 12:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9228710E847;
-	Thu, 22 Aug 2024 10:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F81810E07B;
+	Thu, 22 Aug 2024 10:59:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SQ+IkycK";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="F/oymJhZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8629E10E847
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 10:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724323144; x=1755859144;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=By0fQxIG06ZLRfs6G47zO6X9vuZE55gXLRUegu6W+hU=;
- b=SQ+IkycKDHauM7jsHdtQxUXXQ9NtNhYHTO55AVWQzsUFgmdKub0i5yb+
- Z2S4KU7oUXdXPaJnwVF3xmz5Rp4iKG+n7WECEjRDstREFSWLmnrcF2jo6
- qFwR26EH4oDsF1tZPjL26P2khUKyoaGGdZbt+SS0u6wmXpJiPxpmvGIZm
- 7an7P2PGKMARSY+PHeCK+6nTbal0wki7FMB6hziJLhsyjPbo1D9KZtz0J
- 3NmRisV5AhOjEGtYZKBMVSPhYrqgJcAxHgCg5CGuXntqPrTlRzPXd0dM/
- HOrMtK2vjXwKwMa4f7VpOVIEfVEWYd2grJoRewJiEcsROoWWK+WKDe9S2 w==;
-X-CSE-ConnectionGUID: QYSr7RGdTzi88cMc2IKScw==
-X-CSE-MsgGUID: BtlvYE+kRa+VFPvG+zBkpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22250203"
-X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; d="scan'208";a="22250203"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 03:39:04 -0700
-X-CSE-ConnectionGUID: eXF1aIU1Rfq3si9eK6Bgfg==
-X-CSE-MsgGUID: dN4jdnZgQbG92KZZiP9kEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; d="scan'208";a="62123434"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 22 Aug 2024 03:39:02 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sh5DX-000Cfs-1Q;
- Thu, 22 Aug 2024 10:38:59 +0000
-Date: Thu, 22 Aug 2024 18:38:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: "hongchi.peng" <hongchi.peng@siengine.com>, liviu.dudau@arm.com
-Cc: oe-kbuild-all@lists.linux.dev, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org, hongchi.peng@siengine.com
-Subject: Re: [PATCH] drm: komeda: Fix an issue related to normalized zpos
-Message-ID: <202408222005.Pr9Vj8sj-lkp@intel.com>
-References: <20240821085613.5408-1-hongchi.peng@siengine.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2CC10E07B
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 10:59:50 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47M9WWKi007555;
+ Thu, 22 Aug 2024 10:59:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=uchlU7Co3j6QPK5uI9GwWr
+ cRPa058bIwAtkQL0OyCaY=; b=F/oymJhZS+2KcwaiCt2uewZjYvFdIzQU2JPUOS
+ De/OzZ6JAb7EMU+vZcd7P33oahbU3+FmAPtE9ugzNhf0pnBWy0SwPf3pxIkBLXgR
+ c4rrFILy4O61+N1dsey3dxfbESZF/hYru8D2uL3oqtbU3BEIVbSxc491dOvBg1jM
+ YDvwvO3e7uxBextYlNNL4woN9WbA1zZw7z/MQRCuRbm/RurdyAw9d7O/dc2kIhaR
+ fil/L/pO6gePU5nV/ztPFbCkjsOF5cIHADKUuLjo4+9AvzsJdRjJG9oWq7Nxry8m
+ gvvPLrbY158M0wMVKYVECrQlDHkLY1vVAFHBXB9zIy2tTiWA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 415gsd314w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Aug 2024 10:59:45 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47MAxixi018481
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Aug 2024 10:59:44 GMT
+Received: from hu-ekangupt-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 22 Aug 2024 03:59:41 -0700
+From: Ekansh Gupta <quic_ekangupt@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
+CC: <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
+ <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
+Subject: [PATCH v1 0/3] Add missing fixes to FastRPC driver
+Date: Thu, 22 Aug 2024 16:29:30 +0530
+Message-ID: <20240822105933.2644945-1-quic_ekangupt@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240821085613.5408-1-hongchi.peng@siengine.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vErizSZqHKQ69PmlrxSt0sZxNrF4z7uq
+X-Proofpoint-ORIG-GUID: vErizSZqHKQ69PmlrxSt0sZxNrF4z7uq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-22_03,2024-08-22_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ mlxlogscore=794 clxscore=1015 lowpriorityscore=0 impostorscore=0
+ mlxscore=0 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2408220081
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,78 +86,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi hongchi.peng,
+This patch series adds the listed bug fixes that have been missing
+in upstream fastRPC driver.
+- Store actual size of map and check it against the user passed size.
+- Consider map user VA and actual size for map lookup.
+- Skip refcount increment for DMA handles.
 
-kernel test robot noticed the following build errors:
+Ekansh Gupta (3):
+  misc: fastrpc: Save actual DMA size in fastrpc_map structure
+  misc: fastrpc: Fix fastrpc_map_lookup operation
+  misc: fastrpc: Skip reference for DMA handles
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.11-rc4 next-20240822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hongchi-peng/drm-komeda-Fix-an-issue-related-to-normalized-zpos/20240822-045334
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240821085613.5408-1-hongchi.peng%40siengine.com
-patch subject: [PATCH] drm: komeda: Fix an issue related to normalized zpos
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240822/202408222005.Pr9Vj8sj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408222005.Pr9Vj8sj-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408222005.Pr9Vj8sj-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function 'komeda_crtc_normalize_zpos':
->> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_301' declared with attribute error: max(slave_zpos, kcrtc_st->max_slave_zorder) signedness error
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
-     136 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:207:33: note: in expansion of macro 'max'
-     207 |                                 max(slave_zpos, kcrtc_st->max_slave_zorder);
-         |                                 ^~~
-
-
-vim +/__compiletime_assert_301 +510 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
+ drivers/misc/fastrpc.c | 54 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 36 insertions(+), 18 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
