@@ -2,78 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C049395B238
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 11:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E5A95B285
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 12:02:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A244E10E826;
-	Thu, 22 Aug 2024 09:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86ECE10E078;
+	Thu, 22 Aug 2024 10:02:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="LIYIDL4w";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Fyi0XGbu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2FD010E826
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 09:50:01 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a86984e035aso19592066b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 02:50:01 -0700 (PDT)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6D310E078
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 10:02:11 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-2d3d58d6e08so436968a91.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 03:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724320200; x=1724925000; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2YGsehbOKtBbYeuaH2Ggxsq9jjGQjvJWiz4pI6jUv+8=;
- b=LIYIDL4wcdggYyLTBkDuoWQsfrfA55cjVz5c3o62q/Vxl2SUbTO39dKRKFe7kolGs6
- H4WfVzCTfXUUK2hR4pgz3qRitiXcMLV1KEdSDTg4j6EfsO7APOAelagBkFeAlNuFHm/n
- S1O6orNKUQfDToKCw+9gKu5RUuSVYgAqUfvi4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724320200; x=1724925000;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=google.com; s=20230601; t=1724320931; x=1724925731;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2YGsehbOKtBbYeuaH2Ggxsq9jjGQjvJWiz4pI6jUv+8=;
- b=RfTxwWcSun1d/ry/r8ykzudWgSdkvM6f94+nRIpKEbMZRC/m2/gJaoRRjPDq6lQrZc
- 8rwkjNsGWXJNsm8+l+4fXSn1b3vn0HS+exAeOW7tZ7BsHaqNJlw//8mUxztJxUXANj2h
- JLeNqzrd09ZA/vcwZAdEjFofN1lnrv5FrXP5qgmEtVPPiHBnmi/Db0xlqgYwBLyoBfdr
- BC9tFGsBKhznNklpJE6TFL//r6j6Fdbwjbaq/HQTun8/1HRUQLDhk+CunxM+sDsT86zq
- j+8MbY6WmmuB7mqIJTDiW/GTMnXOaC+oKcQbfNPvG3PEKWOxPuwz9483YiRY657zlzSC
- xxKg==
+ bh=UnbOQjCg+wnSShYnMDRJ5uxlxTbiQhZfM0vBsJUAup8=;
+ b=Fyi0XGbuZUjbhH/6XwAnpW4gjtwgn9pwrjrpc5M0viiEUjQCnNEFPRubhKsyzcc8pN
+ 19qVSrl7TlD/ZdzkxJKYoT7e7FzPx/HL4bXwKo++r0UKwGB+65OZ/CJjm2XtSI4IxGAR
+ jmO94w2JF15Z9FDgXFRabX/MLmpu21ZxCwt52Oa1EPJ3l1nUrmCfrEev919uf79FuPnz
+ yzRMqt5mlfEcHFcVHH2SRI0WP3euC5pHfM3zU3q9Kb0FYDNUm6EJv0jHrW9tfH2bJtYX
+ 37fjHqVCjnaeIrTLPK7wzTac0Mief5zEQ6upd2hVXFUTtbdg5u6puddKEOTc/rbivJJd
+ UNiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724320931; x=1724925731;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UnbOQjCg+wnSShYnMDRJ5uxlxTbiQhZfM0vBsJUAup8=;
+ b=gIs8iKZojKcbOVyZQAL+bJfMijJNDThCguASdoApQW32J33WDX2X+P6x18bGMmw3Yw
+ 9U6ToqVryNtv+6ILpuUsAjoCbe6oX+0E0x1DBdT70WdZd7GZhgyYveQJF30ZBdHpiKxa
+ rHXlSF+5Vr46wow3h5ae8IBZ9WPx/vEpUXSyfH+aWIqzKMddGN5qOFt7d5NLLQKF+a7X
+ 67l97iAghpbpqDGc9dbYzje7YU14Ly5jFHfkGvGkYm6r4wp7okaENGw9DQt5beLD+R3F
+ 0nyWsM9VzqwqwS0GRcrRU38BUnUFpy3zCbNyM8RJ1EOH1Q46KeJ8SW7ahp3IntaXkB+x
+ 4M4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUXdjgH7OXnz9vGrtfLXI/x/5bubFPyQEPyLD+1gXoR/+AD2rURYFkBFzthEg6nGiCGI83Yd3qtptY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzcy4Y4xva9f9UeNNnoBsDXxMc0upIHIW6CGO1IJvEqBl3mwBW/
- c0UIStEyD9M0H8g+CSLhBR4v0KEkCOlqFkcDFmqvh0a57YCajln5Vu58wfc3CFQ=
-X-Google-Smtp-Source: AGHT+IGrYhZDLmGxitTB2zrrZuH6crvfqK5M+J9MwEjeRTNJFeJKt1KHoeIXQ+3uwo68zCWhGt2Elg==
-X-Received: by 2002:a17:907:86a9:b0:a86:8cfe:ec0e with SMTP id
- a640c23a62f3a-a868cfeef2dmr147420066b.36.1724320199666; 
- Thu, 22 Aug 2024 02:49:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a868f47c68bsm93051666b.155.2024.08.22.02.49.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Aug 2024 02:49:59 -0700 (PDT)
-Date: Thu, 22 Aug 2024 11:49:57 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Sima <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 0/2] Allow partial memory mapping for cpu memory
-Message-ID: <ZscJxR12ANaAaZmF@phenom.ffwll.local>
-References: <20240814134837.116498-1-andi.shyti@linux.intel.com>
- <ZrzWJiJ2Yr0DJPG2@DUT025-TGLU.fm.intel.com>
- <ZsNhua9FIrDT92-r@ashyti-mobl2.lan>
- <ZsN4ldv+LdyJJ0nO@DUT025-TGLU.fm.intel.com>
+ AJvYcCWI/cU9RHcofsKu1xrp8YgNIR9etSKA7p93xy8z90r0iibyZYsmAOh5FjE4nr3JYvE9pDnlNdZXD4w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyEuojRjo5QdIaX268BxybCqn/Y4iLLKwg73xwa1fnIeibnfwUJ
+ Yd/hLmzV6jvc30xtRnD+IAhah+fTyTniDaaYTUdAA2LAxaH/Q3toAUVHZVeQU2YHWZQhYBTieoh
+ RNorBgE8qsdXFLDat3r1mB07u4FNRiK7a6qwhqg==
+X-Google-Smtp-Source: AGHT+IHFPSOd6NREw9A278ECg7mZRm4KbY500kEKTD7MayZF2O5OrCXgPgHLK0oSuFdKLdnGItooyTY+XoN1oFKjZrM=
+X-Received: by 2002:a17:90a:9114:b0:2d3:bd5c:4ac8 with SMTP id
+ 98e67ed59e1d1-2d5ea4c61d0mr5881422a91.27.1724320931442; Thu, 22 Aug 2024
+ 03:02:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZsN4ldv+LdyJJ0nO@DUT025-TGLU.fm.intel.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+References: <20240822093442.4262-1-hanchunchao@inspur.com>
+In-Reply-To: <20240822093442.4262-1-hanchunchao@inspur.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Thu, 22 Aug 2024 18:01:59 +0800
+Message-ID: <CAHwB_N+1a9pWTVZmWb6tDTR0S1G5tCj7zJx9xaOL_tBTS5oTtQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: fix null pointer dereference in
+ hx83102_get_modes
+To: Charles Han <hanchunchao@inspur.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ liuyanming@ieisystem.com, Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,101 +83,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 19, 2024 at 04:53:41PM +0000, Matthew Brost wrote:
-> On Mon, Aug 19, 2024 at 05:16:09PM +0200, Andi Shyti wrote:
-> > Hi Matt,
-> > 
-> > On Wed, Aug 14, 2024 at 04:07:02PM +0000, Matthew Brost wrote:
-> > > On Wed, Aug 14, 2024 at 03:48:32PM +0200, Andi Shyti wrote:
-> > > > I am resending this patch series, not to disregard the previous
-> > > > discussions, but to ensure it gets tested with the IGTs that
-> > > > Krzysztof has provided.
-> > > > 
-> > > > This patch series finalizes the memory mapping fixes and
-> > > > improvements by enabling partial memory mapping for CPU memory as
-> > > > well.
-> > > > 
-> > > > The concept of partial memory mapping, achieved by adding an
-> > > > object offset, was implicitly introduced in commit 8bdd9ef7e9b1
-> > > > ("drm/i915/gem: Fix Virtual Memory mapping boundaries
-> > > > calculation") for GTT memory.
-> > > > 
-> > > > To address a previous discussion with Sima and Matt, this feature
-> > > > is used by Mesa and is required across all platforms utilizing
-> > > > Mesa. Although Nirmoy suggested using the Fixes tag to backport
-> > > 
-> > > Other vendors than Intel too?
-> > 
-> > Yes, that's what I understood.
-> > 
-> > I hope Lionel can jump in and explain the use cases from Mesa
-> > perspective.
-> > 
-> 
-> Hearing from Lionel would be helpful.
+Hi,
 
-I'm pretty sure there's no other driver doing this except i915-gem.
+Charles Han <hanchunchao@inspur.com> =E4=BA=8E2024=E5=B9=B48=E6=9C=8822=E6=
+=97=A5=E5=91=A8=E5=9B=9B 17:34=E5=86=99=E9=81=93=EF=BC=9A
+>
+> In hx83102_get_modes(), the return value of drm_mode_duplicate()
+> is assigned to mode, which will lead to a possible NULL
+> pointer dereference on failure of drm_mode_duplicate(). Add a
+> check to avoid npd.
+>
+> Fixes: 0ef94554dc40 ("drm/panel: himax-hx83102: Break out as separate dri=
+ver")
+>
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
+> ---
+>  drivers/gpu/drm/panel/panel-himax-hx83102.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/dr=
+m/panel/panel-himax-hx83102.c
+> index 6e4b7e4644ce..7c2a5e9b7fb3 100644
+> --- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> +++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> @@ -565,6 +565,10 @@ static int hx83102_get_modes(struct drm_panel *panel=
+,
+>         struct drm_display_mode *mode;
+>
+>         mode =3D drm_mode_duplicate(connector->dev, m);
+> +       if (!mode) {
+> +               dev_err(&ctx->dsi->dev, "bad mode or failed to add mode\n=
+");
+> +               return -EINVAL;
+> +       }
 
-> > > > this to previous kernels, I view this as a new feature rather
-> > > > than a fix.
-> > > > 
-> > > > Lionel, please let me know if you have a different perspective
-> > > > and believe this should be treated as a bug fix, requiring it
-> > > > to be backported to stable kernels.
-> > > > 
-> > > > The IGTs have been developed in collaboration with the Mesa team
-> > > > to replicate the exact Mesa use case[*].
-> > > > 
-> > > > Thanks Chris for the support, thanks Krzysztof for taking care of
-> > > > the IGT tests, thanks Nirmoy for your reviews and thanks Sima and
-> > > > Matt for the discussion on this series.
-> > > > 
-> > > > Andi
-> > > > 
-> > > > [*] https://patchwork.freedesktop.org/patch/608232/?series=137303&rev=1
-> > > 
-> > > So here is really quick test [1] which I put together in Xe to test
-> > > partial mmaps, not as complete as the i915 one though.
-> > > 
-> > > It fails on the Xe baseline.
-> > > 
-> > > It pass if with [2] in drm_gem.c:drm_gem_mmap. Blindly changing that
-> > > function might not be the correct solution but thought I'd share as a
-> > > reference.
-> > 
-> > Thanks for sharing it. I took a quick look and I think there are
-> > a few things missing there. If you want and if this is not in
-> > anyone's task list, I can try to "port" this in XE.
-> > 
-> 
-> That would be great as I'm sure you undertstand what needs to be done
-> the best. Thanks for volunteering here.
-> 
-> > Is there any other objection to getting this merged into i915?
-> >
-> 
-> No as long as sima is ok with it, and we prioritize this for Xe as I
-> don't want to remove force probe with an incongruence in behavior from
-> the i915 or have a mesa use case broken.
+ In my V2 series, Doug suggested:
+"nit: no need for an error message when drm_mode_duplicate() fails.
+It is incredibly unlikely that the allocation will fail and the Linux"
 
-I've actually gone back to the ggtt fix, and I don't see the security
-aspect. Like sure if you do a partial unmap you screw up the offset
-calculation and get unexpected aliasing and a mess and the igt you've
-linked will fail. But I don't see how that's a security bug?
+https://lore.kernel.org/all/CAD=3DFV=3DV2O2aFDVn5CjbXfgcOLkmNp-G3ChVqQKouB2=
+mDB+NZug@mail.gmail.com/
 
-And if it is, then it's a drm wide issue, because they all work like that.
-And so probably we need a drm wide fix first.
-
-So yeah I'm still stuck on the fundamentals here of why this is even done.
-
-And for the uapi extension of allowing partial mmaps, we need the full
-uapi dance. Which means some driver flag so userspace can figure out this
-is supported, and a link to the mesa MR that uses this all.
-
-Without a link to a mesa MR this won't go anywhere, because that's the
-rules for new uapi.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+>         mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+>         drm_mode_set_name(mode);
+> --
+> 2.31.1
+>
