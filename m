@@ -2,71 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D60B95B620
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 15:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AB695B636
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 15:14:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D72A10EA27;
-	Thu, 22 Aug 2024 13:12:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9B110EA7D;
+	Thu, 22 Aug 2024 13:14:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jgV3uVRJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fOh6K4vC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB3F10EA27
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 13:12:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wObj0euxx2b3n2yWXhu+gvJpX19pu26o3+soT2tlK6g=; b=jgV3uVRJFLvxpxUGD/y0zq9lb6
- 7bqCUeM1j/B/b0EcukTCpnRbltCzIu18AvW9tv8ukZjLDmHD2FIQoyCa7+I2CtZd5jmkE/wnNZ+T+
- kcms8B/RNSzcg4x3s7NegGqd7BFVUVgjINR651YzOd6XH5ruMzN/fjT1QIyGH1ucTCdWeNgf3/Uhg
- bqXjtCckYtYlkfeDM5Y0kQdn8GakcyE/h81QG5nY7oZXjYT8vYuLF/yItd8l5YmFt0BmSD+2L9gc5
- CMKQZsbpIqf+S9boavV7R0om8CUHknr2PspFQE2D/ysjphhElRkj4+ilk39w45t9MVQ1tIVFKPBoH
- KZgImsEw==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sh7cH-003Z5P-N9; Thu, 22 Aug 2024 15:12:41 +0200
-Message-ID: <85fbee77-4457-449a-b85a-342a67f9f5e4@igalia.com>
-Date: Thu, 22 Aug 2024 10:12:31 -0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16E0910EA5B
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 13:14:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724332494;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VjpStOY2tZRsWe7659pvw1wDWH9gZfVqjlnowrqh2XU=;
+ b=fOh6K4vCFMXLVzpKFwoFUyITRUfmz1tVbPvCVttofTcg8QcVrlMh/dmmlilMXjy7n5Qn/A
+ LMjQcO9TheeZkOMu0n7glwcJCtIthHh/PwyXZtc6R3BxGAv07ecx9dmwPI01lPTo0qB2KG
+ PvOHdmYZYestMSCte1y/rxhpl/2aH1M=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-678-psCgb-ZvPrqVCtJYk7DpjA-1; Thu, 22 Aug 2024 09:14:52 -0400
+X-MC-Unique: psCgb-ZvPrqVCtJYk7DpjA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-42816096cb8so8162555e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 06:14:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724332490; x=1724937290;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VjpStOY2tZRsWe7659pvw1wDWH9gZfVqjlnowrqh2XU=;
+ b=USVbXwlO2UX6DJ1BEbG5PD+8bqAxvruYvGztFHGFxlkKS3fzsIzq2X8VKXiQKK7E89
+ KITHRj7aZ/lqUevp/nssEAHEAB8MD9Eb34UVriArkRJxTQBeHxQxoWlqBB0XCHTENMng
+ OafB6FXf/3gxcIi61F4gqCrHPFJZdCou1DusBKrGVzJXQTT/2iXCF/zRP+OzR+FSeVPW
+ P2HMEdFsdcP+YiQkexuqa9Bm+fsz/isNpEcvHKdYziXHpd4VGcj9DfhIDwaTr5knxfI6
+ l5TUjGk0YgDQenFQXcsU+FnETJghVK3pLNTAj/sphRKKgwjJsR3ZAGCVIffeGnKsSFDa
+ SkbQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUts5OQa/PlsxssOeLfiuqk7Gyapt7FvuAyxx4N1UF5HvjYIBDKDJf/z23Y4hn1tf62iZHsTQn3FTk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzP2JI5K8iDLVdhJNM8oES7Sumwylvyp4K+xvvRKCZFg0Ved+tc
+ Fv/PDJPTlC3h6XqatloKrkhymCT4Qmyqe6xPcWer43DYsNzr9kSVolLHl/0IuevbrVV2sD3mRfk
+ zMA2po2TBKcMHnoMNTKW+B3kdo7xEnJHBanNEQgqhGidimbOzm16c2Qqy7NLNfoVdTw==
+X-Received: by 2002:a05:600c:1f1b:b0:426:5c81:2538 with SMTP id
+ 5b1f17b1804b1-42ac55cbf78mr16184785e9.14.1724332490421; 
+ Thu, 22 Aug 2024 06:14:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhA7gC2VdvVqzYSk0wAWJHB/+5+dYhcALlheQ+TK94kTmFHmle2ajWyTmgc1AUzZnwZ09QnA==
+X-Received: by 2002:a05:600c:1f1b:b0:426:5c81:2538 with SMTP id
+ 5b1f17b1804b1-42ac55cbf78mr16184405e9.14.1724332489857; 
+ Thu, 22 Aug 2024 06:14:49 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42ac515914bsm24052965e9.12.2024.08.22.06.14.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Aug 2024 06:14:49 -0700 (PDT)
+Message-ID: <0e17c77a-75bd-4ee7-a0d0-8c164b300ea4@redhat.com>
+Date: Thu, 22 Aug 2024 15:14:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 5/9] drm/vc4: v3d: simplify clock retrieval
-To: Stefan Wahren <wahrenst@gmx.net>, Russell King <linux@armlinux.org.uk>,
- Doug Anderson <dianders@chromium.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Minas Harutyunyan <hminas@synopsys.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+Subject: Re: [PATCH v7 3/4] drm/panic: Simplify logo handling
+To: Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
- Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel-list@raspberrypi.com
-References: <20240821214052.6800-1-wahrenst@gmx.net>
- <20240821214052.6800-6-wahrenst@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240821214052.6800-6-wahrenst@gmx.net>
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>
+References: <20240822073852.562286-1-jfalempe@redhat.com>
+ <20240822073852.562286-4-jfalempe@redhat.com>
+ <166850ea-ef40-4868-be26-681ea7a0bca4@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <166850ea-ef40-4868-be26-681ea7a0bca4@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,54 +107,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+On 22/08/2024 15:00, Thomas Zimmermann wrote:
+> 
+> 
+> Am 22.08.24 um 09:33 schrieb Jocelyn Falempe:
+>> Move logo rectangle initialisation, and logo drawing in separate
+>> functions, so they can be re-used by different panic screens.
+>> It prepares the introduction of the QR code panic screen.
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> with the comments considered.
 
-On 8/21/24 18:40, Stefan Wahren wrote:
-> Common pattern of handling deferred probe can be simplified with
-> dev_err_probe() and devm_clk_get_optional(). This results in much
-> less code.
-> 
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Sure, I will change the const int to const size_t before pushing.
 
-Applied to drm/misc/kernel/drm-misc-next!
+Thanks
 
-Best Regards,
-- Maíra
+-- 
 
-> ---
->   drivers/gpu/drm/vc4/vc4_v3d.c | 18 +++---------------
->   1 file changed, 3 insertions(+), 15 deletions(-)
+Jocelyn
 > 
-> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-> index 6e566584afbf..bf5c4e36c94e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
-> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-> @@ -441,21 +441,9 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
->   	vc4->v3d = v3d;
->   	v3d->vc4 = vc4;
+>> ---
+>>
+>> v6:
+>>   * rebase, and handle conflict with 5d45c01dea6f ("drm/panic: Add 
+>> panic description")
+>>
+>>   drivers/gpu/drm/drm_panic.c | 58 +++++++++++++++++++++----------------
+>>   1 file changed, 33 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+>> index 59fba23e5fd7a..473db5fafb617 100644
+>> --- a/drivers/gpu/drm/drm_panic.c
+>> +++ b/drivers/gpu/drm/drm_panic.c
+>> @@ -85,7 +85,7 @@ static struct drm_panic_line panic_msg[] = {
+>>       PANIC_LINE(""), /* will be replaced by the panic description */
+>>   };
+>> -#define PANIC_MSG_LINES ARRAY_SIZE(panic_msg)
+>> +static const int panic_msg_lines = ARRAY_SIZE(panic_msg);
 > 
-> -	v3d->clk = devm_clk_get(dev, NULL);
-> -	if (IS_ERR(v3d->clk)) {
-> -		int ret = PTR_ERR(v3d->clk);
-> -
-> -		if (ret == -ENOENT) {
-> -			/* bcm2835 didn't have a clock reference in the DT. */
-> -			ret = 0;
-> -			v3d->clk = NULL;
-> -		} else {
-> -			if (ret != -EPROBE_DEFER)
-> -				dev_err(dev, "Failed to get V3D clock: %d\n",
-> -					ret);
-> -			return ret;
-> -		}
-> -	}
-> +	v3d->clk = devm_clk_get_optional(dev, NULL);
-> +	if (IS_ERR(v3d->clk))
-> +		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
+> This type should be size_t instead of int
 > 
->   	ret = platform_get_irq(pdev, 0);
->   	if (ret < 0)
-> --
-> 2.34.1
+>>   static const struct drm_panic_line logo_ascii[] = {
+>>       PANIC_LINE("     .--.        _"),
+>> @@ -97,7 +97,7 @@ static const struct drm_panic_line logo_ascii[] = {
+>>       PANIC_LINE(" \\___)=(___/"),
+>>   };
+>> -#define PANIC_LOGO_LINES ARRAY_SIZE(logo_ascii)
+>> +static const int logo_ascii_lines = ARRAY_SIZE(logo_ascii);
 > 
+> size_t
+> 
+>>   #if defined(CONFIG_LOGO) && !defined(MODULE)
+>>   static const struct linux_logo *logo_mono;
+>> @@ -496,31 +496,44 @@ static void draw_txt_rectangle(struct 
+>> drm_scanout_buffer *sb,
+>>       }
+>>   }
+>> +static void drm_panic_logo_rect(struct drm_rect *rect, const struct 
+>> font_desc *font)
+>> +{
+>> +    if (logo_mono)
+>> +        drm_rect_init(rect, 0, 0, logo_mono->width, logo_mono->height);
+>> +    else {
+>> +        int logo_width = get_max_line_len(logo_ascii, 
+>> logo_ascii_lines) * font->width;
+>> +
+>> +        drm_rect_init(rect, 0, 0, logo_width, logo_ascii_lines * 
+>> font->height);
+>> +    }
+>> +}
+>> +
+>> +static void drm_panic_logo_draw(struct drm_scanout_buffer *sb, struct 
+>> drm_rect *rect,
+>> +                const struct font_desc *font, u32 fg_color)
+>> +{
+>> +    if (logo_mono)
+>> +        drm_panic_blit(sb, rect, logo_mono->data,
+>> +                   DIV_ROUND_UP(drm_rect_width(rect), 8), 1, fg_color);
+>> +    else
+>> +        draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, 
+>> false, rect,
+>> +                   fg_color);
+>> +}
+>> +
+>>   static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+>>   {
+>>       u32 fg_color = 
+>> convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, 
+>> sb->format->format);
+>>       u32 bg_color = 
+>> convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, 
+>> sb->format->format);
+>>       const struct font_desc *font = get_default_font(sb->width, 
+>> sb->height, NULL, NULL);
+>>       struct drm_rect r_screen, r_logo, r_msg;
+>> -    unsigned int logo_width, logo_height;
+>>       unsigned int msg_width, msg_height;
+>>       if (!font)
+>>           return;
+>>       r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
+>> +    drm_panic_logo_rect(&r_logo, font);
+>> -    if (logo_mono) {
+>> -        logo_width = logo_mono->width;
+>> -        logo_height = logo_mono->height;
+>> -    } else {
+>> -        logo_width = get_max_line_len(logo_ascii, PANIC_LOGO_LINES) * 
+>> font->width;
+>> -        logo_height = PANIC_LOGO_LINES * font->height;
+>> -    }
+>> -    r_logo = DRM_RECT_INIT(0, 0, logo_width, logo_height);
+>> -
+>> -    msg_width = min(get_max_line_len(panic_msg, PANIC_MSG_LINES) * 
+>> font->width, sb->width);
+>> -    msg_height = min(PANIC_MSG_LINES * font->height, sb->height);
+>> +    msg_width = min(get_max_line_len(panic_msg, panic_msg_lines) * 
+>> font->width, sb->width);
+>> +    msg_height = min(panic_msg_lines * font->height, sb->height);
+>>       r_msg = DRM_RECT_INIT(0, 0, msg_width, msg_height);
+>>       /* Center the panic message */
+>> @@ -529,15 +542,10 @@ static void draw_panic_static_user(struct 
+>> drm_scanout_buffer *sb)
+>>       /* Fill with the background color, and draw text on top */
+>>       drm_panic_fill(sb, &r_screen, bg_color);
+>> -    if (!drm_rect_overlap(&r_logo, &r_msg)) {
+>> -        if (logo_mono)
+>> -            drm_panic_blit(sb, &r_logo, logo_mono->data, 
+>> DIV_ROUND_UP(logo_width, 8),
+>> -                       fg_color);
+>> -        else
+>> -            draw_txt_rectangle(sb, font, logo_ascii, 
+>> PANIC_LOGO_LINES, false, &r_logo,
+>> -                       fg_color);
+>> -    }
+>> -    draw_txt_rectangle(sb, font, panic_msg, PANIC_MSG_LINES, true, 
+>> &r_msg, fg_color);
+>> +    if (!drm_rect_overlap(&r_logo, &r_msg))
+>> +        drm_panic_logo_draw(sb, &r_logo, font, fg_color);
+>> +
+>> +    draw_txt_rectangle(sb, font, panic_msg, panic_msg_lines, true, 
+>> &r_msg, fg_color);
+>>   }
+>>   /*
+>> @@ -647,7 +655,7 @@ static void drm_panic_set_description(const char 
+>> *description)
+>>       u32 len;
+>>       if (description) {
+>> -        struct drm_panic_line *desc_line = &panic_msg[PANIC_MSG_LINES 
+>> - 1];
+>> +        struct drm_panic_line *desc_line = &panic_msg[panic_msg_lines 
+>> - 1];
+>>           desc_line->txt = description;
+>>           len = strlen(description);
+>> @@ -660,7 +668,7 @@ static void drm_panic_set_description(const char 
+>> *description)
+>>   static void drm_panic_clear_description(void)
+>>   {
+>> -    struct drm_panic_line *desc_line = &panic_msg[PANIC_MSG_LINES - 1];
+>> +    struct drm_panic_line *desc_line = &panic_msg[panic_msg_lines - 1];
+>>       desc_line->len = 0;
+>>       desc_line->txt = NULL;
+> 
+
