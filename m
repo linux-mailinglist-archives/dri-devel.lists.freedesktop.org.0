@@ -2,90 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B8895B8D3
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6AA95B90F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0EA510EAFE;
-	Thu, 22 Aug 2024 14:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 365FF10EB09;
+	Thu, 22 Aug 2024 14:51:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SZ6h4Z/o";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hu9GghIZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF6010EAFE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:46:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F9610EB09
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:51:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724337969;
+ s=mimecast20190719; t=1724338273;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1PgDdjBoF4JblXtgGjeuWjO8887IujC2mbPadvbkarU=;
- b=SZ6h4Z/owJ3C6RrRRaztH0fLkfZ0bfnuGni1P+LDKlSLKTjtG0+cvSt5uhnLcq7tBCKAcb
- sXPjx5tot6Smg+DtadQvIi3of+MKyT+13vceSWhIzAVKQ/VuiJ4S/brXMLUIgBz+5Gu5EQ
- EvUwwX7XOS7KOGpnDyNTJTGdrUBMHsQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qI7sIttUlfd6rK+jxE04yL0R9ETbDTbrKGTUq6cowac=;
+ b=hu9GghIZ/eWdV16G+NKlZa7CafflrNjZJ6cdu3VLmQIeO+YC+gM/rhvhE1TdFoyA8aC4ss
+ scm4t7AjjLjoYJKyrdtBOEhl+NBRda95r4kll1S81Ci3W9xocYylh5Nga6Q+CJHsX9OgCl
+ GexDDaQiNaXZo2Ybrdm3DMDuR6/C/sA=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-607-P2MKBww9NYCSK4zxOC1TTQ-1; Thu, 22 Aug 2024 10:46:08 -0400
-X-MC-Unique: P2MKBww9NYCSK4zxOC1TTQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-428e48612acso9425795e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 07:46:08 -0700 (PDT)
+ us-mta-163-446E0Eb7O9y_6qnFD9Wv_w-1; Thu, 22 Aug 2024 10:51:09 -0400
+X-MC-Unique: 446E0Eb7O9y_6qnFD9Wv_w-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-2d3baf38457so1850180a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 07:51:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724337967; x=1724942767;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1PgDdjBoF4JblXtgGjeuWjO8887IujC2mbPadvbkarU=;
- b=LFs1zIT1d3AZP3v8FLayeiSYk4WbfpKLt2Sav/MMPhZY4O6qOc6Ik5Ugmw+d0iWA2P
- 2bmkOM01xyNn51/Agk11Ky9z/VgfAv2yca3BmjVaOaGs1a6MceuQhRsmrxkvTff7hs8y
- rdLOPhcYTK3khR3sVe/RRJF4iaqHxgtwWnljQZ2oV99smlrkpBluxL58HoYFy2Z6mN7H
- 1aKTLMkeHWfC41jt1ZLfiHi+63pd/+0PSxyAYiejoeLfAtWWRP4Fc65AmGM6WmkGP/cj
- s2/t9EOgOpvdZXCo1dpiEy43kEvCMqPNanVFOo3XDb+jdCHfcrrlT22vwjPcfuxwrNCL
- TtTw==
+ d=1e100.net; s=20230601; t=1724338268; x=1724943068;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qI7sIttUlfd6rK+jxE04yL0R9ETbDTbrKGTUq6cowac=;
+ b=LGrAYMttzO2JGUs039Wsj7NMyJvVGSRnDXeWg2R9A89e5Wrbg/jechGXkE0W72CUG1
+ U1OYguyaNXkG6x1caRPNUTGwkhMgMtlLqthPNIR0XI2g7/ov9UqBo8I77yT9TsHL1E1P
+ kvWOrPpIQktAZzHZUNaHaS3/C3zVjVQjgv1hKk1FlP4AzWrJbJeKZf28ogDV84u2VBON
+ 1KnIYuaLngBXNbrVc6RtBhGNzWGf2llIeoSc0QbInAJxbUSdQNd86haXSLmdcJTH+xeA
+ Q6pDWSgN7I+tkTlGoSWNQR9lw4rMNhHPCUsLipUnt8ktqP5BzfLDnhw4It+7/TyOB0JI
+ IsIw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXuKrvtIpnOG3g6M8hw0yaWign32FXZ+JGWvbccYegnIO4h1ie/tnpf67lNuO3HH7POETR6ZlTcAI0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlI32WNPrHtgfcSht/nLyDtBhsE0y/OwQfjZS4NZsxzBUULbfb
- iVLzlkTqHvZbYHZ0+insqe9ZQCOsyEtIj7yr9bX1FsV3qpGEahY38NfTuPcZIUepx/XeP242tR6
- Vu79gG0ssLQgC0tyq5m1OlvfNJimQHRRQcn8THInbDfoN6jgQeiZu2bPCDZeA8epoIQ==
-X-Received: by 2002:a05:600c:3c97:b0:428:29e:8c42 with SMTP id
- 5b1f17b1804b1-42ac55cababmr22017805e9.9.1724337967183; 
- Thu, 22 Aug 2024 07:46:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFuLJzrR9+0Fk/xHqiEDPcjVZlaqCd+ihtEn7Tv4wCKVbCZaYnuqG4WIXNLVH5okrCjSI5r3g==
-X-Received: by 2002:a05:600c:3c97:b0:428:29e:8c42 with SMTP id
- 5b1f17b1804b1-42ac55cababmr22017335e9.9.1724337966687; 
- Thu, 22 Aug 2024 07:46:06 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42ac514e088sm27643235e9.8.2024.08.22.07.46.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Aug 2024 07:46:06 -0700 (PDT)
-Message-ID: <85f934ea-9c5a-4adb-8c6d-6c82beab41b1@redhat.com>
-Date: Thu, 22 Aug 2024 16:46:04 +0200
+ AJvYcCXxmaSxca0lpAcjiNAxh0tBXbtLGlnihdcmc9np+Py8sGQbVMrdqctkqheJwGQpjD4zdOX9nxZlim0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YztcCB1McJdwxEHQMGPsIN+3WI3zOskHgthqOWQrr+42qlZEYjz
+ zZNVVrd2388pem75bI/fREIYvqaOBLDCpjKdR9buQuvL1+NEvWBmduoSjenisbs+tYo5seXz7WB
+ ZHEn2SMKafNDGK1RsYSdj3SZxJTjm3iH6gc2EOlCrzJID5WOldCrZoEEUlveh+bJtTw==
+X-Received: by 2002:a17:90a:fe01:b0:2c9:63d3:1f20 with SMTP id
+ 98e67ed59e1d1-2d60aa21cdbmr5119809a91.18.1724338267815; 
+ Thu, 22 Aug 2024 07:51:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkSqoPaYwU/pzTrCfkc680+HlIjlYxmDe4h014NbVi6qWLqici8+WArvm4OgjHVpg5BubFyQ==
+X-Received: by 2002:a17:90a:fe01:b0:2c9:63d3:1f20 with SMTP id
+ 98e67ed59e1d1-2d60aa21cdbmr5119777a91.18.1724338267398; 
+ Thu, 22 Aug 2024 07:51:07 -0700 (PDT)
+Received: from localhost ([181.120.144.238]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2d613af1496sm1921071a91.40.2024.08.22.07.51.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Aug 2024 07:51:07 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Alex Deucher
+ <alexander.deucher@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, Sam
+ Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH V3] video/aperture: optionally match the device in
+ sysfb_disable()
+In-Reply-To: <20240821191135.829765-1-alexander.deucher@amd.com>
+References: <20240821191135.829765-1-alexander.deucher@amd.com>
+Date: Thu, 22 Aug 2024 16:51:04 +0200
+Message-ID: <874j7ca9wn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/virtio: Use XRGB8888 also for big endian
- systems
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>
-References: <20240820090908.151042-1-jfalempe@redhat.com>
- <2734s7h2c4tbtwzdlijbf7u3fvdcqtlcdipamsf4pf6jgx2slt@aq5bm3fuqgkz>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <2734s7h2c4tbtwzdlijbf7u3fvdcqtlcdipamsf4pf6jgx2slt@aq5bm3fuqgkz>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,46 +93,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/08/2024 13:12, Gerd Hoffmann wrote:
-> On Tue, Aug 20, 2024 at 11:07:40AM GMT, Jocelyn Falempe wrote:
->> Mesa doesn't support BGRX8888, that means most wayland compositors
->> don't work on big endian guests.
-> 
-> So you are doing a hard switch from native endian to little endian.
-> 
-> While this should be fine for modern userspace API (aka ADDFB2 ioctl) it
-> is not for older APIs (ADDFB ioctl, also fbdev emulation) where only
-> depth=32 is specified and userspace typically expects a framebuffer in
-> native byte order.
-> 
-> Ideally virtio-gpu would support both big endian and little endian
-> framebuffer formats (simliar to bochs drm driver).  That probably is a
-> somewhat more invasive change because the DRM_IOCTL_MODE_CREATE_DUMB
-> doesn't tell use the format which will be used.  Possible options I see:
-> 
->    (1) Be lazy on creating host resources, i.e. call
->        virtio_gpu_cmd_create_resource() not at DRM_IOCTL_MODE_CREATE_DUMB
->        time but later when the resource will be actually be used (and
->        specifically after DRM_IOCTL_MODE_ADDFB(2) ioctl so we know the
->        format).  Needs additional state tracking (whenever the resource
->        has been created or not) in possibly lots of places.
-> 
->    (2) Support changing the resource format, i.e. in case
->        DRM_IOCTL_MODE_ADDFB(2) is called with a format different from the
->        current one go through a destroy-and-recreate cycle for the host
->        resource.  Might have tricky corner cases (resource being in use
->        when DRM_IOCTL_MODE_ADDFB(2) is called).
+Alex Deucher <alexander.deucher@amd.com> writes:
 
-I've implemented (1), I will send a new series soon.
+Hello Alex,
 
-Thanks for your advice.
+> In aperture_remove_conflicting_pci_devices(), we currently only
+> call sysfb_disable() on vga class devices.  This leads to the
+> following problem when the pimary device is not VGA compatible:
+>
+> 1. A PCI device with a non-VGA class is the boot display
+> 2. That device is probed first and it is not a VGA device so
+>    sysfb_disable() is not called, but the device resources
+>    are freed by aperture_detach_platform_device()
+> 3. Non-primary GPU has a VGA class and it ends up calling sysfb_disable()
+> 4. NULL pointer dereference via sysfb_disable() since the resources
+>    have already been freed by aperture_detach_platform_device() when
+>    it was called by the other device.
+>
+> Fix this by passing a device pointer to sysfb_disable() and checking
+> the device to determine if we should execute it or not.
+>
+> v2: Fix build when CONFIG_SCREEN_INFO is not set
+> v3: Move device check into the mutex
+>     Drop primary variable in aperture_remove_conflicting_pci_devices()
+>     Drop __init on pci sysfb_pci_dev_is_enabled()
+>
+> Fixes: 5ae3716cfdcd ("video/aperture: Only remove sysfb on the default vga pci device")
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> Cc: stable@vger.kernel.org
+> ---
+
+This version looks good to me. Thanks!
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
+Best regards,
 
-Jocelyn
-
-> 
-> HTH & take care,
->    Gerd
-> 
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
