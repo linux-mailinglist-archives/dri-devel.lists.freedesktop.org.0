@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC2695BDDC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 20:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B450695BDDE
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 20:02:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA76110EBBE;
-	Thu, 22 Aug 2024 18:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD5D10EBBF;
+	Thu, 22 Aug 2024 18:02:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mjuc4X+d";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hg1zm7jv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
- [209.85.215.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E68110EBBE;
- Thu, 22 Aug 2024 18:01:20 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id
- 41be03b00d2f7-7c2595f5c35so112467a12.1; 
- Thu, 22 Aug 2024 11:01:20 -0700 (PDT)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB78310EBBF;
+ Thu, 22 Aug 2024 18:02:35 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-78f86e56b4cso99719a12.3; 
+ Thu, 22 Aug 2024 11:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724349679; x=1724954479; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1724349755; x=1724954555; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9IGkb+yvoWKgY6f1pKvffTMPxwTT5DeP9+ZQzFPPBbU=;
- b=mjuc4X+du+nTmHw5TvpPeLH3e7+yHem0z/P5hFL3D2a/im/JB+kHb7uGKy8EV8PDOa
- ZMq3JITJivdXD4cbqzaUfOOmbbqesjDe+57YLrQLDk2ZP+y6Pcdn6XVAnksvQel09IMc
- aGfJQGg/554fxclfnQMGUi+iV1C62TaACV1SKoUY1lGCrMJRaZllt5TFPdwEhxoBp7hm
- xYKyPLveNGMZi4CkbqmB1H5czsMj9yNlX6perH+m8zxX6yIBSHxNlMZUdnvWyygGEMql
- +LtSyllgq3z2QSjn9u82MxgMnb4b914gf1q8QViYQ7I/fovWaQYFFaq895X2NvMCnS14
- 4s7A==
+ bh=vIdZwGKc3DhnmIOea7vq7EzG3jsdVTSM3r+4Llh1m8c=;
+ b=Hg1zm7jvUDCOZtNUXOKTuNAWKYDfZ1j5+lrTptYTbgB1oeLIj+cnO2hSyoj5+qE+xg
+ U3BfOOFNLjTtDqvgzC/Z5VIj1DQ3sq5Zr//M9V3GaoqFcVB7ozbtPNR8YbuyFUUBvh20
+ 5zQ+2bp9lp5hDEEJP1Q9S4Eeac+Y2y1eNII8DNLkIx+FzIOwLjFxKqJfslwfy65d7A7r
+ o1D/XCSG6wFBDH20h4iA0iez1DY7ZN5hC7kEWug68CTYgV85QqK4sANd9PqsR1e6fxlc
+ 6Q8I942AFVAPhpQVCj4wLiF5jZNmYiyoI8yF50S6Ft93SYt6HoPc56hM+B6aZJIeZRJu
+ GIuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724349679; x=1724954479;
+ d=1e100.net; s=20230601; t=1724349755; x=1724954555;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9IGkb+yvoWKgY6f1pKvffTMPxwTT5DeP9+ZQzFPPBbU=;
- b=FUTaZaR1m2FQOMeQDP2ONH0t7SY+p/LdrIDiKhKYzK9rfv6miNS+hmvkScgrmKA1Ky
- lP/9t+lmWPouMpZ1DddnIHX3yapO5Faxu5Jh2BAIn6a1ZMzJ8JtDhJ4AAoJS9jQCxaCl
- GHGNI0a2C82qgPT3zJ4fVWPezqdws1BwtEnq9seqUo4OnB/kRVmx/SwGFqXh4WSCQx0v
- wzdQVFzNEmTd0EUF7RdPvLkjMAVYTT0msFfT407HL4eOHupz4ywG6o8xG+9OsJ75QY8X
- rfKwC62sFvPjGQqOVm0e1mVU0Rxc8seq9hfFzB9PzsS+r8yNSjCPsl6XB+AzT87WqfCT
- mtEw==
+ bh=vIdZwGKc3DhnmIOea7vq7EzG3jsdVTSM3r+4Llh1m8c=;
+ b=bhtxi2Z7Rsx1BKkZtgOoq/JsGAeKczKpQLB8cqqF6Yd550OtCrvjUINI4M8vTAKhFR
+ KMtSMWBHH3tcDbDRl9rWGzRIQ5npmxvUPIZyLl6qAMWJXSpIZ7JHhTmtTQ9/bmaff+HR
+ HRjNtNQqG2Rf1X4X6l3DBiiyLxygBw2hkBR9VGxFucINwe7MrdSXzXOHXdIIdSyGbx4R
+ +sIVBuTFYkeau9x8H7DTPsDSWcBFuzy7shfUEYoJtYzjDJD6ZZ1R26fveGKRulke0eKs
+ 5AmVSJMZYUDpKBVqFZERi37jTtUrbjeY/rIwpCXNIVMpHdlD+pKD+g2plOWMS5sk3q3f
+ y/AQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJyNEkEv/rpQHlToXIGeldSGmdxGfgPHPN6AEACbO4seIJN0yVRsUbXI7mNwfqk91/eAmxUSIWpwz0@lists.freedesktop.org,
- AJvYcCWECQXJNVi9zfSMq5uBcUt/TJHaGvW7d9Gg2qVbc78RgN/jrdyBzZGy4BnQ5wCQZnhacwbSnNzf@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywiap0dsM+IRo2q80sCGHrakwtAQao4QIqtpVZ0PMdaAH5nvABd
- JJBrvD9xm2SzR413jVk6ESKQed3yv2sVkW37SE676D9Qxq+JYYBZHwqFxraCRNZABU9tQantyXB
- u9p9U/M0DWBKSfAIiX+1JhWXjTC0=
-X-Google-Smtp-Source: AGHT+IEovfL7TTOHMHNjGi8FsQAT5DlUHXGCRkJP5OX/etAXNtr9pPnu3WMIst/rhzDkrMbsVVDrJ036rcwViaA+mt8=
-X-Received: by 2002:a05:6a00:2342:b0:70d:148e:4bad with SMTP id
- d2e1a72fcca58-714234680ebmr4544467b3a.2.1724349679359; Thu, 22 Aug 2024
- 11:01:19 -0700 (PDT)
+ AJvYcCWaUEFTfWr1Z1RkM3SPrvzP/CN5Fb0Q95wVH2NiK7p2Lxz71hjSW0ehatg2WTSt8iYF2FnUWZqy@lists.freedesktop.org,
+ AJvYcCXNZQn9FWRsJGhI8MTtC24SeYW/vpllyrkOKStR2lRTbl7kQb9gCtmiEjzcPKzIpncCDHriIEd7TFrF@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxd+X6GaJgJYQpfoQbRkqioqZJfdFBJFNjwMEBgEophJGXUJ9XH
+ 0VUQ3na0O+wsEqjc8xoAa8v27n6WkO0v14ONrGQ+/4f9bXCAJRnj9ERA1C0MpVXUWuSndc5H68p
+ sQWH6aXcXlRKpg/h5DK+BG1fipks=
+X-Google-Smtp-Source: AGHT+IGH8BiORy07so3jtmFCtA+lbgj7e2tJludQJn6knBzrwm1xGtFWt4cjBsQ2Q4UHBBCaeVtia+r9dkZgl4i8HAo=
+X-Received: by 2002:a17:902:c409:b0:1fc:6d15:478e with SMTP id
+ d9443c01a7336-20367af2ea4mr42545405ad.1.1724349755001; Thu, 22 Aug 2024
+ 11:02:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240822015819.3356282-1-ruanjinjie@huawei.com>
-In-Reply-To: <20240822015819.3356282-1-ruanjinjie@huawei.com>
+References: <20240812065656.GI13701@ZenIV>
+ <20240812065906.241398-1-viro@zeniv.linux.org.uk>
+ <20240812065906.241398-2-viro@zeniv.linux.org.uk>
+ <09a1d083-0960-4de7-ab66-527099076ee4@amd.com>
+ <20240822002921.GN504335@ZenIV>
+In-Reply-To: <20240822002921.GN504335@ZenIV>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 22 Aug 2024 14:01:07 -0400
-Message-ID: <CADnq5_Pm9GHaFWLUniQ608CNMPMSBpNdh2JW9-AcKyEM18KE9Q@mail.gmail.com>
-Subject: Re: [PATCH -next v2 RESEND] drm/amd/display: Remove unused
- dcn35_fpga_funcs
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, daniel@ffwll.ch, nicholas.kazlauskas@amd.com, 
- Charlene.Liu@amd.com, chiahsuan.chung@amd.com, hamza.mahfooz@amd.com, 
- sungjoon.kim@amd.com, syed.hassan@amd.com, roman.li@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+Date: Thu, 22 Aug 2024 14:02:23 -0400
+Message-ID: <CADnq5_PfNy3-zK6XDa31LUAcMH5m-CkV1TtL_jtOqmdaQjcLMQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] amdgpu: fix a race in kfd_mem_export_dmabuf()
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Felix Kuehling <felix.kuehling@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,46 +84,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 22, 2024 at 5:20=E2=80=AFAM Jinjie Ruan <ruanjinjie@huawei.com>=
- wrote:
+On Wed, Aug 21, 2024 at 8:29=E2=80=AFPM Al Viro <viro@zeniv.linux.org.uk> w=
+rote:
 >
-> dcn35_fpga_funcs is not used anywhere, remove it.
+> On Wed, Aug 14, 2024 at 06:15:46PM -0400, Felix Kuehling wrote:
+> >
+> > On 2024-08-12 02:59, Al Viro wrote:
+> > > Using drm_gem_prime_handle_to_fd() to set dmabuf up and insert it int=
+o
+> > > descriptor table, only to have it looked up by file descriptor and
+> > > remove it from descriptor table is not just too convoluted - it's
+> > > racy; another thread might have modified the descriptor table while
+> > > we'd been going through that song and dance.
+> > >
+> > > Switch kfd_mem_export_dmabuf() to using drm_gem_prime_handle_to_dmabu=
+f()
+> > > and leave the descriptor table alone...
+> > >
+> > > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+> >
+> > This patch is
+> >
+> > Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+>
+> Umm...  So which tree should that series go through?
+>
+> I can put it through vfs.git, or send a pull request to drm folks, or...
+>
+> Preferences?
 
-This will lead to warnings about unused functions.  The fpga specific
-functions should be removed as well.  I'd suggest compile testing your
-changes first to catch these types of warnings.
+I'm happy to take these via the amdgpu tree once the other patches get revi=
+ewed.
 
 Alex
-
-
->
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
-> v2:
-> - Remove it instead of making it static.
-> ---
->  .../gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c=
- b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-> index e2d906327e2e..15977c2d256d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-> @@ -1068,13 +1068,6 @@ static struct clk_mgr_funcs dcn35_funcs =3D {
->         .is_ips_supported =3D dcn35_is_ips_supported,
->  };
->
-> -struct clk_mgr_funcs dcn35_fpga_funcs =3D {
-> -       .get_dp_ref_clk_frequency =3D dce12_get_dp_ref_freq_khz,
-> -       .update_clocks =3D dcn35_update_clocks_fpga,
-> -       .init_clocks =3D dcn35_init_clocks_fpga,
-> -       .get_dtb_ref_clk_frequency =3D dcn31_get_dtb_ref_freq_khz,
-> -};
-> -
->  void dcn35_clk_mgr_construct(
->                 struct dc_context *ctx,
->                 struct clk_mgr_dcn35 *clk_mgr,
-> --
-> 2.34.1
->
