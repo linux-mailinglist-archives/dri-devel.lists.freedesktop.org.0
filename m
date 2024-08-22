@@ -2,74 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A207295BE44
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 20:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F9A95BE9C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 21:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F386310EBCC;
-	Thu, 22 Aug 2024 18:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A4610E0FB;
+	Thu, 22 Aug 2024 19:00:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ClikCpGc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r+8XslC5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C75C10EBCC;
- Thu, 22 Aug 2024 18:34:13 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-75abb359fa5so117131a12.0; 
- Thu, 22 Aug 2024 11:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724351653; x=1724956453; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EMxxaOtK8U0yo4hnUE3Sr+BVfCfehARBQJOIM+1YP0Q=;
- b=ClikCpGcP+fizO3engFSYSBmLK5pNRkjAo23dRHQDBlSSw9ZVMzAcw1y2lqJtAms/G
- hV7ZD0OMozTPvf/D4C5Lt6hpktEF5ZaOAYvUGAickakZnWcACx6vHbiTQKfud4OtYYZ/
- frLRD+SjfnEzYIU+w6A4Qwtn3MhezjzC86tBceqogUApjxBVIXCM3wlBDN7EUIDtZXyU
- hbJqMuhVUvJOhZDrKJMPI5ScSKTUAm4PMprVOGuFrW7lSWNLOZ4yMtdGu6TZKuV2R+uh
- BFtApUIC2n2FJhvzSW12Ye21H3uIiALnYg1zMRS/GsZ2DXwyLqaRzMwiBs5xtE7Rw9UP
- dlWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724351653; x=1724956453;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EMxxaOtK8U0yo4hnUE3Sr+BVfCfehARBQJOIM+1YP0Q=;
- b=U0CAj9oJsvHSq0dhI1Gx3fcT1Fu4jxHTRGV+1FGzaItyJyeOVXXqk+EQXD/1wLw9dP
- S1RzcQ++gRet3hKf6nSHrgYW7A32npQtOFpzfc0FCgJQ6KmaHnC/NXhRTV5JFqQJ/0dx
- Z0iUfAmHTyf3sB+J2rK9LgSOV5Hkn6KedqQ1/3WhlmyQId8u6TuccaRLA1eMmpSjxNGk
- T0VcZPrjHC2X6hqOoAVAZWgHm1IL2vrtN/rvpOD4djXL6Gg9yTtyYUGnR0kWYmiw6/vB
- juWyBB7k9WacetqFHfG0466hsO/iPPLmmrTZEPVqKDBe0gIgqVvcwfmE24clKoECyGqN
- zTZg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVc2+ACTT1fVKgTePi+3eMBsVaW5BJZNOtp+kFhHZp61VU3RwRsGdwJtngO1jb44zkMGTlL1ZU6raO@lists.freedesktop.org,
- AJvYcCWTXC6N6VNA/DUAQiY05qmxbWnXDMmIVKTplFyqLdXXIcPRRRj3iiJ71X1j9P2+xpGSt8V6tH3m@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyf2+fFDlfpMtMkUk/+6squEi//+17JOvudl1hN5DqjCJ+fx7bN
- MQHauZ+YQoenToVNSzZM1JV6nLjzam0TwtFWXKjgxVttyyVmN6GGeur5C1EcP/sdrB0T3eQ1ujN
- 5VzXonxweH6WFCYL005R+5Yh2H3k=
-X-Google-Smtp-Source: AGHT+IGPF1XUUudFvjGPHATL7UDa9u1dQKv5EqeuytdBdTms5BymTb5tqh+mLj1j4yketuXtjUee6wZ3btV4aNuNyKo=
-X-Received: by 2002:a05:6a20:7348:b0:1c4:f30e:97ff with SMTP id
- adf61e73a8af0-1cada1f1452mr4450575637.9.1724351652819; Thu, 22 Aug 2024
- 11:34:12 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9C5610E0FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 19:00:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 6CEEECE0FE6;
+ Thu, 22 Aug 2024 19:00:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39636C32782;
+ Thu, 22 Aug 2024 19:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724353250;
+ bh=Ui017gkewD7xFMBxW+cEVmQbEQy8O8gCGcb0gCACXog=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=r+8XslC5/W4OqDFPYi73HsDjFSS0ECICdazXPhvYBpslrDvVROAT47eKZ8b/1LcCn
+ 60ZytwM2oGeiL6VWRfDcco6/ZiqdwWbYtEY9i6uwbK7dqbZ56VE0nu1do7uT8N8rTn
+ gJ9dXcySvQj5f31NUD7ggPzjvvxgm2WMzTssYEflgfDqLhRl+P3ILWn2FVDwK2LJha
+ ZSOZfcfG69Y72ow/7jGEfW/TnTYOFfD/G2+ecdz7W2P68F/QTmjAqShTL9XSf1GXHp
+ eTpH42U0GKUly/tR5S9k/0I7RNLnGLcfFcwOIjxCFbzKDwn1VOSIO/edjtXsElzqKn
+ fkKTp9WxNwAuA==
+Date: Thu, 22 Aug 2024 21:00:48 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Doug Anderson <dianders@google.com>
+cc: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>, 
+ bentiss@kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ linus.walleij@linaro.org, hsinyi@google.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] Add Add elan-ekth6a12nay on the basis of
+ elan-ekth6915
+In-Reply-To: <CAD=FV=V8ivgWn5krEYzt5C4aiHMMK07mtMVwJaCeSQHG6ZscSg@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2408222059160.12664@cbobk.fhfr.pm>
+References: <20240722073136.8123-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <CAD=FV=V8ivgWn5krEYzt5C4aiHMMK07mtMVwJaCeSQHG6ZscSg@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20240822065723.1336181-1-yujiaoliang@vivo.com>
-In-Reply-To: <20240822065723.1336181-1-yujiaoliang@vivo.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 22 Aug 2024 14:34:00 -0400
-Message-ID: <CADnq5_Pm0Vg-RNtnRoj1Dkc2Ke3paz1D6PeDkaKacGstBn7uVg@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] drm/amd/display: Use max/min macro
-To: Yu Jiaoliang <yujiaoliang@vivo.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Hamza Mahfooz <hamza.mahfooz@amd.com>, Alex Hung <alex.hung@amd.com>, 
- Dillon Varone <dillon.varone@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- opensource.kernel@vivo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,34 +63,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 22, 2024 at 2:57=E2=80=AFAM Yu Jiaoliang <yujiaoliang@vivo.com>=
- wrote:
->
-> *** BLURB HERE ***
->
-> Yu Jiaoliang (6):
->   drm/amd/display: Use max/min macro
->   drm/amd/display: Use max/min macro
->   drm/amd/display: Use max/min macro
->   drm/amd/display: Use max/min macro
->   drm/amd/display: Use max/min macro
->   drm/amd/display: Use max/min macro
+On Thu, 22 Aug 2024, Doug Anderson wrote:
 
-Is this the preferred kernel coding style for these type of
-comparisons?  Otherwise this just seems like a lot of churn for not
-much gain.
+> Jiri / Ben,
+[ ... snip ... ]
+> I think this series is ready for you to merge at your leisure. If
+> there's anything blocking it then please yell. Thanks! :-)
 
-Alex
+Hmm, for some reason the only mentions of this series in my inbox are your 
+Reviewed-by: from Jun 10th, but nothing else whatsoever. Seems like some 
+spam filter really didn't like it.
 
->
->  drivers/gpu/drm/amd/display/dc/bios/bios_parser.c            | 4 ++--
->  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.c | 4 +++-
->  drivers/gpu/drm/amd/display/dc/core/dc_resource.c            | 4 ++--
->  drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c                 | 2 +-
->  drivers/gpu/drm/amd/display/dc/spl/dc_spl.c                  | 4 ++--
->  drivers/gpu/drm/amd/display/modules/freesync/freesync.c      | 4 ++--
->  6 files changed, 12 insertions(+), 10 deletions(-)
->
-> --
-> 2.34.1
->
+I will pick it up.
+
+-- 
+Jiri Kosina
+SUSE Labs
+
