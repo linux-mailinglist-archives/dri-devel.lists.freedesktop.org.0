@@ -2,74 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF5895AEA2
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 09:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B5E95AD32
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 08:10:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1851E10E798;
-	Thu, 22 Aug 2024 07:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAE4710E1C2;
+	Thu, 22 Aug 2024 06:10:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CihiEMBl";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="T2gSVl0q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC86610E716
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 05:32:32 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id
- 5614622812f47-3db2315d7ceso256317b6e.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2024 22:32:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724304752; x=1724909552; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UrNcon8FxQ69dF6b3a0HOOhGowvaUdP7iX4oRD7w0ns=;
- b=CihiEMBlj7DXr7Eedbg7XqcKU3ttpNneyBvt9bcz84jIoKDDH09Z6+Q+4WYIpIwZu7
- NbiyIkyHmH+5EVDe/uDKX0/odtwevZiQCUZEIUZmNectktrXMRKAum7OYOr+CzdAF7rA
- SLXk8lZKtbqNQR16z7uE5FcCPnbHHXNxuva0rPRAHkpZDrW3PZ4z1L7mjU+LQcos7r/0
- pqcSrTdcrV9AD+OkkT71Eb8bYB7BO6b5IGYFgkcgjutiFH3is05IYQOjR3oaXK8fVMFe
- sreOBtR1aZ5HVqX6ObH692dTuXqUh22G+XZFdBljqEb2os7bNlGCbKYXcfOYqHRMe1jN
- FvuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724304752; x=1724909552;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UrNcon8FxQ69dF6b3a0HOOhGowvaUdP7iX4oRD7w0ns=;
- b=ebiY6KL8nxnJG/k+mfXxXto0iQBPL42gpa+yzC1TYFSu3opbYsKCWVBOApgwBlYmeV
- CWAycOvXMzjXZpv6rPIrYgSfzamHVv8dI5QdXv2o/VYwAC1mhRdbtlAHA3sy3r5JuN/f
- c6w9IflCaouqH3GdwcxfK0D0IW9YcRCAmt8/Z3m7XUeybm+1niQ/PVUbi61Q6+JH3dU8
- 5JtgT0BLFKqZbMKysipdZ88fcR0lpRtmBNpC4OS16ZQgeFYaDlpj7du4KgW4OECKv97H
- SiZxBhvyBgdTY98QfPIbr8AJG+XqEaRYQ64Gg5KLkv0F+LkfXGd65DbnzjrjO/ANoGAA
- cflA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX+oihcQ34FU26Ab6JTFeJKEKKPit1KRu0OnAXgOnocM+VukP+2+w83ZbrHP31ESvHRCLrNBMZnP6U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzuPWzoPYiDGBQagIWhQ9m7dZsaAEX9OJ1EFeYMp0iCHvpJ2r22
- iumPOfE1GSOJkIEWIENake+tcEzhzLb4Vdb5j4pwJdszLQ5bxiKDCOX8C++A+dlPT6XlOOhL7mT
- 1tPljcjn8Ear4o50oPpNnfPPhf6I=
-X-Google-Smtp-Source: AGHT+IF8wUe9zW9RcIEjiBnPyx9kIJJy5aif9535MDtTffLfG4WtqgzHMWlBveNmITDMjDwayfjZPgCEac3kl0Nqkbg=
-X-Received: by 2002:a05:6870:3924:b0:260:f5ab:62ff with SMTP id
- 586e51a60fabf-2738bebec4emr4674262fac.44.1724304751615; Wed, 21 Aug 2024
- 22:32:31 -0700 (PDT)
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 788DB10E1C2;
+ Thu, 22 Aug 2024 06:09:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+ s=mail; t=1724306995;
+ bh=uueUoVe+leUByWNnKYxZraleqvuy4Xky+3tp+1IxLl0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T2gSVl0qlJxWw6C6bKWcqgEBB2KZwVABZqLQiQCchvXTDd8670W8ZZuED8XY1Wbm0
+ JQfqjQ1Xu0L0k7JJZl4Ic2nXwb/RIXZm7FHvAPi4SFf0FJb+H33nUhehk9kWw8dgFb
+ yF8n7NBcTfbeKPHTe8W3Hz0ldt+paXTvqBZdFajA=
+Date: Thu, 22 Aug 2024 08:09:55 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Matt Hartley <matt.hartley@gmail.com>, 
+ Kieran Levin <ktl@framework.net>, Hans de Goede <hdegoede@redhat.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
+ Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 0/4] drm: Minimum backlight overrides and
+ implementation for amdgpu
+Message-ID: <1dc9ac27-1447-435d-99d8-9c4cf5a42090@t-8ch.de>
+References: <20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net>
+ <4079b41e-9a5c-43be-9614-250b21d6e92d@amd.com>
 MIME-Version: 1.0
-References: <20240820125840.9032-1-rongqianfeng@vivo.com>
-In-Reply-To: <20240820125840.9032-1-rongqianfeng@vivo.com>
-From: Anand Moon <linux.amoon@gmail.com>
-Date: Thu, 22 Aug 2024 11:02:16 +0530
-Message-ID: <CANAwSgR8i2BbNkQtDXTWi+kOfWtxwHe9E=sLa_8ZSU2bvTO-Yg@mail.gmail.com>
-Subject: Re: [PATCH] gpu: drm: Use devm_clk_get_enabled() helpers
-To: Rong Qianfeng <rongqianfeng@vivo.com>
-Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, opensource.kernel@vivo.com
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Thu, 22 Aug 2024 07:15:39 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4079b41e-9a5c-43be-9614-250b21d6e92d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,177 +64,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rong,
+Hi Mario,
 
-On Tue, 20 Aug 2024 at 18:30, Rong Qianfeng <rongqianfeng@vivo.com> wrote:
->
-> Replace devm_clk_get() and clk_prepare_enable() with
-> devm_clk_get_enabled() that also disables and unprepares it on
-> driver detach.
->
-> Signed-off-by: Rong Qianfeng <rongqianfeng@vivo.com>
-> ---
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 13 +++----------
->  drivers/gpu/drm/sun4i/sun6i_drc.c         | 15 ++++-----------
->  drivers/gpu/drm/sun4i/sun8i_mixer.c       | 13 +++----------
->  3 files changed, 10 insertions(+), 31 deletions(-)
->
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> index ab6c0c6cd0e2..057dceaf079e 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> @@ -284,16 +284,11 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
->                 return PTR_ERR(fsl_dev->regmap);
->         }
->
-> -       fsl_dev->clk = devm_clk_get(dev, "dcu");
-> +       fsl_dev->clk = devm_clk_get_enabled(dev, "dcu");
->         if (IS_ERR(fsl_dev->clk)) {
->                 dev_err(dev, "failed to get dcu clock\n");
->                 return PTR_ERR(fsl_dev->clk);
+(+ a question for Dustin inside)
 
-You can use dev_err_probe it will be fine in all cases for clocks.to
-get enabled.
-         return dev_err_probe(dev, PTR_ERR(fsl_dev->clk),
-                                "failed to get duc clock\n");
+On 2024-08-21 15:45:46+0000, Mario Limonciello wrote:
+> On 8/18/2024 01:56, Thomas Weißschuh wrote:
+> > The value of "min_input_signal" returned from ATIF on a Framework AMD 13
+> > is "12". This leads to a fairly bright minimum display backlight.
+> > 
+> > Introduce a quirk to override "min_input_signal" to "0" which leads to a
+> > much lower minimum brightness, which is still readable even in daylight.
+> > 
+> 
+> Apologies for my delayed response, I've been OOO a while.
 
-Thanks
--Anand
->         }
-> -       ret = clk_prepare_enable(fsl_dev->clk);
-> -       if (ret < 0) {
-> -               dev_err(dev, "failed to enable dcu clk\n");
-> -               return ret;
-> -       }
->
->         pix_clk_in = devm_clk_get(dev, "pix");
->         if (IS_ERR(pix_clk_in)) {
-> @@ -311,8 +306,7 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
->                         div_ratio_shift, 8, CLK_DIVIDER_ROUND_CLOSEST, NULL);
->         if (IS_ERR(fsl_dev->pix_clk)) {
->                 dev_err(dev, "failed to register pix clk\n");
-> -               ret = PTR_ERR(fsl_dev->pix_clk);
-> -               goto disable_clk;
-> +               return PTR_ERR(fsl_dev->pix_clk);
->         }
->
->         fsl_dev->tcon = fsl_tcon_init(dev);
-> @@ -341,8 +335,7 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
->         drm_dev_put(drm);
->  unregister_pix_clk:
->         clk_unregister(fsl_dev->pix_clk);
-> -disable_clk:
-> -       clk_disable_unprepare(fsl_dev->clk);
-> +
->         return ret;
->  }
->
-> diff --git a/drivers/gpu/drm/sun4i/sun6i_drc.c b/drivers/gpu/drm/sun4i/sun6i_drc.c
-> index 0d342f43fa93..f263ad282828 100644
-> --- a/drivers/gpu/drm/sun4i/sun6i_drc.c
-> +++ b/drivers/gpu/drm/sun4i/sun6i_drc.c
-> @@ -42,33 +42,28 @@ static int sun6i_drc_bind(struct device *dev, struct device *master,
->                 return ret;
->         }
->
-> -       drc->bus_clk = devm_clk_get(dev, "ahb");
-> +       drc->bus_clk = devm_clk_get_enabled(dev, "ahb");
->         if (IS_ERR(drc->bus_clk)) {
->                 dev_err(dev, "Couldn't get our bus clock\n");
->                 ret = PTR_ERR(drc->bus_clk);
->                 goto err_assert_reset;
->         }
-> -       clk_prepare_enable(drc->bus_clk);
->
-> -       drc->mod_clk = devm_clk_get(dev, "mod");
-> +       drc->mod_clk = devm_clk_get_enabled(dev, "mod");
->         if (IS_ERR(drc->mod_clk)) {
->                 dev_err(dev, "Couldn't get our mod clock\n");
->                 ret = PTR_ERR(drc->mod_clk);
-> -               goto err_disable_bus_clk;
-> +               goto err_assert_reset;
->         }
->
->         ret = clk_set_rate_exclusive(drc->mod_clk, 300000000);
->         if (ret) {
->                 dev_err(dev, "Couldn't set the module clock frequency\n");
-> -               goto err_disable_bus_clk;
-> +               goto err_assert_reset;
->         }
->
-> -       clk_prepare_enable(drc->mod_clk);
-> -
->         return 0;
->
-> -err_disable_bus_clk:
-> -       clk_disable_unprepare(drc->bus_clk);
->  err_assert_reset:
->         reset_control_assert(drc->reset);
->         return ret;
-> @@ -80,8 +75,6 @@ static void sun6i_drc_unbind(struct device *dev, struct device *master,
->         struct sun6i_drc *drc = dev_get_drvdata(dev);
->
->         clk_rate_exclusive_put(drc->mod_clk);
-> -       clk_disable_unprepare(drc->mod_clk);
-> -       clk_disable_unprepare(drc->bus_clk);
->         reset_control_assert(drc->reset);
->  }
->
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> index bd0fe2c6624e..ebf00676a76d 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -507,19 +507,18 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
->                 return ret;
->         }
->
-> -       mixer->bus_clk = devm_clk_get(dev, "bus");
-> +       mixer->bus_clk = devm_clk_get_enabled(dev, "bus");
->         if (IS_ERR(mixer->bus_clk)) {
->                 dev_err(dev, "Couldn't get the mixer bus clock\n");
->                 ret = PTR_ERR(mixer->bus_clk);
->                 goto err_assert_reset;
->         }
-> -       clk_prepare_enable(mixer->bus_clk);
->
-> -       mixer->mod_clk = devm_clk_get(dev, "mod");
-> +       mixer->mod_clk = devm_clk_get_enabled(dev, "mod");
->         if (IS_ERR(mixer->mod_clk)) {
->                 dev_err(dev, "Couldn't get the mixer module clock\n");
->                 ret = PTR_ERR(mixer->mod_clk);
-> -               goto err_disable_bus_clk;
-> +               goto err_assert_reset;
->         }
->
->         /*
-> @@ -530,8 +529,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
->         if (mixer->cfg->mod_rate)
->                 clk_set_rate(mixer->mod_clk, mixer->cfg->mod_rate);
->
-> -       clk_prepare_enable(mixer->mod_clk);
-> -
->         list_add_tail(&mixer->engine.list, &drv->engine_list);
->
->         base = sun8i_blender_base(mixer);
-> @@ -592,8 +589,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
->
->         return 0;
->
-> -err_disable_bus_clk:
-> -       clk_disable_unprepare(mixer->bus_clk);
->  err_assert_reset:
->         reset_control_assert(mixer->reset);
->         return ret;
-> @@ -606,8 +601,6 @@ static void sun8i_mixer_unbind(struct device *dev, struct device *master,
->
->         list_del(&mixer->engine.list);
->
-> -       clk_disable_unprepare(mixer->mod_clk);
-> -       clk_disable_unprepare(mixer->bus_clk);
->         reset_control_assert(mixer->reset);
->  }
->
-> --
-> 2.39.0
->
->
+Welcome back!
+
+> An earlier version of this series I had asked if this could be tested
+> specifically with panel_power_savings enabled to ensure we're not causing a
+> regression with such a low minimum and panel power savings turned up to the
+> maximum.  If such a dependency does exist, I believe panel power savings
+> will need to get an extra check introduced to disable it when the brightness
+> falls below the previous threshold that was programmed by the firmware.
+> 
+> Did that ever get checked?
+
+No, I forgot to check that. Sorry about that.
+I'll check it for v6.
+Dustin, maybe you could also test this on the other panels?
+
+> > Tested on a Framework AMD 13 BIOS 3.05 and Framework AMD 16.
+> > 
+> 
+> As far as I can tell this series doesn't apply any quirks to Framework 16.
+> So by testing, do you mean that you tested that it didn't cause regressions
+> (which it shouldn't; the panels don't match!).
+
+This is a leftover from an earlier revision, which applied to all
+Framework devices. I'll drop it.
+
+> 
+> > One solution would be a fixed firmware version, which was announced but
+> > has no timeline. >
+> > ---
+> > Changes in v5:
+> > - Forward-declare struct drm_edid
+> > - Reorder patches, quirk entries are last
+> > - Add patch from Dustin for additional quirk entries
+> > - Link to v4: https://lore.kernel.org/r/20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net
+> > 
+> > Changes in v4:
+> > - Switch back to v2 implementation
+> > - Add MODULE_DESCRIPTION()
+> > - Simplify quirk infrastructure to only handle min backlight quirks.
+> >    It can be extended if necessary.
+> > - Expand documentation.
+> > - Link to v3: https://lore.kernel.org/r/20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net
+> > 
+> > Changes in v3:
+> > - Switch to cmdline override parameter
+> > - Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
+> > 
+> > Changes in v2:
+> > - Introduce proper drm backlight quirk infrastructure
+> > - Quirk by EDID and DMI instead of only DMI
+> > - Limit quirk to only single Framework 13 matte panel
+> > - Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
+> > 
+> > ---
+> > Dustin L. Howett (1):
+> >        drm: panel-backlight-quirks: Add Framework 13 glossy and 2.8k panels
+> > 
+> > Thomas Weißschuh (3):
+> >        drm: Add panel backlight quirks
+> >        drm/amd/display: Add support for minimum backlight quirk
+> >        drm: panel-backlight-quirks: Add Framework 13 matte panel
+> > 
+> >   Documentation/gpu/drm-kms-helpers.rst             |  3 +
+> >   drivers/gpu/drm/Kconfig                           |  4 +
+> >   drivers/gpu/drm/Makefile                          |  1 +
+> >   drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
+> >   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++
+> >   drivers/gpu/drm/drm_panel_backlight_quirks.c      | 94 +++++++++++++++++++++++
+> >   include/drm/drm_utils.h                           |  4 +
+> >   7 files changed, 117 insertions(+)
+> > ---
+> > base-commit: c3f2d783a459980eafd24c5af94ccd56a615961f
+> > change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
+> > 
+> > Best regards,
+> 
