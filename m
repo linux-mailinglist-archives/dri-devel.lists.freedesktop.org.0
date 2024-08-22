@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B2E95BDCA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 19:56:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC2695BDDC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 20:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3EF910EBBA;
-	Thu, 22 Aug 2024 17:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA76110EBBE;
+	Thu, 22 Aug 2024 18:01:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JLoEm61a";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mjuc4X+d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4CD110EBB8;
- Thu, 22 Aug 2024 17:55:58 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-201f577d35aso868725ad.1; 
- Thu, 22 Aug 2024 10:55:58 -0700 (PDT)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E68110EBBE;
+ Thu, 22 Aug 2024 18:01:20 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-7c2595f5c35so112467a12.1; 
+ Thu, 22 Aug 2024 11:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724349358; x=1724954158; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1724349679; x=1724954479; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qhXu1/y7UKtVxtPjaKnW4gHUfJYvKyvM1SAHsg1HIWY=;
- b=JLoEm61afuzCncSBiPdGUr/EYBDQQ8MoermwJ6pFLWq1z1SuYDFZEOEkmhZQfKgIvR
- cL0kUGvEX3UJR9r/YHmfyAmThmLP7mBP4ci28fFuzggCYsfEIVJq+JSSsH8VPXmvQPin
- Z/XeOY997QPsCAxJ0ZmhfHwzCuuBmT8/latOYbvptdoF7AqAJlg8uYPdpnXjCOozqVhq
- EAr6c4VPreY+lJigTCo7WrXyTRg5yqTtEB9v3C+zDUoU1MuJClX9ybC3vbnONlEp9rAw
- TO7SPZdZzC2ccOMp876PJsxyvf62zQIkBKQUl3p10qJUlO841hNZxzhLQdBI4ItNzzfR
- OOfg==
+ bh=9IGkb+yvoWKgY6f1pKvffTMPxwTT5DeP9+ZQzFPPBbU=;
+ b=mjuc4X+du+nTmHw5TvpPeLH3e7+yHem0z/P5hFL3D2a/im/JB+kHb7uGKy8EV8PDOa
+ ZMq3JITJivdXD4cbqzaUfOOmbbqesjDe+57YLrQLDk2ZP+y6Pcdn6XVAnksvQel09IMc
+ aGfJQGg/554fxclfnQMGUi+iV1C62TaACV1SKoUY1lGCrMJRaZllt5TFPdwEhxoBp7hm
+ xYKyPLveNGMZi4CkbqmB1H5czsMj9yNlX6perH+m8zxX6yIBSHxNlMZUdnvWyygGEMql
+ +LtSyllgq3z2QSjn9u82MxgMnb4b914gf1q8QViYQ7I/fovWaQYFFaq895X2NvMCnS14
+ 4s7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724349358; x=1724954158;
+ d=1e100.net; s=20230601; t=1724349679; x=1724954479;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qhXu1/y7UKtVxtPjaKnW4gHUfJYvKyvM1SAHsg1HIWY=;
- b=jQ88yKlJ0qiSGg79nYWk+6g2+r88gUHIJgreuaK4KeFRlgqCtuukcGQixzuw7wQHjX
- jV51gcLC22zMZYyALump0kkVcpQb4DFxSKqtR8GYLTs2Lg9a9g0rdXISBxTCLTMXFI2U
- 4xBcUanEYf0SRjDPgCjztmxBjv5BLmlUK98CwZFJim+0MYrywz1HP5Otzr1Q1a/XUIkR
- nuCWvgvTo0GOKSn9MUZEzgx4ybukKtDHrmVoX1ZjUG/AMs4Y9AoGPu95rlkU+h3wi1p0
- eb2xc4Qv8D8eU7LXSBAY095mkMugfpCIElJ6YNUgjPgV2CyPSVxOT/OHT4J9V7iTYjWX
- hAsQ==
+ bh=9IGkb+yvoWKgY6f1pKvffTMPxwTT5DeP9+ZQzFPPBbU=;
+ b=FUTaZaR1m2FQOMeQDP2ONH0t7SY+p/LdrIDiKhKYzK9rfv6miNS+hmvkScgrmKA1Ky
+ lP/9t+lmWPouMpZ1DddnIHX3yapO5Faxu5Jh2BAIn6a1ZMzJ8JtDhJ4AAoJS9jQCxaCl
+ GHGNI0a2C82qgPT3zJ4fVWPezqdws1BwtEnq9seqUo4OnB/kRVmx/SwGFqXh4WSCQx0v
+ wzdQVFzNEmTd0EUF7RdPvLkjMAVYTT0msFfT407HL4eOHupz4ywG6o8xG+9OsJ75QY8X
+ rfKwC62sFvPjGQqOVm0e1mVU0Rxc8seq9hfFzB9PzsS+r8yNSjCPsl6XB+AzT87WqfCT
+ mtEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOdT6PlyantL1dKWIajWoN9QNH0GRy4Ev9f1YI3lQOoW9I9Kqbu9KZeSPoqom00FForU+KdkkW@lists.freedesktop.org,
- AJvYcCV5/W2KoEyimiJwZ3WX/BiTUg0xFyHYVpbkCcD21jJoFAT9oF2zU9xc1eNJTkHMCmci7p9plDCM3A+Q@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEny1dS42JPc3tsgcUKp49doHreXw7Qmw2JGM1H+bh3K8k44Cx
- hwyOf7mulzAIB1VU5aMyLWUYWeMNqjogocZXnwUM3elmGXwAQIWdGCeeFv8JszeQpjATDUMJAAL
- ji64z5BJyqW06J7IFYYfb60DdH7g=
-X-Google-Smtp-Source: AGHT+IETlDVRl8j8jbZqDqUvSIioAvhet305MNQITQRtCniCu61LWrGuZC6R67R9iHP+nA+QKCEStVE/J8zJyaAFQls=
-X-Received: by 2002:a17:902:c406:b0:1fa:a9f5:64b1 with SMTP id
- d9443c01a7336-20367d0d354mr44078375ad.3.1724349357971; Thu, 22 Aug 2024
- 10:55:57 -0700 (PDT)
+ AJvYcCVJyNEkEv/rpQHlToXIGeldSGmdxGfgPHPN6AEACbO4seIJN0yVRsUbXI7mNwfqk91/eAmxUSIWpwz0@lists.freedesktop.org,
+ AJvYcCWECQXJNVi9zfSMq5uBcUt/TJHaGvW7d9Gg2qVbc78RgN/jrdyBzZGy4BnQ5wCQZnhacwbSnNzf@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywiap0dsM+IRo2q80sCGHrakwtAQao4QIqtpVZ0PMdaAH5nvABd
+ JJBrvD9xm2SzR413jVk6ESKQed3yv2sVkW37SE676D9Qxq+JYYBZHwqFxraCRNZABU9tQantyXB
+ u9p9U/M0DWBKSfAIiX+1JhWXjTC0=
+X-Google-Smtp-Source: AGHT+IEovfL7TTOHMHNjGi8FsQAT5DlUHXGCRkJP5OX/etAXNtr9pPnu3WMIst/rhzDkrMbsVVDrJ036rcwViaA+mt8=
+X-Received: by 2002:a05:6a00:2342:b0:70d:148e:4bad with SMTP id
+ d2e1a72fcca58-714234680ebmr4544467b3a.2.1724349679359; Thu, 22 Aug 2024
+ 11:01:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240821042724.1391169-1-make24@iscas.ac.cn>
-In-Reply-To: <20240821042724.1391169-1-make24@iscas.ac.cn>
+References: <20240822015819.3356282-1-ruanjinjie@huawei.com>
+In-Reply-To: <20240822015819.3356282-1-ruanjinjie@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 22 Aug 2024 13:55:46 -0400
-Message-ID: <CADnq5_Orq-RkKxOeG9UMnnJGodsB-9Tek0_NyYNP3EGaiEXpGQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/amd/display: avoid using null object of
- framebuffer
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, daniel@ffwll.ch, mwen@igalia.com,
- aurabindo.pillai@amd.com, 
- joshua@froggi.es, hamza.mahfooz@amd.com, marek.olsak@amd.com, 
- HaoPing.Liu@amd.com, akpm@linux-foundation.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
+Date: Thu, 22 Aug 2024 14:01:07 -0400
+Message-ID: <CADnq5_Pm9GHaFWLUniQ608CNMPMSBpNdh2JW9-AcKyEM18KE9Q@mail.gmail.com>
+Subject: Re: [PATCH -next v2 RESEND] drm/amd/display: Remove unused
+ dcn35_fpga_funcs
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, nicholas.kazlauskas@amd.com, 
+ Charlene.Liu@amd.com, chiahsuan.chung@amd.com, hamza.mahfooz@amd.com, 
+ sungjoon.kim@amd.com, syed.hassan@amd.com, roman.li@amd.com, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,53 +86,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Thu, Aug 22, 2024 at 5:20=E2=80=AFAM Jinjie Ruan <ruanjinjie@huawei.com>=
+ wrote:
+>
+> dcn35_fpga_funcs is not used anywhere, remove it.
 
-On Wed, Aug 21, 2024 at 3:45=E2=80=AFAM Ma Ke <make24@iscas.ac.cn> wrote:
+This will lead to warnings about unused functions.  The fpga specific
+functions should be removed as well.  I'd suggest compile testing your
+changes first to catch these types of warnings.
+
+Alex
+
+
 >
-> Instead of using state->fb->obj[0] directly, get object from framebuffer
-> by calling drm_gem_fb_get_obj() and return error code when object is
-> null to avoid using null object of framebuffer.
->
-> Cc: stable@vger.kernel.org
-> Fixes: 5d945cbcd4b1 ("drm/amd/display: Create a file dedicated to planes"=
-)
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+> v2:
+> - Remove it instead of making it static.
+> ---
+>  .../gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 7 -------
+>  1 file changed, 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
-ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index a83bd0331c3b..5cb11cc2d063 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -28,6 +28,7 @@
->  #include <drm/drm_blend.h>
->  #include <drm/drm_gem_atomic_helper.h>
->  #include <drm/drm_plane_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_fourcc.h>
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c=
+ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+> index e2d906327e2e..15977c2d256d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+> @@ -1068,13 +1068,6 @@ static struct clk_mgr_funcs dcn35_funcs =3D {
+>         .is_ips_supported =3D dcn35_is_ips_supported,
+>  };
 >
->  #include "amdgpu.h"
-> @@ -935,10 +936,14 @@ static int amdgpu_dm_plane_helper_prepare_fb(struct=
- drm_plane *plane,
->         }
->
->         afb =3D to_amdgpu_framebuffer(new_state->fb);
-> -       obj =3D new_state->fb->obj[0];
-> +       obj =3D drm_gem_fb_get_obj(new_state->fb, 0);
-> +       if (!obj) {
-> +               DRM_ERROR("Failed to get obj from framebuffer\n");
-> +               return -EINVAL;
-> +       }
-> +
->         rbo =3D gem_to_amdgpu_bo(obj);
->         adev =3D amdgpu_ttm_adev(rbo->tbo.bdev);
+> -struct clk_mgr_funcs dcn35_fpga_funcs =3D {
+> -       .get_dp_ref_clk_frequency =3D dce12_get_dp_ref_freq_khz,
+> -       .update_clocks =3D dcn35_update_clocks_fpga,
+> -       .init_clocks =3D dcn35_init_clocks_fpga,
+> -       .get_dtb_ref_clk_frequency =3D dcn31_get_dtb_ref_freq_khz,
+> -};
 > -
->         r =3D amdgpu_bo_reserve(rbo, true);
->         if (r) {
->                 dev_err(adev->dev, "fail to reserve bo (%d)\n", r);
+>  void dcn35_clk_mgr_construct(
+>                 struct dc_context *ctx,
+>                 struct clk_mgr_dcn35 *clk_mgr,
 > --
-> 2.25.1
+> 2.34.1
 >
