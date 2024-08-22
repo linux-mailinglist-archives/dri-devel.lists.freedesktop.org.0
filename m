@@ -2,94 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579CF95B61D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 15:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D60B95B620
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 15:12:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8BF210EA25;
-	Thu, 22 Aug 2024 13:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D72A10EA27;
+	Thu, 22 Aug 2024 13:12:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="g7IWhESZ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jgV3uVRJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72F4A10EA25
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 13:12:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724332334;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rEF+0DDPl7ZNGl0E7zRKH64urw9RSLetJWerpVByaAw=;
- b=g7IWhESZ4sJzKk7g8AEkONoFrJSdDuumX2aGf+I2C0nv1nP/hguxXKLnkr29aG/Of3Wjka
- FYKtvioA4RJMZB/W6Rjawv8DzBM10O1NHjcCgYlniuVu09gV+cOoCWzQVrTwyR7PKG7keL
- bQg5IsusquwLVZ7yxJP4vGx0F074r80=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-509-svhlVgPgPsymPjhyCLcwaQ-1; Thu, 22 Aug 2024 09:12:13 -0400
-X-MC-Unique: svhlVgPgPsymPjhyCLcwaQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3717ddcae71so344123f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 06:12:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724332332; x=1724937132;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rEF+0DDPl7ZNGl0E7zRKH64urw9RSLetJWerpVByaAw=;
- b=V2MsciG9N3M04pZgOpXuq8GZlJmFB9+aJdymLiQUL/nZFipHim0Rz/samnSBpysHde
- Hf9pV1wsDoXqGr0fw2fdbehdmv1XO7HYVLthjzGh4UaGLli/Ok5IcyEHVCLUR/dKSvMJ
- 25VN/xkZ7p40TN/Ox8hcXGJRTrXWibVHAzZB2uUYB2e896X9K6yvkwW+aaRQV61Qgg/u
- a2KiWYeqh6/xQtW48EEh09uEKkAjonlshBRqREzfbyubs9n61sZ/5Lz+HgkauC2tjfgg
- DSJjNpKQoIE9gQ/bqZB4wzN3CInSC+8sLsUa34cEON+pD3QFRJiQOazYQsXWOY0sg+WF
- IRpw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNBWdfz+qRtc8lo1xfP8N0zRdtXU9Z2aIk6zYKitscISQbQwy/t3STRZZvnA3acQb6UbfdFC2sKXw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpKkhUUm5IrJwoM/MX07UYQJ9tE6PwpywGLFvZ15uk8B1bl/Bz
- 4Ub8MhEg+oHwvq4pO6jmd171ULDQMPtsh+SrrJPqGstB4p1zPri8ZPZWaLu7/TugX/CV2vq6HwO
- +77N8SWZUD1wqbXG7ZTge2epjmv+m/60DBuYWxjxWokYB4umanbdEKhycPpO/+GwoOw==
-X-Received: by 2002:a5d:5e11:0:b0:373:b3b:9f62 with SMTP id
- ffacd0b85a97d-3730b3ba074mr953658f8f.38.1724332331849; 
- Thu, 22 Aug 2024 06:12:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFCDq2m7q4T8mvCQJ8ZlmkCjIjVWzVYAgF/3CVbiXdiB6c5TercGvJ578lxX8JpG5tDymv72A==
-X-Received: by 2002:a5d:5e11:0:b0:373:b3b:9f62 with SMTP id
- ffacd0b85a97d-3730b3ba074mr953629f8f.38.1724332331294; 
- Thu, 22 Aug 2024 06:12:11 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3730821ab05sm1641474f8f.98.2024.08.22.06.12.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Aug 2024 06:12:10 -0700 (PDT)
-Message-ID: <d5de80ed-adc2-4307-bb57-27fc4e611100@redhat.com>
-Date: Thu, 22 Aug 2024 15:12:08 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB3F10EA27
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 13:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wObj0euxx2b3n2yWXhu+gvJpX19pu26o3+soT2tlK6g=; b=jgV3uVRJFLvxpxUGD/y0zq9lb6
+ 7bqCUeM1j/B/b0EcukTCpnRbltCzIu18AvW9tv8ukZjLDmHD2FIQoyCa7+I2CtZd5jmkE/wnNZ+T+
+ kcms8B/RNSzcg4x3s7NegGqd7BFVUVgjINR651YzOd6XH5ruMzN/fjT1QIyGH1ucTCdWeNgf3/Uhg
+ bqXjtCckYtYlkfeDM5Y0kQdn8GakcyE/h81QG5nY7oZXjYT8vYuLF/yItd8l5YmFt0BmSD+2L9gc5
+ CMKQZsbpIqf+S9boavV7R0om8CUHknr2PspFQE2D/ysjphhElRkj4+ilk39w45t9MVQ1tIVFKPBoH
+ KZgImsEw==;
+Received: from [187.36.213.55] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sh7cH-003Z5P-N9; Thu, 22 Aug 2024 15:12:41 +0200
+Message-ID: <85fbee77-4457-449a-b85a-342a67f9f5e4@igalia.com>
+Date: Thu, 22 Aug 2024 10:12:31 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/4] drm/rect: Add drm_rect_overlap()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH V3 5/9] drm/vc4: v3d: simplify clock retrieval
+To: Stefan Wahren <wahrenst@gmx.net>, Russell King <linux@armlinux.org.uk>,
+ Doug Anderson <dianders@chromium.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Minas Harutyunyan <hminas@synopsys.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>
-References: <20240822073852.562286-1-jfalempe@redhat.com>
- <20240822073852.562286-3-jfalempe@redhat.com>
- <4b5c6ba2-e16c-4884-a067-8d9ab7ad35f8@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <4b5c6ba2-e16c-4884-a067-8d9ab7ad35f8@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+ Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+ Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel-list@raspberrypi.com
+References: <20240821214052.6800-1-wahrenst@gmx.net>
+ <20240821214052.6800-6-wahrenst@gmx.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240821214052.6800-6-wahrenst@gmx.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,98 +84,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2024 14:58, Thomas Zimmermann wrote:
-> 
-> 
-> Am 22.08.24 um 09:33 schrieb Jocelyn Falempe:
->> Check if two rectangles overlap.
->> It's a bit similar to drm_rect_intersect() but this won't modify
->> the rectangle.
->> Simplifies a bit drm_panic.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> There's an optional comment further below.
-> 
->> ---
->>
->> v7:
->>   * rename r1/r2 to a/b in drm_rect_overlap() (Jani Nikula)
->>
->>   drivers/gpu/drm/drm_panic.c |  3 +--
->>   include/drm/drm_rect.h      | 15 +++++++++++++++
->>   2 files changed, 16 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
->> index 0a047152f88b8..59fba23e5fd7a 100644
->> --- a/drivers/gpu/drm/drm_panic.c
->> +++ b/drivers/gpu/drm/drm_panic.c
->> @@ -529,8 +529,7 @@ static void draw_panic_static_user(struct 
->> drm_scanout_buffer *sb)
->>       /* Fill with the background color, and draw text on top */
->>       drm_panic_fill(sb, &r_screen, bg_color);
->> -    if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
->> -        logo_width <= sb->width && logo_height <= sb->height) {
->> +    if (!drm_rect_overlap(&r_logo, &r_msg)) {
->>           if (logo_mono)
->>               drm_panic_blit(sb, &r_logo, logo_mono->data, 
->> DIV_ROUND_UP(logo_width, 8),
->>                          fg_color);
->> diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
->> index 73fcb899a01da..46f09cf68458c 100644
->> --- a/include/drm/drm_rect.h
->> +++ b/include/drm/drm_rect.h
->> @@ -238,6 +238,21 @@ static inline void drm_rect_fp_to_int(struct 
->> drm_rect *dst,
->>                 drm_rect_height(src) >> 16);
->>   }
->> +/**
->> + * drm_rect_overlap - Check if two rectangles overlap
->> + * @a: first rectangle
->> + * @b: second rectangle
->> + *
->> + * RETURNS:
->> + * %true if the rectangles overlap, %false otherwise.
->> + */
->> +static inline bool drm_rect_overlap(const struct drm_rect *a,
->> +                    const struct drm_rect *b)
->> +{
->> +    return (a->x2 > b->x1 && b->x2 > a->x1 &&
->> +        a->y2 > b->y1 && b->y2 > a->y1);
-> 
-> I found this hard to understand. You may want to use the existing 
-> _intersect helper
-> 
-> bool overlap(a, b)
-> {
->    struct drm_rect tmp = *a
-> 
->    return intersect(tmp, b);
-> }
+Hi Stefan,
 
-I considered this, but it creates an unused rect, and compute the 
-intersection rectangle, which we are not interested in.
-Even if the compiler may optimize and throw all this away, I prefer the 
-more straightforward version.
-
-Thanks for the review,
-
--- 
-
-Jocelyn
+On 8/21/24 18:40, Stefan Wahren wrote:
+> Common pattern of handling deferred probe can be simplified with
+> dev_err_probe() and devm_clk_get_optional(). This results in much
+> less code.
 > 
-> Up to you.
-> 
-> Best regards
-> Thomas
-> 
->> +}
->> +
->>   bool drm_rect_intersect(struct drm_rect *r, const struct drm_rect 
->> *clip);
->>   bool drm_rect_clip_scaled(struct drm_rect *src, struct drm_rect *dst,
->>                 const struct drm_rect *clip);
-> 
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
+Applied to drm/misc/kernel/drm-misc-next!
+
+Best Regards,
+- Maíra
+
+> ---
+>   drivers/gpu/drm/vc4/vc4_v3d.c | 18 +++---------------
+>   1 file changed, 3 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
+> index 6e566584afbf..bf5c4e36c94e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
+> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+> @@ -441,21 +441,9 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
+>   	vc4->v3d = v3d;
+>   	v3d->vc4 = vc4;
+> 
+> -	v3d->clk = devm_clk_get(dev, NULL);
+> -	if (IS_ERR(v3d->clk)) {
+> -		int ret = PTR_ERR(v3d->clk);
+> -
+> -		if (ret == -ENOENT) {
+> -			/* bcm2835 didn't have a clock reference in the DT. */
+> -			ret = 0;
+> -			v3d->clk = NULL;
+> -		} else {
+> -			if (ret != -EPROBE_DEFER)
+> -				dev_err(dev, "Failed to get V3D clock: %d\n",
+> -					ret);
+> -			return ret;
+> -		}
+> -	}
+> +	v3d->clk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(v3d->clk))
+> +		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
+> 
+>   	ret = platform_get_irq(pdev, 0);
+>   	if (ret < 0)
+> --
+> 2.34.1
+> 
