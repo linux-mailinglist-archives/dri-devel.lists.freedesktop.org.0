@@ -2,83 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBF595B830
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED46695B864
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 16:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C6A10EAE3;
-	Thu, 22 Aug 2024 14:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9045810EAE5;
+	Thu, 22 Aug 2024 14:30:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bSboo3rb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TPnrX6dw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
- [209.85.161.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0F910EAE3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:20:41 +0000 (UTC)
-Received: by mail-oo1-f44.google.com with SMTP id
- 006d021491bc7-5daa4f8f1c4so601237eaf.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 07:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724336438; x=1724941238;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SMvcrfJAhB5h4XFF3sFhLtI9e6UgOu5Ml/MtEViBiC0=;
- b=bSboo3rbwlt3lMHd+h54+UL8pPLtYXLIFL/GyUe/rxfGWM7M69Aia4YU2E/H6rOpoE
- C8pnDn6/Uv40KemeQ1OdQA9WoZOwGS3FdX33GYhWzwERfBgCM91VTVyJozq87wKFCLWJ
- xsiI6rSXGwGrlmdPADrvOSTaIDa13M4mGiD1A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724336438; x=1724941238;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SMvcrfJAhB5h4XFF3sFhLtI9e6UgOu5Ml/MtEViBiC0=;
- b=LcqHfGedWmFbexHicMPOzJMQDssejh37OX9Y4E2+ObU2uqHfhGfl4puzmWm4mE4iws
- enPkAKQDETZ384JxdsbrGtyETcW3KUWjfxb/T4sV/UW+q3/NQVpAkU4ucAOzzVpt7kSg
- Xhqbz1zElP/hssb4sUwnJTGe0+7V5jJsLVk7HSrP+wqwiEODKiAj2AvasbG7KscNX60k
- AXgiAGWwOnEyndn7eCJ/iPhP0LzeDzWtRH+8deX0EcYZPER8YouRfNxw+5opqxA6vcKt
- 5kQu5z3VVvhBsX6QSoalE/KYuv8xZMHa7KfXZvzVDqTA23jtcrEF5OKgB/Z8lr9H93xZ
- 87DQ==
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE03510EAE5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:30:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8EDDACE0FF7
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:30:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5250CC4AF16
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 14:30:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724337000;
+ bh=EIbyKKjLdJJZGFxhalx33/RF7GG9+9/lkUn6G18mVOg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=TPnrX6dw3L+LDovQuv/hS4rw5M/MIjwr32NwoybJluXqQXmtVLUYk9f0nBMvk9zyE
+ rbw2c5+E1noh9ol3NxemjLQ8TZxVkF+TUat5RZJJ6ui3WNh8eMmX4lCkpAW2yx51Xw
+ gCtgsIuxHHVj+BpuhM1YUetZAvtz/M5Aw4cXXByE/1yKkIo1CuzxZXL0vcf0TZ7/+I
+ cLbdNlU2xRvZtv2s4vTv8LyzVB5Y5fdDRTv6QJ6BmuBjNh1vF4zn4YaA+rzjqrTBHW
+ kXCuhNo9D6wcPd3A4WNJiS7njYd74qHBWQZU9wfKeTI4/Dc5XbzexarjD3sp3obdce
+ fzOhLoi8l9YBw==
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-7cd9e634ea9so392693a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 07:30:00 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUALOAisLz/dKuHgLC6YVOJv0I01yxrA6ASTLkNImKSu+4zu9zYkrdyJTMn/e/AIfRTrq9aStKlM5s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywi1lGxFXrzUqnN/ELXWLIHK0RPcqGg/kiPoOi1P4+19dUNDnUP
- wQIVfh55tlPnHyrvaLmHlZ0C/XSc7FWpOVawJ1fpRG6dI9CBNyWfHwVbSwYz8lI5cCQ4LKFjCbY
- =
-X-Google-Smtp-Source: AGHT+IGt+a9Ssk5i/GVZ8z2hl+oGuBsWouwxLixSQW/mhZEzB6w5ewL5DhArLJzU04nTwts+sq5+bA==
-X-Received: by 2002:a4a:ee89:0:b0:5da:a462:6a30 with SMTP id
- 006d021491bc7-5dcb64fc586mr2422756eaf.1.1724336438437; 
- Thu, 22 Aug 2024 07:20:38 -0700 (PDT)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com.
- [209.85.161.42]) by smtp.gmail.com with ESMTPSA id
- 006d021491bc7-5dcb5bd9efbsm288377eaf.8.2024.08.22.07.20.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Aug 2024 07:20:37 -0700 (PDT)
-Received: by mail-oo1-f42.google.com with SMTP id
- 006d021491bc7-5da686531d3so581041eaf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 07:20:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhyGs96ossTuXLXGDydXQC0dmH7/rGVoR9nzEepsIQRfIzoBJKIacFZZ9RFXP2mgZ29/HUmPqTzoc=@lists.freedesktop.org
-X-Received: by 2002:a05:6820:180c:b0:5c6:60d9:b0e1 with SMTP id
- 006d021491bc7-5dcb64fc8bfmr2617864eaf.2.1724336436661; Thu, 22 Aug 2024
- 07:20:36 -0700 (PDT)
+ AJvYcCXmbhUaotleYnsa28curohdVY84hVRHAqPgvew4bfUzT/H71SgX+7FUEJP9VFYQKvFEaZSjU2TjuU0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxg7f8I5D8YArtHRVCweMIrNtZ7lKgMLqwG/DFMEOS9AxNWnVOl
+ hGIUC2l6ElYleIVq/gUkYzEw0ZEhdjOOHJusm3+cv8Zj5hXB6P25hA82sAmd7HpttbT+Pvb5lCN
+ OGuTSslr3QpqqJoc50xuF2zZW7A==
+X-Google-Smtp-Source: AGHT+IFNd1a5Jn4I/J6gdxNiBFWoik4UOxFcPN5z5dO1KYVQfJeBHZU2AH9pzjwMOeJbBICz51dLQG3eoiE91A8UOhs=
+X-Received: by 2002:a17:90b:104b:b0:2d3:c976:dd80 with SMTP id
+ 98e67ed59e1d1-2d5ea2ca713mr6422970a91.39.1724336999689; Thu, 22 Aug 2024
+ 07:29:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240822093442.4262-1-hanchunchao@inspur.com>
- <CAHwB_N+1a9pWTVZmWb6tDTR0S1G5tCj7zJx9xaOL_tBTS5oTtQ@mail.gmail.com>
-In-Reply-To: <CAHwB_N+1a9pWTVZmWb6tDTR0S1G5tCj7zJx9xaOL_tBTS5oTtQ@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 22 Aug 2024 07:20:18 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UapLj46M7jbyg-_qZN77iUjDD7B3sPdOU6wJazqjLtHQ@mail.gmail.com>
-Message-ID: <CAD=FV=UapLj46M7jbyg-_qZN77iUjDD7B3sPdOU6wJazqjLtHQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: fix null pointer dereference in
- hx83102_get_modes
-To: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: Charles Han <hanchunchao@inspur.com>, neil.armstrong@linaro.org, 
- quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, liuyanming@ieisystem.com
+References: <20240731201407.1838385-1-robh@kernel.org>
+In-Reply-To: <20240731201407.1838385-1-robh@kernel.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 22 Aug 2024 22:30:13 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-DT--eLNMzLd0ftoo6e74yV-cfta0C8nB+5k2hifd3dg@mail.gmail.com>
+Message-ID: <CAAOTY_-DT--eLNMzLd0ftoo6e74yV-cfta0C8nB+5k2hifd3dg@mail.gmail.com>
+Subject: Re: [PATCH] drm: mediatek: Drop unnecessary check for property
+ presence
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,64 +77,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi, Rob:
 
-On Thu, Aug 22, 2024 at 3:02=E2=80=AFAM cong yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
+Rob Herring (Arm) <robh@kernel.org> =E6=96=BC 2024=E5=B9=B48=E6=9C=881=E6=
+=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=884:14=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Hi,
+> of_property_read_u32() returns -EINVAL if a property is not present, so
+> the preceeding check for presence with of_find_property() can be
+> dropped. Really, what the errno is shouldn't matter. Either the property
+> can be read and used or it can't and is ignored.
 >
-> Charles Han <hanchunchao@inspur.com> =E4=BA=8E2024=E5=B9=B48=E6=9C=8822=
-=E6=97=A5=E5=91=A8=E5=9B=9B 17:34=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > In hx83102_get_modes(), the return value of drm_mode_duplicate()
-> > is assigned to mode, which will lead to a possible NULL
-> > pointer dereference on failure of drm_mode_duplicate(). Add a
-> > check to avoid npd.
-> >
-> > Fixes: 0ef94554dc40 ("drm/panel: himax-hx83102: Break out as separate d=
-river")
-> >
-> > Signed-off-by: Charles Han <hanchunchao@inspur.com>
+> This is part of a larger effort to remove callers of of_find_property()
+> and similar functions. of_find_property() leaks the DT struct property
+> and data pointers which is a problem for dynamically allocated nodes
+> which may be freed.
 
-Note: please no blank line between "Fixes" and "Signed-off-by". All
-tags should be together in the last "paragraph".
+Applied to mediatek-drm-next [1], thanks.
 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
-> > ---
-> >  drivers/gpu/drm/panel/panel-himax-hx83102.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/=
-drm/panel/panel-himax-hx83102.c
-> > index 6e4b7e4644ce..7c2a5e9b7fb3 100644
-> > --- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
-> > +++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-> > @@ -565,6 +565,10 @@ static int hx83102_get_modes(struct drm_panel *pan=
-el,
-> >         struct drm_display_mode *mode;
-> >
-> >         mode =3D drm_mode_duplicate(connector->dev, m);
-> > +       if (!mode) {
-> > +               dev_err(&ctx->dsi->dev, "bad mode or failed to add mode=
-\n");
-> > +               return -EINVAL;
-> > +       }
+Regards,
+Chun-Kuang.
+
 >
->  In my V2 series, Doug suggested:
-> "nit: no need for an error message when drm_mode_duplicate() fails.
-> It is incredibly unlikely that the allocation will fail and the Linux"
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 >
-> https://lore.kernel.org/all/CAD=3DFV=3DV2O2aFDVn5CjbXfgcOLkmNp-G3ChVqQKou=
-B2mDB+NZug@mail.gmail.com/
-
-Sorry for missing that we still need the NULL check and we should
-definitely add it in. Cong is right, though, that the error message
-here is pointless. The only way the function can fail is if a small
-memory allocation fails. Even though such a small allocation failing
-is basically impossible, kernel policy is still to check for NULL so
-we should add the check. ...but the kernel already adds a WARN_ON
-splat for all failed allocations so the extra message here is just
-wasteful.
-
--Doug
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/m=
+ediatek/mtk_disp_rdma.c
+> index 634bbba5d43f..07243f372260 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> @@ -341,14 +341,11 @@ static int mtk_disp_rdma_probe(struct platform_devi=
+ce *pdev)
+>                 dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
+>  #endif
+>
+> -       if (of_find_property(dev->of_node, "mediatek,rdma-fifo-size", &re=
+t)) {
+> -               ret =3D of_property_read_u32(dev->of_node,
+> -                                          "mediatek,rdma-fifo-size",
+> -                                          &priv->fifo_size);
+> -               if (ret)
+> -                       return dev_err_probe(dev, ret,
+> -                                            "Failed to get rdma fifo siz=
+e\n");
+> -       }
+> +       ret =3D of_property_read_u32(dev->of_node,
+> +                                  "mediatek,rdma-fifo-size",
+> +                                  &priv->fifo_size);
+> +       if (ret && (ret !=3D -EINVAL))
+> +               return dev_err_probe(dev, ret, "Failed to get rdma fifo s=
+ize\n");
+>
+>         /* Disable and clear pending interrupts */
+>         writel(0x0, priv->regs + DISP_REG_RDMA_INT_ENABLE);
+> --
+> 2.43.0
+>
