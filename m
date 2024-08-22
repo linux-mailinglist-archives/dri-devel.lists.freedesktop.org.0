@@ -2,74 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C09895B0AD
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 10:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D454E95B0B3
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 10:41:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26EE110E47D;
-	Thu, 22 Aug 2024 08:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B842310E52E;
+	Thu, 22 Aug 2024 08:41:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="4e5UPVcM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ImlOSxZq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDAD110E02B;
- Thu, 22 Aug 2024 08:38:59 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47M72FpY027840;
- Thu, 22 Aug 2024 10:38:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- /WciXrPWaFlLkyznHTBF6EbYQ81JU4gKjUZCLa5G1Xw=; b=4e5UPVcMImNxHaOg
- Q4VGUMnQ6HEA5Sewf0+COSBvN0VAZwKAcWTLKMtda1KlgUkj2fD9so2lgCRDC5ln
- IZe4MRL7wajqCeiIDth3yhHpzW7f3j2qw+LD+Xd0+DXPObyTrM1otCxNBvivhnH3
- gbxfBUGPyOvNLPyfv8pN/uWOoa86sOJxLWPlw6fIshpWVRmrKPa3a5DAFmLwIpoN
- lesvnJiJ64ylfPFR9sO0+CwpH9M9J0f4p6grms2ZBlRzRI6m5HdJPx390sheybCe
- sfhwnukUn0WUCSiYl5weaTLPUdmMXz+wTL/+obBFw74KLX/BONey9aARemTLdplc
- MjY75Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4160kc8dfh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Aug 2024 10:38:55 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6EEE64002D;
- Thu, 22 Aug 2024 10:38:50 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4FE2B24BCC0;
- Thu, 22 Aug 2024 10:38:08 +0200 (CEST)
-Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 22 Aug
- 2024 10:38:07 +0200
-Message-ID: <47ff8e8d-b880-45a5-afd4-663df5480c99@foss.st.com>
-Date: Thu, 22 Aug 2024 10:38:07 +0200
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5C3310E52E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 08:41:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 64404A40136;
+ Thu, 22 Aug 2024 08:41:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA19C4AF09;
+ Thu, 22 Aug 2024 08:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724316077;
+ bh=qfCsE2TARh/0Jkqs1tOSCtPuFozHgbbnBIGeahfVo4w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ImlOSxZqPU2Q0pU6PiB1Lrd06gaA6GAh3l9ygooynVI9lp1GJn398Le0w3DFW2Dc4
+ beVWkktTt4Ktr+VfuPtaDtr0xhQJq7Q/ImOyeTHo+bWYI9R/TQhkaoDL+3Fm7C+qKP
+ QyaX1MbnL1XzNmNx5fXaQI2L5vdYywsXzOTQJ3hf0SCp4Xp9tJfercshJir8dD0SmA
+ Lc8RIj1kG3pg7b7crOFi8GCrlgGQ6Pp23KsGG1NqIk8BYibZ1ySXDAWTbRz3cKLwOj
+ saAUZAyKd4AlPGd42RImlnWsxCSX/t7IBSzfRlgRprdFs2UEfrKb2YWCVHrV27OVMU
+ dNIoNoGWLm/0Q==
+Date: Thu, 22 Aug 2024 09:41:10 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>
+Subject: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema for
+ RK3588 HDMI TX Controller
+Message-ID: <20240822-pushchair-premises-f4055779216a@spud>
+References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
+ <7E8109D4-A353-4FE3-9152-3C3C6CB7D634@sntech.de>
+ <2085e998-a453-4893-9e80-3be68b0fb13d@collabora.com>
+ <4167579.6PsWsQAL7t@diego>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 40/86] drm/stm: Run DRM default client setup
-To: Thomas Zimmermann <tzimmermann@suse.de>, <daniel@ffwll.ch>,
- <airlied@gmail.com>, <jfalempe@redhat.com>, <javierm@redhat.com>
-CC: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-References: <20240821130348.73038-1-tzimmermann@suse.de>
- <20240821130348.73038-41-tzimmermann@suse.de>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240821130348.73038-41-tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.17]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-22_03,2024-08-19_03,2024-05-17_01
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Z+weBBqJ58Bi1CtB"
+Content-Disposition: inline
+In-Reply-To: <4167579.6PsWsQAL7t@diego>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,29 +80,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 8/21/24 14:59, Thomas Zimmermann wrote:
-> Call drm_client_setup_with-fourcc() to run the kernel's default client
-> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
-> setup can start the common fbdev client.
->
-> v2:
-> - use drm_client_setup_with_fourcc()
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+--Z+weBBqJ58Bi1CtB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Thomas,
+On Thu, Aug 22, 2024 at 09:01:34AM +0200, Heiko St=FCbner wrote:
+> @Conor: just for me, did some shift happen in our understanding of dt-
+> best-practices in terms of syscon via phandle vs. syscon via compatible?
+>=20
+> Because Rockchip boards are referencing their GRFs via phandes forever
+> but similar to the soc vs non-soc node thing, I'd like to stay on top of
+> best-practices ;-)
 
-Thanks for this work.
+If IP blocks, and thus drivers, are going to be reused between devices,
+using the phandles makes sense given that it is unlikely that syscon
+nodes can make use of fallback compatibles due to bits within that "glue"
+changing between devices. It also makes sense when there are multiple
+instances of an IP on the device, which need to use different syscons.
+My goal is to ask people why they are using these type of syscons
+phandle properties, cos often they are not required at all - for example
+with clocks where you effectively need a whole new driver for every
+single soc and having a phandle property buys you nothing.
 
-Again for v2:
-Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+--Z+weBBqJ58Bi1CtB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-Raphaël
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsb5pgAKCRB4tDGHoIJi
+0rLhAQDqY1gu1PD4V30d8emILN4UQA7IqbfNHPYXVGBNqADBXwEAj497+bHi0qU5
+bnjxze+ZiZvdByZ4C9o+h+n3wfVJhQA=
+=vu81
+-----END PGP SIGNATURE-----
+
+--Z+weBBqJ58Bi1CtB--
