@@ -2,79 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DBA95B003
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 10:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6D195B012
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 10:21:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE0010E7E3;
-	Thu, 22 Aug 2024 08:16:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E411010E396;
+	Thu, 22 Aug 2024 08:21:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DJFcod9q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Cm/1cF3j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8F1E10E3FD
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 08:15:59 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3719753d365so246072f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 01:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724314558; x=1724919358; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=75AbW8YCcPqvwKBFK7/SreyR9quK7zkhy+4xs4mwsXg=;
- b=DJFcod9qejYfSITIPzP1M0gpsQXgFJ9UwbQ4Aa5cUDusHBZiU4W2AYA52RYgYtKFXy
- JnT2NfN7PS5q1/dZr+G8UUFyaqrWUdhVnnMLirguebclDDpCZeu08U0/YXwi+lHaxk7t
- cSVMLdHU4VaJwmOESLvOBZjaZShspV8TCOlvY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724314558; x=1724919358;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=75AbW8YCcPqvwKBFK7/SreyR9quK7zkhy+4xs4mwsXg=;
- b=kfiEWKsPWKxkXfIBMMZkUHyMxQCvHjuL1PIk6iaUdlyYuxGRSGOyHj0EzSLqyZsVnp
- E1qbJIUoGTJnlDATRGNFquK5uMI8UVQ9qJ+dnHuL9PnGyb/Jt1v5/wWOLUH+CTu/Om1q
- NFYRyi2+OWOiq74eQqj39UspUBRt2MNwDDuP7YSqeoTXhlQv/fKeWRPWoKZMLL251Qbz
- CjA9VWF9JQTmH5+DK/A2y9azX/193QumPKsGSDCo/G1M21FlzJHRlV2T+0zMylgNu8jx
- YYHgVMUHjlhKxipSSZ+0O3rCYSmLmgzdvizwQO1+2tCw0wkd/kCR6bGMMGNEXCLQDpZf
- mrYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUiewKNWgwjFUTbnwYLAKvUd+GjYIumHEvp4oZofuLms8raXhjbF9sAf2sVelM//DsZx26yYkX8q8o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTkAjeICVyCndtRGnLoDDr+3easgW26GUN36lu7fwZP71DdKat
- HKuL2U5Mq5QlVkZ1ZrfOun6GyU8xjcjYjiA5Yyp9PNkJMAYiSZvpc2A7hUcrie8=
-X-Google-Smtp-Source: AGHT+IEEXh+Q/+CkzsVsvEFcQ/I2Vf2dvHt8pCyu+gou90gTZKOWWPrxbLxRN1SPXddLS0cesV12Yw==
-X-Received: by 2002:a5d:59a3:0:b0:368:75:2702 with SMTP id
- ffacd0b85a97d-372fd585cb3mr4553322f8f.13.1724314557765; 
- Thu, 22 Aug 2024 01:15:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42abefeaa45sm52420865e9.39.2024.08.22.01.15.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Aug 2024 01:15:57 -0700 (PDT)
-Date: Thu, 22 Aug 2024 10:15:55 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-misc-next
-Message-ID: <Zsbzu6uDoroaWXUu@phenom.ffwll.local>
-References: <20240816084109.GA229316@localhost.localdomain>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75ACE10E396
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 08:21:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724314912; x=1755850912;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=znW26SsR+zeR+BV7janUJDDlPXgyz06sdklPluKCgSU=;
+ b=Cm/1cF3je/6tD5bbGG6oiWsibfxBOZcf0TtoonIJKI1NilNEbA2dkDJz
+ Ef6JJGmquqABVkQ+vByGkduqirQfXuh2rya9uvKs2+CQrQfybYTQCE1/P
+ RMSu2zscjdcx37LO7aMiWHlyMLMeJZqnmfiJ2bxperOtvowGnfHxU07vH
+ xopcVmOEWfCTzYxI/WVNvnKL6JihY+KvoNq0SBXVnAeNzWPW9Q/64JvJ1
+ pQNQIArCj/neOfIuJVqZ6afFlKhyfesTFwxsiTrM3Opt67fXHZzwkGmYe
+ 86RdsEr0yuKN0mMyvBs+mEPbSvglyBjXFpGDyrm8uQrb1w38jQvyNIDLp w==;
+X-CSE-ConnectionGUID: JFYQbEpkRBCAKlE0xhr+vw==
+X-CSE-MsgGUID: eaoPPn76RUmo4fIFjtzLjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="40176252"
+X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; d="scan'208";a="40176252"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2024 01:21:51 -0700
+X-CSE-ConnectionGUID: xQQbbKBITfSS59EVyu/ZpQ==
+X-CSE-MsgGUID: sHzOlfTJTs+inEt0rIxdfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; d="scan'208";a="61393367"
+Received: from apaszkie-mobl2.apaszkie-mobl2 (HELO [10.245.244.60])
+ ([10.245.244.60])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2024 01:21:49 -0700
+Message-ID: <75bce0097d86896fa70d6dba4c8ddb429a5bc1bc.camel@linux.intel.com>
+Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
+ header
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Daniel
+ Vetter <daniel.vetter@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ dri-devel@lists.freedesktop.org,  David Airlie <airlied@linux.ie>
+Date: Thu, 22 Aug 2024 10:21:47 +0200
+In-Reply-To: <8b479754-ea3f-4eb9-a739-26ee38530a23@amd.com>
+References: <20240710124301.1628-1-christian.koenig@amd.com>
+ <20240710124301.1628-5-christian.koenig@amd.com>
+ <Zo7QpJKtVNw4RvUd@DUT025-TGLU.fm.intel.com>
+ <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
+ <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
+ <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
+ <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
+ <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
+ <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
+ <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
+ <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
+ <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
+ <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
+ <13a47d22fb6753e20046a983126c6fea675beed2.camel@linux.intel.com>
+ <006ba26a-48ed-43e7-8213-72ca0ae553e1@amd.com>
+ <fe3a72942e558af26f1b2794f946920a33d316ab.camel@linux.intel.com>
+ <e3716526ae9b530adddc815ca12c402b4cf7678b.camel@linux.intel.com>
+ <8b479754-ea3f-4eb9-a739-26ee38530a23@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240816084109.GA229316@localhost.localdomain>
-X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,294 +92,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 16, 2024 at 10:41:09AM +0200, Thomas Zimmermann wrote:
-> Hi Dave, Sima,
-> 
-> this is the weekly PR for drm-misc-next. Mostly small cleanups and
-> improvements. Rockchip received support for more modes and displays.
-> 
-> Best regards
-> Thomas
-> 
-> drm-misc-next-2024-08-16:
-> drm-misc-next for v6.12:
-> 
-> Core Changes:
-> 
-> ci:
-> - Update dependencies
-> 
-> docs:
-> - Cleanups
-> 
-> edid:
-> - Improve debug logging
-> - Clean up interface
-> 
-> fbdev emulation:
-> - Remove old fbdev hooks
-> - Update documentation
-> 
-> panic:
-> - Cleanups
-> 
-> Driver Changes:
-> 
-> amdgpu:
-> - Remove usage of old fbdev hooks
-> - Use backlight constants
-> 
-> ast:
-> - Fix timeout loop for DP link training
-> 
-> hisilicon:
-> - hibmc: Cleanups
-> 
-> mipi-dsi:
-> - Improve error handling
-> - startek-kd070fhfid015: Use new error handling
-> 
-> nouveau:
-> - Remove usage of old fbdev hooks
-> 
-> panel:
-> - Use backlight constants
-> 
-> radeon:
-> - Use backlight constants
-> 
-> rockchip:
-> - Improve DP sink-capability reporting
-> - Cleanups
-> - dw_hdmi: Support 4k@60Hz; Cleanups
-> - vop: Support RGB display on Rockchip RK3066; Support 4096px width
-> 
-> tilcdc:
-> - Use backlight constants
-> The following changes since commit 4e996697a443a214887ef81b008c344d183b5659:
-> 
->   Merge tag 'drm-misc-next-2024-08-09' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2024-08-09 10:41:59 +0200)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2024-08-16
+On Thu, 2024-08-22 at 09:55 +0200, Christian K=C3=B6nig wrote:
+> Am 22.08.24 um 08:47 schrieb Thomas Hellstr=C3=B6m:
+> > > > > As Sima said, this is complicated but not beyond
+> > > > > comprehension:
+> > > > > i915
+> > > > > https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/gpu/drm=
+/i915/gem/i915_gem_shrinker.c#L317
+> > > > As far as I can tell what i915 does here is extremely
+> > > > questionable.
+> > > >=20
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (sc->nr_scanned < sc->nr_to_scan =
+&&
+> > > > current_is_kswapd()) {
+> > > > ....
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 with_intel_runtim=
+e_pm(&i915->runtime_pm, wakeref) {
+> > > >=20
+> > > > with_intel_runtime_pm() then calls pm_runtime_get_sync().
+> > > >=20
+> > > > So basically the i915 shrinker assumes that when called from
+> > > > kswapd()
+> > > > that it can synchronously wait for runtime PM to power up the
+> > > > device
+> > > > again.
+> > > >=20
+> > > > As far as I can tell that means that a device driver makes
+> > > > strong
+> > > > and
+> > > > completely undocumented assumptions how kswapd works
+> > > > internally.
+> > > Admittedly that looks weird
+> > >=20
+> > > But I'd really expect a reclaim lockdep splat to happen there if
+> > > the
+> > > i915 pm did something not-allowed. IIRC, the design direction the
+> > > i915
+> > > people got from mm people regarding the shrinkers was to avoid
+> > > any
+> > > sleeps in direct reclaim and punt it to kswapd. Need to ask i915
+> > > people
+> > > how they can get away with that.
+> > >=20
+> > >=20
+> > So it turns out that Xe integrated pm resume is reclaim-safe, and
+> > I'd
+> > expect i915's to be as well. Xe discrete pm resume isn't.
+> >=20
+> > So that means that, at least for integrated, the i915 shrinker
+> > should
+> > be ok from that POW, and punting certain bos to kswapd is not
+> > AFAICT
+> > abusing any undocumented features of kswapd but rather a way to
+> > avoid
+> > resuming the device during direct reclaim, like documented.
+>=20
+> The more I think about this the more I disagree to this driver
+> design.=20
+> In my opinion device drivers should *never* resume runtime PM in a=20
+> shrinker callback in the first place.
 
-Pulled into drm-next, thanks!
--Sima
-> 
-> for you to fetch changes up to 8befe8fa5a4e4b30787b17e078d9d7b5cb92ea19:
-> 
->   drm/tilcdc: Use backlight power constants (2024-08-16 09:28:01 +0200)
-> 
-> ----------------------------------------------------------------
-> drm-misc-next for v6.12:
-> 
-> Core Changes:
-> 
-> ci:
-> - Update dependencies
-> 
-> docs:
-> - Cleanups
-> 
-> edid:
-> - Improve debug logging
-> - Clean up interface
-> 
-> fbdev emulation:
-> - Remove old fbdev hooks
-> - Update documentation
-> 
-> panic:
-> - Cleanups
-> 
-> Driver Changes:
-> 
-> amdgpu:
-> - Remove usage of old fbdev hooks
-> - Use backlight constants
-> 
-> ast:
-> - Fix timeout loop for DP link training
-> 
-> hisilicon:
-> - hibmc: Cleanups
-> 
-> mipi-dsi:
-> - Improve error handling
-> - startek-kd070fhfid015: Use new error handling
-> 
-> nouveau:
-> - Remove usage of old fbdev hooks
-> 
-> panel:
-> - Use backlight constants
-> 
-> radeon:
-> - Use backlight constants
-> 
-> rockchip:
-> - Improve DP sink-capability reporting
-> - Cleanups
-> - dw_hdmi: Support 4k@60Hz; Cleanups
-> - vop: Support RGB display on Rockchip RK3066; Support 4096px width
-> 
-> tilcdc:
-> - Use backlight constants
-> 
-> ----------------------------------------------------------------
-> Alex Bee (1):
->       drm/rockchip: vop: Allow 4096px width scaling
-> 
-> Andy Shevchenko (1):
->       drm: fixed: Don't use "proxy" headers
-> 
-> Christophe JAILLET (1):
->       drm/rockchip: Constify struct drm_encoder_helper_funcs
-> 
-> Cristian Ciocaltea (5):
->       drm/rockchip: Explicitly include bits header
->       drm/rockchip: dw_hdmi: Use modern drm_device based logging
->       drm/rockchip: dw_hdmi: Simplify clock handling
->       drm/rockchip: dw_hdmi: Use devm_regulator_get_enable()
->       drm/rockchip: dw_hdmi: Drop superfluous assignments of mpll_cfg, cur_ctr and phy_config
-> 
-> Dan Carpenter (1):
->       drm/ast: astdp: fix loop timeout check
-> 
-> Daniel Yang (1):
->       drm/connector: kerneldoc: Fix two missing newlines in drm_connector.c
-> 
-> Dragan Simic (1):
->       drm/rockchip: cdn-dp: Clean up a few logged messages
-> 
-> Jani Nikula (4):
->       drm/edid: reduce DisplayID log spamming
->       drm/rockchip: cdn-dp: get rid of drm_edid_raw()
->       drm/i915/gvt: stop using drm_edid_block_valid()
->       drm/edid: make drm_edid_block_valid() static
-> 
-> Jocelyn Falempe (5):
->       drm/panic: Remove space before "!" in panic message
->       drm/panic: Remove useless export symbols
->       drm/panic: Move drm_panic_register prototype to drm_crtc_internal.h
->       drm/panic: Move copyright notice to the top
->       drm/panic: Add panic description
-> 
-> Jonas Karlman (3):
->       drm/rockchip: dw_hdmi: Fix reading EDID when using a forced mode
->       drm/rockchip: dw_hdmi: Allow High TMDS Bit Rates
->       drm/rockchip: dw_hdmi: Add max_tmds_clock validation
-> 
-> Louis Chauvet (1):
->       drm/vkms: Formatting and typo fix
-> 
-> Mohammed Anees (1):
->       drm: Add missing documentation for struct drm_plane_size_hint
-> 
-> Tejas Vipin (2):
->       drm/mipi-dsi: add more multi functions for better error handling
->       drm/panel: startek-kd070fhfid015: transition to mipi_dsi wrapped functions
-> 
-> Thomas Zimmermann (18):
->       Merge drm/drm-next into drm-misc-next
->       drm: Do delayed switcheroo in drm_lastclose()
->       drm/amdgpu: Do not set struct drm_driver.lastclose
->       drm/nouveau: Do not set struct drm_driver.lastclose
->       drm/nouveau: Do not set struct drm_mode_config_funcs.output_poll_changed
->       drm/nouveau: Implement switcheroo reprobe with drm_client_dev_hotplug()
->       drm/fbdev-helper: Update documentation on obsolete callbacks
->       drm/fbdev-helper: Remove drm_fb_helper_output_poll_changed()
->       drm: Remove struct drm_driver.lastclose
->       drm: Remove struct drm_mode_config_funcs.output_poll_changed
->       drm/amdgpu: Use backlight power constants
->       drm/panel: panel-novatak-nt35510: Use backlight power constants
->       drm/panel: panel-orisetech-otm8009a: Use backlight power constants
->       drm/panel: panel-samsung-s6e63j0x03: Use backlight power constants
->       drm/panel: panel-samsung-s6e3ha2: Use backlight power constants
->       drm/panel: panel-sony-acx565akm: Use backlight power constants
->       drm/radeon: Use backlight power constants
->       drm/tilcdc: Use backlight power constants
-> 
-> Val Packett (2):
->       drm/rockchip: vop: clear DMA stop bit on RK3066
->       drm/rockchip: vop: enable VOP_FEATURE_INTERNAL_RGB on RK3066
-> 
-> Vignesh Raman (1):
->       drm/ci: uprev mesa
-> 
-> WangYuli (1):
->       drm/ci: Upgrade setuptools requirement to 70.0.0
-> 
-> Zhang Zekun (1):
->       drm/hisilicon: Remove unused delarations
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  17 --
->  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c     |   2 +-
->  drivers/gpu/drm/ast/ast_dp.c                       |  15 +-
->  drivers/gpu/drm/ci/container.yml                   |   8 +
->  drivers/gpu/drm/ci/gitlab-ci.yml                   |  22 +--
->  drivers/gpu/drm/ci/image-tags.yml                  |   8 +-
->  drivers/gpu/drm/ci/lava-submit.sh                  |   1 +
->  drivers/gpu/drm/ci/test.yml                        |   4 +-
->  drivers/gpu/drm/ci/xfails/requirements.txt         |   2 +-
->  drivers/gpu/drm/drm_connector.c                    |   4 +
->  drivers/gpu/drm/drm_crtc_internal.h                |   4 +
->  drivers/gpu/drm/drm_displayid.c                    |   3 -
->  drivers/gpu/drm/drm_edid.c                         |  22 +--
->  drivers/gpu/drm/drm_fb_helper.c                    |  37 +---
->  drivers/gpu/drm/drm_file.c                         |  32 ++--
->  drivers/gpu/drm/drm_internal.h                     |   1 -
->  drivers/gpu/drm/drm_mipi_dsi.c                     | 194 +++++++++++++++++++++
->  drivers/gpu/drm/drm_panic.c                        |  62 +++++--
->  drivers/gpu/drm/drm_probe_helper.c                 |  10 +-
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |   1 -
->  drivers/gpu/drm/i915/gvt/kvmgt.c                   |  18 +-
->  drivers/gpu/drm/nouveau/dispnv50/disp.c            |   1 -
->  drivers/gpu/drm/nouveau/nouveau_display.c          |   1 -
->  drivers/gpu/drm/nouveau/nouveau_drm.c              |   1 -
->  drivers/gpu/drm/nouveau/nouveau_vga.c              |  10 +-
->  drivers/gpu/drm/nouveau/nouveau_vga.h              |   1 -
->  drivers/gpu/drm/panel/panel-novatek-nt35510.c      |   2 +-
->  drivers/gpu/drm/panel/panel-orisetech-otm8009a.c   |   4 +-
->  drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c      |  10 +-
->  drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c   |  10 +-
->  drivers/gpu/drm/panel/panel-sony-acx565akm.c       |   2 +-
->  .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 115 ++++--------
->  drivers/gpu/drm/radeon/atombios_encoders.c         |   2 +-
->  drivers/gpu/drm/radeon/radeon_legacy_encoders.c    |   2 +-
->  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |   2 +-
->  drivers/gpu/drm/rockchip/cdn-dp-core.c             |  32 ++--
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        | 107 +++++-------
->  drivers/gpu/drm/rockchip/inno_hdmi.c               |   2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.h        |   3 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |   8 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.h        |   1 +
->  drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |   2 +
->  drivers/gpu/drm/tilcdc/tilcdc_panel.c              |   2 +-
->  drivers/gpu/drm/vkms/vkms_drv.c                    |   6 +-
->  drivers/gpu/vga/vga_switcheroo.c                   |   3 +-
->  include/drm/drm_drv.h                              |  28 ---
->  include/drm/drm_edid.h                             |   2 -
->  include/drm/drm_fb_helper.h                        |   6 -
->  include/drm/drm_fixed.h                            |   3 +-
->  include/drm/drm_mipi_dsi.h                         |  10 ++
->  include/drm/drm_mode_config.h                      |  16 --
->  include/drm/drm_panic.h                            |  21 +--
->  include/uapi/drm/drm_mode.h                        |   2 +
->  55 files changed, 471 insertions(+), 416 deletions(-)
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+Runtime PM resume is allowed even from irq context if carefully
+implemented by the driver and flagged as such to the core.=20
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+https://docs.kernel.org/power/runtime_pm.html
+
+Resuming runtime PM from reclaim therefore shouldn't be an issue IMO,
+and really up to the driver.=20
+
+>=20
+> When the device is turned off it means that all of it's operations
+> are=20
+> stopped and eventually power to caches etc turned off as well. So I=20
+> don't see any ongoing writeback operations or similar either.
+>=20
+> So the question is why do we need to power on the device in a
+> shrinker=20
+> in the first place?
+>=20
+> What could be is that the device needs to flush GART TLBs or similar=20
+> when it is turned on, e.g. that you grab a PM reference to make sure=20
+> that during your HW operation the device doesn't suspend.
+
+Exactly why the i915 needs to flush the GART I'm not sure of but I
+suspect the gart TLB might be forgotten while suspended.
+
+>=20
+> But that doesn't mean that you should resume the device. In other
+> words=20
+> when the device is powered down you shouldn't power it up again.
+>=20
+> And for GART we already have the necessary move callback implemented
+> in=20
+> TTM. This is done by radeon, amdgpu and nouveu in a common way as far
+> as=20
+> I can see.
+>=20
+> So why should Xe be special and follow the very questionable approach
+> of=20
+> i915 here?
+
+For Xe, Lunar Lake (integrated) has the interesting design that each bo
+carries compression metadata that needs to be blitted to system pages
+during shrinking. The alternative is to resolve all buffer objects at
+device runtime suspend...
+
+But runtime PM aside, with a one-bo only approach we still have the
+drawbacks that it=20
+
+* eliminates possibility for driver deadlock avoidance
+* Requires TTM knowledge of "purgeable" bos
+* Requires an additional LRU to avoid O(n2) traversal of already
+shrunken objects
+* Drivers with legitimate shrinker designs that don't fit in the TTM-
+enforced model will have frustrated maintainers.
+
+Thanks,
+Thomas
+
+
+>=20
+> Regards,
+> Christian.
+>=20
+>=20
+> >=20
+> > /Thomas
+> >=20
+> >=20
+> >=20
+
