@@ -2,75 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CE395B146
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 11:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554D695B17D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2024 11:23:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A786310E814;
-	Thu, 22 Aug 2024 09:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579B910E819;
+	Thu, 22 Aug 2024 09:23:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JD03rYFp";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="JNWwFYw+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD1210E814
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 09:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724318226; x=1755854226;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=a5Snna/TCExFOBfUIFiYvqGHUQEeHIaNkMpIs4WHu8A=;
- b=JD03rYFpX6HfPKCzgpzYeIUn6VzPjpQyeZN+qWd+9F7mFg8Mm9g+cctZ
- MV0YuapYk0rpkTpqI5YoXIsyztKdPYVG2KBq4cacS81aNz9G7xRv1n/f3
- aKrgC36erWw1TxkcNRkKf7hhcIN7ArJxVRdG+wbu60snSdDmmkPGCPs/l
- I4Iaqx9EnTqBQPIYmqedACau+NZt4PXYTq7mKcQsSfsCDZBpYnKKZSk4L
- MnFLv4WmYdZ6ByzneWhTeZ2sSN+FbkztzkEk/jTuOUS7uQoM2aho2Ou37
- c/CY+v+G6IWga81dD2sitb9EuOTuM5u7S72cd6rMLFZqW6czCbPean5ge Q==;
-X-CSE-ConnectionGUID: lC5cOv+2REmoYFUhQJJYLg==
-X-CSE-MsgGUID: oiBcdXJfTgyVZkXXEguz9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22873215"
-X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; d="scan'208";a="22873215"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2024 02:17:06 -0700
-X-CSE-ConnectionGUID: zS7NKeLJSZSG3G3mv54SEQ==
-X-CSE-MsgGUID: 07cnPwn5Q6OwHFPvUiRG7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; d="scan'208";a="66267241"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 22 Aug 2024 02:17:00 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sh3w9-000Cd0-1m;
- Thu, 22 Aug 2024 09:16:57 +0000
-Date: Thu, 22 Aug 2024 17:16:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stefan Wahren <wahrenst@gmx.net>, Russell King <linux@armlinux.org.uk>,
- Doug Anderson <dianders@chromium.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Minas Harutyunyan <hminas@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
- Peter Robinson <pbrobinson@gmail.com>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>
-Subject: Re: [PATCH V3 7/9] usb: dwc2: Refactor backup/restore of registers
-Message-ID: <202408221629.jv9AgCrF-lkp@intel.com>
-References: <20240821214052.6800-8-wahrenst@gmx.net>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960D010E819
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 09:23:52 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-3718706cf8aso252650f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2024 02:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1724318631; x=1724923431; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=hAIdw1MsYxurgcuI1tEtzK10ojxgxhsFnTkF66hhK30=;
+ b=JNWwFYw+k/oCOZIBjQ0VOORalPgtx/5iKILq7Wt5gzNlYtuPm1tSWITjUPXZU6+CMq
+ +D8yu67T87Ly4l+yRAkYJuakgtaNj+JJ8qRnoUoEJGt5iwO3oWcuo8F2OkXo/bvJT4z6
+ EA6m7C4Ey0tn6HaQp+UDtSemyNk4kw2Xpxa+U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724318631; x=1724923431;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hAIdw1MsYxurgcuI1tEtzK10ojxgxhsFnTkF66hhK30=;
+ b=PPnKFDqTtcyCNobsIipIT+3W60wUiQ809OuAUT3sMDRgpjygemKSgoO8/mlADRQic7
+ kFHYR4lxhdEATHzjJyWM7ojJeAFxT1Kpwd9E/H0zfzqHsAnlMm/Bhz0dvkYzbWdSbuAi
+ gjR9HazJFgXRT7K23sTkruU6IWsT8ax8iRKMtX7jtqguwAbnu4CPwQUBSqSSD36W8FNM
+ X7wtem/wv9KG9tgh1QmgQGEvvIxIWwQCD5cyu5RnqH6YK0/b1VDONE3S5zPXOKPx6d5R
+ eLEj1SmYhkoQl10Q8xpKFMZPdQOXR4hsukXSHx80NwSUb/zT1OgAuJ20ajdpwQuACM6W
+ tc7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUamLJMMX3/ehNct1RIZjkce1UvLTRxa8cDEMtPvoGu6j6ZrDQzvEIkaVNAH/+CrDwnqv4gAJoRcH4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyl0+kWTZu+g3bA6Uf88GLr6TIc98TmJAa46cBOdLWwU4E+Mtq7
+ j3pRQVl2vZYmgtBz54Xd1DFCSfWAS59bEzk1PKbKQJZLoX3Luqat0jpt/iJOcUE=
+X-Google-Smtp-Source: AGHT+IEZTrMFfipGx3FlxFKk7PtcTrEaaz8/i1jwKfZr6VVyMUpkCStaRoPOqa/9yUadGri8wQ4qHQ==
+X-Received: by 2002:a5d:658a:0:b0:371:8277:6650 with SMTP id
+ ffacd0b85a97d-37308c09013mr891465f8f.13.1724318630505; 
+ Thu, 22 Aug 2024 02:23:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3730813ce6fsm1193903f8f.30.2024.08.22.02.23.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Aug 2024 02:23:50 -0700 (PDT)
+Date: Thu, 22 Aug 2024 11:23:47 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
+ header
+Message-ID: <ZscDox5KoiNHXxne@phenom.ffwll.local>
+References: <14b70a4d-dc65-4886-940c-ffc1a8197821@gmail.com>
+ <77995ffc6de401bc8ed2f4181848dffb18540666.camel@linux.intel.com>
+ <20bceb24-8cae-4f0a-897e-326dbf8dc186@amd.com>
+ <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
+ <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
+ <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
+ <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
+ <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
+ <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
+ <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240821214052.6800-8-wahrenst@gmx.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,96 +93,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+On Wed, Aug 21, 2024 at 10:14:34AM +0200, Christian König wrote:
+> Am 20.08.24 um 18:00 schrieb Thomas Hellström:
+> > > Or why exactly should shrinking fail?
+> > A common example would be not having runtime pm and the particular bo
+> > needs it to unbind, we want to try the next bo. Example: i915 GGTT
+> > bound bos and Lunar Lake PL_TT bos.
+> 
+> WHAT? So you basically block shrinking BOs because you can't unbind them
+> because the device is powered down?
 
-kernel test robot noticed the following build warnings:
+Yes. amdgpu does the same btw :-)
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on arm/for-next arm/fixes v6.11-rc4 next-20240822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+It's a fairly fundamental issue of rpm on discrete gpus, or anything that
+looks a lot like a discrete gpu. The deadlock scenario is roughly:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wahren/mailbox-bcm2835-Fix-timeout-during-suspend-mode/20240822-063725
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240821214052.6800-8-wahrenst%40gmx.net
-patch subject: [PATCH V3 7/9] usb: dwc2: Refactor backup/restore of registers
-config: x86_64-randconfig-161-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221629.jv9AgCrF-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221629.jv9AgCrF-lkp@intel.com/reproduce)
+- In runtime suspend you need to copy any bo out of vram into system ram
+  before you power the gpu. This requires bo and ttm locks.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221629.jv9AgCrF-lkp@intel.com/
+- You can't just avoid this by holding an rpm reference as long as any bo
+  is still in vram, because that defacto means you'll never autosuspend at
+  runtime. Plus most real hw is complex enough that you have some driver
+  objects that you need to throw out or recreate, so in practice no way to
+  avoid all this.
 
-All warnings (new ones prefixed by >>):
+- runtime resume tends to be easier and mostly doable without taking bo
+  and ttm locks, because by design you know no one else can possibly have
+  any need to get at the gpu hw - it was all powered off after all. It's
+  still messy, but doable.
 
->> drivers/usb/dwc2/gadget.c:5605:28: warning: variable 'dr' set but not used [-Wunused-but-set-variable]
-    5605 |         struct dwc2_dregs_backup *dr;
-         |                                   ^
-   1 warning generated.
+- Unfortunately this doesn't help, because your runtime resume might need
+  to wait for a in-progress suspend operation to complete. Which means you
+  still deadlock even if your resume path has entirely reasonable locking.
 
+On integrated you can mostly avoid this all because there's no need to
+swap out bo to system memory, they're there already. Exceptions like the
+busted coherency stuff on LNL aside.
 
-vim +/dr +5605 drivers/usb/dwc2/gadget.c
+But on discrete it's just suck.
 
-be2b960e57154a Artur Petrosyan 2021-04-08  5588  
-be2b960e57154a Artur Petrosyan 2021-04-08  5589  /*
-be2b960e57154a Artur Petrosyan 2021-04-08  5590   * dwc2_gadget_exit_partial_power_down() - Exit controller from device partial
-be2b960e57154a Artur Petrosyan 2021-04-08  5591   * power down.
-be2b960e57154a Artur Petrosyan 2021-04-08  5592   *
-be2b960e57154a Artur Petrosyan 2021-04-08  5593   * @hsotg: Programming view of the DWC_otg controller
-be2b960e57154a Artur Petrosyan 2021-04-08  5594   * @restore: indicates whether need to restore the registers or not.
-be2b960e57154a Artur Petrosyan 2021-04-08  5595   *
-be2b960e57154a Artur Petrosyan 2021-04-08  5596   * Return: non-zero if failed to exit device partial power down.
-be2b960e57154a Artur Petrosyan 2021-04-08  5597   *
-be2b960e57154a Artur Petrosyan 2021-04-08  5598   * This function is for exiting from device mode partial power down.
-be2b960e57154a Artur Petrosyan 2021-04-08  5599   */
-be2b960e57154a Artur Petrosyan 2021-04-08  5600  int dwc2_gadget_exit_partial_power_down(struct dwc2_hsotg *hsotg,
-be2b960e57154a Artur Petrosyan 2021-04-08  5601  					bool restore)
-be2b960e57154a Artur Petrosyan 2021-04-08  5602  {
-be2b960e57154a Artur Petrosyan 2021-04-08  5603  	u32 pcgcctl;
-be2b960e57154a Artur Petrosyan 2021-04-08  5604  	u32 dctl;
-be2b960e57154a Artur Petrosyan 2021-04-08 @5605  	struct dwc2_dregs_backup *dr;
-be2b960e57154a Artur Petrosyan 2021-04-08  5606  	int ret = 0;
-be2b960e57154a Artur Petrosyan 2021-04-08  5607  
-be2b960e57154a Artur Petrosyan 2021-04-08  5608  	dr = &hsotg->dr_backup;
-be2b960e57154a Artur Petrosyan 2021-04-08  5609  
-be2b960e57154a Artur Petrosyan 2021-04-08  5610  	dev_dbg(hsotg->dev, "Exiting device partial Power Down started.\n");
-be2b960e57154a Artur Petrosyan 2021-04-08  5611  
-be2b960e57154a Artur Petrosyan 2021-04-08  5612  	pcgcctl = dwc2_readl(hsotg, PCGCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5613  	pcgcctl &= ~PCGCTL_STOPPCLK;
-be2b960e57154a Artur Petrosyan 2021-04-08  5614  	dwc2_writel(hsotg, pcgcctl, PCGCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5615  
-be2b960e57154a Artur Petrosyan 2021-04-08  5616  	pcgcctl = dwc2_readl(hsotg, PCGCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5617  	pcgcctl &= ~PCGCTL_PWRCLMP;
-be2b960e57154a Artur Petrosyan 2021-04-08  5618  	dwc2_writel(hsotg, pcgcctl, PCGCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5619  
-be2b960e57154a Artur Petrosyan 2021-04-08  5620  	pcgcctl = dwc2_readl(hsotg, PCGCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5621  	pcgcctl &= ~PCGCTL_RSTPDWNMODULE;
-be2b960e57154a Artur Petrosyan 2021-04-08  5622  	dwc2_writel(hsotg, pcgcctl, PCGCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5623  
-be2b960e57154a Artur Petrosyan 2021-04-08  5624  	udelay(100);
-be2b960e57154a Artur Petrosyan 2021-04-08  5625  	if (restore) {
-78c09c66698a77 Stefan Wahren   2024-08-21  5626  		ret = dwc2_gadget_restore_critical_registers(hsotg);
-78c09c66698a77 Stefan Wahren   2024-08-21  5627  		if (ret)
-be2b960e57154a Artur Petrosyan 2021-04-08  5628  			return ret;
-be2b960e57154a Artur Petrosyan 2021-04-08  5629  	}
-be2b960e57154a Artur Petrosyan 2021-04-08  5630  
-be2b960e57154a Artur Petrosyan 2021-04-08  5631  	/* Set the Power-On Programming done bit */
-be2b960e57154a Artur Petrosyan 2021-04-08  5632  	dctl = dwc2_readl(hsotg, DCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5633  	dctl |= DCTL_PWRONPRGDONE;
-be2b960e57154a Artur Petrosyan 2021-04-08  5634  	dwc2_writel(hsotg, dctl, DCTL);
-be2b960e57154a Artur Petrosyan 2021-04-08  5635  
-be2b960e57154a Artur Petrosyan 2021-04-08  5636  	/* Set in_ppd flag to 0 as here core exits from suspend. */
-be2b960e57154a Artur Petrosyan 2021-04-08  5637  	hsotg->in_ppd = 0;
-be2b960e57154a Artur Petrosyan 2021-04-08  5638  	hsotg->lx_state = DWC2_L0;
-be2b960e57154a Artur Petrosyan 2021-04-08  5639  
-be2b960e57154a Artur Petrosyan 2021-04-08  5640  	dev_dbg(hsotg->dev, "Exiting device partial Power Down completed.\n");
-be2b960e57154a Artur Petrosyan 2021-04-08  5641  	return ret;
-be2b960e57154a Artur Petrosyan 2021-04-08  5642  }
-012466fc8ccc01 Artur Petrosyan 2021-04-13  5643  
+TTM discrete gpu drivers avoided all that by simply not having a shrinker
+where you need to runtime pm get, instead all runtime pm gets are outmost,
+without holding any ttm or bo locks.
 
+> I would say that this is a serious NO-GO. It basically means that powered
+> down devices can lock down system memory for undefined amount of time.
+> 
+> In other words an application can allocate memory, map it into GGTT and then
+> suspend or even get killed and we are not able to recover the memory because
+> there is no activity on the GPU any more?
+> 
+> That really sounds like a bug in the driver design to me.
+
+It's a bug in the runtime pm core imo. I think interim what Thomas laid
+out is the best solution, since in practice when the gpu is off you really
+shouldn't need to wake it up. Except when you're unlucky and racing a
+runtime suspend against a shrinker activity (like runtime suspend throws a
+bo into system memory, and the shrinker then immediately wants to swap it
+out).
+
+I've been pondering this mess for a few months, and I think I have a
+solution. But it's a lot of work in core pm code unfortunately:
+
+I think we need to split the runtime_suspend callback into two halfes:
+
+->runtime_suspend_prepare
+
+This would be run by the rpm core code from a worker without holding any
+locks at all. Also, any runtime_pm_get call will not wait on this prepare
+callback to finish, so it's up to the driver to make sure all the locking
+is there. Synchronous suspend calls obviously have to wait for this to
+finish, but that should only happen during system suspend or driver
+unload, where we don't have these deadlock issues.
+
+Drivers can use this callback for any non-destructive prep work
+(non-destructive aside from the copy engine time wasted if it fails) like
+swapping bo from vram to system memory. Drivers must not actually shut
+down the hardware because a runtime_pm_get call must succeed without
+waiting for this callback to finish.
+
+If any runtime_pm_get call happens while the suspend attempt will be
+aborted without further action.
+
+->runtime_suspend
+
+This does the actual hw power-off. The power core must guarantee that the
+->runtime_suspend_prepare has successfully completed at least once without
+the rpm refcount being elevated from 0 to 1 again.
+
+This way drivers can assume that all bo have been swapped out from vram
+already, and there's no need to acquire bo or ttm locks in the suspend
+path that could block the resume path.
+
+Which would then allow unconditional runtime_pm_get in the shrinker paths.
+
+Unfortunately this will be all really tricky to implement and I think
+needs to be done in the rumtime pm core.
+
+Cheers, Sima
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
