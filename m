@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB0C95CD4B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 15:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20CB95CD4E
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 15:10:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15B7F10E713;
-	Fri, 23 Aug 2024 13:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1802010E735;
+	Fri, 23 Aug 2024 13:10:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jsSCn05X";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Af9YUBZp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 993E910E713;
- Fri, 23 Aug 2024 13:10:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3152010E726;
+ Fri, 23 Aug 2024 13:10:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724418620; x=1755954620;
+ t=1724418621; x=1755954621;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=jEGYw4KyKdqhB83EaX+pdmWXrOyBplimR5b19OZt8zY=;
- b=jsSCn05XsQBkILDlxDc2N5WvhGL4b1A3spfYvS4WA38Nrf7OQyl/DygS
- CjWZrZSoHmd7XtikFJG3FthdlgSrZbAsNt3OJMBeBBj727npdkj8Bviz0
- 3QHQu42qlse/TRJdEW7wM7cdVdjNv9RHzdnXuF0SMtFOZOqqcj7mBRanF
- 14/K1xkBgJYy7/8yLE9C3ueh8ydcs4OJwKOD2/EuMZASnbzItvnpDNJQ0
- 2NWONoeRdukFYND0Of9RnXR4vuNnirRhjUMuWHbvnb3YYLt8DyLflIsp+
- +fl5RV7RuZ2n33s+3vDdH8vns4QtkZhMs4mnxgaRvAvzPXEpCr4RQWDpY g==;
-X-CSE-ConnectionGUID: pFGriocgThyF/Ty9t3apCQ==
-X-CSE-MsgGUID: 5I3WMXydTs6a3PzAtDz06Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22483347"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="22483347"
+ bh=t4aqNMy6s4FMTFWd5KlQ+lJRbmiAVnRP9Ol42MyvyaU=;
+ b=Af9YUBZpjh81ndvNk317vQguIZrQBYIBp28iz8tvQm/EQvp5vtzbb+t2
+ 7LJfXSiQ2k8xkmAIj8nq3NnpF1NfwLRMZSHK1Z34J1CkC7WbZYqb6ItUs
+ nRwwsis4AgvWsVRxKJUV8cljEQW+gdon/GYfJ0LEfdPYfE/z6ApZ/c/YF
+ V27kiGpPHZ9yXK929HicHhYEiL1FoD6N5B6Lr6REWAi4NxgHFW5sS9Tk9
+ Z/qfyu25PQoIcck73yveBFr5Zu2xhPXHnICkD4Q62vWx1FifmDou/Bvl+
+ 37UvL+KkHIFM0HpsgFe6qBwrk6vEyT2C+/QaYdwbyaRX3oUsJDABL36h+ g==;
+X-CSE-ConnectionGUID: RHX69ZT1T9CrOVuUYH0Bgg==
+X-CSE-MsgGUID: L6U7qpIAQNyF26t5jxKyZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22483372"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="22483372"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2024 06:10:10 -0700
-X-CSE-ConnectionGUID: VlWTqtqGRnifYIwknNGUag==
-X-CSE-MsgGUID: TGWy2ZxbRBiVrpxmOAqoRw==
+ 23 Aug 2024 06:10:16 -0700
+X-CSE-ConnectionGUID: /TcCu5z6SlyCdYllpfgOYQ==
+X-CSE-MsgGUID: cFu8rMLDT1i6yqHDQwbHNA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="66614469"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="66614498"
 Received: from mwiniars-desk2.ger.corp.intel.com (HELO intel.com)
  ([10.245.246.236])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2024 06:10:07 -0700
+ 23 Aug 2024 06:10:14 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
  Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH v3 09/15] drm/i915/gt: Expose the number of total CCS slices
-Date: Fri, 23 Aug 2024 15:08:49 +0200
-Message-ID: <20240823130855.72436-10-andi.shyti@linux.intel.com>
+Subject: [PATCH v3 10/15] drm/i915/gt: Store engine-related sysfs kobjects
+Date: Fri, 23 Aug 2024 15:08:50 +0200
+Message-ID: <20240823130855.72436-11-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240823130855.72436-1-andi.shyti@linux.intel.com>
 References: <20240823130855.72436-1-andi.shyti@linux.intel.com>
@@ -71,85 +71,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement a sysfs interface to show the number of available CCS
-slices. The displayed number does not take into account the CCS
-balancing mode.
+Upcoming commits will need to access engine-related kobjects to
+enable the creation and destruction of sysfs interfaces at
+runtime.
+
+For this, store the "engine" directory (i915->sysfs_engine), the
+engine files (gt->kobj), and the default data
+(gt->kobj_defaults).
 
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 21 +++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h |  1 +
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.c    |  2 ++
- 3 files changed, 24 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_engine_types.h | 2 ++
+ drivers/gpu/drm/i915/gt/sysfs_engines.c      | 4 ++++
+ drivers/gpu/drm/i915/i915_drv.h              | 1 +
+ 3 files changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-index fc8a23fc28b6..edb6a4b63826 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -5,7 +5,9 @@
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+index ba55c059063d..cdc695fda918 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+@@ -388,6 +388,8 @@ struct intel_engine_cs {
+ 	u32 context_size;
+ 	u32 mmio_base;
  
- #include "i915_drv.h"
- #include "intel_gt_ccs_mode.h"
-+#include "intel_gt_print.h"
- #include "intel_gt_regs.h"
-+#include "intel_gt_sysfs.h"
- 
- static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
- {
-@@ -100,3 +102,22 @@ void intel_gt_ccs_mode_init(struct intel_gt *gt)
- 	/* Initialize the CCS mode setting */
- 	intel_gt_apply_ccs_mode(gt);
- }
++	struct kobject *kobj;
 +
-+static ssize_t num_cslices_show(struct device *dev,
-+				struct device_attribute *attr,
-+				char *buff)
-+{
-+	struct intel_gt *gt = kobj_to_gt(&dev->kobj);
-+	u32 num_slices;
+ 	struct intel_engine_tlb_inv tlb_inv;
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+index 021f51d9b456..f67f76df1cfe 100644
+--- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
++++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+@@ -506,6 +506,8 @@ void intel_engines_add_sysfs(struct drm_i915_private *i915)
+ 	if (!dir)
+ 		return;
+ 
++	i915->sysfs_engine = dir;
 +
-+	num_slices = hweight32(CCS_MASK(gt));
+ 	for_each_uabi_engine(engine, i915) {
+ 		struct kobject *kobj;
+ 
+@@ -526,6 +528,8 @@ void intel_engines_add_sysfs(struct drm_i915_private *i915)
+ 
+ 		add_defaults(container_of(kobj, struct kobj_engine, base));
+ 
++		engine->kobj = kobj;
 +
-+	return sysfs_emit(buff, "%u\n", num_slices);
-+}
-+static DEVICE_ATTR_RO(num_cslices);
-+
-+void intel_gt_sysfs_ccs_init(struct intel_gt *gt)
-+{
-+	if (sysfs_create_file(&gt->sysfs_gt, &dev_attr_num_cslices.attr))
-+		gt_warn(gt, "Failed to create sysfs num_cslices files\n");
-+}
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
-index 4a6763b95a78..9696cc9017f6 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
-@@ -9,5 +9,6 @@
- #include "intel_gt.h"
+ 		if (0) {
+ err_object:
+ 			kobject_put(kobj);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 94f7f6cc444c..3a8a757f5bd5 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -320,6 +320,7 @@ struct drm_i915_private {
+ 	struct intel_gt *gt[I915_MAX_GT];
  
- void intel_gt_ccs_mode_init(struct intel_gt *gt);
-+void intel_gt_sysfs_ccs_init(struct intel_gt *gt);
+ 	struct kobject *sysfs_gt;
++	struct kobject *sysfs_engine;
  
- #endif /* __INTEL_GT_CCS_MODE_H__ */
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
-index 33cba406b569..895eedc402ae 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
-@@ -12,6 +12,7 @@
- #include "i915_drv.h"
- #include "i915_sysfs.h"
- #include "intel_gt.h"
-+#include "intel_gt_ccs_mode.h"
- #include "intel_gt_print.h"
- #include "intel_gt_sysfs.h"
- #include "intel_gt_sysfs_pm.h"
-@@ -101,6 +102,7 @@ void intel_gt_sysfs_register(struct intel_gt *gt)
- 		goto exit_fail;
- 
- 	intel_gt_sysfs_pm_init(gt, &gt->sysfs_gt);
-+	intel_gt_sysfs_ccs_init(gt);
- 
- 	return;
- 
+ 	/* Quick lookup of media GT (current platforms only have one) */
+ 	struct intel_gt *media_gt;
 -- 
 2.45.2
 
