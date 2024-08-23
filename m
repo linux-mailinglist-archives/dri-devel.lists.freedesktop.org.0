@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F3C95CD7D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 15:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B79995CD85
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 15:15:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C074910E80D;
-	Fri, 23 Aug 2024 13:13:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B1310E815;
+	Fri, 23 Aug 2024 13:15:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IqO6LKFy";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rMM0u8aZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA54310E80C;
- Fri, 23 Aug 2024 13:13:53 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-7c2595f5c35so195653a12.1; 
- Fri, 23 Aug 2024 06:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724418833; x=1725023633; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KlMOJ/6A2fvxCoKdrNZuS0N59bJkqzjAMDDegTrgW44=;
- b=IqO6LKFyK0NGUnfsxa/XB0SBYbbLmGMYcp5DmJxhUG15djxte47Wsbp657yH5PMHfT
- L0hG8s+YTAIM7qPGBorrg1Qk6C992vqbLucSwDS8FUCOIu983bCfXt7Bnkk9bkXR3GeE
- G6iLy7UlryWoGkxPYce9fVprv4/hC0jbQ5iAzF8PCSLr6GDFFzmhVZ+CCNsSbGdkhd/U
- HvapiVGMbsNtHLAOiEmA6h1ZGWARpBXOCRjdUuaqBKbm3gOqjYiDzacaDQOavghlUj6x
- zb4VCkgTKoYsC5SPrU3YlQd8v9HsuUg2qgEjWdzm1ZUaBAVm9iTLPArN5+ctVLEJLYo0
- hELg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724418833; x=1725023633;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KlMOJ/6A2fvxCoKdrNZuS0N59bJkqzjAMDDegTrgW44=;
- b=EJrRy40yIUm5Y7VCAF+CIZoKcEpgaAtc2XclPiIXffJz12JkB7VpQWpKO2IZmA0ZwA
- JyUZ6v1GCPKJTtF4EXwSbVt51XhvRtXG1ItKxonRGdac5OqTZSq0VChgZlp/iO4gM0W4
- GccYS5XHuzhJliMVGetdlwnOccJJfVOrKH9fF4XeLWYsI81BI8ELi6fyaW4cdaZRpcTj
- y2PJBXFC3vDFcePSP8qLeLrjXp396PLyFeKyjLPid3C/U5WaLANfmBZ+lBkSR3EMOwqg
- A7ydOrDExRuHQItCYe38hxqUso7hzMsUTE+Wabfwm/dZNlAITsMZb9jnTL9er0UUS0CF
- UKaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVyUrFFVp+oJrqvQ1aa8z+jjDYoTqwdJhr5yXje37zXtiywjnxwVH7kEiZcTxo/C3AvgGrtJDr+cCQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzk+/uhNd4wvP9CWIWUBqkNFkvDT1hL1iZGB4gfPIFPIaA+4VdT
- vBU7uVFg70sKOJgaE2BNX3lIWHGomT7ok/EnFPohYE6g/2B1e7XELGpvru2yUDEf2Qycv5VKI57
- W1s+64odofSjdc4E9EhoHfg7Az0s=
-X-Google-Smtp-Source: AGHT+IE2E6tM+02fHIv6yuOthFIR6Cw3HvfR5uY1SlfEVgrtGQ/OWIzBdbvGdZxoGCf3ePjSXVzgqIDyF2eRv4NJs/I=
-X-Received: by 2002:a17:90a:be08:b0:2c2:d11b:14dd with SMTP id
- 98e67ed59e1d1-2d64672715dmr1275764a91.0.1724418832970; Fri, 23 Aug 2024
- 06:13:52 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC6C10E815
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 13:15:20 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF26A2D5;
+ Fri, 23 Aug 2024 15:14:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1724418855;
+ bh=0J1A20zaaxasXrjQbzzkc87YPheUgUJeOswx8vmbDaQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rMM0u8aZAbb6nlpTeDOwd9oZ+izXYvVDR76S4mM7MrNiUu7yZu9tUQU0o5Y0yTX5B
+ omLuiCp5ofFltu5hL8Ck1EgPv38qBg3HT7rTZ+QQnrJ8///w3jH9guaoDA3UQot0wb
+ B4B/dO6jostqRTr6ZFTKXzgryA7BLDmNYI/+GuDs=
+Date: Fri, 23 Aug 2024 16:15:16 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH v4 0/4] Add support for RZ/G2UL Display Unit
+Message-ID: <20240823131516.GD26098@pendragon.ideasonboard.com>
+References: <20240822162320.5084-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <20240820134600.1909370-1-alexander.deucher@amd.com>
-In-Reply-To: <20240820134600.1909370-1-alexander.deucher@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 23 Aug 2024 09:13:41 -0400
-Message-ID: <CADnq5_NsyR2eexPnsdx-RCWYef7SyuPed3r076+ZFhuBVxxPAw@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/ttm: increase ttm pre-fault value to PMD size"
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Zhu Lingshan <lingshan.zhu@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240822162320.5084-1-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +65,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ping?
+Hi Biju,
 
-On Tue, Aug 20, 2024 at 9:46=E2=80=AFAM Alex Deucher <alexander.deucher@amd=
-.com> wrote:
->
-> This reverts commit 0ddd2ae586d28e521d37393364d989ce118802e0.
->
-> This patch causes sluggishness and stuttering in graphical
-> apps.
->
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3564
-> Link: https://www.spinics.net/lists/dri-devel/msg457005.html
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Zhu Lingshan <lingshan.zhu@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  include/drm/ttm/ttm_bo.h | 4 ----
->  1 file changed, 4 deletions(-)
->
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index ef0f52f56ebc..6ccf96c91f3a 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -39,11 +39,7 @@
->  #include "ttm_device.h"
->
->  /* Default number of pre-faulted pages in the TTM fault handler */
-> -#if CONFIG_PGTABLE_LEVELS > 2
-> -#define TTM_BO_VM_NUM_PREFAULT (1 << (PMD_SHIFT - PAGE_SHIFT))
-> -#else
->  #define TTM_BO_VM_NUM_PREFAULT 16
-> -#endif
->
->  struct iosys_map;
->
-> --
-> 2.46.0
->
+On Thu, Aug 22, 2024 at 05:23:13PM +0100, Biju Das wrote:
+> This patch series aims to add support for RZ/G2UL DU.
+> 
+> The LCD controller is composed of Frame Compression Processor (FCPVD),
+> Video Signal Processor (VSPD), and Display Unit (DU).
+> 
+> The output of LCDC is connected display parallel interface (DPI) and
+> supports a maximum resolution of WXGA along with 2 RPFs to support the
+> blending of two picture layers and raster operations (ROPs)
+> 
+> It is similar to LCDC IP on RZ/G2L SoCs, but does not have DSI interface.
+> 
+> v3->v4:
+>  * Restored the ports property for RZ/G2UL and described port@0 for the
+>    DPI interface in bindings patch.
+>  * Restored tags from Geert and Conor as the change is trivial
+>    (Replaced port 1->0 from v2).
+>  * Used "&" instead of "==" in rzg2l_du_start_stop() for scalability.
+>  * Restored port variable in struct rzg2l_du_output_routing
+>  * Updated rzg2l_du_encoders_init() to handle port based on hardware indices.
+>  * Restored ports property in du node and used port@0 for connected
+>    DPI interface.
+> v2->v3:
+>  * Split patch series based on subsystem from DU patch series [1].
+>  * Replaced ports->port property for RZ/G2UL as it supports only DPI
+>    and retained ports property for RZ/{G2L,V2L} as it supports both DSI
+>    and DPI output interface.
+>  * Added missing blank line before example.
+>  * Dropped tags from Conor and Geert as there are new changes in bindings
+>  * Avoided the line break in rzg2l_du_start_stop() for rstate.
+>  * Replaced port->du_output in  struct rzg2l_du_output_routing and
+>    dropped using the port number to indicate the output type in
+>    rzg2l_du_encoders_init().
+>  * Updated rzg2l_du_r9a07g043u_info and rzg2l_du_r9a07g044_info.
+> 
+>  [1] https://lore.kernel.org/all/20240709135152.185042-1-biju.das.jz@bp.renesas.com/
+> v1->v2:
+>  * Updated cover letter header "DU IP->Display Unit".
+>  * Updated commit description related to non ABI breakage for patch#3.
+>  * Added Ack from Conor for binding patches.
+> 
+> Biju Das (4):
+>   dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
+>   drm: renesas: rz-du: Add RZ/G2UL DU Support
+
+The first two patches look good to me. Do you have access to drm-misc,
+will you push them yourself, or do you expect a maintainer to pick them
+up ?
+
+>   arm64: dts: renesas: r9a07g043u: Add DU node
+>   arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
+> 
+>  .../bindings/display/renesas,rzg2l-du.yaml    |  32 ++++-
+>  arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |  25 ++++
+>  .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 111 ++++++++++++++++++
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |   8 +-
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  11 ++
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |   3 +-
+>  6 files changed, 185 insertions(+), 5 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
