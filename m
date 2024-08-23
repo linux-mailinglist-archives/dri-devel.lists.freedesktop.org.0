@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A9795CD31
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 15:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9085E95CD34
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 15:09:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F81D10E683;
-	Fri, 23 Aug 2024 13:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2C5C10E695;
+	Fri, 23 Aug 2024 13:09:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jzE1s0cq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Kn92e0kH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1FB010E683;
- Fri, 23 Aug 2024 13:09:11 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F95110E68C;
+ Fri, 23 Aug 2024 13:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724418552; x=1755954552;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=4DFQ10zb5I1E7uLaUUJXcNpKMp16I7gzyE2oVOKhBhk=;
- b=jzE1s0cqEN1eSPAsWXaIj7nVwuZjoP9GjUq7Uw6aImFOb/uFCbpISIOI
- 0FPhdoLnSzj6rg/+FmmcJCgwIi/TiieVouFCyBZVugLi5mYd/sZRhQZCM
- 0H7OR2o510V7ErDXXzbvMz8MDVjBrlLVatnqOqfp38/hJkZ7YM0hJ28hN
- ZmXbYKLr1SeJDvYnB8PuBly8udzoBlTwcixl2CbO8sVmpHzn3Fb4B/u7N
- Ej5+6LdKDigUxr+zKkWCz41cuxS3bzmjA0hnia3RWaKVQT9nJ5nN103by
- KSbPxlNtQxicE6xdHTm6F7Npgyzby5Lk5ZGdGD4A30nFtNwZzcEVHTEGl A==;
-X-CSE-ConnectionGUID: bcNv4djHR52LyENfddx4tw==
-X-CSE-MsgGUID: Nu7rKzBHTRCE7wumu0yzag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="34301026"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="34301026"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2024 06:09:11 -0700
-X-CSE-ConnectionGUID: +sTfxCCJS7GZkjbuDjd9+Q==
-X-CSE-MsgGUID: DR9QdEmlTJW+NUrCjwMowA==
+ t=1724418557; x=1755954557;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=xBTBmpL924eHLaGaJlxfMEUf+QEa13q0knxeUnC7CKw=;
+ b=Kn92e0kHtf0wQBySl9V+mIbBqvXYlLuFVxtaM0aISb3AOsRIwmE4Kr72
+ n/aHdv/uBUck+9jPMpLsrbC0ZwPQ8zbwLl65x/+1kDHwJHWh5oB0FcdKB
+ I/buQuLSqXFJnrIQEL/5vJTGGi9U4gn+iNq3J7Ricj40u+cq+5l1ZPQWp
+ rX4gK82F7TxTelgIGHKSD5Yrnc8rLFrNIvPaqkPvnECJKc4Jxue/jyhez
+ djt63zgZA3ASImGgnwj1NvRZjTYx+JnpFwnkH6l2GkvzsitRh+0NA3g03
+ Jk1v9cplsF7B1FFhBUxHcYhjNpsgXIBPEbk3QibE4Lek7rG8fdDefpSQ6 g==;
+X-CSE-ConnectionGUID: nMdmmUg6R4627crBdKH//w==
+X-CSE-MsgGUID: KoBR6vM7S9u/2v+62Flt1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22406863"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="22406863"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2024 06:09:16 -0700
+X-CSE-ConnectionGUID: K4o8q3eTSnKgyjMgD9GTng==
+X-CSE-MsgGUID: CB5uoDGKR8ur7GzQ7z456w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="66113005"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="66714884"
 Received: from mwiniars-desk2.ger.corp.intel.com (HELO intel.com)
  ([10.245.246.236])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2024 06:09:06 -0700
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2024 06:09:13 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
  Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH v3 00/15] CCS static load balance
-Date: Fri, 23 Aug 2024 15:08:40 +0200
-Message-ID: <20240823130855.72436-1-andi.shyti@linux.intel.com>
+Subject: [PATCH v3 01/15] drm/i915/gt: Avoid using masked workaround for
+ CCS_MODE setting
+Date: Fri, 23 Aug 2024 15:08:41 +0200
+Message-ID: <20240823130855.72436-2-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240823130855.72436-1-andi.shyti@linux.intel.com>
+References: <20240823130855.72436-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,169 +72,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+When setting the CCS mode, we mistakenly used wa_masked_en() to
+apply the workaround, which reads from the register and masks the
+existing value with the new one.
 
-This patch series introduces static load balancing for GPUs with
-multiple compute engines. It's a lengthy series, and some
-challenging aspects still need to be resolved.
+Our intention was to write the value directly, without masking
+it.
 
-I have tried to split the work as much as possible to facilitate
-the review process.
+So far, this hasn't caused issues because we've been using a
+register value that only enables a single CCS engine, typically
+with an ID of '0'.
 
-To summarize, in patches 1 to 14, no functional changes occur
-except for the addition of the num_cslices interface. The
-significant changes happen in patch 15, which is the core part of
-the CCS mode setting, utilizing the groundwork laid in the
-earlier patches.
+However, in upcoming patches, we will be utilizing multiple
+engines, and it's crucial that we write the new value directly
+without any masking.
 
-In this updated approach, the focus is now on managing the UABI
-engine list, which controls the engines exposed to userspace.
-Instead of manipulating phuscal engines and their memory, we now
-handle engine exposure through this list.
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I would greatly appreciate further input from all reviewers who
-have already assisted with the previous work.
-
-IGT tests have also been developed, but I haven't sent them yet.
-
-Thank you Chris for the offline reviews.
-
-Thanks,
-Andi
-
-Changelog:
-==========
-PATCHv2 -> PATCHv3
-------------------
- - Fix a NULL pointer dereference during module unload.
-   In i915_gem_driver_remove() I was accessing the gt after the
-   gt was removed. Use the dev_priv, instead (obviously!).
- - Fix a lockdep issue: Some of the uabi_engines_mutex unlocks
-   were not correctly placed in the exit paths.
- - Fix a checkpatch error for spaces after and before parenthesis
-   in the for_each_enabled_engine() definition.
-
-PATCHv1 -> PATCHv2
-------------------
- - Use uabi_mutex to protect the uabi_engines, not the engine
-   itself. Rename it to uabi_engines_mutex.
- - Use kobject_add/kobject_del for adding and removing
-   interfaces, this way we don't need to destroy and recreate the
-   engines, anymore. Refactor intel_engine_add_single_sysfs() to
-   reflect this scenario.
- - After adding engines to the rb_tree check that they have been
-   added correctly.
- - Fix rb_find_add() compare function to take into accoung also
-   the class, not just the instance.
-
-RFCv2 -> PATCHv1
-----------------
- - Removed gt->ccs.mutex
- - Rename m -> width, ccs_id -> engine in
-   intel_gt_apply_ccs_mode().
- - In the CCS register value calculation
-   (intel_gt_apply_ccs_mode()) the engine (ccs_id) needs to move
-   along the ccs_mask (set by the user) instead of the
-   cslice_mask.
- - Add GEM_BUG_ON after calculating the new ccs_mask
-   (update_ccs_mask()) to make sure all angines have been
-   evaluated (i.e. ccs_mask must be '0' at the end of the
-   algorithm).
- - move wakeref lock before evaluating intel_gt_pm_is_awake() and
-   fix exit path accordingly.
- - Use a more compact form in intel_gt_sysfs_ccs_init() and
-   add_uabi_ccs_engines() when evaluating sysfs_create_file(): no
-   need to store the return value to the err variable which is
-   unused. Get rid of err.
- - Print a warnging instead of a debug message if we fail to
-   create the sysfs files.
- - If engine files creation fails in
-   intel_engine_add_single_sysfs(), print a warning, not an
-   error.
- - Rename gt->ccs.ccs_mask to gt->ccs.id_mask and add a comment
-   to explain its purpose.
- - During uabi engine creation, in
-   intel_engines_driver_register(), the uabi_ccs_instance is
-   redundant because the ccs_instances is already tracked in
-   engine->uabi_instance.
- - Mark add_uabi_ccs_engines() and remove_uabi_ccs_engines() as
-   __maybe_unused not to break bisectability. They wouldn't
-   compile in their own commit. They will be used in the next
-   patch and the __maybe_unused is removed.
- - Update engine's workaround every time a new mode is set in
-   update_ccs_mask().
- - Mark engines as valid or invalid using their status as
-   rb_node. Invalid engines are marked as invalid using
-   RB_CLEAR_NODE(). Execbufs will check for their validity when
-   selecting the engine to be combined to a context.
- - Create for_each_enabled_engine() which skips the non valid
-   engines and use it in selftests.
-
-RFCv1 -> RFCv2
---------------
-Compared to the first version I've taken a completely different
-approach to adding and removing engines. in v1 physical engines
-were directly added and removed, along with the memory allocated
-to them, each time the user changed the CCS mode (from the
-previous cover letter).
-
-Andi Shyti (15):
-  drm/i915/gt: Avoid using masked workaround for CCS_MODE setting
-  drm/i915/gt: Move the CCS mode variable to a global position
-  drm/i915/gt: Allow the creation of multi-mode CCS masks
-  drm/i915/gt: Refactor uabi engine class/instance list creation
-  drm/i915/gem: Mark and verify UABI engine validity
-  drm/i915/gt: Introduce for_each_enabled_engine() and apply it in
-    selftests
-  drm/i915/gt: Manage CCS engine creation within UABI exposure
-  drm/i915/gt: Remove cslices mask value from the CCS structure
-  drm/i915/gt: Expose the number of total CCS slices
-  drm/i915/gt: Store engine-related sysfs kobjects
-  drm/i915/gt: Store active CCS mask
-  drm/i915: Protect access to the UABI engines list with a mutex
-  drm/i915/gt: Isolate single sysfs engine file creation
-  drm/i915/gt: Implement creation and removal routines for CCS engines
-  drm/i915/gt: Allow the user to change the CCS mode through sysfs
-
- drivers/gpu/drm/i915/gem/i915_gem_context.c   |   3 +
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  28 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  23 --
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |   2 +
- drivers/gpu/drm/i915/gt/intel_engine_user.c   |  62 ++-
- drivers/gpu/drm/i915/gt/intel_gt.c            |   3 +
- drivers/gpu/drm/i915/gt/intel_gt.h            |  12 +
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c   | 353 +++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h   |   5 +-
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.c      |   2 +
- drivers/gpu/drm/i915/gt/intel_gt_types.h      |  19 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c   |   8 +-
- drivers/gpu/drm/i915/gt/selftest_context.c    |   6 +-
- drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |   4 +-
- .../drm/i915/gt/selftest_engine_heartbeat.c   |   6 +-
- drivers/gpu/drm/i915/gt/selftest_engine_pm.c  |   6 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c  |  52 +--
- drivers/gpu/drm/i915/gt/selftest_gt_pm.c      |   2 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  22 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c        |  18 +-
- drivers/gpu/drm/i915/gt/selftest_mocs.c       |   6 +-
- drivers/gpu/drm/i915/gt/selftest_rc6.c        |   4 +-
- drivers/gpu/drm/i915/gt/selftest_reset.c      |   8 +-
- .../drm/i915/gt/selftest_ring_submission.c    |   2 +-
- drivers/gpu/drm/i915/gt/selftest_rps.c        |  14 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c   |  14 +-
- drivers/gpu/drm/i915/gt/selftest_tlb.c        |   2 +-
- .../gpu/drm/i915/gt/selftest_workarounds.c    |  14 +-
- drivers/gpu/drm/i915/gt/sysfs_engines.c       |  79 ++--
- drivers/gpu/drm/i915/gt/sysfs_engines.h       |   2 +
- drivers/gpu/drm/i915/i915_cmd_parser.c        |   2 +
- drivers/gpu/drm/i915/i915_debugfs.c           |   4 +
- drivers/gpu/drm/i915/i915_drv.h               |   5 +
- drivers/gpu/drm/i915/i915_gem.c               |   4 +
- drivers/gpu/drm/i915/i915_perf.c              |   8 +-
- drivers/gpu/drm/i915/i915_pmu.c               |  11 +-
- drivers/gpu/drm/i915/i915_query.c             |  21 +-
- 37 files changed, 643 insertions(+), 193 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index bfe6d8fc820f..f3082fad3f45 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2745,7 +2745,7 @@ static void ccs_engine_wa_mode(struct intel_engine_cs *engine, struct i915_wa_li
+ 	 * assign all slices to a single CCS. We will call it CCS mode 1
+ 	 */
+ 	mode = intel_gt_apply_ccs_mode(gt);
+-	wa_masked_en(wal, XEHP_CCS_MODE, mode);
++	wa_add(wal, XEHP_CCS_MODE, 0, mode, mode, false);
+ }
+ 
+ /*
 -- 
 2.45.2
 
