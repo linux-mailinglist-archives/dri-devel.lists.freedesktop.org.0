@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01AB95D7F3
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 22:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C44495D7FC
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 22:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A635510E047;
-	Fri, 23 Aug 2024 20:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F80410E06F;
+	Fri, 23 Aug 2024 20:47:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NHR7n/VG";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="O1R23ACm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47C4010E047
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 20:44:43 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id
- af79cd13be357-7a4df9dc885so159400885a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 13:44:43 -0700 (PDT)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0D710E06F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 20:47:25 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-27032e6dbf2so1584688fac.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 13:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724445882; x=1725050682;
+ d=chromium.org; s=google; t=1724446044; x=1725050844;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=qHJoSIvn3TQXsP4HGj1BbikslhYUk1pFvCcRMop1S9M=;
- b=NHR7n/VGxDK9uYITVF8iEWndJ+9GAiRjMmN2P5OFmW6tvXwvNrKx/Fri/G03I06Pqi
- en63OyTHdc4c+6MQh6X9MGDRefH0ldnMzzgs5yinC16enm9ojtew/s24OaJMu+Bg9H5v
- bHOkFuOiks7G6Qp4q4DSnah8rXEmxp9gWQj3o=
+ :reply-to; bh=qZiKFaKcOy5uMCUP9iI4bnV8rWlMx58uhQ+Bp65JxBY=;
+ b=O1R23ACmltVpOsof6CRsAk4l4BNX8yOVs2D6r6L9s/QQ6J8zUlspUk2ZrRR7QM20B7
+ BVOMpf5wBPAHXmn+Ygp7YJh6+qCDktpeevxBCeVb4NSg9LqRlf5yYgbIF+BHpWWAZ7h+
+ 8LJZwhu7TsfPEEmoncVOajQVckhZnId3WDvmc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724445882; x=1725050682;
+ d=1e100.net; s=20230601; t=1724446044; x=1725050844;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qHJoSIvn3TQXsP4HGj1BbikslhYUk1pFvCcRMop1S9M=;
- b=t7TsaWZ6JZsjMdJqNlp/ABJCduSmeUK3EI1NN0camlaRtbeGQBUZieZSawXJWQblv4
- dGIIQGjV2GOjOV2RIXdM3NjwIOTtHbw4ytc8rnEjFiyqaTW1++4w2SaJKqsxcKEsbfpF
- /s6H6nP51XvD0xnmLQUGF8l4CuqixFbwM4pVkeeOckR423GsCjxCyuv5GwrzraqWNEG4
- U4vwdU7JffQVrq9UmaOEwZNj/gEQrPXKzcYndsPNwp4X6xiecCBrHahzA1ukVxepQzCm
- saeiwzIksw5NJjJ+G83PlomCg/ABr+WfRmyGLJ81H8L5TXNMWto43GMNEVp4ZpKy0Zed
- uNNQ==
+ bh=qZiKFaKcOy5uMCUP9iI4bnV8rWlMx58uhQ+Bp65JxBY=;
+ b=Z/9zlDtCw4hErfKK5gUUgMrjUa5TsJAD9kkdlIft72i/RM3ZM7swxI94+Wm0GiOiIN
+ wIjhRqnN/p/CsWQ65wiTgoeVAahhPvU4FFWhJK1ha+AXVPhIqDxX9FMnuMHgC3wp8Q9B
+ 5nrVmjd5phJmjq4d4zMkrBMJmQUSEqbJVrD6d2M8IeA+8ELZ35PtyVV0Wr3uhxJSXc9T
+ FyuYakUNSINRLG9fADm+S6TnDO/BO80EYkDcwbKSRQiu3OUpfV4EMQIAFdjD6z67aq/W
+ F6nKYNjMz1muG1NMgrUm112evcWj7TrmsfHHvOzUGF+bkxCd+nDiusYAgLrFeiXDEaoB
+ /BMw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV1So/Gf9yDljZK4ct9Qj6R+619PCmVcxoc+vdBkrTDMjfKPvSJSmoe0MNJTa/Ycu52r6wRJFkplcI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yydj04hR6iTIidnl2PCIr42sSM4C5yAp1zqzjTs7/DIQNNteLkU
- yEdebHl/VkGNJgmFI42qrhm3UBkPi9D3R5ikPPkWfqk48evjrRq10/3g/J1VzLn26ze5NplmtCi
- t439BM/sTClQT/6Ckd193cYvlSDnvB1sDfpa1
-X-Google-Smtp-Source: AGHT+IER+vkUNoi1LrSh0oKYCE+8iNRAFkc0O4BKptBtu1VAQywG251TPcXwcoPrrjWuSke5xL1qPKa71h4z9pa/Llc=
-X-Received: by 2002:a05:620a:1aaa:b0:795:e9cd:f5b8 with SMTP id
- af79cd13be357-7a67d497dd3mr1281397585a.23.1724445881936; Fri, 23 Aug 2024
- 13:44:41 -0700 (PDT)
+ AJvYcCXnJLkj2otESSpRBmb6M3fAXS3aV0rCRNfe8LA2o7XafpeJrWjjvLa4zCPgXjOvm4s2Au5r/Fk+NLc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxUYFt+JaYGKY/U1ZC6MSs/cwPTbKLze0J3ibyI+0KFPvK7Vfhn
+ xz49ZIsJIa6LrrHM3RVDGhwawrSIpZgEXEZnaIZj6nHVKwtp7l5x2iaDOzY/jzBqxvLKc6CQYgF
+ xeFszki69R+f5IVhkuaDbaOjG9bmL0OuGMh1A
+X-Google-Smtp-Source: AGHT+IGtmJ+gyuELHaRH+RZ4qvsU8Rp6JLHoxTqxGD2FO8wzaNQZtxGnVU0BhE1HT6iEWRSosj9gW6Yp+4g8GcNpGbY=
+X-Received: by 2002:a05:6358:248b:b0:1b1:aca7:dad6 with SMTP id
+ e5c5f4694b2df-1b5c3a4e8abmr336937055d.11.1724446044234; Fri, 23 Aug 2024
+ 13:47:24 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 23 Aug 2024 13:44:41 -0700
+ HTTPREST; Fri, 23 Aug 2024 13:47:23 -0700
 MIME-Version: 1.0
-In-Reply-To: <ZsdNEWX-eeLiokZl@tzungbi-laptop>
+In-Reply-To: <ZsdMoRpwv5twOwqx@tzungbi-laptop>
 References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-17-swboyd@chromium.org>
- <ZsdNEWX-eeLiokZl@tzungbi-laptop>
+ <20240819223834.2049862-16-swboyd@chromium.org>
+ <ZsdMoRpwv5twOwqx@tzungbi-laptop>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Fri, 23 Aug 2024 13:44:41 -0700
-Message-ID: <CAE-0n50Tuxp0WjFoTx+_i1L4cSOajSNHWPh32PPoXvskJByJJg@mail.gmail.com>
-Subject: Re: [PATCH v3 16/17] platform/chrome: cros_ec_typec: Support DP muxing
+Date: Fri, 23 Aug 2024 13:47:23 -0700
+Message-ID: <CAE-0n50MVaU2dmRLdLVFWT9KWPO_BK-L7eEqGRSb8TKm1KtPNQ@mail.gmail.com>
+Subject: Re: [PATCH v3 15/17] platform/chrome: cros_ec_typec: Add support for
+ signaling DP HPD via drm_bridge
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
  patches@lists.linux.dev, devicetree@vger.kernel.org, 
@@ -106,32 +107,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tzung-Bi Shih (2024-08-22 07:37:05)
-> On Mon, Aug 19, 2024 at 03:38:30PM -0700, Stephen Boyd wrote:
-> > @@ -671,6 +674,20 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
-> >       if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
-> >               return 0;
-> >
-> > +     dp_enabled = resp.flags & USB_PD_MUX_DP_ENABLED;
-> > +     hpd_asserted = resp.flags & USB_PD_MUX_HPD_LVL;
-> > +     /*
-> > +      * Assume the first port to have HPD asserted is the one muxed to DP
-> > +      * (i.e. active_port). When there's only one port this delays setting
-> > +      * the active_port until HPD is asserted, but before that the
-> > +      * drm_connector looks disconnected so active_port doesn't need to be
-> > +      * set.
-> > +      */
-> > +     if (dp_bridge && hpd_asserted && !dp_bridge->active_port)
-> > +             dp_bridge->active_port = port;
-> > +
-> > +     is_active_port = !dp_bridge || dp_bridge->active_port == port;
+Quoting Tzung-Bi Shih (2024-08-22 07:35:13)
+> On Mon, Aug 19, 2024 at 03:38:29PM -0700, Stephen Boyd wrote:
+> > +struct cros_typec_dp_bridge {
+> > +     struct cros_typec_data *typec_data;
+> > +     struct drm_dp_typec_bridge_dev *dev;
+> > +};
 >
-> Why `!dp_bridge`?  When will `dp_bridge` be NULL?
+> It looks like structs are all defined in cros_ec_typec.h.  I think this struct
+> definition can be also moved there.
 
-I'll add a comment.
+I put it here because it wasn't used by any other driver. Maybe I can
+skip the entire struct though and add what I need directly to 'struct
+cros_typec_data'.
 
-'dp_bridge' is NULL when this driver is running on non-DT platforms,
-i.e. ACPI, or there isn't a graph/ports node for this device. The latter
-could happen if there's some AP controlled piece of hardware that is a
-typec switch, connected directly to a usb-c-connector. This is the case
-on Kukui where we send the DP lanes directly to the usb-c-connector.
+>
+> > diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
+> > index deda180a646f..73d300427140 100644
+> > --- a/drivers/platform/chrome/cros_ec_typec.h
+> > +++ b/drivers/platform/chrome/cros_ec_typec.h
+> > @@ -27,6 +27,8 @@ struct cros_typec_altmode_node {
+> >       struct list_head list;
+> >  };
+> >
+> > +struct cros_typec_dp_bridge;
+>
+> If the struct definition moves here, it doesn't need to declare forward.
+
+But then we have to forward declare 'struct cros_typec_data'? There's no
+escape.
