@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD3E95CCA6
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 14:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E420E95CCB4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 14:44:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BAE110E586;
-	Fri, 23 Aug 2024 12:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4968E10E5B5;
+	Fri, 23 Aug 2024 12:44:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2169910E57A
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4971410E586
  for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 12:44:28 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ABA9220317;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F0CCB22681;
  Fri, 23 Aug 2024 12:44:26 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75ADE13A61;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B15D01333E;
  Fri, 23 Aug 2024 12:44:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GKaPGyqEyGbKVwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id gIkwKiqEyGbKVwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 23 Aug 2024 12:44:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: kraxel@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 09/10] drm/bochs: Validate display modes against available
- video memory
-Date: Fri, 23 Aug 2024 14:28:52 +0200
-Message-ID: <20240823124422.286989-10-tzimmermann@suse.de>
+Subject: [PATCH 10/10] drm/gem-vram: Remove support for simple display
+ pipelines
+Date: Fri, 23 Aug 2024 14:28:53 +0200
+Message-ID: <20240823124422.286989-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240823124422.286989-1-tzimmermann@suse.de>
 References: <20240823124422.286989-1-tzimmermann@suse.de>
@@ -50,7 +50,7 @@ X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: ABA9220317
+X-Rspamd-Queue-Id: F0CCB22681
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
 X-Rspamd-Action: no action
@@ -71,66 +71,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For each mode, test the required memory against the available video
-memory. Filters out modes that do not fit into display memory.
-
-Also remove the old test against the 4 MiB limit. It is now obsolete
-and did not necessarily produce correct results.
+There are no more drivers that use GEM VRAM helpers with a simple
+display pipeline. Remove the respective code.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/bochs.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_gem_vram_helper.c | 45 ---------------------------
+ include/drm/drm_gem_vram_helper.h     | 13 --------
+ 2 files changed, 58 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index bde70a6075ec..b09c6c76923b 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -558,8 +558,28 @@ static const struct drm_connector_funcs bochs_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index 6027584406af..22b1fe9c03b8 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -16,7 +16,6 @@
+ #include <drm/drm_mode.h>
+ #include <drm/drm_plane.h>
+ #include <drm/drm_prime.h>
+-#include <drm/drm_simple_kms_helper.h>
  
-+static enum drm_mode_status bochs_mode_config_mode_valid(struct drm_device *dev,
-+							 const struct drm_display_mode *mode)
-+{
-+	struct bochs_device *bochs = to_bochs_device(dev);
-+	const struct drm_format_info *format = drm_format_info(DRM_FORMAT_XRGB8888);
-+	uint64_t pitch;
-+
-+	if (drm_WARN_ON(dev, !format))
-+		return MODE_ERROR;
-+
-+	pitch = drm_format_info_min_pitch(format, 0, mode->vdisplay);
-+	if (!pitch)
-+		return MODE_BAD_WIDTH;
-+	if (bochs->fb_size / pitch < mode->hdisplay)
-+		return MODE_MEM;
-+
-+	return MODE_OK;
-+}
-+
- static const struct drm_mode_config_funcs bochs_mode_config_funcs = {
- 	.fb_create = drm_gem_fb_create_with_dirty,
-+	.mode_valid = bochs_mode_config_mode_valid,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
-@@ -687,15 +707,8 @@ static int bochs_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent
- {
- 	struct bochs_device *bochs;
- 	struct drm_device *dev;
--	unsigned long fbsize;
- 	int ret;
+ #include <drm/ttm/ttm_range_manager.h>
+ #include <drm/ttm/ttm_tt.h>
+@@ -686,50 +685,6 @@ drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
+ }
+ EXPORT_SYMBOL(drm_gem_vram_plane_helper_cleanup_fb);
  
--	fbsize = pci_resource_len(pdev, 0);
--	if (fbsize < 4 * 1024 * 1024) {
--		DRM_ERROR("less than 4 MB video memory, ignoring device\n");
--		return -ENOMEM;
--	}
+-/*
+- * Helpers for struct drm_simple_display_pipe_funcs
+- */
 -
- 	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &bochs_driver);
- 	if (ret)
- 		return ret;
+-/**
+- * drm_gem_vram_simple_display_pipe_prepare_fb() - Implements &struct
+- *				   drm_simple_display_pipe_funcs.prepare_fb
+- * @pipe:	a simple display pipe
+- * @new_state:	the plane's new state
+- *
+- * During plane updates, this function pins the GEM VRAM
+- * objects of the plane's new framebuffer to VRAM. Call
+- * drm_gem_vram_simple_display_pipe_cleanup_fb() to unpin them.
+- *
+- * Returns:
+- *	0 on success, or
+- *	a negative errno code otherwise.
+- */
+-int drm_gem_vram_simple_display_pipe_prepare_fb(
+-	struct drm_simple_display_pipe *pipe,
+-	struct drm_plane_state *new_state)
+-{
+-	return drm_gem_vram_plane_helper_prepare_fb(&pipe->plane, new_state);
+-}
+-EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_prepare_fb);
+-
+-/**
+- * drm_gem_vram_simple_display_pipe_cleanup_fb() - Implements &struct
+- *						   drm_simple_display_pipe_funcs.cleanup_fb
+- * @pipe:	a simple display pipe
+- * @old_state:	the plane's old state
+- *
+- * During plane updates, this function unpins the GEM VRAM
+- * objects of the plane's old framebuffer from VRAM. Complements
+- * drm_gem_vram_simple_display_pipe_prepare_fb().
+- */
+-void drm_gem_vram_simple_display_pipe_cleanup_fb(
+-	struct drm_simple_display_pipe *pipe,
+-	struct drm_plane_state *old_state)
+-{
+-	drm_gem_vram_plane_helper_cleanup_fb(&pipe->plane, old_state);
+-}
+-EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_cleanup_fb);
+-
+ /*
+  * PRIME helpers
+  */
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index 9a73f786f4ad..00830b49a3ff 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -17,7 +17,6 @@
+ struct drm_mode_create_dumb;
+ struct drm_plane;
+ struct drm_plane_state;
+-struct drm_simple_display_pipe;
+ struct filp;
+ struct vm_area_struct;
+ 
+@@ -137,18 +136,6 @@ drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
+ 	.prepare_fb = drm_gem_vram_plane_helper_prepare_fb, \
+ 	.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb
+ 
+-/*
+- * Helpers for struct drm_simple_display_pipe_funcs
+- */
+-
+-int drm_gem_vram_simple_display_pipe_prepare_fb(
+-	struct drm_simple_display_pipe *pipe,
+-	struct drm_plane_state *new_state);
+-
+-void drm_gem_vram_simple_display_pipe_cleanup_fb(
+-	struct drm_simple_display_pipe *pipe,
+-	struct drm_plane_state *old_state);
+-
+ /**
+  * define DRM_GEM_VRAM_DRIVER - default callback functions for
+  *				&struct drm_driver
 -- 
 2.46.0
 
