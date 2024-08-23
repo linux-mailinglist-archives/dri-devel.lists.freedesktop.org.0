@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F1E95C371
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 04:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CEF95C3B3
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 05:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB1F10EC05;
-	Fri, 23 Aug 2024 02:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E85410EC0B;
+	Fri, 23 Aug 2024 03:24:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AcNS9GGu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail03.siengine.com (mail03.siengine.com [43.240.192.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8259410EC05
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 02:54:22 +0000 (UTC)
-Received: from dsgsiengine01.siengine.com ([10.8.1.61])
- by mail03.siengine.com with ESMTPS id 47N2r7kj098539
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 23 Aug 2024 10:53:07 +0800 (+08)
- (envelope-from hongchi.peng@siengine.com)
-Received: from SEEXMB03-2019.siengine.com (SEEXMB03-2019.siengine.com
- [10.8.1.33])
- by dsgsiengine01.siengine.com (SkyGuard) with ESMTPS id 4Wql4L417yz7ZMsS;
- Fri, 23 Aug 2024 10:53:06 +0800 (CST)
-Received: from SEEXMB03-2019.siengine.com (10.8.1.33) by
- SEEXMB03-2019.siengine.com (10.8.1.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1544.11; Fri, 23 Aug 2024 10:53:06 +0800
-Received: from SEEXMB03-2019.siengine.com ([fe80::23e0:1bbb:3ec9:73fe]) by
- SEEXMB03-2019.siengine.com ([fe80::23e0:1bbb:3ec9:73fe%16]) with mapi id
- 15.02.1544.011; Fri, 23 Aug 2024 10:53:06 +0800
-From: =?utf-8?B?UGVuZyBIb25nY2hpL+W9rea0qumpsA==?= <hongchi.peng@siengine.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-CC: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIGRybToga29tZWRhOiBGaXggYW4gaXNzdWUgcmVs?=
- =?utf-8?Q?ated_to_normalized_zpos?=
-Thread-Topic: [PATCH] drm: komeda: Fix an issue related to normalized zpos
-Thread-Index: AQHa86hL8lSBehLZ10yeyptgsPvZabIyy0CAgAFWKbA=
-Date: Fri, 23 Aug 2024 02:53:06 +0000
-Message-ID: <fc7e28adc9c240cba4217fd80c3e318a@siengine.com>
-References: <20240821085613.5408-1-hongchi.peng@siengine.com>
- <ZsdFp5Nq25q8rrVP@e110455-lin.cambridge.arm.com>
-In-Reply-To: <ZsdFp5Nq25q8rrVP@e110455-lin.cambridge.arm.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.12.10.38]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD1A10EC0A;
+ Fri, 23 Aug 2024 03:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724383458; x=1755919458;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=j6uHu+M7g1d8XzV/n+KBG0+Qm4VAfRpiuJBXPibLr08=;
+ b=AcNS9GGuMLJ3b/7Y3Jw2Ys61iubYvs7cVJYGsh0eqLRQ+WJRuHHcQtts
+ FYjzGbuTRP/w8mrpoujb8RwRo/uCo0z1kI2oUALwSfTtBgfdCBFcpjWPC
+ lPeEkp9fJ074lIZkGodm6cGQ26DSd8lM/jrTl9uJchhjW3QzomhYW1ALF
+ +vPv1Lhbp0MujBmPPKNVvtSxt4CcNLXsjHQ94gtqwYzctiNYzc8eaRaNc
+ mmsmHqZDd9MohVUAbUKwCuTvHQoX6Eo+hGr5YSafin2pGHkNzJNm0jp7S
+ H6u8qn8dPAZwZcqH3Cqn/pb2PaBG7sgye1t7wmkHkr76g5uIqAwXopbrV g==;
+X-CSE-ConnectionGUID: QSA9NsvwSZmv68YRE5y3ow==
+X-CSE-MsgGUID: rZxWWe8VSSKmHf9hZvfIeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33994161"
+X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; d="scan'208";a="33994161"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2024 20:24:18 -0700
+X-CSE-ConnectionGUID: Hyxz0BvgS36pYNflQ/Ip/Q==
+X-CSE-MsgGUID: XI81TOtaRlCA17XBqCKNBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; d="scan'208";a="66575905"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 22 Aug 2024 20:24:13 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1shKuI-000DQy-33;
+ Fri, 23 Aug 2024 03:24:10 +0000
+Date: Fri, 23 Aug 2024 11:23:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ nicholas.kazlauskas@amd.com, Charlene.Liu@amd.com,
+ chiahsuan.chung@amd.com, hamza.mahfooz@amd.com,
+ sungjoon.kim@amd.com, syed.hassan@amd.com, roman.li@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
+Subject: Re: [PATCH -next v2 RESEND] drm/amd/display: Remove unused
+ dcn35_fpga_funcs
+Message-ID: <202408231105.BpoYpNK6-lkp@intel.com>
+References: <20240822015819.3356282-1-ruanjinjie@huawei.com>
 MIME-Version: 1.0
-X-DKIM-Results: [10.8.1.61]; dkim=none;
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL: mail03.siengine.com 47N2r7kj098539
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240822015819.3356282-1-ruanjinjie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,105 +78,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIExpdml1LA0KDQpJJ20gc29ycnkgZm9yIG15IGNhcmVsZXNzbmVzcyBhbmQgdGhhbmtzIGZv
-ciB5b3VyIGNvcnJlY3Rpb24sIHRoZSBjb3JyZWN0ZWQgcGF0Y2ggaXMgYXMgZm9sbG93cy4gDQpB
-bmQgd2UgZG8gaGF2ZSBhbiBleHRyYSBwYXRjaCB0byBzZXQgbGF5ZXJfc3BsaXQsIGJ1dCB0aGlz
-IHBhcnQgb2YgdGhlIGNvZGUgaXMgb3duZWQgYnkgbXkgY29sbGVhZ3VlLA0KU28gdGhhdCBJIGNh
-bm5vdCB1cGxvYWQgaXQsIHNvcnJ5IGFib3V0IHRoaXMuDQoNClNpZ25lZC1vZmYtYnk6IGhvbmdj
-aGkucGVuZyA8aG9uZ2NoaS5wZW5nQHNpZW5naW5lLmNvbT4NCi0tLQ0KIGRyaXZlcnMvZ3B1L2Ry
-bS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5jIHwgMTAgKysrKysrKy0tLQ0KIDEgZmls
-ZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9rbXMuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5jDQppbmRleCBmZTQ2YjBl
-YmVmZWEuLmFiNzY5YTBhNGFmYSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlz
-cGxheS9rb21lZGEva29tZWRhX2ttcy5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3Bs
-YXkva29tZWRhL2tvbWVkYV9rbXMuYw0KQEAgLTE2MCw2ICsxNjAsNyBAQCBzdGF0aWMgaW50IGtv
-bWVkYV9jcnRjX25vcm1hbGl6ZV96cG9zKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywNCiAJc3RydWN0
-IGRybV9wbGFuZSAqcGxhbmU7DQogCXN0cnVjdCBsaXN0X2hlYWQgem9yZGVyX2xpc3Q7DQogCWlu
-dCBvcmRlciA9IDAsIGVycjsNCisJdTMyIHNsYXZlX3pwb3M7DQogDQogCURSTV9ERUJVR19BVE9N
-SUMoIltDUlRDOiVkOiVzXSBjYWxjdWxhdGluZyBub3JtYWxpemVkIHpwb3MgdmFsdWVzXG4iLA0K
-IAkJCSBjcnRjLT5iYXNlLmlkLCBjcnRjLT5uYW1lKTsNCkBAIC0xOTksMTAgKzIwMCwxMyBAQCBz
-dGF0aWMgaW50IGtvbWVkYV9jcnRjX25vcm1hbGl6ZV96cG9zKHN0cnVjdCBkcm1fY3J0YyAqY3J0
-YywNCiAJCQkJIHBsYW5lX3N0LT56cG9zLCBwbGFuZV9zdC0+bm9ybWFsaXplZF96cG9zKTsNCiAN
-CiAJCS8qIGNhbGN1bGF0ZSBtYXggc2xhdmUgem9yZGVyICovDQotCQlpZiAoaGFzX2JpdChkcm1f
-cGxhbmVfaW5kZXgocGxhbmUpLCBrY3J0Yy0+c2xhdmVfcGxhbmVzKSkNCisJCWlmIChoYXNfYml0
-KGRybV9wbGFuZV9pbmRleChwbGFuZSksIGtjcnRjLT5zbGF2ZV9wbGFuZXMpKSB7DQorCQkJc2xh
-dmVfenBvcyA9IHBsYW5lX3N0LT5ub3JtYWxpemVkX3pwb3M7DQorCQkJaWYgKHRvX2twbGFuZV9z
-dChwbGFuZV9zdCktPmxheWVyX3NwbGl0KQ0KKwkJCQlzbGF2ZV96cG9zKys7DQogCQkJa2NydGNf
-c3QtPm1heF9zbGF2ZV96b3JkZXIgPQ0KLQkJCQltYXgocGxhbmVfc3QtPm5vcm1hbGl6ZWRfenBv
-cywNCi0JCQkJICAgIGtjcnRjX3N0LT5tYXhfc2xhdmVfem9yZGVyKTsNCisJCQkJbWF4KHNsYXZl
-X3pwb3MsIGtjcnRjX3N0LT5tYXhfc2xhdmVfem9yZGVyKTsNCisJCX0NCiAJfQ0KIA0KIAljcnRj
-X3N0LT56cG9zX2NoYW5nZWQgPSB0cnVlOw0KLS0NCjIuMzQuMQ0KDQpCZXN0IFJlZ2FyZHMsDQpI
-b25nY2hpIFBlbmcNCg0KLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0K5Y+R5Lu25Lq6OiBMaXZpdSBE
-dWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4gDQrlj5HpgIHml7bpl7Q6IDIwMjTlubQ45pyIMjLm
-l6UgMjI6MDUNCuaUtuS7tuS6ujogUGVuZyBIb25nY2hpL+W9rea0qumpsCA8aG9uZ2NoaS5wZW5n
-QHNpZW5naW5lLmNvbT4NCuaKhOmAgTogbWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29t
-OyBtcmlwYXJkQGtlcm5lbC5vcmc7IHR6aW1tZXJtYW5uQHN1c2UuZGU7IGFpcmxpZWRAZ21haWwu
-Y29tOyBkYW5pZWxAZmZ3bGwuY2g7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCuS4
-u+mimDogUmU6IFtQQVRDSF0gZHJtOiBrb21lZGE6IEZpeCBhbiBpc3N1ZSByZWxhdGVkIHRvIG5v
-cm1hbGl6ZWQgenBvcw0KDQpIaSBIb25nY2hpLA0KDQpPbiBXZWQsIEF1ZyAyMSwgMjAyNCBhdCAw
-NDo1NjoxM1BNICswODAwLCBob25nY2hpLnBlbmcgd3JvdGU6DQo+IFdlIHVzZSBrb21lZGFfY3J0
-Y19ub3JtYWxpemVfenBvcyB0byBub3JtYWxpemUgenBvcyBvZiBhZmZlY3RlZCBwbGFuZXMgDQo+
-IHRvIHRoZWlyIGJsZW5kaW5nIHpvcmRlciBpbiBDVS4gSWYgdGhlcmUncyBvbmx5IG9uZSBzbGF2
-ZSBwbGFuZSBpbiANCj4gYWZmZWN0ZWQgcGxhbmVzIGFuZCBpdHMgbGF5ZXJfc3BsaXQgcHJvcGVy
-dHkgaXMgZW5hYmxlZCwgb3JkZXIrKyBmb3IgDQo+IGl0cyBzcGxpdCBsYXllciwgc28gdGhhdCB3
-aGVuIGNhbGN1bGF0aW5nIHRoZSBub3JtYWxpemVkX3pwb3Mgb2YgDQo+IG1hc3RlciBwbGFuZXMs
-IHRoZSBzcGxpdCBsYXllciBvZiB0aGUgc2xhdmUgcGxhbmUgaXMgaW5jbHVkZWQsIGJ1dCB0aGUg
-DQo+IG1heF9zbGF2ZV96b3JkZXIgZG9lcyBub3QgaW5jbHVkZSB0aGUgc3BsaXQgbGF5ZXIgYW5k
-IGtlZXAgemVybyANCj4gYmVjYXVzZSB0aGVyZSdzIG9ubHkgb25lIHNsYXZlIHBsYW5lIGluIGFm
-ZmFjdGVkIHBsYW5lcywgYWx0aG91Z2ggd2UgDQo+IGFjdHVhbGx5IHVzZSB0d28gc2xhdmUgbGF5
-ZXJzIGluIHRoaXMgY29tbWl0Lg0KPiANCj4gSW4gbW9zdCBjYXNlcywgdGhpcyBidWcgZG9lcyBu
-b3QgcmVzdWx0IGluIGEgY29tbWl0IGZhaWx1cmUsIGJ1dCANCj4gYXNzdW1lIHRoZSBmb2xsb3dp
-bmcgc2l0dWF0aW9uOg0KPiAgICAgc2xhdmVfbGF5ZXIgMDogenBvcyA9IDAsIGxheWVyIHNwbGl0
-IGVuYWJsZWQsIG5vcm1hbGl6ZWRfenBvcyA9DQo+ICAgICAwOyh1c2Ugc2xhdmVfbGF5ZXIgMiBh
-cyBpdHMgc3BsaXQgbGF5ZXIpDQo+ICAgICBtYXN0ZXJfbGF5ZXIgMDogenBvcyA9IDIsIGxheWVy
-X3NwbGl0IGVuYWJsZWQsIG5vcm1hbGl6ZWRfenBvcyA9DQo+ICAgICAyOyh1c2UgbWFzdGVyX2xh
-eWVyIDIgYXMgaXRzIHNwbGl0IGxheWVyKQ0KPiAgICAgbWFzdGVyX2xheWVyIDE6IHpwb3MgPSA0
-LCBub3JtYWxpemVkX3pwb3MgPSA0Ow0KPiAgICAgbWFzdGVyX2xheWVyIDM6IHpwb3MgPSA1LCBu
-b3JtYWxpemVkX3pwb3MgPSA1Ow0KPiAgICAga2NydGNfc3QtPm1heF9zbGF2ZV96b3JkZXIgPSAw
-Ow0KPiBXaGVuIHdlIHVzZSBtYXN0ZXJfbGF5ZXIgMyBhcyBhIGlucHV0IG9mIENVIGluIGZ1bmN0
-aW9uIA0KPiBrb21lZGFfY29tcGl6X3NldF9pbnB1dCBhbmQgY2hlY2sgaXQgd2l0aCBmdW5jdGlv
-biANCj4ga29tZWRhX2NvbXBvbmVudF9jaGVja19pbnB1dCwgdGhlIHBhcmFtZXRlciBpZHggaXMg
-ZXF1YWwgdG8gDQo+IG5vcm1haWx6ZWRfenBvcyBtaW51cyBtYXhfc2xhdmVfem9yZGVyLCB0aGUg
-dmFsdWUgb2YgaWR4IGlzIDUgYW5kIGlzIA0KPiBldXFhbCB0byBDVSdzIG1heF9hY3RpdmVfaW5w
-dXRzLCBzbyB0aGF0IGtvbWVkYV9jb21wb25lbnRfY2hlY2tfaW5wdXQgDQo+IHJldHVybnMgYSAt
-RUlOVkFMIHZhbHVlLg0KDQpZZXMsIGluZGVlZCwgeW91IGhhdmUgZm91bmQgYSBidWcgaW4gdGhl
-IGNhbGN1bGF0aW9ucyB3aGVuIGxheWVyX3NwbGl0IGlzIHNldC4NCkJ1dCBJIHdhcyBhbHNvIGxv
-b2tpbmcgdGhyb3VnaCB0aGUgY29kZSB0cnlpbmcgdG8gZmluZCB3aGVyZSBsYXllcl9zcGxpdCBn
-ZXRzIHNldCBhbmQgSSBjb3VsZCBub3QgZmluZCBpdCwgZG8geW91IGhhdmUgc29tZSBleHRyYSBw
-YXRjaGVzPw0KDQo+IA0KPiBUbyBmaXggdGhlIGJ1ZyBkZXNjcmliZWQgYWJvdmUsIHdoZW4gY2Fs
-Y3VsYXRpbmcgdGhlIG1heF9zbGF2ZV96b3JkZXIgDQo+IHdpdGggdGhlIGxheWVyX3NwbGl0IGVu
-YWJsZWQsIGNvdW50IHRoZSBzcGxpdCBsYXllciBpbiB0aGlzIA0KPiBjYWxjdWxhdGlvbiBkaXJl
-Y3RseS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IGhvbmdjaGkucGVuZyA8aG9uZ2NoaS5wZW5nQHNp
-ZW5naW5lLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRh
-L2tvbWVkYV9rbXMuYyB8IDExICsrKysrKystLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNl
-cnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5jIA0KPiBiL2RyaXZlcnMvZ3B1L2Ry
-bS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5jDQo+IGluZGV4IGZlNDZiMGViZWZlYS4u
-YjNkYjgyODI4NGU0IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkv
-a29tZWRhL2tvbWVkYV9rbXMuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkv
-a29tZWRhL2tvbWVkYV9rbXMuYw0KPiBAQCAtMTU5LDcgKzE1OSw3IEBAIHN0YXRpYyBpbnQga29t
-ZWRhX2NydGNfbm9ybWFsaXplX3pwb3Moc3RydWN0IGRybV9jcnRjICpjcnRjLA0KPiAgCXN0cnVj
-dCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0Ow0KPiAgCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5l
-Ow0KPiAgCXN0cnVjdCBsaXN0X2hlYWQgem9yZGVyX2xpc3Q7DQo+IC0JaW50IG9yZGVyID0gMCwg
-ZXJyOw0KPiArCWludCBvcmRlciA9IDAsIHNsYXZlX3pwb3MsIGVycjsNCg0KQWxzbywgdGhlIGJ1
-aWxkIGJvdCBoYXMgYWxyZWFkeSBmbGFnZ2VkIGl0LCB5b3VyIHBhdGNoIG5lZWRzIHNvbWUgaW1w
-cm92ZW1lbnRzLg0Kc2xhdmVfenBvcyBuZWVkcyB0byBiZSB1MzIgaWYgaXQncyBnb2luZyB0byBi
-ZSBjb21wYXJlZCBhZ2FpbnN0IG1heF9zbGF2ZV96b3JkZXIuDQoNCkJlc3QgcmVnYXJkcywNCkxp
-dml1DQoNCj4gIA0KPiAgCURSTV9ERUJVR19BVE9NSUMoIltDUlRDOiVkOiVzXSBjYWxjdWxhdGlu
-ZyBub3JtYWxpemVkIHpwb3MgdmFsdWVzXG4iLA0KPiAgCQkJIGNydGMtPmJhc2UuaWQsIGNydGMt
-Pm5hbWUpOw0KPiBAQCAtMTk5LDEwICsxOTksMTMgQEAgc3RhdGljIGludCBrb21lZGFfY3J0Y19u
-b3JtYWxpemVfenBvcyhzdHJ1Y3QgZHJtX2NydGMgKmNydGMsDQo+ICAJCQkJIHBsYW5lX3N0LT56
-cG9zLCBwbGFuZV9zdC0+bm9ybWFsaXplZF96cG9zKTsNCj4gIA0KPiAgCQkvKiBjYWxjdWxhdGUg
-bWF4IHNsYXZlIHpvcmRlciAqLw0KPiAtCQlpZiAoaGFzX2JpdChkcm1fcGxhbmVfaW5kZXgocGxh
-bmUpLCBrY3J0Yy0+c2xhdmVfcGxhbmVzKSkNCj4gKwkJaWYgKGhhc19iaXQoZHJtX3BsYW5lX2lu
-ZGV4KHBsYW5lKSwga2NydGMtPnNsYXZlX3BsYW5lcykpIHsNCj4gKwkJCXNsYXZlX3pwb3MgPSBw
-bGFuZV9zdC0+bm9ybWFsaXplZF96cG9zOw0KPiArCQkJaWYgKHRvX2twbGFuZV9zdChwbGFuZV9z
-dCktPmxheWVyX3NwbGl0KQ0KPiArCQkJCXNsYXZlX3pwb3MrKzsNCj4gIAkJCWtjcnRjX3N0LT5t
-YXhfc2xhdmVfem9yZGVyID0NCj4gLQkJCQltYXgocGxhbmVfc3QtPm5vcm1hbGl6ZWRfenBvcywN
-Cj4gLQkJCQkgICAga2NydGNfc3QtPm1heF9zbGF2ZV96b3JkZXIpOw0KPiArCQkJCW1heChzbGF2
-ZV96cG9zLCBrY3J0Y19zdC0+bWF4X3NsYXZlX3pvcmRlcik7DQo+ICsJCX0NCj4gIAl9DQo+ICAN
-Cj4gIAljcnRjX3N0LT56cG9zX2NoYW5nZWQgPSB0cnVlOw0KPiAtLQ0KPiAyLjM0LjENCj4gDQoN
-Ci0tIA0KPT09PT09PT09PT09PT09PT09PT0NCnwgSSB3b3VsZCBsaWtlIHRvIHwNCnwgZml4IHRo
-ZSB3b3JsZCwgIHwNCnwgYnV0IHRoZXkncmUgbm90IHwNCnwgZ2l2aW5nIG1lIHRoZSAgIHwNCiBc
-IHNvdXJjZSBjb2RlISAgLw0KICAtLS0tLS0tLS0tLS0tLS0NCiAgICDCr1xfKOODhClfL8KvDQo=
+Hi Jinjie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240821]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/drm-amd-display-Remove-unused-dcn35_fpga_funcs/20240822-095139
+base:   next-20240821
+patch link:    https://lore.kernel.org/r/20240822015819.3356282-1-ruanjinjie%40huawei.com
+patch subject: [PATCH -next v2 RESEND] drm/amd/display: Remove unused dcn35_fpga_funcs
+config: x86_64-buildonly-randconfig-005-20240823 (https://download.01.org/0day-ci/archive/20240823/202408231105.BpoYpNK6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231105.BpoYpNK6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408231105.BpoYpNK6-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:989:13: warning: 'dcn35_update_clocks_fpga' defined but not used [-Wunused-function]
+     989 | static void dcn35_update_clocks_fpga(struct clk_mgr *clk_mgr,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:982:13: warning: 'dcn35_init_clocks_fpga' defined but not used [-Wunused-function]
+     982 | static void dcn35_init_clocks_fpga(struct clk_mgr *clk_mgr)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/dcn35_update_clocks_fpga +989 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+
+93a66cef607cfe Sung Joon Kim 2023-08-18   981  
+8774029f76b980 Qingqing Zhuo 2023-08-02  @982  static void dcn35_init_clocks_fpga(struct clk_mgr *clk_mgr)
+8774029f76b980 Qingqing Zhuo 2023-08-02   983  {
+f2a905b01c6dcc Eric Yang     2024-01-16   984  	init_clk_states(clk_mgr);
+8774029f76b980 Qingqing Zhuo 2023-08-02   985  
+8774029f76b980 Qingqing Zhuo 2023-08-02   986  /* TODO: Implement the functions and remove the ifndef guard */
+8774029f76b980 Qingqing Zhuo 2023-08-02   987  }
+8774029f76b980 Qingqing Zhuo 2023-08-02   988  
+8774029f76b980 Qingqing Zhuo 2023-08-02  @989  static void dcn35_update_clocks_fpga(struct clk_mgr *clk_mgr,
+8774029f76b980 Qingqing Zhuo 2023-08-02   990  		struct dc_state *context,
+8774029f76b980 Qingqing Zhuo 2023-08-02   991  		bool safe_to_lower)
+8774029f76b980 Qingqing Zhuo 2023-08-02   992  {
+8774029f76b980 Qingqing Zhuo 2023-08-02   993  	struct clk_mgr_internal *clk_mgr_int = TO_CLK_MGR_INTERNAL(clk_mgr);
+8774029f76b980 Qingqing Zhuo 2023-08-02   994  	struct dc_clocks *new_clocks = &context->bw_ctx.bw.dcn.clk;
+8774029f76b980 Qingqing Zhuo 2023-08-02   995  	int fclk_adj = new_clocks->fclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02   996  
+8774029f76b980 Qingqing Zhuo 2023-08-02   997  	/* TODO: remove this after correctly set by DML */
+8774029f76b980 Qingqing Zhuo 2023-08-02   998  	new_clocks->dcfclk_khz = 400000;
+8774029f76b980 Qingqing Zhuo 2023-08-02   999  	new_clocks->socclk_khz = 400000;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1000  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1001  	/* Min fclk = 1.2GHz since all the extra scemi logic seems to run off of it */
+8774029f76b980 Qingqing Zhuo 2023-08-02  1002  	//int fclk_adj = new_clocks->fclk_khz > 1200000 ? new_clocks->fclk_khz : 1200000;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1003  	new_clocks->fclk_khz = 4320000;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1004  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1005  	if (should_set_clock(safe_to_lower, new_clocks->phyclk_khz, clk_mgr->clks.phyclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1006  		clk_mgr->clks.phyclk_khz = new_clocks->phyclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1007  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1008  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1009  	if (should_set_clock(safe_to_lower, new_clocks->dcfclk_khz, clk_mgr->clks.dcfclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1010  		clk_mgr->clks.dcfclk_khz = new_clocks->dcfclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1011  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1012  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1013  	if (should_set_clock(safe_to_lower,
+8774029f76b980 Qingqing Zhuo 2023-08-02  1014  			new_clocks->dcfclk_deep_sleep_khz, clk_mgr->clks.dcfclk_deep_sleep_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1015  		clk_mgr->clks.dcfclk_deep_sleep_khz = new_clocks->dcfclk_deep_sleep_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1016  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1017  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1018  	if (should_set_clock(safe_to_lower, new_clocks->socclk_khz, clk_mgr->clks.socclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1019  		clk_mgr->clks.socclk_khz = new_clocks->socclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1020  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1021  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1022  	if (should_set_clock(safe_to_lower, new_clocks->dramclk_khz, clk_mgr->clks.dramclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1023  		clk_mgr->clks.dramclk_khz = new_clocks->dramclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1024  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1025  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1026  	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->clks.dppclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1027  		clk_mgr->clks.dppclk_khz = new_clocks->dppclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1028  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1029  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1030  	if (should_set_clock(safe_to_lower, fclk_adj, clk_mgr->clks.fclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1031  		clk_mgr->clks.fclk_khz = fclk_adj;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1032  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1033  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1034  	if (should_set_clock(safe_to_lower, new_clocks->dispclk_khz, clk_mgr->clks.dispclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1035  		clk_mgr->clks.dispclk_khz = new_clocks->dispclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1036  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1037  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1038  	/* Both fclk and ref_dppclk run on the same scemi clock.
+8774029f76b980 Qingqing Zhuo 2023-08-02  1039  	 * So take the higher value since the DPP DTO is typically programmed
+8774029f76b980 Qingqing Zhuo 2023-08-02  1040  	 * such that max dppclk is 1:1 with ref_dppclk.
+8774029f76b980 Qingqing Zhuo 2023-08-02  1041  	 */
+8774029f76b980 Qingqing Zhuo 2023-08-02  1042  	if (clk_mgr->clks.fclk_khz > clk_mgr->clks.dppclk_khz)
+8774029f76b980 Qingqing Zhuo 2023-08-02  1043  		clk_mgr->clks.dppclk_khz = clk_mgr->clks.fclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1044  	if (clk_mgr->clks.dppclk_khz > clk_mgr->clks.fclk_khz)
+8774029f76b980 Qingqing Zhuo 2023-08-02  1045  		clk_mgr->clks.fclk_khz = clk_mgr->clks.dppclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1046  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1047  	// Both fclk and ref_dppclk run on the same scemi clock.
+8774029f76b980 Qingqing Zhuo 2023-08-02  1048  	clk_mgr_int->dccg->ref_dppclk = clk_mgr->clks.fclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1049  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1050  	/* TODO: set dtbclk in correct place */
+8774029f76b980 Qingqing Zhuo 2023-08-02  1051  	clk_mgr->clks.dtbclk_en = true;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1052  	dm_set_dcn_clocks(clk_mgr->ctx, &clk_mgr->clks);
+8774029f76b980 Qingqing Zhuo 2023-08-02  1053  	dcn35_update_clocks_update_dpp_dto(clk_mgr_int, context, safe_to_lower);
+8774029f76b980 Qingqing Zhuo 2023-08-02  1054  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1055  	dcn35_update_clocks_update_dtb_dto(clk_mgr_int, context, clk_mgr->clks.ref_dtbclk_khz);
+8774029f76b980 Qingqing Zhuo 2023-08-02  1056  }
+8774029f76b980 Qingqing Zhuo 2023-08-02  1057  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
