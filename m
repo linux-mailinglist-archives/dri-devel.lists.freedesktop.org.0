@@ -2,106 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6C695CCA7
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 14:44:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC1A95CCAB
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 14:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E938010E5AB;
-	Fri, 23 Aug 2024 12:44:32 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zUv1+YBO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iWMWHsqt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zUv1+YBO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iWMWHsqt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFD910E5DA;
+	Fri, 23 Aug 2024 12:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA09010E57A
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 12:44:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17B4410E57A
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 12:44:27 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 69D7022651;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A6AFC20312;
  Fri, 23 Aug 2024 12:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724417065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SrNPxiRxwEy/SjB1ARH7RIYERIn6ib8/ZFvWYtDCvyI=;
- b=zUv1+YBO5L+moWBvFV/OPFVwB4NM9cQeAcgxYZPn3jpdUCeeEUl8xS7NXVCBqzdcrZbPnn
- 6F+HjU8a7DWBPIR7YPp5yeYr4KQtNCuFGYPI81KJuwYKXBli9Gz0TBt83Yk6gEX45abd10
- wJeT+E4HHgHCi7dg0I3j0/JUFgEYDjY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724417065;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SrNPxiRxwEy/SjB1ARH7RIYERIn6ib8/ZFvWYtDCvyI=;
- b=iWMWHsqtR242IwLJD+oTndoru7Ogm7dcUpxwtQJ2x0CEsefZ4N17OecJOsh/tsXsNDAAAT
- sLQP0i9fK1v0fCCA==
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724417065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SrNPxiRxwEy/SjB1ARH7RIYERIn6ib8/ZFvWYtDCvyI=;
- b=zUv1+YBO5L+moWBvFV/OPFVwB4NM9cQeAcgxYZPn3jpdUCeeEUl8xS7NXVCBqzdcrZbPnn
- 6F+HjU8a7DWBPIR7YPp5yeYr4KQtNCuFGYPI81KJuwYKXBli9Gz0TBt83Yk6gEX45abd10
- wJeT+E4HHgHCi7dg0I3j0/JUFgEYDjY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724417065;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SrNPxiRxwEy/SjB1ARH7RIYERIn6ib8/ZFvWYtDCvyI=;
- b=iWMWHsqtR242IwLJD+oTndoru7Ogm7dcUpxwtQJ2x0CEsefZ4N17OecJOsh/tsXsNDAAAT
- sLQP0i9fK1v0fCCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31B681333E;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6EFF113A61;
  Fri, 23 Aug 2024 12:44:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id mH/xCimEyGbKVwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id SHjLGSmEyGbKVwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 23 Aug 2024 12:44:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: kraxel@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/10] drm/bochs: Pass bochs device to various functions
-Date: Fri, 23 Aug 2024 14:28:47 +0200
-Message-ID: <20240823124422.286989-5-tzimmermann@suse.de>
+Subject: [PATCH 05/10] drm/bochs: Upcast with to_bochs_device()
+Date: Fri, 23 Aug 2024 14:28:48 +0200
+Message-ID: <20240823124422.286989-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240823124422.286989-1-tzimmermann@suse.de>
 References: <20240823124422.286989-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-0.996]; MIME_GOOD(-0.10)[text/plain];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- FROM_EQ_ENVFROM(0.00)[];
- FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com];
- RCPT_COUNT_SEVEN(0.00)[8]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- R_RATELIMIT(0.00)[to_ip_from(RLw9gjjhh8cousxs3wi4trssza)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -6.80
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
 X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: A6AFC20312
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,60 +70,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid upcasting from struct drm_device by passing the bochs device
-directly to functions.
+The dev_private field in struct drm_device is deprecated. Limit its
+use by moving it into a helper function. A later change will remove
+it entirely.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/bochs.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/tiny/bochs.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 5d09b4cb28ed..acb2652577d4 100644
+index acb2652577d4..61b2b7aa03cb 100644
 --- a/drivers/gpu/drm/tiny/bochs.c
 +++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -204,9 +204,9 @@ static const struct drm_edid *bochs_hw_read_edid(struct drm_connector *connector
- 	return drm_edid_read_custom(connector, bochs_get_edid_block, bochs);
- }
- 
--static int bochs_hw_init(struct drm_device *dev)
-+static int bochs_hw_init(struct bochs_device *bochs)
- {
--	struct bochs_device *bochs = dev->dev_private;
-+	struct drm_device *dev = bochs->dev;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	unsigned long addr, size, mem, ioaddr, iosize;
- 	u16 id;
-@@ -481,9 +481,9 @@ static const struct drm_connector_funcs bochs_connector_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+@@ -92,6 +92,11 @@ struct bochs_device {
+ 	struct drm_connector connector;
  };
  
--static void bochs_connector_init(struct drm_device *dev)
-+static void bochs_connector_init(struct bochs_device *bochs)
++static struct bochs_device *to_bochs_device(const struct drm_device *dev)
++{
++	return (struct bochs_device *)dev->dev_private;
++}
++
+ /* ---------------------------------------------------------------------- */
+ 
+ static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
+@@ -191,7 +196,7 @@ static int bochs_get_edid_block(void *data, u8 *buf, unsigned int block, size_t
+ static const struct drm_edid *bochs_hw_read_edid(struct drm_connector *connector)
  {
+ 	struct drm_device *dev = connector->dev;
 -	struct bochs_device *bochs = dev->dev_private;
-+	struct drm_device *dev = bochs->dev;
- 	struct drm_connector *connector = &bochs->connector;
++	struct bochs_device *bochs = to_bochs_device(dev);
+ 	u8 header[8];
  
- 	drm_connector_init(dev, connector, &bochs_connector_connector_funcs,
-@@ -516,7 +516,7 @@ static int bochs_kms_init(struct bochs_device *bochs)
+ 	/* check header to detect whenever edid support is enabled in qemu */
+@@ -420,7 +425,7 @@ static void bochs_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 			      struct drm_crtc_state *crtc_state,
+ 			      struct drm_plane_state *plane_state)
+ {
+-	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
++	struct bochs_device *bochs = to_bochs_device(pipe->crtc.dev);
  
- 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
+ 	bochs_hw_setmode(bochs, &crtc_state->mode);
+ 	bochs_plane_update(bochs, plane_state);
+@@ -428,7 +433,7 @@ static void bochs_pipe_enable(struct drm_simple_display_pipe *pipe,
  
--	bochs_connector_init(bochs->dev);
-+	bochs_connector_init(bochs);
- 	drm_simple_display_pipe_init(bochs->dev,
- 				     &bochs->pipe,
- 				     &bochs_pipe_funcs,
-@@ -544,7 +544,7 @@ static int bochs_load(struct drm_device *dev)
- 	dev->dev_private = bochs;
- 	bochs->dev = dev;
+ static void bochs_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
++	struct bochs_device *bochs = to_bochs_device(pipe->crtc.dev);
  
--	ret = bochs_hw_init(dev);
-+	ret = bochs_hw_init(bochs);
- 	if (ret)
- 		return ret;
+ 	bochs_hw_blank(bochs, true);
+ }
+@@ -436,7 +441,7 @@ static void bochs_pipe_disable(struct drm_simple_display_pipe *pipe)
+ static void bochs_pipe_update(struct drm_simple_display_pipe *pipe,
+ 			      struct drm_plane_state *old_state)
+ {
+-	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
++	struct bochs_device *bochs = to_bochs_device(pipe->crtc.dev);
  
+ 	bochs_plane_update(bochs, pipe->plane.state);
+ }
 -- 
 2.46.0
 
