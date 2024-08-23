@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F6095D23D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 17:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F423795D23E
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 17:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2E110EC5D;
-	Fri, 23 Aug 2024 15:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC7910EC5F;
+	Fri, 23 Aug 2024 15:59:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hjr83euP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lDKPf5tt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 715C810EC5D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 15:59:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9BD3BA400FF;
- Fri, 23 Aug 2024 15:59:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB49C32786;
- Fri, 23 Aug 2024 15:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724428789;
- bh=O2lMKlPvm5xBpbj9dv2BdmqyLIQ1zrOWY1a1YXHnZ4g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hjr83euPg8IQyUwMQjvhJt/F2p/Xm//W9sjhrdpUOO1ypRA/Q3y9ykqKAyQSM0mt0
- gFLYHGWSDx977PfXdpwWFoclJKsI3jzvnCumGBzR7YneezFvQZhpfX7HaWTyhO5Zzu
- FJsJVPS7yEq1ZCRSe2l/VIDRhjYsyIpWGkDncX22DhmbV3pZ/49v5Z0F15o7HkQ45p
- bQF3L/W2u1sKpSXxwPlTX/zaU8t5ixzuGpw358NOsyt3pYyeuZzFqgainiMRUd1saX
- hgf6N7FDQMvGVorz5WKf7Y8gH0gAhMkcF+EqGTYTFgYqT0Y7yZVuYFOx5KhBEFX3WB
- /SOcJpfarUVLQ==
-Date: Fri, 23 Aug 2024 16:59:41 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>
-Subject: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema for
- RK3588 HDMI TX Controller
-Message-ID: <20240823-lunar-esteemed-a727b6de8cbe@spud>
-References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
- <4167579.6PsWsQAL7t@diego>
- <20240822-pushchair-premises-f4055779216a@spud>
- <3137870.U3zVgo479M@diego>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1457F10EC5F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 15:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724428797; x=1755964797;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=BrTD2koBEUbfxrau4zTlyemmxIt4YG+mE38UrWr6eFs=;
+ b=lDKPf5ttQNUTnA5YDXktpegr6Rz8lJ4STF5eKPPmLuisJVNyvlHf36Tk
+ hGSZ0TSG98OiISLIBDij/mWtaQWROaAcZ2Cp/wTwIsTlpezXcaPQo10r1
+ RfSc4O0RMQihgSXVcgLR2s6q9M8piZpceoUiXJO6PHXTioFJ2Uf6Z0E9i
+ NDCpIvKlMAdRH46tiDgsPUGe6zhwEIeGLKfGTTnYHakNpQvyMbrnIrvEj
+ u8q7qGCbRTK+KtJd0BJ5xEiFlaUH06C/tS4KWRpVT/CHfF2eDwKeuMS9p
+ sjmIOwpo2e11ikJTM9j+/sBkq+OVwr17ZLinNhley4PpuHynhIVeHCAhH A==;
+X-CSE-ConnectionGUID: xyBmHI7RQfOmjLkX5ELYJw==
+X-CSE-MsgGUID: 3UxTfdpESISQc4KzQmqN6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="13171480"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="13171480"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2024 08:59:57 -0700
+X-CSE-ConnectionGUID: kUn9wcutQ12dtU3VcJyeCg==
+X-CSE-MsgGUID: r/r/i4wFQtCD4pv2y5GYpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; d="scan'208";a="66150671"
+Received: from mklonows-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.223])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2024 08:59:54 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Derek Foreman <derek.foreman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Maxime Ripard <mripard@kernel.org>, kernel@collabora.com, Derek Foreman
+ <derek.foreman@collabora.com>
+Subject: Re: [PATCH] drm/connector: hdmi: Increase HDMI_MAX_INFOFRAME_SIZE
+ to 30
+In-Reply-To: <20240823140308.384988-1-derek.foreman@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240823140308.384988-1-derek.foreman@collabora.com>
+Date: Fri, 23 Aug 2024 18:59:48 +0300
+Message-ID: <87jzg72psb.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hV0DDwkOk4FQlrs4"
-Content-Disposition: inline
-In-Reply-To: <3137870.U3zVgo479M@diego>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,73 +71,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 23 Aug 2024, Derek Foreman <derek.foreman@collabora.com> wrote:
+> The DRM infoframe is 26 bytes, with a 4 byte header this gives us 30. The
+> current limit of 29 prevents us from writing DRM infoframes.
 
---hV0DDwkOk4FQlrs4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Some more details would be useful. Which infoframe, etc.
 
-On Fri, Aug 23, 2024 at 12:47:50PM +0200, Heiko St=FCbner wrote:
-> Am Donnerstag, 22. August 2024, 10:41:10 CEST schrieb Conor Dooley:
-> > On Thu, Aug 22, 2024 at 09:01:34AM +0200, Heiko St=FCbner wrote:
-> > > @Conor: just for me, did some shift happen in our understanding of dt-
-> > > best-practices in terms of syscon via phandle vs. syscon via compatib=
-le?
-> > >=20
-> > > Because Rockchip boards are referencing their GRFs via phandes forever
-> > > but similar to the soc vs non-soc node thing, I'd like to stay on top=
- of
-> > > best-practices ;-)
-> >=20
-> > If IP blocks, and thus drivers, are going to be reused between devices,
-> > using the phandles makes sense given that it is unlikely that syscon
-> > nodes can make use of fallback compatibles due to bits within that "glu=
-e"
-> > changing between devices. It also makes sense when there are multiple
-> > instances of an IP on the device, which need to use different syscons.
-> > My goal is to ask people why they are using these type of syscons
-> > phandle properties, cos often they are not required at all - for example
-> > with clocks where you effectively need a whole new driver for every
-> > single soc and having a phandle property buys you nothing.
->=20
-> I guess I'm of two minds here.
->=20
-> For me at least it makes sense to spell out the dependency to the
-> syscon in the devicetree and not just have that hidden away inside the
-> driver.
->=20
-> But on the other hand, we already have the per-soc configuration [0]
-> defining which grf bits needs to be accessed, so adding a
->=20
-> 	.lanecfg1_grf_compat =3D "rockchip,rk3568-vo"
->=20
-> would not create overhad, as the grf regs and bits and rearranged
-> all the time anyway.
+BR,
+Jani.
 
-Right, that's the other side of it. Raw phandles aren't that great if
-the bits are gonna move around the register and you have to use the
-match data to figure out where they are. phandle + offset is the other
-option for that kind of scenario, particularly in cases where there are
-multiple copies of a block on an SoC and each uses either a different
-syscon or a different set of registers within one.
+>
+> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 +-
+>  drivers/gpu/drm/drm_debugfs.c                   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> index 7854820089ec..cc7747d33fdf 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -521,7 +521,7 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
+>  
+> -#define HDMI_MAX_INFOFRAME_SIZE		29
+> +#define HDMI_MAX_INFOFRAME_SIZE		30
+>  
+>  static int clear_device_infoframe(struct drm_connector *connector,
+>  				  enum hdmi_infoframe_type type)
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 6b239a24f1df..3439fd65275a 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -520,7 +520,7 @@ static const struct file_operations drm_connector_fops = {
+>  	.write = connector_write
+>  };
+>  
+> -#define HDMI_MAX_INFOFRAME_SIZE		29
+> +#define HDMI_MAX_INFOFRAME_SIZE		30
+>  
+>  static ssize_t
+>  audio_infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
 
->=20
->=20
-> [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c#n1652
-> taking DSI as an example, where this is even more obvious
->=20
->=20
-
---hV0DDwkOk4FQlrs4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsix7QAKCRB4tDGHoIJi
-0iOnAQCzjBObBEXW5gvG2K3RPILn8u+nPpQFIaHghl7RlSPXRgD8CMDqOYKns/Dy
-oZZF/fVLrYmrSuw4spyzAIfbrGlg/QA=
-=ONcF
------END PGP SIGNATURE-----
-
---hV0DDwkOk4FQlrs4--
+-- 
+Jani Nikula, Intel
