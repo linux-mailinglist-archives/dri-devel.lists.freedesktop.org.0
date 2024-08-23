@@ -2,98 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BAA95D805
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 22:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E09C95D91F
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 00:14:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A469E10E072;
-	Fri, 23 Aug 2024 20:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72AB010E0D5;
+	Fri, 23 Aug 2024 22:14:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TwraJNs8";
+	dkim=pass (2048-bit key; unprotected) header.d=kruces-com.20230601.gappssmtp.com header.i=@kruces-com.20230601.gappssmtp.com header.b="ygIwDYru";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
- [209.85.160.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C3110E072
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 20:47:56 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-26fde6117cfso1836717fac.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 13:47:56 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCC310E0D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 22:14:40 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-5334879ba28so3016548e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 15:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724446076; x=1725050876;
+ d=kruces-com.20230601.gappssmtp.com; s=20230601; t=1724451278; x=1725056078;
  darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=id4PXH6g6b5ygcEfz+3/ImyFmiTcss8b3qGEx/u76XI=;
- b=TwraJNs8TSGcs8v6PFwm35V9r8rN7FV46aNKynFt58MMI06b4IqpU1WrSLTJYWPuQw
- NC0tmFlvzjliR6/ToUnnkD2QB1yTIcGj5Rgm2FXfJmswAPhDUIn+hE4SLWP3dIbST22M
- gOf7rgCEIPbH8qTMsKtGsnZ7MPhqegg2czsXE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724446076; x=1725050876;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=id4PXH6g6b5ygcEfz+3/ImyFmiTcss8b3qGEx/u76XI=;
- b=cK4gcXDhOj79kBXXdJDsr0q5InFNLGfCb8/0TavnNFX2t/ud0rGgFVky5hV5u1OiXf
- ONF6R2LytEBHA2q8Jijf0nZeXkDpKM2pzMp1G1heSdKezUYEfka8Kt6c9OmhYFjx0Mgy
- k3OqXFUV/Fub04eb+ge3zz5WTv0WITyVgrPVKRE6Be7xjlWX3C8FDnUpFGqYbuohPitm
- VaZrZj/x3CyzDuvfoqn78/K6v8eT9onpIkow+UZC10Jx/uWEKTUn1C6cs5FS2+0QX27F
- eSoZk5eEoS0qOK/DFnDdY46aw61JeCj7khWi9nK47VkMTxDttO56bAHzjimv6KZM6FoI
- F5sg==
+ bh=mVn7bhcqAuWH/Gc+rMZ1Xor11/SH0tAXV77Rde16lJc=;
+ b=ygIwDYruwu2cp65SqJx85KXlRLLmZu+P93g0NjVQgr54eLsi5XjarAP4e1s2JF46Ua
+ jPAF6gS2UAeW1mzFu/aZvNSdo5+Y+fPs2XXhIIzXdDeMj3tOVHzluBCHOD4gNfWrPyX4
+ EnMxuJ7PJPwZ8w/JQOpu2AakNb5J6EtqJTfyUhFndfzOB+xSfckTGIZeczo8UuFc5wZQ
+ R7HBv8jKB8iJO7beV9KD9JHmVIQQkCbNgMQRo0QIG3pBvDmHqsdR5rogxuBU9TOM3plc
+ my4HMjEpen/X5iQakw43N9X9iNSjc/+ptN5cNpv3ECPzca85EVHzHgFL8AWQMZuNGZy1
+ Ze5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724451278; x=1725056078;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mVn7bhcqAuWH/Gc+rMZ1Xor11/SH0tAXV77Rde16lJc=;
+ b=vNzjY4DHw+c2iClr1aG51Y2+dbGCgsTV0DWrLt4weNBWQDLFhYFMJbNH2/foN3DnXq
+ p3eswMaI9pvhVjKbeQEYy7eWNM7saeez079stUs3WOicRG74QH987IuajC9221mI6wwK
+ PZWwEm8JUQhyKyIhPuJCrT30+OuwD455fN9fKNoegfMh4bUnET010XrmAEsMoEn7VhV3
+ b8y3EkwoyOHeQym3WYT3TpbJsfFy2PxB9nTDPeFAj8xQQMlZhrAoBD8TjtaTz6e7C5HX
+ BisoYj3kOiHSV6L0Tko4/tBEWou/1bJE6BvIiNqadrwFFWthMEOBdsI8frXoSGHp5jvJ
+ 9DyA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWhOUM3sVQzBrmi1GQ5LOdHFYqAhAboQqbSB5uiVJba7DOCenZzGJK0gE+FAbRip3zdVzYXoWZyy4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxk2hMxj6wAqS4wR9gKSHqTuuJ3Sea5qpM+lV68JZ/tpnXYry2c
- h2u+wH9ywwyuGSpkpUSxkv0HHYBPOZ6kj2Qk0kBaLJxh/15FjWnWdJa34yar+Nw3BFensU2sp1B
- 4KaCtMkIEt3o07J+Xr1VGwv8EFxiomwEvD1PL
-X-Google-Smtp-Source: AGHT+IFTlK1vgqPsQn2j9voF5J39I5gTTTzWpu4wouRlEDJLxZNqlw4ZgBfIqTn3IqcZNBM8n7tlqF0zt3kueWkW4Ac=
-X-Received: by 2002:a05:687c:2be9:b0:265:b32b:c45f with SMTP id
- 586e51a60fabf-273e60835d0mr3142337fac.0.1724446075865; Fri, 23 Aug 2024
- 13:47:55 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 23 Aug 2024 13:47:55 -0700
+ AJvYcCVuhC7mWSNrPXbYa0rcyHGq6/kyK+XGds72z6oHtdku/fPGWBV6L9e4MRA0lWbIovcCnXnHcvh4m1o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypwHg/PoCvdPw7bokqUoZOwFJWwSh3GN9orgzcnVT/Whf1qT4y
+ VHWhML69YVGiCIZK+vcjL1xLDq7sIXjNSRBHW3CFm50pZJBqtQgsVcAPTzx0FHGHm7JWvCldZ5T
+ IJUiLi0pw0BD70YSMva0ye1cZ1USapp5eQBe4zg==
+X-Google-Smtp-Source: AGHT+IGDhJMFPFDslCxnxri8S951sJjg3aSvVif7lXNqXGz7kFGS4rZgZs1ZBpw6GOJM88hNjR9zGKziEIDdKGLwVUE=
+X-Received: by 2002:a05:6512:2244:b0:533:4327:b4cc with SMTP id
+ 2adb3069b0e04-534387c175cmr2666989e87.52.1724451277886; Fri, 23 Aug 2024
+ 15:14:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ZsdMd7Ywa2b-GDT6@tzungbi-laptop>
-References: <20240819223834.2049862-1-swboyd@chromium.org>
- <20240819223834.2049862-14-swboyd@chromium.org>
- <ZsdMd7Ywa2b-GDT6@tzungbi-laptop>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 23 Aug 2024 13:47:55 -0700
-Message-ID: <CAE-0n53zPV8QHf7DxSDO8E4-kvsP=unFvevjo7i1ZjE1v6UgAA@mail.gmail.com>
-Subject: Re: [PATCH v3 13/17] dt-bindings: Move google,cros-ec-typec binding
- to usb
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
+ <CAK7LNARmy=N+6O87BJGZbodssDw21sHgMf36TXdcxD4=5A_OBA@mail.gmail.com>
+In-Reply-To: <CAK7LNARmy=N+6O87BJGZbodssDw21sHgMf36TXdcxD4=5A_OBA@mail.gmail.com>
+From: "Daniel Gomez (Samsung)" <d+samsung@kruces.com>
+Date: Sat, 24 Aug 2024 00:14:11 +0200
+Message-ID: <CABj0suC1atc=iPX4uOL5FYkzYBRtZC1J3Lhruo7hejd-fe9Yuw@mail.gmail.com>
+Subject: Re: [PATCH 01/12] scripts: subarch.include: fix SUBARCH on MacOS hosts
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: da.gomez@samsung.com, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
+ Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, 
+ James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Vinod Koul <vkoul@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
+ selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
+ Finn Behrens <me@kloenk.dev>, gost.dev@samsung.com, 
+ Nick Desaulniers <nick.desaulniers@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,11 +108,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tzung-Bi Shih (2024-08-22 07:34:31)
-> On Mon, Aug 19, 2024 at 03:38:27PM -0700, Stephen Boyd wrote:
-> > -title: Google Chrome OS EC(Embedded Controller) Type C port driver.
-> > +title: Google Chrome OS Embedded Controller (EC) USB type-c port driver
+On Fri, Aug 23, 2024 at 6:13=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> Given that it gets chance to modify, how about s/Chrome OS/ChromeOS/?
+> On Wed, Aug 7, 2024 at 8:10=E2=80=AFAM Daniel Gomez via B4 Relay
+> <devnull+da.gomez.samsung.com@kernel.org> wrote:
+> >
+> > From: Nick Desaulniers <nick.desaulniers@gmail.com>
+> >
+> > When building the Linux kernel on an aarch64 MacOS based host, if we do=
+n't
+> > specify a value for ARCH when invoking make, we default to arm and thus
+> > multi_v7_defconfig rather than the expected arm64 and arm64's defconfig=
+.
+> >
+> > This is because subarch.include invokes `uname -m` which on MacOS hosts
+> > evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
+> >
+> > This allows us to build ARCH=3Darm64 natively on MacOS (as in ARCH need
+> > not be specified on an aarch64-based system).
+> >
+> > Utilize a negative lookahead regular expression to avoid matching arm64=
+.
+>
+>
+> Does sed support "negative lookahead regular expression"?
 
-Sure!
+I think they removed support for PCRE. I've found this:
+
+commit 261c7f145d015d9acb79dc650d27e4a23b839c23
+Author: Assaf Gordon <assafgordon@gmail.com>
+Date:   Tue Aug 21 14:25:57 2018 -0600
+
+    maint: remove REG_PERL code
+
+    Perl-regexp syntax (PCRE) in GNU Sed is shelved indefinitely.
+    See https://bugs.gnu.org/22801 , https://bugs.gnu.org/22647 .
+    Remove all (unused) REG_PERL related code.
+
+    * sed/sed.c, sed/sed.h, sed/regexp.c, sed/compile.c: Remove REG_PERL co=
+de.
+
+git tag --contains 261c7f145d015d9acb79dc650d27e4a23b839c23
+v4.6
+v4.7
+v4.8
+v4.9
+
+And my sed version is (Debian):
+
+sed --version
+sed (GNU sed) 4.9
+Packaged by Debian
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.ht=
+ml>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Jay Fenlason, Tom Lord, Ken Pizzini,
+Paolo Bonzini, Jim Meyering, and Assaf Gordon.
+
+This sed program was built with SELinux support.
+SELinux is disabled on this system.
+
+GNU sed home page: <https://www.gnu.org/software/sed/>.
+General help using GNU software: <https://www.gnu.org/gethelp/>.
+E-mail bug reports to: <bug-sed@gnu.org>.
+
+sed version (Homebrew):
+sed --version
+sed (GNU sed) 4.9
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.ht=
+ml>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Jay Fenlason, Tom Lord, Ken Pizzini,
+Paolo Bonzini, Jim Meyering, and Assaf Gordon.
+
+This sed program was built without SELinux support.
+
+GNU sed home page: <https://www.gnu.org/software/sed/>.
+General help using GNU software: <https://www.gnu.org/gethelp/>.
+E-mail bug reports to: <bug-sed@gnu.org>.
+
+>
+> >
+> > Add a separate expression to support for armv.* as per error reported b=
+y
+> > Nicolas Schier [1].
+> >
+> > [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
+> >
+> > Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
+> > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+> > ---
+> >  scripts/subarch.include | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/subarch.include b/scripts/subarch.include
+> > index 4bd327d0ae42..5d84ad8c0dee 100644
+> > --- a/scripts/subarch.include
+> > +++ b/scripts/subarch.include
+> > @@ -6,7 +6,8 @@
+> >
+> >  SUBARCH :=3D $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
+> >                                   -e s/sun4u/sparc64/ \
+> > -                                 -e s/arm.*/arm/ -e s/sa110/arm/ \
+> > +                                 -e s/armv.*/arm/ \
+> > +                                 -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa=
+110/arm/ \
+>
+>
+> s/arm\(?:\(?!64\).*\)/arm/
+>
+> In sed, this expression does not seem to match anything.
+
+You are correct. I've removed the expression and saw no difference.
+See below with my test case:
+>
+> (or please give me some matching examples if I miss something)
+
+cat Makefile
+MACHINE ?=3D "aarch64"
+SUBARCH0 :=3D $(shell echo $(MACHINE) | sed \
+                                  -e s/arm.*/arm/ \
+                                  -e s/aarch64.*/arm64/)
+
+SUBARCH1 :=3D $(shell echo $(MACHINE) | sed \
+                                  -e s/armv.*/arm/ \
+                                  -e s/aarch64.*/arm64/)
+
+SUBARCH2 :=3D $(shell echo $(MACHINE) | sed \
+                                  -e /^arm64$/!s/arm.*/arm/ \
+                                  -e s/aarch64.*/arm64/)
+
+test:
+        @echo "MACHINE=3D$(MACHINE)"
+        @echo "SUBARCH0=3D$(SUBARCH0)"
+        @echo "SUBARCH1=3D$(SUBARCH1)"
+        @echo "SUBARCH2=3D$(SUBARCH2)"
+        @echo "---"
+
+SUBARCH0 represents the current upstream expressions for arm/arm64.
+SUBARCH1 is my proposal in case we need to cover only armv* for 32-bit
+arm (I think that is incomplete?) and SUBARCH2 is Nicolas' proposal
+(which I can't make it work in the test Makefile).
+
+Running the above Makefile, I get:
+
+make test MACHINE=3Darmv4 && make test MACHINE=3Darm7 && make test
+MACHINE=3Darmhf && make test MACHINE=3Daarch64 && make test MACHINE=3Darm64
+MACHINE=3Darmv4
+SUBARCH0=3Darm
+SUBARCH1=3Darm
+SUBARCH2=3Darmv4
+---
+MACHINE=3Darm7
+SUBARCH0=3Darm
+SUBARCH1=3Darm7
+SUBARCH2=3Darm7
+---
+MACHINE=3Darmhf
+SUBARCH0=3Darm
+SUBARCH1=3Darmhf
+SUBARCH2=3Darmhf
+---
+MACHINE=3Daarch64
+SUBARCH0=3Darm64
+SUBARCH1=3Darm64
+SUBARCH2=3Darm64
+---
+MACHINE=3Darm64
+SUBARCH0=3Darm
+SUBARCH1=3Darm64
+SUBARCH2=3Darm64
+---
+>
+>
+>
+>
+>
+> Nocolas already provided correct code:
+>
+> > [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
+
+I think it is even more simple if we just make this change:
+
+-                                 -e s/arm.*/arm/ -e s/sa110/arm/ \
++                                 -e s/armv.*/arm/ \
+
+Does armv.* cover all arm32 machines? I see armhf, arm7, arm8 and
+armv*, is it correct?
+
+And thanks for checking!
+
+>
+>
+>
+>
+>
+>
+> >                                   -e s/s390x/s390/ \
+> >                                   -e s/ppc.*/powerpc/ -e s/mips.*/mips/=
+ \
+> >                                   -e s/sh[234].*/sh/ -e s/aarch64.*/arm=
+64/ \
+> >
+> > --
+> > Git-146)
+> >
+> >
+>
+>
+> --
+> Best Regards
+>
+>
+> Masahiro Yamada
