@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D416D95D08A
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 16:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E9695D08B
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 16:59:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD9310EB7B;
-	Fri, 23 Aug 2024 14:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB5610EC5E;
+	Fri, 23 Aug 2024 14:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="C/Pj66kB";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="N/fwxotj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A50610EB6D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 14:59:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A30AC10EBC4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 14:59:55 +0000 (UTC)
 Delivered-To: detlev.casanova@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724425183; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1724425189; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=NOuj9tpyJlyuHNz4wlzP7V1Smwo33AHMkg2mH06IVZ9JEDA39zF+BCSVsfEmHkbKwkBRz7K4ypW5qWFE80m7mQ7QJASGh4ZvL6D3qulRIhxmd+CNrgSnxn2Lo3oSekPhuAPkbOpzdnta8jB6sJwl93Vh+70wZMZHkl3M+KFM+8I=
+ b=LgIcx5p6wD9hOLbHxWYJAm4BFAoLoevlU3iP6VjiIJwkrziOFsIKmH6Goa/MylleKe8oA3F+bXMtOwL/0uGcMtPcA+dDeKqH/KU9XFv5Jyj0EJecvm/5vm/cLfKq16g1uIRYJqoP4mzbOI9OzelnmIkOEUQzX0NPBT0kTIhWW7Y=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1724425183;
+ s=zohoarc; t=1724425189;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=n+lT+lQFXtyQN13g3p7lMw4uLgeQnD+T0M87znJXoWw=; 
- b=QOpNCsv/xjrAKxjNEaF79SkDQR5FBbFXQDXPcMLRRaqawCuxL+q8sfG6Iz6WyrDCGYjaKAoxC//Skm6UYB4dZXVqqttm8wO5LQ18vR6CdD5Lq3ZFiI1o7224w0nsCf/kLWTXAI94WRdq+/mxedqPloWqqz6PdUDiz41YfC/V/bw=
+ bh=mdnBGIhQBYoBW+X6afozEXBo8GSP0k2RnpEEvLsjO1w=; 
+ b=kpVfYztzlNMSltKWpAaKuCEWM3bl/fv2P1WtfkUzFOcNE1T96ZWBJ1I2tWhZiP+wbbYDdBwwMOrdq53k0kpQhFbK16UPHMrVHANd9uUcTeh8CIxkCMf3MpE94ijQYDe9M+Mb+IzUAtQ7SnIygCWaQ4WomOAPYYa5DYtpa4nUQfY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
  dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724425183; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724425189; 
  s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=n+lT+lQFXtyQN13g3p7lMw4uLgeQnD+T0M87znJXoWw=;
- b=C/Pj66kBlDJVORm/apB2s6G7GhSkOOhUwz8/L88Lj2ynXIxfIV2UX59HCneWYeKE
- OBJTffSe/vezVV7vtrLPMKjjONzQyR0qV2RLd2RhMJUtmjZzn8c8U76o1Nryzai/15F
- EGd8qJesXciDY30JEEreLPk9yb45vVCWpnOAED5w=
-Received: by mx.zohomail.com with SMTPS id 172442518287180.79396950462285;
- Fri, 23 Aug 2024 07:59:42 -0700 (PDT)
+ bh=mdnBGIhQBYoBW+X6afozEXBo8GSP0k2RnpEEvLsjO1w=;
+ b=N/fwxotjELTMxNkAQ74RvewcOni4xIt8f6D+w71TBd1ATP0rlCZoeiPoo1qYlQyA
+ XXq1w7qIaDMK0AKmWrerf/fJlTpdw91hpPh7RSX0hLhNeaj3cGJZthWPS2KHj2gC9KW
+ 2+xWc0UuzzIfU1mj+qZxg57CMga0vU5aMVirgeqk=
+Received: by mx.zohomail.com with SMTPS id 1724425187513187.44987912681415;
+ Fri, 23 Aug 2024 07:59:47 -0700 (PDT)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -71,9 +71,10 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  linux-mmc@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org,
  kernel@collabora.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 03/12] dt-bindings: i2c: i2c-rk3x: Add rk3576 compatible
-Date: Fri, 23 Aug 2024 10:52:30 -0400
-Message-ID: <20240823150057.56141-4-detlev.casanova@collabora.com>
+Subject: [PATCH v2 04/12] dt-bindings: iio: adc: Add rockchip,
+ rk3576-saradc string
+Date: Fri, 23 Aug 2024 10:52:31 -0400
+Message-ID: <20240823150057.56141-5-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240823150057.56141-1-detlev.casanova@collabora.com>
 References: <20240823150057.56141-1-detlev.casanova@collabora.com>
@@ -95,28 +96,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just like RK356x and RK3588, RK3576 is compatible to the existing
-rk3399 binding.
+Add rockchip,rk3576-saradc compatible string.
+The saradc on RK3576 is compatible with the one on RK3588, so they are
+used together in an arm of the oneOf.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Acked-by: Heiko Stuebner <heiko@sntech.de>
 ---
- Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/iio/adc/rockchip-saradc.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-index 82b9d6682297b..a9dae5b52f286 100644
---- a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-+++ b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-@@ -38,6 +38,7 @@ properties:
-               - rockchip,rk3308-i2c
-               - rockchip,rk3328-i2c
-               - rockchip,rk3568-i2c
-+              - rockchip,rk3576-i2c
-               - rockchip,rk3588-i2c
-               - rockchip,rv1126-i2c
-           - const: rockchip,rk3399-i2c
+diff --git a/Documentation/devicetree/bindings/iio/adc/rockchip-saradc.yaml b/Documentation/devicetree/bindings/iio/adc/rockchip-saradc.yaml
+index aa24b841393c0..fd93ed3991e05 100644
+--- a/Documentation/devicetree/bindings/iio/adc/rockchip-saradc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/rockchip-saradc.yaml
+@@ -16,6 +16,9 @@ properties:
+       - const: rockchip,rk3066-tsadc
+       - const: rockchip,rk3399-saradc
+       - const: rockchip,rk3588-saradc
++      - items:
++          - const: rockchip,rk3576-saradc
++          - const: rockchip,rk3588-saradc
+       - items:
+           - enum:
+               - rockchip,px30-saradc
 -- 
 2.46.0
 
