@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E420E95CCB4
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 14:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1516A95CCCF
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 14:50:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4968E10E5B5;
-	Fri, 23 Aug 2024 12:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE7910E60B;
+	Fri, 23 Aug 2024 12:50:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="osSw7uxD";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4971410E586
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 12:44:28 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F0CCB22681;
- Fri, 23 Aug 2024 12:44:26 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B15D01333E;
- Fri, 23 Aug 2024 12:44:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gIkwKiqEyGbKVwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 23 Aug 2024 12:44:26 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kraxel@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 10/10] drm/gem-vram: Remove support for simple display
- pipelines
-Date: Fri, 23 Aug 2024 14:28:53 +0200
-Message-ID: <20240823124422.286989-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240823124422.286989-1-tzimmermann@suse.de>
-References: <20240823124422.286989-1-tzimmermann@suse.de>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F69210E60B
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 12:50:37 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-42808071810so15818665e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 05:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1724417435; x=1725022235; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wglUMOfSKj/CJM1zOfzFbHWNacB0avO+XJafuxMQMWw=;
+ b=osSw7uxDPifzrVL2njVSz5RDT13sIz3nbZPxIIgXTpRaeTgAEXT2EAKPazKXMTO4Px
+ SrU0oeWp7g/QU+R1qiZQl5Q/z3FKHfQnXDa4eutEPaGULIQ1gYtC4XhYmcM1ettdJ1Lt
+ 4CwbeUu9KH4qq3A/Ff4RjiocajDcZSJVFpKCJ0dMsel6Zvv5t/yxX54rJ5SsPxhUdOjb
+ sUhNBbtxvrUYyoKFXjjlpX8cqFMvFrKNAPMGVmg0WgIuxpKGd0xdBYOJMLHZE6xy/dCd
+ rPZyv9/uP7bJRGj3GYF5LGs5S7XxbR34Jt2U69zH1AGu8H7QidZLsZu81hmkfdWnH4zo
+ /lDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724417435; x=1725022235;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wglUMOfSKj/CJM1zOfzFbHWNacB0avO+XJafuxMQMWw=;
+ b=K6rLg2UDc/ys+4XW82uNMyGliaxvVXUOaM4atPa/qLruFZIQrBeYv8fRHhNdaKsACx
+ 94+ymhIkgHz972A80wDn2R4T3csrjoDMZUX+SE5TJcFezGnufVE4oN/ESm04sRXRmENB
+ +J4WA5uCBHsAlhe8fUrTLJ1a401/Cv33YmuUevSVqNS6ZMyD8zU4niZSSEctcB32dKVa
+ YEHZUNiG722/LCI70K3Ahxi+nigX7V0vbwivnF7UDGvOY1C5mbOtnS4cXTTP3tHcQro/
+ Rnsw1sGqmf7jcdZLXbbv9p1ih6vzoHBRqKZKq8meZD3SOl1Ktcr+iw2wx8RhVT0YMfbq
+ 6sPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2YftGGTI4GPnWg71uQ7V/Ford4kXfDy8QQH4BVdYy1QuSjspMkEp8AW8qR5mDHUChfpmyPaGMkBo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykwH0tMlwf3JweALK9tCkKaMJRcQKpcc1JoyE2kXvJwJB2OZz/
+ 6WAl+SfmVEHgdNpRC2o6Y/VUZX1cM/NTaYhIe9TpplEHFprsYx+ob0c7VcG5JSA=
+X-Google-Smtp-Source: AGHT+IFLiLazjFQT+RbARqd6XebDKnhmp2PsLFcYq7T4M8t9bB2PBe0YloLgYQ2LGsntaXnC81G06g==
+X-Received: by 2002:a05:600c:4f14:b0:426:6f81:d235 with SMTP id
+ 5b1f17b1804b1-42acc8dcb19mr17146615e9.15.1724417435283; 
+ Fri, 23 Aug 2024 05:50:35 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37308265ae6sm4074861f8f.109.2024.08.23.05.50.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Aug 2024 05:50:34 -0700 (PDT)
+Date: Fri, 23 Aug 2024 15:50:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Chaitanya Dhere <chaitanya.dhere@amd.com>,
+ Austin Zheng <Austin.Zheng@amd.com>
+Cc: Jun Lei <jun.lei@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Hung <alex.hung@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Dillon Varone <dillon.varone@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH] drm/amd/display: fix some indenting in
+ CalculatePrefetchSchedule()
+Message-ID: <f57c247f-ba47-4318-b2ee-75aef1726503@stanley.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: F0CCB22681
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,109 +89,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are no more drivers that use GEM VRAM helpers with a simple
-display pipeline. Remove the respective code.
+These tabs were deleted accidentally in commit d07722e1fc74 ("drm/amd/display:
+DML2.1 Reintegration for Various Fixes").  Add them back.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 45 ---------------------------
- include/drm/drm_gem_vram_helper.h     | 13 --------
- 2 files changed, 58 deletions(-)
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 6027584406af..22b1fe9c03b8 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -16,7 +16,6 @@
- #include <drm/drm_mode.h>
- #include <drm/drm_plane.h>
- #include <drm/drm_prime.h>
--#include <drm/drm_simple_kms_helper.h>
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+index e2c45e498664..7d287b07108f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+@@ -5612,8 +5612,8 @@ static bool CalculatePrefetchSchedule(struct dml2_core_internal_scratch *scratch
+ 			s->TimeForFetchingVM = s->Tvm_equ;
+ 			s->TimeForFetchingRowInVBlank = s->Tr0_equ;
  
- #include <drm/ttm/ttm_range_manager.h>
- #include <drm/ttm/ttm_tt.h>
-@@ -686,50 +685,6 @@ drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
- }
- EXPORT_SYMBOL(drm_gem_vram_plane_helper_cleanup_fb);
+-		*p->dst_y_per_vm_vblank = math_ceil2(4.0 * s->TimeForFetchingVM / s->LineTime, 1.0) / 4.0;
+-		*p->dst_y_per_row_vblank = math_ceil2(4.0 * s->TimeForFetchingRowInVBlank / s->LineTime, 1.0) / 4.0;
++			*p->dst_y_per_vm_vblank = math_ceil2(4.0 * s->TimeForFetchingVM / s->LineTime, 1.0) / 4.0;
++			*p->dst_y_per_row_vblank = math_ceil2(4.0 * s->TimeForFetchingRowInVBlank / s->LineTime, 1.0) / 4.0;
  
--/*
-- * Helpers for struct drm_simple_display_pipe_funcs
-- */
--
--/**
-- * drm_gem_vram_simple_display_pipe_prepare_fb() - Implements &struct
-- *				   drm_simple_display_pipe_funcs.prepare_fb
-- * @pipe:	a simple display pipe
-- * @new_state:	the plane's new state
-- *
-- * During plane updates, this function pins the GEM VRAM
-- * objects of the plane's new framebuffer to VRAM. Call
-- * drm_gem_vram_simple_display_pipe_cleanup_fb() to unpin them.
-- *
-- * Returns:
-- *	0 on success, or
-- *	a negative errno code otherwise.
-- */
--int drm_gem_vram_simple_display_pipe_prepare_fb(
--	struct drm_simple_display_pipe *pipe,
--	struct drm_plane_state *new_state)
--{
--	return drm_gem_vram_plane_helper_prepare_fb(&pipe->plane, new_state);
--}
--EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_prepare_fb);
--
--/**
-- * drm_gem_vram_simple_display_pipe_cleanup_fb() - Implements &struct
-- *						   drm_simple_display_pipe_funcs.cleanup_fb
-- * @pipe:	a simple display pipe
-- * @old_state:	the plane's old state
-- *
-- * During plane updates, this function unpins the GEM VRAM
-- * objects of the plane's old framebuffer from VRAM. Complements
-- * drm_gem_vram_simple_display_pipe_prepare_fb().
-- */
--void drm_gem_vram_simple_display_pipe_cleanup_fb(
--	struct drm_simple_display_pipe *pipe,
--	struct drm_plane_state *old_state)
--{
--	drm_gem_vram_plane_helper_cleanup_fb(&pipe->plane, old_state);
--}
--EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_cleanup_fb);
--
- /*
-  * PRIME helpers
-  */
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index 9a73f786f4ad..00830b49a3ff 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -17,7 +17,6 @@
- struct drm_mode_create_dumb;
- struct drm_plane;
- struct drm_plane_state;
--struct drm_simple_display_pipe;
- struct filp;
- struct vm_area_struct;
- 
-@@ -137,18 +136,6 @@ drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
- 	.prepare_fb = drm_gem_vram_plane_helper_prepare_fb, \
- 	.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb
- 
--/*
-- * Helpers for struct drm_simple_display_pipe_funcs
-- */
--
--int drm_gem_vram_simple_display_pipe_prepare_fb(
--	struct drm_simple_display_pipe *pipe,
--	struct drm_plane_state *new_state);
--
--void drm_gem_vram_simple_display_pipe_cleanup_fb(
--	struct drm_simple_display_pipe *pipe,
--	struct drm_plane_state *old_state);
--
- /**
-  * define DRM_GEM_VRAM_DRIVER - default callback functions for
-  *				&struct drm_driver
+ #ifdef __DML_VBA_DEBUG__
+ 			dml2_printf("DML::%s: Using equ bw scheduling for prefetch\n", __func__);
 -- 
-2.46.0
+2.43.0
 
