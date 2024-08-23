@@ -2,111 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A5995CAB5
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 12:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9968195CABC
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 12:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A22010E4F6;
-	Fri, 23 Aug 2024 10:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E02210E494;
+	Fri, 23 Aug 2024 10:46:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NM9PmEFl";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Q695rhya";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0EE210E571
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 10:44:27 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-429e29933aaso13406985e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 03:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724409866; x=1725014666; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=TVmP6ojwfJA9IaR5bDfQtTdpMJGMktg0fabmxgK6590=;
- b=NM9PmEFlDKz1j+30Bg9T0Hnv7eaoGemb1AEdalSX2y7W2/92CNnjdiMetxgwmuEN+B
- 3xw0/eK0PokqPTY2WzaRtM0DwD24GFJy/hrPIO/3OVyGdiM8bIgXVEiMCXUonHQ8aiNH
- V7tcumeXTrEnp0y6dW/mM2XIgOATtal5TggKFEO0PKtoVCnI5y0SJWxLr5ShgrIeObSX
- 8KGw+pwKj6pxzGB4kM4g4LJRf2U/AnCzNlNoglABQToizoDIrtVCY0j26qaa4+CkX56b
- j80ob42hhAm3VYmjSQbKnn1+tOz/NsDJurdu353cmZFTzOoYlwgWIbV5dgJwEAea4+Dd
- PKHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724409866; x=1725014666;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=TVmP6ojwfJA9IaR5bDfQtTdpMJGMktg0fabmxgK6590=;
- b=t+Gl7ddkqY1QRsRwobibwqZmA44rh8X7I+u6+QoWNkcFcr3RfanpF1daeUYYlslaBd
- clZ1rqSD/NIPs1Ca7KnfhNTZqx5kijKRfypHl7C9OqW7mwgTEDbkdq7n7lSm4nC/HyP9
- K3HJRp3Wiu9jGuj2d47FSiy8Bv+W7H99a0RV2yAPYg9uunwac8VQYSF9o3rE9+Bk0L5V
- pOlZyr7MLwHmTDAcglfUr+ie2uzexDNfNMIUkHWclYMvgbQig8Pl4T25ZTgcCat0rJLQ
- Mq58AhCjVY4evge1SmrhjbCMpJum6N23gktQ1am0VbscFnje3yF2CwUlUq1YFGaVOPhv
- 74cw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5HcufiWfHIzr8YgxHQFGgu8rowGfEu1BF6NuJo+dUfDT5sqx3X0nD78jTyq5hhM4Bgq9LFy89+QU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUsdFVkL+6hHpp322elopiyNFRgIEzTPB7obzlBIH835y32nga
- 9fCm7v1x/GHz39ybggndDgWhUh/FOEYu8zwabePkYMy7mpmzuicuK1HzdL5torY=
-X-Google-Smtp-Source: AGHT+IFdk9CofB6PBJT5jah9JSl6icoRfyxDLqLF+MakugI7qNwi8X30PDwv3ScpFgwP6yqIX2DKng==
-X-Received: by 2002:a05:600c:4ed2:b0:428:314:f08e with SMTP id
- 5b1f17b1804b1-42acd542443mr10762475e9.5.1724409865680; 
- Fri, 23 Aug 2024 03:44:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:995c:3fea:6b19:4a51?
- ([2a01:e0a:982:cbb0:995c:3fea:6b19:4a51])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42ab6e7de7bsm96371635e9.0.2024.08.23.03.44.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Aug 2024 03:44:25 -0700 (PDT)
-Message-ID: <d92afb55-ff28-40d3-b5c0-400b00b1a4e0@linaro.org>
-Date: Fri, 23 Aug 2024 12:44:23 +0200
+Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr
+ [80.12.242.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FAEE10E494
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 10:46:48 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id hRoUsL4HOzHoQhRoUsTS08; Fri, 23 Aug 2024 12:46:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1724410006;
+ bh=M+BJHoqbevs+877BilSmYJZwm2Wj3hyd0gs95c8CmS8=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=Q695rhyaBTCa8GxEUvcbWDnTM+h61/+qeGfRPaskg25Rmw3+MPFnHIXrEEKIENaPg
+ plIuyFymEP3Jv4vPVizYLBwaRBW+jzBeASP7/nlnkpkbYu1vP8JVUY+uilslZ+M2Xq
+ K7/Rby9SyhmGKEczNXRpJpcBJVTtu353UW1rhZXCSja80MtYtDf33PrKLirykyytCl
+ 5a3gY/F/G59CSPrJ+JgjLfh210d3fWSx0aJ4WSy8XcdbuJK+bvmfMCtNb7Skudf7RC
+ mMKNXknhM2YyGDTKam4yub8cdwekmw7m19YjJ2jfAsQzlv+4B0pvIXa2JZzyWqtHKd
+ JqWM25hr7IA0Q==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Fri, 23 Aug 2024 12:46:46 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <a4d23c3a-9791-4d2b-9853-9c9b27460db5@wanadoo.fr>
+Date: Fri, 23 Aug 2024 12:46:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 0/7] Preemption support for A7XX
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Antonino Maniscalco <antomani103@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>
-References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
- <95f0517a-ed86-4905-85e5-a123880c6fa8@linaro.org>
- <CACu1E7FxE3rLN8SV1-5Zg7=+LqCAwHuiCcXroikS4=yRPsdnMQ@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CACu1E7FxE3rLN8SV1-5Zg7=+LqCAwHuiCcXroikS4=yRPsdnMQ@mail.gmail.com>
+Subject: Re: [PATCH -next 2/5] drm/mediatek: Fix missing of_node_put() for
+ mtk_drm_get_all_drm_priv()
+To: Jinjie Ruan <ruanjinjie@huawei.com>, hjc@rock-chips.com, heiko@sntech.de, 
+ andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ krzk@kernel.org, jic23@kernel.org
+References: <20240823092053.3170445-1-ruanjinjie@huawei.com>
+ <20240823092053.3170445-3-ruanjinjie@huawei.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240823092053.3170445-3-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,80 +63,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/08/2024 11:54, Connor Abbott wrote:
-> On Fri, Aug 23, 2024 at 9:30 AM <neil.armstrong@linaro.org> wrote:
->>
->> On 15/08/2024 20:26, Antonino Maniscalco wrote:
->>> This series implements preemption for A7XX targets, which allows the GPU to
->>> switch to an higher priority ring when work is pushed to it, reducing latency
->>> for high priority submissions.
->>>
->>> This series enables L1 preemption with skip_save_restore which requires
->>> the following userspace patches to function:
->>>
->>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
->>>
->>> A flag is added to `msm_gem_submit` to only allow submissions from compatible
->>> userspace to be preempted, therefore maintaining compatibility.
->>>
->>> Some commits from this series are based on a previous series to enable
->>> preemption on A6XX targets:
->>>
->>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
->>>
->>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->>> ---
->>> Antonino Maniscalco (7):
->>>         drm/msm: Fix bv_fence being used as bv_rptr
->>>         drm/msm: Add submitqueue setup and close
->>>         drm/msm: Add a `preempt_record_size` field
->>>         drm/msm/A6xx: Implement preemption for A7XX targets
->>>         drm/msm/A6xx: Add traces for preemption
->>>         drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
->>>         drm/msm/A6xx: Enable preemption for A7xx targets
->>>
->>>    drivers/gpu/drm/msm/Makefile              |   1 +
->>>    drivers/gpu/drm/msm/adreno/a6xx_catalog.c |   3 +
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 339 ++++++++++++++++++++++-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 ++++++++++++
->>>    drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 441 ++++++++++++++++++++++++++++++
->>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h   |   1 +
->>>    drivers/gpu/drm/msm/msm_gpu.h             |   7 +
->>>    drivers/gpu/drm/msm/msm_gpu_trace.h       |  28 ++
->>>    drivers/gpu/drm/msm/msm_ringbuffer.h      |   8 +
->>>    drivers/gpu/drm/msm/msm_submitqueue.c     |  10 +
->>>    include/uapi/drm/msm_drm.h                |   5 +-
->>>    11 files changed, 995 insertions(+), 16 deletions(-)
->>> ---
->>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
->>> change-id: 20240815-preemption-a750-t-fcee9a844b39
->>>
->>> Best regards,
->>
->> For what is worth, I've tested it on the SM8650 QRD with the Mesa 30544 MR & vkcube
->>
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
->>
->> If you think of more tests to run, please tell me.
->>
->> Neil
+Le 23/08/2024 à 11:20, Jinjie Ruan a écrit :
+> In mtk_drm_get_all_drm_priv(), break in for_each_child_of_node() should
+> call of_node_put() to avoid child node resource leak, use
+> for_each_child_of_node_scoped() to fix it.
 > 
-> Hi Neil,
+> And avoid the need for manual cleanup of_node_put() in early exits
+> from the loop for another one.
 > 
-> I think it would help to test this on SM8550 and SM8450 too. I don't
-> have SM8450 to test with. Maybe also worth mentioning that there are
-> now vulkan CTS tests that try to test L1 preemption:
-> https://github.com/KhronosGroup/VK-GL-CTS/commit/7e0e4a000f34e748bb527b39f730f78b595140b9
-> although it's not in a released version yet.
+> Fixes: d761b9450e31 ("drm/mediatek: Add cnt checking for coverity issue")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 10 +++-------
+>   1 file changed, 3 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 77b50c56c124..41aff0183cbd 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -371,12 +371,11 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+>   	struct mtk_drm_private *temp_drm_priv;
+>   	struct device_node *phandle = dev->parent->of_node;
+>   	const struct of_device_id *of_id;
+> -	struct device_node *node;
+>   	struct device *drm_dev;
+>   	unsigned int cnt = 0;
+>   	int i, j;
+>   
+> -	for_each_child_of_node(phandle->parent, node) {
+> +	for_each_child_of_node_scoped(phandle->parent, node) {
+>   		struct platform_device *pdev;
+>   
+>   		of_id = of_match_node(mtk_drm_of_ids, node);
+> @@ -828,7 +827,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>   	struct device_node *phandle = dev->parent->of_node;
+>   	const struct of_device_id *of_id;
+>   	struct mtk_drm_private *private;
+> -	struct device_node *node;
+>   	struct component_match *match = NULL;
+>   	struct platform_device *ovl_adaptor;
+>   	int ret;
+> @@ -869,7 +867,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>   	}
+>   
+>   	/* Iterate over sibling DISP function blocks */
+> -	for_each_child_of_node(phandle->parent, node) {
+> +	for_each_child_of_node_scoped(phandle->parent, node) {
+>   		const struct of_device_id *of_id;
+>   		enum mtk_ddp_comp_type comp_type;
+>   		int comp_id;
+> @@ -933,10 +931,8 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>   		}
+>   
+>   		ret = mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id);
+> -		if (ret) {
+> -			of_node_put(node);
+> +		if (ret)
+>   			goto err_node;
 
-Sure, It's in my plans, I'm currently testing it on SM8550.
+Hi,
 
-Thanks,
-Neil
-> 
-> Connor
+I've seen on another thread that is was not sure that scoped versions 
+and gotos played well together.
+
+It was asked to check more in details and confirm that it was safe 
+before applying the patch.
+
+I've not followed the discussion, so I just point it out, in case it helps.
+
+I'll try to give it a look in the coming days.
+
+
+CJ
+
+> -		}
+>   	}
+>   
+>   	if (!private->mutex_node) {
 
