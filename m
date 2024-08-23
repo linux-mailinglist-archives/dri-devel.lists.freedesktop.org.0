@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BF495D088
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 16:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D416D95D08A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 16:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEB910EB6D;
-	Fri, 23 Aug 2024 14:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD9310EB7B;
+	Fri, 23 Aug 2024 14:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="e5098YGn";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="C/Pj66kB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFBD410EB6D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 14:59:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A50610EB6D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 14:59:49 +0000 (UTC)
 Delivered-To: detlev.casanova@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724425179; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1724425183; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=DsAul3WDdchZ4uZ5AlZTxQxzkGNpoIlnoKZrAFwvA6BRCfst6gFWToRCsCYamg0GsSZH/K4mdy8I0BkWGkCSjVO+68xkTBjO0on/AV2BwL3Wk7ktHWpQC7nqKoDAXK56Ej1wmKlxN7nR6rCZ/3Or/G7oAF0eGOFZm/8ktdFCFJg=
+ b=NOuj9tpyJlyuHNz4wlzP7V1Smwo33AHMkg2mH06IVZ9JEDA39zF+BCSVsfEmHkbKwkBRz7K4ypW5qWFE80m7mQ7QJASGh4ZvL6D3qulRIhxmd+CNrgSnxn2Lo3oSekPhuAPkbOpzdnta8jB6sJwl93Vh+70wZMZHkl3M+KFM+8I=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1724425179;
+ s=zohoarc; t=1724425183;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=6ajTO7IZ6dJnI29NzkSoxfUKtlwc97L8eOrSr1cciEo=; 
- b=U9UUO0/4H8TlUni80jLQEMy/LIIE7+n3Q309Q+lXKE5AEERZSNqO7VjbGuZXvQc0dEXeut8w1Qe18nEHqiHBBCrEUzzflFHvGlbb1zLawFMSCNKlCl0Z2JcymvgqhJWBnsWQtz9oTCFCAI19Wb28O2Z9UW76ifQbKG/MD3Bp1z4=
+ bh=n+lT+lQFXtyQN13g3p7lMw4uLgeQnD+T0M87znJXoWw=; 
+ b=QOpNCsv/xjrAKxjNEaF79SkDQR5FBbFXQDXPcMLRRaqawCuxL+q8sfG6Iz6WyrDCGYjaKAoxC//Skm6UYB4dZXVqqttm8wO5LQ18vR6CdD5Lq3ZFiI1o7224w0nsCf/kLWTXAI94WRdq+/mxedqPloWqqz6PdUDiz41YfC/V/bw=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
  dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724425179; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724425183; 
  s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=6ajTO7IZ6dJnI29NzkSoxfUKtlwc97L8eOrSr1cciEo=;
- b=e5098YGnBU7nMrejFEsZyhYexCJ3KmfF/CyYaNwrrjbmewbLFXEYAnCymG5ZrxKa
- Whes1tcwtWDXzhfIjtc6c7fj7Qb1g2AKOmrPfIv0naALWRZetuc1269UH6GhzQswjmD
- 0GXf/ngWnAUJLuyVDav1r1I8sasgpErDTA3zgL9Q=
-Received: by mx.zohomail.com with SMTPS id 1724425178195358.9270958384599;
- Fri, 23 Aug 2024 07:59:38 -0700 (PDT)
+ bh=n+lT+lQFXtyQN13g3p7lMw4uLgeQnD+T0M87znJXoWw=;
+ b=C/Pj66kBlDJVORm/apB2s6G7GhSkOOhUwz8/L88Lj2ynXIxfIV2UX59HCneWYeKE
+ OBJTffSe/vezVV7vtrLPMKjjONzQyR0qV2RLd2RhMJUtmjZzn8c8U76o1Nryzai/15F
+ EGd8qJesXciDY30JEEreLPk9yb45vVCWpnOAED5w=
+Received: by mx.zohomail.com with SMTPS id 172442518287180.79396950462285;
+ Fri, 23 Aug 2024 07:59:42 -0700 (PDT)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -71,10 +71,9 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  linux-mmc@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org,
  kernel@collabora.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 02/12] dt-bindings: arm: rockchip: Add rk3576 compatible
- string to pmu.yaml
-Date: Fri, 23 Aug 2024 10:52:29 -0400
-Message-ID: <20240823150057.56141-3-detlev.casanova@collabora.com>
+Subject: [PATCH v2 03/12] dt-bindings: i2c: i2c-rk3x: Add rk3576 compatible
+Date: Fri, 23 Aug 2024 10:52:30 -0400
+Message-ID: <20240823150057.56141-4-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240823150057.56141-1-detlev.casanova@collabora.com>
 References: <20240823150057.56141-1-detlev.casanova@collabora.com>
@@ -96,34 +95,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the compatible for the pmu mfd on rk3576.
+Just like RK356x and RK3588, RK3576 is compatible to the existing
+rk3399 binding.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 ---
- Documentation/devicetree/bindings/arm/rockchip/pmu.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml b/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
-index b79c81cd9f0e6..932f981265ccb 100644
---- a/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
-+++ b/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
-@@ -26,6 +26,7 @@ select:
-           - rockchip,rk3368-pmu
-           - rockchip,rk3399-pmu
-           - rockchip,rk3568-pmu
-+          - rockchip,rk3576-pmu
-           - rockchip,rk3588-pmu
-           - rockchip,rv1126-pmu
- 
-@@ -43,6 +44,7 @@ properties:
-           - rockchip,rk3368-pmu
-           - rockchip,rk3399-pmu
-           - rockchip,rk3568-pmu
-+          - rockchip,rk3576-pmu
-           - rockchip,rk3588-pmu
-           - rockchip,rv1126-pmu
-       - const: syscon
+diff --git a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
+index 82b9d6682297b..a9dae5b52f286 100644
+--- a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
++++ b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
+@@ -38,6 +38,7 @@ properties:
+               - rockchip,rk3308-i2c
+               - rockchip,rk3328-i2c
+               - rockchip,rk3568-i2c
++              - rockchip,rk3576-i2c
+               - rockchip,rk3588-i2c
+               - rockchip,rv1126-i2c
+           - const: rockchip,rk3399-i2c
 -- 
 2.46.0
 
