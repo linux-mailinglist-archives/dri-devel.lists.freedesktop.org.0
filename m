@@ -2,88 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157E795D159
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 17:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EEF95D182
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 17:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12A2A10EBE8;
-	Fri, 23 Aug 2024 15:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 761DE10EB43;
+	Fri, 23 Aug 2024 15:35:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dKkDwuaH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DLYGDSvt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C808E10EBE8
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 15:27:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A39710EB43
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 15:35:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724426845;
+ s=mimecast20190719; t=1724427344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y4/dyRUnY/iuiFMDxWTjvRFMkHQ1Z/QmRVEZS2BZPy0=;
- b=dKkDwuaH7OIZqTiDpcxWMTdIbjgmOUkEl5DtcShmo/01SjKF9qFsAUhCQ8xcTd0a5ytNdE
- jnx0xOrWEqooa6eqA1WeP/tBW9Qq4RQsvrVzXQnVW5NlFCF9PSBRGa4S0qt4lkn8O0HFMv
- TDvZR9xAktCldF87UW6WU9WAjgmlHOs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=c3rLYGJgK6z9fhn+qYuQPwIKQkobSIo3O9qdPTM0OPg=;
+ b=DLYGDSvtUKPFRK+DTWcguVlwuZSgwiqmTutk6sCppYDImLmw9jZaLMwoxx5OEPQxaAiwK+
+ 6OssaGYN0RH2ogrsS/E7dHRlZP3pfbaKXaXHK/pxRgxmS4SOQek9t5bMrOBJ4PU/sW5H9H
+ rlaDnpG06pCohfUicPs6/8FQWnZlrUQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-335-rIerYJi9MxOpGdXXOpqjzQ-1; Fri, 23 Aug 2024 11:27:22 -0400
-X-MC-Unique: rIerYJi9MxOpGdXXOpqjzQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4281310bf7aso17170065e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 08:27:22 -0700 (PDT)
+ us-mta-563-CMBvAOUUMqqAVTNflKCo6Q-1; Fri, 23 Aug 2024 11:35:43 -0400
+X-MC-Unique: CMBvAOUUMqqAVTNflKCo6Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-42ac185e26cso18393375e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 08:35:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724426841; x=1725031641;
+ d=1e100.net; s=20230601; t=1724427342; x=1725032142;
  h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Y4/dyRUnY/iuiFMDxWTjvRFMkHQ1Z/QmRVEZS2BZPy0=;
- b=UDOnBqGrv78VLiVPQqKdWATQq1j89pBEOxN7zKbPvO8kM5sgq5P87JF5/XYKO4efKW
- CypfW2MAPoCFOG2U6eIfsyvbqJ6cEt3gnGua66uda9N7jw1jFSU83LR/b1lVLEdYN2wY
- ayK27jvNwTDo8Mx3s8aK8vh44XXnHK+uNVMTO5rV9QUxL9otJkmXaGuQr2v8xLyTjVea
- jA/IgqjnIwjLT3NZtPffmClx03ElRtNchNaGDzJUget/QaAFc/J1j9qwrvs1C0jRc8YF
- E91bMOeAVavXx4M4/C+eLXjB+pBVrmPcCFhWkWYczqrTmhvmWjDaqDzOf7kKDLhkTo86
- cexA==
+ bh=c3rLYGJgK6z9fhn+qYuQPwIKQkobSIo3O9qdPTM0OPg=;
+ b=tHELAJMjhoZ4pTpf2zE3pD6cxroJh3tzIMYpq9jFu0aIoIEJKuaRYiYQ1RIKftsz+7
+ XzYtzLSYag2S4htcaUyGk6v6s/uEQa2z+xplY1QBnSJ9KpRrvpPCN0Ic6XuiRLHEnKhI
+ OL6C0YzR8JA1tKnqrnpagEAxKgBitcMwP9hN3DpC9hds7BwWnGKKtfd0mwvxGHxqveza
+ SigsyFYvyoMy5lCQKwN/w1sc78kM+upNHML5Hbnx5bwxd299kUF9imhvohOzFqG53Vbw
+ 9giXF1G3SGLFpPHAWVabJEgDXP4Ap44InIpAYKVdHTyPtf+PAX9FVJwjKsnCvOmZbm/d
+ fSFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmEgodDGNdiWlwDRBsJ0um5yGSGiSWCn6o5plDPYuULi0Wy/0VL1vqlg1cMlT47CCeYO80lcVk86o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwEPdBCW6beuhT3l2nJjvm7MO8cQ5Ikmq49vPQrd5IF0McHQwr
- 5v9vhKiA4onl02aiFI0cphxMJckAXQ6T6Emb5KdLaYbh/XdW6/KylVleR2iF6KuHjzEzx/REKw0
- Er1Hl8u6w9t7DclDaIujeRIRCrcXE0jQ20yOfKJKDpstUQkFA7ZfaxljEoD45O/qeSw==
-X-Received: by 2002:a05:6000:402a:b0:368:3717:10c7 with SMTP id
- ffacd0b85a97d-37311841b20mr2021669f8f.4.1724426841228; 
- Fri, 23 Aug 2024 08:27:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGOBru7mHCqg9nue8AE7aYDW2PQBZruAIOea9WMnfc/MqA3Ee2rU2cYatt4ua+7FcM9Pbv9cQ==
-X-Received: by 2002:a05:6000:402a:b0:368:3717:10c7 with SMTP id
- ffacd0b85a97d-37311841b20mr2021629f8f.4.1724426840658; 
- Fri, 23 Aug 2024 08:27:20 -0700 (PDT)
+ AJvYcCUVeOAn9mjRjZjISZisv5heq0TbPvX1Mj/ILUOkvwIFvLAHsl4RwDI+5dvoVjWWryGypHTHkqhQEiU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy53pX9gz5AKTJ8kWtnT3RQWpRz8XLx1iHpkTE2iSMS5a01Adj+
+ uWMkERfqq8NXBegwOB4pK5eIa36Qk+rUxBRpvBVMxgRKbOZ+qU80BWM0djsa1TrD0asHdryD8w5
+ mPzRJAJO8DZoYofAHqrCT45ZwBiasJFzeOa9w206Ao8Vn1V8PkBBW2JvhGUg2JjgQUQ==
+X-Received: by 2002:a05:600c:354b:b0:428:c0a:27ea with SMTP id
+ 5b1f17b1804b1-42acc8dc557mr18724185e9.12.1724427341988; 
+ Fri, 23 Aug 2024 08:35:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFQm2FCaknjRgK8aLmW41cDwSvcHK2xRo53SrzU02DJUIR/S6S0b/YsrbuHurrpfHMGWC2T6A==
+X-Received: by 2002:a05:600c:354b:b0:428:c0a:27ea with SMTP id
+ 5b1f17b1804b1-42acc8dc557mr18723885e9.12.1724427341447; 
+ Fri, 23 Aug 2024 08:35:41 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3730815c0f0sm4390019f8f.51.2024.08.23.08.27.19
+ 5b1f17b1804b1-42ac5162609sm63072885e9.27.2024.08.23.08.35.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Aug 2024 08:27:19 -0700 (PDT)
-Message-ID: <699b9d24-97bc-41c8-82c9-3bed34b18be8@redhat.com>
-Date: Fri, 23 Aug 2024 17:27:18 +0200
+ Fri, 23 Aug 2024 08:35:40 -0700 (PDT)
+Message-ID: <6496591e-fa98-49ed-b85e-c76734c25568@redhat.com>
+Date: Fri, 23 Aug 2024 17:35:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/4] drm/panic: Add a QR code panic screen
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH 1/2] drm/virtio: Defer the host dumb buffer creation
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>
-References: <20240822073852.562286-1-jfalempe@redhat.com>
+ Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+References: <20240822172338.698922-1-jfalempe@redhat.com>
+ <mlqofcqa2yki43bkcl2kq6wfwchmkisnybbadd32khln5tv4ux@u4xuf6gumcqa>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240822073852.562286-1-jfalempe@redhat.com>
+In-Reply-To: <mlqofcqa2yki43bkcl2kq6wfwchmkisnybbadd32khln5tv4ux@u4xuf6gumcqa>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
@@ -104,74 +101,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2024 09:33, Jocelyn Falempe wrote:
-> This series adds a new panic screen, with the kmsg data embedded in a QR code.
+On 23/08/2024 09:04, Gerd Hoffmann wrote:
+>> +static void virtio_gpu_deferred_create(struct virtio_gpu_object *bo,
+>> +				       struct virtio_gpu_device *vgdev,
+>> +				       const struct drm_mode_fb_cmd2 *mode_cmd)
+>> +{
+>> +	struct virtio_gpu_object_params params = { 0 };
+>> +
+>> +	params.format = virtio_gpu_translate_format(mode_cmd->pixel_format);
+>> +	params.width = mode_cmd->width;
+>> +	params.height = mode_cmd->height;
+>> +	params.size = params.height * params.width * 4;
+>> +	params.size = ALIGN(params.size, PAGE_SIZE);
+>> +	params.dumb = true;
 > 
-> The main advantage of QR code, is that you can copy/paste the debug data to a bug report.
+> I'd suggest to simply store the complete virtio_gpu_object_params struct
+> in virtio_gpu_object instead of re-creating it here.
+
+The struct params is much bigger than the struct virtio_gpu_object, so I 
+though it would waste too much memory. Using a pointer would add an 
+alloc/free pair, and a potential source of memleak. And as we have the 
+required parameters in struct drm_mode_fb_cmd2, I found it better this way.
+
 > 
-> The QR code encoder is written in rust, and is very specific to drm panic.
-> The reason is that it is called in a panic handler, and thus can't allocate memory, or use locking.
-> The rust code uses a few rust core API, and provides only two C entry points.
-> There is no particular reason to do it in rust, I just wanted to learn rust, and see if it can work in the kernel.
+>> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+>> index 64c236169db88..8d1e8dcfa8c15 100644
+>> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+>> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+>> @@ -93,6 +93,9 @@ struct virtio_gpu_object {
+>>   	bool dumb;
+>>   	bool created;
+>>   	bool host3d_blob, guest_blob;
+>> +	bool deferred;
+>> +	struct virtio_gpu_mem_entry *ents;
+>> +	unsigned int nents;
+>>   	uint32_t blob_mem, blob_flags;
 > 
-> If you want to see what it looks like, I've put a few screenshots here:
-> https://github.com/kdj0c/panic_report/issues/1
+> Put them into a new block separated by newline, add a comment saying
+> those are needed for virtio_gpu_deferred_create?
+Yes, I will do that in v2
 
-I just pushed it to drm-misc-next
+> 
+>> @@ -229,9 +231,14 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>>   						  objs, fence);
+>>   		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+>>   	} else {
+>> -		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+>> -					       objs, fence);
+>> -		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+>> +		/* Fence is used only with blob or virgl */
+>> +		WARN_ONCE(fence != NULL, "deferred doesn't support fence\n");
+> 
+> Additionally check for param->dumb to take the deferred code path?  That
+> should make sure there is no fence.
 
-Thank you all for your reviews.
+I think I can also duplicate virtio_gpu_object_create(), and have one 
+version only for deferred dumb buffer. I will see if that doesn't make 
+too much code duplication.
 
-Best regards,
+> 
+> take care,
+>    Gerd
+> 
+
+Thanks for the review,
 
 -- 
 
 Jocelyn
-
-> 
-> v2:
->   * Rewrite the rust comments with Markdown (Alice Ryhl)
->   * Mark drm_panic_qr_generate() as unsafe (Alice Ryhl)
->   * Use CStr directly, and remove the call to as_str_unchecked()
->     (Alice Ryhl)
->   * Add a check for data_len <= data_size (Greg KH)
-> 
-> v3:
->   * Fix all rust comments (typo, punctuation) (Miguel Ojeda)
->   * Change the wording of safety comments (Alice Ryhl)
->   * Add a link to the javascript decoder in the Kconfig (Greg KH)
->   * Fix data_size and tmp_size check in drm_panic_qr_generate()
-> 
-> v4:
->   * Fix the logic to find next line and skip the '\n' (Alic Ryhl)
->   * Remove __LOG_PREFIX as it's not used (Alice Ryhl)
-> 
-> v5:
->   * Move drm_panic_[init|exit]() prototype to drm_crtc_internal.h
->     (Daniel Vetter)
-> 
-> v6:
->   * rebase, and handle conflict with 5d45c01dea6f ("drm/panic: Add panic description")
->   * Fix qr_width should be a signed int, to handle error code.
-> 
-> v7:
->   * rename r1/r2 to a/b in drm_rect_overlap() (Jani Nikula)
-> 
-> Jocelyn Falempe (4):
->    drm/panic: Add integer scaling to blit()
->    drm/rect: Add drm_rect_overlap()
->    drm/panic: Simplify logo handling
->    drm/panic: Add a QR code panic screen
-> 
->   drivers/gpu/drm/Kconfig             |   31 +
->   drivers/gpu/drm/Makefile            |    1 +
->   drivers/gpu/drm/drm_crtc_internal.h |    4 +
->   drivers/gpu/drm/drm_drv.c           |    3 +
->   drivers/gpu/drm/drm_panic.c         |  340 +++++++--
->   drivers/gpu/drm/drm_panic_qr.rs     | 1003 +++++++++++++++++++++++++++
->   include/drm/drm_rect.h              |   15 +
->   7 files changed, 1357 insertions(+), 40 deletions(-)
->   create mode 100644 drivers/gpu/drm/drm_panic_qr.rs
-> 
-> 
-> base-commit: 04b5b362bc2a36f1dfe5cad52c83b1ea9d25b87c
 
