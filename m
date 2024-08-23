@@ -2,150 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4F895C594
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 08:37:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C165695C5A3
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 08:40:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6016510EB4F;
-	Fri, 23 Aug 2024 06:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F335A10EBB9;
+	Fri, 23 Aug 2024 06:40:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="uzWMNuN5";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zU9HNNmh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC5510EB4F;
- Fri, 23 Aug 2024 06:37:41 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2040.outbound.protection.outlook.com [40.107.100.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765C310EB54;
+ Fri, 23 Aug 2024 06:40:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZXnksddkOHhlPhAw6W+3GtxZMDwv1BO0odsoRqd2ic79uXrNqOAPglZy4u9bXLTcEYqu+xgNMh1WA+HViFTUfiHwgVn5gQJYyNu2WjgaBDpyICxEq/6F7Bco8LiqANB5nvDuVv++142DCpqt8CpAKZio+P3FxBZNL7YZmC5npIgYI0e4zzMy0hH35iRHE2/pJFFdQz7i4DGt7MczuICKSneJa/aeiMlBqR6JgVdUKcfVpXsPwnKOn8Yn1NG6XCaldDDyAevPxKTNrPtnTtJOmeE3lj8BttbSqDbSEWij2itk44nJDijEVNyqCaeUv6TOh+v+nV8gacNSkpmc9Cd2Zw==
+ b=x63kiYIIDF2tEvm7TTRCwCuqgWdN74oy9xHf372OoEEmA5utkW0l5GHhmqZbD4/LHdpCEmfSl0zQxPo6T9eW2N8FmfB1DxsPVnqklaNeeC/Ppneo2zaprhGPiX4CY50UL72KVNoq24wBJZCIO5mfzsevoKotBV8lYMf2kjIhaYx4WxAOjoLhfqV2OtmFhJD7hadsi5rbu0yZ69LVaIR819BBh1YE64YrEEimiEMS7D6aIZPbmrqaGVQr/Gvm+nMeCPY7k7gtcLTBEs8L9qJkkizuoHosA6xerhCZ9+nff/C3nmKG7Dg210YxOJxSNJVFdIY8IjNPLAfhBcyx4vEGAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wervN8UJv/bgoorqo6KgVws2qrm3OiNHAJ/NtmK7Gkg=;
- b=yCwdc9VkbMNfrdT/nTGTEQ/rSBgQ79rKcvqAEReoQscXkSV2usoxbOs7p7c58b7+6kCTh+2qpcgmPdRBw2ZipjCLhxUYbi6guEgMC/kvnjt125tUaFxUdbjOiaLzVbeCyicBQOzPmp8VtcJZbFe/JPY3bZIb5Yi8beEeqEDD4f0jLVq+XOwFZ01qLlStrbRbEoNOSyhmcTrgcx/giEz26fDvm/8B6peuDHlTLCfS8FHxKlgPZjUvF7n/MmNpN8868OtK1mV3ndHo+OT5W0NaCnKUpuXuyv2sf9Arl6ah1tPdDPQ+fOwyXcKYeULKxRw6Szm+xSy1FBBXWc4hdIymCQ==
+ bh=pTQZEWTTcpgL8oU7EAwVQ3Crp9aw1nVNzZVj2j8QkXc=;
+ b=LGoMdlTWFt1P49wWCiStMzCjQ7qYK4PRjbEwpnZ6gokRSbekI1IxWMITD6tEoY/IcRCd08LGsESAi9WIC2DlLTEwCGxdFzg0hugxvDL3xPDy1c6y9vVQ6HcXafp86QHjWEywt5GVihGR/Untzc/RmOQ5rSX3ZF2wXkDhHSw0jntYewAzP70PfVtCOS18msjZ9/nsxi971aj7kO8sy/9VukbtfFHJySsWXDVRrR5Huv38zpaS9I3vsckWYzR9AQWkR6f9jMvdncYRsnxEbtc/kCJWZJbGv/L8KTQqeqY0aImjzKZ1s8KnjQrhV309wT/7T5iv5sFbfqg5BSXfQtd9Eg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wervN8UJv/bgoorqo6KgVws2qrm3OiNHAJ/NtmK7Gkg=;
- b=uzWMNuN50HVRlAj4saTSxQvyY53guJOHPZVM9Wo/VsEFJ1HkmRUXsPZh4noGb+d2YMspItbvXy7u1/OLtxZEr4H+Maj2uMIiOQVE4kfSt7xnFzYXJcC3NBaECCSMNo6lHtbGrIgf2eXm4aHdzTDBRkTOOLNuLOmhbxhyYvGMZi0=
+ bh=pTQZEWTTcpgL8oU7EAwVQ3Crp9aw1nVNzZVj2j8QkXc=;
+ b=zU9HNNmhH6IErgc0RPM5cSSxNW/daGGz7lHhb7TEQeKgm1olL2BolAJlAEeWWkzNZwV3jTWe08+ZPD5udXUZEMsjC2mRdvQ5HIFuL5BkZd7YQU/wJxW/KLNwXsvNzbxC122Q8eSxTrlWXRYbdMJB1HM+zZsnd4Z3vc9fYBsNQvw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
  by IA1PR12MB8191.namprd12.prod.outlook.com (2603:10b6:208:3f3::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Fri, 23 Aug
- 2024 06:37:37 +0000
+ 2024 06:40:46 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7875.019; Fri, 23 Aug 2024
- 06:37:36 +0000
-Message-ID: <f7fcb678-afb2-428e-abad-af9892823e60@amd.com>
-Date: Fri, 23 Aug 2024 08:37:30 +0200
+ 06:40:46 +0000
+Message-ID: <2657940b-90b3-4abc-9f56-f6c6b70563ec@amd.com>
+Date: Fri, 23 Aug 2024 08:40:40 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dma-buf: Split out dma fence array create into
- alloc and arm functions
+Subject: Re: [PATCH v3 2/2] drm/xe: Use dma-fence array for media GT TLB
+ invalidations in PT code
 To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
 Cc: thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org, daniel@ffwll.ch
 References: <20240823045443.2132118-1-matthew.brost@intel.com>
- <20240823045443.2132118-2-matthew.brost@intel.com>
+ <20240823045443.2132118-3-matthew.brost@intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240823045443.2132118-2-matthew.brost@intel.com>
+In-Reply-To: <20240823045443.2132118-3-matthew.brost@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0270.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b5::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0143.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:98::16) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB8191:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ae69936-90c0-49eb-e395-08dcc33e13b3
+X-MS-Office365-Filtering-Correlation-Id: 89453b3c-7f05-4bba-89e4-08dcc33e8494
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZVJqQkFKTFBXWk81VzdSTGRtRDJtZ0E4bGF2MTBoT3pDdmM5dDRKOC9qRUti?=
- =?utf-8?B?OHA3SU5CbTdWL2E1Y29XcEQ4ZXhTemVBdXMxMGhUSDNnKzNKa0pTMForMllD?=
- =?utf-8?B?Q1FKT0ltWDM2eUJVQmhxQU9FNHFUSXFPTjFyQ3RJejZMYnFGNXpqRWtiNStv?=
- =?utf-8?B?RVJab3Q4MGtFcDdiYlRGSDQvMmlxU0pXc0FIcnNqdGNqdTFqbkpBTzdiZXJl?=
- =?utf-8?B?UTN3L1ZrR09TTlU4OUIzeklSckNIS2JNeWV1ZVNzNktTWG9DNFBLV0dBSGNv?=
- =?utf-8?B?K0wwa1lYWE5GNktNMWlBMHkwelBRbWkzd2xZTUZwdDVZdlpQRXF0Zlp6K2Z6?=
- =?utf-8?B?OUY0YW1rYWo0TGFabDBQbjMrMGFNdkFtanJXVE9vS1hmak9INFF0aGtUODBq?=
- =?utf-8?B?TmRPUUpGUXhBazBnaTZWQjJEcWcrb1dJdGdrWUg5T3F2a1d5L1hhSmplQ0pI?=
- =?utf-8?B?RmJ0V2lVTnFzQXVYUWk2T1czMHRFWUVhWFNiOHVOa3FDRGJWNmluL253K3dS?=
- =?utf-8?B?bENnOEtGcFcwVVNjaGZFSFE1VUU1VE5iemtPdjIwOGN5eFdLODZMVTEyNlFM?=
- =?utf-8?B?RllIb1YrdVZOamdCdHFjRUhWL2huZFVVL0xBeHRzalRPL2hySm41UW0zTEFQ?=
- =?utf-8?B?cS9rZFBRUEZMdUtxY0lmWFowVm4xcWhBbFhyM2x4TTY2TXdlUHZwQzdDazNT?=
- =?utf-8?B?VSttTzdoZDdNTTN3S3pVMUFyRUovVUYyWm1WNXJqd0hXbXVjWWNaYTJRcjht?=
- =?utf-8?B?cEV5aVRnUUFibUZxd3V6RStucTVIa3RsMERjS2RIc0RiWm5sdmZVZXRFVWpt?=
- =?utf-8?B?N3RLZzY3VGZaVVh3QitxT2pXdHNWUXpUT2Z6U1Vxb1hTd0RFaVh1RjJyZFI2?=
- =?utf-8?B?b1NhaHB4d2tlUm9JRHVoOEV6NnNMMWU5WmdnMlZadXJhQnYyTVIzUFdHRm55?=
- =?utf-8?B?Q2prdHA3Nld5SDBQdkt5YjlkbGhDRFArOURYQ1NIa01YdGVIMk11OHRXMGZZ?=
- =?utf-8?B?NnhBTkZUQkl3L0lhQWV6djNzR2U3R1VhdGlSamlUM2VFUm5Eak9TaEhBYjlZ?=
- =?utf-8?B?MTE3SU1NeHk3QlhKK0dVb3hRcWtVNVZuMTAydndYL0NvL0piazcvS3RTbHVS?=
- =?utf-8?B?OVR1UHlDb0hSd05zcHZBUm8rRUtuRFlrTUVkdjNqYm9zSWNUTkFsenBqa3Bv?=
- =?utf-8?B?Y3pFVHJpOUR2REx1UGI4bEVYWHJ0YW9Tb0orMnZ6ajFaV1FjKy9CRkpSNGx0?=
- =?utf-8?B?UnhBeEtPUllIM2IxL0xkSStFUTQ0MW5VNndPQVlVclJOclVjN3RJa3o5OTVK?=
- =?utf-8?B?L1d3QzZJQ2FkQ2NhRlQ5WEloTVhkNXNBeSs1Mk56bUNYNzJRdlJLSDE4S0hR?=
- =?utf-8?B?UVViTERhbkdCVGh5cmZ3ejB3ZmhneCtYTzVHL3FORklzNncrUWtQd3dzaDds?=
- =?utf-8?B?NEtHTnRwSGI0djFFdWpRczJuMDJFYkJPRXBiVG5ua2tBczdHN2RkOU1hQzJF?=
- =?utf-8?B?dmkzY1VOa2hHbEcxQVVzUFdMUWJTTlNZOG9WTlE0SGFuN0JTM2lnWmlkMnBn?=
- =?utf-8?B?bnBPcXc4V1lKY1pwTGoydXBxYmRrSFZxdERTUmx6VFNoTG1uQWl3ZWo4eWhn?=
- =?utf-8?B?ZWZob05NbHZlYWJUbXVMMjgzankxeU5RR3ZvOEd1OEpvTWVvSmp4Ui85QWtU?=
- =?utf-8?B?OWwwcjY0UWF5R0EvSTFsaGxDOUQ4T1pCZnZZcU5CSkh2NXFSYlh5dHByRTU5?=
- =?utf-8?B?VHhnNm1icXcwazltQ2lOZkJMOVRhY3lVY1ZWOFdQb1lyZ3ZnQlFWS3JkWGRN?=
- =?utf-8?B?SFB2b2pWTHJBRVltak1QUT09?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OFlyWlRoeHNjanNTajdqM05UdUNEWnlyc0NaeHVnRUNiWCs5d0JZZTlnUmVD?=
+ =?utf-8?B?bWpOQWRqM0MyVmFVYUpWWmpNeUxvRnMrS3NHL1lUeDNJVnlUTnM3dUFobTdm?=
+ =?utf-8?B?NHhSQ2Z0dU1iTlFZZHMyS0hRUFVRRDc3dW94VFRuYnR5RDJwekdSd2ZnUW9o?=
+ =?utf-8?B?N1dvaTVNRjJOWWVIMEpWOUxNZ1FpdFVzTDdndTBBOXBEcEx6dGhLNW9mdjd0?=
+ =?utf-8?B?UDRUU2tob1Y1UDRtemt0SGxPamNxSW1ueGtnTmZiVjlKcXlNa3hMZVRwaHpX?=
+ =?utf-8?B?WXUyYkN2UzU3UUh6WjV1YjgybzRIVWZnMG9jWk9wZEsrcjVldllETzM1UnAz?=
+ =?utf-8?B?eVYwbkh2dWhWcG9ib2JkVVhjdzhiYitEY0IxMkdLbW15dTV0b3VwQUhIL1BG?=
+ =?utf-8?B?eHh4RElNTUdqZllySkx6WGVpS2w1aDNXUktmMW5wWklLcmNuckZnUXZKZ0R2?=
+ =?utf-8?B?R2g3LytlekxnSVcvWGhHejFic2ZZemlLN2FLUHFWbjNzcGhXRll0c1l4VDI3?=
+ =?utf-8?B?TkFlQzBkL016ZXpXd0llT0pmNVlFb0F5SnpXR0hLSC9YREQveitEbUIybzhn?=
+ =?utf-8?B?ZUFhckVGZElhc1RpaCtvVDRWd1Q5WWdVdWNwYnBRWHBqbFpEOW5mODdTMVdU?=
+ =?utf-8?B?M3NabjZ6aWFxV25DMXFwc1ZhNnhWUWpQSEl6MlRUanpRS3lkSm1qd0dzSlph?=
+ =?utf-8?B?SWZ1UUdPMzN5a25oS0dwMCtTV3VyRFBRdDRTZ2FwY3M0cE5yRFhYTDdvWUhM?=
+ =?utf-8?B?R2pWdUhaK3B5NmthMGc5eVNZYXFPb1dncDF0M3QwOEI0M0ZMSjFFa2tMN1NY?=
+ =?utf-8?B?dVY3OTJxMUlOMEhncEFhSVNyWitWR09VRlZCcEhudHBrMEc5OTc2aVhVU0JV?=
+ =?utf-8?B?RG5mQ0sxeUFwOTRlalN1V2lTVUZTV0x5YTZDL3lLQWJyUGJ2UERXSGNodGh0?=
+ =?utf-8?B?bVRyQVBnYW9QUDBNckUvM1hVRUV4UVhSTFlZQVRweHpMS0ZRTDhjWkwyMmgw?=
+ =?utf-8?B?dUw2dVVTTW9zS3JKSHljV0JBNFBHTzRNNHZNWFNtM1F5RXo3TVkzeGYwdTFy?=
+ =?utf-8?B?aTQwQjBWZ3lsQzNuNkM5UGFPMXBCOVFwMWVpeGVLRGpETjFKdFlPRVRQckkv?=
+ =?utf-8?B?OEhTbUo3bk1uRllIUGJSRnFYSVdsWmsxSDF5RzUyN2lMNzZFUzRDWndQeDls?=
+ =?utf-8?B?NXgzYWpmSjRnZlcwYTgzbXNvZHBKL3h4UmNjM2U5Qllob0xLeUJIRGZ2bWtr?=
+ =?utf-8?B?WlFtdG8zWWVJWmd2aG94VW94UHRuazhkb1MvUUJTbTcraFRzMFhjVGs3NGwz?=
+ =?utf-8?B?ZWpKN2ZxSmt0N05DV2xGdzczWCtoZWpIVDlHM2ZqeU9DWEltQjJaSExTRGNQ?=
+ =?utf-8?B?TUlJU1VIb01lankyOFJHU3JxckVCTGNDOHJ4eTVKelhTOEI2cEhyT0g4VVVl?=
+ =?utf-8?B?end2Mm9udVJVaVNjU09OTTJ3WHVGWkh0TG1hTE1FR3NGcXhGRVhKYkVJNFdI?=
+ =?utf-8?B?blYzekloTzk3UXo4ODZody9sbE5VM1Y3dmNUZDU3YVlYQ0psaHpTRkJSQ3g3?=
+ =?utf-8?B?L01XcEZva3prVG9ZS0JEeTlmL2hhaWZwdW9oL1ZaUWRISkZsZkhjYlU4ZUhC?=
+ =?utf-8?B?MTFyZEtvWFdLUXEyMXBXVm9KWEpEMU81dXN3ZFdsV1hjR0w5QTBNck9KSldn?=
+ =?utf-8?B?Yktob0FUYkREN3dGeEpUcmVPRVppVHFRMzVRNmlQeS84V0txTDNiQlN6U3l3?=
+ =?utf-8?B?QkREQjlGaGZvcnFyZUsrSlRZYVp3SDJJQ1diU3VFc2NlM0VqV0NoYzlFSHpR?=
+ =?utf-8?B?YlJJaW40aStUVzlSbW55QT09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U2FYOW1mOE15bEx3TmlDN25iRjMrb0lFTHEwSXlCanIzdXZFejdUQktaZjYw?=
- =?utf-8?B?WGdXN3hoMXI4L1NFcExacVRxaVdYaUU4Zk9xYkpnMXdyMFhsSE1QdE1uMi9F?=
- =?utf-8?B?WFNjS01vYTk4ZnVwV1lVWlZsMDM1R1dDck51OWdtbEFRQUdKVUxncUg1eld2?=
- =?utf-8?B?RW1SUkFwdFFnK2NpZ3pxdVVrbUxzRFJtQ0hEOUw0OEpoTW81ZFE0cVdTM3Ry?=
- =?utf-8?B?NnU3UDMvblZXbHhJOWc3bUpDR2RaMVE4UkxabEVzN1dpNC96Q0FUdEJhUFkv?=
- =?utf-8?B?MzN6OVphTXhoc1NUbDBiTDl4dHJheDFTak9tM2NBcUYvRHJrNHhGTG4wajRr?=
- =?utf-8?B?dHVOcEFzT01ReUFFdUJ4dElRV1F1dG1ST3JrS1hzYW5iVE1GRDFGNHZRLzdO?=
- =?utf-8?B?cTlLOGk0L2lWREFSeEE4My9rdUpLLzRWMzBsMDhPS25lNkQwM1JJYWFtTlE0?=
- =?utf-8?B?M0xhUHdUZmVlTS9IVUs5TWRpR1VkV1pLVVZuWnNkNjNTRzk3d0prMXQ4M2du?=
- =?utf-8?B?aWJkWkhSajNVU2Jva3lGZmV3dUh0M2lKNDd5REJLbkJ5T2FaTnJYclRsdUNh?=
- =?utf-8?B?WjVqWGNWT1lxbm4remlaUlI2T1ZoZXlnRTdpa01pTzlVTkM3TUZ2Uzd5dC9N?=
- =?utf-8?B?a1M5VTFoRnBTeUtUZGZIZTI2bnh2ZWlSeUpJM3hBM0Nwd21mNy83bEMrUlRY?=
- =?utf-8?B?UDFSTXRTTWRYcFF2TGxuMERZaXpIdlJIakVhZW1jQmtYTUN4TXFxOEFHWVVy?=
- =?utf-8?B?OXFwbzhrNUxvbWVCMFI2YlNkM1NjR3FjRmw2bXJucXFFUXRreXd6d3NheFhU?=
- =?utf-8?B?REpQcTJBZ0tQTG1DZTdIRnJTbzJPR1RXKzVQa1ZyamhHV25jTEdGdmx6TnhR?=
- =?utf-8?B?dXRYKzNvY3hQbjhZTlRycDg1aHB6NnVobG01S2ZVWTVPbFY2VVNhR2ZxcmZL?=
- =?utf-8?B?U0sxZWhGZ2VSRVZNQytXdC85L0FUZjlUUldjaWFFYzhiWFdRS0hvcjAxdFdj?=
- =?utf-8?B?NlFJOFVKaDlPSFE2czhqbThnN1k4akxrWU9kVVU0eWY0d1l1UzFsc1U5SklK?=
- =?utf-8?B?M29lWXNZMnhvcVFCK0RaNnJlRDBJR29rWEtwdllnQ3NqYlE1cDhUR0hWYkdq?=
- =?utf-8?B?MlZkaDVINkY0RXNPVDFPZldWamRXVUgxU3lneVh2TE1HWEppMnJXNFR5K2Zq?=
- =?utf-8?B?ZUJFcWZLRGpseGowTzJQZzdodlh1cTlIZVd6MklLN3BNSm1ZVlA3cDdsVStG?=
- =?utf-8?B?enNMa3hTWEVFRnVoZ0k5YkpPV3ZwV2V3N0NVNmJXRUYza0R6VFpqcFhtWlBX?=
- =?utf-8?B?OE9mZW5VaXZzMzJKOWJTbjVPMHJCR0xFbjRqNHkrclF4NmF6V2Y2SzJXRkxL?=
- =?utf-8?B?Y0FxYit4UU4vVUlwNUx3UFNsNkpQMk1xczV2bEgwYWZJajlRUWc1dE42MlVL?=
- =?utf-8?B?N01lUDE0Z01kRVlzUmRxdm4vTGlIbC9RamNnYmpSdkh1UGY3aVRwTVlJSFcz?=
- =?utf-8?B?bjFJcW4wbG9lWDlOWEx5NnJ4a0dhbGs0U2s1bjlmenlpNmk4ZjhlQmd6NXZ0?=
- =?utf-8?B?RXgzRm52bVNKWkFGVjE4UHU2aU85NjZsQWprNHhDd04wZkNVT1pZRmN3L3dH?=
- =?utf-8?B?YmtaWVJpU1RwKzVwVTUwU0xBSnlHQStlQnN0eFJFRzNxMVFjcld4SkVvcVZQ?=
- =?utf-8?B?OHRVb00zY2xnYlBnbXM3bkh6L3dJdUxnRFc1YjVYR05jbis3TEpKclRFNTlx?=
- =?utf-8?B?SDRRZVFwaGQwRW5RQlJ4UUxEbVBFU2ZwQ3dlT2hCY21NQXdjWjlDY1F0bllF?=
- =?utf-8?B?bVpaZlp6WGwwVnJ5QTVwOFZabWs0UUlFK0N0UUhJYnRkN0NVdEZRbTRFMkZQ?=
- =?utf-8?B?Qkg4UTUyK2NnTi9HWDJydzFpQm4rWlUxVy9PUzZTbEcrcVlOYnVqOUlwQU5s?=
- =?utf-8?B?OFRUWFNQODBhUWxzZXJ0Y2d6em5MemlIR3RlTWxTUDFmUmNueFZMVUtQMUZO?=
- =?utf-8?B?NjJVaHFSYmUreEFZUlZEUHo2N01waGNtSzg1ZitVUys5NFdGU1ptM0VnbjQ4?=
- =?utf-8?B?alM2ekVLbWlOelBxNVZUTFJxbGUvZlFaajU0VTRBY1Vtb1JqQ3NFbTczMHp0?=
- =?utf-8?Q?7GA4=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUg5Y0Yvbms5SUlKOFZnaVh6cXVuS1NDOVFPam1peGRVb0VCdVhIYitlQXZt?=
+ =?utf-8?B?SDVBZmJzcmlNNTYwKzdjQ2VVS09yK28vTkRrYTQ1cS9rTS8rWnd5a1VDbjFZ?=
+ =?utf-8?B?YjYyNUxGRjNBR3Bydzk2SU13NUFTdWJKZmNWU2NCTW80a05tNVZWNVVBUnN3?=
+ =?utf-8?B?cERTT1pMVlM5ZVIzUVFMUzl2djVhaDNiK29sQ1BpdmxzL2Z5SE5JK3pSbmZM?=
+ =?utf-8?B?STNUVnBFYXpnQm9XL2ZGTXF6TWlGTTZrMnpBc1JqUHU3b3ZlREcvTDFCTERh?=
+ =?utf-8?B?YjIrZmcyenpGN3RmT2tHbi9oaWttanA4R0pTdWtrNEUvMjUrSVZPbW8wMWt6?=
+ =?utf-8?B?RkdzdVJZZU53bE1Hd0xIWEk4KzdIdGdtbmJuT1AzUUpMYzF0VXZTOGZYUDdt?=
+ =?utf-8?B?bUMwKzA3NENWQS9BcUxyYUVjSjhhNUtwZWg1YlFsR0pvT3pKT0l4eWJ2VHZ1?=
+ =?utf-8?B?UWVwT2hBNWF0MXg2VWtmUTE2MG5nRDZHRHJnc0ovZXRUVXNRbnBXUXZWQ1F6?=
+ =?utf-8?B?Y1E1L2Vld3FBS2U2UjJZbDMyRTI5c1BiQnJmUVNQaC81M1VuSFVPTTgyOWRv?=
+ =?utf-8?B?dFNkQXk5elF2SnJnc1g3SUpLbXNFN2VpcU5QUDVIRTUxZ3prM09wZVF1LzYv?=
+ =?utf-8?B?NG5XT0E4aVdnUU1xaUJPWXExTUdwWC80RUdqMFB1aityVzR5Zk44MzZvQlR5?=
+ =?utf-8?B?OVV3dnRXZS85RGNnOE1CWk9UN1cva2ordVhGSGxteE1mNGZWK3hRblZWWUw1?=
+ =?utf-8?B?bmMyQ2dsWk1CaGwxRkFFZGdBSjdSN3NlRkxreDltVGtEdEhpd3VpMG1NSmFU?=
+ =?utf-8?B?cjJxTzhXRzB1TEQzYmxrcjc2WW5CZEx6WUFkMDVmODY3QjFTUU12WWN3V0Zu?=
+ =?utf-8?B?Qyt5aGJNK0JUM3A4encrSGxhL2k1V1p0ZFVkUEp0WUd6SXV2L0lIVjhvNm9s?=
+ =?utf-8?B?YkZBeWlxS080SkF0ZTRoREpjRXJNSEh3N3V6bENZeWZHK3RxUUNPMzYxYm9L?=
+ =?utf-8?B?bTMvTGxWQTNMYkdIcmlKWk16eGZGSVZZQ0YyUE5NWU0zcTlrR09TMGZZU3o2?=
+ =?utf-8?B?SVkwOUgxb0ZPbXJYQnZGb1FQT3dzSlFhN01ON0lwTysyUENPY3hwaXUvTEU2?=
+ =?utf-8?B?N0t6Q3lKdGh1U1VJdDJJb21WMGdkbFhVdlQ5c01nc0tHQkppc2dxK2RJSWlF?=
+ =?utf-8?B?M0Jlc2hHRUoybHZScDRsNEh2anc2b2NPRDJ6cTNIbU1GTWlKdFhQRlZqaDVj?=
+ =?utf-8?B?K0grTEpWRjdLNmdhZE5BVzl2d0o1Tk5MYmQyUUFXUTcwNVhRZ1l5L0dRT2hv?=
+ =?utf-8?B?YlRMM3hRbS9LbUNJdjVhWDJJYzJsWGR6MUR6dE5JV1ZGeDdTNllUeWZmSGZa?=
+ =?utf-8?B?OGRJeTBXdjFQbDBmVThNSTU3Y24zb2dTZjg2MDJFMjdWMzlKV2RxTzM4VDdt?=
+ =?utf-8?B?NERLR2dwbkJjNVVtMi85WjcwR1NoUDFiSEw4dENlNzFHMmgzUFJCSStXUUh1?=
+ =?utf-8?B?UzdZa1pxQTYvYVRIL0lQTXYyOWRzMGgzZU9SOE4zbGFHNjdsMjNpQ0ZlcXRo?=
+ =?utf-8?B?dWtYb3pXS2t3UTM2SjN2SkdVQXpRRlJFUGRnN0hYaC8wZk0xaDZWNGJ1YzJa?=
+ =?utf-8?B?YUx4M0RMclRadDlnQTJkcjFzWDdxdE9MWVdJVzQ1RDZLZm5jQlMwcFpJMGFW?=
+ =?utf-8?B?eFhoeXUxVDZiNnB1MFZJYXkyRW9vTFFSMWpjQm9HNlNWc2ZpYTFpbXhCc1ZX?=
+ =?utf-8?B?eU8xUlM2aVh4dTlyWVJaL1hNZVF2dTd2UGRiYmpjUDZWWENLVDRRcno4UHY0?=
+ =?utf-8?B?MTFTTmZKQldRYUxwaFNrR1NBcjRKN0p6ZVVpMUVVdzkvNytQRVVWUXdNY09U?=
+ =?utf-8?B?UFFTWEdtdml0NVRSOFI1MXc1T1pQQzdSNFlJdEpLN2lnbExmeUhOTk5Edzdy?=
+ =?utf-8?B?STBaS1FIU3VydkJ0dENzMkNyNHlZUDZLYmN1Y21rRGRrcGE1S0pMR2k1VXE5?=
+ =?utf-8?B?NXpOZ1BWaklRK3dXaWo5d2pwVnEzaWpwd2U2ZUNQNlFJMWpTZE00cGljSHpZ?=
+ =?utf-8?B?TjJXQlV0R1ROWVVOTStNM0l4RFJ0czdvYmpjTnpsODdUemk0M1REd29Ma3R5?=
+ =?utf-8?Q?jyUT7N0VLpzlSsc9dXVmHPWlo?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ae69936-90c0-49eb-e395-08dcc33e13b3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89453b3c-7f05-4bba-89e4-08dcc33e8494
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 06:37:36.8324 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 06:40:46.0674 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T5rWq3Xs0y7Pzfii+IIcxYO0K8FJkKIqK5QCmYdyJH9R0leecmmYxcTXPbwZUHNF
+X-MS-Exchange-CrossTenant-UserPrincipalName: On4Hll+QQPlH0GGZoWS8iKwTuuVPfD6PStAu3dNADrHaeQtTSYHZN5pPMDxKxBU6
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8191
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -163,149 +163,126 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 23.08.24 um 06:54 schrieb Matthew Brost:
-> Useful to preallocate dma fence array and then arm in path of reclaim or
-> a dma fence.
+> Using a chain fence is problematic as these cannot be installed in
+> timeout drm sync objects. Use a dma-fence-array instead at the cost of
+> an extra failure point.
 
-Exactly that was rejected before because it allows to create circle 
-dependencies.
+Mhm, IIRC we converted chain objects into dma-fence-arrays while 
+installing them into a timeline.
 
-You would need a really really good argument why that is necessary.
+Doesn't that work any more?
 
 Regards,
 Christian.
 
 >
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Christian König <christian.koenig@amd.com>
+> Also fixup reserve fence count to include media GT invalidation fence.
+>
+> v2:
+>   - Fix reserve fence count (Casey Bowman)
+> v3:
+>   - Prealloc dma fence array (CI)
+>
+> Fixes: 40520283e0fd ("drm/xe: Invalidate media_gt TLBs in PT code")
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
->   drivers/dma-buf/dma-fence-array.c | 81 ++++++++++++++++++++++---------
->   include/linux/dma-fence-array.h   |  7 +++
->   2 files changed, 66 insertions(+), 22 deletions(-)
+>   drivers/gpu/drm/xe/xe_pt.c | 34 ++++++++++++++++++++++++----------
+>   1 file changed, 24 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> index c74ac197d5fe..b03e0a87a5cd 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -144,36 +144,38 @@ const struct dma_fence_ops dma_fence_array_ops = {
->   EXPORT_SYMBOL(dma_fence_array_ops);
->   
->   /**
-> - * dma_fence_array_create - Create a custom fence array
-> + * dma_fence_array_alloc - Allocate a custom fence array
-> + * @num_fences:		[in]	number of fences to add in the array
-> + *
-> + * Return dma fence array on success, NULL on failure
-> + */
-> +struct dma_fence_array *dma_fence_array_alloc(int num_fences)
-> +{
-> +	struct dma_fence_array *array;
-> +
-> +	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
-> +}
-> +EXPORT_SYMBOL(dma_fence_array_alloc);
-> +
-> +/**
-> + * dma_fence_array_arm - Arm a custom fence array
-> + * @array:		[in]	dma fence array to arm
->    * @num_fences:		[in]	number of fences to add in the array
->    * @fences:		[in]	array containing the fences
->    * @context:		[in]	fence context to use
->    * @seqno:		[in]	sequence number to use
->    * @signal_on_any:	[in]	signal on any fence in the array
->    *
-> - * Allocate a dma_fence_array object and initialize the base fence with
-> - * dma_fence_init().
-> - * In case of error it returns NULL.
-> - *
-> - * The caller should allocate the fences array with num_fences size
-> - * and fill it with the fences it wants to add to the object. Ownership of this
-> - * array is taken and dma_fence_put() is used on each fence on release.
-> - *
-> - * If @signal_on_any is true the fence array signals if any fence in the array
-> - * signals, otherwise it signals when all fences in the array signal.
-> + * Implementation of @dma_fence_array_create without allocation. Useful to arm a
-> + * preallocated dma fence fence in the path of reclaim or dma fence signaling.
+> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+> index 6c6714af3d5d..2e35444a85b0 100644
+> --- a/drivers/gpu/drm/xe/xe_pt.c
+> +++ b/drivers/gpu/drm/xe/xe_pt.c
+> @@ -3,7 +3,7 @@
+>    * Copyright © 2022 Intel Corporation
 >    */
-> -struct dma_fence_array *dma_fence_array_create(int num_fences,
-> -					       struct dma_fence **fences,
-> -					       u64 context, unsigned seqno,
-> -					       bool signal_on_any)
-> +void dma_fence_array_arm(struct dma_fence_array *array,
-> +			 int num_fences,
-> +			 struct dma_fence **fences,
-> +			 u64 context, unsigned seqno,
-> +			 bool signal_on_any)
+>   
+> -#include <linux/dma-fence-chain.h>
+> +#include <linux/dma-fence-array.h>
+>   
+>   #include "xe_pt.h"
+>   
+> @@ -1629,9 +1629,11 @@ xe_pt_update_ops_rfence_interval(struct xe_vm_pgtable_update_ops *pt_update_ops,
+>   
+>   static int vma_reserve_fences(struct xe_device *xe, struct xe_vma *vma)
 >   {
-> -	struct dma_fence_array *array;
-> -
-> -	WARN_ON(!num_fences || !fences);
-> -
-> -	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
-> -	if (!array)
-> -		return NULL;
-> +	WARN_ON(!array || !num_fences || !fences);
->   
->   	array->num_fences = num_fences;
->   
-> @@ -200,6 +202,41 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
->   	 */
->   	while (num_fences--)
->   		WARN_ON(dma_fence_is_container(fences[num_fences]));
-> +}
-> +EXPORT_SYMBOL(dma_fence_array_arm);
+> +	int shift = xe_device_get_root_tile(xe)->media_gt ? 1 : 0;
 > +
-> +/**
-> + * dma_fence_array_create - Create a custom fence array
-> + * @num_fences:		[in]	number of fences to add in the array
-> + * @fences:		[in]	array containing the fences
-> + * @context:		[in]	fence context to use
-> + * @seqno:		[in]	sequence number to use
-> + * @signal_on_any:	[in]	signal on any fence in the array
-> + *
-> + * Allocate a dma_fence_array object and initialize the base fence with
-> + * dma_fence_init().
-> + * In case of error it returns NULL.
-> + *
-> + * The caller should allocate the fences array with num_fences size
-> + * and fill it with the fences it wants to add to the object. Ownership of this
-> + * array is taken and dma_fence_put() is used on each fence on release.
-> + *
-> + * If @signal_on_any is true the fence array signals if any fence in the array
-> + * signals, otherwise it signals when all fences in the array signal.
-> + */
-> +struct dma_fence_array *dma_fence_array_create(int num_fences,
-> +					       struct dma_fence **fences,
-> +					       u64 context, unsigned seqno,
-> +					       bool signal_on_any)
-> +{
-> +	struct dma_fence_array *array;
-> +
-> +	array = dma_fence_array_alloc(num_fences);
-> +	if (!array)
-> +		return NULL;
-> +
-> +	dma_fence_array_arm(array, num_fences, fences,
-> +			    context, seqno, signal_on_any);
+>   	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
+>   		return dma_resv_reserve_fences(xe_vma_bo(vma)->ttm.base.resv,
+> -					       xe->info.tile_count);
+> +					       xe->info.tile_count << shift);
 >   
->   	return array;
+>   	return 0;
 >   }
-> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
-> index 29c5650c1038..3466ffc4b803 100644
-> --- a/include/linux/dma-fence-array.h
-> +++ b/include/linux/dma-fence-array.h
-> @@ -79,6 +79,13 @@ to_dma_fence_array(struct dma_fence *fence)
->   	for (index = 0, fence = dma_fence_array_first(head); fence;	\
->   	     ++(index), fence = dma_fence_array_next(head, index))
+> @@ -1818,6 +1820,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
+>   	struct xe_vm_pgtable_update_ops *pt_update_ops =
+>   		&vops->pt_update_ops[tile->id];
+>   	struct xe_vma_op *op;
+> +	int shift = tile->media_gt ? 1 : 0;
+>   	int err;
 >   
-> +struct dma_fence_array *dma_fence_array_alloc(int num_fences);
-> +void dma_fence_array_arm(struct dma_fence_array *array,
-> +			 int num_fences,
-> +			 struct dma_fence **fences,
-> +			 u64 context, unsigned seqno,
-> +			 bool signal_on_any);
-> +
->   struct dma_fence_array *dma_fence_array_create(int num_fences,
->   					       struct dma_fence **fences,
->   					       u64 context, unsigned seqno,
+>   	lockdep_assert_held(&vops->vm->lock);
+> @@ -1826,7 +1829,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
+>   	xe_pt_update_ops_init(pt_update_ops);
+>   
+>   	err = dma_resv_reserve_fences(xe_vm_resv(vops->vm),
+> -				      tile_to_xe(tile)->info.tile_count);
+> +				      tile_to_xe(tile)->info.tile_count << shift);
+>   	if (err)
+>   		return err;
+>   
+> @@ -1983,7 +1986,8 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+>   		&vops->pt_update_ops[tile->id];
+>   	struct dma_fence *fence;
+>   	struct invalidation_fence *ifence = NULL, *mfence = NULL;
+> -	struct dma_fence_chain *chain_fence = NULL;
+> +	struct dma_fence **fences = NULL;
+> +	struct dma_fence_array *cf = NULL;
+>   	struct xe_range_fence *rfence;
+>   	struct xe_vma_op *op;
+>   	int err = 0, i;
+> @@ -2022,8 +2026,13 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+>   				err = -ENOMEM;
+>   				goto free_ifence;
+>   			}
+> -			chain_fence = dma_fence_chain_alloc();
+> -			if (!chain_fence) {
+> +			fences = kmalloc_array(2, sizeof(*fences), GFP_KERNEL);
+> +			if (!fences) {
+> +				err = -ENOMEM;
+> +				goto free_ifence;
+> +			}
+> +			cf = dma_fence_array_alloc(2);
+> +			if (!cf) {
+>   				err = -ENOMEM;
+>   				goto free_ifence;
+>   			}
+> @@ -2068,9 +2077,13 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+>   			invalidation_fence_init(tile->media_gt, mfence, fence,
+>   						pt_update_ops->start,
+>   						pt_update_ops->last, vm->usm.asid);
+> -			dma_fence_chain_init(chain_fence, &ifence->base.base,
+> -					     &mfence->base.base, 0);
+> -			fence = &chain_fence->base;
+> +			fences[0] = &ifence->base.base;
+> +			fences[1] = &mfence->base.base;
+> +			dma_fence_array_arm(cf, 2, fences,
+> +					    vm->composite_fence_ctx,
+> +					    vm->composite_fence_seqno++,
+> +					    false);
+> +			fence = &cf->base;
+>   		} else {
+>   			fence = &ifence->base.base;
+>   		}
+> @@ -2108,7 +2121,8 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+>   free_rfence:
+>   	kfree(rfence);
+>   free_ifence:
+> -	dma_fence_chain_free(chain_fence);
+> +	kfree(cf);
+> +	kfree(fences);
+>   	kfree(mfence);
+>   	kfree(ifence);
+>   kill_vm_tile1:
 
