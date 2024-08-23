@@ -2,72 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B47395D24D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 18:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C94B95D47D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 19:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8424B10EC61;
-	Fri, 23 Aug 2024 16:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F0510EC97;
+	Fri, 23 Aug 2024 17:39:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kSm0hgM6";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="Hv/jKEvg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AFFF10EC61
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 16:02:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1624B6068D;
- Fri, 23 Aug 2024 16:02:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62512C4AF09;
- Fri, 23 Aug 2024 16:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724428968;
- bh=+J5v2a1KYipoTMfE/Qk79+k0+U/RnOiCO1QF6+MROOg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kSm0hgM6IJekKLoVVE4ON58EmoKIOJoNWoxufF4+bNJCT+g/pUd3wbRhW9P+J3VsW
- fnGGRjDaXr/tZL+228+l2+0IFrz6qcMxcLs8//zybPvjRTkyK7Bz2vgcR72ZDAV50u
- CQuV1ZVGFQ6p/rQ4SV7TuntA62tP3i88VsDCslQiBM+5gQRgN/9KUPWVFsbZVRGSLN
- GsJkCgGYKV4Vrb7i/FIs7cs0Ob2isoRA+fO8AdHDroZTA9YahiaIY5Mdmp73ywISI/
- L2UykFD9Yrr1rToETOdzTrEDkUP6B1fGBCMu+N1/L7uhVvLFj6UXpW9t9Iaz8T7Vpl
- wi50RmyyR6eOw==
-Date: Fri, 23 Aug 2024 17:02:41 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Andy Yan <andyshrk@163.com>
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>
-Subject: Re: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema
- for RK3588 HDMI TX Controller
-Message-ID: <20240823-swifter-smugly-c51447514f96@spud>
-References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
- <7E8109D4-A353-4FE3-9152-3C3C6CB7D634@sntech.de>
- <2085e998-a453-4893-9e80-3be68b0fb13d@collabora.com>
- <4167579.6PsWsQAL7t@diego>
- <20240822-pushchair-premises-f4055779216a@spud>
- <7fc8cbc3-43d0-43d2-9272-350ac556e2b2@collabora.com>
- <4140b55c.a48.1917cc1095f.Coremail.andyshrk@163.com>
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2053.outbound.protection.outlook.com [40.107.255.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD8910E45F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 10:02:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=STqf6POCfLAzy/P81SObHfTzL9TOTE8o/vAgt4FnXsxaLfCWaloRhm3phsYyTh3E0tnb8k78YW5JVSuxrR7rqlQ/qeo5xLBxWr1fvY9efzSpLAW6ZXQD7gRUDzn7nEd+T1kRriqh4G2I7TE1t1OEr799KKSsEMeKaoFv61rwr09wJjKSGlzyKSgvaY994Xk+B/bR/fnL5mYVcFyXdHLx8C1bzfendlfu7Fzz+7azADYTDfSE2JM9ZfYucsEqPxemQD+XVq/jv1umPKogVy6CrBS4EElFsiA2rnnNo+xoFAFUchsjAuc698WnRnfQBrBhSBCa+2lOdE1RbSuCaZBOZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
+ b=VW2Ms1Pkug5XkkfZmahX3lG71Z/8+qIbm/fwq2JozkIuRpcNxdJKmJEeL4INgwQj0pgCTq0ZFfu9PG5MNR4mRE3rGb0PfYW5jsKYjIRtFFNt/g5DcKFjo/S2vikzpPZIxcDmj9DFAECMDB916WUlcJONU0z3zulhnnhm4qdxOZ8jqvl2FfF6z59OV8YuRsRjO3VcxxMIQRoZ0oafBTe8iCsglrjQlGygWaGuQRnjHKyOxJfzUeCm7mpuHOGrh7Ltkkvj62IPHZdRsN9ICXQEUdNiSOrWF/MyrrMPKy3Nx8ShHjPq5qYvmI8QgmNdrzevB0Cg00qGJDwbgziyC2ftLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
+ b=Hv/jKEvgEhi0T6Vx4DeBZlJ5GQwghPgkWXrfzcSCpKbpIGHuNpXV6DMvsjPmlJUXcT4rzoaJOaXQOj4GzdblidyZEq0SeCJ7bXdTsMEvEadlTwllRS0fAKNhH226aiLstGOhSMGz6pxFJtpHCkXBO9Q8AW933rdEry39qx1lhjBG9GZJclUw1Fcx4oaWaqyaaAEgoPF3B2HavqglDKFEce0NRYTJQZ/HWDnTpvjet9Uwal2KCgz2PWu5AIiZyGeUbrf0xQ4T4qfTHyLPkqW5b7UuWG4VQXR2OzUVH+Fjpy3QyfFqAiPnrqhwP+wkVFYOji7fumiteH4/u3x8kS2dmw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from TYZPR06MB7096.apcprd06.prod.outlook.com (2603:1096:405:b5::13)
+ by TY0PR06MB5281.apcprd06.prod.outlook.com (2603:1096:400:206::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
+ 2024 10:02:40 +0000
+Received: from TYZPR06MB7096.apcprd06.prod.outlook.com
+ ([fe80::6c3a:9f76:c4a5:c2b]) by TYZPR06MB7096.apcprd06.prod.outlook.com
+ ([fe80::6c3a:9f76:c4a5:c2b%5]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
+ 10:02:39 +0000
+From: Chunhai Guo <guochunhai@vivo.com>
+To: joel@jms.id.au, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, Chunhai Guo <guochunhai@vivo.com>
+Subject: [PATCH] drm/aspeed: use devm_clk_get_enabled() helpers
+Date: Fri, 23 Aug 2024 04:17:32 -0600
+Message-Id: <20240823101732.2180381-1-guochunhai@vivo.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG3P274CA0019.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::31)
+ To TYZPR06MB7096.apcprd06.prod.outlook.com
+ (2603:1096:405:b5::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tX5i8q7vWJU61EV6"
-Content-Disposition: inline
-In-Reply-To: <4140b55c.a48.1917cc1095f.Coremail.andyshrk@163.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB7096:EE_|TY0PR06MB5281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d718902-5a6c-4c3d-5231-08dcc35ab8f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|52116014|376014|1800799024|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?F32v2N9HI8/APXpvz4Oh8Nq6g44SGFGA98waZd26YzfFce9S9Dc+IyRsII4o?=
+ =?us-ascii?Q?16YMX+TP99pXRlKGWNxzCIuSXGzO2WYHxBjHS6/rE27wVzjI7g8T3qzF8pDG?=
+ =?us-ascii?Q?EQeocV4Y3lE5PBWgkeMBL5wntwhQToesv/2D/Qy4lkHK9c221dDHu7DjWHSG?=
+ =?us-ascii?Q?NBNOJJzsRWnOvY4edgDRInNEtTt6qn6WBT2GOJ6xmXyIEku32v/4E/a+UD+P?=
+ =?us-ascii?Q?74UTZZhpJxtPVEPKbgciq0FVbWuGLPX7FsdRPGdXkX/rjYAs+8erQYjg+Cjf?=
+ =?us-ascii?Q?c3LkCnstQtDrPPdT/yMJxRxDxbLtTza+QF09L34ekTz1n9Zl+n6YyKFrfA1v?=
+ =?us-ascii?Q?vYtis9F3MHaNqm4PD0sJL3/pajERZwk3VVgthk+7TN/JmPHyQu37rqZmTQc2?=
+ =?us-ascii?Q?V5F96a4+tlDm9vqQv8JZunhp9av8R5BS0cMtli+WVHRDuU5z434uSjbDvpPl?=
+ =?us-ascii?Q?IAsXzowWILcRPJEaqMMyLYtZf3ReFNVdc6KJdrXrGQWNM8FG2EmKiSvu99XN?=
+ =?us-ascii?Q?iXWI0zncjlrtIeiVY0d6TvYpq5fLDISD/aFDOPlCi8lG5BElTI/+mIl37bML?=
+ =?us-ascii?Q?/aXKYqi7W8ua0l12iRv+ebcBb4Hzr4huglw5cPvUu1SZL6IndPjSeB15YDVJ?=
+ =?us-ascii?Q?33Opt6xKysu8Hr++wDDbfTamcjgxXiL8O31uWkCrDTRdaTpU3j5w4VHiGuuR?=
+ =?us-ascii?Q?JrzcxLH8+jqDzEwN8BvLu2sMOQt9Iibj0/C6wczNXaFtM39MXbqogpCyNsN4?=
+ =?us-ascii?Q?xlFyY1kh6oiHYDBXWNjd59EQVayFOHlGmNjsliadE1gDlaYp0AAJczVERhaF?=
+ =?us-ascii?Q?QIXsuGZETr+xmktHES63Nl79GzM/byHnV7J93aVK+SE96m4GiT3YHTJp/wst?=
+ =?us-ascii?Q?S2s3oVpArc7Iy9yImLlCyxywJOEDcB8TWMbQ6iNMMtES8SP+dmxKHpUBelE3?=
+ =?us-ascii?Q?/vJc9WXQEk9Rm63wCFQFwghZiZZEP12Mv30nydNXvmGReo9b4MV9cUpF9ZSs?=
+ =?us-ascii?Q?p7O/8E68woC39c+bMzFVMlF9S/7zBi4L9uybEqiYRYC0bv9wtc4oJQvMmYTW?=
+ =?us-ascii?Q?dFZGHGnp3nXlRaSieYXBzhiKml4t8oB7IiuslBDyIn2naXaAqZ3wqeIw8krg?=
+ =?us-ascii?Q?YouXpOMvLIcqI4DCLYya+qgvRfH3+KrU/7yy84gU12HsdJpAU+JL8tzpa541?=
+ =?us-ascii?Q?xBAc323EHkfk8JfujhZBX0QPO/bqriDXCfukMBWkErOt3EDXfeOAdYbfxJ5h?=
+ =?us-ascii?Q?WAaHwXgV1D/eeqBNo0698camBaqT1lG408jK5oXwFsh/Pq9+MPe8nWRJsWfF?=
+ =?us-ascii?Q?C6CReBvkZ+XErJPjHfbfa588l3DH8RrQd79Kk/7U71xDrg6wNV/aOlRzxAGk?=
+ =?us-ascii?Q?weAko3JkdjIq0MtWGoCBMYUsumAS8MLH+AEW0yPrRqmlnE8PYw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR06MB7096.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BqZLowX8knXJzYRaaHjIcXr8VuGYLuwo8ti+fF7XrPdbI6dy8wS1V8QSsKk0?=
+ =?us-ascii?Q?EhDdW4yDoQAKoFh9nMOpXamWNnBIjBm3eiJLVRMIFw9Y+amM3DDlDPFgIKVb?=
+ =?us-ascii?Q?QDKP7Em5Op+vPQY/UkRUNc7lgjTIlpQ6H9+wSCw5KsylLFogvfA29clI0vUx?=
+ =?us-ascii?Q?gjEl962MmuH8Z1r70Fn47GwyP0ZrMu5Y2m6e3OsBW/JJTSqSfUKaPwEm2CRf?=
+ =?us-ascii?Q?wztGFTDYjrLJu0Zzr/W2j+1GN3RqgmFMx9yqhYQOxQhTtod6vfWtxaTvDYkL?=
+ =?us-ascii?Q?4m9U/chHMLpAkq1SwbGW/aakB/ysekjY5SjFUUIPnPfNPB2JBkyfWoltA0WJ?=
+ =?us-ascii?Q?USObEvMEEhvRNOUjlaff8IQIBL5XOVDiu9/83Ucn+yc8j3pq7Z/YpiiT3irP?=
+ =?us-ascii?Q?lbEIM2BKFH1pQS+Q8BMRuYY1Q04ZcbzRLO3KOxdvHh0wmgJfb0HjKAZ5PI77?=
+ =?us-ascii?Q?yCsBnW3uDHZAZEjyivU//Ptn9pKGDI/IZ72oDzS1SQalgzBhc8SuXlvLOreQ?=
+ =?us-ascii?Q?Jty+FNmT7ZwDGioLSuZU+pIaYbTWIQBa0jDZdGA73BJXTuHRJWTzYc/rN6+8?=
+ =?us-ascii?Q?IrswIXd+NL/I8U5MdPGQrEc9Xty4jL4z0VuRRdDcnATFn1Sswis+AyGoA6Fo?=
+ =?us-ascii?Q?QIM0cDzTyB4DYLYfmf8ciB3HopfiSJQTenWWemMOxaENW3GS0RCMKCjhGRfJ?=
+ =?us-ascii?Q?tejz0uNAK+fukpBT8vwuosegnpmSFg0HLBN+s/2iTB6VU0tf4wh4HBmrYwls?=
+ =?us-ascii?Q?pQMTaf/YCid1bmM51EWB3lRR30xoTGiLOORrOte5QXPGz9zzhcXF/TQdVCi/?=
+ =?us-ascii?Q?FQVLw9qhIYl2z1i5GOoEovdCHmYN/Nz/k28ibvDmT5Sx+M3WmWN1ZY4YyBj3?=
+ =?us-ascii?Q?gQSdTyyjRTV9WGXKBQ1Sj+wEBGgVf6yiCIOxSEcHExhqm8ELEUZCUs0Iv3PX?=
+ =?us-ascii?Q?uUWm0heXq/dswvzXS7esR6rsZsOI2lzHDQFTHtQfrn1GTRjTH9h0noXaMzGw?=
+ =?us-ascii?Q?D2DswHh4KC/ed7kalUfWdgl1xBSQVJM9uMrLlbQruqBCnHjFXbnmlr/Pu+Cg?=
+ =?us-ascii?Q?IbGdvzGS+fv5gYJCVyDqC653vkvZ1oHVU1ptyV2RzPHEFMnbWfg4lhtKfGUo?=
+ =?us-ascii?Q?mkU7yNyBkCRAAijWkZuHjagg+AYbb/AKveabh+qa3C8EiaPS5ca0tc0hpB8t?=
+ =?us-ascii?Q?M+VvQLAVXFAGINEChgaGWKsgBFjh5/2zsqd04EG8+5t9XhCmbche/N8lFx0k?=
+ =?us-ascii?Q?ShdilheRJm7+xk66l1CDhRo0jHrgDLeTEchR7hXXQJq8yIjco6UMku3zNknm?=
+ =?us-ascii?Q?uFy6L4boGMK+pdv4K+1vtna/9pNeI0j2zSMAofdRhn+RvHfRpj5pZD6U77g6?=
+ =?us-ascii?Q?naGBNpp3jHYq699wnWpagxHMtAesX2vSpPljZgvLnZ9uJXNYMzK1hmnnljK4?=
+ =?us-ascii?Q?19EPmClbsb+hchk4m1Mb5QJhGx+wJ5FVjNYhuze/Yla/XAwXOPxQ9gTxu9Tt?=
+ =?us-ascii?Q?7yvipkC3UgqF6cttqAlCSMeeRyoHq++1pKtI8HDSFCvjs+Pk4zVHcKTd3Wgp?=
+ =?us-ascii?Q?XT58B1BANUQDPTlQWHjJbTTqANzgBN7L3pCLdiSq?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d718902-5a6c-4c3d-5231-08dcc35ab8f1
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB7096.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 10:02:39.8982 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4GCm6LL5KZ+Yf4L45/ct1VlQ5qh8UQ5cOideCmJ8a1hk5rDPjIayB2xavosPVBBiWtUfSQjGNDcdkT6hlk6uNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5281
+X-Mailman-Approved-At: Fri, 23 Aug 2024 17:39:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,99 +145,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Simplify the code by replacing devm_clk_get() and clk_prepare_enable()
+with devm_clk_get_enabled().
 
---tX5i8q7vWJU61EV6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Chunhai Guo <guochunhai@vivo.com>
+---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-On Fri, Aug 23, 2024 at 09:01:51AM +0800, Andy Yan wrote:
->=20
-> Hi=EF=BC=8C
->=20
-> =E5=9C=A8 2024-08-22 19:59:43=EF=BC=8C"Cristian Ciocaltea" <cristian.cioc=
-altea@collabora.com> =E5=86=99=E9=81=93=EF=BC=9A
-> >On 8/22/24 11:41 AM, Conor Dooley wrote:
-> >> On Thu, Aug 22, 2024 at 09:01:34AM +0200, Heiko St=C3=BCbner wrote:
-> >>> @Conor: just for me, did some shift happen in our understanding of dt-
-> >>> best-practices in terms of syscon via phandle vs. syscon via compatib=
-le?
-> >>>
-> >>> Because Rockchip boards are referencing their GRFs via phandes forever
-> >>> but similar to the soc vs non-soc node thing, I'd like to stay on top=
- of
-> >>> best-practices ;-)
-> >>=20
-> >> If IP blocks, and thus drivers, are going to be reused between devices,
-> >> using the phandles makes sense given that it is unlikely that syscon
-> >> nodes can make use of fallback compatibles due to bits within that "gl=
-ue"
-> >> changing between devices. It also makes sense when there are multiple
-> >> instances of an IP on the device, which need to use different syscons.
-> >> My goal is to ask people why they are using these type of syscons
-> >> phandle properties, cos often they are not required at all - for examp=
-le
-> >> with clocks where you effectively need a whole new driver for every
-> >> single soc and having a phandle property buys you nothing.
-> >
-> >That would be also the case for this HDMI controller - need to check the
-> >specs for the newer RK3576 SoC, but I expect the syscons would be quite
-> >different when compared to RK3588, hence we should keep making use of
-> >the phandles.
->=20
->=20
-> Yes=EF=BC=8Cfor rk3576=EF=BC=8Cit shares the same HDMI IP block=EF=BC=88h=
-dmi controller and PHY=EF=BC=89=EF=BC=8C
-> of course reuse the driver of rk3588=EF=BC=8C but it has different GRF to=
- depends on[0]:
-> which calls ioc_grf and vo0_grf:
->=20
-> I also believe that makeing use of phandle beneficial for different devic=
-es to reuse the same code.
->=20
-> hdmi: hdmi@27da0000 {
->                 compatible =3D "rockchip,rk3576-dw-hdmi";
->                 reg =3D <0x0 0x27da0000 0x0 0x10000>, <0x0 0x27db0000 0x0=
- 0x10000>;
->                 interrupts =3D <GIC_SPI 338 IRQ_TYPE_LEVEL_HIGH>,
->                              <GIC_SPI 339 IRQ_TYPE_LEVEL_HIGH>,
->                              <GIC_SPI 340 IRQ_TYPE_LEVEL_HIGH>,
->                              <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH>,
->                              <GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH>;
-> ,            rockchip,grf =3D <&ioc_grf>;
->              rockchip,vo0_grf =3D <&vo0_grf>;
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index a7a6b70220eb..7f4ef85a12a9 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -191,13 +191,12 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ 	}
+ 	reset_control_deassert(priv->rst);
+ 
+-	priv->clk = devm_clk_get(drm->dev, NULL);
++	priv->clk = devm_clk_get_enabled(drm->dev, NULL);
+ 	if (IS_ERR(priv->clk)) {
+ 		dev_err(&pdev->dev,
+ 			"missing or invalid clk device tree entry");
+ 		return PTR_ERR(priv->clk);
+ 	}
+-	clk_prepare_enable(priv->clk);
+ 
+ 	/* Sanitize control registers */
+ 	writel(0, priv->base + CRT_CTRL1);
+-- 
+2.25.1
 
-btw, I don't particularly like this naming - on another soc in the
-future "vo0_grf" could be "vo1_grf". It is better to name them after
-what they are providing to the hdmi controller, rather than what the grf
-itself is called.
-
-That said, if the grf is changing between socs, the offset within the
-grf and what it provides to the hdmi controller may vary completely,
-which makes having generic grf reference properties redundant.
-
->              phys =3D <&hdptxphy_hdmi>;
->              phy-names =3D "hdmi";
->=20
->=20
-> [0]https://github.com/armbian/linux-rockchip/blob/rk-6.1-rkr3/arch/arm64/=
-boot/dts/rockchip/rk3576.dtsi#L3122C2-L3123C33
->=20
-> >
-> >_______________________________________________
-> >Linux-rockchip mailing list
-> >Linux-rockchip@lists.infradead.org
-> >http://lists.infradead.org/mailman/listinfo/linux-rockchip
-
---tX5i8q7vWJU61EV6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsiyoQAKCRB4tDGHoIJi
-0oGzAP41PotnHGP7pOq28w8lA6nlhNpPPnf7XLGOSlUCEoZ4HwEAp3PJGursxfJy
-RIkB52Ug7Xev2iSA98QEF4jPYJGtKw4=
-=eT1G
------END PGP SIGNATURE-----
-
---tX5i8q7vWJU61EV6--
