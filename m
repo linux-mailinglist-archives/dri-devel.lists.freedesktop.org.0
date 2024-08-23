@@ -2,149 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5303895CF16
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 16:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579D595CF5D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 16:19:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4051F10EB44;
-	Fri, 23 Aug 2024 14:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE52E10EB57;
+	Fri, 23 Aug 2024 14:19:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="S6JTYY3Z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nBStq5YX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2057.outbound.protection.outlook.com [40.107.94.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 116EF10EB36;
- Fri, 23 Aug 2024 14:12:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ANxnhr+p57pdYeqSjQN01OVtUbWhQijzdgebhCxeOjGiHgzowsLRoz+//vIpIOaGeJu+VtyWW2mrCQbdmbDQhOoyE6LTQyTihyGVQaP3Caowm26tM6i/dPr+cKP2fdbDIoTmYYI+ywL1FE9lBwo5w14d0Kc97On5B6bq60geGDLVNSmDBfq1+jDT0OqwdRcLZf71VyYJIb7w3EbaSjDeNp2Pa6usdxPdrjYJgbt9o0KVSq1uHWMz3GDhHb9lthXEafi+35KGwwCyh8yh1pkeyN/ug8wp1rgXxN2qnpIMTgiwAnupqU32GIYa65SIEUPEkJby6ZBBBQcUXWPH3zOctg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vTJBn8tVFnE07qRAaH7nws4WKXLhvyFC156gqe4gUOY=;
- b=hB/QH7odM4LF1RNTBmQRym5LRWDYKuCe02ntPq7Ypru6tq+vjtpMJyLVzDNRg+vTfFOjeyeteg1aCU6KsQvmeweEza5YDy3Q7wBRW8r64Uwrln2cjXsgIZkukrwD3uFyqbyl8Zl2qba1dlw/5uNvD8NAfv4oTAsN+9HNGn9hMvfQz6PUA9bbVh91FzqBG3Tp4Cwa596dtTLOOjKbnMUMSBmBQNRK/WDQONDX6JQcm3Z019rssVFsGKhVszVaAiOvRjvfwTkwmStWsrQPbAGScyjD6JoGDg1NT66fZtnxmKZEUWiWKBdp7+lwzQWCQUN98YMrBo2aowf40iCYnsq6Mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vTJBn8tVFnE07qRAaH7nws4WKXLhvyFC156gqe4gUOY=;
- b=S6JTYY3ZrkIjFpjYBmhb5i65lL7nPIa1rxuLpqtmH0+HJAYUw4S5hmbhoTyuEg39tsCxbnGGuH1EugBRFUVHVty56qZz63t4QpUHSRfLgDuLXzO+eeHTPYcYH0mgVFvM0jQM+dqS6W7SqFpj4dgGKJXMXYmRP4+putV1iJpzgnA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB5877.namprd12.prod.outlook.com (2603:10b6:510:1d5::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 14:12:17 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 14:12:17 +0000
-Message-ID: <704af387-a984-4fcb-866a-1e95a22e50b9@amd.com>
-Date: Fri, 23 Aug 2024 16:12:12 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/ttm: fix kernel-doc typo for @trylock_only
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-References: <20240823141110.3431423-1-jani.nikula@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240823141110.3431423-1-jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0057.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f0::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306CC10EB57
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 14:19:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 394CECE1049;
+ Fri, 23 Aug 2024 14:19:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E523C32786;
+ Fri, 23 Aug 2024 14:19:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724422754;
+ bh=RpEEFLQ159mtzxH/6H1MaLPuidhuvO36wTtzFCeFT2g=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=nBStq5YXGZS3IcSjX33591s0+YfJaUGLCBUzCzSQicdSqADMwcQvGt3tFDnkxAtol
+ bdGbH+eCaphHgOcZdVB9bfSa/RVclary3XVypkUaZpsXrLwD5X/Mp7bruP+kpsn/Ep
+ BFujFlNZqa6OEPeW274OkkrXyToZJq5nwvgwHAPntmBOwzlJkGpwgERbg7YE56BGVr
+ uNkiP8hgPgTPBmaNqSWBtCi+hHwUcbAKbe6TLGB2Ug2ADZpwAasiqpBdo+K6v30awd
+ qzw6BYcYwCzlkNwQJgDMCAPzdG5XE+IKI91foJRUZX4biaGVtXLv2ovDRk35TRiz1G
+ Wz4ewk+2qH0sQ==
+Message-ID: <ae89be50-9cc0-43a0-8829-dd38a05a377f@kernel.org>
+Date: Fri, 23 Aug 2024 17:19:05 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB5877:EE_
-X-MS-Office365-Filtering-Correlation-Id: 453e9e9a-3390-4584-ac55-08dcc37d9806
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Njg2dVl1cXNXY2pCeXNDZEhVeDdKTk91ZTU4dDZ0d0hVQWNSMkxJUTI1WHEr?=
- =?utf-8?B?WVBrWWNQcHR0T3BGMjVySlVQeFdwYTVUK1NxRnAzd1A1SGVheVhwN25QSWJ6?=
- =?utf-8?B?THZxclFmSzFGN2pFdStzcExMY2QvZlBWV2NUbmNPcmw0bHJVOUc2TVE0NS83?=
- =?utf-8?B?Q05uZjVvTlRja25lRDRTRndtbllWZEVFU0VTMm1zQnBML1BkNXVNWEp0dkV0?=
- =?utf-8?B?YUMvTDBxR3o3NkxFcExrMU14VU9WdWhOT0lIK2plZnViNlVSWEdoWXl1SWUw?=
- =?utf-8?B?Y3BYWnZCSnNnNnlvU2ZJaVpzSG5qUFYyUjNtY3Y1a3RJclRSY1dDVHNrYkp0?=
- =?utf-8?B?eHVqQnRzOVZRZjhFcTRoN1duc3pJamFHTUlTNGp6aHJuZTFBcmx3b1RkVTZx?=
- =?utf-8?B?b25YTW9obTgzM0QrdkJMNjZKUHBJYU9BbHdNcEJweG9vaUpFV1d3R0MyVFhs?=
- =?utf-8?B?NkQxbE1ya1ozMExCR1lvczBmQVl3ckRHVnIzV0NIN1N6WjFLRmdPV2M3M0lh?=
- =?utf-8?B?Nk56QkViZ3VIUk5GTWxCSzBpUEpQcmNXSUo1OUw1NVFCaWI1TzMvRnJYbG1Y?=
- =?utf-8?B?ZFBQM2FJcDlxc05OVlNhNWltNXRnR1Q4UERTazM5UEM2UGU1eGJ2cjB6eDRj?=
- =?utf-8?B?aldVSlhtcnN3bHA0bzk2d1hsK3FmUzJtcUZmb3V3ZWVxZDhmYzJ6WTkrdy9i?=
- =?utf-8?B?K09VaVJvdXRnRCtJN3JUTzdMaDRQY0pOWUNvN2FTU0pnanJxUmtyaXlSU0gr?=
- =?utf-8?B?TjZ3MjFsV1RmVGQzRXJsVCthSS8ySjg2eHZwSGRzMklPYUdBNU9SbitXVXdW?=
- =?utf-8?B?MnkvcENMeDQxMUFuMW9BZ3JFNVVna1FxMWV2a2w1Vmw2SXg0VHEyeWVOZWEw?=
- =?utf-8?B?OXV6ZFFrQmR1VS9MdXdiaDdQUXVXbzMvYitnT1ZBcnRTU2xSOGNKR25qNU5V?=
- =?utf-8?B?allTaGFQL0VwQW96SEUveEpFeWdaZTdES2hkcERhZVVQc2VQTmFlN21VWDlG?=
- =?utf-8?B?ZGlUOVg5cFZCMzI0VWpOdTlwKzhiblU0QXYxajBnNDdUYkk4Y0tRNDdxK0NV?=
- =?utf-8?B?ck9PQmVuRGtiNFRCb2VOK2cwQ2EwWlJtZmtQTmV4Z3RpeXVTaGRhVHpiQkJR?=
- =?utf-8?B?R05GQWVrV3VPUElzRHZScEpVYmNMMkJsR2hrWmVGaXI2bGdSUDZSM05hZktM?=
- =?utf-8?B?Qmx3VVBaWXMzeHFpVGNtTWprUmltWGlrUkQ5UWFNQlhJb3l6ZEFSNkk0ZDVj?=
- =?utf-8?B?N0paS3VyRU10amNUT3lwNkdyOWhuSVB5clArM3AxLzUzTFB4N1lQcmlsOXhM?=
- =?utf-8?B?T1RHTXZ1NjE2dGw0TVg0Z0RPK1hOMG93bzV4WHhjeWVHMXc4emNvd3RaWE1M?=
- =?utf-8?B?SmQxUS94VmtBTGNzRTU1aVIrMnpwbG54SUhjd2xWQW00ejF0L2hKWllhNUx2?=
- =?utf-8?B?TlZzSFZOaUlOQkRCdTh4SHMySTdQc3Zkb283dng1ZUZRSVJRTmV2eE1jSFZo?=
- =?utf-8?B?UWFkMWNPOWliSnBIZHVKV25nOHVVL09Wb1NXRnRZZXNIUzlhQTNza05pVmpa?=
- =?utf-8?B?TXZmMUlQU1JKMTJRaFZjQWlaQTh6dlFyVXcrOVlkQVVTemthaFA0Rk9ZNnIx?=
- =?utf-8?B?V2Q4bHlQM2p5bkFwUFR1ZFFNQlNQK2NlME1hQVV1ayt5ejQxOVJYWEh0VVYy?=
- =?utf-8?B?djNkaVMzaFBaQ1lXbzk2M0xzZjFxT2dMTnJyN1ZCQ2Y0bC80SnJRV2U1ZTJw?=
- =?utf-8?B?YjZtdktOTXpoOGxaM1o0UnZvamxHWTRsWitZOXNOVytGdzNEeWJJdkdoR0R1?=
- =?utf-8?B?VUh0enBoMFROWDlOSkttQT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emswNkw5TjBIc2UrQXI4V0twUUF0N25JWjB5eWxDOEtLYlFPSlVpbzVhS1Bu?=
- =?utf-8?B?VkpPUVZJYUd2SHVxdUM1djc2bnplMm55aXdmQzhCRnFkQ1VJblh0dDAwN3l6?=
- =?utf-8?B?aklLZElzOVl4eDkrWHBTeTNBOHh5Wm55TlhTQ2JUT0h1ejE3UmdEYVlxM3Jw?=
- =?utf-8?B?T3RabTVtMWZkN3IvRVFCYy8wTXR0RitCMXhRWlh5MFhybHd6VTBIazJnZXd5?=
- =?utf-8?B?RmNsZXJJc0d3dTlFZUxqY3prTTBKRU1JMzNkZmFqMDZEUjdzU0VEUExWUm00?=
- =?utf-8?B?NEo4MCtKU0Mxc0lMMkdqSVhLWFVQWXVTTHZmZ3psM2NVR2kxL0RYcFVRSzlW?=
- =?utf-8?B?TmpPQVNvenpDTXJMbkNvZ01nVGoyZ1kzWjFVOHZrY2tzMjhkUWxnbjVwSTQ1?=
- =?utf-8?B?dS9FZ1B1dS91VEhvUzRVMUFORUx2TlRma3pPV1NBYy9CSmc2TXhzc1p3SzFr?=
- =?utf-8?B?dmpmSGh5R1lNKzFSUG1YTDNVMVAyb2RxZzV0OGVnWVJRTGo1eFYxOXAyUHlo?=
- =?utf-8?B?azlpR0trZFg5azY1b3BLbTlKbWpNK0taR1RsajRmTTlBOGNwVU41V3B1UW04?=
- =?utf-8?B?dE41QXkxdGVkM1E2S3FsQ3pqSWZrak9JSXU2Rm1LbklzRlBQUmczcjl2bjFT?=
- =?utf-8?B?MkcxVngwZHlNWkN4OWxqYjZXSmZsd01ITXRuZmNIYkpCd2ZHSndDOWpDVzBV?=
- =?utf-8?B?cm1RUTZoRjAxUjNoM1RyVFZkZXR4SXVhbnU4Y1NQanhuREZSUkI5UjI0cTRW?=
- =?utf-8?B?WlBaeFZGaUxnOUt3cStoYmxEYys2SGRLbU56LzhDbmtZVmU5N1RiRzNtSzE0?=
- =?utf-8?B?NnpJRnpnczJCUVlHdUFtcHdEM3hWZjNFbXZZZW55UkZYZUJzNDdSMmZDZ2M3?=
- =?utf-8?B?MDVHNTlMVGpxc0hkTkI3WWlQMmltZW5ZMUxoMmlybkswemlqbUZKZFgrUW1C?=
- =?utf-8?B?TUd4NFhBTDlSdEEvOXMrK3dlNFNxb0VGcSt4ZkZOYkl1TWkwMVc0SEpuUU9s?=
- =?utf-8?B?ekFMT3dDMXFuVG1PbDdaTTZrbWxHdnBxV1RhRDdKVWNUY0U5MzJTYkw2ODNn?=
- =?utf-8?B?dERTM3F2SUdEeko1SnQxS0NqWElYTFJiR09pYkVvSHhzNlpKQ0xSMFVRV2th?=
- =?utf-8?B?UXFxV1pjcG1aSGVSckJMWWhHUXVKUExZcndTdU5WR2Era2hpNkp3YWl3SzRY?=
- =?utf-8?B?S3JVRUM3dTBzclVhMUVFc1B3NjU5TDJRdGFhVVRPb2VxcXhMV2daS21SSWRH?=
- =?utf-8?B?RkRUckM1cmRqbHJhTE1kYi9DQnpOUnRqbk1JUTFOdzJwR0FUbHg4TUhkVDdT?=
- =?utf-8?B?ODZMREorUjl1L1Rua0dMRG84Qi9QeHpGeCs1clNoS21NMkpoTjJWUjVHd08x?=
- =?utf-8?B?QzJKVVlUYkhMZkJTWEt6bFNoZldUT0pwdmF4V2p2WW9EZjNxdWkzZ1l4NGVs?=
- =?utf-8?B?UWw0RlQ1TU1ORTJPRGNkaWpGZHpGZ2ZoSG5uQVVWTmxkVS9sRWdGSVFpOHdQ?=
- =?utf-8?B?NjM2VUM3Wm1kM0QyMWU5U3hwT1d2UnJ6Y0hxVUJlSXBSeW5jUWVra3RwNDlO?=
- =?utf-8?B?UmxNL3VEZnM4UDhQbFpOekpVTEdVY0owMjRIZERkd2xENjJ1ZEVNckVFUDhu?=
- =?utf-8?B?TEpPVWp3aTNpRjRXWUtCNnhPMWI5SmlkTVdHUFllUGY2TWo1engvY2VGNEZ6?=
- =?utf-8?B?elRtRDBSKzBUWEsxdC9lS1dLTktBMVM2SGNIbFhJbm0yYTRjZHk4V0ZjWER2?=
- =?utf-8?B?YnlRemE2Y1VWcDB0dGtJd3ZHN05kRnNTeUF0NVFlMnhFZm81S0g1TGZiNUE1?=
- =?utf-8?B?MmxHMHE4Ny92bExRZzVYYUZ1MDEwZEtmcHNmd01vNnBzSnFzZ1VONEx6VC9z?=
- =?utf-8?B?K2ovWklIWEs3VmZ3WTQvdktESHphc2pyYzBSTTFzTEVMdVJVMnAvOTB5dG1P?=
- =?utf-8?B?S0dKTURzUFRvdTFyYUN2UDhwL21vR0NhWkJEQ1B5ZnlvRi9oWnNUQktJZVFo?=
- =?utf-8?B?bDhVUEttcVhwR0FqOTA2OU0zNEdnYjVERVBMdXpKMTB6enQvQUFDendnYnY0?=
- =?utf-8?B?OVlTNllKRzBmN1JXblc1NXZBcWVST0VNUW9lR3J2NDAyT2R1NEZrN2txWGdq?=
- =?utf-8?Q?ZpwrB79jDVt1YeDLeKDLvAa8l?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 453e9e9a-3390-4584-ac55-08dcc37d9806
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 14:12:17.0966 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B9pdS2doxlzs7/9jAfnMa9BQENJVrwTu0gbxQI6vGEweCKskT3sbBYJUqUxaX6SF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5877
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+From: Roger Quadros <rogerq@kernel.org>
+To: Julien Panis <jpanis@baylibre.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>,
+ Jacob Keller <jacob.e.keller@intel.com>
+Cc: danishanwar@ti.com, yuehaibing@huawei.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, "Govindarajan, Sriramakrishnan" <srk@ti.com>
+References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+ <d2e00269-23b8-4a92-84df-959b3c3ae6f1@kernel.org>
+Content-Language: en-US
+In-Reply-To: <d2e00269-23b8-4a92-84df-959b3c3ae6f1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,31 +75,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.08.24 um 16:11 schrieb Jani Nikula:
-> s/tryock_only/trylock_only/
->
-> Fixes: da966b82bf3d ("drm/ttm: Provide a generic LRU walker helper")
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
 
-> ---
->   include/drm/ttm/ttm_bo.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index d1a732d56259..7294dde240fb 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -222,7 +222,7 @@ struct ttm_lru_walk {
->   	struct ttm_operation_ctx *ctx;
->   	/** @ticket: The struct ww_acquire_ctx if any. */
->   	struct ww_acquire_ctx *ticket;
-> -	/** @tryock_only: Only use trylock for locking. */
-> +	/** @trylock_only: Only use trylock for locking. */
->   	bool trylock_only;
->   };
->   
+On 23/08/2024 15:12, Roger Quadros wrote:
+> Hello Julien,
+> 
+> On 12/04/2024 18:38, Julien Panis wrote:
+>> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+>>
+>> The following features are implemented: NETDEV_XDP_ACT_BASIC,
+>> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
+>>
+>> Zero-copy and non-linear XDP buffer supports are NOT implemented.
+>>
+>> Besides, the page pool memory model is used to get better performance.
+>>
+>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> 
+> I've been trying to test this since I don't want my RX multi queue series [1]
+> to break AF_XDP feature. However, with 6.10 I don't see AF_XDP working at all
+> and even breaking basic networking on am65-cpsw.
+> 
+> The in kernel XDP tests have been dropped so I've been using xdp-tools [2]
+> 
+> My test is to try XDP_DROP with xdp-bench using skb mode first and then
+> native XDP mode.
+> 
+> Below is the test log. You can see that skb mode works fine. The moment I try
+> native XDP mode the interface seems to go down and up and then just locks up.
+> 
+> I can no longer ping to the remote host.
+> 
+> ----test log starts-----
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+> PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+> 64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=0.801 ms
+> 64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.967 ms
+> 64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.876 ms
+> ^C
+> --- 192.168.1.36 ping statistics ---
+> 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+> rtt min/avg/max/mdev = 0.801/0.881/0.967/0.067 ms
+> 
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m skb eth0
+> Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
+> Summary                     81127 rx/s                  0 err/s        
+> Summary                     81088 rx/s                  0 err/s        
+> Summary                     81089 rx/s                  0 err/s        
+> Summary                     53065 rx/s                  0 err/s        
+> ^C
+>   Packets received    : 296369    
+>   Average packets/s   : 74092     
+>   Rx dropped          : 296369    
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+> PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+> 64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=1.02 ms
+> 64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.756 ms
+> 64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.963 ms
+> ^C
+> --- 192.168.1.36 ping statistics ---
+> 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+> rtt min/avg/max/mdev = 0.756/0.914/1.024/0.114 ms
+> 
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m native eth0
+> [  889.096851] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
+> [  889.110889] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
+> [  889.120377] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
+> Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
+> Summary                         0 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> [  893.218318] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+> Summary                       250 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> ^C
+> [  901.898170] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
+> [  901.910292] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
+> [  901.919661] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
+>   Packets received    : 250       
+>   Average packets/s   : 42        
+>   Rx dropped          : 250       
+> root@am64xx-evm:~/xdp-tools/xdp-bench# [  906.018296] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+> PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+> From 192.168.1.100 icmp_seq=1 Destination Host Unreachable
+> From 192.168.1.100 icmp_seq=2 Destination Host Unreachable
+> From 192.168.1.100 icmp_seq=3 Destination Host Unreachable
+> ^C
+> 
+> --- 192.168.1.36 ping statistics ---
+> 5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4079ms
+> pipe 4
+> 
+> 
+> ---test log ends---
+> 
+> I will try to test with commit 8acacc40f733 ("net: ethernet: ti: am65-cpsw: Add minimal XDP support")
+> to see if it works there. If it does then I can do a bisect.
 
+XDP_DROP doesn't work here either. I think I have found the issue.
+I will comment about it on patch 3.
+
+> 
+> If you have better ideas please let me know. Thanks!
+> 
+> [1] https://lore.kernel.org/all/20240703-am65-cpsw-multi-rx-v3-0-f11cd860fd72@kernel.org/
+> [2] https://github.com/xdp-project/xdp-tools
+> 
+>> ---
+>> Changes in v9:
+>> - In k3_cppi_desc_pool_destroy(), free memory allocated for pool.
+>> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
+>> error messages on mem alloc failures.
+>> - In k3_cppi_desc_pool_create_name() function, move desc_infos alloc
+>> forward to leverage pool_name freeing in gen_pool_destroy().
+>> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
+>> 'ret = -ENOMEM' since ret is already initialized with -ENOMEM value.
+>> - For rx, do not build the skb upfront any more, Instead, give the page
+>> to the HW then build the skb once HW sends a completion.
+>> - Link to v8: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com
+>>
+>> Changes in v8:
+>> - Fix some warnings reported by patchwork.
+>> - Link to v7: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v7-0-c3857c82dadb@baylibre.com
+>>
+>> Changes in v7:
+>> - Move xdp_do_flush() function call in am65_cpsw_nuss_rx_poll().
+>> - Link to v6: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v6-0-212eeff5bd5f@baylibre.com
+>>
+>> Changes in v6:
+>> - In k3_cppi_*() functions, use const qualifier when the content of
+>> pool is not modified.
+>> - Add allow_direct bool parameter to am65_cpsw_alloc_skb() function
+>> for direct use by page_pool_put_full_page().
+>> - Link to v5: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v5-0-bc1739170bc6@baylibre.com
+>>
+>> Changes in v5:
+>> - In k3_cppi_desc_pool_destroy(), free memory allocated for desc_infos.
+>> - Link to v4: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com
+>>
+>> Changes in v4:
+>> - Add skb_mark_for_recycle() in am65_cpsw_nuss_rx_packets() function.
+>> - Specify napi page pool parameter in am65_cpsw_create_xdp_rxqs() function.
+>> - Add benchmark numbers (with VS without page pool) in the commit description.
+>> - Add xdp_do_flush() in am65_cpsw_run_xdp() function for XDP_REDIRECT case.
+>> - Link to v3: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v3-0-5d944a9d84a0@baylibre.com
+>>
+>> Changes in v3:
+>> - Fix a potential issue with TX buffer type, which is now set for each buffer.
+>> - Link to v2: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com
+>>
+>> Changes in v2:
+>> - Use page pool memory model instead of MEM_TYPE_PAGE_ORDER0.
+>> - In am65_cpsw_alloc_skb(), release reference on the page pool page
+>> in case of error returned by build_skb().
+>> - [nit] Cleanup am65_cpsw_nuss_common_open/stop() functions.
+>> - [nit] Arrange local variables in reverse xmas tree order.
+>> - Link to v1: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com
+>>
+>> ---
+>> Julien Panis (3):
+>>       net: ethernet: ti: Add accessors for struct k3_cppi_desc_pool members
+>>       net: ethernet: ti: Add desc_infos member to struct k3_cppi_desc_pool
+>>       net: ethernet: ti: am65-cpsw: Add minimal XDP support
+>>
+>>  drivers/net/ethernet/ti/am65-cpsw-nuss.c    | 659 ++++++++++++++++++++++++----
+>>  drivers/net/ethernet/ti/am65-cpsw-nuss.h    |  13 +
+>>  drivers/net/ethernet/ti/k3-cppi-desc-pool.c |  46 +-
+>>  drivers/net/ethernet/ti/k3-cppi-desc-pool.h |   6 +
+>>  4 files changed, 623 insertions(+), 101 deletions(-)
+>> ---
+>> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+>> change-id: 20240223-am65-cpsw-xdp-basic-4db828508b48
+>>
+>> Best regards,
+> 
+
+-- 
+cheers,
+-roger
