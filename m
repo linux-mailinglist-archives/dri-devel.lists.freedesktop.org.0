@@ -2,91 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAC595D45F
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 19:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0472595D54A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 20:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5B4510EC96;
-	Fri, 23 Aug 2024 17:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 831A210E05A;
+	Fri, 23 Aug 2024 18:27:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DfCtqtzR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jkj2LV08";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8821310EC95
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 17:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724434484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lAye8c/hxPTIJkyOWzzpXt1RWp9dYR/f5SpldqZ0M7Y=;
- b=DfCtqtzRO2+hxlhEPKF+CMQYBEFzfDzMGHu1xu7gqHUfgVPzp/X4moZrcM8KcAMQaWOi8p
- ay7YOEqmxGV9TgrjBXWhiL6XFGlcjW9DmQOA5Y+A6YL9awCKBMdEf+yUpLBt73bDoGI2RO
- KmvbYhsWHzMSO1N0cE32PeeEfJWjhIM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-684-sjt8Qd8dOP2BhLtyNlljKQ-1; Fri, 23 Aug 2024 13:34:42 -0400
-X-MC-Unique: sjt8Qd8dOP2BhLtyNlljKQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-a86a784b1easo83493166b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 10:34:42 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00A6C10E0AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 18:27:48 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-5334b0e1a8eso2912561e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 11:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724437667; x=1725042467; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=arxEqM4iPY0nUgAVDsfW5DaV8kH/NilIDpYqT7ZQlQ8=;
+ b=Jkj2LV08xHbPSsSxR4SlyzPbjHR2l1XzR0sjLuWbucJ8q0+Kop+1mVNIYs0dIY4VRs
+ doUxGaqKq+/7UgDFUETQmKbBpN3HXfdlp28muaxC0+esKi6E76yyxjafRNzL1cNU/cil
+ WkK9hMuQA+K3EyaUurHFEhOP009kgNemMPNWQh/XT/dyeWpUwUgZzw9p6nzY/4Hz7Jzl
+ FaDzS/OS1TqTvdWNMBaPHBhvKG0yAUxS2/SGgFRwkATAaZH0cUZhF8N2wRsX0w7FhHiq
+ FqzUXDs2eryrJTRPbKXO2Giz4uduh9Wf55qur0tbNKcGA0GBrcExDTiIudifcbH5POd4
+ SWvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724434481; x=1725039281;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lAye8c/hxPTIJkyOWzzpXt1RWp9dYR/f5SpldqZ0M7Y=;
- b=qNxiRe6LGaLJ09sMtt8gDj7jYNdj0wu61HYSE21trEmGsjGpe8Je8+9MuPY8qtAuRS
- ILMbgElGVNusgsI5K1I3pzFr/xCxaFAQUUogrucbrjU4v2a2R6hEj+o8GrG4QI9uLCoA
- fSUUNSdWUPOgpJkmglixEpFtsuKdOkQv3EZlyfyTm2zEH3NuoXVu+B3J2u7Yilo9suvL
- t+xU+c3OXZyMf5x/d3QwIiGmicL/92qeK7N9Mxne+rLtyt/HUe/FF7Tf298Pd2OgentB
- 6m0VnFnakhluxYJnNhBzxoJZ/LtIFFci2nEz9N6/HXi4uVjc9tnhxUE2OFw1QSECYOIO
- yOnQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8ttDt+YdY3fmQsCLuilstzcYuRt/v4s7XKitAvRPrC/QnAu4yAZ0DyldCmhWtNUDIaOtEFfZeuQQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwqKuhBik1GNg+mcrolIng+dLZH2RDtg8Ah+udeouoiZvD+UccE
- vOn3/dO57s3vexWvI1/EtaQcG/AKcWntouxm/+AGdCiFv+0pLnr9689v57r6MbjMdRafDwdduf9
- RkIgNx2sCk7o4DpJThbi49Uz09GSBFqeRr3I+S4C6TfPlJeA3cVyl8oLHBW5oDWYkug==
-X-Received: by 2002:a17:907:6d07:b0:a86:7514:e646 with SMTP id
- a640c23a62f3a-a86a54d1473mr220017066b.42.1724434481515; 
- Fri, 23 Aug 2024 10:34:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEhVdC/sBgpIb4QXyF7DeK9QFs2pW65OLNMQMpLnl6teatUR7hMdVjiceOHWDOdfggCOHQITQ==
-X-Received: by 2002:a17:907:6d07:b0:a86:7514:e646 with SMTP id
- a640c23a62f3a-a86a54d1473mr220015766b.42.1724434481008; 
- Fri, 23 Aug 2024 10:34:41 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a868f2a58ddsm285466866b.80.2024.08.23.10.34.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Aug 2024 10:34:40 -0700 (PDT)
-Message-ID: <a0ca2cb0-2938-41d7-a290-bb331f2d4c35@redhat.com>
-Date: Fri, 23 Aug 2024 19:34:39 +0200
+ d=1e100.net; s=20230601; t=1724437667; x=1725042467;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=arxEqM4iPY0nUgAVDsfW5DaV8kH/NilIDpYqT7ZQlQ8=;
+ b=UDMmD9F/SRBuTOMtRMIhap9cDgp17xDsSwTI3LlWPMJmtu6S8UEzoXube4c+AZysGK
+ N6Gsc2Yed8cPMlYIb1FbU55iXlFiMOkDTCuvyDiMUs7Ov5svrVpKdkLKaKc+xnMY++Qw
+ beoqdkAolJir+3maEOtVdX4C7U/TY5j13H7SWIVt8XBSDTcjTH0p2BS+FPgS0TbUEbwB
+ mPxaj/qY9Q0rmN9HkLx0pBgJvbAbcsmqw8lblEseO7nhOl+Je3y1EaIm748dCEA8p/s3
+ ECjC+hBXm0pcoo29F/IVBHdWncPjW+HX+WmLj6CyEfHw4KhHifKKpCI0oFRfnSeRLcyg
+ 5MjA==
+X-Gm-Message-State: AOJu0YwcMfLWHV+KBXCC80Vw6s6YIgfUApby3WJarIil8+r6RqQVHnAO
+ Z9Z+EBxE9bMAi175z4epP0aMUj2zpPGUAc2duKGQsMEguND0spqhSHhjO3KLw7UzJmxWSzHLOXW
+ U5fsYHpIr0siEddGyqRYZjISAzq8=
+X-Google-Smtp-Source: AGHT+IEJb+8tF7tY/g8yHvdoply7Da2ztQdeHYo2OEl1kEfnlapB254+UWR94w8xoPNOngUvXYvA6RQAXznRl4L7ysI=
+X-Received: by 2002:a05:6512:33ce:b0:52c:d6d7:9dd0 with SMTP id
+ 2adb3069b0e04-5343877997cmr2208217e87.20.1724437666671; Fri, 23 Aug 2024
+ 11:27:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/dsi: Make Lenovo Yoga Tab 3 X90F DMI match less
- strict
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org
-References: <20240823075055.17198-1-hdegoede@redhat.com>
- <87v7zr3ays.fsf@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <87v7zr3ays.fsf@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 24 Aug 2024 04:27:35 +1000
+Message-ID: <CAPM=9tw7_X_1Bhji+DNJXK+940VH2MwgLPsvjX72doJkKt2SHQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.11-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,57 +73,240 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Linus,
 
-On 8/23/24 10:22 AM, Jani Nikula wrote:
-> On Fri, 23 Aug 2024, Hans de Goede <hdegoede@redhat.com> wrote:
->> There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
->> turns out that the 2G version has a DMI product name of
->> "CHERRYVIEW D1 PLATFORM" where as the 4G version has
->> "CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
->> unique enough that the product-name check is not necessary.
->>
->> Drop the product-name check so that the existing DMI match for the 4G
->> RAM version also matches the 2G RAM version.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> I'll take your word for it.
-> 
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
+Weekly fixes. xe and msm are the major groups, with
+amdgpu/i915/nouveau having smaller bits. xe has a bunch of hw
+workaround fixes that were found to be missing, so that is why there
+are a bunch of scattered fixes, and one larger one. But overall size
+doesn't look too out of the ordinary.
 
-Thank you.
+Thanks,
+Dave.
 
-I was going to push this directly to drm-intel-fixes, but reading:
+drm-fixes-2024-08-24:
+drm fixes for 6.11-rc5
 
-https://drm.pages.freedesktop.org/maintainer-tools/repositories/drm-intel.html#repository-and-branches
+msm:
+- virtual plane fixes
+-    drop yuv on hw where not supported
+-    csc vs yuv format fix
+-    rotation fix
+- fix fb cleanup on close
+- reset phy before link training
+- fix visual corruption at 4K
+- fix NULL ptr crash on hotplug
+- simplify debug macros
+- sc7180 fix
+- adreno firmware name error path fix
 
-It seems that I should push this to drm-intel-next and then cherry-pick
-it into drm-intel-fixes ?
+amdgpu:
+- GFX10 firmware loading fix
+- SDMA 5.2 fix
+- Debugfs parameter validation fix
+- eGPU hotplug fix
 
-Regards,
+i915:
+- fix HDCP timeouts
 
-Hans
+nouveau:
+- fix SG_DEBUG crash
 
+xe:
+- Fix OA format masks which were breaking build with gcc-5
+- Fix opregion leak (Lucas)
+- Fix OA sysfs entry (Ashutosh)
+- Fix VM dma-resv lock (Brost)
+- Fix tile fini sequence (Brost)
+- Prevent UAF around preempt fence (Auld)
+- Fix DGFX display suspend/resume (Maarten)
+- Many Xe/Xe2 critical workarounds (Auld, Ngai-Mint, Bommu, Tejas, Daniele)
+- Fix devm/drmm issues (Daniele)
+- Fix missing workqueue destroy in xe_gt_pagefault (Stuart)
+- Drop HW fence pointer to HW fence ctx (Brost)
+- Free job before xe_exec_queue_put (Brost)
+The following changes since commit 47ac09b91befbb6a235ab620c32af719f8208399:
 
+  Linux 6.11-rc4 (2024-08-18 13:17:27 -0700)
 
+are available in the Git repository at:
 
-> 
->> ---
->>  drivers/gpu/drm/i915/display/vlv_dsi.c | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
->> index 40b3ffd534d3..6cebcc87ef14 100644
->> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
->> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
->> @@ -1874,7 +1874,6 @@ static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
->>  		/* Lenovo Yoga Tab 3 Pro YT3-X90F */
->>  		.matches = {
->>  			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
->> -			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
->>  			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
->>  		},
->>  		.driver_data = (void *)vlv_dsi_lenovo_yoga_tab3_backlight_fixup,
-> 
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-08-24
 
+for you to fetch changes up to 76f461867800fa9421d26a70a1640eed55dff0cd:
+
+  Merge tag 'drm-xe-fixes-2024-08-22' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2024-08-23 09:12:16 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.11-rc5
+
+msm:
+- virtual plane fixes
+-    drop yuv on hw where not supported
+-    csc vs yuv format fix
+-    rotation fix
+- fix fb cleanup on close
+- reset phy before link training
+- fix visual corruption at 4K
+- fix NULL ptr crash on hotplug
+- simplify debug macros
+- sc7180 fix
+- adreno firmware name error path fix
+
+amdgpu:
+- GFX10 firmware loading fix
+- SDMA 5.2 fix
+- Debugfs parameter validation fix
+- eGPU hotplug fix
+
+i915:
+- fix HDCP timeouts
+
+nouveau:
+- fix SG_DEBUG crash
+
+xe:
+- Fix OA format masks which were breaking build with gcc-5
+- Fix opregion leak (Lucas)
+- Fix OA sysfs entry (Ashutosh)
+- Fix VM dma-resv lock (Brost)
+- Fix tile fini sequence (Brost)
+- Prevent UAF around preempt fence (Auld)
+- Fix DGFX display suspend/resume (Maarten)
+- Many Xe/Xe2 critical workarounds (Auld, Ngai-Mint, Bommu, Tejas, Daniele)
+- Fix devm/drmm issues (Daniele)
+- Fix missing workqueue destroy in xe_gt_pagefault (Stuart)
+- Drop HW fence pointer to HW fence ctx (Brost)
+- Free job before xe_exec_queue_put (Brost)
+
+----------------------------------------------------------------
+Abhinav Kumar (4):
+      drm/msm/dp: fix the max supported bpp logic
+      drm/msm/dpu: move dpu_encoder's connector assignment to atomic_enable()
+      drm/msm/dp: reset the link phy params before link training
+      drm/msm: fix the highest_bank_bit for sc7180
+
+Alex Deucher (2):
+      drm/amdgpu/sdma5.2: limit wptr workaround to sdma 5.2.1
+      drm/amdgpu: fix eGPU hotplug regression
+
+Ashutosh Dixit (1):
+      drm/xe/observation: Drop empty sysctl table entry
+
+Bommu Krishnaiah (1):
+      drm/xe/xe2lpg: Extend workaround 14021402888
+
+Candice Li (1):
+      drm/amdgpu: Validate TA binary size
+
+Daniele Ceraolo Spurio (3):
+      drm/xe: fix WA 14018094691
+      drm/xe: use devm instead of drmm for managed bo
+      drm/xe/uc: Use devm to register cleanup that includes exec_queues
+
+Dave Airlie (6):
+      nouveau/firmware: use dma non-coherent allocator
+      Merge tag 'drm-msm-fixes-2024-08-19' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+      Merge tag 'amd-drm-fixes-6.11-2024-08-21' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2024-08-22' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'drm-misc-fixes-2024-08-22' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-08-22' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+Dmitry Baryshkov (5):
+      drm/msm/dpu: don't play tricks with debug macros
+      drm/msm/dpu: cleanup FB if dpu_format_populate_layout fails
+      drm/msm/dpu: limit QCM2290 to RGB formats only
+      drm/msm/dpu: relax YUV requirements
+      drm/msm/dpu: take plane rotation into account for wide planes
+
+Geert Uytterhoeven (1):
+      drm/xe/oa/uapi: Make bit masks unsigned
+
+Lucas De Marchi (1):
+      drm/xe: Fix opregion leak
+
+Maarten Lankhorst (1):
+      drm/xe/display: Make display suspend/resume work on discrete
+
+Matthew Auld (2):
+      drm/xe: prevent UAF around preempt fence
+      drm/xe/bmg: implement Wa_16023588340
+
+Matthew Brost (4):
+      drm/xe: Move VM dma-resv lock from xe_exec_queue_create to
+__xe_exec_queue_init
+      drm/xe: Fix tile fini sequence
+      drm/xe: Drop HW fence pointer to HW fence ctx
+      drm/xe: Free job before xe_exec_queue_put
+
+Ngai-Mint Kwan (1):
+      drm/xe/xe2lpm: Extend Wa_16021639441
+
+Rob Clark (1):
+      drm/msm/adreno: Fix error return if missing firmware-name
+
+Stuart Summers (1):
+      drm/xe: Fix missing workqueue destroy in xe_gt_pagefault
+
+Suraj Kandpal (1):
+      drm/i915/hdcp: Use correct cp_irq_count
+
+Tejas Upadhyay (3):
+      drm/xe/xe2: Make subsequent L2 flush sequential
+      drm/xe/xe2: Add Wa_15015404425
+      drm/xe/xe2hpg: Add Wa_14021821874
+
+Yang Wang (1):
+      drm/amdgpu: fixing rlc firmware loading failure issue
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c  |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c     |  3 ++
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c         |  5 ++-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c         | 18 +++++----
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c   |  4 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c        |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c    |  4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h        | 14 +------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 20 ++++++++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.c               |  2 +
+ drivers/gpu/drm/msm/dp/dp_panel.c              | 19 ++++-----
+ drivers/gpu/drm/msm/msm_mdss.c                 |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c   |  9 +++--
+ drivers/gpu/drm/nouveau/nvkm/falcon/fw.c       |  6 +++
+ drivers/gpu/drm/xe/Makefile                    |  2 +
+ drivers/gpu/drm/xe/display/xe_display.c        | 28 ++++++++++++-
+ drivers/gpu/drm/xe/display/xe_dsb_buffer.c     |  8 ++++
+ drivers/gpu/drm/xe/display/xe_fb_pin.c         |  3 ++
+ drivers/gpu/drm/xe/regs/xe_gt_regs.h           |  9 +++++
+ drivers/gpu/drm/xe/xe_bo.c                     |  6 +--
+ drivers/gpu/drm/xe/xe_device.c                 | 32 +++++++++++++++
+ drivers/gpu/drm/xe/xe_device.h                 |  1 +
+ drivers/gpu/drm/xe/xe_exec_queue.c             | 24 ++++++-----
+ drivers/gpu/drm/xe/xe_exec_queue_types.h       |  2 -
+ drivers/gpu/drm/xe/xe_gsc.c                    |  8 ++--
+ drivers/gpu/drm/xe/xe_gt.c                     | 55 ++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_gt_pagefault.c           | 18 ++++++++-
+ drivers/gpu/drm/xe/xe_gt_types.h               |  6 +++
+ drivers/gpu/drm/xe/xe_guc_submit.c             |  4 +-
+ drivers/gpu/drm/xe/xe_hw_fence.c               |  9 +++--
+ drivers/gpu/drm/xe/xe_hw_fence_types.h         |  7 +++-
+ drivers/gpu/drm/xe/xe_mmio.c                   | 28 ++++++++++++-
+ drivers/gpu/drm/xe/xe_observation.c            |  1 -
+ drivers/gpu/drm/xe/xe_pat.c                    | 11 +++++-
+ drivers/gpu/drm/xe/xe_pm.c                     | 11 +++---
+ drivers/gpu/drm/xe/xe_preempt_fence.c          |  3 +-
+ drivers/gpu/drm/xe/xe_preempt_fence_types.h    |  2 +
+ drivers/gpu/drm/xe/xe_sched_job.c              |  3 +-
+ drivers/gpu/drm/xe/xe_trace.h                  |  2 +-
+ drivers/gpu/drm/xe/xe_wa.c                     | 18 +++++++++
+ drivers/gpu/drm/xe/xe_wa_oob.rules             |  1 +
+ include/uapi/drm/xe_drm.h                      |  8 ++--
+ 43 files changed, 334 insertions(+), 90 deletions(-)
