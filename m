@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F26095C8F0
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 11:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B525395C8F1
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 11:13:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10A7610E00A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81CFD10E03C;
 	Fri, 23 Aug 2024 09:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC7E10E00A
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7F2A10E03C
  for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 09:13:21 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.112])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4WqvRJ1BfVz1HGjl;
- Fri, 23 Aug 2024 17:10:04 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WqvVF1hnczyQPX;
+ Fri, 23 Aug 2024 17:12:37 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
- by mail.maildlp.com (Postfix) with ESMTPS id 5657714013B;
- Fri, 23 Aug 2024 17:13:18 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 05D831800D2;
+ Fri, 23 Aug 2024 17:13:19 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 23 Aug
- 2024 17:13:17 +0800
+ 2024 17:13:18 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <hjc@rock-chips.com>, <heiko@sntech.de>, <andy.yan@rock-chips.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -30,10 +30,12 @@ To: <hjc@rock-chips.com>, <heiko@sntech.de>, <andy.yan@rock-chips.com>,
  <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <krzk@kernel.org>, <jic23@kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next 0/5] drm: Use for_each_child_of_node_scoped()
-Date: Fri, 23 Aug 2024 17:20:48 +0800
-Message-ID: <20240823092053.3170445-1-ruanjinjie@huawei.com>
+Subject: [PATCH -next 1/5] drm/rockchip: Use for_each_child_of_node_scoped()
+Date: Fri, 23 Aug 2024 17:20:49 +0800
+Message-ID: <20240823092053.3170445-2-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240823092053.3170445-1-ruanjinjie@huawei.com>
+References: <20240823092053.3170445-1-ruanjinjie@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -55,23 +57,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use for_each_child_of_node_scoped() to simplfy code and fix a bug
-by the way.
+Avoids the need for manual cleanup of_node_put() in early exits
+from the loop.
 
-Jinjie Ruan (5):
-  drm/rockchip: Use for_each_child_of_node_scoped()
-  drm/mediatek: Fix missing of_node_put() for mtk_drm_get_all_drm_priv()
-  drm: of: Use for_each_child_of_node_scoped()
-  drm/nouveau: Use for_each_child_of_node_scoped()
-  gpu: host1x: Use for_each_available_child_of_node_scoped()
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_lvds.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
- drivers/gpu/drm/drm_of.c                    | 11 +++--------
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 10 +++-------
- drivers/gpu/drm/nouveau/nouveau_connector.c |  5 ++---
- drivers/gpu/drm/rockchip/rockchip_lvds.c    |  8 +++-----
- drivers/gpu/host1x/bus.c                    | 11 +++--------
- 5 files changed, 14 insertions(+), 31 deletions(-)
-
+diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+index 9a01aa450741..f5b3f18794dd 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
++++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+@@ -548,7 +548,7 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
+ 	struct drm_encoder *encoder;
+ 	struct drm_connector *connector;
+ 	struct device_node *remote = NULL;
+-	struct device_node  *port, *endpoint;
++	struct device_node  *port;
+ 	int ret = 0, child_count = 0;
+ 	const char *name;
+ 	u32 endpoint_id = 0;
+@@ -560,15 +560,13 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
+ 			      "can't found port point, please init lvds panel port!\n");
+ 		return -EINVAL;
+ 	}
+-	for_each_child_of_node(port, endpoint) {
++	for_each_child_of_node_scoped(port, endpoint) {
+ 		child_count++;
+ 		of_property_read_u32(endpoint, "reg", &endpoint_id);
+ 		ret = drm_of_find_panel_or_bridge(dev->of_node, 1, endpoint_id,
+ 						  &lvds->panel, &lvds->bridge);
+-		if (!ret) {
+-			of_node_put(endpoint);
++		if (!ret)
+ 			break;
+-		}
+ 	}
+ 	if (!child_count) {
+ 		DRM_DEV_ERROR(dev, "lvds port does not have any children\n");
 -- 
 2.34.1
 
