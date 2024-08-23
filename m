@@ -2,55 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9968195CABC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 12:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A3695CABE
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2024 12:47:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E02210E494;
-	Fri, 23 Aug 2024 10:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87CD210E4A1;
+	Fri, 23 Aug 2024 10:47:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Q695rhya";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="cL9Er7Yo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr
- [80.12.242.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FAEE10E494
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 10:46:48 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id hRoUsL4HOzHoQhRoUsTS08; Fri, 23 Aug 2024 12:46:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1724410006;
- bh=M+BJHoqbevs+877BilSmYJZwm2Wj3hyd0gs95c8CmS8=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=Q695rhyaBTCa8GxEUvcbWDnTM+h61/+qeGfRPaskg25Rmw3+MPFnHIXrEEKIENaPg
- plIuyFymEP3Jv4vPVizYLBwaRBW+jzBeASP7/nlnkpkbYu1vP8JVUY+uilslZ+M2Xq
- K7/Rby9SyhmGKEczNXRpJpcBJVTtu353UW1rhZXCSja80MtYtDf33PrKLirykyytCl
- 5a3gY/F/G59CSPrJ+JgjLfh210d3fWSx0aJ4WSy8XcdbuJK+bvmfMCtNb7Skudf7RC
- mMKNXknhM2YyGDTKam4yub8cdwekmw7m19YjJ2jfAsQzlv+4B0pvIXa2JZzyWqtHKd
- JqWM25hr7IA0Q==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 23 Aug 2024 12:46:46 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <a4d23c3a-9791-4d2b-9853-9c9b27460db5@wanadoo.fr>
-Date: Fri, 23 Aug 2024 12:46:38 +0200
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13EF710E4A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2024 10:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=FNbXOx598TDYgdA8NaIEZsBVSraU+CQsgIhi1d4qqCQ=; b=cL9Er7Yo/5KkgBw8fyyBzi8wrU
+ XCc2z9xbbhkK5fhWM6Jj5Wzcza/+zd8fAcZcg7yCjAoxeO/vWqqh2QFSqwYkWlH0QhGnugHcvizYe
+ r+6R1gmBabHMxT6fcZYEO83j41sM5fpRmFaFjrEiz/bvDQ0kS5oC82wStifK6Rv0PWQwr9v1+GVJk
+ GfCuXCM62S2N5k5dHj4q5WHmtpd8eagMIKMTWNA9bWi/iXi0lueH4ngGgaanT4MHwrvAz8nutz/4d
+ baOQFeg0ZgxP8jILyEjC9tXnFLNAO7RuC86h3rFow8eF+69lnZXch0wdzf22VV3b5MCLECps3z+du
+ f4syM6Pw==;
+Received: from i5e861933.versanet.de ([94.134.25.51] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1shRoz-0004MQ-7M; Fri, 23 Aug 2024 12:47:09 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Conor Dooley <conor@kernel.org>
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>
+Subject: Re: [PATCH v4 3/4] dt-bindings: display: rockchip: Add schema for
+ RK3588 HDMI TX Controller
+Date: Fri, 23 Aug 2024 12:47:50 +0200
+Message-ID: <3137870.U3zVgo479M@diego>
+In-Reply-To: <20240822-pushchair-premises-f4055779216a@spud>
+References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
+ <4167579.6PsWsQAL7t@diego> <20240822-pushchair-premises-f4055779216a@spud>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next 2/5] drm/mediatek: Fix missing of_node_put() for
- mtk_drm_get_all_drm_priv()
-To: Jinjie Ruan <ruanjinjie@huawei.com>, hjc@rock-chips.com, heiko@sntech.de, 
- andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- krzk@kernel.org, jic23@kernel.org
-References: <20240823092053.3170445-1-ruanjinjie@huawei.com>
- <20240823092053.3170445-3-ruanjinjie@huawei.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240823092053.3170445-3-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,81 +76,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 23/08/2024 à 11:20, Jinjie Ruan a écrit :
-> In mtk_drm_get_all_drm_priv(), break in for_each_child_of_node() should
-> call of_node_put() to avoid child node resource leak, use
-> for_each_child_of_node_scoped() to fix it.
-> 
-> And avoid the need for manual cleanup of_node_put() in early exits
-> from the loop for another one.
-> 
-> Fixes: d761b9450e31 ("drm/mediatek: Add cnt checking for coverity issue")
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 77b50c56c124..41aff0183cbd 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -371,12 +371,11 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
->   	struct mtk_drm_private *temp_drm_priv;
->   	struct device_node *phandle = dev->parent->of_node;
->   	const struct of_device_id *of_id;
-> -	struct device_node *node;
->   	struct device *drm_dev;
->   	unsigned int cnt = 0;
->   	int i, j;
->   
-> -	for_each_child_of_node(phandle->parent, node) {
-> +	for_each_child_of_node_scoped(phandle->parent, node) {
->   		struct platform_device *pdev;
->   
->   		of_id = of_match_node(mtk_drm_of_ids, node);
-> @@ -828,7 +827,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
->   	struct device_node *phandle = dev->parent->of_node;
->   	const struct of_device_id *of_id;
->   	struct mtk_drm_private *private;
-> -	struct device_node *node;
->   	struct component_match *match = NULL;
->   	struct platform_device *ovl_adaptor;
->   	int ret;
-> @@ -869,7 +867,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
->   	}
->   
->   	/* Iterate over sibling DISP function blocks */
-> -	for_each_child_of_node(phandle->parent, node) {
-> +	for_each_child_of_node_scoped(phandle->parent, node) {
->   		const struct of_device_id *of_id;
->   		enum mtk_ddp_comp_type comp_type;
->   		int comp_id;
-> @@ -933,10 +931,8 @@ static int mtk_drm_probe(struct platform_device *pdev)
->   		}
->   
->   		ret = mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id);
-> -		if (ret) {
-> -			of_node_put(node);
-> +		if (ret)
->   			goto err_node;
+Am Donnerstag, 22. August 2024, 10:41:10 CEST schrieb Conor Dooley:
+> On Thu, Aug 22, 2024 at 09:01:34AM +0200, Heiko St=FCbner wrote:
+> > @Conor: just for me, did some shift happen in our understanding of dt-
+> > best-practices in terms of syscon via phandle vs. syscon via compatible?
+> >=20
+> > Because Rockchip boards are referencing their GRFs via phandes forever
+> > but similar to the soc vs non-soc node thing, I'd like to stay on top of
+> > best-practices ;-)
+>=20
+> If IP blocks, and thus drivers, are going to be reused between devices,
+> using the phandles makes sense given that it is unlikely that syscon
+> nodes can make use of fallback compatibles due to bits within that "glue"
+> changing between devices. It also makes sense when there are multiple
+> instances of an IP on the device, which need to use different syscons.
+> My goal is to ask people why they are using these type of syscons
+> phandle properties, cos often they are not required at all - for example
+> with clocks where you effectively need a whole new driver for every
+> single soc and having a phandle property buys you nothing.
 
-Hi,
+I guess I'm of two minds here.
 
-I've seen on another thread that is was not sure that scoped versions 
-and gotos played well together.
+=46or me at least it makes sense to spell out the dependency to the
+syscon in the devicetree and not just have that hidden away inside the
+driver.
 
-It was asked to check more in details and confirm that it was safe 
-before applying the patch.
+But on the other hand, we already have the per-soc configuration [0]
+defining which grf bits needs to be accessed, so adding a
 
-I've not followed the discussion, so I just point it out, in case it helps.
+	.lanecfg1_grf_compat =3D "rockchip,rk3568-vo"
 
-I'll try to give it a look in the coming days.
+would not create overhad, as the grf regs and bits and rearranged
+all the time anyway.
 
 
-CJ
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c#n1652
+taking DSI as an example, where this is even more obvious
 
-> -		}
->   	}
->   
->   	if (!private->mutex_node) {
 
