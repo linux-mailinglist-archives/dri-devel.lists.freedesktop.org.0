@@ -2,65 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BDB95DD2D
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 11:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF8995DDCD
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 14:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C6310E1A4;
-	Sat, 24 Aug 2024 09:28:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hf9fS7ki";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EDF310E0EA;
+	Sat, 24 Aug 2024 12:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6E8910E17D;
- Sat, 24 Aug 2024 09:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724491685; x=1756027685;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=81/t5idYrQZJgPisckKvJ1/FCeEOtftpD4K7FG5JXfo=;
- b=hf9fS7kiw7qlsDtvqGeMpNJeH2lRqnnv6XsUd8/+RAyW/M8DC95aLOdd
- e/L708BhN0iMVl+jiFztOmVZr5pqxM0LDpwxsOjO/sK+2qYdsr2i2pSG0
- 7SPopsFIN2A7CMCzHAndsuVKKulQwHlOiYmFkYCbZWGJJ4ZgtvMBJBNrA
- ELBpg7V/kWHx6t2Wuy3LxTP0wt8WppVetSeMM9VD1DsLuoNjNA1Fvjvt9
- lr3ctuoMXfeEpuhyA8/aw+gHXQSbkV86iFTOQNBYzPtx/k9VNiTTQf6r8
- cSCfO6QrFJXeClG8LiE5NKNbCWlUSf0iPqHF8nyRdqbxXLJOEddr4Hs9Q g==;
-X-CSE-ConnectionGUID: g0SL5s7jS32Lfsun0wiBvw==
-X-CSE-MsgGUID: JyZLI31BRgCeYzstxl8GTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="34133955"
-X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; d="scan'208";a="34133955"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2024 02:28:04 -0700
-X-CSE-ConnectionGUID: wTuGyv2bQUakDP6NuFOOUg==
-X-CSE-MsgGUID: +exo54fyS9qR/X/0MjvR1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; d="scan'208";a="85236532"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2024 02:27:59 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1shn3t-000EO1-0L;
- Sat, 24 Aug 2024 09:27:57 +0000
-Date: Sat, 24 Aug 2024 17:27:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, chaitanya.dhere@amd.com,
- jun.lei@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
- Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, alex.hung@amd.com, aurabindo.pillai@amd.com,
- colin.i.king@gmail.com, dillon.varone@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
-Subject: Re: [PATCH -next 5/5] drm/amd/display: Make dcn35_fpga_funcs static
-Message-ID: <202408241600.uHrTIx7j-lkp@intel.com>
-References: <20240821064040.2292969-6-ruanjinjie@huawei.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6379C10E05C
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 12:32:55 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2C9BFEC
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 05:33:20 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 91DFE3F66E
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 05:32:54 -0700 (PDT)
+Date: Sat, 24 Aug 2024 13:32:47 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Peng =?utf-8?B?SG9uZ2NoaS/lva3mtKrpqbA=?= <hongchi.peng@siengine.com>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= drm: komeda:
+ Fix an issue related to normalized zpos
+Message-ID: <ZsnS7wfLKXmnG37N@e110455-lin.cambridge.arm.com>
+References: <20240821085613.5408-1-hongchi.peng@siengine.com>
+ <ZsdFp5Nq25q8rrVP@e110455-lin.cambridge.arm.com>
+ <fc7e28adc9c240cba4217fd80c3e318a@siengine.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240821064040.2292969-6-ruanjinjie@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fc7e28adc9c240cba4217fd80c3e318a@siengine.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,44 +54,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jinjie,
+On Fri, Aug 23, 2024 at 02:53:06AM +0000, Peng Hongchi/彭洪驰 wrote:
+> Hi, Liviu,
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on next-20240821]
+> 
+> I'm sorry for my carelessness and thanks for your correction, the corrected patch is as follows. 
+> And we do have an extra patch to set layer_split, but this part of the code is owned by my colleague,
+> So that I cannot upload it, sorry about this.
+> 
+> Signed-off-by: hongchi.peng <hongchi.peng@siengine.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/drm-amd-display-Make-core_dcn4_g6_temp_read_blackout_table-static/20240821-143421
-base:   next-20240821
-patch link:    https://lore.kernel.org/r/20240821064040.2292969-6-ruanjinjie%40huawei.com
-patch subject: [PATCH -next 5/5] drm/amd/display: Make dcn35_fpga_funcs static
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240824/202408241600.uHrTIx7j-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408241600.uHrTIx7j-lkp@intel.com/reproduce)
+This cannot be your commit message. If you want to make comments in a patch, I suggest you put them after
+a three-line dash, like this:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408241600.uHrTIx7j-lkp@intel.com/
+---
+Add your comment here
 
-All warnings (new ones prefixed by >>):
+> ---
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:1071:29: warning: unused variable 'dcn35_fpga_funcs' [-Wunused-variable]
-    1071 | static struct clk_mgr_funcs dcn35_fpga_funcs = {
-         |                             ^~~~~~~~~~~~~~~~
-   1 warning generated.
+Keep this marker as it will signal the start of the patch.
 
+>  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> index fe46b0ebefea..ab769a0a4afa 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> @@ -160,6 +160,7 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+>  	struct drm_plane *plane;
+>  	struct list_head zorder_list;
+>  	int order = 0, err;
+> +	u32 slave_zpos;
 
-vim +/dcn35_fpga_funcs +1071 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+Can you please initialise this to zero?
 
-  1070	
-> 1071	static struct clk_mgr_funcs dcn35_fpga_funcs = {
-  1072		.get_dp_ref_clk_frequency = dce12_get_dp_ref_freq_khz,
-  1073		.update_clocks = dcn35_update_clocks_fpga,
-  1074		.init_clocks = dcn35_init_clocks_fpga,
-  1075		.get_dtb_ref_clk_frequency = dcn31_get_dtb_ref_freq_khz,
-  1076	};
-  1077	
+>  
+>  	DRM_DEBUG_ATOMIC("[CRTC:%d:%s] calculating normalized zpos values\n",
+>  			 crtc->base.id, crtc->name);
+> @@ -199,10 +200,13 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+>  				 plane_st->zpos, plane_st->normalized_zpos);
+>  
+>  		/* calculate max slave zorder */
+> -		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes))
+> +		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes)) {
+> +			slave_zpos = plane_st->normalized_zpos;
+> +			if (to_kplane_st(plane_st)->layer_split)
+> +				slave_zpos++;
+>  			kcrtc_st->max_slave_zorder =
+> -				max(plane_st->normalized_zpos,
+> -				    kcrtc_st->max_slave_zorder);
+> +				max(slave_zpos, kcrtc_st->max_slave_zorder);
+> +		}
+>  	}
+>  
+>  	crtc_st->zpos_changed = true;
+> --
+> 2.34.1
+> 
+> Best Regards,
+> Hongchi Peng
+
+Also, can you version your patches to help me track them better?
+
+Best regards,
+Liviu
+
+> 
+> -----邮件原件-----
+> 发件人: Liviu Dudau <liviu.dudau@arm.com> 
+> 发送时间: 2024年8月22日 22:05
+> 收件人: Peng Hongchi/彭洪驰 <hongchi.peng@siengine.com>
+> 抄送: maarten.lankhorst@linux.intel.com; mripard@kernel.org; tzimmermann@suse.de; airlied@gmail.com; daniel@ffwll.ch; dri-devel@lists.freedesktop.org
+> 主题: Re: [PATCH] drm: komeda: Fix an issue related to normalized zpos
+> 
+> Hi Hongchi,
+> 
+> On Wed, Aug 21, 2024 at 04:56:13PM +0800, hongchi.peng wrote:
+> > We use komeda_crtc_normalize_zpos to normalize zpos of affected planes 
+> > to their blending zorder in CU. If there's only one slave plane in 
+> > affected planes and its layer_split property is enabled, order++ for 
+> > its split layer, so that when calculating the normalized_zpos of 
+> > master planes, the split layer of the slave plane is included, but the 
+> > max_slave_zorder does not include the split layer and keep zero 
+> > because there's only one slave plane in affacted planes, although we 
+> > actually use two slave layers in this commit.
+> > 
+> > In most cases, this bug does not result in a commit failure, but 
+> > assume the following situation:
+> >     slave_layer 0: zpos = 0, layer split enabled, normalized_zpos =
+> >     0;(use slave_layer 2 as its split layer)
+> >     master_layer 0: zpos = 2, layer_split enabled, normalized_zpos =
+> >     2;(use master_layer 2 as its split layer)
+> >     master_layer 1: zpos = 4, normalized_zpos = 4;
+> >     master_layer 3: zpos = 5, normalized_zpos = 5;
+> >     kcrtc_st->max_slave_zorder = 0;
+> > When we use master_layer 3 as a input of CU in function 
+> > komeda_compiz_set_input and check it with function 
+> > komeda_component_check_input, the parameter idx is equal to 
+> > normailzed_zpos minus max_slave_zorder, the value of idx is 5 and is 
+> > euqal to CU's max_active_inputs, so that komeda_component_check_input 
+> > returns a -EINVAL value.
+> 
+> Yes, indeed, you have found a bug in the calculations when layer_split is set.
+> But I was also looking through the code trying to find where layer_split gets set and I could not find it, do you have some extra patches?
+> 
+> > 
+> > To fix the bug described above, when calculating the max_slave_zorder 
+> > with the layer_split enabled, count the split layer in this 
+> > calculation directly.
+> > 
+> > Signed-off-by: hongchi.peng <hongchi.peng@siengine.com>
+> > ---
+> >  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c 
+> > b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > index fe46b0ebefea..b3db828284e4 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > @@ -159,7 +159,7 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+> >  	struct drm_plane_state *plane_st;
+> >  	struct drm_plane *plane;
+> >  	struct list_head zorder_list;
+> > -	int order = 0, err;
+> > +	int order = 0, slave_zpos, err;
+> 
+> Also, the build bot has already flagged it, your patch needs some improvements.
+> slave_zpos needs to be u32 if it's going to be compared against max_slave_zorder.
+> 
+> Best regards,
+> Liviu
+> 
+> >  
+> >  	DRM_DEBUG_ATOMIC("[CRTC:%d:%s] calculating normalized zpos values\n",
+> >  			 crtc->base.id, crtc->name);
+> > @@ -199,10 +199,13 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+> >  				 plane_st->zpos, plane_st->normalized_zpos);
+> >  
+> >  		/* calculate max slave zorder */
+> > -		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes))
+> > +		if (has_bit(drm_plane_index(plane), kcrtc->slave_planes)) {
+> > +			slave_zpos = plane_st->normalized_zpos;
+> > +			if (to_kplane_st(plane_st)->layer_split)
+> > +				slave_zpos++;
+> >  			kcrtc_st->max_slave_zorder =
+> > -				max(plane_st->normalized_zpos,
+> > -				    kcrtc_st->max_slave_zorder);
+> > +				max(slave_zpos, kcrtc_st->max_slave_zorder);
+> > +		}
+> >  	}
+> >  
+> >  	crtc_st->zpos_changed = true;
+> > --
+> > 2.34.1
+> > 
+> 
+> -- 
+> ====================
+> | I would like to |
+> | fix the world,  |
+> | but they're not |
+> | giving me the   |
+>  \ source code!  /
+>   ---------------
+>     ¯\_(ツ)_/¯
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
