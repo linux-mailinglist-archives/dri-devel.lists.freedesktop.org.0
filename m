@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83FA695DCB0
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 09:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BFA95DCB7
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 09:53:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E31BF10E1AF;
-	Sat, 24 Aug 2024 07:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A0610E1B0;
+	Sat, 24 Aug 2024 07:53:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aWz6a6Ub";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GC9kHJnz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF60710E1AF
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 07:52:25 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6266910E1B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 07:53:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 42E3ACE065F;
- Sat, 24 Aug 2024 07:52:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36470C32781;
- Sat, 24 Aug 2024 07:52:03 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id CF875A408DD;
+ Sat, 24 Aug 2024 07:53:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40974C32781;
+ Sat, 24 Aug 2024 07:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724485942;
- bh=J7CJ4ewK1ei4WvrIKvVeq7IO2mBtlvBtEoZL+GqcpiY=;
+ s=k20201202; t=1724486018;
+ bh=yRF+b26qzZbAF/lj54mqxmxSAmsnvppo3aM396oz6Qs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aWz6a6UbzKGFpHdRPvkQh/kdN8iH1iiTbEgLvKfofw+awByVtTXMksxpWwxGubX+G
- AdAVZ7D2VLX3Yyw4cpTWJVxAMJvK19RXjeGUDt5/jBKq4secGcNpsJVYv0FzNdVsCI
- 1X5RBcTsZ/qbDeL32MaAZ5i7U/8g+opq9kHqKe7K15YjlDvq9xjxcxWFKivUKAPaFm
- LAa30ZwXk7acwFePszse9qsy0gAtQdOnbD9es8bZU7egTxhHZ1foYLvkxazSn12C4W
- /Cs71gjB6O8boa6Rf1T8EqJ+8x8mXysDYjkK9+sm7LpwQaECHwD1GBlSGvA9+h4auM
- 1ROhyqMBMd8kw==
-Date: Sat, 24 Aug 2024 09:52:01 +0200
+ b=GC9kHJnz+ylQDLPiCSV9p1V2P5SYmpcIHXMeumKkTQpWR3I4djBw5t6awd8n+lh43
+ BQsxl4+R/IDmczuyWAn5JLsKKK+TxOHyRg359W4wkQFsCV49emeVklAqQBDgfTyUjB
+ /TpsruLYtzV/F0YzMiqKiqkrvciC/tdruR/ISte5xtus0gncKbOPoIh0zUsXnvJwwk
+ yFUa3sBs5H0PZmsMLcN6/IFMrnfYWbL45EIurmvwJZ0iXssWNXototDoBG70bZX38e
+ 22Q8zhFWt6s71D5uBzZ34ujfrusS9hXLtwif6chlSGgRQJf/z/oejJqoOrTwvoFQse
+ aVO5Iuslho1Lg==
+Date: Sat, 24 Aug 2024 09:53:16 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Detlev Casanova <detlev.casanova@collabora.com>
 Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
@@ -65,15 +65,15 @@ Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
  linux-mmc@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-spi@vger.kernel.org, 
  linux-watchdog@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v2 09/12] dt-bindings: watchdog: Add rockchip,rk3576-wdt
+Subject: Re: [PATCH v2 10/12] dt-bindings: spi: Add rockchip,rk3576-spi
  compatible
-Message-ID: <qqc6rj4a5hrme3b5adw4l65zeb2c7zjgtyror6hwtkhm5g3mkw@bc2xijdjddmv>
+Message-ID: <r474bbm3nnqwvgb6dumes5opxzw2sb7ck4ehqdhig7ejdabnxw@vgmafb7dayry>
 References: <20240823150057.56141-1-detlev.casanova@collabora.com>
- <20240823150057.56141-10-detlev.casanova@collabora.com>
+ <1995660.usQuhbGJ8B@trenzalore>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240823150057.56141-10-detlev.casanova@collabora.com>
+In-Reply-To: <1995660.usQuhbGJ8B@trenzalore>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,10 +89,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 23, 2024 at 10:52:36AM -0400, Detlev Casanova wrote:
-> It is compatible with the other rockchip SoCs.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+On Fri, Aug 23, 2024 at 12:07:10PM -0400, Detlev Casanova wrote:
+> It is compatible with the rockchip,rk3066-spi SPI core.
+
+Same comments...
+
+subject: spi: dt-bindings:
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with  on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
