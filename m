@@ -2,168 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D40E95DDFD
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 15:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A104595DEB3
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 17:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C40210E03F;
-	Sat, 24 Aug 2024 13:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6972110E0DD;
+	Sat, 24 Aug 2024 15:37:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RaM2r+Oy";
+	dkim=pass (2048-bit key; secure) header.d=iki.fi header.i=@iki.fi header.b="cFm5JVq9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5EEF10E03F;
- Sat, 24 Aug 2024 13:10:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724505035; x=1756041035;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=jAjd4vBG0OXA2Wn8Dq9P9dBlsDpmPLWnyluoDfA6GUo=;
- b=RaM2r+OyT7skqHm64vYDGJrBIhIlXP2lD7kljESax2PxHXzbc+IyeEVb
- KqyVnoSIyNg5MFaYfBXTNeYir0/lmQi+yz3F20Pg/1ReDFddYMiyn3D6I
- 4n9vI9gJBgJd69rOupAwuy2MHX6r+cLH60xv5FFfZi4EG8nsrDW9o8WVC
- o8HRUatOW1As2lkeREURlKGn6JdEHmLTBW6SBjyMuLOtT/T30DQP9FhAP
- UDTszM/Z141kmY2SF3MaOinO3NPA+8fo9oDGrA42fu1/tq3YsxMKpYbgq
- uEpc6g0KoFgN+3vYvL+yYPH/3xJBCoROYYrTeAQ8bHHqFaQyHiTKjwGqK g==;
-X-CSE-ConnectionGUID: jl5yveKhSfu/F5wmTehqfg==
-X-CSE-MsgGUID: Gx4LvfGMTIaHis371BE3Mg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="34352805"
-X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; d="scan'208";a="34352805"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2024 06:10:34 -0700
-X-CSE-ConnectionGUID: PdPYB/PcTaijSJVwZhOzdA==
-X-CSE-MsgGUID: P2n0gDyhQLSkd5I+1K4TYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; d="scan'208";a="62370550"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 24 Aug 2024 06:10:34 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sat, 24 Aug 2024 06:10:33 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sat, 24 Aug 2024 06:10:33 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sat, 24 Aug 2024 06:10:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ikN6f9K9bS3kUjspK+6PJX11RIoZnNwAsYIJSve0dFH3n4v2urbHZxbL8c6ieUhimAWSsvfNgD3r6KP+LeQ5tjer1YRMEz/V46bCxT8KCYeOzjqXrALw8lm9hAUTE17KIGGB9v9Gw3aBPyegL72wWR18CVBegCwn91IBK2QgHy+flTQipd6/uJa8AgI+TwyeS0dw5DbCNyY9KfI8Lsekb6uH1WItR6HbUf3gv3pq9WaoiVPcjbSt9CUX1wNLYQAWWRULfv1lkPp0ncx13kyYkUfQCLZM0UO0ZkWFKOc/S4uVxIBL3fJ2UfHwMfJGkB+u/ebtda7ycgWv2ERpFbfNPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jwF9SH1TyBc2rcMa05k6ttK7kG70fq+hoFZKdqss6cs=;
- b=QjA5n6cFNhPfYsge8KOY61Jmihu0aKn3z+9NbXeByCEbg8bmRf/Y3plJz/QBChxU403kp5mRTljXlfzDToAJitKv6toapUr6kzV2hhcEnX17kRc5ZvhQCgrUKnRzu9PQj1/vYc218kECUigQ+C2O0FPBqezF/Ty/DVPxjQlA13hq8XV2yiZ+zBEQSMnJICRFSzBnQWaLZpFMan2zrkQE0+0tTMkqgSYVHEs9lGq3xi7oLg7bEGU2B96rGtFc0uc8f2M4cClt07/ChUMrFxkbxaYCe8nXaRW03DZy+kwsEvF4mtm+PxNE4XdCrct4Dlt//A3v7uMbMocQAcYtmP9VKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SJ2PR11MB8346.namprd11.prod.outlook.com (2603:10b6:a03:536::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Sat, 24 Aug
- 2024 13:10:26 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7897.021; Sat, 24 Aug 2024
- 13:10:26 +0000
-Date: Sat, 24 Aug 2024 08:10:21 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-CC: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Jonathan Cavitt
- <jonathan.cavitt@intel.com>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <llvm@lists.linux.dev>,
- <patches@lists.linux.dev>
-Subject: Re: [PATCH] drm/xe: Fix total initialization in xe_ggtt_print_holes()
-Message-ID: <dkr63qrs6ij7ntowx3q2pattve5ty5nsvtzmd2n5ivvairxy2w@wnviziertbg2>
-References: <20240823-drm-xe-fix-total-in-xe_ggtt_print_holes-v1-1-12b02d079327@kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240823-drm-xe-fix-total-in-xe_ggtt_print_holes-v1-1-12b02d079327@kernel.org>
-X-ClientProxiedBy: MW4PR04CA0390.namprd04.prod.outlook.com
- (2603:10b6:303:81::35) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+X-Greylist: delayed 343 seconds by postgrey-1.36 at gabe;
+ Sat, 24 Aug 2024 15:02:31 UTC
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8378110E0DD
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 15:02:31 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu
+ (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net
+ [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: sailus)
+ by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Wrg4q3N4Wz49Px6;
+ Sat, 24 Aug 2024 17:56:43 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu; 
+ t=1724511405;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aQWIIYVMAeV+tatKf1SJ1SHCmsqByqjTMrj5Nf+q8tg=;
+ b=cFm5JVq9BU3KlZTtVW0khmzt6gmpzdGYZSdblJLQR+6n7ZvMUdNeo6S2CKZx+LFwreQV7h
+ YIp6rvMddTH7uEn4W+ZewViRMFOBjKnUxDSbuGOM6FHxe0h7e1kwmDBBrucHSk+5SUn/nG
+ Ab+kr0I1hD2ONrOmHwxcSwlWIU6OmjtMJTyrCnYVawdwsLKH4jL8h4E85pLLi4Z6msuV5+
+ j96exCxJr/Gg1/L35N5KCGqeBrXoQi6ZKuK6n70MERTH3aDkmlqLekxweiINXgq4QYweEG
+ 3FnBHqmLRrr4OPE5sQCYVdKBuxl8JP3kH2mAitRUxpdq1i3WQLc35JGmWqGAQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+ s=lahtoruutu; t=1724511405;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aQWIIYVMAeV+tatKf1SJ1SHCmsqByqjTMrj5Nf+q8tg=;
+ b=UGJQIyVphF9iU8zRKOL3v1Bw01YgcKzBbNspOSUsIKpDrteAPiXon/z2Cm5HHwcg8siYR1
+ zdDAIjbfWdBIa9V1XiWTEIbcLufK7zJ4esS8pjywpf6Po4ia5aVtDM9cbFgHz2S7V/P7t8
+ rGeOFrvpBGAa3cZX37So88HbN1UHnzmycMWzOOG1iCXVooN/NdxEm8EtkY6h+LuJVmzFzy
+ L4AaodwWPngU3JjDPwnjTE9T5R1XxFVn9zCeuaD0P6RFmLMw9QgqTNU26kNKhnG3gVAs7V
+ nsWmvJ/UW7SHsB/5uBZbOPdxVR3nkZCxF4mw6V/U2aM5gVsJ15BLsLKDahioSw==
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724511405; a=rsa-sha256; cv=none;
+ b=hOit8nkEpuVt70jDLC02XYO5oyOJKCGoSKrEKBzFh7fSAfysftDRyakSvmnwzcbTns2pT3
+ +mfZ4ke1W/SWuYaZYOV1NhEaX3u4ydwV0OfIkEd987w6a3z38N8mLR31ULwoepimnsr8dz
+ HO/rF79JPvB9INPzJjNZfiXqPBoqte5jfRNdNE64rqr3byGq0XRHVE3I0tIJek45+Zb7Lh
+ VucGMRvs7/1Kx43oAKzswx9ZKAGdXmr46UXjmBv+pGN0RmyJz/Sy9RgQ4nMEz1Eg+J/+df
+ SPb2NC0AzjB6FCYw/X1UqnByhaGXDt2XyGqnA7LgHxTlEcBIqxWhMonoF79wpQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 138F0634C93;
+ Sat, 24 Aug 2024 17:56:43 +0300 (EEST)
+Date: Sat, 24 Aug 2024 14:56:42 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] of: property: add of_graph_get_next_port()
+Message-ID: <Zsn0qi8f28zdlzGp@valkosipuli.retiisi.eu>
+References: <875xsa8gws.wl-kuninori.morimoto.gx@renesas.com>
+ <874j7u8gw2.wl-kuninori.morimoto.gx@renesas.com>
+ <20240811170316.GL2270@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ2PR11MB8346:EE_
-X-MS-Office365-Filtering-Correlation-Id: e26ebd02-7965-48f2-0ddf-08dcc43e1e7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mNHECbldweCNVouWe9fArjlb9iP/Nuqi/ceTHtM0oWus6A0Y2hzs40Dx7Asd?=
- =?us-ascii?Q?6CwP4apHbTL4Ch/5l8i1UcN5fMBO46vXRnT201V3TmZuqsEChPOFE4mLd2QA?=
- =?us-ascii?Q?CvulyCYaE9zOUscUc2ygc2zbKoNhB7SztrYiqt7Yly3R5bqOVRqHNjPziigO?=
- =?us-ascii?Q?Mp7qejIOPgLOk9AU89i3rh09G7N4tTZEiRJAZRFrYzCGvkH6septVDWAO7j8?=
- =?us-ascii?Q?Sb2L5I4QHOt1v+zy9ssByVT8709IzSV4RiuJnHaY1nYwv8wjYCXDRp7Y8M3j?=
- =?us-ascii?Q?xs7lmQRKwMn4RXxrsQgbPXdkcavne5Y1lNSRwe+ff1BdyI/Wk1sfgSvYIhm9?=
- =?us-ascii?Q?Y+rD70Tt3FXcEvjo1VdUmqnrn0PZwQZzie1I3oPxpGE0Yi5kih3uC12o061u?=
- =?us-ascii?Q?hj2vBCRMPQy3kYgjrGb0qHtuP/DGPnjF3NyNs7hUfZVKkRAwJSItqO9k0Pb6?=
- =?us-ascii?Q?sdP00muP1r+r7vFEuqo2g027VEii5bj3HiSnt8VdcwPc6Mk0V3RhBISk5qz6?=
- =?us-ascii?Q?cnqMrJfckBeokFwnRV/NBvMFYVVT/Zlmq1eRWu7kwe3RXTkm9fBCn8LOYPCw?=
- =?us-ascii?Q?QTqWUoIn2SVQt5Kf7PlHNq2NmrNykbV5qBBO2oH5MIBiL92MquHI+TPZTF5m?=
- =?us-ascii?Q?EP79tqk7FgNdwEiQNe1Pkdj+1hwPlAAZG750p2VakRGUIZxuIVo0wkVivYHY?=
- =?us-ascii?Q?JatPQTSdpdoy2MhWFjBzDJ5/0I77a9eLaHI1fheZGEwa4K1VRj7hu0i/hJ7w?=
- =?us-ascii?Q?57A6G6iliPHKi+wZxAptS1kQbAf84IcbtgV7pPI43r2ADEcWxRpxoMxDyVwl?=
- =?us-ascii?Q?EEkeJQYPalP/0ytGbKn5pt2IsYopd/0DvFgEjDo6X8tgTWDMdsk5Cl5JdAQl?=
- =?us-ascii?Q?OhsPlKa9nesbEpzj+9S16nhPt0y7oXg5mw654+pZR/8NlXFm7g7juqlgUWCR?=
- =?us-ascii?Q?xVDb0b8apU6EzP2ddBiXCvbJNcI7bUS2Hg/X2j70u/mTehAKXRpoQZ3bxm+C?=
- =?us-ascii?Q?s9Y5/kKJuxv1LgZwwlb+Uk48d9ajrlsKFz5PS0nDuINWJkDOBiFiQo3hHKdQ?=
- =?us-ascii?Q?5pLGiblHkkisqrl4NgsNJzXeWSNvXX5bpKpZpvGH4GI3iEA7pTwCSqvVipl+?=
- =?us-ascii?Q?ApUgvDliALc625TFjWa/yurdK04wYEDWiBhEsRIIHQcK3zSKZhyhmEFCK1/B?=
- =?us-ascii?Q?+Z5uJdY569m6sF4PueAMDiwramLCtqtB+yXFfhCwNtrN3R1AnD1XjKPRJu4O?=
- =?us-ascii?Q?AW0sTRWVOvWig6sqeXlX51/5zJtFX7su/2cb/oPgyOkfuid1u4JDkbFMcYNX?=
- =?us-ascii?Q?R8wNDONrBk9GGM1CQj/J2mjKIFiYCCJcW2FFwggqUgXKxw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0Ap6mGxPSIf1NGTTp7glWUewyPNO1aiLF8kO6o0+PO9kx6bV5PYqQK46C0Pf?=
- =?us-ascii?Q?Bm+xDT+5lLLrHfllCV+VDG2khVmVr/JUvrQEpYjxtugrdXzacBpCy3URxCVU?=
- =?us-ascii?Q?O8HnuDifZ+gstWr9D2IgDhaKmnq8uXXdFgptZ3SmNWVhSICB/aYAP75o4D7T?=
- =?us-ascii?Q?KPZ+pnm9Jh+feBXmYtlJQ5Xx1BcQEdmG4+yV1k6U/bp68u5sb8LZprSnE84e?=
- =?us-ascii?Q?rIM7hmwZkoA/XByS6xP/6lIoLtvfM95vQXZ5mh/+RFIxRTKIsw9eHZw+loXX?=
- =?us-ascii?Q?jQjF6sCwOP1GeaKYTUn3cf5O96vROlYNqQ2rbWrhZgvUAFtMUAa2sust2N0T?=
- =?us-ascii?Q?b9MO9movA2SEahDaz8r5RTmMI2ivvwTASeZfKLTCZWxy0KAHeCK5yIN/bQEt?=
- =?us-ascii?Q?owqz7v1ac45Zen+lClEx+HVbapkdenC+l/i3oRl0x1NgCX0hscKQIZk7Xitp?=
- =?us-ascii?Q?sQ/Pm1Qp1e2E/5fx2oV8laenCUq5r6b8lP5nIrX4XCKFANxLuYV5SxpP3qwI?=
- =?us-ascii?Q?33+/eiVfmC6eBPwxgENg9ZQtdPQPra2ADEiteyqUTNrSlnLYtZrIDiRmIJym?=
- =?us-ascii?Q?shGLgqh+7IOHgSlnXjloCMcv3zmLPa6MH68i4VfgDw5qZG0oHWX56u3j76Jh?=
- =?us-ascii?Q?3+UgkRZuKpB86U7FUV0N6hH+6THC03x1HMjXzJ7VfLrAylB8C+ZpZ9T9qSWE?=
- =?us-ascii?Q?UwXaCYt6ZIaEa4l8mn/3+kgMp79aYK4eX81kJdZBZoEgJCw1yXQtCEOx+b++?=
- =?us-ascii?Q?gPvLM0VR6/iNmk/oB5bx4zVApbZo1PJXUrdYjst5H9b9Q56MPXxuftHCSXZI?=
- =?us-ascii?Q?qD9FS5Ijlt/5fwjwXuRIuyArOBINqu4KtMuRpgb5MCo7RejE1N/XczVTYWDr?=
- =?us-ascii?Q?DsKgCcXqTQUVlwSSs4UTQUAJWLpBWRgTPNu1qMqWLxlLHnH8vInNmr0EkqD7?=
- =?us-ascii?Q?0S696zXjqhB/P70IelURbQY6R6Q8zw0ABt2VzBHSKDC+Pq/jqlyCBoZwrKAy?=
- =?us-ascii?Q?i1kTPuiUVUTeHkpmHConILfYa7tO0VuQGeTJVgTiq8VB8hg66UErqlmmLFjQ?=
- =?us-ascii?Q?kyAU52DXB7KCensObyZfcvOrfSQSl0OMuGuuvPHeEzHwhmukM23rI5Ejb4B8?=
- =?us-ascii?Q?yV60c5JyBlBuIbuuaeoRrb36q/7dTBsPDX3Se0Mu8KN+l/uC2CMtjISrrWeh?=
- =?us-ascii?Q?slbMZ5bBy/3aqdJDsguhX8g1yahHhUYiWaorwuSCIXiV1zcZDGeK0GfYPPd5?=
- =?us-ascii?Q?QW3Dl4K+vuAxotYhozB937tSpL+ZDp58WAFg0Imgt1rhXArMD5qnPrM7tdJU?=
- =?us-ascii?Q?wnlo67d75tn0mIefI7Lfr5tYrTKLA1+lf/1n/cJgwpWEkEO0Ouq9MqhhXZd8?=
- =?us-ascii?Q?4b7DJQor6AuD0P/bGFC3A0fYwDw7vjEpGk5pKe25Nh+CRLUypkFXiVGUAGsO?=
- =?us-ascii?Q?TiL+KE1NBGHuxntrReG54AWZmfziCn4ochmIVxjkjvRaUNC1hlyDCucArOuc?=
- =?us-ascii?Q?N9LLIlBxmhmCVk+YpNzktGosBDEacmhpNht6E5gCfwxh8xJP29uJg/SZIjtm?=
- =?us-ascii?Q?IlE1mLwGQl15M7eKHH2d/roa6oTfPbovlcfvcesnxTi3PBLstcqQQqhh/29x?=
- =?us-ascii?Q?RQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e26ebd02-7965-48f2-0ddf-08dcc43e1e7f
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2024 13:10:26.0428 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zFmnZpxlsD8XBIn+Qgg6m/Mez7nc75hY7Qwu+D5+uYUxavAtLdsTyW6XHbGFMINFGcZesDUtkbGCaHJB6rhAbfkJkxBHahNqXEuDtMjhwI8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8346
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240811170316.GL2270@pendragon.ideasonboard.com>
+X-Mailman-Approved-At: Sat, 24 Aug 2024 15:37:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,69 +105,319 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 23, 2024 at 08:47:13PM GMT, Nathan Chancellor wrote:
->Clang warns (or errors with CONFIG_DRM_WERROR or CONFIG_WERROR):
->
->  drivers/gpu/drm/xe/xe_ggtt.c:810:3: error: variable 'total' is uninitialized when used here [-Werror,-Wuninitialized]
->    810 |                 total += hole_size;
->        |                 ^~~~~
->  drivers/gpu/drm/xe/xe_ggtt.c:798:11: note: initialize the variable 'total' to silence this warning
->    798 |         u64 total;
->        |                  ^
->        |                   = 0
->  1 error generated.
->
->Move the zero initialization of total from
->xe_gt_sriov_pf_config_print_available_ggtt() to xe_ggtt_print_holes() to
->resolve the warning.
->
->Fixes: 136367290ea5 ("drm/xe: Introduce xe_ggtt_print_holes")
->Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Hi Laurent, Morimoto-san,
 
+On Sun, Aug 11, 2024 at 08:03:16PM +0300, Laurent Pinchart wrote:
+> Hi Morimoto-san,
+> 
+> (CC'ing Sakari)
+> 
+> Thank you for the patch.
+> 
+> On Fri, Aug 09, 2024 at 04:22:22AM +0000, Kuninori Morimoto wrote:
+> > We have endpoint base functions
+> > 	- of_graph_get_next_device_endpoint()
+> > 	- of_graph_get_device_endpoint_count()
+> > 	- for_each_of_graph_device_endpoint()
+> > 
+> > Here, for_each_of_graph_device_endpoint() loop finds each endpoints
+> > 
+> > 	ports {
+> > 		port@0 {
+> > (1)			endpoint {...};
+> > 		};
+> > 		port@1 {
+> > (2)			endpoint {...};
+> > 		};
+> > 		...
+> > 	};
+> > 
+> > In above case, it finds endpoint as (1) -> (2) -> ...
+> > 
+> > Basically, user/driver knows which port is used for what, but not in
+> > all cases. For example on flexible/generic driver case, how many ports
+> > are used is not fixed.
+> > 
+> > For example Sound Generic Card driver which is used from many venders
+> > can't know how many ports are used. Because the driver is very
+> > flexible/generic, it is impossible to know how many ports are used,
+> > it depends on each vender SoC and/or its used board.
+> > 
+> > And more, the port can have multi endpoints. For example Generic Sound
+> > Card case, it supports many type of connection between CPU / Codec, and
+> > some of them uses multi endpoint in one port.
+> > Then, Generic Sound Card want to handle each connection via "port"
+> > instead of "endpoint".
+> > But, it is very difficult to handle each "port" via
+> > for_each_of_graph_device_endpoint(). Getting "port" by using
+> > of_get_parent() from "endpoint" doesn't work. see below.
+> > 
+> > 	ports {
+> > 		port@0 {
+> > (1)			endpoint@0 {...};
+> > (2)			endpoint@1 {...};
+> > 		};
+> > 		port@1 {
+> > (3)			endpoint {...};
+> > 		};
+> > 		...
+> > 	};
+> > 
+> > In the same time, same reason, we want to handle "ports" same as "port".
+> > 
+> > 	node {
+> > =>		ports@0 {
+> > 			port@0 {
+> > 				endpoint@0 {...};
+> > 				endpoint@1 {...};
+> > 				...
+> > 			};
+> > 			port@1 {
+> > 				endpoint@0 {...};
+> > 				endpoint@1 {...};
+> > 				...
+> > 			};
+> > 			...
+> > 		};
+> > =>		ports@1 {
+> > 			...
+> > 		};
+> > 	};
+> > 
+> > Add "ports" / "port" base functions.
+> > For above case, we can use
+> > 
+> > 	for_each_of_graph_ports(node, ports) {
+> > 		for_each_of_graph_port(ports, port) {
+> > 			...
+> > 		}
+> > 	}
+> > 
+> > This loop works in case of "node" doesn't have "ports" also.
+> > 
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+> >  drivers/of/property.c    | 88 ++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/of_graph.h | 46 +++++++++++++++++++++
+> >  2 files changed, 134 insertions(+)
+> > 
+> > diff --git a/drivers/of/property.c b/drivers/of/property.c
+> > index 164d77cb9445..e4d5dfe70104 100644
+> > --- a/drivers/of/property.c
+> > +++ b/drivers/of/property.c
+> > @@ -625,6 +625,76 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
+> >  }
+> >  EXPORT_SYMBOL(of_graph_get_port_by_id);
+> >  
+> > +/**
+> > + * of_graph_get_next_ports() - get next ports node.
+> > + * @parent: pointer to the parent device node
+> > + * @prev: previous ports node, or NULL to get first
+> > + *
+> > + * If "parent" node doesn't have "ports" node, it returns "parent" node itself as "ports" node.
+> > + *
+> > + * Return: A 'ports' node pointer with refcount incremented. Refcount
+> > + * of the passed @prev node is decremented.
+> > + */
+> > +struct device_node *of_graph_get_next_ports(struct device_node *parent,
+> > +					    struct device_node *prev)
+> > +{
+> > +	if (!parent)
+> > +		return NULL;
+> > +
+> > +	if (!prev) {
+> > +		prev = of_get_child_by_name(parent, "ports");
+> > +
+> > +		/* use parent as its ports of this device if it not exist */
+> > +		if (!prev)
+> > +			prev = of_node_get(parent);
+> > +
+> > +		return prev;
+> > +	}
+> > +
+> > +	do {
+> > +		prev = of_get_next_child(parent, prev);
+> > +		if (!prev)
+> > +			break;
+> > +	} while (!of_node_name_eq(prev, "ports"));
+> > +
+> > +	return prev;
+> > +}
+> > +EXPORT_SYMBOL(of_graph_get_next_ports);
+> 
+> Having multiple "ports" nodes in a device node is not something I've
+> ever seen before. There may be use cases, but how widespread are they ?
+> I would prefer handling this in driver code instead of creating a helper
+> function if the use case is rare.
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+I wonder if this is allowed by the graph schema. Probably not.
 
-I will push it soon to drm-xe-next, thanks.
+> 
+> > +
+> > +/**
+> > + * of_graph_get_next_port() - get next port node.
+> > + * @parent: pointer to the parent device node, or parent ports node
+> > + * @prev: previous port node, or NULL to get first
+> > + *
+> > + * Parent device node can be used as @parent whether device node has ports node or not.
+> > + * It will work same as ports@0 node.
+> > + *
+> > + * Return: A 'port' node pointer with refcount incremented. Refcount
+> > + * of the passed @prev node is decremented.
+> > + */
+> > +struct device_node *of_graph_get_next_port(struct device_node *parent,
+> > +					   struct device_node *prev)
+> > +{
+> > +	if (!parent)
+> > +		return NULL;
+> > +
+> > +	if (!prev) {
+> > +		struct device_node *ports __free(device_node) =
+> > +			of_graph_get_next_ports(parent, NULL);
+> 
+> This also makes me quite uncomfortable. Iterating over all ports of a
+> device node that contains multiple "ports" children seems an ill-defined
+> use case.
+> 
+> > +
+> > +		return of_get_child_by_name(ports, "port");
+> > +	}
+> > +
+> > +	do {
+> > +		prev = of_get_next_child(parent, prev);
+> > +		if (!prev)
+> > +			break;
+> > +	} while (!of_node_name_eq(prev, "port"));
+> > +
+> > +	return prev;
+> > +}
+> > +EXPORT_SYMBOL(of_graph_get_next_port);
+> > +
+> >  /**
+> >   * of_graph_get_next_endpoint() - get next endpoint node
+> >   * @parent: pointer to the parent device node
+> > @@ -823,6 +893,24 @@ unsigned int of_graph_get_endpoint_count(const struct device_node *np)
+> >  }
+> >  EXPORT_SYMBOL(of_graph_get_endpoint_count);
+> >  
+> > +/**
+> > + * of_graph_get_port_count() - get the number of port in a device node
+> > + * @np: pointer to the parent device node
+> > + *
+> > + * Return: count of port of this device node
+> > + */
+> > +unsigned int of_graph_get_port_count(struct device_node *np)
+> > +{
+> > +	struct device_node *port = NULL;
+> > +	int num = 0;
+> 
+> As the counter can never be negative, you can make this an unsigned int.
+> 
+> > +
+> > +	for_each_of_graph_port(np, port)
+> > +		num++;
+> > +
+> > +	return num;
+> > +}
+> > +EXPORT_SYMBOL(of_graph_get_port_count);
+> > +
+> >  /**
+> >   * of_graph_get_remote_node() - get remote parent device_node for given port/endpoint
+> >   * @node: pointer to parent device_node containing graph port/endpoint
+> > diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+> > index a4bea62bfa29..a6b91577700a 100644
+> > --- a/include/linux/of_graph.h
+> > +++ b/include/linux/of_graph.h
+> > @@ -37,14 +37,41 @@ struct of_endpoint {
+> >  	for (child = of_graph_get_next_endpoint(parent, NULL); child != NULL; \
+> >  	     child = of_graph_get_next_endpoint(parent, child))
+> >  
+> > +/**
+> > + * for_each_of_graph_ports - iterate over every ports in a device node
+> > + * @parent: parent device node containing ports
+> > + * @child: loop variable pointing to the current ports node
+> > + *
+> > + * When breaking out of the loop, of_node_put(child) has to be called manually.
+> > + */
+> > +#define for_each_of_graph_ports(parent, child)				\
+> > +	for (child = of_graph_get_next_ports(parent, NULL); child != NULL; \
+> > +	     child = of_graph_get_next_ports(parent, child))
+> > +
+> > +/**
+> > + * for_each_of_graph_port - iterate over every port in a device or ports node
+> > + * @parent: parent device or ports node containing port
+> > + * @child: loop variable pointing to the current port node
+> > + *
+> > + * When breaking out of the loop, of_node_put(child) has to be called manually.
+> > + */
+> > +#define for_each_of_graph_port(parent, child)			\
+> > +	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
+> > +	     child = of_graph_get_next_port(parent, child))
+> 
+> I think I've proposed something similar a looooong time ago, and was
+> told that iterating over ports is not something that drivers should do.
+> The situation may have changed since though.
+> 
+> Sakari, any opinion on this ?
 
-Lucas De Marchi
+It'd be good to understand first what would be the use case for it. There
+is already a function to obtain endpoints within a given port, including an
+fwnode equivalent.
 
->---
-> drivers/gpu/drm/xe/xe_ggtt.c               | 2 +-
-> drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 2 +-
-> 2 files changed, 2 insertions(+), 2 deletions(-)
->
->diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
->index a3ce91decdce..86fc6afa43bd 100644
->--- a/drivers/gpu/drm/xe/xe_ggtt.c
->+++ b/drivers/gpu/drm/xe/xe_ggtt.c
->@@ -795,7 +795,7 @@ u64 xe_ggtt_print_holes(struct xe_ggtt *ggtt, u64 alignment, struct drm_printer
-> 	const struct drm_mm_node *entry;
-> 	u64 hole_min_start = xe_wopcm_size(tile_to_xe(ggtt->tile));
-> 	u64 hole_start, hole_end, hole_size;
->-	u64 total;
->+	u64 total = 0;
-> 	char buf[10];
->
-> 	mutex_lock(&ggtt->lock);
->diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
->index c8835d9eead6..41ed07b153b5 100644
->--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
->+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
->@@ -2110,7 +2110,7 @@ int xe_gt_sriov_pf_config_print_available_ggtt(struct xe_gt *gt, struct drm_prin
-> {
-> 	struct xe_ggtt *ggtt = gt_to_tile(gt)->mem.ggtt;
-> 	u64 alignment = pf_get_ggtt_alignment(gt);
->-	u64 spare, avail, total = 0;
->+	u64 spare, avail, total;
-> 	char buf[10];
->
-> 	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
->
->---
->base-commit: 66a0f6b9f5fc205272035b6ffa4830be51e3f787
->change-id: 20240823-drm-xe-fix-total-in-xe_ggtt_print_holes-0cf2c399aa2a
->
->Best regards,
->-- 
->Nathan Chancellor <nathan@kernel.org>
->
+> 
+> > +
+> >  #ifdef CONFIG_OF
+> >  bool of_graph_is_present(const struct device_node *node);
+> >  int of_graph_parse_endpoint(const struct device_node *node,
+> >  				struct of_endpoint *endpoint);
+> >  unsigned int of_graph_get_endpoint_count(const struct device_node *np);
+> > +unsigned int of_graph_get_port_count(struct device_node *np);
+> >  struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
+> >  struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
+> >  					struct device_node *previous);
+> > +struct device_node *of_graph_get_next_ports(struct device_node *parent,
+> > +					    struct device_node *ports);
+> > +struct device_node *of_graph_get_next_port(struct device_node *parent,
+> > +					   struct device_node *port);
+> >  struct device_node *of_graph_get_endpoint_by_regs(
+> >  		const struct device_node *parent, int port_reg, int reg);
+> >  struct device_node *of_graph_get_remote_endpoint(
+> > @@ -73,6 +100,11 @@ static inline unsigned int of_graph_get_endpoint_count(const struct device_node
+> >  	return 0;
+> >  }
+> >  
+> > +static inline unsigned int of_graph_get_port_count(struct device_node *np)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> >  static inline struct device_node *of_graph_get_port_by_id(
+> >  					struct device_node *node, u32 id)
+> >  {
+> > @@ -86,6 +118,20 @@ static inline struct device_node *of_graph_get_next_endpoint(
+> >  	return NULL;
+> >  }
+> >  
+> > +static inline struct device_node *of_graph_get_next_ports(
+> > +					struct device_node *parent,
+> > +					struct device_node *previous)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> > +static inline struct device_node *of_graph_get_next_port(
+> > +					struct device_node *parent,
+> > +					struct device_node *previous)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> >  static inline struct device_node *of_graph_get_endpoint_by_regs(
+> >  		const struct device_node *parent, int port_reg, int reg)
+> >  {
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
