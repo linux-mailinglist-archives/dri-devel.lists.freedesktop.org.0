@@ -2,23 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734A695DC3E
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 08:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F359995DC9D
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 09:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A81410E3EE;
-	Sat, 24 Aug 2024 06:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D2810E1AC;
+	Sat, 24 Aug 2024 07:50:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NU6FsG/Z";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEACF10E3EE
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 06:31:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA06210E1AC
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 07:50:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B54A6A40179;
- Sat, 24 Aug 2024 06:31:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79BEC32781;
- Sat, 24 Aug 2024 06:31:31 +0000 (UTC)
-Date: Sat, 24 Aug 2024 08:31:28 +0200
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ by nyc.source.kernel.org (Postfix) with ESMTP id AE2B3A413AA;
+ Sat, 24 Aug 2024 07:49:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4310FC32781;
+ Sat, 24 Aug 2024 07:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724485803;
+ bh=Nv0/3MgPrEAyNKOaS42IrvhRzQWnn1NPBjKVsO0g2CU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NU6FsG/Z8+3HTOXQscGhuRxz3D8QondwUnlJ5cqQVlXk5s2iGrPesO5jfCDDCpd3y
+ Alr/J03o0SqGxtuQQ2MfVJtO8tmXJTeJdx+sssHs85tNfVE1YwOsBLHQOUNcbxaaI0
+ Iz6O6vIVi6KEDKIJ+LAL9WsZ8Td29Jz96ZO9s67Q8YJ4CiFLHx9PmlG9t8qnFKtNR1
+ 18Xfl0CMSj62OhXv9mQnZPl7NFlc1yQ3fT8op+1Y3QG/4HyjF+ea42jWUaP6tK4IhQ
+ 7UlEmWmox5b53R5n3gCMYHTZCMRRBo48mrod0jvLR64xUYd/JvIH9xXdE2K9F8PcOq
+ QgngRgRquBnOA==
+Date: Sat, 24 Aug 2024 09:49:42 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Detlev Casanova <detlev.casanova@collabora.com>
 Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -52,15 +65,14 @@ Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
  linux-mmc@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-spi@vger.kernel.org, 
  linux-watchdog@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v2 04/12] dt-bindings: iio: adc: Add
- rockchip,rk3576-saradc string
-Message-ID: <wegeyglbv5xufuvpmf2ye2bu6w5ob753h4hfimxw3ozt2vnfoh@fgvdblizg5hc>
+Subject: Re: [PATCH v2 07/12] dt-bindings: mmc: Add support for rk3576 eMMC
+Message-ID: <m5ua5jnbv4u36glqt2qrps35asuqfycxedgjrfhodi5bvs2r2h@xvy4qxt4gx74>
 References: <20240823150057.56141-1-detlev.casanova@collabora.com>
- <20240823150057.56141-5-detlev.casanova@collabora.com>
+ <20240823150057.56141-8-detlev.casanova@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240823150057.56141-5-detlev.casanova@collabora.com>
+In-Reply-To: <20240823150057.56141-8-detlev.casanova@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,17 +88,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 23, 2024 at 10:52:31AM -0400, Detlev Casanova wrote:
-> Add rockchip,rk3576-saradc compatible string.
-> The saradc on RK3576 is compatible with the one on RK3588, so they are
-> used together in an arm of the oneOf.
+On Fri, Aug 23, 2024 at 10:52:34AM -0400, Detlev Casanova wrote:
+> The device is compatible with rk3588, so add an entry for the 2
+> compatibles together.
+> 
+> The rk3576 device has a power-domain that needs to be on for the eMMC to
+> be used. Add it as a requirement.
 > 
 > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Acked-by: Heiko Stuebner <heiko@sntech.de>
 > ---
+>  .../bindings/mmc/snps,dwcmshc-sdhci.yaml      | 32 +++++++++++++------
+>  1 file changed, 23 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml b/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml
+> index 4d3031d9965f3..7d5e388587027 100644
+> --- a/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml
+> @@ -12,16 +12,29 @@ maintainers:
+>  
+>  allOf:
+>    - $ref: mmc-controller.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: rockchip,rk3576-dwcmshc
+> +    then:
+> +      properties:
+> +        power-domains:
+> +          minItems: 1
 
-Why do you keep sending the same patch which was already applied?
+Plaese move the allOf: after the required: block. It grows too much with
+such if:then: and that's not the most important part of binding we need
+to see first.
+
+With above change:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
