@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07FB95DA3A
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 02:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE08595DB25
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 05:47:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C93D10E180;
-	Sat, 24 Aug 2024 00:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0D910E052;
+	Sat, 24 Aug 2024 03:47:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FfO2Xq31";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="adOncbTw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADAA210E180
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 00:19:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C573210E052;
+ Sat, 24 Aug 2024 03:47:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D7A5CA40A71;
- Sat, 24 Aug 2024 00:19:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F548C4AF09;
- Sat, 24 Aug 2024 00:19:33 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E697FA40DFC;
+ Sat, 24 Aug 2024 03:47:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A377EC32781;
+ Sat, 24 Aug 2024 03:47:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724458773;
- bh=1f2sfOtBrorhoRoNtbXAAF595fhdwABi8MUaRUUiVcA=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=FfO2Xq314XNSb08nVD9b9hR/Psi70gXVmQUMvgPHHYDNK7zfnLukx58lv9HQj652j
- jprDaieMA6IfSKV/1iQWYsUS8yDBiQlJsTqv30hC/j4pphx9qMyHYDC1cnrYzYENir
- jl584E+ZE18DHE6U66R3bWJILfVflO0kXG13Tgsv4wfrWJtwK4S43e/nmmnkcelgjD
- Otj1BvLaMtm0IyGV3Gvo011vD3r6zMZHngG1fAlak7Ry13W3ik6a/XSI7BCPykDykq
- qjTqMvf7GX2qoxQmM6aKeCS0ZPjYNUTtLsm+dPazXQI2MwUK41ELGJ/dP651EFIb87
- 0+FKljHBIqc4g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
- by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- 711653804C87; Sat, 24 Aug 2024 00:19:34 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.11-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tw7_X_1Bhji+DNJXK+940VH2MwgLPsvjX72doJkKt2SHQ@mail.gmail.com>
-References: <CAPM=9tw7_X_1Bhji+DNJXK+940VH2MwgLPsvjX72doJkKt2SHQ@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tw7_X_1Bhji+DNJXK+940VH2MwgLPsvjX72doJkKt2SHQ@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-fixes-2024-08-24
-X-PR-Tracked-Commit-Id: 76f461867800fa9421d26a70a1640eed55dff0cd
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 79a899e3d643a256b120d3e9cbf518b55e6f3686
-Message-Id: <172445877305.3119442.1587059426359361110.pr-tracker-bot@kernel.org>
-Date: Sat, 24 Aug 2024 00:19:33 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+ s=k20201202; t=1724471239;
+ bh=9hvQeS0ngXVdosBqKG7tf+RduULcEVupa0NszXQJR7E=;
+ h=From:Date:Subject:To:Cc:From;
+ b=adOncbTwURvRgjY1LZgDiwhlMCAZV/hWtxyHUuLYbmNudJXeTYti7ELfIIj3rgNSG
+ TrUdh43mvCLZQnroaA4BDSaymfdi4fFiWBnc6Sx+X1vloMhe2/tyChICI2ZVrWnckx
+ QZP077mGelqsOESHNt1l/iYRjVuNAZ8JyOTiSwH+DjdXiAq0CejZFomv9e9eBhUZo6
+ gcY8uOcGR9qCDbywgqxuwa5EfT4H2mWX6hus81z7p4wyV5ycKIx0uoTyr+owsCtL5r
+ 3Gj94NHyqCJzUeV/0M+qX7KsqrSV7JSrId+LnIPfWqiCD2NPqFuZl/7+zWShmgH2Jh
+ bXPnXsona51mw==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Fri, 23 Aug 2024 20:47:13 -0700
+Subject: [PATCH] drm/xe: Fix total initialization in xe_ggtt_print_holes()
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240823-drm-xe-fix-total-in-xe_ggtt_print_holes-v1-1-12b02d079327@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAMBXyWYC/x3NQQqDMBCF4avIrDuQji60VyklhDjGAZvIJIgg3
+ r1Dl9/if++Cyipc4dVdoHxIlZINz0cHcQ05McpsBnI0uJF6nPWLJ+MiJ7bSwoaSzT6l1vyukpt
+ fy8YVXVwo9tMUAgWwtV3Zmv/T+3PfP+WWHHh5AAAA
+To: Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ llvm@lists.linux.dev, patches@lists.linux.dev, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2190; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=9hvQeS0ngXVdosBqKG7tf+RduULcEVupa0NszXQJR7E=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDGknw49prXzD4iFidfWUy5+3BzlrvVifzfv6oUksQHgLJ
+ 6fxxB+hHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAiZ10Z/hk/3OlUfbvLSSLE
+ uf7jLLbpa7f9lng6b92knNd7Pui5S61j+Cs3ZdNeSa/vJz5IZTa7bT0/3e7pWZPP0/lX3+/cbnB
+ rPg8/AA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,15 +72,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sat, 24 Aug 2024 04:27:35 +1000:
+Clang warns (or errors with CONFIG_DRM_WERROR or CONFIG_WERROR):
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-08-24
+  drivers/gpu/drm/xe/xe_ggtt.c:810:3: error: variable 'total' is uninitialized when used here [-Werror,-Wuninitialized]
+    810 |                 total += hole_size;
+        |                 ^~~~~
+  drivers/gpu/drm/xe/xe_ggtt.c:798:11: note: initialize the variable 'total' to silence this warning
+    798 |         u64 total;
+        |                  ^
+        |                   = 0
+  1 error generated.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/79a899e3d643a256b120d3e9cbf518b55e6f3686
+Move the zero initialization of total from
+xe_gt_sriov_pf_config_print_available_ggtt() to xe_ggtt_print_holes() to
+resolve the warning.
 
-Thank you!
+Fixes: 136367290ea5 ("drm/xe: Introduce xe_ggtt_print_holes")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/gpu/drm/xe/xe_ggtt.c               | 2 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
+index a3ce91decdce..86fc6afa43bd 100644
+--- a/drivers/gpu/drm/xe/xe_ggtt.c
++++ b/drivers/gpu/drm/xe/xe_ggtt.c
+@@ -795,7 +795,7 @@ u64 xe_ggtt_print_holes(struct xe_ggtt *ggtt, u64 alignment, struct drm_printer
+ 	const struct drm_mm_node *entry;
+ 	u64 hole_min_start = xe_wopcm_size(tile_to_xe(ggtt->tile));
+ 	u64 hole_start, hole_end, hole_size;
+-	u64 total;
++	u64 total = 0;
+ 	char buf[10];
+ 
+ 	mutex_lock(&ggtt->lock);
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+index c8835d9eead6..41ed07b153b5 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+@@ -2110,7 +2110,7 @@ int xe_gt_sriov_pf_config_print_available_ggtt(struct xe_gt *gt, struct drm_prin
+ {
+ 	struct xe_ggtt *ggtt = gt_to_tile(gt)->mem.ggtt;
+ 	u64 alignment = pf_get_ggtt_alignment(gt);
+-	u64 spare, avail, total = 0;
++	u64 spare, avail, total;
+ 	char buf[10];
+ 
+ 	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
+
+---
+base-commit: 66a0f6b9f5fc205272035b6ffa4830be51e3f787
+change-id: 20240823-drm-xe-fix-total-in-xe_ggtt_print_holes-0cf2c399aa2a
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Nathan Chancellor <nathan@kernel.org>
+
