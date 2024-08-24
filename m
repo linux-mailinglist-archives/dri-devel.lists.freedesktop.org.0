@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBFE95D9BB
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 01:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07FB95DA3A
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2024 02:19:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B180A10E14E;
-	Fri, 23 Aug 2024 23:32:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C93D10E180;
+	Sat, 24 Aug 2024 00:19:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jIcb2ZW2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FfO2Xq31";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B843F10E14E;
- Fri, 23 Aug 2024 23:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724455939; x=1755991939;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=QE6tOL6lECwZKber38VSosgwzqzqRhMJZ2xKrVtB2VA=;
- b=jIcb2ZW2f99fDiWiaQn7faJZSd4wlmOnnyEMt4ww1ZhG1QqLReSjj/c/
- DbeZhPUCAoQltpmg7tcx2erE8zTayC5p/TnNjOgCmITQjHAZxRb1NgV8R
- Ffs7iUzgTK2L2JrB6FqniK97UFUS+GBsDXNAgvAmdJ3yTiAcd0G+j1jUN
- PvF6nPo9+G3o+Ckwb+2KtLVn2imXoHb3v3HJCDxvC5K802lM4Lt5LgBdk
- TxS8NB4AGw9XvIiXnWJoaWs2uje1ZaoIicOYEwSmE7ZjgpFU8j/sZB25O
- yb9f0w/ea0uaNSWVl5tYs4ylRIw3duccsdO+2k5OGmODmXkQ/WehEv63G Q==;
-X-CSE-ConnectionGUID: qCrGEO4PSuGjXwhDTrtnzQ==
-X-CSE-MsgGUID: 3es46JCHSxS0Hz/MIwrweg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="22921166"
-X-IronPort-AV: E=Sophos;i="6.10,171,1719903600"; d="scan'208";a="22921166"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2024 16:32:19 -0700
-X-CSE-ConnectionGUID: zAqVGhdPRYqF1K9RMoqgUg==
-X-CSE-MsgGUID: BjivJ/TpRm6wJxYFjpQODA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,171,1719903600"; d="scan'208";a="66867863"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.236])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2024 16:32:14 -0700
-Date: Sat, 24 Aug 2024 01:32:10 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Yu Jiaoliang <yujiaoliang@vivo.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Matt Roper <matthew.d.roper@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Michal Mrozek <michal.mrozek@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Tejas Upadhyay <tejas.upadhyay@intel.com>,
- Shekhar Chauhan <shekhar.chauhan@intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-Subject: Re: [PATCH v3] drm/i915/gt: Use kmemdup_array instead of kmemdup for
- multiple allocation
-Message-ID: <Zskb-gt8gmridvM9@ashyti-mobl2.lan>
-References: <20240821024145.3775302-1-yujiaoliang@vivo.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240821024145.3775302-1-yujiaoliang@vivo.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADAA210E180
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2024 00:19:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D7A5CA40A71;
+ Sat, 24 Aug 2024 00:19:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F548C4AF09;
+ Sat, 24 Aug 2024 00:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724458773;
+ bh=1f2sfOtBrorhoRoNtbXAAF595fhdwABi8MUaRUUiVcA=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=FfO2Xq314XNSb08nVD9b9hR/Psi70gXVmQUMvgPHHYDNK7zfnLukx58lv9HQj652j
+ jprDaieMA6IfSKV/1iQWYsUS8yDBiQlJsTqv30hC/j4pphx9qMyHYDC1cnrYzYENir
+ jl584E+ZE18DHE6U66R3bWJILfVflO0kXG13Tgsv4wfrWJtwK4S43e/nmmnkcelgjD
+ Otj1BvLaMtm0IyGV3Gvo011vD3r6zMZHngG1fAlak7Ry13W3ik6a/XSI7BCPykDykq
+ qjTqMvf7GX2qoxQmM6aKeCS0ZPjYNUTtLsm+dPazXQI2MwUK41ELGJ/dP651EFIb87
+ 0+FKljHBIqc4g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ 711653804C87; Sat, 24 Aug 2024 00:19:34 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.11-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tw7_X_1Bhji+DNJXK+940VH2MwgLPsvjX72doJkKt2SHQ@mail.gmail.com>
+References: <CAPM=9tw7_X_1Bhji+DNJXK+940VH2MwgLPsvjX72doJkKt2SHQ@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tw7_X_1Bhji+DNJXK+940VH2MwgLPsvjX72doJkKt2SHQ@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-fixes-2024-08-24
+X-PR-Tracked-Commit-Id: 76f461867800fa9421d26a70a1640eed55dff0cd
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 79a899e3d643a256b120d3e9cbf518b55e6f3686
+Message-Id: <172445877305.3119442.1587059426359361110.pr-tracker-bot@kernel.org>
+Date: Sat, 24 Aug 2024 00:19:33 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,26 +68,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yu,
+The pull request you sent on Sat, 24 Aug 2024 04:27:35 +1000:
 
-On Wed, Aug 21, 2024 at 10:41:27AM +0800, Yu Jiaoliang wrote:
-> Let the kememdup_array() take care about multiplication and possible
-> overflows.
-> 
-> v2:
-> - Change subject
-> - Leave one blank line between the commit log and the tag section
-> - Fix code alignment issue
-> 
-> v3:
-> - Fix code alignment
-> - Apply the patch on a clean drm-tip
-> 
-> Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-08-24
 
-merged to drm-intel-gt-next.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/79a899e3d643a256b120d3e9cbf518b55e6f3686
 
-Thanks,
-Andi
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
