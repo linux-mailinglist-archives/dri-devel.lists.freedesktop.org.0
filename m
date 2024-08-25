@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FECA95E33B
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2024 14:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFEC95E395
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2024 15:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD6E10E0CE;
-	Sun, 25 Aug 2024 12:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F20A510E0A5;
+	Sun, 25 Aug 2024 13:21:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="HlaRxmPn";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BajplDaw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
- [95.215.58.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42C3010E0B8
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2024 12:15:03 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1724588101;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5945210E0A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2024 13:21:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724592107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=KYBUuOZ77RsbonBNPjWaQa/LDzXOSCA+09B7u42eC7s=;
- b=HlaRxmPnRISY7Zfc3te2rd46fklNc828HXME+YpMd1Xjb6mYXl8Rwz/MgAY2wzZzviIH2u
- VHtN1Zf9DZP9TQi8QRRTfRk/oe3G47dVU2C4sVDSsX/SgqWVmTY+cr+pxoimQq6Aj+QipW
- I90Ff3nmsnTg5/iWseLsqY7eVwVQgK4=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH] drm/etnaviv: Fix missing mutex_destroy()
-Date: Sun, 25 Aug 2024 20:14:52 +0800
-Message-Id: <20240825121452.363342-1-sui.jingfeng@linux.dev>
+ bh=BqpivWd8xathDvRTliciA+7JQt2OcW95ncxN9v3V1No=;
+ b=BajplDawxjw4DJQ6LpEW0s+5yoUKj5IVn74ceNiZLxIc9QjE4KGNBendUsV0l6p6G626ZI
+ uOnuLkETdLz6Ccp+64qgrDzWTCFbaLf7R7/ZCxTyK316a0mZm9cfNY+0J57ZbeIm65XT4D
+ mjFBdNDiSi06+camJuESlrl+zzN+V9w=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-226-MB-XIPEMPtuWGaL73wl6vA-1; Sun,
+ 25 Aug 2024 09:21:43 -0400
+X-MC-Unique: MB-XIPEMPtuWGaL73wl6vA-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 8C02019560BF; Sun, 25 Aug 2024 13:21:42 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.45])
+ by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 3A82819560AA; Sun, 25 Aug 2024 13:21:40 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: panel-orientation-quirks: Make Lenovo Yoga Tab 3 X90F
+ DMI match less strict
+Date: Sun, 25 Aug 2024 15:21:31 +0200
+Message-ID: <20240825132131.6643-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,93 +71,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the calling of mutex_destroy() is ignored on error handling
-code path. It is safe for now, since mutex_destroy() actually does
-nothing in non-debug builds. But the mutex_destroy() is used to mark
-the mutex uninitialized on debug builds, and any subsequent use of the
-mutex is forbidden.
+There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
+turns out that the 2G version has a DMI product name of
+"CHERRYVIEW D1 PLATFORM" where as the 4G version has
+"CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
+unique enough that the product-name check is not necessary.
 
-It also could lead to problems if mutex_destroy() gets extended, add
-missing mutex_destroy() to eliminate potential concerns.
+Drop the product-name check so that the existing DMI match for the 4G
+RAM version also matches the 2G RAM version.
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 3 +++
- drivers/gpu/drm/etnaviv/etnaviv_drv.c    | 1 +
- drivers/gpu/drm/etnaviv/etnaviv_gem.c    | 1 +
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c    | 5 +++++
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c    | 2 +-
- 5 files changed, 11 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-index 721d633aece9..1edc02022be4 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-@@ -79,6 +79,9 @@ void etnaviv_cmdbuf_suballoc_destroy(struct etnaviv_cmdbuf_suballoc *suballoc)
- {
- 	dma_free_wc(suballoc->dev, SUBALLOC_SIZE, suballoc->vaddr,
- 		    suballoc->paddr);
-+
-+	mutex_destroy(&suballoc->lock);
-+
- 	kfree(suballoc);
- }
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 6500f3999c5f..7844cd961a29 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -564,6 +564,7 @@ static int etnaviv_bind(struct device *dev)
- out_destroy_suballoc:
- 	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
- out_free_priv:
-+	mutex_destroy(&priv->gem_lock);
- 	kfree(priv);
- out_put:
- 	drm_dev_put(drm);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index fe665ca20c02..b68e3b235a7d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -515,6 +515,7 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
- 	etnaviv_obj->ops->release(etnaviv_obj);
- 	drm_gem_object_release(obj);
- 
-+	mutex_destroy(&etnaviv_obj->lock);
- 	kfree(etnaviv_obj);
- }
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index af52922ff494..d6acc4c68102 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1929,8 +1929,13 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 
- static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
- {
-+	struct etnaviv_gpu *gpu = dev_get_drvdata(&pdev->dev);
-+
- 	component_del(&pdev->dev, &gpu_ops);
- 	pm_runtime_disable(&pdev->dev);
-+
-+	mutex_destroy(&gpu->lock);
-+	mutex_destroy(&gpu->sched_lock);
- }
- 
- static int etnaviv_gpu_rpm_suspend(struct device *dev)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index e3be16165c86..ed6c42384856 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -361,7 +361,7 @@ static void etnaviv_iommu_context_free(struct kref *kref)
- 		container_of(kref, struct etnaviv_iommu_context, refcount);
- 
- 	etnaviv_cmdbuf_suballoc_unmap(context, &context->cmdbuf_mapping);
--
-+	mutex_destroy(&context->lock);
- 	context->global->ops->free(context);
- }
- void etnaviv_iommu_context_put(struct etnaviv_iommu_context *context)
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index c16c7678237e..c48471c09e2f 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -391,7 +391,6 @@ static const struct dmi_system_id orientation_data[] = {
+ 	}, {	/* Lenovo Yoga Tab 3 X90F */
+ 		.matches = {
+ 		 DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+-		 DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
+ 		 DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
+ 		},
+ 		.driver_data = (void *)&lcd1600x2560_rightside_up,
 -- 
-2.34.1
+2.46.0
 
