@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E519C95E1B2
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2024 06:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF0895E1D9
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2024 07:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3736510E192;
-	Sun, 25 Aug 2024 04:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9715510E1BF;
+	Sun, 25 Aug 2024 05:16:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="tI7fZsIR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B713E10E192
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2024 04:28:22 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-05 (Coremail) with SMTP id zQCowAC3vzPYsspmG8MKCg--.4294S2;
- Sun, 25 Aug 2024 12:28:14 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, make24@iscas.ac.cn, bskeggs@redhat.com,
- airlied@redhat.com, akpm@linux-foundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: [PATCH RESEND] drm/nouveau: fix a possible null pointer dereference
-Date: Sun, 25 Aug 2024 12:28:07 +0800
-Message-Id: <20240825042807.2354750-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr
+ [80.12.242.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03EB810E1BF
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2024 05:16:37 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id i5c3sfnbnQaX2i5c3sLa2L; Sun, 25 Aug 2024 07:16:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1724562996;
+ bh=etav4+/0d2M+KsLJwpfXRerYAOxWEVkaPUajKyxnERA=;
+ h=Message-ID:Date:MIME-Version:Subject:From:To;
+ b=tI7fZsIR0lGDL5Pu+kP2C5UybE/oSXFDDtlpXC4+Ou/dEZJehmNg3cSPp0fbMf+kJ
+ /nl2i/cUQLxosXcliwSxw3wuWv1gSX3eMn5fwpSpJEvvgwh25wLN7dCi9tYfPRfsmc
+ BnTbo2u/NXT/bYI62v1S8aCAA6tXBDJGWee+849U9n/xNfCZyds4E7ajW15ItIv5tZ
+ u/Jr34DFxZb30t2kiYsdiIfD28l9kULLWpDdtBkNwMMGKigaobpkuSaKzNBaxGRi/c
+ o9HO204ux7k3oFB9h4pPS7qTj+KxSnKqvBWFbmxZzuOowXc2IQn7gJU01z3jUuGA3j
+ 3dX0K6x9UEmLw==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 25 Aug 2024 07:16:36 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <6d4ec950-878f-499c-a808-dd5b31c2ddb6@wanadoo.fr>
+Date: Sun, 25 Aug 2024 07:16:27 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 2/5] drm/mediatek: Fix missing of_node_put() for
+ mtk_drm_get_all_drm_priv()
+From: Marion & Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, hjc@rock-chips.com, heiko@sntech.de, 
+ andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ krzk@kernel.org, jic23@kernel.org
+References: <20240823092053.3170445-1-ruanjinjie@huawei.com>
+ <20240823092053.3170445-3-ruanjinjie@huawei.com>
+ <a4d23c3a-9791-4d2b-9853-9c9b27460db5@wanadoo.fr>
+Content-Language: en-US, fr-FR
+In-Reply-To: <a4d23c3a-9791-4d2b-9853-9c9b27460db5@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAC3vzPYsspmG8MKCg--.4294S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFykCryUWr4DuFyDCF1ftFb_yoW8GFWkpF
- srG34YyFW5JFZruF18Ja4avF15G3W7JF1xuw10van3C3ZayryUtryrXryYgryfAFW3Kr12
- qwnFvFy7WF12krJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
- rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
- 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUAxhLUUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +67,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In ch7006_encoder_get_modes(), the return value of drm_mode_duplicate() is
-used directly in drm_mode_probed_add(), which will lead to a NULL pointer
-dereference on failure of drm_mode_duplicate(). Add a check to avoid npd.
 
-Cc: stable@vger.kernel.org
-Fixes: 6ee738610f41 ("drm/nouveau: Add DRM driver for NVIDIA GPUs")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/i2c/ch7006_drv.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-index 131512a5f3bd..48bf6e4e8bdb 100644
---- a/drivers/gpu/drm/i2c/ch7006_drv.c
-+++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-@@ -229,6 +229,7 @@ static int ch7006_encoder_get_modes(struct drm_encoder *encoder,
- {
- 	struct ch7006_priv *priv = to_ch7006_priv(encoder);
- 	const struct ch7006_mode *mode;
-+	struct drm_display_mode *encoder_mode = NULL;
- 	int n = 0;
- 
- 	for (mode = ch7006_modes; mode->mode.clock; mode++) {
-@@ -236,8 +237,11 @@ static int ch7006_encoder_get_modes(struct drm_encoder *encoder,
- 		    ~mode->valid_norms & 1<<priv->norm)
- 			continue;
- 
--		drm_mode_probed_add(connector,
--				drm_mode_duplicate(encoder->dev, &mode->mode));
-+		encoder_mode = drm_mode_duplicate(encoder->dev, &mode->mode);
-+		if (!encoder_mode)
-+			return 0;
-+
-+		drm_mode_probed_add(connector, encoder_mode);
- 
- 		n++;
- 	}
--- 
-2.25.1
+Le 23/08/2024 à 12:46, Christophe JAILLET a écrit :
+>> @@ -933,10 +931,8 @@ static int mtk_drm_probe(struct platform_device 
+>> *pdev)
+>>           }
+>>           ret = mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], 
+>> comp_id);
+>> -        if (ret) {
+>> -            of_node_put(node);
+>> +        if (ret)
+>>               goto err_node;
+> 
+> Hi,
+> 
+> I've seen on another thread that is was not sure that scoped versions 
+> and gotos played well together.
+> 
+> It was asked to check more in details and confirm that it was safe 
+> before applying the patch.
+> 
+> I've not followed the discussion, so I just point it out, in case it helps.
+> 
+> I'll try to give it a look in the coming days.
+> 
+> 
+> CJ
+> 
 
+Hi,
+looking at the generated asm file (gcc 14.2.1), everything looks fine.
+
+# drivers/gpu/drm/mediatek/mtk_drm_drv.c:933: 		ret = 
+mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id);
+	salq	$5, %rax	#, _36
+	movl	%r14d, %edx	# comp_id,
+	movq	%rbx, %rdi	# node,
+	leaq	552(%rbp,%rax), %rsi	#, _28
+	call	mtk_ddp_comp_init	#
+	movl	%eax, %r12d	# tmp205, <retval>
+# drivers/gpu/drm/mediatek/mtk_drm_drv.c:934: 		if (ret)
+	testl	%eax, %eax	# <retval>
+	jne	.L212	#,
+
+...
+
+.L212:
+# ./include/linux/of.h:138: DEFINE_FREE(device_node, struct device_node 
+*, if (_T) of_node_put(_T))
+	movq	%rbx, %rdi	# node,
+	call	of_node_put	#
+	jmp	.L171	#
+
+CJ
