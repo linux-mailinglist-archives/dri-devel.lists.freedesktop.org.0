@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856D695E563
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2024 23:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4245F95E565
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2024 23:19:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585D110E070;
-	Sun, 25 Aug 2024 21:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3CF10E074;
+	Sun, 25 Aug 2024 21:19:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Ank4li6u";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="QblI4TTf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com
- [91.218.175.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 845B710E06B
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2024 21:19:47 +0000 (UTC)
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
+ [91.218.175.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38F2610E074
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2024 21:19:51 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1724620785;
+ t=1724620789;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sLbhQyosuMgaDHpyK8Ik2GZonV/i451ZkcNyo7o4Klg=;
- b=Ank4li6uKLashLRJebuBqMNVJAbsVilbMMwfvE1m0KuoGhu3su+xqWUwbSgotOfUgsG+9N
- VvRij9u1KKcsaidwYwdsfJPIluV0TWmT3DfY4M06PEmWmje/6D+i9TfMRUMOM9ajNe9VKE
- NCP5z37M14j9M+Ds1Y3R7n5wqNLzkUc=
+ bh=ogar9z4VeZmACj/ASu3ikNYNZmFcsKAcCHFxO52WAEo=;
+ b=QblI4TTfO9QDkkfg3tFSzDVrK/uv7gykV4VlKBCsVNodKnz8AuZD8cLpksKzDw3TSgTgNB
+ QfqgQAtPRiJqMZnBfGvG1MYpytnnPFAo/ZlowVm3EZRHxumMPT6WiwjhecMaUIMSj7PDLt
+ mOJV7tuYAhmXED/PxM023ElOCTgJmBo=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -38,9 +38,9 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH 1/2] drm/etnaviv: Implement drm_gem_object_funcs::print_info()
-Date: Mon, 26 Aug 2024 05:19:28 +0800
-Message-Id: <20240825211929.614631-2-sui.jingfeng@linux.dev>
+Subject: [PATCH 2/2] drm/etnaviv: Export drm_gem_print_info() and use it
+Date: Mon, 26 Aug 2024 05:19:29 +0800
+Message-Id: <20240825211929.614631-3-sui.jingfeng@linux.dev>
 In-Reply-To: <20240825211929.614631-1-sui.jingfeng@linux.dev>
 References: <20240825211929.614631-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -61,73 +61,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It will be called by drm_gem_print_info() if have implemented, and this can
-provide more information about the framebuffer objects.
+This will make the newly implemented etnaviv_gem_object_funcs::print_info
+get in use, which improves code sharing and simplifies debugfs. Achieve
+better humen readability for debug log.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_gem.h |  2 +-
- 2 files changed, 33 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem.c             |  1 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 11 ++++-------
+ include/drm/drm_gem.h                 |  2 ++
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index d4bbc5d109c8..9c5c971c1b23 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1160,6 +1160,7 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
+ 	if (obj->funcs->print_info)
+ 		obj->funcs->print_info(p, indent, obj);
+ }
++EXPORT_SYMBOL(drm_gem_print_info);
+ 
+ int drm_gem_pin_locked(struct drm_gem_object *obj)
+ {
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index 5c0c9d4e3be1..9a688c95f34d 100644
+index 9a688c95f34d..f2f446d46921 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -533,8 +533,40 @@ static const struct vm_operations_struct vm_ops = {
- 	.close = drm_gem_vm_close,
- };
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2015-2018 Etnaviv Project
+  */
  
-+static const char *etnaviv_gem_obj_caching_info(u32 flags)
-+{
-+	switch (flags & ETNA_BO_CACHE_MASK) {
-+	case ETNA_BO_CACHED:
-+		return "cached";
-+	case ETNA_BO_UNCACHED:
-+		return "uncached";
-+	case ETNA_BO_WC:
-+		return "write-combine";
-+	default:
-+		break;
-+	}
-+
-+	return "unknown";
-+}
-+
-+static void etnaviv_gem_object_info(struct drm_printer *p,
-+				    unsigned int indent,
-+				    const struct drm_gem_object *obj)
-+{
-+	const struct etnaviv_gem_object *etnaviv_obj;
-+
-+	etnaviv_obj = container_of(obj, struct etnaviv_gem_object, base);
-+
-+	drm_printf_indent(p, indent, "caching mode=%s\n",
-+			  etnaviv_gem_obj_caching_info(etnaviv_obj->flags));
-+	drm_printf_indent(p, indent, "active=%s\n",
-+			  str_yes_no(is_active(etnaviv_obj)));
-+	drm_printf_indent(p, indent, "vaddr=%p\n", etnaviv_obj->vaddr);
-+}
-+
- static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
- 	.free = etnaviv_gem_free_object,
-+	.print_info = etnaviv_gem_object_info,
- 	.pin = etnaviv_gem_prime_pin,
- 	.unpin = etnaviv_gem_prime_unpin,
- 	.get_sg_table = etnaviv_gem_prime_get_sg_table,
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-index a42d260cac2c..3f8fe19a77cc 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-@@ -68,7 +68,7 @@ struct etnaviv_gem_ops {
- 	int (*mmap)(struct etnaviv_gem_object *, struct vm_area_struct *);
- };
- 
--static inline bool is_active(struct etnaviv_gem_object *etnaviv_obj)
-+static inline bool is_active(const struct etnaviv_gem_object *etnaviv_obj)
++#include <drm/drm_gem.h>
+ #include <drm/drm_prime.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/shmem_fs.h>
+@@ -432,15 +433,11 @@ int etnaviv_gem_wait_bo(struct etnaviv_gpu *gpu, struct drm_gem_object *obj,
+ #ifdef CONFIG_DEBUG_FS
+ static void etnaviv_gem_describe(struct drm_gem_object *obj, struct seq_file *m)
  {
- 	return atomic_read(&etnaviv_obj->gpu_active) != 0;
- }
+-	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
++	struct drm_printer p = drm_seq_file_printer(m);
+ 	struct dma_resv *robj = obj->resv;
+-	unsigned long off = drm_vma_node_start(&obj->vma_node);
+ 	int r;
+ 
+-	seq_printf(m, "%08x: %c %2d (%2d) %08lx %p %zd\n",
+-			etnaviv_obj->flags, is_active(etnaviv_obj) ? 'A' : 'I',
+-			obj->name, kref_read(&obj->refcount),
+-			off, etnaviv_obj->vaddr, obj->size);
++	drm_gem_print_info(&p, 1, obj);
+ 
+ 	r = dma_resv_lock(robj, NULL);
+ 	if (r)
+@@ -461,7 +458,7 @@ void etnaviv_gem_describe_objects(struct etnaviv_drm_private *priv,
+ 	list_for_each_entry(etnaviv_obj, &priv->gem_list, gem_node) {
+ 		struct drm_gem_object *obj = &etnaviv_obj->base;
+ 
+-		seq_puts(m, "   ");
++		seq_printf(m, "obj[%d]:\n", count);
+ 		etnaviv_gem_describe(obj, m);
+ 		count++;
+ 		size += obj->size;
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index bae4865b2101..0791566fab53 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -480,6 +480,8 @@ void drm_gem_vm_close(struct vm_area_struct *vma);
+ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
+ 		     struct vm_area_struct *vma);
+ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
++void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
++			const struct drm_gem_object *obj);
+ 
+ /**
+  * drm_gem_object_get - acquire a GEM buffer object reference
 -- 
 2.34.1
 
