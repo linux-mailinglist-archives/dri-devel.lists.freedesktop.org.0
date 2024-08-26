@@ -2,58 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA0695F74D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 19:00:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFDB95F7C2
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 19:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE99F10E264;
-	Mon, 26 Aug 2024 17:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1090C10E272;
+	Mon, 26 Aug 2024 17:15:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O/jy49Rt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GhrWZCLO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED43B10E25D;
- Mon, 26 Aug 2024 17:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724691650; x=1756227650;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=51K5wzXb0gghUiwWQs7D+UNeNaRsXn/Mb6dnZ9Xz5fw=;
- b=O/jy49RtsDhr0Ln2zjIZAxB6FMxhP1aWDTxHDL661cmDkdiXCJmh8yQ4
- bNMudno9YevX/5yYB20f+UzcThijucAITDYOKmOJ0wZNXtQxi/dd6rGDs
- gpV6HgSt3/x8QvLcd7TpB4LOq2xOY/Uvc/DrPFKMumOXrMafj9TS1muEy
- FtmfDWgts36BGXe6Me8spjN/p+4THtfa7yEa4/qhpVISLMV3XZzQNM8Yv
- UGGd0nwW2Sw8OPFT0ET3wlHSNQH4L8o025P0Gvy6adYQbP+oP4f+WLUTr
- B56yF5LWnCdGdPYdTMy3v9jdtIXjxRp+7rNWFtvl6d+djboiT3G2fsv4G w==;
-X-CSE-ConnectionGUID: 5f91piETTimvyUYMV0HCYg==
-X-CSE-MsgGUID: JGdU097wQS2cCWOT5MBezQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22997996"
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; d="scan'208";a="22997996"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2024 10:00:50 -0700
-X-CSE-ConnectionGUID: 9ojHYr0gRSerNPdnAs0WKg==
-X-CSE-MsgGUID: sqIaTgMJR/i3ArYsrLGDQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; d="scan'208";a="62247121"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2024 10:00:49 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-xe@lists.freedesktop.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Subject: [PATCH v2 2/2] drm/xe: Invalidate media_gt TLBs in PT code
-Date: Mon, 26 Aug 2024 10:01:44 -0700
-Message-Id: <20240826170144.2492062-3-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240826170144.2492062-1-matthew.brost@intel.com>
-References: <20240826170144.2492062-1-matthew.brost@intel.com>
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1CD810E272;
+ Mon, 26 Aug 2024 17:15:54 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-714186ce2f2so3469495b3a.0; 
+ Mon, 26 Aug 2024 10:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724692554; x=1725297354; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vcql72JPQTQ2OTkoapF5mbW4vnMiQPQvKYGW7HfPhkQ=;
+ b=GhrWZCLOoGbWnteknNkdEWTjGE6OVOBNzJREoQcl3WCjs1hszSCbwq3LzAVgrdu6M/
+ xQk9Nm+6m1IF5jHpuL7qDqUwXoXuhsmocwhWvMiWwtZr0kg+lqKQgeaTG79tp1csN8KR
+ RmZcbmzt0hrg/y5BRV1vKXglvBPo5PXPXcl+u4eTxEG0oNAwitlbNHLo2VDplKHiANTl
+ rCjGZtmipiQ+G9Y6zV+vhseSqAVmfYnoh62x+IC27KYzSC7cI7ItZ8FYlRv4U5xG55t1
+ xzPHMi68cq/0R+FW1YbdIc2ovxW2BiFqPBPrtefSMdveyzlAK4TA8PKCDhu7oGy/Y2h5
+ ygcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724692554; x=1725297354;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Vcql72JPQTQ2OTkoapF5mbW4vnMiQPQvKYGW7HfPhkQ=;
+ b=WPFYZu/qd0+sYdChm2W+o3+o+DLpiGr7UNfUxaPhfElgXs2zt7j26f+diAYRjjbM6g
+ 2zRxMiUADt+U7mcT8RueTqeGCb+jdrRw/MELf3Pw224CSJgSSu/aEDNP7RsVBWTKuTJ0
+ TpBq2I7AVKA/bcbf3VksVKS5aNh66OIoVkv7RMKPtAxckKst6I2GuVFDY6Y+eEKtOugx
+ BmICFBzbeuZqDQvT9wMQtVOdsh/SgyJyV5v4RhTDaFcELMIBLVNnKZErOhfm58nldzvp
+ gsMMDDqUL+5LH2nDnpLoPyh05E4PlTRtJwW3vbn/HRKRt6unIm52FLGEvl+xSyWpdICV
+ zOAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVKZAlSdKcMLG3EVH6/mO0JjTWUPLIXZqrTNdlIoTitBkkaSAHDJNrT+DGQ2VywrlJDbSjqnZDyWQg=@lists.freedesktop.org,
+ AJvYcCVUQDZHFvYlqfq/bzLN9J3mt8RJQJ+s08TjW8aJ14C2ppOh84I8Y3kyVU5zzIlvuFzPFfoZjsbzaRTk@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCTfeCcX+8vjjVYj9pYACfEL658m+tYefLRdXGgL1FLDyWaj5w
+ fvo4pGN5hIcNvH6L05WUBQXWay6i2Ob/L1sFfyUPaYXEM4I3q3ND
+X-Google-Smtp-Source: AGHT+IHqCiVZD8k41tBXvr0tubaCtVb1j37tqzR+PZ1WdzT88DIUTlpRPwV6ErHFhiO0ftk2Eidn8w==
+X-Received: by 2002:a05:6a20:4f89:b0:1cc:bb4e:a905 with SMTP id
+ adf61e73a8af0-1ccbb4ea95amr1234779637.1.1724692553998; 
+ Mon, 26 Aug 2024 10:15:53 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7cd9acdca6asm6761815a12.48.2024.08.26.10.15.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Aug 2024 10:15:53 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: iommu@lists.linux.dev
+Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
+ GPUs), 
+ freedreno@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
+ GPUs), Jason Gunthorpe <jgg@ziepe.ca>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+ linux-arm-msm@vger.kernel.org (open list:DRM DRIVER for Qualcomm Adreno GPUs), 
+ linux-kernel@vger.kernel.org (open list),
+ linux-pm@vger.kernel.org (open list:SUSPEND TO RAM),
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Ryan Roberts <ryan.roberts@arm.com>, Sean Paul <sean@poorly.run>
+Subject: [PATCH v8 0/4] io-pgtable-arm + drm/msm: Extend iova fault debugging
+Date: Mon, 26 Aug 2024 10:15:37 -0700
+Message-ID: <20240826171546.6777-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,258 +96,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Testing on LNL has shown media GT's TLBs need to be invalidated via the
-GuC, update PT code appropriately.
+From: Rob Clark <robdclark@chromium.org>
 
-v2:
- - Do dma_fence_get before first call of invalidation_fence_init (Himal)
- - No need to check for valid chain fence (Himal)
-v3:
- - Use dma-fence-array
+This series extends io-pgtable-arm with a method to retrieve the page
+table entries traversed in the process of address translation, and then
+beefs up drm/msm gpu devcore dump to include this (and additional info)
+in the devcore dump.
 
-Fixes: 3330361543fc ("drm/xe/lnl: Add LNL platform definition")
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_pt.c | 117 ++++++++++++++++++++++++++++++-------
- 1 file changed, 96 insertions(+), 21 deletions(-)
+This is a respin of https://patchwork.freedesktop.org/series/94968/
+(minus a patch that was already merged)
 
-diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-index 579ed31b46db..d6353e8969f0 100644
---- a/drivers/gpu/drm/xe/xe_pt.c
-+++ b/drivers/gpu/drm/xe/xe_pt.c
-@@ -3,6 +3,8 @@
-  * Copyright © 2022 Intel Corporation
-  */
- 
-+#include <linux/dma-fence-array.h>
-+
- #include "xe_pt.h"
- 
- #include "regs/xe_gtt_defs.h"
-@@ -1627,9 +1629,11 @@ xe_pt_update_ops_rfence_interval(struct xe_vm_pgtable_update_ops *pt_update_ops,
- 
- static int vma_reserve_fences(struct xe_device *xe, struct xe_vma *vma)
- {
-+	int shift = xe_device_get_root_tile(xe)->media_gt ? 1 : 0;
-+
- 	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
- 		return dma_resv_reserve_fences(xe_vma_bo(vma)->ttm.base.resv,
--					       xe->info.tile_count);
-+					       xe->info.tile_count << shift);
- 
- 	return 0;
- }
-@@ -1816,6 +1820,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
- 	struct xe_vm_pgtable_update_ops *pt_update_ops =
- 		&vops->pt_update_ops[tile->id];
- 	struct xe_vma_op *op;
-+	int shift = tile->media_gt ? 1 : 0;
- 	int err;
- 
- 	lockdep_assert_held(&vops->vm->lock);
-@@ -1824,7 +1829,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
- 	xe_pt_update_ops_init(pt_update_ops);
- 
- 	err = dma_resv_reserve_fences(xe_vm_resv(vops->vm),
--				      tile_to_xe(tile)->info.tile_count);
-+				      tile_to_xe(tile)->info.tile_count << shift);
- 	if (err)
- 		return err;
- 
-@@ -1849,13 +1854,20 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
- 
- static void bind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
- 			   struct xe_vm_pgtable_update_ops *pt_update_ops,
--			   struct xe_vma *vma, struct dma_fence *fence)
-+			   struct xe_vma *vma, struct dma_fence *fence,
-+			   struct dma_fence *fence2)
- {
--	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
-+	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm) {
- 		dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence,
- 				   pt_update_ops->wait_vm_bookkeep ?
- 				   DMA_RESV_USAGE_KERNEL :
- 				   DMA_RESV_USAGE_BOOKKEEP);
-+		if (fence2)
-+			dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence2,
-+					   pt_update_ops->wait_vm_bookkeep ?
-+					   DMA_RESV_USAGE_KERNEL :
-+					   DMA_RESV_USAGE_BOOKKEEP);
-+	}
- 	vma->tile_present |= BIT(tile->id);
- 	vma->tile_staged &= ~BIT(tile->id);
- 	if (xe_vma_is_userptr(vma)) {
-@@ -1875,13 +1887,20 @@ static void bind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
- 
- static void unbind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
- 			     struct xe_vm_pgtable_update_ops *pt_update_ops,
--			     struct xe_vma *vma, struct dma_fence *fence)
-+			     struct xe_vma *vma, struct dma_fence *fence,
-+			     struct dma_fence *fence2)
- {
--	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
-+	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm) {
- 		dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence,
- 				   pt_update_ops->wait_vm_bookkeep ?
- 				   DMA_RESV_USAGE_KERNEL :
- 				   DMA_RESV_USAGE_BOOKKEEP);
-+		if (fence2)
-+			dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence2,
-+					   pt_update_ops->wait_vm_bookkeep ?
-+					   DMA_RESV_USAGE_KERNEL :
-+					   DMA_RESV_USAGE_BOOKKEEP);
-+	}
- 	vma->tile_present &= ~BIT(tile->id);
- 	if (!vma->tile_present) {
- 		list_del_init(&vma->combined_links.rebind);
-@@ -1898,7 +1917,8 @@ static void unbind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
- static void op_commit(struct xe_vm *vm,
- 		      struct xe_tile *tile,
- 		      struct xe_vm_pgtable_update_ops *pt_update_ops,
--		      struct xe_vma_op *op, struct dma_fence *fence)
-+		      struct xe_vma_op *op, struct dma_fence *fence,
-+		      struct dma_fence *fence2)
- {
- 	xe_vm_assert_held(vm);
- 
-@@ -1907,26 +1927,28 @@ static void op_commit(struct xe_vm *vm,
- 		if (!op->map.immediate && xe_vm_in_fault_mode(vm))
- 			break;
- 
--		bind_op_commit(vm, tile, pt_update_ops, op->map.vma, fence);
-+		bind_op_commit(vm, tile, pt_update_ops, op->map.vma, fence,
-+			       fence2);
- 		break;
- 	case DRM_GPUVA_OP_REMAP:
- 		unbind_op_commit(vm, tile, pt_update_ops,
--				 gpuva_to_vma(op->base.remap.unmap->va), fence);
-+				 gpuva_to_vma(op->base.remap.unmap->va), fence,
-+				 fence2);
- 
- 		if (op->remap.prev)
- 			bind_op_commit(vm, tile, pt_update_ops, op->remap.prev,
--				       fence);
-+				       fence, fence2);
- 		if (op->remap.next)
- 			bind_op_commit(vm, tile, pt_update_ops, op->remap.next,
--				       fence);
-+				       fence, fence2);
- 		break;
- 	case DRM_GPUVA_OP_UNMAP:
- 		unbind_op_commit(vm, tile, pt_update_ops,
--				 gpuva_to_vma(op->base.unmap.va), fence);
-+				 gpuva_to_vma(op->base.unmap.va), fence, fence2);
- 		break;
- 	case DRM_GPUVA_OP_PREFETCH:
- 		bind_op_commit(vm, tile, pt_update_ops,
--			       gpuva_to_vma(op->base.prefetch.va), fence);
-+			       gpuva_to_vma(op->base.prefetch.va), fence, fence2);
- 		break;
- 	default:
- 		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-@@ -1963,7 +1985,9 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- 	struct xe_vm_pgtable_update_ops *pt_update_ops =
- 		&vops->pt_update_ops[tile->id];
- 	struct dma_fence *fence;
--	struct invalidation_fence *ifence = NULL;
-+	struct invalidation_fence *ifence = NULL, *mfence = NULL;
-+	struct dma_fence **fences = NULL;
-+	struct dma_fence_array *cf = NULL;
- 	struct xe_range_fence *rfence;
- 	struct xe_vma_op *op;
- 	int err = 0, i;
-@@ -1996,6 +2020,23 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- 			err = -ENOMEM;
- 			goto kill_vm_tile1;
- 		}
-+		if (tile->media_gt) {
-+			mfence = kzalloc(sizeof(*ifence), GFP_KERNEL);
-+			if (!mfence) {
-+				err = -ENOMEM;
-+				goto free_ifence;
-+			}
-+			fences = kmalloc_array(2, sizeof(*fences), GFP_KERNEL);
-+			if (!fences) {
-+				err = -ENOMEM;
-+				goto free_ifence;
-+			}
-+			cf = dma_fence_array_alloc(2);
-+			if (!cf) {
-+				err = -ENOMEM;
-+				goto free_ifence;
-+			}
-+		}
- 	}
- 
- 	rfence = kzalloc(sizeof(*rfence), GFP_KERNEL);
-@@ -2027,19 +2068,50 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- 
- 	/* tlb invalidation must be done before signaling rebind */
- 	if (ifence) {
-+		if (mfence)
-+			dma_fence_get(fence);
- 		invalidation_fence_init(tile->primary_gt, ifence, fence,
- 					pt_update_ops->start,
- 					pt_update_ops->last, vm->usm.asid);
--		fence = &ifence->base.base;
-+		if (mfence) {
-+			invalidation_fence_init(tile->media_gt, mfence, fence,
-+						pt_update_ops->start,
-+						pt_update_ops->last, vm->usm.asid);
-+			fences[0] = &ifence->base.base;
-+			fences[1] = &mfence->base.base;
-+			dma_fence_array_init(cf, 2, fences,
-+					     vm->composite_fence_ctx,
-+					     vm->composite_fence_seqno++,
-+					     false);
-+			fence = &cf->base;
-+		} else {
-+			fence = &ifence->base.base;
-+		}
- 	}
- 
--	dma_resv_add_fence(xe_vm_resv(vm), fence,
--			   pt_update_ops->wait_vm_bookkeep ?
--			   DMA_RESV_USAGE_KERNEL :
--			   DMA_RESV_USAGE_BOOKKEEP);
-+	if (!mfence) {
-+		dma_resv_add_fence(xe_vm_resv(vm), fence,
-+				   pt_update_ops->wait_vm_bookkeep ?
-+				   DMA_RESV_USAGE_KERNEL :
-+				   DMA_RESV_USAGE_BOOKKEEP);
- 
--	list_for_each_entry(op, &vops->list, link)
--		op_commit(vops->vm, tile, pt_update_ops, op, fence);
-+		list_for_each_entry(op, &vops->list, link)
-+			op_commit(vops->vm, tile, pt_update_ops, op, fence, NULL);
-+	} else {
-+		dma_resv_add_fence(xe_vm_resv(vm), &ifence->base.base,
-+				   pt_update_ops->wait_vm_bookkeep ?
-+				   DMA_RESV_USAGE_KERNEL :
-+				   DMA_RESV_USAGE_BOOKKEEP);
-+
-+		dma_resv_add_fence(xe_vm_resv(vm), &mfence->base.base,
-+				   pt_update_ops->wait_vm_bookkeep ?
-+				   DMA_RESV_USAGE_KERNEL :
-+				   DMA_RESV_USAGE_BOOKKEEP);
-+
-+		list_for_each_entry(op, &vops->list, link)
-+			op_commit(vops->vm, tile, pt_update_ops, op,
-+				  &ifence->base.base, &mfence->base.base);
-+	}
- 
- 	if (pt_update_ops->needs_userptr_lock)
- 		up_read(&vm->userptr.notifier_lock);
-@@ -2049,6 +2121,9 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- free_rfence:
- 	kfree(rfence);
- free_ifence:
-+	kfree(cf);
-+	kfree(fences);
-+	kfree(mfence);
- 	kfree(ifence);
- kill_vm_tile1:
- 	if (err != -EAGAIN && tile->id)
+v2: Fix an armv7/32b build error in the last patch
+v3: Incorperate Will Deacon's suggestion to make the interface
+    callback based.
+v4: Actually wire up the callback
+v5: Drop the callback approach
+v6: Make walk-data struct pgtable specific and rename
+    io_pgtable_walk_data to arm_lpae_io_pgtable_walk_data
+v7: Re-use the pgtable walker added for arm_lpae_read_and_clear_dirty()
+v8: Pass pte pointer to callback so it can modify the actual pte
+
+Rob Clark (4):
+  iommu/io-pgtable-arm: Make pgtable walker more generic
+  iommu/io-pgtable-arm: Re-use the pgtable walk for iova_to_phys
+  iommu/io-pgtable-arm: Add way to debug pgtable walk
+  drm/msm: Extend gpu devcore dumps with pgtbl info
+
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  10 ++
+ drivers/gpu/drm/msm/msm_gpu.c           |   9 ++
+ drivers/gpu/drm/msm/msm_gpu.h           |   8 ++
+ drivers/gpu/drm/msm/msm_iommu.c         |  22 ++++
+ drivers/gpu/drm/msm/msm_mmu.h           |   3 +-
+ drivers/iommu/io-pgtable-arm.c          | 147 +++++++++++++++---------
+ include/linux/io-pgtable.h              |  15 +++
+ 7 files changed, 158 insertions(+), 56 deletions(-)
+
 -- 
-2.34.1
+2.46.0
 
