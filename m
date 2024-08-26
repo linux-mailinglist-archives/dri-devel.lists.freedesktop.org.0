@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A6995EC52
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 10:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0C095EC9E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 11:04:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E482A10E159;
-	Mon, 26 Aug 2024 08:48:51 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P+ow5oZZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3D310E16B;
+	Mon, 26 Aug 2024 09:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8968110E159
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2024 08:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724662130; x=1756198130;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ivDrXDjZCvz0itNYQSrMVAf6h59DsHsxfzGPHAE7xRY=;
- b=P+ow5oZZ68klKh5xL+XuXF8if+pCMoq10lPWllqzpMAiRfIFjDhQg7oA
- 4T4e1ByRM/pgSL1LlV3pUKV7OnkwiDtkzvSqbyFMJaC13+9Npbuc2TCV7
- rR+8eaz5dWt3bOeDXtDXXVTVccyMvIpKhBn8WSaVliK2TrYgmOXQ9WdJE
- 9QjdTWQkQqInYkuQnJnsMOlnL2MdykBU1RRosfj9/LuXDYRfy9P1diK1H
- h/c4mVUkUApmrHbXHt5QsyOdiGWSrc0V/j/9inPg38PcQSHm15rJSI24/
- XLiX72iPuapbjLBbCLSjv/+mdshGhwW6/1nFFgSPCNr2+WPsPF1MXjDXD Q==;
-X-CSE-ConnectionGUID: I/fxiJOOSEmufjnybteOwQ==
-X-CSE-MsgGUID: hqCYA7GzQZSjHqdTHwmG/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33637142"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; d="scan'208";a="33637142"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2024 01:48:50 -0700
-X-CSE-ConnectionGUID: 0vx/ju4ORuSGax8Dbe0qCg==
-X-CSE-MsgGUID: 50Dv08qmT8OMDmfHS1js4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; d="scan'208";a="62139246"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.113])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2024 01:48:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Derek Foreman <derek.foreman@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Maxime Ripard <mripard@kernel.org>, kernel@collabora.com, Derek Foreman
- <derek.foreman@collabora.com>
-Subject: Re: [PATCH v2] drm/connector: hdmi: Increase
- HDMI_MAX_INFOFRAME_SIZE to 30
-In-Reply-To: <20240823164621.385651-1-derek.foreman@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240823164621.385651-1-derek.foreman@collabora.com>
-Date: Mon, 26 Aug 2024 11:48:34 +0300
-Message-ID: <87bk1f3c0t.fsf@intel.com>
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA24610E167
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2024 09:04:14 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wsl7D27nYzpTZH;
+ Mon, 26 Aug 2024 17:02:32 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+ by mail.maildlp.com (Postfix) with ESMTPS id 28A361401F0;
+ Mon, 26 Aug 2024 17:04:11 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemh500013.china.huawei.com (7.202.181.146) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 26 Aug 2024 17:04:09 +0800
+Message-ID: <ab3c09e7-43cc-b946-0f7c-44ea7f4111f2@huawei.com>
+Date: Mon, 26 Aug 2024 17:04:09 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH -next 1/5] drm/rockchip: Use
+ for_each_child_of_node_scoped()
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC: <hjc@rock-chips.com>, <heiko@sntech.de>, <andy.yan@rock-chips.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <krzk@kernel.org>, <jic23@kernel.org>
+References: <20240823092053.3170445-1-ruanjinjie@huawei.com>
+ <20240823092053.3170445-2-ruanjinjie@huawei.com>
+ <20240823123203.00002aac@Huawei.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20240823123203.00002aac@Huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.109.254]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,121 +62,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Aug 2024, Derek Foreman <derek.foreman@collabora.com> wrote:
-> The largest infoframe we create is the DRM (Dynamic Range Mastering)
-> infoframe which is 26 bytes + a 4 byte header, for a total of 30
-> bytes.
->
-> With HDMI_MAX_INFOFRAME_SIZE set to 29 bytes, as it is now, we
-> allocate too little space to pack a DRM infoframe in
-> write_device_infoframe(), leading to an ENOSPC return from
-> hdmi_infoframe_pack(), and never calling the connector's
-> write_infoframe() vfunc.
->
-> Increase HDMI_MAX_INFOFRAME_SIZE to 30 so we can successfully
-> write DRM infoframes.
->
-> The drm_debugfs code is similarly updated.
->
-> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-
-Okay, thanks for the info. Looking into it, I think keeping this in two
-places and disconnected from the actual infoframe size definitions is
-hard to maintain. Maybe something like this:
 
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 7854820089ec..feb7a3a75981 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -521,8 +521,6 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
- 
--#define HDMI_MAX_INFOFRAME_SIZE		29
--
- static int clear_device_infoframe(struct drm_connector *connector,
- 				  enum hdmi_infoframe_type type)
- {
-@@ -563,7 +561,7 @@ static int write_device_infoframe(struct drm_connector *connector,
- {
- 	const struct drm_connector_hdmi_funcs *funcs = connector->hdmi.funcs;
- 	struct drm_device *dev = connector->dev;
--	u8 buffer[HDMI_MAX_INFOFRAME_SIZE];
-+	u8 buffer[HDMI_INFOFRAME_SIZE(MAX)];
- 	int ret;
- 	int len;
- 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 6b239a24f1df..9d3e6dd68810 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -520,8 +520,6 @@ static const struct file_operations drm_connector_fops = {
- 	.write = connector_write
- };
- 
--#define HDMI_MAX_INFOFRAME_SIZE		29
--
- static ssize_t
- audio_infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
- {
-@@ -579,7 +577,7 @@ static ssize_t _f##_read_infoframe(struct file *filp, \
- 	struct drm_connector *connector; \
- 	union hdmi_infoframe *frame; \
- 	struct drm_device *dev; \
--	u8 buf[HDMI_MAX_INFOFRAME_SIZE]; \
-+	u8 buf[HDMI_INFOFRAME_SIZE(MAX)]; \
- 	ssize_t len = 0; \
- 	\
- 	connector = filp->private_data; \
-diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
-index 3bb87bf6bc65..3a442a59919e 100644
---- a/include/linux/hdmi.h
-+++ b/include/linux/hdmi.h
-@@ -59,6 +59,9 @@ enum hdmi_infoframe_type {
- #define HDMI_DRM_INFOFRAME_SIZE    26
- #define HDMI_VENDOR_INFOFRAME_SIZE  4
- 
-+/* The biggest infoframe size */
-+#define HDMI_MAX_INFOFRAME_SIZE		HDMI_DRM_INFOFRAME_SIZE
-+
- #define HDMI_INFOFRAME_SIZE(type)	\
- 	(HDMI_INFOFRAME_HEADER_SIZE + HDMI_ ## type ## _INFOFRAME_SIZE)
- 
+On 2024/8/23 19:32, Jonathan Cameron wrote:
+> On Fri, 23 Aug 2024 17:20:49 +0800
+> Jinjie Ruan <ruanjinjie@huawei.com> wrote:
+> 
+>> Avoids the need for manual cleanup of_node_put() in early exits
+>> from the loop.
+>>
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> 
+> There is more to do here, and looking at the code, I'm far from
+> sure it isn't releasing references it never had.
+> 
+>> ---
+>>  drivers/gpu/drm/rockchip/rockchip_lvds.c | 8 +++-----
+>>  1 file changed, 3 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+>> index 9a01aa450741..f5b3f18794dd 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+>> @@ -548,7 +548,7 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
+>>  	struct drm_encoder *encoder;
+>>  	struct drm_connector *connector;
+>>  	struct device_node *remote = NULL;
+>> -	struct device_node  *port, *endpoint;
+> 
+> Odd extra space before *port in original. Clean that up whilst here.
+> 
+> 
+>> +	struct device_node  *port;
+> 
+> Use __free(device_node) for *port as well.
+> 
+> So where the current asignment is.
+> 	struct device_node *port = of_graph_get_port_by_id(dev->of_node, 1);
+> 
+>>  	int ret = 0, child_count = 0;
+>>  	const char *name;
+>>  	u32 endpoint_id = 0;
+>> @@ -560,15 +560,13 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
+>>  			      "can't found port point, please init lvds panel port!\n");
+>>  		return -EINVAL;
+>>  	}
+>> -	for_each_child_of_node(port, endpoint) {
+>> +	for_each_child_of_node_scoped(port, endpoint) {
+>>  		child_count++;
+>>  		of_property_read_u32(endpoint, "reg", &endpoint_id);
+>>  		ret = drm_of_find_panel_or_bridge(dev->of_node, 1, endpoint_id,
+>>  						  &lvds->panel, &lvds->bridge);
+>> -		if (!ret) {
+>> -			of_node_put(endpoint);
+>> +		if (!ret)
+>>  			break;
+> 
+> This then can simply be
+> 			return dev_err_probe(dev, ret,
+> 					     "failed to find pannel and bridge node\n");
+>> -		}
 
+Thank you! I'll resend and cleanup them.
 
-
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 +-
->  drivers/gpu/drm/drm_debugfs.c                   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> index 7854820089ec..cc7747d33fdf 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -521,7 +521,7 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
->  
-> -#define HDMI_MAX_INFOFRAME_SIZE		29
-> +#define HDMI_MAX_INFOFRAME_SIZE		30
->  
->  static int clear_device_infoframe(struct drm_connector *connector,
->  				  enum hdmi_infoframe_type type)
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index 6b239a24f1df..3439fd65275a 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -520,7 +520,7 @@ static const struct file_operations drm_connector_fops = {
->  	.write = connector_write
->  };
->  
-> -#define HDMI_MAX_INFOFRAME_SIZE		29
-> +#define HDMI_MAX_INFOFRAME_SIZE		30
->  
->  static ssize_t
->  audio_infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
-
--- 
-Jani Nikula, Intel
+> 
+> Various other paths become direct returns as well.
+> 
+>>  	}
+> 
+> The later code with remote looks suspect as not obvious who got the reference that
+> is being put but assuming that is correct, it's another possible place for __free based
+> cleanup.
+> 
+> 
+>>  	if (!child_count) {
+>>  		DRM_DEV_ERROR(dev, "lvds port does not have any children\n");
+> 
