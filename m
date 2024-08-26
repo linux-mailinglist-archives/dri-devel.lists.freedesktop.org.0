@@ -2,83 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC6995F7C8
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 19:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B3B95F897
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 19:57:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C22510E276;
-	Mon, 26 Aug 2024 17:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 490A110E20B;
+	Mon, 26 Aug 2024 17:57:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FVP7+1D9";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SBJsL0li";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A90B910E275;
- Mon, 26 Aug 2024 17:16:06 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-20231aa8908so35454615ad.0; 
- Mon, 26 Aug 2024 10:16:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724692566; x=1725297366; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Cgk9ZwZd91vOVt90fIiETgBR9DeXKbUMnWSmPau0W5M=;
- b=FVP7+1D9SvRG0zCbY4cXj8X/LY5IGFAMLThAD0U6Y02ryQS8i3J9M5t5zpcKyOUP/r
- QeuwNfcdpsKnE1UE7+MAQ8bfOkZJr+LnBKYEnu8NTbcBdLtaEhSSxXwbhRV7pIOeHo/b
- 8ZIlkiQRc+WcN++XirwARaT+u/hka+07WA/5K7nrYfblpaBiT5I3VqYLMk56gsnbF1Sk
- HX6h1MgfPZGzO9TcdedbwGSgFYFHRWUyJkJ1ND9DpcR0viCgEXGAs+l9moY63cbRU/vW
- u4gyNeB10rRK+DGQGroY3w/BCfIH3OYfShFXBP9bpRCoPoPWmeA71xUUEggDcBgfud2P
- W5Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724692566; x=1725297366;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Cgk9ZwZd91vOVt90fIiETgBR9DeXKbUMnWSmPau0W5M=;
- b=CTpMQ/vyJWbi8pub8wGEabiFwUxsas2DX09Dbo0TuZDmhDKwSbXKj/fxhRf8oe6Jmc
- yZKXzLbOlPsAcSJw4ZO69W9pQPRyj4AaFpJSh9C5KByXn5YdZPaD/FxHYjpQbRF3tlL/
- cO/yBcjMksw1SbH2OM1RrEbDORIPfN3jpJXoYU3XAbdClDRurJQZFE3ZxaICWtZaXPmN
- ebTp4amGgAK/6tr1it9A4iI7B8Eyt/F6Mo+FRL7aKZrai+O6Ef3APEJ7SqC5I2Z+2kw5
- jI767hgWK2SGHdjLhWE4XExSJlL1Cpp/0sOlEKY+iPYIquT/DYDVBfUK5VFoaTmc91Yq
- d8nA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFTtCfDQlo7xXi5buqaPGNJ3ZzK/j/g2sCHk/nl8cwIbJPcqYZoJl9Cs7GgTW7u07Qc9h3Xzobj0me@lists.freedesktop.org,
- AJvYcCX5nwd4+J//t8rUQ5BlOIOtjHnq50ZEHsNbJ8FLKfVeCuyCSGLDzqByI7CEPttYeAVeZsuV6z2FQLE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxLD9u16CyiKKeD/BsgN1RBy8t24+6qdRp7PgKQDOn0nynkr0i
- 8yp5OtTaY65h5kw3B2UmhwMSN/zZ3XtFbisZOKdi+GsK8NwhFgDm
-X-Google-Smtp-Source: AGHT+IHGL1MOQ7nhSehnfvO75y0Ls4GPWtSRbqyg7KY7kq6ZyQvUf9DWVxti63QNaWSL53DiyLEF1A==
-X-Received: by 2002:a17:903:186:b0:202:244e:a0cc with SMTP id
- d9443c01a7336-204df4d3543mr2327305ad.45.1724692565761; 
- Mon, 26 Aug 2024 10:16:05 -0700 (PDT)
-Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-203855dbd96sm69825935ad.175.2024.08.26.10.16.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2024 10:16:05 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: iommu@lists.linux.dev
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org (open list:DRM DRIVER for Qualcomm Adreno GPUs), 
- dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
- GPUs), 
- freedreno@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
- GPUs), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v8 4/4] drm/msm: Extend gpu devcore dumps with pgtbl info
-Date: Mon, 26 Aug 2024 10:15:41 -0700
-Message-ID: <20240826171546.6777-5-robdclark@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240826171546.6777-1-robdclark@gmail.com>
-References: <20240826171546.6777-1-robdclark@gmail.com>
-MIME-Version: 1.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2059.outbound.protection.outlook.com [40.107.236.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AB310E209;
+ Mon, 26 Aug 2024 17:57:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x56yXmaa9dvWysl0p2MUV9zH1pPHvFZX/WxOgil2fBiKGdvuhZH7QyfYZiz2lUlMvSG6Nh2N273YAPkL7LhEM0ZWlOoBHLqr1drBtbhbxJ9FVrsE75dUYM0zK7JMbLyepcWRwiKes0rPyDrIdFcFX7k9Auj/5IurMHOzXO3Bcdoo2xeotPlA6/9SuO8Q+b3s3FtRa5A3QQOQhZepuFZfVT06JyTlOXxZKINBaschxrKYBhaaPoBK42JouKL2D+2DiJaexRqENOA7sCCofPjZKOkX2h90TJRU79zTwXOhPHxWkBPKsT0QNzhchsJuBV123j7EGjyz4su5f2LczE2G+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jttVVjBXwlZGUoiHM1ZZQbSmBuCbYFlPraYwpRlcKWs=;
+ b=k5NdqjhO60xP5sCbjMeqR/8MfYW5+X/nJJgQExGjker2g95nNVRwBR6hlOG5P2Hor1MPJ7oDG2/JoJy2Z02phVN7Nip6H+yvgbzjFo22WFU8YS+KZVaCsvU3kldbtlyT3neYTO2xldazeMkLSVRoPOSAg7HjakGdoNXb/kopJ1PpFeoyARSkqNBwi+10UloX1+kDM4yOwOzjScueuhofaBj2Up6J2BWmv+5IFMNoaieg6OSvde40MD0RZLpJ8j5OyjL+A8CxNlS00WzJN2qP2Y/vDPVOwenR/1+M6/TshfSbpnoOX/yUpzEK3+LbiKsT8R0mNIGkTE8Z9+JtKOMymw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jttVVjBXwlZGUoiHM1ZZQbSmBuCbYFlPraYwpRlcKWs=;
+ b=SBJsL0liwYYJU7OrjiEjNfYuNokRmGLoYm6qMMaRHus72sQFdtLGj44oDh/w/84wDBLUiAL6zjqK2OnrRZQJ9WuLJQQCQ3aYbZA8FR5v1ejo6oOjVuJlouQ97gNphNJRIFq2lgrzd/r4EK2hAQeul91NZRzbE9ckoKOe8uUFwWY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH0PR12MB8174.namprd12.prod.outlook.com (2603:10b6:510:298::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Mon, 26 Aug
+ 2024 17:57:11 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7897.021; Mon, 26 Aug 2024
+ 17:57:11 +0000
+Message-ID: <aebe8cee-8674-42f0-b112-439da1ef7073@amd.com>
+Date: Mon, 26 Aug 2024 19:57:07 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dma-buf: Split out dma fence array create into
+ alloc and arm functions
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org
+References: <20240826170144.2492062-1-matthew.brost@intel.com>
+ <20240826170144.2492062-2-matthew.brost@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240826170144.2492062-2-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR5P281CA0060.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f0::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB8174:EE_
+X-MS-Office365-Filtering-Correlation-Id: 228dd653-a9b3-4b4d-3a00-08dcc5f882c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a0Y4c20wWVdVOTEvN2Jrc0xncktzUUsrbGdSMlUzNzNveUVqakFtL1VtVmdO?=
+ =?utf-8?B?RFRpaUYxaUFFZ1JQM0lzYTlvMlJyZzlVWjJHOTcwaVdjQThhVUdLOTUraGNB?=
+ =?utf-8?B?MW5CRlMrZE4xVDJBR2Z5Vm9XQ3l4VGduZUtNUSthbTV3UmtXNzlJMlVhTmFr?=
+ =?utf-8?B?RmphNTFIanJsY0dvcEIxbXJpdHZlYjBLdDBNSEtMTk9LdU1wb0tXUkF3eHFU?=
+ =?utf-8?B?RnhETmMvK1YrSlo2eEZyRGpYR2FSQlFOaFhmdmVyRGNLOGxWV0NVakNwRFQy?=
+ =?utf-8?B?eWo3cHZXT0REN0Vwbi9rNWNJRVhTNURQTFhRTmtpc1E0ekZmWHUzU0cvY1NE?=
+ =?utf-8?B?K2tYdTBGZ0o3R1paUDhJWFBVNndVa09UTEJTWlYrVDkrcUFSaGM0ODd5cXNP?=
+ =?utf-8?B?TWRqM3grdVRrb21kMGtQV0JpSTJWQnJaaFN0bVorOVVvd3psRi9sZGlxOXhm?=
+ =?utf-8?B?aUoyRDR1bkdyTDdnZkllVW1jQTFFa1MrMlc4dWJtaVRwZVNHdXUzYUFUZFB0?=
+ =?utf-8?B?NGxEU2pFNHZmdTZoTkFzNFRHYlFnWitQelNvTk9lRzlwRXhqelduMzhrbVJ0?=
+ =?utf-8?B?VlFOT3lyT0RJWGZzTzV2SDE5YW5DUFBNTW1TR3Z4WW1wUEs4dGdxRzBIVHND?=
+ =?utf-8?B?d2tuaC9iNmxWUDQzQzZZR2VEM0pQbnBXbmp4VzE1ZWdyNFQwTWwveTNDS2sx?=
+ =?utf-8?B?VUsxcDlheHBpbVJLRS92eEdlWlkwNUhxRUpmVlJRZ3Z6NDdwdzVpYzRhRHFF?=
+ =?utf-8?B?djRlZ0swd3ZHRmMrQ0N5UnpsVDB2VExXdjN2bEw2a1lPSUdoWS8rZUJlWXNO?=
+ =?utf-8?B?bk9wNHpLTlJkNVJDTFhveWJXblUvZHFHVEFEMzZ4UENXYjQxVmhObkhIR2xz?=
+ =?utf-8?B?NFAzSXFVcVpndDNCTVVJT1g0aWd5eEY5dFV4TG8yNFZTSVgvN09IMnN4T1lM?=
+ =?utf-8?B?cHNIdGF1UVJ4eHBDNll1bWZHUlAybDRXYUpoeTFKVENDczhLSUttamxBSXZp?=
+ =?utf-8?B?eEdBMllFNXZsaEViNnc4UHh2amZiR3EyMjNKcFBiV1RqWXYrdlJyL2taMGVk?=
+ =?utf-8?B?bytMK3RyeG1WRFlVdnJtbFQ0VkplZDl6ZTkyT2hsY290SFdabjhBQm9BQ0ZW?=
+ =?utf-8?B?ODRCN3gvSmIveDhVcXBMcHpteWI4WWZwajJwVzZMem5jRFMxcU5LaytMOTFC?=
+ =?utf-8?B?a1FWZ0VhQ1NzZExGMkJDRUo2a3lPaHZFQXNreWtpUVA1SHBJZXpQaXFKbFBL?=
+ =?utf-8?B?bGFqRkpkakU3SlA3SmRQTkhhVVFsWDVmOXRLdFZOeFBtUEowb1MyZDE4dkJT?=
+ =?utf-8?B?RE5JSlhpa1F2OUxtTDFjRlZNa0c0cFZEdk1vaEtBQ2dsbVFJOTh4aFUvd0Jm?=
+ =?utf-8?B?RHozK3BTV01uZHRZTHZzOUVnSWxuUHJSSFhJNW9MRmdhaWJ3Nm50UzNXMkp4?=
+ =?utf-8?B?ZEpJQUxEbjFNZC9DTERpTzFUTWZPUDllUWJVL2Yrd2RwVXRLWWo2bEl1UGxK?=
+ =?utf-8?B?Qk9kZUJFcEltcjAxWkdvOTI4bWdlTDVPNU0wcUFqT2FZL0owTzJKK0I1MElK?=
+ =?utf-8?B?Qlo0MGZUN2RwSEw1dFZncXAzelZoWmVjakpFYUVvcWFQZUx3UUFZMXgvTDVV?=
+ =?utf-8?B?MElnNHlVdlhZRDU2czNERkxrU0p6T1NNNzBLTmptSWxIQ2h0MFhHcGZ3NnRi?=
+ =?utf-8?B?emdnVmpMN2VxZlI4Z2htTzhSZHFuYnNCNlpTZGRHUXpSL2FUQUNKTjZwT050?=
+ =?utf-8?B?MERBQUc5RGV5SmhuOWk0NnI4M29lMHM5aFBjem1qbTVzOWFLWTcxQ2NOa1V0?=
+ =?utf-8?B?VWdWNVpxdWtkUy9iSjhodz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXRLVDBBL1R3WTc4bllQN0Q5WEpWdWcrUU1XU0xrSXg0b0lGMGxWYU1hODlE?=
+ =?utf-8?B?Vi9lWlNMUWJlYk1reWlCOURFUzh6cmpENlZzMGxMYU5lOU9OWFFEMkE1OVVo?=
+ =?utf-8?B?YTZibXptejdMVUNWaXNYaHZWdk56YkxwaGpHZi9WMmJTYSsrL0RvRitESWtq?=
+ =?utf-8?B?N2p3UFBFWDdkQ2Nxc0ltMHlDZ1ZFZFJBSTMwNno1eU53YkFWeHNVV0VkYUth?=
+ =?utf-8?B?cHpvSjVSdURaZlNxcXQ4MzVSbnFGdGRBYWhYcCtodnI3K2hKdkVsNUdETWhn?=
+ =?utf-8?B?K0ZyWGFJRDVnaFpaNzlCZkFxS0pBNUIvWEpKckErTWZPSkZWbDFDeVhhVlVN?=
+ =?utf-8?B?WldPUnFSZndtUnhyb21OUVdDcGZybkxJbjZMWWY3N0VMcitlOHRxQWJJUlZo?=
+ =?utf-8?B?RzNUKzkwRFNnN1JIN2NJQVR2ak1DZTkweXk1azdGSWd6dk1CakFHc3prK2ZP?=
+ =?utf-8?B?SitERUhJNWFuaEVaWEc2QldoUWZSeVJkQ1JUSDFPK0s3Vko3cmRJbjMwMGlq?=
+ =?utf-8?B?Q2ZmS3NVbEN4UzlDbm5tK0x2TVRERzY0QzVrMVZzdlNCTEFINGhlWXhDOVV3?=
+ =?utf-8?B?M0dLYlZNZm8vU1hJRUJoUDdncDRJVkZ0VlR1N0gzMDRBVFhKOENITy82SWJE?=
+ =?utf-8?B?K0tHdDNObnBmUHVzRDREaUNlV3lSRDVpQmpzNy9ocmY3NmhFaW5PZUhURVVn?=
+ =?utf-8?B?Z0g3QnNUdDdLKzlDMGpHc2djM2gybWJBMSsvQ2xadFRiZi9EVElYS3UwS0dL?=
+ =?utf-8?B?UnA5Q29aV2ZXT3BIbkJXelBhM0VUS3UxTU14WnhScGV5YUpwcHVTUVNRS0M2?=
+ =?utf-8?B?anR6MVZqdnBFTUYzUkhybTN1eTQ0L3EyZzhTRFFSdnNDMUtyTEs5Y0Foek1x?=
+ =?utf-8?B?cGFzb3BjR2JjUGxzNXc5ck1zODR0MjRkdVV4K2JnT0hDbDMvWlhoYmRHU1F3?=
+ =?utf-8?B?WFNBYkhVeGZRY3BPZXc0RU5IZDRVTnlsOURlMDdSRDFPWWtFOFovQVJDNnoz?=
+ =?utf-8?B?TFZsUWxJb2JNN1RLZmpIU3poU0RJTnkycnVxMzFoUjhubzhWUjUvWDkyOVN2?=
+ =?utf-8?B?Z0NXZjAxcmxDQ3RZd2x6MDJ5SXhDeWY0SUVwN2tDUlRVL2Z5dDYwM2gxVi9U?=
+ =?utf-8?B?VmcwTUpXYzBEYjh3akhDSnNORlljbzBSSzFZV2R6Wmc0SUx2bUpMTmMvMHlp?=
+ =?utf-8?B?VENIOGZuRDhDYWo1R01Nczc4aWRXSFh2MHF5b1hBdlpKcVExZlZSUHZBUXc5?=
+ =?utf-8?B?L3RoeWdpLzNzVTRIQ24wbndETlFFZXZaYWY0aW5wT3ozanpOdGZjL3VYd2Rh?=
+ =?utf-8?B?U3pFdVhUNVdvRDB3YXFuVW1uOWx3bGg5NENndHJMYUR2NkFyeVpXY25SNU1m?=
+ =?utf-8?B?eCtyVlVGZCtUVVBmU3RSWXNXRS9DMkEyS1MzVjZGTkF0eEdsVUtkV1R6NExJ?=
+ =?utf-8?B?NE93WlBwcDZsRHVJdktkM1Mwc2gvbHdyakIxRy9QN3NkRDZLN0pPSWJBOFBZ?=
+ =?utf-8?B?amYvL1FJUVgrMmVqZmFwUGRaYWVxWlNRQkhjRGZJTktpUHNrQkYyMzEwRCs3?=
+ =?utf-8?B?SjRXM0tkN2l1NE9PTGNvcCtzLzY4Yk5Va2JVZFBpd0NZcnpCdEJ0aU5qVm5M?=
+ =?utf-8?B?R0xhMmw2L3dFWlorR3hxaUl4TnhveFhMSFJaQUtXU1FTYzFyWjg0VGc4enFk?=
+ =?utf-8?B?L1lBbTlFdmtIb0Z0MkVxZ3phM2JBQWs3VlBtTWhaMS9saDkwS1RpNndtTWdv?=
+ =?utf-8?B?SkNwVUJadHM3Z3FZOExNMUQ2MHMvVmlRTDY3cU80Wk82Rk5tTDN2T0pqZ0c1?=
+ =?utf-8?B?djJIV2RQazBmVjU5OHF6QWhZeW4xS044TFZ4T3lSSndVMHlaSHd2OXZuZjd0?=
+ =?utf-8?B?cWpEZkN2MTh0ZkFvR3NNc0pldk5GbnQyUGczK242Y0E1YUw2RGpKMUNCRVY4?=
+ =?utf-8?B?SGVUWFBIcFQxWDhQNnd4MEZFUmJYWENYbUNiQUlIUzZRU1ZQRWsyMnVPbkpF?=
+ =?utf-8?B?Q0FDTUlYVzZ1K3Nrc0ZvbkpIWlhhWm5wNkFhYUtBa3VRT1JUM3haM2J4TmtP?=
+ =?utf-8?B?VHgvb25RRXFjNWN1eHV6QzFMRUt0UEZ1UE5BcWVJNGhsM3RwUC95amlJTkdi?=
+ =?utf-8?Q?rwEI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 228dd653-a9b3-4b4d-3a00-08dcc5f882c4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 17:57:11.7661 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CEmqxP7HuE1XhQl9bJbF8PwiiGMfrWs4sOkWF3pY/5kKYfJFZkWrUn2EjAa/BYt1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,131 +162,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Am 26.08.24 um 19:01 schrieb Matthew Brost:
+> Useful to preallocate dma fence array and then arm in path of reclaim or
+> a dma fence.
+>
+> v2:
+>   - s/arm/init (Christian)
+>   - Drop !array warn (Christian)
+>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-In the case of iova fault triggered devcore dumps, include additional
-debug information based on what we think is the current page tables,
-including the TTBR0 value (which should match what we have in
-adreno_smmu_fault_info unless things have gone horribly wrong), and
-the pagetable entries traversed in the process of resolving the
-faulting iova.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 ++++++++++
- drivers/gpu/drm/msm/msm_gpu.c           |  9 +++++++++
- drivers/gpu/drm/msm/msm_gpu.h           |  8 ++++++++
- drivers/gpu/drm/msm/msm_iommu.c         | 22 ++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_mmu.h           |  3 ++-
- 5 files changed, 51 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 1c6626747b98..3848b5a64351 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -864,6 +864,16 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
- 		drm_printf(p, "  - dir=%s\n", info->flags & IOMMU_FAULT_WRITE ? "WRITE" : "READ");
- 		drm_printf(p, "  - type=%s\n", info->type);
- 		drm_printf(p, "  - source=%s\n", info->block);
-+
-+		/* Information extracted from what we think are the current
-+		 * pgtables.  Hopefully the TTBR0 matches what we've extracted
-+		 * from the SMMU registers in smmu_info!
-+		 */
-+		drm_puts(p, "pgtable-fault-info:\n");
-+		drm_printf(p, "  - ttbr0: %.16llx\n", (u64)info->pgtbl_ttbr0);
-+		drm_printf(p, "  - asid: %d\n", info->asid);
-+		drm_printf(p, "  - ptes: %.16llx %.16llx %.16llx %.16llx\n",
-+			   info->ptes[0], info->ptes[1], info->ptes[2], info->ptes[3]);
- 	}
- 
- 	drm_printf(p, "rbbm-status: 0x%08x\n", state->rbbm_status);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 3666b42b4ecd..bf2f8b2a7ccc 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -281,6 +281,15 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 	if (submit) {
- 		int i;
- 
-+		if (state->fault_info.ttbr0) {
-+			struct msm_gpu_fault_info *info = &state->fault_info;
-+			struct msm_mmu *mmu = submit->aspace->mmu;
-+
-+			msm_iommu_pagetable_params(mmu, &info->pgtbl_ttbr0,
-+						   &info->asid);
-+			msm_iommu_pagetable_walk(mmu, info->iova, info->ptes);
-+		}
-+
- 		state->bos = kcalloc(submit->nr_bos,
- 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 1f02bb9956be..82e838ba8c80 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -101,6 +101,14 @@ struct msm_gpu_fault_info {
- 	int flags;
- 	const char *type;
- 	const char *block;
-+
-+	/* Information about what we think/expect is the current SMMU state,
-+	 * for example expected_ttbr0 should match smmu_info.ttbr0 which
-+	 * was read back from SMMU registers.
-+	 */
-+	phys_addr_t pgtbl_ttbr0;
-+	u64 ptes[4];
-+	int asid;
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 2a94e82316f9..3e692818ba1f 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -195,6 +195,28 @@ struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu)
- 	return &iommu->domain->geometry;
- }
- 
-+int
-+msm_iommu_pagetable_walk(struct msm_mmu *mmu, unsigned long iova, uint64_t ptes[4])
-+{
-+	struct msm_iommu_pagetable *pagetable;
-+	struct arm_lpae_io_pgtable_walk_data wd = {};
-+
-+	if (mmu->type != MSM_MMU_IOMMU_PAGETABLE)
-+		return -EINVAL;
-+
-+	pagetable = to_pagetable(mmu);
-+
-+	if (!pagetable->pgtbl_ops->pgtable_walk)
-+		return -EINVAL;
-+
-+	pagetable->pgtbl_ops->pgtable_walk(pagetable->pgtbl_ops, iova, &wd);
-+
-+	for (int i = 0; i < ARRAY_SIZE(wd.ptes); i++)
-+		ptes[i] = wd.ptes[i];
-+
-+	return 0;
-+}
-+
- static const struct msm_mmu_funcs pagetable_funcs = {
- 		.map = msm_iommu_pagetable_map,
- 		.unmap = msm_iommu_pagetable_unmap,
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index 88af4f490881..96e509bd96a6 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -53,7 +53,8 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
- struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
- 
- int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
--		int *asid);
-+			       int *asid);
-+int msm_iommu_pagetable_walk(struct msm_mmu *mmu, unsigned long iova, uint64_t ptes[4]);
- struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu);
- 
- #endif /* __MSM_MMU_H__ */
--- 
-2.46.0
+> ---
+>   drivers/dma-buf/dma-fence-array.c | 78 ++++++++++++++++++++++---------
+>   include/linux/dma-fence-array.h   |  6 +++
+>   2 files changed, 63 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+> index c74ac197d5fe..0659e6b29b3c 100644
+> --- a/drivers/dma-buf/dma-fence-array.c
+> +++ b/drivers/dma-buf/dma-fence-array.c
+> @@ -144,37 +144,38 @@ const struct dma_fence_ops dma_fence_array_ops = {
+>   EXPORT_SYMBOL(dma_fence_array_ops);
+>   
+>   /**
+> - * dma_fence_array_create - Create a custom fence array
+> + * dma_fence_array_alloc - Allocate a custom fence array
+> + * @num_fences:		[in]	number of fences to add in the array
+> + *
+> + * Return dma fence array on success, NULL on failure
+> + */
+> +struct dma_fence_array *dma_fence_array_alloc(int num_fences)
+> +{
+> +	struct dma_fence_array *array;
+> +
+> +	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
+> +}
+> +EXPORT_SYMBOL(dma_fence_array_alloc);
+> +
+> +/**
+> + * dma_fence_array_init - Arm a custom fence array
+> + * @array:		[in]	dma fence array to arm
+>    * @num_fences:		[in]	number of fences to add in the array
+>    * @fences:		[in]	array containing the fences
+>    * @context:		[in]	fence context to use
+>    * @seqno:		[in]	sequence number to use
+>    * @signal_on_any:	[in]	signal on any fence in the array
+>    *
+> - * Allocate a dma_fence_array object and initialize the base fence with
+> - * dma_fence_init().
+> - * In case of error it returns NULL.
+> - *
+> - * The caller should allocate the fences array with num_fences size
+> - * and fill it with the fences it wants to add to the object. Ownership of this
+> - * array is taken and dma_fence_put() is used on each fence on release.
+> - *
+> - * If @signal_on_any is true the fence array signals if any fence in the array
+> - * signals, otherwise it signals when all fences in the array signal.
+> + * Implementation of @dma_fence_array_create without allocation. Useful to arm a
+> + * preallocated dma fence fence in the path of reclaim or dma fence signaling.
+>    */
+> -struct dma_fence_array *dma_fence_array_create(int num_fences,
+> -					       struct dma_fence **fences,
+> -					       u64 context, unsigned seqno,
+> -					       bool signal_on_any)
+> +void dma_fence_array_init(struct dma_fence_array *array,
+> +			  int num_fences, struct dma_fence **fences,
+> +			  u64 context, unsigned seqno,
+> +			  bool signal_on_any)
+>   {
+> -	struct dma_fence_array *array;
+> -
+>   	WARN_ON(!num_fences || !fences);
+>   
+> -	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
+> -	if (!array)
+> -		return NULL;
+> -
+>   	array->num_fences = num_fences;
+>   
+>   	spin_lock_init(&array->lock);
+> @@ -200,6 +201,41 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+>   	 */
+>   	while (num_fences--)
+>   		WARN_ON(dma_fence_is_container(fences[num_fences]));
+> +}
+> +EXPORT_SYMBOL(dma_fence_array_init);
+> +
+> +/**
+> + * dma_fence_array_create - Create a custom fence array
+> + * @num_fences:		[in]	number of fences to add in the array
+> + * @fences:		[in]	array containing the fences
+> + * @context:		[in]	fence context to use
+> + * @seqno:		[in]	sequence number to use
+> + * @signal_on_any:	[in]	signal on any fence in the array
+> + *
+> + * Allocate a dma_fence_array object and initialize the base fence with
+> + * dma_fence_init().
+> + * In case of error it returns NULL.
+> + *
+> + * The caller should allocate the fences array with num_fences size
+> + * and fill it with the fences it wants to add to the object. Ownership of this
+> + * array is taken and dma_fence_put() is used on each fence on release.
+> + *
+> + * If @signal_on_any is true the fence array signals if any fence in the array
+> + * signals, otherwise it signals when all fences in the array signal.
+> + */
+> +struct dma_fence_array *dma_fence_array_create(int num_fences,
+> +					       struct dma_fence **fences,
+> +					       u64 context, unsigned seqno,
+> +					       bool signal_on_any)
+> +{
+> +	struct dma_fence_array *array;
+> +
+> +	array = dma_fence_array_alloc(num_fences);
+> +	if (!array)
+> +		return NULL;
+> +
+> +	dma_fence_array_init(array, num_fences, fences,
+> +			     context, seqno, signal_on_any);
+>   
+>   	return array;
+>   }
+> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> index 29c5650c1038..079b3dec0a16 100644
+> --- a/include/linux/dma-fence-array.h
+> +++ b/include/linux/dma-fence-array.h
+> @@ -79,6 +79,12 @@ to_dma_fence_array(struct dma_fence *fence)
+>   	for (index = 0, fence = dma_fence_array_first(head); fence;	\
+>   	     ++(index), fence = dma_fence_array_next(head, index))
+>   
+> +struct dma_fence_array *dma_fence_array_alloc(int num_fences);
+> +void dma_fence_array_init(struct dma_fence_array *array,
+> +			  int num_fences, struct dma_fence **fences,
+> +			  u64 context, unsigned seqno,
+> +			  bool signal_on_any);
+> +
+>   struct dma_fence_array *dma_fence_array_create(int num_fences,
+>   					       struct dma_fence **fences,
+>   					       u64 context, unsigned seqno,
 
