@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9261D95EB7F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 10:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4917E95EB8E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 10:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE74410E130;
-	Mon, 26 Aug 2024 08:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A35C10E131;
+	Mon, 26 Aug 2024 08:15:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SVDE35Cj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qSOXYHJg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647E910E130
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2024 08:12:52 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9927B10E131
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2024 08:15:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4AC3DA41DBD;
- Mon, 26 Aug 2024 08:12:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CC1C8CDC1;
- Mon, 26 Aug 2024 08:12:42 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id E1C45CE0B9D;
+ Mon, 26 Aug 2024 08:15:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A02C8CDD2;
+ Mon, 26 Aug 2024 08:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724659970;
- bh=GJX8WMOWMde/kMse+6fBcih9AFB2KaEoktYH4eL1+BA=;
+ s=k20201202; t=1724660118;
+ bh=mtt94lOze4hX1t8kQFcroSCkGOs+snsSQ3mu2Oel574=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SVDE35Cjmxr+/k2lBwT0mCM/tQSt4AuGzZgpMcyv8Shf9SYBF7nhdme/Ll1iQQWA+
- puftrSTyIixn36Wj4DWynLOF35Mf9qaeHI+QTh79ynJc5YPUNMpGlowGZMGgxtNWMA
- Q2zq3ANCYyBARU5UdNjuHzs53JS8jQG79whJ5IBQr3xKp4oyGf/XdX/NbSmt+tpMDA
- +Vi+v2e7qvO0f4fH8Td8hza6DMlH5p/Uw292IyYHS5wvPnYWeTbg7YK5ULNR22Wfh4
- OB3y8lLOY6Ko7ycvHnx1Tdess462qragDPDLXbVak9PHsZdzuDO8KDe21RVM/jLlKV
- YpudVOMX4+/MQ==
-Message-ID: <cad20aa4-43a9-4754-b1e8-290ce0beb64d@kernel.org>
-Date: Mon, 26 Aug 2024 10:12:39 +0200
+ b=qSOXYHJg7CFbIPoMoq4oSQgV7+NK5BHIw2lcOXp8xzXHulN7LOyfu+gl2Ie4sjxDs
+ YvYJ24wEcNhBzHYNEhfHovrhW3Cyb8ftM0PA+KmhCwWAcwfp5xygTjy73/q2c8Kgk/
+ uGvHFXNtBmWAkaFmPgSWhM4sQvSrZrleaZrD4ipFBlGWbymb3EhfjIs7fz/S2k46x2
+ mGSAeMPrwMQiEKt6JYcpfJtleIwnCRICY8wi/1a6P6+9Xu1+PtlXphqxtpmc0GXmmH
+ l8SywurQ2u5tKmoDzFVyAoQiy8wFrR0zazrAh4kwtokoMz/MuFVCR68Bknugv6kwlL
+ m+lLjUgmn8Xdw==
+Message-ID: <45e1533a-5f97-4262-b6ae-477f1f94aa8b@kernel.org>
+Date: Mon, 26 Aug 2024 10:15:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: display: ti: Add schema for AM625
- OLDI Transmitter
+Subject: Re: [PATCH v3 3/4] dt-bindings: display: ti,am65x-dss: Add OLDI
+ properties for AM625 DSS
 To: Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Aradhya Bhatia <a-bhatia1@ti.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Jyri Sarha <jyri.sarha@iki.fi>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -56,9 +55,9 @@ Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
  Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
  Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
 References: <20240716084248.1393666-1-a-bhatia1@ti.com>
- <20240716084248.1393666-3-a-bhatia1@ti.com>
- <0144d9b4-e830-44b0-95cd-4d49d5051155@kernel.org>
- <2c1afef7-fed9-4685-bf07-b9f3d44a0077@linux.dev>
+ <20240716084248.1393666-4-a-bhatia1@ti.com>
+ <93844c97-46b7-48bd-9397-2bbba9c09510@kernel.org>
+ <73f033cb-d890-426d-8b1a-f9c56456961d@linux.dev>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,7 +103,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <2c1afef7-fed9-4685-bf07-b9f3d44a0077@linux.dev>
+In-Reply-To: <73f033cb-d890-426d-8b1a-f9c56456961d@linux.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,222 +121,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/08/2024 07:47, Aradhya Bhatia wrote:
+On 26/08/2024 09:32, Aradhya Bhatia wrote:
 > Hi Krzysztof,
 > 
-> Thank you for the reviewing the patches.
 > 
-> 
-> On 7/21/24 21:06, Krzysztof Kozlowski wrote:
+> On 7/21/24 21:09, Krzysztof Kozlowski wrote:
 >> On 16/07/2024 10:42, Aradhya Bhatia wrote:
->>> The OLDI (transmitters) TXes do not have registers of their own, and are
->>> dependent on the source video-ports from the DSS to provide
->>> configuration data. This hardware doesn't directly sit on the internal
->>> bus of the SoC, but does so via the DSS. Hence, the OLDI TXes are
->>> supposed to be child nodes under the DSS, and not independent devices.
+>>> The DSS in AM625 SoC has 2 OLDI TXes. Refer the OLDI schema to add the
+>>> support for the OLDI TXes.
 >>>
->>> Two of the OLDI TXes can function in tandem to output dual-link OLDI
->>> output, or cloned single-link outputs. In these cases, one OLDI will be
->>> the primary OLDI, and the other one, a companion.
->>>
->>> The OLDI functionality is further supported by a system-control module,
->>> which contains a few registers to control OLDI IO power and
->>> characteristics.
->>>
->>> Add devicetree binding schema for AM625 OLDI TXes.
+>>> The AM625 DSS VP1 (port@0) can connect and control 2 OLDI TXes, to use
+>>> them in dual-link or cloned single-link OLDI modes. Add support for an
+>>> additional endpoint under the port@0 to accurately depict the data flow
+>>> path.
 >>>
 >>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 >>> ---
->>>  .../bindings/display/ti/ti,am625-oldi.yaml    | 153 ++++++++++++++++++
->>>  MAINTAINERS                                   |   1 +
->>>  2 files changed, 154 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
+>>>  .../bindings/display/ti/ti,am65x-dss.yaml     | 135 ++++++++++++++++++
+>>>  1 file changed, 135 insertions(+)
 >>>
->>> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
->>> new file mode 100644
->>> index 000000000000..0a96e600bc0b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
->>> @@ -0,0 +1,153 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/ti/ti,am625-oldi.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>>> index 399d68986326..249597455d34 100644
+>>> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>>> @@ -91,6 +91,24 @@ properties:
+>>>            For AM625 DSS, the internal DPI output port node from video
+>>>            port 1.
+>>>            For AM62A7 DSS, the port is tied off inside the SoC.
+>>> +        properties:
+>>> +          endpoint@0:
+>>> +            $ref: /schemas/graph.yaml#/properties/endpoint
+>>> +            description:
+>>> +              For AM625 DSS, VP Connection to OLDI0.
+>>> +              For AM65X DSS, OLDI output from the SoC.
 >>> +
->>> +title: Texas Instruments AM625 OLDI Transmitter
->>> +
->>> +maintainers:
->>> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> +  - Aradhya Bhatia <a-bhatia1@ti.com>
->>> +
->>> +description: |
+>>> +          endpoint@1:
+>>> +            $ref: /schemas/graph.yaml#/properties/endpoint
+>>> +            description:
+>>> +              For AM625 DSS, VP Connection to OLDI1.
 >>
->> Do not need '|' unless you need to preserve formatting.
+>> Eh, that's confusing. Why do you have graph to your children? Isn't this
+>> entirely pointless?
 > 
-> Okay!
+> I am not sure I fully understand. The same display source video port can
+> connect up to 2 OLDI TXes - hence 2 endpoints which connect to the OLDI
+> that were described in the previous patch. The idea has been to
+> accurately depict the connections of the hardware.
 > 
->>
->>> +  The AM625 TI Keystone OpenLDI transmitter (OLDI TX) supports serialized RGB
->>> +  pixel data transmission between host and flat panel display over LVDS (Low
->>> +  Voltage Differential Sampling) interface. The OLDI TX consists of 7-to-1 data
->>> +  serializers, and 4-data and 1-clock LVDS outputs. It supports the LVDS output
->>> +  formats "jeida-18", "jeida-24" and "vesa-18", and can accept 24-bit RGB or
->>> +  padded and un-padded 18-bit RGB bus formats as input.
->>> +
->>> +properties:
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>
->> How does it even work without compatible? How is this schema selected?
->> If by part of your next patch, then this is not a proper split - this
->> patch itself is noop. Squash the patches.
->>
-> 
-> Yes, it is supposed to be picked like the next patch does it. I can
-> squash these both.
-> 
->>> +  clocks:
->>> +    maxItems: 1
->>> +    description: serial clock input for the OLDI transmitters
->>> +
->>> +  clock-names:
->>> +    const: s_clk
->>
->> Drop _clk or name it correctly.
-> 
-> Alright!
-> 
->>
->>> +
->>> +  ti,companion-oldi:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      phandle to companion OLDI transmitter. This property is mandatory for the
->>> +      primarty OLDI TX if the OLDI TXes are expected to work either in dual-lvds
->>> +      mode or in clone mode. This property should point to the secondary OLDI
->>> +      TX.
->>> +
->>> +  ti,secondary-oldi:
->>> +    type: boolean
->>> +    description: Boolean property to mark an OLDI TX as secondary node.
->>
->> Why? Lack companion tells it, doesn't it?
-> 
-> A lack of companion doesn't mean secondary-OLDI automatically, actually.
-> 
-> There is also a possible configuration where 2 OLDI TXes could be
-> individually connected to 2 different sources => 2x single Link
-> configuration. The OLDI TXes would then work independently.
+> What am I missing here?
 
-You are responding for something month old. I am not in the context anymore.
+You are missing the explanation: why do you need to represent internal
+parts of a device with graph. Where does this endpoint point?
 
-Probably you miss proper graphs here, not such property.
-
-> 
->>
->>> +
->>> +  ti,oldi-io-ctrl:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      phandle to syscon device node mapping OLDI IO_CTRL registers found in the
->>> +      control MMR region. This property is needed for OLDI interface to work.
->>
->> "This property is needed for OLDI interface to work." tells nothing.
->> Everything is needed for everything to work. Be specific.
->>
-> 
-> Yes! Will fix this.
-> 
->>> +
->>> +  ports:
->>> +    $ref: /schemas/graph.yaml#/properties/ports
->>> +
->>> +    properties:
->>> +      port@0:
->>> +        $ref: /schemas/graph.yaml#/properties/port
->>> +        description: Parallel RGB input port
->>> +
->>> +      port@1:
->>> +        $ref: /schemas/graph.yaml#/properties/port
->>> +        description: LVDS output port
->>> +
->>> +    required:
->>> +      - port@0
->>> +      - port@1
->>> +
->>> +allOf:
->>> +  - if:
->>> +      properties:
->>> +        ti,secondary-oldi: true
->>
->> This does not work... Test your schema.
->>
-> 
-> I tested again just now. At least the schema check didn't report any
-> error. I used the v2024.05 dtschema too.
-
-No, test your condition. Come with DTS with exercises this if. You will
-see this DOES NOT WORK. This is just no-op, does not perform any useful
-work. So test the code that it actually performs what you want it to do.
-
-> 
-> This github gist[0] captures all details of this test.
-> 
-> Could you instead please elaborate what maybe wrong here, and I will try
-> to fix that.
-
-Look at example-schema or any of my talks with useful references.
+Provide some diagram showing the architecture, because either it is
+wrong or I do not understand what hardware you want to represent here.
 
 > 
 > 
->>> +    then:
->>> +      properties:
->>> +        ti,companion-oldi: false
->>> +        ti,oldi-io-ctrl: false
->>> +        clocks: false
->>> +        clock-names: false
->>> +
->>> +    else:
->>> +      required:
->>> +        - ti,oldi-io-ctrl
->>> +        - clocks
->>> +        - clock-names
->>> +
->>> +required:
->>> +  - reg
->>> +  - ports
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
->>> +
->>> +    oldi_txes {
->>
->> No underscores in node names.
->>
->> Node names should be generic. See also an explanation and list of
->> examples (not exhaustive) in DT specification:
->> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> Right. Will make the name generic.
+> side-note: I do realize, as I write this, that it has been quite a while
+> since you reviewed, and that you may have, rightfully, lost context.
+> I apologize for that.
 > 
 >>
+>>> +
+>>> +        anyOf:
+>>> +          - required:
+>>> +              - endpoint
+>>> +          - required:
+>>> +              - endpoint@0
+>>> +              - endpoint@1
+>>>  
+>>>        port@1:
+>>>          $ref: /schemas/graph.yaml#/properties/port
+>>> @@ -112,6 +130,23 @@ properties:
+>>>        Input memory (from main memory to dispc) bandwidth limit in
+>>>        bytes per second
+>>>  
+>>> +  oldi-txes:
+>>> +    type: object
+>>> +    additionalProperties: true
 >>
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +        oldi: oldi@0 {
->> What is the "reg" for?
+>> Why? This looks wrong.
 > 
-> The reg is for indexing purposes so that the driver can distinguish
-> between which OLDI TX is under question. Since, the syscon controller
-> has different power control registers and bits for different OLDIs - its
-> important for the driver to be able to tell one from another.
+> This, I will admit, was a shot in the dark. The binding check asked me
+> that I was missing either this or unevaluatedProperties. I tried to make
+> sense of the two, but with little luck. Eventually, I went with this.
+> 
+> I could change it to unevaluatedProperties if that is indeed correct. I
+> could also use some comprehensive resource to understand this, if you
+> have something to recommend. =)
 
-Again, not sure, not in context. Patch is not even in the inbox anymore.
+This must be additionalProperties false. See example schema or writing
+schema.
+
 
 Best regards,
 Krzysztof
