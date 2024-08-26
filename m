@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33AEC95F74B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 19:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA0695F74D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 19:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D13E10E263;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE99F10E264;
 	Mon, 26 Aug 2024 17:00:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GdYt4yA3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O/jy49Rt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC8910E252;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED43B10E25D;
  Mon, 26 Aug 2024 17:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1724691650; x=1756227650;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=X4NcHhht7R85hRcl43GBO0i1KlziGSyVufpAc1OriAU=;
- b=GdYt4yA3hKzFdOWTO8EEw5xhY/fsOTYFLc/vd3GJEYoDNaPrVdP/gV1g
- QjRJzg8/dd7JkwS/JX4aRBj4pj93fRxru4TawFIpMOfNgXSeBSfY/V40D
- GAPuIrpR5Wlld+t8mw5PBjv2xewavvVHYP8FQZePa/isfpdTo74ACJPtP
- OAZaARlYjJ/1xm+EsA/LOaHpHkP+I2cOqcLNkc1kBtB8tPLc0GdL/Ww5Y
- Yh/s/crhdIC6QGSnNkvpikjND6sv3m8RTse983IB2Orb4zqPrh3Z1b2NB
- c0flK/yNZq7Hr6S1QLXZllZyXbL6x7djefGWWU46eeNeyfyiLYl83nVDq A==;
-X-CSE-ConnectionGUID: HW44WFToQcmWwNSfz0c3EQ==
-X-CSE-MsgGUID: s2n36qSKToeAneqBbwzTCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22997992"
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; d="scan'208";a="22997992"
+ bh=51K5wzXb0gghUiwWQs7D+UNeNaRsXn/Mb6dnZ9Xz5fw=;
+ b=O/jy49RtsDhr0Ln2zjIZAxB6FMxhP1aWDTxHDL661cmDkdiXCJmh8yQ4
+ bNMudno9YevX/5yYB20f+UzcThijucAITDYOKmOJ0wZNXtQxi/dd6rGDs
+ gpV6HgSt3/x8QvLcd7TpB4LOq2xOY/Uvc/DrPFKMumOXrMafj9TS1muEy
+ FtmfDWgts36BGXe6Me8spjN/p+4THtfa7yEa4/qhpVISLMV3XZzQNM8Yv
+ UGGd0nwW2Sw8OPFT0ET3wlHSNQH4L8o025P0Gvy6adYQbP+oP4f+WLUTr
+ B56yF5LWnCdGdPYdTMy3v9jdtIXjxRp+7rNWFtvl6d+djboiT3G2fsv4G w==;
+X-CSE-ConnectionGUID: 5f91piETTimvyUYMV0HCYg==
+X-CSE-MsgGUID: JGdU097wQS2cCWOT5MBezQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22997996"
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; d="scan'208";a="22997996"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Aug 2024 10:00:50 -0700
-X-CSE-ConnectionGUID: tP0j6q0iTUy0GUeqhaclUg==
-X-CSE-MsgGUID: aq43GtrdSCSn8KGNQvgBSQ==
+X-CSE-ConnectionGUID: 9ojHYr0gRSerNPdnAs0WKg==
+X-CSE-MsgGUID: sqIaTgMJR/i3ArYsrLGDQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; d="scan'208";a="62247120"
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; d="scan'208";a="62247121"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Aug 2024 10:00:49 -0700
@@ -46,15 +46,14 @@ To: intel-xe@lists.freedesktop.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Cc: thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org,
  christian.koenig@amd.com
-Subject: [PATCH v2 1/2] dma-buf: Split out dma fence array create into alloc
- and arm functions
-Date: Mon, 26 Aug 2024 10:01:43 -0700
-Message-Id: <20240826170144.2492062-2-matthew.brost@intel.com>
+Subject: [PATCH v2 2/2] drm/xe: Invalidate media_gt TLBs in PT code
+Date: Mon, 26 Aug 2024 10:01:44 -0700
+Message-Id: <20240826170144.2492062-3-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240826170144.2492062-1-matthew.brost@intel.com>
 References: <20240826170144.2492062-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,144 +70,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Useful to preallocate dma fence array and then arm in path of reclaim or
-a dma fence.
+Testing on LNL has shown media GT's TLBs need to be invalidated via the
+GuC, update PT code appropriately.
 
 v2:
- - s/arm/init (Christian)
- - Drop !array warn (Christian)
+ - Do dma_fence_get before first call of invalidation_fence_init (Himal)
+ - No need to check for valid chain fence (Himal)
+v3:
+ - Use dma-fence-array
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Christian König <christian.koenig@amd.com>
+Fixes: 3330361543fc ("drm/xe/lnl: Add LNL platform definition")
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/dma-buf/dma-fence-array.c | 78 ++++++++++++++++++++++---------
- include/linux/dma-fence-array.h   |  6 +++
- 2 files changed, 63 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/xe/xe_pt.c | 117 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 96 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-index c74ac197d5fe..0659e6b29b3c 100644
---- a/drivers/dma-buf/dma-fence-array.c
-+++ b/drivers/dma-buf/dma-fence-array.c
-@@ -144,37 +144,38 @@ const struct dma_fence_ops dma_fence_array_ops = {
- EXPORT_SYMBOL(dma_fence_array_ops);
- 
- /**
-- * dma_fence_array_create - Create a custom fence array
-+ * dma_fence_array_alloc - Allocate a custom fence array
-+ * @num_fences:		[in]	number of fences to add in the array
-+ *
-+ * Return dma fence array on success, NULL on failure
-+ */
-+struct dma_fence_array *dma_fence_array_alloc(int num_fences)
-+{
-+	struct dma_fence_array *array;
-+
-+	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
-+}
-+EXPORT_SYMBOL(dma_fence_array_alloc);
-+
-+/**
-+ * dma_fence_array_init - Arm a custom fence array
-+ * @array:		[in]	dma fence array to arm
-  * @num_fences:		[in]	number of fences to add in the array
-  * @fences:		[in]	array containing the fences
-  * @context:		[in]	fence context to use
-  * @seqno:		[in]	sequence number to use
-  * @signal_on_any:	[in]	signal on any fence in the array
-  *
-- * Allocate a dma_fence_array object and initialize the base fence with
-- * dma_fence_init().
-- * In case of error it returns NULL.
-- *
-- * The caller should allocate the fences array with num_fences size
-- * and fill it with the fences it wants to add to the object. Ownership of this
-- * array is taken and dma_fence_put() is used on each fence on release.
-- *
-- * If @signal_on_any is true the fence array signals if any fence in the array
-- * signals, otherwise it signals when all fences in the array signal.
-+ * Implementation of @dma_fence_array_create without allocation. Useful to arm a
-+ * preallocated dma fence fence in the path of reclaim or dma fence signaling.
+diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+index 579ed31b46db..d6353e8969f0 100644
+--- a/drivers/gpu/drm/xe/xe_pt.c
++++ b/drivers/gpu/drm/xe/xe_pt.c
+@@ -3,6 +3,8 @@
+  * Copyright © 2022 Intel Corporation
   */
--struct dma_fence_array *dma_fence_array_create(int num_fences,
--					       struct dma_fence **fences,
--					       u64 context, unsigned seqno,
--					       bool signal_on_any)
-+void dma_fence_array_init(struct dma_fence_array *array,
-+			  int num_fences, struct dma_fence **fences,
-+			  u64 context, unsigned seqno,
-+			  bool signal_on_any)
+ 
++#include <linux/dma-fence-array.h>
++
+ #include "xe_pt.h"
+ 
+ #include "regs/xe_gtt_defs.h"
+@@ -1627,9 +1629,11 @@ xe_pt_update_ops_rfence_interval(struct xe_vm_pgtable_update_ops *pt_update_ops,
+ 
+ static int vma_reserve_fences(struct xe_device *xe, struct xe_vma *vma)
  {
--	struct dma_fence_array *array;
--
- 	WARN_ON(!num_fences || !fences);
- 
--	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
--	if (!array)
--		return NULL;
--
- 	array->num_fences = num_fences;
- 
- 	spin_lock_init(&array->lock);
-@@ -200,6 +201,41 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
- 	 */
- 	while (num_fences--)
- 		WARN_ON(dma_fence_is_container(fences[num_fences]));
-+}
-+EXPORT_SYMBOL(dma_fence_array_init);
++	int shift = xe_device_get_root_tile(xe)->media_gt ? 1 : 0;
 +
-+/**
-+ * dma_fence_array_create - Create a custom fence array
-+ * @num_fences:		[in]	number of fences to add in the array
-+ * @fences:		[in]	array containing the fences
-+ * @context:		[in]	fence context to use
-+ * @seqno:		[in]	sequence number to use
-+ * @signal_on_any:	[in]	signal on any fence in the array
-+ *
-+ * Allocate a dma_fence_array object and initialize the base fence with
-+ * dma_fence_init().
-+ * In case of error it returns NULL.
-+ *
-+ * The caller should allocate the fences array with num_fences size
-+ * and fill it with the fences it wants to add to the object. Ownership of this
-+ * array is taken and dma_fence_put() is used on each fence on release.
-+ *
-+ * If @signal_on_any is true the fence array signals if any fence in the array
-+ * signals, otherwise it signals when all fences in the array signal.
-+ */
-+struct dma_fence_array *dma_fence_array_create(int num_fences,
-+					       struct dma_fence **fences,
-+					       u64 context, unsigned seqno,
-+					       bool signal_on_any)
-+{
-+	struct dma_fence_array *array;
-+
-+	array = dma_fence_array_alloc(num_fences);
-+	if (!array)
-+		return NULL;
-+
-+	dma_fence_array_init(array, num_fences, fences,
-+			     context, seqno, signal_on_any);
+ 	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
+ 		return dma_resv_reserve_fences(xe_vma_bo(vma)->ttm.base.resv,
+-					       xe->info.tile_count);
++					       xe->info.tile_count << shift);
  
- 	return array;
+ 	return 0;
  }
-diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
-index 29c5650c1038..079b3dec0a16 100644
---- a/include/linux/dma-fence-array.h
-+++ b/include/linux/dma-fence-array.h
-@@ -79,6 +79,12 @@ to_dma_fence_array(struct dma_fence *fence)
- 	for (index = 0, fence = dma_fence_array_first(head); fence;	\
- 	     ++(index), fence = dma_fence_array_next(head, index))
+@@ -1816,6 +1820,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
+ 	struct xe_vm_pgtable_update_ops *pt_update_ops =
+ 		&vops->pt_update_ops[tile->id];
+ 	struct xe_vma_op *op;
++	int shift = tile->media_gt ? 1 : 0;
+ 	int err;
  
-+struct dma_fence_array *dma_fence_array_alloc(int num_fences);
-+void dma_fence_array_init(struct dma_fence_array *array,
-+			  int num_fences, struct dma_fence **fences,
-+			  u64 context, unsigned seqno,
-+			  bool signal_on_any);
+ 	lockdep_assert_held(&vops->vm->lock);
+@@ -1824,7 +1829,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
+ 	xe_pt_update_ops_init(pt_update_ops);
+ 
+ 	err = dma_resv_reserve_fences(xe_vm_resv(vops->vm),
+-				      tile_to_xe(tile)->info.tile_count);
++				      tile_to_xe(tile)->info.tile_count << shift);
+ 	if (err)
+ 		return err;
+ 
+@@ -1849,13 +1854,20 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
+ 
+ static void bind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
+ 			   struct xe_vm_pgtable_update_ops *pt_update_ops,
+-			   struct xe_vma *vma, struct dma_fence *fence)
++			   struct xe_vma *vma, struct dma_fence *fence,
++			   struct dma_fence *fence2)
+ {
+-	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
++	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm) {
+ 		dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence,
+ 				   pt_update_ops->wait_vm_bookkeep ?
+ 				   DMA_RESV_USAGE_KERNEL :
+ 				   DMA_RESV_USAGE_BOOKKEEP);
++		if (fence2)
++			dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence2,
++					   pt_update_ops->wait_vm_bookkeep ?
++					   DMA_RESV_USAGE_KERNEL :
++					   DMA_RESV_USAGE_BOOKKEEP);
++	}
+ 	vma->tile_present |= BIT(tile->id);
+ 	vma->tile_staged &= ~BIT(tile->id);
+ 	if (xe_vma_is_userptr(vma)) {
+@@ -1875,13 +1887,20 @@ static void bind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
+ 
+ static void unbind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
+ 			     struct xe_vm_pgtable_update_ops *pt_update_ops,
+-			     struct xe_vma *vma, struct dma_fence *fence)
++			     struct xe_vma *vma, struct dma_fence *fence,
++			     struct dma_fence *fence2)
+ {
+-	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
++	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm) {
+ 		dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence,
+ 				   pt_update_ops->wait_vm_bookkeep ?
+ 				   DMA_RESV_USAGE_KERNEL :
+ 				   DMA_RESV_USAGE_BOOKKEEP);
++		if (fence2)
++			dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv, fence2,
++					   pt_update_ops->wait_vm_bookkeep ?
++					   DMA_RESV_USAGE_KERNEL :
++					   DMA_RESV_USAGE_BOOKKEEP);
++	}
+ 	vma->tile_present &= ~BIT(tile->id);
+ 	if (!vma->tile_present) {
+ 		list_del_init(&vma->combined_links.rebind);
+@@ -1898,7 +1917,8 @@ static void unbind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
+ static void op_commit(struct xe_vm *vm,
+ 		      struct xe_tile *tile,
+ 		      struct xe_vm_pgtable_update_ops *pt_update_ops,
+-		      struct xe_vma_op *op, struct dma_fence *fence)
++		      struct xe_vma_op *op, struct dma_fence *fence,
++		      struct dma_fence *fence2)
+ {
+ 	xe_vm_assert_held(vm);
+ 
+@@ -1907,26 +1927,28 @@ static void op_commit(struct xe_vm *vm,
+ 		if (!op->map.immediate && xe_vm_in_fault_mode(vm))
+ 			break;
+ 
+-		bind_op_commit(vm, tile, pt_update_ops, op->map.vma, fence);
++		bind_op_commit(vm, tile, pt_update_ops, op->map.vma, fence,
++			       fence2);
+ 		break;
+ 	case DRM_GPUVA_OP_REMAP:
+ 		unbind_op_commit(vm, tile, pt_update_ops,
+-				 gpuva_to_vma(op->base.remap.unmap->va), fence);
++				 gpuva_to_vma(op->base.remap.unmap->va), fence,
++				 fence2);
+ 
+ 		if (op->remap.prev)
+ 			bind_op_commit(vm, tile, pt_update_ops, op->remap.prev,
+-				       fence);
++				       fence, fence2);
+ 		if (op->remap.next)
+ 			bind_op_commit(vm, tile, pt_update_ops, op->remap.next,
+-				       fence);
++				       fence, fence2);
+ 		break;
+ 	case DRM_GPUVA_OP_UNMAP:
+ 		unbind_op_commit(vm, tile, pt_update_ops,
+-				 gpuva_to_vma(op->base.unmap.va), fence);
++				 gpuva_to_vma(op->base.unmap.va), fence, fence2);
+ 		break;
+ 	case DRM_GPUVA_OP_PREFETCH:
+ 		bind_op_commit(vm, tile, pt_update_ops,
+-			       gpuva_to_vma(op->base.prefetch.va), fence);
++			       gpuva_to_vma(op->base.prefetch.va), fence, fence2);
+ 		break;
+ 	default:
+ 		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
+@@ -1963,7 +1985,9 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+ 	struct xe_vm_pgtable_update_ops *pt_update_ops =
+ 		&vops->pt_update_ops[tile->id];
+ 	struct dma_fence *fence;
+-	struct invalidation_fence *ifence = NULL;
++	struct invalidation_fence *ifence = NULL, *mfence = NULL;
++	struct dma_fence **fences = NULL;
++	struct dma_fence_array *cf = NULL;
+ 	struct xe_range_fence *rfence;
+ 	struct xe_vma_op *op;
+ 	int err = 0, i;
+@@ -1996,6 +2020,23 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+ 			err = -ENOMEM;
+ 			goto kill_vm_tile1;
+ 		}
++		if (tile->media_gt) {
++			mfence = kzalloc(sizeof(*ifence), GFP_KERNEL);
++			if (!mfence) {
++				err = -ENOMEM;
++				goto free_ifence;
++			}
++			fences = kmalloc_array(2, sizeof(*fences), GFP_KERNEL);
++			if (!fences) {
++				err = -ENOMEM;
++				goto free_ifence;
++			}
++			cf = dma_fence_array_alloc(2);
++			if (!cf) {
++				err = -ENOMEM;
++				goto free_ifence;
++			}
++		}
+ 	}
+ 
+ 	rfence = kzalloc(sizeof(*rfence), GFP_KERNEL);
+@@ -2027,19 +2068,50 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+ 
+ 	/* tlb invalidation must be done before signaling rebind */
+ 	if (ifence) {
++		if (mfence)
++			dma_fence_get(fence);
+ 		invalidation_fence_init(tile->primary_gt, ifence, fence,
+ 					pt_update_ops->start,
+ 					pt_update_ops->last, vm->usm.asid);
+-		fence = &ifence->base.base;
++		if (mfence) {
++			invalidation_fence_init(tile->media_gt, mfence, fence,
++						pt_update_ops->start,
++						pt_update_ops->last, vm->usm.asid);
++			fences[0] = &ifence->base.base;
++			fences[1] = &mfence->base.base;
++			dma_fence_array_init(cf, 2, fences,
++					     vm->composite_fence_ctx,
++					     vm->composite_fence_seqno++,
++					     false);
++			fence = &cf->base;
++		} else {
++			fence = &ifence->base.base;
++		}
+ 	}
+ 
+-	dma_resv_add_fence(xe_vm_resv(vm), fence,
+-			   pt_update_ops->wait_vm_bookkeep ?
+-			   DMA_RESV_USAGE_KERNEL :
+-			   DMA_RESV_USAGE_BOOKKEEP);
++	if (!mfence) {
++		dma_resv_add_fence(xe_vm_resv(vm), fence,
++				   pt_update_ops->wait_vm_bookkeep ?
++				   DMA_RESV_USAGE_KERNEL :
++				   DMA_RESV_USAGE_BOOKKEEP);
+ 
+-	list_for_each_entry(op, &vops->list, link)
+-		op_commit(vops->vm, tile, pt_update_ops, op, fence);
++		list_for_each_entry(op, &vops->list, link)
++			op_commit(vops->vm, tile, pt_update_ops, op, fence, NULL);
++	} else {
++		dma_resv_add_fence(xe_vm_resv(vm), &ifence->base.base,
++				   pt_update_ops->wait_vm_bookkeep ?
++				   DMA_RESV_USAGE_KERNEL :
++				   DMA_RESV_USAGE_BOOKKEEP);
 +
- struct dma_fence_array *dma_fence_array_create(int num_fences,
- 					       struct dma_fence **fences,
- 					       u64 context, unsigned seqno,
++		dma_resv_add_fence(xe_vm_resv(vm), &mfence->base.base,
++				   pt_update_ops->wait_vm_bookkeep ?
++				   DMA_RESV_USAGE_KERNEL :
++				   DMA_RESV_USAGE_BOOKKEEP);
++
++		list_for_each_entry(op, &vops->list, link)
++			op_commit(vops->vm, tile, pt_update_ops, op,
++				  &ifence->base.base, &mfence->base.base);
++	}
+ 
+ 	if (pt_update_ops->needs_userptr_lock)
+ 		up_read(&vm->userptr.notifier_lock);
+@@ -2049,6 +2121,9 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+ free_rfence:
+ 	kfree(rfence);
+ free_ifence:
++	kfree(cf);
++	kfree(fences);
++	kfree(mfence);
+ 	kfree(ifence);
+ kill_vm_tile1:
+ 	if (err != -EAGAIN && tile->id)
 -- 
 2.34.1
 
