@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47E895EAB1
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 09:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86BD95EA81
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 09:33:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05F710E0E2;
-	Mon, 26 Aug 2024 07:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C1810E12B;
+	Mon, 26 Aug 2024 07:33:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="e1LbLJrg";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SprSpcW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 475 seconds by postgrey-1.36 at gabe;
- Mon, 26 Aug 2024 07:40:32 UTC
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
- [91.218.175.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 306C310E0E2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2024 07:40:32 +0000 (UTC)
-Message-ID: <73f033cb-d890-426d-8b1a-f9c56456961d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1724657555;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BDF10E12A
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2024 07:33:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724657586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HGdrGxQwgoxsXhspyMbG8l2ZGZETxRuwcMDsFiaAMqE=;
- b=e1LbLJrgwyrIS1FKWYpzuMPFCPJ7RILGWqg5nk65MwWlhLaQ0Sr5uvirxiI+GVuOcceIrs
- nmGUEAuRqnuhqMhEgJTBB3bpBKH4Oducv/Ei5SR86ulY0ylBewDT8BKqM3Z1BF0GjDlEcN
- b6vbYAbXrC1CF9j6kEsP0hcNDKs/2AY=
-Date: Mon, 26 Aug 2024 13:02:23 +0530
+ bh=OGe0vbap31V8Ae80wTyu3pLN9tA4WkQLH/KHylBQkqo=;
+ b=SprSpcW/ypmTnpdpFo9gtlKz64hUTVpCj5KHvrvMJ3UOGE1q701tZJ9+2Pk9/t7X2L4NE1
+ VQwimveweeXzQKvUFKTgIjpNhUz73cykq+foNyo4dFzCBjVl2kOvlvdBsjZNe6gs1sfgMH
+ L63WbfKpmptR/hrquwFfNoT0k6sRsFM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-392-wqz3LUD4M6O_q2d73xZ7_g-1; Mon,
+ 26 Aug 2024 03:33:02 -0400
+X-MC-Unique: wqz3LUD4M6O_q2d73xZ7_g-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 1D7A11954B08; Mon, 26 Aug 2024 07:33:01 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.20])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 688AB196BBF1; Mon, 26 Aug 2024 07:33:00 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1261A1800631; Mon, 26 Aug 2024 09:32:58 +0200 (CEST)
+Date: Mon, 26 Aug 2024 09:32:58 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org, 
+ maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH 00/10] rm/bochs: Modernize driver
+Message-ID: <zh63tmpp57ou4y3j54grngvqwqpls7hyw2eb44a6qjcpx6sb24@v5n7ri6aa6ny>
+References: <20240823124422.286989-1-tzimmermann@suse.de>
+ <sksjddgidfrk4bvcxvb46khevp4a4nfvl2holgdw636wld7oov@vdbcvdf3ch6m>
+ <42389f21-1ddb-428d-8471-92eae5a5f45a@suse.de>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 3/4] dt-bindings: display: ti,am65x-dss: Add OLDI
- properties for AM625 DSS
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Francesco Dolcini <francesco@dolcini.it>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
-References: <20240716084248.1393666-1-a-bhatia1@ti.com>
- <20240716084248.1393666-4-a-bhatia1@ti.com>
- <93844c97-46b7-48bd-9397-2bbba9c09510@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <93844c97-46b7-48bd-9397-2bbba9c09510@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <42389f21-1ddb-428d-8471-92eae5a5f45a@suse.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,173 +76,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+  Hi,
 
-
-On 7/21/24 21:09, Krzysztof Kozlowski wrote:
-> On 16/07/2024 10:42, Aradhya Bhatia wrote:
->> The DSS in AM625 SoC has 2 OLDI TXes. Refer the OLDI schema to add the
->> support for the OLDI TXes.
->>
->> The AM625 DSS VP1 (port@0) can connect and control 2 OLDI TXes, to use
->> them in dual-link or cloned single-link OLDI modes. Add support for an
->> additional endpoint under the port@0 to accurately depict the data flow
->> path.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> ---
->>  .../bindings/display/ti/ti,am65x-dss.yaml     | 135 ++++++++++++++++++
->>  1 file changed, 135 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> index 399d68986326..249597455d34 100644
->> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> @@ -91,6 +91,24 @@ properties:
->>            For AM625 DSS, the internal DPI output port node from video
->>            port 1.
->>            For AM62A7 DSS, the port is tied off inside the SoC.
->> +        properties:
->> +          endpoint@0:
->> +            $ref: /schemas/graph.yaml#/properties/endpoint
->> +            description:
->> +              For AM625 DSS, VP Connection to OLDI0.
->> +              For AM65X DSS, OLDI output from the SoC.
->> +
->> +          endpoint@1:
->> +            $ref: /schemas/graph.yaml#/properties/endpoint
->> +            description:
->> +              For AM625 DSS, VP Connection to OLDI1.
+> > So this probably makes sense, but I'd like to see a bit more background
+> > information ...
 > 
-> Eh, that's confusing. Why do you have graph to your children? Isn't this
-> entirely pointless?
-
-I am not sure I fully understand. The same display source video port can
-connect up to 2 OLDI TXes - hence 2 endpoints which connect to the OLDI
-that were described in the previous patch. The idea has been to
-accurately depict the connections of the hardware.
-
-What am I missing here?
-
-
-side-note: I do realize, as I write this, that it has been quite a while
-since you reviewed, and that you may have, rightfully, lost context.
-I apologize for that.
-
+> The difference is in damage handling.
 > 
->> +
->> +        anyOf:
->> +          - required:
->> +              - endpoint
->> +          - required:
->> +              - endpoint@0
->> +              - endpoint@1
->>  
->>        port@1:
->>          $ref: /schemas/graph.yaml#/properties/port
->> @@ -112,6 +130,23 @@ properties:
->>        Input memory (from main memory to dispc) bandwidth limit in
->>        bytes per second
->>  
->> +  oldi-txes:
->> +    type: object
->> +    additionalProperties: true
+> The old code had two BOs in video memory and flipped between them. IDK the
+> details of the old rendering, but from the massive flickering of the cursor,
+> I assume that X11's internal either copies a full buffer during each redraw,
+> or doesn't really handle damage well. It could also happen that X didn't use
+> a shadow buffer for rendering. Bochs didn't request one. Without, drawing to
+> I/O memory is really slow. If that applies to virtual I/O memory as well
+> IDK.
 > 
-> Why? This looks wrong.
+> The new driver code only copies areas that have been changed from rendering.
+> The flickering is gone and the overall update performance is acceptable.
 
-This, I will admit, was a shot in the dark. The binding check asked me
-that I was missing either this or unevaluatedProperties. I tried to make
-sense of the two, but with little luck. Eventually, I went with this.
+Thanks.
 
-I could change it to unevaluatedProperties if that is indeed correct. I
-could also use some comprehensive resource to understand this, if you
-have something to recommend. =)
+Have you tried wayland and fbcon too?
 
+> > On vram sizes:  The default qemu vram size (16M) should be fine for the
+> > default display resolution (1280x800).  For FullHD vram size should be
+> > doubled (-device VGA,vgamem_mb=32).
 > 
->> +    properties:
->> +      "#address-cells":
->> +        const: 1
->> +
->> +      "#size-cells":
->> +        const: 0
->> +
->> +    patternProperties:
->> +      '^oldi_tx@[0-1]$':
-> 
-> Please follow DTS coding style for naming.
+> Right. Bochs never really tested that.  So I saw something like 5k by
+> 3k resolutions on my test setup with 16 MiB.
 
-Okay!
+IIRC there used to be a check in the past, limiting resolutions to
+buffer sizes which fit into vram twice (to allow for double buffering).
 
-> 
->> +        type: object
->> +        $ref: ti,am625-oldi.yaml#
->> +        unevaluatedProperties: false
->> +        description: OLDI transmitters connected to the DSS VPs
->> +
->>  allOf:
->>    - if:
->>        properties:
->> @@ -123,6 +158,19 @@ allOf:
->>          ports:
->>            properties:
->>              port@0: false
->> +            oldi_txes: false
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: ti,am65x-dss
->> +    then:
->> +      properties:
->> +        oldi_txes: false
->> +        port@0:
->> +          properties:
->> +            endpoint@1: false
->>  
->>  required:
->>    - compatible
->> @@ -171,3 +219,90 @@ examples:
->>              };
->>          };
->>      };
->> +
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
->> +
->> +    bus {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +        dss1: dss@30200000 {
->> +            compatible = "ti,am625-dss";
->> +            reg = <0x00 0x30200000 0x00 0x1000>, /* common */
->> +                  <0x00 0x30202000 0x00 0x1000>, /* vidl1 */
->> +                  <0x00 0x30206000 0x00 0x1000>, /* vid */
->> +                  <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
->> +                  <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
->> +                  <0x00 0x3020a000 0x00 0x1000>, /* vp1 */
->> +                  <0x00 0x3020b000 0x00 0x1000>, /* vp2 */
->> +                  <0x00 0x30201000 0x00 0x1000>; /* common1 */
->> +            reg-names = "common", "vidl1", "vid",
->> +                        "ovr1", "ovr2", "vp1", "vp2", "common1";
->> +            power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
->> +            clocks =        <&k3_clks 186 6>,
->> +                            <&vp1_clock>,
->> +                            <&k3_clks 186 2>;
->> +            clock-names = "fck", "vp1", "vp2";
->> +            interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
->> +            oldi-txes {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +                oldi0: oldi@0 {
-> 
-> You are duplicating the example from previous schema. No need. Keep
-> only, one complete example.
+Crude heuristic.  I do not remember when and why it went away.  Also
+I've seen wayland use three not two buffers ...
 
-Sure!
+> Now that video-memory requirements for each mode can be calculated
+> easily, we can sort out the invalid modes.
 
+Yes.  Also I think trading higher main memory (shmem) usage for lower
+vram usage is good overall.  Main memory can be uses for something else
+if not needed whereas vram sits around unused.
 
-Regards
-Aradhya
+take care,
+  Gerd
+
