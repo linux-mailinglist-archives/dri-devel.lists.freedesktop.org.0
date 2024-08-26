@@ -2,150 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0DA95EA08
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 09:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47E895EAB1
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 09:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4780110E115;
-	Mon, 26 Aug 2024 07:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B05F710E0E2;
+	Mon, 26 Aug 2024 07:40:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="yiRsuF6J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="29qQqnFg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yiRsuF6J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="29qQqnFg";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="e1LbLJrg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1DE10E117;
- Mon, 26 Aug 2024 07:11:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 78B091F843;
- Mon, 26 Aug 2024 07:11:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724656312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+X-Greylist: delayed 475 seconds by postgrey-1.36 at gabe;
+ Mon, 26 Aug 2024 07:40:32 UTC
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
+ [91.218.175.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306C310E0E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2024 07:40:32 +0000 (UTC)
+Message-ID: <73f033cb-d890-426d-8b1a-f9c56456961d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1724657555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SPGZhv40/HCD6CrWni/Ro0VawjhkfbRkAq/pKepOG04=;
- b=yiRsuF6JiAtqiOk9gt3PEf2krtfxOQ2u51mW+KGmD+x5s2UFbWxfxyQqJsBihiahItJc/K
- 0kaccrjqshrHp7NYLFAG91Ro93OaSUVUsG9gLEcL1qyXyBN3+dX9KIcKyw71ZuPk12lefk
- fjbAFZPUgKVjR4CtmDPnHBYNmHJL9s0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724656312;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SPGZhv40/HCD6CrWni/Ro0VawjhkfbRkAq/pKepOG04=;
- b=29qQqnFgDsGd5nkxZ8fQOVtYsaiRcfxdUNwefj13wi4tM7UYuenFuavriwgfSbn/L8ecQy
- gZexfuis3UJGJZCA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yiRsuF6J;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=29qQqnFg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724656312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SPGZhv40/HCD6CrWni/Ro0VawjhkfbRkAq/pKepOG04=;
- b=yiRsuF6JiAtqiOk9gt3PEf2krtfxOQ2u51mW+KGmD+x5s2UFbWxfxyQqJsBihiahItJc/K
- 0kaccrjqshrHp7NYLFAG91Ro93OaSUVUsG9gLEcL1qyXyBN3+dX9KIcKyw71ZuPk12lefk
- fjbAFZPUgKVjR4CtmDPnHBYNmHJL9s0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724656312;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SPGZhv40/HCD6CrWni/Ro0VawjhkfbRkAq/pKepOG04=;
- b=29qQqnFgDsGd5nkxZ8fQOVtYsaiRcfxdUNwefj13wi4tM7UYuenFuavriwgfSbn/L8ecQy
- gZexfuis3UJGJZCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F6FF1398D;
- Mon, 26 Aug 2024 07:11:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id /zNuBrgqzGb1QgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 26 Aug 2024 07:11:52 +0000
-Message-ID: <65faaa8b-72b5-4fa3-9959-8fecba90ad30@suse.de>
-Date: Mon, 26 Aug 2024 09:11:51 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=HGdrGxQwgoxsXhspyMbG8l2ZGZETxRuwcMDsFiaAMqE=;
+ b=e1LbLJrgwyrIS1FKWYpzuMPFCPJ7RILGWqg5nk65MwWlhLaQ0Sr5uvirxiI+GVuOcceIrs
+ nmGUEAuRqnuhqMhEgJTBB3bpBKH4Oducv/Ei5SR86ulY0ylBewDT8BKqM3Z1BF0GjDlEcN
+ b6vbYAbXrC1CF9j6kEsP0hcNDKs/2AY=
+Date: Mon, 26 Aug 2024 13:02:23 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/86] drm/atmel-hdlcd: Run DRM default client setup
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>
-References: <20240821130348.73038-1-tzimmermann@suse.de>
- <20240821130348.73038-12-tzimmermann@suse.de>
- <20240823185156.GA367392@ravnborg.org>
+Subject: Re: [PATCH v3 3/4] dt-bindings: display: ti,am65x-dss: Add OLDI
+ properties for AM625 DSS
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
+References: <20240716084248.1393666-1-a-bhatia1@ti.com>
+ <20240716084248.1393666-4-a-bhatia1@ti.com>
+ <93844c97-46b7-48bd-9397-2bbba9c09510@kernel.org>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240823185156.GA367392@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <93844c97-46b7-48bd-9397-2bbba9c09510@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 78B091F843
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCPT_COUNT_TWELVE(0.00)[14]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,redhat.com,lists.freedesktop.org,kernel.org,microchip.com,bootlin.com,tuxon.dev];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:email, suse.de:dkim, suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -6.51
-X-Spam-Flag: NO
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,70 +77,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam
+Hi Krzysztof,
 
-Am 23.08.24 um 20:51 schrieb Sam Ravnborg:
-> On Wed, Aug 21, 2024 at 02:59:08PM +0200, Thomas Zimmermann wrote:
->> Call drm_client_setup_with_fourcc() to run the kernel's default client
->> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
->> setup can start the common fbdev client.
+
+On 7/21/24 21:09, Krzysztof Kozlowski wrote:
+> On 16/07/2024 10:42, Aradhya Bhatia wrote:
+>> The DSS in AM625 SoC has 2 OLDI TXes. Refer the OLDI schema to add the
+>> support for the OLDI TXes.
 >>
->> v2:
->> - use drm_client_setup_with_fourcc()
+>> The AM625 DSS VP1 (port@0) can connect and control 2 OLDI TXes, to use
+>> them in dual-link or cloned single-link OLDI modes. Add support for an
+>> additional endpoint under the port@0 to accurately depict the data flow
+>> path.
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: Boris Brezillon <bbrezillon@kernel.org>
->> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
->> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
->> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> Hi Thomas.
->
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 >> ---
->>   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>  .../bindings/display/ti/ti,am65x-dss.yaml     | 135 ++++++++++++++++++
+>>  1 file changed, 135 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
->> index 9ce429f889ca..ca5bde8ac300 100644
->> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
->> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
->> @@ -18,8 +18,10 @@
->>   
->>   #include <drm/drm_atomic.h>
->>   #include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_client_setup.h>
->>   #include <drm/drm_drv.h>
->>   #include <drm/drm_fbdev_dma.h>
->> +#include <drm/drm_fourcc.h>
->>   #include <drm/drm_gem_dma_helper.h>
->>   #include <drm/drm_gem_framebuffer_helper.h>
->>   #include <drm/drm_module.h>
->> @@ -865,7 +867,7 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
->>   	if (ret)
->>   		goto err_unload;
->>   
->> -	drm_fbdev_dma_setup(ddev, 24);
->> +	drm_client_setup_with_fourcc(ddev, DRM_FORMAT_RGB888);
->>   
->>   	return 0;
-> I looks like a patch is missing to add DRM_FBDEV_DMA_DRIVER_OPS to
-> struct drm_driver?
+>> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>> index 399d68986326..249597455d34 100644
+>> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>> @@ -91,6 +91,24 @@ properties:
+>>            For AM625 DSS, the internal DPI output port node from video
+>>            port 1.
+>>            For AM62A7 DSS, the port is tied off inside the SoC.
+>> +        properties:
+>> +          endpoint@0:
+>> +            $ref: /schemas/graph.yaml#/properties/endpoint
+>> +            description:
+>> +              For AM625 DSS, VP Connection to OLDI0.
+>> +              For AM65X DSS, OLDI output from the SoC.
+>> +
+>> +          endpoint@1:
+>> +            $ref: /schemas/graph.yaml#/properties/endpoint
+>> +            description:
+>> +              For AM625 DSS, VP Connection to OLDI1.
+> 
+> Eh, that's confusing. Why do you have graph to your children? Isn't this
+> entirely pointless?
 
-Indeed. Thanks a lot for proof reading. I'll double-check the other 
-patches for the next iteration.
+I am not sure I fully understand. The same display source video port can
+connect up to 2 OLDI TXes - hence 2 endpoints which connect to the OLDI
+that were described in the previous patch. The idea has been to
+accurately depict the connections of the hardware.
 
-Best regards
-Thomas
+What am I missing here?
 
->
-> 	Sam
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+side-note: I do realize, as I write this, that it has been quite a while
+since you reviewed, and that you may have, rightfully, lost context.
+I apologize for that.
 
+> 
+>> +
+>> +        anyOf:
+>> +          - required:
+>> +              - endpoint
+>> +          - required:
+>> +              - endpoint@0
+>> +              - endpoint@1
+>>  
+>>        port@1:
+>>          $ref: /schemas/graph.yaml#/properties/port
+>> @@ -112,6 +130,23 @@ properties:
+>>        Input memory (from main memory to dispc) bandwidth limit in
+>>        bytes per second
+>>  
+>> +  oldi-txes:
+>> +    type: object
+>> +    additionalProperties: true
+> 
+> Why? This looks wrong.
+
+This, I will admit, was a shot in the dark. The binding check asked me
+that I was missing either this or unevaluatedProperties. I tried to make
+sense of the two, but with little luck. Eventually, I went with this.
+
+I could change it to unevaluatedProperties if that is indeed correct. I
+could also use some comprehensive resource to understand this, if you
+have something to recommend. =)
+
+> 
+>> +    properties:
+>> +      "#address-cells":
+>> +        const: 1
+>> +
+>> +      "#size-cells":
+>> +        const: 0
+>> +
+>> +    patternProperties:
+>> +      '^oldi_tx@[0-1]$':
+> 
+> Please follow DTS coding style for naming.
+
+Okay!
+
+> 
+>> +        type: object
+>> +        $ref: ti,am625-oldi.yaml#
+>> +        unevaluatedProperties: false
+>> +        description: OLDI transmitters connected to the DSS VPs
+>> +
+>>  allOf:
+>>    - if:
+>>        properties:
+>> @@ -123,6 +158,19 @@ allOf:
+>>          ports:
+>>            properties:
+>>              port@0: false
+>> +            oldi_txes: false
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: ti,am65x-dss
+>> +    then:
+>> +      properties:
+>> +        oldi_txes: false
+>> +        port@0:
+>> +          properties:
+>> +            endpoint@1: false
+>>  
+>>  required:
+>>    - compatible
+>> @@ -171,3 +219,90 @@ examples:
+>>              };
+>>          };
+>>      };
+>> +
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+>> +
+>> +    bus {
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +        dss1: dss@30200000 {
+>> +            compatible = "ti,am625-dss";
+>> +            reg = <0x00 0x30200000 0x00 0x1000>, /* common */
+>> +                  <0x00 0x30202000 0x00 0x1000>, /* vidl1 */
+>> +                  <0x00 0x30206000 0x00 0x1000>, /* vid */
+>> +                  <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
+>> +                  <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
+>> +                  <0x00 0x3020a000 0x00 0x1000>, /* vp1 */
+>> +                  <0x00 0x3020b000 0x00 0x1000>, /* vp2 */
+>> +                  <0x00 0x30201000 0x00 0x1000>; /* common1 */
+>> +            reg-names = "common", "vidl1", "vid",
+>> +                        "ovr1", "ovr2", "vp1", "vp2", "common1";
+>> +            power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
+>> +            clocks =        <&k3_clks 186 6>,
+>> +                            <&vp1_clock>,
+>> +                            <&k3_clks 186 2>;
+>> +            clock-names = "fck", "vp1", "vp2";
+>> +            interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
+>> +            oldi-txes {
+>> +                #address-cells = <1>;
+>> +                #size-cells = <0>;
+>> +                oldi0: oldi@0 {
+> 
+> You are duplicating the example from previous schema. No need. Keep
+> only, one complete example.
+
+Sure!
+
+
+Regards
+Aradhya
