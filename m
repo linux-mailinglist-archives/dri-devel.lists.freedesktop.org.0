@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19AE95EE5E
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 12:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7210595EEB8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2024 12:45:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3B9E10E188;
-	Mon, 26 Aug 2024 10:20:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bGL3OamG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6788E10E18E;
+	Mon, 26 Aug 2024 10:45:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46A0A10E187;
- Mon, 26 Aug 2024 10:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724667622; x=1756203622;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=WIRbzgRFzegd7jBvkQsNFq2d4n2EVHmRsEJmbaKa90I=;
- b=bGL3OamGAqFw5jpNaFceiYdMpsb0xUhb7E296fea99I04loUaHprYsLw
- JsuMaDfEeIhfrjKfO6np/nYYmJPzQv5ombljCPpWGCrLQHBR8UThl+Y/Z
- zfqdzjNzDGY1Fho0/a1er78bfeT+NGiKybyvk5AZMCp7u3kjlPHy6t6F7
- 1cWW89he2jCYGQs8kYvsoYY47ov1ovHuFqSXPhli3mOhkx7coq9h7auCf
- i9L5+T9yWTrIpYAaZo9lYFbrt3dvE0sIcC1Dmrx2t7VJ8yqpBKRkbxk0Z
- CfGygx0NKFanCA7xY5RDTZjgtoBgozmFNCCBDTgrjcOj0M0dS0sF4Teqv w==;
-X-CSE-ConnectionGUID: ajhPhSr+T/2fPtvhLdFFoQ==
-X-CSE-MsgGUID: 4rZjgNLnTLygIdSIkgmMBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="26845367"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; d="scan'208";a="26845367"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2024 03:20:22 -0700
-X-CSE-ConnectionGUID: sFLx+cFyRY2bEQziG9GNdg==
-X-CSE-MsgGUID: xiEqFIx1Q6OX+68Hv62Vjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; d="scan'208";a="62984641"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.113])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2024 03:20:19 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/ttm: fix kernel-doc typo for @trylock_only
-In-Reply-To: <704af387-a984-4fcb-866a-1e95a22e50b9@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240823141110.3431423-1-jani.nikula@intel.com>
- <704af387-a984-4fcb-866a-1e95a22e50b9@amd.com>
-Date: Mon, 26 Aug 2024 13:20:07 +0300
-Message-ID: <878qwj37s8.fsf@intel.com>
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1CF510E18D;
+ Mon, 26 Aug 2024 10:45:16 +0000 (UTC)
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Mon, 26 Aug
+ 2024 13:45:13 +0300
+Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 26 Aug
+ 2024 13:45:13 +0300
+Message-ID: <56362df7-7502-4b35-81da-f3fe9ff7da47@fintech.ru>
+Date: Mon, 26 Aug 2024 03:45:12 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/guc: prevent a possible int overflow in wq
+ offsets
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+CC: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
+ <stable@vger.kernel.org>, <n.zhandarovich@fintech.ru>
+References: <20240725155925.14707-1-n.zhandarovich@fintech.ru>
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+In-Reply-To: <20240725155925.14707-1-n.zhandarovich@fintech.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.0.253.138]
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,41 +56,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Aug 2024, Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> Am 23.08.24 um 16:11 schrieb Jani Nikula:
->> s/tryock_only/trylock_only/
->>
->> Fixes: da966b82bf3d ("drm/ttm: Provide a generic LRU walker helper")
->> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Hi,
 
-Thanks, pushed this one patch to drm-misc-next.
+On 7/25/24 08:59, Nikita Zhandarovich wrote:
+> It may be possible for the sum of the values derived from
+> i915_ggtt_offset() and __get_parent_scratch_offset()/
+> i915_ggtt_offset() to go over the u32 limit before being assigned
+> to wq offsets of u64 type.
+> 
+> Mitigate these issues by expanding one of the right operands
+> to u64 to avoid any overflow issues just in case.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+> 
+> Fixes: 2584b3549f4c ("drm/i915/guc: Update to GuC version 70.1.1")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 9400d0eb682b..908ebfa22933 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -2842,9 +2842,9 @@ static void prepare_context_registration_info_v70(struct intel_context *ce,
+>  		ce->parallel.guc.wqi_tail = 0;
+>  		ce->parallel.guc.wqi_head = 0;
+>  
+> -		wq_desc_offset = i915_ggtt_offset(ce->state) +
+> +		wq_desc_offset = (u64)i915_ggtt_offset(ce->state) +
+>  				 __get_parent_scratch_offset(ce);
+> -		wq_base_offset = i915_ggtt_offset(ce->state) +
+> +		wq_base_offset = (u64)i915_ggtt_offset(ce->state) +
+>  				 __get_wq_offset(ce);
+>  		info->wq_desc_lo = lower_32_bits(wq_desc_offset);
+>  		info->wq_desc_hi = upper_32_bits(wq_desc_offset);
 
-BR,
-Jani.
+Gentle ping,
 
->
->> ---
->>   include/drm/ttm/ttm_bo.h | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
->> index d1a732d56259..7294dde240fb 100644
->> --- a/include/drm/ttm/ttm_bo.h
->> +++ b/include/drm/ttm/ttm_bo.h
->> @@ -222,7 +222,7 @@ struct ttm_lru_walk {
->>   	struct ttm_operation_ctx *ctx;
->>   	/** @ticket: The struct ww_acquire_ctx if any. */
->>   	struct ww_acquire_ctx *ticket;
->> -	/** @tryock_only: Only use trylock for locking. */
->> +	/** @trylock_only: Only use trylock for locking. */
->>   	bool trylock_only;
->>   };
->>=20=20=20
->
-
---=20
-Jani Nikula, Intel
+Regards,
+Nikita
