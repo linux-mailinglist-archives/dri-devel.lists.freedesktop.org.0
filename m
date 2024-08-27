@@ -2,86 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A029617C2
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 21:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D920B9617EF
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 21:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26BA010E40C;
-	Tue, 27 Aug 2024 19:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED1710E40B;
+	Tue, 27 Aug 2024 19:26:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="RTZ+VO4E";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fQynwVmW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta038.useast.a.cloudfilter.net
- (omta038.useast.a.cloudfilter.net [44.202.169.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9816010E40A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 19:09:50 +0000 (UTC)
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
- by cmsmtp with ESMTPS
- id iwc4sG4zeg2lzj1Zdsp0mi; Tue, 27 Aug 2024 19:09:49 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id j1ZcswKQNzIkAj1Zds9PJe; Tue, 27 Aug 2024 19:09:49 +0000
-X-Authority-Analysis: v=2.4 cv=fP0/34ae c=1 sm=1 tr=0 ts=66ce247d
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=frY+GlAHrI6frpeK1MvySw==:17
- a=IkcTkHD0fZMA:10 a=yoJbH4e0A30A:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=Oxluwhmp6ld3uWlGNnkA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
- a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=5JZFmEEhU0UCbr2plbMpHOf5fhdfzfk/fS6XDm2beLk=; b=RTZ+VO4E54YAFXBis0O/nkgeD4
- vBNHhkiSEg8EkMDsoZGceB3t80ydoOZOc8D+0mG6lihVYVhzjAfz5KKnxuWJCtrUGrs3OOEL2k5HQ
- KKVNuj+tQvQsOCtSfd5nc0EPqpdrZcg9y2PkyWjwicaMxFCYIoQLzKCBdLd6njnDi9+0t96l5uSR6
- V6RKSu0SqYDpxao7RefLsBT+ZUWavtN4LQ7dVRjIDdKjmpqXFCumab0Z6x0G+0YeWCBlf1gRULKOg
- 8NjcKNjM0+DNGHRlNIG7sfwRz1cZjXp78JV3Z+ITDq0WNDffFK2sVQcTMHJEoIwgd5BQCoCnd6JOY
- KnbkUGYQ==;
-Received: from [201.172.173.139] (port=47538 helo=[192.168.15.5])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
- (envelope-from <gustavo@embeddedor.com>) id 1sj1Zc-002X62-0C;
- Tue, 27 Aug 2024 14:09:48 -0500
-Message-ID: <2065d0f6-660e-4647-95b4-8d1a9a7eaefe@embeddedor.com>
-Date: Tue, 27 Aug 2024 13:09:46 -0600
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F4B10E40B
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 19:26:45 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-6bf7f4a1334so26423856d6.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 12:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1724786803; x=1725391603;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wHOyUE8iY/6Scs/W5U/CSdZ3JZ5DHLQy5vTA2vOVtz0=;
+ b=fQynwVmWG4jh8o6U/EiQcC928I+a5MvFyT3O61zA/Xk2B4gsQloCAjFrIpQn60Vegb
+ ve22aw2vqzNPHm8RtSBe6JIcnE0sRlNEo6AIWmNFqpj05rt2KR+jYFKK0I9Ebu3aAcgH
+ YIWIIWpx2KFyW7GP/2DDq1nqRO7zIjxqgNsDk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724786803; x=1725391603;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wHOyUE8iY/6Scs/W5U/CSdZ3JZ5DHLQy5vTA2vOVtz0=;
+ b=g2q6CoybRX9nVQvqkgIJyzZVi+09aPRErTfViwfAsMkJpnhCYlWne/Gy2Jsrg10B63
+ k7zELxfbZlANHb9Jg0U0/1ItqM7FW+57hNOODuys7xT8A6jCS8wxODwzsf/1kAG+G9TT
+ gQd/lO2bB9itdBE7waHWrKgkQSc+awcHf+SHztR3U/hnSsLbx1r5peElUZJqswDGL0kk
+ m5ugwcTpTouC4wkJJhWV5Aiw0RohryHle/9i9pSh+1IHVI6F4XfvBzh+KW7u0nJ2t+8O
+ 6K7TvQxogTxUm0IQuRgrw0yHBqd5V4Ep2JyzwJjVoG57dkZPLykHDOoqLJh5S4uMluXc
+ nzxA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV04HEBPeJmqqgOJHUdHt4vwTn86qw3Ajp91smTN4kNy3fk0LgXUTwUAqeeGjKAaCypvi6DO+/RcAQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyU/MJq9lLc6qY/5B1kFvLl4llgHkWFldQaji1c1J3TKv5iYlHT
+ SRBqRluhfLZRAVbvpcZ8Au00T4q7VXB1unp3YiRB97IQvoO51pMEeMXUfaBJGFKSAQUpXBzCoKs
+ =
+X-Google-Smtp-Source: AGHT+IHIChIiabXMbd/Sx1IwDViX/ka9wF6svHZFq1U2O+GNYswz9Iv1gs6OlM849/zqbK6fUI17IQ==
+X-Received: by 2002:a05:6214:3f8f:b0:6bf:89fd:90f with SMTP id
+ 6a1803df08f44-6c16dc21690mr169913456d6.3.1724786802940; 
+ Tue, 27 Aug 2024 12:26:42 -0700 (PDT)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com.
+ [209.85.219.51]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6c162dcd3afsm58932506d6.111.2024.08.27.12.26.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Aug 2024 12:26:41 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id
+ 6a1803df08f44-6c159151013so28133186d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 12:26:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV97KIsqU6hDFViUY94X0laHbcwKm9CjspUtoIwuUKhwKtj9RKAetcpKiTkSafjtyxl9RiGicwxaAQ=@lists.freedesktop.org
+X-Received: by 2002:a05:6214:4613:b0:6c3:33b1:20d0 with SMTP id
+ 6a1803df08f44-6c333b121f9mr15126336d6.53.1724786801089; Tue, 27 Aug 2024
+ 12:26:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] drm/nouveau: Avoid -Wflex-array-member-not-at-end
- warning
-To: Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <ZsZLFS1CsHkKjw+C@elsanto> <202408221011.82876DA0C4@keescook>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <202408221011.82876DA0C4@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.173.139
-X-Source-L: No
-X-Exim-ID: 1sj1Zc-002X62-0C
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.5]) [201.172.173.139]:47538
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfLhC/vubxxxk7nNpe6bPHaDAYKRfNYKUZQP7S7vFhkiGfhLWpqnQtEr/UWQCmu/KJlC3ByTPFKGasTwfSL8RqzUSel4KUipagD1g7qmBmeLN7ZEjicNh
- 1CvRoySZTxervO0/Yy71Rky8hEgXr8Dvfit0+z1vevD1gQK2O8y47iwVWaavGNs59/iYlO/Zvv/zbIcdL1jy7+PLnUtFtMzrCB8lY3NoSUpzm9uC/1TeHFOr
+References: <20240824084422.202946-1-tejasvipin76@gmail.com>
+In-Reply-To: <20240824084422.202946-1-tejasvipin76@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 27 Aug 2024 12:26:26 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VO+OTpMi0B=jzPkQLnof0r-amNVe_YzuXfBEjTvOE45Q@mail.gmail.com>
+Message-ID: <CAD=FV=VO+OTpMi0B=jzPkQLnof0r-amNVe_YzuXfBEjTvOE45Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: novatek-nt35950: transition to mipi_dsi
+ wrapped functions
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,82 +95,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+On Sat, Aug 24, 2024 at 1:44=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
+> wrote:
+>
+> +static void nt35950_set_cmd2_page(struct mipi_dsi_multi_context *dsi_ctx=
+,
+> +                                 struct nt35950 *nt, u8 page)
+>  {
+>         const u8 mauc_cmd2_page[] =3D { MCS_CMD_MAUCCTR, 0x55, 0xaa, 0x52=
+,
+>                                       0x08, page };
+> -       int ret;
+>
+> -       ret =3D mipi_dsi_dcs_write_buffer(nt->dsi[0], mauc_cmd2_page,
+> +       mipi_dsi_dcs_write_buffer_multi(dsi_ctx, mauc_cmd2_page,
+>                                         ARRAY_SIZE(mauc_cmd2_page));
+> -       if (ret < 0)
+> -               return ret;
+> +       if (dsi_ctx->accum_err)
+> +               return;
+>
+>         nt->last_page =3D page;
+> -       return 0;
+
+nit: It's a style choice, but I personally would have changed the above to =
+just:
+
+if (!dsi_ctx->accum_err)
+  nt->last_page =3D page;
 
 
-On 22/08/24 11:27, Kees Cook wrote:
-> On Wed, Aug 21, 2024 at 02:16:21PM -0600, Gustavo A. R. Silva wrote:
->> Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
->> a flexible structure where the size of the flexible-array member
->> is known at compile-time, and refactor the rest of the code,
->> accordingly.
->>
->> So, with this, fix the following warning:
->>
->> drivers/gpu/drm/nouveau/dispnv50/disp.c:779:47: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
->>
->> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->> ---
->>   drivers/gpu/drm/nouveau/dispnv50/disp.c | 20 +++++++++-----------
->>   1 file changed, 9 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
->> index eed579a6c858..ddddc69640be 100644
->> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
->> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
->> @@ -774,11 +774,9 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
->>   	struct drm_hdmi_info *hdmi = &nv_connector->base.display_info.hdmi;
->>   	union hdmi_infoframe infoframe = { 0 };
->>   	const u8 rekey = 56; /* binary driver, and tegra, constant */
->> +	DEFINE_RAW_FLEX(struct nvif_outp_infoframe_v0, args, data, 17);
->> +	const u8 data_len = 17; /* same length as in DEFINE_RAW_FLEX above. */
-> 
-> To avoid repeating the open-coded "17", this could either be a define:
-> 
-> nv50_hdmi_enable(...)
-> {
-> ...
-> #define data_len	17
-> 	DEFINE_RAW_FLEX(struct nvif_outp_infoframe_v0, args, data, data_len);
-> ...rest of function...
-> #undef data_len
-> }
-> 
-> or an ungainly but compile-time calculated value that exposes some
-> DEFINE_FLEX internals:
-> 
-> 	const u8 data_len = (sizeof(args_u) - sizeof(*args)) / sizeof(*args->data);
+> @@ -284,109 +258,68 @@ static int nt35950_on(struct nt35950 *nt)
+>  {
+>         const struct nt35950_panel_mode *mode_data =3D nt->desc->mode_dat=
+a;
+>         struct mipi_dsi_device *dsi =3D nt->dsi[0];
+> -       struct device *dev =3D &dsi->dev;
+> -       int ret;
+> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+>
+>         nt->cur_mode =3D nt35950_get_current_mode(nt);
+>         nt->dsi[0]->mode_flags |=3D MIPI_DSI_MODE_LPM;
+>         nt->dsi[1]->mode_flags |=3D MIPI_DSI_MODE_LPM;
+>
+> -       ret =3D nt35950_set_cmd2_page(nt, 0);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       ret =3D nt35950_set_data_compression(nt, mode_data[nt->cur_mode].=
+compression);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       ret =3D nt35950_set_scale_mode(nt, mode_data[nt->cur_mode].scaler=
+_mode);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       ret =3D nt35950_set_scaler(nt, mode_data[nt->cur_mode].scaler_on)=
+;
+> -       if (ret < 0)
+> -               return ret;
+> +       nt35950_set_cmd2_page(&dsi_ctx, nt, 0);
+> +       nt35950_set_data_compression(&dsi_ctx, nt, mode_data[nt->cur_mode=
+].compression);
+> +       nt35950_set_scale_mode(&dsi_ctx, mode_data[nt->cur_mode].scaler_m=
+ode);
+> +       nt35950_set_scaler(&dsi_ctx, mode_data[nt->cur_mode].scaler_on);
+> +       nt35950_set_dispout(&dsi_ctx, nt);
+>
+> -       ret =3D nt35950_set_dispout(nt);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       ret =3D mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLA=
+NK);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Failed to set tear on: %d\n", ret);
+> -               return ret;
+> -       }
+> -
+> -       ret =3D mipi_dsi_dcs_set_tear_scanline(dsi, 0);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Failed to set tear scanline: %d\n", ret);
+> -               return ret;
+> -       }
+> +       mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_V=
+BLANK);
+> +       mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx, 0);
+>
+>         /* CMD2 Page 1 */
+> -       ret =3D nt35950_set_cmd2_page(nt, 1);
+> -       if (ret < 0)
+> -               return ret;
+> +       nt35950_set_cmd2_page(&dsi_ctx, nt, 1);
+>
+>         /* Unknown command */
+> -       mipi_dsi_dcs_write_seq(dsi, 0xd4, 0x88, 0x88);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4, 0x88, 0x88);
+>
+>         /* CMD2 Page 7 */
+> -       ret =3D nt35950_set_cmd2_page(nt, 7);
+> -       if (ret < 0)
+> -               return ret;
+> +       nt35950_set_cmd2_page(&dsi_ctx, nt, 7);
+>
+>         /* Enable SubPixel Rendering */
+> -       mipi_dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_EN, 0x01);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PARAM_SPR_EN, 0x01);
+>
+>         /* SPR Mode: YYG Rainbow-RGB */
+> -       mipi_dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_MODE, MCS_SPR_MODE_YYG_=
+RAINBOW_RGB);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PARAM_SPR_MODE,
+> +                                    MCS_SPR_MODE_YYG_RAINBOW_RGB);
+>
+>         /* CMD3 */
+> -       ret =3D nt35950_inject_black_image(nt);
+> -       if (ret < 0)
+> -               return ret;
+> +       nt35950_inject_black_image(&dsi_ctx);
+> +       mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +       mipi_dsi_msleep(&dsi_ctx, 120);
+>
+> -       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
+> -       if (ret < 0)
+> -               return ret;
+> -       msleep(120);
+> -
+> -       ret =3D mipi_dsi_dcs_set_display_on(dsi);
+> -       if (ret < 0)
+> -               return ret;
+> -       msleep(120);
+> +       mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> +       mipi_dsi_msleep(&dsi_ctx, 120);
+>
+>         nt->dsi[0]->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
+>         nt->dsi[1]->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
+>
+> -       return 0;
+> +       return dsi_ctx.accum_err;
 
-Yeah, I actually thought of something more like just __struct_size(args) - sizeof(*args),
-as the flex array member is `__u8 data[]`.
+I think you only want to clear "MIPI_DSI_MODE_LPM" if there was no
+error, right? That matches the old code. So you'd want:
 
-> 
-> (Maybe a helper is needed for that?)
-> 
-> #define STACK_FLEX_COUNT(name, member)	\
-> 	((sizeof(name##_u) = sizeof(*(name))) / sizeof(*(name)->member))
+if (dsi_ctx.accum_err)
+  return dsi_ctx.accum_err;
 
-I don't like this `sizeof(name##_u)` part as it is detached from the DEFINE_RAW_FLEX()
-internals. Probably use `__struct_size(args)` instead, as in the example above.
+nt->dsi[0]->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
+nt->dsi[1]->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
 
-> 
->> @@ -815,29 +813,29 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
->>   		return;
->>   
->>   	/* AVI InfoFrame. */
->> -	args.infoframe.version = 0;
->> -	args.infoframe.head = nv_crtc->index;
->> +	args->version = 0;
->> +	args->head = nv_crtc->index;
-> 
-> The stack variable (was before and is again) already zero-initialized,
-> so the "= 0" line shouldn't be needed.
-> 
-> But neither of these comments are show-stoppers, IMO.
-> 
-> Reviewed-by: Kees Cook <kees@kernel.org>
-> 
+return 0;
 
-Thanks!
 
---
-Gustavo
+>  static int nt35950_off(struct nt35950 *nt)
+>  {
+> -       struct device *dev =3D &nt->dsi[0]->dev;
+> -       int ret;
+> +       struct mipi_dsi_device *dsi =3D nt->dsi[0];
+> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+>
+> -       ret =3D mipi_dsi_dcs_set_display_off(nt->dsi[0]);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Failed to set display off: %d\n", ret);
+> -               goto set_lpm;
+> -       }
+> -       usleep_range(10000, 11000);
+> +       mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+> +       mipi_dsi_usleep_range(&dsi_ctx, 10000, 11000);
+>
+> -       ret =3D mipi_dsi_dcs_enter_sleep_mode(nt->dsi[0]);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> -               goto set_lpm;
+> -       }
+> -       msleep(150);
+> +       mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+> +       mipi_dsi_msleep(&dsi_ctx, 150);
+>
+> -set_lpm:
+> -       nt->dsi[0]->mode_flags |=3D MIPI_DSI_MODE_LPM;
+> -       nt->dsi[1]->mode_flags |=3D MIPI_DSI_MODE_LPM;
+> +       if (dsi_ctx.accum_err) {
+> +               nt->dsi[0]->mode_flags |=3D MIPI_DSI_MODE_LPM;
+> +               nt->dsi[1]->mode_flags |=3D MIPI_DSI_MODE_LPM;
+> +       }
+
+I'm pretty sure you want to set MIPI_DSI_MODE_LPM _unconditionally,
+right? The old code would set it in both error and non-error cases I
+think.
+
+
+> @@ -452,10 +384,8 @@ static int nt35950_prepare(struct drm_panel *panel)
+>         nt35950_reset(nt);
+>
+>         ret =3D nt35950_on(nt);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> +       if (ret < 0)
+>                 goto end;
+> -       }
+
+I'd just get rid of the "if" test since "end" is next anyway. Given
+that there's no error message it seems silly to have the "if" test
+now.
+
+
+> @@ -469,12 +399,8 @@ static int nt35950_prepare(struct drm_panel *panel)
+>  static int nt35950_unprepare(struct drm_panel *panel)
+>  {
+>         struct nt35950 *nt =3D to_nt35950(panel);
+> -       struct device *dev =3D &nt->dsi[0]->dev;
+> -       int ret;
+>
+> -       ret =3D nt35950_off(nt);
+> -       if (ret < 0)
+> -               dev_err(dev, "Failed to deinitialize panel: %d\n", ret);
+> +       nt35950_off(nt);
+
+This is the only caller of nt35950_off() and you no longer check the
+return code, so you can just make nt35950_off() void, right?
