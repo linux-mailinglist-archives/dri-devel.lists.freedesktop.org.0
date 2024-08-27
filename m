@@ -2,89 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A55B96067F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 11:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A895496069B
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 12:03:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7647510E0F9;
-	Tue, 27 Aug 2024 09:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2231910E2CC;
+	Tue, 27 Aug 2024 10:03:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NXQAU4qm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dkXPqFCf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2089A10E0F9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 09:59:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724752783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VVTzCq+dmt5d2JYWM+Cep4xG6jN1YuMGbtiESpO8k2Y=;
- b=NXQAU4qmEimNUZBUqM3LGtDHR3cQSXnT0qmM6A4xfIK3kK5W6CAw1S0pd2Rpa1in2iBs3i
- IoE2qAQg0/ySY3EDnWM2xKHruCLCnYTHQcinNXYa8L6reGEmMbmp7j+6ujzXFHOfecJC4M
- OwsXffAWUT2DRgqbg93xJ8+yrAxd8u0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-164-tmxHZm27NBS0hCAtMSef_w-1; Tue, 27 Aug 2024 05:59:41 -0400
-X-MC-Unique: tmxHZm27NBS0hCAtMSef_w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-371881b6de3so3199344f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 02:59:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724752781; x=1725357581;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4jRfteUF4K6zdJt61qizH7SSD5maFMM9NgT5b4SG1L4=;
- b=IYH922p7oKnW0YSFW+J+JrcDL8ZEY6a35mta8/8/1SKZiti9p7SfDKqfHJm4f2ZtKo
- kkLNQfoBsxdJuPp0MSsPAQUSKX5K8WCrDzPMDvJ650UsxPSWao+1GKKs4Y6XLFAbuzQL
- Ybroaipv1yFktgzSbF+hfWTld3c2PvkEXDw+YqXcbHYPRCTjzwv/Nu2ulfr9RNIrtgCZ
- RykMGkcpWliVGKWzU+NzdSnf0eLqZsq61kuBnDTNb75erqylrI9UEhkL4kidtFUqylG6
- rfwgq9NE5yyuEtXvO8o/XAuXVD5K0+VI136MW8Cv5aOreeyWdx5o/f3mg6u/kv/cv7mq
- RmGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWoMtZUg1LK45WpX7zPxmDy2QHZY02yluMqqSDwyI5ejSWSEHr45rx3Tvagniv5g7LFN2jVmAeyJok=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwePI0K6BV3ve77AppItMalGG5zs/G0uMiqMBjFXO2oKA99XOGv
- 5OPRd0HMjPOf6OCvtBEjnUuRVALRevYcF9ASnk3xVduyk1rgjFOWLdfXNjUeC+gjD5JFJvJfb7Z
- uqtgypxlbYClPrwpNI/kLNOm4gFWNux7yvxP5n6FOgoI6VNX91WQhVozGOSYEC/0V7w==
-X-Received: by 2002:adf:ebce:0:b0:368:30a6:16d8 with SMTP id
- ffacd0b85a97d-3748c82c860mr1355686f8f.57.1724752780655; 
- Tue, 27 Aug 2024 02:59:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGKwUoHsFBchjm634UKmy74PHfoiuNaHO4aK4VhEUsCColf/kxqsyFbzDHf8ZVSaLRBv9ehqw==
-X-Received: by 2002:adf:ebce:0:b0:368:30a6:16d8 with SMTP id
- ffacd0b85a97d-3748c82c860mr1355665f8f.57.1724752780147; 
- Tue, 27 Aug 2024 02:59:40 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3dbc:3c00:460c:db7e:8195:ddb5])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37308200404sm12698815f8f.81.2024.08.27.02.59.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Aug 2024 02:59:39 -0700 (PDT)
-Message-ID: <ae0c78841e0d7c35f93aeb36fc94ab630812087e.camel@redhat.com>
-Subject: Re: [PATCH] drm/sched: Fix UB pointer dereference
-From: Philipp Stanner <pstanner@redhat.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
- Krummrich <dakr@kernel.org>
-Cc: Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
- <matthew.brost@intel.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Date: Tue, 27 Aug 2024 11:59:38 +0200
-In-Reply-To: <9ba7f944-52d1-4937-80c7-a03bc0c5b1d5@amd.com>
-References: <20240827074521.12828-2-pstanner@redhat.com>
- <c443e90d-6907-4a02-bab4-c1943f021a8c@kernel.org>
- <9ba7f944-52d1-4937-80c7-a03bc0c5b1d5@amd.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C38A10E2CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 10:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724753005; x=1756289005;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=UyP9FnltAeqIKnUdDF448g1cXViLL2vlBEa765iQQJg=;
+ b=dkXPqFCfxW3Yn7gFPz7FhKMtvQ8SOzLRDOKEps+edKWnMKP6N5mnB89f
+ 8lj0TR6hcaqZ8kv64HPxJinIndhFM254SekR1iXRhTJEqUulvaLs4bpeq
+ jYEHm+iNf9QbShf0Ipft2Qt411f0JQfEBVyFt9oRUtaMUE3ToHMr2R2iL
+ ELDTUrjHHNTSmJMaxfgWs/oeSWNgn8er2JSbHvnGigNR3crj+IxsCwcM0
+ fEcAeb859jOOw1dm2li5xXgJxTw8EZMgsKMOSiFVkwIyXRlHTgVzvPvOX
+ YcqkHDMA4HGyRcvrxCHvvg1RqzTxAS3FYwVv7/t2PDy3ctA+xTqo/RVFR g==;
+X-CSE-ConnectionGUID: 21IPj/s/RXaawvCY/MMbeQ==
+X-CSE-MsgGUID: H1s1IN48R0yPiN1fcM3Bkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23185850"
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; d="scan'208";a="23185850"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2024 03:03:24 -0700
+X-CSE-ConnectionGUID: 3InzujgZSniJnRaYouXHkQ==
+X-CSE-MsgGUID: LW808RzBSUSIJAoI8/AizA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; d="scan'208";a="67686683"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ [10.245.244.61]) ([10.245.244.61])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2024 03:03:24 -0700
+Message-ID: <2cd4250f46a63fc61330f1873aa14c9388adcf0b.camel@linux.intel.com>
+Subject: Re: [PATCH 5/8] drm/vmwgfx: partially revert "Adapt validation code
+ for reference-free lookups"
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ matthew.brost@intel.com
+Cc: dri-devel@lists.freedesktop.org
+Date: Tue, 27 Aug 2024 12:03:20 +0200
+In-Reply-To: <20240723121750.2086-5-christian.koenig@amd.com>
+References: <20240723121750.2086-1-christian.koenig@amd.com>
+ <20240723121750.2086-5-christian.koenig@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,80 +75,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-08-27 at 11:00 +0200, Christian K=C3=B6nig wrote:
-> Am 27.08.24 um 10:39 schrieb Danilo Krummrich:
-> > On 8/27/24 9:45 AM, Philipp Stanner wrote:
-> > > In drm_sched_job_init(), commit 56e449603f0a ("drm/sched: Convert
-> > > the
-> > > GPU scheduler to variable number of run-queues") implemented a
-> > > call to
-> > > drm_err(), which uses the job's scheduler pointer as a parameter.
-> > > job->sched, however, is not yet valid as it gets set by
-> > > drm_sched_job_arm(), which is always called after
-> > > drm_sched_job_init().
-> > >=20
-> > > Since the scheduler code has no control over how the API-User has
-> > > allocated or set 'job', the pointer's dereference is undefined
-> > > behavior.
-> > >=20
-> > > Fix the UB by replacing drm_err() with pr_err().
-> > >=20
-> > > Cc: <stable@vger.kernel.org>=C2=A0=C2=A0=C2=A0 # 6.7+
-> > > Fixes: 56e449603f0a ("drm/sched: Convert the GPU scheduler to=20
-> > > variable number of run-queues")
-> > > Reported-by: Danilo Krummrich <dakr@redhat.com>
-> > > Closes:=20
-> > > https://lore.kernel.org/lkml/20231108022716.15250-1-dakr@redhat.com/
-> > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > > ---
-> > > =C2=A0 drivers/gpu/drm/scheduler/sched_main.c | 2 +-
-> > > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c=20
-> > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index 7e90c9f95611..356c30fa24a8 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -797,7 +797,7 @@ int drm_sched_job_init(struct drm_sched_job
-> > > *job,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * or wor=
-se--a blank screen--leave a trail in the
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * logs, =
-so this can be debugged easier.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(job->sched, "%s: =
-entity has no rq!\n",
-> > > __func__);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_err("*ERROR* %s: entit=
-y has no rq!\n", __func__);
-> >=20
-> > I don't think the "*ERROR*" string is necessary, it's pr_err()
-> > already.
+On Tue, 2024-07-23 at 14:17 +0200, Christian K=C3=B6nig wrote:
+> This reverts commit 64ad2abfe9a628ce79859d072704bd1ef7682044.
 >=20
-> Good point. I will remove that and also add a comment why drm_err
-> won't=20
-> work here before pushing it to drm-misc-fixes.
-
-Well, as we're at it I want to point out that the exact same mechanism
-occurs just a few lines below, from where I shamelessly copied it:
-
-if (unlikely(!credits)) {
-=09pr_err("*ERROR* %s: credits cannot be 0!\n", __func__);
-
-
-P.
-
+> To me it looks like this functionality was never actually used. At
+> least
+> I can't find any protection in vmw_bo_free().
 >=20
-> Thanks,
-> Christian.
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Zack Rusin <zack.rusin@broadcom.com>
+> Cc: Broadcom internal kernel review list
+> <bcm-kernel-feedback-list@broadcom.com>
+
+IIRC the reference-free lookups were used to avoid the extensive
+referencing and unreferencing during the command stream parsing by
+means of rcu protection, so when vmw_validation_add() was called the bo
+pointer might have been only rcu-protected.
+
+From a brief look this looks like it's been changed with the gem
+rewrite and if so, this patch should probably be safe.
+
+/Thomas
+
+> ---
+> =C2=A0drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 5 +++--
+> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
 >=20
-> >=20
-> > Otherwise,
-> >=20
-> > Acked-by: Danilo Krummrich <dakr@kernel.org>
-> >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOENT=
-;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> index e7625b3f71e0..e11837e484aa 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> @@ -262,7 +262,8 @@ int vmw_validation_add_bo(struct
+> vmw_validation_context *ctx,
+> =C2=A0				bo_node->hash.key);
+> =C2=A0		}
+> =C2=A0		val_buf =3D &bo_node->base;
+> -		val_buf->bo =3D ttm_bo_get_unless_zero(&vbo->tbo);
+> +		vmw_bo_reference(vbo);
+> +		val_buf->bo =3D &vbo->tbo;
+> =C2=A0		if (!val_buf->bo)
+> =C2=A0			return -ESRCH;
+> =C2=A0		val_buf->num_shared =3D 0;
+> @@ -656,7 +657,7 @@ void vmw_validation_unref_lists(struct
+> vmw_validation_context *ctx)
+> =C2=A0	struct vmw_validation_res_node *val;
+> =C2=A0
+> =C2=A0	list_for_each_entry(entry, &ctx->bo_list, base.head) {
+> -		ttm_bo_put(entry->base.bo);
+> +		drm_gem_object_put(&entry->base.bo->base);
+> =C2=A0		entry->base.bo =3D NULL;
+> =C2=A0	}
+> =C2=A0
 
