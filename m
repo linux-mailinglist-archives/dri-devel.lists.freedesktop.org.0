@@ -2,82 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68722961C93
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 05:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D29961D5D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 06:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C756E10E48F;
-	Wed, 28 Aug 2024 03:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4D510E2DE;
+	Wed, 28 Aug 2024 04:09:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bpRdcJBS";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="tjGa+T0K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1FD10E48F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 03:04:43 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-2d3c05ec278so4580393a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 20:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724814283; x=1725419083; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8OBLeQ9F541pwxbn8dEubiWANdxJtGv9ekHxWl5Hwac=;
- b=bpRdcJBSlhJmZS69VbnxID9zxEk6JZ1HQvYPd7wxoh160hIdyogKlf1u2/JyxBvD4d
- KZnAda0U52dvGPO2WUpgWC+aieUvkiioGAKM2Jnyjw+U3wYKAe0cXJ1aZo+/dfx+iyD1
- KTidGArq6utLU+/rscMo7pfEp2a6TliYbwx6Ctl7zqGkhFm/p4EaeFdvtohM6RZWVem5
- tdZuXgmzfpLSsPy8EYeaDObkrhTCuXmq8Q0vavk5KjPlrs/vmz5t+YF6h16Yl5hWuP77
- VBXPiCaNZh9UR1Hpoav5vfh+WSsi9eUIhwkCHkPkzRIERrtLX91ZvEtbf+mx+IB4JBuN
- NazQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724814283; x=1725419083;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8OBLeQ9F541pwxbn8dEubiWANdxJtGv9ekHxWl5Hwac=;
- b=qy72+q7EqgRYcia3PBpGfixnxW36fP8IIGgaKHv77PcODdAw9j3rfeu9mVom87mhJO
- ekEvz7FUdIHNhxcwfv1DxA/8Mg+cMiHsXqnacmmOLftY6hVOB9bzS7WoE3STxF+MdwCm
- k15vapd58Brlv2Ibir5uE0dmdq7AakKCs9wBP8Y+BVegqJU3bxIlwkuAmiylUt8UuSHL
- qd4sML4T7F+ZgC5Faj2yLLbR61T0yngc6GI3vkmk4aCVBEB1fyQoCv9KX88rd3KFEcwQ
- H1C3TKIAX3M2zWJJ8oc6Shj+NIKw7Ld0jxaudta2z/o44Uzcd1sIbw3ypfrawmi14ar5
- KIPg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoSWhQ8G0V9/CFGJMpLsbXDSoROC9Ss+Vcat1ERSZTwXm5+c35QLL5LQFq1XRy8Ja1UlhKgeO+KRE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5t+QcKOp2lldar9Jg5xLK1COzRAPbJy08r5z1x4GvOWoDKzMq
- GF8ij8YDX5uPCgcfg5+p9p7QD5+r2ZOPYDflKhJLuY1qy+CG1wrl
-X-Google-Smtp-Source: AGHT+IG9WCG/sJqfIUmD5L1QkWASIgz28eaxuJrS0TfQtB7xTFo8bkGI6Rj777tc/95CgBuyWlEpcw==
-X-Received: by 2002:a17:90b:390e:b0:2c8:e888:26a2 with SMTP id
- 98e67ed59e1d1-2d646bcd147mr17296354a91.13.1724814282792; 
- Tue, 27 Aug 2024 20:04:42 -0700 (PDT)
-Received: from localhost.localdomain ([39.144.104.43])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2d8445db8f6sm317977a91.1.2024.08.27.20.04.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Aug 2024 20:04:42 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: akpm@linux-foundation.org
-Cc: torvalds@linux-foundation.org, alx@kernel.org, justinstitt@google.com,
- ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org,
- catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
- bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
-Subject: [PATCH v8 8/8] drm: Replace strcpy() with strscpy()
-Date: Wed, 28 Aug 2024 11:03:21 +0800
-Message-Id: <20240828030321.20688-9-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20240828030321.20688-1-laoar.shao@gmail.com>
-References: <20240828030321.20688-1-laoar.shao@gmail.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D69E610E2DE;
+ Wed, 28 Aug 2024 04:09:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LoTuoSbobRP9PKiVK9E8Z4CnYBT65cDr1cI3KhY2eYHn4jLa7QNEfWPWD9gYWrK24awX/Dd8wOFJKqYGoxP8Cj5qOIX+cIp1QVtXbV90rijgzPnSBoGzwHENkInAoI3ecSJguTPUd8ZxFFHcRvk3KKpQHlnLCblHevcE2JhFqJL009ci2aEWaPkWj+PZQ2n214WpEfH0lNuz7MgCgcCDHkTz8Jlt5j4LaAZ1oKVo1KY7E+HdK1ThzGlJdFNNHDe5u9mrggTtyavvpNAtY0pNfX+U/qkXUPmBrDVsWo4iDB6CUARGpB5UOQQ1WrsTRndraIPkxIBehTuiwXd31vXWkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q8Cd6T4uYhJMH4Wbw7gTVnPNbV8eQdmd43tnn0ea1YQ=;
+ b=fqm9ZmaI9OtzRy5M5n4pXQS4ZVfEiKsp6LFIBo2LWlAvmiHowtMTSlEVnAU7RTHHAHbCeKTmY3vU5Xc9jjKtWjrf4LK3F1b+kJgFbCL9lx1hf9PzO1SCacTUIiV2QFqp2Y2vi7P4cZGrheGZNRGAF/Y9+vpjgWTtT2SqJTjcGcXatg9zeGNMKiQ94vDfyajvv6rR+ma9tQlMpc80uNSYuqrg8WMaGHYqZOUtdEp/qcEShb3t4yiOEJVpWlr5nzQVwpIWEqGudNzZi/DVrDZ8HgVMX6XVFiOLfMrcYw0XwTOtM+S0Q08cp7fnPxDEA9z8pgwZyjfYwNYQcPO//lXibw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q8Cd6T4uYhJMH4Wbw7gTVnPNbV8eQdmd43tnn0ea1YQ=;
+ b=tjGa+T0KC7sICwbWv1IG05yMPrpyM87CI4aWE7Om7QPz2AreAz3eWuS1XLcXtgX6d+tOjHiC5j51052Z/Eq5hedjE99axdQ7J8VUL0cjAR4Ivir+BEIM3MjumsWLx7xVQUV60nXJz3xNNkxjIEjpUQALkKa8UE3S64a8wyprLBTXtc9LSvU1PAJlTzkxqcRryYzNuQPcwo0cChM3bi9RAAcmVwIkSozfdfeFXgYz2vea+Fcyq4I85TFr1uD4MfKhW+eVRuRU6HNtjIL9MebAb4ugQG4HzoSGC82PgSskeHrcE9Z0BMcKtKb2KOfuoXhV4J0LCRgZsxCQTpkw04vNKg==
+Received: from CH2PR18CA0022.namprd18.prod.outlook.com (2603:10b6:610:4f::32)
+ by SA1PR12MB5640.namprd12.prod.outlook.com (2603:10b6:806:23e::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.26; Wed, 28 Aug
+ 2024 04:09:05 +0000
+Received: from CH3PEPF0000000A.namprd04.prod.outlook.com
+ (2603:10b6:610:4f:cafe::58) by CH2PR18CA0022.outlook.office365.com
+ (2603:10b6:610:4f::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25 via Frontend
+ Transport; Wed, 28 Aug 2024 04:09:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CH3PEPF0000000A.mail.protection.outlook.com (10.167.244.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7918.13 via Frontend Transport; Wed, 28 Aug 2024 04:09:05 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 27 Aug
+ 2024 21:08:55 -0700
+Received: from [172.25.152.239] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 27 Aug
+ 2024 21:08:53 -0700
+Message-ID: <50165dfe-6358-444f-a327-a8dae3f6774f@nvidia.com>
+Date: Tue, 27 Aug 2024 10:43:39 +1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nouveau: fix the fwsec sb verification register.
+To: Dave Airlie <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>
+CC: <nouveau@lists.freedesktop.org>, <dakr@redhat.com>
+References: <20240828023720.1596602-1-airlied@gmail.com>
+Content-Language: en-US
+From: Ben Skeggs <bskeggs@nvidia.com>
+In-Reply-To: <20240828023720.1596602-1-airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF0000000A:EE_|SA1PR12MB5640:EE_
+X-MS-Office365-Filtering-Correlation-Id: 579388a3-1fb1-4872-766a-08dcc7172855
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|36860700013|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SWNqeDdkNW9yZlFpS20zT2l0dXFJNFFXbnZwd0ExK0RZcWt2cTBuRHY1M1lM?=
+ =?utf-8?B?YjNnSXBYQ2MzQVZXOERhd3VDYVBKWnByNnAyVGFFTVpGbERRaUZ0S0dlWk41?=
+ =?utf-8?B?Qm14YXpLd2hWWktEUzM4Q2dPZ0ViMDNmN3lYUnVRZ2hzWTliQUE3RmtxVzFW?=
+ =?utf-8?B?WEdNQUk3UnhGbVdVTGwxa3IxSjIxYmxmdmczamxuQkNvQjJRSHE1UlY4aC84?=
+ =?utf-8?B?aFQ0OS9UamRuQVpIaHRZNGVYTWlJdnB0UXpCWEZJREdVSUNwMmR3cmkzaDJp?=
+ =?utf-8?B?TzdUcjdma0M2dEZXbHdvcnBCQ2xYNkxIMXdHSG5zRUlsNWxFOG5VYlRkZHMv?=
+ =?utf-8?B?bVA5UXc1cmpic2xmZjdKSWRMNDR3LzRFRXVmTDRGai9QREVDa1BNRUVZOGp4?=
+ =?utf-8?B?d0kySDB3ZjBaeEp3Q0Jremt3WjJWc2lOaTVPbU9wWE9NM3ZvS0p2Qm1DRmxO?=
+ =?utf-8?B?aTNXbWFzM240NTROYmRoVWlad0RLR3loWG4ra3g0MHllZ0xEUTFKMWg5V3FQ?=
+ =?utf-8?B?WXlQNGxhU01XTjEwL1hudlZnRUJHbDd1TkV5bkNpTE1kTzNQVjczS24rcTFy?=
+ =?utf-8?B?UTdQS05XVy9sYWQrcFJwSmhvMEpjcXl2VG9VM3dyNVRhNGpkZStQQUxyb0s1?=
+ =?utf-8?B?cXJsaWZPd3BoNDJyU01sYURyWWJaYjlCMVltaUVlN2pGajZTeldZbEdrZlJV?=
+ =?utf-8?B?OFFlVnVVemd3VlJsOGNzam5YNGJ3cEJMdU9EYUtkOHZ3YktyNCs1RnJHQ1lR?=
+ =?utf-8?B?UTVEQnl0WTZSUEtnS1A5bFJ5UExiMXV6YnRCSTQraU5mZVh4NXRRdGo1SEhl?=
+ =?utf-8?B?VE1rZlhxbVZFRHdaeU9uRmpqeEdkaUdIeTVxTDAydGFreThmSTFCdVFlMmhp?=
+ =?utf-8?B?V2YzWXRxdjZJTHZFZnFaa2FCQnl4dlRTQ1hkNERaTG1HRkUwZkc4SEgzZ3pk?=
+ =?utf-8?B?OW1RcVNHMTd5dzNOd3QwcVVFTytWazBscElwOWtVSCtxTXIrSFFWbEplQUl3?=
+ =?utf-8?B?cmJKRVZ3ZEdjS1MzV1JIRWlXVjVmaEUzS3h5UEk2QS9DS29MWTdnRW5LUG4v?=
+ =?utf-8?B?aENEL1ZFdWZCK1VnN1Z3SHkxOVdvNE0xV2FOVHJhdk9DN3FPTDB5WXV5VHRl?=
+ =?utf-8?B?MXdkNnhqTitWQzJycVVHaEFQcGdwNlVTaG12L0d4OHdGbC8zOW9WRE9lNE54?=
+ =?utf-8?B?NTlvT2FiRXQ4UHRjNjRGUHkrZnJWeE1aRzd6SGJWdWZvWTVpOXI3aWxTYlJP?=
+ =?utf-8?B?L0VENU9YTFBtN09EL3ErV0o2bGErMm5lMWdSWlhrZDdjTjluWjR2enVhNmlK?=
+ =?utf-8?B?QjRjQTY5UjF5UmRuR1YxSDRFNmh5azlNRUtmenJKWFcxc2Roc05ramthS2ZB?=
+ =?utf-8?B?RGViZVgrN2E2SzdRZDBTcnFCblFRNWk4WVp1SjlGR3lsTnlNY3NFL1dMcUlH?=
+ =?utf-8?B?eFIxSm0xTTEvOUVXd3IybVZOQnVVMmdHVTBjaGEwNVI0UXd0bFhxUWhubkRu?=
+ =?utf-8?B?Rmhrck5FV2xuNHIxMWFkbUlPRnA3OUxYcVQ4cjAyY0tya1kyblZyVndUUVZ0?=
+ =?utf-8?B?NDRxdTQ5SnN1ajY1dlJhc016anE5V2xxRy9kSzZQcUhtcElVMkFTSjBjS0dx?=
+ =?utf-8?B?WW8wTS8xN1RGQmFhTWNDZWhCTDcwRUdoM0tRZWx3SlFyVWM0L1F6cW4xWS85?=
+ =?utf-8?B?bVFlcFp2QmpjbTNqVDNSM1lsZ1YzS1hxMVJqazA5cjNORHRIWVlrd3RLVlV3?=
+ =?utf-8?B?ZzZRRFVseU5mYzFjMmdzeCtSYXN3VkE2UUZJL2lNRnhMVUhtNjY2eTlObTV5?=
+ =?utf-8?B?VXhpaW8rREJpdFhldzNLU1IzdFJLbElFUXZjbnZ0VENFTTFTdEhqTEZoV2Nt?=
+ =?utf-8?B?ekhyWTJJQWlHT2NiOUZwMjRJRHBGUkc4VU1uazZKWVBIZ1U3cGxybERsZU1S?=
+ =?utf-8?Q?xxcmDVQZvlQCxcnJBW8XWEj0Drl12vO4?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2024 04:09:05.2913 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 579388a3-1fb1-4872-766a-08dcc7172855
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF0000000A.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5640
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,47 +147,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prevent erros from occurring when the src string is longer than the
-dst string in strcpy(), we should use strscpy() instead. This
-approach also facilitates future extensions to the task comm.
+On 28/8/24 12:37, Dave Airlie wrote:
 
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
----
- drivers/gpu/drm/drm_framebuffer.c     | 2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> From: Dave Airlie <airlied@redhat.com>
+>
+> This aligns with what open gpu does, the 0x15 hex is just to trick you.
+>
+> Fixes: 176fdcbddfd2 ("drm/nouveau/gsp/r535: add support for booting GSP-RM")
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 888aadb6a4ac..2d6993539474 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -868,7 +868,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 	INIT_LIST_HEAD(&fb->filp_head);
- 
- 	fb->funcs = funcs;
--	strcpy(fb->comm, current->comm);
-+	strscpy(fb->comm, current->comm);
- 
- 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
- 				    false, drm_framebuffer_free);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 96c6cafd5b9e..afa9dae39378 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1412,7 +1412,7 @@ static bool record_context(struct i915_gem_context_coredump *e,
- 	rcu_read_lock();
- 	task = pid_task(ctx->pid, PIDTYPE_PID);
- 	if (task) {
--		strcpy(e->comm, task->comm);
-+		strscpy(e->comm, task->comm);
- 		e->pid = task->pid;
- 	}
- 	rcu_read_unlock();
--- 
-2.43.5
+Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
 
+> ---
+>   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
+> index 330d72b1a4af..52412965fac1 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
+> @@ -324,7 +324,7 @@ nvkm_gsp_fwsec_sb(struct nvkm_gsp *gsp)
+>   		return ret;
+>   
+>   	/* Verify. */
+> -	err = nvkm_rd32(device, 0x001400 + (0xf * 4)) & 0x0000ffff;
+> +	err = nvkm_rd32(device, 0x001400 + (0x15 * 4)) & 0x0000ffff;
+>   	if (err) {
+>   		nvkm_error(subdev, "fwsec-sb: 0x%04x\n", err);
+>   		return -EIO;
