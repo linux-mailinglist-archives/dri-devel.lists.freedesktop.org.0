@@ -2,82 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975D1961604
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 19:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545019616A7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 20:17:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7F9210E3F6;
-	Tue, 27 Aug 2024 17:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4444F10E3F9;
+	Tue, 27 Aug 2024 18:17:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="FOCVvIpC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SLrRlsbQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6696C10E3F6
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 17:53:59 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4280b3a7efaso50076115e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 10:53:59 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA8910E3F8;
+ Tue, 27 Aug 2024 18:17:22 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-656d8b346d2so3505890a12.2; 
+ Tue, 27 Aug 2024 11:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724781238; x=1725386038; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=3YF7EgT5nZw0j8BCazHNQMxnmORgiIzugPZO1Gcodvs=;
- b=FOCVvIpCPBNRQuMPLGaWZB8zg5IhmRKjcJZiOcOBYeIGrKSPVxuon3SY0hr7BNJN5e
- 2lLiJWH8WOoFGJBMu16yddz3RCEqTVaCcfcMSF9LzW88mYDzi1pJ6vuCJYQPGsQrBJYW
- WbnY0gaF5Sm3A6ksX2NmO8wc8zUWjaCPDGqGA=
+ d=gmail.com; s=20230601; t=1724782642; x=1725387442; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5Qqm4VTqFnRP1C9/26fHK+dHKryok08NkyH9r7+ILNc=;
+ b=SLrRlsbQTbnqzNAk4PT0dZpUBnRKIBIZJL28UqlDHG5g8pWEFrfe7mb4lYXdl50NqR
+ 9WHBI720XDeTfQ8IMu4zuP50Zbyn7QYZLai1JGSCzged9yYj8+bQNhg/tzlqJldMRCaP
+ /hJ4fm072LCksF9zpl+238634nmmoRo8X2hX3LU7TA2Fbbi+8vdrtM+kC9Cn3UVHijBu
+ 9ttcZROY/DfRrHbR+lkkGnrxriUsp/XKtpAAyPwn3V+AzelYqeO7TkYqcu3FGET9tY35
+ n6m0OnvediSj3KrIrwTvuFsQ2P+qIGCTJZbauAiYmWYPv8p7f8w5QDx8qyRnaVZFdGzc
+ ePiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724781238; x=1725386038;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3YF7EgT5nZw0j8BCazHNQMxnmORgiIzugPZO1Gcodvs=;
- b=sMnc5v44aR9CvW9S5ktGigLVzeaYmyydlEOvM2aspzXcG3tO5aWeJhvy1b/nK7q17E
- 5ZMceu4Op660DVhqAfr4wTLqooq0mNV1l6vXyMTLNQC29KNoCSGTScTfgTMts6jdt9LR
- iKdmvbhgo3PC0HvtEPx4hK3g7cvHnQ2I8XtlXbf/PYAZG3e9pLSqwD7OSQD/X2YzEkQQ
- +3W+2Bly52gwSQWI+2q38fisX0Vf4+pAM4ZWa2jvnz5sO/gHwxT8w+yB+supkf3iHmw3
- aHIOfuGSYRsHID4ewIfc4o13Io6CNk0hbW/vVJfh29Cwekg6tVwn2MU2jm+ET2CHI10p
- 6sIQ==
+ d=1e100.net; s=20230601; t=1724782642; x=1725387442;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5Qqm4VTqFnRP1C9/26fHK+dHKryok08NkyH9r7+ILNc=;
+ b=Axn6ZJWKeN3M1wBhV4PrGO/CoF6KeToNwHTowrS6i2t2LeWi20tIQYAuRa2y55SFZY
+ D4jYZ1msuuhMib6Evo8qRUTyO1m13VYLJPPIig0307xJb2Uv3nQdeJayhJyepCz5nT+K
+ W4kpDJvSJ1Q+Z+ocMSSXDfuQ7Yuz3vxCbsc1+jt9lHanc9VaR/QhvuShV+U3x9Vtyxlt
+ g/LKZOVtUruYTwfftH51ri1jSHuEq6aExSaAxc6q4jPrzrBkdl0PNyDYWl5xGwr3Frzb
+ 0f/nP/H3gzyL91w72nlVxqhhG7+LUn9jorAo2Hb9nXbgZxWpfQUlapu5noZllDdLQhOT
+ rFBw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVts3Z1UMI1wKa/qp1/x1SwPDYPeU28XtdOfxXat5OOsVb6yMdym/JK2FfqYYNT/dDJdfy+a3c6bII=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxca4nYGnGF3ChbN8ECCVXOvHM7fRnaQXlHXVGl8sDLbH0gQGZT
- VoypODY5ZqOBnbn3cRuYLZ9Y/6nKmuXQcFfkYehMA4kj+EdEXnYfvsbl8kEmAX0=
-X-Google-Smtp-Source: AGHT+IE6HjwUs/o44Gx5IyoweD/mNYNinYWDy2KNULNWtiRULreZjSthfcHVLaT1ZVRMi4hUJ1L+9Q==
-X-Received: by 2002:a05:600c:3b26:b0:428:f1b4:3473 with SMTP id
- 5b1f17b1804b1-42b9ae1ee34mr24431405e9.26.1724781237304; 
- Tue, 27 Aug 2024 10:53:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ AJvYcCU/cMUVNV240ANdOBrN2QY+bGAtzbpiZkHe9fEWMXah3c02bq2rWYNMdq55vzA5FEQQX9GfTr41+co=@lists.freedesktop.org,
+ AJvYcCU1qqlb9ljOzv+zJMGgQfv0B97di/IzmFn1OHnQ7zOUeBVejDpUqOJyHRIKk4OmNUBMmTZ0ypBX6jB4@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZRJq6cq+BxXufiIh8BQ1HRUH/D2vmgm9r/CaS/qo6yXhKjdxJ
+ 8+2llHHYLDykau4JNgKQwdokP4dtGmdApLO6TjLJTVLRPIVUVXVL
+X-Google-Smtp-Source: AGHT+IH0n0TFg5/hRPO6Qh7jcBNG5pKNGVUs+INu5ONwGclHNTvAiowUqwIyW92ev15iZ2fiZpT+nw==
+X-Received: by 2002:a17:90b:88d:b0:2c3:2557:3de8 with SMTP id
+ 98e67ed59e1d1-2d646d24df4mr13634871a91.33.1724782641772; 
+ Tue, 27 Aug 2024 11:17:21 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42abef81a5esm228948605e9.28.2024.08.27.10.53.56
+ 98e67ed59e1d1-2d613a6123fsm12436271a91.33.2024.08.27.11.17.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Aug 2024 10:53:56 -0700 (PDT)
-Date: Tue, 27 Aug 2024 19:53:55 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
- header
-Message-ID: <Zs4Ss8LJ-n9NbBcb@phenom.ffwll.local>
-References: <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
- <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
- <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
- <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
- <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
- <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
- <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
- <ZscDox5KoiNHXxne@phenom.ffwll.local>
- <3afe3ab2-4a58-49a9-acd7-c989980c68f2@amd.com>
- <Zs4EPT1DR7OrE5X-@phenom.ffwll.local>
+ Tue, 27 Aug 2024 11:17:20 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: iommu@lists.linux.dev
+Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
+ GPUs), 
+ freedreno@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
+ GPUs), Jason Gunthorpe <jgg@ziepe.ca>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+ linux-arm-msm@vger.kernel.org (open list:DRM DRIVER for Qualcomm Adreno GPUs), 
+ linux-kernel@vger.kernel.org (open list),
+ linux-pm@vger.kernel.org (open list:SUSPEND TO RAM),
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Sean Paul <sean@poorly.run>,
+ Steven Price <steven.price@arm.com>
+Subject: [PATCH v9 0/4] io-pgtable-arm + drm/msm: Extend iova fault debugging
+Date: Tue, 27 Aug 2024 11:17:08 -0700
+Message-ID: <20240827181717.187245-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zs4EPT1DR7OrE5X-@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +96,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 27, 2024 at 06:52:13PM +0200, Daniel Vetter wrote:
-> On Thu, Aug 22, 2024 at 03:19:29PM +0200, Christian König wrote:
-> > Completely agree that this is complicated, but I still don't see the need
-> > for it.
-> > 
-> > Drivers just need to use pm_runtime_get_if_in_use() inside the shrinker and
-> > postpone all hw activity until resume.
-> 
-> Not good enough, at least long term I think. Also postponing hw activity
-> to resume doesn't solve the deadlock issue, if you still need to grab ttm
-> locks on resume.
+From: Rob Clark <robdclark@chromium.org>
 
-Pondered this specific aspect some more, and I think you still have a race
-here (even if you avoid the deadlock): If the condiditional rpm_get call
-fails there's no guarantee that the device will suspend/resume and clean
-up the GART mapping. The race gets a bit smaller if you use
-pm_runtime_get_if_active(), but even then you might catch it right when
-resume almost finished.
+This series extends io-pgtable-arm with a method to retrieve the page
+table entries traversed in the process of address translation, and then
+beefs up drm/msm gpu devcore dump to include this (and additional info)
+in the devcore dump.
 
-That means we'll have ttm bo hanging around with GART allocations/mappings
-which aren't actually valid anymore (since they might escape the cleanup
-upon resume due to the race). That doesn't feel like a solid design
-either.
--Sima
+This is a respin of https://patchwork.freedesktop.org/series/94968/
+(minus a patch that was already merged)
+
+v2: Fix an armv7/32b build error in the last patch
+v3: Incorperate Will Deacon's suggestion to make the interface
+    callback based.
+v4: Actually wire up the callback
+v5: Drop the callback approach
+v6: Make walk-data struct pgtable specific and rename
+    io_pgtable_walk_data to arm_lpae_io_pgtable_walk_data
+v7: Re-use the pgtable walker added for arm_lpae_read_and_clear_dirty()
+v8: Pass pte pointer to callback so it can modify the actual pte
+v9: Fix selftests_running case
+
+Rob Clark (4):
+  iommu/io-pgtable-arm: Make pgtable walker more generic
+  iommu/io-pgtable-arm: Re-use the pgtable walk for iova_to_phys
+  iommu/io-pgtable-arm: Add way to debug pgtable walk
+  drm/msm: Extend gpu devcore dumps with pgtbl info
+
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  10 ++
+ drivers/gpu/drm/msm/msm_gpu.c           |   9 ++
+ drivers/gpu/drm/msm/msm_gpu.h           |   8 ++
+ drivers/gpu/drm/msm/msm_iommu.c         |  22 ++++
+ drivers/gpu/drm/msm/msm_mmu.h           |   3 +-
+ drivers/iommu/io-pgtable-arm.c          | 149 +++++++++++++++---------
+ include/linux/io-pgtable.h              |  15 +++
+ 7 files changed, 160 insertions(+), 56 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.46.0
+
