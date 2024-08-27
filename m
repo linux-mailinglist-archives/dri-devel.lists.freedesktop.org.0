@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2717960F21
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 16:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE6E961061
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 17:08:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDD9710E344;
-	Tue, 27 Aug 2024 14:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB7389ECB;
+	Tue, 27 Aug 2024 15:08:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LT/LDSBV";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GywE6kNb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA4E10E344
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:56:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0505ACE135B;
- Tue, 27 Aug 2024 14:56:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 79CC4C4FDFD;
- Tue, 27 Aug 2024 14:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724770560;
- bh=xz/UXWEcxepYKNcKplNKWh6SZMhniiI0hGFc+cpA380=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=LT/LDSBVgHCmFK5RVM4E1LVtG4IfiFWhKylo/7npYwn6ZRRh+wSqrF01UtglUvr+8
- fL0Xn5wzbEf0zfJjBHsWWNHjafpdFrRk5x1QOTyHCh6EKUpQyfY8jiFoxxxo1K5eVv
- 4ui18Zu1hRq+BMsU1X2iwGC5dMwd/Z2mAIY8VuG3zpdBaNFcSpb0I7Irqr/a5Dml0q
- uvdN05ISO/59QecsCeT1v/uvxmkp1RZNE1b/Xkyojry+6jOvN4lsSeuUifr53wQUb3
- XS/akLEcLPp6s9i7hw1EZIcf5aeFbchpkxeKjyc9Z7/VGY6+P3EeJWGcKqr/tf1qEx
- opVe0a51VpKsg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB42C54734;
- Tue, 27 Aug 2024 14:56:00 +0000 (UTC)
-From: "Jason-JH.Lin via B4 Relay"
- <devnull+jason-jh.lin.mediatek.com@kernel.org>
-Date: Tue, 27 Aug 2024 22:55:20 +0800
-Subject: [PATCH v3 2/2] drm/mediatek: change config_lock from spin_lock to
- spin_lock_irqsave
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF75889ECB
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 15:08:12 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3E5FA1C0002;
+ Tue, 27 Aug 2024 15:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1724771291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/yBb/0QoR/0aXl4uwkrI2beUWpuOVhY6b6+ZI6lXnRY=;
+ b=GywE6kNbzyPd6VkGoTFhKtRyozEw6AiLvVvKr4Rd9hd2ILkZAzfLVLFopir/Qm6csVZ3yS
+ q4ghn5ZNXAWnrBephGfiYT8BTuU2RXqRgwrLCbMusQbsjorhQ8isEtAX1tiky7UXFdAyA2
+ Egw5g3Ck0aQxsXodCnFxVm/ju1FBRB3U4+7HyanzFloaXr7TePhp93ExZ7OYaHvDJ9p5xt
+ hodgveEjKBYmQfS5AGba+GArXVZRBkdb8pqvk7znjfD6/ACD5LyuO1i0YS1efBWBFzfxTb
+ udB18jY46pNk7Ho9Z/srVW1tbE0s5PWTWz2PXZEDNAsQTim4mj/Jma5tPXRisg==
+Date: Tue, 27 Aug 2024 17:08:08 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v2 1/6] drm/vkms: Switch to managed for connector
+Message-ID: <Zs3r2MK5nZs5TFsy@louis-chauvet-laptop>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com,
+ nicolejadeyee@google.com
+References: <20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com>
+ <20240827-google-vkms-managed-v2-1-f41104553aeb@bootlin.com>
+ <20240827-dynamic-acoustic-guillemot-ddde49@houat>
+ <Zs3TeoUwn3iO7oBs@louis-chauvet-laptop>
+ <20240827-chubby-tidy-collie-c8ecf7@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240827-drm-fixup-0819-v3-2-4761005211ec@mediatek.com>
-References: <20240827-drm-fixup-0819-v3-0-4761005211ec@mediatek.com>
-In-Reply-To: <20240827-drm-fixup-0819-v3-0-4761005211ec@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, 
- "Jason-JH.Lin" <jason-jh.lin@mediatek.com>, 
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724770559; l=3389;
- i=jason-jh.lin@mediatek.com; s=20240718; h=from:subject:message-id;
- bh=qmIEDrv7vEydnkYLajQteZQg7GKHc0xz1SItk+ixJMg=;
- b=BMUDPPx43HxuqLgPxE38r9SfCUMKzAyjGAJfDPSQ8Fp8MAR5/tJSt8tP35PMgK/0E70FFaATs
- XMmR4p7wiooD3Dn/qzlUeXxxFLuDK7Kd7rIrAvazmTQhyF3ZtSK5qKg
-X-Developer-Key: i=jason-jh.lin@mediatek.com; a=ed25519;
- pk=7Hn+BnFBlPrluT5ks5tKVWb3f7O/bMBs6qEemVJwqOo=
-X-Endpoint-Received: by B4 Relay for jason-jh.lin@mediatek.com/20240718
- with auth_id=187
-X-Original-From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240827-chubby-tidy-collie-c8ecf7@houat>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,109 +81,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: jason-jh.lin@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Le 27/08/24 - 16:39, Maxime Ripard a écrit :
+> On Tue, Aug 27, 2024 at 03:24:10PM GMT, Louis Chauvet wrote:
+> > Le 27/08/24 - 15:15, Maxime Ripard a écrit :
+> > > Hi,
+> > > 
+> > > On Tue, Aug 27, 2024 at 11:57:36AM GMT, Louis Chauvet wrote:
+> > > > The current VKMS driver uses non-managed function to create connectors. It
+> > > > is not an issue yet, but in order to support multiple devices easily,
+> > > > convert this code to use drm and device managed helpers.
+> > > > 
+> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > ---
+> > > >  drivers/gpu/drm/vkms/vkms_drv.h    |  1 -
+> > > >  drivers/gpu/drm/vkms/vkms_output.c | 22 ++++++++++++----------
+> > > >  2 files changed, 12 insertions(+), 11 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> > > > index 5e46ea5b96dc..9a3c6c34d1f6 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> > > > @@ -99,7 +99,6 @@ struct vkms_crtc_state {
+> > > >  struct vkms_output {
+> > > >  	struct drm_crtc crtc;
+> > > >  	struct drm_encoder encoder;
+> > > > -	struct drm_connector connector;
+> > > >  	struct drm_writeback_connector wb_connector;
+> > > >  	struct hrtimer vblank_hrtimer;
+> > > >  	ktime_t period_ns;
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> > > > index 5ce70dd946aa..4fe6b88e8081 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_output.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> > > > @@ -3,11 +3,11 @@
+> > > >  #include "vkms_drv.h"
+> > > >  #include <drm/drm_atomic_helper.h>
+> > > >  #include <drm/drm_edid.h>
+> > > > +#include <drm/drm_managed.h>
+> > > >  #include <drm/drm_probe_helper.h>
+> > > >  
+> > > >  static const struct drm_connector_funcs vkms_connector_funcs = {
+> > > >  	.fill_modes = drm_helper_probe_single_connector_modes,
+> > > > -	.destroy = drm_connector_cleanup,
+> > > >  	.reset = drm_atomic_helper_connector_reset,
+> > > >  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> > > >  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> > > > @@ -50,7 +50,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+> > > >  {
+> > > >  	struct vkms_output *output = &vkmsdev->output;
+> > > >  	struct drm_device *dev = &vkmsdev->drm;
+> > > > -	struct drm_connector *connector = &output->connector;
+> > > > +	struct drm_connector *connector;
+> > > >  	struct drm_encoder *encoder = &output->encoder;
+> > > >  	struct drm_crtc *crtc = &output->crtc;
+> > > >  	struct vkms_plane *primary, *cursor = NULL;
+> > > > @@ -80,8 +80,15 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+> > > >  	if (ret)
+> > > >  		return ret;
+> > > >  
+> > > > -	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
+> > > > -				 DRM_MODE_CONNECTOR_VIRTUAL);
+> > > > +	connector = drmm_kzalloc(dev, sizeof(*connector), GFP_KERNEL);
+> > > > +	if (!connector) {
+> > > > +		DRM_ERROR("Failed to allocate connector\n");
+> > > > +		ret = -ENOMEM;
+> > > > +		goto err_connector;
+> > > > +	}
+> > > > +
+> > > 
+> > > I think it would be worth explaining why you need to move to a separate
+> > > allocation for the connector now.
+> > > 
+> > > Maxime
+> > 
+> > Hi,
+> > 
+> > This is in preparation for ConfigFS implementation, as the number of 
+> > connector/encoders/crtc/planes... will be dynamic, we need to have 
+> > separate alloaction.
+> > 
+> > If I add this paragraph in the commit message, is it sufficient?
+> > 
+> > 	A specific allocation for the connector is not strictly necessary 
+> > 	at this point, but in order to implement dynamic configuration of 
+> > 	VKMS (configFS), it will be easier to have one allocation per 
+> > 	connector.
+> > 
+> > (same for encoder & CRTC)
+> 
+> Yeah, that's a good message, but it probably belongs in a separate patch
+> then.
 
-Operations within spin_locks are limited to fast memory access and
-confirmation of minimum lock duration.
+Can you explain what you mean by "in a separate patch"? I wanted to write 
+this paragraph in the commit log.
 
-Although using spin_lock with config_lock seems to ensure shorter hold
-times, it is safer to use spin_lock_irqsave due to potential deadlocks
-and nested interrupt scenarios in interrupt contexts.
-
-So change config_lock from spin_lock to spin_lock_irqsave.
-
-Fixes: 7f82d9c43879 ("drm/mediatek: Clear pending flag when cmdq packet is done")
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_crtc.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index b752c0b46383..d7f0926f896d 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -108,14 +108,16 @@ static void mtk_crtc_finish_page_flip(struct mtk_crtc *mtk_crtc)
- 
- static void mtk_drm_finish_page_flip(struct mtk_crtc *mtk_crtc)
- {
-+	unsigned long flags;
-+
- 	drm_crtc_handle_vblank(&mtk_crtc->base);
- 
--	spin_lock(&mtk_crtc->config_lock);
-+	spin_lock_irqsave(&mtk_crtc->config_lock, flags);
- 	if (!mtk_crtc->config_updating && mtk_crtc->pending_needs_vblank) {
- 		mtk_crtc_finish_page_flip(mtk_crtc);
- 		mtk_crtc->pending_needs_vblank = false;
- 	}
--	spin_unlock(&mtk_crtc->config_lock);
-+	spin_unlock_irqrestore(&mtk_crtc->config_lock, flags);
- }
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-@@ -313,16 +315,16 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 	struct mtk_crtc *mtk_crtc = container_of(cmdq_cl, struct mtk_crtc, cmdq_client);
- 	struct mtk_crtc_state *state;
- 	unsigned int i;
-+	unsigned long flags;
- 
- 	if (data->sta < 0)
- 		return;
- 
- 	state = to_mtk_crtc_state(mtk_crtc->base.state);
- 
--	spin_lock(&mtk_crtc->config_lock);
--
-+	spin_lock_irqsave(&mtk_crtc->config_lock, flags);
- 	if (mtk_crtc->config_updating) {
--		spin_unlock(&mtk_crtc->config_lock);
-+		spin_unlock_irqrestore(&mtk_crtc->config_lock, flags);
- 		goto ddp_cmdq_cb_out;
- 	}
- 
-@@ -352,7 +354,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 		mtk_crtc->pending_async_planes = false;
- 	}
- 
--	spin_unlock(&mtk_crtc->config_lock);
-+	spin_unlock_irqrestore(&mtk_crtc->config_lock, flags);
- 
- ddp_cmdq_cb_out:
- 
-@@ -585,12 +587,13 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
- 	struct mtk_drm_private *priv = crtc->dev->dev_private;
- 	unsigned int pending_planes = 0, pending_async_planes = 0;
- 	int i;
-+	unsigned long flags;
- 
- 	mutex_lock(&mtk_crtc->hw_lock);
- 
--	spin_lock(&mtk_crtc->config_lock);
-+	spin_lock_irqsave(&mtk_crtc->config_lock, flags);
- 	mtk_crtc->config_updating = true;
--	spin_unlock(&mtk_crtc->config_lock);
-+	spin_unlock_irqrestore(&mtk_crtc->config_lock, flags);
- 
- 	if (needs_vblank)
- 		mtk_crtc->pending_needs_vblank = true;
-@@ -645,9 +648,9 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
- 		mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
- 	}
- #endif
--	spin_lock(&mtk_crtc->config_lock);
-+	spin_lock_irqsave(&mtk_crtc->config_lock, flags);
- 	mtk_crtc->config_updating = false;
--	spin_unlock(&mtk_crtc->config_lock);
-+	spin_unlock_irqrestore(&mtk_crtc->config_lock, flags);
- 
- 	mutex_unlock(&mtk_crtc->hw_lock);
- }
-
--- 
-2.43.0
-
-
+Louis Chauvet
