@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29EC696120A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 17:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7678396120C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 17:26:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1F210E352;
-	Tue, 27 Aug 2024 15:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2622010E353;
+	Tue, 27 Aug 2024 15:26:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="AXL8RrMW";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="tky1Hq3+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBA2C10E352
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDEE410E353
  for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 15:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1724772359;
- bh=iZHa8sxD6VzxS56Wiia/CBINwT4dds6hEws/m9z7Qyc=;
+ s=mail; t=1724772360;
+ bh=2e4vyf28xxH0Hr6la1wTNPqSQ1+adyxwjIEbYSuV2ZQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=AXL8RrMWVHeeUiMpd7h0QA1RqW47PggK65uqz7shee0v+B7fcNQFHgqv7XwuKAuOb
- 8WPE8EgxznKRIebDmPSnM0XH+5tEDao4he2IjenlIupKO9zGOwcJh74RZu0xDG3Agl
- eRh0OlzeJ8gClS1utkoS5jI4ZpbqNRnuCkO4CG1E=
+ b=tky1Hq3+/fxIo0PR0yLhX4NeR2JZSc/FpDc/+iBEYIVZx4tKdGLw00kqmM651bNzx
+ sd/ivrIlYFCsOdOLZ7rW7yGaUt5cSBkW2IUp7YpXHJZ7zqNPzqlNN6f+cUB8uQtxj4
+ agBtu0KwAJHvWLvPv1OlQD8y27tatHW9ABsom+58=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 27 Aug 2024 17:25:15 +0200
-Subject: [PATCH 4/5] fbdev/efifb: Use devm_register_framebuffer()
+Date: Tue, 27 Aug 2024 17:25:16 +0200
+Subject: [PATCH 5/5] fbdev/efifb: Use driver-private screen_info for sysfs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240827-efifb-sysfs-v1-4-c9cc3e052180@weissschuh.net>
+Message-Id: <20240827-efifb-sysfs-v1-5-c9cc3e052180@weissschuh.net>
 References: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
 In-Reply-To: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
 To: Peter Jones <pjones@redhat.com>, Helge Deller <deller@gmx.de>, 
@@ -37,11 +37,11 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724772358; l=1590;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724772358; l=1194;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=iZHa8sxD6VzxS56Wiia/CBINwT4dds6hEws/m9z7Qyc=;
- b=dXtcqh+lvUHCooHxFhjBUo0CAWGLafEFqjCKX5bR6GiC4GIpeihEQY2Ft7LEsBzbXr6lrLEQt
- OuKiWsfDc1OCz9k6JOIPtzVRz0aq6ox8fYZMewi8PR59ICxo746jkCO
+ bh=2e4vyf28xxH0Hr6la1wTNPqSQ1+adyxwjIEbYSuV2ZQ=;
+ b=+Pk0n0e5P2rpmmg2vlrNRCkM2i9FDYVDXSk03eilvNcK3JU9PZrT56fs06i4gUziwWgueLNAH
+ XoyCQh/LzQbAT60VaYMbFxlv0u10WFRv1JQti4gSy+KJhNvN/dOi9qd
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,57 +59,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This simplifies the error handling.
-Also the drvdata slot is now unused and can be used for other usecases.
+Since commit b9cfd1d271ab ("fbdev/efifb: Use screen_info pointer from device")
+efifb uses a local copy of screen_info and applies its modifications
+there. Adapt the sysfs attributes to also work with the custom copy
+instead of the unmodified platform data.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/video/fbdev/efifb.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/video/fbdev/efifb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index d36b95856dd0..7215973ef602 100644
+index 7215973ef602..1f86a07bf292 100644
 --- a/drivers/video/fbdev/efifb.c
 +++ b/drivers/video/fbdev/efifb.c
-@@ -449,7 +449,6 @@ static int efifb_probe(struct platform_device *dev)
- 		err = -ENOMEM;
- 		goto err_release_mem;
- 	}
--	platform_set_drvdata(dev, info);
- 	par = info->par;
- 	info->pseudo_palette = par->pseudo_palette;
+@@ -304,7 +304,7 @@ static ssize_t name##_show(struct device *dev,				\
+ 			   struct device_attribute *attr,		\
+ 			   char *buf)					\
+ {									\
+-	struct screen_info *si = dev_get_platdata(dev);			\
++	struct screen_info *si = dev_get_drvdata(dev);			\
+ 	if (!si)							\
+ 		return -ENODEV;						\
+ 	return sprintf(buf, fmt "\n", (si->lfb_##name));		\
+@@ -369,6 +369,8 @@ static int efifb_probe(struct platform_device *dev)
+ 	if (!si)
+ 		return -ENOMEM;
  
-@@ -572,7 +571,7 @@ static int efifb_probe(struct platform_device *dev)
- 		pr_err("efifb: cannot acquire aperture\n");
- 		goto err_fb_dealloc_cmap;
- 	}
--	err = register_framebuffer(info);
-+	err = devm_register_framebuffer(&dev->dev, info);
- 	if (err < 0) {
- 		pr_err("efifb: cannot register framebuffer\n");
- 		goto err_fb_dealloc_cmap;
-@@ -595,21 +594,12 @@ static int efifb_probe(struct platform_device *dev)
- 	return err;
- }
++	dev_set_drvdata(&dev->dev, si);
++
+ 	if (si->orig_video_isVGA != VIDEO_TYPE_EFI)
+ 		return -ENODEV;
  
--static void efifb_remove(struct platform_device *pdev)
--{
--	struct fb_info *info = platform_get_drvdata(pdev);
--
--	/* efifb_destroy takes care of info cleanup */
--	unregister_framebuffer(info);
--}
--
- static struct platform_driver efifb_driver = {
- 	.driver = {
- 		.name = "efi-framebuffer",
- 		.dev_groups = efifb_groups,
- 	},
- 	.probe = efifb_probe,
--	.remove_new = efifb_remove,
- };
- 
- builtin_platform_driver(efifb_driver);
 
 -- 
 2.46.0
