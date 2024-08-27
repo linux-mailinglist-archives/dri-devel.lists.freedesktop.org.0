@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88DA960DD7
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 16:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33591960DBC
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 16:39:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6C8610E33D;
-	Tue, 27 Aug 2024 14:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C842510E349;
+	Tue, 27 Aug 2024 14:39:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XmKS6XrO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AcQf7WWc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F52310E33D
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:42:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9915710E33C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:39:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6963FA41B47;
- Tue, 27 Aug 2024 14:42:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F29D1C4DDF4;
- Tue, 27 Aug 2024 14:33:22 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B58AFA41AB6;
+ Tue, 27 Aug 2024 14:39:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB67C61045;
+ Tue, 27 Aug 2024 14:39:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724769203;
- bh=N7LkYANKbFgws/uh3+iH9lxlTG58CffdFxCr/9/NrsU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XmKS6XrOvipDliU4bx/WlyXNy7Ju4FTmhJTAwil+bO/W5k4/TRlo9e3IBYpuRPxFA
- /ziAqmwcEUYH3x/4WZNaJw8EDLdT39XF5ApD5nI4nS4v+Cs823qooWuds3l7NLpf/d
- nb5q8FnQv0hE+NM5okMisDyaWR/ibP2JWurJk3J0Z2/McYNdRRd+a0J7ft6Ua7+1O6
- 42wLbmMb22VDF+Av6EU7jMnjPiro52mlonwV1eJslHAkP7I1T1KzkBsjBxOK3Ufnh7
- iMzK2pzqZB9FdLqwj1nNrxa/9f8H32ADkRu3t8gybZJ+ydEWoJ5yLG/9x4pYJoOUt7
- +ALDoV7rRIG7A==
-Date: Tue, 27 Aug 2024 16:33:20 +0200
+ s=k20201202; t=1724769587;
+ bh=ckdi/miqyo98Qcfs4P1GzK4XTVojHa5tth4ya1iCIv4=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=AcQf7WWcp0kQuk7SA6AdlDMihcTgfxilbL/BSD+uqsaRJGsOWheyFXUxS36RlrcYC
+ /vxpS+u600m+gJI6xgJNJu3pj7LWOqTKeTtlAI3nkR6jjmwJYZKCcWomny+lw6KvYh
+ RrEMjpw2dvnBFH4CvfVarOHGcPgzR8SWzHjotjamaxOtRm9dJbbkC5zLxCcm4dAdZA
+ dVw1cHaoL7rpWs0Si5WAlG/6SxGdg5rmYjJimjefbmpu/b0efDewzTgszqWPtXv39Y
+ NqDen0kBanDRyerHCc46aa0hGoduQuZLaAlFPGx74f39VCrEeX3rRasKw8E6BnlW8J
+ TTiZgf3ljR8GQ==
+Date: Tue, 27 Aug 2024 16:39:44 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
  Melissa Wen <melissa.srw@gmail.com>,
  =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
  Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
@@ -44,16 +43,17 @@ Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
  miquel.raynal@bootlin.com, 
  thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH RFC 11/15] drm: writeback: Add drm_writeback_connector
- cleanup
-Message-ID: <20240827-solid-adorable-coucal-c3e0d1@houat>
-References: <20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com>
- <20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com>
+Subject: Re: [PATCH v2 1/6] drm/vkms: Switch to managed for connector
+Message-ID: <20240827-chubby-tidy-collie-c8ecf7@houat>
+References: <20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com>
+ <20240827-google-vkms-managed-v2-1-f41104553aeb@bootlin.com>
+ <20240827-dynamic-acoustic-guillemot-ddde49@houat>
+ <Zs3TeoUwn3iO7oBs@louis-chauvet-laptop>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="eyjyqs6v362l2ini"
+ protocol="application/pgp-signature"; boundary="rvemour242cytzao"
 Content-Disposition: inline
-In-Reply-To: <20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com>
+In-Reply-To: <Zs3TeoUwn3iO7oBs@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +70,120 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---eyjyqs6v362l2ini
-Content-Type: text/plain; charset=us-ascii
+--rvemour242cytzao
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Wed, Aug 14, 2024 at 04:36:33PM GMT, Louis Chauvet wrote:
-> Currently drm_writeback_connector are created by
-> drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
-> Both of the function uses drm_connector_init and drm_encoder_init, but
-> there is no way to properly clean those structure from outside.
+On Tue, Aug 27, 2024 at 03:24:10PM GMT, Louis Chauvet wrote:
+> Le 27/08/24 - 15:15, Maxime Ripard a =E9crit :
+> > Hi,
+> >=20
+> > On Tue, Aug 27, 2024 at 11:57:36AM GMT, Louis Chauvet wrote:
+> > > The current VKMS driver uses non-managed function to create connector=
+s. It
+> > > is not an issue yet, but in order to support multiple devices easily,
+> > > convert this code to use drm and device managed helpers.
+> > >=20
+> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > ---
+> > >  drivers/gpu/drm/vkms/vkms_drv.h    |  1 -
+> > >  drivers/gpu/drm/vkms/vkms_output.c | 22 ++++++++++++----------
+> > >  2 files changed, 12 insertions(+), 11 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/v=
+kms_drv.h
+> > > index 5e46ea5b96dc..9a3c6c34d1f6 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> > > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> > > @@ -99,7 +99,6 @@ struct vkms_crtc_state {
+> > >  struct vkms_output {
+> > >  	struct drm_crtc crtc;
+> > >  	struct drm_encoder encoder;
+> > > -	struct drm_connector connector;
+> > >  	struct drm_writeback_connector wb_connector;
+> > >  	struct hrtimer vblank_hrtimer;
+> > >  	ktime_t period_ns;
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkm=
+s/vkms_output.c
+> > > index 5ce70dd946aa..4fe6b88e8081 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_output.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> > > @@ -3,11 +3,11 @@
+> > >  #include "vkms_drv.h"
+> > >  #include <drm/drm_atomic_helper.h>
+> > >  #include <drm/drm_edid.h>
+> > > +#include <drm/drm_managed.h>
+> > >  #include <drm/drm_probe_helper.h>
+> > > =20
+> > >  static const struct drm_connector_funcs vkms_connector_funcs =3D {
+> > >  	.fill_modes =3D drm_helper_probe_single_connector_modes,
+> > > -	.destroy =3D drm_connector_cleanup,
+> > >  	.reset =3D drm_atomic_helper_connector_reset,
+> > >  	.atomic_duplicate_state =3D drm_atomic_helper_connector_duplicate_s=
+tate,
+> > >  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
+> > > @@ -50,7 +50,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, i=
+nt index)
+> > >  {
+> > >  	struct vkms_output *output =3D &vkmsdev->output;
+> > >  	struct drm_device *dev =3D &vkmsdev->drm;
+> > > -	struct drm_connector *connector =3D &output->connector;
+> > > +	struct drm_connector *connector;
+> > >  	struct drm_encoder *encoder =3D &output->encoder;
+> > >  	struct drm_crtc *crtc =3D &output->crtc;
+> > >  	struct vkms_plane *primary, *cursor =3D NULL;
+> > > @@ -80,8 +80,15 @@ int vkms_output_init(struct vkms_device *vkmsdev, =
+int index)
+> > >  	if (ret)
+> > >  		return ret;
+> > > =20
+> > > -	ret =3D drm_connector_init(dev, connector, &vkms_connector_funcs,
+> > > -				 DRM_MODE_CONNECTOR_VIRTUAL);
+> > > +	connector =3D drmm_kzalloc(dev, sizeof(*connector), GFP_KERNEL);
+> > > +	if (!connector) {
+> > > +		DRM_ERROR("Failed to allocate connector\n");
+> > > +		ret =3D -ENOMEM;
+> > > +		goto err_connector;
+> > > +	}
+> > > +
+> >=20
+> > I think it would be worth explaining why you need to move to a separate
+> > allocation for the connector now.
+> >=20
+> > Maxime
 >=20
-> This patch introduce the new function drm_writeback_connector_cleanup to
-> allow a proper cleanup.
+> Hi,
 >=20
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/drm_writeback.c | 10 ++++++++++
->  include/drm/drm_writeback.h     | 11 +++++++++++
->  2 files changed, 21 insertions(+)
+> This is in preparation for ConfigFS implementation, as the number of=20
+> connector/encoders/crtc/planes... will be dynamic, we need to have=20
+> separate alloaction.
 >=20
-> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeb=
-ack.c
-> index a031c335bdb9..505a4eb40f93 100644
-> --- a/drivers/gpu/drm/drm_writeback.c
-> +++ b/drivers/gpu/drm/drm_writeback.c
-> @@ -184,6 +184,7 @@ int drm_writeback_connector_init(struct drm_device *d=
-ev,
->  	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-> =20
->  	wb_connector->encoder.possible_crtcs =3D possible_crtcs;
-> +	wb_connector->managed_encoder =3D true;
-> =20
->  	ret =3D drm_encoder_init(dev, &wb_connector->encoder,
->  			       &drm_writeback_encoder_funcs,
-> @@ -290,6 +291,15 @@ int drm_writeback_connector_init_with_encoder(struct=
- drm_device *dev,
->  }
->  EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
-> =20
-> +void drm_writeback_connector_cleanup(struct drm_writeback_connector *wb_=
-connector)
-> +{
-> +	drm_connector_cleanup(&wb_connector->base);
-> +	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
-> +	if (wb_connector->managed_encoder)
-> +		drm_encoder_cleanup(&wb_connector->encoder);
-> +}
-> +EXPORT_SYMBOL(drm_writeback_connector_cleanup);
-> +
->  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
->  			 struct drm_framebuffer *fb)
->  {
-> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> index 17e576c80169..e651c0c0c84c 100644
-> --- a/include/drm/drm_writeback.h
-> +++ b/include/drm/drm_writeback.h
-> @@ -35,6 +35,15 @@ struct drm_writeback_connector {
->  	 */
->  	struct drm_encoder encoder;
-> =20
-> +	/**
-> +	 * @managed_encoder: Sets to true if @encoder was created by drm_writeb=
-ack_connector_init()
-> +	 *
-> +	 * If the user used drm_writeback_connector_init_with_encoder() to crea=
-te the connector,
-> +	 * @encoder is not valid and not managed by drm_writeback_connector. Th=
-is fields allows
-> +	 * the drm_writeback_cleanup() function to properly destroy the encoder=
- if needed.
-> +	 */
-> +	bool managed_encoder;
-> +
+> If I add this paragraph in the commit message, is it sufficient?
+>=20
+> 	A specific allocation for the connector is not strictly necessary=20
+> 	at this point, but in order to implement dynamic configuration of=20
+> 	VKMS (configFS), it will be easier to have one allocation per=20
+> 	connector.
+>=20
+> (same for encoder & CRTC)
 
-I think we should rather create drmm_writeback_connector variants,
-and make both deprecated in favor of these new functions.
+Yeah, that's a good message, but it probably belongs in a separate patch
+then.
 
+Thanks!
 Maxime
 
---eyjyqs6v362l2ini
+--rvemour242cytzao
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZs3jqAAKCRAnX84Zoj2+
-dqC/AX41x2/yRw5bNXUT1ld4NWuUvhzpWR9ibP9t6EQOQRPCRs2ZEdpfypeN+onm
-B4GyXXEBf3hD2r8NNZs0TDJllfPpe3k7TCzWGX7GiUpnz3sBiYeqETc3RVk8EYuS
-PldTUHYJKQ==
-=LJyL
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZs3lMAAKCRAnX84Zoj2+
+dorsAYC5SayM75HRPLbrhndfWBwXoDjAnqDJDy6BCtRdqynORziWDr2dZYuqqd4V
+76YURcIBgKp9V3tn6rw20lDgiA2Zo1d7BrVWmVuHWRNI3PFdhjlvzRLsBw7zab+b
+v/80cgOc7Q==
+=wokh
 -----END PGP SIGNATURE-----
 
---eyjyqs6v362l2ini--
+--rvemour242cytzao--
