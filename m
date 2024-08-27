@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F19960D0C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 16:06:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EFD960CF3
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 16:05:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D2210E304;
-	Tue, 27 Aug 2024 14:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16A1310E0C0;
+	Tue, 27 Aug 2024 14:05:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="Z4BxGOTa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cepbEcsj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B56910E304
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:06:15 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47RBUL10022292;
- Tue, 27 Aug 2024 16:06:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=selector1; bh=Ff8eTytbmxual/Q6Fz+3og
- SbrU6ts/Ud/smwAdcvD1s=; b=Z4BxGOTafsPvaVeoMcVA4HSIvefTkhCk69F49t
- e6HP6gA6/fLH0WjKPX7Fzfala5tzrjPk2DyhXPaoQXCaOsEiDWXEGB0Uk+7xvQ5W
- npDoh3j5usl1HoVSHRJknTs1ya8yrbW2lpN3f8SMjSq5jEgeCLUp+v0MwVAnKGhs
- 9Bnhy94N+hLZICXYZsfeDtFBC3NyrsL7BHFDqXVTC9VLWECprh3UOCzUcd/lz/GJ
- T2ErZgkVe1Uc4X8eSy9oh9RZE6B2RXWjeQezOhrzVd/R0R6FPLmoK5AacpCvqVJX
- EgQpEsjlZO9WeJLbhai9PLDSjtf0m0slx3gNg1z905Cp7dnQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 419e00rmq5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Aug 2024 16:06:03 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id EDC9B40044;
- Tue, 27 Aug 2024 16:05:57 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 435F926C44C;
- Tue, 27 Aug 2024 16:04:58 +0200 (CEST)
-Received: from localhost (10.48.86.237) by SHFDAG1NODE3.st.com (10.75.129.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 27 Aug
- 2024 16:04:58 +0200
-From: Yannick Fertre <yannick.fertre@foss.st.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] dt-bindings: display: st,
- stm32-ltdc: Document stm32mp25 compatible
-Date: Tue, 27 Aug 2024 16:04:55 +0200
-Message-ID: <20240827140455.115182-1-yannick.fertre@foss.st.com>
-X-Mailer: git-send-email 2.34.1
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AAA510E0C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:05:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 9C0B8CE1267
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:05:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15531C4AF0F
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:05:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724767517;
+ bh=LKBzwLK1VuRCG247aZ18hkKv8Cu+JZVib28vpysx80E=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=cepbEcsjf81GL1oTNQ4cpG2rya1VZgaBMQ5UK+Eef8HF7HrmE4NgZchfghQqUuOQ1
+ B9zows4udjTc8PvO/15qa2CKES/aSaYQAbDEpnyZXfi6lO2/h2VeDM4b/E2BuG/HbK
+ bcguEJocmarmkPaH2NWtYQqWerl7WKmmrrSxP5NlBJxPSex0nAOP5JkmSAurmimAOv
+ 3UV85kxV8JNnaaj01N/DL394XITUeKKSAC3Vf7Xeyeb5m70iuFBhQOh4VdkLUG7uZv
+ mGGepPeI8+7RdEABg0cLfiaKFExxg4wwdPTvQOv8H5dDHyCUaZmBOudvzv0jz3KH7l
+ guzD0PZEbiaoQ==
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53349d3071eso6748133e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 07:05:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWMC79Z5gKiATjd2K6OGhzfcnZ1K1+FTSVJqRexY6MASKw5YbTS2FB68OOKTe23CL0rtF8wZz2p4SM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXu3VlRJwotuJpJGgMpTHKp8Oe4eM5TVHz8yAz3AViJtRV1cJf
+ Wr+vJeEgy+e5l//QopifEXvFaobmnXTHoDn9o+g+Q17eRAyXLkEmMWpcqMyuZRBibC8TY1In9bl
+ 22t0rFnhdX1znjz0KLqA/vZufjA==
+X-Google-Smtp-Source: AGHT+IER8wl94tUFX0eKrTywG7PWQXHkf/Kibv/Fvx5W7HJEPoMeI4PCXKA6CTewYNf/vhQ7d085ZoNSwSxadgFvBDE=
+X-Received: by 2002:a05:6512:31c4:b0:52e:f950:31f3 with SMTP id
+ 2adb3069b0e04-53438785441mr11027241e87.35.1724767515105; Tue, 27 Aug 2024
+ 07:05:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.48.86.237]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-27_08,2024-08-27_01,2024-05-17_01
+References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
+ <87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>
+ <20240826154009.GA300981-robh@kernel.org>
+ <Zs2tYUh3PXv-0e20@valkosipuli.retiisi.eu>
+In-Reply-To: <Zs2tYUh3PXv-0e20@valkosipuli.retiisi.eu>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 27 Aug 2024 09:05:02 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLcM3r0dPHX9eoU3cz78UxBfg3_DnU4eKX7aohbYC2mRA@mail.gmail.com>
+Message-ID: <CAL_JsqLcM3r0dPHX9eoU3cz78UxBfg3_DnU4eKX7aohbYC2mRA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] of: property: add of_graph_get_next_port_endpoint()
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
+ Jaroslav Kysela <perex@perex.cz>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, Saravana Kannan <saravanak@google.com>, 
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,77 +86,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add "st,stm32mp25-ltdc" compatible for SOC MP25. This new SOC introduce
-new clocks (bus, ref & lvds). Bus clock was separated from lcd clock.
-New sources are possible for lcd clock (lvds / ref).
+On Tue, Aug 27, 2024 at 5:47=E2=80=AFAM Sakari Ailus <sakari.ailus@iki.fi> =
+wrote:
+>
+> Rob, Kunimori-san,
+>
+> On Mon, Aug 26, 2024 at 10:40:09AM -0500, Rob Herring wrote:
+> > On Mon, Aug 26, 2024 at 02:43:28AM +0000, Kuninori Morimoto wrote:
+> > > We already have of_graph_get_next_endpoint(), but it is not
+> > > intuitive to use in some case.
+> >
+> > Can of_graph_get_next_endpoint() users be replaced with your new
+> > helpers? I'd really like to get rid of the 3 remaining users.
+>
+> The fwnode graph API has fwnode_graph_get_endpoint_by_id() which can also
+> be used to obtain endpoints within a port. It does the same than
+> of_graph_get_endpoint_by_regs() with the addition that it also has a
+> flags field to allow e.g. returning endpoints with regs higher than
+> requested (FWNODE_GRAPH_ENDPOINT_NEXT).
 
-Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
----
+Looks to me like FWNODE_GRAPH_ENDPOINT_NEXT is always used with
+endpoint #0. That's equivalent to passing -1 for the endpoint number
+with the OF API.
 
-Changes in v3: Add max/min Items fields.
-'make dt_binding_check' command fails on previous patch, rework fiedls mas/min items
-of properties clocks & clock-names.
+> Most users dealing with endpoints on fwnode property API use this, could
+> something like this be done on OF as well? Probably a similar flag would =
+be
+> needed though.
 
-Changes in v2: Rework clock property.
+I had fixed almost all the OF cases at one point. Unfortunately, there
+were a few corner cases that I didn't address to eliminate the API. So
+now it has proliferated with the fwnode API.
 
- .../bindings/display/st,stm32-ltdc.yaml       | 28 +++++++++++++++----
- 1 file changed, 23 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-index d6ea4d62a2cf..940127820de3 100644
---- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-+++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-@@ -12,7 +12,9 @@ maintainers:
- 
- properties:
-   compatible:
--    const: st,stm32-ltdc
-+    enum:
-+      - st,stm32-ltdc
-+      - st,stm32mp25-ltdc
- 
-   reg:
-     maxItems: 1
-@@ -24,12 +26,12 @@ properties:
-     minItems: 1
- 
-   clocks:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 4
- 
-   clock-names:
--    items:
--      - const: lcd
--
-+    minItems: 1
-+    maxItems: 4
-   resets:
-     maxItems: 1
- 
-@@ -51,6 +53,22 @@ required:
-   - resets
-   - port
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - st,stm32mp25-ltdc
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+    else:
-+      properties:
-+        clocks:
-+          minItems: 1
-+
- additionalProperties: false
- 
- examples:
--- 
-2.34.1
-
+Rob
