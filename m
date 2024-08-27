@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FCC961206
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 17:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2A496120B
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 17:26:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE59F10E34F;
-	Tue, 27 Aug 2024 15:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E4610E351;
+	Tue, 27 Aug 2024 15:26:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="HLfKAd4e";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="DCqt5RYP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7305610E350
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D0510E34F
  for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 15:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1724772359;
- bh=WOYVZE4elMTLqZPSxOgwkH1342itHfJBnZKFofqCp5s=;
- h=From:Subject:Date:To:Cc:From;
- b=HLfKAd4ecE+/8gyl8MCAFIKbgbfGjs1KwNPoWCG8FoHFUDl/x8BRDiv7j8uSddGH3
- lBoB7RO2cS8ImEqpZVPRVzxDhu7lWGJ2BYbfiQA09RNyZZr6ySgmJUt3K4O1tEQFTZ
- 4Y9BuJoKV4s0GQUE43fH5NWoSDj2WLe9BQZ7DM2w=
+ bh=2fuwEC3Yp225FwaS701NUfjP1g4xTmgB08/zOpmpsAA=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=DCqt5RYPBHq4y1tFuB7C/JYlnHW4jqqVrEEB1R/smTUMuyK20U4nSdr/FlzcZzJ8W
+ LwMRCSA5L2wN0ozoBsQGBx7s/HbX0HnQXv3kOU2+TJwq2Zd09JVyIP2jycTHMSXOnL
+ kwDWf9a5ogwdQi1LGAsMK7jQ3ZgqyDJzn6CJQYGo=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH 0/5] fbdev: devm_register_framebuffer() and some fixes for
- efifb
-Date: Tue, 27 Aug 2024 17:25:11 +0200
-Message-Id: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
+Date: Tue, 27 Aug 2024 17:25:12 +0200
+Subject: [PATCH 1/5] fbdev/efifb: Use stack memory for screeninfo structs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIANfvzWYC/x2MQQqAIBAAvyJ7TjCRlL4SHUzX2ouFC1GIf086D
- sNMBcZCyDCLCgVvYjpzh3EQEA6fd5QUO4NW2iinrcREaZP8cmKJXrloVXDBTNCLq3T7/Ldlbe0
- DpzeC910AAAA=
+Message-Id: <20240827-efifb-sysfs-v1-1-c9cc3e052180@weissschuh.net>
+References: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
+In-Reply-To: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
 To: Peter Jones <pjones@redhat.com>, Helge Deller <deller@gmx.de>, 
  Daniel Vetter <daniel@ffwll.ch>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724772358; l=1005;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724772358; l=1859;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=WOYVZE4elMTLqZPSxOgwkH1342itHfJBnZKFofqCp5s=;
- b=7cFNZ+8YbmjoRNA/U+xUZ5sibM8RhEZT+/vLwKa+33Kcp1wG/avGokCL7g33hhDDxZUHHeYQN
- ZE1xbeLEmY2AqydNSyVqVIFTgBPSQLkN9ugkgttLb0c4a3qaLqg1hOz
+ bh=2fuwEC3Yp225FwaS701NUfjP1g4xTmgB08/zOpmpsAA=;
+ b=rOkv5WWJdsYyy7gSwo6ETnm+0fpNWf1gQQInzjmRji2pSdC5vaSVpncDd9Wvim18h/qjuGEaS
+ 6mXd0NYbotdCVXwSvlogkuLn3iuwWJeBwPQzO8P3C6CInqlgPfHpFPJ
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,31 +59,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some random optimization and fixes I came up with while looking at
-efifb.c.
-
-I can't get the efifb driver to probe on my hardware,
-so this is only compile-tested.
-If somebody could actually test it, that would be great.
+These variables are only used inside efifb_probe().
+Afterwards they are using memory unnecessarily.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Thomas Weißschuh (5):
-      fbdev/efifb: Use stack memory for screeninfo structs
-      fbdev/efifb: Register sysfs groups through driver core
-      fbdev: Introduce devm_register_framebuffer()
-      fbdev/efifb: Use devm_register_framebuffer()
-      fbdev/efifb: Use driver-private screen_info for sysfs
+ drivers/video/fbdev/efifb.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
- drivers/video/fbdev/core/fbmem.c | 24 +++++++++++++++
- drivers/video/fbdev/efifb.c      | 63 +++++++++++++++-------------------------
- include/linux/fb.h               |  1 +
- 3 files changed, 49 insertions(+), 39 deletions(-)
----
-base-commit: 3e9bff3bbe1355805de919f688bef4baefbfd436
-change-id: 20240827-efifb-sysfs-ea08d70c8c46
+diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+index 8dd82afb3452..8bfe0ccbc67a 100644
+--- a/drivers/video/fbdev/efifb.c
++++ b/drivers/video/fbdev/efifb.c
+@@ -52,24 +52,6 @@ struct efifb_par {
+ 	resource_size_t size;
+ };
+ 
+-static struct fb_var_screeninfo efifb_defined = {
+-	.activate		= FB_ACTIVATE_NOW,
+-	.height			= -1,
+-	.width			= -1,
+-	.right_margin		= 32,
+-	.upper_margin		= 16,
+-	.lower_margin		= 4,
+-	.vsync_len		= 4,
+-	.vmode			= FB_VMODE_NONINTERLACED,
+-};
+-
+-static struct fb_fix_screeninfo efifb_fix = {
+-	.id			= "EFI VGA",
+-	.type			= FB_TYPE_PACKED_PIXELS,
+-	.accel			= FB_ACCEL_NONE,
+-	.visual			= FB_VISUAL_TRUECOLOR,
+-};
+-
+ static int efifb_setcolreg(unsigned regno, unsigned red, unsigned green,
+ 			   unsigned blue, unsigned transp,
+ 			   struct fb_info *info)
+@@ -357,6 +339,24 @@ static int efifb_probe(struct platform_device *dev)
+ 	char *option = NULL;
+ 	efi_memory_desc_t md;
+ 
++	struct fb_var_screeninfo efifb_defined = {
++		.activate		= FB_ACTIVATE_NOW,
++		.height			= -1,
++		.width			= -1,
++		.right_margin		= 32,
++		.upper_margin		= 16,
++		.lower_margin		= 4,
++		.vsync_len		= 4,
++		.vmode			= FB_VMODE_NONINTERLACED,
++	};
++
++	struct fb_fix_screeninfo efifb_fix = {
++		.id			= "EFI VGA",
++		.type			= FB_TYPE_PACKED_PIXELS,
++		.accel			= FB_ACCEL_NONE,
++		.visual			= FB_VISUAL_TRUECOLOR,
++	};
++
+ 	/*
+ 	 * If we fail probing the device, the kernel might try a different
+ 	 * driver. We get a copy of the attached screen_info, so that we can
 
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.46.0
 
