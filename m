@@ -2,44 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7DF9609DF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 14:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D75960A44
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 14:29:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E94610E2FB;
-	Tue, 27 Aug 2024 12:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 521CB10E08A;
+	Tue, 27 Aug 2024 12:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D26A910E2FB
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 12:19:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D0DCDA7;
- Tue, 27 Aug 2024 05:19:43 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 185FF3F762;
- Tue, 27 Aug 2024 05:19:14 -0700 (PDT)
-Message-ID: <92ebdc16-7938-462a-bb0e-4d5d368c5eb1@arm.com>
-Date: Tue, 27 Aug 2024 13:19:13 +0100
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9367810E08A;
+ Tue, 27 Aug 2024 12:29:56 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id A0D701C0082; Tue, 27 Aug 2024 14:22:07 +0200 (CEST)
+Date: Tue, 27 Aug 2024 14:22:07 +0200
+From: Pavel Machek <pavel@denx.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Ma Jun <Jun.Ma2@amd.com>, Tim Huang <Tim.Huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH AUTOSEL 6.10 034/121] drm/amdgpu: Fix out-of-bounds read
+ of df_v1_7_channel_number
+Message-ID: <Zs3E7w1dSdxC7XoT@duo.ucw.cz>
+References: <20240801000834.3930818-1-sashal@kernel.org>
+ <20240801000834.3930818-34-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] scsi: check that busses support the DMA API before
- setting dma parameters
-To: Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-scsi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20240824034925.1163244-1-hch@lst.de>
- <20240824034925.1163244-2-hch@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240824034925.1163244-2-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="OqRI4MIqpBt9dQxF"
+Content-Disposition: inline
+In-Reply-To: <20240801000834.3930818-34-sashal@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,42 +47,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/08/2024 4:49 am, Christoph Hellwig wrote:
-> We'll start throwing warnings soon when dma_set_seg_boundary and
-> dma_set_max_seg_size are called on devices for buses that don't fully
-> support the DMA API.  Prepare for that by making the calls in the SCSI
-> midlayer conditional.
 
-Just thinking ahead, might it be worth a logical "are SG segment limits 
-relevant?" wrapper around the dev->dma_parms reference? Not a big deal 
-for now if we think this site is the only user, so either way,
+--OqRI4MIqpBt9dQxF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Hi!
 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/scsi/scsi_lib.c | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-> index 3958a6d14bf457..7f0394c4492033 100644
-> --- a/drivers/scsi/scsi_lib.c
-> +++ b/drivers/scsi/scsi_lib.c
-> @@ -1988,8 +1988,15 @@ void scsi_init_limits(struct Scsi_Host *shost, struct queue_limits *lim)
->   	if (shost->no_highmem)
->   		lim->features |= BLK_FEAT_BOUNCE_HIGH;
->   
-> -	dma_set_seg_boundary(dev, shost->dma_boundary);
-> -	dma_set_max_seg_size(dev, shost->max_segment_size);
-> +	/*
-> +	 * Propagate the DMA formation properties to the dma-mapping layer as
-> +	 * a courtesy service to the LLDDs.  This needs to check that the buses
-> +	 * actually support the DMA API first, though.
-> +	 */
-> +	if (dev->dma_parms) {
-> +		dma_set_seg_boundary(dev, shost->dma_boundary);
-> +		dma_set_max_seg_size(dev, shost->max_segment_size);
-> +	}
->   }
->   EXPORT_SYMBOL_GPL(scsi_init_limits);
->   
+> [ Upstream commit d768394fa99467bcf2703bde74ddc96eeb0b71fa ]
+>=20
+> Check the fb_channel_number range to avoid the array out-of-bounds
+> read error
+
+We can still have array out-of-bounds, right? As soon as that function
+returns 0x8000 0000.
+
+drivers/gpu/drm/amd/amdgpu/amdgpu_df.h: u32 (*get_fb_channel_number)(struct=
+ amdgpu_device *adev);
+
+int fb_channel_number should really be u32.
+
+Best regards,
+								Pavel
+> +++ b/drivers/gpu/drm/amd/amdgpu/df_v1_7.c
+> @@ -70,6 +70,8 @@ static u32 df_v1_7_get_hbm_channel_number(struct amdgpu=
+_device *adev)
+>  	int fb_channel_number;
+> =20
+>  	fb_channel_number =3D adev->df.funcs->get_fb_channel_number(adev);
+> +	if (fb_channel_number >=3D ARRAY_SIZE(df_v1_7_channel_number))
+> +		fb_channel_number =3D 0;
+> =20
+>  	return df_v1_7_channel_number[fb_channel_number];
+>  }
+
+--=20
+DENX Software Engineering GmbH,        Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--OqRI4MIqpBt9dQxF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZs3E7wAKCRAw5/Bqldv6
+8l6xAKCvBvtdsPWLS+2akXJN38ECL3P8nQCcCKMijsSiArutJxOsPYklJw/UZZg=
+=fM5x
+-----END PGP SIGNATURE-----
+
+--OqRI4MIqpBt9dQxF--
