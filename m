@@ -2,172 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492C29613C7
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 18:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD599613FE
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 18:26:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3F510E35A;
-	Tue, 27 Aug 2024 16:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F1AA10E37D;
+	Tue, 27 Aug 2024 16:26:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nhAe7YHz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lZCz7FOE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 742EC10E35A;
- Tue, 27 Aug 2024 16:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724775276; x=1756311276;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=SK0tl7O33iEoRpaKUvw6FBFGy9OwRFHi0iUBz9QLzno=;
- b=nhAe7YHzXeyZN3SNoLN6hwApTy7HCFvCcGmt5XF0r7cxPLd767+AmGOz
- ygTpjCcO3kQ9Pbzwz2/S2iA8QWPgjH32ENkdFkzntrlJdHIbaBj0ehNn/
- tzHM6BGrKFxoOa6Ks5awlS8RPSQ7RYLXO12zHOGYwyNG4gnv8ZQ9sdef6
- c3IhiLrIG2iZJsgt7h1JTRDIros1alXscHT5mSfKZTb63UzJDkrQ0QPo7
- ztsSETdrpkdfNYv5fdj3D5+uJlybCm6C/GSdnDpEcahcsBg41xGYM2s/D
- slJfllQzQ8UZXxgYlYR7RJ4yHc2oW9oIPd/ioZjvEj+KPXdG0zRCVbm2k Q==;
-X-CSE-ConnectionGUID: dlAGEgmgSPamzwyNVbe5iQ==
-X-CSE-MsgGUID: gPnL/YBDR8WIAolLwAeNcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="33890379"
-X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; d="scan'208";a="33890379"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2024 09:14:36 -0700
-X-CSE-ConnectionGUID: d7iUd+ZZRj6DSi4TEthJtw==
-X-CSE-MsgGUID: LShzNJG4SiuQ4Lb5bdRWvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; d="scan'208";a="63627824"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 27 Aug 2024 09:14:36 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 27 Aug 2024 09:14:35 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 27 Aug 2024 09:14:35 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 27 Aug 2024 09:14:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FzjyZC4qqA0AkPSJKl+EV4dxnvlljbGdybKafKl/FCZRDeSv9pLigZLbBbuvXDYTpw+XE5LEyahpl448Bb8xhas1MUaP2WEKep9YPSaKoK/PuvR8dOqAZoS6wyJhZ3xecjndMNYHvw5/dVFk2OlLYa7yM8OSkmBRDoPHVOxck+wCbi26XJOZvJO5LOqLyA8rOoq9zKpdZMk7l3+4GQA80QrjjuMdSPrnBzF6R81q8Ttcq8jFQ4uDxvSe7m1aCWnlxqi6J2NnVIpZ9uj8R+4wl3ItmmKuo02OiekPZ8Wx0s5BtkR+RXoz+mf/WUS9cuOZanj/tYy+dhlEhCKNus4uCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zNME/mKWDakrj0NL/ya9+MAz9lyxod9ocH8LWBqu1yc=;
- b=YBMkkvY0I5or7yxUyMp/XI7Xfs573g2E/U4JaBSdh6GmXs9rA2CyJbZ3eg8qzSyeZQq2XiiFsmOTouz2r1jtiQRXVZg7dNhoBUmqCZhmLbFuz2pGE3Ubm4FiMjQ/pOIDJ7vh08tW0ejDFPS0IY3bpEOzdAXOA7eXYmvjaqcd7FvIeTXRHaXMYwetzJMydhXrd0hAVwqkhRGSsNm1h9Puj+Bf4KheYQ5668vBZ8sZCXX/CDseeiQeno+zayYOu9FO8epvFfwya8P6P/NVHEviYQFntXFdt3uukgLFU07a1ylERfGVzGFMcsGA2y9JzbCLRRQH6UlKL38kHErfTUFTbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SA1PR11MB8327.namprd11.prod.outlook.com (2603:10b6:806:378::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Tue, 27 Aug
- 2024 16:14:32 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7897.021; Tue, 27 Aug 2024
- 16:14:32 +0000
-Date: Tue, 27 Aug 2024 11:14:29 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-CC: Nirmoy Das <nirmoy.das@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, Christian =?utf-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Himal Prasad Ghimiray
- <himal.prasad.ghimiray@intel.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH 2/2] Revert "drm/ttm: Add a flag to allow drivers to skip
- clear-on-free"
-Message-ID: <lkifmjwznygo346uj7qeiz26re3npuk2i7zwnqqsyas57oskug@ztlurybma6ea>
-References: <20240821095035.29083-1-nirmoy.das@intel.com>
- <20240821095035.29083-2-nirmoy.das@intel.com>
- <447e4cbd75e14e80b7d29e0e3b1859239b9e6c9a.camel@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <447e4cbd75e14e80b7d29e0e3b1859239b9e6c9a.camel@linux.intel.com>
-X-ClientProxiedBy: MW4PR04CA0056.namprd04.prod.outlook.com
- (2603:10b6:303:6a::31) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B5F10E379
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 16:26:39 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4280c55e488so31348285e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 09:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1724775998; x=1725380798; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=v8CXfOImNZAPo+0QEI9EfNOPJJp994RZWBU+MZvr+8c=;
+ b=lZCz7FOEPM9xBXfkxjrNYDrMLwKO3n7/BY/IBVboieYMq2ZE6saPPs3AmrXx0ujajM
+ zur3MRUi9VX0Qifl6er2QxeHJbkqOLptafAp5hGYDuoLOfn7mmmZsFItbL/UN2550PYN
+ Pud6BIZUKTP7LSIl0gP3o/6AwzQKNDt+Oca5vBxIeybXozJPmp6vNwTbaaDXIMy0Kt6r
+ NzbbcDKvjZ0JxyYJJ4NnIebrbgOdlTytDXV+qOWePvYvUbD3YRPYaHW8H1szWA+WEbkF
+ BX6Q6KWKb4HtpG/3AAt8pbt/goushdYEHSlyrJlqfSpIhaPBpRMiXa3ShPAZHe7DBvfs
+ 6yZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724775998; x=1725380798;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=v8CXfOImNZAPo+0QEI9EfNOPJJp994RZWBU+MZvr+8c=;
+ b=OgiXF4CsM3uMKJDp4NZzBLRwIKXXeH6+OOkF5F55QbOTdq4aUObpQkVv9CcIWPbkJl
+ aieMsW8KpRLujURVXlLWZGro1j2huXkwZptMhLbLp5CPfiI2E79Hw+7f23ccUUVUezdj
+ UWLv5ZHswhXyTdu/NAkS+vVcrnrsXeFOivR6XumNDCuygkb/S2qUXMEeFLeaAo40/Nqu
+ yWSGiM5WkOcCuUdTOuMDyu+k8+LW2cEg67K4Kh82SbicPbQz4V3Q8QU12v2c8bbscfMi
+ qsVdpnaxo7zdvKZKCgG4gMGAg2QWsrO442ec4Q7qcimfZYafwVPUKF5kCpaMZDd909qp
+ ExSg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWk6Sh9Cbm5DW49ePRE73+RzG902/cKEC2q3ZnxHES81WRH6To3bNDgV+DaPs7D+I9W4ny920IRiv8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxD8cPPgoo4HIpsBwIAmyeXimTvT8qWivUQxb7QwmPVmab/MMkw
+ hUP1cx/arG0uNCqtOmpDDbKFfI2dpXBGedI1xt1kxiqy2drwFo2KulJaW6qP7BI=
+X-Google-Smtp-Source: AGHT+IESU8S9DEVBMpyZfWscDxO0CMagekuQ/YRK6C4x9dg34h8I1OCh7vzpCcvK6gT1EZnV3jT6HQ==
+X-Received: by 2002:a05:600c:8aa:b0:42a:a749:e6 with SMTP id
+ 5b1f17b1804b1-42b9a471114mr23411325e9.10.1724775996955; 
+ Tue, 27 Aug 2024 09:26:36 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:cedc:30f:887e:7717?
+ ([2a01:e0a:982:cbb0:cedc:30f:887e:7717])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42abefc627asm231269735e9.34.2024.08.27.09.26.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Aug 2024 09:26:36 -0700 (PDT)
+Message-ID: <aa0f4f1c-3043-4b03-8b9f-f9a39f3682aa@linaro.org>
+Date: Tue, 27 Aug 2024 18:26:35 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA1PR11MB8327:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1bd9bbf-ea00-4dcd-6770-08dcc6b355b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?GH25d6icPBGR36jGx0gN+Xq7qgdBa3lhWo6dByHTUxCJbdQAt4bnhVlkyr?=
- =?iso-8859-1?Q?Sc7fnHKAUh7WjOr1k0XOVZxlN0yUWIu1mj08B2xA5t89wLQvPNXgiwj/Xt?=
- =?iso-8859-1?Q?l57NywF1idm+7ACoshsXfmqXTI/9B9LDtuN5lU9dAevMGP9Cax2UBOKURJ?=
- =?iso-8859-1?Q?wAlrKIrLL42CZEOXHoKK92Yp3QVdS2UCvFhW/HWP21RrkNhtyrQJaujipn?=
- =?iso-8859-1?Q?fSqXt/4VmNqVACK6yRs27SlHXlf89MlUX29fQA53uhxmoXh3PJEz1VxF5N?=
- =?iso-8859-1?Q?X428hv1thlmARUPthuu1TTQxPGHY/LVu9sVpDHGT2JY3G9fSRg9lA42NAA?=
- =?iso-8859-1?Q?1YKbIoEHD6eMOfFjezuPZIfBPZ7bqD73HOg4nqC3cvNa+KYYmUAQiO2Y9/?=
- =?iso-8859-1?Q?GZ7fbfA1WxxPtYBQn8bCU6EcVsADe4u3Anje2m9HCyHFATiUWwseQKFs7N?=
- =?iso-8859-1?Q?+dnRYmTsYpacJX6hZTL4L8Bi+nCUEK1DFZHaJSURbUiqs34Pj5tViy43cm?=
- =?iso-8859-1?Q?X4lbWEfvwJGFNTCImG2yXJOwErxLwOIX9UwxNJSvBXY9Bfn6ygYGYFmujz?=
- =?iso-8859-1?Q?3vwS2JwYZjmtm2xTgUmJzCYchpD5jlx4g1qGO8jASNnfODTCPt9/UEcnN8?=
- =?iso-8859-1?Q?HnKTLTKZv3+uNqLK/vJaForKvxAkpS2NYw/oXYdrr4t9B7i+P5tGTQqzu+?=
- =?iso-8859-1?Q?cFSd336yFqV7kkc3KwiUBjkciWZlnRRxgMl61oFgIbMmW0ky3HYgQOLu1F?=
- =?iso-8859-1?Q?LVEyEbRs24cBEhQox/LfzuJg0wZ3px9HQJN/gC18IQ0raEw3LeENEuJyGR?=
- =?iso-8859-1?Q?OjLK5FYnuG/lTL5l2qVllu78QhKjtXN9XJTsD5Mrlp1neYPY4/Pkzct7di?=
- =?iso-8859-1?Q?wVsnSTkxMpEdCWakUfEP18sym4hWtKX0a6Lh0UAHsRrCY3ljPc51qV7d1m?=
- =?iso-8859-1?Q?ut7MQhAGovehNVTu4axCeg+VU1SN4Ze7ySk6wNWWZkcrL+AiLr/yuw9BaY?=
- =?iso-8859-1?Q?IEb4EnztGbb5pXr20nvPmr+bsCyFnaOljBnAQ3xW1eL9NEUOAeGR6nHTBF?=
- =?iso-8859-1?Q?/LZ4APcx0cysg/xoQwPLAUlVzL+KR1yuLVOYzwtof54kcNa6c4lI5y+iur?=
- =?iso-8859-1?Q?j4XQaeX1P8xynSXmiNTejLH2VuLGuStKLhgrMvArEeosB/24EG671y7+al?=
- =?iso-8859-1?Q?mkYGK/ANm7cvwDnoAox22QSTTkwoqr9716VBRRiAGSbZAIuXpbACkLigQJ?=
- =?iso-8859-1?Q?Zv91RjZL2ikwJjj8ewaCd69d/LTLWkyuQDnpWYzb2hjwSChXaL1K+u2nJ0?=
- =?iso-8859-1?Q?MrHeXQA+XAAPOkoNmexOEzLKcmZQHhHfaVA7fqnmAFB0PC0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?Wxv/9iz8se2uNQSoLRdhB39Z1CawSvIHo4Xn9B6NjpNlFbRdFVFgLJmW1B?=
- =?iso-8859-1?Q?D57i8ynxMkfAfbBGtsGScLUT1/oVIJBs7SrHYeZKiNVWb/aWjztfCRqYJo?=
- =?iso-8859-1?Q?GEcOPXemqTM7YYS7dWC4+R3M0iI1bn2lEJYbziZ6KP3tADPdFlcFSuBLoR?=
- =?iso-8859-1?Q?fUABMsvzBgPUEHnI84FcyAxKLsSM5bYM6DEf8jmkFXelSjtic/tV8La+RX?=
- =?iso-8859-1?Q?+Cca/xvySkKoj+brCFAUNIDlPLxKi3/1H0GfZznPYs+WFWmA3b0WjwgQOW?=
- =?iso-8859-1?Q?RFDfHo8Fiqp9zruje5WJ6LMWYRdumAhJKSLJ712JbzUrBb0bHzvlLkjgJG?=
- =?iso-8859-1?Q?pcYrScTpQ2PC+wpQ0XISkr1L9eP4xxOdTU9kH3o+JE/t1PIpbICH81nj2j?=
- =?iso-8859-1?Q?0AoZHS80DRLFLzGTYXXOHVaMz40EYW05EhwycWLjJ46qb4p9XUmxDLELZD?=
- =?iso-8859-1?Q?fRIN3wFhbdBKUrfGKOGhtZySW2yi0H/sfdp/rYU8n+mtlFfACcrwDwHt9J?=
- =?iso-8859-1?Q?BM8x2MLdaS5MaD7w30ZxwEyjnfy4PhRc+QoIvvmeiFsS5c4IRxWwxQCcg6?=
- =?iso-8859-1?Q?Q1VpOlZv5rxVWuzBAQmhBiqXZpzuWuw0vmbPpGuTdyEZg8yOq8G9EEnH9+?=
- =?iso-8859-1?Q?tHNGwDSHqHAQt/4hgj5XrjfxOW/e7j9IUY00GRc97G0HchkNw/qNrv8fGb?=
- =?iso-8859-1?Q?KxZ5JnAhzJ3Rw4iV6iSv8sP4StdTJhJs6s4luPBZBHEavojdu+VZ0pWWN8?=
- =?iso-8859-1?Q?rQxuI+VAA4FqXf57qm5ClQmW6KJl3i3sJT+5n0n6Ijy/SKFwiR2MK9F/Rv?=
- =?iso-8859-1?Q?6uAC2sIkY/tnpXVzh4Ms+O8TheNzbkOecQvI1VSRpaOtyV0zkJmTCtTJ22?=
- =?iso-8859-1?Q?J2adZXRLAg9F+GsWGOk7qXAaOKzBcoqBI/3XsPNGnCZJk6LsYHFJh72ZpK?=
- =?iso-8859-1?Q?kwekzBFW+SGvpYrPsE4qQEuwCRaZ9CpopjVr/6YX/THNw+chZjmAwu3s0i?=
- =?iso-8859-1?Q?i0bLctpDsSpjV1dGjEkKwMAkVLVRpFW/YKRBX2FQ6chd+gXHpEY4j1HLOx?=
- =?iso-8859-1?Q?x2xqcmWsdwS04zszdww9gagmWWbpPJm6th2k2bmqmI/v6WgpFN2oVSRcEN?=
- =?iso-8859-1?Q?8CXzpSVj+Q4qMSr3q328CDEcg2YZTno1nQyS/HzspzNLlR9Fn1cTlymhoR?=
- =?iso-8859-1?Q?S5J2JVetxiU1aoYHefRGnjOnehnTfMZSZZ1hzx0zXpc12GH4d/9cFOUfSx?=
- =?iso-8859-1?Q?wX1ztk7/I/4gg7/eESGO4d6IObJ9w6GK3sd7mQ1pwDPZcE0Esv0uLbONrQ?=
- =?iso-8859-1?Q?dnBA84DsnfiLsvlIopqSz+KVZ0sPpVWT0VuJiO/IELYOarBZ6YhW89agv7?=
- =?iso-8859-1?Q?j3xaBLW4MO/0e7+b308dYxjAOtnpIskkSMI6n0GzVedgHpLoxoocKAakrP?=
- =?iso-8859-1?Q?KZWNCydw+rOmJczexwnd7c21siwOK2467ussIXjcP/6clBEswCq0cGB4Uj?=
- =?iso-8859-1?Q?Vrh2Tc9PRHsbgiAOE12vQ4C3bYgOusm37tS+p/f8u1wkAMWKWv6joK4XIg?=
- =?iso-8859-1?Q?7ukMz9kcNNPCBzGe9GVKoWJo0z+2DQBSI1xq7hakn8xz/CNVFR6Nw9pUCh?=
- =?iso-8859-1?Q?L2qbfsUNof2U25Wwso1nvRuPFEyUnWupz7avjEC6+C+mXbTp731exQJg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1bd9bbf-ea00-4dcd-6770-08dcc6b355b3
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 16:14:32.4532 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T8FEL5m9jYf1EApAoFuuFxrG89eBYOHAFSP4SzYNDl2vRZ26pYcAMvsJTl2LJGINDYO0PM0KFG8olB4Q484/7T/rfTiPc4jnPTLT9J7uJ1w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8327
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 2/4] Revert "drm/panel-edp: Add SDC ATNA45AF01"
+To: Doug Anderson <dianders@chromium.org>
+Cc: Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>,
+ Johan Hovold <johan@kernel.org>
+References: <20240715-x1e80100-crd-backlight-v2-0-31b7f2f658a3@linaro.org>
+ <20240715-x1e80100-crd-backlight-v2-2-31b7f2f658a3@linaro.org>
+ <7daa3c0d-cecf-4f50-be32-ae116b920db0@linaro.org>
+ <ZpUcI3KkIa58zC55@linaro.org>
+ <d1603248-afe8-4594-9e2e-81ba208dff00@linaro.org>
+ <CAD=FV=WimxYmDrkfn0+E3MbXp8kS9TicN2kT3AM4eM+SAwYsOg@mail.gmail.com>
+ <CAD=FV=XfvD1OniNBrCrA8C6XjOB15fye8EdnniNmgpu4DnpH6w@mail.gmail.com>
+ <CAD=FV=Vp1Trv2JeFtqk2=Zhi0B7io5w402GkG_UhYm2q34q8dw@mail.gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <CAD=FV=Vp1Trv2JeFtqk2=Zhi0B7io5w402GkG_UhYm2q34q8dw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,30 +123,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 27, 2024 at 11:42:59AM GMT, Thomas Hellström wrote:
->On Wed, 2024-08-21 at 11:50 +0200, Nirmoy Das wrote:
->> Remove TTM_TT_FLAG_CLEARED_ON_FREE now that XE stopped using this
->> flag.
+On 27/08/2024 17:36, Doug Anderson wrote:
+> Hi,
+> 
+> On Mon, Jul 22, 2024 at 8:49â€¯AM Doug Anderson <dianders@chromium.org> wrote:
 >>
->> This reverts commit decbfaf06db05fa1f9b33149ebb3c145b44e878f.
+>> Hi,
 >>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
->> Cc: Matthew Auld <matthew.auld@intel.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->
->Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> On Mon, Jul 15, 2024 at 6:51â€¯AM Doug Anderson <dianders@chromium.org> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On Mon, Jul 15, 2024 at 6:02â€¯AM Neil Armstrong
+>>> <neil.armstrong@linaro.org> wrote:
+>>>>
+>>>> On 15/07/2024 14:54, Stephan Gerhold wrote:
+>>>>> On Mon, Jul 15, 2024 at 02:42:12PM +0200, Neil Armstrong wrote:
+>>>>>> On 15/07/2024 14:15, Stephan Gerhold wrote:
+>>>>>>> This reverts commit 8ebb1fc2e69ab8b89a425e402c7bd85e053b7b01.
+>>>>>>>
+>>>>>>> The panel should be handled through the samsung-atna33xc20 driver for
+>>>>>>> correct power up timings. Otherwise the backlight does not work correctly.
+>>>>>>>
+>>>>>>> We have existing users of this panel through the generic "edp-panel"
+>>>>>>> compatible (e.g. the Qualcomm X1E80100 CRD), but the screen works only
+>>>>>>> partially in that configuration: It works after boot but once the screen
+>>>>>>> gets disabled it does not turn on again until after reboot. It behaves the
+>>>>>>> same way with the default "conservative" timings, so we might as well drop
+>>>>>>> the configuration from the panel-edp driver. That way, users with old DTBs
+>>>>>>> will get a warning and can move to the new driver.
+>>>>>>>
+>>>>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>>>>>> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+>>>>>>> ---
+>>>>>>>     drivers/gpu/drm/panel/panel-edp.c | 2 --
+>>>>>>>     1 file changed, 2 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+>>>>>>> index 3a574a9b46e7..d2d682385e89 100644
+>>>>>>> --- a/drivers/gpu/drm/panel/panel-edp.c
+>>>>>>> +++ b/drivers/gpu/drm/panel/panel-edp.c
+>>>>>>> @@ -1960,8 +1960,6 @@ static const struct edp_panel_entry edp_panels[] = {
+>>>>>>>      EDP_PANEL_ENTRY('L', 'G', 'D', 0x05af, &delay_200_500_e200_d200, "Unknown"),
+>>>>>>>      EDP_PANEL_ENTRY('L', 'G', 'D', 0x05f1, &delay_200_500_e200_d200, "Unknown"),
+>>>>>>> -   EDP_PANEL_ENTRY('S', 'D', 'C', 0x416d, &delay_100_500_e200, "ATNA45AF01"),
+>>>>>>> -
+>>>>>>>      EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140M1JW48"),
+>>>>>>>      EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M1JW46"),
+>>>>>>>      EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140T1JH01"),
+>>>>>>>
+>>>>>>
+>>>>>> How will we handle current/old crd DT with new kernels ?
+>>>>>>
+>>>>>
+>>>>> I think this is answered in the commit message:
+>>>>>
+>>>>>>> We have existing users of this panel through the generic "edp-panel"
+>>>>>>> compatible (e.g. the Qualcomm X1E80100 CRD), but the screen works only
+>>>>>>> partially in that configuration: It works after boot but once the screen
+>>>>>>> gets disabled it does not turn on again until after reboot. It behaves the
+>>>>>>> same way with the default "conservative" timings, so we might as well drop
+>>>>>>> the configuration from the panel-edp driver. That way, users with old DTBs
+>>>>>>> will get a warning and can move to the new driver.
+>>>>>
+>>>>> Basically with the entry removed, the panel-edp driver will fallback to
+>>>>> default "conservative" timings when using old DTBs. There will be a
+>>>>> warning in dmesg, but otherwise the panel will somewhat work just as
+>>>>> before. I think this is a good way to remind users to upgrade.
+>>>>
+>>>> I consider this as a regression
+>>>>
+>>>>>
+>>>>>> Same question for patch 3, thie serie introduces a bindings that won't be valid
+>>>>>> if we backport patch 3. I don't think patch should be backported, and this patch
+>>>>>> should be dropped.
+>>>>>
+>>>>> There would be a dtbs_check warning, yeah. Functionally, it would work
+>>>>> just fine. Is that reason enough to keep display partially broken for
+>>>>> 6.11? We could also apply the minor binding change for 6.11 if needed.
+>>>>
+>>>> I don't know how to answer this, I'll let the DT maintainer comment this.
+>>>>
+>>>> The problem is I do not think we can pass the whole patchset as fixes
+>>>> for v6.11, patches 2 & 3 could, patches 1 & 4 definitely can't.
+>>>>
+>>>> Neil
+>>>
+>>> IMO: patch #3 (dts) and #4 (CONFIG) go through the Qualcomm tree
+>>> whenever those folks agree to it. If we're worried about the
+>>> dtbs_check breakage I personally wouldn't mind "Ack"ing patch #1 to go
+>>> through the Qualcomm tree as long as it made it into 6.11-rc1. I have
+>>> a hunch that there are going to be more Samsung OLED panels in the
+>>> future that will need to touch the same file, but if the change is in
+>>> -rc1 it should make it back into drm-misc quickly, right?
+>>>
+>>> Personally I think patch #2 could go in anytime since, as people have
+>>> said, things are pretty broken today and the worst that happens is
+>>> that someone gets an extra warning. That would be my preference. That
+>>> being said, we could also snooze that patch for a month or two and
+>>> land it later. There's no real hurry.
+>>
+>> For now I'm going to snooze this patch for a month just to avoid any
+>> controversy. I'll plan to apply it (to drm-misc-next) when I see the
+>> device tree patch land. Since the device tree patch should land as a
+>> fix that should keep things landing in the correct order. ...and, as
+>> per above, the worst case is that if someone has an old DTS and a new
+>> kernel then a panel that was already not working well will print a fat
+>> warning and startup a bit slower.
+>>
+>> If somehow I mess up and forget about this patch, feel free to send me
+>> a poke when the device tree patch is landed.
+> 
+> More than a month has passed now. One last warning before I apply this
+> revert in a few more days.
 
-Christian, since that commit being reverted was merged through drm-xe...
-ack on reverting it in our branch? It's actually the only branch where
-it can be reverted. AFAICS you agreed with the revert in
-https://lore.kernel.org/intel-xe/02a383c5-db18-47ef-9118-72effd83a252@amd.com/
+It's fine if you apply it now
 
+Neil
 
-thanks
-Lucas De Marchi
+> 
+> -Doug
+> 
+
