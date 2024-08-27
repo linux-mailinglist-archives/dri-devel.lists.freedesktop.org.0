@@ -2,79 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3DC960D67
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 16:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88DA960DD7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 16:42:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFD710E334;
-	Tue, 27 Aug 2024 14:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6C8610E33D;
+	Tue, 27 Aug 2024 14:42:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KOsU5HYc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XmKS6XrO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE7B010E334
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:18:54 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id
- d2e1a72fcca58-714226888dfso5000598b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 07:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724768334; x=1725373134; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=JSMiJ5fVqnyKb+9n4eHykIt/ocg8tbqo6X0nAPTgvIk=;
- b=KOsU5HYc4W71Z3RfsJXPxf/+v6DFoCRFjHFfh3TECY1PEVu5rfhkDE+dFDq38XMI1I
- XXec39Yxc8jOYCoR7Q55gZc1n8R4/F28Tqyh8r0qOh2/jyxMszWgTpD+76wYVWnWuJaW
- LO1MT1C35CpPctJvcjlGJLHa0YSaJRkORdZ6c5RSHOs69uVZb8fNHrrFCJKFlhjmfnaV
- ypn30KQelAEczB0OE078EhMTrh/ieTUdlnt3RDr8EMauJA3QxK1+U2QbdRVPP3OYoWzR
- 3IApRgJu7C2J4/n3mCh7JylIgPk++QPAhNQW7EYJHHEuhUHUgb93UmYGf5YOQJFbsCLB
- yuXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724768334; x=1725373134;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JSMiJ5fVqnyKb+9n4eHykIt/ocg8tbqo6X0nAPTgvIk=;
- b=i1KMfdYIkObcsnxflthFYWCdXEI2zAIRErq+gvFobcwNPAvnAM34A2zckxFLWy8Ydh
- acN8eG4Ku7KPDFhomfClQTwT6EH/JvJBfqNFe2Be3pVMb9CthugCUKT09O52gyGs2VZI
- yDzLg2kxkp63bUOJigiFSTXc8uaX7azFfbjK7SJDRrAOmblSM+ytXlJg5A7BEH1nh/qZ
- AJep9okLzGo6YOirkvJl1xiIckw/wNFVujH9+vD4UaqnC4uHiuEtwZQ735c8SP2aVjE9
- 3ELoA3wzX55Hum6PbnPXPrwoQzdVFSE/pUEuddah2HInG90+c2oSGgJwuY4Tp8MhdBhP
- B7wQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLxoL3MjtoHVo+fNpuqMpKY4gT5sUjFxBpb8d1exHQySpk4QehGg8KYCyETPbb8S04du5tm4yXFzU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBJsHeX1aqz+Q4L4dKGQ6HyFZyOZ1sCRXyHVeOdSz3xEIzJ0ln
- 6PDvN9XrHzPu4PIw73F5rZhlqQr9+9NJ5kD4/yOBjFVqdqXnjK6E
-X-Google-Smtp-Source: AGHT+IFC8drrJmM4s4TDlAOrYOIKUf05TrbsTxNGNy/4YT441AzNhYGWwAjlpKQO3LwwXX8KcqVrdQ==
-X-Received: by 2002:a05:6a21:3987:b0:1c0:e629:3926 with SMTP id
- adf61e73a8af0-1cc89d6bb9amr15486459637.16.1724768334086; 
- Tue, 27 Aug 2024 07:18:54 -0700 (PDT)
-Received: from embed-PC.myguest.virtualbox.org ([106.222.235.177])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2d6136fc523sm12117848a91.9.2024.08.27.07.18.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Aug 2024 07:18:53 -0700 (PDT)
-Date: Tue, 27 Aug 2024 19:47:24 +0530
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>
-Cc: kernel@puri.sm, neil.armstrong@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- quic_jesszhan@quicinc.com, skhan@linuxfoundation.org, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: mantix: Transition to multi-context write
- sequence
-Message-ID: <Zs3f9LIS1PenwMMX@embed-PC.myguest.virtualbox.org>
-References: <20240826160328.12685-1-abhishektamboli9@gmail.com>
- <ZszDipyk1Ey8M0JZ@qwark.sigxcpu.org>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F52310E33D
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 14:42:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6963FA41B47;
+ Tue, 27 Aug 2024 14:42:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F29D1C4DDF4;
+ Tue, 27 Aug 2024 14:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724769203;
+ bh=N7LkYANKbFgws/uh3+iH9lxlTG58CffdFxCr/9/NrsU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XmKS6XrOvipDliU4bx/WlyXNy7Ju4FTmhJTAwil+bO/W5k4/TRlo9e3IBYpuRPxFA
+ /ziAqmwcEUYH3x/4WZNaJw8EDLdT39XF5ApD5nI4nS4v+Cs823qooWuds3l7NLpf/d
+ nb5q8FnQv0hE+NM5okMisDyaWR/ibP2JWurJk3J0Z2/McYNdRRd+a0J7ft6Ua7+1O6
+ 42wLbmMb22VDF+Av6EU7jMnjPiro52mlonwV1eJslHAkP7I1T1KzkBsjBxOK3Ufnh7
+ iMzK2pzqZB9FdLqwj1nNrxa/9f8H32ADkRu3t8gybZJ+ydEWoJ5yLG/9x4pYJoOUt7
+ +ALDoV7rRIG7A==
+Date: Tue, 27 Aug 2024 16:33:20 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH RFC 11/15] drm: writeback: Add drm_writeback_connector
+ cleanup
+Message-ID: <20240827-solid-adorable-coucal-c3e0d1@houat>
+References: <20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com>
+ <20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="eyjyqs6v362l2ini"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZszDipyk1Ey8M0JZ@qwark.sigxcpu.org>
+In-Reply-To: <20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,71 +69,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 26, 2024 at 08:03:54PM +0200, Guido Günther wrote:
-> Hi Abhishektamboli,
-> 
-> I think this was already handled in
-> 
-> https://lore.kernel.org/dri-devel/20240820091556.1032726-2-tejasvipin76@gmail.com/
-> 
-> and applied
-> 
-> https://lore.kernel.org/dri-devel/172414629205.2571141.13215409630895562248.b4-ty@linaro.org/#t
-> 
-Hi Guido,
-Thanks for letting me know.
 
-Regards,
-Abhishek
-> 
-> On Mon, Aug 26, 2024 at 09:33:28PM +0530, Abhishek Tamboli wrote:
-> > Replace deprecated 'mipi_dsi_generic_write_seq()' macro
-> > to 'mipi_dsi_generic_write_seq_multi()' macro in mantix_init_sequence
-> > function.
-> > 
-> > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> > ---
-> >  .../gpu/drm/panel/panel-mantix-mlaf057we51.c  | 19 +++++++++++--------
-> >  1 file changed, 11 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> > index ea4a6bf6d35b..f276c65cc9bb 100644
-> > --- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> > +++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-> > @@ -49,22 +49,25 @@ static int mantix_init_sequence(struct mantix *ctx)
-> >  {
-> >  	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> >  	struct device *dev = ctx->dev;
-> > +	struct mipi_dsi_multi_context dsi_ctx = {
-> > +		.dsi = dsi
-> > +	};
-> > 
-> >  	/*
-> >  	 * Init sequence was supplied by the panel vendor.
-> >  	 */
-> > -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
-> > 
-> > -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_INT_CANCEL, 0x03);
-> > -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
-> > -	mipi_dsi_generic_write_seq(dsi, 0x80, 0xA9, 0x00);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_INT_CANCEL, 0x03);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x80, 0xA9, 0x00);
-> > 
-> > -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
-> > -	mipi_dsi_generic_write_seq(dsi, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
-> >  	msleep(20);
-> > 
-> > -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_SPI_FINISH, 0xA5);
-> > -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xA5);
-> > +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
-> >  	msleep(20);
-> > 
-> >  	dev_dbg(dev, "Panel init sequence done\n");
-> > --
-> > 2.34.1
-> > 
+--eyjyqs6v362l2ini
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Wed, Aug 14, 2024 at 04:36:33PM GMT, Louis Chauvet wrote:
+> Currently drm_writeback_connector are created by
+> drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
+> Both of the function uses drm_connector_init and drm_encoder_init, but
+> there is no way to properly clean those structure from outside.
+>=20
+> This patch introduce the new function drm_writeback_connector_cleanup to
+> allow a proper cleanup.
+>=20
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_writeback.c | 10 ++++++++++
+>  include/drm/drm_writeback.h     | 11 +++++++++++
+>  2 files changed, 21 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeb=
+ack.c
+> index a031c335bdb9..505a4eb40f93 100644
+> --- a/drivers/gpu/drm/drm_writeback.c
+> +++ b/drivers/gpu/drm/drm_writeback.c
+> @@ -184,6 +184,7 @@ int drm_writeback_connector_init(struct drm_device *d=
+ev,
+>  	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> =20
+>  	wb_connector->encoder.possible_crtcs =3D possible_crtcs;
+> +	wb_connector->managed_encoder =3D true;
+> =20
+>  	ret =3D drm_encoder_init(dev, &wb_connector->encoder,
+>  			       &drm_writeback_encoder_funcs,
+> @@ -290,6 +291,15 @@ int drm_writeback_connector_init_with_encoder(struct=
+ drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+> =20
+> +void drm_writeback_connector_cleanup(struct drm_writeback_connector *wb_=
+connector)
+> +{
+> +	drm_connector_cleanup(&wb_connector->base);
+> +	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
+> +	if (wb_connector->managed_encoder)
+> +		drm_encoder_cleanup(&wb_connector->encoder);
+> +}
+> +EXPORT_SYMBOL(drm_writeback_connector_cleanup);
+> +
+>  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+>  			 struct drm_framebuffer *fb)
+>  {
+> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> index 17e576c80169..e651c0c0c84c 100644
+> --- a/include/drm/drm_writeback.h
+> +++ b/include/drm/drm_writeback.h
+> @@ -35,6 +35,15 @@ struct drm_writeback_connector {
+>  	 */
+>  	struct drm_encoder encoder;
+> =20
+> +	/**
+> +	 * @managed_encoder: Sets to true if @encoder was created by drm_writeb=
+ack_connector_init()
+> +	 *
+> +	 * If the user used drm_writeback_connector_init_with_encoder() to crea=
+te the connector,
+> +	 * @encoder is not valid and not managed by drm_writeback_connector. Th=
+is fields allows
+> +	 * the drm_writeback_cleanup() function to properly destroy the encoder=
+ if needed.
+> +	 */
+> +	bool managed_encoder;
+> +
+
+I think we should rather create drmm_writeback_connector variants,
+and make both deprecated in favor of these new functions.
+
+Maxime
+
+--eyjyqs6v362l2ini
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZs3jqAAKCRAnX84Zoj2+
+dqC/AX41x2/yRw5bNXUT1ld4NWuUvhzpWR9ibP9t6EQOQRPCRs2ZEdpfypeN+onm
+B4GyXXEBf3hD2r8NNZs0TDJllfPpe3k7TCzWGX7GiUpnz3sBiYeqETc3RVk8EYuS
+PldTUHYJKQ==
+=LJyL
+-----END PGP SIGNATURE-----
+
+--eyjyqs6v362l2ini--
