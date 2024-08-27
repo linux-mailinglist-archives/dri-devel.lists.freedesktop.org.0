@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3299607DA
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 12:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0324C96080E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 12:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508DE10E2F0;
-	Tue, 27 Aug 2024 10:51:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60B2E10E2F7;
+	Tue, 27 Aug 2024 10:59:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="AN3y2WSH";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OVo44ipP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C992910E2F1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 10:51:46 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-428101fa30aso46246595e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 03:51:46 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7584B10E2F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 10:59:42 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3718acbc87fso2975501f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 03:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724755905; x=1725360705; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1724756381; x=1725361181; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MQcYEkWd4AMQGEHcBCDy3Lmlo27SWVbuStzhtGu6A3Q=;
- b=AN3y2WSHy02OJnJjIS7P6nkmZvbGr8+Q8Mv+HKvawAYC5tnDP0sESzqPVG6YuBzYRk
- tQVUA/7V6Ch+u+poOjX54rdA1OTLNZMLlqBvIMm3fBTC7qPTCpYHQ1vT9lLQBHvI9844
- BYjQ1oXPNkkdkTx56BfHbl3alsI44qpe+zt9U=
+ bh=YtTu6HehYNttdvmPGYfqql7wv98msGlzuALk1nY0pN0=;
+ b=OVo44ipPDXkxxNP+TrCjlZpKYrAR4ZAhyvG1tyiFOBSsk77D3+Otg2uyZCom8UpFIH
+ fNKQspGdsqu/1bd69UBRGshHerynrsnaVrXA93sv0TAEbyN6TM40ch5QkfRM/9PSn+hm
+ PaMBdYquTC/4sC1bbCtAS6SqpLPD9v9oulalU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724755905; x=1725360705;
+ d=1e100.net; s=20230601; t=1724756381; x=1725361181;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MQcYEkWd4AMQGEHcBCDy3Lmlo27SWVbuStzhtGu6A3Q=;
- b=VcAsZhtZHGAvLUcNa6wioQSpXy65zJG3kwQeS+3S+G4RKTw2GRtFLqMLnDJv+z2Tee
- Dd7CKB/hmhbNUvhMwmIv8m2ILUBF2r0cxA6lUFRcrYl/GSmu7aeZKlKZzAYURX0kxoHG
- UszkEmIhux7e7CXjWjqd5Q9E7Y7fCY1HlTg6o+k1kTI61rMCi184SGHExOsA1/wijm0t
- WdUAKkEvZyj6UEcD/NMrHAPx0J5qZS3HNI8nm4ofivelsdaGC1GOwkBac4emXsM8DNjE
- +JCGLTi+6YUew0Z57CtOZ5gFSpFPPYC+rE3Kbo8LuWiVwkNJZvwHDtIDp6IJ3KEVBJn3
- xQrQ==
+ bh=YtTu6HehYNttdvmPGYfqql7wv98msGlzuALk1nY0pN0=;
+ b=uyZeWeHpXsywVCpDTZ5W9JbygimHOEcaNmVP5GESh63cb0R56dPwpASosU7Qa4kPJk
+ LCW2Hmt6oxaTZjxOfs4XWd2hp8iOiunzmjWzcJuoVGnKCoy8rcQC11AK0csbha01l4FL
+ Aw6MjPS4j3PzNeTJQIDT9ROxPCtVHiSPU3/ZV1+SeTJV5IPlk4YGpJzGxdbd6twljkEP
+ nL5WvWDVkjsQAgpPK8BFIbS6EoA1mzsoP1SwCWm4+v32LV7FtIsN50ScXwvk55vxRsm9
+ wr+VZPiEcGxwxD1xMHTZeOs7iCaj5pHcOU83kTvzoGn/nLoZyb/CEr5t3tO1u7/8Oa2k
+ yu3A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXzmkHUI0HNiAL4H11iugPN/mknSddd30/pNwS4xGGkQRT8CDSipPxHvRDDv+H2nkfhMlKgVxt3xRk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxRBYuO8I8xCnV2AyQjwEJ3arZxecXP+MN31rUi3aAQKtdRgN3H
- 3YxMpobW2d0a0NLED8rBnno/fXmHUksCK174WB2fKZ70AZb/MPFDSaS3kiFbC+c=
-X-Google-Smtp-Source: AGHT+IG9jrKusHz977m7KjfruSbOy0979Crz2w/s8XngzzWuhgmmQY6kLRYsdvG8HTlnUUJevaoz2g==
-X-Received: by 2002:a05:600c:1c0d:b0:426:8884:2c58 with SMTP id
- 5b1f17b1804b1-42b9adaa432mr18310625e9.4.1724755904796; 
- Tue, 27 Aug 2024 03:51:44 -0700 (PDT)
+ AJvYcCUMNHAqlOL1Ri5qn+6Opii2VTncZACtMfqen2fxBWPf860HgYIeVqLCttFciGXchiZkVvzkjLAgF+8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YygM99S/VDv6DbM3RYl+rz6jlMCPHYo/ahBLXLIWM9coJE+0w1D
+ t0yRMF0K9VtJAbF5feLRekukygTL0jwBl3c8ktwqXUp25GvcTFL6aU38GfZaHvA=
+X-Google-Smtp-Source: AGHT+IFvxMRX4HrtjoHJLYoLwjVL7JDGTv2tUAFtl41JUxWEWfTcmjptbYrHwKHiJhC6n1EyVoAMSw==
+X-Received: by 2002:adf:f24d:0:b0:371:941f:48f2 with SMTP id
+ ffacd0b85a97d-37311865284mr7830240f8f.32.1724756380636; 
+ Tue, 27 Aug 2024 03:59:40 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-373081ffb66sm12824889f8f.84.2024.08.27.03.51.43
+ 5b1f17b1804b1-42ac517f9basm181032045e9.39.2024.08.27.03.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Aug 2024 03:51:44 -0700 (PDT)
-Date: Tue, 27 Aug 2024 12:51:41 +0200
+ Tue, 27 Aug 2024 03:59:40 -0700 (PDT)
+Date: Tue, 27 Aug 2024 12:59:38 +0200
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-xe-next
-Message-ID: <Zs2vvdLV_NwMLOYW@phenom.ffwll.local>
-References: <hecdxenxufrcps4ktypq64p3r6h5hp77c2sag2mkkvcmjploge@iyixts55vxus>
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] drm-intel-gt-next
+Message-ID: <Zs2xmjmZiiXzwrWY@phenom.ffwll.local>
+References: <ZshcfSqgfnl8Mh4P@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <hecdxenxufrcps4ktypq64p3r6h5hp77c2sag2mkkvcmjploge@iyixts55vxus>
+In-Reply-To: <ZshcfSqgfnl8Mh4P@jlahtine-mobl.ger.corp.intel.com>
 X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,331 +90,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 22, 2024 at 03:55:23PM -0500, Lucas De Marchi wrote:
-> Hi Dave and Sima,
+On Fri, Aug 23, 2024 at 12:55:09PM +0300, Joonas Lahtinen wrote:
+> Hi Dave & Sima,
 > 
-> Second drm-xe-next pull request for the 6.12 cycle.
+> Mostly fixes in this drm-intel-gt-next PR at this time.
 > 
-> Several fixes here that are also going through drm-xe-fixes. Most of the
-> other changes are the missing bits for Xe2 (LNL and BMG) and general
-> refactors.
+> One thing to pay attention is the limitation of number of relocations to
+> INT_MAX which might impact synthetic tests, but no real workloads.
 > 
-> The only UAPI change is actually a fix for building with gcc 5.
+> Regards, Joonas
 > 
-> I left some commits out since they were too fresh and I didn't have core
-> CI results for them. Plan is to send the final pull request for 6.12
-> next week with those commits.
+> ***
 > 
-> thanks
-> Lucas De Marchi
+> drm-intel-gt-next-2024-08-23:
 > 
-> drm-xe-next-2024-08-22:
 > UAPI Changes:
-> - Fix OA format masks which were breaking build with gcc-5
 > 
-> Cross-subsystem Changes:
-> - drm/ttm: Add a flag to allow drivers to skip clear-on-free
-
-There's a revert floating around for that, and I don't like pull that
-temporary state into drm-next since a bunch of people explicitly asked for
-drm-next to catch up so they can do backmerges. Can you pls do a new pull
-where that revert is included? Incremental changelog is fine, I can apply
-them both back-to-back.
-
-Thanks, Sima
+> - drm/i915: 2 GiB of relocations ought to be enough for anybody*
+> 
+>   Limit the number of relocations to INT_MAX.
+> 
+>   Only impact should be onsynthetic tests.
 > 
 > Driver Changes:
-> - Use dma_fence_chain_free in chain fence unused as a sync (Matthew Brost)
-> - Refactor hw engine lookup and mmio access to be used in more places
->   (Dominik, Matt Auld, Mika Kuoppala)
-> - Enable priority mem read for Xe2 and later (Pallavi Mishra)
-> - Fix PL1 disable flow in xe_hwmon_power_max_write (Karthik)
-> - Fix refcount and speedup devcoredump (Matthew Brost)
-> - Add performance tuning changes to Xe2 (Akshata, Shekhar)
-> - Fix OA sysfs entry (Ashutosh)
-> - Add first GuC firmware support for BMG (Julia)
-> - Bump minimum GuC firmware for platforms under force_probe to match LNL
->   and BMG (Julia)
-> - Fix access check on user fence creation (Nirmoy)
-> - Add/document workarounds for Xe2 (Julia, Daniele, John, Tejas)
-> - Document workaround and use proper WA infra (Matt Roper)
-> - Fix VF configuration on media GT (Michal Wajdeczko)
-> - Fix VM dma-resv lock (Matthew Brost)
-> - Allow suspend/resume exec queue backend op to be called multiple times
->   (Matthew Brost)
-> - Add GT stats to debugfs (Nirmoy)
-> - Add hwconfig to debugfs (Matt Roper)
-> - Compile out all debugfs code with ONFIG_DEUBG_FS=n (Lucas)
-> - Offload system clear page to GPU (Nirmoy)
-> - Remove dead kunit code (Jani Nikula)
-> - Refactor drvdata storing to help display (Jani Nikula)
-> - Cleanup unsused xe parameter in pte handling (Himal)
-> - Rename s/enable_display/probe_display/ for clarity (Lucas)
-> - Fix missing MCR annotation in couple of registers (Tejas)
-> - Fix DGFX display suspend/resume (Maarten)
-> - Prepare exec_queue_kill for PXP handling (Daniele)
-> - Fix devm/drmm issues (Daniele, Matthew Brost)
-> - Fix tile fini sequence (Brost)
-> - Fix crashes when probing without firmware in place (Daniele)
-> - Use xe_managed for kernel BOs (Daniele, Matthew Brost)
-> - Future-proof dss_per_group calculation by using hwconfig (Matt Roper)
-> - Use reserved copy engine for user binds on faulting devices
->   (Matthew Brost)
-> - Allow mixing dma-fence jobs and long-running faulting jobs (Francois)
-> - Cleanup redundant arg when creating use BO (Nirmoy)
-> - Prevent UAF around preempt fence (Auld)
-> - Fix display suspend/resume (Maarten)
-> - Use vma_pages() helper (Thorsten)
-> The following changes since commit a809b92ee0f84c3f655b16a8b4d04bc3665d954a:
 > 
->   Merge tag 'drm-intel-next-2024-08-13' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next (2024-08-16 12:56:42 +1000)
+> - Fix for #11396: GPU Hang and rcs0 reset on Cherrytrail platform
+> - Fix Virtual Memory mapping boundaries calculation (Andi)
+> - Fix for #11255: Long hangs in buddy allocator with DG2/A380 without
+>   Resizable BAR since 6.9 (David)
+> - Mark the GT as dead when mmio is unreliable (Chris, Andi)
+> - Workaround additions / fixes for MTL, ARL and DG2 (John H, Nitin)
+> - Enable partial memory mapping of GPU virtual memory (Andi, Chris)
+> 
+> - Prevent NULL deref on intel_memory_regions_hw_probe (Jonathan, Dan)
+> - Avoid UAF on intel_engines_release (Krzysztof)
+> 
+> - Don't update PWR_CLK_STATE starting Gen12 (Umesh)
+> - Code and dmesg cleanups (Andi, Jesus, Luca)
+> 
+> The following changes since commit 3b85152cb167bd24fe84ceb91b719b5904ca354f:
+> 
+>   drm/i915/gem: Suppress oom warning in favour of ENOMEM to userspace (2024-06-28 00:11:01 +0200)
 > 
 > are available in the Git repository at:
 > 
->   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2024-08-22
+>   https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2024-08-23
+
+Pulled, thanks.
+-Sima
+
 > 
-> for you to fetch changes up to 23683061805be368c8d1c7e7ff52abc470cac275:
+> for you to fetch changes up to 255fc1703e42321b5afdedc8259ad03c7cc533ec:
 > 
->   drm/xe/lnl: Offload system clear page activity to GPU (2024-08-19 17:49:00 +0200)
+>   drm/i915/gem: Calculate object page offset for partial memory mapping (2024-08-21 15:28:33 +0200)
 > 
 > ----------------------------------------------------------------
 > UAPI Changes:
-> - Fix OA format masks which were breaking build with gcc-5
 > 
-> Cross-subsystem Changes:
-> - drm/ttm: Add a flag to allow drivers to skip clear-on-free
+> - Limit the number of relocations to INT_MAX (Tvrtko)
+> 
+>   Only impact should be synthetic tests.
 > 
 > Driver Changes:
-> - Use dma_fence_chain_free in chain fence unused as a sync (Matthew Brost)
-> - Refactor hw engine lookup and mmio access to be used in more places
->   (Dominik, Matt Auld, Mika Kuoppala)
-> - Enable priority mem read for Xe2 and later (Pallavi Mishra)
-> - Fix PL1 disable flow in xe_hwmon_power_max_write (Karthik)
-> - Fix refcount and speedup devcoredump (Matthew Brost)
-> - Add performance tuning changes to Xe2 (Akshata, Shekhar)
-> - Fix OA sysfs entry (Ashutosh)
-> - Add first GuC firmware support for BMG (Julia)
-> - Bump minimum GuC firmware for platforms under force_probe to match LNL
->   and BMG (Julia)
-> - Fix access check on user fence creation (Nirmoy)
-> - Add/document workarounds for Xe2 (Julia, Daniele, John, Tejas)
-> - Document workaround and use proper WA infra (Matt Roper)
-> - Fix VF configuration on media GT (Michal Wajdeczko)
-> - Fix VM dma-resv lock (Matthew Brost)
-> - Allow suspend/resume exec queue backend op to be called multiple times
->   (Matthew Brost)
-> - Add GT stats to debugfs (Nirmoy)
-> - Add hwconfig to debugfs (Matt Roper)
-> - Compile out all debugfs code with ONFIG_DEUBG_FS=n (Lucas)
-> - Offload system clear page to GPU (Nirmoy)
-> - Remove dead kunit code (Jani Nikula)
-> - Refactor drvdata storing to help display (Jani Nikula)
-> - Cleanup unsused xe parameter in pte handling (Himal)
-> - Rename s/enable_display/probe_display/ for clarity (Lucas)
-> - Fix missing MCR annotation in couple of registers (Tejas)
-> - Fix DGFX display suspend/resume (Maarten)
-> - Prepare exec_queue_kill for PXP handling (Daniele)
-> - Fix devm/drmm issues (Daniele, Matthew Brost)
-> - Fix tile fini sequence (Brost)
-> - Fix crashes when probing without firmware in place (Daniele)
-> - Use xe_managed for kernel BOs (Daniele, Matthew Brost)
-> - Future-proof dss_per_group calculation by using hwconfig (Matt Roper)
-> - Use reserved copy engine for user binds on faulting devices
->   (Matthew Brost)
-> - Allow mixing dma-fence jobs and long-running faulting jobs (Francois)
-> - Cleanup redundant arg when creating use BO (Nirmoy)
-> - Prevent UAF around preempt fence (Auld)
-> - Fix display suspend/resume (Maarten)
-> - Use vma_pages() helper (Thorsten)
+> 
+> - Fix for #11396: GPU Hang and rcs0 reset on Cherrytrail platform
+> - Fix Virtual Memory mapping boundaries calculation (Andi)
+> - Fix for #11255: Long hangs in buddy allocator with DG2/A380 without
+>   Resizable BAR since 6.9 (David)
+> - Mark the GT as dead when mmio is unreliable (Chris, Andi)
+> - Workaround additions / fixes for MTL, ARL and DG2 (John H, Nitin)
+> - Enable partial memory mapping of GPU virtual memory (Andi, Chris)
+> 
+> - Prevent NULL deref on intel_memory_regions_hw_probe (Jonathan, Dan)
+> - Avoid UAF on intel_engines_release (Krzysztof)
+> 
+> - Don't update PWR_CLK_STATE starting Gen12 (Umesh)
+> - Code and dmesg cleanups (Andi, Jesus, Luca)
 > 
 > ----------------------------------------------------------------
-> Akshata Jahagirdar (1):
->       drm/xe/xe2: Introduce performance changes
+> Andi Shyti (6):
+>       drm/i915/gem: Adjust vma offset for framebuffer mmap offset
+>       drm/i915/gem: Fix Virtual Memory mapping boundaries calculation
+>       drm/i915/gem: Improve pfn calculation readability in vm_fault_gtt()
+>       drm/i915: Replace double blank with single blank after comma in gem/ and gt/
+>       drm/i915/gem: Do not look for the exact address in node
+>       drm/i915/gem: Calculate object page offset for partial memory mapping
 > 
-> Ashutosh Dixit (1):
->       drm/xe/observation: Drop empty sysctl table entry
+> Chris Wilson (1):
+>       drm/i915/gt: Mark the GT as dead when mmio is unreliable
 > 
-> Daniele Ceraolo Spurio (5):
->       drm/xe: fix WA 14018094691
->       drm/xe: Make exec_queue_kill safe to call twice
->       drm/xe: use devm instead of drmm for managed bo
->       drm/xe/uc: Use managed bo for HuC and GSC objects
->       drm/xe/uc: Use devm to register cleanup that includes exec_queues
+> David Gow (2):
+>       drm/i915: Allow evicting to use the requested placement
+>       drm/i915: Attempt to get pages without eviction first
 > 
-> Dominik Grzegorzek (2):
->       drm/xe: Move and export xe_hw_engine lookup.
->       drm/xe: Export xe_hw_engine's mmio accessors
+> Jesus Narvaez (1):
+>       drm/i915/guc: Change GEM_WARN_ON to guc_err to prevent taints in CI
 > 
-> Francois Dugast (11):
->       drm/xe/hw_engine_group: Introduce xe_hw_engine_group
->       drm/xe/guc_submit: Make suspend_wait interruptible
->       'drm/xe/hw_engine_group: Register hw engine group's exec queues
->       drm/xe/hw_engine_group: Add helper to suspend faulting LR jobs
->       drm/xe/exec_queue: Remove duplicated code
->       drm/xe/exec_queue: Prepare last fence for hw engine group resume context
->       drm/xe/hw_engine_group: Add helper to wait for dma fence jobs
->       drm/xe/hw_engine_group: Ensure safe transition between execution modes
->       drm/xe/exec: Switch hw engine group execution mode upon job submission
->       drm/xe/vm: Remove restriction that all VMs must be faulting if one is
->       drm/xe/device: Remove unused xe_device::usm::num_vm_in_*
+> John Harrison (2):
+>       drm/i915/arl: Enable Wa_14019159160 for ARL
+>       drm/i915/guc: Extend w/a 14019159160
 > 
-> Himal Prasad Ghimiray (1):
->       drm/xe: Remove unused xe parameter
+> Jonathan Cavitt (1):
+>       drm/i915: Allow NULL memory region
 > 
-> Jani Nikula (3):
->       drm/xe/tests: remove unused leftover xe_call_for_each_device()
->       drm/xe: use pdev_to_xe_device() instead of pci_get_drvdata() directly
->       drm/xe: add kdev_to_xe_device() helper and use it
+> Krzysztof Niemiec (1):
+>       drm/i915/gt: Empty uabi engines list during intel_engines_release()
 > 
-> Julia Filipchuk (3):
->       drm/xe/guc: Bump minimum required GuC version to v70.29.2
->       drm/xe/guc: Define GuC version v70.29.2 for BMG
->       drm/xe/guc: Enable w/a 14022293748 and 22019794406
+> Luca Coelho (1):
+>       drm/i915/gt: remove stray declaration of intel_gt_release_all()
 > 
-> Karthik Poosa (1):
->       drm/xe/hwmon: Fix PL1 disable flow in xe_hwmon_power_max_write
+> Nitin Gote (2):
+>       drm/i915/gt: Do not consider preemption during execlists_dequeue for gen8
+>       drm/i915/gt: Add Wa_14019789679
 > 
-> Lucas De Marchi (3):
->       drm/xe: Allow to compile out debugfs
->       drm/xe: Rename enable_display module param
->       Merge drm/drm-next into drm-xe-next
+> Tvrtko Ursulin (1):
+>       drm/i915: 2 GiB of relocations ought to be enough for anybody*
 > 
-> Maarten Lankhorst (2):
->       drm/xe/display: Match i915 driver suspend/resume sequences better
->       drm/xe/display: Make display suspend/resume work on discrete
+> Umesh Nerlige Ramappa (1):
+>       i915/perf: Remove code to update PWR_CLK_STATE for gen12
 > 
-> Matt Roper (3):
->       drm/xe: Name and document Wa_14019789679
->       drm/xe: Add debugfs to dump GuC's hwconfig
->       drm/xe/mcr: Try to derive dss_per_grp from hwconfig attributes
-> 
-> Matthew Auld (2):
->       drm/xe: fix engine_class bounds check again
->       drm/xe: prevent UAF around preempt fence
-> 
-> Matthew Brost (14):
->       drm/xe: Use dma_fence_chain_free in chain fence unused as a sync
->       drm/xe: Take ref to VM in delayed snapshot
->       drm/printer: Allow NULL data in devcoredump printer
->       drm/xe: Faster devcoredump
->       drm/xe: Only check last fence on user binds
->       drm/xe: Move VM dma-resv lock from xe_exec_queue_create to __xe_exec_queue_init
->       drm/xe: Add xe_sched_msg_lock/unlock helper
->       drm/xe: Reinit msg link when processing a message
->       drm/xe: Add xe_sched_add_msg_locked helper
->       drm/xe: Only enable scheduling upon resume if needed
->       drm/xe: Allow suspend / resume to be safely called multiple times
->       drm/xe: Fix tile fini sequence
->       drm/xe: Use for_each_remote_tile rather than manual check
->       drm/xe: Use reserved copy engine for user binds on faulting devices
-> 
-> Michal Wajdeczko (1):
->       drm/xe/pf: Fix VF config validation on multi-GT platforms
-> 
-> Mika Kuoppala (1):
->       drm/xe: Add kernel doc for xe_hw_engine_lookup
-> 
-> Nirmoy Das (7):
->       drm/xe: Fix access_ok check in user_fence_create
->       drm/xe/gt: Add APIs for printing stats over debugfs
->       drm/xe: Add stats for tlb invalidation count
->       drm/xe/migrate: Parameterize ccs and bo data clear in xe_migrate_clear()
->       drm/xe: Remove redundant param from xe_bo_create_user
->       drm/ttm: Add a flag to allow drivers to skip clear-on-free
->       drm/xe/lnl: Offload system clear page activity to GPU
-> 
-> Pallavi Mishra (1):
->       drm/xe/xe2: Enable Priority Mem Read
-> 
-> Shekhar Chauhan (1):
->       drm/xe/xe2: Add performance turning changes
-> 
-> Tejas Upadhyay (4):
->       drm/xe/xe2hpg: Add Wa_14021821874
->       drm/xe: Move enable host l2 VRAM post MCR init
->       drm/xe: Write all slices if its mcr register
->       drm/xe: Define STATELESS_COMPRESSION_CTRL as mcr register
-> 
-> Thorsten Blum (1):
->       drm/xe/oa: Use vma_pages() helper function in xe_oa_mmap()
-> 
->  drivers/gpu/drm/drm_print.c                   |  13 +-
->  drivers/gpu/drm/ttm/ttm_pool.c                |  18 +-
->  drivers/gpu/drm/xe/Makefile                   |  18 +-
->  drivers/gpu/drm/xe/abi/guc_klvs_abi.h         |   1 +
->  drivers/gpu/drm/xe/display/xe_display.c       |  88 ++++--
->  drivers/gpu/drm/xe/regs/xe_engine_regs.h      |   1 +
->  drivers/gpu/drm/xe/regs/xe_gt_regs.h          |  10 +-
->  drivers/gpu/drm/xe/tests/xe_bo.c              |   8 +-
->  drivers/gpu/drm/xe/tests/xe_dma_buf.c         |   2 +-
->  drivers/gpu/drm/xe/tests/xe_migrate.c         |  24 +-
->  drivers/gpu/drm/xe/tests/xe_pci.c             |  52 ----
->  drivers/gpu/drm/xe/tests/xe_pci_test.h        |   1 -
->  drivers/gpu/drm/xe/xe_bo.c                    |  48 +++-
->  drivers/gpu/drm/xe/xe_bo.h                    |   1 -
->  drivers/gpu/drm/xe/xe_debugfs.h               |   4 +
->  drivers/gpu/drm/xe/xe_devcoredump.c           | 111 +++++---
->  drivers/gpu/drm/xe/xe_devcoredump_types.h     |   8 +
->  drivers/gpu/drm/xe/xe_device.c                |   5 +-
->  drivers/gpu/drm/xe/xe_device.h                |  15 +-
->  drivers/gpu/drm/xe/xe_device_types.h          |  17 +-
->  drivers/gpu/drm/xe/xe_exec.c                  |  20 +-
->  drivers/gpu/drm/xe/xe_exec_queue.c            | 237 ++++++++--------
->  drivers/gpu/drm/xe/xe_exec_queue.h            |   8 +-
->  drivers/gpu/drm/xe/xe_exec_queue_types.h      |   4 +-
->  drivers/gpu/drm/xe/xe_gpu_scheduler.c         |  23 +-
->  drivers/gpu/drm/xe/xe_gpu_scheduler.h         |  12 +
->  drivers/gpu/drm/xe/xe_gsc.c                   |  20 +-
->  drivers/gpu/drm/xe/xe_gsc_proxy.c             |  45 +---
->  drivers/gpu/drm/xe/xe_gt.c                    |  10 +-
->  drivers/gpu/drm/xe/xe_gt_debugfs.c            |  13 +
->  drivers/gpu/drm/xe/xe_gt_mcr.c                |  40 ++-
->  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c    |  11 +-
->  drivers/gpu/drm/xe/xe_gt_stats.c              |  49 ++++
->  drivers/gpu/drm/xe/xe_gt_stats.h              |  29 ++
->  drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c   |   2 +
->  drivers/gpu/drm/xe/xe_gt_types.h              |  15 ++
->  drivers/gpu/drm/xe/xe_guc.h                   |  10 +
->  drivers/gpu/drm/xe/xe_guc_ads.c               |   6 +
->  drivers/gpu/drm/xe/xe_guc_hwconfig.c          |  97 +++++++
->  drivers/gpu/drm/xe/xe_guc_hwconfig.h          |   3 +
->  drivers/gpu/drm/xe/xe_guc_submit.c            |  62 +++--
->  drivers/gpu/drm/xe/xe_huc.c                   |  19 +-
->  drivers/gpu/drm/xe/xe_hw_engine.c             | 145 +++++++---
->  drivers/gpu/drm/xe/xe_hw_engine.h             |  10 +
->  drivers/gpu/drm/xe/xe_hw_engine_group.c       | 372 ++++++++++++++++++++++++++
->  drivers/gpu/drm/xe/xe_hw_engine_group.h       |  29 ++
->  drivers/gpu/drm/xe/xe_hw_engine_group_types.h |  51 ++++
->  drivers/gpu/drm/xe/xe_hw_engine_types.h       |   2 +
->  drivers/gpu/drm/xe/xe_hwmon.c                 |   3 +-
->  drivers/gpu/drm/xe/xe_lrc.c                   |  50 +++-
->  drivers/gpu/drm/xe/xe_migrate.c               |  29 +-
->  drivers/gpu/drm/xe/xe_migrate.h               |   7 +-
->  drivers/gpu/drm/xe/xe_mmio.c                  |   4 +-
->  drivers/gpu/drm/xe/xe_module.c                |   6 +-
->  drivers/gpu/drm/xe/xe_module.h                |   2 +-
->  drivers/gpu/drm/xe/xe_oa.c                    |   3 +-
->  drivers/gpu/drm/xe/xe_observation.c           |   1 -
->  drivers/gpu/drm/xe/xe_pci.c                   |  10 +-
->  drivers/gpu/drm/xe/xe_pm.c                    |  11 +-
->  drivers/gpu/drm/xe/xe_preempt_fence.c         |   3 +-
->  drivers/gpu/drm/xe/xe_preempt_fence_types.h   |   2 +
->  drivers/gpu/drm/xe/xe_pt.c                    |  10 +-
->  drivers/gpu/drm/xe/xe_sync.c                  |   4 +-
->  drivers/gpu/drm/xe/xe_ttm_sys_mgr.c           |  12 +
->  drivers/gpu/drm/xe/xe_tuning.c                |  13 +-
->  drivers/gpu/drm/xe/xe_uc_fw.c                 |  28 +-
->  drivers/gpu/drm/xe/xe_vm.c                    |  53 +---
->  drivers/gpu/drm/xe/xe_wa.c                    |   4 +
->  drivers/gpu/drm/xe/xe_wa_oob.rules            |   6 +
->  include/drm/drm_print.h                       |  54 +++-
->  include/drm/ttm/ttm_tt.h                      |   6 +-
->  71 files changed, 1585 insertions(+), 525 deletions(-)
->  create mode 100644 drivers/gpu/drm/xe/xe_gt_stats.c
->  create mode 100644 drivers/gpu/drm/xe/xe_gt_stats.h
->  create mode 100644 drivers/gpu/drm/xe/xe_hw_engine_group.c
->  create mode 100644 drivers/gpu/drm/xe/xe_hw_engine_group.h
->  create mode 100644 drivers/gpu/drm/xe/xe_hw_engine_group_types.h
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  4 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_mman.c           | 73 +++++++++++++++++++---
+>  drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c            | 13 ++--
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  2 +
+>  .../gpu/drm/i915/gt/intel_execlists_submission.c   |  6 +-
+>  drivers/gpu/drm/i915/gt/intel_gpu_commands.h       |  1 +
+>  drivers/gpu/drm/i915/gt/intel_gt.h                 |  7 ++-
+>  drivers/gpu/drm/i915/gt/intel_gt_types.h           |  2 +
+>  drivers/gpu/drm/i915/gt/intel_reset.c              | 12 +++-
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c        | 16 ++++-
+>  drivers/gpu/drm/i915/gt/selftest_migrate.c         |  2 +-
+>  drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h      |  1 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  2 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         | 18 +++---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  5 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  2 +-
+>  drivers/gpu/drm/i915/i915_mm.c                     | 12 +++-
+>  drivers/gpu/drm/i915/i915_mm.h                     |  3 +-
+>  drivers/gpu/drm/i915/i915_perf.c                   | 33 ----------
+>  drivers/gpu/drm/i915/intel_memory_region.c         |  6 +-
+>  drivers/gpu/drm/i915/intel_uncore.c                |  7 ++-
+>  .../gpu/drm/i915/selftests/intel_memory_region.c   |  2 +-
+>  23 files changed, 150 insertions(+), 81 deletions(-)
 
 -- 
 Daniel Vetter
