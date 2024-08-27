@@ -2,83 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922F09618AA
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 22:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B830F9618B7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 22:46:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D80E710E410;
-	Tue, 27 Aug 2024 20:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296CF10E41B;
+	Tue, 27 Aug 2024 20:46:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PS+cWT51";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aEs830M2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C692010E3FB;
- Tue, 27 Aug 2024 20:45:41 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47RJl3mK004588;
- Tue, 27 Aug 2024 20:45:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- bQaoOhm2fyYx+icjXg5dOFhbPQs+X5Q7zfJoFBqlsQI=; b=PS+cWT51F0Eak4Md
- mPl2ueeSSbnogPX/fnFx15fyYjkE8c1MVbfmeGKK3sLWR2AVF/Oz1r/NuosAokPI
- ufZzZ9pf/UtMHSmbWwpXUDQ9xK4sSlOXPXOr6y6hXgbfABzUVs0qEGN5MnNeYG9q
- 98N3nnVVSkLlNSvxcRq7AGA76dXRyrxYh18E4cQ+loWGCqK4D3rP0+ITqLEiIX8q
- BIcUU/TbeSOaJrksz/bRF6P2PngfuBJac2IVh0V5EoV3o+OjEgZQjaUJKRObmOIb
- NqOa8yrfOUcLFN+XYLChs1t62VDYLVc119wcTAWzYFNGoZ/4IRkcGReWITrAPyha
- OhSi1w==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4199yt25wf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Aug 2024 20:45:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47RKjb4w022552
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Aug 2024 20:45:37 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 27 Aug
- 2024 13:45:37 -0700
-Message-ID: <b2607783-8453-49e5-b26f-0a918fde2478@quicinc.com>
-Date: Tue, 27 Aug 2024 13:45:36 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033E910E3FB;
+ Tue, 27 Aug 2024 20:46:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724791602; x=1756327602;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=YTkJp8Iu637uUW04s6GokQ8p6QADcNEF8Mi8hZB4CEs=;
+ b=aEs830M2bxe75vcH54ZQfxID41FnJ7CNgeY+BVzkCNZXRNu6zKgYbH1y
+ yhUXXVeUkBAchNra7NULZhvklxH8hLmdTzd7ns2SPEe8sJ6m1SQZCbvZn
+ auEJlDxfehvj8H8LAO73ELFfPeHWBHIFSsN+EaAQ40gmdHGbmNP3ec3aS
+ SkLiYgc5w/udHrEYRhUlBSynN9cul5cQqw9ClqsTGWezK0GcMf+I2R5O3
+ dhEY1r/RQIdK3AvtLnVxpn8IrpfRj06XvBZEBDtJmjqM6QlWDdGYIGJgZ
+ VIyqhg07K+dpjQx53VMRz85PguZR+tgxd0bDF5i5usRIRrgNQ/Bq0XJFH Q==;
+X-CSE-ConnectionGUID: xDsrKe7xQW6QviQrFgnQxQ==
+X-CSE-MsgGUID: OOUDdhFgSdyosC0jM1nVDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="45813032"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="45813032"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2024 13:46:41 -0700
+X-CSE-ConnectionGUID: LoZcVP5GTL6zaBH5/GiZWQ==
+X-CSE-MsgGUID: pnxoaLPqSXCBV+p+igts8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="67350699"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2024 13:46:42 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: gustavo.sousa@intel.com, jani.nikula@linux.intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/xe: Support 'nomodeset' kernel command-line option
+Date: Tue, 27 Aug 2024 13:46:32 -0700
+Message-ID: <172479156026.1724247.3114758407435759625.b4-ty@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240827121003.97429-1-tzimmermann@suse.de>
+References: <20240827121003.97429-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/12] drm/msm/dpu: move pstate->pipe initialization to
- dpu_plane_atomic_check
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240627-dpu-virtual-wide-v5-0-5efb90cbb8be@linaro.org>
- <20240627-dpu-virtual-wide-v5-5-5efb90cbb8be@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240627-dpu-virtual-wide-v5-5-5efb90cbb8be@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: gBI1Tm8qXzJuksKPGQnG9ULZDZyPeEUO
-X-Proofpoint-ORIG-GUID: gBI1Tm8qXzJuksKPGQnG9ULZDZyPeEUO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-27_10,2024-08-27_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- suspectscore=0 malwarescore=0 spamscore=0 impostorscore=0 clxscore=1015
- bulkscore=0 priorityscore=1501 mlxscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408270153
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,17 +73,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 6/26/2024 2:45 PM, Dmitry Baryshkov wrote:
-> In preparation for virtualized planes support, move pstate->pipe
-> initialization from dpu_plane_reset() to dpu_plane_atomic_check(). In
-> case of virtual planes the plane's pipe will not be known up to the
-> point of atomic_check() callback.
+On Tue, 27 Aug 2024 14:09:05 +0200, Thomas Zimmermann wrote:
+> Setting 'nomodeset' on the kernel command line disables all graphics
+> drivers with modesetting capabilities, leaving only firmware drivers,
+> such as simpledrm or efifb.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 25 +++++++++++--------------
->   1 file changed, 11 insertions(+), 14 deletions(-)
+> Most DRM drivers automatically support 'nomodeset' via DRM's module
+> helper macros. In xe, which uses regular module_init(), manually call
+> drm_firmware_drivers_only() to test for 'nomodeset'. Do not register
+> the driver if set.
 > 
+> [...]
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Applied to drm-xe-next, thanks!
+
+[1/1] drm/xe: Support 'nomodeset' kernel command-line option
+      commit: 014125c64d09e58e90dde49fbb57d802a13e2559
+
+Best regards,
+-- 
+Lucas De Marchi <lucas.demarchi@intel.com>
