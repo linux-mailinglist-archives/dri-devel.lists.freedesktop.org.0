@@ -2,93 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC65960286
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 08:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B15960293
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 08:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7843710E2A0;
-	Tue, 27 Aug 2024 06:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 788A510E2A4;
+	Tue, 27 Aug 2024 06:57:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="V7QSNOFn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FPb6yIgK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V7QSNOFn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FPb6yIgK";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="vMWSWPjU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AJnLOK7P";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vMWSWPjU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AJnLOK7P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D43110E297;
- Tue, 27 Aug 2024 06:54:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856B010E2A4;
+ Tue, 27 Aug 2024 06:57:17 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F1DEB21AF8;
- Tue, 27 Aug 2024 06:54:32 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2F85821AFB;
+ Tue, 27 Aug 2024 06:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724741673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1724741836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=giPvPx5Q49oVDT0Zi/A4xSlGRTcdYaHOBuSaEFtOay0=;
- b=V7QSNOFnaDTvfT36NvCE6sdiClEZg6kMPaujlQqNMdUdWWL8zQGPna4LJf/Yg2lpOkzYcB
- 1byw23mB0v+0M9YZWku0f8fXyAgIUBTcp212F/Spq9f2IB3lva0cd5DX16c4MPMiTD7UtM
- FDnertu7U6Fw+L0fyiMCQfXb+Ze/4Kk=
+ bh=hYBWBuGQGVoIMqDsVDjCgCorhqQl1NYnS/tP5hD7rWo=;
+ b=vMWSWPjUvjGgC2rOZ2synym9zQ+jABAmUnujcYRwm8InRbXrp5dfjFZaNx4gbF3G+7sELU
+ T4faF7f0t9VBsOLBaNVzi5RN3RmzJ54VOaSYFWt1MjcAvFAZTEQgYTiHYYor1VtJxaeSDT
+ PN6HjBzFqFsAhdIW7N5tdv1WuHbzj2U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724741673;
+ s=susede2_ed25519; t=1724741836;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=giPvPx5Q49oVDT0Zi/A4xSlGRTcdYaHOBuSaEFtOay0=;
- b=FPb6yIgKPbsmwJ0n4A1SE/l5xjtNiNjltqmaa3pKFGn4PX4jgkzt5bXUK48+h85RV1eVnF
- quHeAsvL6W2tesAw==
+ bh=hYBWBuGQGVoIMqDsVDjCgCorhqQl1NYnS/tP5hD7rWo=;
+ b=AJnLOK7P/jbX7yB3Mf2jyP4k37pdU90wmElAGGic9Id0GJ0kEWpq3LPXwNWtIwVP6K/S0U
+ JP0c/t4JPOylTSCw==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=V7QSNOFn;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FPb6yIgK
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1724741673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1724741836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=giPvPx5Q49oVDT0Zi/A4xSlGRTcdYaHOBuSaEFtOay0=;
- b=V7QSNOFnaDTvfT36NvCE6sdiClEZg6kMPaujlQqNMdUdWWL8zQGPna4LJf/Yg2lpOkzYcB
- 1byw23mB0v+0M9YZWku0f8fXyAgIUBTcp212F/Spq9f2IB3lva0cd5DX16c4MPMiTD7UtM
- FDnertu7U6Fw+L0fyiMCQfXb+Ze/4Kk=
+ bh=hYBWBuGQGVoIMqDsVDjCgCorhqQl1NYnS/tP5hD7rWo=;
+ b=vMWSWPjUvjGgC2rOZ2synym9zQ+jABAmUnujcYRwm8InRbXrp5dfjFZaNx4gbF3G+7sELU
+ T4faF7f0t9VBsOLBaNVzi5RN3RmzJ54VOaSYFWt1MjcAvFAZTEQgYTiHYYor1VtJxaeSDT
+ PN6HjBzFqFsAhdIW7N5tdv1WuHbzj2U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1724741673;
+ s=susede2_ed25519; t=1724741836;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=giPvPx5Q49oVDT0Zi/A4xSlGRTcdYaHOBuSaEFtOay0=;
- b=FPb6yIgKPbsmwJ0n4A1SE/l5xjtNiNjltqmaa3pKFGn4PX4jgkzt5bXUK48+h85RV1eVnF
- quHeAsvL6W2tesAw==
+ bh=hYBWBuGQGVoIMqDsVDjCgCorhqQl1NYnS/tP5hD7rWo=;
+ b=AJnLOK7P/jbX7yB3Mf2jyP4k37pdU90wmElAGGic9Id0GJ0kEWpq3LPXwNWtIwVP6K/S0U
+ JP0c/t4JPOylTSCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A28BC13724;
- Tue, 27 Aug 2024 06:54:32 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA81C13724;
+ Tue, 27 Aug 2024 06:57:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id WPIOJih4zWZ8bwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 27 Aug 2024 06:54:32 +0000
-Message-ID: <4f4109db-17af-45db-8bbf-86afd9868dcd@suse.de>
-Date: Tue, 27 Aug 2024 08:54:32 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cSBYKMt4zWZycAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Aug 2024 06:57:15 +0000
+Message-ID: <c9c9e482-f80c-4158-8dc4-695f8e0c62cd@suse.de>
+Date: Tue, 27 Aug 2024 08:57:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe: Support 'nomodeset' kernel command-line option
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- rodrigo.vivi@intel.com, thomas.hellstrom@linux.intel.com,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20240821135750.102117-1-tzimmermann@suse.de>
- <172424976000.2071.18125280900868355577@gjsousa-mobl2>
- <87plq23q6m.fsf@intel.com> <35a03177-28a8-4d8f-9e56-d48298a4edab@suse.de>
- <wyulgaj5eu7nefctyr4htepihk2hxv6qvghma2r6czlr75raf3@3t7vvv4fhec7>
+Subject: Re: [PATCH] drm: Fix kerneldoc for "Returns" section
+To: Andi Shyti <andi.shyti@linux.intel.com>, renjun wang <renjunw0@foxmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tursulin@ursulin.net, lyude@redhat.com, imre.deak@intel.com,
+ Wayne.Lin@amd.com, ville.syrjala@linux.intel.com, vidya.srinivas@intel.com,
+ jouni.hogander@intel.com, janusz.krzysztofik@linux.intel.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+References: <tencent_37A873672B5CD20DECAF99DEDAC5E45C3106@qq.com>
+ <Zsz9pwQ3m9zHrjo-@ashyti-mobl2.lan>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -115,35 +113,25 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <wyulgaj5eu7nefctyr4htepihk2hxv6qvghma2r6czlr75raf3@3t7vvv4fhec7>
+In-Reply-To: <Zsz9pwQ3m9zHrjo-@ashyti-mobl2.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: F1DEB21AF8
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
+ RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[foxmail.com,gmail.com];
+ MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[20]; TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[linux.intel.com,foxmail.com];
+ MID_RHS_MATCH_FROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,intel.com,ursulin.net,redhat.com,amd.com,lists.freedesktop.org,vger.kernel.org];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FREEMAIL_CC(0.00)[linux.intel.com,intel.com,gmail.com,ffwll.ch,kernel.org,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, suse.de:dkim, suse.de:mid,
- suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -163,116 +151,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 27.08.24 um 05:59 schrieb Lucas De Marchi:
-> On Wed, Aug 21, 2024 at 04:48:23PM GMT, Thomas Zimmermann wrote:
->> Hi
+Am 27.08.24 um 00:11 schrieb Andi Shyti:
+> Hi Renjun,
+>
+> On Sat, Aug 24, 2024 at 04:36:34PM +0800, renjun wang wrote:
+>> The blank line between title "Returns:" and detail description is not
+>> allowed, otherwise the title will goes under the description block in
+>> generated .html file after running `make htmldocs`.
 >>
->> Am 21.08.24 um 16:29 schrieb Jani Nikula:
->>> On Wed, 21 Aug 2024, Gustavo Sousa <gustavo.sousa@intel.com> wrote:
->>>> Quoting Thomas Zimmermann (2024-08-21 10:56:59-03:00)
->>>>> Setting 'nomodeset' on the kernel command line disables all graphics
->>>>> drivers with modesetting capabilities; leaving only firmware drivers,
->>>>> such as simpledrm or efifb.
->>>>>
->>>>> Most DRM drivers automatically support 'nomodeset' via DRM's module
->>>>> helper macros. In xe, which uses regular module_init(), manually call
->>>>> drm_firmware_drivers_only() to test for 'nomodeset'. Do not register
->>>>> the driver if set.
->>>>>
->>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> ---
->>>>> drivers/gpu/drm/xe/xe_module.c | 5 +++++
->>>>> 1 file changed, 5 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/xe/xe_module.c 
->>>>> b/drivers/gpu/drm/xe/xe_module.c
->>>>> index 923460119cec..60fb7dd26903 100644
->>>>> --- a/drivers/gpu/drm/xe/xe_module.c
->>>>> +++ b/drivers/gpu/drm/xe/xe_module.c
->>>>> @@ -8,6 +8,8 @@
->>>>> #include <linux/init.h>
->>>>> #include <linux/module.h>
->>>>>
->>>>> +#include <drm/drm_module.h>
->>>>> +
->>>>> #include "xe_drv.h"
->>>>> #include "xe_hw_fence.h"
->>>>> #include "xe_pci.h"
->>>>> @@ -92,6 +94,9 @@ static int __init xe_init(void)
->>>>> {
->>>>>         int err, i;
->>>>>
->>>>> +        if (drm_firmware_drivers_only())
->>>>> +                return -ENODEV;
->>>>> +
->>>> Hm... But what if xe is to be used only for compute or render? 
->>>> Shouldn't
->>>> we handle this somewhere else?
->>> The question becomes, what does "nomodeset" really mean here?
+>> There are a few examples for current kerneldoc:
+>> https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#c.drm_crtc_commit_wait
+>> https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#c.drm_atomic_get_crtc_state
+>> https://www.kernel.org/doc/html/latest/gpu/i915.html#c.i915_vma_pin_fence
 >>
->> That function's name 'firmware drivers only' says it better than the 
->> option's name. We used 'nomodeset', because it was there already and 
->> had the correct semantics.
->
-> agreed this should be on a module-level to maintain the behavior already
-> used. If we were not maintaining that behavior, then we should probably
-> not use "nomodeset" and choose something else :).
->
-> Also we already have the other 2 as module params:  probe_display and
-> disable_display, with driver still registering as a drm driver, but
-> leaving the display part out.
->
-> Thomas, are you going to send a v2 to use the init table?
+>> Signed-off-by: renjun wang <renjunw0@foxmail.com>
+>> ---
+>>   drivers/gpu/drm/display/drm_dp_mst_topology.c | 4 ----
+>>   drivers/gpu/drm/drm_atomic.c                  | 6 ------
+>>   drivers/gpu/drm/drm_atomic_helper.c           | 2 --
+>>   drivers/gpu/drm/drm_file.c                    | 7 -------
+>>   drivers/gpu/drm/drm_gem.c                     | 7 ++-----
+>>   drivers/gpu/drm/drm_modes.c                   | 1 -
+>>   drivers/gpu/drm/drm_rect.c                    | 1 -
+>>   drivers/gpu/drm/drm_vblank.c                  | 2 --
+>>   drivers/gpu/drm/i915/gem/i915_gem_object.h    | 1 -
+>>   drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c  | 1 -
+>>   drivers/gpu/drm/i915/i915_vma.h               | 1 -
+>>   11 files changed, 2 insertions(+), 31 deletions(-)
+> next time, please, split the series so that each component goes
+> to the right branch.
 
-Sure, in a bit.
+My fault. Apologies if I crossed a line by just merging it into 
+drm-misc. It's just doc syntax, so I didn't think it was a big deal.
 
 Best regards
 Thomas
 
 >
-> thanks
-> Lucas De Marchi
->
->>
->>>
->>> See what i915 does in i915_module.c.
->>
->> i915 and the other drivers for PCI-based hardware don't load at all. 
->> Drivers for external displays (e.g., SPI, USB) ignore nomodeset, as 
->> these displays are not initialized by firmware.
->>
->> Best regards
->> Thomas
->>
->>>
->>> Cc: Sima.
->>>
->>> BR,
->>> Jani.
->>>
->>>
->>>
->>>> Taking a quick look, xe_display_probe() might be a good candidate?
->>>>
->>>> -- 
->>>> Gustavo Sousa
->>>>
->>>>>         for (i = 0; i < ARRAY_SIZE(init_funcs); i++) {
->>>>>                 err = init_funcs[i].init();
->>>>>                 if (err) {
->>>>> -- 
->>>>> 2.46.0
->>>>>
->>
->> -- 
->> -- 
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->>
+> Andi
 
 -- 
 --
