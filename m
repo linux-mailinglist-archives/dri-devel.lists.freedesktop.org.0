@@ -2,92 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54E4961878
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 22:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B0296187F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2024 22:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8603D10E3FA;
-	Tue, 27 Aug 2024 20:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0EE10E404;
+	Tue, 27 Aug 2024 20:28:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VXiT7SjQ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=helen.koike@collabora.com header.b="hI48h1WD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3067B10E3FA;
- Tue, 27 Aug 2024 20:25:32 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a868831216cso684182566b.3; 
- Tue, 27 Aug 2024 13:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724790330; x=1725395130; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=K1S0R3Tsboq9f6ZxXIsz+JWCDez7fEOp5R3ignLWd2g=;
- b=VXiT7SjQXgoMyZzKlmNes7e0b1zA85/fBgERO2lMfaEqE4X0NSghFO6jQa4FJ6OXCB
- +x7OMOJ/tLi4kdFDXkfwhIZSd6QtqaV0ahGkR0FyIei81Mf71jDtRrFruQZbdOKHxbAO
- +4WLh8IUYbqCHHfBXxVHs+1OSxf6g5/dozij+aPNs2svjMrJPeCAcd+VJwV9EkOza1e3
- SORwuDtuqXeque8Nqu0GkK4umBXc8JysgS349PTkrjiDlxsUd0xocd5BOzbXs/8gIuB0
- ulvO5Cu2HTAOi8SaEjT0p0lF8l/ZZCrssSPQqDtk1sFjRP6LuxkLrK/UL6aPsX5BcOUN
- L+HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724790330; x=1725395130;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K1S0R3Tsboq9f6ZxXIsz+JWCDez7fEOp5R3ignLWd2g=;
- b=nQPQ7c0GXSLO9+1NKrh9xF9rMqK51/sr1MPT/8KQ3pUMRkZ3zXfMcxissd+uz5tzNh
- p9e9gJMohW/S9xiAVAMsKgUiXRZ3s3wJoeD+b6gNkrRr+lqzE0cMwffGuGtIJzNRL7qD
- WbpPXZFtLqz3iyhkdAop6ahS2QKPpYhkpg2B+GBzlsxNMlmVYypMFt66ODXDlucYMSWg
- Ap6VMlpytQXNw0kmO0Jfvc7tFosujDgJeH7LTddeUGGF6t82WV6JlepNDdqkg3mZPf5b
- abT9VJDXqyd1QTVIIv9sUVjrRo9E5gwC5xOKgKCBhfMLmOtL1FTkw0crsB4zAaQ4Co3n
- JTRg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVEibMOe9jwz1WNLLBbNyKRuhfcvj+uvWlDnPVnnaY5+vxFcspveCwGeMFlgiIJ5CYAyo2Sue8nRkY=@lists.freedesktop.org,
- AJvYcCWkIVpZR+hKrhweE/XCCo1stme6lVWbRGXzQAccv5SM6LkmCpeZVYT5E2LAcg4DlQp8yj/5ipgrCcKl@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHJC+aaA3i1UBsI8LJ0IQgGsPsE40e0pJnHAR16Ph9P9b+dfWU
- /2mAYiKgT6ezDEV+OljxQAns1e2tryMCaHnOmK04cqsScpk4sg3j
-X-Google-Smtp-Source: AGHT+IHYr2Isp4SrehIxVOF2itRQBjAnp3RlVSfqAQ04TR2Run1LZayMQtfINtPXvD1sQMdwvt9w4w==
-X-Received: by 2002:a17:907:f1d8:b0:a7a:b4bd:d0eb with SMTP id
- a640c23a62f3a-a86a5199bd9mr994403466b.24.1724790329979; 
- Tue, 27 Aug 2024 13:25:29 -0700 (PDT)
-Received: from [192.168.1.15] (host-87-18-175-92.retail.telecomitalia.it.
- [87.18.175.92]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a86e5954a88sm150233366b.224.2024.08.27.13.25.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Aug 2024 13:25:29 -0700 (PDT)
-Message-ID: <d95ef763-7237-4080-b323-838ca337734a@gmail.com>
-Date: Tue, 27 Aug 2024 22:25:27 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F26710E404;
+ Tue, 27 Aug 2024 20:28:04 +0000 (UTC)
+Delivered-To: vignesh.raman@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1724790480; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Aya30ztD33wDitnB3E5Gn+IYVWfddnFNtZwWR4Z/GYc/NTc4LqyK/XEhTgm7ailY6rJKItNYBd/VB14kTXRNB5birLM3a7WFCPi5rZYvBpdJVssJwFlmyfJI9uQ7q/ztXjQwKCMFKKbSA0bxO7So7c6xWW07RuSK2A1R08jXkDo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1724790480;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=vSjUVm1BVHx+k1tFoVAnnPQhkPlOOk9eSfEVMqyqIEY=; 
+ b=Etx//QWRTu3HlBQryriesvrIEINJornZf9rpjNIxM3SwhFaOuf+jX95Yis3yJTCJU63WAKIyTX8pLw2oy9YGJrvoDytcl94RrdY4Ycb1kIthriVX2KmlipBO9sbxLaJxhL570HOW9lR/56evwrN7yFpc8LO2jWjrXcGe1BWGn0s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=helen.koike@collabora.com;
+ dmarc=pass header.from=<helen.koike@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724790480; 
+ s=zohomail; d=collabora.com; i=helen.koike@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=vSjUVm1BVHx+k1tFoVAnnPQhkPlOOk9eSfEVMqyqIEY=;
+ b=hI48h1WDy87pOMX099fASJTZhXMXCO9sEwV9KBM6EfWRIvETtevOgQMj6/okJmfE
+ wXivfv2WtL0RIFAFVAtZ8qayYLD6kLZigOMut2jyKU4CPY+WcdBRNKSKftx+kUhhanY
+ HUs/4BwTFTMWQg9V8bYsxQvUQP4+pIx5NxK33DVQ=
+Received: from mail.zoho.com by mx.zohomail.com
+ with SMTP id 1724790478227916.9458842035166;
+ Tue, 27 Aug 2024 13:27:58 -0700 (PDT)
+Date: Tue, 27 Aug 2024 17:27:58 -0300
+From: Helen Mae Koike Fornazier <helen.koike@collabora.com>
+To: "Vignesh Raman" <vignesh.raman@collabora.com>
+Cc: "dri-devel" <dri-devel@lists.freedesktop.org>,
+ "daniels" <daniels@collabora.com>, "airlied" <airlied@gmail.com>,
+ "daniel" <daniel@ffwll.ch>, "robdclark" <robdclark@gmail.com>,
+ "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
+ "deborah.brouwer" <deborah.brouwer@collabora.com>,
+ "linux-mediatek" <linux-mediatek@lists.infradead.org>,
+ "linux-amlogic" <linux-amlogic@lists.infradead.org>,
+ "linux-rockchip" <linux-rockchip@lists.infradead.org>,
+ "amd-gfx" <amd-gfx@lists.freedesktop.org>,
+ "linux-arm-msm" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx" <intel-gfx@lists.freedesktop.org>,
+ "virtualization" <virtualization@lists.linux.dev>,
+ "linux-kernel" <linux-kernel@vger.kernel.org>
+Message-ID: <1919586153a.1236d9a3a2810380.346109493548527669@collabora.com>
+In-Reply-To: <20240820070818.1124403-1-vignesh.raman@collabora.com>
+References: <20240820070818.1124403-1-vignesh.raman@collabora.com>
+Subject: Re: [PATCH v1] drm/ci: increase timeout for all jobs
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Connor Abbott <cwabbott0@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>
-References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
- <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
- <20240819200837.etzn7oaoamnceigr@hu-akhilpo-hyd.qualcomm.com>
- <CACu1E7E7FPJP-Ry64m257A7WrL3Q9jy8xMS9XpSBRNimBWzYUQ@mail.gmail.com>
- <20240822200534.fgugb3zmcp7hjyck@hu-akhilpo-hyd.qualcomm.com>
- <CACu1E7F068sAMFgn=D7qBGM81qvYP4iW1+hXpfXVKtQGWeyTKQ@mail.gmail.com>
- <CACu1E7EueMnte9e+yLEtRE9WmG0J5bVMj59VbPfkDeB7OHbsAw@mail.gmail.com>
- <20240827194828.jxwelq4xr2wsdxos@hu-akhilpo-hyd.qualcomm.com>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <20240827194828.jxwelq4xr2wsdxos@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,86 +81,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/27/24 9:48 PM, Akhil P Oommen wrote:
-> On Fri, Aug 23, 2024 at 10:23:48AM +0100, Connor Abbott wrote:
->> On Fri, Aug 23, 2024 at 10:21 AM Connor Abbott <cwabbott0@gmail.com> wrote:
->>>
->>> On Thu, Aug 22, 2024 at 9:06 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>>
->>>> On Wed, Aug 21, 2024 at 05:02:56PM +0100, Connor Abbott wrote:
->>>>> On Mon, Aug 19, 2024 at 9:09 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>>>>
->>>>>> On Thu, Aug 15, 2024 at 08:26:14PM +0200, Antonino Maniscalco wrote:
->>>>>>> This patch implements preemption feature for A6xx targets, this allows
->>>>>>> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
->>>>>>> hardware as such supports multiple levels of preemption granularities,
->>>>>>> ranging from coarse grained(ringbuffer level) to a more fine grained
->>>>>>> such as draw-call level or a bin boundary level preemption. This patch
->>>>>>> enables the basic preemption level, with more fine grained preemption
->>>>>>> support to follow.
->>>>>>>
->>>>>>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
->>>>>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->>>>>>> ---
->>>>>>
->>>>>> No postamble packets which resets perfcounters? It is necessary. Also, I
->>>>>> think we should disable preemption during profiling like we disable slumber.
->>>>>>
->>>>>> -Akhil.
->>>>>
->>>>> I don't see anything in kgsl which disables preemption during
->>>>> profiling. It disables resetting perfcounters when doing system-wide
->>>>> profiling, like freedreno, and in that case I assume preempting is
->>>>> fine because the system profiler has a complete view of everything and
->>>>> should "see" preemptions through the traces. For something like
->>>>> VK_KHR_performance_query I suppose we'd want to disable preemption
->>>>> because we disable saving/restoring perf counters, but that has to
->>>>> happen in userspace because the kernel doesn't know what userspace
->>>>> does.
->>>>>
->>>>
->>>> KGSL does some sort of arbitration of perfcounter configurations and
->>>> adds the select/enablement reg configuration as part of dynamic
->>>> power up register list which we are not doing here. Is this something
->>>> you are taking care of from userspace via preamble?
->>>>
->>>> -Akhil
->>>
->>> I don't think we have to take care of that in userspace, because Mesa
->>> will always configure the counter registers before reading them in the
->>> same submission, and if it gets preempted in the meantime then we're
->>> toast anyways (due to not saving/restoring perf counters). kgsl sets
->>> them from userspace, which is why it has to do something to set them
->>
->> Sorry, should be "kgsl sets them from the kernel".
->>
->>> after IFPC slumber or a context switch when the HW state is gone.
->>> Also, because the upstream approach doesn't play nicely with system
->>> profilers like perfetto, VK_KHR_performance_query is hidden by default
->>> behind a debug flag in turnip. So there's already an element of "this
->>> is unsupported, you have to know what you're doing to use it."
-> 
-> But when you have composition on GPU enabled, there will be very frequent
-> preemption. And I don't know how usable profiling tools will be in that
-> case unless you disable preemption with a Mesa debug flag. But for that
-> to work, all existing submitqueues should be destroyed and recreated.
-> 
-> So I was thinking that we can use the sysprof propertry to force L0
-> preemption from kernel.
-> 
-> -Akhil.
-> 
 
-Right but when using a system profiler I imagined the expectation would 
-be to be able to understand how applications and compositor interact. An 
-use case could be measuring latency and understanding what contributes 
-to it. That is actually the main reason I added traces for preemption. 
-Disabling preemption would make it less useful for this type of 
-analysis. Did you have an use case in mind for a system profiler that 
-would benefit from disabling preemption and that is not covered by 
-VK_KHR_performance_query (or equivalent GL ext)?
 
-Best regards,
--- 
-Antonino Maniscalco <antomani103@gmail.com>
 
+
+---- On Tue, 20 Aug 2024 04:08:16 -0300 Vignesh Raman  wrote ---
+
+ > Set the timeout of all drm-ci jobs to 1h30m since 
+ > some jobs takes more than 1 hour to complete. 
+ >  
+ > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com> 
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
+Thanks
+Helen
+
+ > --- 
+ >  drivers/gpu/drm/ci/test.yml | 5 ++++- 
+ >  1 file changed, 4 insertions(+), 1 deletion(-) 
+ >  
+ > diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml 
+ > index b6f428cdaf94..09d8447840e9 100644 
+ > --- a/drivers/gpu/drm/ci/test.yml 
+ > +++ b/drivers/gpu/drm/ci/test.yml 
+ > @@ -10,6 +10,7 @@ 
+ >  .lava-test: 
+ >  extends: 
+ >  - .test-rules 
+ > +  timeout: "1h30m" 
+ >  script: 
+ >  # Note: Build dir (and thus install) may be dirty due to GIT_STRATEGY 
+ >  - rm -rf install 
+ > @@ -71,6 +72,7 @@ 
+ >  - .baremetal-test-arm64 
+ >  - .use-debian/baremetal_arm64_test 
+ >  - .test-rules 
+ > +  timeout: "1h30m" 
+ >  variables: 
+ >  FDO_CI_CONCURRENT: 10 
+ >  HWCI_TEST_SCRIPT: "/install/igt_runner.sh" 
+ > @@ -215,7 +217,6 @@ panfrost:rk3399: 
+ >  extends: 
+ >  - .lava-igt:x86_64 
+ >  stage: i915 
+ > -  timeout: "1h30m" 
+ >  variables: 
+ >  DRIVER_NAME: i915 
+ >  DTB: "" 
+ > @@ -414,6 +415,7 @@ panfrost:g12b: 
+ >  
+ >  virtio_gpu:none: 
+ >  stage: software-driver 
+ > +  timeout: "1h30m" 
+ >  variables: 
+ >  CROSVM_GALLIUM_DRIVER: llvmpipe 
+ >  DRIVER_NAME: virtio_gpu 
+ > @@ -436,6 +438,7 @@ virtio_gpu:none: 
+ >  
+ >  vkms:none: 
+ >  stage: software-driver 
+ > +  timeout: "1h30m" 
+ >  variables: 
+ >  DRIVER_NAME: vkms 
+ >  GPU_VERSION: none 
+ > -- 
+ > 2.43.0 
+ >  
+ > 
