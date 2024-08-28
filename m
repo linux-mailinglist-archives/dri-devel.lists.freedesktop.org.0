@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFC296297D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F0B962947
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:51:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3BF610E52E;
-	Wed, 28 Aug 2024 13:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAB710E524;
+	Wed, 28 Aug 2024 13:51:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EbjLpfkN";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VIdn+1S8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D7210E52E
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:57:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CED6FCE1813;
- Wed, 28 Aug 2024 13:57:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716F8C5FB24;
- Wed, 28 Aug 2024 13:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724852918;
- bh=TFXHpYUbMPU1PBJdBGzhBTwFtAf9olUiwemN+xYfsaI=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=EbjLpfkNlvuKmapZ4irEc3+VoB7uNdRFIRrm37fZuyRc+hVMgA7reiu+oN5SrtH3L
- r5aLX0kCDbqvYUq/ujIE6rw/uu06Bt8oj9Hu3IKc0vGDwjC6fnE6vBD3dN9YNxQU8u
- 86Jxn9AehGCVE3LJBYwEIM2zAL48oXK+oLk4itMPso5Iz3c4nsCNfnEMtSE+18I/xd
- dEAuNkIPUKy9qd7cUdbKJLBVMrTgzuXOGogCTlVmiTQFwD7hn+LA/8kxfBjngnteo+
- RG5H8USGaa8sS94tdIcVvfhl5sQn6YRvK++Lwf+dnnbWq/xtWKAknb2oyJmTD/thI0
- PmekGQbSXjv1Q==
-Date: Wed, 28 Aug 2024 06:48:39 -0700
-From: Kees Cook <kees@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>, Alejandro Colomar <alx@kernel.org>
-CC: akpm@linux-foundation.org, torvalds@linux-foundation.org,
- justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com,
- rostedt@goodmis.org, catalin.marinas@arm.com,
- penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- audit@vger.kernel.org, linux-security-module@vger.kernel.org,
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, Matus Jokay <matus.jokay@stuba.sk>,
- "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
-References: <20240828030321.20688-1-laoar.shao@gmail.com>
- <20240828030321.20688-2-laoar.shao@gmail.com>
- <lql4y2nvs3ewadszhmv4m6fnqja4ff4ymuurpidlwvgf4twvru@esnh37a2jxbd>
- <n2fxqs3tekvljezaqpfnwhsmjymch4vb47y744zwmy7urf3flv@zvjtepkem4l7>
- <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
-Message-ID: <7839453E-CA06-430A-A198-92EB906F94D9@kernel.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3976910E169
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:51:09 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A49F2C5;
+ Wed, 28 Aug 2024 15:50:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1724853000;
+ bh=0JqbVVk8ZKB5BH0F3tvupNAmLRWvpSuhEZuWeLBjlQA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VIdn+1S8BYJtynOyCu2LikSnR6kDI0dICtB47/5pEm0btk2jXBwQg0DkIzcyq7j3e
+ n7sMOeMeJtcC7tkh59itW+VdVeUL3+y7QtJfaZhXcdzCUpvYB1Jxh6IXP+ASLFGdvb
+ 6/x1NjjWU8+ci7XCnXZB0jrGYST3e78AP94D1XVU=
+Date: Wed, 28 Aug 2024 16:51:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: tomi.valkeinen@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, michal.simek@amd.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] drm: zynqmp_dp: Use
+ devm_platform_ioremap_resource_byname()
+Message-ID: <20240828135103.GC27131@pendragon.ideasonboard.com>
+References: <20240828084929.2527228-1-ruanjinjie@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240828084929.2527228-1-ruanjinjie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,188 +57,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jinjie,
 
+Thank you for the patch.
 
-On August 28, 2024 6:40:35 AM PDT, Yafang Shao <laoar=2Eshao@gmail=2Ecom> =
-wrote:
->On Wed, Aug 28, 2024 at 8:58=E2=80=AFPM Alejandro Colomar <alx@kernel=2Eo=
-rg> wrote:
->>
->> On Wed, Aug 28, 2024 at 12:15:40PM GMT, Alejandro Colomar wrote:
->> > Hi Yafang,
->> >
->> > On Wed, Aug 28, 2024 at 11:03:14AM GMT, Yafang Shao wrote:
->> > > We want to eliminate the use of __get_task_comm() for the following
->> > > reasons:
->> > >
->> > > - The task_lock() is unnecessary
->> > >   Quoted from Linus [0]:
->> > >   : Since user space can randomly change their names anyway, using =
-locking
->> > >   : was always wrong for readers (for writers it probably does make=
- sense
->> > >   : to have some lock - although practically speaking nobody cares =
-there
->> > >   : either, but at least for a writer some kind of race could have
->> > >   : long-term mixed results
->> > >
->> > > - The BUILD_BUG_ON() doesn't add any value
->> > >   The only requirement is to ensure that the destination buffer is =
-a valid
->> > >   array=2E
->> > >
->> > > - Zeroing is not necessary in current use cases
->> > >   To avoid confusion, we should remove it=2E Moreover, not zeroing =
-could
->> > >   potentially make it easier to uncover bugs=2E If the caller needs=
- a
->> > >   zero-padded task name, it should be explicitly handled at the cal=
-l site=2E
->> > >
->> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation=2Eorg>
->> > > Link: https://lore=2Ekernel=2Eorg/all/CAHk-=3DwivfrF0_zvf+oj6=3D=3D=
-Sh=3D-npJooP8chLPEfaFV0oNYTTBA@mail=2Egmail=2Ecom [0]
->> > > Link: https://lore=2Ekernel=2Eorg/all/CAHk-=3DwhWtUC-AjmGJveAETKOMe=
-MFSTwKwu99v7+b6AyHMmaDFA@mail=2Egmail=2Ecom/
->> > > Suggested-by: Alejandro Colomar <alx@kernel=2Eorg>
->> > > Link: https://lore=2Ekernel=2Eorg/all/2jxak5v6dfxlpbxhpm3ey7oup4g2l=
-nr3ueurfbosf5wdo65dk4@srb3hsk72zwq
->> > > Signed-off-by: Yafang Shao <laoar=2Eshao@gmail=2Ecom>
->> > > Cc: Alexander Viro <viro@zeniv=2Elinux=2Eorg=2Euk>
->> > > Cc: Christian Brauner <brauner@kernel=2Eorg>
->> > > Cc: Jan Kara <jack@suse=2Ecz>
->> > > Cc: Eric Biederman <ebiederm@xmission=2Ecom>
->> > > Cc: Kees Cook <keescook@chromium=2Eorg>
->> > > Cc: Alexei Starovoitov <alexei=2Estarovoitov@gmail=2Ecom>
->> > > Cc: Matus Jokay <matus=2Ejokay@stuba=2Esk>
->> > > Cc: Alejandro Colomar <alx@kernel=2Eorg>
->> > > Cc: "Serge E=2E Hallyn" <serge@hallyn=2Ecom>
->> > > ---
->> > >  fs/exec=2Ec             | 10 ----------
->> > >  fs/proc/array=2Ec       |  2 +-
->> > >  include/linux/sched=2Eh | 32 ++++++++++++++++++++++++++------
->> > >  kernel/kthread=2Ec      |  2 +-
->> > >  4 files changed, 28 insertions(+), 18 deletions(-)
->> > >
->> >
->> > [=2E=2E=2E]
->> >
->> > > diff --git a/include/linux/sched=2Eh b/include/linux/sched=2Eh
->> > > index f8d150343d42=2E=2Ec40b95a79d80 100644
->> > > --- a/include/linux/sched=2Eh
->> > > +++ b/include/linux/sched=2Eh
->> >
->> > [=2E=2E=2E]
->> >
->> > > @@ -1914,10 +1917,27 @@ static inline void set_task_comm(struct tas=
-k_struct *tsk, const char *from)
->> > >     __set_task_comm(tsk, from, false);
->> > >  }
->> > >
->> > > -extern char *__get_task_comm(char *to, size_t len, struct task_str=
-uct *tsk);
->> > > +/*
->> >
->> > [=2E=2E=2E]
->> >
->> > > + * - ARRAY_SIZE() can help ensure that @buf is indeed an array=2E
->> > > + */
->> > >  #define get_task_comm(buf, tsk) ({                 \
->> > > -   BUILD_BUG_ON(sizeof(buf) !=3D TASK_COMM_LEN);     \
->> > > -   __get_task_comm(buf, sizeof(buf), tsk);         \
->> > > +   strscpy(buf, (tsk)->comm, ARRAY_SIZE(buf));     \
->> >
->> > I see that there's a two-argument macro
->> >
->> >       #define strscpy(dst, src)       sized_strscpy(dst, src, sizeof(=
-dst))
->> >
->> > which is used in patch 2/8
->> >
->> >       diff --git a/kernel/auditsc=2Ec b/kernel/auditsc=2Ec
->> >       index 6f0d6fb6523f=2E=2Ee4ef5e57dde9 100644
->> >       --- a/kernel/auditsc=2Ec
->> >       +++ b/kernel/auditsc=2Ec
->> >       @@ -2730,7 +2730,7 @@ void __audit_ptrace(struct task_struct *t=
-)
->> >               context->target_uid =3D task_uid(t);
->> >               context->target_sessionid =3D audit_get_sessionid(t);
->> >               security_task_getsecid_obj(t, &context->target_sid);
->> >       -       memcpy(context->target_comm, t->comm, TASK_COMM_LEN);
->> >       +       strscpy(context->target_comm, t->comm);
->> >        }
->> >
->> >        /**
->>
->> Ahh, the actual generic definition is in <include/linux/string=2Eh>=2E
->> You could do
->>
->>         diff --git i/include/linux/string=2Eh w/include/linux/string=2E=
-h
->>         index 9edace076ddb=2E=2E060504719904 100644
->>         --- i/include/linux/string=2Eh
->>         +++ w/include/linux/string=2Eh
->>         @@ -76,11 +76,11 @@ ssize_t sized_strscpy(char *, const char *,=
- size_t);
->>           * known size=2E
->>           */
->>          #define __strscpy0(dst, src, =2E=2E=2E)      \
->>         -       sized_strscpy(dst, src, sizeof(dst) + __must_be_array(d=
-st))
->>         +       sized_strscpy(dst, src, ARRAY_SIZE(dst))
->>          #define __strscpy1(dst, src, size)     sized_strscpy(dst, src,=
- size)
->>
->>          #define __strscpy_pad0(dst, src, =2E=2E=2E)  \
->>         -       sized_strscpy_pad(dst, src, sizeof(dst) + __must_be_arr=
-ay(dst))
->>         +       sized_strscpy_pad(dst, src, ARRAY_SIZE(dst))
->>          #define __strscpy_pad1(dst, src, size) sized_strscpy_pad(dst, =
-src, size)
->>
->>          /**
->
->Thank you for your suggestion=2E How does the following commit log look
->to you? Does it meet your expectations?
->
->    string: Use ARRAY_SIZE() in strscpy()
->
->    We can use ARRAY_SIZE() instead to clarify that they are regular char=
-acters=2E
->
->    Co-developed-by: Alejandro Colomar <alx@kernel=2Eorg>
->    Signed-off-by: Alejandro Colomar <alx@kernel=2Eorg>
->    Signed-off-by: Yafang Shao <laoar=2Eshao@gmail=2Ecom>
->
->diff --git a/arch/um/include/shared/user=2Eh b/arch/um/include/shared/use=
-r=2Eh
->index bbab79c0c074=2E=2E07216996e3a9 100644
->--- a/arch/um/include/shared/user=2Eh
->+++ b/arch/um/include/shared/user=2Eh
->@@ -14,7 +14,7 @@
->  * copying too much infrastructure for my taste, so userspace files
->  * get less checking than kernel files=2E
->  */
->-#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
->+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]) + __must_be_array(x))
->
-> /* This is to get size_t and NULL */
-> #ifndef __UM_HOST__
->@@ -60,7 +60,7 @@ static inline void print_hex_dump(const char *level,
->const char *prefix_str,
-> extern int in_aton(char *str);
-> extern size_t strlcat(char *, const char *, size_t);
-> extern size_t sized_strscpy(char *, const char *, size_t);
->-#define strscpy(dst, src)      sized_strscpy(dst, src, sizeof(dst))
->+#define strscpy(dst, src)      sized_strscpy(dst, src, ARRAY_SIZE(dst))
+On Wed, Aug 28, 2024 at 04:49:29PM +0800, Jinjie Ruan wrote:
+> platform_get_resource_byname() and devm_ioremap_resource() can be
+> replaced by devm_platform_ioremap_resource_byname(), which can
+> simplify the code logic a bit, No functional change here.
+> 
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Uh, but why? strscpy() copies bytes, not array elements=2E Using sizeof() =
-is already correct and using ARRAY_SIZE() could lead to unexpectedly small =
-counts (in admittedly odd situations)=2E
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-What is the problem you're trying to solve here?
+Tomi, feel free to push this to drm-misc.
 
--Kees
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index 129beac4c073..4eb19ac95bdb 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1715,7 +1715,6 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>  	struct platform_device *pdev = to_platform_device(dpsub->dev);
+>  	struct drm_bridge *bridge;
+>  	struct zynqmp_dp *dp;
+> -	struct resource *res;
+>  	int ret;
+>  
+>  	dp = kzalloc(sizeof(*dp), GFP_KERNEL);
+> @@ -1729,8 +1728,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>  	INIT_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+>  
+>  	/* Acquire all resources (IOMEM, IRQ and PHYs). */
+> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
+> -	dp->iomem = devm_ioremap_resource(dp->dev, res);
+> +	dp->iomem = devm_platform_ioremap_resource_byname(pdev, "dp");
+>  	if (IS_ERR(dp->iomem)) {
+>  		ret = PTR_ERR(dp->iomem);
+>  		goto err_free;
 
---=20
-Kees Cook
+-- 
+Regards,
+
+Laurent Pinchart
