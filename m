@@ -2,74 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35204962931
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DFC296297D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E81E10E51B;
-	Wed, 28 Aug 2024 13:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BF610E52E;
+	Wed, 28 Aug 2024 13:57:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XeCviCSF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EbjLpfkN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFDB910E52F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:47:25 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4280c55e488so4032225e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 06:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724852844; x=1725457644; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=6CtnrKzfAk9H4YuLRTraUVq3RArxarczw7rPkgsodyo=;
- b=XeCviCSF8jkkE5X5AZGmoeOlYjUzU67p388wB8aquUVo1O/KC2MBhnk5mzkHCQVz42
- HXsomIuR/F7BXOqZIRhNAjdXnjK2hnMUzeRRQC/rGmm9IlyK9oV+TlKilFEc2LNJ03QQ
- Zv9hKSLhsiOp6ujQ21hBqkYAPVYFZxeQ+/eDw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724852844; x=1725457644;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6CtnrKzfAk9H4YuLRTraUVq3RArxarczw7rPkgsodyo=;
- b=h5dJPnGzj1cFshjH+/6d3WWCfXaj+Kr1qlN3a0aJzfh+qDWOyoCsdXWAYnRD81/7zP
- h7d81M1tFD27aoPjn0vbLUcced8Js4ttYcIrPqn5lQu+MgHBfDbtyJrFaOEaegP5sqG/
- Q6zl11etiR95TY0fZE64fnWfeOdr8NKpYBYOfDX/5tmhvsEv4qLL/YeWYFuHv7K35T54
- +oKLyKd770JH3p/Z9+nsh5r6dnDPbOMFBnpy4gECbfWZhkt9e20IcH01BpJ9f+Lv5Q9T
- yHopIx1epPCiiVABcRwsq6SLFNKSDtBsDbVpEDCeLK8ifsR/BxXMyjUwaJdK+avIyRHM
- kiEg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVC83vcGzP2jYMrIJhNnuLbvLu47fnsMK0CbfzS65dYEee7KowEtRg2il/6SNFid8fQiEOq5WUDywY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+xxfMmiBYqXzlVdiASzrqiQtpSBTq6igc6fp70y34pmdkBAGg
- ZZM37yUGIQSBlwDmdxTWdUutKx2HLJjAsP8MJjIoBDQkdSXkBfLKfeqtd99fE/0=
-X-Google-Smtp-Source: AGHT+IEkP1L92PC6Ka92ChqIF8AHe7DGEoFq7U075lkC3lrM96vIVK5Qx05SmJz3Gz+wKfL+QAxNxw==
-X-Received: by 2002:a05:600c:1ca6:b0:424:8dbe:817d with SMTP id
- 5b1f17b1804b1-42ba56a9afdmr15048625e9.10.1724852843974; 
- Wed, 28 Aug 2024 06:47:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42ba6425a13sm22314635e9.42.2024.08.28.06.47.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2024 06:47:23 -0700 (PDT)
-Date: Wed, 28 Aug 2024 15:47:21 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: Re: [PATCH v3 00/15] CCS static load balance
-Message-ID: <Zs8qaZftGbq7Ls00@phenom.ffwll.local>
-References: <20240823130855.72436-1-andi.shyti@linux.intel.com>
- <Zs4NaUgcDhcBb4Ok@phenom.ffwll.local>
- <Zs7dv57piSIj3Og4@ashyti-mobl2.lan>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D7210E52E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:57:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id CED6FCE1813;
+ Wed, 28 Aug 2024 13:57:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716F8C5FB24;
+ Wed, 28 Aug 2024 13:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724852918;
+ bh=TFXHpYUbMPU1PBJdBGzhBTwFtAf9olUiwemN+xYfsaI=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=EbjLpfkNlvuKmapZ4irEc3+VoB7uNdRFIRrm37fZuyRc+hVMgA7reiu+oN5SrtH3L
+ r5aLX0kCDbqvYUq/ujIE6rw/uu06Bt8oj9Hu3IKc0vGDwjC6fnE6vBD3dN9YNxQU8u
+ 86Jxn9AehGCVE3LJBYwEIM2zAL48oXK+oLk4itMPso5Iz3c4nsCNfnEMtSE+18I/xd
+ dEAuNkIPUKy9qd7cUdbKJLBVMrTgzuXOGogCTlVmiTQFwD7hn+LA/8kxfBjngnteo+
+ RG5H8USGaa8sS94tdIcVvfhl5sQn6YRvK++Lwf+dnnbWq/xtWKAknb2oyJmTD/thI0
+ PmekGQbSXjv1Q==
+Date: Wed, 28 Aug 2024 06:48:39 -0700
+From: Kees Cook <kees@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>, Alejandro Colomar <alx@kernel.org>
+CC: akpm@linux-foundation.org, torvalds@linux-foundation.org,
+ justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com,
+ rostedt@goodmis.org, catalin.marinas@arm.com,
+ penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ audit@vger.kernel.org, linux-security-module@vger.kernel.org,
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, Matus Jokay <matus.jokay@stuba.sk>,
+ "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
+References: <20240828030321.20688-1-laoar.shao@gmail.com>
+ <20240828030321.20688-2-laoar.shao@gmail.com>
+ <lql4y2nvs3ewadszhmv4m6fnqja4ff4ymuurpidlwvgf4twvru@esnh37a2jxbd>
+ <n2fxqs3tekvljezaqpfnwhsmjymch4vb47y744zwmy7urf3flv@zvjtepkem4l7>
+ <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
+Message-ID: <7839453E-CA06-430A-A198-92EB906F94D9@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zs7dv57piSIj3Og4@ashyti-mobl2.lan>
-X-Operating-System: Linux phenom 6.9.12-amd64
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,78 +72,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 28, 2024 at 10:20:15AM +0200, Andi Shyti wrote:
-> Hi Sima,
-> 
-> first of all, thanks for looking into this series.
-> 
-> On Tue, Aug 27, 2024 at 07:31:21PM +0200, Daniel Vetter wrote:
-> > On Fri, Aug 23, 2024 at 03:08:40PM +0200, Andi Shyti wrote:
-> > > Hi,
-> > > 
-> > > This patch series introduces static load balancing for GPUs with
-> > > multiple compute engines. It's a lengthy series, and some
-> > > challenging aspects still need to be resolved.
-> > 
-> > Do we have an actual user for this, where just reloading the entire driver
-> > (or well-rebinding, if you only want to change the value for a specific
-> > device) with a new module option isn't enough?
-> 
-> Yes, we have users for this and this has been already agreed with
-> architects and maintainers.
 
-So my understanding is that for upstream, this only applies to dg2,
-because the other platforms don't have enough CCS engines to make this a
-real issue.
 
-Do we really have upstream demand for this feature on dg2 only?
+On August 28, 2024 6:40:35 AM PDT, Yafang Shao <laoar=2Eshao@gmail=2Ecom> =
+wrote:
+>On Wed, Aug 28, 2024 at 8:58=E2=80=AFPM Alejandro Colomar <alx@kernel=2Eo=
+rg> wrote:
+>>
+>> On Wed, Aug 28, 2024 at 12:15:40PM GMT, Alejandro Colomar wrote:
+>> > Hi Yafang,
+>> >
+>> > On Wed, Aug 28, 2024 at 11:03:14AM GMT, Yafang Shao wrote:
+>> > > We want to eliminate the use of __get_task_comm() for the following
+>> > > reasons:
+>> > >
+>> > > - The task_lock() is unnecessary
+>> > >   Quoted from Linus [0]:
+>> > >   : Since user space can randomly change their names anyway, using =
+locking
+>> > >   : was always wrong for readers (for writers it probably does make=
+ sense
+>> > >   : to have some lock - although practically speaking nobody cares =
+there
+>> > >   : either, but at least for a writer some kind of race could have
+>> > >   : long-term mixed results
+>> > >
+>> > > - The BUILD_BUG_ON() doesn't add any value
+>> > >   The only requirement is to ensure that the destination buffer is =
+a valid
+>> > >   array=2E
+>> > >
+>> > > - Zeroing is not necessary in current use cases
+>> > >   To avoid confusion, we should remove it=2E Moreover, not zeroing =
+could
+>> > >   potentially make it easier to uncover bugs=2E If the caller needs=
+ a
+>> > >   zero-padded task name, it should be explicitly handled at the cal=
+l site=2E
+>> > >
+>> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation=2Eorg>
+>> > > Link: https://lore=2Ekernel=2Eorg/all/CAHk-=3DwivfrF0_zvf+oj6=3D=3D=
+Sh=3D-npJooP8chLPEfaFV0oNYTTBA@mail=2Egmail=2Ecom [0]
+>> > > Link: https://lore=2Ekernel=2Eorg/all/CAHk-=3DwhWtUC-AjmGJveAETKOMe=
+MFSTwKwu99v7+b6AyHMmaDFA@mail=2Egmail=2Ecom/
+>> > > Suggested-by: Alejandro Colomar <alx@kernel=2Eorg>
+>> > > Link: https://lore=2Ekernel=2Eorg/all/2jxak5v6dfxlpbxhpm3ey7oup4g2l=
+nr3ueurfbosf5wdo65dk4@srb3hsk72zwq
+>> > > Signed-off-by: Yafang Shao <laoar=2Eshao@gmail=2Ecom>
+>> > > Cc: Alexander Viro <viro@zeniv=2Elinux=2Eorg=2Euk>
+>> > > Cc: Christian Brauner <brauner@kernel=2Eorg>
+>> > > Cc: Jan Kara <jack@suse=2Ecz>
+>> > > Cc: Eric Biederman <ebiederm@xmission=2Ecom>
+>> > > Cc: Kees Cook <keescook@chromium=2Eorg>
+>> > > Cc: Alexei Starovoitov <alexei=2Estarovoitov@gmail=2Ecom>
+>> > > Cc: Matus Jokay <matus=2Ejokay@stuba=2Esk>
+>> > > Cc: Alejandro Colomar <alx@kernel=2Eorg>
+>> > > Cc: "Serge E=2E Hallyn" <serge@hallyn=2Ecom>
+>> > > ---
+>> > >  fs/exec=2Ec             | 10 ----------
+>> > >  fs/proc/array=2Ec       |  2 +-
+>> > >  include/linux/sched=2Eh | 32 ++++++++++++++++++++++++++------
+>> > >  kernel/kthread=2Ec      |  2 +-
+>> > >  4 files changed, 28 insertions(+), 18 deletions(-)
+>> > >
+>> >
+>> > [=2E=2E=2E]
+>> >
+>> > > diff --git a/include/linux/sched=2Eh b/include/linux/sched=2Eh
+>> > > index f8d150343d42=2E=2Ec40b95a79d80 100644
+>> > > --- a/include/linux/sched=2Eh
+>> > > +++ b/include/linux/sched=2Eh
+>> >
+>> > [=2E=2E=2E]
+>> >
+>> > > @@ -1914,10 +1917,27 @@ static inline void set_task_comm(struct tas=
+k_struct *tsk, const char *from)
+>> > >     __set_task_comm(tsk, from, false);
+>> > >  }
+>> > >
+>> > > -extern char *__get_task_comm(char *to, size_t len, struct task_str=
+uct *tsk);
+>> > > +/*
+>> >
+>> > [=2E=2E=2E]
+>> >
+>> > > + * - ARRAY_SIZE() can help ensure that @buf is indeed an array=2E
+>> > > + */
+>> > >  #define get_task_comm(buf, tsk) ({                 \
+>> > > -   BUILD_BUG_ON(sizeof(buf) !=3D TASK_COMM_LEN);     \
+>> > > -   __get_task_comm(buf, sizeof(buf), tsk);         \
+>> > > +   strscpy(buf, (tsk)->comm, ARRAY_SIZE(buf));     \
+>> >
+>> > I see that there's a two-argument macro
+>> >
+>> >       #define strscpy(dst, src)       sized_strscpy(dst, src, sizeof(=
+dst))
+>> >
+>> > which is used in patch 2/8
+>> >
+>> >       diff --git a/kernel/auditsc=2Ec b/kernel/auditsc=2Ec
+>> >       index 6f0d6fb6523f=2E=2Ee4ef5e57dde9 100644
+>> >       --- a/kernel/auditsc=2Ec
+>> >       +++ b/kernel/auditsc=2Ec
+>> >       @@ -2730,7 +2730,7 @@ void __audit_ptrace(struct task_struct *t=
+)
+>> >               context->target_uid =3D task_uid(t);
+>> >               context->target_sessionid =3D audit_get_sessionid(t);
+>> >               security_task_getsecid_obj(t, &context->target_sid);
+>> >       -       memcpy(context->target_comm, t->comm, TASK_COMM_LEN);
+>> >       +       strscpy(context->target_comm, t->comm);
+>> >        }
+>> >
+>> >        /**
+>>
+>> Ahh, the actual generic definition is in <include/linux/string=2Eh>=2E
+>> You could do
+>>
+>>         diff --git i/include/linux/string=2Eh w/include/linux/string=2E=
+h
+>>         index 9edace076ddb=2E=2E060504719904 100644
+>>         --- i/include/linux/string=2Eh
+>>         +++ w/include/linux/string=2Eh
+>>         @@ -76,11 +76,11 @@ ssize_t sized_strscpy(char *, const char *,=
+ size_t);
+>>           * known size=2E
+>>           */
+>>          #define __strscpy0(dst, src, =2E=2E=2E)      \
+>>         -       sized_strscpy(dst, src, sizeof(dst) + __must_be_array(d=
+st))
+>>         +       sized_strscpy(dst, src, ARRAY_SIZE(dst))
+>>          #define __strscpy1(dst, src, size)     sized_strscpy(dst, src,=
+ size)
+>>
+>>          #define __strscpy_pad0(dst, src, =2E=2E=2E)  \
+>>         -       sized_strscpy_pad(dst, src, sizeof(dst) + __must_be_arr=
+ay(dst))
+>>         +       sized_strscpy_pad(dst, src, ARRAY_SIZE(dst))
+>>          #define __strscpy_pad1(dst, src, size) sized_strscpy_pad(dst, =
+src, size)
+>>
+>>          /**
+>
+>Thank you for your suggestion=2E How does the following commit log look
+>to you? Does it meet your expectations?
+>
+>    string: Use ARRAY_SIZE() in strscpy()
+>
+>    We can use ARRAY_SIZE() instead to clarify that they are regular char=
+acters=2E
+>
+>    Co-developed-by: Alejandro Colomar <alx@kernel=2Eorg>
+>    Signed-off-by: Alejandro Colomar <alx@kernel=2Eorg>
+>    Signed-off-by: Yafang Shao <laoar=2Eshao@gmail=2Ecom>
+>
+>diff --git a/arch/um/include/shared/user=2Eh b/arch/um/include/shared/use=
+r=2Eh
+>index bbab79c0c074=2E=2E07216996e3a9 100644
+>--- a/arch/um/include/shared/user=2Eh
+>+++ b/arch/um/include/shared/user=2Eh
+>@@ -14,7 +14,7 @@
+>  * copying too much infrastructure for my taste, so userspace files
+>  * get less checking than kernel files=2E
+>  */
+>-#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+>+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]) + __must_be_array(x))
+>
+> /* This is to get size_t and NULL */
+> #ifndef __UM_HOST__
+>@@ -60,7 +60,7 @@ static inline void print_hex_dump(const char *level,
+>const char *prefix_str,
+> extern int in_aton(char *str);
+> extern size_t strlcat(char *, const char *, size_t);
+> extern size_t sized_strscpy(char *, const char *, size_t);
+>-#define strscpy(dst, src)      sized_strscpy(dst, src, sizeof(dst))
+>+#define strscpy(dst, src)      sized_strscpy(dst, src, ARRAY_SIZE(dst))
 
-Also how hard would it be to make these users happy with xe-on-dg2 in
-upstream instead?
+Uh, but why? strscpy() copies bytes, not array elements=2E Using sizeof() =
+is already correct and using ARRAY_SIZE() could lead to unexpectedly small =
+counts (in admittedly odd situations)=2E
 
-> Why are you saying that we are reloading/rebinding the driver?
+What is the problem you're trying to solve here?
 
-That's the other alternate solution.
+-Kees
 
-> I'm only removing the exposure of user engines, which is
-> basically a flag in the engines data structure.
-> 
-> > There's some really gnarly locking and lifetime fun in there, and it needs
-> > a corresponding justification.
-> 
-> What locking are you referring about?
-> 
-> I only added one single mutex that has a comment and a
-> justification. If you think that's not enough, I can of course
-> improve it (please note that the changes have a good amount of
-> comments and I tried to be aso more descriptive as I could).
-> 
-> When I change the engines configurations only for the compute
-> engines and only for DG2 platforms, I need to make sure that no
-> other user is affected by the change. Thus I need to make sure
-> that access to some of the strucures are properly serialized.
-> 
-> > Which needs to be enormous for this case,
-> > meaning actual customers willing to shout on dri-devel that they really,
-> > absolutely need this, or their machines will go up in flames.
-> > Otherwise this is a nack from me.
-> 
-> Would you please tell me why are you nacking the patch? So that I
-> address your comments for v4?
-
-So for one, this is substantially more flexible than the solution merged
-into xe. And the patch set doesn't explain why (the commit messages
-actualy describe the design xe has).
-
-That does not inspire confidence at all.
-
-Second, I don't think anyone understands the entire engine/ctx locking
-design in i915-gem. And the fix for that was to make as much as absolutely
-possible immutable. Yes the implementation looks correct, but when I
-looked at the much, much simpler xe implementation I'm pretty sure I've
-found an issue there too. Here I can't even tell.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--=20
+Kees Cook
