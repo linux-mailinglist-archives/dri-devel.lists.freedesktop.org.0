@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F133E962A24
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 16:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90302962A25
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 16:26:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 545A210E53D;
-	Wed, 28 Aug 2024 14:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE8A10E53E;
+	Wed, 28 Aug 2024 14:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 364AF10E53D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 14:26:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D946310E53D
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 14:26:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5E8D3A40D90;
- Wed, 28 Aug 2024 14:26:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2CC7C4CEE4;
- Wed, 28 Aug 2024 14:26:20 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 08117A40DAF;
+ Wed, 28 Aug 2024 14:26:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9280DC4CEE3;
+ Wed, 28 Aug 2024 14:26:22 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 3/7] media: i2c: adv7511-v4l2: export InfoFrames to debugfs
-Date: Wed, 28 Aug 2024 16:24:09 +0200
-Message-ID: <97bf01b2ab437dcf65dc48100c7c7c5377fc5480.1724855053.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 4/7] media: i2c: adv7604: export InfoFrames to debugfs
+Date: Wed, 28 Aug 2024 16:24:10 +0200
+Message-ID: <2ce74f64339f2b1df8c59bedd88eee163fbe2d41.1724855053.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1724855053.git.hverkuil-cisco@xs4all.nl>
 References: <cover.1724855053.git.hverkuil-cisco@xs4all.nl>
@@ -50,115 +50,107 @@ Export InfoFrames to debugfs.
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/i2c/adv7511-v4l2.c | 91 ++++++++++++++++++++++++++------
- 1 file changed, 74 insertions(+), 17 deletions(-)
+ drivers/media/i2c/adv7604.c | 90 ++++++++++++++++++++++++++++---------
+ 1 file changed, 70 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
-index e9406d552699..4036972af3a6 100644
---- a/drivers/media/i2c/adv7511-v4l2.c
-+++ b/drivers/media/i2c/adv7511-v4l2.c
-@@ -116,6 +116,9 @@ struct adv7511_state {
- 	unsigned edid_detect_counter;
- 	struct workqueue_struct *work_queue;
- 	struct delayed_work edid_handler; /* work entry */
-+
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 48230d5109f0..3184a2fa1532 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -193,6 +193,9 @@ struct adv76xx_state {
+ 	struct delayed_work delayed_work_enable_hotplug;
+ 	bool restart_stdi_once;
+ 
 +	struct dentry *debugfs_dir;
 +	struct v4l2_debugfs_if *infoframes;
++
+ 	/* CEC */
+ 	struct cec_adapter *cec_adap;
+ 	u8   cec_addr[ADV76XX_MAX_ADDRS];
+@@ -2458,10 +2461,9 @@ static const struct adv76xx_cfg_read_infoframe adv76xx_cri[] = {
+ 	{ "Vendor", 0x10, 0xec, 0x54 }
  };
  
- static void adv7511_check_monitor_present_status(struct v4l2_subdev *sd);
-@@ -483,27 +486,25 @@ static u8 hdmi_infoframe_checksum(u8 *ptr, size_t size)
- 	return 256 - csum;
- }
- 
--static void log_infoframe(struct v4l2_subdev *sd, const struct adv7511_cfg_read_infoframe *cri)
-+static int read_infoframe(struct v4l2_subdev *sd,
-+			  const struct adv7511_cfg_read_infoframe *cri,
-+			  u8 *buffer)
+-static int adv76xx_read_infoframe(struct v4l2_subdev *sd, int index,
+-				  union hdmi_infoframe *frame)
++static int adv76xx_read_infoframe_buf(struct v4l2_subdev *sd, int index,
++				      u8 buf[V4L2_DEBUGFS_IF_MAX_LEN])
  {
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct device *dev = &client->dev;
--	union hdmi_infoframe frame;
--	u8 buffer[32];
+-	uint8_t buffer[32];
  	u8 len;
  	int i;
  
- 	if (!(adv7511_rd(sd, cri->present_reg) & cri->present_mask)) {
- 		v4l2_info(sd, "%s infoframe not transmitted\n", cri->desc);
--		return;
-+		return 0;
+@@ -2472,27 +2474,20 @@ static int adv76xx_read_infoframe(struct v4l2_subdev *sd, int index,
  	}
  
- 	memcpy(buffer, cri->header, sizeof(cri->header));
+ 	for (i = 0; i < 3; i++)
+-		buffer[i] = infoframe_read(sd,
+-					   adv76xx_cri[index].head_addr + i);
++		buf[i] = infoframe_read(sd, adv76xx_cri[index].head_addr + i);
  
- 	len = buffer[2];
+-	len = buffer[2] + 1;
++	len = buf[2] + 1;
  
--	if (len + 4 > sizeof(buffer)) {
-+	if (len + 4 > V4L2_DEBUGFS_IF_MAX_LEN) {
- 		v4l2_err(sd, "%s: invalid %s infoframe length %d\n", __func__, cri->desc, len);
--		return;
-+		return 0;
+-	if (len + 3 > sizeof(buffer)) {
++	if (len + 3 > V4L2_DEBUGFS_IF_MAX_LEN) {
+ 		v4l2_err(sd, "%s: invalid %s infoframe length %d\n", __func__,
+ 			 adv76xx_cri[index].desc, len);
+ 		return -ENOENT;
  	}
  
- 	if (cri->payload_addr >= 0x100) {
-@@ -516,21 +517,38 @@ static void log_infoframe(struct v4l2_subdev *sd, const struct adv7511_cfg_read_
- 	buffer[3] = 0;
- 	buffer[3] = hdmi_infoframe_checksum(buffer, len + 4);
- 
--	if (hdmi_infoframe_unpack(&frame, buffer, len + 4) < 0) {
--		v4l2_err(sd, "%s: unpack of %s infoframe failed\n", __func__, cri->desc);
-+	return len + 4;
-+}
-+
-+static void log_infoframe(struct v4l2_subdev *sd,
-+			  const struct adv7511_cfg_read_infoframe *cri)
-+{
-+	union hdmi_infoframe frame;
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	struct device *dev = &client->dev;
-+	u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = {};
-+	int len = read_infoframe(sd, cri, buffer);
-+
-+	if (len <= 0)
-+		return;
-+
-+	if (hdmi_infoframe_unpack(&frame, buffer, len) < 0) {
-+		v4l2_err(sd, "%s: unpack of %s infoframe failed\n",
-+			 __func__, cri->desc);
- 		return;
- 	}
- 
- 	hdmi_infoframe_log(KERN_INFO, dev, &frame);
+ 	for (i = 0; i < len; i++)
+-		buffer[i + 3] = infoframe_read(sd,
+-				       adv76xx_cri[index].payload_addr + i);
+-
+-	if (hdmi_infoframe_unpack(frame, buffer, len + 3) < 0) {
+-		v4l2_err(sd, "%s: unpack of %s infoframe failed\n", __func__,
+-			 adv76xx_cri[index].desc);
+-		return -ENOENT;
+-	}
+-	return 0;
++		buf[i + 3] = infoframe_read(sd,
++					    adv76xx_cri[index].payload_addr + i);
++	return len + 3;
  }
  
-+static const struct adv7511_cfg_read_infoframe cri[] = {
-+	{ "AVI", 0x44, 0x10, { 0x82, 2, 13 }, 0x55 },
-+	{ "Audio", 0x44, 0x08, { 0x84, 1, 10 }, 0x73 },
-+	{ "SDP", 0x40, 0x40, { 0x83, 1, 25 }, 0x103 },
-+};
-+
- static void adv7511_log_infoframes(struct v4l2_subdev *sd)
- {
--	static const struct adv7511_cfg_read_infoframe cri[] = {
--		{ "AVI", 0x44, 0x10, { 0x82, 2, 13 }, 0x55 },
--		{ "Audio", 0x44, 0x08, { 0x84, 1, 10 }, 0x73 },
--		{ "SDP", 0x40, 0x40, { 0x83, 1, 25 }, 0x103 },
--	};
- 	int i;
+ static void adv76xx_log_infoframes(struct v4l2_subdev *sd)
+@@ -2505,10 +2500,19 @@ static void adv76xx_log_infoframes(struct v4l2_subdev *sd)
+ 	}
  
- 	for (i = 0; i < ARRAY_SIZE(cri); i++)
-@@ -1693,6 +1711,34 @@ static bool adv7511_check_edid_status(struct v4l2_subdev *sd)
- 	return false;
+ 	for (i = 0; i < ARRAY_SIZE(adv76xx_cri); i++) {
+-		union hdmi_infoframe frame;
+ 		struct i2c_client *client = v4l2_get_subdevdata(sd);
++		u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = {};
++		union hdmi_infoframe frame;
++		int len;
+ 
+-		if (!adv76xx_read_infoframe(sd, i, &frame))
++		len = adv76xx_read_infoframe_buf(sd, i, buffer);
++		if (len < 0)
++			continue;
++
++		if (hdmi_infoframe_unpack(&frame, buffer, len) < 0)
++			v4l2_err(sd, "%s: unpack of %s infoframe failed\n",
++				 __func__, adv76xx_cri[i].desc);
++		else
+ 			hdmi_infoframe_log(KERN_INFO, &client->dev, &frame);
+ 	}
+ }
+@@ -2686,6 +2690,41 @@ static int adv76xx_subscribe_event(struct v4l2_subdev *sd,
+ 	}
  }
  
 +static ssize_t
-+adv7511_debugfs_if_read(u32 type, void *priv,
-+			struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
++adv76xx_debugfs_if_read(u32 type, void *priv, struct file *filp,
++			char __user *ubuf, size_t count, loff_t *ppos)
 +{
 +	u8 buf[V4L2_DEBUGFS_IF_MAX_LEN] = {};
 +	struct v4l2_subdev *sd = priv;
 +	int index;
 +	int len;
++
++	if (!is_hdmi(sd))
++		return 0;
 +
 +	switch (type) {
 +	case V4L2_DEBUGFS_IF_AVI:
@@ -170,19 +162,23 @@ index e9406d552699..4036972af3a6 100644
 +	case V4L2_DEBUGFS_IF_SPD:
 +		index = 2;
 +		break;
++	case V4L2_DEBUGFS_IF_HDMI:
++		index = 3;
++		break;
 +	default:
 +		return 0;
 +	}
-+	len = read_infoframe(sd, &cri[index], buf);
++
++	len = adv76xx_read_infoframe_buf(sd, index, buf);
 +	if (len > 0)
 +		len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
 +	return len < 0 ? 0 : len;
 +}
 +
- static int adv7511_registered(struct v4l2_subdev *sd)
+ static int adv76xx_registered(struct v4l2_subdev *sd)
  {
- 	struct adv7511_state *state = get_adv7511_state(sd);
-@@ -1700,9 +1746,16 @@ static int adv7511_registered(struct v4l2_subdev *sd)
+ 	struct adv76xx_state *state = to_state(sd);
+@@ -2693,9 +2732,16 @@ static int adv76xx_registered(struct v4l2_subdev *sd)
  	int err;
  
  	err = cec_register_adapter(state->cec_adap, &client->dev);
@@ -192,17 +188,17 @@ index e9406d552699..4036972af3a6 100644
 -	return err;
 +		return err;
 +	}
-+
 +	state->debugfs_dir = debugfs_create_dir(sd->name, v4l2_debugfs_root());
 +	state->infoframes = v4l2_debugfs_if_alloc(state->debugfs_dir,
 +		V4L2_DEBUGFS_IF_AVI | V4L2_DEBUGFS_IF_AUDIO |
-+		V4L2_DEBUGFS_IF_SPD, sd, adv7511_debugfs_if_read);
++		V4L2_DEBUGFS_IF_SPD | V4L2_DEBUGFS_IF_HDMI, sd,
++		adv76xx_debugfs_if_read);
 +	return 0;
  }
  
- static void adv7511_unregistered(struct v4l2_subdev *sd)
-@@ -1710,6 +1763,10 @@ static void adv7511_unregistered(struct v4l2_subdev *sd)
- 	struct adv7511_state *state = get_adv7511_state(sd);
+ static void adv76xx_unregistered(struct v4l2_subdev *sd)
+@@ -2703,6 +2749,10 @@ static void adv76xx_unregistered(struct v4l2_subdev *sd)
+ 	struct adv76xx_state *state = to_state(sd);
  
  	cec_unregister_adapter(state->cec_adap);
 +	v4l2_debugfs_if_free(state->infoframes);
@@ -211,7 +207,7 @@ index e9406d552699..4036972af3a6 100644
 +	state->debugfs_dir = NULL;
  }
  
- static const struct v4l2_subdev_internal_ops adv7511_int_ops = {
+ /* ----------------------------------------------------------------------- */
 -- 
 2.43.0
 
