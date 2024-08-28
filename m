@@ -2,61 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EE5962252
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971E5962259
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:36:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C172E10E3C5;
-	Wed, 28 Aug 2024 08:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AEBB10E053;
+	Wed, 28 Aug 2024 08:36:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K31rlQvD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mtncNZ6F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12D4410E3C5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:31:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8E810E053
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:36:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724833885; x=1756369885;
+ t=1724834161; x=1756370161;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=xJuZ+EJ94pLSsNkzA+mfLjJFjy+ge3Om+5ox8Q/Z4rY=;
- b=K31rlQvDwaUnoGDmfNcPiDUWehbKSYG1XlpdsD5gXtTO8dLA/4YT897x
- LAIV73Vrj4JR/Hb9TTROkuruFkoZghAWWGp8DyJKdQgE8NOjO53DJwYT1
- 0Bbm1nU+Ri1Abz+0XBtK46js0BZ7hpz/BJFkpf6ziitIg96ugoi9xvWrQ
- HYLQeh8hVKgKr8vy/RokaqQ9gxAw6/lCV8Mr0Dq8qeN4/DquA9aMJnC+n
- MmRg/Z5NqR3Ad3ow7QDE9y7swY2yd7cHnHzMGPtI+XIvwSlxLAOPuy9+c
- TNHjVqGlJoHVLHdK+Bi48jqTKVW8SffnssavJcvmkygBgLSK9erR0eC6n A==;
-X-CSE-ConnectionGUID: IWHmRov+SMeUhJEP2nNZrg==
-X-CSE-MsgGUID: hfFSTNK8TxG3l1aiQdvP6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="13255676"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="13255676"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 01:31:24 -0700
-X-CSE-ConnectionGUID: eR2uKhlqSY6k0yuMgG2gSg==
-X-CSE-MsgGUID: CKK6zCmsTDaHJ11r4Su9vA==
+ message-id:mime-version:content-transfer-encoding;
+ bh=gizPOTp7IDSjb6kUrZDKwYTy4pO6ej/HLu/OaGGmw2M=;
+ b=mtncNZ6Ffzj2ZHbsM5NHlRp2Npnek3hxa3pWfuXJH7uPtppTmfZcQRiA
+ zohWLwMel9I/zr72xhygWIX3bzTZPcEHnnvwWTbiY3ihUU0Bmhd1wVMs5
+ qrSKV/+TcDqQzSj812zASV7gEzlKDFwaQRZ/finMNmvTO3+Vv8C1eP84E
+ R+5CA2bkuyM0zBhWYICYcnX5BzBIPW1C30ig45pm90XwxlqBhJZqJsVr9
+ xlrEsnz131wTOHV1IvfsixfyKO7IMYatf25DQb+AEC2QqWZnFG/L/0X9t
+ /6JlLZO2XMFXoGqujONFyum1v8Hpy2fkruCQmwFdvGz24EG6mtcbstRjY A==;
+X-CSE-ConnectionGUID: zq+5HD8RRPCmoIod25qeoQ==
+X-CSE-MsgGUID: 54lgX63PR0iD42umeijmzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23512095"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="23512095"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 01:35:56 -0700
+X-CSE-ConnectionGUID: +4WDI96SRaSN52XLKOcOug==
+X-CSE-MsgGUID: Dv6d161JQlCWjkDgTXxWMQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="67830578"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="63193476"
 Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
  ([10.245.246.110])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 01:31:21 -0700
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 01:35:49 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Derek Foreman <derek.foreman@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Maxime Ripard <mripard@kernel.org>, kernel@collabora.com, Helge Deller
- <deller@gmx.de>, linux-fbdev@vger.kernel.org, Derek Foreman
- <derek.foreman@collabora.com>
-Subject: Re: [PATCH v4] drm/connector: hdmi: Fix writing Dynamic Range
- Mastering infoframes
-In-Reply-To: <20240827163918.48160-1-derek.foreman@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>, Maxime Ripard
+ <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mairacanal@riseup.net>, Haneen
+ Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH RFC 11/15] drm: writeback: Add drm_writeback_connector
+ cleanup
+In-Reply-To: <Zs3z7tx4dMBfY_DX@louis-chauvet-laptop>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240827163918.48160-1-derek.foreman@collabora.com>
-Date: Wed, 28 Aug 2024 11:31:15 +0300
-Message-ID: <87cyltyros.fsf@intel.com>
+References: <20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com>
+ <20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com>
+ <20240827-solid-adorable-coucal-c3e0d1@houat>
+ <Zs3z7tx4dMBfY_DX@louis-chauvet-laptop>
+Date: Wed, 28 Aug 2024 11:35:43 +0300
+Message-ID: <87a5gxyrhc.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,101 +83,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 27 Aug 2024, Derek Foreman <derek.foreman@collabora.com> wrote:
-> The largest infoframe we create is the DRM (Dynamic Range Mastering)
-> infoframe which is 26 bytes + a 4 byte header, for a total of 30
-> bytes.
+On Tue, 27 Aug 2024, Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+> Le 27/08/24 - 16:33, Maxime Ripard a =C3=A9crit :
+>> Hi,
+>>=20
+>> On Wed, Aug 14, 2024 at 04:36:33PM GMT, Louis Chauvet wrote:
+>> > Currently drm_writeback_connector are created by
+>> > drm_writeback_connector_init or drm_writeback_connector_init_with_enco=
+der.
+>> > Both of the function uses drm_connector_init and drm_encoder_init, but
+>> > there is no way to properly clean those structure from outside.
+>> >=20
+>> > This patch introduce the new function drm_writeback_connector_cleanup =
+to
+>> > allow a proper cleanup.
+>> >=20
+>> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> > ---
+>> >  drivers/gpu/drm/drm_writeback.c | 10 ++++++++++
+>> >  include/drm/drm_writeback.h     | 11 +++++++++++
+>> >  2 files changed, 21 insertions(+)
+>> >=20
+>> > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_wri=
+teback.c
+>> > index a031c335bdb9..505a4eb40f93 100644
+>> > --- a/drivers/gpu/drm/drm_writeback.c
+>> > +++ b/drivers/gpu/drm/drm_writeback.c
+>> > @@ -184,6 +184,7 @@ int drm_writeback_connector_init(struct drm_device=
+ *dev,
+>> >  	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+>> >=20=20
+>> >  	wb_connector->encoder.possible_crtcs =3D possible_crtcs;
+>> > +	wb_connector->managed_encoder =3D true;
+>> >=20=20
+>> >  	ret =3D drm_encoder_init(dev, &wb_connector->encoder,
+>> >  			       &drm_writeback_encoder_funcs,
+>> > @@ -290,6 +291,15 @@ int drm_writeback_connector_init_with_encoder(str=
+uct drm_device *dev,
+>> >  }
+>> >  EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+>> >=20=20
+>> > +void drm_writeback_connector_cleanup(struct drm_writeback_connector *=
+wb_connector)
+>> > +{
+>> > +	drm_connector_cleanup(&wb_connector->base);
+>> > +	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
+>> > +	if (wb_connector->managed_encoder)
+>> > +		drm_encoder_cleanup(&wb_connector->encoder);
+>> > +}
+>> > +EXPORT_SYMBOL(drm_writeback_connector_cleanup);
+>> > +
+>> >  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+>> >  			 struct drm_framebuffer *fb)
+>> >  {
+>> > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+>> > index 17e576c80169..e651c0c0c84c 100644
+>> > --- a/include/drm/drm_writeback.h
+>> > +++ b/include/drm/drm_writeback.h
+>> > @@ -35,6 +35,15 @@ struct drm_writeback_connector {
+>> >  	 */
+>> >  	struct drm_encoder encoder;
+>> >=20=20
+>> > +	/**
+>> > +	 * @managed_encoder: Sets to true if @encoder was created by drm_wri=
+teback_connector_init()
+>> > +	 *
+>> > +	 * If the user used drm_writeback_connector_init_with_encoder() to c=
+reate the connector,
+>> > +	 * @encoder is not valid and not managed by drm_writeback_connector.=
+ This fields allows
+>> > +	 * the drm_writeback_cleanup() function to properly destroy the enco=
+der if needed.
+>> > +	 */
+>> > +	bool managed_encoder;
+>> > +
+>>=20
+>> I think we should rather create drmm_writeback_connector variants,
+>> and make both deprecated in favor of these new functions.
 >
-> With HDMI_MAX_INFOFRAME_SIZE set to 29 bytes, as it is now, we
-> allocate too little space to pack a DRM infoframe in
-> write_device_infoframe(), leading to an ENOSPC return from
-> hdmi_infoframe_pack(), and never calling the connector's
-> write_infoframe() vfunc.
+> Hi,
 >
-> Instead of having HDMI_MAX_INFOFRAME_SIZE defined in two places,
-> replace HDMI_MAX_INFOFRAME_SIZE with HDMI_INFOFRAME_SIZE(MAX) and make
-> MAX 27 bytes - which is defined by the HDMI specification to be the
-> largest infoframe payload.
+> I can try to do it. If I understand correctly, you want to create two=20
+> functions like this?=20
 >
-> Fixes: f378b77227bc ("drm/connector: hdmi: Add Infoframes generation")
-> Fixes: c602e4959a0c ("drm/connector: hdmi: Create Infoframe DebugFS entries")
+> 	int drmm_writeback_connector_init([...]) {
+> 		/* drmm and alloc as we want to let drm core to manage this=20
+> 		   encoder, no need to store it in drm_writeback_connector=20
+> 		   */
+> 		enc =3D drmm_plain_encoder_alloc(...);
+>
+> 		return drmm_writeback_connector_init_with_encoder([...], enc);
+> 	}
+>
+> 	int drmm_writeback_connector_init_with_encoder([...], enc) {
+> 		con =3D drmm_connector_init([...]);
+>
+> 		drm_connector_attach_encoder(enc, con);
+>
+> 		/* Needed for pixel_formats_blob_ptr, base is already=20
+> 		   managed by drmm_connector_init. Maybe cleaning=20
+> 		   job_queue is also needed? */
+> 		drmm_add_action_or_reset([...], &drm_writeback_connector_cleanup)
+> 	}
+
+Why add two variants, when you can have one and pass NULL for encoder?
+We have the _init_with_encoder variant only because nobody bothered to
+clean up existing call sites.
+
+Side note, I'd still like to be able to pass driver's own allocated
+connector instead of having writeback midlayer force it on you.
+
+BR,
+Jani.
+
+
+>
+> Louis Chauvet
+>=20=20
+>> Maxime
+>
 >
 
-Superfluous blank line. Can be fixed while applying.
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-
-> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 4 +---
->  drivers/gpu/drm/drm_debugfs.c                   | 4 +---
->  include/linux/hdmi.h                            | 9 +++++++++
->  3 files changed, 11 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> index 7854820089ec..feb7a3a75981 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -521,8 +521,6 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
->  
-> -#define HDMI_MAX_INFOFRAME_SIZE		29
-> -
->  static int clear_device_infoframe(struct drm_connector *connector,
->  				  enum hdmi_infoframe_type type)
->  {
-> @@ -563,7 +561,7 @@ static int write_device_infoframe(struct drm_connector *connector,
->  {
->  	const struct drm_connector_hdmi_funcs *funcs = connector->hdmi.funcs;
->  	struct drm_device *dev = connector->dev;
-> -	u8 buffer[HDMI_MAX_INFOFRAME_SIZE];
-> +	u8 buffer[HDMI_INFOFRAME_SIZE(MAX)];
->  	int ret;
->  	int len;
->  
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index 6b239a24f1df..9d3e6dd68810 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -520,8 +520,6 @@ static const struct file_operations drm_connector_fops = {
->  	.write = connector_write
->  };
->  
-> -#define HDMI_MAX_INFOFRAME_SIZE		29
-> -
->  static ssize_t
->  audio_infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
->  {
-> @@ -579,7 +577,7 @@ static ssize_t _f##_read_infoframe(struct file *filp, \
->  	struct drm_connector *connector; \
->  	union hdmi_infoframe *frame; \
->  	struct drm_device *dev; \
-> -	u8 buf[HDMI_MAX_INFOFRAME_SIZE]; \
-> +	u8 buf[HDMI_INFOFRAME_SIZE(MAX)]; \
->  	ssize_t len = 0; \
->  	\
->  	connector = filp->private_data; \
-> diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
-> index 3bb87bf6bc65..455f855bc084 100644
-> --- a/include/linux/hdmi.h
-> +++ b/include/linux/hdmi.h
-> @@ -59,6 +59,15 @@ enum hdmi_infoframe_type {
->  #define HDMI_DRM_INFOFRAME_SIZE    26
->  #define HDMI_VENDOR_INFOFRAME_SIZE  4
->  
-> +/*
-> + * HDMI 1.3a table 5-14 states that the largest InfoFrame_length is 27,
-> + * not including the packet header or checksum byte. We include the
-> + * checksum byte in HDMI_INFOFRAME_HEADER_SIZE, so this should allow
-> + * HDMI_INFOFRAME_SIZE(MAX) to be the largest buffer we could ever need
-> + * for any HDMI infoframe.
-> + */
-> +#define HDMI_MAX_INFOFRAME_SIZE    27
-> +
->  #define HDMI_INFOFRAME_SIZE(type)	\
->  	(HDMI_INFOFRAME_HEADER_SIZE + HDMI_ ## type ## _INFOFRAME_SIZE)
-
--- 
+--=20
 Jani Nikula, Intel
