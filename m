@@ -2,85 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2920D963136
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 21:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80ADD963159
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 21:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9374510E5C5;
-	Wed, 28 Aug 2024 19:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9038B10E073;
+	Wed, 28 Aug 2024 19:59:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BobCHzRK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WeSXeaiR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC9410E5C5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 19:49:22 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-53436e04447so1052158e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 12:49:22 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A62210E0C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 19:59:52 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2f401b2347dso10314021fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 12:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724874561; x=1725479361; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1724875190; x=1725479990; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=WfREJfZgElEweHVwJvSVEk/D+r54zJQcIccfYEdIZSM=;
- b=BobCHzRKXSe1//aazTv6ULYb5ve/NJGZvexvTkpymdyBgJSl5oF6U+ieRqu+J33gdc
- f0AtcXi0pF3+syIPc2yoCm+Gl3sLX3LmesncC/Q9YNUrSOqPaMnPc8D4g3I8Q/VUU7JI
- gU88nmNRFUiZF7UXOfF0C0Jtv5RjGHbqfWgphH5UY9MXL0U6ee4Pea4xEtyINGblO5pN
- 0JCmKl0hZfkiQ7vBDXnkyQrAdmbZl6Lt3EBWDRcFcDjmuSKahKq2oZ3tUHZGtZq5uhq4
- z6pDN+NhDy/uD02g1dhEGki/ulr1w7/LsdPzW62Em1qKpxnDREnd8jTLuTeWpQXBW/nn
- w3VQ==
+ bh=d8zHkfisckPodXDwU4YrlbbeO+jKzfoe0P8xfdKKL2o=;
+ b=WeSXeaiR/kgWD/UoLZllvpKtyfsODIbxbwlgWgIGE27BFOdDWsi8zDgkZ/kq+34Bmq
+ apxduMl3nczwVWgDZ88FX2sJMPndFkqw/4oJKpK5toONZNK7ekfBxaoGNoWNwxy8UvCi
+ nQk68x7K7LEb+gh2NRG9VxVIIJlUmNX/PdBWIKN1J/kxHFGF12HJNMxunH0jJmDemA+J
+ jQw4XAb+RKdE5t1WjXxPX25xQvk8dlnr/KWgN9by9xi5V4bACp1WTDvRilXwa54mUmuf
+ xuCh3PrcFFQCWKNBtUPiqfUpBL22NAqB99Ee9CMcfwCNQ3zgSN2jIXn0SsaaiVo2D363
+ QKFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724874561; x=1725479361;
+ d=1e100.net; s=20230601; t=1724875190; x=1725479990;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WfREJfZgElEweHVwJvSVEk/D+r54zJQcIccfYEdIZSM=;
- b=j5HuxtSpL4Uo1fNLEUj9Q23ekv2qbswbtvRdPUWQdo5NtiJfi0wraLcAK0eNQpuZSR
- 489FupIlnUYO3G6t/NSnGj8NlHETwzm5Nilv8FR9bwZM2fn+qTGBa9PiCS6Yeigj4DCD
- qXlQSSgFaFyKQ1A/Yc/XJ6HILwEhAUkdOacwLJXfw4vja5ch6ihTRf3zfSgNYId3Kjto
- vokMonupaNGFbkdoS+b+euWb/uztskGVoUB2IQ7XyfmYzncWS+W4bV72Bmx5dlXBPjw0
- 2ctov2uCiWaKRpRwPMvFcnvYpuTkmXn7AdwtD9T+QnXb2MxXiEFPjwzZaWRN9xNrpPZ3
- HhSw==
+ bh=d8zHkfisckPodXDwU4YrlbbeO+jKzfoe0P8xfdKKL2o=;
+ b=bcUQnOStZjVEesMypJET5JabPEXsVAzvLhNKkHV2KPioglwGAZuOt0/CBIHG0EOEO8
+ iP1K9whLHnTcNaozeEhyoQWP+EPbVk+CB0l7SsVljBXoBsIRqKeiuA2Cm0Pz3XSSnypc
+ aeZqwkxHXEdE4975ly1LI8x+vsc/jd8IyUzky2aHe9myWinxjsR8uHrNKZk5QjpNWoXo
+ LnDfi7TrL4v/3FqTsgKPUGutMXvM4eFTpzJrXthcn8qriAGMqc3rObeyjiOUHD8w9dos
+ E3BwEhWLavdtBE7ubR+t0ny0TJiv45lfr0QumplJtimDAliJT1oAtHqses7ZoZsDTJOd
+ lfPg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXlymWRSK2t5Z9miODTWaEYfZIRKS9lIqcLg4UdMUZ7lckDFetn6oaiauRCZsht/fdPDy99Wc+Ws00=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIo714XsYzZE/CcCILDOU1DPys5lGLgfOQ8Ot397YwjTIH/DU9
- l0ZMHwzNPzx+KOMr3AGMb5xJW27evBOWL7Q97VMkRfZ/5Wr80J21yZvs7sziVUs=
-X-Google-Smtp-Source: AGHT+IFR6avFKpr2wHph931hDBC2z+rTIPVUVlBNS/Uou013Y8gMhOrlNprLkZ/3P1WLSkHYPJBA7Q==
-X-Received: by 2002:a05:6512:3b97:b0:52f:228:cf91 with SMTP id
- 2adb3069b0e04-5353eba3ee1mr78077e87.1.1724874560042; 
- Wed, 28 Aug 2024 12:49:20 -0700 (PDT)
+ AJvYcCXA+AQPw1eAos6COXhf89siXaGiGEHRAUCr6nf2A1cFud8Y13b87UG9CdCagSNe5nx8iA8P6PG10fA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/0nlF68qNHdIrWnE+13yXaEzMx/OTjTOZMj7eDCUV30uAa88D
+ 1sTiPGMUY0VdSpvtQw0CywrABsqkjBb4CsqNf+He3LrJX16gDLGtrhTOyI3/AmQ=
+X-Google-Smtp-Source: AGHT+IHUPZgRjwjhGXUYisGlSBvBIIptTwT7XL/6mzdnfRbs3tQwYO6A+cS/VdeREgw8PkHAmaFlbA==
+X-Received: by 2002:a2e:a989:0:b0:2ef:2768:619d with SMTP id
+ 38308e7fff4ca-2f61299bce6mr827061fa.5.1724875189428; 
+ Wed, 28 Aug 2024 12:59:49 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5334ea99933sm2248052e87.309.2024.08.28.12.49.19
+ 38308e7fff4ca-2f40484c6c0sm20011361fa.75.2024.08.28.12.59.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2024 12:49:19 -0700 (PDT)
-Date: Wed, 28 Aug 2024 22:49:18 +0300
+ Wed, 28 Aug 2024 12:59:49 -0700 (PDT)
+Date: Wed, 28 Aug 2024 22:59:47 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Jassi Brar <jassisinghbrar@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Tengfei Fan <quic_tengfan@quicinc.com>, Ling Xu <quic_lxu5@quicinc.com>
-Subject: Re: [PATCH v4 4/6] misc: fastrpc: Add support for cdsp1 remoteproc
-Message-ID: <vuviyau3vbmf4l4mfb47lyh2n2t65fy3j2lxrg5jtyuz34kil2@q5ytlfdcmf7x>
-References: <20240805-topic-sa8775p-iot-remoteproc-v4-0-86affdc72c04@linaro.org>
- <20240805-topic-sa8775p-iot-remoteproc-v4-4-86affdc72c04@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Stephen Boyd <swboyd@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com,
+ dianders@chromium.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm: fix the highest_bank_bit for sc7180
+Message-ID: <fbhb7hlpmxxfqv5iwtuhuxz4nx4qifd6kygo5fxvfiqsh2idpu@tzqwxkxaszq6>
+References: <20240808235227.2701479-1-quic_abhinavk@quicinc.com>
+ <CAE-0n53qMJVbfb9oXbDexqhOj6qTBq9k5kMj1e6CXadObhBmLg@mail.gmail.com>
+ <c2218911-650a-4f43-9119-bd2cfc46f3aa@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240805-topic-sa8775p-iot-remoteproc-v4-4-86affdc72c04@linaro.org>
+In-Reply-To: <c2218911-650a-4f43-9119-bd2cfc46f3aa@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,26 +91,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 05, 2024 at 07:08:05PM GMT, Bartosz Golaszewski wrote:
-> From: Ling Xu <quic_lxu5@quicinc.com>
+On Mon, Aug 12, 2024 at 12:41:40PM GMT, Abhinav Kumar wrote:
 > 
-> The fastrpc supports 4 remoteproc. There are some products which
-> support cdsp1 remoteproc. Add changes to support cdsp1 remoteproc.
-
-I'd very much prefer to see this abstracted somehow, but it seems
-impossible with the current driver code.
-
 > 
-> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
-> [Bartosz: ported to mainline]
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
->  drivers/misc/fastrpc.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+> On 8/12/2024 11:40 AM, Stephen Boyd wrote:
+> > Quoting Abhinav Kumar (2024-08-08 16:52:27)
+> > > sc7180 programs the ubwc settings as 0x1e as that would mean a
+> > > highest bank bit of 14 which matches what the GPU sets as well.
+> > > 
+> > > However, the highest_bank_bit field of the msm_mdss_data which is
+> > > being used to program the SSPP's fetch configuration is programmed
+> > > to a highest bank bit of 16 as 0x3 translates to 16 and not 14.
+> > > 
+> > > Fix the highest bank bit field used for the SSPP to match the mdss
+> > > and gpu settings.
+> > > 
+> > > Fixes: 6f410b246209 ("drm/msm/mdss: populate missing data")
+> > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > ---
+> > >   drivers/gpu/drm/msm/msm_mdss.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> > > index d90b9471ba6f..faa88fd6eb4d 100644
+> > > --- a/drivers/gpu/drm/msm/msm_mdss.c
+> > > +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> > > @@ -577,7 +577,7 @@ static const struct msm_mdss_data sc7180_data = {
+> > >          .ubwc_enc_version = UBWC_2_0,
+> > >          .ubwc_dec_version = UBWC_2_0,
+> > >          .ubwc_static = 0x1e,
+> > > -       .highest_bank_bit = 0x3,
+> > > +       .highest_bank_bit = 0x1,
+> > 
+> > Usually when I see hex it's because there's a mask. This isn't a mask
+> > though? Can it just be '1'?
 > 
+> I just retained the same convention that was used earlier. It seems like a
+> mix and match right now. sc7180, sm6115 and qcm2290 were using 0x.
+> 
+> I can post a separate change to change all of them.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+We probably need to do a +13 to all of them to follow the approach of
+the a6xx code.
 
 -- 
 With best wishes
