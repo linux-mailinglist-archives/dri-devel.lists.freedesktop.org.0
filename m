@@ -2,78 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB0F9628E7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:41:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF5B9628FB
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37F910E523;
-	Wed, 28 Aug 2024 13:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55DF810E52C;
+	Wed, 28 Aug 2024 13:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fmMbkMVE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y8bv4gnB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9B410E523
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:41:15 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id
- d75a77b69052e-4567dd6f77fso486351cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 06:41:15 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A54F10E524;
+ Wed, 28 Aug 2024 13:43:14 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5bef295a45bso3746762a12.0; 
+ Wed, 28 Aug 2024 06:43:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724852474; x=1725457274; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1724852593; x=1725457393; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZM22fWGyfP7pTHMrkwvXyYB2yArAZ5REiY88yMWxV58=;
- b=fmMbkMVEDfVrNyyznKt1NOKadwTRai1IsIUV5EPQwTQ0NYZqcKjC6ytaGViDU7t1t1
- bK+3Lq9qM1G8p+honYpIHLUGm4ChjWTmzNyiHh8CloFhJO/crmKQP7V0RoWFC8JyQmDq
- 1/96tyc5dgjCx28Cav60FADhlFo/DZ2z5wYdPUPsKqT90j2LU01RWI7qRpQqxbKjZkqu
- ffg8a0f1fuhl5CuhzYPWAXmoTOLtPPhK9aw/sOD2+cqRuNlvCiJFT+KD5c9AXbUvCdOT
- rrMV7mlRNK7fooS8DbzpT5IIZC5gRmm5K7Do6zKh+LO0AXPz7KvpG1E+uVfXE7xlKNUk
- 09gw==
+ bh=4pEqZjPIkfOrpkl6p6w9n8vu/E0lE1rdjJmvNSljER0=;
+ b=Y8bv4gnBg1d5RYzR0CffgIMEeHuJrSteESzMjFPlP9nf3/hsyuS4v1l7zCxBElfuOa
+ zjSVluuj+xNn86NxDDjguwy9iufDiNL0ADxcqKclu2Ned+pdQr0j3Ap/y2ijS3z46Ulz
+ 1+OiYj7HwP+nqBWDo4Q6+h90yKcza/ZzKJIp1iHncrCGYKnfcTUS3F97otCV4Bg4V5RQ
+ LCJeswgElutWgx+BnseXY7Y5opUcK3Ml09eTfT5P64OppQw6F8JEiT58M6Md4IfkHGMp
+ 4O7zCghFMxXNXvcsizm+Bpw4wy4Wn3h7MRN5QI24a4r+IIsPbSE46B8PMGLvTAuA7mmX
+ n8Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724852474; x=1725457274;
+ d=1e100.net; s=20230601; t=1724852593; x=1725457393;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZM22fWGyfP7pTHMrkwvXyYB2yArAZ5REiY88yMWxV58=;
- b=ISnxSrsXQvqRTVu0RWGTOMVCSXLeK4saXL32FNsaKr3Hx1DyqGP+EO6B2vh1vtj/np
- KASkgOYGTda0DA61bSw+A27im9LNOroRinWkxxBuY0OnrWZBc8paVme6j9HLQDXny4LD
- Xzv8Oaojumwpw6kW6/XPgLg6T1NA5sIQU/r1Y98OkBPYGpO5aQMNtlNz/DxRt66VYPAO
- mtiCXhZ6udEZZdhZf+ntXqqrTDphDkZkjSaz8D7EFb5dsIAF5H9hbzLuH22+RNrfcivW
- jKZ4YNqOGDfVppCgZFXtg/E9CkTs4Gmy6k1p4hnUBzEqJgxi8LvWTzynutnn+iqKFjCw
- k60g==
+ bh=4pEqZjPIkfOrpkl6p6w9n8vu/E0lE1rdjJmvNSljER0=;
+ b=wEGdnyq8PXWXT5u0ycOqqL+txpdLtmXorRGI8WMFX6x+eVMIMMeLWaGfi8FaS+EDj4
+ U+O8gRoqPI+CVnoza/OcPg1EGF7cqfUspOzZsUEC/6JTnYG138E5AVAxxdYYChevDAKD
+ FLItIDeT1acOlgHAt1ZhX1KU4BSmAY2qvhBCFFHjtF/xOdhY8o/+o0muHqymu2LMN98M
+ lbE+iETkVcY7aSP67LSmP3mlBq+ollULJ0x9hx4J3Qo5QxJdEkM6iNqtGgEbUBf/MjLu
+ qFgo/0mhjEWqIcM+WU5c3SnIiPcQ8Bk3HAlM6PIEsDng2iZW6na0oE/nV6NlxKmmulio
+ DGZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUjwcFya9zpu8+tj+fUt6jQ0V+kX/U70V6LBizu62obQZv4hianLjqTTOWGebg3RLO77ESmBLdhUy4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXZoQSAZiUzrTBinDtGyAhkG+GIJsVl1ehrEZleXL2EL7LqUIX
- k5dvTEbhNrrtfWM4rKONBEJ91R5fP5AcvLuxLDV61SGErrMVz3XZHxRMxVgMwkDlB+MPomnzEyZ
- TUXjFR2oN8g56OgQ11jcttj/1jaE=
-X-Google-Smtp-Source: AGHT+IEyHFAeIj+i9dwO5uOiV3XCouo/U0KX68AiGeUIHgmLKbuZ6ld4KcpgR5tcN/ds4tOwYEpli4MYtWggh3QrvFs=
-X-Received: by 2002:a05:6214:448e:b0:6c1:84ce:8f31 with SMTP id
- 6a1803df08f44-6c335c60e6emr43501846d6.0.1724852473892; Wed, 28 Aug 2024
- 06:41:13 -0700 (PDT)
+ AJvYcCU+EDGnTHA0akB/n1qQE+w0UcYYnUI5rR/s2HgwrPODIY4KZbQ2xJY7mdtTXWfbcisCFji/A2FB0QM=@lists.freedesktop.org,
+ AJvYcCW/8eTQaQki377TC2MBg8ddGj1syGm3P4CsSy15zpMWuysFqMZefcbMNKV+N8eU2p0Vm+sIdN9oEZC4@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzaDL9X528LyCAF+P2n0MYaUiArE9KAy6HECljw14K6NOyvKZdy
+ VKasu3ab00YK/3gKCVmbAIZ26eOstUKnjAK6PZ6fJMUG+WOEuXSTRElELPfYkZGt177zUqFg+uY
+ oHRPoP39wAG9swKoFmnu/rg1oU30=
+X-Google-Smtp-Source: AGHT+IF2LPaReCgiSF2wFWIOBSNIVsBhtFt72m4yvlauwvxjZPteZ9QiL/jsA4kYTxq7xW1WENObJdlA9yG8gXzfDdY=
+X-Received: by 2002:a05:6402:3509:b0:5c0:c65f:819e with SMTP id
+ 4fb4d7f45d1cf-5c0c65f8230mr4586507a12.9.1724852592106; Wed, 28 Aug 2024
+ 06:43:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240828030321.20688-1-laoar.shao@gmail.com>
- <20240828030321.20688-2-laoar.shao@gmail.com>
- <lql4y2nvs3ewadszhmv4m6fnqja4ff4ymuurpidlwvgf4twvru@esnh37a2jxbd>
- <n2fxqs3tekvljezaqpfnwhsmjymch4vb47y744zwmy7urf3flv@zvjtepkem4l7>
-In-Reply-To: <n2fxqs3tekvljezaqpfnwhsmjymch4vb47y744zwmy7urf3flv@zvjtepkem4l7>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Wed, 28 Aug 2024 21:40:35 +0800
-Message-ID: <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
-To: Alejandro Colomar <alx@kernel.org>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
- justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
- rostedt@goodmis.org, catalin.marinas@arm.com, 
- penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, 
- Matus Jokay <matus.jokay@stuba.sk>, "Serge E. Hallyn" <serge@hallyn.com>
+References: <20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com>
+ <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
+ <20240819200837.etzn7oaoamnceigr@hu-akhilpo-hyd.qualcomm.com>
+ <CACu1E7E7FPJP-Ry64m257A7WrL3Q9jy8xMS9XpSBRNimBWzYUQ@mail.gmail.com>
+ <20240822200534.fgugb3zmcp7hjyck@hu-akhilpo-hyd.qualcomm.com>
+ <CACu1E7F068sAMFgn=D7qBGM81qvYP4iW1+hXpfXVKtQGWeyTKQ@mail.gmail.com>
+ <CACu1E7EueMnte9e+yLEtRE9WmG0J5bVMj59VbPfkDeB7OHbsAw@mail.gmail.com>
+ <20240827194828.jxwelq4xr2wsdxos@hu-akhilpo-hyd.qualcomm.com>
+ <d95ef763-7237-4080-b323-838ca337734a@gmail.com>
+ <CAF6AEGuASw0YO8b0X24-iq1pqTnBEpr0Tm3Scmt4-T+HeCMY_A@mail.gmail.com>
+ <57064da3-190c-4554-b085-d56daf979933@gmail.com>
+In-Reply-To: <57064da3-190c-4554-b085-d56daf979933@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 28 Aug 2024 06:42:59 -0700
+Message-ID: <CAF6AEGtYh6jnYcFLcUnEobjQqKmqxuX29wO1qqnGYFQJ+EUBxw@mail.gmail.com>
+Subject: Re: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
+To: Antonino Maniscalco <antomani103@gmail.com>
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Connor Abbott <cwabbott0@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,196 +100,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 28, 2024 at 8:58=E2=80=AFPM Alejandro Colomar <alx@kernel.org> =
-wrote:
+On Tue, Aug 27, 2024 at 3:56=E2=80=AFPM Antonino Maniscalco
+<antomani103@gmail.com> wrote:
 >
-> On Wed, Aug 28, 2024 at 12:15:40PM GMT, Alejandro Colomar wrote:
-> > Hi Yafang,
-> >
-> > On Wed, Aug 28, 2024 at 11:03:14AM GMT, Yafang Shao wrote:
-> > > We want to eliminate the use of __get_task_comm() for the following
-> > > reasons:
-> > >
-> > > - The task_lock() is unnecessary
-> > >   Quoted from Linus [0]:
-> > >   : Since user space can randomly change their names anyway, using lo=
-cking
-> > >   : was always wrong for readers (for writers it probably does make s=
-ense
-> > >   : to have some lock - although practically speaking nobody cares th=
-ere
-> > >   : either, but at least for a writer some kind of race could have
-> > >   : long-term mixed results
-> > >
-> > > - The BUILD_BUG_ON() doesn't add any value
-> > >   The only requirement is to ensure that the destination buffer is a =
-valid
-> > >   array.
-> > >
-> > > - Zeroing is not necessary in current use cases
-> > >   To avoid confusion, we should remove it. Moreover, not zeroing coul=
+> On 8/27/24 11:07 PM, Rob Clark wrote:
+> > On Tue, Aug 27, 2024 at 1:25=E2=80=AFPM Antonino Maniscalco
+> > <antomani103@gmail.com> wrote:
+> >>
+> >> On 8/27/24 9:48 PM, Akhil P Oommen wrote:
+> >>> On Fri, Aug 23, 2024 at 10:23:48AM +0100, Connor Abbott wrote:
+> >>>> On Fri, Aug 23, 2024 at 10:21=E2=80=AFAM Connor Abbott <cwabbott0@gm=
+ail.com> wrote:
+> >>>>>
+> >>>>> On Thu, Aug 22, 2024 at 9:06=E2=80=AFPM Akhil P Oommen <quic_akhilp=
+o@quicinc.com> wrote:
+> >>>>>>
+> >>>>>> On Wed, Aug 21, 2024 at 05:02:56PM +0100, Connor Abbott wrote:
+> >>>>>>> On Mon, Aug 19, 2024 at 9:09=E2=80=AFPM Akhil P Oommen <quic_akhi=
+lpo@quicinc.com> wrote:
+> >>>>>>>>
+> >>>>>>>> On Thu, Aug 15, 2024 at 08:26:14PM +0200, Antonino Maniscalco wr=
+ote:
+> >>>>>>>>> This patch implements preemption feature for A6xx targets, this=
+ allows
+> >>>>>>>>> the GPU to switch to a higher priority ringbuffer if one is rea=
+dy. A6XX
+> >>>>>>>>> hardware as such supports multiple levels of preemption granula=
+rities,
+> >>>>>>>>> ranging from coarse grained(ringbuffer level) to a more fine gr=
+ained
+> >>>>>>>>> such as draw-call level or a bin boundary level preemption. Thi=
+s patch
+> >>>>>>>>> enables the basic preemption level, with more fine grained pree=
+mption
+> >>>>>>>>> support to follow.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> >>>>>>>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> >>>>>>>>> ---
+> >>>>>>>>
+> >>>>>>>> No postamble packets which resets perfcounters? It is necessary.=
+ Also, I
+> >>>>>>>> think we should disable preemption during profiling like we disa=
+ble slumber.
+> >>>>>>>>
+> >>>>>>>> -Akhil.
+> >>>>>>>
+> >>>>>>> I don't see anything in kgsl which disables preemption during
+> >>>>>>> profiling. It disables resetting perfcounters when doing system-w=
+ide
+> >>>>>>> profiling, like freedreno, and in that case I assume preempting i=
+s
+> >>>>>>> fine because the system profiler has a complete view of everythin=
+g and
+> >>>>>>> should "see" preemptions through the traces. For something like
+> >>>>>>> VK_KHR_performance_query I suppose we'd want to disable preemptio=
+n
+> >>>>>>> because we disable saving/restoring perf counters, but that has t=
+o
+> >>>>>>> happen in userspace because the kernel doesn't know what userspac=
+e
+> >>>>>>> does.
+> >>>>>>>
+> >>>>>>
+> >>>>>> KGSL does some sort of arbitration of perfcounter configurations a=
+nd
+> >>>>>> adds the select/enablement reg configuration as part of dynamic
+> >>>>>> power up register list which we are not doing here. Is this someth=
+ing
+> >>>>>> you are taking care of from userspace via preamble?
+> >>>>>>
+> >>>>>> -Akhil
+> >>>>>
+> >>>>> I don't think we have to take care of that in userspace, because Me=
+sa
+> >>>>> will always configure the counter registers before reading them in =
+the
+> >>>>> same submission, and if it gets preempted in the meantime then we'r=
+e
+> >>>>> toast anyways (due to not saving/restoring perf counters). kgsl set=
+s
+> >>>>> them from userspace, which is why it has to do something to set the=
+m
+> >>>>
+> >>>> Sorry, should be "kgsl sets them from the kernel".
+> >>>>
+> >>>>> after IFPC slumber or a context switch when the HW state is gone.
+> >>>>> Also, because the upstream approach doesn't play nicely with system
+> >>>>> profilers like perfetto, VK_KHR_performance_query is hidden by defa=
+ult
+> >>>>> behind a debug flag in turnip. So there's already an element of "th=
+is
+> >>>>> is unsupported, you have to know what you're doing to use it."
+> >>>
+> >>> But when you have composition on GPU enabled, there will be very freq=
+uent
+> >>> preemption. And I don't know how usable profiling tools will be in th=
+at
+> >>> case unless you disable preemption with a Mesa debug flag. But for th=
+at
+> >>> to work, all existing submitqueues should be destroyed and recreated.
+> >>>
+> >>> So I was thinking that we can use the sysprof propertry to force L0
+> >>> preemption from kernel.
+> >>>
+> >>> -Akhil.
+> >>>
+> >>
+> >> Right but when using a system profiler I imagined the expectation woul=
 d
-> > >   potentially make it easier to uncover bugs. If the caller needs a
-> > >   zero-padded task name, it should be explicitly handled at the call =
-site.
-> > >
-> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > > Link: https://lore.kernel.org/all/CAHk-=3DwivfrF0_zvf+oj6=3D=3DSh=3D-=
-npJooP8chLPEfaFV0oNYTTBA@mail.gmail.com [0]
-> > > Link: https://lore.kernel.org/all/CAHk-=3DwhWtUC-AjmGJveAETKOMeMFSTwK=
-wu99v7+b6AyHMmaDFA@mail.gmail.com/
-> > > Suggested-by: Alejandro Colomar <alx@kernel.org>
-> > > Link: https://lore.kernel.org/all/2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueu=
-rfbosf5wdo65dk4@srb3hsk72zwq
-> > > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> > > Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> > > Cc: Christian Brauner <brauner@kernel.org>
-> > > Cc: Jan Kara <jack@suse.cz>
-> > > Cc: Eric Biederman <ebiederm@xmission.com>
-> > > Cc: Kees Cook <keescook@chromium.org>
-> > > Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> > > Cc: Matus Jokay <matus.jokay@stuba.sk>
-> > > Cc: Alejandro Colomar <alx@kernel.org>
-> > > Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> > > ---
-> > >  fs/exec.c             | 10 ----------
-> > >  fs/proc/array.c       |  2 +-
-> > >  include/linux/sched.h | 32 ++++++++++++++++++++++++++------
-> > >  kernel/kthread.c      |  2 +-
-> > >  4 files changed, 28 insertions(+), 18 deletions(-)
-> > >
+> >> be to be able to understand how applications and compositor interact. =
+An
+> >> use case could be measuring latency and understanding what contributes
+> >> to it. That is actually the main reason I added traces for preemption.
+> >> Disabling preemption would make it less useful for this type of
+> >> analysis. Did you have an use case in mind for a system profiler that
+> >> would benefit from disabling preemption and that is not covered by
+> >> VK_KHR_performance_query (or equivalent GL ext)?
 > >
-> > [...]
+> > I would think that we want to generate an event, with GPU timestamp
+> > (ie. RB_DONE) and which ring we are switching to, so that perfetto/etc
+> > could display multiple GPU timelines and where the switch from one to
+> > the other happens.
 > >
-> > > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > > index f8d150343d42..c40b95a79d80 100644
-> > > --- a/include/linux/sched.h
-> > > +++ b/include/linux/sched.h
+> > I'm a bit curious how this is handled on android, with AGI/etc.. I
+> > don't see any support in perfetto for this.
 > >
-> > [...]
+> > BR,
+> > -R
 > >
-> > > @@ -1914,10 +1917,27 @@ static inline void set_task_comm(struct task_=
-struct *tsk, const char *from)
-> > >     __set_task_comm(tsk, from, false);
-> > >  }
-> > >
-> > > -extern char *__get_task_comm(char *to, size_t len, struct task_struc=
-t *tsk);
-> > > +/*
-> >
-> > [...]
-> >
-> > > + * - ARRAY_SIZE() can help ensure that @buf is indeed an array.
-> > > + */
-> > >  #define get_task_comm(buf, tsk) ({                 \
-> > > -   BUILD_BUG_ON(sizeof(buf) !=3D TASK_COMM_LEN);     \
-> > > -   __get_task_comm(buf, sizeof(buf), tsk);         \
-> > > +   strscpy(buf, (tsk)->comm, ARRAY_SIZE(buf));     \
-> >
-> > I see that there's a two-argument macro
-> >
-> >       #define strscpy(dst, src)       sized_strscpy(dst, src, sizeof(ds=
-t))
-> >
-> > which is used in patch 2/8
-> >
-> >       diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> >       index 6f0d6fb6523f..e4ef5e57dde9 100644
-> >       --- a/kernel/auditsc.c
-> >       +++ b/kernel/auditsc.c
-> >       @@ -2730,7 +2730,7 @@ void __audit_ptrace(struct task_struct *t)
-> >               context->target_uid =3D task_uid(t);
-> >               context->target_sessionid =3D audit_get_sessionid(t);
-> >               security_task_getsecid_obj(t, &context->target_sid);
-> >       -       memcpy(context->target_comm, t->comm, TASK_COMM_LEN);
-> >       +       strscpy(context->target_comm, t->comm);
-> >        }
-> >
-> >        /**
+> >> Best regards,
+> >> --
+> >> Antonino Maniscalco <antomani103@gmail.com>
+> >>
 >
-> Ahh, the actual generic definition is in <include/linux/string.h>.
-> You could do
+> Looking at KGSL they seem to use ftrace and I don't see it doing
+> anything to get a timestamp from some GPU timer, really not sure how
+> that would be put in a gpu timeline.
+
+I suspect it would require some work on perfetto trace-processor.  It
+can ingest ftrace events (but those would end up being something
+driver specific).  Maybe with u_trace and some tracepoints in the
+'ambles something could be done that would be more driver agnostic
+(but idk if that would work for gpu's where preemption happens more
+autonomously in the fw)
+
+BR,
+-R
+
+> Best regards,
+> --
+> Antonino Maniscalco <antomani103@gmail.com>
 >
->         diff --git i/include/linux/string.h w/include/linux/string.h
->         index 9edace076ddb..060504719904 100644
->         --- i/include/linux/string.h
->         +++ w/include/linux/string.h
->         @@ -76,11 +76,11 @@ ssize_t sized_strscpy(char *, const char *, s=
-ize_t);
->           * known size.
->           */
->          #define __strscpy0(dst, src, ...)      \
->         -       sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst=
-))
->         +       sized_strscpy(dst, src, ARRAY_SIZE(dst))
->          #define __strscpy1(dst, src, size)     sized_strscpy(dst, src, s=
-ize)
->
->          #define __strscpy_pad0(dst, src, ...)  \
->         -       sized_strscpy_pad(dst, src, sizeof(dst) + __must_be_array=
-(dst))
->         +       sized_strscpy_pad(dst, src, ARRAY_SIZE(dst))
->          #define __strscpy_pad1(dst, src, size) sized_strscpy_pad(dst, sr=
-c, size)
->
->          /**
-
-Thank you for your suggestion. How does the following commit log look
-to you? Does it meet your expectations?
-
-    string: Use ARRAY_SIZE() in strscpy()
-
-    We can use ARRAY_SIZE() instead to clarify that they are regular charac=
-ters.
-
-    Co-developed-by: Alejandro Colomar <alx@kernel.org>
-    Signed-off-by: Alejandro Colomar <alx@kernel.org>
-    Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-
-diff --git a/arch/um/include/shared/user.h b/arch/um/include/shared/user.h
-index bbab79c0c074..07216996e3a9 100644
---- a/arch/um/include/shared/user.h
-+++ b/arch/um/include/shared/user.h
-@@ -14,7 +14,7 @@
-  * copying too much infrastructure for my taste, so userspace files
-  * get less checking than kernel files.
-  */
--#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]) + __must_be_array(x))
-
- /* This is to get size_t and NULL */
- #ifndef __UM_HOST__
-@@ -60,7 +60,7 @@ static inline void print_hex_dump(const char *level,
-const char *prefix_str,
- extern int in_aton(char *str);
- extern size_t strlcat(char *, const char *, size_t);
- extern size_t sized_strscpy(char *, const char *, size_t);
--#define strscpy(dst, src)      sized_strscpy(dst, src, sizeof(dst))
-+#define strscpy(dst, src)      sized_strscpy(dst, src, ARRAY_SIZE(dst))
-
- /* Copied from linux/compiler-gcc.h since we can't include it directly */
- #define barrier() __asm__ __volatile__("": : :"memory")
-diff --git a/include/linux/string.h b/include/linux/string.h
-index 9edace076ddb..060504719904 100644
---- a/include/linux/string.h
-+++ b/include/linux/string.h
-
-@@ -76,11 +76,11 @@ ssize_t sized_strscpy(char *, const char *, size_t);
-  * known size.
-  */
- #define __strscpy0(dst, src, ...)      \
--       sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst))
-+       sized_strscpy(dst, src, ARRAY_SIZE(dst))
- #define __strscpy1(dst, src, size)     sized_strscpy(dst, src, size)
-
- #define __strscpy_pad0(dst, src, ...)  \
--       sized_strscpy_pad(dst, src, sizeof(dst) + __must_be_array(dst))
-+       sized_strscpy_pad(dst, src, ARRAY_SIZE(dst))
- #define __strscpy_pad1(dst, src, size) sized_strscpy_pad(dst, src, size)
-
- /**
-
---
-Regards
-
-Yafang
