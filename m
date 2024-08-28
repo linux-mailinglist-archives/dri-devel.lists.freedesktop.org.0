@@ -2,84 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA189962BE8
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3B2962B64
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9831910E587;
-	Wed, 28 Aug 2024 15:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F7410E579;
+	Wed, 28 Aug 2024 15:10:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QlfvOkPV";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="UjWt2XV2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ai+Q/70P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 402 seconds by postgrey-1.36 at gabe;
- Wed, 28 Aug 2024 15:17:30 UTC
-Received: from a7-32.smtp-out.eu-west-1.amazonses.com
- (a7-32.smtp-out.eu-west-1.amazonses.com [54.240.7.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE3A110E585
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 15:17:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1724857846;
- h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
- bh=IyIiAOZwHngz0sn8kGrxdHkaHK6p3xqpx6CKa/ulcSM=;
- b=QlfvOkPVy0KuXiYeHlBm28+ywYF5rQbLoYUfdk2JIHuSKgaUslSdN25eBP+1L+FK
- 9ECp5rZvyrOHOEtK4PKnM98y3hT7yiiftkp5Nt/bGCdhxgwYA+3LRhvCJb5H6FaLugG
- 6Ur5GsaFKiulMAInfYMyeWTTtWaagEf63e8VDaj5sA+xulBkgtJhVyBG+R+RYlU4kPZ
- rMoL4vfTBa4LqnHk0dR1ZMEUdG/8XfLOjxWMlOy8gqdX9q1hMHYO4f9F+gh5aLgFAjU
- Ls9raPsPnaN4TDKXa8FEzaYj+Agc4glxtpQkSg7KPSyXTsdebY7us/qC4FgVqp18duI
- 0UZBj6V/gg==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1724857846;
- h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
- bh=IyIiAOZwHngz0sn8kGrxdHkaHK6p3xqpx6CKa/ulcSM=;
- b=UjWt2XV2jTy21TDQrOiog0+5MIj64XuGW0PDfuGFHrmAuEnVF0KpgM51Q5kwsIln
- Mk+brKUf8XqkR4tHQbJ3m3J4DEqPKZLCjIAJSADqo6DO8caruH1fYqxFNaUDvlpgcic
- MazD18RUezRAB8R8ZrpgMXqaKrj6EQdFjdnIugQM=
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Andi Shyti <andi.shyti@kernel.org>, Lee Jones <lee@kernel.org>, 
- Ulf Hansson <ulf.hansson@linaro.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, 
- Chris Morgan <macromorgan@hotmail.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Tim Lunn <tim@feathertop.org>, 
- Chukun Pan <amadeus@jmu.edu.cn>, 
- Muhammed Efe Cetin <efectn@protonmail.com>, 
- Andy Yan <andyshrk@163.com>, Jagan Teki <jagan@edgeble.ai>, 
- Dragan Simic <dsimic@manjaro.org>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Ondrej Jirman <megi@xff.cz>, Jimmy Hon <honyuenkwun@gmail.com>, 
- Elon Zhang <zhangzj@rock-chips.com>, 
- Finley Xiao <finley.xiao@rock-chips.com>, 
- Elaine Zhang <zhangqing@rock-chips.com>, Liang Chen <cl@rock-chips.com>, 
- Yifeng Zhao <yifeng.zhao@rock-chips.com>, 
- Jisheng Zhang <jszhang@kernel.org>, Jamie Iles <jamie@jamieiles.com>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, kernel@collabora.com, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 02/11] dt-bindings: arm: rockchip: Add rk3576 compatible
- string to pmu.yaml
-Date: Wed, 28 Aug 2024 15:10:46 +0000
-Message-ID: <01020191998a0a28-80397901-7846-43c8-8593-7521bffcdcf6-000000@eu-west-1.amazonses.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240828151028.41255-1-detlev.casanova@collabora.com>
-References: <20240828151028.41255-1-detlev.casanova@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE2E610E576;
+ Wed, 28 Aug 2024 15:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724857858; x=1756393858;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=+OwYc8bK2ZE/BbrISfqwEqzDsEWaDGtTsTjHjxyCVHw=;
+ b=Ai+Q/70PEP46daLsLChGJ80Z0I9fAyd++NWXesPJ6fZ6XCH30a3iU5ip
+ tfDRrhFJBRFJX5QVQVR5rmcvkfDnXYQ7sK11WInnxDdZRINUonlUBalv0
+ LqMHH9+fdycnpDHA1a/yp8ixzvfJ6T9JC+vF/2nRy2+LUpYB7j1tz3g2g
+ E+Xl0eTShxifzEfe7nDbLQtWhbofhcH2XvCy3fFPMD6uHLma3galbqCGO
+ Dyc7uU2d3bsD0eddydT1m+16tACi6ZJ2Jp+tViTfJjJDiGxz+6AtzE8Fc
+ uOwcNol0X9mR18LmYNbB2fc/XtXkrWVken/w+s3I7SZUAnQCVeg9H6nJW g==;
+X-CSE-ConnectionGUID: 5IMRYiTHSkKcGidUgJKnTQ==
+X-CSE-MsgGUID: G8aGE9lhR7uIQqhMw8EbRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="27162727"
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="27162727"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 08:10:56 -0700
+X-CSE-ConnectionGUID: TSUn6mMoQcuff7YyyZsGFQ==
+X-CSE-MsgGUID: fixwIkM3TNeTfOiKMuSkcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="67613148"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.110])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 08:10:54 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Subject: Re: [RESEND 3/3] drm/amd/display: switch to guid_gen() to generate
+ valid GUIDs
+In-Reply-To: <87mskwyc6p.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240812122312.1567046-1-jani.nikula@intel.com>
+ <20240812122312.1567046-3-jani.nikula@intel.com>
+ <dac8f408-6f13-4ee7-a54c-342d51ba88d1@amd.com> <87mskwyc6p.fsf@intel.com>
+Date: Wed, 28 Aug 2024 18:10:49 +0300
+Message-ID: <87h6b4y96u.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.08.28-54.240.7.32
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,34 +72,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the compatible for the pmu mfd on rk3576.
+On Wed, 28 Aug 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Wed, 28 Aug 2024, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+>> On 8/12/24 08:23, Jani Nikula wrote:
+>>> Instead of just smashing jiffies into a GUID, use guid_gen() to generate
+>>> RFC 4122 compliant GUIDs.
+>>> 
+>>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>> 
+>>> ---
+>>
+>> Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>>
+>> I would prefer to take this series through the amdgpu tree though,
+>> assuming nobody minds.
+>
+> How long is it going to take for that to get synced back to
+> drm-misc-next though?
 
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/arm/rockchip/pmu.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Also getting acks from Alex and Harry to merge via drm-misc-next.
 
-diff --git a/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml b/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
-index b79c81cd9f0e..932f981265cc 100644
---- a/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
-+++ b/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
-@@ -26,6 +26,7 @@ select:
-           - rockchip,rk3368-pmu
-           - rockchip,rk3399-pmu
-           - rockchip,rk3568-pmu
-+          - rockchip,rk3576-pmu
-           - rockchip,rk3588-pmu
-           - rockchip,rv1126-pmu
- 
-@@ -43,6 +44,7 @@ properties:
-           - rockchip,rk3368-pmu
-           - rockchip,rk3399-pmu
-           - rockchip,rk3568-pmu
-+          - rockchip,rk3576-pmu
-           - rockchip,rk3588-pmu
-           - rockchip,rv1126-pmu
-       - const: syscon
+BR,
+Jani.
+
+
+>
+> BR,
+> Jani.
+>
+>
+>>
+>>> 
+>>> Side note, it baffles me why amdgpu has a copy of this instead of
+>>> plumbing it into drm mst code.
+>>> ---
+>>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++++++++++---------
+>>>   1 file changed, 12 insertions(+), 11 deletions(-)
+>>> 
+>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> index 72c10fc2c890..ce05e7e2a383 100644
+>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> @@ -2568,9 +2568,9 @@ static int dm_late_init(void *handle)
+>>>   
+>>>   static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *mgr)
+>>>   {
+>>> +	u8 buf[UUID_SIZE];
+>>> +	guid_t guid;
+>>>   	int ret;
+>>> -	u8 guid[16];
+>>> -	u64 tmp64;
+>>>   
+>>>   	mutex_lock(&mgr->lock);
+>>>   	if (!mgr->mst_primary)
+>>> @@ -2591,26 +2591,27 @@ static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *mgr)
+>>>   	}
+>>>   
+>>>   	/* Some hubs forget their guids after they resume */
+>>> -	ret = drm_dp_dpcd_read(mgr->aux, DP_GUID, guid, 16);
+>>> -	if (ret != 16) {
+>>> +	ret = drm_dp_dpcd_read(mgr->aux, DP_GUID, buf, sizeof(buf));
+>>> +	if (ret != sizeof(buf)) {
+>>>   		drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during suspend?\n");
+>>>   		goto out_fail;
+>>>   	}
+>>>   
+>>> -	if (memchr_inv(guid, 0, 16) == NULL) {
+>>> -		tmp64 = get_jiffies_64();
+>>> -		memcpy(&guid[0], &tmp64, sizeof(u64));
+>>> -		memcpy(&guid[8], &tmp64, sizeof(u64));
+>>> +	import_guid(&guid, buf);
+>>>   
+>>> -		ret = drm_dp_dpcd_write(mgr->aux, DP_GUID, guid, 16);
+>>> +	if (guid_is_null(&guid)) {
+>>> +		guid_gen(&guid);
+>>> +		export_guid(buf, &guid);
+>>>   
+>>> -		if (ret != 16) {
+>>> +		ret = drm_dp_dpcd_write(mgr->aux, DP_GUID, buf, sizeof(buf));
+>>> +
+>>> +		if (ret != sizeof(buf)) {
+>>>   			drm_dbg_kms(mgr->dev, "check mstb guid failed - undocked during suspend?\n");
+>>>   			goto out_fail;
+>>>   		}
+>>>   	}
+>>>   
+>>> -	import_guid(&mgr->mst_primary->guid, guid);
+>>> +	guid_copy(&mgr->mst_primary->guid, &guid);
+>>>   
+>>>   out_fail:
+>>>   	mutex_unlock(&mgr->lock);
+
 -- 
-2.46.0
-
+Jani Nikula, Intel
