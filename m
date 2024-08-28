@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EDB962484
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 12:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAE39624DE
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 12:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B308D10E00A;
-	Wed, 28 Aug 2024 10:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6966D10E0BC;
+	Wed, 28 Aug 2024 10:26:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="n474//dd";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="SA9veBoW";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="H7NSLpY8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A2B210E00A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 10:15:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5CB73A433E1;
- Wed, 28 Aug 2024 10:15:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E4DC98EC0;
- Wed, 28 Aug 2024 10:15:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724840140;
- bh=5xuHNpJ8s4HOyC/ZMbuo393EqBOuuHgBE8NpAhMS1xo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=n474//ddYkvBDbFi4PGLE0FTy+iiAA4s4wyNdxcHGJALrL1fthrhN3uI+zqdovRS/
- 144KFSBIez7oTLYMwkU1OpzSMrIJ/beg9u2IV2kfsLQ3HbVrfcjTYwUOYc0zNYGCUW
- sJPUqdSKe/vNZkKLA9B0zTCgnE8dCgdnbOaVHYsUF8xA9psYiMn54rrFhKkNIi3oCl
- dvtmwiVj6Pzfi2AhPqiPDt2mnx4XVarJ+wsJOyfm+g/Kx8+3f9FhCTGEuLGnAERvcX
- Jg4rftmJ9JMgCrLnqOr0dbza144I/TB8JbkMRSm3BmoN9HM3dOV8VyCx9rbu7NESVa
- DUUS4wBFCSJWg==
-Date: Wed, 28 Aug 2024 12:15:33 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
- justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
- rostedt@goodmis.org, catalin.marinas@arm.com,
- penguin-kernel@i-love.sakura.ne.jp, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
- linux-security-module@vger.kernel.org, 
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, 
- Matus Jokay <matus.jokay@stuba.sk>, "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
-Message-ID: <lql4y2nvs3ewadszhmv4m6fnqja4ff4ymuurpidlwvgf4twvru@esnh37a2jxbd>
-References: <20240828030321.20688-1-laoar.shao@gmail.com>
- <20240828030321.20688-2-laoar.shao@gmail.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B1C10E0BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 10:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1724840781; x=1756376781;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Knix3gTfsk7LSNTMHm5Va4lYcZn+o5QZz1keMxn7ZmU=;
+ b=SA9veBoWKarc8US5sNZbst4KdfklCnFKYaLiVgtskvxpIBAVcbBOqAeR
+ lRPFbbedCyvvCgMvI+0eZQX4oC9S/mX0VvzAwGRT3U1tAp0hfIoF/jSzb
+ 5ZjD/82TmVeEUMKsFju6zeyp89b3Ah/qs/sdj88eOobK+lsMTuInLfnFY
+ sOJ/oFYVqWR6/UPKDWf+eLM0iicycVxlBScH5hFlP1v9QuZib2ooXxTbg
+ m+ZiXvBQCZO42GMMc3Qssd+X5QZKLM2NAogpECABBCaep2gg9GyGqo9bK
+ iqm79HhvYzoRMRRGe4n7PiNWadHCqwIKn441WJV5R3+jxppyKEZzyEepa w==;
+X-CSE-ConnectionGUID: wgq9+zxRRT+2Ri6eXAu/Rw==
+X-CSE-MsgGUID: 8Zt6dMMTStmGvyUoMy6LpQ==
+X-IronPort-AV: E=Sophos;i="6.10,182,1719871200"; d="scan'208";a="38632945"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 28 Aug 2024 12:26:19 +0200
+X-CheckPoint: {66CEFB49-C-E520F13A-D17B83D9}
+X-MAIL-CPID: 45F1CF7BC257182E676DAD49BD8217F7_2
+X-Control-Analysis: str=0001.0A782F29.66CEFB49.013F, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 0B96E1653C2; Wed, 28 Aug 2024 12:26:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1724840773;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=Knix3gTfsk7LSNTMHm5Va4lYcZn+o5QZz1keMxn7ZmU=;
+ b=H7NSLpY8I8UDVBrVgDJyy6p48SRovpQeWYq1lXWAHfWRCZAYrp4v7qc9y5cjntnHR+Y3ZR
+ fv8NM7DtihQSxReLg8ZIIfoUTsAXdWj66x6jUNXugXEhglYZGHQ7SPyW36JFigMcctW96b
+ CGvI+Q8TwvODWfoCx5OpaZwuL7Ia5MhfrvULkVVoz9IQ/a9Kj0Sy5Ku2tbqBqpqzlIOkX6
+ NGu8SImgO7jelh5IpnVmVn81SZt3W4+/R76ia40aJpC5CC+wmn121Blt8T0mnliYa0LtJz
+ 4IcxvEKDJ+5S9aM610fntl7a4tiy83Ybx4/uxK0CQ7k/lDHxG+zOS06iyAfRVw==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Subject: fbdev mmap regression since 'Merge v6.10-rc6 into drm-next'
+Date: Wed, 28 Aug 2024 12:26:12 +0200
+Message-ID: <23636953.6Emhk5qWAg@steina-w>
+Organization: TQ-Systems GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="74qvuoge5bg2djof"
-Content-Disposition: inline
-In-Reply-To: <20240828030321.20688-2-laoar.shao@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,177 +75,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
---74qvuoge5bg2djof
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
-	justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
-	rostedt@goodmis.org, catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>, 
-	Matus Jokay <matus.jokay@stuba.sk>, "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
-References: <20240828030321.20688-1-laoar.shao@gmail.com>
- <20240828030321.20688-2-laoar.shao@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20240828030321.20688-2-laoar.shao@gmail.com>
+I noticed that on linux-next one platform (TQMa6S imx6qdl-mba6.dtsi, using
+i.MX6 Solo) I'm hitting SIGBUS errors when using fb-test on /dev/fb0.
+strace shows:
+> openat(AT_FDCWD, "/dev/fb0", O_RDWR|O_LARGEFILE) =3D 4
+> ioctl(4, FBIOGET_VSCREENINFO, 0x4cb818) =3D 0
+> ioctl(4, FBIOGET_FSCREENINFO, 0x4cb8b8) =3D 0
+> write(1, "fb res 1920x1080 virtual 1920x10"..., 58fb res 1920x1080 virtual
+> 1920x1080, line_len 3840, bpp 16 ) =3D 58
+> mmap2(NULL, 4147200, PROT_READ|PROT_WRITE, MAP_SHARED, 4, 0) =3D 0xb6a940=
+00
+> --- SIGBUS {si_signo=3DSIGBUS, si_code=3DBUS_ADRERR, si_addr=3D0xb6a94000=
+} ---
+> +++ killed by SIGBUS (core dumped) +++
 
-Hi Yafang,
+Using weston instead of fb-test works without issues.
 
-On Wed, Aug 28, 2024 at 11:03:14AM GMT, Yafang Shao wrote:
-> We want to eliminate the use of __get_task_comm() for the following
-> reasons:
+I was able to track it down to commit 86634fa4e6aef ("Merge v6.10-rc6
+into drm-next"). Unfortunately this is a merge and *both* bases are okay.
+
+A requirement for this bug to trigger is having CMA area in Normal zone.
+This automatically happens on systems with 512MiB RAM only:
+> cma: Reserved 64 MiB at 0x2a800000 on node -1
 >=20
-> - The task_lock() is unnecessary
->   Quoted from Linus [0]:
->   : Since user space can randomly change their names anyway, using locking
->   : was always wrong for readers (for writers it probably does make sense
->   : to have some lock - although practically speaking nobody cares there
->   : either, but at least for a writer some kind of race could have
->   : long-term mixed results
->=20
-> - The BUILD_BUG_ON() doesn't add any value
->   The only requirement is to ensure that the destination buffer is a valid
->   array.
->=20
-> - Zeroing is not necessary in current use cases
->   To avoid confusion, we should remove it. Moreover, not zeroing could
->   potentially make it easier to uncover bugs. If the caller needs a
->   zero-padded task name, it should be explicitly handled at the call site.
->=20
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Link: https://lore.kernel.org/all/CAHk-=3DwivfrF0_zvf+oj6=3D=3DSh=3D-npJo=
-oP8chLPEfaFV0oNYTTBA@mail.gmail.com [0]
-> Link: https://lore.kernel.org/all/CAHk-=3DwhWtUC-AjmGJveAETKOMeMFSTwKwu99=
-v7+b6AyHMmaDFA@mail.gmail.com/
-> Suggested-by: Alejandro Colomar <alx@kernel.org>
-> Link: https://lore.kernel.org/all/2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueurfbo=
-sf5wdo65dk4@srb3hsk72zwq
-> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Eric Biederman <ebiederm@xmission.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Cc: Matus Jokay <matus.jokay@stuba.sk>
-> Cc: Alejandro Colomar <alx@kernel.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> ---
->  fs/exec.c             | 10 ----------
->  fs/proc/array.c       |  2 +-
->  include/linux/sched.h | 32 ++++++++++++++++++++++++++------
->  kernel/kthread.c      |  2 +-
->  4 files changed, 28 insertions(+), 18 deletions(-)
->=20
+> Zone ranges:
+>   Normal   [mem 0x0000000010000000-0x000000002fffffff]
+>   HighMem  empty
 
-[...]
+On different modules providing 1GiB RAM there is also a HighMem zone availa=
+ble
+which is used by default for CMA, unless the allocation explicitly specifie=
+d.
+In this case mmap works as expected. But even on modules having HighMem mmap
+does not work when CMA is specified in Normal zone, refer to [1].=20
 
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index f8d150343d42..c40b95a79d80 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
+Despite the bisect I also tried the following commits directly, which
+introduced the changes affecting the merge:
+* d92a7580392ad ("drm/fbdev-dma: Only set smem_start is enable per module o=
+ption")
+* 808a40b694680 ("drm/fbdev-dma: Implement damage handling and deferred I/O=
+")
 
-[...]
+But these commits by itself work as before. Cherry-picking d92a7580392ad on
+top of 808a40b694680 already triggers the problem.
+CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is unset, so I think commit d92a7580392ad
+("drm/fbdev-dma: Only set smem_start is enable per module option") is
+the culprit here.
 
-> @@ -1914,10 +1917,27 @@ static inline void set_task_comm(struct task_stru=
-ct *tsk, const char *from)
->  	__set_task_comm(tsk, from, false);
->  }
-> =20
-> -extern char *__get_task_comm(char *to, size_t len, struct task_struct *t=
-sk);
-> +/*
+How can this be fixed?
 
-[...]
+Best regards,
+Alexander
 
-> + * - ARRAY_SIZE() can help ensure that @buf is indeed an array.
-> + */
->  #define get_task_comm(buf, tsk) ({			\
-> -	BUILD_BUG_ON(sizeof(buf) !=3D TASK_COMM_LEN);	\
-> -	__get_task_comm(buf, sizeof(buf), tsk);		\
-> +	strscpy(buf, (tsk)->comm, ARRAY_SIZE(buf));	\
+[1] https://lore.kernel.org/all/20240827142458.265558-1-alexander.stein@ew.=
+tq-group.com/
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-I see that there's a two-argument macro
 
-	#define strscpy(dst, src)	sized_strscpy(dst, src, sizeof(dst))
-
-which is used in patch 2/8
-
-	diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-	index 6f0d6fb6523f..e4ef5e57dde9 100644
-	--- a/kernel/auditsc.c
-	+++ b/kernel/auditsc.c
-	@@ -2730,7 +2730,7 @@ void __audit_ptrace(struct task_struct *t)
-		context->target_uid =3D task_uid(t);
-		context->target_sessionid =3D audit_get_sessionid(t);
-		security_task_getsecid_obj(t, &context->target_sid);
-	-       memcpy(context->target_comm, t->comm, TASK_COMM_LEN);
-	+       strscpy(context->target_comm, t->comm);
-	 }
-
-	 /**
-
-I propose modifying that macro to use ARRAY_SIZE() instead of sizeof(),
-and then calling that macro here too.  That would not only make sure
-that this is an array, but make sure that every call to that macro is an
-array.  An if there are macros for similar string functions that reduce
-the argument with a usual sizeof(), the same thing could be done to
-those too.
-
-Have a lovley day!
-Alex
-
-> +	buf;						\
->  })
-> =20
->  #ifdef CONFIG_SMP
-> diff --git a/kernel/kthread.c b/kernel/kthread.c
-> index f7be976ff88a..7d001d033cf9 100644
-> --- a/kernel/kthread.c
-> +++ b/kernel/kthread.c
-> @@ -101,7 +101,7 @@ void get_kthread_comm(char *buf, size_t buf_size, str=
-uct task_struct *tsk)
->  	struct kthread *kthread =3D to_kthread(tsk);
-> =20
->  	if (!kthread || !kthread->full_name) {
-> -		__get_task_comm(buf, buf_size, tsk);
-> +		strscpy(buf, tsk->comm, buf_size);
->  		return;
->  	}
-> =20
-> --=20
-> 2.43.5
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---74qvuoge5bg2djof
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmbO+MUACgkQnowa+77/
-2zKy2RAAnnnQ7wIvUyQxf0H9XEIY8X2+ncAYPevk+tiPOW5bQccWRYr4HTCgFzGw
-ROoKl9PQMjlmswMdkJxLRBd3r2r4nwpDtvORpRfVBbyJwcEbrh1+L8l834QWQbKA
-sf7ADLROAhIWViIeyaFhFYw/LyBh8fwArPgzPbS1V1YbpXQeh50zpTaZG5CnTFzC
-OwQ02fhV2rZABw7Vc5d/ZSk0sk4ZfkfqrGKADzX2fhVYkcXYta4QU5oIYmtVlZ1K
-GyNHVHWcF27pDYQ/it3bKIugmz3RpyJ0uf7vYwcOwfnCeypEQquaEHAxOOuCdjGk
-SdObiDbJmE5L3FmMcRxHacE2bX5vSlubD9oNFhIA8nJVNN//lvEcG2f7uLUNtT9a
-rb5+wxYYuIoe5CY/hAm0g4R5RTen4WJdnnGuawk703XeRp7eZKvOfJHgwx+mLiln
-CB3EGWz6g8ieUhnYcmn3ZRH0YyStGxY/xVgWldQSJkcLJSQ/ppGk+BqeDwShUPnD
-lPvOwIzfDehLUj+he0PiELV787pJWEbrXHdUumbLryBlBEAnwgkz93KfZtEYjGst
-g/63uDKyaxh6XYNtKbmYyDC0uN3jf9JKdfNFtA73mlOaeV4EYP7DLUc9m7t9Wuq6
-QXB8wxZoun63oEyvF1QFKG1QEU0q9LRvy3h/isMlJmcehTcqI3Y=
-=NyZ7
------END PGP SIGNATURE-----
-
---74qvuoge5bg2djof--
