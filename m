@@ -2,134 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F619627CC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 14:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35959627EF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 14:57:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37A110E508;
-	Wed, 28 Aug 2024 12:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1598910E041;
+	Wed, 28 Aug 2024 12:57:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XwwQ++Ql";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="F9apZzFZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 834C010E506
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 12:52:29 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5befecad20eso1053208a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 05:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724849548; x=1725454348; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Br3Ox6T86F7fsBUN1c97VxeysY/BzeyxH0SfRJR/WAY=;
- b=XwwQ++QlwrZqzgwor2Q7VEzI/BTzwIZA15mdbMy1t43ZgCdzUsPu2F4MgHEqd4dJ1b
- A9SUhA4ySPSuMuXY7jdX0furbQ1U1mu9s/sOZrZ3z8wF8WslMzp8m5Vv12hQRfm5jjj5
- J96xyohQnylblNlFQ1xz+uxbLwWUuzJApygqruxT5yc9PcN+ElcLT24xubbcAzloJ7MK
- jWyyFci2Dyvpjdc6MUaB66e7q+HePFAIwaiH/P9PouVXdswBDROMKQnVUsOqY0Mtu1Gl
- lTA3RIVCf5k7UV6x/0r+7kwricJCbKQOVexQnAL8MMJnRB7suJ2Ibz+iAfe/aPxFc/lP
- 6Lmg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA29910E041
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 12:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1724849837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kxpYxSE0LB9NbwXxnXEYdZW6aa0Byn813SATU/6Y7XI=;
+ b=F9apZzFZd3vHt3mnMLG27LniaZwLITEDQZGcnj/tuxJ2rkFHQw31FS5rEUfcVcnWV6U5Vb
+ iczEYTpPx/B2v77Ex6SFsDk6ML6bfWmco6kQlGtskU7ubzEgX/Fo71CutaUZ4pBP102u2l
+ A5vb93gJt7dDrDbZso5/5bxvQMLBcC0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-436-2-xim63lOWCYpDRezv2wzQ-1; Wed, 28 Aug 2024 08:57:16 -0400
+X-MC-Unique: 2-xim63lOWCYpDRezv2wzQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3719559c51dso3817863f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 05:57:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724849548; x=1725454348;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Br3Ox6T86F7fsBUN1c97VxeysY/BzeyxH0SfRJR/WAY=;
- b=Pya19mSeHsrgbNpMi2dxG1o6yK7BfIAQDzrR+tXyACfiVnoRRXeikXscWWB1dskxzR
- 6nSHowGrldc/V65wtvpMDEIvMgTPnX+qhn9HMzD3Sn+PAeqyH+qZZTCTcQBABHMUff5g
- uO3OrzijgKIDI/k6Ky13xFswLVSqY8tqLvBQlnq/KSb2+N785/NulmMT6n++M2j1/iID
- OMp5Aw65p3LHkWJW0PpvD6EKZs7IPp/KLBRtRLyg/KhIXhyARvS+snYHhAkv4if4WHRa
- 4uXwNR5qn2w4cUz61n8dr2wYyBq1mLdRDgZaVp3VLFdCAWtctz8k4SmuDIY4KrPag7d3
- dPZA==
+ d=1e100.net; s=20230601; t=1724849835; x=1725454635;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IObnPhTVGYc0oDOQLNaca7it9FDta78II2gOMX6ooMA=;
+ b=joZGKDeI33WSY69pGftLG3Jx5JfIGcZ29urDKLVoL61KK+fIP6aWqBu95C21cbze6/
+ f74bbZWFI53xFRxd/vG/NjvweVYTf/3guRnuYzU7OB/j5pYJTpaUXC4RYzHOs9UVtTkj
+ vLvYC6GCy9Mplbw9I7yohT3l/hGlmkNPHFmv9mw1yHfWUsO87L3ym2aVA+V1qMfnwgdg
+ 08887HDkpftIixcoev5sWN0xSopoz570GisIUjnoVhQAnuYgPod4P7rzxU+uCyPefPy8
+ 2YFaTlasComXKpGf+t5T2pSOIgKXZ2I5Sm9XZJR/Vn8dxhO/NNGNokMK9raP9dhEoZrL
+ hEQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVgzy0Jq1xbrvUJ+Tz8PLKOvqGIDOVNj/dfAzRyLzTzKg3b5gat24UD+uDtJkRZqaEw2mJZkmQQcFo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVagHdPI49FabpwEz175Rb+p9qTayaRtmb8f3or1vUhK2uvo1D
- H1ujogbgICKLR6vVu8BRj7VZ63HSMWLY0xhbbpVsDzjSK2E6njYGS79EaiyJc2sMeHzpfDqBr1g
- 4
-X-Google-Smtp-Source: AGHT+IGlJWBpStWWEiN32Z+CxfSzH+ptbBN1MlD6NKxqublxi5KvsVDNsnzdH0pZCpsTN+24twVOnw==
-X-Received: by 2002:a05:6402:350a:b0:5c2:17a3:95b5 with SMTP id
- 4fb4d7f45d1cf-5c217a39656mr852769a12.6.1724849547657; 
- Wed, 28 Aug 2024 05:52:27 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.82])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5c0bb471bcasm2254902a12.75.2024.08.28.05.52.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Aug 2024 05:52:27 -0700 (PDT)
-Message-ID: <3aa885c1-d653-4d73-98ab-3d4d3d214235@linaro.org>
-Date: Wed, 28 Aug 2024 14:52:25 +0200
+ AJvYcCX32+E7FgAtnaiXN3pZ4oqzQTB6sQrRD6GXCk+dgmKhbToYElPl70REHGD0FUIiDlDgIPEjqfy55Os=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yylf4MYk+7zpwDBOjjcQ84PE1dm2wpW03P6XlvSHPyA/C53Ko10
+ HB9sTuDC5D+0VZN+cZOcCEI/4MH/I+zYGsDV3q1IV8zEx3Zm7j+ZLYTPzJUWuF82Tp67xfX0RFE
+ wnTmdr442BTeL0vFS885eBAxdApi9b0T+lzXMsFTSEVLBA5VM+JcSsAaaDaKNNIRLKQ==
+X-Received: by 2002:a05:6000:b8e:b0:36d:2984:ef6b with SMTP id
+ ffacd0b85a97d-37311888373mr10696355f8f.11.1724849834864; 
+ Wed, 28 Aug 2024 05:57:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEcGzZzODngC+pGZEJw8FL8ceFblDSz/vUkxp8vzzvF3O0hg/Y0wZ4RAVeE2/uUuSRD5b5IDQ==
+X-Received: by 2002:a05:6000:b8e:b0:36d:2984:ef6b with SMTP id
+ ffacd0b85a97d-37311888373mr10696329f8f.11.1724849834290; 
+ Wed, 28 Aug 2024 05:57:14 -0700 (PDT)
+Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com.
+ [149.14.88.26]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3730811042bsm15792010f8f.4.2024.08.28.05.57.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Aug 2024 05:57:13 -0700 (PDT)
+Message-ID: <75c06da11741d46cd67dbb685b7473ae94c2feb5.camel@redhat.com>
+Subject: Re: [PATCH] drm/meson: switch to a managed drm device
+From: Philipp Stanner <pstanner@redhat.com>
+To: Anastasia Belova <abelova@astralinux.ru>, Neil Armstrong
+ <neil.armstrong@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org,  linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Date: Wed, 28 Aug 2024 14:57:12 +0200
+In-Reply-To: <20240828110421.14956-1-abelova@astralinux.ru>
+References: <20240828110421.14956-1-abelova@astralinux.ru>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display: renesas,du: narrow interrupts
- and resets per variants
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
- <20240818174137.GC29465@pendragon.ideasonboard.com>
- <4615f52b-4e4c-4fe4-bfef-a66e196410d7@linaro.org>
- <20240818175118.GF29465@pendragon.ideasonboard.com>
- <526b6f56-7807-4bb6-9365-077b1cc490b2@linaro.org>
- <20240828124517.GA23978@pendragon.ideasonboard.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240828124517.GA23978@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,104 +100,513 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/08/2024 14:45, Laurent Pinchart wrote:
-> Hi Krzysztof,
-> 
-> On Sun, Aug 18, 2024 at 08:48:54PM +0200, Krzysztof Kozlowski wrote:
->> On 18/08/2024 19:51, Laurent Pinchart wrote:
->>> On Sun, Aug 18, 2024 at 07:44:22PM +0200, Krzysztof Kozlowski wrote:
->>>> On 18/08/2024 19:41, Laurent Pinchart wrote:
->>>>> On Sun, Aug 18, 2024 at 07:30:02PM +0200, Krzysztof Kozlowski wrote:
->>>>>> Each variable-length property like interrupts or resets must have fixed
->>>>>> constraints on number of items for given variant in binding.  The
->>>>>> clauses in "if:then:" block should define both limits: upper and lower.
->>>>>
->>>>> I thought that, when only one of minItems or maxItems was specified, the
->>>>> other automatically defaulted to the same value. I'm pretty sure I
->>>>> recall Rob asking me to drop one of the two in some bindings. Has the
->>>>> rule changes ? Is it documented somewhere ?
->>>>
->>>> New dtschema changed it and, even if previous behavior is restored, the
->>>> size in if:then: always had to be constrained. You could have skipped
->>>> one side of limit if it was equal to outer/top-level limit, e.g:
->>>>
->>>> properties:
->>>>   clocks:
->>>>     minItems: 1
->>>>     maxItems: 2
->>>>
->>>>
->>>> if:then:properties:
->>>>   clocks:
->>>>     minItems: 2
->>>
->>> Where can I find a description of the behaviour of the new dtschema
->>> (hopefully with some documentation) ?
->>
->> No clue, but I feel there is some core concept missing. Your earlier
->> statement:
->> "I thought that, when only one of minItems or maxItems was specified, the"
->>
->> was never logically correct for the "if:then", except for the case I
->> mentioned above. That's why all schema used as examples had it explicit:
->>
->> My talk from 2022, page 30:
->> https://static.sched.com/hosted_files/osseu2022/bd/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro.pdf?_gl=1*kmzqmt*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
->> all constraints defined,.
->>
->> My talk from 2023, page 34:
->> https://static.sched.com/hosted_files/eoss2023/a8/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro%20-%20ELCE%202023.pdf?_gl=1*1jgx6d3*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
->>
->> Recently, I started using other example as "useful reference":
->> https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L132
->>
->> That's nothing. All three above reference examples I keep giving are
->> already there and repeated in emails all the time.
->>
->> So aren't you confusing the entire "skip one limit" for top-level
->> properties? This patch is not about it all and dtschema did not change.
-> 
-> There must have been a misunderstanding indeed, I interpreted "New
-> dtschema changed it" as meaning there were now new rules. Is that
-> incorrect ?
+On Wed, 2024-08-28 at 14:04 +0300, Anastasia Belova wrote:
+> Switch to a managed drm device to cleanup some error handling
+> and make future work easier.
 
-For the binding with a property defined only in top-level properties: no
-changes, no new rules.
+It's best to state what the current situation is like and then how this
+patch addresses it.
 
-For the binding with top-level and if:then:else: dtschema since few
-months changed interpretation.
+If the cleanup topic is separate from the addressed NULL pointer issue
+referenced below, it might make sense to split it into two patches, one
+that does the cleanup, and another that addresses the NULL pointer
+deref.
 
-> 
-> If you don't mind clarifying, what is the current recommendation to
-> indicate that a property has a fixed number of items ? Which of the
-> following three options is preferred ?
-> 
+>=20
+> Fix dereference of NULL in meson_drv_bind_master by removing
+> drm_dev_put(drm) before meson_encoder_*_remove where drm
+> dereferenced.
 
-Answer below assumes we have clocks defined in top-level properties and
-there is no if:then:else customizing it.
+(-> "where drm *is* dereferenced" )
 
-> properties:
->   clocks:
->     minItems: 2
+Can this be backported to older versions?
 
-That's wrong, because items are unconstrained.
-
-> 
-> properties:
->   clocks:
->     maxItems: 2
-
-This one is preferred.
-
-> 
-> properties:
->   clocks:
->     minItems: 2
->     maxItems: 2
-
-This one is correct, but less preferred.
+If yes, stable@vger.kernel.org should be put on CC.
 
 
-Best regards,
-Krzysztof
+>=20
+> Co-developed by Linux Verification Center (linuxtesting.org).
+>=20
+> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+
+Should also include:
+
+Cc: stable@vger.kernel.org # vX.Y
+Fixes: <commit>
+
+=D0=A1=D0=BF=D0=B0=D1=81=D0=B8=D0=B1=D0=BE,
+P.
+
+> ---
+> =C2=A0drivers/gpu/drm/meson/meson_crtc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 10 +--
+> =C2=A0drivers/gpu/drm/meson/meson_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 71 ++++++++++----------
+> --
+> =C2=A0drivers/gpu/drm/meson/meson_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/meson/meson_encoder_cvbs.c |=C2=A0 8 +--
+> =C2=A0drivers/gpu/drm/meson/meson_overlay.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 8 +--
+> =C2=A0drivers/gpu/drm/meson/meson_plane.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 10 +--
+> =C2=A06 files changed, 51 insertions(+), 58 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/meson/meson_crtc.c
+> b/drivers/gpu/drm/meson/meson_crtc.c
+> index d70616da8ce2..e1c0bf3baeea 100644
+> --- a/drivers/gpu/drm/meson/meson_crtc.c
+> +++ b/drivers/gpu/drm/meson/meson_crtc.c
+> @@ -662,13 +662,13 @@ void meson_crtc_irq(struct meson_drm *priv)
+> =C2=A0
+> =C2=A0=09drm_crtc_handle_vblank(priv->crtc);
+> =C2=A0
+> -=09spin_lock_irqsave(&priv->drm->event_lock, flags);
+> +=09spin_lock_irqsave(&priv->drm.event_lock, flags);
+> =C2=A0=09if (meson_crtc->event) {
+> =C2=A0=09=09drm_crtc_send_vblank_event(priv->crtc, meson_crtc-
+> >event);
+> =C2=A0=09=09drm_crtc_vblank_put(priv->crtc);
+> =C2=A0=09=09meson_crtc->event =3D NULL;
+> =C2=A0=09}
+> -=09spin_unlock_irqrestore(&priv->drm->event_lock, flags);
+> +=09spin_unlock_irqrestore(&priv->drm.event_lock, flags);
+> =C2=A0}
+> =C2=A0
+> =C2=A0int meson_crtc_create(struct meson_drm *priv)
+> @@ -677,18 +677,18 @@ int meson_crtc_create(struct meson_drm *priv)
+> =C2=A0=09struct drm_crtc *crtc;
+> =C2=A0=09int ret;
+> =C2=A0
+> -=09meson_crtc =3D devm_kzalloc(priv->drm->dev,
+> sizeof(*meson_crtc),
+> +=09meson_crtc =3D devm_kzalloc(priv->drm.dev,
+> sizeof(*meson_crtc),
+> =C2=A0=09=09=09=09=C2=A0 GFP_KERNEL);
+> =C2=A0=09if (!meson_crtc)
+> =C2=A0=09=09return -ENOMEM;
+> =C2=A0
+> =C2=A0=09meson_crtc->priv =3D priv;
+> =C2=A0=09crtc =3D &meson_crtc->base;
+> -=09ret =3D drm_crtc_init_with_planes(priv->drm, crtc,
+> +=09ret =3D drm_crtc_init_with_planes(&priv->drm, crtc,
+> =C2=A0=09=09=09=09=09priv->primary_plane, NULL,
+> =C2=A0=09=09=09=09=09&meson_crtc_funcs,
+> "meson_crtc");
+> =C2=A0=09if (ret) {
+> -=09=09dev_err(priv->drm->dev, "Failed to init CRTC\n");
+> +=09=09dev_err(priv->drm.dev, "Failed to init CRTC\n");
+> =C2=A0=09=09return ret;
+> =C2=A0=09}
+> =C2=A0
+> diff --git a/drivers/gpu/drm/meson/meson_drv.c
+> b/drivers/gpu/drm/meson/meson_drv.c
+> index 4bd0baa2a4f5..2e7c2e7c7b82 100644
+> --- a/drivers/gpu/drm/meson/meson_drv.c
+> +++ b/drivers/gpu/drm/meson/meson_drv.c
+> @@ -182,7 +182,6 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09struct platform_device *pdev =3D to_platform_device(dev);
+> =C2=A0=09const struct meson_drm_match_data *match;
+> =C2=A0=09struct meson_drm *priv;
+> -=09struct drm_device *drm;
+> =C2=A0=09struct resource *res;
+> =C2=A0=09void __iomem *regs;
+> =C2=A0=09int ret, i;
+> @@ -197,17 +196,13 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09if (!match)
+> =C2=A0=09=09return -ENODEV;
+> =C2=A0
+> -=09drm =3D drm_dev_alloc(&meson_driver, dev);
+> -=09if (IS_ERR(drm))
+> -=09=09return PTR_ERR(drm);
+> +=09priv =3D devm_drm_dev_alloc(dev, &meson_driver,
+> +=09=09=09=09 struct meson_drm, drm);
+> =C2=A0
+> -=09priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> -=09if (!priv) {
+> -=09=09ret =3D -ENOMEM;
+> -=09=09goto free_drm;
+> -=09}
+> -=09drm->dev_private =3D priv;
+> -=09priv->drm =3D drm;
+> +=09if (IS_ERR(priv))
+> +=09=09return PTR_ERR(priv);
+> +
+> +=09priv->drm.dev_private =3D priv;
+> =C2=A0=09priv->dev =3D dev;
+> =C2=A0=09priv->compat =3D match->compat;
+> =C2=A0=09priv->afbcd.ops =3D match->afbcd_ops;
+> @@ -215,7 +210,7 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09regs =3D devm_platform_ioremap_resource_byname(pdev, "vpu");
+> =C2=A0=09if (IS_ERR(regs)) {
+> =C2=A0=09=09ret =3D PTR_ERR(regs);
+> -=09=09goto free_drm;
+> +=09=09goto remove_encoders;
+> =C2=A0=09}
+> =C2=A0
+> =C2=A0=09priv->io_base =3D regs;
+> @@ -223,13 +218,13 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM,
+> "hhi");
+> =C2=A0=09if (!res) {
+> =C2=A0=09=09ret =3D -EINVAL;
+> -=09=09goto free_drm;
+> +=09=09goto remove_encoders;
+> =C2=A0=09}
+> =C2=A0=09/* Simply ioremap since it may be a shared register zone */
+> =C2=A0=09regs =3D devm_ioremap(dev, res->start, resource_size(res));
+> =C2=A0=09if (!regs) {
+> =C2=A0=09=09ret =3D -EADDRNOTAVAIL;
+> -=09=09goto free_drm;
+> +=09=09goto remove_encoders;
+> =C2=A0=09}
+> =C2=A0
+> =C2=A0=09priv->hhi =3D devm_regmap_init_mmio(dev, regs,
+> @@ -237,18 +232,18 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09if (IS_ERR(priv->hhi)) {
+> =C2=A0=09=09dev_err(&pdev->dev, "Couldn't create the HHI
+> regmap\n");
+> =C2=A0=09=09ret =3D PTR_ERR(priv->hhi);
+> -=09=09goto free_drm;
+> +=09=09goto remove_encoders;
+> =C2=A0=09}
+> =C2=A0
+> =C2=A0=09priv->canvas =3D meson_canvas_get(dev);
+> =C2=A0=09if (IS_ERR(priv->canvas)) {
+> =C2=A0=09=09ret =3D PTR_ERR(priv->canvas);
+> -=09=09goto free_drm;
+> +=09=09goto remove_encoders;
+> =C2=A0=09}
+> =C2=A0
+> =C2=A0=09ret =3D meson_canvas_alloc(priv->canvas, &priv-
+> >canvas_id_osd1);
+> =C2=A0=09if (ret)
+> -=09=09goto free_drm;
+> +=09=09goto remove_encoders;
+> =C2=A0=09ret =3D meson_canvas_alloc(priv->canvas, &priv-
+> >canvas_id_vd1_0);
+> =C2=A0=09if (ret)
+> =C2=A0=09=09goto free_canvas_osd1;
+> @@ -261,7 +256,7 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0
+> =C2=A0=09priv->vsync_irq =3D platform_get_irq(pdev, 0);
+> =C2=A0
+> -=09ret =3D drm_vblank_init(drm, 1);
+> +=09ret =3D drm_vblank_init(&priv->drm, 1);
+> =C2=A0=09if (ret)
+> =C2=A0=09=09goto free_canvas_vd1_2;
+> =C2=A0
+> @@ -284,10 +279,10 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09ret =3D drmm_mode_config_init(drm);
+> =C2=A0=09if (ret)
+> =C2=A0=09=09goto free_canvas_vd1_2;
+> -=09drm->mode_config.max_width =3D 3840;
+> -=09drm->mode_config.max_height =3D 2160;
+> -=09drm->mode_config.funcs =3D &meson_mode_config_funcs;
+> -=09drm->mode_config.helper_private=09=3D
+> &meson_mode_config_helpers;
+> +=09priv->drm.mode_config.max_width =3D 3840;
+> +=09priv->drm.mode_config.max_height =3D 2160;
+> +=09priv->drm.mode_config.funcs =3D &meson_mode_config_funcs;
+> +=09priv->drm.mode_config.helper_private =3D
+> &meson_mode_config_helpers;
+> =C2=A0
+> =C2=A0=09/* Hardware Initialization */
+> =C2=A0
+> @@ -308,9 +303,9 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09=09goto exit_afbcd;
+> =C2=A0
+> =C2=A0=09if (has_components) {
+> -=09=09ret =3D component_bind_all(dev, drm);
+> +=09=09ret =3D component_bind_all(dev, &priv->drm);
+> =C2=A0=09=09if (ret) {
+> -=09=09=09dev_err(drm->dev, "Couldn't bind all
+> components\n");
+> +=09=09=09dev_err(priv->drm.dev, "Couldn't bind all
+> components\n");
+> =C2=A0=09=09=09/* Do not try to unbind */
+> =C2=A0=09=09=09has_components =3D false;
+> =C2=A0=09=09=09goto exit_afbcd;
+> @@ -339,26 +334,26 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09if (ret)
+> =C2=A0=09=09goto exit_afbcd;
+> =C2=A0
+> -=09ret =3D request_irq(priv->vsync_irq, meson_irq, 0, drm-
+> >driver->name, drm);
+> +=09ret =3D request_irq(priv->vsync_irq, meson_irq, 0, priv-
+> >drm.driver->name, &priv->drm);
+> =C2=A0=09if (ret)
+> =C2=A0=09=09goto exit_afbcd;
+> =C2=A0
+> -=09drm_mode_config_reset(drm);
+> +=09drm_mode_config_reset(&priv->drm);
+> =C2=A0
+> -=09drm_kms_helper_poll_init(drm);
+> +=09drm_kms_helper_poll_init(&priv->drm);
+> =C2=A0
+> =C2=A0=09platform_set_drvdata(pdev, priv);
+> =C2=A0
+> -=09ret =3D drm_dev_register(drm, 0);
+> +=09ret =3D drm_dev_register(&priv->drm, 0);
+> =C2=A0=09if (ret)
+> =C2=A0=09=09goto uninstall_irq;
+> =C2=A0
+> -=09drm_fbdev_dma_setup(drm, 32);
+> +=09drm_fbdev_dma_setup(&priv->drm, 32);
+> =C2=A0
+> =C2=A0=09return 0;
+> =C2=A0
+> =C2=A0uninstall_irq:
+> -=09free_irq(priv->vsync_irq, drm);
+> +=09free_irq(priv->vsync_irq, &priv->drm);
+> =C2=A0exit_afbcd:
+> =C2=A0=09if (priv->afbcd.ops)
+> =C2=A0=09=09priv->afbcd.ops->exit(priv);
+> @@ -370,15 +365,14 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+> =C2=A0=09meson_canvas_free(priv->canvas, priv->canvas_id_vd1_0);
+> =C2=A0free_canvas_osd1:
+> =C2=A0=09meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
+> -free_drm:
+> -=09drm_dev_put(drm);
+> +remove_encoders:
+> =C2=A0
+> =C2=A0=09meson_encoder_dsi_remove(priv);
+> =C2=A0=09meson_encoder_hdmi_remove(priv);
+> =C2=A0=09meson_encoder_cvbs_remove(priv);
+> =C2=A0
+> =C2=A0=09if (has_components)
+> -=09=09component_unbind_all(dev, drm);
+> +=09=09component_unbind_all(dev, &priv->drm);
+> =C2=A0
+> =C2=A0=09return ret;
+> =C2=A0}
+> @@ -391,7 +385,7 @@ static int meson_drv_bind(struct device *dev)
+> =C2=A0static void meson_drv_unbind(struct device *dev)
+> =C2=A0{
+> =C2=A0=09struct meson_drm *priv =3D dev_get_drvdata(dev);
+> -=09struct drm_device *drm =3D priv->drm;
+> +=09struct drm_device *drm =3D &priv->drm;
+> =C2=A0
+> =C2=A0=09if (priv->canvas) {
+> =C2=A0=09=09meson_canvas_free(priv->canvas, priv-
+> >canvas_id_osd1);
+> @@ -404,7 +398,6 @@ static void meson_drv_unbind(struct device *dev)
+> =C2=A0=09drm_kms_helper_poll_fini(drm);
+> =C2=A0=09drm_atomic_helper_shutdown(drm);
+> =C2=A0=09free_irq(priv->vsync_irq, drm);
+> -=09drm_dev_put(drm);
+> =C2=A0
+> =C2=A0=09meson_encoder_dsi_remove(priv);
+> =C2=A0=09meson_encoder_hdmi_remove(priv);
+> @@ -428,7 +421,7 @@ static int __maybe_unused
+> meson_drv_pm_suspend(struct device *dev)
+> =C2=A0=09if (!priv)
+> =C2=A0=09=09return 0;
+> =C2=A0
+> -=09return drm_mode_config_helper_suspend(priv->drm);
+> +=09return drm_mode_config_helper_suspend(&priv->drm);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int __maybe_unused meson_drv_pm_resume(struct device *dev)
+> @@ -445,7 +438,7 @@ static int __maybe_unused
+> meson_drv_pm_resume(struct device *dev)
+> =C2=A0=09if (priv->afbcd.ops)
+> =C2=A0=09=09priv->afbcd.ops->init(priv);
+> =C2=A0
+> -=09return drm_mode_config_helper_resume(priv->drm);
+> +=09return drm_mode_config_helper_resume(&priv->drm);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void meson_drv_shutdown(struct platform_device *pdev)
+> @@ -455,8 +448,8 @@ static void meson_drv_shutdown(struct
+> platform_device *pdev)
+> =C2=A0=09if (!priv)
+> =C2=A0=09=09return;
+> =C2=A0
+> -=09drm_kms_helper_poll_fini(priv->drm);
+> -=09drm_atomic_helper_shutdown(priv->drm);
+> +=09drm_kms_helper_poll_fini(&priv->drm);
+> +=09drm_atomic_helper_shutdown(&priv->drm);
+> =C2=A0}
+> =C2=A0
+> =C2=A0/*
+> diff --git a/drivers/gpu/drm/meson/meson_drv.h
+> b/drivers/gpu/drm/meson/meson_drv.h
+> index 3f9345c14f31..c4c6c810cb20 100644
+> --- a/drivers/gpu/drm/meson/meson_drv.h
+> +++ b/drivers/gpu/drm/meson/meson_drv.h
+> @@ -53,7 +53,7 @@ struct meson_drm {
+> =C2=A0=09u8 canvas_id_vd1_1;
+> =C2=A0=09u8 canvas_id_vd1_2;
+> =C2=A0
+> -=09struct drm_device *drm;
+> +=09struct drm_device drm;
+> =C2=A0=09struct drm_crtc *crtc;
+> =C2=A0=09struct drm_plane *primary_plane;
+> =C2=A0=09struct drm_plane *overlay_plane;
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> index d1191de855d9..ddca22c8c1ff 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> @@ -104,7 +104,7 @@ static int meson_encoder_cvbs_get_modes(struct
+> drm_bridge *bridge,
+> =C2=A0=09for (i =3D 0; i < MESON_CVBS_MODES_COUNT; ++i) {
+> =C2=A0=09=09struct meson_cvbs_mode *meson_mode =3D
+> &meson_cvbs_modes[i];
+> =C2=A0
+> -=09=09mode =3D drm_mode_duplicate(priv->drm, &meson_mode-
+> >mode);
+> +=09=09mode =3D drm_mode_duplicate(&priv->drm, &meson_mode-
+> >mode);
+> =C2=A0=09=09if (!mode) {
+> =C2=A0=09=09=09dev_err(priv->dev, "Failed to create a new
+> display mode\n");
+> =C2=A0=09=09=09return 0;
+> @@ -221,7 +221,7 @@ static const struct drm_bridge_funcs
+> meson_encoder_cvbs_bridge_funcs =3D {
+> =C2=A0
+> =C2=A0int meson_encoder_cvbs_probe(struct meson_drm *priv)
+> =C2=A0{
+> -=09struct drm_device *drm =3D priv->drm;
+> +=09struct drm_device *drm =3D &priv->drm;
+> =C2=A0=09struct meson_encoder_cvbs *meson_encoder_cvbs;
+> =C2=A0=09struct drm_connector *connector;
+> =C2=A0=09struct device_node *remote;
+> @@ -256,7 +256,7 @@ int meson_encoder_cvbs_probe(struct meson_drm
+> *priv)
+> =C2=A0=09meson_encoder_cvbs->priv =3D priv;
+> =C2=A0
+> =C2=A0=09/* Encoder */
+> -=09ret =3D drm_simple_encoder_init(priv->drm,
+> &meson_encoder_cvbs->encoder,
+> +=09ret =3D drm_simple_encoder_init(&priv->drm,
+> &meson_encoder_cvbs->encoder,
+> =C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_MODE_ENCODER_TVDAC);
+> =C2=A0=09if (ret)
+> =C2=A0=09=09return dev_err_probe(priv->dev, ret,
+> @@ -273,7 +273,7 @@ int meson_encoder_cvbs_probe(struct meson_drm
+> *priv)
+> =C2=A0=09}
+> =C2=A0
+> =C2=A0=09/* Initialize & attach Bridge Connector */
+> -=09connector =3D drm_bridge_connector_init(priv->drm,
+> &meson_encoder_cvbs->encoder);
+> +=09connector =3D drm_bridge_connector_init(&priv->drm,
+> &meson_encoder_cvbs->encoder);
+> =C2=A0=09if (IS_ERR(connector))
+> =C2=A0=09=09return dev_err_probe(priv->dev, PTR_ERR(connector),
+> =C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 "Unable to create CVBS bridge
+> connector\n");
+> diff --git a/drivers/gpu/drm/meson/meson_overlay.c
+> b/drivers/gpu/drm/meson/meson_overlay.c
+> index 7f98de38842b..60ee7f758723 100644
+> --- a/drivers/gpu/drm/meson/meson_overlay.c
+> +++ b/drivers/gpu/drm/meson/meson_overlay.c
+> @@ -484,7 +484,7 @@ static void meson_overlay_atomic_update(struct
+> drm_plane *plane,
+> =C2=A0
+> =C2=A0=09interlace_mode =3D new_state->crtc->mode.flags &
+> DRM_MODE_FLAG_INTERLACE;
+> =C2=A0
+> -=09spin_lock_irqsave(&priv->drm->event_lock, flags);
+> +=09spin_lock_irqsave(&priv->drm.event_lock, flags);
+> =C2=A0
+> =C2=A0=09if ((fb->modifier & DRM_FORMAT_MOD_AMLOGIC_FBC(0, 0)) =3D=3D
+> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0 DRM_FORMAT_MOD_AMLOGIC_FBC(0, 0)) {
+> @@ -717,7 +717,7 @@ static void meson_overlay_atomic_update(struct
+> drm_plane *plane,
+> =C2=A0
+> =C2=A0=09priv->viu.vd1_enabled =3D true;
+> =C2=A0
+> -=09spin_unlock_irqrestore(&priv->drm->event_lock, flags);
+> +=09spin_unlock_irqrestore(&priv->drm.event_lock, flags);
+> =C2=A0
+> =C2=A0=09DRM_DEBUG_DRIVER("\n");
+> =C2=A0}
+> @@ -838,7 +838,7 @@ int meson_overlay_create(struct meson_drm *priv)
+> =C2=A0
+> =C2=A0=09DRM_DEBUG_DRIVER("\n");
+> =C2=A0
+> -=09meson_overlay =3D devm_kzalloc(priv->drm->dev,
+> sizeof(*meson_overlay),
+> +=09meson_overlay =3D devm_kzalloc(priv->drm.dev,
+> sizeof(*meson_overlay),
+> =C2=A0=09=09=09=09=C2=A0=C2=A0 GFP_KERNEL);
+> =C2=A0=09if (!meson_overlay)
+> =C2=A0=09=09return -ENOMEM;
+> @@ -846,7 +846,7 @@ int meson_overlay_create(struct meson_drm *priv)
+> =C2=A0=09meson_overlay->priv =3D priv;
+> =C2=A0=09plane =3D &meson_overlay->base;
+> =C2=A0
+> -=09drm_universal_plane_init(priv->drm, plane, 0xFF,
+> +=09drm_universal_plane_init(&priv->drm, plane, 0xFF,
+> =C2=A0=09=09=09=09 &meson_overlay_funcs,
+> =C2=A0=09=09=09=09 supported_drm_formats,
+> =C2=A0=09=09=09=09 ARRAY_SIZE(supported_drm_formats),
+> diff --git a/drivers/gpu/drm/meson/meson_plane.c
+> b/drivers/gpu/drm/meson/meson_plane.c
+> index b43ac61201f3..13be94309bf4 100644
+> --- a/drivers/gpu/drm/meson/meson_plane.c
+> +++ b/drivers/gpu/drm/meson/meson_plane.c
+> @@ -157,7 +157,7 @@ static void meson_plane_atomic_update(struct
+> drm_plane *plane,
+> =C2=A0=09 * Update Buffer
+> =C2=A0=09 * Enable Plane
+> =C2=A0=09 */
+> -=09spin_lock_irqsave(&priv->drm->event_lock, flags);
+> +=09spin_lock_irqsave(&priv->drm.event_lock, flags);
+> =C2=A0
+> =C2=A0=09/* Check if AFBC decoder is required for this buffer */
+> =C2=A0=09if ((meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM) ||
+> @@ -393,7 +393,7 @@ static void meson_plane_atomic_update(struct
+> drm_plane *plane,
+> =C2=A0
+> =C2=A0=09priv->viu.osd1_enabled =3D true;
+> =C2=A0
+> -=09spin_unlock_irqrestore(&priv->drm->event_lock, flags);
+> +=09spin_unlock_irqrestore(&priv->drm.event_lock, flags);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void meson_plane_atomic_disable(struct drm_plane *plane,
+> @@ -536,7 +536,7 @@ int meson_plane_create(struct meson_drm *priv)
+> =C2=A0=09const uint64_t *format_modifiers =3D format_modifiers_default;
+> =C2=A0=09int ret;
+> =C2=A0
+> -=09meson_plane =3D devm_kzalloc(priv->drm->dev,
+> sizeof(*meson_plane),
+> +=09meson_plane =3D devm_kzalloc(priv->drm.dev,
+> sizeof(*meson_plane),
+> =C2=A0=09=09=09=09=C2=A0=C2=A0 GFP_KERNEL);
+> =C2=A0=09if (!meson_plane)
+> =C2=A0=09=09return -ENOMEM;
+> @@ -549,14 +549,14 @@ int meson_plane_create(struct meson_drm *priv)
+> =C2=A0=09else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+> =C2=A0=09=09format_modifiers =3D format_modifiers_afbc_g12a;
+> =C2=A0
+> -=09ret =3D drm_universal_plane_init(priv->drm, plane, 0xFF,
+> +=09ret =3D drm_universal_plane_init(&priv->drm, plane, 0xFF,
+> =C2=A0=09=09=09=09=09&meson_plane_funcs,
+> =C2=A0=09=09=09=09=09supported_drm_formats,
+> =C2=A0=09=09=09=09=09ARRAY_SIZE(supported_drm_for
+> mats),
+> =C2=A0=09=09=09=09=09format_modifiers,
+> =C2=A0=09=09=09=09=09DRM_PLANE_TYPE_PRIMARY,
+> "meson_primary_plane");
+> =C2=A0=09if (ret) {
+> -=09=09devm_kfree(priv->drm->dev, meson_plane);
+> +=09=09devm_kfree(priv->drm.dev, meson_plane);
+> =C2=A0=09=09return ret;
+> =C2=A0=09}
+> =C2=A0
 
