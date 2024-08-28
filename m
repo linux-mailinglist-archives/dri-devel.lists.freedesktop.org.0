@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D6EBC085D
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 09:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C411BC09C4
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 10:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECCDD10E577;
-	Tue,  7 Oct 2025 07:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7606E10E0C8;
+	Tue,  7 Oct 2025 08:23:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T0Ova/rT";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="o9LGNexC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D70AC10E577
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 07:51:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B4A10E0C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 08:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759823494;
- bh=jtlAVfGzfku4KQ5w/lZHgUeem7ejLjYVd1EcDRbBCvI=;
+ s=mail; t=1759825416;
+ bh=eGt8cEzUOUnC8smyg5wsy0R9ZyB5SWf7wZVjyoxAkn0=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=T0Ova/rTvIPqkwbTuBELG4YGvv6W8lA8DaP/bVCkhQiCpT9EPccCxOZvWsBtiH1bP
- kMpXvAFSQpSwzi6/vdPRuNaMIEwdgcUJ+QOOWR+k5HhqrDv0qFvGch/tf9ukFOPQwA
- 4BSnYcHhRnSIBf2abeCS1dSkYXk2kYDW0SPBigBmCv2YdGPg+ieaoQ8w52VVEMV6CT
- NI5AsF3tdnmk/1aHNvWmpK53Ne2eTO5rZKIONDB93xnVhf/zb28RWOcg18BatFzm5z
- ClVJk9KSqzf4/gVfxcrSLqGeCa0882nwzzG+S4oP31rX560sW1UJ855eQBzZo59/3f
- odIn30a5XFaNA==
+ b=o9LGNexCyQx4dW/lglAuDC1dXXWO+D8PiuXaY8juL42ZrUZ1xGP7CAyK0DwRaG3z0
+ lVux3wg6jxkEEd51JEDWuhZ7Oo2dKsHZWYKlIN4pv1WSFz60lmbbKUcYUk7ItJCJ2g
+ hlOlplTGcvQM/BUC+qvBtG9MZpcWzLJa7D3wXfMJZUYnmslINsFv3JEUPw+9lyRMr8
+ LChIA80gRZsrqP1L7d3eFmLR1M+lhpSNcQRx5ox1uCLoE4aNa8zqZuBILjYunqGEoq
+ ku0fU+Z8AxPh6Jm5zLpasSbuk4FNVUiwgZojM7CVRLJH/g9P3kk7qicDBzz01eqLLD
+ cm77lHT5nm2Jg==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DB5F117E124A;
- Tue,  7 Oct 2025 09:51:33 +0200 (CEST)
-Date: Tue, 7 Oct 2025 09:51:29 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9831417E0A28;
+ Tue,  7 Oct 2025 10:23:35 +0200 (CEST)
+Date: Wed, 28 Aug 2024 19:27:43 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Steven
- Price <steven.price@arm.com>, kernel@collabora.com, Rob Herring
- <robh@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Subject: Re: [PATCH v4 05/10] drm/panfrost: Handle page mapping failure
-Message-ID: <20251007095129.4b0e88a8@fedora>
-In-Reply-To: <42bsn4ngim6aucg5pzcs4knpvwn6bbvud7lf22tr7kmrdrgphm@vncex4yi2oc6>
-References: <20251001022039.1215976-1-adrian.larumbe@collabora.com>
- <20251001022039.1215976-6-adrian.larumbe@collabora.com>
- <20251001125838.10200ff2@fedora>
- <42bsn4ngim6aucg5pzcs4knpvwn6bbvud7lf22tr7kmrdrgphm@vncex4yi2oc6>
+To: Mihail Atanassov <mihail.atanassov@arm.com>
+Cc: Mary Guillemard <mary.guillemard@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, Christopher Healy <healych@amazon.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, nd@arm.com
+Subject: Re: [PATCH] drm/panthor: Add DEV_QUERY_TIMESTAMP_INFO dev query
+Message-ID: <20240828192743.55e3107f@collabora.com>
+In-Reply-To: <20240828180703.4510a4e2@collabora.com>
+References: <20240807153553.142325-2-mary.guillemard@collabora.com>
+ <327a3440-8d01-4787-83be-a00fbbe0b593@arm.com>
+ <20240828140929.5c602436@collabora.com>
+ <c38324e4-055f-44b5-beb4-6b3e6b860e69@arm.com>
+ <20240828180703.4510a4e2@collabora.com>
 Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ZM-MESSAGEID: 1724866063694134900
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,200 +71,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Oct 2025 02:04:00 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+On Wed, 28 Aug 2024 18:07:03 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> Hi Boris,
->=20
-> On 01.10.2025 12:58, Boris Brezillon wrote:
-> > On Wed,  1 Oct 2025 03:20:26 +0100
-> > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
-> > =20
-> > > When mapping the pages of a BO, either a heap type at page fault time=
- or
-> > > else a non-heap BO at object creation time, if the ARM page table map=
-ping
-> > > function fails, we unmap what had been mapped so far and bail out.
-> > >
-> > > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> > > ---
-> > >  drivers/gpu/drm/panfrost/panfrost_mmu.c | 49 ++++++++++++++++++++++-=
---
-> > >  1 file changed, 44 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/dr=
-m/panfrost/panfrost_mmu.c
-> > > index cf272b167feb..fb17c32855a5 100644
-> > > --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> > > +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> > > @@ -393,13 +393,32 @@ static void panfrost_mmu_flush_range(struct pan=
-frost_device *pfdev,
-> > >  	pm_runtime_put_autosuspend(pfdev->base.dev);
-> > >  }
-> > >
-> > > +static void mmu_unmap_range(struct panfrost_mmu *mmu, u64 iova, size=
-_t len)
-> > > +{
-> > > +	struct io_pgtable_ops *ops =3D mmu->pgtbl_ops;
-> > > +	size_t pgsize, unmapped_len =3D 0;
-> > > +	size_t unmapped_page, pgcount;
-> > > +
-> > > +	while (unmapped_len < len) {
-> > > +		pgsize =3D get_pgsize(iova, len - unmapped_len, &pgcount);
-> > > +
-> > > +		unmapped_page =3D ops->unmap_pages(ops, iova, pgsize, pgcount, NUL=
-L);
-> > > +		WARN_ON(unmapped_page !=3D pgsize * pgcount);
-> > > +
-> > > +		iova +=3D pgsize * pgcount;
-> > > +		unmapped_len +=3D pgsize * pgcount;
-> > > +	}
-> > > +}
-> > > +
-> > >  static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost=
-_mmu *mmu,
-> > >  		      u64 iova, int prot, struct sg_table *sgt)
-> > >  {
-> > >  	unsigned int count;
-> > >  	struct scatterlist *sgl;
-> > >  	struct io_pgtable_ops *ops =3D mmu->pgtbl_ops;
-> > > +	size_t total_mapped =3D 0;
-> > >  	u64 start_iova =3D iova;
-> > > +	int ret;
-> > >
-> > >  	for_each_sgtable_dma_sg(sgt, sgl, count) {
-> > >  		unsigned long paddr =3D sg_dma_address(sgl);
-> > > @@ -413,10 +432,14 @@ static int mmu_map_sg(struct panfrost_device *p=
-fdev, struct panfrost_mmu *mmu,
-> > >  			size_t pgcount, mapped =3D 0;
-> > >  			size_t pgsize =3D get_pgsize(iova | paddr, len, &pgcount);
-> > >
-> > > -			ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
-> > > +			ret =3D ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
-> > >  				       GFP_KERNEL, &mapped);
-> > > +			if (ret)
-> > > +				goto err_unmap_pages;
-> > > +
-> > >  			/* Don't get stuck if things have gone wrong */
-> > >  			mapped =3D max(mapped, pgsize);
-> > > +			total_mapped +=3D mapped;
-> > >  			iova +=3D mapped;
-> > >  			paddr +=3D mapped;
-> > >  			len -=3D mapped;
-> > > @@ -426,6 +449,10 @@ static int mmu_map_sg(struct panfrost_device *pf=
-dev, struct panfrost_mmu *mmu,
-> > >  	panfrost_mmu_flush_range(pfdev, mmu, start_iova, iova - start_iova);
-> > >
-> > >  	return 0;
-> > > +
-> > > +err_unmap_pages:
-> > > +	mmu_unmap_range(mmu, start_iova, total_mapped);
-> > > +	return ret;
-> > >  }
-> > >
-> > >  int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
-> > > @@ -436,6 +463,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping =
-*mapping)
-> > >  	struct panfrost_device *pfdev =3D to_panfrost_device(obj->dev);
-> > >  	struct sg_table *sgt;
-> > >  	int prot =3D IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE;
-> > > +	int ret;
-> > >
-> > >  	if (WARN_ON(mapping->active))
-> > >  		return 0;
-> > > @@ -447,11 +475,18 @@ int panfrost_mmu_map(struct panfrost_gem_mappin=
-g *mapping)
-> > >  	if (WARN_ON(IS_ERR(sgt)))
-> > >  		return PTR_ERR(sgt);
-> > >
-> > > -	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
-> > > -		   prot, sgt);
-> > > +	ret =3D mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PA=
-GE_SHIFT,
-> > > +			 prot, sgt);
-> > > +	if (ret)
-> > > +		goto err_put_pages;
-> > > +
-> > >  	mapping->active =3D true;
-> > >
-> > >  	return 0;
-> > > +
-> > > +err_put_pages:
-> > > +	drm_gem_shmem_put_pages_locked(shmem);
-> > > +	return ret;
-> > >  }
-> > >
-> > >  void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping)
-> > > @@ -635,8 +670,10 @@ static int panfrost_mmu_map_fault_addr(struct pa=
-nfrost_device *pfdev, int as,
-> > >  	if (ret)
-> > >  		goto err_map;
-> > >
-> > > -	mmu_map_sg(pfdev, bomapping->mmu, addr,
-> > > -		   IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE | IOMMU_NOEXEC, sgt);
-> > > +	ret =3D mmu_map_sg(pfdev, bomapping->mmu, addr,
-> > > +			 IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE | IOMMU_NOEXEC, sgt);
-> > > +	if (ret)
-> > > +		goto err_mmu_map_sg;
-> > >
-> > >  	bomapping->active =3D true;
-> > >  	bo->heap_rss_size +=3D SZ_2M;
-> > > @@ -650,6 +687,8 @@ static int panfrost_mmu_map_fault_addr(struct pan=
-frost_device *pfdev, int as,
-> > >
-> > >  	return 0;
-> > >
-> > > +err_mmu_map_sg:
-> > > +	dma_unmap_sgtable(pfdev->base.dev, sgt, DMA_BIDIRECTIONAL, 0); =20
-> >
-> > You also need to clear the sgts[]/pages[] entries you added earlier,
-> > otherwise the next time you have a fault it will bail-out before
-> > attempting an mmu_map_sg().
-> >
-> > IIRC, Dmitry had a similar fix in his shmem-shrinker series. =20
->=20
-> Went over the mailing list and I think the commit you had in mind was 1fc=
-9af813b25 ("drm/panfrost: Fix the error path in panfrost_mmu_map_fault_addr=
-()")
->=20
-> I suspect there's a problem with the present code. If shmem_read_mapping_=
-page() fails for let's say, page_offset+5, then when the interrupt is trigg=
-ered
-> again, because the page array had already been allocated and pages[page_o=
-ffset] populated in the first try, then it would bail out immediately even =
-though
-> most pages haven't been retrieved yet.
->=20
-> On the other hand, depopulating the array for the IRQ to be triggered aga=
-in seems wasteful. Because for any virtual address, a fault will map all the
-> pages within its 2MiB boundaries, maybe we could change
->=20
-> if (pages[page_offset]) {
-> 	/* Pages are already mapped, bail out. */
-> 	goto out;
-> }
->=20
-> to 'pages[page_offset+NUM_FAULT_PAGES-1]'
+> On Wed, 28 Aug 2024 14:22:51 +0100
+> Mihail Atanassov <mihail.atanassov@arm.com> wrote:
+> 
+> > Hi Boris,
+> > 
+> > On 28/08/2024 13:09, Boris Brezillon wrote:  
+> > > Hi Mihail,
+> > > 
+> > > On Thu, 8 Aug 2024 12:41:05 +0300
+> > > Mihail Atanassov <mihail.atanassov@arm.com> wrote:
+> > >     
+> > >>>
+> > >>> +/** + * struct drm_panthor_timestamp_info - Timestamp information +
+> > >>> * + * Structure grouping all queryable information relating to the
+> > >>> GPU timestamp. + */ +struct drm_panthor_timestamp_info { +	/**
+> > >>> @timestamp_frequency: The frequency of the timestamp timer. */ +
+> > >>> __u64 timestamp_frequency; + +	/** @current_timestamp: The current
+> > >>> timestamp. */ +	__u64 current_timestamp;    
+> > >>
+> > >> As it stands, this query has nothing to do with the actual GPU so
+> > >> doesn't really belong here.
+> > >>
+> > >> It'd be more valuable, and can maybe give better calibration results
+> > >> than querying the system timestamp separately in userspace, if you
+> > >> reported all of:
+> > >>    * the system timer value
+> > >>    * the system timer frequency
+> > >>    * the GPU timer value
+> > >>    * the GPU timer frequency (because it _could_ be different in some
+> > >> systems)    
+> > > 
+> > > Duh, I wish this wasn't the case and all SoC vendors went for the
+> > > arch-timer which guarantees the consistency of the timestamp on the GPU
+> > > and CPU. But let's say this is a case we need to support, wouldn't it
+> > > be more useful to do the CPU/GPU calibration kernel side (basically at
+> > > init/resume time) and then expose the formula describing the
+> > > relationship between those 2 things:
+> > > 
+> > > CPU_time = GPU_time * GPU_to_CPU_mul / GPU_to_CPU_div +
+> > > 	   GPU_to_CPU_offset;
+> > >     
+> > 
+> > TIMESTAMP_OFFSET should indeed be set by the kernel (on resume). But I 
+> > don't think we need to post M/D+offset to userspace. The 2 Frequencies + 
+> > the scalar offset are the raw sources, and userspace can work back from 
+> > there.  
+> 
+> Sure. No matter how you express the relationship, my point was, if the
+> calibration is supposed to happen in the kernel at resume time,
+> returning both the CPU/GPU time in DEV_QUERY_TIMESTAMP to make sure the
+> sampling is close enough that they actually represent the same
+> timestamp might not be needed, because you can easily convert from one
+> domain to the other.
 
-Or, we simply don't check the
-pages[page_offset..page_offset+NUM_FAULT_PAGES-1] range and we let
-the following loop walk over all entries and fill the missing ones, if
-any.
+I think it makes more sense after reading [1] :-). This being said, the
+maxDeviation is here to account for any latency that might exists
+between each domain sampling, so I'd be tempted to read the CPU
+monotonic time through the regular syscalls rather than add it to the
+DEV_QUERY_TIMESTAMP ioctl.
 
->=20
-> And then, in the event that mmu_map_sg() fails:
->=20
-> err_mmu_map_sg:
-> 	pages[page_offset+NUM_FAULT_PAGES-1] =3D NULL;
-> 	dma_unmap_sgtable(pfdev->base.dev, sgt, DMA_BIDIRECTIONAL, 0);
->=20
-> So that it'll only fetch the very last page instead of all of them in cas=
-e of a page fault reattempt.
->=20
-> > >  err_map:
-> > >  	sg_free_table(sgt);
-> > >  err_unlock: =20
->=20
->=20
-> Adrian Larumbe
-
+[1]https://docs.vulkan.org/features/latest/features/proposals/VK_EXT_calibrated_timestamps.html
