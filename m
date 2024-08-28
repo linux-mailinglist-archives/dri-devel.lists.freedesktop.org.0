@@ -2,175 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2539C9630DB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 21:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B889630E4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 21:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C79810E5B4;
-	Wed, 28 Aug 2024 19:18:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0DD10E5B7;
+	Wed, 28 Aug 2024 19:23:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jMRIQP75";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Zr08nFW+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D58CD10E08B;
- Wed, 28 Aug 2024 19:18:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724872717; x=1756408717;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=0x+YZM3RFkmEyW5Ivl1Xbr+TOtV/gCn8iascAG3rKCM=;
- b=jMRIQP752ZP7/XeNVOua9ecL8BDnDdkbXU9J+zTS0pftXTys5u48jFtn
- H2jIZDy7KgwKmUcZ4k5EdNuyeOuu4iMPjLAA43cRr4bPCMFLzxMnfCOG+
- BYs9Bj6BhvzL9kEw6GdfcWLmJ/BJRmmVNyg1LEHxN5mbBODPLHJOGG89p
- 4o1ziL9MsEssF0gCEDEAKKNWopPwsfikXyhxQIoNygaUTe1iJp7aFCjbn
- 9IakXaChMRgymNtfUrZhIaHChoITTPkjry/ja8YSUSst0jYB7jW4rNZvE
- Nww/vEGIY4MuvB9KqWZDlgFfBlToj3Uw8P6u0lLalGLwLsbp8RfVIOSlr g==;
-X-CSE-ConnectionGUID: 5XZoosXfQFWq5ld3FnN30Q==
-X-CSE-MsgGUID: 4yCb2M6BSqK7aQKYy7wFqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="34045489"
-X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="34045489"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 12:18:36 -0700
-X-CSE-ConnectionGUID: n8de7+qWSzSQDtNPDB9wtg==
-X-CSE-MsgGUID: MuaZAHvbQCmzoCLqxoEyew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="63506053"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 28 Aug 2024 12:18:36 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 28 Aug 2024 12:18:35 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 28 Aug 2024 12:18:35 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 28 Aug 2024 12:18:35 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 108CE10E5B7;
+ Wed, 28 Aug 2024 19:23:48 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SJM1QA012835;
+ Wed, 28 Aug 2024 19:23:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ aVl1um6bdKcTVasU9ob3zV0YqUw8q5eZh9fCTXeP//Q=; b=Zr08nFW+YDSNYQqi
+ T/dCkkmS/FM2/CdLRRf/5SR8JW8X/7zxddmr7+R0FAAA03u4QoHg5zKn/OpkKCHN
+ hArgmr60z0gYrqZ345V/Q2i523NDba6z1q1gmfFD3/+glTXmWfcabLS9mkNmnmDb
+ c/ffLLFHqt+D+8xdalNI/Sc8zJB8mfEDAqzt68L7inDkQdQJhOVCQQ12+6pzdin1
+ LcWQF/U0po/+wIVNCziotm2wnpCiHYe2KqWEHHIU5KScmy7FnW6yjvrrapYa97o/
+ OwQwTS/Z+heBCKXxc/uS86Ibzupu5ny67YniQ1niLpWvmT/uUvNLjS9Yna6Vk75Q
+ 3vg/JA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419pv12uxs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Aug 2024 19:23:15 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47SJNEl6024206
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Aug 2024 19:23:14 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 28 Aug 2024 12:18:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WtIikygW6fiTiQhXA/lOYmukA9WJjoM3LqGi97hWIWZrS+63fsHjVo8Avy2+31vsYIEYLopTvjAwypFp1cf3V59j1vsKfPIgCdqIZE5GpKbF/sT2QIrNtEPXmX4ZxzsOEt5PK9sdP2e1uBot39L4HxaPuPfZ7zHMitew4HrUYJbHKOv4bYhOtVEX0zdPQerQqq6tz+tZXGAsaKEGXkucwyRzP7kb4IA+iLVQs+1GeAdFOEL0xubMuN6DuH0+0rEnVlAtugTwiAVH+8AY++Bsik0QnxRqz/JJExJvJ+ToyS2lzK8EI3BOaAF5uNjh8XbgmbU/9Iz8d/q2vRKUI80NIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6yIG9VSnSx5u4pK+IHm2OFLudZ5kSGKTLJcTUUSdScs=;
- b=xgq0/0jo4AW2AI09+SmFDynAMv9Pe/LOJBx8JdczhwH8SJ5EVPTxyKBrOjG7ymltVaDkctyYZ3i+abIZCutuSQuEeYRsQO1j/zoEEw5I1GrBZsB1yEitkt+3vvVKV+3j+vA6m7JATKHOX2XwMSNR6zifr/k26ESIBUBuzezmJ7A9IcOvzsknPzbrISCgjF/MPmcNcnjUVYxSwT5fYNuF84D0MdMWC4SZPU76KRFMVn+L5fQfnGfWsJmzeQ2m/1qVusXmQSP7UXyhySTnBCnH3gE9lik2RyQNrmXs39Hcp9T7sOT1bHTqoJZCV0R0ALX+PifWuz4kdczPsdZULx15WQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by CYXPR11MB8753.namprd11.prod.outlook.com (2603:10b6:930:d5::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Wed, 28 Aug
- 2024 19:18:31 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7897.021; Wed, 28 Aug 2024
- 19:18:31 +0000
-Date: Wed, 28 Aug 2024 14:18:28 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dim-tools@lists.freedesktop.org>
-Subject: [PULL] drm-xe-next
-Message-ID: <wd42jsh4i3q5zlrmi2cljejohdsrqc6hvtxf76lbxsp3ibrgmz@y54fa7wwxgsd>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+ 15.2.1544.9; Wed, 28 Aug 2024 12:23:08 -0700
+Date: Thu, 29 Aug 2024 00:53:04 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+CC: Antonino Maniscalco <antomani103@gmail.com>, Connor Abbott
+ <cwabbott0@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
+Message-ID: <20240828192304.dojqyvbnqzhy63na@hu-akhilpo-hyd.qualcomm.com>
+References: <CACu1E7E7FPJP-Ry64m257A7WrL3Q9jy8xMS9XpSBRNimBWzYUQ@mail.gmail.com>
+ <20240822200534.fgugb3zmcp7hjyck@hu-akhilpo-hyd.qualcomm.com>
+ <CACu1E7F068sAMFgn=D7qBGM81qvYP4iW1+hXpfXVKtQGWeyTKQ@mail.gmail.com>
+ <CACu1E7EueMnte9e+yLEtRE9WmG0J5bVMj59VbPfkDeB7OHbsAw@mail.gmail.com>
+ <20240827194828.jxwelq4xr2wsdxos@hu-akhilpo-hyd.qualcomm.com>
+ <d95ef763-7237-4080-b323-838ca337734a@gmail.com>
+ <CAF6AEGuASw0YO8b0X24-iq1pqTnBEpr0Tm3Scmt4-T+HeCMY_A@mail.gmail.com>
+ <57064da3-190c-4554-b085-d56daf979933@gmail.com>
+ <CAF6AEGtYh6jnYcFLcUnEobjQqKmqxuX29wO1qqnGYFQJ+EUBxw@mail.gmail.com>
+ <CAF6AEGuBMiQft4SCrf=xTQ76q8=+-OS3SEKMmw7TGT5rb=Sygw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0075.namprd04.prod.outlook.com
- (2603:10b6:303:6b::20) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CYXPR11MB8753:EE_
-X-MS-Office365-Filtering-Correlation-Id: b827836f-048a-47f4-f8df-08dcc796343a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?vcsb2ASirJxqbTRs3PtGPl2IeLWdhCBQqJKHH/nNKQeIxiw2Kl2NAOuDCp?=
- =?iso-8859-1?Q?n6QXeKa+JEuyj1nMPYqV4fOYjALfsXThLex+nYpu0f4THCm2oRn5usVvS0?=
- =?iso-8859-1?Q?rlVVGe1e3dXQw1UvMi6G9cIzDzHbZpMZrE9HjzdKIRflHgg9i/2xfPsGbu?=
- =?iso-8859-1?Q?GZgQKjhTFgROR8n9gXSMPxMU5F+kQuBwCHUf4atb4nzMvskEoBNRwtDgnQ?=
- =?iso-8859-1?Q?QUWaPCf9Ks0DL6ItpEE9/A7fti75Iv3b52dE07lxpKUozKbK2nkulhtzH/?=
- =?iso-8859-1?Q?1A1EJtcUzegLICzs7Sxc0NlStEo+9HlO2Z+hkDV5Sw/8TWKXWl4QfIIGQ7?=
- =?iso-8859-1?Q?ZsTa5pz37dCDku65ZE+gTINabWolQ3dHmCCf4i+NPhpeRyCJ/8lFHym0Pm?=
- =?iso-8859-1?Q?ukJuemDviv0KPgu+YwfQKa7tKCCgdOIc5ll++xWZU6495peE45Dbx2Yb89?=
- =?iso-8859-1?Q?sZc1K3mk6/9s8ZIaa3021tyVbrDt4UXUKRkryG35LaQL+iBfAIp93XaiPv?=
- =?iso-8859-1?Q?gg6NrQI8iQ/6t+ti6hIqVS1LbZX05GjIE4XcQ1ozbBkDb2LyoNgQJRdgDj?=
- =?iso-8859-1?Q?GFMkHu2KNOrkfz2ejIhhOgXe3r97QdQdqjSFH1g46ueO7M2ZpSF/sqf7ig?=
- =?iso-8859-1?Q?X6Vk/aKxBiLymGJ43ifTkYFrdc1IQhjN6lUEVmAL+CWMDH6lGntYF2hd1M?=
- =?iso-8859-1?Q?LIxfSqJhBr1XtWeE9debeO1XnBLKUsCj5OUg+JFjUv/H19/zu3qBKtFg7Z?=
- =?iso-8859-1?Q?kGbll/AUfvw6kvv5YXHSBek4rsoUQk0phgA7kvHCl/QclXAl4XoORatW2D?=
- =?iso-8859-1?Q?wZqxizXFjya8QVcN55tMKr987u/gLOIwbG0N9Gphjng3u5OLtKsxjWXBHD?=
- =?iso-8859-1?Q?ZT0Wizo+LCSLkqQtFYu3F00+MTzWSinzZu25yWdIW3oOo+Il+fm5/gSp5X?=
- =?iso-8859-1?Q?Oi6FceIJLvym1rQzr2XGAERlL1FJTU0E8OaJXt3KztD5f5Mrhke31n7yZ+?=
- =?iso-8859-1?Q?LlhMgR4ZLI2CDl++j2uMWM3zaxjcCt7ne0LxI+CW4rmKSFDu7FfvQvjONN?=
- =?iso-8859-1?Q?VxyOEwAb7/qc25JoFPIkJFtiE7ppGmzqMvdaOpVftQJoLOnArwgIgngZd6?=
- =?iso-8859-1?Q?+ye3c0ofu+PZBf+K3R8JAQsfl2O77XpSNQ2NlwBWXLAeEhYxURBLiK/QDr?=
- =?iso-8859-1?Q?CqrU375Jdso9OZp9cIpKaGyAAjiuq+SVsrcRHlzSAVvZnS+OUXvZP2HK43?=
- =?iso-8859-1?Q?BEorYmNDT2RHpY3K1QcLNnQX4qJ56o0AlgKSZF01Kv9cesoVykx0RBXKnv?=
- =?iso-8859-1?Q?SWSpswaM2GJ5+maDgJ42bjDpIM6N06R+A4b8/J63+/OIfR8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?g6qJ12ki8B0o8fOEA2gvMGi6EucfGacqHLFk+jHCYq/ZlOyjUweNDvth82?=
- =?iso-8859-1?Q?QBKG8MI5PUn8wnlTVT+t/IuixiZpCipopxNlF0KjZqGp1yzdAxS+dJ0TYf?=
- =?iso-8859-1?Q?jvb4q7EB+qbjlPjYxAG9g0JMyiWQLJAnLJ/DRljPxTd4JYLef+3ABPHLNv?=
- =?iso-8859-1?Q?7KxLh5n6z3ldxfKOj3q3D+V6FWsYdOTCxvCd37mAPHSx86qk6SObBIpVbz?=
- =?iso-8859-1?Q?/r/MtnIptsXnjdGtqLgkWyPAA150+GVd/f8aWuhmnop2ROWke5ELxN9uIy?=
- =?iso-8859-1?Q?5q0+sObcL1zayxNgig/hl3RBPCI0Il9nAl1uJHA5SFBsMBRIhkI9+jwm/M?=
- =?iso-8859-1?Q?pDTVxMhfI63YlnG/pl50pbJdEBUJ/KyC6MeeR8d/IXsiLMoCyKHauQxOSN?=
- =?iso-8859-1?Q?ISvaTkhiMqKkW6Dyv9cxlZyX91Pn3QEG5zJzHzr4KKXHRvLh5C6Jlc05be?=
- =?iso-8859-1?Q?+oyC+Bv6YGUmK0/Mr0Vrcp8cVAkMJE9ArHAPpusX1lLGJ6NNaCX7UVZzVW?=
- =?iso-8859-1?Q?gvlJ/5k9tIpfDYKA2HNU0PWuO88yH6KtysaCJuOUTC4mf9runaCfza7Npy?=
- =?iso-8859-1?Q?b6wzHGT1nyipyLmspEwgqraPQ42MWB1LZ8d225sgV90oemGpHkSJOdJWhe?=
- =?iso-8859-1?Q?jK+XKG2clBR2HKPVmppBW6eF+2cgsAcYwoJRFirm0gnJ1Or55nNB+lEYjZ?=
- =?iso-8859-1?Q?teoylUVRBRG68Rm5fycWQkA6bB6jQehQRFSPj2cvlHEx5tq0J3ViyzMsHC?=
- =?iso-8859-1?Q?wBwmKYnRuyL65KHOqDd6I2dsRLc/aVIPNGLFPZB9Bkb/bhY7Vxobyqz/ww?=
- =?iso-8859-1?Q?LO1Ffcw+2pRNFhBoWKUtYAXr0qnZLodyqofzvX+uUpdSCgnH9XKVXVr6rH?=
- =?iso-8859-1?Q?FYL6lu2CdsFZNzvVRl9z1jcokWF89Nyw06pKrmWzugVJ4sPKuGKVXREl1y?=
- =?iso-8859-1?Q?ROaO/uTDardSMA5/IDEAHD53ElZ6LNPOw+sJ5yPGBJQzSGmwhH2zts6cTf?=
- =?iso-8859-1?Q?B9zSM69ur1c5JgXErxCyE7r/rMVRu2DpHpscmG/kyamPpsFFdxxJALfyEF?=
- =?iso-8859-1?Q?topafA3Vdjev8b035KUuZizbKx+Omuck691J7edz6EN4Wf0U1oWHw6ahX7?=
- =?iso-8859-1?Q?q4v+ugtJdv8YrRiDA2gVmaRTUdtZrvu/fiNJJvPeMrY8p4HwrCM/p1FscM?=
- =?iso-8859-1?Q?cY9uaTf5sBIf+yUdyUok9aBocFWZizqdyNxDGcttb7YQ4JiSUwtCcfBhUw?=
- =?iso-8859-1?Q?URG69vhA9sgvr6LgzS+9Z55nQOPjX/HtDKpnOdxSTzSjWk5284VPWFf7E6?=
- =?iso-8859-1?Q?v8GrhNj1UnTKAcoG/NcQ8iLcmBGXOGGGfV1UJSnI/qkXQx1jRqmAiiVEfx?=
- =?iso-8859-1?Q?BalNThon2KiNxYnzjeWgwof/sUngWvx5JKln5zMLtTdaGtk6p/dSudqHyN?=
- =?iso-8859-1?Q?N7wcfBIDE32wnxtdtRFdWPlQL6sjvQ8SDYACRpfJaB2O/amrWllDlHHTUf?=
- =?iso-8859-1?Q?Palh0jArauwoAiTjSRrwamevrJ8cpiA921q7hDNVrQjKUivAQhwgpIxryt?=
- =?iso-8859-1?Q?zM6Ch71h/lH+ARwC4uQtPdVwltMrMDF+Gsfph6ziozQFUvS7JZL7lfPHXA?=
- =?iso-8859-1?Q?d9CCGJr9ttRaFHnqDdzdFHxCeUFNAGWpwFn9utjIhpabiwfY/s8NTKYA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b827836f-048a-47f4-f8df-08dcc796343a
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2024 19:18:31.7080 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FlbvgFS1FSWOkxB0tXr3SRt0qboLCr4mWIM5ysboztkjUZIrnbnkbZs8OIV5lylQtGbgiYV2BCF9uz62/5fYgOqG+UdDrq+nU/iGo5q7ZZY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8753
-X-OriginatorOrg: intel.com
+In-Reply-To: <CAF6AEGuBMiQft4SCrf=xTQ76q8=+-OS3SEKMmw7TGT5rb=Sygw@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 3wUa4nw9YNeQ19SOTO4mINAVLHXBHVQr
+X-Proofpoint-ORIG-GUID: 3wUa4nw9YNeQ19SOTO4mINAVLHXBHVQr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-28_08,2024-08-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 bulkscore=0
+ mlxlogscore=999 impostorscore=0 malwarescore=0 spamscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408280141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,421 +106,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Sima,
+On Wed, Aug 28, 2024 at 06:46:37AM -0700, Rob Clark wrote:
+> On Wed, Aug 28, 2024 at 6:42 AM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Tue, Aug 27, 2024 at 3:56 PM Antonino Maniscalco
+> > <antomani103@gmail.com> wrote:
+> > >
+> > > On 8/27/24 11:07 PM, Rob Clark wrote:
+> > > > On Tue, Aug 27, 2024 at 1:25 PM Antonino Maniscalco
+> > > > <antomani103@gmail.com> wrote:
+> > > >>
+> > > >> On 8/27/24 9:48 PM, Akhil P Oommen wrote:
+> > > >>> On Fri, Aug 23, 2024 at 10:23:48AM +0100, Connor Abbott wrote:
+> > > >>>> On Fri, Aug 23, 2024 at 10:21 AM Connor Abbott <cwabbott0@gmail.com> wrote:
+> > > >>>>>
+> > > >>>>> On Thu, Aug 22, 2024 at 9:06 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> > > >>>>>>
+> > > >>>>>> On Wed, Aug 21, 2024 at 05:02:56PM +0100, Connor Abbott wrote:
+> > > >>>>>>> On Mon, Aug 19, 2024 at 9:09 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> > > >>>>>>>>
+> > > >>>>>>>> On Thu, Aug 15, 2024 at 08:26:14PM +0200, Antonino Maniscalco wrote:
+> > > >>>>>>>>> This patch implements preemption feature for A6xx targets, this allows
+> > > >>>>>>>>> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
+> > > >>>>>>>>> hardware as such supports multiple levels of preemption granularities,
+> > > >>>>>>>>> ranging from coarse grained(ringbuffer level) to a more fine grained
+> > > >>>>>>>>> such as draw-call level or a bin boundary level preemption. This patch
+> > > >>>>>>>>> enables the basic preemption level, with more fine grained preemption
+> > > >>>>>>>>> support to follow.
+> > > >>>>>>>>>
+> > > >>>>>>>>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> > > >>>>>>>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> > > >>>>>>>>> ---
+> > > >>>>>>>>
+> > > >>>>>>>> No postamble packets which resets perfcounters? It is necessary. Also, I
+> > > >>>>>>>> think we should disable preemption during profiling like we disable slumber.
+> > > >>>>>>>>
+> > > >>>>>>>> -Akhil.
+> > > >>>>>>>
+> > > >>>>>>> I don't see anything in kgsl which disables preemption during
+> > > >>>>>>> profiling. It disables resetting perfcounters when doing system-wide
+> > > >>>>>>> profiling, like freedreno, and in that case I assume preempting is
+> > > >>>>>>> fine because the system profiler has a complete view of everything and
+> > > >>>>>>> should "see" preemptions through the traces. For something like
+> > > >>>>>>> VK_KHR_performance_query I suppose we'd want to disable preemption
+> > > >>>>>>> because we disable saving/restoring perf counters, but that has to
+> > > >>>>>>> happen in userspace because the kernel doesn't know what userspace
+> > > >>>>>>> does.
+> > > >>>>>>>
+> > > >>>>>>
+> > > >>>>>> KGSL does some sort of arbitration of perfcounter configurations and
+> > > >>>>>> adds the select/enablement reg configuration as part of dynamic
+> > > >>>>>> power up register list which we are not doing here. Is this something
+> > > >>>>>> you are taking care of from userspace via preamble?
+> > > >>>>>>
+> > > >>>>>> -Akhil
+> > > >>>>>
+> > > >>>>> I don't think we have to take care of that in userspace, because Mesa
+> > > >>>>> will always configure the counter registers before reading them in the
+> > > >>>>> same submission, and if it gets preempted in the meantime then we're
+> > > >>>>> toast anyways (due to not saving/restoring perf counters). kgsl sets
+> > > >>>>> them from userspace, which is why it has to do something to set them
+> > > >>>>
+> > > >>>> Sorry, should be "kgsl sets them from the kernel".
+> > > >>>>
+> > > >>>>> after IFPC slumber or a context switch when the HW state is gone.
+> > > >>>>> Also, because the upstream approach doesn't play nicely with system
+> > > >>>>> profilers like perfetto, VK_KHR_performance_query is hidden by default
+> > > >>>>> behind a debug flag in turnip. So there's already an element of "this
+> > > >>>>> is unsupported, you have to know what you're doing to use it."
+> > > >>>
+> > > >>> But when you have composition on GPU enabled, there will be very frequent
+> > > >>> preemption. And I don't know how usable profiling tools will be in that
+> > > >>> case unless you disable preemption with a Mesa debug flag. But for that
+> > > >>> to work, all existing submitqueues should be destroyed and recreated.
+> > > >>>
+> > > >>> So I was thinking that we can use the sysprof propertry to force L0
+> > > >>> preemption from kernel.
+> > > >>>
+> > > >>> -Akhil.
+> > > >>>
+> > > >>
+> > > >> Right but when using a system profiler I imagined the expectation would
+> > > >> be to be able to understand how applications and compositor interact. An
+> > > >> use case could be measuring latency and understanding what contributes
+> > > >> to it. That is actually the main reason I added traces for preemption.
+> > > >> Disabling preemption would make it less useful for this type of
+> > > >> analysis. Did you have an use case in mind for a system profiler that
+> > > >> would benefit from disabling preemption and that is not covered by
+> > > >> VK_KHR_performance_query (or equivalent GL ext)?
 
-Second drm-xe-next pull request for the 6.12 cycle. This includes the
-pull request from last week since it was not applied due to the ttm
-patch. That patch is now reverted and replacement on the back burner.
+Please consider this as a friendly suggestion based on Conner's clarification.
+Not a blocker. TBH, I don't have clairty on the profiling story in Mesa!
 
-The only UAPI change is actually a fix for building with gcc 5.
+> > > >
+> > > > I would think that we want to generate an event, with GPU timestamp
+> > > > (ie. RB_DONE) and which ring we are switching to, so that perfetto/etc
+> > > > could display multiple GPU timelines and where the switch from one to
+> > > > the other happens.
+> > > >
+> > > > I'm a bit curious how this is handled on android, with AGI/etc.. I
+> > > > don't see any support in perfetto for this.
+> > > >
+> > > > BR,
+> > > > -R
+> > > >
+> > > >> Best regards,
+> > > >> --
+> > > >> Antonino Maniscalco <antomani103@gmail.com>
+> > > >>
+> > >
+> > > Looking at KGSL they seem to use ftrace and I don't see it doing
+> > > anything to get a timestamp from some GPU timer, really not sure how
+> > > that would be put in a gpu timeline.
 
-Aside from the additional fixes compared to last week, 2 important
-patches to remove the force_probe requirement for LNL and BMG.  Those
-are the first platforms to be officially supported by the xe driver: one
-integrated and one discrete. For BMG there are still some necessary
-changes going through the drm-intel-next pull request later this week.
+Yeah, we usually rely on ftraces which is good enough to measure preemption
+latency.
 
-Cheers,
-Lucas De Marchi
+-Akhil.
 
-drm-xe-next-2024-08-28:
-UAPI Changes:
-- Fix OA format masks which were breaking build with gcc-5
-
-Cross-subsystem Changes:
-
-Driver Changes:
-- Use dma_fence_chain_free in chain fence unused as a sync (Matthew Brost)
-- Refactor hw engine lookup and mmio access to be used in more places
-   (Dominik, Matt Auld, Mika Kuoppala)
-- Enable priority mem read for Xe2 and later (Pallavi Mishra)
-- Fix PL1 disable flow in xe_hwmon_power_max_write (Karthik)
-- Fix refcount and speedup devcoredump (Matthew Brost)
-- Add performance tuning changes to Xe2 (Akshata, Shekhar)
-- Fix OA sysfs entry (Ashutosh)
-- Add first GuC firmware support for BMG (Julia)
-- Bump minimum GuC firmware for platforms under force_probe to match LNL
-   and BMG (Julia)
-- Fix access check on user fence creation (Nirmoy)
-- Add/document workarounds for Xe2 (Julia, Daniele, John, Tejas)
-- Document workaround and use proper WA infra (Matt Roper)
-- Fix VF configuration on media GT (Michal Wajdeczko)
-- Fix VM dma-resv lock (Matthew Brost)
-- Allow suspend/resume exec queue backend op to be called multiple times
-   (Matthew Brost)
-- Add GT stats to debugfs (Nirmoy)
-- Add hwconfig to debugfs (Matt Roper)
-- Compile out all debugfs code with ONFIG_DEUBG_FS=n (Lucas)
-- Remove dead kunit code (Jani Nikula)
-- Refactor drvdata storing to help display (Jani Nikula)
-- Cleanup unsused xe parameter in pte handling (Himal)
-- Rename s/enable_display/probe_display/ for clarity (Lucas)
-- Fix missing MCR annotation in couple of registers (Tejas)
-- Fix DGFX display suspend/resume (Maarten)
-- Prepare exec_queue_kill for PXP handling (Daniele)
-- Fix devm/drmm issues (Daniele, Matthew Brost)
-- Fix tile and ggtt fini sequences (Matthew Brost)
-- Fix crashes when probing without firmware in place (Daniele, Matthew Brost)
-- Use xe_managed for kernel BOs (Daniele, Matthew Brost)
-- Future-proof dss_per_group calculation by using hwconfig (Matt Roper)
-- Use reserved copy engine for user binds on faulting devices
-   (Matthew Brost)
-- Allow mixing dma-fence jobs and long-running faulting jobs (Francois)
-- Cleanup redundant arg when creating use BO (Nirmoy)
-- Prevent UAF around preempt fence (Auld)
-- Fix display suspend/resume (Maarten)
-- Use vma_pages() helper (Thorsten)
-- Calculate pagefault queue size (Stuart, Matthew Auld)
-- Fix missing pagefault wq destroy (Stuart)
-- Fix lifetime handling of HW fence ctx (Matthew Brost)
-- Fix order destroy order for jobs (Matthew Brost)
-- Fix TLB invalidation for media GT (Matthew Brost)
-- Document GGTT (Rodrigo Vivi)
-- Refactor GGTT layering and fix runtime outer protection (Rodrigo Vivi)
-- Handle HPD polling on display pm runtime suspend/resume (Imre, Vinod)
-- Drop unrequired NULL checks (Apoorva, Himal)
-- Use separate rpm lockdep map for non-d3cold-capable devices (Thomas Hellstr�m)
-- Support "nomodeset" kernel command-line option (Thomas Zimmermann)
-- Drop force_probe requirement for LNL and BMG (Lucas, Balasubramani)
-The following changes since commit a809b92ee0f84c3f655b16a8b4d04bc3665d954a:
-
-   Merge tag 'drm-intel-next-2024-08-13' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next (2024-08-16 12:56:42 +1000)
-
-are available in the Git repository at:
-
-   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2024-08-28
-
-for you to fetch changes up to 3adcf970dc7ec0469ec3116a5a8be9161d17a335:
-
-   drm/xe/bmg: Drop force_probe requirement (2024-08-28 10:47:03 -0700)
-
-----------------------------------------------------------------
-UAPI Changes:
-- Fix OA format masks which were breaking build with gcc-5
-
-Cross-subsystem Changes:
-
-Driver Changes:
-- Use dma_fence_chain_free in chain fence unused as a sync (Matthew Brost)
-- Refactor hw engine lookup and mmio access to be used in more places
-   (Dominik, Matt Auld, Mika Kuoppala)
-- Enable priority mem read for Xe2 and later (Pallavi Mishra)
-- Fix PL1 disable flow in xe_hwmon_power_max_write (Karthik)
-- Fix refcount and speedup devcoredump (Matthew Brost)
-- Add performance tuning changes to Xe2 (Akshata, Shekhar)
-- Fix OA sysfs entry (Ashutosh)
-- Add first GuC firmware support for BMG (Julia)
-- Bump minimum GuC firmware for platforms under force_probe to match LNL
-   and BMG (Julia)
-- Fix access check on user fence creation (Nirmoy)
-- Add/document workarounds for Xe2 (Julia, Daniele, John, Tejas)
-- Document workaround and use proper WA infra (Matt Roper)
-- Fix VF configuration on media GT (Michal Wajdeczko)
-- Fix VM dma-resv lock (Matthew Brost)
-- Allow suspend/resume exec queue backend op to be called multiple times
-   (Matthew Brost)
-- Add GT stats to debugfs (Nirmoy)
-- Add hwconfig to debugfs (Matt Roper)
-- Compile out all debugfs code with ONFIG_DEUBG_FS=n (Lucas)
-- Remove dead kunit code (Jani Nikula)
-- Refactor drvdata storing to help display (Jani Nikula)
-- Cleanup unsused xe parameter in pte handling (Himal)
-- Rename s/enable_display/probe_display/ for clarity (Lucas)
-- Fix missing MCR annotation in couple of registers (Tejas)
-- Fix DGFX display suspend/resume (Maarten)
-- Prepare exec_queue_kill for PXP handling (Daniele)
-- Fix devm/drmm issues (Daniele, Matthew Brost)
-- Fix tile and ggtt fini sequences (Matthew Brost)
-- Fix crashes when probing without firmware in place (Daniele, Matthew Brost)
-- Use xe_managed for kernel BOs (Daniele, Matthew Brost)
-- Future-proof dss_per_group calculation by using hwconfig (Matt Roper)
-- Use reserved copy engine for user binds on faulting devices
-   (Matthew Brost)
-- Allow mixing dma-fence jobs and long-running faulting jobs (Francois)
-- Cleanup redundant arg when creating use BO (Nirmoy)
-- Prevent UAF around preempt fence (Auld)
-- Fix display suspend/resume (Maarten)
-- Use vma_pages() helper (Thorsten)
-- Calculate pagefault queue size (Stuart, Matthew Auld)
-- Fix missing pagefault wq destroy (Stuart)
-- Fix lifetime handling of HW fence ctx (Matthew Brost)
-- Fix order destroy order for jobs (Matthew Brost)
-- Fix TLB invalidation for media GT (Matthew Brost)
-- Document GGTT (Rodrigo Vivi)
-- Refactor GGTT layering and fix runtime outer protection (Rodrigo Vivi)
-- Handle HPD polling on display pm runtime suspend/resume (Imre, Vinod)
-- Drop unrequired NULL checks (Apoorva, Himal)
-- Use separate rpm lockdep map for non-d3cold-capable devices (Thomas Hellstr�m)
-- Support "nomodeset" kernel command-line option (Thomas Zimmermann)
-- Drop force_probe requirement for LNL and BMG (Lucas, Balasubramani)
-
-----------------------------------------------------------------
-Akshata Jahagirdar (1):
-       drm/xe/xe2: Introduce performance changes
-
-Apoorva Singh (1):
-       drm/xe: Remove NULL check of lrc->bo in xe_lrc_snapshot_capture()
-
-Ashutosh Dixit (1):
-       drm/xe/observation: Drop empty sysctl table entry
-
-Balasubramani Vivekanandan (1):
-       drm/xe/bmg: Drop force_probe requirement
-
-Daniele Ceraolo Spurio (5):
-       drm/xe: fix WA 14018094691
-       drm/xe: Make exec_queue_kill safe to call twice
-       drm/xe: use devm instead of drmm for managed bo
-       drm/xe/uc: Use managed bo for HuC and GSC objects
-       drm/xe/uc: Use devm to register cleanup that includes exec_queues
-
-Dominik Grzegorzek (2):
-       drm/xe: Move and export xe_hw_engine lookup.
-       drm/xe: Export xe_hw_engine's mmio accessors
-
-Francois Dugast (11):
-       drm/xe/hw_engine_group: Introduce xe_hw_engine_group
-       drm/xe/guc_submit: Make suspend_wait interruptible
-       'drm/xe/hw_engine_group: Register hw engine group's exec queues
-       drm/xe/hw_engine_group: Add helper to suspend faulting LR jobs
-       drm/xe/exec_queue: Remove duplicated code
-       drm/xe/exec_queue: Prepare last fence for hw engine group resume context
-       drm/xe/hw_engine_group: Add helper to wait for dma fence jobs
-       drm/xe/hw_engine_group: Ensure safe transition between execution modes
-       drm/xe/exec: Switch hw engine group execution mode upon job submission
-       drm/xe/vm: Remove restriction that all VMs must be faulting if one is
-       drm/xe/device: Remove unused xe_device::usm::num_vm_in_*
-
-Himal Prasad Ghimiray (5):
-       drm/xe: Remove unused xe parameter
-       drm/xe: Remove extra dma_fence_put on xe_sync_entry_add_deps failure
-       drm/xe: Remove unrequired NULL checks in xe_sync_entry_cleanup
-       drm/xe: Remove unrequired NULL check in xe_sched_job_free_fences
-       drm/xe: Fix NPD in ggtt_node_remove()
-
-Imre Deak (2):
-       drm/xe: Suspend/resume user access only during system s/r
-       drm/xe: Handle polling only for system s/r in xe_display_pm_suspend/resume()
-
-Jani Nikula (3):
-       drm/xe/tests: remove unused leftover xe_call_for_each_device()
-       drm/xe: use pdev_to_xe_device() instead of pci_get_drvdata() directly
-       drm/xe: add kdev_to_xe_device() helper and use it
-
-Julia Filipchuk (3):
-       drm/xe/guc: Bump minimum required GuC version to v70.29.2
-       drm/xe/guc: Define GuC version v70.29.2 for BMG
-       drm/xe/guc: Enable w/a 14022293748 and 22019794406
-
-Karthik Poosa (1):
-       drm/xe/hwmon: Fix PL1 disable flow in xe_hwmon_power_max_write
-
-Lucas De Marchi (4):
-       drm/xe: Allow to compile out debugfs
-       drm/xe: Rename enable_display module param
-       Merge drm/drm-next into drm-xe-next
-       drm/xe/lnl: Drop force_probe requirement
-
-Maarten Lankhorst (2):
-       drm/xe/display: Match i915 driver suspend/resume sequences better
-       drm/xe/display: Make display suspend/resume work on discrete
-
-Matt Roper (3):
-       drm/xe: Name and document Wa_14019789679
-       drm/xe: Add debugfs to dump GuC's hwconfig
-       drm/xe/mcr: Try to derive dss_per_grp from hwconfig attributes
-
-Matthew Auld (3):
-       drm/xe: fix engine_class bounds check again
-       drm/xe: prevent UAF around preempt fence
-       drm/xe: fixup xe_alloc_pf_queue
-
-Matthew Brost (24):
-       drm/xe: Use dma_fence_chain_free in chain fence unused as a sync
-       drm/xe: Take ref to VM in delayed snapshot
-       drm/printer: Allow NULL data in devcoredump printer
-       drm/xe: Faster devcoredump
-       drm/xe: Only check last fence on user binds
-       drm/xe: Move VM dma-resv lock from xe_exec_queue_create to __xe_exec_queue_init
-       drm/xe: Add xe_sched_msg_lock/unlock helper
-       drm/xe: Reinit msg link when processing a message
-       drm/xe: Add xe_sched_add_msg_locked helper
-       drm/xe: Only enable scheduling upon resume if needed
-       drm/xe: Allow suspend / resume to be safely called multiple times
-       drm/xe: Fix tile fini sequence
-       drm/xe: Use for_each_remote_tile rather than manual check
-       drm/xe: Use reserved copy engine for user binds on faulting devices
-       drm/xe: Drop HW fence pointer to HW fence ctx
-       drm/xe: Free job before xe_exec_queue_put
-       drm/xe: Invalidate media_gt TLBs
-       drm/xe: Invalidate media_gt TLBs in PT code
-       Revert "drm/xe: Invalidate media_gt TLBs in PT code"
-       drm/xe: Move ggtt_fini to devm managed
-       drm/xe: Set firmware state to loadable before registering guc_fini_hw
-       drm/xe: Drop warn on xe_guc_pc_gucrc_disable in guc pc fini
-       drm/xe: Move hw_engine_fini to devm managed
-       drm/xe: Update xe_sa to use xe_managed_bo_create_pin_map
-
-Michal Wajdeczko (1):
-       drm/xe/pf: Fix VF config validation on multi-GT platforms
-
-Mika Kuoppala (1):
-       drm/xe: Add kernel doc for xe_hw_engine_lookup
-
-Nathan Chancellor (1):
-       drm/xe: Fix total initialization in xe_ggtt_print_holes()
-
-Nirmoy Das (9):
-       drm/xe: Fix access_ok check in user_fence_create
-       drm/xe/gt: Add APIs for printing stats over debugfs
-       drm/xe: Add stats for tlb invalidation count
-       drm/xe/migrate: Parameterize ccs and bo data clear in xe_migrate_clear()
-       drm/xe: Remove redundant param from xe_bo_create_user
-       drm/ttm: Add a flag to allow drivers to skip clear-on-free
-       drm/xe/lnl: Offload system clear page activity to GPU
-       Revert "drm/xe/lnl: Offload system clear page activity to GPU"
-       Revert "drm/ttm: Add a flag to allow drivers to skip clear-on-free"
-
-Pallavi Mishra (1):
-       drm/xe/xe2: Enable Priority Mem Read
-
-Rodrigo Vivi (12):
-       drm/xe: Removed unused xe_ggtt_printk
-       drm/xe: Introduce GGTT documentation
-       drm/xe: Remove unnecessary drm_mm.h includes
-       drm/{i915, xe}: Avoid direct inspection of dpt_vma from outside dpt
-       drm/xe: Encapsulate drm_mm_node inside xe_ggtt_node
-       drm/xe: Rename xe_ggtt_node related functions
-       drm/xe: Limit drm_mm_node_allocated access to xe_ggtt_node
-       drm/xe: Introduce xe_ggtt_largest_hole
-       drm/xe: Introduce xe_ggtt_print_holes
-       drm/xe: Refactor xe_ggtt balloon functions to make the node clear
-       drm/xe: Make xe_ggtt_node struct independent
-       drm/xe: Fix missing runtime outer protection for ggtt_remove_node
-
-Shekhar Chauhan (1):
-       drm/xe/xe2: Add performance turning changes
-
-Stuart Summers (3):
-       drm/xe: Fix missing workqueue destroy in xe_gt_pagefault
-       drm/xe: Use topology to determine page fault queue size
-       drm/xe/guc: Bump the G2H queue size to account for page faults
-
-Tejas Upadhyay (4):
-       drm/xe/xe2hpg: Add Wa_14021821874
-       drm/xe: Move enable host l2 VRAM post MCR init
-       drm/xe: Write all slices if its mcr register
-       drm/xe: Define STATELESS_COMPRESSION_CTRL as mcr register
-
-Thomas Hellstr�m (1):
-       drm/xe: Use separate rpm lockdep map for non-d3cold-capable devices
-
-Thomas Zimmermann (1):
-       drm/xe: Support 'nomodeset' kernel command-line option
-
-Thorsten Blum (1):
-       drm/xe/oa: Use vma_pages() helper function in xe_oa_mmap()
-
-Vinod Govindapillai (1):
-       drm/xe/display: handle HPD polling in display runtime suspend/resume
-
-  Documentation/gpu/xe/xe_mm.rst                     |  15 +
-  drivers/gpu/drm/drm_print.c                        |  13 +-
-  drivers/gpu/drm/i915/display/intel_dpt.c           |   4 +
-  drivers/gpu/drm/i915/display/intel_dpt.h           |   3 +
-  drivers/gpu/drm/i915/display/skl_universal_plane.c |   3 +-
-  drivers/gpu/drm/xe/Makefile                        |  18 +-
-  drivers/gpu/drm/xe/abi/guc_klvs_abi.h              |   1 +
-  drivers/gpu/drm/xe/compat-i915-headers/i915_vma.h  |   7 +-
-  drivers/gpu/drm/xe/display/xe_display.c            | 115 +++--
-  drivers/gpu/drm/xe/display/xe_display.h            |   4 +
-  drivers/gpu/drm/xe/display/xe_fb_pin.c             |  50 ++-
-  drivers/gpu/drm/xe/regs/xe_engine_regs.h           |   1 +
-  drivers/gpu/drm/xe/regs/xe_gt_regs.h               |  10 +-
-  drivers/gpu/drm/xe/tests/xe_bo.c                   |   8 +-
-  drivers/gpu/drm/xe/tests/xe_dma_buf.c              |   2 +-
-  drivers/gpu/drm/xe/tests/xe_migrate.c              |  24 +-
-  drivers/gpu/drm/xe/tests/xe_pci.c                  |  52 ---
-  drivers/gpu/drm/xe/tests/xe_pci_test.h             |   1 -
-  drivers/gpu/drm/xe/xe_bo.c                         |  26 +-
-  drivers/gpu/drm/xe/xe_bo.h                         |  10 +-
-  drivers/gpu/drm/xe/xe_bo_types.h                   |   5 +-
-  drivers/gpu/drm/xe/xe_debugfs.h                    |   4 +
-  drivers/gpu/drm/xe/xe_devcoredump.c                | 111 +++--
-  drivers/gpu/drm/xe/xe_devcoredump_types.h          |   8 +
-  drivers/gpu/drm/xe/xe_device.c                     |   5 +-
-  drivers/gpu/drm/xe/xe_device.h                     |  15 +-
-  drivers/gpu/drm/xe/xe_device_types.h               |  17 +-
-  drivers/gpu/drm/xe/xe_exec.c                       |  20 +-
-  drivers/gpu/drm/xe/xe_exec_queue.c                 | 237 +++++-----
-  drivers/gpu/drm/xe/xe_exec_queue.h                 |   8 +-
-  drivers/gpu/drm/xe/xe_exec_queue_types.h           |   4 +-
-  drivers/gpu/drm/xe/xe_ggtt.c                       | 487 ++++++++++++++++-----
-  drivers/gpu/drm/xe/xe_ggtt.h                       |  28 +-
-  drivers/gpu/drm/xe/xe_ggtt_types.h                 |  54 ++-
-  drivers/gpu/drm/xe/xe_gpu_scheduler.c              |  23 +-
-  drivers/gpu/drm/xe/xe_gpu_scheduler.h              |  12 +
-  drivers/gpu/drm/xe/xe_gsc.c                        |  20 +-
-  drivers/gpu/drm/xe/xe_gsc_proxy.c                  |  45 +-
-  drivers/gpu/drm/xe/xe_gt.c                         |  10 +-
-  drivers/gpu/drm/xe/xe_gt_debugfs.c                 |  13 +
-  drivers/gpu/drm/xe/xe_gt_mcr.c                     |  40 +-
-  drivers/gpu/drm/xe/xe_gt_pagefault.c               |  75 +++-
-  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         | 119 ++---
-  drivers/gpu/drm/xe/xe_gt_sriov_pf_config_types.h   |   5 +-
-  drivers/gpu/drm/xe/xe_gt_sriov_vf.c                |  44 +-
-  drivers/gpu/drm/xe/xe_gt_stats.c                   |  49 +++
-  drivers/gpu/drm/xe/xe_gt_stats.h                   |  29 ++
-  drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c        |   2 +
-  drivers/gpu/drm/xe/xe_gt_types.h                   |  24 +-
-  drivers/gpu/drm/xe/xe_guc.c                        |   4 +-
-  drivers/gpu/drm/xe/xe_guc.h                        |  10 +
-  drivers/gpu/drm/xe/xe_guc_ads.c                    |   6 +
-  drivers/gpu/drm/xe/xe_guc_ct.c                     |  12 +-
-  drivers/gpu/drm/xe/xe_guc_hwconfig.c               |  97 ++++
-  drivers/gpu/drm/xe/xe_guc_hwconfig.h               |   3 +
-  drivers/gpu/drm/xe/xe_guc_pc.c                     |   2 +-
-  drivers/gpu/drm/xe/xe_guc_submit.c                 |  62 ++-
-  drivers/gpu/drm/xe/xe_huc.c                        |  19 +-
-  drivers/gpu/drm/xe/xe_hw_engine.c                  | 149 +++++--
-  drivers/gpu/drm/xe/xe_hw_engine.h                  |  10 +
-  drivers/gpu/drm/xe/xe_hw_engine_group.c            | 372 ++++++++++++++++
-  drivers/gpu/drm/xe/xe_hw_engine_group.h            |  29 ++
-  drivers/gpu/drm/xe/xe_hw_engine_group_types.h      |  51 +++
-  drivers/gpu/drm/xe/xe_hw_engine_types.h            |   2 +
-  drivers/gpu/drm/xe/xe_hw_fence.c                   |   9 +-
-  drivers/gpu/drm/xe/xe_hw_fence_types.h             |   7 +-
-  drivers/gpu/drm/xe/xe_hwmon.c                      |   3 +-
-  drivers/gpu/drm/xe/xe_lrc.c                        |  50 ++-
-  drivers/gpu/drm/xe/xe_migrate.c                    |  29 +-
-  drivers/gpu/drm/xe/xe_migrate.h                    |   9 +-
-  drivers/gpu/drm/xe/xe_mmio.c                       |   4 +-
-  drivers/gpu/drm/xe/xe_module.c                     |  54 ++-
-  drivers/gpu/drm/xe/xe_module.h                     |   2 +-
-  drivers/gpu/drm/xe/xe_oa.c                         |   3 +-
-  drivers/gpu/drm/xe/xe_observation.c                |   1 -
-  drivers/gpu/drm/xe/xe_pci.c                        |  12 +-
-  drivers/gpu/drm/xe/xe_pm.c                         |  99 ++++-
-  drivers/gpu/drm/xe/xe_pm.h                         |   1 +
-  drivers/gpu/drm/xe/xe_preempt_fence.c              |   3 +-
-  drivers/gpu/drm/xe/xe_preempt_fence_types.h        |   2 +
-  drivers/gpu/drm/xe/xe_pt.c                         |  10 +-
-  drivers/gpu/drm/xe/xe_res_cursor.h                 |   1 -
-  drivers/gpu/drm/xe/xe_sa.c                         |  13 +-
-  drivers/gpu/drm/xe/xe_sa_types.h                   |   1 +
-  drivers/gpu/drm/xe/xe_sched_job.c                  |   6 +-
-  drivers/gpu/drm/xe/xe_sync.c                       |  21 +-
-  drivers/gpu/drm/xe/xe_trace.h                      |   2 +-
-  drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c             |   1 -
-  drivers/gpu/drm/xe/xe_tuning.c                     |  13 +-
-  drivers/gpu/drm/xe/xe_uc_fw.c                      |  28 +-
-  drivers/gpu/drm/xe/xe_vm.c                         |  90 ++--
-  drivers/gpu/drm/xe/xe_wa.c                         |   4 +
-  drivers/gpu/drm/xe/xe_wa_oob.rules                 |   6 +
-  include/drm/drm_print.h                            |  54 ++-
-  94 files changed, 2381 insertions(+), 865 deletions(-)
-  create mode 100644 drivers/gpu/drm/xe/xe_gt_stats.c
-  create mode 100644 drivers/gpu/drm/xe/xe_gt_stats.h
-  create mode 100644 drivers/gpu/drm/xe/xe_hw_engine_group.c
-  create mode 100644 drivers/gpu/drm/xe/xe_hw_engine_group.h
-  create mode 100644 drivers/gpu/drm/xe/xe_hw_engine_group_types.h
+> >
+> > I suspect it would require some work on perfetto trace-processor.  It
+> > can ingest ftrace events (but those would end up being something
+> > driver specific).  Maybe with u_trace and some tracepoints in the
+> > 'ambles something could be done that would be more driver agnostic
+> > (but idk if that would work for gpu's where preemption happens more
+> > autonomously in the fw)
+> 
+> btw how to handle tracing preemption probably shouldn't hold up
+> sending the next iteration of this series.  There isn't that much more
+> time to get this in v6.12, and I think better visualization of
+> preemption is going to take some work outside of the kernel.
+> 
+> BR,
+> -R
