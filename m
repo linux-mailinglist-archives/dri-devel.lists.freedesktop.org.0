@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B53962D79
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 18:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BC3962D66
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 18:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3809F10E591;
-	Wed, 28 Aug 2024 16:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B17A110E554;
+	Wed, 28 Aug 2024 16:14:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bQ+1AmwQ";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="Sd6YXOG0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mqKJGlga";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 541 seconds by postgrey-1.36 at gabe;
- Wed, 28 Aug 2024 16:16:10 UTC
-Received: from a7-48.smtp-out.eu-west-1.amazonses.com
- (a7-48.smtp-out.eu-west-1.amazonses.com [54.240.7.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B9110E58D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 16:16:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1724861228;
- h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding;
- bh=jaQtBzhvqpQ+AdklH/JAEu9gW+B7JU7gDvFQVhfpR1w=;
- b=bQ+1AmwQCWldMS1bQui7FtNS/qU5eIh5C+1VfdUR0IuBkUiWc6UAKgR/6PWf2mOW
- Ir+cxw0zxq07DjbwpgTI7VwFhd3x0S3X5JgRnj+7fDM4RYcqp5ubKkryypDSvVM6RIJ
- dcOKNEVMarDeMsBlKhxqRwfNvhiV3bolZd1rSArQqG/GG+KgknTjaI/73DTXmanmqQC
- nzbBbyiuDOjbSi0mDIHruZI7luv6JoD7tKri5BMxXU0KiymMFbpp9cPeaK+y5GfpcVN
- 8oxqAo5qHG8tWdGp64NRCxPv0cLrGtEend+O2xE/vWM5xg7Er5VSGGhj7sgmP9vgorE
- h7DEPCUu9g==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1724861228;
- h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID;
- bh=jaQtBzhvqpQ+AdklH/JAEu9gW+B7JU7gDvFQVhfpR1w=;
- b=Sd6YXOG0h85aIrx0cbRnACY6AFMc5zOtDr2UMosmZbLjOBJzW+p+Cwkn9On0tk2v
- SsddPXInjQDKfIcmIS+5ul3v5yRcuELaulBhcCXhaV7Pg5sGM0rQ7sBn4pjwTlM80s4
- 6yI0wFnE8llDw6vhNozqWQwyJDv4hrc6pIMlz9zQ=
-Date: Wed, 28 Aug 2024 16:07:07 +0000
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Mihail Atanassov <mihail.atanassov@arm.com>
-Cc: Mary Guillemard <mary.guillemard@collabora.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- kernel@collabora.com, Christopher Healy <healych@amazon.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- nd@arm.com
-Subject: Re: [PATCH] drm/panthor: Add DEV_QUERY_TIMESTAMP_INFO dev query
-Message-ID: <0102019199bda302-994c7da8-9e5a-4a2e-8e2a-6ef5f354ed59-000000@eu-west-1.amazonses.com>
-In-Reply-To: <c38324e4-055f-44b5-beb4-6b3e6b860e69@arm.com>
-References: <20240807153553.142325-2-mary.guillemard@collabora.com>
- <327a3440-8d01-4787-83be-a00fbbe0b593@arm.com>
- <20240828140929.5c602436@collabora.com>
- <c38324e4-055f-44b5-beb4-6b3e6b860e69@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8959C10E554
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 16:14:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724861679; x=1756397679;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=MhiG3enw+ji0eAZ0R9BOt88yBzg78KB2GVTSPX+bXQY=;
+ b=mqKJGlgaEtFI654bNanWl6z91nnM3FiVOpkoz/8dC+mfny0y9QIGmAp0
+ k5FoJ0s8EffHPaK7kY7xRaQ1KVZEyo4Vt/wuz35Es0j9hkpT3qShYL3tx
+ 9i5Wenr+4ihgXMTMmOk4Fl2o1b3UEE1qT0ntMXjbWsp9jQsgfxZevdFIl
+ DfU7GgfGOtl+PwN3pbEHx3tgjaMehKISWn3b2cVKUWzkDKUQ1I99TIJuE
+ 9V2vNXg3osn2D+0hlxrN1kyFPKGhmyC7lzKVGPeGvMEzdd4h2qPf4lo1p
+ OvK29Ja6JQslb9c1jesrNXOXO1qlXdbFpoxTjc3Sxv2qaEQampB/OVnO2 g==;
+X-CSE-ConnectionGUID: Ovt5bESBRAyCtyxQqpl+0g==
+X-CSE-MsgGUID: 94FdTMWxQXmWvXf7sgWVkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="33974264"
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="33974264"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 09:14:39 -0700
+X-CSE-ConnectionGUID: 7pymODndTPqT2wefrOo4cw==
+X-CSE-MsgGUID: 7bLdXbTFTP+eGER7tpKENA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="67626249"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.110])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 09:14:36 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 2/7] media: v4l2-core: add v4l2_debugfs_if_alloc/free()
+In-Reply-To: <e50c59a6-dd2d-4692-a3b1-e67fce043683@xs4all.nl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1724855053.git.hverkuil-cisco@xs4all.nl>
+ <931a281c72e9c3081eaedc2d76806ebd770a0913.1724855053.git.hverkuil-cisco@xs4all.nl>
+ <87jzg0y9bg.fsf@intel.com>
+ <e50c59a6-dd2d-4692-a3b1-e67fce043683@xs4all.nl>
+Date: Wed, 28 Aug 2024 19:14:31 +0300
+Message-ID: <87ed68y68o.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.08.28-54.240.7.48
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +72,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 28 Aug 2024 14:22:51 +0100
-Mihail Atanassov <mihail.atanassov@arm.com> wrote:
+On Wed, 28 Aug 2024, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> On 28/08/2024 17:08, Jani Nikula wrote:
+>> I recently discovered a lot of drm depending on getting seq_file.h and
+>> debugfs.h via media/cec.h...
+>
+> Patches are welcome!
 
-> Hi Boris,
-> 
-> On 28/08/2024 13:09, Boris Brezillon wrote:
-> > Hi Mihail,
-> > 
-> > On Thu, 8 Aug 2024 12:41:05 +0300
-> > Mihail Atanassov <mihail.atanassov@arm.com> wrote:
-> >   
-> >>>
-> >>> +/** + * struct drm_panthor_timestamp_info - Timestamp information +
-> >>> * + * Structure grouping all queryable information relating to the
-> >>> GPU timestamp. + */ +struct drm_panthor_timestamp_info { +	/**
-> >>> @timestamp_frequency: The frequency of the timestamp timer. */ +
-> >>> __u64 timestamp_frequency; + +	/** @current_timestamp: The current
-> >>> timestamp. */ +	__u64 current_timestamp;  
-> >>
-> >> As it stands, this query has nothing to do with the actual GPU so
-> >> doesn't really belong here.
-> >>
-> >> It'd be more valuable, and can maybe give better calibration results
-> >> than querying the system timestamp separately in userspace, if you
-> >> reported all of:
-> >>    * the system timer value
-> >>    * the system timer frequency
-> >>    * the GPU timer value
-> >>    * the GPU timer frequency (because it _could_ be different in some
-> >> systems)  
-> > 
-> > Duh, I wish this wasn't the case and all SoC vendors went for the
-> > arch-timer which guarantees the consistency of the timestamp on the GPU
-> > and CPU. But let's say this is a case we need to support, wouldn't it
-> > be more useful to do the CPU/GPU calibration kernel side (basically at
-> > init/resume time) and then expose the formula describing the
-> > relationship between those 2 things:
-> > 
-> > CPU_time = GPU_time * GPU_to_CPU_mul / GPU_to_CPU_div +
-> > 	   GPU_to_CPU_offset;
-> >   
-> 
-> TIMESTAMP_OFFSET should indeed be set by the kernel (on resume). But I 
-> don't think we need to post M/D+offset to userspace. The 2 Frequencies + 
-> the scalar offset are the raw sources, and userspace can work back from 
-> there.
+I've got the patch, just need to get these [1] reviewed and merged
+first...
 
-Sure. No matter how you express the relationship, my point was, if the
-calibration is supposed to happen in the kernel at resume time,
-returning both the CPU/GPU time in DEV_QUERY_TIMESTAMP to make sure the
-sampling is close enough that they actually represent the same
-timestamp might not be needed, because you can easily convert from one
-domain to the other.
+BR,
+Jani.
+
+
+[1] https://lore.kernel.org/r/cover.1724689818.git.jani.nikula@intel.com
+
+
+-- 
+Jani Nikula, Intel
