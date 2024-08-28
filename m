@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E78E961C22
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 04:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC7C961C23
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 04:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6C0E10E13D;
-	Wed, 28 Aug 2024 02:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3DFD10E439;
+	Wed, 28 Aug 2024 02:32:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qErgpU0R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b9Bmt1JR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C9410E13D
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBED110E13D
  for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 02:32:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9ECD2A43277;
- Wed, 28 Aug 2024 02:32:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91CF9C4AF60;
- Wed, 28 Aug 2024 02:15:20 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2D776CE1712;
+ Wed, 28 Aug 2024 02:32:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E784C4FEE9;
+ Wed, 28 Aug 2024 02:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724811322;
- bh=BjF/SI+Clg9VwmD1YDiNY5kSZ6b/7YEV1Coee82xshg=;
+ s=k20201202; t=1724811874;
+ bh=tbhzQ1da3mBVV060Og29QANn1s4vz5Vd4ovZ/NNJcUg=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qErgpU0RhYH5WDJJXkws/HENWDPAZrNV4DIAGhLruIvnrdv3ETwsMJaqlJwbsGqBG
- sOXE0rshTwA67CfrMAyRLqfniN21SQvvoGipcCdy5EFJuKE8jvV4G2PfqPNFgiS8It
- 4dPunWamEUGMRhzS5KC8Ts7cFkyW+7TDVf2RUUn9JS/FAj+cUaBIPIwdP72q7mflEV
- HS/9jaDHMHisZPyMz7+Cl+J5EU7axirOz22wZxDO+Neit95DQIA2Zn57ERIMVACRxP
- VyV6iPqNF2tEA75Czk7faOlTESzI0kcVa7iIp8ySMs9wv6/gdVM6qZQWlKav9fit6N
- KOxTNe3Rdac3Q==
-Date: Tue, 27 Aug 2024 19:15:19 -0700
+ b=b9Bmt1JRKFBCrnIFqkRTsrtV2UxALLlwq9vjsa8mb6ADifsmdWpQkF6hV/RYp8vQA
+ KnlrsUZWHHrZTtadELynyygYzNgxIL5XjiYXqvsDF4WjDbVNdoVWcjeJP/CMV5jE+5
+ zHY1WzE7dhEgfg1nYdKdE+Kss/9anIAQAvEtqTsmXn5d1UFI9SFv6kPJc99SCMRNQM
+ e5zmbEEJvj2B7cIjhKHtljG3nSZ00UtlbSdrVtBkmpzbQotM4l2h2mL+SWEBBmpQt7
+ JSmguwlN4ydS894ghDp569iFgNhfAjPbkNp3FHOMAwrnt4gmuwMvVn9FUd04rX88Ko
+ f0IMC8yARB4lw==
+Date: Tue, 27 Aug 2024 19:24:31 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -66,13 +66,13 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
  <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
  Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v22 04/13] netdev: netdevice devmem allocator
-Message-ID: <20240827191519.5464a0b2@kernel.org>
-In-Reply-To: <20240825041511.324452-5-almasrymina@google.com>
+ Taehee Yoo <ap420073@gmail.com>, linux-mm@kvack.org, Matthew Wilcox
+ <willy@infradead.org>
+Subject: Re: [PATCH net-next v22 05/13] page_pool: devmem support
+Message-ID: <20240827192431.7145b06e@kernel.org>
+In-Reply-To: <20240825041511.324452-6-almasrymina@google.com>
 References: <20240825041511.324452-1-almasrymina@google.com>
- <20240825041511.324452-5-almasrymina@google.com>
+ <20240825041511.324452-6-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -91,16 +91,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 25 Aug 2024 04:15:02 +0000 Mina Almasry wrote:
-> +void net_devmem_free_dmabuf(struct net_iov *niov)
-> +{
-> +	struct net_devmem_dmabuf_binding *binding = net_iov_binding(niov);
-> +	unsigned long dma_addr = net_devmem_get_dma_addr(niov);
-> +
-> +	if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
-> +		gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
+On Sun, 25 Aug 2024 04:15:03 +0000 Mina Almasry wrote:
+> +	/* Assume net_iov are on the preferred node without actually
+> +	 * checking...
+> +	 *
+> +	 * This check is only used to check for recycling memory in the page
+> +	 * pool's fast paths. Currently the only implementation of net_iov
+> +	 * is dmabuf device memory. It's a deliberate decision by the user to
+> +	 * bind a certain dmabuf to a certain netdev, and the netdev rx queue
+> +	 * would not be able to reallocate memory from another dmabuf that
+> +	 * exists on the preferred node, so, this check doesn't make much sense
+> +	 * in this case. Assume all net_iovs can be recycled for now.
+> +	 */
 
-Is the check necessary for correctness? Should it perhaps be a WARN
-under DEBUG_NET instead? The rest LGTM:
+This is probably a bit too verbose, and we shouldn't talk about dmabuf
+specifically:
 
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+	/* NUMA node preference only makes sense if we're allocating
+	 * system memory. Memory providers (which give us net_iovs)
+	 * choose for us.
+	 */
+
+Some of the code moves could be a separate patch, but either way:
+
+Acked-by: Jakub Kicinski <kuba@kernel.org>
