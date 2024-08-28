@@ -2,56 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77342961C55
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 04:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C767961C74
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 05:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91F6E10E472;
-	Wed, 28 Aug 2024 02:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF2310E459;
+	Wed, 28 Aug 2024 03:03:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hS5SSAER";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dhd/cwMX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC8A410E456;
- Wed, 28 Aug 2024 02:48:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724813292; x=1756349292;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oDvqa61JpMnQYg9Ts2SQo7j70AwY6QthuLbaa4R1yJA=;
- b=hS5SSAERhY+dEasXZWXLMqw6zEqqYPp9hcKU+zp/j/Ye7jrdU4RONqQj
- LDeyZFfpq91vA+hRbFyhOcUKSraOxbdZ2lXUVIQ+XkDQLI/OfY5D/cvlA
- aTFf/8QeinIMa9qErZXF1JhsqIu3vIYz/XFoFjKXqodVh+3bxKqq4buIG
- fgxgJex+BRlmbXKz+cvs9/9yIfardegVe3y1rwqdrPB4AOFmrJfVjYVwM
- /7MdG6AM5ZnhHyiY5/LUEvq6b+nhpssV2WOIokdHWG8A3f0CJ3QeEnVfk
- AMINqycrlyj6ruudsuH6RY7SmsylOhqP507ZHVHPunp8CLwwa5v7A+SEy A==;
-X-CSE-ConnectionGUID: QjlQWw35S0W4cSk1ZVpbNg==
-X-CSE-MsgGUID: 3TpFzGnSTDmd77bxTRM6EQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="13251963"
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="13251963"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2024 19:48:12 -0700
-X-CSE-ConnectionGUID: BT1Yt9icTDST+Q6BS0qKRQ==
-X-CSE-MsgGUID: tP1BpzN9TM+Tn9Gt27335g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="67224680"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2024 19:48:11 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: airlied@gmail.com, christian.koenig@amd.com,
- thomas.hellstrom@linux.intel.com, matthew.auld@intel.com, daniel@ffwll.ch
-Subject: [RFC PATCH 28/28] drm/gpusvm: Ensure all pages migrated upon eviction
-Date: Tue, 27 Aug 2024 19:49:01 -0700
-Message-Id: <20240828024901.2582335-29-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240828024901.2582335-1-matthew.brost@intel.com>
-References: <20240828024901.2582335-1-matthew.brost@intel.com>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE9C10E459
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 03:03:36 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-714186ce2f2so4835060b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 20:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724814216; x=1725419016; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=u96++TBbJ71oR+HkQgBso+tiWoljyvGONtmx4MFc6sw=;
+ b=Dhd/cwMXgwS3oPxkQfj6sMSEDrd69nEqTdXo6k//AbDNP728ygifjnA9xOpldpxlPA
+ DWv8ES5iz9e/Ino+x6ApiIX4s1HL+XPceQsAwZLh9MzW1ZeGDR2QDQw1DrsY4ZxiEHPT
+ jO8ZsSm7SQP1Naqh1MQ2cGs2E+C8bNllQs9gS8wjJvjRpLEkEGTUU/1aEKT6OQ/+q/s+
+ 1d5EBjCoajCyO2ai80jBxd/PSsqCG2spisXUf/GJJ22Wrt5j76Zk0GUChez7nRjdo/w8
+ 5idNPdbikatPj2pD2V3l5LC10An/RWwwhtbSZVpRy5OAXA/I6y15y0eWCHHcyCHXCaBJ
+ 3I9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724814216; x=1725419016;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=u96++TBbJ71oR+HkQgBso+tiWoljyvGONtmx4MFc6sw=;
+ b=oMclOoev6UH841TebBriuRGAs7Nv5AwsUvsrCYespnQ6w3ZC4h6RJaprisF45IX3sY
+ bGr062HmLf5PRXUCwjAOnAEE/tM+sGyPWh5fsrdgxhSdM3bcjg9CfVWsDDuumx5vxBEz
+ NANbQB/ZTc+KB5+vBFIc+iDtTn3bdAdq2Zk6QNggRgf9u2VlGDblcmqdA34UFp5FmRIt
+ 1FCU9mioduY84i0lgTS6ROZiKc7JfXWHPdMG/Oby/1E2QKDs5JwGnnX8TVUgFwAz1J4V
+ 09jmGhvzOaPRH012bCZPWd0ZpQw4NXpEtaSMQOy77HZhCluxL9o5QNUgnQMvILSSRenn
+ snfg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVz2tjf7A6s2F1c9d4c/AFK5DSI0HbV2FxXcE3EvW/IwKfmTJQrdBjdGzCzqin0W8lp1EkNlZxIOfY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyMYnUigF8pnJqx26QZeE6SATYN/6bBQAipi737zQI+2F4zFQ+I
+ 1itfRaFaXpG7CLqi/Pi/s34XEaC2qPbnqIC7caEIPx/+UqeK1lAx
+X-Google-Smtp-Source: AGHT+IHibExtxV8dBZTZD5JORthJOms4iDv1rvcr+QvHWcHAfAXxuXG3hLg0KOZ+K8PqosjKn4N4Iw==
+X-Received: by 2002:a05:6a20:9c89:b0:1c3:a63a:cef2 with SMTP id
+ adf61e73a8af0-1cc89dc90ecmr15627538637.28.1724814215888; 
+ Tue, 27 Aug 2024 20:03:35 -0700 (PDT)
+Received: from localhost.localdomain ([39.144.104.43])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2d8445db8f6sm317977a91.1.2024.08.27.20.03.28
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 27 Aug 2024 20:03:35 -0700 (PDT)
+From: Yafang Shao <laoar.shao@gmail.com>
+To: akpm@linux-foundation.org
+Cc: torvalds@linux-foundation.org, alx@kernel.org, justinstitt@google.com,
+ ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org,
+ catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+ bpf@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>
+Subject: [PATCH v8 0/8] Improve the copy of task comm
+Date: Wed, 28 Aug 2024 11:03:13 +0800
+Message-Id: <20240828030321.20688-1-laoar.shao@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,78 +86,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's make sure we know what we are doing and check to ensure all pages
-are migrated upon eviction.
+Using {memcpy,strncpy,strcpy,kstrdup} to copy the task comm relies on the
+length of task comm. Changes in the task comm could result in a destination
+string that is overflow. Therefore, we should explicitly ensure the
+destination string is always NUL-terminated, regardless of the task comm.
+This approach will facilitate future extensions to the task comm.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/drm_gpusvm.c | 39 +++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+As suggested by Linus [0], we can identify all relevant code with the
+following git grep command:
 
-diff --git a/drivers/gpu/drm/xe/drm_gpusvm.c b/drivers/gpu/drm/xe/drm_gpusvm.c
-index fc1e44e6ae72..6df3580cf4ca 100644
---- a/drivers/gpu/drm/xe/drm_gpusvm.c
-+++ b/drivers/gpu/drm/xe/drm_gpusvm.c
-@@ -1830,6 +1830,40 @@ static int drm_gpusvm_migrate_populate_sram_pfn(struct vm_area_struct *vas,
- 	return 0;
- }
- 
-+#define DRM_GPUSVM_DEBUG	/* TODO: Connect to Kconfig */
-+
-+#ifdef DRM_GPUSVM_DEBUG
-+/**
-+ * drm_gpusvm_pages_migrated - count the number of pages migrated
-+ * @src_pfns: source migration pfns
-+ * @npages the total number of pages in src_pfns
-+ *
-+ * Examine the MIGRATE_PFN_MIGRATE bit of each sfn_pfn to get a count of the
-+ * number of pages migrated.
-+ *
-+ * Returns:
-+ * Number of pages migrated
-+ */
-+static unsigned long
-+drm_gpusvm_pages_migrated(unsigned long *src_pfns, unsigned long npages)
-+{
-+	int pages_migrated = 0;
-+	unsigned long i;
-+
-+	for (i = 0; i < npages; ++i)
-+		if (src_pfns[i] && src_pfns[i] & MIGRATE_PFN_MIGRATE)
-+			++pages_migrated;
-+
-+	return pages_migrated;
-+}
-+#else
-+static unsigned long
-+drm_gpusvm_pages_migrated(unsigned long *src_pfns, unsigned long npages)
-+{
-+	return npages;
-+}
-+#endif
-+
- /**
-  * drm_gpusvm_evict_to_sram - Evict GPU SVM range to SRAM
-  * @gpusvm: Pointer to the GPU SVM structure
-@@ -1896,6 +1930,8 @@ static int drm_gpusvm_evict_to_sram(struct drm_gpusvm *gpusvm,
- 	if (err)
- 		drm_gpusvm_migration_put_pages(npages, dst);
- 	migrate_device_pages(src, dst, npages);
-+	if (!err)
-+		WARN_ON(npages > drm_gpusvm_pages_migrated(src, npages));
- 	migrate_device_finalize(src, dst, npages);
- 	drm_gpusvm_migrate_unmap_pages(gpusvm->drm->dev, dma_addr, npages,
- 				       DMA_BIDIRECTIONAL);
-@@ -1994,6 +2030,9 @@ static int __drm_gpusvm_migrate_to_sram(struct drm_gpusvm *gpusvm,
- 	if (err)
- 		drm_gpusvm_migration_put_pages(npages, migrate.dst);
- 	migrate_vma_pages(&migrate);
-+	if (!err && !page)	/* Only check on eviction */
-+		WARN_ON(migrate.cpages >
-+			drm_gpusvm_pages_migrated(migrate.src, npages));
- 	migrate_vma_finalize(&migrate);
- 	drm_gpusvm_migrate_unmap_pages(gpusvm->drm->dev, dma_addr, npages,
- 				       DMA_BIDIRECTIONAL);
+  git grep 'memcpy.*->comm\>'
+  git grep 'kstrdup.*->comm\>'
+  git grep 'strncpy.*->comm\>'
+  git grep 'strcpy.*->comm\>'
+
+PATCH #2~#4:   memcpy
+PATCH #5~#6:   kstrdup
+PATCH #7~#8:   strcpy
+
+Please note that strncpy() is not included in this series as it is being
+tracked by another effort. [1]
+
+In this series, we have removed __get_task_comm() because the task_lock()
+and BUILD_BUG_ON() within it are unnecessary.
+
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Link: https://lore.kernel.org/all/CAHk-=wjAmmHUg6vho1KjzQi2=psR30+CogFd4aXrThr2gsiS4g@mail.gmail.com/ [0]
+
+Changes:
+v7->v8:
+- Avoid '+1' and '-1' in string copy. (Alejandro)
+
+v6->v7: https://lore.kernel.org/all/20240817025624.13157-1-laoar.shao@gmail.com/
+- Improve the comment (Alejandro)
+- Drop strncpy as it is being tracked by another effort (Justin)
+  https://github.com/KSPP/linux/issues/90 [1]
+
+v5->v6: https://lore.kernel.org/linux-mm/20240812022933.69850-1-laoar.shao@gmail.com/
+- Get rid of __get_task_comm() (Linus)
+- Use ARRAY_SIZE() in get_task_comm() (Alejandro)
+
+v4->v5: https://lore.kernel.org/all/20240804075619.20804-1-laoar.shao@gmail.com/
+- Drop changes in the mm/kmemleak.c as it was fixed by
+  commit 0b84780134fb ("mm/kmemleak: replace strncpy() with strscpy()")
+- Drop changes in kernel/tsacct.c as it was fixed by
+  commmit 0fe2356434e ("tsacct: replace strncpy() with strscpy()")
+
+v3->v4: https://lore.kernel.org/linux-mm/20240729023719.1933-1-laoar.shao@gmail.com/
+- Rename __kstrndup() to __kmemdup_nul() and define it inside mm/util.c
+  (Matthew)
+- Remove unused local varaible (Simon)
+
+v2->v3: https://lore.kernel.org/all/20240621022959.9124-1-laoar.shao@gmail.com/
+- Deduplicate code around kstrdup (Andrew)
+- Add commit log for dropping task_lock (Catalin)
+
+v1->v2: https://lore.kernel.org/bpf/20240613023044.45873-1-laoar.shao@gmail.com/
+- Add comment for dropping task_lock() in __get_task_comm() (Alexei)
+- Drop changes in trace event (Steven)
+- Fix comment on task comm (Matus)
+
+v1: https://lore.kernel.org/all/20240602023754.25443-1-laoar.shao@gmail.com/
+
+Yafang Shao (8):
+  Get rid of __get_task_comm()
+  auditsc: Replace memcpy() with strscpy()
+  security: Replace memcpy() with get_task_comm()
+  bpftool: Ensure task comm is always NUL-terminated
+  mm/util: Fix possible race condition in kstrdup()
+  mm/util: Deduplicate code in {kstrdup,kstrndup,kmemdup_nul}
+  net: Replace strcpy() with strscpy()
+  drm: Replace strcpy() with strscpy()
+
+ drivers/gpu/drm/drm_framebuffer.c     |  2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c |  2 +-
+ fs/exec.c                             | 10 -----
+ fs/proc/array.c                       |  2 +-
+ include/linux/sched.h                 | 32 +++++++++++---
+ kernel/auditsc.c                      |  6 +--
+ kernel/kthread.c                      |  2 +-
+ mm/util.c                             | 62 ++++++++++++---------------
+ net/ipv6/ndisc.c                      |  2 +-
+ security/lsm_audit.c                  |  4 +-
+ security/selinux/selinuxfs.c          |  2 +-
+ tools/bpf/bpftool/pids.c              |  2 +
+ 12 files changed, 66 insertions(+), 62 deletions(-)
+
 -- 
-2.34.1
+2.43.5
 
