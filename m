@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C767961C74
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 05:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F85B961C7A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 05:03:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF2310E459;
-	Wed, 28 Aug 2024 03:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C76F110E461;
+	Wed, 28 Aug 2024 03:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dhd/cwMX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PoxgFd3i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE9C10E459
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 03:03:36 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-714186ce2f2so4835060b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 20:03:36 -0700 (PDT)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD1310E461
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 03:03:45 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-201fba05363so52067995ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2024 20:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724814216; x=1725419016; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=u96++TBbJ71oR+HkQgBso+tiWoljyvGONtmx4MFc6sw=;
- b=Dhd/cwMXgwS3oPxkQfj6sMSEDrd69nEqTdXo6k//AbDNP728ygifjnA9xOpldpxlPA
- DWv8ES5iz9e/Ino+x6ApiIX4s1HL+XPceQsAwZLh9MzW1ZeGDR2QDQw1DrsY4ZxiEHPT
- jO8ZsSm7SQP1Naqh1MQ2cGs2E+C8bNllQs9gS8wjJvjRpLEkEGTUU/1aEKT6OQ/+q/s+
- 1d5EBjCoajCyO2ai80jBxd/PSsqCG2spisXUf/GJJ22Wrt5j76Zk0GUChez7nRjdo/w8
- 5idNPdbikatPj2pD2V3l5LC10An/RWwwhtbSZVpRy5OAXA/I6y15y0eWCHHcyCHXCaBJ
- 3I9g==
+ d=gmail.com; s=20230601; t=1724814225; x=1725419025; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5dwC82d7KQL5pIEF6T6/bNHtBQAMogTq8DRZCJ210sw=;
+ b=PoxgFd3iipq9e+nDYWJkg49/p7t+F1Bjb9PY77z5xJ2f+AqBv4Wz/fWGm10SRUgdcQ
+ yWnPPmzW6zC8/s4k4HIsf70IC3Sl8/jXv2X8qgKBg8Ur9I0ogAGJ2Vv+ZxVQf59rCoIL
+ pMNlJP7F/pdVPZ5f+zZMRHDxWdqr54wX7ZPDW+QM15nJyGSEpimhxOVAjf5tyO/nVyng
+ Wl1KOzp4cBQRwTGddhy0Cpgc9B/h/YDyxyCFe66U06J5ooQOLCzbHWG9iOxo47pBemMy
+ BaSUxur6q/pbBLRQ7ABMP9jbjN85MkLSBvibdk+lM9Y0NHHrja8AQ1sOsDuxUZ980uly
+ hOAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724814216; x=1725419016;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u96++TBbJ71oR+HkQgBso+tiWoljyvGONtmx4MFc6sw=;
- b=oMclOoev6UH841TebBriuRGAs7Nv5AwsUvsrCYespnQ6w3ZC4h6RJaprisF45IX3sY
- bGr062HmLf5PRXUCwjAOnAEE/tM+sGyPWh5fsrdgxhSdM3bcjg9CfVWsDDuumx5vxBEz
- NANbQB/ZTc+KB5+vBFIc+iDtTn3bdAdq2Zk6QNggRgf9u2VlGDblcmqdA34UFp5FmRIt
- 1FCU9mioduY84i0lgTS6ROZiKc7JfXWHPdMG/Oby/1E2QKDs5JwGnnX8TVUgFwAz1J4V
- 09jmGhvzOaPRH012bCZPWd0ZpQw4NXpEtaSMQOy77HZhCluxL9o5QNUgnQMvILSSRenn
- snfg==
+ d=1e100.net; s=20230601; t=1724814225; x=1725419025;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5dwC82d7KQL5pIEF6T6/bNHtBQAMogTq8DRZCJ210sw=;
+ b=MVXCan+uzyQhX4RxQq2ORFsVko9oDJEW4wKpncBF4+K8HobzuI6UTlKzseCsl3ZPOE
+ sjOSzJiW+zFR8Chn5JUuWgHYnnspTE7HedQTYLvQLfM9aL+0KSrUlc2k5A3EtIbFUkIR
+ cC1W7Tv0x3epWLMTDfc8LJtHha8dO8zw+IyRlugetPGICPfWfTi0BShyfycBnXP6tdzy
+ Si4zDMvrc3CqAi0djguYbEW1UUQq9SxxyYbCE5Ztse2IF8Y/qZsxQBo/bRu8t90saVQj
+ rNmI+vUcPXrytYzN4WSEyXOfy78BcP3M1JEIf3VC/69SpYgfpQR6etCc2j//dHkLFUyR
+ BGBQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVz2tjf7A6s2F1c9d4c/AFK5DSI0HbV2FxXcE3EvW/IwKfmTJQrdBjdGzCzqin0W8lp1EkNlZxIOfY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyMYnUigF8pnJqx26QZeE6SATYN/6bBQAipi737zQI+2F4zFQ+I
- 1itfRaFaXpG7CLqi/Pi/s34XEaC2qPbnqIC7caEIPx/+UqeK1lAx
-X-Google-Smtp-Source: AGHT+IHibExtxV8dBZTZD5JORthJOms4iDv1rvcr+QvHWcHAfAXxuXG3hLg0KOZ+K8PqosjKn4N4Iw==
-X-Received: by 2002:a05:6a20:9c89:b0:1c3:a63a:cef2 with SMTP id
- adf61e73a8af0-1cc89dc90ecmr15627538637.28.1724814215888; 
- Tue, 27 Aug 2024 20:03:35 -0700 (PDT)
+ AJvYcCUOuDQGWV3WX+GZeEUbcORvqZXuaaEHyYIMcRHNmuLImsMtoqF+bFmBXu7PCrgAHILHiNjLaeiAxwg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzSM1YunL8zcPfjO+KhyeaWGUh8jDf32tmtnUW7U/VACqh/nl8M
+ 4g5yPw8VmjrPRFGF/qA/8P3ch7o4e6meqj2F+CwIExjxYGfUhu0n
+X-Google-Smtp-Source: AGHT+IEc8gy1oBP9Tt27kWFVV2/sdUfpEnu0CJVUYvciPK7kLGNgdrFqezJmS8xsximWyUWY+TcSOg==
+X-Received: by 2002:a17:90a:d490:b0:2ca:7636:2217 with SMTP id
+ 98e67ed59e1d1-2d8440a87edmr695434a91.2.1724814224691; 
+ Tue, 27 Aug 2024 20:03:44 -0700 (PDT)
 Received: from localhost.localdomain ([39.144.104.43])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2d8445db8f6sm317977a91.1.2024.08.27.20.03.28
+ 98e67ed59e1d1-2d8445db8f6sm317977a91.1.2024.08.27.20.03.36
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Aug 2024 20:03:35 -0700 (PDT)
+ Tue, 27 Aug 2024 20:03:44 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org
 Cc: torvalds@linux-foundation.org, alx@kernel.org, justinstitt@google.com,
@@ -64,12 +65,19 @@ Cc: torvalds@linux-foundation.org, alx@kernel.org, justinstitt@google.com,
  linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
  linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
  bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v8 0/8] Improve the copy of task comm
-Date: Wed, 28 Aug 2024 11:03:13 +0800
-Message-Id: <20240828030321.20688-1-laoar.shao@gmail.com>
+ dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, Matus Jokay <matus.jokay@stuba.sk>,
+ "Serge E. Hallyn" <serge@hallyn.com>
+Subject: [PATCH v8 1/8] Get rid of __get_task_comm()
+Date: Wed, 28 Aug 2024 11:03:14 +0800
+Message-Id: <20240828030321.20688-2-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20240828030321.20688-1-laoar.shao@gmail.com>
+References: <20240828030321.20688-1-laoar.shao@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,92 +94,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using {memcpy,strncpy,strcpy,kstrdup} to copy the task comm relies on the
-length of task comm. Changes in the task comm could result in a destination
-string that is overflow. Therefore, we should explicitly ensure the
-destination string is always NUL-terminated, regardless of the task comm.
-This approach will facilitate future extensions to the task comm.
+We want to eliminate the use of __get_task_comm() for the following
+reasons:
 
-As suggested by Linus [0], we can identify all relevant code with the
-following git grep command:
+- The task_lock() is unnecessary
+  Quoted from Linus [0]:
+  : Since user space can randomly change their names anyway, using locking
+  : was always wrong for readers (for writers it probably does make sense
+  : to have some lock - although practically speaking nobody cares there
+  : either, but at least for a writer some kind of race could have
+  : long-term mixed results
 
-  git grep 'memcpy.*->comm\>'
-  git grep 'kstrdup.*->comm\>'
-  git grep 'strncpy.*->comm\>'
-  git grep 'strcpy.*->comm\>'
+- The BUILD_BUG_ON() doesn't add any value
+  The only requirement is to ensure that the destination buffer is a valid
+  array.
 
-PATCH #2~#4:   memcpy
-PATCH #5~#6:   kstrdup
-PATCH #7~#8:   strcpy
-
-Please note that strncpy() is not included in this series as it is being
-tracked by another effort. [1]
-
-In this series, we have removed __get_task_comm() because the task_lock()
-and BUILD_BUG_ON() within it are unnecessary.
+- Zeroing is not necessary in current use cases
+  To avoid confusion, we should remove it. Moreover, not zeroing could
+  potentially make it easier to uncover bugs. If the caller needs a
+  zero-padded task name, it should be explicitly handled at the call site.
 
 Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Link: https://lore.kernel.org/all/CAHk-=wjAmmHUg6vho1KjzQi2=psR30+CogFd4aXrThr2gsiS4g@mail.gmail.com/ [0]
+Link: https://lore.kernel.org/all/CAHk-=wivfrF0_zvf+oj6==Sh=-npJooP8chLPEfaFV0oNYTTBA@mail.gmail.com [0]
+Link: https://lore.kernel.org/all/CAHk-=whWtUC-AjmGJveAETKOMeMFSTwKwu99v7+b6AyHMmaDFA@mail.gmail.com/
+Suggested-by: Alejandro Colomar <alx@kernel.org>
+Link: https://lore.kernel.org/all/2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueurfbosf5wdo65dk4@srb3hsk72zwq
+Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Eric Biederman <ebiederm@xmission.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Matus Jokay <matus.jokay@stuba.sk>
+Cc: Alejandro Colomar <alx@kernel.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+---
+ fs/exec.c             | 10 ----------
+ fs/proc/array.c       |  2 +-
+ include/linux/sched.h | 32 ++++++++++++++++++++++++++------
+ kernel/kthread.c      |  2 +-
+ 4 files changed, 28 insertions(+), 18 deletions(-)
 
-Changes:
-v7->v8:
-- Avoid '+1' and '-1' in string copy. (Alejandro)
-
-v6->v7: https://lore.kernel.org/all/20240817025624.13157-1-laoar.shao@gmail.com/
-- Improve the comment (Alejandro)
-- Drop strncpy as it is being tracked by another effort (Justin)
-  https://github.com/KSPP/linux/issues/90 [1]
-
-v5->v6: https://lore.kernel.org/linux-mm/20240812022933.69850-1-laoar.shao@gmail.com/
-- Get rid of __get_task_comm() (Linus)
-- Use ARRAY_SIZE() in get_task_comm() (Alejandro)
-
-v4->v5: https://lore.kernel.org/all/20240804075619.20804-1-laoar.shao@gmail.com/
-- Drop changes in the mm/kmemleak.c as it was fixed by
-  commit 0b84780134fb ("mm/kmemleak: replace strncpy() with strscpy()")
-- Drop changes in kernel/tsacct.c as it was fixed by
-  commmit 0fe2356434e ("tsacct: replace strncpy() with strscpy()")
-
-v3->v4: https://lore.kernel.org/linux-mm/20240729023719.1933-1-laoar.shao@gmail.com/
-- Rename __kstrndup() to __kmemdup_nul() and define it inside mm/util.c
-  (Matthew)
-- Remove unused local varaible (Simon)
-
-v2->v3: https://lore.kernel.org/all/20240621022959.9124-1-laoar.shao@gmail.com/
-- Deduplicate code around kstrdup (Andrew)
-- Add commit log for dropping task_lock (Catalin)
-
-v1->v2: https://lore.kernel.org/bpf/20240613023044.45873-1-laoar.shao@gmail.com/
-- Add comment for dropping task_lock() in __get_task_comm() (Alexei)
-- Drop changes in trace event (Steven)
-- Fix comment on task comm (Matus)
-
-v1: https://lore.kernel.org/all/20240602023754.25443-1-laoar.shao@gmail.com/
-
-Yafang Shao (8):
-  Get rid of __get_task_comm()
-  auditsc: Replace memcpy() with strscpy()
-  security: Replace memcpy() with get_task_comm()
-  bpftool: Ensure task comm is always NUL-terminated
-  mm/util: Fix possible race condition in kstrdup()
-  mm/util: Deduplicate code in {kstrdup,kstrndup,kmemdup_nul}
-  net: Replace strcpy() with strscpy()
-  drm: Replace strcpy() with strscpy()
-
- drivers/gpu/drm/drm_framebuffer.c     |  2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c |  2 +-
- fs/exec.c                             | 10 -----
- fs/proc/array.c                       |  2 +-
- include/linux/sched.h                 | 32 +++++++++++---
- kernel/auditsc.c                      |  6 +--
- kernel/kthread.c                      |  2 +-
- mm/util.c                             | 62 ++++++++++++---------------
- net/ipv6/ndisc.c                      |  2 +-
- security/lsm_audit.c                  |  4 +-
- security/selinux/selinuxfs.c          |  2 +-
- tools/bpf/bpftool/pids.c              |  2 +
- 12 files changed, 66 insertions(+), 62 deletions(-)
-
+diff --git a/fs/exec.c b/fs/exec.c
+index 50e76cc633c4..8a23171bc3c3 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1264,16 +1264,6 @@ static int unshare_sighand(struct task_struct *me)
+ 	return 0;
+ }
+ 
+-char *__get_task_comm(char *buf, size_t buf_size, struct task_struct *tsk)
+-{
+-	task_lock(tsk);
+-	/* Always NUL terminated and zero-padded */
+-	strscpy_pad(buf, tsk->comm, buf_size);
+-	task_unlock(tsk);
+-	return buf;
+-}
+-EXPORT_SYMBOL_GPL(__get_task_comm);
+-
+ /*
+  * These functions flushes out all traces of the currently running executable
+  * so that a new one can be started
+diff --git a/fs/proc/array.c b/fs/proc/array.c
+index 34a47fb0c57f..55ed3510d2bb 100644
+--- a/fs/proc/array.c
++++ b/fs/proc/array.c
+@@ -109,7 +109,7 @@ void proc_task_name(struct seq_file *m, struct task_struct *p, bool escape)
+ 	else if (p->flags & PF_KTHREAD)
+ 		get_kthread_comm(tcomm, sizeof(tcomm), p);
+ 	else
+-		__get_task_comm(tcomm, sizeof(tcomm), p);
++		get_task_comm(tcomm, p);
+ 
+ 	if (escape)
+ 		seq_escape_str(m, tcomm, ESCAPE_SPACE | ESCAPE_SPECIAL, "\n\\");
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index f8d150343d42..c40b95a79d80 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1096,9 +1096,12 @@ struct task_struct {
+ 	/*
+ 	 * executable name, excluding path.
+ 	 *
+-	 * - normally initialized setup_new_exec()
+-	 * - access it with [gs]et_task_comm()
+-	 * - lock it with task_lock()
++	 * - normally initialized begin_new_exec()
++	 * - set it with set_task_comm()
++	 *   - strscpy_pad() to ensure it is always NUL-terminated and
++	 *     zero-padded
++	 *   - task_lock() to ensure the operation is atomic and the name is
++	 *     fully updated.
+ 	 */
+ 	char				comm[TASK_COMM_LEN];
+ 
+@@ -1914,10 +1917,27 @@ static inline void set_task_comm(struct task_struct *tsk, const char *from)
+ 	__set_task_comm(tsk, from, false);
+ }
+ 
+-extern char *__get_task_comm(char *to, size_t len, struct task_struct *tsk);
++/*
++ * - Why not use task_lock()?
++ *   User space can randomly change their names anyway, so locking for readers
++ *   doesn't make sense. For writers, locking is probably necessary, as a race
++ *   condition could lead to long-term mixed results.
++ *   The strscpy_pad() in __set_task_comm() can ensure that the task comm is
++ *   always NUL-terminated and zero-padded. Therefore the race condition between
++ *   reader and writer is not an issue.
++ *
++ * - Why not use strscpy_pad()?
++ *   While strscpy_pad() prevents writing garbage past the NUL terminator, which
++ *   is useful when using the task name as a key in a hash map, most use cases
++ *   don't require this. Zero-padding might confuse users if it’s unnecessary,
++ *   and not zeroing might even make it easier to expose bugs. If you need a
++ *   zero-padded task name, please handle that explicitly at the call site.
++ *
++ * - ARRAY_SIZE() can help ensure that @buf is indeed an array.
++ */
+ #define get_task_comm(buf, tsk) ({			\
+-	BUILD_BUG_ON(sizeof(buf) != TASK_COMM_LEN);	\
+-	__get_task_comm(buf, sizeof(buf), tsk);		\
++	strscpy(buf, (tsk)->comm, ARRAY_SIZE(buf));	\
++	buf;						\
+ })
+ 
+ #ifdef CONFIG_SMP
+diff --git a/kernel/kthread.c b/kernel/kthread.c
+index f7be976ff88a..7d001d033cf9 100644
+--- a/kernel/kthread.c
++++ b/kernel/kthread.c
+@@ -101,7 +101,7 @@ void get_kthread_comm(char *buf, size_t buf_size, struct task_struct *tsk)
+ 	struct kthread *kthread = to_kthread(tsk);
+ 
+ 	if (!kthread || !kthread->full_name) {
+-		__get_task_comm(buf, buf_size, tsk);
++		strscpy(buf, tsk->comm, buf_size);
+ 		return;
+ 	}
+ 
 -- 
 2.43.5
 
