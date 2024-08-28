@@ -2,70 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B0F9631A9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 22:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211D49631D0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 22:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C24E10E5CE;
-	Wed, 28 Aug 2024 20:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C47210E5D2;
+	Wed, 28 Aug 2024 20:34:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eGYWzTkI";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UdL90oNI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2A110E5CE
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 20:20:55 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2f4f2cda058so9588191fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724876453; x=1725481253; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nwUxJc2b8AqTNYoiX9A0Lmc4awHUA406R4myUy6OJFo=;
- b=eGYWzTkIDQ42sJ79OqH0Uxg9F+jTQvVU9lvXsEjoNrvzmczsDVGiRLpCV1VHZ963HV
- EmlBSQYsvh0BW5GeiFZb3zT11jfBgov+596dAmlTRJi9aQ3fvvURGPhtD9gtXYuT+JHo
- gm35ZEnC8oD0q5NL7tIdM9PxTKPCUveArguwJswwB8ospUPfp5mhFHW7OAlMccADVsku
- 5he++07JeQ/1xIDyu76HYOC5t42q8/fGnzg+F8/DoIAuHIZ5mJhc2hNUNg90fD2ydcxy
- Ec95loe0GP8k5IjHPDkMehmTl/HPjZ6Bd1923J9KP1TNHkfz+pN3LmzgxhldJoj8gQZG
- qOvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724876453; x=1725481253;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nwUxJc2b8AqTNYoiX9A0Lmc4awHUA406R4myUy6OJFo=;
- b=F2EgGoQl8axNya39z2lXTbVqJ+uNWRoO+RgaKkkNB1qsetqd+8INp8B3stWV8nq+jH
- eqDJcOuAUqDzP7VWbtATuREV2ERTzbEmBPmUVHWhZIyQD2kjcdxWckSh4lILIuqwBO9r
- czLgL08RN5yROdP6PvQ5rib968FGwPOth93h8kyJmFBpqsPqGY8O8jJyGNbwNNQQbAIK
- pSCLJYnj7Q2b0f9isTydYk3I3o+t+V4paQwiHbEXqkX89GGC56qcSZMSQ2OSq6nfHfWa
- XKb8rLOVcw0tDKP/FvbiLrrb0r3I6M+oLt2d39+kqjGMPi83UFBwXQVnxN0gAU/VEpAZ
- Ufkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVvQSkx0gwhJvX9bBis26+cbKVm84Pl27lkhsPUHhy80GzJgEcvDkzQ4e7JwvDwWU74vgkcQLcYHLs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyiYkfeBTfhF5jVGpud3vFXd4XPAXiZolyMEDewKWVDJl4o9Hsx
- 2/3MemcJHGtyLS5dnR+lpbMmB4+TmTwGGLYfFFl5ztNzl0h3KTCsvLYB26DheZL/WNP8JpsFyFT
- HwuHSQzzBV1afK7o3VWSkWqR8MQtPEQ==
-X-Google-Smtp-Source: AGHT+IHC7eWAn1aEXwu8rZpFPCvfOG4SgTdp/J5GwH/NSUhZQiAJEu+VQZsMDlLkNBO0v8lPCyj2UJ9YaKo14gcLToI=
-X-Received: by 2002:a05:6512:234a:b0:534:53d7:c97f with SMTP id
- 2adb3069b0e04-5353ebdb303mr75928e87.23.1724876452895; Wed, 28 Aug 2024
- 13:20:52 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50C0710E5D2;
+ Wed, 28 Aug 2024 20:34:10 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SJMJPJ023938;
+ Wed, 28 Aug 2024 20:34:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ rhURoGek6+GJnpL5hk0AQJDITL/Iy/R/SKiX544AF6w=; b=UdL90oNIalcP3LcZ
+ mTgK9AqmluqXj8RyPNaQ3kw2VN08e1413c+rkA2lC3bfkDw97CPwy6vZKssW/JE8
+ P5qNaPtMOzW9Bf521VWvDSj6mhRzN2YYZA+YPyLw2SzfEiocoQm2q816u/6mJPs8
+ IkHGIh6Y8/aaopvsoIyBelcJ1ZvLOB1tB5782jR6ZiNkX7vaj6oHQT/1pc3dzIld
+ oeKw4u7iADu3BvOzg3R/OCVg4MJQXyHVKVP+M0mxQlPrzE21K3TR5Nlkg4CLv+Am
+ STYO3GCmtIiWFIFYJA9/gMNsIvaTAFKUkSOfYSQ3i4MN4qimmo2F50xlaNzD8rih
+ wfyrFg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puuk1ww-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Aug 2024 20:34:00 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47SKXw2u010815
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Aug 2024 20:33:58 GMT
+Received: from [10.71.111.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 28 Aug
+ 2024 13:33:57 -0700
+Message-ID: <1c7fb593-9080-43fc-bcb4-3028acb2abbb@quicinc.com>
+Date: Wed, 28 Aug 2024 13:33:56 -0700
 MIME-Version: 1.0
-References: <20240626230704.708234-1-festevam@gmail.com>
-In-Reply-To: <20240626230704.708234-1-festevam@gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 28 Aug 2024 17:20:41 -0300
-Message-ID: <CAOMZO5AN3aL8QPTFsjZ5MFhd9Qn1ZPfAFZCx8ncs94=6toWqkw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/bridge: imx8mp-hdmi-tx: Switch to
- SYSTEM_SLEEP_PM_OPS()
-To: rfoss@kernel.org
-Cc: neil.armstrong@linaro.org, victor.liu@nxp.com, 
- dri-devel@lists.freedesktop.org, Fabio Estevam <festevam@denx.de>, 
- Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/11] drm/msm/dsi: correct programming sequence for
+ SM8350 / SM8450
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "Georgi Djakov" <djakov@kernel.org>, Rob Herring <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Mike
+ Tipton" <quic_mdtipton@quicinc.com>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-pm@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20240804-sm8350-fixes-v1-0-1149dd8399fe@linaro.org>
+ <20240804-sm8350-fixes-v1-3-1149dd8399fe@linaro.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240804-sm8350-fixes-v1-3-1149dd8399fe@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: _Ks5JYXY_IzZVNOhk_Bbov6sPIYt7Lpu
+X-Proofpoint-GUID: _Ks5JYXY_IzZVNOhk_Bbov6sPIYt7Lpu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-28_08,2024-08-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 clxscore=1011 impostorscore=0 phishscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408280148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,73 +104,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A gentle ping on this series.
 
-Thanks
 
-On Wed, Jun 26, 2024 at 8:07=E2=80=AFPM Fabio Estevam <festevam@gmail.com> =
-wrote:
->
-> From: Fabio Estevam <festevam@denx.de>
->
-> Replace SET_SYSTEM_SLEEP_PM_OPS with its modern SYSTEM_SLEEP_PM_OPS()
-> alternative.
->
-> The combined usage of pm_ptr() and SYSTEM_SLEEP_PM_OPS()
-> allows the compiler to evaluate if the runtime suspend/resume() functions
-> are used at build time or are simply dead code.
->
-> This allows removing the __maybe_unused notation from the runtime
-> suspend/resume() functions.
->
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+On 8/3/2024 10:40 PM, Dmitry Baryshkov wrote:
+> According to the display-drivers, 5nm DSI PLL (v4.2, v4.3) have
+> different boundaries for pll_clock_inverters programming. Follow the
+> vendor code and use correct values.
+> 
+> Fixes: 2f9ae4e395ed ("drm/msm/dsi: add support for DSI-PHY on SM8350 and SM8450")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/dr=
-m/bridge/imx/imx8mp-hdmi-tx.c
-> index 13bc570c5473..4a3a8a3ce250 100644
-> --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-> @@ -111,12 +111,12 @@ static void imx8mp_dw_hdmi_remove(struct platform_d=
-evice *pdev)
->         dw_hdmi_remove(hdmi->dw_hdmi);
->  }
->
-> -static int __maybe_unused imx8mp_dw_hdmi_pm_suspend(struct device *dev)
-> +static int imx8mp_dw_hdmi_pm_suspend(struct device *dev)
->  {
->         return 0;
->  }
->
-> -static int __maybe_unused imx8mp_dw_hdmi_pm_resume(struct device *dev)
-> +static int imx8mp_dw_hdmi_pm_resume(struct device *dev)
->  {
->         struct imx8mp_hdmi *hdmi =3D dev_get_drvdata(dev);
->
-> @@ -126,8 +126,7 @@ static int __maybe_unused imx8mp_dw_hdmi_pm_resume(st=
-ruct device *dev)
->  }
->
->  static const struct dev_pm_ops imx8mp_dw_hdmi_pm_ops =3D {
-> -       SET_SYSTEM_SLEEP_PM_OPS(imx8mp_dw_hdmi_pm_suspend,
-> -                               imx8mp_dw_hdmi_pm_resume)
-> +       SYSTEM_SLEEP_PM_OPS(imx8mp_dw_hdmi_pm_suspend, imx8mp_dw_hdmi_pm_=
-resume)
->  };
->
->  static const struct of_device_id imx8mp_dw_hdmi_of_table[] =3D {
-> @@ -142,7 +141,7 @@ static struct platform_driver imx8mp_dw_hdmi_platform=
-_driver =3D {
->         .driver         =3D {
->                 .name   =3D "imx8mp-dw-hdmi-tx",
->                 .of_match_table =3D imx8mp_dw_hdmi_of_table,
-> -               .pm =3D &imx8mp_dw_hdmi_pm_ops,
-> +               .pm =3D pm_ptr(&imx8mp_dw_hdmi_pm_ops),
->         },
->  };
->
-> --
-> 2.34.1
->
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index 3b59137ca674..031446c87dae 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -135,7 +135,7 @@ static void dsi_pll_calc_dec_frac(struct dsi_pll_7nm *pll, struct dsi_pll_config
+>   			config->pll_clock_inverters = 0x00;
+>   		else
+>   			config->pll_clock_inverters = 0x40;
+> -	} else {
+> +	} else if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
+>   		if (pll_freq <= 1000000000ULL)
+>   			config->pll_clock_inverters = 0xa0;
+>   		else if (pll_freq <= 2500000000ULL)
+> @@ -144,6 +144,16 @@ static void dsi_pll_calc_dec_frac(struct dsi_pll_7nm *pll, struct dsi_pll_config
+>   			config->pll_clock_inverters = 0x00;
+>   		else
+>   			config->pll_clock_inverters = 0x40;
+> +	} else {
+> +		/* 4.2, 4.3 */
+> +		if (pll_freq <= 1000000000ULL)
+> +			config->pll_clock_inverters = 0xa0;
+> +		else if (pll_freq <= 2500000000ULL)
+> +			config->pll_clock_inverters = 0x20;
+> +		else if (pll_freq <= 3500000000ULL)
+> +			config->pll_clock_inverters = 0x00;
+> +		else
+> +			config->pll_clock_inverters = 0x40;
+>   	}
+
+
+Sorry for the delay, my request for the docs was first rejected for some 
+reason :)
+
+Now I finally got access and this matches the docs
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
