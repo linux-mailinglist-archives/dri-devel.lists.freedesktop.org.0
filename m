@@ -2,72 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971E5962259
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7119622E9
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 11:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AEBB10E053;
-	Wed, 28 Aug 2024 08:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A74E410E4DD;
+	Wed, 28 Aug 2024 09:05:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mtncNZ6F";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jzd8FhWl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8E810E053
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:36:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8C010E4DC;
+ Wed, 28 Aug 2024 09:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724834161; x=1756370161;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=gizPOTp7IDSjb6kUrZDKwYTy4pO6ej/HLu/OaGGmw2M=;
- b=mtncNZ6Ffzj2ZHbsM5NHlRp2Npnek3hxa3pWfuXJH7uPtppTmfZcQRiA
- zohWLwMel9I/zr72xhygWIX3bzTZPcEHnnvwWTbiY3ihUU0Bmhd1wVMs5
- qrSKV/+TcDqQzSj812zASV7gEzlKDFwaQRZ/finMNmvTO3+Vv8C1eP84E
- R+5CA2bkuyM0zBhWYICYcnX5BzBIPW1C30ig45pm90XwxlqBhJZqJsVr9
- xlrEsnz131wTOHV1IvfsixfyKO7IMYatf25DQb+AEC2QqWZnFG/L/0X9t
- /6JlLZO2XMFXoGqujONFyum1v8Hpy2fkruCQmwFdvGz24EG6mtcbstRjY A==;
-X-CSE-ConnectionGUID: zq+5HD8RRPCmoIod25qeoQ==
-X-CSE-MsgGUID: 54lgX63PR0iD42umeijmzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23512095"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="23512095"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 01:35:56 -0700
-X-CSE-ConnectionGUID: +4WDI96SRaSN52XLKOcOug==
-X-CSE-MsgGUID: Dv6d161JQlCWjkDgTXxWMQ==
+ t=1724835899; x=1756371899;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kFYlhd6DXkKtZSyNINtr5HTwAwPZ046yNe4tNx94bVE=;
+ b=jzd8FhWljBz2D8IgPIIaoIBGiGwdSdNMxi+NsauRoRDWwE9fB8vVttII
+ ah8eFMk816pCXkv7ATEZe6/wwE6Ah20Y+D6ItGiXdMQSjkkF6nCxmkuBd
+ 0rLANqGpnqW+nOL3AJZ7GkhgQNTIrDejJVeBtBuRMzju5PIFdCwK3zvaL
+ KortNBAq9eu6flo2eEAD9zbDP8AK+CfY/Kkt+8kL/yEpTS/E2tbReIMec
+ jP9cT2CsyVEXpxZc9yhE3LZgF8q9y6HTkymR71zjKGdi4wRbnwGwEOptb
+ mYYulMYgG+t+zDJMcSTgO5bQ7XnoRmyaEl8sga9UGUM+Su2yYPBHbmPV+ g==;
+X-CSE-ConnectionGUID: 671zDerbRfe784MvrWzUxA==
+X-CSE-MsgGUID: TT7/huWdRF2ESytzcORzhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27235215"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="27235215"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 02:04:58 -0700
+X-CSE-ConnectionGUID: RcxoFumdRFip1M55k0lj6A==
+X-CSE-MsgGUID: Yj/Cpu20TZ6gYvftgdzbqw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="63193476"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.110])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 01:35:49 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>, Maxime Ripard
- <mripard@kernel.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mairacanal@riseup.net>, Haneen
- Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH RFC 11/15] drm: writeback: Add drm_writeback_connector
- cleanup
-In-Reply-To: <Zs3z7tx4dMBfY_DX@louis-chauvet-laptop>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com>
- <20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com>
- <20240827-solid-adorable-coucal-c3e0d1@houat>
- <Zs3z7tx4dMBfY_DX@louis-chauvet-laptop>
-Date: Wed, 28 Aug 2024 11:35:43 +0300
-Message-ID: <87a5gxyrhc.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="67525631"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 02:04:56 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 1/2] Revert "drm/xe/lnl: Offload system clear page activity to
+ GPU"
+Date: Wed, 28 Aug 2024 10:36:34 +0200
+Message-ID: <20240828083635.23601-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany, Commercial Register: Amtsgericht Muenchen HRB 186928
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,126 +75,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 27 Aug 2024, Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> Le 27/08/24 - 16:33, Maxime Ripard a =C3=A9crit :
->> Hi,
->>=20
->> On Wed, Aug 14, 2024 at 04:36:33PM GMT, Louis Chauvet wrote:
->> > Currently drm_writeback_connector are created by
->> > drm_writeback_connector_init or drm_writeback_connector_init_with_enco=
-der.
->> > Both of the function uses drm_connector_init and drm_encoder_init, but
->> > there is no way to properly clean those structure from outside.
->> >=20
->> > This patch introduce the new function drm_writeback_connector_cleanup =
-to
->> > allow a proper cleanup.
->> >=20
->> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->> > ---
->> >  drivers/gpu/drm/drm_writeback.c | 10 ++++++++++
->> >  include/drm/drm_writeback.h     | 11 +++++++++++
->> >  2 files changed, 21 insertions(+)
->> >=20
->> > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_wri=
-teback.c
->> > index a031c335bdb9..505a4eb40f93 100644
->> > --- a/drivers/gpu/drm/drm_writeback.c
->> > +++ b/drivers/gpu/drm/drm_writeback.c
->> > @@ -184,6 +184,7 @@ int drm_writeback_connector_init(struct drm_device=
- *dev,
->> >  	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
->> >=20=20
->> >  	wb_connector->encoder.possible_crtcs =3D possible_crtcs;
->> > +	wb_connector->managed_encoder =3D true;
->> >=20=20
->> >  	ret =3D drm_encoder_init(dev, &wb_connector->encoder,
->> >  			       &drm_writeback_encoder_funcs,
->> > @@ -290,6 +291,15 @@ int drm_writeback_connector_init_with_encoder(str=
-uct drm_device *dev,
->> >  }
->> >  EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
->> >=20=20
->> > +void drm_writeback_connector_cleanup(struct drm_writeback_connector *=
-wb_connector)
->> > +{
->> > +	drm_connector_cleanup(&wb_connector->base);
->> > +	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
->> > +	if (wb_connector->managed_encoder)
->> > +		drm_encoder_cleanup(&wb_connector->encoder);
->> > +}
->> > +EXPORT_SYMBOL(drm_writeback_connector_cleanup);
->> > +
->> >  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
->> >  			 struct drm_framebuffer *fb)
->> >  {
->> > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
->> > index 17e576c80169..e651c0c0c84c 100644
->> > --- a/include/drm/drm_writeback.h
->> > +++ b/include/drm/drm_writeback.h
->> > @@ -35,6 +35,15 @@ struct drm_writeback_connector {
->> >  	 */
->> >  	struct drm_encoder encoder;
->> >=20=20
->> > +	/**
->> > +	 * @managed_encoder: Sets to true if @encoder was created by drm_wri=
-teback_connector_init()
->> > +	 *
->> > +	 * If the user used drm_writeback_connector_init_with_encoder() to c=
-reate the connector,
->> > +	 * @encoder is not valid and not managed by drm_writeback_connector.=
- This fields allows
->> > +	 * the drm_writeback_cleanup() function to properly destroy the enco=
-der if needed.
->> > +	 */
->> > +	bool managed_encoder;
->> > +
->>=20
->> I think we should rather create drmm_writeback_connector variants,
->> and make both deprecated in favor of these new functions.
->
-> Hi,
->
-> I can try to do it. If I understand correctly, you want to create two=20
-> functions like this?=20
->
-> 	int drmm_writeback_connector_init([...]) {
-> 		/* drmm and alloc as we want to let drm core to manage this=20
-> 		   encoder, no need to store it in drm_writeback_connector=20
-> 		   */
-> 		enc =3D drmm_plain_encoder_alloc(...);
->
-> 		return drmm_writeback_connector_init_with_encoder([...], enc);
-> 	}
->
-> 	int drmm_writeback_connector_init_with_encoder([...], enc) {
-> 		con =3D drmm_connector_init([...]);
->
-> 		drm_connector_attach_encoder(enc, con);
->
-> 		/* Needed for pixel_formats_blob_ptr, base is already=20
-> 		   managed by drmm_connector_init. Maybe cleaning=20
-> 		   job_queue is also needed? */
-> 		drmm_add_action_or_reset([...], &drm_writeback_connector_cleanup)
-> 	}
+This optimization relied on having to clear CCS on allocations.
+If there is no need to clear CCS on allocations then this would mostly
+help in reducing CPU utilization.
 
-Why add two variants, when you can have one and pass NULL for encoder?
-We have the _init_with_encoder variant only because nobody bothered to
-clean up existing call sites.
+Revert this patch at this moment because of:
+1 Currently Xe can't do clear on free and using a invalid ttm flag,
+TTM_TT_FLAG_CLEARED_ON_FREE which could poison global ttm pool on
+multi-device setup.
 
-Side note, I'd still like to be able to pass driver's own allocated
-connector instead of having writeback midlayer force it on you.
+2 Also for LNL CPU:WB doesn't require clearing CCS as such BO will
+not be allowed to bind with compression PTE. Subsequent patch will
+disable clearing CCS for CPU:WB BOs for LNL.
 
-BR,
-Jani.
+This reverts commit 23683061805be368c8d1c7e7ff52abc470cac275.
 
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/xe/xe_bo.c           | 26 ++------------------------
+ drivers/gpu/drm/xe/xe_device_types.h |  2 --
+ drivers/gpu/drm/xe/xe_ttm_sys_mgr.c  | 12 ------------
+ 3 files changed, 2 insertions(+), 38 deletions(-)
 
->
-> Louis Chauvet
->=20=20
->> Maxime
->
->
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 9d6632f92fa9..25d0c939ba31 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -396,14 +396,6 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+ 		caching = ttm_uncached;
+ 	}
+ 
+-	/*
+-	 * If the device can support gpu clear system pages then set proper ttm
+-	 * flag. Zeroed pages are only required for ttm_bo_type_device so
+-	 * unwanted data is not leaked to userspace.
+-	 */
+-	if (ttm_bo->type == ttm_bo_type_device && xe->mem.gpu_page_clear_sys)
+-		page_flags |= TTM_TT_FLAG_CLEARED_ON_FREE;
+-
+ 	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching, extra_pages);
+ 	if (err) {
+ 		kfree(tt);
+@@ -425,10 +417,6 @@ static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
+ 	if (tt->page_flags & TTM_TT_FLAG_EXTERNAL)
+ 		return 0;
+ 
+-	/* Clear TTM_TT_FLAG_ZERO_ALLOC when GPU is set to clear system pages */
+-	if (tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE)
+-		tt->page_flags &= ~TTM_TT_FLAG_ZERO_ALLOC;
+-
+ 	err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
+ 	if (err)
+ 		return err;
+@@ -671,16 +659,8 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 	bool needs_clear;
+ 	bool handle_system_ccs = (!IS_DGFX(xe) && xe_bo_needs_ccs_pages(bo) &&
+ 				  ttm && ttm_tt_is_populated(ttm)) ? true : false;
+-	bool clear_system_pages;
+ 	int ret = 0;
+ 
+-	/*
+-	 * Clear TTM_TT_FLAG_CLEARED_ON_FREE on bo creation path when
+-	 * moving to system as the bo doesn't have dma_mapping.
+-	 */
+-	if (!old_mem && ttm && !ttm_tt_is_populated(ttm))
+-		ttm->page_flags &= ~TTM_TT_FLAG_CLEARED_ON_FREE;
+-
+ 	/* Bo creation path, moving to system or TT. */
+ 	if ((!old_mem && ttm) && !handle_system_ccs) {
+ 		if (new_mem->mem_type == XE_PL_TT)
+@@ -703,10 +683,8 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 	move_lacks_source = handle_system_ccs ? (!bo->ccs_cleared)  :
+ 						(!mem_type_is_vram(old_mem_type) && !tt_has_data);
+ 
+-	clear_system_pages = ttm && (ttm->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE);
+ 	needs_clear = (ttm && ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC) ||
+-		(!ttm && ttm_bo->type == ttm_bo_type_device) ||
+-		clear_system_pages;
++		(!ttm && ttm_bo->type == ttm_bo_type_device);
+ 
+ 	if (new_mem->mem_type == XE_PL_TT) {
+ 		ret = xe_tt_map_sg(ttm);
+@@ -818,7 +796,7 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 		if (move_lacks_source) {
+ 			u32 flags = 0;
+ 
+-			if (mem_type_is_vram(new_mem->mem_type) || clear_system_pages)
++			if (mem_type_is_vram(new_mem->mem_type))
+ 				flags |= XE_MIGRATE_CLEAR_FLAG_FULL;
+ 			else if (handle_system_ccs)
+ 				flags |= XE_MIGRATE_CLEAR_FLAG_CCS_DATA;
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index 4ecd620921a3..e73fb0c23932 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -333,8 +333,6 @@ struct xe_device {
+ 		struct xe_mem_region vram;
+ 		/** @mem.sys_mgr: system TTM manager */
+ 		struct ttm_resource_manager sys_mgr;
+-		/** @mem.gpu_page_clear_sys: clear system pages offloaded to GPU */
+-		bool gpu_page_clear_sys;
+ 	} mem;
+ 
+ 	/** @sriov: device level virtualization data */
+diff --git a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
+index e0ac20f20758..9844a8edbfe1 100644
+--- a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
++++ b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
+@@ -117,17 +117,5 @@ int xe_ttm_sys_mgr_init(struct xe_device *xe)
+ 	ttm_resource_manager_init(man, &xe->ttm, gtt_size >> PAGE_SHIFT);
+ 	ttm_set_driver_manager(&xe->ttm, XE_PL_TT, man);
+ 	ttm_resource_manager_set_used(man, true);
+-
+-	/*
+-	 * On iGFX device with flat CCS, we clear CCS metadata, let's extend that
+-	 * and use GPU to clear pages as well.
+-	 *
+-	 * Disable this when init_on_free and/or init_on_alloc is on to avoid double
+-	 * zeroing pages with CPU and GPU.
+-	 */
+-	if (xe_device_has_flat_ccs(xe) && !IS_DGFX(xe) &&
+-	    !want_init_on_alloc(GFP_USER) && !want_init_on_free())
+-		xe->mem.gpu_page_clear_sys = true;
+-
+ 	return drmm_add_action_or_reset(&xe->drm, ttm_sys_mgr_fini, xe);
+ }
+-- 
+2.42.0
 
---=20
-Jani Nikula, Intel
