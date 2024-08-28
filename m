@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603C7962B2F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8E4962B32
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:07:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9F0310E569;
-	Wed, 28 Aug 2024 15:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C14A10E568;
+	Wed, 28 Aug 2024 15:07:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U+53UR4E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dN9wwMwG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C51DB10E568;
- Wed, 28 Aug 2024 15:07:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6B910E56B;
+ Wed, 28 Aug 2024 15:07:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E11AEA41625;
- Wed, 28 Aug 2024 15:07:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AC83C4CEC2;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 996C7A4034F;
  Wed, 28 Aug 2024 15:07:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 269C0C4CEC1;
+ Wed, 28 Aug 2024 15:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724857637;
- bh=a9ZZUDjjT3S7cBGB5enSwbmy4on96cF59kyuYni0rwM=;
+ s=k20201202; t=1724857641;
+ bh=fJN/wBB6IdVRV/C/0AvIDADf/BcfqwLjLXBn8yCJISU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=U+53UR4E/X43N2EuGOEH657iEwjPxdUd7hvxN6K9KCO+7egsPEva1ET08ZQPpBr6a
- XElnkC/nTrxcuS04S0oMrO0OuIegp+Ejz2vcXi33pB64CH92ZjBdUoQ1X71s8Mck4W
- SHwhpesNQbF8g4VvUHnniL2cHmTRs7ioxyBtO1mV8CTsWhY0hHBETrsXScb5QMaKf7
- qgJ2Fom6xLe7b4IWvNO7+fed8h+lw5hEW8MEK5wgo61g1g+sz1/mf7tpED0/V4LlL9
- Hp3fhwJcc2V12yVm88ajUJcYZ7b2DvfgABR+tDXN3ssYoYAY0miUcOeUYwntMZNWGt
- DRUralWznl4xg==
+ b=dN9wwMwG9h3unCF3TjdVyyeL384blKNsEVJpqvsL5VSsqNLJrBdAeN4MDv+ClOmM9
+ z6/WmgkmMnJB04HKWqsiGmZRr6CL5465uDx1qbBS9G6RZvadCBs7mItKG+Y2t0J1jt
+ thMqabGPvA7FggSdciNrGzeZhHTcO1zU8uk9/Be53VPCypd3zHVZl8QfQg48Q0cC08
+ CYldVT8RzOX5w6/A4+F6Lt8EtuW2vFVfbwaDbLYLbu+xLtcDUsiKyYvQK958sCn9MO
+ HTxIRy7nIMzKrQ1c8O2PQEN7GVOrdx6a5enk+4sbnT+ULAB1QRKfraYp7ckxzmACDC
+ 7156JPSUdRJWw==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Wed, 28 Aug 2024 17:06:55 +0200
-Subject: [PATCH v2 2/6] drm/msm/a6xx: Store primFifoThreshold in struct
+Date: Wed, 28 Aug 2024 17:06:56 +0200
+Subject: [PATCH v2 3/6] drm/msm/a6xx: Store correct gmu_cgc_mode in struct
  a6xx_info
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240828-topic-a621-v2-2-1882c6b57432@kernel.org>
+Message-Id: <20240828-topic-a621-v2-3-1882c6b57432@kernel.org>
 References: <20240828-topic-a621-v2-0-1882c6b57432@kernel.org>
 In-Reply-To: <20240828-topic-a621-v2-0-1882c6b57432@kernel.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -50,11 +50,11 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724857626; l=6473;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724857626; l=5876;
  i=konradybcio@kernel.org; s=20230215; h=from:subject:message-id;
- bh=XmQJ6okLMLENeM9s7/dxGjGy/oGH2zJbA3KXVAvm660=;
- b=s9OtFZY+HhV8Xv3UFw/s3Tj/EecycJCeI4I/XK41giBBQUTzl3kefqx2qEhecfHYc14ldaL+9
- xh/68lf1Ne+DYgg6+YddtOHquD739aGRv51RemgRf4adF+Ul06EGSEq
+ bh=HDul3oea/s0VFDTA8cmBURLRDU8BwSstHumQgxqDetA=;
+ b=QHUAqqyPCivttCwMg+fGojXhiU9T0ZYPubqeEOJlIzWyAbvMfLn5G1+ArhzvbbfDR6Fca8br0
+ x4MctrDUGI3BtWFjiv+pR0G6TCN6AGeghE/2Wfy9kUf9isWyb8OcyK4
 X-Developer-Key: i=konradybcio@kernel.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,179 +74,176 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-The if-else monster is so unmaintainable that one case is repeated
-twice. Get rid of it.
+Store the correct values that we happen to have for some A7xx SKUs in
+the GPU info struct and fill out the missing information for A6xx GPUs
+based on downstream kernel information.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 14 ++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 24 +++++-------------------
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 18 ++++++++++++++++++
  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
- 3 files changed, 20 insertions(+), 19 deletions(-)
+ 2 files changed, 19 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index 68ba9aed5506..1ea535960f32 100644
+index 1ea535960f32..6cd73abd95d4 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
 @@ -636,6 +636,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a612_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00080000,
++			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00080000,
  		},
  		/*
- 		 * There are (at least) three SoCs implementing A610: SM6125
-@@ -667,6 +668,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -668,6 +669,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a615_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00180000,
++			.gmu_cgc_mode = 0x00000222,
+ 			.prim_fifo_threshold = 0x00180000,
  		},
  		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -689,6 +691,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -691,6 +693,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.init = a6xx_gpu_init,
  		.a6xx = &(const struct a6xx_info) {
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00180000,
++			.gmu_cgc_mode = 0x00000222,
+ 			.prim_fifo_threshold = 0x00180000,
  		},
  		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -711,6 +714,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -714,6 +717,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a615_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00018000,
++			.gmu_cgc_mode = 0x00000222,
+ 			.prim_fifo_threshold = 0x00018000,
  		},
  		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -733,6 +737,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -737,6 +741,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a615_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00018000,
++			.gmu_cgc_mode = 0x00000222,
+ 			.prim_fifo_threshold = 0x00018000,
  		},
  		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -755,6 +760,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -760,6 +765,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a615_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00018000,
++			.gmu_cgc_mode = 0x00000222,
+ 			.prim_fifo_threshold = 0x00018000,
  		},
  		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -782,6 +788,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -788,6 +794,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a630_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00180000,
++			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00180000,
  		},
  	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x06040001),
-@@ -799,6 +806,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -806,6 +813,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a640_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00180000,
++			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00180000,
  		},
  		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0, 0 },
-@@ -821,6 +829,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -829,6 +837,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a650_hwcg,
  			.protect = &a650_protect,
-+			.prim_fifo_threshold = 0x00300200,
++			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00300200,
  		},
  		.address_space_size = SZ_16G,
- 		.speedbins = ADRENO_SPEEDBINS(
-@@ -846,6 +855,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -855,6 +864,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a660_hwcg,
  			.protect = &a660_protect,
-+			.prim_fifo_threshold = 0x00300200,
++			.gmu_cgc_mode = 0x00020000,
+ 			.prim_fifo_threshold = 0x00300200,
  		},
  		.address_space_size = SZ_16G,
- 	}, {
-@@ -864,6 +874,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -874,6 +884,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a660_hwcg,
  			.protect = &a660_protect,
-+			.prim_fifo_threshold = 0x00200200,
++			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00200200,
  		},
  		.address_space_size = SZ_16G,
- 		.speedbins = ADRENO_SPEEDBINS(
-@@ -888,6 +899,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -899,6 +910,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a640_hwcg,
  			.protect = &a630_protect,
-+			.prim_fifo_threshold = 0x00200200,
++			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00200200,
  		},
  	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x06090000),
-@@ -905,6 +917,7 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -917,6 +929,7 @@ static const struct adreno_info a6xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a690_hwcg,
  			.protect = &a690_protect,
-+			.prim_fifo_threshold = 0x00800200,
++			.gmu_cgc_mode = 0x00020200,
+ 			.prim_fifo_threshold = 0x00800200,
  		},
  		.address_space_size = SZ_16G,
- 	}
-@@ -1165,6 +1178,7 @@ static const struct adreno_info a7xx_gpus[] = {
+@@ -1178,6 +1191,7 @@ static const struct adreno_info a7xx_gpus[] = {
  		.a6xx = &(const struct a6xx_info) {
  			.hwcg = a702_hwcg,
  			.protect = &a650_protect,
-+			.prim_fifo_threshold = 0x0000c000,
++			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x0000c000,
  		},
  		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index bcaec86ac67a..aaeb1161f90d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -976,25 +976,11 @@ static int hw_init(struct msm_gpu *gpu)
- 	} else if (!adreno_is_a7xx(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_SIZE, 128);
- 
--	/* Setting the primFifo thresholds default values,
--	 * and vccCacheSkipDis=1 bit (0x200) for A640 and newer
--	*/
--	if (adreno_is_a702(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x0000c000);
--	else if (adreno_is_a690(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00800200);
--	else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
--	else if (adreno_is_a640_family(adreno_gpu) || adreno_is_7c3(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200200);
--	else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
--	else if (adreno_is_a619(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00018000);
--	else if (adreno_is_a610(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00080000);
--	else if (!adreno_is_a7xx(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00180000);
-+
-+	/* Set the default primFifo threshold values */
-+	if (adreno_gpu->info->a6xx->prim_fifo_threshold)
-+		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL,
-+			  adreno_gpu->info->a6xx->prim_fifo_threshold);
- 
- 	/* Set the AHB default slave response to "ERROR" */
- 	gpu_write(gpu, REG_A6XX_CP_AHB_CNTL, 0x1);
+@@ -1202,6 +1216,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a730_hwcg,
+ 			.protect = &a730_protect,
++			.gmu_cgc_mode = 0x00020000,
+ 		},
+ 		.address_space_size = SZ_16G,
+ 	}, {
+@@ -1221,6 +1236,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			.hwcg = a740_hwcg,
+ 			.protect = &a730_protect,
+ 			.gmu_chipid = 0x7020100,
++			.gmu_cgc_mode = 0x00020202,
+ 		},
+ 		.address_space_size = SZ_16G,
+ 	}, {
+@@ -1239,6 +1255,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			.hwcg = a740_hwcg,
+ 			.protect = &a730_protect,
+ 			.gmu_chipid = 0x7050001,
++			.gmu_cgc_mode = 0x00020202,
+ 		},
+ 		.address_space_size = SZ_256G,
+ 	}, {
+@@ -1257,6 +1274,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.protect = &a730_protect,
+ 			.gmu_chipid = 0x7090100,
++			.gmu_cgc_mode = 0x00020202,
+ 		},
+ 		.address_space_size = SZ_16G,
+ 	}
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index e3e5c53ae8af..bc37bd8c7f65 100644
+index bc37bd8c7f65..0fb7febf70e7 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
 @@ -22,6 +22,7 @@ struct a6xx_info {
  	const struct adreno_reglist *hwcg;
  	const struct adreno_protect *protect;
  	u32 gmu_chipid;
-+	u32 prim_fifo_threshold;
++	u32 gmu_cgc_mode;
+ 	u32 prim_fifo_threshold;
  };
  
- struct a6xx_gpu {
 
 -- 
 2.46.0
