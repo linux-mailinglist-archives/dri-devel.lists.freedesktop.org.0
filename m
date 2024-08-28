@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9572F962246
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EE5962252
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:31:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09C710E4DA;
-	Wed, 28 Aug 2024 08:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C172E10E3C5;
+	Wed, 28 Aug 2024 08:31:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="PC22ZiWO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K31rlQvD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25D4310E4DA
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:25:01 +0000 (UTC)
-Delivered-To: kernel@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724833488; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=C5TgH6Po65HEXc6einX4yEVx062T4x2kOD2wuZzWncGhyIo2feil2zRmkZ1kvSY3rKGqktC3estaoFHQyoyrkay+P0ze6hUvYNVjYaa7WE2aCMivIiMERqM1Xtl+/zgVM7L3rw+God5qLwkV94nBIUXeoxmh8aSnbB0kalE2WWE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1724833488;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=T2HtZOq/Dm024xV1xLGCEztRUtVIMeJSGLIxvADeSC0=; 
- b=mrdasLoch9ZzSpsTZCjo9KIEjjxK19PDmGbV3yPhK+pdJC9x9eUHQOWPwRE/VTYDFyjJSEqvQt6QranIjVbX1vccsV12GSapbxe6chEnyyymA2VNMAXu8je5cbtnrg0JqTsjshLUYU3k0HdBkPVqldYY8JVdcCCI7f0XkvfjcR4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
- dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724833488; 
- s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=T2HtZOq/Dm024xV1xLGCEztRUtVIMeJSGLIxvADeSC0=;
- b=PC22ZiWOXh1MRC9tycKIT5D3R1m5ij291pO6gPpCEkFdU2x5PfiOli1SIRGeiFsq
- ENi83FuSZ953ELrgP4iDlNUXWij+xwo5oUwoqYxbaY69jtspHJDe3XCSsLHuwQFM3j4
- qocwMSO7QDGJcxnIybDkC77J16d5PADDcZibi4eE=
-Received: by mx.zohomail.com with SMTPS id 1724833486164592.3014591788459;
- Wed, 28 Aug 2024 01:24:46 -0700 (PDT)
-Date: Wed, 28 Aug 2024 10:24:40 +0200
-From: Mary Guillemard <mary.guillemard@collabora.com>
-To: Mihail Atanassov <mihail.atanassov@arm.com>
-Cc: linux-kernel@vger.kernel.org, kernel@collabora.com,
- Christopher Healy <healych@amazon.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nd@arm.com
-Subject: Re: [PATCH v3] drm/panthor: Add DEV_QUERY_TIMESTAMP_INFO dev query
-Message-ID: <Zs7d2-NHTy-A_oLL@kuroko.kudu-justice.ts.net>
-References: <20240819112508.67988-2-mary.guillemard@collabora.com>
- <4538ba23-ee8b-4e15-8857-d653d581bc18@arm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12D4410E3C5
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:31:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724833885; x=1756369885;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=xJuZ+EJ94pLSsNkzA+mfLjJFjy+ge3Om+5ox8Q/Z4rY=;
+ b=K31rlQvDwaUnoGDmfNcPiDUWehbKSYG1XlpdsD5gXtTO8dLA/4YT897x
+ LAIV73Vrj4JR/Hb9TTROkuruFkoZghAWWGp8DyJKdQgE8NOjO53DJwYT1
+ 0Bbm1nU+Ri1Abz+0XBtK46js0BZ7hpz/BJFkpf6ziitIg96ugoi9xvWrQ
+ HYLQeh8hVKgKr8vy/RokaqQ9gxAw6/lCV8Mr0Dq8qeN4/DquA9aMJnC+n
+ MmRg/Z5NqR3Ad3ow7QDE9y7swY2yd7cHnHzMGPtI+XIvwSlxLAOPuy9+c
+ TNHjVqGlJoHVLHdK+Bi48jqTKVW8SffnssavJcvmkygBgLSK9erR0eC6n A==;
+X-CSE-ConnectionGUID: IWHmRov+SMeUhJEP2nNZrg==
+X-CSE-MsgGUID: hfFSTNK8TxG3l1aiQdvP6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="13255676"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="13255676"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 01:31:24 -0700
+X-CSE-ConnectionGUID: eR2uKhlqSY6k0yuMgG2gSg==
+X-CSE-MsgGUID: CKK6zCmsTDaHJ11r4Su9vA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="67830578"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.110])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 01:31:21 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Derek Foreman <derek.foreman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Maxime Ripard <mripard@kernel.org>, kernel@collabora.com, Helge Deller
+ <deller@gmx.de>, linux-fbdev@vger.kernel.org, Derek Foreman
+ <derek.foreman@collabora.com>
+Subject: Re: [PATCH v4] drm/connector: hdmi: Fix writing Dynamic Range
+ Mastering infoframes
+In-Reply-To: <20240827163918.48160-1-derek.foreman@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240827163918.48160-1-derek.foreman@collabora.com>
+Date: Wed, 28 Aug 2024 11:31:15 +0300
+Message-ID: <87cyltyros.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4538ba23-ee8b-4e15-8857-d653d581bc18@arm.com>
-X-ZohoMailClient: External
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,55 +72,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mihail,
-
-On Mon, Aug 19, 2024 at 03:25:48PM +0100, Mihail Atanassov wrote:
-> > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> > index 926b1deb1116..944f5618aa05 100644
-> > --- a/include/uapi/drm/panthor_drm.h
-> > +++ b/include/uapi/drm/panthor_drm.h
-> > @@ -260,6 +260,9 @@ enum drm_panthor_dev_query_type {
-> >   	/** @DRM_PANTHOR_DEV_QUERY_CSIF_INFO: Query command-stream interface information. */
-> >   	DRM_PANTHOR_DEV_QUERY_CSIF_INFO,
-> > +
-> > +	/** @DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO: Query timestamp information. */
-> > +	DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO,
-> >   };
-> >   /**
-> > @@ -377,6 +380,22 @@ struct drm_panthor_csif_info {
-> >   	__u32 pad;
-> >   };
-> > +/**
-> > + * struct drm_panthor_timestamp_info - Timestamp information
-> > + *
-> > + * Structure grouping all queryable information relating to the GPU timestamp.
-> > + */
-> > +struct drm_panthor_timestamp_info {
-> > +	/** @timestamp_frequency: The frequency of the timestamp timer. */
-> > +	__u64 timestamp_frequency;
-> > +
-> > +	/** @current_timestamp: The current timestamp. */
-> > +	__u64 current_timestamp;
-> > +
-> > +	/** @timestamp_offset: The offset of the timestamp timer. */
-> > +	__u64 timestamp_offset;
-> 
-> Are you sure you don't want the cntvct_el0 and cntfrq_el0 values here, too,
-> as separate fields? While they're not values coming from the GPU, they are
-> related. Getting the lowest delta possible between querying one timestamp
-> register and the other is quite useful for tooling. Requiring userspace to
-> do two separate queries, one for CPU time and one for GPU time, doesn't feel
-> optimal, your max deviation will necessarily be higher that way.
+On Tue, 27 Aug 2024, Derek Foreman <derek.foreman@collabora.com> wrote:
+> The largest infoframe we create is the DRM (Dynamic Range Mastering)
+> infoframe which is 26 bytes + a 4 byte header, for a total of 30
+> bytes.
+>
+> With HDMI_MAX_INFOFRAME_SIZE set to 29 bytes, as it is now, we
+> allocate too little space to pack a DRM infoframe in
+> write_device_infoframe(), leading to an ENOSPC return from
+> hdmi_infoframe_pack(), and never calling the connector's
+> write_infoframe() vfunc.
+>
+> Instead of having HDMI_MAX_INFOFRAME_SIZE defined in two places,
+> replace HDMI_MAX_INFOFRAME_SIZE with HDMI_INFOFRAME_SIZE(MAX) and make
+> MAX 27 bytes - which is defined by the HDMI specification to be the
+> largest infoframe payload.
+>
+> Fixes: f378b77227bc ("drm/connector: hdmi: Add Infoframes generation")
+> Fixes: c602e4959a0c ("drm/connector: hdmi: Create Infoframe DebugFS entries")
 >
 
-Exposing arch dependent values in the uapi feels wrong to me too but
-maybe that could be done with just the cpu timestamp with a frequency of
-1 on other platform if needed?
+Superfluous blank line. Can be fixed while applying.
 
-In any cases, I think that if we ever need it we can extend this query
-with more values. (as we are retrocompatible thanks to PANTHOR_UOBJ_SET)
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
---
-Mary
 
- 
+> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 4 +---
+>  drivers/gpu/drm/drm_debugfs.c                   | 4 +---
+>  include/linux/hdmi.h                            | 9 +++++++++
+>  3 files changed, 11 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> index 7854820089ec..feb7a3a75981 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -521,8 +521,6 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
+>  
+> -#define HDMI_MAX_INFOFRAME_SIZE		29
+> -
+>  static int clear_device_infoframe(struct drm_connector *connector,
+>  				  enum hdmi_infoframe_type type)
+>  {
+> @@ -563,7 +561,7 @@ static int write_device_infoframe(struct drm_connector *connector,
+>  {
+>  	const struct drm_connector_hdmi_funcs *funcs = connector->hdmi.funcs;
+>  	struct drm_device *dev = connector->dev;
+> -	u8 buffer[HDMI_MAX_INFOFRAME_SIZE];
+> +	u8 buffer[HDMI_INFOFRAME_SIZE(MAX)];
+>  	int ret;
+>  	int len;
+>  
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 6b239a24f1df..9d3e6dd68810 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -520,8 +520,6 @@ static const struct file_operations drm_connector_fops = {
+>  	.write = connector_write
+>  };
+>  
+> -#define HDMI_MAX_INFOFRAME_SIZE		29
+> -
+>  static ssize_t
+>  audio_infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
+>  {
+> @@ -579,7 +577,7 @@ static ssize_t _f##_read_infoframe(struct file *filp, \
+>  	struct drm_connector *connector; \
+>  	union hdmi_infoframe *frame; \
+>  	struct drm_device *dev; \
+> -	u8 buf[HDMI_MAX_INFOFRAME_SIZE]; \
+> +	u8 buf[HDMI_INFOFRAME_SIZE(MAX)]; \
+>  	ssize_t len = 0; \
+>  	\
+>  	connector = filp->private_data; \
+> diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
+> index 3bb87bf6bc65..455f855bc084 100644
+> --- a/include/linux/hdmi.h
+> +++ b/include/linux/hdmi.h
+> @@ -59,6 +59,15 @@ enum hdmi_infoframe_type {
+>  #define HDMI_DRM_INFOFRAME_SIZE    26
+>  #define HDMI_VENDOR_INFOFRAME_SIZE  4
+>  
+> +/*
+> + * HDMI 1.3a table 5-14 states that the largest InfoFrame_length is 27,
+> + * not including the packet header or checksum byte. We include the
+> + * checksum byte in HDMI_INFOFRAME_HEADER_SIZE, so this should allow
+> + * HDMI_INFOFRAME_SIZE(MAX) to be the largest buffer we could ever need
+> + * for any HDMI infoframe.
+> + */
+> +#define HDMI_MAX_INFOFRAME_SIZE    27
+> +
+>  #define HDMI_INFOFRAME_SIZE(type)	\
+>  	(HDMI_INFOFRAME_HEADER_SIZE + HDMI_ ## type ## _INFOFRAME_SIZE)
+
+-- 
+Jani Nikula, Intel
