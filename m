@@ -2,68 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2373B962813
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD6996286A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8771A10E50A;
-	Wed, 28 Aug 2024 13:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB22610E515;
+	Wed, 28 Aug 2024 13:17:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="IUsWa/cb";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="MQF+pp4L";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="hHKN7uCA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE4410E50A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:00:17 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-42816ca782dso58855425e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 06:00:17 -0700 (PDT)
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
+ [91.207.212.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE5E10E515
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:17:32 +0000 (UTC)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+ by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47S65SJQ027701;
+ Wed, 28 Aug 2024 14:09:17 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:message-id:mime-version:subject:to; s=
+ dk201812; bh=+zvV9byuqDMnVUBdDzwRq4xcdd0a3cR2UBm1oXNHWhQ=; b=MQF
+ +pp4LCQhznYfZ/OTuhxdXCZ5RE54j9+KTXY8J2ShY3gOtsS9UB3aGMjuScg0mlTx
+ SxWlSp5O+lC3SINTWiu2qXqxsbN6K5wvCVVCayUCwsE/yNJ0H+Zz2756fPBzXIbf
+ 0cwH6ZyNGL9vVc03CQiNNCA1CK7MvRYVWa5gDoAXupqIUxzmuYnMxybt2f6rt1b1
+ J4D6Ohyhs1E6LJoFuoBQf1TK1qq81drxkxsDxUjm8QxW+KQuFRnNR1SsNx3pNyGK
+ 6lQ2ouEMA2+0RGiG1xuRgAGB7eAMfoTPYjUWxYCsAbkbumRpm2K49Q6SvZnFxLmr
+ hdREjUsqAqDRWWc23AA==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 4175ss31pm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Wed, 28 Aug 2024 14:09:15 +0100 (BST)
+Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Wed, 28 Aug 2024 14:09:14 +0100
+Received: from LO2P265CU024.outbound.protection.outlook.com (40.93.67.27) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37 via Frontend
+ Transport; Wed, 28 Aug 2024 14:09:14 +0100
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=obbQoJ07ntu1hrNCfFlWwo/CaP8aIzQ7SRcM/1UZohEqWFKmHVilcV1j7Sp+a9k+DvNeVfwVaHAb2pqRrBhgg0fn/6Sjs9dtxb/elUWcyHMI+3+LryQo7iIYsZaeyz9vb68wbyGphnLQlV8KherHW6s5Q16W2b+A/mXJbs9kvwcSaWm5MtrBU8obwEeSC9VdTdDhchwjnjnCOLU91zSizLB7II4Oc6pnJE7EQfJdpQSgcfgFAvfJ4ishUyPqZ7QLzOHuYK1t4xoqYhcNI17Cu4KRwBk0L3FONPJOoERi3O+DTX/WyvhCXkSz+Vp+1V2MAJ8alNZR3qhJN4MyK7ScbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+zvV9byuqDMnVUBdDzwRq4xcdd0a3cR2UBm1oXNHWhQ=;
+ b=dH+d2DuJ4xGEvNnEgSMCdkxsqVhjmmekFXta8FzhSFHQMljUGaZhIld1tae0V7AYc/UlDNE3IGwmwP6kJsFKmhLfAWfpr+Ar5J6Oz4XJ2z7ZdQ7KuUGPmLrrdycROJnqRT4h0P09jg4q46iJ1HcqDKB3Iv6kG6YRurNDlT8L5uB7aSa1Uvawi9Z/fzADgEdDiz4tGLrzyYqthQXL+vhZHwOTz4EB3rSkn/qBHtkAI6/Zvq2s6krO7hSXywnFyjCuN2k815CGE8cFfpvPVFv591zQWmk0ar1GrGUpoCn+70HEvcZjefUPJI7EdLG8Cxnyc4GQh0pYoPcAnxSm+j/+3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724850016; x=1725454816; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=exgXW8MQI91qxxtSMkyGmcZjJTXK1AuFo5AsFdZQpgA=;
- b=IUsWa/cbbe5kSxM0HxGOWZuQgYdkcPM6KlcMXb/nM+bZYoMUxidHxgv8EqCf4zBn6X
- jK7wZxItCgkJrXlT2o1v0eHwygbCj5/zSnd1nXkPaDH8ggGfCYxQJLUAT1kDfG+3goW4
- mWwSxYlIi+4HbXQKQ/kCRJLKh9CQaicuqxBDg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724850016; x=1725454816;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=exgXW8MQI91qxxtSMkyGmcZjJTXK1AuFo5AsFdZQpgA=;
- b=ThyqwI6ML6jBp41U1y56sTXQzPChsmWJSOo9VFraIGcaLvIr/zer6wBrhgcxM60UeD
- tq1IgBDmONFnLGumujINkSzcnhdtXCiPAdZpdluNsl5eRg18ShSPZJPZDozeBHdvtyVv
- FWZkOF5IpUEJ18k11Ta8KjH3wunM4IxMt3hfccp2vrOzESFsP6pWGfsgCFipk592wKNQ
- EIuEBT++lFBFk2ijive20zvUHwbNJlsf8ychEzoq/aDXKe33D0c1yYRy0B/7mNClkc70
- gR01buI/KYa+02cVaFngPY4iezjq3dbf29tjP2/JVmOgC/w/MYbvpTtqcvNZlLswLftj
- E6lw==
-X-Gm-Message-State: AOJu0YygdabWVMz3SwfdRrKpWq8e6oiEa5RPw/58fCxHk0hJGrEKQulE
- UB63TcHFDFB7z7eGvbH0x6yxK5ASqhts4/EZEjUh+BtbWDb1j0uZVWgeMHmUi6un9+JNGeHziU6
- b
-X-Google-Smtp-Source: AGHT+IHk6nmt4HJIQCszPe8cvSSKGksson9ORY2M6vtDdH7LVdyVKIXGkTPZ5snsIFifaadrm0kBEg==
-X-Received: by 2002:a05:600c:4ec6:b0:426:6153:5318 with SMTP id
- 5b1f17b1804b1-42acc8dd87amr110090745e9.19.1724850015483; 
- Wed, 28 Aug 2024 06:00:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42ba9a1eeadsm11022115e9.43.2024.08.28.06.00.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2024 06:00:14 -0700 (PDT)
-Date: Wed, 28 Aug 2024 15:00:12 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [RESEND 1/3] drm/mst: switch to guid_t type for GUID
-Message-ID: <Zs8fXM8vHAPigE-s@phenom.ffwll.local>
-References: <20240812122312.1567046-1-jani.nikula@intel.com>
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+zvV9byuqDMnVUBdDzwRq4xcdd0a3cR2UBm1oXNHWhQ=;
+ b=hHKN7uCA+89NXoj3WJ5+egIoz0MUb5BPM/ysvMb0DWGD9rjKXsDdps1H1BFqn8Agxa26lAf0wNBCxPXG/eWLiaRoycKRItjiV8oss85fFURKzxsrZG4AqR1xiL4UAg5MYQ+TEX+BspnuSYEturxRUfqrRYUWdLKxUkGu5QjTC14=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ CWLP265MB2642.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:a0::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7897.27; Wed, 28 Aug 2024 13:09:13 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15%5]) with mapi id 15.20.7897.027; Wed, 28 Aug 2024
+ 13:09:12 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC: Frank Binns <Frank.Binns@imgtec.com>
+Subject: [PATCH] drm/imagination: Use pvr_vm_context_get()
+Thread-Topic: [PATCH] drm/imagination: Use pvr_vm_context_get()
+Thread-Index: AQHa+Ut63vojNAp1DkeCGFbhPXW9+w==
+Date: Wed, 28 Aug 2024 13:09:12 +0000
+Message-ID: <72fa30a5-ddbf-4957-ad5c-5c941747be5c@imgtec.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|CWLP265MB2642:EE_
+x-ms-office365-filtering-correlation-id: 04499bb8-5b48-4471-fafc-08dcc7629c9c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?VmNxeHk5RjV4QnlxTkRoV0Rzb3p0NzM5aWFOckppalhWUXN1bDRIU3l5MDFT?=
+ =?utf-8?B?Z2ZBWXJhQThVMkt3d2ZYZE9qcFVxQXVwTEtPbXNyM3p1RWRrWE9OYlJWakdx?=
+ =?utf-8?B?b3Q3dVZDdkdMY2xCTHJnUGsvVUpNd3d1ZzlvenBJcDR3Ym9zMkdlZnhYQWtX?=
+ =?utf-8?B?WmRmRDY4N3J4QXdQb0pKYWlNamhvQVpHVXFYb1VrNDFZVks2Ry9GbEJjYmYz?=
+ =?utf-8?B?L2dPbXgvcXR0TG9md2c1REVEajkxc0JiQ3liUnVYWDVWaGhrT0tWNktza0xV?=
+ =?utf-8?B?S2FkQmp0Y0sxMitzMFNtUHRab0R5elMvKy9lNlRLWnk3dWhOaDdiK2NSV0JG?=
+ =?utf-8?B?YlBRR09DcHRQZWU0RDFzV0F3YU9NS0xRczNEaXhxWjJ6RzU5MWRURk0ySGxo?=
+ =?utf-8?B?TWY0NENta3BRYjVNcFJrdS8rWTZjb29ISkVmY3U2Qkd4UXo3V1pJOWVzb3lz?=
+ =?utf-8?B?OVdzNDBHb3pQa2tKblByeFpMb1VrRks1RVNVb1B6NTNQOGNEL3pYeXFkWWRQ?=
+ =?utf-8?B?NVJwTVZwN0pSN3pVTjFKWkFFeEswNDdmbXFNYmgzMmNRUXduS0Vhclo0eHpG?=
+ =?utf-8?B?bGtpcGxrOVczMGkvRitEOXpNR05ock1mY1lLSlJhRHkyNnUyeGt0OTNBaE05?=
+ =?utf-8?B?K1pLT3ZtSEdxSnhRZ0FlME5GT3RBMjZXNmZnM3ZuUXdtMnlKaGxWdWVUVzVv?=
+ =?utf-8?B?dnFoRjNOTnhLMmpuZ2pua3ZHU0cyc2VtdEhXZ1hXZUdLbG53ZDV3dHdxdG8z?=
+ =?utf-8?B?ZVA4SjFtNWs0Z2Y5bFMwKzdGbDR3ZXh2d3RaalJ6TEd4b2ZaTUJLOStKaFNS?=
+ =?utf-8?B?b25wSEJqeElBdjk2cVorNUoxMi9wSmtxaGNscTJmc3hnUHpsV1ZSM1M0aVpZ?=
+ =?utf-8?B?ODNsMHlEa3lOVVBDSEJ6VDRDRG90dnJWb0dDMEZTU3NkOWZXUEwxUWhPc3Qz?=
+ =?utf-8?B?UmZxMkxCYzg0WmdvMGx3UzkwUnZhaVdlaG9oQmZib21LZGlJRTc2dHBIb3gy?=
+ =?utf-8?B?aUJqV3FuSVlOU1NTNGc2QnovbitTL2dRcHRYbGxVYXN3YUMzUUdPZGF2bm44?=
+ =?utf-8?B?ZWRtK3VQMkFUV1kzVEVEWkFhVDFZV3VFc2R4V3F6bnMxcmU5MS84LzduUVRZ?=
+ =?utf-8?B?ZUZBRUNsS2xWT09tM3RRWmJMMm9Zd2JVZ25NYmlzVENpMzgySUJrTVB0WVZH?=
+ =?utf-8?B?NTF5U3dkZXowZFNxZ2FZVEFjN1I1UWVsTGR5SG5RdnZlUFRWM0NsMjBQcGpi?=
+ =?utf-8?B?S3NtN2t4OXIzQ2R4enNPUVdXeDQzL1J1bGZkZ3NIY0ZSdk9NV2YyYndzT2Fn?=
+ =?utf-8?B?K2Q3SFJyTlNlNkZINVlTRzZTUkJGbS9RN1dPSFBsdEVzL0hRZHFYbENoc1JJ?=
+ =?utf-8?B?ZXEvMVN6UWxENHo3NVA4NTdUa0J3VHN3cnZnanFRcEkwS3FQQndleExCMHA1?=
+ =?utf-8?B?MExEYkZYZUJCK2V6cGp2ZStDdmVGb21Ea1JycFllUGNNa1luQk9FME4yUnJl?=
+ =?utf-8?B?cGE1WG9NTXVwMGwvVXN2TWN6NXJLK3ZURUk4djlEaDBJVzdaQ3ZIakx4TlJM?=
+ =?utf-8?B?ajI0Nmo5YWpEYnlzNW5vbnFJMDRqcU5CT0l1YmRmbnhxSlFsTTVXMHh0MWMv?=
+ =?utf-8?B?aXpEa2FNTlN4dU13cHhxQk1jNUU1OGsxK1pkdFErdTdrQk5GRmNLUWF6ZzFR?=
+ =?utf-8?B?aU9HR2lQcjVuVHphRDAvZEkzY1dwaGVoOE1laUhpWUJ3d2w5MEJmakF2Z24r?=
+ =?utf-8?B?dk5WUUFDRlNBem9PYm8zZ0dtRG44dFIyRVQ4WDZtN2FFc0swa2NpNFk2dlUr?=
+ =?utf-8?B?cWd3c3VZem1KRmtxRlYrdVlNbTNvMDkyVERhb0l3V2ZqNFp4SGNqZHgweWhh?=
+ =?utf-8?B?RDgzZjdsZy9XYWxKNEc4WjdaTUJZRUJBUmVJakpBVUIxWFE9PQ==?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(38070700018); DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d2JOVmg0c2FiSzR1ai85TERXUzlQSG1BVnpJUnZVY3NxMGtQTlI3aU03a1hn?=
+ =?utf-8?B?ZnZPVWRHcXA3THNWSzcxWUphandTaGNJcDFMZGpxZUkrOXZyblRSZDMzWlZl?=
+ =?utf-8?B?aWEza3RCZmJnajhsUlN5cVhsZE50ZTZORTZldkNYR1JCTTVWcm5DVmsvRlR4?=
+ =?utf-8?B?SlhVUU1jV21nTEgwaGlxQ1JFam5yS2dlUFdqSlYrUS83Rko5YkoxcGVjTG5r?=
+ =?utf-8?B?Q3NSVTF2czN0U2M5Mzg0d3F5cTJlZlJmMGh5WCtOOUpnS3VkUUloOVVoa1Ft?=
+ =?utf-8?B?OWp5VEZEVDcwaklrYzRKTUY2VlVkNVVrTFI2S0N3d3BvUWlQRXdUUDRNMlFY?=
+ =?utf-8?B?OTZiRzFPS25zeGdnMWNmYTlvNlkwd1RlMDY1OWd6d3NGckNSK1EwV2RwdXR4?=
+ =?utf-8?B?c05FM2Ntcm5Cd1I3R09GbTBCK0tUNGFYZmdkaTVwbDNEdVdXWGdjSndQdWNo?=
+ =?utf-8?B?ZS94clE1OEtTVjg1SXIxS3ZSQ2xQMXhRM3p5RE9KZFRHVVVENkRkeUlHNjFK?=
+ =?utf-8?B?Nzc0SXlneHlxWjN5andsSlF3eFZRaW5WTlFDV1VoYjArT1BXMldwajJsQjdl?=
+ =?utf-8?B?QlhVRktrS2dwYWJIZEM5R2FrVlgwQ0hqbDVobnJrV1Ftc2ZoZU1KY3dEeFE3?=
+ =?utf-8?B?YnlKWFp6YVV3STFtY2Q4VDc4OXlOVTBCeUVNWGRNU09lb2w5QXhWOHltY0Z1?=
+ =?utf-8?B?ZHB6NkxQWVRkNS82NkhDWkxwRElmeTJMVkE0dlE1b0tKZi8yZE5hMTlXK3Fq?=
+ =?utf-8?B?emEyUW4wVno2T1M3dVNtM2VmdXh2NjJQdGFrOEhiSVZSclZSUjlOZzMyWVYz?=
+ =?utf-8?B?bWNhUFR1d0VHbW1YRTcvZHQ3eWhZWGxFbkJsYiszL0NKb3lMK1NVYVg2QUVH?=
+ =?utf-8?B?SFgwbVZORWN5ZENpM0hYOFBaNGFXMllPcWRvMXhBMTV1V0o3cHZUNlViaGVM?=
+ =?utf-8?B?ZTZYY3FLWXFJRTBJbitIV3A5RE9yQUFSbTlTOXI3NzNaSjZRUEVnNEdETStG?=
+ =?utf-8?B?UTR0STBBT1R1OGxQU2NOeXZYbi9SUDF2NUZMM0t3YjBvRXZXSGxDSU9Sd01z?=
+ =?utf-8?B?OGRmZnlSV1FlNTNNM3VONjFLeUY0VmNnbjNOSHhwOVRhb0xkMFc0dTl4SDE4?=
+ =?utf-8?B?ZDZSQm92WUZqTXVOOEExaytNelYvR3BxZTZJc21xZ1ZsNXF1dnVZRUlQemtl?=
+ =?utf-8?B?WUlEQVhyQUg4OHVFYVRkcldqK3ZnVlJtdlhZSFhnUzdaSllBSEprU1Aza2RO?=
+ =?utf-8?B?ZHlDNHRoZXFpOUh1UStnRFkvODAxY3VkTWFBaWFWR1pJeGVnVVBBc1dVeHpV?=
+ =?utf-8?B?YWhqVFJKUnBLTkJkcGZpQnk3SncvM3ZhT2pyTGZWQkMzRmN5elR3NmdyT0wv?=
+ =?utf-8?B?QkRtejFJQjFhUlgxbzh3U0V3Zk9qZm5KRFNYNlQ2TnF4bzhUY0gxTGJ0VWtw?=
+ =?utf-8?B?SVZXazlBdXh0Sm0wWWdmNTRONzBZcFFicTY3ejJUQ1V4aTlidTRxeGt5Nmp1?=
+ =?utf-8?B?VDhmaTdGOHdvQ3pSd0JCd0o3RzM2eDlYcmFWbENTVUc0aGJDUEVYbzVENWY0?=
+ =?utf-8?B?eFRmUmg3bFJ3TTk2Y3RDcXMvYUo0MTFlMHFIaDg4Y2syaU15WE1vaWs0SkFk?=
+ =?utf-8?B?ZTFaZUhIK0gyVDN4MnZQVC9IZ2JuVWMvT1NhYmgyYUdYSTFRSkFhYWJXOXJR?=
+ =?utf-8?B?N0JUMCtYaHVEMFZvTGJPZUhqRG1ESFovTU1pUWlZTTR6b0swT1l4cjJZb2pO?=
+ =?utf-8?B?OFZFQjJGVmUxalJkUzZrMy8wU3U4bFNJcVpDNnhsREc2VithYU51djAzUFNQ?=
+ =?utf-8?B?RmhFeEZiRys5VThuMXAxbm9rNFQzcnpJeGs1ZVFXb3RnUUhVUG9PSlJDMUJJ?=
+ =?utf-8?B?Y1ZFdFRCYUx5NEEydkNKUTJaU1hUZEFWL0FPMEtwaDhDWnQ1cVB0MGlwdDJR?=
+ =?utf-8?B?ZFlsa3M2RllJNlhxV29wWW84bjlXSEM5cXRpTkNDbWVtV1gwS1Y4VThZSFNr?=
+ =?utf-8?B?OUpEMi9HN3loNklUK2F2aEc3blFFNHBnTndZZWlFb29Cc3pGdzRuS1pOeUs3?=
+ =?utf-8?B?c04yNDMrM1o1T2dxRUdGQUc2dmxJaVlDclYva1hQVG4zSm1UajlJeWRZbXZN?=
+ =?utf-8?B?ZjdsWndvcW15T3pEZXVqdmxDMDduc0tvQVBrWmVxdkVJcmczeVVncUM3eVNs?=
+ =?utf-8?B?cVE9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------DJTMR0iPx4dhmdUHIsXgUbEG"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240812122312.1567046-1-jani.nikula@intel.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04499bb8-5b48-4471-fafc-08dcc7629c9c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2024 13:09:12.7956 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NQQZ0nYOjFxmYLVoNH8D3BYghaR/FV2t49/bOeicXVa79W2mcVy9P4+Yh+eVjtvKSP6VZiAOL4onoySW7Sk7nA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2642
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Authority-Analysis: v=2.4 cv=MeE+uI/f c=1 sm=1 tr=0 ts=66cf217c cx=c_pps
+ a=6IdplsTJodF3+aqeaEJcqA==:117 a=6IdplsTJodF3+aqeaEJcqA==:17
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10
+ a=WnR_qW7rlZcA:10 a=NgoYpvdbvlAA:10
+ a=r_1tXGB3AAAA:8 a=8YfA8XZME4H0u7Jv9v8A:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+ a=uQsQWgxg_WxSIe_9pxsA:9 a=FfaGCDsud1wA:10 a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-GUID: Bx8YLoHigcNRFIqnzoUipl56urXxVaIC
+X-Proofpoint-ORIG-GUID: Bx8YLoHigcNRFIqnzoUipl56urXxVaIC
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,301 +198,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 12, 2024 at 03:23:10PM +0300, Jani Nikula wrote:
-> The kernel has a guid_t type for GUIDs. Switch to using it, but avoid
-> any functional changes here.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+--------------DJTMR0iPx4dhmdUHIsXgUbEG
+Content-Type: multipart/mixed; boundary="------------IT9AhD0KPeY4p9m0AahBxtQc";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Frank Binns <frank.binns@imgtec.com>
+Message-ID: <72fa30a5-ddbf-4957-ad5c-5c941747be5c@imgtec.com>
+Subject: [PATCH] drm/imagination: Use pvr_vm_context_get()
 
-I didn't cross-check everything, I'll trust the compiler on this. But
-functionally lgtm
+--------------IT9AhD0KPeY4p9m0AahBxtQc
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+SSBtaXNzZWQgdGhpcyBvcGVuLWNvZGVkIGtyZWZfZ2V0KCkgd2hpbGUgdHJ5aW5nIHRvIGRl
+YnVnIGEgcmVmY291bnQNCmJ1Zywgc28gbGV0J3MgdXNlIHRoZSBoZWxwZXIgZnVuY3Rpb24g
+aGVyZSB0byBhdm9pZCB0aGF0IHdhc3RlIG9mIHRpbWUNCmFnYWluIGluIHRoZSBmdXR1cmUu
+DQoNClNpZ25lZC1vZmYtYnk6IE1hdHQgQ29zdGVyIDxtYXR0LmNvc3RlckBpbWd0ZWMuY29t
+Pg0KRml4ZXM6IGZmNWY2NDNkZTBiZiAoImRybS9pbWFnaW5hdGlvbjogQWRkIEdFTSBhbmQg
+Vk0gcmVsYXRlZCBjb2RlIikNCi0tLQ0KICBkcml2ZXJzL2dwdS9kcm0vaW1hZ2luYXRpb24v
+cHZyX3ZtLmMgfCA0ICstLS0NCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAz
+IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2ltYWdpbmF0
+aW9uL3B2cl92bS5jIA0KYi9kcml2ZXJzL2dwdS9kcm0vaW1hZ2luYXRpb24vcHZyX3ZtLmMN
+CmluZGV4IGU1OTUxN2JhMDM5ZS4uZmZkNDY2NTA5ZDBiIDEwMDY0NA0KLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2ltYWdpbmF0aW9uL3B2cl92bS5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0v
+aW1hZ2luYXRpb24vcHZyX3ZtLmMNCkBAIC02MzYsOSArNjM2LDcgQEAgcHZyX3ZtX2NvbnRl
+eHRfbG9va3VwKHN0cnVjdCBwdnJfZmlsZSAqcHZyX2ZpbGUsIHUzMiANCmhhbmRsZSkNCiAg
+IAl4YV9sb2NrKCZwdnJfZmlsZS0+dm1fY3R4X2hhbmRsZXMpOw0KICAJdm1fY3R4ID0geGFf
+bG9hZCgmcHZyX2ZpbGUtPnZtX2N0eF9oYW5kbGVzLCBoYW5kbGUpOw0KLQlpZiAodm1fY3R4
+KQ0KLQkJa3JlZl9nZXQoJnZtX2N0eC0+cmVmX2NvdW50KTsNCi0NCisJcHZyX3ZtX2NvbnRl
+eHRfZ2V0KHZtX2N0eCk7DQogIAl4YV91bmxvY2soJnB2cl9maWxlLT52bV9jdHhfaGFuZGxl
+cyk7DQogICAJcmV0dXJuIHZtX2N0eDsNCi0tIA0KMi40Ni4wDQoNCg0K
 
-Reading code a bit I did wonder whether we could have send/receive macros
-that just work for compile-time statically sized types ... but not even
-kmalloc is there yet I think, at least haven't seen anything.
--Sima
+--------------IT9AhD0KPeY4p9m0AahBxtQc--
 
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 67 +++++++++++--------
->  include/drm/display/drm_dp_mst_helper.h       | 12 ++--
->  3 files changed, 45 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 7e7929f24ae4..72c10fc2c890 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -2610,7 +2610,7 @@ static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *mgr)
->  		}
->  	}
->  
-> -	memcpy(mgr->mst_primary->guid, guid, 16);
-> +	import_guid(&mgr->mst_primary->guid, guid);
->  
->  out_fail:
->  	mutex_unlock(&mgr->lock);
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 379a449a28a2..39f1dc45004e 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -89,7 +89,7 @@ static int drm_dp_send_enum_path_resources(struct drm_dp_mst_topology_mgr *mgr,
->  					   struct drm_dp_mst_branch *mstb,
->  					   struct drm_dp_mst_port *port);
->  static bool drm_dp_validate_guid(struct drm_dp_mst_topology_mgr *mgr,
-> -				 u8 *guid);
-> +				 guid_t *guid);
->  
->  static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port);
->  static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port);
-> @@ -801,7 +801,7 @@ static bool drm_dp_sideband_parse_link_address(const struct drm_dp_mst_topology_
->  	int idx = 1;
->  	int i;
->  
-> -	memcpy(repmsg->u.link_addr.guid, &raw->msg[idx], 16);
-> +	import_guid(&repmsg->u.link_addr.guid, &raw->msg[idx]);
->  	idx += 16;
->  	repmsg->u.link_addr.nports = raw->msg[idx] & 0xf;
->  	idx++;
-> @@ -829,7 +829,7 @@ static bool drm_dp_sideband_parse_link_address(const struct drm_dp_mst_topology_
->  			idx++;
->  			if (idx > raw->curlen)
->  				goto fail_len;
-> -			memcpy(repmsg->u.link_addr.ports[i].peer_guid, &raw->msg[idx], 16);
-> +			import_guid(&repmsg->u.link_addr.ports[i].peer_guid, &raw->msg[idx]);
->  			idx += 16;
->  			if (idx > raw->curlen)
->  				goto fail_len;
-> @@ -1029,7 +1029,7 @@ static bool drm_dp_sideband_parse_reply(const struct drm_dp_mst_topology_mgr *mg
->  	msg->req_type = (raw->msg[0] & 0x7f);
->  
->  	if (msg->reply_type == DP_SIDEBAND_REPLY_NAK) {
-> -		memcpy(msg->u.nak.guid, &raw->msg[1], 16);
-> +		import_guid(&msg->u.nak.guid, &raw->msg[1]);
->  		msg->u.nak.reason = raw->msg[17];
->  		msg->u.nak.nak_data = raw->msg[18];
->  		return false;
-> @@ -1078,7 +1078,7 @@ drm_dp_sideband_parse_connection_status_notify(const struct drm_dp_mst_topology_
->  	if (idx > raw->curlen)
->  		goto fail_len;
->  
-> -	memcpy(msg->u.conn_stat.guid, &raw->msg[idx], 16);
-> +	import_guid(&msg->u.conn_stat.guid, &raw->msg[idx]);
->  	idx += 16;
->  	if (idx > raw->curlen)
->  		goto fail_len;
-> @@ -1107,7 +1107,7 @@ static bool drm_dp_sideband_parse_resource_status_notify(const struct drm_dp_mst
->  	if (idx > raw->curlen)
->  		goto fail_len;
->  
-> -	memcpy(msg->u.resource_stat.guid, &raw->msg[idx], 16);
-> +	import_guid(&msg->u.resource_stat.guid, &raw->msg[idx]);
->  	idx += 16;
->  	if (idx > raw->curlen)
->  		goto fail_len;
-> @@ -2174,20 +2174,24 @@ ssize_t drm_dp_mst_dpcd_write(struct drm_dp_aux *aux,
->  				      offset, size, buffer);
->  }
->  
-> -static int drm_dp_check_mstb_guid(struct drm_dp_mst_branch *mstb, u8 *guid)
-> +static int drm_dp_check_mstb_guid(struct drm_dp_mst_branch *mstb, guid_t *guid)
->  {
->  	int ret = 0;
->  
-> -	memcpy(mstb->guid, guid, 16);
-> +	guid_copy(&mstb->guid, guid);
-> +
-> +	if (!drm_dp_validate_guid(mstb->mgr, &mstb->guid)) {
-> +		u8 buf[UUID_SIZE];
-> +
-> +		export_guid(buf, &mstb->guid);
->  
-> -	if (!drm_dp_validate_guid(mstb->mgr, mstb->guid)) {
->  		if (mstb->port_parent) {
->  			ret = drm_dp_send_dpcd_write(mstb->mgr,
->  						     mstb->port_parent,
-> -						     DP_GUID, 16, mstb->guid);
-> +						     DP_GUID, sizeof(buf), buf);
->  		} else {
->  			ret = drm_dp_dpcd_write(mstb->mgr->aux,
-> -						DP_GUID, mstb->guid, 16);
-> +						DP_GUID, buf, sizeof(buf));
->  		}
->  	}
->  
-> @@ -2567,9 +2571,9 @@ static struct drm_dp_mst_branch *drm_dp_get_mst_branch_device(struct drm_dp_mst_
->  	return mstb;
->  }
->  
-> -static struct drm_dp_mst_branch *get_mst_branch_device_by_guid_helper(
-> -	struct drm_dp_mst_branch *mstb,
-> -	const uint8_t *guid)
-> +static struct drm_dp_mst_branch *
-> +get_mst_branch_device_by_guid_helper(struct drm_dp_mst_branch *mstb,
-> +				     const guid_t *guid)
->  {
->  	struct drm_dp_mst_branch *found_mstb;
->  	struct drm_dp_mst_port *port;
-> @@ -2577,10 +2581,9 @@ static struct drm_dp_mst_branch *get_mst_branch_device_by_guid_helper(
->  	if (!mstb)
->  		return NULL;
->  
-> -	if (memcmp(mstb->guid, guid, 16) == 0)
-> +	if (guid_equal(&mstb->guid, guid))
->  		return mstb;
->  
-> -
->  	list_for_each_entry(port, &mstb->ports, next) {
->  		found_mstb = get_mst_branch_device_by_guid_helper(port->mstb, guid);
->  
-> @@ -2593,7 +2596,7 @@ static struct drm_dp_mst_branch *get_mst_branch_device_by_guid_helper(
->  
->  static struct drm_dp_mst_branch *
->  drm_dp_get_mst_branch_device_by_guid(struct drm_dp_mst_topology_mgr *mgr,
-> -				     const uint8_t *guid)
-> +				     const guid_t *guid)
->  {
->  	struct drm_dp_mst_branch *mstb;
->  	int ret;
-> @@ -2695,17 +2698,20 @@ static void drm_dp_mst_queue_probe_work(struct drm_dp_mst_topology_mgr *mgr)
->  }
->  
->  static bool drm_dp_validate_guid(struct drm_dp_mst_topology_mgr *mgr,
-> -				 u8 *guid)
-> +				 guid_t *guid)
->  {
->  	u64 salt;
-> +	u8 buf[UUID_SIZE];
->  
-> -	if (memchr_inv(guid, 0, 16))
-> +	if (!guid_is_null(guid))
->  		return true;
->  
->  	salt = get_jiffies_64();
->  
-> -	memcpy(&guid[0], &salt, sizeof(u64));
-> -	memcpy(&guid[8], &salt, sizeof(u64));
-> +	memcpy(&buf[0], &salt, sizeof(u64));
-> +	memcpy(&buf[8], &salt, sizeof(u64));
-> +
-> +	import_guid(guid, buf);
->  
->  	return false;
->  }
-> @@ -2945,7 +2951,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
->  	drm_dbg_kms(mgr->dev, "link address reply: %d\n", reply->nports);
->  	drm_dp_dump_link_address(mgr, reply);
->  
-> -	ret = drm_dp_check_mstb_guid(mstb, reply->guid);
-> +	ret = drm_dp_check_mstb_guid(mstb, &reply->guid);
->  	if (ret) {
->  		char buf[64];
->  
-> @@ -3799,8 +3805,9 @@ EXPORT_SYMBOL(drm_dp_mst_topology_mgr_suspend);
->  int drm_dp_mst_topology_mgr_resume(struct drm_dp_mst_topology_mgr *mgr,
->  				   bool sync)
->  {
-> +	u8 buf[UUID_SIZE];
-> +	guid_t guid;
->  	int ret;
-> -	u8 guid[16];
->  
->  	mutex_lock(&mgr->lock);
->  	if (!mgr->mst_primary)
-> @@ -3821,13 +3828,15 @@ int drm_dp_mst_topology_mgr_resume(struct drm_dp_mst_topology_mgr *mgr,
->  	}
->  
->  	/* Some hubs forget their guids after they resume */
-> -	ret = drm_dp_dpcd_read(mgr->aux, DP_GUID, guid, 16);
-> -	if (ret != 16) {
-> +	ret = drm_dp_dpcd_read(mgr->aux, DP_GUID, buf, sizeof(buf));
-> +	if (ret != sizeof(buf)) {
->  		drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during suspend?\n");
->  		goto out_fail;
->  	}
->  
-> -	ret = drm_dp_check_mstb_guid(mgr->mst_primary, guid);
-> +	import_guid(&guid, buf);
-> +
-> +	ret = drm_dp_check_mstb_guid(mgr->mst_primary, &guid);
->  	if (ret) {
->  		drm_dbg_kms(mgr->dev, "check mstb failed - undocked during suspend?\n");
->  		goto out_fail;
-> @@ -4005,12 +4014,12 @@ drm_dp_mst_process_up_req(struct drm_dp_mst_topology_mgr *mgr,
->  	bool hotplug = false, dowork = false;
->  
->  	if (hdr->broadcast) {
-> -		const u8 *guid = NULL;
-> +		const guid_t *guid = NULL;
->  
->  		if (msg->req_type == DP_CONNECTION_STATUS_NOTIFY)
-> -			guid = msg->u.conn_stat.guid;
-> +			guid = &msg->u.conn_stat.guid;
->  		else if (msg->req_type == DP_RESOURCE_STATUS_NOTIFY)
-> -			guid = msg->u.resource_stat.guid;
-> +			guid = &msg->u.resource_stat.guid;
->  
->  		if (guid)
->  			mstb = drm_dp_get_mst_branch_device_by_guid(mgr, guid);
-> diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-> index 02b037d3a93f..f6a1cbb0f600 100644
-> --- a/include/drm/display/drm_dp_mst_helper.h
-> +++ b/include/drm/display/drm_dp_mst_helper.h
-> @@ -244,18 +244,18 @@ struct drm_dp_mst_branch {
->  	bool link_address_sent;
->  
->  	/* global unique identifier to identify branch devices */
-> -	u8 guid[16];
-> +	guid_t guid;
->  };
->  
->  
->  struct drm_dp_nak_reply {
-> -	u8 guid[16];
-> +	guid_t guid;
->  	u8 reason;
->  	u8 nak_data;
->  };
->  
->  struct drm_dp_link_address_ack_reply {
-> -	u8 guid[16];
-> +	guid_t guid;
->  	u8 nports;
->  	struct drm_dp_link_addr_reply_port {
->  		bool input_port;
-> @@ -265,7 +265,7 @@ struct drm_dp_link_address_ack_reply {
->  		bool ddps;
->  		bool legacy_device_plug_status;
->  		u8 dpcd_revision;
-> -		u8 peer_guid[16];
-> +		guid_t peer_guid;
->  		u8 num_sdp_streams;
->  		u8 num_sdp_stream_sinks;
->  	} ports[16];
-> @@ -348,7 +348,7 @@ struct drm_dp_allocate_payload_ack_reply {
->  };
->  
->  struct drm_dp_connection_status_notify {
-> -	u8 guid[16];
-> +	guid_t guid;
->  	u8 port_number;
->  	bool legacy_device_plug_status;
->  	bool displayport_device_plug_status;
-> @@ -425,7 +425,7 @@ struct drm_dp_query_payload {
->  
->  struct drm_dp_resource_status_notify {
->  	u8 port_number;
-> -	u8 guid[16];
-> +	guid_t guid;
->  	u16 available_pbn;
->  };
->  
-> -- 
-> 2.39.2
-> 
+--------------DJTMR0iPx4dhmdUHIsXgUbEG
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZs8hdwUDAAAAAAAKCRB5vBnz2d5qsB5v
+AQDVVQtx59oPkNPZc1bHmHxVbrs3fLwrBDVcLmtGSLwY3wEApR8yzboo9/tkf6q4/7ss/XmJ9382
+Gil2B1sOIUkLzQ8=
+=mOk5
+-----END PGP SIGNATURE-----
+
+--------------DJTMR0iPx4dhmdUHIsXgUbEG--
