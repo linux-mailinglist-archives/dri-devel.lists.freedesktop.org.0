@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431F8962234
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9572F962246
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7F310E4D7;
-	Wed, 28 Aug 2024 08:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D09C710E4DA;
+	Wed, 28 Aug 2024 08:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="oByxYBPQ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="PC22ZiWO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3877910E4D5;
- Wed, 28 Aug 2024 08:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724833226; x=1756369226;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=h6uzyaR6vrRnyL5ufg31uNTbvg/BIwONFU0pN8LO2C0=;
- b=oByxYBPQeYEWB5A0x/lDsYXkKv4huNH3EuAmn9l3PROc09DCjni+LdGX
- jbewrzXp4YqWzH9gTbC1uNt8DooYZZEFWx7iDq4P2CuczLyFa/l4Yd1WJ
- FwwZlHPcIGImoAFxfIWMvdokHLNAGS2KzYgMJt2Jz/Z/95AEjVAgRsv9+
- dvbWyClJZjMOnRZ5YF/JiTyBJrcWJEfjq0n9ElH5uvkv4a9m3EgaS4pwn
- Za07IOZG1uUP1F7vCzu2a5ETMMDy0j2T+m2NH5lhbG0we2YGKZkNKyO9X
- aRR9wxM46yTjcO80kP8AYSGTkme69rCrZdYib6DtvF9nLM456aCJgHRmd A==;
-X-CSE-ConnectionGUID: KZX3hEWxTk6inE2dbPntwQ==
-X-CSE-MsgGUID: VNOIH6kdTSKRYArvu23xIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23215061"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="23215061"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 01:20:26 -0700
-X-CSE-ConnectionGUID: wRpxkAmHSUOjB7PiQ6636w==
-X-CSE-MsgGUID: xpC0Z5/UTnqLlckcCK4KDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="67515829"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.107])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 01:20:21 -0700
-Date: Wed, 28 Aug 2024 10:20:15 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: Re: [PATCH v3 00/15] CCS static load balance
-Message-ID: <Zs7dv57piSIj3Og4@ashyti-mobl2.lan>
-References: <20240823130855.72436-1-andi.shyti@linux.intel.com>
- <Zs4NaUgcDhcBb4Ok@phenom.ffwll.local>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D4310E4DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:25:01 +0000 (UTC)
+Delivered-To: kernel@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1724833488; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=C5TgH6Po65HEXc6einX4yEVx062T4x2kOD2wuZzWncGhyIo2feil2zRmkZ1kvSY3rKGqktC3estaoFHQyoyrkay+P0ze6hUvYNVjYaa7WE2aCMivIiMERqM1Xtl+/zgVM7L3rw+God5qLwkV94nBIUXeoxmh8aSnbB0kalE2WWE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1724833488;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=T2HtZOq/Dm024xV1xLGCEztRUtVIMeJSGLIxvADeSC0=; 
+ b=mrdasLoch9ZzSpsTZCjo9KIEjjxK19PDmGbV3yPhK+pdJC9x9eUHQOWPwRE/VTYDFyjJSEqvQt6QranIjVbX1vccsV12GSapbxe6chEnyyymA2VNMAXu8je5cbtnrg0JqTsjshLUYU3k0HdBkPVqldYY8JVdcCCI7f0XkvfjcR4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
+ dmarc=pass header.from=<mary.guillemard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724833488; 
+ s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=T2HtZOq/Dm024xV1xLGCEztRUtVIMeJSGLIxvADeSC0=;
+ b=PC22ZiWOXh1MRC9tycKIT5D3R1m5ij291pO6gPpCEkFdU2x5PfiOli1SIRGeiFsq
+ ENi83FuSZ953ELrgP4iDlNUXWij+xwo5oUwoqYxbaY69jtspHJDe3XCSsLHuwQFM3j4
+ qocwMSO7QDGJcxnIybDkC77J16d5PADDcZibi4eE=
+Received: by mx.zohomail.com with SMTPS id 1724833486164592.3014591788459;
+ Wed, 28 Aug 2024 01:24:46 -0700 (PDT)
+Date: Wed, 28 Aug 2024 10:24:40 +0200
+From: Mary Guillemard <mary.guillemard@collabora.com>
+To: Mihail Atanassov <mihail.atanassov@arm.com>
+Cc: linux-kernel@vger.kernel.org, kernel@collabora.com,
+ Christopher Healy <healych@amazon.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, nd@arm.com
+Subject: Re: [PATCH v3] drm/panthor: Add DEV_QUERY_TIMESTAMP_INFO dev query
+Message-ID: <Zs7d2-NHTy-A_oLL@kuroko.kudu-justice.ts.net>
+References: <20240819112508.67988-2-mary.guillemard@collabora.com>
+ <4538ba23-ee8b-4e15-8857-d653d581bc18@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zs4NaUgcDhcBb4Ok@phenom.ffwll.local>
+In-Reply-To: <4538ba23-ee8b-4e15-8857-d653d581bc18@arm.com>
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,51 +74,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sima,
+Hi Mihail,
 
-first of all, thanks for looking into this series.
-
-On Tue, Aug 27, 2024 at 07:31:21PM +0200, Daniel Vetter wrote:
-> On Fri, Aug 23, 2024 at 03:08:40PM +0200, Andi Shyti wrote:
-> > Hi,
-> > 
-> > This patch series introduces static load balancing for GPUs with
-> > multiple compute engines. It's a lengthy series, and some
-> > challenging aspects still need to be resolved.
+On Mon, Aug 19, 2024 at 03:25:48PM +0100, Mihail Atanassov wrote:
+> > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> > index 926b1deb1116..944f5618aa05 100644
+> > --- a/include/uapi/drm/panthor_drm.h
+> > +++ b/include/uapi/drm/panthor_drm.h
+> > @@ -260,6 +260,9 @@ enum drm_panthor_dev_query_type {
+> >   	/** @DRM_PANTHOR_DEV_QUERY_CSIF_INFO: Query command-stream interface information. */
+> >   	DRM_PANTHOR_DEV_QUERY_CSIF_INFO,
+> > +
+> > +	/** @DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO: Query timestamp information. */
+> > +	DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO,
+> >   };
+> >   /**
+> > @@ -377,6 +380,22 @@ struct drm_panthor_csif_info {
+> >   	__u32 pad;
+> >   };
+> > +/**
+> > + * struct drm_panthor_timestamp_info - Timestamp information
+> > + *
+> > + * Structure grouping all queryable information relating to the GPU timestamp.
+> > + */
+> > +struct drm_panthor_timestamp_info {
+> > +	/** @timestamp_frequency: The frequency of the timestamp timer. */
+> > +	__u64 timestamp_frequency;
+> > +
+> > +	/** @current_timestamp: The current timestamp. */
+> > +	__u64 current_timestamp;
+> > +
+> > +	/** @timestamp_offset: The offset of the timestamp timer. */
+> > +	__u64 timestamp_offset;
 > 
-> Do we have an actual user for this, where just reloading the entire driver
-> (or well-rebinding, if you only want to change the value for a specific
-> device) with a new module option isn't enough?
+> Are you sure you don't want the cntvct_el0 and cntfrq_el0 values here, too,
+> as separate fields? While they're not values coming from the GPU, they are
+> related. Getting the lowest delta possible between querying one timestamp
+> register and the other is quite useful for tooling. Requiring userspace to
+> do two separate queries, one for CPU time and one for GPU time, doesn't feel
+> optimal, your max deviation will necessarily be higher that way.
+>
 
-Yes, we have users for this and this has been already agreed with
-architects and maintainers.
+Exposing arch dependent values in the uapi feels wrong to me too but
+maybe that could be done with just the cpu timestamp with a frequency of
+1 on other platform if needed?
 
-Why are you saying that we are reloading/rebinding the driver?
-I'm only removing the exposure of user engines, which is
-basically a flag in the engines data structure.
+In any cases, I think that if we ever need it we can extend this query
+with more values. (as we are retrocompatible thanks to PANTHOR_UOBJ_SET)
 
-> There's some really gnarly locking and lifetime fun in there, and it needs
-> a corresponding justification.
+--
+Mary
 
-What locking are you referring about?
-
-I only added one single mutex that has a comment and a
-justification. If you think that's not enough, I can of course
-improve it (please note that the changes have a good amount of
-comments and I tried to be aso more descriptive as I could).
-
-When I change the engines configurations only for the compute
-engines and only for DG2 platforms, I need to make sure that no
-other user is affected by the change. Thus I need to make sure
-that access to some of the strucures are properly serialized.
-
-> Which needs to be enormous for this case,
-> meaning actual customers willing to shout on dri-devel that they really,
-> absolutely need this, or their machines will go up in flames.
-> Otherwise this is a nack from me.
-
-Would you please tell me why are you nacking the patch? So that I
-address your comments for v4?
-
-Thanks,
-Andi
+ 
