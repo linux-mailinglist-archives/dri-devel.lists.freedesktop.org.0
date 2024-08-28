@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DABA9629B1
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 16:06:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7E39629E1
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 16:11:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7915510E537;
-	Wed, 28 Aug 2024 14:06:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0162B10E52F;
+	Wed, 28 Aug 2024 14:10:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h+F8NMNv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NrGd79/b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD70710E52F;
- Wed, 28 Aug 2024 14:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724853974; x=1756389974;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=IyvuXA/L1erUpNvG4oHV31Z4NUga96Wa1+OQOlp1QLU=;
- b=h+F8NMNvvUjhc+1C22dnTvAFAm5FmHUBmYSYY6V1JBVf0NzpRxw5AjIM
- EvaqtLVc5/pXx/T+fXoSr0CTc/vU/zIRkorj5g2N3erjD/BEMB33+WHhj
- MueJ0R0P0Izqdar8B5WXjUTM92je7Qy+VyD8sR6IK1RQ4OR3FjuYUHqVp
- cTvNm/CdZJ+Xtnp3BScZNUeYkn5N69OM+U43Bb55F5AGaFQtMXg3G1Kwk
- iMnNoLSFn51rX8VxXL7vqcdqBZdUskiCWFj5j2iRQDFFWsEbOmpcMaZwp
- K+nWWGK4OSW4rOel08NXyyV7mLqBtmEDTiWatr1cQmhXpXnnTXen9mpiD Q==;
-X-CSE-ConnectionGUID: A4UVMGmrTdqonCgA+NLk0A==
-X-CSE-MsgGUID: 1Nme9uhXTQ6QT0qCKAAmgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23269504"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="23269504"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 07:06:14 -0700
-X-CSE-ConnectionGUID: SUIPUFEBT9OXKoTSSxE9qw==
-X-CSE-MsgGUID: yeiV1P52TxWqpw4J4FFSWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="68084446"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.110])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 07:06:11 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: Re: [RESEND 3/3] drm/amd/display: switch to guid_gen() to generate
- valid GUIDs
-In-Reply-To: <dac8f408-6f13-4ee7-a54c-342d51ba88d1@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240812122312.1567046-1-jani.nikula@intel.com>
- <20240812122312.1567046-3-jani.nikula@intel.com>
- <dac8f408-6f13-4ee7-a54c-342d51ba88d1@amd.com>
-Date: Wed, 28 Aug 2024 17:06:06 +0300
-Message-ID: <87mskwyc6p.fsf@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE3910E52F
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 14:10:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 96104A401FE;
+ Wed, 28 Aug 2024 14:10:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1587FC58190;
+ Wed, 28 Aug 2024 14:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724854256;
+ bh=qp4XkaS0PrbdLwrhGw+MAEDZjVMGB9Unfk/C47vHb70=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NrGd79/bkxy5uNQSg/aQYVCZzUtcQChkqi1vHEE8JgYEoneD4TVnVrA1U7uCyOu2P
+ pc4jhnotRJpVsL81E5tXJPcCEgMj9RXQkul0ZZ9KDmng9yDoTCIFM3N1mg/mFvBl+q
+ pPA9Aqo/x1Hi0n02i143QiN7a7ZonIkfp0w1wH1rqSzGhfEhNlOQwqP+9Jsk8htbdA
+ On0mqHZtaVndCmx7CgTwOUvNp7/5tqCwJhPtO+fjMwkA8elE4/u2nkJXf6keavdJY9
+ zZBHjrCKs8/25LXBlgtf6MsU7IvAviSPZoTamroPsID1x8qWzjRcU88z2D0pRjvMbx
+ 7MGTLq6mfNUvA==
+Date: Wed, 28 Aug 2024 16:10:49 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
+ justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
+ rostedt@goodmis.org, catalin.marinas@arm.com,
+ penguin-kernel@i-love.sakura.ne.jp, 
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
+ linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, 
+ Matus Jokay <matus.jokay@stuba.sk>, "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
+Message-ID: <hxwogrharokumnbphayi22qnl4yxeqxkxdddjkshso3nztroq5@lb3wbcsp3vhf>
+References: <20240828030321.20688-1-laoar.shao@gmail.com>
+ <20240828030321.20688-2-laoar.shao@gmail.com>
+ <lql4y2nvs3ewadszhmv4m6fnqja4ff4ymuurpidlwvgf4twvru@esnh37a2jxbd>
+ <n2fxqs3tekvljezaqpfnwhsmjymch4vb47y744zwmy7urf3flv@zvjtepkem4l7>
+ <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="egnngjetwmt4ba2t"
+Content-Disposition: inline
+In-Reply-To: <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,88 +72,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 28 Aug 2024, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
-> On 8/12/24 08:23, Jani Nikula wrote:
->> Instead of just smashing jiffies into a GUID, use guid_gen() to generate
->> RFC 4122 compliant GUIDs.
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> 
->> ---
->
-> Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
->
-> I would prefer to take this series through the amdgpu tree though,
-> assuming nobody minds.
 
-How long is it going to take for that to get synced back to
-drm-misc-next though?
+--egnngjetwmt4ba2t
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
+	justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
+	rostedt@goodmis.org, catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>, 
+	Matus Jokay <matus.jokay@stuba.sk>, "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
+References: <20240828030321.20688-1-laoar.shao@gmail.com>
+ <20240828030321.20688-2-laoar.shao@gmail.com>
+ <lql4y2nvs3ewadszhmv4m6fnqja4ff4ymuurpidlwvgf4twvru@esnh37a2jxbd>
+ <n2fxqs3tekvljezaqpfnwhsmjymch4vb47y744zwmy7urf3flv@zvjtepkem4l7>
+ <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CALOAHbBAYHjDnKBVw63B8JBFc6U-2RNUX9L=ryA2Gbz7nnJfsQ@mail.gmail.com>
 
-BR,
-Jani.
+Hi Yafang,
 
+On Wed, Aug 28, 2024 at 09:40:35PM GMT, Yafang Shao wrote:
+> > Ahh, the actual generic definition is in <include/linux/string.h>.
+> > You could do
+> >
+> >         diff --git i/include/linux/string.h w/include/linux/string.h
+> >         index 9edace076ddb..060504719904 100644
+> >         --- i/include/linux/string.h
+> >         +++ w/include/linux/string.h
+> >         @@ -76,11 +76,11 @@ ssize_t sized_strscpy(char *, const char *,=
+ size_t);
+> >           * known size.
+> >           */
+> >          #define __strscpy0(dst, src, ...)      \
+> >         -       sized_strscpy(dst, src, sizeof(dst) + __must_be_array(d=
+st))
+> >         +       sized_strscpy(dst, src, ARRAY_SIZE(dst))
+> >          #define __strscpy1(dst, src, size)     sized_strscpy(dst, src,=
+ size)
+> >
+> >          #define __strscpy_pad0(dst, src, ...)  \
+> >         -       sized_strscpy_pad(dst, src, sizeof(dst) + __must_be_arr=
+ay(dst))
+> >         +       sized_strscpy_pad(dst, src, ARRAY_SIZE(dst))
+> >          #define __strscpy_pad1(dst, src, size) sized_strscpy_pad(dst, =
+src, size)
+> >
+> >          /**
+>=20
+> Thank you for your suggestion. How does the following commit log look
+> to you? Does it meet your expectations?
+>=20
+>     string: Use ARRAY_SIZE() in strscpy()
+>=20
+>     We can use ARRAY_SIZE() instead to clarify that they are regular char=
+acters.
 
->
->> 
->> Side note, it baffles me why amdgpu has a copy of this instead of
->> plumbing it into drm mst code.
->> ---
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++++++++++---------
->>   1 file changed, 12 insertions(+), 11 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 72c10fc2c890..ce05e7e2a383 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -2568,9 +2568,9 @@ static int dm_late_init(void *handle)
->>   
->>   static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *mgr)
->>   {
->> +	u8 buf[UUID_SIZE];
->> +	guid_t guid;
->>   	int ret;
->> -	u8 guid[16];
->> -	u64 tmp64;
->>   
->>   	mutex_lock(&mgr->lock);
->>   	if (!mgr->mst_primary)
->> @@ -2591,26 +2591,27 @@ static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *mgr)
->>   	}
->>   
->>   	/* Some hubs forget their guids after they resume */
->> -	ret = drm_dp_dpcd_read(mgr->aux, DP_GUID, guid, 16);
->> -	if (ret != 16) {
->> +	ret = drm_dp_dpcd_read(mgr->aux, DP_GUID, buf, sizeof(buf));
->> +	if (ret != sizeof(buf)) {
->>   		drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during suspend?\n");
->>   		goto out_fail;
->>   	}
->>   
->> -	if (memchr_inv(guid, 0, 16) == NULL) {
->> -		tmp64 = get_jiffies_64();
->> -		memcpy(&guid[0], &tmp64, sizeof(u64));
->> -		memcpy(&guid[8], &tmp64, sizeof(u64));
->> +	import_guid(&guid, buf);
->>   
->> -		ret = drm_dp_dpcd_write(mgr->aux, DP_GUID, guid, 16);
->> +	if (guid_is_null(&guid)) {
->> +		guid_gen(&guid);
->> +		export_guid(buf, &guid);
->>   
->> -		if (ret != 16) {
->> +		ret = drm_dp_dpcd_write(mgr->aux, DP_GUID, buf, sizeof(buf));
->> +
->> +		if (ret != sizeof(buf)) {
->>   			drm_dbg_kms(mgr->dev, "check mstb guid failed - undocked during suspend?\n");
->>   			goto out_fail;
->>   		}
->>   	}
->>   
->> -	import_guid(&mgr->mst_primary->guid, guid);
->> +	guid_copy(&mgr->mst_primary->guid, &guid);
->>   
->>   out_fail:
->>   	mutex_unlock(&mgr->lock);
+I would write the following:
 
--- 
-Jani Nikula, Intel
+For symmetry with wide-character string functions, ARRAY_SIZE() is more
+appropriate than sizeof().
+
+For example, one would call wcs*cpy(dst, src, ARRAY_SIZE(dst)).
+The call wcs*cpy(dst, src, sizeof(dst)) would be bogus, since the
+argument is the number of wide characters, not the number of bytes.
+
+When translating that to normal characters, one wants conceptually the
+same operation, but on (normal) characters.  That is, one wants
+strscpy(dst, src, ARRAY_SIZE(dst)).  While strscpy() with sizeof() works
+just fine because sizeof(char)=3D=3D1 by definition, it is conceptually
+wrong to use it.
+
+By using ARRAY_SIZE(), we get the __must_be_array() check for free.
+
+>=20
+>     Co-developed-by: Alejandro Colomar <alx@kernel.org>
+>     Signed-off-by: Alejandro Colomar <alx@kernel.org>
+>     Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+>=20
+> diff --git a/arch/um/include/shared/user.h b/arch/um/include/shared/user.h
+> index bbab79c0c074..07216996e3a9 100644
+> --- a/arch/um/include/shared/user.h
+> +++ b/arch/um/include/shared/user.h
+> @@ -14,7 +14,7 @@
+>   * copying too much infrastructure for my taste, so userspace files
+>   * get less checking than kernel files.
+>   */
+> -#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> +#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]) + __must_be_array(x))
+>=20
+>  /* This is to get size_t and NULL */
+>  #ifndef __UM_HOST__
+> @@ -60,7 +60,7 @@ static inline void print_hex_dump(const char *level,
+> const char *prefix_str,
+>  extern int in_aton(char *str);
+>  extern size_t strlcat(char *, const char *, size_t);
+>  extern size_t sized_strscpy(char *, const char *, size_t);
+> -#define strscpy(dst, src)      sized_strscpy(dst, src, sizeof(dst))
+> +#define strscpy(dst, src)      sized_strscpy(dst, src, ARRAY_SIZE(dst))
+>=20
+>  /* Copied from linux/compiler-gcc.h since we can't include it directly */
+>  #define barrier() __asm__ __volatile__("": : :"memory")
+> diff --git a/include/linux/string.h b/include/linux/string.h
+> index 9edace076ddb..060504719904 100644
+> --- a/include/linux/string.h
+> +++ b/include/linux/string.h
+>=20
+> @@ -76,11 +76,11 @@ ssize_t sized_strscpy(char *, const char *, size_t);
+>   * known size.
+>   */
+>  #define __strscpy0(dst, src, ...)      \
+> -       sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst))
+> +       sized_strscpy(dst, src, ARRAY_SIZE(dst))
+>  #define __strscpy1(dst, src, size)     sized_strscpy(dst, src, size)
+>=20
+>  #define __strscpy_pad0(dst, src, ...)  \
+> -       sized_strscpy_pad(dst, src, sizeof(dst) + __must_be_array(dst))
+> +       sized_strscpy_pad(dst, src, ARRAY_SIZE(dst))
+>  #define __strscpy_pad1(dst, src, size) sized_strscpy_pad(dst, src, size)
+
+The diff looks good to me.  Thanks!
+
+Cheers,
+Alex
+
+>=20
+>  /**
+>=20
+> --
+> Regards
+>=20
+> Yafang
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--egnngjetwmt4ba2t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmbPL+QACgkQnowa+77/
+2zJobg//W3RHrDHVBPuZSKc3m1rr+m7+7TxlOxTaXg8qwoJHeHq4f/sbSV5l1HR4
+UF2gEJicrF4OknzCcegkXqdjxs1MUkzlaMxIQmj0yPgQmZ1Upg9aoGlVJNyjynvD
+09twa1O3azCA8YvuZc+vn0YoqbGkM54+OPWJaBsSERqgcVF57/vXgS702rKBqwhw
+3CrAWa/WTX5z10Q6yX+kwV8gWrtOBsMyAQRk53Yr3ZRR8DhCyK1ImS8BSHROV8+T
+Dz5g8o2WzPkvKZiLq/Slxa9UpRvw5j5RBh3GBGxhZcubv8arya/FMwXotUa2L3Rr
+uvfxbQw6lCR15FlHrI8984b99T7YkIr/pxYmrQABScUz7uMqJAhVutei6YJJgkUs
+jpEsNQeOiDgJoQUU7xcVuP1ME6sgdU7/vxYfcjiybYX0rvaVjKTRWRAQt6NmmvqX
+L6sZ94Tmba4wN92Akga5S3wnEadpbFHZtVGOVbc6tHz9ee0uVksD+DWSQVz7F8pw
+vMu73OMlE/cp9AFZhtVDuUCqneXgvgEGs86akKQuVdx2fSeZG3CVkTH5L8vSlTGi
+AlUtf5jlr8oHAP3g6Jl5KTxgGQXaXybO0RlbyVgM1ZrT+vrHLIB0mwBTJ3cIBKLS
+jAh4WPx1tmvxpQw9/G3igu98xN7ttGBv7Lc+WxmGK/aQfJtl6T4=
+=TaLj
+-----END PGP SIGNATURE-----
+
+--egnngjetwmt4ba2t--
