@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0C4962FEA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 20:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2055962FCD
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 20:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687C810E5AC;
-	Wed, 28 Aug 2024 18:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 301AE10E5A7;
+	Wed, 28 Aug 2024 18:22:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="htLKpCQq";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="V8nptRr4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF59510E5A9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 18:26:49 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-7143165f23fso5194343b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 11:26:49 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D848910E5A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 18:22:56 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-428e0d184b4so59318395e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 11:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724869609; x=1725474409; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kGSEynY/tSTPK3DW4OerxLnNLuQyWG4hJwz9J7iPcWQ=;
- b=htLKpCQq1uFvQjzGl7lxqaWGrmkw2P/dhqjlNPwJpd1quX+7m0DavREzqMFHcFRRoS
- UV+TUrbDNpjKfvFOPPB74p8CNpDdRn6YZrbBBcxb6u3CGYNn9gQX9wxnKRpEQQ1ZoCkP
- wXVVjvMYI8o9Cv/0RqmZOsa1f7/3X49Hj33ICXhtiCP5Ip2qtCZeIlnJ94FrXMNIGqUo
- fL+rKFpbThweD3jr+m1470biNHEupGzmfh2SRbVwK6pTY/K4tZwPxBHpwH91M6OQV2WC
- StOY0yNbNpCqRDKwwPl7DoDA5F907GQnICbWpjpJ0yanuIn+lnTSKOJSaEmphVE2gIIQ
- +1Tw==
+ d=ffwll.ch; s=google; t=1724869375; x=1725474175; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kGJO04ku/Lmh8lAJ4udIk6gxaBtWAL1i/Zibk51B9zg=;
+ b=V8nptRr443yI/qn0oiDHu0wKtRkC1SEqHIHxQcVl4NkZorqsXmtEkasHYfrdIb6Un9
+ i+BujknuIy+GInLRnFYjnbm02ukg9GaW6mjMqNDPBfMu7clR2L0PgyP3aE+oJCy3XH9e
+ jztIOxD+aKbVk7H+PoB1FA3rnVWMSdQv7Ohn8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724869609; x=1725474409;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kGSEynY/tSTPK3DW4OerxLnNLuQyWG4hJwz9J7iPcWQ=;
- b=OweFpg2ekUMuz39HM6ltZx8rWBTgTi5htgQevRyqbem2JZ6O4lKMybemGta/jPHwYO
- 3TGgqTwZJMPUGJLZOs8taWMMdXNikq+BgWAj24JG4HEVyYT2IfR7VpL1VsRVaXprbz0w
- fpfDNEoujj7leQntMv75mwxfwNnKTxPszfPIc/dGE50RNsTSpIylM6atHJzhEenIPOqG
- xhifziAcrJMfigf9BxKM6hDqSN7Ik6i5BRhoDafh2mCtQwtQT0XrJzqLI4JdY9sRabH9
- e++jAG7/UmbNRvZCFy44c1jf/MQlp9rbX18R8YaoZ2P7I/MgQEIgVC3wORGjsleUAlFe
- MDjA==
+ d=1e100.net; s=20230601; t=1724869375; x=1725474175;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kGJO04ku/Lmh8lAJ4udIk6gxaBtWAL1i/Zibk51B9zg=;
+ b=hoxqztlL7OHjdy0hpZzKOFcQYHT22B9NPlmBqeMnLqegDoDUBMbrWO64UUYwA2ms1m
+ xA/vECWdHOG8Y1fq9lNKBBJgIfrJSek7wX6Qo/EU6SiQPtVBp6CxiiLHgTHGqzc+jOui
+ s0uX7Q+sHnX+dPbihQLMNCRANuASorAzz5LdArSdcGcjk/0d3yPsj/5jbw3DNsZngtUZ
+ gFDNNHtyZIjhfIQhfarC6skE+GmA9BlyFdDjlaWmiRCgR2vNOXnrGRJSU89RVK/XIauv
+ dl0/c2oX67WIf4b0mRR5edisKgDd6fZFEgryoKcFqaYuBZAQ1cSsrg+TrGvEss3RWNsO
+ /pBw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXyxBPJfkQ7aBme9RND3LhBdxAX3nkrUShq9KxKql8FRfq+CJZ9Q3F0sc7Ello1j95d012jsa6ecm8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdjACCqD9YtFFzmy0R/1m0vz7rqrQ6p+VzCEx6Cn85i9AOmxri
- 7GTOwJPt2+RNJpmSIBher+TdfYZepF+Uyg2Myma87r2cGNwesNXy
-X-Google-Smtp-Source: AGHT+IEGvbnuPPwVLsqdo82Q5zCnJQ7MDvQGxHqiZZlUXQCu4WYy7vm+ubSpfUrTHl5/YB7u3xGnpw==
-X-Received: by 2002:a05:6a21:38b:b0:1c2:9095:7382 with SMTP id
- adf61e73a8af0-1cce10ff577mr188460637.52.1724869608960; 
- Wed, 28 Aug 2024 11:26:48 -0700 (PDT)
-Received: from distilledx.srmu.edu.in ([103.4.220.252])
+ AJvYcCXjCmUpVVnU4NV1obFmKYWtoHMCJJnzuvAyr5sS5Qk9lP7DGHiiCWklZO5KZh0ef6cDg+euAO46ld0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzssM7B9+gwdgGEDp2w9W1GteJTinB+7KfZzbL0lUDttD3pJE9k
+ 1OHpXossIrZ3i8ENZiTwSFOopH74EV6VmJMJRsVXAOPPo7VnEMDgoZjuXA2KpV8=
+X-Google-Smtp-Source: AGHT+IFZOON2xLRB02ESq61KmxfYl6c/9ErP5KS337TLYvq8Ygdk7nKNUlTtjPt5jWWgbZ8qxGeyrQ==
+X-Received: by 2002:a05:600c:4fc4:b0:428:1d27:f3db with SMTP id
+ 5b1f17b1804b1-42bb27b342bmr3008385e9.35.1724869374584; 
+ Wed, 28 Aug 2024 11:22:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-71434335e77sm10350929b3a.202.2024.08.28.11.26.44
+ 5b1f17b1804b1-42baf7fa745sm9021365e9.31.2024.08.28.11.22.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2024 11:26:48 -0700 (PDT)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH v2] drm/panel: novatek-nt35950: transition to mipi_dsi wrapped
- functions
-Date: Wed, 28 Aug 2024 23:52:10 +0530
-Message-ID: <20240828182210.565861-1-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.46.0
+ Wed, 28 Aug 2024 11:22:54 -0700 (PDT)
+Date: Wed, 28 Aug 2024 20:22:51 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, christian.koenig@amd.com,
+ thomas.hellstrom@linux.intel.com, matthew.auld@intel.com, daniel@ffwll.ch
+Subject: Re: [RFC PATCH 23/28] drm/xe: Add SVM VRAM migration
+Message-ID: <Zs9q-xrSM3shsER6@phenom.ffwll.local>
+References: <20240828024901.2582335-1-matthew.brost@intel.com>
+ <20240828024901.2582335-24-matthew.brost@intel.com>
+ <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,393 +83,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the novatek-nt35950 panel to use multi style functions for
-improved error handling.
+On Wed, Aug 28, 2024 at 06:06:47PM +0200, Daniel Vetter wrote:
+> On Tue, Aug 27, 2024 at 07:48:56PM -0700, Matthew Brost wrote:
+> > Migration is implemented with range granularity, with VRAM backing being
+> > a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of the
+> > TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
+> > SVM range is migrated to SRAM, the TTM BO is destroyed).
+> > 
+> > The design choice for using TTM BO for VRAM backing store, as opposed to
+> > direct buddy allocation, is as follows:
+> > 
+> > - DRM buddy allocations are not at page granularity, offering no
+> >   advantage over a BO.
+> 
+> This one I'm not understanding.
+> 
+> > - DRM buddy allocations do not solve locking inversion problems between
+> >   mmap lock and dma-resv locks.
+> 
+> Which mmap -> dma_resv inversion? I've seen a lot ... I guess it also
+> matters hugely which migration path we're in, i.e. opportunistic
+> migration, cpu fault where we have to migrate or die, or when we run out
+> of vram and need to evict stuff to make space.
+> 
+> > - Unified eviction is required (SVM VRAM and TTM BOs need to be able to
+> >   evict each other).
+> 
+> So core mm handles this by just roughly equally shrinking everything.
+> Seems to work, and it has a pile of object shrinkers, and the page lru is
+> also split into page cache and anon memory.
+> 
+> I think you need to put in more justification that unified eviction is
+> required than just stating it, because a look at mm/ gives a very well
+> established counterexample.
+> 
+> > - For exhaustive eviction [1], SVM VRAM allocations will almost certainly
+> >   require a dma-resv.
+> 
+> So from the TTM side we need exhaustive eviction, or at least something a
+> bit more exhaustive than what ttm currently has. Note that i915-gem also
+> never really got to perfect exhaustive eviction, it's just a pile better
+> than ttm right now.
+> 
+> Now if there's also SVM VRAM managed on a page lru, TTM exhaustive
+> eviction is going to win because the shrinkers can only trylock dma_resv.
+> So this part works. It actually works so well on the system memory side
+> that if we're not careful we can trigger oom, because we're too good at
+> getting at all the memory.
+> 
+> SVM VRAM allocations otoh do not need exhaustive evictions. Or at least I
+> don't see why, because the idea is that thanks to gpu and cpu page faults,
+> you can always get out of a pinch by just trashing everything for a while
+> and migrating the handfull of available pages a lot.
+> 
+> > - Likely allocation size is 2M which makes of size of BO (872)
+> >   acceptable per allocation (872 / 2M == .0004158).
+> > 
+> > With this, using TTM BO for VRAM backing store seems to be an obvious
+> > choice as it allows leveraging of the TTM eviction code.
+> 
+> Except it requires that you hold dma_resv, which brings in all kinds of
+> pain. And for eviction we really don't need a lot of synchronization, so a
+> lot of that locking is not needed, unlike the case where we have a cpu
+> fault, where we absolutely need mmap_lock and all that to make sure we
+> fault in the right page.
+> 
+> But for eviction we only need to throw out some pages, if we're not
+> entirely precise with picking the right ones (or have no idea into which
+> vma they're all currently mapped into) it doesn't matter. That's why
+> migrate_device_pages doesn't care about any of that at all, it doesn't
+> need to by design. But by bo backing memory you drag in all that stuff
+> that's causing headacheds for eviction.
+> 
+> The only thing migration tries to do is remove all pte, and if that
+> succeeds, move the page. Specialized for the gpusvm case, looking at mm/
+> code as cheat sheet, we need roughly:
+> 
+> - reverse mapping structure like anon_vma. Except gpusvm can assume that
+>   there's currently only one gpu side mapping, so we can just stuff the
+>   gpusvm an va_address into the page, and protect it with the page lock.
+> 
+> - we need pagetable locks, so that we can manipulate pagetables (well
+>   specifically make ptes invalid) without taking any other locks.
+> 
+> - everyone else inserting or removing ptes for svm mappings also needs to
+>   lock the page, or we have races. This might be the hmm_range_fault races
+>   you're seeing when allowing vram pages, since I don't think there's
+>   anything else stopping the page lookup otherwise from succeeding.
+> 
+> - we might also need to stuff migrate ptes into the gpu side, like the cpu
+>   does, to hold up refaults before the migration has finished. But I think
+>   those are only needed for anon memory in sram because there's no other
+>   way to find the right page than swap pte entries, of which migration
+>   entries are a special case.
+> 
+> - core code also expects us to handle the page refcount correctly for svm
+>   device memory, so we can't free the pages like normal bo pages either
+>   directly to drm_buddy.
+> 
+> Now typing this all up will look an awful lot like what you have, with the
+> dma_resv lock serving as the page lock and the pagetable lock. The only
+> reason is that these locks are much smaller and nest within all the other
+> stuff going on and so avoid the inversion issues.
+> 
+> So one annoying part is that this is a lot of pointlessly looking typing.
+> The other is that it's full of races, because core mm really is yolo all
+> the way down. So lots of ways you lock the wrong page and fun stuff like
+> that, but the few cases that matter work:
+> 
+> - svm fault handling with hmm_range fault retries with mmu notifiers. Note
+>   that we need to have vram pages locked and the notifier retrie needs to
+>   be under the pagetable lock, or there's room to escape. At least that's
+>   what I came up with last time I thought it all through.
+> 
+> - migrate_to_ram: it will hold a page reference which we know was the
+>   valid vram page when the cpu pte was locked, but it might not be it
+>   anymore. So we have to lock the page and check whether it's still gpu
+>   mapped, and if not retry the entire fault since most likey another
+>   migrate_to_ram has succeed meanwhile in parallel.
+> 
+> - for eviction we don't care, we might actually be migrating a page no one
+>   even wants anymore.
+> 
+> Now I think you can get all this done with the dma_resv lock and maybe the
+> bo refcount. But it does involve a tremendous amount of headaches and
+> impendence mismatch, because that's not how page faults and migrations
+> work in core mm.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
----
-Changes in v2:
-    - Style changes
-    - Fixed changes in logic
+Bit a different take, and this might be completely wrong because I've
+misread your gpusvm code or the amdkfd code. But I figured it might be
+good for understanding when I explain, where the current page lock and
+pgatable locks are.
 
-v1: https://lore.kernel.org/all/20240824084422.202946-1-tejasvipin76@gmail.com/
----
- drivers/gpu/drm/panel/panel-novatek-nt35950.c | 211 ++++++------------
- 1 file changed, 66 insertions(+), 145 deletions(-)
+For the pagetable lock:
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-index 028fdac293f7..b036208f9356 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-@@ -100,106 +100,87 @@ static void nt35950_reset(struct nt35950 *nt)
- 
- /*
-  * nt35950_set_cmd2_page - Select manufacturer control (CMD2) page
-+ * @dsi_ctx: context for mipi_dsi functions
-  * @nt:   Main driver structure
-  * @page: Page number (0-7)
-- *
-- * Return: Number of transferred bytes or negative number on error
-  */
--static int nt35950_set_cmd2_page(struct nt35950 *nt, u8 page)
-+static void nt35950_set_cmd2_page(struct mipi_dsi_multi_context *dsi_ctx,
-+				  struct nt35950 *nt, u8 page)
- {
- 	const u8 mauc_cmd2_page[] = { MCS_CMD_MAUCCTR, 0x55, 0xaa, 0x52,
- 				      0x08, page };
--	int ret;
- 
--	ret = mipi_dsi_dcs_write_buffer(nt->dsi[0], mauc_cmd2_page,
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, mauc_cmd2_page,
- 					ARRAY_SIZE(mauc_cmd2_page));
--	if (ret < 0)
--		return ret;
--
--	nt->last_page = page;
--	return 0;
-+	if (!dsi_ctx->accum_err)
-+		nt->last_page = page;
- }
- 
- /*
-  * nt35950_set_data_compression - Set data compression mode
-+ * @dsi_ctx: context for mipi_dsi functions
-  * @nt:        Main driver structure
-  * @comp_mode: Compression mode
-- *
-- * Return: Number of transferred bytes or negative number on error
-  */
--static int nt35950_set_data_compression(struct nt35950 *nt, u8 comp_mode)
-+static void nt35950_set_data_compression(struct mipi_dsi_multi_context *dsi_ctx,
-+					 struct nt35950 *nt, u8 comp_mode)
- {
- 	u8 cmd_data_compression[] = { MCS_PARAM_DATA_COMPRESSION, comp_mode };
- 	u8 cmd_vesa_dsc_on[] = { MCS_PARAM_VESA_DSC_ON, !!comp_mode };
- 	u8 cmd_vesa_dsc_setting[] = { MCS_PARAM_VESA_DSC_SETTING, 0x03 };
- 	u8 last_page = nt->last_page;
--	int ret;
- 
- 	/* Set CMD2 Page 0 if we're not there yet */
--	if (last_page != 0) {
--		ret = nt35950_set_cmd2_page(nt, 0);
--		if (ret < 0)
--			return ret;
--	}
-+	if (last_page != 0)
-+		nt35950_set_cmd2_page(dsi_ctx, nt, 0);
- 
--	ret = mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_data_compression,
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_data_compression,
- 					ARRAY_SIZE(cmd_data_compression));
--	if (ret < 0)
--		return ret;
--
--	ret = mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_vesa_dsc_on,
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_vesa_dsc_on,
- 					ARRAY_SIZE(cmd_vesa_dsc_on));
--	if (ret < 0)
--		return ret;
- 
- 	/* Set the vesa dsc setting on Page 4 */
--	ret = nt35950_set_cmd2_page(nt, 4);
--	if (ret < 0)
--		return ret;
-+	nt35950_set_cmd2_page(dsi_ctx, nt, 4);
- 
- 	/* Display Stream Compression setting, always 0x03 */
--	ret = mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_vesa_dsc_setting,
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_vesa_dsc_setting,
- 					ARRAY_SIZE(cmd_vesa_dsc_setting));
--	if (ret < 0)
--		return ret;
- 
- 	/* Get back to the previously set page */
--	return nt35950_set_cmd2_page(nt, last_page);
-+	nt35950_set_cmd2_page(dsi_ctx, nt, last_page);
- }
- 
- /*
-  * nt35950_set_scaler - Enable/disable resolution upscaling
-- * @nt:        Main driver structure
-+ * @dsi_ctx: context for mipi_dsi functions
-  * @scale_up:  Scale up function control
-- *
-- * Return: Number of transferred bytes or negative number on error
-  */
--static int nt35950_set_scaler(struct nt35950 *nt, u8 scale_up)
-+static void nt35950_set_scaler(struct mipi_dsi_multi_context *dsi_ctx,
-+			       u8 scale_up)
- {
- 	u8 cmd_scaler[] = { MCS_PARAM_SCALER_FUNCTION, scale_up };
- 
--	return mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_scaler,
--					 ARRAY_SIZE(cmd_scaler));
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_scaler,
-+					ARRAY_SIZE(cmd_scaler));
- }
- 
- /*
-  * nt35950_set_scale_mode - Resolution upscaling mode
-- * @nt:   Main driver structure
-+ * @dsi_ctx: context for mipi_dsi functions
-  * @mode: Scaler mode (MCS_DATA_COMPRESSION_*)
-- *
-- * Return: Number of transferred bytes or negative number on error
-  */
--static int nt35950_set_scale_mode(struct nt35950 *nt, u8 mode)
-+static void nt35950_set_scale_mode(struct mipi_dsi_multi_context *dsi_ctx,
-+				   u8 mode)
- {
- 	u8 cmd_scaler[] = { MCS_PARAM_SCALEUP_MODE, mode };
- 
--	return mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_scaler,
--					 ARRAY_SIZE(cmd_scaler));
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_scaler,
-+					ARRAY_SIZE(cmd_scaler));
- }
- 
- /*
-  * nt35950_inject_black_image - Display a completely black image
-- * @nt:   Main driver structure
-+ * @dsi_ctx: context for mipi_dsi functions
-  *
-  * After IC setup, the attached panel may show random data
-  * due to driveric behavior changes (resolution, compression,
-@@ -208,43 +189,34 @@ static int nt35950_set_scale_mode(struct nt35950 *nt, u8 mode)
-  * the display.
-  * It makes sense to push a black image before sending the sleep-out
-  * and display-on commands.
-- *
-- * Return: Number of transferred bytes or negative number on error
-  */
--static int nt35950_inject_black_image(struct nt35950 *nt)
-+static void nt35950_inject_black_image(struct mipi_dsi_multi_context *dsi_ctx)
- {
- 	const u8 cmd0_black_img[] = { 0x6f, 0x01 };
- 	const u8 cmd1_black_img[] = { 0xf3, 0x10 };
- 	u8 cmd_test[] = { 0xff, 0xaa, 0x55, 0xa5, 0x80 };
--	int ret;
- 
- 	/* Enable test command */
--	ret = mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_test, ARRAY_SIZE(cmd_test));
--	if (ret < 0)
--		return ret;
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_test, ARRAY_SIZE(cmd_test));
- 
- 	/* Send a black image */
--	ret = mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd0_black_img,
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd0_black_img,
- 					ARRAY_SIZE(cmd0_black_img));
--	if (ret < 0)
--		return ret;
--	ret = mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd1_black_img,
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd1_black_img,
- 					ARRAY_SIZE(cmd1_black_img));
--	if (ret < 0)
--		return ret;
- 
- 	/* Disable test command */
- 	cmd_test[ARRAY_SIZE(cmd_test) - 1] = 0x00;
--	return mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_test, ARRAY_SIZE(cmd_test));
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_test, ARRAY_SIZE(cmd_test));
- }
- 
- /*
-  * nt35950_set_dispout - Set Display Output register parameters
-  * @nt:    Main driver structure
-- *
-- * Return: Number of transferred bytes or negative number on error
-+ * @dsi_ctx: context for mipi_dsi functions
-  */
--static int nt35950_set_dispout(struct nt35950 *nt)
-+static void nt35950_set_dispout(struct mipi_dsi_multi_context *dsi_ctx,
-+				struct nt35950 *nt)
- {
- 	u8 cmd_dispout[] = { MCS_PARAM_DISP_OUTPUT_CTRL, 0x00 };
- 	const struct nt35950_panel_mode *mode_data = nt->desc->mode_data;
-@@ -254,8 +226,8 @@ static int nt35950_set_dispout(struct nt35950 *nt)
- 	if (mode_data[nt->cur_mode].enable_sram)
- 		cmd_dispout[1] |= MCS_DISP_OUT_SRAM_EN;
- 
--	return mipi_dsi_dcs_write_buffer(nt->dsi[0], cmd_dispout,
--					 ARRAY_SIZE(cmd_dispout));
-+	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd_dispout,
-+					ARRAY_SIZE(cmd_dispout));
- }
- 
- static int nt35950_get_current_mode(struct nt35950 *nt)
-@@ -284,78 +256,47 @@ static int nt35950_on(struct nt35950 *nt)
- {
- 	const struct nt35950_panel_mode *mode_data = nt->desc->mode_data;
- 	struct mipi_dsi_device *dsi = nt->dsi[0];
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	nt->cur_mode = nt35950_get_current_mode(nt);
- 	nt->dsi[0]->mode_flags |= MIPI_DSI_MODE_LPM;
- 	nt->dsi[1]->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	ret = nt35950_set_cmd2_page(nt, 0);
--	if (ret < 0)
--		return ret;
-+	nt35950_set_cmd2_page(&dsi_ctx, nt, 0);
-+	nt35950_set_data_compression(&dsi_ctx, nt, mode_data[nt->cur_mode].compression);
-+	nt35950_set_scale_mode(&dsi_ctx, mode_data[nt->cur_mode].scaler_mode);
-+	nt35950_set_scaler(&dsi_ctx, mode_data[nt->cur_mode].scaler_on);
-+	nt35950_set_dispout(&dsi_ctx, nt);
- 
--	ret = nt35950_set_data_compression(nt, mode_data[nt->cur_mode].compression);
--	if (ret < 0)
--		return ret;
--
--	ret = nt35950_set_scale_mode(nt, mode_data[nt->cur_mode].scaler_mode);
--	if (ret < 0)
--		return ret;
--
--	ret = nt35950_set_scaler(nt, mode_data[nt->cur_mode].scaler_on);
--	if (ret < 0)
--		return ret;
--
--	ret = nt35950_set_dispout(nt);
--	if (ret < 0)
--		return ret;
--
--	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set tear on: %d\n", ret);
--		return ret;
--	}
--
--	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+	mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx, 0);
- 
- 	/* CMD2 Page 1 */
--	ret = nt35950_set_cmd2_page(nt, 1);
--	if (ret < 0)
--		return ret;
-+	nt35950_set_cmd2_page(&dsi_ctx, nt, 1);
- 
- 	/* Unknown command */
--	mipi_dsi_dcs_write_seq(dsi, 0xd4, 0x88, 0x88);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4, 0x88, 0x88);
- 
- 	/* CMD2 Page 7 */
--	ret = nt35950_set_cmd2_page(nt, 7);
--	if (ret < 0)
--		return ret;
-+	nt35950_set_cmd2_page(&dsi_ctx, nt, 7);
- 
- 	/* Enable SubPixel Rendering */
--	mipi_dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_EN, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PARAM_SPR_EN, 0x01);
- 
- 	/* SPR Mode: YYG Rainbow-RGB */
--	mipi_dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_MODE, MCS_SPR_MODE_YYG_RAINBOW_RGB);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PARAM_SPR_MODE,
-+				     MCS_SPR_MODE_YYG_RAINBOW_RGB);
- 
- 	/* CMD3 */
--	ret = nt35950_inject_black_image(nt);
--	if (ret < 0)
--		return ret;
-+	nt35950_inject_black_image(&dsi_ctx);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0)
--		return ret;
--	msleep(120);
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0)
--		return ret;
--	msleep(120);
-+	if (dsi_ctx.accum_err)
-+		return dsi_ctx.accum_err;
- 
- 	nt->dsi[0]->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 	nt->dsi[1]->mode_flags &= ~MIPI_DSI_MODE_LPM;
-@@ -363,30 +304,19 @@ static int nt35950_on(struct nt35950 *nt)
- 	return 0;
- }
- 
--static int nt35950_off(struct nt35950 *nt)
-+static void nt35950_off(struct nt35950 *nt)
- {
--	struct device *dev = &nt->dsi[0]->dev;
--	int ret;
-+	struct mipi_dsi_device *dsi = nt->dsi[0];
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
--	ret = mipi_dsi_dcs_set_display_off(nt->dsi[0]);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		goto set_lpm;
--	}
--	usleep_range(10000, 11000);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_usleep_range(&dsi_ctx, 10000, 11000);
- 
--	ret = mipi_dsi_dcs_enter_sleep_mode(nt->dsi[0]);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		goto set_lpm;
--	}
--	msleep(150);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 150);
- 
--set_lpm:
- 	nt->dsi[0]->mode_flags |= MIPI_DSI_MODE_LPM;
- 	nt->dsi[1]->mode_flags |= MIPI_DSI_MODE_LPM;
--
--	return 0;
- }
- 
- static int nt35950_sharp_init_vregs(struct nt35950 *nt, struct device *dev)
-@@ -427,7 +357,6 @@ static int nt35950_sharp_init_vregs(struct nt35950 *nt, struct device *dev)
- static int nt35950_prepare(struct drm_panel *panel)
- {
- 	struct nt35950 *nt = to_nt35950(panel);
--	struct device *dev = &nt->dsi[0]->dev;
- 	int ret;
- 
- 	ret = regulator_enable(nt->vregs[0].consumer);
-@@ -452,10 +381,6 @@ static int nt35950_prepare(struct drm_panel *panel)
- 	nt35950_reset(nt);
- 
- 	ret = nt35950_on(nt);
--	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
--		goto end;
--	}
- 
- end:
- 	if (ret < 0) {
-@@ -469,12 +394,8 @@ static int nt35950_prepare(struct drm_panel *panel)
- static int nt35950_unprepare(struct drm_panel *panel)
- {
- 	struct nt35950 *nt = to_nt35950(panel);
--	struct device *dev = &nt->dsi[0]->dev;
--	int ret;
- 
--	ret = nt35950_off(nt);
--	if (ret < 0)
--		dev_err(dev, "Failed to deinitialize panel: %d\n", ret);
-+	nt35950_off(nt);
- 
- 	gpiod_set_value_cansleep(nt->reset_gpio, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(nt->vregs), nt->vregs);
+In amdkfd that's svm_range_lock/unlock. This is also held while
+re-checking mmu_notifiers. In gpusvm the equivalent is the
+gpusvm->notifier_lock, which is global instead of per notifier range, but
+the same idea.
+
+For the page lock:
+
+In amdkfd this is essentiall svm_range->migrate_mutex, it's the thing that
+ensures we're consistent with any concurrent other migrations in the same
+range. Note that this protects a virtual address range, but because that
+has a 1:1 mapping to bot the cpu mm va ranges and to any vram allocations
+it defacto serves as the page lock since there can never be more than one
+svm_range for a svm vram allocation. That avoids the revalidation dance
+core mm/ needs to do once it locks a page, since the va->page mappings
+might have changed meanwhile. That's why it's pretty much everywhere just
+trylocks while holding the pgtable locks and bailing out if that fails.
+
+In your gpusvm design I guess it should be the bo's dma_resv lock that
+backs a gpusvm_range. But it's not consistently enough used, or not with
+big enough locking scope to protect against concurrent migration races.
+The trouble with using the dma_resv lock like this is that it's not very
+compatible with classic dma_resv usage (at least I think, might be wrong).
+
+For core kernel:
+
+Pagetable lock is in each pagetable at each level, so parallelizes
+ridiculously. We could adopt that scheme by also storing the mmu notifier
+seqno into each pgtable page. That would give us a mmu notifier ranges
+that pretty much perfectly scale as we add/remove pagetables and map/unmap
+stuff, instead of having to maintain a separate rbtree of ad-hoc notifiers
+like gpuvsm and amdkfd do. And because it's hierarchical and we could
+store the mmu notifier seqno at each level you can even optimize for both
+small and huge ranges and it all checks out, since if the entire huge
+range hasn't been invalidated, we can skip checking the ranges below.
+
+page lock is the per-page (or well nowadays often the per-folio) lock. It
+makes sure no one can rip the actual data stored in your page away from
+underneath you (with migration or something else funny), since the
+reference count only makes sure the allocation stays. The refcount itself
+does not guarantee that the page you've looked up is actually still the
+one that's mapped, it's like the bo refcount in that regard in gpusvm and
+amdkfd for svm allocations in vram. Also with folios the locks are now per
+chunk size, like gpusvm does.
+
+Cheers, Sima
 -- 
-2.46.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
