@@ -2,66 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DF79622EA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 11:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02A6962266
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 10:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8C810E4DF;
-	Wed, 28 Aug 2024 09:05:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kTNiYTIe";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BFF610E0CC;
+	Wed, 28 Aug 2024 08:41:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2630010E4DE;
- Wed, 28 Aug 2024 09:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724835901; x=1756371901;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=7JiwAB5V4iGlM4S+ePTq9xETwrWKyp/eBFpaHmTKD2c=;
- b=kTNiYTIeEV1bacRIw6PHH5gMSVQWbKIcF1e5EHj6C4Nwp98mtpw8QhVw
- A3uzgAgNxKCnkSZljjdLBuwhBlkBBZ1Gd8ei407AnvCSQJIqrO0+3y2nZ
- 83xo6d6ZL0ijN4PolcXV0kPJKIq/eWfWmWEHEjTE66nVN5dBP9HbBXvq3
- O54DYOpPtBP9tL1dcljszqMNb9GYGgUwME4RNVY+mrtW4m3nP9BSuk3eH
- hai5T5rMjuH101nCucL22DE9yaufOI6/cLbg1esaxXBjW63BChTOVx34m
- yPvxT8Mg2fcOaUOyWKs8GabUGecm6DbIUCPq95sN4kbcU+xj7raWrNe5v g==;
-X-CSE-ConnectionGUID: xLB9BJteTBKKZYaoUC2K/w==
-X-CSE-MsgGUID: 4KT1x3TwQPmrn4liJvhzIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27235219"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="27235219"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 02:05:01 -0700
-X-CSE-ConnectionGUID: SEFcR4tpTZSI7G/og6eX0w==
-X-CSE-MsgGUID: XJpMcKPXQKa8bcxnrmiwig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="67525640"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2024 02:04:59 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 2/2] Revert "drm/ttm: Add a flag to allow drivers to skip
- clear-on-free"
-Date: Wed, 28 Aug 2024 10:36:35 +0200
-Message-ID: <20240828083635.23601-2-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20240828083635.23601-1-nirmoy.das@intel.com>
-References: <20240828083635.23601-1-nirmoy.das@intel.com>
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5615A10E0CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:41:01 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4WtyW73xqjz1xwSZ;
+ Wed, 28 Aug 2024 16:38:59 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+ by mail.maildlp.com (Postfix) with ESMTPS id 28D1F14013B;
+ Wed, 28 Aug 2024 16:40:57 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 28 Aug
+ 2024 16:40:56 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH -next] drm/msm: Use devm_platform_ioremap_resource_byname()
+Date: Wed, 28 Aug 2024 16:48:49 +0800
+Message-ID: <20240828084849.2527115-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany, Commercial Register: Amtsgericht Muenchen HRB 186928
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,95 +54,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove TTM_TT_FLAG_CLEARED_ON_FREE now that XE stopped using this
-flag.
+platform_get_resource_byname() and devm_ioremap_resource() can be
+replaced by devm_platform_ioremap_resource_byname(), which can
+simplify the code logic a bit, No functional change here.
 
-This reverts commit decbfaf06db05fa1f9b33149ebb3c145b44e878f.
-
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- drivers/gpu/drm/ttm/ttm_pool.c | 18 +++++++-----------
- include/drm/ttm/ttm_tt.h       |  6 +-----
- 2 files changed, 8 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/msm/msm_io_utils.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 935ab3cfd046..8504dbe19c1a 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -222,18 +222,15 @@ static void ttm_pool_unmap(struct ttm_pool *pool, dma_addr_t dma_addr,
+diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm_io_utils.c
+index afedd61c3e28..6f7933f01ae6 100644
+--- a/drivers/gpu/drm/msm/msm_io_utils.c
++++ b/drivers/gpu/drm/msm/msm_io_utils.c
+@@ -54,13 +54,7 @@ void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
+ 			       struct platform_device *pdev,
+ 			       const char *name)
+ {
+-	struct resource *res;
+-
+-	res = platform_get_resource_byname(mdss_pdev, IORESOURCE_MEM, name);
+-	if (!res)
+-		return ERR_PTR(-EINVAL);
+-
+-	return devm_ioremap_resource(&pdev->dev, res);
++	return devm_platform_ioremap_resource_byname(mdss_pdev, name);
  }
  
- /* Give pages into a specific pool_type */
--static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p,
--			       bool cleared)
-+static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p)
- {
- 	unsigned int i, num_pages = 1 << pt->order;
- 
--	if (!cleared) {
--		for (i = 0; i < num_pages; ++i) {
--			if (PageHighMem(p))
--				clear_highpage(p + i);
--			else
--				clear_page(page_address(p + i));
--		}
-+	for (i = 0; i < num_pages; ++i) {
-+		if (PageHighMem(p))
-+			clear_highpage(p + i);
-+		else
-+			clear_page(page_address(p + i));
- 	}
- 
- 	spin_lock(&pt->lock);
-@@ -397,7 +394,6 @@ static void ttm_pool_free_range(struct ttm_pool *pool, struct ttm_tt *tt,
- 				pgoff_t start_page, pgoff_t end_page)
- {
- 	struct page **pages = &tt->pages[start_page];
--	bool cleared = tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE;
- 	unsigned int order;
- 	pgoff_t i, nr;
- 
-@@ -411,7 +407,7 @@ static void ttm_pool_free_range(struct ttm_pool *pool, struct ttm_tt *tt,
- 
- 		pt = ttm_pool_select_type(pool, caching, order);
- 		if (pt)
--			ttm_pool_type_give(pt, *pages, cleared);
-+			ttm_pool_type_give(pt, *pages);
- 		else
- 			ttm_pool_free_page(pool, caching, order, *pages);
- 	}
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index cfaf49de2419..2b9d856ff388 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -85,9 +85,6 @@ struct ttm_tt {
- 	 * fault handling abuses the DMA api a bit and dma_map_attrs can't be
- 	 * used to assure pgprot always matches.
- 	 *
--	 * TTM_TT_FLAG_CLEARED_ON_FREE: Set this if a drm driver handles
--	 * clearing backing store
--	 *
- 	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
- 	 * set by TTM after ttm_tt_populate() has successfully returned, and is
- 	 * then unset when TTM calls ttm_tt_unpopulate().
-@@ -97,9 +94,8 @@ struct ttm_tt {
- #define TTM_TT_FLAG_EXTERNAL		BIT(2)
- #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
- #define TTM_TT_FLAG_DECRYPTED		BIT(4)
--#define TTM_TT_FLAG_CLEARED_ON_FREE	BIT(5)
- 
--#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
-+#define TTM_TT_FLAG_PRIV_POPULATED	BIT(5)
- 	uint32_t page_flags;
- 	/** @num_pages: Number of pages in the page array. */
- 	uint32_t num_pages;
+ static void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
 -- 
-2.42.0
+2.34.1
 
