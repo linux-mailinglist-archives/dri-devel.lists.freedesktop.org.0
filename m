@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA10C962EDA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 19:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DB6962EEF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 19:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE9C10E59D;
-	Wed, 28 Aug 2024 17:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8EF410E3C7;
+	Wed, 28 Aug 2024 17:50:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="LwD6G8kq";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="c2Q6hE9N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 308A510E59D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 17:48:11 +0000 (UTC)
+X-Greylist: delayed 460 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Aug 2024 17:50:36 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6896010E3C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 17:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1724867287; x=1725472087; i=deller@gmx.de;
- bh=1ItLr5inkzgvnqp9xEYMX6Pc1zaP7HMzAyR3tBSAwOA=;
+ s=s31663417; t=1724867430; x=1725472230; i=deller@gmx.de;
+ bh=rvevHnVJVPUNKAo/siXVSaJhoxBvuskiX9A/MfIre6k=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=LwD6G8kqS5xtp3zLeKzoFQRhJlRvz0EPMDe8GkSgnPLl1YNRCV0SxTI80RyG1i4W
- kYZT4mm+o84KXXmZsEo7TWmym09pXmQMsRN2kzhBiqrFaC0CWz/cPRuE/G4PYsTk5
- 9TM4R7Kmlyg1g7GH7Wj9g/2yco3G0+/nityYZ0MjDjjJO/srY9569qyhcSbyw57Lw
- IWmRdNvGwkVU1W+MiuU+VzLXBqOrAPkmZ+YKtHxRtvuIsZvhP4A6JGkgriiq5+6Y8
- Kvd9LwODT2nZqAJDwh6e/Vg5lbf65Cdcl+rTtB0WyDyYHFujjgskRCw0Uooy1XS0n
- wU9sy/gv+1PoQNJbuA==
+ b=c2Q6hE9NL/qPsAj9abJ/vMYf3fuPitRgV8Xjk+3MsmCORsQd0W1fsoyIrZuAX2b2
+ kra26hes2MJpPnjPC5rfgBR41WS1EU4jlS+NSOlA8pGPxuvpMWDFaFESGSy0OREvA
+ 1Tsgrqr6Llm+FG7HvcSo97+ec9OeCVZUsCjXtpBGFpdXOP6FcBl5CcM4vUr7fquK6
+ ANR64tOywfzjMejNP1ziKXGBaWam7Hp9fK0HY3lYtGsTyENChRBbbpEN6Llqp98CY
+ eLismL3wczAm9kE5XoioPiKheLL9i7zJNGxg7Ag2vE8hWXhZVdh90ofYw3QGKdweq
+ RiDS4HpAVifp7WdSlQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.126]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N4z6k-1s0J3o1ENY-010N5a; Wed, 28
- Aug 2024 19:42:52 +0200
-Message-ID: <fef5bc70-3921-4562-b9d4-beccc76440a6@gmx.de>
-Date: Wed, 28 Aug 2024 19:42:51 +0200
+Received: from [192.168.20.55] ([109.250.63.126]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N6bk4-1s1yxc1wCs-011IDc; Wed, 28
+ Aug 2024 19:50:30 +0200
+Message-ID: <d1cab5f1-2b3a-413a-8ccf-3152fd8b95df@gmx.de>
+Date: Wed, 28 Aug 2024 19:50:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] fbdev/efifb: Use stack memory for screeninfo structs
+Subject: Re: [PATCH 2/5] fbdev/efifb: Register sysfs groups through driver core
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Peter Jones <pjones@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
- <20240827-efifb-sysfs-v1-1-c9cc3e052180@weissschuh.net>
+ <20240827-efifb-sysfs-v1-2-c9cc3e052180@weissschuh.net>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -89,27 +91,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240827-efifb-sysfs-v1-1-c9cc3e052180@weissschuh.net>
+In-Reply-To: <20240827-efifb-sysfs-v1-2-c9cc3e052180@weissschuh.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8bpszq7udg/1scxknG2i1tu1SIORmO3dPhMni8wIR8vYiXq59yp
- 8iwdLUrwtVDBoHx89i2kCPFWkosu/8toUpCNlEs1OWJ3fhUmifqehWXcE5rt5m88G13eK8i
- fnjSE5Qb5GmkNeF6iFxEnWoYXPgIHBaWC3VUGBa1f8OFTo8QwmMpLLv3EXMaCAkK/FOICxC
- vce0eepT4c25eRA9URkyQ==
+X-Provags-ID: V03:K1:UUws2WnyAMehh5YxIGqAiQ2bYs6Lzb/SO1HfUM2VbDjm8ZVcJED
+ Pem8akMcbRb/mamA+rMVRXQQ79tTViDSaA5dHgsnsKUXM5zdPDY3dxdjfugfyR9U4vDChSl
+ 5pAMMJAR5WmxRlTpc8CBuZ0LFKu9zijvaT1Do2ADXqTFC6FYx0SqzBglmLSovpMUsYsXNiA
+ GuPRWBzMZPkW0ogLHe6VA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:R/McMdNqPaY=;+nlin0owVjd+4J3idTUHHF94t2S
- C7i88RssniTALMkHiNso9mGJ+GkQ8LK1AUVZ6WHS1Yt6UbKA00myXPE6kG/xqyv6pMQwGt9t+
- pVUpxPCQW6T83DN+K5dqJbl96p/P9ai/Gp4PpwyyeeWT5Nx4j2OZBH4t32AEyeo5TFQ4N+Kqs
- CLiYoSkZ2u+DfTP1n2gi3ZB8qyY4Iouhc19+JjsUtUChHdBClJAlg88xxO2PVUFnIRIUJAK5S
- ZnbO814wSChk1k8WObAYheKBDJLKm5jHiqv822kBeKLP6OStypjOl43CO+bS66nRWhZsOSRG9
- /rEQf73k+mS14+Z2pPdtOxPBnDhTwPv2VKwlQ9VPOZ/Xr4CkGbeunqZvKmMtGUuaZvG+t1tMK
- 8odG7HgJVcAYzSkuCeIHiI4/7LpP5/dFukqH4xHIUNUKHXZQK+bYW5YaW89m3CoDBis9/iJrm
- Ms3+5eJbHZq4gd41Rq0WtWYajjU/be8KU7KhnNeGqLC8KwE8ZNwmfLiJiCEwSbCbcNDYw/UDJ
- G/Nc9ydv2SJXBkjPtvWG186tYxAeRIGwRkEdHtojvuES3KZKXr5AYIAESdDus7wSGkJ6fVA2A
- E61uJKFwoJuffb9FlN/NJCkcp05WRZ2haf5Wuv2oJ6ngo5uV08ZbbeoQizsacFbCg93h37O+/
- iQMU7h0mwaYOgyvIoXt8Q/I0itvopvCkTJmPMYIHl490c5qcc+tdcvhoLQnP3IcjiMrAhtl9E
- MzaeqnzB3xJBBitj2FZ8/u60Ajatr6uzc1HZYFt627Pysfi0b7Ff4WwNtig4l6kkxa51aM6nK
- Np9QYUOlRSojh1On5VAjdbfw==
+UI-OutboundReport: notjunk:1;M01:P0:/XN+vNesJQs=;tQi9Xyt/rjuFbIz5Kk5DnQOEUeB
+ XsFbA8GRdhhnup2UTUabNZYycIdyR5Nc7PCkDBdpw48U9/GO4/1NDUUPK4XvNhY1BS5yeqYEV
+ irTYeMZVar0uox4FNzUm5y6r43UCRLMlnALX61M6mvijrbOSGEszIxtFOG+8n48GKBjHNiQAC
+ 25EqkyBsaaTHXhqbeH+QSbnrdfPy1k/U6wseipRCfvluDPMpmBknmNp9HAbOuwWJ3Vsk2IxNG
+ Dt4Ncrb+J2mOCMeKF2bV14cv1k98nnG4E+zgivKsO3aGicTkC8Hjg+uhn+kS8aLPey6S8PVme
+ CyZfqOXN0ja5ay3JnajqRvSm2hK4JNF50yVTCngx+r1CLjRyBfgooPoxL63Sa7b62KOjb0Yu7
+ IfvonAQKGdPYjl0EXbm6Z3kZhW6W9cYvZN0/Muw7QAmYMuIDfrMhwwXVCThNDEIT4pZ4oGUeQ
+ 4vRW7RNAlKmlKZLdC8swQQQz6/gRY7xE/aBqbyfscYpNpdp/rNaAeoAu4C9dhIdy3rEzFFo7Z
+ tG/I75e6XD/Oe5jsxyUMR/ZsMXnvezYwZLcVtyvNgLXnH4klqYTD+V+H1J+c+Ixc1z4o3TNB9
+ 54xgCaaJh70/9iWI8PDWMZwp9BYn+QEqjE3OQBjaGE/Kabz35aKlfG4x4hgrVvnJcaaePfnX4
+ VDb6TD2K1VBuHg7LJgAMQfsEmBSb7oA6TEnTDjICsGNc7uVBBaAVh+fWiHF7H+hSdREF1rNsX
+ XOJDSJyeFS+S5IiSnVbGAKcoOUQQuUdUV4q+uDBGkXRjL12hBDKBt41OUm+F2NXzTbog/vMDF
+ ZBQxl6G9K0U9TS0qdxsIITHg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,81 +128,74 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 8/27/24 17:25, Thomas Wei=C3=9Fschuh wrote:
-> These variables are only used inside efifb_probe().
-> Afterwards they are using memory unnecessarily.
+> The driver core can register and cleanup sysfs groups already.
+> Make use of that functionality to simplify the error handling and
+> cleanup.
+>
+> Also avoid a UAF race during unregistering where the sysctl attributes
+> were usable after the info struct was freed.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 
-Did you check if this change really saves some memory?
-With your change, the compiler will either create a hidden
-structure which it uses then, or it generates assembly
-instructions to fill the struct at runtime.
-Both options may not actually reduce the memory footprint...
+I've added your patches #2, #3, #4 and #5 of this series to the fbdev git =
+tree.
+I tend to not take patch #1 as already explained there...
 
-Another option might be to mark the static struct __initdata
-if you expect another card to take over before the memory is
-freed at runtime. But I'm not sure if it's worth possible
-implications.
-
+Thanks!
 Helge
 
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+
+
 > ---
->   drivers/video/fbdev/efifb.c | 36 ++++++++++++++++++------------------
->   1 file changed, 18 insertions(+), 18 deletions(-)
+>   drivers/video/fbdev/efifb.c | 11 ++---------
+>   1 file changed, 2 insertions(+), 9 deletions(-)
 >
 > diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> index 8dd82afb3452..8bfe0ccbc67a 100644
+> index 8bfe0ccbc67a..d36b95856dd0 100644
 > --- a/drivers/video/fbdev/efifb.c
 > +++ b/drivers/video/fbdev/efifb.c
-> @@ -52,24 +52,6 @@ struct efifb_par {
->   	resource_size_t size;
->   };
+> @@ -561,15 +561,10 @@ static int efifb_probe(struct platform_device *dev=
+)
+>   		break;
+>   	}
 >
-> -static struct fb_var_screeninfo efifb_defined =3D {
-> -	.activate		=3D FB_ACTIVATE_NOW,
-> -	.height			=3D -1,
-> -	.width			=3D -1,
-> -	.right_margin		=3D 32,
-> -	.upper_margin		=3D 16,
-> -	.lower_margin		=3D 4,
-> -	.vsync_len		=3D 4,
-> -	.vmode			=3D FB_VMODE_NONINTERLACED,
-> -};
-> -
-> -static struct fb_fix_screeninfo efifb_fix =3D {
-> -	.id			=3D "EFI VGA",
-> -	.type			=3D FB_TYPE_PACKED_PIXELS,
-> -	.accel			=3D FB_ACCEL_NONE,
-> -	.visual			=3D FB_VISUAL_TRUECOLOR,
-> -};
-> -
->   static int efifb_setcolreg(unsigned regno, unsigned red, unsigned gree=
-n,
->   			   unsigned blue, unsigned transp,
->   			   struct fb_info *info)
-> @@ -357,6 +339,24 @@ static int efifb_probe(struct platform_device *dev)
->   	char *option =3D NULL;
->   	efi_memory_desc_t md;
+> -	err =3D sysfs_create_groups(&dev->dev.kobj, efifb_groups);
+> -	if (err) {
+> -		pr_err("efifb: cannot add sysfs attrs\n");
+> -		goto err_unmap;
+> -	}
+>   	err =3D fb_alloc_cmap(&info->cmap, 256, 0);
+>   	if (err < 0) {
+>   		pr_err("efifb: cannot allocate colormap\n");
+> -		goto err_groups;
+> +		goto err_unmap;
+>   	}
 >
-> +	struct fb_var_screeninfo efifb_defined =3D {
-> +		.activate		=3D FB_ACTIVATE_NOW,
-> +		.height			=3D -1,
-> +		.width			=3D -1,
-> +		.right_margin		=3D 32,
-> +		.upper_margin		=3D 16,
-> +		.lower_margin		=3D 4,
-> +		.vsync_len		=3D 4,
-> +		.vmode			=3D FB_VMODE_NONINTERLACED,
-> +	};
-> +
-> +	struct fb_fix_screeninfo efifb_fix =3D {
-> +		.id			=3D "EFI VGA",
-> +		.type			=3D FB_TYPE_PACKED_PIXELS,
-> +		.accel			=3D FB_ACCEL_NONE,
-> +		.visual			=3D FB_VISUAL_TRUECOLOR,
-> +	};
-> +
->   	/*
->   	 * If we fail probing the device, the kernel might try a different
->   	 * driver. We get a copy of the attached screen_info, so that we can
+>   	err =3D devm_aperture_acquire_for_platform_device(dev, par->base, par=
+->size);
+> @@ -587,8 +582,6 @@ static int efifb_probe(struct platform_device *dev)
+>
+>   err_fb_dealloc_cmap:
+>   	fb_dealloc_cmap(&info->cmap);
+> -err_groups:
+> -	sysfs_remove_groups(&dev->dev.kobj, efifb_groups);
+>   err_unmap:
+>   	if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
+>   		iounmap(info->screen_base);
+> @@ -608,12 +601,12 @@ static void efifb_remove(struct platform_device *p=
+dev)
+>
+>   	/* efifb_destroy takes care of info cleanup */
+>   	unregister_framebuffer(info);
+> -	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+>   }
+>
+>   static struct platform_driver efifb_driver =3D {
+>   	.driver =3D {
+>   		.name =3D "efi-framebuffer",
+> +		.dev_groups =3D efifb_groups,
+>   	},
+>   	.probe =3D efifb_probe,
+>   	.remove_new =3D efifb_remove,
 >
 
