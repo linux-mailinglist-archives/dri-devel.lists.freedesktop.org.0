@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0A29621A9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 09:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D37D9621AA
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 09:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD3A310E4C2;
-	Wed, 28 Aug 2024 07:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBA9410E4C3;
+	Wed, 28 Aug 2024 07:48:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fris.de header.i=@fris.de header.b="YvrfdGUq";
+	dkim=pass (2048-bit key; unprotected) header.d=fris.de header.i=@fris.de header.b="jrMhYmkK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.fris.de (mail.fris.de [116.203.77.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F02E210E4C2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 07:48:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4B4610E4C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 07:48:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 39EFDBFB0B; Wed, 28 Aug 2024 09:48:19 +0200 (CEST)
+ with ESMTPSA id 97F67BFC3C; Wed, 28 Aug 2024 09:48:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
- t=1724831308; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=Sk/iSLcWW34am2lJOyTQ6p5QG/I58ELhkbjR/9vSduk=;
- b=YvrfdGUqoG4TzSdQg8ZLh0JBKEYm6E1giJ2JsfZgxSqv8fABfEYoiZLjhW/+uMUXz3S+N+
- 1v5O13rt7wvMMYaq9ozDvngd1pXSruN2C1UhHAZG37az6rYZHqapTwKF1wPPRm/6VrEqyd
- IpCPdfcE1GNXDew711fXv7ZN0JQjvzC5yI5BKkTp+YR/Jy5RjapErNFPuPipV9QlzcTPY+
- YRJGbDtv9nLhSzFSYM5mHYfWxOtYAN0xhVto4hTuscSsznenOYOKF9/vNLjjUSmYv9ToZq
- zNlfYy6QedCo0Z+8mXqeM7BZIMZ3n3WJkpG0+o7C9hRBuf4Jr9+9vOKnO8HoeQ==
+ t=1724831316; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding:in-reply-to:references;
+ bh=CnbbSWEoCzwCVh93a30I9Q/oZV6uP0OjcIVTF+ZRfY4=;
+ b=jrMhYmkKmC5tX4Ntl9mTe50mR0QoX66OHWKwX/m2Awwo8LmyWJdVR3xOZVwkGN+z4YuzFU
+ 02CDYdW8SCMXhVhLgmY/SP8Nz2ik8nooPnV4ilfPe0ltkumd3gszMuQ3iZox2rPQvubwnW
+ lBG9fheHRzpRKlcEq4ySLUaZTZsnBH+Fm1usZ9abGrU44oggXcQjdw+flxTk+nsB1fEyCJ
+ pNKmEMEnRB3trkt1DKQWqxGyjbhte8PDOwjg1WJbKG1i9FyhAdPqxOpV1Kh14nhtuL2skG
+ WcDL4sh/S9LTmM/jlU27mmYbpNy7l/bEzafBoFhq5Fvw78acyJ8+ZU1nedhSkQ==
 From: Frieder Schrempf <frieder@fris.de>
 To: Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Frieder Schrempf <frieder.schrempf@kontron.de>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Chris Morgan <macromorgan@hotmail.com>,
  Conor Dooley <conor.dooley@microchip.com>,
- Fabio Estevam <festevam@gmail.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Gregor Herburger <gregor.herburger@ew.tq-group.com>,
  Heiko Stuebner <heiko.stuebner@cherry.de>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
- Joao Paulo Goncalves <joao.goncalves@toradex.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Parthiban Nallathambi <parthiban@linumiz.com>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
  Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Subject: [PATCH v2 0/4] arm64: dts: imx8mm-kontron: Add HDMI and LVDS display
- support
-Date: Wed, 28 Aug 2024 09:46:52 +0200
-Message-ID: <20240828074753.25401-1-frieder@fris.de>
+Subject: [PATCH v2 2/4] dt-bindings: display: panel-lvds: Add compatible for
+ Jenson BL-JT60050-01A
+Date: Wed, 28 Aug 2024 09:46:54 +0200
+Message-ID: <20240828074753.25401-3-frieder@fris.de>
+In-Reply-To: <20240828074753.25401-1-frieder@fris.de>
+References: <20240828074753.25401-1-frieder@fris.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -80,46 +69,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-This add support for the display bridges (DSI->LVDS and DSI->HDMI)
-on the BL i.MX8MM and the 7" LVDS panel in a separate overlay.
+The Jenson BL-JT60050-01A is a 7" 1024x600 LVDS display.
 
-Only one of the interfaces (HDMI or LVDS) is supported at the same
-time. Enabling the LVDS overlay will disable the HDMI interface.
-
-* Patch 1 and 2: Add the necessary binding changes
-* Patch 3: Extend the BL devicetree
-* Patch 4: Add the LVDS panel overlay
-
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
 Changes for v2:
-* Patch 1: Add link to commit message
-* Patch 2: Add Conors A-b tag
-* Patch 3: Remove blank lines from hdmi node
-* Patch 3: Fix order of lvds and hdmi nodes within i2c
-* Patch 3: Remove the unneeded deletion of samsung,pll-clock-frequency
-* Patch 3: Use the existing MIPI DSI output port from imx8mm.dtsi
-* Patch 4: Update copyright year
-* Patch 4: Use exisitng MIPI DSI output port from imx8mm.dtsi
-* Patch 4: Fix pinctrl for GPIO hogs
-* Patch 4: Fix property order in i2c2 node
-* Patch 4: Use generic node name for touchscreen
+* Add tag from Conor (thanks!)
+---
+ Documentation/devicetree/bindings/display/panel/panel-lvds.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Frieder Schrempf (4):
-  dt-bindings: vendor-prefixes: Add Jenson Display
-  dt-bindings: display: panel-lvds: Add compatible for Jenson
-    BL-JT60050-01A
-  arm64: dts: imx8mm-kontron: Add support for display bridges on BL
-    i.MX8MM
-  arm64: dts: imx8mm-kontron: Add DL (Display-Line) overlay with LVDS
-    support
-
- .../bindings/display/panel/panel-lvds.yaml    |   2 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- arch/arm64/boot/dts/freescale/Makefile        |   4 +
- .../boot/dts/freescale/imx8mm-kontron-bl.dts  | 131 ++++++++++++
- .../boot/dts/freescale/imx8mm-kontron-dl.dtso | 189 ++++++++++++++++++
- 5 files changed, 328 insertions(+)
- create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-kontron-dl.dtso
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+index 155d8ffa8f6ef..5af2d69300751 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+@@ -50,6 +50,8 @@ properties:
+           - hannstar,hsd101pww2
+           # Hydis Technologies 7" WXGA (800x1280) TFT LCD LVDS panel
+           - hydis,hv070wx2-1e0
++          # Jenson Display BL-JT60050-01A 7" WSVGA (1024x600) color TFT LCD LVDS panel
++          - jenson,bl-jt60050-01a
+           - tbs,a711-panel
+ 
+       - const: panel-lvds
 -- 
 2.46.0
 
