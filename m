@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D461962BE1
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:17:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA189962BE8
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:17:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D5310E581;
-	Wed, 28 Aug 2024 15:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9831910E587;
+	Wed, 28 Aug 2024 15:17:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Ow0MoXeG";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="G5IpyAYm";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QlfvOkPV";
+	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="UjWt2XV2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 394 seconds by postgrey-1.36 at gabe;
- Wed, 28 Aug 2024 15:17:17 UTC
+X-Greylist: delayed 402 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Aug 2024 15:17:30 UTC
 Received: from a7-32.smtp-out.eu-west-1.amazonses.com
  (a7-32.smtp-out.eu-west-1.amazonses.com [54.240.7.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8272710E57F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 15:17:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE3A110E585
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 15:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1724857841;
+ s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1724857846;
  h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
- bh=f0D3qZRNJKjZ4ZItDHDKxzlfX2zSfpN5blcJ2RQ0XJo=;
- b=Ow0MoXeGTo8d+uIkZO2V2kIwjrCIYFFVVsDdhffI3M4kptt6WnrRJPADwIg1CyBb
- KO3chTFlbJ/Nr/1xCMLO6gMVK6qS7EZLvJnFkaQxqeSjc8r2JYPD/l6w4seu61wsnGg
- 2VQb6NnV68dWYPZ2v9NvWCJTbiGb8GvTJ7qC+tB1VaxDxAGSwnmU3dRRByZ8Lz6L8Do
- ID8yTFbqZrWRWB33DM7nche1iU8cXaCKTRguBLXwaxoYDMi59/DefVF3UZPeG4iaCLp
- mSmuXZajr9k5z6km/bux87cSsEjHxPf5+6FeX3zyjK3jFUVL42h+4y3DyF1+BDzZ/ma
- k3oFTjghag==
+ bh=IyIiAOZwHngz0sn8kGrxdHkaHK6p3xqpx6CKa/ulcSM=;
+ b=QlfvOkPVy0KuXiYeHlBm28+ywYF5rQbLoYUfdk2JIHuSKgaUslSdN25eBP+1L+FK
+ 9ECp5rZvyrOHOEtK4PKnM98y3hT7yiiftkp5Nt/bGCdhxgwYA+3LRhvCJb5H6FaLugG
+ 6Ur5GsaFKiulMAInfYMyeWTTtWaagEf63e8VDaj5sA+xulBkgtJhVyBG+R+RYlU4kPZ
+ rMoL4vfTBa4LqnHk0dR1ZMEUdG/8XfLOjxWMlOy8gqdX9q1hMHYO4f9F+gh5aLgFAjU
+ Ls9raPsPnaN4TDKXa8FEzaYj+Agc4glxtpQkSg7KPSyXTsdebY7us/qC4FgVqp18duI
+ 0UZBj6V/gg==
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1724857841;
+ s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1724857846;
  h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
- bh=f0D3qZRNJKjZ4ZItDHDKxzlfX2zSfpN5blcJ2RQ0XJo=;
- b=G5IpyAYm8o6+31201LsbYa8UkbT9KgN3PxXOJrNc8rEkfA9R/eICg+E/S/W84DlS
- BpabpxV0/r94r+dqEUaL8rqgpjIvSC2UNY2XYIWF+RTPHXFYuR66bf0umBAV5m7Cr5C
- hAxgUecbl7fafRupP/V6vFBQtVM1ygQ4zzUPJv6M=
+ bh=IyIiAOZwHngz0sn8kGrxdHkaHK6p3xqpx6CKa/ulcSM=;
+ b=UjWt2XV2jTy21TDQrOiog0+5MIj64XuGW0PDfuGFHrmAuEnVF0KpgM51Q5kwsIln
+ Mk+brKUf8XqkR4tHQbJ3m3J4DEqPKZLCjIAJSADqo6DO8caruH1fYqxFNaUDvlpgcic
+ MazD18RUezRAB8R8ZrpgMXqaKrj6EQdFjdnIugQM=
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -69,9 +69,10 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-watchdog@vger.kernel.org, kernel@collabora.com, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 01/11] dt-bindings: arm: rockchip: Add ArmSoM Sige 5
-Date: Wed, 28 Aug 2024 15:10:41 +0000
-Message-ID: <010201919989f6fd-ae98c345-db70-4ad5-885d-b2c067ea8de3-000000@eu-west-1.amazonses.com>
+Subject: [PATCH v3 02/11] dt-bindings: arm: rockchip: Add rk3576 compatible
+ string to pmu.yaml
+Date: Wed, 28 Aug 2024 15:10:46 +0000
+Message-ID: <01020191998a0a28-80397901-7846-43c8-8593-7521bffcdcf6-000000@eu-west-1.amazonses.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240828151028.41255-1-detlev.casanova@collabora.com>
 References: <20240828151028.41255-1-detlev.casanova@collabora.com>
@@ -94,30 +95,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add devicetree binding for the ArmSoM Sige 5 board.
+Add the compatible for the pmu mfd on rk3576.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/arm/rockchip.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/devicetree/bindings/arm/rockchip/pmu.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
-index 1ef09fbfdfaf..c3449d964659 100644
---- a/Documentation/devicetree/bindings/arm/rockchip.yaml
-+++ b/Documentation/devicetree/bindings/arm/rockchip.yaml
-@@ -49,6 +49,11 @@ properties:
-               - anbernic,rg-arc-s
-           - const: rockchip,rk3566
+diff --git a/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml b/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
+index b79c81cd9f0e..932f981265cc 100644
+--- a/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
++++ b/Documentation/devicetree/bindings/arm/rockchip/pmu.yaml
+@@ -26,6 +26,7 @@ select:
+           - rockchip,rk3368-pmu
+           - rockchip,rk3399-pmu
+           - rockchip,rk3568-pmu
++          - rockchip,rk3576-pmu
+           - rockchip,rk3588-pmu
+           - rockchip,rv1126-pmu
  
-+      - description: ArmSoM Sige5 board
-+        items:
-+          - const: armsom,sige5
-+          - const: rockchip,rk3576
-+
-       - description: ArmSoM Sige7 board
-         items:
-           - const: armsom,sige7
+@@ -43,6 +44,7 @@ properties:
+           - rockchip,rk3368-pmu
+           - rockchip,rk3399-pmu
+           - rockchip,rk3568-pmu
++          - rockchip,rk3576-pmu
+           - rockchip,rk3588-pmu
+           - rockchip,rv1126-pmu
+       - const: syscon
 -- 
 2.46.0
 
