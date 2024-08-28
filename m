@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CAB962F32
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 20:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B59962F55
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 20:08:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55C9210E5A1;
-	Wed, 28 Aug 2024 18:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1649B10E309;
+	Wed, 28 Aug 2024 18:08:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="BBJj8YXt";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="FuSf36dM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E07AF10E5A1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 18:02:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0147110E309
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 18:08:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1724868113; x=1725472913; i=deller@gmx.de;
- bh=3WKzp3jxj4oL7NnhGmEuHNfXJaFVqo6E2pumyZ0MNik=;
+ s=s31663417; t=1724868513; x=1725473313; i=deller@gmx.de;
+ bh=Hud0DI9YV21RAJ2KGzjy/vBH5kORqs//+22MFMlye5w=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=BBJj8YXtD0kyfN1lrYv3y3Q5/reUpFdAWIZz+7pvFh+ZiP6NIzW05y0PN3OSb3Y/
- kGiZnEfysMyMpuBOulF8QqNucZ4ZqUjAa48fb7XW7p3nITDWrGq+ntM+IzoRj8ZAM
- uTFWxgfpcVPitpiyseUgYp+ILHRVLODDQt3iXJAOSCngUNu3EVaB5vJHrq+3Prk4w
- 9iQN+Vg2CYlZh7AUhVovFmyoCc1+8vii4T+lHcLriqEM2PKVm60DY3kq0290yFJaL
- 5R7y8r5JjALF0HlzK2cYMok0Z71/RhjVZQr2gBuUSA9bj5NgB5s6bt9xX+pkEbOZB
- 5Vq8QRUxD0Gtps7aEA==
+ b=FuSf36dMwtmvwicmeUBj/MX3dL4poZiO/leZJhPk33B8aguDpaPVIvKOnMXiV3hu
+ MbUyPWFslP9V7nDDQhMEFF7hBkvS0IwbDyReALZhjuL8w5lIE5dKO2yWIXNslBFqc
+ 9nmpuTOs54viXOPlidbWkInWreA/5jQZnUNzibX3UhTp2Fo6WPLSFodUb/UTjG77m
+ rbke9rdB3Bh8e4dEPY6gbi73ISUdfX9KuMCZmybezklSYGo3Z7Z4veJysFktMFMNL
+ UkHJRloinR9f4P1jUGe7FyKzYGLN22YTQ9LY7bKiCj6srB2U1X3/uG3TzBsGXA3+1
+ IfvMXvUFocxvAI9bCw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.55] ([109.250.63.126]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MCbEf-1srJDe0k1j-00GTlI; Wed, 28
- Aug 2024 20:01:53 +0200
-Message-ID: <17ecc1b1-4816-49bd-9a80-f5d4077ba145@gmx.de>
-Date: Wed, 28 Aug 2024 20:01:51 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MYNNo-1seKlW3K0w-00TK58; Wed, 28
+ Aug 2024 20:08:32 +0200
+Message-ID: <d60d6c37-3726-477c-8d69-5b49be8c921c@gmx.de>
+Date: Wed, 28 Aug 2024 20:08:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: mmp: Use devm_clk_get_enabled() helpers
-To: ying zuxin <yingzuxin@vivo.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com, yang.yang@vivo.com
-References: <20240823123027.5753-1-yingzuxin@vivo.com>
+Subject: Re: [PATCH] fbdev: omapfb: Use sysfs_emit_at() to simplify code
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <fa1c03aded0c36585d29991d85d083853c3ca871.1723119220.git.christophe.jaillet@wanadoo.fr>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -89,27 +88,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240823123027.5753-1-yingzuxin@vivo.com>
+In-Reply-To: <fa1c03aded0c36585d29991d85d083853c3ca871.1723119220.git.christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hfVl1ZH2+4oT9W6xsRe4S6mvf9I9IlMjXd5VHk41RTmEQYg9nKo
- riILnUmckgq4tWfEgJxiZSYj+ETu7PKF1Xf+KoG8TpniXYnaT8NylewGPBhhv/q4N7HCCQG
- 8aeGB+mFSckzVqwEj5PYcrayGBQwJ8enS4qKnj+HW6AtMWQprj7XgVWkCenpLvxFluZC+1k
- kg832O+1Mu13D+PW4tpMw==
+X-Provags-ID: V03:K1:kpndym5g7jHBuKWmmsmXtKTqJZHimbfDpYO2hL9Z0usUf4ZgN9D
+ ziEtYiOKxiHCwJT2SmgeqTfSlXw1sm4w6WvyBzXq6Yu3pWX3gAvoDuncyybDpwSDzy8jU1L
+ dHjWF7mlvWR94lZLhlD6Wglo7quMGzf4nTTLf7X4Dr422NKupukR85Mv50NgK0PwYMhHKYa
+ j60RNK64+Oz+Qr9mpxNRw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:n8YDgf4NAJQ=;9qW72B6+FMY3lioOdPO75F15jOF
- R3WEVRdKe/LRTcVpym6Wum27Fu+kZjkzcn6yq/rXMw8pkG4VaPzm6UKnSgjxf41ERg5GFfg0u
- sPnduYLz5VNL9cSecGXYM1c3skJe9wpDMKR6W+ExQnv8JjMGSOkO7EN5svPP1FhoSHl8kcPN/
- krjy5HQShOzerULyik3/JLeWov91LhkQwyFdUknSGGsJ3e72V3/zKQfJ4xttw9PJr92vDxmOG
- eLwcORenTlLzk3CEN2+RFvmPFzZsy84iUpvzxXiT4FFppXYyiHx+7jg/+kJTvV0yCN7GiA2MN
- 9QitV5/vwKfoWOwW2Dl8+Tb9s06rMN5H5KgYqG3SqakPM6L79920RB08v+8uOvMjkEvdHyIqO
- F4IK/HnFDJn+t1ulRkgjMefAMzXPMpXoAg8xEtOLMEVBm8/+P4QMd3KH4j4rHzwVcT4eAK9Vj
- HiCE5WOGYBm70QqiQ7xVyKiEqle1G52iIDGKkwgJK2qZk+e4bmmuZqh15eBUCRFdtNImKZwVX
- VV3c/vsVOoC5jO5GfaXSYhBvNmwMFnPAhLMbF4gNDEuLsTzd+6zPr2zJhRzG7Oemo7f6/p53A
- ooABOwbywltMhUkShOGH0QJHOc5AZqSmXdvjH+eMzZJQPPuC6EsNVnoHwVupigedIAC3kQTmH
- b9KHhX8h2Q0Wt312FLLNtSAZWgN++kYUTT4ih/CXGULC9RXHyEDrY87wCN9IR85kekqoYdJoo
- 4SUvCDSEkkUm3EJ1P+iff8lIBeAYacKPM6aEiWDSRXLw86A5mD6jgMu3eUsA0DQiMt+fTXRi1
- dCjFi+u+VVzPMsWyhq3IN20Q==
+UI-OutboundReport: notjunk:1;M01:P0:MV9b1EM5y0E=;oa5b73fgnWG2aVd+RnZcqp17m06
+ 1foU/NMg4F2hKCmtvPp5c6Vegom7w0o09Bgsi/1/KKvdpkRcm5oYSHGas1iO2WquBeJIBqVtI
+ eBVWk28ZDzcLK0+js+RYDDIlD7G46qbSp7aQ1bP99+UdgSNACBQ2MQm1/HTAWfu+bOmxo368X
+ ro60Fl1HNgKRMv79FxnYNJ/6MOko/TqxoZE6g+rZ/isntVktakf0SZlHRvcU7PUddhvd6ukSo
+ 3aYwVyMMg+Rz30zrReQzOKUZfsVaNfmyo7Mq/cUHRulLiRaCb72wTUdIL+wUfG5R98nKIIG8+
+ i0HbsmY9EbdbJmql5saBKqTc0B5XK8Fw5lXHdvPLgSLFUltGluOU0ZDblv4V+/ULgMyRICAvV
+ T2vegnPDOOp1Px/m0XIJtjQq6ooBJSXASffmbjPSj/jzRrFN4Dd8GIsM3KZ3oq8yRIESzpUro
+ 3fKfTiCSOQ1OndOhorb/ONjo1Gt/ZlKvEBi/Lg4RYCQ0PHyVj7eMrz4bYb1deKVTyQTZnAXSv
+ Q3GWy2ylDx2GPnEXNdOtztWUKg12f1wDW1USwMHMVKytyAmr+FSIbPraWe3O3fKYXlwyZvexr
+ eYPXzDAE9tCb0vetKj19zXQxb2s806dLVpGD0lC7mBZW+0ilHShopcsYmoZhrfe7f5oByp6Mz
+ b5Sktn60XUhSEdXBpadSrUrAvhMOJKd+uGRrSTHiQ0k964E7LpZb/T0NHp3TKoX9maOjqAcVR
+ +fjFx4sC7v8r3kv9EP17oPGaLQoC608aflc8QJE7lqH1T/rlg1ixaM+/zQDGNotUb+p+IAy6Q
+ 4D51eGeoQE2he+iLISnPWXeA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,19 +124,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/23/24 14:29, ying zuxin wrote:
-> The devm_clk_get_enabled() helpers:
->      - call devm_clk_get()
->      - call clk_prepare_enable() and register what is needed in order to
->       call clk_disable_unprepare() when needed, as a managed resource.
+On 8/8/24 14:14, Christophe JAILLET wrote:
+> This file already uses sysfs_emit(). So be consistent and also use
+> sysfs_emit_at().
 >
-> This simplifies the code and avoids the calls to clk_disable_unprepare()=
-.
+> Moreover, size is always < PAGE_SIZE because scnprintf() (and now
+> sysfs_emit_at()) returns the number of characters written not including =
+the
+> trailing '\0'. So some tests can be removed.
 >
-> Signed-off-by: ying zuxin <yingzuxin@vivo.com>
+> This slightly simplifies the code and makes it more readable.
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->   drivers/video/fbdev/mmp/hw/mmp_ctrl.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
+> Compile tested only.
+>
+> 2 spaces are added before color_caps[i].name and color_caps[i].name, but
+> not ctrl_caps[i].name.
+> I wonder if it is done on purpose or if it could be removed as well.
+> ---
+>   drivers/video/fbdev/omap/omapfb_main.c | 36 ++++++++++----------------
+>   1 file changed, 14 insertions(+), 22 deletions(-)
 
 applied.
 
