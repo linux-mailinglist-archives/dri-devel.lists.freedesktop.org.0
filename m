@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3CD9622F8
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 11:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89059622FE
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 11:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71EBE10E4E0;
-	Wed, 28 Aug 2024 09:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35AD010E4E5;
+	Wed, 28 Aug 2024 09:08:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HZr3+rFa";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PkJSEITX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87A3410E4E0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 09:07:41 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B26A1FF80C;
- Wed, 28 Aug 2024 09:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1724836060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zz6DLvfJRS+oja0Jh65Ow9R3+OFipp+nRBopAIUquPU=;
- b=HZr3+rFaDgZ5jLlvkG6vFKp1SByVaSvFBelAgXt08tU5mG4/H/gAQTI9tfZDUJWVwCsFSO
- 55nczXRDdOqnvocUxWkzX3bkDUhly3QGbJ6KurDCZlB1VDTRFCL53iM4YxZx6mlh/uhueX
- EtGrQd8udFMfI8a59FXURw2jQ8Y/maYGDIEMPXjiua/Eh9uDkx+sJA1MrmgFx9Ogciv/z5
- l7bCXfqr2vho0rhY0bsyu0kczITsmpTlHECPU2AP5gg1m69SAnIzU3nV1u3O1wEbj0csQu
- G7zMS4zC5Vp7GO9pXRMXCh5VIoSRKP+yH9GQcDE8WQJ5vY7aFfkXCvoyoM6hOg==
-Date: Wed, 28 Aug 2024 11:07:37 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH RFC 11/15] drm: writeback: Add drm_writeback_connector
- cleanup
-Message-ID: <Zs7o2REyQuVrlmbo@louis-chauvet-laptop>
-Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- nicolejadeyee@google.com
-References: <20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com>
- <20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com>
- <20240827-solid-adorable-coucal-c3e0d1@houat>
- <Zs3z7tx4dMBfY_DX@louis-chauvet-laptop> <87a5gxyrhc.fsf@intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98D8910E4E3;
+ Wed, 28 Aug 2024 09:08:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724836106; x=1756372106;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=memb3xY2+XGFNII44kc1+BRon/W1zwIewyluPEUA9R8=;
+ b=PkJSEITXlN2kvSV7/9Wv7XWqGThgWx7oCyWUFfMJRE5VJqapLZr8vRiG
+ GMDmk0TjpQs15x1oE6XSvjVV7b1XUuRTGYYfQLUV9pazSZ4HNgtQu+0Ha
+ 5SiuITaM7jj622/f+2CVR1AwMCyE2crmCJpEMg/TSRQDo/83XKZHyfmAh
+ 5vQtXzxj7kad3ERtx0iUtUXJWbGCnOamSKCZZ/URiw9tdATf6osngqWvV
+ 7nwax5F0MAy/ybzLtRullH8AsNVmzVPb/dl1TEa/lTPJwX7rR8dCW6xQd
+ ktO5tY9+nvNPw130qCnAEJdrgd+CwOnkOgSDkqrSHr4M2xkmXHiYMy3r0 Q==;
+X-CSE-ConnectionGUID: QOdNyMrhRTmaBJxEkBgyWQ==
+X-CSE-MsgGUID: PMF7HQMeRnKDlm4f8Fsheg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="45872980"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="45872980"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 02:08:25 -0700
+X-CSE-ConnectionGUID: /Uwqj2nwSdW/RoOiWg8KHg==
+X-CSE-MsgGUID: xogngFzbQGyLyMGBoICAnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; d="scan'208";a="93870323"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.245.192.103])
+ ([10.245.192.103])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 02:08:23 -0700
+Message-ID: <ccddf18e-d518-4580-a69c-4d831efbff47@linux.intel.com>
+Date: Wed, 28 Aug 2024 11:08:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/xe/lnl: Only do gpu sys page clear for non-pooled
+ BOs
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20240821095035.29083-1-nirmoy.das@intel.com>
+ <0ce411f42af6e94514810825f3b4626c5d06fae9.camel@linux.intel.com>
+Content-Language: en-US
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <0ce411f42af6e94514810825f3b4626c5d06fae9.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87a5gxyrhc.fsf@intel.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,125 +77,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 28/08/24 - 11:35, Jani Nikula a �crit :
-> On Tue, 27 Aug 2024, Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> > Le 27/08/24 - 16:33, Maxime Ripard a �crit :
-> >> Hi,
-> >> 
-> >> On Wed, Aug 14, 2024 at 04:36:33PM GMT, Louis Chauvet wrote:
-> >> > Currently drm_writeback_connector are created by
-> >> > drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
-> >> > Both of the function uses drm_connector_init and drm_encoder_init, but
-> >> > there is no way to properly clean those structure from outside.
-> >> > 
-> >> > This patch introduce the new function drm_writeback_connector_cleanup to
-> >> > allow a proper cleanup.
-> >> > 
-> >> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> >> > ---
-> >> >  drivers/gpu/drm/drm_writeback.c | 10 ++++++++++
-> >> >  include/drm/drm_writeback.h     | 11 +++++++++++
-> >> >  2 files changed, 21 insertions(+)
-> >> > 
-> >> > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-> >> > index a031c335bdb9..505a4eb40f93 100644
-> >> > --- a/drivers/gpu/drm/drm_writeback.c
-> >> > +++ b/drivers/gpu/drm/drm_writeback.c
-> >> > @@ -184,6 +184,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
-> >> >  	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-> >> >  
-> >> >  	wb_connector->encoder.possible_crtcs = possible_crtcs;
-> >> > +	wb_connector->managed_encoder = true;
-> >> >  
-> >> >  	ret = drm_encoder_init(dev, &wb_connector->encoder,
-> >> >  			       &drm_writeback_encoder_funcs,
-> >> > @@ -290,6 +291,15 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
-> >> >  }
-> >> >  EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
-> >> >  
-> >> > +void drm_writeback_connector_cleanup(struct drm_writeback_connector *wb_connector)
-> >> > +{
-> >> > +	drm_connector_cleanup(&wb_connector->base);
-> >> > +	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
-> >> > +	if (wb_connector->managed_encoder)
-> >> > +		drm_encoder_cleanup(&wb_connector->encoder);
-> >> > +}
-> >> > +EXPORT_SYMBOL(drm_writeback_connector_cleanup);
-> >> > +
-> >> >  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
-> >> >  			 struct drm_framebuffer *fb)
-> >> >  {
-> >> > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> >> > index 17e576c80169..e651c0c0c84c 100644
-> >> > --- a/include/drm/drm_writeback.h
-> >> > +++ b/include/drm/drm_writeback.h
-> >> > @@ -35,6 +35,15 @@ struct drm_writeback_connector {
-> >> >  	 */
-> >> >  	struct drm_encoder encoder;
-> >> >  
-> >> > +	/**
-> >> > +	 * @managed_encoder: Sets to true if @encoder was created by drm_writeback_connector_init()
-> >> > +	 *
-> >> > +	 * If the user used drm_writeback_connector_init_with_encoder() to create the connector,
-> >> > +	 * @encoder is not valid and not managed by drm_writeback_connector. This fields allows
-> >> > +	 * the drm_writeback_cleanup() function to properly destroy the encoder if needed.
-> >> > +	 */
-> >> > +	bool managed_encoder;
-> >> > +
-> >> 
-> >> I think we should rather create drmm_writeback_connector variants,
-> >> and make both deprecated in favor of these new functions.
-> >
-> > Hi,
-> >
-> > I can try to do it. If I understand correctly, you want to create two 
-> > functions like this? 
-> >
-> > 	int drmm_writeback_connector_init([...]) {
-> > 		/* drmm and alloc as we want to let drm core to manage this 
-> > 		   encoder, no need to store it in drm_writeback_connector 
-> > 		   */
-> > 		enc = drmm_plain_encoder_alloc(...);
-> >
-> > 		return drmm_writeback_connector_init_with_encoder([...], enc);
-> > 	}
-> >
-> > 	int drmm_writeback_connector_init_with_encoder([...], enc) {
-> > 		con = drmm_connector_init([...]);
-> >
-> > 		drm_connector_attach_encoder(enc, con);
-> >
-> > 		/* Needed for pixel_formats_blob_ptr, base is already 
-> > 		   managed by drmm_connector_init. Maybe cleaning 
-> > 		   job_queue is also needed? */
-> > 		drmm_add_action_or_reset([...], &drm_writeback_connector_cleanup)
-> > 	}
-> 
-> Why add two variants, when you can have one and pass NULL for encoder?
-> We have the _init_with_encoder variant only because nobody bothered to
-> clean up existing call sites.
+Hi Thomas,
 
-I just followed the existing code, but yes, I can make only one function 
-and create the encoder if the pointer is NULL.
- 
-> Side note, I'd still like to be able to pass driver's own allocated
-> connector instead of having writeback midlayer force it on you.
+On 8/28/2024 10:09 AM, Thomas Hellström wrote:
+> On Wed, 2024-08-21 at 11:50 +0200, Nirmoy Das wrote:
+>> Currently XE lacks clean-on-free implementation so using
+>> TTM_TT_FLAG_CLEARED_ON_FREE is invalid. Remove usage of
+>> TTM_TT_FLAG_CLEARED_ON_FREE and limit gpu system page clearing
+>> only for WB cached BOs which are not pooled so there is no need to
+>> return a zeroed pages to a pool.
+>>
+>> Without the patch:
+>> api_overhead_benchmark_l0 --testFilter=UsmMemoryAllocation:
+>> UsmMemoryAllocation(api=l0 type=Host size=4KB) 79.439 us
+>> UsmMemoryAllocation(api=l0 type=Host size=1GB) 98677.75 us
+>> Perf tool top 5 entries:
+>> 11.16%  api_overhead_be [kernel.kallsyms] [k] __pageblock_pfn_to_page
+>> 7.85%  api_overhead_be  [kernel.kallsyms] [k] cpa_flush
+>> 7.59%  api_overhead_be  [kernel.kallsyms] [k] find_next_iomem_res
+>> 7.24%  api_overhead_be  [kernel.kallsyms] [k] pages_are_mergeable
+>> 5.53%  api_overhead_be  [kernel.kallsyms] [k]
+>> lookup_address_in_pgd_attr
+>>
+>> With the patch:
+>> UsmMemoryAllocation(api=l0 type=Host size=4KB) 78.164 us
+>> UsmMemoryAllocation(api=l0 type=Host size=1GB) 98880.39 us
+>> Perf tool top 5 entries:
+>> 25.40% api_overhead_be  [kernel.kallsyms] [k] clear_page_erms
+>> 9.89%  api_overhead_be  [kernel.kallsyms] [k] pages_are_mergeable
+>> 4.64%  api_overhead_be  [kernel.kallsyms] [k] cpa_flush
+>> 4.04%  api_overhead_be  [kernel.kallsyms] [k] find_next_iomem_res
+>> 3.96%  api_overhead_be  [kernel.kallsyms] [k] mod_find
+>>
+>> This is still better than the base case where there was no
+>> page clearing offloading.
+>>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> Nirmoy, is it possible to split this up into a revert and then added
+> functionality so that we could quickly revert the security issue end
+> then add a separate patch that is an optimization?
 
-I just checked, it seems non-trivial to make this change and I don't feel 
-confident to change this much the drm core.
 
-Louis Chauvet
+Sent out a new series to clean revert both patches so it could be merge 
+soon.
 
-> BR,
-> Jani.
-> 
-> 
-> >
-> > Louis Chauvet
-> >  
-> >> Maxime
-> >
-> >
-> 
-> -- 
-> Jani Nikula, Intel
+Regards,
+
+Nirmoy
+
+>
+> /Thomas
+>
+>> ---
+>>   drivers/gpu/drm/xe/xe_bo.c | 27 +++++++++++++++++++--------
+>>   1 file changed, 19 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>> index 6ed0e1955215..a18408d5d185 100644
+>> --- a/drivers/gpu/drm/xe/xe_bo.c
+>> +++ b/drivers/gpu/drm/xe/xe_bo.c
+>> @@ -283,6 +283,7 @@ struct xe_ttm_tt {
+>>   	struct device *dev;
+>>   	struct sg_table sgt;
+>>   	struct sg_table *sg;
+>> +	bool clear_system_pages;
+>>   };
+>>   
+>>   static int xe_tt_map_sg(struct ttm_tt *tt)
+>> @@ -397,12 +398,17 @@ static struct ttm_tt *xe_ttm_tt_create(struct
+>> ttm_buffer_object *ttm_bo,
+>>   	}
+>>   
+>>   	/*
+>> -	 * If the device can support gpu clear system pages then set
+>> proper ttm
+>> +	 * If the device can support gpu clear system pages then set
+>> proper
+>>   	 * flag. Zeroed pages are only required for
+>> ttm_bo_type_device so
+>>   	 * unwanted data is not leaked to userspace.
+>> +	 *
+>> +	 * XE currently does clear-on-alloc so gpu clear will only
+>> work on
+>> +	 * non-pooled BO, DRM_XE_GEM_CPU_CACHING_WB otherwise global
+>> pool will
+>> +	 * get poisoned ono-zeroed pages.
+>>   	 */
+>> -	if (ttm_bo->type == ttm_bo_type_device && xe-
+>>> mem.gpu_page_clear_sys)
+>> -		page_flags |= TTM_TT_FLAG_CLEARED_ON_FREE;
+>> +	if (ttm_bo->type == ttm_bo_type_device && xe-
+>>> mem.gpu_page_clear_sys &&
+>> +	    bo->cpu_caching == DRM_XE_GEM_CPU_CACHING_WB)
+>> +		tt->clear_system_pages = true;
+>>   
+>>   	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching,
+>> extra_pages);
+>>   	if (err) {
+>> @@ -416,8 +422,11 @@ static struct ttm_tt *xe_ttm_tt_create(struct
+>> ttm_buffer_object *ttm_bo,
+>>   static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct
+>> ttm_tt *tt,
+>>   			      struct ttm_operation_ctx *ctx)
+>>   {
+>> +	struct xe_ttm_tt *xe_tt;
+>>   	int err;
+>>   
+>> +	xe_tt = container_of(tt, struct xe_ttm_tt, ttm);
+>> +
+>>   	/*
+>>   	 * dma-bufs are not populated with pages, and the dma-
+>>   	 * addresses are set up when moved to XE_PL_TT.
+>> @@ -426,7 +435,7 @@ static int xe_ttm_tt_populate(struct ttm_device
+>> *ttm_dev, struct ttm_tt *tt,
+>>   		return 0;
+>>   
+>>   	/* Clear TTM_TT_FLAG_ZERO_ALLOC when GPU is set to clear
+>> system pages */
+>> -	if (tt->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE)
+>> +	if (xe_tt->clear_system_pages)
+>>   		tt->page_flags &= ~TTM_TT_FLAG_ZERO_ALLOC;
+>>   
+>>   	err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
+>> @@ -664,6 +673,7 @@ static int xe_bo_move(struct ttm_buffer_object
+>> *ttm_bo, bool evict,
+>>   	struct ttm_resource *old_mem = ttm_bo->resource;
+>>   	u32 old_mem_type = old_mem ? old_mem->mem_type :
+>> XE_PL_SYSTEM;
+>>   	struct ttm_tt *ttm = ttm_bo->ttm;
+>> +	struct xe_ttm_tt *xe_tt = container_of(ttm, struct
+>> xe_ttm_tt, ttm);
+>>   	struct xe_migrate *migrate = NULL;
+>>   	struct dma_fence *fence;
+>>   	bool move_lacks_source;
+>> @@ -671,15 +681,16 @@ static int xe_bo_move(struct ttm_buffer_object
+>> *ttm_bo, bool evict,
+>>   	bool needs_clear;
+>>   	bool handle_system_ccs = (!IS_DGFX(xe) &&
+>> xe_bo_needs_ccs_pages(bo) &&
+>>   				  ttm && ttm_tt_is_populated(ttm)) ?
+>> true : false;
+>> -	bool clear_system_pages;
+>> +	bool clear_system_pages = false;
+>>   	int ret = 0;
+>>   
+>>   	/*
+>>   	 * Clear TTM_TT_FLAG_CLEARED_ON_FREE on bo creation path
+>> when
+>>   	 * moving to system as the bo doesn't have dma_mapping.
+>>   	 */
+>> -	if (!old_mem && ttm && !ttm_tt_is_populated(ttm))
+>> -		ttm->page_flags &= ~TTM_TT_FLAG_CLEARED_ON_FREE;
+>> +	if (!old_mem && ttm && !ttm_tt_is_populated(ttm) &&
+>> +	    xe_tt->clear_system_pages)
+>> +		xe_tt->clear_system_pages = false;
+>>   
+>>   	/* Bo creation path, moving to system or TT. */
+>>   	if ((!old_mem && ttm) && !handle_system_ccs) {
+>> @@ -703,7 +714,7 @@ static int xe_bo_move(struct ttm_buffer_object
+>> *ttm_bo, bool evict,
+>>   	move_lacks_source = handle_system_ccs ? (!bo->ccs_cleared)
+>> :
+>>   						(!mem_type_is_vram(o
+>> ld_mem_type) && !tt_has_data);
+>>   
+>> -	clear_system_pages = ttm && (ttm->page_flags &
+>> TTM_TT_FLAG_CLEARED_ON_FREE);
+>> +	clear_system_pages = ttm && xe_tt->clear_system_pages;
+>>   	needs_clear = (ttm && ttm->page_flags &
+>> TTM_TT_FLAG_ZERO_ALLOC) ||
+>>   		(!ttm && ttm_bo->type == ttm_bo_type_device) ||
+>>   		clear_system_pages;
