@@ -2,75 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C14962985
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2696C9629F4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 16:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27EBE10E532;
-	Wed, 28 Aug 2024 13:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 871D710E539;
+	Wed, 28 Aug 2024 14:12:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AgDmJOtQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uYHfzpm/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F5D10E531;
- Wed, 28 Aug 2024 13:59:07 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-71420e66ecfso447552b3a.0; 
- Wed, 28 Aug 2024 06:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724853547; x=1725458347; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j17SgWpk5R0r6pUXYRNRmemGHlGjHxXJNZcaBt+9vjk=;
- b=AgDmJOtQ0fSwII45zSkr9QNmdbbJflgCr3InxvR59dNK8MohwE7fYqcpTWD4eoKetz
- eF84kLsk3AdJUV6dIJ5aClqsK4Q91jAs4Z4hL95z6sB6vvHqaK4EmqDJIxUrrkevAvo/
- LKBWQQVUcVTVCudGb9QBnabxilWMOeiSmjwc7R0FvM/Sx+AutLHzg9g48hQw57FtbW8f
- wvfaZDUR/ID++j0P0d9/12OIk6rlIFvpNpETvDaqXb3o2aVx0djdmB2oxcoEFesukGt+
- iXOOxg04LWU8ic3M4qQoLpY9tfQ9TU8ll77/gbasyWx/l1/oh6+Ay1QeJX5pPwVKR/ND
- Bisg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724853547; x=1725458347;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=j17SgWpk5R0r6pUXYRNRmemGHlGjHxXJNZcaBt+9vjk=;
- b=a5dNYkGWNNMXe6hGJX88M+73ydXtP750wzIj0IUyEKjRLWkkZE9ECsRQZD1FPd1aip
- 0y55EtgbqqpIMwfDUP9ewCK39shuAkikHu88u/ahpsM/G7FCcjGc5buibaZfIZmJA30M
- opTBcGsV6QlAc4m6+jMvMaijxUT965/ry5pP42WCU53V+4SOEb2T4KJbNw+NDDrXErpx
- hm/GcDAOULTOwFUUA6NFKmjMAIBsuneI/1092wobd+ZpUYN6J2CPYwp7RvdfPXCzmOmN
- AuI7lxOmy32hLpPXH9V69JyCiP8BYMsvynyxaROg+h1Fqk8JvEZEwhqLKcRq1v1XzH7a
- U5lg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9okRt607nDZ0E7X6E0p7j16qurbz0Zn/DN/tOmCZcUmYUhoSA4w8FiH0bvDXai71ARdlZpoykWA/J@lists.freedesktop.org,
- AJvYcCXA1nuhHtvWhVD8SKXcME86sw2xbGTLLLf7jU5GiyVAxO+Y8eiMFnnOLR84neFOzIllu4ea1vY7EnZQ@lists.freedesktop.org,
- AJvYcCXlYfV0BPan2yh2Pzy27pAsp9yxy/xVTB5Pb7EgNqaxfLloHeW97jRUFij3U5XteUCh+y+qnlhw@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8lhcQLCdRLMWT31iH8aAqxqlSjt4pS0erQYMmThZwxbeagIIz
- a6QCbemGMD9t0PzxBo2GhyAMCBAr20hyKchItWXpWttCUkxJl0VOtngyOd2s8vs9sJV7t/bpbKy
- Ik8Kjnw9hakTHlnWFKgT34OxiLiU=
-X-Google-Smtp-Source: AGHT+IFQAp3SzTsJhy40S/srj1DhwyABrbfpssrIv2j5MdyTntuoiQ5YHnzUQbEkOqLr3aX9QK9/B87iRUH2BKpjEv8=
-X-Received: by 2002:a05:6a00:3cd1:b0:70e:acd0:d8b6 with SMTP id
- d2e1a72fcca58-7144540709cmr11913098b3a.0.1724853547194; Wed, 28 Aug 2024
- 06:59:07 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3722B10E539
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 14:12:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2361FA40C40;
+ Wed, 28 Aug 2024 14:12:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A81A1C98ED1;
+ Wed, 28 Aug 2024 14:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724853837;
+ bh=lcHIdMYhBsJloW9fSwc6JWgDLrvYPjB0GKNuKWcKMcA=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=uYHfzpm/VEEl9wksfaG1d5QteWMrPN+ZXmcPmB4Ia/soAnFKfgp9mhZnydUdJy6t3
+ 5hOMGih31y5Y0fN1t96rLTITQopjIB1gRZgSkMnTAd5YlwLPxUACpAe4a5PXgNd1x2
+ hpU8nDF5Zc6Bc8653vJzBfHxUfifFRTQnHGsz/tw6NzvgFnHzEfDdXZeB7kEqktYAm
+ Wc8LHvMMW1amVNWZ0JQzHloemAhzlGZNsRMSB7QJdgQgyDYRfzf/czVtJC+gsxoSV0
+ E1HK5namjymsUD6QBpH/p4y8aAuzx2hW1oimDQwAINC0Kv0Tg+aurxOigRs5WPigA4
+ Z3zuMYGKFHTcQ==
+Date: Wed, 28 Aug 2024 07:03:58 -0700
+From: Kees Cook <kees@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org
+CC: torvalds@linux-foundation.org, alx@kernel.org, justinstitt@google.com,
+ ebiederm@xmission.com, alexei.starovoitov@gmail.com, rostedt@goodmis.org,
+ catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+ bpf@vger.kernel.org, netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, Matus Jokay <matus.jokay@stuba.sk>,
+ "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [PATCH v8 1/8] Get rid of __get_task_comm()
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20240828030321.20688-2-laoar.shao@gmail.com>
+References: <20240828030321.20688-1-laoar.shao@gmail.com>
+ <20240828030321.20688-2-laoar.shao@gmail.com>
+Message-ID: <8A36564D-56E3-469B-B201-0BD7C11D6EFC@kernel.org>
 MIME-Version: 1.0
-References: <20240812122312.1567046-1-jani.nikula@intel.com>
- <20240812122312.1567046-3-jani.nikula@intel.com>
- <Zs8kJOC2pH7gSfET@phenom.ffwll.local> <87plpsydda.fsf@intel.com>
-In-Reply-To: <87plpsydda.fsf@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 28 Aug 2024 09:58:55 -0400
-Message-ID: <CADnq5_OoY-Wt56=_XHjZGgZk2LrgXB5U34TOcjWqyO-+Ou9W8Q@mail.gmail.com>
-Subject: Re: [RESEND 3/3] drm/amd/display: switch to guid_gen() to generate
- valid GUIDs
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,110 +69,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 28, 2024 at 9:53=E2=80=AFAM Jani Nikula <jani.nikula@intel.com>=
- wrote:
->
-> On Wed, 28 Aug 2024, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > On Mon, Aug 12, 2024 at 03:23:12PM +0300, Jani Nikula wrote:
-> >> Instead of just smashing jiffies into a GUID, use guid_gen() to genera=
-te
-> >> RFC 4122 compliant GUIDs.
-> >>
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >>
-> >> ---
-> >>
-> >> Side note, it baffles me why amdgpu has a copy of this instead of
-> >> plumbing it into drm mst code.
-> >
-> > Yeah ec5fa9fcdeca ("drm/amd/display: Adjust the MST resume flow") promi=
-sed
-> > a follow-up, but that seems to have never materialized. Really should
-> > materialize though. Patch lgtm
-> >
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> Thanks!
->
-> Cc: AMD folks, ack for merging the series via drm-misc-next?
 
-Unless Harry has any objections,
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+
+On August 27, 2024 8:03:14 PM PDT, Yafang Shao <laoar=2Eshao@gmail=2Ecom> =
+wrote:
+>We want to eliminate the use of __get_task_comm() for the following
+>reasons:
+>
+>- The task_lock() is unnecessary
+>  Quoted from Linus [0]:
+>  : Since user space can randomly change their names anyway, using lockin=
+g
+>  : was always wrong for readers (for writers it probably does make sense
+>  : to have some lock - although practically speaking nobody cares there
+>  : either, but at least for a writer some kind of race could have
+>  : long-term mixed results
+>
+>- The BUILD_BUG_ON() doesn't add any value
+>  The only requirement is to ensure that the destination buffer is a vali=
+d
+>  array=2E
+
+Sorry, that's not a correct evaluation=2E See below=2E
 
 >
-> BR,
-> Jani.
+>- Zeroing is not necessary in current use cases
+>  To avoid confusion, we should remove it=2E Moreover, not zeroing could
+>  potentially make it easier to uncover bugs=2E If the caller needs a
+>  zero-padded task name, it should be explicitly handled at the call site=
+=2E
+
+This is also not an appropriate rationale=2E We don't make the kernel "mor=
+e buggy" not purpose=2E ;) See below=2E
+
 >
+>Suggested-by: Linus Torvalds <torvalds@linux-foundation=2Eorg>
+>Link: https://lore=2Ekernel=2Eorg/all/CAHk-=3DwivfrF0_zvf+oj6=3D=3DSh=3D-=
+npJooP8chLPEfaFV0oNYTTBA@mail=2Egmail=2Ecom [0]
+>Link: https://lore=2Ekernel=2Eorg/all/CAHk-=3DwhWtUC-AjmGJveAETKOMeMFSTwK=
+wu99v7+b6AyHMmaDFA@mail=2Egmail=2Ecom/
+>Suggested-by: Alejandro Colomar <alx@kernel=2Eorg>
+>Link: https://lore=2Ekernel=2Eorg/all/2jxak5v6dfxlpbxhpm3ey7oup4g2lnr3ueu=
+rfbosf5wdo65dk4@srb3hsk72zwq
+>Signed-off-by: Yafang Shao <laoar=2Eshao@gmail=2Ecom>
+>Cc: Alexander Viro <viro@zeniv=2Elinux=2Eorg=2Euk>
+>Cc: Christian Brauner <brauner@kernel=2Eorg>
+>Cc: Jan Kara <jack@suse=2Ecz>
+>Cc: Eric Biederman <ebiederm@xmission=2Ecom>
+>Cc: Kees Cook <keescook@chromium=2Eorg>
+>Cc: Alexei Starovoitov <alexei=2Estarovoitov@gmail=2Ecom>
+>Cc: Matus Jokay <matus=2Ejokay@stuba=2Esk>
+>Cc: Alejandro Colomar <alx@kernel=2Eorg>
+>Cc: "Serge E=2E Hallyn" <serge@hallyn=2Ecom>
+>---
+> fs/exec=2Ec             | 10 ----------
+> fs/proc/array=2Ec       |  2 +-
+> include/linux/sched=2Eh | 32 ++++++++++++++++++++++++++------
+> kernel/kthread=2Ec      |  2 +-
+> 4 files changed, 28 insertions(+), 18 deletions(-)
 >
-> >
-> >
-> >> ---
-> >>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++++++++++--------=
--
-> >>  1 file changed, 12 insertions(+), 11 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drive=
-rs/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> index 72c10fc2c890..ce05e7e2a383 100644
-> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> @@ -2568,9 +2568,9 @@ static int dm_late_init(void *handle)
-> >>
-> >>  static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *=
-mgr)
-> >>  {
-> >> +    u8 buf[UUID_SIZE];
-> >> +    guid_t guid;
-> >>      int ret;
-> >> -    u8 guid[16];
-> >> -    u64 tmp64;
-> >>
-> >>      mutex_lock(&mgr->lock);
-> >>      if (!mgr->mst_primary)
-> >> @@ -2591,26 +2591,27 @@ static void resume_mst_branch_status(struct dr=
-m_dp_mst_topology_mgr *mgr)
-> >>      }
-> >>
-> >>      /* Some hubs forget their guids after they resume */
-> >> -    ret =3D drm_dp_dpcd_read(mgr->aux, DP_GUID, guid, 16);
-> >> -    if (ret !=3D 16) {
-> >> +    ret =3D drm_dp_dpcd_read(mgr->aux, DP_GUID, buf, sizeof(buf));
-> >> +    if (ret !=3D sizeof(buf)) {
-> >>              drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during=
- suspend?\n");
-> >>              goto out_fail;
-> >>      }
-> >>
-> >> -    if (memchr_inv(guid, 0, 16) =3D=3D NULL) {
-> >> -            tmp64 =3D get_jiffies_64();
-> >> -            memcpy(&guid[0], &tmp64, sizeof(u64));
-> >> -            memcpy(&guid[8], &tmp64, sizeof(u64));
-> >> +    import_guid(&guid, buf);
-> >>
-> >> -            ret =3D drm_dp_dpcd_write(mgr->aux, DP_GUID, guid, 16);
-> >> +    if (guid_is_null(&guid)) {
-> >> +            guid_gen(&guid);
-> >> +            export_guid(buf, &guid);
-> >>
-> >> -            if (ret !=3D 16) {
-> >> +            ret =3D drm_dp_dpcd_write(mgr->aux, DP_GUID, buf, sizeof(=
-buf));
-> >> +
-> >> +            if (ret !=3D sizeof(buf)) {
-> >>                      drm_dbg_kms(mgr->dev, "check mstb guid failed - u=
-ndocked during suspend?\n");
-> >>                      goto out_fail;
-> >>              }
-> >>      }
-> >>
-> >> -    import_guid(&mgr->mst_primary->guid, guid);
-> >> +    guid_copy(&mgr->mst_primary->guid, &guid);
-> >>
-> >>  out_fail:
-> >>      mutex_unlock(&mgr->lock);
-> >> --
-> >> 2.39.2
-> >>
->
-> --
-> Jani Nikula, Intel
+>diff --git a/fs/exec=2Ec b/fs/exec=2Ec
+>index 50e76cc633c4=2E=2E8a23171bc3c3 100644
+>--- a/fs/exec=2Ec
+>+++ b/fs/exec=2Ec
+>@@ -1264,16 +1264,6 @@ static int unshare_sighand(struct task_struct *me)
+> 	return 0;
+> }
+>=20
+>-char *__get_task_comm(char *buf, size_t buf_size, struct task_struct *ts=
+k)
+>-{
+>-	task_lock(tsk);
+>-	/* Always NUL terminated and zero-padded */
+>-	strscpy_pad(buf, tsk->comm, buf_size);
+>-	task_unlock(tsk);
+>-	return buf;
+>-}
+>-EXPORT_SYMBOL_GPL(__get_task_comm);
+>-
+> /*
+>  * These functions flushes out all traces of the currently running execu=
+table
+>  * so that a new one can be started
+>diff --git a/fs/proc/array=2Ec b/fs/proc/array=2Ec
+>index 34a47fb0c57f=2E=2E55ed3510d2bb 100644
+>--- a/fs/proc/array=2Ec
+>+++ b/fs/proc/array=2Ec
+>@@ -109,7 +109,7 @@ void proc_task_name(struct seq_file *m, struct task_s=
+truct *p, bool escape)
+> 	else if (p->flags & PF_KTHREAD)
+> 		get_kthread_comm(tcomm, sizeof(tcomm), p);
+> 	else
+>-		__get_task_comm(tcomm, sizeof(tcomm), p);
+>+		get_task_comm(tcomm, p);
+>=20
+> 	if (escape)
+> 		seq_escape_str(m, tcomm, ESCAPE_SPACE | ESCAPE_SPECIAL, "\n\\");
+>diff --git a/include/linux/sched=2Eh b/include/linux/sched=2Eh
+>index f8d150343d42=2E=2Ec40b95a79d80 100644
+>--- a/include/linux/sched=2Eh
+>+++ b/include/linux/sched=2Eh
+>@@ -1096,9 +1096,12 @@ struct task_struct {
+> 	/*
+> 	 * executable name, excluding path=2E
+> 	 *
+>-	 * - normally initialized setup_new_exec()
+>-	 * - access it with [gs]et_task_comm()
+>-	 * - lock it with task_lock()
+>+	 * - normally initialized begin_new_exec()
+>+	 * - set it with set_task_comm()
+>+	 *   - strscpy_pad() to ensure it is always NUL-terminated and
+>+	 *     zero-padded
+>+	 *   - task_lock() to ensure the operation is atomic and the name is
+>+	 *     fully updated=2E
+> 	 */
+> 	char				comm[TASK_COMM_LEN];
+>=20
+>@@ -1914,10 +1917,27 @@ static inline void set_task_comm(struct task_stru=
+ct *tsk, const char *from)
+> 	__set_task_comm(tsk, from, false);
+> }
+>=20
+>-extern char *__get_task_comm(char *to, size_t len, struct task_struct *t=
+sk);
+>+/*
+>+ * - Why not use task_lock()?
+>+ *   User space can randomly change their names anyway, so locking for r=
+eaders
+>+ *   doesn't make sense=2E For writers, locking is probably necessary, a=
+s a race
+>+ *   condition could lead to long-term mixed results=2E
+>+ *   The strscpy_pad() in __set_task_comm() can ensure that the task com=
+m is
+>+ *   always NUL-terminated and zero-padded=2E Therefore the race conditi=
+on between
+>+ *   reader and writer is not an issue=2E
+>+ *
+>+ * - Why not use strscpy_pad()?
+>+ *   While strscpy_pad() prevents writing garbage past the NUL terminato=
+r, which
+>+ *   is useful when using the task name as a key in a hash map, most use=
+ cases
+>+ *   don't require this=2E Zero-padding might confuse users if it=E2=80=
+=99s unnecessary,
+>+ *   and not zeroing might even make it easier to expose bugs=2E If you =
+need a
+>+ *   zero-padded task name, please handle that explicitly at the call si=
+te=2E
+
+I really don't like this part of the change=2E You don't know that existin=
+g callers don't depend on the padding=2E Please invert this logic: get_task=
+_comm() must use strscpy_pad()=2E Calls NOT wanting padding can call strscp=
+y() themselves=2E
+
+>+ *
+>+ * - ARRAY_SIZE() can help ensure that @buf is indeed an array=2E
+
+This doesn't need checking here; strscpy() will already do that=2E=20
+
+>+ */
+> #define get_task_comm(buf, tsk) ({			\
+>-	BUILD_BUG_ON(sizeof(buf) !=3D TASK_COMM_LEN);	\
+
+Also, please leave the TASK_COMM_LEN test so that destination buffers cont=
+inue to be the correct size: current callers do not perform any return valu=
+e analysis, so they cannot accidentally start having situations where the d=
+estination string might be truncated=2E Again, anyone wanting to avoid that=
+ restriction can use strscpy() directly and check the return value=2E
+
+>-	__get_task_comm(buf, sizeof(buf), tsk);		\
+>+	strscpy(buf, (tsk)->comm, ARRAY_SIZE(buf));	\
+>+	buf;						\
+> })
+>=20
+> #ifdef CONFIG_SMP
+>diff --git a/kernel/kthread=2Ec b/kernel/kthread=2Ec
+>index f7be976ff88a=2E=2E7d001d033cf9 100644
+>--- a/kernel/kthread=2Ec
+>+++ b/kernel/kthread=2Ec
+>@@ -101,7 +101,7 @@ void get_kthread_comm(char *buf, size_t buf_size, str=
+uct task_struct *tsk)
+> 	struct kthread *kthread =3D to_kthread(tsk);
+>=20
+> 	if (!kthread || !kthread->full_name) {
+>-		__get_task_comm(buf, buf_size, tsk);
+>+		strscpy(buf, tsk->comm, buf_size);
+
+Why is this safe to not use strscpy_pad? Also, is buf_size ever not TASK_C=
+OMM_LEN?
+
+> 		return;
+> 	}
+>=20
+
+--=20
+Kees Cook
