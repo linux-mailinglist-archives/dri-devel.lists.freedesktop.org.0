@@ -2,83 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98204962C7D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF7F962C7F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:36:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0521810E0E8;
-	Wed, 28 Aug 2024 15:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB2E310E341;
+	Wed, 28 Aug 2024 15:35:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NDZOyrZf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DTOns+9G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1371F10E0E8
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 15:35:47 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id
- 5614622812f47-3df036d7132so27715b6e.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 08:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724859346; x=1725464146; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V6yAsW8mNLGozd3i7GjRGefCXRich5GRAyEbXws/Or8=;
- b=NDZOyrZf6aqMeWo2zPRCefmglDcBezPK3KrazdsTSLDDVx4AulVK+ZhiNzrBYmYFss
- z68XJAJAqEVWJvoh/4qmc8GRL2IqHbUS7+0Lq/jtI7AbuM4KOmT/eWKbNcqHRaC3QcBn
- LXOz7B1XsXNLutsco/sXTIgdRjPtMMwseGYThKwsc39Emp04kAJ2d5D/J2uGzSzN2Rmq
- H1gSwKnl2mV4nvOeNRH6mjkFYqSAFenxEtF8GL1fK7O3r0dxy3URfmIsi4O4YyDboQtE
- 056xAtGCRR0lcOEUnkvUrmu3QyMe3a1k8hn81Ho8TDHImLMeOOfZGX8eil1z36xczRH6
- aMKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724859346; x=1725464146;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V6yAsW8mNLGozd3i7GjRGefCXRich5GRAyEbXws/Or8=;
- b=ik+KgX/+HdBXsn5YPrsUihNI1i7iqJymjALNjYZlF2O8CoM4te2d6u9aNKDsjW8Jfe
- Ybn/Zz8PshnK5cof07kOT9Sf6bk1GOySYKs8Uy/SwPCsuD0+/MYcAdZ5sVNbjkW3S+R1
- TpfJiphx538DIh/T+SqrJThNwU6EH+uV/XjkL5cDnxjri4KxNWJ36xo1/Gu9nEP/CMNM
- 6aMI71XU7euXxQSArR87TnB+OOXpqKspyrytnX5iNPFGyVohnwj4mWmQHsVP38p6MLa5
- ZQvHS4W2zRVsUSIGdD0rMAKlkm8n1Wa196flX/x3Ib1rwjjv7UF28s5FbnihQwY+ibAM
- fPIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+GsODb67LS/0Qan79H957onMhQ5GUyyikV9NXLwaSZng1R0KPLP7abEzZRIa3PRMogRDPZqyCCCw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzobQIBoaWBzhA373s+lImWrQWfBvVnPozS+UC1dtPbcT8RQc02
- P+y0fGQTBLCE/y1I2yi6YGZPO9BbU67FWGvBidpJGXHxCUSRDtkW7i71vPzJ6ZBYBLraZ29bXKu
- 0mB0U51UXYvU5ktfl2gVU3QZeWbU=
-X-Google-Smtp-Source: AGHT+IFWVJkFGqUW/6NMJLG+fLGH+28B/RVs+oYoEU7i5z9aPDKzbo4jNZ4QqGrhLhScG9Mj/I0GuLCKlqkcbWyLGGw=
-X-Received: by 2002:a05:6808:189c:b0:3d9:26fe:2991 with SMTP id
- 5614622812f47-3de2a892f3dmr10465661b6e.4.1724859346098; Wed, 28 Aug 2024
- 08:35:46 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B1210E2B6;
+ Wed, 28 Aug 2024 15:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724859357; x=1756395357;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4vc6Jph9gyscXAZz9m8y4tZfXYGQl3dRVac88wqku6I=;
+ b=DTOns+9G0HvsjW62YaPO4YcQDk/9nlPjYXV5Iy7auTcpIgQ3qlZXTxh0
+ UUYQtS7CcLyq1p9UyeX77Dc69EucMA/cJH9t5V3pDu5K69zCICnWN+b1d
+ 68UXPkwbkhaPO533gu5LGoktDL6AFsCcdVDKhmXaTnc5M3DwR8/UFB+d7
+ WpjcrLBhE2FRHvhk/GHui45eM/Xz/sMl9QyGacnXos2QwhiRbOxSJfIhv
+ 6b21SunuEgajzmt4UI+ytWP/inkbi7zSs2cuwP/2r8IvD5ObnAcAukARD
+ XWKZIC/HZJ2GziDTJZmR0zx72Hh/7txukALkcyySvGJYrP4lpABNNjO6m A==;
+X-CSE-ConnectionGUID: IzcRQwNUQP67dSSwjxx+XA==
+X-CSE-MsgGUID: fzWdmZIyRti9TM3yNGm8sA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23282824"
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="23282824"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 08:35:57 -0700
+X-CSE-ConnectionGUID: yopWN+gNTLG7PIhCGiIidA==
+X-CSE-MsgGUID: MGWl/Dl3SdCte4SrVMeTKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; d="scan'208";a="62905914"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.163])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2024 08:35:50 -0700
+Date: Wed, 28 Aug 2024 17:35:45 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v3 00/15] CCS static load balance
+Message-ID: <Zs9D0WpVLpZviBNg@ashyti-mobl2.lan>
+References: <20240823130855.72436-1-andi.shyti@linux.intel.com>
+ <Zs4NaUgcDhcBb4Ok@phenom.ffwll.local>
+ <Zs7dv57piSIj3Og4@ashyti-mobl2.lan>
+ <Zs8qaZftGbq7Ls00@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <7d3c647a2df19aa0f8a582b7d346ba8014cf6ca3.camel@linux.intel.com>
- <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
- <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
- <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
- <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
- <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
- <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
- <ZscDox5KoiNHXxne@phenom.ffwll.local>
- <3afe3ab2-4a58-49a9-acd7-c989980c68f2@amd.com>
- <Zs4EPT1DR7OrE5X-@phenom.ffwll.local>
- <Zs4Ss8LJ-n9NbBcb@phenom.ffwll.local>
- <c890ecbf-e7eb-479d-bb54-807edd1f66e6@amd.com>
- <010f1193a4c21fff566f4847d49289091b9b49c6.camel@linux.intel.com>
- <afd2f497-88db-4609-ac4a-841039d61677@amd.com>
-In-Reply-To: <afd2f497-88db-4609-ac4a-841039d61677@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 28 Aug 2024 11:35:33 -0400
-Message-ID: <CADnq5_NaUFjM6LNWg+uVCkqKyBCskcPsu3JVXGgWGNH35kijSA@mail.gmail.com>
-Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
- header
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zs8qaZftGbq7Ls00@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,85 +76,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 28, 2024 at 11:26=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 28.08.24 um 16:05 schrieb Thomas Hellstr=C3=B6m:
-> > On Wed, 2024-08-28 at 14:20 +0200, Christian K=C3=B6nig wrote:
-> >> Am 27.08.24 um 19:53 schrieb Daniel Vetter:
-> >>> On Tue, Aug 27, 2024 at 06:52:13PM +0200, Daniel Vetter wrote:
-> >>>> On Thu, Aug 22, 2024 at 03:19:29PM +0200, Christian K=C3=B6nig wrote=
-:
-> >>>>> Completely agree that this is complicated, but I still don't
-> >>>>> see the need
-> >>>>> for it.
-> >>>>>
-> >>>>> Drivers just need to use pm_runtime_get_if_in_use() inside the
-> >>>>> shrinker and
-> >>>>> postpone all hw activity until resume.
-> >>>> Not good enough, at least long term I think. Also postponing hw
-> >>>> activity
-> >>>> to resume doesn't solve the deadlock issue, if you still need to
-> >>>> grab ttm
-> >>>> locks on resume.
-> >>> Pondered this specific aspect some more, and I think you still have
-> >>> a race
-> >>> here (even if you avoid the deadlock): If the condiditional rpm_get
-> >>> call
-> >>> fails there's no guarantee that the device will suspend/resume and
-> >>> clean
-> >>> up the GART mapping.
-> >> Well I think we have a major disconnect here. When the device is
-> >> powered
-> >> down there is no GART mapping to clean up any more.
-> >>
-> >> In other words GART is a table in local memory (VRAM) when the device
-> >> is
-> >> powered down this table is completely destroyed. Any BO which was
-> >> mapped
-> >> inside this table is now not mapped any more.
-> >>
-> >> So when the shrinker wants to evict a BO which is marked as mapped to
-> >> GART and the device is powered down we just skip the GART unmapping
-> >> part
-> >> because that has already implicitly happened during power down.
-> >>
-> >> Before mapping any BO into the GART again we power the GPU up through
-> >> the runtime PM calls. And while powering it up again the GART is
-> >> restored.
-> > I think you're forgetting the main Xe use-case of Lunar-lake
-> > compression metadata. I'ts retained by the device during D3hot, but
-> > cannot, at that time, be accessed for shrinking.
->
-> Yeah, that is really something we don't have an equivalent for on AMD GPU=
-s.
->
-> When the ASIC is powered down VRAM is basically dead as well because it
-> won't get refreshed any more.
+Hi Sima,
 
-We actually support memory self refresh for VRAM on some platforms,
-but the rest of the GPU is powered down, so only the VRAM contents is
-retained.
+On Wed, Aug 28, 2024 at 03:47:21PM +0200, Daniel Vetter wrote:
+> On Wed, Aug 28, 2024 at 10:20:15AM +0200, Andi Shyti wrote:
+> > Hi Sima,
+> > 
+> > first of all, thanks for looking into this series.
+> > 
+> > On Tue, Aug 27, 2024 at 07:31:21PM +0200, Daniel Vetter wrote:
+> > > On Fri, Aug 23, 2024 at 03:08:40PM +0200, Andi Shyti wrote:
+> > > > Hi,
+> > > > 
+> > > > This patch series introduces static load balancing for GPUs with
+> > > > multiple compute engines. It's a lengthy series, and some
+> > > > challenging aspects still need to be resolved.
+> > > 
+> > > Do we have an actual user for this, where just reloading the entire driver
+> > > (or well-rebinding, if you only want to change the value for a specific
+> > > device) with a new module option isn't enough?
+> > 
+> > Yes, we have users for this and this has been already agreed with
+> > architects and maintainers.
+> 
+> So my understanding is that for upstream, this only applies to dg2,
+> because the other platforms don't have enough CCS engines to make this a
+> real issue.
+> 
+> Do we really have upstream demand for this feature on dg2 only?
 
-Alex
+That's my understanding.
 
->
-> > And copying it all out "Just in case" when transitioning to D3hot just
-> > isn't a viable solution.
->
-> I would say that this is solvable with a hierarchy of power management
-> functionality.
->
-> E.g. the runtime PM interface works the same for you as it does for
-> amdgpu with evicting TTM BOs etc....
->
-> Then separate from runtime PM you have a reference count for the
-> accessibility of compressed metadata. And while shrinking you only
-> resume this specific part.
->
-> Christian.
->
-> >
-> > /Thomas
-> >
->
+> Also how hard would it be to make these users happy with xe-on-dg2 in
+> upstream instead?
+
+I don't know this, I think the user is already on i915.
+
+> > Why are you saying that we are reloading/rebinding the driver?
+> 
+> That's the other alternate solution.
+
+But that's not how XE does it, though.
+
+The use case is that userspace has an environment variable that
+they change ondemand for choosing the CCS mode. They want to
+change the value of that variable on the fly and, as we are only
+adding or removing a few engines, this is done without reprobing
+the whole driver.
+
+In a previous implementation (from where both I and Niranjana for
+XE took inspiration) the CCS mode was passed during compute
+execbuf.
+
+> > I'm only removing the exposure of user engines, which is
+> > basically a flag in the engines data structure.
+> > 
+> > > There's some really gnarly locking and lifetime fun in there, and it needs
+> > > a corresponding justification.
+> > 
+> > What locking are you referring about?
+> > 
+> > I only added one single mutex that has a comment and a
+> > justification. If you think that's not enough, I can of course
+> > improve it (please note that the changes have a good amount of
+> > comments and I tried to be aso more descriptive as I could).
+> > 
+> > When I change the engines configurations only for the compute
+> > engines and only for DG2 platforms, I need to make sure that no
+> > other user is affected by the change. Thus I need to make sure
+> > that access to some of the strucures are properly serialized.
+> > 
+> > > Which needs to be enormous for this case,
+> > > meaning actual customers willing to shout on dri-devel that they really,
+> > > absolutely need this, or their machines will go up in flames.
+> > > Otherwise this is a nack from me.
+> > 
+> > Would you please tell me why are you nacking the patch? So that I
+> > address your comments for v4?
+> 
+> So for one, this is substantially more flexible than the solution merged
+> into xe. And the patch set doesn't explain why (the commit messages
+> actualy describe the design xe has).
+
+I think in XE we might have missed a few things and my plan is to
+check the XE implementation once I'm done with i915 (I was one of
+the XE reviewers). And, many of the things in XE are so different
+that the solution can't be taken as it is.
+
+> That does not inspire confidence at all.
+
+Consider that most of the patches are refactoring, only the last
+patch is doing the real job. That's because the first workaround
+was already merged a while ago. While XE didn't need the
+refactorings I made.
+
+> Second, I don't think anyone understands the entire engine/ctx locking
+> design in i915-gem. And the fix for that was to make as much as absolutely
+> possible immutable. Yes the implementation looks correct, but when I
+> looked at the much, much simpler xe implementation I'm pretty sure I've
+> found an issue there too. Here I can't even tell.
+
+The locking is fairly simple, when the user wants to set a
+specific CCS mode, I take the wakrefe lock and I check no one is
+holding it. This way I am sure that I am the only user of the GPU
+(otherwise the GPU would be off).
+
+I added one single lock to be used for the for_each_uabi_engine.
+It's not really required but I really want to be sure that I am
+not changing the CCS mode while someone else is using the uabi
+engines.
+
+I'm also adding Joonas in Cc with whom I discussed many details
+of the implementation. I would really appreaciate to know what
+exactly is wrong here and what are the necessary changes needed
+to get the series merged.
+
+For now, thanks a lot for your comments,
+Andi
