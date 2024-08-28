@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAE39624DE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 12:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389B29624F5
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 12:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6966D10E0BC;
-	Wed, 28 Aug 2024 10:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169E910E14D;
+	Wed, 28 Aug 2024 10:32:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="SA9veBoW";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="H7NSLpY8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rkDzbRiK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B1C10E0BC
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 10:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1724840781; x=1756376781;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Knix3gTfsk7LSNTMHm5Va4lYcZn+o5QZz1keMxn7ZmU=;
- b=SA9veBoWKarc8US5sNZbst4KdfklCnFKYaLiVgtskvxpIBAVcbBOqAeR
- lRPFbbedCyvvCgMvI+0eZQX4oC9S/mX0VvzAwGRT3U1tAp0hfIoF/jSzb
- 5ZjD/82TmVeEUMKsFju6zeyp89b3Ah/qs/sdj88eOobK+lsMTuInLfnFY
- sOJ/oFYVqWR6/UPKDWf+eLM0iicycVxlBScH5hFlP1v9QuZib2ooXxTbg
- m+ZiXvBQCZO42GMMc3Qssd+X5QZKLM2NAogpECABBCaep2gg9GyGqo9bK
- iqm79HhvYzoRMRRGe4n7PiNWadHCqwIKn441WJV5R3+jxppyKEZzyEepa w==;
-X-CSE-ConnectionGUID: wgq9+zxRRT+2Ri6eXAu/Rw==
-X-CSE-MsgGUID: 8Zt6dMMTStmGvyUoMy6LpQ==
-X-IronPort-AV: E=Sophos;i="6.10,182,1719871200"; d="scan'208";a="38632945"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 28 Aug 2024 12:26:19 +0200
-X-CheckPoint: {66CEFB49-C-E520F13A-D17B83D9}
-X-MAIL-CPID: 45F1CF7BC257182E676DAD49BD8217F7_2
-X-Control-Analysis: str=0001.0A782F29.66CEFB49.013F, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0B96E1653C2; Wed, 28 Aug 2024 12:26:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1724840773;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=Knix3gTfsk7LSNTMHm5Va4lYcZn+o5QZz1keMxn7ZmU=;
- b=H7NSLpY8I8UDVBrVgDJyy6p48SRovpQeWYq1lXWAHfWRCZAYrp4v7qc9y5cjntnHR+Y3ZR
- fv8NM7DtihQSxReLg8ZIIfoUTsAXdWj66x6jUNXugXEhglYZGHQ7SPyW36JFigMcctW96b
- CGvI+Q8TwvODWfoCx5OpaZwuL7Ia5MhfrvULkVVoz9IQ/a9Kj0Sy5Ku2tbqBqpqzlIOkX6
- NGu8SImgO7jelh5IpnVmVn81SZt3W4+/R76ia40aJpC5CC+wmn121Blt8T0mnliYa0LtJz
- 4IcxvEKDJ+5S9aM610fntl7a4tiy83Ybx4/uxK0CQ7k/lDHxG+zOS06iyAfRVw==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Subject: fbdev mmap regression since 'Merge v6.10-rc6 into drm-next'
-Date: Wed, 28 Aug 2024 12:26:12 +0200
-Message-ID: <23636953.6Emhk5qWAg@steina-w>
-Organization: TQ-Systems GmbH
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA1E10E14D
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 10:32:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9A47AA43368;
+ Wed, 28 Aug 2024 10:32:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D188C98EC2;
+ Wed, 28 Aug 2024 10:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724841173;
+ bh=RAZiyHV0BW9WjoN1ECXpyLaENcTOjscCNA3CQ8WtSxg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rkDzbRiKRlpXFmTZretmNOGGQgiy5srKWiQ0PRA0Tk0OZDkahXPqUd4Z9CUuUNqBo
+ nYGxEXH3rwTgaamSsdtMI/ul4SgdEA45Mv5vcQ1jvnYqV8l67eUuZvJUhL0+SpOZLc
+ CtR3OVviUoN03RcnZCIWKOV5FaDXwjOJQL/YcDD8pcTl4aTGvITIxAaQnIJVjL/dxH
+ TEfdTsqMfwOnr6d/uYlOW+ygSijg0UhHigPd3keM8m3YwMUpZU+wsk3kDRnsPInXGr
+ luK/ARDKw3REReStXJIPprYvfeemOfSSHFZLRQB2gkKHeej8wuLr70XMYRGbXclw6c
+ riP3Ob2CZ89tw==
+Date: Wed, 28 Aug 2024 12:32:47 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
+ justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
+ rostedt@goodmis.org, catalin.marinas@arm.com,
+ penguin-kernel@i-love.sakura.ne.jp, 
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
+ linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Simon Horman <horms@kernel.org>, 
+ Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v8 6/8] mm/util: Deduplicate code in
+ {kstrdup,kstrndup,kmemdup_nul}
+Message-ID: <byi4tx6l2lrbs5w6oxypr44ldntlh4kp56vnsza3iuztwb37oa@2qtdx2kgz4bq>
+References: <20240828030321.20688-1-laoar.shao@gmail.com>
+ <20240828030321.20688-7-laoar.shao@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fvf522dvf7ucivwn"
+Content-Disposition: inline
+In-Reply-To: <20240828030321.20688-7-laoar.shao@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +68,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
 
-I noticed that on linux-next one platform (TQMa6S imx6qdl-mba6.dtsi, using
-i.MX6 Solo) I'm hitting SIGBUS errors when using fb-test on /dev/fb0.
-strace shows:
-> openat(AT_FDCWD, "/dev/fb0", O_RDWR|O_LARGEFILE) =3D 4
-> ioctl(4, FBIOGET_VSCREENINFO, 0x4cb818) =3D 0
-> ioctl(4, FBIOGET_FSCREENINFO, 0x4cb8b8) =3D 0
-> write(1, "fb res 1920x1080 virtual 1920x10"..., 58fb res 1920x1080 virtual
-> 1920x1080, line_len 3840, bpp 16 ) =3D 58
-> mmap2(NULL, 4147200, PROT_READ|PROT_WRITE, MAP_SHARED, 4, 0) =3D 0xb6a940=
-00
-> --- SIGBUS {si_signo=3DSIGBUS, si_code=3DBUS_ADRERR, si_addr=3D0xb6a94000=
-} ---
-> +++ killed by SIGBUS (core dumped) +++
+--fvf522dvf7ucivwn
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, 
+	justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com, 
+	rostedt@goodmis.org, catalin.marinas@arm.com, penguin-kernel@i-love.sakura.ne.jp, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Simon Horman <horms@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v8 6/8] mm/util: Deduplicate code in
+ {kstrdup,kstrndup,kmemdup_nul}
+References: <20240828030321.20688-1-laoar.shao@gmail.com>
+ <20240828030321.20688-7-laoar.shao@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20240828030321.20688-7-laoar.shao@gmail.com>
 
-Using weston instead of fb-test works without issues.
-
-I was able to track it down to commit 86634fa4e6aef ("Merge v6.10-rc6
-into drm-next"). Unfortunately this is a merge and *both* bases are okay.
-
-A requirement for this bug to trigger is having CMA area in Normal zone.
-This automatically happens on systems with 512MiB RAM only:
-> cma: Reserved 64 MiB at 0x2a800000 on node -1
+On Wed, Aug 28, 2024 at 11:03:19AM GMT, Yafang Shao wrote:
+> These three functions follow the same pattern. To deduplicate the code,
+> let's introduce a common helper __kmemdup_nul().
 >=20
-> Zone ranges:
->   Normal   [mem 0x0000000010000000-0x000000002fffffff]
->   HighMem  empty
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> Cc: Simon Horman <horms@kernel.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Alejandro Colomar <alx@kernel.org>
+> ---
 
-On different modules providing 1GiB RAM there is also a HighMem zone availa=
-ble
-which is used by default for CMA, unless the allocation explicitly specifie=
-d.
-In this case mmap works as expected. But even on modules having HighMem mmap
-does not work when CMA is specified in Normal zone, refer to [1].=20
+Reviewed-by: Alejandro Colomar <alx@kernel.org>
 
-Despite the bisect I also tried the following commits directly, which
-introduced the changes affecting the merge:
-* d92a7580392ad ("drm/fbdev-dma: Only set smem_start is enable per module o=
-ption")
-* 808a40b694680 ("drm/fbdev-dma: Implement damage handling and deferred I/O=
-")
+Cheers,
+Alex
 
-But these commits by itself work as before. Cherry-picking d92a7580392ad on
-top of 808a40b694680 already triggers the problem.
-CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is unset, so I think commit d92a7580392ad
-("drm/fbdev-dma: Only set smem_start is enable per module option") is
-the culprit here.
+>  mm/util.c | 68 ++++++++++++++++++++++---------------------------------
+>  1 file changed, 27 insertions(+), 41 deletions(-)
+>=20
+> diff --git a/mm/util.c b/mm/util.c
+> index 9a77a347c385..42714fe13e24 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -45,33 +45,41 @@ void kfree_const(const void *x)
+>  EXPORT_SYMBOL(kfree_const);
+> =20
+>  /**
+> - * kstrdup - allocate space for and copy an existing string
+> - * @s: the string to duplicate
+> + * __kmemdup_nul - Create a NUL-terminated string from @s, which might b=
+e unterminated.
+> + * @s: The data to copy
+> + * @len: The size of the data, not including the NUL terminator
+>   * @gfp: the GFP mask used in the kmalloc() call when allocating memory
+>   *
+> - * Return: newly allocated copy of @s or %NULL in case of error
+> + * Return: newly allocated copy of @s with NUL-termination or %NULL in
+> + * case of error
+>   */
+> -noinline
+> -char *kstrdup(const char *s, gfp_t gfp)
+> +static __always_inline char *__kmemdup_nul(const char *s, size_t len, gf=
+p_t gfp)
+>  {
+> -	size_t len;
+>  	char *buf;
+> =20
+> -	if (!s)
+> +	/* '+1' for the NUL terminator */
+> +	buf =3D kmalloc_track_caller(len + 1, gfp);
+> +	if (!buf)
+>  		return NULL;
+> =20
+> -	len =3D strlen(s) + 1;
+> -	buf =3D kmalloc_track_caller(len, gfp);
+> -	if (buf) {
+> -		memcpy(buf, s, len);
+> -		/* During memcpy(), the string might be updated to a new value,
+> -		 * which could be longer than the string when strlen() is
+> -		 * called. Therefore, we need to add a NUL termimator.
+> -		 */
+> -		buf[len - 1] =3D '\0';
+> -	}
+> +	memcpy(buf, s, len);
+> +	/* Ensure the buf is always NUL-terminated, regardless of @s. */
+> +	buf[len] =3D '\0';
+>  	return buf;
+>  }
+> +
+> +/**
+> + * kstrdup - allocate space for and copy an existing string
+> + * @s: the string to duplicate
+> + * @gfp: the GFP mask used in the kmalloc() call when allocating memory
+> + *
+> + * Return: newly allocated copy of @s or %NULL in case of error
+> + */
+> +noinline
+> +char *kstrdup(const char *s, gfp_t gfp)
+> +{
+> +	return s ? __kmemdup_nul(s, strlen(s), gfp) : NULL;
+> +}
+>  EXPORT_SYMBOL(kstrdup);
+> =20
+>  /**
+> @@ -106,19 +114,7 @@ EXPORT_SYMBOL(kstrdup_const);
+>   */
+>  char *kstrndup(const char *s, size_t max, gfp_t gfp)
+>  {
+> -	size_t len;
+> -	char *buf;
+> -
+> -	if (!s)
+> -		return NULL;
+> -
+> -	len =3D strnlen(s, max);
+> -	buf =3D kmalloc_track_caller(len+1, gfp);
+> -	if (buf) {
+> -		memcpy(buf, s, len);
+> -		buf[len] =3D '\0';
+> -	}
+> -	return buf;
+> +	return s ? __kmemdup_nul(s, strnlen(s, max), gfp) : NULL;
+>  }
+>  EXPORT_SYMBOL(kstrndup);
+> =20
+> @@ -192,17 +188,7 @@ EXPORT_SYMBOL(kvmemdup);
+>   */
+>  char *kmemdup_nul(const char *s, size_t len, gfp_t gfp)
+>  {
+> -	char *buf;
+> -
+> -	if (!s)
+> -		return NULL;
+> -
+> -	buf =3D kmalloc_track_caller(len + 1, gfp);
+> -	if (buf) {
+> -		memcpy(buf, s, len);
+> -		buf[len] =3D '\0';
+> -	}
+> -	return buf;
+> +	return s ? __kmemdup_nul(s, len, gfp) : NULL;
+>  }
+>  EXPORT_SYMBOL(kmemdup_nul);
+> =20
+> --=20
+> 2.43.5
+>=20
 
-How can this be fixed?
+--=20
+<https://www.alejandro-colomar.es/>
 
-Best regards,
-Alexander
+--fvf522dvf7ucivwn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1] https://lore.kernel.org/all/20240827142458.265558-1-alexander.stein@ew.=
-tq-group.com/
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmbO/MkACgkQnowa+77/
+2zJ0rg/6A9w0pR/IBhWTYnFTKH8DiRQVQuPVpRuWDuTYTqrMqUR2OEtQ2gWcf10h
+TYl0N0mXcVo4vsCvdthueqs1ipa1bvOY3QN5aKpL5qXRq81NBe4JWd7ym/T8TU9Z
+EP6iBPimsQMYTPMNwgCK768HYPfu9lygO8CecifrGLoSZ5EDZ2GnyDz2xzCMZIq6
++KKTKJqyhww4ydIgm49fMi1bk59rI45fjg0GpVepcATmdR6bbPiE8yvdazxOJCT1
+t6dAVGehLzNV1hGgDqiG8QS0GuqM1YMwEy6pWoi6zoHUjT8326bOP0UXuzB1NAxd
+M93w62xDoKpceGkLS22ajjH+0H7qgBtWyXBpd6QUVoqQ0lBWpnS7FfqMh9wJmd5L
+55IaQKIPcaWDSBImqC/Mm2NYgH0DgcuF+JN/xaR6bhx+92rpzhE4/HM7Fll9OmuF
+NVDkfuQIuuuZ74Be1QOYCa4h+jeB6sksNlF18wmhH8OipYCzRVEjROxUSd4SSb2m
+bWd1Wpkx65jf1musgB9Q3oGofNPQvx9xnKYKk97o0n+UXyi7B7abukTl4oXKWbmB
+WisDpchUmGJAOm0uncet+rsM5Vod5zXbdf0aRXz5WPYAE1CDauPDzi9z2qKrYdHc
+gzn7xNZqVSRW8SsYctxEgro1zc1c8XxsHFiWJCQdjtwh9fOA1zU=
+=+sNM
+-----END PGP SIGNATURE-----
 
+--fvf522dvf7ucivwn--
