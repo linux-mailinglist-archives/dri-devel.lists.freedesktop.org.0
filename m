@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27A5962FED
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 20:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83B2963074
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 20:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C84A10E5AA;
-	Wed, 28 Aug 2024 18:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F2C10E5B1;
+	Wed, 28 Aug 2024 18:50:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HA7xUb5o";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ROtLpkCE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7314A10E5A9;
- Wed, 28 Aug 2024 18:27:57 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SBkOdH001796;
- Wed, 28 Aug 2024 18:27:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- t6OiZigp34+5PZDO1ghwcrR5DceV0lzroVaQE5qnpj4=; b=HA7xUb5o4fjSk4d6
- BNSuXPDf+1VfCnmncb300H5+EH3aRHRJxk70fMMZuT6fVQXngOTTsAvqD3dtbslY
- 4Z6oYhf3N3zJeyWjvUZlUmTON1ZEwl9niWKH6sisCiLRS1m5cpUhDYPOEgOS1sU7
- Q8C0/6NlQ0J0Nz439kP/z7z2djR7TjsZMsh8zJsKa3Km6v7oQQgoNFbFcnhnk1+R
- 3E1dfN3d7uczPVEIfN4+hCLd2wuhjpSfZcCrc/RTOLKh35q9aTSlRNoydgj2Pk4f
- 4uOlzxdQK+lDkU+1F+2+4v7HVWwc7FY0U2A/b8+WMFoRP3m09fOSxm9R46IpYVmf
- FwoMbg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puw2rfx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Aug 2024 18:27:54 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47SIRrwE005623
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Aug 2024 18:27:53 GMT
-Received: from [10.71.111.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 28 Aug
- 2024 11:27:53 -0700
-Message-ID: <1facdd7c-b15d-4d91-b96a-5b3b72dbad66@quicinc.com>
-Date: Wed, 28 Aug 2024 11:27:52 -0700
+X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Aug 2024 18:50:47 UTC
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9746310E5B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 18:50:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 8D84AAE2CBA;
+ Wed, 28 Aug 2024 18:43:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72659C4CEC0;
+ Wed, 28 Aug 2024 18:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724870616;
+ bh=bWjjtD9ux0QAGG3fGYObh74lsPxgFpjHa3YWm0m0vIU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ROtLpkCEGD8Ucdbs7a1iRfvuc32G3qJBY6quO3vEkfgfTtRxHiuhmUPG4800e2RsG
+ /Lm2aGh9ZM5echC/qr/x2EXrVQ45i6g+DGFDj3b4IL1+1nBBMKPOO7F2EVPH21SXWt
+ D3wyLlY3wzUG+pAwc9PiOyoANcpRLYBPjrk80WBsoM0sK/mk/Y/+Np3wR59Dnj9tMd
+ zCiuTrI/cV8v34a6M0pTb4HTETCCVIQdFJzGlV39b2ciDrjitNDYPxuwRZojB40abg
+ 4ctkvmZU35i1iPs5RMsbgdrXOvldO8psyPOoy6iI6yqUNNrEivtWT76jv46HwMkF1o
+ 46/gB0lOrWDFQ==
+Date: Wed, 28 Aug 2024 11:43:33 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBl?=
+ =?UTF-8?B?bA==?= <bjorn@kernel.org>, Magnus Karlsson
+ <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v22 04/13] netdev: netdevice devmem allocator
+Message-ID: <20240828114333.560895f0@kernel.org>
+In-Reply-To: <CAHS8izP8T5Xj97M7efecBmCrG9z8E0PYTxWCYZ0ym0hv13-DKg@mail.gmail.com>
+References: <20240825041511.324452-1-almasrymina@google.com>
+ <20240825041511.324452-5-almasrymina@google.com>
+ <20240827191519.5464a0b2@kernel.org>
+ <CAHS8izP8T5Xj97M7efecBmCrG9z8E0PYTxWCYZ0ym0hv13-DKg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/12] drm/msm/dpu: split dpu_plane_atomic_check()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240627-dpu-virtual-wide-v5-0-5efb90cbb8be@linaro.org>
- <20240627-dpu-virtual-wide-v5-8-5efb90cbb8be@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240627-dpu-virtual-wide-v5-8-5efb90cbb8be@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: sLxxy_Ae_vYnYIcXMI49bTgP9t0eg_Ju
-X-Proofpoint-GUID: sLxxy_Ae_vYnYIcXMI49bTgP9t0eg_Ju
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-28_08,2024-08-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 malwarescore=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- adultscore=0 spamscore=0 impostorscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408280134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,246 +95,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 6/26/2024 2:46 PM, Dmitry Baryshkov wrote:
-> Split dpu_plane_atomic_check() function into two pieces:
+On Wed, 28 Aug 2024 00:20:23 -0700 Mina Almasry wrote:
+> > On Sun, 25 Aug 2024 04:15:02 +0000 Mina Almasry wrote:  
+> > > +void net_devmem_free_dmabuf(struct net_iov *niov)
+> > > +{
+> > > +     struct net_devmem_dmabuf_binding *binding = net_iov_binding(niov);
+> > > +     unsigned long dma_addr = net_devmem_get_dma_addr(niov);
+> > > +
+> > > +     if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
+> > > +             gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);  
+> >
+> > Is the check necessary for correctness? Should it perhaps be a WARN
+> > under DEBUG_NET instead? The rest LGTM:
+> >  
 > 
-> dpu_plane_atomic_check_nopipe() performing generic checks on the pstate,
-> without touching the associated pipe,
+> Not really necessary for correctness per se, but if we try to free a
+> dma_addr that is not in a gen_pool (due to some other bug in the
+> code), then gen_pool_free ends up BUG_ON, crashing the kernel.
 > 
-> and
+> Arguably gen_pool_free should not BUG_ON, but I think that's an old
+> API, and existing call sites have worked around the BUG_ON by doing a
+> gen_pool_has_addr check like I do here, for example kernel/dma/pool.c.
+> So I did not seek to change this established behavior.
 > 
-> dpu_plane_atomic_check_pipes(), which takes into account used pipes.
+> I think WARN seems fine to me, but maybe not under DEBUG_NET. I don't
+> want production code crashing due to this error, if it's OK with you.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 178 +++++++++++++++++++-----------
->   1 file changed, 112 insertions(+), 66 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 115c1bd77bdd..9b9fe28052ad 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -788,49 +788,22 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
->   #define MAX_UPSCALE_RATIO	20
->   #define MAX_DOWNSCALE_RATIO	4
->   
-> -static int dpu_plane_atomic_check(struct drm_plane *plane,
-> -				  struct drm_atomic_state *state)
-> +static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
-> +					 struct drm_plane_state *new_plane_state,
-> +					 const struct drm_crtc_state *crtc_state)
->   {
-> -	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-> -										 plane);
->   	int ret = 0, min_scale, max_scale;
->   	struct dpu_plane *pdpu = to_dpu_plane(plane);
->   	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
->   	u64 max_mdp_clk_rate = kms->perf.max_core_clk_rate;
->   	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-> -	struct dpu_sw_pipe *pipe = &pstate->pipe;
-> -	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-> -	const struct drm_crtc_state *crtc_state = NULL;
-> -	const struct msm_format *fmt;
->   	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
->   	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
->   	struct drm_rect fb_rect = { 0 };
->   	uint32_t max_linewidth;
-> -	unsigned int rotation;
-> -	uint32_t supported_rotations;
-> -	const struct dpu_sspp_cfg *pipe_hw_caps;
-> -	const struct dpu_sspp_sub_blks *sblk;
-> -
-> -	if (new_plane_state->crtc)
-> -		crtc_state = drm_atomic_get_new_crtc_state(state,
-> -							   new_plane_state->crtc);
-> -
-> -	pipe->sspp = dpu_rm_get_sspp(&kms->rm, pdpu->pipe);
-> -	r_pipe->sspp = NULL;
->   
-> -	if (!pipe->sspp)
-> -		return -EINVAL;
-> -
-> -	pipe_hw_caps = pipe->sspp->cap;
-> -	sblk = pipe->sspp->cap->sblk;
-> -
-> -	if (sblk->scaler_blk.len) {
-> -		min_scale = FRAC_16_16(1, MAX_UPSCALE_RATIO);
-> -		max_scale = MAX_DOWNSCALE_RATIO << 16;
-> -	} else {
-> -		min_scale = DRM_PLANE_NO_SCALING;
-> -		max_scale = DRM_PLANE_NO_SCALING;
-> -	}
-> +	min_scale = FRAC_16_16(1, MAX_UPSCALE_RATIO);
-> +	max_scale = MAX_DOWNSCALE_RATIO << 16;
->   
->   	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
->   						  min_scale,
-> @@ -843,11 +816,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   	if (!new_plane_state->visible)
->   		return 0;
->   
-> -	pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -
->   	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
->   	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
->   		DPU_ERROR("> %d plane stages assigned\n",
-> @@ -871,8 +839,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   		return -E2BIG;
->   	}
->   
-> -	fmt = msm_framebuffer_format(new_plane_state->fb);
-> -
->   	max_linewidth = pdpu->catalog->caps->max_linewidth;
->   
->   	drm_rect_rotate(&pipe_cfg->src_rect,
-> @@ -881,6 +847,78 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   
->   	if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
->   	     _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pipe_cfg) > max_mdp_clk_rate) {
-> +		if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
-> +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-> +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> +			return -E2BIG;
-> +		}
-> +
-> +		*r_pipe_cfg = *pipe_cfg;
-> +		pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
-> +		pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
-> +		r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
-> +		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
-> +	} else {
-> +		memset(r_pipe_cfg, 0, sizeof(*r_pipe_cfg));
-> +	}
-> +
+> Unless I hear otherwise I'll add a WARN without debug here.
 
-This is the part I am not able to fully understand. Assignment of 
-r_pipe_cfg is also pipe related so why should that move to 
-dpu_plane_atomic_check_nopipe(). It should be part of 
-dpu_plane_atomic_check_pipe().
-
-> +	drm_rect_rotate_inv(&pipe_cfg->src_rect,
-> +			    new_plane_state->fb->width, new_plane_state->fb->height,
-> +			    new_plane_state->rotation);
-> +	if (r_pipe_cfg->src_rect.x1 != 0)
-> +		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
-> +				    new_plane_state->fb->width, new_plane_state->fb->height,
-> +				    new_plane_state->rotation);
-> +
-> +	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
-> +					struct drm_atomic_state *state,
-> +					const struct drm_crtc_state *crtc_state)
-> +{
-> +	struct drm_plane_state *new_plane_state =
-> +		drm_atomic_get_new_plane_state(state, plane);
-> +	struct dpu_plane *pdpu = to_dpu_plane(plane);
-> +	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-> +	struct dpu_sw_pipe *pipe = &pstate->pipe;
-> +	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-> +	const struct msm_format *fmt;
-> +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
-> +	uint32_t max_linewidth;
-> +	unsigned int rotation;
-> +	uint32_t supported_rotations;
-> +	const struct dpu_sspp_cfg *pipe_hw_caps;
-> +	const struct dpu_sspp_sub_blks *sblk;
-> +	int ret = 0;
-> +
-> +	pipe_hw_caps = pipe->sspp->cap;
-> +	sblk = pipe->sspp->cap->sblk;
-> +
-> +	/*
-> +	 * We already have verified scaling against platform limitations.
-> +	 * Now check if the SSPP supports scaling at all.
-> +	 */
-> +	if (!sblk->scaler_blk.len &&
-> +	    ((drm_rect_width(&new_plane_state->src) >> 16 !=
-> +	      drm_rect_width(&new_plane_state->dst)) ||
-> +	     (drm_rect_height(&new_plane_state->src) >> 16 !=
-> +	      drm_rect_height(&new_plane_state->dst))))
-> +		return -ERANGE;
-> +
-
-Should this part be retained under dpu_plane_atomic_check_nopipe()?
-
-This is also not pipe dependent.
-
-> +	fmt = msm_framebuffer_format(new_plane_state->fb);
-> +
-> +	max_linewidth = pdpu->catalog->caps->max_linewidth;
-> +
-> +	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt,
-> +					  &crtc_state->adjusted_mode);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
->   		/*
->   		 * In parallel multirect case only the half of the usual width
->   		 * is supported for tiled formats. If we are here, we know that
-> @@ -894,12 +932,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   			return -E2BIG;
->   		}
->   
-> -		if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
-> -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-> -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> -			return -E2BIG;
-> -		}
-> -
->   		if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
->   		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
->   		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
-> @@ -921,26 +953,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   		r_pipe->multirect_index = DPU_SSPP_RECT_1;
->   		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
->   
-> -		*r_pipe_cfg = *pipe_cfg;
-> -		pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
-> -		pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
-> -		r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
-> -		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
-> -	}
-> -
-> -	drm_rect_rotate_inv(&pipe_cfg->src_rect,
-> -			    new_plane_state->fb->width, new_plane_state->fb->height,
-> -			    new_plane_state->rotation);
-> -	if (r_pipe->sspp)
-> -		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
-> -				    new_plane_state->fb->width, new_plane_state->fb->height,
-> -				    new_plane_state->rotation);
-> -
-> -	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt, &crtc_state->adjusted_mode);
-> -	if (ret)
-> -		return ret;
-> -
-> -	if (r_pipe->sspp) {
->   		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt,
->   						  &crtc_state->adjusted_mode);
->   		if (ret)
-> @@ -963,11 +975,45 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   	}
->   
->   	pstate->rotation = rotation;
-
-The dpu_plane_check_inline_rotation() is also pipe independent. So even 
-that goes to dpu_plane_atomic_check_nopipe()?
-
-> -	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
->   
->   	return 0;
->   }
->   
-
-<snip>
-
+WARN makes sense, I didn't know about the BUG_ON() hiding inside
+gen_pool :(
