@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DB6962EEF
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 19:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CAB962F32
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 20:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8EF410E3C7;
-	Wed, 28 Aug 2024 17:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55C9210E5A1;
+	Wed, 28 Aug 2024 18:02:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="c2Q6hE9N";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="BBJj8YXt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 460 seconds by postgrey-1.36 at gabe;
- Wed, 28 Aug 2024 17:50:36 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6896010E3C7
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 17:50:36 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E07AF10E5A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 18:02:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1724867430; x=1725472230; i=deller@gmx.de;
- bh=rvevHnVJVPUNKAo/siXVSaJhoxBvuskiX9A/MfIre6k=;
+ s=s31663417; t=1724868113; x=1725472913; i=deller@gmx.de;
+ bh=3WKzp3jxj4oL7NnhGmEuHNfXJaFVqo6E2pumyZ0MNik=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=c2Q6hE9NL/qPsAj9abJ/vMYf3fuPitRgV8Xjk+3MsmCORsQd0W1fsoyIrZuAX2b2
- kra26hes2MJpPnjPC5rfgBR41WS1EU4jlS+NSOlA8pGPxuvpMWDFaFESGSy0OREvA
- 1Tsgrqr6Llm+FG7HvcSo97+ec9OeCVZUsCjXtpBGFpdXOP6FcBl5CcM4vUr7fquK6
- ANR64tOywfzjMejNP1ziKXGBaWam7Hp9fK0HY3lYtGsTyENChRBbbpEN6Llqp98CY
- eLismL3wczAm9kE5XoioPiKheLL9i7zJNGxg7Ag2vE8hWXhZVdh90ofYw3QGKdweq
- RiDS4HpAVifp7WdSlQ==
+ b=BBJj8YXtD0kyfN1lrYv3y3Q5/reUpFdAWIZz+7pvFh+ZiP6NIzW05y0PN3OSb3Y/
+ kGiZnEfysMyMpuBOulF8QqNucZ4ZqUjAa48fb7XW7p3nITDWrGq+ntM+IzoRj8ZAM
+ uTFWxgfpcVPitpiyseUgYp+ILHRVLODDQt3iXJAOSCngUNu3EVaB5vJHrq+3Prk4w
+ 9iQN+Vg2CYlZh7AUhVovFmyoCc1+8vii4T+lHcLriqEM2PKVm60DY3kq0290yFJaL
+ 5R7y8r5JjALF0HlzK2cYMok0Z71/RhjVZQr2gBuUSA9bj5NgB5s6bt9xX+pkEbOZB
+ 5Vq8QRUxD0Gtps7aEA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.55] ([109.250.63.126]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N6bk4-1s1yxc1wCs-011IDc; Wed, 28
- Aug 2024 19:50:30 +0200
-Message-ID: <d1cab5f1-2b3a-413a-8ccf-3152fd8b95df@gmx.de>
-Date: Wed, 28 Aug 2024 19:50:29 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MCbEf-1srJDe0k1j-00GTlI; Wed, 28
+ Aug 2024 20:01:53 +0200
+Message-ID: <17ecc1b1-4816-49bd-9a80-f5d4077ba145@gmx.de>
+Date: Wed, 28 Aug 2024 20:01:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] fbdev/efifb: Register sysfs groups through driver core
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Peter Jones <pjones@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH] fbdev: mmp: Use devm_clk_get_enabled() helpers
+To: ying zuxin <yingzuxin@vivo.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
- <20240827-efifb-sysfs-v1-2-c9cc3e052180@weissschuh.net>
+Cc: opensource.kernel@vivo.com, yang.yang@vivo.com
+References: <20240823123027.5753-1-yingzuxin@vivo.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -91,27 +89,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240827-efifb-sysfs-v1-2-c9cc3e052180@weissschuh.net>
+In-Reply-To: <20240823123027.5753-1-yingzuxin@vivo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:UUws2WnyAMehh5YxIGqAiQ2bYs6Lzb/SO1HfUM2VbDjm8ZVcJED
- Pem8akMcbRb/mamA+rMVRXQQ79tTViDSaA5dHgsnsKUXM5zdPDY3dxdjfugfyR9U4vDChSl
- 5pAMMJAR5WmxRlTpc8CBuZ0LFKu9zijvaT1Do2ADXqTFC6FYx0SqzBglmLSovpMUsYsXNiA
- GuPRWBzMZPkW0ogLHe6VA==
+X-Provags-ID: V03:K1:hfVl1ZH2+4oT9W6xsRe4S6mvf9I9IlMjXd5VHk41RTmEQYg9nKo
+ riILnUmckgq4tWfEgJxiZSYj+ETu7PKF1Xf+KoG8TpniXYnaT8NylewGPBhhv/q4N7HCCQG
+ 8aeGB+mFSckzVqwEj5PYcrayGBQwJ8enS4qKnj+HW6AtMWQprj7XgVWkCenpLvxFluZC+1k
+ kg832O+1Mu13D+PW4tpMw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/XN+vNesJQs=;tQi9Xyt/rjuFbIz5Kk5DnQOEUeB
- XsFbA8GRdhhnup2UTUabNZYycIdyR5Nc7PCkDBdpw48U9/GO4/1NDUUPK4XvNhY1BS5yeqYEV
- irTYeMZVar0uox4FNzUm5y6r43UCRLMlnALX61M6mvijrbOSGEszIxtFOG+8n48GKBjHNiQAC
- 25EqkyBsaaTHXhqbeH+QSbnrdfPy1k/U6wseipRCfvluDPMpmBknmNp9HAbOuwWJ3Vsk2IxNG
- Dt4Ncrb+J2mOCMeKF2bV14cv1k98nnG4E+zgivKsO3aGicTkC8Hjg+uhn+kS8aLPey6S8PVme
- CyZfqOXN0ja5ay3JnajqRvSm2hK4JNF50yVTCngx+r1CLjRyBfgooPoxL63Sa7b62KOjb0Yu7
- IfvonAQKGdPYjl0EXbm6Z3kZhW6W9cYvZN0/Muw7QAmYMuIDfrMhwwXVCThNDEIT4pZ4oGUeQ
- 4vRW7RNAlKmlKZLdC8swQQQz6/gRY7xE/aBqbyfscYpNpdp/rNaAeoAu4C9dhIdy3rEzFFo7Z
- tG/I75e6XD/Oe5jsxyUMR/ZsMXnvezYwZLcVtyvNgLXnH4klqYTD+V+H1J+c+Ixc1z4o3TNB9
- 54xgCaaJh70/9iWI8PDWMZwp9BYn+QEqjE3OQBjaGE/Kabz35aKlfG4x4hgrVvnJcaaePfnX4
- VDb6TD2K1VBuHg7LJgAMQfsEmBSb7oA6TEnTDjICsGNc7uVBBaAVh+fWiHF7H+hSdREF1rNsX
- XOJDSJyeFS+S5IiSnVbGAKcoOUQQuUdUV4q+uDBGkXRjL12hBDKBt41OUm+F2NXzTbog/vMDF
- ZBQxl6G9K0U9TS0qdxsIITHg==
+UI-OutboundReport: notjunk:1;M01:P0:n8YDgf4NAJQ=;9qW72B6+FMY3lioOdPO75F15jOF
+ R3WEVRdKe/LRTcVpym6Wum27Fu+kZjkzcn6yq/rXMw8pkG4VaPzm6UKnSgjxf41ERg5GFfg0u
+ sPnduYLz5VNL9cSecGXYM1c3skJe9wpDMKR6W+ExQnv8JjMGSOkO7EN5svPP1FhoSHl8kcPN/
+ krjy5HQShOzerULyik3/JLeWov91LhkQwyFdUknSGGsJ3e72V3/zKQfJ4xttw9PJr92vDxmOG
+ eLwcORenTlLzk3CEN2+RFvmPFzZsy84iUpvzxXiT4FFppXYyiHx+7jg/+kJTvV0yCN7GiA2MN
+ 9QitV5/vwKfoWOwW2Dl8+Tb9s06rMN5H5KgYqG3SqakPM6L79920RB08v+8uOvMjkEvdHyIqO
+ F4IK/HnFDJn+t1ulRkgjMefAMzXPMpXoAg8xEtOLMEVBm8/+P4QMd3KH4j4rHzwVcT4eAK9Vj
+ HiCE5WOGYBm70QqiQ7xVyKiEqle1G52iIDGKkwgJK2qZk+e4bmmuZqh15eBUCRFdtNImKZwVX
+ VV3c/vsVOoC5jO5GfaXSYhBvNmwMFnPAhLMbF4gNDEuLsTzd+6zPr2zJhRzG7Oemo7f6/p53A
+ ooABOwbywltMhUkShOGH0QJHOc5AZqSmXdvjH+eMzZJQPPuC6EsNVnoHwVupigedIAC3kQTmH
+ b9KHhX8h2Q0Wt312FLLNtSAZWgN++kYUTT4ih/CXGULC9RXHyEDrY87wCN9IR85kekqoYdJoo
+ 4SUvCDSEkkUm3EJ1P+iff8lIBeAYacKPM6aEiWDSRXLw86A5mD6jgMu3eUsA0DQiMt+fTXRi1
+ dCjFi+u+VVzPMsWyhq3IN20Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,75 +125,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/27/24 17:25, Thomas Wei=C3=9Fschuh wrote:
-> The driver core can register and cleanup sysfs groups already.
-> Make use of that functionality to simplify the error handling and
-> cleanup.
+On 8/23/24 14:29, ying zuxin wrote:
+> The devm_clk_get_enabled() helpers:
+>      - call devm_clk_get()
+>      - call clk_prepare_enable() and register what is needed in order to
+>       call clk_disable_unprepare() when needed, as a managed resource.
 >
-> Also avoid a UAF race during unregistering where the sysctl attributes
-> were usable after the info struct was freed.
+> This simplifies the code and avoids the calls to clk_disable_unprepare()=
+.
 >
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> Signed-off-by: ying zuxin <yingzuxin@vivo.com>
+> ---
+>   drivers/video/fbdev/mmp/hw/mmp_ctrl.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
 
-I've added your patches #2, #3, #4 and #5 of this series to the fbdev git =
-tree.
-I tend to not take patch #1 as already explained there...
+applied.
 
 Thanks!
 Helge
-
-
-
-> ---
->   drivers/video/fbdev/efifb.c | 11 ++---------
->   1 file changed, 2 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> index 8bfe0ccbc67a..d36b95856dd0 100644
-> --- a/drivers/video/fbdev/efifb.c
-> +++ b/drivers/video/fbdev/efifb.c
-> @@ -561,15 +561,10 @@ static int efifb_probe(struct platform_device *dev=
-)
->   		break;
->   	}
->
-> -	err =3D sysfs_create_groups(&dev->dev.kobj, efifb_groups);
-> -	if (err) {
-> -		pr_err("efifb: cannot add sysfs attrs\n");
-> -		goto err_unmap;
-> -	}
->   	err =3D fb_alloc_cmap(&info->cmap, 256, 0);
->   	if (err < 0) {
->   		pr_err("efifb: cannot allocate colormap\n");
-> -		goto err_groups;
-> +		goto err_unmap;
->   	}
->
->   	err =3D devm_aperture_acquire_for_platform_device(dev, par->base, par=
-->size);
-> @@ -587,8 +582,6 @@ static int efifb_probe(struct platform_device *dev)
->
->   err_fb_dealloc_cmap:
->   	fb_dealloc_cmap(&info->cmap);
-> -err_groups:
-> -	sysfs_remove_groups(&dev->dev.kobj, efifb_groups);
->   err_unmap:
->   	if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
->   		iounmap(info->screen_base);
-> @@ -608,12 +601,12 @@ static void efifb_remove(struct platform_device *p=
-dev)
->
->   	/* efifb_destroy takes care of info cleanup */
->   	unregister_framebuffer(info);
-> -	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
->   }
->
->   static struct platform_driver efifb_driver =3D {
->   	.driver =3D {
->   		.name =3D "efi-framebuffer",
-> +		.dev_groups =3D efifb_groups,
->   	},
->   	.probe =3D efifb_probe,
->   	.remove_new =3D efifb_remove,
->
 
