@@ -2,95 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37649962977
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C14962985
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 15:59:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 613AA10E52D;
-	Wed, 28 Aug 2024 13:57:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27EBE10E532;
+	Wed, 28 Aug 2024 13:59:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lS+oUPT0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AgDmJOtQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E28B510E52D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 13:57:08 +0000 (UTC)
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
- [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC96C2C5;
- Wed, 28 Aug 2024 15:55:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1724853360;
- bh=nTo1M9qioFkywEUR8loTOTOADsB2LNiZAGx7WewK1K0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lS+oUPT0xSby9rub8+g2WEdGCFS3doXz+nhljhkAD/9Sjuy31tK+NAdLa54aGSZIE
- uUcSH/RdePZUfKXCbWSRGmU9l8qWnFV0eJVUm+0Li617lK/cBoj7SfZNHkr2PBBiOf
- H6629IoUOJXXJcyKWyQrx2W0UnvF1e6F2uTus+zA=
-Message-ID: <3c36b0cd-7b43-4a63-a832-1d8d14a4512a@ideasonboard.com>
-Date: Wed, 28 Aug 2024 16:57:03 +0300
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3F5D10E531;
+ Wed, 28 Aug 2024 13:59:07 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-71420e66ecfso447552b3a.0; 
+ Wed, 28 Aug 2024 06:59:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724853547; x=1725458347; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j17SgWpk5R0r6pUXYRNRmemGHlGjHxXJNZcaBt+9vjk=;
+ b=AgDmJOtQ0fSwII45zSkr9QNmdbbJflgCr3InxvR59dNK8MohwE7fYqcpTWD4eoKetz
+ eF84kLsk3AdJUV6dIJ5aClqsK4Q91jAs4Z4hL95z6sB6vvHqaK4EmqDJIxUrrkevAvo/
+ LKBWQQVUcVTVCudGb9QBnabxilWMOeiSmjwc7R0FvM/Sx+AutLHzg9g48hQw57FtbW8f
+ wvfaZDUR/ID++j0P0d9/12OIk6rlIFvpNpETvDaqXb3o2aVx0djdmB2oxcoEFesukGt+
+ iXOOxg04LWU8ic3M4qQoLpY9tfQ9TU8ll77/gbasyWx/l1/oh6+Ay1QeJX5pPwVKR/ND
+ Bisg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724853547; x=1725458347;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j17SgWpk5R0r6pUXYRNRmemGHlGjHxXJNZcaBt+9vjk=;
+ b=a5dNYkGWNNMXe6hGJX88M+73ydXtP750wzIj0IUyEKjRLWkkZE9ECsRQZD1FPd1aip
+ 0y55EtgbqqpIMwfDUP9ewCK39shuAkikHu88u/ahpsM/G7FCcjGc5buibaZfIZmJA30M
+ opTBcGsV6QlAc4m6+jMvMaijxUT965/ry5pP42WCU53V+4SOEb2T4KJbNw+NDDrXErpx
+ hm/GcDAOULTOwFUUA6NFKmjMAIBsuneI/1092wobd+ZpUYN6J2CPYwp7RvdfPXCzmOmN
+ AuI7lxOmy32hLpPXH9V69JyCiP8BYMsvynyxaROg+h1Fqk8JvEZEwhqLKcRq1v1XzH7a
+ U5lg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9okRt607nDZ0E7X6E0p7j16qurbz0Zn/DN/tOmCZcUmYUhoSA4w8FiH0bvDXai71ARdlZpoykWA/J@lists.freedesktop.org,
+ AJvYcCXA1nuhHtvWhVD8SKXcME86sw2xbGTLLLf7jU5GiyVAxO+Y8eiMFnnOLR84neFOzIllu4ea1vY7EnZQ@lists.freedesktop.org,
+ AJvYcCXlYfV0BPan2yh2Pzy27pAsp9yxy/xVTB5Pb7EgNqaxfLloHeW97jRUFij3U5XteUCh+y+qnlhw@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8lhcQLCdRLMWT31iH8aAqxqlSjt4pS0erQYMmThZwxbeagIIz
+ a6QCbemGMD9t0PzxBo2GhyAMCBAr20hyKchItWXpWttCUkxJl0VOtngyOd2s8vs9sJV7t/bpbKy
+ Ik8Kjnw9hakTHlnWFKgT34OxiLiU=
+X-Google-Smtp-Source: AGHT+IFQAp3SzTsJhy40S/srj1DhwyABrbfpssrIv2j5MdyTntuoiQ5YHnzUQbEkOqLr3aX9QK9/B87iRUH2BKpjEv8=
+X-Received: by 2002:a05:6a00:3cd1:b0:70e:acd0:d8b6 with SMTP id
+ d2e1a72fcca58-7144540709cmr11913098b3a.0.1724853547194; Wed, 28 Aug 2024
+ 06:59:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 0/6] drm/omap: hdmi: improve hdmi4 CEC, add CEC for hdmi5
-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Andreas Kemnade <andreas@kemnade.info>
-References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
- <43F64377-8394-448F-A6F0-4DA11DB9AEF5@goldelico.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <43F64377-8394-448F-A6F0-4DA11DB9AEF5@goldelico.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240812122312.1567046-1-jani.nikula@intel.com>
+ <20240812122312.1567046-3-jani.nikula@intel.com>
+ <Zs8kJOC2pH7gSfET@phenom.ffwll.local> <87plpsydda.fsf@intel.com>
+In-Reply-To: <87plpsydda.fsf@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 28 Aug 2024 09:58:55 -0400
+Message-ID: <CADnq5_OoY-Wt56=_XHjZGgZk2LrgXB5U34TOcjWqyO-+Ou9W8Q@mail.gmail.com>
+Subject: Re: [RESEND 3/3] drm/amd/display: switch to guid_gen() to generate
+ valid GUIDs
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,108 +87,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Aug 28, 2024 at 9:53=E2=80=AFAM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
+>
+> On Wed, 28 Aug 2024, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > On Mon, Aug 12, 2024 at 03:23:12PM +0300, Jani Nikula wrote:
+> >> Instead of just smashing jiffies into a GUID, use guid_gen() to genera=
+te
+> >> RFC 4122 compliant GUIDs.
+> >>
+> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >>
+> >> ---
+> >>
+> >> Side note, it baffles me why amdgpu has a copy of this instead of
+> >> plumbing it into drm mst code.
+> >
+> > Yeah ec5fa9fcdeca ("drm/amd/display: Adjust the MST resume flow") promi=
+sed
+> > a follow-up, but that seems to have never materialized. Really should
+> > materialize though. Patch lgtm
+> >
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> Thanks!
+>
+> Cc: AMD folks, ack for merging the series via drm-misc-next?
 
-On 25/08/2024 23:31, H. Nikolaus Schaller wrote:
-> Hi,
-> CEC features are useful to e.g. control HDMI monitor standby.
-> 
-> But I wonder what happened to this series?
-> 
-> I could find some reviewed-by: and acked-by: in [1] but it wasn't merged upstream
-> for unidentifiable reasons.
-> 
-> We apparently had merged this series some years ago into our LetuxOS distro kernel
-> and now we found it to be broken (NULL dereference) at least for omap5uevm
-> (and likely Pyra Handheld) after rebasing to v6.11-rc (it was already broken
-> since v6.9-rc1). Fixes were not difficult, but it would be better if it were
-> part of upstream.
+Unless Harry has any objections,
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-There was a v3:
-
-20210428132545.1205162-1-hverkuil-cisco@xs4all.nl
-
-I see there was a concern from Laurent in:
-
-YLjMZiX71mcQNQdO@pendragon.ideasonboard.com
-
-And we need an ack from the bridge maintainers for the drm_bridge parts. 
-But the series is three years old, so I think someone would have to 
-rebase on top of mainline and re-test and re-send first.
-
-  Tomi
-
-> BR and thanks,
-> Nikolaus
-> 
-> [1] https://lore.kernel.org/r/all/20210302162403.983585-4-hverkuil-cisco@xs4all.nl/T/
-> 
->> Am 02.03.2021 um 17:23 schrieb Hans Verkuil <hverkuil-cisco@xs4all.nl>:
->>
->> This series improves the drm_bridge support for CEC by introducing two
->> new bridge ops in the first patch, and using those in the second patch.
->>
->> This makes it possible to call cec_s_conn_info() and set
->> CEC_CAP_CONNECTOR_INFO for the CEC adapter, so userspace can associate
->> the CEC adapter with the corresponding DRM connector.
->>
->> The third patch simplifies CEC physical address handling by using the
->> cec_s_phys_addr_from_edid helper function that didn't exist when this
->> code was originally written.
->>
->> The fourth patch adds the cec clock to ti,omap5-dss.txt.
->>
->> The fifth patch the missing cec clock to the dra7 and omap5 device tree,
->> and the last patch adds CEC support to the OMAP5 driver.
->>
->> Tested with a Pandaboard and a Beagle X15 board.
->>
->> Regards,
->>
->> Hans
->>
->> Changes since v1:
->>
->> - as per suggestion from Laurent, changed cec_init/exit to
->>   connector_attach/_detach which are just called for all
->>   bridges. The DRM_BRIDGE_OP_CEC was dropped.
->>
->> - added patch to add the cec clock to ti,omap5-dss.txt
->>
->> - swapped the order of the last two patches
->>
->> - incorporated Tomi's suggestions for the hdmi5 CEC support.
->>
->> Hans Verkuil (6):
->>   drm: drm_bridge: add connector_attach/detach bridge ops
->>   drm/omapdrm/dss/hdmi4: switch to the connector bridge ops
->>   drm/omapdrm/dss/hdmi4: simplify CEC Phys Addr handling
->>   dt-bindings: display: ti: ti,omap5-dss.txt: add cec clock
->>   dra7.dtsi/omap5.dtsi: add cec clock
->>   drm/omapdrm/dss/hdmi5: add CEC support
->>
->> .../bindings/display/ti/ti,omap5-dss.txt      |   4 +-
->> arch/arm/boot/dts/dra7.dtsi                   |   5 +-
->> arch/arm/boot/dts/omap5.dtsi                  |   5 +-
->> drivers/gpu/drm/drm_bridge_connector.c        |   9 +
->> drivers/gpu/drm/omapdrm/Kconfig               |   8 +
->> drivers/gpu/drm/omapdrm/Makefile              |   1 +
->> drivers/gpu/drm/omapdrm/dss/hdmi.h            |   1 +
->> drivers/gpu/drm/omapdrm/dss/hdmi4.c           |  40 ++--
->> drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c       |  13 +-
->> drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h       |  12 +-
->> drivers/gpu/drm/omapdrm/dss/hdmi5.c           |  63 +++++-
->> drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c       | 209 ++++++++++++++++++
->> drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h       |  42 ++++
->> drivers/gpu/drm/omapdrm/dss/hdmi5_core.c      |  35 ++-
->> drivers/gpu/drm/omapdrm/dss/hdmi5_core.h      |  33 ++-
->> include/drm/drm_bridge.h                      |  27 +++
->> 16 files changed, 453 insertions(+), 54 deletions(-)
->> create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
->> create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
->>
->> -- 
->> 2.30.1
->>
-> 
-
+>
+> BR,
+> Jani.
+>
+>
+> >
+> >
+> >> ---
+> >>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++++++++++--------=
+-
+> >>  1 file changed, 12 insertions(+), 11 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drive=
+rs/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> index 72c10fc2c890..ce05e7e2a383 100644
+> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> @@ -2568,9 +2568,9 @@ static int dm_late_init(void *handle)
+> >>
+> >>  static void resume_mst_branch_status(struct drm_dp_mst_topology_mgr *=
+mgr)
+> >>  {
+> >> +    u8 buf[UUID_SIZE];
+> >> +    guid_t guid;
+> >>      int ret;
+> >> -    u8 guid[16];
+> >> -    u64 tmp64;
+> >>
+> >>      mutex_lock(&mgr->lock);
+> >>      if (!mgr->mst_primary)
+> >> @@ -2591,26 +2591,27 @@ static void resume_mst_branch_status(struct dr=
+m_dp_mst_topology_mgr *mgr)
+> >>      }
+> >>
+> >>      /* Some hubs forget their guids after they resume */
+> >> -    ret =3D drm_dp_dpcd_read(mgr->aux, DP_GUID, guid, 16);
+> >> -    if (ret !=3D 16) {
+> >> +    ret =3D drm_dp_dpcd_read(mgr->aux, DP_GUID, buf, sizeof(buf));
+> >> +    if (ret !=3D sizeof(buf)) {
+> >>              drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during=
+ suspend?\n");
+> >>              goto out_fail;
+> >>      }
+> >>
+> >> -    if (memchr_inv(guid, 0, 16) =3D=3D NULL) {
+> >> -            tmp64 =3D get_jiffies_64();
+> >> -            memcpy(&guid[0], &tmp64, sizeof(u64));
+> >> -            memcpy(&guid[8], &tmp64, sizeof(u64));
+> >> +    import_guid(&guid, buf);
+> >>
+> >> -            ret =3D drm_dp_dpcd_write(mgr->aux, DP_GUID, guid, 16);
+> >> +    if (guid_is_null(&guid)) {
+> >> +            guid_gen(&guid);
+> >> +            export_guid(buf, &guid);
+> >>
+> >> -            if (ret !=3D 16) {
+> >> +            ret =3D drm_dp_dpcd_write(mgr->aux, DP_GUID, buf, sizeof(=
+buf));
+> >> +
+> >> +            if (ret !=3D sizeof(buf)) {
+> >>                      drm_dbg_kms(mgr->dev, "check mstb guid failed - u=
+ndocked during suspend?\n");
+> >>                      goto out_fail;
+> >>              }
+> >>      }
+> >>
+> >> -    import_guid(&mgr->mst_primary->guid, guid);
+> >> +    guid_copy(&mgr->mst_primary->guid, &guid);
+> >>
+> >>  out_fail:
+> >>      mutex_unlock(&mgr->lock);
+> >> --
+> >> 2.39.2
+> >>
+>
+> --
+> Jani Nikula, Intel
