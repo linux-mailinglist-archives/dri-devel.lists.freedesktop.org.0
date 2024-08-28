@@ -2,74 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2583962788
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 14:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D6396278E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 14:45:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 105D510E4D6;
-	Wed, 28 Aug 2024 12:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0B010E030;
+	Wed, 28 Aug 2024 12:45:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="P5tneU5J";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NTeBNvOi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2914210E030
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 12:44:11 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-429da8b5feaso73655865e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 05:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724849049; x=1725453849; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PJoy2cgS+HW0K4p2KnocRxI+9IVsCSi90PCNEOIIuJ8=;
- b=P5tneU5JYuGhvcxRnhHOYfxnNUGiCU3wRzEJ1z9onwS4xNcjRw3g5ljf2rQ8uHZdQS
- xyvzAQ1yDjvfPEnnPseskPDKIrPFQwHUgJjfKCUoiAjMRallVLm8RcdD13y7y7A62SwE
- osinJl3mtKzz+ajzgTYGsWP8qDb7XELMdJfH4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724849049; x=1725453849;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PJoy2cgS+HW0K4p2KnocRxI+9IVsCSi90PCNEOIIuJ8=;
- b=a/r3dfI7+qgl7s6bI0Z1KiCTO1flV5MQiHGt7trbFrggvQlZVU8xXCcJgxjb0bUqmb
- JXY7/oP8qy/r/s9qhcnLjtddhmC9YTfpCZhjRJyAltKXO/YzFH5MVanJ37cR6pTCWSem
- 9tHYJkE5jLx3gUFKsDnnyDgHeBr4H+dykwfNenhUglTFMUvGM3sYqVhOoS2MRIwQjYf0
- nuMKCmAplY8BXYfvdlesNtZvzLOGOoyh5ddxv0Rl1Q7umTHRLnq28DERLUkucEzMCDcK
- XygeUG4tF5zsmJcJWYzoTd+6YLlqTw/ASsJ6eF79Ns9Zgg5zKc3hK70KfOQx+k3qyBGs
- naRQ==
-X-Gm-Message-State: AOJu0YyxTXqeS1iYFjWHywBnLDSSTskhbdNqCBdZ+gHecAkS1ePQHi0u
- a5g20tsL25oARRFgLiG04khHK1RyrlBHGa1T/BG1GPGLTvTEV/JShaZnog7vLaAfEWQ5sakybFh
- V
-X-Google-Smtp-Source: AGHT+IHu+Ym/EOCxiFAA+P0FEH5X9n6NL4h+Op9J46iU85Y8xtgIQz69/IK4Rj0aOvHw6CKRmZSolA==
-X-Received: by 2002:a05:600c:816:b0:42b:892a:3296 with SMTP id
- 5b1f17b1804b1-42b892a33d0mr113204905e9.37.1724849049421; 
- Wed, 28 Aug 2024 05:44:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42ba63abe97sm20507885e9.24.2024.08.28.05.44.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2024 05:44:09 -0700 (PDT)
-Date: Wed, 28 Aug 2024 14:44:07 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 2/6] drm/exynos: hdmi: use display_info for printing
- display dimensions
-Message-ID: <Zs8blw9nvgv-BfzB@phenom.ffwll.local>
-References: <cover.1724348429.git.jani.nikula@intel.com>
- <8a6fd6de1853dbc337c5c26c65268604d3e91fe2.1724348429.git.jani.nikula@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30DB610E4FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 12:45:23 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09BAA220;
+ Wed, 28 Aug 2024 14:44:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1724849054;
+ bh=E++JwPBS1FVrt81yUy4cR/gwpBl+ON5KNmJxBwegUy4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NTeBNvOikaQPb6ukMI5dxA/tgZrQgpBQK+m/6jYUIIDbXtgnFEHMyn+sPRUdVJVMj
+ AVO/Tcs0OvFjZqT0WEhDPbvEg2BTzD/COK1oK1oa4VVtF8aq3lohNs/CWxVILiw2+L
+ D0nV7wS1G5oS/9jZJtPRECKzRXVNnY1S/LnqwrKg=
+Date: Wed, 28 Aug 2024 15:45:17 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: display: renesas,du: narrow interrupts
+ and resets per variants
+Message-ID: <20240828124517.GA23978@pendragon.ideasonboard.com>
+References: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
+ <20240818174137.GC29465@pendragon.ideasonboard.com>
+ <4615f52b-4e4c-4fe4-bfef-a66e196410d7@linaro.org>
+ <20240818175118.GF29465@pendragon.ideasonboard.com>
+ <526b6f56-7807-4bb6-9365-077b1cc490b2@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8a6fd6de1853dbc337c5c26c65268604d3e91fe2.1724348429.git.jani.nikula@intel.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+In-Reply-To: <526b6f56-7807-4bb6-9365-077b1cc490b2@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,58 +68,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 22, 2024 at 08:42:48PM +0300, Jani Nikula wrote:
-> Look up display dimensions from display_info instead of the EDID
-> directly. This will be helpful for the follow-up work.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Hi Krzysztof,
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Sun, Aug 18, 2024 at 08:48:54PM +0200, Krzysztof Kozlowski wrote:
+> On 18/08/2024 19:51, Laurent Pinchart wrote:
+> > On Sun, Aug 18, 2024 at 07:44:22PM +0200, Krzysztof Kozlowski wrote:
+> >> On 18/08/2024 19:41, Laurent Pinchart wrote:
+> >>> On Sun, Aug 18, 2024 at 07:30:02PM +0200, Krzysztof Kozlowski wrote:
+> >>>> Each variable-length property like interrupts or resets must have fixed
+> >>>> constraints on number of items for given variant in binding.  The
+> >>>> clauses in "if:then:" block should define both limits: upper and lower.
+> >>>
+> >>> I thought that, when only one of minItems or maxItems was specified, the
+> >>> other automatically defaulted to the same value. I'm pretty sure I
+> >>> recall Rob asking me to drop one of the two in some bindings. Has the
+> >>> rule changes ? Is it documented somewhere ?
+> >>
+> >> New dtschema changed it and, even if previous behavior is restored, the
+> >> size in if:then: always had to be constrained. You could have skipped
+> >> one side of limit if it was equal to outer/top-level limit, e.g:
+> >>
+> >> properties:
+> >>   clocks:
+> >>     minItems: 1
+> >>     maxItems: 2
+> >>
+> >>
+> >> if:then:properties:
+> >>   clocks:
+> >>     minItems: 2
+> > 
+> > Where can I find a description of the behaviour of the new dtschema
+> > (hopefully with some documentation) ?
+> 
+> No clue, but I feel there is some core concept missing. Your earlier
+> statement:
+> "I thought that, when only one of minItems or maxItems was specified, the"
+> 
+> was never logically correct for the "if:then", except for the case I
+> mentioned above. That's why all schema used as examples had it explicit:
+> 
+> My talk from 2022, page 30:
+> https://static.sched.com/hosted_files/osseu2022/bd/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro.pdf?_gl=1*kmzqmt*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
+> all constraints defined,.
+> 
+> My talk from 2023, page 34:
+> https://static.sched.com/hosted_files/eoss2023/a8/How%20to%20Get%20Your%20DT%20Schema%20Bindings%20Accepted%20in%20Less%20than%2010%20Iterations%20-%20Krzysztof%20Kozlowski%2C%20Linaro%20-%20ELCE%202023.pdf?_gl=1*1jgx6d3*_gcl_au*MTU2MzQ1MjY0Mi4xNzIxNzE0NDc1
+> 
+> Recently, I started using other example as "useful reference":
+> https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L132
+> 
+> That's nothing. All three above reference examples I keep giving are
+> already there and repeated in emails all the time.
+> 
+> So aren't you confusing the entire "skip one limit" for top-level
+> properties? This patch is not about it all and dtschema did not change.
 
-> 
-> ---
-> 
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> ---
->  drivers/gpu/drm/exynos/exynos_hdmi.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> index 1e26cd4f8347..25d508b25921 100644
-> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> @@ -883,6 +883,7 @@ static const struct drm_connector_funcs hdmi_connector_funcs = {
->  static int hdmi_get_modes(struct drm_connector *connector)
->  {
->  	struct hdmi_context *hdata = connector_to_hdmi(connector);
-> +	const struct drm_display_info *info = &connector->display_info;
->  	struct edid *edid;
->  	int ret;
->  
-> @@ -893,10 +894,10 @@ static int hdmi_get_modes(struct drm_connector *connector)
->  	if (!edid)
->  		goto no_edid;
->  
-> -	hdata->dvi_mode = !connector->display_info.is_hdmi;
-> +	hdata->dvi_mode = !info->is_hdmi;
->  	DRM_DEV_DEBUG_KMS(hdata->dev, "%s : width[%d] x height[%d]\n",
->  			  (hdata->dvi_mode ? "dvi monitor" : "hdmi monitor"),
-> -			  edid->width_cm, edid->height_cm);
-> +			  info->width_mm / 10, info->height_mm / 10);
->  
->  	drm_connector_update_edid_property(connector, edid);
->  	cec_notifier_set_phys_addr_from_edid(hdata->notifier, edid);
-> -- 
-> 2.39.2
-> 
+There must have been a misunderstanding indeed, I interpreted "New
+dtschema changed it" as meaning there were now new rules. Is that
+incorrect ?
+
+If you don't mind clarifying, what is the current recommendation to
+indicate that a property has a fixed number of items ? Which of the
+following three options is preferred ?
+
+properties:
+  clocks:
+    minItems: 2
+
+properties:
+  clocks:
+    maxItems: 2
+
+properties:
+  clocks:
+    minItems: 2
+    maxItems: 2
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Laurent Pinchart
