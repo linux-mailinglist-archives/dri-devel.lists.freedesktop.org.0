@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD00961C48
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 04:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B238961C5C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 04:48:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6168C10E456;
-	Wed, 28 Aug 2024 02:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B6410E484;
+	Wed, 28 Aug 2024 02:48:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FY0cVVMw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bV6FLgwS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7460D10E44B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97EE310E44E;
  Wed, 28 Aug 2024 02:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724813290; x=1756349290;
+ t=1724813291; x=1756349291;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SM8XB4VrHy7O7uQVm5RJ4pT4QRxR7TsVKZl2nXaN9yM=;
- b=FY0cVVMw/hL8PMgrEr2UWlwRhId6AlMsjqFF4/ANR7P25ZCXJzS99b/X
- YZQoyRrw5DW1KWa9igcpHpGSGRuxK+af0bvR6JVt9HPEqBFmbTnIRqRLI
- Zw/tVeBqVmuB+xuSaTZrkoTOd6Zoer+7yipLvXYDahQn5tvVoqd+Ny0tY
- X5i7OFJcI+4hrRvVGyfSSYERpUUaoKGdRd3j4Hxcs44a+kiLt5PvI/OcD
- vP545K27Ne8j7o7+MbDR42i5IQGaX7jveKA9E+smllki2p8NZoGwo/0cS
- TU6gd+qRyBSyDJTDicsVlUMXmSvOH2H5mVnG+d8j1fEHDiWHeNGvBUoMa A==;
-X-CSE-ConnectionGUID: 56hjmnEyQdOziFHjQl8EXA==
-X-CSE-MsgGUID: Q2kU9nGGRE2/3CDfJHan5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="13251934"
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="13251934"
+ bh=sMk/7YX2p/2MK0vK2YrTbxN0/jQNK9Tnxet3NvVWjS0=;
+ b=bV6FLgwS55VuKmmNLWUR5f89eGYTEDROLpvTBcTonx4edxxBkE3OEw8C
+ p17WRYKYP3aUQNthKcy1Peo78hlVRClFUqjbBX0DW4HJxHS/OW6p3tKeK
+ 6l7r0JZgSm0P8QUVWszVPz2BbkKemXNLSdyeSJ307TZMaeWYIB2ppFnqG
+ c+MCbvoMSwumh+clQQqhPSfshAoOhYsvpz3gx8rrvBDorKqHm0YhRugdw
+ yCH5b7m1F5IKmzRhiwjTtl2XQ9cdiXsmM7P/WgScUk4q9mJMAudfl7wVc
+ rtCpgXBnQJ0EdPbw7eaZ+3Ffbbg/WPHuuc78AFHeIENAefmNrD+1xpTKV g==;
+X-CSE-ConnectionGUID: kLMyFBrRTzOxdf6vpktZlQ==
+X-CSE-MsgGUID: 0fi5XLrWQfCCIC0xG9xp8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="13251938"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="13251938"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Aug 2024 19:48:10 -0700
-X-CSE-ConnectionGUID: QasRnbUpRJCAI7sYOwu99g==
-X-CSE-MsgGUID: i7OB8gWiRxqUSlDs9ks4Hg==
+X-CSE-ConnectionGUID: yeKZ6j5/RlGNe0G+ovNGyw==
+X-CSE-MsgGUID: c8/3JMfkS3G1gTVyeQ3cXQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="67224654"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; d="scan'208";a="67224658"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Aug 2024 19:48:10 -0700
@@ -46,9 +46,9 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: airlied@gmail.com, christian.koenig@amd.com,
  thomas.hellstrom@linux.intel.com, matthew.auld@intel.com, daniel@ffwll.ch
-Subject: [RFC PATCH 21/28] drm/xe: Add Xe SVM vram_release vfunc
-Date: Tue, 27 Aug 2024 19:48:54 -0700
-Message-Id: <20240828024901.2582335-22-matthew.brost@intel.com>
+Subject: [RFC PATCH 22/28] drm/xe: Add BO flags required for SVM
+Date: Tue, 27 Aug 2024 19:48:55 -0700
+Message-Id: <20240828024901.2582335-23-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240828024901.2582335-1-matthew.brost@intel.com>
 References: <20240828024901.2582335-1-matthew.brost@intel.com>
@@ -69,45 +69,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement with a simple BO put.
+Add XE_BO_FLAG_SYSTEM_ALLOC to indicate BO is tied to SVM range.
+
+Add XE_BO_FLAG_SKIP_CLEAR to indicate BO does not need to cleared.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/xe/xe_bo.c | 11 +++++++----
+ drivers/gpu/drm/xe/xe_bo.h |  2 ++
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 82cb5a260c87..4372c02a341f 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -5,6 +5,7 @@
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index b6c6a4a3b4d4..ad804b6f9e84 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -704,9 +704,10 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 						(!mem_type_is_vram(old_mem_type) && !tt_has_data);
  
- #include "drm_gpusvm.h"
+ 	clear_system_pages = ttm && (ttm->page_flags & TTM_TT_FLAG_CLEARED_ON_FREE);
+-	needs_clear = (ttm && ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC) ||
++	needs_clear = !(bo->flags & XE_BO_FLAG_SKIP_CLEAR) &&
++		((ttm && ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC) ||
+ 		(!ttm && ttm_bo->type == ttm_bo_type_device) ||
+-		clear_system_pages;
++		clear_system_pages);
  
-+#include "xe_bo.h"
- #include "xe_gt_tlb_invalidation.h"
- #include "xe_migrate.h"
- #include "xe_pt.h"
-@@ -422,6 +423,11 @@ static int xe_svm_copy_to_sram(struct drm_gpusvm *gpusvm, struct page **pages,
- 			   XE_SVM_COPY_TO_SRAM);
- }
+ 	if (new_mem->mem_type == XE_PL_TT) {
+ 		ret = xe_tt_map_sg(ttm);
+@@ -1284,7 +1285,8 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
+ 	int err;
  
-+static void xe_svm_vram_release(void *vram_allocation)
-+{
-+	xe_bo_put(vram_allocation);
-+}
-+
- static u64 block_offset_to_pfn(struct xe_mem_region *mr, u64 offset)
- {
- 	return PHYS_PFN(offset + mr->hpa_base);
-@@ -460,6 +466,7 @@ static int xe_svm_populate_vram_pfn(struct drm_gpusvm *gpusvm,
- static const struct drm_gpusvm_ops gpusvm_ops = {
- 	.range_alloc = xe_svm_range_alloc,
- 	.range_free = xe_svm_range_free,
-+	.vram_release = xe_svm_vram_release,
- 	.populate_vram_pfn = xe_svm_populate_vram_pfn,
- 	.copy_to_vram = xe_svm_copy_to_vram,
- 	.copy_to_sram = xe_svm_copy_to_sram,
+ 	/* Only kernel objects should set GT */
+-	xe_assert(xe, !tile || type == ttm_bo_type_kernel);
++	xe_assert(xe, !tile || type == ttm_bo_type_kernel ||
++		  flags & XE_BO_FLAG_SYSTEM_ALLOC);
+ 
+ 	if (XE_WARN_ON(!size)) {
+ 		xe_bo_free(bo);
+@@ -2292,7 +2294,8 @@ bool xe_bo_needs_ccs_pages(struct xe_bo *bo)
+ 	 * can't be used since there's no CCS storage associated with
+ 	 * non-VRAM addresses.
+ 	 */
+-	if (IS_DGFX(xe) && (bo->flags & XE_BO_FLAG_SYSTEM))
++	if (IS_DGFX(xe) && ((bo->flags & XE_BO_FLAG_SYSTEM) ||
++	    (bo->flags & XE_BO_FLAG_SYSTEM_ALLOC)))
+ 		return false;
+ 
+ 	return true;
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index dbfb3209615d..fe2ce641b256 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -39,6 +39,8 @@
+ #define XE_BO_FLAG_NEEDS_64K		BIT(15)
+ #define XE_BO_FLAG_NEEDS_2M		BIT(16)
+ #define XE_BO_FLAG_GGTT_INVALIDATE	BIT(17)
++#define XE_BO_FLAG_SYSTEM_ALLOC		BIT(18)
++#define XE_BO_FLAG_SKIP_CLEAR		BIT(19)
+ /* this one is trigger internally only */
+ #define XE_BO_FLAG_INTERNAL_TEST	BIT(30)
+ #define XE_BO_FLAG_INTERNAL_64K		BIT(31)
 -- 
 2.34.1
 
