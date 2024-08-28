@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BFC962BDE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:17:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15504962C19
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 17:24:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3AC510E580;
-	Wed, 28 Aug 2024 15:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C8D10E063;
+	Wed, 28 Aug 2024 15:23:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GA6TBWRw";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="b6xZ/aVM";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="W3yqJkwJ";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="Qqhp2RHb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 358 seconds by postgrey-1.36 at gabe;
- Wed, 28 Aug 2024 15:17:05 UTC
-Received: from a7-51.smtp-out.eu-west-1.amazonses.com
- (a7-51.smtp-out.eu-west-1.amazonses.com [54.240.7.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C4110E57F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 15:17:05 +0000 (UTC)
+X-Greylist: delayed 764 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Aug 2024 15:23:56 UTC
+Received: from a7-45.smtp-out.eu-west-1.amazonses.com
+ (a7-45.smtp-out.eu-west-1.amazonses.com [54.240.7.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F157310E063
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 15:23:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1724857865;
+ s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1724857870;
  h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
- bh=l4Gpo7LOU8NlLxSl1iKgM/8EeAwhluE9ALPDPnDi79g=;
- b=GA6TBWRw06IFuPhTxtbmqf6iKNkM08X1qtJ27TlMlHP3wgTzYxhKh5XIEAKZOPyU
- kemH3ebYiJ/Ld8pp+Q2tDs/eWvivAOS23mm6jzdEVE0UqdKNa3Ng3PZ/wU3CzR5wzRp
- WoTqlcm0KyFAZ6PWzi9VIlsBnCfIIguwuIcQJa4gzTrFdnmlIGSiRDKXnOV33T0eNqP
- 3apGrHnbRWs+V06bQPPCYYBD1ctT9z1mdUW7jSrADAWxiYXPjkMsMbzB0FrAgooUXbY
- vXKcO9zwUv8Dy1gGKIpTZh11QGunV/cAhsUmVzaVbzSndODjrRuLybPm7e8bRoa1ShO
- BCGHdYjX8g==
+ bh=eroRuymFGct5tFtXZVXe7idGbNt35wDtyZN4XFBz5uE=;
+ b=W3yqJkwJwHPHVL4GSI7k6IHF7UJYmSc3oVEA7RdN+O802iM2xjDQTxX3D4pJBKVc
+ /vIKxNIuz9qj+TCBRYQprFI0o2WywIo2v5UYuCwMWvYEVSngnNg8+5oC019N93fXmKv
+ wO/T0dLVzEU4Ws0tNu44SoNoJspBfMF8RQf6mYmwNvoLpWhYqcr6jOI+7ZKCydOus38
+ FfqM4QLRGa6lYEzQOMwfyGj/rgV46IotyPMYgL0KWmIxD6LPSTm9NS182URK0Z9+QFk
+ 2Z49fu+z7UhjY5DyIaUhS/zkWbnfG16/9VgFmRPMsfJmm3z4JZa9AeUSNSgK0aoPGzr
+ sa/cfjVzdQ==
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1724857865;
+ s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1724857870;
  h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
- bh=l4Gpo7LOU8NlLxSl1iKgM/8EeAwhluE9ALPDPnDi79g=;
- b=b6xZ/aVMadwXjO8u3Vvj5b0db70vGdBiQoYfwhld9IazeEAth2NHQPf/Uumuk/wz
- eKhxlho83fm/aPY/qw5bA5/7JLZq4znus/SEpAAxqezu8WV6HYGlesI0ec27PrUNf/u
- +Xwz1Gy6pTKs9XjAGybQJHO0QcmsqMH4rFIp06Mc=
+ bh=eroRuymFGct5tFtXZVXe7idGbNt35wDtyZN4XFBz5uE=;
+ b=Qqhp2RHbMKQXAHR/mfAKEC39MC5TYvkszk/xEhU1lHT9DU3TPkgorOJvVJwNQ9Hc
+ nVrEIVy8I4m86OaV0QKnYXBp60QJiNZejzY9/pVcS7fV2+TDc6yyd+Ghpxujldqg22B
+ TEEkxXF+gouDasw8wlusRgBe3NDvRiGoBMjA3iTI=
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -69,16 +69,17 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-watchdog@vger.kernel.org, kernel@collabora.com, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 06/11] dt-bindings: mmc: Add support for rk3576 eMMC
-Date: Wed, 28 Aug 2024 15:11:05 +0000
-Message-ID: <01020191998a55a9-697c3a2c-237e-49bb-b3dd-45762198d74f-000000@eu-west-1.amazonses.com>
+Subject: [PATCH v3 07/11] dt-bindings: gpu: Add rockchip,
+ rk3576-mali compatible
+Date: Wed, 28 Aug 2024 15:11:10 +0000
+Message-ID: <01020191998a6891-a1f28a77-c585-472d-b42b-32a878679304-000000@eu-west-1.amazonses.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240828151028.41255-1-detlev.casanova@collabora.com>
 References: <20240828151028.41255-1-detlev.casanova@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.08.28-54.240.7.51
+X-SES-Outgoing: 2024.08.28-54.240.7.45
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,97 +95,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The device is compatible with rk3588, so add an entry for the 2
-compatibles together.
-
-The rk3576 device has a power-domain that needs to be on for the eMMC to
-be used. Add it as a requirement.
+The rk3576 SoC has an ARM Mali G52 MC3 GPU, that is compatible with
+arm,mali-bifrost.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/mmc/snps,dwcmshc-sdhci.yaml      | 38 +++++++++++++------
- 1 file changed, 26 insertions(+), 12 deletions(-)
+ Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml b/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml
-index 4d3031d9965f..aff8106ec361 100644
---- a/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml
-+++ b/Documentation/devicetree/bindings/mmc/snps,dwcmshc-sdhci.yaml
-@@ -10,18 +10,19 @@ maintainers:
-   - Ulf Hansson <ulf.hansson@linaro.org>
-   - Jisheng Zhang <Jisheng.Zhang@synaptics.com>
- 
--allOf:
--  - $ref: mmc-controller.yaml#
--
- properties:
-   compatible:
--    enum:
--      - rockchip,rk3568-dwcmshc
--      - rockchip,rk3588-dwcmshc
--      - snps,dwcmshc-sdhci
--      - sophgo,cv1800b-dwcmshc
--      - sophgo,sg2002-dwcmshc
--      - thead,th1520-dwcmshc
-+    oneOf:
-+      - items:
-+          - const: rockchip,rk3576-dwcmshc
-+          - const: rockchip,rk3588-dwcmshc
-+      - enum:
-+          - rockchip,rk3568-dwcmshc
-+          - rockchip,rk3588-dwcmshc
-+          - snps,dwcmshc-sdhci
-+          - sophgo,cv1800b-dwcmshc
-+          - sophgo,sg2002-dwcmshc
-+          - thead,th1520-dwcmshc
- 
-   reg:
-     maxItems: 1
-@@ -38,7 +39,6 @@ properties:
-       - description: block clock for rockchip specified
-       - description: timer clock for rockchip specified
- 
--
-   clock-names:
-     minItems: 1
-     items:
-@@ -48,6 +48,9 @@ properties:
-       - const: block
-       - const: timer
- 
-+  power-domains:
-+    maxItems: 1
-+
-   resets:
-     maxItems: 5
- 
-@@ -63,7 +66,6 @@ properties:
-     description: Specify the number of delay for tx sampling.
-     $ref: /schemas/types.yaml#/definitions/uint8
- 
--
- required:
-   - compatible
-   - reg
-@@ -71,6 +73,18 @@ required:
-   - clocks
-   - clock-names
- 
-+allOf:
-+  - $ref: mmc-controller.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: rockchip,rk3576-dwcmshc
-+    then:
-+      properties:
-+        power-domains:
-+          minItems: 1
-+
- unevaluatedProperties: false
- 
- examples:
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index 278399adc550..735c7f06c24e 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -26,6 +26,7 @@ properties:
+               - renesas,r9a07g054-mali
+               - rockchip,px30-mali
+               - rockchip,rk3568-mali
++              - rockchip,rk3576-mali
+           - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+       - items:
+           - enum:
 -- 
 2.46.0
 
