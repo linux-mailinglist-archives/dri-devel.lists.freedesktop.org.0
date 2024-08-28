@@ -2,80 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167CB96310C
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 21:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CE8963117
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2024 21:41:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43EBA10E0EB;
-	Wed, 28 Aug 2024 19:38:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8D110E062;
+	Wed, 28 Aug 2024 19:41:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eC/jy8kv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=goldelico.com header.i=@goldelico.com header.b="O8a3KiZP";
+	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="OyLU5CbJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB3510E062
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 19:38:38 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5334c4cc17fso9973918e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 12:38:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724873916; x=1725478716; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=S2boCnau9cNyFJbbhnQn5xxnCB2xmtbbHbu9uGAoNXM=;
- b=eC/jy8kvfLiBYStqPXyjrLGw6RzDP3RsrMdOJ+3TIRIdD8eHaQ6mXf8czDj+4Mo/ur
- i/y8bgW95mq1231GKoRzPQPHgxj4m5m4FW5V8EQsELNvCJbcKNXNa/FqLP/h2NTb4m0x
- DycAGm7rqE0LCfXtFTAppb3ixsDs8E50Vafrrwa3uY7n6VVU+gHpVQA/VZ2Vb3DEOisY
- KnwKHMrppKCZ0l4fjOUp8In1oPGK77S6UGZRRcGE0lIqTfxVIsQr0uI69BXa4HCTeuK3
- ouz25eBkO5xnvHwO0ZL/jkRfjUihyNuvsNSTE6Gr+SSSVGmol2CZJMjrcwFwwzyadzz0
- Ztpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724873916; x=1725478716;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=S2boCnau9cNyFJbbhnQn5xxnCB2xmtbbHbu9uGAoNXM=;
- b=c7R9z/0jIhURkK6CyXVszdoUTbDBw28RHt2NOdydHgXUX11wLIqN/P7Py9fhB2bf/X
- L+sCXnn9LiDl8Z02I5GWFw9xeyff6iNYB85ASOAwT+fAUlYs4Z0ew3xXYLyFimxrHi8O
- 8PhbXUzyQqo/+XP40EYmapZNxEbw5sdoXBlwFPeBp15POTDsjyVZOT5OJIdTQtqCUHMI
- /f0PoS7HQqgM8cXEYS8LV+Is4vq2hmt6+7lTSPtnBiQlxVYbiFGaO5DcCloUo79ihhjZ
- O36IUX5K4juDt6YgeXrS2yMcdhsGXfpJ5yiNlDIrXz+azQDyMKMK5ixxx8xDXgIzUwAb
- TSYQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW70iY4ZEo2Ac9Qu89Evl6dkHl+tuq8EXIj2psquWefpBGetHiOwA+M4TyAVQIOticCSlQ2x5BY+Y8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwfoQWs0vpGLnnVAzS6jZjfZDbnOBtIl9miWji9IU/ThoQ0ooBx
- um5/ef76uVCj1miX+BQRCNZ4w/lp2+1n5ntauKRqAUg7BSB1n6eMEIYh8lAaYqY=
-X-Google-Smtp-Source: AGHT+IFX0ICTjWKM1raHcDBZYIJQJARuE3gnbn2GEX7Oc+LTxOmCamgvksbRuiWzNjzPy3Id1Vcj8w==
-X-Received: by 2002:a05:6512:b84:b0:533:466d:698c with SMTP id
- 2adb3069b0e04-5353e5aad3bmr216482e87.39.1724873915220; 
- Wed, 28 Aug 2024 12:38:35 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5334ea5d34fsm2321105e87.192.2024.08.28.12.38.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2024 12:38:34 -0700 (PDT)
-Date: Wed, 28 Aug 2024 22:38:32 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jeykumar Sankaran <jsanka@codeaurora.org>
-Subject: Re: [PATCH v2 2/2] drm/msm/dpu: don't play tricks with debug macros
-Message-ID: <sfdha2ywvtuffsyyrrbwzjt6nkjojpbnribp2vva6fp62swftp@mjhm6r74rq7e>
-References: <20240802-dpu-fix-wb-v2-0-7eac9eb8e895@linaro.org>
- <20240802-dpu-fix-wb-v2-2-7eac9eb8e895@linaro.org>
- <1efd71c4-3bee-4c71-9e40-1284b9483824@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1efd71c4-3bee-4c71-9e40-1284b9483824@kernel.org>
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A0DB10E062
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2024 19:41:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1724874082; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=dztje0vILEdjUGIKWuww9r4Nq6WJJnki/zM1jzVxx3tk4dgygumrWYE6uNjOV0b0BO
+ 97kC729/owvvKlEYjwmIkIclCWFDCGt5bXKoAYnJ5/zJsACK9E9h1V+WetgieZ+UlkyS
+ knfIzwOg5pQZMl9wiPNyVyFhjrQwswXs0oM/6ybdHk9Y6jfZ1qhMlTNBaHHirh5m7ycK
+ lRwHa6dRPTITH65b87nNHqP4hxffRtO82d6IVhFFJO0FsoUHuFb4aHUoi6QLe+ZBa7De
+ cdAIGFw4AxcQf3tPy1osnyv0iUjOPTG0oRtVF4aorDc3GibahqFB5KbkNtNe7nSzSfK3
+ gqBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1724874082;
+ s=strato-dkim-0002; d=strato.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=lc5BSaVtMgbDX8gAC4VThV455gmTc3dxUo2vkykN4YM=;
+ b=HtibQybjGsJJwnR8wLPmcvDxpAUsayuY3E5+rZ/6+VkB+VC8Q5VBBFMqqnNJ760+Bu
+ xpvwjd4sOz6aqb3k/0uBDen8a7pN7OObe9W04+zTn+0S8NKdJWMDOT5R5QUW5NFdp8Ui
+ uMOe62Ez4lroOM0yUaAg8/i+XhCHm3HtA1klg8nPG+Evj0m3nR39N+7A4Yw2tKMMTnn9
+ UfceS4X8rIHW5vHBn0FUq81X0ig6xE6iKlhz7ZvDd5PkIs6HaJh2ur8SaRhpBxH9L/NX
+ ap3Zp21T52brkSHX87KGHauqHA2BNho+goTB2lVoCOOqNUcV+GjFx/G3iMcBIU//WNHK
+ ZDhw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1724874082;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=lc5BSaVtMgbDX8gAC4VThV455gmTc3dxUo2vkykN4YM=;
+ b=O8a3KiZPSXg3lf/Nt2LAgVDJCsOKWN+MuG9dX+0NW1RxUX9vT7TcfZU5HArmSAORSj
+ rKTW73QWNXGhP2CJ/ACstA1ojg05EZsEJQfF9LkfnhWoutn2QE4V4bL1l/zj4owwCigD
+ gjiNFhi9wl63zX+GtQ9YxH8cO1Ng1NhUV5EJgh0weNX2lG9m1nB+tuqsTBKZuEGNEH5u
+ L3++GTpCTj5gi8HgXpYPXv1syP4S21l5wUb9xy1KkYF1SHiA81Pu5NUgNoJJsqo2smca
+ zu6wwT3FMCpMME/lW/7wqAGTdrsd2B9WhWZu2PFJ48JZy5F9MC/CcI+/FtW2/V5GexrD
+ JDqw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1724874082;
+ s=strato-dkim-0003; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=lc5BSaVtMgbDX8gAC4VThV455gmTc3dxUo2vkykN4YM=;
+ b=OyLU5CbJOECNm7avLli8/iVpyXjJBaLQfGoklgUH1hdgdfnmY74hHs8JU6lc2++dsG
+ k+SylEsh1iUBXimAdaAg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lFzL1yfzoZ"
+Received: from smtpclient.apple by smtp.strato.de (RZmta 51.2.3 DYNA|AUTH)
+ with ESMTPSA id Q984c207SJfMzUn
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Wed, 28 Aug 2024 21:41:22 +0200 (CEST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
+Subject: Re: [Letux-kernel] [PATCHv2 0/6] drm/omap: hdmi: improve hdmi4 CEC,
+ add CEC for hdmi5
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <83b8be7b-a2c5-42f8-a42b-93dfc528a414@xs4all.nl>
+Date: Wed, 28 Aug 2024 21:41:11 +0200
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ Linux-OMAP <linux-omap@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3D3C502B-C29B-4156-9616-E5EFDB89E4B7@goldelico.com>
+References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
+ <43F64377-8394-448F-A6F0-4DA11DB9AEF5@goldelico.com>
+ <3c36b0cd-7b43-4a63-a832-1d8d14a4512a@ideasonboard.com>
+ <83b8be7b-a2c5-42f8-a42b-93dfc528a414@xs4all.nl>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+X-Mailer: Apple Mail (2.3776.700.51)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,49 +102,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 27, 2024 at 11:39:45AM GMT, Konrad Dybcio wrote:
-> On 2.08.2024 9:47 PM, Dmitry Baryshkov wrote:
-> > DPU debugging macros need to be converted to a proper drm_debug_*
-> > macros, however this is a going an intrusive patch, not suitable for a
-> > fix. Wire DPU_DEBUG and DPU_DEBUG_DRIVER to always use DRM_DEBUG_DRIVER
-> > to make sure that DPU debugging messages always end up in the drm debug
-> > messages and are controlled via the usual drm.debug mask.
-> > 
-> > I don't think that it is a good idea for a generic DPU_DEBUG macro to be
-> > tied to DRM_UT_KMS. It is used to report a debug message from driver, so by
-> > default it should go to the DRM_UT_DRIVER channel. While refactoring
-> > debug macros later on we might end up with particular messages going to
-> > ATOMIC or KMS, but DRIVER should be the default.
-> > 
-> > Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 14 ++------------
-> >  1 file changed, 2 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > index e2adc937ea63..935ff6fd172c 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > @@ -31,24 +31,14 @@
-> >   * @fmt: Pointer to format string
-> >   */
-> >  #define DPU_DEBUG(fmt, ...)                                                \
-> > -	do {                                                               \
-> > -		if (drm_debug_enabled(DRM_UT_KMS))                         \
-> > -			DRM_DEBUG(fmt, ##__VA_ARGS__); \
-> > -		else                                                       \
-> > -			pr_debug(fmt, ##__VA_ARGS__);                      \
-> > -	} while (0)
-> > +	DRM_DEBUG_DRIVER(fmt, ##__VA_ARGS__)
-> 
-> Should we just get rid of these macros at this point and use
-> DRM_DEBUG_DRIVER directly?
+Hi all,
 
-I was hoping to get this into 6.11 as shown by the series subject.
-Reworking the debug macros is on my plate, but it going to be more
-intrusive. As such, it will probably be a 6.13+ material.
+> Am 28.08.2024 um 16:14 schrieb Hans Verkuil =
+<hverkuil-cisco@xs4all.nl>:
+>=20
+> On 28/08/2024 15:57, Tomi Valkeinen wrote:
+>> Hi,
+>>=20
+>> On 25/08/2024 23:31, H. Nikolaus Schaller wrote:
+>>> Hi,
+>>> CEC features are useful to e.g. control HDMI monitor standby.
+>>>=20
+>>> But I wonder what happened to this series?
+>>>=20
+>>> I could find some reviewed-by: and acked-by: in [1] but it wasn't =
+merged upstream
+>>> for unidentifiable reasons.
+>>>=20
+>>> We apparently had merged this series some years ago into our LetuxOS =
+distro kernel
+>>> and now we found it to be broken (NULL dereference) at least for =
+omap5uevm
+>>> (and likely Pyra Handheld) after rebasing to v6.11-rc (it was =
+already broken
+>>> since v6.9-rc1). Fixes were not difficult, but it would be better if =
+it were
+>>> part of upstream.
+>>=20
+>> There was a v3:
+>>=20
+>> 20210428132545.1205162-1-hverkuil-cisco@xs4all.nl
 
--- 
-With best wishes
-Dmitry
+[A clickable link is here: =
+https://lore.kernel.org/linux-media/20210428132545.1205162-1-hverkuil-cisc=
+o@xs4all.nl/ ]
+
+Ah, I see. It wasn't sent to linux-omap so I didn't recognise/find it in =
+my mails
+or omap-patchwork.
+
+
+>> I see there was a concern from Laurent in:
+>>=20
+>> YLjMZiX71mcQNQdO@pendragon.ideasonboard.com
+
+Well, he didn't reject it although he had concerns, but I am not =
+experienced with what
+he is talking about for a proper solution...
+
+>>=20
+>> And we need an ack from the bridge maintainers for the drm_bridge =
+parts. But the series is three years old, so I think someone would have =
+to rebase on top of mainline and re-test and re-send first.
+>=20
+> I never really followed up with this. I still have the hardware, it is =
+primarily
+> time. And also that for me this is quite low priority since I don't =
+use omap5.
+>=20
+> If someone wants to refresh this series and post it, then I would have =
+no problem
+> with it.
+
+A far as I see it just needs a rebase - I guess on linux-next (or =
+drm-misc?) and some
+compile fixes I already have implemented for our distro kernel.
+
+So if you agree I could work on it, test on omap4&5 and submit a v4 and =
+hope that you
+can jump in and support for the discussion. I would keep you (Hans) as =
+commit author
+and just add a signed-off: and tested-by:
+
+But I will also need some time...
+
+BR and thanks,
+Nikolaus
+
