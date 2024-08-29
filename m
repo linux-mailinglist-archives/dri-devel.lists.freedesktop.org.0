@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFF296516B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 23:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852EB96516F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 23:08:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE2910E72D;
-	Thu, 29 Aug 2024 21:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D7610E72F;
+	Thu, 29 Aug 2024 21:08:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p6UVAYJ6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oKnahoF3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5018610E72D
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 21:08:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE1D10E72F
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 21:08:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1C78CAE2FC9;
- Thu, 29 Aug 2024 21:08:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B8E2C4CEC2;
- Thu, 29 Aug 2024 21:08:25 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 88A24AE34E5;
+ Thu, 29 Aug 2024 21:08:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56F45C4CEC1;
+ Thu, 29 Aug 2024 21:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724965708;
- bh=NEubUSRUeBvvm22Q348Fp9RYCVjR27lHQZqlTUf2ioM=;
+ s=k20201202; t=1724965732;
+ bh=WQDz1S69lUbD5RaUd2dQntjnNMx34I5STJbAEjGgtEE=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=p6UVAYJ6/p5bhrYPea9y9LVZ73ntO1QP/0zR+Q+1patwv+tVmGiYjdDlAD218lAA8
- wmRGDX7i+DfyMahGib9Mm8V4I9AQEoLn8b9mtc+xdG36nS0cbP0QL45E59ogicrDMH
- UMsuv+C0jmECY39fsLsHq8fo4kUC/uT4Z1zk3MIcsu1n23rlQDYMcUqNN6ZZxIgzKS
- o9KRpRUv0V5uSxIszbyhHC/WKLKdlgKWDVMjA6m+icA4tY75YYjIYNbbXAYQUyxbZn
- M/VljWIX+Kv0vyYr8HtbjQKj1fUsJoxFw6I3C6QjqGuRCR3iyJC/09ocJiJFlPa4pV
- vik20KHhv5pnw==
-Date: Thu, 29 Aug 2024 14:08:24 -0700
+ b=oKnahoF3iIB3OiWjLXfDamL3XOBev+vSjazGWq8rTP7Ppxi4UGmN/uKdLnc7LQ2rF
+ VM/I+vbkeheUjJeQBuOQXWAnO1EejxO3lkqs2zLZh4HIcMKI7c515FwOkN9EEnrar7
+ tKN/h4JUoSor5bBVhEsDxbmkMag4YHYtjT+8C/ZPDjzBXRG8gfAV5mgIzqW+CIdqkB
+ 9ORTf2NxGWFaC7MaWdB/Qm0gnyVicNVyAGPXtOa54WSNnw/LODVrtyzzAnBMdcrzI+
+ T2gqW25OSKReZgf4+zcsM43P1ado4M0LgY/kuR6IF9COtmrpGKiH2G26jBBqWdNrAr
+ /EZITocUE2/YQ==
+Date: Thu, 29 Aug 2024 14:08:49 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -70,7 +70,7 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
 Subject: Re: [PATCH net-next v23 03/13] netdev: support binding dma-buf to
  netdevice
-Message-ID: <20240829140824.555d016c@kernel.org>
+Message-ID: <20240829140849.44ded041@kernel.org>
 In-Reply-To: <20240829060126.2792671-4-almasrymina@google.com>
 References: <20240829060126.2792671-1-almasrymina@google.com>
  <20240829060126.2792671-4-almasrymina@google.com>
@@ -93,16 +93,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 29 Aug 2024 06:01:16 +0000 Mina Almasry wrote:
-> +	err = genlmsg_reply(rsp, info);
-> +	if (err)
-> +		goto err_unbind;
-> +
->  	return 0;
-> +
-> +err_unbind:
+> +	if (dev_xdp_prog_count(netdev)) {
+> +		NL_SET_ERR_MSG(info->extack, "netdevice has xdp program attached");
+> +		return -EEXIST;
+> +	}
 
-rtnl_lock()
-
-> +	net_devmem_unbind_dmabuf(binding);
-> +err_unlock:
-> +	rtnl_unlock();
+goto err_unlock
