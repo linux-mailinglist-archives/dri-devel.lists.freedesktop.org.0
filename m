@@ -2,79 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17995964286
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4758F96428C
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:04:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8009F10E618;
-	Thu, 29 Aug 2024 11:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD1C310E1AE;
+	Thu, 29 Aug 2024 11:04:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="cNNsHaDS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X0mbg6jV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B72B10E61C
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:02:59 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-428e3129851so4765605e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 04:02:59 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA53510E1BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:04:47 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-6b99988b6ceso6351027b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 04:04:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1724929378; x=1725534178; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=6mqsPp8bptpJDjAoZFo/p73HAkDP5w2aHLYLqUESpZk=;
- b=cNNsHaDSy653z34fmieknVNEeYsIa63y53ahLvEUN+04WYfIPAHoUTR6T3/pnb0M9D
- rsVTte2SXWxxuZPYJsfofShBNkn2R+dkr2OsdUp9EsbPwHtY7W+oUmw4z32yO+jmTXSB
- 6GzSQrnTJAFz1egd/B6K1/R4KU2vfKr0bjucs=
+ d=linaro.org; s=google; t=1724929487; x=1725534287; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+w6aWurefHFOT/q/zcqS9miwYxvHRLqdgWPtHwfRoIA=;
+ b=X0mbg6jVf5ImasMrdOmOQdIz9jw2oLoyBpra68T6Qn8ZMIZMXBG2QzQamn0NfWjwxS
+ V1kX6zOB79P7S25bkKvjKzan/eZPLtJz04jRqrczAkaYWbyYoQKb76JcwFEfL5pdgVxV
+ uU+/4zxrKOP+0+vqjfE5f2Wx0Oj/sJzj4+88I/glo8X+3AQFciKLdazor0hBT9IBX4ZO
+ wCFbUVKAke1XJa4HuVz1Jc2zs6KlDIqUHnS/ArhggBXUKg8frjFLy5hve8DEoyDQkM89
+ qoDXXR67/opF2n8z3gVv5WkAeJdWTVLcNJY4/D85Rv06y+T+AeeGzZJ56ny9Lygv/zuZ
+ U5DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724929378; x=1725534178;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6mqsPp8bptpJDjAoZFo/p73HAkDP5w2aHLYLqUESpZk=;
- b=FRN6FG2etguVsJ5ZaYDqmqLjv1Kzs58Ok3NNeiXzZd/PTuYSdvv0EkvzAKfbcL7bmT
- RhW0gDp6ycVBSRi7eb42FSO/0zKnd2BiLLzLgEq50YC7WKkb6Y4J4Jp9NYa6tpvXwVJi
- fAJz1YfFqKYVyR6chQQFgzQ70Y/ubxkWzgCUzg1ZtA7+Xd6KgiAGgY0zSNiWmz+zPpMz
- /L957HScKQFp4+UV/KJs0HAr4Nk3zRohSgOfgIDAKE0ELmp0fwtho9887ujSKKBcu8JL
- 1SC+aIm1bwGn7HksT/uTAs6r4k87rEASJI+smPWoI2pr1NmuMkxYZM9A4RCY7NSfSj/B
- igCQ==
+ d=1e100.net; s=20230601; t=1724929487; x=1725534287;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+w6aWurefHFOT/q/zcqS9miwYxvHRLqdgWPtHwfRoIA=;
+ b=CyGiFSb0QTeUtr/RFhr26TQ/hAGbBIZmrXH9FMyeCXUyw54IbA64XSHqe169WcibqX
+ 0D0puGizQk3+83IzAC5BmpYRT+qejv/aZdpJJbN6dubWeQUMfkevZJJJpY4GrxhN11mx
+ p2ZdjULPDpOMuSat08jueHikBxDpvynFHErbrBK3qwNKwQnbT/Iuu0ed3nLv2DdPfziw
+ UBelIFLg5lwjQ2KmdPaaiC48Z8vJ8ZwK+pjhW3Gx9ugOQ2WrM1lePv++Yf/RUCCh0Oa7
+ ZSaN+8OW5FMia2skhqdnpcOdJLNqJNCOgpR0n0KfVrGRG463dMoaBz13ZdIM8BxteOhW
+ pbzQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUpUhAlX7GJbZ632NZu1r2uBU9Lom8W+XyCabaPIA/m8YQH8PtvbEiUMqibHZUWJe2VYh1ZPzP6XR4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAvP42izzgsetVPJBMPIgsxxD8q4Zd2f9FMBIoInviZLpNd1HI
- 1RRGw/z+V5+iUC959S2kSjZTsg9rUsGg8sEpDV8oCeSAhETdK3j0+19V2tVAheI=
-X-Google-Smtp-Source: AGHT+IFMxT7ZEj7QsLBwZwGx4AoRT837fx6N1ZbdqOnqOykFMJF2sfesO4JGjNAKvpHE1V384OFUbQ==
-X-Received: by 2002:a05:600c:1c18:b0:428:f0c2:ef4a with SMTP id
- 5b1f17b1804b1-42bb01bac77mr17913345e9.13.1724929377396; 
- Thu, 29 Aug 2024 04:02:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3749ee4a57bsm1137097f8f.20.2024.08.29.04.02.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Aug 2024 04:02:56 -0700 (PDT)
-Date: Thu, 29 Aug 2024 13:02:54 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, matthew.auld@intel.com, daniel@ffwll.ch,
- "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>
-Subject: Re: [RFC PATCH 23/28] drm/xe: Add SVM VRAM migration
-Message-ID: <ZtBVXjNf1xAQOHHR@phenom.ffwll.local>
-References: <20240828024901.2582335-1-matthew.brost@intel.com>
- <20240828024901.2582335-24-matthew.brost@intel.com>
- <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
- <cbe8aebe-fcad-4ff0-8f56-146628183fd3@amd.com>
- <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
+ AJvYcCW0HNsSPbQeHpkdBjK9GKOhlGjAeGq+OAJ5EDQwTqNNU+Ht4/4PQgqfewd51ZGGC8eLGH0IyF7ZME8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyF3yZppSX0BRztLpVthL6/EltKKNbBuZrDNLrA//nhGlegKRuu
+ 1NBWU848c5hdZGBwf2aRhbIwf2MDr8yWsI5RPGzycWgTb2ePiXkoySG+t1wN4MtlrWZoVBMoYBL
+ Y+1DwrlwK33ByeB3l6zkDgRxB7Lsr8UdnSyoRjQ==
+X-Google-Smtp-Source: AGHT+IHgFWrfqg6VxD076bV1Ahvq7Va1k0veH8KaE24wYRXR1wihBNHx2f8OBxAR3Yx4Q/qCQP65lTON7r6fXvuKmkg=
+X-Received: by 2002:a05:690c:6e10:b0:6b4:b45:2f1 with SMTP id
+ 00721157ae682-6d277a7a8b4mr30321547b3.34.1724929486478; Thu, 29 Aug 2024
+ 04:04:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+References: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org>
+ <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-4-bdb05b4b5a2e@linaro.org>
+In-Reply-To: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-4-bdb05b4b5a2e@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 29 Aug 2024 14:04:34 +0300
+Message-ID: <CAA8EJprKnd269S_KMVUDk7UfT-c4ighPq4VkX-nEkwGg8ys1cQ@mail.gmail.com>
+Subject: Re: [PATCH 04/21] drm/msm/dsi: support DSC configurations with
+ slice_per_pkt > 1
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,66 +85,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 11:53:58AM +0200, Thomas Hellström wrote:
-> But as Sima pointed out in private communication, exhaustive eviction
-> is not really needed for faulting to make (crawling) progress.
-> Watermarks and VRAM trylock shrinking should suffice, since we're
-> strictly only required to service a single gpu page granule at a time.
-> 
-> However, ordinary bo-based jobs would still like to be able to
-> completely evict SVM vram. Whether that is important enough to strive
-> for is ofc up for discussion.
+On Thu, 29 Aug 2024 at 13:19, Jun Nie <jun.nie@linaro.org> wrote:
+>
+> From: Jonathan Marek <jonathan@marek.ca>
+>
+> MSM display controller support multiple slice to be sent in a single DSC
+> packet.
 
-My take is that you don't win anything for exhaustive eviction by having
-the dma_resv somewhere in there for svm allocations. Roughly for split lru
-world, where svm ignores bo/dma_resv:
+This is not MSM-specific. It is allowed per the standard.
 
-When evicting vram from the ttm side we'll fairly switch between selecting
-bo and throwing out svm pages. With drm_exec/ww_acquire_ctx selecting bo
-will eventually succeed in vacuuming up everything (with a few retries
-perhaps, if we're not yet at the head of the ww ticket queue).
+> Add a dsc_slice_per_pkt field to mipi_dsi_device struct and
+> support this field in msm mdss driver.
 
-svm pages we need to try to evict anyway - there's no guarantee, becaue
-the core mm might be holding temporary page references (which block
-migration) or have the page locked (which also block the migration). But
-as long as those two steps succeed, we'll win and get the pages. There
-might be some thrashing against concurrent svm faults stealing them again,
-but they have a disadvantage since they can't steal dma_resv_locked bo.
-And if it's still too much we can stall them in the page allocator.
+This doesn't describe why this is necessary at all. Is it a fix or a feature?
 
-So it's not entirely reliable, but should be close enough.
+>
+> Note that the removed "pkt_per_line = slice_per_intf * slice_per_pkt"
+> comment is incorrect.
+>
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 25 ++++++++++---------------
+>  include/drm/drm_mipi_dsi.h         |  2 ++
+>  2 files changed, 12 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 5abade8f26b88..36f0470cdf588 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -157,6 +157,7 @@ struct msm_dsi_host {
+>
+>         struct drm_display_mode *mode;
+>         struct drm_dsc_config *dsc;
+> +       unsigned int dsc_slice_per_pkt;
+>
+>         /* connected device info */
+>         unsigned int channel;
+> @@ -861,17 +862,10 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+>         slice_per_intf = msm_dsc_get_slices_per_intf(dsc, hdisplay);
+>
+>         total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
+> -       bytes_per_pkt = dsc->slice_chunk_size; /* * slice_per_pkt; */
+> +       bytes_per_pkt = dsc->slice_chunk_size * msm_host->dsc_slice_per_pkt;
+>
+>         eol_byte_num = total_bytes_per_intf % 3;
+> -
+> -       /*
+> -        * Typically, pkt_per_line = slice_per_intf * slice_per_pkt.
+> -        *
+> -        * Since the current driver only supports slice_per_pkt = 1,
+> -        * pkt_per_line will be equal to slice per intf for now.
+> -        */
+> -       pkt_per_line = slice_per_intf;
+> +       pkt_per_line = slice_per_intf / msm_host->dsc_slice_per_pkt;
+>
+>         if (is_cmd_mode) /* packet data type */
+>                 reg = DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
+> @@ -1019,12 +1013,8 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>                 else
+>                         /*
+>                          * When DSC is enabled, WC = slice_chunk_size * slice_per_pkt + 1.
+> -                        * Currently, the driver only supports default value of slice_per_pkt = 1
+> -                        *
+> -                        * TODO: Expand mipi_dsi_device struct to hold slice_per_pkt info
+> -                        *       and adjust DSC math to account for slice_per_pkt.
+>                          */
+> -                       wc = msm_host->dsc->slice_chunk_size + 1;
+> +                       wc = msm_host->dsc->slice_chunk_size * msm_host->dsc_slice_per_pkt + 1;
+>
+>                 dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
+>                         DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
+> @@ -1629,8 +1619,13 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
+>         msm_host->lanes = dsi->lanes;
+>         msm_host->format = dsi->format;
+>         msm_host->mode_flags = dsi->mode_flags;
+> -       if (dsi->dsc)
+> +       if (dsi->dsc) {
+>                 msm_host->dsc = dsi->dsc;
+> +               msm_host->dsc_slice_per_pkt = dsi->dsc_slice_per_pkt;
+> +               /* for backwards compatibility, assume 1 if not set */
+> +               if (!msm_host->dsc_slice_per_pkt)
+> +                       msm_host->dsc_slice_per_pkt = 1;
+> +       }
+>
+>         ret = dsi_dev_attach(msm_host->pdev);
+>         if (ret)
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 0f520eeeaa8e3..1c1b56077d44a 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -182,6 +182,7 @@ struct mipi_dsi_device_info {
+>   * be set to the real limits of the hardware, zero is only accepted for
+>   * legacy drivers
+>   * @dsc: panel/bridge DSC pps payload to be sent
+> + * @dsc_slice_per_pkt: number of DSC slices to be sent as in a single packet
+>   */
+>  struct mipi_dsi_device {
+>         struct mipi_dsi_host *host;
+> @@ -196,6 +197,7 @@ struct mipi_dsi_device {
+>         unsigned long hs_rate;
+>         unsigned long lp_rate;
+>         struct drm_dsc_config *dsc;
+> +       unsigned int dsc_slice_per_pkt;
+>  };
+>
+>  /**
+>
+> --
+> 2.34.1
+>
 
-Now for bo based svm the picture isn't any different, because holding
-dma_resv is not actually enough to migrate svm mappings. We still need to
-hope there's no temporary page references around, and we still need to
-succeed at locking the page. And the migration code only does trylocks,
-because that's it's deadlock prevent algorithm if different migrations
-needing the same set of pages, but acquiring them in a different order. So
-we win nothing.
 
-Worse, if dma_resv does actually hold up svm migration and reclaim, then
-we potentially deadlock because that lock is for a bigger range than
-individual pages (or folios). And the core mm assumes that it can get out
-of a deadlock bind by (at least stochastically) eventually succeeding in
-acquiring/locking down a single page.
-
-This means we cannot use dma_resv tricks to give the ttm world an
-advantage in exhaustive eviction against concurrent svm faults. Or at
-least not more than we can do without by just stalling svm faults that
-need to allocate gpu memory (but that must happen without holding locks or
-we're busted).
-
-So the only benefit I'm seeing is the unified lru, which I'm not sure is
-worth it. There's also a bit a lru design tension here, because for the bo
-world we want objects that are locked to stay on the lru, so that the
-competing processes can figure out who has the winning ww ticket. The core
-mm design otoh does isolate pages and remove them from the lru when
-they're acquired, so that they don't gunk up other processes from trying
-to make forward progress and are better hidden. Which reduces temporary
-page references (from lru walk) preventing migration and stuff like that.
-
-Cheers, Sima
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With best wishes
+Dmitry
