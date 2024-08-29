@@ -2,65 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B765B963C2B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 09:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EBB963C41
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 09:09:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9DED10E4EC;
-	Thu, 29 Aug 2024 07:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18AF810E48C;
+	Thu, 29 Aug 2024 07:09:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gB1vSJzm";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="vxTnzW0u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29A3E10E4E4;
- Thu, 29 Aug 2024 07:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724915193; x=1756451193;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=GJcJH9cdSgbkYZkii0sV7KfcdN5fZp0ou6UuOH8qvjQ=;
- b=gB1vSJzmn8Qabm9u//w001PFwrxPoHokGiiFLd6dlm5XK8f2VSvvMI6h
- mTsc87iRIvQGh9iOKR5ZbwBJzjbMzmJOo4pRAtMTlBk5N6+/g7pD76tDm
- U+euO0Y9cIFSS8gCOY+DeoH41DSfYsNDQjBQpN9ttMV5GcX6kX9XcTXPD
- HFxH2BCHZA8rj629LKCXjLBfq7RU2lhNyngu2Q52AGBK0Ss+Fwk1D5qq0
- hFfS3HaCqpmUT7c1QQK7vMtXa+XYuugZaM7Xhd1pTu+s52s81MlthjSD/
- NVLqwE8b0czogC+Ra/wV/2EFxlA/fgJHoYJ8HNZnIJoXVGkR6JPJmtrx3 g==;
-X-CSE-ConnectionGUID: e5EA3wvQSHCosgFgVP3irg==
-X-CSE-MsgGUID: s7BohXe0S7uLK/mLwPFwLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23631846"
-X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; d="scan'208";a="23631846"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2024 00:06:32 -0700
-X-CSE-ConnectionGUID: rvj0sBKMSw+CnhSJvwcB4g==
-X-CSE-MsgGUID: bZqzOS5XRfSccHpfvfDHjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; d="scan'208";a="63675182"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.245.20])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2024 00:06:28 -0700
-Date: Thu, 29 Aug 2024 10:06:25 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-fixes
-Message-ID: <ZtAd8WTw1xiSu_TS@jlahtine-mobl.ger.corp.intel.com>
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
+ [91.218.175.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9AA10E48C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:09:38 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1724915376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/KIxKju75uGBr00bG5k97max+QhEKp2wCZ4XqSZRGMM=;
+ b=vxTnzW0u+hUe467HHxNcvB4NSvjpkh4iQiZP1GEWVtqjU4G1f/40hs4CWVdynivEEfw9ag
+ vUmEQTgUO+MABZ7KbUBak/YjOauXJJIcLhJ/7ne36ole1pMKci+g8a1rnuRYnwaPV/mYFM
+ hSGivR+S9w8D9w8TPQ2T1Q67Q/skmIQ=
+From: Kunwu Chan <kunwu.chan@linux.dev>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kunwu Chan <chentao@kylinos.cn>
+Subject: [PATCH] drm/i915/gem: Remove duplicate 'unlikely()' usage
+Date: Thu, 29 Aug 2024 15:08:57 +0800
+Message-ID: <20240829070857.28617-1-kunwu.chan@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,60 +54,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+From: Kunwu Chan <chentao@kylinos.cn>
 
-Here goes drm-intel-fixes towards v6.11-rc6.
+nested unlikely() calls, IS_ERR already uses unlikely() internally
 
-Fix for USB type-C docks, backlight fix for Lenovo Yoga Tab 3 2G version
-and ARL GuC firmware version correction.
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards, Joonas
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 01b7587dd1f8..a3b83cfe1726 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -825,7 +825,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
+ 	struct i915_gem_context *ctx;
+ 
+ 	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->rsvd1);
+-	if (unlikely(IS_ERR(ctx)))
++	if (IS_ERR(ctx))
+ 		return PTR_ERR(ctx);
+ 
+ 	eb->gem_context = ctx;
+-- 
+2.41.0
 
-***
-
-drm-intel-fixes-2024-08-29:
-
-- Fix #11195: The external display connect via USB type-C dock stays blank after re-connect the dock
-- Make DSI backlight work for 2G version of Lenovo Yoga Tab 3 X90F
-. Move ARL GuC firmware to correct version
--
-
-The following changes since commit 5be63fc19fcaa4c236b307420483578a56986a37:
-
-  Linux 6.11-rc5 (2024-08-25 19:07:11 +1200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-08-29
-
-for you to fetch changes up to a2ccc33b88e2953a6bf0b309e7e8849cc5320018:
-
-  drm/i915/dp_mst: Fix MST state after a sink reset (2024-08-28 11:32:25 +0300)
-
-----------------------------------------------------------------
-- Fix #11195: The external display connect via USB type-C dock stays blank after re-connect the dock
-- Make DSI backlight work for 2G version of Lenovo Yoga Tab 3 X90F
-. Move ARL GuC firmware to correct version
--
-
-----------------------------------------------------------------
-Hans de Goede (1):
-      drm/i915/dsi: Make Lenovo Yoga Tab 3 X90F DMI match less strict
-
-Imre Deak (1):
-      drm/i915/dp_mst: Fix MST state after a sink reset
-
-John Harrison (1):
-      drm/i915: ARL requires a newer GSC firmware
-
- drivers/gpu/drm/i915/display/intel_dp.c     | 12 +++++++++
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 40 +++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_dp_mst.h |  1 +
- drivers/gpu/drm/i915/display/vlv_dsi.c      |  1 -
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c   | 31 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c    | 10 ++++++--
- drivers/gpu/drm/i915/i915_drv.h             |  2 ++
- drivers/gpu/drm/i915/intel_device_info.c    |  7 +++++
- drivers/gpu/drm/i915/intel_device_info.h    |  3 +++
- include/drm/intel/i915_pciids.h             | 11 +++++---
- 10 files changed, 111 insertions(+), 7 deletions(-)
