@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617A89646CB
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5B09646CC
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D84210E0EA;
-	Thu, 29 Aug 2024 13:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5955610E6AA;
+	Thu, 29 Aug 2024 13:36:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="BUuFgBlZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="NcOqY1da";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7184210E0EA
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 13:36:51 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3EAE94000B;
- Thu, 29 Aug 2024 13:36:48 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7826810E0EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 13:36:52 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 40598E0006;
+ Thu, 29 Aug 2024 13:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1724938609;
+ t=1724938610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Oj4RcjtjNEqx6JS5AmpNWk5GQ8DJcRGL7kAtiI3DBlo=;
- b=BUuFgBlZklhc1JR5srZqZqEejVC7+o3TCG73l23VPg80gp4c9pJ7OXbm03T9p/GIXLcemz
- u0b6DkNxB0R1oEbkKbcdNOIPb6tGBVgHpx2z8uvvbPvEkCzdljc3sM//Dj0u8XiRn0vD1F
- ntTWr8aJp3aJnx8nEfRFpu4gRdGqRb+MW/HRpGVZxz3xHllaBinPrrVGIdq8oJOiqb3qg7
- 59gXxd7xWEIFzvuZ8c8HnwY8WOdSK4gD3jWAtwOonO+FE+v49zHWgfhHsaMvfg7vkaXZKR
- 2X9kylIj/idD81BtGDxvwimdVQc/hE4pkL6/71v0QcYxg3I1r/K9Aa4tBPPymw==
+ bh=8NaTL7Av09l39DJ2R5bARNPX+cbLtf9SVTqbszCNCo0=;
+ b=NcOqY1daFKhvfE2+FgiKWmF2xHVqaqt3Resiq98bEubg7TsvXTxCJjlPtTPAVLTQdIpwW2
+ LrwqiARLNLrWXKe4VKzZ1TtlAw1GiMDr4s+FZFpdTmFuE+hqNJPh73KEkSK49wFGmnUkC0
+ jesxq8ioxz2AbXVED+htpwKEz2vkLFDMcKNvpGYHcpORL87NRi4e7hSwfJpnobys6je4jM
+ Fr/nTXgSVmlLD7dlc5UJn/si9A0P8sA5nad9eTC/g1MORHXxh4m9OujiAoGvx635NNfiAa
+ Isf9gurGIEdd3bu+YJ9Jom3Ho1kFiS5tXbB8tHT5AQHRx7vFCgO5+yIc8BqliQ==
 Date: Thu, 29 Aug 2024 15:36:47 +0200
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
@@ -41,8 +41,8 @@ Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
  miquel.raynal@bootlin.com, mripard@kernel.org,
  nicolejadeyee@google.com, rodrigosiqueiramelo@gmail.com,
  seanpaul@google.com, thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v2] drm/vkms: Add documentation
-Message-ID: <ZtB5b36il_s_kYIe@louis-chauvet-laptop>
+Subject: Re: [PATCH 3/3] drm/vkms: Add documentation
+Message-ID: <ZtB5b4YuR-anLMPV@louis-chauvet-laptop>
 Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  <jose.exposito89@gmail.com>, 
  airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
@@ -54,13 +54,13 @@ Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  nicolejadeyee@google.com, rodrigosiqueiramelo@gmail.com,
  seanpaul@google.com, thomas.petazzoni@bootlin.com,
  tzimmermann@suse.de
-References: <20240826-google-clarifications-v2-1-2574655b0b91@bootlin.com>
- <20240827174903.2774-1-jose.exposito89@gmail.com>
+References: <20240814-google-clarifications-v1-3-3ee76d7d0c28@bootlin.com>
+ <20240819150736.16839-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240827174903.2774-1-jose.exposito89@gmail.com>
+In-Reply-To: <20240819150736.16839-1-jose.exposito89@gmail.com>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,57 +77,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 27/08/24 - 19:49, José Expósito a écrit :
+Le 19/08/24 - 17:07, José Expósito a écrit :
 > Hi Louis,
+> 
+> Thanks for this patch, adding some minor review comments:
 > 
 > > Add documentation around vkms_output and its initialization.
 > > 
 > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > > ---
-> > This series does not introduce functionnal changes, only some
-> > documentation and renaming to clarify the code.
-> > ---
-> > Changes in v2:
-> > - Dropped already applied patches
-> > - Dropped useless patch as its content is deleted later
-> > - Remove dependency on previous series
-> > - Apply Maíra's comments
-> > - Link to v1: https://lore.kernel.org/r/20240814-google-clarifications-v1-0-3ee76d7d0c28@bootlin.com
-> 
-> I think you missed my email in the previous patch:
-> https://patchwork.kernel.org/project/dri-devel/patch/20240814-google-clarifications-v1-3-3ee76d7d0c28@bootlin.com/#25983103
-> 
-> Minor comments, but it'd be nice to get them fixed if possible.
-
-Yes, sorry! The v3 is in your inbox.
-Thanks for the review!
-
-Louis Chauvet
- 
-> Jose
-> 
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_drv.h    | 86 ++++++++++++++++++++++++++++++++------
-> >  drivers/gpu/drm/vkms/vkms_output.c | 12 ++++++
-> >  2 files changed, 86 insertions(+), 12 deletions(-)
-> > 
-> > 
-> > ---
-> > base-commit: 22bc22ccf95bfa6eb6288ba4bc33d7fc0078381e
-> > change-id: 20240520-google-clarifications-dede8dcbe38a
-> > 
-> > Best regards,
+> >  drivers/gpu/drm/vkms/vkms_drv.h    | 81 ++++++++++++++++++++++++++++++++------
+> >  drivers/gpu/drm/vkms/vkms_output.c | 12 +++++-
+> >  2 files changed, 80 insertions(+), 13 deletions(-)
 > > 
 > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> > index 5e46ea5b96dc..1fc068d4de4c 100644
+> > index 3028678e4f9b..8f6c9e67e671 100644
 > > --- a/drivers/gpu/drm/vkms/vkms_drv.h
 > > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> > @@ -73,29 +73,56 @@ struct vkms_color_lut {
+> > @@ -147,29 +147,51 @@ struct vkms_color_lut {
 > >  };
 > >  
 > >  /**
 > > - * vkms_crtc_state - Driver specific CRTC state
 > > + * struct vkms_crtc_state - Driver specific CRTC state
+> 
+> Not in this line, but around line 55, the documentation for vkms_plane_state
+> is missing the "struct" keyword:
+
+This is fixed by [1], but I can move this patch here.
+
+[1]: https://lore.kernel.org/all/20240802-yuv-v9-3-08a706669e16@bootlin.com/
+ 
+> - * vkms_plane_state - Driver specific plane state
+> + * struct vkms_plane_state - Driver specific plane state
+> 
+> I'd be nice to add it since we are improving the documentation.
+> 
 > > + *
 > >   * @base: base CRTC state
 > >   * @composer_work: work struct to compose and add CRC entries
@@ -139,13 +124,10 @@ Louis Chauvet
 > > + *  @num_active_planes). They should be stored in z-order.
 > > + * @active_writeback: Current active writeback job
 > > + * @gamma_lut: Look up table for gamma used in this CRTC
-> > + * @crc_pending: Protected by @vkms_output.composer_lock, true when the frame CRC is not computed
-> > + *		 yet. Used by vblank to detect if the composer is too slow.
-> > + * @wb_pending: Protected by @vkms_output.composer_lock, true when a writeback frame is requested.
-> > + * @frame_start: Protected by @vkms_output.composer_lock, saves the frame number before the start
-> > + *		 of the composition process.
-> > + * @frame_end: Protected by @vkms_output.composer_lock, saves the last requested frame number.
-> > + *	       This is used to generate enough CRC entries when the composition worker is too slow.
+> > + * @crc_pending: Protected by @vkms_output.composer_lock.
+> > + * @wb_pending: Protected by @vkms_output.composer_lock.
+> > + * @frame_start: Protected by @vkms_output.composer_lock.
+> > + * @frame_end: Protected by @vkms_output.composer_lock.
 > >   */
 > >  struct vkms_crtc_state {
 > >  	struct drm_crtc_state base;
@@ -166,25 +148,36 @@ Louis Chauvet
 > >  
 > > +/**
 > > + * struct vkms_output - Internal representation of all output components in vkms
+> 
+> I think that VKMS is usually spelled in capital letters in other places.
+> 
 > > + *
-> > + * @crtc: Base CRTC in DRM
+> > + * @crtc: Base crtc in drm
 > > + * @encoder: DRM encoder used for this output
 > > + * @connector: DRM connector used for this output
 > > + * @wb_connecter: DRM writeback connector used for this output
-> > + * @vblank_hrtimer: Timer used to trigger the vblank
-> > + * @period_ns: Period of the vblank timer, used to configure @vblank_hrtimer and to compute
-> > + *	       vblank timestamps
-> > + * @composer_workq: Ordered workqueue for @composer_state.composer_work.
-> > + * @lock: Lock used to protect concurrent access to the composer
-> > + * @composer_enabled: Protected by @lock, true when the vkms composer is active (crc needed or
-> > + *		      writeback)
-> > + * @composer_state: Current state of this vkms output
+> > + * @vblank_hrtimer:
+> > + * @period_ns:
+> 
+> My suggestion when reviewing a previous version of this patch in your
+> GitHub fork was:
+> 
+>  @vblank_hrtimer: Timer used to simulate vblank events
+>  @period_ns: vblank period, in nanoseconds
+> 
+> > + * @composer_workq: Ordered workqueue for composer_work
+> > + * @lock: Lock used to project concurrent acces to the composer
+> > + * @composer_enabled: Protected by @lock.
+> > + * @composer_state:
+> 
+> I think that @composer_state is "Protected by @lock" as well.
+> 
 > > + * @composer_lock: Lock used internally to protect @composer_state members
 > > + */
 > >  struct vkms_output {
 > >  	struct drm_crtc crtc;
 > >  	struct drm_encoder encoder;
-> > @@ -103,28 +130,38 @@ struct vkms_output {
+> > @@ -177,28 +199,38 @@ struct vkms_output {
 > >  	struct drm_writeback_connector wb_connector;
 > >  	struct hrtimer vblank_hrtimer;
 > >  	ktime_t period_ns;
@@ -208,7 +201,10 @@ Louis Chauvet
 > > + * @writeback: If true, a writeback buffer can be attached to the CRTC
 > > + * @cursor: If true, a cursor plane is created in the VKMS device
 > > + * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
-> > + * @dev: Used to store the current vkms device. Only set when the device is instantiated.
+> > + * @dev: Used to store the current vkms device. Only set when the device is instancied.
+> 
+> s/vkms/VKMS and s/instancied/instantiated
+> 
 > > + */
 > >  struct vkms_config {
 > >  	bool writeback;
@@ -220,16 +216,25 @@ Louis Chauvet
 > >  
 > > +/**
 > > + * struct vkms_device - Description of a vkms device
+> 
+> s/vkms/VKMS
+> 
 > > + *
-> > + * @drm - Base device in DRM
+> > + * @drm - Base device in drm
 > > + * @platform - Associated platform device
 > > + * @output - Configuration and sub-components of the vkms device
+> 
+> s/vkms/VKMS
+> 
 > > + * @config: Configuration used in this vkms device
+> 
+> s/vkms/VKMS
+> 
 > > + */
 > >  struct vkms_device {
 > >  	struct drm_device drm;
 > >  	struct platform_device *platform;
-> > @@ -132,6 +169,10 @@ struct vkms_device {
+> > @@ -206,6 +238,10 @@ struct vkms_device {
 > >  	const struct vkms_config *config;
 > >  };
 > >  
@@ -240,54 +245,72 @@ Louis Chauvet
 > >  #define drm_crtc_to_vkms_output(target) \
 > >  	container_of(target, struct vkms_output, crtc)
 > >  
-> > @@ -144,12 +185,33 @@ struct vkms_device {
+> > @@ -218,12 +254,33 @@ struct vkms_device {
 > >  #define to_vkms_plane_state(target)\
 > >  	container_of(target, struct vkms_plane_state, base.base)
 > >  
 > > -/* CRTC */
 > > +/**
-> > + * vkms_crtc_init() - Initialize a CRTC for vkms
-> > + * @dev: DRM device associated with the vkms buffer
-> > + * @crtc: uninitialized CRTC device
-> > + * @primary: primary plane to attach to the CRTC
-> > + * @cursor plane to attach to the CRTC
+> > + * vkms_crtc_init() - Initialize a crtc for vkms
+> 
+> s/vkms/VKMS
+> 
+> > + * @dev: drm_device associated with the vkms buffer
+> 
+> s/vkms/VKMS
+> 
+> > + * @crtc: uninitialized crtc device
+> > + * @primary: primary plane to attach to the crtc
+> > + * @cursor plane to attach to the crtc
 > > + */
 > >  int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
 > >  		   struct drm_plane *primary, struct drm_plane *cursor);
-> >  
 > > +/**
 > > + * vkms_output_init() - Initialize all sub-components needed for a vkms device.
+> 
+> s/vkms/VKMS
+> 
 > > + *
 > > + * @vkmsdev: vkms device to initialize
-> > + * @possible_crtc_index: CRTC which can be attached to the planes. The caller must ensure that
+> 
+> s/vkms/VKMS
+> 
+> > + * @possible_crtc_index: Crtc which can be attached to the planes. The caller must ensure that
 > > + * possible_crtc_index is positive and less or equals to 31.
+> 
+> Missing "@". Also, since the second patch of this series won't be applied,
+> remember to rename the documentation to "@index".
 > > + */
-> >  int vkms_output_init(struct vkms_device *vkmsdev, int index);
+> >  
+> >  int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index);
 > >  
 > > +/**
 > > + * vkms_plane_init() - Initialize a plane
 > > + *
 > > + * @vkmsdev: vkms device containing the plane
+> 
+> s/vkms/VKMS
+> 
 > > + * @type: type of plane to initialize
-> > + * @possible_crtc_index: CRTC which can be attached to the plane. The caller must ensure that
+> > + * @possible_crtc_index: Crtc which can be attached to the plane. The caller must ensure that
 > > + * possible_crtc_index is positive and less or equals to 31.
 > > + */
 > >  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> >  				   enum drm_plane_type type, int index);
+> >  				   enum drm_plane_type type, int possible_crtc_index);
 > >  
 > > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> > index 5ce70dd946aa..da69beb43ab0 100644
+> > index d42ca7d10389..36db2c8923cb 100644
 > > --- a/drivers/gpu/drm/vkms/vkms_output.c
 > > +++ b/drivers/gpu/drm/vkms/vkms_output.c
 > > @@ -21,6 +21,7 @@ static int vkms_conn_get_modes(struct drm_connector *connector)
 > >  {
 > >  	int count;
 > >  
-> > +	/* Use the default modes list from DRM */
+> > +	/* Use the default modes list from drm */
 > >  	count = drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
 > >  	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
 > >  
-> > @@ -58,6 +59,12 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+> > @@ -58,8 +59,13 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
 > >  	int writeback;
 > >  	unsigned int n;
 > >  
@@ -297,26 +320,32 @@ Louis Chauvet
 > > +	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
 > > +	 * composition.
 > > +	 */
-> >  	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
+> >  	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, possible_crtc_index);
+> > -
 > >  	if (IS_ERR(primary))
 > >  		return PTR_ERR(primary);
-> > @@ -76,6 +83,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> >  			return PTR_ERR(cursor);
-> >  	}
 > >  
-> > +	/* [1]: Allocation of a CRTC, its index will be 1 */
-> >  	ret = vkms_crtc_init(dev, crtc, &primary->base, &cursor->base);
-> >  	if (ret)
-> >  		return ret;
-> > @@ -95,6 +103,10 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+> > @@ -96,6 +102,10 @@ int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc_index)
 > >  		DRM_ERROR("Failed to init encoder\n");
 > >  		goto err_encoder;
 > >  	}
 > > +	/*
 > > +	 * This is an hardcoded value to select crtc for the encoder.
+> 
+> s/an/a
+> 
 > > +	 * 1 here designate the first registered CRTC, the one allocated in [1]
 > > +	 */
+> 
+> I think that replacing "= 1;" with "= BIT(0);" might help to understand
+> that possible_crtcs is a bitmask and also that CRTC 0 is used by default.
+> We might even be able to drop the comment... Even though this will change
+> with our configfs changes quite a lot.
+
+This comment was mainly for me to understand why there is this =1. 
+I will change it to =BIT(0) for clarity, but keep the comment as it is not 
+obvious why this value is hardcoded.
+
 > >  	encoder->possible_crtcs = 1;
 > >  
 > >  	ret = drm_connector_attach_encoder(connector, encoder);
-> 
