@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852EB96516F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 23:08:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E17696518A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 23:12:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D7610E72F;
-	Thu, 29 Aug 2024 21:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E18510E765;
+	Thu, 29 Aug 2024 21:12:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oKnahoF3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="us1i7LvN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE1D10E72F
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 21:08:54 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9E110E765
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 21:12:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 88A24AE34E5;
- Thu, 29 Aug 2024 21:08:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56F45C4CEC1;
- Thu, 29 Aug 2024 21:08:50 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B4B38A4288A;
+ Thu, 29 Aug 2024 21:12:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7BD0C4CEC1;
+ Thu, 29 Aug 2024 21:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724965732;
- bh=WQDz1S69lUbD5RaUd2dQntjnNMx34I5STJbAEjGgtEE=;
+ s=k20201202; t=1724965936;
+ bh=SdFDbc/FKfVCaHZ3R/u6SOjH9IobabUDvHC41qgaXUk=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=oKnahoF3iIB3OiWjLXfDamL3XOBev+vSjazGWq8rTP7Ppxi4UGmN/uKdLnc7LQ2rF
- VM/I+vbkeheUjJeQBuOQXWAnO1EejxO3lkqs2zLZh4HIcMKI7c515FwOkN9EEnrar7
- tKN/h4JUoSor5bBVhEsDxbmkMag4YHYtjT+8C/ZPDjzBXRG8gfAV5mgIzqW+CIdqkB
- 9ORTf2NxGWFaC7MaWdB/Qm0gnyVicNVyAGPXtOa54WSNnw/LODVrtyzzAnBMdcrzI+
- T2gqW25OSKReZgf4+zcsM43P1ado4M0LgY/kuR6IF9COtmrpGKiH2G26jBBqWdNrAr
- /EZITocUE2/YQ==
-Date: Thu, 29 Aug 2024 14:08:49 -0700
+ b=us1i7LvNVt8Qyg0Ds3Qzx74/wqCdnCowJCXYSfINx9H2q6n5Kit1aO8FDlGGeTMaf
+ vHRHoicpP5fkO3U2+B+81byJTxSyg+s/JKaYfAXXXdaGZWJ8id+HmCmmuUmWdaElQn
+ gv+atJ2B0Ww51vx9gFkQVsIDp8BIu4oIA7f7e5Fp9659+RAYm3nte+AWc4etT9Sc/o
+ /HVToybUJrWVLFvJ3z5lls1n69Cce9t5gwg1hA83miP9iDl4xOg9yZp2+Rj04tO4em
+ wlA6UgNFKwOVnSaAgjOChfdDXWkt/q9nVjfwSzRkZxy01PXMkIQpvgBVgXQ7kosnUy
+ Ykx86deotI6gw==
+Date: Thu, 29 Aug 2024 14:12:12 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -70,7 +70,7 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
 Subject: Re: [PATCH net-next v23 03/13] netdev: support binding dma-buf to
  netdevice
-Message-ID: <20240829140849.44ded041@kernel.org>
+Message-ID: <20240829141212.1d146a16@kernel.org>
 In-Reply-To: <20240829060126.2792671-4-almasrymina@google.com>
 References: <20240829060126.2792671-1-almasrymina@google.com>
  <20240829060126.2792671-4-almasrymina@google.com>
@@ -93,9 +93,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 29 Aug 2024 06:01:16 +0000 Mina Almasry wrote:
-> +	if (dev_xdp_prog_count(netdev)) {
-> +		NL_SET_ERR_MSG(info->extack, "netdevice has xdp program attached");
-> +		return -EEXIST;
-> +	}
+> +		if (NL_REQ_ATTR_CHECK(info->extack, attr, tb, NETDEV_A_QUEUE_ID) ||
+> +		    NL_REQ_ATTR_CHECK(info->extack, attr, tb, NETDEV_A_QUEUE_TYPE) ||
+> +		    nla_get_u32(tb[NETDEV_A_QUEUE_TYPE]) != NETDEV_QUEUE_TYPE_RX) {
 
-goto err_unlock
+I keep going back and forth if I should complain.. so nit:
+
+The first two conditions can be together, but for the third one
+you want to NL_SET_BAD_ATTR(info->extack, tb[NETDEV_A_QUEUE_TYPE]));
+so separate if() is needed. I think I suggested the combining
+but I meant just the NL_REQ_ATTR.. ones.
