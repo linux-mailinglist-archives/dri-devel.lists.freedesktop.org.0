@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B709651E2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 23:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6E59651F3
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 23:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2376D10E0BD;
-	Thu, 29 Aug 2024 21:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6B610E0DD;
+	Thu, 29 Aug 2024 21:28:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q/aH4yCw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ax9B3K99";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26AA310E0BD
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 21:26:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B0F10E0DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 21:28:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B7A25A43B88;
- Thu, 29 Aug 2024 21:26:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE5BBC4CEC1;
- Thu, 29 Aug 2024 21:26:44 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E20B3A434A6;
+ Thu, 29 Aug 2024 21:28:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F341EC4CEC1;
+ Thu, 29 Aug 2024 21:28:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724966807;
- bh=qv1w3i8ppp9WEatmXOTIDaygnDc4b+KopM2kue4iUXA=;
+ s=k20201202; t=1724966922;
+ bh=eLbNQ6G9fAtikDeusW+cHvDy3CVuzcI4mzdMls/Dda8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Q/aH4yCwlgAE0YdZkEXc5ZWzCRJpVizL7u3qOFqjdHTLBh/GACVu7V+LYtSu7k99i
- fuCsKpIG7Ycih3jx7Nea0jL7wfVPoPaH1K7VToVloVY9GnEbAh3blFw6mIfvwkfi8P
- v86W/H6gdGgrjLiTOcnC8zC7buNYkwMeca7w7pi0Q4Fy5cqWuRd9dFXOCmrZIEh0OG
- +egu64hiZCWHl0GbAoGuKWN2aH034agEq7Cezds5QwuoX+mPfEdjmTihMkJMsnin7J
- 6kRj6oJBykEyxE6SnnmmUTf7JH4YP5PCAIPbElrGwvuwvXryYVm9axq9Kg8g+IWpFZ
- IMeHpXeFot+4w==
-Date: Thu, 29 Aug 2024 14:26:43 -0700
+ b=Ax9B3K99aMwINgqedd1GcT2dh/xdXD8pelnJFa0YCRuR/soamnOCjmO8Q7rJ4Fv6Q
+ sEwbQInsjU1BtifOjEMXuzvy8/mh2sgE4y7ixp5ihzT99ZxVNrOYbXHac0LE26BZqQ
+ CDSAE8Ak/F9AIweL+4PLXkKI80OiLotLrQWXEdHBtv1WWoo5JDPV0nnC+U0g8E6eAE
+ kUQy9LribXMePHEEkB3FlLKdE9p4QFhr5jM8nv80dQ9ZJW5lx2PuyftHJGMGvhq9G1
+ yl/Yax3vmf6U7MAaxruFfaqjoDdufjyTrqszjtXIbsHkWAx/FV87xBCq1ChdTckR3V
+ fVNP4KW9ZS8+Q==
+Date: Thu, 29 Aug 2024 14:28:39 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -66,12 +66,14 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
  <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
  Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>
-Subject: Re: [PATCH net-next v23 13/13] netdev: add dmabuf introspection
-Message-ID: <20240829142643.4aa5c52a@kernel.org>
-In-Reply-To: <20240829060126.2792671-14-almasrymina@google.com>
+ Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v23 06/13] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240829142839.7f09715b@kernel.org>
+In-Reply-To: <20240829060126.2792671-7-almasrymina@google.com>
 References: <20240829060126.2792671-1-almasrymina@google.com>
- <20240829060126.2792671-14-almasrymina@google.com>
+ <20240829060126.2792671-7-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -90,24 +92,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Aug 2024 06:01:26 +0000 Mina Almasry wrote:
-> +		binding = (struct net_devmem_dmabuf_binding *)
-> +				  rxq->mp_params.mp_priv;
-> +		if (binding) {
-> +			if (nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF,
-> +					binding->id))
-> +				goto nla_put_failure;
-> +		}
+On Thu, 29 Aug 2024 06:01:19 +0000 Mina Almasry wrote:
+> +	if (WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(netmem)) !=
+> +		     1))
 
-
-> +	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
-
-> +	if (binding && nla_put_u32(rsp, NETDEV_A_PAGE_POOL_DMABUF, binding->id))
-> +		goto err_cancel;
-
-nit: this is better than the put in queue_fill_one()
-no need to cast void pointer there, and you can use a single 
-
-		if (binding &&
-		    nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF, binding->id)))
-			goto nla_put_failure;
+nit: temporary variable for this refcount, please
