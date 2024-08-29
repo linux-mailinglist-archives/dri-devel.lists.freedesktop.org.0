@@ -2,153 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34396963FDF
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 11:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34695963FD4
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 11:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A324010E099;
-	Thu, 29 Aug 2024 09:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF7210E660;
+	Thu, 29 Aug 2024 09:22:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GNM4rxcz";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="BbVYjGMv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2072.outbound.protection.outlook.com [40.107.237.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1014510E099;
- Thu, 29 Aug 2024 09:24:35 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on2056.outbound.protection.outlook.com [40.107.22.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0412910E660
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 09:22:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XK/Qj0HePir9rEjOxvL7v21mgflkPS6cc1N6jJ0PjKddxF0mTnsWnbYOjUtxWJRb6baSAhgF91RZTOdVaKmv8Cb5OnB0Rjo3hvM48+r3I17paDx9DLqOkkEY5c+cuKTat/xr31ANX+F3O5gIuot7wmqwO+2whCxR/31ysR+xeibsqhZiqOeF20U5wiTQFIRsIZOPeNKcfAotPui1QjaOYTjlJGb7PaDnCIkfXW1tBZDwGLLlCXSwpb13OVsUA71TPeUMDzlJpOdvivpXMAeqq5T238v1NZOw0Vp141XXNyszTst0J0WGomXWJOPa7ixHLn22qiimH8Ue9Ng/QhQxNw==
+ b=lJEI4LSiCx1xtlzGziwvjOknjxnHg0CY+NM2h+aVASP54nk9Af6/eUafVvxtnx7hXuAN3mNN7a6q/vgM6l1nI+1ivNWJsv/6DvkQbzdErtBvcvWOuC8Kfl66vjeNoq2mZfI54refWenPda73bk2Z2x/FquAFJuvGiJBaZcqfuVtmJluAqkOYlfEyoPfQRM06R/z+Zw6QXpYKtjNl4YUpLQA6SN8axNH7t04O5wFKljzxuCG1atJWoMkYzaryLoOhcygS9PFr3wtVbmLpmI7NIVCCOIw9vY529Y9IspqbBoEnN71eU1lzq/Bir+ZbuMifcaJYHgFr8l675w8VQEb0XQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SYh4EBY16iD6mMe4aTl/S3YwMXmEMyceI9IrZXRlTJY=;
- b=dn7dCdLjspckupPvCdgQYM82lA8cFBbzIBocccMNDrVsg2gvTlW8H1LVdCA8BVN9HFdoQai8bU6p3svnAn9eADkSFJFm9QLwe8k3bc7qylPjB7UnUdC2+PEY4jvyT7XalDWOL7tKiKEHrEtxTPmPiqKlu6rhW6GRkrYAIZn+BeaHxHkEm8bv4qn0HcJmWEMkmfW28ImWOrNprU50UpOQJ+5wIHjJ8ItZUSq2d5zXDo5Gbpe4hroR5REpl8mDDO7bIRDrSpXybSkuGoQGG/8vqWPjb4+Y7XcIBi0xtrnmM3DALrUew6aHrmy2VHea85tWucj9ygELc3dsO5aT5v3AeA==
+ bh=lcN7TTfY7iQQI2h+/1W+RySg64mC/hQ8II+4u8/4dxk=;
+ b=OIOWyZtpfRkZbqddDRsZkcFmsqzeQiJTBjolhlbsPpIXkFj1J9+iQ4xps2sbQgD7GM+EQO3eY8Cn7jSSdTdujWh1y4FNaRXK4F3TRAcBIReWJBXSA6/TvVBsY8HTwmIcnaO/ktQbzNGQ6D/tnqeIowMqZhljOJ4AC5RjVgEvVH3HK80AnREHynW2OZ4DAbMbi84mD+qXqQHU41ronLRuVsryOdQLLK8IBw1ebOvJDkIQfi0ffIjuiQHamHu3lzH8WJTmim+Y72M1wXZZ8RhFwm1ne0zc1v59UDgNf51NAvPxo4DsBkzYY7ypoJnVvQBqS7LKtzwBG2B2lDjLNdnD8A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SYh4EBY16iD6mMe4aTl/S3YwMXmEMyceI9IrZXRlTJY=;
- b=GNM4rxczctdtKAA3lBFqn96O8xh6RffW5ehEOzn0bqafC0Cx5imDgrxOSHhronabftZ6Jl9f+mptFjagoh8hQUkG+9UdYxCf1PRgbI75jp2GLD4JLozklxyT+szTfUN9doC6dUipozQVPyYWFiIcfxUKsWRzbO6jD9h0d5NjX3A=
+ bh=lcN7TTfY7iQQI2h+/1W+RySg64mC/hQ8II+4u8/4dxk=;
+ b=BbVYjGMvWeT7CLielatmXdM+PApLp8jKVaxD+BtaEkp7mLgS/Dcir+L2eXFbRtuEReoVP59nnGjgL5khWs1qR+sgkooRpHV0fDvQI4ynYaFDP0a7VdxVUJFhUYie5B5BC1Ctyy7gAMYq62W6iQzcf94Yvj44bT2PbIieulb02UwzgNLgH2a8sQGR+YgBc60lccoz4pVWeB/1xrk3R4KDtubj9VeRey5xWcicHvj/CirUcsMJ4fXtXEwPTU7h+geLsU4gomiwjk9/KksoOLa6lnf6jv2vlljFYwgSO3gz1YMNLROZnIns0FDdJsjsQSTLQfY0NBGdsPNSYqDE2pJsqg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
- by BL1PR12MB5849.namprd12.prod.outlook.com (2603:10b6:208:384::18)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB5005.eurprd04.prod.outlook.com (2603:10a6:803:57::30)
+ by DBBPR04MB7625.eurprd04.prod.outlook.com (2603:10a6:10:202::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.27; Thu, 29 Aug
- 2024 09:24:31 +0000
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062%3]) with mapi id 15.20.7897.021; Thu, 29 Aug 2024
- 09:24:31 +0000
-Content-Type: multipart/alternative;
- boundary="------------Nx7X4Mlme455EWvH6nEamTSu"
-Message-ID: <cbe8aebe-fcad-4ff0-8f56-146628183fd3@amd.com>
-Date: Thu, 29 Aug 2024 11:24:26 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 23/28] drm/xe: Add SVM VRAM migration
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, thomas.hellstrom@linux.intel.com, matthew.auld@intel.com,
- daniel@ffwll.ch, "Paneer Selvam, Arunpravin"
- <Arunpravin.PaneerSelvam@amd.com>
-References: <20240828024901.2582335-1-matthew.brost@intel.com>
- <20240828024901.2582335-24-matthew.brost@intel.com>
- <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
-X-ClientProxiedBy: FR0P281CA0096.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::9) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Thu, 29 Aug
+ 2024 09:22:50 +0000
+Received: from VI1PR04MB5005.eurprd04.prod.outlook.com
+ ([fe80::3a57:67cf:6ee0:5ddb]) by VI1PR04MB5005.eurprd04.prod.outlook.com
+ ([fe80::3a57:67cf:6ee0:5ddb%4]) with mapi id 15.20.7897.021; Thu, 29 Aug 2024
+ 09:22:50 +0000
+From: Carlos Song <carlos.song@nxp.com>
+To: aisheng.dong@nxp.com, andi.shyti@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc: linux-i2c@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Carlos Song <carlos.song@nxp.com>,
+ Frank Li <frank.li@nxp.com>
+Subject: [PATCH V4] i2c: imx-lpi2c: add eDMA mode support for LPI2C
+Date: Thu, 29 Aug 2024 17:31:57 +0800
+Message-Id: <20240829093157.2714736-1-carlos.song@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM9P195CA0005.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21f::10) To VI1PR04MB5005.eurprd04.prod.outlook.com
+ (2603:10a6:803:57::30)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|BL1PR12MB5849:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c3d5865-f586-4ac4-9390-08dcc80c637e
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5005:EE_|DBBPR04MB7625:EE_
+X-MS-Office365-Filtering-Correlation-Id: 004aed5e-f43a-408f-c108-08dcc80c2698
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bmh4VHJKNGZRKzQ1cHFEcy9ERDRLM3d2VTYvdUhSNkdlMTE1MUxNU3RObHk5?=
- =?utf-8?B?UDFJRVpUcWtyQ3NrOWg4N0JJRHFvV21GVWh3dXlLMlpEb0ZCS0lFSzRwUkVU?=
- =?utf-8?B?d21lL0Zrd09HRVg0ZWVKV2RnVEIzaUcrc1BQQVhYc3EzZ1RuaElZeWZ6dzBx?=
- =?utf-8?B?bFo5UWN1azRPRFN5RXZXN2VBZGlDeWp1SHBHQUZQdUJzM3QyVHdadTZmSFow?=
- =?utf-8?B?cHhYWWNqRFRIa2ViWVYxK0pyeW1xTGNCTmNzbDlLOVBkNTcwbFEwamlyUHN3?=
- =?utf-8?B?QTYvQXBVcGUzRWZHMWJkVnREZUNXbkkrN2xUMW9iN2lLZ0lYc3N0bGN4aG5u?=
- =?utf-8?B?V3o3bGRFdnB2MkNOd25SbHViMlg1ME52SW1yc2Z2bU05emUrRWtkaFNYbFpP?=
- =?utf-8?B?andhZjNoaC80WTBIb0pwdW0rMDd6V3p6K2d0eVpubTI0MFZEdmhIdFl3cHQx?=
- =?utf-8?B?dmR0VFRTcWdkMk04ZUdJbG1xVlhDa1hxZnRTSnp4QWVPakp3U0dDR2lQUmpN?=
- =?utf-8?B?L2JrVzJhK1k4azl1b090WWdydkNTT3JZbyt4R2ZsVXlrMGZnY09ORVRWQWcx?=
- =?utf-8?B?RXp1YzFiN2tTRzNjWUY4bURQMXdzajFtdE5UZDFMYWZOWk1yT1ZFR0VOS3hR?=
- =?utf-8?B?SEkvREtkVWZmNkRySEdQLzlFWmh6Um1EZ3FoUDlFdUkvVlE4d25TU2ZXSE1X?=
- =?utf-8?B?aHI3KzNjU3dHSFUxRzlOZFMyMjBVdGx6b0hJWFhMbWtiaVdXeFQwWGc1Wmgr?=
- =?utf-8?B?YlFZT3E4NHIxSE1sTHgxUVYwWmVwS3JRUUZIL0pEVmVta05zdkJHSWdVaU5m?=
- =?utf-8?B?Y09pdTFDQUo3cDd3cWt2UXhIYUJvRG90cjhmVlZva3cxK0EvSmp4ZHpJVHlt?=
- =?utf-8?B?bE81dU1ZdktwL0FZVExSQzhjalQxc0x4NTIxajEzTVhVY1B4K2NESU1wSk41?=
- =?utf-8?B?UU1vM21YbDNNcTYySUF2d1c0UHYwVW1heHQ2T25QWHAxRWJuZGNHSEEwODIw?=
- =?utf-8?B?aGM5NjV3K1h2ajQwTFVVdUZHc2FrbEJINkt3bHg0V3NodTd6NjVNcERWQ0ZH?=
- =?utf-8?B?ckJ4M3hOWEh5d24wZ1I3Vjd6Zm5jQ3VGWUhRQkhqNFFKcmRYOGtYNTkyc2t4?=
- =?utf-8?B?NTZ0NEEzRHZDR0NkdlpqeXBUOHNITW81Znp2bVBSZG1wWGF5eUw0RXRLK0VW?=
- =?utf-8?B?dmQxT3dSTW9nWlRTVGVHdVBIUFRVOWYrTDRmVjhwZnphRGFtTEt5TU14M0Zw?=
- =?utf-8?B?eW8vU21Sdk9ocG9vRDdaejdaTndLZWl3YmlBS0o5aXkrRGM2akVaMjJTWklK?=
- =?utf-8?B?eWdVWDhvdlhCNmdvR3BmQ1dWaW5UWk1zYWo5YnZxZFdJQmwxSGNKMjBIWmdC?=
- =?utf-8?B?SmpxQUhZT1dMOTd2aDlybVlxSmZ4VnZqWU15ZFhxQUpaZnpLaVJhY3o3MC9P?=
- =?utf-8?B?N2pUNkp0d0NESk9oQzF0OWxTaUZzd3pMdzcxSlFTUG5LNGZBays3cnB6dy9G?=
- =?utf-8?B?N21wTU5tVnUxS3BsSUZ3ejI4aEQ4VU5ZZXdsSk1zVW1aTFNaYVZsYnlrT2xT?=
- =?utf-8?B?VjNETSs0VW9lZmVjZ3VaZXRlWFJEU2NxYXg5VUV4bzh0Yy9XVFdYSXhXb3Bh?=
- =?utf-8?B?eWQ1empaN0JwTjlESklFMTFiaWlnQ2hTUHMzZGFNbWhhTmMxYktvVnphZlRK?=
- =?utf-8?B?WUc3Ukx2ME9EK2RrZmVjSHdpejBmVXV2VHFjMGRhZEl1SkJLaElJekdOS3Z3?=
- =?utf-8?Q?3zXcAcuf2gGAecm0rA=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|52116014|7416014|366016|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ico4zhJbZ9mGDTpJhg/a/l0i8tqxxvGA6Eqf+jyNrp6hPPF7MpC4YY4IP8Lz?=
+ =?us-ascii?Q?nLGH79ZNP8kuWfySVyQgl6YTdQQnibSQvUtpQorIEl8q4Pqurr3CKzfsTACn?=
+ =?us-ascii?Q?BM7BsJdlPjUauE52RB2peMjF1mpqd8aekU/RPaXqwYsoq+4TB2NO/krxnJat?=
+ =?us-ascii?Q?4cNtB8DrsI5AMbXLytDiJPflxjS5oBnFPv8NGsdjnOP/2Nj8n1cFUGkY5/gY?=
+ =?us-ascii?Q?UI4RcCJLPdipwRd5LHFwWfstIgXQujc/G8gNPW58pXLuy5B/jHibODy1zqmH?=
+ =?us-ascii?Q?AUF7cnMd8jWykngz3dDi4YruxAGoHOnk9qK7AGi7UDeyRpR/cslr0EzbhyL2?=
+ =?us-ascii?Q?s1NW1UHSjqBC03iTbyuDb6/8wpAdrdJDpVPwQd01k/OIxuExNMPOCGT7JZjO?=
+ =?us-ascii?Q?qlPasTJ/68WgGR1WWN7l5yb3qb5CRmac2OjZ0+TgemmBf45ARk/P9S/vh3LA?=
+ =?us-ascii?Q?aCuBDH9kMUEbSHiN/KxzXt+1IATBn+fbv0o7ET74k2zT6j9wY3r5dQHK0pdU?=
+ =?us-ascii?Q?l4gIBb3CfqLVYSo5HzDr63yws3qEjDIqf+6eCrhzdClvDA61vZ6xcfia2zEK?=
+ =?us-ascii?Q?T9bfrxgRv+0m/bNhIv8DYQnS0PMPXFCs0fy3+qLfRW1fwYBdrsKYp9UXzvdf?=
+ =?us-ascii?Q?X8k6FQrq8AFP/X9ZYh/ZrWKGOG5tbaauqttMWDIjG7whlzAjr86r8Uh0ZJqq?=
+ =?us-ascii?Q?sp2KEYaQY2VK7bIRw86y5xaKrhks+tqYXd8mcILWvsKObYK7GQN8PcIkH8LH?=
+ =?us-ascii?Q?NxYa0ACy/NuYVjkD9tfXhCp4gl9kkO+aWfnhicjI0W7AfWiDjyHeSxKUZnc5?=
+ =?us-ascii?Q?PPc35tB40UU3k9R/g6u55hpy+vYOTsF/8zLqXrpRoa33nE6ysAABd2yRuHCh?=
+ =?us-ascii?Q?+6g44ptSa/QY5joutLnfOV1u6VhqKYwqCCcDofsY5BNnZhoIa4uhB0dqhUmC?=
+ =?us-ascii?Q?mwjQ8rOBqBwMlEToAcB49+oo5YpETkFV3YIU49d8AixScyn4Qu1+VImza3Nd?=
+ =?us-ascii?Q?JE/Uozf9utTtbKXxxILbhkkV7BXNfI+2HbgFss1T/09UZ5x4A158VPF549iU?=
+ =?us-ascii?Q?F/POFrCZQ56HnUgtHaqIIEMIYU/AUTF7wkGRa6tDP/S7Yr/Ewpv1wxFszQqO?=
+ =?us-ascii?Q?uvffXrU3OQuBFD89vvPwZmKCu6eDhjNaABq8hC3+ILDdPm9+TVax2VMBldX2?=
+ =?us-ascii?Q?HNJUH6yHSAqs/NYooi8WYgaGSuZunHNtDpXDVNCbJQQEpbsefB8HWy36LKeW?=
+ =?us-ascii?Q?nMCpxeFHv3IWwYuGQX8vOdPNJs31k5bn4Cv6I3dGTxaPPEZO/oFagFtkP7Py?=
+ =?us-ascii?Q?mFkoeYHvwVGY4noykBJ+2ofkhKHi2w2iTe1XvRvS/b6vHvvBRCx09QL5OqUF?=
+ =?us-ascii?Q?P0oQG0aghwYEIQpsCBGkFuiazbacvsiVvSzqT8Cd2GF+4BzqmQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB5005.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(52116014)(7416014)(366016)(38350700014);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2ZBd1VCWUh3dzJCUVljVjA5UG50U3B6QUJ4dXFOTlJkOG1HUEY1cG53YVR1?=
- =?utf-8?B?TE9SVHo5U0J4RURxWFVOMk1NMUVmSE1PRVA5VGdzV1VDRkMzZytVYmN2YnJn?=
- =?utf-8?B?RUVGdGhhZFVpOHU0VkgvSDZKWUJQbjNXZDN2bHpNUGF6aGxTaGhscm41SnR2?=
- =?utf-8?B?MlBjTWFwQ25jY1VQOTFiQkNmRUpwbjVKU1R2aTlycnpJcDNwdkxvVk1HOTB6?=
- =?utf-8?B?VThNZktwR2xaUmgxRUNxQ2laaGhSR1NtVTROSkVTNDNTdFJoOTF6L3p0M2pD?=
- =?utf-8?B?cjZlbE4xdFdLejduRWtKTWwvS0xCSU5SMVNvc3AwbnRlNE1ZL0poRDhUVEJ5?=
- =?utf-8?B?NnBpb3BOKzQ4bG1MclhOWEVBdndXM2hCclJ6bU5tWTJ4a0RTTHk4bUpuUmpu?=
- =?utf-8?B?M2ZpUGw4TmFkZ1VuRC9ndFJ2a0hXNkdVWVNuSDIvUThHVWcrVWZRV2pJOFhv?=
- =?utf-8?B?QnJCSDFGaUtRdzhLcVNRdnZuRlR2dkxQNDlZbzhYcFNJR2FKM1JnZ09pVnhh?=
- =?utf-8?B?U2FMVHAxcDd0cHE4ZmlqL1NmSkN1RmVnRmc5UmthLytEZVBsRTBSV3oxMktI?=
- =?utf-8?B?VlluZ3E3M2wvQklpSWgxVitwSllkU0Y4emtmbmVReExZR1Zac25KVkhRZ3lm?=
- =?utf-8?B?M0hhM1laNWN5ZVhZMlZ5bm1DMHFHenBHeDVFMFVMT1JxU3ZDN2lTV1Bha0tV?=
- =?utf-8?B?QWZ2amRUdmdhRVoySUMrWXdaZkZtNW9Gc3JZdFpLdk9VanhtK3MxVTRUV1Jn?=
- =?utf-8?B?bUprb0RQZ2NzRzJZUWUyVGJ2TG1ad3o0SGlVcW9BbUlTQW80eWZPY1FnSjIx?=
- =?utf-8?B?TWd6dlRoTnI5OUZaNFRtbEJKZlFydlFIY1lSdnkvVC92VXI0NEM3ZmJXWGYz?=
- =?utf-8?B?STlSNWhoN1ViZ3F5QTJ2anVmTkxlT3NPbEl1NGZwSTRNcTljRFZndkgrUHVw?=
- =?utf-8?B?SDFSeXJvZEZwampDcTVYS3FMNWxJYmFwVHhpVm90Si9EcXIweUpwZXlUZ3FK?=
- =?utf-8?B?Yy9yK0RxNWMvTyttUk53OVVSZUMyYW91cGRlamh5TnE0OHNIeXVTdjFPVkV0?=
- =?utf-8?B?K0YwR09Tc0hvNlBPbHdpTmNBSHNLVFNHLzVhYkVPMktDQ1d6eTdUdU5aNHdw?=
- =?utf-8?B?Z2crbkhXdUIyVWF4cjNjbE8xQldZMy9DVmovcXlxQUJxeGdCMjZjMElkZnd4?=
- =?utf-8?B?SlBwd0N0K2hEaGROYzBxUmpjcm5odi9zYkFsUFpRWXd3SW5VTUYwZE5pQXlk?=
- =?utf-8?B?MXBaOXQ4bVlKZE5TMm5vU3ErU3ZhaUl3V2wvbU9oRTk5ZklObHZ0YkdqOVFx?=
- =?utf-8?B?L2sxQjRSMXpCNi9KU2VIaHZnaXdhY0JUSlJ0aTl4MGgreGs2WFMza2ZkMDFi?=
- =?utf-8?B?NXVZdngxSXdTK3BWRkNoSkJRdkw5VDIrbjRjVkttVDJRSTN3cWx3WVlNMWVX?=
- =?utf-8?B?clJXMmhBaXFXOGJnZlhhRUl3a3MrSzJFWFYxY0pQdGhGZXRXNTFpd1d1OUk5?=
- =?utf-8?B?UXNUdlNhYXU5a0Qyazd2c3ZJVlJBVmgyK1A0NDB5a2VhOWVYNEtDbnU3S2pM?=
- =?utf-8?B?U0d1L2pxMmt2T3orZHphQ0QxU1ZONHRMQkE0QUQ1N1hnUUJDdHNrNURFSzI0?=
- =?utf-8?B?aGpqYXMvUC9Kaml2b1FlclpwZmJldlJvUVcxVStxN0tPTlNkTU9taHMvbHJC?=
- =?utf-8?B?dldMT1lkc1U5N1BaWUphOUtkVExEUEYyeVBIdU1GU3k1OUd5UTNTUStQdjY5?=
- =?utf-8?B?eFByOHhRU0E1WGN6Q05lendvTk8vc3VnUVRiMVYwLzNHRU5vUExBZEUwVDF2?=
- =?utf-8?B?bUNKdEVpWmkyK0NlRGJibmFiRjdDK2MwQU8vYU51bzFoUHlFSFdSR1RKcEVL?=
- =?utf-8?B?enUvN1FzMTQ4VlJXYU91M21DSjViQ2ZDam8rVlZuUmh3dGZBSWwxc2p2ZXlF?=
- =?utf-8?B?MytGTFF3YllDZ0poNFpBTXhSUjRvLzl4RGFuUDdjZnQ3WlBUY0R6L1hSdmxB?=
- =?utf-8?B?K2xNRGFKTlBKN0ZmaFZCcFBpK3J1S1A1YU9kM2tpUVk1Y0hCZUwxaVNCSG4y?=
- =?utf-8?B?Z1drOElyalUvRkRQTDZtVGJzWlRzd0w4L3k1ZmJnUEY5UmJ5V0dLdkVvSG14?=
- =?utf-8?Q?o5DYbiCpI1gakH/JEcrs9WuU/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c3d5865-f586-4ac4-9390-08dcc80c637e
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u+NkECrJGxhuhTdPNsfNKLzrOEf0BX/HrDbX4D5v8MtfqtD7X67q8PF5CzqW?=
+ =?us-ascii?Q?7PkD8J/EHYLGbTvJlpEjXSp57q5AAcuxR6W2f7yy0BEemD3p4cP6O8SWx4jR?=
+ =?us-ascii?Q?Ni58qk/YkapzEnnGwpT5/7GdFYqhyCD/6wAat4+E66QYgTyycE2tq3Erwy1y?=
+ =?us-ascii?Q?B8K/Hb2lMbg1cezegG/W+jjn6veYxkG+0mgIKHdMqgAOuao1RUV/qndB0+po?=
+ =?us-ascii?Q?x3eG/QLg/M0gbRNA2ZgngOQgrnhKv8yjkeLcHc7DjN2uNnaf1bbiQlu9dZ4+?=
+ =?us-ascii?Q?AvM0x9QDmFBQTst6O6J91nysavStzGidfuhuZvKhyHNyZmtHTk4iZpF1bT81?=
+ =?us-ascii?Q?HJ/7A9ZmmgF+iLcq4aXAtihfcxs22EdxjW878nJmvNHS8cClJ0ATMHoXYyiZ?=
+ =?us-ascii?Q?jZPCBUe1fsVSnYGi7qUsKDWukjEy9Wxh25C+x6YDtn+ZN6m2IuwCFBlORdMM?=
+ =?us-ascii?Q?BCAoZdh5STTBlQh+1m4halK3ghsXide6OBrUQhyzcuyQeqh0XxJPvFojD2iv?=
+ =?us-ascii?Q?Ijf4tMcSGatih4mQ3GZsPeb+6mr9d4L69+bVvcaxR3Pg8/2N8Gv/ZDxlIjPp?=
+ =?us-ascii?Q?wc5w3LH2Qsu3w2jCn3Cuv3R9pF1BtjuXxMb/UdxuDoDn3KwIKm8xNBJny6SE?=
+ =?us-ascii?Q?k8qnrY4pHAuAS3Qwa5W3oX8wipKMu/sez05zKZsFI33WOtBKLnz2B4u+mc4G?=
+ =?us-ascii?Q?UmslnuIOixrcMw2t5sxOos/08On6jbxIHl0GS4JQ2GPY/aohSc3w2KVNlvLy?=
+ =?us-ascii?Q?VOXzvPoNiVNsHsgdQxz5a2VV9jFrh35yORAhQa4yE5JMbyKah3DrPzDxvwsB?=
+ =?us-ascii?Q?iDT/YwrZmoRz1rBAqHEC2y/EQpHnzuvbGasSqXdeFhEcvqnJEjCPgF9O0/Os?=
+ =?us-ascii?Q?QSX8xysaqGfEBVuV+i+AkKxoGm1TeEaiTxmndKkK/v5HF5if1lSPGBtA0EwJ?=
+ =?us-ascii?Q?gIHiUYVWJky65361ByWVXYui6HSF/USBDiA1PRly89vJyZ2/320sZ2ePSH8z?=
+ =?us-ascii?Q?EBXaXC20GoPUrZGCMrtbFE+1cN6jXIyF1gm+0y9fXO1LodDoBPAxYcQmTC7Q?=
+ =?us-ascii?Q?8AdHwwOksp5EH9gtAbT+dgc9nQkW2w6HDNuI+pmwb7qBoizMw+2deXX1TJgN?=
+ =?us-ascii?Q?3i+qJ/+avRKCZHp6Bq8SFS3Rlw9bULYacAVObu1jVe8j29p4+SJphtWltKKN?=
+ =?us-ascii?Q?0pAb63rb3K1eHaRC0lvuVMQ3kVrXndlnHR83KV+qSfKZ0+6NAvf3fpmnFRrN?=
+ =?us-ascii?Q?zLbRyYWdbE8ZexNs5nIfWFwA2tWMScBvD8JX2ZhJNtO1BKJyZnRd4BCVgrxw?=
+ =?us-ascii?Q?E08WrbpmQD1Gboq2jRF2S3esAJxFLUNwezUAUKuT1nJHra/TzvlQV4ME0ouU?=
+ =?us-ascii?Q?wwJ/YE3lpkIxmwfqSVM6C6CXQ7pZAwzuDqmLQRnK7pzUu4NNQwSw6ew/yrn8?=
+ =?us-ascii?Q?mmLgFboJ0cDfDg+sVz10iuGTjnrQpxW0HvSg4L0MXJviXA4GHGincxIp13SB?=
+ =?us-ascii?Q?+dbA+HOyljS3T13aUC0X84bck/cNgZnafCkZSjIVbEaBMzWeUzxcItFkk1l5?=
+ =?us-ascii?Q?XcSsSyzrnD+CwX1Meb8rJFe2mReYE/G3jSmLDp7b?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 004aed5e-f43a-408f-c108-08dcc80c2698
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5005.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 09:24:31.6704 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 09:22:50.6151 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z9ktt58jYaL5oxrFDY9CLnot3EWj11m1X4yA7nRi1X4JFhSurfEEIRu9NX/MCjwx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5849
+X-MS-Exchange-CrossTenant-UserPrincipalName: ARBs9CDpuLa5EAX0PWYddt19DfBdKhLuB3KcN6ZVp9RvRiRYKFf7S5TscSEdUt7VreQHB2tVGN6i34Ha23XL0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7625
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,656 +148,692 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------Nx7X4Mlme455EWvH6nEamTSu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Add eDMA mode support for LPI2C.
 
-Am 28.08.24 um 18:06 schrieb Daniel Vetter:
-> On Tue, Aug 27, 2024 at 07:48:56PM -0700, Matthew Brost wrote:
->> Migration is implemented with range granularity, with VRAM backing being
->> a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of the
->> TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
->> SVM range is migrated to SRAM, the TTM BO is destroyed).
->>
->> The design choice for using TTM BO for VRAM backing store, as opposed to
->> direct buddy allocation, is as follows:
->>
->> - DRM buddy allocations are not at page granularity, offering no
->>    advantage over a BO.
-> This one I'm not understanding.
+There are some differences between TX DMA mode and RX DMA mode.
+LPI2C MTDR register is Controller Transmit Data Register.
+When lpi2c send data, it is tx cmd register and tx data fifo.
+When lpi2c receive data, it is just a rx cmd register. LPI2C MRDR
+register is Controller Receive Data Register, received data are
+stored in this.
 
-Adding Arun as well. I couldn't understand it fully either, but maybe 
-it's because the buddy allocator is more optimized for higher orders of 
-allocations?
+MTDR[8:10] is CMD field and MTDR[0:7] is DATA filed.
++-----------+-------------------------------+
+|  C  M  D  |          D  A  T  A           |
++---+---+---+---+---+---+---+---+---+---+---+
+| 10| 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
++---+---+---+---+---+---+---+---+---+---+---+
 
->
->> - DRM buddy allocations do not solve locking inversion problems between
->>    mmap lock and dma-resv locks.
-> Which mmap -> dma_resv inversion? I've seen a lot ... I guess it also
-> matters hugely which migration path we're in, i.e. opportunistic
-> migration, cpu fault where we have to migrate or die, or when we run out
-> of vram and need to evict stuff to make space.
+MRDR is Controller Receive Data Register.
+MRDR[0:7] is DATA filed.
++-------------------------------+
+|          D  A  T  A           |
++---+---+---+---+---+---+---+---+
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
++---+---+---+---+---+---+---+---+
 
-Mhm I think the locking order between mmap lock and dma-resv lock is 
-well defined since dma_resv_lockdep() was added.
+When the LPI2C controller needs to send data, tx cmd and 8-bit data
+should be written into MTDR:
+CMD: 000b: Transmit the value in DATA[7:0].
+DATA: 8-bit data.
 
->> - Unified eviction is required (SVM VRAM and TTM BOs need to be able to
->>    evict each other).
-> So core mm handles this by just roughly equally shrinking everything.
-> Seems to work, and it has a pile of object shrinkers, and the page lru is
-> also split into page cache and anon memory.
->
-> I think you need to put in more justification that unified eviction is
-> required than just stating it, because a look at mm/ gives a very well
-> established counterexample.
->
->> - For exhaustive eviction [1], SVM VRAM allocations will almost certainly
->>    require a dma-resv.
-> So from the TTM side we need exhaustive eviction, or at least something a
-> bit more exhaustive than what ttm currently has. Note that i915-gem also
-> never really got to perfect exhaustive eviction, it's just a pile better
-> than ttm right now.
+If lpi2c controller needs to send N 8-bit data, just write N times
+(CMD(W) + DATA(u8)) to MTDR.
 
-Please define what exhaustive eviction should mean? I think I know what 
-it is and I have been pushing TTM into the direction of solving this for 
-years.
+When the LPI2C controller needs to receive data, rx cmd should be
+written into MTDR, the received data will be stored in the MRDR.
 
-The last missing puzzle piece is to use drm_exec for TTM evictions, but 
-apart from that everything should work now.
+MTDR(CMD): 001b: Receive (DATA[7:0] + 1) 8-bit data.
+MTDR(DATA): byte counter.
+MRDR(DATA): 8-bit data.
 
-Regards,
-Christian.
+So when lpi2c controller needs to receive N 8-bit data,
+1. N <= 256:
+Write 1 time (CMD(R) + BYTE COUNT(N-1)) into MTDR and receive data from
+MRDR.
+2. N > 256:
+Write N/256 times (CMD(R) + BYTE COUNT(255)) + 1 time (CMD(R) + BYTE
+COUNT(N%256)) into MTDR and receive data from MRDR.
 
-> Now if there's also SVM VRAM managed on a page lru, TTM exhaustive
-> eviction is going to win because the shrinkers can only trylock dma_resv.
-> So this part works. It actually works so well on the system memory side
-> that if we're not careful we can trigger oom, because we're too good at
-> getting at all the memory.
->
-> SVM VRAM allocations otoh do not need exhaustive evictions. Or at least I
-> don't see why, because the idea is that thanks to gpu and cpu page faults,
-> you can always get out of a pinch by just trashing everything for a while
-> and migrating the handfull of available pages a lot.
->
->> - Likely allocation size is 2M which makes of size of BO (872)
->>    acceptable per allocation (872 / 2M == .0004158).
->>
->> With this, using TTM BO for VRAM backing store seems to be an obvious
->> choice as it allows leveraging of the TTM eviction code.
-> Except it requires that you hold dma_resv, which brings in all kinds of
-> pain. And for eviction we really don't need a lot of synchronization, so a
-> lot of that locking is not needed, unlike the case where we have a cpu
-> fault, where we absolutely need mmap_lock and all that to make sure we
-> fault in the right page.
->
-> But for eviction we only need to throw out some pages, if we're not
-> entirely precise with picking the right ones (or have no idea into which
-> vma they're all currently mapped into) it doesn't matter. That's why
-> migrate_device_pages doesn't care about any of that at all, it doesn't
-> need to by design. But by bo backing memory you drag in all that stuff
-> that's causing headacheds for eviction.
->
-> The only thing migration tries to do is remove all pte, and if that
-> succeeds, move the page. Specialized for the gpusvm case, looking at mm/
-> code as cheat sheet, we need roughly:
->
-> - reverse mapping structure like anon_vma. Except gpusvm can assume that
->    there's currently only one gpu side mapping, so we can just stuff the
->    gpusvm an va_address into the page, and protect it with the page lock.
->
-> - we need pagetable locks, so that we can manipulate pagetables (well
->    specifically make ptes invalid) without taking any other locks.
->
-> - everyone else inserting or removing ptes for svm mappings also needs to
->    lock the page, or we have races. This might be the hmm_range_fault races
->    you're seeing when allowing vram pages, since I don't think there's
->    anything else stopping the page lookup otherwise from succeeding.
->
-> - we might also need to stuff migrate ptes into the gpu side, like the cpu
->    does, to hold up refaults before the migration has finished. But I think
->    those are only needed for anon memory in sram because there's no other
->    way to find the right page than swap pte entries, of which migration
->    entries are a special case.
->
-> - core code also expects us to handle the page refcount correctly for svm
->    device memory, so we can't free the pages like normal bo pages either
->    directly to drm_buddy.
->
-> Now typing this all up will look an awful lot like what you have, with the
-> dma_resv lock serving as the page lock and the pagetable lock. The only
-> reason is that these locks are much smaller and nest within all the other
-> stuff going on and so avoid the inversion issues.
->
-> So one annoying part is that this is a lot of pointlessly looking typing.
-> The other is that it's full of races, because core mm really is yolo all
-> the way down. So lots of ways you lock the wrong page and fun stuff like
-> that, but the few cases that matter work:
->
-> - svm fault handling with hmm_range fault retries with mmu notifiers. Note
->    that we need to have vram pages locked and the notifier retrie needs to
->    be under the pagetable lock, or there's room to escape. At least that's
->    what I came up with last time I thought it all through.
->
-> - migrate_to_ram: it will hold a page reference which we know was the
->    valid vram page when the cpu pte was locked, but it might not be it
->    anymore. So we have to lock the page and check whether it's still gpu
->    mapped, and if not retry the entire fault since most likey another
->    migrate_to_ram has succeed meanwhile in parallel.
->
-> - for eviction we don't care, we might actually be migrating a page no one
->    even wants anymore.
->
-> Now I think you can get all this done with the dma_resv lock and maybe the
-> bo refcount. But it does involve a tremendous amount of headaches and
-> impendence mismatch, because that's not how page faults and migrations
-> work in core mm.
->
-> Cheers, Sima
->
->> Current migration policy is migrate any SVM range greater than or equal
->> to 64k once.
->>
->> [1]https://patchwork.freedesktop.org/series/133643/
->>
->> Signed-off-by: Matthew Brostmatthew.brost@intel.com
->> ---
->>   drivers/gpu/drm/xe/xe_svm.c | 81 ++++++++++++++++++++++++++++++++++++-
->>   drivers/gpu/drm/xe/xe_svm.h |  1 +
->>   2 files changed, 81 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
->> index 4372c02a341f..fd8987e0a506 100644
->> --- a/drivers/gpu/drm/xe/xe_svm.c
->> +++ b/drivers/gpu/drm/xe/xe_svm.c
->> @@ -217,8 +217,13 @@ static void xe_svm_invalidate(struct drm_gpusvm *gpusvm,
->>   static int __xe_svm_garbage_collector(struct xe_vm *vm,
->>   				      struct xe_svm_range *range)
->>   {
->> +	struct drm_gpusvm_ctx ctx = {};
->>   	struct dma_fence *fence;
->>   
->> +	/* Evict any pages holding references to vram allocation */
->> +	if (range->base.flags.partial_unmap && IS_DGFX(vm->xe))
->> +		drm_gpusvm_migrate_to_sram(&vm->svm.gpusvm, &range->base, &ctx);
->> +
->>   	xe_vm_lock(vm, false);
->>   	fence = xe_vm_range_unbind(vm, range);
->>   	xe_vm_unlock(vm);
->> @@ -504,21 +509,77 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
->>   	return (range->tile_present & ~range->tile_invalidated) & BIT(tile->id);
->>   }
->>   
->> +static struct xe_mem_region *tile_to_mr(struct xe_tile *tile)
->> +{
->> +	return &tile->mem.vram;
->> +}
->> +
->> +static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
->> +				       struct xe_svm_range *range,
->> +				       const struct drm_gpusvm_ctx *ctx)
->> +{
->> +	struct xe_mem_region *mr = tile_to_mr(tile);
->> +	struct drm_buddy_block *block;
->> +	struct list_head *blocks;
->> +	struct xe_bo *bo;
->> +	ktime_t end = 0;
->> +	int err;
->> +
->> +retry:
->> +	xe_vm_lock(vm, false);
->> +	bo = xe_bo_create(tile_to_xe(tile), tile, vm, range->base.va.end -
->> +			  range->base.va.start, ttm_bo_type_device,
->> +			  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
->> +			  XE_BO_FLAG_SYSTEM_ALLOC | XE_BO_FLAG_SKIP_CLEAR);
->> +	xe_vm_unlock(vm);
->> +	if (IS_ERR(bo)) {
->> +		err = PTR_ERR(bo);
->> +		if (xe_vm_validate_should_retry(NULL, err, &end))
->> +			goto retry;
->> +		return bo;
->> +	}
->> +
->> +	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
->> +	list_for_each_entry(block, blocks, link)
->> +		block->private = mr;
->> +
->> +	/*
->> +	 * Take ref because as soon as drm_gpusvm_migrate_to_vram succeeds the
->> +	 * creation ref can be dropped upon CPU fault or unmap.
->> +	 */
->> +	xe_bo_get(bo);
->> +
->> +	err = drm_gpusvm_migrate_to_vram(&vm->svm.gpusvm, &range->base,
->> +					 bo, ctx);
->> +	if (err) {
->> +		xe_bo_put(bo);	/* Local ref */
->> +		xe_bo_put(bo);	/* Creation ref */
->> +		return ERR_PTR(err);
->> +	}
->> +
->> +	return bo;
->> +}
->> +
->>   int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->>   			    struct xe_tile *tile, u64 fault_addr,
->>   			    bool atomic)
->>   {
->> -	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma), };
->> +	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma),
->> +		.vram_possible = IS_DGFX(vm->xe), };
->>   	struct xe_svm_range *range;
->>   	struct drm_gpusvm_range *r;
->>   	struct drm_exec exec;
->>   	struct dma_fence *fence;
->> +	struct xe_bo *bo = NULL;
->>   	ktime_t end = 0;
->>   	int err;
->>   
->>   	lockdep_assert_held_write(&vm->lock);
->>   
->>   retry:
->> +	xe_bo_put(bo);
->> +	bo = NULL;
->> +
->>   	/* Always process UNMAPs first so view SVM ranges is current */
->>   	err = xe_svm_garbage_collector(vm);
->>   	if (err)
->> @@ -534,6 +595,22 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->>   	if (xe_svm_range_is_valid(range, tile))
->>   		return 0;
->>   
->> +	/* XXX: Add migration policy, for now migrate range once */
->> +	if (IS_DGFX(vm->xe) && !range->migrated &&
->> +	    range->base.flags.migrate_vram &&
->> +	    (range->base.va.end - range->base.va.start) >= SZ_64K) {
->> +		range->migrated = true;
->> +
->> +		bo = xe_svm_alloc_vram(vm, tile, range, &ctx);
->> +		if (IS_ERR(bo)) {
->> +			drm_info(&vm->xe->drm,
->> +				 "VRAM allocation failed, falling back to retrying, asid=%u, errno %ld\n",
->> +				 vm->usm.asid, PTR_ERR(bo));
->> +			bo = NULL;
->> +			goto retry;
->> +		}
->> +	}
->> +
->>   	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
->>   	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU mappings have change */
->>   	       goto retry;
->> @@ -567,6 +644,8 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->>   	dma_fence_put(fence);
->>   
->>   err_out:
->> +	xe_bo_put(bo);
->> +
->>   	return err;
->>   }
->>   
->> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
->> index 8b72e91cc37d..3f432483a230 100644
->> --- a/drivers/gpu/drm/xe/xe_svm.h
->> +++ b/drivers/gpu/drm/xe/xe_svm.h
->> @@ -18,6 +18,7 @@ struct xe_svm_range {
->>   	struct list_head garbage_collector_link;
->>   	u8 tile_present;
->>   	u8 tile_invalidated;
->> +	u8 migrated	:1;
->>   };
->>   
->>   int xe_devm_add(struct xe_tile *tile, struct xe_mem_region *mr);
->> -- 
->> 2.34.1
->>
+Due to these differences, when lpi2c is in DMA TX mode, only enable TX
+channel to send data. But when lpi2c is in DMA RX mode, TX and RX channel
+are both enabled, TX channel is used to send RX cmd and RX channel is
+used to receive data.
 
---------------Nx7X4Mlme455EWvH6nEamTSu
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Am 28.08.24 um 18:06 schrieb Daniel Vetter:<br>
-    <blockquote type="cite" cite="mid:Zs9LF-jnNrd9ZlxW@phenom.ffwll.local">
-      <pre class="moz-quote-pre" wrap="">On Tue, Aug 27, 2024 at 07:48:56PM -0700, Matthew Brost wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Migration is implemented with range granularity, with VRAM backing being
-a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of the
-TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
-SVM range is migrated to SRAM, the TTM BO is destroyed).
-
-The design choice for using TTM BO for VRAM backing store, as opposed to
-direct buddy allocation, is as follows:
-
-- DRM buddy allocations are not at page granularity, offering no
-  advantage over a BO.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-This one I'm not understanding.</pre>
-    </blockquote>
-    <br>
-    Adding Arun as well. I couldn't understand it fully either, but
-    maybe it's because the buddy allocator is more optimized for higher
-    orders of allocations?<br>
-    <br>
-    <blockquote type="cite" cite="mid:Zs9LF-jnNrd9ZlxW@phenom.ffwll.local">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">- DRM buddy allocations do not solve locking inversion problems between
-  mmap lock and dma-resv locks.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Which mmap -&gt; dma_resv inversion? I've seen a lot ... I guess it also
-matters hugely which migration path we're in, i.e. opportunistic
-migration, cpu fault where we have to migrate or die, or when we run out
-of vram and need to evict stuff to make space.</pre>
-    </blockquote>
-    <br>
-    Mhm I think the locking order between mmap lock and dma-resv lock is
-    well defined since dma_resv_lockdep() was added.<br>
-    <br>
-    <span style="white-space: pre-wrap">
-</span>
-    <blockquote type="cite" cite="mid:Zs9LF-jnNrd9ZlxW@phenom.ffwll.local">
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">- Unified eviction is required (SVM VRAM and TTM BOs need to be able to
-  evict each other).
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-So core mm handles this by just roughly equally shrinking everything.
-Seems to work, and it has a pile of object shrinkers, and the page lru is
-also split into page cache and anon memory.
-
-I think you need to put in more justification that unified eviction is
-required than just stating it, because a look at mm/ gives a very well
-established counterexample.
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">- For exhaustive eviction [1], SVM VRAM allocations will almost certainly
-  require a dma-resv.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-So from the TTM side we need exhaustive eviction, or at least something a
-bit more exhaustive than what ttm currently has. Note that i915-gem also
-never really got to perfect exhaustive eviction, it's just a pile better
-than ttm right now.</pre>
-    </blockquote>
-    <br>
-    Please define what exhaustive eviction should mean? I think I know
-    what it is and I have been pushing TTM into the direction of solving
-    this for years.<br>
-    <br>
-    The last missing puzzle piece is to use drm_exec for TTM evictions,
-    but apart from that everything should work now.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:Zs9LF-jnNrd9ZlxW@phenom.ffwll.local">
-      <pre class="moz-quote-pre" wrap="">Now if there's also SVM VRAM managed on a page lru, TTM exhaustive
-eviction is going to win because the shrinkers can only trylock dma_resv.
-So this part works. It actually works so well on the system memory side
-that if we're not careful we can trigger oom, because we're too good at
-getting at all the memory.
-
-SVM VRAM allocations otoh do not need exhaustive evictions. Or at least I
-don't see why, because the idea is that thanks to gpu and cpu page faults,
-you can always get out of a pinch by just trashing everything for a while
-and migrating the handfull of available pages a lot.
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">- Likely allocation size is 2M which makes of size of BO (872)
-  acceptable per allocation (872 / 2M == .0004158).
-
-With this, using TTM BO for VRAM backing store seems to be an obvious
-choice as it allows leveraging of the TTM eviction code.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Except it requires that you hold dma_resv, which brings in all kinds of
-pain. And for eviction we really don't need a lot of synchronization, so a
-lot of that locking is not needed, unlike the case where we have a cpu
-fault, where we absolutely need mmap_lock and all that to make sure we
-fault in the right page.
-
-But for eviction we only need to throw out some pages, if we're not
-entirely precise with picking the right ones (or have no idea into which
-vma they're all currently mapped into) it doesn't matter. That's why
-migrate_device_pages doesn't care about any of that at all, it doesn't
-need to by design. But by bo backing memory you drag in all that stuff
-that's causing headacheds for eviction.
-
-The only thing migration tries to do is remove all pte, and if that
-succeeds, move the page. Specialized for the gpusvm case, looking at mm/
-code as cheat sheet, we need roughly:
-
-- reverse mapping structure like anon_vma. Except gpusvm can assume that
-  there's currently only one gpu side mapping, so we can just stuff the
-  gpusvm an va_address into the page, and protect it with the page lock.
-
-- we need pagetable locks, so that we can manipulate pagetables (well
-  specifically make ptes invalid) without taking any other locks.
-
-- everyone else inserting or removing ptes for svm mappings also needs to
-  lock the page, or we have races. This might be the hmm_range_fault races
-  you're seeing when allowing vram pages, since I don't think there's
-  anything else stopping the page lookup otherwise from succeeding.
-
-- we might also need to stuff migrate ptes into the gpu side, like the cpu
-  does, to hold up refaults before the migration has finished. But I think
-  those are only needed for anon memory in sram because there's no other
-  way to find the right page than swap pte entries, of which migration
-  entries are a special case.
-
-- core code also expects us to handle the page refcount correctly for svm
-  device memory, so we can't free the pages like normal bo pages either
-  directly to drm_buddy.
-
-Now typing this all up will look an awful lot like what you have, with the
-dma_resv lock serving as the page lock and the pagetable lock. The only
-reason is that these locks are much smaller and nest within all the other
-stuff going on and so avoid the inversion issues.
-
-So one annoying part is that this is a lot of pointlessly looking typing.
-The other is that it's full of races, because core mm really is yolo all
-the way down. So lots of ways you lock the wrong page and fun stuff like
-that, but the few cases that matter work:
-
-- svm fault handling with hmm_range fault retries with mmu notifiers. Note
-  that we need to have vram pages locked and the notifier retrie needs to
-  be under the pagetable lock, or there's room to escape. At least that's
-  what I came up with last time I thought it all through.
-
-- migrate_to_ram: it will hold a page reference which we know was the
-  valid vram page when the cpu pte was locked, but it might not be it
-  anymore. So we have to lock the page and check whether it's still gpu
-  mapped, and if not retry the entire fault since most likey another
-  migrate_to_ram has succeed meanwhile in parallel.
-
-- for eviction we don't care, we might actually be migrating a page no one
-  even wants anymore.
-
-Now I think you can get all this done with the dma_resv lock and maybe the
-bo refcount. But it does involve a tremendous amount of headaches and
-impendence mismatch, because that's not how page faults and migrations
-work in core mm.
-
-Cheers, Sima
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Current migration policy is migrate any SVM range greater than or equal
-to 64k once.
-
-[1] <a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/series/133643/">https://patchwork.freedesktop.org/series/133643/</a>
-
-Signed-off-by: Matthew Brost <a class="moz-txt-link-abbreviated" href="mailto:matthew.brost@intel.com">matthew.brost@intel.com</a>
+Signed-off-by: Carlos Song <carlos.song@nxp.com>
+Signed-off-by: Frank Li <frank.li@nxp.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c | 81 ++++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/xe/xe_svm.h |  1 +
- 2 files changed, 81 insertions(+), 1 deletion(-)
+Change for V4:
+- According Aisheng's suggestion, fix code for improving readability.
+- Add dma struct, when dma resource not ready not alloc dma resources.
+Change for V3:
+- Optimize DMA timeout calculate function names and variables avoid confusing
+Change for V2:
+- Optimized eDMA rx cmd buf free function to improve code readability
+---
+ drivers/i2c/busses/i2c-imx-lpi2c.c | 519 ++++++++++++++++++++++++++++-
+ 1 file changed, 512 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 4372c02a341f..fd8987e0a506 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -217,8 +217,13 @@ static void xe_svm_invalidate(struct drm_gpusvm *gpusvm,
- static int __xe_svm_garbage_collector(struct xe_vm *vm,
- 				      struct xe_svm_range *range)
- {
-+	struct drm_gpusvm_ctx ctx = {};
- 	struct dma_fence *fence;
+diff --git a/drivers/i2c/busses/i2c-imx-lpi2c.c b/drivers/i2c/busses/i2c-imx-lpi2c.c
+index 976d43f73f38..530ca5d76403 100644
+--- a/drivers/i2c/busses/i2c-imx-lpi2c.c
++++ b/drivers/i2c/busses/i2c-imx-lpi2c.c
+@@ -8,6 +8,8 @@
+ #include <linux/clk.h>
+ #include <linux/completion.h>
+ #include <linux/delay.h>
++#include <linux/dmaengine.h>
++#include <linux/dma-mapping.h>
+ #include <linux/err.h>
+ #include <linux/errno.h>
+ #include <linux/i2c.h>
+@@ -29,6 +31,7 @@
+ #define LPI2C_MCR	0x10	/* i2c contrl register */
+ #define LPI2C_MSR	0x14	/* i2c status register */
+ #define LPI2C_MIER	0x18	/* i2c interrupt enable */
++#define LPI2C_MDER	0x1C	/* i2c DMA enable */
+ #define LPI2C_MCFGR0	0x20	/* i2c master configuration */
+ #define LPI2C_MCFGR1	0x24	/* i2c master configuration */
+ #define LPI2C_MCFGR2	0x28	/* i2c master configuration */
+@@ -70,11 +73,14 @@
+ #define MCFGR1_AUTOSTOP	BIT(8)
+ #define MCFGR1_IGNACK	BIT(9)
+ #define MRDR_RXEMPTY	BIT(14)
++#define MDER_TDDE	BIT(0)
++#define MDER_RDDE	BIT(1)
  
-+	/* Evict any pages holding references to vram allocation */
-+	if (range-&gt;base.flags.partial_unmap &amp;&amp; IS_DGFX(vm-&gt;xe))
-+		drm_gpusvm_migrate_to_sram(&amp;vm-&gt;svm.gpusvm, &amp;range-&gt;base, &amp;ctx);
+ #define I2C_CLK_RATIO	2
+ #define CHUNK_DATA	256
+ 
+ #define I2C_PM_TIMEOUT		10 /* ms */
++#define I2C_DMA_THRESHOLD	8 /* bytes */
+ 
+ enum lpi2c_imx_mode {
+ 	STANDARD,	/* 100+Kbps */
+@@ -91,6 +97,23 @@ enum lpi2c_imx_pincfg {
+ 	FOUR_PIN_PP,
+ };
+ 
++struct lpi2c_imx_dma {
++	bool			using_pio_mode;
++	u8			rx_cmd_buf_len;
++	u8			*dma_buf;
++	u16			*rx_cmd_buf;
++	unsigned int	dma_len;
++	unsigned int	tx_burst_num;
++	unsigned int	rx_burst_num;
++	unsigned long	dma_msg_flag;
++	resource_size_t		phy_addr;
++	dma_addr_t		dma_tx_addr;
++	dma_addr_t		dma_addr;
++	enum dma_data_direction dma_direction;
++	struct dma_chan		*chan_tx;
++	struct dma_chan		*chan_rx;
++};
 +
- 	xe_vm_lock(vm, false);
- 	fence = xe_vm_range_unbind(vm, range);
- 	xe_vm_unlock(vm);
-@@ -504,21 +509,77 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
- 	return (range-&gt;tile_present &amp; ~range-&gt;tile_invalidated) &amp; BIT(tile-&gt;id);
+ struct lpi2c_imx_struct {
+ 	struct i2c_adapter	adapter;
+ 	int			num_clks;
+@@ -108,6 +131,8 @@ struct lpi2c_imx_struct {
+ 	unsigned int		rxfifosize;
+ 	enum lpi2c_imx_mode	mode;
+ 	struct i2c_bus_recovery_info rinfo;
++	bool			can_use_dma;
++	struct lpi2c_imx_dma	*dma;
+ };
+ 
+ static void lpi2c_imx_intctrl(struct lpi2c_imx_struct *lpi2c_imx,
+@@ -305,7 +330,7 @@ static int lpi2c_imx_master_disable(struct lpi2c_imx_struct *lpi2c_imx)
+ 	return 0;
  }
  
-+static struct xe_mem_region *tile_to_mr(struct xe_tile *tile)
+-static int lpi2c_imx_msg_complete(struct lpi2c_imx_struct *lpi2c_imx)
++static int lpi2c_imx_pio_msg_complete(struct lpi2c_imx_struct *lpi2c_imx)
+ {
+ 	unsigned long time_left;
+ 
+@@ -451,6 +476,421 @@ static void lpi2c_imx_read(struct lpi2c_imx_struct *lpi2c_imx,
+ 	lpi2c_imx_intctrl(lpi2c_imx, MIER_RDIE | MIER_NDIE);
+ }
+ 
++static bool is_use_dma(struct lpi2c_imx_struct *lpi2c_imx, struct i2c_msg *msg)
 +{
-+	return &amp;tile-&gt;mem.vram;
-+}
-+
-+static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
-+				       struct xe_svm_range *range,
-+				       const struct drm_gpusvm_ctx *ctx)
-+{
-+	struct xe_mem_region *mr = tile_to_mr(tile);
-+	struct drm_buddy_block *block;
-+	struct list_head *blocks;
-+	struct xe_bo *bo;
-+	ktime_t end = 0;
-+	int err;
-+
-+retry:
-+	xe_vm_lock(vm, false);
-+	bo = xe_bo_create(tile_to_xe(tile), tile, vm, range-&gt;base.va.end -
-+			  range-&gt;base.va.start, ttm_bo_type_device,
-+			  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
-+			  XE_BO_FLAG_SYSTEM_ALLOC | XE_BO_FLAG_SKIP_CLEAR);
-+	xe_vm_unlock(vm);
-+	if (IS_ERR(bo)) {
-+		err = PTR_ERR(bo);
-+		if (xe_vm_validate_should_retry(NULL, err, &amp;end))
-+			goto retry;
-+		return bo;
-+	}
-+
-+	blocks = &amp;to_xe_ttm_vram_mgr_resource(bo-&gt;ttm.resource)-&gt;blocks;
-+	list_for_each_entry(block, blocks, link)
-+		block-&gt;private = mr;
++	if (!lpi2c_imx->can_use_dma)
++		return false;
 +
 +	/*
-+	 * Take ref because as soon as drm_gpusvm_migrate_to_vram succeeds the
-+	 * creation ref can be dropped upon CPU fault or unmap.
++	 * When the length of data is less than I2C_DMA_THRESHOLD,
++	 * cpu mode is used directly to avoid low performance.
 +	 */
-+	xe_bo_get(bo);
++	if (msg->len < I2C_DMA_THRESHOLD)
++		return false;
 +
-+	err = drm_gpusvm_migrate_to_vram(&amp;vm-&gt;svm.gpusvm, &amp;range-&gt;base,
-+					 bo, ctx);
-+	if (err) {
-+		xe_bo_put(bo);	/* Local ref */
-+		xe_bo_put(bo);	/* Creation ref */
-+		return ERR_PTR(err);
-+	}
-+
-+	return bo;
++	return true;
 +}
 +
- int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 			    struct xe_tile *tile, u64 fault_addr,
- 			    bool atomic)
- {
--	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma), };
-+	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma),
-+		.vram_possible = IS_DGFX(vm-&gt;xe), };
- 	struct xe_svm_range *range;
- 	struct drm_gpusvm_range *r;
- 	struct drm_exec exec;
- 	struct dma_fence *fence;
-+	struct xe_bo *bo = NULL;
- 	ktime_t end = 0;
- 	int err;
- 
- 	lockdep_assert_held_write(&amp;vm-&gt;lock);
- 
- retry:
-+	xe_bo_put(bo);
-+	bo = NULL;
++static int lpi2c_imx_pio_xfer(struct lpi2c_imx_struct *lpi2c_imx,
++				 struct i2c_msg *msg)
++{
++	int ret;
 +
- 	/* Always process UNMAPs first so view SVM ranges is current */
- 	err = xe_svm_garbage_collector(vm);
- 	if (err)
-@@ -534,6 +595,22 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 	if (xe_svm_range_is_valid(range, tile))
- 		return 0;
- 
-+	/* XXX: Add migration policy, for now migrate range once */
-+	if (IS_DGFX(vm-&gt;xe) &amp;&amp; !range-&gt;migrated &amp;&amp;
-+	    range-&gt;base.flags.migrate_vram &amp;&amp;
-+	    (range-&gt;base.va.end - range-&gt;base.va.start) &gt;= SZ_64K) {
-+		range-&gt;migrated = true;
++	reinit_completion(&lpi2c_imx->complete);
 +
-+		bo = xe_svm_alloc_vram(vm, tile, range, &amp;ctx);
-+		if (IS_ERR(bo)) {
-+			drm_info(&amp;vm-&gt;xe-&gt;drm,
-+				 &quot;VRAM allocation failed, falling back to retrying, asid=%u, errno %ld\n&quot;,
-+				 vm-&gt;usm.asid, PTR_ERR(bo));
-+			bo = NULL;
-+			goto retry;
++	if (msg->flags & I2C_M_RD)
++		lpi2c_imx_read(lpi2c_imx, msg);
++	else
++		lpi2c_imx_write(lpi2c_imx, msg);
++
++	ret = lpi2c_imx_pio_msg_complete(lpi2c_imx);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int lpi2c_imx_dma_timeout_calculate(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	unsigned long time = 0;
++
++	time = 8 * lpi2c_imx->dma->dma_len * 1000 / lpi2c_imx->bitrate;
++
++	/* Add extra second for scheduler related activities */
++	time += 1;
++
++	/* Double calculated time */
++	return msecs_to_jiffies(time * MSEC_PER_SEC);
++}
++
++static int lpi2c_imx_alloc_rx_cmd_buf(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
++	u16 rx_remain = dma->dma_len;
++	int cmd_num;
++	u16 temp;
++
++	/*
++	 * Calculate the number of rx command words via the DMA TX channel
++	 * writing into command register based on the i2c msg len, and build
++	 * the rx command words buffer.
++	 */
++	cmd_num = DIV_ROUND_UP(rx_remain, CHUNK_DATA);
++	dma->rx_cmd_buf = kcalloc(cmd_num, sizeof(u16), GFP_KERNEL);
++	dma->rx_cmd_buf_len = cmd_num * sizeof(u16);
++
++	if (!dma->rx_cmd_buf) {
++		dev_err(&lpi2c_imx->adapter.dev, "Alloc RX cmd buffer failed\n");
++		return -ENOMEM;
++	}
++
++	for (int i = 0; i < cmd_num ; i++) {
++		temp = rx_remain > CHUNK_DATA ? CHUNK_DATA - 1 : rx_remain - 1;
++		temp |= (RECV_DATA << 8);
++		rx_remain -= CHUNK_DATA;
++		dma->rx_cmd_buf[i] = temp;
++	}
++
++	return 0;
++}
++
++static int lpi2c_imx_dma_msg_complete(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	unsigned long time_left, time;
++
++	time = lpi2c_imx_dma_timeout_calculate(lpi2c_imx);
++	time_left = wait_for_completion_timeout(&lpi2c_imx->complete, time);
++	if (time_left == 0) {
++		dev_err(&lpi2c_imx->adapter.dev, "I/O Error in DMA Data Transfer\n");
++		return -ETIMEDOUT;
++	}
++
++	return 0;
++}
++
++static void lpi2c_dma_unmap(struct lpi2c_imx_dma *dma)
++{
++	struct dma_chan *chan = dma->dma_direction == DMA_FROM_DEVICE
++				? dma->chan_rx : dma->chan_tx;
++
++	dma_unmap_single(chan->device->dev, dma->dma_addr,
++			 dma->dma_len, dma->dma_direction);
++
++	dma->dma_direction = DMA_NONE;
++}
++
++static void lpi2c_cleanup_rx_cmd_dma(struct lpi2c_imx_dma *dma)
++{
++	dmaengine_terminate_sync(dma->chan_tx);
++	dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
++				dma->rx_cmd_buf_len, DMA_TO_DEVICE);
++}
++
++static void lpi2c_cleanup_dma(struct lpi2c_imx_dma *dma)
++{
++	if (dma->dma_direction == DMA_FROM_DEVICE)
++		dmaengine_terminate_sync(dma->chan_rx);
++	else if (dma->dma_direction == DMA_TO_DEVICE)
++		dmaengine_terminate_sync(dma->chan_tx);
++
++	lpi2c_dma_unmap(dma);
++}
++
++static void lpi2c_dma_callback(void *data)
++{
++	struct lpi2c_imx_struct *lpi2c_imx = (struct lpi2c_imx_struct *)data;
++
++	complete(&lpi2c_imx->complete);
++}
++
++static int lpi2c_dma_rx_cmd_submit(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
++	struct dma_chan *txchan = dma->chan_tx;
++	struct dma_async_tx_descriptor *rx_cmd_desc;
++	dma_cookie_t cookie;
++
++	dma->dma_tx_addr = dma_map_single(txchan->device->dev,
++						 dma->rx_cmd_buf,
++						 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
++	if (dma_mapping_error(txchan->device->dev, dma->dma_tx_addr)) {
++		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
++		return -EINVAL;
++	}
++
++	rx_cmd_desc = dmaengine_prep_slave_single(txchan, dma->dma_tx_addr,
++				 dma->rx_cmd_buf_len, DMA_MEM_TO_DEV,
++				 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
++	if (!rx_cmd_desc) {
++		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
++				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
++		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
++		return -EINVAL;
++	}
++
++	cookie = dmaengine_submit(rx_cmd_desc);
++	if (dma_submit_error(cookie)) {
++		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
++				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
++		dmaengine_desc_free(rx_cmd_desc);
++		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
++		return -EINVAL;
++	}
++
++	dma_async_issue_pending(txchan);
++
++	return 0;
++}
++
++static int lpi2c_dma_submit(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
++	bool read = dma->dma_msg_flag & I2C_M_RD;
++	enum dma_data_direction dir = read ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
++	struct dma_chan *chan = read ? dma->chan_rx : dma->chan_tx;
++	struct dma_async_tx_descriptor *desc;
++	dma_cookie_t cookie;
++
++	dma->dma_direction = dir;
++	dma->dma_addr = dma_map_single(chan->device->dev,
++					     dma->dma_buf,
++					     dma->dma_len, dir);
++	if (dma_mapping_error(chan->device->dev, dma->dma_addr)) {
++		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
++		return -EINVAL;
++	}
++
++	desc = dmaengine_prep_slave_single(chan, dma->dma_addr,
++					 dma->dma_len, read ?
++					 DMA_DEV_TO_MEM : DMA_MEM_TO_DEV,
++					 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
++	if (!desc) {
++		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
++		lpi2c_dma_unmap(dma);
++		return -EINVAL;
++	}
++
++	reinit_completion(&lpi2c_imx->complete);
++	desc->callback = lpi2c_dma_callback;
++	desc->callback_param = (void *)lpi2c_imx;
++
++	cookie = dmaengine_submit(desc);
++	if (dma_submit_error(cookie)) {
++		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
++		lpi2c_dma_unmap(dma);
++		dmaengine_desc_free(desc);
++		return -EINVAL;
++	}
++
++	/* Can't switch to PIO mode when DMA have started transfer */
++	dma->using_pio_mode = false;
++
++	dma_async_issue_pending(chan);
++
++	return 0;
++}
++
++static int lpi2c_imx_find_max_burst_num(unsigned int fifosize, unsigned int len)
++{
++	unsigned int i;
++
++	for (i = fifosize / 2; i > 0; i--) {
++		if (!(len % i))
++			break;
++	}
++
++	return i;
++}
++
++/*
++ * For a highest DMA efficiency, tx/rx burst number should be calculated according
++ * to the FIFO depth.
++ */
++static void lpi2c_imx_dma_burst_num_calculate(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
++	unsigned int cmd_num;
++
++	if (dma->dma_msg_flag & I2C_M_RD) {
++		/*
++		 * One RX cmd word can trigger DMA receive no more than 256 bytes.
++		 * The number of RX cmd words should be calculated based on the data
++		 * length.
++		 */
++		cmd_num = DIV_ROUND_UP(dma->dma_len, CHUNK_DATA);
++		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
++				 cmd_num);
++		dma->rx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->rxfifosize,
++				 dma->dma_len);
++	} else {
++		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
++				 dma->dma_len);
++	}
++}
++
++static int lpi2c_dma_config(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
++	struct dma_slave_config rx = {}, tx = {};
++	int ret;
++
++	lpi2c_imx_dma_burst_num_calculate(lpi2c_imx);
++
++	if (dma->dma_msg_flag & I2C_M_RD) {
++		tx.dst_addr = dma->phy_addr + LPI2C_MTDR;
++		tx.dst_addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
++		tx.dst_maxburst = dma->tx_burst_num;
++		tx.direction = DMA_MEM_TO_DEV;
++		ret = dmaengine_slave_config(dma->chan_tx, &tx);
++		if (ret < 0)
++			return ret;
++
++		rx.src_addr = dma->phy_addr + LPI2C_MRDR;
++		rx.src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
++		rx.src_maxburst = dma->rx_burst_num;
++		rx.direction = DMA_DEV_TO_MEM;
++		ret = dmaengine_slave_config(dma->chan_rx, &rx);
++		if (ret < 0)
++			return ret;
++	} else {
++		tx.dst_addr = dma->phy_addr + LPI2C_MTDR;
++		tx.dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
++		tx.dst_maxburst = dma->tx_burst_num;
++		tx.direction = DMA_MEM_TO_DEV;
++		ret = dmaengine_slave_config(dma->chan_tx, &tx);
++		if (ret < 0)
++			return ret;
++	}
++
++	return 0;
++}
++
++static void lpi2c_dma_enable(struct lpi2c_imx_struct *lpi2c_imx)
++{
++	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
++	/*
++	 * TX interrupt will be triggerred when the number of words in
++	 * the transmit FIFO is equal or less than TX watermark.
++	 * RX interrupt will be triggerred when the number of words in
++	 * the receive FIFO is greater than RX watermark.
++	 * In order to trigger the DMA interrupt, TX watermark should be
++	 * set equal to the DMA TX burst number but RX watermark should
++	 * be set less than the DMA RX burst number.
++	 */
++	if (dma->dma_msg_flag & I2C_M_RD) {
++		/* Set I2C TX/RX watermark */
++		writel(dma->tx_burst_num | (dma->rx_burst_num - 1) << 16,
++				 lpi2c_imx->base + LPI2C_MFCR);
++		/* Enable I2C DMA TX/RX function */
++		writel(MDER_TDDE | MDER_RDDE, lpi2c_imx->base + LPI2C_MDER);
++	} else {
++		/* Set I2C TX watermark */
++		writel(dma->tx_burst_num, lpi2c_imx->base + LPI2C_MFCR);
++		/* Enable I2C DMA TX function */
++		writel(MDER_TDDE, lpi2c_imx->base + LPI2C_MDER);
++	}
++
++	/* Enable NACK detected */
++	lpi2c_imx_intctrl(lpi2c_imx, MIER_NDIE);
++};
++
++/*
++ * When lpi2c in TX DMA mode we can use one DMA TX channel to write
++ * data word into TXFIFO, but in RX DMA mode it is different.
++ *
++ * LPI2C MTDR register is a command data and transmit data register.
++ * Bit 8-10 is command data field and Bit 0-7 is transmit data field.
++ * When the LPI2C master needs to read data, the data number to read
++ * should be set in transmit data field and RECV_DATA should be set
++ * into the command data field to receive (DATA[7:0] + 1) bytes. The
++ * recv data command word is made of RECV_DATA in command data field
++ * and the data number to read in transmit data field. When the length
++ * of data that needs to be read exceeds 256 bytes, recv data command
++ * word needs to be written to TXFIFO multiple times.
++ *
++ * So when in RX DMA mode, the TX channel also needs to be configured
++ * additionally to send RX command words and the RX command word need
++ * be set in advance before transmitting.
++ */
++static int lpi2c_imx_dma_xfer(struct lpi2c_imx_struct *lpi2c_imx,
++			 struct i2c_msg *msg)
++{
++	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
++	int ret;
++
++	/* When DMA mode failed before transferring, CPU mode can be used. */
++	dma->using_pio_mode = true;
++
++	dma->dma_len = msg->len;
++	dma->dma_msg_flag = msg->flags;
++	dma->dma_buf = i2c_get_dma_safe_msg_buf(msg, I2C_DMA_THRESHOLD);
++	if (!dma->dma_buf)
++		return -ENOMEM;
++
++	ret = lpi2c_dma_config(lpi2c_imx);
++	if (ret) {
++		dev_err(&lpi2c_imx->adapter.dev, "DMA Config Fail, error %d\n", ret);
++		goto disable_dma;
++	}
++
++	lpi2c_dma_enable(lpi2c_imx);
++
++	ret = lpi2c_dma_submit(lpi2c_imx);
++	if (ret) {
++		dev_err(&lpi2c_imx->adapter.dev, "DMA submit Fail, error %d\n", ret);
++		goto disable_dma;
++	}
++
++	if (dma->dma_msg_flag & I2C_M_RD) {
++		ret = lpi2c_imx_alloc_rx_cmd_buf(lpi2c_imx);
++		if (ret) {
++			lpi2c_cleanup_dma(dma);
++			goto disable_dma;
++		}
++
++		ret = lpi2c_dma_rx_cmd_submit(lpi2c_imx);
++		if (ret) {
++			lpi2c_cleanup_dma(dma);
++			goto disable_dma;
 +		}
 +	}
 +
- 	err = drm_gpusvm_range_get_pages(&amp;vm-&gt;svm.gpusvm, r, &amp;ctx);
- 	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU mappings have change */
- 	       goto retry;
-@@ -567,6 +644,8 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 	dma_fence_put(fence);
- 
- err_out:
-+	xe_bo_put(bo);
++	ret = lpi2c_imx_dma_msg_complete(lpi2c_imx);
++	if (ret) {
++		if (dma->dma_msg_flag & I2C_M_RD)
++			lpi2c_cleanup_rx_cmd_dma(dma);
++		lpi2c_cleanup_dma(dma);
++		goto disable_dma;
++	}
 +
- 	return err;
++	/* When meet NACK in transfer, cleanup all DMA transfer */
++	if ((readl(lpi2c_imx->base + LPI2C_MSR) & MSR_NDF) && !ret) {
++		if (dma->dma_msg_flag & I2C_M_RD)
++			lpi2c_cleanup_rx_cmd_dma(dma);
++		lpi2c_cleanup_dma(dma);
++		ret = -EIO;
++		goto disable_dma;
++	}
++
++	if (dma->dma_msg_flag & I2C_M_RD)
++		dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
++					 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
++	lpi2c_dma_unmap(dma);
++
++disable_dma:
++	/* Disable I2C DMA function */
++	writel(0, lpi2c_imx->base + LPI2C_MDER);
++
++	if (dma->dma_msg_flag & I2C_M_RD)
++		kfree(dma->rx_cmd_buf);
++
++	if (ret)
++		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, false);
++	else
++		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, true);
++	return ret;
++}
++
+ static int lpi2c_imx_xfer(struct i2c_adapter *adapter,
+ 			  struct i2c_msg *msgs, int num)
+ {
+@@ -477,12 +917,14 @@ static int lpi2c_imx_xfer(struct i2c_adapter *adapter,
+ 		lpi2c_imx->msglen = msgs[i].len;
+ 		init_completion(&lpi2c_imx->complete);
+ 
+-		if (msgs[i].flags & I2C_M_RD)
+-			lpi2c_imx_read(lpi2c_imx, &msgs[i]);
+-		else
+-			lpi2c_imx_write(lpi2c_imx, &msgs[i]);
++		if (is_use_dma(lpi2c_imx, &msgs[i])) {
++			result = lpi2c_imx_dma_xfer(lpi2c_imx, &msgs[i]);
++			if (result && lpi2c_imx->dma->using_pio_mode)
++				result = lpi2c_imx_pio_xfer(lpi2c_imx, &msgs[i]);
++		} else {
++			result = lpi2c_imx_pio_xfer(lpi2c_imx, &msgs[i]);
++		}
+ 
+-		result = lpi2c_imx_msg_complete(lpi2c_imx);
+ 		if (result)
+ 			goto stop;
+ 
+@@ -546,6 +988,58 @@ static int lpi2c_imx_init_recovery_info(struct lpi2c_imx_struct *lpi2c_imx,
+ 	return 0;
  }
  
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 8b72e91cc37d..3f432483a230 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -18,6 +18,7 @@ struct xe_svm_range {
- 	struct list_head garbage_collector_link;
- 	u8 tile_present;
- 	u8 tile_invalidated;
-+	u8 migrated	:1;
- };
++static void dma_exit(struct device *dev, struct lpi2c_imx_dma *dma)
++{
++	if (dma->chan_rx)
++		dma_release_channel(dma->chan_rx);
++
++	if (dma->chan_tx)
++		dma_release_channel(dma->chan_tx);
++
++	devm_kfree(dev, dma);
++}
++
++static int lpi2c_dma_init(struct device *dev, dma_addr_t phy_addr)
++{
++	struct lpi2c_imx_struct *lpi2c_imx = dev_get_drvdata(dev);
++	struct lpi2c_imx_dma *dma;
++	int ret;
++
++	dma = devm_kzalloc(dev, sizeof(*dma), GFP_KERNEL);
++	if (!dma)
++		return -ENOMEM;
++
++	dma->phy_addr = phy_addr;
++
++	/* Prepare for TX DMA: */
++	dma->chan_tx = dma_request_chan(dev, "tx");
++	if (IS_ERR(dma->chan_tx)) {
++		ret = PTR_ERR(dma->chan_tx);
++		if (ret != -ENODEV && ret != -EPROBE_DEFER)
++			dev_err(dev, "can't request DMA tx channel (%d)\n", ret);
++		dma->chan_tx = NULL;
++		goto dma_exit;
++	}
++
++	/* Prepare for RX DMA: */
++	dma->chan_rx = dma_request_chan(dev, "rx");
++	if (IS_ERR(dma->chan_rx)) {
++		ret = PTR_ERR(dma->chan_rx);
++		if (ret != -ENODEV && ret != -EPROBE_DEFER)
++			dev_err(dev, "can't request DMA rx channel (%d)\n", ret);
++		dma->chan_rx = NULL;
++		goto dma_exit;
++	}
++
++	lpi2c_imx->can_use_dma = true;
++	lpi2c_imx->dma = dma;
++	return 0;
++
++dma_exit:
++	dma_exit(dev, dma);
++	return ret;
++}
++
+ static u32 lpi2c_imx_func(struct i2c_adapter *adapter)
+ {
+ 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL |
+@@ -566,6 +1060,8 @@ MODULE_DEVICE_TABLE(of, lpi2c_imx_of_match);
+ static int lpi2c_imx_probe(struct platform_device *pdev)
+ {
+ 	struct lpi2c_imx_struct *lpi2c_imx;
++	struct resource *res;
++	dma_addr_t phy_addr;
+ 	unsigned int temp;
+ 	int irq, ret;
  
- int xe_devm_add(struct xe_tile *tile, struct xe_mem_region *mr);
+@@ -573,7 +1069,7 @@ static int lpi2c_imx_probe(struct platform_device *pdev)
+ 	if (!lpi2c_imx)
+ 		return -ENOMEM;
+ 
+-	lpi2c_imx->base = devm_platform_ioremap_resource(pdev, 0);
++	lpi2c_imx->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(lpi2c_imx->base))
+ 		return PTR_ERR(lpi2c_imx->base);
+ 
+@@ -587,6 +1083,7 @@ static int lpi2c_imx_probe(struct platform_device *pdev)
+ 	lpi2c_imx->adapter.dev.of_node	= pdev->dev.of_node;
+ 	strscpy(lpi2c_imx->adapter.name, pdev->name,
+ 		sizeof(lpi2c_imx->adapter.name));
++	phy_addr = (dma_addr_t)res->start;
+ 
+ 	ret = devm_clk_bulk_get_all(&pdev->dev, &lpi2c_imx->clks);
+ 	if (ret < 0)
+@@ -640,6 +1137,14 @@ static int lpi2c_imx_probe(struct platform_device *pdev)
+ 	if (ret == -EPROBE_DEFER)
+ 		goto rpm_disable;
+ 
++	/* Init DMA */
++	ret = lpi2c_dma_init(&pdev->dev, phy_addr);
++	if (ret) {
++		if (ret == -EPROBE_DEFER)
++			goto rpm_disable;
++		dev_info(&pdev->dev, "use pio mode\n");
++	}
++
+ 	ret = i2c_add_adapter(&lpi2c_imx->adapter);
+ 	if (ret)
+ 		goto rpm_disable;
 -- 
 2.34.1
 
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------Nx7X4Mlme455EWvH6nEamTSu--
