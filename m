@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEBF964A69
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 17:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EE9964A70
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 17:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC31B10E707;
-	Thu, 29 Aug 2024 15:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D19210E708;
+	Thu, 29 Aug 2024 15:46:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZpX/oRyx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IQvP27/r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D0110E707
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 15:45:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D8A9BA441E1;
- Thu, 29 Aug 2024 15:45:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C421C4CEC1;
- Thu, 29 Aug 2024 15:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724946317;
- bh=VIY5HaE7JEsJLMzs9MMF9q38bi2uPDkUtjNeBnAxG/I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZpX/oRyxClc9YiG9o6xKE5jQw2jRGFQMpdFckrio93oUHx5SCLEDiSKjiMlZn2Urh
- Ivumr6vnpv0dovvr+Ne7nYPjF8D9k7/nV7GDiyQr+N5y5rhpYwWIUKjdOUUhwz6BXQ
- FZte1sDARnCFVGUOkdba75ztEvoOpNnl23MP4lCBy4YqzOvjprYlf6CksH57SMYJEI
- RxHqbTyLkAAL3r4ShgrSCoDX0c7Fj7LYOGHAuURSnWVIJlsUJuOPXGTfNLVA++T4Sl
- dSlmVVeoNrQ5WCFBwabIAojPDfY6bLWgo+zGTW+GmfsoiKxoApSmXREUkDioMatkgG
- gY6cO8fb6y7tg==
-Date: Thu, 29 Aug 2024 10:45:15 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v4 1/9] of: property: add of_graph_get_next_port()
-Message-ID: <20240829154515.GD465065-robh@kernel.org>
-References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
- <87a5gx2pva.wl-kuninori.morimoto.gx@renesas.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0858010E708
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 15:46:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724946408; x=1756482408;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KjcErCEgCmDjl43vjboJGBw0hPNn9Yt8aen+PL1k2vA=;
+ b=IQvP27/rmafsmdLHtCitfBhOMfqbf7qxZvRzyz3PVwfYqNfSlLAsKQMw
+ v3t9ikOf+QU7ZxO4FdR1eeQZ2m9pSQXM5NMd8LhAtElqT5n/6XtkU7mBh
+ uIqOcmPmwrvX74YCLpKt3gg3lCz58/vlRHe/0AI/KOXb3w8F95IJdXOiH
+ JKbFhMhhFT6Wu/PLTMV53HFHcO66SYqOdToiqZKx/ptXz/FVMOEueSpPZ
+ 572OddefSaKKTMh4pSYQrNsB0yBKSgZkC0drxyYfsNRnMneeH+DMw2OGZ
+ mlpJbnBJLU+NF2DTK9DqYDE0AcPsrRLqiMFgzI9rjqcLYf3Pt7XeXtlLN Q==;
+X-CSE-ConnectionGUID: giBkCOhVSYmwY8wh7JSlnw==
+X-CSE-MsgGUID: p0Ca8++wR9C+3xQgJbghIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34122433"
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="34122433"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2024 08:46:47 -0700
+X-CSE-ConnectionGUID: hE6iAtNqSb2ZkFN3oIwmHA==
+X-CSE-MsgGUID: PKjTB9JzRMiu/SdC9mViRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="86845941"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa002.fm.intel.com with ESMTP; 29 Aug 2024 08:46:45 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 803C6610; Thu, 29 Aug 2024 18:46:44 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v1 1/1] drm/mm: Mark drm_mm_interval_tree*() functions with
+ __maybe_unused
+Date: Thu, 29 Aug 2024 18:46:40 +0300
+Message-ID: <20240829154640.1120050-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87a5gx2pva.wl-kuninori.morimoto.gx@renesas.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,71 +72,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 28, 2024 at 05:11:37AM +0000, Kuninori Morimoto wrote:
-> We have endpoint base functions
-> 	- of_graph_get_next_device_endpoint()
-> 	- of_graph_get_device_endpoint_count()
-> 	- for_each_of_graph_device_endpoint()
-> 
-> Here, for_each_of_graph_device_endpoint() loop finds each endpoints
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint {...};
-> 		};
-> 		port@1 {
-> (2)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In above case, it finds endpoint as (1) -> (2) -> ...
-> 
-> Basically, user/driver knows which port is used for what, but not in
-> all cases. For example on flexible/generic driver case, how many ports
-> are used is not fixed.
-> 
-> For example Sound Generic Card driver which is used from many venders
-> can't know how many ports are used. Because the driver is very
-> flexible/generic, it is impossible to know how many ports are used,
-> it depends on each vender SoC and/or its used board.
-> 
-> And more, the port can have multi endpoints. For example Generic Sound
-> Card case, it supports many type of connection between CPU / Codec, and
-> some of them uses multi endpoint in one port.
-> Then, Generic Sound Card want to handle each connection via "port"
-> instead of "endpoint".
-> But, it is very difficult to handle each "port" via existing
-> for_each_of_graph_device_endpoint(). Getting "port" via of_get_parent()
-> from "endpoint" doesn't work. see below.
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint@0 {...};
-> (2)			endpoint@1 {...};
-> 		};
-> 		port@1 {
-> (3)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In other case, we want to handle "ports" same as "port" for some reasons.
-> 
-> 	node {
-> =>		ports@0 {
-> 			port@0 { ... };
-> 			port@1 { ... };
-> 			...
-> 		};
-> =>		ports@1 {
-> 			...
-> 		};
-> 	};
+The INTERVAL_TREE_DEFINE() uncoditionally provides a bunch of helper
+functions which in some cases may be not used. This, in particular,
+prevents kernel builds with `make W=1` and CONFIG_WERROR=y:
 
-There is no schema that supports this structure. The closest thing we 
-have is in-ports and out-ports in Coresight bindings.
+.../drm/drm_mm.c:152:1: error: unused function 'drm_mm_interval_tree_insert' [-Werror,-Wunused-function]
+  152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  153 |                      u64, __subtree_last,
+      |                      ~~~~~~~~~~~~~~~~~~~~
+  154 |                      START, LAST, static inline, drm_mm_interval_tree)
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In any case, it should be a separate patch, not buried in here.
+Fix this by marking drm_mm_interval_tree*() functions with __maybe_unused.
 
-Rob
+Fixes: 202b52b7fbf7 ("drm: Track drm_mm nodes with an interval tree")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/gpu/drm/drm_mm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+index 5ace481c1901..1ed68d3cd80b 100644
+--- a/drivers/gpu/drm/drm_mm.c
++++ b/drivers/gpu/drm/drm_mm.c
+@@ -151,7 +151,7 @@ static void show_leaks(struct drm_mm *mm) { }
+ 
+ INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
+ 		     u64, __subtree_last,
+-		     START, LAST, static inline, drm_mm_interval_tree)
++		     START, LAST, static inline __maybe_unused, drm_mm_interval_tree)
+ 
+ struct drm_mm_node *
+ __drm_mm_interval_first(const struct drm_mm *mm, u64 start, u64 last)
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
+
