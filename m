@@ -2,62 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81932964ABA
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 17:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A0B964A8C
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 17:50:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF40410E716;
-	Thu, 29 Aug 2024 15:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00DBF10E70E;
+	Thu, 29 Aug 2024 15:50:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WIDYYNtx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="h9b17IuI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 331 seconds by postgrey-1.36 at gabe;
- Thu, 29 Aug 2024 15:55:49 UTC
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 249C010E716
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 15:55:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 18119AE2CF1;
- Thu, 29 Aug 2024 15:50:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CADD2C4CEC1;
- Thu, 29 Aug 2024 15:50:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724946616;
- bh=KccHSL6fnfRyNdZ90h1lu3IkO6/vw/VRe94K7w5iAy4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WIDYYNtxl0pvt7YlIt1csogI9T2a15xk1/T4FECWLIFS9jXTqScuicaXrxQ/2b8Gh
- qsK2yQRiErDgH9jEeSwnKvx2fWa5S10GuWUcyUaPJmocSQUu3N8UH/zXmZqsikYedH
- WfwZMoOpUe/kVao3rxXw3KbmgVpfef7CVVDCXh47RDPsrAmZy5S4UunyrPI+PFdhQc
- iaEtzw6QhCrqPYWA7OescM0zVcH1JNLwEfI6os+SWN9JskUmguFMTOpmVVHIEREJ27
- et59OKxRrNSj+Hq3jrAB3UIhDPnWiW2bKaXH4JtpRN2qet+nJCRlKIReqetlLGq/uQ
- niInKANx9CERA==
-Date: Thu, 29 Aug 2024 10:50:14 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v4 1/9] of: property: add of_graph_get_next_port()
-Message-ID: <20240829155014.GE465065-robh@kernel.org>
-References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
- <87a5gx2pva.wl-kuninori.morimoto.gx@renesas.com>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73CB710E70B
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 15:50:23 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-371a9bea8d4so511528f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 08:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724946622; x=1725551422; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rJ1E1FSn9EnVE2v1a7jxMaJli1rgUUJqDUz/uJFASzk=;
+ b=h9b17IuItrSHAYIR8v1m/KhA8FGN3kv1/7renL20lPMaRSyf2xpCSrKAUeTgmUGlkX
+ RyZy7xDpAEJOazVQK+bIahPF1RFVvaGsC5laW1ofN4eo4zeOQzAQ9/NDE5FdAMQRJOoa
+ lmJP0csDSrhucPNQasGl0C8+acNwWbjyIHH767i1ITDuo2Jt66Hg2bYFAOqnjixUDb8Z
+ /ZNsww9OH8kflVpij0j9Y72UlviUPWwwfyozAPzSJZCO5oPnikd6BkXEF75ziZzBmSeA
+ oMeiQRxN1XuUdHBRTUpZfUbkgCRY9Khq2XJk5+xoGIxphqCwfiGFqPB25oV9N8FwhsoJ
+ vSFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724946622; x=1725551422;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rJ1E1FSn9EnVE2v1a7jxMaJli1rgUUJqDUz/uJFASzk=;
+ b=aUVuPMwcGshwkFm8tAgYvMbUoLK6z0IDGU1QnMtAHfyf24hyubg12l3WEBLCvXAV12
+ LeJoUQNgb+VIhKOd7NcJuP7ncCF/vavozWqbQqTKIcOs0CCWCQmtqmA80/wvhWQrODPa
+ LfYwu13rCb5T3cWGBUgduoYUwUBGvoMVeRddN7gKxNZhJc+juR6b57rsgSNzJ8jeK4LQ
+ OGfFpd7IYSubCo3KnVfopra0+IyZgyOqmQ0jYyMjnj/x8IliRy2g42NyDVRCwtg4vBrq
+ jM5WBFqpsMLpKHvb/FZk3Ou8pq2R1UmI1i+crCkQDsAmNDJcP2tKsrn7pVWGmb8xyuUr
+ RZig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUqEii8UNob/Aj/SDJwpCzva+bk8IjFgUfo9cCwEQ9eeIQe3JbvSVoArRYNQBmZMDlz6u8gdfaEHqE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4Rz0KLz+smakZYPFXNWjGu6Qtn9sHKyjSZWvSLHVxMOpMDdYZ
+ SEMhUMZYovaiWsPgH8RPYCA/i9IUiAwR9bbBL51V0bMu8+CV2JJo
+X-Google-Smtp-Source: AGHT+IHgyWOmnBMDml/2WKTJlzLj30pI0kYETJ0C99Zz7zJftAy4vldU6h2q941Ku1gU8wLUpksIgQ==
+X-Received: by 2002:adf:e005:0:b0:367:9088:fecd with SMTP id
+ ffacd0b85a97d-3749b52e4b2mr2618324f8f.7.1724946621184; 
+ Thu, 29 Aug 2024 08:50:21 -0700 (PDT)
+Received: from orome (p200300e41f29d300f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f29:d300:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3749ee4abbesm1737641f8f.23.2024.08.29.08.50.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Aug 2024 08:50:20 -0700 (PDT)
+Date: Thu, 29 Aug 2024 17:50:19 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] drm/tegra: hdmi: make read-only const array
+ possible_nvram_sizes static
+Message-ID: <a3itbzv4hhkbpa3lhe7w42qtyxwiuwdsdntemtzn25uj27skci@trg63xzeh3dp>
+References: <20240822205047.642845-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ql3tpfeuhs46rjeh"
 Content-Disposition: inline
-In-Reply-To: <87a5gx2pva.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20240822205047.642845-1-colin.i.king@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,176 +88,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 28, 2024 at 05:11:37AM +0000, Kuninori Morimoto wrote:
-> We have endpoint base functions
-> 	- of_graph_get_next_device_endpoint()
-> 	- of_graph_get_device_endpoint_count()
-> 	- for_each_of_graph_device_endpoint()
-> 
-> Here, for_each_of_graph_device_endpoint() loop finds each endpoints
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint {...};
-> 		};
-> 		port@1 {
-> (2)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In above case, it finds endpoint as (1) -> (2) -> ...
-> 
-> Basically, user/driver knows which port is used for what, but not in
-> all cases. For example on flexible/generic driver case, how many ports
-> are used is not fixed.
-> 
-> For example Sound Generic Card driver which is used from many venders
-> can't know how many ports are used. Because the driver is very
-> flexible/generic, it is impossible to know how many ports are used,
-> it depends on each vender SoC and/or its used board.
-> 
-> And more, the port can have multi endpoints. For example Generic Sound
-> Card case, it supports many type of connection between CPU / Codec, and
-> some of them uses multi endpoint in one port.
-> Then, Generic Sound Card want to handle each connection via "port"
-> instead of "endpoint".
-> But, it is very difficult to handle each "port" via existing
-> for_each_of_graph_device_endpoint(). Getting "port" via of_get_parent()
-> from "endpoint" doesn't work. see below.
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint@0 {...};
-> (2)			endpoint@1 {...};
-> 		};
-> 		port@1 {
-> (3)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In other case, we want to handle "ports" same as "port" for some reasons.
-> 
-> 	node {
-> =>		ports@0 {
-> 			port@0 { ... };
-> 			port@1 { ... };
-> 			...
-> 		};
-> =>		ports@1 {
-> 			...
-> 		};
-> 	};
-> 
-> Add "ports" / "port" base functions.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/of/property.c    | 108 +++++++++++++++++++++++++++++++++++++++
->  include/linux/of_graph.h |  49 ++++++++++++++++++
->  2 files changed, 157 insertions(+)
-> 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 164d77cb94458..d99b34dd2d5b4 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -625,6 +625,97 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
->  }
->  EXPORT_SYMBOL(of_graph_get_port_by_id);
->  
-> +/**
-> + * of_graph_get_next_ports() - get next ports node.
-> + * @parent: pointer to the parent device node
-> + * @prev: previous ports node, or NULL to get first
-> + *
-> + * If "parent" node doesn't have "ports" node, it returns "parent" node itself as "ports" node.
-> + *
-> + * Return: A 'ports' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
-> +struct device_node *of_graph_get_next_ports(struct device_node *parent,
-> +					    struct device_node *prev)
-> +{
-> +	if (!parent)
-> +		return NULL;
-> +
-> +	if (!prev) {
-> +		/*
-> +		 * Find "ports" node from parent
-> +		 *
-> +		 *	parent {
-> +		 * =>		ports {
-> +		 *			port {...};
-> +		 *		};
-> +		 *	};
-> +		 */
-> +		prev = of_get_child_by_name(parent, "ports");
-> +
-> +		/*
-> +		 * Use parent as its ports if it not exist
-> +		 *
-> +		 * =>	parent {
-> +		 *		port {...};
-> +		 *	};
-> +		 */
-> +		if (!prev) {
-> +			/* check whether "parent" has "port" node */
-> +			struct device_node *port __free(device_node) = of_get_child_by_name(parent, "port");
-> +
-> +			if (port)
-> +				prev = of_node_get(parent);
-> +		}
-> +
-> +		return prev;
-> +	}
-> +
-> +	/* Find next ports */
-> +	do {
-> +		prev = of_get_next_child(parent, prev);
-> +		if (!prev)
-> +			break;
-> +	} while (!of_node_name_eq(prev, "ports"));
-> +
-> +	return prev;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_ports);
-> +
-> +/**
-> + * of_graph_get_next_port() - get next port node.
-> + * @parent: pointer to the parent device node, or parent ports node
-> + * @prev: previous port node, or NULL to get first
-> + *
-> + * Parent device node can be used as @parent whether device node has ports node or not.
-> + * It will work same as ports@0 node.
-> + *
-> + * Return: A 'port' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
-> +struct device_node *of_graph_get_next_port(struct device_node *parent,
-> +					   struct device_node *prev)
-> +{
-> +	if (!parent)
-> +		return NULL;
-> +
-> +	if (!prev) {
-> +		struct device_node *ports __free(device_node) =
-> +			of_graph_get_next_ports(parent, NULL);
-> +
-> +		return of_get_child_by_name(ports, "port");
-> +	}
-> +
-> +	do {
-> +		prev = of_get_next_child(parent, prev);
-> +		if (!prev)
-> +			break;
-> +	} while (!of_node_name_eq(prev, "port"));
-> +
-> +	return prev;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_port);
 
-of_graph_is_present should be reimplemented using this function. So 
-should part of of_graph_get_next_endpoint().
+--ql3tpfeuhs46rjeh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Rob
+On Thu, Aug 22, 2024 at 09:50:47PM GMT, Colin Ian King wrote:
+> Don't populate the const read-only array possible_nvram_sizes on the
+
+I've changed this (and the occurrence in the subject) to reflect the
+actual array name ("freqs") that's being changed here.
+
+Applied, thanks.
+
+Thierry
+
+--ql3tpfeuhs46rjeh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmbQmLsACgkQ3SOs138+
+s6HAGRAAmGbYekDkE+fSbWHiAQEEEopvqtwfi9pf3qQhWrAvTkWHJ+f84L0f97+X
+ZDp2Xvbycz6a5d5XP7OQr8yVRFXw7IQ54dG4tHSi3GkOF4aJt1PxXFAQG9tmxNKf
+b4Vog6rC5eqi6v2S5GvmBhoXVaiUNIhSlIf5g9S+WfY/JnbdIvDQuOfH391oiQVz
+3+ZfpT5Z8BFaiPxJSNv6OeVt98mudHfonN0WrhIWT25gchR5P0+EQjeXfd07f3a5
+LGxa21LsVoObmD8s614dVO5zGcWdrszWisAmT+uJplHBMYjxXPEX2U6cfyLHFoR3
+Z3RSky6J3IHfoygAsFjR6BI5yujN65oMx/DydwoNUpO0Uh5zqEi4IrBANYWMtiJw
+wV4d6ExLkLlPMYCxcENGsStaxy7MkPYFv23desCq97RGiqn5gsS05bU4VmDxpvnF
+WRCwmX7vqBrJB9cIotcywXvXS8Wouc6WMLh/qQ7J8nonPO3QNLRypt85oMpzEOLZ
+kSjxidNri97ooAcQDOL1BKpcsf9C+X0EESQ7HU1cDOM3Q26pe4fsqLlRK6lAeozD
+Ex+g1S499nkWtVAqK+Ace2MqqcJWeQPaAmJ+gXVL9OebQSyPihRQyR7qR6+BCBQq
+k6p7S4BIqDgxRcmuWzCq52UtYgRYW6ZIC4NQOzr+DaZWoD2QhRk=
+=Ba83
+-----END PGP SIGNATURE-----
+
+--ql3tpfeuhs46rjeh--
