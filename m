@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79502964948
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90731964A4D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 17:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E2E10E6F7;
-	Thu, 29 Aug 2024 14:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170D410E1B3;
+	Thu, 29 Aug 2024 15:41:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IXCxsIij";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pb6gtWIT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 312C710E6F7
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:57:41 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00C9310E1B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 15:41:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 606DFA4411E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:57:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE35C4CEC9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:57:39 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 56667CE1BCB;
+ Thu, 29 Aug 2024 15:41:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 519BEC4CEC1;
+ Thu, 29 Aug 2024 15:41:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724943459;
- bh=77GZ3QzaWVWSIhtGl6NhqkeP6FIDiOftlrdOL+sQSfw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=IXCxsIijxUX/8BlxE4wUwVpkDDZPGZE9b2TUSGTOSni2Hu78alR/djQiMtZnQVhB0
- 8wFS0l6/gylyIqYoqPTJCyjybjCq0aq72vjtu1XRHAkF+oK4wbI4CAdN2yaz2HPSbI
- 5AF4xUklzO5vLWZRZuVQ5qb5HwJNH4i/1tUWQr+xVNdIR14gZ3HJ15e2+39VF1hKI6
- lyZG5fdUN6TftBMjrh+wrKOFRy6Lp8XJdduhr5D2EArIoi9AUUyolhhzJB/5Ip5vfJ
- 5dalhgT/FghRSBJgQZKaDBMd48gki3+17ofaGHTkMk+GoPRejpGiGYMtyhRJfuWBN9
- roZkJFd3nU04Q==
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-7cd835872ceso495849a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:57:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUymi7IWbO3weR8T8E1JbwHKKlLKjkyH5C+KQy3gWk+g43DLxCnKamMc8tuFgxm/pLeDeYAsvNAKXQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyeZde5pmDGmXV58AuCDrXKS4CbCBKGCT0V/72nxElCV4evCtz+
- yxP1C5EcI/el4oUc64ioW+5NGH2JI0vcHDiCGFu71LBUzVCiMswt9ENt0GMlUrSRe/NVeU8Mpvv
- nxJAJlH8J9NLUD/X6XbGErYsbtA==
-X-Google-Smtp-Source: AGHT+IHbbf11aBEzm+xsp/uTtv2EomAhCmlwdvkMwIl7kiohHuf6+VCO/ZMXf47TFVKkRpa1ddvlFhJUARNVpXA5tY0=
-X-Received: by 2002:a05:6a20:c89c:b0:1c0:ef24:4125 with SMTP id
- adf61e73a8af0-1cce101e0a0mr3244740637.26.1724943459001; Thu, 29 Aug 2024
- 07:57:39 -0700 (PDT)
+ s=k20201202; t=1724946064;
+ bh=/zGGPt8jYtuq/1RE9arY1RA1H+rfW2qjhyrvYnQ62ps=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pb6gtWIT0umdrydivzW3q3x+x8RffD3d4f4N9Pxo5JhkzOL8GdkTxGt2RfEsuuGSi
+ gE3mHFkn/f7T7k6uL9vo3yI2u6IHdmN0Djc2HAjxOkgRhb/8WyNcUIEoyUisdKE1Br
+ ghCEROt32J4MuG/nNAVHOMqq3lqSY6cFNaK47i8HiZDVeuY57YEG3cLwyCD1P5xOzQ
+ G+KkCjkmLXNb6kanoNJHrT/6bKRODeYUrHYs+tIdkaIx9Z1/kXB9zOZuQXC20gd4+x
+ T3IjAROTorQiGQtwEgGY9ag1AaUpM/U1aUQi70qibxS+PnWbwFTyMHZsQvuRrIJvO7
+ nKj26aueNEWLQ==
+Date: Thu, 29 Aug 2024 10:41:02 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v4 4/9] ASoC: rcar_snd: use new of_graph functions
+Message-ID: <20240829154102.GB465065-robh@kernel.org>
+References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
+ <875xrl2pur.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
-References: <20240828101511.3269822-1-fshao@chromium.org>
-In-Reply-To: <20240828101511.3269822-1-fshao@chromium.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 29 Aug 2024 22:57:52 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9K5wb_d-DbFnDKDUPdSkt9Tt8ObbVc6eErehpO1SNbvw@mail.gmail.com>
-Message-ID: <CAAOTY_9K5wb_d-DbFnDKDUPdSkt9Tt8ObbVc6eErehpO1SNbvw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Use spin_lock_irqsave() for CRTC event lock
-To: Fei Shao <fshao@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Bibby Hsieh <bibby.hsieh@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875xrl2pur.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,59 +71,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Fei:
-
-Fei Shao <fshao@chromium.org> =E6=96=BC 2024=E5=B9=B48=E6=9C=8828=E6=97=A5 =
-=E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:16=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Use the state-aware spin_lock_irqsave() and spin_unlock_irqrestore()
-> to avoid unconditionally re-enabling the local interrupts.
-
-Applied to mediatek-drm-next [1], thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
-
-Regards,
-Chun-Kuang.
-
->
-> Fixes: 411f5c1eacfe ("drm/mediatek: handle events when enabling/disabling=
- crtc")
-> Signed-off-by: Fei Shao <fshao@chromium.org>
+On Wed, Aug 28, 2024 at 05:11:56AM +0000, Kuninori Morimoto wrote:
+> Now we can use new port related functions for port parsing. Use it.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
 > ---
->
->  drivers/gpu/drm/mediatek/mtk_crtc.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediat=
-ek/mtk_crtc.c
-> index 6f34f573e127..42f47086f414 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-> @@ -449,6 +449,7 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_crtc *mtk=
-_crtc)
+>  sound/soc/sh/rcar/core.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
+> 
+> diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
+> index 15cb5e7008f9f..281936ece760b 100644
+> --- a/sound/soc/sh/rcar/core.c
+> +++ b/sound/soc/sh/rcar/core.c
+> @@ -1237,7 +1237,7 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
 >  {
->         struct drm_device *drm =3D mtk_crtc->base.dev;
->         struct drm_crtc *crtc =3D &mtk_crtc->base;
-> +       unsigned long flags;
->         int i;
->
->         for (i =3D 0; i < mtk_crtc->ddp_comp_nr; i++) {
-> @@ -480,10 +481,10 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_crtc *m=
-tk_crtc)
->         pm_runtime_put(drm->dev);
->
->         if (crtc->state->event && !crtc->state->active) {
-> -               spin_lock_irq(&crtc->dev->event_lock);
-> +               spin_lock_irqsave(&crtc->dev->event_lock, flags);
->                 drm_crtc_send_vblank_event(crtc, crtc->state->event);
->                 crtc->state->event =3D NULL;
-> -               spin_unlock_irq(&crtc->dev->event_lock);
-> +               spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
->         }
->  }
->
-> --
-> 2.46.0.295.g3b9ea8a38a-goog
->
+>  	struct device *dev = rsnd_priv_to_dev(priv);
+>  	struct device_node *np = dev->of_node;
+> -	struct device_node *ports, *node;
+> +	struct device_node *node;
+>  	int nr = 0;
+>  	int i = 0;
+>  
+> @@ -1277,16 +1277,12 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
+>  	/*
+>  	 * Audio-Graph-Card
+>  	 */
+> -	for_each_child_of_node(np, ports) {
+> -		if (!of_node_name_eq(ports, "ports") &&
+> -		    !of_node_name_eq(ports, "port"))
+> -			continue;
+> -		priv->component_dais[i] = of_graph_get_endpoint_count(ports);
+> +	for_each_of_graph_ports(np, ports) {
+> +		priv->component_dais[i] = of_graph_get_port_count(ports);
+
+These are not equivalent. Besides now working with multiple 'ports' 
+nodes, it's possible to have a port node without an endpoint populated 
+for example.
+
+Rob
