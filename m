@@ -2,85 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFC496490F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B38964923
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A1510E6ED;
-	Thu, 29 Aug 2024 14:51:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C83F10E6F0;
+	Thu, 29 Aug 2024 14:54:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Fx/4f7ST";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G3QOtK4x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08AB310E6ED
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1724943095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=o8hizAOpY+7kJBYCq/LFUyXzMpPCymiKXp+YCyYUVXs=;
- b=Fx/4f7STkEIANzRJiPBCRzKyUFpU+vxEZfZiBjqd9mFqdLOl3qk7w7AMkIpRc/ph6+6fan
- RFw6quXrgxYlaUOh/Gahx8pUHEMEzofnoFWTnkCwbxuk/objbjirRyiESn7TI8pcnNHqDz
- qhZ/4pfupcLr4bPciMY+Rx3tKXsypS8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-544-dUP7BwDQONuho5YT4bpIJQ-1; Thu, 29 Aug 2024 10:51:32 -0400
-X-MC-Unique: dUP7BwDQONuho5YT4bpIJQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-37189fc2977so513762f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:51:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724943091; x=1725547891;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o8hizAOpY+7kJBYCq/LFUyXzMpPCymiKXp+YCyYUVXs=;
- b=rUO4TkdcGAOYJsBtnuVHbbNNKcXupn03rSOsKWZmbJwHMAgiZTH8NEGv8kzCCrLBQf
- BTEHAJqHlJvHxX7ppCH3CnPzksaMA+pboW0SW8G+21Wmga0t6LqhbLApvsZW1qHDOYe9
- 1/k4BsFTt/5HDVAqi7etiRgBMTnW0X1HxvlhnBVIPuRddDGbOCeI/UOz6BPh5ybUekWy
- 4YWJgNgb2qlQLfQBnTU02D+e0dSSRwAz7ksme9OMIZkR4mQsp6EjySapbaS4POyXanBW
- N3JYdDUMFhmlHuHUWzYp02QS3MC7wGJaxY0OHfIAx8CWyOKqc2lf+Bnmwi0l/5bLV2xu
- zsLw==
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3252510E6F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:54:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7E264A4410A
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8CE1C4CECC
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:54:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1724943248;
+ bh=gGjwRsC3M9/c/KkD/8kJVbZnTVSAPzCfx1ZJsG9gXmM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=G3QOtK4x5NkJF/9wehBXrw0qdJZFipes3cS2BkAHTycSbmymWgoAN2aCJW9S3uwQo
+ gcGIaqAfNw9X37Zd9DaRxY0TBGmjcJ9+ruXjULPGXZqexlG/KrwaNXFW+i0UWsczUK
+ naQWHj8poWwrGoPQOld9I/Qjw6qSrDKgjW2uKZRd2+Vlo1HgzzKJYEmbK9g7RDGmZj
+ B4a+wrgocNvWL8vLLH/UwArKw0Jb3WBuQIOskvFTlKxoKg1gnETYttRqhU8zhyeaZT
+ utkjuOmAfQ7jAr9FHd9EXHw7kXFIcRGO7Q4iYKRAvu78MiqgWQxfuZCDWUAp4djDG3
+ xiLfxgrcUl7rQ==
+Received: by mail-oa1-f53.google.com with SMTP id
+ 586e51a60fabf-27020fca39aso477046fac.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:54:08 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVXVFwz1+XQlfZ0uUy1+ZUFF8Q5pW4K6pvyuZwncSR7RgMoQ5mBJxZrDI/IxbBC1Vh3sChjZ4toF08=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTbBGgw43RfQwUog+XPA2J2V0oSN0psOHvtgJC7CwAEYT8R3rE
- 8qOMluSDnmVrTVpwVM6KYDstHXjHqc2eiB4YCahUT/teEo6TTYaqj9iJACeuZ/EAugd0/9n7cJ5
- Pb4I0zEPfy+ZR3S72fWxEaTzq5vapmVsOpWdHpGm5naNC3p33lp+c4MYQgGJV28ss+w==
-X-Received: by 2002:a05:6000:1205:b0:36b:bb84:33e2 with SMTP id
- ffacd0b85a97d-3749b56157amr2160753f8f.37.1724943091339; 
- Thu, 29 Aug 2024 07:51:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE6gzgcHYvgehEsl05HBBaQQHPASR2y09yuwyioLUAKciAMZLg1EbneAIKjRehHDFfy658nCg==
-X-Received: by 2002:a05:6000:1205:b0:36b:bb84:33e2 with SMTP id
- ffacd0b85a97d-3749b56157amr2160721f8f.37.1724943090788; 
- Thu, 29 Aug 2024 07:51:30 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42bb9593c32sm5996765e9.48.2024.08.29.07.51.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Aug 2024 07:51:30 -0700 (PDT)
-Date: Thu, 29 Aug 2024 16:51:29 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240829-efficient-swift-from-lemuria-f60c05@houat>
+ AJvYcCW2fHPI8/jB0fh3clRqMNxHDBNcTOZuSAqazh8RSD3D8kUDbGThnlP1JsvLq9cJZ+jlB7VFty77sYw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxjaM4yPP9nu+82azdhpa4q6UXyiHWYaP7DlDMadpSHDDFpIlbf
+ LXAyJBigDDJnAdzlTeiriAFYYJ3feEy8NOITVHrqEnZE0/Cl8E6anVabSEyCcUk/rn5FeGecBzl
+ gSWWCMtxrrkg8vQ8UKqyUWQwmVg==
+X-Google-Smtp-Source: AGHT+IEyygn0DMFYzMyxc8jy6sIuWErx12dvbL0cJxtOdFO//M5/LG3maZP8Ohf/uApEShQBQN09W1UKNHJV+sMS3/Q=
+X-Received: by 2002:a05:6358:6f98:b0:1aa:a01a:23dc with SMTP id
+ e5c5f4694b2df-1b603c55350mr395137555d.15.1724943248105; Thu, 29 Aug 2024
+ 07:54:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="jqxdvs5nqe3j44as"
-Content-Disposition: inline
+References: <20240826060654.24038-1-shuijing.li@mediatek.com>
+In-Reply-To: <20240826060654.24038-1-shuijing.li@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 29 Aug 2024 22:54:22 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8K2BQm5JOBpeP+ZYcctcHAp46JWma7z4vWGFoa1MFbCg@mail.gmail.com>
+Message-ID: <CAAOTY_8K2BQm5JOBpeP+ZYcctcHAp46JWma7z4vWGFoa1MFbCg@mail.gmail.com>
+Subject: Re: [PATCH v8] drm/mediatek: dsi: Add dsi per-frame lp code for mt8188
+To: Shuijing Li <shuijing.li@mediatek.com>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ daniel@ffwll.ch, matthias.bgg@gmail.com, 
+ angelogioacchino.delregno@collabora.com, jitao.shi@mediatek.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,76 +74,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Shuijing:
 
---jqxdvs5nqe3j44as
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Shuijing Li <shuijing.li@mediatek.com> =E6=96=BC 2024=E5=B9=B48=E6=9C=8826=
+=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:07=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> Adding the per-frame lp function of mt8188, which can keep HFP in HS and
+> reduce the time required for each line to enter and exit low power.
+> Per Frame LP:
+>   |<----------One Active Frame-------->|
+> --______________________________________----___________________
+>   ^HSA+HBP^^RGB^^HFP^^HSA+HBP^^RGB^^HFP^    ^HSA+HBP^^RGB^^HFP^
+>
+> Per Line LP:
+>   |<---------------One Active Frame----------->|
+> --______________--______________--______________----______________
+>   ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^    ^HSA+HBP^^RGB^
 
-Hi,
+Applied to mediatek-drm-next [1], thanks.
 
-Here's this week drm-misc-fixes PR
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
-Maxime
+Regards,
+Chun-Kuang.
 
-drm-misc-fixes-2024-08-29:
-A revert for a previous TTM commit causing stuttering, 3 fixes for
-vmwgfx related to buffer operations, a fix for video/aperture with
-non-VGA primary devices, and a preemption status fix for v3d
-The following changes since commit 9b340aeb26d50e9a9ec99599e2a39b035fac978e:
-
-  nouveau/firmware: use dma non-coherent allocator (2024-08-16 03:42:24 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-08-29
-
-for you to fetch changes up to 9d824c7fce58f59982228aa85b0376b113cdfa35:
-
-  drm/v3d: Disable preemption while updating GPU stats (2024-08-28 11:36:53 -0300)
-
-----------------------------------------------------------------
-A revert for a previous TTM commit causing stuttering, 3 fixes for
-vmwgfx related to buffer operations, a fix for video/aperture with
-non-VGA primary devices, and a preemption status fix for v3d
-
-----------------------------------------------------------------
-Alex Deucher (2):
-      Revert "drm/ttm: increase ttm pre-fault value to PMD size"
-      video/aperture: optionally match the device in sysfb_disable()
-
-Tvrtko Ursulin (1):
-      drm/v3d: Disable preemption while updating GPU stats
-
-Zack Rusin (3):
-      drm/vmwgfx: Prevent unmapping active read buffers
-      drm/vmwgfx: Fix prime with external buffers
-      drm/vmwgfx: Disable coherent dumb buffers without 3d
-
- drivers/firmware/sysfb.c                |  19 ++++--
- drivers/gpu/drm/v3d/v3d_sched.c         |   6 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_blit.c    | 114 ++++++++++++++++++++++++++++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      |  13 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h      |   3 +
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c    |  12 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |   6 +-
- drivers/of/platform.c                   |   2 +-
- drivers/video/aperture.c                |  11 +--
- include/drm/ttm/ttm_bo.h                |   4 --
- include/linux/sysfb.h                   |   4 +-
- 12 files changed, 161 insertions(+), 37 deletions(-)
-
---jqxdvs5nqe3j44as
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZtCK8QAKCRAnX84Zoj2+
-dnhVAYDWqAvgA9KfHKMUCPWGuyC3YUBQpD/vf7UZqhVUO4IT6dPeHZ7btrnkJr4D
-OZDsL4YBgISWjaJ8vryzLdtyG1H8gZ9GrqMpcRda620ZXbMR2vJJ7q6uXJYIvXqK
-9/HIQAO2ZQ==
-=LACF
------END PGP SIGNATURE-----
-
---jqxdvs5nqe3j44as--
-
+>
+> Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
+> ---
+> Changes in v8:
+> Directly write value into DSI_HSTX_CKL_WC without check per suggestion fr=
+om previous thread:
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240819061333.=
+26069-1-shuijing.li@mediatek.com/
+> Changes in v7:
+> Fix code style and simplify the code per suggestion from previous thread:
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240813022315.=
+18502-1-shuijing.li@mediatek.com/
+> Changes in v6:
+> Simplify the code per suggestion from previous thread:
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240812070341.=
+26053-1-shuijing.li@mediatek.com/
+> Changes in v5:
+> Fix code style issue and add per-line-lp function to be symmetrical with =
+per-frame-lp.
+> per suggestion from previous thread:
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240801081144.=
+22372-1-shuijing.li@mediatek.com/
+> Changes in v4:
+> Drop the code related to bllp_en and bllp_wc, adjust ps_wc to dsi->vm.hac=
+tive *
+> dsi_buf_bpp.
+> Changes in v3:
+> Use function in bitfield.h and get value from phy timing, per suggestion
+> from previous thread:
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240424091639.=
+22759-1-shuijing.li@mediatek.com/
+> Changes in v2:
+> Use bitfield macros and add new function for per prame lp and improve
+> the format, per suggestion from previous thread:
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240314094238.=
+3315-1-shuijing.li@mediatek.com/
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 106 +++++++++++++++++++++++++----
+>  1 file changed, 94 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
+k/mtk_dsi.c
+> index b6e3c011a12d..eeec641cab60 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -88,12 +88,15 @@
+>  #define DSI_HSA_WC             0x50
+>  #define DSI_HBP_WC             0x54
+>  #define DSI_HFP_WC             0x58
+> +#define HFP_HS_VB_PS_WC                GENMASK(30, 16)
+> +#define HFP_HS_EN                      BIT(31)
+>
+>  #define DSI_CMDQ_SIZE          0x60
+>  #define CMDQ_SIZE                      0x3f
+>  #define CMDQ_SIZE_SEL          BIT(15)
+>
+>  #define DSI_HSTX_CKL_WC                0x64
+> +#define HSTX_CKL_WC                    GENMASK(15, 2)
+>
+>  #define DSI_RX_DATA0           0x74
+>  #define DSI_RX_DATA1           0x78
+> @@ -187,6 +190,7 @@ struct mtk_dsi_driver_data {
+>         bool has_shadow_ctl;
+>         bool has_size_ctl;
+>         bool cmdq_long_packet_ctl;
+> +       bool support_per_frame_lp;
+>  };
+>
+>  struct mtk_dsi {
+> @@ -426,7 +430,75 @@ static void mtk_dsi_ps_control(struct mtk_dsi *dsi, =
+bool config_vact)
+>         writel(ps_val, dsi->regs + DSI_PSCTRL);
+>  }
+>
+> -static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+> +static void mtk_dsi_config_vdo_timing_per_frame_lp(struct mtk_dsi *dsi)
+> +{
+> +       u32 horizontal_sync_active_byte;
+> +       u32 horizontal_backporch_byte;
+> +       u32 horizontal_frontporch_byte;
+> +       u32 hfp_byte_adjust, v_active_adjust;
+> +       u32 cklp_wc_min_adjust, cklp_wc_max_adjust;
+> +       u32 dsi_tmp_buf_bpp;
+> +       unsigned int da_hs_trail;
+> +       unsigned int ps_wc, hs_vb_ps_wc;
+> +       u32 v_active_roundup, hstx_cklp_wc;
+> +       u32 hstx_cklp_wc_max, hstx_cklp_wc_min;
+> +       struct videomode *vm =3D &dsi->vm;
+> +
+> +       if (dsi->format =3D=3D MIPI_DSI_FMT_RGB565)
+> +               dsi_tmp_buf_bpp =3D 2;
+> +       else
+> +               dsi_tmp_buf_bpp =3D 3;
+> +
+> +       da_hs_trail =3D dsi->phy_timing.da_hs_trail;
+> +       ps_wc =3D vm->hactive * dsi_tmp_buf_bpp;
+> +
+> +       if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
+> +               horizontal_sync_active_byte =3D
+> +                       vm->hsync_len * dsi_tmp_buf_bpp - 10;
+> +               horizontal_backporch_byte =3D
+> +                       vm->hback_porch * dsi_tmp_buf_bpp - 10;
+> +               hfp_byte_adjust =3D 12;
+> +               v_active_adjust =3D 32 + horizontal_sync_active_byte;
+> +               cklp_wc_min_adjust =3D 12 + 2 + 4 + horizontal_sync_activ=
+e_byte;
+> +               cklp_wc_max_adjust =3D 20 + 6 + 4 + horizontal_sync_activ=
+e_byte;
+> +       } else {
+> +               horizontal_sync_active_byte =3D vm->hsync_len * dsi_tmp_b=
+uf_bpp - 4;
+> +               horizontal_backporch_byte =3D (vm->hback_porch + vm->hsyn=
+c_len) *
+> +                       dsi_tmp_buf_bpp - 10;
+> +               cklp_wc_min_adjust =3D 4;
+> +               cklp_wc_max_adjust =3D 12 + 4 + 4;
+> +               if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+> +                       hfp_byte_adjust =3D 18;
+> +                       v_active_adjust =3D 28;
+> +               } else {
+> +                       hfp_byte_adjust =3D 12;
+> +                       v_active_adjust =3D 22;
+> +               }
+> +       }
+> +       horizontal_frontporch_byte =3D vm->hfront_porch * dsi_tmp_buf_bpp=
+ - hfp_byte_adjust;
+> +       v_active_roundup =3D (v_active_adjust + horizontal_backporch_byte=
+ + ps_wc +
+> +                          horizontal_frontporch_byte) % dsi->lanes;
+> +       if (v_active_roundup)
+> +               horizontal_backporch_byte +=3D dsi->lanes - v_active_roun=
+dup;
+> +       hstx_cklp_wc_min =3D (DIV_ROUND_UP(cklp_wc_min_adjust, dsi->lanes=
+) + da_hs_trail + 1)
+> +                          * dsi->lanes / 6 - 1;
+> +       hstx_cklp_wc_max =3D (DIV_ROUND_UP((cklp_wc_max_adjust + horizont=
+al_backporch_byte +
+> +                          ps_wc), dsi->lanes) + da_hs_trail + 1) * dsi->=
+lanes / 6 - 1;
+> +
+> +       hstx_cklp_wc =3D FIELD_PREP(HSTX_CKL_WC, (hstx_cklp_wc_min + hstx=
+_cklp_wc_max) / 2);
+> +       writel(hstx_cklp_wc, dsi->regs + DSI_HSTX_CKL_WC);
+> +
+> +       hs_vb_ps_wc =3D ps_wc - (dsi->phy_timing.lpx + dsi->phy_timing.da=
+_hs_exit +
+> +                     dsi->phy_timing.da_hs_prepare + dsi->phy_timing.da_=
+hs_zero + 2) * dsi->lanes;
+> +       horizontal_frontporch_byte |=3D FIELD_PREP(HFP_HS_EN, 1) |
+> +                                     FIELD_PREP(HFP_HS_VB_PS_WC, hs_vb_p=
+s_wc);
+> +
+> +       writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
+> +       writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+> +       writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
+> +}
+> +
+> +static void mtk_dsi_config_vdo_timing_per_line_lp(struct mtk_dsi *dsi)
+>  {
+>         u32 horizontal_sync_active_byte;
+>         u32 horizontal_backporch_byte;
+> @@ -436,7 +508,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi =
+*dsi)
+>         u32 dsi_tmp_buf_bpp, data_phy_cycles;
+>         u32 delta;
+>         struct mtk_phy_timing *timing =3D &dsi->phy_timing;
+> -
+>         struct videomode *vm =3D &dsi->vm;
+>
+>         if (dsi->format =3D=3D MIPI_DSI_FMT_RGB565)
+> @@ -444,16 +515,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi=
+ *dsi)
+>         else
+>                 dsi_tmp_buf_bpp =3D 3;
+>
+> -       writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
+> -       writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
+> -       writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
+> -       writel(vm->vactive, dsi->regs + DSI_VACT_NL);
+> -
+> -       if (dsi->driver_data->has_size_ctl)
+> -               writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
+> -                      FIELD_PREP(DSI_WIDTH, vm->hactive),
+> -                      dsi->regs + DSI_SIZE_CON);
+> -
+>         horizontal_sync_active_byte =3D (vm->hsync_len * dsi_tmp_buf_bpp =
+- 10);
+>
+>         if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
+> @@ -499,6 +560,26 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi=
+ *dsi)
+>         writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
+>         writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+>         writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
+> +}
+> +
+> +static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+> +{
+> +       struct videomode *vm =3D &dsi->vm;
+> +
+> +       writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
+> +       writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
+> +       writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
+> +       writel(vm->vactive, dsi->regs + DSI_VACT_NL);
+> +
+> +       if (dsi->driver_data->has_size_ctl)
+> +               writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
+> +                       FIELD_PREP(DSI_WIDTH, vm->hactive),
+> +                       dsi->regs + DSI_SIZE_CON);
+> +
+> +       if (dsi->driver_data->support_per_frame_lp)
+> +               mtk_dsi_config_vdo_timing_per_frame_lp(dsi);
+> +       else
+> +               mtk_dsi_config_vdo_timing_per_line_lp(dsi);
+>
+>         mtk_dsi_ps_control(dsi, false);
+>  }
+> @@ -1197,6 +1278,7 @@ static const struct mtk_dsi_driver_data mt8188_dsi_=
+driver_data =3D {
+>         .has_shadow_ctl =3D true,
+>         .has_size_ctl =3D true,
+>         .cmdq_long_packet_ctl =3D true,
+> +       .support_per_frame_lp =3D true,
+>  };
+>
+>  static const struct of_device_id mtk_dsi_of_match[] =3D {
+> --
+> 2.45.2
+>
