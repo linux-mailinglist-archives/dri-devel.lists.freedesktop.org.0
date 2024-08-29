@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC93D965116
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 22:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282C6965109
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 22:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCC010E777;
-	Thu, 29 Aug 2024 20:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD8410E755;
+	Thu, 29 Aug 2024 20:49:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="U0FGEC+B";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DszwjYma";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7072310E73D;
- Thu, 29 Aug 2024 20:49:14 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47TGd0Eo030353;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78EE510E733;
+ Thu, 29 Aug 2024 20:49:13 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47TGePBg006365;
  Thu, 29 Aug 2024 20:49:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- fiRTKU3HBUesysXCPLeksdxnC+pkFe03YYBbXF/AbDE=; b=U0FGEC+BRpJ6Bbvh
- xOgZpKuDUQC8bKUeAljDW3MS/1dcTIeFdTliA9MWwGBgKhhP+j14901nu9qRWYfq
- rLp0PQHphvxTO+fRG/jJH+qIIQD700fshWoZh07uFdnTVjwX0ztI8Tz8UorUlZEd
- IafJ/fHXUHk/Y2090p/uiozIWX43MAzv5Q2/mwqQmTIGWdP4PRreEiD3VNVE7ixL
- qxVhXxSyKgvMJu3eKLIa9lgUeuipEw/At+5Yanp2r0FVG4A3YmY5PqO+bb6k/UMH
- 7X0jlY5x+743XpONmlaenTNtpEn+LWJGrG87wIvjBFaiJMB+p8I6zhS2gOqWh8Wu
- OWPwrg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ pLL17NErFn0beDKFMT994aik7V3gYXWvBuhXwiSVTHQ=; b=DszwjYmaXO8qPCQE
+ Qyn3xEmDKx52rY0zkVdQuayDKhYPQDGRilwtNujHxVoNdjBhlYzEMjnRScswu3AM
+ bKUavylYqUCqNwX4zSbqYQ6aohx6TvylU648viwGzFsUuw3t4sL3PyBDrMwQ5pKq
+ LKB/5BIz3xgnaf0M+2FANDxD0oyv4PqL57WT/+htwUHIJjXLex9D1I/kwSAbNGnL
+ PUJB/k5doBk29dZDIdg+aGC5wGT152HI2o/hNtJhMo2iDbwpt/b04RzwUh7Oom8q
+ 0K0/HZRJWNS7naWVGLCLZg8M5HU1KioXf8wSsNxaNZ32k/9FJ/QRLDo+96+wupAJ
+ 1KcAiw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puuehx8-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419putxpbu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 29 Aug 2024 20:49:05 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47TKn42H003484
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47TKn4KQ021054
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 29 Aug 2024 20:49:04 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -44,12 +44,12 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1544.9; Thu, 29 Aug 2024 13:49:04 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Thu, 29 Aug 2024 13:48:41 -0700
-Subject: [PATCH 20/21] drm/msm/dpu: Reorder encoder kickoff for CWB
+Date: Thu, 29 Aug 2024 13:48:42 -0700
+Subject: [PATCH 21/21] drm/msm/dpu: Set possible clones for all encoders
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240829-concurrent-wb-v1-20-502b16ae2ebb@quicinc.com>
+Message-ID: <20240829-concurrent-wb-v1-21-502b16ae2ebb@quicinc.com>
 References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
 In-Reply-To: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
@@ -63,11 +63,11 @@ CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
  "Jessica Zhang" <quic_jesszhan@quicinc.com>
 X-Mailer: b4 0.15-dev-99b12
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724964539; l=4105;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724964539; l=3416;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=kc9ilhLKig4c8W84vSwwdKMW7sbavFZ1geGDgPxzzLc=;
- b=zdk/fKu4UB+fzzNT6YmVkSQZIBSX+6Pv3hd9EM3NTJfsj2ovtzdzAX98vriC56kpJJRAt/aFw
- Z7BktN1SOt2D6YiI+7z9AAhpES1VDRrNXH/dtZOzkbv2Q1+Waz8VfN1
+ bh=Zkfb0x1UhHELZyP7wkQbLW0HhqrMn1zVAR+JC51dopI=;
+ b=LKMEdAVhhzG5AzVK2wzQBejPgyRawIrGfiCXQVn4QZZOtA2zQGMjuBZv9BkUeInhh0SParZ79
+ 07HPjlnfqf8DRjZnC21lcSeeZCLX9E3MzOI0G41XY9g+ZmNoy4IN0DB
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -76,16 +76,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 2xbuLdlb6U_aD80XW9SR909H_eaI6-u0
-X-Proofpoint-ORIG-GUID: 2xbuLdlb6U_aD80XW9SR909H_eaI6-u0
+X-Proofpoint-ORIG-GUID: eQwKgQ5f36EI-sTq3enKJDvMoVLglevw
+X-Proofpoint-GUID: eQwKgQ5f36EI-sTq3enKJDvMoVLglevw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-29_06,2024-08-29_02,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- impostorscore=0 adultscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 mlxscore=0 phishscore=0 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=999 suspectscore=0 phishscore=0 spamscore=0 bulkscore=0
+ clxscore=1015 mlxscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2407110000 definitions=main-2408290147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,125 +102,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper that will handle the correct order of the encoder kickoffs
-for concurrent writeback.
-
-For concurrent writeback, the realtime encoder must always kickoff last
-as it will call the trigger flush and start.
-
-This avoids the following scenario where the writeback encoder
-increments the pending kickoff count after the WB_DONE interrupt is
-fired:
-
-If the realtime encoder is kicked off first, the encoder kickoff will
-flush/start the encoder and increment the pending kickoff count. The
-WB_DONE interrupt then fires (before the writeback encoder is kicked
-off). When the writeback encoder enters its kickoff, it will skip the
-flush/start (due to CWB being enabled) and hit a frame done timeout
-as the frame was kicked off (and the WB_DONE interrupt fired) without
-the pending kickoff count being incremented.
-
-In addition, the writeback timer should only start after the realtime
-encoder is kicked off to ensure that we don't get timeouts when the
-system has a heavy load (ex. when debug logs are enabled)
+Set writeback encoders as possible clones for non-writeback encoders and
+vice versa.
 
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 67 ++++++++++++++++++++++++++------
- 1 file changed, 55 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 27 +++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  7 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  7 +++++--
+ 3 files changed, 39 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index daf5f751f584..d2f91e89eba7 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -928,6 +928,42 @@ static int _dpu_crtc_wait_for_frame_done(struct drm_crtc *crtc)
- 	return rc;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 47b5a5994234..aad659e6d35b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2352,6 +2352,33 @@ static int dpu_encoder_virt_add_phys_encs(
+ 	return 0;
  }
  
-+static int dpu_crtc_kickoff_clone_mode(struct drm_crtc *crtc)
++uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc)
 +{
-+	struct drm_encoder *encoder;
-+	struct drm_encoder *rt_encoder = NULL, *wb_encoder;
-+
-+	/* Find encoder for real time display */
-+	drm_for_each_encoder_mask(encoder, crtc->dev,
-+				  crtc->state->encoder_mask) {
-+		if (encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
-+			wb_encoder = encoder;
-+		else
-+			rt_encoder = encoder;
-+	}
-+
-+	if (!rt_encoder || !wb_encoder) {
-+		DRM_DEBUG_ATOMIC("real time or wb encoder not found\n");
-+		return -EINVAL;
-+	}
-+
-+	dpu_encoder_prepare_for_kickoff(wb_encoder);
-+	dpu_encoder_prepare_for_kickoff(rt_encoder);
++	struct drm_encoder *curr;
++	int type = drm_enc->encoder_type;
++	uint32_t clone_mask = drm_encoder_mask(drm_enc);
 +
 +	/*
-+	 * Kickoff real time encoder last as it's the encoder that
-+	 * will do the flush
++	 * Set writeback as possible clones of real-time encoders and real-time
++	 * encoders as clones of writeback.
++	 *
++	 * Writeback encoders can't be clones of each other and real-time
++	 * encoders can't be clones of each other.
 +	 */
-+	dpu_encoder_kickoff(wb_encoder);
-+	dpu_encoder_kickoff(rt_encoder);
++	drm_for_each_encoder(curr, drm_enc->dev) {
++		if (type == DRM_MODE_ENCODER_VIRTUAL &&
++				curr->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
++			continue;
++		if (type != DRM_MODE_ENCODER_VIRTUAL &&
++				curr->encoder_type != DRM_MODE_ENCODER_VIRTUAL)
++			continue;
 +
-+	/* Don't start frame done timers until the kickoffs have finished */
-+	dpu_encoder_start_frame_done_timer(wb_encoder);
-+	dpu_encoder_start_frame_done_timer(rt_encoder);
++		clone_mask |= drm_encoder_mask(curr);
++	}
 +
-+	return 0;
++	return clone_mask;
 +}
 +
- void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
- {
- 	struct drm_encoder *encoder;
-@@ -952,13 +988,25 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
- 			goto end;
- 		}
- 	}
--	/*
--	 * Encoder will flush/start now, unless it has a tx pending. If so, it
--	 * may delay and flush at an irq event (e.g. ppdone)
--	 */
--	drm_for_each_encoder_mask(encoder, crtc->dev,
--				  crtc->state->encoder_mask)
--		dpu_encoder_prepare_for_kickoff(encoder);
+ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 				 struct dpu_kms *dpu_kms,
+ 				 struct msm_display_info *disp_info)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+index 7ab5f9380bf5..70eda127488a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+@@ -98,6 +98,13 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder);
+  */
+ void dpu_encoder_virt_runtime_resume(struct drm_encoder *encoder);
+ 
++/**
++ * dpu_encoder_get_clones - set possible_clones for DPU encoder
++ * @drm_enc:        DRM encoder pointer
++ * Returns:         possible_clones mask
++ */
++uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc);
 +
-+	if (drm_crtc_in_clone_mode(crtc->state)) {
-+		if (dpu_crtc_kickoff_clone_mode(crtc))
-+			goto end;
-+	} else {
-+		/*
-+		 * Encoder will flush/start now, unless it has a tx pending.
-+		 * If so, it may delay and flush at an irq event (e.g. ppdone)
-+		 */
-+		drm_for_each_encoder_mask(encoder, crtc->dev,
-+				crtc->state->encoder_mask)
-+			dpu_encoder_prepare_for_kickoff(encoder);
-+
-+		drm_for_each_encoder_mask(encoder, crtc->dev,
-+				crtc->state->encoder_mask) {
-+			dpu_encoder_kickoff(encoder);
-+			dpu_encoder_start_frame_done_timer(encoder);
-+		}
+ /**
+  * dpu_encoder_init - initialize virtual encoder object
+  * @dev:        Pointer to drm device structure
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 87526d3c224a..1a82aa61d217 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -2,7 +2,7 @@
+ /*
+  * Copyright (C) 2013 Red Hat
+  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
+- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+  *
+  * Author: Rob Clark <robdclark@gmail.com>
+  */
+@@ -793,8 +793,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+ 		return ret;
+ 
+ 	num_encoders = 0;
+-	drm_for_each_encoder(encoder, dev)
++	drm_for_each_encoder(encoder, dev) {
+ 		num_encoders++;
++		if (catalog->cwb_count > 0)
++			encoder->possible_clones = dpu_encoder_get_clones(encoder);
 +	}
  
- 	if (atomic_inc_return(&dpu_crtc->frame_pending) == 1) {
- 		/* acquire bandwidth and other resources */
-@@ -970,11 +1018,6 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+ 	max_crtc_count = min(catalog->mixer_count, num_encoders);
  
- 	dpu_vbif_clear_errors(dpu_kms);
- 
--	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
--		dpu_encoder_kickoff(encoder);
--		dpu_encoder_start_frame_done_timer(encoder);
--	}
--
- 	reinit_completion(&dpu_crtc->frame_done_comp);
- 
- end:
 
 -- 
 2.34.1
