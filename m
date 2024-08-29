@@ -2,98 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260C8964EFD
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 21:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CED964F0E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 21:38:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF1510E071;
-	Thu, 29 Aug 2024 19:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC40110E77E;
+	Thu, 29 Aug 2024 19:38:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fJndigkx";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mrS2Wr5Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0CA410E071
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 19:33:43 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- 46e09a7af769-70f6732a16dso71899a34.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 12:33:43 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2362910E77E
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 19:38:28 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-4567fe32141so78771cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 12:38:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1724960023; x=1725564823;
+ d=google.com; s=20230601; t=1724960307; x=1725565107;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+89V/Pkw0eErHNWTJZLzdCFWIv36uJ87GHJgsJod6mk=;
- b=fJndigkxx4qDFHIVx+mdsIPeDTldCmdsdjVNwjRvUoXvLFHnL9uRU78ZNp8cX2A6ba
- sXkebEEv1bJSfiRezxRDP6dtN1Yp0Z87zmbwqMsw3XFJHofz8DpXfhppCtQxtXxl/NG/
- qM6dst266zmM+x+ilZMZ2KiBznJIFb6w+a00A=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1ZUAgIcTyrR43pe3gP0emMAssjHjCGemTU8nsF1ejxc=;
+ b=mrS2Wr5Zeg3Jh50T9kCqJy2RJrp/qB/Ltc8+h2gCzRgrQ1IN3UdvrfwWD1EAzZKDD6
+ pfU9thZugkI5xuxmTqDJyPpoHKWMnyScid1VIROhOsBRNOHt7KxM3cmiGWCFFuIkkDfx
+ H7SIOwkLKip/6igPOSJ5EBqA6tWOD6DYEw7g5ftNtuP4L4b9vDl7aTsjPt3wF5LZBODW
+ XHrPpUaOxFDT00iGinfqTokqlFBAl/VmAWzmY0nxFNJcUBoz9H9JNs4OF6WZXzoIadOq
+ 3AHQcQpsrXJUl/U+KUmLBt6HRWnU4+Zsprc0UBilC7fjzstoClMj8qSNC0hITQhe6kF7
+ myyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724960023; x=1725564823;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+89V/Pkw0eErHNWTJZLzdCFWIv36uJ87GHJgsJod6mk=;
- b=LR2nzjY97ARGagCF2/fjbtdGtbx3cCbUtwpSoxalejR8EsJlDzh7/oUIsRYSzPOJE4
- LEcIewwiG/NDXbSbvA8VjiBRbY/voFZoANXfnZMpet2npP1JO1juen+bQUV6zLu6HiDQ
- jhgdIX1Jb2wohpZDGDye49RKr2gaURSGtEWUADmeKwpTrnm9pBo6xq5IfSnHs9lUFq6I
- afWxTo1g41Kbna9r+z2yrZJDFhNyxwvTv/vWJdH1Cc0FD812OgtmyOeYSnBorU4PyIKL
- /nFcU53Rh1KYmF8L6b/5R9k59CobGHku9Pw1aOiCoXJeLG2HlCc4jRDoDD3W29qzeISf
- +k7w==
+ d=1e100.net; s=20230601; t=1724960307; x=1725565107;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1ZUAgIcTyrR43pe3gP0emMAssjHjCGemTU8nsF1ejxc=;
+ b=uBI5HVfx92+EyBRf8G2b7VbOZ28jSJFJ60CUkw35xyUgny29sUZC02BB8a9atuEDrz
+ avHt+/RdtZdcNpgaR0fdAypi4j1ygeKAw1wHrm8KDACoSPREaD6yxcNDtVREgSDgTlvR
+ GbKoXAASzw466eaKN3W1SRx99bE7XeIcw/+Ol0desm5c1Q7UR7VcbxfsJyyQE/DYKDp+
+ Bl2W+RNSubkGQpo6fiG1AK3AXyHw8lS0Mh8dW1mZ8K5UwWu8QCc4KiyM/rwhvA1jyt3N
+ bqh6JlJH68His/5duACPBi667uv9PaUlvC/y+u3mSG0QXLaSEWhHEyksUKK9YYZ0zGw4
+ ai5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9sfXad79b9TAGjKjYgVacauqKe6MxLUI5jdJqzNRPrOTy6m8K48wEqgtGxFTw0zF0vSKp7cAnb1A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTPNM8KNYSZc+oznDABK0m02g7IGMsrVzZioEeqwLnSARe5pkO
- jdZE/gBoXAnNDXTlEphlPn7n+tsM13mMAFKjRrMdWU+jvprcx+ToXt0Nh2RbjcccYL8AkkTzfDQ
- =
-X-Google-Smtp-Source: AGHT+IE1xs8lijIFRv7ivwGuCa26XYUG38P5P8TEZu7MVMerUsOKGlGM5veCPUciRYMUUZFyOMBMLw==
-X-Received: by 2002:a05:6830:718e:b0:70f:3d6f:4cfd with SMTP id
- 46e09a7af769-70f5c343ef1mr3405921a34.5.1724960022933; 
- Thu, 29 Aug 2024 12:33:42 -0700 (PDT)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com.
- [209.85.210.45]) by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-70f671aa4bfsm43650a34.61.2024.08.29.12.33.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2024 12:33:42 -0700 (PDT)
-Received: by mail-ot1-f45.google.com with SMTP id
- 46e09a7af769-70f6732a16dso71876a34.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 12:33:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9FIqm61yS2wSafyaHB3lPqFznutYI3XT/qgYo5A6xQ6DGv81dhawyG+Mugk1/dnY/J4G5Rhw+xms=@lists.freedesktop.org
-X-Received: by 2002:a05:6830:b85:b0:70c:aceb:c6c4 with SMTP id
- 46e09a7af769-70f5c21e47dmr4373135a34.0.1724960022060; Thu, 29 Aug 2024
- 12:33:42 -0700 (PDT)
+ AJvYcCUp1MOwXf84HE+TlhmsQ4OroExSaYWUkmFpyq5WcA8b0JyBS3Y3yH4Y5VZ0f7WOvOVZ7ij37Zq+iRU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzetZF54x4VfW9zkGk2f3DU4XIqGHPZO4EoHmJ6My+N+H32CJya
+ MLSY6xsLaxm4B5TReL8kgyp6g1xj6uc84EwnWpHSE7zeyUyoIuLc/RLd5dY+WjKsx3gzUS75Yah
+ qpKXcmC5HVpZpNiL5zDuEHQkPZqCi1PohhsLX
+X-Google-Smtp-Source: AGHT+IEckjBQSLEDMwf1jYHRwORJ2ZVKtBH36SKJpIYMP8NrCeogwJVm7Q7nebuPSmPKh9r8A+fJeiK+617lAC3ocsU=
+X-Received: by 2002:a05:622a:281:b0:447:e59b:54eb with SMTP id
+ d75a77b69052e-4568aacd777mr496041cf.26.1724960306474; Thu, 29 Aug 2024
+ 12:38:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240821214052.6800-1-wahrenst@gmx.net>
- <20240821214052.6800-9-wahrenst@gmx.net>
-In-Reply-To: <20240821214052.6800-9-wahrenst@gmx.net>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 29 Aug 2024 12:33:25 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X+VbFmzMk8mHy6HGf5+W-7YQjTEDPqiJXs0hecbZ_T9Q@mail.gmail.com>
-Message-ID: <CAD=FV=X+VbFmzMk8mHy6HGf5+W-7YQjTEDPqiJXs0hecbZ_T9Q@mail.gmail.com>
-Subject: Re: [PATCH V3 RFC 8/9] usb: dwc2: Implement recovery after PM domain
- off
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Russell King <linux@armlinux.org.uk>,
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Maxime Ripard <mripard@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Minas Harutyunyan <hminas@synopsys.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>, 
- Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
- Peter Robinson <pbrobinson@gmail.com>, 
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel-list@raspberrypi.com
+References: <20240829060126.2792671-1-almasrymina@google.com>
+ <20240829060126.2792671-4-almasrymina@google.com>
+In-Reply-To: <20240829060126.2792671-4-almasrymina@google.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 29 Aug 2024 12:38:13 -0700
+Message-ID: <CAHS8izMCZbynEQQ3rPs2QaEbD51ew7VK0sMziBTayCi2yEZ_EA@mail.gmail.com>
+Subject: Re: [PATCH net-next v23 03/13] netdev: support binding dma-buf to
+ netdevice
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+ Magnus Karlsson <magnus.karlsson@intel.com>, 
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,43 +121,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, Aug 21, 2024 at 2:41=E2=80=AFPM Stefan Wahren <wahrenst@gmx.net> wr=
-ote:
+> +#include <linux/list.h>
+>  #include <uapi/linux/netdev.h>
 >
-> According to the dt-bindings there are some platforms, which have a
-> dedicated USB power domain for DWC2 IP core supply. If the power domain
-> is switched off during system suspend then all USB register will lose
-> their settings.
+...
+
 >
-> Use GUSBCFG_TOUTCAL as a canary to detect that the power domain has
-> been powered off during suspend. Since the GOTGCTL_CURMODE_HOST doesn't
-> match on all platform with the current mode, additionally backup
-> GINTSTS. This works reliable to decide which registers should be
-> restored.
+> +#include <linux/list.h>
+>  #include <uapi/linux/netdev.h>
 >
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->  drivers/usb/dwc2/core.c     |  1 +
->  drivers/usb/dwc2/core.h     |  2 ++
->  drivers/usb/dwc2/platform.c | 38 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 41 insertions(+)
-> +static int dwc2_restore_critical_registers(struct dwc2_hsotg *hsotg)
-> +{
-> +       struct dwc2_gregs_backup *gr;
-> +
-> +       gr =3D &hsotg->gr_backup;
-> +
-> +       if (!gr->valid) {
-> +               dev_err(hsotg->dev, "%s: no registers to restore\n",
-> +                       __func__);
 
-nit: IMO "__func__" should not be in dev_err() messages. The message
-plus the device should be enough. If __func__ should have been in
-dev_err() messages then the Linux kernel would have automatically put
-it there.
+Darn, I went too overboard with sorting of includes. ynl-regen.sh
+wants these in the reverse order, which is unsorted. I'll fix it in
+the next iteration, and I added this check as well to my presubmits.
 
-Aside from that, this looks reasonable to me and discussed previously.
+BTW I submitted 2 iterations already this week, Sunday and Wednesday.
+This is easily fixable and I can resend before the end of the week,
+but if I'm stressing NIPA too much with reposts of this large series I
+can wait until next week. Sorry about that.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-- 
+Thanks,
+Mina
