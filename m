@@ -2,81 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CD896474C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189C5964764
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:59:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21AFD10E0FE;
-	Thu, 29 Aug 2024 13:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91DDC10E6B5;
+	Thu, 29 Aug 2024 13:59:33 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JFU7LzqH";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC8E310E0FE
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 13:54:13 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-e13c23dbabdso656635276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 06:54:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724939650; x=1725544450;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yzzYKNiGPyBUG5ppZhjhaLdiN2i8XiaFzKiex+m/I8U=;
- b=P6LqYuNqsvosU+iiUu3+pGxlMTjbPSWqbBWKoVbjWq8ZKnmbvG6iWUEk2E4VHx3Iu3
- Yi0qRNJB35ROJIcVIUaXEAnFEXm/SonAma9RoE/fGrILw5jEU9B4CmK4RTuAx0MMH6Wt
- 0PrXQcw9z94hCvNYjytekruOdeXnv4XH1q4LHirbuLzgF68EGFUQQ6oZp0OARZaEUnZC
- 3xsQfS5Tk2A8JqjO3x4WAJ8j4ZgMlnyFt/sXujjbx5tLHPhg+d7G8Xptd3REdcbHMwet
- fuFQt+cIMo/6n2836Hq0dzDHRqHZ5l4k7Eh043SsHMi9qdXslTOGT+m57rEycSbmcmnY
- RdWA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXjX2IaWcT4O59zIIv7NXe9IHSNlLQJbo9z2OQV7gmmpo+hekhdmHdgbEjUrNiIS/iEgQlyylZe6VU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1xkR6ec9SKhoF2Y50cpnK+0lz4rmW2ZAN8H+ejjnVANspv6dP
- Y4dXzne23I25gWFuFJxWOFf3A5QxfMzRRarJboiDqitt6kDLVVYZNNHy4MWf
-X-Google-Smtp-Source: AGHT+IHnjMzgiWZ+LTHBg1yx8qHiGDbNvIGrtQ4zXHPsiGM5XfmyqZvKd50iePh/dGAVvF5tGQ9SWA==
-X-Received: by 2002:a05:6902:2004:b0:e16:6742:6eaf with SMTP id
- 3f1490d57ef6-e1a5ab4f72dmr2074228276.4.1724939649755; 
- Thu, 29 Aug 2024 06:54:09 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-6d2d39c8c93sm2474437b3.28.2024.08.29.06.54.08
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2024 06:54:08 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e115eb44752so737736276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 06:54:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIShn11vac9wlAfnJ2qQiF2la97HPlvT+RiSvDkrK3/CMMv82ODmhFdl42OCxdk2EpGdzzTOnaq78=@lists.freedesktop.org
-X-Received: by 2002:a05:6902:2b05:b0:e13:df00:2830 with SMTP id
- 3f1490d57ef6-e1a5ac9e448mr3353529276.30.1724939647866; Thu, 29 Aug 2024
- 06:54:07 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E403A10E1B1;
+ Thu, 29 Aug 2024 13:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1724939972; x=1756475972;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=LfqKUQxy8BDPA9URN2z1ViW1Qs8fCWjGc8gMgLxS6KU=;
+ b=JFU7LzqHaE1E8IDqnh2M3qLobtKDU3F5WXGU8I4rTSk69CK+oRPAAcz4
+ 9r80TosjWzu/PlB+ns2Qc0Gvb7gS+PcJzpw9IfxzGKoTCgLepqUPD0vBg
+ cdFBFaP9HiIjAlJSN9tq5nTMWhDSYhTP7As+dED6/SKZDNeo8HdXhnw7x
+ v32Grrhr7tW3TyrO3LimuanF3+s3j3iEbbuYigSBYatjM1eD5kPw0DTft
+ MaeiBPBAVG+I3/RdoQLXAqZyRWqQsqTfhD6d8Azl6FrbBGBRr0rx6Ru6W
+ TcbjEFXxyL9vixeHmL/MMsYOKOzj9OAs5HbjdEiMYl+7gvqrqcKDY4Cql A==;
+X-CSE-ConnectionGUID: SyteXLBqQFSIEC+rcuFmeQ==
+X-CSE-MsgGUID: g9tL7vH5ScyNwKilpKOWiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="41009277"
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; d="scan'208";a="41009277"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2024 06:59:31 -0700
+X-CSE-ConnectionGUID: p1wXQCE4TRGCaIby9IX/Xg==
+X-CSE-MsgGUID: nSkrp01SRpaHPgCa5aKCFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; d="scan'208";a="63777185"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Aug 2024 06:59:29 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 29 Aug 2024 06:59:28 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 29 Aug 2024 06:59:27 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 29 Aug 2024 06:59:27 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 29 Aug 2024 06:59:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Al1wFELsp7hyyhscX/uRYKPeYvYRZfthCt1jDigoasfi1LWP2ZTwqg7jrnTVN3HSMbCn9RFR1AiLQkWA1l1Vx9wDTreBUFt7mCPJX+WOP4ptmwOHxbeN6JOE/gR/sXWr214jU0ofP/GWN+/XHFa6MRk3RVuEEiN47/kPb5oKA/YksVN/iQBtZgI4IBbNPoBwCYua5MJSp7Y4K0tOKL1pGPJTk7X0m92tl0AYzQ0pESQ93VHX8rdGSjGcmcs/sQyRoln8D/7jc4gzX3tv4yoGQsCbmXGqUvJ0NkCgpW0ujM9ZG84O5Ix3+DS6wowe+nl2AaaUB07af5ObCrYYiljiYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WCv99Pop214aaBBUj8l8GSQUhd8feeEnDrOMv+DUo5Y=;
+ b=TqYkipExbycs8UCAHU5B58aRxXuFqjzNPNFsDv0n+I6MY2Tak1eqzxO9Ga9U1azDy38GeUK+SKl2eiurdZvT6yhWXsvPDBsgsZWGV9DPFSJ1umz0FlHrd9D19JXb5wi1cw3PLIOlzltvDbBbnrsDG7nFFJl8UimAmMWSQ52E94+Zoqo3CQuKkF/wFoE/7rr5HQP8ShM8pOQDwIfkHgCS7vrW46hY7wwuHTcG2s6rI2XqxVdTUmR+fRaNLbOSKlvXZA6vPqx4K5oq2rc5SGjAhjJLxurtCExd5ou/4SOvw094mgAeHkA0osSQlajNbTHpip4wKwp6Fgb79Bp3lnXbzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
+ by PH8PR11MB7968.namprd11.prod.outlook.com (2603:10b6:510:25f::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Thu, 29 Aug
+ 2024 13:59:25 +0000
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42%5]) with mapi id 15.20.7897.014; Thu, 29 Aug 2024
+ 13:59:25 +0000
+Date: Thu, 29 Aug 2024 09:59:19 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-fixes
+Message-ID: <ZtB-t5f4uXMrKgnV@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: MW2PR16CA0012.namprd16.prod.outlook.com (2603:10b6:907::25)
+ To BYAPR11MB2854.namprd11.prod.outlook.com
+ (2603:10b6:a02:c9::12)
 MIME-Version: 1.0
-References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
- <20240529010320.GI1436@pendragon.ideasonboard.com>
- <u5aijnvotestpgjynawcx7oxsp2lncnsda5w4jfzeovvdlfcyt@5fxnyfbk4ocb>
- <20240529091018.GK1436@pendragon.ideasonboard.com>
- <zyd7e55dfonmacewfscac5sdrypx5rsjwvkt7umhbnjltd3rz4@wabvqnsrlatl>
- <20240529095506.GC19014@pendragon.ideasonboard.com>
- <ikryifdxh5hfbjl6c4yinyy52f2pr4pm4g4564jq4cob7ics2p@wa37stxn3sqm>
- <20240529133309.GO1436@pendragon.ideasonboard.com>
- <e1cc6c86-d042-400c-b995-a8b78f62dbdd@redhat.com>
- <CAA8EJpoC9SiLr4QyksKLq796vdq7pFywwn9pPyrkj6-uo5zVog@mail.gmail.com>
-In-Reply-To: <CAA8EJpoC9SiLr4QyksKLq796vdq7pFywwn9pPyrkj6-uo5zVog@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 29 Aug 2024 15:53:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV1SQT4Lnah3-H6r19_xUuKO7iLcTw1PApg7v6naEF5Sg@mail.gmail.com>
-Message-ID: <CAMuHMdV1SQT4Lnah3-H6r19_xUuKO7iLcTw1PApg7v6naEF5Sg@mail.gmail.com>
-Subject: Re: [PATCH] drm: renesas: shmobile: Add drm_panic support
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|PH8PR11MB7968:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92b361f9-f0d7-4191-a42d-08dcc832ca6d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?iBBjfuG56SU5q8sb9UrBr9q1ceTePJeOmFZ93y7pIfCTwndl1UGv8/Y3EfNF?=
+ =?us-ascii?Q?Aobv6zJXlopqskUK7VVOFae0Sj+vPV5qKVaG1+JSwjHwK4+w+cio5+S0DPQP?=
+ =?us-ascii?Q?nzEUplPDrvcexfEETdZQxEqbyia16hdtfQzgrqAzgJdD7+bf5c/mxL7C7kbp?=
+ =?us-ascii?Q?wTevpOQ9DovzhPglNocoXY/Wydw9GfmATwCXWz6efs1y6fT8PL1OYxQufcPU?=
+ =?us-ascii?Q?jCMmgq3tqeX1e44tZkOIb22r4qltATkk/sBkdy+fnuSQafYbhWpgQA7asXa3?=
+ =?us-ascii?Q?PPQBhkU/6J8jOPv4vAt9js88Bma6fGfDjROsoxBikl5iZu63IhzX5oNOZkvD?=
+ =?us-ascii?Q?WrSz94t5meinRdgjJUVApAEwU9uD7j+WSvd0TkdJ7qN2nIxvlmoQFBJNmi/f?=
+ =?us-ascii?Q?Ja/Fy7+x2Kzs+GD2j+FaqI9Nu2gyIECrSjRJSoZVekwCSXwReCKRhtmsZpYl?=
+ =?us-ascii?Q?cJp/GINeXbJQayG97TnlP8JxwiM/PjylGZSIROWkoXDAKUnKAy5cFrJxtyiZ?=
+ =?us-ascii?Q?AFTLYzB2QUL7D2FmyrFchAd1V7vJLLRjfkEr1AREeW5guQAb3jRegVzJNj8L?=
+ =?us-ascii?Q?RJU0bmMGM3Ds0608VAiuAWfSqfKSaQbg8sHwxe+/hId3DBYTjwRBBe2qroNx?=
+ =?us-ascii?Q?CIaIH8lDJD75FP47yUA5Ph0PHxLjCa2yY4kohOz7cdoa0awT28iX+WWg1L+T?=
+ =?us-ascii?Q?6V+gbz3Mpb45GpP/o8bhiCvC19fB50e1VgU7y2d2JnfTHCam8ThrvY56hPKF?=
+ =?us-ascii?Q?LDAgvC1mihPVq6FcuveI0KVhKui652Vq3el/MgLqRna5a2tpL6jiYGV7WAM9?=
+ =?us-ascii?Q?2hRjD05NVVpogzIpg2Ibhcrsp5uqPVktjh4InOVj+cMyo29HvB7kKf9OV6CX?=
+ =?us-ascii?Q?3ZplihsLcuXRKmyTeshUOR8Wl74nOM2g5uC23SURrLO4/8GHE/0dF2fa0flB?=
+ =?us-ascii?Q?ZmazIimQ4oCXDWZ9uuACm0wIY1SKV7fWw13YBPl7cdKjGNZ5qJ8dXavfPS7C?=
+ =?us-ascii?Q?7phYZAfgM2ilncdKDUjvgEKrDI52PHZX2zPFic/wrhkaV24SqGDBp7KB3YD6?=
+ =?us-ascii?Q?Kuyvll9WP+WDjqWKvhoo8lMAZ9ch2eTH0jvY2BTpBSRckgTsFukwRU9AKlOH?=
+ =?us-ascii?Q?y0Pzl5VIeYUdy1EFq8cVU4jEhvHtv8djRobfy8mXEVP5jIcmFRT3TuXPrB+5?=
+ =?us-ascii?Q?p+SXH49UrXjFn1fvzrZP09YiSdQJ3ceTJbG0AF385E/V6hetbbS/R1L3UxRn?=
+ =?us-ascii?Q?aeHwHD8SwDYE91X9hbkY8QVBa15SZE8U3CfpnfWn+J7bb/ioYmcHf3mm/mNd?=
+ =?us-ascii?Q?aVc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sKmv3Tkmn9TbLZSxjSjotlveuaPpTnmVbRMhtnL6yxjo3GmF+2rdAMCmnCxy?=
+ =?us-ascii?Q?Uy38NdnSR+Q/AgqQQkTcB/0uasGYFFxsGQ1RaEVIPD1SceFTnWOnUcJlVxgO?=
+ =?us-ascii?Q?wPxfvVc3yqUUcxWZQCOaFUPHjSZj0l2H9HE7+0jYw04loaDj3CGOFtXaWeCC?=
+ =?us-ascii?Q?cT2vB5ytlvVMgXA2hV07fj9sWA8KOAMFeIUuhBG3465ZJqJN/zcjxQEQqo7z?=
+ =?us-ascii?Q?EkTvBIwWZ8HTGrVNDXUKY+vyRrMld4wBWwJ4DG5U6ftSJ2/ln+CVCHrHf4KC?=
+ =?us-ascii?Q?/Wpaca0v7nf7qx3yMbEMFcNW2FS6NnWcf6Ou34yh2eSCkniOpt/y3v/ENJmJ?=
+ =?us-ascii?Q?9UH3+5b0FgHtrhEL1MZMaHQ2XyZnofnUYr7uww40gGHGVWMHHgqJO+JnBjOI?=
+ =?us-ascii?Q?DziIwoFTbRSLnBt2DIyCA85LSc8Nz2gWO92zt7POQm2kNN1OVpMbevmuJQ4E?=
+ =?us-ascii?Q?nUi2J7Xj8+hKptdWG833CI0i+6thwcjkRohlkEcpJVgzfK/DOZ23TiFMD7NG?=
+ =?us-ascii?Q?fxjSk/NH6aSOzXW/kG9OdInNoNDcWP7P6Z0UA0Ndsrc5yoN5T9E+/m4aGnU8?=
+ =?us-ascii?Q?7IRui487ylIRKOdWh38Kx+I2FvzuO4CO+SIrOsJzK+FiEQfnBMc14X8LL3fu?=
+ =?us-ascii?Q?qGFCDl4cps3vnpjSbj5Wsc5/REDIl+aunPa/Qu8wjMeCkSE7lDaYBIZCMHWT?=
+ =?us-ascii?Q?tvUlOWT/UzaWzQhjmx7icxS8sb9q219LRYwlHVG2RPy4GeWG0VkZVxaYBeqO?=
+ =?us-ascii?Q?NE/2SRHHUQn9PKAUegTMQm5BIQsNDlQZQEO3fxwh2rCAmFb/+fy/e+A7AFyl?=
+ =?us-ascii?Q?fB9YdXpCKwas6pDKCM9FUZbwMrTRB4Adn2FQ0dXqZLau5hCNr8j3KPz3DKfY?=
+ =?us-ascii?Q?FRYooPl0IBpQA992viNJNvD5FaghjiJbIrFNMm6hfc+jHCgFA2KVebCioOTl?=
+ =?us-ascii?Q?bLYRMlOKLlvRTICu+30hmAqiQOHlwgnILpzKuYgWvK8illE0Wjpa+2lttjF8?=
+ =?us-ascii?Q?wa+1h0ap3laM2DVpbexAwPm19yP5t6woUjyBl31qHNVuZ2oI7S+QM0e8Ri63?=
+ =?us-ascii?Q?xugdwb/Mg3nnC9upD6+qrpanVly/3vLNY76AafrybUs0SSSVf1cup9ISg8hp?=
+ =?us-ascii?Q?m2QTyPsWJyb+/8jObgiuFcIWqyZFHVuELGkENSJUdvjmyIODyBtNTeU+rPAv?=
+ =?us-ascii?Q?wqoNdAyu+x94qj1iX06SjXgDPadBR63VjS59NEFctX84efNyTVk0xBMiBLLM?=
+ =?us-ascii?Q?atUdYpM/l7Su1izc0dvd9Fw5rYY2Tlo0KS+VAvDbO7Klh+yNZCva+COaeJQq?=
+ =?us-ascii?Q?/rb1o7Vlm5a/aWXB/RGYk2eLFvJcNrqtWut73ofKSlzCang4sJ2Y4TUON32F?=
+ =?us-ascii?Q?jlNX5s/pYGwD3mgOg6alN8rvLM9QKf5Ed/O4oS1bYOHidkklUvwG8ItfwbuQ?=
+ =?us-ascii?Q?7mz70VcqVSAzvAvfsRoG+UrGXhASaqBaS4uXN5azVq8s/qikoTsSYPITkwGn?=
+ =?us-ascii?Q?mlhwltk+9hIVoxzkn87BGdt0KKOfijUNUcf7sEAorJJkV+zzEF4H+Zz43/ae?=
+ =?us-ascii?Q?WlrgBkldREml+9xU1eG7b8RwoTHZxdIN1wCOeb95fv26/J4hfj1//416ztXx?=
+ =?us-ascii?Q?BA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92b361f9-f0d7-4191-a42d-08dcc832ca6d
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 13:59:25.2517 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V2Vcoke8kwn1HPWPBF5F3Sc7Z8oGwQHbDzEaplG92wjNmNSOoZluQXs9QYZCmK4sVSJiUeEpdEMSd7gjU9Rdvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7968
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,148 +183,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 30, 2024 at 10:33=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-> On Thu, 30 May 2024 at 11:16, Jocelyn Falempe <jfalempe@redhat.com> wrote=
-:
-> > On 29/05/2024 15:33, Laurent Pinchart wrote:
-> > > On Wed, May 29, 2024 at 04:28:44PM +0300, Dmitry Baryshkov wrote:
-> > >> On Wed, May 29, 2024 at 12:55:06PM +0300, Laurent Pinchart wrote:
-> > >>> On Wed, May 29, 2024 at 12:25:56PM +0300, Dmitry Baryshkov wrote:
-> > >>>> On Wed, May 29, 2024 at 12:10:18PM +0300, Laurent Pinchart wrote:
-> > >>>>> On Wed, May 29, 2024 at 11:27:02AM +0300, Dmitry Baryshkov wrote:
-> > >>>>>> On Wed, May 29, 2024 at 04:03:20AM +0300, Laurent Pinchart wrote=
-:
-> > >>>>>>> On Mon, May 27, 2024 at 03:34:48PM +0200, Geert Uytterhoeven wr=
-ote:
-> > >>>>>>>> Add support for the drm_panic module, which displays a message=
- on
-> > >>>>>>>> the screen when a kernel panic occurs.
-> > >>>>>>>>
-> > >>>>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >>>>>>>> ---
-> > >>>>>>>> Tested on Armadillo-800-EVA.
-> > >>>>>>>> ---
-> > >>>>>>>>   drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 14 ++++=
-+++++++++-
-> > >>>>>>>>   1 file changed, 13 insertions(+), 1 deletion(-)
-> > >>>>>>>>
-> > >>>>>>>> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.=
-c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > >>>>>>>> index 07ad17d24294d5e6..9d166ab2af8bd231 100644
-> > >>>>>>>> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > >>>>>>>> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > >>>>>>>> @@ -273,6 +273,13 @@ static const struct drm_plane_helper_func=
-s shmob_drm_plane_helper_funcs =3D {
-> > >>>>>>>>        .atomic_disable =3D shmob_drm_plane_atomic_disable,
-> > >>>>>>>>   };
-> > >>>>>>>>
-> > >>>>>>>> +static const struct drm_plane_helper_funcs shmob_drm_primary_=
-plane_helper_funcs =3D {
-> > >>>>>>>> +      .atomic_check =3D shmob_drm_plane_atomic_check,
-> > >>>>>>>> +      .atomic_update =3D shmob_drm_plane_atomic_update,
-> > >>>>>>>> +      .atomic_disable =3D shmob_drm_plane_atomic_disable,
-> > >>>>>>>> +      .get_scanout_buffer =3D drm_fb_dma_get_scanout_buffer,
-> > >>>>>>>> +};
-> > >>>>>>>> +
-> > >>>>>>>>   static const struct drm_plane_funcs shmob_drm_plane_funcs =
-=3D {
-> > >>>>>>>>        .update_plane =3D drm_atomic_helper_update_plane,
-> > >>>>>>>>        .disable_plane =3D drm_atomic_helper_disable_plane,
-> > >>>>>>>> @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(=
-struct shmob_drm_device *sdev,
-> > >>>>>>>>
-> > >>>>>>>>        splane->index =3D index;
-> > >>>>>>>>
-> > >>>>>>>> -      drm_plane_helper_add(&splane->base, &shmob_drm_plane_he=
-lper_funcs);
-> > >>>>>>>> +      if (type =3D=3D DRM_PLANE_TYPE_PRIMARY)
-> > >>>>>>>> +              drm_plane_helper_add(&splane->base,
-> > >>>>>>>> +                                   &shmob_drm_primary_plane_h=
-elper_funcs);
-> > >>>>>>>> +      else
-> > >>>>>>>> +              drm_plane_helper_add(&splane->base,
-> > >>>>>>>> +                                   &shmob_drm_plane_helper_fu=
-ncs);
-> > >>>>>>>
-> > >>>>>>> It's not very nice to have to provide different operations for =
-the
-> > >>>>>>> primary and overlay planes. The documentation of
-> > >>>>>>> drm_fb_dma_get_scanout_buffer() states
-> > >>>>>>>
-> > >>>>>>>   * @plane: DRM primary plane
-> > >>>>>>>
-> > >>>>>>> If the intent is that only primary planes will be used to displ=
-ay the
-> > >>>>>>> panic message, shouldn't drm_panic_register() skip overlay plan=
-es ? It
-> > >>>>>>> would simplify drivers.
-> > >>>>>>
-> > >>>>>> What about the drivers where all the planes are actually univers=
-al?
-> > >>>>>> In such a case the planes registered as primary can easily get r=
-eplaced
-> > >>>>>> by 'overlay' planes.
-> > >>>>>
-> > >>>>> Good point.
-> > >>>>>
-> > >>>>> Another option, if we wanted to avoid duplicating the drm_plane_f=
-uncs,
-> > >>>>> would be to add a field to drm_plane to indicate whether the plan=
-e is
-> > >>>>> suitable for drm_panic.
-> > >>>>
-> > >>>> ... or maybe let the driver decide. For the fully-universal-plane
-> > >>>> devices we probably want to select the planes which cover the larg=
-est
-> > >>>> part of the CRTC.
-> > >>>
-> > >>> Are there devices where certain planes can only cover a subset of t=
-he
-> > >>> CRTC (apart from planes meant for cursors) ?
-> > >>
-> > >> On contemporary MSM devices any plane can cover any part of the scre=
-en,
-> > >> including not having a plane that covers the full screen at all.
-> > >
-> > > Ah, you meant picking the plane that is currently covering most of th=
-e
-> > > screen. I thought you were talking about devices where some planes we=
-re
-> > > restricted by the hardware to a subset of the CRTC.
-> > >
-> > > I agree it would make sense to take both plane position and z-pos, as
-> > > well as visibility and other related parameters, to pick the plane th=
-at
-> > > is the most visible. Ideally this should be handled in drm_panic, not
-> > > duplicated in drivers.
-> >
-> > I'm not sure that drm_panic can figure out reliably on which plane it
-> > needs to draw. I think the driver has more information to take the righ=
-t
-> > decision.
->
-> I think there should be a default implementation which fits 80% of the
-> cases (single fixed PRIMARY plane per output) but if the driver needs
-> it, it should be able to override the behaviour.
+Hi Dave and Sima,
 
-Did anything like this materialize, or is this patch (and its rcar-du
-counterpart [1]) good to apply as-is?
+A quiet week this time.
 
-Thank you!
+Thanks,
+Rodrigo.
 
-[1] https://lore.kernel.org/r/b633568d2e3f405b21debdd60854fe39780254d6.1716=
-816897.git.geert+renesas@glider.be/
-Gr{oetje,eeting}s,
+drm-xe-fixes-2024-08-29:
+- Invalidate media_gt TLBs (Brost)
+- Fix HWMON i1 power setup write command (Karthik)
 
-                        Geert
+The following changes since commit 5be63fc19fcaa4c236b307420483578a56986a37:
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+  Linux 6.11-rc5 (2024-08-25 19:07:11 +1200)
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-08-29
+
+for you to fetch changes up to 59d237c8a241168c7ae34c48244059b7bafaff38:
+
+  drm/xe/hwmon: Fix WRITE_I1 param from u32 to u16 (2024-08-29 09:44:00 -0400)
+
+----------------------------------------------------------------
+- Invalidate media_gt TLBs (Brost)
+- Fix HWMON i1 power setup write command (Karthik)
+
+----------------------------------------------------------------
+Karthik Poosa (1):
+      drm/xe/hwmon: Fix WRITE_I1 param from u32 to u16
+
+Matthew Brost (1):
+      drm/xe: Invalidate media_gt TLBs
+
+ drivers/gpu/drm/xe/xe_hwmon.c |  2 +-
+ drivers/gpu/drm/xe/xe_vm.c    | 37 ++++++++++++++++++++++++-------------
+ 2 files changed, 25 insertions(+), 14 deletions(-)
