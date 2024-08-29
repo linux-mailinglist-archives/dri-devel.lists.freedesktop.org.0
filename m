@@ -2,105 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A59596427E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17995964286
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF9810E613;
-	Thu, 29 Aug 2024 11:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8009F10E618;
+	Thu, 29 Aug 2024 11:03:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lJodMu4X";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="cNNsHaDS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22AED10E613
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:01:35 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-42bb7298bdeso5141785e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 04:01:35 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B72B10E61C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:02:59 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-428e3129851so4765605e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 04:02:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724929293; x=1725534093; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=bXo6HubkCKATDdKmpK9Rg0frF1Oj5dEqDFqJTWbwDPA=;
- b=lJodMu4XR8M0kLwiy6b+ldwMGUOjEWczDu2BB/3Fk9s0yhLVV3u8jrwyfpDWKf28RH
- zXG7GEdzpf9fDKn/xxvmjz2GkjsnQIbPXTSHUPTncP6uz7SOpkpY/Sh1B7g2oJDI4XhD
- 4gVZQF+urUekKWVFsb4yEDsVCiAsjalQkI9DQQiVxMsd+EO082/bGZEExsCsx1vCArGv
- s5YAsWW9Eh+TV2NDyIhPCp/YhotxOmnyv5y4ZydAsNK/wHeno4ezPFOFtDRLrrKUsj17
- kat11+EHKYUD6a9pVKCYqAImFxAl+O6aCNg065GafeISmzmjCk29wyd+x4h7m8UZWRop
- F+qw==
+ d=ffwll.ch; s=google; t=1724929378; x=1725534178; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=6mqsPp8bptpJDjAoZFo/p73HAkDP5w2aHLYLqUESpZk=;
+ b=cNNsHaDSy653z34fmieknVNEeYsIa63y53ahLvEUN+04WYfIPAHoUTR6T3/pnb0M9D
+ rsVTte2SXWxxuZPYJsfofShBNkn2R+dkr2OsdUp9EsbPwHtY7W+oUmw4z32yO+jmTXSB
+ 6GzSQrnTJAFz1egd/B6K1/R4KU2vfKr0bjucs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724929293; x=1725534093;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=bXo6HubkCKATDdKmpK9Rg0frF1Oj5dEqDFqJTWbwDPA=;
- b=ubPteFPiABNNZzST0Or52kAiyzxyMBQssiL+zbY6D8IOY70TztvKyFRIz9h2soDGVX
- 4f122Nqb66eSug9sNNRcG6+IkV0yokMZJLYXR2EcENLMkW8DSKS4vxp57nbZNpSqWDyJ
- /lykbgwXjT3gWZviiV2qxAf7ANit4yBElKecdUpnDJrCNyhxUfbRwYSN4Xd6/Hr9un5C
- 2ktQcOUjVkE3BV8+roIKjyO7wuTh3ALzQ3tCsJPlTr+qADtlH9yT633Wt8nF6ZyPXUD0
- iyFkNyrube31hU+ENJvV7hjIOyNnEz0R1v0sKXZiANvnf0OLpPfXoFPwilDxuzlRGP42
- MZqA==
+ d=1e100.net; s=20230601; t=1724929378; x=1725534178;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6mqsPp8bptpJDjAoZFo/p73HAkDP5w2aHLYLqUESpZk=;
+ b=FRN6FG2etguVsJ5ZaYDqmqLjv1Kzs58Ok3NNeiXzZd/PTuYSdvv0EkvzAKfbcL7bmT
+ RhW0gDp6ycVBSRi7eb42FSO/0zKnd2BiLLzLgEq50YC7WKkb6Y4J4Jp9NYa6tpvXwVJi
+ fAJz1YfFqKYVyR6chQQFgzQ70Y/ubxkWzgCUzg1ZtA7+Xd6KgiAGgY0zSNiWmz+zPpMz
+ /L957HScKQFp4+UV/KJs0HAr4Nk3zRohSgOfgIDAKE0ELmp0fwtho9887ujSKKBcu8JL
+ 1SC+aIm1bwGn7HksT/uTAs6r4k87rEASJI+smPWoI2pr1NmuMkxYZM9A4RCY7NSfSj/B
+ igCQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXI5nSJ2arZvVS9j7MeBkdBvVArQLTAMHzZZw9O0JuWpVEtl82XN+vZP2mIRWkWn8BTgbe/tSXkM1w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz38X8asb7fIqX8sP5Y+jciBSLHANuvz9UmsmXrGCembqe76qSo
- IlSm73FnsCGS6ehVyDG5zF+wWf2jZlf7OgG+se1r2rblNbV2UAVMaFp6v77o4YU=
-X-Google-Smtp-Source: AGHT+IEGRHFHlM0ZIqrANJERtt9IfqKCUYiVh/PmrfILo/hL0bRzQIewiOrQKcnbyufRBxVZ5itMFg==
-X-Received: by 2002:a05:600c:4f42:b0:426:6b14:1839 with SMTP id
- 5b1f17b1804b1-42bb0136dadmr25924465e9.0.1724929292917; 
- Thu, 29 Aug 2024 04:01:32 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:12f5:c9c:a0e1:6915?
- ([2a01:e0a:982:cbb0:12f5:c9c:a0e1:6915])
+ AJvYcCUpUhAlX7GJbZ632NZu1r2uBU9Lom8W+XyCabaPIA/m8YQH8PtvbEiUMqibHZUWJe2VYh1ZPzP6XR4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAvP42izzgsetVPJBMPIgsxxD8q4Zd2f9FMBIoInviZLpNd1HI
+ 1RRGw/z+V5+iUC959S2kSjZTsg9rUsGg8sEpDV8oCeSAhETdK3j0+19V2tVAheI=
+X-Google-Smtp-Source: AGHT+IFMxT7ZEj7QsLBwZwGx4AoRT837fx6N1ZbdqOnqOykFMJF2sfesO4JGjNAKvpHE1V384OFUbQ==
+X-Received: by 2002:a05:600c:1c18:b0:428:f0c2:ef4a with SMTP id
+ 5b1f17b1804b1-42bb01bac77mr17913345e9.13.1724929377396; 
+ Thu, 29 Aug 2024 04:02:57 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42b9d9561b1sm57733065e9.0.2024.08.29.04.01.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2024 04:01:32 -0700 (PDT)
-Message-ID: <2da89096-a68e-4b9e-ae45-87ccc76c9c72@linaro.org>
-Date: Thu, 29 Aug 2024 13:01:31 +0200
+ ffacd0b85a97d-3749ee4a57bsm1137097f8f.20.2024.08.29.04.02.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Aug 2024 04:02:56 -0700 (PDT)
+Date: Thu, 29 Aug 2024 13:02:54 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, matthew.auld@intel.com, daniel@ffwll.ch,
+ "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>
+Subject: Re: [RFC PATCH 23/28] drm/xe: Add SVM VRAM migration
+Message-ID: <ZtBVXjNf1xAQOHHR@phenom.ffwll.local>
+References: <20240828024901.2582335-1-matthew.brost@intel.com>
+ <20240828024901.2582335-24-matthew.brost@intel.com>
+ <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
+ <cbe8aebe-fcad-4ff0-8f56-146628183fd3@amd.com>
+ <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2] drm/panel: novatek-nt35950: transition to mipi_dsi
- wrapped functions
-To: Doug Anderson <dianders@chromium.org>, Tejas Vipin <tejasvipin76@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240828182210.565861-1-tejasvipin76@gmail.com>
- <CAD=FV=V71VzJk81YALO4ufohL0a4EQuqZVXavbpM=bqHgsf0sw@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CAD=FV=V71VzJk81YALO4ufohL0a4EQuqZVXavbpM=bqHgsf0sw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,37 +87,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/08/2024 21:26, Doug Anderson wrote:
-> Hi,
+On Thu, Aug 29, 2024 at 11:53:58AM +0200, Thomas Hellström wrote:
+> But as Sima pointed out in private communication, exhaustive eviction
+> is not really needed for faulting to make (crawling) progress.
+> Watermarks and VRAM trylock shrinking should suffice, since we're
+> strictly only required to service a single gpu page granule at a time.
 > 
-> On Wed, Aug 28, 2024 at 11:26â€¯AM Tejas Vipin <tejasvipin76@gmail.com> wrote:
->>
->> Changes the novatek-nt35950 panel to use multi style functions for
->> improved error handling.
->>
->> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
->> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
->> ---
->> Changes in v2:
->>      - Style changes
->>      - Fixed changes in logic
->>
->> v1: https://lore.kernel.org/all/20240824084422.202946-1-tejasvipin76@gmail.com/
->> ---
->>   drivers/gpu/drm/panel/panel-novatek-nt35950.c | 211 ++++++------------
->>   1 file changed, 66 insertions(+), 145 deletions(-)
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> 
-> Neil: Let me know if you want to land this or you want me to land it. Thanks!
-> 
-> -Doug
+> However, ordinary bo-based jobs would still like to be able to
+> completely evict SVM vram. Whether that is important enough to strive
+> for is ofc up for discussion.
 
-I was already applying stuff so I applied it !
+My take is that you don't win anything for exhaustive eviction by having
+the dma_resv somewhere in there for svm allocations. Roughly for split lru
+world, where svm ignores bo/dma_resv:
 
-Thanks
-Neil
+When evicting vram from the ttm side we'll fairly switch between selecting
+bo and throwing out svm pages. With drm_exec/ww_acquire_ctx selecting bo
+will eventually succeed in vacuuming up everything (with a few retries
+perhaps, if we're not yet at the head of the ww ticket queue).
+
+svm pages we need to try to evict anyway - there's no guarantee, becaue
+the core mm might be holding temporary page references (which block
+migration) or have the page locked (which also block the migration). But
+as long as those two steps succeed, we'll win and get the pages. There
+might be some thrashing against concurrent svm faults stealing them again,
+but they have a disadvantage since they can't steal dma_resv_locked bo.
+And if it's still too much we can stall them in the page allocator.
+
+So it's not entirely reliable, but should be close enough.
+
+Now for bo based svm the picture isn't any different, because holding
+dma_resv is not actually enough to migrate svm mappings. We still need to
+hope there's no temporary page references around, and we still need to
+succeed at locking the page. And the migration code only does trylocks,
+because that's it's deadlock prevent algorithm if different migrations
+needing the same set of pages, but acquiring them in a different order. So
+we win nothing.
+
+Worse, if dma_resv does actually hold up svm migration and reclaim, then
+we potentially deadlock because that lock is for a bigger range than
+individual pages (or folios). And the core mm assumes that it can get out
+of a deadlock bind by (at least stochastically) eventually succeeding in
+acquiring/locking down a single page.
+
+This means we cannot use dma_resv tricks to give the ttm world an
+advantage in exhaustive eviction against concurrent svm faults. Or at
+least not more than we can do without by just stalling svm faults that
+need to allocate gpu memory (but that must happen without holding locks or
+we're busted).
+
+So the only benefit I'm seeing is the unified lru, which I'm not sure is
+worth it. There's also a bit a lru design tension here, because for the bo
+world we want objects that are locked to stay on the lru, so that the
+competing processes can figure out who has the winning ww ticket. The core
+mm design otoh does isolate pages and remove them from the lru when
+they're acquired, so that they don't gunk up other processes from trying
+to make forward progress and are better hidden. Which reduces temporary
+page references (from lru walk) preventing migration and stuff like that.
+
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
