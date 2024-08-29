@@ -2,44 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48306964725
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55B5964732
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 012CF10E1A9;
-	Thu, 29 Aug 2024 13:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B817F10E6B2;
+	Thu, 29 Aug 2024 13:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7B15E10E0BB
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 13:48:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 48E1FDA7;
- Thu, 29 Aug 2024 06:48:50 -0700 (PDT)
-Received: from [10.57.80.208] (unknown [10.57.80.208])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E343F3F762;
- Thu, 29 Aug 2024 06:48:20 -0700 (PDT)
-Message-ID: <c194101d-95fe-428b-b47d-64f473c6c52e@arm.com>
-Date: Thu, 29 Aug 2024 15:48:27 +0200
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF15610E6B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 13:51:21 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-69483a97848so6526727b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 06:51:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724939479; x=1725544279;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oO+LwtIAdtwbqPzFoJJxjo3VESdONs3yqV/pQ3ireRc=;
+ b=f3mCqdwWQKNsUIM1NLYv4lYPE8o44OvzDiUl0Kt9Mhz59QiXsjB8TzFFPjXwuIAfnE
+ XlVBXslT81OZh/GX6uWkDulSWH9ufxk5RSq12aaS048QiLod7y3Crkhs2b6KPvHJsB2P
+ 9Nr7O+IGOD4DfinT+6E5H9QCBKsjAxlBTWQMfkIhdr6rcGMw3ANVLO+sCErXV19w2x1A
+ 86Owqp7k7lTzsp54co9F+/gLWSJ1XiuGtmJCcpsoeVEwt0LxA40G/7bdOy/H51g0VEuT
+ LTiPXcmpB2KmbT8+R5OXgUisJ5h3oUzRqrElwxTaPA+DWRDKqOxIir4pgtj9v8od61Bd
+ vZRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbYBN62pQgpDhcHCK7JHojnuChsS+n3L39/OrkZ2VAQENUq1KP7ICdcJ2po6pEXCj0BPUhOfVf8io=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyIkdrmHWL6zT50zRAtgqsgduG1GtY/1Fu1ZG0gAwhoBvG3ejrA
+ 1NMf8aBXvPNy5g2l7X0J9G1g7HzqfqCb8jXK1TyHWX9O0mwZSEMaRrsnFd9K
+X-Google-Smtp-Source: AGHT+IEaF5Zzly96WFyGYFefs7PyQ8FW6bjaRwXwY7MlXoJiU+6CJmd3Ls+UpCAwDTuVzfpZCthPlQ==
+X-Received: by 2002:a05:690c:288a:b0:63c:416f:182d with SMTP id
+ 00721157ae682-6d276403004mr26978007b3.12.1724939478931; 
+ Thu, 29 Aug 2024 06:51:18 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
+ [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6d2d57dedb5sm2468937b3.95.2024.08.29.06.51.17
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Aug 2024 06:51:17 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-e13d5cbc067so721461276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 06:51:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGsg6JH4UPCnkWk2NkKw+w7QEmG56iEub7EFKpN6z73sl9S9lAJ1T4VenziOgeIiRrI04YId9BFYw=@lists.freedesktop.org
+X-Received: by 2002:a05:6902:1028:b0:e16:6785:1a5b with SMTP id
+ 3f1490d57ef6-e1a5ab72c0emr3573138276.14.1724939477651; Thu, 29 Aug 2024
+ 06:51:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/10] drm/panthor: Add user submission
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
+References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+ <9c6116fd-d32d-4150-b0dd-91b8e1a539f2@linux.dev>
+In-Reply-To: <9c6116fd-d32d-4150-b0dd-91b8e1a539f2@linux.dev>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 29 Aug 2024 15:51:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW_Uc+ghgXNiW_yvsYdR1_wdQ9_Vskw4GBthysWUCoiXw@mail.gmail.com>
+Message-ID: <CAMuHMdW_Uc+ghgXNiW_yvsYdR1_wdQ9_Vskw4GBthysWUCoiXw@mail.gmail.com>
+Subject: Re: drm: renesas: shmobile: Add drm_panic support
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>, Akash Goel <akash.goel@arm.com>
-References: <20240828172605.19176-1-mihail.atanassov@arm.com>
- <c64be651-2f40-4535-a537-b8304e6556ce@amd.com>
-Content-Language: en-US
-From: Ketil Johnsen <ketil.johnsen@arm.com>
-In-Reply-To: <c64be651-2f40-4535-a537-b8304e6556ce@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,139 +84,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/08/2024 11:40, Christian König wrote:
-> Am 28.08.24 um 19:25 schrieb Mihail Atanassov:
->> Hello all,
->>
->> This series implements a mechanism to expose Mali CSF GPUs' queue
->> ringbuffers directly to userspace, along with paraphernalia to allow
->> userspace to control job synchronisation between the CPU and GPU.
->>
->> The goal of these changes is to allow userspace to control work
->> submission to the FW/HW directly without kernel intervention in the
->> common case, thereby reducing context switching overhead. It also allows
->> for greater flexibility in the way work is enqueued in the ringbufs.
->> For example, the current kernel submit path only supports indirect
->> calls, which is inefficient for small command buffers. Userspace can
->> also skip unnecessary sync operations.
-> 
-> Question is how do you guarantee forward progress for fence signaling?
-> 
-> E.g. when are fences created and published? How do they signal?
+Hi Sui,
 
-Current XGS queue is built upon an instance of the DRM scheduler, and 
-XGS jobs which can not complete immediately are assigned a fence (as one 
-would expect). This proposal rely on the DRM scheduler timeout to ensure 
-forward progress if user space have encoded a "bad" stream of commands.
+On Wed, May 29, 2024 at 1:31=E2=80=AFPM Sui Jingfeng <sui.jingfeng@linux.de=
+v> wrote:
+> On 5/27/24 21:34, Geert Uytterhoeven wrote:
+> > Add support for the drm_panic module, which displays a message on
+> > the screen when a kernel panic occurs.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+>
+> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
-PS: We have tried to consider error propagation in case of timeouts, but 
-the implementation in this area is most likely somewhat missing ATM (not 
-tested).
+Thank you!
 
-> How are dependencies handled? How can the kernel suspend an userspace 
-> queue?
+> > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> > @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_d=
+rm_plane_helper_funcs =3D {
+> >       .atomic_disable =3D shmob_drm_plane_atomic_disable,
+> >   };
+> >
+> > +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_hel=
+per_funcs =3D {
+> > +     .atomic_check =3D shmob_drm_plane_atomic_check,
+> > +     .atomic_update =3D shmob_drm_plane_atomic_update,
+> > +     .atomic_disable =3D shmob_drm_plane_atomic_disable,
+> > +     .get_scanout_buffer =3D drm_fb_dma_get_scanout_buffer,
+> > +};
+> > +
+> >   static const struct drm_plane_funcs shmob_drm_plane_funcs =3D {
+> >       .update_plane =3D drm_atomic_helper_update_plane,
+> >       .disable_plane =3D drm_atomic_helper_disable_plane,
+> > @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct sh=
+mob_drm_device *sdev,
+>
+>
+> Maybe a shmob_drm_plane_create_primary_plane() plus a
+> shmob_drm_plane_create_overlay().
+>
+> I remember Thomas told this way or something similiar, call untangle.
 
-Mali FW will send IDLE interrupts when a group has become idle. This is 
-already (mostly) handled in Panthor today.
-There is of course the race to handle then, between GPU IDLE and user 
-space submitting new work.
+Hmm, that's what we had until commit c228823426ae509f ("drm:
+renesas: shmobile: Unify plane allocation")...
 
-I'm actually working on this part right now. As this patchset stands, it 
-doesn't check in the RTPM suspend callback if user space have managed to 
-submit more work in the timeframe between "IDLE" and RTPM suspend 
-callback. I just need to correctly "unbind" the group/queues, unmap the 
-IO pages used, and abort the RTPM suspend if I detect that user space 
-have managed to submit more work.
+>
+> >       splane->index =3D index;
+> >
+> > -     drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs=
+);
+> > +     if (type =3D=3D DRM_PLANE_TYPE_PRIMARY)
+> > +             drm_plane_helper_add(&splane->base,
+> > +                                  &shmob_drm_primary_plane_helper_func=
+s);
+> > +     else
+> > +             drm_plane_helper_add(&splane->base,
+> > +                                  &shmob_drm_plane_helper_funcs);
+> >
+> >       return &splane->base;
+> >   }
+>
+>
+> Anyway, it looks good to me.
 
-> How does memory management work in this case?
+Thanks!
 
-Not sure exactly what you refer to here. There has basically been no 
-change to how we handle memory.
+Gr{oetje,eeting}s,
 
-If you think of how GPU jobs and VM_BIND interacts, then the change here 
-is that it is now the XGS job and VM_BIND which interact. XGS takes on 
-the same duties as the GPU jobs with kernel submission (in this regard).
+                        Geert
 
-Actually, if you see the submission flow for GPU jobs and XGS jobs, you 
-will find that they are virtually identical when it comes to setting up 
-fences and dependencies. Same goes for VM_BIND jobs.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
---
-Regards,
-Ketil
-
-> Regards,
-> Christian.
-> 
->>
->> This is still a work-in-progress, there's an outstanding issue with
->> multiple processes using different submission flows triggering
->> scheduling bugs (e.g. the same group getting scheduled twice), but we'd
->> love to gather some feedback on the suitability of the approach in
->> general and see if there's a clear path to merging something like this
->> eventually.
->>
->> I've also CCd AMD maintainers because they have in the past done
->> something similar[1], in case they want to chime in.
->>
->> There are two uses of this new uAPI in Mesa, one in gallium/panfrost
->> (link TBD), and one in panvk [2].
->>
->> The Gallium implementation is a naïve change just to switch the
->> submission model and exercise the new kernel code, and we don't plan
->> on pursuing this at this time.
->>
->> The panvk driver changes are, however, a better representation of the
->> intent behind this new uAPI, so please consider that as the reference
->> userspace. It is still very much also a work in progress.
->>
->>   * patch 1 adds all the uAPI changes;
->>   * patch 2 implements the GROUP_CREATE ioctl changes necessary to expose
->>     the required objects to userspace;
->>   * patch 3 maps the doorbell pages, similarly to how the user I/O 
->> page is
->>     mapped;
->>   * patch 4 implements GROUP_KICK, which lets userspace request an
->>     inactive group to be scheduled on the GPU;
->>   * patches 5 & 6 implement XGS queues, a way for userspace to
->>     synchronise GPU queue progress with DRM syncobjs;
->>   * patches 7 & 8 add notification mechanisms for user & kernel to signal
->>     changes to native GPU syncobjs.
->>
->> [1] 
->> https://lore.kernel.org/amd-gfx/CADnq5_N61q_o+5WYUZsZ=qu7VmeXTFHQSxLwTco05gLzHaiswA@mail.gmail.com/t/#m116a36a598d8fad1329e053974ad37a4dc0f28ed
->> [2] 
->> https://gitlab.freedesktop.org/larsivsi/mesa/-/commits/panvk-v10-usersubmit?ref_type=heads
->>
->> Ketil Johnsen (7):
->>    drm/panthor: Add uAPI to submit from user space
->>    drm/panthor: Extend GROUP_CREATE for user submission
->>    drm/panthor: Map doorbell pages
->>    drm/panthor: Add GROUP_KICK ioctl
->>    drm/panthor: Factor out syncobj handling
->>    drm/panthor: Implement XGS queues
->>    drm/panthor: Add SYNC_UPDATE ioctl
->>
->> Mihail Atanassov (1):
->>    drm/panthor: Add sync_update eventfd handling
->>
->>   drivers/gpu/drm/panthor/Makefile          |   4 +-
->>   drivers/gpu/drm/panthor/panthor_device.c  |  66 ++-
->>   drivers/gpu/drm/panthor/panthor_device.h  |  35 +-
->>   drivers/gpu/drm/panthor/panthor_drv.c     | 233 +++++++-
->>   drivers/gpu/drm/panthor/panthor_fw.c      |   2 +-
->>   drivers/gpu/drm/panthor/panthor_sched.c   | 408 +++++++++-----
->>   drivers/gpu/drm/panthor/panthor_sched.h   |   8 +-
->>   drivers/gpu/drm/panthor/panthor_syncobj.c | 167 ++++++
->>   drivers/gpu/drm/panthor/panthor_syncobj.h |  27 +
->>   drivers/gpu/drm/panthor/panthor_xgs.c     | 638 ++++++++++++++++++++++
->>   drivers/gpu/drm/panthor/panthor_xgs.h     |  42 ++
->>   include/uapi/drm/panthor_drm.h            | 243 +++++++-
->>   12 files changed, 1696 insertions(+), 177 deletions(-)
->>   create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.c
->>   create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.h
->>   create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.c
->>   create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.h
->>
-> 
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
