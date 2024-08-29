@@ -2,171 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA629647C9
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D67896486D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:30:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2579810E1A5;
-	Thu, 29 Aug 2024 14:17:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B836210E6BE;
+	Thu, 29 Aug 2024 14:30:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J7RdZiAV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sAHtI5Fk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E2210E03F;
- Thu, 29 Aug 2024 14:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724941029; x=1756477029;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=Z7kd1w+GkITtiBDTuq5GZXCAVaG1/EwXtDhgDZ5CVvU=;
- b=J7RdZiAVYj6OtwC6Vu3p4dWsH8fEkXYEJg2ouP90i2t+MHIjElZR+3dk
- enMPo0PFqkGJeo+sRdWQwBLNkzxXhF2r6BJ1dpPiymWIdLFElc4kHEmWa
- auz38cDpFHUkSC1l2ZOO79i5R1hxvBl9NOfol/Ntx7zJS5HkkLQlsk7Jy
- a3mw8L6dP8WcC2vU4P7MbypN2nA4hEAVwV+xJDZhtXPMGslKtxNLvcrYA
- H1do1M3Bv6EvGlnc0V4jDFTTUTJAGei1//5/SXjInYMd9bx5yS5YAcfOZ
- Z3S/UxZitQUEPf1eYVEAX03fdFx5gPpbzx6egvUccJlFegIcacY7Urien A==;
-X-CSE-ConnectionGUID: gkIEIAzuQduhW4SFAnTb2A==
-X-CSE-MsgGUID: cFREmVQYSDGN0FrtVurSyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34940430"
-X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; d="scan'208";a="34940430"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2024 07:17:08 -0700
-X-CSE-ConnectionGUID: DPSPKQu9TCGrWYwkWMGlGQ==
-X-CSE-MsgGUID: mVAGZyVtSequApW2NdRYdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; d="scan'208";a="68370134"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 29 Aug 2024 07:17:08 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 29 Aug 2024 07:17:07 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 29 Aug 2024 07:17:06 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 29 Aug 2024 07:17:06 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC7810E6BF;
+ Thu, 29 Aug 2024 14:30:23 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g6lDeqcTHhwYD4A/84MtZ/EVxT1yDDmtw+tFuZftH7Rt7WjzUm+75+PBmHAqvVbYNOCZCTil5+X4ZIsszrH0gxahETq4g1126aUvrKR+JyDC0rAEYGjr6KQ/dMIBUHqNbacMPP/jWh8tLQiCZnlt4zr60OsjJM6SWhQP09AKZOEzQjMr1iNqYg0euaGUwjBcKro42xWGohCu99SLEjlnhEt5GwKMWZEukSHDsthi14TeaMiMxqcKYfFmphU47Df/SU7wwiS9sMhgbPByI4dpKGJ3pZ9bhdGvmdcCQFySOrZhy1XrTFwwLMpSQia10C+xAO15cmgcdbux9pLka8vBOg==
+ b=IBUxAQTAK873Z2FJAFqXH1XBwTuk8crLLb9cV1fYMuMdnSmSnEZSSr6iuqBuoQhLCkLRmqlrjGCz3jT9aXokNfWBuokf+DfCQYdM2U1CYtxweztRp8ip1xTf3zhc7dgrXfu0ONsVESpHB88MGgKTcGE90C10VR+BSAmMLL6wbHN+28NOfYGTOiyjkmytqpHJYpvnmFXCK7Wz64ObgJJbwfwweATju6wgn9q/TDNRmoD9Z3/zadieCFy0XwdpwlEfKkIXkVi16C2UNDbZ51/3gjJMmqtlOT6EHVsSKVixlBW3IKY2gWHgJzkY0oPuZ0ixXoVJMYQIuJubfnkUt3EhJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wOrHG2YZ/zCifizbcwa0GIapDbSAx9m5J09dfdQ0sc8=;
- b=OWPObAQ5ud6bSFEohBjVhy/0j1oIM+nS2IHtpDCOfzMLtrPoP3oeBTCAtW6DWeoac8jamf+BV/Kwi+iPfHWnR2ln3a8TvzuTcvMZ2B79IYE9dtt158nEUfB8xcKFFnDe5rcZZQspP0u8GWljedXhYfLjQrZSF3o6c83zbzQpYcYNZZCYhuoHUNFne0ueYvotIPLMoCUXIJZgyFP9bIhHFlUBISgkTZdmsqHt8/FVJGOg51Xym38/wxoxYM3qaKrtvjn7yr6+Nyyd2lhCYAlJUyOWEkm3IUxi4wE12Fdd1EM1lI5z3mOkigDizLhzk6eROH8T2suCG+X7LZJsQEvIEw==
+ bh=Cm9mcvAqS+WiUFN4pf56/HlVvtzUEkAtSl8NNfsjZXA=;
+ b=uFS7jEItYTjomMo3SPPEUwjW0gMDRKu6LwpmNHMCBqnStPai8zhX5r1Xl9JH6Rk7k5KHzNYH0SWymVkeJjj6QpKTGBrQuRU9KeQuZLvJaAe54NA3ISEViP8eQiFvefNcH/fVknm8HhXjx2y78snLNpqp9GoCb4oMkyAg+68D4TLv+MUioMCjEq/nvpwmJHquFCOs8FS+Nn1OZiJuYArMRD3293N14Kc8+AjGPw0IC5Vm3mkTg94zDbf7FJ85u/xGwET0M5OZmzVp4LWvwQ7RGdHN98JHtPmWQTBNapkLBj12oMn9aGlMN/EzD3Vrf0Wz4N2y8LyRBHc5YHmWqoG5og==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cm9mcvAqS+WiUFN4pf56/HlVvtzUEkAtSl8NNfsjZXA=;
+ b=sAHtI5FknFk2FI6csuizpERhiPkbkBPJD9/9fOhOTdw5+qWL3xwFwiusLOzDVnvcPfmwOuUd7f1KnGh7bstgfySjOZ6RVvsspnsoSHP0oxRpAqe9XaWn7/6uHrdrNIHNIVTMMzg3aTNfm3uyMZ9lrokvE+YL6nkPmSSecU4m6I0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
- by MW3PR11MB4553.namprd11.prod.outlook.com (2603:10b6:303:2c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Thu, 29 Aug
- 2024 14:16:59 +0000
-Received: from BYAPR11MB2854.namprd11.prod.outlook.com
- ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
- ([fe80::8a98:4745:7147:ed42%5]) with mapi id 15.20.7897.014; Thu, 29 Aug 2024
- 14:16:56 +0000
-Date: Thu, 29 Aug 2024 10:16:50 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dim-tools@lists.freedesktop.org>
-Subject: [PULL] drm-intel-next
-Message-ID: <ZtCC0lJ0Zf3MoSdW@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB8903.namprd12.prod.outlook.com (2603:10b6:610:17a::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Thu, 29 Aug
+ 2024 14:30:17 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.019; Thu, 29 Aug 2024
+ 14:30:17 +0000
+Message-ID: <c7c0aea0-cbf8-48cb-829e-a9c7b1766494@amd.com>
+Date: Thu, 29 Aug 2024 16:30:11 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 23/28] drm/xe: Add SVM VRAM migration
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, matthew.auld@intel.com, daniel@ffwll.ch,
+ "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>
+References: <20240828024901.2582335-1-matthew.brost@intel.com>
+ <20240828024901.2582335-24-matthew.brost@intel.com>
+ <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
+ <cbe8aebe-fcad-4ff0-8f56-146628183fd3@amd.com>
+ <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0387.namprd04.prod.outlook.com
- (2603:10b6:303:81::32) To BYAPR11MB2854.namprd11.prod.outlook.com
- (2603:10b6:a02:c9::12)
+X-ClientProxiedBy: FR4P281CA0006.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::17) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|MW3PR11MB4553:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3acab90-b061-4f09-8586-08dcc8353cc4
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB8903:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fe145de-526d-41cf-d338-08dcc8371a75
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?lkBB/9P1FClPah2swHfyiIwCIXUaud4iqFY5Fhi9hZZL8uXvqPlqfkQ6CV?=
- =?iso-8859-1?Q?q56J0Wq6md9gxiTyf5PCZqhFYNuQhYbsCRiot1JjawDeh2MCESDUr0/qoB?=
- =?iso-8859-1?Q?jOamC+2nmPAlK2OTnlnaDRCUtPzMGOM4Kthgo7Nbr3SdrAXGmvraAMd9Q5?=
- =?iso-8859-1?Q?eNZBk+2C6sUY7i2/MY2m0YpD4qMVAuMELP8DA7dY+NPMCy5C6euxqFKS9x?=
- =?iso-8859-1?Q?/xvmX4t1TlO3Kfz5nzppvVP5706PmKkx7Nu851hpiO/YQTUOiwRTfE13ZR?=
- =?iso-8859-1?Q?ilLAsJW/1G9AvAyEhslqjKf29eh+YqS7bY+wcv4PYNFvjYVscyt/83x70D?=
- =?iso-8859-1?Q?IV39/ybaKCExGyF01GObf7U3ZJ5g5YceIiulFGkKELHvgNi2L5pazgUVuo?=
- =?iso-8859-1?Q?X48e3cPZwMa/XIAhskyICbVF5i8sGkbtYN/WYgk3wmpzftZo57RB7Tetz8?=
- =?iso-8859-1?Q?gN/AeDY11vgbqS3I/CNjc+aYIR8eJY7qRMT5q3iXLv9QKSSXvdINp9ctKE?=
- =?iso-8859-1?Q?BpYaiqfqk0Lzk7gxbyWIc+VnSaa/aaKYgcYgor8M4b6XXrgIQAnRyNyG4i?=
- =?iso-8859-1?Q?rcponr7mMsNtTcNvFoywLR7JxTm6NNjsvkv/MflaDyhpfUUd0e8Ksh3iqP?=
- =?iso-8859-1?Q?HuwbUzS3WI4uqNoKfb9gJHtFmEwQn8Jq4l48b+Sr3aJamvbVaJUj4bFkor?=
- =?iso-8859-1?Q?Xe6xTB4AXhGECz2BgChUhgf/fcG8WgyZy8AngDbFl/HY2nphm4tsd8HW+H?=
- =?iso-8859-1?Q?DqH6zs7sPlWIB/oOJ2I9GHJvf8h/E19VHgfNsfl94EoE9bDDUeHF9tgC2K?=
- =?iso-8859-1?Q?R0JaQRnoPBDZjtW+FHaEEuFmHejOMFLr/UUbSL5GJi2r4AVwWAjOVEmxJG?=
- =?iso-8859-1?Q?4a36zZ2Oo2ytJwotfuTF7akwg8nEVuB2nEBiMWcWRpJRUaldBMSVfsJM/e?=
- =?iso-8859-1?Q?2h0/oT56S2OdndNF5QRth90M4HlHzEgCLkeAQZz+8YxDXQSvBuVaR024ZX?=
- =?iso-8859-1?Q?xk4YX+xOL2pJA1fjO8qnN2Q+HYZbEqf/8gM2GASaATqejd8r2lEbNw2/X9?=
- =?iso-8859-1?Q?016EBr7HkmsDeABSm/XFQubYp6nm7R8DrVNxUvsrBPbyYAGOUMsB3NVH++?=
- =?iso-8859-1?Q?yHFeSVMFZ6mJO+tH/vLlh5SiTVVicQoA+autKThrFMkxkocb0C8nIR4/aA?=
- =?iso-8859-1?Q?Mvc70/p2VfULfBCY8ZhruKd9XC2XAYVx0vO7+qhw9RBl4vMkejoiQESRaa?=
- =?iso-8859-1?Q?pSNuisfPY2xbofsqHlOBRcv8U5wMNEoUc0011+7YG3Q6NntknpdFH7AK/1?=
- =?iso-8859-1?Q?STC/o5d2TLaAY/vV484W0ABGodTxP8qGbGo64h/F/1LNV5o=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SjNIaHRyd3UwV2FVT2ZXM0pTY0k0NUExbVRmSlpuejBNMWx3c21UTmJENTlI?=
+ =?utf-8?B?dXNKeTlSZzlBWHgyaEpJQXFxQmgyZ2FDMzRQR01zYXVmaWNFTDcvRkZBNTBz?=
+ =?utf-8?B?blpyMTN5ODRrSGRYQmlBZGJmUGZ0b3A5NlZuRDZpQjNmWGlNdzI2eCtYVnR5?=
+ =?utf-8?B?Y0prWWgxT1kvU0lFaWNrVkkwR3FuTHVQdlloRVZzMmVrd1ZSUjlxT2ZPOFQ2?=
+ =?utf-8?B?TzdzYVFhRUxKSkhyRWdBNS9MV3JZUlN1c011eU5ydzJHQ1B1SkJmemI5SmFU?=
+ =?utf-8?B?cStqMzM3THR5UFlrUzZGWVpSemQyR1M4bEN1bllDT1NXYXMwOUhkSCtWdWxa?=
+ =?utf-8?B?cnNpQW5mVE5jeVBTNXVKYVQ0bktiakQ1cDhFMTlwUVBKVzQzQ3draU5SSlhV?=
+ =?utf-8?B?V0U5amJGZWx2aWxtZGZsSGNSc0NCMTNaZnRSRXdhRE5WWG5hbEZOdjIwcU82?=
+ =?utf-8?B?d3orSzZQZjFXUE94bU04VEJ3OTFOT1ZSMGtPQWNZaSsyWmdUVGxBb3lydWwy?=
+ =?utf-8?B?c2ZxcitUR1FtNlhTbTZWbElqZFFuc2pZWncyVXR2ZmlzLzhrc0VSNFNUbXJP?=
+ =?utf-8?B?N2JVazJ2ZHJ0VCtoSUZzTmg0NUE0YmwyR3FjVDZvanI4aXNuMDlhR3pkK2xL?=
+ =?utf-8?B?NWIxMXFrVEFNd1VpWmVmZWRkK0ZGc2ZRQXlEK0xvNnF4NFNHeUMvbG1HM2FK?=
+ =?utf-8?B?cVZjUzg1MjVXSzdILzlqVS9jS2JnQ0dKSTV1VzQ5UHpLZHREeGJrMzcySlE1?=
+ =?utf-8?B?ZTc4MXpkbGNpRGNPZk5MZ09GcnBkcitWY3FPMkxXZHVDUjZFTGxLa0xrTWdX?=
+ =?utf-8?B?L0dXaytxbkptMU5TOHRLRlFHc0NCRlVpZEx5amU1enZicFdhODZrNjlFRm51?=
+ =?utf-8?B?VDhsT3pzaUZEL2JCOURNckRDeHczUGRjOE1sME9sSXFCMGN5VnpzWHZrSnhD?=
+ =?utf-8?B?d2x5SkYxSC8ydC8vT1ZFbVA1WUlrMFJLZEU2TWZoWHdIZjdkWVBGKzFCdU5G?=
+ =?utf-8?B?N1BHcFoxV3ZqVTluUTRZejlmSlVXVHNwYlJraDJybkd5cU1XbE5oOGFrVzVv?=
+ =?utf-8?B?R0RVWjUxSmxzM2hOTlQzVlpUbUMwdEYzNXg1LzExREd2R3ZPVjY4bkMwKzFX?=
+ =?utf-8?B?aEF0TW51Y2lkaC8yUlo4YzlOTGkxZzJBU05ET3JkWGRlV3hOWTdiWlc5RVRU?=
+ =?utf-8?B?OVUva0hWNXArNzl3bU1HV3Foa0dCZGIrQU04azNzdzM1Ymp6djlsb0xjV1V1?=
+ =?utf-8?B?ckpmMi9ZTkJDcGRXS2NiYlZmRE5PWmd5MDNuMzEyNVBlT2JydGZ4RWNHS08z?=
+ =?utf-8?B?QUc4cGp3SHREWnVMMmxWb2p1S1ZLeDRQWE5PMm03SktXYnFqd3BZd0hOTDg3?=
+ =?utf-8?B?M3lDYjRwYWljeEpmUUpHeURuMHkvKzRmcFBsU2V3K041cXlOUnlqSENNZGpD?=
+ =?utf-8?B?TEJBT0hwbFR5QXpXcFdRQjdGMmp3VnFXZ0FURTdjQi9aaTZqaFJYdi9xMGxu?=
+ =?utf-8?B?b2RIRjJlcVM5UjVQKzJyYWE4NXRVay8wcmEzcWh3eENSMnE4ckJWaE42T0ZV?=
+ =?utf-8?B?RmJ4NVU0U2QzcVRhWlNoMDArRldUYWRhRnN4ejRJYmFxRlhueXVVSGV1cnlv?=
+ =?utf-8?B?eU12TzQwQXlBL2ZYczBqQVZsaVNlbHJWN0Jyei9IQUQvd29YMlJTRHFRSmhM?=
+ =?utf-8?B?TlhWSmNudmREa0NCdTVqdmtXOG5aaVo4M2pjWGtWWXpqK0FtVmUzSThHWmNz?=
+ =?utf-8?Q?6MPZJMcqbgsG5ErodA=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?wDi9G7nNuje3Lhnu07VPw4ZUyaK1vWPTgoHkEkhRR6Q/Cs1Q9lNIco5xj7?=
- =?iso-8859-1?Q?zKZkGTgwDwTbZPUq8IsR6aCKNn037LIxH5XN2+m7cCYCnWwu1PGbLMUmR+?=
- =?iso-8859-1?Q?1xGZgdwVps2tIIDGCwOgtzdG9UfBfvXwdPHKITD57KZLU3DLUdItywvmhO?=
- =?iso-8859-1?Q?ncUnEJIGxGNFJQizA1VKFhfYCwbYGzbF6N9mrKZKUbLrc1stjX2TcUgm2s?=
- =?iso-8859-1?Q?NINmpnoPp/xVmiXsVDARuiMo0/PI2geI7V3/Fa4myGdrAEyNuKgo/xEJx2?=
- =?iso-8859-1?Q?FMTYg8/jZhjF6X+zumwuEMz+DHI4vni1zr3PEHv7MEtzqTpd6d0aIO4BOB?=
- =?iso-8859-1?Q?BF6+UvpBJnNNIB5zQeAGHIK6XC2uxMggYFjyFpQ4Iem80LQ7n/9MfiWj00?=
- =?iso-8859-1?Q?xCjTP4qewYtNjssZwD17oQj9mCQq3yLJcJyAhQa5IGE8bPwfvTFPFjRgxG?=
- =?iso-8859-1?Q?Ub8NUloR1mqPFWWmoXxRR2QwfoWDkSNS5oGCR8vyfk/8cQvAt/7mkbqfO7?=
- =?iso-8859-1?Q?zTczJgrEwQajN/cCDfjMhudXkFunA0fH0EwBW/GTJnoHsWYeZBvnLZb2yQ?=
- =?iso-8859-1?Q?tRfeSrsvFyvX6fR/XMp08ndsaphz0MUzRYU3vlPpbGs/FLN1Ga0locnLYx?=
- =?iso-8859-1?Q?BfzY2X2WrPH2y4Wyt8/LFh2OboikDpHIj+CupwfxiQZ87klO6ZVePFg0ip?=
- =?iso-8859-1?Q?azNrkicJMN1sHnFDxx7ErhE+CgannKe/nNFLEHZ67YeHK8ExHTzIOwCNal?=
- =?iso-8859-1?Q?EhIg5QiwR084T5K8nu6hHTC4PrbKMMHETiaxFem9PuXTY3nl4h1RD3sb7y?=
- =?iso-8859-1?Q?TTYcfc5esNiarR1VhoGN8t6UPU5dvlUrE1rbLt+mKDS0uscXkWSn3CXQvw?=
- =?iso-8859-1?Q?Yd8zcoS1kKRQTNgx3WnLrscIbtUj4N5TGD22Duy6lhFzggLlTUgi78N+e0?=
- =?iso-8859-1?Q?41UpZL5i4lfd7LNE1Lpx/pMhGbF4Oal93dFfEk7m05JUF6D/PZ/q9btZQP?=
- =?iso-8859-1?Q?pFcYsiJeP4+cm2yosvaRziDTrYxsmg90DGMdlHkRgQUeiGv11JXZydPOJG?=
- =?iso-8859-1?Q?641ygjxs4cXAj4CmgVxA8ZMCGtYrVJU89h3d92XsCwELr2d5b+L716/YO0?=
- =?iso-8859-1?Q?TGz65ANrAdGu9mwiTo4TzTI+Bko52XWBJMT/tiJwuZm2WYQIFvl2O5ceGu?=
- =?iso-8859-1?Q?qI3SVJgASdGlEr1tn/wggmxhnwN2Az53EoQ0ymKH+xLN/F5pGi42abZkZG?=
- =?iso-8859-1?Q?VAfW/+nXxi23Ndve72lOlnHkHI0Y9X9XMUXtSj6Ex1eocQMuggfJWdvuSg?=
- =?iso-8859-1?Q?AZFDLLP2mFQ0HZRdO94bp9oZu9TrmEppKTHEVguXRBgVFPwhbbftFWIlcr?=
- =?iso-8859-1?Q?VwdF2vuiO4EAnrYsAmBvudhyA4shJ8KBvJh1faJAcwctqPWa2itNIzfJDY?=
- =?iso-8859-1?Q?c+ng27sW8idS9Y7KvT0Obg5i8aC0PG57l2bhnG805fPB8UleidYOgBaoYc?=
- =?iso-8859-1?Q?31HYi/24A9rs3VrDSThZHDWROnxwaT0GXgxR2LFRTNXvrZT5CrKjY5Aq3n?=
- =?iso-8859-1?Q?aApsH+PaEDw5q9UofJEUgaLqS47ekllD10DVFIm1ujRvhpoGsh2YL8Wkql?=
- =?iso-8859-1?Q?yXNb+xinniEpnLSD7e7EEHXenFZ/LJuolgeFy1htRwLJjvg3QYYQ4Oww?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3acab90-b061-4f09-8586-08dcc8353cc4
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2JXWUtzV2JEUDVKSlFPNkpWZFdOT2d3YVc1bG9scDdhb0x5VGNnb3JkMUYr?=
+ =?utf-8?B?OU1PRGRJaldCYlRGSUxmbGVVN3NBSHhNbUNRVWNNNDJBVEdiWCtSWmZXWFAy?=
+ =?utf-8?B?d0FOZTRuTXhCUVE5YnpFaEI0Q3BTUXZjRnJNTm1qRDk1dDRNSzVYU0FEcWVG?=
+ =?utf-8?B?cmJBcVFkRGg0L3Y1a3hDamQ0V0ExeU41TXF4Mm1hdER0dWliQ1hJN1RmQlpO?=
+ =?utf-8?B?QksxSWk5OFFqNzFmd0ZDaCtDdXlHZUd5N3V6UjJqcHhZSVhtSTZPWCs4TXU2?=
+ =?utf-8?B?aGdBTGYzR3NtVUNyNCtPcjZwc1dXUVJqVEZQaFR2b1JmSndvTTdGRlVvcnhK?=
+ =?utf-8?B?OVBOSlJ1UnM2TDZlK1pOWlphd3pTRS91d21LdzErNHJvc044QVNNWTNPdDJv?=
+ =?utf-8?B?NXlyZGVzVTRoNTgvYzMzTzJsRWZxTVZrdUE1WlBHcXl2ODRKQVFxN090YjRH?=
+ =?utf-8?B?WjVIUTIvc3VvZ3JFMXlrOTVrVllWTlNFODVKOHBVNlcwVFNraW5RZTdxZmNh?=
+ =?utf-8?B?aFJ1M0FENEZja0doSEk3eEFuRHBMOFZmaWVOVXcxNVUxSEl0aFc2NUhJMUdM?=
+ =?utf-8?B?OTBIWmZuaE9GNXlSQmk4cmlXTjhKM01TUG1BK29ZRzk3TTZ1WVdUMFlEQ3RU?=
+ =?utf-8?B?QVZxOTgydEs5T3hCN2QxQU9oTDZkdUZaazJLV2dmblIxa2FtVS9Dc0xmTllG?=
+ =?utf-8?B?WFlSL2V1YndNa05tS1FoT0FEdjVNK0xyNjdHRUJLSFlUa2FNVVFFN3JYZ1hO?=
+ =?utf-8?B?VmZkZEplU2Z4ZmdXek5VOWZxOWp3MnJMSDl0bUV0cUxZeWxlMnhaZ2QxOXNG?=
+ =?utf-8?B?VUpaYnVxYnY5OHJLQTFjVisyaVdsc25DUzJYOGlFWEcvaEh2RGlNSTE3WFVW?=
+ =?utf-8?B?dDEyNzhzZjJYRHVRV3dlRU1WeGVsY2ZPYnpNZE5zdFFXV0dMWWlPdno4WjNH?=
+ =?utf-8?B?RVFxSXpjZEh0MENsb3R3MDhSSWM4YTJYT2Y4Zk00WGdhbnpXMW9mK2RJSi81?=
+ =?utf-8?B?MHNqekFzck1FNTdYMlp4bkhKTkdYSGtjSFlETG5uMnVkOWZ1NDA5eXhSbzVo?=
+ =?utf-8?B?ZlRicGhXaTBPbVZ6VUsxakRYbW41ZFJxS3JLY0ZYN3NBL0pVRTIrY3gvMVFV?=
+ =?utf-8?B?b3FjNHVlWG1KcDRldThmeXpCT0hzWC9CRzNzZ0xXVkF1VFJBSWlIV1FoS1hD?=
+ =?utf-8?B?bHRCNlpJdm9wSm95dW9DMEJpc2QvYitvWWJETzlrNjN0L1BJcWw4bzhQZVND?=
+ =?utf-8?B?U0NTWjkwNEI0Q0I0SUFKOGZQbWtNemdCdEZjQ0hYSEEySWZkZDQvL3BWMldJ?=
+ =?utf-8?B?QUVxUCtnb3BBODV6RUJzZU9kUHhyaUxVekpaQ3lrZ2RVeGNIUnp4eU1XakVx?=
+ =?utf-8?B?RXNFVDNZa1BiTXZ0eUg2aU9YVkNPQ050eW1VZDhudEg2WVFZRDdzRU1mN3N2?=
+ =?utf-8?B?emxBbEtjcFQyMFkyd3JyY1JmUmNCUlV5K0ZnVzg0SGt6NXJNbmN2QVYvNnlW?=
+ =?utf-8?B?Vkl2S1ROTlZWZExmREhlUHRra2NjQVd3UTBidzlBc1QrMzhIclJIVCtOZFZO?=
+ =?utf-8?B?eTlvb1BoekpjdkJPRnk2ajAvblRtMUdTQVFXWHZ5eVhYak9BYldZL21IbjBO?=
+ =?utf-8?B?SnBIbElvZXZxUTl5bldDVHFqNmpLNXZsa1NBRGxrcmhBTStROGlVbGtFNzA3?=
+ =?utf-8?B?V1hsRDlvKzJLb05mSW5pUjB4aXFORVRlQmkwRUt0RnNHdjd2a2ZVZnc5bzhp?=
+ =?utf-8?B?TzlZeGorRngrbkdGSlFNSXU4Wi82VjRpeHJ6M2ZIREp0bk41MzlCMUlYWm1o?=
+ =?utf-8?B?dmxtVE5xeGxaV2YzVm9oNlhnQXRJb2lZSzZOeGxQeTZWRFo1cTV6NnpjYjVy?=
+ =?utf-8?B?M0xlMFdNTmdjeGZ5SkNmT3pJaGVyQ1hRekhGN3kvYkpkN1dDdW5zcUd2TnhD?=
+ =?utf-8?B?akZOV0NhZytmRFBIYWFwS3h4VWI4MHFmNEorTzhkeHEybGhmVTd0NzR0R2JM?=
+ =?utf-8?B?SExYMHlPTDhGYnN3dE5kOFc0Q2JZMHR1OS9XMFVlKzROdXE3SkxnNHJRU2g1?=
+ =?utf-8?B?Qzk2dlhqSmhoak92YWdrWlppMW1YRkt3Z1pGWG5vL3l2Y1NKWHh1cGJsU3I0?=
+ =?utf-8?Q?Cze5BJTifOruavQ3Mva4z77/x?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fe145de-526d-41cf-d338-08dcc8371a75
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 14:16:56.1791 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 14:30:17.3683 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uDKszWIemlUkIPv3f9i1qb13t9tpt53wAm6Q477aZpX0AtGDatXZ0EJmBH4RzGm6Z9leVi4DjD8tSfe/qV2qgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4553
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: DNGjRrO1KFKlzr2vOFwVLyb0oZ0Zs2EZKfQhPxrMLXIf5YJLDiO0EGF9EzIUO+WF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8903
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,228 +166,408 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sima and Dave,
 
-Here goes our last PR of drm-intel-next towards 6.12.
-Most of it is display related clean-up towards intel_display isolation.
 
-But there are 2 cases that worth mention.
+Am 29.08.24 um 11:53 schrieb Thomas Hellström:
+> Hi, Christian,
+>
+> On Thu, 2024-08-29 at 11:24 +0200, Christian König wrote:
+> ...
+>
+>>>> - Unified eviction is required (SVM VRAM and TTM BOs need to be
+>>>> able to
+>>>>     evict each other).
+>>> So core mm handles this by just roughly equally shrinking
+>>> everything.
+>>> Seems to work, and it has a pile of object shrinkers, and the page
+>>> lru is
+>>> also split into page cache and anon memory.
+>>>
+>>> I think you need to put in more justification that unified eviction
+>>> is
+>>> required than just stating it, because a look at mm/ gives a very
+>>> well
+>>> established counterexample.
+>>>
+>>>> - For exhaustive eviction [1], SVM VRAM allocations will almost
+>>>> certainly
+>>>>     require a dma-resv.
+>>> So from the TTM side we need exhaustive eviction, or at least
+>>> something a
+>>> bit more exhaustive than what ttm currently has. Note that i915-gem
+>>> also
+>>> never really got to perfect exhaustive eviction, it's just a pile
+>>> better
+>>> than ttm right now.
+>> Please define what exhaustive eviction should mean? I think I know
+>> what
+>> it is and I have been pushing TTM into the direction of solving this
+>> for
+>> years.
+> We internally refer to exhaustive eviction being a client is always
+> guaranteed to eventually make progress in obtaining non-pinned vram,
+> typically by incrementally locking and keeping dma-resvs across a
+> single validation including validations during buffer object
+> allocations.
+>
+>> The last missing puzzle piece is to use drm_exec for TTM evictions,
+> and IMO keeping the dma-resv locks grabbed during eviction until at
+> least one unit of progress (one validation) has succeeded.
 
-1. Xe core changes for BMG. BMG requires, by design, 64k memory size
-alignment for scanout buffers using compression and 4-tile. So, we are
-adding a protection here to block framebuffers that are not aligned
-with that and that requires patches in both i915-display and xe core.
-Without this protection, we get some screen corruptions. So we need
-to propagate this along with the force_probe removal that Lucas sent
-yesterday with drm-xe-next pull request.
+Yes, exactly that. My guessed understanding was actually correct.
 
-2. Although Arrow Lake has pretty much same GT as Meteor Lake, it
-requires a new GSC firmware or HuC authentication and buffer
-protection might not work. So, we had to spin out ARL ids from MTL
-and introduce this new firmware requirement. At this moment no
-one should have HW with these IDs yet and we will propagate this
-to stable as soon as it hits Linus tree.
+>
+>> but
+>> apart from that everything should work now.
+>>
+>>
+>> Regards,
+>> Christian.
+> But as Sima pointed out in private communication, exhaustive eviction
+> is not really needed for faulting to make (crawling) progress.
+> Watermarks and VRAM trylock shrinking should suffice, since we're
+> strictly only required to service a single gpu page granule at a time.
 
-Thanks,
-Rodrigo.
+Yeah fault based memory management should be able to keep working as 
+long as the page isn't re-migrated before you make any progress.
 
-drm-intel-next-2024-08-29:
-Cross-driver (xe-core) Changes:
-- Require BMG scanout buffers to be 64k physically aligned (Maarten)
+Since the number of VRAM or system memory pages is very high that should 
+basically never happen.
 
-Core (drm) Changes:
-- Introducing Xe2 ccs modifiers for integrated and discrete graphics (Juha-Pekka)
+> However, ordinary bo-based jobs would still like to be able to
+> completely evict SVM vram. Whether that is important enough to strive
+> for is ofc up for discussion.
 
-Driver Changes:
-- General cleanup and more work moving towards intel_display isolation (Jani)
-- New display workaround (Suraj)
-- Use correct cp_irq_count on HDCP (Suraj)
-- eDP PSR fix when CRC is enabled (Jouni)
-- Fix DP MST state after a sink reset (Imre)
-- Fix Arrow Lake GSC firmware version (John)
-- Use chained DSBs for LUT programming (Ville)
-The following changes since commit e55ef65510a401862b902dc979441ea10ae25c61:
+Yes, exactly that. Felix, Alex, a bunch of other AMD folks and I came up 
+with the same conclusion at AMD internally as well.
 
-  Merge tag 'amd-drm-next-6.12-2024-08-26' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-08-27 14:33:12 +0200)
+Regards,
+Christian.
 
-are available in the Git repository at:
+>
+> /Thomas
+>
+>
+>
+>>> Now if there's also SVM VRAM managed on a page lru, TTM exhaustive
+>>> eviction is going to win because the shrinkers can only trylock
+>>> dma_resv.
+>>> So this part works. It actually works so well on the system memory
+>>> side
+>>> that if we're not careful we can trigger oom, because we're too
+>>> good at
+>>> getting at all the memory.
+>>>
+>>> SVM VRAM allocations otoh do not need exhaustive evictions. Or at
+>>> least I
+>>> don't see why, because the idea is that thanks to gpu and cpu page
+>>> faults,
+>>> you can always get out of a pinch by just trashing everything for a
+>>> while
+>>> and migrating the handfull of available pages a lot.
+>>>
+>>>> - Likely allocation size is 2M which makes of size of BO (872)
+>>>>     acceptable per allocation (872 / 2M == .0004158).
+>>>>
+>>>> With this, using TTM BO for VRAM backing store seems to be an
+>>>> obvious
+>>>> choice as it allows leveraging of the TTM eviction code.
+>>> Except it requires that you hold dma_resv, which brings in all
+>>> kinds of
+>>> pain. And for eviction we really don't need a lot of
+>>> synchronization, so a
+>>> lot of that locking is not needed, unlike the case where we have a
+>>> cpu
+>>> fault, where we absolutely need mmap_lock and all that to make sure
+>>> we
+>>> fault in the right page.
+>>>
+>>> But for eviction we only need to throw out some pages, if we're not
+>>> entirely precise with picking the right ones (or have no idea into
+>>> which
+>>> vma they're all currently mapped into) it doesn't matter. That's
+>>> why
+>>> migrate_device_pages doesn't care about any of that at all, it
+>>> doesn't
+>>> need to by design. But by bo backing memory you drag in all that
+>>> stuff
+>>> that's causing headacheds for eviction.
+>>>
+>>> The only thing migration tries to do is remove all pte, and if that
+>>> succeeds, move the page. Specialized for the gpusvm case, looking
+>>> at mm/
+>>> code as cheat sheet, we need roughly:
+>>>
+>>> - reverse mapping structure like anon_vma. Except gpusvm can assume
+>>> that
+>>>     there's currently only one gpu side mapping, so we can just
+>>> stuff the
+>>>     gpusvm an va_address into the page, and protect it with the page
+>>> lock.
+>>>
+>>> - we need pagetable locks, so that we can manipulate pagetables
+>>> (well
+>>>     specifically make ptes invalid) without taking any other locks.
+>>>
+>>> - everyone else inserting or removing ptes for svm mappings also
+>>> needs to
+>>>     lock the page, or we have races. This might be the
+>>> hmm_range_fault races
+>>>     you're seeing when allowing vram pages, since I don't think
+>>> there's
+>>>     anything else stopping the page lookup otherwise from
+>>> succeeding.
+>>>
+>>> - we might also need to stuff migrate ptes into the gpu side, like
+>>> the cpu
+>>>     does, to hold up refaults before the migration has finished. But
+>>> I think
+>>>     those are only needed for anon memory in sram because there's no
+>>> other
+>>>     way to find the right page than swap pte entries, of which
+>>> migration
+>>>     entries are a special case.
+>>>
+>>> - core code also expects us to handle the page refcount correctly
+>>> for svm
+>>>     device memory, so we can't free the pages like normal bo pages
+>>> either
+>>>     directly to drm_buddy.
+>>>
+>>> Now typing this all up will look an awful lot like what you have,
+>>> with the
+>>> dma_resv lock serving as the page lock and the pagetable lock. The
+>>> only
+>>> reason is that these locks are much smaller and nest within all the
+>>> other
+>>> stuff going on and so avoid the inversion issues.
+>>>
+>>> So one annoying part is that this is a lot of pointlessly looking
+>>> typing.
+>>> The other is that it's full of races, because core mm really is
+>>> yolo all
+>>> the way down. So lots of ways you lock the wrong page and fun stuff
+>>> like
+>>> that, but the few cases that matter work:
+>>>
+>>> - svm fault handling with hmm_range fault retries with mmu
+>>> notifiers. Note
+>>>     that we need to have vram pages locked and the notifier retrie
+>>> needs to
+>>>     be under the pagetable lock, or there's room to escape. At least
+>>> that's
+>>>     what I came up with last time I thought it all through.
+>>>
+>>> - migrate_to_ram: it will hold a page reference which we know was
+>>> the
+>>>     valid vram page when the cpu pte was locked, but it might not be
+>>> it
+>>>     anymore. So we have to lock the page and check whether it's
+>>> still gpu
+>>>     mapped, and if not retry the entire fault since most likey
+>>> another
+>>>     migrate_to_ram has succeed meanwhile in parallel.
+>>>
+>>> - for eviction we don't care, we might actually be migrating a page
+>>> no one
+>>>     even wants anymore.
+>>>
+>>> Now I think you can get all this done with the dma_resv lock and
+>>> maybe the
+>>> bo refcount. But it does involve a tremendous amount of headaches
+>>> and
+>>> impendence mismatch, because that's not how page faults and
+>>> migrations
+>>> work in core mm.
+>>>
+>>> Cheers, Sima
+>>>
+>>>> Current migration policy is migrate any SVM range greater than or
+>>>> equal
+>>>> to 64k once.
+>>>>
+>>>> [1]https://patchwork.freedesktop.org/series/133643/
+>>>>
+>>>> Signed-off-by: Matthew Brostmatthew.brost@intel.com
+>>>> ---
+>>>>    drivers/gpu/drm/xe/xe_svm.c | 81
+>>>> ++++++++++++++++++++++++++++++++++++-
+>>>>    drivers/gpu/drm/xe/xe_svm.h |  1 +
+>>>>    2 files changed, 81 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/xe/xe_svm.c
+>>>> b/drivers/gpu/drm/xe/xe_svm.c
+>>>> index 4372c02a341f..fd8987e0a506 100644
+>>>> --- a/drivers/gpu/drm/xe/xe_svm.c
+>>>> +++ b/drivers/gpu/drm/xe/xe_svm.c
+>>>> @@ -217,8 +217,13 @@ static void xe_svm_invalidate(struct
+>>>> drm_gpusvm *gpusvm,
+>>>>    static int __xe_svm_garbage_collector(struct xe_vm *vm,
+>>>>    				      struct xe_svm_range
+>>>> *range)
+>>>>    {
+>>>> +	struct drm_gpusvm_ctx ctx = {};
+>>>>    	struct dma_fence *fence;
+>>>>    
+>>>> +	/* Evict any pages holding references to vram allocation
+>>>> */
+>>>> +	if (range->base.flags.partial_unmap && IS_DGFX(vm->xe))
+>>>> +		drm_gpusvm_migrate_to_sram(&vm->svm.gpusvm,
+>>>> &range->base, &ctx);
+>>>> +
+>>>>    	xe_vm_lock(vm, false);
+>>>>    	fence = xe_vm_range_unbind(vm, range);
+>>>>    	xe_vm_unlock(vm);
+>>>> @@ -504,21 +509,77 @@ static bool xe_svm_range_is_valid(struct
+>>>> xe_svm_range *range,
+>>>>    	return (range->tile_present & ~range->tile_invalidated)
+>>>> & BIT(tile->id);
+>>>>    }
+>>>>    
+>>>> +static struct xe_mem_region *tile_to_mr(struct xe_tile *tile)
+>>>> +{
+>>>> +	return &tile->mem.vram;
+>>>> +}
+>>>> +
+>>>> +static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct
+>>>> xe_tile *tile,
+>>>> +				       struct xe_svm_range
+>>>> *range,
+>>>> +				       const struct
+>>>> drm_gpusvm_ctx *ctx)
+>>>> +{
+>>>> +	struct xe_mem_region *mr = tile_to_mr(tile);
+>>>> +	struct drm_buddy_block *block;
+>>>> +	struct list_head *blocks;
+>>>> +	struct xe_bo *bo;
+>>>> +	ktime_t end = 0;
+>>>> +	int err;
+>>>> +
+>>>> +retry:
+>>>> +	xe_vm_lock(vm, false);
+>>>> +	bo = xe_bo_create(tile_to_xe(tile), tile, vm, range-
+>>>>> base.va.end -
+>>>> +			  range->base.va.start,
+>>>> ttm_bo_type_device,
+>>>> +			  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
+>>>> +			  XE_BO_FLAG_SYSTEM_ALLOC |
+>>>> XE_BO_FLAG_SKIP_CLEAR);
+>>>> +	xe_vm_unlock(vm);
+>>>> +	if (IS_ERR(bo)) {
+>>>> +		err = PTR_ERR(bo);
+>>>> +		if (xe_vm_validate_should_retry(NULL, err,
+>>>> &end))
+>>>> +			goto retry;
+>>>> +		return bo;
+>>>> +	}
+>>>> +
+>>>> +	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)-
+>>>>> blocks;
+>>>> +	list_for_each_entry(block, blocks, link)
+>>>> +		block->private = mr;
+>>>> +
+>>>> +	/*
+>>>> +	 * Take ref because as soon as
+>>>> drm_gpusvm_migrate_to_vram succeeds the
+>>>> +	 * creation ref can be dropped upon CPU fault or unmap.
+>>>> +	 */
+>>>> +	xe_bo_get(bo);
+>>>> +
+>>>> +	err = drm_gpusvm_migrate_to_vram(&vm->svm.gpusvm,
+>>>> &range->base,
+>>>> +					 bo, ctx);
+>>>> +	if (err) {
+>>>> +		xe_bo_put(bo);	/* Local ref */
+>>>> +		xe_bo_put(bo);	/* Creation ref */
+>>>> +		return ERR_PTR(err);
+>>>> +	}
+>>>> +
+>>>> +	return bo;
+>>>> +}
+>>>> +
+>>>>    int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma
+>>>> *vma,
+>>>>    			    struct xe_tile *tile, u64
+>>>> fault_addr,
+>>>>    			    bool atomic)
+>>>>    {
+>>>> -	struct drm_gpusvm_ctx ctx = { .read_only =
+>>>> xe_vma_read_only(vma), };
+>>>> +	struct drm_gpusvm_ctx ctx = { .read_only =
+>>>> xe_vma_read_only(vma),
+>>>> +		.vram_possible = IS_DGFX(vm->xe), };
+>>>>    	struct xe_svm_range *range;
+>>>>    	struct drm_gpusvm_range *r;
+>>>>    	struct drm_exec exec;
+>>>>    	struct dma_fence *fence;
+>>>> +	struct xe_bo *bo = NULL;
+>>>>    	ktime_t end = 0;
+>>>>    	int err;
+>>>>    
+>>>>    	lockdep_assert_held_write(&vm->lock);
+>>>>    
+>>>>    retry:
+>>>> +	xe_bo_put(bo);
+>>>> +	bo = NULL;
+>>>> +
+>>>>    	/* Always process UNMAPs first so view SVM ranges is
+>>>> current */
+>>>>    	err = xe_svm_garbage_collector(vm);
+>>>>    	if (err)
+>>>> @@ -534,6 +595,22 @@ int xe_svm_handle_pagefault(struct xe_vm
+>>>> *vm, struct xe_vma *vma,
+>>>>    	if (xe_svm_range_is_valid(range, tile))
+>>>>    		return 0;
+>>>>    
+>>>> +	/* XXX: Add migration policy, for now migrate range once
+>>>> */
+>>>> +	if (IS_DGFX(vm->xe) && !range->migrated &&
+>>>> +	    range->base.flags.migrate_vram &&
+>>>> +	    (range->base.va.end - range->base.va.start) >=
+>>>> SZ_64K) {
+>>>> +		range->migrated = true;
+>>>> +
+>>>> +		bo = xe_svm_alloc_vram(vm, tile, range, &ctx);
+>>>> +		if (IS_ERR(bo)) {
+>>>> +			drm_info(&vm->xe->drm,
+>>>> +				 "VRAM allocation failed,
+>>>> falling back to retrying, asid=%u, errno %ld\n",
+>>>> +				 vm->usm.asid, PTR_ERR(bo));
+>>>> +			bo = NULL;
+>>>> +			goto retry;
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>>    	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r,
+>>>> &ctx);
+>>>>    	if (err == -EFAULT || err == -EPERM)	/* Corner where
+>>>> CPU mappings have change */
+>>>>    	       goto retry;
+>>>> @@ -567,6 +644,8 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+>>>> struct xe_vma *vma,
+>>>>    	dma_fence_put(fence);
+>>>>    
+>>>>    err_out:
+>>>> +	xe_bo_put(bo);
+>>>> +
+>>>>    	return err;
+>>>>    }
+>>>>    
+>>>> diff --git a/drivers/gpu/drm/xe/xe_svm.h
+>>>> b/drivers/gpu/drm/xe/xe_svm.h
+>>>> index 8b72e91cc37d..3f432483a230 100644
+>>>> --- a/drivers/gpu/drm/xe/xe_svm.h
+>>>> +++ b/drivers/gpu/drm/xe/xe_svm.h
+>>>> @@ -18,6 +18,7 @@ struct xe_svm_range {
+>>>>    	struct list_head garbage_collector_link;
+>>>>    	u8 tile_present;
+>>>>    	u8 tile_invalidated;
+>>>> +	u8 migrated	:1;
+>>>>    };
+>>>>    
+>>>>    int xe_devm_add(struct xe_tile *tile, struct xe_mem_region
+>>>> *mr);
+>>>> -- 
+>>>> 2.34.1
+>>>>
 
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-2024-08-29
-
-for you to fetch changes up to b5d4657e192ba7a3f21fc397cf5d169982b4ec0c:
-
-  drm/i915/dsb: Use chained DSBs for LUT programming (2024-08-29 14:54:03 +0300)
-
-----------------------------------------------------------------
-Cross-driver (xe-core) Changes:
-- Require BMG scanout buffers to be 64k physically aligned (Maarten)
-
-Core (drm) Changes:
-- Introducing Xe2 ccs modifiers for integrated and discrete graphics (Juha-Pekka)
-
-Driver Changes:
-- General cleanup and more work moving towards intel_display isolation (Jani)
-- New display workaround (Suraj)
-- Use correct cp_irq_count on HDCP (Suraj)
-- eDP PSR fix when CRC is enabled (Jouni)
-- Fix DP MST state after a sink reset (Imre)
-- Fix Arrow Lake GSC firmware version (John)
-- Use chained DSBs for LUT programming (Ville)
-
-----------------------------------------------------------------
-Hans de Goede (1):
-      drm/i915/dsi: Make Lenovo Yoga Tab 3 X90F DMI match less strict
-
-Imre Deak (1):
-      drm/i915/dp_mst: Fix MST state after a sink reset
-
-Jani Nikula (30):
-      drm/i915: make __intel_display_power_is_enabled() static
-      drm/i915/display: support struct intel_atomic_state in to_intel_display()
-      drm/i915/display: convert intel_link_bw.c to struct intel_display
-      drm/i915/display: convert intel_load_detect.c to struct intel_display
-      drm/i915/alpm: convert to struct intel_display
-      drm/i915/lspcon: convert to struct intel_display
-      drm/i915/display: convert dp aux backlight to struct intel_display
-      drm/i915/hti: convert to struct intel_display
-      drm/i915: make intel_display_power_domain_str() static
-      drm/i915: move rawclk from runtime to display runtime info
-      drm/xe/display: drop unused rawclk_freq and RUNTIME_INFO()
-      drm/xe/display: fix compat IS_DISPLAY_STEP() range end
-      drm/xe/display: remove intel_display_step_name() to simplify
-      drm/xe/display: remove the unused compat HAS_GMD_ID()
-      drm/xe/step: define more steppings E-J
-      drm/i915/display: rename IS_DISPLAY_IP_RANGE() to IS_DISPLAY_VER_FULL()
-      drm/i915/display: rename IS_DISPLAY_IP_STEP() to IS_DISPLAY_VER_STEP()
-      drm/i915/display: identify display steppings in display probe
-      drm/i915/display: switch to display detected steppings
-      drm/i915: remove display stepping handling
-      drm/xe: remove display stepping handling
-      drm/i915/vblank: use drm_crtc_vblank_crtc() instead of open-coding
-      drm/i915/vblank: fix context imbalance warnings
-      drm/i915/vblank: convert to struct intel_display
-      drm/i915/vrr: convert to struct intel_display
-      drm/i915/tv: convert to struct intel_display
-      drm/i915/sprite: convert to struct intel_display
-      drm/i915/display: convert params to struct intel_display
-      drm/i915: remove unnecessary display includes
-      drm/i915: remove unused leftover basedie step code
-
-John Harrison (1):
-      drm/i915: ARL requires a newer GSC firmware
-
-Jouni H�gander (1):
-      drm/i915/psr: Prevent Panel Replay if CRC calculation is enabled
-
-Juha-Pekka Heikkila (3):
-      drm/i915/display: Don't enable decompression on Xe2 with Tile4
-      drm/fourcc: define Intel Xe2 related tile4 ccs modifiers
-      drm/i915/display: allow creation of Xe2 ccs framebuffers
-
-Maarten Lankhorst (2):
-      drm/i915/display: Plane capability for 64k phys alignment
-      drm/xe: Align all VRAM scanout buffers to 64k physical pages when needed.
-
-Rodrigo Vivi (1):
-      Merge drm/drm-next into drm-intel-next
-
-Suraj Kandpal (2):
-      drm/i915/hdcp: Use correct cp_irq_count
-      drm/i915/pps: Disable DPLS_GATING around pps sequence
-
-Ville Syrj�l� (13):
-      drm/i915: Fix readout degamma_lut mismatch on ilk/snb
-      drm/i915/dsb: Hook up DSB error interrupts
-      drm/i915/dsb: Convert dewake_scanline to a hw scanline number earlier
-      drm/i915/dsb: Shuffle code around
-      drm/i915/dsb: Fix dewake scanline
-      drm/i915/dsb: Account for VRR properly in DSB scanline stuff
-      drm/i915/dsb: Precompute DSB_CHICKEN
-      drm/i915/dsb: Introduce intel_dsb_wait_scanline_{in,out}()
-      drm/i915/dsb: Introduce intel_dsb_chain()
-      drm/i915/dsb: Allow intel_dsb_chain() to use DSB_WAIT_FOR_VBLANK
-      drm/i915/dsb: Clear DSB_ENABLE_DEWAKE once the DSB is done
-      drm/i915/dsb: s/dsb/dsb_color_vblank/
-      drm/i915/dsb: Use chained DSBs for LUT programming
-
- drivers/gpu/drm/i915/display/intel_alpm.c          |  54 ++--
- drivers/gpu/drm/i915/display/intel_atomic.c        |   6 +-
- drivers/gpu/drm/i915/display/intel_backlight.c     |  10 +-
- drivers/gpu/drm/i915/display/intel_color.c         |  56 ++--
- drivers/gpu/drm/i915/display/intel_ddi.c           |   2 +-
- drivers/gpu/drm/i915/display/intel_display.c       |  11 +-
- drivers/gpu/drm/i915/display/intel_display.h       |   3 +
- .../gpu/drm/i915/display/intel_display_debugfs.c   |   2 +-
- .../i915/display/intel_display_debugfs_params.c    |   8 +-
- .../i915/display/intel_display_debugfs_params.h    |   4 +-
- .../gpu/drm/i915/display/intel_display_device.c    | 232 ++++++++++++++-
- .../gpu/drm/i915/display/intel_display_device.h    |  21 +-
- .../gpu/drm/i915/display/intel_display_driver.c    |   2 +-
- drivers/gpu/drm/i915/display/intel_display_irq.c   |  17 ++
- .../gpu/drm/i915/display/intel_display_params.c    |   6 +-
- .../gpu/drm/i915/display/intel_display_params.h    |   4 +-
- drivers/gpu/drm/i915/display/intel_display_power.c |  20 +-
- drivers/gpu/drm/i915/display/intel_display_power.h |   5 -
- .../drm/i915/display/intel_display_power_well.c    |   4 +-
- drivers/gpu/drm/i915/display/intel_display_types.h |   7 +-
- drivers/gpu/drm/i915/display/intel_dmc.c           |   2 +-
- drivers/gpu/drm/i915/display/intel_dp.c            |  12 +
- drivers/gpu/drm/i915/display/intel_dp_aux.c        |   4 +-
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |  70 +++--
- drivers/gpu/drm/i915/display/intel_dp_mst.c        |  40 +++
- drivers/gpu/drm/i915/display/intel_dp_mst.h        |   1 +
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |   3 +-
- drivers/gpu/drm/i915/display/intel_dsb.c           | 325 +++++++++++++++++++--
- drivers/gpu/drm/i915/display/intel_dsb.h           |  16 +
- drivers/gpu/drm/i915/display/intel_fb.c            |  36 +++
- drivers/gpu/drm/i915/display/intel_fb.h            |   2 +
- drivers/gpu/drm/i915/display/intel_fbc.c           |   2 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c          |   6 +-
- drivers/gpu/drm/i915/display/intel_hti.c           |  20 +-
- drivers/gpu/drm/i915/display/intel_hti.h           |   8 +-
- drivers/gpu/drm/i915/display/intel_link_bw.c       |  25 +-
- drivers/gpu/drm/i915/display/intel_link_bw.h       |   2 -
- drivers/gpu/drm/i915/display/intel_load_detect.c   |  27 +-
- drivers/gpu/drm/i915/display/intel_lspcon.c        | 115 ++++----
- drivers/gpu/drm/i915/display/intel_modeset_setup.c |  31 +-
- drivers/gpu/drm/i915/display/intel_pmdemand.c      |   2 +-
- drivers/gpu/drm/i915/display/intel_pps.c           |  14 +-
- drivers/gpu/drm/i915/display/intel_psr.c           |  14 +-
- drivers/gpu/drm/i915/display/intel_sprite.c        | 209 +++++++------
- drivers/gpu/drm/i915/display/intel_tv.c            | 203 ++++++-------
- drivers/gpu/drm/i915/display/intel_tv.h            |   6 +-
- drivers/gpu/drm/i915/display/intel_vblank.c        | 122 ++++----
- drivers/gpu/drm/i915/display/intel_vblank.h        |   2 +-
- drivers/gpu/drm/i915/display/intel_vrr.c           | 127 ++++----
- drivers/gpu/drm/i915/display/skl_universal_plane.c |  10 +-
- drivers/gpu/drm/i915/display/vlv_dsi.c             |   1 -
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   2 -
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |   1 -
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c          |  31 ++
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  10 +-
- drivers/gpu/drm/i915/i915_debugfs.c                |   3 +-
- drivers/gpu/drm/i915/i915_driver.c                 |   4 +-
- drivers/gpu/drm/i915/i915_drv.h                    |  12 +-
- drivers/gpu/drm/i915/i915_gem.c                    |   2 -
- drivers/gpu/drm/i915/i915_gem_gtt.c                |   1 -
- drivers/gpu/drm/i915/i915_gpu_error.c              |   3 +-
- drivers/gpu/drm/i915/i915_irq.c                    |   1 -
- drivers/gpu/drm/i915/i915_pci.c                    |   1 -
- drivers/gpu/drm/i915/i915_reg.h                    |   4 +
- drivers/gpu/drm/i915/intel_device_info.c           |  14 +-
- drivers/gpu/drm/i915/intel_device_info.h           |   5 +-
- drivers/gpu/drm/i915/intel_step.c                  |  84 +++---
- drivers/gpu/drm/i915/intel_step.h                  |   3 -
- drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h  |   6 -
- .../gpu/drm/xe/compat-i915-headers/intel_step.h    |  10 +-
- drivers/gpu/drm/xe/display/intel_fb_bo.c           |   9 +
- drivers/gpu/drm/xe/xe_bo.c                         |   7 +
- drivers/gpu/drm/xe/xe_debugfs.c                    |   3 +-
- drivers/gpu/drm/xe/xe_device_types.h               |   6 -
- drivers/gpu/drm/xe/xe_pci.c                        |   3 +-
- drivers/gpu/drm/xe/xe_step.c                       |  57 ++--
- drivers/gpu/drm/xe/xe_step_types.h                 |  30 +-
- drivers/gpu/drm/xe/xe_vm.c                         |  11 +-
- include/drm/intel/i915_pciids.h                    |  11 +-
- include/uapi/drm/drm_fourcc.h                      |  25 ++
- 80 files changed, 1515 insertions(+), 775 deletions(-)
