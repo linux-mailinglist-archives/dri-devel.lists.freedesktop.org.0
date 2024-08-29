@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822BE9645D9
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDB69645DB
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 15:10:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D4710E672;
-	Thu, 29 Aug 2024 13:10:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF2110E676;
+	Thu, 29 Aug 2024 13:10:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="hchl26yh";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZGgSZZjq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB08710E05D
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 13:10:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 385FC10E677
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 13:10:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=rJVKjv1l2kixDycjzD1h3vu8/tY7RY+hri4oItX+an0=; b=hchl26yhVXd2FvVYpUBP53TZ4y
- MfjybCyKWPnTb4EWqsHABzz6vpUsX1FIZMaQXp/KiI/PiqvRgTQhKIOmoKIroE+KkZOptMF5FGva1
- n3Y5YHC5LhhYLahtEBXW31HHVkeVxCEkaEK42CBT3weM4HQd2qVuKxSvS61IWP+Vy1a0xke9VPvki
- iY1SZjjrg1LDk5eKcIio395ipZhM1bXCH3xCFFgAs6Cr42FfV9QfgN04PVxxmTw1HQS4ncAzuovFl
- qhECGjFwoUOW3KqwUXBcRdcb5ORN80Gewwqm5pYrzEKUOQYjyotToSqvxq+UImmvoEgIYP6dWdjvX
- 7i2NcB/Q==;
+ bh=RFBc7HO/3CGjXg/tdgnc05MS5iTS/6RyGYZ4mkVX9vU=; b=ZGgSZZjql6u4En3dW7JWdEBDaF
+ zvhw7xKD8tERFjlD4dcBbzXf8TTqpEOf04gFpsmFdVOTvpDNpYzpo7RQFU/Op+xdqGTl3i/GOaBXU
+ /WVCn/VmAPkCxOfANTyQAMXB7gMVllEUx+X2X5WX5VFOWKxwCXdv//1KkO+oYGgPdp/wXXySZosVD
+ 1GX9MNrcNK9iU0BmN8LJocqq1u32vz0MYvzJlYMQPB+8OGojhoJZ9Pb3g8R1kDg+7yAGs7Xs45ySz
+ u1MAVLhDvT/OSBvAe+XFkxw1TIAv+UtYSxp5G7eisIKNw4yJUauvWOF2rgzmDva/uXuIQvrxyQgaP
+ 1RKxE1DA==;
 Received: from [187.36.213.55] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1sjev6-006jlG-FB; Thu, 29 Aug 2024 15:10:36 +0200
+ id 1sjevA-006jlG-VQ; Thu, 29 Aug 2024 15:10:41 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  Tvrtko Ursulin <tursulin@igalia.com>,
@@ -41,9 +41,10 @@ To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v5 01/10] drm/v3d: Fix the MMU flush order
-Date: Thu, 29 Aug 2024 10:05:09 -0300
-Message-ID: <20240829130954.2439316-2-mcanal@igalia.com>
+Subject: [PATCH v5 02/10] drm/v3d: Flush the MMU before we supply more memory
+ to the binner
+Date: Thu, 29 Aug 2024 10:05:10 -0300
+Message-ID: <20240829130954.2439316-3-mcanal@igalia.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240829130954.2439316-1-mcanal@igalia.com>
 References: <20240829130954.2439316-1-mcanal@igalia.com>
@@ -65,66 +66,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We must first flush the MMU cache and then, flush the TLB, not the other
-way around. Currently, we can see a race condition between the MMU cache
-and the TLB when running multiple rendering processes at the same time.
-This is evidenced by MMU errors triggered by the IRQ.
-
-Fix the MMU flush order by flushing the MMU cache and then the TLB.
+We must ensure that the MMU is flushed before we supply more memory to
+the binner, otherwise we might end up with invalid MMU accesses by the
+GPU.
 
 Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_mmu.c | 29 ++++++++++-------------------
- 1 file changed, 10 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/v3d/v3d_drv.h | 1 +
+ drivers/gpu/drm/v3d/v3d_irq.c | 2 ++
+ drivers/gpu/drm/v3d/v3d_mmu.c | 2 +-
+ 3 files changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index cf4b23369dc4..75b4725d49c7 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -553,6 +553,7 @@ void v3d_irq_disable(struct v3d_dev *v3d);
+ void v3d_irq_reset(struct v3d_dev *v3d);
+ 
+ /* v3d_mmu.c */
++int v3d_mmu_flush_all(struct v3d_dev *v3d);
+ int v3d_mmu_set_page_table(struct v3d_dev *v3d);
+ void v3d_mmu_insert_ptes(struct v3d_bo *bo);
+ void v3d_mmu_remove_ptes(struct v3d_bo *bo);
+diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+index d469bda52c1a..20bf33702c3c 100644
+--- a/drivers/gpu/drm/v3d/v3d_irq.c
++++ b/drivers/gpu/drm/v3d/v3d_irq.c
+@@ -70,6 +70,8 @@ v3d_overflow_mem_work(struct work_struct *work)
+ 	list_add_tail(&bo->unref_head, &v3d->bin_job->render->unref_list);
+ 	spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+ 
++	v3d_mmu_flush_all(v3d);
++
+ 	V3D_CORE_WRITE(0, V3D_PTB_BPOA, bo->node.start << V3D_MMU_PAGE_SHIFT);
+ 	V3D_CORE_WRITE(0, V3D_PTB_BPOS, obj->size);
+ 
 diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c b/drivers/gpu/drm/v3d/v3d_mmu.c
-index 14f3af40d6f6..06bb44c7f35d 100644
+index 06bb44c7f35d..3b7694ee7536 100644
 --- a/drivers/gpu/drm/v3d/v3d_mmu.c
 +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
-@@ -32,32 +32,23 @@ static int v3d_mmu_flush_all(struct v3d_dev *v3d)
+@@ -28,7 +28,7 @@
+ #define V3D_PTE_WRITEABLE BIT(29)
+ #define V3D_PTE_VALID BIT(28)
+ 
+-static int v3d_mmu_flush_all(struct v3d_dev *v3d)
++int v3d_mmu_flush_all(struct v3d_dev *v3d)
  {
  	int ret;
  
--	/* Make sure that another flush isn't already running when we
--	 * start this one.
--	 */
--	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
--			 V3D_MMU_CTL_TLB_CLEARING), 100);
--	if (ret)
--		dev_err(v3d->drm.dev, "TLB clear wait idle pre-wait failed\n");
--
--	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
--		  V3D_MMU_CTL_TLB_CLEAR);
--
--	V3D_WRITE(V3D_MMUC_CONTROL,
--		  V3D_MMUC_CONTROL_FLUSH |
-+	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_FLUSH |
- 		  V3D_MMUC_CONTROL_ENABLE);
- 
--	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
--			 V3D_MMU_CTL_TLB_CLEARING), 100);
-+	ret = wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
-+			 V3D_MMUC_CONTROL_FLUSHING), 100);
- 	if (ret) {
--		dev_err(v3d->drm.dev, "TLB clear wait idle failed\n");
-+		dev_err(v3d->drm.dev, "MMUC flush wait idle failed\n");
- 		return ret;
- 	}
- 
--	ret = wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
--			 V3D_MMUC_CONTROL_FLUSHING), 100);
-+	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
-+		  V3D_MMU_CTL_TLB_CLEAR);
-+
-+	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
-+			 V3D_MMU_CTL_TLB_CLEARING), 100);
- 	if (ret)
--		dev_err(v3d->drm.dev, "MMUC flush wait idle failed\n");
-+		dev_err(v3d->drm.dev, "TLB clear wait idle failed\n");
- 
- 	return ret;
- }
 -- 
 2.46.0
 
