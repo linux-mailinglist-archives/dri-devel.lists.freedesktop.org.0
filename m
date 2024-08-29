@@ -2,56 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D377B96506D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 22:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830B7965072
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 22:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBAC810E1B7;
-	Thu, 29 Aug 2024 20:03:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27A3F10E1B8;
+	Thu, 29 Aug 2024 20:06:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nkGKjMGM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pgh05sZH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7DFD10E147;
- Thu, 29 Aug 2024 20:03:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43C6910E1B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 20:06:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DCF81A4288F;
- Thu, 29 Aug 2024 20:03:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7867C4CEC1;
- Thu, 29 Aug 2024 20:03:40 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 96739A4289A;
+ Thu, 29 Aug 2024 20:05:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E22A9C4CEC1;
+ Thu, 29 Aug 2024 20:05:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724961821;
- bh=jwuvKMrY5cTod7e2LGlDDYGRX/xeSQPNePjeIZJkTsA=;
+ s=k20201202; t=1724961962;
+ bh=jjY3PbslKhfXvlshQ539eQ+z8Cll4clbilq8gY8N3I0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nkGKjMGMClK2QbKf3YBMwoOS/hzBHGZmfx+sMNajgsvFgOYgq6DuhmPgUPK5Q/LtO
- R4xzAEbTbZK30cEf/oSCus5JmAMLZcA0nRxtdc3c8d8+ZobnF1lIKkJiGHacL+tcI0
- cNbi51EvXgqdn2+k7o5326M261WIJy9ootdDMVs8wV9+yXO4mG5QmgO/0wt+38Icvg
- cVAFBtdeVhXfRyElgXYRs1KTQxZ9KjKaUYGDLSnWWBbuv4BT4A0Z008ajMreO0Jsy7
- mlF6SA12oa3p+Onm5+A1YC20wob310qOv7XkNOLa3sc4WqHn1nHJTOmgQhGkaLTa82
- CtZaBn2LrPDjQ==
-Date: Thu, 29 Aug 2024 13:03:39 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v1 0/2] drm/i915/fence: A couple of build fixes
-Message-ID: <20240829200339.GA2791510@thelio-3990X>
-References: <20240829155950.1141978-1-andriy.shevchenko@linux.intel.com>
- <87cylrwahb.fsf@intel.com> <ZtCnhXwtO-gd1fMf@smile.fi.intel.com>
- <ZtC5oXSzUuuIgLiQ@smile.fi.intel.com>
- <20240829182255.GA1468662@thelio-3990X> <87a5gvw4y9.fsf@intel.com>
+ b=Pgh05sZHH1ibogv5993BrLByQD2Hc0qfcAv2NJeBS3Mftf84AbXP9FW90wTGti+Tf
+ ru32QNYkthl3hI0pSdGfQtUdsHeU1uWr6boa5WmBadB/vr4S5eY2mzVWaDVz/GH8Ks
+ JvpRPHZu38SQAmQmVTfol3Si3hAjwgijOkJkBnM/xm9lUV+WW1lQ07x1jXV6BdovV9
+ ZQLhh2jTkOWKq8dmJVXCjaUdIP0R1ph0q54o9t2g7Pi9fTt4xeg0jKN26ZYxsETwJC
+ pkVrvKZrhYyJUI3CTFCDMW/PZRtCtcwBFmOQJTvVO7vMftTj08uaE4xrP321ZNlR4R
+ cuA4wT2MNl2xw==
+Date: Thu, 29 Aug 2024 21:05:48 +0100
+From: Simon Horman <horms@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Magnus Karlsson <magnus.karlsson@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH net-next v23 03/13] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240829200548.GX1368797@kernel.org>
+References: <20240829060126.2792671-1-almasrymina@google.com>
+ <20240829060126.2792671-4-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a5gvw4y9.fsf@intel.com>
+In-Reply-To: <20240829060126.2792671-4-almasrymina@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,37 +103,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 09:37:34PM +0300, Jani Nikula wrote:
-> On Thu, 29 Aug 2024, Nathan Chancellor <nathan@kernel.org> wrote:
-> > Since commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
-> > inline functions for W=1 build"). clang warns about unused static inline
-> > functions in .c files, unlike GCC (they both do not warn for functions
-> > coming from .h files). This difference is worked around for the normal
-> > build by adding '__maybe_unused' to the definition of 'inline' but
-> > Masahiro wanted to disable it for W=1 to allow this difference to find
-> > unused/dead code. There have not been too many complaints as far as I am
-> > aware but I can see how it is surprising.
-> 
-> Heh, I was just going to reply citing the same commit.
-> 
-> I occasionally build with clang myself, and we do enable most W=1 by
-> default in the drm subsystem, so I was wondering why I hadn't hit
-> this. The crucial difference is that we lack -DKBUILD_EXTRA_WARN1 which
-> W=1 adds.
-> 
-> I see there's no subdir-cppflags-y, but I don't see any harm in us
-> adding -Wundef and -DKBUILD_EXTRA_WARN1 to subdir-ccflags-y. After we
-> fix the fallout, of course. Do you?
+On Thu, Aug 29, 2024 at 06:01:16AM +0000, Mina Almasry wrote:
 
-No, that seems entirely reasonable when your goal is to enable W=1 for
-your subsystem.
+...
 
-> I don't much like the __maybe_unused stuff, but I guess it's fine as a
-> stopgap measure, and then we can grep for that when running out of
-> things to do. :p
+> diff --git a/net/core/netdev-genl-gen.c b/net/core/netdev-genl-gen.c
+> index 6b7fe6035067..8b87801e8d1c 100644
+> --- a/net/core/netdev-genl-gen.c
+> +++ b/net/core/netdev-genl-gen.c
+> @@ -8,6 +8,7 @@
+>  
+>  #include "netdev-genl-gen.h"
+>  
+> +#include <linux/list.h>
+>  #include <uapi/linux/netdev.h>
 
-Perhaps worth a TODO or something? Maybe a kernel newbie could work on
-that at some point if it is not high enough priority.
+Hi Mina,
 
-Cheers,
-Nathan
+Strangely, when tools/net/ynl/ynl-regen.sh -f runs, it places
+the includes in the opposite order.
+
+I raise this as it may lead to churn later.
+
+...
+
+> diff --git a/net/core/netdev-genl-gen.h b/net/core/netdev-genl-gen.h
+> index 67c34005750c..01ef29ace149 100644
+> --- a/net/core/netdev-genl-gen.h
+> +++ b/net/core/netdev-genl-gen.h
+> @@ -9,6 +9,7 @@
+>  #include <net/netlink.h>
+>  #include <net/genetlink.h>
+>  
+> +#include <linux/list.h>
+>  #include <uapi/linux/netdev.h>
+
+Ditto.
+
+...
