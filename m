@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B38964923
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CF1964927
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:54:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C83F10E6F0;
-	Thu, 29 Aug 2024 14:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDFDE10E6F1;
+	Thu, 29 Aug 2024 14:54:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G3QOtK4x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y/hg1oCh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3252510E6F0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:54:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79CB410E6F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:54:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7E264A4410A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:54:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8CE1C4CECC
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:54:08 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 96DC4A4410C;
+ Thu, 29 Aug 2024 14:54:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB876C4CEC3;
+ Thu, 29 Aug 2024 14:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724943248;
- bh=gGjwRsC3M9/c/KkD/8kJVbZnTVSAPzCfx1ZJsG9gXmM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=G3QOtK4x5NkJF/9wehBXrw0qdJZFipes3cS2BkAHTycSbmymWgoAN2aCJW9S3uwQo
- gcGIaqAfNw9X37Zd9DaRxY0TBGmjcJ9+ruXjULPGXZqexlG/KrwaNXFW+i0UWsczUK
- naQWHj8poWwrGoPQOld9I/Qjw6qSrDKgjW2uKZRd2+Vlo1HgzzKJYEmbK9g7RDGmZj
- B4a+wrgocNvWL8vLLH/UwArKw0Jb3WBuQIOskvFTlKxoKg1gnETYttRqhU8zhyeaZT
- utkjuOmAfQ7jAr9FHd9EXHw7kXFIcRGO7Q4iYKRAvu78MiqgWQxfuZCDWUAp4djDG3
- xiLfxgrcUl7rQ==
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-27020fca39aso477046fac.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:54:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2fHPI8/jB0fh3clRqMNxHDBNcTOZuSAqazh8RSD3D8kUDbGThnlP1JsvLq9cJZ+jlB7VFty77sYw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjaM4yPP9nu+82azdhpa4q6UXyiHWYaP7DlDMadpSHDDFpIlbf
- LXAyJBigDDJnAdzlTeiriAFYYJ3feEy8NOITVHrqEnZE0/Cl8E6anVabSEyCcUk/rn5FeGecBzl
- gSWWCMtxrrkg8vQ8UKqyUWQwmVg==
-X-Google-Smtp-Source: AGHT+IEyygn0DMFYzMyxc8jy6sIuWErx12dvbL0cJxtOdFO//M5/LG3maZP8Ohf/uApEShQBQN09W1UKNHJV+sMS3/Q=
-X-Received: by 2002:a05:6358:6f98:b0:1aa:a01a:23dc with SMTP id
- e5c5f4694b2df-1b603c55350mr395137555d.15.1724943248105; Thu, 29 Aug 2024
- 07:54:08 -0700 (PDT)
+ s=k20201202; t=1724943276;
+ bh=94sqycuEg7LZE3IfoAS/UYJHpdhV1CbtJdmFG3iWS1U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y/hg1oCh+Ij6W4jgfibIcNLBH2y6qwXWngwcUcGr4b3eYryJduYRVobwRt6oxc42R
+ H6f1zYxHYCrS7niInBO5J0AjCy8ecFWqNseOf/cmogScebBhrEna8OTyktEs8yEjrJ
+ 175Q0V6vAr2G+DQqxPtZGIdZNe+qIREnbKSj8qwgAhz5FNxTFMhz5yEsTHAxdoLS3i
+ hI3xZDeYhtA/QPLEtmCboawwvUP6HlSbtj5geHqzV/za/0DVs4yDF5mOzTCBINi1xj
+ x4gwu3HxpENBZpP5e0AkTwn4UUpF/Eb8me1jX0fvP6HHtr585Fv4o2jsG3R7yMmQpr
+ Zda3hB26yi+pQ==
+Date: Thu, 29 Aug 2024 09:54:34 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v4 9/9] media: xilinx-tpg: use new of_graph functions
+Message-ID: <20240829145434.GA465065-robh@kernel.org>
+References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
+ <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
-References: <20240826060654.24038-1-shuijing.li@mediatek.com>
-In-Reply-To: <20240826060654.24038-1-shuijing.li@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 29 Aug 2024 22:54:22 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8K2BQm5JOBpeP+ZYcctcHAp46JWma7z4vWGFoa1MFbCg@mail.gmail.com>
-Message-ID: <CAAOTY_8K2BQm5JOBpeP+ZYcctcHAp46JWma7z4vWGFoa1MFbCg@mail.gmail.com>
-Subject: Re: [PATCH v8] drm/mediatek: dsi: Add dsi per-frame lp code for mt8188
-To: Shuijing Li <shuijing.li@mediatek.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- daniel@ffwll.ch, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, jitao.shi@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,258 +71,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Shuijing:
-
-Shuijing Li <shuijing.li@mediatek.com> =E6=96=BC 2024=E5=B9=B48=E6=9C=8826=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:07=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> Adding the per-frame lp function of mt8188, which can keep HFP in HS and
-> reduce the time required for each line to enter and exit low power.
-> Per Frame LP:
->   |<----------One Active Frame-------->|
-> --______________________________________----___________________
->   ^HSA+HBP^^RGB^^HFP^^HSA+HBP^^RGB^^HFP^    ^HSA+HBP^^RGB^^HFP^
->
-> Per Line LP:
->   |<---------------One Active Frame----------->|
-> --______________--______________--______________----______________
->   ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^  ^HSA+HBP^^RGB^    ^HSA+HBP^^RGB^
-
-Applied to mediatek-drm-next [1], thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
-
-Regards,
-Chun-Kuang.
-
->
-> Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
+On Wed, Aug 28, 2024 at 05:12:28AM +0000, Kuninori Morimoto wrote:
+> Now we can use new port related functions for port parsing. Use it.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
-> Changes in v8:
-> Directly write value into DSI_HSTX_CKL_WC without check per suggestion fr=
-om previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240819061333.=
-26069-1-shuijing.li@mediatek.com/
-> Changes in v7:
-> Fix code style and simplify the code per suggestion from previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240813022315.=
-18502-1-shuijing.li@mediatek.com/
-> Changes in v6:
-> Simplify the code per suggestion from previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240812070341.=
-26053-1-shuijing.li@mediatek.com/
-> Changes in v5:
-> Fix code style issue and add per-line-lp function to be symmetrical with =
-per-frame-lp.
-> per suggestion from previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240801081144.=
-22372-1-shuijing.li@mediatek.com/
-> Changes in v4:
-> Drop the code related to bllp_en and bllp_wc, adjust ps_wc to dsi->vm.hac=
-tive *
-> dsi_buf_bpp.
-> Changes in v3:
-> Use function in bitfield.h and get value from phy timing, per suggestion
-> from previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240424091639.=
-22759-1-shuijing.li@mediatek.com/
-> Changes in v2:
-> Use bitfield macros and add new function for per prame lp and improve
-> the format, per suggestion from previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240314094238.=
-3315-1-shuijing.li@mediatek.com/
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 106 +++++++++++++++++++++++++----
->  1 file changed, 94 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index b6e3c011a12d..eeec641cab60 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -88,12 +88,15 @@
->  #define DSI_HSA_WC             0x50
->  #define DSI_HBP_WC             0x54
->  #define DSI_HFP_WC             0x58
-> +#define HFP_HS_VB_PS_WC                GENMASK(30, 16)
-> +#define HFP_HS_EN                      BIT(31)
->
->  #define DSI_CMDQ_SIZE          0x60
->  #define CMDQ_SIZE                      0x3f
->  #define CMDQ_SIZE_SEL          BIT(15)
->
->  #define DSI_HSTX_CKL_WC                0x64
-> +#define HSTX_CKL_WC                    GENMASK(15, 2)
->
->  #define DSI_RX_DATA0           0x74
->  #define DSI_RX_DATA1           0x78
-> @@ -187,6 +190,7 @@ struct mtk_dsi_driver_data {
->         bool has_shadow_ctl;
->         bool has_size_ctl;
->         bool cmdq_long_packet_ctl;
-> +       bool support_per_frame_lp;
->  };
->
->  struct mtk_dsi {
-> @@ -426,7 +430,75 @@ static void mtk_dsi_ps_control(struct mtk_dsi *dsi, =
-bool config_vact)
->         writel(ps_val, dsi->regs + DSI_PSCTRL);
->  }
->
-> -static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
-> +static void mtk_dsi_config_vdo_timing_per_frame_lp(struct mtk_dsi *dsi)
-> +{
-> +       u32 horizontal_sync_active_byte;
-> +       u32 horizontal_backporch_byte;
-> +       u32 horizontal_frontporch_byte;
-> +       u32 hfp_byte_adjust, v_active_adjust;
-> +       u32 cklp_wc_min_adjust, cklp_wc_max_adjust;
-> +       u32 dsi_tmp_buf_bpp;
-> +       unsigned int da_hs_trail;
-> +       unsigned int ps_wc, hs_vb_ps_wc;
-> +       u32 v_active_roundup, hstx_cklp_wc;
-> +       u32 hstx_cklp_wc_max, hstx_cklp_wc_min;
-> +       struct videomode *vm =3D &dsi->vm;
-> +
-> +       if (dsi->format =3D=3D MIPI_DSI_FMT_RGB565)
-> +               dsi_tmp_buf_bpp =3D 2;
-> +       else
-> +               dsi_tmp_buf_bpp =3D 3;
-> +
-> +       da_hs_trail =3D dsi->phy_timing.da_hs_trail;
-> +       ps_wc =3D vm->hactive * dsi_tmp_buf_bpp;
-> +
-> +       if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
-> +               horizontal_sync_active_byte =3D
-> +                       vm->hsync_len * dsi_tmp_buf_bpp - 10;
-> +               horizontal_backporch_byte =3D
-> +                       vm->hback_porch * dsi_tmp_buf_bpp - 10;
-> +               hfp_byte_adjust =3D 12;
-> +               v_active_adjust =3D 32 + horizontal_sync_active_byte;
-> +               cklp_wc_min_adjust =3D 12 + 2 + 4 + horizontal_sync_activ=
-e_byte;
-> +               cklp_wc_max_adjust =3D 20 + 6 + 4 + horizontal_sync_activ=
-e_byte;
-> +       } else {
-> +               horizontal_sync_active_byte =3D vm->hsync_len * dsi_tmp_b=
-uf_bpp - 4;
-> +               horizontal_backporch_byte =3D (vm->hback_porch + vm->hsyn=
-c_len) *
-> +                       dsi_tmp_buf_bpp - 10;
-> +               cklp_wc_min_adjust =3D 4;
-> +               cklp_wc_max_adjust =3D 12 + 4 + 4;
-> +               if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
-> +                       hfp_byte_adjust =3D 18;
-> +                       v_active_adjust =3D 28;
-> +               } else {
-> +                       hfp_byte_adjust =3D 12;
-> +                       v_active_adjust =3D 22;
-> +               }
-> +       }
-> +       horizontal_frontporch_byte =3D vm->hfront_porch * dsi_tmp_buf_bpp=
- - hfp_byte_adjust;
-> +       v_active_roundup =3D (v_active_adjust + horizontal_backporch_byte=
- + ps_wc +
-> +                          horizontal_frontporch_byte) % dsi->lanes;
-> +       if (v_active_roundup)
-> +               horizontal_backporch_byte +=3D dsi->lanes - v_active_roun=
-dup;
-> +       hstx_cklp_wc_min =3D (DIV_ROUND_UP(cklp_wc_min_adjust, dsi->lanes=
-) + da_hs_trail + 1)
-> +                          * dsi->lanes / 6 - 1;
-> +       hstx_cklp_wc_max =3D (DIV_ROUND_UP((cklp_wc_max_adjust + horizont=
-al_backporch_byte +
-> +                          ps_wc), dsi->lanes) + da_hs_trail + 1) * dsi->=
-lanes / 6 - 1;
-> +
-> +       hstx_cklp_wc =3D FIELD_PREP(HSTX_CKL_WC, (hstx_cklp_wc_min + hstx=
-_cklp_wc_max) / 2);
-> +       writel(hstx_cklp_wc, dsi->regs + DSI_HSTX_CKL_WC);
-> +
-> +       hs_vb_ps_wc =3D ps_wc - (dsi->phy_timing.lpx + dsi->phy_timing.da=
-_hs_exit +
-> +                     dsi->phy_timing.da_hs_prepare + dsi->phy_timing.da_=
-hs_zero + 2) * dsi->lanes;
-> +       horizontal_frontporch_byte |=3D FIELD_PREP(HFP_HS_EN, 1) |
-> +                                     FIELD_PREP(HFP_HS_VB_PS_WC, hs_vb_p=
-s_wc);
-> +
-> +       writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
-> +       writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
-> +       writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
-> +}
-> +
-> +static void mtk_dsi_config_vdo_timing_per_line_lp(struct mtk_dsi *dsi)
->  {
->         u32 horizontal_sync_active_byte;
->         u32 horizontal_backporch_byte;
-> @@ -436,7 +508,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi =
-*dsi)
->         u32 dsi_tmp_buf_bpp, data_phy_cycles;
->         u32 delta;
->         struct mtk_phy_timing *timing =3D &dsi->phy_timing;
-> -
->         struct videomode *vm =3D &dsi->vm;
->
->         if (dsi->format =3D=3D MIPI_DSI_FMT_RGB565)
-> @@ -444,16 +515,6 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi=
- *dsi)
->         else
->                 dsi_tmp_buf_bpp =3D 3;
->
-> -       writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
-> -       writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
-> -       writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
-> -       writel(vm->vactive, dsi->regs + DSI_VACT_NL);
-> -
-> -       if (dsi->driver_data->has_size_ctl)
-> -               writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
-> -                      FIELD_PREP(DSI_WIDTH, vm->hactive),
-> -                      dsi->regs + DSI_SIZE_CON);
-> -
->         horizontal_sync_active_byte =3D (vm->hsync_len * dsi_tmp_buf_bpp =
-- 10);
->
->         if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-> @@ -499,6 +560,26 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi=
- *dsi)
->         writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
->         writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
->         writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
-> +}
-> +
-> +static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
-> +{
-> +       struct videomode *vm =3D &dsi->vm;
-> +
-> +       writel(vm->vsync_len, dsi->regs + DSI_VSA_NL);
-> +       writel(vm->vback_porch, dsi->regs + DSI_VBP_NL);
-> +       writel(vm->vfront_porch, dsi->regs + DSI_VFP_NL);
-> +       writel(vm->vactive, dsi->regs + DSI_VACT_NL);
-> +
-> +       if (dsi->driver_data->has_size_ctl)
-> +               writel(FIELD_PREP(DSI_HEIGHT, vm->vactive) |
-> +                       FIELD_PREP(DSI_WIDTH, vm->hactive),
-> +                       dsi->regs + DSI_SIZE_CON);
-> +
-> +       if (dsi->driver_data->support_per_frame_lp)
-> +               mtk_dsi_config_vdo_timing_per_frame_lp(dsi);
-> +       else
-> +               mtk_dsi_config_vdo_timing_per_line_lp(dsi);
->
->         mtk_dsi_ps_control(dsi, false);
->  }
-> @@ -1197,6 +1278,7 @@ static const struct mtk_dsi_driver_data mt8188_dsi_=
-driver_data =3D {
->         .has_shadow_ctl =3D true,
->         .has_size_ctl =3D true,
->         .cmdq_long_packet_ctl =3D true,
-> +       .support_per_frame_lp =3D true,
->  };
->
->  static const struct of_device_id mtk_dsi_of_match[] =3D {
-> --
-> 2.45.2
->
+>  drivers/media/platform/xilinx/xilinx-tpg.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
+> index e05e528ffc6f7..a25f216b2513c 100644
+> --- a/drivers/media/platform/xilinx/xilinx-tpg.c
+> +++ b/drivers/media/platform/xilinx/xilinx-tpg.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/xilinx-v4l2-controls.h>
+>  
+> @@ -744,7 +745,7 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
+>  		}
+>  
+
+This function is looping over port nodes, why don't you make it use 
+for_each_of_graph_port()?
+
+>  		if (nports == 0) {
+> -			endpoint = of_get_next_child(port, NULL);
+> +			endpoint = of_graph_get_next_port_endpoint(port, NULL);
+>  			if (endpoint)
+>  				has_endpoint = true;
+>  			of_node_put(endpoint);
+> -- 
+> 2.43.0
+> 
