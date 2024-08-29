@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF609652B2
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 00:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800B59652D5
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 00:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C633E10E7A0;
-	Thu, 29 Aug 2024 22:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA51A10E759;
+	Thu, 29 Aug 2024 22:25:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bHB4a0uA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ULD56S5A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C575B10E7A0;
- Thu, 29 Aug 2024 22:14:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBB9610E717;
+ Thu, 29 Aug 2024 22:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724969666; x=1756505666;
+ t=1724970307; x=1756506307;
  h=date:from:to:cc:subject:message-id:references:
  content-transfer-encoding:in-reply-to:mime-version;
- bh=FMLzZoUuTfh2Pm1U2MBpxpfl/8Iz5iamigkYg/tq2Ek=;
- b=bHB4a0uAKOg7Zza1WbjzAcDU7ji5GmTrOw8nr0cgcAi9RlhU2CNzIoaI
- GETxQTxiOqgLiGE2eHc1PtsKBPZfkSi8JL3hNFhqro5gqcLcb5jI3ZZsg
- KnuXsbaQdBxcHOahO8dhOpTBKS/laphXggxIdLyJFJCnvNoFBVUqVynJP
- Uo8kMZWoEENLR+IGpNlXySEYDJ70qCoiijCwl29O2io0bkndZIVlJBMYq
- rWD8peARbuznjVFW8Ps6KXhRfbBbv66DHwaU7vbA5vA4q1b6iaegyEUlT
- 4fhLfBOFEUHvdm4BgcSuDG+8VNtAsM5gHqvrhAIdUZScu9shm/GSFeLtK g==;
-X-CSE-ConnectionGUID: BEtGQ9t3S7KGsdf9PyHuJA==
-X-CSE-MsgGUID: 20xE7J3gRWeS6Ve8fp8lXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23783246"
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="23783246"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2024 15:14:25 -0700
-X-CSE-ConnectionGUID: dTiWKTfvTfSZP2HSnvJkfg==
-X-CSE-MsgGUID: LmLg5LuXQkGn8SQh8j9JiA==
+ bh=5c76SXNiIZDyiaKqY91sPAhlePX0M2tmCdVN0hkJwGY=;
+ b=ULD56S5AWhQAq9P5wmyLCTz+3MgG98z2bS4E0HoA/UhenvzNP9X+uOVR
+ Y9n1AWUqYrWLNyNg0xJ79V0UDxnvcz/Hq5Ac5nADfd0yQ2H9wgDEnbqul
+ mJJbsRTDr4VMtSK7qUn7uFHRCgtLOAu/bDc041nUXa9riqyAVQn/KVPaA
+ bdZsDZSyge0+bA2wNRw43/YizB++O3z+VmM9LNswSMPJ+Nwpf9PwVNogp
+ OmHtk9/wIyukYYo72fWPEm1qgmus+3zqsUg7YfF7SgUggPyI7rwuEPoK8
+ cxlN5OmNnjiSVK3p2Sxj1NN+qHXSzh3mQy5zMrdfiCJCr8KhkBZXAeWuS g==;
+X-CSE-ConnectionGUID: FloJkkYfSQCvYZYUJJwP5A==
+X-CSE-MsgGUID: b2Hmu5rrQnu7N44aSPUkSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34216066"
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="34216066"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2024 15:25:06 -0700
+X-CSE-ConnectionGUID: uxuq8M8zRNaG3CDqz5iU4Q==
+X-CSE-MsgGUID: SYsWjWxUSJewodtmW5C7CA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="64451882"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 29 Aug 2024 15:14:25 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="94456351"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Aug 2024 15:25:06 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 29 Aug 2024 15:14:24 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ 15.1.2507.39; Thu, 29 Aug 2024 15:25:05 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 29 Aug 2024 15:14:24 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ 15.1.2507.39; Thu, 29 Aug 2024 15:25:05 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 29 Aug 2024 15:14:24 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Thu, 29 Aug 2024 15:25:05 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.40) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 29 Aug 2024 15:14:24 -0700
+ 15.1.2507.39; Thu, 29 Aug 2024 15:25:05 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w1UrYlIWgUtANn4j/6xnCDIv69rn20c+vBT5sxqrBR8UjatmrPvHPkA/EgwaVOCv3+cfzfhPVw982XhSvkRBsv+3sM3DB5lL3S8qF+GK+Nowg+jQ94qfhV7GTqC70P6BziL45ow87fxezOnfykAi9S5CyR6fYhUWsX49UTbnDzfm/trIFIOhmdz2ojrm4FMkAI8GUpbRkfjm+uP8tOyTYEgywe91X1K9nh5ERABZ7aCArwQeCzGEfDRSTNJiravPn3JlLOAhxpXtYnGV65Gy365nG9AqZw6ZM+R+XSgGOGqpWv2Py7C9mH2DMd+q8R8hDnFGqncLXi2d2g7jYmh0gg==
+ b=NzMoEwtoed4lOL/zoecrrYwR4TZ03pKlAeQIVG2z1ytB2HzmcQJ0MJcGsgWHT1tSTUsrTY6WfAkhgwopOY1jUoMt326xz/Q7JvMfWNZsYSzevorWs3VIfgrT8pIqBhqOcEdeJrRBOC4lmTyRtX2OGfWB6j/WXRFfkpGW8azNmyE4EjOSC3HQ4s2f1DdtXbrnq9XVdad071CZuQ5GTGMH+trH12q7Ht5xTCYDyWi9CB7eaNqjq5L8bSYQn5/nVrsgRnO4P4BMPoyYO6gRZ2pb8EgHiJS8HeZpg6XzbfAGJjdcE31ZEN8oVLS+Y1bP80l58AWQ4aZXr9ZRaAcy4BJ54Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0+27z7Rp0u4cVZmb+jNFobpaBuSfTpLKVckSBsBQIhU=;
- b=COBkt3vrwlL/n5rjwdKcHr5zuPaY8aeEOP6M0aqtqbph2HOxR9k5Nf6aAsSh85jKyCktR2SaXTAk8bjQqL5fBoWih3odMKyx1yRchHuPkZm/dajhEEo/d83Tr5UNd2Vn2Uh2lR1ZRr9jIZ93W8pDymLbFef2bSyPH06b+P4NQcDvpEY0K4wVrZJWYrFOoFFG7BawJ1ErY9cvK1JMByEurSXrg4EJl0SkQEH/M3cWoF7GRPXrUeSYQf6ZTWcMZJXomOxUXFqMSePUW8kkSEwxIm6E2yec0PfHiZr8IRSHqj9s2/Mr6cvgD32Bi0h9B4LSFHhxFXyIlKs483FwGN8ZxA==
+ bh=yV5bcaGVDLcNz4FG/nlsD6BoqAV9X3WtqtAq+OqoxY8=;
+ b=Yd//4s+DGOe4AMDpIW7JY0PSyDnbOJgRKOpLqbWM01YDkrZ7zSsX1uNb6T1iZc1brDCvc0lcz7pqLWFZ7Ei5quzby5WqepVu3CRGXb95ZMxqDGtMGTo6VMxMb0eAFlb6gMY9PfOX3XlLkhxrFev8ayB5dRjksfu09VNMnvucmmCl3sjwMfxCHzdKrsKxA4QyyxcYwdNsOgbfIBYBt0IXZQq0+h4K7Rt9R6ISLEy7c4vBBlKLsXFDWdJe2+y1XoQp8OxG/JJnN4UcADrruJ7oA6bewzCpn8uykKOvOyxKoGsMT8Q4VAikFkWXqI3YVM0MA0RfWTllgY9F34IFIU1Dtg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by MN2PR11MB4535.namprd11.prod.outlook.com (2603:10b6:208:24e::21)
+ by BL1PR11MB5255.namprd11.prod.outlook.com (2603:10b6:208:31a::9)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Thu, 29 Aug
- 2024 22:14:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.27; Thu, 29 Aug
+ 2024 22:25:01 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7875.018; Thu, 29 Aug 2024
- 22:14:21 +0000
-Date: Thu, 29 Aug 2024 22:12:53 +0000
+ 22:25:01 +0000
+Date: Thu, 29 Aug 2024 22:23:34 +0000
 From: Matthew Brost <matthew.brost@intel.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
 CC: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
@@ -87,92 +87,93 @@ CC: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
  <airlied@gmail.com>, <matthew.auld@intel.com>, <daniel@ffwll.ch>, "Paneer
  Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>
 Subject: Re: [RFC PATCH 23/28] drm/xe: Add SVM VRAM migration
-Message-ID: <ZtDyZceN6asCzSHT@DUT025-TGLU.fm.intel.com>
+Message-ID: <ZtD05qp31PBlEwg/@DUT025-TGLU.fm.intel.com>
 References: <20240828024901.2582335-1-matthew.brost@intel.com>
  <20240828024901.2582335-24-matthew.brost@intel.com>
  <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
  <cbe8aebe-fcad-4ff0-8f56-146628183fd3@amd.com>
  <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
  <ZtBVXjNf1xAQOHHR@phenom.ffwll.local>
+ <ZtDyZceN6asCzSHT@DUT025-TGLU.fm.intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZtBVXjNf1xAQOHHR@phenom.ffwll.local>
-X-ClientProxiedBy: SJ0PR03CA0257.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::22) To PH7PR11MB6522.namprd11.prod.outlook.com
+In-Reply-To: <ZtDyZceN6asCzSHT@DUT025-TGLU.fm.intel.com>
+X-ClientProxiedBy: BYAPR08CA0071.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::48) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MN2PR11MB4535:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d9587f1-4adb-4255-b177-08dcc877eee7
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|BL1PR11MB5255:EE_
+X-MS-Office365-Filtering-Correlation-Id: 924d961e-ecad-451e-a6aa-08dcc8796c7e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?8Yv5n7A/Hg8mm1hluBpMRhLP4mfwHlYUZW4QZ+iMcrJEEpBzTEMiHhmGf2?=
- =?iso-8859-1?Q?TQOCXwWgEoVO7nl7Mw8kGZ3OpwJ3ugreI3dVAQu1W6tCBHNCWeOOksH/ui?=
- =?iso-8859-1?Q?XflgGfSCBb4zMisOm4nkv+877Qv9nM+9mWWZew6CKPX6cpbhbsVUcClCuv?=
- =?iso-8859-1?Q?OVFWxs/moz42bKDFNDsOzHe30KKsn0EW4IQScs3dkA9KmQ/cE7dU43C8JM?=
- =?iso-8859-1?Q?aEakc9lpEtALWCyaLmpJJ6bmwZ/r1eyR+K8pB27Ec8R76uipg7UXOKZawj?=
- =?iso-8859-1?Q?4nIng/tp7+bb3QrSB0Jg/a2M8FLHJW3mDoD2iFPjgnsSi/e/zul6GHZeic?=
- =?iso-8859-1?Q?F0fubBCz1IJeB7WDrj/t5MQDFqaT2a97uFj0JrBHzHHc2IKunnvoQVdxh4?=
- =?iso-8859-1?Q?/0vjvjGcUdMyzmJ06XI5h8Vt8KRt4745RWxNwufQ2WaS6WrpjjhCw17YTS?=
- =?iso-8859-1?Q?/c6vOxlPUwHfv22I0AfmOnIlCC68o0b0b45amAaritwg0Hl/UgC3Kzp2Tc?=
- =?iso-8859-1?Q?Nb7474doAy4WaXA9UeySmM/RHVBNB1Yb8uuarMWpXU7iAoFn4eeBM9GA91?=
- =?iso-8859-1?Q?8agBj4B8SNFzfmZFfxA7TjKiDp1aBjYFuKsJMfHG6veF3n9BCcVX/fnkdU?=
- =?iso-8859-1?Q?5cDOR5W5XVOjWVvmEBaQ8xS4zYAjzxBkAimRd1nBe//DOKFG9NuMmVpeKC?=
- =?iso-8859-1?Q?4pEfn1LJ37NZ81BI3Jb0nlQuh04+FrsBzEZ77a3EUo7OpbeDrehEpowIre?=
- =?iso-8859-1?Q?PaApxB6OLukFrBcLz6FpSU67KCR2HuM7YLp2uROtKPftbSfcOZz/d2Z8dX?=
- =?iso-8859-1?Q?/7eHz6XGWN42GJTiBkgW6eCvL8+8uoOh2PTLc259XwB9TWN8FHu8hkSviI?=
- =?iso-8859-1?Q?+CeMIWIFU7/AD1yyCk20e0kaYs+tYbs5xuZlt3+0Ubbwn/7SiNLaB91FCr?=
- =?iso-8859-1?Q?skAjXXTCjgJt8cTtSx+qxHfT/yEUZtvDlTe4Ppacl4uL/FgDFgDLzfcH2c?=
- =?iso-8859-1?Q?nnfiABqNU20hKDCMDV9ayhOOjYwD/LKEVrmmpremJtJ2MLT1yRheJSb3Fw?=
- =?iso-8859-1?Q?VaVfbT9fxdcqlz2cE/M74w0QjZlC+6c6G/UUaB8q/Nh5bNcdErh6gJ5v1d?=
- =?iso-8859-1?Q?bE5tllOTrh12aMiJNRji8zfXQlta3xX0eUV3y6LQbPxZ8bxfs8c+8+RFHg?=
- =?iso-8859-1?Q?jDQF/Qn80Jjy+ZzUt1LULJoe6f4j1ABUueTt3gYVlNY91qlcAZP24GgqkX?=
- =?iso-8859-1?Q?zT6qVKyWU7pFQHpPIyEn1+g0bm1eseDnanZfnTcRLQ2vPXt0iUeM9bGZV3?=
- =?iso-8859-1?Q?H2hY137l6/IZYJXZ1edFUf/BvA=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?EsX221rhk1eLdD3I3UYnh5SYMpmaqwBMswnrmuHchT+0r2x/dZw1yTZ/1d?=
+ =?iso-8859-1?Q?1mkMAbLT+bjr/oDTUno1BWUPgYm5X7n8mgPnfTO2OwepYykKcfHCNSTAck?=
+ =?iso-8859-1?Q?NOYL6dNGfL0IoakQRw4o3EVtDPoiSGBO42YJ+K5dkjuoXaNA/P7ENnilzE?=
+ =?iso-8859-1?Q?tkmf5Pz6jlLghT+hGdmymHQJgsyEQHQ5IbmPiR+4I7ac2xXXqXXwlvO2kY?=
+ =?iso-8859-1?Q?WV0a3mIYoCrdyQ0/E6htZWwmDw+ZUxfMA4PFJus+GaFg0xOvoPItuM+l1M?=
+ =?iso-8859-1?Q?r4n1AwS9BgRqwVKhuIa0vxlAIgYPMgMk789+Qy+XcspWXP0RPBbHzZ8eLw?=
+ =?iso-8859-1?Q?r/W1ex9auReKK4ST8UxYFVyqMdJ4ysZe14hL171gHAjoJszedd4SUU9Fz6?=
+ =?iso-8859-1?Q?Z7RFLmDuZRJgxwFfFP9ZhIQ0M4yH9I12+O9Ip45dVErw9h0AF9hEJ8fVyq?=
+ =?iso-8859-1?Q?3/1W3p+h1/ROICSiFfu3/WL71C5g2/tpRpQ3iXcrujl6Y1MFToWjPO5bfw?=
+ =?iso-8859-1?Q?JK5f17CAoVSCosGB1He9382z6cFTFTfeFkrM93b8fKyDYJ8vhzwYAlVDX9?=
+ =?iso-8859-1?Q?uni1wDZJQpz4u1vG6vpZRdd9/G3t+xhK8LZW1sYSE8lH9Fgmyu4mw83WQV?=
+ =?iso-8859-1?Q?IEdtqP38qHWz6f6X8RcyWCq8rodvLh4h/O0KGdt5OvAgRM3KdiGPEP6MKY?=
+ =?iso-8859-1?Q?TMIhGOQ2tbkDMCSYWcwdX6Mecwy8ATIBBnYrBCtQ1h22I6Qf5iydYbc4sr?=
+ =?iso-8859-1?Q?7z1j1FRlWAQJ+V2KTZp8kb8IJ4Km6cBlmDyQu9eyoLv6vxR9mabQZlhJQ/?=
+ =?iso-8859-1?Q?W5Nzd9RVTstGCPAqOJj5jrhXxbq35bjTgtgEM6ObtBbEpmsvCbut9v/BED?=
+ =?iso-8859-1?Q?pq7f+WO8XT7ko0m4Sxu0HG3I9UuELqWdEdH8wS0t4bWyB32cra5eCWn+Lf?=
+ =?iso-8859-1?Q?4g2yxJguHL8mymS0MrcNiSyCgJlAss6yyba4+Fd2CCDDQmD1fYocOZu43f?=
+ =?iso-8859-1?Q?dnCjBW5sr1wzEdA9LJJlhZ2IQ0SWoA3w4nW6Er4LQp8fdoxPZF/D+GBkqm?=
+ =?iso-8859-1?Q?BVQkIHHMegU0CBmjfIifw3eE4XJWk2tPFhg/jX1b8I5BFBryILuQxhLudm?=
+ =?iso-8859-1?Q?O1Pbzb34UARqGCVIN8b6UIdYVhRCrKoF9FLpu/Siynr1nWUD+uH2Yn+rO9?=
+ =?iso-8859-1?Q?BcY27TnVed6PTEEOLSPUETfQwwnYnHxYQruq2ooQSM4qRO5kgBKpSi0mvh?=
+ =?iso-8859-1?Q?wN+xh9zv/rSvdeUZWH2cOD+FyYlRP37wxEXzrhLGv8O1hyM+yOBK1tCwrg?=
+ =?iso-8859-1?Q?DOAixKa9T3XREnJZl4yc2gYmgQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?ylpkTKDmEGFsw4iTAopOxk6nQViRLgf5PZSJZ19lW9pt9hpdeciAbBxorj?=
- =?iso-8859-1?Q?sxHH5H5jvTTZGmsP1PilK2gOgZsSmUERqdV+LeyoGhAKMECWy1YqaH4BSs?=
- =?iso-8859-1?Q?rlrU42RJVbp3CZXpS0/5pXsiuMdoX3xCGNP2+gUiBirOPnYBbEkdYIMVLg?=
- =?iso-8859-1?Q?m8xHiRCpJhTJYWt1elBbs4pBd6qYoZFsMqOJHRHyMBKTtcywITG3pLH+yp?=
- =?iso-8859-1?Q?9zl+eZ3TyslmrdmNgph6vCaNRnaaPCO2z6VKT7ZFUp5iEkGqKNxImjEv01?=
- =?iso-8859-1?Q?QU6zuWOiM0QpLGwFyT+4ZRXa8a/+1kSffxwzXLclpHqNHbrJ/JUAO50bD8?=
- =?iso-8859-1?Q?A8k4ieoMvIoWWfE2XZ1AfHU5fGBAK8FHqTTc2tn1lNVXcOtELzyCUjqueF?=
- =?iso-8859-1?Q?IFJ/vDRF1ijN4L66MP68tHa7bQUEzvggaHJjVryll7WRC5hsa6U69OcMyI?=
- =?iso-8859-1?Q?xuK7Hzo0WHqhuvjJgy5gufqJ4ZtPmg1vzJLx8hBpEqVL7dNiaSm2cU+bpe?=
- =?iso-8859-1?Q?mnUwLpiAEGf8b2T+Hh4rZam3JxJ3KkXKiTNtfGvu8boSdfDEtRzi7sgJUC?=
- =?iso-8859-1?Q?5J0wM259UEeD08f+xnzHK48njIAdJW6UuswldUxVDNXWm2S8InpQaQEJMb?=
- =?iso-8859-1?Q?jQcITCQYbbB1XDZG/calgIoNeFk5gECwzN7tpHml5m/jtgP+LOSskGINmf?=
- =?iso-8859-1?Q?OexyFON01bZCM5CXUePWnk3CsK/eEgok8/kwqViSNAiC+JzsDRlD6ZH0UL?=
- =?iso-8859-1?Q?sT7PEmB9yiei5eGKC1+hlcmfCc6T39gPEXJgiPQkEMC4gMEB4wDz2Gh/8o?=
- =?iso-8859-1?Q?Ja8MUbZBipcKc90JhUnghlhw8fyLL1cQ2zy8Re+jUZ+wnMMvEO1a4hOvUd?=
- =?iso-8859-1?Q?mWQLPUoWNnYZGZtSVLk/Tun6dDm+HYHTzp5Zu8xXCkAivd6LohLFMxIRGz?=
- =?iso-8859-1?Q?chlZQxQcbcgP4Hxr9VQ4V1lx6FLuMNTgLQPF5cGhEtEyjoi77hGvp98RhL?=
- =?iso-8859-1?Q?G7oFgQTYqQq4ATuGFWrcGvSp+aBZA8tER1w/aOcprA+ILRB2/Tn/tA8IUw?=
- =?iso-8859-1?Q?clgX8p/5MBhiHmAV1ut12ydvEPxki88l9X3XHfdCBq2Cy5TXtV24C2Gk7k?=
- =?iso-8859-1?Q?cVefn7fq9E+K6CIqDCjO0jHw2Fv8vTTdgkARV2O/2H+fjnpJZRSCVS4qFj?=
- =?iso-8859-1?Q?sNsg79MuwhfjN0p+KJs0MNJPF4G0vJyLOuHJL4YgHV/LKIGpRXYwY4glBJ?=
- =?iso-8859-1?Q?ciiV5tnt1vTeyoRPIywoTa3VA1YvkIhIbDiTp0tF8Mef4edunEtv5exqv4?=
- =?iso-8859-1?Q?+rjlKC+xWHysQTy7jf+ZTjCPIKZ2UXtfwIhQvHo4GJOzxSMHbuLNVCtMWE?=
- =?iso-8859-1?Q?6Tlg7A+onpx3FmVEElk4I7Ix7GVbGvAzKfWb2PSPfrsYMrNfwj50sQyNR5?=
- =?iso-8859-1?Q?Iw+myn9J3PNCkkMprkLmuVnN8YooS2L2MpboOUg5BsOC3I3ihPB5e78dgA?=
- =?iso-8859-1?Q?8FwiLbUCl3zA5yirFf9fpWAx4B62eLi4/KD0fIyfcX1I6YWnYJP/P4h89P?=
- =?iso-8859-1?Q?NDoKTjAkDUHLkDxhE46/q3WpwMdjE2akJqRCzklOHTg+ahdXvtixdE9dSp?=
- =?iso-8859-1?Q?P9X4uvew/vALIyPfzDWygFM/hAJ/4+pIgSDBL1gr9fLaZsI6Gw7eZXew?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?IlgIsLAabL2SliZhH33jMevbb1DmVT3b56R2XfMmj/wc0GSreBa57hGpSn?=
+ =?iso-8859-1?Q?VqzcLL6qYKDtioZT9PM8aoyVHRKWU7ryRO9ZIE6wqO9ZvpFfe4Wp2D8C9e?=
+ =?iso-8859-1?Q?GQWvXEETvRvSA2w1I1cwsFOP3OhMdZyAq1FiO8Wdgy7xtF4W+tAFOgo0/8?=
+ =?iso-8859-1?Q?wNtN7aYayV0fCmkXWX+rSy8ebqB1ivtM4ajRPJrxzscWFhWl/YGka5Ygqn?=
+ =?iso-8859-1?Q?Ii7VgNE4nEwWHkTePVC3ShyEUPjxk+tcSbcBRa5XqcM8R/c+9pP2Ts1P5R?=
+ =?iso-8859-1?Q?u4oPO1RmRrE/JQonSZl2R1kzZSN/1Edw36v7lItUWbd+5k93Cj4QgcfYbA?=
+ =?iso-8859-1?Q?yOBP9rR1izfkmTtZWJS4dIvJQLpHb0IALUFqGVSJqfzkb3kMCKLmHDOGQB?=
+ =?iso-8859-1?Q?9+waRUVZvinLMPEhrqjr5ENUDkjgXTsaD0Md44T7N+q+YuBQgdS0Kxqa6w?=
+ =?iso-8859-1?Q?qrWkj4X+ggCPAASWqsY0lhhh0PL3UgETYhqDEpr9vTXIJ3Py+RVKr9fkKO?=
+ =?iso-8859-1?Q?auev/H1UMusH9OoBZ+2Fld4Xfip2ke96+sFwwXmL1KhoYDakGbL4h2UOdO?=
+ =?iso-8859-1?Q?p2WtjzBIz8IM7jzCCo/e98b3IWWKX35staBe3hz0Pqp/MsOkDVC2bWNi87?=
+ =?iso-8859-1?Q?4hsqj6m3LxUXNC4WH3fO9DuSawXKWkXALzQrX4PYmM4z5zcPYfhpMHIaUs?=
+ =?iso-8859-1?Q?SoOutUTgD5Ske1lMHN0TIZlLZh4P2Rr3d0NSaju95zSN5G58kf5Kf5W5aR?=
+ =?iso-8859-1?Q?S38KCh5qGyslyzEyn4jlBO6Mi6e1VjqbsGB1D6oVuyiQasxDKUcDs0xlG1?=
+ =?iso-8859-1?Q?CzEMFL5ykaoypVHiUE9SVZtmTxKNBr8OqT+1EP9XGKADjpm/LG8bT52vA9?=
+ =?iso-8859-1?Q?YdqAqlJVfXvIEYE/SbsSEg3Lnm+qnBz7pw3N7a1BAhO2uwuc98IyJFrcCn?=
+ =?iso-8859-1?Q?hrAhpqfTrCZJj7K8qZjs7QVHCYmuVFZxDOzBDAGkxooWjtbZ+YXRUzPtBL?=
+ =?iso-8859-1?Q?DWceFVVpUPncEUrmjJ+bi9eTegk35eQLAvIkSsmnNVb5sZHf58W0i5ft+w?=
+ =?iso-8859-1?Q?H4u9K3kCcRTNN3UT24H8sf4iwxowOgT5abqfcx0pMGDjOws757FhO/0LaH?=
+ =?iso-8859-1?Q?Kzjaj5Vh5PnXD3/eBfTJsA7wc1rt902MvnfcI12U1fIXfBcVVKN+z0+RBA?=
+ =?iso-8859-1?Q?Uf7nJ5r0Q4y/XmYM7JHxW8yFyZlpxFEYgxHpRg/QPkx6cbQ8u2iBD3p8N2?=
+ =?iso-8859-1?Q?kefRsIH2wcTgfJMII6pnmcMfXHftGj0zaFrXAOfYDNv8wG8C/avojXO5R6?=
+ =?iso-8859-1?Q?Oohkyt37f9sSC5gzYJ54nU/F4JqlXOMDINHfQRDIiBjfiE8oLz3r9fWyfg?=
+ =?iso-8859-1?Q?uwx4WFvzftrN9u/+Vx3YgjIax5Bg/wQuJZTlpqY+jtOBF8zFOuHuzAKwse?=
+ =?iso-8859-1?Q?btFBJmwsJR0gJwmXE2BfGPfavpVIIkGOYjlV+BXtBITDQrXtHKLqeJpeCH?=
+ =?iso-8859-1?Q?+dd6G0fCBrqo3OdWfqqMtP81QTi3L12ac57/q3WR9poyiQ0U42MCeNxKn/?=
+ =?iso-8859-1?Q?ZN/Hn9Z3PM8mRXO7GhOvmj9V0ufd6rwNhqq+YPCtLonUTIl1vwYIF9SJ31?=
+ =?iso-8859-1?Q?TLNGcE//ikxCDsJaLcGFIVeKEjIMDBASPb/Q0zHO9wFE6Mzjiip9bHmg?=
  =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d9587f1-4adb-4255-b177-08dcc877eee7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 924d961e-ecad-451e-a6aa-08dcc8796c7e
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 22:14:21.5522 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 22:25:01.7484 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9HtmF6oHrHVeCdlHSszeir1DPWZuCo1H4AhuAHhDkB2jOUaQnFZdXGelh+Lim65UdIUUGhZFnpIfcCnU7HwauA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4535
+X-MS-Exchange-CrossTenant-UserPrincipalName: kmmhZPWPu4b8hL4jX88KEb6fJcTipkdCgBcv+Ksgpx15qQ8gDuJWbfqQfJVbiuDor2wCal3ZnM9HUDbEs131aQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5255
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -189,99 +190,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 01:02:54PM +0200, Daniel Vetter wrote:
-> On Thu, Aug 29, 2024 at 11:53:58AM +0200, Thomas Hellström wrote:
-> > But as Sima pointed out in private communication, exhaustive eviction
-> > is not really needed for faulting to make (crawling) progress.
-> > Watermarks and VRAM trylock shrinking should suffice, since we're
-> > strictly only required to service a single gpu page granule at a time.
+On Thu, Aug 29, 2024 at 10:12:53PM +0000, Matthew Brost wrote:
+> On Thu, Aug 29, 2024 at 01:02:54PM +0200, Daniel Vetter wrote:
+> > On Thu, Aug 29, 2024 at 11:53:58AM +0200, Thomas Hellström wrote:
+> > > But as Sima pointed out in private communication, exhaustive eviction
+> > > is not really needed for faulting to make (crawling) progress.
+> > > Watermarks and VRAM trylock shrinking should suffice, since we're
+> > > strictly only required to service a single gpu page granule at a time.
+> > > 
+> > > However, ordinary bo-based jobs would still like to be able to
+> > > completely evict SVM vram. Whether that is important enough to strive
+> > > for is ofc up for discussion.
 > > 
-> > However, ordinary bo-based jobs would still like to be able to
-> > completely evict SVM vram. Whether that is important enough to strive
-> > for is ofc up for discussion.
+> > My take is that you don't win anything for exhaustive eviction by having
+> > the dma_resv somewhere in there for svm allocations. Roughly for split lru
+> > world, where svm ignores bo/dma_resv:
+> > 
+> > When evicting vram from the ttm side we'll fairly switch between selecting
+> > bo and throwing out svm pages. With drm_exec/ww_acquire_ctx selecting bo
+> > will eventually succeed in vacuuming up everything (with a few retries
+> > perhaps, if we're not yet at the head of the ww ticket queue).
+> > 
+> > svm pages we need to try to evict anyway - there's no guarantee, becaue
+> > the core mm might be holding temporary page references (which block
 > 
-> My take is that you don't win anything for exhaustive eviction by having
-> the dma_resv somewhere in there for svm allocations. Roughly for split lru
-> world, where svm ignores bo/dma_resv:
+> Yea, but think you can could kill the app then - not suggesting we
+> should but could. To me this is akin to a CPU fault and not being able
+> to migrate the device pages - the migration layer doc says when this
+> happens kick this to user space and segfault the app.
 > 
-> When evicting vram from the ttm side we'll fairly switch between selecting
-> bo and throwing out svm pages. With drm_exec/ww_acquire_ctx selecting bo
-> will eventually succeed in vacuuming up everything (with a few retries
-> perhaps, if we're not yet at the head of the ww ticket queue).
+> My last patch in the series adds some asserts to see if this ever
+> happens, thus far never. If it occurs we could gracefully handle it by
+> aborting the migration I guess... I think the user really needs to
+> something a bit crazy to trigger this condition - I don't think the core
+> randomly grabs refs to device pages but could be wrong.
 > 
-> svm pages we need to try to evict anyway - there's no guarantee, becaue
-> the core mm might be holding temporary page references (which block
-
-Yea, but think you can could kill the app then - not suggesting we
-should but could. To me this is akin to a CPU fault and not being able
-to migrate the device pages - the migration layer doc says when this
-happens kick this to user space and segfault the app.
-
-My last patch in the series adds some asserts to see if this ever
-happens, thus far never. If it occurs we could gracefully handle it by
-aborting the migration I guess... I think the user really needs to
-something a bit crazy to trigger this condition - I don't think the core
-randomly grabs refs to device pages but could be wrong.
-
-> migration) or have the page locked (which also block the migration). But
-> as long as those two steps succeed, we'll win and get the pages. There
-> might be some thrashing against concurrent svm faults stealing them again,
-> but they have a disadvantage since they can't steal dma_resv_locked bo.
-> And if it's still too much we can stall them in the page allocator.
+> > migration) or have the page locked (which also block the migration). But
+> > as long as those two steps succeed, we'll win and get the pages. There
+> > might be some thrashing against concurrent svm faults stealing them again,
+> > but they have a disadvantage since they can't steal dma_resv_locked bo.
+> > And if it's still too much we can stall them in the page allocator.
+> > 
+> > So it's not entirely reliable, but should be close enough.
+> > 
+> > Now for bo based svm the picture isn't any different, because holding
+> > dma_resv is not actually enough to migrate svm mappings. We still need to
+> > hope there's no temporary page references around, and we still need to
+> > succeed at locking the page. And the migration code only does trylocks,
+> > because that's it's deadlock prevent algorithm if different migrations
+> > needing the same set of pages, but acquiring them in a different order. So
+> > we win nothing.
 > 
-> So it's not entirely reliable, but should be close enough.
+> Ok, maybe my statement above is false...
 > 
-> Now for bo based svm the picture isn't any different, because holding
-> dma_resv is not actually enough to migrate svm mappings. We still need to
-> hope there's no temporary page references around, and we still need to
-> succeed at locking the page. And the migration code only does trylocks,
-> because that's it's deadlock prevent algorithm if different migrations
-> needing the same set of pages, but acquiring them in a different order. So
-> we win nothing.
-
-Ok, maybe my statement above is false...
-
-Wouldn't be the only time this falls is if another migration is in
-flight (e.g. CPU fault) and they race? Then the eviction will naturally
-happen via refcount being dropped from the other migration. I guess I
-likely need to update my eviction code to not free the TTM resource if
-all pages are not migrated.
-
-> 
-> Worse, if dma_resv does actually hold up svm migration and reclaim, then
-> we potentially deadlock because that lock is for a bigger range than
-> individual pages (or folios). And the core mm assumes that it can get out
-> of a deadlock bind by (at least stochastically) eventually succeeding in
-> acquiring/locking down a single page.
-> 
-> This means we cannot use dma_resv tricks to give the ttm world an
-> advantage in exhaustive eviction against concurrent svm faults. Or at
-> least not more than we can do without by just stalling svm faults that
-> need to allocate gpu memory (but that must happen without holding locks or
-> we're busted).
+> Wouldn't be the only time this falls is if another migration is in
+> flight (e.g. CPU fault) and they race? Then the eviction will naturally
+> happen via refcount being dropped from the other migration. I guess I
+> likely need to update my eviction code to not free the TTM resource if
+> all pages are not migrated.
 > 
 
-I'm a little lost here on the deadlock case. Do you mean when we try to
-evict SVM BO we trigger reclaim by allocating system pages and can
-deadlock? Doesn't TTM already have this dependency when evicting non-SVM
-BOs?
-
-> So the only benefit I'm seeing is the unified lru, which I'm not sure is
-> worth it. There's also a bit a lru design tension here, because for the bo
-
-Well also not rewriting the world...
+Also if we add something like AMD's range->migration_mutex pretty sure
+this race goes away and we left with 'the user has done something not smart,
+and could convinciblely kill the app'.
 
 Matt
 
-> world we want objects that are locked to stay on the lru, so that the
-> competing processes can figure out who has the winning ww ticket. The core
-> mm design otoh does isolate pages and remove them from the lru when
-> they're acquired, so that they don't gunk up other processes from trying
-> to make forward progress and are better hidden. Which reduces temporary
-> page references (from lru walk) preventing migration and stuff like that.
+> > 
+> > Worse, if dma_resv does actually hold up svm migration and reclaim, then
+> > we potentially deadlock because that lock is for a bigger range than
+> > individual pages (or folios). And the core mm assumes that it can get out
+> > of a deadlock bind by (at least stochastically) eventually succeeding in
+> > acquiring/locking down a single page.
+> > 
+> > This means we cannot use dma_resv tricks to give the ttm world an
+> > advantage in exhaustive eviction against concurrent svm faults. Or at
+> > least not more than we can do without by just stalling svm faults that
+> > need to allocate gpu memory (but that must happen without holding locks or
+> > we're busted).
+> > 
 > 
-> Cheers, Sima
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> I'm a little lost here on the deadlock case. Do you mean when we try to
+> evict SVM BO we trigger reclaim by allocating system pages and can
+> deadlock? Doesn't TTM already have this dependency when evicting non-SVM
+> BOs?
+> 
+> > So the only benefit I'm seeing is the unified lru, which I'm not sure is
+> > worth it. There's also a bit a lru design tension here, because for the bo
+> 
+> Well also not rewriting the world...
+> 
+> Matt
+> 
+> > world we want objects that are locked to stay on the lru, so that the
+> > competing processes can figure out who has the winning ww ticket. The core
+> > mm design otoh does isolate pages and remove them from the lru when
+> > they're acquired, so that they don't gunk up other processes from trying
+> > to make forward progress and are better hidden. Which reduces temporary
+> > page references (from lru walk) preventing migration and stuff like that.
+> > 
+> > Cheers, Sima
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
