@@ -2,99 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3709964396
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FE49643A1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:57:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9939010E652;
-	Thu, 29 Aug 2024 11:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5DB10E657;
+	Thu, 29 Aug 2024 11:57:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tRj9f0pp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZMkf4qTe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B064B10E652
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:55:13 +0000 (UTC)
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
- [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 223CF6B5;
- Thu, 29 Aug 2024 13:54:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1724932444;
- bh=18MFg0ZU0gWEGTSRmJyGi2UXhCSkBRuo2F5V7lvrFW4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tRj9f0ppVRM5zv7lpEUb0256T7/Lqiu56m0Jkr5rbA+WvCipDUkeg6EPm9pJp1vcc
- q0qKU/2mpqC5B68d1d8cx0ayjq7VVlBlq6HRInS+kpLeV2jPimqGQarAk10kfZBa2B
- P4cQ+UveA0/rE9DuKn2wTwb9s04VKSBOpYIIS4ZM=
-Message-ID: <bb9d4495-ada4-446a-80e3-6b9ddc676f48@ideasonboard.com>
-Date: Thu, 29 Aug 2024 14:55:07 +0300
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+ [209.85.219.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B01B10E657
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:56:58 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id
+ 3f1490d57ef6-e16518785c2so455178276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 04:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1724932617; x=1725537417; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VGKYfZEA8ueSbdLkY5s5hU0jXKcQn2uFCbYV0qNbbxA=;
+ b=ZMkf4qTeUJEIhIT1XmizROQF3fQ9L3GryXUkhsS01peVc3Xht+ZUVa/Ii7q1fXwnRP
+ SYJsbzZ1UsUjaPeo+rKMVUHxZv5vFq/j/VKPEMTf3LCagFk51iJ4TUxLsh4/tK5cgs5I
+ WWq9XdTQdeJCvHeIVquYQrDhwvGr/UENAgbstUZBeMWA9RB0gUyiTcGtNHCAQd26DW75
+ 0cMuRNiFuWpESE9nWwkQfgGTJd4IA0MMGCGtI13tHDytpm84yDKngoSyBttyv4aICw8a
+ glSpYosjJRcGz1j4pC2jzlMgQHll5TA3ah1iBmZtTpshpfA2G3MelFRz2j8Nmux82Bsz
+ 1VhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724932617; x=1725537417;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VGKYfZEA8ueSbdLkY5s5hU0jXKcQn2uFCbYV0qNbbxA=;
+ b=aJFhSS2L/qEBS1t16hXcAM15Opej4Rg5bDidOnQxulcDVK33hWscjRbkBmmFG3ILgm
+ sV+eDo0/w4cOoHxLzX4o9H8XOEwY6IuLDVEzt0P22xvhskAUFpLY/qfmDMZkkb/0M1gr
+ KWQXwp1TyKHRPhsLZ0cW8jtUAsGDJK1AI1XQlBO3TMz1QrRy9Evo5Qh4sCdIJRQVQsuq
+ WekV0gemQqpzSYfQoIA9OJl07cvNNOAFDZHxM2nbatEOYjim3dgV3l2MGCn1gEoTD9JM
+ oGyOB9ZjxDub3/I/bhS6HIrIifHqFrSr5unc7iNWAbH7VKpbyHv/ICEkWLF/zscj1g0T
+ 5m3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX6qkVFirSeePofUSzZnwLFDPN5HN5KwTfF+AYmBIov0wsPri2YAUxp1CTY39Q4+A3v4kJATg6Rfx4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOKAKlOllU9X3wPWoB2f98rNk1oymnJiNDcy1ksOL5sg3qbv4a
+ JO6pRuzZXOZhHyQdsojMSIiZAV56thHq2hwwdlFFhaR9I+g8TYP0sOQG6QL9JDIY8cqKpcyzM6H
+ G471+6rVz4fZUq1QALYkBkC0vl+Qoi2PPmArmJQ==
+X-Google-Smtp-Source: AGHT+IHXnArOKRKkv9aDeckq+KbsCjyogedUlTLo8qkAGBwyIvTaY1QBhm0kJiL7fKWjsTr1H+Cwlshy/HqGzV5bPpI=
+X-Received: by 2002:a05:6902:1002:b0:e11:7d82:9a88 with SMTP id
+ 3f1490d57ef6-e1a5af0b5d9mr2601279276.42.1724932617145; Thu, 29 Aug 2024
+ 04:56:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/2] pmdomain: ti-sci: Support retaining PD boot time
- state
-To: Ulf Hansson <ulf.hansson@linaro.org>, Abel Vesa <abel.vesa@linaro.org>,
- Saravana Kannan <saravanak@google.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>,
- Santosh Shilimkar <ssantosh@kernel.org>, Dave Gerlach <d-gerlach@ti.com>,
- J Keerthy <j-keerthy@ti.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Devarsh Thakkar <devarsht@ti.com>
-References: <20240415-ti-sci-pd-v1-0-a0e56b8ad897@ideasonboard.com>
- <20240415-ti-sci-pd-v1-2-a0e56b8ad897@ideasonboard.com>
- <d4cd0323-4792-49b0-a4e2-0bc92068e7f0@ideasonboard.com>
- <CAPDyKFqShuq98qV5nSPzSqwLLUZ7LxLvp1eihGRBkU4qUKdWwQ@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAPDyKFqShuq98qV5nSPzSqwLLUZ7LxLvp1eihGRBkU4qUKdWwQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org>
+ <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-20-bdb05b4b5a2e@linaro.org>
+In-Reply-To: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-20-bdb05b4b5a2e@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 29 Aug 2024 14:56:46 +0300
+Message-ID: <CAA8EJpoN-rWiKj37-9QGRVOJSXd0sk7kKbmO8VJEHQoyse6s3w@mail.gmail.com>
+Subject: Re: [PATCH 20/21] drm/msm/dpu: support quad pipe in general operations
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,92 +84,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ulf,
+On Thu, 29 Aug 2024 at 13:21, Jun Nie <jun.nie@linaro.org> wrote:
+>
+> Support quad pipe in general operations with unified method.
+>
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 87 +++++++++++++++++--------------
+>  1 file changed, 47 insertions(+), 40 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index c38c1bedd40fb..c3ea97b4ce439 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -619,6 +619,7 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+>         struct msm_drm_private *priv = plane->dev->dev_private;
+>         struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
+>         u32 fill_color = (color & 0xFFFFFF) | ((alpha & 0xFF) << 24);
+> +       int i;
+>
+>         DPU_DEBUG_PLANE(pdpu, "\n");
+>
+> @@ -632,12 +633,11 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+>                 return;
+>
+>         /* update sspp */
+> -       _dpu_plane_color_fill_pipe(pstate, &pstate->pipe, &pstate->pipe_cfg.dst_rect,
+> -                                  fill_color, fmt);
+> -
+> -       if (pstate->r_pipe.sspp)
+> -               _dpu_plane_color_fill_pipe(pstate, &pstate->r_pipe, &pstate->r_pipe_cfg.dst_rect,
+> -                                          fill_color, fmt);
+> +       for (i = 0; i < PIPES_PER_STAGE; i++)
+> +               if (pstate->pipe[i].sspp)
+> +                       _dpu_plane_color_fill_pipe(pstate, &pstate->pipe[i],
+> +                                                  &pstate->pipe_cfg[i].dst_rect,
+> +                                                  fill_color, fmt);
+>  }
+>
+>  static int dpu_plane_prepare_fb(struct drm_plane *plane,
+> @@ -1279,8 +1279,11 @@ void dpu_plane_flush(struct drm_plane *plane)
+>                 /* force 100% alpha */
+>                 _dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
+>         else {
+> -               dpu_plane_flush_csc(pdpu, &pstate->pipe);
+> -               dpu_plane_flush_csc(pdpu, &pstate->r_pipe);
+> +               int i;
+> +
+> +               for (i = 0; i < PIPES_PER_STAGE; i++)
+> +                       if (pstate->pipe_cfg[i].visible)
+> +                               dpu_plane_flush_csc(pdpu, &pstate->pipe[i]);
+>         }
+>
+>         /* flag h/w flush complete */
+> @@ -1380,20 +1383,17 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>         struct dpu_plane *pdpu = to_dpu_plane(plane);
+>         struct drm_plane_state *state = plane->state;
+>         struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> -       struct dpu_sw_pipe *pipe = &pstate->pipe;
+> -       struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+>         struct drm_crtc *crtc = state->crtc;
+>         struct drm_framebuffer *fb = state->fb;
+>         bool is_rt_pipe;
+>         const struct msm_format *fmt =
+>                 msm_framebuffer_format(fb);
+> -       struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> -       struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> +       struct dpu_sw_pipe_cfg *pipe_cfg;
+>         struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+>         struct msm_gem_address_space *aspace = kms->base.aspace;
+>         struct dpu_hw_fmt_layout layout;
+>         bool layout_valid = false;
+> -       int ret;
+> +       int ret, i;
+>
+>         ret = dpu_format_populate_layout(aspace, fb, &layout);
+>         if (ret)
+> @@ -1412,28 +1412,28 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>                         crtc->base.id, DRM_RECT_ARG(&state->dst),
+>                         &fmt->pixel_format, MSM_FORMAT_IS_UBWC(fmt));
+>
+> -       dpu_plane_sspp_update_pipe(plane, pipe, pipe_cfg, fmt,
+> -                                  drm_mode_vrefresh(&crtc->mode),
+> -                                  layout_valid ? &layout : NULL);
+> -
+> -       if (r_pipe->sspp) {
+> -               dpu_plane_sspp_update_pipe(plane, r_pipe, r_pipe_cfg, fmt,
+> -                                          drm_mode_vrefresh(&crtc->mode),
+> -                                          layout_valid ? &layout : NULL);
+> +       for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +               if (pstate->pipe_cfg[i].visible && pstate->pipe[i].sspp)
+> +                       dpu_plane_sspp_update_pipe(plane, &pstate->pipe[i],
+> +                                                  &pstate->pipe_cfg[i], fmt,
+> +                                                  drm_mode_vrefresh(&crtc->mode),
+> +                                                  layout_valid ? &layout : NULL);
+>         }
+>
+>         if (pstate->needs_qos_remap)
+>                 pstate->needs_qos_remap = false;
+>
+> -       pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt,
+> -                                                   &crtc->mode, pipe_cfg);
+> -
+> -       pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, pipe_cfg);
+> -
+> -       if (r_pipe->sspp) {
+> -               pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, r_pipe_cfg);
+> +       pstate->plane_fetch_bw = 0;
+> +       pstate->plane_clk = 0;
+> +       for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +               pipe_cfg = &pstate->pipe_cfg[i];
+> +               if (pipe_cfg->visible) {
+> +                       pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt,
+> +                                                                   &crtc->mode, pipe_cfg);
+>
+> -               pstate->plane_clk = max(pstate->plane_clk, _dpu_plane_calc_clk(&crtc->mode, r_pipe_cfg));
+> +                       pstate->plane_clk = max(pstate->plane_clk,
+> +                                               _dpu_plane_calc_clk(&crtc->mode, pipe_cfg));
+> +               }
+>         }
+>  }
+>
+> @@ -1441,17 +1441,21 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+>  {
+>         struct drm_plane_state *state = plane->state;
+>         struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> -       struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> +       struct dpu_sw_pipe *pipe;
+> +       int i;
+>
+> -       trace_dpu_plane_disable(DRMID(plane), false,
+> -                               pstate->pipe.multirect_mode);
+> +       for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +               pipe = &pstate->pipe[i];
+> +               if (pipe->multirect_index == DPU_SSPP_RECT_1) {
 
-On 03/05/2024 16:45, Ulf Hansson wrote:
-> + Abel, Saravanna, Stephen
-> 
-> On Mon, 15 Apr 2024 at 19:17, Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->>
->> On 15/04/2024 19:00, Tomi Valkeinen wrote:
->>> Add a new flag, TI_SCI_PD_KEEP_BOOT_STATE, which can be set in the dts
->>> when referring to power domains. When this flag is set, the ti-sci
->>> driver will check if the PD is currently enabled in the HW, and if so,
->>> set the GENPD_FLAG_ALWAYS_ON flag so that the PD will stay enabled.
->>>
->>> The main issue I'm trying to solve here is this:
->>>
->>> If the Display Subsystem (DSS) has been enabled by the bootloader, the
->>> related PD has also been enabled in the HW. When the tidss driver
->>> probes, the driver framework will automatically enable the PD. While
->>> executing the probe function it is very common for the probe to return
->>> EPROBE_DEFER, and, in rarer cases, an actual error. When this happens
->>> (probe() returns an error), the driver framework will automatically
->>> disable the related PD.
->>>
->>> Powering off the PD while the DSS is enabled and displaying a picture
->>> will cause the DSS HW to enter a bad state, from which (afaik) it can't
->>> be woken up except with full power-cycle. Trying to access the DSS in
->>> this state (e.g. when retrying the probe) will usually cause the board
->>> to hang sooner or later.
->>>
->>> Even if we wouldn't have this board-hangs issue, it's nice to be able to
->>> keep the DSS PD enabled: we want to keep the DSS enabled when the
->>> bootloader has enabled the screen. If, instead, we disable the PD at the
->>> first EPROBE_DEFER, the screen will (probably) go black.
->>
->> A few things occurred to me. The driver is supposed to clear the
->> GENPD_FLAG_ALWAYS_ON when the driver has probed successfully. There are
->> two possible issues with that:
->>
->> - Afaics, there's no API to do that, and currently I just clear the bit
->> in genpd->flags. There's a clear race there, so some locking would be
->> required.
->>
->> - This uses the GENPD_FLAG_ALWAYS_ON flag to say "PD is always on, until
->> the driver has started". If the PD would have GENPD_FLAG_ALWAYS_ON set
->> for other reasons, the driver would still go and clear the flag, which
->> might break things.
->>
->> Also, unrelated to the above and not a problem in practice at the very
->> moment, but I think clocks should also be dealt with somehow. Something,
->> at early-ish boot stage, should mark the relevant clocks as in use, so
->> that there's no chance they would be turned off when the main kernel has
->> started (the main display driver is often a module).
->>
->> It would be nice to deal with all the above in a single place. I wonder
->> if the tidss driver itself could somehow be split into two parts, an
->> early part that would probe with minimal dependencies, mainly to reserve
->> the core resources without doing any kind of DRM init. And a main part
->> which would (somehow) finish the initialization at a later point, when
->> we have the filesystem (for firmware) and the other bridge/panel drivers
->> have probed.
->>
->> That can be somewhat achieved with simplefb or simpledrm, though, but we
->> can't do any TI DSS specific things there, and it also creates a
->> requirement to have either of those drivers built-in, and the related DT
->> nodes to be added.
-> 
-> Without going into too much detail, this and similar problems have
-> been discussed in the past. With the fw_devlink and the ->sync_state()
-> callback we are getting closer to a solution, but for genpd a solution
-> is still pending.
-> 
-> If you want to read up on earlier discussions and join us moving
-> forward, that would be great. The last attempt for genpd to move this
-> forward was posted by Abel Vesa:
-> https://lore.kernel.org/linux-pm/20230621144019.3219858-1-abel.vesa@linaro.org/
-> 
-> Beyond that, we have also discussed various solutions at the last LPC
-> in Richmond. I think the consensus at that point was that Saravana
-> targeted to post something for clocks - and when that was done, we
-> should do the similar thing for genpd. Anyway, I have looped them into
-> this thread, so they can share any updates on their side of the
-> matter.
+No, the code isn't equivalent.
 
-Do you know if there's been any recent work related to this? I tried to 
-look around on the lists, but nothing caught my eye.
+> +                       trace_dpu_plane_disable(DRMID(plane), false,
+> +                                               pstate->pipe[i - 1].multirect_mode);
+>
+> -       if (r_pipe->sspp) {
+> -               r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -               r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> +                       pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> +                       pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+>
+> -               if (r_pipe->sspp->ops.setup_multirect)
+> -                       r_pipe->sspp->ops.setup_multirect(r_pipe);
+> +                       if (pipe->sspp && pipe->sspp->ops.setup_multirect)
+> +                               pipe->sspp->ops.setup_multirect(pipe);
+> +               }
+>         }
+>
+>         pstate->pending = true;
+> @@ -1607,14 +1611,17 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
+>         struct dpu_plane *pdpu = to_dpu_plane(plane);
+>         struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
+>         struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+> +       int i;
+>
+>         if (!pdpu->is_rt_pipe)
+>                 return;
+>
+>         pm_runtime_get_sync(&dpu_kms->pdev->dev);
+> -       _dpu_plane_set_qos_ctrl(plane, &pstate->pipe, enable);
+> -       if (pstate->r_pipe.sspp)
+> -               _dpu_plane_set_qos_ctrl(plane, &pstate->r_pipe, enable);
+> +       for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +               if (!pstate->pipe_cfg[i].visible)
+> +                       break;
 
-  Tomi
+continue, not break.
 
+> +               _dpu_plane_set_qos_ctrl(plane, &pstate->pipe[i], enable);
+> +       }
+>         pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>  }
+>  #endif
+>
+> --
+> 2.34.1
+>
+
+
+-- 
+With best wishes
+Dmitry
