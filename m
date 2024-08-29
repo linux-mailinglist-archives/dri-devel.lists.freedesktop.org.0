@@ -2,67 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850DE964940
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9079964946
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:57:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0057110E6F2;
-	Thu, 29 Aug 2024 14:56:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UfUr/3gG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5972B10E6FA;
+	Thu, 29 Aug 2024 14:57:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF1510E6F2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:56:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BCDD2A44110
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:55:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6103CC4CEC3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:56:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1724943364;
- bh=Wa7GEC+jmKeo4NSPW1Bo0oimfIIbKS9WMiWx2F1YMMI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UfUr/3gGVA3aySXOeeNVdUpeDbxqN2i9g3FvtooXpWy7a9+AV2Z+AUhvZFTDtW0cj
- ijUnF16/ekARaheHS783rlUwngZn6F2zbJ88dZobL/0wP03OCCUwgS2FcQpGCvEe/0
- sRfEI90qWQOHfc3QeoHfbQPY7+b5zdufsBuldxJHjnLQ6EHLjnwKID9TFHo5bx2tka
- FepC0lHnUF7xk/c810ydVnCXD7Ta9+hmc6brQ8N7JjCY1IsgTlxMyUmp6uh/5vm+es
- 3F3iS5J/aaNHYHnidDhAK7KCWRkJf8jsoLlDcu4fUeLpqNYqI/9hHjvngUCHny5Y3w
- +eL76R5jhPR1g==
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-714262f1bb4so612468b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:56:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWU2QqBFfmA/DFPP/z/emnfx6i5uiMLa54OfSSKivTBhiVYVVxhfblv0ptSX81OXgUagPwksD7GKCg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEGdpKkr1NgsNXErTutFZFzNZWZ15VYgw2oDUoMqMrKO+V3Zk0
- xcZbY/i35VNsHJ3XhiJytg6cHuW4154+zxRQCHO2vTaSPG1td0SahWAxUEsngdObmCTbueN5MbQ
- LDmfx3a90BIr5G09yBHISqhJY0g==
-X-Google-Smtp-Source: AGHT+IHOHmvJGn9XBz6AncThotzVydHX29A8RmV2+ScX8Y16nl8lRqvlZcttdvPWazADk9wtRFMpp2To9vbVhRKrL9g=
-X-Received: by 2002:a05:6a00:21c4:b0:70d:2583:7227 with SMTP id
- d2e1a72fcca58-715dfb6917bmr3828262b3a.6.1724943363419; Thu, 29 Aug 2024
- 07:56:03 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9277110E6FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:57:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D644DA7
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:57:58 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D61D63F66E
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 07:57:31 -0700 (PDT)
+Date: Thu, 29 Aug 2024 15:57:22 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: flush FW AS caches in slow reset path
+Message-ID: <ZtCMUg-PoOUH98Ub@e110455-lin.cambridge.arm.com>
+References: <20240816185250.344080-1-adrian.larumbe@collabora.com>
+ <20240817111017.2a010061@collabora.com>
 MIME-Version: 1.0
-References: <20240827-drm-fixup-0819-v3-0-4761005211ec@mediatek.com>
-In-Reply-To: <20240827-drm-fixup-0819-v3-0-4761005211ec@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 29 Aug 2024 22:56:17 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-LX_aLLJpquJSYMu1uQ4v0nbEToVOBnV7Qr4vwBtoauA@mail.gmail.com>
-Message-ID: <CAAOTY_-LX_aLLJpquJSYMu1uQ4v0nbEToVOBnV7Qr4vwBtoauA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] Fix missing configuration flags in
- mtk_crtc_ddp_config
-To: jason-jh.lin@mediatek.com
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Singo Chang <singo.chang@mediatek.com>, 
- Nancy Lin <nancy.lin@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- CK Hu <ck.hu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240817111017.2a010061@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,45 +54,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
+Hi Adrián,
 
-I squash this series into one patch and apply to mediatek-drm-next [1], tha=
-nks.
+On Sat, Aug 17, 2024 at 11:10:17AM +0200, Boris Brezillon wrote:
+> On Fri, 16 Aug 2024 19:52:49 +0100
+> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+> 
+> > In the off-chance that waiting for the firmware to signal its booted status
+> > timed out in the fast reset path, one must flush the cache lines for the
+> > entire FW VM address space before reloading the regions, otherwise stale
+> > values eventually lead to a scheduler job timeout.
+> > 
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> 
+> We probably want Fixes/Cc-stable tags here.
+> 
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_fw.c  |  8 +++++++-
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++++---
+> >  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+> >  3 files changed, 24 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> > index 857f3f11258a..ef232c0c2049 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> > @@ -1089,6 +1089,12 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
+> >  		panthor_fw_stop(ptdev);
+> >  		ptdev->fw->fast_reset = false;
+> >  		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
+> > +
+> > +		ret = panthor_vm_flush_all(ptdev->fw->vm);
+> > +		if (ret) {
+> > +			drm_err(&ptdev->base, "FW slow reset failed (couldn't flush FW's AS l2cache)");
+> > +			return ret;
+> > +		}
+> >  	}
+> >  
+> >  	/* Reload all sections, including RO ones. We're not supposed
+> > @@ -1099,7 +1105,7 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
+> >  
+> >  	ret = panthor_fw_start(ptdev);
+> >  	if (ret) {
+> > -		drm_err(&ptdev->base, "FW slow reset failed");
+> > +		drm_err(&ptdev->base, "FW slow reset failed (couldn't start the FW )");
+> >  		return ret;
+> >  	}
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index d47972806d50..a77ee5ce691d 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -874,14 +874,27 @@ static int panthor_vm_flush_range(struct panthor_vm *vm, u64 iova, u64 size)
+> >  	if (!drm_dev_enter(&ptdev->base, &cookie))
+> >  		return 0;
+> >  
+> > -	/* Flush the PTs only if we're already awake */
+> > -	if (pm_runtime_active(ptdev->base.dev))
+> > -		ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
+> > +	/*
+> > +	 * If we made it this far, that means the device is awake, because
+> > +	 * upon device suspension, all active VMs are given an AS id of -1
+> > +	 */
+> > +	ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
+> 
+> I would normally prefer this change to be in its own commit, but given
+> this is needed to be able to flush caches in the resume path, I'm fine
+> keeping it in the same patch. The comment is a bit odd now that you
+> dropped the pm_runtime_active() call though. I would rather have a
+> comment in mmu_hw_do_operation_locked(), after the AS ID check
+> explaining that as.id >= 0 guarantees that the HW is up and running,
+> and that we can proceed with the flush operation without calling
+> pm_runtime_active().
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+Given Boris' comments, are you planning on sending a v2?
 
-Regards,
-Chun-Kuang.
+Best regards,
+Liviu
 
-Jason-JH.Lin via B4 Relay
-<devnull+jason-jh.lin.mediatek.com@kernel.org> =E6=96=BC 2024=E5=B9=B48=E6=
-=9C=8827=E6=97=A5 =E9=80=B1=E4=BA=8C
-=E4=B8=8B=E5=8D=8810:56=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
-> Change in v3:
-> Change config_lock from spin_lock to spin_lock_irqsave
->
-> Change in v2:
-> Add spin_lock protection for config_updating flag.
->
-> ---
-> Jason-JH.Lin (2):
->       drm/mediatek: Fix missing configuration flags in mtk_crtc_ddp_confi=
-g()
->       drm/mediatek: change config_lock from spin_lock to spin_lock_irqsav=
-e
->
->  drivers/gpu/drm/mediatek/mtk_crtc.c | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> ---
-> base-commit: 469f1bad3c1c6e268059f78c0eec7e9552b3894c
-> change-id: 20240819-drm-fixup-0819-f51e2d37fcd7
->
-> Best regards,
-> --
-> Jason-JH.Lin <jason-jh.lin@mediatek.com>
->
->
+> 
+> >  
+> >  	drm_dev_exit(cookie);
+> >  	return ret;
+> >  }
+> >  
+> > +/**
+> > + * panthor_vm_flush_all() - Flush L2 caches for the entirety of a VM's AS
+> > + * @vm: VM whose cache to flush
+> > + *
+> > + * Return: 0 on success, a negative error code if flush failed.
+> > + */
+> > +int panthor_vm_flush_all(struct panthor_vm *vm)
+> > +{
+> > +	return panthor_vm_flush_range(vm, vm->base.mm_start, vm->base.mm_range);
+> > +}
+> > +
+> >  static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+> >  {
+> >  	struct panthor_device *ptdev = vm->ptdev;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> > index f3c1ed19f973..6788771071e3 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> > @@ -31,6 +31,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset);
+> >  int panthor_vm_active(struct panthor_vm *vm);
+> >  void panthor_vm_idle(struct panthor_vm *vm);
+> >  int panthor_vm_as(struct panthor_vm *vm);
+> > +int panthor_vm_flush_all(struct panthor_vm *vm);
+> >  
+> >  struct panthor_heap_pool *
+> >  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
