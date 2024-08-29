@@ -2,66 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720A2964C21
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 18:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64783964C64
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 19:01:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4048410E73E;
-	Thu, 29 Aug 2024 16:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68EEC10E740;
+	Thu, 29 Aug 2024 17:01:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AyY1mOW+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MOs9dxye";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2452A10E73C;
- Thu, 29 Aug 2024 16:53:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1724950422; x=1756486422;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tY/o2qCVFTpCmNogacGCPMgnl7k/juPKBpptAW+kEro=;
- b=AyY1mOW+Ch/TWNeH6pfAhUY1PhBNUqN7sMNUj5hyUBBNXS2oN2yFCrKX
- PsDykLvUHiq2LGVeSaaD/W3JdTk8BnI56wpm28dYBtGQXlapDeLHrQSal
- vyesn/MePBkEYxTYy4kx5ZNUyTTV+8bFwMAqC6hutlXWxwTUbEdoAPiNw
- oTOh68i05Eb6a+jXgrBsTdqSHNXecFOY+0Ewy1dB+CJYOz5ho79AglLeo
- l3w4gw5vQRmdhhpW//qoviwBagq/W/0xxWl+EPyJwkalAFiE6PuSy5mDp
- ZHtaRYFocRNJJR9JjsQGIg9hDUizM1lb9I8an1CEAOiTvcediyEo1/v4n w==;
-X-CSE-ConnectionGUID: V7V7PmJ9Sca4jaIYJ1WAzQ==
-X-CSE-MsgGUID: NmnjF+0ORcG2Iht8jMsTkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34724802"
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="34724802"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2024 09:53:41 -0700
-X-CSE-ConnectionGUID: ZD7ABZXYRYma/n7J+jff7A==
-X-CSE-MsgGUID: OzuePKLiTMK+BgiEPTDWTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; d="scan'208";a="68307889"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2024 09:53:29 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sjiOj-000000035Jl-2374; Thu, 29 Aug 2024 19:53:25 +0300
-Date: Thu, 29 Aug 2024 19:53:25 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v1 0/2] drm/i915/fence: A couple of build fixes
-Message-ID: <ZtCnhXwtO-gd1fMf@smile.fi.intel.com>
-References: <20240829155950.1141978-1-andriy.shevchenko@linux.intel.com>
- <87cylrwahb.fsf@intel.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6220210E740
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 17:01:33 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-371a13c7c80so1239787f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 10:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1724950892; x=1725555692; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YehqG4PtaapmXnLiVOq9WpGytyQ7YD42DofQvtnV7HU=;
+ b=MOs9dxyeXVK+015PEPuSjOoqTCNGZuJvV7mXpbEA5TP7qr8U5Rn6qrF8+4ZqIhI/ND
+ HSbGP8brUzSFpJZzDvqNQ50nHT+i96v2WTB9UW2RYhafONXb8vPciuhoYzp7HtM5FKVR
+ mwnpi4/7FjfS7XPZNkqKkkatUiSJDVcuEdaETmJ586DIGjoDgcZyd5jFcKsk3E3oDCuM
+ wrTNFs04P1OcX6CAHdmFEQOejl5FXU5g/u71f2/DDNCdEMzmfJbJSCU9H53BjmPYt6Br
+ 3tyVnVrrVr5vz4+nHM/SiehYKNhaMB01pos5Hhf72n8doWwHiQE6Z19PGVCF8aAJxvKt
+ 0EFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1724950892; x=1725555692;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YehqG4PtaapmXnLiVOq9WpGytyQ7YD42DofQvtnV7HU=;
+ b=tiullb7CG+yNXbgpkHTPODFEFdlhVa3Y8lNJRvrnf4CG4aFvNZpf6kmOIT49hPnWU+
+ oFREwSdVspax5PcNx5s8ZjhquaZyOQsgF1rMgEXucszs5siKcGHtaNv+ClAf7ckUhQso
+ BeuBZDKtEceeP/nVlJCl62NIwTZC5WLYGbMpjpfmeLvPxbdgURUx5avjouG2HR+iFsUJ
+ Iw9ixa53mN27kI8m90NipaZcFlLXJSMLvMZ7VgC2gxQ5JutY6F1pSyRztNdQ87I13FxJ
+ hNNhxyYkC19bbMiTpzA63mlLbSWzfz9ugDu1cM8WMXkqrq8jmGVOVjgT8meQ8BX0wvgV
+ 8Bsg==
+X-Gm-Message-State: AOJu0YyrYRWaznI803iH7umpB+4BD5I7m87bmyOpgbqBmrrV1DvUhf1p
+ Ejo+Tuuju1H2X4U0TT5Ar2rWDXTe/6o9cc1A8CxpIU8DlqNtteiP
+X-Google-Smtp-Source: AGHT+IFosliCC5+a+h4wlp+6u+dlP/pGWWU2L2Rh54ZG82z8dvc2aWVVIoZMBy8f4qkeaRSreWo7yA==
+X-Received: by 2002:adf:f302:0:b0:362:23d5:3928 with SMTP id
+ ffacd0b85a97d-3749c1da581mr1781820f8f.17.1724950890602; 
+ Thu, 29 Aug 2024 10:01:30 -0700 (PDT)
+Received: from ?IPV6:2001:861:3385:e20:6384:4cf:52c5:3194?
+ ([2001:861:3385:e20:6384:4cf:52c5:3194])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42bb6e33f5esm22284355e9.39.2024.08.29.10.01.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Aug 2024 10:01:30 -0700 (PDT)
+Message-ID: <cc32d1c4-16de-423d-b125-9301154c950d@gmail.com>
+Date: Thu, 29 Aug 2024 19:01:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87cylrwahb.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] drm/sti: avoid potential dereference of error
+ pointers
+To: Ma Ke <make24@iscas.ac.cn>, alain.volmat@foss.st.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, laurent.pinchart@ideasonboard.com,
+ akpm@linux-foundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20240826052652.2565521-1-make24@iscas.ac.cn>
+Content-Language: en-US, fr
+From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
+In-Reply-To: <20240826052652.2565521-1-make24@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,19 +88,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 07:38:08PM +0300, Jani Nikula wrote:
-> On Thu, 29 Aug 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > With CONFIG_WERROR=y and `make W=1` build fails on my x86_64 machine.
-> > This is due to some unused functions. Hence these quick fixes.
-> 
-> Since when have we been getting the warnings for static inlines?
-
-Do you want to see any additional information of my building environment?
-
-Debian clang version 18.1.8 (9)
-
--- 
-With Best Regards,
-Andy Shevchenko
 
 
+Le 26/08/2024 à 07:26, Ma Ke a écrit :
+> The return value of drm_atomic_get_crtc_state() needs to be
+> checked. To avoid use of error pointer 'crtc_state' in case
+> of the failure.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: dec92020671c ("drm: Use the state pointer directly in planes atomic_check")
+>
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+>
+Hi,
+
+Tested-by: Raphaël Gallais-Pou <rgallaispou@gmail.com>
+
+Regards,
+Raphaël
