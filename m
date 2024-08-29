@@ -2,148 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E519648D2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728779648EB
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 16:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 491BC10E6C4;
-	Thu, 29 Aug 2024 14:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C06710E6D4;
+	Thu, 29 Aug 2024 14:46:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="nFylAEUi";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uvkfoIB7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bDhy3mWY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uvkfoIB7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bDhy3mWY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 628FD10E6C6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 14:43:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p+72y3bVR3Nh4w7X2gBCOHQUSBvFUCdVt2dD3EAKtgmDf6GKy4SJfOiSbGYSdDDK9YxSHyG8Ie2w/U7TFc96u64sdS9rRJW+0EaXhjot5SiJSrAB0FK5Rfn20sqg0KECSYHDKHF7JZJ9U7eZz/j4igAN8UdFxYF2A0nLBUJrU1G1d738j3vAdyiAYwQ0+3toJfjcds4+W4/yEPqVnqfFNF+snzfdGYcCySo+BU2gR1dzOeZeXK29vImCxpk1B+RRbrUO9CzvlVHqIjiokUoeTePYvlTxkErnJ1XSWNLXk9PuMiAneFgF7B//H7H1B6FZuAOU9o5iFDdDpEIfGRrpEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pyvtcrNu2lp60mCteSXVKNVkTP8Kjdv2X8I/SWKEaeU=;
- b=a+PEI33sPqZwSA/7OlpGUOiXEfEQW+LsoQBbBPXjCQssV3vRQVg729SQfWvDqxpAzHVsoU4zJ/MpUOwvMhfk4qXC6ibonYI5QH783i1bCD5yC8szVkib21ujhQ1x7aIaCjOIgv+Zqum1p8CY2LtHLFeuDo6qZA/GWup/MF7a7odfvkWoti1xaz/esl8mT7m1Z5y1ENpCUPzORDen2aXMdQ8Z2uVPX2dOb+BzBsvl2Cdm00MIZgehn0m8021JfZBu/6MPY5q9FqFI2WWMOgpQ4RXxUU2AL2mKxYaiA7JMw4V+QdFTd1LNh+9Gqnqmi30qzkhgWJKOGQQ+FheK+k0O+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pyvtcrNu2lp60mCteSXVKNVkTP8Kjdv2X8I/SWKEaeU=;
- b=nFylAEUiIYBGgokb2vXH3OLJxcoU/HLeX0tu+qtOkVVHm85ioqNX4Qmi30/JKVNrimOMAPubyqDx2wcXLWAvD5nyTp5puagSNlSv+zo6hZ4sZwJmnTOw34Xkfz3fRXEEqK51aA1m1U4CtoNtX1NkCnXoJZolttbU3fIhTxUFgcs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW3PR12MB4425.namprd12.prod.outlook.com (2603:10b6:303:5e::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.29; Thu, 29 Aug
- 2024 14:43:20 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.019; Thu, 29 Aug 2024
- 14:43:19 +0000
-Message-ID: <7cd6dc81-9c56-40e3-990c-67526565bba5@amd.com>
-Date: Thu, 29 Aug 2024 16:43:15 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: TTM pinning and LRU lists
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org
-References: <3f972c4bc236cb5b960ff02a33309f9cbea6cba5.camel@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <3f972c4bc236cb5b960ff02a33309f9cbea6cba5.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0042.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D80510E6D1;
+ Thu, 29 Aug 2024 14:46:58 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9BD6E1F394;
+ Thu, 29 Aug 2024 14:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724942816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Yt2eeuYrl8wWvZMiPL0SlR0Mubmd425u2ZNsZjB+gbc=;
+ b=uvkfoIB7nw7cFIvNBobYslLJk3mWonA4svj290m7SgBX9vVwKfKJ5KxpNZRZkcRnScRfV6
+ v5P2I4u7BynpUxDKQcYLlxAUZ2symfs/heovQQ2AGXNyCvJTs1ueYLb8QYFLb1RyvKPAFJ
+ sTvSu1uVAuFnpWVZJg5PdxdpI1rk3UM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724942816;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Yt2eeuYrl8wWvZMiPL0SlR0Mubmd425u2ZNsZjB+gbc=;
+ b=bDhy3mWYD5Udspg11i9i65xCaTXOUeEDX2FJyp/TwgFjFdHkTGy6NO16ncmOe8cHu9OfN7
+ mvKKbah1N8Z4t8BA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uvkfoIB7;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bDhy3mWY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1724942816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Yt2eeuYrl8wWvZMiPL0SlR0Mubmd425u2ZNsZjB+gbc=;
+ b=uvkfoIB7nw7cFIvNBobYslLJk3mWonA4svj290m7SgBX9vVwKfKJ5KxpNZRZkcRnScRfV6
+ v5P2I4u7BynpUxDKQcYLlxAUZ2symfs/heovQQ2AGXNyCvJTs1ueYLb8QYFLb1RyvKPAFJ
+ sTvSu1uVAuFnpWVZJg5PdxdpI1rk3UM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1724942816;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Yt2eeuYrl8wWvZMiPL0SlR0Mubmd425u2ZNsZjB+gbc=;
+ b=bDhy3mWYD5Udspg11i9i65xCaTXOUeEDX2FJyp/TwgFjFdHkTGy6NO16ncmOe8cHu9OfN7
+ mvKKbah1N8Z4t8BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34E42139B0;
+ Thu, 29 Aug 2024 14:46:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id GZqlC+CJ0GaRWwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 29 Aug 2024 14:46:56 +0000
+Date: Thu, 29 Aug 2024 16:46:54 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next
+Message-ID: <20240829144654.GA145538@linux.fritz.box>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW3PR12MB4425:EE_
-X-MS-Office365-Filtering-Correlation-Id: 366b936c-1d17-47b6-12a9-08dcc838ecaf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cWZ2L0xydjBmczlDMmp3aHEwR05IQjB2R0NTTkplOXd4bGJWV0FZNVNucUR5?=
- =?utf-8?B?dWNjVDZ6WmdTbnhqOTdJKzUzRHUzaHk3TVc1R3RyOHJnRWFZTTFJQS9RSVZM?=
- =?utf-8?B?aldYUDFhVzJ1QnUrOG05d1NXUythaWN4TmVRWjVGczF5MVI0M2NQUnlVNThO?=
- =?utf-8?B?REsyZXVJMzNrSlJiMWJENFJ4blJ4SzM2VDhYK3RObGZVcTcyLzRjaFJUaXhM?=
- =?utf-8?B?aHl2aHdHV0dyaFp2bG1ZSG9BSTFlaTFtNk9veWRhS1pVRzJOamRZVUE3b1hM?=
- =?utf-8?B?Nm8yUWdiQlVpZ2Q2VDBMZTlmZlk0aVB0aUh4UmxRVFltczhTVklydXd5TE5a?=
- =?utf-8?B?NWRrNXNJTWRDV1VFcERNNWNhVkdjTGRuWUpPNXFkRWppTjZaMUp4WTFoY0Ft?=
- =?utf-8?B?aGpBdmJiV3R5SzJXMHZ2OHk4aHB6WFhIakdIQXduZ2RrMWlNRUVhelRXVU5u?=
- =?utf-8?B?MWlWMHcwMEVKY1podXBWck1TNnZyL1NZUmJXbC9IZ2I3aGNZKzNES0Raczhp?=
- =?utf-8?B?L1htRlJ0TytveUVoRGpZTVE3Q0o3dmwrRFNCanhZSVhYZHh6VXZwOHdsYWlQ?=
- =?utf-8?B?ZFJ0Y0NFM3R4ZkJwcXU1WXFKWFg1Umt6UmIwd2VqN1cwd0lTMTFDL3B5U0xa?=
- =?utf-8?B?RzcrcDFSalQra25sZEQzNng3SWNEZ0ZtWVRDbWZhTEZidkRFNjNZZkdncnZS?=
- =?utf-8?B?SEI2dWtMLzVnUTlDYlo4RWw5bS9pNFQxaUc4bXF6UUNRYk0rZTJQL3VqNHdw?=
- =?utf-8?B?QnVab1BUTk9sanRnZnE4NnJpQWNyaE44OThhSVcyb3RWeWlIMytrQWxHdHpi?=
- =?utf-8?B?UytQVWQza1JGOXNZaFBKNjdJNVE4U0I0TjlSU3RhOU1OZ2hHajF2VjlPck9F?=
- =?utf-8?B?LythTnZCUXp3MlpIaDZseXB4a3ZTOU1pWnZkV2xVN1hLVlJ5VDNIWW1EZGkw?=
- =?utf-8?B?TDRpR1RRbk5IWUJhQlBMekd1ZCswSHNxSFkzS2RrRnVtYkVQVjY5ZHZiU3k4?=
- =?utf-8?B?TE9PdHR2YmYrS0EyWWpJUUsrTFdyY21sN2g0cFdKdzlwQzZUTG01Q3hFU2lC?=
- =?utf-8?B?Q3Y5SFMvbTBMQml3cnAya2RHcjZUd1RWSDV3enVwMmJRNDdBMU5Zb1RYU1Bi?=
- =?utf-8?B?V05pYjFZMC84Zmx5ODlMVWtqRS9qUnI3Z1FCV1ZNUlNZYjhIRzRwNTUvZHRS?=
- =?utf-8?B?MWhabXBESEpIWCtJRm5QbmdHKzNTNGFiQzJUbnhFRmpxQlYvQ0MzVC80ZXRy?=
- =?utf-8?B?d3Y4NElFUnJPREF0d0UrK3dxTVlkSng4eU1VYjdqKzBMWWJiN2lodTEzaGRi?=
- =?utf-8?B?NzZvUW5PZVl4dHBqeGhaekF6Ky84YjY3YUd4MTlRZ3pmdDdBbWQ5MlliNGto?=
- =?utf-8?B?Q1g4Slhwa004dXRGMlo0N0RwVlEreHF3c0pJdGRnT1N4dk0wbC9IMk1BMkFx?=
- =?utf-8?B?SS9ySnVrWEpwSGx0SGgyNkNDV000VVdMc0RKS2RpUzV0LytzeGRrQmVWSC9Q?=
- =?utf-8?B?RTJpdjdhZGZIdFo5SG5YN2tEUWhRZW91QjdLSFB0Qzk0WXBoTHJYMU1CVXNN?=
- =?utf-8?B?R28wZ2NZUXZaSVBya0hBd2dyZy9JMFZ2THI5enp0TVlWbHFaRE8vVE9TZkwy?=
- =?utf-8?B?TCs3aEM5V2ZoVkhjVEhCbmtLVk5kOFNjOGl5ZU1GamlsYkptcHpHUitqYmhH?=
- =?utf-8?B?QU1HVm4vZDB4QWx4RHVKZUswSUJqR3JqWUtJSWhZbHM3TzlmZmZjNGlWQUR5?=
- =?utf-8?B?WGk0Uno5c2F1WWhIeE12b0JmcS8wcnVxaEsrTlZsaTdKRDhiLzB5Y1JCOW16?=
- =?utf-8?B?MHg2WS9jWEs4WnBueUVrdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aiswRGZrQ0NtUEl5TGlXcmg2L05YVEF5QUxIUFhaSDRJcVNKRHl6MmVzemFp?=
- =?utf-8?B?djgxazdkTHk2ak95QXA5dlpDUzFLOVlVTjdETkxIWW0vSWxiTXQyQjVNb1pL?=
- =?utf-8?B?SkpUbkY4M2dBQ21TR1hkM3FjWmdGbW9QQXBQbU9Jc3lYMDZZdU8wWW9JV3Ju?=
- =?utf-8?B?dVo5MmlKTThBak9sNDU1Y2FYTmZXS3dhemR0dnE4a0dGWXdPMUcwUnQ3NXdV?=
- =?utf-8?B?bCtUVm1DM2EzM3BOcTg3SDNNdDRDNTdWRzJIUXJ0RTBzV3lBaFNia3dPdTVG?=
- =?utf-8?B?TXY4aGZqSFpMWHpXeUVDbWR0MENwU0NUZjYzRE41ZDgrc0g2NndETUQ4TUcz?=
- =?utf-8?B?QlVQWjQ2b0c2alo4MHNLL3ExbDJRSkIxd3ZZUXN2R1NQMXdmTDQ0ZExtV0lt?=
- =?utf-8?B?ZUJkWE9LK0cyQVBKcUdDK0lHL21Cc1A0NC9lZGowdVRaQVBEeDYwalhDdmM2?=
- =?utf-8?B?eTM2MEk2S3ZvUDhSNnE2MzhvUVNTNkpoWStiY2xpRjY3Q0RBUnpMeWJZbndO?=
- =?utf-8?B?eHBzZGViZU56ZE9HOC9NMUg3S2Fnems3NzhqejBWa0lGZklUQWNGUTJyK2NU?=
- =?utf-8?B?QW9pNFpNL25hY0VnM2VWT0htalpCVnByNVJZb0pqTFZtQ0g1WkxhOVlGbW5B?=
- =?utf-8?B?QlZwYTludndQR2lla2M0U2VPL2tXeHV0ZFYxelRkVENxdGdocVBZcUZBSzJn?=
- =?utf-8?B?ZEtTSVRpSjNKSGVSdlFMNkx6dUgrbzk3WlZaTERNMGViSy8rNk9uek9kOXor?=
- =?utf-8?B?RWxqcEtHUHE4Z3VYNS80aXJ3cmhKTm9pZGN2Y2pLVzBxNlJ6S3lhNk1Kb1JN?=
- =?utf-8?B?TUpKYzZDbzVaL2hrRmxuRlZBaFphaXJ3MGo0b3FzLzhHRGdKYnBtcnpHZWhQ?=
- =?utf-8?B?eWh3aUg4eFo5YUNrblJjZWVxVnN5KzJTZzJiZHh1bFZPdTJrNkFLZW5ReVBt?=
- =?utf-8?B?ak9iQUxMaGgyVlEvTVFjcUlMdGNWc0hYUTBMTkFhTGFNMnc4TEVRKzBJbkQ3?=
- =?utf-8?B?M3RaUTNPMTZ0NEJRZk9YYXBPKzV4dWVxYUhwWE8zbDFBd3kzbmVKbVFhSkFk?=
- =?utf-8?B?ODlVWjluNWZXa1JOU1JBb1p2YTBoMGxsblByeVExUkQvZ1JWTDBaR1ZOVWhz?=
- =?utf-8?B?eHJJdTBKR2lCMnZ2WkpHVGw0VHpPZDB5alh4OWE2MlB0WDhoQXJpMndJNlJQ?=
- =?utf-8?B?TW0vdEtURmJ6ZHRmMjI2TnZSWnFsNnpxaW8rcjRwelNVOFV1VlVyem5QM3p1?=
- =?utf-8?B?SXVoM1VFcHU1Z2R4aDNpbmlrYXNXTlRTUzZ1c0k0MnhNUW1iNzIwVVI3eTZ0?=
- =?utf-8?B?SDZKRUpxblpxK1R2MUdNR09DeGtvZ3JTMUJoaUdCV2xkQitFellOQzEweUcy?=
- =?utf-8?B?TURYNytzWU96NHJ4YUpuUEczRWxuNkY2ZHMvVlBtNEFnbFVxbFB0UFJqK3pG?=
- =?utf-8?B?dFBPNldNeUNRcUpuWEM3MDMxN0s1blJmcVVlNUs2UThuNEFGSEY3LzRWbVZ2?=
- =?utf-8?B?dWhlWEM3dGJNRXhaeXNpUGlva3d6b1BKU0xPNUNsS1B5UFF3aFdFd1d4NGRy?=
- =?utf-8?B?cWhSWE84d284dU4xc1daSUN5V3REOXp4T3ZDMUZiclhZbGp2azljQzIvS3FB?=
- =?utf-8?B?aWpiUGRYd1A4Y2c0cTdqZUtScWxHZW0wcE5zM21rbDl4bnFHa3N2K3M5REZT?=
- =?utf-8?B?bDMxTHQ3WlJMZ0Q5a3BPZFlCa1FRMzhyRWxhWnRvR1gvd055YlNueEZQOUZh?=
- =?utf-8?B?dHh0VE0rSjlweEg1TDBpVFk1c21Vay93ZTBwcTN0ZzJraUFCQVFIS2x2KzhZ?=
- =?utf-8?B?ejlYTlJaV0pQM1ZpUnhMYTh3VnM3dlpiay8vcDZYM0NGUDNSelpCeEZyVnlm?=
- =?utf-8?B?eDBKbTZkU2dIUEdsVVlDY3h0L3loL3VsYUFuTFJtcHp5UWs5QlZhQkhSL05F?=
- =?utf-8?B?bzFjMVg1VnhzYjhOZ0RlcmxDMGkyMTh2TGFMbFMwK1RaaGVkS0xRaGk2TFNy?=
- =?utf-8?B?dGJzejVDV2FxWVM5ZUkvbkxJNE8rMW5UODJBM2pBYXU0Y21NbnV0cUZIMkp1?=
- =?utf-8?B?amFuZytldU1IWkFONlc5RWFBeE1VMXM3YWtnN2FqVklkL2lpVG9DcHV5ZDRJ?=
- =?utf-8?Q?+GCKadLwI4n6ONLHWpbRpYJjP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 366b936c-1d17-47b6-12a9-08dcc838ecaf
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 14:43:19.7278 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T8phP59evVpIdjoPED1ihQOmCVX3f6lWi/mF54pQkG3U4u3XNvZGYC1e9lRtm2HH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4425
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9BD6E1F394
+X-Spam-Score: -6.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCPT_COUNT_TWELVE(0.00)[16];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,28 +130,299 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Dave, Sima,
 
-that got removed at some point because it cause a problem, but I really 
-can't remember what it was. Need to dig through the git logs and mailing 
-list.
+here's the PR for drm-misc-next for this week. There's one major
+change where DRM can now use minor device numbers up to the limit set
+by MINORBITS.
 
-I wouldn't mind adding it back, IIRC removing it was one of those 
-temporary workarounds which became a long term solution because of lack 
-of time.
+Best regards
+Thomas
 
-Regards,
-Christian.
+drm-misc-next-2024-08-29:
+drm-misc-next for v6.12:
 
-Am 29.08.24 um 12:30 schrieb Thomas Hellström:
-> Hi, Christian,
->
-> I noticed that calling ttm_bo_pin() doesn't seem to move the resource
-> to the pinned list, but keeping it on its manager's LRU.
->
-> Is it the driver's responsibility to call ttm_bo_move_to_lru_tail() to
-> move it to the pinned list after pinning?
->
-> /Thomas
->
+UAPI Changes:
 
+devfs:
+- support device numbers up to MINORBITS limit
+
+Core Changes:
+
+ci:
+- increase job timeout
+
+devfs:
+- use XArray for minor ids
+
+displayport:
+- mst: GUID improvements
+
+docs:
+- add fixes and cleanups
+
+panic:
+- optionally display QR code
+
+Driver Changes:
+
+amdgpu:
+- faster vblank disabling
+- GUID improvements
+
+gm12u320
+- convert to struct drm_edid
+
+host1x:
+- fix syncpoint IRQ during resume
+- use iommu_paging_domain_alloc()
+
+imx:
+- ipuv3: convert to struct drm_edid
+
+omapdrm:
+- improve error handling
+
+panel:
+- add support for BOE TV101WUM-LL2 plus DT bindings
+- novatek-nt35950: improve error handling
+- nv3051d: improve error handling
+- panel-edp: add support for BOE NE140WUM-N6G; revert support for
+  SDC ATNA45AF01
+- visionox-vtdr6130: improve error handling; use
+  devm_regulator_bulk_get_const()
+
+renesas:
+- rz-du: add support for RZ/G2UL plus DT bindings
+
+sti:
+- convert to struct drm_edid
+
+tegra:
+- gr3d: improve PM domain handling
+- convert to struct drm_edid
+The following changes since commit f60ef67ff21ede6f3d27d439a136481446dbd8aa:
+
+  drm/vc4: v3d: simplify clock retrieval (2024-08-22 07:57:44 -0300)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2024-08-29
+
+for you to fetch changes up to 84addde447fd9d713e101437db0d4924855eff4f:
+
+  drm/tiny/gm12u320: convert to struct drm_edid (2024-08-29 14:30:15 +0300)
+
+----------------------------------------------------------------
+drm-misc-next for v6.12:
+
+UAPI Changes:
+
+devfs:
+- support device numbers up to MINORBITS limit
+
+Core Changes:
+
+ci:
+- increase job timeout
+
+devfs:
+- use XArray for minor ids
+
+displayport:
+- mst: GUID improvements
+
+docs:
+- add fixes and cleanups
+
+panic:
+- optionally display QR code
+
+Driver Changes:
+
+amdgpu:
+- faster vblank disabling
+- GUID improvements
+
+gm12u320
+- convert to struct drm_edid
+
+host1x:
+- fix syncpoint IRQ during resume
+- use iommu_paging_domain_alloc()
+
+imx:
+- ipuv3: convert to struct drm_edid
+
+omapdrm:
+- improve error handling
+
+panel:
+- add support for BOE TV101WUM-LL2 plus DT bindings
+- novatek-nt35950: improve error handling
+- nv3051d: improve error handling
+- panel-edp: add support for BOE NE140WUM-N6G; revert support for
+  SDC ATNA45AF01
+- visionox-vtdr6130: improve error handling; use
+  devm_regulator_bulk_get_const()
+
+renesas:
+- rz-du: add support for RZ/G2UL plus DT bindings
+
+sti:
+- convert to struct drm_edid
+
+tegra:
+- gr3d: improve PM domain handling
+- convert to struct drm_edid
+
+----------------------------------------------------------------
+Abel Vesa (1):
+      drm/panel-edp: add BOE NE140WUM-N6G panel entry
+
+Abhishek Tamboli (1):
+      drm/panel: nv3051d: Transition to mipi_dsi_dcs_write_seq_multi
+
+Biju Das (2):
+      dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
+      drm: renesas: rz-du: Add RZ/G2UL DU Support
+
+Hamza Mahfooz (3):
+      drm/amd/display: use new vblank enable policy for DCN35+
+      drm/amd/display: use a more lax vblank enable policy for DCN35+
+      drm/amd/display: use a more lax vblank enable policy for older ASICs
+
+Jani Nikula (8):
+      drm/ttm: fix kernel-doc typo for @trylock_only
+      drm/mst: switch to guid_t type for GUID
+      drm/mst: switch to guid_gen() to generate valid GUIDs
+      drm/amd/display: switch to guid_gen() to generate valid GUIDs
+      drm/sti/sti_hdmi: convert to struct drm_edid
+      drm/tegra: convert to struct drm_edid
+      drm/ipuv3/parallel: convert to struct drm_edid
+      drm/tiny/gm12u320: convert to struct drm_edid
+
+Jocelyn Falempe (4):
+      drm/panic: Add integer scaling to blit()
+      drm/rect: Add drm_rect_overlap()
+      drm/panic: Simplify logo handling
+      drm/panic: Add a QR code panic screen
+
+Lad Prabhakar (1):
+      drm: renesas: Move RZ/G2L MIPI DSI driver to rz-du
+
+Lu Baolu (1):
+      gpu: host1x: Use iommu_paging_domain_alloc()
+
+Ma Ke (1):
+      drm: omapdrm: Add missing check for alloc_ordered_workqueue
+
+Melissa Wen (1):
+      MAINTAINERS: remove myself as a VKMS maintainer
+
+Michał Winiarski (3):
+      drm: Use XArray instead of IDR for minors
+      accel: Use XArray instead of IDR for minors
+      drm: Expand max DRM device number to full MINORBITS
+
+Mikko Perttunen (1):
+      gpu: host1x: Request syncpoint IRQs only during probe
+
+Neil Armstrong (4):
+      dt-bindings: display: panel: document BOE TV101WUM-LL2 DSI Display Panel
+      drm/panel: add BOE tv101wum-ll2 panel driver
+      drm/panel: visionox-vtdr6130: switch to mipi_dsi wrapped functions
+      drm/panel: visionox-vtdr6130: switch to devm_regulator_bulk_get_const
+
+Stephan Gerhold (1):
+      Revert "drm/panel-edp: Add SDC ATNA45AF01"
+
+Tejas Vipin (1):
+      drm/panel: novatek-nt35950: transition to mipi_dsi wrapped functions
+
+Thorsten Blum (1):
+      drm/tegra: hub: Use fn parameter directly to fix Coccinelle warning
+
+Ulf Hansson (1):
+      drm/tegra: gr3d: Convert into dev_pm_domain_attach|detach_list()
+
+Vignesh Raman (1):
+      drm/ci: increase timeout for all jobs
+
+renjun wang (2):
+      drm/atomic: fix kerneldoc for fake_commit field
+      drm: Fix kerneldoc for "Returns" section
+
+ .../bindings/display/panel/boe,tv101wum-ll2.yaml   |   63 ++
+ .../bindings/display/renesas,rzg2l-du.yaml         |   32 +-
+ MAINTAINERS                                        |    2 +-
+ drivers/accel/drm_accel.c                          |  110 +--
+ drivers/gpu/drm/Kconfig                            |   31 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   61 +-
+ drivers/gpu/drm/ci/test.yml                        |    5 +-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |   71 +-
+ drivers/gpu/drm/drm_atomic.c                       |    6 -
+ drivers/gpu/drm/drm_atomic_helper.c                |    2 -
+ drivers/gpu/drm/drm_crtc_internal.h                |    4 +
+ drivers/gpu/drm/drm_drv.c                          |  100 +-
+ drivers/gpu/drm/drm_file.c                         |    9 +-
+ drivers/gpu/drm/drm_gem.c                          |    7 +-
+ drivers/gpu/drm/drm_internal.h                     |    4 -
+ drivers/gpu/drm/drm_modes.c                        |    1 -
+ drivers/gpu/drm/drm_panic.c                        |  340 ++++++-
+ drivers/gpu/drm/drm_panic_qr.rs                    | 1003 ++++++++++++++++++++
+ drivers/gpu/drm/drm_rect.c                         |    1 -
+ drivers/gpu/drm/drm_vblank.c                       |    2 -
+ drivers/gpu/drm/i915/gem/i915_gem_object.h         |    1 -
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |    1 -
+ drivers/gpu/drm/i915/i915_vma.h                    |    1 -
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c       |   14 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c                 |    5 +
+ drivers/gpu/drm/panel/Kconfig                      |    9 +
+ drivers/gpu/drm/panel/Makefile                     |    1 +
+ drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c     |  241 +++++
+ drivers/gpu/drm/panel/panel-edp.c                  |    3 +-
+ drivers/gpu/drm/panel/panel-newvision-nv3051d.c    |  367 +++----
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c      |  211 ++--
+ drivers/gpu/drm/panel/panel-visionox-vtdr6130.c    |  212 ++---
+ drivers/gpu/drm/renesas/rcar-du/Kconfig            |    8 -
+ drivers/gpu/drm/renesas/rcar-du/Makefile           |    2 -
+ drivers/gpu/drm/renesas/rz-du/Kconfig              |    8 +
+ drivers/gpu/drm/renesas/rz-du/Makefile             |    2 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c      |    8 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c       |   11 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c       |    3 +-
+ .../renesas/{rcar-du => rz-du}/rzg2l_mipi_dsi.c    |    0
+ .../{rcar-du => rz-du}/rzg2l_mipi_dsi_regs.h       |    0
+ drivers/gpu/drm/sti/sti_hdmi.c                     |   24 +-
+ drivers/gpu/drm/tegra/drm.h                        |    2 +-
+ drivers/gpu/drm/tegra/gr3d.c                       |   46 +-
+ drivers/gpu/drm/tegra/hub.c                        |    7 +-
+ drivers/gpu/drm/tegra/output.c                     |   29 +-
+ drivers/gpu/drm/tiny/gm12u320.c                    |   13 +-
+ drivers/gpu/host1x/dev.c                           |    7 +-
+ drivers/gpu/host1x/dev.h                           |    2 +
+ drivers/gpu/host1x/hw/intr_hw.c                    |   37 +-
+ drivers/gpu/host1x/intr.c                          |   21 +-
+ drivers/gpu/host1x/intr.h                          |    5 +
+ include/drm/display/drm_dp_mst_helper.h            |   12 +-
+ include/drm/drm_accel.h                            |   18 +-
+ include/drm/drm_atomic.h                           |    2 +-
+ include/drm/drm_file.h                             |    5 +
+ include/drm/drm_rect.h                             |   15 +
+ include/drm/ttm/ttm_bo.h                           |    2 +-
+ 59 files changed, 2335 insertions(+), 875 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/boe,tv101wum-ll2.yaml
+ create mode 100644 drivers/gpu/drm/drm_panic_qr.rs
+ create mode 100644 drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
+ rename drivers/gpu/drm/renesas/{rcar-du => rz-du}/rzg2l_mipi_dsi.c (100%)
+ rename drivers/gpu/drm/renesas/{rcar-du => rz-du}/rzg2l_mipi_dsi_regs.h (100%)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
