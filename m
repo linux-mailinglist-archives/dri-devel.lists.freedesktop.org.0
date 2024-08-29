@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51932964278
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A59596427E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2024 13:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6770D10E616;
-	Thu, 29 Aug 2024 11:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF9810E613;
+	Thu, 29 Aug 2024 11:01:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="w0HqrjxK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lJodMu4X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C074110E616
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:00:22 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-42ab880b73eso4940595e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 04:00:22 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22AED10E613
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 11:01:35 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-42bb7298bdeso5141785e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 04:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1724929221; x=1725534021; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1724929293; x=1725534093; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=zCBO2fXDMFuHjibYZ90lcTzSffCRMYyprDRaor954cw=;
- b=w0HqrjxK+KMSGzaw6LWLYZtcmoar4zIIdB6a28zjG2BseiUcswu90AajldK7Jun4Sx
- sd5T7HiYdr9qhX5fo2ddOnnkTX7fyYXdikPtHBebZvxsTOVd06+x8o8O4QMUmbcjrKOb
- qGGIAto1o0vpM8StBKOgs+cMyEWnslO6Q7EGBLz89mrENMOnzpOW2mS7DakgCpEdZ5sx
- VSC++6fFPC8wpDUXFuDnhcKeObZIOVOT11oXZpO5gV0Xd3PZnWBeYAnxtnI/PfuenIX1
- s9fesAgZBfk/aJO1gAYetFZ1cuEKEbJzgkpeUf7UV39LJSCokBZLUYf8WFLLm8pT+hkq
- PwYA==
+ :reply-to; bh=bXo6HubkCKATDdKmpK9Rg0frF1Oj5dEqDFqJTWbwDPA=;
+ b=lJodMu4XR8M0kLwiy6b+ldwMGUOjEWczDu2BB/3Fk9s0yhLVV3u8jrwyfpDWKf28RH
+ zXG7GEdzpf9fDKn/xxvmjz2GkjsnQIbPXTSHUPTncP6uz7SOpkpY/Sh1B7g2oJDI4XhD
+ 4gVZQF+urUekKWVFsb4yEDsVCiAsjalQkI9DQQiVxMsd+EO082/bGZEExsCsx1vCArGv
+ s5YAsWW9Eh+TV2NDyIhPCp/YhotxOmnyv5y4ZydAsNK/wHeno4ezPFOFtDRLrrKUsj17
+ kat11+EHKYUD6a9pVKCYqAImFxAl+O6aCNg065GafeISmzmjCk29wyd+x4h7m8UZWRop
+ F+qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724929221; x=1725534021;
+ d=1e100.net; s=20230601; t=1724929293; x=1725534093;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=zCBO2fXDMFuHjibYZ90lcTzSffCRMYyprDRaor954cw=;
- b=XRkIy5nhhUwPn57L3bmfSLfmsuI3Ke981uIWawgnNq3qylAXer2ArLdwhNYZXbcqvy
- scSALQyHqBhNjybd2rkA6AH7FDQMrpWWqPCZoaqakhDvvfM6BxuAUzFm7bUGbQfOHWF3
- IXlIDHCEOQCOXQLK1Vhsfu2syTczAtF/SMylcqXjdJSF0Bl6tkbgM2jafu9dkdQHj5kj
- sJh0DLtBTKQDI5ubOYg6w9n5xQzn1jcnqYWwfz9+uLt4T6Rla93qnPfLYJaaIArKZL1L
- h/eVILDbBPLEmQS1U3ZjOvvJH2MIEIbmRhf4gyXO/81AW/xOsWXlNGVOxmatJJM2p/ol
- 7Lrg==
+ bh=bXo6HubkCKATDdKmpK9Rg0frF1Oj5dEqDFqJTWbwDPA=;
+ b=ubPteFPiABNNZzST0Or52kAiyzxyMBQssiL+zbY6D8IOY70TztvKyFRIz9h2soDGVX
+ 4f122Nqb66eSug9sNNRcG6+IkV0yokMZJLYXR2EcENLMkW8DSKS4vxp57nbZNpSqWDyJ
+ /lykbgwXjT3gWZviiV2qxAf7ANit4yBElKecdUpnDJrCNyhxUfbRwYSN4Xd6/Hr9un5C
+ 2ktQcOUjVkE3BV8+roIKjyO7wuTh3ALzQ3tCsJPlTr+qADtlH9yT633Wt8nF6ZyPXUD0
+ iyFkNyrube31hU+ENJvV7hjIOyNnEz0R1v0sKXZiANvnf0OLpPfXoFPwilDxuzlRGP42
+ MZqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV/y3N2wLrOjAyeXrW19aDUZyKkOkqpxmQbW8tl2a0lJKV9Ggk73PK8Eed60zmcSTTMtyUzxdRCwEI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDNrfLZyooT0bwMm2TsvQ+UXvIooO5ToDOgjOML5BS1ygyhdk1
- UE7kM108GjbwQpHeYCHCSoHcl63+l084aG47bIJS8oOUq3p/Skx5VYOmeef29vzqrsTm0Qf9CGl
- U
-X-Google-Smtp-Source: AGHT+IGG76SR3oNW+HCIychd+P3LUXVnADqBzPZBXBpifnY7av308etEvxlverR30bjayZZkQv+6vw==
-X-Received: by 2002:a05:6000:88d:b0:368:420e:b790 with SMTP id
- ffacd0b85a97d-3749b5447aamr1570845f8f.14.1724929220635; 
- Thu, 29 Aug 2024 04:00:20 -0700 (PDT)
+ AJvYcCXI5nSJ2arZvVS9j7MeBkdBvVArQLTAMHzZZw9O0JuWpVEtl82XN+vZP2mIRWkWn8BTgbe/tSXkM1w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz38X8asb7fIqX8sP5Y+jciBSLHANuvz9UmsmXrGCembqe76qSo
+ IlSm73FnsCGS6ehVyDG5zF+wWf2jZlf7OgG+se1r2rblNbV2UAVMaFp6v77o4YU=
+X-Google-Smtp-Source: AGHT+IEGRHFHlM0ZIqrANJERtt9IfqKCUYiVh/PmrfILo/hL0bRzQIewiOrQKcnbyufRBxVZ5itMFg==
+X-Received: by 2002:a05:600c:4f42:b0:426:6b14:1839 with SMTP id
+ 5b1f17b1804b1-42bb0136dadmr25924465e9.0.1724929292917; 
+ Thu, 29 Aug 2024 04:01:32 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:12f5:c9c:a0e1:6915?
  ([2a01:e0a:982:cbb0:12f5:c9c:a0e1:6915])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3749ee6f76asm1100153f8f.25.2024.08.29.04.00.19
+ 5b1f17b1804b1-42b9d9561b1sm57733065e9.0.2024.08.29.04.01.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2024 04:00:20 -0700 (PDT)
-Message-ID: <de807810-ab84-49eb-a96a-080f44452205@linaro.org>
-Date: Thu, 29 Aug 2024 13:00:19 +0200
+ Thu, 29 Aug 2024 04:01:32 -0700 (PDT)
+Message-ID: <2da89096-a68e-4b9e-ae45-87ccc76c9c72@linaro.org>
+Date: Thu, 29 Aug 2024 13:01:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/2] drm/panel: visionox-vtdr6130: switch to mipi_dsi
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2] drm/panel: novatek-nt35950: transition to mipi_dsi
  wrapped functions
-To: Doug Anderson <dianders@chromium.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240828-topic-sm8x50-upstream-vtdr6130-multi-v1-0-0cae20d4c55d@linaro.org>
- <20240828-topic-sm8x50-upstream-vtdr6130-multi-v1-1-0cae20d4c55d@linaro.org>
- <CAD=FV=Wke51vmTy7zZ+RV7oDoCGSeszOarhLGapdDrkByNyi-g@mail.gmail.com>
+To: Doug Anderson <dianders@chromium.org>, Tejas Vipin <tejasvipin76@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240828182210.565861-1-tejasvipin76@gmail.com>
+ <CAD=FV=V71VzJk81YALO4ufohL0a4EQuqZVXavbpM=bqHgsf0sw@mail.gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -101,7 +98,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <CAD=FV=Wke51vmTy7zZ+RV7oDoCGSeszOarhLGapdDrkByNyi-g@mail.gmail.com>
+In-Reply-To: <CAD=FV=V71VzJk81YALO4ufohL0a4EQuqZVXavbpM=bqHgsf0sw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,50 +117,33 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/08/2024 18:32, Doug Anderson wrote:
+On 28/08/2024 21:26, Doug Anderson wrote:
 > Hi,
 > 
-> On Wed, Aug 28, 2024 at 9:03 AM Neil Armstrong
-> <neil.armstrong@linaro.org> wrote:
+> On Wed, Aug 28, 2024 at 11:26 AM Tejas Vipin <tejasvipin76@gmail.com> wrote:
 >>
->> Make usage of the new _multi() mipi_dsi functions instead of the
->> deprecated macros, improving error handling and printing.
+>> Changes the novatek-nt35950 panel to use multi style functions for
+>> improved error handling.
 >>
->> bloat-o-meter gives a 12% gain on arm64:
->> Function                                     old     new   delta
->> visionox_vtdr6130_unprepare                  208     204      -4
->> visionox_vtdr6130_prepare                   1192     896    -296
->> Total: Before=2348, After=2048, chg -12.78%
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 >> ---
->>   drivers/gpu/drm/panel/panel-visionox-vtdr6130.c | 186 +++++++++++-------------
->>   1 file changed, 82 insertions(+), 104 deletions(-)
+>> Changes in v2:
+>>      - Style changes
+>>      - Fixed changes in logic
 >>
->> diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
->> index 540099253e1b..ebe92871dbb6 100644
->> --- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
->> +++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
->> @@ -40,120 +40,103 @@ static void visionox_vtdr6130_reset(struct visionox_vtdr6130 *ctx)
->>   static int visionox_vtdr6130_on(struct visionox_vtdr6130 *ctx)
->>   {
->>          struct mipi_dsi_device *dsi = ctx->dsi;
->> -       struct device *dev = &dsi->dev;
->> -       int ret;
->> +       struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
->>
->>          dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> 
-> This isn't something you introduced in your patch, but I wonder if we
-> should avoid setting the "MIPI_DSI_MODE_LPM" bit when the function
-> returns an error?
-
-Yeah it's unrelated to this change, but I'll investigate.
-
-> 
-> In any case:
+>> v1: https://lore.kernel.org/all/20240824084422.202946-1-tejasvipin76@gmail.com/
+>> ---
+>>   drivers/gpu/drm/panel/panel-novatek-nt35950.c | 211 ++++++------------
+>>   1 file changed, 66 insertions(+), 145 deletions(-)
 > 
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> Neil: Let me know if you want to land this or you want me to land it. Thanks!
+> 
+> -Doug
 
-Thanks,
+I was already applying stuff so I applied it !
+
+Thanks
 Neil
