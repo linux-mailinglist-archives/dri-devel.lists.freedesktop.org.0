@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B619660EE
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 13:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE49966169
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 14:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58C6C10EA8F;
-	Fri, 30 Aug 2024 11:43:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA50410E0E4;
+	Fri, 30 Aug 2024 12:18:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kKPYQgsP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YX6Gpw1i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 870DA10EA91
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 11:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725018227; x=1756554227;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=BppDBUfTxk7hWt6OENvRKCxA8Lzq/CkTXkRuPUHlw7E=;
- b=kKPYQgsPl6WWyoim5IVfZm03qze+BpfVmdxvRk1houm9FS1H6wUMzRMF
- 5in88bJULPH2Mlb53rvyHFHiRByk9vl2bk03SpVkClv0wJYxX6dTvzdQy
- xoD4H3xo4axNg+F6y/JMMTfrUKex58nJnFmBEYFSUHe6e/W/XDyujOd7w
- OWCR9VI2bhFquozPGAuPAY6zKtvxVHa9kXmV+SmcAy6M4PVwUZwUei/B9
- H7B2ILstntmHuzgGey5+vXyPs0Y9Pw2QHbA44OK5ifdoWW0YO+B6rcMb+
- 6z6vkV5wGSu78fnQ1BQtvovxVXy3oGTG5QttDa2rRTOX1Bb6mExiV293o Q==;
-X-CSE-ConnectionGUID: FdA2Iui/SWe+56UeeZB+7w==
-X-CSE-MsgGUID: s3o41hI9T2idaVYalNf34w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="13296241"
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; d="scan'208";a="13296241"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2024 04:43:47 -0700
-X-CSE-ConnectionGUID: Nd6cmudnRs2lB8s4qvSSvA==
-X-CSE-MsgGUID: 5e+k6uwvTqaU/YndVIIKxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; d="scan'208";a="64373925"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.88])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2024 04:43:44 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v1 1/1] drm/mm: Mark drm_mm_interval_tree*() functions
- with __maybe_unused
-In-Reply-To: <20240829154640.1120050-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240829154640.1120050-1-andriy.shevchenko@linux.intel.com>
-Date: Fri, 30 Aug 2024 14:43:38 +0300
-Message-ID: <87ttf2utg5.fsf@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4502F10EA95
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 12:18:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id E017EAE41BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 12:18:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3290BC4CED1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 12:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725020300;
+ bh=fzW3G+TfB+bO5ebL/bX9LdeCTen9lbExGhAdJz/gUE8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=YX6Gpw1iAM1qcXKu7BASnn7Qo45teZi4XXjDrmwn/Vm4TnZW3bXHuZf+aIV8rnhz0
+ 7VJ9gf240vFlFx69v7Gytuo+daKbx/S4payvqKJCL+wpO6Oj2vwKuHWo7VYnjGJPaH
+ 41rQ1hCheK7YWyiteSj1QCLB193pxleVPtw7pyJvPaKHgasT2isgNCGwpSMjSXlqGC
+ ec5a8ppcWoJn+0Tc8EDxaWlAPdgEfZCp/oJarZBv6gWXXd/cQRri2pRcMwEFPnD7H/
+ vm9Fdfxn+WilUW8TBmM/UkaC0ahgKu+wuig8BUCdyRxxq9ujl/xkxdJs1NJJWOBhSV
+ 9hwmywR7owrdQ==
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-2050b059357so14245895ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 05:18:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLADYCyIyJIOGDP3OE0bK7D4EpMG1thOKo3pkoM45hJUN+xLoct7cl5ep1DcgJcD3+L9I+0lgzcdQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRoZconMQn/vs8/gKOaz78pHf50xH9ncTy+r42NDchNXY/hbIE
+ 3Up/D7W8Ugh6BVaGg0tKWn2Fn26AE7N3eJHhx1su0tZiQc8eOXEAQy0sVnYLCSGN39t48EAl53K
+ 5i6XSza5qXUnN6IoZ5CiqNcQVww==
+X-Google-Smtp-Source: AGHT+IF2p5CQY3b8HPQl1+/RqA1ZHqHcuWEQh2qoVHx4PAKoc7yqtJdfN0iZ0lNlEvXu5ud9ENOdM8aJpEyK48XB/pY=
+X-Received: by 2002:a17:903:124c:b0:202:18de:b419 with SMTP id
+ d9443c01a7336-2050c524e84mr78003075ad.63.1725020299631; Fri, 30 Aug 2024
+ 05:18:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240830084544.2898512-1-rohiagar@chromium.org>
+ <20240830084544.2898512-2-rohiagar@chromium.org>
+In-Reply-To: <20240830084544.2898512-2-rohiagar@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 30 Aug 2024 20:18:33 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-1bT-=jU4vCZTfe18Ks6WiAL=7M3y0eK3DyGkfWmsFKA@mail.gmail.com>
+Message-ID: <CAAOTY_-1bT-=jU4vCZTfe18Ks6WiAL=7M3y0eK3DyGkfWmsFKA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: display: mediatek: dpi: Add power
+ domains
+To: Rohit Agarwal <rohiagar@chromium.org>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ ck.hu@mediatek.com, jitao.shi@mediatek.com, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,54 +78,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Aug 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> The INTERVAL_TREE_DEFINE() uncoditionally provides a bunch of helper
-> functions which in some cases may be not used. This, in particular,
-> prevents kernel builds with `make W=1` and CONFIG_WERROR=y:
+Hi, Rohit:
+
+Rohit Agarwal <rohiagar@chromium.org> =E6=96=BC 2024=E5=B9=B48=E6=9C=8830=
+=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884:46=E5=AF=AB=E9=81=93=EF=BC=
+=9A
 >
-> .../drm/drm_mm.c:152:1: error: unused function 'drm_mm_interval_tree_insert' [-Werror,-Wunused-function]
->   152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
->       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   153 |                      u64, __subtree_last,
->       |                      ~~~~~~~~~~~~~~~~~~~~
->   154 |                      START, LAST, static inline, drm_mm_interval_tree)
->       |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Add power domain binding to the mediatek DPI controller
+> for MT8186.
+> Also, add power domain binding for other SoCs like
+> MT6795 and MT8173 that already had power domain property.
+
+For this patch, applied to mediatek-drm-next [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
+
 >
-> Fix this by marking drm_mm_interval_tree*() functions with __maybe_unused.
->
-> Fixes: 202b52b7fbf7 ("drm: Track drm_mm nodes with an interval tree")
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-As discussed in [1], the key combo is W=1 and Clang, which enables
-detection for unused static inlines.
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/20240829155950.1141978-1-andriy.shevchenko@linux.intel.com
-
-
+> Signed-off-by: Rohit Agarwal <rohiagar@chromium.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > ---
->  drivers/gpu/drm/drm_mm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../bindings/display/mediatek/mediatek,dpi.yaml | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-> index 5ace481c1901..1ed68d3cd80b 100644
-> --- a/drivers/gpu/drm/drm_mm.c
-> +++ b/drivers/gpu/drm/drm_mm.c
-> @@ -151,7 +151,7 @@ static void show_leaks(struct drm_mm *mm) { }
->  
->  INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
->  		     u64, __subtree_last,
-> -		     START, LAST, static inline, drm_mm_interval_tree)
-> +		     START, LAST, static inline __maybe_unused, drm_mm_interval_tree)
->  
->  struct drm_mm_node *
->  __drm_mm_interval_first(const struct drm_mm *mm, u64 start, u64 last)
-
--- 
-Jani Nikula, Intel
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.=
+yaml
+> index 5ca7679d5427..3a82aec9021c 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
+l
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
+l
+> @@ -62,6 +62,9 @@ properties:
+>        - const: default
+>        - const: sleep
+>
+> +  power-domains:
+> +    maxItems: 1
+> +
+>    port:
+>      $ref: /schemas/graph.yaml#/properties/port
+>      description:
+> @@ -76,6 +79,20 @@ required:
+>    - clock-names
+>    - port
+>
+> +allOf:
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - mediatek,mt6795-dpi
+> +                - mediatek,mt8173-dpi
+> +                - mediatek,mt8186-dpi
+> +    then:
+> +      properties:
+> +        power-domains: false
+> +
+>  additionalProperties: false
+>
+>  examples:
+> --
+> 2.46.0.469.g59c65b2a67-goog
+>
