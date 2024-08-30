@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACEEA9657F1
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D019657F3
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:04:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4CC10E815;
-	Fri, 30 Aug 2024 07:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 143CE10E817;
+	Fri, 30 Aug 2024 07:04:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EqpFzhG3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="J6Ov/KxY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5391810E815
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 07:04:37 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a86abbd68ffso257856866b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 00:04:37 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3DE10E817
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 07:04:39 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a83597ce5beso247182566b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 00:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725001476; x=1725606276; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NAqkPKV8FIclg2RIfEME8aNTCMBfxloXKZQVTM0jEG4=;
- b=EqpFzhG3HetpeWMThFEijsbb9qjgJ7wGebXI2mRaNYG/6iKklTA4xyNx175MJMj/JL
- bFq8Kb/elJoJloCIYfpP88GMZAdZ9wNcy82/69DSWmxEQtrUsal/XI9kFGAF0TAayotp
- cY1GK1iTdh5/lTrFeR19VRMUa5raPp+Njp6qK5uGQTa9gBxVwMPyre5sR74pqoyVN9GW
- tniP6U+8QwBI9SW1HOZ2e0UU26/yaRDKu7N/KHEW5n1xLMpyLU1dXrKI0peoJMKxcg57
- ogv2Pf0vGvckCSvDYoYjcSa+EyKMSWJ1Kiy11H/c9n8JOcwe253gMB0Vjs1zrmpl9mVt
- hh5Q==
+ d=linaro.org; s=google; t=1725001477; x=1725606277; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MJjNgUGJenoBaIKVAgwwwsHux2S25WdElfpi6ReEk9U=;
+ b=J6Ov/KxYTgY+/ByhfRQf4k9asWk6YWV+AVoejR6bi/4aWSyPHzv9VspwhHveFLDTGr
+ Hv+lWIyTzXrxz8Ljo8rRzxtjsfZnwNRlJnaJ+UnvUDvixRqpHg9BSN6NmVR/DCCwCsZc
+ Ag+3ZM8vH7PmKVdeKW6vpKjiDHm5J7tc3j4VLJCIterSatbYrg35c7Y20X4C4HAujfzE
+ TIX2XDz+nxy6oMRtDwfOxIlgoqEBCmDDVCgPv/Y+IkL524c//QTvnm1U41QfuIXu2I69
+ 4HBJb/xP+zOU7l7bEc2MaqYXnpjLRQQyvIfn5PwfOjD9djQqOw5CNhdhH1qT8NKuMmVI
+ 6WzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725001476; x=1725606276;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NAqkPKV8FIclg2RIfEME8aNTCMBfxloXKZQVTM0jEG4=;
- b=Gltuq/x0rUR/7SWJ6EDtn6EYn7kQANiwxbAzVrpMFt3K5dxbqyh2+33pCJamCQ0B8X
- xrCf6FyScJsvWHK74ZaChF6cIVOU+Kdp3QufT5ON8hcWq55dCZY7NbMdnCMeSZS3al0o
- RoObLsCSoqUsWRh/9YSydRp7CJEX4HQXFnaIMnS2nQyoBjf5vm7sVV/h5Zlb6i3vh5io
- oWdOS0r7BNEQ0P9oRqUS4vVd/NaRJuxa8oY6DSPBMYtxgFY7yozQUUY7jkOk3sPRTIN2
- gx9TWTufYj5lBw7fahyUoLM2mcqfsJtDNhIqAjK1Mc1r44LNoDdsfVpLU4Vq43nO8pv3
- xJLg==
+ d=1e100.net; s=20230601; t=1725001477; x=1725606277;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MJjNgUGJenoBaIKVAgwwwsHux2S25WdElfpi6ReEk9U=;
+ b=KKmT5N/vhD2eyE2kdHq6R4mg/1qrkvWMYGLLA7OrR5UYw+jnKiREx5dMm8YxDa6Cf3
+ EY39pfNvN1zB4AbKDaN6o8BJTBm0QSPz3f44l/JLsN6slVBUh7zX826ym1HaiHWgvT6p
+ h53DTo+sIgndjER4shHPx5HeLx8wFb8ib5XLeoGKVWw3dix8TJhH9jV0kZ5GehBvLJQN
+ /aijUMDFK2XnyF8akE49iu2hNoP640h2TbUJNFmbSt4uIop21B8nOMIP2SOAExld2FNL
+ YkK8O0Gh7Tjc15q9PEtYEboLLERmLdWLDRtVxAN2DAn/Q/JfVpFVyrxJ7/G9s00DKrb2
+ Y2oQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2m7pocml3CWirB2cKc8A0CXqqW3M2P2TlIQQWX+0tq+rxHWp8ag+YKDZ3U208IjzZk7LY4j3aoF4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEe4QnXb1ZLolfqjeWNsVDiMv4CaTAe3jomDE0tdPDO8FtRz0x
- lrcEKxv6BTGFZe9/CBefNXe/kVupDK1rHSWMaL6VOg95KKZ0ZUF0ndsWg11DV68=
-X-Google-Smtp-Source: AGHT+IFDgPRujvPs0pY58RBt0z0M4T/+m/fwfgJO35cZdR0pWvXLPvq+fQ5KKo/0SLFh8TiIvn9dYw==
-X-Received: by 2002:a17:907:6d25:b0:a86:94cd:97f0 with SMTP id
- a640c23a62f3a-a89a26bfcb7mr138897066b.19.1725001475410; 
- Fri, 30 Aug 2024 00:04:35 -0700 (PDT)
+ AJvYcCVdE/A97dOGnOoLWKPj9ffMNVfOeG8npQomMIAgK9h4r3u08R9USGhTj3M8W6ACSyC0kBdlmEGt3MU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/iHbQDZdCRCcL/ekIYLTQzzk69nILPIXfvFqUK2M1WUIIK5DV
+ RxzOXZ2ker+UI/5yFDviQcVGPk1+hmiDRdtayIHv5LXV+MYPAs9VE+fGpDmy59g=
+X-Google-Smtp-Source: AGHT+IH87EkQZslfXd1cN/MuD1B1+tjpJHcDRiz/ebksiuYOXdKRtj8j5p8EyAgrD5jVzjEwQczjhA==
+X-Received: by 2002:a17:906:4788:b0:a7d:89ac:9539 with SMTP id
+ a640c23a62f3a-a898231fe8emr528271266b.7.1725001477275; 
+ Fri, 30 Aug 2024 00:04:37 -0700 (PDT)
 Received: from rayden.urgonet (h-217-31-164-171.A175.priv.bahnhof.se.
  [217.31.164.171]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a89892232c7sm178026866b.222.2024.08.30.00.04.33
+ a640c23a62f3a-a89892232c7sm178026866b.222.2024.08.30.00.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 00:04:34 -0700 (PDT)
+ Fri, 30 Aug 2024 00:04:36 -0700 (PDT)
 From: Jens Wiklander <jens.wiklander@linaro.org>
 To: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -73,10 +74,12 @@ Cc: Olivier Masse <olivier.masse@nxp.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
  Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [RFC PATCH 0/4] Linaro restricted heap
-Date: Fri, 30 Aug 2024 09:03:47 +0200
-Message-Id: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+Subject: [RFC PATCH 1/4] dma-buf: heaps: restricted_heap: add no_map attribute
+Date: Fri, 30 Aug 2024 09:03:48 +0200
+Message-Id: <20240830070351.2855919-2-jens.wiklander@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,73 +97,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add a no_map attribute to struct restricted_heap_attachment and struct
+restricted_heap to skip the call to dma_map_sgtable() if set. This
+avoids trying to map a dma-buf that doens't refer to memory accessible
+by the kernel.
 
-This patch set is based on top of Yong Wu's restricted heap patch set [1].
-It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
+Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+---
+ drivers/dma-buf/heaps/restricted_heap.c | 17 +++++++++++++----
+ drivers/dma-buf/heaps/restricted_heap.h |  2 ++
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-The Linaro restricted heap uses genalloc in the kernel to manage the heap
-carvout. This is a difference from the Mediatek restricted heap which
-relies on the secure world to manage the carveout.
-
-I've tried to adress the comments on [2], but [1] introduces changes so I'm
-afraid I've had to skip some comments.
-
-This can be tested on QEMU with the following steps:
-repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
-        -b prototype/sdp-v1
-repo sync -j8
-cd build
-make toolchains -j4
-make all -j$(nproc)
-make run-only
-# login and at the prompt:
-xtest --sdp-basic
-
-https://optee.readthedocs.io/en/latest/building/prerequisites.html
-list dependencies needed to build the above.
-
-The tests are pretty basic, mostly checking that a Trusted Application in
-the secure world can access and manipulate the memory.
-
-Cheers,
-Jens
-
-[1] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@mediatek.com/
-[2] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp.com/
-
-Changes since Olivier's post [2]:
-* Based on Yong Wu's post [1] where much of dma-buf handling is done in
-  the generic restricted heap
-* Simplifications and cleanup
-* New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
-  support"
-* Replaced the word "secure" with "restricted" where applicable
-
-Etienne Carriere (1):
-  tee: new ioctl to a register tee_shm from a dmabuf file descriptor
-
-Jens Wiklander (2):
-  dma-buf: heaps: restricted_heap: add no_map attribute
-  dma-buf: heaps: add Linaro restricted dmabuf heap support
-
-Olivier Masse (1):
-  dt-bindings: reserved-memory: add linaro,restricted-heap
-
- .../linaro,restricted-heap.yaml               |  56 ++++++
- drivers/dma-buf/heaps/Kconfig                 |  10 ++
- drivers/dma-buf/heaps/Makefile                |   1 +
- drivers/dma-buf/heaps/restricted_heap.c       |  17 +-
- drivers/dma-buf/heaps/restricted_heap.h       |   2 +
- .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++++
- drivers/tee/tee_core.c                        |  38 ++++
- drivers/tee/tee_shm.c                         | 104 ++++++++++-
- include/linux/tee_drv.h                       |  11 ++
- include/uapi/linux/tee.h                      |  29 +++
- 10 files changed, 426 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
- create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
-
+diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/heaps/restricted_heap.c
+index 8bc8a5e3f969..4bf28e3727ca 100644
+--- a/drivers/dma-buf/heaps/restricted_heap.c
++++ b/drivers/dma-buf/heaps/restricted_heap.c
+@@ -16,6 +16,7 @@
+ struct restricted_heap_attachment {
+ 	struct sg_table			*table;
+ 	struct device			*dev;
++	bool no_map;
+ };
+ 
+ static int
+@@ -54,6 +55,8 @@ restricted_heap_memory_free(struct restricted_heap *rheap, struct restricted_buf
+ static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachment *attachment)
+ {
+ 	struct restricted_buffer *restricted_buf = dmabuf->priv;
++	struct dma_heap *heap = restricted_buf->heap;
++	struct restricted_heap *rheap = dma_heap_get_drvdata(heap);
+ 	struct restricted_heap_attachment *a;
+ 	struct sg_table *table;
+ 
+@@ -70,6 +73,7 @@ static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachm
+ 	sg_dma_mark_restricted(table->sgl);
+ 	a->table = table;
+ 	a->dev = attachment->dev;
++	a->no_map = rheap->no_map;
+ 	attachment->priv = a;
+ 
+ 	return 0;
+@@ -92,9 +96,12 @@ restricted_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+ 	struct sg_table *table = a->table;
+ 	int ret;
+ 
+-	ret = dma_map_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
+-	if (ret)
+-		return ERR_PTR(ret);
++	if (!a->no_map) {
++		ret = dma_map_sgtable(attachment->dev, table, direction,
++				      DMA_ATTR_SKIP_CPU_SYNC);
++		if (ret)
++			return ERR_PTR(ret);
++	}
+ 	return table;
+ }
+ 
+@@ -106,7 +113,9 @@ restricted_heap_unmap_dma_buf(struct dma_buf_attachment *attachment, struct sg_t
+ 
+ 	WARN_ON(a->table != table);
+ 
+-	dma_unmap_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
++	if (!a->no_map)
++		dma_unmap_sgtable(attachment->dev, table, direction,
++				  DMA_ATTR_SKIP_CPU_SYNC);
+ }
+ 
+ static int
+diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/heaps/restricted_heap.h
+index 7dec4b8a471b..94cc0842f70d 100644
+--- a/drivers/dma-buf/heaps/restricted_heap.h
++++ b/drivers/dma-buf/heaps/restricted_heap.h
+@@ -27,6 +27,8 @@ struct restricted_heap {
+ 	unsigned long		cma_paddr;
+ 	unsigned long		cma_size;
+ 
++	bool			no_map;
++
+ 	void			*priv_data;
+ };
+ 
 -- 
 2.34.1
 
