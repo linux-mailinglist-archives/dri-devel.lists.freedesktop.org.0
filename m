@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B427C966A10
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 21:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E81966A17
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 21:51:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A3710E02E;
-	Fri, 30 Aug 2024 19:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A09710E127;
+	Fri, 30 Aug 2024 19:51:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="UVUQhKxz";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="ZpthUZPi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
- [95.215.58.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E60C10E0B9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 19:49:12 +0000 (UTC)
-Message-ID: <ee484db3-48e5-434f-8f41-21535c1bf069@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1725047350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jlo7JXcZy13WFGclfaaL1pYp+Vqeb6IGWRjH5IJWAM8=;
- b=UVUQhKxzPkbU6KYHPDeNVPypYrkPwtMT9wxRxMe3vaHiVR6pTwY2ikE7u8Vsy2KBMCHza7
- qpat9lOCHFyBqpERh7nv3Rt50e9fyuP/pt3NXejBp3NC/vwTzEiRDV+QW8AujIlywr7s65
- unHj1N2lBjwdEZVdKaPmXV6yuns67fc=
-Date: Sat, 31 Aug 2024 03:48:49 +0800
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFFB10E127
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 19:51:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1725047493; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Fc5aKmQK2uAwBJfJnqtE5Q2Q+z+4uHVsRQC8QZAAQz3D7oe1q8ycADHvnuMlh5CbwAWHN8weyVTIJKI+NWtrlaSqfjnLkj9LxtNgOhTNDFbkIbxxaPfPNo7TNZCwc6/Iy5xjzAVVr6cL8Ymzqgv4vb2vW8YHbHQgw2CnASKJxXw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1725047493;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=lZgsVPL1zIUPPX6fL1AfRoli7CWC0FdmvjcrwEFwrMY=; 
+ b=mPHFEHi72p36IknxA1gJVYdmIxG/VW/7t5atcKhAg1G+fPoB9chjlQW5EJB+X/Oyi+JTxa15w9cVgTRrKPRUn48QeqgkdDrtt5Dgr47iJcACScqdR/of0oaIc2OwEdNz9MnZf8I6Dk3VhedE/Cww6jV54jTm7sLBhWopSex4QOQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
+ dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725047493; 
+ s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=lZgsVPL1zIUPPX6fL1AfRoli7CWC0FdmvjcrwEFwrMY=;
+ b=ZpthUZPiBqmUHh7dkw1o9oxEFl1s1Tja+TkbYWkSHJJ4f1/tN6ZkTU7HKM76EuZr
+ chDfno7rrtP3f4eYS1z9mO2nnSwsRPrBsLEnt2hOegOPVEO8OHaoSBzeuc0crX/iRmZ
+ Lsyd3k/vlhb7qcn15ye3SsW3dJ//FrklIAWSrip0=
+Received: by mx.zohomail.com with SMTPS id 17250474912431006.0237532313579;
+ Fri, 30 Aug 2024 12:51:31 -0700 (PDT)
+Message-ID: <440c8b2b-035b-4983-b078-78252a17725d@collabora.com>
+Date: Fri, 30 Aug 2024 22:51:23 +0300
 MIME-Version: 1.0
-Subject: Re: [v2] drm/etnaviv: Clear the __GFP_HIGHMEM bit in GFP_HIGHUSER
- with 32 address
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: "Wang, Xiaolei" <Xiaolei.Wang@windriver.com>,
- "l.stach@pengutronix.de" <l.stach@pengutronix.de>,
- "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
- "christian.gmeiner@gmail.com" <christian.gmeiner@gmail.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Cc: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <MW5PR11MB57648F441CEDD36E614E31EA95812@MW5PR11MB5764.namprd11.prod.outlook.com>
- <761c07a9-a507-44a6-94e5-69655881c137@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5? 0/6] Tweaked basic Synopsys DW HDMI QP TX driver for
+ Rockchip RK3588
+To: Shimrra Shai <shimrrashai@gmail.com>
+Cc: Laurent.pinchart@ideasonboard.com, aarnoud@me.com, airlied@gmail.com,
+ algea.cao@rock-chips.com, andrzej.hajda@intel.com, andy.yan@rock-chips.com,
+ conor+dt@kernel.org, daniel@ffwll.ch, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
+ jernej.skrabec@gmail.com, jonas@kwiboo.se, krzk+dt@kernel.org,
+ ldearquer@gmail.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ maarten.lankhorst@linux.intel.com, markyao0591@gmail.com,
+ mripard@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
+ robh@kernel.org, s.hauer@pengutronix.de, tzimmermann@suse.de
+References: <68e78629-5a2c-433b-8c83-50ffced04268@collabora.com>
+ <20240830175440.2596-1-shimrrashai@gmail.com>
 Content-Language: en-US
-In-Reply-To: <761c07a9-a507-44a6-94e5-69655881c137@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20240830175440.2596-1-shimrrashai@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +77,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024/8/31 03:40, Sui Jingfeng wrote:
-> Hi, Xiaolei
->
->
-> On 2024/8/16 09:55, Wang, Xiaolei wrote:
->> Ping ...
->
-> I think, the more proper fix that Lucas hint
-> is to modify the 'priv->shm_gfp_mask' variable
-> in the|etnaviv_bind() function|. Say:
-> |Use "priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | 
-> __GFP_NOWARN;"|
->
-> instead of
->
-> |"priv->shm_gfp_mask = ||GFP_HIGHUSER||| __GFP_RETRY_MAYFAIL | 
-> __GFP_NOWARN;|"
->
->
+Hi Shimrra,
 
-Oops, please ignore the irrelevant(superfluous) "|" characters in my
-reply, my Thunderbird mail client has some problem, generate them unreasonably.
-
-Should be:
-
-priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
-
-
-
-> Right?
->
->> thanks
->> xiaolei
+On 8/30/24 8:54 PM, Shimrra Shai wrote:
+> Cristian Ciocaltea wrote:
+>> Please stop doing this!
 >>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c 
->> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> index 7c7f97793ddd..0e6bdf2d028b 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> @@ -844,8 +844,10 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->>            * request pages for our SHM backend buffers from the DMA32 
->> zone to
->>            * hopefully avoid performance killing SWIOTLB bounce 
->> buffering.
->>            */
->> -       if (dma_addressing_limited(gpu->dev))
->> +       if (dma_addressing_limited(gpu->dev)) {
->>                   priv->shm_gfp_mask |= GFP_DMA32;
->> +               priv->shm_gfp_mask &= ~__GFP_HIGHMEM;
->> +       }
+>> I appreciate your intention to help, but this is not the proper way of
+>> doing it.  This is a work-in-progress series and you should have asked
+>> before taking over.  Please do not interfere with other people's work
+>> without having a preliminary agreement with the author(s).
 >>
->>           /* Create buffer: */
->>           ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
->
--- 
-Best regards,
-Sui
+>> Additionally, before submitting any other patches, you should get
+>> familiar with the process - see [1] for a starting point.
+>>
+> 
+> Hi Cristian,
+> 
+> Sorry, I did not know what the rules/norms/customs were around this
+> kind of thing here as I figured it was an open contribution space. I
+> did not know that I should have asked for agreement with you
+> beforehand. So go ahead and ignore this patch series if it goes
+> against the rules/customs. Even more if these points have already been
+> addressed, as redundant work is obviously not helpful.
+
+This is an open community and, obviously, anyone is free to contribute
+without asking for permission.  However, taking over an ongoing work is
+nothing but a source of confusion.  You may do this for work that is known
+to be abandoned, e.g. the author(s) explicitly mentioned that in one of
+their last posts, or when there is no sign of activity for long enough
+time (usually months, for sure not days or weeks).  In the latter case, I
+find it reasonable to still ask for a confirmation that the submitter has
+no intention to continue or, at least, discuss the possibilities to join
+forces and help moving further.
+
+> That said, if there is some way to help along this project "the right
+> way", I would like to for sure! Just tell me what you'd _really_ need
+> help/assistance with to get this moved ahead and I'll see if I can
+> give it.
+
+Getting more testing on the series, reporting back the findings and/or
+providing fixes, would be much appreciated, for sure!  The goal is to land
+the basic functionality first, hence any new features should be submitted
+afterwards.
+
+Regards,
+Cristian
 
