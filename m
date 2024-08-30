@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0739966812
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 19:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEF896682E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 19:39:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B863A10EABB;
-	Fri, 30 Aug 2024 17:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93A810EABF;
+	Fri, 30 Aug 2024 17:39:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AwRWGR+z";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="N+o3FxrX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB9210EABB
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 17:35:43 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5334c4d6829so2794790e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 10:35:43 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CBCC10EABF
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 17:39:47 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2f3fea6a0a9so19385511fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 10:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725039341; x=1725644141; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1725039585; x=1725644385; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kszvRJtY9UGsU6dSkuAKZT1ejxQUCF702RsOxPJFqC0=;
- b=AwRWGR+z1SIvi0qPqNNzIpPWcQD9II/aUrvjiTXycR5yd6QggV3DnxqN60ODXlVD98
- 4H5Vm4qcP9JDm0Z9LTGAmbGfVwY7ubYaUiHBoMXqrDrNN7i7G3YbAdEb2/5ufdKvamcU
- U5r971/7r4tM1ULoU35MgzwxzUMoYn9xiAL1lBThuECUrUkAMN0G2PccETXNgxUC4tgz
- 6F84o/JRcnvM+9Vwp2IOi8xX4qqcnEtiMkpOKBzidb0I8vLvR6ozZjytgbqMx4i/eZJm
- o9laj9FdNVDAZor4DUOOs6ySVgXOffLYhGLmguMjykcmEL1KPSsR/+rTuACbu3XWH32C
- +maw==
+ bh=o9RLqmZuPgkSZGcw3aqWvhJSnLmhE6YOvXyNpIJT4cs=;
+ b=N+o3FxrXTWtyF0TgM0Z+ZPQE8bEiZK4Wfq7ViP8TNf/BC6BB+q1ER6ymjFZa8Tgx5/
+ /FVgp9vUrKTamcYkhXTFqrtHY15f6JKdIW6KAM27XyqB8G9qaD5EiHkI8bB1K+2LrvZM
+ PdvPzIQKTCoLHcPf0NvEE8W+nCjcEweLm8DrbbMe/K4X+qLePWubZ2No12VsIQwjEiQn
+ aOH58ZI2gZoJcvN3AjS/KnX6CQDkI774a0UB/6FIIBXcu5bpW6LSsWNLKDVo+4YadUt6
+ E4bljVFQKNIyUHst2URPDd9JZUTHrnEU+Bvy/4Nc2vRfX2alRjiYQRmU8KOGwFrgXDi8
+ SQJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725039341; x=1725644141;
+ d=1e100.net; s=20230601; t=1725039585; x=1725644385;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kszvRJtY9UGsU6dSkuAKZT1ejxQUCF702RsOxPJFqC0=;
- b=br14N/FUULnp0WLF/0zY3k8/PEIcmpVLMFSEGFsMi4DOkeHi/0CbkSNs/JUN/+6CXt
- nUhmfMs26bYY93yqbxw8Q+iusSfp2do0H4zxHTRLZ+ZBMKDVZTSL+7H/drptJI7CF/Kk
- tA0pe4STI0VkyTCcwlXxmxRBDdLQE9YsNFday2gPPtpTPfoAQSZvNHUeNrXbhEJIaDDm
- mbY29dY8B58HC7FGT6Ot1xPClKsLx0U4IkF4HEjR1IMDoFwgJlcqmCDTcschnPpTRFWl
- S0GUfn+9DdDQYF5r9uji10DDgiC/PiilAa0vq5smCS+aadY+80RPErrCFgiy08mg7x3P
- 99Og==
+ bh=o9RLqmZuPgkSZGcw3aqWvhJSnLmhE6YOvXyNpIJT4cs=;
+ b=c1x4Xi/BwieH/g+ZHASkrgpB98wK8XFhIRnF7L/zX6YTtYxBrCEUYZCb1agEp+xjB5
+ LEQh29d5srXmTVIcyH7uL5GDiHSMI8/+9T9FyVvWEZZkdiVRnFmzC4S1e866A3FwlETm
+ jp+YXEgJB3FAi7KIYOJawqLutixljHWAZLD9vyLiiMRxGP51hcpShEqTC6fb86S2hOVN
+ V85rv1n2PP0hZztvSTY8CP68e14/NGaR10cBK+jtv/aR5XnZGRAS98ZlftuAICAUIQAR
+ RLMBekb7gZhtPuXiP/OxXVFTsTXxC5hSojkSD53Bj06IxJPAwW7Dttl+bA3b8uM6Zo9C
+ Uyiw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWmIuTnplW59UlRG9VUUUE3wacyeXI55cTT6QEfxAwYlxvWAaQjAzeywNYiKpPYhv6uiHA8l/8RIQM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyn4zouai92Bmb185zivJCTCAJYcFMuSCZysnApnyCVhCY5cBxA
- mvfLcgDPcpjVqVK6FoiVQw5i13kq9a7W2FQHwKSQ62FdAd+K3+K+FP9fufXx5yk=
-X-Google-Smtp-Source: AGHT+IHCy243phrYX32uZ8Q5Wu2rEjZgqHS0zJ/yPF/KqeBOfUc3WEuE4JWw/Au+SqfMB4Bhg8zLwg==
-X-Received: by 2002:a05:6512:b06:b0:52f:c24b:175f with SMTP id
- 2adb3069b0e04-53546b371eemr1986217e87.20.1725039340587; 
- Fri, 30 Aug 2024 10:35:40 -0700 (PDT)
+ AJvYcCUARYpX1ho04LlnVTbhhblHkeHSc0a0ULV73A094Vjz1e/wgAxJdOJbTbAgwLAYukZX//e+iq3nZcw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXlyMN+9m9+CKX9yJeiDbTjxG05M7qpFZoyIr1f7rcXdr/Gwvp
+ 0zNvjfKsiToaI3unMBrMUDWDQpBigNmZ4BcERkEr2Pu2Tl/Mki3kqjUrghnkPqo=
+X-Google-Smtp-Source: AGHT+IF6eoaBd3HfbZeeshXOGgUNf1X6KWPZzAHPqGgbnCdZT/fK0C7fYa4u01FRCsQjwzF8NT9EEw==
+X-Received: by 2002:a2e:a587:0:b0:2ef:290e:4a30 with SMTP id
+ 38308e7fff4ca-2f61e0adff2mr11666591fa.16.1725039584657; 
+ Fri, 30 Aug 2024 10:39:44 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-535408412b3sm709664e87.216.2024.08.30.10.35.39
+ 38308e7fff4ca-2f61517190dsm7568951fa.78.2024.08.30.10.39.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 10:35:40 -0700 (PDT)
-Date: Fri, 30 Aug 2024 20:35:38 +0300
+ Fri, 30 Aug 2024 10:39:44 -0700 (PDT)
+Date: Fri, 30 Aug 2024 20:39:42 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
@@ -68,14 +68,14 @@ Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
  linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH 20/21] drm/msm/dpu: Reorder encoder kickoff for CWB
-Message-ID: <ghzsvz37j7tgj2c6kkixpnyo2ezc33vd53zrgynet5krk75ut4@lcxhpuruv6ut>
+Subject: Re: [PATCH 21/21] drm/msm/dpu: Set possible clones for all encoders
+Message-ID: <mg6wfuvfsdbewoacnd3vuidlgslbfmx5nhvy7ulwxolevt56at@ae2x3jd34d24>
 References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-20-502b16ae2ebb@quicinc.com>
+ <20240829-concurrent-wb-v1-21-502b16ae2ebb@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829-concurrent-wb-v1-20-502b16ae2ebb@quicinc.com>
+In-Reply-To: <20240829-concurrent-wb-v1-21-502b16ae2ebb@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,131 +91,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 01:48:41PM GMT, Jessica Zhang wrote:
-> Add a helper that will handle the correct order of the encoder kickoffs
-> for concurrent writeback.
-> 
-> For concurrent writeback, the realtime encoder must always kickoff last
-> as it will call the trigger flush and start.
-> 
-> This avoids the following scenario where the writeback encoder
-> increments the pending kickoff count after the WB_DONE interrupt is
-> fired:
-> 
-> If the realtime encoder is kicked off first, the encoder kickoff will
-> flush/start the encoder and increment the pending kickoff count. The
-> WB_DONE interrupt then fires (before the writeback encoder is kicked
-> off). When the writeback encoder enters its kickoff, it will skip the
-> flush/start (due to CWB being enabled) and hit a frame done timeout
-> as the frame was kicked off (and the WB_DONE interrupt fired) without
-> the pending kickoff count being incremented.
-> 
-> In addition, the writeback timer should only start after the realtime
-> encoder is kicked off to ensure that we don't get timeouts when the
-> system has a heavy load (ex. when debug logs are enabled)
+On Thu, Aug 29, 2024 at 01:48:42PM GMT, Jessica Zhang wrote:
+> Set writeback encoders as possible clones for non-writeback encoders and
+> vice versa.
 > 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 67 ++++++++++++++++++++++++++------
->  1 file changed, 55 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 27 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  7 +++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  7 +++++--
+>  3 files changed, 39 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index daf5f751f584..d2f91e89eba7 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -928,6 +928,42 @@ static int _dpu_crtc_wait_for_frame_done(struct drm_crtc *crtc)
->  	return rc;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 47b5a5994234..aad659e6d35b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -2352,6 +2352,33 @@ static int dpu_encoder_virt_add_phys_encs(
+>  	return 0;
 >  }
 >  
-> +static int dpu_crtc_kickoff_clone_mode(struct drm_crtc *crtc)
+
+Docs should go here.
+
+> +uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc)
 > +{
-> +	struct drm_encoder *encoder;
-> +	struct drm_encoder *rt_encoder = NULL, *wb_encoder;
-> +
-> +	/* Find encoder for real time display */
-> +	drm_for_each_encoder_mask(encoder, crtc->dev,
-> +				  crtc->state->encoder_mask) {
-> +		if (encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
-> +			wb_encoder = encoder;
-> +		else
-> +			rt_encoder = encoder;
-> +	}
-> +
-> +	if (!rt_encoder || !wb_encoder) {
-> +		DRM_DEBUG_ATOMIC("real time or wb encoder not found\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	dpu_encoder_prepare_for_kickoff(wb_encoder);
-> +	dpu_encoder_prepare_for_kickoff(rt_encoder);
+> +	struct drm_encoder *curr;
+> +	int type = drm_enc->encoder_type;
+> +	uint32_t clone_mask = drm_encoder_mask(drm_enc);
 > +
 > +	/*
-> +	 * Kickoff real time encoder last as it's the encoder that
-> +	 * will do the flush
+> +	 * Set writeback as possible clones of real-time encoders and real-time
+> +	 * encoders as clones of writeback.
+> +	 *
+> +	 * Writeback encoders can't be clones of each other and real-time
+> +	 * encoders can't be clones of each other.
 > +	 */
-> +	dpu_encoder_kickoff(wb_encoder);
-> +	dpu_encoder_kickoff(rt_encoder);
+> +	drm_for_each_encoder(curr, drm_enc->dev) {
+> +		if (type == DRM_MODE_ENCODER_VIRTUAL &&
+> +				curr->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
+> +			continue;
+> +		if (type != DRM_MODE_ENCODER_VIRTUAL &&
+> +				curr->encoder_type != DRM_MODE_ENCODER_VIRTUAL)
+
+Align to opening brackets.
+
+> +			continue;
 > +
-> +	/* Don't start frame done timers until the kickoffs have finished */
-> +	dpu_encoder_start_frame_done_timer(wb_encoder);
-> +	dpu_encoder_start_frame_done_timer(rt_encoder);
+> +		clone_mask |= drm_encoder_mask(curr);
+> +	}
 > +
-> +	return 0;
+> +	return clone_mask;
 > +}
 > +
->  void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
->  {
->  	struct drm_encoder *encoder;
-> @@ -952,13 +988,25 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
->  			goto end;
->  		}
->  	}
-> -	/*
-> -	 * Encoder will flush/start now, unless it has a tx pending. If so, it
-> -	 * may delay and flush at an irq event (e.g. ppdone)
-> -	 */
-> -	drm_for_each_encoder_mask(encoder, crtc->dev,
-> -				  crtc->state->encoder_mask)
-> -		dpu_encoder_prepare_for_kickoff(encoder);
+>  static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+>  				 struct dpu_kms *dpu_kms,
+>  				 struct msm_display_info *disp_info)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index 7ab5f9380bf5..70eda127488a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -98,6 +98,13 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder);
+>   */
+>  void dpu_encoder_virt_runtime_resume(struct drm_encoder *encoder);
+>  
+> +/**
+> + * dpu_encoder_get_clones - set possible_clones for DPU encoder
+> + * @drm_enc:        DRM encoder pointer
+> + * Returns:         possible_clones mask
+> + */
+> +uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc);
 > +
-> +	if (drm_crtc_in_clone_mode(crtc->state)) {
-> +		if (dpu_crtc_kickoff_clone_mode(crtc))
-> +			goto end;
-> +	} else {
-> +		/*
-> +		 * Encoder will flush/start now, unless it has a tx pending.
-> +		 * If so, it may delay and flush at an irq event (e.g. ppdone)
-> +		 */
-> +		drm_for_each_encoder_mask(encoder, crtc->dev,
-> +				crtc->state->encoder_mask)
-> +			dpu_encoder_prepare_for_kickoff(encoder);
-> +
-> +		drm_for_each_encoder_mask(encoder, crtc->dev,
-> +				crtc->state->encoder_mask) {
-> +			dpu_encoder_kickoff(encoder);
-> +			dpu_encoder_start_frame_done_timer(encoder);
-> +		}
+>  /**
+>   * dpu_encoder_init - initialize virtual encoder object
+>   * @dev:        Pointer to drm device structure
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 87526d3c224a..1a82aa61d217 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * Copyright (C) 2013 Red Hat
+>   * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
+> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>   *
+>   * Author: Rob Clark <robdclark@gmail.com>
+>   */
+> @@ -793,8 +793,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+>  		return ret;
+>  
+>  	num_encoders = 0;
+> -	drm_for_each_encoder(encoder, dev)
+> +	drm_for_each_encoder(encoder, dev) {
+>  		num_encoders++;
+> +		if (catalog->cwb_count > 0)
+> +			encoder->possible_clones = dpu_encoder_get_clones(encoder);
 > +	}
 >  
->  	if (atomic_inc_return(&dpu_crtc->frame_pending) == 1) {
->  		/* acquire bandwidth and other resources */
-> @@ -970,11 +1018,6 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+>  	max_crtc_count = min(catalog->mixer_count, num_encoders);
 >  
->  	dpu_vbif_clear_errors(dpu_kms);
->  
-> -	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
-> -		dpu_encoder_kickoff(encoder);
-> -		dpu_encoder_start_frame_done_timer(encoder);
-> -	}
-> -
-
-I think I understand why you wanted to move the kickoff before the
-frame_pending, etc. However at the same time dpu_vbif_clear_errors()
-should be called before kickoff.
-
->  	reinit_completion(&dpu_crtc->frame_done_comp);
->  
->  end:
 > 
 > -- 
 > 2.34.1
