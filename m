@@ -2,83 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181D6966C13
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 00:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E1B966C28
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 00:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA2210EA1A;
-	Fri, 30 Aug 2024 22:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6467F10E070;
+	Fri, 30 Aug 2024 22:16:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="goptsK/H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RKe37FyJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
- [209.85.166.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4FC10EAC8
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 17:55:40 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id
- ca18e2360f4ac-8278b0ba494so88870039f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 10:55:40 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B942F10E070
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 22:16:29 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e05f25fb96eso2268456276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 15:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725040539; x=1725645339; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6MF+sXceWEcBfG7p4hvfyj5a5Bti98QDvGTaVeFBZ7w=;
- b=goptsK/HQ58RfV0tQo7vlnUkbLbaM4s+WevwctmvtnP25ZYiIWU8MpoLXeH1Febsft
- 8LYqKz60bHwYT+oubeCgugPYzQ2hTVJLlQfAo1Qwj4gZ9pm8JkLWnDhsKWXHiFYD6w/l
- 5hLjnUNxoQhlNIIGs5Gg5yTYQow0+cFT6wkyzNUrMkvcmK+zENaBoK8QlFY2hMd8OrPQ
- NSaqhnIheR5WVzwXvdciUxA22+IE3jE39qB5Gs5BXiqTfQjvZndrh6RqUylciTPHhk9k
- ReTpogxoKXky7CJNc7bM9AAbne/RGMlkasVI1X7W1MwtSYXLI3j5umjlxb1nzYboq/iA
- uaKg==
+ d=linaro.org; s=google; t=1725056188; x=1725660988; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Kg0OcxRkiJ9mILCxT4CPJe/4xi2OQv9TcXwbD36UhOo=;
+ b=RKe37FyJg0Icb4rAsmVSuIt43d0/FKA9FewpM0j7cyXuHqYOT4VvgoiQzQLyRuPZj7
+ bgF8iY7Y30djT0Y+C4TtOyR29owhz5TjUrkvq10BjFVQPAg+UIRMq9NREzy00sePxV/x
+ T3tsjNGkuyuOW6Xsd6sa2UWoYv5WVxKHgmHQBLyydBvjIhrlzmXipfSdLvyxg5SFT+B4
+ 9HJrtpedTSTfmnmuR9sQNmyVCoBW2xv9RUzYtd6MOEbqx80iFA/TQW6PE7MUfAJUeguu
+ h1saGw2A5UNkQhQPfdGe9uinTNNxaEkjsOakSg3zs2+CR4GvcbW2rmvqvLnA0h62idfL
+ fbtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725040539; x=1725645339;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6MF+sXceWEcBfG7p4hvfyj5a5Bti98QDvGTaVeFBZ7w=;
- b=et5h8+EkB1hwFGpSxICAqmycplw3j+4JicBUvselSpKyCEsebT9l0pzR/JTK2keIxx
- Koa2xqRgubD2mzPs7ZfpTUQBPUNkYyZG9L4exf3uTyfwWQyxCJvUAur+jRvxT0jFHhIo
- PnEHyu2lf7qfGZfE8oEerKG8oTz4+huNTsksMAzQoBMZtzhlQaTQKIe/6H4UNefoQ5PS
- CDkqXci0yRi+PtYYm5XwjQcgeEs+aYi3hQ7Hf/6TroC7PIjndL44GWxiMajQtjFcDp2N
- /dXWnZokVxZE7TEVKzdXcwCtUrd9aldEjhMIKWG8clLQfM3FP0+hyeL3JXmbKXKe50IQ
- Adxg==
+ d=1e100.net; s=20230601; t=1725056188; x=1725660988;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Kg0OcxRkiJ9mILCxT4CPJe/4xi2OQv9TcXwbD36UhOo=;
+ b=tywxkhli+XDaJyNm1g7E+gRoUrKhIqGyidaQN9kahhlYs+ofwgDOYNLouZ0snsS5+e
+ bqhTWQlaqDkuFtPT/xVY7WmTSlgXFdx0mnPsa4C3g0XcQsM9D/YBMHjlLHUdA+meZiUv
+ qFOkII+YFln8W+zqAXwzj5riP3LlwXZHiKenrUBV24RwTV4ztVROIkyApkLja9qrPQNF
+ TQnYCxBXRFyikYBTAjLRBVAWSSWqd2avsvmyjhi5eKeMH2Op1VuQBOBXMXO4Dp2sKgSq
+ GaIgPx8eXE0I8cyYx8bP2FJ2CqoKb3A1JRr9521sKwMwMkgS8uFt42VVXVAzwxCf0z+I
+ 053g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYQSM0jCGjafK6qIHOgImdQf9s6XnN7GpdnzR1EJmClFntEmx1oqodBQ4+sN+Z8m9/pW9OCPvttLU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy37wIdzaKYeIRxdQoLGDt+5ej3ESXfoC6Dy2JtMtb21cTqyz/L
- tNeFCFO/RIwBsUJbNAyDZ/rF0ZiDWBM96kuvbcrApXRNaDii5KBN
-X-Google-Smtp-Source: AGHT+IEJO+rT64x31n995BvsAz22y/GdYxKgQSigICRU69AK6S1WIiCNnm+JI0H61qKRycetlf7dgQ==
-X-Received: by 2002:a05:6e02:b46:b0:376:410b:ae67 with SMTP id
- e9e14a558f8ab-39f379376bamr77474555ab.16.1725040539147; 
- Fri, 30 Aug 2024 10:55:39 -0700 (PDT)
-Received: from localhost.localdomain (174-20-195-90.mpls.qwest.net.
- [174.20.195.90]) by smtp.gmail.com with ESMTPSA id
- e9e14a558f8ab-39f3b03fb67sm9548685ab.67.2024.08.30.10.55.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 10:55:38 -0700 (PDT)
-From: Shimrra Shai <shimrrashai@gmail.com>
-To: cristian.ciocaltea@collabora.com
-Cc: Laurent.pinchart@ideasonboard.com, aarnoud@me.com, airlied@gmail.com,
- algea.cao@rock-chips.com, andrzej.hajda@intel.com, andy.yan@rock-chips.com,
- conor+dt@kernel.org, daniel@ffwll.ch, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
- jernej.skrabec@gmail.com, jonas@kwiboo.se, krzk+dt@kernel.org,
- ldearquer@gmail.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- maarten.lankhorst@linux.intel.com, markyao0591@gmail.com,
- mripard@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
- robh@kernel.org, s.hauer@pengutronix.de, shimrrashai@gmail.com,
- tzimmermann@suse.de
-Subject: Re: Re: [PATCH v5? 0/6] Tweaked basic Synopsys DW HDMI QP TX driver
- for Rockchip RK3588
-Date: Fri, 30 Aug 2024 12:54:40 -0500
-Message-ID: <20240830175440.2596-1-shimrrashai@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <68e78629-5a2c-433b-8c83-50ffced04268@collabora.com>
-References: <68e78629-5a2c-433b-8c83-50ffced04268@collabora.com>
+ AJvYcCXC4IifAUjegbO0D1HmeyC9dIXpNf8XMC3K71xWgubKz14iaWtqxxlcRkG066xSxBN0jBTCyuU2eMs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwhyQVMCJlxKdHIeG+Ja+DTdkOo4jh6ofw+bqPHdytQ8szgIuCq
+ 7OwKO1h6SXFMKsebEkwBHIRFgNn2eeTDopoRUqhoD60xutsulptVYo0A65TDyLhIf1YEoNQtf+2
+ QA+O/pWYDdaHB8ON2w/LRl6xI3r+vmlI8zjrXxQ==
+X-Google-Smtp-Source: AGHT+IHgOBmdwt0xUdZkJgCOZZM6PHszQRsO5mml5cm8WKpLa4tuyNCeZ9ZjuBiXceqbfQLAyAgRg28VJm8LcQEYicM=
+X-Received: by 2002:a05:690c:6711:b0:6d3:be51:6d03 with SMTP id
+ 00721157ae682-6d40f82a5dcmr47478337b3.23.1725056188103; Fri, 30 Aug 2024
+ 15:16:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 30 Aug 2024 22:08:56 +0000
+References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
+ <20240829-concurrent-wb-v1-11-502b16ae2ebb@quicinc.com>
+ <pf6xgu7yjanzjigfpupons4ud6jbcmbr5icnd7yur6qhh3n5sf@plj4bi3beguw>
+ <665da6e9-d9f3-4a28-a53b-0f467967fc78@quicinc.com>
+In-Reply-To: <665da6e9-d9f3-4a28-a53b-0f467967fc78@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 31 Aug 2024 01:16:16 +0300
+Message-ID: <CAA8EJpo0X7yRaqYV-tTco9+9WyexiPN_ey8hKivFrE3jTojUpg@mail.gmail.com>
+Subject: Re: [PATCH 11/21] drm/msm/dpu: Add RM support for allocating CWB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,41 +87,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cristian Ciocaltea wrote:
-> Please stop doing this!
+On Fri, 30 Aug 2024 at 22:28, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
 >
-> I appreciate your intention to help, but this is not the proper way of
-> doing it.  This is a work-in-progress series and you should have asked
-> before taking over.  Please do not interfere with other people's work
-> without having a preliminary agreement with the author(s).
 >
-> Additionally, before submitting any other patches, you should get
-> familiar with the process - see [1] for a starting point.
 >
+> On 8/30/2024 10:18 AM, Dmitry Baryshkov wrote:
+> > On Thu, Aug 29, 2024 at 01:48:32PM GMT, Jessica Zhang wrote:
+> >> Add support for allocating the concurrent writeback mux as part of the
+> >> WB allocation
+> >>
+> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >> ---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  5 ++++-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 30 +++++++++++++++++++++++++++--
+> >>   2 files changed, 32 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> >> index c17d2d356f7a..c43cb55fe1d2 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> >> @@ -1,5 +1,7 @@
+> >>   /* SPDX-License-Identifier: GPL-2.0-only */
+> >> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+> >> +/*
+> >> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> >> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+> >>    */
+> >>
+> >>   #ifndef _DPU_HW_MDSS_H
+> >> @@ -352,6 +354,7 @@ struct dpu_mdss_color {
+> >>   #define DPU_DBG_MASK_DSPP     (1 << 10)
+> >>   #define DPU_DBG_MASK_DSC      (1 << 11)
+> >>   #define DPU_DBG_MASK_CDM      (1 << 12)
+> >> +#define DPU_DBG_MASK_CWB      (1 << 13)
+> >>
+> >>   /**
+> >>    * struct dpu_hw_tear_check - Struct contains parameters to configure
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> >> index bc99b04eae3a..738e9a081b10 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> >> @@ -1,9 +1,10 @@
+> >>   // SPDX-License-Identifier: GPL-2.0-only
+> >>   /*
+> >>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+> >> - * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> >> + * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> >>    */
+> >>
+> >> +#include <drm/drm_managed.h>
+> >>   #include "msm_drv.h"
+> >>   #define pr_fmt(fmt)        "[drm:%s] " fmt, __func__
+> >>   #include "dpu_kms.h"
+> >> @@ -34,6 +35,7 @@ int dpu_rm_init(struct drm_device *dev,
+> >>              void __iomem *mmio)
+> >>   {
+> >>      int rc, i;
+> >> +    struct dpu_hw_blk_reg_map *cwb_reg_map;
+> >>
+> >>      if (!rm || !cat || !mmio) {
+> >>              DPU_ERROR("invalid kms\n");
+> >> @@ -100,11 +102,35 @@ int dpu_rm_init(struct drm_device *dev,
+> >>              rm->hw_intf[intf->id - INTF_0] = hw;
+> >>      }
+> >>
+> >> +    if (cat->cwb_count > 0) {
+> >> +            cwb_reg_map = drmm_kzalloc(dev,
+> >> +                            sizeof(*cwb_reg_map) * cat->cwb_count,
+> >> +                            GFP_KERNEL);
+> >
+> > Please move CWB block pointers to dpu_rm. There is no need to allocate a
+> > separate array.
+>
+> Hi Dmitry,
+>
+> Sorry, I'm not sure what you mean here. Can you clarify your comment?
+>
+> This is just allocating an array of the CWB register addresses so that
+> the hw_wb block can use it to configure the CWB mux registers.
 
-Hi Cristian,
+Excuse me. I asked to make the cwb_reg_map array a part of the
+existing dpu_rm structure. This way other subblocks can access it
+through dpu_rm API.
 
-Sorry, I did not know what the rules/norms/customs were around this
-kind of thing here as I figured it was an open contribution space. I
-did not know that I should have asked for agreement with you
-beforehand. So go ahead and ignore this patch series if it goes
-against the rules/customs. Even more if these points have already been
-addressed, as redundant work is obviously not helpful.
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+> >
+> >> +
+> >> +            if (!cwb_reg_map) {
+> >> +                    DPU_ERROR("failed cwb object creation\n");
+> >> +                    return -ENOMEM;
+> >> +            }
+> >> +    }
+> >> +
+> >> +
+> >> +    for (i = 0; i < cat->cwb_count; i++) {
+> >> +            struct dpu_hw_blk_reg_map *cwb = &cwb_reg_map[i];
+> >> +
+> >> +            cwb->blk_addr = mmio + cat->cwb[i].base;
+> >> +            cwb->log_mask = DPU_DBG_MASK_CWB;
+> >> +    }
+> >> +
+> >>      for (i = 0; i < cat->wb_count; i++) {
+> >>              struct dpu_hw_wb *hw;
+> >>              const struct dpu_wb_cfg *wb = &cat->wb[i];
+> >>
+> >> -            hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
+> >> +            if (cat->cwb)
+> >> +                    hw = dpu_hw_wb_init_with_cwb(dev, wb, mmio,
+> >> +                                    cat->mdss_ver, cwb_reg_map);
+> >> +            else
+> >> +                    hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
+> >> +
+> >>              if (IS_ERR(hw)) {
+> >>                      rc = PTR_ERR(hw);
+> >>                      DPU_ERROR("failed wb object creation: err %d\n", rc);
+> >>
+> >> --
+> >> 2.34.1
+> >>
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
-That said, if there is some way to help along this project "the right
-way", I would like to for sure! Just tell me what you'd _really_ need
-help/assistance with to get this moved ahead and I'll see if I can
-give it.
 
-Thank you!
 
-- Shimrra
-
-(BTW, I thought I read a lot of that stuff in your [1], but I guess I
-glossed over some of the finest details; unfortunately my mind tends
-to do that a lot [drop details], so I will not contest your complaint
-about the substance of the submission as containing mistakes, either.
-
-And I only think I submitted one other patch before so I am not very
-experienced at this group, despite being much more experienced with
-coding. So again I apologize.)
+-- 
+With best wishes
+Dmitry
