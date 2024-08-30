@@ -2,79 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97648966ABE
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 22:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253DF966B11
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 23:03:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01EBF10E076;
-	Fri, 30 Aug 2024 20:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F8010EAF1;
+	Fri, 30 Aug 2024 21:03:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UW3TubCd";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Qqgxawc3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
- [209.85.167.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B61410E076;
- Fri, 30 Aug 2024 20:37:13 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id
- 5614622812f47-3df0c4a65baso1259271b6e.2; 
- Fri, 30 Aug 2024 13:37:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725050232; x=1725655032; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o+kQe6VsLr0w8NPho0fLf/Dst/MLp8Ox6OpvKwqHs6A=;
- b=UW3TubCdX3C8d0iD0Q5K8ljD+hpwatFILxe3o9gCfmQR8aEKhp//IiMQfCWowsX81M
- bmbRYeKYHPciTdZEud9R254TuvvM9juSA0MmzTCShjm4tT0Ul5Atdnf+iLrIAQ0+ifK1
- oflbd/4WHjT+2tQWdH+UuGpbyVbr0RhrJDVPJloAl2wugr7+Xj/7VHiOfZUU+mgZXldg
- dyEHbZMuBrlhixjRMhSmaWF7SFiV2QuyE6GKjpImvzunBOcDl/LuIvmOTcBxUpjiRVut
- 2HYjxgbGn/MQ9emC7vJJMpxkLaUUH8LaVy34nnpmBKxBn985V+5HyPXzqeRFWbp1ScZA
- cGug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725050232; x=1725655032;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=o+kQe6VsLr0w8NPho0fLf/Dst/MLp8Ox6OpvKwqHs6A=;
- b=lOpkTgMMhhOAXc7Zy5GqQxZIfZfpfR70qE1GOxOsv4QzNKItPG4Y4+EsOW1Y2Iw+o1
- IPiONO79Pw4VaYfPt+ZPU3pNZ33JhFh7QppTyj8B81AJbROJKlt8CDJXli0tmQvrgxnV
- ep4MKd1k9CBdI87+VQasLrwgX8KVW5h2SIJR0elBiJIskcskmOHXyarmMYItGQ56qbwJ
- bXmiW4jRY52MbJUiEsfvsx33WGyoDWCpFrh/lA5qca3GhdvGIzF8a5+DFFH+wHFX2RvC
- JoblEFDICN4Gp+2arTeNf0ZnDz1D8+Khe356Dvxb6a9qd8G/Fjf+lTs1DwTX5OAFEjAP
- cjwQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrYfpMOAKc5gitcxvCBQZmqtKXlDekaQDcnNhR7ByhMwFsneyeaebYojrpD8NN566czJ69I6am1rc=@lists.freedesktop.org,
- AJvYcCXsqwDjtzOijur0slRfDzMm9Vi80vS+/+jOu3z2RZHkw/6gmvCuvcdVUy6DISaMnYZgZa/bnUTY1kB2@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwV/nW1zoddTdjNEZxbGelYNEMdQ+mShPFUGx4sxmdCQtZeUeQE
- 22aYnq2ClZVdnKDvsTqhzWIWQYWfJoQnqh07w3lqi6fnwHm6SVnLHf30HxCjNegeM9SlMKmUUKB
- UGXYAhDtWlJtj1j+f7ctS08FNY40=
-X-Google-Smtp-Source: AGHT+IGBK5VzsLTg+8hHTDlEwYoRoCMP3HK0fagxgjtTycr60ZVf6Hnz+b7BKk+/0NUyK2hlKcW4jKAotktIaq2r89c=
-X-Received: by 2002:a05:6808:144c:b0:3da:bc80:b233 with SMTP id
- 5614622812f47-3df05d6e387mr8639762b6e.17.1725050232471; Fri, 30 Aug 2024
- 13:37:12 -0700 (PDT)
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com
+ [91.218.175.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E26DA10E128
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 21:03:11 +0000 (UTC)
+Message-ID: <e0d206be-7ad1-4b80-9f58-88eb0cf1ce74@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1725051790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r4OEWcEhfJSfSlYo07oIFQ/4ZIDOB0tVXO3csQokwug=;
+ b=Qqgxawc3kIVrVt+sccZg/wjFrWmXtPLJB3tMu6J+z1+015puL9Pan0j99RMTXSWBvb8t3J
+ 2xBeYejFXk7YEnJ9xZtPodwURTbitUqYubrYi/Vi1o5+3a4S86gq7i3ZXHzieksdOJFPCY
+ fTQARNgfb7S2AV4nmLqeckDGc7QtFwY=
+Date: Sat, 31 Aug 2024 05:03:01 +0800
 MIME-Version: 1.0
-References: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
- <20240830-preemption-a750-t-v2-4-86aeead2cd80@gmail.com>
-In-Reply-To: <20240830-preemption-a750-t-v2-4-86aeead2cd80@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 30 Aug 2024 13:36:59 -0700
-Message-ID: <CAF6AEGuMah=C_i1qqaAP+Pz5t=bX5+Tq4Mq6HXoSeyWpaj7Cqw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] drm/msm/A6xx: Implement preemption for A7XX targets
-To: Antonino Maniscalco <antomani103@gmail.com>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [v2] drm/etnaviv: Clear the __GFP_HIGHMEM bit in GFP_HIGHUSER
+ with 32 address
+To: "Wang, Xiaolei" <Xiaolei.Wang@windriver.com>,
+ "l.stach@pengutronix.de" <l.stach@pengutronix.de>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
+ "christian.gmeiner@gmail.com" <christian.gmeiner@gmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
+Cc: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <MW5PR11MB57648F441CEDD36E614E31EA95812@MW5PR11MB5764.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <MW5PR11MB57648F441CEDD36E614E31EA95812@MW5PR11MB5764.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,70 +63,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 30, 2024 at 8:33=E2=80=AFAM Antonino Maniscalco
-<antomani103@gmail.com> wrote:
->
-> This patch implements preemption feature for A6xx targets, this allows
-> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
-> hardware as such supports multiple levels of preemption granularities,
-> ranging from coarse grained(ringbuffer level) to a more fine grained
-> such as draw-call level or a bin boundary level preemption. This patch
-> enables the basic preemption level, with more fine grained preemption
-> support to follow.
->
-> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-> ---
->  drivers/gpu/drm/msm/Makefile              |   1 +
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 323 +++++++++++++++++++++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 ++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 431 ++++++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/msm/msm_ringbuffer.h      |   7 +
->  5 files changed, 921 insertions(+), 9 deletions(-)
->
+Hi, Xiaolei
 
-[snip]
 
-> +void a6xx_preempt_trigger(struct msm_gpu *gpu)
-> +{
-> +       struct adreno_gpu *adreno_gpu =3D to_adreno_gpu(gpu);
-> +       struct a6xx_gpu *a6xx_gpu =3D to_a6xx_gpu(adreno_gpu);
-> +       u64 preempt_offset_priv_secure;
-> +       unsigned long flags;
-> +       struct msm_ringbuffer *ring;
-> +       uint64_t user_ctx_iova;
-> +       unsigned int cntl;
-> +
-> +       if (gpu->nr_rings =3D=3D 1)
-> +               return;
-> +
-> +       /*
-> +        * Lock to make sure another thread attempting preemption doesn't=
- skip it
-> +        * while we are still evaluating the next ring. This makes sure t=
-he other
-> +        * thread does start preemption if we abort it and avoids a soft =
-lock.
-> +        */
-> +       spin_lock_irqsave(&a6xx_gpu->eval_lock, flags);
-> +
-> +       /*
-> +        * Try to start preemption by moving from NONE to START. If
-> +        * unsuccessful, a preemption is already in flight
-> +        */
-> +       if (!try_preempt_state(a6xx_gpu, PREEMPT_NONE, PREEMPT_START)) {
-> +               spin_unlock_irqrestore(&a6xx_gpu->eval_lock, flags);
-> +               return;
+Thanks for your nice catch! I have more to say.
+
+On 2024/8/16 09:55, Wang, Xiaolei wrote:
+> Ping ...
+
+32 address -> 32-bit address,
+
+Perhaps, we could improve the commit title a little bit
+by writing a more accurate sentence if possible, say:
+
+drm/etnaviv: Properly request pages from DMA32 zone when needed
+
+or
+
+drm/etnaviv: Request pages from DMA32 zone on addressing_limited
+
+
+> thanks
+> xiaolei
+
+Vivante GPU is a 32-bit GPU, it do can access 40-bit physical address via its MMU(IOMMU).
+But this is only possible *after* the MMU has been setup(initialized). Before GPU page
+table is setup(and flush-ed into the GPU's TLB), the device can only access 32-bit
+physical addresses and the addresses has to be physical continues in ranges.
+
+The GPU page tables (GART) and command buffer has to reside in low 4GB address.
+
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 7c7f97793ddd..0e6bdf2d028b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -844,8 +844,10 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>            * request pages for our SHM backend buffers from the DMA32 zone to
+>            * hopefully avoid performance killing SWIOTLB bounce buffering.
+>            */
+> -       if (dma_addressing_limited(gpu->dev))
+> +       if (dma_addressing_limited(gpu->dev)) {
+>                   priv->shm_gfp_mask |= GFP_DMA32;
+> +               priv->shm_gfp_mask &= ~__GFP_HIGHMEM;
 > +       }
-> +
-> +       cntl =3D (((a6xx_gpu->preempt_level << 6) & 0xC0) |
-> +               ((a6xx_gpu->skip_save_restore << 9) & 0x200) |
-> +               ((a6xx_gpu->uses_gmem << 8) & 0x100) | 0x1);
 
-nit, could we define these fields in the xml, and not open-code
-register building?
+The code here  still looks itchy and risky,
+because for a i.MX8 SoC with multiple vivante GPU core.
+We will modify priv->shm_gfp_mask *multiple* time.
 
-BR,
--R
+For the 2D core and the 3D core have different DMA addressing constraint.
+Then, only the last(latest) modify will be effective. This lead to the
+probe order dependent.
+
+However this may not be a problem in practice, as usually, all vivante
+GPUs in the system will share the same DMA constraints. And the driver
+assume that.
+
+But then, we probably still should not modify the global shared GFP
+mask multiple time.
+
+Now that we do assume that all vivante GPUs in the system share the
+same DMA constraints. And the DMA constraints information has been
+assigned to the virtual master. The right time to modify the
+`priv->shm_gfp_mask` should be in the etnaviv_bind() function. as
+this can eliminate overlap(repeat) stores.
+
+
+Please consider move the entire if() {} to etnaviv_bind(), just below
+where the 'priv->shm_gfp_mask' was initially initialized.
+
+or alternatively we can just hard-code to use low 4GM memmory only:
+
+priv->shm_gfp_mask = GFP_USER | GFP_DMA32 | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
+
+
+Best regards,
+Sui
+
+>           /* Create buffer: */
+>           ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
