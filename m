@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CBD96551A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 04:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F63965541
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 04:32:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0455E10E5B6;
-	Fri, 30 Aug 2024 02:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2194110E7BE;
+	Fri, 30 Aug 2024 02:32:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="blMh46s7";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="AxtGG3qb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC58610E5B6
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 02:08:54 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a869332c2c2so397941566b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 19:08:54 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0251110E7BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 02:32:33 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-a8692bbec79so156909366b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 19:32:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724983733; x=1725588533; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Qg6WNfL/F6Y1y6D4ESySiWKDVVUAg0SLjU+a+wT4JMA=;
- b=blMh46s7CRXMG0qfk4+R6TMctRi3U6ga+poBI+iowRUEYBNZciMwWvs5EMDUgOKa6G
- INr565xeIFZNlrYoPVs/Omot11D5tNcjoDUa7+6UWh+k2zS+4hLXP+8oyiomXZ/Aa/Ci
- AwVDSYDKEEnwEM0KL85grWvdau+kOvkKhw9865AiyIzvcjd+kc2uAusWSNRTKL9oqsSO
- MLlnyCGopFCZQSqqtlGnqgssz2ZZhCVg5qR4Co6i4dQvWq4OP2eEKS3Ac4dDMzC86NfP
- 97uvGkML13pxpfa+UGbi+R45t0lEAM2J1qkqBClxY7CoIwNdlV1j1v/zLKLenYK/DNcN
- hEnA==
+ d=linux-foundation.org; s=google; t=1724985152; x=1725589952;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RmoB069VF6EUIaCnpaVhJcQLLGtyhrjfKVxZgKUoxGE=;
+ b=AxtGG3qbMATpnT8Ozo+p9iNWFWtuZCF8mFEJQ4CyXXW1ITSWYCWWd+OkmKVKrZUpXw
+ +DH8/jt60plJHfxdnlStxJIYrfZDGRsFCNHD9dfx9+ZEl+LqIZoz6FBTHwy719IWSyRB
+ +gf5KpdqLUzD1s7jbDZ0busBZj9NPr/nCdjvA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724983733; x=1725588533;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Qg6WNfL/F6Y1y6D4ESySiWKDVVUAg0SLjU+a+wT4JMA=;
- b=mvFg2iWtBeo3Cy8ed10S2ggjSvdI24m+3M3Y225r5wRBdLHlJuKjAamD6UIzbtEt0D
- 0QPcxXgaVAbpCc0xZUaPARdP2JWYqYLbvm+ZjNvXjaBbxyAdp8f9UJTjM6R0GMOA2d8L
- FJPVsqZD1w1OC17b/tkn5Ox+yguPuQGIE3ZjLv59/PzBbZ3Y6G8VTyhBIZ37MYbfW0uv
- RwAIRpLIxk/R/vi6QUkjyv2+O9GKQPLoYDRqkH1VMCId2OuAONGCDOiGjiEMC9mY3vim
- OANrgVcghNPRzOqh0PDooJN4VXbWRMp0WBIEel/adxankkhGW/TCJNwMh+3EVf48JyYg
- 7MjA==
-X-Gm-Message-State: AOJu0Yz+lXwvse6VXP2e14jiMT0luxiCN6jYOUujsJwdDJOxLKKPxk0r
- 7B3qCJY5Mm3iJ6IBCS1LyZv7qlJTKImejlOxAcN7PPTVLWmS/f4VEpi+GkFVFuz15cbsca/dlbQ
- DmL6ZOmtQRFo0zrV+JeRDg6eBJds=
-X-Google-Smtp-Source: AGHT+IHgBRLmBAT4IJRklNDrgpfErJbap5rAuJNsLi3oUTrZX4dHmrrQJ1gAnoqaDuwxckRhNyZezmoRL/ajgVTzvm0=
-X-Received: by 2002:a17:907:980c:b0:a83:849e:ea80 with SMTP id
- a640c23a62f3a-a898284a66emr452964966b.32.1724983732769; Thu, 29 Aug 2024
- 19:08:52 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1724985152; x=1725589952;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RmoB069VF6EUIaCnpaVhJcQLLGtyhrjfKVxZgKUoxGE=;
+ b=QBKspqPFyaW6yzqBLhEaiN/kYxqWhz+szDCVr9BZo3FgZP/kCRDAH+TuOOF5gMnvSl
+ 8yqpgoISpDE72Fyz8WE2187af/yoW3s75Boiyy615vJB0CeXXfEZSl6bthasaDENtJ7E
+ TxW8qRFUtbFk5MfTgggyBFTftjt8uvO21HBfGjo9KoktfTnTZA1Uk49dqCyLcU84Ekge
+ BGf112VbCyC2bZRS4Oa4k7pL7u8K00BvWFzAk7lu8VQF1ISSUF828u4AgCDnleernm4y
+ GaLisib3yRc6Pjhy7HA/v+R324K1gkTrQAzK45SbETLG+QEAtXhfWGKXghgASpoxd70v
+ exCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWOhoREDXldv09RZFO5mWL5tosrAMFxPBP2R+Y/lt6wIMsX67jYLhPabiDVdk7aFxRxezEJqxzfYrg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4WYpZZg5rvhablbNoAZP8jQcZzldnAVAMhFcCNLX85/w3lPS4
+ SG2rbMzQnYxmZUAt/RhB+a+g4P67Yb8GL7RMYyXjV/c8pDVLGVEVpt1G5u4KRnl8439WQAc0kxp
+ CSWf9fQ==
+X-Google-Smtp-Source: AGHT+IEIEvJq1AOegxbdNIu/DY+czhewTI10v/LnRea0l8TeMGEUoZNtQkffIvd6kAKmRvZb6JFAEw==
+X-Received: by 2002:a17:907:e617:b0:a77:e0ed:8c4 with SMTP id
+ a640c23a62f3a-a89a34e7ce6mr46958566b.7.1724985151645; 
+ Thu, 29 Aug 2024 19:32:31 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a898900f243sm152357866b.69.2024.08.29.19.32.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Aug 2024 19:32:31 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5becd359800so1453697a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2024 19:32:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUaTQsVSPTOC3nEUM4AXg28s2i+c9VMVDkebb7YjJzmDZ6nLcLGlYnLUinnsEkzoI3W6gF7PdvGqdA=@lists.freedesktop.org
+X-Received: by 2002:a05:6402:1e8c:b0:5c0:c223:48a1 with SMTP id
+ 4fb4d7f45d1cf-5c21ed58cecmr3849130a12.21.1724985150681; Thu, 29 Aug 2024
+ 19:32:30 -0700 (PDT)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 30 Aug 2024 12:08:41 +1000
-Message-ID: <CAPM=9tzX71UKndfu8JECMOzc9kf4s4pp9cWTMWwE476cQXt_Yw@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.11-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+References: <CAPM=9tzX71UKndfu8JECMOzc9kf4s4pp9cWTMWwE476cQXt_Yw@mail.gmail.com>
+In-Reply-To: <CAPM=9tzX71UKndfu8JECMOzc9kf4s4pp9cWTMWwE476cQXt_Yw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 30 Aug 2024 14:32:13 +1200
+X-Gmail-Original-Message-ID: <CAHk-=wijFJM9MHvwGSS4ADs8ncRagrXYi2E9SvhK8coMH32D7A@mail.gmail.com>
+Message-ID: <CAHk-=wijFJM9MHvwGSS4ADs8ncRagrXYi2E9SvhK8coMH32D7A@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 6.11-rc6
+To: Dave Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
  LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,194 +91,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+On Fri, 30 Aug 2024 at 14:08, Dave Airlie <airlied@gmail.com> wrote:
+>
+> The TTM revert is due to some stuttering graphical apps probably due
+> to longer stalls while prefaulting.
 
-Another week, another set of GPU fixes. amdgpu and vmwgfx leading the
-charge, then i915 and xe changes along with v3d and some other bits.
-The TTM revert is due to some stuttering graphical apps probably due
-to longer stalls while prefaulting.
+Yeah, trying to pre-fault a PMD worth of pages in one go is just crazy talk.
 
-Seems pretty much where I'd expect things,
+Now, if it was PMD-aligned and you faulted in a single PMD, that would
+be different. But just doing prn_insert_page() in a loop is insane.
 
-Dave.
+The code doesn't even stop when it hits a page that already existed,
+and it keeps locking and unlocking the last-level page table over and
+over again.
 
-drm-fixes-2024-08-30:
-drm fixes for 6.11-rc6
+Honestly, that code is questionable even for the *small* value, much
+less the "a PMD size" case.
 
-ttm:
-- revert prefault change, caused stutters
+Now, if you have an array of 'struct page *", you can use
+vm_insert_pages(), and that's reasonably efficient.
 
-aperture:
-- handle non-VGA devices bettter
+And if you have a *contiguous* are of pfns, you can use remap_pfn_range().
 
-amdgpu:
-- SWSMU gaming stability fix
-- SMU 13.0.7 fix
-- SWSMU documentation alignment fix
-- SMU 14.0.x fixes
-- GC 12.x fix
-- Display fix
-- IP discovery fix
-- SMU 13.0.6 fix
+But that "insert one pfn at a time" that the drm layer does is
+complete garbage. You're not speeding anything up, you're just digging
+deeper.
 
-i915:
-- Fix #11195: The external display connect via USB type-C dock stays
-blank after re-connect the dock
-- Make DSI backlight work for 2G version of Lenovo Yoga Tab 3 X90F
-- Move ARL GuC firmware to correct version
-
-xe:
-- Invalidate media_gt TLBs
-- Fix HWMON i1 power setup write command
-
-vmwgfx:
-- prevent unmapping active read buffers
-- fix prime with external buffers
-- disable coherent dumb buffers without 3d
-
-v3d:
-- disable preemption while updating GPU stats
-The following changes since commit 5be63fc19fcaa4c236b307420483578a56986a37:
-
-  Linux 6.11-rc5 (2024-08-25 19:07:11 +1200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-08-30
-
-for you to fetch changes up to 27f5b729cb56e46d8beca47c227c0edf1e958fbb:
-
-  Merge tag 'drm-misc-fixes-2024-08-29' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-(2024-08-30 11:28:11 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.11-rc6
-
-ttm:
-- revert prefault change, caused stutters
-
-aperture:
-- handle non-VGA devices bettter
-
-amdgpu:
-- SWSMU gaming stability fix
-- SMU 13.0.7 fix
-- SWSMU documentation alignment fix
-- SMU 14.0.x fixes
-- GC 12.x fix
-- Display fix
-- IP discovery fix
-- SMU 13.0.6 fix
-
-i915:
-- Fix #11195: The external display connect via USB type-C dock stays
-blank after re-connect the dock
-- Make DSI backlight work for 2G version of Lenovo Yoga Tab 3 X90F
-- Move ARL GuC firmware to correct version
-
-xe:
-- Invalidate media_gt TLBs
-- Fix HWMON i1 power setup write command
-
-vmwgfx:
-- prevent unmapping active read buffers
-- fix prime with external buffers
-- disable coherent dumb buffers without 3d
-
-v3d:
-- disable preemption while updating GPU stats
-
-----------------------------------------------------------------
-Alex Deucher (6):
-      Revert "drm/ttm: increase ttm pre-fault value to PMD size"
-      video/aperture: optionally match the device in sysfb_disable()
-      drm/amdgpu: align pp_power_profile_mode with kernel docs
-      drm/amdgpu/smu13.0.7: print index for profiles
-      drm/amdgpu/swsmu: always force a state reprogram on init
-      drm/amdgpu/gfx12: set UNORD_DISPATCH in compute MQDs
-
-Candice Li (1):
-      drm/amd/pm: Drop unsupported features on smu v14_0_2
-
-Dave Airlie (4):
-      Merge tag 'amd-drm-fixes-6.11-2024-08-28' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2024-08-29' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-08-29' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'drm-misc-fixes-2024-08-29' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-
-Hans de Goede (1):
-      drm/i915/dsi: Make Lenovo Yoga Tab 3 X90F DMI match less strict
-
-Imre Deak (1):
-      drm/i915/dp_mst: Fix MST state after a sink reset
-
-John Harrison (1):
-      drm/i915: ARL requires a newer GSC firmware
-
-Karthik Poosa (1):
-      drm/xe/hwmon: Fix WRITE_I1 param from u32 to u16
-
-Kenneth Feng (1):
-      drm/amd/pm: update message interface for smu v14.0.2/3
-
-Lijo Lazar (1):
-      drm/amd/pm: Add support for new P2S table revision
-
-Likun Gao (1):
-      drm/amdgpu: support for gc_info table v1.3
-
-Ma Ke (1):
-      drm/amd/display: avoid using null object of framebuffer
-
-Matthew Brost (1):
-      drm/xe: Invalidate media_gt TLBs
-
-Tvrtko Ursulin (1):
-      drm/v3d: Disable preemption while updating GPU stats
-
-Zack Rusin (3):
-      drm/vmwgfx: Prevent unmapping active read buffers
-      drm/vmwgfx: Fix prime with external buffers
-      drm/vmwgfx: Disable coherent dumb buffers without 3d
-
- drivers/firmware/sysfb.c                           |  19 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  11 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |   6 ++
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |   2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v12.c   |   1 +
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |   9 +-
- drivers/gpu/drm/amd/include/discovery.h            |  42 ++++++++
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  21 ++--
- .../amd/pm/swsmu/inc/pmfw_if/smu_v14_0_2_ppsmc.h   |  18 +++-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |   7 +-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |   4 +-
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  48 ---------
- drivers/gpu/drm/i915/display/intel_dp.c            |  12 +++
- drivers/gpu/drm/i915/display/intel_dp_mst.c        |  40 ++++++++
- drivers/gpu/drm/i915/display/intel_dp_mst.h        |   1 +
- drivers/gpu/drm/i915/display/vlv_dsi.c             |   1 -
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c          |  31 ++++++
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  10 +-
- drivers/gpu/drm/i915/i915_drv.h                    |   2 +
- drivers/gpu/drm/i915/intel_device_info.c           |   7 ++
- drivers/gpu/drm/i915/intel_device_info.h           |   3 +
- drivers/gpu/drm/v3d/v3d_sched.c                    |   6 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_blit.c               | 114 ++++++++++++++++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |  13 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h                 |   3 +
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |  12 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            |   6 +-
- drivers/gpu/drm/xe/xe_hwmon.c                      |   2 +-
- drivers/gpu/drm/xe/xe_vm.c                         |  37 ++++---
- drivers/of/platform.c                              |   2 +-
- drivers/video/aperture.c                           |  11 +-
- include/drm/intel/i915_pciids.h                    |  11 +-
- include/drm/ttm/ttm_bo.h                           |   4 -
- include/linux/sysfb.h                              |   4 +-
- 35 files changed, 398 insertions(+), 126 deletions(-)
+                  Linus
