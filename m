@@ -2,76 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E51965CFE
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 11:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC07965D18
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 11:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5064310E9CF;
-	Fri, 30 Aug 2024 09:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 105CD10EA30;
+	Fri, 30 Aug 2024 09:37:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="N15azCqY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WQAhllT/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0A0F10E9CF
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 09:33:54 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-5334879ba28so2179952e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 02:33:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725010433; x=1725615233; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uBi99OhODTsy2YN6E/2v+2p0d/VBJVM6cM05LOFNmCY=;
- b=N15azCqYacVskhByYZf4MVD9KbURk8XMhfoD8p+6NAp5p3KotrylaNWFxyk6Xg+JO+
- DU90OXRlKrA8hPJz5wHpEb7lvSfweo+v+95azsljZRRBzqf+40yYU4IE//xGmLDLHnEJ
- vwbxhLD5M1CdoWhxRwbmpFlAEjx7B+tjX4s3f8IpxZtW1nq7ekoHh7pKLoB7sNz7HmB9
- PG6wM9SsjMuorHpI8Z3p4Uf3hXrzfi1fNkei65S5ubBZ7oFrUBuZDQTzsieW4ngJYL0U
- dzv26mEwz1Ve+kYuAe3wujqrANWAuH7Wze30uOSWAMTTJyHmgZfMKAbauc9YbJ0nitA9
- QHIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725010433; x=1725615233;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uBi99OhODTsy2YN6E/2v+2p0d/VBJVM6cM05LOFNmCY=;
- b=DJoJPmRZM1h3+F69Qq5Lru4KIFzUDsMAR35wEMY7ruiR6lOpveRQj35JHyUchyQ82X
- vktoPEoMv0qLRbgscTUeB0TawhtRAtYkAwD8U/0IRcgZRfudeEP45tvxx9oypmVedYz4
- PslKe7gUEhFoB83j7skJ9gEpaY3UfJo76AhYp9MzkL9dIZrBRVqvZJhBhC/hu48rbjVg
- oJ+tKRpkc+bi9EWWnkoTO2Gu3M2Cvid+BZ4d4xU+h4EmOJ7iYYwM7VaKCP/yBMhiecby
- v8vYsTlms/lOUBBwKAV2MiNf/34khAUXjXphxvLTC38n3NrsoVoiMa00DpHnQ8yK5yU+
- dWmw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVl492jXRsAmqRsd0GnmZ8TFXxQZq2F+CH8lS3eIdfcIJnRVGgG7B93IwLihB2jZ7YnB8xHR5EDWQA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyr3jt2AJOSi5n7Rs/8KlLKHvu4S0+w01RV2/kzRAPPX4EeGLTt
- J4xIOVZ2nk1pC2Fief7rU3GaDu3sfcrySfrdrY1yKdo3M2W0ChxSkkJ0Vz/bGBQ=
-X-Google-Smtp-Source: AGHT+IGHbbYDZwkl7ZaorUFMYTjjoiX5UwxQALXcLi2GUsuuwZ69P46OC0UsVz+iINGN//licHQ0Kg==
-X-Received: by 2002:a05:6512:3d8e:b0:52c:ebd0:609 with SMTP id
- 2adb3069b0e04-53546afa09dmr1172184e87.7.1725010432349; 
- Fri, 30 Aug 2024 02:33:52 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5354084e00asm511398e87.271.2024.08.30.02.33.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 02:33:51 -0700 (PDT)
-Date: Fri, 30 Aug 2024 12:33:50 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, 
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de, 
- stable <stable@kernel.org>
-Subject: Re: [PATCH v1 3/3] misc: fastrpc: Skip reference for DMA handles
-Message-ID: <7q7rar7ssvzlkol46e5e4yecgt6n4b4oqueam4ywlxjeasx2dl@oydthy337t6i>
-References: <20240822105933.2644945-1-quic_ekangupt@quicinc.com>
- <20240822105933.2644945-4-quic_ekangupt@quicinc.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 612F010EA30
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 09:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725010653;
+ bh=/IGKXnBnV1h0AIAPCm2ANJVylyOTjeht/XRr211+mFc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=WQAhllT/fOJttzHM9cUzEfP8awJ+Y4r44u8NuLxhlGA7y/1E1dUIYCjbvzX3zbfBZ
+ W18MLSYoDY7ieK8YLQVDsoCp4mspuQJrvgUh4xtMnKz9bUUj9hg8ZuXuch36qmvRRi
+ SFHsgILtTAOulF2jrwokJdqenTfFBmTL6qfKM9Q/K5lXsW/M5vPhvKTFrifduq9GYD
+ TRycyDr55ih7qb1SGCfVkJ6/o+/aUJdnubItPBHvFTOg0cr8NKJWGVyU7yNeOkrk4D
+ odtCGM3J4KfiBc+0Q+1ouYj9GRlJk+CyoUp3qjKSUGmi0DjadmIbVkr1J/WJtrU6zL
+ AANdmnRZot1pQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 89D0A17E0F92;
+ Fri, 30 Aug 2024 11:37:33 +0200 (CEST)
+Date: Fri, 30 Aug 2024 11:37:21 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, kernel@collabora.com, Luben Tuikov
+ <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>, Danilo
+ Krummrich <dakr@redhat.com>
+Subject: Re: [RFC PATCH] drm/sched: Fix a UAF on drm_sched_fence::sched
+Message-ID: <20240830113721.6174f3d9@collabora.com>
+In-Reply-To: <bdc018b8-3732-4123-a752-b4e0e7e150dc@amd.com>
+References: <20240829171238.609481-1-boris.brezillon@collabora.com>
+ <bdc018b8-3732-4123-a752-b4e0e7e150dc@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240822105933.2644945-4-quic_ekangupt@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,95 +65,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 22, 2024 at 04:29:33PM GMT, Ekansh Gupta wrote:
-> If multiple dma handles are passed with same fd over a remote call
-> the kernel driver takes a reference and expects that put for the
-> map will be called as many times to free the map.
+Hi Christian,
 
-> But DSP only
-> updates the fd one time in the fd list when the DSP refcount
-> goes to zero
+On Fri, 30 Aug 2024 10:14:18 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-I'm sorry, I couldn't understand this phrase. Could you plese clarify
-what do you mean here?
+> Am 29.08.24 um 19:12 schrieb Boris Brezillon:
+> > dma_fence objects created by an entity might outlive the
+> > drm_gpu_scheduler this entity was bound to if those fences are retained
+> > by other other objects, like a dma_buf resv. This means that
+> > drm_sched_fence::sched might be invalid when the resv is walked, which
+> > in turn leads to a UAF when dma_fence_ops::get_timeline_name() is calle=
+d.
+> >
+> > This probably went unnoticed so far, because the drm_gpu_scheduler had
+> > the lifetime of the drm_device, so, unless you were removing the device,
+> > there were no reasons for the scheduler to be gone before its fences. =
+=20
+>=20
+> Nope, that is intentional design. get_timeline_name() is not safe to be=20
+> called after the fence signaled because that would causes circular=20
+> dependency problems.
 
-> and hence kernel make put call only once for the
-> fd. This can cause SMMU fault issue as the same fd can be used
-> in future for some other call.
-> 
-> Fixes: 35a82b87135d ("misc: fastrpc: Add dma handle implementation")
-> Cc: stable <stable@kernel.org>
-> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> ---
->  drivers/misc/fastrpc.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index ebe828770a8d..ad56e918e1f8 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -755,7 +755,7 @@ static const struct dma_buf_ops fastrpc_dma_buf_ops = {
->  
->  static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
->  				u64 va, u64 len, u32 attr,
-> -				struct fastrpc_map **ppmap)
-> +				struct fastrpc_map **ppmap, bool take_ref)
->  {
->  	struct fastrpc_session_ctx *sess = fl->sctx;
->  	struct fastrpc_map *map = NULL;
-> @@ -763,7 +763,7 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
->  	struct scatterlist *sgl = NULL;
->  	int err = 0, sgl_index = 0;
->  
-> -	if (!fastrpc_map_lookup(fl, fd, va, len, ppmap, true))
-> +	if (!fastrpc_map_lookup(fl, fd, va, len, ppmap, take_ref))
->  		return 0;
->  
->  	map = kzalloc(sizeof(*map), GFP_KERNEL);
-> @@ -917,14 +917,17 @@ static int fastrpc_create_maps(struct fastrpc_invoke_ctx *ctx)
->  	int i, err;
->  
->  	for (i = 0; i < ctx->nscalars; ++i) {
-> +		bool take_ref = true;
->  
->  		if (ctx->args[i].fd == 0 || ctx->args[i].fd == -1 ||
->  		    ctx->args[i].length == 0)
->  			continue;
->  
-> +		if (i >= ctx->nbufs)
-> +			take_ref = false;
+Do you mean the dma_fence layer should not call get_timeline_name()
+after it's been signalled (looking at the code/doc, it doesn't seem to
+be the case), or do you mean the drm_sched implementation of the fence
+interface is wrong and should assume the fence can live longer than its
+creator?
 
-Please clarify too.
+>=20
+> E.g. when you have hardware fences it can happen that fences reference a=
+=20
+> driver module (for the function printing the name) and the module in=20
+> turn keeps fences around.
+>=20
+> So you easily end up with a module you can never unload.
 
->  		err = fastrpc_map_create(ctx->fl, ctx->args[i].fd,
->  				(u64)ctx->args[i].ptr, ctx->args[i].length,
-> -				ctx->args[i].attr, &ctx->maps[i]);
-> +				ctx->args[i].attr, &ctx->maps[i], take_ref);
->  		if (err) {
->  			dev_err(dev, "Error Creating map %d\n", err);
->  			return -EINVAL;
-> @@ -1417,7 +1420,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
->  
->  	if (init.filelen && init.filefd) {
->  		err = fastrpc_map_create(fl, init.filefd, init.file,
-> -				init.filelen, 0, &map);
-> +				init.filelen, 0, &map, true);
->  		if (err)
->  			goto err;
->  	}
-> @@ -2040,7 +2043,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
->  
->  	/* create SMMU mapping */
->  	err = fastrpc_map_create(fl, req.fd, req.vaddrin, req.length,
-> -			0, &map);
-> +			0, &map, true);
->  	if (err) {
->  		dev_err(dev, "failed to map buffer, fd = %d\n", req.fd);
->  		return err;
-> -- 
-> 2.34.1
-> 
+On the other hand, I think preventing the module from being unloaded is
+the right thing to do, because otherwise the dma_fence_ops might be
+gone when they get dereferenced in the release path. That's also a
+problem I noticed when I started working on the initial panthor driver
+without drm_sched. To solve that I ended up retaining a module ref for
+each fence created, and releasing this ref in the
+dma_fence_ops::release() function.
 
--- 
-With best wishes
-Dmitry
+drm_sched adds an indirection that allows drivers to not care, but
+that's still a problem if you end up unloading drm_sched while some of
+its drm_sched_fence fences are owned by external components.
+
+>=20
+>=20
+> > With the introduction of a new model where each entity has its own
+> > drm_gpu_scheduler instance, this situation is likely to happen every ti=
+me
+> > a GPU context is destroyed and some of its fences remain attached to
+> > dma_buf objects still owned by other drivers/processes.
+> >
+> > In order to make drm_sched_fence_get_timeline_name() safe, we need to
+> > copy the scheduler name into our own refcounted object that's only
+> > destroyed when both the scheduler and all its fences are gone.
+> >
+> > The fact drm_sched_fence might have a reference to the drm_gpu_scheduler
+> > even after it's been released is worrisome though, but I'd rather
+> > discuss that with everyone than come up with a solution that's likely
+> > to end up being rejected.
+> >
+> > Note that the bug was found while repeatedly reading dma_buf's debugfs
+> > file, which, at some point, calls dma_resv_describe() on a resv that
+> > contains signalled fences coming from a destroyed GPU context.
+> > AFAIK, there's nothing invalid there. =20
+>=20
+> Yeah but reading debugfs is not guaranteed to crash the kernel.
+>=20
+> On the other hand the approach with a kref'ed string looks rather sane=20
+> to me. One comment on this below.
+
+There's still the problem I mentioned above (unloading drm_sched can
+make things crash). Are there any plans to fix that? The simple option
+would be to prevent compiling drm_sched as a module, but that's not an
+option because it depends on DRM which is a tristate too. Maybe we
+could have drm_sched_fence.o linked statically, just like dma-fence.c
+is linked statically to prevent the stub ops from disappearing.
+Not sure if drm_sched_fence.c depends on symbols defined in
+sched_{main,entity}.c or other parts of the DRM subsystem though.
+
+> > +/**
+> > + * struct drm_sched_fence_timeline - Wrapped around the timeline name
+> > + *
+> > + * This is needed to cope with the fact dma_fence objects created by
+> > + * an entity might outlive the drm_gpu_scheduler this entity was bound
+> > + * to, making drm_sched_fence::sched invalid and leading to a UAF when
+> > + * dma_fence_ops::get_timeline_name() is called.
+> > + */
+> > +struct drm_sched_fence_timeline {
+> > +	/** @kref: Reference count of this timeline object. */
+> > +	struct kref			kref;
+> > +
+> > +	/**
+> > +	 * @name: Name of the timeline.
+> > +	 *
+> > +	 * This is currently a copy of drm_gpu_scheduler::name.
+> > +	 */
+> > +	const char			*name; =20
+>=20
+> Make that a char name[] and embed the name into the structure. The macro=
+=20
+> struct_size() can be used to calculate the size.
+
+Sure I can do that.
+
+Regards,
+
+Boris
