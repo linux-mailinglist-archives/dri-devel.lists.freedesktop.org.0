@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409D1966591
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 17:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85ACC966593
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 17:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37D210E373;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A96D710E3FF;
 	Fri, 30 Aug 2024 15:33:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NTpbURO2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AMyQRfak";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDAA10E21F;
- Fri, 30 Aug 2024 15:33:17 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a8684c31c60so227792966b.3; 
- Fri, 30 Aug 2024 08:33:17 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFAB510E308;
+ Fri, 30 Aug 2024 15:33:18 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-a866cea40c4so221781766b.0; 
+ Fri, 30 Aug 2024 08:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725031995; x=1725636795; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725031997; x=1725636797; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Ow4BKSNXeJuwl4BWibh52xw/cDIJ4gXhuaEoDSj5CrM=;
- b=NTpbURO2zSD4YY3cwEKvoWDTVq8iG9WXDgQDd9SeYnXpJh/tReYF9CFXELamAN4zSH
- U43jEfwYl/8OuU/r/ZUxSMAr2LVo5PbVTZ7wmiPoq5uUczmoMxqS58hU/exN46CgcQOI
- bMT9Q/NOr/dmDB4w5j6Sw7R+yR4kai5oYZoZeT6GWZ1Jzq6ZZ8UASE+51+HnqFTKPBE1
- 4wlAuturdKYq7O0nX1lRFzlNt+CdRmC/p+haVvQCnIxBFdwfftikHRJh9yQqtqBm8RYw
- f6hMHrTdhOyE6nQLpfzC8ZByw0u6+EgeavLcpL+CRycvK1kA7OoDQU059wG+wTCThx68
- j1CA==
+ :reply-to; bh=fLP9MMqmlzma4Utv0dqtZOgr60uqrWrjrfDUuDPUx3U=;
+ b=AMyQRfak2mPMtdZcopnysasGLtUXlnBpvlhHWudVR92qjbsjSEz/+msKpMgeTzfn23
+ 5Cb6GU3PVJBu898BpGQwxCbr0/ax2eN+Yhk86k2gHCYs6j+wEhfXK7op41QocSzWNXc9
+ 3IpXiQDjoIWoFwQM1Iu6j3HCwbSZv2N8Wz+IjVB3pstwI4K1DrSeC/bWB92E3PVMdZ4C
+ kQUjWI6gypgxEroKJJEXMli/vVAR5MURWlWOtOo4QyVTSdsqNXeYUKKxi6unliC8RvyH
+ nRG41I6RBXt4ss+shCOmGAicENrPQPJiTl6GjQm6d0Zg7Y4eJXCtSI41b/WefeqN7ahq
+ mn5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725031995; x=1725636795;
+ d=1e100.net; s=20230601; t=1725031997; x=1725636797;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ow4BKSNXeJuwl4BWibh52xw/cDIJ4gXhuaEoDSj5CrM=;
- b=gZXOmHmqqA1Er0VN753dnOBJhl8Mot0a6PXH1orVfqTeGTals4l80W74+VfvI31Rmc
- a0bRgFiiH/Yku1QPYWZgbK2MV9KRoagIbC9F1pRjqTFmF5bBhpwi7yjQOP8zsviWS4sY
- 7SkxFKz57nhppDvYTZozMLVM/UX9Nd7GV4lvMcy9wTCFuSRyGe4KmG2ZVbS279UJKBPf
- e+s+Q2jZR/QKFZUjPbcXEEpukwJTjpsfJ4qKrAq/rhpI+SIJ2M2dOnG2b27rEspm2sdH
- SwobIsDvILFWAyQIvQFMvKkl/bYuZjWJF1OHf6smsWrD19t3ijnbynz7pj+HK1sHUhS3
- EAGw==
+ bh=fLP9MMqmlzma4Utv0dqtZOgr60uqrWrjrfDUuDPUx3U=;
+ b=UfEKU1+/lwjnjdLn1vq0uj89kgu+jCQIush92EEZ9+9od8TuKCzE4Vh17grxFKEEuk
+ xPt8JWBVR7R1gm5Nhe/GNPZ6efryvjMq3Z3tBBJtDGuSzV8j8eV6msuCUDooampNHOzi
+ ZJpEQPml73iV/cASsOP8OnwtP6AUX/FlCAwh7PbAvyRDAEDfSYDRwZFwogvMTMISZ0W2
+ XF96MdGsp8y5E28Nb57AaozWQ4RKq1s27skLQajv5xzwLTBXUDJ/XbDaAXkfGprBBHDK
+ mVnQMhyuegqNRt1cFefs6a1dnIiBwewyC6LnqVZD9Fjr15v8Y/1/fnFF+cYWRD/h4jxL
+ 1MFQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTOlGo7XAugAG4JG8ZqiUAgRxV8S1ksNKURbQ4/N+EPp8oSv1xyqEueASWS6a6HaOxbqmxxMq8vitx@lists.freedesktop.org,
- AJvYcCWigIB+5iGukhkGUgpNlSUg7JSy91mXidhBtA17s257QUzZ4zm6EQ+hUKC7hU6ATuZebF1mZrLZzAY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5gmsFerMD3Ag4pLA/61S43bok/tWquO2dKd/BdahHyuncAVr0
- Jim9JhB9gA5ckWT1AGFOvKrpq1cLxF7Nhsl0/8WoKOOn/n3ZPo9J
-X-Google-Smtp-Source: AGHT+IHeWzyBK3/Rb0wAVxcifNA9MgfBUVYtmBN6K76DeomNylK7id8vZAxQplW4+3vbTvlIOlrm9g==
-X-Received: by 2002:a17:907:1c23:b0:a86:8165:1802 with SMTP id
- a640c23a62f3a-a897fad8ccamr471207366b.66.1725031994977; 
- Fri, 30 Aug 2024 08:33:14 -0700 (PDT)
+ AJvYcCW0iyka2nQhiaMCAKU//TmICdIfQCf6zAJflfLneuFgArRM1I9ZDOJOMfSoWET5AuIMgX20d7JGxYaf@lists.freedesktop.org,
+ AJvYcCXCbR/CNlIJpWkxjmb5Xj28zqDYBStgNVGd+oEpWYADTzD8Cqxf2DnuTZ18nCzAkAhrQSKFn6pSHy4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxRlk5YdMaSIJVdYfhUclBh803Gia2MZS/UtGR5Jw3Us0g0Hfnt
+ sR+30pbAP1dMZg2h775ehWhHwoVHAXew+BT62YeZGKr8mns9B6Yt
+X-Google-Smtp-Source: AGHT+IFB0Eg3VkAh1DIRgGbi7bwBedE9tblqW19lKkJGY0O2LvCfm80WTAFkD/+wMRC0IFtmh+DdSA==
+X-Received: by 2002:a17:907:97cc:b0:a7a:bcbc:f7e1 with SMTP id
+ a640c23a62f3a-a897f84c6b0mr491658166b.15.1725031996411; 
+ Fri, 30 Aug 2024 08:33:16 -0700 (PDT)
 Received: from [192.168.1.14] (host-95-234-170-37.retail.telecomitalia.it.
  [95.234.170.37]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a8988ff4233sm227157866b.25.2024.08.30.08.33.13
+ a640c23a62f3a-a8988ff4233sm227157866b.25.2024.08.30.08.33.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 08:33:14 -0700 (PDT)
+ Fri, 30 Aug 2024 08:33:16 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Fri, 30 Aug 2024 17:32:43 +0200
-Subject: [PATCH v2 1/9] drm/msm: Fix bv_fence being used as bv_rptr
+Date: Fri, 30 Aug 2024 17:32:44 +0200
+Subject: [PATCH v2 2/9] drm/msm: Add submitqueue setup and close
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240830-preemption-a750-t-v2-1-86aeead2cd80@gmail.com>
+Message-Id: <20240830-preemption-a750-t-v2-2-86aeead2cd80@gmail.com>
 References: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
 In-Reply-To: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -76,14 +76,15 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Antonino Maniscalco <antomani103@gmail.com>, 
+ Sharat Masetty <smasetty@codeaurora.org>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725031992; l=1564;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1725031992; l=2803;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=V6jkAeJmIPNRJFej3NR/GIrK2ICQj0XykO4lOq0cjkM=;
- b=Yvj0xkSArHF9jxkL4DQg3HmZFs66B/DCv6oN2e8qM13O0VoJVQPSL11L9kqMhHh3jx+WwQ6iJ
- 3wDZimVfbVDAiZbnjK0GHpwlhRdCgk93U3Z06TgRfVdhgLoSA1A3OfX
+ bh=SNycjyoxgs2R64kDhGpyPBIuNCmi08MxqbM4Ak2n75U=;
+ b=4lg4CjFBFiR1VcFRym09hQaN8fde3H/adBBPW536N9kMF7E8pPNoiY8tK30KYqrnZ/i+e4Oh1
+ mlG49Coh+BMCSSAQZg95jq2F7h+OuMMlACL9PvA4rIlUCgTHVdp5SGl
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,44 +102,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bv_fence field of rbmemptrs was being used incorrectly as the BV
-rptr shadow pointer in some places.
+This patch adds a bit of infrastructure to give the different Adreno
+targets the flexibility to setup the submitqueues per their needs.
 
-Add a bv_rptr field and change the code to use that instead.
-
+Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
- drivers/gpu/drm/msm/msm_ringbuffer.h  | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_gpu.h         |  7 +++++++
+ drivers/gpu/drm/msm/msm_submitqueue.c | 10 ++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index bcaec86ac67a..32a4faa93d7f 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1132,7 +1132,7 @@ static int hw_init(struct msm_gpu *gpu)
- 	/* ..which means "always" on A7xx, also for BV shadow */
- 	if (adreno_is_a7xx(adreno_gpu)) {
- 		gpu_write64(gpu, REG_A7XX_CP_BV_RB_RPTR_ADDR,
--			    rbmemptr(gpu->rb[0], bv_fence));
-+			    rbmemptr(gpu->rb[0], bv_rptr));
- 	}
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 1f02bb9956be..70f5c18e5aee 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -92,6 +92,10 @@ struct msm_gpu_funcs {
+ 	 * for cmdstream that is buffered in this FIFO upstream of the CP fw.
+ 	 */
+ 	bool (*progress)(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
++	int (*submitqueue_setup)(struct msm_gpu *gpu,
++			struct msm_gpu_submitqueue *queue);
++	void (*submitqueue_close)(struct msm_gpu *gpu,
++			struct msm_gpu_submitqueue *queue);
+ };
  
- 	/* Always come up on rb 0 */
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 0d6beb8cd39a..40791b2ade46 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -31,6 +31,7 @@ struct msm_rbmemptrs {
- 	volatile uint32_t rptr;
- 	volatile uint32_t fence;
- 	/* Introduced on A7xx */
-+	volatile uint32_t bv_rptr;
- 	volatile uint32_t bv_fence;
+ /* Additional state for iommu faults: */
+@@ -522,6 +526,9 @@ struct msm_gpu_submitqueue {
+ 	struct mutex lock;
+ 	struct kref ref;
+ 	struct drm_sched_entity *entity;
++	struct msm_gpu *gpu;
++	struct drm_gem_object *bo;
++	uint64_t bo_iova;
+ };
  
- 	volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
+ struct msm_gpu_state_bo {
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 0e803125a325..4ffb336d9a60 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -71,6 +71,11 @@ void msm_submitqueue_destroy(struct kref *kref)
+ 	struct msm_gpu_submitqueue *queue = container_of(kref,
+ 		struct msm_gpu_submitqueue, ref);
+ 
++	struct msm_gpu *gpu = queue->gpu;
++
++	if (gpu && gpu->funcs->submitqueue_close)
++		gpu->funcs->submitqueue_close(gpu, queue);
++
+ 	idr_destroy(&queue->fence_idr);
+ 
+ 	msm_file_private_put(queue->ctx);
+@@ -160,6 +165,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ {
+ 	struct msm_drm_private *priv = drm->dev_private;
+ 	struct msm_gpu_submitqueue *queue;
++	struct msm_gpu *gpu = priv->gpu;
+ 	enum drm_sched_priority sched_prio;
+ 	unsigned ring_nr;
+ 	int ret;
+@@ -195,6 +201,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 
+ 	queue->ctx = msm_file_private_get(ctx);
+ 	queue->id = ctx->queueid++;
++	queue->gpu = gpu;
+ 
+ 	if (id)
+ 		*id = queue->id;
+@@ -207,6 +214,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 
+ 	write_unlock(&ctx->queuelock);
+ 
++	if (gpu && gpu->funcs->submitqueue_setup)
++		gpu->funcs->submitqueue_setup(gpu, queue);
++
+ 	return 0;
+ }
+ 
 
 -- 
 2.46.0
