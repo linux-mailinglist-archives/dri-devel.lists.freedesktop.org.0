@@ -2,117 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB86A965AA0
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 10:44:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EB1965CF1
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 11:32:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAC610E85C;
-	Fri, 30 Aug 2024 08:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC2810EA2A;
+	Fri, 30 Aug 2024 09:32:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="qP8dd8v7";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MBPn82I8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D11610E85C
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 08:44:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1725007450; x=1725612250; i=deller@gmx.de;
- bh=aSOFcQ9mNY2G8yraHCG3PXqH/Av6bV+gKpHSyyMmSOw=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=qP8dd8v7bocDxP3C+rBerpfLJhdSR5WrH2o5HBqhaBkdDp7tSuXN7I8GRQn3Z+YY
- QXLERWXcfOo+SXLArOU+hQRm9IrMnWRICbk865KqGHx1bKLTINStE9sspgO/A1Zq8
- Di7oNcJGlm831GPptJdRbo1PUQbtti2+YR2uDrKRuG1x3uxN/9bXzuWw/UCKx+hWe
- KpMHQr+rQnbQW60sIpaQ3ROoHkr5YnVfyQkOu6x3HOJl6fp9RdjK6Bw3M+km6D2tz
- 61v5ueknJNJA7R5+Y5nlnRFJYhtRW5zDMrXRzGvbuZviRLIjDwXRgoBhLNL0VgzyT
- UFf6K5HWGpNwZOLf/w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.126]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MdNcA-1sAcUE0W00-00fslE; Fri, 30
- Aug 2024 10:44:10 +0200
-Message-ID: <72396a87-bc41-4b15-924b-7bcd6851bed9@gmx.de>
-Date: Fri, 30 Aug 2024 10:44:08 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55F8B10E85D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 08:44:25 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47U7wlPe019971;
+ Fri, 30 Aug 2024 08:44:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ oq2dse9VR1I6VjtxSVdHNe1+4MMRfLvcK9XF6VbBV/E=; b=MBPn82I86lzF3g7b
+ FmELT6vYuyRe/jbMqjLwRPl16p3KrMVXkYIMf3QH+FEK1CoGjDAIuVtrAtv8uW8c
+ 451xYoEXNWSJ2mwPskJ54hGCMDci5LyJnm0VnKTxZPsantNlSQLNeLd//bio9FsV
+ BbPiElRpXheVyv+NS/iQBZhMNHRnpyGb4Du5mjn2yd8LJOTxX5pxgiE5Lzve3o3s
+ Es3RNLd7dtrJZK+wCygsu9Mw/MEaRW/ImYjDWLM2VFyHbib4sBIeqRGgL1n6bEvR
+ 28jEW9sDbJiz8O6R65VVnPvqdD50KvfTNymYHyEH1lv/hqSWwFtJHPAGysv0RXpy
+ GXCNvQ==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419putr29j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Aug 2024 08:44:22 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47U8iKp9014726
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Aug 2024 08:44:20 GMT
+Received: from [10.204.65.112] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 Aug
+ 2024 01:44:18 -0700
+Message-ID: <4b0b90e2-a6c1-40d7-9dc6-ec22adfafca4@quicinc.com>
+Date: Fri, 30 Aug 2024 14:14:15 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] fbdev: Introduce devm_register_framebuffer()
-To: Bert Karwatzki <spasswolf@web.de>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
- <linux@weissschuh.net>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Peter Jones <pjones@redhat.com>
-References: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
- <20240827-efifb-sysfs-v1-3-c9cc3e052180@weissschuh.net>
- <8b52669c-4c99-45e2-8b5e-9348e5e00f70@t-8ch.de>
- <7fec4df2e44ea2b11ac617d1a4ed5cbb49214f7b.camel@web.de>
+Subject: Re: [PATCH v1] misc: fastrpc: Trigger a panic using BUG_ON in device
+ release
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <quic_bkumar@quicinc.com>, <linux-kernel@vger.kernel.org>,
+ <quic_ktadakam@quicinc.com>, <dri-devel@lists.freedesktop.org>
+References: <20240730070945.4174823-1-quic_abhishes@quicinc.com>
+ <2024073007-nickname-payee-20c8@gregkh>
+ <7eab4618-9173-44f5-a185-0071f3893cc7@quicinc.com>
+ <2024081353-blah-reversion-1435@gregkh>
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <7fec4df2e44ea2b11ac617d1a4ed5cbb49214f7b.camel@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hngS1JXrPj/9htsgwIquLsRFYuB5Hf1vJt3rU6gnfiHS/enuoNy
- +diz/OCKx2Hu2r6QAD/QgQfDzoAhrDIciJBgLIPVR0BGKm7+Ai/HTJ3WXp5jVnaHK9sVB2J
- u9QZfTzcJFihG/oBVmXCGzTsoJDVd/F1Rn81wUiKdYhl8nC7x1NF8JsJe85VM4MPlSvq7oK
- 5+Rbr/1J0/GbO/TCzYIXQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:98pAO8mO7IY=;88wlBK4YOwUq3AiS/SleQQaZwBO
- IU4+tmVeP1yAc3WzZqvOx5jk104a34FrWjxLlPdStEjxAr1MchzywH+CcPF9RXZaEnQcw5vxO
- N0VYozJULHLa1j3/4xPOCHVsYTYJOniS6TPbm4bQIUCJAC82oFnNUx56dv0Syy8lS6x4s42a6
- +YzHMOg0dADIZaMNk95qBFquwWyRVjKRQ5WwoW7GL+f0yFVjUFEWTtGyFSW7nMOx6wC0BLKbD
- 4xNWeGOFJJkTrrW1JqXmSes4TRnUVDy6v4DTRzJZZiplQs+Yj//HkvMX039/QNkNgoTa+0VdA
- /cx8UaCyPpQ7fzFHMFvNhUIS5cW1BAHGrSw6rAHNOAzkC9RW39DMdWUCGOdV6SDIuL1hqYE1d
- 8PtFvAOEXZ88rPxhRukp/pK8Ol4EdtRj8L1NzcaQ+6d6kfu2f0GefuI595WmQF71rueQ/OiAd
- 6A7OS0bROTbEs803lWLWYTAOFUr4aN/Cdo7S17kyumRogiCxCZZXaiGSLV5urDTxXuzmSsmCd
- 7uVR6FeBzYVFGlSaZDAojJ4zIuA9wKhVA0fi0gzbtfRypTGVXYmuWekcFX1jq+xhM8p3sS2i0
- axqxcqPrMV1gCFh445p9E3VD9gx3umFxS+LfmTKCJCAjBH8+++sDri7mv5w9JMI/A3F+NUAiT
- XHqOJbbSI3pELFHZ6/YmAXCBQIcBXJ3AyivP7JpiSy78SNHtfzQK8UfJbLb2NtxZFfhvTuXcO
- r+ZBdqsVcCPTeHRSMqBGAl9fQiW50yDmIIS9L80ETvjRHAreyg9lG/Az+7WOubiifXNgq8Vfa
- Abph6iIT2ys0UR1WHEi4tQng==
+From: Abhishek Singh <quic_abhishes@quicinc.com>
+In-Reply-To: <2024081353-blah-reversion-1435@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: fPnWUN-dZcG1MQM9iX8EXEY13SosmtZG
+X-Proofpoint-ORIG-GUID: fPnWUN-dZcG1MQM9iX8EXEY13SosmtZG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-30_04,2024-08-29_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ lowpriorityscore=0 mlxscore=0 phishscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408300064
+X-Mailman-Approved-At: Fri, 30 Aug 2024 09:32:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,84 +95,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/30/24 10:25, Bert Karwatzki wrote:
-> Am Freitag, dem 30.08.2024 um 09:17 +0200 schrieb Thomas Wei=C3=9Fschuh:
->> Hi everybody,
+
+
+On 8/13/2024 3:07 PM, Greg KH wrote:
+> On Mon, Aug 05, 2024 at 04:36:28PM +0530, Abhishek Singh wrote:
 >>
->> On 2024-08-27 17:25:14+0000, Thomas Wei=C3=9Fschuh wrote:
->>> Introduce a device-managed variant of register_framebuffer() which
->>> automatically unregisters the framebuffer on device destruction.
->>> This can simplify the error handling and resource management in driver=
-s.
->>
->> Bert reported that this series broke his framebuffer ([0], [1]).
->>
->> [0] https://lore.kernel.org/lkml/20240829224124.2978-1-spasswolf@web.de=
-/
->> [1] https://lore.kernel.org/lkml/20240829230438.3226-1-spasswolf@web.de=
-/
->>
->>> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->>> ---
->>>   drivers/video/fbdev/core/fbmem.c | 24 ++++++++++++++++++++++++
->>>   include/linux/fb.h               |  1 +
->>>   2 files changed, 25 insertions(+)
+>> On 7/30/2024 12:46 PM, Greg KH wrote:
+>>> On Tue, Jul 30, 2024 at 12:39:45PM +0530, Abhishek Singh wrote:
+>>>> The user process on ARM closes the device node while closing the
+>>>> session, triggers a remote call to terminate the PD running on the
+>>>> DSP. If the DSP is in an unstable state and cannot process the remote
+>>>> request from the HLOS, glink fails to deliver the kill request to the
+>>>> DSP, resulting in a timeout error. Currently, this error is ignored,
+>>>> and the session is closed, causing all the SMMU mappings associated
+>>>> with that specific PD to be removed. However, since the PD is still
+>>>> operational on the DSP, any attempt to access these SMMU mappings
+>>>> results in an SMMU fault, leading to a panic.  As the SMMU mappings
+>>>> have already been removed, there is no available information on the
+>>>> DSP to determine the root cause of its unresponsiveness to remote
+>>>> calls. As the DSP is unresponsive to all process remote calls, use
+>>>> BUG_ON to prevent the removal of SMMU mappings and to properly
+>>>> identify the root cause of the DSP’s unresponsiveness to the remote
+>>>> calls.
+>>>>
+>>>> Signed-off-by: Abhishek Singh <quic_abhishes@quicinc.com>
+>>>> ---
+>>>>  drivers/misc/fastrpc.c | 4 ++++
+>>>>  1 file changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>>>> index 5204fda51da3..bac9c749564c 100644
+>>>> --- a/drivers/misc/fastrpc.c
+>>>> +++ b/drivers/misc/fastrpc.c
+>>>> @@ -97,6 +97,7 @@
+>>>>  #define FASTRPC_RMID_INIT_CREATE_STATIC	8
+>>>>  #define FASTRPC_RMID_INIT_MEM_MAP      10
+>>>>  #define FASTRPC_RMID_INIT_MEM_UNMAP    11
+>>>> +#define PROCESS_KILL_SC 0x01010000
+>>>>  
+>>>>  /* Protection Domain(PD) ids */
+>>>>  #define ROOT_PD		(0)
+>>>> @@ -1128,6 +1129,9 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
+>>>>  	fastrpc_context_get(ctx);
+>>>>  
+>>>>  	ret = rpmsg_send(cctx->rpdev->ept, (void *)msg, sizeof(*msg));
+>>>> +	/* trigger panic if glink communication is broken and the message is for PD kill */
+>>>> +	BUG_ON((ret == -ETIMEDOUT) && (handle == FASTRPC_INIT_HANDLE) &&
+>>>> +			(ctx->sc == PROCESS_KILL_SC));
 >>>
->>> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/co=
-re/fbmem.c
->>> index 4c4ad0a86a50..d17a2daa2483 100644
->>> --- a/drivers/video/fbdev/core/fbmem.c
->>> +++ b/drivers/video/fbdev/core/fbmem.c
->>> @@ -544,6 +544,30 @@ unregister_framebuffer(struct fb_info *fb_info)
->>
->> [..]
->>
->>> +/**
->>> + *	devm_register_framebuffer - resource-managed frame buffer device r=
-egistration
->>> + *	@dev: device the framebuffer belongs to
->>> + *	@fb_info: frame buffer info structure
->>> + *
->>> + *	Registers a frame buffer device @fb_info to device @dev.
->>> + *
->>> + *	Returns negative errno on error, or zero for success.
->>> + *
->>> + */
->>> +int
->>> +devm_register_framebuffer(struct device *dev, struct fb_info *fb_info=
-)
->>> +{
->>> +	return devm_add_action_or_reset(dev, devm_unregister_framebuffer, fb=
-_info);
->>> +}
->>> +EXPORT_SYMBOL(devm_register_framebuffer);
->>
->> This implementation is wrong, it never actually registers the
->> framebuffer. It should look like this:
->>
->> int
->> devm_register_framebuffer(struct device *dev, struct fb_info *fb_info)
->> {
->> 	int ret;
->>
->> 	ret =3D register_framebuffer(fb_info);
->> 	if (ret)
->> 		return ret;
->>
->> 	return devm_add_action_or_reset(dev, devm_unregister_framebuffer, fb_i=
-nfo);
->> }
->> EXPORT_SYMBOL(devm_register_framebuffer);
->>
->> Bert, could you test this?
->> Helge, do you want me to resend the series, minus the original patch 1?
+>>> You just crashed the machine completely, sorry, but no, properly handle
+>>> the issue and clean up if you can detect it, do not break systems.
+>>>
+>> But the Glink communication with DSP is already broken; we cannot communicate with the DSP.
+>> The system will crash if we proceed with cleanup on the ARM side. If we don’t do cleanup,
+>> a resource leak will occur. Eventually, the system will become dead. That’s why I am
+>> crashing the device.
+> 
+> Then explicitly call panic() if you think you really want to shut the
+> system down.
 >
-> Yes, this works for me. Thanks!
+>> What does it mean to explicitly call panic()? Are you trying to say we should use panic() instead of BUG_ON()?
+> 
+> greg k-h
 
-Good.
-
-Thomas, please just resend the fixed patch #3 (this one).
-And maybe you want to document devm_unregister_framebuffer()
-similiar to what you added for devm_register_framebuffer() ?
-
-Helge
