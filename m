@@ -2,66 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E81966A17
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 21:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B68966A37
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 22:09:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A09710E127;
-	Fri, 30 Aug 2024 19:51:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFA010E158;
+	Fri, 30 Aug 2024 20:09:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="ZpthUZPi";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=smtpservice.net header.i=@smtpservice.net header.b="sfO/igNI";
+	dkim=pass (2048-bit key; unprotected) header.d=fjasle.eu header.i=@fjasle.eu header.b="VaEBAgfY";
+	dkim=pass (1024-bit key; unprotected) header.d=fjasle.eu header.i=@fjasle.eu header.b="P7Vd6NkS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFFB10E127
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 19:51:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1725047493; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Fc5aKmQK2uAwBJfJnqtE5Q2Q+z+4uHVsRQC8QZAAQz3D7oe1q8ycADHvnuMlh5CbwAWHN8weyVTIJKI+NWtrlaSqfjnLkj9LxtNgOhTNDFbkIbxxaPfPNo7TNZCwc6/Iy5xjzAVVr6cL8Ymzqgv4vb2vW8YHbHQgw2CnASKJxXw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1725047493;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=lZgsVPL1zIUPPX6fL1AfRoli7CWC0FdmvjcrwEFwrMY=; 
- b=mPHFEHi72p36IknxA1gJVYdmIxG/VW/7t5atcKhAg1G+fPoB9chjlQW5EJB+X/Oyi+JTxa15w9cVgTRrKPRUn48QeqgkdDrtt5Dgr47iJcACScqdR/of0oaIc2OwEdNz9MnZf8I6Dk3VhedE/Cww6jV54jTm7sLBhWopSex4QOQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
- dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725047493; 
- s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=lZgsVPL1zIUPPX6fL1AfRoli7CWC0FdmvjcrwEFwrMY=;
- b=ZpthUZPiBqmUHh7dkw1o9oxEFl1s1Tja+TkbYWkSHJJ4f1/tN6ZkTU7HKM76EuZr
- chDfno7rrtP3f4eYS1z9mO2nnSwsRPrBsLEnt2hOegOPVEO8OHaoSBzeuc0crX/iRmZ
- Lsyd3k/vlhb7qcn15ye3SsW3dJ//FrklIAWSrip0=
-Received: by mx.zohomail.com with SMTPS id 17250474912431006.0237532313579;
- Fri, 30 Aug 2024 12:51:31 -0700 (PDT)
-Message-ID: <440c8b2b-035b-4983-b078-78252a17725d@collabora.com>
-Date: Fri, 30 Aug 2024 22:51:23 +0300
+X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
+ Fri, 30 Aug 2024 20:09:09 UTC
+Received: from e3i12.smtp2go.com (e3i12.smtp2go.com [158.120.84.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C0610E105
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 20:09:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
+ i=@smtpservice.net; q=dns/txt; s=a1-4; t=1725047639; h=feedback-id :
+ x-smtpcorp-track : date : message-id : to : subject : from : reply-to
+ : sender : list-unsubscribe : list-unsubscribe-post;
+ bh=8ffM0oj/VoAWiRvIYhx2YzkqNpRjhG4e8iNPq0uer6M=;
+ b=sfO/igNIj3rHJF7k+qXQrZXk/oxBtpfJzQIGEHKGIuMnzIXJ2e+p+bRI7Vfg2XM6JOxH7
+ QDC0d6CtFzlgGIWcLvzmF0vG9HLEhfgzibd9+LWSpmfZNbJyXzrX23Ffd0vTsZkqjyK3nFJ
+ trFY1dBwF2rYSQ6T9Xo2YVy+Irz3Elf+d6wcvHtu24PbAJ4eCSm0ov35v8XYXMqWQn5GWhb
+ XU3U5qGDPzyHuA+8g7gCtwjdSyWUj3WpEWiRIQSjOS3U92JGRqL5MuyPsjiMTiIyWPwnf4N
+ ymxmtwsjFbR3/4cg9H4ajjFt2ckrj4cYWfFuxEfoI1t9AZQTRNaHIy98Jxjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
+ i=@fjasle.eu; q=dns/txt; s=s1174286; t=1725047639; h=from : subject :
+ to : message-id : date;
+ bh=8ffM0oj/VoAWiRvIYhx2YzkqNpRjhG4e8iNPq0uer6M=;
+ b=VaEBAgfY7wQUS2dXXkkONDWJoe8C1zfdZaGvwOMRNl9iRWe9FnpDtS1VLJfA4Bo9bp3g7
+ iuLqIG8uJSCi5sbCI+0QO95ZL7dVTp2Te9FwbOwmx0vOHE6jUaGqsPVmJiygtq9vEDR3rbQ
+ ryPbvFkBDMuZZPAZccVOFv097rnAoSMs9N3qfW/loJDYiLnerLgUrrIAl4bwfhg0cEKG9/q
+ XF3uVkIrzMVw7tmUQTsryO2SoOKYqQ2L0QAjjUseA5pA5laaZIoWOPFWRxd9PQ3v4S3CkhE
+ uRGHalGGPRjRGar9Bz6Wzf6Im4KmdeSZNoq1S8R7Bqq3bwU2Jx6hGTL9r/6g==
+Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
+ by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.97.1-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1sk7gj-FnQW0hPpdBf-nWmg; Fri, 30 Aug 2024 19:53:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+ t=1725047604; bh=VrcLFN5tqkfWY7mTHOYKMf0e0KvomCFsMPrfJDAaMSY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=P7Vd6NkS50dZUF4ArGNPd4emC0HPqVDT3dc+nak6w/kyFZyIa7wpU0vTqmsiIkRep
+ lFQ7rFhNaD2Mf9eA7RsNhjnIHPRkgubjb0TmusaqfHzYKQpJgQpvZs4tHW5Z4AT4vC
+ fDqmIJfHaxoaJYo+8KfLKLIUurdYOyn4DfkqTbOE=
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+ id 423D3449B6; Fri, 30 Aug 2024 21:53:24 +0200 (CEST)
+Date: Fri, 30 Aug 2024 21:53:24 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ William Hubbs <w.d.hubbs@gmail.com>,
+ Chris Brannon <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "speakup@linux-speakup.org" <speakup@linux-speakup.org>,
+ "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+ "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+ Finn Behrens <me@kloenk.dev>,
+ "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
+ "gost.dev@samsung.com" <gost.dev@samsung.com>
+Subject: Re: [PATCH 08/12] include: add elf.h support
+Message-ID: <ZtIjNBhqdxmMBxfM@fjasle.eu>
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
+ <CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
+ <2024080717-cross-retiree-862e@gregkh>
+ <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
+ <2024080720-skyline-recapture-d80d@gregkh>
+ <20240807-mottled-stoic-degu-d1e4cb@lindesnes>
+ <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5? 0/6] Tweaked basic Synopsys DW HDMI QP TX driver for
- Rockchip RK3588
-To: Shimrra Shai <shimrrashai@gmail.com>
-Cc: Laurent.pinchart@ideasonboard.com, aarnoud@me.com, airlied@gmail.com,
- algea.cao@rock-chips.com, andrzej.hajda@intel.com, andy.yan@rock-chips.com,
- conor+dt@kernel.org, daniel@ffwll.ch, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
- jernej.skrabec@gmail.com, jonas@kwiboo.se, krzk+dt@kernel.org,
- ldearquer@gmail.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- maarten.lankhorst@linux.intel.com, markyao0591@gmail.com,
- mripard@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
- robh@kernel.org, s.hauer@pengutronix.de, tzimmermann@suse.de
-References: <68e78629-5a2c-433b-8c83-50ffced04268@collabora.com>
- <20240830175440.2596-1-shimrrashai@gmail.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20240830175440.2596-1-shimrrashai@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local>
+X-Report-Abuse: Please forward a copy of this message, including all headers,
+ to <abuse-report@smtp2go.com>
+Feedback-ID: 1174286m:1174286a9YXZ7r:1174286sfGQOlJjcl
+X-smtpcorp-track: v5O6hNewHfhz.IPPCUgchacK3.W-nJtAkYWyC
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,50 +122,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Shimrra,
-
-On 8/30/24 8:54 PM, Shimrra Shai wrote:
-> Cristian Ciocaltea wrote:
->> Please stop doing this!
->>
->> I appreciate your intention to help, but this is not the proper way of
->> doing it.  This is a work-in-progress series and you should have asked
->> before taking over.  Please do not interfere with other people's work
->> without having a preliminary agreement with the author(s).
->>
->> Additionally, before submitting any other patches, you should get
->> familiar with the process - see [1] for a starting point.
->>
+On Sat, Aug 24, 2024 at 12:54:50AM +0200 Daniel Gomez wrote:
+> On Wed, Aug 07, 2024 at 05:46:03PM +0200, Nicolas Schier wrote:
+> > On Wed, Aug 07, 2024 at 04:18:54PM +0200, Greg Kroah-Hartman wrote:
+> > > On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
+> > > > > Also, as this is not internal for the kernel, but rather for userspace
+> > > > > builds, shouldn't the include/ path be different?
+> > > > 
+> > > > Can you suggest an alternative path or provide documentation that could help
+> > > > identify the correct location? Perhaps usr/include?
+> > > 
+> > > That is better than the generic include path as you are attempting to
+> > > mix userspace and kernel headers in the same directory :(
+> > 
+> > Please keep in mind, that usr/include/ currently does not hold a single
+> > header file but is used for dynamically composing the UAPI header tree.
+> > 
+> > In general, I do not like the idea of keeping a elf.h file here that
+> > possibly is out-of-sync with the actual system's version (even though
+> > elf.h should not see that much changes).  Might it be more helpful to
+> > provide a "development kit" for Linux devs that need to build on MacOS
+> > that provides necessary missing system header files, instead of merging
+> > those into upstream?
 > 
-> Hi Cristian,
+> I took this suggestion and tried pushing a Homebrew formula/package here [1].
+> I think I chose a wrong name and maybe something like "development kit" would
+> have been better. However, would it be possible instead to include the *.rb file
+> in the scripts/ directory? So users of this can generate the development kit in
+> their environments. I would maintain the script to keep it in sync with the
+> required glibc version for the latest kernel version.
 > 
-> Sorry, I did not know what the rules/norms/customs were around this
-> kind of thing here as I figured it was an open contribution space. I
-> did not know that I should have asked for agreement with you
-> beforehand. So go ahead and ignore this patch series if it goes
-> against the rules/customs. Even more if these points have already been
-> addressed, as redundant work is obviously not helpful.
+> [1] https://github.com/Homebrew/homebrew-core/pull/181885
 
-This is an open community and, obviously, anyone is free to contribute
-without asking for permission.  However, taking over an ongoing work is
-nothing but a source of confusion.  You may do this for work that is known
-to be abandoned, e.g. the author(s) explicitly mentioned that in one of
-their last posts, or when there is no sign of activity for long enough
-time (usually months, for sure not days or weeks).  In the latter case, I
-find it reasonable to still ask for a confirmation that the submitter has
-no intention to continue or, at least, discuss the possibilities to join
-forces and help moving further.
+I think it sounds sensible to hold that formula file in the upstream tree.  But
+I am not sure if scripts/ is the best location.
 
-> That said, if there is some way to help along this project "the right
-> way", I would like to for sure! Just tell me what you'd _really_ need
-> help/assistance with to get this moved ahead and I'll see if I can
-> give it.
+Masahiro, what do you think?
 
-Getting more testing on the series, reporting back the findings and/or
-providing fixes, would be much appreciated, for sure!  The goal is to land
-the basic functionality first, hence any new features should be submitted
-afterwards.
-
-Regards,
-Cristian
-
+Kind regards,
+Nicolas
