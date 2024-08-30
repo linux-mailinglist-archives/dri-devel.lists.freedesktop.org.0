@@ -2,45 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0757965815
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59435965839
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:17:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 679DB10E81D;
-	Fri, 30 Aug 2024 07:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC21510E832;
+	Fri, 30 Aug 2024 07:17:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="UkIGCMlj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 032B310E81D
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 07:07:44 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.194])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Ww8HF0LktzQrBy;
- Fri, 30 Aug 2024 15:02:49 +0800 (CST)
-Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
- by mail.maildlp.com (Postfix) with ESMTPS id D86A8140202;
- Fri, 30 Aug 2024 15:07:40 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
- (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 Aug
- 2024 15:07:40 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jason-jh.lin@mediatek.com>,
- <ck.hu@mediatek.com>, <amergnat@baylibre.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v2] drm/mediatek: Fix missing of_node_put() for
- mtk_drm_get_all_drm_priv()
-Date: Fri, 30 Aug 2024 15:15:42 +0800
-Message-ID: <20240830071542.3534696-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AADBF10E832
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 07:17:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+ s=mail; t=1725002265;
+ bh=f2HCDSTkTkCbIafIoSatL/nTKpy+odGB0YR86K1BIL0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UkIGCMljMuRbtSoV000F3kIuCGjuuKCG5kjxKHGD4W6C/z1H839STQYJkAa3Mwkc5
+ VYEp5C8gkhkcfymnyfODbTCbrgknvwpMmjJsKBJ6vWVDWnAohNlT1Cs3r3wFsklyhA
+ rjYBvhwCfG3DeKQBO10nR7O90EslWIQzVr+ML+j4=
+Date: Fri, 30 Aug 2024 09:17:45 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Helge Deller <deller@gmx.de>, Bert Karwatzki <spasswolf@web.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Peter Jones <pjones@redhat.com>
+Subject: Re: [PATCH 3/5] fbdev: Introduce devm_register_framebuffer()
+Message-ID: <8b52669c-4c99-45e2-8b5e-9348e5e00f70@t-8ch.de>
+References: <20240827-efifb-sysfs-v1-0-c9cc3e052180@weissschuh.net>
+ <20240827-efifb-sysfs-v1-3-c9cc3e052180@weissschuh.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemh500013.china.huawei.com (7.202.181.146)
+In-Reply-To: <20240827-efifb-sysfs-v1-3-c9cc3e052180@weissschuh.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,35 +52,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In mtk_drm_get_all_drm_priv(), break in for_each_child_of_node() should
-call of_node_put() to avoid child node resource leak, fix it.
+Hi everybody,
 
-Fixes: d761b9450e31 ("drm/mediatek: Add cnt checking for coverity issue")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
-v2:
-- Use of_node_put() to fix it.
-- Update the commit message.
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On 2024-08-27 17:25:14+0000, Thomas Weißschuh wrote:
+> Introduce a device-managed variant of register_framebuffer() which
+> automatically unregisters the framebuffer on device destruction.
+> This can simplify the error handling and resource management in drivers.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 77b50c56c124..1b1d9930dcde 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -405,8 +405,10 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
- 		if (temp_drm_priv->mtk_drm_bound)
- 			cnt++;
- 
--		if (cnt == MAX_CRTC)
-+		if (cnt == MAX_CRTC) {
-+			of_node_put(node);
- 			break;
-+		}
- 	}
- 
- 	if (drm_priv->data->mmsys_dev_num == cnt) {
--- 
-2.34.1
+Bert reported that this series broke his framebuffer ([0], [1]).
 
+[0] https://lore.kernel.org/lkml/20240829224124.2978-1-spasswolf@web.de/
+[1] https://lore.kernel.org/lkml/20240829230438.3226-1-spasswolf@web.de/
+
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
+>  drivers/video/fbdev/core/fbmem.c | 24 ++++++++++++++++++++++++
+>  include/linux/fb.h               |  1 +
+>  2 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 4c4ad0a86a50..d17a2daa2483 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -544,6 +544,30 @@ unregister_framebuffer(struct fb_info *fb_info)
+
+[..]
+
+> +/**
+> + *	devm_register_framebuffer - resource-managed frame buffer device registration
+> + *	@dev: device the framebuffer belongs to
+> + *	@fb_info: frame buffer info structure
+> + *
+> + *	Registers a frame buffer device @fb_info to device @dev.
+> + *
+> + *	Returns negative errno on error, or zero for success.
+> + *
+> + */
+> +int
+> +devm_register_framebuffer(struct device *dev, struct fb_info *fb_info)
+> +{
+> +	return devm_add_action_or_reset(dev, devm_unregister_framebuffer, fb_info);
+> +}
+> +EXPORT_SYMBOL(devm_register_framebuffer);
+
+This implementation is wrong, it never actually registers the
+framebuffer. It should look like this:
+
+int
+devm_register_framebuffer(struct device *dev, struct fb_info *fb_info)
+{
+	int ret;
+
+	ret = register_framebuffer(fb_info);
+	if (ret)
+		return ret;
+
+	return devm_add_action_or_reset(dev, devm_unregister_framebuffer, fb_info);
+}
+EXPORT_SYMBOL(devm_register_framebuffer);
+
+Bert, could you test this?
+Helge, do you want me to resend the series, minus the original patch 1?
