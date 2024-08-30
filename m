@@ -2,168 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9D9966C5E
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 00:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2607966CC4
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 00:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D83110EB06;
-	Fri, 30 Aug 2024 22:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5BA510E074;
+	Fri, 30 Aug 2024 22:57:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FYaNrt2e";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HkUnUeAe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABBA10EB06
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 22:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725057005; x=1756593005;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=NqpX9QM/BG30GoqiIgOaFK20xZ56aWNy7i6UeR2G0vU=;
- b=FYaNrt2e8e9S/ZYMedk67BoOrBzX2tCjtddAg7xRg2V1uJujD2wRrOsz
- I0pp1rHUcYjcO9gtjT5TCTisz5tCeerMewxsdIq85/3fiLkGaM4U8J/xu
- T3QvorogQT0+jsXhOg2DX5rQ3XLtMQLXXzwpkpXOPocyaZz1hdr86+Xvn
- w2InaKLDvvxgO/DHZeUuZzPObJBmB/YTrd/7X6LgvnEeLsh+hzydqDJZE
- ljGrzlNZ2npcx4JA298sadCz5jygNA2iIttOMdrYJFm43SjKDOfBsBGE5
- jLN1yUWPSQhYiRO4ptAfi3vfkaq1gRQQ2E+8STjtcCdSFeDVcNBbxBdjR w==;
-X-CSE-ConnectionGUID: rX6AepulRwqxxFeGYe2PXg==
-X-CSE-MsgGUID: EwV1V1h+SoGtDzWIu3Fv0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="35124494"
-X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; d="scan'208";a="35124494"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2024 15:30:04 -0700
-X-CSE-ConnectionGUID: lMLx/qc7SBSPXNv40hF0gg==
-X-CSE-MsgGUID: DNixGp0gQFSPRnnRPhnsDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; d="scan'208";a="101517581"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 30 Aug 2024 15:29:57 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 30 Aug 2024 15:29:53 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 30 Aug 2024 15:29:53 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 30 Aug 2024 15:29:53 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NnhVhYIdl+4SLp8jxBEwAgugIbCd424at7isxnL8iihqmft91lY6w6qavznHUzrdgrM4YRzJIn+yOWekSxTEKfRst/RkCVgTwz9AVmmdfaV6l2N2kTRJ1tZc4IFQu3LY51AHLvjVNytEh5BLkrbovR/ju5DpJYBhffU5/Z8++dFF9fmrUEYyJXWQUC8dp4zj7qH8/iiZv0rBRiU2tpjH3athoVFzLAIiTgmmxbdG/bTZGftisASJG1PLFvbk6jstuLcIqS6ytYWcjgF3gtIFSo2A44xFt/LJ6A3PC3CYFibNwIK1tKSGoRXzIamjaaLEj3m8gTV37SMdUmg9pcJFNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rw9Dn86BK/YfSJ92hqHZcqa4vABdaUzwfkYTsGqTWL8=;
- b=FbkGW0WWyTklllku4ku4LfdyiymHI+exdPWJOPXysW2ovElFNwgpWMsruJLGz73eV0Pk2M2ipb2gY3hOhyQn4pO3WWq+xhj3SfXQ1ExTPksDRoXU4R44Xu4UQC/Dn8l5YasyWei/vo2tsen7OY1NI6nhSXCSHKkUx7nHPti8n02OsTdddld+X6E4E2wOAzkcnlcVI2FMwx5hKTarLOVYRS8s+ug3hse3yR+TzzHKRgNclFjzP20GxnSVK1Ys4ledHSdlQYjj3J4zMRTjXt2grrGkmOK2OQVwq4Vgc38JQcNQQ/hXqwUovLRIC2W0BVPPbV+7ndlbhyVEovwU1vH5aQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SA3PR11MB7436.namprd11.prod.outlook.com (2603:10b6:806:307::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Fri, 30 Aug
- 2024 22:29:51 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7875.018; Fri, 30 Aug 2024
- 22:29:51 +0000
-Date: Fri, 30 Aug 2024 22:28:19 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-CC: <dri-devel@lists.freedesktop.org>, <kernel@collabora.com>, Luben Tuikov
- <ltuikov89@gmail.com>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [RFC PATCH] drm/sched: Make sure drm_sched_fence_ops don't vanish
-Message-ID: <ZtJHg8JOPi7CVme+@DUT025-TGLU.fm.intel.com>
-References: <20240830104057.1479321-1-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240830104057.1479321-1-boris.brezillon@collabora.com>
-X-ClientProxiedBy: SJ0PR03CA0388.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::33) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFBAE10E074
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 22:57:45 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-690ad83d4d7so20306967b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 15:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1725058665; x=1725663465; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=blK7NAlMTh3JcLkrTuTuxBcF6pT1N1f9hUEkKpKg934=;
+ b=HkUnUeAeQqo54ePb+t89gYI9Qe8CbUFZePVk6A0vlPlieWAAah9IjBvdPzUlOv0Edk
+ H29nwdfeXmb1idVEs50m8JrPXKLfq+k+aOEAN7HNCrAg8UhxdV8fUEIS8STkGBqYd83W
+ y0Qi4Vkhg5XokLfZqw4p/zaD1Q1abQyF9MRwvlfpPef1rrs1T7oToNFb1c0a+PYdAiet
+ ER62F7fxUvlPKDSrhVFrl3kqwZ2riWeHkeUZOpgYdN3+eGZKZ45dzY+Q7I7D1uzAn5qe
+ OFRQZizSAOwIydc00WeH/TM7e3TarITb+TjILaiQ4L81zI7dvYNOERAc8XKHt0YbChjG
+ ZCDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725058665; x=1725663465;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=blK7NAlMTh3JcLkrTuTuxBcF6pT1N1f9hUEkKpKg934=;
+ b=BvbFTjnypehid5zkuuPALuHNQ2NHA47AcISmQizaU3KgNCJYv2Y00Jd5o+Tfp5cxaD
+ 50n0FuLnhwCqWxcxBWs9J8a2RTetNAWFJNTjDZkMFhsN0PBtbRhyzVzYPZeU/o+gvhxV
+ hymaNW1Dh09D0kkbLzTAEhX4JTTv+spAeABdDMnCS4ksCJO9TTpyoGHCBscoMWvwsacE
+ ht1xqa9LsHtPzRmz66Nyx/ulj1hFrKx/9n5IAQErWPAkW1j/O5jgUarNgxpD4pZ9lxtP
+ z+wlsZIZqa1CnmKIijWJwUYZIjRtwBDffbhLSqpICqWcKguweLnlIKD29809iHi+FdAu
+ xizA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVIifu8kT1DkzxIDCDp1FQxA0lbILi4VkBlsu6tiihglk6HXhVgYxOO8msU0Bfdy1VQdQexjjtbTM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyiIzav6GHpjQ/k1R4+9pUROFKDs0bjuAqSQyN8o9hgzPGn3kOn
+ 5vviKM9y+9TCEwPF4GlL+Tg+SCsUA4qn5QtOLTkAiy/xkUwvZlya7kAwV+tZ+HGSjDiAL0WDmFi
+ BxHunnYnYzk8/l7UKQYwEqGyO00+1kqIeorn7yw==
+X-Google-Smtp-Source: AGHT+IHaNIBsSSrOQ2E5MVgLuWqxCyO7W7yhIX6issB8LpruzHx5T1McdJK+wP1T3SSNj8NCo6Qje8DHbvX2SoXo6uc=
+X-Received: by 2002:a05:690c:418c:b0:6ad:bf4f:1bc3 with SMTP id
+ 00721157ae682-6d40f929f59mr35783557b3.32.1725058664513; Fri, 30 Aug 2024
+ 15:57:44 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA3PR11MB7436:EE_
-X-MS-Office365-Filtering-Correlation-Id: fce3da1d-7db6-4653-7921-08dcc9434365
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?lINm1CV3l+6x4IKm3cnHZ4T3sCeh2Ozxdb0jAJH0ztePpsaVu7FCPIv3pu?=
- =?iso-8859-1?Q?gxn/otoPGtVCKnaiBF597v0CgfOPB+eZbZVNOrXVNgoor0Y24Sj7IOJ3VU?=
- =?iso-8859-1?Q?Afj8I1ExIliH99D653P5z+NqiaFIgzL4uPZai+kbpLDy+BbHF31GPL9ZDO?=
- =?iso-8859-1?Q?UC4NFcV1gY2RWqDp9DJe9Yujmnf1wiTWCo666OFIyfkQgAHfZTjX5rQEDu?=
- =?iso-8859-1?Q?ACAagzpnQq3FBukH22S63isZ2WsoBl1T9DFZsO4rgOjMKYTf3aEg2lbFJ/?=
- =?iso-8859-1?Q?ZAtPzHqMq9FFbltoSG75OVBqk8L5IcKAOHShAs6+deFuYTrO18IdIxhc6s?=
- =?iso-8859-1?Q?WkZ2Cprvft7BhoIklSrpt+9mgdMl7W7fjys2Z/8ZPkBc6ugxwhaKTMbEId?=
- =?iso-8859-1?Q?LPrXLDirZNplJmHJ8Kob/caoUHpNtdwZgSkpSx7X+He0M1TSKpuLa3mFKl?=
- =?iso-8859-1?Q?Qxbll/G+Bg1DCMGCsg4lMYYwIyx/sSkqweSky6uhRWLv2dZn9dRkjcvmrr?=
- =?iso-8859-1?Q?XAo6BBTeyezIRqF+YrMoD0/1xh7HtKa2URA0XpSYVQ9F2S0xzGGSnLVXL1?=
- =?iso-8859-1?Q?VqOB1iS2d6iWJYD9m9GjZMlhCznVXZLtJT6Auq5Y/2iiOhFyki2RJZV9uG?=
- =?iso-8859-1?Q?9DigdFG9pT++6aLrSxgemsogJ+QHdQS9h8K9QmGoCdZKnzNCtKB4fivZcU?=
- =?iso-8859-1?Q?6mBu401i9o34TCu6DyWEaYPhjLXZSGOhWDo8uMR3VNllN0pcV5OAYZnZ3o?=
- =?iso-8859-1?Q?rpp9D++/y/jaVMXQaiIYTRgJ286cKYjQI+iwv61TmgnGgiEjuUCy3kSm8j?=
- =?iso-8859-1?Q?9v/yUUUN/JiaAYTF41KzCkZYwQSGgJimnSCEgzRQ+c8hwIvJsyEcOM0phK?=
- =?iso-8859-1?Q?4nTzzRzePLX9E78lpvcEdSrUfTEYKWOMFI7CNmi8gDxgBMSo2FViJ4GTIQ?=
- =?iso-8859-1?Q?Vq07nzdcF51zAAOgIFX/nSvSl8ZqE/M5IR0++3VXCtrHrsHDgriV5LUbCg?=
- =?iso-8859-1?Q?tO6R9cEMGro4Jk00/BF8B32BKxqoNqg+eH0lTVRbIVfap7+y8tlM/dxeZP?=
- =?iso-8859-1?Q?v3h0eHm93uxB0X84Wo6r+RprBrGVNdjIrc/OYomff06f3udtC7kmkSIWAR?=
- =?iso-8859-1?Q?NxNRqJiwPmD/xohI98nA4OaduV+653jGGSyVx3gV6uFTCjatCfNjYDJKc0?=
- =?iso-8859-1?Q?AIhEcABx+a68khfY47E7jI893zyHQm6uZiMYYlev2sB056dDKKallrHvf+?=
- =?iso-8859-1?Q?X1InkEd5a3A01mIpJzAA3G5w3TvEIwNtsD9zefSqEMZeaJ06oaL1B351VV?=
- =?iso-8859-1?Q?XDZk9V/XndMQHQMkgasDiQCuN/NSoX1bi4ISB8C3NlQGMqreBcccSyFgg5?=
- =?iso-8859-1?Q?NxdXOrNh6MPhTn/oFPwEyJYyMPCwenyQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?093X0+ahHax11RxIQccH9JRI4lLXWC8D3kPgj2HyuhVhbxZbCFH3HkUhqz?=
- =?iso-8859-1?Q?Ne5wB21NwVPq0uvQ+yk3R6lQdalJPHKHZBJE3eiS15XPR2u4uWlM8Kvsm0?=
- =?iso-8859-1?Q?lu4crHHeus+3re1MeRd1whpjBgIEZizpGuBjr5nY8ZKdsF6gKT7V3UPhRm?=
- =?iso-8859-1?Q?g0p3jYFVtIMfw//8tJHjjmJ95/nz9gy5n0fxt5yTpe39SadsB6n1KeAsqC?=
- =?iso-8859-1?Q?fCksg331bIgfU71q80y7zb9o61x5In5/EQ+RQYjd3uMED+pdZlw+KpOFq/?=
- =?iso-8859-1?Q?qy3dQS2islokWbbYiFV46Plcl3mb2P6kDz3HJGOIqA9sPQuEqp/nrKkI4M?=
- =?iso-8859-1?Q?yFzyVpWWWqLeg+1Z1dLRY/GnylHBxtsw9N3+tFcdWdQQ8c2/92j3s9rrW5?=
- =?iso-8859-1?Q?r5FmpJbX9qu/W93ZxyLkUfmyQSG5QgIWLCC49BIFqqzCN7Bxh8Q2Wvsg2K?=
- =?iso-8859-1?Q?xD0GMiPX6Pzg7mxOv+fpHeZgyjrYCDWIKoVvq2xci+LbnuvveH37EuIDtm?=
- =?iso-8859-1?Q?bcBx4hdAGnllR4AaqAAyKeAN2M5LbGjky3+G/0hMx48ne7a5xrGcQtszm9?=
- =?iso-8859-1?Q?5ZyHa8nLUTm8EEmleSNVQLr3Ix5GTCx4fOyBWwYvHuQrFA8vPw7MyvpaqR?=
- =?iso-8859-1?Q?xJOZEM1H0px2KE2uVFFI6cRmLUz0VCux0lEIonDd0JsdbISk24fFutwx39?=
- =?iso-8859-1?Q?4a5T4WcUWCultfLdSBP4MNHRkrfi8uRsVObz6Km1/lSVoxOz5jb7fTBsg6?=
- =?iso-8859-1?Q?2IOy0Mz2BC3dNFNvjHqdrsKImuisJbN+fGDCNkZ/Ms2kfmQxxl+IrcD6aa?=
- =?iso-8859-1?Q?iFRrHA0VVFKiMOfDSc+abD1Ixik0Ezdtt5xKV57GMWaieoZnYujo/odS88?=
- =?iso-8859-1?Q?raSsfxuaghw7aectIoW1bz2oK3rYYqo2rEZPpFzdmMrJi9vy++P+LSjBMP?=
- =?iso-8859-1?Q?U8HBwp/yXxWGuXcsud01yzDtxGfj1dKTjnwibHOuyfGGw5vJzgfwGzjNA6?=
- =?iso-8859-1?Q?jLT/ZCF+HrjPWBu3XKxi+XWGZ0Gy7QGb+EY9+fWPuLWOdYWNEiUPZj4uaL?=
- =?iso-8859-1?Q?IyUcGTiTqyyWmjw1j2zCY8nNwVOS29V5LhuNTwvw15FXjwho3U14QJwsEf?=
- =?iso-8859-1?Q?7t1H7QMDfeYTWGmU6cShDfstXeJeegklg1UNBprjEbO6+EgbfkjmLT0RdE?=
- =?iso-8859-1?Q?aoPnWulZu8plTOsm7H7s80pLyatLHqiuBO98TG9yTktYPGdTJzWhtcXsk4?=
- =?iso-8859-1?Q?T2wWieZ9qWkUzJSZk9ky23yfRFe3dpIy9REwaC+eaARdMNFXz+mq+rlZ1N?=
- =?iso-8859-1?Q?3nnYIfvHOFnnSbccnvVQf9RpJOLw95wa/FP+A1XQUL+nqTpl6hislCBoYU?=
- =?iso-8859-1?Q?4lbaJsH5xKZaI7In6mBFgxggxIziQsd1b0x0SaPV7cdA86t5XWIjJDDN/J?=
- =?iso-8859-1?Q?JWX86v56/KBu6lKFiHQ7xGaXhQhnEK4tN7SgQQAbgwzw94VvoGwpYNfpk7?=
- =?iso-8859-1?Q?TZgsLGlJNkrolSL9pUyAg22H3+fbuZrM2ycXQQPraaAgH6NGsGs5johjHa?=
- =?iso-8859-1?Q?//hi66BRp1pPtVWtp4T6wC0nV5NRF43XBZOgw/yAH5yGnit59qK/YzYGv4?=
- =?iso-8859-1?Q?P8ekP8UTwglsnIXLla4/sF17oP1bQ0t8rym1KEP+caM3cBiLKGvInTsg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fce3da1d-7db6-4653-7921-08dcc9434365
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2024 22:29:51.1443 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gn1TofrbyzJhSnwkOatOuT/AFnZHR8UhsnEhQswPJ6Os5NB3HvDQSt95/5Pn6lRqykGQ8eWSorDASrnLaUmEiA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7436
-X-OriginatorOrg: intel.com
+References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
+ <20240829-concurrent-wb-v1-15-502b16ae2ebb@quicinc.com>
+ <ioim2wu73yn425jpnb3qbrhtzbmdio47ri7fauxh4kd5eb57ib@wdmaeyk5yd6n>
+ <605d7a2e-5a73-4797-8526-8d9b0f617525@quicinc.com>
+In-Reply-To: <605d7a2e-5a73-4797-8526-8d9b0f617525@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 31 Aug 2024 01:57:32 +0300
+Message-ID: <CAA8EJpp1tcxKzftYot9td7_dBQwCLai_zWCB_AWYbZreAJbM6Q@mail.gmail.com>
+Subject: Re: [PATCH 15/21] drm/msm/dpu: Configure CWB in writeback encoder
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,166 +87,353 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 30, 2024 at 12:40:57PM +0200, Boris Brezillon wrote:
-> dma_fence objects created by drm_sched might hit other subsystems, which
-> means the fence object might potentially outlive the drm_sched module
-> lifetime, and at this point the dma_fence::ops points to a memory region
-> that no longer exists.
-> 
-> In order to fix that, let's make sure the drm_sched_fence code is always
-> statically linked, just like dma-fence{-chain}.c does.
-> 
-> Cc: Luben Tuikov <ltuikov89@gmail.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
-> Just like for the other UAF fix, this is an RFC, as I'm not sure that's
-> how we want it fixed. The other option we have is to retain a module ref
-> for each initialized fence and release it when the fence is freed.
+On Fri, 30 Aug 2024 at 23:28, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>
+>
+>
+> On 8/30/2024 10:47 AM, Dmitry Baryshkov wrote:
+> > On Thu, Aug 29, 2024 at 01:48:36PM GMT, Jessica Zhang wrote:
+> >> Cache the CWB block mask in the DPU virtual encoder and configure CWB
+> >> according to the CWB block mask within the writeback phys encoder
+> >>
+> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >> ---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 29 +++++++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 43 ++++++++++++++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  9 ++++-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   | 18 ++++++++-
+> >>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 43 +++++++++++++++++++++-
+> >>   5 files changed, 139 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >> index 99eaaca405a4..c8ef59af444c 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >> @@ -1236,6 +1236,33 @@ static bool dpu_crtc_has_valid_clones(struct drm_crtc *crtc,
+> >>      return true;
+> >>   }
+> >>
+> >> +static void dpu_crtc_set_encoder_cwb_mask(struct drm_crtc *crtc,
+> >> +            struct drm_crtc_state *crtc_state)
+> >> +{
+> >> +    struct drm_encoder *drm_enc;
+> >> +    struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
+> >> +    int cwb_idx = 0;
+> >> +    u32 cwb_mask = 0;
+> >> +
+> >> +    /*
+> >> +     * Since there can only be one CWB session at a time, if the CRTC LM
+> >> +     * starts with an even index we start with CWB_0. If the LM index is
+> >> +     * odd, we start with CWB_1
+> >
+> > I'd prefer to get indices from RM. They can be set during mode_set /
+> > atomic_check calls.
+>
+> Hi Dmitry,
+>
+> Do you mean having CWB being managed by RM or using rm's
+> get_assigned_blks() to grab the LM indices?
 
-So this is different than your other patch. From Xe PoV the other patch
-is referencing an object which is tied to an IOCTL rather than a module
-whereas this referencing a module. If a module can disappear when fence
-tied to the module, well that is a bit scary and Xe might have some
-issues there - I'd have audit our of exporting internally created
-fences.
+I was thinking of using either get_assigned_blks() or a new
+CWB-specific API. This way such odd-even requirements get abstracted
+in the RM.
 
-Based on Christian's feedback we really shouldn't be allowing this but
-also don't really love the idea of a fence holding a module ref either.
+> >> +     */
+> >> +    if (cstate->mixers[0].hw_lm)
+> >> +            cwb_idx = (cstate->mixers[0].hw_lm->idx - LM_0) % 2;
+> >> +
+> >> +    if (drm_crtc_in_clone_mode(crtc_state)) {
+> >> +            for (int i = 0; i < cstate->num_mixers; i++) {
+> >> +                    cwb_mask |= (1 << cwb_idx);
+> >> +                    cwb_idx++;
+> >> +            }
+> >> +    }
+> >> +
+> >> +    drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask)
+> >> +            dpu_encoder_set_cwb_mask(drm_enc, cwb_mask);
+> >
+> > Ugh, no. This function writes to dpu_enc, however there is being called
+> > from atomic_check(). You can not write non-state variables here as the
+> > commit can get completely dropped.
+>
+> Ack -- will change this API to `dpu_crtc_get_cwb_mask()` and call it
+> from dpu_encoder_virt_mode_set() instead.
 
-Seems like we need a well defined + documented rule - exported fences
-need to be completely decoupled from the module upon signaling or
-exported fences must retain a module ref. I'd probably lean towards the
-former. One reason to support the former is fences can be released in
-IRQ contexts and dropping a module ref in IRQ context seems a bit
-problematic. Also because some oher part of kernel holds on to fence ref
-lazily block a module unload just seems wrong.
+LGTM.
 
-Sorry if above we have well defined rule and I'm just not aware.
+>
+> >
+> >> +}
+> >> +
+> >>   static int dpu_crtc_assign_resources(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state)
+> >>   {
+> >>      struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_CRTC];
+> >> @@ -1329,6 +1356,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+> >>                      !dpu_crtc_has_valid_clones(crtc, crtc_state))
+> >>              return -EINVAL;
+> >>
+> >> +    dpu_crtc_set_encoder_cwb_mask(crtc, crtc_state);
+> >> +
+> >>      if (!crtc_state->enable || !drm_atomic_crtc_effectively_active(crtc_state)) {
+> >>              DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
+> >>                              crtc->base.id, crtc_state->enable,
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> >> index f1bd14d1f89e..0f8f6c0182d5 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> >> @@ -162,6 +162,7 @@ enum dpu_enc_rc_states {
+> >>    *                         clks and resources after IDLE_TIMEOUT time.
+> >>    * @topology:                   topology of the display
+> >>    * @idle_timeout:          idle timeout duration in milliseconds
+> >> + * @cwb_mask:                       current encoder is in clone mode
+> >>    * @wide_bus_en:           wide bus is enabled on this interface
+> >>    * @dsc:                   drm_dsc_config pointer, for DSC-enabled encoders
+> >>    */
+> >> @@ -202,6 +203,7 @@ struct dpu_encoder_virt {
+> >>      struct msm_display_topology topology;
+> >>
+> >>      u32 idle_timeout;
+> >> +    u32 cwb_mask;
+> >>
+> >>      bool wide_bus_en;
+> >>
+> >> @@ -638,6 +640,33 @@ bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_st
+> >>      return false;
+> >>   }
+> >>
+> >> +void dpu_encoder_set_cwb_mask(struct drm_encoder *enc, u32 cwb_mask)
+> >> +{
+> >> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(enc);
+> >> +
+> >> +    dpu_enc->cwb_mask = cwb_mask;
+> >> +}
+> >> +
+> >> +u32 dpu_encoder_get_cwb_mask(struct drm_encoder *enc)
+> >> +{
+> >> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(enc);
+> >> +
+> >> +    if (!dpu_enc)
+> >> +            return 0;
+> >> +
+> >> +    return dpu_enc->cwb_mask;
+> >> +}
+> >> +
+> >> +bool dpu_encoder_in_clone_mode(struct drm_encoder *enc)
+> >> +{
+> >> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(enc);
+> >> +
+> >> +    if (!dpu_enc)
+> >> +            return 0;
+> >> +
+> >> +    return dpu_enc->cwb_mask != 0;
+> >> +}
+> >> +
+> >>   struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc)
+> >>   {
+> >>      struct msm_drm_private *priv = drm_enc->dev->dev_private;
+> >> @@ -2019,6 +2048,7 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+> >>      struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
+> >>      struct dpu_hw_intf_cfg intf_cfg = { 0 };
+> >>      int i;
+> >> +    enum dpu_cwb cwb_idx;
+> >>      struct dpu_encoder_virt *dpu_enc;
+> >>
+> >>      dpu_enc = to_dpu_encoder_virt(phys_enc->parent);
+> >> @@ -2040,6 +2070,19 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+> >>              /* mark WB flush as pending */
+> >>              if (phys_enc->hw_ctl->ops.update_pending_flush_wb)
+> >>                      phys_enc->hw_ctl->ops.update_pending_flush_wb(ctl, phys_enc->hw_wb->idx);
+> >> +
+> >> +            if (dpu_enc->cwb_mask) {
+> >> +                    for (i = 0; i < hweight32(dpu_enc->cwb_mask); i++) {
+> >
+> > This will break if cwb_mask starts from bit 1: hweight will count bits,
+> > so the loop will not cover the highest bit set.
+>
+> Ah, good point. I should be doing `hweight() + 1` here instead.
 
-Matt 
+Not quite. I think it might be easier to loop up from CWB_0 to
+CWB_MAX. The optimization gain from using hweight32 should be
+negligible and using CWB constants will improve readability.
 
-> ---
->  drivers/gpu/drm/Makefile                |  2 +-
->  drivers/gpu/drm/scheduler/Makefile      |  7 ++++++-
->  drivers/gpu/drm/scheduler/sched_fence.c | 21 +++++++++------------
->  drivers/gpu/drm/scheduler/sched_main.c  |  3 +++
->  4 files changed, 19 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 68cc9258ffc4..b97127da58b7 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -158,7 +158,7 @@ obj-$(CONFIG_DRM_MIPI_DSI) += drm_mipi_dsi.o
->  obj-y			+= arm/
->  obj-y			+= display/
->  obj-$(CONFIG_DRM_TTM)	+= ttm/
-> -obj-$(CONFIG_DRM_SCHED)	+= scheduler/
-> +obj-y			+= scheduler/
->  obj-$(CONFIG_DRM_RADEON)+= radeon/
->  obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
->  obj-$(CONFIG_DRM_AMDGPU)+= amd/amdxcp/
-> diff --git a/drivers/gpu/drm/scheduler/Makefile b/drivers/gpu/drm/scheduler/Makefile
-> index 53863621829f..bc18d26f27a1 100644
-> --- a/drivers/gpu/drm/scheduler/Makefile
-> +++ b/drivers/gpu/drm/scheduler/Makefile
-> @@ -20,6 +20,11 @@
->  # OTHER DEALINGS IN THE SOFTWARE.
->  #
->  #
-> -gpu-sched-y := sched_main.o sched_fence.o sched_entity.o
-> +
-> +# sched_fence.c contains dma_fence_ops that can't go away, so make sure it's
-> +# statically linked when CONFIG_DRM_SCHED=m
-> +obj-y += $(if $(CONFIG_DRM_SCHED),sched_fence.o,)
-> +
-> +gpu-sched-y := sched_main.o sched_entity.o
->  
->  obj-$(CONFIG_DRM_SCHED) += gpu-sched.o
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index efa2a71d98eb..ac65589476dd 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -39,12 +39,7 @@ static int __init drm_sched_fence_slab_init(void)
->  
->  	return 0;
->  }
-> -
-> -static void __exit drm_sched_fence_slab_fini(void)
-> -{
-> -	rcu_barrier();
-> -	kmem_cache_destroy(sched_fence_slab);
-> -}
-> +subsys_initcall(drm_sched_fence_slab_init);
->  
->  static void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
->  				       struct dma_fence *fence)
-> @@ -74,6 +69,7 @@ void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
->  
->  	dma_fence_signal(&fence->scheduled);
->  }
-> +EXPORT_SYMBOL(drm_sched_fence_scheduled);
->  
->  void drm_sched_fence_finished(struct drm_sched_fence *fence, int result)
->  {
-> @@ -81,6 +77,7 @@ void drm_sched_fence_finished(struct drm_sched_fence *fence, int result)
->  		dma_fence_set_error(&fence->finished, result);
->  	dma_fence_signal(&fence->finished);
->  }
-> +EXPORT_SYMBOL(drm_sched_fence_finished);
->  
->  static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->  {
-> @@ -118,6 +115,7 @@ void drm_sched_fence_free(struct drm_sched_fence *fence)
->  	if (!WARN_ON_ONCE(fence->timeline))
->  		kmem_cache_free(sched_fence_slab, fence);
->  }
-> +EXPORT_SYMBOL(drm_sched_fence_free);
->  
->  /**
->   * drm_sched_fence_release_scheduled - callback that fence can be freed
-> @@ -210,6 +208,9 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->  {
->  	struct drm_sched_fence *fence = NULL;
->  
-> +	if (unlikely(!sched_fence_slab))
-> +		return NULL;
-> +
->  	fence = kmem_cache_zalloc(sched_fence_slab, GFP_KERNEL);
->  	if (fence == NULL)
->  		return NULL;
-> @@ -219,6 +220,7 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->  
->  	return fence;
->  }
-> +EXPORT_SYMBOL(drm_sched_fence_alloc);
->  
->  void drm_sched_fence_init(struct drm_sched_fence *fence,
->  			  struct drm_sched_entity *entity)
-> @@ -234,9 +236,4 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->  	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
->  		       &fence->lock, entity->fence_context + 1, seq);
->  }
-> -
-> -module_init(drm_sched_fence_slab_init);
-> -module_exit(drm_sched_fence_slab_fini);
-> -
-> -MODULE_DESCRIPTION("DRM GPU scheduler");
-> -MODULE_LICENSE("GPL and additional rights");
-> +EXPORT_SYMBOL(drm_sched_fence_init);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 1e31a9c8ce15..eaaf086eab30 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1467,3 +1467,6 @@ void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
->  	queue_work(sched->submit_wq, &sched->work_free_job);
->  }
->  EXPORT_SYMBOL(drm_sched_wqueue_start);
-> +
-> +MODULE_DESCRIPTION("DRM GPU scheduler");
-> +MODULE_LICENSE("GPL and additional rights");
-> -- 
-> 2.46.0
-> 
+>
+> >
+> >> +                            if (!(dpu_enc->cwb_mask & (1 << i)))
+> >> +                                    continue;
+> >> +
+> >> +                            cwb_idx = i + CWB_0;
+> >> +
+> >> +                            if (phys_enc->hw_wb->ops.setup_input_ctrl)
+> >> +                                    phys_enc->hw_wb->ops.setup_input_ctrl(phys_enc->hw_wb,
+> >> +                                                    cwb_idx, PINGPONG_NONE);
+> >> +                    }
+> >> +            }
+> >>      } else {
+> >>              for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> >>                      if (dpu_enc->phys_encs[i] && phys_enc->hw_intf->ops.bind_pingpong_blk)
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> >> index 0d27e50384f0..131bb8b2c0ee 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> >> @@ -1,6 +1,6 @@
+> >>   /* SPDX-License-Identifier: GPL-2.0-only */
+> >>   /*
+> >> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> >> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> >>    * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+> >>    * Copyright (C) 2013 Red Hat
+> >>    * Author: Rob Clark <robdclark@gmail.com>
+> >> @@ -188,6 +188,13 @@ void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
+> >>    */
+> >>   bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_state *state);
+> >>
+> >> +/**
+> >> + * dpu_encoder_set_cwb_mask - set the CWB blocks mask for the encoder
+> >> + * @drm_enc:    Pointer to previously created drm encoder structure
+> >> + * @cwb_mask:   CWB blocks mask to set for the encoder
+> >> + */
+> >> +void dpu_encoder_set_cwb_mask(struct drm_encoder *drm_enc, u32 cwb_mask);
+> >> +
+> >>   /**
+> >>    * dpu_encoder_prepare_wb_job - prepare writeback job for the encoder.
+> >>    * @drm_enc:    Pointer to previously created drm encoder structure
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> >> index e77ebe3a68da..f0e5c5b073e5 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> >> @@ -1,6 +1,6 @@
+> >>   /* SPDX-License-Identifier: GPL-2.0-only */
+> >>   /*
+> >> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> >> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> >>    * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
+> >>    */
+> >>
+> >> @@ -339,6 +339,22 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+> >>    */
+> >>   unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
+> >>
+> >> +/**
+> >> + * dpu_encoder_get_cwb_mask - get CWB blocks mask for DPU encoder
+> >> + *   This helper function is used by physical encoders to get the CWB blocks
+> >> + *   mask used for this encoder.
+> >> + * @enc: Pointer to DRM encoder structure
+> >> + */
+> >> +u32 dpu_encoder_get_cwb_mask(struct drm_encoder *enc);
+> >> +
+> >> +/**
+> >> + * dpu_encoder_in_clone_mode - determine if DPU encoder is in clone mode
+> >> + *   This helper is used by physical encoders to determine if the encoder is in
+> >> + *   clone mode.
+> >> + * @enc: Pointer to DRM encoder structure
+> >> + */
+> >> +bool dpu_encoder_in_clone_mode(struct drm_encoder *enc);
+> >> +
+> >>   /**
+> >>    * dpu_encoder_get_dsc_config - get DSC config for the DPU encoder
+> >>    *   This helper function is used by physical encoder to get DSC config
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> >> index 882c717859ce..e1ec64ffc742 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> >> @@ -1,6 +1,6 @@
+> >>   // SPDX-License-Identifier: GPL-2.0-only
+> >>   /*
+> >> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> >> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> >>    */
+> >>
+> >>   #define pr_fmt(fmt)        "[drm:%s:%d] " fmt, __func__, __LINE__
+> >> @@ -264,6 +264,45 @@ static void dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
+> >>      }
+> >>   }
+> >>
+> >> +static void dpu_encoder_phys_wb_setup_cwb(struct dpu_encoder_phys *phys_enc)
+> >> +{
+> >> +    struct dpu_hw_wb *hw_wb;
+> >> +    struct dpu_hw_ctl *hw_ctl;
+> >> +    struct dpu_hw_pingpong *hw_pp;
+> >> +    u32 cwb_mask, cwb_idx;
+> >> +
+> >> +    if (!phys_enc)
+> >> +            return;
+> >> +
+> >> +    hw_wb = phys_enc->hw_wb;
+> >> +    hw_ctl = phys_enc->hw_ctl;
+> >> +    hw_pp = phys_enc->hw_pp;
+> >> +
+> >> +    if (!hw_wb || !hw_ctl || !hw_pp) {
+> >> +            DPU_DEBUG("[wb:%d] no ctl or pp assigned\n", hw_wb->idx - WB_0);
+> >> +            return;
+> >> +    }
+> >> +
+> >> +    cwb_mask = dpu_encoder_get_cwb_mask(phys_enc->parent);
+> >> +
+> >> +    for (int i = 0; i < hweight32(cwb_mask); i++) {
+> >> +            if (!(cwb_mask & (1 << i)))
+> >> +                    continue;
+> >> +
+> >> +            cwb_idx = i + CWB_0;
+> >> +
+> >> +            if (hw_wb->ops.setup_input_ctrl)
+> >> +                    hw_wb->ops.setup_input_ctrl(hw_wb, cwb_idx, hw_pp->idx + i);
+>
+> Just wanted to note that the value being programmed here is incorrect.
+>
+> Instead of passing in the index of the dedicated cwb pingpong, it should
+> instead be the index of the *real time display* pingpong.
+>
+> To grab the correct value, I'm thinking of adding a DPU encoder API to
+> query the RM for (non-dedicated CWB) HW_BLK_PINGPONG to grab the
+> pingpong indices for the real-time encoder. I'll then call that API here
+> and pass the resulting real-time hw_pp index.
+
+Hmm. Having SDM845 and below and LM_2 / LM_5 pair in mind I thought
+that we might need to get a list of PPs. But then I noticed that this
+pair uses PP_2 / PP_3 pair of pingpong blocks. Yes, the proposed API
+sounds good.
+
+>
+> Please let me know if you have any feedback on this proposal or
+> alternate solutions.
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+> >> +
+> >> +            /*
+> >> +             * The CWB mux supports using LM or DSPP as tap points. For now,
+> >> +             * always use DSPP tap point
+> >> +             */
+> >> +            if (hw_wb->ops.setup_input_mode)
+> >> +                    hw_wb->ops.setup_input_mode(hw_wb, cwb_idx, INPUT_MODE_DSPP_OUT);
+> >> +    }
+> >> +}
+> >> +
+> >>   /**
+> >>    * _dpu_encoder_phys_wb_update_flush - flush hardware update
+> >>    * @phys_enc:      Pointer to physical encoder
+> >> @@ -342,6 +381,8 @@ static void dpu_encoder_phys_wb_setup(
+> >>
+> >>      dpu_encoder_helper_phys_setup_cdm(phys_enc, dpu_fmt, CDM_CDWN_OUTPUT_WB);
+> >>
+> >> +    dpu_encoder_phys_wb_setup_cwb(phys_enc);
+> >> +
+> >>      dpu_encoder_phys_wb_setup_ctl(phys_enc);
+> >>   }
+> >>
+> >>
+> >> --
+> >> 2.34.1
+> >>
+> >
+> > --
+> > With best wishes
+> > Dmitry
+
+
+
+-- 
+With best wishes
+Dmitry
