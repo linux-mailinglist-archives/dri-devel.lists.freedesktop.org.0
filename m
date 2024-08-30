@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D725965C08
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 10:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBAE965C09
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 10:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1595E10EA3E;
-	Fri, 30 Aug 2024 08:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 110CD10EA42;
+	Fri, 30 Aug 2024 08:46:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ctq+hjd4";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HCRVx8XY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F86910EA3E
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 08:45:58 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-7142e4dddbfso1259186b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 01:45:58 -0700 (PDT)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEF510E8AA
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 08:46:03 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-76cb5b6b3e4so996330a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 01:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725007558; x=1725612358;
+ d=chromium.org; s=google; t=1725007563; x=1725612363;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BNhoisuk/jUSOFe52sR46QCIHvi7hEsksA7LiMmuHN0=;
- b=Ctq+hjd4fzpzqmIxTpGVLHZqbEBXyo0qh3Z0sSqVZ0uCJRFI1wHVymZIG0kjK83lYH
- hE4RIGY5wFOJMiJT6m3+gl5nTvy0+TiPbvQiIzfPwAKpqnEht36iUKK2WIgTsrKcKxjS
- cxhTCXWxGudrdskm+86Y68SRZqjthBMU5KOJY=
+ bh=MG9yE55j5lJtqIWbVs9SHCJ5Kc9kTWgC1tP2vOkNljE=;
+ b=HCRVx8XYxOoIAwtk5MkMTpsQsRBzDap96ddoy0q8Wg9gSbaJrGi3fND5mEhTg5ETEq
+ qJZumSJNy/Mdmv+l5+Z2KtcKCH980HDjm6Ri7eILR7D/RCG4sKqh6YyZf5Ms2+jFgSef
+ jeC3vHXAUoBD0qBHDMcGLxQkMiLO6Em5aummA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725007558; x=1725612358;
+ d=1e100.net; s=20230601; t=1725007563; x=1725612363;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BNhoisuk/jUSOFe52sR46QCIHvi7hEsksA7LiMmuHN0=;
- b=WXNXEGvEkx7rO/6GxznJmysiQcwv31aiVBmyS+JWglPYvbSTW0JEGRrigFa6ZFwUw1
- PqI1Qo+KiflaHgWQe3FTxwm9d6wDaigVWMPG80OHZgtc2BYPOVwRn0s4GN7VQ3oLN8ju
- rEY0AS0RI0aseUXIH5dZHi8Enh2Ng+/uOJheTKD2HmE2/bt0gWE2cL1uc0p7DbpEq4w4
- Tq50bSkRvf/SzT2FdLEpJmCIbIKuCktapbfGgs2AGbSwZudi/mjqj/fq+lJalRcCgf3S
- Y8h/hN5zhIKNrCTxTPO1DTn9XvWpwQE/9HYNCWjbq9dFvaUwBGAP+/tdUfatG0CE7iau
- /gpw==
-X-Gm-Message-State: AOJu0YzYEObj/B6ZjHR+5cBk3RgougNvWCRalVOf9gNaL7km5YQWQNns
- IofNjUIBiCOqCMNNjXqx5Bhwn1sfkJXXDuWZlyDVuH83aZmkMgxXGBCM6r4jLw==
-X-Google-Smtp-Source: AGHT+IHJFS1jtvkTZ22k5pD+Kn9bReufF91Us6y0WLt5aVVQ6EqMEnI6zYAJ2oR7UwfAiAfac5+tAg==
-X-Received: by 2002:a05:6a21:2d07:b0:1c4:a1f4:3490 with SMTP id
- adf61e73a8af0-1cce10a7fd4mr4563290637.39.1725007557633; 
- Fri, 30 Aug 2024 01:45:57 -0700 (PDT)
+ bh=MG9yE55j5lJtqIWbVs9SHCJ5Kc9kTWgC1tP2vOkNljE=;
+ b=OsMjM0YQqz0QevsEfkne/8Wo/CO8ix/KauFYCYSw10/gK5gJ8G85vKhbdmx79ii9Kz
+ WSoee9LXRr3lgGXgnI1an7tfu+M8mcKkxPx7DCNwWq+9+E5qEo8uXMAX/1SBb7TBW1nL
+ qDiqEZVNz5LKq1OP4hsKwyriWlx3kUxcFQz1xBmUPU4zJ6OFnR7t5QAjcBqy6glG9BUl
+ 5qHUZT2zmGQ2Z7xKWd5NDLk9eocYGrsGfwN6b/Mrvl1ymDEXvbtGKxyaIDIGludAikOx
+ w6BYGG7rKuvThEeipHHTPATeJ4Y2xF6m4mcVYP9zhTtl/XmmzNLovJnPrW4GDAuOTcAy
+ u6tw==
+X-Gm-Message-State: AOJu0Yyc/nZhIJDeGsdeFINzAYSYY1ty9ubQ+fEMDIxLshfho0nWgrCb
+ NyA9TAyiJHp1WOjfIjE4waL4U2hpFiIPasPmM9KBE/Qm6j6qRh1WCOp4Mptjiw==
+X-Google-Smtp-Source: AGHT+IEc629GXImBuNOILo97YU6aaZaMx2RzjoxMwdEEvSYsu0H0uErl6hhdNvBxFRkjzwhSGg98Rw==
+X-Received: by 2002:a05:6a20:d486:b0:1cc:dd3a:ed43 with SMTP id
+ adf61e73a8af0-1cce100b087mr4623425637.12.1725007562833; 
+ Fri, 30 Aug 2024 01:46:02 -0700 (PDT)
 Received: from localhost (117.196.142.34.bc.googleusercontent.com.
  [34.142.196.117]) by smtp.gmail.com with UTF8SMTPSA id
- 98e67ed59e1d1-2d8445d5bb0sm5784248a91.1.2024.08.30.01.45.53
+ 98e67ed59e1d1-2d85b0fdf44sm3192373a91.6.2024.08.30.01.45.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Aug 2024 01:45:57 -0700 (PDT)
+ Fri, 30 Aug 2024 01:46:02 -0700 (PDT)
 From: Rohit Agarwal <rohiagar@chromium.org>
 To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -61,12 +61,10 @@ To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
  jitao.shi@mediatek.com
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Rohit Agarwal <rohiagar@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 1/3] dt-bindings: display: mediatek: dpi: Add power domains
-Date: Fri, 30 Aug 2024 08:45:42 +0000
-Message-ID: <20240830084544.2898512-2-rohiagar@chromium.org>
+ linux-arm-kernel@lists.infradead.org, Rohit Agarwal <rohiagar@chromium.org>
+Subject: [PATCH v4 2/3] arm64: dts: mediatek: mt8186: Add power domain for DPI
+Date: Fri, 30 Aug 2024 08:45:43 +0000
+Message-ID: <20240830084544.2898512-3-rohiagar@chromium.org>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240830084544.2898512-1-rohiagar@chromium.org>
 References: <20240830084544.2898512-1-rohiagar@chromium.org>
@@ -87,53 +85,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add power domain binding to the mediatek DPI controller
-for MT8186.
-Also, add power domain binding for other SoCs like
-MT6795 and MT8173 that already had power domain property.
+Add power domain phandle to the DPI controller in mediatek
+mt8186 SoC.
 
 Signed-off-by: Rohit Agarwal <rohiagar@chromium.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- .../bindings/display/mediatek/mediatek,dpi.yaml | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-index 5ca7679d5427..3a82aec9021c 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-@@ -62,6 +62,9 @@ properties:
-       - const: default
-       - const: sleep
+diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+index caec83f5eece..85b77ec033c1 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+@@ -1843,6 +1843,7 @@ dpi: dpi@1400a000 {
+ 			assigned-clocks = <&topckgen CLK_TOP_DPI>;
+ 			assigned-clock-parents = <&topckgen CLK_TOP_TVDPLL_D2>;
+ 			interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_LOW 0>;
++			power-domains = <&spm MT8186_POWER_DOMAIN_DIS>;
+ 			status = "disabled";
  
-+  power-domains:
-+    maxItems: 1
-+
-   port:
-     $ref: /schemas/graph.yaml#/properties/port
-     description:
-@@ -76,6 +79,20 @@ required:
-   - clock-names
-   - port
- 
-+allOf:
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              enum:
-+                - mediatek,mt6795-dpi
-+                - mediatek,mt8173-dpi
-+                - mediatek,mt8186-dpi
-+    then:
-+      properties:
-+        power-domains: false
-+
- additionalProperties: false
- 
- examples:
+ 			port {
 -- 
 2.46.0.469.g59c65b2a67-goog
 
