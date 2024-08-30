@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAD7966597
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 17:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8149596659C
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 17:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0D710E546;
-	Fri, 30 Aug 2024 15:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7ED810E5F3;
+	Fri, 30 Aug 2024 15:33:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hi1UVXNP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SgH1xVS1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F362D10E422;
- Fri, 30 Aug 2024 15:33:22 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a8682bb5e79so243738166b.2; 
- Fri, 30 Aug 2024 08:33:22 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5211210E542;
+ Fri, 30 Aug 2024 15:33:24 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-a80eab3945eso194333666b.1; 
+ Fri, 30 Aug 2024 08:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725032001; x=1725636801; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725032003; x=1725636803; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=f0kNTx+9AsOZWf/8yH7sCZ+xqB2wOOoaQ6wZ/cu7hDA=;
- b=Hi1UVXNPBAwcfQ98wFiPeuTMJv6Y9ql5tO+Q67E4beLdgcQ7TvI/PpeQ8J1jwFPMbr
- CeWD3ucxyz3ViKKlX9u4GS4IRg4WrafgJ12qFLcriI2GtGL6fTYepCg+wam9Allaf2vL
- BHuWRyr4KsZBS4Dkq/06PAvak5X97sOf0ee3YwmFJrta1uSKkrpkxi6aL9qi4+gawzdw
- iLBR1bb1k9MMw9MCw0Iia9bbJR9R+Zpp5pk5upSzmNLeE0MzDEvcSDMk34N1zNaHqMbl
- 3B9FJb5/7jQSjlvvD/oX7Bv1H048qjUtlp+JBlNnPIfYEJZ/zwRMJWJ65gFwunuLlWac
- Tv5A==
+ :reply-to; bh=7ApHm6HSqmijZR4RQErF/7FvUVBd6HKuz4S//PSSZhg=;
+ b=SgH1xVS1ZLTedbJgwIJyOCbvNfPJzRxlKkgkd6x0poi9Tw75QHrlqf4l0prMzolEbx
+ MOYm21tUyWw2zvHUcJsu0YsaCWIiuTOQNsO3j6m5Dq9OndnEr4wTnpbjCXfAWWRu/iJL
+ 4RabGQuF0+SDQ0vu+VxOq+4VgmHhZltzGVGouS4CBj+39hqt51M06aCYevH+D0opAQml
+ 3cCFIbc96BLyOJgkqIQgBG+52W4t6O7PNIypQvaCZg0NLGf25tbiF9+vlFv+Svet9YgX
+ kI+AmPps8Ke+nitsmnZaaN7OoqhqcnyJeh6aEnmeLwELsP3U6bhf29wgSJApAYt9y+vQ
+ WXww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725032001; x=1725636801;
+ d=1e100.net; s=20230601; t=1725032003; x=1725636803;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=f0kNTx+9AsOZWf/8yH7sCZ+xqB2wOOoaQ6wZ/cu7hDA=;
- b=r0B3GQwkXAKcImtEhGqhy5SRufJCwPBJu0sgI7ablnppOYxgzk7hICKyDJZXiFnhCg
- rKO7aSX6uY/55kvsGGj5EuaH4/zp4cxxvZSeTnWrBAIX4FH8MM7Jaa9kgLw6Lo84gkjt
- 7AxkWggfWxQU2ct9VQCfFHuADIcam4lkiGQnhJKFmAvX6N1m0cRxUHbpRhtSqtwmTQT9
- HBPehShc+27/fYYim+K6K29dUQmMCFuU2ZVD5Umf/CI4VN+4ZXyQNdT22l45eoPF0IRT
- se6+Xqn+2UAEHWJ6v9R2eqM5bdGTT/FQ/FGqrbvf8PznDulojNYm9kd0KrUiwBI6gYTu
- 0Ykw==
+ bh=7ApHm6HSqmijZR4RQErF/7FvUVBd6HKuz4S//PSSZhg=;
+ b=ClG0f3UFdv7ufb4JoKod/n/Uv3ip1+Jz1qc1XJDaLm7WUXOtmKKU4clFj93rGHHJR3
+ dAxou8MT4HFGG3WHMnFQ1xWX6DaTbmrJYIuBYgX/mPaCAt1sccqQiMpCkrEEzE4Psel5
+ uVuyuYM7qTa8AEHzkfx7+ptaDE0wZg2hnH+iI1BU/c+s86zORuNVFk2wJcRz4KkLv8hZ
+ bc7f7eOP5pjljXAvM2fofFMlwkEQfzRyt6HBOUgf0mxZa8GUQMectvIgA9nsMj4lnNIA
+ lJvZ2J9EdGXDm9kO6BK9y+N8n+3QqrsnJDCxoyLKhTcKfzaEFuAAU/7lmyHE56iIe91Q
+ h7/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVrHL3dB/3J2+NY3EfDjo+2UamSdnjPX24MKIlAWiydQyurEVb+kx7NPGzLYXZoVtgCgr5juIigUP8e@lists.freedesktop.org,
- AJvYcCWVz3JRCRuHdhFEd85GWi5CExxDxyfRGLk/oKxpNCYnnc8nl1tMKSnJkZ9zbYtSTW0BSMLREYcvXts=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlJ6HNoeNSWl/oIBaxFZQ0kFAQe1YlP6EZ0ZIivi+pWzXOadap
- eEHi6ALnp7ZX/dZymH4UDN1uTot/RzTDSC4rL+LmoOerx1zlsSsn
-X-Google-Smtp-Source: AGHT+IFH2wEYI+hFF2p89nqVCo1HfRyQ5wJgwJ8qmGjuO3Fc4y/1NfomGCHq5aGUlyl2GVNGOpBueg==
-X-Received: by 2002:a17:907:6d23:b0:a77:b3c4:cd28 with SMTP id
- a640c23a62f3a-a897f778186mr453987166b.9.1725032000860; 
- Fri, 30 Aug 2024 08:33:20 -0700 (PDT)
+ AJvYcCXJ/qGNjNaEPHopGe5NMhcsDSRWZ0F6d9FYE+DE6/6uyZYovDvvaiDQMCrAVfTuBfsI3/x16+W1Q9E=@lists.freedesktop.org,
+ AJvYcCXvtHQQ+WpyA/672bNjd4QPV9Gx7QIka1ZR2EvNJAFhuyehWZNKbEljngU6NokgN9XVp9ZNDepBojWa@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZKRhMHI1SxCEHRqY0VEqSTNc46BWjyEETDS4CrkAtMFMyHm68
+ lMfriZGE21Na5BZERyYgPrGsZUyB5u+EgA9kLmQKY7ITlGeUlUq8
+X-Google-Smtp-Source: AGHT+IGC537GLnbfsxjueR3ZbhMvYvp3vDaRWXgnYb1KzZDWz2DQSdrNTSnq+tJoTdOC+vh/d9AnFQ==
+X-Received: by 2002:a17:907:9494:b0:a86:9487:f1d2 with SMTP id
+ a640c23a62f3a-a89a379d05emr200856966b.40.1725032002102; 
+ Fri, 30 Aug 2024 08:33:22 -0700 (PDT)
 Received: from [192.168.1.14] (host-95-234-170-37.retail.telecomitalia.it.
  [95.234.170.37]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a8988ff4233sm227157866b.25.2024.08.30.08.33.19
+ a640c23a62f3a-a8988ff4233sm227157866b.25.2024.08.30.08.33.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 08:33:20 -0700 (PDT)
+ Fri, 30 Aug 2024 08:33:21 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Fri, 30 Aug 2024 17:32:47 +0200
-Subject: [PATCH v2 5/9] drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
+Date: Fri, 30 Aug 2024 17:32:48 +0200
+Subject: [PATCH v2 6/9] drm/msm/A6xx: Use posamble to reset counters on
+ preemption
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240830-preemption-a750-t-v2-5-86aeead2cd80@gmail.com>
+Message-Id: <20240830-preemption-a750-t-v2-6-86aeead2cd80@gmail.com>
 References: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
 In-Reply-To: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -77,11 +78,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Antonino Maniscalco <antomani103@gmail.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725031992; l=3764;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1725031992; l=5369;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=uXlziadan9hJzafa2UxEKSmDxQDugnNERdYxm6GapoY=;
- b=bUnjrq2VlhxQnp/Tzbw2NOJF74x/cBbbPl/wLAphrgZDN5b3n3SihHfkUlZ5W5CbGkAENRw15
- u5bw4qlUuSDCGCfzNnUtD1d3L/0z5vaVKnQ+0wPvTr9XerS8R9vjx6N
+ bh=EiKGi3pOzD93PnaCLs4jgX0bjNxlneKGRkE5Fa5MRdI=;
+ b=jVCxqabafrVccFAojOJcW04or5sVe80w97svEb4yu2ucYytz+6eMOlmI/tbwaJmma8dRMtffr
+ Pqi4RA1gB+yCVnE9rNHrGwK5qpRnTIsluijNGOnYm1Gifb4YmAvam60
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,98 +100,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In mesa CP_SET_CTXSWITCH_IB is renamed to CP_SET_AMBLE and some other
-names are changed to match KGSL. Import those changes.
-
-The changes have not been merged yet in mesa but are necessary for this
-series.
+Use the postamble to reset perf counters when switching between rings,
+except when sysprof is enabled, analogously to how they are reset
+between submissions when switching pagetables.
 
 Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 ---
- .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    | 39 ++++++++++------------
- 1 file changed, 17 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 14 +++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  6 ++++++
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 26 +++++++++++++++++++++++++-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 +++++--
+ 4 files changed, 49 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
-index cab01af55d22..55a35182858c 100644
---- a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
-@@ -581,8 +581,7 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
-                 and forcibly switch to the indicated context.
- 	</doc>
- 	<value name="CP_CONTEXT_SWITCH" value="0x54" variants="A6XX"/>
--	<!-- Note, kgsl calls this CP_SET_AMBLE: -->
--	<value name="CP_SET_CTXSWITCH_IB" value="0x55" variants="A6XX-"/>
-+	<value name="CP_SET_AMBLE" value="0x55" variants="A6XX-"/>
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 1a90db5759b8..3528ecbbc1ab 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -366,7 +366,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+ 		struct a6xx_gpu *a6xx_gpu, struct msm_gpu_submitqueue *queue)
+ {
+-	u64 preempt_offset_priv_secure;
++	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
++	u64 preempt_offset_priv_secure, preempt_postamble;
  
- 	<!--
- 	Seems to always have the payload:
-@@ -2013,42 +2012,38 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
- 	</reg32>
- </domain>
+ 	OUT_PKT7(ring, CP_SET_PSEUDO_REG, 15);
  
--<domain name="CP_SET_CTXSWITCH_IB" width="32">
-+<domain name="CP_SET_AMBLE" width="32">
- 	<doc>
--                Used by the userspace driver to set various IB's which are
--                executed during context save/restore for handling
--                state that isn't restored by the
--                context switch routine itself.
--	</doc>
--	<enum name="ctxswitch_ib">
--		<value name="RESTORE_IB" value="0">
-+                Used by the userspace and kernel drivers to set various IB's
-+                which are executed during context save/restore for handling
-+                state that isn't restored by the context switch routine itself.
-+  </doc>
-+	<enum name="amble_type">
-+		<value name="PREAMBLE_AMBLE_TYPE" value="0">
- 			<doc>Executed unconditionally when switching back to the context.</doc>
- 		</value>
--		<value name="YIELD_RESTORE_IB" value="1">
-+		<value name="BIN_PREAMBLE_AMBLE_TYPE" value="1">
-                         <doc>
- 				Executed when switching back after switching
- 				away during execution of
--				a CP_SET_MARKER packet with RM6_YIELD as the
--				payload *and* the normal save routine was
--				bypassed for a shorter one. I think this is
--				connected to the "skipsaverestore" bit set by
--				the kernel when preempting.
-+				a CP_SET_MARKER packet with RM6_BIN_RENDER_END as the
-+				payload *and* skipsaverestore is set. This is
-+				expected to restore static register values not
-+				saved when skipsaverestore is set.
- 			</doc>
- 		</value>
--		<value name="SAVE_IB" value="2">
-+		<value name="POSTAMBLE_AMBLE_TYPE" value="2">
-                         <doc>
- 				Executed when switching away from the context,
- 				except for context switches initiated via
- 				CP_YIELD.
-                         </doc>
- 		</value>
--		<value name="RB_SAVE_IB" value="3">
-+		<value name="KMD_AMBLE_TYPE" value="3">
- 			<doc>
- 				This can only be set by the RB (i.e. the kernel)
- 				and executes with protected mode off, but
--				is otherwise similar to SAVE_IB.
--
--				Note, kgsl calls this CP_KMD_AMBLE_TYPE
-+				is otherwise similar to POSTAMBLE_AMBLE_TYPE.
- 			</doc>
- 		</value>
- 	</enum>
-@@ -2060,7 +2055,7 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
- 	</reg32>
- 	<reg32 offset="2" name="2">
- 		<bitfield name="DWORDS" low="0" high="19" type="uint"/>
--		<bitfield name="TYPE" low="20" high="21" type="ctxswitch_ib"/>
-+		<bitfield name="TYPE" low="20" high="21" type="amble_type"/>
- 	</reg32>
- </domain>
+@@ -403,6 +404,17 @@ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+ 	/* seems OK to set to 0 to disable it */
+ 	OUT_RING(ring, 0);
+ 	OUT_RING(ring, 0);
++
++	if (!sysprof && a6xx_gpu->preempt_postamble_len) {
++		preempt_postamble = SCRATCH_PREEMPT_POSTAMBLE_IOVA(a6xx_gpu);
++
++		OUT_PKT7(ring, CP_SET_AMBLE, 3);
++		OUT_RING(ring, lower_32_bits(preempt_postamble));
++		OUT_RING(ring, upper_32_bits(preempt_postamble));
++		OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(
++					a6xx_gpu->preempt_postamble_len) |
++				CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
++	}
+ }
  
+ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+index 652e49f01428..2338e36c8f47 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+@@ -66,6 +66,7 @@ struct a6xx_gpu {
+ 	atomic_t preempt_state;
+ 	spinlock_t eval_lock;
+ 	struct timer_list preempt_timer;
++	uint64_t preempt_postamble_len;
+ 
+ 	unsigned int preempt_level;
+ 	bool uses_gmem;
+@@ -99,6 +100,11 @@ struct a6xx_gpu {
+ #define SCRATCH_USER_CTX_IOVA(ring_id, a6xx_gpu) \
+ 	(a6xx_gpu->scratch_iova + (ring_id * sizeof(uint64_t)))
+ 
++#define SCRATCH_PREEMPT_POSTAMBLE_OFFSET (100 * sizeof(u64))
++
++#define SCRATCH_PREEMPT_POSTAMBLE_IOVA(a6xx_gpu) \
++	(a6xx_gpu->scratch_iova + SCRATCH_PREEMPT_POSTAMBLE_OFFSET)
++
+ /*
+  * In order to do lockless preemption we use a simple state machine to progress
+  * through the process.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+index 4b61b993f75f..f586615db97e 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+@@ -351,6 +351,28 @@ static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
+ 	return 0;
+ }
+ 
++static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
++{
++	u32 *postamble = a6xx_gpu->scratch_ptr + SCRATCH_PREEMPT_POSTAMBLE_OFFSET;
++	u32 count = 0;
++
++	postamble[count++] = PKT7(CP_REG_RMW, 3);
++	postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
++	postamble[count++] = 0;
++	postamble[count++] = 1;
++
++	postamble[count++] = PKT7(CP_WAIT_REG_MEM, 6);
++	postamble[count++] = CP_WAIT_REG_MEM_0_FUNCTION(WRITE_EQ);
++	postamble[count++] = CP_WAIT_REG_MEM_1_POLL_ADDR_LO(
++				REG_A6XX_RBBM_PERFCTR_SRAM_INIT_STATUS);
++	postamble[count++] = CP_WAIT_REG_MEM_2_POLL_ADDR_HI(0);
++	postamble[count++] = CP_WAIT_REG_MEM_3_REF(0x1);
++	postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
++	postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
++
++	a6xx_gpu->preempt_postamble_len = count;
++}
++
+ void a6xx_preempt_fini(struct msm_gpu *gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+@@ -382,10 +404,12 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
+ 	a6xx_gpu->skip_save_restore = 1;
+ 
+ 	a6xx_gpu->scratch_ptr  = msm_gem_kernel_new(gpu->dev,
+-			gpu->nr_rings * sizeof(uint64_t), MSM_BO_WC,
++			PAGE_SIZE, MSM_BO_WC,
+ 			gpu->aspace, &a6xx_gpu->scratch_bo,
+ 			&a6xx_gpu->scratch_iova);
+ 
++	preempt_prepare_postamble(a6xx_gpu);
++
+ 	if (IS_ERR(a6xx_gpu->scratch_ptr))
+ 		goto fail;
+ 
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 6b1888280a83..87098567483b 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -610,12 +610,15 @@ OUT_PKT4(struct msm_ringbuffer *ring, uint16_t regindx, uint16_t cnt)
+ 	OUT_RING(ring, PKT4(regindx, cnt));
+ }
+ 
++#define PKT7(opcode, cnt) \
++	(CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) | \
++		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23))
++
+ static inline void
+ OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
+ {
+ 	adreno_wait_ring(ring, cnt + 1);
+-	OUT_RING(ring, CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) |
+-		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23));
++	OUT_RING(ring, PKT7(opcode, cnt));
+ }
+ 
+ struct msm_gpu *a2xx_gpu_init(struct drm_device *dev);
 
 -- 
 2.46.0
