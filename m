@@ -2,136 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6AD965F40
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 12:30:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F7A965F5F
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 12:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A27710EA67;
-	Fri, 30 Aug 2024 10:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE3D10EA54;
+	Fri, 30 Aug 2024 10:37:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fuLWTUD/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hh+DxBog";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SkB7zBlt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WI3+UTho";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Py0ips7W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 998F010EA67;
- Fri, 30 Aug 2024 10:30:37 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2E3D11F7C1;
- Fri, 30 Aug 2024 10:30:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725013836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=k937I8cdtbLPG3kT8iCo5l5pl+cGpAGzmDZsqWVWZO0=;
- b=fuLWTUD/EjH8+QoHAOHp/CgS+86rcCasFit5g3SgPQAqjdUmVuopAJBIpvvDVnuQp5JF3u
- l/Oy2v7+dLjeBMC7kxIwqbL7Mynt/nbek15NdnsMuOb+DlbbRo0gZoulUhrkwjfjp4C77y
- 0v///LGo9OqF3OjRE7mP5N/LFB8OQqQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725013836;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=k937I8cdtbLPG3kT8iCo5l5pl+cGpAGzmDZsqWVWZO0=;
- b=Hh+DxBogUv2WcU+Rt/JydNfnKNM1luSYod5FQtnsKNaRJ4QoA+4IDv/xRLBebahPdUL1+e
- qDoPzYxp2TNCRVAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725013835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=k937I8cdtbLPG3kT8iCo5l5pl+cGpAGzmDZsqWVWZO0=;
- b=SkB7zBlt4z4gcoYUB5ZR11bEtOwerIAqQ78hfLbTnnzN/xXgrnOxQ/1AWllLLT+8jFQpqs
- dnnHr95iju4y9B1i/TgCnOXIvV6RTQlcCX1LZHt5dERCFiRiCUbE5GqCV6OjfECO0W/1+1
- mxTFqo1Rr+03naWwfMygGrhn4sMAxWw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725013835;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=k937I8cdtbLPG3kT8iCo5l5pl+cGpAGzmDZsqWVWZO0=;
- b=WI3+UThoegsfIN+lBvSyHIQPIl7SBprNl9Mg2A2Cg9uDOVDGEF401p/LzRLRu54JmwHLPo
- 4QT5nDeIUSIYpwDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D83AC13A3D;
- Fri, 30 Aug 2024 10:30:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id bFp3M0qf0WYsHgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 30 Aug 2024 10:30:34 +0000
-Message-ID: <55274d81-d96c-47e7-a200-41636ffe1067@suse.de>
-Date: Fri, 30 Aug 2024 12:30:34 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7351E10EA54
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 10:37:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 15A1DCE1D4F;
+ Fri, 30 Aug 2024 10:37:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5338C4CEC2;
+ Fri, 30 Aug 2024 10:37:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1725014253;
+ bh=VPvO31lmUMG/jnZ10zokpAaBvRW0Ik0m31xLh8QZ42U=;
+ h=Subject:To:Cc:From:Date:From;
+ b=Py0ips7WKsY1WKepKM0MC2rM6CiryN0wKufPT0zYbiRka7IdJtQzsOucnYXYcyjXe
+ ZBbyyuJ5JmGmIXnnd4H/ctno0C9Bkquvp9rMfXt+3B4UKxpgshMyxFdAUijK53OoxA
+ sM9JvWQn+0+/BxArCX4slM7/ilud3V5UlxhDj+70=
+Subject: Patch "drm/vmwgfx: Fix prime with external buffers" has been added to
+ the 6.10-stable tree
+To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, maaz.mombasawala@broadcom.com,
+ martin.krastev@broadcom.com, zack.rusin@broadcom.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Fri, 30 Aug 2024 12:37:08 +0200
+Message-ID: <2024083008-cornbread-detergent-b057@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/81] drm: Add client-agnostic setup helper
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20240830084456.77630-1-tzimmermann@suse.de>
- <20240830084456.77630-5-tzimmermann@suse.de>
- <6c78eb72-c555-1fa8-18f9-c1e671a8b12@linux-m68k.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <6c78eb72-c555-1fa8-18f9-c1e671a8b12@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCPT_COUNT_SEVEN(0.00)[11]; RCVD_TLS_ALL(0.00)[];
- ARC_NA(0.00)[]; TAGGED_RCPT(0.00)[renesas];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,redhat.com,lists.freedesktop.org,ideasonboard.com];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email, linux-m68k.org:email,
- imap1.dmz-prg2.suse.org:helo, suse.de:mid, suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,136 +56,285 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 30.08.24 um 11:45 schrieb Geert Uytterhoeven:
->     Hi Thomas,
->
-> On Fri, 30 Aug 2024, Thomas Zimmermann wrote:
->> DRM may support multiple in-kernel clients that run as soon as a DRM
->> driver has been registered. To select the client(s) in a single place,
->> introduce drm_client_setup().
->>
->> Drivers that call the new helper automatically instantiate the kernel's
->> configured default clients. Only fbdev emulation is currently supported.
->> Later versions can add support for DRM-based logging, a boot logo or 
->> even
->> a console.
->>
->> Some drivers handle the color mode for clients internally. Provide the
->> helper drm_client_setup_with_color_mode() for them.
->>
->> v3:
->> - fix build error
->> v2:
->> - add drm_client_setup_with_fourcc() (Laurent)
->> - push default-format handling into actual clients
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reviewed-by: Laurent Pinchart 
->> <laurent.pinchart+renesas@ideasonboard.com>
->
-> Thanks for your patch!
->
->> --- /dev/null
->> +++ b/drivers/gpu/drm/drm_client_setup.c
->
->> +/**
->> + * drm_client_setup_with_fourcc() - Setup in-kernel DRM clients for 
->> color mode
->> + * @dev: DRM device
->> + * @fourcc: Preferred pixel format as 4CC code for the device
->> + *
->> + * This function sets up the in-kernel DRM clients. It is equivalent
->> + * to drm_client_setup(), but expects a 4CC code as second argument.
->> + *
->> + * Do not use this function in new drivers. Prefer 
->> drm_client_setup() with a
->> + * format of NULL.
->
-> Why? To me this looks like the right function to call on hardware
-> that does not support ARGB8888 natively.
+This is a note to let you know that I've just added the patch titled
 
-Sorry, that needs to be fixed. the _fourcc() helper is ok-ish.
+    drm/vmwgfx: Fix prime with external buffers
 
-Ideally, the client would select the format automatically. It could also 
-look at the preferred_depth in struct drm_mode_config. But some drivers 
-still want a different format for fbdev emulation. See the _fourcc() 
-helper as a fallback for this scenario.
+to the 6.10-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
->
-> BTW, once this series is applied, I plan to check again how to wire up
-> native fbcon support for monochrome (DRM_FORMAT_R1) and grayscale
-> (DRM_FORMAT_R8), as used by the Solomon driver.
+The filename of the patch is:
+     drm-vmwgfx-fix-prime-with-external-buffers.patch
+and it can be found in the queue-6.10 subdirectory.
 
-The internals of fbdev emulation still use a color-mode value (see 
-drm_fbdev_client_setup()). This would require fixing first. It's 
-probably not hard.
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-I know that you've been waiting for the format parameter for some time. 
-We're getting there. :)
 
-Best regards
-Thomas
+From 50f1199250912568606b3778dc56646c10cb7b04 Mon Sep 17 00:00:00 2001
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Fri, 16 Aug 2024 14:32:06 -0400
+Subject: drm/vmwgfx: Fix prime with external buffers
 
->
->> + */
->> +void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
->> +{
->> +    drm_client_setup(dev, drm_format_info(fourcc));
->> +}
->> +EXPORT_SYMBOL(drm_client_setup_with_fourcc);
->> +
->> +/**
->> + * drm_client_setup_with_color_mode() - Setup in-kernel DRM clients 
->> for color mode
->> + * @dev: DRM device
->> + * @color_mode: Preferred color mode for the device
->> + *
->> + * This function sets up the in-kernel DRM clients. It is equivalent
->> + * to drm_client_setup(), but expects a color mode as second argument.
->> + *
->> + * Do not use this function in new drivers. Prefer 
->> drm_client_setup() with a
->
->
-> Yeah, this is definitely not to be used in new drivers, as color_mode is
-> ambiguous.
->
->> + * format of NULL.
->
-> or drm_client_setup_with_fourcc().
->
->> + */
->> +void drm_client_setup_with_color_mode(struct drm_device *dev, 
->> unsigned int color_mode)
->> +{
->> +    u32 fourcc = drm_driver_color_mode_format(dev, color_mode);
->> +
->> +    drm_client_setup_with_fourcc(dev, fourcc);
->> +}
->> +EXPORT_SYMBOL(drm_client_setup_with_color_mode);
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- 
-> geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a 
-> hacker. But
-> when I'm talking to journalists I just say "programmer" or something 
-> like that.
->                                 -- Linus Torvalds
+From: Zack Rusin <zack.rusin@broadcom.com>
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+commit 50f1199250912568606b3778dc56646c10cb7b04 upstream.
 
+Make sure that for external buffers mapping goes through the dma_buf
+interface instead of trying to access pages directly.
+
+External buffers might not provide direct access to readable/writable
+pages so to make sure the bo's created from external dma_bufs can be
+read dma_buf interface has to be used.
+
+Fixes crashes in IGT's kms_prime with vgem. Regular desktop usage won't
+trigger this due to the fact that virtual machines will not have
+multiple GPUs but it enables better test coverage in IGT.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: b32233acceff ("drm/vmwgfx: Fix prime import/export")
+Cc: <stable@vger.kernel.org> # v6.6+
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.9+
+Link: https://patchwork.freedesktop.org/patch/msgid/20240816183332.31961-3-zack.rusin@broadcom.com
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c |  114 +++++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  |    4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   12 +--
+ 3 files changed, 118 insertions(+), 12 deletions(-)
+
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+@@ -27,6 +27,8 @@
+  **************************************************************************/
+ 
+ #include "vmwgfx_drv.h"
++
++#include "vmwgfx_bo.h"
+ #include <linux/highmem.h>
+ 
+ /*
+@@ -420,13 +422,105 @@ static int vmw_bo_cpu_blit_line(struct v
+ 	return 0;
+ }
+ 
++static void *map_external(struct vmw_bo *bo, struct iosys_map *map)
++{
++	struct vmw_private *vmw =
++		container_of(bo->tbo.bdev, struct vmw_private, bdev);
++	void *ptr = NULL;
++	int ret;
++
++	if (bo->tbo.base.import_attach) {
++		ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
++		if (ret) {
++			drm_dbg_driver(&vmw->drm,
++				       "Wasn't able to map external bo!\n");
++			goto out;
++		}
++		ptr = map->vaddr;
++	} else {
++		ptr = vmw_bo_map_and_cache(bo);
++	}
++
++out:
++	return ptr;
++}
++
++static void unmap_external(struct vmw_bo *bo, struct iosys_map *map)
++{
++	if (bo->tbo.base.import_attach)
++		dma_buf_vunmap(bo->tbo.base.dma_buf, map);
++	else
++		vmw_bo_unmap(bo);
++}
++
++static int vmw_external_bo_copy(struct vmw_bo *dst, u32 dst_offset,
++				u32 dst_stride, struct vmw_bo *src,
++				u32 src_offset, u32 src_stride,
++				u32 width_in_bytes, u32 height,
++				struct vmw_diff_cpy *diff)
++{
++	struct vmw_private *vmw =
++		container_of(dst->tbo.bdev, struct vmw_private, bdev);
++	size_t dst_size = dst->tbo.resource->size;
++	size_t src_size = src->tbo.resource->size;
++	struct iosys_map dst_map = {0};
++	struct iosys_map src_map = {0};
++	int ret, i;
++	int x_in_bytes;
++	u8 *vsrc;
++	u8 *vdst;
++
++	vsrc = map_external(src, &src_map);
++	if (!vsrc) {
++		drm_dbg_driver(&vmw->drm, "Wasn't able to map src\n");
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	vdst = map_external(dst, &dst_map);
++	if (!vdst) {
++		drm_dbg_driver(&vmw->drm, "Wasn't able to map dst\n");
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	vsrc += src_offset;
++	vdst += dst_offset;
++	if (src_stride == dst_stride) {
++		dst_size -= dst_offset;
++		src_size -= src_offset;
++		memcpy(vdst, vsrc,
++		       min(dst_stride * height, min(dst_size, src_size)));
++	} else {
++		WARN_ON(dst_stride < width_in_bytes);
++		for (i = 0; i < height; ++i) {
++			memcpy(vdst, vsrc, width_in_bytes);
++			vsrc += src_stride;
++			vdst += dst_stride;
++		}
++	}
++
++	x_in_bytes = (dst_offset % dst_stride);
++	diff->rect.x1 =  x_in_bytes / diff->cpp;
++	diff->rect.y1 = ((dst_offset - x_in_bytes) / dst_stride);
++	diff->rect.x2 = diff->rect.x1 + width_in_bytes / diff->cpp;
++	diff->rect.y2 = diff->rect.y1 + height;
++
++	ret = 0;
++out:
++	unmap_external(src, &src_map);
++	unmap_external(dst, &dst_map);
++
++	return ret;
++}
++
+ /**
+  * vmw_bo_cpu_blit - in-kernel cpu blit.
+  *
+- * @dst: Destination buffer object.
++ * @vmw_dst: Destination buffer object.
+  * @dst_offset: Destination offset of blit start in bytes.
+  * @dst_stride: Destination stride in bytes.
+- * @src: Source buffer object.
++ * @vmw_src: Source buffer object.
+  * @src_offset: Source offset of blit start in bytes.
+  * @src_stride: Source stride in bytes.
+  * @w: Width of blit.
+@@ -444,13 +538,15 @@ static int vmw_bo_cpu_blit_line(struct v
+  * Neither of the buffer objects may be placed in PCI memory
+  * (Fixed memory in TTM terminology) when using this function.
+  */
+-int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
++int vmw_bo_cpu_blit(struct vmw_bo *vmw_dst,
+ 		    u32 dst_offset, u32 dst_stride,
+-		    struct ttm_buffer_object *src,
++		    struct vmw_bo *vmw_src,
+ 		    u32 src_offset, u32 src_stride,
+ 		    u32 w, u32 h,
+ 		    struct vmw_diff_cpy *diff)
+ {
++	struct ttm_buffer_object *src = &vmw_src->tbo;
++	struct ttm_buffer_object *dst = &vmw_dst->tbo;
+ 	struct ttm_operation_ctx ctx = {
+ 		.interruptible = false,
+ 		.no_wait_gpu = false
+@@ -460,6 +556,11 @@ int vmw_bo_cpu_blit(struct ttm_buffer_ob
+ 	int ret = 0;
+ 	struct page **dst_pages = NULL;
+ 	struct page **src_pages = NULL;
++	bool src_external = (src->ttm->page_flags & TTM_TT_FLAG_EXTERNAL) != 0;
++	bool dst_external = (dst->ttm->page_flags & TTM_TT_FLAG_EXTERNAL) != 0;
++
++	if (WARN_ON(dst == src))
++		return -EINVAL;
+ 
+ 	/* Buffer objects need to be either pinned or reserved: */
+ 	if (!(dst->pin_count))
+@@ -479,6 +580,11 @@ int vmw_bo_cpu_blit(struct ttm_buffer_ob
+ 			return ret;
+ 	}
+ 
++	if (src_external || dst_external)
++		return vmw_external_bo_copy(vmw_dst, dst_offset, dst_stride,
++					    vmw_src, src_offset, src_stride,
++					    w, h, diff);
++
+ 	if (!src->ttm->pages && src->ttm->sg) {
+ 		src_pages = kvmalloc_array(src->ttm->num_pages,
+ 					   sizeof(struct page *), GFP_KERNEL);
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -1353,9 +1353,9 @@ void vmw_diff_memcpy(struct vmw_diff_cpy
+ 
+ void vmw_memcpy(struct vmw_diff_cpy *diff, u8 *dest, const u8 *src, size_t n);
+ 
+-int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
++int vmw_bo_cpu_blit(struct vmw_bo *dst,
+ 		    u32 dst_offset, u32 dst_stride,
+-		    struct ttm_buffer_object *src,
++		    struct vmw_bo *src,
+ 		    u32 src_offset, u32 src_stride,
+ 		    u32 w, u32 h,
+ 		    struct vmw_diff_cpy *diff);
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -502,7 +502,7 @@ static void vmw_stdu_bo_cpu_commit(struc
+ 		container_of(dirty->unit, typeof(*stdu), base);
+ 	s32 width, height;
+ 	s32 src_pitch, dst_pitch;
+-	struct ttm_buffer_object *src_bo, *dst_bo;
++	struct vmw_bo *src_bo, *dst_bo;
+ 	u32 src_offset, dst_offset;
+ 	struct vmw_diff_cpy diff = VMW_CPU_BLIT_DIFF_INITIALIZER(stdu->cpp);
+ 
+@@ -517,11 +517,11 @@ static void vmw_stdu_bo_cpu_commit(struc
+ 
+ 	/* Assume we are blitting from Guest (bo) to Host (display_srf) */
+ 	src_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
+-	src_bo = &stdu->display_srf->res.guest_memory_bo->tbo;
++	src_bo = stdu->display_srf->res.guest_memory_bo;
+ 	src_offset = ddirty->top * src_pitch + ddirty->left * stdu->cpp;
+ 
+ 	dst_pitch = ddirty->pitch;
+-	dst_bo = &ddirty->buf->tbo;
++	dst_bo = ddirty->buf;
+ 	dst_offset = ddirty->fb_top * dst_pitch + ddirty->fb_left * stdu->cpp;
+ 
+ 	(void) vmw_bo_cpu_blit(dst_bo, dst_offset, dst_pitch,
+@@ -1170,7 +1170,7 @@ vmw_stdu_bo_populate_update_cpu(struct v
+ 	struct vmw_diff_cpy diff = VMW_CPU_BLIT_DIFF_INITIALIZER(0);
+ 	struct vmw_stdu_update_gb_image *cmd_img = cmd;
+ 	struct vmw_stdu_update *cmd_update;
+-	struct ttm_buffer_object *src_bo, *dst_bo;
++	struct vmw_bo *src_bo, *dst_bo;
+ 	u32 src_offset, dst_offset;
+ 	s32 src_pitch, dst_pitch;
+ 	s32 width, height;
+@@ -1184,11 +1184,11 @@ vmw_stdu_bo_populate_update_cpu(struct v
+ 
+ 	diff.cpp = stdu->cpp;
+ 
+-	dst_bo = &stdu->display_srf->res.guest_memory_bo->tbo;
++	dst_bo = stdu->display_srf->res.guest_memory_bo;
+ 	dst_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
+ 	dst_offset = bb->y1 * dst_pitch + bb->x1 * stdu->cpp;
+ 
+-	src_bo = &vfbbo->buffer->tbo;
++	src_bo = vfbbo->buffer;
+ 	src_pitch = update->vfb->base.pitches[0];
+ 	src_offset = bo_update->fb_top * src_pitch + bo_update->fb_left *
+ 		stdu->cpp;
+
+
+Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
+
+queue-6.10/drm-vmwgfx-prevent-unmapping-active-read-buffers.patch
+queue-6.10/drm-vmwgfx-disable-coherent-dumb-buffers-without-3d.patch
+queue-6.10/drm-vmwgfx-fix-prime-with-external-buffers.patch
