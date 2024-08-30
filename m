@@ -2,81 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA24965CEF
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 11:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E51965CFE
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 11:33:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83EE910EA2D;
-	Fri, 30 Aug 2024 09:32:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5064310E9CF;
+	Fri, 30 Aug 2024 09:33:56 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="N15azCqY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E24F10EA26;
- Fri, 30 Aug 2024 09:32:23 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-6cdae28014dso13269467b3.1; 
- Fri, 30 Aug 2024 02:32:23 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0A0F10E9CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 09:33:54 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-5334879ba28so2179952e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 02:33:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1725010433; x=1725615233; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uBi99OhODTsy2YN6E/2v+2p0d/VBJVM6cM05LOFNmCY=;
+ b=N15azCqYacVskhByYZf4MVD9KbURk8XMhfoD8p+6NAp5p3KotrylaNWFxyk6Xg+JO+
+ DU90OXRlKrA8hPJz5wHpEb7lvSfweo+v+95azsljZRRBzqf+40yYU4IE//xGmLDLHnEJ
+ vwbxhLD5M1CdoWhxRwbmpFlAEjx7B+tjX4s3f8IpxZtW1nq7ekoHh7pKLoB7sNz7HmB9
+ PG6wM9SsjMuorHpI8Z3p4Uf3hXrzfi1fNkei65S5ubBZ7oFrUBuZDQTzsieW4ngJYL0U
+ dzv26mEwz1Ve+kYuAe3wujqrANWAuH7Wze30uOSWAMTTJyHmgZfMKAbauc9YbJ0nitA9
+ QHIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725010342; x=1725615142;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=imgxU4L4plsaBKuyDZ4ep2KNsaM/vp5qwWwnJwPwFlI=;
- b=gLPFR45Wq7Mp/X24mr/hC6114tsOGkjdTeOHyLWkek1sVFE2HvClNezZMKvUYx3WxL
- wqBJi0LOkrWNAz/dg1DBoWthnbWH3fw5Endtlf+tkkIS44GHXOVkqJlBoWE7RIeiJXzk
- JeSuDuccuov1jViifS0aDeIwdTjBNLNNdfHlP2A57NbIES8ePHWZwXtX/143W6nXvJN6
- CotEwOZzVJ65Mv5Nv3j/VWhJS6z5KoC6UBfVwNP0k5OPg6FfO84dzNYDOuCOOg4Qazuw
- fnT2NKWY9U0vbeEi/XtOw+7Z4KmiA5aJJTZQVmXXGYPDy3AvuCPYJhdwP8Oahsb+yLoS
- iwUw==
+ d=1e100.net; s=20230601; t=1725010433; x=1725615233;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uBi99OhODTsy2YN6E/2v+2p0d/VBJVM6cM05LOFNmCY=;
+ b=DJoJPmRZM1h3+F69Qq5Lru4KIFzUDsMAR35wEMY7ruiR6lOpveRQj35JHyUchyQ82X
+ vktoPEoMv0qLRbgscTUeB0TawhtRAtYkAwD8U/0IRcgZRfudeEP45tvxx9oypmVedYz4
+ PslKe7gUEhFoB83j7skJ9gEpaY3UfJo76AhYp9MzkL9dIZrBRVqvZJhBhC/hu48rbjVg
+ oJ+tKRpkc+bi9EWWnkoTO2Gu3M2Cvid+BZ4d4xU+h4EmOJ7iYYwM7VaKCP/yBMhiecby
+ v8vYsTlms/lOUBBwKAV2MiNf/34khAUXjXphxvLTC38n3NrsoVoiMa00DpHnQ8yK5yU+
+ dWmw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6AZj7l9JCotS+mBPN/sRbcqKhaNG7/UxJiggyg3GokGFbFOB8r9dfcxxh/iYMkcaqExa/D9oK@lists.freedesktop.org,
- AJvYcCUC3EgByBhTJZ2fUlGeZjgIDlDoOonVXQMCdEKb4Nf6Why9a1MGFCFVqeddr+X3ebBoPvzhOOg3T/k=@lists.freedesktop.org,
- AJvYcCVEA519tq/mZadl9jj+rJ7iiLN3xvCNVRdEOIWjMb1l2h7y/AW14odRhWYpAUylDjPna7AKE/lwigWg@lists.freedesktop.org,
- AJvYcCVWiUfSes7ikIfFxZj/JS7KsC5woC+MbbSr9zi6BQVaWkxmdEBMvq3/wy95Ql7Lm3ZtULKPpk7oYMBd@lists.freedesktop.org,
- AJvYcCVykGZem4Krdl1isnqu2pzGzrcHnvP/44s90b6ezvR+Rc6AJE1erDPFnqGE3RFYPf90l7BrM53iKw==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVJY0kQDEsbcabC4vka8MJJavH/GBdZNhCu2R81a3n6KMMKpKE
- XA634TDpDjfPFLyj6Jv4pY1jgkZ1u3hzhjAvUVP5t2B8GEUrJE7qkSy6I/d0
-X-Google-Smtp-Source: AGHT+IHohzc96UO0uZxouFSNhd5eE7y0Vn9MKDyBhB6QmeM+ANwUHtYjtXDZBWkPhKbEChtjTYb8YQ==
-X-Received: by 2002:a05:690c:6a03:b0:622:c892:6ae7 with SMTP id
- 00721157ae682-6d285c15418mr46016007b3.12.1725010341960; 
- Fri, 30 Aug 2024 02:32:21 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-6d2d3abe246sm5668037b3.1.2024.08.30.02.32.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Aug 2024 02:32:21 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-6b3afc6cd01so21079687b3.1; 
- Fri, 30 Aug 2024 02:32:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVD2ca9h3Uctx871el7/YN+O6Jc6k234aUMc9OvWs5x+zI6zfIH7955gFw8eUahvcDNBA4kJ9f+jg==@lists.freedesktop.org,
- AJvYcCVbPZP17Q1ryKpmPUpgVknRm6Q48U0T5/RpQTeFFkOXjG8Q4alxyhtehYWfwEG0efE5toltgpH4hV0=@lists.freedesktop.org,
- AJvYcCWVQCNWr4kLN7GUN1yfecby0K+a460eVyBcd14H91uHBn5STDlWitOShT0upDh0eF4E9BNTqkAyuAcA@lists.freedesktop.org,
- AJvYcCX2/hblPf4FjccV/65JsF1FWAAd2qbbg18zhBVU9ouly9VWSd1tWqOInpWLaIR71ngrugHxtQku@lists.freedesktop.org,
- AJvYcCX3ENGsQeVnkl6Hp7+0QtmSU715oFsxoYxzIuYCCj6FDmcbYmwxaM622evNtdKWhOjw4wpd0sn/JjFA@lists.freedesktop.org
-X-Received: by 2002:a05:690c:3704:b0:61a:e979:427e with SMTP id
- 00721157ae682-6d285c0e968mr48290357b3.11.1725010341431; Fri, 30 Aug 2024
- 02:32:21 -0700 (PDT)
+ AJvYcCVl492jXRsAmqRsd0GnmZ8TFXxQZq2F+CH8lS3eIdfcIJnRVGgG7B93IwLihB2jZ7YnB8xHR5EDWQA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyr3jt2AJOSi5n7Rs/8KlLKHvu4S0+w01RV2/kzRAPPX4EeGLTt
+ J4xIOVZ2nk1pC2Fief7rU3GaDu3sfcrySfrdrY1yKdo3M2W0ChxSkkJ0Vz/bGBQ=
+X-Google-Smtp-Source: AGHT+IGHbbYDZwkl7ZaorUFMYTjjoiX5UwxQALXcLi2GUsuuwZ69P46OC0UsVz+iINGN//licHQ0Kg==
+X-Received: by 2002:a05:6512:3d8e:b0:52c:ebd0:609 with SMTP id
+ 2adb3069b0e04-53546afa09dmr1172184e87.7.1725010432349; 
+ Fri, 30 Aug 2024 02:33:52 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5354084e00asm511398e87.271.2024.08.30.02.33.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Aug 2024 02:33:51 -0700 (PDT)
+Date: Fri, 30 Aug 2024 12:33:50 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, 
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de, 
+ stable <stable@kernel.org>
+Subject: Re: [PATCH v1 3/3] misc: fastrpc: Skip reference for DMA handles
+Message-ID: <7q7rar7ssvzlkol46e5e4yecgt6n4b4oqueam4ywlxjeasx2dl@oydthy337t6i>
+References: <20240822105933.2644945-1-quic_ekangupt@quicinc.com>
+ <20240822105933.2644945-4-quic_ekangupt@quicinc.com>
 MIME-Version: 1.0
-References: <20240830084456.77630-1-tzimmermann@suse.de>
- <20240830084456.77630-37-tzimmermann@suse.de>
-In-Reply-To: <20240830084456.77630-37-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 30 Aug 2024 11:32:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX5cgqOH-X6CZPykPCjKCTg0uVqWQjHozb0Xqy7h5yiBg@mail.gmail.com>
-Message-ID: <CAMuHMdX5cgqOH-X6CZPykPCjKCTg0uVqWQjHozb0Xqy7h5yiBg@mail.gmail.com>
-Subject: Re: [PATCH v3 36/81] drm/renesas/shmobile: Run DRM default client
- setup
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, 
- javierm@redhat.com, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240822105933.2644945-4-quic_ekangupt@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,33 +87,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 30, 2024 at 10:45=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
-e.de> wrote:
-> Call drm_client_setup_with_fourcc() to run the kernel's default client
-> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
-> setup can start the common fbdev client.
->
-> v2:
-> - use drm_client_setup_with_fourcc()
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Thu, Aug 22, 2024 at 04:29:33PM GMT, Ekansh Gupta wrote:
+> If multiple dma handles are passed with same fd over a remote call
+> the kernel driver takes a reference and expects that put for the
+> map will be called as many times to free the map.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> But DSP only
+> updates the fd one time in the fd list when the DSP refcount
+> goes to zero
 
-Gr{oetje,eeting}s,
+I'm sorry, I couldn't understand this phrase. Could you plese clarify
+what do you mean here?
 
-                        Geert
+> and hence kernel make put call only once for the
+> fd. This can cause SMMU fault issue as the same fd can be used
+> in future for some other call.
+> 
+> Fixes: 35a82b87135d ("misc: fastrpc: Add dma handle implementation")
+> Cc: stable <stable@kernel.org>
+> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+> ---
+>  drivers/misc/fastrpc.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index ebe828770a8d..ad56e918e1f8 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -755,7 +755,7 @@ static const struct dma_buf_ops fastrpc_dma_buf_ops = {
+>  
+>  static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
+>  				u64 va, u64 len, u32 attr,
+> -				struct fastrpc_map **ppmap)
+> +				struct fastrpc_map **ppmap, bool take_ref)
+>  {
+>  	struct fastrpc_session_ctx *sess = fl->sctx;
+>  	struct fastrpc_map *map = NULL;
+> @@ -763,7 +763,7 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
+>  	struct scatterlist *sgl = NULL;
+>  	int err = 0, sgl_index = 0;
+>  
+> -	if (!fastrpc_map_lookup(fl, fd, va, len, ppmap, true))
+> +	if (!fastrpc_map_lookup(fl, fd, va, len, ppmap, take_ref))
+>  		return 0;
+>  
+>  	map = kzalloc(sizeof(*map), GFP_KERNEL);
+> @@ -917,14 +917,17 @@ static int fastrpc_create_maps(struct fastrpc_invoke_ctx *ctx)
+>  	int i, err;
+>  
+>  	for (i = 0; i < ctx->nscalars; ++i) {
+> +		bool take_ref = true;
+>  
+>  		if (ctx->args[i].fd == 0 || ctx->args[i].fd == -1 ||
+>  		    ctx->args[i].length == 0)
+>  			continue;
+>  
+> +		if (i >= ctx->nbufs)
+> +			take_ref = false;
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Please clarify too.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+>  		err = fastrpc_map_create(ctx->fl, ctx->args[i].fd,
+>  				(u64)ctx->args[i].ptr, ctx->args[i].length,
+> -				ctx->args[i].attr, &ctx->maps[i]);
+> +				ctx->args[i].attr, &ctx->maps[i], take_ref);
+>  		if (err) {
+>  			dev_err(dev, "Error Creating map %d\n", err);
+>  			return -EINVAL;
+> @@ -1417,7 +1420,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+>  
+>  	if (init.filelen && init.filefd) {
+>  		err = fastrpc_map_create(fl, init.filefd, init.file,
+> -				init.filelen, 0, &map);
+> +				init.filelen, 0, &map, true);
+>  		if (err)
+>  			goto err;
+>  	}
+> @@ -2040,7 +2043,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
+>  
+>  	/* create SMMU mapping */
+>  	err = fastrpc_map_create(fl, req.fd, req.vaddrin, req.length,
+> -			0, &map);
+> +			0, &map, true);
+>  	if (err) {
+>  		dev_err(dev, "failed to map buffer, fd = %d\n", req.fd);
+>  		return err;
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
