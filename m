@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77D9965827
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B52965823
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:15:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BA410E827;
-	Fri, 30 Aug 2024 07:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC54410E823;
+	Fri, 30 Aug 2024 07:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB8310E0D3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 01:14:06 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.252])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Ww0RD4XbVzQqks;
- Fri, 30 Aug 2024 09:09:12 +0800 (CST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054A810E0B7;
+ Fri, 30 Aug 2024 01:14:06 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ww0XD4kZ9zyR6Q;
+ Fri, 30 Aug 2024 09:13:32 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
- by mail.maildlp.com (Postfix) with ESMTPS id 2FDCB1800C4;
+ by mail.maildlp.com (Postfix) with ESMTPS id BC85D140202;
  Fri, 30 Aug 2024 09:14:04 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Fri, 30 Aug
- 2024 09:14:03 +0800
+ 2024 09:14:04 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
@@ -31,9 +31,9 @@ To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <Jesse.Zhang@amd.com>
 CC: <lizetao1@huawei.com>, <amd-gfx@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH -next 1/3] drm/amd: use clamp() in amdgpu_pll_get_fb_ref_div()
-Date: Fri, 30 Aug 2024 09:22:14 +0800
-Message-ID: <20240830012216.603623-2-lizetao1@huawei.com>
+Subject: [PATCH -next 2/3] drm/amdgpu: use clamp() in amdgpu_vm_adjust_size()
+Date: Fri, 30 Aug 2024 09:22:15 +0800
+Message-ID: <20240830012216.603623-3-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240830012216.603623-1-lizetao1@huawei.com>
 References: <20240830012216.603623-1-lizetao1@huawei.com>
@@ -64,22 +64,22 @@ makes the code easier to understand than min(max()).
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
-index 0bb2466d539a..675aa138ea11 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
-@@ -94,7 +94,7 @@ static void amdgpu_pll_get_fb_ref_div(struct amdgpu_device *adev, unsigned int n
- 		ref_div_max = min(128 / post_div, ref_div_max);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index e20d19ae01b2..40f9a5d4f3c0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2224,7 +2224,7 @@ void amdgpu_vm_adjust_size(struct amdgpu_device *adev, uint32_t min_vm_size,
+ 		phys_ram_gb = ((uint64_t)si.totalram * si.mem_unit +
+ 			       (1 << 30) - 1) >> 30;
+ 		vm_size = roundup_pow_of_two(
+-			min(max(phys_ram_gb * 3, min_vm_size), max_size));
++			clamp(phys_ram_gb * 3, min_vm_size, max_size));
+ 	}
  
- 	/* get matching reference and feedback divider */
--	*ref_div = min(max(DIV_ROUND_CLOSEST(den, post_div), 1u), ref_div_max);
-+	*ref_div = clamp(DIV_ROUND_CLOSEST(den, post_div), 1u, ref_div_max);
- 	*fb_div = DIV_ROUND_CLOSEST(nom * *ref_div * post_div, den);
- 
- 	/* limit fb divider to its maximum */
+ 	adev->vm_manager.max_pfn = (uint64_t)vm_size << 18;
 -- 
 2.34.1
 
