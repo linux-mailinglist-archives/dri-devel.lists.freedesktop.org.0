@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8724F966897
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 20:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DDD9668DC
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 20:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51B710EAC5;
-	Fri, 30 Aug 2024 18:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE77210E029;
+	Fri, 30 Aug 2024 18:24:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ndVDx+w8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ga6V1Z/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0936010EAC5;
- Fri, 30 Aug 2024 18:01:38 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id
- d75a77b69052e-45680233930so12158611cf.3; 
- Fri, 30 Aug 2024 11:01:37 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43B7110E029;
+ Fri, 30 Aug 2024 18:24:14 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-45680233930so12296881cf.3; 
+ Fri, 30 Aug 2024 11:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725040897; x=1725645697; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725042253; x=1725647053; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HLvYg5qPZOuBa2bLwjdlcUDAONbv8N/Y0QijdwRkes4=;
- b=ndVDx+w89MqQoTO2E5Kwe5sQSo0PlcseBz/awqVwXtZBPCEpzOUmQhRjfuQ0eYNdd4
- qm9bEBIR79hndoNduMD82CPt/bBE1XMrTD81/UtySARXULCAiVGVQI+9Trwg9YFLUUhH
- OJXbh94eQ8PyE1Hi3oJwVIw0kDpmJ8zODLWIwX/TIIiEP9bjwqGLc6LHecc5CvzuR+nW
- P9PWFxDbxgX5pcZZYY8BdNuRxZbe4gimTZ5SXzHl+QXudIBZgE2548RbJQGMO8V7rSMn
- MNE/RvInb2EtKAKXEGo1UFaterQUi63CSa7ZWtwQBpTYpFjYge9kpHr7+JWKWJZCOGvt
- aePw==
+ bh=KPZxBSRso5pE3AEFn4SdS9B50SQjBiwX3ZtiCsZD6C0=;
+ b=Ga6V1Z/P35UQQlngNqTT75iKf1Fe9XEYc1qpLq6LHIj7XtfEnGYbWwk0PRwsjJAZNN
+ K3cYQdFO943L89RhvFSvf+JFx7cfrjAFTHr2i7x4Hx+1GBaE+G01Z11K/s5tPrvuAM5C
+ KOPYqM7if8KVwRPraqyHpibjWKLSAipEzhMR912d+eYU8aI0x3TQYNxDkaW2wTEeFpVI
+ zgYDdviqHnvlLPafKO8ah9G2q14pNrmbOZ/yCfLQ8OeqhiCCUZy087WqlU2xIKnvQizi
+ iFGotju7kuXZVnryO5dTr8TdLu091uoVwGSPwDIKoOSIiPljoVJmla5Fc1yRFj+A2abG
+ htQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725040897; x=1725645697;
+ d=1e100.net; s=20230601; t=1725042253; x=1725647053;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HLvYg5qPZOuBa2bLwjdlcUDAONbv8N/Y0QijdwRkes4=;
- b=frEbmqZWvjFf/LJ1k1iDkkx9GBhDcuiyFQCk1H/9x79MdR76e72pad5jxW1WoMjUQw
- 97GOrUGXEwKAm5VE/YhrgBJqV4OCDKx748VI/Bl13O5fgbxImvMOwdqqEm9VTEwjrXlN
- rq5O6pHkMcEOIelQW/nxYX7Jxbnb+rv4AjdJc69B+ySp0B2eqyvg+K9qogM6hobOqew4
- 6WPyu6aYjuGoJqELVkKTsABUSPMnMpp3+30LIx0oi8u1koxhF9Utf70o0TsEEjY0Vjj/
- f+GWvoRTB2hY3wBCO6hsplgbWI4YZ+HX2ST/1nhIq9+uZgvXQ1dzSRLd1G+MD2y8ODZG
- gppQ==
+ bh=KPZxBSRso5pE3AEFn4SdS9B50SQjBiwX3ZtiCsZD6C0=;
+ b=WroBLkHxZ67G25lgRBv0X98kem6eItiNEprKMJpxbqk+kT7+ENJU7aoE+sWikSdvIa
+ 94n3Q7+t9DoisQP2THf7tGsL2Hbw9b2huTZeKLfn4qDxN9+D/j5oZzhssuUYhm7Fp+ky
+ DIiP0cs6WM+rTD1OKx7/J/obs4q5bRUjMahYK//Q18uDswzlC4eZNDCBYkjKU9c5NR30
+ o7D5BMM2CGvZ35QJQsXyuFuPg5/abyBfceDou7b7J6cfJ+ZVKGryGikt4IlzKJm/78YI
+ RU979FVdJajCZGp6+xMtSnh2V1xPnbB0DR+UTqjJ6uyATE8pTSxfnSl8SyA77kub4KSR
+ v+tg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVORpNtp5WUbJGzZmf0OEzkMV1sH2E6+Vm3qeFbgY89czZmMdRc+5Hd/VNnqlbeiehG6HOBA4l77QTl@lists.freedesktop.org,
- AJvYcCWL1vjpaB4OQz7MXhDEkAmmi/Dm1lMYipkKnyyeCJnc/smVCaFdJ6t3XFEWXCl+tU4GwnvubC77eaA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzV0am+Jv2XJi4NakHj+EifQ7Knzn9U9DmrlB+blS7YhzjT407C
- blZVT9FBVNa6P1P9qjct3oNlvBnvGv1eQ2sRTbIx48pHLNeF9G4U+5fRecBW9a4/AT9Wy2HbNsb
- UVj/LRVYKksO+aqlc6GAEEzlipa8=
-X-Google-Smtp-Source: AGHT+IFu///hBMmZWnVnZFXWWl3sgqFDNwBWJcs8tlCbuU7dA43zOW8J5u4FcLF2SJo5g8r7eT05NQ0pWhwY2DhDSV0=
-X-Received: by 2002:a05:622a:2b4a:b0:44f:f11a:63de with SMTP id
- d75a77b69052e-4567f6fae93mr77951991cf.61.1725040896527; Fri, 30 Aug 2024
- 11:01:36 -0700 (PDT)
+ AJvYcCVTUqnKT7Wi0bCCVZansj5erqw5N8WhFy8D23L9kSJV+ElJVvv+VDP3Z8W0yY93xyP/6njVl/9pRXGT@lists.freedesktop.org,
+ AJvYcCXR2Ei4NRp/v/KLKxnm8dgFGpASC6RTjtTXq+gsfvWBtuBd67ZwgnzIM2fmG68176QHaAiB9oB6PY4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/Y2gdoX5J5QxxPIfrDpHjwB6lIII/A5e3fxZpCE0HAkgNYZzL
+ ogwsJe71Iq9jlOhP8CR7jkcpep6oAVWwAx0z3zSgZHOXHjiRcinhccj1PR8W07z64u6aTl3uR/t
+ AkXIgIYcoFGkAuwgEvKRL7lFJkC4=
+X-Google-Smtp-Source: AGHT+IFfAZ5Dc/UAH0FAehnAcx0CC4YDuotMeeFeOIHs8OXYW9H+4ZEFhxkx/keeE+cv8gefPgcsT/Uchh3WnYFsJzo=
+X-Received: by 2002:a05:622a:2590:b0:456:941c:f995 with SMTP id
+ d75a77b69052e-456941cfb3dmr17682961cf.56.1725042252988; Fri, 30 Aug 2024
+ 11:24:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
- <20240830-preemption-a750-t-v2-4-86aeead2cd80@gmail.com>
-In-Reply-To: <20240830-preemption-a750-t-v2-4-86aeead2cd80@gmail.com>
+ <20240830-preemption-a750-t-v2-9-86aeead2cd80@gmail.com>
+In-Reply-To: <20240830-preemption-a750-t-v2-9-86aeead2cd80@gmail.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 30 Aug 2024 11:01:23 -0700
-Message-ID: <CAF6AEGtxCnoyrEHPknV7C9XO3OcTpSOmGq-j2K7UDKXF1j0ssA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] drm/msm/A6xx: Implement preemption for A7XX targets
+Date: Fri, 30 Aug 2024 11:23:58 -0700
+Message-ID: <CAF6AEGui3bFqTqwhSCcx38=WzbaHKmnttjXiff-=GT0HHQyapw@mail.gmail.com>
+Subject: Re: [PATCH v2 9/9] drm/msm/A6xx: Enable preemption for A750
 To: Antonino Maniscalco <antomani103@gmail.com>
 Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -71,8 +71,7 @@ Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,51 +92,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, Aug 30, 2024 at 8:33=E2=80=AFAM Antonino Maniscalco
 <antomani103@gmail.com> wrote:
 >
-> This patch implements preemption feature for A6xx targets, this allows
-> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
-> hardware as such supports multiple levels of preemption granularities,
-> ranging from coarse grained(ringbuffer level) to a more fine grained
-> such as draw-call level or a bin boundary level preemption. This patch
-> enables the basic preemption level, with more fine grained preemption
-> support to follow.
+> Initialize with 4 rings to enable preemption.
 >
-> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> For now only on A750 as other targets require testing.
+>
 > Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 > Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
 > ---
->  drivers/gpu/drm/msm/Makefile              |   1 +
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 323 +++++++++++++++++++++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 ++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 431 ++++++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/msm/msm_ringbuffer.h      |   7 +
->  5 files changed, 921 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
+adreno/a6xx_gpu.c
+> index a2853309288b..ea518209c03d 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -2609,7 +2609,9 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *de=
+v)
+>                 return ERR_PTR(ret);
+>         }
+>
+> -       if (is_a7xx)
+> +       if (adreno_is_a750(adreno_gpu))
+> +               ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7x=
+x, 4);
 
-[snip]
+perhaps it would be useful (to enable others to more easily test), to
+allow this to be overridden with a modparam.. something like
 
-> +
-> +int a6xx_preempt_submitqueue_setup(struct msm_gpu *gpu,
-> +               struct msm_gpu_submitqueue *queue)
-> +{
-> +       void *ptr;
-> +
-> +       /*
-> +        * Create a per submitqueue buffer for the CP to save and restore=
- user
-> +        * specific information such as the VPC streamout data.
-> +        */
-> +       ptr =3D msm_gem_kernel_new(gpu->dev, A6XX_PREEMPT_USER_RECORD_SIZ=
-E,
-> +                       MSM_BO_WC, gpu->aspace, &queue->bo, &queue->bo_io=
-va);
+       if ((enable_preemption =3D=3D 1) || (enable_preemption =3D=3D -1 &&
+(config->info->quirks & ADRENO_QUIRK_PREEMPTION))
 
-Can this be MSM_BO_MAP_PRIV?  Otherwise it is visible (and writeable)
-by other proceess's userspace generated cmdstream.
+That would allow overriding enable_preemption to 1 or 0 on cmdline to
+force enable/disable preemption.
 
-And a similar question for the scratch_bo..  I'd have to give some
-thought to what sort of mischief could be had, but generall kernel
-mappings that are not MAP_PRIV are a thing to be careful about.
+That plus some instructions about how to test preemption (ie. what
+deqp tests to run, or similar) would make it easier to "crowd source"
+the testing (assuming you don't have every a7xx device there is)
 
 BR,
 -R
+
+> +       else if (is_a7xx)
+>                 ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7x=
+x, 1);
+>         else if (adreno_has_gmu_wrapper(adreno_gpu))
+>                 ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmu=
+wrapper, 1);
+>
+> --
+> 2.46.0
+>
