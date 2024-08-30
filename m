@@ -2,146 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBC9965CEB
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 11:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA24965CEF
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 11:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C651610EA1E;
-	Fri, 30 Aug 2024 09:32:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fwki9eUy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0qrExyT+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fwki9eUy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0qrExyT+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83EE910EA2D;
+	Fri, 30 Aug 2024 09:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC1E10E9EE;
- Fri, 30 Aug 2024 09:31:59 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AE81E1F7B9;
- Fri, 30 Aug 2024 09:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725010317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ueBA4VKcGNUQfjRjIck+gawE1IOEISsjr+Tr5xPpss=;
- b=fwki9eUynVDmWvTbujotvTj9EtckdlgpRLQcw5hV7OzE/fvXNh9SWYzhUK/LNmt1vAehNN
- 68jMNshjlL+O3TQ8wwph4UhxoL0M2vrjcQOM1vXilNi+1d9f3ewb4DWdPZZWs9udWZmBm3
- miSOrwi7kPjExKNAYcZ/OvLDrP/MY2k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725010317;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ueBA4VKcGNUQfjRjIck+gawE1IOEISsjr+Tr5xPpss=;
- b=0qrExyT+0G2VsycLKRHsP9uRdJpFq2wkMbQNmOMy43GWfgZ+4EMJb7dycaWjcbaa5/qs4R
- cRlhwUOgI2xGN9CQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fwki9eUy;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0qrExyT+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725010317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ueBA4VKcGNUQfjRjIck+gawE1IOEISsjr+Tr5xPpss=;
- b=fwki9eUynVDmWvTbujotvTj9EtckdlgpRLQcw5hV7OzE/fvXNh9SWYzhUK/LNmt1vAehNN
- 68jMNshjlL+O3TQ8wwph4UhxoL0M2vrjcQOM1vXilNi+1d9f3ewb4DWdPZZWs9udWZmBm3
- miSOrwi7kPjExKNAYcZ/OvLDrP/MY2k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725010317;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1ueBA4VKcGNUQfjRjIck+gawE1IOEISsjr+Tr5xPpss=;
- b=0qrExyT+0G2VsycLKRHsP9uRdJpFq2wkMbQNmOMy43GWfgZ+4EMJb7dycaWjcbaa5/qs4R
- cRlhwUOgI2xGN9CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4FFD513A44;
- Fri, 30 Aug 2024 09:31:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id nClBEo2R0WYYDAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 30 Aug 2024 09:31:57 +0000
-Message-ID: <53d67a78-440c-4525-9226-bd253fd78e9c@suse.de>
-Date: Fri, 30 Aug 2024 11:31:56 +0200
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E24F10EA26;
+ Fri, 30 Aug 2024 09:32:23 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-6cdae28014dso13269467b3.1; 
+ Fri, 30 Aug 2024 02:32:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725010342; x=1725615142;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=imgxU4L4plsaBKuyDZ4ep2KNsaM/vp5qwWwnJwPwFlI=;
+ b=gLPFR45Wq7Mp/X24mr/hC6114tsOGkjdTeOHyLWkek1sVFE2HvClNezZMKvUYx3WxL
+ wqBJi0LOkrWNAz/dg1DBoWthnbWH3fw5Endtlf+tkkIS44GHXOVkqJlBoWE7RIeiJXzk
+ JeSuDuccuov1jViifS0aDeIwdTjBNLNNdfHlP2A57NbIES8ePHWZwXtX/143W6nXvJN6
+ CotEwOZzVJ65Mv5Nv3j/VWhJS6z5KoC6UBfVwNP0k5OPg6FfO84dzNYDOuCOOg4Qazuw
+ fnT2NKWY9U0vbeEi/XtOw+7Z4KmiA5aJJTZQVmXXGYPDy3AvuCPYJhdwP8Oahsb+yLoS
+ iwUw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU6AZj7l9JCotS+mBPN/sRbcqKhaNG7/UxJiggyg3GokGFbFOB8r9dfcxxh/iYMkcaqExa/D9oK@lists.freedesktop.org,
+ AJvYcCUC3EgByBhTJZ2fUlGeZjgIDlDoOonVXQMCdEKb4Nf6Why9a1MGFCFVqeddr+X3ebBoPvzhOOg3T/k=@lists.freedesktop.org,
+ AJvYcCVEA519tq/mZadl9jj+rJ7iiLN3xvCNVRdEOIWjMb1l2h7y/AW14odRhWYpAUylDjPna7AKE/lwigWg@lists.freedesktop.org,
+ AJvYcCVWiUfSes7ikIfFxZj/JS7KsC5woC+MbbSr9zi6BQVaWkxmdEBMvq3/wy95Ql7Lm3ZtULKPpk7oYMBd@lists.freedesktop.org,
+ AJvYcCVykGZem4Krdl1isnqu2pzGzrcHnvP/44s90b6ezvR+Rc6AJE1erDPFnqGE3RFYPf90l7BrM53iKw==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVJY0kQDEsbcabC4vka8MJJavH/GBdZNhCu2R81a3n6KMMKpKE
+ XA634TDpDjfPFLyj6Jv4pY1jgkZ1u3hzhjAvUVP5t2B8GEUrJE7qkSy6I/d0
+X-Google-Smtp-Source: AGHT+IHohzc96UO0uZxouFSNhd5eE7y0Vn9MKDyBhB6QmeM+ANwUHtYjtXDZBWkPhKbEChtjTYb8YQ==
+X-Received: by 2002:a05:690c:6a03:b0:622:c892:6ae7 with SMTP id
+ 00721157ae682-6d285c15418mr46016007b3.12.1725010341960; 
+ Fri, 30 Aug 2024 02:32:21 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6d2d3abe246sm5668037b3.1.2024.08.30.02.32.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Aug 2024 02:32:21 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-6b3afc6cd01so21079687b3.1; 
+ Fri, 30 Aug 2024 02:32:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVD2ca9h3Uctx871el7/YN+O6Jc6k234aUMc9OvWs5x+zI6zfIH7955gFw8eUahvcDNBA4kJ9f+jg==@lists.freedesktop.org,
+ AJvYcCVbPZP17Q1ryKpmPUpgVknRm6Q48U0T5/RpQTeFFkOXjG8Q4alxyhtehYWfwEG0efE5toltgpH4hV0=@lists.freedesktop.org,
+ AJvYcCWVQCNWr4kLN7GUN1yfecby0K+a460eVyBcd14H91uHBn5STDlWitOShT0upDh0eF4E9BNTqkAyuAcA@lists.freedesktop.org,
+ AJvYcCX2/hblPf4FjccV/65JsF1FWAAd2qbbg18zhBVU9ouly9VWSd1tWqOInpWLaIR71ngrugHxtQku@lists.freedesktop.org,
+ AJvYcCX3ENGsQeVnkl6Hp7+0QtmSU715oFsxoYxzIuYCCj6FDmcbYmwxaM622evNtdKWhOjw4wpd0sn/JjFA@lists.freedesktop.org
+X-Received: by 2002:a05:690c:3704:b0:61a:e979:427e with SMTP id
+ 00721157ae682-6d285c0e968mr48290357b3.11.1725010341431; Fri, 30 Aug 2024
+ 02:32:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 40/81] drm/stm: Run DRM default client setup
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
 References: <20240830084456.77630-1-tzimmermann@suse.de>
- <20240830084456.77630-41-tzimmermann@suse.de>
- <1bb15789-ae48-9a5f-aa35-c6c0b066d1dc@linux-m68k.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <1bb15789-ae48-9a5f-aa35-c6c0b066d1dc@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: AE81E1F7B9
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_TWELVE(0.00)[15]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,redhat.com,lists.freedesktop.org,foss.st.com];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
+ <20240830084456.77630-37-tzimmermann@suse.de>
+In-Reply-To: <20240830084456.77630-37-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 30 Aug 2024 11:32:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX5cgqOH-X6CZPykPCjKCTg0uVqWQjHozb0Xqy7h5yiBg@mail.gmail.com>
+Message-ID: <CAMuHMdX5cgqOH-X6CZPykPCjKCTg0uVqWQjHozb0Xqy7h5yiBg@mail.gmail.com>
+Subject: Re: [PATCH v3 36/81] drm/renesas/shmobile: Run DRM default client
+ setup
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, 
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,56 +92,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 30.08.24 um 11:22 schrieb Geert Uytterhoeven:
-> On Fri, 30 Aug 2024, Thomas Zimmermann wrote:
->> Call drm_client_setup_with-fourcc() to run the kernel's default client
->> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
->> setup can start the common fbdev client.
->>
->> v2:
->> - use drm_client_setup_with_fourcc()
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
->> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
->> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
->> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
->> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
->> Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
->> Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+On Fri, Aug 30, 2024 at 10:45=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
+> Call drm_client_setup_with_fourcc() to run the kernel's default client
+> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
+> setup can start the common fbdev client.
 >
-> WARNING: Duplicate signature
-
-Interesting. Raphael gave a ack on v1 and v2 each. I re-imported v2 of 
-the series from patchwork and it seems that it counted each ack 
-independently.
-
-Best regards
-Thomas
-
+> v2:
+> - use drm_client_setup_with_fourcc()
 >
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- 
-> geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a 
-> hacker. But
-> when I'm talking to journalists I just say "programmer" or something 
-> like that.
->                                 -- Linus Torvalds
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
