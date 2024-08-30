@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C98966710
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 18:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0987966724
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 18:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9FB10E771;
-	Fri, 30 Aug 2024 16:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDBCF10E7A5;
+	Fri, 30 Aug 2024 16:42:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fyDCK1Kg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QU1pwEMi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EFE210E4F1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 16:39:02 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2f4f8742138so22539031fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 09:39:02 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B58CA10E786
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 16:42:57 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-534366c1aa2so2171648e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 09:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725035940; x=1725640740; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1725036176; x=1725640976; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uwq4R/f36WQQ1Swarqd8PQ+Sx4wkeeX3AmNPKu0eUyY=;
- b=fyDCK1KgD3y44eBf1J1fRh+KKPAGd+EFtVWzg3R8XlW61RdeoDLUstdCJuJNKgpJY9
- juXlZ2o/hZUambrOux017rYCj/CKKnYwGKW1bYXYz9rbjtOLE7BALj7LkS+dhog7ru3Y
- 5phwggraVq2J1LRKZH2SAwNDy2tp9/eQg6FwPvUEA+RCxqQKynOFUM6ck3NcB4qip7K2
- 7iPuN8jfxwRZjyy+XM/u55jXGeE5ir+Lso+gt9yEjCrQ2C/cfpOMRurU4ZmRuXoIkzEC
- 3dIWzHRo3CA13/PtRurvux/i6kuxXoNNjfmrGXvxBf8KwUpzhDkJtOR6t8rWTQ0LHRFI
- yZAw==
+ bh=7Ti26gzK1EQz5HySKD6b54SohAjKM16M+gJtA+MrRBY=;
+ b=QU1pwEMid9xL2x5+dpY6rSIZpqkczUb4WKsCrbGh5Bb37biqVgTcPwNbidN+wz+2S2
+ QGlD5t5o9AFShqtjEc9vyKXQ3VG1W+OP2AyAQ+M/hIF59XgarnffbeFXvWO/+NMn7cRf
+ i2vDWXkKc14OZJR6Gssia+d1c8HoAXJe2BGYR5aL4HiOEKdTQurnnyXhW10/2e+wc02/
+ e6hnjW+6aeXal825OwXWZMEnVjtRaBRk/lKq2HjVWYlqf3Dq3oWNVUTb0nZspBIOv5Uu
+ 1aoZP9vEKJoSbWzLAZo3UKIrnwt8SQeIzlupIUslN0JiLKW2iQqZ4OWeOzod6Fu4QLJS
+ FARg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725035940; x=1725640740;
+ d=1e100.net; s=20230601; t=1725036176; x=1725640976;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uwq4R/f36WQQ1Swarqd8PQ+Sx4wkeeX3AmNPKu0eUyY=;
- b=Um4yQncmqT1OE3J8Z3mUitjJDRjEhMQeHTVj/tJ0vb6L5yItRaSrIjbYGVCLpms4mK
- I1aSH184qkb0co8odQL7BjUPZu7I+mUu8OpMt0TLGLeFjjUBpSF9M8Vfgzo6IGIhwPYr
- nmyEvrZammZv6qg1iPA2aOnYgod3OXQ5+MPGsSuoidh+oNTKSMO+KN8PNWiIhLQhOMyV
- MYOtnAq6hSEeDOGNcJHDU/cbD53RKbyqOZ5eugh3i0WVq36Vz5AcTT1XpQws6015kwkd
- mpx6hufPnsMNR6OaWYkuRyPLmOUCpT5S0izwz7fDesMn2jaZR1+IOWeFAWrMg0T2im45
- vxrA==
+ bh=7Ti26gzK1EQz5HySKD6b54SohAjKM16M+gJtA+MrRBY=;
+ b=gLs89QMHevE/jTkzJyfdwT/MK/m4CL1jPi22WN5sm7rSJy61gLW0bt83rk/zQgo2/E
+ e/qhxgtTkyE5ytJkAgUMXgkCZ+VhhDqGZIyYDg6CK5FZgjL6ubc2m/zrsWXwF1KuZ+u/
+ apADauQnki6syrd7movZEvsmHlqt2a0uYqqzDDW0+bDpuZrViDJGHWjjvOly9fTwDV9s
+ yRxfGK/O+KkNkC8fIXS9VtdcNM9DZDAIUO6Y0NxLAree6jviQgEBoQb4JWaRfJcFaPEO
+ 80uEwoF4ROAFTZt+5K18ciQnUkjKAeWzo2ZeoXQFirr8qqfZbgxloIZ1PKM+3A1w4zGB
+ q1Hw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX29RWqy96klH/iA6S/3hk8mmoclxk+8IU6VNULapqNH6v7k2+iloMUAp8Ruznq5BO5g3vpeKTKBRQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKN1/uEC0hEyWmGZ0p1fGfFVpCK91/LzWhA3+mQUL0vXmYDSWz
- JVELJF+WzDOZVCX9mL7UVeqNiW8mvrldSQijuupF8Q6DDijKu6IkftifLk4maec=
-X-Google-Smtp-Source: AGHT+IGXlaawo+aNd8bvyU9hJTs0LcQHomL+gI7bfl9YYFu3/2gV7tZKCkjm/N27yB8W8cQUyGkfZg==
-X-Received: by 2002:a2e:3213:0:b0:2f3:f6fa:cfd2 with SMTP id
- 38308e7fff4ca-2f6106d6968mr40049701fa.25.1725035939563; 
- Fri, 30 Aug 2024 09:38:59 -0700 (PDT)
+ AJvYcCU3VY1qsG2egWnYOg2tar9/b/SemF9ATGNWTDmcrHHSXkKKbXWvyYtp58ZdP0OMukLTRPZJdKj6t1o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzCX7nmzExtTE07Blz+NHOJ08lI0YNiCFnWS6x4uBAropCPJ89
+ Yx/7BtsGuhmIIBN/tLVhKX9bdCJ4PseJx0QX9iQajdgl7J8kSqVMaE5anFw/Llc=
+X-Google-Smtp-Source: AGHT+IHPok1p6V+eHfwGcCeO0mQYbxw1nUP6jPzcZsijDd7LU+nuYlx/M/lyCnpp0vDdUCgJVIYcDg==
+X-Received: by 2002:a05:6512:159a:b0:52c:e047:5c38 with SMTP id
+ 2adb3069b0e04-53546b0401cmr2164051e87.15.1725036175176; 
+ Fri, 30 Aug 2024 09:42:55 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f615194f19sm7176211fa.130.2024.08.30.09.38.58
+ 2adb3069b0e04-5354084dfc3sm680610e87.269.2024.08.30.09.42.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 09:38:58 -0700 (PDT)
-Date: Fri, 30 Aug 2024 19:38:57 +0300
+ Fri, 30 Aug 2024 09:42:54 -0700 (PDT)
+Date: Fri, 30 Aug 2024 19:42:52 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
@@ -68,14 +68,14 @@ Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
  linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH 02/21] drm: print clone mode status in atomic state
-Message-ID: <e3moledbfob2xkgxpbta3onlzc5yi6u7cbsmuo5ao4qq7nyyhj@lr32vqnjzkbi>
+Subject: Re: [PATCH 05/21] drm/msm/dpu: move resource allocation to CRTC
+Message-ID: <fiydda6an5a4dc2gmrj4fnti4ymkk7ntbtpq6mgushmgnzl6cp@pwtz6goteljh>
 References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-2-502b16ae2ebb@quicinc.com>
+ <20240829-concurrent-wb-v1-5-502b16ae2ebb@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829-concurrent-wb-v1-2-502b16ae2ebb@quicinc.com>
+In-Reply-To: <20240829-concurrent-wb-v1-5-502b16ae2ebb@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,34 +91,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 01:48:23PM GMT, Jessica Zhang wrote:
-> Add clone mode status to the DRM atomic print state
+On Thu, Aug 29, 2024 at 01:48:26PM GMT, Jessica Zhang wrote:
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
+> All resource allocation is centered around the LMs. Then other blocks
+> (except DSCs) are allocated basing on the LMs that was selected, and LM
+> powers up the CRTC rather than the encoder.
+> 
+> Moreover if at some point the driver supports encoder cloning,
+> allocating resources from the encoder will be incorrect, as all clones
+> will have different encoder IDs, while LMs are to be shared by these
+> encoders.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> [quic_abhinavk@quicinc.com: Refactored resource allocation for CDM]
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> [quic_jesszhan@quicinc.com: Changed to grabbing exising global state and
+> dropped clearing num_mixers in crtc_disable]
+
+Hmm, I still see the chunk in dpu_crtc_disable(). I think the chunk is
+correct so that if there is a disable/enable pair of calls with no
+intermediate mode_set then num_mixers carry over the correct value.
+
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->  drivers/gpu/drm/drm_atomic.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  89 +++++++++++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 201 +++++++++++-----------------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  19 +++
+>  3 files changed, 183 insertions(+), 126 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 07b4b394e3bf..145d6a758d4d 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -455,6 +455,7 @@ static void drm_atomic_crtc_print_state(struct drm_printer *p,
->  	drm_printf(p, "\tconnector_mask=%x\n", state->connector_mask);
->  	drm_printf(p, "\tencoder_mask=%x\n", state->encoder_mask);
->  	drm_printf(p, "\tmode: " DRM_MODE_FMT "\n", DRM_MODE_ARG(&state->mode));
-> +	drm_printf(p, "\tin_clone_mode=%d\n", drm_crtc_in_clone_mode(crtc->state));
-
-We have encoder_mask two lines above. What is the benefit of having the
-separate in_clone_mode?
-
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 4c1be2f0555f..3296b0650056 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1091,9 +1091,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
 >  
->  	if (crtc->funcs->atomic_print_state)
->  		crtc->funcs->atomic_print_state(p, state);
-> 
-> -- 
-> 2.34.1
-> 
+>  	dpu_core_perf_crtc_update(crtc, 0);
+>  
+> -	memset(cstate->mixers, 0, sizeof(cstate->mixers));
+> -	cstate->num_mixers = 0;
+> -
+>  	/* disable clk & bw control until clk & bw properties are set */
+>  	cstate->bw_control = false;
+>  	cstate->bw_split_vote = false;
 
 -- 
 With best wishes
