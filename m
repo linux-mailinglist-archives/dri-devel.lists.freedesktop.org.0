@@ -2,87 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E719669FC
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 21:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B427C966A10
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 21:49:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1ADC10E02F;
-	Fri, 30 Aug 2024 19:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A3710E02E;
+	Fri, 30 Aug 2024 19:49:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FpGoxpbY";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="UVUQhKxz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9711210E02E;
- Fri, 30 Aug 2024 19:42:44 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47UFNwNf026547;
- Fri, 30 Aug 2024 19:42:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- WQgQSOmOou41lnjoOVdQJ1WiykWFVVUCp0NkH8CM0ck=; b=FpGoxpbYrTu5QaY/
- A0UvBNbYdubJ6iwapbNkHL9YOf+v7DNSP+y/BVoiWYUrdtmTbvWARrVRhFEbii0H
- jhucTi5kSxS0ISL4np8zvqJVCHNkZXUDWZmuVkV2AQBc0c069uTm34pmS0OKWT3Y
- xqDEbi1FPGqe1Zak7TW1FubbRIYeFqLfmQkILBV1MFzwdxLFRKTJQp7l07+xb4vr
- 99VPp7GZrWh8ug05ic3XfMxI4hxZYhT0KzyP2rTpZNH+Q5Wa35noDDF+7jffBqEA
- ogx0Q16MMcjRBAJIQA0F3EeB4nfb6GeOD4o36Keb0++WYK0lpDl9mZG0xyT3mYHn
- MSnWaw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puvj0mt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Aug 2024 19:42:38 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47UJgbCr000412
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Aug 2024 19:42:37 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 Aug
- 2024 12:42:30 -0700
-Message-ID: <092a7427-8971-4ee4-a417-52653ed892a4@quicinc.com>
-Date: Fri, 30 Aug 2024 12:42:26 -0700
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
+ [95.215.58.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E60C10E0B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 19:49:12 +0000 (UTC)
+Message-ID: <ee484db3-48e5-434f-8f41-21535c1bf069@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1725047350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jlo7JXcZy13WFGclfaaL1pYp+Vqeb6IGWRjH5IJWAM8=;
+ b=UVUQhKxzPkbU6KYHPDeNVPypYrkPwtMT9wxRxMe3vaHiVR6pTwY2ikE7u8Vsy2KBMCHza7
+ qpat9lOCHFyBqpERh7nv3Rt50e9fyuP/pt3NXejBp3NC/vwTzEiRDV+QW8AujIlywr7s65
+ unHj1N2lBjwdEZVdKaPmXV6yuns67fc=
+Date: Sat, 31 Aug 2024 03:48:49 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/21] drm: print clone mode status in atomic state
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>
-References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-2-502b16ae2ebb@quicinc.com>
- <e3moledbfob2xkgxpbta3onlzc5yi6u7cbsmuo5ao4qq7nyyhj@lr32vqnjzkbi>
+Subject: Re: [v2] drm/etnaviv: Clear the __GFP_HIGHMEM bit in GFP_HIGHUSER
+ with 32 address
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: "Wang, Xiaolei" <Xiaolei.Wang@windriver.com>,
+ "l.stach@pengutronix.de" <l.stach@pengutronix.de>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
+ "christian.gmeiner@gmail.com" <christian.gmeiner@gmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
+Cc: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <MW5PR11MB57648F441CEDD36E614E31EA95812@MW5PR11MB5764.namprd11.prod.outlook.com>
+ <761c07a9-a507-44a6-94e5-69655881c137@linux.dev>
 Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <e3moledbfob2xkgxpbta3onlzc5yi6u7cbsmuo5ao4qq7nyyhj@lr32vqnjzkbi>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Q3rFbF65V4GUkrvwZWoJL0bf-rlb0wYf
-X-Proofpoint-GUID: Q3rFbF65V4GUkrvwZWoJL0bf-rlb0wYf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-30_10,2024-08-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 priorityscore=1501 bulkscore=0 impostorscore=0
- adultscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 mlxscore=0
- spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408300151
+In-Reply-To: <761c07a9-a507-44a6-94e5-69655881c137@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,50 +64,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2024/8/31 03:40, Sui Jingfeng wrote:
+> Hi, Xiaolei
+>
+>
+> On 2024/8/16 09:55, Wang, Xiaolei wrote:
+>> Ping ...
+>
+> I think, the more proper fix that Lucas hint
+> is to modify the 'priv->shm_gfp_mask' variable
+> in the|etnaviv_bind() function|. Say:
+> |Use "priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | 
+> __GFP_NOWARN;"|
+>
+> instead of
+>
+> |"priv->shm_gfp_mask = ||GFP_HIGHUSER||| __GFP_RETRY_MAYFAIL | 
+> __GFP_NOWARN;|"
+>
+>
+
+Oops, please ignore the irrelevant(superfluous) "|" characters in my
+reply, my Thunderbird mail client has some problem, generate them unreasonably.
+
+Should be:
+
+priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
 
 
-On 8/30/2024 9:38 AM, Dmitry Baryshkov wrote:
-> On Thu, Aug 29, 2024 at 01:48:23PM GMT, Jessica Zhang wrote:
->> Add clone mode status to the DRM atomic print state
+
+> Right?
+>
+>> thanks
+>> xiaolei
 >>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/drm_atomic.c | 1 +
->>   1 file changed, 1 insertion(+)
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c 
+>> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>> index 7c7f97793ddd..0e6bdf2d028b 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>> @@ -844,8 +844,10 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>>            * request pages for our SHM backend buffers from the DMA32 
+>> zone to
+>>            * hopefully avoid performance killing SWIOTLB bounce 
+>> buffering.
+>>            */
+>> -       if (dma_addressing_limited(gpu->dev))
+>> +       if (dma_addressing_limited(gpu->dev)) {
+>>                   priv->shm_gfp_mask |= GFP_DMA32;
+>> +               priv->shm_gfp_mask &= ~__GFP_HIGHMEM;
+>> +       }
 >>
->> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
->> index 07b4b394e3bf..145d6a758d4d 100644
->> --- a/drivers/gpu/drm/drm_atomic.c
->> +++ b/drivers/gpu/drm/drm_atomic.c
->> @@ -455,6 +455,7 @@ static void drm_atomic_crtc_print_state(struct drm_printer *p,
->>   	drm_printf(p, "\tconnector_mask=%x\n", state->connector_mask);
->>   	drm_printf(p, "\tencoder_mask=%x\n", state->encoder_mask);
->>   	drm_printf(p, "\tmode: " DRM_MODE_FMT "\n", DRM_MODE_ARG(&state->mode));
->> +	drm_printf(p, "\tin_clone_mode=%d\n", drm_crtc_in_clone_mode(crtc->state));
-> 
-> We have encoder_mask two lines above. What is the benefit of having the
-> separate in_clone_mode?
+>>           /* Create buffer: */
+>>           ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+>
+-- 
+Best regards,
+Sui
 
-Hi Dmitry,
-
-I was thinking that this would be an easy way to note if a CRTC was in 
-clone mode, but I can see why this is redundant.
-
-Will drop this patch.
-
-Thanks,
-
-Jessica Zhang
-
-> 
->>   
->>   	if (crtc->funcs->atomic_print_state)
->>   		crtc->funcs->atomic_print_state(p, state);
->>
->> -- 
->> 2.34.1
->>
-> 
-> -- 
-> With best wishes
-> Dmitry
