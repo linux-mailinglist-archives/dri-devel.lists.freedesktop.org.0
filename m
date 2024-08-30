@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9038C965E73
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 12:16:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EBD965EA3
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 12:19:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0604810EA5B;
-	Fri, 30 Aug 2024 10:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EEA410EA61;
+	Fri, 30 Aug 2024 10:19:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ibawg3Gs";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="o+Bgvky4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCEF610EA54;
- Fri, 30 Aug 2024 10:16:55 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC0410EA5F;
+ Fri, 30 Aug 2024 10:19:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1725013008; x=1725617808; i=deller@gmx.de;
- bh=2SzCxmLoXpZxEqXLBPSKjcHxY79eq61xyh9zEm1F9dM=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=ibawg3GsHN0IAi8KS74KSf1bmFYuk/jL0HzyZuiktL5iSrQm+VSnWaoP5gWINIUO
- TZvEeSNeMJzyADXM77hoKVFPbWumAOgIOJ20cbmHhxGmsNtz17HaTTUIBwT4IwobS
- 7JV4QL9+QgOLLP8EoFla66SPXExBh0SkI53+7D2GrQTptPBInDWkv3qUVTC96GFUH
- ljleUVaEYnkCQiB9+aJ8cNG1UYL4Uds32awVvrSxLSohESmIePXQga9S1qKV35AiX
- Gg3G8hGHfJ0hQVFJ0TmTZclj2GmkveAqM/vdFYOQZO+pBHazoqJpygsfV+tv9qwdL
- lQ4VMeAQZn3VBv2dGQ==
+ s=s31663417; t=1725013150; x=1725617950; i=deller@gmx.de;
+ bh=9+dueI8bosr7037SDmUwpWrguCYldlWx+vVde7fdzPw=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
+ Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=o+Bgvky4ZFiSoeLsuIPcOoy2NN4b8PVqnTwCz1gClPenbT4X9fxNwGzm5EJzmIjS
+ 6odLc62NEprdas5Vb9w9KU80cZZ9LILLHFuL6uF9hqlJCW/euNeWzA5O1tYeYQI6D
+ krRxSBsDZLdV0tc8poFwHLcLtYuPrg1rDhamLF4l7QQZ67oViHX3honFQYmEohXQA
+ IZBFs8EPlF5vCPgj41laNYwiIK0m4teoitEYE8XbkUKGNUe60X9Qyz/zT5kuhGhPX
+ +igGBIYpMlvFJIwE6S1TVmSO25rKShbzrv7MvGjiFbfu39opNdwndYUfnzOiv6gyq
+ bAE4RKhniO7e4eiP/w==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.126]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmlXA-1sL7na0Hp8-00qNAv; Fri, 30
- Aug 2024 12:16:48 +0200
-Message-ID: <729c4f82-a683-4302-b4ae-f591ac04daa1@gmx.de>
-Date: Fri, 30 Aug 2024 12:16:46 +0200
+Received: from [192.168.20.55] ([109.250.63.126]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MKKZ3-1sW0u10qMh-00KCQp; Fri, 30
+ Aug 2024 12:19:10 +0200
+Message-ID: <7aa99a5f-306b-4c9b-88d2-9ea93c013eda@gmx.de>
+Date: Fri, 30 Aug 2024 12:19:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] fbdev: Introduce devm_register_framebuffer()
+From: Helge Deller <deller@gmx.de>
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Daniel Vetter <daniel@ffwll.ch>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -47,8 +47,8 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  "Kurmi, Suresh Kumar" <suresh.kumar.kurmi@intel.com>,
  "Saarinen, Jani" <jani.saarinen@intel.com>
 References: <20240830-fbdev-devm_register_framebuffer-v1-1-6d4186519c68@weissschuh.net>
+ <729c4f82-a683-4302-b4ae-f591ac04daa1@gmx.de>
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
  xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
  HLnjgkbPFDmcmCz5V0Wv1mKYRClAHPCIBIJgyICqqUZo2qGmKstUx3pFAiztlXBANpRECgwJ
@@ -92,27 +92,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240830-fbdev-devm_register_framebuffer-v1-1-6d4186519c68@weissschuh.net>
+In-Reply-To: <729c4f82-a683-4302-b4ae-f591ac04daa1@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:auwEi577++FCfEyfghOfg3Y5ozemn23gmuPuHSN8Z/QqnERBoZJ
- MGxS2QKbmkMzj1DZiEPa4l3pCJ7LSbcPoD3lc6eUP1y1teNuVu+GBaof1MoK0WrJ2ciF2hc
- y1LZqTPmkETJaYvWVaMbuoJpHMIs+rmFbrsk+fyUnIhzGnCdjEi6Aje8TqEpYk2V42M7B51
- ssd8BZ04AqyVjiMG9wh3A==
+X-Provags-ID: V03:K1:Ke00r2fjsrt2Tn/tP8qIcKESj9Ec7VvVpdVynge0YOQ9CgxxEEP
+ 9p3ZPMQKdtn5RZy0qx2akfMPi8+4RQ1NAdmbk7TXGlL9tBMYoydYKfTmhfmO1dZkhFXu8M6
+ ajDl3qG25lhpZvoQsVvhxOxTY1PTv+VGqHpIlzGcl0rFrk2cJ/HlgYdAZBPygopub0WPnXY
+ FrqQts/7j3v0VUg/REHgg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zuj8S8Pds/s=;gRWpiIHjhNPAW+cyg46akjjyrpR
- 8rBc7kbkqBxNtIS0Me4/ZlZm/lVIGKwOmkVWG6dCKCUEsVJ7SSUbl0EI50exmY5hKxyzpMsq4
- JIICgSUoAPjdIYix5mF3i/lshp7l+2p39lA2smlYQDxx6kwnB9S2/KEcciOnv/+ogRiu+DCCA
- hmNAY1eD5YeIyhCNXJPUSDCl2Pj7irHxS7y7WNENHC0X7R9pA2kkbvTOX4LaD5qvwPVnXduRC
- P6k0YHXyypgv1ffPwefsk6MuX9VcxdLmIAYIXX+NypJwWcE1wsG3QbGD+yo1qFOgFKQo6BJOO
- bLyTft89h5NmBRs4Yf8/070wQxQ1XFombhc5muesXPyFMa69aEyTFlgN1MlIOnk80fFVqVe2a
- d8VX9wF6V715+7FvDHVpZDmM6H7Fyc6eOb3HAFvQLLBAox0naomqfP/Vb0NF3Ygij9N1DrZbi
- K2DPU/UcrI1MKrl7W01/pLFhOpKSISxUjMEEpY4MpDtIM4l7UZAumgfIfeJjlPPcpWx2QcLUs
- VN+8sWllKJPS+guSin6ujs3RJIWnJMEbxVMuyiN3kUfB2DxZeJP0BZtAuhKonQQ6MQzch85F7
- 6DzkMv+eEizRR+2RjR74jq0A8RBgABPqQRdh5tdvq698FzXKEdrzMotOLscqyHKUfZeXrHgjY
- ZpzfHRRC52LJzLdiS0lKIPMiiHavaDJuJKig4HfWEFA9YiHKJipVWkTWCarizH7xxcMRaA3qA
- o5pptUbG7TurP/uU9hCV65XcKt0BO1qKkzMnBgVkOCNfJUli9VU1slaOYUEGmGo76jknSJqjU
- jrJ9/P843+gPnxfMfEkxeShQ==
+UI-OutboundReport: notjunk:1;M01:P0:4+OuAVJzvWg=;hzh9By/lVafIMZFJMsI1NSZz8Yz
+ OIU/2GHfZFLpJ+I8l4RiMJqS/6tfVuE2yEj43FWjP6lsSgd3wfp0pyH3Qj6Qkhesl/5j2lEyl
+ ErxCLcgXJnPO6+0JP0yQMJrxRNbBYMrU5dhpnhXy88UWp3ZhI06f/V/lTc5o+6F3bsN8cniF6
+ cUk7Ri+G6MpMdY7Nfgdc58Nn5mo8g9UrwXQXoY1C8yY1QhUyH7x2XcynROJa176DeJW5HQHFf
+ 6qPljXO4s8FcAtIzHjdGfzOi5K+9ewdzkLErZEPYsVoRKDdKqW+jPkGLErvCUtG1jCtk7Sci5
+ Md4Wto/ZPMEmbIKhCcFS/N7aOV5R5XcFWWXXyR0BBuAFTmvsc73dPu644QE3Wm4CAi+LqGhAM
+ w2Qmycj8il7Tlj+Jf5XFz9f2P9A1b1raQ4r63p5lGYpoNROUlANrJHftJNFIgsD/XT3DQ8n6b
+ BnITMSgX1pSnmwifGEscwa3jDhU4cvpz5jc8xkVaZHKvzSnT8U/kqz47g1PbDqV9kKV5Mprkf
+ yHn9UzFTTeeofRjR2+c4Ny5Ael/ydajORkZe8/datHD/8ylBKvPa2QWEjYPoIxs6YOcWNqnyV
+ XRSntKvLY2RCG90UlIPXEVLhf21E6KzNds3WFL4K8i7HGbTcMF11IDxIzmeDL5xWcoepB3SzO
+ 5AVHKPL0CQC76OZO5CnGmjSorz/ma8P9fKiGA/e3cuIa3Cu8bz8nmppI5mkm/f67Ul5GTE/Px
+ 4WWHUpiahQq/d2rSGXUXIuoH3EHtixphLgffewcdAs6MBtKqt7TVE+DcgfIMGjn9MV9T+KkNh
+ EtyC85vsIHnVwoeQ8zmv8i+w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,35 +128,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/30/24 11:45, Thomas Wei=C3=9Fschuh wrote:
-> Introduce a device-managed variant of register_framebuffer() which
-> automatically unregisters the framebuffer on device destruction.
-> This can simplify the error handling and resource management in drivers.
+On 8/30/24 12:16, Helge Deller wrote:
+> On 8/30/24 11:45, Thomas Wei=C3=9Fschuh wrote:
+>> Introduce a device-managed variant of register_framebuffer() which
+>> automatically unregisters the framebuffer on device destruction.
+>> This can simplify the error handling and resource management in drivers=
+.
+>>
+>> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+>> ---
+>> This is a fixed resend of [0], which was broken.
+>> Thanks to Bert [1], and Chaitanya Kumar [2]
+>> for reporting the issue.
+>>
+>> [0] https://lore.kernel.org/lkml/20240827-efifb-sysfs-v1-3-c9cc3e052180=
+@weissschuh.net/
+>> [1] https://lore.kernel.org/lkml/20240829224124.2978-1-spasswolf@web.de=
+/
+>> [2] https://lore.kernel.org/lkml/SJ1PR11MB612925C1C533C09F8F62F7CBB9972=
+@SJ1PR11MB6129.namprd11.prod.outlook.com/
 >
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
-> This is a fixed resend of [0], which was broken.
-> Thanks to Bert [1], and Chaitanya Kumar [2]
-> for reporting the issue.
+> I've applied this patch to the fbdev git tree.
+> Please double check at
+> https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/l=
+og/?h=3Dfor-next
 >
-> [0] https://lore.kernel.org/lkml/20240827-efifb-sysfs-v1-3-c9cc3e052180@=
-weissschuh.net/
-> [1] https://lore.kernel.org/lkml/20240829224124.2978-1-spasswolf@web.de/
-> [2] https://lore.kernel.org/lkml/SJ1PR11MB612925C1C533C09F8F62F7CBB9972@=
-SJ1PR11MB6129.namprd11.prod.outlook.com/
+> Can you please check if this fixes this new report too:
+> https://marc.info/?l=3Dlinux-fbdev&m=3D172500784802901&w=3D2
 
-I've applied this patch to the fbdev git tree.
-Please double check at
-https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/log=
-/?h=3Dfor-next
-
-Can you please check if this fixes this new report too:
-https://marc.info/?l=3Dlinux-fbdev&m=3D172500784802901&w=3D2
-
-> Helge, I didn't document the function devm_unregister_framebuffer() as
-> it is only an internal helper and will ever only used by one user,
-> similar to other helpers in fbmem.c.
-
-Ok.
-
+Please ignore this ^^^.  You already mentioned this one above.
 Helge
+
+
+>> Helge, I didn't document the function devm_unregister_framebuffer() as
+>> it is only an internal helper and will ever only used by one user,
+>> similar to other helpers in fbmem.c.
+>
+> Ok.
+>
+> Helge
+
