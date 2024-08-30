@@ -2,85 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EC0966880
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 19:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8724F966897
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 20:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C9310E549;
-	Fri, 30 Aug 2024 17:59:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51B710EAC5;
+	Fri, 30 Aug 2024 18:01:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LjZbkURy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ndVDx+w8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E8C10E549
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 17:59:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 00FD15C10B5;
- Fri, 30 Aug 2024 17:59:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AC5CC4CEC2;
- Fri, 30 Aug 2024 17:59:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725040743;
- bh=2Jkgq5he2WxrmzFT3bK4fOcS2dH6LFp69dhviYcUaOg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LjZbkURyQNKOAXItRoOtb5ppDFUPv+/i17eT3Ov4/nCswre0krz2mianWNuHI1r8v
- yExKTIdr9UX67PvPwuSPK4U3Wf+NlFoWyTljiZhgcBStuHt1V2pUJopoJyailtq18K
- yLPiChNodDGr4fr4tlLmC/K3qIiUjplzLeLAa7oR7VDZMYP+vUGFTZkOKxxb2cDhYD
- TBO3c0v91ccwTLdQahN5cxNE1w/rE6kPrNVD6eh0vVP3WbCWknqpNHcP5Tqc1ImrEE
- TBJtJvmIu954K/MBIzWorcfi12TV8HA6GQP5d7NasrFNQTufqL94j3/PGxTK3U3gxf
- cGCV90knr8wOg==
-Date: Fri, 30 Aug 2024 10:59:01 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBl?=
- =?UTF-8?B?bA==?= <bjorn@kernel.org>, Magnus Karlsson
- <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH net-next v23 03/13] netdev: support binding dma-buf to
- netdevice
-Message-ID: <20240830105901.27e2e139@kernel.org>
-In-Reply-To: <CAHS8izOy26r0uoWdASgmBCENNS6cDjHpkp+AHhOaKVkZR1LZqQ@mail.gmail.com>
-References: <20240829060126.2792671-1-almasrymina@google.com>
- <20240829060126.2792671-4-almasrymina@google.com>
- <20240829140824.555d016c@kernel.org>
- <e6df00ec-2c52-489e-a510-b69db7e9dbf9@linux.dev>
- <CAHS8izOy26r0uoWdASgmBCENNS6cDjHpkp+AHhOaKVkZR1LZqQ@mail.gmail.com>
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0936010EAC5;
+ Fri, 30 Aug 2024 18:01:38 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-45680233930so12158611cf.3; 
+ Fri, 30 Aug 2024 11:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725040897; x=1725645697; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HLvYg5qPZOuBa2bLwjdlcUDAONbv8N/Y0QijdwRkes4=;
+ b=ndVDx+w89MqQoTO2E5Kwe5sQSo0PlcseBz/awqVwXtZBPCEpzOUmQhRjfuQ0eYNdd4
+ qm9bEBIR79hndoNduMD82CPt/bBE1XMrTD81/UtySARXULCAiVGVQI+9Trwg9YFLUUhH
+ OJXbh94eQ8PyE1Hi3oJwVIw0kDpmJ8zODLWIwX/TIIiEP9bjwqGLc6LHecc5CvzuR+nW
+ P9PWFxDbxgX5pcZZYY8BdNuRxZbe4gimTZ5SXzHl+QXudIBZgE2548RbJQGMO8V7rSMn
+ MNE/RvInb2EtKAKXEGo1UFaterQUi63CSa7ZWtwQBpTYpFjYge9kpHr7+JWKWJZCOGvt
+ aePw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725040897; x=1725645697;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HLvYg5qPZOuBa2bLwjdlcUDAONbv8N/Y0QijdwRkes4=;
+ b=frEbmqZWvjFf/LJ1k1iDkkx9GBhDcuiyFQCk1H/9x79MdR76e72pad5jxW1WoMjUQw
+ 97GOrUGXEwKAm5VE/YhrgBJqV4OCDKx748VI/Bl13O5fgbxImvMOwdqqEm9VTEwjrXlN
+ rq5O6pHkMcEOIelQW/nxYX7Jxbnb+rv4AjdJc69B+ySp0B2eqyvg+K9qogM6hobOqew4
+ 6WPyu6aYjuGoJqELVkKTsABUSPMnMpp3+30LIx0oi8u1koxhF9Utf70o0TsEEjY0Vjj/
+ f+GWvoRTB2hY3wBCO6hsplgbWI4YZ+HX2ST/1nhIq9+uZgvXQ1dzSRLd1G+MD2y8ODZG
+ gppQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVORpNtp5WUbJGzZmf0OEzkMV1sH2E6+Vm3qeFbgY89czZmMdRc+5Hd/VNnqlbeiehG6HOBA4l77QTl@lists.freedesktop.org,
+ AJvYcCWL1vjpaB4OQz7MXhDEkAmmi/Dm1lMYipkKnyyeCJnc/smVCaFdJ6t3XFEWXCl+tU4GwnvubC77eaA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzV0am+Jv2XJi4NakHj+EifQ7Knzn9U9DmrlB+blS7YhzjT407C
+ blZVT9FBVNa6P1P9qjct3oNlvBnvGv1eQ2sRTbIx48pHLNeF9G4U+5fRecBW9a4/AT9Wy2HbNsb
+ UVj/LRVYKksO+aqlc6GAEEzlipa8=
+X-Google-Smtp-Source: AGHT+IFu///hBMmZWnVnZFXWWl3sgqFDNwBWJcs8tlCbuU7dA43zOW8J5u4FcLF2SJo5g8r7eT05NQ0pWhwY2DhDSV0=
+X-Received: by 2002:a05:622a:2b4a:b0:44f:f11a:63de with SMTP id
+ d75a77b69052e-4567f6fae93mr77951991cf.61.1725040896527; Fri, 30 Aug 2024
+ 11:01:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
+ <20240830-preemption-a750-t-v2-4-86aeead2cd80@gmail.com>
+In-Reply-To: <20240830-preemption-a750-t-v2-4-86aeead2cd80@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 30 Aug 2024 11:01:23 -0700
+Message-ID: <CAF6AEGtxCnoyrEHPknV7C9XO3OcTpSOmGq-j2K7UDKXF1j0ssA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] drm/msm/A6xx: Implement preemption for A7XX targets
+To: Antonino Maniscalco <antomani103@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,27 +90,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Aug 2024 22:41:17 -0700 Mina Almasry wrote:
-> Thank you, I think the right fix here is to reacquire rtnl_lock before
-> the `goto err_unbind;`, since err_unbind expects rtnl to be locked at
-> this point.
+On Fri, Aug 30, 2024 at 8:33=E2=80=AFAM Antonino Maniscalco
+<antomani103@gmail.com> wrote:
+>
+> This patch implements preemption feature for A6xx targets, this allows
+> the GPU to switch to a higher priority ringbuffer if one is ready. A6XX
+> hardware as such supports multiple levels of preemption granularities,
+> ranging from coarse grained(ringbuffer level) to a more fine grained
+> such as draw-call level or a bin boundary level preemption. This patch
+> enables the basic preemption level, with more fine grained preemption
+> support to follow.
+>
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+> ---
+>  drivers/gpu/drm/msm/Makefile              |   1 +
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 323 +++++++++++++++++++++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 ++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 431 ++++++++++++++++++++++++=
+++++++
+>  drivers/gpu/drm/msm/msm_ringbuffer.h      |   7 +
+>  5 files changed, 921 insertions(+), 9 deletions(-)
+>
 
-FWIW it's best to keep the error path a mirror image of the success
-path, so I'd add a new label "err_relock" or something. But..
+[snip]
 
-> This could introduce a weird edge case where we drop rtnl_lock, then
-> find out genlmsg_reply failed, then reacquire rtnl_lock to do the
-> cleanup. I can't think of anything that would horribly break if we do
-> that, but I may be missing something. In theory we could race with a
-> dmabuf unbind call happening in parallel.
-> 
-> If we can't reacquire rtnl_lock to do the cleanup, I think I need to
-> revert back to doing genlmsg_reply inside of rtnl_lock, and dropping
-> the lock before we return from the function.
+> +
+> +int a6xx_preempt_submitqueue_setup(struct msm_gpu *gpu,
+> +               struct msm_gpu_submitqueue *queue)
+> +{
+> +       void *ptr;
+> +
+> +       /*
+> +        * Create a per submitqueue buffer for the CP to save and restore=
+ user
+> +        * specific information such as the VPC streamout data.
+> +        */
+> +       ptr =3D msm_gem_kernel_new(gpu->dev, A6XX_PREEMPT_USER_RECORD_SIZ=
+E,
+> +                       MSM_BO_WC, gpu->aspace, &queue->bo, &queue->bo_io=
+va);
 
-..indeed, best to keep it atomic. So let's hold rtnl_lock longer.
-genlmsg_reply() shouldn't block, AFAIU.
+Can this be MSM_BO_MAP_PRIV?  Otherwise it is visible (and writeable)
+by other proceess's userspace generated cmdstream.
 
-BTW CI is quite behind but Yunsheng ignored it and reposted his
-"refactor" which is going to take us another 10 hours back, 
-so whatever, just post v24 when you're ready...
+And a similar question for the scratch_bo..  I'd have to give some
+thought to what sort of mischief could be had, but generall kernel
+mappings that are not MAP_PRIV are a thing to be careful about.
+
+BR,
+-R
