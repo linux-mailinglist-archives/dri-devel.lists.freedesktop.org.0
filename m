@@ -2,62 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B6F965A64
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 10:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835AE965AAD
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 10:45:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34E3C10E855;
-	Fri, 30 Aug 2024 08:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE4D10E864;
+	Fri, 30 Aug 2024 08:45:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AmO6Bip+";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="LNds2Gkw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p1YIOS62";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LNds2Gkw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p1YIOS62";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE9BC10E854;
- Fri, 30 Aug 2024 08:33:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725006826; x=1756542826;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=VbltCSniSEiQ192gvutffM44TnsJLb69BU5/Mgnk7AE=;
- b=AmO6Bip+Jr2ncIJk6rNhYXFQA1JERc7OVA5PtYThrsQF1AYDN+txFyKp
- ARvDgc1+ceELPWZflBQDfbFJSvTFzxEq/hAO7huUWGvGaGAH09zhm6yiJ
- JD1LLSbQeQCvOoy5BRpx7aieTQ+1hKNZ9QP4iu0r4bKnbTpPm4/yrI977
- Xa3957qKZ50m7CXF5VCNolYwzQZ7dMq9uslQ782iw3PwmAGWWply71+qf
- XQFBMie5WcxiIwM25iVUCGf7RxbiDdMkIlzff7yAJzO7+gJOUsriOE5eG
- Pld72h+6QKJ1g1YVVsLqfYPvxIpFnkEya+txaPi9SvPl8hLsS4hxd4GBU Q==;
-X-CSE-ConnectionGUID: WvJeWom1Qzi7QVIc5SkqCw==
-X-CSE-MsgGUID: R6UWtJlCSdaPga7g02562g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34304168"
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; d="scan'208";a="34304168"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2024 01:33:45 -0700
-X-CSE-ConnectionGUID: r7OCv5ZaSWiins7QaSbT2w==
-X-CSE-MsgGUID: NXz48CkaTGme/UYdQopFhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; d="scan'208";a="94567481"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.88])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2024 01:33:43 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>, "Garg, Nemesa"
- <nemesa.garg@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Cc: "Garg, Nemesa" <nemesa.garg@intel.com>
-Subject: RE: [4/5] drm/i915/display: Add registers and compute the strength
-In-Reply-To: <IA0PR11MB7307DCA59F0772375397FCD0BA972@IA0PR11MB7307.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240708080917.257857-1-nemesa.garg@intel.com>
- <20240708080917.257857-5-nemesa.garg@intel.com>
- <IA0PR11MB7307DCA59F0772375397FCD0BA972@IA0PR11MB7307.namprd11.prod.outlook.com>
-Date: Fri, 30 Aug 2024 11:33:37 +0300
-Message-ID: <87wmjyv28u.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AABBF10E85D;
+ Fri, 30 Aug 2024 08:45:00 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1FE2A21A0D;
+ Fri, 30 Aug 2024 08:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725007499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mdRCe23lP/g31hCq4FZpUcaKnvtvt7KaSVUBMQcDBAI=;
+ b=LNds2Gkw+d+w/RHasWFbx1/kMsoeaHFOpW+SlGvCFY5nNFCHHnYWJZfwmxq72BFfwnia5J
+ Q9xC6LJNO354Lr8d/DiRp1ALu/QzdSbnCxhXSe7TRs3NSSVj0eraRBcqemiby7OJaAEB49
+ iCoIFfGYef/HmvJlbdmIc3ZrpjMYZLA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725007499;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mdRCe23lP/g31hCq4FZpUcaKnvtvt7KaSVUBMQcDBAI=;
+ b=p1YIOS621/e0WBzHKlvpZZH1410mqrkCgP7lhz2fcBPuTUYqGNehYkvp21sEFHP3fP7TOr
+ 8ZeIgNPvHD474/Cw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725007499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mdRCe23lP/g31hCq4FZpUcaKnvtvt7KaSVUBMQcDBAI=;
+ b=LNds2Gkw+d+w/RHasWFbx1/kMsoeaHFOpW+SlGvCFY5nNFCHHnYWJZfwmxq72BFfwnia5J
+ Q9xC6LJNO354Lr8d/DiRp1ALu/QzdSbnCxhXSe7TRs3NSSVj0eraRBcqemiby7OJaAEB49
+ iCoIFfGYef/HmvJlbdmIc3ZrpjMYZLA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725007499;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mdRCe23lP/g31hCq4FZpUcaKnvtvt7KaSVUBMQcDBAI=;
+ b=p1YIOS621/e0WBzHKlvpZZH1410mqrkCgP7lhz2fcBPuTUYqGNehYkvp21sEFHP3fP7TOr
+ 8ZeIgNPvHD474/Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C797513A3D;
+ Fri, 30 Aug 2024 08:44:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id LIXdLoqG0WbyegAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 30 Aug 2024 08:44:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 00/81] drm: Provide client setup helper and convert drivers
+Date: Fri, 30 Aug 2024 10:39:44 +0200
+Message-ID: <20240830084456.77630-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,268 +109,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 Aug 2024, "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
->> -----Original Message-----
->> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Nemesa
->> Garg
->> Sent: Monday, July 8, 2024 1:39 PM
->> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->> Cc: Garg, Nemesa <nemesa.garg@intel.com>
->> Subject: [4/5] drm/i915/display: Add registers and compute the strength
->> 
->> Add new registers and related bits. Compute the strength value and tap value
->> based on display mode.
->> 
->> Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_display.c  |   5 +-
->>  .../drm/i915/display/intel_display_types.h    |   1 +
->>  .../drm/i915/display/intel_sharpen_filter.c   | 105 ++++++++++++++++++
->>  .../drm/i915/display/intel_sharpen_filter.h   |   5 +
->>  drivers/gpu/drm/i915/i915_reg.h               |  17 +++
->>  5 files changed, 132 insertions(+), 1 deletion(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/display/intel_display.c
->> b/drivers/gpu/drm/i915/display/intel_display.c
->> index 385a254528f9..e0a82ab46d29 100644
->> --- a/drivers/gpu/drm/i915/display/intel_display.c
->> +++ b/drivers/gpu/drm/i915/display/intel_display.c
->> @@ -5910,7 +5910,10 @@ static int intel_atomic_check_planes(struct
->> intel_atomic_state *state)
->>  		if (ret)
->>  			return ret;
->> 
->> -		intel_sharpness_scaler_compute_config(new_crtc_state);
->> +		if (sharp_compute(new_crtc_state)) {
->> +
->> 	intel_sharpness_scaler_compute_config(new_crtc_state);
->> +			intel_filter_compute_config(new_crtc_state);
->> +		}
->> 
->>  		/*
->>  		 * On some platforms the number of active planes affects diff --
->> git a/drivers/gpu/drm/i915/display/intel_display_types.h
->> b/drivers/gpu/drm/i915/display/intel_display_types.h
->> index 130740aaaa21..782192f2b9ae 100644
->> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
->> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
->> @@ -835,6 +835,7 @@ struct intel_sharpness_filter {
->>  	bool strength_changed;
->>  	u8 win_size;
->>  	bool need_scaler;
->> +	u8 strength;
->>  };
->> 
->>  struct intel_crtc_scaler_state {
->> diff --git a/drivers/gpu/drm/i915/display/intel_sharpen_filter.c
->> b/drivers/gpu/drm/i915/display/intel_sharpen_filter.c
->> index 627a0dbd3dfd..6600a66d3960 100644
->> --- a/drivers/gpu/drm/i915/display/intel_sharpen_filter.c
->> +++ b/drivers/gpu/drm/i915/display/intel_sharpen_filter.c
->> @@ -18,11 +18,87 @@
->>  #define FILTER_COEFF_1_0 1000
->>  #define FILTER_COEFF_0_0 0
->> 
->> +/*
->> + * Default LUT values to be loaded one time.
->> + */
-> Single line comment style  /*  */
->
->> +static const u16 lut_data[] = {
->> +	4095, 2047, 1364, 1022, 816, 678, 579,
->> +	504, 444, 397, 357, 323, 293, 268, 244, 224,
->> +	204, 187, 170, 154, 139, 125, 111, 98, 85,
->> +	73, 60, 48, 36, 24, 12, 0
->> +};
->> +
->> +void intel_filter_lut_load(struct intel_crtc *crtc,
->> +			   const struct intel_crtc_state *crtc_state) {
->> +	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
->
-> dev_priv => i915
+Provide drm_client_setup() to initialize in-kernel DRM clients. Then
+convert all drivers to the new interface. Remove old interfaces for
+the fbdev client.
 
-Actually,
+So far, the only supported DRM client in the kernel is for fbdev
+emulation with its fbcon support. Long term, we want to move away
+from fbcon. Possible replacements are DRM-based loggers, boot-up
+logos or maybe even a console. The exact kind of client should be
+configurable by the user. You can find examples of such clients at
+[1] and [2].
 
-	struct intel_display *display = to_intel_display(crtc);
+To do this, we need one single interface for drivers to initialize
+the configured in-kernel clients, replacing the current call to
+initialize fbdev emulation. The fbdev emulation also depends on the
+DRM driver's management, so drivers differ in what fbdev code they
+run. We need to abstract this as well.
 
-everywhere instead of dev_priv or i915.
+This patchset addresses these topics. While there are many patches,
+most of them are small, straight-forward changes to drivers or
+rearrange existing code.
 
->
->> +	int i;
->> +
->> +	intel_de_write(dev_priv, SHRPLUT_INDEX(crtc->pipe),
->> INDEX_AUTO_INCR |
->> +INDEX_VALUE(0));
->> +
->> +	for (i = 0; i < ARRAY_SIZE(lut_data); i++)
->> +		intel_de_write(dev_priv, SHRPLUT_DATA(crtc->pipe),
->> lut_data[i]); }
-> Sharpness LUT is from bit[0:11] and lut_data is u16. 
->
->> +
->> +static void intel_filter_size_compute(struct intel_crtc_state
-> Can the same function naming convention be used
-> intel_filter_size_compute => intel_sharpness_filter_size_compute
->
->> +*crtc_state) {
->> +	const struct drm_display_mode *mode = &crtc_state-
->> >hw.adjusted_mode;
->> +
->> +	if (mode->hdisplay <= 1920 && mode->vdisplay <= 1080)
->> +		crtc_state->hw.casf_params.win_size = 0;
->> +	else if (mode->hdisplay <= 3840 && mode->vdisplay <= 2160)
->> +		crtc_state->hw.casf_params.win_size = 1;
->> +	else
->> +		crtc_state->hw.casf_params.win_size = 2; }
->> +
->> +bool intel_sharpness_strength_changed(struct intel_atomic_state *state)
->> +{
->> +	int i;
->> +	struct intel_crtc_state *old_crtc_state, *new_crtc_state;
->> +	struct intel_crtc *crtc;
->> +
->> +	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
->> +					    new_crtc_state, i) {
->> +		if (new_crtc_state->uapi.sharpness_strength !=
->> +				old_crtc_state->uapi.sharpness_strength)
->> +			return true;
->> +	}
->> +
->> +	return false;
->> +}
->> +
->>  void intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state)  {
->>  	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
->>  	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
->>  	int id = crtc_state->scaler_state.scaler_id;
->> +	u32 sharpness_ctl;
->> +	u8 val;
->> +
->> +	if (crtc_state->uapi.sharpness_strength == 0) {
->> +		intel_sharpness_disable(crtc_state);
->> +
->> +		return;
->> +	}
->> +
->> +	/*
->> +	 * HW takes a value in form (1.0 + strength) in 4.4 fixed format.
->> +	 * Strength is from 0.0-14.9375 ie from 0-239.
->> +	 * User can give value from 0-255 but is clamped to 239.
->> +	 * Ex. User gives 85 which is 5.3125 and adding 1.0 gives 6.3125.
->> +	 * 6.3125 in 4.4 format is 01100101 which is equal to 101.
->> +	 * Also 85 + 16 = 101.
->> +	 */
->> +	val = min(crtc_state->uapi.sharpness_strength, 0xEF) + 0x10;
->> +
->> +	drm_dbg(&dev_priv->drm, "Filter strength value: %d\n", val);
->> +
->> +	sharpness_ctl =	FILTER_EN | FILTER_STRENGTH(val) |
->> +		FILTER_SIZE(crtc_state->hw.casf_params.win_size);
->> +
->> +	intel_de_write(dev_priv, SHARPNESS_CTL(crtc->pipe),
->> +		       sharpness_ctl);
->> 
->>  	intel_de_write_fw(dev_priv, GLK_PS_COEF_INDEX_SET(crtc->pipe, id,
->> 0),
->>  			  PS_COEF_INDEX_AUTO_INC);
->> @@ -42,9 +118,21 @@ void intel_sharpness_filter_enable(struct
->> intel_crtc_state *crtc_state)
->> 
->>  int intel_filter_compute_config(struct intel_crtc_state *crtc_state)  {
->> +	struct intel_crtc *intel_crtc = to_intel_crtc(crtc_state->uapi.crtc);
->> +	struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.dev);
->> +
->> +	if (crtc_state->uapi.sharpness_strength == 0) {
->> +		crtc_state->hw.casf_params.need_scaler = false;
->> +		return 0;
->> +	}
->> +
->>  	if (!crtc_state->pch_pfit.enabled)
->>  		crtc_state->hw.casf_params.need_scaler = true;
->> 
->> +	intel_filter_size_compute(crtc_state);
->> +	drm_dbg(&dev_priv->drm, "Tap Size: %d\n",
->> +		crtc_state->hw.casf_params.win_size);
->> +
->>  	return 0;
->>  }
->> 
->> @@ -129,3 +217,20 @@ void intel_sharpness_scaler_compute_config(struct
->> intel_crtc_state *crtc_state)
->>  		}
->>  	}
->>  }
->> +
->> +void intel_sharpness_disable(struct intel_crtc_state *crtc_state) {
->> +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
->> +	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
->> +
->> +	intel_de_write(dev_priv, SHARPNESS_CTL(crtc->pipe), 0);
->> +	drm_dbg(&dev_priv->drm, "Filter strength value: %d\n", 0); }
->> +
->> +bool sharp_compute(struct intel_crtc_state *crtc_state) {
->> +	if (!(FILTER_EN & 1) && crtc_state->uapi.sharpness_strength != 0)
->> +		return true;
->> +
->> +	return false;
->> +}
->> diff --git a/drivers/gpu/drm/i915/display/intel_sharpen_filter.h
->> b/drivers/gpu/drm/i915/display/intel_sharpen_filter.h
->> index d20e65971a55..4fffdd99d0fb 100644
->> --- a/drivers/gpu/drm/i915/display/intel_sharpen_filter.h
->> +++ b/drivers/gpu/drm/i915/display/intel_sharpen_filter.h
->> @@ -24,5 +24,10 @@ struct scaler_filter_coeff {  void
->> intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state);  void
->> intel_sharpness_scaler_compute_config(struct intel_crtc_state *crtc_state);  int
->> intel_filter_compute_config(struct intel_crtc_state *crtc_state);
->> +void intel_filter_lut_load(struct intel_crtc *crtc,
->> +			   const struct intel_crtc_state *crtc_state); bool
->> +intel_sharpness_strength_changed(struct intel_atomic_state *state);
->> +void intel_sharpness_disable(struct intel_crtc_state *crtc_state); bool
->> +sharp_compute(struct intel_crtc_state *crtc_state);
->> 
->>  #endif /* __INTEL_SHARPEN_FILTER_H__ */ diff --git
->> a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h index
->> 9492fda15627..2fa42e10bb63 100644
->> --- a/drivers/gpu/drm/i915/i915_reg.h
->> +++ b/drivers/gpu/drm/i915/i915_reg.h
->> @@ -2396,6 +2396,23 @@
->>  			_ID(id, _PS_COEF_SET0_DATA_1A,
->> _PS_COEF_SET0_DATA_2A) + (set) * 8, \
->>  			_ID(id, _PS_COEF_SET0_DATA_1B,
->> _PS_COEF_SET0_DATA_2B) + (set) * 8)
->> 
->> +#define _SHARPNESS_CTL_A               0x682B0
->> +#define SHARPNESS_CTL(trans)           _MMIO_PIPE2(dev_priv, trans,
->> _SHARPNESS_CTL_A)
->> +#define  FILTER_EN                      REG_BIT(31)
->> +#define  FILTER_STRENGTH_MASK           REG_GENMASK(15, 8)
->> +#define  FILTER_STRENGTH(x)
->> REG_FIELD_PREP(FILTER_STRENGTH_MASK, (x))
->> +#define  FILTER_SIZE_MASK               REG_GENMASK(1, 0)
->> +#define  FILTER_SIZE(x)                 REG_FIELD_PREP(FILTER_SIZE_MASK, (x))
->> +
->> +#define _SHRPLUT_DATA_A			0x682B8
->> +#define SHRPLUT_DATA(trans)		_MMIO_PIPE2(dev_priv, trans,
->> _SHRPLUT_DATA_A)
->> +
->> +#define _SHRPLUT_INDEX_A		0x682B4
->> +#define SHRPLUT_INDEX(trans)		_MMIO_PIPE2(dev_priv, trans,
->> _SHRPLUT_INDEX_A)
->> +#define  INDEX_AUTO_INCR		REG_BIT(10)
->> +#define  INDEX_VALUE_MASK		REG_GENMASK(4, 0)
->> +#define  INDEX_VALUE(x)
->> 	REG_FIELD_PREP(INDEX_VALUE_MASK, (x))
->> +
->>  /* Display Internal Timeout Register */
->>  #define RM_TIMEOUT		_MMIO(0x42060)
->>  #define  MMIO_TIMEOUT_US(us)	((us) << 0)
->> --
->> 2.25.1
->
-> Thanks and Regards,
-> Arun R Murthy
-> --------------------
+Patches 1 to 3 add a driver-neutral setup function for the fbdev
+client. The new callback fbdev_probe in struct drm_driver creates
+the GEM buffer for fbdev output. It replaces the existing callback
+fb_probe from struct drm_fb_helper_funcs, which currently does the
+same. The client code is equal to code in exisisting fbdev emulation,
+except for its use of fbdev_probe.
 
+Patch 4 adds drm_client_setup(), a client-agnostic interface to
+initialize the in-kernel DRM clients. It only supports the new fbdev
+emulation setup, but additional clients will be added here. Hopefully
+this will hide future changes to DRM client initialization from
+drivers.
+
+Patches 5 to 49 rework all drivers with GEM memory management based
+on DMA helpers. This is fairly straigh-forward. The fbdev-dma helpers
+provide an implementation of the fbdev_probe helpers. Each driver
+sets the new callback in its instance of struct drm_driver and calls
+drm_client_setup(). Then the old fbdev-dma client goes away.
+
+Patches 50 to 63 do the same for drivers with SHMEM-based GEM memory
+management. The fbdev client code is again the same as before, except
+for the fbdev_probe callback.
+
+Patches 64 to 73 do the same for drivers with TTM-based GEM memory
+management.
+
+Patches 74 to 81 do the same for most of the remaining drivers with
+custom fbdev emulation. As before, the new fbdev client code is mostly
+the same the old one; except for the fbdev_probe function.
+
+Changes for i915 and xe are a bit more involved, so they are left out
+for now and will be send in a separate series.
+
+This patchset has been tested on various hardware with the various
+memory managers involved.
+
+v3:
+- add missing macros for driver ops (Sam)
+- split off i915/xe changes
+v2:
+- add drm_client_setup_with_fourcc()
+- xe: set fbdev_probe in xe_display_driver_set_hooks()
+- do cleanups
+
+Thomas Zimmermann (81):
+  drm/fbdev-helper: Move color-mode lookup into 4CC format helper
+  drm/fbdev-helper: Set and clear VGA switcheroo client from fb_info
+  drm/fbdev: Add memory-agnostic fbdev client
+  drm: Add client-agnostic setup helper
+  drm/fbdev-dma: Support struct drm_driver.fbdev_probe
+  drm/arcgpu: Run DRM default client setup
+  drm/arm/komeda: Run DRM default client setup
+  drm/arm/hdlcd: Run DRM default client setup
+  drm/arm/malidp: Run DRM default client setup
+  drm/aspeed: Run DRM default client setup
+  drm/atmel-hdlcd: Run DRM default client setup
+  drm/fsl-dcu: Run DRM default client setup
+  drm/hisilicon/kirin: Run DRM default client setup
+  drm/hx8357d: Run DRM default client setup
+  drm/ili9163: Run DRM default client setup
+  drm/ili9225: Run DRM default client setup
+  drm/ili9341: Run DRM default client setup
+  drm/ili9486: Run DRM default client setup
+  drm/imx/dcss: Run DRM default client setup
+  drm/imx/ipuv3: Run DRM default client setup
+  drm/imx/lcdc: Run DRM default client setup
+  drm/ingenic: Run DRM default client setup
+  drm/kmb: Run DRM default client setup
+  drm/logicvc: Run DRM default client setup
+  drm/mcde: Run DRM default client setup
+  drm/mediatek: Run DRM default client setup
+  drm/meson: Run DRM default client setup
+  drm/mi0283qt: Run DRM default client setup
+  drm/mxsfb/lcdif: Run DRM default client setup
+  drm/mxsfb: Run DRM default client setup
+  drm/panel/ili9341: Run DRM default client setup
+  drm/panel-mipi-dbi: Run DRM default client setup
+  drm/pl111: Run DRM default client setup
+  drm/renesas/rcar-du: Run DRM default client setup
+  drm/renesas/rz-du: Run DRM default client setup
+  drm/renesas/shmobile: Run DRM default client setup
+  drm/repaper: Run DRM default client setup
+  drm/rockchip: Run DRM default client setup
+  drm/sti: Run DRM default client setup
+  drm/stm: Run DRM default client setup
+  drm/sun4i: Run DRM default client setup
+  drm/tidss: Run DRM default client setup
+  drm/tilcdc: Run DRM default client setup
+  drm/st7586: Run DRM default client setup
+  drm/st7735r: Run DRM default client setup
+  drm/tve200: Run DRM default client setup
+  drm/vc4: Run DRM default client setup
+  drm/xlnx: Run DRM default client setup
+  drm/fbdev-dma: Remove obsolete setup function
+  drm/fbdev-shmem: Support struct drm_driver.fbdev_probe
+  drm/ast: Run DRM default client setup
+  drm/cirrus: Run DRM default client setup
+  drm/gm12u320: Run DRM default client setup
+  drm/gud: Run DRM default client setup
+  drm/hyperv_drm: Run DRM default client setup
+  drm/mgag200: Run DRM default client setup
+  drm/ofdrm: Use DRM default client setup
+  drm/simpledrm: Run DRM default client setup
+  drm/solomon: Run DRM default client setup
+  drm/udl: Run DRM default client setup
+  drm/virtgpu: Run DRM default client setup
+  drm/vkms: Run DRM default client setup
+  drm/fbdev-shmem: Remove obsolete setup function
+  drm/fbdev-ttm: Support struct drm_driver.fbdev_probe
+  drm/amdgpu: Run DRM default client setup
+  drm/bochs: Run DRM default client setup
+  drm/hisilicon/hibmc: Run DRM default client setup
+  drm/loongson: Run DRM default client setup
+  drm/nouveau: Run DRM default client setup
+  drm/qxl: Run DRM default client setup
+  drm/vboxvideo: Run DRM default client setup
+  drm/vmwgfx: Run DRM default client setup
+  drm/fbdev-ttm: Remove obsolete setup function
+  drm/armada: Run DRM default client setup
+  drm/exynos-drm: Run DRM default client setup
+  drm/gma500: Run DRM default client setup
+  drm/msm: Run DRM default client setup
+  drm/radeon: Run DRM default client setup
+  drm/tegra: Run DRM default client setup
+  drm/omapdrm: Remove struct drm_fb_helper from struct omap_fbdev.
+  drm/omapdrm: Run DRM default client setup
+
+ drivers/gpu/drm/Makefile                      |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  11 +-
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |   4 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   |   2 +
+ drivers/gpu/drm/arm/hdlcd_drv.c               |   4 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |   4 +-
+ drivers/gpu/drm/armada/armada_drm.h           |  11 +-
+ drivers/gpu/drm/armada/armada_drv.c           |   4 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         | 115 +--------
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |   4 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |   6 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |   5 +-
+ drivers/gpu/drm/drm_client_setup.c            |  69 ++++++
+ drivers/gpu/drm/drm_fb_helper.c               | 100 +++-----
+ drivers/gpu/drm/drm_fbdev_client.c            | 141 +++++++++++
+ drivers/gpu/drm/drm_fbdev_dma.c               | 170 +++----------
+ drivers/gpu/drm/drm_fbdev_shmem.c             | 170 +++----------
+ drivers/gpu/drm/drm_fbdev_ttm.c               | 225 +++++-------------
+ drivers/gpu/drm/drm_fourcc.c                  |  30 ++-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       |   4 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     | 101 +-------
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.h     |  15 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |   4 +-
+ drivers/gpu/drm/gma500/fbdev.c                | 100 +-------
+ drivers/gpu/drm/gma500/psb_drv.c              |   4 +-
+ drivers/gpu/drm/gma500/psb_drv.h              |  12 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |   4 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |   4 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |   2 +
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |   4 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |   4 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           |   4 +-
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c      |   4 +-
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c           |   4 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   4 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                 |   4 +-
+ drivers/gpu/drm/logicvc/logicvc_drm.c         |  16 +-
+ drivers/gpu/drm/loongson/lsdc_drv.c           |   4 +-
+ drivers/gpu/drm/mcde/mcde_drv.c               |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   4 +-
+ drivers/gpu/drm/meson/meson_drv.c             |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |   5 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |   4 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |  13 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               | 144 ++---------
+ drivers/gpu/drm/mxsfb/lcdif_drv.c             |   4 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |   4 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  10 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c            |   1 +
+ drivers/gpu/drm/omapdrm/omap_drv.h            |   3 +
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          | 161 ++++---------
+ drivers/gpu/drm/omapdrm/omap_fbdev.h          |   8 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |   4 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |   4 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   4 +-
+ drivers/gpu/drm/radeon/radeon_drv.c           |  16 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c         | 114 +--------
+ drivers/gpu/drm/radeon/radeon_mode.h          |  12 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c |   4 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |   4 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |   5 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   4 +-
+ drivers/gpu/drm/solomon/ssd130x.c             |   4 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |   4 +-
+ drivers/gpu/drm/stm/drv.c                     |   5 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |   4 +-
+ drivers/gpu/drm/tegra/drm.c                   |   5 +-
+ drivers/gpu/drm/tegra/drm.h                   |  12 +-
+ drivers/gpu/drm/tegra/fbdev.c                 |  98 +-------
+ drivers/gpu/drm/tidss/tidss_drv.c             |   4 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |   5 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |   4 +-
+ drivers/gpu/drm/tiny/bochs.c                  |   4 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |   4 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |   4 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |   4 +-
+ drivers/gpu/drm/tiny/ili9163.c                |   4 +-
+ drivers/gpu/drm/tiny/ili9225.c                |   4 +-
+ drivers/gpu/drm/tiny/ili9341.c                |   4 +-
+ drivers/gpu/drm/tiny/ili9486.c                |   4 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |   4 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |   9 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |   4 +-
+ drivers/gpu/drm/tiny/repaper.c                |   4 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |   9 +-
+ drivers/gpu/drm/tiny/st7586.c                 |   4 +-
+ drivers/gpu/drm/tiny/st7735r.c                |   4 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |   9 +-
+ drivers/gpu/drm/udl/udl_drv.c                 |   4 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |   4 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |   5 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |   6 +-
+ drivers/gpu/drm/vkms/vkms_drv.c               |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   5 +-
+ drivers/gpu/drm/xlnx/zynqmp_kms.c             |   4 +-
+ include/drm/drm_client_setup.h                |  15 ++
+ include/drm/drm_drv.h                         |  18 ++
+ include/drm/drm_fbdev_client.h                |  19 ++
+ include/drm/drm_fbdev_dma.h                   |  13 +-
+ include/drm/drm_fbdev_shmem.h                 |  13 +-
+ include/drm/drm_fbdev_ttm.h                   |  15 +-
+ include/drm/drm_fourcc.h                      |   1 +
+ 102 files changed, 896 insertions(+), 1372 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_client_setup.c
+ create mode 100644 drivers/gpu/drm/drm_fbdev_client.c
+ create mode 100644 include/drm/drm_client_setup.h
+ create mode 100644 include/drm/drm_fbdev_client.h
+
+
+base-commit: e04db8eb2ca2ef2abebad1fdff001bcd51ecd468
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
 -- 
-Jani Nikula, Intel
+2.46.0
+
