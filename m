@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B52965823
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B550C965825
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 09:15:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC54410E823;
-	Fri, 30 Aug 2024 07:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0D8E10E822;
+	Fri, 30 Aug 2024 07:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 054A810E0B7;
- Fri, 30 Aug 2024 01:14:06 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ww0XD4kZ9zyR6Q;
- Fri, 30 Aug 2024 09:13:32 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC6810E0B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 01:14:08 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Ww0RG1j5Rz20n8q;
+ Fri, 30 Aug 2024 09:09:14 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
- by mail.maildlp.com (Postfix) with ESMTPS id BC85D140202;
- Fri, 30 Aug 2024 09:14:04 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 58B521A016C;
+ Fri, 30 Aug 2024 09:14:05 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Fri, 30 Aug
@@ -31,9 +31,9 @@ To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <Jesse.Zhang@amd.com>
 CC: <lizetao1@huawei.com>, <amd-gfx@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH -next 2/3] drm/amdgpu: use clamp() in amdgpu_vm_adjust_size()
-Date: Fri, 30 Aug 2024 09:22:15 +0800
-Message-ID: <20240830012216.603623-3-lizetao1@huawei.com>
+Subject: [PATCH -next 3/3] drm/amdgpu: use clamp() in nvkm_volt_map()
+Date: Fri, 30 Aug 2024 09:22:16 +0800
+Message-ID: <20240830012216.603623-4-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240830012216.603623-1-lizetao1@huawei.com>
 References: <20240830012216.603623-1-lizetao1@huawei.com>
@@ -64,22 +64,22 @@ makes the code easier to understand than min(max()).
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index e20d19ae01b2..40f9a5d4f3c0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2224,7 +2224,7 @@ void amdgpu_vm_adjust_size(struct amdgpu_device *adev, uint32_t min_vm_size,
- 		phys_ram_gb = ((uint64_t)si.totalram * si.mem_unit +
- 			       (1 << 30) - 1) >> 30;
- 		vm_size = roundup_pow_of_two(
--			min(max(phys_ram_gb * 3, min_vm_size), max_size));
-+			clamp(phys_ram_gb * 3, min_vm_size, max_size));
- 	}
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c
+index a17a6dd8d3de..803b98df4858 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c
+@@ -142,7 +142,7 @@ nvkm_volt_map(struct nvkm_volt *volt, u8 id, u8 temp)
+ 			return -ENODEV;
+ 		}
  
- 	adev->vm_manager.max_pfn = (uint64_t)vm_size << 18;
+-		result = min(max(result, (s64)info.min), (s64)info.max);
++		result = clamp(result, (s64)info.min, (s64)info.max);
+ 
+ 		if (info.link != 0xff) {
+ 			int ret = nvkm_volt_map(volt, info.link, temp);
 -- 
 2.34.1
 
