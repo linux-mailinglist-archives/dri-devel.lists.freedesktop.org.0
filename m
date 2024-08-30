@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E1B966C28
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 00:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FED3966C34
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 00:22:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6467F10E070;
-	Fri, 30 Aug 2024 22:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A2610EAFB;
+	Fri, 30 Aug 2024 22:22:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RKe37FyJ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=cristian.ciocaltea@collabora.com header.b="ft7x5kfX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B942F10E070
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 22:16:29 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e05f25fb96eso2268456276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 15:16:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725056188; x=1725660988; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Kg0OcxRkiJ9mILCxT4CPJe/4xi2OQv9TcXwbD36UhOo=;
- b=RKe37FyJg0Icb4rAsmVSuIt43d0/FKA9FewpM0j7cyXuHqYOT4VvgoiQzQLyRuPZj7
- bgF8iY7Y30djT0Y+C4TtOyR29owhz5TjUrkvq10BjFVQPAg+UIRMq9NREzy00sePxV/x
- T3tsjNGkuyuOW6Xsd6sa2UWoYv5WVxKHgmHQBLyydBvjIhrlzmXipfSdLvyxg5SFT+B4
- 9HJrtpedTSTfmnmuR9sQNmyVCoBW2xv9RUzYtd6MOEbqx80iFA/TQW6PE7MUfAJUeguu
- h1saGw2A5UNkQhQPfdGe9uinTNNxaEkjsOakSg3zs2+CR4GvcbW2rmvqvLnA0h62idfL
- fbtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725056188; x=1725660988;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Kg0OcxRkiJ9mILCxT4CPJe/4xi2OQv9TcXwbD36UhOo=;
- b=tywxkhli+XDaJyNm1g7E+gRoUrKhIqGyidaQN9kahhlYs+ofwgDOYNLouZ0snsS5+e
- bqhTWQlaqDkuFtPT/xVY7WmTSlgXFdx0mnPsa4C3g0XcQsM9D/YBMHjlLHUdA+meZiUv
- qFOkII+YFln8W+zqAXwzj5riP3LlwXZHiKenrUBV24RwTV4ztVROIkyApkLja9qrPQNF
- TQnYCxBXRFyikYBTAjLRBVAWSSWqd2avsvmyjhi5eKeMH2Op1VuQBOBXMXO4Dp2sKgSq
- GaIgPx8eXE0I8cyYx8bP2FJ2CqoKb3A1JRr9521sKwMwMkgS8uFt42VVXVAzwxCf0z+I
- 053g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXC4IifAUjegbO0D1HmeyC9dIXpNf8XMC3K71xWgubKz14iaWtqxxlcRkG066xSxBN0jBTCyuU2eMs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwhyQVMCJlxKdHIeG+Ja+DTdkOo4jh6ofw+bqPHdytQ8szgIuCq
- 7OwKO1h6SXFMKsebEkwBHIRFgNn2eeTDopoRUqhoD60xutsulptVYo0A65TDyLhIf1YEoNQtf+2
- QA+O/pWYDdaHB8ON2w/LRl6xI3r+vmlI8zjrXxQ==
-X-Google-Smtp-Source: AGHT+IHgOBmdwt0xUdZkJgCOZZM6PHszQRsO5mml5cm8WKpLa4tuyNCeZ9ZjuBiXceqbfQLAyAgRg28VJm8LcQEYicM=
-X-Received: by 2002:a05:690c:6711:b0:6d3:be51:6d03 with SMTP id
- 00721157ae682-6d40f82a5dcmr47478337b3.23.1725056188103; Fri, 30 Aug 2024
- 15:16:28 -0700 (PDT)
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3DE10EAFB
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 22:22:05 +0000 (UTC)
+Delivered-To: kernel@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1725056517; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=VP8/aryapCMCOF1SvDqoG+mRd3WtRhCLgjOtagvUQv3gqKX4nVkiuEvUgItXy/JgzrdG3C5lJxhaCzEFhCN9V2fPKpzRLSqDac2xAP6Bs9VpQuoldASU00MihKa733wg54HZlQi6dH9O0yjl5DTZqDLownvRG3jYFfyQ4JwpHHw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1725056517;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=LhR+kXGC+DFHGvsEu1DDE6tCIMiI45kjz9hxbZ3s88o=; 
+ b=OHX6tglUjZBxq6KskH5aloVBl/7MZVJGxFkVt83NERgb20gLMVjBDUECe1g53MSgXD1ofJUCXTWs9xoGXYd4IG10yS3JTp/nn63ANpsMMXAXWFa3a5CeIqj/DME/Zq0A22S0OIyhg8WonQpkORQycXgUzBDx1l8i9F6Ka3d3+PQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=cristian.ciocaltea@collabora.com;
+ dmarc=pass header.from=<cristian.ciocaltea@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725056517; 
+ s=zohomail; d=collabora.com; i=cristian.ciocaltea@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=LhR+kXGC+DFHGvsEu1DDE6tCIMiI45kjz9hxbZ3s88o=;
+ b=ft7x5kfX3ak042gww8Zh/AvfQWRO3NFXaFPMO99JnFMaRWRXu0K0NgTlk+aX4t/c
+ 5h6Wjxh83wq2oxv5xioutYFwnVetxj1ZXfwqzmWCxrsq2oNLsYfeGUYpCzKLsBc85fQ
+ N40NdU5mslkZ/wmUBzKgqD58Ro1Gtdi3G9LRZPIU=
+Received: by mx.zohomail.com with SMTPS id 1725056516094200.5079858589844;
+ Fri, 30 Aug 2024 15:21:56 -0700 (PDT)
+Message-ID: <34422b7a-ce70-445d-a574-60ac36322119@collabora.com>
+Date: Sat, 31 Aug 2024 01:21:48 +0300
 MIME-Version: 1.0
-References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-11-502b16ae2ebb@quicinc.com>
- <pf6xgu7yjanzjigfpupons4ud6jbcmbr5icnd7yur6qhh3n5sf@plj4bi3beguw>
- <665da6e9-d9f3-4a28-a53b-0f467967fc78@quicinc.com>
-In-Reply-To: <665da6e9-d9f3-4a28-a53b-0f467967fc78@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 31 Aug 2024 01:16:16 +0300
-Message-ID: <CAA8EJpo0X7yRaqYV-tTco9+9WyexiPN_ey8hKivFrE3jTojUpg@mail.gmail.com>
-Subject: Re: [PATCH 11/21] drm/msm/dpu: Add RM support for allocating CWB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/bridge: synopsys: Add DW HDMI QP TX Controller
+ support library
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Rob Clark <robdclark@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
+ <20240819-b4-rk3588-bridge-upstream-v4-2-6417c72a2749@collabora.com>
+ <20240827-armored-magnificent-badger-ffb025@houat>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20240827-armored-magnificent-badger-ffb025@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,135 +85,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 Aug 2024 at 22:28, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->
->
->
-> On 8/30/2024 10:18 AM, Dmitry Baryshkov wrote:
-> > On Thu, Aug 29, 2024 at 01:48:32PM GMT, Jessica Zhang wrote:
-> >> Add support for allocating the concurrent writeback mux as part of the
-> >> WB allocation
-> >>
-> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  5 ++++-
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 30 +++++++++++++++++++++++++++--
-> >>   2 files changed, 32 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> >> index c17d2d356f7a..c43cb55fe1d2 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> >> @@ -1,5 +1,7 @@
-> >>   /* SPDX-License-Identifier: GPL-2.0-only */
-> >> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> >> +/*
-> >> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> >> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> >>    */
-> >>
-> >>   #ifndef _DPU_HW_MDSS_H
-> >> @@ -352,6 +354,7 @@ struct dpu_mdss_color {
-> >>   #define DPU_DBG_MASK_DSPP     (1 << 10)
-> >>   #define DPU_DBG_MASK_DSC      (1 << 11)
-> >>   #define DPU_DBG_MASK_CDM      (1 << 12)
-> >> +#define DPU_DBG_MASK_CWB      (1 << 13)
-> >>
-> >>   /**
-> >>    * struct dpu_hw_tear_check - Struct contains parameters to configure
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> >> index bc99b04eae3a..738e9a081b10 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> >> @@ -1,9 +1,10 @@
-> >>   // SPDX-License-Identifier: GPL-2.0-only
-> >>   /*
-> >>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
-> >> - * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> >> + * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> >>    */
-> >>
-> >> +#include <drm/drm_managed.h>
-> >>   #include "msm_drv.h"
-> >>   #define pr_fmt(fmt)        "[drm:%s] " fmt, __func__
-> >>   #include "dpu_kms.h"
-> >> @@ -34,6 +35,7 @@ int dpu_rm_init(struct drm_device *dev,
-> >>              void __iomem *mmio)
-> >>   {
-> >>      int rc, i;
-> >> +    struct dpu_hw_blk_reg_map *cwb_reg_map;
-> >>
-> >>      if (!rm || !cat || !mmio) {
-> >>              DPU_ERROR("invalid kms\n");
-> >> @@ -100,11 +102,35 @@ int dpu_rm_init(struct drm_device *dev,
-> >>              rm->hw_intf[intf->id - INTF_0] = hw;
-> >>      }
-> >>
-> >> +    if (cat->cwb_count > 0) {
-> >> +            cwb_reg_map = drmm_kzalloc(dev,
-> >> +                            sizeof(*cwb_reg_map) * cat->cwb_count,
-> >> +                            GFP_KERNEL);
-> >
-> > Please move CWB block pointers to dpu_rm. There is no need to allocate a
-> > separate array.
->
-> Hi Dmitry,
->
-> Sorry, I'm not sure what you mean here. Can you clarify your comment?
->
-> This is just allocating an array of the CWB register addresses so that
-> the hw_wb block can use it to configure the CWB mux registers.
+On 8/27/24 11:58 AM, Maxime Ripard wrote:
+> On Mon, Aug 19, 2024 at 01:29:29AM GMT, Cristian Ciocaltea wrote:
+>> +static irqreturn_t dw_hdmi_qp_main_hardirq(int irq, void *dev_id)
+>> +{
+>> +	struct dw_hdmi_qp *hdmi = dev_id;
+>> +	struct dw_hdmi_qp_i2c *i2c = hdmi->i2c;
+>> +	u32 stat;
+>> +
+>> +	stat = dw_hdmi_qp_read(hdmi, MAINUNIT_1_INT_STATUS);
+>> +
+>> +	i2c->stat = stat & (I2CM_OP_DONE_IRQ | I2CM_READ_REQUEST_IRQ |
+>> +			    I2CM_NACK_RCVD_IRQ);
+>> +
+>> +	if (i2c->stat) {
+>> +		dw_hdmi_qp_write(hdmi, i2c->stat, MAINUNIT_1_INT_CLEAR);
+>> +		complete(&i2c->cmp);
+>> +	}
+>> +
+>> +	if (stat)
+>> +		return IRQ_HANDLED;
+>> +
+>> +	return IRQ_NONE;
+>> +}
+> 
+> If the scrambler is enabled, you need to deal with hotplug. On hotplug,
+> the monitor will drop its TMDS ratio and scrambling status, but the
+> driver will keep assuming it's been programmed.
+> 
+> If you don't have a way to deal with hotplug yet, then I'd suggest to
+> just drop the scrambler setup for now.
 
-Excuse me. I asked to make the cwb_reg_map array a part of the
-existing dpu_rm structure. This way other subblocks can access it
-through dpu_rm API.
+Thanks for the heads up!
 
->
-> Thanks,
->
-> Jessica Zhang
->
-> >
-> >> +
-> >> +            if (!cwb_reg_map) {
-> >> +                    DPU_ERROR("failed cwb object creation\n");
-> >> +                    return -ENOMEM;
-> >> +            }
-> >> +    }
-> >> +
-> >> +
-> >> +    for (i = 0; i < cat->cwb_count; i++) {
-> >> +            struct dpu_hw_blk_reg_map *cwb = &cwb_reg_map[i];
-> >> +
-> >> +            cwb->blk_addr = mmio + cat->cwb[i].base;
-> >> +            cwb->log_mask = DPU_DBG_MASK_CWB;
-> >> +    }
-> >> +
-> >>      for (i = 0; i < cat->wb_count; i++) {
-> >>              struct dpu_hw_wb *hw;
-> >>              const struct dpu_wb_cfg *wb = &cat->wb[i];
-> >>
-> >> -            hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
-> >> +            if (cat->cwb)
-> >> +                    hw = dpu_hw_wb_init_with_cwb(dev, wb, mmio,
-> >> +                                    cat->mdss_ver, cwb_reg_map);
-> >> +            else
-> >> +                    hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
-> >> +
-> >>              if (IS_ERR(hw)) {
-> >>                      rc = PTR_ERR(hw);
-> >>                      DPU_ERROR("failed wb object creation: err %d\n", rc);
-> >>
-> >> --
-> >> 2.34.1
-> >>
-> >
-> > --
-> > With best wishes
-> > Dmitry
+HPD is partially handled by the RK platform driver, which makes use of
+drm_helper_hpd_irq_event(). Since the bridge sets DRM_BRIDGE_OP_DETECT
+flag, the dw_hdmi_qp_bridge_detect() callback gets executed, which in turn
+verifies the PHY status via ->read_hpd() implemented as
+dw_hdmi_qp_rk3588_read_hpd() in the platform driver.
 
+During my testing so far it worked reliably when switching displays with
+different capabilities.  I don't have a 4K@60Hz display at the moment, but
+used the HDMI RX port on the Rock 5B board in a loopback connection to
+verify this mode, which triggered the high TMDS clock ratio and scrambling
+setup as well.
 
+I just submitted v5 [1] where I reworked a bit the scrambling handling,
+which allowed for some code simplification.
 
--- 
-With best wishes
-Dmitry
+[1] https://lore.kernel.org/lkml/20240831-b4-rk3588-bridge-upstream-v5-0-9503bece0136@collabora.com/
+
+Regards,
+Cristian
+
