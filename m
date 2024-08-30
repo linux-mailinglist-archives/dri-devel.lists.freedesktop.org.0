@@ -2,111 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B68966A37
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 22:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D44966A53
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 22:19:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCFA010E158;
-	Fri, 30 Aug 2024 20:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF2610E5DE;
+	Fri, 30 Aug 2024 20:19:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=smtpservice.net header.i=@smtpservice.net header.b="sfO/igNI";
-	dkim=pass (2048-bit key; unprotected) header.d=fjasle.eu header.i=@fjasle.eu header.b="VaEBAgfY";
-	dkim=pass (1024-bit key; unprotected) header.d=fjasle.eu header.i=@fjasle.eu header.b="P7Vd6NkS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G+jYNq8L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
- Fri, 30 Aug 2024 20:09:09 UTC
-Received: from e3i12.smtp2go.com (e3i12.smtp2go.com [158.120.84.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C0610E105
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 20:09:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
- i=@smtpservice.net; q=dns/txt; s=a1-4; t=1725047639; h=feedback-id :
- x-smtpcorp-track : date : message-id : to : subject : from : reply-to
- : sender : list-unsubscribe : list-unsubscribe-post;
- bh=8ffM0oj/VoAWiRvIYhx2YzkqNpRjhG4e8iNPq0uer6M=;
- b=sfO/igNIj3rHJF7k+qXQrZXk/oxBtpfJzQIGEHKGIuMnzIXJ2e+p+bRI7Vfg2XM6JOxH7
- QDC0d6CtFzlgGIWcLvzmF0vG9HLEhfgzibd9+LWSpmfZNbJyXzrX23Ffd0vTsZkqjyK3nFJ
- trFY1dBwF2rYSQ6T9Xo2YVy+Irz3Elf+d6wcvHtu24PbAJ4eCSm0ov35v8XYXMqWQn5GWhb
- XU3U5qGDPzyHuA+8g7gCtwjdSyWUj3WpEWiRIQSjOS3U92JGRqL5MuyPsjiMTiIyWPwnf4N
- ymxmtwsjFbR3/4cg9H4ajjFt2ckrj4cYWfFuxEfoI1t9AZQTRNaHIy98Jxjg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
- i=@fjasle.eu; q=dns/txt; s=s1174286; t=1725047639; h=from : subject :
- to : message-id : date;
- bh=8ffM0oj/VoAWiRvIYhx2YzkqNpRjhG4e8iNPq0uer6M=;
- b=VaEBAgfY7wQUS2dXXkkONDWJoe8C1zfdZaGvwOMRNl9iRWe9FnpDtS1VLJfA4Bo9bp3g7
- iuLqIG8uJSCi5sbCI+0QO95ZL7dVTp2Te9FwbOwmx0vOHE6jUaGqsPVmJiygtq9vEDR3rbQ
- ryPbvFkBDMuZZPAZccVOFv097rnAoSMs9N3qfW/loJDYiLnerLgUrrIAl4bwfhg0cEKG9/q
- XF3uVkIrzMVw7tmUQTsryO2SoOKYqQ2L0QAjjUseA5pA5laaZIoWOPFWRxd9PQ3v4S3CkhE
- uRGHalGGPRjRGar9Bz6Wzf6Im4KmdeSZNoq1S8R7Bqq3bwU2Jx6hGTL9r/6g==
-Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
- by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.97.1-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1sk7gj-FnQW0hPpdBf-nWmg; Fri, 30 Aug 2024 19:53:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
- t=1725047604; bh=VrcLFN5tqkfWY7mTHOYKMf0e0KvomCFsMPrfJDAaMSY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=P7Vd6NkS50dZUF4ArGNPd4emC0HPqVDT3dc+nak6w/kyFZyIa7wpU0vTqmsiIkRep
- lFQ7rFhNaD2Mf9eA7RsNhjnIHPRkgubjb0TmusaqfHzYKQpJgQpvZs4tHW5Z4AT4vC
- fDqmIJfHaxoaJYo+8KfLKLIUurdYOyn4DfkqTbOE=
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
- id 423D3449B6; Fri, 30 Aug 2024 21:53:24 +0200 (CEST)
-Date: Fri, 30 Aug 2024 21:53:24 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- William Hubbs <w.d.hubbs@gmail.com>,
- Chris Brannon <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "speakup@linux-speakup.org" <speakup@linux-speakup.org>,
- "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
- "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
- "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
- Finn Behrens <me@kloenk.dev>,
- "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
- "gost.dev@samsung.com" <gost.dev@samsung.com>
-Subject: Re: [PATCH 08/12] include: add elf.h support
-Message-ID: <ZtIjNBhqdxmMBxfM@fjasle.eu>
-References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
- <CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
- <2024080717-cross-retiree-862e@gregkh>
- <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
- <2024080720-skyline-recapture-d80d@gregkh>
- <20240807-mottled-stoic-degu-d1e4cb@lindesnes>
- <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local>
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2ED210E6B8;
+ Fri, 30 Aug 2024 20:19:34 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id
+ d75a77b69052e-4567d78ad2fso13088811cf.2; 
+ Fri, 30 Aug 2024 13:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725049173; x=1725653973; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/XF2CCk23AXoNXAR3JERc7dhnx9x0OQne16QxjEFvAk=;
+ b=G+jYNq8LidNfG1K/zFTsieMKSEQj+MU1PtuXtJD9q11E3xEKiNPh85qQyfiU4HzNMy
+ Nt5BDcofSOCvHTVwn7QWgo5NcwENmCFBg3NvL1ne8F/R17XR1Lv25fc8xxiNtwn+5s75
+ KCUTxXXrzQdtPGBGA6DNZWS4YXMngvTCw+Pd8XAKWkWcBX9k7jNdbYE6ZSUn3qzp4rMO
+ jJmCjp5R9EbVz2w9TligXo6IPyBoZuemAvuHzzcwIe+8ps9dBKR4gARq8EDy3ahn4iTb
+ GdXU+Dp3x/jpCWiTNCGu8qIsiIQHHJaRl+f1cyRSmWRw6Vgstt7wMw46bw1Alyk3T/l2
+ BI6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725049173; x=1725653973;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/XF2CCk23AXoNXAR3JERc7dhnx9x0OQne16QxjEFvAk=;
+ b=susNLO3Jak8AZaRdOPUPjvvZczb/8SFArgVvebGpI4YPAcs45ZThaLWC2Zj1e9xoFK
+ pJUpiT5F582FZByPRkUBFfhCb2wcYjzoicaGU0XjZVVvQetgwNGPiLFhWoUdnIimrsCh
+ YPCiadh/Um5IUQtkj5vcgkiGKUJ6b+EkMNUpBpeGbb4C2tHpJeg9jO8Uf6vqZuxgbK86
+ D/tNsaoQF/rFc1Euq4ZjaMVg2HO8HWFbKl8w5NWcVgRyuT/Mf3t17ZqgkrkDeKY9+/pj
+ SqgJmHxCQJK6Ky3no2Sxkv9MtMRTanmvY1UQj3WZHEKjynjkMtUqYeQTqmR7xCKYOgfb
+ p5Pw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1xOYhkXBqsNFx2KYWzAshQC//9bR1p5Ro6sHUJlM7JSe5CpCXfx8gpzM+sypHgEnfVskvdRpTTcg=@lists.freedesktop.org,
+ AJvYcCVhX4JDFKQ4+SF4wm6a9xvqHVxYXAhYYcrMcju4zA1Wc7xLsmX++Vu28LjbyrBtMjaFLRMz1Jrnmyvk@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywvvh0xOqdIUDeGk/1spq8K0rMXauSK0kOSkvDYp0f9EhLOlzl5
+ gMacuZ4hWpjERMQ21CeB8FwfxMmurlF4JTo7PIGjcGyBcM6Em9ZG6b31YIaJyo0ueGrVPhDB8TJ
+ MQcbkAavHYdMjPupz9Sl8QlJZS7s=
+X-Google-Smtp-Source: AGHT+IEbVq+/79QI8yiA1p0TDT2cuUCFuQUZF7ZEmD+/cAnli7i1ZZyhRnvuKVZ0QWlKpg7d3md068N+yPyRH4s8AN8=
+X-Received: by 2002:a05:622a:1f06:b0:44f:f14c:6a63 with SMTP id
+ d75a77b69052e-4574e7e9540mr5395701cf.11.1725049173223; Fri, 30 Aug 2024
+ 13:19:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local>
-X-Report-Abuse: Please forward a copy of this message, including all headers,
- to <abuse-report@smtp2go.com>
-Feedback-ID: 1174286m:1174286a9YXZ7r:1174286sfGQOlJjcl
-X-smtpcorp-track: v5O6hNewHfhz.IPPCUgchacK3.W-nJtAkYWyC
+References: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
+ <20240830-preemption-a750-t-v2-4-86aeead2cd80@gmail.com>
+ <CAF6AEGtxCnoyrEHPknV7C9XO3OcTpSOmGq-j2K7UDKXF1j0ssA@mail.gmail.com>
+ <CACu1E7FC_gPXHm4g7f0iv551orxfh=V_sJF47=6TC+nWdMyTMg@mail.gmail.com>
+ <CAF6AEGvkds04G1XzVr8433S1Za_xZZSkmrWNaH-gUw6cH+cSUw@mail.gmail.com>
+ <CACu1E7HC_u0WZ5ayXhm3z-Q5Do7tnwQLGdJ5feD99aOB52H1ug@mail.gmail.com>
+In-Reply-To: <CACu1E7HC_u0WZ5ayXhm3z-Q5Do7tnwQLGdJ5feD99aOB52H1ug@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 30 Aug 2024 13:19:19 -0700
+Message-ID: <CAF6AEGve5AiOujFUjnwhaXwu6VDU0rLBfDzSJn66+h12dG1haA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] drm/msm/A6xx: Implement preemption for A7XX targets
+To: Connor Abbott <cwabbott0@gmail.com>
+Cc: Antonino Maniscalco <antomani103@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,42 +95,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 24, 2024 at 12:54:50AM +0200 Daniel Gomez wrote:
-> On Wed, Aug 07, 2024 at 05:46:03PM +0200, Nicolas Schier wrote:
-> > On Wed, Aug 07, 2024 at 04:18:54PM +0200, Greg Kroah-Hartman wrote:
-> > > On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
-> > > > > Also, as this is not internal for the kernel, but rather for userspace
-> > > > > builds, shouldn't the include/ path be different?
-> > > > 
-> > > > Can you suggest an alternative path or provide documentation that could help
-> > > > identify the correct location? Perhaps usr/include?
-> > > 
-> > > That is better than the generic include path as you are attempting to
-> > > mix userspace and kernel headers in the same directory :(
-> > 
-> > Please keep in mind, that usr/include/ currently does not hold a single
-> > header file but is used for dynamically composing the UAPI header tree.
-> > 
-> > In general, I do not like the idea of keeping a elf.h file here that
-> > possibly is out-of-sync with the actual system's version (even though
-> > elf.h should not see that much changes).  Might it be more helpful to
-> > provide a "development kit" for Linux devs that need to build on MacOS
-> > that provides necessary missing system header files, instead of merging
-> > those into upstream?
-> 
-> I took this suggestion and tried pushing a Homebrew formula/package here [1].
-> I think I chose a wrong name and maybe something like "development kit" would
-> have been better. However, would it be possible instead to include the *.rb file
-> in the scripts/ directory? So users of this can generate the development kit in
-> their environments. I would maintain the script to keep it in sync with the
-> required glibc version for the latest kernel version.
-> 
-> [1] https://github.com/Homebrew/homebrew-core/pull/181885
+On Fri, Aug 30, 2024 at 12:09=E2=80=AFPM Connor Abbott <cwabbott0@gmail.com=
+> wrote:
+>
+> On Fri, Aug 30, 2024 at 8:00=E2=80=AFPM Rob Clark <robdclark@gmail.com> w=
+rote:
+> >
+> > On Fri, Aug 30, 2024 at 11:54=E2=80=AFAM Connor Abbott <cwabbott0@gmail=
+.com> wrote:
+> > >
+> > > On Fri, Aug 30, 2024 at 7:08=E2=80=AFPM Rob Clark <robdclark@gmail.co=
+m> wrote:
+> > > >
+> > > > On Fri, Aug 30, 2024 at 8:33=E2=80=AFAM Antonino Maniscalco
+> > > > <antomani103@gmail.com> wrote:
+> > > > >
+> > > > > This patch implements preemption feature for A6xx targets, this a=
+llows
+> > > > > the GPU to switch to a higher priority ringbuffer if one is ready=
+. A6XX
+> > > > > hardware as such supports multiple levels of preemption granulari=
+ties,
+> > > > > ranging from coarse grained(ringbuffer level) to a more fine grai=
+ned
+> > > > > such as draw-call level or a bin boundary level preemption. This =
+patch
+> > > > > enables the basic preemption level, with more fine grained preemp=
+tion
+> > > > > support to follow.
+> > > > >
+> > > > > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> > > > > Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> > > > > Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650=
+-QRD
+> > > > > ---
+> > > > >  drivers/gpu/drm/msm/Makefile              |   1 +
+> > > > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 323 ++++++++++++++++=
++++++-
+> > > > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 168 ++++++++++++
+> > > > >  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 431 ++++++++++++++++=
+++++++++++++++
+> > > > >  drivers/gpu/drm/msm/msm_ringbuffer.h      |   7 +
+> > > > >  5 files changed, 921 insertions(+), 9 deletions(-)
+> > > > >
+> > > >
+> > > > [snip]
+> > > >
+> > > > > +
+> > > > > +int a6xx_preempt_submitqueue_setup(struct msm_gpu *gpu,
+> > > > > +               struct msm_gpu_submitqueue *queue)
+> > > > > +{
+> > > > > +       void *ptr;
+> > > > > +
+> > > > > +       /*
+> > > > > +        * Create a per submitqueue buffer for the CP to save and=
+ restore user
+> > > > > +        * specific information such as the VPC streamout data.
+> > > > > +        */
+> > > > > +       ptr =3D msm_gem_kernel_new(gpu->dev, A6XX_PREEMPT_USER_RE=
+CORD_SIZE,
+> > > > > +                       MSM_BO_WC, gpu->aspace, &queue->bo, &queu=
+e->bo_iova);
+> > > >
+> > > > Can this be MSM_BO_MAP_PRIV?  Otherwise it is visible (and writeabl=
+e)
+> > > > by other proceess's userspace generated cmdstream.
+> > > >
+> > > > And a similar question for the scratch_bo..  I'd have to give some
+> > > > thought to what sort of mischief could be had, but generall kernel
+> > > > mappings that are not MAP_PRIV are a thing to be careful about.
+> > > >
+> > >
+> > > It seems like the idea behind this is that it's supposed to be
+> > > per-context. kgsl allocates it as part of the context, as part of the
+> > > userspace address space, and then in order to know which user record
+> > > to use when preempting, before each submit (although really it only
+> > > needs to be done when setting the pagetable) it does a CP_MEM_WRITE o=
+f
+> > > the user record address to a scratch buffer holding an array of the
+> > > current user record for each ring. Then when preempting it reads the
+> > > address for the next ring from the scratch buffer and sets it. I thin=
+k
+> > > we need to do that dance too.
+> >
+> > Moving it into userspace's address space (vm) would be better.
+> >
+> > I assume the preempt record is where state is saved/restored?  So
+> > would need to be in kernel aspace/vm?  Or is the fw changing ttbr0
+> > after saving state but before restoring?
+> >
+> > BR,
+> > -R
+>
+> The preempt record is split into a number of pieces, each with their
+> own address. One of those pieces is the SMMU record with ttbr0 and
+> other SMMU things. Another piece is the "private" context record with
+> sensitive things like RB address/rptr/wptr, although actually the bulk
+> of the registers are saved here. Then the user or "non-private" record
+> is its own piece, which is presumably saved before switching ttbr0 and
+> restored after the SMMU record is restored and ttbr0 is switched.
+>
 
-I think it sounds sensible to hold that formula file in the upstream tree.  But
-I am not sure if scripts/ is the best location.
+Ok, and all these are offsets in the preempt record.. but that part is
+allocated with MAP_PRIV, so that part should be ok.
 
-Masahiro, what do you think?
+Why is the VPC streamout state handled differently?
 
-Kind regards,
-Nicolas
+BR,
+-R
