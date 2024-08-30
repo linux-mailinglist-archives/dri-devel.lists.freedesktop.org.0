@@ -2,74 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593FF96697C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 21:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F4A966996
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 21:28:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E536310EAEB;
-	Fri, 30 Aug 2024 19:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B82FC10EAEC;
+	Fri, 30 Aug 2024 19:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mVzMXjnb";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NBVQq2Xm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com
- [209.85.210.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF1F10EAEB
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 19:26:40 +0000 (UTC)
-Received: by mail-pf1-f202.google.com with SMTP id
- d2e1a72fcca58-7143d76d29fso2395692b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 12:26:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1725046000; x=1725650800;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=FuDRdZr3lnXIzC7C2IwkgUCCNdeMT8LTC1OgvHLHr0o=;
- b=mVzMXjnbskeSMHHaDt9LVBGa4Y8bstrTOv7Jp8DcnBjHqK4Z+rikvaRwH990oY3MtI
- 4LzhF5AYGoF4sjcmRHEYMPjB5iFufE7XLJPvbPcXT5JI1PTxhTbfHeRBLX7j59xNExKE
- 07E4W/A5NQnfwMH+7Z43j7evfmv3sF5ptxvA3mTmp4pkBnl99hPFffs2t4rt/c5eZc8P
- 67f+8bQIsGuipS+4bvEy8q4f0XNTOEWaySWPVd3GslKU1xNS6QkupTU8szf2ZhaAtrRn
- M2k9hi742twn/K8BaDf2EE5JCUKMtN1nOVCPrj7CSAOA7wipVl53svxZwT2A8SVMhgtD
- 6/4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725046000; x=1725650800;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FuDRdZr3lnXIzC7C2IwkgUCCNdeMT8LTC1OgvHLHr0o=;
- b=BzLHX33SNvRXDk0fw3gKcYm2wLl+sEgfY+SVIbBZFK0tothudvz0YfMvRPTOSNJDQN
- FXSvIK3fqRSKzkz5YY+GEPRpq7il/5wurXbg4/WtsQbL10D9Ka0WnuS/SF56fZSvlaJy
- v7guR7t9ScpRkzS5RFnwxuXe5HM+QN2RTwWcTqntPd/nIx31wjBVwiPAuqp66BEq3aTo
- ibFvesE7AiSWtvZHt7kJvNth4HYvEDsgZY1LFfYzE+Lb4XI1379s4cPV3pmorvr8uxq4
- NzlkorE9m8tcOiwu3nbNsJ0oqQY5rxCA7F35eTeMP+9oqmUHmsZB7AC3An6sFwL4rdek
- d22A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJhwU+99aIqunqqv1x489Qnvsa68ue/vmCytj3wVdCrSIIRfGbVfEnorth4e+0V6cOl555XkjKB04=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMG6uUe0/l7TUCb7bnVi4B51STEYIxOOUbva2HvlQr/jEKYpz1
- 1jmL4Fmw4Io6WKiMMDORyWZ8w8JyjqQma0SUH20ei0bjI57Lsl90H5hU6wJEjJ/9WCWP4BeAWYf
- 7lFySWCifKPOkwA==
-X-Google-Smtp-Source: AGHT+IEYDT5yTYPujoEQ0Ej+aCUk5iv9pvxNQHghRZEWhY4u/r1jH/tjVnZ/WpOzBL4HVQ0C2o97rg0PjRinvWA=
-X-Received: from tj-virt.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5683])
- (user=tjmercier job=sendgmr) by 2002:a05:6a00:8585:b0:714:1436:1cef with SMTP
- id d2e1a72fcca58-717307cbc9bmr7143b3a.6.1725045999943; Fri, 30 Aug 2024
- 12:26:39 -0700 (PDT)
-Date: Fri, 30 Aug 2024 19:26:26 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
-Message-ID: <20240830192627.2546033-1-tjmercier@google.com>
-Subject: [PATCH] dma-buf: heaps: Fix off-by-one in CMA heap fault handler
-From: "T.J. Mercier" <tjmercier@google.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
-Cc: android-mm@google.com, Xingyu Jin <xingyuj@google.com>,
- stable@vger.kernel.org, 
- John Stultz <john.stultz@linaro.org>, Brian Starkey <brian.starkey@arm.com>, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBDD310EAEC;
+ Fri, 30 Aug 2024 19:28:23 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47UFs9pU007623;
+ Fri, 30 Aug 2024 19:28:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ AcgT/476k0Npq3t+XDPm9gRME2dYfkE+YwdTSedGxfM=; b=NBVQq2XmO1T80xD0
+ lrzAfHq8uxs4OttkoFKa6Nz7VFluOxR1KNkLjJH3SFIanKis5LswUg/d2dhPsJ0S
+ yehHo2jbFyOSdUOyZMoVs5UeFlif6t/iBdgHruqYR3AfwReZT10Z1KBvkg6xwZnV
+ HOypFbYF4wEoiCfukXW0udKWssveK3FYqa5KILDS50iRBw9tiwFHkOu6v6QSozkr
+ v4f21Qic/Laq7joYGgu8Z2+W4EmfC2OYB+2eeI9IMYppGrItLY2/XrI3+KqCaG/f
+ aBn0zXF6d9V9EeInL/ve7Kvunmvvt7F4bUc787dl3kbWCqevfLxrRBc3ls7k5xnO
+ 0p7XjQ==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419pv0hyy4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Aug 2024 19:28:14 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47UJSDUB028485
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Aug 2024 19:28:13 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 Aug
+ 2024 12:28:13 -0700
+Message-ID: <665da6e9-d9f3-4a28-a53b-0f467967fc78@quicinc.com>
+Date: Fri, 30 Aug 2024 12:28:12 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/21] drm/msm/dpu: Add RM support for allocating CWB
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>
+References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
+ <20240829-concurrent-wb-v1-11-502b16ae2ebb@quicinc.com>
+ <pf6xgu7yjanzjigfpupons4ud6jbcmbr5icnd7yur6qhh3n5sf@plj4bi3beguw>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <pf6xgu7yjanzjigfpupons4ud6jbcmbr5icnd7yur6qhh3n5sf@plj4bi3beguw>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: OhV9OyGasRv82lbgtaFTungIP973zmVg
+X-Proofpoint-ORIG-GUID: OhV9OyGasRv82lbgtaFTungIP973zmVg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-30_10,2024-08-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408300149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,36 +98,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Until VM_DONTEXPAND was added in commit 1c1914d6e8c6 ("dma-buf: heaps:
-Don't track CMA dma-buf pages under RssFile") it was possible to obtain
-a mapping larger than the buffer size via mremap and bypass the overflow
-check in dma_buf_mmap_internal. When using such a mapping to attempt to
-fault past the end of the buffer, the CMA heap fault handler also checks
-the fault offset against the buffer size, but gets the boundary wrong by
-1. Fix the boundary check so that we don't read off the end of the pages
-array and insert an arbitrary page in the mapping.
 
-Reported-by: Xingyu Jin <xingyuj@google.com>
-Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
-Cc: stable@vger.kernel.org # Applicable >= 5.10. Needs adjustments only for 5.10.
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- drivers/dma-buf/heaps/cma_heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index c384004b918e..93be88b805fe 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -165,7 +165,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct cma_heap_buffer *buffer = vma->vm_private_data;
- 
--	if (vmf->pgoff > buffer->pagecount)
-+	if (vmf->pgoff >= buffer->pagecount)
- 		return VM_FAULT_SIGBUS;
- 
- 	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->pages[vmf->pgoff]));
--- 
-2.46.0.469.g59c65b2a67-goog
+On 8/30/2024 10:18 AM, Dmitry Baryshkov wrote:
+> On Thu, Aug 29, 2024 at 01:48:32PM GMT, Jessica Zhang wrote:
+>> Add support for allocating the concurrent writeback mux as part of the
+>> WB allocation
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  5 ++++-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 30 +++++++++++++++++++++++++++--
+>>   2 files changed, 32 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>> index c17d2d356f7a..c43cb55fe1d2 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>> @@ -1,5 +1,7 @@
+>>   /* SPDX-License-Identifier: GPL-2.0-only */
+>> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>> +/*
+>> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>>    */
+>>   
+>>   #ifndef _DPU_HW_MDSS_H
+>> @@ -352,6 +354,7 @@ struct dpu_mdss_color {
+>>   #define DPU_DBG_MASK_DSPP     (1 << 10)
+>>   #define DPU_DBG_MASK_DSC      (1 << 11)
+>>   #define DPU_DBG_MASK_CDM      (1 << 12)
+>> +#define DPU_DBG_MASK_CWB      (1 << 13)
+>>   
+>>   /**
+>>    * struct dpu_hw_tear_check - Struct contains parameters to configure
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> index bc99b04eae3a..738e9a081b10 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> @@ -1,9 +1,10 @@
+>>   // SPDX-License-Identifier: GPL-2.0-only
+>>   /*
+>>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+>> - * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>    */
+>>   
+>> +#include <drm/drm_managed.h>
+>>   #include "msm_drv.h"
+>>   #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
+>>   #include "dpu_kms.h"
+>> @@ -34,6 +35,7 @@ int dpu_rm_init(struct drm_device *dev,
+>>   		void __iomem *mmio)
+>>   {
+>>   	int rc, i;
+>> +	struct dpu_hw_blk_reg_map *cwb_reg_map;
+>>   
+>>   	if (!rm || !cat || !mmio) {
+>>   		DPU_ERROR("invalid kms\n");
+>> @@ -100,11 +102,35 @@ int dpu_rm_init(struct drm_device *dev,
+>>   		rm->hw_intf[intf->id - INTF_0] = hw;
+>>   	}
+>>   
+>> +	if (cat->cwb_count > 0) {
+>> +		cwb_reg_map = drmm_kzalloc(dev,
+>> +				sizeof(*cwb_reg_map) * cat->cwb_count,
+>> +				GFP_KERNEL);
+> 
+> Please move CWB block pointers to dpu_rm. There is no need to allocate a
+> separate array.
 
+Hi Dmitry,
+
+Sorry, I'm not sure what you mean here. Can you clarify your comment?
+
+This is just allocating an array of the CWB register addresses so that 
+the hw_wb block can use it to configure the CWB mux registers.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>> +
+>> +		if (!cwb_reg_map) {
+>> +			DPU_ERROR("failed cwb object creation\n");
+>> +			return -ENOMEM;
+>> +		}
+>> +	}
+>> +
+>> +
+>> +	for (i = 0; i < cat->cwb_count; i++) {
+>> +		struct dpu_hw_blk_reg_map *cwb = &cwb_reg_map[i];
+>> +
+>> +		cwb->blk_addr = mmio + cat->cwb[i].base;
+>> +		cwb->log_mask = DPU_DBG_MASK_CWB;
+>> +	}
+>> +
+>>   	for (i = 0; i < cat->wb_count; i++) {
+>>   		struct dpu_hw_wb *hw;
+>>   		const struct dpu_wb_cfg *wb = &cat->wb[i];
+>>   
+>> -		hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
+>> +		if (cat->cwb)
+>> +			hw = dpu_hw_wb_init_with_cwb(dev, wb, mmio,
+>> +					cat->mdss_ver, cwb_reg_map);
+>> +		else
+>> +			hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
+>> +
+>>   		if (IS_ERR(hw)) {
+>>   			rc = PTR_ERR(hw);
+>>   			DPU_ERROR("failed wb object creation: err %d\n", rc);
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
+> -- 
+> With best wishes
+> Dmitry
