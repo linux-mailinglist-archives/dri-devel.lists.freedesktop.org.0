@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C202196677E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 19:01:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A899E966783
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 19:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ADCE10E7F5;
-	Fri, 30 Aug 2024 17:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F3FE10E8E7;
+	Fri, 30 Aug 2024 17:01:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SOticUiM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bvA32TAV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E41910E7D3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 17:01:01 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-533488ffaebso2522878e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 10:01:01 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4157D10E8E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 17:01:44 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2f401b2347dso18611481fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 10:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725037259; x=1725642059; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1725037302; x=1725642102; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HyuzVMuh/pclBHjeTifeYUKcalShwXXF1JsCaZjhr8U=;
- b=SOticUiM0a/QY4DoDc39UJklUhl87yv7uCJlEBROL1OYcSkUWPaXAOLCqhCygN3xyX
- /7gN1mRtK9z4jPiKCUnjfXTXSD3wFWGrFsQzaLD+/D+FvCw+CUI/dD4Bd5VR2CLmY7Ws
- 98CMl6J9Pqm9wLRa0mB6Btj/v7Q61t+jT5aMIsxQ7t9ivNVtVI+qGig7y5DB98advLhN
- XRXFOYCS4qJ7Gpl4Ib4AoLzbEQmk6Cp6kC+YUlsY5agHTxlNqOTxX5TEBWDFjRkXvd9M
- bkOmDgGpR022Cdps/HOKxvDeO1GoRdOZaYmF79lu+ij/qJDiPgBXfZbs6Z8GLQ6GBYP+
- 5Mug==
+ bh=9e6nxlU1uy3OwWwU1U+BKOkR/SYcbY7cP9f18pPl24M=;
+ b=bvA32TAVRmqaDBa8g1tWJcKRXaM+s8VEcn90CMA7Npo62weB5jte0+MMhg0N3bO4Qi
+ j/4bvdzxwaacdzFM10csg+Q72Dr56AZuqANTAhCYqoRFupN+0xRIoUoEtd2rHA52tovv
+ Be/MnF6I74+3jfuGwIZdkIkJlMNdLB6Q+Aq2PFJKf2LeERngB83Vv80cSpd2m6N6RTR9
+ x/OiYwL3a/e821uLwiIygIs1WfDKqvC9rU38J/PBSB827sIvcBmf/OUQnjSgA7zwURMO
+ yg2aTqacsN0l2lQC7H0cxE6gujh1a+eN7qoOhtkMYLiORUjfwmkUl3Uc09Dv/V2iKjD7
+ gtXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725037259; x=1725642059;
+ d=1e100.net; s=20230601; t=1725037302; x=1725642102;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HyuzVMuh/pclBHjeTifeYUKcalShwXXF1JsCaZjhr8U=;
- b=RRIlvZxKtF6lVSNg2dW6tRIZs91N11PW33tkVMbShUCp83DjQvtbIeIBgGsn4y3PUl
- tbNnaE5QBt9qccZKIV7n8oE/Nkzuuc4S2oAt8nZh4q0SRP7QeZbr0xS9ljM77BylfMHd
- mH7T3Rcuqj/UmScpZSFiauu+undTtIMLXKF9XiiY4HHzCfCmKAoi9mwaqeciwo28HmoU
- ALo6bcPodyNecdsm/r8zumnuTjz0oMTdz5rLIsiqsetoCgz4iNRg4yDU9ypydwBaRwAG
- OCQ9DSl+OPQNEx6jbsnU2lBiUuR76XkvYaaTuLxBbGxrjY/HDwWDb/hvEGtidNQ6MMXJ
- w72w==
+ bh=9e6nxlU1uy3OwWwU1U+BKOkR/SYcbY7cP9f18pPl24M=;
+ b=aokLyFPU6q9GXS+QlN0qM2dV8PblvMAqJeMhZ9y0SqeXS/h4ZgA+c80TpYnE5CIORy
+ h2TAETiNYnUGGkfWWRBYc50yyRWGLgngfwQSiXfNTBsWmi5JR1QoelR5+fscVRK8Mx2o
+ yuDDRJPw+VS90q8wATteiNuJhdDdo8BlUFHxcM9eQ+QWYd5xBQLC99H3eYXmfBWfM8al
+ 0WB87IJhHUNTMwAwRhlFA5D6qTQ3dl2fteZpEFmX6ivdFrZLomSB+6b6yjOgIa9qfHbs
+ h/zqc1v7h2/r01G4crLCEBH7SKvOyVa+kiXKzSzhi6PQqXrfdYtzutuaIIGmY7pL/PMS
+ cReQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXcj+MhTAnLnLF5dGHQqU4Ds78WuntFy510QpcIJn7oDMWxtuZ0NPXST9UpEmbdWA07spn4+wvjeR8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKAERu12XVD8WVJbWjupHil6vuw49HMMynuUXFsvJ/kVTr5paZ
- VEsp0N66aGFmEVxYIeszOJ8+wyj1aCoEk8BhGHoD4beCXsLeI3UI6CjavHvOy6Q=
-X-Google-Smtp-Source: AGHT+IGfsWr29CZq7zFPXPe35gykwJrno7dzUDJ8NIv9QSBL6Rohbmv/iEfu754VwWaVnHFGaag8Hw==
-X-Received: by 2002:a05:6512:3e1d:b0:530:ea2b:1a92 with SMTP id
- 2adb3069b0e04-53546b93fa8mr2032468e87.43.1725037258492; 
- Fri, 30 Aug 2024 10:00:58 -0700 (PDT)
+ AJvYcCWCUlvhAvbJ3EFPE0TqymY3tPoN6PaHMTUgAEDH2enyIwwIbFBGlCUDKyS3TvsSofnaKZw87E2JGx8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzDzXujWcRXLyeiRcOwWrzVARvq85vja4cl3We3HFw0A2yS/6hw
+ 5wj9BrS7U2XqUIhsgKus8UKCBMNKZhXRS92fMQF65Wc3Uj3RFIYHK1ay1cRujj4=
+X-Google-Smtp-Source: AGHT+IHVZcra0jI/oqIBBxlspPQCALcjRHzAaZIYOgKseKUP0hM1DoYe9EJx8fi3Kk//VawoWLFVXg==
+X-Received: by 2002:a2e:bc18:0:b0:2ef:28ed:1ff5 with SMTP id
+ 38308e7fff4ca-2f612ae4c49mr23103861fa.15.1725037300112; 
+ Fri, 30 Aug 2024 10:01:40 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-535407abdb9sm685041e87.72.2024.08.30.10.00.57
+ 38308e7fff4ca-2f614f38ce5sm7125841fa.68.2024.08.30.10.01.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2024 10:00:58 -0700 (PDT)
-Date: Fri, 30 Aug 2024 20:00:56 +0300
+ Fri, 30 Aug 2024 10:01:39 -0700 (PDT)
+Date: Fri, 30 Aug 2024 20:01:38 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
@@ -68,14 +68,15 @@ Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
  linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH 07/21] drm/msm/dpu: Check CRTC encoders are valid clones
-Message-ID: <uqtlpynjdszqyyikj64uxwuqnk3lmzma7kd2vwxipnj4fg2eje@7toj5kww7vk7>
+Subject: Re: [PATCH 05/21] drm/msm/dpu: move resource allocation to CRTC
+Message-ID: <4clfifnlalkzgf3fy2gl5enjam55vs24pf7zp64zevj64bh5mv@te4qvqe5oihc>
 References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-7-502b16ae2ebb@quicinc.com>
+ <20240829-concurrent-wb-v1-5-502b16ae2ebb@quicinc.com>
+ <fiydda6an5a4dc2gmrj4fnti4ymkk7ntbtpq6mgushmgnzl6cp@pwtz6goteljh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240829-concurrent-wb-v1-7-502b16ae2ebb@quicinc.com>
+In-Reply-To: <fiydda6an5a4dc2gmrj4fnti4ymkk7ntbtpq6mgushmgnzl6cp@pwtz6goteljh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,105 +92,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 01:48:28PM GMT, Jessica Zhang wrote:
-> Check that each encoder in the CRTC state's encoder_mask is marked as a
-> possible clone for all other encoders in the encoder_mask and that only
-> one CRTC is in clone mode at a time
+On Fri, Aug 30, 2024 at 07:42:52PM GMT, Dmitry Baryshkov wrote:
+> On Thu, Aug 29, 2024 at 01:48:26PM GMT, Jessica Zhang wrote:
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 
+> > All resource allocation is centered around the LMs. Then other blocks
+> > (except DSCs) are allocated basing on the LMs that was selected, and LM
+> > powers up the CRTC rather than the encoder.
+> > 
+> > Moreover if at some point the driver supports encoder cloning,
+> > allocating resources from the encoder will be incorrect, as all clones
+> > will have different encoder IDs, while LMs are to be shared by these
+> > encoders.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > [quic_abhinavk@quicinc.com: Refactored resource allocation for CDM]
+> > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > [quic_jesszhan@quicinc.com: Changed to grabbing exising global state and
+> > dropped clearing num_mixers in crtc_disable]
 > 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 36 +++++++++++++++++++++++++++++++-
->  1 file changed, 35 insertions(+), 1 deletion(-)
+> Hmm, I still see the chunk in dpu_crtc_disable(). I think the chunk is
+> correct so that if there is a disable/enable pair of calls with no
+> intermediate mode_set then num_mixers carry over the correct value.
+
+As a second thought: maybe it should be moved to the next patch.
+
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 5ec1b5a38922..bebae365c036 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->   * Copyright (c) 2014-2021 The Linux Foundation. All rights reserved.
->   * Copyright (C) 2013 Red Hat
->   * Author: Rob Clark <robdclark@gmail.com>
-> @@ -1204,6 +1204,36 @@ static struct msm_display_topology dpu_crtc_get_topology(
->  	return topology;
->  }
->  
-> +static bool dpu_crtc_has_valid_clones(struct drm_crtc *crtc,
-> +		struct drm_crtc_state *crtc_state)
-> +{
-> +	struct drm_encoder *drm_enc;
-> +	struct drm_crtc *temp_crtc;
-> +	int num_cwb_sessions = 0;
-> +
-> +	drm_for_each_crtc(temp_crtc, crtc->dev)
-> +		if (drm_crtc_in_clone_mode(temp_crtc->state))
-
-No, get the state from drm_atomic_state. temp_crtc->state might be
-irrelevant.
-
-> +			num_cwb_sessions++;
-
-Even simpler:
-if (temp_crtc != crtc && drm_crtc_in_clone_mode(...))
-	return false;
-
-> +
-> +	/*
-> +	 * Only support a single concurrent writeback session running
-> +	 * at a time
-
-If it is not a hardware limitation, please add:
-FIXME: support more than one session
-
-> +	 */
-> +	if (num_cwb_sessions > 1)
-> +		return false;
-> +
-> +	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
-> +		if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=
-> +				crtc_state->encoder_mask) {
-
-Align to opening bracket, please. Granted that other drivers don't
-perform this check, is it really necessary? Doesn't
-validate_encoder_possible_clones() ensure the same, but during the
-encoder registration?
-
-> +			DPU_ERROR("crtc%d failed valid clone check for mask 0x%x\n",
-
-DPU_DEBUG, don't let users spam dmesg.
-
-> +				crtc->base.id, crtc_state->encoder_mask);
-> +			return false;
-> +		}
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  static int dpu_crtc_assign_resources(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state)
->  {
->  	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_CRTC];
-> @@ -1287,6 +1317,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->  			return rc;
->  	}
->  
-> +	if (drm_crtc_in_clone_mode(crtc_state) &&
-> +			!dpu_crtc_has_valid_clones(crtc, crtc_state))
-
-Align to opening bracket.
-
-> +		return -EINVAL;
-> +
->  	if (!crtc_state->enable || !drm_atomic_crtc_effectively_active(crtc_state)) {
->  		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
->  				crtc->base.id, crtc_state->enable,
+> > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  89 +++++++++++-
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 201 +++++++++++-----------------
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  19 +++
+> >  3 files changed, 183 insertions(+), 126 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > index 4c1be2f0555f..3296b0650056 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > @@ -1091,9 +1091,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+> >  
+> >  	dpu_core_perf_crtc_update(crtc, 0);
+> >  
+> > -	memset(cstate->mixers, 0, sizeof(cstate->mixers));
+> > -	cstate->num_mixers = 0;
+> > -
+> >  	/* disable clk & bw control until clk & bw properties are set */
+> >  	cstate->bw_control = false;
+> >  	cstate->bw_split_vote = false;
 > 
 > -- 
-> 2.34.1
-> 
+> With best wishes
+> Dmitry
 
 -- 
 With best wishes
