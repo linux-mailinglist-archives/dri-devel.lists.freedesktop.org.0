@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668DB9662BC
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 15:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BB9966335
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2024 15:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1BB610E687;
-	Fri, 30 Aug 2024 13:15:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y0C7r2/d";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7235810E770;
+	Fri, 30 Aug 2024 13:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECC1510E687
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 13:15:48 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4280ca0791bso16255935e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2024 06:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725023747; x=1725628547; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fIPZdt27qyy+o2qu7YlF+1+Z/f7Vbs+OhkXZQy6kbzw=;
- b=Y0C7r2/dXyOoSrj0KS4ay9aO2wLf+kDvmUKg+bNog4wnon/enP3QH0H6sw0f8P7fmb
- ZPRByheVeSwgdyVTJgTPPPgSlmOgD45ieX4WvdtVQgxoDHKK2G3up0DN70RaShMMT5ti
- S/DHCykz4AI6zS5U0rP4HkrKSxmmSM9zs9BV+my9rWC7inDdi1N1/TRvGoM2qHr6gaTE
- WypfupneJoJdt2OPx5DNtTtVjul8ANV2TrDywh+tFqukm2RCNkDH7ItpHDPuPBEO0X4c
- NXblJYvrmyH5hEzkUDAP0gCi57zeZ05qRWG3tn0HJHI4E9ZUbMh5X/SKqG5/UNXaqfwy
- +1aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725023747; x=1725628547;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fIPZdt27qyy+o2qu7YlF+1+Z/f7Vbs+OhkXZQy6kbzw=;
- b=YtpPGMIstcqeHkbm2z0QY5qCqUSy/K8XSNZBmxBuJj/JaT+8BJp3+2NHexAg6aCU3R
- rBqx09q7o/YrsZHBvAMlw7+htZ9Ec3NineeDhQks1hMZGIyDScsFHrr/rAow5r1W6NpC
- menog3DYSDlX7YohhbaXr4aIz7NB+GiKRrzT5Hzx7MYJGLSufH0q8wfxvVMwd2+D5WaU
- C5dpDK0jBTKbe1nksvxBW7/dW3pi9YjobJ0eiTnDAt39kXhnq4V7viC+KKY0qknvvrvS
- hGsbUJoZB50wDcMP9+wurp5zyiZ/d0g4LnTwuNKQJdNATqk96jbtIRUtgMAyw4ta9sAX
- DAKg==
-X-Gm-Message-State: AOJu0Yx+FDejIKk8V8DNrGAxxjJaHIDwjUp1Fv+9s+yyFKx6trr8nn3I
- /0m6yrJ+pPP4EgQ5FYOCCgVZPYPcecptMrcNBARBFPfnZiN4Bnuh
-X-Google-Smtp-Source: AGHT+IH103oGHfXeaVAGOT1BADW3RLyeKN6P2i0WP4RU3qfKMQMz8gi0S1b6JcSTGP+sIgv1k7A0pA==
-X-Received: by 2002:a05:600c:354b:b0:42b:afa7:804e with SMTP id
- 5b1f17b1804b1-42bb01ae418mr48414775e9.3.1725023746440; 
- Fri, 30 Aug 2024 06:15:46 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42ba6425b95sm79885635e9.43.2024.08.30.06.15.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Aug 2024 06:15:45 -0700 (PDT)
-Message-ID: <9b46fa6d-37f4-4438-a2ab-c2109cb1ebd6@gmail.com>
-Date: Fri, 30 Aug 2024 15:15:42 +0200
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3CDD10E770;
+ Fri, 30 Aug 2024 13:43:12 +0000 (UTC)
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+ by APP-05 (Coremail) with SMTP id zQCowAAnDzpmzNFmqgt9Cw--.39437S2;
+ Fri, 30 Aug 2024 21:43:10 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, wenjing.liu@amd.com,
+ hamza.mahfooz@amd.com, alvin.lee2@amd.com, jun.lei@amd.com,
+ dillon.varone@amd.com, aurabindo.pillai@amd.com, moadhuri@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/amd/display: Add null check before access structs in
+ dcn32_enable_phantom_plane
+Date: Fri, 30 Aug 2024 21:43:02 +0800
+Message-Id: <20240830134302.3440772-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm/sched: add optional errno to drm_sched_start()
-To: Philipp Stanner <pstanner@redhat.com>, daniel.vetter@ffwll.ch,
- vitaly.prosyak@amd.com
-Cc: dri-devel@lists.freedesktop.org, ltuikov89@gmail.com
-References: <20240826122541.85663-1-christian.koenig@amd.com>
- <efade2855efe93dd66104d59e113b2a99ed2a8d2.camel@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <efade2855efe93dd66104d59e113b2a99ed2a8d2.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAnDzpmzNFmqgt9Cw--.39437S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrtFyftrykJF1fAr1fGrWktFb_yoW8Jryfpw
+ 43Gayakw1DJrnFga9xJ3WjqFZxW3WvkFZ7KrZIywna9ayjyr93C3s8ur9xCrWUGFyjkw43
+ tF1IyrsrKF4qyrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUB214x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
+ 648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2
+ Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+ 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRil1vDUUUU
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,315 +65,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.08.24 um 11:30 schrieb Philipp Stanner:
-> On Mon, 2024-08-26 at 14:25 +0200, Christian König wrote:
->> The current implementation of drm_sched_start uses a hardcoded
->> -ECANCELED to dispose of a job when the parent/hw fence is NULL.
->> This results in drm_sched_job_done being called with -ECANCELED for
->> each job with a NULL parent in the pending list, making it difficult
->> to distinguish between recovery methods, whether a queue reset or a
->> full GPU reset was used.
->>
->> To improve this, we first try a soft recovery for timeout jobs and
->> use the error code -ENODATA. If soft recovery fails, we proceed with
->> a queue reset, where the error code remains -ENODATA for the job.
->> Finally, for a full GPU reset, we use error codes -ECANCELED or
->> -ETIME. This patch adds an error code parameter to drm_sched_start,
->> allowing us to differentiate between queue reset and GPU reset
->> failures. This enables user mode and test applications to validate
->> the expected correctness of the requested operation. After a
->> successful queue reset, the only way to continue normal operation is
->> to call drm_sched_job_done with the specific error code -ENODATA.
->>
->> v1: Initial implementation by Jesse utilized
->> amdgpu_device_lock_reset_domain
->>      and amdgpu_device_unlock_reset_domain to allow user mode to track
->>      the queue reset status and distinguish between queue reset and
->>      GPU reset.
->> v2: Christian suggested using the error codes -ENODATA for queue
->> reset
->>      and -ECANCELED or -ETIME for GPU reset, returned to
->>      amdgpu_cs_wait_ioctl.
->> v3: To meet the requirements, we introduce a new function
->>      drm_sched_start_ex with an additional parameter to set
->>      dma_fence_set_error, allowing us to handle the specific error
->>      codes appropriately and dispose of bad jobs with the selected
->>      error code depending on whether it was a queue reset or GPU
->> reset.
->> v4: Alex suggested using a new name,
->> drm_sched_start_with_recovery_error,
->>      which more accurately describes the function's purpose.
->>      Additionally, it was recommended to add documentation details
->>      about the new method.
->> v5: Fixed declaration of new function
->> drm_sched_start_with_recovery_error.(Alex)
->> v6 (chk): rebase on upstream changes, cleanup the commit message,
->>            drop the new function again and update all callers,
->>            apply the errno also to scheduler fences with hw fences
->>
->> Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
->> Signed-off-by: Vitaly Prosyak <vitaly.prosyak@amd.com>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c | 2 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c          | 4 ++--
->>   drivers/gpu/drm/etnaviv/etnaviv_sched.c             | 2 +-
->>   drivers/gpu/drm/imagination/pvr_queue.c             | 4 ++--
->>   drivers/gpu/drm/lima/lima_sched.c                   | 2 +-
->>   drivers/gpu/drm/nouveau/nouveau_sched.c             | 2 +-
->>   drivers/gpu/drm/panfrost/panfrost_job.c             | 2 +-
->>   drivers/gpu/drm/panthor/panthor_mmu.c               | 2 +-
->>   drivers/gpu/drm/scheduler/sched_main.c              | 7 ++++---
->>   drivers/gpu/drm/v3d/v3d_sched.c                     | 2 +-
->>   include/drm/gpu_scheduler.h                         | 2 +-
->>   11 files changed, 16 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
->> index 2320df51c914..18135d8235f9 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
->> @@ -300,7 +300,7 @@ static int
->> suspend_resume_compute_scheduler(struct amdgpu_device *adev, bool sus
->>   			if (r)
->>   				goto out;
->>   		} else {
->> -			drm_sched_start(&ring->sched);
->> +			drm_sched_start(&ring->sched, 0);
->>   		}
->>   	}
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> index 1cd7d355689c..5891312e44ea 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -5879,7 +5879,7 @@ int amdgpu_device_gpu_recover(struct
->> amdgpu_device *adev,
->>   			if (!amdgpu_ring_sched_ready(ring))
->>   				continue;
->>   
->> -			drm_sched_start(&ring->sched);
->> +			drm_sched_start(&ring->sched, 0);
->>   		}
->>   
->>   		if
->> (!drm_drv_uses_atomic_modeset(adev_to_drm(tmp_adev)) &&
->> !job_signaled)
->> @@ -6374,7 +6374,7 @@ void amdgpu_pci_resume(struct pci_dev *pdev)
->>   		if (!amdgpu_ring_sched_ready(ring))
->>   			continue;
->>   
->> -		drm_sched_start(&ring->sched);
->> +		drm_sched_start(&ring->sched, 0);
->>   	}
->>   
->>   	amdgpu_device_unset_mp1_state(adev);
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->> b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->> index ab9ca4824b62..23ced5896c7c 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
->> @@ -72,7 +72,7 @@ static enum drm_gpu_sched_stat
->> etnaviv_sched_timedout_job(struct drm_sched_job
->>   
->>   	drm_sched_resubmit_jobs(&gpu->sched);
->>   
->> -	drm_sched_start(&gpu->sched);
->> +	drm_sched_start(&gpu->sched, 0);
->>   	return DRM_GPU_SCHED_STAT_NOMINAL;
->>   
->>   out_no_timeout:
->> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c
->> b/drivers/gpu/drm/imagination/pvr_queue.c
->> index 20cb46012082..c4f08432882b 100644
->> --- a/drivers/gpu/drm/imagination/pvr_queue.c
->> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
->> @@ -782,7 +782,7 @@ static void pvr_queue_start(struct pvr_queue
->> *queue)
->>   		}
->>   	}
->>   
->> -	drm_sched_start(&queue->scheduler);
->> +	drm_sched_start(&queue->scheduler, 0);
->>   }
->>   
->>   /**
->> @@ -842,7 +842,7 @@ pvr_queue_timedout_job(struct drm_sched_job
->> *s_job)
->>   	}
->>   	mutex_unlock(&pvr_dev->queues.lock);
->>   
->> -	drm_sched_start(sched);
->> +	drm_sched_start(sched, 0);
->>   
->>   	return DRM_GPU_SCHED_STAT_NOMINAL;
->>   }
->> diff --git a/drivers/gpu/drm/lima/lima_sched.c
->> b/drivers/gpu/drm/lima/lima_sched.c
->> index 1a944edb6ddc..b40c90e97d7e 100644
->> --- a/drivers/gpu/drm/lima/lima_sched.c
->> +++ b/drivers/gpu/drm/lima/lima_sched.c
->> @@ -463,7 +463,7 @@ static enum drm_gpu_sched_stat
->> lima_sched_timedout_job(struct drm_sched_job *job
->>   	lima_pm_idle(ldev);
->>   
->>   	drm_sched_resubmit_jobs(&pipe->base);
->> -	drm_sched_start(&pipe->base);
->> +	drm_sched_start(&pipe->base, 0);
->>   
->>   	return DRM_GPU_SCHED_STAT_NOMINAL;
->>   }
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c
->> b/drivers/gpu/drm/nouveau/nouveau_sched.c
->> index eb6c3f9a01f5..4412f2711fb5 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
->> @@ -379,7 +379,7 @@ nouveau_sched_timedout_job(struct drm_sched_job
->> *sched_job)
->>   	else
->>   		NV_PRINTK(warn, job->cli, "Generic job timeout.\n");
->>   
->> -	drm_sched_start(sched);
->> +	drm_sched_start(sched, 0);
->>   
->>   	return stat;
->>   }
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c
->> b/drivers/gpu/drm/panfrost/panfrost_job.c
->> index df49d37d0e7e..d140800606bf 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->> @@ -727,7 +727,7 @@ panfrost_reset(struct panfrost_device *pfdev,
->>   
->>   	/* Restart the schedulers */
->>   	for (i = 0; i < NUM_JOB_SLOTS; i++)
->> -		drm_sched_start(&pfdev->js->queue[i].sched);
->> +		drm_sched_start(&pfdev->js->queue[i].sched, 0);
->>   
->>   	/* Re-enable job interrupts now that everything has been
->> restarted. */
->>   	job_write(pfdev, JOB_INT_MASK,
->> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c
->> b/drivers/gpu/drm/panthor/panthor_mmu.c
->> index d47972806d50..e630cdf47f99 100644
->> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
->> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
->> @@ -827,7 +827,7 @@ static void panthor_vm_stop(struct panthor_vm
->> *vm)
->>   
->>   static void panthor_vm_start(struct panthor_vm *vm)
->>   {
->> -	drm_sched_start(&vm->sched);
->> +	drm_sched_start(&vm->sched, 0);
->>   }
->>   
->>   /**
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index ab53ab486fe6..f093616fe53c 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -674,9 +674,10 @@ EXPORT_SYMBOL(drm_sched_stop);
->>    * drm_sched_start - recover jobs after a reset
->>    *
->>    * @sched: scheduler instance
->> + * @errno: error to set on the pending fences
->>    *
->>    */
->> -void drm_sched_start(struct drm_gpu_scheduler *sched)
->> +void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
->>   {
->>   	struct drm_sched_job *s_job, *tmp;
->>   
->> @@ -691,13 +692,13 @@ void drm_sched_start(struct drm_gpu_scheduler
->> *sched)
->>   		atomic_add(s_job->credits, &sched->credit_count);
->>   
->>   		if (!fence) {
->> -			drm_sched_job_done(s_job, -ECANCELED);
->> +			drm_sched_job_done(s_job, errno ?: -
->> ECANCELED);
->>   			continue;
->>   		}
->>   
->>   		if (dma_fence_add_callback(fence, &s_job->cb,
->>   					   drm_sched_job_done_cb))
->> -			drm_sched_job_done(s_job, fence->error);
->> +			drm_sched_job_done(s_job, fence->error ?:
->> errno);
->>   	}
->>   
->>   	drm_sched_start_timeout_unlocked(sched);
->> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
->> b/drivers/gpu/drm/v3d/v3d_sched.c
->> index fd29a00b233c..b6a89171824b 100644
->> --- a/drivers/gpu/drm/v3d/v3d_sched.c
->> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
->> @@ -663,7 +663,7 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d,
->> struct drm_sched_job *sched_job)
->>   
->>   	/* Unblock schedulers and restart their jobs. */
->>   	for (q = 0; q < V3D_MAX_QUEUES; q++) {
->> -		drm_sched_start(&v3d->queue[q].sched);
->> +		drm_sched_start(&v3d->queue[q].sched, 0);
->>   	}
->>   
->>   	mutex_unlock(&v3d->reset_lock);
->> diff --git a/include/drm/gpu_scheduler.h
->> b/include/drm/gpu_scheduler.h
->> index fe8edb917360..a8d19b10f9b8 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -579,7 +579,7 @@ bool drm_sched_wqueue_ready(struct
->> drm_gpu_scheduler *sched);
->>   void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched);
->>   void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched);
->>   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
->> drm_sched_job *bad);
->> -void drm_sched_start(struct drm_gpu_scheduler *sched);
->> +void drm_sched_start(struct drm_gpu_scheduler *sched, int errno);
-> I personally only recently started using the scheduler and many things
-> were quite confusing.
->
-> In particular, I thought it's not good to call this function
-> drm_sched_start(), because that implies to new users / programmers that
-> this function is supposed to start the scheduler.
->
-> Accordingly, drm_sched_stop() sounds as if it's intended to be used on
-> scheduler teardown. "Alright, I'll stop the scheduler with
-> drm_sched_stop(), then can safely call drm_sched_entity_destroy() and
-> then tear it down completely through drm_sched_fini()".
->
-> Now the comments make it obvious that those start and stop functions
-> are more intended for error recovery.
->
-> So my stance is that start should be called, e.g., drm_sched_restart()
-> or perhaps drm_sched_recover_start().
->
-> So since you're already touching all the lines where the function is
-> used, this might be a good opportunity to improve the name, too.
->
-> If that's deemed desirable.
+In dcn32_enable_phantom_plane, we should better check null pointer before
+accessing various structs.
 
-Yeah completely agree.
+Cc: stable@vger.kernel.org
+Fixes: 235c67634230 ("drm/amd/display: add DCN32/321 specific files for Display Core")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+ drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-We also had people incorrectly thinking that they should call 
-drm_sched_stop/start on suspend/resume resulting in a system which 
-didn't come up again after resume.
-
-How about we call it drm_sched_suspend_before_reset() and 
-drm_sched_resume_after_reset()?
-
-Thanks,
-Christian.
-
->
-> P.
->
->
->>   void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
->>   void drm_sched_increase_karma(struct drm_sched_job *bad);
->>   void drm_sched_reset_karma(struct drm_sched_job *bad);
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+index 969658313fd6..1d1b40d22f42 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+@@ -1650,6 +1650,8 @@ static void dcn32_enable_phantom_plane(struct dc *dc,
+ 			phantom_plane = prev_phantom_plane;
+ 		else
+ 			phantom_plane = dc_state_create_phantom_plane(dc, context, curr_pipe->plane_state);
++		if (!phantom_plane)
++			return;
+ 
+ 		memcpy(&phantom_plane->address, &curr_pipe->plane_state->address, sizeof(phantom_plane->address));
+ 		memcpy(&phantom_plane->scaling_quality, &curr_pipe->plane_state->scaling_quality,
+-- 
+2.25.1
 
