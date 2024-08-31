@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02A1967116
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 13:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C4A967118
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 13:12:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B792F10E0FC;
-	Sat, 31 Aug 2024 11:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4542310E0FD;
+	Sat, 31 Aug 2024 11:12:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DR/MBBFe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j8vhu9tb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B25BF10E0FC
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 11:11:42 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB66D10E0FD
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 11:12:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8DDCEA4015B;
- Sat, 31 Aug 2024 11:11:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F339C4CEC0;
- Sat, 31 Aug 2024 11:11:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 61CE85C3F69;
+ Sat, 31 Aug 2024 11:11:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39648C4CEC0;
+ Sat, 31 Aug 2024 11:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725102701;
- bh=0WHLlaTK0otUlK19e3QVW/qXCLqjQ01sSWCsFRz8/Xk=;
+ s=k20201202; t=1725102720;
+ bh=6Tc7RsbCHU6apA/esYfyd/F8YwR9o2cw7PHhVhzyfsg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DR/MBBFeng0PaL2RepRnjZVDwGjh6Af9EZ5muuxcRA7RLMYCIxlOxezh3QX85CZWc
- TN/7eYCAG1viiPO4TUZ3nBhiXRS2ZA7KPAMlvYpUWFxhzYFlxP7jzxYvj7u3c4+rbq
- XEbjguJLXcKfC7EtOKsoZSf77pkqf4OfY/TH6Q9VdJIr4kloterZjSgMEZPTXSX+n6
- pt6p23RQkX7PXSCKF/UTW0mczRBOy/jk7EsmaEqGkSu0JZaCBg8/y2e9gUiBnbDiZp
- ZOJgVJ2rwyClP1SolZw3j5gqlHnlRzxoIQZIEg0LCYpQFvgZC7NvWJvwvWez6OvaWF
- 8s/SmKbF075+w==
-Message-ID: <df0d9cdf-0fc5-440d-997d-9e1a786dc8b5@kernel.org>
-Date: Sat, 31 Aug 2024 13:11:29 +0200
+ b=j8vhu9tb9t3HUYiyXLBxHRfkFdTHbYpgE2+YYuJzZvdpz0ksQaDZCszdSN/ZXnYY+
+ Xzm2SxUr1mc8ktUBqtUIXUxNVXlMJXWAwBetO9Wwy2hn5YZMUoYsWabb1WRBLxNSTV
+ f6n7TID2x37moy85Cw/9+EGug1tdaonpeKxur6DrlAgjsvo2uydFOFpM92E3Xs245+
+ D/Mzgr2c9o4qg/t/fLU2WznLOrYXBJ8lXCWIMl3CgiGtwFJ/Ei3Np1FXFgdL0zNCnD
+ rmvUzbaAXQ0Yjtv3pHBqJ6EFDg3lqlAEy51t5BXnt51l278UU72kNcMY24XH1i2Zub
+ DbCFoqbhvPK7g==
+Message-ID: <c4145009-b9ae-40b3-b550-cdb90ddc39eb@kernel.org>
+Date: Sat, 31 Aug 2024 13:11:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5? 3/6] dt-bindings: display: bridge: Add schema for
- Synopsys DW HDMI QP TX IP
+Subject: Re: [PATCH v5? 4/6] dt-bindings: soc: rockchip: Document VO0/1 GRF
+ compatible string changes
 To: Shimrra Shai <shimrrashai@gmail.com>
 Cc: Laurent.pinchart@ideasonboard.com, aarnoud@me.com, airlied@gmail.com,
  algea.cao@rock-chips.com, andrzej.hajda@intel.com, andy.yan@rock-chips.com,
@@ -49,7 +49,7 @@ Cc: Laurent.pinchart@ideasonboard.com, aarnoud@me.com, airlied@gmail.com,
  rfoss@kernel.org, robh@kernel.org, s.hauer@pengutronix.de,
  tzimmermann@suse.de
 References: <20240830152132.8894-1-shimrrashai@gmail.com>
- <20240830152825.9053-1-shimrrashai@gmail.com>
+ <20240830152840.9066-1-shimrrashai@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240830152825.9053-1-shimrrashai@gmail.com>
+In-Reply-To: <20240830152840.9066-1-shimrrashai@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,13 +114,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 30/08/2024 17:28, Shimrra Shai wrote:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi-qp.yaml
-> new file mode 100644
-> index 000000000..141899ba2
+> diff --git a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
+> index 78c6d5b64..8fd539125 100644
+> --- a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
+> +++ b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
+> @@ -31,7 +31,8 @@ properties:
+>                - rockchip,rk3588-pcie3-pipe-grf
+>                - rockchip,rk3588-usb-grf
+>                - rockchip,rk3588-usbdpphy-grf
+> -              - rockchip,rk3588-vo-grf
+> +              - rockchip,rk3588-vo0-grf
+> +              - rockchip,rk3588-vo1-grf
+>                - rockchip,rk3588-vop-grf
 
-What is this? Where is proper message?
-
-Why are you sending someone's else work duplicating entire review effort?
+NAK, this does not make any sense. Just random code changes...
 
 Best regards,
 Krzysztof
