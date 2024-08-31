@@ -2,46 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E518096715E
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 13:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581F796715F
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 13:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6317910E110;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84FFE10E115;
 	Sat, 31 Aug 2024 11:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB5CD10EAB4;
- Sat, 31 Aug 2024 01:19:51 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.48])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WwcZZ4CG7zgYZP;
- Sat, 31 Aug 2024 09:17:42 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
- by mail.maildlp.com (Postfix) with ESMTPS id B21C718006C;
- Sat, 31 Aug 2024 09:19:47 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
- (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 31 Aug
- 2024 09:19:47 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kherbst@redhat.com>, <lyude@redhat.com>, <dakr@redhat.com>,
- <felix.kuehling@amd.com>, <shashank.sharma@amd.com>,
- <srinivasan.shanmugam@amd.com>, <zhenguo.yin@amd.com>, <Jesse.Zhang@amd.com>
-CC: <lizetao1@huawei.com>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH -next -v2 3/3] drm/nouveau/volt: use clamp() in nvkm_volt_map()
-Date: Sat, 31 Aug 2024 09:28:03 +0800
-Message-ID: <20240831012803.3950100-4-lizetao1@huawei.com>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5185A10E0D7;
+ Sat, 31 Aug 2024 09:38:46 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Wwqgz4k5bzyRD7;
+ Sat, 31 Aug 2024 17:38:07 +0800 (CST)
+Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
+ by mail.maildlp.com (Postfix) with ESMTPS id 4367A1400DC;
+ Sat, 31 Aug 2024 17:38:41 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
+ (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Sat, 31 Aug
+ 2024 17:38:41 +0800
+From: Hongbo Li <lihongbo22@huawei.com>
+To: <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <rodrigo.vivi@intel.com>, <tursulin@ursulin.net>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>
+CC: <lihongbo22@huawei.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH -next] drm/i915: Remove extra unlikely helper
+Date: Sat, 31 Aug 2024 17:46:55 +0800
+Message-ID: <20240831094655.4153520-1-lihongbo22@huawei.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240831012803.3950100-1-lizetao1@huawei.com>
-References: <20240831012803.3950100-1-lizetao1@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemd500012.china.huawei.com (7.221.188.25)
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500022.china.huawei.com (7.185.36.66)
 X-Mailman-Approved-At: Sat, 31 Aug 2024 11:44:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,31 +54,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When it needs to get a value within a certain interval, using clamp()
-makes the code easier to understand than min(max()).
+In IS_ERR, the unlikely is used for the input parameter,
+so these is no need to use it again outside.
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
+Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 ---
-v1 -> v2: Change the patch title prefix to drm/nouveau/volt
-v1: https://lore.kernel.org/all/20240830012216.603623-4-lizetao1@huawei.com/
-
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c
-index a17a6dd8d3de..803b98df4858 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/base.c
-@@ -142,7 +142,7 @@ nvkm_volt_map(struct nvkm_volt *volt, u8 id, u8 temp)
- 			return -ENODEV;
- 		}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 01b7587dd1f8..a3b83cfe1726 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -825,7 +825,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
+ 	struct i915_gem_context *ctx;
  
--		result = min(max(result, (s64)info.min), (s64)info.max);
-+		result = clamp(result, (s64)info.min, (s64)info.max);
+ 	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->rsvd1);
+-	if (unlikely(IS_ERR(ctx)))
++	if (IS_ERR(ctx))
+ 		return PTR_ERR(ctx);
  
- 		if (info.link != 0xff) {
- 			int ret = nvkm_volt_map(volt, info.link, temp);
+ 	eb->gem_context = ctx;
 -- 
 2.34.1
 
