@@ -2,51 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319509670FA
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 12:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02A1967116
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2024 13:11:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94CF10E075;
-	Sat, 31 Aug 2024 10:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B792F10E0FC;
+	Sat, 31 Aug 2024 11:11:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="iWSOQxHJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DR/MBBFe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr
- [80.12.242.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF2C410E075
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 10:57:37 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id kLewsd95c6mdlkLews593w; Sat, 31 Aug 2024 12:48:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1725101330;
- bh=jWhl45GhCInF4jIxORGfZyY2AMGshnhXMxuMEz4hBUk=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=iWSOQxHJoDSMbOQzbXx6fpKqvOzFo6iD/jctkMfqp68dsOu1gg3To2GoWL3P/GyGq
- wwlJjHCPf5qLNRlmVunnvjtHHkg43rmVJuc03g7KGqW1u998TRKAXrW+L0JdnuI8qC
- 0f1xr8MEG1ILdl2FPjrmSsnVXkDEbv4uCEupgRqNPwkWn6s2WfQqg3J1O3qVycsVQN
- CyWWt2x5cBrDGT1Xik0t+HeBZ/8/W3WqXtRhDb2+2JuaUx090szYr6gTRv4jCdHX4x
- EoILVoQ1Sgm4BcJdlBj7zGLQYRMp1cnba4ESwccdMOXIxRTDTHDVG7l+b0KdPT5W4Q
- 7BLzdhvpflg5w==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sat, 31 Aug 2024 12:48:50 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <74dfe952-2055-4152-90c6-ac9cc42fcad9@wanadoo.fr>
-Date: Sat, 31 Aug 2024 12:48:45 +0200
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B25BF10E0FC
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 11:11:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8DDCEA4015B;
+ Sat, 31 Aug 2024 11:11:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F339C4CEC0;
+ Sat, 31 Aug 2024 11:11:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725102701;
+ bh=0WHLlaTK0otUlK19e3QVW/qXCLqjQ01sSWCsFRz8/Xk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DR/MBBFeng0PaL2RepRnjZVDwGjh6Af9EZ5muuxcRA7RLMYCIxlOxezh3QX85CZWc
+ TN/7eYCAG1viiPO4TUZ3nBhiXRS2ZA7KPAMlvYpUWFxhzYFlxP7jzxYvj7u3c4+rbq
+ XEbjguJLXcKfC7EtOKsoZSf77pkqf4OfY/TH6Q9VdJIr4kloterZjSgMEZPTXSX+n6
+ pt6p23RQkX7PXSCKF/UTW0mczRBOy/jk7EsmaEqGkSu0JZaCBg8/y2e9gUiBnbDiZp
+ ZOJgVJ2rwyClP1SolZw3j5gqlHnlRzxoIQZIEg0LCYpQFvgZC7NvWJvwvWez6OvaWF
+ 8s/SmKbF075+w==
+Message-ID: <df0d9cdf-0fc5-440d-997d-9e1a786dc8b5@kernel.org>
+Date: Sat, 31 Aug 2024 13:11:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] drm/imagination: Use memdup_user() helper
-To: Jinjie Ruan <ruanjinjie@huawei.com>, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240831103047.99499-1-ruanjinjie@huawei.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240831103047.99499-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5? 3/6] dt-bindings: display: bridge: Add schema for
+ Synopsys DW HDMI QP TX IP
+To: Shimrra Shai <shimrrashai@gmail.com>
+Cc: Laurent.pinchart@ideasonboard.com, aarnoud@me.com, airlied@gmail.com,
+ algea.cao@rock-chips.com, andrzej.hajda@intel.com, andy.yan@rock-chips.com,
+ conor+dt@kernel.org, cristian.ciocaltea@collabora.com, daniel@ffwll.ch,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ heiko@sntech.de, hjc@rock-chips.com, jernej.skrabec@gmail.com,
+ jonas@kwiboo.se, krzk+dt@kernel.org, ldearquer@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, maarten.lankhorst@linux.intel.com,
+ markyao0591@gmail.com, mripard@kernel.org, neil.armstrong@linaro.org,
+ rfoss@kernel.org, robh@kernel.org, s.hauer@pengutronix.de,
+ tzimmermann@suse.de
+References: <20240830152132.8894-1-shimrrashai@gmail.com>
+ <20240830152825.9053-1-shimrrashai@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240830152825.9053-1-shimrrashai@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,64 +113,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 31/08/2024 à 12:30, Jinjie Ruan a écrit :
-> Switching to memdup_user(), which combines kmalloc() and copy_from_user(),
-> and it can simplfy code.
-> 
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->   drivers/gpu/drm/imagination/pvr_context.c | 22 +++++++---------------
->   1 file changed, 7 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/imagination/pvr_context.c
-> index eded5e955cc0..e75fd50a4d9f 100644
-> --- a/drivers/gpu/drm/imagination/pvr_context.c
-> +++ b/drivers/gpu/drm/imagination/pvr_context.c
-> @@ -69,27 +69,19 @@ process_static_context_state(struct pvr_device *pvr_dev, const struct pvr_stream
->   	void *stream;
->   	int err;
->   
-> -	stream = kzalloc(stream_size, GFP_KERNEL);
-> -	if (!stream)
-> -		return -ENOMEM;
-> -
-> -	if (copy_from_user(stream, u64_to_user_ptr(stream_user_ptr), stream_size)) {
-> -		err = -EFAULT;
-> -		goto err_free;
-> -	}
-> +	stream = memdup_user(u64_to_user_ptr(stream_user_ptr), stream_size);
-> +	if (IS_ERR(stream))
-> +		return PTR_ERR(stream);
->   
->   	err = pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, dest);
-> -	if (err)
-> -		goto err_free;
-> +	if (err) {
-> +		kfree(stream);
-> +		return err;
-> +	}
->   
->   	kfree(stream);
->   
->   	return 0;
-> -
-> -err_free:
-> -	kfree(stream);
-> -
-> -	return err;
->   }
+On 30/08/2024 17:28, Shimrra Shai wrote:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi-qp.yaml
+> new file mode 100644
+> index 000000000..141899ba2
 
-It could also be:
-  	err = pvr_stream_process(...);
+What is this? Where is proper message?
 
-  	kfree(stream);
+Why are you sending someone's else work duplicating entire review effort?
 
-  	return err;
-
-as you did for drivers/gpu/drm/imagination/pvr_job.c.
-
-CJ
-
->   
->   static int init_render_fw_objs(struct pvr_context *ctx,
+Best regards,
+Krzysztof
 
