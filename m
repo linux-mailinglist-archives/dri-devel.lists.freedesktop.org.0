@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC6096749F
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 06:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2252A9674A0
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 06:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A8B10E182;
-	Sun,  1 Sep 2024 04:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1E010E183;
+	Sun,  1 Sep 2024 04:07:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="h5oy948p";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="od7QrA7a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
- [209.85.166.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEB2F10E184
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 04:07:28 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id
- e9e14a558f8ab-39e6a1e0079so12533555ab.0
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 21:07:28 -0700 (PDT)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
+ [209.85.167.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1978610E183
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 04:07:31 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id
+ 5614622812f47-3df02c407c4so1884738b6e.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 21:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725163648; x=1725768448;
+ d=chromium.org; s=google; t=1725163650; x=1725768450;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lVAbaFTBXgnW+fAYVEBW9D2cgqLAHsvQgjfJBzfAY3s=;
- b=h5oy948pKL88ozYK+BonpVWVr7ENds8BSn6/oV1Le/busBIpIuNY2330iGoWJXVMWt
- KRiKJ1D5rHVwCcMeKkDZ9GpJR2MNxCE5I9RF2yqmk4XNfSrRdvoDiuprysScif/fKSjt
- jijXz/0PY47rkpRz/ioJE1gXKbZGeXgUFh1wc=
+ bh=Wd502yvg5fXt4u5g230ZTpdeyPtCH4Yq39fj6qZgjT4=;
+ b=od7QrA7axGiVf158QKrfRqsIdLrlIAWki6fGjBi4DT1BygEMYv1kEIP4rpmgcGrnxs
+ YxVdYvFSOf3hNnRJ69xGSBH55lwYZp20IuFirWnyP9MqntoYC5JBXEMPyoWPEREEHGjB
+ sNvMIz0x/H6Dap708QN1TlBVFfwc52ogP/TA8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725163648; x=1725768448;
+ d=1e100.net; s=20230601; t=1725163650; x=1725768450;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lVAbaFTBXgnW+fAYVEBW9D2cgqLAHsvQgjfJBzfAY3s=;
- b=wUSVldXvLvlXgcGr5wjuCO2uQsqzgTiMDq8JYOBT4XNVY49rc7F3L4KNuLeV6SUHb3
- 34ej1eCCRTahLV8ftg77uiucVeycOlS4fW8J1edUC4Ab9EXOTTbhKo5YCNMApN3J6Ktb
- Asjnj87XyXHGWOYJdlKX5PSBy/sRo9MIjXqankA7h/zg4Fry5f0jsNyrdPEzEttjAzX/
- 3nuBFSXEjNzBmPQXpdmNrNm8+o2Eq3yi80i9JKy09tjLPRbq9zMB3R8gYTvA+HS26E+n
- wkF7PC6VXVUutW3kC/MWjk+IKXrkItkHNCnPFTG4vruH2kIwaXtSNMTTHp9PSJs3Aesh
- fbYQ==
+ bh=Wd502yvg5fXt4u5g230ZTpdeyPtCH4Yq39fj6qZgjT4=;
+ b=dzxjKJtdV8MgPD2ojvDqCJ9ryuUm0MYpxfTe572EZMO7/1+48CFAxuuJFPNYZQTtIi
+ N24ArcV0nTiUcsV19wTEW3U8lqrjvTq6hOVdpO/WInDkWwn+UP7qK/sq/e/3d2lyGnug
+ M64WHITZbiOLsESV0RWR6WB860Qs6nVaa9U0PXy4iHJXuhfkZc/tZ1cs4RQ6kEqnj4B7
+ e7sJhuH/YnmaT//jq8D9nn2k79ahLlJDDDU55MPhbpMzS2DOFjCDX7OOrLH52QdygtbP
+ fEJtGDeoPVLj08WYv6oXJHR0s/73la6e0O2ZhmyhmLuMbkXar6GLgUlKeHhn3veRKIpd
+ B5VA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXc4dWLqn2cg8z1jy+G9ZNjATecf6JQXPN/NhS43VqBVy+jESItTeR7ASbKh08IdiY+HPvhgGcnlDk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzbVx6gDB4VCeyHoPSIMh6Jp4Z7hsgxn+yvvaTEqdwN2HTCz55h
- cFP04uD9v2UpZ4bZCGGDjtLWX+APVMWwJ/+Cn2LLKEfK1j8/b+3ikaKsDuTljQ==
-X-Google-Smtp-Source: AGHT+IFsOTewMNJ0BJt0tAvMG/AJBfDBb9as9o8BHiOu5PQfrktxWGnHk+Ahlp9K/S8f1Bq4n28w/g==
-X-Received: by 2002:a05:6e02:1c42:b0:39f:5646:97da with SMTP id
- e9e14a558f8ab-39f56469978mr14867835ab.20.1725163647832; 
- Sat, 31 Aug 2024 21:07:27 -0700 (PDT)
+ AJvYcCUXiFb/Wmz8skwCtuKizva/H0YINkORBtKnUPIYwv7vXfIsYQYCOtCbZ/1aamr0kVV6YP8h7B1L51Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDb1nk6BvhQyBjv6BDMQp7V5rEWPCQDXccZcDQLPcKlavnfgZp
+ RS/G8TGGomSEWhXgOO03kqge4dhd7COff2jNQByDn2jM4yhsPri2mAi3XP3V+3NQc56Ibsjam2Y
+ =
+X-Google-Smtp-Source: AGHT+IGL4OiCHHZFsgZPnNJ0c3FJUh9XkC9nxzYLew8976ZXhgGWIxU50B53RDoHj8H5q7Hy8p3c6w==
+X-Received: by 2002:a05:6808:318c:b0:3dc:299d:c505 with SMTP id
+ 5614622812f47-3df22d06635mr3681624b6e.37.1725163650076; 
+ Sat, 31 Aug 2024 21:07:30 -0700 (PDT)
 Received: from localhost (210.73.125.34.bc.googleusercontent.com.
  [34.125.73.210]) by smtp.gmail.com with UTF8SMTPSA id
- 41be03b00d2f7-7d22e9d77f2sm5333884a12.89.2024.08.31.21.07.26
+ d2e1a72fcca58-715e5763a67sm4833459b3a.216.2024.08.31.21.07.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 31 Aug 2024 21:07:27 -0700 (PDT)
+ Sat, 31 Aug 2024 21:07:29 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: chrome-platform@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
@@ -85,9 +86,10 @@ Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>,
  "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [PATCH v4 12/18] dt-bindings: usb-switch: Extract endpoints to defs
-Date: Sat, 31 Aug 2024 21:06:50 -0700
-Message-ID: <20240901040658.157425-13-swboyd@chromium.org>
+Subject: [PATCH v4 13/18] dt-bindings: usb-switch: Extend for DisplayPort
+ altmode
+Date: Sat, 31 Aug 2024 21:06:51 -0700
+Message-ID: <20240901040658.157425-14-swboyd@chromium.org>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240901040658.157425-1-swboyd@chromium.org>
 References: <20240901040658.157425-1-swboyd@chromium.org>
@@ -108,11 +110,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the usb-switch endpoint bindings to defs so that they can be reused
-by other bindings. Future users of this binding will have more than one
-type-c output node when they're muxing a single DP signal to more than
-one usb-c-connector. Add an example to show how this binding can be used
-and accelerate binding checks.
+Extend the usb-switch binding to support DisplayPort (DP) alternate
+modes. A third port for the DP signal is necessary when a mode-switch is
+muxing USB and DP together onto a usb type-c connector. Add data-lanes
+to the usbc output node to allow a device using this binding to remap
+the data lanes on the output. Add an example to show how this new port
+can be used.
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -126,76 +129,81 @@ Cc: <chrome-platform@lists.linux.dev>
 Cc: Pin-yen Lin <treapking@chromium.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- .../devicetree/bindings/usb/usb-switch.yaml   | 74 +++++++++++++++----
- 1 file changed, 61 insertions(+), 13 deletions(-)
+ .../devicetree/bindings/usb/usb-switch.yaml   | 89 +++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/usb-switch.yaml b/Documentation/devicetree/bindings/usb/usb-switch.yaml
-index da76118e73a5..f5dc7e23b134 100644
+index f5dc7e23b134..816f295f322f 100644
 --- a/Documentation/devicetree/bindings/usb/usb-switch.yaml
 +++ b/Documentation/devicetree/bindings/usb/usb-switch.yaml
-@@ -35,9 +35,12 @@ properties:
-     $ref: /schemas/graph.yaml#/properties/ports
-     properties:
-       port@0:
--        $ref: /schemas/graph.yaml#/properties/port
--        description:
--          Super Speed (SS) Output endpoint to the Type-C connector
+@@ -52,6 +52,14 @@ properties:
+           endpoint:
+             $ref: '#/$defs/usbc-in-endpoint'
+ 
++      port@2:
 +        $ref: /schemas/graph.yaml#/$defs/port-base
 +        unevaluatedProperties: false
 +
 +        properties:
 +          endpoint:
-+            $ref: '#/$defs/usbc-out-endpoint'
- 
-       port@1:
-         $ref: /schemas/graph.yaml#/$defs/port-base
-@@ -47,16 +50,7 @@ properties:
- 
-         properties:
-           endpoint:
--            $ref: /schemas/graph.yaml#/$defs/endpoint-base
--            unevaluatedProperties: false
--            properties:
--              data-lanes:
--                $ref: /schemas/types.yaml#/definitions/uint32-array
--                minItems: 1
--                maxItems: 8
--                uniqueItems: true
--                items:
--                  maximum: 8
-+            $ref: '#/$defs/usbc-in-endpoint'
- 
++            $ref: '#/$defs/dp-endpoint'
++
  oneOf:
    - required:
-@@ -65,3 +59,57 @@ oneOf:
-       - ports
+       - port
+@@ -65,6 +73,19 @@ $defs:
+     $ref: /schemas/graph.yaml#/$defs/endpoint-base
+     description: Super Speed (SS) output endpoint to a type-c connector
+     unevaluatedProperties: false
++    properties:
++      data-lanes:
++        $ref: /schemas/types.yaml#/definitions/uint32-array
++        description: |
++          An array of physical USB Type-C data lane indexes.
++          - 0 is SSRX1 lane
++          - 1 is SSTX1 lane
++          - 2 is SSTX2 lane
++          - 3 is SSRX2 lane
++        minItems: 4
++        maxItems: 4
++        items:
++          maximum: 3
  
- additionalProperties: true
-+
-+$defs:
-+  usbc-out-endpoint:
+   usbc-in-endpoint:
+     $ref: /schemas/graph.yaml#/$defs/endpoint-base
+@@ -79,7 +100,75 @@ $defs:
+         items:
+           maximum: 8
+ 
++  dp-endpoint:
 +    $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+    description: Super Speed (SS) output endpoint to a type-c connector
-+    unevaluatedProperties: false
-+
-+  usbc-in-endpoint:
-+    $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+    description: Super Speed (SS) input endpoint from the Super Speed PHY
++    description: DisplayPort (DP) input from the DP PHY
 +    unevaluatedProperties: false
 +    properties:
 +      data-lanes:
 +        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 1
-+        maxItems: 8
-+        uniqueItems: true
-+        items:
-+          maximum: 8
++        description: |
++          An array of physical DP data lane indexes
++          - 0 is DP ML0 lane
++          - 1 is DP ML1 lane
++          - 2 is DP ML2 lane
++          - 3 is DP ML3 lane
++        oneOf:
++          - items:
++              - const: 0
++              - const: 1
++          - items:
++              - const: 0
++              - const: 1
++              - const: 2
++              - const: 3
 +
-+examples:
-+  # A USB orientation switch which flips the pin orientation
-+  # for a usb-c-connector node.
+ examples:
++  # A USB + DP mode and orientation switch which muxes DP altmode
++  # and USB onto a usb-c-connector node.
 +  - |
 +    device {
++      mode-switch;
 +      orientation-switch;
 +
 +      ports {
@@ -209,6 +217,7 @@ index da76118e73a5..f5dc7e23b134 100644
 +
 +          endpoint {
 +            remote-endpoint = <&usb_c_connector>;
++            data-lanes = <0 1 2 3>;
 +          };
 +        };
 +
@@ -221,10 +230,23 @@ index da76118e73a5..f5dc7e23b134 100644
 +            remote-endpoint = <&usb_ss_phy>;
 +          };
 +        };
++
++        port@2 {
++          reg = <2>;
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          endpoint {
++            remote-endpoint = <&dp_phy>;
++            data-lanes = <0 1 2 3>;
++          };
++        };
 +      };
 +    };
 +
-+...
+   # A USB orientation switch which flips the pin orientation
+   # for a usb-c-connector node.
+   - |
 -- 
 https://chromeos.dev
 
