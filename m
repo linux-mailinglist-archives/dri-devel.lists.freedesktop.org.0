@@ -2,97 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F789674A7
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 06:07:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C51A967556
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 08:41:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889A410E188;
-	Sun,  1 Sep 2024 04:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD5E10E10F;
+	Sun,  1 Sep 2024 06:41:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BqTNxkR4";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="l3vcwnRo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
- [209.85.160.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51FD510E185
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 04:07:41 +0000 (UTC)
-Received: by mail-oa1-f48.google.com with SMTP id
- 586e51a60fabf-277e4327c99so179413fac.0
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 21:07:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725163660; x=1725768460;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YAnr/CInUuanIGWaUDroB3xFD+9prT3yLYHDcJ6D0Bo=;
- b=BqTNxkR4FuFKoMjNdVPz05dclmQudzZw9130DPCgjWu+HZ8Oly6gUgh6Qq8fsCULIL
- g0c7CjSIav3lxAIohkyfF7fZ/uLMeWuJ046EsEGsnAouDMpWNbCueM6j3e7X//7v6g9m
- Gz/qYykYW+iY5dhJT9W266HOmWrWHByp+u6U8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725163660; x=1725768460;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YAnr/CInUuanIGWaUDroB3xFD+9prT3yLYHDcJ6D0Bo=;
- b=ByBtDp8+dRQM2BClL2TfyCDu36IeLy3M1oVIbN26JAT1+SevGXi0FPu+GNDTrsFUUl
- /QAXpHpQZkZkied/12GYjGskwoEn9XjeVMvhO/wnRJCEw59kbcKn4z0r0TA4FDTlIv0T
- nJ5p1La/cR9EqE37xffYHt53q7t5m552xkDMfA2ICyX51k5p8YmUKgLGjeINWW9vwrOA
- 9+yj4m9ks5SAcqxXkDrv4u4S/At3HLki5+PtMzd/m7zcw7y+GgA9FlfGrLQuY4apAJTf
- S7Ss8uPbHvzHL5SM8YEJd0QEZrDajOOz7tU5rDs4SdW/z1kJWBzkxqXQIE/BBEpqOHlm
- IFxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXhUBUqtSQQu9PNIM6853tHvMgncGq6Eza9fTsrAJrXqw8DYIbexb8UG92Rd7ljlgK5IsEEcnASXKo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYzUU0uMoOC3peMAlUg/MaLOhu41ryYQ5IWmy9+s2To/SYRWZR
- HBaDwWUuYGq9PzHws4ETxs5G1vQoFUJgVHR52HhRSMaO1fbtArvNQs+RpoU1vw==
-X-Google-Smtp-Source: AGHT+IEJat/MH0aH5PxrzEOzEVWfG27VMiaK42He6BskeDGxOOCnFMowYgglO9wA7c39ubb74K4njg==
-X-Received: by 2002:a05:6870:c14c:b0:25e:d62:f297 with SMTP id
- 586e51a60fabf-277d06c6446mr3278885fac.45.1725163660389; 
- Sat, 31 Aug 2024 21:07:40 -0700 (PDT)
-Received: from localhost (210.73.125.34.bc.googleusercontent.com.
- [34.125.73.210]) by smtp.gmail.com with UTF8SMTPSA id
- d2e1a72fcca58-715e55aa11fsm4854824b3a.85.2024.08.31.21.07.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 31 Aug 2024 21:07:40 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: chrome-platform@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
- devicetree@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Benson Leung <bleung@chromium.org>, Conor Dooley <conor+dt@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, Robert Foss <rfoss@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tzung-Bi Shih <tzungbi@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
- linux-usb@vger.kernel.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v4 18/18] platform/chrome: cros_ec_typec: Handle lack of HPD
- information
-Date: Sat, 31 Aug 2024 21:06:56 -0700
-Message-ID: <20240901040658.157425-19-swboyd@chromium.org>
-X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
-In-Reply-To: <20240901040658.157425-1-swboyd@chromium.org>
-References: <20240901040658.157425-1-swboyd@chromium.org>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A534110E10F
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 06:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=Q5ie0SU+rwJ8jZQS1JdOylihEKeHaFZ4ykRjrQITKug=; b=l
+ 3vcwnRoBWRUzCkGn/19gO5ySTDgk9W04z8Ei5qzntoESm9m3SLeXlxEpfBMYv4zs
+ SL/225Q302prANSPQ9MEA23OuZd1aIphORJNsADyne8KNqXYU1a+PyU19Ms3QBDi
+ XwFTZXRRdj2VOcEdMuF0x7LVgQ8ve56z3PFqGV+jOk=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-139 (Coremail) ; Sun, 1 Sep 2024 14:40:11 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Sun, 1 Sep 2024 14:40:11 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ "Krzysztof Kozlowski" <krzk@kernel.org>, 
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, 
+ "Neil Armstrong" <neil.armstrong@linaro.org>, 
+ "Robert Foss" <rfoss@kernel.org>, 
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, 
+ "Jonas Karlman" <jonas@kwiboo.se>, 
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, 
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, 
+ "Maxime Ripard" <mripard@kernel.org>, 
+ "Thomas Zimmermann" <tzimmermann@suse.de>, 
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, 
+ "Sandy Huang" <hjc@rock-chips.com>, "Andy Yan" <andy.yan@rock-chips.com>, 
+ "Rob Herring" <robh@kernel.org>, 
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, 
+ "Conor Dooley" <conor+dt@kernel.org>, "Mark Yao" <markyao0591@gmail.com>, 
+ "Sascha Hauer" <s.hauer@pengutronix.de>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
+ kernel@collabora.com, "Alexandre ARNOUD" <aarnoud@me.com>, 
+ "Luis de Arquer" <ldearquer@gmail.com>
+Subject: Re:Re: [PATCH v5 1/4] dt-bindings: display: bridge: Add schema for
+ Synopsys DW HDMI QP TX IP
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <aee7b364-39df-4eb4-a823-4e734f104982@collabora.com>
+References: <20240831-b4-rk3588-bridge-upstream-v5-0-9503bece0136@collabora.com>
+ <20240831-b4-rk3588-bridge-upstream-v5-1-9503bece0136@collabora.com>
+ <57wj2vwjv7eehlix2bmvbm3z4agv5fsyp6vmwwqzotkdsadx7n@azqg2kkaeuxz>
+ <10210346.L8ug28u51p@diego>
+ <aee7b364-39df-4eb4-a823-4e734f104982@collabora.com>
+X-NTES-SC: AL_Qu2ZB/2cvUAq5yKcYekZnEobh+Y5UcK2s/ki2YFXN5k0iSXP6y49RXxAF1DJy86vNx+nsxutfgFs+9V0RJlGc6mmbkMBNI9l1TypHVSjQ64B
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <610d9bc3.159c.191ac5005f5.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: _____wD3f6dLDNRmuANTAA--.37424W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gpNXmWX0FcfugACsZ
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,162 +84,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some EC firmwares on Trogdor/Strongbad boards don't properly indicate
-the state of DP HPD on a type-c port. Instead, the EC only indicates
-that a type-c port has entered or exited DP mode. To make matters worse,
-on these boards the DP signal is muxed between two USB type-c
-connectors, so we can't use the DP entry of a port to figure out which
-type-c port is actually displaying DP.
-
-Stash the HPD state in this case whenever the drm_bridge is notified of
-a connector status change and kick off the port worker so that the
-type-c port state can be re-evaluated. If an analog mux is in use, read
-the mux to figure out which type-c port signaled HPD. Once we know which
-port is actually signaling HPD, inject that state into the message
-received from the EC. This simplifies the rest of the logic as it can
-all stay the same with respect to picking the first port to assert HPD,
-etc.
-
-Cc: Prashant Malani <pmalani@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: <chrome-platform@lists.linux.dev>
-Cc: Pin-yen Lin <treapking@chromium.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/platform/chrome/cros_ec_typec.c | 74 +++++++++++++++++++++++++
- drivers/platform/chrome/cros_ec_typec.h |  2 +
- 2 files changed, 76 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 57d1484ce1ef..731b485634af 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
-@@ -423,6 +424,17 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 	return ret;
- }
- 
-+static void cros_typec_dp_bridge_hpd_notify(void *data, enum drm_connector_status status)
-+{
-+	struct cros_typec_data *typec = data;
-+
-+	/* Proxy the connector status as the HPD state to replay later. */
-+	typec->hpd_asserted = status == connector_status_connected;
-+
-+	/* Refresh port state. */
-+	schedule_work(&typec->port_work);
-+}
-+
- static int cros_typec_init_dp_bridge(struct cros_typec_data *typec)
- {
- 	struct device *dev = typec->dev;
-@@ -432,9 +444,17 @@ static int cros_typec_init_dp_bridge(struct cros_typec_data *typec)
- 	if (!fwnode_property_read_bool(dev_fwnode(dev), "mode-switch"))
- 		return 0;
- 
-+	typec->mux_gpio = devm_gpiod_get_optional(dev, "mux", GPIOD_ASIS);
-+	if (IS_ERR(typec->mux_gpio))
-+		return dev_err_probe(dev, PTR_ERR(typec->mux_gpio), "failed to get mux gpio\n");
-+
- 	dp_dev = devm_drm_dp_typec_bridge_alloc(dev, dev->of_node);
- 	if (IS_ERR(dp_dev))
- 		return PTR_ERR(dp_dev);
-+
-+	if (fwnode_property_read_bool(dev_fwnode(dev), "no-hpd"))
-+		drm_dp_typec_bridge_add_hpd_notify(dp_dev, cros_typec_dp_bridge_hpd_notify, typec);
-+
- 	typec->dp_bridge = dp_dev;
- 
- 	return devm_drm_dp_typec_bridge_add(dev, dp_dev);
-@@ -635,6 +655,59 @@ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
- 	return typec_mux_set(port->mux, &port->state);
- }
- 
-+/*
-+ * Some ECs don't notify AP when HPD goes high or low because their firmware is
-+ * broken. Capture the state of HPD in cros_typec_dp_bridge_hpd_notify() and
-+ * inject the asserted state into the EC's response (deasserted is the
-+ * default).
-+ */
-+static void cros_typec_inject_hpd(struct cros_typec_data *typec,
-+				  struct ec_response_usb_pd_mux_info *resp,
-+				  struct cros_typec_port *port)
-+{
-+	struct gpio_desc *mux_gpio = typec->mux_gpio;
-+	int val;
-+
-+	/* Never registered a drm_bridge. Skip. */
-+	if (!typec->dp_bridge)
-+		return;
-+
-+	/* Don't need to inject HPD level when DP isn't enabled. */
-+	if (!(resp->flags & USB_PD_MUX_DP_ENABLED))
-+		return;
-+
-+	/*
-+	 * The default setting is HPD deasserted. Ignore if nothing to inject.
-+	 */
-+	if (!typec->hpd_asserted)
-+		return;
-+
-+	/*
-+	 * Only read the mux GPIO setting if we need to change the active port.
-+	 * Otherwise, an active port is already set and HPD going high or low
-+	 * doesn't change the muxed port until DP mode is exited.
-+	 */
-+	if (!typec->active_dp_port) {
-+		if (mux_gpio) {
-+			val = gpiod_get_value_cansleep(mux_gpio);
-+			if (val < 0) {
-+				dev_err(typec->dev, "Failed to read mux gpio\n");
-+				return;
-+			}
-+			/* Ignore HPD changes for non-active port. */
-+			if (typec->ports[val] != port)
-+				return;
-+		}
-+	} else if (port != typec->active_dp_port) {
-+		/* Ignore HPD changes for non-active port. */
-+		return;
-+	}
-+
-+	/* Inject HPD from the GPIO state if EC firmware is broken. */
-+	if (typec->hpd_asserted)
-+		resp->flags |= USB_PD_MUX_HPD_LVL;
-+}
-+
- static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
- 				struct ec_response_usb_pd_control_v2 *pd_ctrl)
- {
-@@ -656,6 +729,7 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
- 			 port_num, ret);
- 		return ret;
- 	}
-+	cros_typec_inject_hpd(typec, &resp, port);
- 
- 	/* No change needs to be made, let's exit early. */
- 	if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
-diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
-index f3a2b67df07c..4ccd3d014aa6 100644
---- a/drivers/platform/chrome/cros_ec_typec.h
-+++ b/drivers/platform/chrome/cros_ec_typec.h
-@@ -37,6 +37,8 @@ struct cros_typec_data {
- 	struct cros_typec_port *ports[EC_USB_PD_MAX_PORTS];
- 	struct drm_dp_typec_bridge_dev *dp_bridge;
- 	struct cros_typec_port *active_dp_port;
-+	struct gpio_desc *mux_gpio;
-+	bool hpd_asserted;
- 	struct notifier_block nb;
- 	struct work_struct port_work;
- 	bool typec_cmd_supported;
--- 
-https://chromeos.dev
-
+Ckhp77yMCgrlnKggMjAyNC0wOS0wMSAwNTo1MzozOe+8jCJDcmlzdGlhbiBDaW9jYWx0ZWEiIDxj
+cmlzdGlhbi5jaW9jYWx0ZWFAY29sbGFib3JhLmNvbT4g5YaZ6YGT77yaCj5PbiA4LzMxLzI0IDQ6
+NTggUE0sIEhlaWtvIFN0w7xibmVyIHdyb3RlOgo+PiBIaSwKPj4gCj4+IEFtIFNhbXN0YWcsIDMx
+LiBBdWd1c3QgMjAyNCwgMDg6MTY6MjYgQ0VTVCBzY2hyaWViIEtyenlzenRvZiBLb3psb3dza2k6
+Cj4+PiBPbiBTYXQsIEF1ZyAzMSwgMjAyNCBhdCAxMjo1NToyOUFNICswMzAwLCBDcmlzdGlhbiBD
+aW9jYWx0ZWEgd3JvdGU6Cj4+IAo+Pj4+ICsgIGNsb2NrczoKPj4+PiArICAgIG1pbkl0ZW1zOiA0
+Cj4+Pj4gKyAgICBtYXhJdGVtczogNgo+Pj4+ICsgICAgaXRlbXM6Cj4+Pj4gKyAgICAgIC0gZGVz
+Y3JpcHRpb246IFBlcmlwaGVyYWwvQVBCIGJ1cyBjbG9jawo+Pj4+ICsgICAgICAtIGRlc2NyaXB0
+aW9uOiBFQVJDIFJYIGJpcGhhc2UgY2xvY2sKPj4+PiArICAgICAgLSBkZXNjcmlwdGlvbjogUmVm
+ZXJlbmNlIGNsb2NrCj4+Pj4gKyAgICAgIC0gZGVzY3JpcHRpb246IEF1ZGlvIGludGVyZmFjZSBj
+bG9jawo+Pj4+ICsgICAgYWRkaXRpb25hbEl0ZW1zOiB0cnVlCj4+Pgo+Pj4gV2hhdCBpcyB0aGUg
+dXNlZnVsbmVzcyBvZiBhbGwgdGhpcz8gSG93IGNhbiB5b3UgZXZlbiBiZSBzdXJlIHRoYXQgZWFj
+aAo+Pj4gaW1wbGVtZW50YXRpb24gb2YgdGhpcyBjb3JlIHdpbGwgaGF2ZSBleGFjdGx5IHRoZXNl
+IGNsb2Nrcz8KPj4+Cj4+Pj4gKwo+Pj4+ICsgIGNsb2NrLW5hbWVzOgo+Pj4+ICsgICAgbWluSXRl
+bXM6IDQKPj4+PiArICAgIG1heEl0ZW1zOiA2Cj4+Pj4gKyAgICBpdGVtczoKPj4+PiArICAgICAg
+LSBjb25zdDogcGNsawo+Pj4+ICsgICAgICAtIGNvbnN0OiBlYXJjCj4+Pj4gKyAgICAgIC0gY29u
+c3Q6IHJlZgo+Pj4+ICsgICAgICAtIGNvbnN0OiBhdWQKPj4+PiArICAgIGFkZGl0aW9uYWxJdGVt
+czogdHJ1ZQo+Pj4+ICsKPj4+PiArICBpbnRlcnJ1cHRzOgo+Pj4+ICsgICAgbWluSXRlbXM6IDQK
+Pj4+PiArICAgIG1heEl0ZW1zOiA1Cj4+Pj4gKyAgICBpdGVtczoKPj4+PiArICAgICAgLSBkZXNj
+cmlwdGlvbjogQVZQIFVuaXQgaW50ZXJydXB0Cj4+Pj4gKyAgICAgIC0gZGVzY3JpcHRpb246IENF
+QyBpbnRlcnJ1cHQKPj4+PiArICAgICAgLSBkZXNjcmlwdGlvbjogZUFSQyBSWCBpbnRlcnJ1cHQK
+Pj4+PiArICAgICAgLSBkZXNjcmlwdGlvbjogTWFpbiBVbml0IGludGVycnVwdAo+Pj4KPj4+IElm
+IHRoZXNlIGFyZSByZWFsIHBpbnMsIHRoZW4gdGhpcyBzZWVtcyBtb3JlIHBvc3NpYmxlLCBidXQK
+Pj4+IGFkZGl0aW9uYWxJdGVtcyBkb2VzIG5vdCBtYWtlIG1lIGhhcHB5Lgo+PiAKPj4gU28gd2hp
+bGUgbm90ICJwaW5zIiwgdGhlIGludGVycnVwdHMgYXJlIHNlcGFyYXRlbHkgc3BlY2lmaWVkIGlu
+IHRoZQo+PiBTb0MncyBsaXN0IG9mIGludGVycnVwdHMgaW4gdGhlIEdJQzoKPj4gCj4+IFJLMzU4
+OCBoYXM6Cj4+IAo+PiAyMDEgIGlycV9oZG1pdHgwX29hdnAKPj4gMjAyICBpcnFfaGRtaXR4MF9v
+Y2VjCj4+IDIwMyAgaXJxX2hkbWl0eDBfb2VhcmNyeAo+PiAyMDQgIGlycV9oZG1pdHgwX29tYWlu
+Cj4+IDM5MiAgaXJxX2hkbWl0eDBfaHBkCj4+IAo+PiBhbmQgYW5vdGhlciBzZXQgb2YgYWxsIG9m
+IHRoZW0gZm9yIGhkbWl0eDEKPj4gCj4+IGFuZCBSSzM1NzYgdXNpbmcgdGhlIHNhbWUgaGRtaSBJ
+UCBoYXM6Cj4+IAo+PiAzNzAgIGlycV9oZG1pdHhfb2F2cAo+PiAzNzEgIGlycV9oZG1pdHhfb2Nl
+Ywo+PiAzNzIgIGlycV9oZG1pdHhfb2VhcmNyeAo+PiAzNzMgIGlycV9oZG1pdHhfb21haW4KPj4g
+Mzk5ICBpcnFfaGRtaXR4X2hwZAoKVGhlIGZpcnN0IGZvdXIgaW50ZXJydXB0cyBhcmUgZXhwb3J0
+IGZyb20gdGhlIERXLUhETUktUVAgSVAgY29yZeOAggpUaGUgZmlmdGggSFBEIGludGVycnVwdHMg
+aXMgYSByb2NrY2hpcCBkZXNpZ27jgIIKCj4+IAo+PiBzbyBJIGd1ZXNzIHRoZSBmaWZ0aCBpbnRl
+cnJ1cHQgaXMgbWVhbnQgdG8gYmUgdGhlIGhvdHBsdWc/Cj4KPlllcCwgdGhhdCdzIGZvciB0aGUg
+aG90cGx1ZyBkZXRlY3Rpb24uCj4KPj4gVGhvdWdoIEkgZ3Vlc3MgdGhpcyBzaG91bGQgYmUgc3Bl
+Y2lmaWNlZCBpbiB0aGUgbmFtZS1saXN0IHRvby4KPgo+TXkgdW5kZXJzdGFuZGluZyBmcm9tIEFu
+ZHkgd2FzIHRoYXQgSFBEIGludGVycnVwdCBpcyBSb2NrY2hpcCBwbGF0Zm9ybQo+c3BlY2lmaWMs
+IGhlbmNlIEkgbWFkZSBpdCBwYXJ0IG9mIHJvY2tjaGlwLHJrMzU4OC1kdy1oZG1pLXFwLnlhbWwu
+Cj4KPj4gRnJvbSB0aGUgU29DJ3MgbWFudWFsIGl0IGxvb2tzIGxpa2UgdGhlIGNvbnRyb2xsZXIg
+aXMgc2V0IHVwIGZyb20KPj4gZGlmZmVyZW50IG1vZHVsZXMuCj4+IExpa2UgQVZQIGlzIHRoZSBh
+dWRpby12aWRlby1wYWNrZXQtbW9kdWxlLCB0aGVyZSBpcyBhIE1haW4gYW5kIENFQyBNb2R1bGUK
+Pj4gYXMgd2VsbCBhcyBhIGVBUkMgUlggY29udHJvbGxlciBpbnNpZGUuIEknZCBndWVzcyBpdCBt
+aWdodCBiZSBwb3NzaWJsZQo+PiBvdGhlciBTb0MgdmVuZG9ycyBjb3VsZCBsZWF2ZSBvdXQgc3Bl
+Y2lmaWMgbW9kdWxlcz8KPj4gCj4+IAo+PiBUTDtEUiBJIHRoaW5rIHRob3NlIGNsb2NrcyBhbmQg
+aW50ZXJydXB0cyBhcmUgZGVwZW5kZW50IG9uIGhvdyB0aGUKPj4gSVAgY29yZSB3YXMgc3ludGhl
+c2l6ZWQsIHNvIGZvciBub3cgSSdkIHRoaW5rIHdlIGNhbiBvbmx5IGd1YXJhbnRlZQo+PiB0aGF0
+IHRoZXkgYXJlIHRydWUgZm9yIHJrMzU4OCBhbmQgcmszNTc2Lgo+PiAKPj4gU28gSSBndWVzcyB0
+aGV5IHNob3VsZCBtb3ZlIHRvIHRoZSByb2NrY2hpcC1zcGVjaWZpYyBwYXJ0IG9mIHRoZSBiaW5k
+aW5nCj4+IHVudGlsIHdlIGhhdmUgbW9yZSBoZG1pLXFwIGNvbnRyb2xsZXJzIGluIHRoZSBmaWVs
+ZD8KPgo+SWYgdGhhdCdzIHRoZSBjYXNlLCB0aGVuIHdlIHNob3VsZCBzaW1wbHkgZHJvcCB0aGUg
+Y29tbW9uIGJpbmRpbmcKPmFsdG9nZXRoZXIgZm9yIG5vdy4KPgo+VGhhbmtzLAo+Q3Jpc3RpYW4K
+Pgo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPkxpbnV4
+LXJvY2tjaGlwIG1haWxpbmcgbGlzdAo+TGludXgtcm9ja2NoaXBAbGlzdHMuaW5mcmFkZWFkLm9y
+Zwo+aHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1yb2Nr
+Y2hpcAo=
