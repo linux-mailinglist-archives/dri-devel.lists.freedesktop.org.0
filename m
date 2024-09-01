@@ -2,73 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C51A967556
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 08:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FE296756D
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 09:29:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDD5E10E10F;
-	Sun,  1 Sep 2024 06:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AEF610E02A;
+	Sun,  1 Sep 2024 07:29:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="l3vcwnRo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RCbWuZzt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id A534110E10F
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 06:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=Q5ie0SU+rwJ8jZQS1JdOylihEKeHaFZ4ykRjrQITKug=; b=l
- 3vcwnRoBWRUzCkGn/19gO5ySTDgk9W04z8Ei5qzntoESm9m3SLeXlxEpfBMYv4zs
- SL/225Q302prANSPQ9MEA23OuZd1aIphORJNsADyne8KNqXYU1a+PyU19Ms3QBDi
- XwFTZXRRdj2VOcEdMuF0x7LVgQ8ve56z3PFqGV+jOk=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-139 (Coremail) ; Sun, 1 Sep 2024 14:40:11 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Sun, 1 Sep 2024 14:40:11 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- "Krzysztof Kozlowski" <krzk@kernel.org>, 
- "Andrzej Hajda" <andrzej.hajda@intel.com>, 
- "Neil Armstrong" <neil.armstrong@linaro.org>, 
- "Robert Foss" <rfoss@kernel.org>, 
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, 
- "Jonas Karlman" <jonas@kwiboo.se>, 
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, 
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, 
- "Maxime Ripard" <mripard@kernel.org>, 
- "Thomas Zimmermann" <tzimmermann@suse.de>, 
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, 
- "Sandy Huang" <hjc@rock-chips.com>, "Andy Yan" <andy.yan@rock-chips.com>, 
- "Rob Herring" <robh@kernel.org>, 
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, 
- "Conor Dooley" <conor+dt@kernel.org>, "Mark Yao" <markyao0591@gmail.com>, 
- "Sascha Hauer" <s.hauer@pengutronix.de>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
- kernel@collabora.com, "Alexandre ARNOUD" <aarnoud@me.com>, 
- "Luis de Arquer" <ldearquer@gmail.com>
-Subject: Re:Re: [PATCH v5 1/4] dt-bindings: display: bridge: Add schema for
- Synopsys DW HDMI QP TX IP
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <aee7b364-39df-4eb4-a823-4e734f104982@collabora.com>
-References: <20240831-b4-rk3588-bridge-upstream-v5-0-9503bece0136@collabora.com>
- <20240831-b4-rk3588-bridge-upstream-v5-1-9503bece0136@collabora.com>
- <57wj2vwjv7eehlix2bmvbm3z4agv5fsyp6vmwwqzotkdsadx7n@azqg2kkaeuxz>
- <10210346.L8ug28u51p@diego>
- <aee7b364-39df-4eb4-a823-4e734f104982@collabora.com>
-X-NTES-SC: AL_Qu2ZB/2cvUAq5yKcYekZnEobh+Y5UcK2s/ki2YFXN5k0iSXP6y49RXxAF1DJy86vNx+nsxutfgFs+9V0RJlGc6mmbkMBNI9l1TypHVSjQ64B
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C96110E02A
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 07:29:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725175782; x=1756711782;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=SQt4JagV+lhS329kwX26vxDV+oV+80PNCFXXzVPsA2s=;
+ b=RCbWuZztKFRlRF2GNb5W8bSDNS4E00sJC96AGUfR7ZyBEijc6gYX6Q1M
+ TuURg3m9qTzVflgIzT8fox2q2yJN33pz9xvaBNKs5cD8wu/ZkHjDGZ2Fb
+ mtcnSEBR6u1hl6yzcWnod4kdrq4OVTGwLLlk7fqJ4kFvBWGRSDA99Tqt8
+ FeBXj4RzRHGiMg8pfE9OO8pztZsZ+Jb3ZeQyuAlNpG4ovJPf/ZHLZ6lRN
+ bufJU3D1xhtyD2/LOptfmWjHTvKC1ctsVCJQMx8me0Mgq/Tz5f1MABHIE
+ e17mzerd2SoPSH9HliByYHjy7euuNWe/ZF2waNakLGFB8FHxe5S4SkYaf w==;
+X-CSE-ConnectionGUID: DbLf417bRwCwHJLOm4djpA==
+X-CSE-MsgGUID: WOaqx8kDQdG1FfXYTchYww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="23638528"
+X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; d="scan'208";a="23638528"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2024 00:29:41 -0700
+X-CSE-ConnectionGUID: Aj8pqp2PS3yVenm/GXAe2w==
+X-CSE-MsgGUID: cW04QgowQM6PP7wDj0yJqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; d="scan'208";a="64644994"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+ by orviesa006.jf.intel.com with ESMTP; 01 Sep 2024 00:29:37 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1skf1j-0003W6-00;
+ Sun, 01 Sep 2024 07:29:35 +0000
+Date: Sun, 1 Sep 2024 15:28:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, manikandan.m@microchip.com,
+ dharma.b@microchip.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, hari.prasathge@microchip.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ claudiu.beznea@tuxon.dev
+Subject: Re: [PATCH 2/3] drm/bridge: microchip-lvds: Drop unused headers
+Message-ID: <202409011412.DQVmnHIW-lkp@intel.com>
+References: <20240827161223.4152195-3-claudiu.beznea@tuxon.dev>
 MIME-Version: 1.0
-Message-ID: <610d9bc3.159c.191ac5005f5.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: _____wD3f6dLDNRmuANTAA--.37424W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gpNXmWX0FcfugACsZ
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240827161223.4152195-3-claudiu.beznea@tuxon.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,60 +77,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ckhp77yMCgrlnKggMjAyNC0wOS0wMSAwNTo1MzozOe+8jCJDcmlzdGlhbiBDaW9jYWx0ZWEiIDxj
-cmlzdGlhbi5jaW9jYWx0ZWFAY29sbGFib3JhLmNvbT4g5YaZ6YGT77yaCj5PbiA4LzMxLzI0IDQ6
-NTggUE0sIEhlaWtvIFN0w7xibmVyIHdyb3RlOgo+PiBIaSwKPj4gCj4+IEFtIFNhbXN0YWcsIDMx
-LiBBdWd1c3QgMjAyNCwgMDg6MTY6MjYgQ0VTVCBzY2hyaWViIEtyenlzenRvZiBLb3psb3dza2k6
-Cj4+PiBPbiBTYXQsIEF1ZyAzMSwgMjAyNCBhdCAxMjo1NToyOUFNICswMzAwLCBDcmlzdGlhbiBD
-aW9jYWx0ZWEgd3JvdGU6Cj4+IAo+Pj4+ICsgIGNsb2NrczoKPj4+PiArICAgIG1pbkl0ZW1zOiA0
-Cj4+Pj4gKyAgICBtYXhJdGVtczogNgo+Pj4+ICsgICAgaXRlbXM6Cj4+Pj4gKyAgICAgIC0gZGVz
-Y3JpcHRpb246IFBlcmlwaGVyYWwvQVBCIGJ1cyBjbG9jawo+Pj4+ICsgICAgICAtIGRlc2NyaXB0
-aW9uOiBFQVJDIFJYIGJpcGhhc2UgY2xvY2sKPj4+PiArICAgICAgLSBkZXNjcmlwdGlvbjogUmVm
-ZXJlbmNlIGNsb2NrCj4+Pj4gKyAgICAgIC0gZGVzY3JpcHRpb246IEF1ZGlvIGludGVyZmFjZSBj
-bG9jawo+Pj4+ICsgICAgYWRkaXRpb25hbEl0ZW1zOiB0cnVlCj4+Pgo+Pj4gV2hhdCBpcyB0aGUg
-dXNlZnVsbmVzcyBvZiBhbGwgdGhpcz8gSG93IGNhbiB5b3UgZXZlbiBiZSBzdXJlIHRoYXQgZWFj
-aAo+Pj4gaW1wbGVtZW50YXRpb24gb2YgdGhpcyBjb3JlIHdpbGwgaGF2ZSBleGFjdGx5IHRoZXNl
-IGNsb2Nrcz8KPj4+Cj4+Pj4gKwo+Pj4+ICsgIGNsb2NrLW5hbWVzOgo+Pj4+ICsgICAgbWluSXRl
-bXM6IDQKPj4+PiArICAgIG1heEl0ZW1zOiA2Cj4+Pj4gKyAgICBpdGVtczoKPj4+PiArICAgICAg
-LSBjb25zdDogcGNsawo+Pj4+ICsgICAgICAtIGNvbnN0OiBlYXJjCj4+Pj4gKyAgICAgIC0gY29u
-c3Q6IHJlZgo+Pj4+ICsgICAgICAtIGNvbnN0OiBhdWQKPj4+PiArICAgIGFkZGl0aW9uYWxJdGVt
-czogdHJ1ZQo+Pj4+ICsKPj4+PiArICBpbnRlcnJ1cHRzOgo+Pj4+ICsgICAgbWluSXRlbXM6IDQK
-Pj4+PiArICAgIG1heEl0ZW1zOiA1Cj4+Pj4gKyAgICBpdGVtczoKPj4+PiArICAgICAgLSBkZXNj
-cmlwdGlvbjogQVZQIFVuaXQgaW50ZXJydXB0Cj4+Pj4gKyAgICAgIC0gZGVzY3JpcHRpb246IENF
-QyBpbnRlcnJ1cHQKPj4+PiArICAgICAgLSBkZXNjcmlwdGlvbjogZUFSQyBSWCBpbnRlcnJ1cHQK
-Pj4+PiArICAgICAgLSBkZXNjcmlwdGlvbjogTWFpbiBVbml0IGludGVycnVwdAo+Pj4KPj4+IElm
-IHRoZXNlIGFyZSByZWFsIHBpbnMsIHRoZW4gdGhpcyBzZWVtcyBtb3JlIHBvc3NpYmxlLCBidXQK
-Pj4+IGFkZGl0aW9uYWxJdGVtcyBkb2VzIG5vdCBtYWtlIG1lIGhhcHB5Lgo+PiAKPj4gU28gd2hp
-bGUgbm90ICJwaW5zIiwgdGhlIGludGVycnVwdHMgYXJlIHNlcGFyYXRlbHkgc3BlY2lmaWVkIGlu
-IHRoZQo+PiBTb0MncyBsaXN0IG9mIGludGVycnVwdHMgaW4gdGhlIEdJQzoKPj4gCj4+IFJLMzU4
-OCBoYXM6Cj4+IAo+PiAyMDEgIGlycV9oZG1pdHgwX29hdnAKPj4gMjAyICBpcnFfaGRtaXR4MF9v
-Y2VjCj4+IDIwMyAgaXJxX2hkbWl0eDBfb2VhcmNyeAo+PiAyMDQgIGlycV9oZG1pdHgwX29tYWlu
-Cj4+IDM5MiAgaXJxX2hkbWl0eDBfaHBkCj4+IAo+PiBhbmQgYW5vdGhlciBzZXQgb2YgYWxsIG9m
-IHRoZW0gZm9yIGhkbWl0eDEKPj4gCj4+IGFuZCBSSzM1NzYgdXNpbmcgdGhlIHNhbWUgaGRtaSBJ
-UCBoYXM6Cj4+IAo+PiAzNzAgIGlycV9oZG1pdHhfb2F2cAo+PiAzNzEgIGlycV9oZG1pdHhfb2Nl
-Ywo+PiAzNzIgIGlycV9oZG1pdHhfb2VhcmNyeAo+PiAzNzMgIGlycV9oZG1pdHhfb21haW4KPj4g
-Mzk5ICBpcnFfaGRtaXR4X2hwZAoKVGhlIGZpcnN0IGZvdXIgaW50ZXJydXB0cyBhcmUgZXhwb3J0
-IGZyb20gdGhlIERXLUhETUktUVAgSVAgY29yZeOAggpUaGUgZmlmdGggSFBEIGludGVycnVwdHMg
-aXMgYSByb2NrY2hpcCBkZXNpZ27jgIIKCj4+IAo+PiBzbyBJIGd1ZXNzIHRoZSBmaWZ0aCBpbnRl
-cnJ1cHQgaXMgbWVhbnQgdG8gYmUgdGhlIGhvdHBsdWc/Cj4KPlllcCwgdGhhdCdzIGZvciB0aGUg
-aG90cGx1ZyBkZXRlY3Rpb24uCj4KPj4gVGhvdWdoIEkgZ3Vlc3MgdGhpcyBzaG91bGQgYmUgc3Bl
-Y2lmaWNlZCBpbiB0aGUgbmFtZS1saXN0IHRvby4KPgo+TXkgdW5kZXJzdGFuZGluZyBmcm9tIEFu
-ZHkgd2FzIHRoYXQgSFBEIGludGVycnVwdCBpcyBSb2NrY2hpcCBwbGF0Zm9ybQo+c3BlY2lmaWMs
-IGhlbmNlIEkgbWFkZSBpdCBwYXJ0IG9mIHJvY2tjaGlwLHJrMzU4OC1kdy1oZG1pLXFwLnlhbWwu
-Cj4KPj4gRnJvbSB0aGUgU29DJ3MgbWFudWFsIGl0IGxvb2tzIGxpa2UgdGhlIGNvbnRyb2xsZXIg
-aXMgc2V0IHVwIGZyb20KPj4gZGlmZmVyZW50IG1vZHVsZXMuCj4+IExpa2UgQVZQIGlzIHRoZSBh
-dWRpby12aWRlby1wYWNrZXQtbW9kdWxlLCB0aGVyZSBpcyBhIE1haW4gYW5kIENFQyBNb2R1bGUK
-Pj4gYXMgd2VsbCBhcyBhIGVBUkMgUlggY29udHJvbGxlciBpbnNpZGUuIEknZCBndWVzcyBpdCBt
-aWdodCBiZSBwb3NzaWJsZQo+PiBvdGhlciBTb0MgdmVuZG9ycyBjb3VsZCBsZWF2ZSBvdXQgc3Bl
-Y2lmaWMgbW9kdWxlcz8KPj4gCj4+IAo+PiBUTDtEUiBJIHRoaW5rIHRob3NlIGNsb2NrcyBhbmQg
-aW50ZXJydXB0cyBhcmUgZGVwZW5kZW50IG9uIGhvdyB0aGUKPj4gSVAgY29yZSB3YXMgc3ludGhl
-c2l6ZWQsIHNvIGZvciBub3cgSSdkIHRoaW5rIHdlIGNhbiBvbmx5IGd1YXJhbnRlZQo+PiB0aGF0
-IHRoZXkgYXJlIHRydWUgZm9yIHJrMzU4OCBhbmQgcmszNTc2Lgo+PiAKPj4gU28gSSBndWVzcyB0
-aGV5IHNob3VsZCBtb3ZlIHRvIHRoZSByb2NrY2hpcC1zcGVjaWZpYyBwYXJ0IG9mIHRoZSBiaW5k
-aW5nCj4+IHVudGlsIHdlIGhhdmUgbW9yZSBoZG1pLXFwIGNvbnRyb2xsZXJzIGluIHRoZSBmaWVs
-ZD8KPgo+SWYgdGhhdCdzIHRoZSBjYXNlLCB0aGVuIHdlIHNob3VsZCBzaW1wbHkgZHJvcCB0aGUg
-Y29tbW9uIGJpbmRpbmcKPmFsdG9nZXRoZXIgZm9yIG5vdy4KPgo+VGhhbmtzLAo+Q3Jpc3RpYW4K
-Pgo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPkxpbnV4
-LXJvY2tjaGlwIG1haWxpbmcgbGlzdAo+TGludXgtcm9ja2NoaXBAbGlzdHMuaW5mcmFkZWFkLm9y
-Zwo+aHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1yb2Nr
-Y2hpcAo=
+Hi Claudiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu-Beznea/drm-bridge-microchip-lvds-Revert-clk_prepare_enable-in-case-of-failure/20240828-001456
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240827161223.4152195-3-claudiu.beznea%40tuxon.dev
+patch subject: [PATCH 2/3] drm/bridge: microchip-lvds: Drop unused headers
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240901/202409011412.DQVmnHIW-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409011412.DQVmnHIW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409011412.DQVmnHIW-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/bridge/microchip-lvds.c:62:9: error: call to undeclared function 'readl_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      62 |         return readl_relaxed(lvds->regs + offset);
+         |                ^
+>> drivers/gpu/drm/bridge/microchip-lvds.c:67:2: error: call to undeclared function 'writel_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      67 |         writel_relaxed(val, lvds->regs + offset);
+         |         ^
+   2 errors generated.
+
+
+vim +/readl_relaxed +62 drivers/gpu/drm/bridge/microchip-lvds.c
+
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  59  
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  60  static inline u32 lvds_readl(struct mchp_lvds *lvds, u32 offset)
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  61  {
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21 @62  	return readl_relaxed(lvds->regs + offset);
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  63  }
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  64  
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  65  static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  66  {
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21 @67  	writel_relaxed(val, lvds->regs + offset);
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  68  }
+179b0769fc5fc19 Dharma Balasubiramani 2024-04-21  69  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
