@@ -2,73 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20421967662
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 14:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871F9967690
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 15:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D7110E04B;
-	Sun,  1 Sep 2024 12:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF7310E00D;
+	Sun,  1 Sep 2024 13:14:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UFkfwSah";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LFs28TBy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA8110E04B;
- Sun,  1 Sep 2024 12:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725193102; x=1756729102;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=7/QB0KtM8B4HpCGa2zOGQwulKoPIrKDzA21NTiK6nDQ=;
- b=UFkfwSahCpo82B9TyN6nr3qBhq1mfaojlQD5cg/Ui8i5t7ZW1j4iWtJa
- 8p7uiSJyCDLHk6I3z1Ac16MpUJBtkNI9jQNtx0OAlyxD44EXA8bZYsaqN
- UFZc3yavr5awARzSswSO8g/yRJ1NVr5k+vGbm7XbNKURCWgnKUadWHYVs
- h8aA/PyKABwJ0UznIpUfXMcTdjbv1+sY8tgr75N+DEsZGBu/4d4Q0o1Fg
- rgmFEv6PU62+85DYgJJXrbPyEws5nPtS1MtZmJNFoehMrqwr29o6RqTDF
- hseUGXE7dQGQikF+g9TDWqpidQkl5uHT5fSC9nIqSYoIfOVfdYi/cLrpq A==;
-X-CSE-ConnectionGUID: EQztWh0IRb2U7003tlxw6g==
-X-CSE-MsgGUID: SNMvE/nvSWuwBv1RVlRDrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="27655077"
-X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; d="scan'208";a="27655077"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2024 05:18:21 -0700
-X-CSE-ConnectionGUID: g8VwmCVNS2+7h8Z4f5k2qg==
-X-CSE-MsgGUID: AfsLNis4Qr+b2Wrpi+N8nQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; d="scan'208";a="64699177"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.124.240.228])
- ([10.124.240.228])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2024 05:18:14 -0700
-Message-ID: <fd0257de-ce1a-40f3-a0b6-2f0c7dcee896@linux.intel.com>
-Date: Sun, 1 Sep 2024 20:18:11 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07DFE10E00D
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 13:14:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B466E5C4D20;
+ Sun,  1 Sep 2024 13:13:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413AEC4CEC3;
+ Sun,  1 Sep 2024 13:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725196440;
+ bh=TsJk1UslMdTzF39qT2aKFXcW5AVFwY/n1oi5BBSvDac=;
+ h=From:To:Cc:Subject:Date:From;
+ b=LFs28TByEBAyyAoduQhLjyAowqYt8AQKf9cZ5Kw8g4aS9vYMoLgpp4Vw9zNKNqVCg
+ QmrEFpBNhbbGvUiMBWMPsnUQdyMCzla4WajVQSnknnuvCwT3Kzow2ZJaJ21nIju1jJ
+ lZM/rnJWYJ27yRPVbWT4oJILDqR5k36jsYW64UvFCx60+FLVB4lVB54N5PHJbMMhVQ
+ 9JCuZ5J9loiqDA8/eJRVsAl4NpinmdinXJrHa8RFUZXgGJ9BXqTHQK5v3y9Ax89yap
+ t9Y78H33DwQebGvd3WFLDUWiG0NZ/jHXSGf2/lJQ8KunHppIaH9/GThQBRXSZZrZbQ
+ wwMnzyG1A5ACA==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Cc: Hsiao Chien Sung <shawn.sung@mediatek.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Shuijing Li <shuijing.li@mediatek.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Fei Shao <fshao@chromium.org>, Rohit Agarwal <rohiagar@chromium.org>
+Subject: [GIT PULL] mediatek drm next for 6.12
+Date: Sun,  1 Sep 2024 13:13:54 +0000
+Message-Id: <20240901131354.2686-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: baolu.lu@linux.intel.com, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>, Sandy Huang <hjc@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Mikko Perttunen <mperttunen@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/tegra: Remove call to iommu_domain_alloc()
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20240812071034.9443-1-baolu.lu@linux.intel.com>
- <20240812071034.9443-3-baolu.lu@linux.intel.com>
- <qyvyd2ftebjlgmzyayfvxsqa64c4wgx7keix3a6eexdspbvawy@a5ffnm5h5tgp>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <qyvyd2ftebjlgmzyayfvxsqa64c4wgx7keix3a6eexdspbvawy@a5ffnm5h5tgp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,50 +60,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024/8/28 23:27, Thierry Reding wrote:
-> On Mon, Aug 12, 2024 at 03:10:34PM GMT, Lu Baolu wrote:
->> Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
->> the bus structure. The iommu subsystem no longer relies on bus for
->> operations. So iommu_domain_alloc() interface is no longer relevant.
->>
->> Normally, iommu_paging_domain_alloc() could be a replacement for
->> iommu_domain_alloc() if the caller has the right device for IOMMU API
->> use. Unfortunately, this is not the case for this driver.
->>
->> Iterate the devices on the platform bus and find a suitable device
->> whose device DMA is translated by an IOMMU. Then use this device to
->> allocate an iommu domain. The iommu subsystem prevents domains
->> allocated by one iommu driver from being attached to devices managed
->> by any different iommu driver.
->>
->> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
->> Link:https://lore.kernel.org/r/20240610085555.88197-20-baolu.lu@linux.intel.com
->> ---
->>   drivers/gpu/drm/tegra/drm.c | 34 +++++++++++++++++++++++++---------
->>   1 file changed, 25 insertions(+), 9 deletions(-)
-> Actually I think we can just do something like this:
-> 
-> --- >8 ---
-> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index d9f0728c3afd..d35e411d536b 100644
-> --- a/drivers/gpu/drm/tegra/drm.c
-> +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -1150,7 +1150,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
->   	}
->   
->   	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
-> -		tegra->domain = iommu_domain_alloc(&platform_bus_type);
-> +		tegra->domain = iommu_paging_domain_alloc(dev->dev.parent);
->   		if (!tegra->domain) {
->   			err = -ENOMEM;
->   			goto free;
-> --- >8 ---
-> 
-> That refers to the physical device that the host1x_device virtual device
-> was instantiated from and is a common parent to all physical devices
-> that are part of the virtual device.
+Hi, Dave & Daniel:
 
-Yes, this is really what we want. I will update the patch series later.
+This includes:
 
-Thanks,
-baolu
+1. Support alpha blending
+2. Remove cl in struct cmdq_pkt
+3. Fixup for ovl adaptor
+4. Declare Z Position for all planes
+5. Drop unnecessary check for property presence
+6. Add dsi per-frame lp code for mt8188
+7. Fix missing configuration flags in mtk_crtc_ddp_config()
+8. Use spin_lock_irqsave() for CRTC event lock
+9. Add power domain binding to the mediatek DPI controller
+
+Regards,
+Chun-Kuang.
+
+The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
+
+  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.12
+
+for you to fetch changes up to 5474d49b2f79b41f2ab09b0deb9d97d47b18d094:
+
+  dt-bindings: display: mediatek: dpi: Add power domains (2024-08-30 12:12:40 +0000)
+
+----------------------------------------------------------------
+Mediatek DRM Next for Linux 6.12
+
+1. Support alpha blending
+2. Remove cl in struct cmdq_pkt
+3. Fixup for ovl adaptor
+4. Declare Z Position for all planes
+5. Drop unnecessary check for property presence
+6. Add dsi per-frame lp code for mt8188
+7. Fix missing configuration flags in mtk_crtc_ddp_config()
+8. Use spin_lock_irqsave() for CRTC event lock
+9. Add power domain binding to the mediatek DPI controller
+
+----------------------------------------------------------------
+AngeloGioacchino Del Regno (1):
+      drm/mediatek: Declare Z Position for all planes
+
+Chun-Kuang Hu (2):
+      drm/mediatek: Use cmdq_pkt_eoc() instead of cmdq_pkt_finalize()
+      drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+
+Fei Shao (1):
+      drm/mediatek: Use spin_lock_irqsave() for CRTC event lock
+
+Hsiao Chien Sung (5):
+      drm/mediatek: Support "None" blending in OVL
+      drm/mediatek: Support "None" blending in Mixer
+      drm/mediatek: Support "Pre-multiplied" blending in OVL
+      drm/mediatek: Support "Pre-multiplied" blending in Mixer
+      drm/mediatek: Support alpha blending in display driver
+
+Jason-JH.Lin (1):
+      drm/mediatek: Fix missing configuration flags in mtk_crtc_ddp_config()
+
+Javier Carrasco (3):
+      drm/mediatek: ovl_adaptor: Drop unused mtk_crtc.h header
+      drm/mediatek: ovl_adaptor: Add missing of_node_put()
+      drm/mediatek: ovl_adaptor: Use scoped variant of for_each_child_of_node()
+
+Rob Herring (Arm) (1):
+      drm/mediatek: Drop unnecessary check for property presence
+
+Rohit Agarwal (1):
+      dt-bindings: display: mediatek: dpi: Add power domains
+
+Shuijing Li (1):
+      drm/mediatek: dsi: Add dsi per-frame lp code for mt8188
+
+ .../bindings/display/mediatek/mediatek,dpi.yaml    |  17 ++++
+ drivers/gpu/drm/mediatek/mtk_crtc.c                |  82 +++++++---------
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  36 +++++--
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |  13 +--
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 | 106 ++++++++++++++++++---
+ drivers/gpu/drm/mediatek/mtk_ethdr.c               |  13 ++-
+ drivers/gpu/drm/mediatek/mtk_plane.c               |  29 +++++-
+ drivers/gpu/drm/mediatek/mtk_plane.h               |   3 +-
+ 9 files changed, 221 insertions(+), 83 deletions(-)
