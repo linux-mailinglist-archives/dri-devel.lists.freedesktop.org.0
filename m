@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9BA967491
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 06:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94920967492
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 06:07:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBBF10E065;
-	Sun,  1 Sep 2024 04:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C541410E0A7;
+	Sun,  1 Sep 2024 04:07:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nHJmuyKM";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fOalRxww";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4625A10E065
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 04:07:09 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7142448aaf9so2085525b3a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 21:07:09 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37BE10E0A7
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 04:07:11 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id
+ 5614622812f47-3df07fe03acso1969528b6e.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 21:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725163629; x=1725768429;
+ d=chromium.org; s=google; t=1725163631; x=1725768431;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=q5JhzkdOpb5d78Mk6klz+de8MRC1bwTsy8AL/60ewZg=;
- b=nHJmuyKMxbHr1MNiEHQQQ47LJL0GlwTTmG0NwgYmKWIvYRtTWzqYPpApOJMnB7PtJJ
- KgNZQrUKA7H7Ok0zSdqpM6VP8WuOUjbsj9TkLjA8UZinfpGxmjpE0a/rDBHSlpa2PGTJ
- gF1ekwAxrZDdBUJjIAHSy5FZpTuLy14xKtgQ4=
+ bh=2N8vS/njRh59NN9Hhbqh05Yl3HU3mcBshclMsZjbFEo=;
+ b=fOalRxwwbmZR7mCOke7Gl9amWW7T2dDknI7eEAi0t3kJ7goLWHhdpLMDBXzvtLUDBy
+ 5hg7KoMjKkuyvZP9QK0/lSclrpxDNrtk44VZCheCNv9iXSqcmh/WDBV+jSOu3M9zLwPx
+ j3zDchmiz4zG+ozAjy6Rw1lPbf5Q0we6iTZKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725163629; x=1725768429;
+ d=1e100.net; s=20230601; t=1725163631; x=1725768431;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=q5JhzkdOpb5d78Mk6klz+de8MRC1bwTsy8AL/60ewZg=;
- b=Ut7JRH4J3vAWVKJYnWW7M5HevCROPX8uGuBSgVWFh6IjHLUG/4Hj79cHnGMJIDEtAD
- NIRuLmBX+ss6OpBeMgNPWYHFPeKsRvYPQY4yhIa+oavMAIz414+0s4c0Mkh4EAS2zb0H
- I8NmQVi+Jf9mpEHbmpc+5L12jpCCW+jqC/kKPtFYS2jJyi9Hg+PZuF3ri8Ntcon4ZZq9
- ddvgY4B1ecvwzJAOYB01g7k2QS6gIXx8XVNJS66OilE/DWUT7bUSS7C6hFT5pPvwkhWe
- GT5z33lFUFIaEdk1LTUXFV6joWjTqTa1IZMUSZJzAYeNo/zSPlLnjeCrxXjfZg3vICmJ
- 6SPw==
+ bh=2N8vS/njRh59NN9Hhbqh05Yl3HU3mcBshclMsZjbFEo=;
+ b=JDbNX80WgkhmULvfWnQ6FNfbWVnKq+ahwbGCiJKdKkBSn28qkRVJzcozEuvAH5i0ig
+ C+nfsTBIk1dGcrhXn7gxo+p5jlzojB6IirPbBF+WjCBrCyHzlE8fTwG26AxhGuh/fNBx
+ cqOY+MDOdhiBxMBVEGV0iDfjkr8ku2zJOvWV0n542lormn1/RrTXP1RLeOwrfcHC16+j
+ 2ZHRBWZPwcb6aNOYLYC+cMHerT4pbCBKgjKBSQNjmOwyIhEl87f0Br69vKtysg/OwCnp
+ NplP/NgghDmpYOJe5D3pfTCAy/Thd114B4E7eC6XZWdSShibf1hW92HWZ2/4pWWvyAC5
+ rCRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVUJ0xl2F6hUVHoHMXPSfIvrm2/puz+03zU/x8qXAB/kyoBuOzRBKEiaidecJX//4euc2Vle4+tPsg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBBiDJi6Q7KANw3ww4KamjIxKKeOJ1quWQcgyTbXoiMHwE9Tag
- LQuapwaAq10Xoe+zgftU38SZ69HVc20oruwbsRtntB61UrzWP0bU8cxE5Spmbw==
-X-Google-Smtp-Source: AGHT+IH443VeMjk4kx1Ih8MoClHHt+0Hz48LB1+P16Pb5YXD9rscHzWsBcV2jb1oYKBn+g57FtSFdA==
-X-Received: by 2002:a05:6a21:9211:b0:1cc:e0de:c75a with SMTP id
- adf61e73a8af0-1cce1613874mr11265457637.8.1725163628444; 
- Sat, 31 Aug 2024 21:07:08 -0700 (PDT)
+ AJvYcCUurqxucXEhJbQFX2JObhp5nmRK+oxU1k5CD41cP4Amjn6LTuPDx6cQkw6Idbcf6jwe6igGWrqzCUA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxrCJbs3OE0Rf/YJdxkdWM0o7y7yjhPXUN6viK57k/23GzpMUUS
+ AFRjGc5/hm/PlBeDCo5UUy1KLUcO98UoIEcoZx5gQCsneQvcmlfW2qi2trA1Kg==
+X-Google-Smtp-Source: AGHT+IGn0G5AiONQD8K5yi4LzBmU8yqa6VFEQOeNXV9U2Ho8xKtvyvDtSksQxtqrZ7RRI09TCw6qDQ==
+X-Received: by 2002:a05:6830:7310:b0:709:5601:abea with SMTP id
+ 46e09a7af769-70f72bb320amr3883433a34.10.1725163630581; 
+ Sat, 31 Aug 2024 21:07:10 -0700 (PDT)
 Received: from localhost (210.73.125.34.bc.googleusercontent.com.
  [34.125.73.210]) by smtp.gmail.com with UTF8SMTPSA id
- 41be03b00d2f7-7d22e9d4b77sm4590630a12.79.2024.08.31.21.07.06
+ 41be03b00d2f7-7d22e77a7besm5341681a12.37.2024.08.31.21.07.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 31 Aug 2024 21:07:08 -0700 (PDT)
+ Sat, 31 Aug 2024 21:07:10 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: chrome-platform@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
@@ -84,10 +84,9 @@ Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v4 03/18] usb: typec: Stub out typec_switch APIs when
- CONFIG_TYPEC=n
-Date: Sat, 31 Aug 2024 21:06:41 -0700
-Message-ID: <20240901040658.157425-4-swboyd@chromium.org>
+Subject: [PATCH v4 04/18] usb: typec: Add device managed typec_mux_register()
+Date: Sat, 31 Aug 2024 21:06:42 -0700
+Message-ID: <20240901040658.157425-5-swboyd@chromium.org>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240901040658.157425-1-swboyd@chromium.org>
 References: <20240901040658.157425-1-swboyd@chromium.org>
@@ -108,9 +107,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ease driver development by adding stubs for the typec_switch APIs when
-CONFIG_TYPEC=n. Copy the same method used for the typec_mux APIs to be
-consistent.
+Simplify driver error paths by adding devm_typec_mux_register() which
+will unregister the typec mux when the parent device is unbound.
 
 Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -118,82 +116,81 @@ Cc: <linux-usb@vger.kernel.org>
 Cc: Pin-yen Lin <treapking@chromium.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- include/linux/usb/typec_mux.h | 43 +++++++++++++++++++++++++++++++----
- 1 file changed, 38 insertions(+), 5 deletions(-)
+ drivers/usb/typec/mux.c       | 35 +++++++++++++++++++++++++++++++++++
+ include/linux/usb/typec_mux.h |  7 +++++++
+ 2 files changed, 42 insertions(+)
 
+diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+index 49926d6e72c7..db644bec862c 100644
+--- a/drivers/usb/typec/mux.c
++++ b/drivers/usb/typec/mux.c
+@@ -457,6 +457,41 @@ void typec_mux_unregister(struct typec_mux_dev *mux_dev)
+ }
+ EXPORT_SYMBOL_GPL(typec_mux_unregister);
+ 
++static void devm_typec_mux_unregister(void *mux_dev)
++{
++	typec_mux_unregister(mux_dev);
++}
++
++/**
++ * devm_typec_mux_register - resource managed typec_mux_register()
++ * @parent: Parent device
++ * @desc: Multiplexer description
++ *
++ * Register a typec mux and automatically unregister the typec mux
++ * when @parent is unbound from its driver.
++ *
++ * The arguments to this function are identical to typec_mux_register().
++ *
++ * Return: the typec_mux_dev structure on success or error pointer on error.
++ */
++struct typec_mux_dev *
++devm_typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
++{
++	int ret;
++	struct typec_mux_dev *mux_dev;
++
++	mux_dev = typec_mux_register(parent, desc);
++	if (IS_ERR(mux_dev))
++		return mux_dev;
++
++	ret = devm_add_action_or_reset(parent, devm_typec_mux_unregister, mux_dev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	return mux_dev;
++}
++EXPORT_SYMBOL_GPL(devm_typec_mux_register);
++
+ void typec_mux_set_drvdata(struct typec_mux_dev *mux_dev, void *data)
+ {
+ 	dev_set_drvdata(&mux_dev->dev, data);
 diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
-index 2489a7857d8e..efb5ed32b813 100644
+index efb5ed32b813..08431f0896d5 100644
 --- a/include/linux/usb/typec_mux.h
 +++ b/include/linux/usb/typec_mux.h
-@@ -3,6 +3,7 @@
- #ifndef __USB_TYPEC_MUX
- #define __USB_TYPEC_MUX
+@@ -99,6 +99,8 @@ int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state);
  
-+#include <linux/err.h>
- #include <linux/property.h>
- #include <linux/usb/typec.h>
+ struct typec_mux_dev *
+ typec_mux_register(struct device *parent, const struct typec_mux_desc *desc);
++struct typec_mux_dev *
++devm_typec_mux_register(struct device *parent, const struct typec_mux_desc *desc);
+ void typec_mux_unregister(struct typec_mux_dev *mux);
  
-@@ -24,16 +25,13 @@ struct typec_switch_desc {
- 	void *drvdata;
- };
+ void typec_mux_set_drvdata(struct typec_mux_dev *mux, void *data);
+@@ -123,6 +125,11 @@ typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
+ {
+ 	return ERR_PTR(-EOPNOTSUPP);
+ }
++static inline struct typec_mux_dev *
++devm_typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
++{
++	return typec_mux_register(parent, desc);
++}
+ static inline void typec_mux_unregister(struct typec_mux_dev *mux) {}
  
-+#if IS_ENABLED(CONFIG_TYPEC)
-+
- struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode);
- void typec_switch_put(struct typec_switch *sw);
- int typec_switch_set(struct typec_switch *sw,
- 		     enum typec_orientation orientation);
- 
--static inline struct typec_switch *typec_switch_get(struct device *dev)
--{
--	return fwnode_typec_switch_get(dev_fwnode(dev));
--}
--
- struct typec_switch_dev *
- typec_switch_register(struct device *parent,
- 		      const struct typec_switch_desc *desc);
-@@ -42,6 +40,41 @@ void typec_switch_unregister(struct typec_switch_dev *sw);
- void typec_switch_set_drvdata(struct typec_switch_dev *sw, void *data);
- void *typec_switch_get_drvdata(struct typec_switch_dev *sw);
- 
-+#else
-+
-+static inline struct typec_switch *
-+fwnode_typec_switch_get(struct fwnode_handle *fwnode)
-+{
-+	return NULL;
-+}
-+static inline void typec_switch_put(struct typec_switch *sw) {}
-+static inline int typec_switch_set(struct typec_switch *sw,
-+		     enum typec_orientation orientation)
-+{
-+	return 0;
-+}
-+
-+static inline struct typec_switch_dev *
-+typec_switch_register(struct device *parent,
-+		      const struct typec_switch_desc *desc)
-+{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
-+static inline void typec_switch_unregister(struct typec_switch_dev *sw) {}
-+
-+static inline void typec_switch_set_drvdata(struct typec_switch_dev *sw, void *data) {}
-+static inline void *typec_switch_get_drvdata(struct typec_switch_dev *sw)
-+{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
-+
-+#endif /* CONFIG_TYPEC */
-+
-+static inline struct typec_switch *typec_switch_get(struct device *dev)
-+{
-+	return fwnode_typec_switch_get(dev_fwnode(dev));
-+}
-+
- struct typec_mux_state {
- 	struct typec_altmode *alt;
- 	unsigned long mode;
+ static inline void typec_mux_set_drvdata(struct typec_mux_dev *mux, void *data) {}
 -- 
 https://chromeos.dev
 
