@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8D3967867
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 18:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73CA967869
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 18:31:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C663B10E199;
-	Sun,  1 Sep 2024 16:31:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDC910E1A3;
+	Sun,  1 Sep 2024 16:31:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MGD2R7yi";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rbN5149J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24DE010E199
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 16:31:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3637110E1A3
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 16:31:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 284965C41E3;
- Sun,  1 Sep 2024 16:31:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC47FC4CEC3;
- Sun,  1 Sep 2024 16:31:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 50CCC5C41E3;
+ Sun,  1 Sep 2024 16:31:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDD1AC4CEC3;
+ Sun,  1 Sep 2024 16:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1725208302;
- bh=ql2EXjexnVLrRkxhY/wMyL2HQ+oazucCcBolv6uHwHQ=;
+ s=korg; t=1725208305;
+ bh=zGG3R14wk7NJpahBkUtaHcvLnc5NYIDGeqakVV1yN9E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MGD2R7yi8n7DNPnUNz8ax0+9BGUCQ6wm3fgCBNimQAyu5l3MIkJJRQwUhOdcZSneZ
- 2XUdvJmOWubUPLksq3em8/6Jszmcth6mMQJA7aPhJGjuOgxdrJHR2BQJgXatWo81DL
- NgzvkeyLfxK0yuro5Gd/ADft1UDGmrav3s42Csfc=
+ b=rbN5149J6CDN+EKljKYEsTAcrjHzeI0FLp4FAg0A4IbWQVVeWOVGHPXkD6YzHNGUQ
+ eCT2vbgdix+r9c3O0Kk+hIv2FFgTejIwWu1tdszLZ4oaDSNcvPa2UH27RXo41k8jfv
+ KLaSo9RCmj22jttMI7u679rZwoL9lDCmXR/t1UqU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Zack Rusin <zack.rusin@broadcom.com>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- dri-devel@lists.freedesktop.org, Zack Rusin <zack.rusin@broadcom.com>,
+ dri-devel@lists.freedesktop.org,
  Martin Krastev <martin.krastev@broadcom.com>,
  Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Subject: [PATCH 6.10 040/149] drm/vmwgfx: Prevent unmapping active read buffers
-Date: Sun,  1 Sep 2024 18:15:51 +0200
-Message-ID: <20240901160818.970833301@linuxfoundation.org>
+Subject: [PATCH 6.10 041/149] drm/vmwgfx: Fix prime with external buffers
+Date: Sun,  1 Sep 2024 18:15:52 +0200
+Message-ID: <20240901160819.008774024@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240901160817.461957599@linuxfoundation.org>
 References: <20240901160817.461957599@linuxfoundation.org>
@@ -66,93 +67,257 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zack.rusin@broadcom.com>
 
-commit aba07b9a0587f50e5d3346eaa19019cf3f86c0ea upstream.
+commit 50f1199250912568606b3778dc56646c10cb7b04 upstream.
 
-The kms paths keep a persistent map active to read and compare the cursor
-buffer. These maps can race with each other in simple scenario where:
-a) buffer "a" mapped for update
-b) buffer "a" mapped for compare
-c) do the compare
-d) unmap "a" for compare
-e) update the cursor
-f) unmap "a" for update
-At step "e" the buffer has been unmapped and the read contents is bogus.
+Make sure that for external buffers mapping goes through the dma_buf
+interface instead of trying to access pages directly.
 
-Prevent unmapping of active read buffers by simply keeping a count of
-how many paths have currently active maps and unmap only when the count
-reaches 0.
+External buffers might not provide direct access to readable/writable
+pages so to make sure the bo's created from external dma_bufs can be
+read dma_buf interface has to be used.
 
-Fixes: 485d98d472d5 ("drm/vmwgfx: Add support for CursorMob and CursorBypass 4")
+Fixes crashes in IGT's kms_prime with vgem. Regular desktop usage won't
+trigger this due to the fact that virtual machines will not have
+multiple GPUs but it enables better test coverage in IGT.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: b32233acceff ("drm/vmwgfx: Fix prime import/export")
+Cc: <stable@vger.kernel.org> # v6.6+
 Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.19+
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240816183332.31961-2-zack.rusin@broadcom.com
+Cc: <stable@vger.kernel.org> # v6.9+
+Link: https://patchwork.freedesktop.org/patch/msgid/20240816183332.31961-3-zack.rusin@broadcom.com
 Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
 Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c |   13 +++++++++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h |    3 +++
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c |  114 +++++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  |    4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   12 +--
+ 3 files changed, 118 insertions(+), 12 deletions(-)
 
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -360,6 +360,8 @@ void *vmw_bo_map_and_cache_size(struct v
- 	void *virtual;
- 	int ret;
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+@@ -27,6 +27,8 @@
+  **************************************************************************/
  
-+	atomic_inc(&vbo->map_count);
+ #include "vmwgfx_drv.h"
 +
- 	virtual = ttm_kmap_obj_virtual(&vbo->map, &not_used);
- 	if (virtual)
- 		return virtual;
-@@ -383,11 +385,17 @@ void *vmw_bo_map_and_cache_size(struct v
-  */
- void vmw_bo_unmap(struct vmw_bo *vbo)
- {
-+	int map_count;
-+
- 	if (vbo->map.bo == NULL)
- 		return;
++#include "vmwgfx_bo.h"
+ #include <linux/highmem.h>
  
--	ttm_bo_kunmap(&vbo->map);
--	vbo->map.bo = NULL;
-+	map_count = atomic_dec_return(&vbo->map_count);
-+
-+	if (!map_count) {
-+		ttm_bo_kunmap(&vbo->map);
-+		vbo->map.bo = NULL;
-+	}
+ /*
+@@ -420,13 +422,105 @@ static int vmw_bo_cpu_blit_line(struct v
+ 	return 0;
  }
  
++static void *map_external(struct vmw_bo *bo, struct iosys_map *map)
++{
++	struct vmw_private *vmw =
++		container_of(bo->tbo.bdev, struct vmw_private, bdev);
++	void *ptr = NULL;
++	int ret;
++
++	if (bo->tbo.base.import_attach) {
++		ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
++		if (ret) {
++			drm_dbg_driver(&vmw->drm,
++				       "Wasn't able to map external bo!\n");
++			goto out;
++		}
++		ptr = map->vaddr;
++	} else {
++		ptr = vmw_bo_map_and_cache(bo);
++	}
++
++out:
++	return ptr;
++}
++
++static void unmap_external(struct vmw_bo *bo, struct iosys_map *map)
++{
++	if (bo->tbo.base.import_attach)
++		dma_buf_vunmap(bo->tbo.base.dma_buf, map);
++	else
++		vmw_bo_unmap(bo);
++}
++
++static int vmw_external_bo_copy(struct vmw_bo *dst, u32 dst_offset,
++				u32 dst_stride, struct vmw_bo *src,
++				u32 src_offset, u32 src_stride,
++				u32 width_in_bytes, u32 height,
++				struct vmw_diff_cpy *diff)
++{
++	struct vmw_private *vmw =
++		container_of(dst->tbo.bdev, struct vmw_private, bdev);
++	size_t dst_size = dst->tbo.resource->size;
++	size_t src_size = src->tbo.resource->size;
++	struct iosys_map dst_map = {0};
++	struct iosys_map src_map = {0};
++	int ret, i;
++	int x_in_bytes;
++	u8 *vsrc;
++	u8 *vdst;
++
++	vsrc = map_external(src, &src_map);
++	if (!vsrc) {
++		drm_dbg_driver(&vmw->drm, "Wasn't able to map src\n");
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	vdst = map_external(dst, &dst_map);
++	if (!vdst) {
++		drm_dbg_driver(&vmw->drm, "Wasn't able to map dst\n");
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	vsrc += src_offset;
++	vdst += dst_offset;
++	if (src_stride == dst_stride) {
++		dst_size -= dst_offset;
++		src_size -= src_offset;
++		memcpy(vdst, vsrc,
++		       min(dst_stride * height, min(dst_size, src_size)));
++	} else {
++		WARN_ON(dst_stride < width_in_bytes);
++		for (i = 0; i < height; ++i) {
++			memcpy(vdst, vsrc, width_in_bytes);
++			vsrc += src_stride;
++			vdst += dst_stride;
++		}
++	}
++
++	x_in_bytes = (dst_offset % dst_stride);
++	diff->rect.x1 =  x_in_bytes / diff->cpp;
++	diff->rect.y1 = ((dst_offset - x_in_bytes) / dst_stride);
++	diff->rect.x2 = diff->rect.x1 + width_in_bytes / diff->cpp;
++	diff->rect.y2 = diff->rect.y1 + height;
++
++	ret = 0;
++out:
++	unmap_external(src, &src_map);
++	unmap_external(dst, &dst_map);
++
++	return ret;
++}
++
+ /**
+  * vmw_bo_cpu_blit - in-kernel cpu blit.
+  *
+- * @dst: Destination buffer object.
++ * @vmw_dst: Destination buffer object.
+  * @dst_offset: Destination offset of blit start in bytes.
+  * @dst_stride: Destination stride in bytes.
+- * @src: Source buffer object.
++ * @vmw_src: Source buffer object.
+  * @src_offset: Source offset of blit start in bytes.
+  * @src_stride: Source stride in bytes.
+  * @w: Width of blit.
+@@ -444,13 +538,15 @@ static int vmw_bo_cpu_blit_line(struct v
+  * Neither of the buffer objects may be placed in PCI memory
+  * (Fixed memory in TTM terminology) when using this function.
+  */
+-int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
++int vmw_bo_cpu_blit(struct vmw_bo *vmw_dst,
+ 		    u32 dst_offset, u32 dst_stride,
+-		    struct ttm_buffer_object *src,
++		    struct vmw_bo *vmw_src,
+ 		    u32 src_offset, u32 src_stride,
+ 		    u32 w, u32 h,
+ 		    struct vmw_diff_cpy *diff)
+ {
++	struct ttm_buffer_object *src = &vmw_src->tbo;
++	struct ttm_buffer_object *dst = &vmw_dst->tbo;
+ 	struct ttm_operation_ctx ctx = {
+ 		.interruptible = false,
+ 		.no_wait_gpu = false
+@@ -460,6 +556,11 @@ int vmw_bo_cpu_blit(struct ttm_buffer_ob
+ 	int ret = 0;
+ 	struct page **dst_pages = NULL;
+ 	struct page **src_pages = NULL;
++	bool src_external = (src->ttm->page_flags & TTM_TT_FLAG_EXTERNAL) != 0;
++	bool dst_external = (dst->ttm->page_flags & TTM_TT_FLAG_EXTERNAL) != 0;
++
++	if (WARN_ON(dst == src))
++		return -EINVAL;
  
-@@ -421,6 +429,7 @@ static int vmw_bo_init(struct vmw_privat
- 	vmw_bo->tbo.priority = 3;
- 	vmw_bo->res_tree = RB_ROOT;
- 	xa_init(&vmw_bo->detached_resources);
-+	atomic_set(&vmw_bo->map_count, 0);
+ 	/* Buffer objects need to be either pinned or reserved: */
+ 	if (!(dst->pin_count))
+@@ -479,6 +580,11 @@ int vmw_bo_cpu_blit(struct ttm_buffer_ob
+ 			return ret;
+ 	}
  
- 	params->size = ALIGN(params->size, PAGE_SIZE);
- 	drm_gem_private_object_init(vdev, &vmw_bo->tbo.base, params->size);
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-@@ -71,6 +71,8 @@ struct vmw_bo_params {
-  * @map: Kmap object for semi-persistent mappings
-  * @res_tree: RB tree of resources using this buffer object as a backing MOB
-  * @res_prios: Eviction priority counts for attached resources
-+ * @map_count: The number of currently active maps. Will differ from the
-+ * cpu_writers because it includes kernel maps.
-  * @cpu_writers: Number of synccpu write grabs. Protected by reservation when
-  * increased. May be decreased without reservation.
-  * @dx_query_ctx: DX context if this buffer object is used as a DX query MOB
-@@ -90,6 +92,7 @@ struct vmw_bo {
- 	u32 res_prios[TTM_MAX_BO_PRIORITY];
- 	struct xarray detached_resources;
++	if (src_external || dst_external)
++		return vmw_external_bo_copy(vmw_dst, dst_offset, dst_stride,
++					    vmw_src, src_offset, src_stride,
++					    w, h, diff);
++
+ 	if (!src->ttm->pages && src->ttm->sg) {
+ 		src_pages = kvmalloc_array(src->ttm->num_pages,
+ 					   sizeof(struct page *), GFP_KERNEL);
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -1353,9 +1353,9 @@ void vmw_diff_memcpy(struct vmw_diff_cpy
  
-+	atomic_t map_count;
- 	atomic_t cpu_writers;
- 	/* Not ref-counted.  Protected by binding_mutex */
- 	struct vmw_resource *dx_query_ctx;
+ void vmw_memcpy(struct vmw_diff_cpy *diff, u8 *dest, const u8 *src, size_t n);
+ 
+-int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
++int vmw_bo_cpu_blit(struct vmw_bo *dst,
+ 		    u32 dst_offset, u32 dst_stride,
+-		    struct ttm_buffer_object *src,
++		    struct vmw_bo *src,
+ 		    u32 src_offset, u32 src_stride,
+ 		    u32 w, u32 h,
+ 		    struct vmw_diff_cpy *diff);
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -502,7 +502,7 @@ static void vmw_stdu_bo_cpu_commit(struc
+ 		container_of(dirty->unit, typeof(*stdu), base);
+ 	s32 width, height;
+ 	s32 src_pitch, dst_pitch;
+-	struct ttm_buffer_object *src_bo, *dst_bo;
++	struct vmw_bo *src_bo, *dst_bo;
+ 	u32 src_offset, dst_offset;
+ 	struct vmw_diff_cpy diff = VMW_CPU_BLIT_DIFF_INITIALIZER(stdu->cpp);
+ 
+@@ -517,11 +517,11 @@ static void vmw_stdu_bo_cpu_commit(struc
+ 
+ 	/* Assume we are blitting from Guest (bo) to Host (display_srf) */
+ 	src_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
+-	src_bo = &stdu->display_srf->res.guest_memory_bo->tbo;
++	src_bo = stdu->display_srf->res.guest_memory_bo;
+ 	src_offset = ddirty->top * src_pitch + ddirty->left * stdu->cpp;
+ 
+ 	dst_pitch = ddirty->pitch;
+-	dst_bo = &ddirty->buf->tbo;
++	dst_bo = ddirty->buf;
+ 	dst_offset = ddirty->fb_top * dst_pitch + ddirty->fb_left * stdu->cpp;
+ 
+ 	(void) vmw_bo_cpu_blit(dst_bo, dst_offset, dst_pitch,
+@@ -1170,7 +1170,7 @@ vmw_stdu_bo_populate_update_cpu(struct v
+ 	struct vmw_diff_cpy diff = VMW_CPU_BLIT_DIFF_INITIALIZER(0);
+ 	struct vmw_stdu_update_gb_image *cmd_img = cmd;
+ 	struct vmw_stdu_update *cmd_update;
+-	struct ttm_buffer_object *src_bo, *dst_bo;
++	struct vmw_bo *src_bo, *dst_bo;
+ 	u32 src_offset, dst_offset;
+ 	s32 src_pitch, dst_pitch;
+ 	s32 width, height;
+@@ -1184,11 +1184,11 @@ vmw_stdu_bo_populate_update_cpu(struct v
+ 
+ 	diff.cpp = stdu->cpp;
+ 
+-	dst_bo = &stdu->display_srf->res.guest_memory_bo->tbo;
++	dst_bo = stdu->display_srf->res.guest_memory_bo;
+ 	dst_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
+ 	dst_offset = bb->y1 * dst_pitch + bb->x1 * stdu->cpp;
+ 
+-	src_bo = &vfbbo->buffer->tbo;
++	src_bo = vfbbo->buffer;
+ 	src_pitch = update->vfb->base.pitches[0];
+ 	src_offset = bo_update->fb_top * src_pitch + bo_update->fb_left *
+ 		stdu->cpp;
 
 
