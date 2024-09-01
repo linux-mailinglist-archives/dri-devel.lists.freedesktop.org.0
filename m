@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0B496748D
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 06:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9040796748F
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 06:07:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A5D10E00E;
-	Sun,  1 Sep 2024 04:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8DE10E042;
+	Sun,  1 Sep 2024 04:07:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="n7/1tqTD";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="a8dxFMgS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEDC310E00E
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 04:07:04 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2d86f71353dso1357904a91.2
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 21:07:04 -0700 (PDT)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com
+ [209.85.161.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BACF10E042
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 04:07:07 +0000 (UTC)
+Received: by mail-oo1-f47.google.com with SMTP id
+ 006d021491bc7-5dfa315ccf1so1833010eaf.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2024 21:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725163624; x=1725768424;
+ d=chromium.org; s=google; t=1725163626; x=1725768426;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h4epShKXY+hj6izJiuYDlNYe3lRcBUUzUpZVsUSgXYg=;
- b=n7/1tqTDSDOqblBfCfYp8I7hr74CHnnrN4kPqIi/hH66NeOETmjH+/UK6rmtS8or+A
- Gew2vQrOlo9E1KOyhbq+eUeY/Sd/+fTqHyJhH2GC4QWI/UzL/Uy6D3HEwsRDawehKyjS
- f45Tkz/o2VedcVAG5030yg08YfHhD2Xo4DyF0=
+ bh=bsT6Pyy4WdREZdfc6RLc4+Jmxiv/uouJ028bXKINCs8=;
+ b=a8dxFMgSxgAZw57MSnd2zbwe4En/jBkkms/kvN99CRdcNirRGAkTkR9iBH9fykxYnQ
+ jtAWo7mZjMskhPEOKJlldEWMsGLlmA+On9982QaKMBi/eUaW4moFUwKcJYyXwnuRGm15
+ bem/ma7OZjgJdgI0iWi7+OHFHpqRyhrwlr4dI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725163624; x=1725768424;
+ d=1e100.net; s=20230601; t=1725163626; x=1725768426;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=h4epShKXY+hj6izJiuYDlNYe3lRcBUUzUpZVsUSgXYg=;
- b=E7OSge1+BJZRdQQn5L+WBkaZ+G6B4Mhlc/2DGCmVawt1fXvNlzhwTZLkDnxv/T90wA
- 42TpyZ9XJusKAd+Rs+ZFfpwJUwut8OKHx011EAr0dgb7f/+dCMFB/BMGuEAGFOUiOy4/
- U9UYNlPhocnwPQFDRgEKWtadRVZAu1cnzU6juhV0DyMQur1oG7tttKKDTJF0TCRu1T4f
- TwBGVKrjvZUgLLcNuMue9amNCuJfqwc+zcVBFmDlgilcWYO4/0i8D4JRFGN5BiKl4Ov+
- phrqR0zJoKccBe9N9JOGUVlItA1z334LnxowdtlO6gxNyaGLksnIb2OaXYzpZllALyFs
- 3lQA==
+ bh=bsT6Pyy4WdREZdfc6RLc4+Jmxiv/uouJ028bXKINCs8=;
+ b=v0bu14+f3zbXn/a88AjFI2rWNfZQHonCQGZD1Cuvg0XeNuJIzAeMvWTvnMBTRUXF5n
+ CA3rsA+ZGw7Ni0gEJCmQ/uXwGG01ntzeicVN2GJnHXf+zF+vpfpUpQmJ5NKpDvB76iPk
+ +F4Oj9GKDymznK9XquKtXOOexFnyrH2KP52NTznqgLA0QVcL5/TMn8QmRFVxOH6QOZnv
+ EiF/gI0gtoImfl/6UC1JeYKAlOkT4T3tX7krnLwSjDzW0NKJzXcqj+uMgNnypP/2j9f7
+ H9AHBhlXeAVFhqb9wO/n+meYTuMW4FYPNcF68oLT6WUx5cpNetPRbvZWGVVwjJlA7oG3
+ crQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVYX4lov3pcgpzsIXXNcJUTgVw+coTALSfOwv7UcUyU9DFaMm4QQYdzvlqA0mFK9llnT6NNKnciw7w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOqKM9j8uKz7sDkmtGFSajIyj+ACTJpWB4rG9JUg85RAGcpf87
- zh99DJLNb7+wKoSGxdBt0vjh/LjFe/7DqXZce1tksYNHdLRiCAmNWf9o+dJxVA==
-X-Google-Smtp-Source: AGHT+IGNVmA7VWhk62f3LFtg2+v2Z6maXACsQbPztg1sx/IxxPw8hvbJri39WvmDmQ2WFOhjt1g07Q==
-X-Received: by 2002:a17:90a:a88a:b0:2c9:5ecd:e3c5 with SMTP id
- 98e67ed59e1d1-2d8563922b8mr11419814a91.33.1725163624128; 
- Sat, 31 Aug 2024 21:07:04 -0700 (PDT)
+ AJvYcCVvdGKHkQjUq6SJQWwQm+ZQr8UASEqH1FaVmZbY2l3V07DhH48dzDG9dws3h5Q7vEveQK6omFiA1fc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyC2lX8PklwzRQG5kis1MI3b7yjQSPx7fLOgoVMpxKWuzeNQfoi
+ 7wTNlaGhDdgkdZSqQbDTBIPpKF4pfV296k7uLl9axGSYz1bg5XeJyWdsOUaxVA==
+X-Google-Smtp-Source: AGHT+IHtz1LVfFf3gG+hTwV6UQ2tt7nrnC8wrXqjk3Bxp7NafXmwM2C1wRlTdUffnPNfcbRmXcHwSg==
+X-Received: by 2002:a05:6358:24aa:b0:1ac:65e7:919b with SMTP id
+ e5c5f4694b2df-1b603beb8afmr1222369855d.6.1725163626398; 
+ Sat, 31 Aug 2024 21:07:06 -0700 (PDT)
 Received: from localhost (210.73.125.34.bc.googleusercontent.com.
  [34.125.73.210]) by smtp.gmail.com with UTF8SMTPSA id
- 98e67ed59e1d1-2d8446c5880sm8970224a91.42.2024.08.31.21.07.02
+ d2e1a72fcca58-715e56d78e4sm4847550b3a.163.2024.08.31.21.07.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 31 Aug 2024 21:07:03 -0700 (PDT)
+ Sat, 31 Aug 2024 21:07:06 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: chrome-platform@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
@@ -84,10 +84,10 @@ Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v4 01/18] drm/atomic-helper: Introduce lane remapping support
- to bridges
-Date: Sat, 31 Aug 2024 21:06:39 -0700
-Message-ID: <20240901040658.157425-2-swboyd@chromium.org>
+Subject: [PATCH v4 02/18] drm/bridge: Verify lane assignment is going to work
+ during atomic_check
+Date: Sat, 31 Aug 2024 21:06:40 -0700
+Message-ID: <20240901040658.157425-3-swboyd@chromium.org>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240901040658.157425-1-swboyd@chromium.org>
 References: <20240901040658.157425-1-swboyd@chromium.org>
@@ -108,24 +108,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support to the DRM atomic logic to support lane remapping between
-bridges, encoders and connectors. Typically lane mapping is handled
-statically in firmware, e.g. on DT we use the data-lanes property to
-assign lanes when connecting display bridges. Lane assignment is dynamic
-with USB-C DisplayPort altmodes, e.g. pin conf D assigns 2 lanes of DP
-to pins on the USB-C connector while pin conf C assigns 4 lanes of DP to
-pins on the USB-C connector. The lane assignment can't be set statically
-because the DP altmode repurposes USB-C pins for the DP lanes while also
-limiting the number of DP lanes or their pin assignment at runtime.
-
-Bridge drivers should point their 'struct drm_bus_cfg::lanes' pointer to
-an allocated array of 'struct drm_lane_cfg' structures and indicate the
-size of this allocated array with 'struct drm_bus_cfg::num_lanes' in
-their atomic_check() callback. The previous bridge in the bridge chain
-can look at this information by calling
-drm_bridge_next_bridge_lane_cfg() in their atomic_check() callback to
-figure out what lanes need to be logically assigned to the physical
-output lanes to satisfy the next bridge's lane assignment.
+Verify during drm_atomic_bridge_check() that the lane assignment set in
+a bridge's atomic_check() callback is going to be satisfied by the
+previous bridge. If the next bridge is requiring something besides the
+default 1:1 lane assignment on its input then there must be an output
+lane assignment on the previous bridge's output. Otherwise the next
+bridge won't get the lanes assigned that it needs.
 
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>
@@ -143,134 +131,50 @@ Cc: Pin-yen Lin <treapking@chromium.org>
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c |  2 ++
- drivers/gpu/drm/drm_bridge.c              | 34 +++++++++++++++++++++++
- include/drm/drm_atomic.h                  | 31 +++++++++++++++++++++
- include/drm/drm_bridge.h                  |  4 +++
- 4 files changed, 71 insertions(+)
+ drivers/gpu/drm/drm_bridge.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 519228eb1095..12d574458e7b 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -779,6 +779,8 @@ EXPORT_SYMBOL(drm_atomic_helper_bridge_duplicate_state);
- void drm_atomic_helper_bridge_destroy_state(struct drm_bridge *bridge,
- 					    struct drm_bridge_state *state)
- {
-+	kfree(state->input_bus_cfg.lanes);
-+	kfree(state->output_bus_cfg.lanes);
- 	kfree(state);
- }
- EXPORT_SYMBOL(drm_atomic_helper_bridge_destroy_state);
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index d44f055dbe3e..bd18c1e91dee 100644
+index bd18c1e91dee..e350248ba5c2 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -822,6 +822,40 @@ void drm_atomic_bridge_chain_enable(struct drm_bridge *bridge,
- }
- EXPORT_SYMBOL(drm_atomic_bridge_chain_enable);
- 
-+/**
-+ * drm_bridge_next_bridge_lane_cfg - get the lane configuration of the next bridge
-+ * @bridge: bridge control structure
-+ * @state: new atomic state
-+ * @num_lanes: will contain the size of the returned array
-+ *
-+ * This function is typically called from &drm_bridge_funcs.atomic_check().
-+ * The @bridge driver calls this function to determine what the next bridge in
-+ * the bridge chain requires for the physical to logical lane assignments.
-+ *
-+ * Return: Lane configuration array of size @num_lanes for the next bridge
-+ * after @bridge in the bridge chain, or NULL if the lane configuration is
-+ * unchanged from the default.
-+ */
-+const struct drm_lane_cfg *
-+drm_bridge_next_bridge_lane_cfg(struct drm_bridge *bridge,
-+				struct drm_atomic_state *state,
-+				u8 *num_lanes)
-+{
-+	const struct drm_bridge_state *next_bridge_state;
-+	struct drm_bridge *next_bridge = drm_bridge_get_next_bridge(bridge);
-+
-+	next_bridge_state = drm_atomic_get_new_bridge_state(state, next_bridge);
-+	if (!next_bridge_state) {
-+		*num_lanes = 0;
-+		return NULL;
-+	}
-+
-+	*num_lanes = next_bridge_state->input_bus_cfg.num_lanes;
-+
-+	return next_bridge_state->input_bus_cfg.lanes;
-+}
-+EXPORT_SYMBOL(drm_bridge_next_bridge_lane_cfg);
-+
- static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+@@ -860,6 +860,10 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
  				   struct drm_crtc_state *crtc_state,
  				   struct drm_connector_state *conn_state)
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 4d7f4c5f2001..e1a38d0742f1 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -1122,6 +1122,27 @@ drm_atomic_crtc_effectively_active(const struct drm_crtc_state *state)
- 	return state->active || state->self_refresh_active;
+ {
++	u8 num_input_lanes, num_output_lanes = 0;
++	const struct drm_lane_cfg *input_lanes;
++	unsigned int i;
++
+ 	if (bridge->funcs->atomic_check) {
+ 		struct drm_bridge_state *bridge_state;
+ 		int ret;
+@@ -873,12 +877,25 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+ 						  crtc_state, conn_state);
+ 		if (ret)
+ 			return ret;
++		num_output_lanes = bridge_state->output_bus_cfg.num_lanes;
+ 	} else if (bridge->funcs->mode_fixup) {
+ 		if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
+ 					       &crtc_state->adjusted_mode))
+ 			return -EINVAL;
+ 	}
+ 
++	input_lanes = drm_bridge_next_bridge_lane_cfg(bridge,
++						      crtc_state->state,
++						      &num_input_lanes);
++	/*
++	 * Ensure this bridge is aware that the next bridge wants to
++	 * reassign lanes.
++	 */
++	for (i = 0; i < num_input_lanes; i++) {
++		if (i != input_lanes[i].logical && !num_output_lanes)
++			return -ENOTSUPP;
++	}
++
+ 	return 0;
  }
  
-+/**
-+ * struct drm_lane_cfg - lane configuration
-+ *
-+ * This structure stores the lane configuration of a physical bus between
-+ * two components in an output pipeline, usually between two bridges, an
-+ * encoder and a bridge, or a bridge and a connector.
-+ *
-+ * The lane configuration is stored in &drm_bus_cfg.
-+ */
-+struct drm_lane_cfg {
-+	/**
-+	 * @logical: Logical lane number
-+	 */
-+	u8 logical;
-+
-+	/**
-+	 * @inverted: True if lane polarity is inverted, false otherwise
-+	 */
-+	bool inverted;
-+};
-+
- /**
-  * struct drm_bus_cfg - bus configuration
-  *
-@@ -1152,6 +1173,16 @@ struct drm_bus_cfg {
- 	 * @flags: DRM_BUS_* flags used on this bus
- 	 */
- 	u32 flags;
-+
-+	/**
-+	 * @lanes: Lane mapping for this bus
-+	 */
-+	struct drm_lane_cfg *lanes;
-+
-+	/**
-+	 * @num_lanes: Number of lanes in @lanes
-+	 */
-+	u8 num_lanes;
- };
- 
- /**
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 75019d16be64..064d3c8600a9 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -963,6 +963,10 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
- 					struct drm_connector_state *conn_state,
- 					u32 output_fmt,
- 					unsigned int *num_input_fmts);
-+const struct drm_lane_cfg *
-+drm_bridge_next_bridge_lane_cfg(struct drm_bridge *bridge,
-+				struct drm_atomic_state *state,
-+				u8 *num_lanes);
- 
- enum drm_connector_status drm_bridge_detect(struct drm_bridge *bridge);
- int drm_bridge_get_modes(struct drm_bridge *bridge,
 -- 
 https://chromeos.dev
 
