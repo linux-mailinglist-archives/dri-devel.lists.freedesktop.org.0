@@ -2,53 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8052F967BEA
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 21:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D6F967BFA
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 22:11:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6F010E0DA;
-	Sun,  1 Sep 2024 19:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00DBA10E0FB;
+	Sun,  1 Sep 2024 20:11:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="Bid52OYq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="COqMwbpk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0CF010E0C7;
- Sun,  1 Sep 2024 19:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=References:Cc:To:Subject:Message-ID:From:
- Content-Transfer-Encoding:Content-Type:Date:MIME-Version:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=spF0Jr7oCMuWWYaBUzIxTaZcwLNlD+eaLp7borKRh1E=; b=Bid52OYqHgAOY7jLDJTSsnohsQ
- 8HJ/QIhi5h0NUynX9zGzoZSNow4+OW69kkDpBJISynN58L9uchwl5FYnRqu2WkA9jOsBWEU5E/sJN
- Bm3QNxpGw4AGQRgD1Fw6pxQbxhN8bZTfupp/RVObfDTGovrXqh1egiGL7t3lwNSSiFUUBv9DTTcRi
- OqzrUfhCzQMVbVax3u5Iv8Kri3uwKiIpA0JR77aSodJFLwvNMw6nl5GNr6Wt6GF8KqIU2k8cQB1En
- ruC2/k2kcHt2QzK9gnnbQMZ1xNV1QO+Z8CzanFI2jDo9sWOyDvhkJSFw4UBiXrToxNlgtg7Cj1XbF
- mZJmgTOw==;
-Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=rainloop.kapsi.fi)
- by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <jyri.sarha@iki.fi>) id 1skqFb-00EgmQ-3B;
- Sun, 01 Sep 2024 22:28:39 +0300
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+ [209.85.210.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DD610E0FB
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 20:11:44 +0000 (UTC)
+Received: by mail-ot1-f51.google.com with SMTP id
+ 46e09a7af769-70f73ca989aso839156a34.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Sep 2024 13:11:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725221503; x=1725826303; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uBC2/uLA65a/EWpnVpljuN87NwCZzasGJhTxIeoibZk=;
+ b=COqMwbpkSI1+7WcmQ14jUk5sUjWj08nNMwhBnAnwtspzW4q4BWLXr/UG5xm0G317o4
+ 378GVwiBO6UwsRVpK83la7G/IHcI4xH81dHbDEt9ac2c024mKzNKN4E9+U1Pxe0ZyLkP
+ nBQri5ZXAKOrUptTZp9wwIbNH01j2jQN4DGS1up2VKVfi3Vc9ErGMk3YYNpLEdQXMVph
+ 2jspn+Wbyr4ma6ZgerGkFNuEWu9eUP62lDjk/aTnc5CHuTy2+fpoXDFKS3yfu1SlbCMH
+ jky6T3JwKN98DFwHpOxmbhIJqyfqml/1QNQlPzU/uVrnOsKlBFW1eI8DizSCYDWWNuTx
+ zW9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725221503; x=1725826303;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uBC2/uLA65a/EWpnVpljuN87NwCZzasGJhTxIeoibZk=;
+ b=dJtMxGzmuGB8O9qSMSq360wDj0ShykAVNZujgxnruat+AfzQ1SqDnDMGHVXkCoXsNi
+ yyvg39PLLtoqAlz36E7kwZKozoeKRjpg+JKvh3nbkmnkyb1rI/z2spAvP9n3bh1VPuv0
+ YsFhhyrfKJ8r6c/X32ixZxCXkV+aipCr5+IL/m9gk0Ke4jllhYj1+oA20O8NSFutQeZh
+ d1c+el/96mSFHsUTzvdHw6ce6DcEdPojFKZoug6qp9XR5qL2yXE/9hlbslEfjo7PGGio
+ Mgm0vqiDLidz4p/n4Fgng0jBjq2TbN8UbERuroyjHk0lXMmrMWWKZpfNrBEvLHBQegYs
+ Kj0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXalL2dQXqpOz5LXK3WSD0fJVqqAZmzCYNyk48WDVrRrVPMkLHQTg3LI4Wyl2Y+0oYxOJfGXo42Zrw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yytqm72lrsVvxrbDYC9qKqf/tlnUqXoB3LGQLZewT//JRmxOyxo
+ nXkNfWrkPoQqFs/14O5DAnsmBv12gXDnihBGLs3exbk6r3IRGSvJ
+X-Google-Smtp-Source: AGHT+IFur+Spr/+YKSoyKdsfNG0q/ygJL/7E799LPj2janhXF3NGmK4P4j8JKZJ1JWgkdy+PGJK1cA==
+X-Received: by 2002:a05:6830:34a9:b0:70f:3318:1c68 with SMTP id
+ 46e09a7af769-70f5c4280e1mr13772234a34.29.1725221503641; 
+ Sun, 01 Sep 2024 13:11:43 -0700 (PDT)
+Received: from localhost.localdomain (ool-1826d901.dyn.optonline.net.
+ [24.38.217.1]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6c340bfa823sm35926966d6.7.2024.09.01.13.11.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Sep 2024 13:11:43 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Alex Lanzano <lanzano.alex@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mehdi Djait <mehdi.djait@bootlin.com>
+Cc: christophe.jaillet@wanadoo.fr, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/2] Add driver for Sharp Memory LCD
+Date: Sun,  1 Sep 2024 16:10:48 -0400
+Message-ID: <20240901201118.3179206-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Date: Sun, 01 Sep 2024 19:28:37 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: jyri.sarha@iki.fi
-Message-ID: <765bab893c9859e4f73af2ea65e943dd913ec7f4@iki.fi>
-Subject: Re: [PATCH v3 43/81] drm/tilcdc: Run DRM default client setup
-To: "Thomas Zimmermann" <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>
-References: undefined <20240830084456.77630-1-tzimmermann@suse.de>
-X-SA-Exim-Connect-IP: 91.232.154.200
-X-SA-Exim-Mail-From: jyri.sarha@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,63 +86,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-August 30, 2024 at 11:40 AM, "Thomas Zimmermann" <tzimmermann@suse.de mai=
-lto:tzimmermann@suse.de?to=3D%22Thomas%20Zimmermann%22%20%3Ctzimmermann%4=
-0suse.de%3E > wrote:
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
->=20
->=20Call drm_client_setup_with_color_mode() to run the kernel's default
-> client setup for DRM. Set fbdev_probe in struct drm_driver, so that
-> the client setup can start the common fbdev client.
->=20
->=20v3:
-> - add DRM_FBDEV_DMA_DRIVER_OPS macro
->=20
->=20Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-Acked-by: Jyri Sarha <jyri.sarha@iki.fi>
+Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+---
+Changes in v5:
+- Address minor style issues in sharp-memory.c
 
-Thanks,
-Jyri
+Changes in v4:
+- Remove redundant dev_err
 
-> ---
-> drivers/gpu/drm/tilcdc/tilcdc_drv.c | 5 ++++-
-> 1 file changed, 4 insertions(+), 1 deletion(-)
->=20
->=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/ti=
-lcdc/tilcdc_drv.c
-> index cd5eefa06060..8c9f3705aa6c 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -14,6 +14,7 @@
-> #include <linux/pm_runtime.h>
->=20
->=20#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_client_setup.h>
-> #include <drm/drm_debugfs.h>
-> #include <drm/drm_drv.h>
-> #include <drm/drm_fbdev_dma.h>
-> @@ -374,7 +375,8 @@ static int tilcdc_init(const struct drm_driver *ddr=
-v, struct device *dev)
->  goto init_failed;
->  priv->is_registered =3D true;
->=20
->=20- drm_fbdev_dma_setup(ddev, bpp);
-> + drm_client_setup_with_color_mode(ddev, bpp);
-> +
->  return 0;
->=20
->=20init_failed:
-> @@ -472,6 +474,7 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
-> static const struct drm_driver tilcdc_driver =3D {
->  .driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  DRM_GEM_DMA_DRIVER_OPS,
-> + DRM_FBDEV_DMA_DRIVER_OPS,
-> #ifdef CONFIG_DEBUG_FS
->  .debugfs_init =3D tilcdc_debugfs_init,
-> #endif
-> --=20
->=202.46.0
->
+Changes in v3:
+- Fix file path in MAINTAINERS file
+- Address review comments
+- Simplify mode selection based on match data instead of model
+
+Changes in v2:
+- Credited Mehdi Djait in commit messages
+- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
+- Using strings instead of int for vcom-mode in dt-binding
+- Fixed indentation of binding example
+- Removed binding header
+- Removed extra whitespace in sharp-memory.c
+- Fixed error handling in sharp-memory.c
+- Added match data to of_device_id table to be in-sync with spi_device_id table
+- Replaced redundant function with spi_get_device_match_data
+- Sorted header files in sharp-memory.c
+---
+
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
+
+ .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/tiny/Kconfig                  |  20 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 682 ++++++++++++++++++
+ 5 files changed, 801 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+
+-- 
+2.46.0
+
