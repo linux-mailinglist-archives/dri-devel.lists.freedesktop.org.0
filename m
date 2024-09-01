@@ -2,47 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871F9967690
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 15:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B0D9676DB
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 15:58:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF7310E00D;
-	Sun,  1 Sep 2024 13:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84D8310E0B4;
+	Sun,  1 Sep 2024 13:58:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LFs28TBy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FOtKvIzN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07DFE10E00D
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 13:14:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B466E5C4D20;
- Sun,  1 Sep 2024 13:13:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413AEC4CEC3;
- Sun,  1 Sep 2024 13:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725196440;
- bh=TsJk1UslMdTzF39qT2aKFXcW5AVFwY/n1oi5BBSvDac=;
- h=From:To:Cc:Subject:Date:From;
- b=LFs28TByEBAyyAoduQhLjyAowqYt8AQKf9cZ5Kw8g4aS9vYMoLgpp4Vw9zNKNqVCg
- QmrEFpBNhbbGvUiMBWMPsnUQdyMCzla4WajVQSnknnuvCwT3Kzow2ZJaJ21nIju1jJ
- lZM/rnJWYJ27yRPVbWT4oJILDqR5k36jsYW64UvFCx60+FLVB4lVB54N5PHJbMMhVQ
- 9JCuZ5J9loiqDA8/eJRVsAl4NpinmdinXJrHa8RFUZXgGJ9BXqTHQK5v3y9Ax89yap
- t9Y78H33DwQebGvd3WFLDUWiG0NZ/jHXSGf2/lJQ8KunHppIaH9/GThQBRXSZZrZbQ
- wwMnzyG1A5ACA==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
-Cc: Hsiao Chien Sung <shawn.sung@mediatek.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>, Shuijing Li <shuijing.li@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Fei Shao <fshao@chromium.org>, Rohit Agarwal <rohiagar@chromium.org>
-Subject: [GIT PULL] mediatek drm next for 6.12
-Date: Sun,  1 Sep 2024 13:13:54 +0000
-Message-Id: <20240901131354.2686-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D04610E09F;
+ Sun,  1 Sep 2024 13:58:16 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a8683dc3b17so203736366b.3; 
+ Sun, 01 Sep 2024 06:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725199095; x=1725803895; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lqxrlwZgVOZrfaPkQI4LlyC8aVNLGRmKHeCXm7BpQqU=;
+ b=FOtKvIzNQ0R3uhp5xQEnW9VaRKO71rOZyjJyvuMHTlCb1eQMQd49d1lCW2F8wQUrA1
+ eIHUhtmIPoN0RBT9or+j2lw5hZHfyu0i2f2v+Z226NOO9qF/0VcY+pizbxI89PTUM1VB
+ C6rDxzxGTXL3giLLW3IWL3lYMQN2shGttvV+5OIij5z6WyaBf8GrnE+qiBTUDTwd2J2I
+ IkegPTbNHwm+x4WRXtmcya+uUa1+Yr4kq74mQOMewkIlZd4NH0+oYvu2IQm40FuXjZT2
+ ZJEYIpo4Sw8xdvivsRVhGBdTXhZ7hcJpjFopcfSFYxXq7dAXvj7PqKQZk1vLBAW0ZmGf
+ cZvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725199095; x=1725803895;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lqxrlwZgVOZrfaPkQI4LlyC8aVNLGRmKHeCXm7BpQqU=;
+ b=YCnDMDhf/BxTT46hoow9ZaMmglMj20WtmRLpayrQEM/M5B+4Ga62Hw19y8PzWR0Ifj
+ GLunZh6oEIfWjhrymRDtOjG1edpVmDqdOms00aC4LNUBIH+Y2U5qhr0XWga1RnalJEHz
+ BRP25Am2zOqcH63Rlt/lr2FoPiZWeFO62sKys+0drE1eBZFdfk8pUt4P+IhoN8XOYgWB
+ gP0/8YibKVZbXLvyqvuBYhmjgQZgc6h5BWJwemoCc7fhiWQqO6H776OhJzb+wOxTTPR7
+ s5K4P0q6OG53zbzvwjYgo+MAzfn5Vtwo08Vcf8TtqBS38N9UpdrRQnq9pNekndT7s3jW
+ aCRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUmeUF0K9lEWNNXASQdnaqonJIXBaKxC/qOEeKtbFnqOaJlM+/GFpX4BaxMp0ewupW9ykDB9kjeN0JR@lists.freedesktop.org,
+ AJvYcCXZt+956G6XYTPCJdaGkl30U+gYj7RUFFkq8rDgg/UtXD/3shWeroQcoRb9oVGYyDicqT1yIOMrFME=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJR7M+ZscFJVoyPRJF5szuP4+5NnsRMUhTKzmBxDDohlZl4Iwl
+ e7ez5zBeObYfB4g/Ww2WeZ2Z7f86oC1iXgZnoAl01kVyBQjNl659
+X-Google-Smtp-Source: AGHT+IGKf5lWnIdWvQXm43UX9gltPdmoOxHDk3rgMDtuWMcrI5JctjcMpoKubosYad2+GjDL5ZOL4g==
+X-Received: by 2002:a05:6402:3506:b0:5c0:a8b4:3d92 with SMTP id
+ 4fb4d7f45d1cf-5c21ed8ba82mr11941841a12.27.1725199094059; 
+ Sun, 01 Sep 2024 06:58:14 -0700 (PDT)
+Received: from localhost.localdomain (public-nat-01.vpngate.v4.open.ad.jp.
+ [219.100.37.233]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c226ccff17sm4051295a12.73.2024.09.01.06.58.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Sep 2024 06:58:13 -0700 (PDT)
+From: Vladimir Lypak <vladimir.lypak@gmail.com>
+To: Vladimir Lypak <vladimir.lypak@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] fixes for Adreno A5Xx preemption
+Date: Sun,  1 Sep 2024 13:53:59 +0000
+Message-ID: <20240901135419.1075412-1-vladimir.lypak@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,90 +88,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave & Daniel:
+There are several issues with preemption on Adreno A5XX GPUs which
+render system unusable if more than one priority level is used. Those
+issues include persistent GPU faults and hangs, full UI lockups with
+idling GPU.
 
-This includes:
+---
+Changes in v2:
+- Use spinlock to serialize preemption initiation in patch 3
+- Added Reviewed-by on patch 2
+---
+Vladimir Lypak (4):
+  drm/msm/a5xx: disable preemption in submits by default
+  drm/msm/a5xx: properly clear preemption records on resume
+  drm/msm/a5xx: fix races in preemption evaluation stage
+  drm/msm/a5xx: workaround early ring-buffer emptiness check
 
-1. Support alpha blending
-2. Remove cl in struct cmdq_pkt
-3. Fixup for ovl adaptor
-4. Declare Z Position for all planes
-5. Drop unnecessary check for property presence
-6. Add dsi per-frame lp code for mt8188
-7. Fix missing configuration flags in mtk_crtc_ddp_config()
-8. Use spin_lock_irqsave() for CRTC event lock
-9. Add power domain binding to the mediatek DPI controller
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c     | 12 +++++++--
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.h     |  2 ++
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 30 +++++++++++++++++++++--
+ 3 files changed, 40 insertions(+), 4 deletions(-)
+---
+base-commit: 985bf40edf4343dcb04c33f58b40b4a85c1776d4
+-- 
+2.46.0
 
-Regards,
-Chun-Kuang.
-
-The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
-
-  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.12
-
-for you to fetch changes up to 5474d49b2f79b41f2ab09b0deb9d97d47b18d094:
-
-  dt-bindings: display: mediatek: dpi: Add power domains (2024-08-30 12:12:40 +0000)
-
-----------------------------------------------------------------
-Mediatek DRM Next for Linux 6.12
-
-1. Support alpha blending
-2. Remove cl in struct cmdq_pkt
-3. Fixup for ovl adaptor
-4. Declare Z Position for all planes
-5. Drop unnecessary check for property presence
-6. Add dsi per-frame lp code for mt8188
-7. Fix missing configuration flags in mtk_crtc_ddp_config()
-8. Use spin_lock_irqsave() for CRTC event lock
-9. Add power domain binding to the mediatek DPI controller
-
-----------------------------------------------------------------
-AngeloGioacchino Del Regno (1):
-      drm/mediatek: Declare Z Position for all planes
-
-Chun-Kuang Hu (2):
-      drm/mediatek: Use cmdq_pkt_eoc() instead of cmdq_pkt_finalize()
-      drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
-
-Fei Shao (1):
-      drm/mediatek: Use spin_lock_irqsave() for CRTC event lock
-
-Hsiao Chien Sung (5):
-      drm/mediatek: Support "None" blending in OVL
-      drm/mediatek: Support "None" blending in Mixer
-      drm/mediatek: Support "Pre-multiplied" blending in OVL
-      drm/mediatek: Support "Pre-multiplied" blending in Mixer
-      drm/mediatek: Support alpha blending in display driver
-
-Jason-JH.Lin (1):
-      drm/mediatek: Fix missing configuration flags in mtk_crtc_ddp_config()
-
-Javier Carrasco (3):
-      drm/mediatek: ovl_adaptor: Drop unused mtk_crtc.h header
-      drm/mediatek: ovl_adaptor: Add missing of_node_put()
-      drm/mediatek: ovl_adaptor: Use scoped variant of for_each_child_of_node()
-
-Rob Herring (Arm) (1):
-      drm/mediatek: Drop unnecessary check for property presence
-
-Rohit Agarwal (1):
-      dt-bindings: display: mediatek: dpi: Add power domains
-
-Shuijing Li (1):
-      drm/mediatek: dsi: Add dsi per-frame lp code for mt8188
-
- .../bindings/display/mediatek/mediatek,dpi.yaml    |  17 ++++
- drivers/gpu/drm/mediatek/mtk_crtc.c                |  82 +++++++---------
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  36 +++++--
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |   5 +-
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |  13 +--
- drivers/gpu/drm/mediatek/mtk_dsi.c                 | 106 ++++++++++++++++++---
- drivers/gpu/drm/mediatek/mtk_ethdr.c               |  13 ++-
- drivers/gpu/drm/mediatek/mtk_plane.c               |  29 +++++-
- drivers/gpu/drm/mediatek/mtk_plane.h               |   3 +-
- 9 files changed, 221 insertions(+), 83 deletions(-)
