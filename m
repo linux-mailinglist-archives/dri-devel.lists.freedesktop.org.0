@@ -2,109 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E372A9675E0
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 12:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20421967662
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Sep 2024 14:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8743210E04E;
-	Sun,  1 Sep 2024 10:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63D7110E04B;
+	Sun,  1 Sep 2024 12:18:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f0z51M9D";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UFkfwSah";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B40310E04E
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Sep 2024 10:23:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 84B1E5C5665;
- Sun,  1 Sep 2024 10:23:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 592C6C4CEC3;
- Sun,  1 Sep 2024 10:23:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725186214;
- bh=NkMBUIsxlLeO24IVny1Yg0LP9ir138ns50UgAd34fQM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=f0z51M9DDJ+FPRhuddqfkQiYr8xka/5kwyqyIiRia4J0yzVns1Uad3qox8PBL3kuj
- rr6O/27Yt1MBB9n3zXA3vuxjQrn6Jlb4eO7scw2hm1gG3/+sxE3ukrxO2T+9rCnjwE
- 6Yx/moBBQ17jDwfFoFZsowg9plBa/qWf9wrBqs1oI6hS94Ms8HFHgdQCmkpUHw9/Ub
- WTVxX0RXZooJoX4ePsfMyYfU6182tpLfd97HjipI9dwIMQOjizLBtaQRGqp0e8QfRh
- gP+L5c6TM2eV5q88xmjEcMrhKrvsoQEa1fH7XRz50hxOzXBehJyoKyDP0rKsxdsM3T
- ffhxv9L2nVQyQ==
-Message-ID: <3dc027f4-d5e0-4d0f-823a-f2ca82ab2cd8@kernel.org>
-Date: Sun, 1 Sep 2024 12:23:25 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA8110E04B;
+ Sun,  1 Sep 2024 12:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725193102; x=1756729102;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=7/QB0KtM8B4HpCGa2zOGQwulKoPIrKDzA21NTiK6nDQ=;
+ b=UFkfwSahCpo82B9TyN6nr3qBhq1mfaojlQD5cg/Ui8i5t7ZW1j4iWtJa
+ 8p7uiSJyCDLHk6I3z1Ac16MpUJBtkNI9jQNtx0OAlyxD44EXA8bZYsaqN
+ UFZc3yavr5awARzSswSO8g/yRJ1NVr5k+vGbm7XbNKURCWgnKUadWHYVs
+ h8aA/PyKABwJ0UznIpUfXMcTdjbv1+sY8tgr75N+DEsZGBu/4d4Q0o1Fg
+ rgmFEv6PU62+85DYgJJXrbPyEws5nPtS1MtZmJNFoehMrqwr29o6RqTDF
+ hseUGXE7dQGQikF+g9TDWqpidQkl5uHT5fSC9nIqSYoIfOVfdYi/cLrpq A==;
+X-CSE-ConnectionGUID: EQztWh0IRb2U7003tlxw6g==
+X-CSE-MsgGUID: SNMvE/nvSWuwBv1RVlRDrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="27655077"
+X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; d="scan'208";a="27655077"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2024 05:18:21 -0700
+X-CSE-ConnectionGUID: g8VwmCVNS2+7h8Z4f5k2qg==
+X-CSE-MsgGUID: AfsLNis4Qr+b2Wrpi+N8nQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; d="scan'208";a="64699177"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.124.240.228])
+ ([10.124.240.228])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2024 05:18:14 -0700
+Message-ID: <fd0257de-ce1a-40f3-a0b6-2f0c7dcee896@linux.intel.com>
+Date: Sun, 1 Sep 2024 20:18:11 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/4] dt-bindings: display: bridge: Add schema for
- Synopsys DW HDMI QP TX IP
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Cc: baolu.lu@linux.intel.com, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sandy Huang <hjc@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>
-References: <20240831-b4-rk3588-bridge-upstream-v5-0-9503bece0136@collabora.com>
- <20240831-b4-rk3588-bridge-upstream-v5-1-9503bece0136@collabora.com>
- <57wj2vwjv7eehlix2bmvbm3z4agv5fsyp6vmwwqzotkdsadx7n@azqg2kkaeuxz>
- <10210346.L8ug28u51p@diego>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ Mikko Perttunen <mperttunen@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/tegra: Remove call to iommu_domain_alloc()
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20240812071034.9443-1-baolu.lu@linux.intel.com>
+ <20240812071034.9443-3-baolu.lu@linux.intel.com>
+ <qyvyd2ftebjlgmzyayfvxsqa64c4wgx7keix3a6eexdspbvawy@a5ffnm5h5tgp>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <10210346.L8ug28u51p@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <qyvyd2ftebjlgmzyayfvxsqa64c4wgx7keix3a6eexdspbvawy@a5ffnm5h5tgp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,27 +84,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/08/2024 15:58, Heiko Stübner wrote:
+On 2024/8/28 23:27, Thierry Reding wrote:
+> On Mon, Aug 12, 2024 at 03:10:34PM GMT, Lu Baolu wrote:
+>> Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
+>> the bus structure. The iommu subsystem no longer relies on bus for
+>> operations. So iommu_domain_alloc() interface is no longer relevant.
+>>
+>> Normally, iommu_paging_domain_alloc() could be a replacement for
+>> iommu_domain_alloc() if the caller has the right device for IOMMU API
+>> use. Unfortunately, this is not the case for this driver.
+>>
+>> Iterate the devices on the platform bus and find a suitable device
+>> whose device DMA is translated by an IOMMU. Then use this device to
+>> allocate an iommu domain. The iommu subsystem prevents domains
+>> allocated by one iommu driver from being attached to devices managed
+>> by any different iommu driver.
+>>
+>> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
+>> Link:https://lore.kernel.org/r/20240610085555.88197-20-baolu.lu@linux.intel.com
+>> ---
+>>   drivers/gpu/drm/tegra/drm.c | 34 +++++++++++++++++++++++++---------
+>>   1 file changed, 25 insertions(+), 9 deletions(-)
+> Actually I think we can just do something like this:
 > 
-> so I guess the fifth interrupt is meant to be the hotplug?
-> Though I guess this should be specificed in the name-list too.
+> --- >8 ---
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index d9f0728c3afd..d35e411d536b 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -1150,7 +1150,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
+>   	}
+>   
+>   	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
+> -		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+> +		tegra->domain = iommu_paging_domain_alloc(dev->dev.parent);
+>   		if (!tegra->domain) {
+>   			err = -ENOMEM;
+>   			goto free;
+> --- >8 ---
 > 
-> From the SoC's manual it looks like the controller is set up from
-> different modules.
-> Like AVP is the audio-video-packet-module, there is a Main and CEC Module
-> as well as a eARC RX controller inside. I'd guess it might be possible
-> other SoC vendors could leave out specific modules?
-> 
-> 
-> TL;DR I think those clocks and interrupts are dependent on how the
-> IP core was synthesized, so for now I'd think we can only guarantee
-> that they are true for rk3588 and rk3576.
-> 
-> So I guess they should move to the rockchip-specific part of the binding
-> until we have more hdmi-qp controllers in the field?
+> That refers to the physical device that the host1x_device virtual device
+> was instantiated from and is a common parent to all physical devices
+> that are part of the virtual device.
 
-Which would leave empty "common" binding.
+Yes, this is really what we want. I will update the patch series later.
 
-Best regards,
-Krzysztof
-
+Thanks,
+baolu
