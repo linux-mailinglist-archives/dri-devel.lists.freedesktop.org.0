@@ -2,67 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1239680C0
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 09:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2689680FD
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 09:54:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 282FD10E224;
-	Mon,  2 Sep 2024 07:36:55 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ms99ThQw";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6852510E22B;
+	Mon,  2 Sep 2024 07:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 448DA10E227
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 07:36:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 19263A417AA;
- Mon,  2 Sep 2024 07:36:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B646C4CEC2;
- Mon,  2 Sep 2024 07:36:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725262612;
- bh=THObozqjtraO221EbGm1VZ5bqgAUOHDBtFWxw964ETo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ms99ThQwnMZoRjOgfAnyWEE52KNTc1+M+c76I0B1LSKuZ2Bc0SFidbfQ62CWjSVDa
- kr74Hmgs6y/Nmr3IjQAEBHXIM2marZv51TpvILNCTOh83efOlZKtr/v0GP/uC5OQe3
- HtYCbEFCb2lO4L3lx+iRdnp4XHf08fAl+tT4rMQHE0G5zR/yseSbUlvTlcQYu8k5/e
- zmk1aOOenjiGeSBPLn5K/riC7naV4nOF/tzXzbo2WPcs3TTO1zqW6AWYU1GzZwPYjE
- acUM3+4hbm/W1lvXur9m68O7n2NLIrdoXW7bV/sLdjbPq2NYtIloEq1OSopc0TQ4UT
- 8rMQD0ddYX2jg==
-Date: Mon, 2 Sep 2024 09:36:50 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, 
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>, 
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH v4 2/4] drm/bridge: synopsys: Add DW HDMI QP TX
- Controller support library
-Message-ID: <20240902-turtle-of-major-glory-efb4e8@houat>
-References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
- <20240819-b4-rk3588-bridge-upstream-v4-2-6417c72a2749@collabora.com>
- <20240827-armored-magnificent-badger-ffb025@houat>
- <34422b7a-ce70-445d-a574-60ac36322119@collabora.com>
+X-Greylist: delayed 354 seconds by postgrey-1.36 at gabe;
+ Mon, 02 Sep 2024 07:54:13 UTC
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A26CE10E22B
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 07:54:13 +0000 (UTC)
+Received: from localhost (unknown [124.16.138.129])
+ by APP-03 (Coremail) with SMTP id rQCowADn7X23bdVmIymEAA--.21911S2;
+ Mon, 02 Sep 2024 15:48:07 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, deller@gmx.de, gpiccoli@igalia.com,
+ mikelley@microsoft.com
+Cc: linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] fbdev/hyperv_fb: Convert comma to semicolon
+Date: Mon,  2 Sep 2024 15:44:02 +0800
+Message-Id: <20240902074402.3824431-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="wrzxqzphrlcany36"
-Content-Disposition: inline
-In-Reply-To: <34422b7a-ce70-445d-a574-60ac36322119@collabora.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowADn7X23bdVmIymEAA--.21911S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4UZF17Xry3tw4kWr1fCrg_yoWfCwb_Cw
+ 48ury8WFsrKFnY9r1xAw13Z3say3y7Xr4fZa9Fqr93JFy7uw1fXr13ZFn7Wa4jgryYyF9x
+ Jry2q3yI93yF9jkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbTAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr4
+ 1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+ 67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+ 8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
+ wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
+ v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUr4SrUUUUU
+X-Originating-IP: [124.16.138.129]
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,79 +64,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Replace a comma between expression statements by a semicolon.
 
---wrzxqzphrlcany36
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: d786e00d19f9 ("drivers: hv, hyperv_fb: Untangle and refactor Hyper-V panic notifiers")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/video/fbdev/hyperv_fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Sat, Aug 31, 2024 at 01:21:48AM GMT, Cristian Ciocaltea wrote:
-> On 8/27/24 11:58 AM, Maxime Ripard wrote:
-> > On Mon, Aug 19, 2024 at 01:29:29AM GMT, Cristian Ciocaltea wrote:
-> >> +static irqreturn_t dw_hdmi_qp_main_hardirq(int irq, void *dev_id)
-> >> +{
-> >> +	struct dw_hdmi_qp *hdmi =3D dev_id;
-> >> +	struct dw_hdmi_qp_i2c *i2c =3D hdmi->i2c;
-> >> +	u32 stat;
-> >> +
-> >> +	stat =3D dw_hdmi_qp_read(hdmi, MAINUNIT_1_INT_STATUS);
-> >> +
-> >> +	i2c->stat =3D stat & (I2CM_OP_DONE_IRQ | I2CM_READ_REQUEST_IRQ |
-> >> +			    I2CM_NACK_RCVD_IRQ);
-> >> +
-> >> +	if (i2c->stat) {
-> >> +		dw_hdmi_qp_write(hdmi, i2c->stat, MAINUNIT_1_INT_CLEAR);
-> >> +		complete(&i2c->cmp);
-> >> +	}
-> >> +
-> >> +	if (stat)
-> >> +		return IRQ_HANDLED;
-> >> +
-> >> +	return IRQ_NONE;
-> >> +}
-> >=20
-> > If the scrambler is enabled, you need to deal with hotplug. On hotplug,
-> > the monitor will drop its TMDS ratio and scrambling status, but the
-> > driver will keep assuming it's been programmed.
-> >=20
-> > If you don't have a way to deal with hotplug yet, then I'd suggest to
-> > just drop the scrambler setup for now.
->=20
-> Thanks for the heads up!
->=20
-> HPD is partially handled by the RK platform driver, which makes use of
-> drm_helper_hpd_irq_event(). Since the bridge sets DRM_BRIDGE_OP_DETECT
-> flag, the dw_hdmi_qp_bridge_detect() callback gets executed, which in turn
-> verifies the PHY status via ->read_hpd() implemented as
-> dw_hdmi_qp_rk3588_read_hpd() in the platform driver.
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index 8fdccf033b2d..7fdb5edd7e2e 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -1189,7 +1189,7 @@ static int hvfb_probe(struct hv_device *hdev,
+ 	 * which is almost at the end of list, with priority = INT_MIN + 1.
+ 	 */
+ 	par->hvfb_panic_nb.notifier_call = hvfb_on_panic;
+-	par->hvfb_panic_nb.priority = INT_MIN + 10,
++	par->hvfb_panic_nb.priority = INT_MIN + 10;
+ 	atomic_notifier_chain_register(&panic_notifier_list,
+ 				       &par->hvfb_panic_nb);
+ 
+-- 
+2.25.1
 
-It's not only about hotplug detection, it's also about what happens
-after you've detected a disconnection / reconnection.
-
-The framework expects to keep the current mode as is, despite the
-monitor not being setup to use the scrambler anymore, and the display
-remains black.
-
-> During my testing so far it worked reliably when switching displays with
-> different capabilities.  I don't have a 4K@60Hz display at the moment, but
-> used the HDMI RX port on the Rock 5B board in a loopback connection to
-> verify this mode, which triggered the high TMDS clock ratio and scrambling
-> setup as well.
-
-How did you test exactly?
-
-Maxime
-
---wrzxqzphrlcany36
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZtVrDQAKCRAnX84Zoj2+
-diimAYCLSBf4aL43PYdfrLmm+dcjJ3Ntv61sabKRj+I99ElR2CzjU5X15XDJRhy4
-7DlHP7QBgJDvJLEChcXiPKKmoMdbojebpow32S+1IQz8IIJ1A/mVwiVMhhX/9dGS
-l6pDQRfQtw==
-=s4gD
------END PGP SIGNATURE-----
-
---wrzxqzphrlcany36--
