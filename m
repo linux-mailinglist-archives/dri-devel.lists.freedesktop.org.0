@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802AB968B52
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 17:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972EF968B57
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 17:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDD4B10E0D6;
-	Mon,  2 Sep 2024 15:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6E3F10E082;
+	Mon,  2 Sep 2024 15:56:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jmLGBYun";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WkLFgvOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F1410E0D6
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 15:54:20 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-a86910caf9cso936036066b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 08:54:20 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DA310E082
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 15:56:05 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-5c251ba0d1cso1293110a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 08:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725292458; x=1725897258; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725292563; x=1725897363; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=4cP2dHj6d2ZZxQr7eLgquWgY/MJjFzFp7m1ULBgCRrE=;
- b=jmLGBYunzsLMy6aBcjc1SLNCHR1IKsF+tliNQ2Fz25yl+DR//SW3OVUCT9/VEoGEFh
- HGJjYZvB7kep9oXJvVVmdCOctfuonTfOSxQ5QXcOdB0goVMQZEbb1ubS/AEllIM/Gtuz
- kBo47rawa/YbujZIngwZZjqhB4uUaV8+ywlZyE1PnC4ayLdMms1cEfyM0nhXfgmB2pgp
- CXtx44Ygtwvhl2x42OEtBXbBWhSmaXu5e5FkNhCLpMC3fcOXr2XhULj4TcM8FEWuKVfG
- cVY/6gn/gyQTtu5R0UE9qgmnPACY8e95nPZGHrSYBYu+EMQkSh9NaXsrfeRw+jM3Cpmy
- u0Bw==
+ bh=uqrIFFIBuT9fXuo9sjt1fU701rtujCx6+oPYTycRxhw=;
+ b=WkLFgvOzK/esEFd8FEAqQEmk+YhMZ4RNwKDTemdMLFM7NKxMQJrhoXz1K1+zSAmILI
+ 1G/sYzq90cxjYOh03yShcOLoSbckqjq4oi47nj3FcznWD/4oPx41s9FWQ1lQS8Y5gCkw
+ 5uyG2MRCozW4V6ZUKhniLzT0UxiNHyhAUjUzHgfzqqpJjxi0wivb7JcE6UG2U991pN40
+ 4F86nXU1hu/dIeGHniRczH8F8X3Xg0hHViHhgAelL7EvYPC/J/hK5X5bnjeDZzh0FBRw
+ vsv1bbG29HjnnUuCq0j2ZJcvHAKdy7sUKmoxlz7T6+qSbruNJvsdprGST9pT+fPa1TYL
+ j2lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725292458; x=1725897258;
+ d=1e100.net; s=20230601; t=1725292563; x=1725897363;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4cP2dHj6d2ZZxQr7eLgquWgY/MJjFzFp7m1ULBgCRrE=;
- b=DH0jhFAPUiR9adEDVtMbR0Bjp02pqWGAnsSB3g2W5JPAYZHgbuwFYdyj2RIzJGTgPK
- LT1R8q73w6szhT/BcUEPqiVAAVgkKux/i+wGr8PUZvWx/6hzuGxpyF+OzLs7gDX8ls49
- ZOYiBurmMJUXiVlBMxJQ5G88DOWeeV477TuyBxv376RpfIuwRs8Rsh5Bi002zUCPVgpa
- uRijppNHHo0evVn5LKxCU7De5q1ER+h9iTGEAux5FMtR9A+gROxd6+XCsnF64gs3XIMP
- EIlWMdwXZjlhFSHQQwUVa20NLaMSHnf8uFaBniY8i9pLPhQl+u6LTmRifeVMR52CT1Oc
- DUpQ==
-X-Gm-Message-State: AOJu0YxL8HoTCctmtu9UcRR3IPMMBoNlHJu52uyUGBWODpUNMkjx2viW
- hDAK2pywtIsw+ZXW7KdNl/+W3AdmszFK/SheYM1ZTU6mrcfSv8BZ
-X-Google-Smtp-Source: AGHT+IFjeDTiTBRfvpDJVE9X0cTiZpwVlLd9lMbUR3Mi8Y4e8APmznCpbyZDjhrj6mS8oiSJ7snFvQ==
-X-Received: by 2002:a17:907:805:b0:a77:d9b5:ad4b with SMTP id
- a640c23a62f3a-a89823c9ecbmr1476806166b.9.1725292457920; 
- Mon, 02 Sep 2024 08:54:17 -0700 (PDT)
+ bh=uqrIFFIBuT9fXuo9sjt1fU701rtujCx6+oPYTycRxhw=;
+ b=ac9KMa2Cld3mMZJVtGI6Zr0RjyL11T/F/EVD6CBNTe8bp36qS0J4nM+ixiWNIoHUNh
+ ImxYm7EyqF4MKU7v7jsFQgP1a1TM60CIuChj4EfP+vuiRVChRXfkICJ9aVpAIyKqBbH4
+ M52A5KfEM6gk9+4Nfe1UOob0JRW1TdwJwu/BuDzys1pUgpdys/mPx/C/ATNjKo+G5h+h
+ 2D3hWzWkKP+Zdz2TFTHjwWReczyvsrVfg+K1Ncpcvw9rrHeResM09sYGpRuqfJVyiLt+
+ 4YuDGYb/Cj40nVYOtb6r1dXxSackA8yrO/qT8YJOg/3sN+C5RhdOMYJOEamBokqG8Fls
+ G7XA==
+X-Gm-Message-State: AOJu0YwbQfpzKFEpZLio9zTwvoiwaUfoYdyGOAMYDsUzrY63lWaMhSic
+ nyS2l1ZBOawfWykDvhhG7qRxi8zOSacs8JS+mavjBA3+VZOXJOTk
+X-Google-Smtp-Source: AGHT+IGJpF9fNgWm0ITi3ee/hUoYJvUXoCSyQ2oj82pSrGszpg1RCTmEuV72xcab9PyRcmGIhRFZ5Q==
+X-Received: by 2002:a05:6402:354a:b0:5c2:6314:11c4 with SMTP id
+ 4fb4d7f45d1cf-5c263141257mr1776017a12.2.1725292562888; 
+ Mon, 02 Sep 2024 08:56:02 -0700 (PDT)
 Received: from [192.168.0.20] ([148.56.230.39])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a89891d6d88sm576946266b.151.2024.09.02.08.54.15
+ 4fb4d7f45d1cf-5c226c7c3a8sm5403524a12.49.2024.09.02.08.56.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Sep 2024 08:54:16 -0700 (PDT)
-Message-ID: <9649e485-1f46-4dff-9dac-9bd13740e558@gmail.com>
-Date: Mon, 2 Sep 2024 17:54:14 +0200
+ Mon, 02 Sep 2024 08:56:01 -0700 (PDT)
+Message-ID: <200d30d0-783f-4ca9-8bad-60499b65a33d@gmail.com>
+Date: Mon, 2 Sep 2024 17:56:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] arm64: dts: mediatek: mt8186: Add power domain for
- DPI
+Subject: Re: [PATCH v4 3/3] arm64: dts: mediatek: mt8186: Add svs node
 To: Rohit Agarwal <rohiagar@chromium.org>, chunkuang.hu@kernel.org,
  p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -71,7 +70,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 References: <20240830084544.2898512-1-rohiagar@chromium.org>
- <20240830084544.2898512-3-rohiagar@chromium.org>
+ <20240830084544.2898512-4-rohiagar@chromium.org>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -117,7 +116,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20240830084544.2898512-3-rohiagar@chromium.org>
+In-Reply-To: <20240830084544.2898512-4-rohiagar@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -138,26 +137,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 30/08/2024 10:45, Rohit Agarwal wrote:
-> Add power domain phandle to the DPI controller in mediatek
-> mt8186 SoC.
+> Add clock/irq/efuse setting in svs nodes for mt8186 SoC.
 > 
 > Signed-off-by: Rohit Agarwal <rohiagar@chromium.org>
 
 Applied, thanks
 
 > ---
->   arch/arm64/boot/dts/mediatek/mt8186.dtsi | 1 +
->   1 file changed, 1 insertion(+)
+>   arch/arm64/boot/dts/mediatek/mt8186.dtsi | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
 > 
 > diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-> index caec83f5eece..85b77ec033c1 100644
+> index 85b77ec033c1..3bd023cdcac0 100644
 > --- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
 > +++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-> @@ -1843,6 +1843,7 @@ dpi: dpi@1400a000 {
->   			assigned-clocks = <&topckgen CLK_TOP_DPI>;
->   			assigned-clock-parents = <&topckgen CLK_TOP_TVDPLL_D2>;
->   			interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_LOW 0>;
-> +			power-domains = <&spm MT8186_POWER_DOMAIN_DIS>;
->   			status = "disabled";
+> @@ -1372,6 +1372,18 @@ lvts: thermal-sensor@1100b000 {
+>   			#thermal-sensor-cells = <1>;
+>   		};
 >   
->   			port {
+> +		svs: svs@1100bc00 {
+> +			compatible = "mediatek,mt8186-svs";
+> +			reg = <0 0x1100bc00 0 0x400>;
+> +			interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH 0>;
+> +			clocks = <&infracfg_ao CLK_INFRA_AO_THERM>;
+> +			clock-names = "main";
+> +			nvmem-cells = <&svs_calibration>, <&lvts_efuse_data1>;
+> +			nvmem-cell-names = "svs-calibration-data", "t-calibration-data";
+> +			resets = <&infracfg_ao MT8186_INFRA_PTP_CTRL_RST>;
+> +			reset-names = "svs_rst";
+> +		};
+> +
+>   		pwm0: pwm@1100e000 {
+>   			compatible = "mediatek,mt8186-disp-pwm", "mediatek,mt8183-disp-pwm";
+>   			reg = <0 0x1100e000 0 0x1000>;
+> @@ -1695,6 +1707,10 @@ lvts_efuse_data2: lvts2-calib@2f8 {
+>   				reg = <0x2f8 0x14>;
+>   			};
+>   
+> +			svs_calibration: calib@550 {
+> +				reg = <0x550 0x50>;
+> +			};
+> +
+>   			gpu_speedbin: gpu-speedbin@59c {
+>   				reg = <0x59c 0x4>;
+>   				bits = <0 3>;
