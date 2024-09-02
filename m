@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C12E967D83
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 03:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1167C967D86
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 03:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0581210E1D6;
-	Mon,  2 Sep 2024 01:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D5B10E1DA;
+	Mon,  2 Sep 2024 01:51:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RLaEmzqI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hf2Qp0ic";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAC2C10E1D6;
- Mon,  2 Sep 2024 01:51:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBED10E1DA;
+ Mon,  2 Sep 2024 01:51:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725241862; x=1756777862;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=aBpacNPMohRcwSsOR11sSC5U39gBhwta0pqjN6fSZyw=;
- b=RLaEmzqIbGpCIbyjRy9ml87mhLGBzrpHJaukVDXV1KgvYXCsuspo0TMg
- 6rNEXNs4HIujVRGkoyyqAtI3pNDlRdkTEmnXZXVYvQryt+4wKoc8ymaQZ
- +Z8gfE0oDvT9pNEyjnuQMPk0sK23K82mZ1WptEfgrspDuYRwSmdckzSI9
- kQ3LW5K9SsTHqhLyKtu8SuOMH45s+R5p8GWvBakPeVRTFqQIY6UaYaBVf
- D+Gj0UqcRdowKPetD86GTX6ZZv+ZYem+ciyyf7UC5AGL+zGqVoW24be7b
- KSOrHGAHJV0m5TMcpDWvKeoZASHdkt0Y//cHUNgm7cbk2+USSKpGhxDqy Q==;
-X-CSE-ConnectionGUID: 3NISXAaRQq6Xo3rignHqcw==
-X-CSE-MsgGUID: irxSOY50RRubK8g3L6R1lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="41307654"
-X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; d="scan'208";a="41307654"
+ t=1725241868; x=1756777868;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=GbpYXxZBS+r4Y0EiK3BFmXVZKaFfLeJ2IAlI0t0Upno=;
+ b=hf2Qp0ichCOfBGXIdRA6b50c934tMWiBcJzp0/le5HlfxQGVbw/mS2Gc
+ 267fb3n374cvunbd3uUrryv5oB5OOJfRnwpZMCvIhgcpqk8rX0xVmLH4F
+ xbyNzgkbwQgm0Q7wx+fA1H8LTnOY0VuiPbDZOS0+A/jEyP4SvCN5Gd2m5
+ M1u0VN+M/X7+aQU70aIsDAciH4e2ojXC99ft9MvBwQtoGswvrwy9+a7/s
+ JmNp1lkNLK88lcbxQBznoPtX6fML9iy4EKDbxeTm9OblCKxv40+dw+APL
+ PNbIfYrWq7fv1t1nPXnLWd+Y8sTW2z77NRI6yIoo56RHhzuhx0tmfPYaZ w==;
+X-CSE-ConnectionGUID: 8dzW3XOeSUSwOMM6A3tjrw==
+X-CSE-MsgGUID: XIH+3+/TTxmgMqq8X6rTSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="41307677"
+X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; d="scan'208";a="41307677"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2024 18:51:01 -0700
-X-CSE-ConnectionGUID: IRhh+f7nQQCcc3lrV/qkew==
-X-CSE-MsgGUID: V2HiG/ObQqC4xEN2WrNWAA==
+ 01 Sep 2024 18:51:08 -0700
+X-CSE-ConnectionGUID: ZzqqnVAJSDev//9APFczuA==
+X-CSE-MsgGUID: afJR3rigT1S94bedyrPJ5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; d="scan'208";a="64817612"
+X-IronPort-AV: E=Sophos;i="6.10,194,1719903600"; d="scan'208";a="64817644"
 Received: from allen-box.sh.intel.com ([10.239.159.127])
- by orviesa006.jf.intel.com with ESMTP; 01 Sep 2024 18:50:55 -0700
+ by orviesa006.jf.intel.com with ESMTP; 01 Sep 2024 18:51:01 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
  Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
@@ -56,10 +56,12 @@ Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
  iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
  Lu Baolu <baolu.lu@linux.intel.com>
-Subject: [PATCH v2 0/3] drm: Use iommu_paging_domain_alloc()
-Date: Mon,  2 Sep 2024 09:46:57 +0800
-Message-Id: <20240902014700.66095-1-baolu.lu@linux.intel.com>
+Subject: [PATCH v2 1/3] drm/nouveau/tegra: Use iommu_paging_domain_alloc()
+Date: Mon,  2 Sep 2024 09:46:58 +0800
+Message-Id: <20240902014700.66095-2-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240902014700.66095-1-baolu.lu@linux.intel.com>
+References: <20240902014700.66095-1-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,40 +79,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
-the bus structure. The iommu subsystem no longer relies on bus for
-operations. So iommu_domain_alloc() interface is no longer relevant.
+In nvkm_device_tegra_probe_iommu(), a paging domain is allocated for @dev
+and attached to it on success. Use iommu_paging_domain_alloc() to make it
+explicit.
 
-A new helper named iommu_paging_domain_alloc() was introduced in the
-iommu subsystem as a replacement of iommu_domain_alloc(). This helper
-relies on the device for IOMMU API use instead of the bus.
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The replacement work started from this series:
-
-https://lore.kernel.org/linux-iommu/20240610085555.88197-1-baolu.lu@linux.intel.com/
-
-Several patches have already been merged into the mainline kernel, but
-we've decided to route all remaining ones through the subsystem tree.
-
-Change log:
-v2:
- - Patch 3/3: use dev->dev.parent as the input for
-   iommu_paging_domain_alloc(), suggested by Thierry Reding.
-   https://lore.kernel.org/linux-iommu/qyvyd2ftebjlgmzyayfvxsqa64c4wgx7keix3a6eexdspbvawy@a5ffnm5h5tgp/
-
-v1:
- - https://lore.kernel.org/linux-iommu/20240812071034.9443-1-baolu.lu@linux.intel.com/
-
-Lu Baolu (3):
-  drm/nouveau/tegra: Use iommu_paging_domain_alloc()
-  drm/rockchip: Use iommu_paging_domain_alloc()
-  drm/tegra: Use iommu_paging_domain_alloc()
-
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c |  4 ++--
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c        | 10 +++++++---
- drivers/gpu/drm/tegra/drm.c                        |  5 +++--
- 3 files changed, 12 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+index 87caa4a72921..763c4c2925f9 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+@@ -120,8 +120,8 @@ nvkm_device_tegra_probe_iommu(struct nvkm_device_tegra *tdev)
+ 	mutex_init(&tdev->iommu.mutex);
+ 
+ 	if (device_iommu_mapped(dev)) {
+-		tdev->iommu.domain = iommu_domain_alloc(&platform_bus_type);
+-		if (!tdev->iommu.domain)
++		tdev->iommu.domain = iommu_paging_domain_alloc(dev);
++		if (IS_ERR(tdev->iommu.domain))
+ 			goto error;
+ 
+ 		/*
 -- 
 2.34.1
 
