@@ -2,57 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A99F96837C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 11:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D3596837A
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 11:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCEEF10E27A;
-	Mon,  2 Sep 2024 09:42:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=math.uni-bielefeld.de header.i=@math.uni-bielefeld.de header.b="PxhobTo3";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D76A510E0F0;
+	Mon,  2 Sep 2024 09:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp2.math.uni-bielefeld.de (smtp2.math.uni-bielefeld.de
- [129.70.45.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E929D10E27A;
- Mon,  2 Sep 2024 09:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=math.uni-bielefeld.de; s=default; t=1725270163;
- bh=OlHUmE2mWnpkfcvXYamxHN5q0GeOY6PdRc6d9KkwM28=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PxhobTo34c9OgoeDCdYgmwTNIlFUqpQKQOEl5R38TVuQv6lAQOLtWcgesSMA5mqK3
- /Pcll18vAVcyeKzuD2cegIT/of0J1un6UNsMsnozrwQ/XRC6PFovPmhRi44ktLpQJC
- 0/ci/Idbi5rtewd/c3+g44D5Ee6g7Y+ahRF/+okViVJo2YrdX2DLeKcOYkWUkglAIo
- zTERcuBa0RgZzInmUWcj37oE7pcUQDBK3YCAYyGbDragDLGzP+CmhoqM4NafskuFR2
- Ax0GGBc0wjpSmsgSx5W3XOu9EAzH3BQhXeHzEwDK7/cc2owFWRCeO4xT4XFBZSO/Cw
- F2oTmHvU4RvzA==
-Received: from localhost (dslb-088-074-203-146.088.074.pools.vodafone-ip.de
- [88.74.203.146])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (Client did not present a certificate)
- by smtp2.math.uni-bielefeld.de (Postfix) with ESMTPSA id 7603B2098B;
- Mon,  2 Sep 2024 11:42:43 +0200 (CEST)
-From: tjakobi@math.uni-bielefeld.de
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Mario Limonciello <mario.limonciello@amd.com>
-Cc: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/amd/display: Avoid race between dcn35_set_drr() and
- dc_state_destruct()
-Date: Mon,  2 Sep 2024 11:40:27 +0200
-Message-ID: <fd879fd0595e9e7e47c3442da10a5aede21bf895.1725269643.git.tjakobi@math.uni-bielefeld.de>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <cover.1725269643.git.tjakobi@math.uni-bielefeld.de>
-References: <cover.1725269643.git.tjakobi@math.uni-bielefeld.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A5A5410E277
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 09:42:33 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A1141FEC;
+ Mon,  2 Sep 2024 02:42:59 -0700 (PDT)
+Received: from [10.57.74.147] (unknown [10.57.74.147])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C7E403F66E;
+ Mon,  2 Sep 2024 02:42:31 -0700 (PDT)
+Message-ID: <8c69e939-3019-45cb-9486-510ce7fcb78e@arm.com>
+Date: Mon, 2 Sep 2024 10:42:30 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panthor: Use the BITS_PER_LONG macro
+To: Jinjie Ruan <ruanjinjie@huawei.com>, boris.brezillon@collabora.com,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240902094404.1943710-1-ruanjinjie@huawei.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240902094404.1943710-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,69 +48,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+On 02/09/2024 10:44, Jinjie Ruan wrote:
+> sizeof(unsigned long) * 8 is the number of bits in an unsigned long
+> variable, replace it with BITS_PER_LONG macro to make them simpler.
+> 
+> And fix the warning:
+> 	WARNING: Comparisons should place the constant on the right side of the test
+> 	#23: FILE: drivers/gpu/drm/panthor/panthor_mmu.c:2696:
+> 	+       if (BITS_PER_LONG < va_bits) {
+> 
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-dc_state_destruct() nulls the resource context of the DC state. The pipe
-context passed to dcn35_set_drr() is a member of this resource context.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-If dc_state_destruct() is called parallel to the IRQ processing (which
-calls dcn35_set_drr() at some point), we can end up using already nulled
-function callback fields of struct stream_resource.
+Thanks, I'll push to drm-misc-next.
 
-The logic in dcn35_set_drr() already tries to avoid this, by checking tg
-against NULL. But if the nulling happens exactly after the NULL check and
-before the next access, then we get a race.
+Steve
 
-Avoid this by copying tg first to a local variable, and then use this
-variable for all the operations. This should work, as long as nobody
-frees the resource pool where the timing generators live.
-
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3142
-Fixes: 06ad7e164256 ("drm/amd/display: Destroy DC context while keeping DML and DML2")
-Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
----
- .../amd/display/dc/hwss/dcn35/dcn35_hwseq.c   | 20 +++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-index dcced89c07b3..4e77728dac10 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-@@ -1370,7 +1370,13 @@ void dcn35_set_drr(struct pipe_ctx **pipe_ctx,
- 	params.vertical_total_mid_frame_num = adjust.v_total_mid_frame_num;
- 
- 	for (i = 0; i < num_pipes; i++) {
--		if ((pipe_ctx[i]->stream_res.tg != NULL) && pipe_ctx[i]->stream_res.tg->funcs) {
-+		/* dc_state_destruct() might null the stream resources, so fetch tg
-+		 * here first to avoid a race condition. The lifetime of the pointee
-+		 * itself (the timing_generator object) is not a problem here.
-+		 */
-+		struct timing_generator *tg = pipe_ctx[i]->stream_res.tg;
-+
-+		if ((tg != NULL) && tg->funcs) {
- 			struct dc_crtc_timing *timing = &pipe_ctx[i]->stream->timing;
- 			struct dc *dc = pipe_ctx[i]->stream->ctx->dc;
- 
-@@ -1383,14 +1389,12 @@ void dcn35_set_drr(struct pipe_ctx **pipe_ctx,
- 					num_frames = 2 * (frame_rate % 60);
- 				}
- 			}
--			if (pipe_ctx[i]->stream_res.tg->funcs->set_drr)
--				pipe_ctx[i]->stream_res.tg->funcs->set_drr(
--					pipe_ctx[i]->stream_res.tg, &params);
-+			if (tg->funcs->set_drr)
-+				tg->funcs->set_drr(tg, &params);
- 			if (adjust.v_total_max != 0 && adjust.v_total_min != 0)
--				if (pipe_ctx[i]->stream_res.tg->funcs->set_static_screen_control)
--					pipe_ctx[i]->stream_res.tg->funcs->set_static_screen_control(
--						pipe_ctx[i]->stream_res.tg,
--						event_triggers, num_frames);
-+				if (tg->funcs->set_static_screen_control)
-+					tg->funcs->set_static_screen_control(
-+						tg, event_triggers, num_frames);
- 		}
- 	}
- }
--- 
-2.44.2
+> ---
+> v2:
+> - Also fix for below mmu_features.
+> - Remoove -next.
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index fa0a002b1016..7b1c345669b7 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2693,9 +2693,9 @@ int panthor_mmu_init(struct panthor_device *ptdev)
+>  	 * which passes iova as an unsigned long. Patch the mmu_features to reflect this
+>  	 * limitation.
+>  	 */
+> -	if (sizeof(unsigned long) * 8 < va_bits) {
+> +	if (va_bits > BITS_PER_LONG) {
+>  		ptdev->gpu_info.mmu_features &= ~GENMASK(7, 0);
+> -		ptdev->gpu_info.mmu_features |= sizeof(unsigned long) * 8;
+> +		ptdev->gpu_info.mmu_features |= BITS_PER_LONG;
+>  	}
+>  
+>  	return drmm_add_action_or_reset(&ptdev->base, panthor_mmu_release_wq, mmu->vm.wq);
 
