@@ -2,78 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814A9968C06
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 18:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E63968C0E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 18:32:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B51A10E359;
-	Mon,  2 Sep 2024 16:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D128510E379;
+	Mon,  2 Sep 2024 16:31:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="UacpnbAB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DoiKe9r8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9E9210E359
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 16:29:10 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-374d29ad8a7so223202f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 09:29:10 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A356110E35B;
+ Mon,  2 Sep 2024 16:31:57 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a8696e9bd24so513685366b.0; 
+ Mon, 02 Sep 2024 09:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1725294549; x=1725899349; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=h5KU+rNRLvaJ/D5quKO81u0TuE+I1OMwUjzPfu7dClg=;
- b=UacpnbABUl4t9TsEldjoGEpecobACo0S5ADyri6/h/UFms/59G/HmSKV3a5Q/P9OnQ
- YvKi9bDwDUYmiY908biDHq4jD8RY4GpuJoGY5VYYBu4I6d7/fxMWrcE/fcQlvv7lT2Zf
- wdzUCEyU1dLMo81GIh/Icq6ILlUEzDCVOkdjo=
+ d=gmail.com; s=20230601; t=1725294716; x=1725899516; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=qIuNgf8vibX5+q+1uvohe/8Xj5W/5yWFtisNRGo9UZU=;
+ b=DoiKe9r8jt3bh2IAc1U+pYX6Xg2U1Q3kTx9LmLANFaE2dvr2ZgkVfNao8JnZFO8m0k
+ aQnByL58zDR53AAEbJU9u/xiJ87dckzG6DB4ZT11zL80m2Qvy+A7nNxQQQEPl5WASWPc
+ OyAmf22kUZCkg9S3DbeGDgT5l9OYl7KBIdMrVMWm5e4GtsaLxWMlLI40s0VkmSmlIQXY
+ 106+iChrHuOuPY3jRIHMUWh2kZnNEoBCdRqx/U481yQDaRNNHJK4ZQ4oKxkeeKoQ+Hd6
+ NCgb45TQliPjnLFzPzQik0EHEzwqBZtSrptQTiX2eb6LFt4sEZnOYzzQgi9jbIedbqJB
+ xWjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725294549; x=1725899349;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1725294716; x=1725899516;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h5KU+rNRLvaJ/D5quKO81u0TuE+I1OMwUjzPfu7dClg=;
- b=L7OrVcBivxWQGFh/VkrgCZdpAeEguxzG2ismiBeJChpdR/ARso/oE/uKnajPbafwqp
- gN+oowdG2/5QOQ0MQFwA+2mvjSqVTpzH07FbY0BpXptaUkCYmvA9tk225TBHd4yIWv7y
- LI4DBO+U91LDO3LhqvlIFhVORbGIBGlBg8wUPIsGJ26/zmpB0TySupn47huE+OMBfV5F
- +b95bcONZxD4FH/tuClj5fHGZHaXZUMb7n6Qbj4kgFc15pFMFt3UfooVxKPw2xD2hjhI
- 5RE6mF1QE/4uZzCfBFqmpzMphE+yTTj9IUpyZ75yuosSVvykNn39rD+Pt5eeJj7pTNgz
- boAA==
+ bh=qIuNgf8vibX5+q+1uvohe/8Xj5W/5yWFtisNRGo9UZU=;
+ b=NjqeQA0e68Ud80mHxBStuMs+7VsYknh60usbqc8OCkpW5fLUe7YY3idVj+Rrc8Sa5B
+ QKAzsBBPTOl9F1T8e1EAnrOgpi+kolBLNNdii9v+LZoDjstdApl0nvjclccdfyfT2SD/
+ MQSOe6V4Pr9zin5X2ep1T+6ncdmUYY6/erp1Ud67BkgcgDibs4chyMlsHozl7VKr4DE2
+ QY4ZZ75b77CwAhJwUDLE0xD/6xocmJ6BeVoaIXK6P/joh68mr2eKgb95jT6FTdchYTPI
+ Cw/Z+rGQPk7pnZzXJ6zYZle5+ZWIxvWlgUP3fd3EALRTAW3wcF+xvfnj72rLzH6Uima0
+ EDRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvoJwsjRAiyWM47dN6YczsrvIJ5t++xsXVtD3KM4sIa61VoglPNX4gFfO9M71A3bofU1I4fuqz10E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywa6lWmB3d8uOGGwy19RVYEhOpAYxrh2c88/1ufkTs0l8Z4Oe4T
- 4dtxQWFNy6zI6aPgXysv5YnZyathq6pGb5e4Ib3FMf/MgsKpJkeTgs7/Qvzcu5Q=
-X-Google-Smtp-Source: AGHT+IHqTG5KvhSgCm7KrEwQ8lyUbuu2d/L8TNd/Qet4eR2cgdK9CYH3eEIh2l6C3HD2JgAknw7GxQ==
-X-Received: by 2002:adf:f3c4:0:b0:374:c8cc:1bb1 with SMTP id
- ffacd0b85a97d-374c94714e5mr3230317f8f.39.1725294548922; 
- Mon, 02 Sep 2024 09:29:08 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ AJvYcCUIH4CSd5jYrdIbG6JLKEDz0ZVcmb/UwGYwWbl4wK5WilYDCLn3/5Ygzlshtg5Q7zwR/pOOSF7LXglQ@lists.freedesktop.org,
+ AJvYcCUkaVkyI5ujuAJbLh29kDO+lDWnu1naZTSjdUEkxLVe0WhP//ES2xXBs793a/Q4X51UumtgLehZ@lists.freedesktop.org,
+ AJvYcCVVUbTJh2UlvsBnA8xyAxCzXWwOsK0kQsYPQyKfwmJ2VylzQs2xzU3M+5E/iYxtRIzLOiYzCtZxaek=@lists.freedesktop.org,
+ AJvYcCXx4qSJYbQJqMdx3hjwjEAgtayRb+XFjEQQnF8im2ao69nM5c1tS8nRsKNCa5zlVzzJKEylBXrQnA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzcNyrCXHLZ56cEwlLcSKg6Ax/o7IzOw0nWvVL5wcsAr8phscf3
+ Sv8x0ET5xWDgyYFhYAfXQC3g7Q5y1ZaSYRohh9mgWjIrgh2M/LVs
+X-Google-Smtp-Source: AGHT+IGkmyRRaFc3yk7kChHhC1FscCc8RPz9j5sqv+VQDpOUo4KdmOEEu62eFFZCqWuMxuXGFRTuSg==
+X-Received: by 2002:a17:907:7204:b0:a86:c825:7678 with SMTP id
+ a640c23a62f3a-a897fad7638mr1114110466b.64.1725294715458; 
+ Mon, 02 Sep 2024 09:31:55 -0700 (PDT)
+Received: from [192.168.0.20] ([148.56.230.39])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-374c610d437sm4929321f8f.97.2024.09.02.09.29.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2024 09:29:08 -0700 (PDT)
-Date: Mon, 2 Sep 2024 18:29:06 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- benno.lossin@proton.me, a.hindborg@samsung.com,
- aliceryhl@google.com, lina@asahilina.net, pstanner@redhat.com,
- ajanulgu@redhat.com, lyude@redhat.com, gregkh@linuxfoundation.org,
- robh@kernel.org, daniel.almeida@collabora.com,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v2 3/8] rust: drm: add driver abstractions
-Message-ID: <ZtXn0hesji0s_45x@phenom.ffwll.local>
-References: <20240618233324.14217-1-dakr@redhat.com>
- <20240618233324.14217-4-dakr@redhat.com>
+ a640c23a62f3a-a89892232c7sm573747166b.222.2024.09.02.09.31.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Sep 2024 09:31:54 -0700 (PDT)
+Message-ID: <ca9c2f00-e275-454a-8c0c-b7e7cc5dcc4c@gmail.com>
+Date: Mon, 2 Sep 2024 18:31:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240618233324.14217-4-dakr@redhat.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 26/81] drm/mediatek: Run DRM default client setup
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Chun-KuaIng Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20240830084456.77630-1-tzimmermann@suse.de>
+ <20240830084456.77630-27-tzimmermann@suse.de>
+Content-Language: en-US, ca-ES, es-ES
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Autocrypt: addr=matthias.bgg@gmail.com; keydata=
+ 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
+In-Reply-To: <20240830084456.77630-27-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,235 +137,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 19, 2024 at 01:31:39AM +0200, Danilo Krummrich wrote:
-> Implement the DRM driver abstractions.
+
+
+On 30/08/2024 10:40, Thomas Zimmermann wrote:
+> Call drm_client_setup() to run the kernel's default client setup
+> for DRM. Set fbdev_probe in struct drm_driver, so that the client
+> setup can start the common fbdev client.
 > 
-> The `Driver` trait provides the interface to the actual driver to fill
-> in the driver specific data, such as the `DriverInfo`, driver features
-> and IOCTLs.
+> The mediatek driver specifies a preferred color mode of 32. As this
+> is the default if no format has been given, leave it out entirely.
 > 
-> Co-developed-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Chun-KuaIng Hu <chunkuang.hu@kernel.org>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+
 > ---
->  rust/bindings/bindings_helper.h |   1 +
->  rust/kernel/drm/drv.rs          | 141 ++++++++++++++++++++++++++++++++
->  rust/kernel/drm/mod.rs          |   1 +
->  3 files changed, 143 insertions(+)
->  create mode 100644 rust/kernel/drm/drv.rs
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-> index ed25b686748e..dc19cb789536 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -6,6 +6,7 @@
->   * Sorted alphabetically.
->   */
->  
-> +#include <drm/drm_drv.h>
->  #include <drm/drm_ioctl.h>
->  #include <kunit/test.h>
->  #include <linux/errname.h>
-> diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
-> new file mode 100644
-> index 000000000000..cd594a32f9e4
-> --- /dev/null
-> +++ b/rust/kernel/drm/drv.rs
-> @@ -0,0 +1,141 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +//! DRM driver core.
-> +//!
-> +//! C header: [`include/linux/drm/drm_drv.h`](srctree/include/linux/drm/drm_drv.h)
-> +
-> +use crate::{bindings, drm, private::Sealed, str::CStr, types::ForeignOwnable};
-> +use macros::vtable;
-> +
-> +/// Driver use the GEM memory manager. This should be set for all modern drivers.
-> +pub const FEAT_GEM: u32 = bindings::drm_driver_feature_DRIVER_GEM;
-> +/// Driver supports mode setting interfaces (KMS).
-> +pub const FEAT_MODESET: u32 = bindings::drm_driver_feature_DRIVER_MODESET;
-> +/// Driver supports dedicated render nodes.
-> +pub const FEAT_RENDER: u32 = bindings::drm_driver_feature_DRIVER_RENDER;
-> +/// Driver supports the full atomic modesetting userspace API.
-> +///
-> +/// Drivers which only use atomic internally, but do not support the full userspace API (e.g. not
-> +/// all properties converted to atomic, or multi-plane updates are not guaranteed to be tear-free)
-> +/// should not set this flag.
-> +pub const FEAT_ATOMIC: u32 = bindings::drm_driver_feature_DRIVER_ATOMIC;
-> +/// Driver supports DRM sync objects for explicit synchronization of command submission.
-> +pub const FEAT_SYNCOBJ: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ;
-> +/// Driver supports the timeline flavor of DRM sync objects for explicit synchronization of command
-> +/// submission.
-> +pub const FEAT_SYNCOBJ_TIMELINE: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ_TIMELINE;
-> +/// Driver supports compute acceleration devices. This flag is mutually exclusive with `FEAT_RENDER`
-> +/// and `FEAT_MODESET`. Devices that support both graphics and compute acceleration should be
-> +/// handled by two drivers that are connected using auxiliary bus.
-> +pub const FEAT_COMPUTE_ACCEL: u32 = bindings::drm_driver_feature_DRIVER_COMPUTE_ACCEL;
-> +/// Driver supports user defined GPU VA bindings for GEM objects.
-> +pub const FEAT_GEM_GPUVA: u32 = bindings::drm_driver_feature_DRIVER_GEM_GPUVA;
-> +/// Driver supports and requires cursor hotspot information in the cursor plane (e.g. cursor plane
-> +/// has to actually track the mouse cursor and the clients are required to set hotspot in order for
-> +/// the cursor planes to work correctly).
-> +pub const FEAT_CURSOR_HOTSPOT: u32 = bindings::drm_driver_feature_DRIVER_CURSOR_HOTSPOT;
-> +
-> +/// Information data for a DRM Driver.
-> +pub struct DriverInfo {
-> +    /// Driver major version.
-> +    pub major: i32,
-> +    /// Driver minor version.
-> +    pub minor: i32,
-> +    /// Driver patchlevel version.
-> +    pub patchlevel: i32,
-> +    /// Driver name.
-> +    pub name: &'static CStr,
-> +    /// Driver description.
-> +    pub desc: &'static CStr,
-> +    /// Driver date.
-> +    pub date: &'static CStr,
-> +}
-> +
-> +/// Internal memory management operation set, normally created by memory managers (e.g. GEM).
-> +///
-> +/// See `kernel::drm::gem` and `kernel::drm::gem::shmem`.
-> +pub struct AllocOps {
-> +    pub(crate) gem_create_object: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            size: usize,
-> +        ) -> *mut bindings::drm_gem_object,
-> +    >,
-> +    pub(crate) prime_handle_to_fd: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            file_priv: *mut bindings::drm_file,
-> +            handle: u32,
-> +            flags: u32,
-> +            prime_fd: *mut core::ffi::c_int,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) prime_fd_to_handle: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            file_priv: *mut bindings::drm_file,
-> +            prime_fd: core::ffi::c_int,
-> +            handle: *mut u32,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) gem_prime_import: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            dma_buf: *mut bindings::dma_buf,
-> +        ) -> *mut bindings::drm_gem_object,
-> +    >,
-> +    pub(crate) gem_prime_import_sg_table: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            attach: *mut bindings::dma_buf_attachment,
-> +            sgt: *mut bindings::sg_table,
-> +        ) -> *mut bindings::drm_gem_object,
-> +    >,
-> +    pub(crate) dumb_create: Option<
-> +        unsafe extern "C" fn(
-> +            file_priv: *mut bindings::drm_file,
-> +            dev: *mut bindings::drm_device,
-> +            args: *mut bindings::drm_mode_create_dumb,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) dumb_map_offset: Option<
-> +        unsafe extern "C" fn(
-> +            file_priv: *mut bindings::drm_file,
-> +            dev: *mut bindings::drm_device,
-> +            handle: u32,
-> +            offset: *mut u64,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +}
-> +
-> +/// Trait for memory manager implementations. Implemented internally.
-> +pub trait AllocImpl: Sealed {
-> +    /// The C callback operations for this memory manager.
-> +    const ALLOC_OPS: AllocOps;
-> +}
-> +
-> +/// The DRM `Driver` trait.
-> +///
-> +/// This trait must be implemented by drivers in order to create a `struct drm_device` and `struct
-> +/// drm_driver` to be registered in the DRM subsystem.
-> +#[vtable]
-> +pub trait Driver {
-> +    /// Context data associated with the DRM driver
-> +    ///
-> +    /// Determines the type of the context data passed to each of the methods of the trait.
-> +    type Data: ForeignOwnable + Sync + Send;
-> +
-> +    /// The type used to manage memory for this driver.
-> +    ///
-> +    /// Should be either `drm::gem::Object<T>` or `drm::gem::shmem::Object<T>`.
-> +    type Object: AllocImpl;
-
-Bit similar comment to what I discussed at length with lyude, drivers
-might have a need for different implementations. But I think from the kms
-discussions we have solid solution for that, so I think we should be fine.
-
-> +
-> +    /// Driver metadata
-> +    const INFO: DriverInfo;
-> +
-> +    /// Feature flags
-> +    const FEATURES: u32;
-
-I think there's a type safety issue here with allowing drivers to muck
-with these directly. Example:
-
-- If you don't set FEAT_GEM but try to use gem C functions, stuff blows up
-  because the core doesn't call drm_gem_init() in that case.
-
-- For modesetting it's more fun because there mandatory init functions are
-  meant to be called by the driver, in the right sequence, interleaved
-  with other driver setup code for all the right modeset objects. If you
-  get it wrong you go boom.
-
-For the modeset side of things I've dumped a pile of comments on lyude's
-patches already: Essentially during registration I think we need a special
-drmKmsDriverInit object or phantom type or so, so that you can proof
-you're registering kms objects at the right time, with the rust
-abstraction calling all the other functions around that in the right
-order.
-
-For gem I think we should flat out not allow non-gem drivers in rust. At
-least until someone comes up with a need for a non-gem driver.
-
-For some of the values like hotspot cursor support we might need to change
-the rust abstraction to compute these at runtime driver init, and then set
-them somewhere in the runtime data structure instead of having them
-statically sepcified in drm_driver->features.
-
-In general these feature flag are midlayer design and that tends to be
-bad, rust is just the messenger here.
-
-Cheers, Sima
-
-
-> +
-> +    /// IOCTL list. See `kernel::drm::ioctl::declare_drm_ioctls!{}`.
-> +    const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor];
-> +}
-> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> index 9ec6d7cbcaf3..d987c56b3cec 100644
-> --- a/rust/kernel/drm/mod.rs
-> +++ b/rust/kernel/drm/mod.rs
-> @@ -2,4 +2,5 @@
->  
->  //! DRM subsystem abstractions.
->  
-> +pub mod drv;
->  pub mod ioctl;
-> -- 
-> 2.45.1
-> 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 77b50c56c124..b1309a70fdcd 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -14,6 +14,7 @@
+>   
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_client_setup.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fbdev_dma.h>
+>   #include <drm/drm_fourcc.h>
+> @@ -610,6 +611,7 @@ static const struct drm_driver mtk_drm_driver = {
+>   	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+>   
+>   	.dumb_create = mtk_gem_dumb_create,
+> +	DRM_FBDEV_DMA_DRIVER_OPS,
+>   
+>   	.gem_prime_import = mtk_gem_prime_import,
+>   	.gem_prime_import_sg_table = mtk_gem_prime_import_sg_table,
+> @@ -666,7 +668,7 @@ static int mtk_drm_bind(struct device *dev)
+>   	if (ret < 0)
+>   		goto err_deinit;
+>   
+> -	drm_fbdev_dma_setup(drm, 32);
+> +	drm_client_setup(drm, NULL);
+>   
+>   	return 0;
+>   
