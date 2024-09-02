@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A002E967DBA
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 04:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80813967DC7
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 04:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9DE10E157;
-	Mon,  2 Sep 2024 02:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B217610E0DC;
+	Mon,  2 Sep 2024 02:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 920D910E157
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 02:17:26 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.214])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wxshq3nYFz20nL7;
- Mon,  2 Sep 2024 10:12:27 +0800 (CST)
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B71E10E0DC
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 02:24:43 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Wxsxr4rhVz1BK36;
+ Mon,  2 Sep 2024 10:23:44 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
- by mail.maildlp.com (Postfix) with ESMTPS id 050631A016C;
- Mon,  2 Sep 2024 10:17:22 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemh500013.china.huawei.com (7.202.181.146) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 2 Sep 2024 10:17:21 +0800
-Message-ID: <b493404f-9f7e-6f90-893e-84ff2bcb0170@huawei.com>
-Date: Mon, 2 Sep 2024 10:17:20 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH -next] drm/imagination: Use memdup_user() helper
-Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- <frank.binns@imgtec.com>, <matt.coster@imgtec.com>,
+ by mail.maildlp.com (Postfix) with ESMTPS id F0C2D1800FE;
+ Mon,  2 Sep 2024 10:24:38 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Sep
+ 2024 10:24:38 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <frank.binns@imgtec.com>, <matt.coster@imgtec.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240831103047.99499-1-ruanjinjie@huawei.com>
- <74dfe952-2055-4152-90c6-ac9cc42fcad9@wanadoo.fr>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <74dfe952-2055-4152-90c6-ac9cc42fcad9@wanadoo.fr>
-Content-Type: text/plain; charset="UTF-8"
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH -next v2] drm/imagination: Use memdup_user() helper
+Date: Mon, 2 Sep 2024 10:33:00 +0800
+Message-ID: <20240902023300.1214753-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.109.254]
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,71 +53,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Switching to memdup_user(), which combines kmalloc() and copy_from_user(),
+and it can simplfy code.
 
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Suggested-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+v2:
+- Add suggested-by.
+- Simplify the code.
+---
+ drivers/gpu/drm/imagination/pvr_context.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-On 2024/8/31 18:48, Christophe JAILLET wrote:
-> Le 31/08/2024 à 12:30, Jinjie Ruan a écrit :
->> Switching to memdup_user(), which combines kmalloc() and
->> copy_from_user(),
->> and it can simplfy code.
->>
->> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> ---
->>   drivers/gpu/drm/imagination/pvr_context.c | 22 +++++++---------------
->>   1 file changed, 7 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/imagination/pvr_context.c
->> b/drivers/gpu/drm/imagination/pvr_context.c
->> index eded5e955cc0..e75fd50a4d9f 100644
->> --- a/drivers/gpu/drm/imagination/pvr_context.c
->> +++ b/drivers/gpu/drm/imagination/pvr_context.c
->> @@ -69,27 +69,19 @@ process_static_context_state(struct pvr_device
->> *pvr_dev, const struct pvr_stream
->>       void *stream;
->>       int err;
->>   -    stream = kzalloc(stream_size, GFP_KERNEL);
->> -    if (!stream)
->> -        return -ENOMEM;
->> -
->> -    if (copy_from_user(stream, u64_to_user_ptr(stream_user_ptr),
->> stream_size)) {
->> -        err = -EFAULT;
->> -        goto err_free;
->> -    }
->> +    stream = memdup_user(u64_to_user_ptr(stream_user_ptr), stream_size);
->> +    if (IS_ERR(stream))
->> +        return PTR_ERR(stream);
->>         err = pvr_stream_process(pvr_dev, cmd_defs, stream,
->> stream_size, dest);
->> -    if (err)
->> -        goto err_free;
->> +    if (err) {
->> +        kfree(stream);
->> +        return err;
->> +    }
->>         kfree(stream);
->>         return 0;
->> -
->> -err_free:
->> -    kfree(stream);
->> -
->> -    return err;
->>   }
-> 
-> It could also be:
->      err = pvr_stream_process(...);
-> 
->      kfree(stream);
-> 
->      return err;
-> 
-> as you did for drivers/gpu/drm/imagination/pvr_job.c.
+diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/imagination/pvr_context.c
+index eded5e955cc0..98327f9bbd9c 100644
+--- a/drivers/gpu/drm/imagination/pvr_context.c
++++ b/drivers/gpu/drm/imagination/pvr_context.c
+@@ -69,24 +69,12 @@ process_static_context_state(struct pvr_device *pvr_dev, const struct pvr_stream
+ 	void *stream;
+ 	int err;
+ 
+-	stream = kzalloc(stream_size, GFP_KERNEL);
+-	if (!stream)
+-		return -ENOMEM;
+-
+-	if (copy_from_user(stream, u64_to_user_ptr(stream_user_ptr), stream_size)) {
+-		err = -EFAULT;
+-		goto err_free;
+-	}
++	stream = memdup_user(u64_to_user_ptr(stream_user_ptr), stream_size);
++	if (IS_ERR(stream))
++		return PTR_ERR(stream);
+ 
+ 	err = pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, dest);
+-	if (err)
+-		goto err_free;
+-
+-	kfree(stream);
+-
+-	return 0;
+ 
+-err_free:
+ 	kfree(stream);
+ 
+ 	return err;
+-- 
+2.34.1
 
-You are right! that will be more clean.
-
-> 
-> CJ
-> 
->>     static int init_render_fw_objs(struct pvr_context *ctx,
-> 
-> 
