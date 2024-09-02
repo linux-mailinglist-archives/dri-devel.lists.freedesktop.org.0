@@ -2,58 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC07196832A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 11:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E579968341
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 11:32:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37DCE10E26F;
-	Mon,  2 Sep 2024 09:26:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5E7D10E276;
+	Mon,  2 Sep 2024 09:32:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aRhyJh5U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FX9XXTGU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51B5D10E26F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 09:26:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 06C335C1021;
- Mon,  2 Sep 2024 09:26:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C15E0C4CEC2;
- Mon,  2 Sep 2024 09:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725269174;
- bh=sTMVp/PlQaTLYPI7C29zRBRlIvVnGTN2r5Vf6SvpLlQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aRhyJh5U5+0ITuy0LZyPBbTxEhnBFUdwQBxCu2N73+hAlybvhOduiC71m6QzRwA2T
- 9a2sTDjKQ3pfkTl3ujwbqBT3OXN8RS0Vp6wGagqQvmkFTregaWmIxIzNr99LuNO5lC
- Fmba6HybWjIZYmy5jMBFp9I012cLJr5UaNNMpUr7St43scdMi3u9uJxULzgmeznwxM
- NvVyJ0ZAqVDBUh5d8UrJG6Mv8G7lNdyvVgyNyt22Dhr9dq98UuzeZK4xSg2tBKbX5+
- vHGxRcJ9wcwDER6bgYyqk4/NXVOXwea7AVn5tAD27ACLNTUIVtAO1G4VQ2DzThsNAx
- IASQXU0oO5CcA==
-Date: Mon, 2 Sep 2024 11:26:11 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/mipi-dsi: Fix devm unregister & detach
-Message-ID: <20240902-refined-smooth-mammoth-fbee81@houat>
-References: <20240619-dsi-devres-fix-v1-1-a5c59310a52e@ideasonboard.com>
- <20240626-gabby-ladybug-of-freedom-08e6eb@houat>
- <66ab4206-d1c8-4aad-99a7-c4c316e343a9@ideasonboard.com>
- <20240626-warping-nondescript-mustang-bfce27@houat>
- <b7cf71b8-76fd-4638-a7b6-cc8dbae635bf@ideasonboard.com>
- <20240702-bold-exotic-mamba-fdbba4@houat>
- <7293448e-e8cc-4522-b39c-5ad133e5f732@ideasonboard.com>
- <20240725-natural-giga-crane-d54067@houat>
- <4ed3791f-bc5a-46f1-88e1-2441c7f9c8d4@ideasonboard.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4E4510E277
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 09:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725269544; x=1756805544;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=vvWZEZ6qZ8OD+HQtruckzZ5u8YapWIkwBoQSy1nJc5k=;
+ b=FX9XXTGUPZFrcR0O3RVRX7PTGjVnISI7o1aK+yrfgefifad03xVLDcE7
+ /xunywXb0nvdDmBL2sApfUte6YjYFRxbspx4wOvBiAqbo4GdPgfWyZ4M3
+ Gd1gUe+ieYEvvnDQW2M+NlgS6kt2d1oMcutLrwojeNOBltzO686iR133F
+ IThLLXLfT12iHPWMOuaJ46c/xeWaTqX2xhdfPIvCfz5mqjpqTc/TaVHG1
+ f6vMDFpS2Li8Lax9Ax1CotryOnxWwDevLcGWMsifgA7Q9JccA6/8TaVN/
+ hFJ80gmrcy0E17Oad+OmAtjBP9MzAwDJF4zZHtfAGBbfXHDqQYD4iM2Pp g==;
+X-CSE-ConnectionGUID: FZE4EtNDTuOtyN2NoL8tIQ==
+X-CSE-MsgGUID: BKpPu6xrRW6dhA8KVS/A8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="26745093"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; d="scan'208";a="26745093"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2024 02:32:23 -0700
+X-CSE-ConnectionGUID: +qAmpj7nSyqX+ewj0owl5Q==
+X-CSE-MsgGUID: I1GbNqO4TFO8g5jU9dKTKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; d="scan'208";a="95268241"
+Received: from mlehtone-mobl.ger.corp.intel.com (HELO [10.245.244.77])
+ ([10.245.244.77])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2024 02:32:20 -0700
+Message-ID: <440d041982f7f232f0ce3284bed4db391adb05c1.camel@linux.intel.com>
+Subject: Re: [git pull] drm fixes for 6.11-rc6
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>, Alex Deucher
+ <alexdeucher@gmail.com>, lingshan.zhu@amd.com, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, Matthew Brost <matthew.brost@intel.com>
+Date: Mon, 02 Sep 2024 11:32:17 +0200
+In-Reply-To: <CAPM=9txF4+rC_CXQTftPctUd0N37t306YKcV3oKPjz+_zQGqag@mail.gmail.com>
+References: <CAPM=9tzX71UKndfu8JECMOzc9kf4s4pp9cWTMWwE476cQXt_Yw@mail.gmail.com>
+ <CAHk-=wijFJM9MHvwGSS4ADs8ncRagrXYi2E9SvhK8coMH32D7A@mail.gmail.com>
+ <CAPM=9txF4+rC_CXQTftPctUd0N37t306YKcV3oKPjz+_zQGqag@mail.gmail.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ryjmwhav26o25m53"
-Content-Disposition: inline
-In-Reply-To: <4ed3791f-bc5a-46f1-88e1-2441c7f9c8d4@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,188 +79,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---ryjmwhav26o25m53
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, Aug 07, 2024 at 03:19:23PM GMT, Tomi Valkeinen wrote:
-> On 25/07/2024 14:28, Maxime Ripard wrote:
-> > On Mon, Jul 15, 2024 at 11:32:34AM GMT, Tomi Valkeinen wrote:
-> > > On 02/07/2024 14:43, Maxime Ripard wrote:
-> > > > Hi Tomi,
-> > > >=20
-> > > > On Wed, Jun 26, 2024 at 06:53:40PM GMT, Tomi Valkeinen wrote:
-> > > > > On 26/06/2024 18:07, Maxime Ripard wrote:
-> > > > > > On Wed, Jun 26, 2024 at 12:55:39PM GMT, Tomi Valkeinen wrote:
-> > > > > > > On 26/06/2024 11:49, Maxime Ripard wrote:
-> > > > > > > > Hi,
-> > > > > > > >=20
-> > > > > > > > On Wed, Jun 19, 2024 at 12:07:48PM GMT, Tomi Valkeinen wrot=
-e:
-> > > > > > > > > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard=
-=2Ecom>
-> > > > > > > > >=20
-> > > > > > > > > When a bridge driver uses devm_mipi_dsi_device_register_f=
-ull() or
-> > > > > > > > > devm_mipi_dsi_attach(), the resource management is moved =
-to devres,
-> > > > > > > > > which releases the resource automatically when the bridge=
- driver is
-> > > > > > > > > unbound.
-> > > > > > > > >=20
-> > > > > > > > > However, if the DSI host goes away first, the host unregi=
-stration code
-> > > > > > > > > will automatically detach and unregister any DSI peripher=
-als, without
-> > > > > > > > > notifying the devres about it. So when the bridge driver =
-later is
-> > > > > > > > > unbound, the resources are released a second time, leadin=
-g to crash.
-> > > > > > > >=20
-> > > > > > > > That's super surprising. mipi_dsi_device_unregister calls
-> > > > > > > > device_unregister, which calls device_del, which in turn ca=
-lls
-> > > > > > > > devres_release_all.
-> > > > > > >=20
-> > > > > > > Hmm, right.
-> > > > > > >=20
-> > > > > > > > If that doesn't work like that, then it's what needs to be =
-fixed, and
-> > > > > > > > not worked around in the MIPI-DSI bus.
-> > > > > > >=20
-> > > > > > > Well, something causes a crash for both the device register/u=
-nregister case
-> > > > > > > and the attach/detach case, and the call stacks and debug pri=
-nts showed a
-> > > > > > > double unregister/detach...
-> > > > > > >=20
-> > > > > > > I need to dig up the board and check again why the devres_rel=
-ease_all() in
-> > > > > > > device_del() doesn't solve this. But I can probably only get =
-back to this in
-> > > > > > > August, so it's perhaps best to ignore this patch for now.
-> > > > > > >=20
-> > > > > > > However, the attach/detach case is still valid? I see no devr=
-es calls in the
-> > > > > > > detach paths.
-> > > > > >=20
-> > > > > > I'm not sure what you mean by the attach/detach case. Do you ex=
-pect
-> > > > > > device resources allocated in attach to be freed when detach ru=
-n?
-> > > > >=20
-> > > > > Ah, never mind, the devres_release_all() would of course deal wit=
-h that too.
-> > > > >=20
-> > > > > However, I just realized/remembered why it crashes.
-> > > > >=20
-> > > > > devm_mipi_dsi_device_register_full() and devm_mipi_dsi_attach() a=
-re given a
-> > > > > device which is used for the devres. This device is probably alwa=
-ys the
-> > > > > bridge device. So when the bridge device goes away, so do those r=
-esources.
-> > > > >=20
-> > > > > The mipi_dsi_device_unregister() call deals with a DSI device, wh=
-ich was
-> > > > > created in devm_mipi_dsi_device_register_full(). Unregistering th=
-at DSI
-> > > > > device, which does happen when the DSI host is removed, does not =
-affect the
-> > > > > devres of the bridge.
-> > > > >=20
-> > > > > So, unloading the DSI host driver causes mipi_dsi_device_unregist=
-er() and
-> > > > > mipi_dsi_detach() to be called (as part of mipi_dsi_host_unregist=
-er()), and
-> > > > > unloading the bridge driver causes them to be called again via de=
-vres.
-> > > >=20
-> > > > Sorry, that's one of the things I don't quite get. Both functions a=
-re
-> > > > exclusively(?) called from I2C bridges, so the device passed there
-> > > > should be a i2c_client instance, and thus the MIPI-DSI host going a=
-way
-> > > > will not remove those i2c devices, only the MIPI-DSI ones, right?
-> > >=20
-> > > Yes.
-> > >=20
-> > > > So if we remove the host, the MIPI-DSI device will be detached and
-> > > > removed through the path you were explaing with the i2c client ling=
-ering
-> > > > around. And if we remove the I2C device, then devm will kick in and=
- will
-> > > > detach and remove the MIPI-DSI device.
-> > >=20
-> > > Right.
-> > >=20
-> > > > Or is it the other way around? That if you remove the host, the dev=
-ice
-> > > > is properly detached and removed, but there's still the devm actions
-> > > > lingering around in the i2c device with pointers to the mipi_dsi_de=
-vice
-> > > > that was first created, but since destroyed?
-> > > >=20
-> > > > And thus, if the i2c device ever goes away, we get a use-after-free?
-> > >=20
-> > > Hmm, I'm not sure I understand what you mean here... Aren't you descr=
-ibing
-> > > the same thing in both of these cases?
-> > >=20
-> > > In any case, to expand the description a bit, module unloading is qui=
-te
-> > > fragile. I do get a crash if I first unload the i2c bridge module, an=
-d only
-> > > then go and unload the other ones in the DRM pipeline. But I think mo=
-dule
-> > > unloading will very easily crash, whatever the DRM drivers being used=
- are,
-> > > so it's not related to this particular issue.
-> > >=20
-> > > In my view, the unload sequence that should be supported (for develop=
-ment
-> > > purposes, not for production) is to start the unload from the display
-> > > controller module, which tears down the DRM pipeline, and going from =
-there
-> > > towards the panels/connectors.
-> > >=20
-> > > Of course, it would be very nice if the module unloading worked perfe=
-ctly,
-> > > but afaics fixing all that's related to module unloading would be a
-> > > multi-year project... So, I just want to keep the sequence I describe=
-d above
-> > > working, which allows using modules while doing driver development.
+On Mon, 2024-09-02 at 08:13 +1000, Dave Airlie wrote:
+> On Fri, 30 Aug 2024 at 12:32, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
 > >=20
-> > FTR, I'm all for supporting module unloading. The discussion above was
-> > about what is broken exactly, so we can come up with a good solution.
+> > On Fri, 30 Aug 2024 at 14:08, Dave Airlie <airlied@gmail.com>
+> > wrote:
+> > >=20
+> > > The TTM revert is due to some stuttering graphical apps probably
+> > > due
+> > > to longer stalls while prefaulting.
+> >=20
+> > Yeah, trying to pre-fault a PMD worth of pages in one go is just
+> > crazy talk.
+> >=20
+> > Now, if it was PMD-aligned and you faulted in a single PMD, that
+> > would
+> > be different. But just doing prn_insert_page() in a loop is insane.
+> >=20
+> > The code doesn't even stop when it hits a page that already
+> > existed,
+> > and it keeps locking and unlocking the last-level page table over
+> > and
+> > over again.
+> >=20
+> > Honestly, that code is questionable even for the *small* value,
+> > much
+> > less the "a PMD size" case.
+> >=20
+> > Now, if you have an array of 'struct page *", you can use
+> > vm_insert_pages(), and that's reasonably efficient.
+> >=20
+> > And if you have a *contiguous* are of pfns, you can use
+> > remap_pfn_range().
+> >=20
+> > But that "insert one pfn at a time" that the drm layer does is
+> > complete garbage. You're not speeding anything up, you're just
+> > digging
+> > deeper.
+
+
 >=20
-> Does that mean that you're ok with the patch, or that something should be
-> improved?
+> I wonder if there is functionality that could be provided in a common
+> helper, by the mm layers, or if there would be too many locking
+> interactions to make it sane,
+>=20
+> It seems too fraught with danger for drivers or subsystems to be just
+> doing this in the simplest way that isn't actually that smart.
 
-No, I meant that at the very least the commit log needs to be updated to
-reflect what is actually going on, because at least my understanding of
-it doesn't match what actually happens.
+Hmm. I see even the "Don't error on prefaults" check was broken at some
+point :/.
 
-We want a solution to the problem you're facing, but it's not clear to
-me what the problem is exactly at this point, so it's hard to review a
-solution.
+There have been numerous ways to try to address this,
 
-Maxime
+The remap_pfn_range was last tried, at least in the context of the i915
+driver IIRC by Christoph Hellwig but had to be ripped out since it
+requires the mmap_lock in write mode. Here we have it only in read
+mode.
 
---ryjmwhav26o25m53
-Content-Type: application/pgp-signature; name="signature.asc"
+Then there's the apply_to_page_range() used by the igfx functionality
+of the i915 driver. I don't think we should go that route without
+turning it into something like vm_insert_pfns() with proper checking.
+This approach populates all entries of a buffer object.
 
------BEGIN PGP SIGNATURE-----
+Finally there's the huge fault attempt that had to be ripped out due to
+lack of pmd_special and pud_special flags and resulting clashes with
+gup_fast.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZtWEswAKCRAnX84Zoj2+
-dqYWAYDMPWZSBEwFfMOv3MeoMjjbST7pAGaFb7GVqgJ2IsSq7NaN1ImJ2BxrXPYH
-KEliCLMBfjPrZZcjvBkpvMSANpKsOasFN6I0WP1hifYShh1mIdLw7nK0hYmbUVCt
-ql80NKzRBA==
-=db07
------END PGP SIGNATURE-----
+Perhaps a combination of the two latter if properly implemented would
+be the best choice.
 
---ryjmwhav26o25m53--
+/Thomas
+
+>=20
+> Dave.
+
