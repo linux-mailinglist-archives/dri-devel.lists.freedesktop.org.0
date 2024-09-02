@@ -2,83 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DF2968E69
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 21:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42FA968E7A
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 21:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF8A10E3A7;
-	Mon,  2 Sep 2024 19:20:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9824A10E3B7;
+	Mon,  2 Sep 2024 19:37:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Z0pnexfn";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="fdrLS3+P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E841910E3A7
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 19:20:16 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5343617fdddso7791023e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 12:20:16 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B908E10E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 19:37:55 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-5334c4cc17fso6410660e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 12:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725304815; x=1725909615; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mUGAXK1hKOV3+wB8uekRhtvLfY66UbI/02mitVxdOs0=;
- b=Z0pnexfnJ825h1UN6rdZdd9KZ8Bx2+rNm8uhTAgEwL6tvZLf0LcPi3cTI+yfe9yr/a
- chC3Ip3JAdrFFG4Ezxs0nsc6uifDOl72SxZfL2Huh7fGev2bMJ/0+ta4RY4sQ6PJYb1N
- vYUThQpvIBTO9NZTK8jT6sq/odiBx0xhulXBMyKgYsY4QEpLa9aPE9vrXbI6cO3uDQwY
- hGyIXYvPGVNZVmgHz7XDMGVyzVfB5hSHfC+ieKZ7zfAZ8aOQcHEZIzzjHBbtd38mM8Ru
- jDtWCJtw6UQeY6kXH8CeKfGOY8SdpTARcAaplrS/7O7BaqHeRavsbXoJjmltw0yQXSrv
- kvUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725304815; x=1725909615;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=linux-foundation.org; s=google; t=1725305873; x=1725910673;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mUGAXK1hKOV3+wB8uekRhtvLfY66UbI/02mitVxdOs0=;
- b=ak9pQQHdRkzmf7mLw2FcWKIqrVG6VVFVViGkBGi6eFYBgDWfytYsZ/GF+xy8QfB73u
- QMs7yhIs0KZG4jmyjCp3L6bHdw9ZUfQpOPbbiOZgj/M2uH0EW1ckF47zQZUxbZdxtQ23
- 4LX23GivgDyTWoPPltJ9u1fy8H/feWzfq9D1GC/lMqh5kyHqE+wkAL5wsdOCPC+uop1S
- 4SXZfI2CmiPvVvXB+7kTCOo79j3/hx0uwo2EKEO2n7UFfWof+lWglnq8mAa0jLP1ZYFF
- eWTYjoHLokY7ZhBqc5Udb8+nPHZcicLl12SUSRVlEcTJWkefQfoQwhTYvKXbuP+sKS7p
- WRNg==
+ bh=8kTkaMtZbTOFi94WeEiiNkDEjcRyVv3G+OkzuX2Kg7Q=;
+ b=fdrLS3+Pw62NyKMGVvbw5l1Mnc2adsMu4bCyXvP52gT5VejATOSotynuGSAe/4cHYx
+ 8y2mVC0ChhoTcZe8o7io2mI78Qx07BdXxGLultKuEpqqVYQAfLLBE8IfxO7jU9PZ3AuK
+ Uph1NwDVdeM/oMMLgxjKJZx7kxxQl2j+9ZsPM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725305873; x=1725910673;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8kTkaMtZbTOFi94WeEiiNkDEjcRyVv3G+OkzuX2Kg7Q=;
+ b=Z8KVNrsfK6lmDYlDqMfA+RiiIfBWXoiCIdV8k8AHm77Yt5EJUMuaeYWCMSrQKfSm/m
+ obg6nqWKGEJp9jF09rSFQuWRL7fgPcZwrivj6p15fpMF36VxByvhH13+25RHpcfrvq2y
+ RCa73CaZNZzFcylaRXZBJovsA5V7fIwaWGukH7e9X0m3Ft9eSAkSaAYdidTuvxlyzsu3
+ Rwx3yNFYRjD1HJoVcjVwSRkrXkuVPe7Jvn+2nPzUm7rF3TlQFt7w5TMRTP+eGGmDAFtA
+ O8zWeVPqnvYWB2phaIvqxOzJkBCLJ11yOvU7Ij0b5FBl6ttTqDJFL4lptQ4tnleCcSHt
+ Hxnw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5I79jxbW0vP+noRrSvQE4OZ3S9w+Eb6TAKVQZKawcnX9dt5j5cBt2sJfo0tkGUz3kJoxSoogQjek=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDRkPUU1gIScAFBMPysj1zJiYipT3EYWgQ2aPZbBqPKHuF4K/3
- p2p0D2An7eyoj/QzQ3aygL3A618cN322ViqU6oOvPrSBL6sUIi4OPJPX7tcsC/Y=
-X-Google-Smtp-Source: AGHT+IGGo56pov4G+ai8zQD/ZYuRwqu3sLehEJovaHclSKmZPLCymGG8vHRMwdbvoarWm4cuSQl1jg==
-X-Received: by 2002:a05:6512:159d:b0:52f:cd03:a84a with SMTP id
- 2adb3069b0e04-53546bde0f1mr9344200e87.39.1725304814162; 
- Mon, 02 Sep 2024 12:20:14 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5354084ddd9sm1747449e87.256.2024.09.02.12.20.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2024 12:20:13 -0700 (PDT)
-Date: Mon, 2 Sep 2024 22:20:12 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
- Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH 13/21] drm/msm/dpu: Require modeset if clone mode status
- changes
-Message-ID: <zg3v3uoq2j6qqnqai4epdsdqdkd7tr36dfb3nbtggc2wrmhszl@dkfqbb2g6lun>
-References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-13-502b16ae2ebb@quicinc.com>
- <ZtW_S0j5AEr4g0QW@phenom.ffwll.local>
+ AJvYcCW/5IewFK8aD2QTA4vmWNjBk8a7SMcJtVNpPSETGhz28401bGowzgJc6D+T5qaIWAUjTJlegpN7daY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxV3XhnL+wnlrxbNGZ0SKSS97AwG6YYJO8eas86wetLx4oeZe16
+ 4+ZDr3IzbOMWzilxq+row+k8DWWV0t1k52HZ24Xi+o9mwhrLe94UcYg4XSCSZF+PaM7XzyBl7oJ
+ CdoMhAg==
+X-Google-Smtp-Source: AGHT+IEF9CDikq/N6MM6kMzBiWMiHGhtwNTvEldu9LhjkwuTHGL+clJ4fNTRvgAknF1laYxJlRalkA==
+X-Received: by 2002:a05:6512:31d4:b0:52c:90b6:170f with SMTP id
+ 2adb3069b0e04-53546b3e37cmr9627394e87.29.1725305872512; 
+ Mon, 02 Sep 2024 12:37:52 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com.
+ [209.85.208.50]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a898900f6b9sm593033666b.76.2024.09.02.12.37.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Sep 2024 12:37:51 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5c26852af8fso816334a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 12:37:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXOmYDTxKJl4EsavAE+riJm7cit772hNfrnzkaIK5Imr3O/3bpJhGwPPTgERBr+DLFbu2c3ZBShAAw=@lists.freedesktop.org
+X-Received: by 2002:a05:6402:348f:b0:5be:ed8c:de7 with SMTP id
+ 4fb4d7f45d1cf-5c21ed3e14bmr12483998a12.11.1725305871261; Mon, 02 Sep 2024
+ 12:37:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZtW_S0j5AEr4g0QW@phenom.ffwll.local>
+References: <CAPM=9tzX71UKndfu8JECMOzc9kf4s4pp9cWTMWwE476cQXt_Yw@mail.gmail.com>
+ <CAHk-=wijFJM9MHvwGSS4ADs8ncRagrXYi2E9SvhK8coMH32D7A@mail.gmail.com>
+ <CAPM=9txF4+rC_CXQTftPctUd0N37t306YKcV3oKPjz+_zQGqag@mail.gmail.com>
+ <440d041982f7f232f0ce3284bed4db391adb05c1.camel@linux.intel.com>
+ <5c493bd5-e657-4241-81d7-19ccd380b379@amd.com>
+In-Reply-To: <5c493bd5-e657-4241-81d7-19ccd380b379@amd.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 2 Sep 2024 12:37:34 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wivPvBbaTnKgdH84gtWD-VXUD529L8t8-BxhPEwJvY+4w@mail.gmail.com>
+Message-ID: <CAHk-=wivPvBbaTnKgdH84gtWD-VXUD529L8t8-BxhPEwJvY+4w@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 6.11-rc6
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>, 
+ lingshan.zhu@amd.com, Matthew Brost <matthew.brost@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,108 +101,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 02, 2024 at 03:36:11PM GMT, Daniel Vetter wrote:
-> On Thu, Aug 29, 2024 at 01:48:34PM -0700, Jessica Zhang wrote:
-> > If the clone mode enabled status is changing, a modeset needs to happen
-> > so that the resources can be reassigned
-> > 
-> > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > index 1b0cc899e8c1..99eaaca405a4 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > @@ -1306,6 +1306,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-> >  	int rc = 0;
-> >  
-> >  	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
-> > +	bool clone_mode_requested = drm_crtc_in_clone_mode(crtc->state);
-> > +	bool clone_mode_enabled = drm_crtc_in_clone_mode(crtc_state);
-> >  
-> >  	/* there might be cases where encoder needs a modeset too */
-> >  	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
-> > @@ -1313,6 +1315,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-> >  			crtc_state->mode_changed = true;
-> >  	}
-> >  
-> > +	if ((clone_mode_requested && !clone_mode_enabled) ||
-> > +			(!clone_mode_requested && clone_mode_enabled))
-> > +		crtc_state->mode_changed = true;
-> 
-> So two things, and kinda about the overall patch series:
-> 
-> - msm is confused about crtc_state->mode_changed, e.g. it sets it if
->   crtc_state->active_changed, which is wrong. Or msm dpu code doesn't use
->   drm_atomic_crtc_needs_modeset() correctly.
+On Mon, 2 Sept 2024 at 03:34, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> Am 02.09.24 um 11:32 schrieb Thomas Hellstr=C3=B6m:
+> >
+> > The remap_pfn_range was last tried, at least in the context of the i915
+> > driver IIRC by Christoph Hellwig but had to be ripped out since it
+> > requires the mmap_lock in write mode. Here we have it only in read
+> > mode.
 
-This seems to be a leftover from prehistoric times and it should be
-removed or reworked. I'll take a look during the next development cycle.
+Yeah, that does make things much more fragile. The "fill in multiple
+pages" helpers are really meant to be used at mmap() time, not as some
+kind of fault-around.
 
-> 
-> - changing crtc_state->mode_changed from your crtc or plane callbacks
->   means you cannot use drm_atomic_helper_check directly, but need to roll
->   your own that calls drm_atomic_helper_check_modesets again as needed.
->   See the kerneldoc comment for drm_atomic_helper_check_modesets()
-> 
-> - the same holds if you set mode_changed from your encoder or bridge
->   functions, but I think this doesn't apply here for this patch.
+So remap_pfn_range() sets the vma flags etc, but it also depends on
+being the only one to fill in the ptes, and will be *very* unhappy if
+it finds something that has already been filled in.
 
-Yes. But we have it already in dpu_encoder.c. And we didn't notice that.
+And fault-around is *much* more fragile because unlike the mmap time
+thing, it can happen concurrently with other faults, and you cannot
+make assumptions about existing page table layout etc.
 
-We have the code in dpu_encoder.c which makes sure that the hardware
-resources get reallocated if required. As we already have code in
-msm_atomic.c which sets mode_changed for this purpose (before calling
-drm_atomic_helper_check()) it might simply make sense to add pre-check
-callbacks to msm/dpu encoder. I will try working on that during or after
-the LPC if Abhinav doesn't pick up that issue.
+> The pre-faulting was increased because of virtualization. When KVM/XEN
+> is mapping a BO into a guest the switching overhead for each fault is so
+> high that mapping a lot of PFNs at the same time becomes beneficial.
 
-In the end we still have debt regarding the allow_modeset in
-msm_atomic_check(), I remember.
+Honestly, from a pure performance standpoint, if you can just do all
+the page mapping at mmap() time, that would be *much* much better.
 
-> 
-> I think it'd be really good to
-> 
-> - review existing kerneldoc and please submit patches where it's not clear
->   or detailed enough
-> 
-> - add checks to the atomic helper code to catch this. I think the best way
->   would be to check if drm_atomic_crtc_needs_modeset() changes outside of
->   areas where the helper code allows it already (essentially connector
->   functions setting ->connectors_changed), and set a new
->   drm_atomic_state->dirty_needs_modeset. Which
->   drm_atomic_helper_check_modeset would clear, and which would result in a
->   WARN_ON in drm_atomic_check if it's not yet cleared when the driver
->   returns with success.
-> 
->   Otherwise there's just no way I think to make sure drivers get this
->   right.
-> 
-> Can I please sign you up for these patches?
+Then you can easily use that remap_pfn_range() function, and latencies
+are much less of an issue in general (not because it would be any
+faster, but simply because people don't tend to use mmap() in
+latency-critical code - but taking a page fault is *easily* very
+critical indeed).
 
-Ack.
-
-Thanks a lot for pointing out the issue!
-
-> 
-> Thanks, Sima
-> 
-> > +
-> >  	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
-> >  		rc = dpu_crtc_assign_resources(crtc, crtc_state);
-> >  		if (rc < 0)
-> > 
-> > -- 
-> > 2.34.1
-> > 
-> 
-> -- 
-> Simona Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- 
-With best wishes
-Dmitry
+                Linus
