@@ -2,158 +2,218 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908F39689BA
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 16:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A72969409
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 08:45:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9620110E30F;
-	Mon,  2 Sep 2024 14:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 288F310E37C;
+	Tue,  3 Sep 2024 06:45:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NyH5pP7J";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="P4Xt4NVu";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="P4Xt4NVu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C923110E30F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 14:18:41 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+ (mail-am7eur03on2066.outbound.protection.outlook.com [40.107.105.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1E110E31B
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 14:29:33 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=vVyGmElmdE2TZdIdLR54bAL4//gSYXQl2TGBJHgtEhGo2aWk7L2tW/aRKdRZcFBnTBzwn0534G1lClm061QpLYPivwPrciz422bEKuZMf1OtU0i2ZhLieWNBGHIJPiO7PjbX6Mh2K7fNTriszmu4bpDJ0KDNixHKqdXeslyg4cR/Dfr3UUmB6x8ARzFnzXky7wP1i/r+trFhjw3tTikRa2MsPTO2FKbrR+zZ2K/5TYvGHF2GMsyVdMUPkngyWij4Gi6f0N/x5cbexu43op2Vn10VzTqbDpHmfPSl9NcPLvmRoNO/us6k4ypVBt8RJVFpFQ3YRniYDuesbGxCxwduRw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0xLL2EmQBrxT6GqXW4tWEVD+e4YeZUot2UHJVn+PGpU=;
+ b=mzbsQpZMLLxYHegsw6pkZN/xBl+ae+TYiElhVhNKeYXyfkJSWBfLR9Ps0iUydYdUmr2PMUdZa6PDGjkwrZkhrDtLLsd88VyMOb3bBPi0Y4zRTkajkJwWBumSBuhDsxoyLI9y/o+AOQMLFL2w8E0AKDCvzOOO5KiszzvKIvItd47KN7Qs3tgw0SSSLWGAoqfNKoN6PUYqoAhA4sBvZqI5Ba2i9td6q7YtWQHO/q/SboGynw0DSMYS9eYFozdIxOztyEeP+0Sj26/T4PHeEORHCqbqcAYL2ZKl1az61umgDn1KWGhXYIJVRtzJU3vW8Po1UYAtQPxZrH6pS8ayamXK8w==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0xLL2EmQBrxT6GqXW4tWEVD+e4YeZUot2UHJVn+PGpU=;
+ b=P4Xt4NVutTXy8HctqBNBweTWiG7woxUMShM31kkuTaeTLXUNyUtk7YjZb1z7omqEywVjbv1YlwnO02gWf3xUvR8RXigjrWFNxldw638lEdmwYjGJI1TLc2BlptMzVz7yB5ZNbQ+yBPZK20pSfVVTeKAwrrKmjJkhVBBrKehaejk=
+Received: from DU6P191CA0036.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:53f::23)
+ by AM8PR08MB5666.eurprd08.prod.outlook.com (2603:10a6:20b:1de::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Mon, 2 Sep
+ 2024 14:29:27 +0000
+Received: from DU2PEPF00028D0E.eurprd03.prod.outlook.com
+ (2603:10a6:10:53f:cafe::6e) by DU6P191CA0036.outlook.office365.com
+ (2603:10a6:10:53f::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25 via Frontend
+ Transport; Mon, 2 Sep 2024 14:29:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DU2PEPF00028D0E.mail.protection.outlook.com (10.167.242.22) with
+ Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7918.13
+ via Frontend Transport; Mon, 2 Sep 2024 14:29:26 +0000
+Received: ("Tessian outbound 901f45c3f9e8:v403");
+ Mon, 02 Sep 2024 14:29:26 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 84335adf86dc4128
+X-CR-MTA-TID: 64aa7808
+Received: from Lea1b76cc5504.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 6878B68A-5520-446D-AC34-B9B43DC54BC6.1; 
+ Mon, 02 Sep 2024 14:29:20 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
+ Lea1b76cc5504.1 (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Mon, 02 Sep 2024 14:29:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZECGuxJdQeqjlzLPRQHQZ4sw5VRCZQ20OrKW1kfwQGegTADNsyhA4QLruiP+bmI+weKuFdwAHB4USLXA7tFpvaEnFhX7kJYXZ7+mXRMev65e2wTvs3cQ60AJCybWP4PVhU6ZA/UgHiyD1woQ4dM4hAmOptM1ME33XAPUgZYB8VIXmF4m11haqUEfB12AOC3/szIh7ASrdNGbbtAgxhV9RkvSOX69oG8bKn4YVEQiWb97Mt3nVk9KMjta/NPq3pbrjz7J08hVogBHC55Qz4eJ1+04xyJPDe5kzwQEsH/ILx0TlVPQ+goiOWnIUY8iaqZyjGNsOrxn0B3qrmLNwuBNMw==
+ b=i1cAK05zpJGHpM6KbZhHXxkWIWxgby4Tim6Vh7pQvjG1ir6NdRnN8ltadl9sXtTUI41bL/VDBHjXzXtoZR9qLJSoH75gdnvc77+OgbT6C8PyI5jgEKmaNpPj+ihEFEQusitEmsa5m9S1pRl+75z4p8znVyRZ/nonqE+I4jjHbQTzFTvRXvEnQUMPuKL7HEb/9XpwPaGZu9vjjYDN8pK2sm5RN4AdGWhauWVjcz/Q/yTaYKTWYn86JPYX8vzqooX8KnO6WAYRtDi+Whl/cFM1cf4+Vdx9a3j6h2qHfXXKvt/eJUJMSAZCOXMrN+A9cEnwxOGEm+H/tw8fG3X+4Qcevw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F+zeijo/qt/9nP755Krs0oynkQ5zbD8UmNt393P/svI=;
- b=fj+LttUiB7ZOBXgrVBkQvVlxlMnjHTVBt/AKugFAQeXi4pvOUS1p2GPk6drRQhjSo4U20PMUaYvrb7kVJApOBnUIzsMGX9ETpKNAgqqbvcNI9kg2KF2mbU6ouAg6lOKh48uwuommJbkXWBk8uYwYW+Qw+nuMjueyZmDQmTaLnq60dIafp2ivHaX0sCyGIIvJyWYmMON1bMNhgEpWXQXOlZi2wx/y071qqckzjveSr5A/Xpb0gf405oAxPS9+7VX6DOpIQDrdOk1D4Ybs/qQKF7x1t3VG1wuwO3tdHEexh6MUnPnjI/xezP6Bl9+pUyuSM4Rmjxbz4UDWZ1BVdzwYRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=0xLL2EmQBrxT6GqXW4tWEVD+e4YeZUot2UHJVn+PGpU=;
+ b=ZDmJNrueBh6tP+6ztHTG+Wl7mRgTANHlCcbPkiV/XHXzmlEiFkyJC7b0PLjXaopeQkcs+HvEDHmFkhKgA6qc2UPOVzErJPLeBP9Kt0JDglq7NAoffyJxqg9jzqkntsMnmQzWgLWvOA15iNGBPoS0ipuwhr7tcLfUbjWtEu05kST4H+kE+J2cLruWmR+zDtfz4wugVx2HvpbizFmloT9a7fSH/hXjMGoifh4MtS2uVEQ8EHw18INrGzfrB7kyS/cUNH8INKsoT/ejiHAAGxlZ27ZlLD4/bJq2xxJBIDCugTSAKqfKHucU1c9ICAEAVx2DdlafzQ+1g1FSfo/QCA4XTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 40.67.248.234) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com; 
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F+zeijo/qt/9nP755Krs0oynkQ5zbD8UmNt393P/svI=;
- b=NyH5pP7J9jtD4RIPtRHDd8a9XxmIflz8OR0UBxXHf1rzlUa5L2GHenI6wuAx/lI3DtV+dWNUprCMqNPi/kjHrGoYzhJhnZvOLiyMsJFFfRzmeaTAl0DA8IwloDj3pRXQyk2KWXVUgiJGS7VI5vM7gN+uLmfBUnh7bjqTxKrv4i0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB5977.namprd12.prod.outlook.com (2603:10b6:208:37c::22)
+ bh=0xLL2EmQBrxT6GqXW4tWEVD+e4YeZUot2UHJVn+PGpU=;
+ b=P4Xt4NVutTXy8HctqBNBweTWiG7woxUMShM31kkuTaeTLXUNyUtk7YjZb1z7omqEywVjbv1YlwnO02gWf3xUvR8RXigjrWFNxldw638lEdmwYjGJI1TLc2BlptMzVz7yB5ZNbQ+yBPZK20pSfVVTeKAwrrKmjJkhVBBrKehaejk=
+Received: from DB8PR06CA0036.eurprd06.prod.outlook.com (2603:10a6:10:100::49)
+ by AM0PR08MB5410.eurprd08.prod.outlook.com (2603:10a6:208:182::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Mon, 2 Sep
- 2024 14:18:39 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Mon, 2 Sep 2024
- 14:18:39 +0000
-Message-ID: <b6185b8e-148a-494e-a336-e4290c38b700@amd.com>
-Date: Mon, 2 Sep 2024 16:18:33 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/sched: Fix a UAF on drm_sched_fence::sched
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- kernel@collabora.com, Luben Tuikov <ltuikov89@gmail.com>,
- Danilo Krummrich <dakr@redhat.com>
-References: <20240829171238.609481-1-boris.brezillon@collabora.com>
- <bdc018b8-3732-4123-a752-b4e0e7e150dc@amd.com>
- <ZtI9EMzHZW3DkHw/@DUT025-TGLU.fm.intel.com>
- <710b6946-ce8e-42ed-8df6-aa76bf0d5f3f@amd.com>
- <ZtW8aiIhBA5KBLR6@phenom.ffwll.local>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZtW8aiIhBA5KBLR6@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0240.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e9::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.23; Mon, 2 Sep
+ 2024 14:29:17 +0000
+Received: from DB5PEPF00014B9E.eurprd02.prod.outlook.com
+ (2603:10a6:10:100:cafe::17) by DB8PR06CA0036.outlook.office365.com
+ (2603:10a6:10:100::49) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25 via Frontend
+ Transport; Mon, 2 Sep 2024 14:29:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 40.67.248.234)
+ smtp.mailfrom=arm.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 40.67.248.234 as permitted sender) receiver=protection.outlook.com;
+ client-ip=40.67.248.234; helo=nebula.arm.com; pr=C
+Received: from nebula.arm.com (40.67.248.234) by
+ DB5PEPF00014B9E.mail.protection.outlook.com (10.167.8.171) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7918.13 via Frontend Transport; Mon, 2 Sep 2024 14:29:17 +0000
+Received: from AZ-NEU-EXJ01.Arm.com (10.240.25.132) by AZ-NEU-EX03.Arm.com
+ (10.251.24.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 2 Sep
+ 2024 14:29:15 +0000
+Received: from AZ-NEU-EX03.Arm.com (10.251.24.31) by AZ-NEU-EXJ01.Arm.com
+ (10.240.25.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 2 Sep
+ 2024 14:29:14 +0000
+Received: from e122338.kfn.arm.com (10.50.2.57) by mail.arm.com (10.251.24.31)
+ with Microsoft SMTP Server id 15.1.2507.39 via Frontend Transport;
+ Mon, 2 Sep 2024 14:29:12 +0000
+From: Yulia Garbovich <yulia.garbovich@arm.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <liviu.dudau@arm.com>, <rosen.zhelev@arm.com>, Yulia Garbovich
+ <yulia.garbovich@arm.com>
+Subject: [PATCH v2] drm: drm_fourcc: adding 10/12/14 bit formats
+Date: Mon, 2 Sep 2024 17:29:10 +0300
+Message-ID: <20240902142910.2716380-1-yulia.garbovich@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB5977:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b714524-a1ca-493b-1e86-08dccb5a23e2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 1
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B9E:EE_|AM0PR08MB5410:EE_|DU2PEPF00028D0E:EE_|AM8PR08MB5666:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50012445-78fa-4d05-5dff-08dccb5ba5b5
+x-checkrecipientrouted: true
+NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TWJNTUlVUllPTW5sNXI5NUk3RHFFeU1hUy93SmtuRTNHamdNQXNYc0dRRHJC?=
- =?utf-8?B?YXBNdm1YV1orLzd5cmZUSjN4dXQ0cCtTaW5uYWdXVUFHZDRJR1BEZW5QMEZK?=
- =?utf-8?B?WGpRanhlTWQwS3l2ZGFGeWl6eFN4QmFTL0ljVDg0aE5XNDlpZi91c0JSU2Zz?=
- =?utf-8?B?ak10c2dyNml6dE1HUE9ralpvQmJlR2FiY1NFODZUaWYybUY4SDhuclhCSGI4?=
- =?utf-8?B?VUo2VXNqY0ZXVG0xTkRNYStGbVUySU02cy82d0tNQ3NxMjVaWjB3c2JOZWp0?=
- =?utf-8?B?SGJtSXRtbWI5K1lhdjRRbExSNCt0OURZYUlTWDFlbE9FSEx3RnhzUzlTa3dk?=
- =?utf-8?B?ZERBOFRQS2U3a2pBaVVjWS9YUE5WTUloaEY2THN5SW5sSTRPMFJuaEpjdnFR?=
- =?utf-8?B?OTJMUUh6bVAvVmRoVTBKcFNWSHZBc2pzVTRYaWdBM2N3T3labUtCekhYUXlP?=
- =?utf-8?B?eUllK3dSSjlOTmlUYUV1cUcycllTNWFFY2c2MDE2cDdtSi9qeUY1NFhRT3VD?=
- =?utf-8?B?MEhLVDNXS1kwWmk4Q0h3bzJPbjREbXJDamc1eFRWTE5QVzVuZkJoajJJRkdD?=
- =?utf-8?B?bGpFcFN5TDdEdWlTUFBYNEJBbjFkZ1NzNS9KK0tPajNOcnFYVlI0ZU1jM3pv?=
- =?utf-8?B?eVFCbmNSY3RnNXhiSXBsenBGOHMrRkFnbnhZWWcxRVIyNkhrcllRaHdmZlg0?=
- =?utf-8?B?QTNVU1R2RHRFUjdCaEpIcnRNU3k0RDAwSlRUWTJjRUxQZHphSU1yRE9DNmc5?=
- =?utf-8?B?MmFNa3V2a2JYN0pCdWtyam1KUGRjT1dyL05MVCs5cjdKbkNPckpZRjRvYS9V?=
- =?utf-8?B?ajNqUXZDb1hYZ2NLR2l6STdhZXlwQldEOHVNeDdHK0ovbU53V3VOeTA4K24r?=
- =?utf-8?B?YjNtdG4wR0pwNFRLdmpwZjBPS1FEWkJ5SXhHSElnZ1NPa2JSak8wZkNPQXNL?=
- =?utf-8?B?S1U3NjFYdWo5MFlzN09BcEszUy9DQWRoVXhySmFWVi8zOHorTVVVbjlNY1Nu?=
- =?utf-8?B?OVRYUUtudXpGZTVDUEg3ZlhUbjVydkZicnNEMS96YlRyOEhhK3k3blRBTUJ0?=
- =?utf-8?B?bnFyZElidldTNktTYjQ5WnVsWWxvSVpES0pYemZZK1lnYlVVWEpHdHhkTEhh?=
- =?utf-8?B?b1pzbkszcitINzJhdE9pbGJaVEp1YzhuSzlJeDBJbHNGYmJWTlJpSU92Skw4?=
- =?utf-8?B?a2VUQUFjOThvWnFtTTd6RVkwTkJxSUl6STdxTWpzSXdFazNuTzlHbTdYWWx2?=
- =?utf-8?B?Nm1BcDJLVTI4eTlFZGt6TjREYU13SmwreHp1bUkySVEvWVRFRGY1WCt4LzVp?=
- =?utf-8?B?Tmp3RmRrdElwcldUNDdiZ29OSmsrTDIxWGVYN2RzVXRPNW95NXVCWmFyOU5w?=
- =?utf-8?B?dXFGUWlzbzhsdjMvY2dYOThsbE14UGgwdHluVmJwb2xUaFJFdFM0SHV1MGdC?=
- =?utf-8?B?cXRmTjE3QndtVGZiVFNBQTRrc3hUL3YxM0oybVNQNmlUczg4UGZ0eVFCY3ZW?=
- =?utf-8?B?a3lKalJLZW5ySElnZTRaU3F0VUpLRWtJT0xuQjBOSFBjUFdFUTZTdGVKTE5U?=
- =?utf-8?B?OGxXaVZQSDNXd0FRd1d3dG5qOTZiQUpkZGNad0hkNWNVd2FIUFJ5R2hzamhj?=
- =?utf-8?B?UzBEVkQ4MXRxZlp1M21Zb2lNTXNiRUpFYmJ5R0hpRjRlZWc4Ym5HQTd3YkhO?=
- =?utf-8?B?MFdFajZPbUlsbWJEUTZDeHl5Tk9IUGZkZnMySnBUeUJkRGVPMTBVeVh0RmdY?=
- =?utf-8?B?Y2VEQjZVTjNnd1YvVkZIUWVxalZQaUxnNWxLOVQ5ZXdDdWFZejhHcFFmMW1P?=
- =?utf-8?B?K2JYSCtFTWQwZ1JzTkxTQT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VnRJcytnRDhPdmFZQVJ6TU9YZWFTbXdtVTg4MTlIOElxWGQ2OElhNFYrblhp?=
- =?utf-8?B?M2RhdGNIZkR5V0lTMjFyLzVyU1JmVzNMcTlLQUxOVklUSlFnbmp0eTd5S2hU?=
- =?utf-8?B?d3I1QmViMjh0cGtHU3NCUWxNR1VTenpxWTBFbU1FWEhpQVlFc2xpeElWWnYw?=
- =?utf-8?B?TFZUWEMzWFhYaXVOUzkvSEswbHNnYXVtUnNkcHpNWjlVT3J5NEVTN0NMeVlY?=
- =?utf-8?B?Q3RBZkZMbERHK0JpUzV2WFBtNFVKZDdYOU9EL3pIS1d6SGhmb09TQWdaeTZj?=
- =?utf-8?B?VW1GLzJvZXdGSXdYNjRXbnJncUhleUlSbWdpeVhyRUtFN1lPaUF0Y01zdWNu?=
- =?utf-8?B?L2wvOFhIOU5Vc3d5V2J5c1dPcXFLVi83bHVVVml0UDd2UGpLWlAyWmovYTNH?=
- =?utf-8?B?OTg5YUl0WWNsUXc5Vmx6SFhuRWltcDZqRkUrMVh1RzB0cFZnekRPeEN4elZa?=
- =?utf-8?B?MDBVR1Nic2NEQ29UY3E1blFzWHBNR2loL0ZURGRHd09IOTRPdzNLSDI5ZzN4?=
- =?utf-8?B?ZytWQkZnUmlOWkFrS3B4WklDamEvemgvRTFzU1o1RG52SEtqdk5OeWNHS0VG?=
- =?utf-8?B?R2RieWgzWWFNNWZrN0VpRmcyMU53SE1WTHdpZEhJaXdHRHRvSVgyZkxBOWpm?=
- =?utf-8?B?WkQ5a010bUo2ckJjNitsTlg5dmQ0Tnh3ZTdwMzEyd2xGZkNMZ00vSHUwdUdz?=
- =?utf-8?B?N215d2RHc2xXL25ybmdxOGZiSFJBZVRPRXlmMC9ZOTF1c0lIMVNvNjh6ODZQ?=
- =?utf-8?B?SkNWWHhneURGNmo5SS83QWtSWTdVZTJWOW9vem5UcURJWmw0MktDOTM5b1JD?=
- =?utf-8?B?SDg3M2N1OERuTk03VjZycnYwdVI1N2JxQk5mTG9sN3kxY3ZRS3krUHRUWTRk?=
- =?utf-8?B?QnpoNGNXaXpBNndnc0wra2hVclZMZTNsYTRHUElwT3llN1l0L1VpZFVNYXAw?=
- =?utf-8?B?Ky8yMGJONDVPOW5XMk1NNExmWS9kaEl1SXNSbWVHOFBmVUpURVNjRWZqZnFi?=
- =?utf-8?B?MHJmTitKNWY4MkxrSk95UDBhanM3MVpIRmpCMWlTVzZibFlWQmJNeGUvc3Ax?=
- =?utf-8?B?WEdKQi8wV2NnMUd1WVRjR3dnSW5rd1ZXVkxzUE1IanV4c1BjbnpBbEp2Nkt4?=
- =?utf-8?B?a05LM2pySGp0aUhmM3dRMGFjRVkyY0pRRVYxNGpGbW1lYlMxeDJyUElsYm9r?=
- =?utf-8?B?OVVCQzNiWnJONXdwejJ4cWk3Ym1yOGdUMGlWanA2OWpyOUxMSmM1bXFCTG1E?=
- =?utf-8?B?dlhIZlNnZWFqSkpONDZFZmdlUzh2QkJPYjRqUjh0N3JSVHk0dTBrMjdzVmZI?=
- =?utf-8?B?aU41QmJkdW1yeWdhVlZYZnBFaTNIZmhGTHprSmZlc0RhQTdYOWw2K21INS9D?=
- =?utf-8?B?TmlKZjVSOUdBcTJmOVlwRGlLRjBBeWlid1JBczkvSGF2c1N4WEFPOUJtSkY5?=
- =?utf-8?B?M3dHdEc5eCtHN09YVjdGYkYwckJxTWhqYkpVS1VZcVlDR0tLQnNQSzYzaEl2?=
- =?utf-8?B?QmFGaFJiK2JzbFA3MmYzWG1lWllJdFB2RStOQmtpRUNXd1oxUklyMEEwYk8x?=
- =?utf-8?B?QjNZQVROYmNvb2FkV25pVW5jaUdwTGNnVjRiaER1eDRWQ3lyVCtvZldQaVY3?=
- =?utf-8?B?SkZldGhjVUJ5bWNVZVhCamNCYjN4OTlEd2pLVFhKdkdpREV1T04zU0hWdGxa?=
- =?utf-8?B?S2xneVk4VitzZHdqNlFCVFZ6UUNBQ0pFa0RDVEYyYlkvQWRZajRrVlh6VnJU?=
- =?utf-8?B?SHFYVmRDc3NmNmo0VDBwY2E2V2JOc3U1a2FodngwbEljbU5BNVUycnI1Wlk0?=
- =?utf-8?B?MUQxVUlhR1AvNllhc0ptYmFwWEVSb1ZJamwzTXkzYUJ2VzlaM3dwSjBidDdY?=
- =?utf-8?B?UUpSUUFsaDErWFpFNFcvczdZQ1owNzZMdW11QVQ4MW1PMVZEMGdsNFVUOVBv?=
- =?utf-8?B?ajlXVlVEeE96dExENW5mN3NCcCt4ZkM3RmhhWjhabFZIQkJWK1JxenV0Z1Jt?=
- =?utf-8?B?dzUxK1RXUm5xYXRWdXZFQ1VmaWwrVk5EQzFyRXNka3NUU0E4UktPaElQdWJN?=
- =?utf-8?B?S1gxR2VqZVNRa29VdnZycXdiREw5TUJ6ZHI0RzNORjg3UzNSY1FrcnZSVkcv?=
- =?utf-8?Q?FT/A=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b714524-a1ca-493b-1e86-08dccb5a23e2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 14:18:39.0558 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fa7j4yULMeKe5q2w54XlGnj6gkufcueB1Af1Agljr2aC6bqb6eoX/kaqb/oDsCu7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5977
+X-Microsoft-Antispam-Untrusted: BCL:0;
+ ARA:13230040|36860700013|1800799024|82310400026|376014; 
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?KeOJf5FBCJTFEJMh+7qKntCOxoqjkOAM+gLni0oI644oi5wY5OfrSSTKCWZh?=
+ =?us-ascii?Q?7UJzvyDxWuYUBbUlpCg31fFZXLwCv2uWT84lOtLfu0LbkkbNXkpMwicVMrkT?=
+ =?us-ascii?Q?AdmFR9AwfU9Ign0NShA6pYR3wO7Fo/d05thpACMsaAx6Pr0L86HfOT8vBo6r?=
+ =?us-ascii?Q?iXm2EStmKJhDVWIWyx4mWfG0P9xEv0lbv0ls5hzl5e+g014acIFOIAgA9VW8?=
+ =?us-ascii?Q?xTB55eJ1OHKGJaL79VY9oUXZb37EtNRDicGOkMaWWsP6oqKvIqJjJSSnE4S6?=
+ =?us-ascii?Q?fkadHBz6lSB9wiaRcj63KQjuS7To+U4zh4RSol7nYA1k9cV7tDFM3G5LOLeM?=
+ =?us-ascii?Q?INwTOUUV7Oxw3GsXB1klet50lBnZbgcgjeJ1FzrcBdVshA+adTf7TDUqOWbM?=
+ =?us-ascii?Q?9w7YN2gb00zrjnMLGmtgERJBvZ3PUHBmaFZ4I+7rP8fY2gAX0kVL288xgvur?=
+ =?us-ascii?Q?KsJS3U8WAVQql6e35rp0JE3EGAgNr+Rgva6Q9RVBvcgoAxYBT9FfO5EtolZk?=
+ =?us-ascii?Q?k19/cycYY6bT9yibPNJogM1lOVwMxIseYKC0M6zFHuV2t3NsQ2jxIvhuvoSM?=
+ =?us-ascii?Q?OHKJoNsheW/bQaG3A15fTmcPYDznwvBNAnF/DvYm2aItlYQMpLAY2ySb7Hdd?=
+ =?us-ascii?Q?YsTQv4tXDW59xmCRZalzIDWwQpMGBIosVabMnjcXmOPXVOn6mlflUDGdw8Nz?=
+ =?us-ascii?Q?IXcH1bdlgAldRdwJUk6i17hNz1R3kpFAHJMg3fdzwDAtNWANH1Q+HRQO0bWa?=
+ =?us-ascii?Q?nzUddiGN04n+OzmD1psh1KSLbUQT3UqGTvnfJ+Gi1jkgabRRlIWo3Aqm9xjz?=
+ =?us-ascii?Q?gxbAXsc9tk0giCxeV6nQiV5XDQ6GhCc4v4fqhgF5eVn24/9wnnJCY4/nSnoi?=
+ =?us-ascii?Q?4JD+s4Mfi6yHNICL0h/txpy7y4EGw6LHg62lM6thinLxb4TXP5+Xrp+ni65R?=
+ =?us-ascii?Q?0XB/nYk5Pa4qEGnBfcvfKs13QDAEsBKBJWJP3YmwmoKfms6B0KAZAlXHCL7g?=
+ =?us-ascii?Q?t+bCTDFQudYvmy+m3XaXAl4uX7rzaT+sRwO0j0GjNNU2lgMyoOScydxYt8uh?=
+ =?us-ascii?Q?0yCKVKsMTVktYuw9j4giLGLpy3ABq7EcOiE2vRsGom2EDAmGuaOr8UklTdNK?=
+ =?us-ascii?Q?RaZfNc/cHnBxTYIIPkDfdPR71v5uI471j71Qk+kUs73vd84PPEO1HdorvjEM?=
+ =?us-ascii?Q?TKwdUkQ9ql8ZOfwWnPDg4JCdPZQGwtMlX7az26M0UaQLEZTAzzRrg893I206?=
+ =?us-ascii?Q?L2JOCVJkMKSxmpSGRLWY4b22nuWa9lreuUutQnxLN+MvclAYAaEOp4DsCrkK?=
+ =?us-ascii?Q?mCKo3CykSiXDbzfiHPuqdNgcxwVYRmdf3RZEnC+wn4kmHYobyTKLLvIa9TJ6?=
+ =?us-ascii?Q?Wix25ehxzS3OzCQH71Y+UM6lfM8gyLUJt+DyE+S57Onskl5WeT7LuIH8CLMz?=
+ =?us-ascii?Q?LUk3rxke8fTcV9IbyzibHsdIMVudBnQo?=
+X-Forefront-Antispam-Report-Untrusted: CIP:40.67.248.234; CTRY:IE; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:nebula.arm.com; PTR:InfoDomainNonexistent;
+ CAT:NONE; SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5410
+X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:10:100::49];
+ domain=DB8PR06CA0036.eurprd06.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU2PEPF00028D0E.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: db327067-e1fd-4dd5-1706-08dccb5ba03f
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|1800799024|35042699022|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?l/HCTm61TycqeIdCapMogH6pCeFhCqyAJOB0l3GYRDgPoOlIZ6IpBTaaljeO?=
+ =?us-ascii?Q?3i/8058rFzBY72dXads7ts2K+b3DxGNOAcKpeWatK8imEH3LswOKN6pbC6+/?=
+ =?us-ascii?Q?uTGVePoh+Rc6gv30uE8GQgX4xoycAnpOgzbJ+Jbpm/tsqFFwfG7XdWwbUrJn?=
+ =?us-ascii?Q?I0KImIfU1PL5A4ErUq88FsollJs0qnipt+i4dtdnPPWvVxzksinHiG8uu5zb?=
+ =?us-ascii?Q?l5eFoVBHZ5+36yVP3YzvICUEYh3F1pJENTBA9ZuUYopMdouO6L1NYEDDOBP6?=
+ =?us-ascii?Q?Dm8nU7DD+mQvvZWfpaHXUti9weMZtTj0/QRiCqwM11Lw9007AHFqTpo5iPxj?=
+ =?us-ascii?Q?np5IKV/EFE/Vpfn1a6Z7IpFdWqLNbgTZFzcLJGIwnc9p1B4vpnfzj/Siq/if?=
+ =?us-ascii?Q?Xfjja9R7wSYmjwkig6aw0ceFN0cVgidqF9rrWA9uKNlHC4T2fkV6qzyQNFca?=
+ =?us-ascii?Q?DZ41q2Hh55hogpzRV6J6MdOaXY4bWvr48dcimptkLxw4rrSg+5nKKLzq60YW?=
+ =?us-ascii?Q?n2AfUrLYonxHdIMj5Vq9AbSekX3hb0h2KhnSb9Mgi/fxAWOAeLizp+2/1qIV?=
+ =?us-ascii?Q?HDA8W1l+7lsbqn+hivn6D3PTV6YT5UtxKRnLx8xFrHl1sbSx4GTXYlS+ZAhh?=
+ =?us-ascii?Q?wEwgKZeuprn4FzqzbUx22ZpyJLxTHgqvMCWkZ+Z9+z9eAOd1GJnELSlABSvs?=
+ =?us-ascii?Q?VxtIJlLqE+CkHRRgIZXnKkiTlsPRDuu56ZwuLtMVHCDbtjkr7LvVZAxzKDNo?=
+ =?us-ascii?Q?31HQ1Cst5E3s2YF1LWl0xAxy4KNNMwB4Xax3tNU+ssFRADAbFaBu7GT/OnTu?=
+ =?us-ascii?Q?37jZrQYExDeq03fJsqSj61aXUHGDj9rIuEJUFi/mIj2WfH+oCv/6KscJV+W/?=
+ =?us-ascii?Q?mjrP5G3Z+HCTCsCy9O3/x2AllCe9DZpXZcmDogessBgspjq/ZXCKMJuapPoW?=
+ =?us-ascii?Q?bd/pDU9qVLBHrHOq3KPgm1LizXWSThwr/om+xSbjKKtg/5In4Xrhf/kLrrSW?=
+ =?us-ascii?Q?chhwhji5U/wXb3FSbukhP6LCb25WlQ3e5+UHaEBFaCuU6saT7pLw5sPlxZd3?=
+ =?us-ascii?Q?j8w6r8bqysP4ksirsAl2yxUcN69FBLVlBCoFCsfgrX8gvnLM0YtUoIPwhs8n?=
+ =?us-ascii?Q?EEuhxBy3MiLaCuBNOpUzFRt5QBDAmHmeesr2tk55gDGdKPRS+l8fS5CncBhA?=
+ =?us-ascii?Q?ZeHvGHLEpCnAZKDwLPOUkZGur17IrCQzI4KIzQgSUlRA5+xhHKsx8qJuFt2D?=
+ =?us-ascii?Q?U6t6a5fZkALc4lwrc2wFCkBvHeZQX+cCkwhy8MuiRPVzg7I7Sr9od69bfYYW?=
+ =?us-ascii?Q?Vzv3JioInDhpjSuX6UPBNGixOLaRTJJrgyNRRC7nmD8Uc+SB9DlcF4xAN65A?=
+ =?us-ascii?Q?SoaR2NGgx7ArXmDjpy61zfwU67UlOwqQ+odJuxmt6tZHMBr3v2kSVp6FF0jN?=
+ =?us-ascii?Q?/YoxMXm9/yYLxBK+C5+YdmjKZp/NgUML?=
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(1800799024)(35042699022)(36860700013);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 14:29:26.2200 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50012445-78fa-4d05-5dff-08dccb5ba5b5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D0E.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5666
+X-Mailman-Approved-At: Tue, 03 Sep 2024 06:45:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,126 +229,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.09.24 um 15:23 schrieb Daniel Vetter:
-> On Mon, Sep 02, 2024 at 12:43:45PM +0200, Christian König wrote:
->> Am 30.08.24 um 23:43 schrieb Matthew Brost:
->>> On Fri, Aug 30, 2024 at 10:14:18AM +0200, Christian König wrote:
->>>> Am 29.08.24 um 19:12 schrieb Boris Brezillon:
->>>>> dma_fence objects created by an entity might outlive the
->>>>> drm_gpu_scheduler this entity was bound to if those fences are retained
->>>>> by other other objects, like a dma_buf resv. This means that
->>>>> drm_sched_fence::sched might be invalid when the resv is walked, which
->>>>> in turn leads to a UAF when dma_fence_ops::get_timeline_name() is called.
->>>>>
->>>>> This probably went unnoticed so far, because the drm_gpu_scheduler had
->>>>> the lifetime of the drm_device, so, unless you were removing the device,
->>>>> there were no reasons for the scheduler to be gone before its fences.
->>>> Nope, that is intentional design. get_timeline_name() is not safe to be
->>>> called after the fence signaled because that would causes circular
->>>> dependency problems.
-> So I don't think knowlingly crashing in debugfs is ok. debugfs can break
-> stuff like secure boot, and if you go about things very wrongly it can
-> upset the kernel (like touching pci mappings from userspace can). But just
-> going boom due to a race essentially means debugfs is unusable. Because
-> there's no way to avoid the boom with dma_fence:
->
-> - they're guaranteed to signal in finite time (unless driver bugs)
->
-> - the moment they've signalled looking too closely at them is undefined
->    behaviour.
->
->>> I'm quite sure happens, ftrace for example can and will call
->>> get_timeline_name in trace_dma_fence_destroy which is certainly after
->>> the fence is signaled. There are likely other cases too - this just
->>> quickly came to mind.
->> Good point, completely forgotten about ftrace.
->>
->>>> E.g. when you have hardware fences it can happen that fences reference a
->>>> driver module (for the function printing the name) and the module in turn
->>>> keeps fences around.
->>>>
->>> I am almost positive without this patch this problematic in Xe or any
->>> driver in which schedulers are tied to IOCTLs rather than kernel module.
->>>
->>> In Xe 'fence->sched' maps to an xe_exec_queue which can be freed once
->>> the destroy exec queue IOCTL is called and all jobs are free'd (i.e.
->>> 'fence' signals). The fence could be live on after in dma-resv objects,
->>> drm syncobjs, etc...
->>>
->>> I know this issue has been raised before and basically NACK'd but I have
->>> a strong opinion this is valid and in fact required.
->> I've NACK'd automatically signaling pending fences on destruction of the
->> scheduler (that reminds me that I wanted to add a warning for that) and
->> copying the name into every scheduler fence.
->>
->> As long as we don't do any of that I'm perfectly fine fixing this issue. The
->> approach of creating a reference counted object for the name looks rather
->> valid to me.
->>
->> Especially since we then pretty much get the module references correct for
->> free as well.
-> So I think the issue is much, much bigger, and there's more. And the
-> issue is I think a fundamental design issue of dma_fence itself, not
-> individual users.
+Adding the following formats
+     - DRM_FORMAT_RX106
+     - DRM_FORMAT_GXRX106106
+     - DRM_FORMAT_RX124
+     - DRM_FORMAT_GXRX124124
+     - DRM_FORMAT_AXBXGXRX124124124124
+     - DRM_FORMAT_RX142
+     - DRM_FORMAT_GXRX142142
+     - DRM_FORMAT_AXBXGXRX142142142142
 
-IIRC both Alex and me pointed out this issue on the very first dma_fence 
-code and nobody really cared.
+They are useful for communicating Bayer data between ISPs and GPU by emulating GL_R16UI and GL_RG16UI formats
 
->   I think at the core it's two constraints:
->
-> - dma_fence can stick around practically forever in varios container
->    objects. We only garbage collect when someone looks, and not even then
->    consistently.
->
-> - fences are meant to be cheap, so they do not have the big refcount going
->    on like other shared objects like dma_buf
->
-> Specifically there's also no refcounting on the module itself with the
-> ->owner and try_module_get stuff. So even if we fix all these issues on
-> the data structure lifetime side of things, you might still oops calling
-> into dma_fence->ops->release.
->
-> Oops.
+Signed-off-by: Yulia Garbovich <yulia.garbovich@arm.com>
+---
+ drivers/gpu/drm/drm_fourcc.c  |  8 +++++
+ include/uapi/drm/drm_fourcc.h | 61 +++++++++++++++++++++++++++++++++--
+ 2 files changed, 67 insertions(+), 2 deletions(-)
 
-Yes, exactly that. I'm a bit surprised that you realize that only now :)
-
-We have the issue for at least 10 years or so and it pops up every now 
-and then on my desk because people complain that unloading amdgpu crashes.
-
-> I think the complete solution is if we change this code all so that core
-> dma-fence.c code guarantees to never ever again call into any driver code
-> after dma_fence_signal has been called, and takes over the final kfree_rcu
-> itself. But that's a giantic change. But I think it's the only way to
-> really fix this mess:
->
-> - drivers will clean up any of their own references in a timely fashion,
->    so no more accidentally lingering gpu context or vms and the bo they
->    have mapped lying around.
->
-> - there's no lifetime or other use-after-free issues anywhere for fences
->    anymore
->
-> Downside is that some of the debugging stuff becomes a bit less useful.
-> But e.g. tracepoints could just dump the timeline once at creation or when
-> signalling, and so you don't need to dump it anymore when freeing. And a
-> signalled fence is generally not a problem anymore, so in a compositor
-> that's also all fine (iirc you can get at some of this stuff through the
-> sync_file interfaces too).
->
-> The other downside is that it's a huge pile of work, but I don't think we
-> can get to an actually solid design with less headaches and pain ...
->
-> Thoughts?
-
-The alternative is to use the scheduler fence(s) to decouple hardware 
-fences from the containers. That would be rather cheap to implement.
-
-The only downside would be that the scheduler module probably keeps 
-loaded forever once used. But at least I can live with that.
-
-Regards,
-Christian.
-
->
-> Cheers, Sima
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 193cf8ed7912..cd5f467edfeb 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -170,6 +170,9 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_R8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_R10,		.depth = 10, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_R12,		.depth = 12, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_RX106,	.depth = 0,  .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_RX124,	.depth = 0,  .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_RX142,	.depth = 0,  .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_RGB332,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_BGR233,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_XRGB4444,	.depth = 0,  .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+@@ -200,6 +203,9 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_XBGR8888,	.depth = 24, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_RGBX8888,	.depth = 24, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_BGRX8888,	.depth = 24, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_GXRX106106,	.depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_GXRX124124,	.depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_GXRX142142,	.depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_RGB565_A8,	.depth = 24, .num_planes = 2, .cpp = { 2, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_BGR565_A8,	.depth = 24, .num_planes = 2, .cpp = { 2, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_XRGB2101010,	.depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1 },
+@@ -219,6 +225,8 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_ARGB16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_ABGR16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_AXBXGXRX106106106106, .depth = 0, .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
++		{ .format = DRM_FORMAT_AXBXGXRX124124124124, .depth = 0, .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
++		{ .format = DRM_FORMAT_AXBXGXRX142142142142, .depth = 0, .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_XRGB16161616,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_XBGR16161616,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_ARGB16161616,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 84d502e42961..7248b96ecf7e 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -146,6 +146,24 @@ extern "C" {
+ /* 12 bpp Red (direct relationship between channel value and brightness) */
+ #define DRM_FORMAT_R12		fourcc_code('R', '1', '2', ' ') /* [15:0] x:R 4:12 little endian */
+ 
++/*
++ * 1-component 16 bpp format that has a 10-bit R component in the top 10 bits of the word
++ * in bytes 0..1 with the bottom 6 bits of the word unused
++ */
++#define DRM_FORMAT_RX106	fourcc_code('R', '0', '1', '0') /* [15:0] R:x 10:6 little endian */
++
++/*
++ * 1-component 16 bpp format that has a 12-bit R component in the top 12 bits of the word
++ * in bytes 0..1 with the bottom 4 bits of the word unused
++ */
++#define DRM_FORMAT_RX124	fourcc_code('R', '0', '1', '2') /* [15:0] R:x 12:4 little endian */
++
++/*
++ * 1-component 16 bpp format that has a 14-bit R component in the top 14 bits of the word
++ * in bytes 0..1 with the bottom 2 bits of the word unused
++ */
++#define DRM_FORMAT_RX142	fourcc_code('R', '0', '1', '4') /* [15:0] R:x 14:2 little endian */
++
+ /* 16 bpp Red (direct relationship between channel value and brightness) */
+ #define DRM_FORMAT_R16		fourcc_code('R', '1', '6', ' ') /* [15:0] R little endian */
+ 
+@@ -157,6 +175,27 @@ extern "C" {
+ #define DRM_FORMAT_RG1616	fourcc_code('R', 'G', '3', '2') /* [31:0] R:G 16:16 little endian */
+ #define DRM_FORMAT_GR1616	fourcc_code('G', 'R', '3', '2') /* [31:0] G:R 16:16 little endian */
+ 
++ /*
++ * 2-component  32bpp  format that has a 10-bit R component in the top 10 bits of the word
++ * in bytes 0..1, and a 10-bit G component in the top 10 bits of the word in bytes 2..3,
++ * with the bottom 6 bits of each word unused.
++ */
++#define DRM_FORMAT_GXRX106106	fourcc_code('G', 'R', '1', '0') /* [31:0] G:x:R:x 10:6:10:6 little endian */
++
++/*
++ * 2-component  32bpp  format that has a 12-bit R component in the top 12 bits of the word
++ * in bytes 0..1, and a 12-bit G component in the top 12 bits of the word in bytes 2..3,
++ * with the bottom 4 bits of each word unused.
++ */
++#define DRM_FORMAT_GXRX124124	fourcc_code('G', 'R', '1', '2') /* [31:0] G:x:R:x 12:4:12:4 little endian */
++
++/*
++ * 2-component  32bpp  format that has a 14-bit R component in the top 14 bits of the word
++ * in bytes 0..1, and a 14-bit G component in the top 14 bits of the word in bytes 2..3,
++ * with the bottom 2 bits of each word unused.
++ */
++#define DRM_FORMAT_GXRX142142	fourcc_code('G', 'R', '1', '4') /* [31:0] G:x:R:x 14:2:14:2 little endian */
++
+ /* 8 bpp RGB */
+ #define DRM_FORMAT_RGB332	fourcc_code('R', 'G', 'B', '8') /* [7:0] R:G:B 3:3:2 */
+ #define DRM_FORMAT_BGR233	fourcc_code('B', 'G', 'R', '8') /* [7:0] B:G:R 2:3:3 */
+@@ -229,11 +268,29 @@ extern "C" {
+ #define DRM_FORMAT_ABGR16161616F fourcc_code('A', 'B', '4', 'H') /* [63:0] A:B:G:R 16:16:16:16 little endian */
+ 
+ /*
+- * RGBA format with 10-bit components packed in 64-bit per pixel, with 6 bits
+- * of unused padding per component:
++ * 4-component, 64bpp format that has a 10-bit R component in the top 10 bits of the word in bytes 0..1,
++ * a 10-bit G component in the top 10 bits of the word in bytes 2..3, a 10-bit B component in the top 10 bits of the word
++ * in bytes 4..5, and a 10-bit A component in the top 10 bits of the word in bytes 6..7,
++ * with the bottom 6 bits of each word unused.
+  */
+ #define DRM_FORMAT_AXBXGXRX106106106106 fourcc_code('A', 'B', '1', '0') /* [63:0] A:x:B:x:G:x:R:x 10:6:10:6:10:6:10:6 little endian */
+ 
++/*
++ * 4-component, 64bpp format that has a 12-bit R component in the top 12bits of the word in bytes 0..1,
++ * a 12-bit G component in the top 12 bits of the word in bytes 2..3, a 12-bit B component in the top 12 bits of the word
++ * in bytes 4..5, and a 12-bit A component in the top 12 bits of the word in bytes 6..7,
++ * with the bottom 4 bits of each word unused.
++ */
++#define DRM_FORMAT_AXBXGXRX124124124124	fourcc_code('A', 'B', '1', '2') /* [63:0] A:x:B:x:G:x:R:x 12:4:12:4:12:4:12:4 little endian */
++
++/*
++ * 4-component, 64bpp format that has a 14-bit R component in the top 14 bits of the word in bytes 0..1,
++ * a 14-bit G component in the top 14 bits of the word in bytes 2..3, a 14-bit B component in the top 14 bits of the word
++ * in bytes 4..5, and a 14-bit A component in the top 14 bits of the word in bytes 6..7,
++ * with the bottom 2 bits of each word unused.
++ */
++#define DRM_FORMAT_AXBXGXRX142142142142	fourcc_code('A', 'B', '1', '4') /* [63:0] A:x:B:x:G:x:R:x 14:2:14:2:14:2:14:2 little endian */
++
+ /* packed YCbCr */
+ #define DRM_FORMAT_YUYV		fourcc_code('Y', 'U', 'Y', 'V') /* [31:0] Cr0:Y1:Cb0:Y0 8:8:8:8 little endian */
+ #define DRM_FORMAT_YVYU		fourcc_code('Y', 'V', 'Y', 'U') /* [31:0] Cb0:Y1:Cr0:Y0 8:8:8:8 little endian */
+-- 
+2.34.1
 
