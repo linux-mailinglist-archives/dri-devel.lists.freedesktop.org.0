@@ -2,151 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D1F968581
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 12:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA567968589
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 13:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAE6E10E28B;
-	Mon,  2 Sep 2024 10:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 410D610E290;
+	Mon,  2 Sep 2024 11:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="R9G8an07";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DGkUbpSR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2073.outbound.protection.outlook.com [40.107.95.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB40110E28B
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 10:59:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GSkhylo6I6EbISzos6ceGEStgHnhGspBmb/twnOrqZ2rB2Rc2VarmN9Go8jAQj0cNM12FeWteMbo/U5HGMt+Ko305gYxhXjObzKb9C7vcQAWidwPXgxEcCXrlNVAtT5n5aghKEA6vtozYuKphFWxuJtvXwKyaeKrn/7CvWLNhoaXb6+v6XAxEu/oPvjmVcT32DXL9q50DguOrlPnA8H7iSmMRww2bkvbnP9lkQhUro3qKWrbJlT6cCKiiEA3Zm2hpX61W1aKoshjYEygWO+EFrhKuaTyv2By+PICowCscQE7iyn/YVUZg/s745Ns98b7CXILIltM3AmrLX6kotVeaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9pWR5kqpNNyIDb8q/ESY2km4aVujuNmSD+8VbDwbtEk=;
- b=tsZ6cHzxQlRccSjGoUPVlNrH2fa9e1Wdn9g+2UndslPl7ia3aMOG4hagdAFPWoA73M1JWuI9yTm2Mh5Xbk4jNh5JKRZvPwWlneuW7ZHeq2r3lsxY+/cPZiU3R8sIDvmsmhOJXIqUXrbGAz+0Ei0I5NT8Z60/+VAhYVnmQfyVXKa3/UgzZJqwsXOVjOIZiZiIXdD7lG1MlnN8gSx8l56q658U9hWCMgBXBFraWCa+yJRCN0sennVsHyNpWp1PKwgQpU8CoYBIqsyXMXKxvQe/GGly4tQZshHUoqCB1FcIyKmgCUxzcxLYDVcRA5fTPY5hNQxgchucgCiTYki335AKTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9pWR5kqpNNyIDb8q/ESY2km4aVujuNmSD+8VbDwbtEk=;
- b=R9G8an07j2oBD8U3EOeW72Iebd4huc7mkorsSIQLhNh9fXoIYv2Y9/vVbiYr6zETYh0rqUu7SkCG4daiJ3s1AwjnrnhwhkVFpRaZ6u3eG2VJF3RZFOc2HmIQsR/m3O1ixf1xMInLkGLtdPl7xHHWRUMgo39JNW7mKxMt6bxKXAg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN6PR12MB8541.namprd12.prod.outlook.com (2603:10b6:208:47a::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Mon, 2 Sep
- 2024 10:58:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Mon, 2 Sep 2024
- 10:58:59 +0000
-Message-ID: <f43f8310-8e5a-48fc-af44-949a78599de9@amd.com>
-Date: Mon, 2 Sep 2024 12:58:54 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/sched: Make sure drm_sched_fence_ops don't vanish
-To: Matthew Brost <matthew.brost@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Luben Tuikov <ltuikov89@gmail.com>, Danilo Krummrich <dakr@redhat.com>
-References: <20240830104057.1479321-1-boris.brezillon@collabora.com>
- <ZtJHg8JOPi7CVme+@DUT025-TGLU.fm.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZtJHg8JOPi7CVme+@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0106.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a3::16) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7205D10E290
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 11:00:49 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-374c2b0707fso919831f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 04:00:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1725274848; x=1725879648; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=9AbdFYp0oWoo5+QVAKEhIvqNpk//Miw7lQcs9E9X+oo=;
+ b=DGkUbpSRZlQIvsSrcWWKj+h3rIhcOJFV+U0NxhdcQM/8D/r4C/LD72Z/Wx5WLrfFI3
+ Dg/uynk5yBLXRbndn1RKIEQhvVZJxVUGg9lrLlppnKEmMavok6EOTjhi7ajv8PtIiXOd
+ IK5kQBhfYqNjWfjWFOf9fm6ciA5plSe5KzqIU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725274848; x=1725879648;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9AbdFYp0oWoo5+QVAKEhIvqNpk//Miw7lQcs9E9X+oo=;
+ b=Tp6xoNhY0t0fuiE7UkDUU0CcmF673fliMxnPUv37s58DJrCRuxELI6Ktts1f7f42+v
+ HdxQWOKd0rZx6NWItmU/uMKJ+BbCzll4f9AOcPM6qGcmg1qgv48ZO1r1NIXHLuFGyucU
+ wOZSEhHLVWBSg6z5BZS/U6hWRypkaXLrs4QMzVmR6WLlm9ND/38NYuwcaWTaszmYTmzl
+ Rxe9XkINv+T8RkzGlsZ7O6AJ8dXVZ2iv6DbRw/zM3QtCIqXNCGn/U3hwV8RFuSLvWR6t
+ E6EuNjORZRO52EA+N1DDWFHDyUCCMMbTZVOvH/Sq8r9wfhJvvn9Gyz8JW6yUklM2APGh
+ VTlA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEfyhDhSzr1KpX/T/GDLQY/9jtsnmE3km6f9mgd24CUGdsbCYf5uGfMgZ7/p8TBOKBcW5jkc/Di5M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxSLE5NNv79EiSabUH//wJ2TJhc1k48OO7LzPvLG3Csofh//2to
+ WdqfXENhB7SshbA7f75i9PKn+o3hKjuLMIBOHMrY8kEg394EycneTE/DlUxLe4E=
+X-Google-Smtp-Source: AGHT+IGvEGK4a7O8/4Zng62/s5d7t65zI7lTTvDmmdrrBwFd5OSyOubpMLXWwLShczkIPFKlSQd19g==
+X-Received: by 2002:adf:f188:0:b0:371:88e5:6d34 with SMTP id
+ ffacd0b85a97d-374c94554b1mr2290146f8f.7.1725274847507; 
+ Mon, 02 Sep 2024 04:00:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-374cef1e179sm1231825f8f.46.2024.09.02.04.00.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Sep 2024 04:00:47 -0700 (PDT)
+Date: Mon, 2 Sep 2024 13:00:44 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
+ header
+Message-ID: <ZtWa3HIJmWJbStB8@phenom.ffwll.local>
+References: <ZsNTTCfBCpZNrSQH@phenom.ffwll.local>
+ <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
+ <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
+ <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
+ <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
+ <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
+ <ZscDox5KoiNHXxne@phenom.ffwll.local>
+ <3afe3ab2-4a58-49a9-acd7-c989980c68f2@amd.com>
+ <Zs4EPT1DR7OrE5X-@phenom.ffwll.local>
+ <CADnq5_OD-eiuS38ePYErOUyUN1LcUjvyKPbQdoXjrGHNt8juRg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN6PR12MB8541:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e5e0260-0560-4750-a343-08dccb3e3f8b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?djFUWmcrZXUxZU02OCttZ0ExM3l5blV5c29qY3NqVUFaQnB1SVZabEVGSnEv?=
- =?utf-8?B?RlFneXdiVERRWDBCZlNGT2taSUI4RHVjUkJDRkVBZVFDK3FMeWJEQXp4RWwx?=
- =?utf-8?B?YVVjNTVaUEVBcHkyeFhOdDR2aHVGUHA2Nm9UakF6MTJ4WEhobjVLdU9yS2FF?=
- =?utf-8?B?S1hTSWtrN0FiRC9hc1FORTVYaTJ2VnovdDdyUXIxbU5PYmFOSU42SGZxNjk4?=
- =?utf-8?B?R3pCckxITlRkRXd0UkpsM2UycmlEanMrTWkwNjEycjFWZkh4aWNCY0tBTTNL?=
- =?utf-8?B?YjFwZkFZVjNZTWpHcEVoU3JTN1gySWNGUW9HekhPaXVGQ0xJdi9KTUVDcFE2?=
- =?utf-8?B?bU10M3VNUmgyTWM1VGtCYW5YcWIyVHNFSGRVMDc5R1ZWUWZwazRPcWo3V0NT?=
- =?utf-8?B?WWlBaGlzblVDSGJHQndqVXQ0aFVHYjhZamJocSsyZEllUXY3ay9JTlhvY0J2?=
- =?utf-8?B?VUpyR25EVnhkVE03NVdnSmJhVWVvOFl5NWRoMlpIYUp5RkF2aHZVWmxmcDlF?=
- =?utf-8?B?SzFwTUtxK2dkbG95T1pnK3UvQzVzNWg5R1NIOFFuSVIyaFFUbXhRU0l2U1J5?=
- =?utf-8?B?cDRtK0pERGtQWDYzSkpRcEtEeTdBWHdlWE9VU016blNQZFlBekd1OWlhRlhm?=
- =?utf-8?B?TE8rM2lETkh5Y0d2YlhZQkVrL3gyYUdPajVrdkU4Y1ZuTVJPWk5xYUdQSmtU?=
- =?utf-8?B?a3ArWVBlYktoUStjMHEyd2FndWI1T0NWMVBMSDdqOEpMQm5iSGRRSExPZHFD?=
- =?utf-8?B?cFpDUzMyazVSYWQ2L250N0toNnpXd1JDN0JabHR2VXRXTUNONEN2cnJsbExp?=
- =?utf-8?B?S3RydUlHNGIvTnlEWmEvZzJKN0VZTCtTamVyZFRtc1hFZ3Fmd2R3MHpGMmFp?=
- =?utf-8?B?TTRPWDhnTG81VC81MjZPQkVHK3lHd2NmbHgremFGZFhrc3JlSFROUVdLaHk1?=
- =?utf-8?B?NGFQU2c5VFhIdmdTbHc1a09JbmU4NVI5QXI2K0VwcytpdUdBUWhKejBiOHUz?=
- =?utf-8?B?akc5Sjl4R0NZaDEycTBYOEJkMGZDS1hqQUExWmRPUmlKZlRESWdSZUZVMEd2?=
- =?utf-8?B?SDIyREZhNTZ6MHFSYmM2L1IrOEgxOUw1dmVPU0QrWGhkdmh2cFJuc1VDbzRn?=
- =?utf-8?B?QTFKOHNmZEdCZ05nT05FT2FTeVFUQnNtUG5TdTl1cTJpK3V4V25MMG5YN3VB?=
- =?utf-8?B?RVNYeHo3d1FocFJ4ZDZ4SlE2SmdDdFlkLzB6MldmTG9uZ1owWmI1WGN1VURa?=
- =?utf-8?B?WHFOUkFNTUIzTUlmaVBBTWxkL3lxQ0pmV1lybFh0c1BlMUZENFg2TGtVMDYr?=
- =?utf-8?B?OUxCS05XYTAwMDQyY0ZVWC9mVTlPd01sVGp5aWg4Nk9LZ0YxczYvS1pRWHc3?=
- =?utf-8?B?RGplMmx4UmxOdTdwd0o1QmJ2dkY0UUFrYk50T0pYTm5lYW1LdEdMd3c3ay9x?=
- =?utf-8?B?VTNoYk1MNHd4bGxnU3J0WEhqMStkeTZ1T3RVbzI2a2hzT1E4NEJTekl3WVBE?=
- =?utf-8?B?eUloMzJQMERHMFlJVExKaURQeDgxa2VIRktzWWVUaklmR0VVTm5YR2dXWWFs?=
- =?utf-8?B?SThaYW9GN0lPcXZpTUV5bmhkOFVIdjluSGhrNkhxVmJZUG56VG1GOGU1YzB0?=
- =?utf-8?B?ZzVEUnU1UVlsRC8yOEhpMDZsRHdtWlo4WG1kamJ3cVVLUzhYcXVVOTI5Q2hO?=
- =?utf-8?B?VWQ1cVBvWWF5azB2RVFVNTM4VStmNGZQZUxLYTRGSkRHMmg3T2NJZXJCajR4?=
- =?utf-8?B?UkJGeDIrdGRDTDdBTmdqdXkyMWNRYnd4U1AvSXdrMWFoSzY4RVpVYVJUUGRx?=
- =?utf-8?B?anNtU3JoMUVCYnFHcU9hZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFhzaGlUZmdTQUpFaEJLQm9pU2xpdnlsaWgvdkJ1bjBmM0FyNlJhMlFPZlhS?=
- =?utf-8?B?QS8rVWEwY21vaWdnaUE5ZU14b3RhRkpzWHRHTzEwZG1yNytEaFNqcUlScmc5?=
- =?utf-8?B?UjRCaVFMNnZQRHUrbnVjMUYrYzhJSUdvK2FOc0JyckxlT2s2MDZVUlhiVUFx?=
- =?utf-8?B?S05tQzVORFVleGl5bFYyeWRubFYzYXY5NGd2aWdEQWwyRWJPaVpBV2tMQVJF?=
- =?utf-8?B?WWRNMm80dlRBdVN3Z1prcS9UWExNZEFiK1l3YlFKQnVROC9IQkN1UkJreXZy?=
- =?utf-8?B?WVQ0eXUvMXIwVWlHZHBkc0VEamZHcW44Rk81bzlzK0JFN1JSU0ZzaDB4VFFy?=
- =?utf-8?B?bVVvMFkrWVJzRTlWWWFVL3F0SnJWZWEra20ycFlPVDIwbzNUL09RaVcyZitZ?=
- =?utf-8?B?MStsVXRaSGZhN3dtWWM5OFYxYzBiSVNSTmRMT1d1cysrNTMzMUluUEtyei9k?=
- =?utf-8?B?OWh1ZGF4RzJxb2RRZFNId0s5QWxtTGJZMmcrbXBDR2Q5dFA0NTRIWUlETWps?=
- =?utf-8?B?eFlDZWdoVFhJWHpmRXBqRkd1RFhMVHo0NVhyLzBJbGxQUnhwbUpKZ3VnazNk?=
- =?utf-8?B?eTRtTUZxNnhEMHlRNmIwUndBZ28wRDh5ZmRoZGlGZm1zVDkrWDRWQ0ZKcGdM?=
- =?utf-8?B?bkNWUm9vMlZUOWp0blpyOXZEMUdaNjJPZHRxczgzSm00V2NuOXlqSWNJTmlq?=
- =?utf-8?B?RDlaQzRwRkIvczZjWUdzbnlCdGdFd0dNNzFrNnhqRHQyUWtUMjBCRkp5UFZm?=
- =?utf-8?B?b0lTR3dBM0kvWmQycitrZnlaS3k1UW5ST3Uwd3ltQWVlUThvVHRIdjZIQnpp?=
- =?utf-8?B?UE5rQzV2SUtxTWZoMXB3V0dIYU55Myt5bWpCb0djekZhRThacnhJZ3kwVTJU?=
- =?utf-8?B?dFQ5TGlKZytHbEhoM3FtN3BIN0RMK0o5VGlpOU1Jd3JYNTJsVHRjNS9idlF4?=
- =?utf-8?B?U2hrWVNpMldJbnArOTVzRTJ4RE5saWJWdlR5eGJmbGxWUUZLdEZtZmNnbHBW?=
- =?utf-8?B?aWFPa1NMOEltcUhxK3pIaHV1dThic2dnOHloTUpqcVZ1YUV4cFdnaFhyMkJn?=
- =?utf-8?B?RUhVR0U4SDdOKzlGSngyKzVhdldrbHNRMUxRdzZqL0RxRzZVWXBNZldFbmFM?=
- =?utf-8?B?QXFvRW5MN3dmMXZjbFVsVVZ0b09sUkdiYTZnWlJ3NVpuUE56QlBiNVRrR0dq?=
- =?utf-8?B?WUp3a2lxVXRJbWpRYXBwWmxVRjU5R2RJaE5CV2xhN1RyaElEb1hjcVhQQUk4?=
- =?utf-8?B?TEI3ZEhVb2V4bnVwYVNyWGltM0RZMTltclVPRVJFcVozQWRjaENucmJiSTJ4?=
- =?utf-8?B?YXZVRUdET2NnVHdmeUpYRkdDblczZjV1UWZ1YUtRekt5b05IajVQQmM3R1Bz?=
- =?utf-8?B?cHlEWlBIZFR0RjdyQ25OUllJTU42eGExVHpvUlFYSDRJNDl2cjNvWWtiYkxS?=
- =?utf-8?B?OWk3VG9zcUdUQ0JNRlZpTEhRNjJHYzNrTE1BVG5xakJhK0FBenFCTXgzT1dT?=
- =?utf-8?B?MWp0K1N3cDZhNWJHQ0M4U3BvaHJkU0R0QmwrdGcvdW9PdUNEaGFDRGJ1UHll?=
- =?utf-8?B?WURXaTFvT2kzekgwK2VIODBIQnhSWEhmQURBN01oN0ZBMzZBc0dJMzdhOUsy?=
- =?utf-8?B?UmVyaTVMU0NBWEZHVnZhbXd5cUZSMngxclNsVE5LR21KU1hDWXBHUXliLzRt?=
- =?utf-8?B?SVVvNmxxRTg0eEpqR2x0em56L3A3TUNWR1ZzRWZHd2xLbUZVOVFGYnduVVRi?=
- =?utf-8?B?TGRVeC9HQ3dkMlJrZDdnQ2tXVzRxL2cxdjQySjRkcmEwbGVyVjRqb1BaeC9U?=
- =?utf-8?B?bFZJaXBVT3g2aG81SE9jUUR2K21FQWJlRjFBMnJJOHlHQUhmcFcvcXJKdzZB?=
- =?utf-8?B?VmFCdGJQZlM0ZTVramJ5d1k0VFluWURjSGEyTUdMSGhJd2xSK1BPTXVlcVR0?=
- =?utf-8?B?bHFOMWtEcHdzQkF2aVZRakordVBENXBYaXR4OUVCMzJRVHF1ZWV3Y0xvRk5V?=
- =?utf-8?B?T2lXYkFQVDFCWHhrM1JVTC8zN2w0ZjE2NDhkSTk2Ym1jNVJhMitQTFd6VlQ1?=
- =?utf-8?B?bXNSOWJOWHpOWnFBcVV6alhEaUpEUmphK0NGdTFNSUhpeTBESHBIQmQwN1lE?=
- =?utf-8?Q?i6HJMvlYNamKcIw0vzhZrcXhp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e5e0260-0560-4750-a343-08dccb3e3f8b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 10:58:59.5219 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mcqEQEwIvsGtjZih0o1jdgK/zod/an19adqBKB4OsFKwBahtdydXTGAjY6OG2Ox2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8541
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADnq5_OD-eiuS38ePYErOUyUN1LcUjvyKPbQdoXjrGHNt8juRg@mail.gmail.com>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,196 +94,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 31.08.24 um 00:28 schrieb Matthew Brost:
-> On Fri, Aug 30, 2024 at 12:40:57PM +0200, Boris Brezillon wrote:
->> dma_fence objects created by drm_sched might hit other subsystems, which
->> means the fence object might potentially outlive the drm_sched module
->> lifetime, and at this point the dma_fence::ops points to a memory region
->> that no longer exists.
->>
->> In order to fix that, let's make sure the drm_sched_fence code is always
->> statically linked, just like dma-fence{-chain}.c does.
->>
->> Cc: Luben Tuikov <ltuikov89@gmail.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: "Christian König" <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@redhat.com>
->> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->> ---
->> Just like for the other UAF fix, this is an RFC, as I'm not sure that's
->> how we want it fixed. The other option we have is to retain a module ref
->> for each initialized fence and release it when the fence is freed.
-> So this is different than your other patch. From Xe PoV the other patch
-> is referencing an object which is tied to an IOCTL rather than a module
-> whereas this referencing a module. If a module can disappear when fence
-> tied to the module, well that is a bit scary and Xe might have some
-> issues there - I'd have audit our of exporting internally created
-> fences.
->
-> Based on Christian's feedback we really shouldn't be allowing this but
-> also don't really love the idea of a fence holding a module ref either.
+On Tue, Aug 27, 2024 at 02:24:27PM -0400, Alex Deucher wrote:
+> On Tue, Aug 27, 2024 at 12:58 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > [machine died, new one working now, I can read complicated mails again an
+> > answer.]
+> >
+> > On Thu, Aug 22, 2024 at 03:19:29PM +0200, Christian König wrote:
+> > > Am 22.08.24 um 11:23 schrieb Daniel Vetter:
+> > > > On Wed, Aug 21, 2024 at 10:14:34AM +0200, Christian König wrote:
+> > > > > Am 20.08.24 um 18:00 schrieb Thomas Hellström:
+> > > > > > > Or why exactly should shrinking fail?
+> > > > > > A common example would be not having runtime pm and the particular bo
+> > > > > > needs it to unbind, we want to try the next bo. Example: i915 GGTT
+> > > > > > bound bos and Lunar Lake PL_TT bos.
+> > > > > WHAT? So you basically block shrinking BOs because you can't unbind them
+> > > > > because the device is powered down?
+> > > > Yes. amdgpu does the same btw :-)
+> > >
+> > > Well, amdgpu wouldn't block shrinking as far as I know.
+> > >
+> > > When the GPU is powered down all fences are signaled and things like GART
+> > > unbinding is just postponed until the GPU wakes up again.
+> > >
+> > > > It's a fairly fundamental issue of rpm on discrete gpus, or anything that
+> > > > looks a lot like a discrete gpu. The deadlock scenario is roughly:
+> > > >
+> > > > - In runtime suspend you need to copy any bo out of vram into system ram
+> > > >    before you power the gpu. This requires bo and ttm locks.
+> > > >
+> > > > - You can't just avoid this by holding an rpm reference as long as any bo
+> > > >    is still in vram, because that defacto means you'll never autosuspend at
+> > > >    runtime. Plus most real hw is complex enough that you have some driver
+> > > >    objects that you need to throw out or recreate, so in practice no way to
+> > > >    avoid all this.
+> > > >
+> > > > - runtime resume tends to be easier and mostly doable without taking bo
+> > > >    and ttm locks, because by design you know no one else can possibly have
+> > > >    any need to get at the gpu hw - it was all powered off after all. It's
+> > > >    still messy, but doable.
+> > > >
+> > > > - Unfortunately this doesn't help, because your runtime resume might need
+> > > >    to wait for a in-progress suspend operation to complete. Which means you
+> > > >    still deadlock even if your resume path has entirely reasonable locking.
+> > >
+> > > Uff, yeah that totally confirms my gut feeling that this looked really
+> > > questionable.
+> > >
+> > > > On integrated you can mostly avoid this all because there's no need to
+> > > > swap out bo to system memory, they're there already. Exceptions like the
+> > > > busted coherency stuff on LNL aside.
+> > > >
+> > > > But on discrete it's just suck.
+> > >
+> > > Mhm, I never worked with pure integrated devices but at least radeon, amdgpu
+> > > and nouveau seems to have a solution which would work as far as I can tell.
+> >
+> > Yeah integrated is easy (if you don't do silly stuff like intel on their
+> > latest).
+> >
+> > > Basically on suspend you make sure that everything necessary for shrinking
+> > > is done, e.g. waiting for fences, evacuating VRAM etc...
+> >
+> > This is the hard part, or the "evacuating VRAM" part at least. My proposal
+> > is that essentially the runtime_suspend_prepare hook does that. Imo the
+> > clean design is that we wait for rpm autosuspend, and only then start to
+> > evacuate VRAM. Otherwise you need to hold a rpm reference if there's
+> > anything in VRAM, which kinda defeats the point of runtime pm ...
+> >
+> > Or you have your own runtime pm refcount that tracks whether anyone uses
+> > the gpu, and if that drops to 0 for long enough you evacuate VRAM, and
+> > then drop the rpm reference. Which is just implementing the idea I've
+> > typed up, except hand-rolled in driver code and with a rpm refcount that's
+> > entirely driver internal.
+> >
+> > And at least last time I checked, amdgpu does the VRAM evacuation in the
+> > runtime pm suspend callback, which is why all your runtime_pm_get calls
+> > are outside of the big bo/ttm locks.
+> 
+> It used to do the eviction in the runtime_suspend callback, but we ran
+> into problems where eviction would sometimes fail if there was too
+> much memory pressure during suspend.  Moving it to prepare made things
+> fail earlier.  Ultimately, I think the problem is that runtime pm
+> disables swap during runtime pm. See:
+> https://gitlab.freedesktop.org/drm/amd/-/issues/2362#note_2111666
 
-IIRC the initial proposal for dma_fences actually contained grabbing a 
-module reference, similar to what we do for dma-bufs.
+That's system suspend/resume, where you have a prepare callback. At least
+as far as I know, for runtime pm this doesn't exist.
+-Sima
 
-But I think that was dropped because of the circle dependency issues and 
-preventing module unload. After that nobody really looked into it again.
+> 
+> Alex
+> 
+> >
+> > > Hardware specific updates like GART while the device is suspended are
+> > > postponed until resume.
+> >
+> > Yeah GART shouldn't be the issue, except when you're racing.
+> >
+> > > > TTM discrete gpu drivers avoided all that by simply not having a shrinker
+> > > > where you need to runtime pm get, instead all runtime pm gets are outmost,
+> > > > without holding any ttm or bo locks.
+> > >
+> > > Yes, exactly that.
+> > >
+> > > > > I would say that this is a serious NO-GO. It basically means that powered
+> > > > > down devices can lock down system memory for undefined amount of time.
+> > > > >
+> > > > > In other words an application can allocate memory, map it into GGTT and then
+> > > > > suspend or even get killed and we are not able to recover the memory because
+> > > > > there is no activity on the GPU any more?
+> > > > >
+> > > > > That really sounds like a bug in the driver design to me.
+> > > > It's a bug in the runtime pm core imo. I think interim what Thomas laid
+> > > > out is the best solution, since in practice when the gpu is off you really
+> > > > shouldn't need to wake it up. Except when you're unlucky and racing a
+> > > > runtime suspend against a shrinker activity (like runtime suspend throws a
+> > > > bo into system memory, and the shrinker then immediately wants to swap it
+> > > > out).
+> > >
+> > > Mhm, why exactly is that problematic?
+> > >
+> > > Wouldn't pm_runtime_get_if_in_use() just return 0 in this situation and we
+> > > postpone any hw activity?
+> >
+> > So when you're runtime suspend, you need to evacuate VRAM. Which means
+> > potentially a lot needs to be moved into system memory. Which means it's
+> > likely the shrinker gets active. Also, it's the point where
+> > pm_runtime_get_if_in_use() will consistently fail, so right when you need
+> > the shrinker to be reliable it will fail the most.
+> >
+> > > > I've been pondering this mess for a few months, and I think I have a
+> > > > solution. But it's a lot of work in core pm code unfortunately:
+> > > >
+> > > > I think we need to split the runtime_suspend callback into two halfes:
+> > > >
+> > > > ->runtime_suspend_prepare
+> > > >
+> > > > This would be run by the rpm core code from a worker without holding any
+> > > > locks at all. Also, any runtime_pm_get call will not wait on this prepare
+> > > > callback to finish, so it's up to the driver to make sure all the locking
+> > > > is there. Synchronous suspend calls obviously have to wait for this to
+> > > > finish, but that should only happen during system suspend or driver
+> > > > unload, where we don't have these deadlock issues.
+> > > >
+> > > > Drivers can use this callback for any non-destructive prep work
+> > > > (non-destructive aside from the copy engine time wasted if it fails) like
+> > > > swapping bo from vram to system memory. Drivers must not actually shut
+> > > > down the hardware because a runtime_pm_get call must succeed without
+> > > > waiting for this callback to finish.
+> > > >
+> > > > If any runtime_pm_get call happens while the suspend attempt will be
+> > > > aborted without further action.
+> > > >
+> > > > ->runtime_suspend
+> > > >
+> > > > This does the actual hw power-off. The power core must guarantee that the
+> > > > ->runtime_suspend_prepare has successfully completed at least once without
+> > > > the rpm refcount being elevated from 0 to 1 again.
+> > > >
+> > > > This way drivers can assume that all bo have been swapped out from vram
+> > > > already, and there's no need to acquire bo or ttm locks in the suspend
+> > > > path that could block the resume path.
+> > > >
+> > > > Which would then allow unconditional runtime_pm_get in the shrinker paths.
+> > > >
+> > > > Unfortunately this will be all really tricky to implement and I think
+> > > > needs to be done in the rumtime pm core.
+> > >
+> > > Completely agree that this is complicated, but I still don't see the need
+> > > for it.
+> > >
+> > > Drivers just need to use pm_runtime_get_if_in_use() inside the shrinker and
+> > > postpone all hw activity until resume.
+> >
+> > Not good enough, at least long term I think. Also postponing hw activity
+> > to resume doesn't solve the deadlock issue, if you still need to grab ttm
+> > locks on resume.
+> >
+> > > At least for amdgpu that shouldn't be a problem at all.
+> >
+> > Yeah, because atm amdgpu has the rpm_get calls outside of ttm locks, which
+> > is exactly the inversion you've complained about as being broken driver
+> > design.
+> > -Sima
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-I think using the scheduler fence to decouple the hardware fence 
-lifetime should work. We would just need to drop the hardware fence 
-reference after the scheduler fence signaled and not when it is destroyed.
-
-This unfortunately also creates another problems for error recovery,  
-but that is a different topic I think.
-
-> Seems like we need a well defined + documented rule - exported fences
-> need to be completely decoupled from the module upon signaling or
-> exported fences must retain a module ref. I'd probably lean towards the
-> former. One reason to support the former is fences can be released in
-> IRQ contexts and dropping a module ref in IRQ context seems a bit
-> problematic. Also because some oher part of kernel holds on to fence ref
-> lazily block a module unload just seems wrong.
-
-Modules are not auto unloaded when their reference count becomes zero. 
-Only when rmmod (or the corresponding system call) is issued.
-
-So dropping a module reference from interrupt context should be 
-unproblematic I think. But we should probably double check.
-
-Fully decoupling fence destruction from the module is most likely not 
-possible since we will always need the free callback from the ops for 
-some use cases.
-
-> Sorry if above we have well defined rule and I'm just not aware.
-
-No, it's basically just a well known mess nobody cared much about.
-
-Regards,
-Christian.
-
->
-> Matt
->
->> ---
->>   drivers/gpu/drm/Makefile                |  2 +-
->>   drivers/gpu/drm/scheduler/Makefile      |  7 ++++++-
->>   drivers/gpu/drm/scheduler/sched_fence.c | 21 +++++++++------------
->>   drivers/gpu/drm/scheduler/sched_main.c  |  3 +++
->>   4 files changed, 19 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->> index 68cc9258ffc4..b97127da58b7 100644
->> --- a/drivers/gpu/drm/Makefile
->> +++ b/drivers/gpu/drm/Makefile
->> @@ -158,7 +158,7 @@ obj-$(CONFIG_DRM_MIPI_DSI) += drm_mipi_dsi.o
->>   obj-y			+= arm/
->>   obj-y			+= display/
->>   obj-$(CONFIG_DRM_TTM)	+= ttm/
->> -obj-$(CONFIG_DRM_SCHED)	+= scheduler/
->> +obj-y			+= scheduler/
->>   obj-$(CONFIG_DRM_RADEON)+= radeon/
->>   obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
->>   obj-$(CONFIG_DRM_AMDGPU)+= amd/amdxcp/
->> diff --git a/drivers/gpu/drm/scheduler/Makefile b/drivers/gpu/drm/scheduler/Makefile
->> index 53863621829f..bc18d26f27a1 100644
->> --- a/drivers/gpu/drm/scheduler/Makefile
->> +++ b/drivers/gpu/drm/scheduler/Makefile
->> @@ -20,6 +20,11 @@
->>   # OTHER DEALINGS IN THE SOFTWARE.
->>   #
->>   #
->> -gpu-sched-y := sched_main.o sched_fence.o sched_entity.o
->> +
->> +# sched_fence.c contains dma_fence_ops that can't go away, so make sure it's
->> +# statically linked when CONFIG_DRM_SCHED=m
->> +obj-y += $(if $(CONFIG_DRM_SCHED),sched_fence.o,)
->> +
->> +gpu-sched-y := sched_main.o sched_entity.o
->>   
->>   obj-$(CONFIG_DRM_SCHED) += gpu-sched.o
->> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->> index efa2a71d98eb..ac65589476dd 100644
->> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->> @@ -39,12 +39,7 @@ static int __init drm_sched_fence_slab_init(void)
->>   
->>   	return 0;
->>   }
->> -
->> -static void __exit drm_sched_fence_slab_fini(void)
->> -{
->> -	rcu_barrier();
->> -	kmem_cache_destroy(sched_fence_slab);
->> -}
->> +subsys_initcall(drm_sched_fence_slab_init);
->>   
->>   static void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
->>   				       struct dma_fence *fence)
->> @@ -74,6 +69,7 @@ void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
->>   
->>   	dma_fence_signal(&fence->scheduled);
->>   }
->> +EXPORT_SYMBOL(drm_sched_fence_scheduled);
->>   
->>   void drm_sched_fence_finished(struct drm_sched_fence *fence, int result)
->>   {
->> @@ -81,6 +77,7 @@ void drm_sched_fence_finished(struct drm_sched_fence *fence, int result)
->>   		dma_fence_set_error(&fence->finished, result);
->>   	dma_fence_signal(&fence->finished);
->>   }
->> +EXPORT_SYMBOL(drm_sched_fence_finished);
->>   
->>   static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->>   {
->> @@ -118,6 +115,7 @@ void drm_sched_fence_free(struct drm_sched_fence *fence)
->>   	if (!WARN_ON_ONCE(fence->timeline))
->>   		kmem_cache_free(sched_fence_slab, fence);
->>   }
->> +EXPORT_SYMBOL(drm_sched_fence_free);
->>   
->>   /**
->>    * drm_sched_fence_release_scheduled - callback that fence can be freed
->> @@ -210,6 +208,9 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>   {
->>   	struct drm_sched_fence *fence = NULL;
->>   
->> +	if (unlikely(!sched_fence_slab))
->> +		return NULL;
->> +
->>   	fence = kmem_cache_zalloc(sched_fence_slab, GFP_KERNEL);
->>   	if (fence == NULL)
->>   		return NULL;
->> @@ -219,6 +220,7 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>   
->>   	return fence;
->>   }
->> +EXPORT_SYMBOL(drm_sched_fence_alloc);
->>   
->>   void drm_sched_fence_init(struct drm_sched_fence *fence,
->>   			  struct drm_sched_entity *entity)
->> @@ -234,9 +236,4 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->>   	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
->>   		       &fence->lock, entity->fence_context + 1, seq);
->>   }
->> -
->> -module_init(drm_sched_fence_slab_init);
->> -module_exit(drm_sched_fence_slab_fini);
->> -
->> -MODULE_DESCRIPTION("DRM GPU scheduler");
->> -MODULE_LICENSE("GPL and additional rights");
->> +EXPORT_SYMBOL(drm_sched_fence_init);
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index 1e31a9c8ce15..eaaf086eab30 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1467,3 +1467,6 @@ void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
->>   	queue_work(sched->submit_wq, &sched->work_free_job);
->>   }
->>   EXPORT_SYMBOL(drm_sched_wqueue_start);
->> +
->> +MODULE_DESCRIPTION("DRM GPU scheduler");
->> +MODULE_LICENSE("GPL and additional rights");
->> -- 
->> 2.46.0
->>
-
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
