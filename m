@@ -2,93 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85DA19688FF
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 15:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98785968905
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 15:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59E0010E2E1;
-	Mon,  2 Sep 2024 13:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E3710E2EB;
+	Mon,  2 Sep 2024 13:37:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Ln17nv3r";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="QISSaH6f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46AA210E2EB
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 13:36:16 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-42c5347b2f7so19970755e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 06:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1725284175; x=1725888975; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6v3FtktqquHZEtnfmY82ilNEJb6ksXTawePio7XooLM=;
- b=Ln17nv3rFjD12IrPeMhsB5ujohswHhRkZcZify0VdM230R+hiRCBR7LLH8hZpBXuEL
- i82EyxBrGSYEw08dt0gD1kjg6O2ih6aLjd2sTPXANHhY+zAH4iwzxgX/3U04c5ezloyZ
- v89+4at+UbHQEyugZnp4N95q8mMMMfhZbKS/8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725284175; x=1725888975;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6v3FtktqquHZEtnfmY82ilNEJb6ksXTawePio7XooLM=;
- b=jZo012bepwlnjcG5LQeB/yunPh/jJnmSDzih9xAlQQWxV5TJBwSSFr3HxbJpWETyuX
- VuW9k9Qm/UEEbEr+0wddEWTB2arEKzKNAphtYIji1JynTJTV5XnicWIjjyoRNrg3lCAj
- JKrD3oXsY63hZJng6MBVyFSWDv9hX3Ommao+5UCesMpLKN/156bKfkx0/Z8lIgmszJJ3
- Z73ovBZAR0ZR3bI4C3Bj1+h95AmxmEvtGvUYBLGL0O+v18hGzK6Qblx8/XHQ3Bv874HK
- sSFSUTxjm2IBRym5uqzFZ9d9HT0PF/tUZKjHqF08ox4LQ/5NKyEWma9KzsgjTZtp+hj7
- lFyA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWgG3X2ULlxnDk7nWWt8TserO0rrU+NJaBG10msfmgPDuFQVcoqX+Az4ic2dTsUiBnwKK4LnziJNl4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZndaPF/kNcOQFnjtEe0cLU3Kvalh71U5hxrdsYRTlb1YIst8P
- SfDqn9NMFnbJPBH0FHfR13LfIzegDu6rwfnCCGV1sNVX2xkmpfazEFADRCVYk7g=
-X-Google-Smtp-Source: AGHT+IFmCAd/UKn+8RiDLAzhiVps6I/r8wIzIThrxAPcZIbCaz99pcPpBKWDT6e22RdxtT79ulMxyg==
-X-Received: by 2002:a05:600c:3b11:b0:429:a05:32fb with SMTP id
- 5b1f17b1804b1-42bb01b4428mr88808955e9.10.1725284174404; 
- Mon, 02 Sep 2024 06:36:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-374c7fa443esm4065467f8f.41.2024.09.02.06.36.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2024 06:36:14 -0700 (PDT)
-Date: Mon, 2 Sep 2024 15:36:11 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- quic_abhinavk@quicinc.com, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH 13/21] drm/msm/dpu: Require modeset if clone mode status
- changes
-Message-ID: <ZtW_S0j5AEr4g0QW@phenom.ffwll.local>
-Mail-Followup-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- quic_abhinavk@quicinc.com, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>
-References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-13-502b16ae2ebb@quicinc.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9763510E2EB
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 13:37:56 +0000 (UTC)
+X-UUID: 894ba956693011ef8593d301e5c8a9c0-20240902
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=zP4cGg7CUphsBzvMJGs84P/fiBMkQ+3J/IWvuPTx6wA=; 
+ b=QISSaH6fWkiP/CBeZjN4NGmffPGsKINRQeGOJqRvzwknAY0Jfu5OziDZhW2mmDuXgzTwlsMD6lKRN+Z5hl7eW7Rs9Y0YDvcCPhciuxqBNvEjtEu15GsfBJqLpLN8MkSEU5G9eQK93LmxBffa6+yBSsO4UTz/6jy5CV2nJQiE7n4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:d32f88e5-7e48-4228-b5bc-60da9e185a2e, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:60392f15-737d-40b3-9394-11d4ad6e91a1,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 894ba956693011ef8593d301e5c8a9c0-20240902
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1307397206; Mon, 02 Sep 2024 21:37:45 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 2 Sep 2024 21:37:45 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 2 Sep 2024 21:37:45 +0800
+From: Liankun Yang <liankun.yang@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <ck.hu@mediatek.com>,
+ <shuijing.li@mediatek.com>, <jitao.shi@mediatek.com>,
+ <mac.shen@mediatek.com>, <liankun.yang@mediatek.com>
+CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v2 1/1] drm/mediatek: Fix get efuse issue for MT8188 DPTX
+Date: Mon, 2 Sep 2024 21:36:35 +0800
+Message-ID: <20240902133736.16461-1-liankun.yang@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240829-concurrent-wb-v1-13-502b16ae2ebb@quicinc.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--1.188600-8.000000
+X-TMASE-MatchedRID: jW2Old1ajwAQkelDZj2VREKcYi5Qw/RVxBgaBynd2vlcKZwALwMGs039
+ pXYjpT7k6PIMT6GeywFIT4SOZxkibrGaAH5r9EhkhK8o4aoss8qeEP0DdJrullxTR00Ss4P6+Vi
+ hXqn9xLGFWYX2TPbDEoT7/Vs2JNl8WrGyEceiJjNtPeYaZY+k11o1rFkFFs1aaVRQ51WzrJqjxY
+ yRBa/qJcFwgTvxipFa9xS3mVzWUuAojN1lLei7RSBsp71x5CnUirOsjA55EK+k7LjKY7svMtkSk
+ 4NoKJ09zxb/HOenQ+UczlaPt9MZttgaDNEduXtvyup6iSf7FQSWKQcroFQqehz+PhojlLUuev0Y
+ PTN868QBqq+/+aGCsUu0bcffALXE
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--1.188600-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: CF585BE6CBE2F48BBC827E841D267628A408271CE606D1727C63A1D75A9F8F292000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,81 +91,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 29, 2024 at 01:48:34PM -0700, Jessica Zhang wrote:
-> If the clone mode enabled status is changing, a modeset needs to happen
-> so that the resources can be reassigned
-> 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 1b0cc899e8c1..99eaaca405a4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1306,6 +1306,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->  	int rc = 0;
->  
->  	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
-> +	bool clone_mode_requested = drm_crtc_in_clone_mode(crtc->state);
-> +	bool clone_mode_enabled = drm_crtc_in_clone_mode(crtc_state);
->  
->  	/* there might be cases where encoder needs a modeset too */
->  	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
-> @@ -1313,6 +1315,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->  			crtc_state->mode_changed = true;
->  	}
->  
-> +	if ((clone_mode_requested && !clone_mode_enabled) ||
-> +			(!clone_mode_requested && clone_mode_enabled))
-> +		crtc_state->mode_changed = true;
+Update efuse data for MT8188 displayport.
 
-So two things, and kinda about the overall patch series:
+The DP monitor can not display when DUT connected to USB-c to DP dongle.
+Analysis view is invalid DP efuse data.
 
-- msm is confused about crtc_state->mode_changed, e.g. it sets it if
-  crtc_state->active_changed, which is wrong. Or msm dpu code doesn't use
-  drm_atomic_crtc_needs_modeset() correctly.
+Fixes: 350c3fe907fb ("drm/mediatek: dp: Add support MT8188 dp/edp function")
 
-- changing crtc_state->mode_changed from your crtc or plane callbacks
-  means you cannot use drm_atomic_helper_check directly, but need to roll
-  your own that calls drm_atomic_helper_check_modesets again as needed.
-  See the kerneldoc comment for drm_atomic_helper_check_modesets()
+Changes in V2:
+- Add Fixes tag.
+- Update the commit title.
+- Update the commit description.
+Per suggestion from the previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/
+20240510061716.31103-1-liankun.yang@mediatek.com/
 
-- the same holds if you set mode_changed from your encoder or bridge
-  functions, but I think this doesn't apply here for this patch.
+Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dp.c | 85 ++++++++++++++++++++++++++++++-
+ 1 file changed, 84 insertions(+), 1 deletion(-)
 
-I think it'd be really good to
-
-- review existing kerneldoc and please submit patches where it's not clear
-  or detailed enough
-
-- add checks to the atomic helper code to catch this. I think the best way
-  would be to check if drm_atomic_crtc_needs_modeset() changes outside of
-  areas where the helper code allows it already (essentially connector
-  functions setting ->connectors_changed), and set a new
-  drm_atomic_state->dirty_needs_modeset. Which
-  drm_atomic_helper_check_modeset would clear, and which would result in a
-  WARN_ON in drm_atomic_check if it's not yet cleared when the driver
-  returns with success.
-
-  Otherwise there's just no way I think to make sure drivers get this
-  right.
-
-Can I please sign you up for these patches?
-
-Thanks, Sima
-
-> +
->  	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
->  		rc = dpu_crtc_assign_resources(crtc, crtc_state);
->  		if (rc < 0)
-> 
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index d8796a904eca..f2bee617f063 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -145,6 +145,89 @@ struct mtk_dp_data {
+ 	u16 audio_m_div2_bit;
+ };
+ 
++static const struct mtk_dp_efuse_fmt mt8188_dp_efuse_fmt[MTK_DP_CAL_MAX] = {
++	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
++		.idx = 0,
++		.shift = 10,
++		.mask = 0x1f,
++		.min_val = 1,
++		.max_val = 0x1e,
++		.default_val = 0xf,
++	},
++	[MTK_DP_CAL_CLKTX_IMPSE] = {
++		.idx = 0,
++		.shift = 15,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_0] = {
++		.idx = 1,
++		.shift = 0,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_1] = {
++		.idx = 1,
++		.shift = 8,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_2] = {
++		.idx = 1,
++		.shift = 16,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_3] = {
++		.idx = 1,
++		.shift = 24,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_0] = {
++		.idx = 1,
++		.shift = 4,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_1] = {
++		.idx = 1,
++		.shift = 12,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_2] = {
++		.idx = 1,
++		.shift = 20,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_3] = {
++		.idx = 1,
++		.shift = 28,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++};
++
+ static const struct mtk_dp_efuse_fmt mt8195_edp_efuse_fmt[MTK_DP_CAL_MAX] = {
+ 	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
+ 		.idx = 3,
+@@ -2771,7 +2854,7 @@ static SIMPLE_DEV_PM_OPS(mtk_dp_pm_ops, mtk_dp_suspend, mtk_dp_resume);
+ static const struct mtk_dp_data mt8188_dp_data = {
+ 	.bridge_type = DRM_MODE_CONNECTOR_DisplayPort,
+ 	.smc_cmd = MTK_DP_SIP_ATF_VIDEO_UNMUTE,
+-	.efuse_fmt = mt8195_dp_efuse_fmt,
++	.efuse_fmt = mt8188_dp_efuse_fmt,
+ 	.audio_supported = true,
+ 	.audio_pkt_in_hblank_area = true,
+ 	.audio_m_div2_bit = MT8188_AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.45.2
+
