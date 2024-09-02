@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3F696866A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 13:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC86196866B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 13:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 431AC10E2A6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0FF10E2A9;
 	Mon,  2 Sep 2024 11:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD3B510E2A5
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 11:41:47 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.252])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wy6HF5sfczgYvY;
- Mon,  2 Sep 2024 19:39:37 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D71E910E2A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 11:41:48 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wy6D12r3Kz20nNN;
+ Mon,  2 Sep 2024 19:36:49 +0800 (CST)
 Received: from dggpemm500020.china.huawei.com (unknown [7.185.36.49])
- by mail.maildlp.com (Postfix) with ESMTPS id 1F89D1800A7;
+ by mail.maildlp.com (Postfix) with ESMTPS id 516691A0188;
  Mon,  2 Sep 2024 19:41:44 +0800 (CST)
 Received: from huawei.com (10.67.174.77) by dggpemm500020.china.huawei.com
  (7.185.36.49) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 2 Sep
- 2024 19:41:43 +0800
+ 2024 19:41:44 +0800
 From: Liao Chen <liaochen4@huawei.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <linux-tegra@vger.kernel.org>
@@ -31,10 +31,12 @@ CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
  <daniel@ffwll.ch>, <linus.walleij@linaro.org>, <thierry.reding@gmail.com>,
  <mperttunen@nvidia.com>, <jonathanh@nvidia.com>, <liaochen4@huawei.com>
-Subject: [PATCH -next 0/3] drm: Enable module autoloading
-Date: Mon, 2 Sep 2024 11:33:17 +0000
-Message-ID: <20240902113320.903147-1-liaochen4@huawei.com>
+Subject: [PATCH -next 1/3] drm/bridge: it6505: Enable module autoloading
+Date: Mon, 2 Sep 2024 11:33:18 +0000
+Message-ID: <20240902113320.903147-2-liaochen4@huawei.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240902113320.903147-1-liaochen4@huawei.com>
+References: <20240902113320.903147-1-liaochen4@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -56,21 +58,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch enables the autoloading feature of drm module. By registering
-MDT, the kernel is allowed to automatically bind modules to devices that
-match the specified compatible strings.
+Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded based
+on the alias from of_device_id table.
 
-
-Liao Chen (3):
-  drm/bridge: it6505: Enable module autoloading
-  drm/tegra: Enable module autoloading
-  drm/mcde: Enable module autoloading
-
+Signed-off-by: Liao Chen <liaochen4@huawei.com>
+---
  drivers/gpu/drm/bridge/ite-it6505.c | 1 +
- drivers/gpu/drm/mcde/mcde_drv.c     | 1 +
- drivers/gpu/drm/tegra/drm.c         | 1 +
- 3 files changed, 3 insertions(+)
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 1e1c06fdf206..eef5ad449c16 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -3498,6 +3498,7 @@ static const struct of_device_id it6505_of_match[] = {
+ 	{ .compatible = "ite,it6505" },
+ 	{ }
+ };
++MODULE_DEVICE_TABLE(of, it6505_of_match);
+ 
+ static struct i2c_driver it6505_i2c_driver = {
+ 	.driver = {
 -- 
 2.34.1
 
