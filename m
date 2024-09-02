@@ -2,91 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837CE9685D9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 13:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771659685E1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 13:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2332910E295;
-	Mon,  2 Sep 2024 11:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06E610E299;
+	Mon,  2 Sep 2024 11:13:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nU0mvZjj";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eWahMrwF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCEC510E295
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 11:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725275583; x=1756811583;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=+uulfcVXT6YjoKghtTgzQhPkoYdQXxqT7443vnr5b58=;
- b=nU0mvZjjBdUpc63/RyqeEOYDOia6NVzSyGn9+ZGe9C1I0z+1T6TUXoF4
- 3084XQTdqQqY8KzAtAvIIvZ7Glz0CEzh229DgL1bPg4L/yKAhnaxLmkFX
- WLjYrKRmM3uiu///xzbuEqz0FYn8lvYF0YMeZyG2Gqcc4Lt2TGi8HD3Yw
- Z+GunjyjjS8WOGDHdeY+NzAybdR9oartpI441u6t+hbP0GJbhUWfMrXJG
- RK/3A9ZLRgMdEeCh2sK4ouRqL/WlsZ/jKOIRyvyi6VSPG1+4P8LyjvzDu
- JPNKZ+N+A+RyA5c5mPy70qAMhOCOynWgD5K2qgdwq+52W6YL0XK5FUmAJ Q==;
-X-CSE-ConnectionGUID: r2ghcsW+Rt+GPXqt6eUEwA==
-X-CSE-MsgGUID: e8oPNCsOSUWUpVdTU2eKBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="41352611"
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; d="scan'208";a="41352611"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2024 04:13:02 -0700
-X-CSE-ConnectionGUID: ltWCpk/5SMKI28+OWW8xEg==
-X-CSE-MsgGUID: 9PxBVm5wQcWh8LoEG16rjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; d="scan'208";a="68716707"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2024 04:12:54 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sl4zK-00000004Kz6-11Uq; Mon, 02 Sep 2024 14:12:50 +0300
-Date: Mon, 2 Sep 2024 14:12:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, devicetree@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Benson Leung <bleung@chromium.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>,
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tzung-Bi Shih <tzungbi@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Daniel Scally <djrscally@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-acpi@vger.kernel.org,
- linux-usb@vger.kernel.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v4 11/18] device property: Add remote endpoint to devcon
- matcher
-Message-ID: <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-12-swboyd@chromium.org>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA7F10E298
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 11:13:38 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-42bb81e795bso33321075e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 04:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1725275616; x=1725880416; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=LnfCLTwwtLyGWRdEuSUyuc6s9oHiX9QCst9I+RtLHqk=;
+ b=eWahMrwF5Y1RY/Y+6rCSVo1IY3jCc3dVQrhdNkSOYwIuyMZPnNGUs88z1TzD+tyx2o
+ 1HM9r/+SIC/C2I+/H1IMM/Aa13XAjreyRy3y44am90qBIahFcdCpXu8IWN27Z36FkMsY
+ Fj1uVXgdv4EsljT9rn/luTV+rY24tYTmx6KUQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725275616; x=1725880416;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LnfCLTwwtLyGWRdEuSUyuc6s9oHiX9QCst9I+RtLHqk=;
+ b=pUX61Oc5w115xwR6iVA0GWlyS3FmenbijVrVs7koXJk1gzUebwrwWim1Euqt9e6aC7
+ mf/joyN+qmLkI+GRRBPD50fg58ZVmBglte1hvq8epWte837QA7N8HRIVThq8gd4rqSHq
+ 0mP7n/oyM9VGU1RIjnRJI1nkMJEr/TteGTd3GI1LLS0JtnFcJrVCaQpRJVrSqPyEBde7
+ 5EpnWEZ71+DptcrDV3iMNTE5Y8uQbZaQ3SFDG4FrZPb2aPN2SQHy3MIqv/RgQPUOCt8L
+ VMsc+0qHE/tOLRoqw0/s/zhvhbGN0C/aqkxdirLUU3DGnMOAiVw+Sd2Qg028vIUImHdn
+ B4HA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXAtzdTs8iLTtHqbB0dBMUMg/AK4r+Ingc1n0UHtsrbYm0xkEEMYlCjFgho1jfi8s8+fXo2svW7TDk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRer/iNQP7aB0iQDm1PxIYQ4Ajsw7xCQ6A5PBJ8w7NNM8Orqjh
+ wScyw8JTAYXsgHdJU9/PuoSGc2OQOaK4m+AgeKV/ZhBvVuSkxCpH5ethhqlRPvPn4jxeWlT6KAN
+ O
+X-Google-Smtp-Source: AGHT+IG40T4YNpa0Ar0Qn9waQeKXCWKcFV47Fgap1uRCEkvH0JzpWsZkM6SyPt8TueXKpy0p93VOsA==
+X-Received: by 2002:a05:600c:3b93:b0:426:5e0b:5823 with SMTP id
+ 5b1f17b1804b1-42bbb44114emr78512405e9.34.1725275616047; 
+ Mon, 02 Sep 2024 04:13:36 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42bb6deb3efsm135381745e9.6.2024.09.02.04.13.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Sep 2024 04:13:35 -0700 (PDT)
+Date: Mon, 2 Sep 2024 13:13:33 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v3 00/15] CCS static load balance
+Message-ID: <ZtWd3QwBwzmOZCDr@phenom.ffwll.local>
+References: <20240823130855.72436-1-andi.shyti@linux.intel.com>
+ <Zs4NaUgcDhcBb4Ok@phenom.ffwll.local>
+ <Zs7dv57piSIj3Og4@ashyti-mobl2.lan>
+ <Zs8qaZftGbq7Ls00@phenom.ffwll.local>
+ <Zs9D0WpVLpZviBNg@ashyti-mobl2.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901040658.157425-12-swboyd@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <Zs9D0WpVLpZviBNg@ashyti-mobl2.lan>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,79 +89,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 31, 2024 at 09:06:49PM -0700, Stephen Boyd wrote:
-> When a single DT node has a graph connected to more than one
-> usb-c-connector node we can't differentiate which typec switch
-> registered for the device is associated with the USB connector because
-> the devcon matcher code assumes a 1:1 relationship between remote node
-> and typec switch. Furthermore, we don't have a #typec-switch-cells
-> property so there can only be one node per typec switch.
+On Wed, Aug 28, 2024 at 05:35:45PM +0200, Andi Shyti wrote:
+> Hi Sima,
 > 
-> Support multiple USB typec switches exposed by one node by passing the
-> remote endpoint node in addition to the remote node to the devcon
-> matcher function (devcon_match_fn_t). With this change, typec switch
-> drivers can register switches with the device node pointer for a graph
-> endpoint so that they can support more than one typec switch if
-> necessary. Either way, a DT property like 'mode-switch' is always in the
-> graph's parent node and not in the endpoint node.
+> On Wed, Aug 28, 2024 at 03:47:21PM +0200, Daniel Vetter wrote:
+> > On Wed, Aug 28, 2024 at 10:20:15AM +0200, Andi Shyti wrote:
+> > > Hi Sima,
+> > > 
+> > > first of all, thanks for looking into this series.
+> > > 
+> > > On Tue, Aug 27, 2024 at 07:31:21PM +0200, Daniel Vetter wrote:
+> > > > On Fri, Aug 23, 2024 at 03:08:40PM +0200, Andi Shyti wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > This patch series introduces static load balancing for GPUs with
+> > > > > multiple compute engines. It's a lengthy series, and some
+> > > > > challenging aspects still need to be resolved.
+> > > > 
+> > > > Do we have an actual user for this, where just reloading the entire driver
+> > > > (or well-rebinding, if you only want to change the value for a specific
+> > > > device) with a new module option isn't enough?
+> > > 
+> > > Yes, we have users for this and this has been already agreed with
+> > > architects and maintainers.
+> > 
+> > So my understanding is that for upstream, this only applies to dg2,
+> > because the other platforms don't have enough CCS engines to make this a
+> > real issue.
+> > 
+> > Do we really have upstream demand for this feature on dg2 only?
+> 
+> That's my understanding.
+> 
+> > Also how hard would it be to make these users happy with xe-on-dg2 in
+> > upstream instead?
+> 
+> I don't know this, I think the user is already on i915.
+> 
+> > > Why are you saying that we are reloading/rebinding the driver?
+> > 
+> > That's the other alternate solution.
+> 
+> But that's not how XE does it, though.
+> 
+> The use case is that userspace has an environment variable that
+> they change ondemand for choosing the CCS mode. They want to
+> change the value of that variable on the fly and, as we are only
+> adding or removing a few engines, this is done without reprobing
+> the whole driver.
+> 
+> In a previous implementation (from where both I and Niranjana for
+> XE took inspiration) the CCS mode was passed during compute
+> execbuf.
+> 
+> > > I'm only removing the exposure of user engines, which is
+> > > basically a flag in the engines data structure.
+> > > 
+> > > > There's some really gnarly locking and lifetime fun in there, and it needs
+> > > > a corresponding justification.
+> > > 
+> > > What locking are you referring about?
+> > > 
+> > > I only added one single mutex that has a comment and a
+> > > justification. If you think that's not enough, I can of course
+> > > improve it (please note that the changes have a good amount of
+> > > comments and I tried to be aso more descriptive as I could).
+> > > 
+> > > When I change the engines configurations only for the compute
+> > > engines and only for DG2 platforms, I need to make sure that no
+> > > other user is affected by the change. Thus I need to make sure
+> > > that access to some of the strucures are properly serialized.
+> > > 
+> > > > Which needs to be enormous for this case,
+> > > > meaning actual customers willing to shout on dri-devel that they really,
+> > > > absolutely need this, or their machines will go up in flames.
+> > > > Otherwise this is a nack from me.
+> > > 
+> > > Would you please tell me why are you nacking the patch? So that I
+> > > address your comments for v4?
+> > 
+> > So for one, this is substantially more flexible than the solution merged
+> > into xe. And the patch set doesn't explain why (the commit messages
+> > actualy describe the design xe has).
+> 
+> I think in XE we might have missed a few things and my plan is to
+> check the XE implementation once I'm done with i915 (I was one of
+> the XE reviewers). And, many of the things in XE are so different
+> that the solution can't be taken as it is.
 
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Daniel Scally <djrscally@gmail.com>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Ivan Orlov <ivan.orlov0322@gmail.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <linux-usb@vger.kernel.org>
-> Cc: <linux-acpi@vger.kernel.org>
-> Cc: Pin-yen Lin <treapking@chromium.org>
+Please fix XE first. XE is supposed to lead here with all new platform
+support and uapi additions, i915-gem is supposed to be completely in
+feature freeze. And exceptions need really good reasons.
 
-Is it possible to move these Cc:s after --- line below?
+> > That does not inspire confidence at all.
+> 
+> Consider that most of the patches are refactoring, only the last
+> patch is doing the real job. That's because the first workaround
+> was already merged a while ago. While XE didn't need the
+> refactorings I made.
+> 
+> > Second, I don't think anyone understands the entire engine/ctx locking
+> > design in i915-gem. And the fix for that was to make as much as absolutely
+> > possible immutable. Yes the implementation looks correct, but when I
+> > looked at the much, much simpler xe implementation I'm pretty sure I've
+> > found an issue there too. Here I can't even tell.
+> 
+> The locking is fairly simple, when the user wants to set a
+> specific CCS mode, I take the wakrefe lock and I check no one is
+> holding it. This way I am sure that I am the only user of the GPU
+> (otherwise the GPU would be off).
+> 
+> I added one single lock to be used for the for_each_uabi_engine.
+> It's not really required but I really want to be sure that I am
+> not changing the CCS mode while someone else is using the uabi
+> engines.
+> 
+> I'm also adding Joonas in Cc with whom I discussed many details
+> of the implementation. I would really appreaciate to know what
+> exactly is wrong here and what are the necessary changes needed
+> to get the series merged.
 
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+This is i915-gem. Locking is never simple here, and I think that entire
+journey on the mmap confusion shows how little people understand how much
+complexity and confusion and i915-gem being special there really is.
 
-...
+You're really not making a good case that you understand this stuff here,
+which really doesn't make me enthusiastic about considering an uapi
+extension for i915-gem.
 
->  /**
->   * devcon_match_fn_t - device connection match function
->   * @fwnode: Remote connection's device node
-> + * @endpoint: Remote connection's endpoint node
->   * @con_id: Identifier for the connection
->   * @data: Match function caller specific data
->   *
->   * Implement a callback with this function signature to search a fwnode's
->   * connections for a match with a function like device_connection_find_match().
->   * This function will be called possibly multiple times, once for each
-> - * connection. The match function should inspect the @fwnode to look for a
-> - * match. The @con_id and @data provided are the same as the @con_id and @data
-> - * arguments passed to the functions that take a devcon_match_fn_t argument.
-> + * connection. The match function should inspect the connection's @fwnode
-> + * and/or @endpoint to look for a match. The @con_id and @data provided are the
-> + * same as the @con_id and @data arguments passed to the functions that take a
-> + * devcon_match_fn_t argument.
-
-So, struct fwnode_handle is a single-linked list. Can we utilise that instead
-of adding a new parameter? I.o.w. do those objects (@fwnode and @endpoint) have
-anything in common and can be chained?
-
->   * Note: This function can be called multiple times.
-
-What does this mean? Is it idempotent? Or what is the effect of being called
-multiple times?
-
->   *
->   * Return: Pointer to match or NULL if no match found.
->   */
-
+Cheers, Sima
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
