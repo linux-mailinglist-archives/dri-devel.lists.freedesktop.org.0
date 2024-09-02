@@ -2,75 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A1D968761
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 14:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E44A96878D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 14:31:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873C410E2CC;
-	Mon,  2 Sep 2024 12:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E8B10E2D9;
+	Mon,  2 Sep 2024 12:31:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="S2UwNRHs";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WWJVZ2tK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B57AA10E2D0
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 12:20:25 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-42c2e50ec6aso11481655e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 05:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1725279624; x=1725884424; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fs8K9SSQie2EcY0vLdYoMEUI8BIofNYlXekWwGQYN7A=;
- b=S2UwNRHszXFJcxnrCsnTQtAc9eKAUBSnUM97/Gso4KNvc5ybg8BD+qAJxB+7eQyRhq
- VwRjgTflIZktWxrxyvtGNPWg0R9hwFxrEBn+5xxOV/h9Hd6wNR4Mt35dvzjSgOoi4WY6
- PitzO98vgModMk8+Zq1o0B1nemwGAKUNcpTI0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725279624; x=1725884424;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fs8K9SSQie2EcY0vLdYoMEUI8BIofNYlXekWwGQYN7A=;
- b=cOXcyBwyUSWkM/CqQr9qTzWgATbEN522vOKqMmr0jh9qTMvNDhvdKA3WccyNH831A0
- 4RZD3BxOyjWntZ9aq9SLSFI76/Tv7dvuYEMiBNPwI3uNnpnRG0KtX5ng8TO2r+/LAdki
- uaW7Q1gP2rWF74JRA3TvVluEMnyt6nr4sNcgkizl+PRRYV8Xub0McdnXxJfFNBf+SbXo
- aMb18yBIaIxd70GPDRI4AHMYSMtjXQEaNlJm20oXiGuQOECVGZbirtLjb7wbKkMIMmQN
- M6YYPMMsWkiTCGWNamdNVCVXez5uu8Na5zVR3mM6GChbyklNRDrm3tRucL1HtAsGWPRE
- uq3g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEYYCVuFqxKNYZcHDdVQJwzkzLSKeBVLrvnH2Mp9sVE6mFwAf7/ThfUflChQhgLbqRFW9TXkaXaeo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwX1lKabh4559I+rTKWSzZFpsQ+CuiE2VOYFL71/B+9lqwHgtF7
- ctIxy2KE61vLokgvPPRLr1uNyka+61XiEFUd9rFfvRFs9d2GfvBLOZwcO23Ww+4=
-X-Google-Smtp-Source: AGHT+IGUk7nVdjyRqAS0vvlsSJE0TNxg14EUd62pfL7ok/yoYTz7ioH7tS1DY9F+bguytpSQ1AJ/bg==
-X-Received: by 2002:a05:600c:3510:b0:429:ea2e:36e1 with SMTP id
- 5b1f17b1804b1-42bb4caa0c2mr78086385e9.13.1725279624017; 
- Mon, 02 Sep 2024 05:20:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42baf7fa745sm151539765e9.31.2024.09.02.05.20.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2024 05:20:23 -0700 (PDT)
-Date: Mon, 2 Sep 2024 14:20:21 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, airlied@gmail.com,
- christian.koenig@amd.com, matthew.auld@intel.com, daniel@ffwll.ch
-Subject: Re: [RFC PATCH 05/28] drm/gpusvm: Add support for GPU Shared Virtual
- Memory
-Message-ID: <ZtWthfrGthO6GCSB@phenom.ffwll.local>
-References: <20240828024901.2582335-1-matthew.brost@intel.com>
- <20240828024901.2582335-6-matthew.brost@intel.com>
- <b8f536b7f804da791869e6ff8c13b36ff93cd1eb.camel@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3E610E2D9
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 12:31:33 +0000 (UTC)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
+ [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA02E4CE;
+ Mon,  2 Sep 2024 14:30:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1725280221;
+ bh=igzdyWfW5jdo3OTyQsnstYJ1ADA0TjvsorCzcXGm30Q=;
+ h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+ b=WWJVZ2tK6910XvS/jQS7D0eWmDI3st5dPyjifRwN6zO734go5kvGdJ+Z8ixXQKfFp
+ Pk5dbJWNhU0EQ5eBXKJshnsKBlnL6wyPSiKU+MSl8rw+QDgrx+r7RR34U+/41vTFy0
+ OqqiUHGGO+WczaeLmHRFg9herc4SZetT1mpyht4M=
+Message-ID: <d411e79f-a22e-48e9-b135-5d7a0afa3cf3@ideasonboard.com>
+Date: Mon, 2 Sep 2024 15:31:28 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b8f536b7f804da791869e6ff8c13b36ff93cd1eb.camel@linux.intel.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mipi-dsi: Fix devm unregister & detach
+To: Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20240619-dsi-devres-fix-v1-1-a5c59310a52e@ideasonboard.com>
+ <20240626-gabby-ladybug-of-freedom-08e6eb@houat>
+ <66ab4206-d1c8-4aad-99a7-c4c316e343a9@ideasonboard.com>
+ <20240626-warping-nondescript-mustang-bfce27@houat>
+ <b7cf71b8-76fd-4638-a7b6-cc8dbae635bf@ideasonboard.com>
+ <20240702-bold-exotic-mamba-fdbba4@houat>
+ <7293448e-e8cc-4522-b39c-5ad133e5f732@ideasonboard.com>
+ <20240725-natural-giga-crane-d54067@houat>
+ <4ed3791f-bc5a-46f1-88e1-2441c7f9c8d4@ideasonboard.com>
+ <20240902-refined-smooth-mammoth-fbee81@houat>
+ <ZtWYWuqhqvdWd0Q7@phenom.ffwll.local>
+Content-Language: en-US
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ZtWYWuqhqvdWd0Q7@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,78 +111,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 30, 2024 at 11:16:53AM +0200, Thomas Hellström wrote:
-> Hi, Matthew
-> 
-> On Tue, 2024-08-27 at 19:48 -0700, Matthew Brost wrote:
-> > +/**
-> > + * DOC: Overview
-> > + *
-> > + * GPU Shared Virtual Memory (GPU SVM) layer for the Direct
-> > Rendering Manager (DRM)
-> > + *
-> > + * The GPU SVM layer is a component of the DRM framework designed to
-> > manage shared
-> > + * virtual memory between the CPU and GPU. It enables efficient data
-> > exchange and
-> > + * processing for GPU-accelerated applications by allowing memory
-> > sharing and
-> > + * synchronization between the CPU's and GPU's virtual address
-> > spaces.
-> > + *
-> > + * Key GPU SVM Components:
-> > + * - Notifiers: Notifiers: Used for tracking memory intervals and
-> > notifying the
-> > + *		GPU of changes, notifiers are sized based on a GPU
-> > SVM
-> > + *		initialization parameter, with a recommendation of
-> > 512M or
-> > + *		larger. They maintain a Red-BlacK tree and a list of
-> > ranges that
-> > + *		fall within the notifier interval. Notifiers are
-> > tracked within
-> > + *		a GPU SVM Red-BlacK tree and list and are
-> > dynamically inserted
-> > + *		or removed as ranges within the interval are created
-> > or
-> > + *		destroyed.
-> > + * - Ranges: Represent memory ranges mapped in a DRM device and
-> > managed
-> > + *	     by GPU SVM. They are sized based on an array of chunk
-> > sizes, which
-> > + *	     is a GPU SVM initialization parameter, and the CPU
-> > address space.
-> > + *	     Upon GPU fault, the largest aligned chunk that fits
-> > within the
-> > + *	     faulting CPU address space is chosen for the range
-> > size. Ranges are
-> > + *	     expected to be dynamically allocated on GPU fault and
-> > removed on an
-> > + *	     MMU notifier UNMAP event. As mentioned above, ranges
-> > are tracked in
-> > + *	     a notifier's Red-Black tree.
-> > + * - Operations: Define the interface for driver-specific SVM
-> > operations such as
-> > + *		 allocation, page collection, migration,
-> > invalidations, and VRAM
-> > + *		 release.
-> > + *
-> 
-> Another question, since ranges, as I understand it, are per gpuvm and
-> per cpu mm, whereas migration is per device and per cpu_mm, (whe might
-> have multiple gpuvms mapping the same cpu_mm), I figure the gpu_svm is
-> per gpuvm, but that makes migration currently inconsistent, right?
+Hi,
 
-I think anything that tracks va must be 1:1 tied to the single specific
-cpu mm that we use for hmm/svm. So I think that's ok.
+On 02/09/2024 13:50, Daniel Vetter wrote:
+> On Mon, Sep 02, 2024 at 11:26:11AM +0200, Maxime Ripard wrote:
+>> Hi,
+>>
+>> On Wed, Aug 07, 2024 at 03:19:23PM GMT, Tomi Valkeinen wrote:
+>>> On 25/07/2024 14:28, Maxime Ripard wrote:
+>>>> On Mon, Jul 15, 2024 at 11:32:34AM GMT, Tomi Valkeinen wrote:
+>>>>> On 02/07/2024 14:43, Maxime Ripard wrote:
+>>>>>> Hi Tomi,
+>>>>>>
+>>>>>> On Wed, Jun 26, 2024 at 06:53:40PM GMT, Tomi Valkeinen wrote:
+>>>>>>> On 26/06/2024 18:07, Maxime Ripard wrote:
+>>>>>>>> On Wed, Jun 26, 2024 at 12:55:39PM GMT, Tomi Valkeinen wrote:
+>>>>>>>>> On 26/06/2024 11:49, Maxime Ripard wrote:
+>>>>>>>>>> Hi,
+>>>>>>>>>>
+>>>>>>>>>> On Wed, Jun 19, 2024 at 12:07:48PM GMT, Tomi Valkeinen wrote:
+>>>>>>>>>>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>>>>>>>>>
+>>>>>>>>>>> When a bridge driver uses devm_mipi_dsi_device_register_full() or
+>>>>>>>>>>> devm_mipi_dsi_attach(), the resource management is moved to devres,
+>>>>>>>>>>> which releases the resource automatically when the bridge driver is
+>>>>>>>>>>> unbound.
+>>>>>>>>>>>
+>>>>>>>>>>> However, if the DSI host goes away first, the host unregistration code
+>>>>>>>>>>> will automatically detach and unregister any DSI peripherals, without
+>>>>>>>>>>> notifying the devres about it. So when the bridge driver later is
+>>>>>>>>>>> unbound, the resources are released a second time, leading to crash.
+>>>>>>>>>>
+>>>>>>>>>> That's super surprising. mipi_dsi_device_unregister calls
+>>>>>>>>>> device_unregister, which calls device_del, which in turn calls
+>>>>>>>>>> devres_release_all.
+>>>>>>>>>
+>>>>>>>>> Hmm, right.
+>>>>>>>>>
+>>>>>>>>>> If that doesn't work like that, then it's what needs to be fixed, and
+>>>>>>>>>> not worked around in the MIPI-DSI bus.
+>>>>>>>>>
+>>>>>>>>> Well, something causes a crash for both the device register/unregister case
+>>>>>>>>> and the attach/detach case, and the call stacks and debug prints showed a
+>>>>>>>>> double unregister/detach...
+>>>>>>>>>
+>>>>>>>>> I need to dig up the board and check again why the devres_release_all() in
+>>>>>>>>> device_del() doesn't solve this. But I can probably only get back to this in
+>>>>>>>>> August, so it's perhaps best to ignore this patch for now.
+>>>>>>>>>
+>>>>>>>>> However, the attach/detach case is still valid? I see no devres calls in the
+>>>>>>>>> detach paths.
+>>>>>>>>
+>>>>>>>> I'm not sure what you mean by the attach/detach case. Do you expect
+>>>>>>>> device resources allocated in attach to be freed when detach run?
+>>>>>>>
+>>>>>>> Ah, never mind, the devres_release_all() would of course deal with that too.
+>>>>>>>
+>>>>>>> However, I just realized/remembered why it crashes.
+>>>>>>>
+>>>>>>> devm_mipi_dsi_device_register_full() and devm_mipi_dsi_attach() are given a
+>>>>>>> device which is used for the devres. This device is probably always the
+>>>>>>> bridge device. So when the bridge device goes away, so do those resources.
+>>>>>>>
+>>>>>>> The mipi_dsi_device_unregister() call deals with a DSI device, which was
+>>>>>>> created in devm_mipi_dsi_device_register_full(). Unregistering that DSI
+>>>>>>> device, which does happen when the DSI host is removed, does not affect the
+>>>>>>> devres of the bridge.
+>>>>>>>
+>>>>>>> So, unloading the DSI host driver causes mipi_dsi_device_unregister() and
+>>>>>>> mipi_dsi_detach() to be called (as part of mipi_dsi_host_unregister()), and
+>>>>>>> unloading the bridge driver causes them to be called again via devres.
+>>>>>>
+>>>>>> Sorry, that's one of the things I don't quite get. Both functions are
+>>>>>> exclusively(?) called from I2C bridges, so the device passed there
+>>>>>> should be a i2c_client instance, and thus the MIPI-DSI host going away
+>>>>>> will not remove those i2c devices, only the MIPI-DSI ones, right?
+>>>>>
+>>>>> Yes.
+>>>>>
+>>>>>> So if we remove the host, the MIPI-DSI device will be detached and
+>>>>>> removed through the path you were explaing with the i2c client lingering
+>>>>>> around. And if we remove the I2C device, then devm will kick in and will
+>>>>>> detach and remove the MIPI-DSI device.
+>>>>>
+>>>>> Right.
+>>>>>
+>>>>>> Or is it the other way around? That if you remove the host, the device
+>>>>>> is properly detached and removed, but there's still the devm actions
+>>>>>> lingering around in the i2c device with pointers to the mipi_dsi_device
+>>>>>> that was first created, but since destroyed?
+>>>>>>
+>>>>>> And thus, if the i2c device ever goes away, we get a use-after-free?
+>>>>>
+>>>>> Hmm, I'm not sure I understand what you mean here... Aren't you describing
+>>>>> the same thing in both of these cases?
+>>>>>
+>>>>> In any case, to expand the description a bit, module unloading is quite
+>>>>> fragile. I do get a crash if I first unload the i2c bridge module, and only
+>>>>> then go and unload the other ones in the DRM pipeline. But I think module
+>>>>> unloading will very easily crash, whatever the DRM drivers being used are,
+>>>>> so it's not related to this particular issue.
+>>>>>
+>>>>> In my view, the unload sequence that should be supported (for development
+>>>>> purposes, not for production) is to start the unload from the display
+>>>>> controller module, which tears down the DRM pipeline, and going from there
+>>>>> towards the panels/connectors.
+>>>>>
+>>>>> Of course, it would be very nice if the module unloading worked perfectly,
+>>>>> but afaics fixing all that's related to module unloading would be a
+>>>>> multi-year project... So, I just want to keep the sequence I described above
+>>>>> working, which allows using modules while doing driver development.
+>>>>
+>>>> FTR, I'm all for supporting module unloading. The discussion above was
+>>>> about what is broken exactly, so we can come up with a good solution.
+>>>
+>>> Does that mean that you're ok with the patch, or that something should be
+>>> improved?
+>>
+>> No, I meant that at the very least the commit log needs to be updated to
+>> reflect what is actually going on, because at least my understanding of
+>> it doesn't match what actually happens.
+>>
+>> We want a solution to the problem you're facing, but it's not clear to
+>> me what the problem is exactly at this point, so it's hard to review a
+>> solution.
+> 
+> So I haven't looked at the full thing, but I think the proper fix is to
+> make both detach and unregister cope with being called multiple times. I
+> think devm_ here is a red herring, the underlying issues is that we can
+> unregister/detach from two sides:
+> 
+> - when the host dsi goes away
+> - when individual dsi devices on a given host go away
+> 
+> So there needs to be book-keeping and locking to make sure no matter which
+> order things disappear, we don't try to unregister/detach a dsi device
+> twice.
 
-There's a pile of paths where that 1:1 mapping doesn't capture the entire
-picture. but I think there the right choice is to just completely ignore
-any cpu/gpu mm/vma stuff, and defacto rely on the core mm rmap
-datastructure to make sure we find them all (e.g. to update/invalidate
-ptes during migration).
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I think that is what my patch does (for devm_).
+
+Some vocabulary first:
+
+dsi peripheral device - The device that represents the DSI peripheral. 
+It is a bridge or a panel, and (usually) an i2c or platform device.
+
+dsi peripheral driver - The driver handling the dsi peripheral device.
+
+dsi device - Runtime created device instance that represents the DSI 
+peripheral. So in my case we have the i2c bridge device, and a dsi 
+device is created for it in the setup code.
+
+dsi controller device - A device that has a DSI bus (usually a platform 
+or i2c device, I would guess).
+
+dsi controller driver - A driver for the dsi controller device. Creates 
+the dsi host.
+
+dsi host - represents the DSI host side, owned by the dsi controller driver.
+
+When a dsi peripheral driver uses devm_mipi_dsi_device_register_full() 
+or devm_mipi_dsi_attach(), the dsi device is created and attached to the 
+dsi host. When the dsi peripheral device-driver is unbound, devres will 
+call unregister and detach are called automatically. This works fine.
+
+But when the device-driver for the dsi controller is unbound, the dsi 
+controller driver will unregister the dsi host, and the unregistration 
+will also unregister and detach the dsi device. But the devres is not 
+told about that. So when the dsi peripheral is later unbound, its devres 
+will again unregister and detach.
+
+To fix that this patch uses devm_remove_action() to remove the devres 
+action when the host side goes away first.
+
+Now, after writing the above, I realized that all this won't help with 
+the non-devm versions: the host side has unregistered and detached the 
+dsi device, but if the dsi peripheral driver calls mipi_dsi_detach() or 
+mipi_dsi_device_unregister(), it will again crash.
+
+Handling the attach/detach should be quite easy, and in fact the code 
+already handles it, but it uses WARN_ON() there so that has to go. But 
+attach/detach will crash anyway if the dsi device has already been 
+freed, which happens when the dsi controller driver calls 
+mipi_dsi_device_unregister().
+
+So... The dsi peripheral driver should keep a reference to the dsi 
+device, with get_device()? And then do a put_device() after calling 
+mipi_dsi_device_unregister()?
+
+But we don't free the dsi device, it has essentially been disabled 
+without telling the dsi peripheral driver about it, which might cause 
+problems.
+
+I don't know... This doesn't sound correct to me. Probably my patch is 
+just new wrong on top of old wrong. Or maybe I don't quite grasp how 
+this works.
+
+Oh, I now realized/remembered that we can also have "real" dsi devices, 
+when the dsi peripheral is a child of the dsi bus device, and controlled 
+via DSI commands (i.e. not via i2c or memory mapped registers). Perhaps 
+all/some of this confusion in the code comes from the use of dsi device 
+for both "real" dsi devices and as a "dsi client", created by 
+i2c/platform devices.
+
+With a "real" dsi device things work fine, as the driver only attaches 
+and detaches, and the device (un)registration is handled by the dsi host.
+
+Well, this turned out to be a bit of a rambling email... I don't have a 
+clear solution in mind.
+
+  Tomi
+
