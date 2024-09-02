@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC976968CED
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 19:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AE3968CF1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 19:47:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20F0F10E38A;
-	Mon,  2 Sep 2024 17:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92A1910E38B;
+	Mon,  2 Sep 2024 17:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nnd7yWC9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D/g9IzBA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6794A10E388;
- Mon,  2 Sep 2024 17:43:20 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-1fc47aef524so2560845ad.3; 
- Mon, 02 Sep 2024 10:43:20 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56A7210E384;
+ Mon,  2 Sep 2024 17:47:01 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-20549ca1fe3so3066055ad.1; 
+ Mon, 02 Sep 2024 10:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725299000; x=1725903800; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725299221; x=1725904021; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x1Y4xLoBMjp3sOTUCmMpURmHtSqY58C0Dbpo7vkEAHg=;
- b=Nnd7yWC9ABEmxxvfPgEXVPp/7GfNHtk8wt4JflvH2PDRm2mZqwlU1WKdWMD612Y13L
- JaAPO81cAlK0ypej19hkMr2oQUC4Uxv/ABHgFXfpQM9pnHfGWY65N0UkCIKyloL4tKX9
- /hHcZZ6kX+puM5xAiH2sA21l75YBEqFH2iinB1+Dp9wLTfD5Dyf/kA2LLLdoWT+4q1Hd
- PbglBY5v5SeyqFeDxbIEYGA36za4Ia9K47iFSkcSRxfxTHyrWzklkxYmrpUTmmaPDa11
- Kl2WdpHwL6B2J+KnmuWCIlK4tS/UI1DLjKFxLG1SFOjSbeWQYHbZNkgs65pTBIOSrz+F
- hpSQ==
+ bh=f5dsshy/c+kaWBmpWBBqZVmXiicMNvJuoJNc+L9CI4k=;
+ b=D/g9IzBAarTB30d9y8Oev+ApAAaKCuvcrb1z36TySs61+1D8h/+y4SCkVKOypXGYXy
+ epI16WCX9mlu0Z0WMCCo77fzQzNDmRdEqLvaYVNvYBZg9/sFLlaFyehBd53/cOCNO/Dw
+ 05MarmE/DWxC0hI2A3oFZUlDG2gmS5VWJWKoRHXapv0uKIAZKYFOY7Kh3iGPRKXKfkvC
+ rsmhpmuRnJgwzwaZpmGZpS/LnYBOpwBHpTKDX9nX6q++l2ZW+8ZoWvfDonnlzjP2JQIx
+ NREe1QBInVTzRd8eOJnKz146mpdto2VDNAN9qAPd947+P8Ge110C8I0b231gJX6YF4Gp
+ YhNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725299000; x=1725903800;
+ d=1e100.net; s=20230601; t=1725299221; x=1725904021;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=x1Y4xLoBMjp3sOTUCmMpURmHtSqY58C0Dbpo7vkEAHg=;
- b=s13+pEfoLsZnxN3w8FWZ2NIMsw682GiFWxUfFN1ypoHKVJzmpMQTEL905D8ayPVOZf
- nSChXrcu20uRX65o8TYXHOg3WurzqRIGOMfpTmCfD7plH0kpNw58f/yTSCw1gefn4WMQ
- ymwyKdGKr7X/D2VwcCT2eKkO7oyfeQeU9K+oXc3/yXywyUvPPHwKNWA+weeA+blNy4xR
- cSWavS92NjfgJT/H5MZT8YKfuUMCLdR4hFNMDfHvZkzhuqPhhaA93ssz1xdjSw66L2br
- 6ZfFhZLyT07yqaj6UKPbjHpBAddhAmoyXyIJi41U3H7i8Gvfbmryxw59LXX05ijZkWhl
- 5q3g==
+ bh=f5dsshy/c+kaWBmpWBBqZVmXiicMNvJuoJNc+L9CI4k=;
+ b=VYzd5LBj8ctWwdekKiw39/1+v2lzulwTl2S0w/aghH2xJIeAupL/lVteJpx7JEzOxx
+ eHQ/1Eb65jqqIErZL4fuQfjLYo68nksMGU90XeYkhiCJ3Mjim1yNGSp2wuAEp04L4+JG
+ 06GxgInP0gY71tO6lMrxlDgKT+NhWTDMmk6i4+Rl4B/NQYK3gcSxlvnXhSHvQaT8T1+l
+ cAJ/RwXHK//nylo3LssNVM+htqZz8QDrZUTqjQmnrwaBH7Mh1bwp835PWX/X67hyzZOG
+ e63cJMcqIqTS4Keey8bR169157fWu9Mmo43YjTZ4wU78GNAS2Ocs0MwmKqXc4D7xuOUc
+ EEdw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUS6/i5vfXcP0ksGjgWApQMh+AOaumIIghmk0P8B314aE+1cpURw1L/mLznR2rGPj3TBl+ObDW4fq4V@lists.freedesktop.org,
- AJvYcCXdyKEtzannU6EoWD0Ae6EsY4Hnqj5u0d25tJxqh03rfvSBsmYxQ6SqvJ522rPYMaCbWAx8siAm@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzpDghdNNeumHLwugvHQB2s8c4pBmuK8/23T2O71xGs5uCnMbrf
- vc208ng4hYB6i9nzLjYuStOhI0UeB40sMzvk3+B6gwkxJ8Ayf4TCBjo6qrfQIDRoKHK6fSHgQmF
- t+9535s5a7o4QFPZO0P1VTxKMcpQ=
-X-Google-Smtp-Source: AGHT+IEfFDhE0Cdt/LAKBpKKXNaAe3MnoIOSWwH2RMO0h9YyJyv6leTurOP8FeU0UlwFR/9vrWhOfz1BCfbBHfgMVFY=
-X-Received: by 2002:a17:903:1103:b0:202:18d7:7ffb with SMTP id
- d9443c01a7336-20528847f02mr66200305ad.11.1725298999623; Mon, 02 Sep 2024
- 10:43:19 -0700 (PDT)
+ AJvYcCWZoFiU9828LG3tEpkfJTckBUnMDoE+m2zPmb8IKNRF9UOO5TqlNycqQG+laFIECb2JOUhr6jYkMKEe@lists.freedesktop.org,
+ AJvYcCWv4eZVlYbh3GhhonW8sTiOS9rZ/sCwVO1KyyqU/83nRiQydRjVThwsgamXnBh1EAtdVDILqd5L@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycLWEbFcSdnRlbCedUkSJhT1HVU0qETf9cw17cguYKV6jXW0ej
+ Y8xLHgMd2/+8xzxSnGg4sMjm24N8wvK62032asOxSZxV8aUgQvh6r+z5bFdQqhSoNKaycn5IrqN
+ 2RavCJGH+rG7DtugLEk09UHUUbwI=
+X-Google-Smtp-Source: AGHT+IHLPLQSiXJyGvUinhSNLnatd1UsY5FyvVDChDU2kqJ0Yp0NfNjYZj4NYw97xpqV/8VKDLtnj4VfPHj0wFRji9A=
+X-Received: by 2002:a17:902:ce8b:b0:205:76f3:fc22 with SMTP id
+ d9443c01a7336-20576f3fe16mr25817525ad.3.1725299220657; Mon, 02 Sep 2024
+ 10:47:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240830072554.128132-1-yaolu@kylinos.cn>
-In-Reply-To: <20240830072554.128132-1-yaolu@kylinos.cn>
+References: <20240830072708.128502-1-yaolu@kylinos.cn>
+In-Reply-To: <20240830072708.128502-1-yaolu@kylinos.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 2 Sep 2024 13:43:08 -0400
-Message-ID: <CADnq5_NhytCVtif=3OLvBkJqq1zTtm_Hkmrt1m4fREC9CSbf+w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: add raven1 gfxoff quirk
+Date: Mon, 2 Sep 2024 13:46:49 -0400
+Message-ID: <CADnq5_MmsZQynuYPz64UL0jCE3E80MU86RNR4+rM9yGtDqOWgQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: enable gfxoff quirk on HP 705G4
 To: Lu Yao <yaolu@kylinos.cn>
 Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
  sunil.khatri@amd.com, Prike.Liang@amd.com, Felix.Kuehling@amd.com, 
@@ -84,13 +84,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Fri, Aug 30, 2024 at 3:26=E2=80=AFAM Lu Yao <yaolu@kylinos.cn> wrote:
+On Fri, Aug 30, 2024 at 3:27=E2=80=AFAM Lu Yao <yaolu@kylinos.cn> wrote:
 >
 > From: Peng Liu <liupeng01@kylinos.cn>
 >
-> Fix screen corruption with openkylin.
+> Enabling gfxoff quirk results in perfectly usable
+> graphical user interface on HP 705G4 DM with R5 2400G.
 >
-> Link: https://bbs.openkylin.top/t/topic/171497
+> Without the quirk, X server is completely unusable as
+> every few seconds there is gpu reset due to ring gfx timeout.
+>
 > Signed-off-by: Peng Liu <liupeng01@kylinos.cn>
 > ---
 >  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 ++
@@ -98,7 +101,7 @@ On Fri, Aug 30, 2024 at 3:26=E2=80=AFAM Lu Yao <yaolu@kylinos.cn> wrote:
 >
 > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/=
 amdgpu/gfx_v9_0.c
-> index 2929c8972ea7..0cd5fd3fa18b 100644
+> index 2929c8972ea7..bd17e32b432d 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
 > @@ -1301,6 +1301,8 @@ static const struct amdgpu_gfxoff_quirk amdgpu_gfxo=
@@ -106,8 +109,8 @@ ff_quirk_list[] =3D {
 >         { 0x1002, 0x15dd, 0x1002, 0x15dd, 0xc6 },
 >         /* Apple MacBook Pro (15-inch, 2019) Radeon Pro Vega 20 4 GB */
 >         { 0x1002, 0x69af, 0x106b, 0x019a, 0xc0 },
-> +       /* https://bbs.openkylin.top/t/topic/171497 */
-> +       { 0x1002, 0x15d8, 0x19e5, 0x3e14, 0xc2},
+> +       /* HP 705G4 DM with R5 2400G */
+> +       { 0x1002, 0x15dd, 0x103c, 0x8464, 0xd6},
 >         { 0, 0, 0, 0, 0 },
 >  };
 >
