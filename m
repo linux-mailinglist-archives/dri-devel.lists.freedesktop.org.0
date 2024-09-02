@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB9B9682CE
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 11:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BC59682CA
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2024 11:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB96A10E273;
-	Mon,  2 Sep 2024 09:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA4810E26B;
+	Mon,  2 Sep 2024 09:11:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kY644Av9";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 25D5610E27B
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2024 09:11:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF640FEC;
- Mon,  2 Sep 2024 02:12:19 -0700 (PDT)
-Received: from [10.57.74.147] (unknown [10.57.74.147])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9C0F3F73F;
- Mon,  2 Sep 2024 02:11:50 -0700 (PDT)
-Message-ID: <ef5c4fb6-8355-4af4-81e9-b7cef88800d4@arm.com>
-Date: Mon, 2 Sep 2024 10:11:46 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634AD10E270;
+ Mon,  2 Sep 2024 09:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725268277; x=1756804277;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=y8JOYv3zqvR4zXTBElS17o9P6N9q3t/mIuVGm9ATAq8=;
+ b=kY644Av9F+ydxOGDRPjUkhH0OWwml1kJP0OTkhLxmhJzPbV7Hg9d2byd
+ ilyMgkLF/hFkDuo0TgVA+kJ6J+RlxXJ90SCDjxNUx+qQ6gBeENYrZ47m8
+ uXhqFb7NB5WYnETz3fH6F7nxZtL27GlcWiD6B/EVzblUuMxFLHZetuGMI
+ +qyXDRcRmAzJup46SuuEWo4onio2WC/9tGrNsW1oapckN3+tOAXcyzija
+ GGa2P57itWHq4od7XSSLj7WeZbqPXsrjoDM82NX0k/D3DJxpmF+JqhjZq
+ p+tqnDS7x476O3qufTWuKepggzYPaKi+yMCSE6LAC+6QkWxG2WPtdylgx Q==;
+X-CSE-ConnectionGUID: +SGcAbPWS0uS7XYofDTZ9w==
+X-CSE-MsgGUID: Z0leZoMgRWat73QIM4fVzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="27713223"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; d="scan'208";a="27713223"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2024 02:11:17 -0700
+X-CSE-ConnectionGUID: WaLg3gnKRKSM6JP/hG8vew==
+X-CSE-MsgGUID: avjXx4w4SQq1KBuS6j1uUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; d="scan'208";a="65272580"
+Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
+ ([10.145.162.146])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2024 02:11:12 -0700
+Message-ID: <7724fc32-3dbe-41dd-ad13-e91f7e6ebd8c@linux.intel.com>
+Date: Mon, 2 Sep 2024 14:44:21 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] drm/panfrost: Add SYSTEM_TIMESTAMP and
- SYSTEM_TIMESTAMP_FREQUENCY parameters
-To: Mary Guillemard <mary.guillemard@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20240819080224.24914-1-mary.guillemard@collabora.com>
- <20240819080224.24914-2-mary.guillemard@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240819080224.24914-2-mary.guillemard@collabora.com>
+Subject: Re: [PATCH v3 1/3] drm: Introduce device wedged event
+To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, daniel@ffwll.ch,
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, anshuman.gupta@intel.com,
+ bellekallu.rajkiran@intel.com, saikishore.konda@intel.com
+References: <20240902074859.2992849-1-raag.jadav@intel.com>
+ <20240902074859.2992849-2-raag.jadav@intel.com>
+Content-Language: en-US
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <20240902074859.2992849-2-raag.jadav@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,168 +77,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/08/2024 09:02, Mary Guillemard wrote:
-> Expose system timestamp and frequency supported by the GPU.
-> 
-> Mali uses an external timer as GPU system time. On ARM, this is wired to
-> the generic arch timer so we wire cntfrq_el0 as device frequency.
-> 
-> This new uAPI will be used in Mesa to implement timestamp queries and
-> VK_KHR_calibrated_timestamps.
-> 
-> v2:
-> - Rewrote to use GPU timestamp register
-> - Add missing include for arch_timer_get_cntfrq
-> - Rework commit message
-> 
-> v3:
-> - Move panfrost_cycle_counter_get and panfrost_cycle_counter_put to
->   panfrost_ioctl_query_timestamp
-> - Handle possible overflow in panfrost_timestamp_read
-> 
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-I'll push this to drm-misc-next.
+On 02/09/24 13:18, Raag Jadav wrote:
+> Introduce device wedged event, which will notify userspace of wedged
+> (hanged/unusable) state of the DRM device through a uevent. This is
+> useful especially in cases where the device is in unrecoverable state
+> and requires userspace intervention for recovery.
+>
+> Purpose of this implementation is to be vendor agnostic. Userspace
+> consumers (sysadmin) can define udev rules to parse this event and
+> take respective action to recover the device.
+>
+> Consumer expectations:
+> ----------------------
+> 1) Unbind driver
+> 2) Reset bus device
+> 3) Re-bind driver
+>
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> ---
+>  drivers/gpu/drm/drm_drv.c | 21 +++++++++++++++++++++
+>  include/drm/drm_drv.h     |  1 +
+>  2 files changed, 22 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 93543071a500..dc55cc237d89 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -499,6 +499,27 @@ void drm_dev_unplug(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_dev_unplug);
+>  
+> +/**
+> + * drm_dev_wedged - declare DRM device as wedged
+> + * @dev: DRM device
+> + *
+> + * This declares a DRM device specified by @dev as wedged (hanged/unusable)
+this doesn't seem to set any drm state as wedged, it is just sending an
+uevent. you might need to correct the above statement.
 
 Thanks,
-
-Steve
-
-> Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c  | 37 ++++++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gpu.c  | 12 ++++++++
->  drivers/gpu/drm/panfrost/panfrost_gpu.h  |  1 +
->  drivers/gpu/drm/panfrost/panfrost_regs.h |  2 ++
->  include/uapi/drm/panfrost_drm.h          |  2 ++
->  5 files changed, 54 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 671eed4ad890..790c4ad31143 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -3,6 +3,10 @@
->  /* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
->  /* Copyright 2019 Collabora ltd. */
->  
-> +#ifdef CONFIG_ARM_ARCH_TIMER
-> +#include <asm/arch_timer.h>
-> +#endif
-> +
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/pagemap.h>
-> @@ -24,10 +28,28 @@
->  static bool unstable_ioctls;
->  module_param_unsafe(unstable_ioctls, bool, 0600);
->  
-> +static int panfrost_ioctl_query_timestamp(struct panfrost_device *pfdev,
-> +					  u64 *arg)
+Aravind.
+> + * and generates a uevent for it, on the basis of which, userspace may take
+> + * respective action to recover the device.
+> + * Currently we only set WEDGED=1 in the uevent environment, but this can
+> + * be expanded in the future.
+> + */
+> +void drm_dev_wedged(struct drm_device *dev)
 > +{
-> +	int ret;
+> +	char *event_string = "WEDGED=1";
+> +	char *envp[] = { event_string, NULL };
 > +
-> +	ret = pm_runtime_resume_and_get(pfdev->dev);
-> +	if (ret)
-> +		return ret;
+> +	DRM_INFO("%s: device wedged, generating uevent\n", dev_name(dev->dev));
 > +
-> +	panfrost_cycle_counter_get(pfdev);
-> +	*arg = panfrost_timestamp_read(pfdev);
-> +	panfrost_cycle_counter_put(pfdev);
-> +
-> +	pm_runtime_put(pfdev->dev);
-> +	return 0;
+> +	kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
 > +}
+> +EXPORT_SYMBOL(drm_dev_wedged);
 > +
->  static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct drm_file *file)
->  {
->  	struct drm_panfrost_get_param *param = data;
->  	struct panfrost_device *pfdev = ddev->dev_private;
-> +	int ret;
+>  /*
+>   * DRM internal mount
+>   * We want to be able to allocate our own "struct address_space" to control
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index cd37936c3926..a0b2d1435b86 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -489,6 +489,7 @@ void drm_put_dev(struct drm_device *dev);
+>  bool drm_dev_enter(struct drm_device *dev, int *idx);
+>  void drm_dev_exit(int idx);
+>  void drm_dev_unplug(struct drm_device *dev);
+> +void drm_dev_wedged(struct drm_device *dev);
 >  
->  	if (param->pad != 0)
->  		return -EINVAL;
-> @@ -69,6 +91,21 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->  		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
->  		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
->  		PANFROST_FEATURE(THREAD_TLS_ALLOC, thread_tls_alloc);
-> +
-> +	case DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP:
-> +		ret = panfrost_ioctl_query_timestamp(pfdev, &param->value);
-> +		if (ret)
-> +			return ret;
-> +		break;
-> +
-> +	case DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP_FREQUENCY:
-> +#ifdef CONFIG_ARM_ARCH_TIMER
-> +		param->value = arch_timer_get_cntfrq();
-> +#else
-> +		param->value = 0;
-> +#endif
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index fd8e44992184..f19f918e2330 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -380,6 +380,18 @@ unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev)
->  	return ((u64)hi << 32) | lo;
->  }
->  
-> +unsigned long long panfrost_timestamp_read(struct panfrost_device *pfdev)
-> +{
-> +	u32 hi, lo;
-> +
-> +	do {
-> +		hi = gpu_read(pfdev, GPU_TIMESTAMP_HI);
-> +		lo = gpu_read(pfdev, GPU_TIMESTAMP_LO);
-> +	} while (hi != gpu_read(pfdev, GPU_TIMESTAMP_HI));
-> +
-> +	return ((u64)hi << 32) | lo;
-> +}
-> +
->  static u64 panfrost_get_core_mask(struct panfrost_device *pfdev)
->  {
->  	u64 core_mask;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> index d841b86504ea..b4fef11211d5 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> @@ -20,6 +20,7 @@ void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev);
->  void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
->  void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
->  unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev);
-> +unsigned long long panfrost_timestamp_read(struct panfrost_device *pfdev);
->  
->  void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index c25743b05c55..c7bba476ab3f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -78,6 +78,8 @@
->  
->  #define GPU_CYCLE_COUNT_LO		0x90
->  #define GPU_CYCLE_COUNT_HI		0x94
-> +#define GPU_TIMESTAMP_LO		0x98
-> +#define GPU_TIMESTAMP_HI		0x9C
->  
->  #define GPU_THREAD_MAX_THREADS		0x0A0	/* (RO) Maximum number of threads per core */
->  #define GPU_THREAD_MAX_WORKGROUP_SIZE	0x0A4	/* (RO) Maximum workgroup size */
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 9f231d40a146..52b050e2b660 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -172,6 +172,8 @@ enum drm_panfrost_param {
->  	DRM_PANFROST_PARAM_NR_CORE_GROUPS,
->  	DRM_PANFROST_PARAM_THREAD_TLS_ALLOC,
->  	DRM_PANFROST_PARAM_AFBC_FEATURES,
-> +	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP,
-> +	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP_FREQUENCY,
->  };
->  
->  struct drm_panfrost_get_param {
-
+>  /**
+>   * drm_dev_is_unplugged - is a DRM device unplugged
