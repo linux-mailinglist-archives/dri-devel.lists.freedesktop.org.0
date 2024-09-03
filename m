@@ -2,76 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D184B96962C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 09:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F66969643
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 09:57:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3958A10E42F;
-	Tue,  3 Sep 2024 07:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 058F310E434;
+	Tue,  3 Sep 2024 07:57:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ONoWIZ1d";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ITiu+lhi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F8210E42F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 07:53:42 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2f4f2cda058so53207071fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 00:53:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725350020; x=1725954820; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7TiTMt1SzeO5kHwfa3dwDdOON7oza5zp3pck2Zjm9J0=;
- b=ONoWIZ1dmtNglK6hd7FrbB71IXQCkEBBknM2YJ3AvqWyTxpJe7MTr4N9Fj9Dt7xJ1D
- 2cP/8mftBPZqKGWL1T09BJL5fKFFZ0hGMs9osKhUVfgsADdlivK3kBtrLjFonu3dQSlY
- SDtLxF3CUScNFf0K7PrHapa1XBz6MB1KGV34Th3qeuXkc84nsmsBDPVtRffgyGxCORC+
- ibcILDVnjbNyse1fEs7amqFTUyFwRZFZYPQR6sF0Rse5XNXJH6L7rxJBIi4ULn9wrILn
- 8ONIf2OHQEmhUbmnFdCgGak5a8D54DhtRrYp5yZQbbO/i7EqeiQ5iCDcO6CEnW+DtBhV
- mziw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725350020; x=1725954820;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7TiTMt1SzeO5kHwfa3dwDdOON7oza5zp3pck2Zjm9J0=;
- b=HAbkal15eQBAZrfjZcoZi31psmLKVcdvrg2bc3jTCChs8OKFtoBNvw0dN5WNxQ531F
- W0PP+zmuNJrS1jZHi3RUogk+17MhG0FVTwpiBntu09pXtn5p95foBeqbNGJMXN6/zwxn
- hGOHFSqzVaCX49bAQophb/aXXreSa7vtQ46fU5YxwdbAy34yBSzPfwWnJN+aA5hNlCK6
- CrGWWx/o+ewrC/aZiO/xb8+r4Axnu4xAzptmystkv0kiNEIGBGhke8yj0IW+36Rdmzu2
- EC6cuz15HrK7iLclc2E0r9znLhzU6U5wkN2l0jnGa2/DeEUszBjC9wun65KxiCWM/ezN
- novA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWAm/Dprss3A2hqhfi716bWf1XPNtfgXw84ZTyQnSiIK5oor0tI/xa9tt/T0KRqwidj2LfHBiqdFgU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycY48xWeDD9VhhxKjWEbMUTC9ABxWz+dG8ocAK+zV89ISZiyqs
- o9gCLVlimupegJDmoLMg1PrYuNecuv9QS6gd7rELPjEx77h2Sai4qrcjfIfYNexPG/NJAgl3F8E
- kBlB33ArUUk2MUmDGSgJm6A4rTB5iqFRoZmA/QA==
-X-Google-Smtp-Source: AGHT+IGljCALoD43cpdVsnf1cgnSW+In5Nh90jpKkYsvDMlPUGx4lQ4sUScj5CVZgYFOB0fdFJZ+sIsTscH3uyMYYB4=
-X-Received: by 2002:a05:6512:3e1d:b0:52f:1b08:d2d8 with SMTP id
- 2adb3069b0e04-535462f75c9mr3898824e87.7.1725350019128; Tue, 03 Sep 2024
- 00:53:39 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 000AF10E433;
+ Tue,  3 Sep 2024 07:57:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RD1um6qm5QVF/vC8vDbPk+rQ3eVqXCaMTlqHxT59VQAMtyAI/0X6BEOZGMz++GW2cRH56p+HOJXCCBvKTCqJHvRgP/sgDps9Zw1Lzn5mc29OJSShx2doUh1uk3FGLSeSz9LyXnWxCB6ag+o2vo9lWCo71/+YwOWtanyVQnLu/dvlmbGNdexG+N/W4BurRydRBbku0OtqJdfUS73hZZhcr2tbUlmkqtjOiXpFTR/iLuGPNGs/DVDhRwLhFeqAtXqVTO1KEZjLLQx9d5PPJaCw8bV/n1JsDGqSTPhR7pCY+iopWJaCx7HeYj4dElwPV7uNbFmvMvNGkpX43aWQefAiZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NPbbxM5++1p2Zcjrx720bL2KDFvO3EOw2X2MR2bLTlY=;
+ b=LCUvK20oXZFX8buNYlGiyd1U7AHNJcAIubuvDS6UlP0fEOQgAho1mjptjWJTbZev0mkZBy19gcOa/KstcT4pFNBvYc1PM8JkAgKc/D3eGwjaawjAHgfqHD34pPZ0pJkUzlANXxbE/GFfk4Jzct3WzK7DpryTBHhTTWUpQBWzYZnoMg4kMtwROcar0AivHzM37EDkxcbs1fgb+RefFVU6jnW5Bla2M7QuD3EJxpJi369Ieh3VZI67kTF03sVLBb1D/VU/oxCWEZ7ydP0Ujio7vN7G1p0Yi+4ULGq/KwAPQh2CwrqBQPmJgpLXmb+0XPFri3gPJRBDoOAe5NECaT3BZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NPbbxM5++1p2Zcjrx720bL2KDFvO3EOw2X2MR2bLTlY=;
+ b=ITiu+lhioRV7Bq7imMeshDI448NQtdZhCboLtmNZs6Tv8TtoRxTCx9pCUl0vKibvOcsz+4Lf91no18XBuV5yqvEBBY5yi1TzxDl0TWve50QuoY8t5yBfJfm/A4708akAS8McODmzglBzUwpX5/1FWQ20wKChugpF5e4elBjpgXE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB9127.namprd12.prod.outlook.com (2603:10b6:510:2f6::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.23; Tue, 3 Sep
+ 2024 07:57:06 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Tue, 3 Sep 2024
+ 07:57:06 +0000
+Message-ID: <2faa3873-9d17-4f48-8d19-85a22f970aad@amd.com>
+Date: Tue, 3 Sep 2024 09:57:01 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/ttm: Move pinned objects off LRU lists when
+ pinning
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+References: <20240902154159.78871-1-thomas.hellstrom@linux.intel.com>
+ <20240902154159.78871-3-thomas.hellstrom@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240902154159.78871-3-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0180.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org>
- <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-18-bdb05b4b5a2e@linaro.org>
- <CAA8EJpoj6vs1JsDWgqof9Ogt-0Zq6hUpuaK42YwByDGrpUopnw@mail.gmail.com>
-In-Reply-To: <CAA8EJpoj6vs1JsDWgqof9Ogt-0Zq6hUpuaK42YwByDGrpUopnw@mail.gmail.com>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Tue, 3 Sep 2024 15:53:27 +0800
-Message-ID: <CABymUCOOWSSUnk3wdh4bKiOJb8k44_F2-ik9MeKuB1kF66576A@mail.gmail.com>
-Subject: Re: [PATCH 18/21] drm/msm/dpu: blend pipes by left and right
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB9127:EE_
+X-MS-Office365-Filtering-Correlation-Id: c1911da9-f32c-4918-cdc2-08dccbee014e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1lPVDk3V2NSK1IyT2Z1ZitETXpsSzFreUtiNEQ5bUtRS1BFYUM3QUl0RkdE?=
+ =?utf-8?B?N25XMVZXOU5HUzRxclFMS1FDQkJ1R0wrUURFYkpteUJFQU9xQ09lWnhyOXNa?=
+ =?utf-8?B?OWhZMW1vanBmYjZHUEJQUUtxdEVoalgyZ0ZDK3R4Q2R5WlkyYUxTMkRTb2w0?=
+ =?utf-8?B?Ykl1OXhnak5hY25Gdk5CV3B1N0tWZnlpek1uSW4vSktUYXpWOTlTRmk1aHUw?=
+ =?utf-8?B?WHZHelpjSnNzOVlsR1JmcWh3a3FBT0xaM0gxYjBndGEvNzcyMUtOS3lTMHMv?=
+ =?utf-8?B?TXhRblBVdE5aS0FBWHpQRHhMYnFlcjNJUHR6cDlqaDBYV2dIM0NhN21wa0p4?=
+ =?utf-8?B?K290V0VmbEh5RFQ3NmlDTXBtWkUybDc3bjJ5MXBIU2NWY3M4bjVhQVVKNktj?=
+ =?utf-8?B?Zm5jYnFkYTVOZEg2ZEFsVWhFa0kwUy9KRmVoWmRJVkVBU25TaFRxNWx4REsw?=
+ =?utf-8?B?V3haaVJlblk0Q2J4aDZDT0Y0YVFlc1Uvc05uZVRva1VoYThIRGZMUVAxSFZ1?=
+ =?utf-8?B?QjNDcEFtU1ROZWZJbW1FdW9kSmVhTWdnd0dCQ1ZlMVJPbGx2OFYvWkgwaDJn?=
+ =?utf-8?B?YWxrS0MvaTcwWXg0WkRCSVBSeVMya0MvSnNiQ0NCc01iaXNYWVhrRE5nTS9t?=
+ =?utf-8?B?MFBKRXovb3FPU2xpWXZsRmlpQ2Y0OGJRNTdLMHk4a1k4Y0VtUDJpUVgvTDRV?=
+ =?utf-8?B?ZkN5Q3VPdmtBekNqUjlTNzZId0dhUTFRY2tseHZkZDUrbk1LMWgyV1hVVmRr?=
+ =?utf-8?B?Njdtb3ArL2FENmZaSGxnQVRKOGxuaE5vUmpjNXdBSGN2Wi9LQzlnV0p6cDRY?=
+ =?utf-8?B?VFZjNFh4RWROWEJDLzJaV3l3V3hIZHNDVWNwVEdvMzdoUXpNcHVpeUVmRXgr?=
+ =?utf-8?B?SjB6cGJadmpxdWhCV05IZitzWUViY25HRkxmQUxZSHhHSE9odTcxZUVWVXBz?=
+ =?utf-8?B?eXd6TFIzYkNrblVDVVVPM2Vjc2Uvb3dweUx1cDlCUXdLY0Eybks5N21VR3o1?=
+ =?utf-8?B?aVFBWk44QnVmbXB6RU9ROS9BYjI3OGx2Y0VKd2syU2dlc0EyTm9tKzd1cDE5?=
+ =?utf-8?B?cThSY2E3TWxPUjhic1FPVCs1N1VxTlQ4N215eWV5TEJXY2pCTTBHOHdVSmI3?=
+ =?utf-8?B?SURGV3RZZXp1WGZETjc4d3lucCtmcU4vR1NCV1RlYlh1NGVTOFh1QjZ2bHpu?=
+ =?utf-8?B?RGFHL1NDZ2RXWll6TXVuelJrQ1MySSttUnU4SlhJVUJteS8vMFU0S2VwcUVn?=
+ =?utf-8?B?ZS9CZmI5aG9UTGQ0VEkvblpZaWhQV2RrTmQ4ZzlUeEpKNlJEZGt0b1c4YktH?=
+ =?utf-8?B?WmNHT01hcWZzNHJvb2ZNVGo4SXR2M2dhZ1NpYWM4dEY3ODFVeFBPUzFnNmEy?=
+ =?utf-8?B?NEdreW1NRHZNc0Y4TkVKTkh6MWVBZitNSHdBZ2dSSFdBYXlUeEd2ampycnBv?=
+ =?utf-8?B?L21aU05CSjMrZHRxZFV4RUJUTEJlN3gwUEN6aTFGOWhISTJrWkI5NHVucndK?=
+ =?utf-8?B?LzRJYWpMWDhOelBzQmdxTnBkeTdMRlJTMWpRYy95QjZ1NXIvOS9GTTZUTmJQ?=
+ =?utf-8?B?UGllUVQ5ZFdjbVJxOUNNbDVNRE11citHcmZnMnJOREh4cHhIMjVsS0k2bWVn?=
+ =?utf-8?B?NTRCL29uYWh0Y0tPZWFoTUwwRmx5QTBzRnNUQWdmRk85Sm50Q2hPWDcyZ1hX?=
+ =?utf-8?B?aHdMcU5RN3d2K3dVSWJPNlRCR3B5VkJZY3RMZTNEVUJkR1p3S3NBUStsc01q?=
+ =?utf-8?B?SmttRDRlZ0NURkdBemhuSEQ0N2t3SHpIb1pVM09JUkRUNHo3TG53VGtUVnJH?=
+ =?utf-8?B?R0NURzN6RVN6VlVQUXhkZz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0V4bFI4cTRpSUl5YXdKZ1BkamxhUStWOHhOajdNaDdTOE5NQjZKMi9KZ0Zx?=
+ =?utf-8?B?cWYyOUNRNW0vR3U4eDJmZW9xZ2daOHZFb2orOVh0amxRKzcrSEswcjY1MUtD?=
+ =?utf-8?B?aTV2a2ZOYVFVVjUwVjZWYUt0ZHh5ejNsV29zSm95NUl6ZW16OHdPbm1BRWJt?=
+ =?utf-8?B?cmNhV0JVeVlPcUtDNlFiZ2I3YmpRM3dieDd1aGJYUUwxWUYzQ05Wd3lGSlNr?=
+ =?utf-8?B?YUdIQ25KRUl1bldiRXVkOTlYY2N6VHVqd0xLMkZINk4xUW05S2hPcG9QaDFD?=
+ =?utf-8?B?ZnZyL0VNL2pZbkxMSitwbk01Qmx5L05BUVZycjdGd0FtNDNCMDJDLzc0dWY1?=
+ =?utf-8?B?d0NUVkV5TXI1RG9uWFJJY2QvdkEwSmd6NUE1clBFbFR3VldjVlQreUt2VGdi?=
+ =?utf-8?B?WkhFNmFtbTUyWTBlalVMYnJVNkx3SUEvTzY0Y3AzVXpWSmdiZmRsdXdZVnFv?=
+ =?utf-8?B?SW5xSDgxV0ZhS1NLeVE4SXRmd2pvRDZ2NC9ra1FuQm1qeTdoRG9ETE53dVRq?=
+ =?utf-8?B?cUV2TjhCWHRnbmpGcU1iZ3FCL2FvandWQitCV3ROdjdNRWhqQzNycFdWc0g4?=
+ =?utf-8?B?MUZvT1FQUy9JaFFyNWRqV0d5WWVKdnVENElnZVBGNGZYdFkzdVFxTzd6ZVpy?=
+ =?utf-8?B?VWVoeWdPTEFYWlc1d2lOa1lzWW9wZ0ljdDVSS1dhOUNNZVJVMm9YNklvY1RK?=
+ =?utf-8?B?ZnY0YXJRUE9idDZrQTNYOXB0VFIveVJ4UGJ3M0M1U1JVWjZnQW5NTHp1eWc1?=
+ =?utf-8?B?NlcwN0VhVjBlSlpTdkV6RTd4N3lXcS9vNEkyNDRqMkNoamQ5S3V3cVYyNENU?=
+ =?utf-8?B?a0ZtaitXK2tkNXlVZklDZXVaUTMzVGV6dGQrcFE5cnVoanNWWjNQdlQwd1NJ?=
+ =?utf-8?B?OUxzNm4vWkRoUDFHRlUwVWt6TlJ5bXE0bTdtTTcxWFpRTTNhQ2tiNzk3aVdu?=
+ =?utf-8?B?R3E4b2txdU9mTXUyeEpuL0RCbXcvd05pemNBNlpISXNVV29XMTQvYlUvT2lH?=
+ =?utf-8?B?Rys3R1RUaXZrTE9UVVBUSW9iLzNadmNNYjE1emNQMllvNXJNYXoyekplYjNS?=
+ =?utf-8?B?N25vdEZFdmF6RS94RzkreVhDbDBqeElqbVdrQ2gzMVJnTUJhWm5TbERMRzJ5?=
+ =?utf-8?B?RmIrVXNtU1paNnV5a0U4SzU0SGJVK3FhQzI2eTVZTnNTaVRMLytJaExKcmFx?=
+ =?utf-8?B?VUZsQUtQcjIzUWVBdmZ2UWFqZWxkdmR2ckMxN1FYOW03emEzdG9tMHVnVWlT?=
+ =?utf-8?B?bFIxcXJ1Z1hhTDBMVWtralVpMHhMNnM3bGNhZlptUHFXUVZ1NTFNNVlkTlZa?=
+ =?utf-8?B?K3dLekRmd2tjUFpvYnRQREdiUkV1RGxsZnovVjhIaVVSK3ByUG4xelFTNEpy?=
+ =?utf-8?B?bVhIc2IxTTM0dG1mcStCczUycDl4Ukc3SEJFZDUzT2V6OFA0Q295TDRJdmtS?=
+ =?utf-8?B?UGZkMDl1RmV4c1FXTVF4MUxvZ0xqNFNjZWRCbi9aSnZCa2NDbUhNK1RlY1RU?=
+ =?utf-8?B?ZkN6Yk0zWmIyTjVxUUZIeVMvVEtxdTdnZ0hMbnNBb01wWXpQamZ0QUNXVzli?=
+ =?utf-8?B?dDlkY3VHclBCVFZwcy9CeUtQeWNhU3JIMU13UUNjQ0ZkOW1MQzdDOGgrMHpt?=
+ =?utf-8?B?aXFBNUh2MmJBNytPVlNmdEhLTXd2clVaL1NNU1o0UGlxdW5PY1NVcVNTUzBs?=
+ =?utf-8?B?V2g3VU5MQkprUHZxbUR6WTJpNkd4dVNDR09aNW9CaUwzanJ4VlB6QzRRZmRI?=
+ =?utf-8?B?Mis2a2pxeHBLVElFMnRVQ3VBanNWOW5iQkpWcmExYmh5VEhHMmpNM1k3SEhU?=
+ =?utf-8?B?L0lYZnBMM3hXMDhweFdIZnNpWHl4VTVUbFk5akJucHlYZnZMWnBYUlNJQlJK?=
+ =?utf-8?B?Z3M5L1g1NEF0K0J5Rk1henJ0Nng1SUJtZ1FOVzZuS2d1ZmlKdUdRYzlTQktR?=
+ =?utf-8?B?bzVqQm04TVZrektIZHVsS2ZjSjVWdXFhaUd0OC9YNXBZVkVlM3NKQjRBV2xn?=
+ =?utf-8?B?UnpYdnZ1dGRkMVZlRTVKaXJGT2R1NHRJV2lOUnJVUkNwQVMyRG5ZT0FZUzht?=
+ =?utf-8?B?NTdmaWJjR3hLM0x4clk0NVgxcHd3TFFwUTFkOVBUNHVyaXNvNExZM1d1OGZs?=
+ =?utf-8?Q?feA479KbNbcawbKQk5FYQQek/?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1911da9-f32c-4918-cdc2-08dccbee014e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 07:57:06.6611 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Yz0UlRiTgW2quJFlvIz7JvwGY87tpuq+TtP/SFBTlm0qispKsipTxncbSET5aTm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,185 +162,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B48=E6=
-=9C=8829=E6=97=A5=E5=91=A8=E5=9B=9B 19:51=E5=86=99=E9=81=93=EF=BC=9A
+Am 02.09.24 um 17:41 schrieb Thomas Hellström:
+> The ttm_bo_pin() and ttm_bo_unpin() functions weren't moving their
+> resources off the LRU list to the unevictable list.
 >
-> On Thu, 29 Aug 2024 at 13:21, Jun Nie <jun.nie@linaro.org> wrote:
-> >
-> > Blend pipes by left and right. The first 2 pipes are for
-> > left half screen and the later 2 pipes are for right in quad
-> > pipe case.
-> >
-> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 13 +++++++++++--
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 10 +++++++---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  | 19 +++++++++++++++++--
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h  |  4 +++-
-> >  4 files changed, 38 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm=
-/msm/disp/dpu1/dpu_crtc.c
-> > index 3b3cd17976082..8fd56f8f2851f 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > @@ -574,8 +574,17 @@ static void _dpu_crtc_blend_setup(struct drm_crtc =
-*crtc)
-> >                         mixer[i].mixer_op_mode,
-> >                         ctl->idx - CTL_0);
-> >
-> > -               ctl->ops.setup_blendstage(ctl, mixer[i].hw_lm->idx,
-> > -                       &stage_cfg);
-> > +               /*
-> > +                * call dpu_hw_ctl_setup_blendstage() to blend layers p=
-er stage cfg.
-> > +                * There is 4 mixers at most. The first 2 are for the l=
-eft half, and
-> > +                * the later 2 are for the right half.
-> > +                */
-> > +               if (cstate->num_mixers =3D=3D 4 && i >=3D 2)
-> > +                       ctl->ops.setup_blendstage(ctl, mixer[i].hw_lm->=
-idx,
-> > +                               &stage_cfg, true);
-> > +               else
-> > +                       ctl->ops.setup_blendstage(ctl, mixer[i].hw_lm->=
-idx,
-> > +                               &stage_cfg, false);
-> >         }
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_encoder.c
-> > index 76793201b984e..5d927f23e35b2 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > @@ -2049,9 +2049,13 @@ static void dpu_encoder_helper_reset_mixers(stru=
-ct dpu_encoder_phys *phys_enc)
-> >                 if (phys_enc->hw_ctl->ops.update_pending_flush_mixer)
-> >                         phys_enc->hw_ctl->ops.update_pending_flush_mixe=
-r(ctl, hw_mixer[i]->idx);
-> >
-> > -               /* clear all blendstages */
-> > -               if (phys_enc->hw_ctl->ops.setup_blendstage)
-> > -                       phys_enc->hw_ctl->ops.setup_blendstage(ctl, hw_=
-mixer[i]->idx, NULL);
-> > +               /* clear all blendstages in both left and right */
-> > +               if (phys_enc->hw_ctl->ops.setup_blendstage) {
-> > +                       phys_enc->hw_ctl->ops.setup_blendstage(ctl,
-> > +                               hw_mixer[i]->idx, NULL, false);
-> > +                       phys_enc->hw_ctl->ops.setup_blendstage(ctl,
-> > +                               hw_mixer[i]->idx, NULL, true);
-> > +               }
-> >         }
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_hw_ctl.c
-> > index 602dfad127c2a..2072d18520326 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > @@ -478,12 +478,13 @@ static const struct ctl_blend_config ctl_blend_co=
-nfig[][2] =3D {
-> >  };
-> >
-> >  static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
-> > -       enum dpu_lm lm, struct dpu_hw_stage_cfg *stage_cfg)
-> > +       enum dpu_lm lm, struct dpu_hw_stage_cfg *stage_cfg, bool right)
-> >  {
-> >         struct dpu_hw_blk_reg_map *c =3D &ctx->hw;
-> >         u32 mix, ext, mix_ext;
-> >         u32 mixercfg[5] =3D { 0 };
-> >         int i, j;
-> > +       int pipe_start, pipe_end;
-> >         int stages;
-> >         int pipes_per_stage;
-> >
-> > @@ -502,13 +503,27 @@ static void dpu_hw_ctl_setup_blendstage(struct dp=
-u_hw_ctl *ctx,
-> >         if (!stage_cfg)
-> >                 goto exit;
-> >
-> > +       /*
-> > +        * For quad pipe case, blend pipes in right side separately. Ot=
-herwise,
-> > +        * all content is on the left half by defaut (no splitting case=
-).
-> > +        */
-> > +       if (!right) {
+> Make sure that happens so that pinned objects don't accidently linger
+> on the LRU lists, and also make sure to move them back once they
+> are unpinned.
 >
-> I think the approach to set PIPES_PER_STAGE to 4 is incorrect. It
-> complicates the code too much. Instead please use two separate
-> instances, each one representing a single LM pair and corresponding
-> set of SW pipes. Yes, you'd have to iterate over them manually.
-> However I think it's also going to make code simpler.
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-OK. I can explore this method.
->
-> > +               pipe_start =3D 0;
-> > +               pipe_end =3D pipes_per_stage =3D=3D PIPES_PER_STAGE ? 2=
- : 1;
->
-> pipe_end =3D pipes_per_stage
->
-> > +       } else {
-> > +               pipe_start =3D 2;
-> > +               pipe_end =3D PIPES_PER_STAGE;
->
-> So, the right part always has 2 pipes? What if the
-> DPU_MIXER_SOURCESPLIT isn't supported?
+I really can't figure out why we removed that. Anyway Reviewed-by: 
+Christian König <christian.koenig@amd.com> for now.
 
-Yeah, the case is missed. It should be like this for the right half:
-pipe_start =3D pipes_per_stage =3D=3D PIPES_PER_STAGE ? 2 : 1;
-pipe_end =3D pipes_per_stage =3D=3D PIPES_PER_STAGE ? PIPES_PER_STAGE : 2;
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index d244566a7e48..057a65f51969 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -592,9 +592,10 @@ void ttm_bo_pin(struct ttm_buffer_object *bo)
+>   	dma_resv_assert_held(bo->base.resv);
+>   	WARN_ON_ONCE(!kref_read(&bo->kref));
+>   	spin_lock(&bo->bdev->lru_lock);
+> -	if (bo->resource)
+> +	if (!bo->pin_count++ && bo->resource) {
+>   		ttm_resource_del_bulk_move(bo->resource, bo);
+> -	++bo->pin_count;
+> +		ttm_resource_move_to_lru_tail(bo->resource);
+> +	}
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   }
+>   EXPORT_SYMBOL(ttm_bo_pin);
+> @@ -613,9 +614,10 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo)
+>   		return;
+>   
+>   	spin_lock(&bo->bdev->lru_lock);
+> -	--bo->pin_count;
+> -	if (bo->resource)
+> +	if (!--bo->pin_count && bo->resource) {
+>   		ttm_resource_add_bulk_move(bo->resource, bo);
+> +		ttm_resource_move_to_lru_tail(bo->resource);
+> +	}
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   }
+>   EXPORT_SYMBOL(ttm_bo_unpin);
 
-
->
->
-> > +       }
-> > +
-> > +       DRM_DEBUG_ATOMIC("blend lm %d on the %s side\n", lm - LM_0,
-> > +                        right ? "right" : "left");
-> >         for (i =3D 0; i <=3D stages; i++) {
-> >                 /* overflow to ext register if 'i + 1 > 7' */
-> >                 mix =3D (i + 1) & 0x7;
-> >                 ext =3D i >=3D 7;
-> >                 mix_ext =3D (i + 1) & 0xf;
-> >
-> > -               for (j =3D 0 ; j < pipes_per_stage; j++) {
-> > +               for (j =3D pipe_start; j < pipe_end; j++) {
-> >                         enum dpu_sspp_multirect_index rect_index =3D
-> >                                 stage_cfg->multirect_index[i][j];
-> >                         enum dpu_sspp pipe =3D stage_cfg->stage[i][j];
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_hw_ctl.h
-> > index 557ec9a924f81..2dac7885fc5e7 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> > @@ -25,6 +25,8 @@ struct dpu_hw_ctl;
-> >  /**
-> >   * struct dpu_hw_stage_cfg - blending stage cfg
-> >   * @stage : SSPP_ID at each stage
-> > + *          The first 2 in PIPES_PER_STAGE(4) are for the first SSPP.
-> > + *          The 3rd/4th in PIPES_PER_STAGE(4) are for the 2nd SSPP.
-> >   * @multirect_index: index of the rectangle of SSPP.
-> >   */
-> >  struct dpu_hw_stage_cfg {
-> > @@ -243,7 +245,7 @@ struct dpu_hw_ctl_ops {
-> >          * @cfg       : blend stage configuration
-> >          */
-> >         void (*setup_blendstage)(struct dpu_hw_ctl *ctx,
-> > -               enum dpu_lm lm, struct dpu_hw_stage_cfg *cfg);
-> > +               enum dpu_lm lm, struct dpu_hw_stage_cfg *cfg, bool righ=
-t);
-> >
-> >         void (*set_active_pipes)(struct dpu_hw_ctl *ctx,
-> >                 unsigned long *fetch_active);
-> >
-> > --
-> > 2.34.1
-> >
->
->
-> --
-> With best wishes
-> Dmitry
