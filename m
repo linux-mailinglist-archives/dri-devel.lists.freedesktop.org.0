@@ -2,89 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958A29691F1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 05:23:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169D096940A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 08:45:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D5D10E3D9;
-	Tue,  3 Sep 2024 03:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA03010E3BB;
+	Tue,  3 Sep 2024 06:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DbFHwn0P";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="R0FTTo49";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41E3310E3E6
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 03:23:07 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2f50f1d864fso55370591fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 20:23:07 -0700 (PDT)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
+ [209.85.161.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19FD10E148
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 04:58:52 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id
+ 006d021491bc7-5df998d7a44so2832797eaf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 21:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725333785; x=1725938585; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=TdplmJxptUI5vC4a8O6uUv9gCPQGqO+K3YZJZ67p41c=;
- b=DbFHwn0PZs7AhZ/G7mO8oocOUiS3hpV2ObC7sYwGDsdWvYdhtQ93VWv9f5pFA/gVeg
- Q8Kob8uC0P9vsOE0LRnxkk9Nsj6RYPl2qS0+UlfgjUK9Dm+amP6wT0bAsStTli2zT7bB
- lEvOs98JTCxrSNyGnEFQRl+HYxQthfT7Pzq6mIC7eVEjoaP97rhQTi2dQIFHX4jlZSyp
- pcroGnw0VCW+g0cq6Pry9/4HUZh2w0ZAuoZqPUA7CUohdS2pQ8qD0RIKwZxibqHQIOSN
- 1aVX6kHPAR7TlHzHfZ7goLdyNpf5dMnzNi4+iR8OHvEbKXWwqZNBVTvwjWjWoUF5jnUU
- EXPw==
+ d=broadcom.com; s=google; t=1725339532; x=1725944332;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sPhZdW35wA0lKARiWkZjmf+aWFeCFp2ESl8o+4bQ7rQ=;
+ b=R0FTTo49kn1U+3eGiTNHetXGno20cL5ijDDyMXGulQLJdaCav0yU5F6iWNzxUp3jGV
+ jCwFbspEAE9LtLga+BI5ECFWxf6xTE79yz6Pjs6Hp2RKkFzJ3JWonHwoaSliT2lssWWn
+ esrVM3q6dRcTOezOsOIbwprKpzhCh+LqxNw9I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725333785; x=1725938585;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TdplmJxptUI5vC4a8O6uUv9gCPQGqO+K3YZJZ67p41c=;
- b=Hbolv6YE4XV2iv5gXiuOvge+mrXXo3XaP8rqQJji7qBII1wG+KDjog6wj6XC/mzC05
- IJUADgo4bQCQV200YaJHONsBYvAnQ/RYVmQ+Vvx/rPxMHGK2kBSJjtLH+prEmhCuYREs
- aKMDfWNTfSHoc5FviW813sRp5CJ2KuTFEmPynycDPTysQIxMDM3DczhgCtSznkqXixcL
- r6w7PHcehpb9Jg+i/zzXBBIt/eK2hC2GEvnEYdME0EoTGL4LdxmXhnJSED1H2lYGnTiG
- Pw/aT7g5cN5Bdy0gqMpai9l3po42Pvr6f0bSjbzc8Q5FO+KwF39VVSuHKnvAcAXTE30T
- FStg==
+ d=1e100.net; s=20230601; t=1725339532; x=1725944332;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sPhZdW35wA0lKARiWkZjmf+aWFeCFp2ESl8o+4bQ7rQ=;
+ b=mm8l7Rkmqk8V0qZYN5sAH/SKiTmIlbLuahPmu7QHQKdoijOITEnZW7xf/pg9iby6Pb
+ t39jngGSEL+bDC5dqu3CTTVeh90+MNHNJ2jr5cPNQLbEADwGgxhV8xWK+uj688S2wGk1
+ dKQ9e63iB0rMdKnU9tKC3hbGMQ9vZD8CTM7/lRjoWv6Fgvmh2lirMyP39Ge8o1G76crI
+ gpnbJLyaTfxKCfSDXMv+FNa0dnLfm7ijO7juhN33Sk8amVb2tMIW1i48bNuHAZUtLLhP
+ Ltu2zaG8Znleab3Yb/c2LlvoDcVXTDdYqJ/KYUDuuQu0RtOuDifjUFy5lhhKv16NQX8Z
+ rQqg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURUU1VYOSnhspNay8GvQSm1IWKeofI76H3tHwyKWi8mKqowvHZl93I+hpCoPZD9tndlx1qbFjOR78=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGJpzrqISI1QGaaXptkW7k4fBBCZICWYwcgqsMX2K8OIYXv7n6
- JhGAsmo5r3QIhAa++CFjpgEysXDCI68llCaI0Nj17C/fz9ON+IWG3XsizkJmlME=
-X-Google-Smtp-Source: AGHT+IEOgwK1uzPezT8AfH6qRHEtNuFp5jh6ed6Oxbz/+Ff0gSLazpkDyq2/79FYkyfQ5VYW0A6ORA==
-X-Received: by 2002:a2e:a54f:0:b0:2f3:f068:b107 with SMTP id
- 38308e7fff4ca-2f62dc25bfbmr60611641fa.40.1725333784770; 
- Mon, 02 Sep 2024 20:23:04 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f614ed15a5sm21003961fa.8.2024.09.02.20.23.04
+ AJvYcCXS702/eR9qnPrODEZlHhUrf7KFX5hsSg7XgAZ13mjfdrfXsvhRDXcvob0LeftvRLDhTEL093wmMRU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQ9OHA/S0RggGQGEgcGIhogjDKC0EkxEg/ddFF+ZCc+T4OhxqT
+ 1NDfuiw+IneQTqV+EBznrL+hVnoqUCayf5+IBr4fJIhsCAMtRS03+8ByKbOU0w==
+X-Google-Smtp-Source: AGHT+IG8me1bSENR4wRx/OKAQejDcXWKY5+HZ/AzEltyhw/WRh8aAe2pXkZG/Vr0P7/zTKqlGwLNxQ==
+X-Received: by 2002:a05:6358:4429:b0:1aa:b9f2:a0c4 with SMTP id
+ e5c5f4694b2df-1b8117bccf4mr268303755d.11.1725339531470; 
+ Mon, 02 Sep 2024 21:58:51 -0700 (PDT)
+Received: from photon-a190c64c6e7e.. ([66.170.99.1])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2d8d06c9340sm3599334a91.22.2024.09.02.21.58.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2024 20:23:04 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 03 Sep 2024 06:22:58 +0300
-Subject: [PATCH v6 15/15] drm/msm/dpu: sync mode_config limits to the FB
- limits in dpu_plane.c
+ Mon, 02 Sep 2024 21:58:51 -0700 (PDT)
+From: sikkamukul <mukul.sikka@broadcom.com>
+To: stable@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Cc: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, Jun.Ma2@amd.com, kevinyang.wang@amd.com,
+ sashal@kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ ajay.kaher@broadcom.com, alexey.makhalov@broadcom.com,
+ vasavi.sirnapalli@broadcom.com, Bob Zhou <bob.zhou@amd.com>,
+ Tim Huang <Tim.Huang@amd.com>, Mukul Sikka <mukul.sikka@broadcom.com>
+Subject: [PATCH v5.15-v5.10] drm/amd/pm: Fix the null pointer dereference for
+ vega10_hwmgr
+Date: Tue,  3 Sep 2024 04:58:09 +0000
+Message-Id: <20240903045809.5025-1-mukul.sikka@broadcom.com>
+X-Mailer: git-send-email 2.39.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240903-dpu-mode-config-width-v6-15-617e1ecc4b7a@linaro.org>
-References: <20240903-dpu-mode-config-width-v6-0-617e1ecc4b7a@linaro.org>
-In-Reply-To: <20240903-dpu-mode-config-width-v6-0-617e1ecc4b7a@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Abel Vesa <abel.vesa@linaro.org>, 
- Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2539;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=UDjBz+OwSb+7oXTheaAi3fvbBJbmIDiMCaat2ECDIjs=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBm1oENYwMah92zPW3oip3MLKiZnIUYlUa1xd+3t
- /kh6S7kh0+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZtaBDQAKCRCLPIo+Aiko
- 1cilCACqQ65UqNGu66yj8Yc5UtNC4Bxr5eciWwcxSeEPiNBcvfgPl6Z/KH0YARNLuYG3fmD6KlW
- wAgWGaQj30qYfW9QlswHwi6fZuKIeEgyPlAbh7EdYng5U/RtXh8CkZ/7ypJrA74SNcxeRNsNYBD
- Dm/6c+To2HvdKqwrSFjmIipYV/BP8MBa+yEMBqk8QQ1mD3Ypydo8qVht1lu0f6/usIxo3fUjG7K
- TBvASFRwvgP8id0dUeerPnDPOqcbHiMYimEjrv9Iyd9EOvGWSPw9WD83HflHZURv12dXgSw2EOr
- DwIf1EXXOTm29dCsQcc7HoniYrAM2OIIPzCfygu5IhQn1TME
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 03 Sep 2024 06:45:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,71 +86,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Lift mode_config limits set by the DPU driver to the actual FB limits as
-handled by the dpu_plane.c. Move 2*max_lm_width check where it belongs,
-to the drm_crtc_helper_funcs::mode_valid() callback.
+From: Bob Zhou <bob.zhou@amd.com>
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+[ Upstream commit 50151b7f1c79a09117837eb95b76c2de76841dab ]
+
+Check return value and conduct null pointer handling to avoid null pointer dereference.
+
+Signed-off-by: Bob Zhou <bob.zhou@amd.com>
+Reviewed-by: Tim Huang <Tim.Huang@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Mukul Sikka <mukul.sikka@broadcom.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 14 ++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |  9 ++-------
- 2 files changed, 16 insertions(+), 7 deletions(-)
+ .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 30 ++++++++++++++++---
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index db6c57900781..58595dcc3889 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1230,6 +1230,19 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+index 10678b519..304874cba 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+@@ -3391,13 +3391,17 @@ static int vega10_find_dpm_states_clocks_in_dpm_table(struct pp_hwmgr *hwmgr, co
+ 	const struct vega10_power_state *vega10_ps =
+ 			cast_const_phw_vega10_power_state(states->pnew_state);
+ 	struct vega10_single_dpm_table *sclk_table = &(data->dpm_table.gfx_table);
+-	uint32_t sclk = vega10_ps->performance_levels
+-			[vega10_ps->performance_level_count - 1].gfx_clock;
+ 	struct vega10_single_dpm_table *mclk_table = &(data->dpm_table.mem_table);
+-	uint32_t mclk = vega10_ps->performance_levels
+-			[vega10_ps->performance_level_count - 1].mem_clock;
++	uint32_t sclk, mclk;
+ 	uint32_t i;
  
-+static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
-+						const struct drm_display_mode *mode)
-+{
-+	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
++	if (vega10_ps == NULL)
++		return -EINVAL;
++	sclk = vega10_ps->performance_levels
++			[vega10_ps->performance_level_count - 1].gfx_clock;
++	mclk = vega10_ps->performance_levels
++			[vega10_ps->performance_level_count - 1].mem_clock;
 +
-+	/*
-+	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
-+	 */
-+	return drm_mode_validate_size(mode,
-+				      2 * dpu_kms->catalog->caps->max_mixer_width,
-+				      4096);
-+}
+ 	for (i = 0; i < sclk_table->count; i++) {
+ 		if (sclk == sclk_table->dpm_levels[i].value)
+ 			break;
+@@ -3704,6 +3708,9 @@ static int vega10_generate_dpm_level_enable_mask(
+ 			cast_const_phw_vega10_power_state(states->pnew_state);
+ 	int i;
+ 
++	if (vega10_ps == NULL)
++		return -EINVAL;
 +
- int dpu_crtc_vblank(struct drm_crtc *crtc, bool en)
- {
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
-@@ -1445,6 +1458,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
- 	.atomic_check = dpu_crtc_atomic_check,
- 	.atomic_begin = dpu_crtc_atomic_begin,
- 	.atomic_flush = dpu_crtc_atomic_flush,
-+	.mode_valid = dpu_crtc_mode_valid,
- 	.get_scanout_position = dpu_crtc_get_scanout_position,
- };
+ 	PP_ASSERT_WITH_CODE(!vega10_trim_dpm_states(hwmgr, vega10_ps),
+ 			"Attempt to Trim DPM States Failed!",
+ 			return -1);
+@@ -4828,6 +4835,9 @@ static int vega10_check_states_equal(struct pp_hwmgr *hwmgr,
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index daa42f289d2e..7083baf7d5ce 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1201,13 +1201,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
+ 	psa = cast_const_phw_vega10_power_state(pstate1);
+ 	psb = cast_const_phw_vega10_power_state(pstate2);
++	if (psa == NULL || psb == NULL)
++		return -EINVAL;
++
+ 	/* If the two states don't even have the same number of performance levels they cannot be the same state. */
+ 	if (psa->performance_level_count != psb->performance_level_count) {
+ 		*equal = false;
+@@ -4953,6 +4963,8 @@ static int vega10_set_sclk_od(struct pp_hwmgr *hwmgr, uint32_t value)
+ 		return -EINVAL;
  
--	/*
--	 * max crtc width is equal to the max mixer width * 2 and max height is
--	 * is 4K
--	 */
--	dev->mode_config.max_width =
--			dpu_kms->catalog->caps->max_mixer_width * 2;
--	dev->mode_config.max_height = 4096;
-+	dev->mode_config.max_width = DPU_MAX_IMG_WIDTH;
-+	dev->mode_config.max_height = DPU_MAX_IMG_HEIGHT;
+ 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
++	if (vega10_ps == NULL)
++		return -EINVAL;
  
- 	dev->max_vblank_count = 0xffffffff;
- 	/* Disable vblank irqs aggressively for power-saving */
-
+ 	vega10_ps->performance_levels
+ 	[vega10_ps->performance_level_count - 1].gfx_clock =
+@@ -5004,6 +5016,8 @@ static int vega10_set_mclk_od(struct pp_hwmgr *hwmgr, uint32_t value)
+ 		return -EINVAL;
+ 
+ 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
++	if (vega10_ps == NULL)
++		return -EINVAL;
+ 
+ 	vega10_ps->performance_levels
+ 	[vega10_ps->performance_level_count - 1].mem_clock =
+@@ -5239,6 +5253,9 @@ static void vega10_odn_update_power_state(struct pp_hwmgr *hwmgr)
+ 		return;
+ 
+ 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
++	if (vega10_ps == NULL)
++		return;
++
+ 	max_level = vega10_ps->performance_level_count - 1;
+ 
+ 	if (vega10_ps->performance_levels[max_level].gfx_clock !=
+@@ -5261,6 +5278,9 @@ static void vega10_odn_update_power_state(struct pp_hwmgr *hwmgr)
+ 
+ 	ps = (struct pp_power_state *)((unsigned long)(hwmgr->ps) + hwmgr->ps_size * (hwmgr->num_ps - 1));
+ 	vega10_ps = cast_phw_vega10_power_state(&ps->hardware);
++	if (vega10_ps == NULL)
++		return;
++
+ 	max_level = vega10_ps->performance_level_count - 1;
+ 
+ 	if (vega10_ps->performance_levels[max_level].gfx_clock !=
+@@ -5451,6 +5471,8 @@ static int vega10_get_performance_level(struct pp_hwmgr *hwmgr, const struct pp_
+ 		return -EINVAL;
+ 
+ 	ps = cast_const_phw_vega10_power_state(state);
++	if (ps == NULL)
++		return -EINVAL;
+ 
+ 	i = index > ps->performance_level_count - 1 ?
+ 			ps->performance_level_count - 1 : index;
 -- 
-2.39.2
+2.39.4
 
