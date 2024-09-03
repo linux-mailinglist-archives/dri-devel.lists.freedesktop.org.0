@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD489697E3
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 10:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642C99697EC
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 10:55:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D77C10E43F;
-	Tue,  3 Sep 2024 08:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E69C10E43E;
+	Tue,  3 Sep 2024 08:55:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ey0IEJoR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SOqJcUof";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5474F10E43E;
- Tue,  3 Sep 2024 08:53:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 46D215C5853;
- Tue,  3 Sep 2024 08:53:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10C3CC4CEC4;
- Tue,  3 Sep 2024 08:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725353600;
- bh=pF9CszNYwjJO5JuUq2dHO3LIuUrYYG12W216C7TCrIQ=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=ey0IEJoR3QjObccfvtl+IVNs3bMkadki8pzTl/HbOgT4SApEZdouS3ArzHkc+WJuK
- Bm66TGtj7EvySvcm78AGruWZcEfGR0U8U8C9NORBB6uqtPSL/5ODv5lyzNJ8KuHeU8
- PE64NcvpP4nBpdB3U6szU+7jwKRwJ3t1Qa5sVBJMwTxyOLLwT3EaKusSgWAywkv67Q
- MnIMOz83UtKz01hHrzpvosTwotiuHcLztTI11jWY2NyAfLB8a2yUw01BgLtLSe+PRt
- kDL2e57VE6D5wCyLXC/9v+pKwUJ6gWmKFfrSuO+aX8ZhSIJlzh215dxW3KfyvfQ3Wa
- RKPr3mj5OlJWw==
-Date: Tue, 3 Sep 2024 10:53:17 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Tvrtko Ursulin <tursulin@ursulin.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Friedrich Vock <friedrich.vock@gmx.de>,
- cgroups@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
-Message-ID: <20240903-resilient-quiet-oxpecker-d57d7a@houat>
-References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
- <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
- <20240627-paper-vicugna-of-fantasy-c549ed@houat>
- <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
- <20240628-romantic-emerald-snake-7b26ca@houat>
- <70289c58-7947-4347-8600-658821a730b0@linux.intel.com>
- <40ef0eed-c514-4ec1-9486-2967f23824be@ursulin.net>
- <ZrIeuLi88jqbQ0FH@phenom.ffwll.local>
- <20240806-gharial-of-abstract-reverence-aad6ea@houat>
- <ZrJAnbLcj_dU47ZO@phenom.ffwll.local>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44D510E43E;
+ Tue,  3 Sep 2024 08:55:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725353715; x=1756889715;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=Renq7OreZ21gnGDtMnHFRG/gCdwtb1FkzgJtymQzRzg=;
+ b=SOqJcUofEzOXNt8NUOVMdX6aoOX493ppVg2oDNUIwvpF2LCYpe68nO2r
+ u8j+uPciP9F3KrhQcnb1AX/Bm278T6rsgSwq7NVypd+Vpt+b96OxEt866
+ ljDHAL66PvP0v7/U87R2GnMupF4T4DSNdrI5cIDEMVfsXlRoJvG4PmTVD
+ rwlBlqrAfDuICc3ySns2tPbBi9orRJO/8dXIih0eEcvtHXiA4e2JiS9qD
+ QcnJHcMx/5Jkd9yJ10qgh3ywIE87BZ9CxNP3dkyVEbl6IX+c3J3+s3bvr
+ fI0X05dE29eQ7K6oD2hpg/XpzLhX8JZfeiMr8AvPbtB+3X+2fDmxQdjFX w==;
+X-CSE-ConnectionGUID: fMnR97n/QtmLf3s3LUiKLA==
+X-CSE-MsgGUID: TQfAOon1REGncWQMnn+BMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="34546714"
+X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="34546714"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 01:55:15 -0700
+X-CSE-ConnectionGUID: XgifwZ6MQEuFBF+gLt5p0A==
+X-CSE-MsgGUID: eliWrn/8TmK9RXkQAy13Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="65197664"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ [10.245.244.199]) ([10.245.244.199])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 01:55:14 -0700
+Message-ID: <90c52e4d320e5fd322644309c8f04bccae561955.camel@linux.intel.com>
+Subject: Re: [PATCH 1/2] drm/ttm: Move swapped objects off the manager's LRU
+ list
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Date: Tue, 03 Sep 2024 10:55:11 +0200
+In-Reply-To: <a06e14d8-b9e5-44bc-bac5-42cb7d7e658e@amd.com>
+References: <20240902154159.78871-1-thomas.hellstrom@linux.intel.com>
+ <20240902154159.78871-2-thomas.hellstrom@linux.intel.com>
+ <a06e14d8-b9e5-44bc-bac5-42cb7d7e658e@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="r7g4aiuocov6uk3k"
-Content-Disposition: inline
-In-Reply-To: <ZrJAnbLcj_dU47ZO@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,230 +76,451 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Christian,
 
---r7g4aiuocov6uk3k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for reviewing.
 
-On Tue, Aug 06, 2024 at 05:26:21PM GMT, Daniel Vetter wrote:
-> On Tue, Aug 06, 2024 at 04:09:43PM +0200, Maxime Ripard wrote:
-> > On Tue, Aug 06, 2024 at 03:01:44PM GMT, Daniel Vetter wrote:
-> > > On Mon, Jul 01, 2024 at 06:01:41PM +0100, Tvrtko Ursulin wrote:
-> > > >=20
-> > > > On 01/07/2024 10:25, Maarten Lankhorst wrote:
-> > > > > Den 2024-06-28 kl. 16:04, skrev Maxime Ripard:
-> > > > > > Hi,
-> > > > > >=20
-> > > > > > On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
-> > > > > > > Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
-> > > > > > > > Hi,
-> > > > > > > >=20
-> > > > > > > > Thanks for working on this!
-> > > > > > > >=20
-> > > > > > > > On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst w=
-rote:
-> > > > > > > > > The initial version was based roughly on the rdma and mis=
-c cgroup
-> > > > > > > > > controllers, with a lot of the accounting code borrowed f=
-rom rdma.
-> > > > > > > > >=20
-> > > > > > > > > The current version is a complete rewrite with page count=
-er; it uses
-> > > > > > > > > the same min/low/max semantics as the memory cgroup as a =
-result.
-> > > > > > > > >=20
-> > > > > > > > > There's a small mismatch as TTM uses u64, and page_counte=
-r long pages.
-> > > > > > > > > In practice it's not a problem. 32-bits systems don't rea=
-lly come with
-> > > > > > > > > > =3D4GB cards and as long as we're consistently wrong wi=
-th units, it's
-> > > > > > > > > fine. The device page size may not be in the same units a=
-s kernel page
-> > > > > > > > > size, and each region might also have a different page si=
-ze (VRAM vs GART
-> > > > > > > > > for example).
-> > > > > > > > >=20
-> > > > > > > > > The interface is simple:
-> > > > > > > > > - populate drmcgroup_device->regions[..] name and size fo=
-r each active
-> > > > > > > > >     region, set num_regions accordingly.
-> > > > > > > > > - Call drm(m)cg_register_device()
-> > > > > > > > > - Use drmcg_try_charge to check if you can allocate a chu=
-nk of memory,
-> > > > > > > > >     use drmcg_uncharge when freeing it. This may return a=
-n error code,
-> > > > > > > > >     or -EAGAIN when the cgroup limit is reached. In that =
-case a reference
-> > > > > > > > >     to the limiting pool is returned.
-> > > > > > > > > - The limiting cs can be used as compare function for
-> > > > > > > > >     drmcs_evict_valuable.
-> > > > > > > > > - After having evicted enough, drop reference to limiting=
- cs with
-> > > > > > > > >     drmcs_pool_put.
-> > > > > > > > >=20
-> > > > > > > > > This API allows you to limit device resources with cgroup=
-s.
-> > > > > > > > > You can see the supported cards in /sys/fs/cgroup/drm.cap=
-acity
-> > > > > > > > > You need to echo +drm to cgroup.subtree_control, and then=
- you can
-> > > > > > > > > partition memory.
-> > > > > > > > >=20
-> > > > > > > > > Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.=
-intel.com>
-> > > > > > > > > Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
-> > > > > > > > I'm sorry, I should have wrote minutes on the discussion we=
- had with TJ
-> > > > > > > > and Tvrtko the other day.
-> > > > > > > >=20
-> > > > > > > > We're all very interested in making this happen, but doing =
-a "DRM"
-> > > > > > > > cgroup doesn't look like the right path to us.
-> > > > > > > >=20
-> > > > > > > > Indeed, we have a significant number of drivers that won't =
-have a
-> > > > > > > > dedicated memory but will depend on DMA allocations one way=
- or the
-> > > > > > > > other, and those pools are shared between multiple framewor=
-ks (DRM,
-> > > > > > > > V4L2, DMA-Buf Heaps, at least).
-> > > > > > > >=20
-> > > > > > > > This was also pointed out by Sima some time ago here:
-> > > > > > > > https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.f=
-fwll.local/
-> > > > > > > >=20
-> > > > > > > > So we'll want that cgroup subsystem to be cross-framework. =
-We settled on
-> > > > > > > > a "device" cgroup during the discussion, but I'm sure we'll=
- have plenty
-> > > > > > > > of bikeshedding.
-> > > > > > > >=20
-> > > > > > > > The other thing we agreed on, based on the feedback TJ got =
-on the last
-> > > > > > > > iterations of his series was to go for memcg for drivers no=
-t using DMA
-> > > > > > > > allocations.
-> > > > > > > >=20
-> > > > > > > > It's the part where I expect some discussion there too :)
-> > > > > > > >=20
-> > > > > > > > So we went back to a previous version of TJ's work, and I'v=
-e started to
-> > > > > > > > work on:
-> > > > > > > >=20
-> > > > > > > >     - Integration of the cgroup in the GEM DMA and GEM VRAM=
- helpers (this
-> > > > > > > >       works on tidss right now)
-> > > > > > > >=20
-> > > > > > > >     - Integration of all heaps into that cgroup but the sys=
-tem one
-> > > > > > > >       (working on this at the moment)
-> > > > > > >=20
-> > > > > > > Should be similar to what I have then. I think you could use =
-my work to
-> > > > > > > continue it.
-> > > > > > >=20
-> > > > > > > I made nothing DRM specific except the name, if you renamed i=
-t the device
-> > > > > > > resource management cgroup and changed the init function sign=
-ature to take a
-> > > > > > > name instead of a drm pointer, nothing would change. This is =
-exactly what
-> > > > > > > I'm hoping to accomplish, including reserving memory.
-> > > > > >=20
-> > > > > > I've started to work on rebasing my current work onto your seri=
-es today,
-> > > > > > and I'm not entirely sure how what I described would best fit. =
-Let's
-> > > > > > assume we have two KMS device, one using shmem, one using DMA
-> > > > > > allocations, two heaps, one using the page allocator, the other=
- using
-> > > > > > CMA, and one v4l2 device using dma allocations.
-> > > > > >=20
-> > > > > > So we would have one KMS device and one heap using the page all=
-ocator,
-> > > > > > and one KMS device, one heap, and one v4l2 driver using the DMA
-> > > > > > allocator.
-> > > > > >=20
-> > > > > > Would these make different cgroup devices, or different cgroup =
-regions?
-> > > > >=20
-> > > > > Each driver would register a device, whatever feels most logical =
-for that device I suppose.
-> > > > >=20
-> > > > > My guess is that a prefix would also be nice here, so register a =
-device with name of drm/$name or v4l2/$name, heap/$name. I didn't give it m=
-uch thought and we're still experimenting, so just try something. :)
-> > > > >=20
-> > > > > There's no limit to amount of devices, I only fixed amount of poo=
-ls to match TTM, but even that could be increased arbitrarily. I just don't=
- think there is a point in doing so.
-> > > >=20
-> > > > Do we need a plan for top level controls which do not include regio=
-n names?
-> > > > If the latter will be driver specific then I am thinking of ease of
-> > > > configuring it all from the outside. Especially considering that on=
-e cgroup
-> > > > can have multiple devices in it.
-> > > >=20
-> > > > Second question is about double accounting for shmem backed objects=
-=2E I think
-> > > > they will be seen, for drivers which allocate backing store at buff=
-er
-> > > > objects creation time, under the cgroup of process doing the creati=
-on, in
-> > > > the existing memory controller. Right?
-> > >=20
-> > > We currently don't set __GFP_ACCOUNT respectively use GFP_KERNEL_ACCO=
-UNT,
-> > > so no. Unless someone allocates them with GFP_USER ...
-> > >=20
-> > > > Is there a chance to exclude those from there and only have them in=
- this new
-> > > > controller? Or would the opposite be a better choice? That is, not =
-see those
-> > > > in the device memory controller but only in the existing one.
-> > >=20
-> > > I missed this, so jumping in super late. I think guidance from Tejun =
-was
-> > > to go the other way around: Exclude allocations from normal system
-> > > memory from device cgroups and instead make sure it's tracked in the
-> > > existing memcg.
-> > >=20
-> > > Which might mean we need memcg shrinkers and the assorted pain ...
-> > >=20
-> > > Also I don't think we ever reached some agreement on where things lik=
-e cma
-> > > allocations should be accounted for in this case.
+On Tue, 2024-09-03 at 09:49 +0200, Christian K=C3=B6nig wrote:
+> Am 02.09.24 um 17:41 schrieb Thomas Hellstr=C3=B6m:
+> > Resources of swapped objects remains on the TTM_PL_SYSTEM manager's
+> > LRU list, which is bad for the LRU walk efficiency.
 > >=20
-> > Yeah, but that's the thing, memcg probably won't cut it for CMA. Because
-> > if you pull the thread, that means that dma-heaps also have to register
-> > their buffers into memcg too, even if it's backed by something else than
-> > RAM.
+> > Rename the device-wide "pinned" list to "unevictable" and move
+> > also resources of swapped-out objects to that list.
+> >=20
+> > An alternative would be to create an "UNEVICTABLE" priority to
+> > be able to keep the pinned- and swapped objects on their
+> > respective manager's LRU without affecting the LRU walk efficiency.
+> >=20
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Cc: <dri-devel@lists.freedesktop.org>
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > ---
+> > =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 2 +-
+> > =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c |=C2=A0 2 +-
+> > =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c=C2=A0=C2=A0 |=C2=A0 4=
+ +-
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 55
+> > +++++++++++++++++++-
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo_util.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +--
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo_vm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_device.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +-
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_resource.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 ++--
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_tt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
+> > =C2=A0 drivers/gpu/drm/xe/xe_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 4 +-
+> > =C2=A0 include/drm/ttm/ttm_bo.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 2 +
+> > =C2=A0 include/drm/ttm/ttm_device.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
+> > =C2=A0 include/drm/ttm/ttm_tt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 5 ++
+> > =C2=A0 13 files changed, 81 insertions(+), 20 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > index 5c72462d1f57..7de284766f82 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > @@ -808,7 +808,7 @@ static int __i915_ttm_get_pages(struct
+> > drm_i915_gem_object *obj,
+> > =C2=A0=C2=A0	}
+> > =C2=A0=20
+> > =C2=A0=C2=A0	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
+> > -		ret =3D ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
+> > +		ret =3D ttm_bo_populate(bo, &ctx);
+> > =C2=A0=C2=A0		if (ret)
+> > =C2=A0=C2=A0			return ret;
+> > =C2=A0=20
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > index 03b00a03a634..041dab543b78 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > @@ -624,7 +624,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo,
+> > bool evict,
+> > =C2=A0=20
+> > =C2=A0=C2=A0	/* Populate ttm with pages if needed. Typically system
+> > memory. */
+> > =C2=A0=C2=A0	if (ttm && (dst_man->use_tt || (ttm->page_flags &
+> > TTM_TT_FLAG_SWAPPED))) {
+> > -		ret =3D ttm_tt_populate(bo->bdev, ttm, ctx);
+> > +		ret =3D ttm_bo_populate(bo, ctx);
+> > =C2=A0=C2=A0		if (ret)
+> > =C2=A0=C2=A0			return ret;
+> > =C2=A0=C2=A0	}
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > index ad649523d5e0..61596cecce4d 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > @@ -90,7 +90,7 @@ static int i915_ttm_backup(struct
+> > i915_gem_apply_to_region *apply,
+> > =C2=A0=C2=A0		goto out_no_lock;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	backup_bo =3D i915_gem_to_ttm(backup);
+> > -	err =3D ttm_tt_populate(backup_bo->bdev, backup_bo->ttm,
+> > &ctx);
+> > +	err =3D ttm_bo_populate(backup_bo, &ctx);
+> > =C2=A0=C2=A0	if (err)
+> > =C2=A0=C2=A0		goto out_no_populate;
+> > =C2=A0=20
+> > @@ -189,7 +189,7 @@ static int i915_ttm_restore(struct
+> > i915_gem_apply_to_region *apply,
+> > =C2=A0=C2=A0	if (!backup_bo->resource)
+> > =C2=A0=C2=A0		err =3D ttm_bo_validate(backup_bo,
+> > i915_ttm_sys_placement(), &ctx);
+> > =C2=A0=C2=A0	if (!err)
+> > -		err =3D ttm_tt_populate(backup_bo->bdev, backup_bo-
+> > >ttm, &ctx);
+> > +		err =3D ttm_bo_populate(backup_bo, &ctx);
+> > =C2=A0=C2=A0	if (!err) {
+> > =C2=A0=C2=A0		err =3D i915_gem_obj_copy_ttm(obj, backup, pm_apply-
+> > >allow_gpu,
+> > =C2=A0=C2=A0					=C2=A0=C2=A0=C2=A0 false);
+> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> > b/drivers/gpu/drm/ttm/ttm_bo.c
+> > index 320592435252..d244566a7e48 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > @@ -139,7 +139,7 @@ static int ttm_bo_handle_move_mem(struct
+> > ttm_buffer_object *bo,
+> > =C2=A0=C2=A0			goto out_err;
+> > =C2=A0=20
+> > =C2=A0=C2=A0		if (mem->mem_type !=3D TTM_PL_SYSTEM) {
+> > -			ret =3D ttm_tt_populate(bo->bdev, bo->ttm,
+> > ctx);
+> > +			ret =3D ttm_bo_populate(bo, ctx);
+> > =C2=A0=C2=A0			if (ret)
+> > =C2=A0=C2=A0				goto out_err;
+> > =C2=A0=C2=A0		}
+> > @@ -1131,6 +1131,13 @@ ttm_bo_swapout_cb(struct ttm_lru_walk *walk,
+> > struct ttm_buffer_object *bo)
+> > =C2=A0=C2=A0	if (ttm_tt_is_populated(bo->ttm))
+> > =C2=A0=C2=A0		ret =3D ttm_tt_swapout(bo->bdev, bo->ttm,
+> > swapout_walk->gfp_flags);
+> > =C2=A0=20
+> > +	if (ttm_tt_is_swapped(bo->ttm)) {
+> > +		spin_lock(&bo->bdev->lru_lock);
+> > +		ttm_resource_del_bulk_move(bo->resource, bo);
+> > +		ttm_resource_move_to_lru_tail(bo->resource);
+> > +		spin_unlock(&bo->bdev->lru_lock);
+> > +	}
+> > +
+> > =C2=A0 out:
+> > =C2=A0=C2=A0	/* Consider -ENOMEM and -ENOSPC non-fatal. */
+> > =C2=A0=C2=A0	if (ret =3D=3D -ENOMEM || ret =3D=3D -ENOSPC)
+> > @@ -1180,3 +1187,49 @@ void ttm_bo_tt_destroy(struct
+> > ttm_buffer_object *bo)
+> > =C2=A0=C2=A0	ttm_tt_destroy(bo->bdev, bo->ttm);
+> > =C2=A0=C2=A0	bo->ttm =3D NULL;
+> > =C2=A0 }
+> > +
+> > +/**
+> > + * ttm_bo_populate() - Ensure that a buffer object has backing
+> > pages
+> > + * @bo: The buffer object
+> > + * @ctx: The ttm_operation_ctx governing the operation.
+> > + *
+> > + * For buffer objects in a memory type whose manager uses
+> > + * struct ttm_tt for backing pages, ensure those backing pages
+> > + * are present and with valid content. The bo's resource is also
+> > + * placed on the correct LRU list if it was previously swapped
+> > + * out.
+> > + *
+> > + * Return: 0 if successful, negative error code on failure.
+> > + * Note: May return -EINTR or -ERESTARTSYS if @ctx::interruptible
+> > + * is set to true.
+> > + */
+> > +int ttm_bo_populate(struct ttm_buffer_object *bo,
+> > +		=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx)
+> > +{
+> > +	struct ttm_tt *tt =3D bo->ttm;
+> > +	bool swapped;
+> > +	int ret;
+> > +
+> > +	dma_resv_assert_held(bo->base.resv);
+> > +
+> > +	if (!tt)
+> > +		return 0;
+> > +
+> > +	swapped =3D ttm_tt_is_swapped(tt);
+> > +	ret =3D ttm_tt_populate(bo->bdev, tt, ctx);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (swapped && !ttm_tt_is_swapped(tt) && !bo->pin_count) {
+> > +		if (WARN_ON_ONCE(bo->pin_count))
+> > +			return 0;
 >=20
-> For cma I'm kinda leaning towards "both". If you don't have a special cma
-> cgroup and just memcg, you can exhaust the cma easily. But if the cma
-> allocations also aren't tracked in memcg, you have a blind spot there,
-> which isn't great.
+> You have both "&& !bo->pin_count" and a WARN_ON(bo->pin_count), that=20
+> doesn't make much sense.
 
-I think one of earlier comment from Tejun was that we don't want to
-double-account memory, but I guess your point is that we should double
-account if we allocate CMA buffers from the main CMA allocator, and not
-if we're allocating from a secondary one?
+Yeah, I guess that won't catch much more than buggy processors. I'll
+remove.
 
-Maxime
+>=20
+> > +
+> > +		spin_lock(&bo->bdev->lru_lock);
+> > +		ttm_resource_add_bulk_move(bo->resource, bo);
+> > +		ttm_resource_move_to_lru_tail(bo->resource);
+> > +		spin_unlock(&bo->bdev->lru_lock);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(ttm_bo_populate);
+> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > index 3c07f4712d5c..d939925efa81 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > @@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object
+> > *bo,
+> > =C2=A0=C2=A0	src_man =3D ttm_manager_type(bdev, src_mem->mem_type);
+> > =C2=A0=C2=A0	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
+> > =C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0 dst_man->use_tt)) {
+> > -		ret =3D ttm_tt_populate(bdev, ttm, ctx);
+> > +		ret =3D ttm_bo_populate(bo, ctx);
+> > =C2=A0=C2=A0		if (ret)
+> > =C2=A0=C2=A0			return ret;
+> > =C2=A0=C2=A0	}
+> > @@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct
+> > ttm_buffer_object *bo,
+> > =C2=A0=20
+> > =C2=A0=C2=A0	BUG_ON(!ttm);
+> > =C2=A0=20
+> > -	ret =3D ttm_tt_populate(bo->bdev, ttm, &ctx);
+> > +	ret =3D ttm_bo_populate(bo, &ctx);
+> > =C2=A0=C2=A0	if (ret)
+> > =C2=A0=C2=A0		return ret;
+> > =C2=A0=20
+> > @@ -507,7 +507,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo,
+> > struct iosys_map *map)
+> > =C2=A0=C2=A0		pgprot_t prot;
+> > =C2=A0=C2=A0		void *vaddr;
+> > =C2=A0=20
+> > -		ret =3D ttm_tt_populate(bo->bdev, ttm, &ctx);
+> > +		ret =3D ttm_bo_populate(bo, &ctx);
+> > =C2=A0=C2=A0		if (ret)
+> > =C2=A0=C2=A0			return ret;
+> > =C2=A0=20
+> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > index 4212b8c91dd4..2c699ed1963a 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > @@ -224,7 +224,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct
+> > vm_fault *vmf,
+> > =C2=A0=C2=A0		};
+> > =C2=A0=20
+> > =C2=A0=C2=A0		ttm =3D bo->ttm;
+> > -		err =3D ttm_tt_populate(bdev, bo->ttm, &ctx);
+> > +		err =3D ttm_bo_populate(bo, &ctx);
+> > =C2=A0=C2=A0		if (err) {
+> > =C2=A0=C2=A0			if (err =3D=3D -EINTR || err =3D=3D -ERESTARTSYS
+> > ||
+> > =C2=A0=C2=A0			=C2=A0=C2=A0=C2=A0 err =3D=3D -EAGAIN)
+> > diff --git a/drivers/gpu/drm/ttm/ttm_device.c
+> > b/drivers/gpu/drm/ttm/ttm_device.c
+> > index e7cc4954c1bc..02e797fd1891 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_device.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> > @@ -216,7 +216,7 @@ int ttm_device_init(struct ttm_device *bdev,
+> > const struct ttm_device_funcs *func
+> > =C2=A0=20
+> > =C2=A0=C2=A0	bdev->vma_manager =3D vma_manager;
+> > =C2=A0=C2=A0	spin_lock_init(&bdev->lru_lock);
+> > -	INIT_LIST_HEAD(&bdev->pinned);
+> > +	INIT_LIST_HEAD(&bdev->unevictable);
+> > =C2=A0=C2=A0	bdev->dev_mapping =3D mapping;
+> > =C2=A0=C2=A0	mutex_lock(&ttm_global_mutex);
+> > =C2=A0=C2=A0	list_add_tail(&bdev->device_list, &glob->device_list);
+> > @@ -283,7 +283,7 @@ void ttm_device_clear_dma_mappings(struct
+> > ttm_device *bdev)
+> > =C2=A0=C2=A0	struct ttm_resource_manager *man;
+> > =C2=A0=C2=A0	unsigned int i, j;
+> > =C2=A0=20
+> > -	ttm_device_clear_lru_dma_mappings(bdev, &bdev->pinned);
+> > +	ttm_device_clear_lru_dma_mappings(bdev, &bdev-
+> > >unevictable);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	for (i =3D TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES; ++i) {
+> > =C2=A0=C2=A0		man =3D ttm_manager_type(bdev, i);
+> > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
+> > b/drivers/gpu/drm/ttm/ttm_resource.c
+> > index 6d764ba88aab..9d54c0e3e43d 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> > @@ -30,6 +30,7 @@
+> > =C2=A0 #include <drm/ttm/ttm_bo.h>
+> > =C2=A0 #include <drm/ttm/ttm_placement.h>
+> > =C2=A0 #include <drm/ttm/ttm_resource.h>
+> > +#include <drm/ttm/ttm_tt.h>
+> > =C2=A0=20
+> > =C2=A0 #include <drm/drm_util.h>
+> > =C2=A0=20
+> > @@ -259,8 +260,8 @@ void ttm_resource_move_to_lru_tail(struct
+> > ttm_resource *res)
+> > =C2=A0=20
+> > =C2=A0=C2=A0	lockdep_assert_held(&bo->bdev->lru_lock);
+> > =C2=A0=20
+> > -	if (bo->pin_count) {
+> > -		list_move_tail(&res->lru.link, &bdev->pinned);
+> > +	if (bo->pin_count || (bo->ttm && ttm_tt_is_swapped(bo-
+> > >ttm))) {
+> > +		list_move_tail(&res->lru.link, &bdev-
+> > >unevictable);
+>=20
+> You need to change ttm_resource_add_bulk_move() and=20
+> ttm_resource_del_bulk_move() as well.
 
---r7g4aiuocov6uk3k
-Content-Type: application/pgp-signature; name="signature.asc"
+Ugh. HMM, that will result in some slightly ugly code since we can't
+remove from a bulk move twice. Those pos->first and pos->last updates
+seem to have caused some grief in the past when it comes to fragility.=C2=
+=A0
 
------BEGIN PGP SIGNATURE-----
+Perhaps moving forward aim for using special struct ttm_lru_items for
+those, which would make them self-adjusting.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZtbOfQAKCRAnX84Zoj2+
-dnwzAYCEWYkV8bFQQiateI5fA27NPKONLZzvNymw/YlkL6RqCbyy8yQF5/c3OB2y
-FyfBwboBgN6ohy+xL0NP1ul/DCpoJ/yDH0DMRhvYsEGPgvbkGm+8WPbc/KFc/xKt
-alKvNeyYYQ==
-=9H/P
------END PGP SIGNATURE-----
+Anyway, I'll update.
 
---r7g4aiuocov6uk3k--
+>=20
+> > =C2=A0=20
+> > =C2=A0=C2=A0	} else	if (bo->bulk_move) {
+> > =C2=A0=C2=A0		struct ttm_lru_bulk_move_pos *pos =3D
+> > @@ -301,8 +302,8 @@ void ttm_resource_init(struct ttm_buffer_object
+> > *bo,
+> > =C2=A0=20
+> > =C2=A0=C2=A0	man =3D ttm_manager_type(bo->bdev, place->mem_type);
+> > =C2=A0=C2=A0	spin_lock(&bo->bdev->lru_lock);
+> > -	if (bo->pin_count)
+> > -		list_add_tail(&res->lru.link, &bo->bdev->pinned);
+> > +	if (bo->pin_count || (bo->ttm && ttm_tt_is_swapped(bo-
+> > >ttm)))
+> > +		list_add_tail(&res->lru.link, &bo->bdev-
+> > >unevictable);
+> > =C2=A0=C2=A0	else
+> > =C2=A0=C2=A0		list_add_tail(&res->lru.link, &man->lru[bo-
+> > >priority]);
+> > =C2=A0=C2=A0	man->usage +=3D res->size;
+> > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c
+> > b/drivers/gpu/drm/ttm/ttm_tt.c
+> > index 4b51b9023126..d1325cf37b18 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> > @@ -367,7 +367,6 @@ int ttm_tt_populate(struct ttm_device *bdev,
+> > =C2=A0=C2=A0	}
+> > =C2=A0=C2=A0	return ret;
+> > =C2=A0 }
+> > -EXPORT_SYMBOL(ttm_tt_populate);
+> > =C2=A0=20
+> > =C2=A0 void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt
+> > *ttm)
+> > =C2=A0 {
+> > diff --git a/drivers/gpu/drm/xe/xe_bo.c
+> > b/drivers/gpu/drm/xe/xe_bo.c
+> > index 9df5a16662cf..d7d0add20b77 100644
+> > --- a/drivers/gpu/drm/xe/xe_bo.c
+> > +++ b/drivers/gpu/drm/xe/xe_bo.c
+> > @@ -903,7 +903,7 @@ int xe_bo_evict_pinned(struct xe_bo *bo)
+> > =C2=A0=C2=A0		}
+> > =C2=A0=C2=A0	}
+> > =C2=A0=20
+> > -	ret =3D ttm_tt_populate(bo->ttm.bdev, bo->ttm.ttm, &ctx);
+> > +	ret =3D ttm_bo_populate(&bo->ttm, &ctx);
+> > =C2=A0=C2=A0	if (ret)
+> > =C2=A0=C2=A0		goto err_res_free;
+> > =C2=A0=20
+> > @@ -956,7 +956,7 @@ int xe_bo_restore_pinned(struct xe_bo *bo)
+> > =C2=A0=C2=A0	if (ret)
+> > =C2=A0=C2=A0		return ret;
+> > =C2=A0=20
+> > -	ret =3D ttm_tt_populate(bo->ttm.bdev, bo->ttm.ttm, &ctx);
+> > +	ret =3D ttm_bo_populate(&bo->ttm, &ctx);
+> > =C2=A0=C2=A0	if (ret)
+> > =C2=A0=C2=A0		goto err_res_free;
+> > =C2=A0=20
+> > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> > index 7b56d1ca36d7..5804408815be 100644
+> > --- a/include/drm/ttm/ttm_bo.h
+> > +++ b/include/drm/ttm/ttm_bo.h
+> > @@ -462,5 +462,7 @@ int ttm_bo_pipeline_gutting(struct
+> > ttm_buffer_object *bo);
+> > =C2=A0 pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct
+> > ttm_resource *res,
+> > =C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 pgprot_t tmp);
+> > =C2=A0 void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
+> > +int ttm_bo_populate(struct ttm_buffer_object *bo,
+> > +		=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx);
+> > =C2=A0=20
+> > =C2=A0 #endif
+> > diff --git a/include/drm/ttm/ttm_device.h
+> > b/include/drm/ttm/ttm_device.h
+> > index c22f30535c84..438358f72716 100644
+> > --- a/include/drm/ttm/ttm_device.h
+> > +++ b/include/drm/ttm/ttm_device.h
+> > @@ -252,9 +252,10 @@ struct ttm_device {
+> > =C2=A0=C2=A0	spinlock_t lru_lock;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	/**
+> > -	 * @pinned: Buffer objects which are pinned and so not on
+> > any LRU list.
+> > +	 * @unevictable Buffer objects which are pinned or swapped
+> > and as such
+> > +	 * not on an LRU list.
+>=20
+> Either "a LRU list" or "any LRU list".
+
+It's actually "an" since the L in LRU is pronounced with a leading
+Vowel sound.
+
+>=20
+> Apart from that this change makes a lot of sense.
+
+Thanks. Will also update the broken KUNIT tests.
+
+/Thomas
+
+
+>=20
+> Regards,
+> Christian.
+>=20
+> > =C2=A0=C2=A0	 */
+> > -	struct list_head pinned;
+> > +	struct list_head unevictable;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	/**
+> > =C2=A0=C2=A0	 * @dev_mapping: A pointer to the struct address_space for
+> > invalidating
+> > diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> > index 2b9d856ff388..991edafdb2dd 100644
+> > --- a/include/drm/ttm/ttm_tt.h
+> > +++ b/include/drm/ttm/ttm_tt.h
+> > @@ -129,6 +129,11 @@ static inline bool ttm_tt_is_populated(struct
+> > ttm_tt *tt)
+> > =C2=A0=C2=A0	return tt->page_flags & TTM_TT_FLAG_PRIV_POPULATED;
+> > =C2=A0 }
+> > =C2=A0=20
+> > +static inline bool ttm_tt_is_swapped(const struct ttm_tt *tt)
+> > +{
+> > +	return tt->page_flags & TTM_TT_FLAG_SWAPPED;
+> > +}
+> > +
+> > =C2=A0 /**
+> > =C2=A0=C2=A0 * ttm_tt_create
+> > =C2=A0=C2=A0 *
+>=20
+
