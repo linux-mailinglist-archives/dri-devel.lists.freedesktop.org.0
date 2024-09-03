@@ -2,148 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169B7969AE8
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 12:55:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDEC8969B4F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 13:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A446C10E474;
-	Tue,  3 Sep 2024 10:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3090A10E47E;
+	Tue,  3 Sep 2024 11:14:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="taetdBbO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2TZhhlpB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="taetdBbO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2TZhhlpB";
+	dkim=pass (2048-bit key; secure) header.d=asahilina.net header.i=@asahilina.net header.b="fLhthcsz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EEC810E47A;
- Tue,  3 Sep 2024 10:54:55 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+X-Greylist: delayed 609 seconds by postgrey-1.36 at gabe;
+ Tue, 03 Sep 2024 11:14:15 UTC
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 417D610E47E;
+ Tue,  3 Sep 2024 11:14:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 254DA21CAF;
- Tue,  3 Sep 2024 10:54:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725360894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QHHnS5NRaEy7s2aux8WACSu9vq2bEoAeipcyRk/dbsA=;
- b=taetdBbOKtUi6vA8/JfPA+bn8vxWigb0zfTvbG+cTX0VliJJH2lZOHMRJtSDJniZIBF7Mh
- 59gvsjrAJkha7ZIFu1GfkylnXf1GepQVsoYQz6Von106x9ru2ucyy5W9ixlKzR8yNqy6JC
- vWM/kxM6IDPBGBG1VAlrTspF1E0v4HY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725360894;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QHHnS5NRaEy7s2aux8WACSu9vq2bEoAeipcyRk/dbsA=;
- b=2TZhhlpBkC+Ec0ATkYYLhwfR1M1DvU+f0eiJuEXtvjgyz073Mu+Uoi/JrDOweie+QuyMeo
- tZfeH7bSBy2N0KCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=taetdBbO;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2TZhhlpB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725360894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QHHnS5NRaEy7s2aux8WACSu9vq2bEoAeipcyRk/dbsA=;
- b=taetdBbOKtUi6vA8/JfPA+bn8vxWigb0zfTvbG+cTX0VliJJH2lZOHMRJtSDJniZIBF7Mh
- 59gvsjrAJkha7ZIFu1GfkylnXf1GepQVsoYQz6Von106x9ru2ucyy5W9ixlKzR8yNqy6JC
- vWM/kxM6IDPBGBG1VAlrTspF1E0v4HY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725360894;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QHHnS5NRaEy7s2aux8WACSu9vq2bEoAeipcyRk/dbsA=;
- b=2TZhhlpBkC+Ec0ATkYYLhwfR1M1DvU+f0eiJuEXtvjgyz073Mu+Uoi/JrDOweie+QuyMeo
- tZfeH7bSBy2N0KCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D896013A80;
- Tue,  3 Sep 2024 10:54:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2CsbM/3q1mYAFgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 03 Sep 2024 10:54:53 +0000
-Message-ID: <82eb3305-4643-40df-aae6-2b57c3eb2c4b@suse.de>
-Date: Tue, 3 Sep 2024 12:54:53 +0200
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 0CED844263;
+ Tue,  3 Sep 2024 11:04:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1725361444;
+ bh=ifN1VMj2jAk/kGiuQMWR538EAsvcIunEvngo5/VGvZc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=fLhthcsz9NeyFfvgiWeefc2dkDXpSVV0+MvKe+8/Ww8bsOWSoh87rGmlYHueF16oG
+ YD7cL+y96tdPOLVWkxcbugKBm9hUEOFC/K8AlfR1i6GMBTL2qyydYyn9M8u/BfSrPh
+ Xb2eEAC71y/U5KyWYyxKHZXNm3sIuexkBHCQobrqWJqYtGW4Q7nPHPTIwQQEpIsrnp
+ I3zaR0j7UslF/ENtBQQxDCCTGSPcIhU+B/7wFSzLmQeGDGYKZqBVCMXYUvqr8grepp
+ VSI+E+xRnEvD3Cqy6x0jK2KPmDgENeE8Dp6a9i/CEexhG5MlZqm0TXB2bIF/bHKRYr
+ dD/5VcUwoep3A==
+Message-ID: <64dd2d32-63e9-4f00-96e7-6c9ecca06a3c@asahilina.net>
+Date: Tue, 3 Sep 2024 20:04:02 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/81] drm/fbdev-helper: Set and clear VGA switcheroo
- client from fb_info
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@gmail.com, jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+Subject: Re: [PATCH v2 3/8] rust: drm: add driver abstractions
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Danilo Krummrich <dakr@redhat.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, ojeda@kernel.org,
+ alex.gaynor@gmail.com, wedsonaf@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@samsung.com, aliceryhl@google.com, pstanner@redhat.com,
+ ajanulgu@redhat.com, lyude@redhat.com, gregkh@linuxfoundation.org,
+ robh@kernel.org, daniel.almeida@collabora.com,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-References: <20240830084456.77630-1-tzimmermann@suse.de>
- <20240830084456.77630-3-tzimmermann@suse.de>
- <87mskpghvm.fsf@minerva.mail-host-address-is-not-set>
+References: <20240618233324.14217-1-dakr@redhat.com>
+ <20240618233324.14217-4-dakr@redhat.com>
+ <ZtXn0hesji0s_45x@phenom.ffwll.local>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87mskpghvm.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 254DA21CAF
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[];
- FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[9]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -6.51
-X-Spam-Flag: NO
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZtXn0hesji0s_45x@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,80 +72,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier
 
-Am 03.09.24 um 12:18 schrieb Javier Martinez Canillas:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
-> Hello Thomas,
->
->> Call vga_switcheroo_client_fb_set() with the PCI device from the
->> instance of struct fb_info. All fbdev clients now run these calls.
->> For non-PCI devices or drivers without vga-switcheroo, this does
->> nothing. For i915 and radeon, it allows these drivers to use a
->> common fbdev client.
+
+On 9/3/24 1:29 AM, Daniel Vetter wrote:
+> On Wed, Jun 19, 2024 at 01:31:39AM +0200, Danilo Krummrich wrote:
+>> Implement the DRM driver abstractions.
 >>
->> The device is the same as the one stored in struct drm_client and
->> struct drm_fb_helper, so there is no difference in behavior. Some
->> NULL-pointer checks are being removed, where those pointers cannot
->> be NULL.
+>> The `Driver` trait provides the interface to the actual driver to fill
+>> in the driver specific data, such as the `DriverInfo`, driver features
+>> and IOCTLs.
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Co-developed-by: Asahi Lina <lina@asahilina.net>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 >> ---
->>   drivers/gpu/drm/drm_fb_helper.c | 15 +++++++++++----
->>   1 file changed, 11 insertions(+), 4 deletions(-)
+>>  rust/bindings/bindings_helper.h |   1 +
+>>  rust/kernel/drm/drv.rs          | 141 ++++++++++++++++++++++++++++++++
+>>  rust/kernel/drm/mod.rs          |   1 +
+>>  3 files changed, 143 insertions(+)
+>>  create mode 100644 rust/kernel/drm/drv.rs
 >>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->> index af1fe79c701d..13095d38aa42 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -562,8 +562,12 @@ EXPORT_SYMBOL(drm_fb_helper_release_info);
->>    */
->>   void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
->>   {
->> -	if (fb_helper && fb_helper->info)
->> -		unregister_framebuffer(fb_helper->info);
-> I'm not sure if we can assume these won't be NULL... AFAICT some drivers
-> still have their own struct drm_client_funcs vtable and could potentially
-> pass a NULL struct drm_fb_helper ?
+>> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+>> index ed25b686748e..dc19cb789536 100644
+>> --- a/rust/bindings/bindings_helper.h
+>> +++ b/rust/bindings/bindings_helper.h
+>> @@ -6,6 +6,7 @@
+>>   * Sorted alphabetically.
+>>   */
+>>  
+>> +#include <drm/drm_drv.h>
+>>  #include <drm/drm_ioctl.h>
+>>  #include <kunit/test.h>
+>>  #include <linux/errname.h>
+>> diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
+>> new file mode 100644
+>> index 000000000000..cd594a32f9e4
+>> --- /dev/null
+>> +++ b/rust/kernel/drm/drv.rs
+>> @@ -0,0 +1,141 @@
+>> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>> +
+>> +//! DRM driver core.
+>> +//!
+>> +//! C header: [`include/linux/drm/drm_drv.h`](srctree/include/linux/drm/drm_drv.h)
+>> +
+>> +use crate::{bindings, drm, private::Sealed, str::CStr, types::ForeignOwnable};
+>> +use macros::vtable;
+>> +
+>> +/// Driver use the GEM memory manager. This should be set for all modern drivers.
+>> +pub const FEAT_GEM: u32 = bindings::drm_driver_feature_DRIVER_GEM;
+>> +/// Driver supports mode setting interfaces (KMS).
+>> +pub const FEAT_MODESET: u32 = bindings::drm_driver_feature_DRIVER_MODESET;
+>> +/// Driver supports dedicated render nodes.
+>> +pub const FEAT_RENDER: u32 = bindings::drm_driver_feature_DRIVER_RENDER;
+>> +/// Driver supports the full atomic modesetting userspace API.
+>> +///
+>> +/// Drivers which only use atomic internally, but do not support the full userspace API (e.g. not
+>> +/// all properties converted to atomic, or multi-plane updates are not guaranteed to be tear-free)
+>> +/// should not set this flag.
+>> +pub const FEAT_ATOMIC: u32 = bindings::drm_driver_feature_DRIVER_ATOMIC;
+>> +/// Driver supports DRM sync objects for explicit synchronization of command submission.
+>> +pub const FEAT_SYNCOBJ: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ;
+>> +/// Driver supports the timeline flavor of DRM sync objects for explicit synchronization of command
+>> +/// submission.
+>> +pub const FEAT_SYNCOBJ_TIMELINE: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ_TIMELINE;
+>> +/// Driver supports compute acceleration devices. This flag is mutually exclusive with `FEAT_RENDER`
+>> +/// and `FEAT_MODESET`. Devices that support both graphics and compute acceleration should be
+>> +/// handled by two drivers that are connected using auxiliary bus.
+>> +pub const FEAT_COMPUTE_ACCEL: u32 = bindings::drm_driver_feature_DRIVER_COMPUTE_ACCEL;
+>> +/// Driver supports user defined GPU VA bindings for GEM objects.
+>> +pub const FEAT_GEM_GPUVA: u32 = bindings::drm_driver_feature_DRIVER_GEM_GPUVA;
+>> +/// Driver supports and requires cursor hotspot information in the cursor plane (e.g. cursor plane
+>> +/// has to actually track the mouse cursor and the clients are required to set hotspot in order for
+>> +/// the cursor planes to work correctly).
+>> +pub const FEAT_CURSOR_HOTSPOT: u32 = bindings::drm_driver_feature_DRIVER_CURSOR_HOTSPOT;
+>> +
+>> +/// Information data for a DRM Driver.
+>> +pub struct DriverInfo {
+>> +    /// Driver major version.
+>> +    pub major: i32,
+>> +    /// Driver minor version.
+>> +    pub minor: i32,
+>> +    /// Driver patchlevel version.
+>> +    pub patchlevel: i32,
+>> +    /// Driver name.
+>> +    pub name: &'static CStr,
+>> +    /// Driver description.
+>> +    pub desc: &'static CStr,
+>> +    /// Driver date.
+>> +    pub date: &'static CStr,
+>> +}
+>> +
+>> +/// Internal memory management operation set, normally created by memory managers (e.g. GEM).
+>> +///
+>> +/// See `kernel::drm::gem` and `kernel::drm::gem::shmem`.
+>> +pub struct AllocOps {
+>> +    pub(crate) gem_create_object: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            size: usize,
+>> +        ) -> *mut bindings::drm_gem_object,
+>> +    >,
+>> +    pub(crate) prime_handle_to_fd: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            file_priv: *mut bindings::drm_file,
+>> +            handle: u32,
+>> +            flags: u32,
+>> +            prime_fd: *mut core::ffi::c_int,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) prime_fd_to_handle: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            file_priv: *mut bindings::drm_file,
+>> +            prime_fd: core::ffi::c_int,
+>> +            handle: *mut u32,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) gem_prime_import: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            dma_buf: *mut bindings::dma_buf,
+>> +        ) -> *mut bindings::drm_gem_object,
+>> +    >,
+>> +    pub(crate) gem_prime_import_sg_table: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            attach: *mut bindings::dma_buf_attachment,
+>> +            sgt: *mut bindings::sg_table,
+>> +        ) -> *mut bindings::drm_gem_object,
+>> +    >,
+>> +    pub(crate) dumb_create: Option<
+>> +        unsafe extern "C" fn(
+>> +            file_priv: *mut bindings::drm_file,
+>> +            dev: *mut bindings::drm_device,
+>> +            args: *mut bindings::drm_mode_create_dumb,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) dumb_map_offset: Option<
+>> +        unsafe extern "C" fn(
+>> +            file_priv: *mut bindings::drm_file,
+>> +            dev: *mut bindings::drm_device,
+>> +            handle: u32,
+>> +            offset: *mut u64,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +}
+>> +
+>> +/// Trait for memory manager implementations. Implemented internally.
+>> +pub trait AllocImpl: Sealed {
+>> +    /// The C callback operations for this memory manager.
+>> +    const ALLOC_OPS: AllocOps;
+>> +}
+>> +
+>> +/// The DRM `Driver` trait.
+>> +///
+>> +/// This trait must be implemented by drivers in order to create a `struct drm_device` and `struct
+>> +/// drm_driver` to be registered in the DRM subsystem.
+>> +#[vtable]
+>> +pub trait Driver {
+>> +    /// Context data associated with the DRM driver
+>> +    ///
+>> +    /// Determines the type of the context data passed to each of the methods of the trait.
+>> +    type Data: ForeignOwnable + Sync + Send;
+>> +
+>> +    /// The type used to manage memory for this driver.
+>> +    ///
+>> +    /// Should be either `drm::gem::Object<T>` or `drm::gem::shmem::Object<T>`.
+>> +    type Object: AllocImpl;
+> 
+> Bit similar comment to what I discussed at length with lyude, drivers
+> might have a need for different implementations. But I think from the kms
+> discussions we have solid solution for that, so I think we should be fine.
+> 
+>> +
+>> +    /// Driver metadata
+>> +    const INFO: DriverInfo;
+>> +
+>> +    /// Feature flags
+>> +    const FEATURES: u32;
+> 
+> I think there's a type safety issue here with allowing drivers to muck
+> with these directly. Example:
+> 
+> - If you don't set FEAT_GEM but try to use gem C functions, stuff blows up
+>   because the core doesn't call drm_gem_init() in that case.
+> 
+> - For modesetting it's more fun because there mandatory init functions are
+>   meant to be called by the driver, in the right sequence, interleaved
+>   with other driver setup code for all the right modeset objects. If you
+>   get it wrong you go boom.
 
-I did a
+Same with GEM_GPUVA, I noticed that if you don't set the flag it blows
+up. But the only effect of the flag seems to be some trivial
+initialization in GEM objects (a single INIT_LIST_HEAD)...
 
-   git grep -B4 drm_fb_helper_unregister_info
+> 
+> For the modeset side of things I've dumped a pile of comments on lyude's
+> patches already: Essentially during registration I think we need a special
+> drmKmsDriverInit object or phantom type or so, so that you can proof
+> you're registering kms objects at the right time, with the rust
+> abstraction calling all the other functions around that in the right
+> order.
+> 
+> For gem I think we should flat out not allow non-gem drivers in rust. At
+> least until someone comes up with a need for a non-gem driver.
 
-on drm-tip and all callers, such as [1], test fb_helper->info before 
-calling the function. So it's safe to remove the test.
+... so I think we can also just hard-code GPUVM on even if the driver
+doesn't actually make use of the functionality?
 
-[1] 
-https://elixir.bootlin.com/linux/v6.10/source/drivers/gpu/drm/drm_fbdev_dma.c#L162
+I'm not even sure if that feature flag should exist at this point, it's
+probably faster not to check for the feature and just unconditionally
+initialize it even for drivers that don't need it.
 
->
-> If you think that's safe to do this and the function semantics should be
-> changed, then I think that the kernel-doc needs to be updated:
->
-> - * @fb_helper: driver-allocated fbdev helper, can be NULL
-> + * @fb_helper: driver-allocated fbdev helper, must not be NULL
+> 
+> For some of the values like hotspot cursor support we might need to change
+> the rust abstraction to compute these at runtime driver init, and then set
+> them somewhere in the runtime data structure instead of having them
+> statically sepcified in drm_driver->features.
+> 
+> In general these feature flag are midlayer design and that tends to be
+> bad, rust is just the messenger here.
+> 
+> Cheers, Sima
+> 
+> 
+>> +
+>> +    /// IOCTL list. See `kernel::drm::ioctl::declare_drm_ioctls!{}`.
+>> +    const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor];
+>> +}
+>> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+>> index 9ec6d7cbcaf3..d987c56b3cec 100644
+>> --- a/rust/kernel/drm/mod.rs
+>> +++ b/rust/kernel/drm/mod.rs
+>> @@ -2,4 +2,5 @@
+>>  
+>>  //! DRM subsystem abstractions.
+>>  
+>> +pub mod drv;
+>>  pub mod ioctl;
+>> -- 
+>> 2.45.1
+>>
+> 
 
-Ok.
-
->
-> Other than that, the patch looks good to me:
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Thanks.
-
-Best regards
-Thomas
-
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+~~ Lina
