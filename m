@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5AC9691CC
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 05:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405879691CF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 05:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3FB10E242;
-	Tue,  3 Sep 2024 03:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D733B10E3C8;
+	Tue,  3 Sep 2024 03:22:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GuHm8ASu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ijr7o5i5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB8C10E242
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 03:22:56 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2f50966c469so55016941fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 20:22:56 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6577A10E242
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 03:22:57 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2f502086419so48458361fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Sep 2024 20:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1725333775; x=1725938575; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=k86P+NeDmsIICrQRJRBhlplxtE6L+zqQWOXWus04Fdk=;
- b=GuHm8ASuDcCSNGTwNxQWN8ZJ2lNMpw8Q3n4ZJ9ij2hZkR5nFXdoKkFdcXne7Kx5+ls
- q6/y+WjX5CCjm27Jsx+Az4jZAefzdY2qRHhVNBzpqSfD3ox34YuPc57yI1lvPso7GavB
- tqi6SPkO7IKa1HvgqDXLz4aqKW6SHGNQAPZON4MgC1VOGInsz1BybfYxz8sqc1h+ny39
- 0z171f6ianQYje6MmRxrp6m52OMjYq8hL+3dlzNZd3Rafd8P3jiqUbIkBDhFR+xyrv/o
- QpoveKqJfx+LTNYOSj9WRKEtb0QgxBMiuaCkeQnD4/uzd4a0IMGj9kfXXjyLKCI1UdUW
- iZCA==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=t8t12yUPj7e8mb7vqEqGXgnNpICOFF3VwhWmBnR3jP0=;
+ b=ijr7o5i5glA1vA3WYcyNZ6OcnkOUjQK6aTjisszoA8S8YQzUo5/alGPHFwqQ5VfKD1
+ HUs8MnYsTtRlIfxTtp9cripZc8P0RnaI0WbIGQ0B878Eeti2W7f9uc54YNLxxluUoV2Q
+ ZrI4+f5Y/EPIdNBoxTp8YfiTg3zjE7yDsSU4Mx8CJhJ8LVUx8BcDufiQECW+jZcRfFh6
+ u2cdDPoKMjTqHbw4rBAaRujf9eiKpfCi3ndOqUlGRAo/TZGrylIUa7QevF5hvEIz/hfS
+ aRvhICU1HL6V5c1L7BYzQaMfMDt20O7DOfI6hbonpTStlvfNbQdoctlx+c+tpyeBWvX3
+ u9mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1725333775; x=1725938575;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=k86P+NeDmsIICrQRJRBhlplxtE6L+zqQWOXWus04Fdk=;
- b=JCbp+jDHp5MhrItEeX5lXS9fW3pUBntsOOCyMrBaiyMk1bHFOTOlU2jBxILpHkToLl
- oOZ7aYfAnB4SqIoEKtd+6pkHcjjVsdLsMqZxvPwXXKSnkgS5G6MwMrWB/vUSboh6DMX3
- 5eh7NDcEA2AIDFULaYMtLwspqPA0aSDXwJLwmbRBhKE/i87lP131V2Cc2VfoBgDpesp5
- M82WAuowDFRmcjFmjImIE+o0o1BGnPx0iObGWLwIL9TNj4Q2EnvTFYUaQ0w+EMFBXtBB
- ep7WZ322qmQ5zc7xOe1Wc2RTNgxWrBIN2aU9k0sbDURTeykVEzPdmwdTZMUYAVANRx24
- KHqw==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=t8t12yUPj7e8mb7vqEqGXgnNpICOFF3VwhWmBnR3jP0=;
+ b=V0FMr3GzeVG3xY6ZJfJuZkpkfU3JBdU1/YRh4nXn73eNkoMW1PYidPpUs6EXi0gXpf
+ GmliJxllwia8qDbyJIkhiZwN1V/xCvOzXjtI7gKY8jKVKAW8iqcsB3Av3GC12BLTxSHY
+ EhzkazIpeUo9pzLZExwu8KXBMXysdjY01Pt7VHefY6zcOYIKlC6zKoccd8GvmoXK7zJE
+ 2CnXM7THWlQ8Lw7VuY5lBvWowB6wHlabFwzh9rALkr3fTKirTLT+iFNcZojNAPUdYuGL
+ JuYZSGQ93FSzZRAr+p73BMjYZBFMTJkKY6KyVDJmv8V+M7HfuFBQqVJaC90KbUlgShQt
+ aecA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8s8oTXvPjcnbbAV1QtoI1hq30PCKU0IwaeL04jH58obUVl/oYR7OXtQh1sIDqBwQr27/0KazjRls=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwL330Aoc4g0Pj+ZHUTwJxAqFhVXnZIY55id3fc5IWUBNGqWNs/
- BZ866XQktSYvgw5Mbv1c1XwcJ7AF6d0VUEQeXhED+6CJVtTHZ3lFYvBlgLOHYA4=
-X-Google-Smtp-Source: AGHT+IHup46cN3yQHFtBvP4UoyD6AAcxffm5fZhZ+b6e//DT+N4kqwIf/Nd53QViZRdsD52isOP+xg==
-X-Received: by 2002:a05:651c:1545:b0:2f3:fd4a:eac6 with SMTP id
- 38308e7fff4ca-2f629041d3dmr51981481fa.18.1725333773785; 
- Mon, 02 Sep 2024 20:22:53 -0700 (PDT)
+ AJvYcCU8KWIpJ5JNE+t+Mp0Tp9YF2cvh6N69PbuZ3KEHccsr6vY4SGvnkfnf3OqwXH9JS0tBTWpepvXujTI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yww1qH3pOFxh7wuCOO7Tnvh7mNn4GUVSvB4mHj3v6u5h3zoaMQ6
+ 6WujAZbcjeF2mnDPZAZQ1BJIVYRtHFK7M0lZOaHx48vZKXqZCAPjWRbJpX14e9I=
+X-Google-Smtp-Source: AGHT+IGTh9Dwb7pkkxXKkDP242kXyVpn9BHR6Ast3Q1izqpsDPXTt0iIBv644h0se6VkdS6Eg+y/bA==
+X-Received: by 2002:a2e:1312:0:b0:2f3:d82b:1959 with SMTP id
+ 38308e7fff4ca-2f64441ec9fmr11810191fa.23.1725333774462; 
+ Mon, 02 Sep 2024 20:22:54 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
  38308e7fff4ca-2f614ed15a5sm21003961fa.8.2024.09.02.20.22.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2024 20:22:53 -0700 (PDT)
+ Mon, 02 Sep 2024 20:22:54 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v6 00/15] drm/msm/dpu: be more friendly to X.org
-Date: Tue, 03 Sep 2024 06:22:43 +0300
-Message-Id: <20240903-dpu-mode-config-width-v6-0-617e1ecc4b7a@linaro.org>
+Date: Tue, 03 Sep 2024 06:22:44 +0300
+Subject: [PATCH v6 01/15] drm/msm/dpu: make sure phys resources are
+ properly initialized
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAOB1mYC/3XOTU7EMAwF4KuMsiYof840rLgHYpHGSWsJmlE6F
- NCodycdCVFUZfksv8++sTkWijN7Ot1YiQvNlKca7MOJhdFPQ+SENTMllBFadhwvH/w9Y+QhT4k
- G/kl4HblVFnU4ewTlWe1eSkz0dXdfXmseab7m8n0/s8ht+iu6hrhILjiKFG2fOtkn+fxGky/5M
- ZeBbeSi/hgrdItRlZHWJ1ACzuDtgdE7RpoWoyujXAx1yQXn+gNjdoxqMmb7RuguSI1eezgwsGe
- gxUBlQEh0nUGrTfrHrOv6A5TtRzLXAQAA
+Message-Id: <20240903-dpu-mode-config-width-v6-1-617e1ecc4b7a@linaro.org>
+References: <20240903-dpu-mode-config-width-v6-0-617e1ecc4b7a@linaro.org>
+In-Reply-To: <20240903-dpu-mode-config-width-v6-0-617e1ecc4b7a@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -75,16 +73,16 @@ Cc: Abel Vesa <abel.vesa@linaro.org>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3939;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1849;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=BWVEJP/ONJMOkJpUbz8o2AZX8ZM3XLIHEzcDCb2AhdY=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBm1oEH5JMLUNrrzbgK45w6apcf3EfatK6LZJ3+E
- wRkqZlhv4KJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZtaBBwAKCRCLPIo+Aiko
- 1ZJvCACvXSgRM4G9ST5s8TaC31WE0fKnDcQ0H1u6rQ3/pxZUKfiW47dfvrTwZt95w12HY7xl+ON
- FL99dIjwvpPWzRTpQn+j+JyxNwl2fZvI22I0Vns1aE+vysbwV+e2etagCv/szbCYxEla65PgIBQ
- Iq5PdYToIoYR43LuQINahbZFRW9XxRJs+tqCcEaLf4nx0jaF0Fl5ZGiU9hJ0EIrUum3JYrnRs6B
- YQfhNXiHxY12T9wp/cFC4HFy5XhTrpveTfVOvJ3FHHUU7CySnQKlS99Y1xw6j8tNEdBxQuH/bk6
- 78iP3jx6m+RYBdqGMhI67lz17s4U9Xk9f3huV+VKzCNEIUcy
+ bh=9hiBNik93uZFwi3I0kzx7lGjwl8YmM6Oy86cQrRvVmE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBm1oEKxWGO3YydUMBY3XruJjJyYMN06dPEnug/J
+ vWyj4bB7YOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZtaBCgAKCRCLPIo+Aiko
+ 1TBRB/9JjK9bNDkipN2L++V/P9kllEmOlC5pKEHKSTthCTD86R3p1mBRjVDpnr2naySQVy7Ft+V
+ /khY5l/aDueIB9Sr6YGQbaB4rf3ZsrG9mL8c3V2xgw+60qtcLncikmD32e86nqR2lVmvpnAU4Wf
+ NAXXf4UoR5Jec0mb45LmD5bOdIuCI45MiK1joxXb+eHACJrbYFEWvfmq18kuSY1gzeMoSYCXhXw
+ 3I/TFEGVvjaThzJAtBWuchqyBSTw9otRq/njo7lx06SsnVbXoJNo//O6eDgAggWfSFdlmB/RILj
+ plc9tN5Zcu/2nwXJvGDcu6SY9QVu4nWmcVTEEhPuhfY+p6zH
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,83 +100,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike other compositors X.org allocates a single framebuffer covering
-the whole screen space. This is not an issue with the single screens,
-but with the multi-monitor setup 5120x4096 becomes a limiting factor.
-Check the hardware-bound limitations and lift the FB max size to
-16383x16383.
+The commit b954fa6baaca ("drm/msm/dpu: Refactor rm iterator") removed
+zero-init of the hw_ctl array, but didn't change the error condition,
+that checked for hw_ctl[i] being NULL. At the same time because of the
+early returns in case of an error dpu_encoder_phys might be left with
+the resources assigned in the previous state. Rework assigning of hw_pp
+/ hw_ctl to the dpu_encoder_phys in order to make sure they are always
+set correctly.
 
+Fixes: b954fa6baaca ("drm/msm/dpu: Refactor rm iterator")
+Suggested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v6:
-- Fixed the commit subject of the resource assignment patch (Abhinav)
-- Reworked resource assignment to dpu_encoder_phys in
-  dpu_encoder_virt_atomic_mode_set (Abhinav)
-- Fixed num_dspp check / hw_dspp assignment (Abhinav)
-- Moved dpu_encoder_assign_crtc_resources under the needs_modeset()
-  check (Abhinav)
-- Link to v5: https://lore.kernel.org/r/20240625-dpu-mode-config-width-v5-0-501d984d634f@linaro.org
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Changes in v5:
-- Fix crash in the writeback code.
-- Link to v4: https://lore.kernel.org/r/20240624-dpu-mode-config-width-v4-0-1038c13da3a5@linaro.org
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 3b171bf227d1..949ebda2fa82 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1174,21 +1174,20 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+ 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+ 
+-		if (!dpu_enc->hw_pp[i]) {
++		phys->hw_pp = dpu_enc->hw_pp[i];
++		if (!phys->hw_pp) {
+ 			DPU_ERROR_ENC(dpu_enc,
+ 				"no pp block assigned at idx: %d\n", i);
+ 			return;
+ 		}
+ 
+-		if (!hw_ctl[i]) {
++		phys->hw_ctl = i < num_ctl ? to_dpu_hw_ctl(hw_ctl[i]) : NULL;
++		if (!phys->hw_ctl) {
+ 			DPU_ERROR_ENC(dpu_enc,
+ 				"no ctl block assigned at idx: %d\n", i);
+ 			return;
+ 		}
+ 
+-		phys->hw_pp = dpu_enc->hw_pp[i];
+-		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+-
+ 		phys->cached_mode = crtc_state->adjusted_mode;
+ 		if (phys->ops.atomic_mode_set)
+ 			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
 
-Changes in v4:
-- Fix handling of the not visible planes with the FB being set, as
-  detected via the kms_cursor_edge_walk test.
-- Link to v3: https://lore.kernel.org/r/20240614-dpu-mode-config-width-v3-0-29ec4069c99b@linaro.org
-
-Changes in v3:
-- Reoder the functions to pull up a fix to the start of the patchset
-  (Abhinav)
-- Rename the _dpu_crtc_setup_lm_bounds() to
-  _dpu_crtc_check_and_setup_lm_bounds() (Abhinav)
-- Make dpu_crtc_mode_valid() static.
-- Link to v2: https://lore.kernel.org/r/20240603-dpu-mode-config-width-v2-0-16af520575a6@linaro.org
-
-Changes in v2:
-- Added dpu_crtc_valid() to verify that 2*lm_width limit is enforced
-  (Abhinav)
-- Link to v1: https://lore.kernel.org/r/20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org
-
----
-Dmitry Baryshkov (15):
-      drm/msm/dpu: make sure phys resources are properly initialized
-      drm/msm/dpu: move CRTC resource assignment to dpu_encoder_virt_atomic_check
-      drm/msm/dpu: check for overflow in _dpu_crtc_setup_lm_bounds()
-      drm/msm/dpu: drop dpu_format_check_modified_format
-      drm/msm/dpu: drop dpu_format_populate_layout from dpu_plane_sspp_atomic_update
-      drm/msm/dpu: drop extra aspace checks in dpu_formats
-      drm/msm/dpu: drop msm_format from struct dpu_hw_fmt_layout
-      drm/msm/dpu: pass drm_framebuffer to _dpu_format_get_plane_sizes()
-      drm/msm/dpu: move pitch check to _dpu_format_get_plane_sizes_linear()
-      drm/msm/dpu: split dpu_format_populate_layout
-      drm/msm/dpu: make dpu_format_populate_addrs return void
-      drm/msm/dpu: move layout setup population out of dpu_plane_prepare_fb()
-      drm/msm/dpu: check for the plane pitch overflow
-      drm/msm/dpu: merge MAX_IMG_WIDTH/HEIGHT with DPU_MAX_IMG_WIDTH/HEIGHT
-      drm/msm/dpu: sync mode_config limits to the FB limits in dpu_plane.c
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  34 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  68 +++---
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  37 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        | 243 +++++++--------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h        |  30 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  10 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  50 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |   3 +
- drivers/gpu/drm/msm/msm_kms.h                      |   6 -
- 14 files changed, 201 insertions(+), 295 deletions(-)
----
-base-commit: ecc768a84f0b8e631986f9ade3118fa37852fef0
-change-id: 20240318-dpu-mode-config-width-626d3c7ad52a
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
