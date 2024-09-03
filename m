@@ -2,63 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF833969F45
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 15:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B325B969F5C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 15:46:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53AB610E5A6;
-	Tue,  3 Sep 2024 13:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7292510E5B0;
+	Tue,  3 Sep 2024 13:46:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kfO+DAAj";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EUaLGuFo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32FCF10E5A6
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 13:42:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725370932; x=1756906932;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wJSMcnHCJktibnXKxXUjv9d4PA0Suc3KAWKHub7ARUg=;
- b=kfO+DAAjSdZl95OuUd7tnqLNTfCfemB8VDHyNeBgIcCSE1CsN3RwsLc/
- Tx0s3HFM98ZJNfNJoUlyPU2mxVjRbLYMSWOXCwSPRHQDMVd+ZY0TEdot5
- RJUs/mUq1QqkmeKGn12ggooQUO3l4b0ZJpux0gzKLDevvLbJNCR7j6y/h
- kSUONflNRZY99+lr+gGn4V9jYYXBV/yYGOgQsZpo2X7FVfY3TrSShDjtg
- UK/l8a8RHLGBbJfdG7yBSyFpSbJjj89JVlUFIim2mzAo/fg6oOkYNmGbB
- xHwUcnH7YdrAUUz/vpabcyHUnBInIQ2uBHrJmpMRU7G4jId8Pd1sg1xBz w==;
-X-CSE-ConnectionGUID: 67g3on+lRcCU83jsJpyYXg==
-X-CSE-MsgGUID: YqyihlXiRgqOZnMNoacM2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="23919398"
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="23919398"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 06:42:12 -0700
-X-CSE-ConnectionGUID: 3+bn2VRSRQSnkfRmCOPgDw==
-X-CSE-MsgGUID: l4XtIPx7RPWAcNQ8MzBwZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="69708051"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 03 Sep 2024 06:42:08 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1slTnJ-0006jP-1U;
- Tue, 03 Sep 2024 13:42:05 +0000
-Date: Tue, 3 Sep 2024 21:42:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
- neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, quic_jesszhan@quicinc.com,
- skhan@linuxfoundation.org, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: hx83112a: Switch to wrapped mipi_dsi functions
-Message-ID: <202409032131.EA1cqdff-lkp@intel.com>
-References: <20240902170153.34512-1-abhishektamboli9@gmail.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2757E10E5A8
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 13:46:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gzXKtmOczwuU46nutgBlIOMoPUXsFQXfHO7ZcmcSvZ31xn5/hnSsse42vG93ELt+UTMufqdRxih1HVNy/QrIpWEjTIWONnXNqdRAWOO6DQIbJvUlNR8qIRBFBVmyRkxgNqZNAH9bh4EVYHdpv9DaJeTez0k01txNvxILcWNm+WtRQAG7x0qeDFbrqwRL3fwxaoMpWZPLoz4DTNOJEUnSRTPY1ZB6CBRWHB0eGz/7CT3O07jCtH6GG6pJh+3Yc7ca3Ztp0PSxT9Tpt0q/irFuVuERyit/mKdDED4QxPMCWux4OFBYeVs3MgSVfa93c2hvv8IamObFQ3zPQsBxYoPAjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ySUUkjOdT33Ojn05AG/DMGe3jdZGYwU6/uPeU/gIg2g=;
+ b=jBVY/pAMxCXJno943aTZdAWg7TI9mEAulMLmQplSBPOqo4uHCHTdyqiEOxVsWLaWM9QGlT46sO1LVqIjYbi6LjvNjB8rc8/rQGbso6vFCNmXMNoA4+PW7q7JmogWfSVKEo7RFwRkowIfpcKjVE6QR/dGyOYPgznVwiHENtNkKnp5ws+nphoUNorYcjEOz4r0ypS/Z5HOnkh0urn/RCarlPl1bk1gl65wtZrwF8V22AaJ4adt1tlPWUaymOVlidVw9HH3G78RI4/HPS5qOCSzkdN/xTzmRWRnA6rmCiJzVbycRS6/I8L77IwA9KB2S/37unf55EFvboRqxH2XigIzcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ySUUkjOdT33Ojn05AG/DMGe3jdZGYwU6/uPeU/gIg2g=;
+ b=EUaLGuFoVKYapD/oEGYHIwtsgZkxwkA5XDDdCpYk1hyWAZxqid91JBLhyVOq1zB2+VaoCbFHw0m7e8wiU9vn/aWxUh2rbT8sKi8ik4Wb0aPNDKvmLyGsfdFy3dPQ1zg0aEaVhkfqbbCKbTNYz3YyRt4rrZti32wGIwVPVJmvJmI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ0PR12MB6966.namprd12.prod.outlook.com (2603:10b6:a03:449::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Tue, 3 Sep
+ 2024 13:46:50 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Tue, 3 Sep 2024
+ 13:46:50 +0000
+Content-Type: multipart/alternative;
+ boundary="------------9RjaUZPYNK7KvPXSc34C8iSm"
+Message-ID: <96ef7ae3-4df1-4859-8672-453055bbfe96@amd.com>
+Date: Tue, 3 Sep 2024 15:46:43 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 00/10] drm/panthor: Add user submission
+To: Steven Price <steven.price@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, linux-kernel@vger.kernel.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Akash Goel <akash.goel@arm.com>
+References: <20240828172605.19176-1-mihail.atanassov@arm.com>
+ <c64be651-2f40-4535-a537-b8304e6556ce@amd.com>
+ <a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com>
+X-ClientProxiedBy: FR4P281CA0002.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240902170153.34512-1-abhishektamboli9@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6966:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a20ea06-89dc-4b84-1fd3-08dccc1edcc2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TWRscUtyQWNEQmZBcnc2T2IrYmZUVXRLcmx6YlBtL2tyMWpzNWZUMXo4Q3FO?=
+ =?utf-8?B?UkpGaEpSclVyejNIbmRoWWJJYmJhMWp3dEpvNitWcXJvdUFJc0tRdlZyRGIz?=
+ =?utf-8?B?UEhYQmFOb25tdUJOV2RsK1NmbVFyQXlFUGdGdUxtcnNhZ2toaG5YazU2Nndv?=
+ =?utf-8?B?ZXc0TU5aNnJiZWJEMWhYWCs4NmtZNEZhTjJ1NHhYamdFMmFQSXVWcTROeFp1?=
+ =?utf-8?B?QUhvRThzNXdpOURGYTQwNERlZnlWODY5b0NHSVRoMUhrZ0JsUGxpc2xnc3o3?=
+ =?utf-8?B?OXc0SkM4QjFOcWRPV0ZTRzFPTHpwemVCcDhaZTk5UVRnbWdCck4yZlg1QVlL?=
+ =?utf-8?B?TGFKeUY4a0hWUUozS2ZGVFBBaHJDbkZQTHcvMmc0VS9RSVhBTlZGeTd4ZEh4?=
+ =?utf-8?B?amwyM3k4ekNhVVhEejdRNWswTllHTmZRVEpOT3FtVVNoMzhoWGlvQUdvMEh4?=
+ =?utf-8?B?UVVhYnNXQjQ2RGVZVHRNVktnaWdyZ1JKYVJMblhoTG9OZU53UTRTSUZFZko5?=
+ =?utf-8?B?eWhxRFBFL2pLelp6ZnkzaG81MzVZaXRoaTc3YjRHS2dpZXN6WVVFdjhNdzdj?=
+ =?utf-8?B?YkptMUNyMVNLYU1xZGJIR3BWOVRKUElRU2I4VmFyVXlSRStBS0J5OFBMMlZQ?=
+ =?utf-8?B?STJUVW9Cd2t6MDlzaUl0TnhpOTE3Nkg1cWowcDAvMkl6OUl4R2hZczNvQ2NV?=
+ =?utf-8?B?OWNqeWlGaG1UZUIzd29Zc2UrNUVmQ0FXNk90MVliaUVaNXlKSXg3UGV0MGQ3?=
+ =?utf-8?B?NFh4dUtFWkdwak8xUnZPNFhSZXcxYlVuSmk1ejJDVVZ4cThnRDRsZ2lJTFZS?=
+ =?utf-8?B?WDlpTFN0eXh3SW90ZlFhTG1GeGhlcHVjQytLM1F0YlFoSkpxT1VzeW9YbHpL?=
+ =?utf-8?B?Z250L0JOb3JScVMxU2xkR0FNZEtvM2p3NllpU2dKRzFjVVJ0Qy9WUFJIUmtY?=
+ =?utf-8?B?T25VMEtnYTdPZEVvTUNQQU5FeTFlc3MycmUwWGxVdGl1bVhGOXRvQ3F3NVhj?=
+ =?utf-8?B?eGFOMlcvRjVmK09DZVVUektRWkphZE4rcTdOdjBIZ1F5U0t2eGt1SWYvY2VI?=
+ =?utf-8?B?ZnlOaUlpUzRybWJ0TUNxRU9qaXVDcS9teVpja29oa1Bzek1idGZlVy9FeDdE?=
+ =?utf-8?B?VTNhN2JmbU5UK3RWZTFBZ1htVFUrMVRXNDRMQ0Npc054WFpzNVhla2tyanUx?=
+ =?utf-8?B?VlVhWktrVjQxUWNpbWI4eWI5d1hkL3ZCQUU1N0VQTVhXL285Tkk2VExuTFZI?=
+ =?utf-8?B?b2NkYmNHSDVIdFRBYjhIa3JSOVFidEtzbWdYR2lCSFltTThnTEh6OStjeW96?=
+ =?utf-8?B?VXZ4a0gvSHhhOUwrNUZYcDJPMmxEKzRWL25ucFFYR3UrRC9rNWsxSm85OXpk?=
+ =?utf-8?B?RVRkRGxiR0hoTm84dTlKd0JiS2RpQy9OZDE4OHNoNmpadGQ4U2pnVVU0UG9m?=
+ =?utf-8?B?UTBSWWNBTEpOYXJTNUZuSXZrNC9Ublc4bFFTUkV0S0d4UFd6a0dTcENKWUpr?=
+ =?utf-8?B?dWdNYjFDakJjWEZ2bnNxU1JqR1dDREV3OTNEbUNCbzNuNGNZRUtFNVVMUGVr?=
+ =?utf-8?B?RlJtSDFMUWozRWc3UlQ2UEFNZUQ2Sm9pZGJULzVvdDYxdy9VVkFnL3FNWnVK?=
+ =?utf-8?B?bXRBOFpLTEwvVVdCOFVxNVFlSFFpUnN0TEx0eDdNV08rY3E3RXIzN1dwaE9r?=
+ =?utf-8?B?TUpBeVo5R1FBampoMHlkYVZpazBLbngyOE16SW95SDNLeWJyMFZhRXpKUzdU?=
+ =?utf-8?Q?QxtH5eBPOZGVlgAv/M=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MHhNcXFTWmxPbFFwdFVldTZzTTducEVRdFFRbUtqUHpxYlZhWndRZ3hiMjJM?=
+ =?utf-8?B?RVRURXBsSWtNZmJNNFR1bjdUVkFod1dvT0MrUWF1VjFVbUxvUGxlMmM0WHIw?=
+ =?utf-8?B?R0k2WTE1Y0FrMTU3NVZHNWlKZ3RLSjRaTEZ0OFVndDh1a1hpTEFvNWlYNXU2?=
+ =?utf-8?B?bUI3M3J1TGlXSXdMSFYwNlNnaVk3eTNLbDhoenJPN21LWUZLam92YjZvTWtO?=
+ =?utf-8?B?SmNxVys3Z1FsbzBKZzY5WFhGYTcycjg3YjV4d2pmVEZCZ3FnU1orTlRxUUpx?=
+ =?utf-8?B?K2tERnZFeUd4dUNYNUdLcG1IcXRGTE9uSmhHRTlzS3BzSHdLVVZwNEtoNElv?=
+ =?utf-8?B?VmVsSE45d2JPa2h1MGtVeExIeDVoaDNGT0hUa2RkbzRMUGtRV1d6OGJGWWJU?=
+ =?utf-8?B?alRkb3pnb1EyU1FLczhYNDAydzNPMHJMMUg4TWVmRWNKMHpxS1diczFPMnJH?=
+ =?utf-8?B?VTRxQ2p5T3ZobGN4R1o4SFRPMHRDQmZ2MUd4VUM3Smk5bWRqbWdieFEwMkow?=
+ =?utf-8?B?MzFBdERmSUhZMURuWmRDVE5YVVpjNjNPTlR6V3NscUpVZ0hHZFBHT2RoNTBI?=
+ =?utf-8?B?RkFlRytwdjR4R21qcnErMldFNDVSby9IU3ZSakppS0FjU3BrTmh6VDNsWm1P?=
+ =?utf-8?B?OE9zY0s1QmlQVE1zN01aeU1ENWVMYmhPZmVpaUN0SXNFWFk3b1REbVJZVy9x?=
+ =?utf-8?B?Z2tDQWxESTk4K3k2ZEt2dkxEZ1lTVGY0UTZpSGFtenZhSlN5T0VKV1dkQmhx?=
+ =?utf-8?B?U1Y1aW5ZNkhqY0NLSUk3RXN4WjdWOHUzbzBiUTdJVkttczVDTjFVV2gzVFVL?=
+ =?utf-8?B?ZWI1QWhLdERvUTRoR0NWYkVyNnpyeEI4K3pMamxGRlF0SkQ5SWovMUx5K1B5?=
+ =?utf-8?B?RnZDaFZpWG9aT01xQ2VBT05odUNkTm9MTmNKQ0FKUGl2UGFMbW5yQis0aW9k?=
+ =?utf-8?B?YmpyYndhVTdhNHRNcC9CRWFVMnM3bzJUL1lxS2lXbkx2SytwbnlZbGoya1NK?=
+ =?utf-8?B?TXFpdk9PNDdWT0l4T0FkRlJoQnpxeGVNaE5EQnk3U1lPZ2VkM2ZXMFBqZ011?=
+ =?utf-8?B?b2luWHRkTUdRdVpyclFsS1RQNjFvY05WbVE1OFZaUzM4aFhCaHVubGpWSWVU?=
+ =?utf-8?B?K3NXNE12SjhSaXJpdmV3T0FXSFpnd0JheDdtSmgxaUtWY3ZnSUVsQzd1YXZp?=
+ =?utf-8?B?RjFHaDd1SnQ0Z3dlRDBCais3WU00UGprTXZ5R1JVYjRrRWhzNHVOSDRCMGJi?=
+ =?utf-8?B?SXA5NU5kdUk5Q1crYnJnbHBwYWcrWXRIeXBCR2FDZWozUHcraVZsUklpejgw?=
+ =?utf-8?B?QmlvdUJjNlZtc3RMWDRRaFQzRHFDYllwUmZHd2xEVGYwSTk0U0E1RXcvQWRu?=
+ =?utf-8?B?K05sV3EyaWNna0IyNFc3TlRtN3FLYjRYNk53cFE2d0MrZ1E2cndIOURzY0NP?=
+ =?utf-8?B?ZjFmMC9NdFhaNmQ1eVBGdnNGY0dOMXMyWEVWYURVV2NEUWFON3kwRmlFUUFW?=
+ =?utf-8?B?NVAxbWlFWkJQOXg0MkxnUFVrU1oyTlMrOStSanhwdDczUEFtVzZLa0FuZFV2?=
+ =?utf-8?B?TTVFbm1GUDlpbmFGbUdNR2drM0trdWxlS2kxa24xZEZvbUVnTXdJSk1tTUZx?=
+ =?utf-8?B?UDJ6R1RGTFdtU08wM2VHY2NVTHl0VmJGR2g1d3N6UFU4NVlIdHFnYkxLM3V6?=
+ =?utf-8?B?aWw3RTd6aTRTbldTdE0xUFVNRmFFOCtsMDgwMGk5ZmtDK1ExNk5YSUpQQTZP?=
+ =?utf-8?B?L3FSSlBtOU9jUGF2dmN1alFNQkp5TUVHMHl0a0xsc0pxSER5Qis4Mk9RbURo?=
+ =?utf-8?B?N29OR0Yrc0NJTzErUGs5Z0RhYVM5ZXlXZkYvNXVGRlpQOFFCWFZvTUMyL2U4?=
+ =?utf-8?B?NTJrUlZGUFFKcFRjWC93OXdpeldUL0xmN083RnVqbTFQaTdleDFyT0NVdFBI?=
+ =?utf-8?B?cnI1MGxCWm8zV0d0dmpWaE9rQ1ZTaklmM09OZzFLL0I5ak94WVR2YXlxU2o3?=
+ =?utf-8?B?Q012WHg5cHdaMjlGUFJ2anN6RlV2OWdJUVRzSzU2dzVmMmRJQWVMeXF0TUU4?=
+ =?utf-8?B?Z2xOcFpVTllwLzBvL0gvdWVrNHlMR1RwMUNzbGRUL0ZEK0NsY3BObi9DTDBE?=
+ =?utf-8?Q?POdk1MvuFekCmdL0DhSR/QfIw?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a20ea06-89dc-4b84-1fd3-08dccc1edcc2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 13:46:50.5523 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 10FpcVrjtoI2G/ZXKa2TkL09cIQoQ+KhWb7gEVxjVEAFKQWJprAR+EOjR9xbiz/J
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6966
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,179 +169,415 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhishek,
+--------------9RjaUZPYNK7KvPXSc34C8iSm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-kernel test robot noticed the following build errors:
+Hi Steven,
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.11-rc6 next-20240903]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Am 29.08.24 um 15:37 schrieb Steven Price:
+> Hi Christian,
+>
+> Mihail should be able to give more definitive answers, but I think I can
+> answer your questions.
+>
+> On 29/08/2024 10:40, Christian König wrote:
+>> Am 28.08.24 um 19:25 schrieb Mihail Atanassov:
+>>> Hello all,
+>>>
+>>> This series implements a mechanism to expose Mali CSF GPUs' queue
+>>> ringbuffers directly to userspace, along with paraphernalia to allow
+>>> userspace to control job synchronisation between the CPU and GPU.
+>>>
+>>> The goal of these changes is to allow userspace to control work
+>>> submission to the FW/HW directly without kernel intervention in the
+>>> common case, thereby reducing context switching overhead. It also allows
+>>> for greater flexibility in the way work is enqueued in the ringbufs.
+>>> For example, the current kernel submit path only supports indirect
+>>> calls, which is inefficient for small command buffers. Userspace can
+>>> also skip unnecessary sync operations.
+>> Question is how do you guarantee forward progress for fence signaling?
+> A timeout. Although looking at it I think it's probably set too high
+> currently:
+>
+>> +#define JOB_TIMEOUT_MS				5000
+> But basically the XGS queue is a DRM scheduler just like a normal GPU
+> queue and the jobs have a timeout. If the timeout is hit then any fences
+> will be signalled (with an error).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Tamboli/drm-panel-hx83112a-Switch-to-wrapped-mipi_dsi-functions/20240903-010317
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240902170153.34512-1-abhishektamboli9%40gmail.com
-patch subject: [PATCH] drm/panel: hx83112a: Switch to wrapped mipi_dsi functions
-config: x86_64-buildonly-randconfig-003-20240903 (https://download.01.org/0day-ci/archive/20240903/202409032131.EA1cqdff-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409032131.EA1cqdff-lkp@intel.com/reproduce)
+Mhm, that is unfortunately exactly what I feared.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409032131.EA1cqdff-lkp@intel.com/
+>> E.g. when are fences created and published? How do they signal?
+>>
+>> How are dependencies handled? How can the kernel suspend an userspace
+>> queue?
+> The actual userspace queue can be suspended. This is actually a
+> combination of firmware and kernel driver, and this functionality is
+> already present without the user submission. The firmware will multiplex
+> multiple 'groups' onto the hardware, and if there are too many for the
+> firmware then the kernel multiplexes the extra groups onto the ones the
+> firmware supports.
 
-All errors (new ones prefixed by >>):
+How do you guarantee forward progress and that resuming of suspended 
+queues doesn't end up in a circle dependency?
 
-   drivers/gpu/drm/panel/panel-himax-hx83112a.c: In function 'hx83112a_on':
->> drivers/gpu/drm/panel/panel-himax-hx83112a.c:63:9: error: 'dsi' undeclared (first use in this function)
-      63 |         dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-         |         ^~~
-   drivers/gpu/drm/panel/panel-himax-hx83112a.c:63:9: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/panel/panel-himax-hx83112a.c: In function 'hx83112a_disable':
-   drivers/gpu/drm/panel/panel-himax-hx83112a.c:197:9: error: 'dsi' undeclared (first use in this function)
-     197 |         dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-         |         ^~~
+> I haven't studied Mihail's series in detail yet, but if I understand
+> correctly, the XGS queues are handled separately and are not suspended
+> when the hardware queues are suspended. I guess this might be an area
+> for improvement and might explain the currently very high timeout (to
+> deal with the case where the actual GPU work has been suspended).
+>
+>> How does memory management work in this case?
+> I'm not entirely sure what you mean here. If you are referring to the
+> potential memory issues with signalling path then this should be handled
+> by the timeout - although I haven't studied the code to check for bugs here.
+
+You might have misunderstood my question (and I might misunderstand the 
+code), but on first glance it strongly sounds like the current approach 
+will be NAKed.
+
+> The actual new XGS queues don't allocate/free memory during the queue
+> execution - so it's just the memory usage related to fences (and the
+> other work which could be blocked on the fence).
+
+But the kernel and the hardware could suspend the queues, right?
+
+> In terms of memory management for the GPU work itself, this is handled
+> the same as before. The VM_BIND mechanism allows dependencies to be
+> created between syncobjs and VM operations, with XGS these can then be
+> tied to GPU HW events.
+
+I don't know the details, but that again strongly sounds like that won't 
+work.
+
+What you need is to somehow guarantee that work doesn't run into memory 
+management deadlocks which are resolved by timeouts.
+
+Please read up here on why that stuff isn't allowed: 
+https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefinite-dma-fences
+
+Regards,
+Christian.
+
+>
+>
+> Fundamentally (modulo bugs) there is little change compared to kernel
+> submission - it's already fairly trivial to write GPU job which will
+> make no forward progress (a 'while (1)' equivalent job). The only
+> difference here is that XGS makes this 'easy' and doesn't involve the
+> GPU spinning. Either way we rely on a timeout to recover from these
+> situations.
+>
+> Thanks,
+> Steve
+>
+>> Regards,
+>> Christian.
+>>
+>>> This is still a work-in-progress, there's an outstanding issue with
+>>> multiple processes using different submission flows triggering
+>>> scheduling bugs (e.g. the same group getting scheduled twice), but we'd
+>>> love to gather some feedback on the suitability of the approach in
+>>> general and see if there's a clear path to merging something like this
+>>> eventually.
+>>>
+>>> I've also CCd AMD maintainers because they have in the past done
+>>> something similar[1], in case they want to chime in.
+>>>
+>>> There are two uses of this new uAPI in Mesa, one in gallium/panfrost
+>>> (link TBD), and one in panvk [2].
+>>>
+>>> The Gallium implementation is a naïve change just to switch the
+>>> submission model and exercise the new kernel code, and we don't plan
+>>> on pursuing this at this time.
+>>>
+>>> The panvk driver changes are, however, a better representation of the
+>>> intent behind this new uAPI, so please consider that as the reference
+>>> userspace. It is still very much also a work in progress.
+>>>
+>>>    * patch 1 adds all the uAPI changes;
+>>>    * patch 2 implements the GROUP_CREATE ioctl changes necessary to expose
+>>>      the required objects to userspace;
+>>>    * patch 3 maps the doorbell pages, similarly to how the user I/O
+>>> page is
+>>>      mapped;
+>>>    * patch 4 implements GROUP_KICK, which lets userspace request an
+>>>      inactive group to be scheduled on the GPU;
+>>>    * patches 5 & 6 implement XGS queues, a way for userspace to
+>>>      synchronise GPU queue progress with DRM syncobjs;
+>>>    * patches 7 & 8 add notification mechanisms for user & kernel to signal
+>>>      changes to native GPU syncobjs.
+>>>
+>>> [1]
+>>> https://lore.kernel.org/amd-gfx/CADnq5_N61q_o+5WYUZsZ=qu7VmeXTFHQSxLwTco05gLzHaiswA@mail.gmail.com/t/#m116a36a598d8fad1329e053974ad37a4dc0f28ed
+>>> [2]
+>>> https://gitlab.freedesktop.org/larsivsi/mesa/-/commits/panvk-v10-usersubmit?ref_type=heads
+>>>
+>>> Ketil Johnsen (7):
+>>>     drm/panthor: Add uAPI to submit from user space
+>>>     drm/panthor: Extend GROUP_CREATE for user submission
+>>>     drm/panthor: Map doorbell pages
+>>>     drm/panthor: Add GROUP_KICK ioctl
+>>>     drm/panthor: Factor out syncobj handling
+>>>     drm/panthor: Implement XGS queues
+>>>     drm/panthor: Add SYNC_UPDATE ioctl
+>>>
+>>> Mihail Atanassov (1):
+>>>     drm/panthor: Add sync_update eventfd handling
+>>>
+>>>    drivers/gpu/drm/panthor/Makefile          |   4 +-
+>>>    drivers/gpu/drm/panthor/panthor_device.c  |  66 ++-
+>>>    drivers/gpu/drm/panthor/panthor_device.h  |  35 +-
+>>>    drivers/gpu/drm/panthor/panthor_drv.c     | 233 +++++++-
+>>>    drivers/gpu/drm/panthor/panthor_fw.c      |   2 +-
+>>>    drivers/gpu/drm/panthor/panthor_sched.c   | 408 +++++++++-----
+>>>    drivers/gpu/drm/panthor/panthor_sched.h   |   8 +-
+>>>    drivers/gpu/drm/panthor/panthor_syncobj.c | 167 ++++++
+>>>    drivers/gpu/drm/panthor/panthor_syncobj.h |  27 +
+>>>    drivers/gpu/drm/panthor/panthor_xgs.c     | 638 ++++++++++++++++++++++
+>>>    drivers/gpu/drm/panthor/panthor_xgs.h     |  42 ++
+>>>    include/uapi/drm/panthor_drm.h            | 243 +++++++-
+>>>    12 files changed, 1696 insertions(+), 177 deletions(-)
+>>>    create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.c
+>>>    create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.h
+>>>    create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.c
+>>>    create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.h
+>>>
+
+--------------9RjaUZPYNK7KvPXSc34C8iSm
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Hi Steven,<br>
+    <br>
+    Am 29.08.24 um 15:37 schrieb Steven Price:<br>
+    <blockquote type="cite" cite="mid:a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com">
+      <pre class="moz-quote-pre" wrap="">Hi Christian,
+
+Mihail should be able to give more definitive answers, but I think I can
+answer your questions.
+
+On 29/08/2024 10:40, Christian König wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Am 28.08.24 um 19:25 schrieb Mihail Atanassov:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Hello all,
+
+This series implements a mechanism to expose Mali CSF GPUs' queue
+ringbuffers directly to userspace, along with paraphernalia to allow
+userspace to control job synchronisation between the CPU and GPU.
+
+The goal of these changes is to allow userspace to control work
+submission to the FW/HW directly without kernel intervention in the
+common case, thereby reducing context switching overhead. It also allows
+for greater flexibility in the way work is enqueued in the ringbufs.
+For example, the current kernel submit path only supports indirect
+calls, which is inefficient for small command buffers. Userspace can
+also skip unnecessary sync operations.
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Question is how do you guarantee forward progress for fence signaling?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+A timeout. Although looking at it I think it's probably set too high
+currently:
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+#define JOB_TIMEOUT_MS				5000
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+But basically the XGS queue is a DRM scheduler just like a normal GPU
+queue and the jobs have a timeout. If the timeout is hit then any fences
+will be signalled (with an error).</pre>
+    </blockquote>
+    <br>
+    Mhm, that is unfortunately exactly what I feared.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">E.g. when are fences created and published? How do they signal?
+
+How are dependencies handled? How can the kernel suspend an userspace
+queue?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+The actual userspace queue can be suspended. This is actually a
+combination of firmware and kernel driver, and this functionality is
+already present without the user submission. The firmware will multiplex
+multiple 'groups' onto the hardware, and if there are too many for the
+firmware then the kernel multiplexes the extra groups onto the ones the
+firmware supports.</pre>
+    </blockquote>
+    <br>
+    How do you guarantee forward progress and that resuming of suspended
+    queues doesn't end up in a circle dependency? <br>
+    <br>
+    <blockquote type="cite" cite="mid:a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com">
+      <pre class="moz-quote-pre" wrap="">I haven't studied Mihail's series in detail yet, but if I understand
+correctly, the XGS queues are handled separately and are not suspended
+when the hardware queues are suspended. I guess this might be an area
+for improvement and might explain the currently very high timeout (to
+deal with the case where the actual GPU work has been suspended).
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">How does memory management work in this case?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I'm not entirely sure what you mean here. If you are referring to the
+potential memory issues with signalling path then this should be handled
+by the timeout - although I haven't studied the code to check for bugs here.</pre>
+    </blockquote>
+    <br>
+    You might have misunderstood my question (and I might misunderstand
+    the code), but on first glance it strongly sounds like the current
+    approach will be NAKed.<br>
+    <br>
+    <blockquote type="cite" cite="mid:a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com">
+      <pre class="moz-quote-pre" wrap="">The actual new XGS queues don't allocate/free memory during the queue
+execution - so it's just the memory usage related to fences (and the
+other work which could be blocked on the fence).</pre>
+    </blockquote>
+    <br>
+    But the kernel and the hardware could suspend the queues, right?<br>
+    <br>
+    <blockquote type="cite" cite="mid:a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com">
+      <pre class="moz-quote-pre" wrap="">In terms of memory management for the GPU work itself, this is handled
+the same as before. The VM_BIND mechanism allows dependencies to be
+created between syncobjs and VM operations, with XGS these can then be
+tied to GPU HW events.</pre>
+    </blockquote>
+    <br>
+    I don't know the details, but that again strongly sounds like that
+    won't work.<br>
+    <br>
+    What you need is to somehow guarantee that work doesn't run into
+    memory management deadlocks which are resolved by timeouts.<br>
+    <br>
+    Please read up here on why that stuff isn't allowed:
+<a class="moz-txt-link-freetext" href="https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefinite-dma-fences">https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefinite-dma-fences</a><br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com">
+      <pre class="moz-quote-pre" wrap="">
 
 
-vim +/dsi +63 drivers/gpu/drm/panel/panel-himax-hx83112a.c
+Fundamentally (modulo bugs) there is little change compared to kernel
+submission - it's already fairly trivial to write GPU job which will
+make no forward progress (a 'while (1)' equivalent job). The only
+difference here is that XGS makes this 'easy' and doesn't involve the
+GPU spinning. Either way we rely on a timeout to recover from these
+situations.
 
-654f26a0f43cfd Luca Weiss       2024-02-16   58  
-654f26a0f43cfd Luca Weiss       2024-02-16   59  static int hx83112a_on(struct hx83112a_panel *ctx)
-654f26a0f43cfd Luca Weiss       2024-02-16   60  {
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   61  	struct mipi_dsi_multi_context dsi_ctx = {.dsi = ctx->dsi};
-654f26a0f43cfd Luca Weiss       2024-02-16   62  
-654f26a0f43cfd Luca Weiss       2024-02-16  @63  	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-654f26a0f43cfd Luca Weiss       2024-02-16   64  
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   65  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETEXTC, 0x83, 0x11, 0x2a);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   66  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER1,
-654f26a0f43cfd Luca Weiss       2024-02-16   67  			       0x08, 0x28, 0x28, 0x83, 0x83, 0x4c, 0x4f, 0x33);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   68  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDISP,
-654f26a0f43cfd Luca Weiss       2024-02-16   69  			       0x00, 0x02, 0x00, 0x90, 0x24, 0x00, 0x08, 0x19,
-654f26a0f43cfd Luca Weiss       2024-02-16   70  			       0xea, 0x11, 0x11, 0x00, 0x11, 0xa3);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   71  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
-654f26a0f43cfd Luca Weiss       2024-02-16   72  			       0x58, 0x68, 0x58, 0x68, 0x0f, 0xef, 0x0b, 0xc0,
-654f26a0f43cfd Luca Weiss       2024-02-16   73  			       0x0b, 0xc0, 0x0b, 0xc0, 0x00, 0xff, 0x00, 0xff,
-654f26a0f43cfd Luca Weiss       2024-02-16   74  			       0x00, 0x00, 0x14, 0x15, 0x00, 0x29, 0x11, 0x07,
-654f26a0f43cfd Luca Weiss       2024-02-16   75  			       0x12, 0x00, 0x29);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   76  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   77  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
-654f26a0f43cfd Luca Weiss       2024-02-16   78  			       0x00, 0x12, 0x12, 0x11, 0x88, 0x12, 0x12, 0x00,
-654f26a0f43cfd Luca Weiss       2024-02-16   79  			       0x53);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   80  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   81  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   82  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
-654f26a0f43cfd Luca Weiss       2024-02-16   83  			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
-654f26a0f43cfd Luca Weiss       2024-02-16   84  			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
-654f26a0f43cfd Luca Weiss       2024-02-16   85  			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-654f26a0f43cfd Luca Weiss       2024-02-16   86  			       0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
-654f26a0f43cfd Luca Weiss       2024-02-16   87  			       0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
-654f26a0f43cfd Luca Weiss       2024-02-16   88  			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
-654f26a0f43cfd Luca Weiss       2024-02-16   89  			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
-654f26a0f43cfd Luca Weiss       2024-02-16   90  			       0x40);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   91  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02   92  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
-654f26a0f43cfd Luca Weiss       2024-02-16   93  			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
-654f26a0f43cfd Luca Weiss       2024-02-16   94  			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
-654f26a0f43cfd Luca Weiss       2024-02-16   95  			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-654f26a0f43cfd Luca Weiss       2024-02-16   96  			       0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
-654f26a0f43cfd Luca Weiss       2024-02-16   97  			       0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
-654f26a0f43cfd Luca Weiss       2024-02-16   98  			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
-654f26a0f43cfd Luca Weiss       2024-02-16   99  			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
-654f26a0f43cfd Luca Weiss       2024-02-16  100  			       0x40);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  101  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  102  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
-654f26a0f43cfd Luca Weiss       2024-02-16  103  			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
-654f26a0f43cfd Luca Weiss       2024-02-16  104  			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
-654f26a0f43cfd Luca Weiss       2024-02-16  105  			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-654f26a0f43cfd Luca Weiss       2024-02-16  106  			       0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
-654f26a0f43cfd Luca Weiss       2024-02-16  107  			       0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
-654f26a0f43cfd Luca Weiss       2024-02-16  108  			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
-654f26a0f43cfd Luca Weiss       2024-02-16  109  			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
-654f26a0f43cfd Luca Weiss       2024-02-16  110  			       0x40);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  111  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  112  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT, 0x01);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  113  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTCON,
-654f26a0f43cfd Luca Weiss       2024-02-16  114  			       0x70, 0x00, 0x04, 0xe0, 0x33, 0x00);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  115  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPANEL, 0x08);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  116  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER2, 0x2b, 0x2b);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  117  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
-654f26a0f43cfd Luca Weiss       2024-02-16  118  			       0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x08,
-654f26a0f43cfd Luca Weiss       2024-02-16  119  			       0x08, 0x03, 0x03, 0x22, 0x18, 0x07, 0x07, 0x07,
-654f26a0f43cfd Luca Weiss       2024-02-16  120  			       0x07, 0x32, 0x10, 0x06, 0x00, 0x06, 0x32, 0x10,
-654f26a0f43cfd Luca Weiss       2024-02-16  121  			       0x07, 0x00, 0x07, 0x32, 0x19, 0x31, 0x09, 0x31,
-654f26a0f43cfd Luca Weiss       2024-02-16  122  			       0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08,
-654f26a0f43cfd Luca Weiss       2024-02-16  123  			       0x09, 0x30, 0x00, 0x00, 0x00, 0x06, 0x0d, 0x00,
-654f26a0f43cfd Luca Weiss       2024-02-16  124  			       0x0f);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  125  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  126  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
-654f26a0f43cfd Luca Weiss       2024-02-16  127  			       0x00, 0x00, 0x19, 0x10, 0x00, 0x0a, 0x00, 0x81);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  128  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  129  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP1,
-654f26a0f43cfd Luca Weiss       2024-02-16  130  			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-654f26a0f43cfd Luca Weiss       2024-02-16  131  			       0xc0, 0xc0, 0x18, 0x18, 0x19, 0x19, 0x18, 0x18,
-654f26a0f43cfd Luca Weiss       2024-02-16  132  			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
-654f26a0f43cfd Luca Weiss       2024-02-16  133  			       0x28, 0x28, 0x24, 0x24, 0x02, 0x03, 0x02, 0x03,
-654f26a0f43cfd Luca Weiss       2024-02-16  134  			       0x00, 0x01, 0x00, 0x01, 0x31, 0x31, 0x31, 0x31,
-654f26a0f43cfd Luca Weiss       2024-02-16  135  			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  136  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP2,
-654f26a0f43cfd Luca Weiss       2024-02-16  137  			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-654f26a0f43cfd Luca Weiss       2024-02-16  138  			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x19, 0x19,
-654f26a0f43cfd Luca Weiss       2024-02-16  139  			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
-654f26a0f43cfd Luca Weiss       2024-02-16  140  			       0x24, 0x24, 0x28, 0x28, 0x01, 0x00, 0x01, 0x00,
-654f26a0f43cfd Luca Weiss       2024-02-16  141  			       0x03, 0x02, 0x03, 0x02, 0x31, 0x31, 0x31, 0x31,
-654f26a0f43cfd Luca Weiss       2024-02-16  142  			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  143  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-654f26a0f43cfd Luca Weiss       2024-02-16  144  			       0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea,
-654f26a0f43cfd Luca Weiss       2024-02-16  145  			       0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa,
-654f26a0f43cfd Luca Weiss       2024-02-16  146  			       0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa, 0xaa, 0xaa);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  147  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  148  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-654f26a0f43cfd Luca Weiss       2024-02-16  149  			       0xaa, 0x2e, 0x28, 0x00, 0x00, 0x00, 0xaa, 0x2e,
-654f26a0f43cfd Luca Weiss       2024-02-16  150  			       0x28, 0x00, 0x00, 0x00, 0xaa, 0xee, 0xaa, 0xaa,
-654f26a0f43cfd Luca Weiss       2024-02-16  151  			       0xaa, 0xaa, 0xaa, 0xee, 0xaa, 0xaa, 0xaa, 0xaa);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  152  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  153  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-654f26a0f43cfd Luca Weiss       2024-02-16  154  			       0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xaa, 0xff,
-654f26a0f43cfd Luca Weiss       2024-02-16  155  			       0xff, 0xff, 0xff, 0xff);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  156  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  157  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-654f26a0f43cfd Luca Weiss       2024-02-16  158  			       0xaa, 0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-654f26a0f43cfd Luca Weiss       2024-02-16  159  			       0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xff, 0xff, 0xff,
-654f26a0f43cfd Luca Weiss       2024-02-16  160  			       0xff, 0xff, 0xaa, 0xff, 0xff, 0xff, 0xff, 0xff);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  161  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  162  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
-654f26a0f43cfd Luca Weiss       2024-02-16  163  			       0x0e, 0x0e, 0x1e, 0x65, 0x1c, 0x65, 0x00, 0x50,
-654f26a0f43cfd Luca Weiss       2024-02-16  164  			       0x20, 0x20, 0x00, 0x00, 0x02, 0x02, 0x02, 0x05,
-654f26a0f43cfd Luca Weiss       2024-02-16  165  			       0x14, 0x14, 0x32, 0xb9, 0x23, 0xb9, 0x08);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  166  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  167  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
-654f26a0f43cfd Luca Weiss       2024-02-16  168  			       0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, 0x0e);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  169  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  170  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
-654f26a0f43cfd Luca Weiss       2024-02-16  171  			       0x00, 0x00, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00,
-654f26a0f43cfd Luca Weiss       2024-02-16  172  			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-654f26a0f43cfd Luca Weiss       2024-02-16  173  			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00,
-654f26a0f43cfd Luca Weiss       2024-02-16  174  			       0x00, 0x00, 0x00, 0x02, 0x00);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  175  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  176  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc3);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  177  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETCLOCK, 0xd1, 0xd6);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  178  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  179  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc6);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  180  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPTBA, 0x37);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  181  	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
-654f26a0f43cfd Luca Weiss       2024-02-16  182  
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  183  	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  184  	mipi_dsi_msleep(&dsi_ctx, 150);
-654f26a0f43cfd Luca Weiss       2024-02-16  185  
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  186  	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  187  	mipi_dsi_msleep(&dsi_ctx, 50);
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  188  
-a76c4f29a2e42d Abhishek Tamboli 2024-09-02  189  	return dsi_ctx.accum_err;
-654f26a0f43cfd Luca Weiss       2024-02-16  190  }
-654f26a0f43cfd Luca Weiss       2024-02-16  191  
+Thanks,
+Steve
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Regards,
+Christian.
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+This is still a work-in-progress, there's an outstanding issue with
+multiple processes using different submission flows triggering
+scheduling bugs (e.g. the same group getting scheduled twice), but we'd
+love to gather some feedback on the suitability of the approach in
+general and see if there's a clear path to merging something like this
+eventually.
+
+I've also CCd AMD maintainers because they have in the past done
+something similar[1], in case they want to chime in.
+
+There are two uses of this new uAPI in Mesa, one in gallium/panfrost
+(link TBD), and one in panvk [2].
+
+The Gallium implementation is a naïve change just to switch the
+submission model and exercise the new kernel code, and we don't plan
+on pursuing this at this time.
+
+The panvk driver changes are, however, a better representation of the
+intent behind this new uAPI, so please consider that as the reference
+userspace. It is still very much also a work in progress.
+
+&nbsp; * patch 1 adds all the uAPI changes;
+&nbsp; * patch 2 implements the GROUP_CREATE ioctl changes necessary to expose
+&nbsp;&nbsp;&nbsp; the required objects to userspace;
+&nbsp; * patch 3 maps the doorbell pages, similarly to how the user I/O
+page is
+&nbsp;&nbsp;&nbsp; mapped;
+&nbsp; * patch 4 implements GROUP_KICK, which lets userspace request an
+&nbsp;&nbsp;&nbsp; inactive group to be scheduled on the GPU;
+&nbsp; * patches 5 &amp; 6 implement XGS queues, a way for userspace to
+&nbsp;&nbsp;&nbsp; synchronise GPU queue progress with DRM syncobjs;
+&nbsp; * patches 7 &amp; 8 add notification mechanisms for user &amp; kernel to signal
+&nbsp;&nbsp;&nbsp; changes to native GPU syncobjs.
+
+[1]
+<a class="moz-txt-link-freetext" href="https://lore.kernel.org/amd-gfx/CADnq5_N61q_o+5WYUZsZ=qu7VmeXTFHQSxLwTco05gLzHaiswA@mail.gmail.com/t/#m116a36a598d8fad1329e053974ad37a4dc0f28ed">https://lore.kernel.org/amd-gfx/CADnq5_N61q_o+5WYUZsZ=qu7VmeXTFHQSxLwTco05gLzHaiswA@mail.gmail.com/t/#m116a36a598d8fad1329e053974ad37a4dc0f28ed</a>
+[2]
+<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/larsivsi/mesa/-/commits/panvk-v10-usersubmit?ref_type=heads">https://gitlab.freedesktop.org/larsivsi/mesa/-/commits/panvk-v10-usersubmit?ref_type=heads</a>
+
+Ketil Johnsen (7):
+&nbsp;&nbsp; drm/panthor: Add uAPI to submit from user space
+&nbsp;&nbsp; drm/panthor: Extend GROUP_CREATE for user submission
+&nbsp;&nbsp; drm/panthor: Map doorbell pages
+&nbsp;&nbsp; drm/panthor: Add GROUP_KICK ioctl
+&nbsp;&nbsp; drm/panthor: Factor out syncobj handling
+&nbsp;&nbsp; drm/panthor: Implement XGS queues
+&nbsp;&nbsp; drm/panthor: Add SYNC_UPDATE ioctl
+
+Mihail Atanassov (1):
+&nbsp;&nbsp; drm/panthor: Add sync_update eventfd handling
+
+&nbsp; drivers/gpu/drm/panthor/Makefile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 4 +-
+&nbsp; drivers/gpu/drm/panthor/panthor_device.c&nbsp; |&nbsp; 66 ++-
+&nbsp; drivers/gpu/drm/panthor/panthor_device.h&nbsp; |&nbsp; 35 +-
+&nbsp; drivers/gpu/drm/panthor/panthor_drv.c&nbsp;&nbsp;&nbsp;&nbsp; | 233 +++++++-
+&nbsp; drivers/gpu/drm/panthor/panthor_fw.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 2 +-
+&nbsp; drivers/gpu/drm/panthor/panthor_sched.c&nbsp;&nbsp; | 408 +++++++++-----
+&nbsp; drivers/gpu/drm/panthor/panthor_sched.h&nbsp;&nbsp; |&nbsp;&nbsp; 8 +-
+&nbsp; drivers/gpu/drm/panthor/panthor_syncobj.c | 167 ++++++
+&nbsp; drivers/gpu/drm/panthor/panthor_syncobj.h |&nbsp; 27 +
+&nbsp; drivers/gpu/drm/panthor/panthor_xgs.c&nbsp;&nbsp;&nbsp;&nbsp; | 638 ++++++++++++++++++++++
+&nbsp; drivers/gpu/drm/panthor/panthor_xgs.h&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 42 ++
+&nbsp; include/uapi/drm/panthor_drm.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 243 +++++++-
+&nbsp; 12 files changed, 1696 insertions(+), 177 deletions(-)
+&nbsp; create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.c
+&nbsp; create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.h
+&nbsp; create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.c
+&nbsp; create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.h
+
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------9RjaUZPYNK7KvPXSc34C8iSm--
