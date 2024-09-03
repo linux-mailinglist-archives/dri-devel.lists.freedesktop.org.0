@@ -2,95 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4633B96AC7F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 00:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EE896AD75
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 02:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5471C10E618;
-	Tue,  3 Sep 2024 22:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572F810E670;
+	Wed,  4 Sep 2024 00:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BWji1Kgt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FdhXum30";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7062910E618
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 22:49:24 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id
- d75a77b69052e-45685a3b1d8so1193571cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 15:49:24 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559AF10E670;
+ Wed,  4 Sep 2024 00:49:03 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-374bb1a3addso2437399f8f.1; 
+ Tue, 03 Sep 2024 17:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725403763; x=1726008563;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
- b=BWji1KgtpkHdsfKx60hBlF2PLv4A61rdPp0hgdyPg0+joxZzT22gf5R/R8zvPU8biK
- 863PQ/NSqdO0HfUtxooH9qcVtd72PhUACpkxvdayU3I5ZmVCfCJDuoGXz+/xHtaw9EEh
- rNuYzl35QA60+TF8Bj5eNVhStLBqgdbn4kJhs=
+ d=gmail.com; s=20230601; t=1725410942; x=1726015742; darn=lists.freedesktop.org;
+ h=user-agent:mime-version:message-id:cc:to:subject:date:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MI2VD9V3HSMHAEsHid7UqFpfCx71vZJu73a+V6jxQIc=;
+ b=FdhXum30B5GUlfi7KqySBvBDCAit0fAaUphGA9QDoHTj8U4b4N4jCJQh58ZOtyDXDK
+ tJX/nn4RRQzDrBGVFEx8XE+5mnhQ00kug2anMwqz8a1JxNgW3KFLe22UxQgkF3w9Mpgd
+ myTEjXxSNsYXbWI4TyccTPJiUH+SlaO7iK5yZxxEmO5jPZZhb1g89WL5uxsdvmzMSbGu
+ vLRPQhcanfQa1qxI2hs66V90tO5G9J7Wt3YcdBGHxra6G/QwwiTNn7cNMgiYcEz+jt45
+ gDjqF9yW8ny8gaKrNrj1cxn5WF2cjftz0jb3t9D2d2lm6cki6AsJlkSlAR4kWy61G5q8
+ neEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725403763; x=1726008563;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
- b=pXrY7IQQzy4fzL+byRUmwiewFUEsGCKj1S8A0swlG8c87p5aHmJ+IVSsH4CWqkCMeD
- 4/ygrWzYiNL3vX20/dw0AEJmbBED5Q9ZtZw0Qle9tufkiWcDQXIpnXjmFNE0IgEaTz/G
- NMSDwSTZrJfoM5GAhA9qANAi814arrkpwcW1U0GCI238a8UDEGw6rPmyV12SeJnvVOvE
- NaX0hOLVo405JhLhOc41gj1I/nywXF27hJ8HHhhVZsMzO9EkXqEqfrfGkzUtYlNIltR5
- fDcn35ewWtHRFi6ngscpMK/vL2iVBbbqvXp5EfF98U9jNoenoAwEcfDG8ucsKERM/VdI
- olpA==
+ d=1e100.net; s=20230601; t=1725410942; x=1726015742;
+ h=user-agent:mime-version:message-id:cc:to:subject:date:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MI2VD9V3HSMHAEsHid7UqFpfCx71vZJu73a+V6jxQIc=;
+ b=X6Z0lKoa9xNPwytArtT2Nr7GInvY+TqR8yabv4ty9recjrpt6f49avfGQm4xRFARzg
+ 9CqeeMgTzvHTBJ0Wig3AdTos5Wmh3Q5LOWiVrZp6HJFmG7CQaMdGnw1YjOwCF/a5bIiA
+ gGFoK4arHfxJWP4Sunt+a7GtvpStyIzcqecfJHQOMlcJIBDjCmyva74li9XSvNr5zeVq
+ X1dUdPFFczR1+zLUjJ0/CeRzRUOPtZF0rr7odNTzRNx0d5uf3KmIXVMJb8clAoba0LPY
+ qmUZTjbcZzIaw//rQnmwZxbH+1P8FtLGAGVFt/tf5r5ZnS30+wiJxMMUQGAaaxtscVde
+ qnSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXc/hLbB2nj/1JA32h7MI/8L6YatSbI3EKtq43g3N9VxqlnRMMDGMxNH0YYiFLayhHJ5K5ICY2cMd4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBFHFqZbyetKHHyWejEjrLj7glPdmvYaYgM5W8Wcw5S+kurGV9
- BL4dmN/YgDQ1JkEVoRYFXiA+DR+6diyYgOjfX8mpk9huteK61Ak/fE227WvxGmYeFO/s8Cu8xWD
- 8mbVmxjYphUO5igAT8EC1sBSpi5cxG2BWVA89
-X-Google-Smtp-Source: AGHT+IF34ocTupB91QqHAUN7muZ3pQu7SJrIS8QiPpHwQnzTFwdvCLem6xytcCmScWzLqSwtal0se6zIR4RyUsc0prs=
-X-Received: by 2002:a05:6214:1c44:b0:6c4:d2f9:644e with SMTP id
- 6a1803df08f44-6c518e03025mr2177666d6.12.1725403763196; Tue, 03 Sep 2024
- 15:49:23 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 Sep 2024 18:49:22 -0400
+ AJvYcCVDuBZtaWVIb8RsckjzxIufYmUz0IxtM3fgY4y7qAsUg+LpQqsw5TSi4zZl1hPOll3eAG60EUBc9kPn@lists.freedesktop.org,
+ AJvYcCXQoMsWyK5VXahE621Gn5Qmzp8LcmUFKiS9Mwmb7RBI2qsdYEtneDqODqZrQCXr/5k83yRZ1cBV@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxnumhBrL1iiGpmbe9nuImCBbY9zjgA5sZeeefq2Q+/toZJtHoP
+ T2FiinOVVq4ETT/8Wqa39o0Na6PMyo6oKWZvj7r/jOTtj0JRrd+Z
+X-Google-Smtp-Source: AGHT+IF/dT9moCjMlTPpV1LF79HsX4lZi1lQZyE6VNTQ8vBAlwqecX7lrCGqmEOe3DjJR3wrDhVrhg==
+X-Received: by 2002:a5d:5269:0:b0:368:420e:b790 with SMTP id
+ ffacd0b85a97d-376dd15a8cemr1591613f8f.14.1725410941339; 
+ Tue, 03 Sep 2024 17:49:01 -0700 (PDT)
+Received: from [10.33.80.43] (mem-185.47.220.165.jmnet.cz. [185.47.220.165])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c226c6a399sm6976144a12.8.2024.09.03.17.49.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2024 17:49:00 -0700 (PDT)
+From: Filip Hejsek <filip.hejsek@gmail.com>
+Date: Wed, 4 Sep 2024 00:50:56 +0200
+Subject: [PATCH] drm/amd/display: Fix debugfs dmub_fw_state read
+To: Harry Wentland <harry.wentland@amd.com>,
+    Leo Li <sunpeng.li@amd.com>,
+    Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+    Alex Deucher <alexander.deucher@amd.com>,
+    "Christian König" <christian.koenig@amd.com>,
+    Xinhui Pan <Xinhui.Pan@amd.com>,
+    David Airlie <airlied@gmail.com>,
+    Daniel Vetter <daniel@ffwll.ch>,
+    amd-gfx@lists.freedesktop.org,
+    dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Message-ID: <d02c033c6f4411be31a9439f33de2c593b51d8fc.camel@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-12-swboyd@chromium.org>
- <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 3 Sep 2024 18:49:22 -0400
-Message-ID: <CAE-0n52Hupp-ANE2ggeGCRZSM+xmrJt-Q5+5Cb7=C-mxykbz0g@mail.gmail.com>
-Subject: Re: [PATCH v4 11/18] device property: Add remote endpoint to devcon
- matcher
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Daniel Scally <djrscally@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.52.4 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,47 +87,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Andy Shevchenko (2024-09-02 04:12:49)
-> On Sat, Aug 31, 2024 at 09:06:49PM -0700, Stephen Boyd wrote:
->
-> Is it possible to move these Cc:s after --- line below?
+When the FW state is too large to fit in initial seq_file buffer,
+seq_write returns -1, which is subsequently returned from
+dmub_fw_state_show. This causes the read operation to fail.
 
-Ok.
+Return instead always 0 and let the seq_file handling retry the read
+with a larger buffer if the initial buffer overflows.
 
->
-> >  /**
-> >   * devcon_match_fn_t - device connection match function
-> >   * @fwnode: Remote connection's device node
-> > + * @endpoint: Remote connection's endpoint node
-> >   * @con_id: Identifier for the connection
-> >   * @data: Match function caller specific data
-> >   *
-> >   * Implement a callback with this function signature to search a fwnode's
-> >   * connections for a match with a function like device_connection_find_match().
-> >   * This function will be called possibly multiple times, once for each
-> > - * connection. The match function should inspect the @fwnode to look for a
-> > - * match. The @con_id and @data provided are the same as the @con_id and @data
-> > - * arguments passed to the functions that take a devcon_match_fn_t argument.
-> > + * connection. The match function should inspect the connection's @fwnode
-> > + * and/or @endpoint to look for a match. The @con_id and @data provided are the
-> > + * same as the @con_id and @data arguments passed to the functions that take a
-> > + * devcon_match_fn_t argument.
->
-> So, struct fwnode_handle is a single-linked list. Can we utilise that instead
-> of adding a new parameter? I.o.w. do those objects (@fwnode and @endpoint) have
-> anything in common and can be chained?
+Fixes: 2364076772b1 ("drm/amd/display: Add DMUB firmware state debugfs")
+Signed-off-by: Filip Hejsek <filip.hejsek@gmail.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-No, we can't use that. We need to know which endpoint in the remote
-fwnode is connected to the fwnode we're searching from. This is how we
-know which typec mux structure is associated with which type-c port so
-we can drive DP there. We might have two endpoints connected to the same
-fwnode and then we wouldn't be able to differentiate the endpoint and
-the typec mux to configure.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index db56b0aa545..ecda44789b4 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -958,7 +958,8 @@ static int dmub_fw_state_show(struct seq_file *m, void *data)
+ 
+ 	state_size = fb_info->fb[DMUB_WINDOW_6_FW_STATE].size;
+ 
+-	return seq_write(m, state_base, state_size);
++	seq_write(m, state_base, state_size);
++	return 0;
+ }
+ 
+ /* replay_capability_show() - show eDP panel replay capability
 
->
-> >   * Note: This function can be called multiple times.
->
-> What does this mean? Is it idempotent? Or what is the effect of being called
-> multiple times?
-
-I've removed this note now.
+base-commit: 96a5152075c0424e9bda551d00ab850c815e309c
+-- 
+2.46.0
