@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54816969D4D
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 14:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE59969D5B
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 14:20:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B705C10E55F;
-	Tue,  3 Sep 2024 12:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACFA210E567;
+	Tue,  3 Sep 2024 12:20:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CjfGhaK2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PlUzCwRc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA67110E55F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 12:18:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1725365894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+pVSR+7TVbjbUaLmGraYgM7q/wqENOvzyHgdTPQixk4=;
- b=CjfGhaK2Gpg/KjYT+bYxyB4OsIqZnFmc1DpBm1b5yJtlcDjV5GVn7cHJavoJOba7n3EOTh
- pX4GURpH75UgTDIpiYMRncTVLzxQLwMSEcPz6O3+6wdxh/DbcCWuqG9eH3BumQDLs1MyQn
- kVxU6WV6T7xKFzwhMAmnDk3Zg3ObGRU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-280-qgRM1QVSOG2Tcz1Gfq8tlQ-1; Tue, 03 Sep 2024 08:18:12 -0400
-X-MC-Unique: qgRM1QVSOG2Tcz1Gfq8tlQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-42c827c4d3aso20250805e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 05:18:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725365891; x=1725970691;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+pVSR+7TVbjbUaLmGraYgM7q/wqENOvzyHgdTPQixk4=;
- b=ek0vrW0QMfAymqV/b48/JeEXkJmZNAcPWK/j7kH9i95TkwSNzYdMBXdc2qNUMuwyOO
- i1HsAYICTrE++ALA4unG7u3BQLfsp5Lutney5rHQPyfXYCXmN0SkvWdh3PDhStWl62C/
- 3AMcJ6KAaNxw6YG1BwSjj8PAl/6gtmc2vr8uq0uBzfi7Li3oYnmgt1DTKMU3OLzh5cvE
- rPu6pXzHezzZJNdX0QxOJwyRhXO2HcK5UORhpYpiRVY+LLE1pBO4avQtlndzo1NsMySH
- 2Ib6ehMDiUxjl9th9iExegokt0V7+a04yK/XULnavpvPerc67RwZBOx1KEl1fHicxJbL
- +wLw==
-X-Gm-Message-State: AOJu0YyF9L76Bw3DKYUUAmNPG5Ax2Z9CMj734fJuZobfFZjd+u2zBgCO
- VWDJeF/Cw9WAQlwd/KGj9mQN50qH+W0uNGHHscYONh3b9Zb3NLhmE/HlwT+l5H4xr3nGfYk8L9p
- kkVbMauf8riThzIAwknxHLPuxzdLyUFsBEhP/9VhqWxIzPy0AU6JdRQXvjTTOKmEfvw==
-X-Received: by 2002:a05:600c:511d:b0:426:5ee3:728b with SMTP id
- 5b1f17b1804b1-42c82f53210mr49626405e9.13.1725365891691; 
- Tue, 03 Sep 2024 05:18:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG1PB5397pxPS+al287j5eSLcqH0EiAmMQ60AOH/NehoWOvOhNnHbQE2ALKLczHDDhpPV0k3A==
-X-Received: by 2002:a05:600c:511d:b0:426:5ee3:728b with SMTP id
- 5b1f17b1804b1-42c82f53210mr49626185e9.13.1725365891158; 
- Tue, 03 Sep 2024 05:18:11 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42bb6e367b3sm168493655e9.48.2024.09.03.05.18.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2024 05:18:10 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen
- <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH v3 79/81] drm/tegra: Run DRM default client setup
-In-Reply-To: <20240830084456.77630-80-tzimmermann@suse.de>
-References: <20240830084456.77630-1-tzimmermann@suse.de>
- <20240830084456.77630-80-tzimmermann@suse.de>
-Date: Tue, 03 Sep 2024 14:18:10 +0200
-Message-ID: <875xrdc4n1.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C9B10E567;
+ Tue,  3 Sep 2024 12:20:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725366012; x=1756902012;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PjpRzBVdqH9o2cr56yjQTWGhHVWK8eeFoc6N8Cay3GQ=;
+ b=PlUzCwRc2WlVug2u20iPT3yLX/FBMncQs/APp8dEEAetQ/j7qCmfuVFE
+ 6BKV/+J2JYBzcKSgaMPlNZz2q6KmG9J3MbVH3qHP0gJNbuWqZpjHCQ8DF
+ 6riqYYcX1lO54aPGA335xJr7/1512kPrlrp2Z0HodnL4bHb3fCLG4dfr1
+ 4SggMk1mE27y3RMGV2VaO+2pyB2Gn1zwRv51bCj/VmrcDzKSb/1jWk4Xs
+ Gfgl0HSbj4BmQtdCRcZ2/HeRAbbTy0J0bJLL7hslHLCrOvVhYyqw3DeD8
+ MMUCB467EhKF/GqkyNuXRfSGUZ5YxDhXzE0BMULT1UMre8nCrWAG3Mhpx Q==;
+X-CSE-ConnectionGUID: SDLUy6MXTZG64Y7bY8I62A==
+X-CSE-MsgGUID: 6kxz85qeTTilggFU4SCrNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="27752830"
+X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="27752830"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 05:20:12 -0700
+X-CSE-ConnectionGUID: YYGYk7emSfeuGZcy3NQypw==
+X-CSE-MsgGUID: FHZYpAnFTK2zFXxkrEnv6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="64569545"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ fedora..) ([10.245.244.199])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 05:20:11 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/2] drm/ttm: Really use a separate LRU list for swapped-
+ and pinned objects
+Date: Tue,  3 Sep 2024 14:19:56 +0200
+Message-ID: <20240903121958.11078-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,37 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Resources of swapped objects were never moved off their LRU list
+when swapped, and also resources of pinned objects might remain on
+their LRU list unless the driver moved them to the device pinned list
+after pinning.
 
-> Rework fbdev probing to support fbdev_probe in struct drm_driver
-> and remove the old fb_probe callback. Provide an initializer macro
-> for struct drm_driver that sets the callback according to the kernel
-> configuration.
->
-> Call drm_client_setup() to run the kernel's default client setup
-> for DRM. Set fbdev_probe in struct drm_driver, so that the client
-> setup can start the common fbdev client.
->
-> The tegra driver specifies a preferred color mode of 32. As this
-> is the default if no format has been given, leave it out entirely.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Mikko Perttunen <mperttunen@nvidia.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> ---
->  drivers/gpu/drm/tegra/drm.c   |  5 +-
->  drivers/gpu/drm/tegra/drm.h   | 12 +++--
->  drivers/gpu/drm/tegra/fbdev.c | 98 +++--------------------------------
->  3 files changed, 19 insertions(+), 96 deletions(-)
->
+Rename the device "pinned" list to "unevictable" and ensure that resources
+of objects that are pinned or swapped are moved to that list.
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+RFC: Should we instead of a device-wide unevictable list, introduce an
+unevictable priority so that all objects remain with their resource's
+respective manager?
+
+Patch 1/2 deals with swapped objects and also handles the problem of
+moving objects back to their manager's LRU list when populating.
+
+Patch 2/2 deals with pinned objects.
+
+v2:
+- Address review comments by Christian König.
+- Make TTM KUNIT tests build.
+
+v3:
+- Fix a couple of NULL pointer dereferences (Intel CI).
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: <dri-devel@lists.freedesktop.org>
+
+Thomas Hellström (2):
+  drm/ttm: Move swapped objects off the manager's LRU list
+  drm/ttm: Move pinned objects off LRU lists when pinning
+
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    |  4 +-
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c       |  4 +-
+ drivers/gpu/drm/ttm/tests/ttm_resource_test.c |  6 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  | 69 +++++++++++++++++--
+ drivers/gpu/drm/ttm/ttm_bo_util.c             |  6 +-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c               |  2 +-
+ drivers/gpu/drm/ttm/ttm_device.c              |  4 +-
+ drivers/gpu/drm/ttm/ttm_resource.c            | 15 ++--
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  2 +
+ drivers/gpu/drm/xe/xe_bo.c                    |  4 +-
+ include/drm/ttm/ttm_bo.h                      |  2 +
+ include/drm/ttm/ttm_device.h                  |  5 +-
+ include/drm/ttm/ttm_tt.h                      |  5 ++
+ 15 files changed, 102 insertions(+), 30 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.46.0
 
