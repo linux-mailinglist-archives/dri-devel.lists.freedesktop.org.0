@@ -2,81 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5908796988E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 11:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824B29698D8
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 11:26:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C0310E44C;
-	Tue,  3 Sep 2024 09:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA3F10E2A7;
+	Tue,  3 Sep 2024 09:26:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="a6JFqxfP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="edSreryL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12CF310E44C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 09:17:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1725355062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d9X1NNLzucsrIUJA/W+nkx3jW6oIqsnKng1xNjblM64=;
- b=a6JFqxfPzFXBAJ6f601AKSO6d2x7GnFWnevFRNupPWw4MLPuSJ37QCXSBtX2R07XyYSKib
- YqTa/rLHU1OEhr+RADvWcq1FUVUNZUUBupSSCyuDzlOZ+RMAebAonXanle+g274unNu6xp
- wHhU270BVolF7eSqlJxznsAGu3B/Cjg=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-HnkCzN3fOrW5h6QoiVgoeg-1; Tue, 03 Sep 2024 05:17:41 -0400
-X-MC-Unique: HnkCzN3fOrW5h6QoiVgoeg-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-5344b7df784so5638144e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 02:17:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725355060; x=1725959860;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d9X1NNLzucsrIUJA/W+nkx3jW6oIqsnKng1xNjblM64=;
- b=a3FYzhw/1KKZFWD3RQZ6mFpKb5vughm6DyPpdQ9zefPA6HkLZ/cUGyjbB2tXum5OmB
- 755dZcYV3rX9kHc2TDPKVpGHG09uJx5rqUSM1EGG3v1ddwQxgY9sZBZpuPzwHRv0BmR4
- YyeyPLE9hfB6+zjqwwxRGIqP5gEBwDCWTCS/X8tH4rN3AUIR0oHzynaogxkr8iM3ZCoR
- kgczGddhNMajEo1g42ujiwBCVwvMJUZJeqQjIXuJJCAyHWjmqn4DoFuH3EiNYBngIvjD
- UK00X2HMDraK4KTVoMlcBHF0AlmOOoZCI3TyEh8CtITF4RY2LutOs4sEOKSnWnv17Lko
- l62g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWWbkdjTO5acNK8zmq+i9zu1APgcDR/vUdXZDg89HWiqLPYSLs25AlNfQoL/Kc4RouhNtifWnu2vpU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkOY7ObuGJhmWC7RNel5JKSnE3V+OpZo1DowjrKiVS+QGgyuuq
- AY/xkhZlM1gZzPy2rsN8kp/tQGo6O2+KqQd/6sbmDxYFsPkF00Mct2I+TqMsPKeaqRez86IYSqt
- Xi/lRx5/sN8o8HXc8ie3jcPu/d7n3stzSDnz6eqQTGCmaKkdcGeepzWFn4t2i6GBypw==
-X-Received: by 2002:a05:6512:1328:b0:52e:7656:a0f4 with SMTP id
- 2adb3069b0e04-53546b93f39mr8985508e87.41.1725355059625; 
- Tue, 03 Sep 2024 02:17:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF3xeKyziMqcDCx9+tKLN9bJxYrhVG6uCV34wc0/n7HkAIUcH0MBCdLafl7DwaQE1ysW+KWKQ==
-X-Received: by 2002:a05:6512:1328:b0:52e:7656:a0f4 with SMTP id
- 2adb3069b0e04-53546b93f39mr8985480e87.41.1725355059058; 
- Tue, 03 Sep 2024 02:17:39 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42bacaac810sm183985045e9.33.2024.09.03.02.17.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2024 02:17:38 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
- neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, skhan@linuxfoundation.org,
- rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: hx83112a: Switch to wrapped mipi_dsi functions
-In-Reply-To: <20240902170153.34512-1-abhishektamboli9@gmail.com>
-References: <20240902170153.34512-1-abhishektamboli9@gmail.com>
-Date: Tue, 03 Sep 2024 11:17:37 +0200
-Message-ID: <87plplgkpa.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D1D10E2A7
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 09:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725355587; x=1756891587;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=PfEXXIU9sRjka86TJyF3Cc9GISKq8sSKC1fdWUaacbY=;
+ b=edSreryL85vlb6p/IUKuC/Ubwoi0gaZ/QcgFlA94lTJNpy/dTRCwYwdC
+ vxRLoHG86USczDbwN0zAo9Lsy0SgxtWQPTJIO1VeW+mKzb9CnXLWxOCov
+ sHUigI/ERz/pbAny3i/aG4tMAramIqs8Jd6EE3okLgOdrIdFqAD0nuQ70
+ k5+JxTRr6g2+d9yTjdemMpEGR6rrHimMXfvI7MOxb+ytsSJ4cbi8OwV3K
+ Morw6bkgqYbXdKtZ6R0BexTqXYuqPV7OcoNgoMTYVZ8lq+cdWT73R1wrZ
+ rDfDmrSFf+9GV+82NIJ97Ncbs/tcjrPzXT92yG7FNu9/7bZvFsoDpXvzY Q==;
+X-CSE-ConnectionGUID: z8J2PHCwR7S2eP3Umqf61Q==
+X-CSE-MsgGUID: 78E1eapuTQuM8lemI2t7Tg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="41411775"
+X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="41411775"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 02:26:25 -0700
+X-CSE-ConnectionGUID: Az/ee2smTjCulo37yWasMw==
+X-CSE-MsgGUID: LZcDm11OT4emPXWWjCo5BA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="65348229"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ [10.245.244.199]) ([10.245.244.199])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 02:26:22 -0700
+Message-ID: <80ed1e928de230f54098d2a4b7f14b5d3556a687.camel@linux.intel.com>
+Subject: Re: [git pull] drm fixes for 6.11-rc6
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Dave
+ Airlie <airlied@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>, Alex Deucher
+ <alexdeucher@gmail.com>, lingshan.zhu@amd.com, Matthew Brost
+ <matthew.brost@intel.com>
+Date: Tue, 03 Sep 2024 11:26:20 +0200
+In-Reply-To: <5c493bd5-e657-4241-81d7-19ccd380b379@amd.com>
+References: <CAPM=9tzX71UKndfu8JECMOzc9kf4s4pp9cWTMWwE476cQXt_Yw@mail.gmail.com>
+ <CAHk-=wijFJM9MHvwGSS4ADs8ncRagrXYi2E9SvhK8coMH32D7A@mail.gmail.com>
+ <CAPM=9txF4+rC_CXQTftPctUd0N37t306YKcV3oKPjz+_zQGqag@mail.gmail.com>
+ <440d041982f7f232f0ce3284bed4db391adb05c1.camel@linux.intel.com>
+ <5c493bd5-e657-4241-81d7-19ccd380b379@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,25 +81,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abhishek Tamboli <abhishektamboli9@gmail.com> writes:
+On Mon, 2024-09-02 at 12:33 +0200, Christian K=C3=B6nig wrote:
+> Am 02.09.24 um 11:32 schrieb Thomas Hellstr=C3=B6m:
+> > On Mon, 2024-09-02 at 08:13 +1000, Dave Airlie wrote:
+> > > On Fri, 30 Aug 2024 at 12:32, Linus Torvalds
+> > > <torvalds@linux-foundation.org> wrote:
+> > > > On Fri, 30 Aug 2024 at 14:08, Dave Airlie <airlied@gmail.com>
+> > > > wrote:
+> > > > > The TTM revert is due to some stuttering graphical apps
+> > > > > probably
+> > > > > due
+> > > > > to longer stalls while prefaulting.
+> > > > Yeah, trying to pre-fault a PMD worth of pages in one go is
+> > > > just
+> > > > crazy talk.
+> > > >=20
+> > > > Now, if it was PMD-aligned and you faulted in a single PMD,
+> > > > that
+> > > > would
+> > > > be different. But just doing prn_insert_page() in a loop is
+> > > > insane.
+> > > >=20
+> > > > The code doesn't even stop when it hits a page that already
+> > > > existed,
+> > > > and it keeps locking and unlocking the last-level page table
+> > > > over
+> > > > and
+> > > > over again.
+> > > >=20
+> > > > Honestly, that code is questionable even for the *small* value,
+> > > > much
+> > > > less the "a PMD size" case.
+> > > >=20
+> > > > Now, if you have an array of 'struct page *", you can use
+> > > > vm_insert_pages(), and that's reasonably efficient.
+> > > >=20
+> > > > And if you have a *contiguous* are of pfns, you can use
+> > > > remap_pfn_range().
+> > > >=20
+> > > > But that "insert one pfn at a time" that the drm layer does is
+> > > > complete garbage. You're not speeding anything up, you're just
+> > > > digging
+> > > > deeper.
+> >=20
+> > > I wonder if there is functionality that could be provided in a
+> > > common
+> > > helper, by the mm layers, or if there would be too many locking
+> > > interactions to make it sane,
+> > >=20
+> > > It seems too fraught with danger for drivers or subsystems to be
+> > > just
+> > > doing this in the simplest way that isn't actually that smart.
+> > Hmm. I see even the "Don't error on prefaults" check was broken at
+> > some
+> > point :/.
+> >=20
+> > There have been numerous ways to try to address this,
+> >=20
+> > The remap_pfn_range was last tried, at least in the context of the
+> > i915
+> > driver IIRC by Christoph Hellwig but had to be ripped out since it
+> > requires the mmap_lock in write mode. Here we have it only in read
+> > mode.
+> >=20
+> > Then there's the apply_to_page_range() used by the igfx
+> > functionality
+> > of the i915 driver. I don't think we should go that route without
+> > turning it into something like vm_insert_pfns() with proper
+> > checking.
+> > This approach populates all entries of a buffer object.
+> >=20
+> > Finally there's the huge fault attempt that had to be ripped out
+> > due to
+> > lack of pmd_special and pud_special flags and resulting clashes
+> > with
+> > gup_fast.
+> >=20
+> > Perhaps a combination of the two latter if properly implemented
+> > would
+> > be the best choice.
+>=20
+> I'm not deep enough into the memory management background to judge
+> which=20
+> approach is the best, just one more data point to provide:
+>=20
+> The pre-faulting was increased because of virtualization. When
+> KVM/XEN=20
+> is mapping a BO into a guest the switching overhead for each fault is
+> so=20
+> high that mapping a lot of PFNs at the same time becomes beneficial.
 
-Hello Abhishek
+Since populating at mmap time is not possible due to eviction /
+migration, perhaps one way would be to use madvise() to toggle
+prefaulting size? MADV_RANDOM vs MADV_SEQUENTIAL vs MADV_NORMAL.
 
-> Use the new mipi_dsi_*_multi wrapped function in hx83112a_on
-> and hx83112a_disable function.
->
+/Thomas
 
-IMO commit messages should explain why the change is needed and
-not just what the patch is changing (for this one can just look
-at the diffstat).
-
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > /Thomas
+> >=20
+> > > Dave.
+>=20
 
