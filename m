@@ -2,71 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F4096A63A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 20:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D4E96A696
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 20:32:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37CCC10E31F;
-	Tue,  3 Sep 2024 18:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA6910E395;
+	Tue,  3 Sep 2024 18:32:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a1dC6l8a";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q/s5H/y1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40CBA10E31F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 18:12:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A00205C59BD;
- Tue,  3 Sep 2024 18:11:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C0EC4CEC4;
- Tue,  3 Sep 2024 18:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725387118;
- bh=if11Vy5KkDrmjGEflqzJtRJ7Egv1VFzayV75E2P4Iv8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=a1dC6l8aPQD5OCJJwQjbcZ8mqfhJ+Nq/wS+UFqq1cNHh9/hwCCT9ttOLwe9zO9V4B
- obKom5l+3kjqfPr2YfeW4QdYRTLlayD94yQL8rrE2JxNeg58T7XHE0sJqvD6FRdX5s
- +IImDuKXxXvt7kSZWxqGjaqoJAYTy+u1N/8vOWRK3zPh8Xz9rNaW7LYtiZ6MmJuOzU
- HbLfsYGMrIg7QXE9BHc8jf0AJnnasvuFPg8Wdj1N2mJh6UTBsrIMx57auQwiTTSTIn
- ZjNu9BK41/4HnLjGm5tRimIht2HF5vA01g+C0NyGDRzZf7xbaRX3h+HOMoL7/LqQLn
- 5aOpFuXQJ4Xkw==
-Date: Tue, 3 Sep 2024 20:11:55 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, 
- Mark Brown <broonie@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, Chris Morgan <macromorgan@hotmail.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Tim Lunn <tim@feathertop.org>,
- Andy Yan <andyshrk@163.com>, 
- Muhammed Efe Cetin <efectn@protonmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Dragan Simic <dsimic@manjaro.org>, 
- Ondrej Jirman <megi@xff.cz>, Michael Riesch <michael.riesch@wolfvision.net>, 
- Jimmy Hon <honyuenkwun@gmail.com>, Elon Zhang <zhangzj@rock-chips.com>, 
- Alexey Charkov <alchark@gmail.com>, Elaine Zhang <zhangqing@rock-chips.com>, 
- Yifeng Zhao <yifeng.zhao@rock-chips.com>,
- Finley Xiao <finley.xiao@rock-chips.com>, 
- Liang Chen <cl@rock-chips.com>, Jamie Iles <jamie@jamieiles.com>,
- devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
- linux-serial@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org, kernel@collabora.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 3/9] dt-bindings: i2c: i2c-rk3x: Add rk3576 compatible
-Message-ID: <4hfdvgvkzt6cvyqbhfy3ttlwip4p4yfnhzbbciq5l3tso25zw2@qty5bsbbtbp4>
-References: <20240903152308.13565-1-detlev.casanova@collabora.com>
- <20240903152308.13565-4-detlev.casanova@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87BE210E395
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 18:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725388333; x=1756924333;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=bbK/ChdCGWWtAeomVfnTC1pDOginoVo1EJRCCfUvjVM=;
+ b=Q/s5H/y1YpmxqIc3emOw5BpOqH8E3aeXmD79YvG/N2tIcXG9nlsO1DmS
+ ygjAN+ry0IyVwJVHszIN99jZA7wJ4nJF3/IzsHlUHMDBfGIK36/1MSp2z
+ mkok5NUFBUqF3BP7ulu+mmE07EGbXwZvanOvmv/yIyxeS72i0cJaeZjUR
+ I4A1UVQQirLg2az+EZzL8v9BpRqfmUKDumU11TmaAC3VENNX1rQ6U0bjp
+ RcWnU3B8J56KDH+unEhhS2L58MnVkDxZtyH/rJwNm5gNcdg71CtW86arM
+ 7lL1gbCwgzHeVRkUQaZ5WzQ/uQeDqEudH/KWpLvOShuwKyvX+XdyUTqAp Q==;
+X-CSE-ConnectionGUID: 20zPkhUTTX+WToAjyQ+kgg==
+X-CSE-MsgGUID: SKbhEPluSMqzRaKv74k3eg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24200701"
+X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; d="scan'208";a="24200701"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 11:24:53 -0700
+X-CSE-ConnectionGUID: NCSSc9ELR9Wo/ZrPkYbUTA==
+X-CSE-MsgGUID: 33/cm75lSe25cS5w8/mXNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; d="scan'208";a="69155334"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2024 11:24:52 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1slYCw-00000004nza-2Npy; Tue, 03 Sep 2024 21:24:50 +0300
+Date: Tue, 3 Sep 2024 21:24:50 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/mm: annotate drm_mm_node_scanned_block() with
+ __maybe_unused
+Message-ID: <ZtdUcteHkNDNbZAw@smile.fi.intel.com>
+References: <20240903173437.3212437-1-jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903152308.13565-4-detlev.casanova@collabora.com>
+In-Reply-To: <20240903173437.3212437-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,36 +72,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-BTW, just as a self reminder,
-
-Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
-
-Thanks,
-Andi
-
-On Tue, Sep 03, 2024 at 11:22:33AM GMT, Detlev Casanova wrote:
-> Just like RK356x and RK3588, RK3576 is compatible to the existing
-> rk3399 binding.
+On Tue, Sep 03, 2024 at 08:34:37PM +0300, Jani Nikula wrote:
+> Clang build with CONFIG_DRM_DEBUG_MM=n, CONFIG_WERROR=y, and W=1 leads
+> to:
 > 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Acked-by: Heiko Stuebner <heiko@sntech.de>
-> ---
->  Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>   CC [M]  drivers/gpu/drm/drm_mm.o
+> ../drivers/gpu/drm/drm_mm.c:614:20: error: function 'drm_mm_node_scanned_block' is not needed and will not be emitted [-Werror,-Wunneeded-internal-declaration]
+> static inline bool drm_mm_node_scanned_block(const struct drm_mm_node *node)
+>                    ^
 > 
-> diff --git a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> index 82b9d6682297..a9dae5b52f28 100644
-> --- a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> @@ -38,6 +38,7 @@ properties:
->                - rockchip,rk3308-i2c
->                - rockchip,rk3328-i2c
->                - rockchip,rk3568-i2c
-> +              - rockchip,rk3576-i2c
->                - rockchip,rk3588-i2c
->                - rockchip,rv1126-i2c
->            - const: rockchip,rk3399-i2c
-> -- 
-> 2.46.0
-> 
+> Fix this by annotating drm_mm_node_scanned_block() with __maybe_unused.
+
+FWIW,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
