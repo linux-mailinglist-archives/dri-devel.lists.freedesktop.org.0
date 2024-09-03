@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742CB96A21D
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 17:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594E196A291
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 17:30:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B30210E584;
-	Tue,  3 Sep 2024 15:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A427D10E5D7;
+	Tue,  3 Sep 2024 15:30:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JRKmEs6r";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fvVm1tVI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14AB710E1A5;
- Tue,  3 Sep 2024 15:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725376958; x=1756912958;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=3V8+zDEL4f+IoOS5p5kVnCZrn3C2iFsUOwPOCr41bn0=;
- b=JRKmEs6rzCzFwZ0SnkNZK0wbRzmVUqcJp1o2cdaG93Hf15HibHS9s6gO
- OjB+FjTbEt7lxHTtNnIqYznSUkTltaqK+Ss5hHDKU89QkaNMh8HPFDhxE
- dDwnBF8QQe6RSEvzmjc4I40nDQE66RxLN0MUe3q3vNpTAo4rkChuOizvz
- 87QzTdrf7vTS2p9ZeUiXWTtf8n6nWPUez+ykYqycYlg2Z8arjcsKK2R+C
- 6QlvzIxUMzruHoHqbgJYJczSCgeKxziUOKGUj9iEEgNiU/oZYVxRZKAPg
- 0uGb3BeywgwPbZ7KET3di5Lrh9ksQT1lR1mCE9/dnz74HzdVitKBe8gzy w==;
-X-CSE-ConnectionGUID: ylEVv0wBTMmG1ym+471wuA==
-X-CSE-MsgGUID: eiC9XqONShClAH6dZtd3HQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="34592908"
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; d="scan'208";a="34592908"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 08:22:38 -0700
-X-CSE-ConnectionGUID: y16oAKngTKm/qCDsYCtNAg==
-X-CSE-MsgGUID: dnfK2h+pQsqnmicgRjDxgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; d="scan'208";a="65164849"
-Received: from olympicsflex1.amr.corp.intel.com (HELO [10.245.245.35])
- ([10.245.245.35])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 08:22:36 -0700
-Message-ID: <4b47f5829ea3e4a2e55b983775c775a9735f7fc5.camel@linux.intel.com>
-Subject: Re: [RFC PATCH] drm/ttm: Forward -ENOSPC to drivers requesting it
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Date: Tue, 03 Sep 2024 17:22:34 +0200
-In-Reply-To: <60e8310d-5f8d-41d9-b889-58bc7cbaa395@amd.com>
-References: <20240903133849.17119-1-thomas.hellstrom@linux.intel.com>
- <60e8310d-5f8d-41d9-b889-58bc7cbaa395@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C46310E5CE
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 15:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725377024;
+ bh=eroRuymFGct5tFtXZVXe7idGbNt35wDtyZN4XFBz5uE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=fvVm1tVI70KXncHRGg4SCAGQnZ82PUcZWgGHf4otU/XvzHGlAS+L6aNXHv44m6iJA
+ fXkABVXhEpwGZonme34ewkRevhYX/XHEqbCAOkBfsH5hRnLx+bolNeD8exN8/Gc6vQ
+ +o+z8DJQSgEV24zpnTAtNjdCOcgNEt6zg2LZjgvci0P+QekwgvrLEdbxZZIjsQYENS
+ ni+NPWEkyGNdgneFxWYzJptLKB9EQWMsYE7tPLkEZQjoPHgJ0PnK519COYlNmzWqOn
+ egS6aTtHc+oUwA3CDH6zSlVpRVwS/yp/rWwo29+CXjKIMrrPy5Bp0vjcLJgJ2ulCXG
+ mOwxm39TpoMEg==
+Received: from bootstrap.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: detlev)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0118317E10D3;
+ Tue,  3 Sep 2024 17:23:39 +0200 (CEST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Chris Morgan <macromorgan@hotmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Tim Lunn <tim@feathertop.org>,
+ Andy Yan <andyshrk@163.com>, Muhammed Efe Cetin <efectn@protonmail.com>,
+ Jagan Teki <jagan@edgeble.ai>, Dragan Simic <dsimic@manjaro.org>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Ondrej Jirman <megi@xff.cz>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Jimmy Hon <honyuenkwun@gmail.com>, Elon Zhang <zhangzj@rock-chips.com>,
+ Alexey Charkov <alchark@gmail.com>,
+ Elaine Zhang <zhangqing@rock-chips.com>,
+ Yifeng Zhao <yifeng.zhao@rock-chips.com>,
+ Finley Xiao <finley.xiao@rock-chips.com>, Liang Chen <cl@rock-chips.com>,
+ Jamie Iles <jamie@jamieiles.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, kernel@collabora.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 5/9] dt-bindings: gpu: Add rockchip,rk3576-mali compatible
+Date: Tue,  3 Sep 2024 11:22:35 -0400
+Message-ID: <20240903152308.13565-6-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240903152308.13565-1-detlev.casanova@collabora.com>
+References: <20240903152308.13565-1-detlev.casanova@collabora.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,85 +85,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-09-03 at 17:14 +0200, Christian K=C3=B6nig wrote:
-> Am 03.09.24 um 15:38 schrieb Thomas Hellstr=C3=B6m:
-> > Some user-space APIs distinguison between graphics memory OOMs and
-> > system (host) memory OOMs. To aid UMDs in determining the type of
-> > OOM, allow forwarding the ENOSPC from resource managers to drivers
-> > on calls to ttm_bo_validate().
-> >=20
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: Matthew Brost <matthew.brost@intel.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->=20
-> Ah yes that was on my TODO list as well.
->=20
-> > ---
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
-> > =C2=A0 include/drm/ttm/ttm_bo.h=C2=A0=C2=A0=C2=A0=C2=A0 | 3 +++
-> > =C2=A0 2 files changed, 4 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index dd867b5e744c..d9a320dc8130 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -836,7 +836,7 @@ int ttm_bo_validate(struct ttm_buffer_object
-> > *bo,
-> > =C2=A0=C2=A0	} while (ret && force_space);
-> > =C2=A0=20
-> > =C2=A0=C2=A0	/* For backward compatibility with userspace */
-> > -	if (ret =3D=3D -ENOSPC)
-> > +	if (ret =3D=3D -ENOSPC && !ctx->forward_enospc)
->=20
-> Mhm, couldn't we put that into the bdev? I would rather like to keep
-> the=20
-> UAPI consistent at least per driver.
+The rk3576 SoC has an ARM Mali G52 MC3 GPU, that is compatible with
+arm,mali-bifrost.
 
-Yes, we could probably do that, although that means changing
-ttm_device_init() in all drivers.
+Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-And if doing that, then I think we should coalesce all bool arguments
-to a flags argument to make the callers more readable.
-
-What do you think?
-
-/Thomas
-
-
-
->=20
-> Christian.
->=20
-> > =C2=A0=C2=A0		return -ENOMEM;
-> > =C2=A0=20
-> > =C2=A0=C2=A0	/*
-> > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> > index 5804408815be..d3e12318d336 100644
-> > --- a/include/drm/ttm/ttm_bo.h
-> > +++ b/include/drm/ttm/ttm_bo.h
-> > @@ -174,6 +174,8 @@ struct ttm_bo_kmap_obj {
-> > =C2=A0=C2=A0 * BOs share the same reservation object.
-> > =C2=A0=C2=A0 * @force_alloc: Don't check the memory account during susp=
-end or
-> > CPU page
-> > =C2=A0=C2=A0 * faults. Should only be used by TTM internally.
-> > + * @forward_enospc: Don't translate -ENOSPC errors from resource
-> > managers to
-> > + * -ENOMEM, but forward them to the driver.
-> > =C2=A0=C2=A0 * @resv: Reservation object to allow reserved evictions wi=
-th.
-> > =C2=A0=C2=A0 * @bytes_moved: Statistics on how many bytes have been mov=
-ed.
-> > =C2=A0=C2=A0 *
-> > @@ -185,6 +187,7 @@ struct ttm_operation_ctx {
-> > =C2=A0=C2=A0	bool no_wait_gpu;
-> > =C2=A0=C2=A0	bool gfp_retry_mayfail;
-> > =C2=A0=C2=A0	bool allow_res_evict;
-> > +	bool forward_enospc;
-> > =C2=A0=C2=A0	bool force_alloc;
-> > =C2=A0=C2=A0	struct dma_resv *resv;
-> > =C2=A0=C2=A0	uint64_t bytes_moved;
->=20
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index 278399adc550..735c7f06c24e 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -26,6 +26,7 @@ properties:
+               - renesas,r9a07g054-mali
+               - rockchip,px30-mali
+               - rockchip,rk3568-mali
++              - rockchip,rk3576-mali
+           - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+       - items:
+           - enum:
+-- 
+2.46.0
 
