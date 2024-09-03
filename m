@@ -2,90 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDF396A582
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 19:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A6396A5D0
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 19:50:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CF210E20D;
-	Tue,  3 Sep 2024 17:36:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF4410E0B0;
+	Tue,  3 Sep 2024 17:50:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="hJ4q3T7+";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="0frmn8NI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6925410E20D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 17:36:28 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-374c326c638so2117242f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 10:36:28 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 790EC10E0B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 17:50:01 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-457c6389a3aso23271cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 10:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1725384986; x=1725989786; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jn3+67fL5EwG/U/NJX5k4FnoOo/e5RDcxd10te2L8fY=;
- b=hJ4q3T7+LEIw/SBBJbNkopCwKIKZUINOAyTTfRwg8WRsEszkc815/TXEMQourAvG+/
- kzE/2vmiOSrW/7Vd7UCVr2HS1DEpzG1pJl5KOX852sNr0522npzCf/H6W4hXpsjyNXoM
- PtH4suR66wIP9X9i+qeLJQiJVobIXFvCPdsM0=
+ d=google.com; s=20230601; t=1725385800; x=1725990600;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=410dK//Q8gNFJcYha80Zwj2EgZWoXsMUD0QY52+7x5g=;
+ b=0frmn8NITSSQRd8h7ObLGENfMjek9EeU/guiAubN+Kv2gRrl3O2DRY4yWfKt07Wq6m
+ gCUgB725R8350cZk0A4Euvfu8Tr7Z3E74o0pBGy+MFLMx+HF0+3W8fshP3GjQA9t1BTA
+ e/i+ja6y3L3A/s6maoddWfToYg43kXtkz3HuX+vRutrRzeK5IvTrPce5iqPcWwIT7tlz
+ +hp+A4CqJUycNdbYpGjHPJcv6BwdPf9YCo2/PZzogott4lUnZU727+FRPjbHuNykIVQ5
+ 0H32mPBAB6NgendvPyjx2rM0Ra5cQpfsmv/NISmXYxp7USZclr1VD9u0vcbDLYjW5dbZ
+ Cadw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725384986; x=1725989786;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jn3+67fL5EwG/U/NJX5k4FnoOo/e5RDcxd10te2L8fY=;
- b=en2mgi5qM3k52/WbVvujn/AYLbIA8iTdCzBv/znHgSyaWssiXVlLJts1AWszujJ5IK
- /AY8IDXdobyyfz5vFK/qsdAS01CWwrJWwcXUKoUD+Uw6M9aox4Bo/+NJ390LUf9w/Y4w
- PXoasSFaQy9iY7s83rpaLLNQ8vjay5ZOttOFZhzEYFcAmNTjAQhKmGJYyUk0gsP2gu46
- TJXbh6PPotc90HHN9JkSC8dAI7XprC4vK/Y+gdwtm2N3LRqQue3UGNs1LZSpHP2op5ht
- ZPyj1D+BHTPUun6A3/ftlgwMZKUcanQSsuYBvIhCyEgPYyGATm8RdMsreZ1mRzE5+Csv
- Rr6A==
+ d=1e100.net; s=20230601; t=1725385800; x=1725990600;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=410dK//Q8gNFJcYha80Zwj2EgZWoXsMUD0QY52+7x5g=;
+ b=mudOajwnyd10yjoXxlaXEDOPXYevJVt/jipds6PghJbLUUvc/DbePYRkpmPub9fASv
+ aEpzKnKnAxJEk17bSiDV9JiVtkIzk5iSTuOSbC1XpWABQOMdqtR7BspPcd1REsUkQCpP
+ Tom6c94ntIJSRvC4JLxuX4bRf7BIVQn7Sp8hWWWiuNVNcZE9rVnWC9LLAvp2/FxJjvuh
+ Pjq0Db1xrla8SK568WexCxAx0VU0J1sdTskUti/hGHqId4ZeCNJ8FAD2mMdSq1SZT01C
+ YIRIVqwt6IisT87781pPuObC83C9jDIWzNiYW8t+KGcg/CB3q6IScyXvurGqri70pcs+
+ OLng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVFSKLZDROXeQ/kig804ttZVHIiwz1+yIVuhgccBoRk4FkDakYYBoTB99hURXbE2pDvRPozVD04JlE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwT0HeEHgfFldfh9Eoraj9TE/QOTBwvSHfZfMHGlpCurmjEgm/j
- 8mEnE1y5yk+zZLFPtaIcrLgz02EkvVeZIpGessNkpZB4e9iV+zmoLlJl315lo5U=
-X-Google-Smtp-Source: AGHT+IFsRCJqy06zHZcxFD3yoJR4NIC5cNBboD7K1cGFZPCRCNEdZhsY6OiCgCE8J3IjvPygZHqWig==
-X-Received: by 2002:adf:f98a:0:b0:36b:bb84:33e2 with SMTP id
- ffacd0b85a97d-374bf184398mr8032391f8f.37.1725384985861; 
- Tue, 03 Sep 2024 10:36:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-374ca0cef22sm6569386f8f.106.2024.09.03.10.36.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2024 10:36:25 -0700 (PDT)
-Date: Tue, 3 Sep 2024 19:36:23 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/mipi-dsi: Fix devm unregister & detach
-Message-ID: <ZtdJFw-7mVO0xxzB@phenom.ffwll.local>
-Mail-Followup-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <b7cf71b8-76fd-4638-a7b6-cc8dbae635bf@ideasonboard.com>
- <20240702-bold-exotic-mamba-fdbba4@houat>
- <7293448e-e8cc-4522-b39c-5ad133e5f732@ideasonboard.com>
- <20240725-natural-giga-crane-d54067@houat>
- <4ed3791f-bc5a-46f1-88e1-2441c7f9c8d4@ideasonboard.com>
- <20240902-refined-smooth-mammoth-fbee81@houat>
- <ZtWYWuqhqvdWd0Q7@phenom.ffwll.local>
- <d411e79f-a22e-48e9-b135-5d7a0afa3cf3@ideasonboard.com>
- <20240903-encouraging-guillemot-of-warranty-aac44c@houat>
- <5bfead5b-a9d5-4a1c-a773-9a2bf8233ba5@ideasonboard.com>
+ AJvYcCUzRdNuNp9c8FBJFYepWSY0Lzx2ioCJ0YQIxQbf03IFLKTH0Xy6u6N68Aj4hIQqeqrEqNUT2HXoa4E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxvICGkLuWc1jfJI2kyMdNGqhmIYrQaayaqhKqUK4pSRYGJeYkS
+ bPjESWZLLt6gNm1zCei3rjnq9GyLQEb5Wc1uX3vsWfEWEZxL09VjNre14Qpuuqd7hu479n6Lmgv
+ Nv2AC4TDhq+I2yEcFWTSr2HWySiSWmsS0o/5r
+X-Google-Smtp-Source: AGHT+IGLoDHkPBLDX8ZfTm9Z74smEA48QzWbIgbw7Is1VRnj5CYXSnopkAUOG45YOImFSerPd0BuTk2cxqwZI6oJDC4=
+X-Received: by 2002:a05:622a:612:b0:44f:9db1:7fca with SMTP id
+ d75a77b69052e-457f63b3527mr45261cf.28.1725385799889; Tue, 03 Sep 2024
+ 10:49:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5bfead5b-a9d5-4a1c-a773-9a2bf8233ba5@ideasonboard.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-3-jens.wiklander@linaro.org>
+In-Reply-To: <20240830070351.2855919-3-jens.wiklander@linaro.org>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 3 Sep 2024 10:49:46 -0700
+Message-ID: <CABdmKX02Zd98euuxvKHuV2C5Cng+4P3_8UL3xn2apMP9to+KOA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/4] tee: new ioctl to a register tee_shm from a
+ dmabuf file descriptor
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Etienne Carriere <etienne.carriere@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,269 +95,354 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 03, 2024 at 04:05:06PM +0300, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 03/09/2024 14:56, Maxime Ripard wrote:
-> > On Mon, Sep 02, 2024 at 03:31:28PM GMT, Tomi Valkeinen wrote:
-> > > Hi,
-> > > 
-> > > On 02/09/2024 13:50, Daniel Vetter wrote:
-> > > > On Mon, Sep 02, 2024 at 11:26:11AM +0200, Maxime Ripard wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > On Wed, Aug 07, 2024 at 03:19:23PM GMT, Tomi Valkeinen wrote:
-> > > > > > On 25/07/2024 14:28, Maxime Ripard wrote:
-> > > > > > > On Mon, Jul 15, 2024 at 11:32:34AM GMT, Tomi Valkeinen wrote:
-> > > > > > > > On 02/07/2024 14:43, Maxime Ripard wrote:
-> > > > > > > > > Hi Tomi,
-> > > > > > > > > 
-> > > > > > > > > On Wed, Jun 26, 2024 at 06:53:40PM GMT, Tomi Valkeinen wrote:
-> > > > > > > > > > On 26/06/2024 18:07, Maxime Ripard wrote:
-> > > > > > > > > > > On Wed, Jun 26, 2024 at 12:55:39PM GMT, Tomi Valkeinen wrote:
-> > > > > > > > > > > > On 26/06/2024 11:49, Maxime Ripard wrote:
-> > > > > > > > > > > > > Hi,
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > On Wed, Jun 19, 2024 at 12:07:48PM GMT, Tomi Valkeinen wrote:
-> > > > > > > > > > > > > > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > When a bridge driver uses devm_mipi_dsi_device_register_full() or
-> > > > > > > > > > > > > > devm_mipi_dsi_attach(), the resource management is moved to devres,
-> > > > > > > > > > > > > > which releases the resource automatically when the bridge driver is
-> > > > > > > > > > > > > > unbound.
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > However, if the DSI host goes away first, the host unregistration code
-> > > > > > > > > > > > > > will automatically detach and unregister any DSI peripherals, without
-> > > > > > > > > > > > > > notifying the devres about it. So when the bridge driver later is
-> > > > > > > > > > > > > > unbound, the resources are released a second time, leading to crash.
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > That's super surprising. mipi_dsi_device_unregister calls
-> > > > > > > > > > > > > device_unregister, which calls device_del, which in turn calls
-> > > > > > > > > > > > > devres_release_all.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Hmm, right.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > > If that doesn't work like that, then it's what needs to be fixed, and
-> > > > > > > > > > > > > not worked around in the MIPI-DSI bus.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Well, something causes a crash for both the device register/unregister case
-> > > > > > > > > > > > and the attach/detach case, and the call stacks and debug prints showed a
-> > > > > > > > > > > > double unregister/detach...
-> > > > > > > > > > > > 
-> > > > > > > > > > > > I need to dig up the board and check again why the devres_release_all() in
-> > > > > > > > > > > > device_del() doesn't solve this. But I can probably only get back to this in
-> > > > > > > > > > > > August, so it's perhaps best to ignore this patch for now.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > However, the attach/detach case is still valid? I see no devres calls in the
-> > > > > > > > > > > > detach paths.
-> > > > > > > > > > > 
-> > > > > > > > > > > I'm not sure what you mean by the attach/detach case. Do you expect
-> > > > > > > > > > > device resources allocated in attach to be freed when detach run?
-> > > > > > > > > > 
-> > > > > > > > > > Ah, never mind, the devres_release_all() would of course deal with that too.
-> > > > > > > > > > 
-> > > > > > > > > > However, I just realized/remembered why it crashes.
-> > > > > > > > > > 
-> > > > > > > > > > devm_mipi_dsi_device_register_full() and devm_mipi_dsi_attach() are given a
-> > > > > > > > > > device which is used for the devres. This device is probably always the
-> > > > > > > > > > bridge device. So when the bridge device goes away, so do those resources.
-> > > > > > > > > > 
-> > > > > > > > > > The mipi_dsi_device_unregister() call deals with a DSI device, which was
-> > > > > > > > > > created in devm_mipi_dsi_device_register_full(). Unregistering that DSI
-> > > > > > > > > > device, which does happen when the DSI host is removed, does not affect the
-> > > > > > > > > > devres of the bridge.
-> > > > > > > > > > 
-> > > > > > > > > > So, unloading the DSI host driver causes mipi_dsi_device_unregister() and
-> > > > > > > > > > mipi_dsi_detach() to be called (as part of mipi_dsi_host_unregister()), and
-> > > > > > > > > > unloading the bridge driver causes them to be called again via devres.
-> > > > > > > > > 
-> > > > > > > > > Sorry, that's one of the things I don't quite get. Both functions are
-> > > > > > > > > exclusively(?) called from I2C bridges, so the device passed there
-> > > > > > > > > should be a i2c_client instance, and thus the MIPI-DSI host going away
-> > > > > > > > > will not remove those i2c devices, only the MIPI-DSI ones, right?
-> > > > > > > > 
-> > > > > > > > Yes.
-> > > > > > > > 
-> > > > > > > > > So if we remove the host, the MIPI-DSI device will be detached and
-> > > > > > > > > removed through the path you were explaing with the i2c client lingering
-> > > > > > > > > around. And if we remove the I2C device, then devm will kick in and will
-> > > > > > > > > detach and remove the MIPI-DSI device.
-> > > > > > > > 
-> > > > > > > > Right.
-> > > > > > > > 
-> > > > > > > > > Or is it the other way around? That if you remove the host, the device
-> > > > > > > > > is properly detached and removed, but there's still the devm actions
-> > > > > > > > > lingering around in the i2c device with pointers to the mipi_dsi_device
-> > > > > > > > > that was first created, but since destroyed?
-> > > > > > > > > 
-> > > > > > > > > And thus, if the i2c device ever goes away, we get a use-after-free?
-> > > > > > > > 
-> > > > > > > > Hmm, I'm not sure I understand what you mean here... Aren't you describing
-> > > > > > > > the same thing in both of these cases?
-> > > > > > > > 
-> > > > > > > > In any case, to expand the description a bit, module unloading is quite
-> > > > > > > > fragile. I do get a crash if I first unload the i2c bridge module, and only
-> > > > > > > > then go and unload the other ones in the DRM pipeline. But I think module
-> > > > > > > > unloading will very easily crash, whatever the DRM drivers being used are,
-> > > > > > > > so it's not related to this particular issue.
-> > > > > > > > 
-> > > > > > > > In my view, the unload sequence that should be supported (for development
-> > > > > > > > purposes, not for production) is to start the unload from the display
-> > > > > > > > controller module, which tears down the DRM pipeline, and going from there
-> > > > > > > > towards the panels/connectors.
-> > > > > > > > 
-> > > > > > > > Of course, it would be very nice if the module unloading worked perfectly,
-> > > > > > > > but afaics fixing all that's related to module unloading would be a
-> > > > > > > > multi-year project... So, I just want to keep the sequence I described above
-> > > > > > > > working, which allows using modules while doing driver development.
-> > > > > > > 
-> > > > > > > FTR, I'm all for supporting module unloading. The discussion above was
-> > > > > > > about what is broken exactly, so we can come up with a good solution.
-> > > > > > 
-> > > > > > Does that mean that you're ok with the patch, or that something should be
-> > > > > > improved?
-> > > > > 
-> > > > > No, I meant that at the very least the commit log needs to be updated to
-> > > > > reflect what is actually going on, because at least my understanding of
-> > > > > it doesn't match what actually happens.
-> > > > > 
-> > > > > We want a solution to the problem you're facing, but it's not clear to
-> > > > > me what the problem is exactly at this point, so it's hard to review a
-> > > > > solution.
-> > > > 
-> > > > So I haven't looked at the full thing, but I think the proper fix is to
-> > > > make both detach and unregister cope with being called multiple times. I
-> > > > think devm_ here is a red herring, the underlying issues is that we can
-> > > > unregister/detach from two sides:
-> > > > 
-> > > > - when the host dsi goes away
-> > > > - when individual dsi devices on a given host go away
-> > > > 
-> > > > So there needs to be book-keeping and locking to make sure no matter which
-> > > > order things disappear, we don't try to unregister/detach a dsi device
-> > > > twice.
-> > > 
-> > > I think that is what my patch does (for devm_).
-> > > 
-> > > Some vocabulary first:
-> > > 
-> > > dsi peripheral device - The device that represents the DSI peripheral. It is
-> > > a bridge or a panel, and (usually) an i2c or platform device.
-> > > 
-> > > dsi peripheral driver - The driver handling the dsi peripheral device.
-> > > 
-> > > dsi device - Runtime created device instance that represents the DSI
-> > > peripheral. So in my case we have the i2c bridge device, and a dsi device is
-> > > created for it in the setup code.
-> > > 
-> > > dsi controller device - A device that has a DSI bus (usually a platform or
-> > > i2c device, I would guess).
-> > > 
-> > > dsi controller driver - A driver for the dsi controller device. Creates the
-> > > dsi host.
-> > > 
-> > > dsi host - represents the DSI host side, owned by the dsi controller driver.
-> > > 
-> > > When a dsi peripheral driver uses devm_mipi_dsi_device_register_full() or
-> > > devm_mipi_dsi_attach(), the dsi device is created and attached to the dsi
-> > > host. When the dsi peripheral device-driver is unbound, devres will call
-> > > unregister and detach are called automatically. This works fine.
-> > > 
-> > > But when the device-driver for the dsi controller is unbound, the dsi
-> > > controller driver will unregister the dsi host,
-> > 
-> > I assume that you're talking about:
-> > https://elixir.bootlin.com/linux/v6.10.7/source/drivers/gpu/drm/drm_mipi_dsi.c#L357 ?
-> 
-> Yes.
-> 
-> > > and the unregistration will also unregister and detach the dsi device.
-> > 
-> > And https://elixir.bootlin.com/linux/v6.10.7/source/drivers/gpu/drm/drm_mipi_dsi.c#L346 ?
-> 
-> And yes.
-> 
-> > > But the devres is not told about that.
-> > 
-> > If my assumptions are correct, device_unregister() will definitely clean
-> > up the devres resources on that device:
-> 
-> Yes, and not. Devres cleans up the resources on "that" device, where that
-> device is the dsi_device. But that is _not_ the one where we registered the
-> resources.
-> 
-> > https://elixir.bootlin.com/linux/v6.10.7/source/drivers/base/core.c#L3886
-> > 
-> > > So when the dsi peripheral is later unbound, its devres will again
-> > > unregister and detach.
-> > 
-> > I guess in this case, only the device resource tied to the i2c client
-> > device (so dsi device? in your nomenclature) will run.
-> 
-> No, the i2c client device is the "dsi peripheral device". Say, a DSI video
-> mode panel that is controlled via i2c. Or ti-sn65dsi86.c bridge (that one
-> actually uses a auxiliary_device so it's a bit more complex).
-> 
-> > Or is it that:
-> > https://elixir.bootlin.com/linux/v6.10.7/source/drivers/gpu/drm/drm_mipi_dsi.c#L250
-> > 
-> > Gets tied to the i2c client device, but the host being removed has
-> > free'd that device already?
-> 
-> Yes. The devm_mipi_dsi_* functions register the resources (in this case, the
-> dsi_device itself and the dsi attach) to the i2c client device's devres.
-> 
-> > > To fix that this patch uses devm_remove_action() to remove the devres
-> > > action when the host side goes away first.
-> > > 
-> > > Now, after writing the above, I realized that all this won't help with the
-> > > non-devm versions: the host side has unregistered and detached the dsi
-> > > device, but if the dsi peripheral driver calls mipi_dsi_detach() or
-> > > mipi_dsi_device_unregister(), it will again crash.
-> > > 
-> > > Handling the attach/detach should be quite easy, and in fact the code
-> > > already handles it, but it uses WARN_ON() there so that has to go. But
-> > > attach/detach will crash anyway if the dsi device has already been freed,
-> > > which happens when the dsi controller driver calls
-> > > mipi_dsi_device_unregister().
-> > > 
-> > > So... The dsi peripheral driver should keep a reference to the dsi device,
-> > > with get_device()? And then do a put_device() after calling
-> > > mipi_dsi_device_unregister()?
-> > > 
-> > > But we don't free the dsi device, it has essentially been disabled without
-> > > telling the dsi peripheral driver about it, which might cause problems.
-> > 
-> > Yeah, and the host pointer would be lingering as well.
-> > 
-> > > I don't know... This doesn't sound correct to me. Probably my patch is just
-> > > new wrong on top of old wrong. Or maybe I don't quite grasp how this works.
-> > 
-> > I think we can fix some of them by storing the "parent" device of
-> > mipi_dsi_device (ie, the i2c client device) that the devm action is
-> > registered against, and removing the action in
-> > mipi_dsi_remove_device_fn.
-> 
-> That is what my patch does.
-> 
-> But, as Sima replied, there's much more to this. I'll try to look at this at
-> some point, but, unfortunately, no customer so far (as far as my memory
-> serves) has ever been interested in module unloading or unbinding the
-> devices, so... not very high in the todo list =).
+On Fri, Aug 30, 2024 at 12:04=E2=80=AFAM Jens Wiklander
+<jens.wiklander@linaro.org> wrote:
+>
+> From: Etienne Carriere <etienne.carriere@linaro.org>
+>
+> Enable userspace to create a tee_shm object that refers to a dmabuf
+> reference.
+>
+> Userspace registers the dmabuf file descriptor as in a tee_shm object.
+> The registration is completed with a tee_shm file descriptor returned to
+> userspace.
+>
+> Userspace is free to close the dmabuf file descriptor now since all the
+> resources are now held via the tee_shm object.
+>
+> Closing the tee_shm file descriptor will release all resources used by th=
+e
+> tee_shm object.
+>
+> This change only support dmabuf references that relates to physically
+> contiguous memory buffers.
+>
+> New tee_shm flag to identify tee_shm objects built from a registered
+> dmabuf, TEE_SHM_DMA_BUF.
+>
+> Signed-off-by: Etienne Carriere <etienne.carriere@linaro.org>
+> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/tee_core.c   |  38 ++++++++++++++
+>  drivers/tee/tee_shm.c    | 104 +++++++++++++++++++++++++++++++++++++--
+>  include/linux/tee_drv.h  |  11 +++++
+>  include/uapi/linux/tee.h |  29 +++++++++++
+>  4 files changed, 179 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index e59c20d74b36..3dfd5428d58c 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -356,6 +356,42 @@ tee_ioctl_shm_register(struct tee_context *ctx,
+>         return ret;
+>  }
+>
+> +static int tee_ioctl_shm_register_fd(struct tee_context *ctx,
+> +                                    struct tee_ioctl_shm_register_fd_dat=
+a __user *udata)
+> +{
+> +       struct tee_ioctl_shm_register_fd_data data;
+> +       struct tee_shm *shm;
+> +       long ret;
+> +
+> +       if (copy_from_user(&data, udata, sizeof(data)))
+> +               return -EFAULT;
+> +
+> +       /* Currently no input flags are supported */
+> +       if (data.flags)
+> +               return -EINVAL;
+> +
+> +       shm =3D tee_shm_register_fd(ctx, data.fd);
+> +       if (IS_ERR(shm))
+> +               return -EINVAL;
+> +
+> +       data.id =3D shm->id;
+> +       data.flags =3D shm->flags;
+> +       data.size =3D shm->size;
+> +
+> +       if (copy_to_user(udata, &data, sizeof(data)))
+> +               ret =3D -EFAULT;
+> +       else
+> +               ret =3D tee_shm_get_fd(shm);
+> +
+> +       /*
+> +        * When user space closes the file descriptor the shared memory
+> +        * should be freed or if tee_shm_get_fd() failed then it will
+> +        * be freed immediately.
+> +        */
+> +       tee_shm_put(shm);
+> +       return ret;
+> +}
+> +
+>  static int params_from_user(struct tee_context *ctx, struct tee_param *p=
+arams,
+>                             size_t num_params,
+>                             struct tee_ioctl_param __user *uparams)
+> @@ -830,6 +866,8 @@ static long tee_ioctl(struct file *filp, unsigned int=
+ cmd, unsigned long arg)
+>                 return tee_ioctl_shm_alloc(ctx, uarg);
+>         case TEE_IOC_SHM_REGISTER:
+>                 return tee_ioctl_shm_register(ctx, uarg);
+> +       case TEE_IOC_SHM_REGISTER_FD:
+> +               return tee_ioctl_shm_register_fd(ctx, uarg);
+>         case TEE_IOC_OPEN_SESSION:
+>                 return tee_ioctl_open_session(ctx, uarg);
+>         case TEE_IOC_INVOKE:
+> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> index 731d9028b67f..a1cb3c8b6423 100644
+> --- a/drivers/tee/tee_shm.c
+> +++ b/drivers/tee/tee_shm.c
+> @@ -4,6 +4,7 @@
+>   */
+>  #include <linux/anon_inodes.h>
+>  #include <linux/device.h>
+> +#include <linux/dma-buf.h>
+>  #include <linux/idr.h>
+>  #include <linux/mm.h>
+>  #include <linux/sched.h>
+> @@ -14,6 +15,14 @@
+>  #include <linux/highmem.h>
+>  #include "tee_private.h"
+>
+> +/* extra references appended to shm object for registered shared memory =
+*/
+> +struct tee_shm_dmabuf_ref {
+> +       struct tee_shm shm;
+> +       struct dma_buf *dmabuf;
+> +       struct dma_buf_attachment *attach;
+> +       struct sg_table *sgt;
+> +};
+> +
+>  static void shm_put_kernel_pages(struct page **pages, size_t page_count)
+>  {
+>         size_t n;
+> @@ -44,7 +53,16 @@ static void release_registered_pages(struct tee_shm *s=
+hm)
+>
+>  static void tee_shm_release(struct tee_device *teedev, struct tee_shm *s=
+hm)
+>  {
+> -       if (shm->flags & TEE_SHM_POOL) {
+> +       if (shm->flags & TEE_SHM_DMA_BUF) {
+> +               struct tee_shm_dmabuf_ref *ref;
+> +
+> +               ref =3D container_of(shm, struct tee_shm_dmabuf_ref, shm)=
+;
+> +               dma_buf_unmap_attachment(ref->attach, ref->sgt,
+> +               DMA_BIDIRECTIONAL);
+> +
+> +               dma_buf_detach(ref->dmabuf, ref->attach);
+> +               dma_buf_put(ref->dmabuf);
+> +       } else if (shm->flags & TEE_SHM_POOL) {
+>                 teedev->pool->ops->free(teedev->pool, shm);
+>         } else if (shm->flags & TEE_SHM_DYNAMIC) {
+>                 int rc =3D teedev->desc->ops->shm_unregister(shm->ctx, sh=
+m);
+> @@ -56,7 +74,8 @@ static void tee_shm_release(struct tee_device *teedev, =
+struct tee_shm *shm)
+>                 release_registered_pages(shm);
+>         }
+>
+> -       teedev_ctx_put(shm->ctx);
+> +       if (shm->ctx)
+> +               teedev_ctx_put(shm->ctx);
+>
+>         kfree(shm);
+>
+> @@ -168,7 +187,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct tee_con=
+text *ctx, size_t size)
+>   * tee_client_invoke_func(). The memory allocated is later freed with a
+>   * call to tee_shm_free().
+>   *
+> - * @returns a pointer to 'struct tee_shm'
+> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on fai=
+lure
+>   */
+>  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t=
+ size)
+>  {
+> @@ -178,6 +197,85 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_=
+context *ctx, size_t size)
+>  }
+>  EXPORT_SYMBOL_GPL(tee_shm_alloc_kernel_buf);
+>
+> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
+> +{
+> +       struct tee_shm_dmabuf_ref *ref;
+> +       int rc;
+> +
+> +       if (!tee_device_get(ctx->teedev))
+> +               return ERR_PTR(-EINVAL);
+> +
+> +       teedev_ctx_get(ctx);
+> +
+> +       ref =3D kzalloc(sizeof(*ref), GFP_KERNEL);
+> +       if (!ref) {
+> +               rc =3D -ENOMEM;
+> +               goto err_put_tee;
+> +       }
+> +
+> +       refcount_set(&ref->shm.refcount, 1);
+> +       ref->shm.ctx =3D ctx;
+> +       ref->shm.id =3D -1;
+> +
+> +       ref->dmabuf =3D dma_buf_get(fd);
+> +       if (IS_ERR(ref->dmabuf)) {
+> +               rc =3D PTR_ERR(ref->dmabuf);
+> +               goto err_put_dmabuf;
+> +       }
 
-I think the proper fix isn't too bad. The changes in the dsi code should
-be fairly small, and for the refcounting fix you only have to add a call
-to mipi_dsi_put() in all the non-dsi drivers.
+Hi,
 
-With that prep work you can then tackle the conversion to a proper
-device/driver model driver for each non-dsi driver individually, and as
-needed. And at least the drivers I looked at are practically there
-already, so for an individual case I don't think it's a horrible amount of
-work to fix this properly.
+Most of the gotos in the errors paths from here on look offset by one
+to me. Attempting to put a dmabuf after failing to get, detaching
+after failing to attach, unmapping after failing to map, removing an
+IDR after failing to allocate one.
 
-Still more than your original patch in this thread though.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+> +
+> +       ref->attach =3D dma_buf_attach(ref->dmabuf, &ref->shm.ctx->teedev=
+->dev);
+> +       if (IS_ERR(ref->attach)) {
+> +               rc =3D PTR_ERR(ref->attach);
+> +               goto err_detach;
+> +       }
+> +
+> +       ref->sgt =3D dma_buf_map_attachment(ref->attach, DMA_BIDIRECTIONA=
+L);
+> +       if (IS_ERR(ref->sgt)) {
+> +               rc =3D PTR_ERR(ref->sgt);
+> +               goto err_unmap_attachement;
+> +       }
+> +
+> +       if (sg_nents(ref->sgt->sgl) !=3D 1) {
+> +               rc =3D PTR_ERR(ref->sgt->sgl);
+> +               goto err_unmap_attachement;
+> +       }
+> +
+> +       ref->shm.paddr =3D page_to_phys(sg_page(ref->sgt->sgl));
+> +       ref->shm.size =3D ref->sgt->sgl->length;
+> +       ref->shm.flags =3D TEE_SHM_DMA_BUF;
+> +
+> +       mutex_lock(&ref->shm.ctx->teedev->mutex);
+> +       ref->shm.id =3D idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
+> +                               1, 0, GFP_KERNEL);
+> +       mutex_unlock(&ref->shm.ctx->teedev->mutex);
+> +       if (ref->shm.id < 0) {
+> +               rc =3D ref->shm.id;
+> +               goto err_idr_remove;
+> +       }
+> +
+> +       return &ref->shm;
+> +
+> +err_idr_remove:
+> +       mutex_lock(&ctx->teedev->mutex);
+> +       idr_remove(&ctx->teedev->idr, ref->shm.id);
+> +       mutex_unlock(&ctx->teedev->mutex);
+> +err_unmap_attachement:
+> +       dma_buf_unmap_attachment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL=
+);
+> +err_detach:
+> +       dma_buf_detach(ref->dmabuf, ref->attach);
+> +err_put_dmabuf:
+> +       dma_buf_put(ref->dmabuf);
+> +       kfree(ref);
+> +err_put_tee:
+> +       teedev_ctx_put(ctx);
+> +       tee_device_put(ctx->teedev);
+> +
+> +       return ERR_PTR(rc);
+> +}
+> +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
+> +
+> +
+> +
+>  /**
+>   * tee_shm_alloc_priv_buf() - Allocate shared memory for a privately sha=
+red
+>   *                           kernel buffer
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index 71632e3c5f18..6a1fee689007 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -25,6 +25,7 @@
+>  #define TEE_SHM_USER_MAPPED    BIT(1)  /* Memory mapped in user space */
+>  #define TEE_SHM_POOL           BIT(2)  /* Memory allocated from pool */
+>  #define TEE_SHM_PRIV           BIT(3)  /* Memory private to TEE driver *=
+/
+> +#define TEE_SHM_DMA_BUF                BIT(4)  /* Memory with dma-buf ha=
+ndle */
+>
+>  struct device;
+>  struct tee_device;
+> @@ -275,6 +276,16 @@ void *tee_get_drvdata(struct tee_device *teedev);
+>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t s=
+ize);
+>  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t=
+ size);
+>
+> +/**
+> + * tee_shm_register_fd() - Register shared memory from file descriptor
+> + *
+> + * @ctx:       Context that allocates the shared memory
+> + * @fd:                Shared memory file descriptor reference
+> + *
+> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on fai=
+lure
+> + */
+> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd);
+> +
+>  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
+>                                             void *addr, size_t length);
+>
+> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> index 23e57164693c..77bc8ef24d3c 100644
+> --- a/include/uapi/linux/tee.h
+> +++ b/include/uapi/linux/tee.h
+> @@ -117,6 +117,35 @@ struct tee_ioctl_shm_alloc_data {
+>  #define TEE_IOC_SHM_ALLOC      _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1, \
+>                                      struct tee_ioctl_shm_alloc_data)
+>
+> +/**
+> + * struct tee_ioctl_shm_register_fd_data - Shared memory registering arg=
+ument
+> + * @fd:                [in] File descriptor identifying the shared memor=
+y
+> + * @size:      [out] Size of shared memory to allocate
+> + * @flags:     [in] Flags to/from allocation.
+> + * @id:                [out] Identifier of the shared memory
+> + *
+> + * The flags field should currently be zero as input. Updated by the cal=
+l
+> + * with actual flags as defined by TEE_IOCTL_SHM_* above.
+> + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD below.
+> + */
+> +struct tee_ioctl_shm_register_fd_data {
+> +       __s64 fd;
+> +       __u64 size;
+> +       __u32 flags;
+> +       __s32 id;
+> +} __aligned(8);
+> +
+> +/**
+> + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file descri=
+ptor
+> + *
+> + * Returns a file descriptor on success or < 0 on failure
+> + *
+> + * The returned file descriptor refers to the shared memory object in ke=
+rnel
+> + * land. The shared memory is freed when the descriptor is closed.
+> + */
+> +#define TEE_IOC_SHM_REGISTER_FD        _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE=
+ + 8, \
+> +                                    struct tee_ioctl_shm_register_fd_dat=
+a)
+> +
+>  /**
+>   * struct tee_ioctl_buf_data - Variable sized buffer
+>   * @buf_ptr:   [in] A __user pointer to a buffer
+> --
+> 2.34.1
+>
