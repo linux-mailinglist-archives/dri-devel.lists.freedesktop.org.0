@@ -2,64 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06D696A523
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 19:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD4596A56A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 19:30:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0090510E096;
-	Tue,  3 Sep 2024 17:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74A4710E291;
+	Tue,  3 Sep 2024 17:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GuRAngMw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cgODgywA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A39F10E096
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 17:14:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4CF73A429C2;
- Tue,  3 Sep 2024 17:14:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238D9C4CEC4;
- Tue,  3 Sep 2024 17:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725383686;
- bh=qW0RktGoVkbp3dbELJ0XnlGsWcBLW434fwCOzn74Vkc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GuRAngMw4FtK7TyflROsYBV1lYCTKtUT1bir8ZZY8wNReUFtnfddZvBvkFwjVTRym
- b0Ao6qM8UI9rNBWicO+BMdEQMpNhOj1Rvbvou5lenbKL5r7AYzNMtp66G4GV83QiO4
- ySeux05NNkyQIkpAOs/iEeofWo4KInG6x3Kb53MbNhZYux9jHVNuAzD9w56B3eHRb1
- 1wMjoqQy7sVJedE2hizsg2pd5hE7tb8i9AZ/dzRaIFxBNpWbiTBRKHnvhdoNgvgS8q
- +5FSuI3B0GX3tCbf6hjjFEbar8JPcn2SRQOGe3JJw7ivrMWZk+JHr9Gz0KhHSqDJcH
- b1fj3m/Ktu8gg==
-Date: Tue, 3 Sep 2024 18:14:38 +0100
-From: Mark Brown <broonie@kernel.org>
-To: amergnat@baylibre.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: [PATCH v7 12/16] ASoC: codecs: add MT6357 support
-Message-ID: <c386c74c-9008-48ea-ad79-524eb85c370b@sirena.org.uk>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <20240226-audio-i350-v7-12-6518d953a141@baylibre.com>
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20DF510E5F1
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 17:30:25 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2da4ea973bdso1109441a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 10:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725384624; x=1725989424; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xq08cW6/BlT4ZW8Fc9W5vNoCU0ZXbSqCDwV0Nd5Dp90=;
+ b=cgODgywAlWD7JlsjjAgEO3jonzx0FjY69LaCxa4n/mKHP2KjXJosPI4fbujkxbtJw1
+ qq4C/esw6Dhh6ilrqZou4UG7BnarCcf3z2nezyyOTuLNuVQUX1i/hxJ6l4xaPHLyBs2z
+ 6nzU6vTRLomDbGTJ0i4HSzfT6++d+mkvAxwshPaf1r1z3l705+9dgDzOnquPLX930dTk
+ WxRfa8KNula8WJahH2xeLBCcoEfzf54ffNB9ysDwZ8mKoYF24tPIGuRx3ExNf8o1+imh
+ /KO/IUxQM2X9RNtxfkms/eGB27m+/cIIuUvgaOvUfijccbCLojpD6/KsdA/GbhaEszvH
+ alyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725384624; x=1725989424;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xq08cW6/BlT4ZW8Fc9W5vNoCU0ZXbSqCDwV0Nd5Dp90=;
+ b=DBtjDqvUZ7rGUQt2iCKTbM2jX3+7QwV+oC1MphElpQ07dipSWOkj5t/ZR3EOTui+ag
+ yTq02+ky+sxQ87wflw4L7tDKwzSTZVPsw0nQvLAid9GO7Bzcv+EzHEdnkf1xzvIgsl7X
+ j2+gdNJajTGy5h42TVYwj48zCZmNlmvRpTUE4PfpTvgQPLaG48A7d1SQmsuc2cplzgXP
+ TbHmpgkY4CpP0V717Qq+Vx4kCFDX3RbkYZ847upJ4SGiZfEsf0EUkCZxgi6S72FeH/GA
+ 1GrAgItpxIMlFmE9v1KqhiW+FRzMstsVN8YG13sfuQL2t0iY/GjzuF1F9WU//QyYiMRd
+ jRNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXoW/OOU7UymOZuQnpt0bqpShEUerltPRAYSqWIFkF5+3FTw2FiVa/6axP9R3Z3YQ1Tu7zfCURYdjc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxzf/dPV+xZO62W/ylBVKpRqla2LsAgHPXiP3Uall6VimJdwmEf
+ GeS1gTXj2oKHTz1JHHcSyzEmeUXhxBS8by/IlDflevw9r8ywNHC1
+X-Google-Smtp-Source: AGHT+IFlTE1TAIGJ7jQZn6Of9aSyW8eej73q05cpzIIbOcKFy+h7nv/o1+3+2HwdBeVpwYrTBE4w3g==
+X-Received: by 2002:a17:90b:c12:b0:2d3:b49f:ace3 with SMTP id
+ 98e67ed59e1d1-2d85638576dmr17939452a91.28.1725384624274; 
+ Tue, 03 Sep 2024 10:30:24 -0700 (PDT)
+Received: from embed-PC.myguest.virtualbox.org ([106.222.229.246])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2d8edadf788sm4086522a91.15.2024.09.03.10.30.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2024 10:30:23 -0700 (PDT)
+Date: Tue, 3 Sep 2024 23:00:17 +0530
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, quic_jesszhan@quicinc.com,
+ skhan@linuxfoundation.org, rbmarliere@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel: hx83112a: Switch to wrapped mipi_dsi functions
+Message-ID: <ZtdHqXvwp/L9dZJ7@embed-PC.myguest.virtualbox.org>
+References: <20240902170153.34512-1-abhishektamboli9@gmail.com>
+ <87plplgkpa.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="OMC7w3ub4Px9anag"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240226-audio-i350-v7-12-6518d953a141@baylibre.com>
-X-Cookie: Please take note:
+In-Reply-To: <87plplgkpa.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,42 +87,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 03, 2024 at 11:17:37AM +0200, Javier Martinez Canillas wrote:
+> Abhishek Tamboli <abhishektamboli9@gmail.com> writes:
+> 
+Hi Javier,
+> 
+> > Use the new mipi_dsi_*_multi wrapped function in hx83112a_on
+> > and hx83112a_disable function.
 
---OMC7w3ub4Px9anag
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> IMO commit messages should explain why the change is needed and
+> not just what the patch is changing (for this one can just look
+> at the diffstat). 
+Thanks for the feedback. I'll do the changes.
 
-On Mon, Jul 22, 2024 at 08:53:41AM +0200, amergnat@baylibre.com wrote:
-> From: Nicolas Belin <nbelin@baylibre.com>
->=20
-> Add the support of MT6357 PMIC audio codec.
-
-This breaks the build:
-
-/build/stage/linux/sound/soc/codecs/mt6357.c: In function =E2=80=98mt6357_p=
-latform_driver_probe=E2=80=99:
-/build/stage/linux/sound/soc/codecs/mt6357.c:1824:55: error: too many argum=
-ents for format [-Werror=3Dformat-extra-args]
- 1824 |                 return dev_err_probe(&pdev->dev, ret, "Failed to pa=
-rse dts\n", __func__);
-      |                                                       ^~~~~~~~~~~~~=
-~~~~~~~~~~
-cc1: all warnings being treated as errors
-
---OMC7w3ub4Px9anag
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbXQ/0ACgkQJNaLcl1U
-h9CpOQf/TZgfm5Me95NAaeAf3HC8+QtPbX8C2nII9zKTnbEfLCDi/g1gWoJoK6ge
-FBcp4NuLABoPKK/c0mXC0iSzZ8mjHoHX08LBYnh3Q+BZFvOy+6hXTs/cr6/RMtDR
-OQ7lNNGHEhH5YZvCMPrt+3p2BnWcLGvbreX+xIa1PfT91BvUGpEhxPMkPe/UQKkk
-+sGgJdVgQRZgjtoaqZXWBsVYD2fUK6CJwb4w14Gm+BwFYwvrIj7Tq8FpnDdmUawg
-SYP7QBsvrhWdYaAOAfRi0cpusU8wgwSjvUOu2md93uMVLke+S0T+8dkw/tkPnJcS
-XvtVy+qXZ/rNyGhr44XT3XZmwXdOTw==
-=ZHfg
------END PGP SIGNATURE-----
-
---OMC7w3ub4Px9anag--
+Regards,
+Abhishek 
