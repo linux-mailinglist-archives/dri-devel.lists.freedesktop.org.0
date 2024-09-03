@@ -2,77 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82669969889
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 11:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5908796988E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 11:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4439F10E425;
-	Tue,  3 Sep 2024 09:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C0310E44C;
+	Tue,  3 Sep 2024 09:17:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uM8SNbmB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="a6JFqxfP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2FFA10E425
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 09:17:19 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-6d47d860fc4so26734027b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 02:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725355039; x=1725959839; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iHxPh6R8OUIMs2u3yUx/BuQ1WH7I4Ubp5ptPzIFLou8=;
- b=uM8SNbmBSN0oc9YRgwK/jUx3hUwC3wAzbi0EFy8nb+74DtByxOmubqR1WRbrTkW3zz
- wLGP2XhZFMHqqFFZPfIWRFXIpQugYXXQ099xbPvQmPaE4rM/x6s+YcbMbMTa6dKckVOU
- QBbOO13lm4zwqHNbrxpXE2A7+r8DgqkysQhWdgOcryJWGRgMLS5fWeA+pwCv68cPsz+5
- m45HLfTYUrFZ+9y3Hk8uPlLo7dx0420G7T/KNJPFqpL5EaZMOCXJMccRx69kzkZgFLAG
- U6Pbr99SC+FL7B/DrdMf+opciIZG9J/9JbyOnrKufBKxEbz3Y1xDRe2q0G+D9na7a3vq
- YmwQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12CF310E44C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 09:17:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1725355062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=d9X1NNLzucsrIUJA/W+nkx3jW6oIqsnKng1xNjblM64=;
+ b=a6JFqxfPzFXBAJ6f601AKSO6d2x7GnFWnevFRNupPWw4MLPuSJ37QCXSBtX2R07XyYSKib
+ YqTa/rLHU1OEhr+RADvWcq1FUVUNZUUBupSSCyuDzlOZ+RMAebAonXanle+g274unNu6xp
+ wHhU270BVolF7eSqlJxznsAGu3B/Cjg=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-686-HnkCzN3fOrW5h6QoiVgoeg-1; Tue, 03 Sep 2024 05:17:41 -0400
+X-MC-Unique: HnkCzN3fOrW5h6QoiVgoeg-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-5344b7df784so5638144e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 02:17:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725355039; x=1725959839;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iHxPh6R8OUIMs2u3yUx/BuQ1WH7I4Ubp5ptPzIFLou8=;
- b=jEPam2uBaikaE63rYEE4sF/kFatcDyB6hlihen6W+U55iCNJ5aDygNTFsIv+7R+p4B
- Ze6WdMwUT3D8kOBtCQxrj+A9EGEcCCuYte5HQA0vQvVqsigZmeaJv5d0SERhClSd1wQI
- gPDMczx/fNVuzQcnowHTHOBTWRmVth7DoJebH8a/Sbz99ZXKQ0BEj7gPbPB8xnnABrsP
- Ff/hwoj0u/0F/l+BOVEQ9MEqyUaqYYzL+3oH2edqvxntbGe6bfELZpMeKUn2+Lmv/2tz
- tnCamELLozYIRN083lUOICaO32j/bXEocp4znOtnVGy/0BBEpWwqB3FvLl269EmUoElp
- c1Ww==
+ d=1e100.net; s=20230601; t=1725355060; x=1725959860;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=d9X1NNLzucsrIUJA/W+nkx3jW6oIqsnKng1xNjblM64=;
+ b=a3FYzhw/1KKZFWD3RQZ6mFpKb5vughm6DyPpdQ9zefPA6HkLZ/cUGyjbB2tXum5OmB
+ 755dZcYV3rX9kHc2TDPKVpGHG09uJx5rqUSM1EGG3v1ddwQxgY9sZBZpuPzwHRv0BmR4
+ YyeyPLE9hfB6+zjqwwxRGIqP5gEBwDCWTCS/X8tH4rN3AUIR0oHzynaogxkr8iM3ZCoR
+ kgczGddhNMajEo1g42ujiwBCVwvMJUZJeqQjIXuJJCAyHWjmqn4DoFuH3EiNYBngIvjD
+ UK00X2HMDraK4KTVoMlcBHF0AlmOOoZCI3TyEh8CtITF4RY2LutOs4sEOKSnWnv17Lko
+ l62g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWNsDKHH0zRizwNPu4QsIbdrnQxpTPbwCCZ/1lOvrg/faBdskyZavxYQOCpaPpjQ3neMzl4S0vSpDU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPAoMqY6RmWldNY74c8v8ExJIFzqRy9AoyZImrI1csHTqaw1sO
- ELXRyi/T8p9Us2z557/si9edJG972+aVOAXw6cIVobD2XujQJqXiOU05dNPzMv+JvXagrqfTyTf
- 3AeJRUZQ66eU4DVaoPAU8nIgquGVTaSytAfuszg==
-X-Google-Smtp-Source: AGHT+IG81YDgPBRq6/EYuW4vKT6fy1SFqxRv2KyQLs6HLXZ1o9IbzXMNe+6OWbwaOtbCurnbVfpd3OtZMgL5A8LguhM=
-X-Received: by 2002:a05:690c:81:b0:6b0:d9bc:5a29 with SMTP id
- 00721157ae682-6d40f62dcf0mr167802017b3.32.1725355038732; Tue, 03 Sep 2024
- 02:17:18 -0700 (PDT)
+ AJvYcCWWbkdjTO5acNK8zmq+i9zu1APgcDR/vUdXZDg89HWiqLPYSLs25AlNfQoL/Kc4RouhNtifWnu2vpU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkOY7ObuGJhmWC7RNel5JKSnE3V+OpZo1DowjrKiVS+QGgyuuq
+ AY/xkhZlM1gZzPy2rsN8kp/tQGo6O2+KqQd/6sbmDxYFsPkF00Mct2I+TqMsPKeaqRez86IYSqt
+ Xi/lRx5/sN8o8HXc8ie3jcPu/d7n3stzSDnz6eqQTGCmaKkdcGeepzWFn4t2i6GBypw==
+X-Received: by 2002:a05:6512:1328:b0:52e:7656:a0f4 with SMTP id
+ 2adb3069b0e04-53546b93f39mr8985508e87.41.1725355059625; 
+ Tue, 03 Sep 2024 02:17:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF3xeKyziMqcDCx9+tKLN9bJxYrhVG6uCV34wc0/n7HkAIUcH0MBCdLafl7DwaQE1ysW+KWKQ==
+X-Received: by 2002:a05:6512:1328:b0:52e:7656:a0f4 with SMTP id
+ 2adb3069b0e04-53546b93f39mr8985480e87.41.1725355059058; 
+ Tue, 03 Sep 2024 02:17:39 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42bacaac810sm183985045e9.33.2024.09.03.02.17.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2024 02:17:38 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
+ neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, skhan@linuxfoundation.org,
+ rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel: hx83112a: Switch to wrapped mipi_dsi functions
+In-Reply-To: <20240902170153.34512-1-abhishektamboli9@gmail.com>
+References: <20240902170153.34512-1-abhishektamboli9@gmail.com>
+Date: Tue, 03 Sep 2024 11:17:37 +0200
+Message-ID: <87plplgkpa.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org>
- <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-1-bdb05b4b5a2e@linaro.org>
- <CAA8EJprgHAmuFxj5hO5BYFywW7sGC2VcMZwaadBLOmYJr88OYg@mail.gmail.com>
- <CABymUCPEnU2ReAve=P6yzndZy5-=YQRB60bixxHGeoQK4cWTAw@mail.gmail.com>
-In-Reply-To: <CABymUCPEnU2ReAve=P6yzndZy5-=YQRB60bixxHGeoQK4cWTAw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 3 Sep 2024 12:17:07 +0300
-Message-ID: <CAA8EJppZvWH1y-WeNW+9zSonoR7vem7N7q0o94ZymiZfvvUfJQ@mail.gmail.com>
-Subject: Re: [PATCH 01/21] drm/msm/dsi: add support to DSI CTRL v2.8.0
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,47 +92,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 3 Sept 2024 at 11:11, Jun Nie <jun.nie@linaro.org> wrote:
+Abhishek Tamboli <abhishektamboli9@gmail.com> writes:
+
+Hello Abhishek
+
+> Use the new mipi_dsi_*_multi wrapped function in hx83112a_on
+> and hx83112a_disable function.
 >
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B48=E6=
-=9C=8829=E6=97=A5=E5=91=A8=E5=9B=9B 18:35=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Thu, 29 Aug 2024 at 13:19, Jun Nie <jun.nie@linaro.org> wrote:
-> > >
-> > > From: Jonathan Marek <jonathan@marek.ca>
-> > >
-> > > Add support to DSI CTRL v2.8.0 with priority support
-> >
-> > Proper description is missing
->
-> Actually, there is no clear doc for this register. Any URL or
-> doc key word to search?
 
-Do you have a corresponding change in the vendor driver? If not, where
-does this come from? What does it fix? What doesn't work if the
-register isn't programmed? Answers to such questions should be a part
-of the commit message.
+IMO commit messages should explain why the change is needed and
+not just what the patch is changing (for this one can just look
+at the diffstat).
 
-> >
-> > >
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> >
-> > Several tags are missing here.
->
-> Co-develop and SoB tag, right?
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
 
-yep
+-- 
+Best regards,
 
-> >
-> > Also, how is this patch related to quadpipe?
->
-> It is a must per test. Maybe it is just related to dual-DSI.
-> We can have answer if 2:2:2 is enabled.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-Tests are a separate story. You can send a separate series and mention
-it in the cover letter. However this is not a part of the quad-pipe
-support per se.
-
---=20
-With best wishes
-Dmitry
