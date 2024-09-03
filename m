@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444A596A43A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 18:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89B496A441
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 18:27:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0190F10E4B5;
-	Tue,  3 Sep 2024 16:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E88010E5EA;
+	Tue,  3 Sep 2024 16:27:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hyTSuvq0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="adaokEvB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 940CB10E4B5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 16:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725380760; x=1756916760;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=VoKYPh++tWILoWaGfi256XRcWGMk5WZ3zkpYUVbSCek=;
- b=hyTSuvq0LSs0BCJOP6FPjFkfO2N3yzQGUW8O6eEr3+VaKGpSKFeBDYJF
- ngyfzyjrEdVfyqVm1MabxpPCcRSQg/oQbfz04zxC19n1I0XSS3xpct4TA
- ArcuPS8+n/A3q+jvZOTIb5ZnWKAU4xGbvsYkNteaQDadTNxl0zUAuEI5B
- 2kx+oB6CQ/+xOTGgxTP3Mgoe2uvXT8qy5huieu6OBODts5KWdU6cTaWUW
- Ue695FDxeiG0aGwyQZ5u9CuH4/0qurLNsP+ebEkl68IQHvrQE2nxQMg4S
- 049utWhin8TNtneNWiaVgeZBhDHd+fLjt/fovPGR47K60IDN1hv+ROsiC Q==;
-X-CSE-ConnectionGUID: WJntfbcBQle5t+hjyuDR0w==
-X-CSE-MsgGUID: hf7LVGVCRBi8AbQ3piISDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="34562549"
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; d="scan'208";a="34562549"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 09:26:00 -0700
-X-CSE-ConnectionGUID: PUGcUR2FSteX2dmEFU22rg==
-X-CSE-MsgGUID: tJF6xGK/REei/qiCMswLrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; d="scan'208";a="69119688"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.148])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 09:25:56 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, kernel test robot
- <dan.carpenter@linaro.org>, Thierry Reding <treding@nvidia.com>, Daniel
- Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] drm/tegra: fix potential uninitialized variable use
-In-Reply-To: <dejyfvxyi6fibvld3rdlxf2m4xws7shxvhhkokp6y2jk2djltz@reoqqwov4jg4>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240902161317.2437148-1-jani.nikula@intel.com>
- <dejyfvxyi6fibvld3rdlxf2m4xws7shxvhhkokp6y2jk2djltz@reoqqwov4jg4>
-Date: Tue, 03 Sep 2024 19:25:41 +0300
-Message-ID: <87frqgu2ka.fsf@intel.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 049E910E5E8
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 16:27:41 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-205909afad3so16485105ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 09:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725380860; x=1725985660; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ViZ2Qk+Vtw2VzGYfDD4Bo4v3B7DoDiJQtKRYgmWotpA=;
+ b=adaokEvB0ElKAJJGnyXorm+ZISzSWEJKAW2u3Bg+fWhTy6+tUWKfUM053qlN6Bg6yg
+ 5Oq3tysdCwlxZJjFhHtLaS0x6YWrZnx77/XsGaHsqWy6SBNYELp+VWNjgEbllMWohAoE
+ eYl2tROzg2Ivw9VUXdQQHW6FLEZC1QZkMn9D/wprMBC+H4o8XW9okUMBtexx6TL6WfFg
+ xB2vdbsCnxJh/qoqMaU/ro5WAKH7d8AQciXwDd4PBsJsmTB3cJQ+J4ft+VsDhiDTnLWo
+ I8wZ1MNluMtIn6xsmcb1cvvXO+JSKHOvNiSQjL1yaLMkEQuHEmBGxhulkGwVXeCybzch
+ xjLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725380860; x=1725985660;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ViZ2Qk+Vtw2VzGYfDD4Bo4v3B7DoDiJQtKRYgmWotpA=;
+ b=aLzeUIOlRoJbeJBfv8MiQ01nMG42WikEmuKvppqpmnCDcLc0WSP8ToQT8f13VRlHCD
+ JbHVIxqii2VkOYK7W1GB1hQmPe+E5l8UJek3bzCt78r8N7VMssR3WMbS79hUVWvOsYxe
+ nQonIKrDwAEbQLWNo+ELElau4/yR3eV9hzH2yNz4wxq44HyB974CAU/a1e5cIIUTLWq+
+ 5wApSttkGWZr6pF/kV4eFDfnJ9r9rcgKyf7ParlVgOWMqWky3+i0hky7NXdJAau5LbY4
+ sbTtNVjMbzAkQuIH+MQbSpP8yPCQNtIstQcbZNRZIrE3SuHHG3Ku6I1TkVHdNXT4k/bj
+ +Jtw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCULb1xjlRlXsUbc8nNAyUqwry1cWnp6iLKSeDNooNFEWmNWXcZUiuVaaYUZBPWXYIj/q0M3DQd9aSM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwaJtWFEv4iR8uGKyVyupMyqmMYDalTTD1TRaJAXmba6Jyc9Ypi
+ Dcy+Da0OVr23wZ57EF957Z2MgYnV/ul6TU6iPXq3sDkKvrLE24xM
+X-Google-Smtp-Source: AGHT+IFWoAsi71mQ5SIl33bBxgwV2NfZspH9Nu1mtON226BSC45BsRnCT2jmiAIN44wzjafp79E0Zw==
+X-Received: by 2002:a17:902:d48a:b0:205:968b:31ab with SMTP id
+ d9443c01a7336-205968b34cbmr33233955ad.58.1725380860399; 
+ Tue, 03 Sep 2024 09:27:40 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:ec5f:2356:2bac:7d11])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-206aea37cc2sm466115ad.160.2024.09.03.09.27.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2024 09:27:39 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: mripard@kernel.org
+Cc: marex@denx.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] dt-bindings: lcdif: Document the dmas/dma-names properties
+Date: Tue,  3 Sep 2024 13:27:29 -0300
+Message-Id: <20240903162729.1151134-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,30 +81,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 03 Sep 2024, Thierry Reding <thierry.reding@gmail.com> wrote:
-> On Mon, Sep 02, 2024 at 07:13:17PM GMT, Jani Nikula wrote:
->> It's likely either output->drm_edid or output->ddc is non-NULL, but
->> avoid the uninitialized variable usage anyway.
->> 
->> Reported-by: kernel test robot <dan.carpenter@linaro.org>
->> Closes: https://lore.kernel.org/r/ZtXLyXxew7z6H2bD@stanley.mountain
->> Fixes: 98365ca74cbf ("drm/tegra: convert to struct drm_edid")
->> Cc: Thierry Reding <treding@nvidia.com>
->> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Cc: linux-tegra@vger.kernel.org
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/tegra/output.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> Do you want to apply this or should I? In the former case:
->
-> Acked-by: Thierry Reding <treding@nvidia.com>
+From: Fabio Estevam <festevam@denx.de>
 
-Thanks, pushed to drm-misc-next.
+i.MX28 has an RX DMA channel associated with the LCDIF controller.
 
-BR,
-Jani.
+Document the 'dmas' and 'dma-names' properties to fix the following
+dt-schema warnings:
 
+lcdif@80030000: 'dma-names', 'dmas' do not match any of the regexes: 'pinctrl-[0-9]+'
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ .../bindings/display/fsl,lcdif.yaml           | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index 0681fc49aa1b..dd462abd61f8 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -50,6 +50,14 @@ properties:
+       - const: disp_axi
+     minItems: 1
+ 
++  dmas:
++    items:
++      - description: DMA specifier for the RX DMA channel.
++
++  dma-names:
++    items:
++      - const: rx
++
+   interrupts:
+     items:
+       - description: LCDIF DMA interrupt
+@@ -156,6 +164,17 @@ allOf:
+         interrupts:
+           maxItems: 1
+ 
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              enum:
++                - fsl,imx28-lcdif
++    then:
++      properties:
++        dmas: false
++        dma-names: false
+ examples:
+   - |
+     #include <dt-bindings/clock/imx6sx-clock.h>
 -- 
-Jani Nikula, Intel
+2.34.1
+
