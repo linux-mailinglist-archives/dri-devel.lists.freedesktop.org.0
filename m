@@ -2,65 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5401F96948C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 09:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23115969591
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 09:32:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D1610E3F1;
-	Tue,  3 Sep 2024 07:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B580110E40F;
+	Tue,  3 Sep 2024 07:32:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QvkfycTr";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HRYsh4zs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DA710E332;
- Tue,  3 Sep 2024 07:03:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725347039; x=1756883039;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=HDiRpwFLjtX5OFnt4wRwVKdwCf9ddRZFjct2YLor6FI=;
- b=QvkfycTruKZwrA3rb2sG6rKJCPhSAMO3EzCGN8jRVF+R8TasGprLJduz
- BDDLAt+fum60HTnvOnmbYwI5mYILr+IE7fvoKXaiVOlGR3p1GYtzaIXq1
- RuHhxKWPzjTXU/s7Rb3AejlEXRIwjs/uN0+4mwH9gTbZ4DP+FrOgJkTUD
- 5TX1GDNIMtrScMWCwd4DpKfGDL+Og/XGuAMcf72G7cIZBpStuiaGkKBGs
- XOTAlyHMrk8YS9w0MO95BAcKahcs1q0aPqfDAFZnKNmQdBD5B7p/mnTiU
- xnldMrDqcGMuJenxzoHfSwJkMK8TG8eEDA7tKUeKs9c4b7dNS3t5H/I9O w==;
-X-CSE-ConnectionGUID: 3fwisBXzQ9m3tp3/gFMO8A==
-X-CSE-MsgGUID: hUDFUg5xRgqKs4539NmQjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="35318052"
-X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; d="scan'208";a="35318052"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 00:03:59 -0700
-X-CSE-ConnectionGUID: z6M1HZJ/Rjm7Lwa1gbpBtA==
-X-CSE-MsgGUID: 3BRoDhdhQG2RyxP5G4kQKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; d="scan'208";a="65539876"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 00:03:55 -0700
-Date: Tue, 3 Sep 2024 10:03:51 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-Cc: airlied@gmail.com, daniel@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
- anshuman.gupta@intel.com, bellekallu.rajkiran@intel.com,
- saikishore.konda@intel.com
-Subject: Re: [PATCH v3 3/3] drm/i915: Use device wedged event
-Message-ID: <Zta015-J31HRW3iM@black.fi.intel.com>
-References: <20240902074859.2992849-1-raag.jadav@intel.com>
- <20240902074859.2992849-4-raag.jadav@intel.com>
- <9011dfee-3f69-4d80-90e1-efffc6576740@linux.intel.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6D210E40F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 07:32:52 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-533488ffaddso6221733e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 00:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1725348770; x=1725953570; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=U7FqpAKPzV4buH+ZI1vofCGLlOfNoJm00tc4Xp0bqlQ=;
+ b=HRYsh4zsSOihXfMwdCnAdYgheM3DkTSbTS8x/VJBoRjGxJEy+YJXhRsLEtmGC++Gow
+ L43I3hnkp4fVZ0zIAHezUaA3jfVmY0SDo1TqZbB/tCxityj02tUyBEpij42OzVw4j6sU
+ U+1Em54IRgXBluHlMVcFuM7NOo0RA7KbNr/sIlyoyUSylYl6Lagi/vSv6tITFnRtAG7w
+ vIz1ITCIVp/nOXf9cCsiICrzPG/fPqXUsRZ86p3nAKys9t0lw+xeFEjCGuIEWSNAXRSf
+ tAk2vrxhcIA2KIkMJMDcj9/YA4coDJXc+Srx3sl7i1NG7dYuFxwc5oKj53z+Y00PxoHe
+ aN8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725348770; x=1725953570;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=U7FqpAKPzV4buH+ZI1vofCGLlOfNoJm00tc4Xp0bqlQ=;
+ b=MD2sE692k7nRkzct7dvGcz/qvpriDayyeZ+phDSG+aaukv8MejGsuppXJkpVtgnhzu
+ DCTqPFSOr8jaf56xHqmZ+vlv5vW4Y4KT0Kerqb23OaJqMEicQa0o9cEUEo0GySCkXJ6u
+ qFxTPVb8sHY9AE16h4Osfyx0rO+R98ptsLNqTFms5IuPcf6RYMfdSEFZJ1iUyun/2rPB
+ DtnxOcgzPvqFcviJLE4CVFrRx++MKbwKWIMEBCgW/Y8QMpelC1m6tlFBzrpbNELtrhbd
+ Xc+htgsk+Qh9Zk5VYBh3IadDY58rbDM72HCg46Ccf/dR40P4CCz73qAoWyZQQd7HPZzV
+ nbkA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUy5P7PMP3ih8CRvvRy0ydSNbdJzbshZBdYM6vYdV60eOmxHzRL5LJq0310Tjr3r0lX55FBXmXttYM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YygHVA7iIHNKhNUJcA/cv0mrp3Wy4l+IhFEgiO508J5oZd9EYdX
+ GoTsag+cphWhmgW5W3pB52UYSmOi8kw6ducaJuwIs0mtza6s3ILbgS5UkEL2TYmptIo047B94sI
+ tAttHfr5H/Wcnv1c3xw+qz+O8kKs6BWQOIuPNgQ==
+X-Google-Smtp-Source: AGHT+IHrFPfCS/BVC8UCkjCGmyI7i7/wfoGrPytiT60dSKpQkQEML/b4+Lrc3MCNMZfPCyT+5uqmLNbJH1mOjM56rKk=
+X-Received: by 2002:a05:6512:3b11:b0:52c:e054:4149 with SMTP id
+ 2adb3069b0e04-53546b052fdmr9233089e87.15.1725348770143; Tue, 03 Sep 2024
+ 00:32:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9011dfee-3f69-4d80-90e1-efffc6576740@linux.intel.com>
+References: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org>
+ <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-2-bdb05b4b5a2e@linaro.org>
+ <CAA8EJpp_LWmuN8CFuQEAME-O44_wJXUKsR1QwahuigzSss5Rqw@mail.gmail.com>
+In-Reply-To: <CAA8EJpp_LWmuN8CFuQEAME-O44_wJXUKsR1QwahuigzSss5Rqw@mail.gmail.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Tue, 3 Sep 2024 15:32:38 +0800
+Message-ID: <CABymUCPXDTCVeeC0s+1UyuqYF0XNW55qtOBV9--BOoSjAzVjkg@mail.gmail.com>
+Subject: Re: [PATCH 02/21] drm/msm/dsi: fix DSC width for the bonded DSI case
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,35 +87,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 02, 2024 at 02:22:21PM +0530, Aravind Iddamsetty wrote:
-> 
-> On 02/09/24 13:18, Raag Jadav wrote:
-> > Now that we have device wedged event supported by DRM core, make use
-> > of it. With this in place, userspace will be notified of wedged device
-> > on gt reset failure.
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B48=E6=
+=9C=8829=E6=97=A5=E5=91=A8=E5=9B=9B 18:54=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, 29 Aug 2024 at 13:19, Jun Nie <jun.nie@linaro.org> wrote:
 > >
-> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_reset.c | 2 ++
-> >  1 file changed, 2 insertions(+)
+> > From: Jonathan Marek <jonathan@marek.ca>
 > >
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> > index 735cd23a43c6..60d09ec536c4 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> > @@ -1409,6 +1409,8 @@ static void intel_gt_reset_global(struct intel_gt *gt,
-> >  
-> >  	if (!test_bit(I915_WEDGED, &gt->reset.flags))
-> >  		kobject_uevent_env(kobj, KOBJ_CHANGE, reset_done_event);
-> > +	else
-> > +		drm_dev_wedged(&gt->i915->drm);
-> >  }
-> rather than intel_gt_reset_global, __intel_get_set_wedged looks to be
-> an appropriate place where actually the device is declared wedged and
-> that would cover all call sites too.
+> > For the bonded DSI case, DSC pic_width and timing calculations should u=
+se
+> > the width of a single panel instead of the total combined width.
+>
+> What is a "single panel"? Please rephrase the commit message so that
+> it reads logically.
 
-Which is why it may be the appropriate place IMHO.
-We'd want to make sure the device is _really_ unrecoverable when we
-choose to send the event.
+Yeah, it is a bit confusing without the usage case explanation. "single DSI
+interface" shall be much better here. Because bonded-DSI can work with
+a single panel with 2 DSI, or with 2 panels with one DSI on each panel.
+>
+> >
+> > Bonded DSI can be used to drive a single panel having two input
+> > channels, or to drive two panels with a input channel on every panel th=
+at
+> > behave like single panel for display controller.
+>
+> Missing actual action. See Documentation/process/submitting-patches.rst
+>
+> >
+> > Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+>
+> As pointed out during internal review, missing Fixes tag. Any reason
+> for ignoring it?
 
-Raag
+Sorry, it is missed by mistaken. I am just more familiar with
+"Signed-off-by" than
+"Fixes:" tag, so not sensitive to Fixed tag and miss it when you
+mention it. Will
+add it.
