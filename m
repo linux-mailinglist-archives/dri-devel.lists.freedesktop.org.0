@@ -2,96 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4B296A732
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 21:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3FA96A741
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 21:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB2010E004;
-	Tue,  3 Sep 2024 19:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A19910E0C6;
+	Tue,  3 Sep 2024 19:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="P7Opjt2/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AR8qg2oU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F70710E004
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:17:18 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-374bd0da617so2283752f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 12:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1725391036; x=1725995836; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R6T06AftA0wCiWbApedCP3Ro7VogxMzOphjJxhAWhZw=;
- b=P7Opjt2/7VJ+ObW5C0fQ7hBtSVhkYqu5OxUJUtnN4l9icE9Yp7ZPaOhhuihkIm5K+w
- +aHY77XMGhNxCk4rmA1tvx5ylu3hVW01wShTq5kiu/bk5LEim9to5Xl2cpCNItcaYQDG
- WxXdYURBi7ZoY2aM06DorcrHOnKnfdgIsRvDY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725391036; x=1725995836;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R6T06AftA0wCiWbApedCP3Ro7VogxMzOphjJxhAWhZw=;
- b=ocTYFn7pb4VXpCpICpRXYjQf+C0wMDXHL3FLOo37bw+fngf8sXHHDEh6mNyUS7gORB
- nGgTA4IDOTIgGMZz5Y2Wpt1ulBRM48abpLjB0JcRdi+cAEZofMtxFy5vlcmZSpNAFojw
- IdTmWAwpaifNuD2rADYe1/8ip5sTTOPKK2W+dUhF1+TaFmSOodwmMhv4jg3HX2OdvK53
- 09TxYdcOlmb4fdbtJwj5tWTANDomvsMMoO1gKB2Cy28yu9RlqPIEuvULMleBwxNGqIe5
- EfLNoA46532SvA1Op4wAtXBQfQKLKJvRiR3cap3EhezZA3/S8b9nTGoElK67IRrQ9eFB
- qIJQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqlEBz7VMvs+ynA0x3bONJOy+2Vt50zGDLX+BhU27PYnIkPA4O9Ip0YegBELfomPa51VXdGKSEydQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnZsOpm1PX+6cOrRJYfzzm6Xk1SOFfJtWMYp+5nls6xlEOgF9G
- XQJ/x+GTXesOPjTpcQPQL7nVHXbFOwV5DKhjFiXzSelcLVIkHLcIQA0COpgOmO4=
-X-Google-Smtp-Source: AGHT+IEPVItEQiRYwvZ1W4Ri9nvG8UkJy35F6F5lNQFlIfpgGofSxQlP2yheVMZ/924fh+cyMdLjWg==
-X-Received: by 2002:a5d:55ca:0:b0:371:a60e:a821 with SMTP id
- ffacd0b85a97d-374bcfe5e16mr7048146f8f.38.1725391036300; 
- Tue, 03 Sep 2024 12:17:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42bb6df936dsm179511405e9.28.2024.09.03.12.17.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2024 12:17:15 -0700 (PDT)
-Date: Tue, 3 Sep 2024 21:17:13 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Mihail Atanassov <mihail.atanassov@arm.com>
-Cc: linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, Shashank Sharma <shashank.sharma@amd.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Akash Goel <akash.goel@arm.com>
-Subject: Re: [PATCH 6/8] drm/panthor: Implement XGS queues
-Message-ID: <ZtdguY2gELaMWuxk@phenom.ffwll.local>
-Mail-Followup-To: Mihail Atanassov <mihail.atanassov@arm.com>,
- linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Steven Price <steven.price@arm.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>,
- Akash Goel <akash.goel@arm.com>
-References: <20240828172605.19176-1-mihail.atanassov@arm.com>
- <20240828172605.19176-7-mihail.atanassov@arm.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB5010E0C6
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:19:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A4034A43DE3
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:19:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BA7DC4CECA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725391192;
+ bh=KqQE3iCy7S3bFdUawYBf51xOtDYqglawuE1j3xjb2Iw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=AR8qg2oUbWcbxrnqfbP00Cl27m7+NaU4Z4M9ALEjxqtVia6hg6EJvBRm1jXaOJNXf
+ N4xbYzgYjMdX2oBRva4ZYuiFAyCe07hF1JIY9eu4vrMKrDMLdI6R9BTRcNS9jj46HW
+ I1ik4iPkFxOis5/RgsnLihR4eVJ3Fo8SKP/JxMZiA6F80yoDGdam5ZWH0NWsXOPtt4
+ Vz1iLnjW2FoE3a+uIWtpD9SqYIdzHo983xlYPEqzcECXxJDBkGSXCzR1LmxH9PNp+D
+ zenkQCdRpbMEBJyWcSBOfw1/pKnBihUJ8njwiyHPTskyBpSyxX/64XJ0fbQ+Bb2jkV
+ rIw/ZavbuIPUw==
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-533488ffaddso7088144e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 12:19:52 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzHGR/gyL30jzTUNcuEk28dTTYJKgyTxPEDKdr4Ke9xG3bOR6Vm
+ DdGYUdLLTMQ0cDNYe/9FdlQ0IYbsxO/jNv9Jz+rKl24ktgkzZ5g5QqqfZ2ThZRM523/rJnUCUnr
+ 4m2aKVDrbq9TJnkkU/fSrAeAISA==
+X-Google-Smtp-Source: AGHT+IGu8zU7mK4faIuJr3BtHKdZbZYxXscd1afke7A7tMmPBPXatjZnrJ1uoa5WM9CxkZQJTeBZA3Q0dpVPjkk8DtQ=
+X-Received: by 2002:a05:6512:3c81:b0:52c:e012:efad with SMTP id
+ 2adb3069b0e04-53546af9ffdmr10588452e87.12.1725391190502; Tue, 03 Sep 2024
+ 12:19:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240828172605.19176-7-mihail.atanassov@arm.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+References: <20240731191312.1710417-12-robh@kernel.org>
+In-Reply-To: <20240731191312.1710417-12-robh@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 3 Sep 2024 14:19:38 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKvA0Uw7uqpmdMP7Z4mL3Qsmay5Fqb4M97s=QsBW_Nxyg@mail.gmail.com>
+Message-ID: <CAL_JsqKvA0Uw7uqpmdMP7Z4mL3Qsmay5Fqb4M97s=QsBW_Nxyg@mail.gmail.com>
+Subject: Re: [PATCH] drm: vc4: Use of_property_present()
+To: Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,35 +72,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 28, 2024 at 06:26:02PM +0100, Mihail Atanassov wrote:
-> +int panthor_xgs_queue_create(struct panthor_file *pfile, u32 vm_id,
-> +			     int eventfd_sync_update, u32 *handle)
-> +{
-> +	struct panthor_device *ptdev = pfile->ptdev;
-> +	struct panthor_xgs_queue_pool *xgs_queue_pool = pfile->xgs_queues;
-> +	struct panthor_xgs_queue *queue;
-> +	struct drm_gpu_scheduler *drm_sched;
-> +	int ret;
-> +	int qid;
-> +
-> +	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-> +	if (!queue)
-> +		return -ENOMEM;
-> +
-> +	kref_init(&queue->refcount);
-> +	INIT_LIST_HEAD(&queue->fence_ctx.in_flight_jobs);
-> +	INIT_WORK(&queue->release_work, xgs_queue_release_work);
-> +	queue->ptdev = ptdev;
-> +
-> +	ret = drmm_mutex_init(&ptdev->base, &queue->lock);
+On Wed, Jul 31, 2024 at 2:13=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org>=
+ wrote:
+>
+> Use of_property_present() to test for property presence rather than
+> of_find_property(). This is part of a larger effort to remove callers
+> of of_find_property() and similar functions. of_find_property() leaks
+> the DT struct property and data pointers which is a problem for
+> dynamically allocated nodes which may be freed.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-This is guaranteed buggy, because you kzalloc queue, with it's own
-refcount, but then tie the mutex cleanup to the entirely different
-lifetime of the drm_device.
+Ping!
 
-Just spotted this while reading around.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
+i.c
+> index d57c4a5948c8..049de06460d5 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -2211,7 +2211,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4=
+_hdmi)
+>         struct device *dev =3D &vc4_hdmi->pdev->dev;
+>         struct platform_device *codec_pdev;
+>         const __be32 *addr;
+> -       int index, len;
+> +       int index;
+>         int ret;
+>
+>         /*
+> @@ -2234,7 +2234,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4=
+_hdmi)
+>         BUILD_BUG_ON(offsetof(struct vc4_hdmi_audio, card) !=3D 0);
+>         BUILD_BUG_ON(offsetof(struct vc4_hdmi, audio) !=3D 0);
+>
+> -       if (!of_find_property(dev->of_node, "dmas", &len) || !len) {
+> +       if (!of_property_present(dev->of_node, "dmas")) {
+>                 dev_warn(dev,
+>                          "'dmas' DT property is missing or empty, no HDMI=
+ audio\n");
+>                 return 0;
+> --
+> 2.43.0
+>
