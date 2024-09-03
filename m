@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B609B969978
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 11:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7DB9699AD
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 12:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D31610E45E;
-	Tue,  3 Sep 2024 09:48:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nyJ+s81v";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 990F710E19B;
+	Tue,  3 Sep 2024 10:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5503F10E45C;
- Tue,  3 Sep 2024 09:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725356896; x=1756892896;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=NBEA+5Xbs+w9yXVUhN/oHPKwM/zEJa8t1XPXCr+9sZw=;
- b=nyJ+s81vErveF+lKUhv7S3scl7hr1/XyKVNH+8BYbZ7KZn1xgZq19PUx
- P2bB8g6r3xjoQNY8vr2fMOQRUvyrr9V2TmwiTsQtnve5GwaPQN+8luTFi
- HlCvYxXoBvxpa/rou1OSd9B3kp0FATjSxaed6Ar71eyQNfbe3ugbwfBwt
- Kal2iygCMwJXGlIkk+Q3K9NsxuXpPmnE45EbXooIvKPoT/UqqnOvlDwvp
- vdWC96oppzvtD8pRS/itmDjSxUSnXmwa7Go/cz6w8G52ZO0DMhJqui57+
- CwOVEHr9KuwwHJwD5ZW0NPu8S9qWplb7lTtinwKAFiNBiEBFEQ6ABh9hG g==;
-X-CSE-ConnectionGUID: ROYv6ZxERtuvXpUyrdiK2A==
-X-CSE-MsgGUID: tQ0DSjxVQj6LYyZ+zbpVEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="24096947"
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="24096947"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 02:48:15 -0700
-X-CSE-ConnectionGUID: S70p9nmiQBWITSk3Eu7TJA==
-X-CSE-MsgGUID: tSMjl+/MRpSmRN3aHpGjDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; d="scan'208";a="88097312"
-Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
- fedora..) ([10.245.244.199])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2024 02:48:14 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/ttm: Move pinned objects off LRU lists when pinning
-Date: Tue,  3 Sep 2024 11:47:53 +0200
-Message-ID: <20240903094753.169449-3-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240903094753.169449-1-thomas.hellstrom@linux.intel.com>
-References: <20240903094753.169449-1-thomas.hellstrom@linux.intel.com>
+X-Greylist: delayed 576 seconds by postgrey-1.36 at gabe;
+ Tue, 03 Sep 2024 10:00:15 UTC
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6085210E148
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 10:00:15 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 1ECA03E996;
+ Tue,  3 Sep 2024 11:50:36 +0200 (CEST)
+Date: Tue, 3 Sep 2024 11:50:34 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [PATCH 02/21] drm/msm/dsi: fix DSC width for the bonded DSI case
+Message-ID: <rspuwp3zpnzwfe26hv2yezy5ad5o7wliq7ucpobyaheytvcs3j@qtshf6cewb2f>
+References: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org>
+ <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-2-bdb05b4b5a2e@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-2-bdb05b4b5a2e@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,54 +57,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ttm_bo_pin() and ttm_bo_unpin() functions weren't moving their
-resources off the LRU list to the unevictable list.
+On 2024-08-29 18:17:31, Jun Nie wrote:
+> From: Jonathan Marek <jonathan@marek.ca>
+> 
+> For the bonded DSI case, DSC pic_width and timing calculations should use
+> the width of a single panel instead of the total combined width.
 
-Make sure that happens so that pinned objects don't accidently linger
-on the LRU lists, and also make sure to move them back once they
-are unpinned.
+When this patch was originally proposed we already discussed [1] that this is
+**not** universally true.  On my hardware a single bonded panel always receives
+the full width, at least on downstream kernels, and it works [2].
 
-v2:
-- Removing from a bulk move must be done with the pin-count still zero.
+[1]: https://lore.kernel.org/linux-arm-msm/eanx45rnasj7lu3r2tfhtg4qkqkcidd6zctsz6ci6jlklu4fgi@3nf73w2ka4li/T/#u
+[2]: https://gitlab.freedesktop.org/drm/msm/-/issues/41
 
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com> #v1
----
- drivers/gpu/drm/ttm/ttm_bo.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Can we please figure this out before landing this patch?
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index ae29915c52c0..38c99acbda76 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -592,8 +592,10 @@ void ttm_bo_pin(struct ttm_buffer_object *bo)
- 	dma_resv_assert_held(bo->base.resv);
- 	WARN_ON_ONCE(!kref_read(&bo->kref));
- 	spin_lock(&bo->bdev->lru_lock);
--	if (bo->resource)
-+	if (bo->resource) {
- 		ttm_resource_del_bulk_move(bo->resource, bo);
-+		ttm_resource_move_to_lru_tail(bo->resource);
-+	}
- 	++bo->pin_count;
- 	spin_unlock(&bo->bdev->lru_lock);
- }
-@@ -613,9 +615,10 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo)
- 		return;
- 
- 	spin_lock(&bo->bdev->lru_lock);
--	--bo->pin_count;
--	if (bo->resource)
-+	if (!--bo->pin_count && bo->resource) {
- 		ttm_resource_add_bulk_move(bo->resource, bo);
-+		ttm_resource_move_to_lru_tail(bo->resource);
-+	}
- 	spin_unlock(&bo->bdev->lru_lock);
- }
- EXPORT_SYMBOL(ttm_bo_unpin);
--- 
-2.46.0
+- Marijn
 
+> Bonded DSI can be used to drive a single panel having two input
+> channels, or to drive two panels with a input channel on every panel that
+> behave like single panel for display controller.
+> 
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi.h         | 3 ++-
+>  drivers/gpu/drm/msm/dsi/dsi_host.c    | 6 +++++-
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 +-
+>  3 files changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+> index 87496db203d6c..35b90c462f637 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -79,7 +79,8 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+>  int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+>  				  const struct drm_display_mode *mode);
+>  enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+> -					    const struct drm_display_mode *mode);
+> +					    const struct drm_display_mode *mode,
+> +					    bool is_bonded_dsi);
+>  unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host);
+>  int msm_dsi_host_register(struct mipi_dsi_host *host);
+>  void msm_dsi_host_unregister(struct mipi_dsi_host *host);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 6388bb12696ff..7a4d9c071be5a 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -2489,7 +2489,8 @@ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+>  }
+>  
+>  enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+> -					    const struct drm_display_mode *mode)
+> +					    const struct drm_display_mode *mode,
+> +					    bool is_bonded_dsi)
+>  {
+>  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>  	struct drm_dsc_config *dsc = msm_host->dsc;
+> @@ -2499,6 +2500,9 @@ enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+>  	if (!msm_host->dsc)
+>  		return MODE_OK;
+>  
+> +	if (is_bonded_dsi)
+> +		pic_width = mode->hdisplay / 2;
+> +
+>  	if (pic_width % dsc->slice_width) {
+>  		pr_err("DSI: pic_width %d has to be multiple of slice %d\n",
+>  		       pic_width, dsc->slice_width);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index a210b7c9e5ca2..6e915b57e14bb 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -420,7 +420,7 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+>  			return MODE_ERROR;
+>  	}
+>  
+> -	return msm_dsi_host_check_dsc(host, mode);
+> +	return msm_dsi_host_check_dsc(host, mode, IS_BONDED_DSI());
+>  }
+>  
+>  static int dsi_mgr_bridge_attach(struct drm_bridge *bridge,
+> 
+> -- 
+> 2.34.1
+> 
