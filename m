@@ -2,100 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36D296A9CB
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 23:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B081A96A9E5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 23:19:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE7410E5B4;
-	Tue,  3 Sep 2024 21:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21BBA10E5F0;
+	Tue,  3 Sep 2024 21:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="BOx1kafY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SLHdWKFK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54A310E5B4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 21:11:35 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-374c5bab490so31498f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 14:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1725397894; x=1726002694; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8YgAUS2Ry5Qk+wWPJPy+cWmdjbMTWXvNp2C7CLDuQik=;
- b=BOx1kafYUUekKQW1EP3flKtwbI6JzcYrRbQydSRNU6dt5ypnuD3Y5Lsm1VilTH2sOd
- m1jfURpZqV0ajRNfipLWsCuJPSZSOVnEPVunx9hg1jfBOwurvyWkVJHxDVSXf0GpWjuS
- wT8OE/8gpAOvMMtS5qZqDBc8NqsAkYHwhp21I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725397894; x=1726002694;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8YgAUS2Ry5Qk+wWPJPy+cWmdjbMTWXvNp2C7CLDuQik=;
- b=orb8so6XXcXB9cb8iETvSZW7UUasRhC5V/dn3h68CrrhBFFn1nUB2OiD1e/vdw+m9b
- gSg0teoU9eR0mHqj/Sl14OOocruJRAMDotaHPZFOmSCHCB6oOe8hdmCQg2ZFLwkPeX3I
- NiSZsfpmqAEADjju9pQpaLjXuuTTdqz1nVH/lsD+d+gxIJPW1DCLTfgQQoQDsfO4FTix
- 59aolmG0zWbzx+t0bGTO4NXl2341QKonq6IS/DxTYhEMgy31M9jajEv8e2H10GUqmbYK
- yjXjBCAgjSOJ69hC4Mfw8D236mg/Foei6q35jnxMfnX7Zq10mkMlXtouLlbXACtpYDOt
- pGrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5ZBEHI4oIphLMYKDeFDHLSV2t49MA2GNscXTzzlV1kfh4a8R6jbSvyxYmVG4wrW3CK8yYVnSZCsw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGTvAl6QSwBJxbTUrO8LYUc2g6xaNRGJc1i1ZjK7dHQAI7yu/9
- bRTfV/NYFSHl39BQKyCk9BdGIIXOf3eoMN3XQIT34oCXE9387iYDRUbCP4E1uqY=
-X-Google-Smtp-Source: AGHT+IGTAmkFpaLIX21kpLx9BQXwTM1hqlVv5C+ltwv+zwHAusBxHFX4IUm4ArGw6G3xCPOuhsZ0Gw==
-X-Received: by 2002:adf:b31a:0:b0:374:c618:7fd2 with SMTP id
- ffacd0b85a97d-374c6188127mr6317040f8f.8.1725397893741; 
- Tue, 03 Sep 2024 14:11:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-374c39eacdfsm8993826f8f.42.2024.09.03.14.11.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2024 14:11:33 -0700 (PDT)
-Date: Tue, 3 Sep 2024 23:11:31 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Steven Price <steven.price@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Akash Goel <akash.goel@arm.com>
-Subject: Re: [RFC PATCH 00/10] drm/panthor: Add user submission
-Message-ID: <Ztd7g4Q8V9lFZ53R@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Steven Price <steven.price@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>,
- Akash Goel <akash.goel@arm.com>
-References: <20240828172605.19176-1-mihail.atanassov@arm.com>
- <c64be651-2f40-4535-a537-b8304e6556ce@amd.com>
- <a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com>
- <96ef7ae3-4df1-4859-8672-453055bbfe96@amd.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B6E10E5F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 21:19:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1F22E5C47E6;
+ Tue,  3 Sep 2024 21:19:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4E98C4CEC4;
+ Tue,  3 Sep 2024 21:19:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725398392;
+ bh=3xUDvUxu+fBoSxRhosQcCb3KMN9DYF5vVl9RMgG5t/U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=SLHdWKFKnN33srU90NZWM34zNUiyvQJlC9s0PCH4X0yJNg+V1GzZ8kErkloQvWmMk
+ Rt0nxKIjpzeFg+lQlR+EoJlYpiupKyhq08r1qj0X+VJ7OID+wMpQSebpgEKaOUG+EZ
+ 02ahgJ4iTdQn5gBAl6IDoGCp50K9nOpTIX7SeMxKNOQHAL9XfJW6886BBt08oexX0c
+ dVjdSTw1+ElQNSjSj13jWDXlRXdrTvVENk1A3+SXNUO6xjbdvt6TywYipI1MWMicXt
+ uhvCBhX3kD79ci5RPR7NY9V4+t4qRZLD4wYCKzMhFLuADTklRMBcHeIGf6fa2f7rNk
+ +/Zkg1NOL6DPg==
+Date: Tue, 3 Sep 2024 14:19:48 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, "=?UTF-8?B?QmrDtnJuIFTDtnBl?=
+ =?UTF-8?B?bA==?=" <bjorn@kernel.org>, Magnus Karlsson
+ <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v24 06/13] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240903141948.269e22bb@kernel.org>
+In-Reply-To: <20240831004313.3713467-7-almasrymina@google.com>
+References: <20240831004313.3713467-1-almasrymina@google.com>
+ <20240831004313.3713467-7-almasrymina@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <96ef7ae3-4df1-4859-8672-453055bbfe96@amd.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,192 +92,298 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 03, 2024 at 03:46:43PM +0200, Christian König wrote:
-> Hi Steven,
-> 
-> Am 29.08.24 um 15:37 schrieb Steven Price:
-> > Hi Christian,
-> > 
-> > Mihail should be able to give more definitive answers, but I think I can
-> > answer your questions.
-> > 
-> > On 29/08/2024 10:40, Christian König wrote:
-> > > Am 28.08.24 um 19:25 schrieb Mihail Atanassov:
-> > > > Hello all,
-> > > > 
-> > > > This series implements a mechanism to expose Mali CSF GPUs' queue
-> > > > ringbuffers directly to userspace, along with paraphernalia to allow
-> > > > userspace to control job synchronisation between the CPU and GPU.
-> > > > 
-> > > > The goal of these changes is to allow userspace to control work
-> > > > submission to the FW/HW directly without kernel intervention in the
-> > > > common case, thereby reducing context switching overhead. It also allows
-> > > > for greater flexibility in the way work is enqueued in the ringbufs.
-> > > > For example, the current kernel submit path only supports indirect
-> > > > calls, which is inefficient for small command buffers. Userspace can
-> > > > also skip unnecessary sync operations.
-> > > Question is how do you guarantee forward progress for fence signaling?
-> > A timeout. Although looking at it I think it's probably set too high
-> > currently:
-> > 
-> > > +#define JOB_TIMEOUT_MS				5000
-> > But basically the XGS queue is a DRM scheduler just like a normal GPU
-> > queue and the jobs have a timeout. If the timeout is hit then any fences
-> > will be signalled (with an error).
-> 
-> Mhm, that is unfortunately exactly what I feared.
-> 
-> > > E.g. when are fences created and published? How do they signal?
-> > > 
-> > > How are dependencies handled? How can the kernel suspend an userspace
-> > > queue?
-> > The actual userspace queue can be suspended. This is actually a
-> > combination of firmware and kernel driver, and this functionality is
-> > already present without the user submission. The firmware will multiplex
-> > multiple 'groups' onto the hardware, and if there are too many for the
-> > firmware then the kernel multiplexes the extra groups onto the ones the
-> > firmware supports.
-> 
-> How do you guarantee forward progress and that resuming of suspended queues
-> doesn't end up in a circle dependency?
-> 
-> > I haven't studied Mihail's series in detail yet, but if I understand
-> > correctly, the XGS queues are handled separately and are not suspended
-> > when the hardware queues are suspended. I guess this might be an area
-> > for improvement and might explain the currently very high timeout (to
-> > deal with the case where the actual GPU work has been suspended).
-> > 
-> > > How does memory management work in this case?
-> > I'm not entirely sure what you mean here. If you are referring to the
-> > potential memory issues with signalling path then this should be handled
-> > by the timeout - although I haven't studied the code to check for bugs here.
-> 
-> You might have misunderstood my question (and I might misunderstand the
-> code), but on first glance it strongly sounds like the current approach will
-> be NAKed.
-> 
-> > The actual new XGS queues don't allocate/free memory during the queue
-> > execution - so it's just the memory usage related to fences (and the
-> > other work which could be blocked on the fence).
-> 
-> But the kernel and the hardware could suspend the queues, right?
-> 
-> > In terms of memory management for the GPU work itself, this is handled
-> > the same as before. The VM_BIND mechanism allows dependencies to be
-> > created between syncobjs and VM operations, with XGS these can then be
-> > tied to GPU HW events.
-> 
-> I don't know the details, but that again strongly sounds like that won't
-> work.
-> 
-> What you need is to somehow guarantee that work doesn't run into memory
-> management deadlocks which are resolved by timeouts.
-> 
-> Please read up here on why that stuff isn't allowed: https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefinite-dma-fences
+On Sat, 31 Aug 2024 00:43:06 +0000 Mina Almasry wrote:
+> diff --git a/include/net/mp_dmabuf_devmem.h b/include/net/mp_dmabuf_devmem.h
+> new file mode 100644
+> index 000000000000..6d1cf2a77f6b
+> --- /dev/null
+> +++ b/include/net/mp_dmabuf_devmem.h
 
-panthor doesn't yet have a shrinker, so all memory is pinned, which means
-memory management easy mode.
+this header can live under net/core/ like netmem_priv.h right?
+devmem internals should be of no interest outside of core networking.
 
-But also this means there might be an uapi design bug in here, and we
-really don't want to commit to that. My stance is that panthor should gain
-a proper shrinker first, which means there will be some changes here too.
-And then we can properly evaluate this. As-is it's a bit too much on the
-toy end of things.
+In fact the same is true for include/net/devmem.h ?
 
-That aside, I've thought this all through with tons of people, and I do
-think it's all possible.
--Sima
+Sorry for pushing back on all the header exports, we have had bad
+experiences with people treating anything under include/ as public 
+API for any subsystem to use..
 
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > 
-> > Fundamentally (modulo bugs) there is little change compared to kernel
-> > submission - it's already fairly trivial to write GPU job which will
-> > make no forward progress (a 'while (1)' equivalent job). The only
-> > difference here is that XGS makes this 'easy' and doesn't involve the
-> > GPU spinning. Either way we rely on a timeout to recover from these
-> > situations.
-> > 
-> > Thanks,
-> > Steve
-> > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > This is still a work-in-progress, there's an outstanding issue with
-> > > > multiple processes using different submission flows triggering
-> > > > scheduling bugs (e.g. the same group getting scheduled twice), but we'd
-> > > > love to gather some feedback on the suitability of the approach in
-> > > > general and see if there's a clear path to merging something like this
-> > > > eventually.
-> > > > 
-> > > > I've also CCd AMD maintainers because they have in the past done
-> > > > something similar[1], in case they want to chime in.
-> > > > 
-> > > > There are two uses of this new uAPI in Mesa, one in gallium/panfrost
-> > > > (link TBD), and one in panvk [2].
-> > > > 
-> > > > The Gallium implementation is a naïve change just to switch the
-> > > > submission model and exercise the new kernel code, and we don't plan
-> > > > on pursuing this at this time.
-> > > > 
-> > > > The panvk driver changes are, however, a better representation of the
-> > > > intent behind this new uAPI, so please consider that as the reference
-> > > > userspace. It is still very much also a work in progress.
-> > > > 
-> > > >    * patch 1 adds all the uAPI changes;
-> > > >    * patch 2 implements the GROUP_CREATE ioctl changes necessary to expose
-> > > >      the required objects to userspace;
-> > > >    * patch 3 maps the doorbell pages, similarly to how the user I/O
-> > > > page is
-> > > >      mapped;
-> > > >    * patch 4 implements GROUP_KICK, which lets userspace request an
-> > > >      inactive group to be scheduled on the GPU;
-> > > >    * patches 5 & 6 implement XGS queues, a way for userspace to
-> > > >      synchronise GPU queue progress with DRM syncobjs;
-> > > >    * patches 7 & 8 add notification mechanisms for user & kernel to signal
-> > > >      changes to native GPU syncobjs.
-> > > > 
-> > > > [1]
-> > > > https://lore.kernel.org/amd-gfx/CADnq5_N61q_o+5WYUZsZ=qu7VmeXTFHQSxLwTco05gLzHaiswA@mail.gmail.com/t/#m116a36a598d8fad1329e053974ad37a4dc0f28ed
-> > > > [2]
-> > > > https://gitlab.freedesktop.org/larsivsi/mesa/-/commits/panvk-v10-usersubmit?ref_type=heads
-> > > > 
-> > > > Ketil Johnsen (7):
-> > > >     drm/panthor: Add uAPI to submit from user space
-> > > >     drm/panthor: Extend GROUP_CREATE for user submission
-> > > >     drm/panthor: Map doorbell pages
-> > > >     drm/panthor: Add GROUP_KICK ioctl
-> > > >     drm/panthor: Factor out syncobj handling
-> > > >     drm/panthor: Implement XGS queues
-> > > >     drm/panthor: Add SYNC_UPDATE ioctl
-> > > > 
-> > > > Mihail Atanassov (1):
-> > > >     drm/panthor: Add sync_update eventfd handling
-> > > > 
-> > > >    drivers/gpu/drm/panthor/Makefile          |   4 +-
-> > > >    drivers/gpu/drm/panthor/panthor_device.c  |  66 ++-
-> > > >    drivers/gpu/drm/panthor/panthor_device.h  |  35 +-
-> > > >    drivers/gpu/drm/panthor/panthor_drv.c     | 233 +++++++-
-> > > >    drivers/gpu/drm/panthor/panthor_fw.c      |   2 +-
-> > > >    drivers/gpu/drm/panthor/panthor_sched.c   | 408 +++++++++-----
-> > > >    drivers/gpu/drm/panthor/panthor_sched.h   |   8 +-
-> > > >    drivers/gpu/drm/panthor/panthor_syncobj.c | 167 ++++++
-> > > >    drivers/gpu/drm/panthor/panthor_syncobj.h |  27 +
-> > > >    drivers/gpu/drm/panthor/panthor_xgs.c     | 638 ++++++++++++++++++++++
-> > > >    drivers/gpu/drm/panthor/panthor_xgs.h     |  42 ++
-> > > >    include/uapi/drm/panthor_drm.h            | 243 +++++++-
-> > > >    12 files changed, 1696 insertions(+), 177 deletions(-)
-> > > >    create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.c
-> > > >    create mode 100644 drivers/gpu/drm/panthor/panthor_syncobj.h
-> > > >    create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.c
-> > > >    create mode 100644 drivers/gpu/drm/panthor/panthor_xgs.h
-> > > > 
+> @@ -0,0 +1,44 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Dmabuf device memory provider.
+> + *
+> + * Authors:	Mina Almasry <almasrymina@google.com>
+> + *
+> + */
+> +#ifndef _NET_MP_DMABUF_DEVMEM_H
+> +#define _NET_MP_DMABUF_DEVMEM_H
+> +
+> +#include <net/netmem.h>
+> +
+> +#if defined(CONFIG_NET_DEVMEM)
+> +int mp_dmabuf_devmem_init(struct page_pool *pool);
+> +
+> +netmem_ref mp_dmabuf_devmem_alloc_netmems(struct page_pool *pool, gfp_t gfp);
+> +
+> +void mp_dmabuf_devmem_destroy(struct page_pool *pool);
+> +
+> +bool mp_dmabuf_devmem_release_page(struct page_pool *pool, netmem_ref netmem);
+> +#else
+> +static inline int mp_dmabuf_devmem_init(struct page_pool *pool)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline netmem_ref mp_dmabuf_devmem_alloc_netmems(struct page_pool *pool,
+> +							gfp_t gfp)
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Please break the lines after the return type if the line gets long:
+
+static inline netmem_ref 
+mp_dmabuf_devmem_alloc_netmems(struct page_pool *pool, gfp_t gfp)
+
+Please fix where you can (at least where it cases going over 80 chars)
+
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void mp_dmabuf_devmem_destroy(struct page_pool *pool)
+> +{
+> +}
+> +
+> +static inline bool mp_dmabuf_devmem_release_page(struct page_pool *pool,
+> +						 netmem_ref netmem)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+> +#endif /* _NET_MP_DMABUF_DEVMEM_H */
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index ac6c7945117b..61400d4b0d66 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -8,6 +8,7 @@
+>  #ifndef _NET_NETMEM_H
+>  #define _NET_NETMEM_H
+>  
+> +#include <linux/mm.h>
+>  #include <net/devmem.h>
+>  #include <net/net_debug.h>
+>  
+> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
+> index 4afd6dd56351..1b4698710f25 100644
+> --- a/include/net/page_pool/types.h
+> +++ b/include/net/page_pool/types.h
+> @@ -20,8 +20,17 @@
+>  					* device driver responsibility
+>  					*/
+>  #define PP_FLAG_SYSTEM_POOL	BIT(2) /* Global system page_pool */
+> +#define PP_FLAG_ALLOW_UNREADABLE_NETMEM	BIT(3) /* Allow unreadable (net_iov
+> +						* backed) netmem in this
+> +						* page_pool. Drivers setting
+> +						* this must be able to support
+> +						* unreadable netmem, where
+> +						* netmem_address() would return
+> +						* NULL. This flag should not be
+> +						* set for header page_pools.
+> +						*/
+
+Maybe move the comment before the define:
+
+/* Allow unreadable (net_iov backed) netmem in this page_pool. Drivers
+setting
+ * this must be able to support unreadable netmem, where netmem_address() would 
+ * return NULL. This flag should not be set for header page_pools.
+ */
+#define PP_FLAG_ALLOW_UNREADABLE_NETMEM	BIT(3)
+
+? up to you.
+
+>  #define PP_FLAG_ALL		(PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV | \
+> -				 PP_FLAG_SYSTEM_POOL)
+> +				 PP_FLAG_SYSTEM_POOL | PP_FLAG_ALLOW_UNREADABLE_NETMEM)
+>  
+>  /*
+>   * Fast allocation side cache array/stack
+> @@ -57,7 +66,9 @@ struct pp_alloc_cache {
+>   * @offset:	DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
+>   * @slow:	params with slowpath access only (initialization and Netlink)
+>   * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
+> - * @flags:	PP_FLAG_DMA_MAP, PP_FLAG_DMA_SYNC_DEV, PP_FLAG_SYSTEM_POOL
+> + * @queue:	struct netdev_rx_queue this page_pool is being created for.
+> + * @flags:	PP_FLAG_DMA_MAP, PP_FLAG_DMA_SYNC_DEV, PP_FLAG_SYSTEM_POOL,
+> + *		PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+>   */
+>  struct page_pool_params {
+>  	struct_group_tagged(page_pool_params_fast, fast,
+> @@ -72,6 +83,7 @@ struct page_pool_params {
+>  	);
+>  	struct_group_tagged(page_pool_params_slow, slow,
+>  		struct net_device *netdev;
+> +		struct netdev_rx_queue *queue;
+
+Why set a pointer? It should work but drivers don't usually deal with
+netdev_rx_queue struct directly. struct xdp_rxq_info takes an integer
+queue id, and it serves a somewhat similar function.
+
+Keep in mind that there will be more drivers than core code, so
+convenience for them matters more.
+
+>  		unsigned int	flags;
+>  /* private: used by test code only */
+>  		void (*init_callback)(netmem_ref netmem, void *arg);
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index 727e5ee39f30..c8c112360caa 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/netdevice.h>
+>  #include <linux/types.h>
+>  #include <net/devmem.h>
+> +#include <net/mp_dmabuf_devmem.h>
+>  #include <net/netdev_queues.h>
+>  #include <net/netdev_rx_queue.h>
+>  #include <net/page_pool/helpers.h>
+> @@ -320,3 +321,68 @@ void dev_dmabuf_uninstall(struct net_device *dev)
+>  			}
+>  	}
+>  }
+> +
+> +/*** "Dmabuf devmem memory provider" ***/
+> +
+> +int mp_dmabuf_devmem_init(struct page_pool *pool)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
+> +
+> +	if (!binding)
+> +		return -EINVAL;
+> +
+> +	if (!pool->dma_map)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (pool->dma_sync)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (pool->p.order != 0)
+> +		return -E2BIG;
+> +
+> +	net_devmem_dmabuf_binding_get(binding);
+> +	return 0;
+> +}
+> +
+> +netmem_ref mp_dmabuf_devmem_alloc_netmems(struct page_pool *pool, gfp_t gfp)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
+> +	netmem_ref netmem;
+> +	struct net_iov *niov;
+
+nit: reverse xmas tree
+
+> +	niov = net_devmem_alloc_dmabuf(binding);
+> +	if (!niov)
+> +		return 0;
+> +
+> +	netmem = net_iov_to_netmem(niov);
+> +
+> +	page_pool_set_pp_info(pool, netmem);
+> +
+> +	pool->pages_state_hold_cnt++;
+> +	trace_page_pool_state_hold(pool, netmem, pool->pages_state_hold_cnt);
+> +	return netmem;
+> +}
+> +
+> +void mp_dmabuf_devmem_destroy(struct page_pool *pool)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
+> +
+> +	net_devmem_dmabuf_binding_put(binding);
+> +}
+> +
+> +bool mp_dmabuf_devmem_release_page(struct page_pool *pool, netmem_ref netmem)
+> +{
+> +	if (WARN_ON_ONCE(!netmem_is_net_iov(netmem)))
+> +		return false;
+> +
+> +	if (WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(netmem)) !=
+> +		     1))
+
+something needs factoring out here, to make this line shorter, please..
+either netmem -> net_iov conversion or at least reading of the ref
+count?
+
+> +		return false;
+> +
+> +	page_pool_clear_pp_info(netmem);
+> +
+> +	net_devmem_free_dmabuf(netmem_to_net_iov(netmem));
+> +
+> +	/* We don't want the page pool put_page()ing our net_iovs. */
+> +	return false;
+> +}
+> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
+> index da11720a5983..e217a5838c87 100644
+> --- a/net/core/netdev_rx_queue.c
+> +++ b/net/core/netdev_rx_queue.c
+> @@ -4,8 +4,11 @@
+>  #include <net/netdev_queues.h>
+>  #include <net/netdev_rx_queue.h>
+>  
+> +#include "page_pool_priv.h"
+> +
+>  int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
+>  {
+> +	struct netdev_rx_queue *rxq = __netif_get_rx_queue(dev, rxq_idx);
+>  	void *new_mem, *old_mem;
+>  	int err;
+>  
+> @@ -31,6 +34,10 @@ int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
+>  	if (err)
+>  		goto err_free_old_mem;
+>  
+> +	err = page_pool_check_memory_provider(dev, rxq);
+> +	if (err)
+> +		goto err_free_new_queue_mem;
+> +
+>  	err = dev->queue_mgmt_ops->ndo_queue_stop(dev, old_mem, rxq_idx);
+>  	if (err)
+>  		goto err_free_new_queue_mem;
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index 52659db2d765..6e24950f2be4 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -11,6 +11,8 @@
+>  #include <linux/slab.h>
+>  #include <linux/device.h>
+>  
+> +#include <net/mp_dmabuf_devmem.h>
+> +#include <net/netdev_rx_queue.h>
+>  #include <net/page_pool/helpers.h>
+>  #include <net/xdp.h>
+>  
+> @@ -190,6 +192,7 @@ static int page_pool_init(struct page_pool *pool,
+>  			  int cpuid)
+>  {
+>  	unsigned int ring_qsize = 1024; /* Default */
+> +	int err;
+>  
+>  	page_pool_struct_check();
+>  
+> @@ -271,7 +274,36 @@ static int page_pool_init(struct page_pool *pool,
+>  	if (pool->dma_map)
+>  		get_device(pool->p.dev);
+>  
+> +	if (pool->slow.queue &&
+> +	    pool->slow.flags & PP_FLAG_ALLOW_UNREADABLE_NETMEM) {
+> +		/* We rely on rtnl_lock()ing to make sure netdev_rx_queue
+> +		 * configuration doesn't change while we're initializing the
+
+nit: 'the' to next line
+
+> +		 * page_pool.
+> +		 */
+> +		ASSERT_RTNL();
+> +		pool->mp_priv = pool->slow.queue->mp_params.mp_priv;
+> +	}
