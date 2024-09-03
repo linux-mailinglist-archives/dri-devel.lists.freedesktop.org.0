@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5E496AC3F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 00:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4633B96AC7F
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 00:49:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B10410E0BD;
-	Tue,  3 Sep 2024 22:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5471C10E618;
+	Tue,  3 Sep 2024 22:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fF8gk6iV";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BWji1Kgt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF48010E0BD
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 22:35:45 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id
- af79cd13be357-7a966f0ac8aso178906885a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 15:35:45 -0700 (PDT)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7062910E618
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 22:49:24 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-45685a3b1d8so1193571cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 15:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725402944; x=1726007744;
+ d=chromium.org; s=google; t=1725403763; x=1726008563;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=Np+Q0wHOCgirMFjVPl8Z6i7/K3O+RkvC3vKi9xQ+BOA=;
- b=fF8gk6iVSFCJ5WOUWaSpP3guh6KCbbJ1aaU0lg7rVpP04n2dgR2gCDjw1bTTFmrGGs
- vVogkRu8SbIDtRKFtbWiKwvSUgQvp3KkZk48LLauh6yBiZ8zjrLPtcOI3a3PVactKRdx
- zctKBZeymR94ukB4r08b5qO7XRK8lzn3BvTac=
+ :reply-to; bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
+ b=BWji1KgtpkHdsfKx60hBlF2PLv4A61rdPp0hgdyPg0+joxZzT22gf5R/R8zvPU8biK
+ 863PQ/NSqdO0HfUtxooH9qcVtd72PhUACpkxvdayU3I5ZmVCfCJDuoGXz+/xHtaw9EEh
+ rNuYzl35QA60+TF8Bj5eNVhStLBqgdbn4kJhs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725402944; x=1726007744;
+ d=1e100.net; s=20230601; t=1725403763; x=1726008563;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Np+Q0wHOCgirMFjVPl8Z6i7/K3O+RkvC3vKi9xQ+BOA=;
- b=RS5426UC8OAg91XLPiZAl40Hix9yvC1sHt2tvBgolUhgatcLQMPVM52QQVRSj0evrt
- X0FrlGZt88y8g27v0zXTs3O5LZhh/U4+fSCbakzXYbK3WXLg1QvrcvIINWtRGn5xuPMH
- pqnXEdu8hFmthIWL+K6FFLJvbO+kCqLHBZzXwZPsd06Mf6f0BQb9Tt8mb/UrA6aLQAw9
- GOyJBwZ0IKO20MreXvidqQMCK15AnTMgiRfL8FwQwnaHCJXGqNSPLPn+n4U8S//imreZ
- aeiPL5KqRS2aoDAWIBmdikeOfTIpamiFk248DANzCfYp+wGzT1QqfP49DU33fKkDfpMi
- KkcA==
+ bh=uhkZOEeJ95CcasGDNkmg/phbGBaUk1oIC37JjrClemw=;
+ b=pXrY7IQQzy4fzL+byRUmwiewFUEsGCKj1S8A0swlG8c87p5aHmJ+IVSsH4CWqkCMeD
+ 4/ygrWzYiNL3vX20/dw0AEJmbBED5Q9ZtZw0Qle9tufkiWcDQXIpnXjmFNE0IgEaTz/G
+ NMSDwSTZrJfoM5GAhA9qANAi814arrkpwcW1U0GCI238a8UDEGw6rPmyV12SeJnvVOvE
+ NaX0hOLVo405JhLhOc41gj1I/nywXF27hJ8HHhhVZsMzO9EkXqEqfrfGkzUtYlNIltR5
+ fDcn35ewWtHRFi6ngscpMK/vL2iVBbbqvXp5EfF98U9jNoenoAwEcfDG8ucsKERM/VdI
+ olpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUeaeWWxZUVY8yw4jib9H95bLc0tlSehL3nJXTLtg6pWjdZ8eoH67MMgoQARR/pr+AVOIrgZTznyk8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/TMiDhHMQkiv+EpWVsFHzoYg2ja2+F4h1h7r0I2MHYFFX7WlK
- r5cNWw5G7AXP6afjYdK83HDHaN3ErbtnZkX9iOUPTQNJ/nip0tgFTIR/xZgGA0HiQFyo+runiNo
- Tm0cwZtz5oCKlDyUDQiFop6NJNcjsgzsSWt4B
-X-Google-Smtp-Source: AGHT+IHROkfnEqJwyKjhAgQRGsJgxkFB29+Yc6u1MFfoALprduJBtTl2Q7hk3LAUymLuEO32wO/aAKlH5269r5m9+pM=
-X-Received: by 2002:a05:620a:28c8:b0:7a6:6fd6:9d6a with SMTP id
- af79cd13be357-7a8f6b767cemr1583962985a.5.1725402944498; Tue, 03 Sep 2024
- 15:35:44 -0700 (PDT)
+ AJvYcCXc/hLbB2nj/1JA32h7MI/8L6YatSbI3EKtq43g3N9VxqlnRMMDGMxNH0YYiFLayhHJ5K5ICY2cMd4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwBFHFqZbyetKHHyWejEjrLj7glPdmvYaYgM5W8Wcw5S+kurGV9
+ BL4dmN/YgDQ1JkEVoRYFXiA+DR+6diyYgOjfX8mpk9huteK61Ak/fE227WvxGmYeFO/s8Cu8xWD
+ 8mbVmxjYphUO5igAT8EC1sBSpi5cxG2BWVA89
+X-Google-Smtp-Source: AGHT+IF34ocTupB91QqHAUN7muZ3pQu7SJrIS8QiPpHwQnzTFwdvCLem6xytcCmScWzLqSwtal0se6zIR4RyUsc0prs=
+X-Received: by 2002:a05:6214:1c44:b0:6c4:d2f9:644e with SMTP id
+ 6a1803df08f44-6c518e03025mr2177666d6.12.1725403763196; Tue, 03 Sep 2024
+ 15:49:23 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 Sep 2024 15:35:44 -0700
+ HTTPREST; Tue, 3 Sep 2024 18:49:22 -0400
 MIME-Version: 1.0
-In-Reply-To: <ZtWeuFUEgnF9e2S4@smile.fi.intel.com>
+In-Reply-To: <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
 References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-11-swboyd@chromium.org>
- <ZtWeuFUEgnF9e2S4@smile.fi.intel.com>
+ <20240901040658.157425-12-swboyd@chromium.org>
+ <ZtWdsZrFxfjYLgaG@smile.fi.intel.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 3 Sep 2024 15:35:44 -0700
-Message-ID: <CAE-0n51nLCNJxhxMr3EmqoWz=3dLU-ckfSwgEUtrhBRZchLu_w@mail.gmail.com>
-Subject: Re: [PATCH v4 10/18] devcon property: Document devcon_match_fn_t
+Date: Tue, 3 Sep 2024 18:49:22 -0400
+Message-ID: <CAE-0n52Hupp-ANE2ggeGCRZSM+xmrJt-Q5+5Cb7=C-mxykbz0g@mail.gmail.com>
+Subject: Re: [PATCH v4 11/18] device property: Add remote endpoint to devcon
+ matcher
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
  patches@lists.linux.dev, devicetree@vger.kernel.org, 
@@ -105,45 +106,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Andy Shevchenko (2024-09-02 04:17:12)
-> On Sat, Aug 31, 2024 at 09:06:48PM -0700, Stephen Boyd wrote:
-> > The usage of this match function is hard to understand at a glance.
-> > Document the arguments and the return value so it is clear how to
-> > implement the function.
+Quoting Andy Shevchenko (2024-09-02 04:12:49)
+> On Sat, Aug 31, 2024 at 09:06:49PM -0700, Stephen Boyd wrote:
 >
-> Thank you for the patch!
->
-> ...
->
-> I believe we still use "device property:" in the subject for this header file changes.
-> $ git log --oneline --no-merges -- include/linux/property.h
->
+> Is it possible to move these Cc:s after --- line below?
 
 Ok.
 
 >
-> > +/**
-> > + * devcon_match_fn_t - device connection match function
-> > + * @fwnode: Remote connection's device node
-> > + * @con_id: Identifier for the connection
-> > + * @data: Match function caller specific data
-> > + *
-> > + * Implement a callback with this function signature to search a fwnode's
-> > + * connections for a match with a function like device_connection_find_match().
-> > + * This function will be called possibly multiple times, once for each
-> > + * connection. The match function should inspect the @fwnode to look for a
-> > + * match. The @con_id and @data provided are the same as the @con_id and @data
-> > + * arguments passed to the functions that take a devcon_match_fn_t argument.
+> >  /**
+> >   * devcon_match_fn_t - device connection match function
+> >   * @fwnode: Remote connection's device node
+> > + * @endpoint: Remote connection's endpoint node
+> >   * @con_id: Identifier for the connection
+> >   * @data: Match function caller specific data
+> >   *
+> >   * Implement a callback with this function signature to search a fwnode's
+> >   * connections for a match with a function like device_connection_find_match().
+> >   * This function will be called possibly multiple times, once for each
+> > - * connection. The match function should inspect the @fwnode to look for a
+> > - * match. The @con_id and @data provided are the same as the @con_id and @data
+> > - * arguments passed to the functions that take a devcon_match_fn_t argument.
+> > + * connection. The match function should inspect the connection's @fwnode
+> > + * and/or @endpoint to look for a match. The @con_id and @data provided are the
+> > + * same as the @con_id and @data arguments passed to the functions that take a
+> > + * devcon_match_fn_t argument.
 >
-> > + * Note: This function can be called multiple times.
+> So, struct fwnode_handle is a single-linked list. Can we utilise that instead
+> of adding a new parameter? I.o.w. do those objects (@fwnode and @endpoint) have
+> anything in common and can be chained?
+
+No, we can't use that. We need to know which endpoint in the remote
+fwnode is connected to the fwnode we're searching from. This is how we
+know which typec mux structure is associated with which type-c port so
+we can drive DP there. We might have two endpoints connected to the same
+fwnode and then we wouldn't be able to differentiate the endpoint and
+the typec mux to configure.
+
 >
-> As noted in the next patch, this would be nice to elaborate (at least to me
-> this sounds like declaration of idempotency which is unlikely what is
-> meant, or am I mistaken?).
+> >   * Note: This function can be called multiple times.
+>
+> What does this mean? Is it idempotent? Or what is the effect of being called
+> multiple times?
 
-I based this on something that I've already forgotten! :)
-
-It's saying that the function you implement shouldn't have side-effects
-because it will be called many times. I actually wrote above that it
-will be called "possibly multiple times, once for each connection". Let
-me try to remove "multiple times".
+I've removed this note now.
