@@ -2,48 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067A896A06C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 16:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C901696A12A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 16:51:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9420B10E5C1;
-	Tue,  3 Sep 2024 14:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE2110E482;
+	Tue,  3 Sep 2024 14:51:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MNFGi62x";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="XDwDpt5Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E033810E5BF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 14:26:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ED5125C5958;
- Tue,  3 Sep 2024 14:26:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09EA3C4CEC8;
- Tue,  3 Sep 2024 14:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725373603;
- bh=vNf7+NPKLJz2pRFDejb0+aPYw+4hvofcQuqX4TuSGDs=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=MNFGi62xJFOzGeIt8v3Tp1HEJgVBnI8X5ZYKOgS68XwsyAetom3v6TZoxpb7/tHgQ
- dxPQBzRJr7tOgirU68QMGgudNuHzMsPAk/wSUNlLLf+pkTm95GOr9A98tZcKXOUGHq
- H6vqGWRg2SJZu3QP1f+WqymO6vTaIMzXCPNMbltWkaP40RswZMK41RrFI1QaMHlymE
- T6ZsOi6U/2/GosO+EAtgLara7fIbrGBJUmKmT2ivKelzbg6Vf97FKJ7Yrl5g+si7NR
- YXKJ7AAIs5oqw8PvIpUr8LrApED3nZqNVfZkVroIJFory3oedbvlNo7Pb9tGNL9mk1
- EC3Dh+TvrNfog==
-Date: Tue, 03 Sep 2024 09:26:42 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCF610E482
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 14:51:14 +0000 (UTC)
+Delivered-To: kernel@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1725375061; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=FFrPtUkgOiHxCnw5NIFs4L068NZikJBaUfWdpeXS5p7z+BA1SJXDM9QtWHcXygywdrvTY9fG0+ZNe+jf2kDUtBIIDjVkyKSwQ2s4ks66GwcZt3ya/I53cL0B7Ot77Dvj/eGDudstvZeePB7/IY3/7R6U+jJu2ADWljIZfyELEEQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1725375061;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=JoZyTngQaWUmJroKbr6Fpr/n3m9/mAYytfSe+YwDYgo=; 
+ b=fj6HZLJetex5KjzqzYK4p9o3lgE3f5iCQZOoOAPGkXdg3X345CHOGdX050xdRg5FR9axIZkOBP0L55rBboAe650V30odLGleMC2OcqQS9UvRS3MZZXiG8D78ST8PQOM2ivTFXe3Be7k0b/EtnS5vgwsUZ8JVtChaE23rvhx5OqA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
+ dmarc=pass header.from=<mary.guillemard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725375061; 
+ s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=JoZyTngQaWUmJroKbr6Fpr/n3m9/mAYytfSe+YwDYgo=;
+ b=XDwDpt5Qoth2HKrs8RlmZKcgqljZh/a9XFjXM+n8rk/3jI1Atzxf0tlCVwwQovqf
+ XIQVUVYzXBxA+NalBXoIEDeLEdubbGzjATQ2Qoz+A2n/sVeaVtRxLO0AS9pgViOvvam
+ oxgAq+gyQmtvH42EgZvlfbS8INZDM+l7KChfJIoI=
+Received: by mx.zohomail.com with SMTPS id 1725375058634587.9557627661392;
+ Tue, 3 Sep 2024 07:50:58 -0700 (PDT)
+From: Mary Guillemard <mary.guillemard@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: kernel@collabora.com, Mary Guillemard <mary.guillemard@collabora.com>,
+ stable@vger.kernel.org, Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panthor: Restrict high priorities on group_create
+Date: Tue,  3 Sep 2024 16:49:55 +0200
+Message-ID: <20240903144955.144278-2-mary.guillemard@collabora.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-Cc: krzk+dt@kernel.org, knoxchiou@google.com, 
- angelogioacchino.delregno@collabora.com, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- hsinyi@google.com, matthias.bgg@gmail.com, conor+dt@kernel.org
-In-Reply-To: <20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com>
-References: <20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com>
-Message-Id: <172537334835.874724.17274682551076220258.robh@kernel.org>
-Subject: Re: [PATCH v2 0/2] arm64: dts: mediatek: Add MT8186 Ponyta
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,71 +70,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+We were allowing any users to create a high priority group without any
+permission checks. As a result, this was allowing possible denial of
+service.
 
-On Tue, 03 Sep 2024 14:16:01 +0800, Jianeng Ceng wrote:
-> This is v2 of the MT8186 Chromebook device tree series.
-> 
-> Jianeng Ceng (2):
->   dt-bindings: arm: mediatek: Add MT8186 Ponyta Chromebook
->   arm64: dts: mediatek: Add MT8186 Ponyta Chromebooks
-> 
->  .../devicetree/bindings/arm/mediatek.yaml     | 11 +++++
->  arch/arm64/boot/dts/mediatek/Makefile         |  2 +
->  .../mediatek/mt8186-corsola-ponyta-sku0.dts   | 24 ++++++++++
->  .../mediatek/mt8186-corsola-ponyta-sku1.dts   | 27 ++++++++++++
->  .../dts/mediatek/mt8186-corsola-ponyta.dtsi   | 44 +++++++++++++++++++
->  5 files changed, 108 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
-> 
-> --
-> 2.34.1
-> 
-> 
-> 
+We now only allow the DRM master or users with the CAP_SYS_NICE
+capability to set higher priorities than PANTHOR_GROUP_PRIORITY_MEDIUM.
 
+As the sole user of that uAPI lives in Mesa and hardcode a value of
+MEDIUM [1], this should be safe to do.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+Additionally, as those checks are performed at the ioctl level,
+panthor_group_create now only check for priority level validity.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+[1]https://gitlab.freedesktop.org/mesa/mesa/-/blob/f390835074bdf162a63deb0311d1a6de527f9f89/src/gallium/drivers/panfrost/pan_csf.c#L1038
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
+Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/panthor/panthor_drv.c   | 23 +++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_sched.c |  2 +-
+ include/uapi/drm/panthor_drm.h          |  6 +++++-
+ 3 files changed, 29 insertions(+), 2 deletions(-)
 
-  pip3 install dtschema --upgrade
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index b5e7b919f241..34182f67136c 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -10,6 +10,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ 
++#include <drm/drm_auth.h>
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_exec.h>
+@@ -996,6 +997,24 @@ static int panthor_ioctl_group_destroy(struct drm_device *ddev, void *data,
+ 	return panthor_group_destroy(pfile, args->group_handle);
+ }
+ 
++static int group_priority_permit(struct drm_file *file,
++				 u8 priority)
++{
++	/* Ensure that priority is valid */
++	if (priority > PANTHOR_GROUP_PRIORITY_HIGH)
++		return -EINVAL;
++
++	/* Medium priority and below are always allowed */
++	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
++		return 0;
++
++	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
++	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
++		return 0;
++
++	return -EACCES;
++}
++
+ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
+ 				      struct drm_file *file)
+ {
+@@ -1011,6 +1030,10 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
+ 	if (ret)
+ 		return ret;
+ 
++	ret = group_priority_permit(file, args->priority);
++	if (ret)
++		return ret;
++
+ 	ret = panthor_group_create(pfile, args, queue_args);
+ 	if (ret >= 0) {
+ 		args->group_handle = ret;
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index c426a392b081..91a31b70c037 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -3092,7 +3092,7 @@ int panthor_group_create(struct panthor_file *pfile,
+ 	if (group_args->pad)
+ 		return -EINVAL;
+ 
+-	if (group_args->priority > PANTHOR_CSG_PRIORITY_HIGH)
++	if (group_args->priority >= PANTHOR_CSG_PRIORITY_COUNT)
+ 		return -EINVAL;
+ 
+ 	if ((group_args->compute_core_mask & ~ptdev->gpu_info.shader_present) ||
+diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+index 926b1deb1116..e23a7f9b0eac 100644
+--- a/include/uapi/drm/panthor_drm.h
++++ b/include/uapi/drm/panthor_drm.h
+@@ -692,7 +692,11 @@ enum drm_panthor_group_priority {
+ 	/** @PANTHOR_GROUP_PRIORITY_MEDIUM: Medium priority group. */
+ 	PANTHOR_GROUP_PRIORITY_MEDIUM,
+ 
+-	/** @PANTHOR_GROUP_PRIORITY_HIGH: High priority group. */
++	/**
++	 * @PANTHOR_GROUP_PRIORITY_HIGH: High priority group.
++	 *
++	 * Requires CAP_SYS_NICE or DRM_MASTER.
++	 */
+ 	PANTHOR_GROUP_PRIORITY_HIGH,
+ };
+ 
 
-
-New warnings running 'make CHECK_DTBS=y mediatek/mt8186-corsola-ponyta-sku0.dtb mediatek/mt8186-corsola-ponyta-sku1.dtb' for 20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com:
-
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: 'extcon' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: 'extcon' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: sound: 'model' is a required property
-	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: sound: 'model' is a required property
-	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
-
-
-
-
+base-commit: a15710027afb40c7c1e352902fa5b8c949f021de
+-- 
+2.46.0
 
