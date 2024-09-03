@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC3396A4C8
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 18:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C1696A4F4
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 19:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B92210E1B3;
-	Tue,  3 Sep 2024 16:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB9210E20C;
+	Tue,  3 Sep 2024 17:01:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lLY1YqOn";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="LwByXBiT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39B0110E1B3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 16:47:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9783E5C587C;
- Tue,  3 Sep 2024 16:47:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C5AC4CEC4;
- Tue,  3 Sep 2024 16:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725382040;
- bh=5IBLt3q/BfuZsMvLmbLqTsdzGnY8HAd/pkHhflhyo9o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lLY1YqOn8wZTCeG/iOr1exXWmCjUhmI/EZYB5SeESLR6Ef62Kb2YHJweKIZwpLkKb
- z7DImi45xWjWmBSi5T7OK4n+B8HdTX1ch5M8+NKqv4dqdsrUAefoH2IVnwBrAXhYKn
- SkPkRhlyxcxwFV48sB60DN0uMBfYiyFtO+kRawL5sLV94+lQcIybBzdcdyp0m2dOap
- 2MAEbDo5v+wetkXjqiN7F2pXw3+sIxENEdASv3YGEI0eG/6Fc3oSmeVFbl/ulUpyA5
- bjE0lgynAFAuBhkxELFRmzYLrhzauSdHb/IK3MW/Yh8O5hZ+jQpYGHr0YCnkx9CzHW
- RZOZZPp2ow2iQ==
-Date: Tue, 3 Sep 2024 18:47:17 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, 
- Mark Brown <broonie@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, Chris Morgan <macromorgan@hotmail.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Tim Lunn <tim@feathertop.org>,
- Andy Yan <andyshrk@163.com>, 
- Muhammed Efe Cetin <efectn@protonmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Dragan Simic <dsimic@manjaro.org>, 
- Ondrej Jirman <megi@xff.cz>, Michael Riesch <michael.riesch@wolfvision.net>, 
- Jimmy Hon <honyuenkwun@gmail.com>, Elon Zhang <zhangzj@rock-chips.com>, 
- Alexey Charkov <alchark@gmail.com>, Elaine Zhang <zhangqing@rock-chips.com>, 
- Yifeng Zhao <yifeng.zhao@rock-chips.com>,
- Finley Xiao <finley.xiao@rock-chips.com>, 
- Liang Chen <cl@rock-chips.com>, Jamie Iles <jamie@jamieiles.com>,
- devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
- linux-serial@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org, kernel@collabora.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 3/9] dt-bindings: i2c: i2c-rk3x: Add rk3576 compatible
-Message-ID: <ycbhqmkwz2hirnvp6j47kz3cxnli3db3i5ah76gngrezs5ww2r@57x2gxnr5hyk>
-References: <20240903152308.13565-1-detlev.casanova@collabora.com>
- <20240903152308.13565-4-detlev.casanova@collabora.com>
- <bnpwnuhikwkqyf3jos67qwywhfge3vm6tfmlfitypd5k62jzdn@fri4swkl2zbq>
- <12506188.O9o76ZdvQC@bootstrap>
+X-Greylist: delayed 587 seconds by postgrey-1.36 at gabe;
+ Tue, 03 Sep 2024 17:01:47 UTC
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D860710E096
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 17:01:47 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D6C9C88365;
+ Tue,  3 Sep 2024 18:51:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1725382318;
+ bh=L9PW0zu06SOQABEZQUU7xjnR+wwFb76VQHJCYIBdo4Q=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LwByXBiTMrrIp23FhEn6q7M6ODzrObDSuS4by3GU3EZ4BoddIQyu2G6TmENBb6lW6
+ jbroXoqYW5whbOaF3pnXE0c/5yrBTUoiFqSLz1NhZNpD8Qrw9GXXDN2cT2I1H04Q0r
+ Jm4bONfkWGb2a3w/dZwmmi2KYmt3CfAcgFksIdqAiVimGNMWIBeHBjE3fa2rRU710m
+ He0fho571zsw3Vf7lrpdipAM74Stg6XEpNhTXZyLxtZ1Uv+SdcTlEEoowWxPzFfdVN
+ ZTYbV4YP0YEnq5tkxkwZszK8EEIr+AXVhtQi5Tm7go8gnQlDwifcKnEmbWKDhst2Iz
+ 4gGeC9YptWyBw==
+Message-ID: <0b97acc0-2720-4962-b3c3-bb444cf81e66@denx.de>
+Date: Tue, 3 Sep 2024 18:51:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12506188.O9o76ZdvQC@bootstrap>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: lcdif: Document the dmas/dma-names properties
+To: Fabio Estevam <festevam@gmail.com>, mripard@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Fabio Estevam <festevam@denx.de>
+References: <20240903162729.1151134-1-festevam@gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20240903162729.1151134-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,62 +65,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Sep 03, 2024 at 11:59:34AM GMT, Detlev Casanova wrote:
-> On Tuesday, 3 September 2024 11:46:00 EDT Andi Shyti wrote:
-> > Hi,
-> > 
-> > On Tue, Sep 03, 2024 at 11:22:33AM GMT, Detlev Casanova wrote:
-> > > Just like RK356x and RK3588, RK3576 is compatible to the existing
-> > > rk3399 binding.
-> > > 
-> > > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > Acked-by: Heiko Stuebner <heiko@sntech.de>
-> > 
-> > I will apply this after 1 and 2 have been merged.
+On 9/3/24 6:27 PM, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
 > 
-> Sure, although it is not really dependent on 1 and 2.
-
-yes, but I want to be sure that everything is coming in.
-
-> > BTW, who is maintaining rockchip.yaml?
+> i.MX28 has an RX DMA channel associated with the LCDIF controller.
 > 
-> Heiko Stuebner is the maintainer of Rockchip SoC support.
+> Document the 'dmas' and 'dma-names' properties to fix the following
+> dt-schema warnings:
+> 
+> lcdif@80030000: 'dma-names', 'dmas' do not match any of the regexes: 'pinctrl-[0-9]+'
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+>   .../bindings/display/fsl,lcdif.yaml           | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> index 0681fc49aa1b..dd462abd61f8 100644
+> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> @@ -50,6 +50,14 @@ properties:
+>         - const: disp_axi
+>       minItems: 1
+>   
+> +  dmas:
+> +    items:
+> +      - description: DMA specifier for the RX DMA channel.
+> +
+> +  dma-names:
+> +    items:
+> +      - const: rx
+> +
+>     interrupts:
+>       items:
+>         - description: LCDIF DMA interrupt
+> @@ -156,6 +164,17 @@ allOf:
+>           interrupts:
+>             maxItems: 1
+>   
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - fsl,imx28-lcdif
 
-I would guess so, but I think we should also add the entry to
-the maintainer's file :-)
-
-Thanks,
-Andi
-
-> > Thanks,
-> > Andi
-> > 
-> > > ---
-> > > 
-> > >  Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> > > b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml index
-> > > 82b9d6682297..a9dae5b52f28 100644
-> > > --- a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> > > +++ b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> > > 
-> > > @@ -38,6 +38,7 @@ properties:
-> > >                - rockchip,rk3308-i2c
-> > >                - rockchip,rk3328-i2c
-> > >                - rockchip,rk3568-i2c
-> > > 
-> > > +              - rockchip,rk3576-i2c
-> > > 
-> > >                - rockchip,rk3588-i2c
-> > >                - rockchip,rv1126-i2c
-> > >            
-> > >            - const: rockchip,rk3399-i2c
-> 
-> 
-> 
-> 
+This also applies to MX23 , that one also has the support for 
+command-mode LCDs which are then driven by pumping commands via DMA. I 
+don't think Linux actually supports this mode of operation, but I do 
+recall using it some long time ago on MX23.
