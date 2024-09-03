@@ -2,79 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A90896AA9A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 23:52:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D45596AABE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 23:58:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4892510E1B6;
-	Tue,  3 Sep 2024 21:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07BE010E5FC;
+	Tue,  3 Sep 2024 21:58:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pLZNXCj0";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="ZJ7sGUQX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8188A10E1B6
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 21:51:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C9200A43FB6;
- Tue,  3 Sep 2024 21:51:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42686C4CEC4;
- Tue,  3 Sep 2024 21:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725400313;
- bh=tN5vqlCKPar7XP4sqfMn5SllXz0g+GvMXAGcorIVqYM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=pLZNXCj0UEyKhvBJH5OnAGowSygKD8coz1erfWLAmf25HQz7h56PVHW0XMx2E/+w7
- xIjmR/ODgmkQ6EkT6qbdOkd5+85QO1VKRGcUIdp6j2mkLuyJOvw/tsogx2g6M2wzva
- plaXBbA4zNqKIrFF1xpYvfxDeNxXAy01Gmo8YJ+WZVfKF+cf6OJiYtW+gQBUW93FAy
- xIbMwFjMhxNIKZyJ57an/ZH5OFRWVdtyWrTv6ylNleOf2fa0XbMtEJRZe8/7ngefo1
- qikCcPNCOUF1XR5udOGdG6WVHyWR9fGyOzvTd3fowwLf6pKYqM5v5MJzgqDs6Hj2YM
- mtSUblomNCqHQ==
-Date: Tue, 3 Sep 2024 14:51:50 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, "=?UTF-8?B?QmrDtnJuIFTDtnBl?=
- =?UTF-8?B?bA==?=" <bjorn@kernel.org>, Magnus Karlsson
- <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>
-Subject: Re: [PATCH net-next v24 11/13] net: add devmem TCP documentation
-Message-ID: <20240903145150.4ffee51b@kernel.org>
-In-Reply-To: <20240831004313.3713467-12-almasrymina@google.com>
-References: <20240831004313.3713467-1-almasrymina@google.com>
- <20240831004313.3713467-12-almasrymina@google.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36A3410E5FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 21:58:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+j6f5if+f2W86QKE1LKn/g5w4kYrcF6g49PNUZ3ZNP4=; b=ZJ7sGUQXwRu0Z1LawQGUT7OBit
+ KFbquRc4bhEA1OEQ2VHQWfx46V+JOwjnHO/o61Mo6y0dAt48EA+LO2qSs8DTMU1lfeKuKHshqU1zl
+ P0rtWSHVVQQ/+rKmX6IFNw5UHexXkrIgSsJgU+Wz1fl4QZghKbyNGiiouVXxCXIg7VlgPY4185KSA
+ CTUlgT/4VY+IibQ1NXqABFZtd0OEsmxOTcctKd6RcfTRErVbQVcVkjQDC4Jc9+JGNBacNP/AT00h7
+ cad9Dn43pVCGeqTMwFp7PrQwUf45OEgBw9kLmvPq2cFzf9VNdpllH0cgz9KY6GfqsGdRjVgZJoxbA
+ YviFHN2w==;
+Received: from i5e860d0f.versanet.de ([94.134.13.15] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1slbWj-00032m-2x; Tue, 03 Sep 2024 23:57:29 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+ Andi Shyti <andi.shyti@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Chris Morgan <macromorgan@hotmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Tim Lunn <tim@feathertop.org>,
+ Andy Yan <andyshrk@163.com>, Muhammed Efe Cetin <efectn@protonmail.com>,
+ Jagan Teki <jagan@edgeble.ai>, Dragan Simic <dsimic@manjaro.org>,
+ Ondrej Jirman <megi@xff.cz>, Michael Riesch <michael.riesch@wolfvision.net>,
+ Jimmy Hon <honyuenkwun@gmail.com>, Elon Zhang <zhangzj@rock-chips.com>,
+ Alexey Charkov <alchark@gmail.com>, Elaine Zhang <zhangqing@rock-chips.com>,
+ Yifeng Zhao <yifeng.zhao@rock-chips.com>,
+ Finley Xiao <finley.xiao@rock-chips.com>, Liang Chen <cl@rock-chips.com>,
+ Jamie Iles <jamie@jamieiles.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, kernel@collabora.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v4 3/9] dt-bindings: i2c: i2c-rk3x: Add rk3576 compatible
+Date: Tue, 03 Sep 2024 23:59:12 +0200
+Message-ID: <23007922.5W6oEpyPa8@diego>
+In-Reply-To: <ycbhqmkwz2hirnvp6j47kz3cxnli3db3i5ah76gngrezs5ww2r@57x2gxnr5hyk>
+References: <20240903152308.13565-1-detlev.casanova@collabora.com>
+ <12506188.O9o76ZdvQC@bootstrap>
+ <ycbhqmkwz2hirnvp6j47kz3cxnli3db3i5ah76gngrezs5ww2r@57x2gxnr5hyk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,34 +84,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 31 Aug 2024 00:43:11 +0000 Mina Almasry wrote:
-> +The socket must be flow steered to the dmabuf bound RX queue::
-> +
-> +	ethtool -N eth1 flow-type tcp4 ... queue 15,
+Am Dienstag, 3. September 2024, 18:47:17 CEST schrieb Andi Shyti:
+> On Tue, Sep 03, 2024 at 11:59:34AM GMT, Detlev Casanova wrote:
+> > On Tuesday, 3 September 2024 11:46:00 EDT Andi Shyti wrote:
+> > > Hi,
+> > > 
+> > > On Tue, Sep 03, 2024 at 11:22:33AM GMT, Detlev Casanova wrote:
+> > > > Just like RK356x and RK3588, RK3576 is compatible to the existing
+> > > > rk3399 binding.
+> > > > 
+> > > > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> > > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > > Acked-by: Heiko Stuebner <heiko@sntech.de>
+> > > 
+> > > I will apply this after 1 and 2 have been merged.
+> > 
+> > Sure, although it is not really dependent on 1 and 2.
+> 
+> yes, but I want to be sure that everything is coming in.
+> 
+> > > BTW, who is maintaining rockchip.yaml?
+> > 
+> > Heiko Stuebner is the maintainer of Rockchip SoC support.
+> 
+> I would guess so, but I think we should also add the entry to
+> the maintainer's file :-)
 
-nit: tailing comma here
+now you made me doubt the wildcards we have in place ;-)
 
-> +Devmem payloads are inaccessible to the kernel processing the packets. This
-> +results in a few quirks for payloads of devmem skbs:
-> +
-> +- Loopback is not functional. Loopback relies on copying the payload, which is
-> +  not possible with devmem skbs.
-> +
-> +- Software checksum calculation fails.
+# scripts/get_maintainer.pl -f Documentation/devicetree/bindings/arm/rockchip.yaml
+[...]
+Heiko Stuebner <heiko@sntech.de> (maintainer:ARM/Rockchip SoC support)
+[...]
+linux-rockchip@lists.infradead.org (open list:ARM/Rockchip SoC support)
 
-Speaking of which, I think we need to add readability check to 
-skb_checksum_help(). Shouldn't the check in __skb_checksum() 
-have a WARN_ON_ONCE() around it? It's impossible to return 
-an error from there.
+So Maintainers seems to be correct ... *phew* :-)
 
-> +- TCP Dump and bpf can't access devmem packet payloads.
-> +
-> +
-> +Testing
-> +=======
-> +
-> +More realistic example code can be found in the kernel source under
-> +tools/testing/selftests/net/ncdevmem.c
 
-looks like HTML output wraps the file path, maybe quote it as
-``tools/testing/selftests/net/ncdevmem.c`` ?
