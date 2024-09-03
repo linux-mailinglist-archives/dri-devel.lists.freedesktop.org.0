@@ -2,151 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F66969643
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 09:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0793969B13
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 13:01:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 058F310E434;
-	Tue,  3 Sep 2024 07:57:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF0710E469;
+	Tue,  3 Sep 2024 11:01:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ITiu+lhi";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OGEpOjo7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 000AF10E433;
- Tue,  3 Sep 2024 07:57:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RD1um6qm5QVF/vC8vDbPk+rQ3eVqXCaMTlqHxT59VQAMtyAI/0X6BEOZGMz++GW2cRH56p+HOJXCCBvKTCqJHvRgP/sgDps9Zw1Lzn5mc29OJSShx2doUh1uk3FGLSeSz9LyXnWxCB6ag+o2vo9lWCo71/+YwOWtanyVQnLu/dvlmbGNdexG+N/W4BurRydRBbku0OtqJdfUS73hZZhcr2tbUlmkqtjOiXpFTR/iLuGPNGs/DVDhRwLhFeqAtXqVTO1KEZjLLQx9d5PPJaCw8bV/n1JsDGqSTPhR7pCY+iopWJaCx7HeYj4dElwPV7uNbFmvMvNGkpX43aWQefAiZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NPbbxM5++1p2Zcjrx720bL2KDFvO3EOw2X2MR2bLTlY=;
- b=LCUvK20oXZFX8buNYlGiyd1U7AHNJcAIubuvDS6UlP0fEOQgAho1mjptjWJTbZev0mkZBy19gcOa/KstcT4pFNBvYc1PM8JkAgKc/D3eGwjaawjAHgfqHD34pPZ0pJkUzlANXxbE/GFfk4Jzct3WzK7DpryTBHhTTWUpQBWzYZnoMg4kMtwROcar0AivHzM37EDkxcbs1fgb+RefFVU6jnW5Bla2M7QuD3EJxpJi369Ieh3VZI67kTF03sVLBb1D/VU/oxCWEZ7ydP0Ujio7vN7G1p0Yi+4ULGq/KwAPQh2CwrqBQPmJgpLXmb+0XPFri3gPJRBDoOAe5NECaT3BZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NPbbxM5++1p2Zcjrx720bL2KDFvO3EOw2X2MR2bLTlY=;
- b=ITiu+lhioRV7Bq7imMeshDI448NQtdZhCboLtmNZs6Tv8TtoRxTCx9pCUl0vKibvOcsz+4Lf91no18XBuV5yqvEBBY5yi1TzxDl0TWve50QuoY8t5yBfJfm/A4708akAS8McODmzglBzUwpX5/1FWQ20wKChugpF5e4elBjpgXE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB9127.namprd12.prod.outlook.com (2603:10b6:510:2f6::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.23; Tue, 3 Sep
- 2024 07:57:06 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Tue, 3 Sep 2024
- 07:57:06 +0000
-Message-ID: <2faa3873-9d17-4f48-8d19-85a22f970aad@amd.com>
-Date: Tue, 3 Sep 2024 09:57:01 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/ttm: Move pinned objects off LRU lists when
- pinning
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-References: <20240902154159.78871-1-thomas.hellstrom@linux.intel.com>
- <20240902154159.78871-3-thomas.hellstrom@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240902154159.78871-3-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0180.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2DB10E333
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 08:07:43 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-42bbe908380so29946285e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 01:07:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1725350862; x=1725955662; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=eF/Q1l4P4AIs4Ghmv839+gvgnXfjxvafU64Put9I4Fo=;
+ b=OGEpOjo7OTWXCoHyCfsDsOFkub8POGU/JL7sICX9eQx1eJGZtDTm9iuHanldoaiZmG
+ E98Bbajsztvtlx3DugxLhWVEOlKnBsPVv4qkY7Mk8FZ5a8glji9/E8Dejo/ZbaJa/EH5
+ 24P/Hrg5MMY4rR6eC4nXxbJB61GUX9cMSfZoI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725350862; x=1725955662;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eF/Q1l4P4AIs4Ghmv839+gvgnXfjxvafU64Put9I4Fo=;
+ b=hpOxnMp+T4WSQMS84sHAAB7tyF3+Z9YcnwBL9F4sY5opyAbWxo3ucctM9IyRyKgIgU
+ dMuxzpvJAd10GjuHmQ/c4PEW1xaeKf8PNoejwihK+eUs9tOG3jcen+erXDOq2CyfAKTi
+ uTe86BIJtAGTadJF5jZ3vcBENvUe7vLXgHTYCVk5rqrDVI9ka+SfOnwsfHPswXvHHZj2
+ R/EwX+hJcIyeMdoIFfM3Z8iqKvDb98+5TOGhPUfLZVvEr601fE/xUSXo/6dHE5MdYTau
+ b7GpxOdq7Ao2xUy8WWxskz0E/lOjJOLq5fT4NTj9d2f+1HYx9CGtVwONM3VMoohssJc+
+ 7gWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUTRUBUgavvp5EEOykRy7z7q4V31l0xbJyKibZQ97DJkM/nv4hoIxj7qea1orXibHCvitPEQZE09ZM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwMf4BIEI9zM2U+uI0wPdTSjpqHBYghX5nYtK71jR5EXhCTT+ZN
+ MdiEcwEwbh61yaOe2ZkLhkzVjJbKckaMfMeaRjUiz+cHJEo8kz96WHTchMGfYwc=
+X-Google-Smtp-Source: AGHT+IFof7unLLrx3C7GNQNiHi/CC+JN7hTi3k8JW1nNfTf084hwjsWh+J8ZHoahXDnHKo6O6Ouqrw==
+X-Received: by 2002:a05:600c:1c1a:b0:426:593c:935f with SMTP id
+ 5b1f17b1804b1-42bd731ee1bmr58766585e9.1.1725350861520; 
+ Tue, 03 Sep 2024 01:07:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42bb6deb43esm163229725e9.7.2024.09.03.01.07.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2024 01:07:41 -0700 (PDT)
+Date: Tue, 3 Sep 2024 10:07:38 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, matthew.auld@intel.com, daniel@ffwll.ch,
+ "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>
+Subject: Re: [RFC PATCH 23/28] drm/xe: Add SVM VRAM migration
+Message-ID: <ZtbDyrD0p-o8G7_d@phenom.ffwll.local>
+References: <20240828024901.2582335-1-matthew.brost@intel.com>
+ <20240828024901.2582335-24-matthew.brost@intel.com>
+ <Zs9LF-jnNrd9ZlxW@phenom.ffwll.local>
+ <cbe8aebe-fcad-4ff0-8f56-146628183fd3@amd.com>
+ <368ee71bd5e39d4e26947de9cc417f4abe8d1f3b.camel@linux.intel.com>
+ <ZtBVXjNf1xAQOHHR@phenom.ffwll.local>
+ <ZtDyZceN6asCzSHT@DUT025-TGLU.fm.intel.com>
+ <ZtW0N_p4KtiosN4J@phenom.ffwll.local>
+ <ZtY6F7v/zIUnG6Kx@DUT025-TGLU.fm.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB9127:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1911da9-f32c-4918-cdc2-08dccbee014e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1lPVDk3V2NSK1IyT2Z1ZitETXpsSzFreUtiNEQ5bUtRS1BFYUM3QUl0RkdE?=
- =?utf-8?B?N25XMVZXOU5HUzRxclFMS1FDQkJ1R0wrUURFYkpteUJFQU9xQ09lWnhyOXNa?=
- =?utf-8?B?OWhZMW1vanBmYjZHUEJQUUtxdEVoalgyZ0ZDK3R4Q2R5WlkyYUxTMkRTb2w0?=
- =?utf-8?B?Ykl1OXhnak5hY25Gdk5CV3B1N0tWZnlpek1uSW4vSktUYXpWOTlTRmk1aHUw?=
- =?utf-8?B?WHZHelpjSnNzOVlsR1JmcWh3a3FBT0xaM0gxYjBndGEvNzcyMUtOS3lTMHMv?=
- =?utf-8?B?TXhRblBVdE5aS0FBWHpQRHhMYnFlcjNJUHR6cDlqaDBYV2dIM0NhN21wa0p4?=
- =?utf-8?B?K290V0VmbEh5RFQ3NmlDTXBtWkUybDc3bjJ5MXBIU2NWY3M4bjVhQVVKNktj?=
- =?utf-8?B?Zm5jYnFkYTVOZEg2ZEFsVWhFa0kwUy9KRmVoWmRJVkVBU25TaFRxNWx4REsw?=
- =?utf-8?B?V3haaVJlblk0Q2J4aDZDT0Y0YVFlc1Uvc05uZVRva1VoYThIRGZMUVAxSFZ1?=
- =?utf-8?B?QjNDcEFtU1ROZWZJbW1FdW9kSmVhTWdnd0dCQ1ZlMVJPbGx2OFYvWkgwaDJn?=
- =?utf-8?B?YWxrS0MvaTcwWXg0WkRCSVBSeVMya0MvSnNiQ0NCc01iaXNYWVhrRE5nTS9t?=
- =?utf-8?B?MFBKRXovb3FPU2xpWXZsRmlpQ2Y0OGJRNTdLMHk4a1k4Y0VtUDJpUVgvTDRV?=
- =?utf-8?B?ZkN5Q3VPdmtBekNqUjlTNzZId0dhUTFRY2tseHZkZDUrbk1LMWgyV1hVVmRr?=
- =?utf-8?B?Njdtb3ArL2FENmZaSGxnQVRKOGxuaE5vUmpjNXdBSGN2Wi9LQzlnV0p6cDRY?=
- =?utf-8?B?VFZjNFh4RWROWEJDLzJaV3l3V3hIZHNDVWNwVEdvMzdoUXpNcHVpeUVmRXgr?=
- =?utf-8?B?SjB6cGJadmpxdWhCV05IZitzWUViY25HRkxmQUxZSHhHSE9odTcxZUVWVXBz?=
- =?utf-8?B?eXd6TFIzYkNrblVDVVVPM2Vjc2Uvb3dweUx1cDlCUXdLY0Eybks5N21VR3o1?=
- =?utf-8?B?aVFBWk44QnVmbXB6RU9ROS9BYjI3OGx2Y0VKd2syU2dlc0EyTm9tKzd1cDE5?=
- =?utf-8?B?cThSY2E3TWxPUjhic1FPVCs1N1VxTlQ4N215eWV5TEJXY2pCTTBHOHdVSmI3?=
- =?utf-8?B?SURGV3RZZXp1WGZETjc4d3lucCtmcU4vR1NCV1RlYlh1NGVTOFh1QjZ2bHpu?=
- =?utf-8?B?RGFHL1NDZ2RXWll6TXVuelJrQ1MySSttUnU4SlhJVUJteS8vMFU0S2VwcUVn?=
- =?utf-8?B?ZS9CZmI5aG9UTGQ0VEkvblpZaWhQV2RrTmQ4ZzlUeEpKNlJEZGt0b1c4YktH?=
- =?utf-8?B?WmNHT01hcWZzNHJvb2ZNVGo4SXR2M2dhZ1NpYWM4dEY3ODFVeFBPUzFnNmEy?=
- =?utf-8?B?NEdreW1NRHZNc0Y4TkVKTkh6MWVBZitNSHdBZ2dSSFdBYXlUeEd2ampycnBv?=
- =?utf-8?B?L21aU05CSjMrZHRxZFV4RUJUTEJlN3gwUEN6aTFGOWhISTJrWkI5NHVucndK?=
- =?utf-8?B?LzRJYWpMWDhOelBzQmdxTnBkeTdMRlJTMWpRYy95QjZ1NXIvOS9GTTZUTmJQ?=
- =?utf-8?B?UGllUVQ5ZFdjbVJxOUNNbDVNRE11citHcmZnMnJOREh4cHhIMjVsS0k2bWVn?=
- =?utf-8?B?NTRCL29uYWh0Y0tPZWFoTUwwRmx5QTBzRnNUQWdmRk85Sm50Q2hPWDcyZ1hX?=
- =?utf-8?B?aHdMcU5RN3d2K3dVSWJPNlRCR3B5VkJZY3RMZTNEVUJkR1p3S3NBUStsc01q?=
- =?utf-8?B?SmttRDRlZ0NURkdBemhuSEQ0N2t3SHpIb1pVM09JUkRUNHo3TG53VGtUVnJH?=
- =?utf-8?B?R0NURzN6RVN6VlVQUXhkZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0V4bFI4cTRpSUl5YXdKZ1BkamxhUStWOHhOajdNaDdTOE5NQjZKMi9KZ0Zx?=
- =?utf-8?B?cWYyOUNRNW0vR3U4eDJmZW9xZ2daOHZFb2orOVh0amxRKzcrSEswcjY1MUtD?=
- =?utf-8?B?aTV2a2ZOYVFVVjUwVjZWYUt0ZHh5ejNsV29zSm95NUl6ZW16OHdPbm1BRWJt?=
- =?utf-8?B?cmNhV0JVeVlPcUtDNlFiZ2I3YmpRM3dieDd1aGJYUUwxWUYzQ05Wd3lGSlNr?=
- =?utf-8?B?YUdIQ25KRUl1bldiRXVkOTlYY2N6VHVqd0xLMkZINk4xUW05S2hPcG9QaDFD?=
- =?utf-8?B?ZnZyL0VNL2pZbkxMSitwbk01Qmx5L05BUVZycjdGd0FtNDNCMDJDLzc0dWY1?=
- =?utf-8?B?d0NUVkV5TXI1RG9uWFJJY2QvdkEwSmd6NUE1clBFbFR3VldjVlQreUt2VGdi?=
- =?utf-8?B?WkhFNmFtbTUyWTBlalVMYnJVNkx3SUEvTzY0Y3AzVXpWSmdiZmRsdXdZVnFv?=
- =?utf-8?B?SW5xSDgxV0ZhS1NLeVE4SXRmd2pvRDZ2NC9ra1FuQm1qeTdoRG9ETE53dVRq?=
- =?utf-8?B?cUV2TjhCWHRnbmpGcU1iZ3FCL2FvandWQitCV3ROdjdNRWhqQzNycFdWc0g4?=
- =?utf-8?B?MUZvT1FQUy9JaFFyNWRqV0d5WWVKdnVENElnZVBGNGZYdFkzdVFxTzd6ZVpy?=
- =?utf-8?B?VWVoeWdPTEFYWlc1d2lOa1lzWW9wZ0ljdDVSS1dhOUNNZVJVMm9YNklvY1RK?=
- =?utf-8?B?ZnY0YXJRUE9idDZrQTNYOXB0VFIveVJ4UGJ3M0M1U1JVWjZnQW5NTHp1eWc1?=
- =?utf-8?B?NlcwN0VhVjBlSlpTdkV6RTd4N3lXcS9vNEkyNDRqMkNoamQ5S3V3cVYyNENU?=
- =?utf-8?B?a0ZtaitXK2tkNXlVZklDZXVaUTMzVGV6dGQrcFE5cnVoanNWWjNQdlQwd1NJ?=
- =?utf-8?B?OUxzNm4vWkRoUDFHRlUwVWt6TlJ5bXE0bTdtTTcxWFpRTTNhQ2tiNzk3aVdu?=
- =?utf-8?B?R3E4b2txdU9mTXUyeEpuL0RCbXcvd05pemNBNlpISXNVV29XMTQvYlUvT2lH?=
- =?utf-8?B?Rys3R1RUaXZrTE9UVVBUSW9iLzNadmNNYjE1emNQMllvNXJNYXoyekplYjNS?=
- =?utf-8?B?N25vdEZFdmF6RS94RzkreVhDbDBqeElqbVdrQ2gzMVJnTUJhWm5TbERMRzJ5?=
- =?utf-8?B?RmIrVXNtU1paNnV5a0U4SzU0SGJVK3FhQzI2eTVZTnNTaVRMLytJaExKcmFx?=
- =?utf-8?B?VUZsQUtQcjIzUWVBdmZ2UWFqZWxkdmR2ckMxN1FYOW03emEzdG9tMHVnVWlT?=
- =?utf-8?B?bFIxcXJ1Z1hhTDBMVWtralVpMHhMNnM3bGNhZlptUHFXUVZ1NTFNNVlkTlZa?=
- =?utf-8?B?K3dLekRmd2tjUFpvYnRQREdiUkV1RGxsZnovVjhIaVVSK3ByUG4xelFTNEpy?=
- =?utf-8?B?bVhIc2IxTTM0dG1mcStCczUycDl4Ukc3SEJFZDUzT2V6OFA0Q295TDRJdmtS?=
- =?utf-8?B?UGZkMDl1RmV4c1FXTVF4MUxvZ0xqNFNjZWRCbi9aSnZCa2NDbUhNK1RlY1RU?=
- =?utf-8?B?ZkN6Yk0zWmIyTjVxUUZIeVMvVEtxdTdnZ0hMbnNBb01wWXpQamZ0QUNXVzli?=
- =?utf-8?B?dDlkY3VHclBCVFZwcy9CeUtQeWNhU3JIMU13UUNjQ0ZkOW1MQzdDOGgrMHpt?=
- =?utf-8?B?aXFBNUh2MmJBNytPVlNmdEhLTXd2clVaL1NNU1o0UGlxdW5PY1NVcVNTUzBs?=
- =?utf-8?B?V2g3VU5MQkprUHZxbUR6WTJpNkd4dVNDR09aNW9CaUwzanJ4VlB6QzRRZmRI?=
- =?utf-8?B?Mis2a2pxeHBLVElFMnRVQ3VBanNWOW5iQkpWcmExYmh5VEhHMmpNM1k3SEhU?=
- =?utf-8?B?L0lYZnBMM3hXMDhweFdIZnNpWHl4VTVUbFk5akJucHlYZnZMWnBYUlNJQlJK?=
- =?utf-8?B?Z3M5L1g1NEF0K0J5Rk1henJ0Nng1SUJtZ1FOVzZuS2d1ZmlKdUdRYzlTQktR?=
- =?utf-8?B?bzVqQm04TVZrektIZHVsS2ZjSjVWdXFhaUd0OC9YNXBZVkVlM3NKQjRBV2xn?=
- =?utf-8?B?UnpYdnZ1dGRkMVZlRTVKaXJGT2R1NHRJV2lOUnJVUkNwQVMyRG5ZT0FZUzht?=
- =?utf-8?B?NTdmaWJjR3hLM0x4clk0NVgxcHd3TFFwUTFkOVBUNHVyaXNvNExZM1d1OGZs?=
- =?utf-8?Q?feA479KbNbcawbKQk5FYQQek/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1911da9-f32c-4918-cdc2-08dccbee014e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 07:57:06.6611 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5Yz0UlRiTgW2quJFlvIz7JvwGY87tpuq+TtP/SFBTlm0qispKsipTxncbSET5aTm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9127
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZtY6F7v/zIUnG6Kx@DUT025-TGLU.fm.intel.com>
+X-Operating-System: Linux phenom 6.9.12-amd64 
+X-Mailman-Approved-At: Tue, 03 Sep 2024 11:01:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,54 +95,288 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.09.24 um 17:41 schrieb Thomas Hellström:
-> The ttm_bo_pin() and ttm_bo_unpin() functions weren't moving their
-> resources off the LRU list to the unevictable list.
->
-> Make sure that happens so that pinned objects don't accidently linger
-> on the LRU lists, and also make sure to move them back once they
-> are unpinned.
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+On Mon, Sep 02, 2024 at 10:20:07PM +0000, Matthew Brost wrote:
+> On Mon, Sep 02, 2024 at 02:48:55PM +0200, Daniel Vetter wrote:
+> > On Thu, Aug 29, 2024 at 10:12:53PM +0000, Matthew Brost wrote:
+> > > On Thu, Aug 29, 2024 at 01:02:54PM +0200, Daniel Vetter wrote:
+> > > > On Thu, Aug 29, 2024 at 11:53:58AM +0200, Thomas Hellstr�m wrote:
+> > > > > But as Sima pointed out in private communication, exhaustive eviction
+> > > > > is not really needed for faulting to make (crawling) progress.
+> > > > > Watermarks and VRAM trylock shrinking should suffice, since we're
+> > > > > strictly only required to service a single gpu page granule at a time.
+> > > > > 
+> > > > > However, ordinary bo-based jobs would still like to be able to
+> > > > > completely evict SVM vram. Whether that is important enough to strive
+> > > > > for is ofc up for discussion.
+> > > > 
+> > > > My take is that you don't win anything for exhaustive eviction by having
+> > > > the dma_resv somewhere in there for svm allocations. Roughly for split lru
+> > > > world, where svm ignores bo/dma_resv:
+> > > > 
+> > > > When evicting vram from the ttm side we'll fairly switch between selecting
+> > > > bo and throwing out svm pages. With drm_exec/ww_acquire_ctx selecting bo
+> > > > will eventually succeed in vacuuming up everything (with a few retries
+> > > > perhaps, if we're not yet at the head of the ww ticket queue).
+> > > > 
+> > > > svm pages we need to try to evict anyway - there's no guarantee, becaue
+> > > > the core mm might be holding temporary page references (which block
+> > > 
+> > > Yea, but think you can could kill the app then - not suggesting we
+> > > should but could. To me this is akin to a CPU fault and not being able
+> > > to migrate the device pages - the migration layer doc says when this
+> > > happens kick this to user space and segfault the app.
+> > > 
+> > > My last patch in the series adds some asserts to see if this ever
+> > > happens, thus far never. If it occurs we could gracefully handle it by
+> > > aborting the migration I guess... I think the user really needs to
+> > > something a bit crazy to trigger this condition - I don't think the core
+> > > randomly grabs refs to device pages but could be wrong.
+> > 
+> > I think it does :-/
+> > 
+> > If you read do_swap_page around ->migrate_to_ram:
+> > 
+> > 
+> > 	get_page(vmf->page);
+> > 	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> > 	ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+> > 	put_page(vmf->page);
+> > 
+> 
+> Yep, I've seen this show in some of local rework getting MREMAP working.
+> The common case is I have test with 2M mapping which I call MREMAP on
+> and then immediately read from the new mapping (the one from MREMAP).
+> Since a MREMAP results in a UNMAP notifier event one of the possible
+> solutions I have just evict the VRAM via drm_gpusvm_evict_to_sram upon
+> the UNMAP event. This case race with fault from the user space so the
+> evict only moves 511 of the pages while the CPU fault moves 1 page. This
+> actually seems to be fine though as the entire VRAM allocation is
+> migrated.
 
-I really can't figure out why we removed that. Anyway Reviewed-by: 
-Christian König <christian.koenig@amd.com> for now.
+There's also MREMAP_DONTUNMAP for added fun. So you cannot rely on the
+unmap happening I think.
 
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index d244566a7e48..057a65f51969 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -592,9 +592,10 @@ void ttm_bo_pin(struct ttm_buffer_object *bo)
->   	dma_resv_assert_held(bo->base.resv);
->   	WARN_ON_ONCE(!kref_read(&bo->kref));
->   	spin_lock(&bo->bdev->lru_lock);
-> -	if (bo->resource)
-> +	if (!bo->pin_count++ && bo->resource) {
->   		ttm_resource_del_bulk_move(bo->resource, bo);
-> -	++bo->pin_count;
-> +		ttm_resource_move_to_lru_tail(bo->resource);
-> +	}
->   	spin_unlock(&bo->bdev->lru_lock);
->   }
->   EXPORT_SYMBOL(ttm_bo_pin);
-> @@ -613,9 +614,10 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo)
->   		return;
->   
->   	spin_lock(&bo->bdev->lru_lock);
-> -	--bo->pin_count;
-> -	if (bo->resource)
-> +	if (!--bo->pin_count && bo->resource) {
->   		ttm_resource_add_bulk_move(bo->resource, bo);
-> +		ttm_resource_move_to_lru_tail(bo->resource);
-> +	}
->   	spin_unlock(&bo->bdev->lru_lock);
->   }
->   EXPORT_SYMBOL(ttm_bo_unpin);
+> > Also the migrate code itself does lock pages. So unless we toss in
+> > additional locking on top of what core mm does (which I think should be
+> > enough to cover migration), migrations will temporarily fail. And this is
+> > just for multiple threads trying to get the same page back to sram, which
+> > I think is a case we should support because the application did nothing
+> > wrong.
+> 
+> Yes, I think I've mentioned this already. Multiple CPU faults from
+> different threads targeting the same range / allocation can race but
+> again this actually seems fine too. Each thread gets a semi-random set
+> of VRAM pages which it migrates but again the end result the entire
+> VRAM allocation is migrated after all racing faults are serviced. I
+> think the only guarantee when CPU faults race is the faulting page per
+> each thread is migrated in that thread.
+> 
+> I have threaded test which hammers reads on a single 2M migration which
+> checks every 4k page's data integrity that passes reliably. Working on
+> updated this to fork version now too.
+> 
+> > 
+> > > > migration) or have the page locked (which also block the migration). But
+> > > > as long as those two steps succeed, we'll win and get the pages. There
+> > > > might be some thrashing against concurrent svm faults stealing them again,
+> > > > but they have a disadvantage since they can't steal dma_resv_locked bo.
+> > > > And if it's still too much we can stall them in the page allocator.
+> > > > 
+> > > > So it's not entirely reliable, but should be close enough.
+> > > > 
+> > > > Now for bo based svm the picture isn't any different, because holding
+> > > > dma_resv is not actually enough to migrate svm mappings. We still need to
+> > > > hope there's no temporary page references around, and we still need to
+> > > > succeed at locking the page. And the migration code only does trylocks,
+> > > > because that's it's deadlock prevent algorithm if different migrations
+> > > > needing the same set of pages, but acquiring them in a different order. So
+> > > > we win nothing.
+> > > 
+> > > Ok, maybe my statement above is false...
+> > > 
+> > > Wouldn't be the only time this falls is if another migration is in
+> > > flight (e.g. CPU fault) and they race? Then the eviction will naturally
+> > > happen via refcount being dropped from the other migration. I guess I
+> > > likely need to update my eviction code to not free the TTM resource if
+> > > all pages are not migrated.
+> > 
+> > Yeah. And additionally core mm relies on some amount of Good Luck here,
+> > plus the assumption that at least falling back to a single page/folio will
+> > work out. At least eventually ...
+> > 
+> > The trouble is if your design assumes you can migrate an entire block,
+> > because then if threads hammer that range in different orders you'll never
+> > make forward progress. Because the core mm code doesn't have a fancy ww
+> > locking scheme to get out of this, but only uses trylock, plus the
+> > assumption that falling back to a single page will work out eventually.
+> > 
+> 
+> Hmm, see above. I think forward progess is made unless I'm completely
+> missing something. 
+> 
+> > Wrt TTM resource refcounting, I think that all looks ok. But maybe I
+> > checked the wrong things.
+> > 
+> > > > Worse, if dma_resv does actually hold up svm migration and reclaim, then
+> > > > we potentially deadlock because that lock is for a bigger range than
+> > > > individual pages (or folios). And the core mm assumes that it can get out
+> > > > of a deadlock bind by (at least stochastically) eventually succeeding in
+> > > > acquiring/locking down a single page.
+> > > > 
+> > > > This means we cannot use dma_resv tricks to give the ttm world an
+> > > > advantage in exhaustive eviction against concurrent svm faults. Or at
+> > > > least not more than we can do without by just stalling svm faults that
+> > > > need to allocate gpu memory (but that must happen without holding locks or
+> > > > we're busted).
+> > > > 
+> > > 
+> > > I'm a little lost here on the deadlock case. Do you mean when we try to
+> > > evict SVM BO we trigger reclaim by allocating system pages and can
+> > > deadlock? Doesn't TTM already have this dependency when evicting non-SVM
+> > > BOs?
+> > 
+> > So you can have multiple cpu threads hammering a given svm range. And
+> > thanks to the lols of mremap and fork each of them can have a different
+> > view of that range (they are all obviously different processes from the
+> > one that has created the gpusvm binding). And if you try to migrate, they
+> > might all grab the pages in different orders, which can deadlock.
+> > 
+> 
+> Yes, grabbing locks in different orders would be bad and that could
+> deadlock. But I don't that that will happen, even with a range lock I
+> believe I have this working as the range in zdd is pointing the
+> originally allocated range. The MM and start / end can be wrong (with
+> fork / mremap) so that has to worked around which isn't ideal. If zdd or
+> vram allocation has the lock and we remove the range from migration view
+> this conceptually makes more sense which kinda where I'm trending if we
+> agree to roughly keep what I have in place at least initially.
+> 
+> Touch on this here too [1].
+> 
+> [1] https://patchwork.freedesktop.org/patch/610957/?series=137870&rev=1#comment_1112527 
 
+So I think there's multiple scenarios:
+
+- You use your mmap_write hack, and don't have forks. There's only one
+  migration ever, the write mmap lock will block any concurrent faults. No
+  troubles.
+
+- With the migration_mutex, at least how I understand the amdgpu design I
+  think there can be trouble, if you throw enough threads at the issue.
+
+  1. Lots of threads fault on different pages in the same range. They all
+  grap a page reference from do_swap_page around calling ->migrate_to_ram.
+
+  2. First thing they do is mutex_lock(range->migration_mutex). That
+  serializes everything. It also means that the other threads will not
+  wait on the migration pte, because that's not visible outside of holding
+  the migration_mutex, instead they pile up against that lock. So you have
+  pages in that range you cannot migrate, and you need partial migration
+  support or you're stuck.
+
+  Unless you force a full eviction for anything partially migrated before
+  you try to handle gpu faults, you also need to handle partial migrations
+  on the fault side or things won't make forward progress. As soon as you
+  allow faults to fully race with migrate_to_ram (with or without
+  migration_mutex) you need to support partial migration state because the
+  gpu fault side is not in any way better at winning races than the cpu
+  fault migration.
+
+  Or you fall back to sram, but for "must be in vram" memory that's not
+  going to work too well.
+
+- Next up is migration_mutex with partial migrations, but instead of
+  threads hammering different pages in parallel, they hammer the same page
+  in parallel. They will all pile up in the mutex_lock(migration_mutex),
+  because the migration pte is never visible outside of that lock. And the
+  migration won't ever work, because there's other threads that have an
+  elevated page reference.
+
+  You can fix that by making the migration_mutex a trylock. At that point
+  you've pretty much exactly reinvented the page lock semantics, except
+  the lock is for a pile of pages instead of each individually.
+
+  If you're not yet seeing this I think there's not yet ennough concurrent
+  faulting in your tests going on. And this is a legit use case:
+  1. allocate range, move it to gpu
+  2. do stuff on gpu
+  3. when gpu finishes a thundering herd of cpu threads want to look at
+  the result
+
+  Note that even the trylock isn't good enough, because there's a window
+  between when do_swap_page elevates the page refcount and when we
+  trylock. But if we _only_ use the page lock we could move that trylock
+  into do_swap_page, while we hold the cpu pagetable lock, which would
+  close the race. Cpu threads that lost the race will simply busy-loop for
+  a bit until the migration pte is installed, at which point they'll block
+  and wait for the migration to finish.
+
+So I think even if we limit us to legit use-cases the migration_mutex (or
+any other physical storage lock that's not the page lock) will just get in
+the way eventually. And the core mm page lock really should be enough to
+make sure migration doesn't race.
+
+> > That's why there's so much retrying and also why core mm only does trylock
+> > on pages if it grabs an entire pile.
+> > 
+> > Now if you have a lock that nests within the page lock you need to trylock
+> > it, or it deadlocks. Which kinda defeats the point of having a bigger lock
+> > and moving the entire bo as a unit.
+> > 
+> > But if that is outside of the page lock (like amdgpu), you still have the
+> > issue of the elevated page reference from do_swap_page. Which also blocks
+> > migration.
+> > 
+> 
+> See above, it doesn't actually block migration as each thread still make
+> forward progress and collectively all complete the migration, at least
+> that is what I'm observing.
+> 
+> > Note that neither is a hard deadlock, as in lockdep complaints, because
+> > they're all retrying anyway. They're more like lifelocks, and the bigger
+> > your pile of pages the more likely that you'll always have a failed page
+> > and need to abort and retry. Which results in threads spinning forever.
+> > 
+> > > > So the only benefit I'm seeing is the unified lru, which I'm not sure is
+> > > > worth it. There's also a bit a lru design tension here, because for the bo
+> > > 
+> > > Well also not rewriting the world...
+> > 
+> > Yeah it's tough. I'm still at the "understanding all the tradeoffs" stage,
+> > just to make that clear.
+> 
+> That's basically where I'm at too. Trying balance between simple as
+> possible vs. dream solution. Wrote this series fairly quickly to what I
+> could get working and help me understand how all of this works. 
+> 
+> I've also said this a few time throughout my replies, also really want
+> UMD / application data to help understand how SVM will be used too. Feel
+> like that information will also help determine some design choices (e.g.
+> what to optimize for).
+
+My thinking is a bit different: ttm bo world is from a lot of semantics
+fundamentally at odds with core mm. And I didn't realize this fully until
+this recent thread, but migrate_device.c and hmm.c really inflict most of
+the bonkers "we love all the races" mm semantics onto drivers. Which means
+we have a huge semantic design conflict, and the question is where should
+we solve it. There's a range, but the two extremes are roughly:
+
+- Try to make svm look as much as possible as the bo+userptr world. This
+  means lots of tensions within our code, and the risk that we design
+  ourselves into a corner we cannot fix. Like we cannot trylock the
+  range->migration_mutex while holding cpu pagetables in do_swap_page, so
+  we'd need a different fix for that, and I haven't come up with one yet.
+
+- Just adopt core mm design, and end up with a bunch of duplicated code.
+  This means tension between these two worlds, but there's a clear design
+  to address that from core mm (shrinkers for ttm bo, page reclaim for
+  svm, running in a loop applying equal eviction pressure to both). So
+  much cleaner separation, and really well structured interaction between
+  the two worlds like we have on the igpu side already for managing sram.
+  But it comes at the cost of more code.
+
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
