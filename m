@@ -2,65 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6742D9696B6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 10:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403449696D5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 10:19:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C4F10E1EF;
-	Tue,  3 Sep 2024 08:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E734D10E20B;
+	Tue,  3 Sep 2024 08:18:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xj8FrPg3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="olU2tuWX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3818210E1EF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 08:16:24 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5c241feb80dso5337558a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 01:16:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725351382; x=1725956182; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=et6Oc3OlCMrVxucpzkRBMywggjLDlMnpSE07KjghInI=;
- b=xj8FrPg3gFbGPHDk2p2boXjh4TticB+zKdywqsbdmkxVNFq5TA0GfelcsJ8NBspGGD
- ydvn472Ao4XM+8yo8DkSD3X5GFT3BrUwIsNpKnonHaiH3Djums4xy8yk2mYwa6yvH/19
- DEe2yIyxrWbENMW/SmB3qmQDNIcxYhCg3KSh/YADeMvN6FBKLR09pVp79BOePCQIvdXx
- v0g7Ts1KWzjn2jAQivlK69e7phCFP72k2DXBORxcXpCwLnc512hi828PQjPHdcEaGR/A
- CGnKuSPRmjgx5o8AOu+T2hwNWpPyVi8MK51Cnlwb+qjcpQ2x3LN+NpBeY5uIwPu9lHn2
- 3wlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725351382; x=1725956182;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=et6Oc3OlCMrVxucpzkRBMywggjLDlMnpSE07KjghInI=;
- b=NJicjD4NfbD7Gik0jRrUmtzfiMAy3ZfDtYVE9d7nBbv+eb4QYg06F3F5qiaEM8KwKQ
- m6FJZOvf1fYHQ9QZw+UriU8XxE6H3bN9Z35ja+oeR+HJ00hYtxkQrjqf1THLafcxU02Y
- r6O1niIPe3dH+j6GUeizrt1ULD5nW88je61FlwW8d2JehxY7XsOxrYQDPmIFsV01Ut0i
- sgOUCFT7lKuHFXczXkMS0DiVQSHpLBjq8ehErsEHbVOErLzAB07V4YKD0hEQQOeGMvqW
- LjryritA0VyMJsfRcvfgw40Zmrp6nrbMXkfJBkX9dprHjyNcx42qoBJkvPR2Zd0/6X2m
- 1RnA==
-X-Gm-Message-State: AOJu0YzDy+77jGx88SBj1OOB/Ej+SNrSyjaHHcDifRcpbDImnJmkxZBw
- XNNdF+ER1bVyLMq7ciYqEausyIYSM39o0jYFoFdVqB3xY+IbudJeCDlQPu5hkFab1M/Pau0OImo
- 0
-X-Google-Smtp-Source: AGHT+IFFaKgiizFeRmDG5O0JN+jvqgYpQsj1HAdIhElfNMWM4vkxfGPWRHLrkwQo2PhYMYEdf+8mvw==
-X-Received: by 2002:a17:907:3eaa:b0:a80:9c1b:554f with SMTP id
- a640c23a62f3a-a89a292298fmr1701467666b.27.1725351382442; 
- Tue, 03 Sep 2024 01:16:22 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a89891daf81sm650417166b.163.2024.09.03.01.16.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2024 01:16:22 -0700 (PDT)
-Date: Tue, 3 Sep 2024 11:16:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Arnaud Vrac <avrac@freebox.fr>
-Cc: dri-devel@lists.freedesktop.org
-Subject: [bug report] drm/msm: add msm8998 hdmi phy/pll support
-Message-ID: <a9f756ef-2580-4906-b7a1-d6452331c8b5@stanley.mountain>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C76010E0E1;
+ Tue,  3 Sep 2024 08:18:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 87A465C578F;
+ Tue,  3 Sep 2024 08:18:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA55C4CEC4;
+ Tue,  3 Sep 2024 08:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725351535;
+ bh=g7ymmQH2esDD1HmWV3+1wWNSYvcNjH8kYis73gaYP5I=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=olU2tuWXIpJl+vvUtyzzy74giwBPEJKRv8ViT1WDop+wVwLYcWCzt7Fu1FzdP6aOQ
+ omZ2kda/DoqTHYh3BkIvuTszwSh13Y9pVP4iFGHuElNuBYCZ8Vz6ReM5BwFxRINaD0
+ iQYhbM7oWAy2epdsGIzsk2p8ejaUfgj+rLveyEhczMqXf8oEfXlZcAUcHKEtTVa7Mj
+ 7s1O+Bgz3RyrHOYTi2tc5gAPrI9OHgf4jYH859LrRxIeVK2YmYyLP60IwNE/VmSLvy
+ B6zB3xZ8LTxG5NxuO3KX4cOo45+Q1C3iSPJW0YEaPc51JXE6yIaGfAnbACwSfrOjjx
+ yiZn+bVCzwblw==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v5 0/3] drm: fix two issues related to HDMI Connector
+ implementation
+Date: Tue,  3 Sep 2024 10:18:50 +0200
+Message-ID: <172535151881.1826612.11747911526055879779.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240903-drm-bridge-connector-fix-hdmi-reset-v5-0-daebde6d9857@linaro.org>
+References: <20240903-drm-bridge-connector-fix-hdmi-reset-v5-0-daebde6d9857@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,60 +96,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Arnaud Vrac,
+On Tue, 03 Sep 2024 05:01:55 +0300, Dmitry Baryshkov wrote:
+> Running IGT tests on Qualcomm Dragonboard820c uncovered two issues with
+> the HDMI Connector implementation and with its integration into the
+> drm_bridge_connector. Fix those issues.
+> 
+> Note, I'm not fully satisfied with the drm_bridge_connector move. Maybe
+> it's better to add drm_bridge_funcs::connector_reset() and call it from
+> __drm_atomic_helper_connector_reset().
+> 
+> [...]
 
-Commit caedbf17c48d ("drm/msm: add msm8998 hdmi phy/pll support")
-from Jul 24, 2024 (linux-next), leads to the following Smatch static
-checker warning:
+Applied to misc/kernel.git (drm-misc-fixes).
 
-drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c:634 hdmi_8998_pll_prepare() info: return a literal instead of 'ret'
-drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c:646 hdmi_8998_pll_prepare() info: return a literal instead of 'ret'
-
-drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
-   620  static int hdmi_8998_pll_prepare(struct clk_hw *hw)
-   621  {
-   622          struct hdmi_pll_8998 *pll = hw_clk_to_pll(hw);
-   623          struct hdmi_phy *phy = pll_get_phy(pll);
-   624          int i, ret = 0;
-   625  
-   626          hdmi_phy_write(phy, REG_HDMI_8998_PHY_CFG, 0x1);
-   627          udelay(100);
-   628  
-   629          hdmi_phy_write(phy, REG_HDMI_8998_PHY_CFG, 0x59);
-   630          udelay(100);
-   631  
-   632          ret = hdmi_8998_pll_lock_status(pll);
-   633          if (!ret)
-   634                  return ret;
-
-This currently returns success.  Should it return an error code?
-
-   635  
-   636          for (i = 0; i < HDMI_NUM_TX_CHANNEL; i++) {
-   637                  hdmi_tx_chan_write(pll, i,
-   638                                     REG_HDMI_8998_PHY_TXn_LANE_CONFIG, 0x1F);
-   639          }
-   640  
-   641          /* Ensure all registers are flushed to hardware */
-   642          wmb();
-   643  
-   644          ret = hdmi_8998_phy_ready_status(phy);
-   645          if (!ret)
-   646                  return ret;
-
-Same.
-
-   647  
-   648          /* Restart the retiming buffer */
-   649          hdmi_phy_write(phy, REG_HDMI_8998_PHY_CFG, 0x58);
-   650          udelay(1);
-   651          hdmi_phy_write(phy, REG_HDMI_8998_PHY_CFG, 0x59);
-   652  
-   653          /* Ensure all registers are flushed to hardware */
-   654          wmb();
-   655  
-   656          return 0;
-   657  }
-
-regards,
-dan carpenter
+Thanks!
+Maxime
