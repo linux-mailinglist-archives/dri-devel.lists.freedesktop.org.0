@@ -2,43 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720509699CA
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 12:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926439699EE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 12:18:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 045D210E1AF;
-	Tue,  3 Sep 2024 10:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C6C10E3B2;
+	Tue,  3 Sep 2024 10:18:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XP5//rKx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8985B10E1AF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 10:12:49 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7D02E3EDDE;
- Tue,  3 Sep 2024 12:12:47 +0200 (CEST)
-Date: Tue, 3 Sep 2024 12:12:46 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/21] drm/msm/dsi: pass the right width to dsc
-Message-ID: <6kecwqe5npysc3rup5tkij5iepgk3pf5erattfv25caedixaml@6zev3sdwjjbu>
-References: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org>
- <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-3-bdb05b4b5a2e@linaro.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD5610E266
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 10:18:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1725358721;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=75hetENG4bc9yz1UukUCeOeiMHbzLEjg9bZNv+FtxvI=;
+ b=XP5//rKxky3jmX/OUdmB6owSsPTFhKKV8obrMKjoVo/31/Q2F17vJ4EQXIEDcWLKqjmdxU
+ 7fgpIvDQlSUuViSWEa6mF+RRHM2VRbAdxuU1FdBH1IKGw3s/+f7jdErVVGmgd23SF8U645
+ XIggygB3qXzUDIiTeazph3uoq+KU5YI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-593-LJx-WNg6M4iRRePMfS6x2w-1; Tue, 03 Sep 2024 06:18:40 -0400
+X-MC-Unique: LJx-WNg6M4iRRePMfS6x2w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3730b54347cso3165606f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 03:18:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725358719; x=1725963519;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=75hetENG4bc9yz1UukUCeOeiMHbzLEjg9bZNv+FtxvI=;
+ b=LTWr5SQbfVe9DGHBNfGDj2wfhS1Mz6tjG7V9fuYS7T3DoA8DLcURIoTzQ+3r9fPQtk
+ sPdOY2Ng5NIxvULL3cG9xP7R8eyKoAUUPAMGcdmnJQ4CaMynv/I7FJOh3FZQGPGHmQuE
+ sGUQ5isOF+6zvhA16P0eM58yxmHe9CndsGpEahpmMK9T5pZ7zkFEZodJkgElhmwkhRn7
+ uouNMeX7P27+3DrYtV5gJXeUiavPq0W7sFWsx8I+L6H4jTKGZtnf6X6hoiDp/X7KaLYK
+ drkSuBQoiqfCuL70hIxB+eDGijeQnqxnhbN/p2AHIHjaILopgT67ZK18/y9wf7/43I8U
+ 79Dw==
+X-Gm-Message-State: AOJu0YycBuqsgXCUw3oj15ikYiwGyEWwzHJ0O2Nhuzdna+jaa9KqKG/5
+ NulGd1hQ/tkTtDl5TsKg32djCiSvpB8OKIXHd7XAwEDvC026SbO4nteyYDqH9iDl0fO5KonHUhx
+ p4MI4XtKrY1sKh4FZprHzMbYj2RSkV7GtBU7ddqkgP1UTmLY8LPm1JmFHChrb2xPvGg==
+X-Received: by 2002:adf:9b93:0:b0:374:badf:966f with SMTP id
+ ffacd0b85a97d-374ecc67b7fmr1995918f8f.7.1725358719261; 
+ Tue, 03 Sep 2024 03:18:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF8XHGNTolKI2k2kU/2hdxDQmpWW5estcVlaB0VFBow/EbJyd891aWev9zy/gYfhTBe2Uad5Q==
+X-Received: by 2002:adf:9b93:0:b0:374:badf:966f with SMTP id
+ ffacd0b85a97d-374ecc67b7fmr1995895f8f.7.1725358718785; 
+ Tue, 03 Sep 2024 03:18:38 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42bb6df79b6sm165328715e9.22.2024.09.03.03.18.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2024 03:18:38 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 02/81] drm/fbdev-helper: Set and clear VGA switcheroo
+ client from fb_info
+In-Reply-To: <20240830084456.77630-3-tzimmermann@suse.de>
+References: <20240830084456.77630-1-tzimmermann@suse.de>
+ <20240830084456.77630-3-tzimmermann@suse.de>
+Date: Tue, 03 Sep 2024 12:18:37 +0200
+Message-ID: <87mskpghvm.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-3-bdb05b4b5a2e@linaro.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,78 +91,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-08-29 18:17:32, Jun Nie wrote:
-> Data width for dsc engine is aligned with pipe, not with whole screen
-> width. Because the width may be halved in DSI bonded case.
-> 
-> The dsc width is not related to the timing with back front porch in
-> later stage, so update dsc timing earlier.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-I already sent a patch for this:
-https://lore.kernel.org/linux-arm-msm/20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-2-78ae3ee9a697@somainline.org/
+Hello Thomas,
 
-And then came up with a better solution, outlined in:
-https://lore.kernel.org/linux-arm-msm/7fqwkryeumkt7zxsec6va7ys22nfs3tr4rrcz323extdz3f6zv@w4uu2lk4uh7v/
-
-Would you mind dropping this patch so that I can send a better solution?
-
+> Call vga_switcheroo_client_fb_set() with the PCI device from the
+> instance of struct fb_info. All fbdev clients now run these calls.
+> For non-PCI devices or drivers without vga-switcheroo, this does
+> nothing. For i915 and radeon, it allows these drivers to use a
+> common fbdev client.
+>
+> The device is the same as the one stored in struct drm_client and
+> struct drm_fb_helper, so there is no difference in behavior. Some
+> NULL-pointer checks are being removed, where those pointers cannot
+> be NULL.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 7a4d9c071be5a..5abade8f26b88 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -953,7 +953,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  			return;
->  		}
->  
-> -		dsc->pic_width = mode->hdisplay;
-> +		dsc->pic_width = hdisplay;
+>  drivers/gpu/drm/drm_fb_helper.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index af1fe79c701d..13095d38aa42 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -562,8 +562,12 @@ EXPORT_SYMBOL(drm_fb_helper_release_info);
+>   */
+>  void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
+>  {
+> -	if (fb_helper && fb_helper->info)
+> -		unregister_framebuffer(fb_helper->info);
 
-The other part of this already happened in patch 02/21?
+I'm not sure if we can assume these won't be NULL... AFAICT some drivers
+still have their own struct drm_client_funcs vtable and could potentially
+pass a NULL struct drm_fb_helper ?
 
-- Marijn
+If you think that's safe to do this and the function semantics should be
+changed, then I think that the kernel-doc needs to be updated:
 
->  		dsc->pic_height = mode->vdisplay;
->  		DBG("Mode %dx%d\n", dsc->pic_width, dsc->pic_height);
->  
-> @@ -964,6 +964,11 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  		if (ret)
->  			return;
->  
-> +		if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO)
-> +			dsi_update_dsc_timing(msm_host, false, hdisplay);
-> +		else
-> +			dsi_update_dsc_timing(msm_host, true, hdisplay);
-> +
->  		/*
->  		 * DPU sends 3 bytes per pclk cycle to DSI. If widebus is
->  		 * enabled, bus width is extended to 6 bytes.
-> @@ -990,9 +995,6 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  	}
->  
->  	if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) {
-> -		if (msm_host->dsc)
-> -			dsi_update_dsc_timing(msm_host, false, mode->hdisplay);
-> -
->  		dsi_write(msm_host, REG_DSI_ACTIVE_H,
->  			DSI_ACTIVE_H_START(ha_start) |
->  			DSI_ACTIVE_H_END(ha_end));
-> @@ -1011,9 +1013,6 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  			DSI_ACTIVE_VSYNC_VPOS_START(vs_start) |
->  			DSI_ACTIVE_VSYNC_VPOS_END(vs_end));
->  	} else {		/* command mode */
-> -		if (msm_host->dsc)
-> -			dsi_update_dsc_timing(msm_host, true, mode->hdisplay);
-> -
->  		/* image data and 1 byte write_memory_start cmd */
->  		if (!msm_host->dsc)
->  			wc = hdisplay * mipi_dsi_pixel_format_to_bpp(msm_host->format) / 8 + 1;
-> 
-> -- 
-> 2.34.1
-> 
+- * @fb_helper: driver-allocated fbdev helper, can be NULL
++ * @fb_helper: driver-allocated fbdev helper, must not be NULL
+
+Other than that, the patch looks good to me:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
