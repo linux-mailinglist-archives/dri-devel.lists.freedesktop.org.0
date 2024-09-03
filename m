@@ -2,61 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3FA96A741
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 21:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C537996A7A0
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 21:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A19910E0C6;
-	Tue,  3 Sep 2024 19:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1946110E228;
+	Tue,  3 Sep 2024 19:43:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AR8qg2oU";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="CZTU3v5U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDB5010E0C6
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:19:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A4034A43DE3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:19:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BA7DC4CECA
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725391192;
- bh=KqQE3iCy7S3bFdUawYBf51xOtDYqglawuE1j3xjb2Iw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=AR8qg2oUbWcbxrnqfbP00Cl27m7+NaU4Z4M9ALEjxqtVia6hg6EJvBRm1jXaOJNXf
- N4xbYzgYjMdX2oBRva4ZYuiFAyCe07hF1JIY9eu4vrMKrDMLdI6R9BTRcNS9jj46HW
- I1ik4iPkFxOis5/RgsnLihR4eVJ3Fo8SKP/JxMZiA6F80yoDGdam5ZWH0NWsXOPtt4
- Vz1iLnjW2FoE3a+uIWtpD9SqYIdzHo983xlYPEqzcECXxJDBkGSXCzR1LmxH9PNp+D
- zenkQCdRpbMEBJyWcSBOfw1/pKnBihUJ8njwiyHPTskyBpSyxX/64XJ0fbQ+Bb2jkV
- rIw/ZavbuIPUw==
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-533488ffaddso7088144e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 12:19:52 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzHGR/gyL30jzTUNcuEk28dTTYJKgyTxPEDKdr4Ke9xG3bOR6Vm
- DdGYUdLLTMQ0cDNYe/9FdlQ0IYbsxO/jNv9Jz+rKl24ktgkzZ5g5QqqfZ2ThZRM523/rJnUCUnr
- 4m2aKVDrbq9TJnkkU/fSrAeAISA==
-X-Google-Smtp-Source: AGHT+IGu8zU7mK4faIuJr3BtHKdZbZYxXscd1afke7A7tMmPBPXatjZnrJ1uoa5WM9CxkZQJTeBZA3Q0dpVPjkk8DtQ=
-X-Received: by 2002:a05:6512:3c81:b0:52c:e012:efad with SMTP id
- 2adb3069b0e04-53546af9ffdmr10588452e87.12.1725391190502; Tue, 03 Sep 2024
- 12:19:50 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5720710E228
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 19:43:53 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-42bbbff40bbso39037625e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2024 12:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1725392631; x=1725997431; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=j8o2OkmWPZZcp65uqoxhRKRu68eJNGhpAZ9MtbWA6xc=;
+ b=CZTU3v5UuE6qUxLNczm/O1Re0XKvCWaqAGfgf5sQKR6LNXf1z9ItlShNh2ln991DW3
+ e6yg3ciMWPKwmTih5LuVhV0dyUWx0yX9feb0McmaulEHghu9MnCzY9yLOmPfsNbCXQNy
+ fPY4hikL3ADHP2QhXtt+MIz+Yb5+yY4zTv4Cs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725392631; x=1725997431;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j8o2OkmWPZZcp65uqoxhRKRu68eJNGhpAZ9MtbWA6xc=;
+ b=Q/0FBfCXyCnnGJCrlD5GL6wcMc4RGksaQJGxwE5WxJn3HdXuuTrBBvOrCRC8L1c6W7
+ xbJnGEa0RHd96kdEsBH+N06DM+6RHMt+CUtAu0Kg1f6bwZpk314zrOb6kiUTE1BoiEHy
+ aQc+Tq6bztv9Wy37etSsxkYXd5AhT/DLMeVDauwjXGhgbGPGU+6Xdo9qwl67x/oP3KiT
+ h95StGCHs8cJLD5nvAMPvAOOkvoAJG29FXBTg3aOYWAXLKVuIfcxQ4oGOAPONGMNephn
+ SsDzoAuCSoC2yGsTaqmCXgd/5vchg12K/tusRaHKRAH2Nk4zIwjQ4ANYVYDfUm0tMP62
+ cpeg==
+X-Gm-Message-State: AOJu0YzdoLIUi2MGmogfjdWt9QXy+55jjuQn3/Q9oicHqZvBIb7vYxz7
+ SIzr+LdEYpYksNFXLKbAaD2/SHg4mWIOM08Ue/QPVZWYYV0NpVFuH6mNDMDaVbk=
+X-Google-Smtp-Source: AGHT+IHs7i9tn7rBs8Xn1EtYcGJ4eDYrjn+dDAlFGgeMfGOWuc1K07PXLA0h9ZhKnJxxPtsc+MRfUA==
+X-Received: by 2002:a05:600c:3b0c:b0:426:65bf:5cc2 with SMTP id
+ 5b1f17b1804b1-42bbb10cd56mr91932315e9.1.1725392631177; 
+ Tue, 03 Sep 2024 12:43:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42bb6e2737dsm180240625e9.29.2024.09.03.12.43.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2024 12:43:50 -0700 (PDT)
+Date: Tue, 3 Sep 2024 21:43:48 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Rob Herring <robh@kernel.org>,
+ =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Steven Price <steven.price@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
+ Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v6 10/14] drm/panthor: Add the scheduler logical block
+Message-ID: <Ztdm9EdoguXKxGMV@phenom.ffwll.local>
+References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
+ <20240229162230.2634044-11-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-References: <20240731191312.1710417-12-robh@kernel.org>
-In-Reply-To: <20240731191312.1710417-12-robh@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 3 Sep 2024 14:19:38 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKvA0Uw7uqpmdMP7Z4mL3Qsmay5Fqb4M97s=QsBW_Nxyg@mail.gmail.com>
-Message-ID: <CAL_JsqKvA0Uw7uqpmdMP7Z4mL3Qsmay5Fqb4M97s=QsBW_Nxyg@mail.gmail.com>
-Subject: Re: [PATCH] drm: vc4: Use of_property_present()
-To: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240229162230.2634044-11-boris.brezillon@collabora.com>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,49 +90,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 31, 2024 at 2:13=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org>=
- wrote:
->
-> Use of_property_present() to test for property presence rather than
-> of_find_property(). This is part of a larger effort to remove callers
-> of of_find_property() and similar functions. of_find_property() leaks
-> the DT struct property and data pointers which is a problem for
-> dynamically allocated nodes which may be freed.
->
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu, Feb 29, 2024 at 05:22:24PM +0100, Boris Brezillon wrote:
+> - Add our job fence as DMA_RESV_USAGE_WRITE to all external objects
+>   (was previously DMA_RESV_USAGE_BOOKKEEP). I don't get why, given
+>   we're supposed to be fully-explicit, but other drivers do that, so
+>   there must be a good reason
 
-Ping!
+Just spotted this: They're wrong, or they're userspace is broken and
+doesn't use the dma_buf fence import/export ioctl in all the right places.
+For gl this simplifies things (but setting write fences when you're only
+reading is still bad, and setting fences on buffers you don't even touch
+is worse), for vulkan this is just bad.
 
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index d57c4a5948c8..049de06460d5 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -2211,7 +2211,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4=
-_hdmi)
->         struct device *dev =3D &vc4_hdmi->pdev->dev;
->         struct platform_device *codec_pdev;
->         const __be32 *addr;
-> -       int index, len;
-> +       int index;
->         int ret;
->
->         /*
-> @@ -2234,7 +2234,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4=
-_hdmi)
->         BUILD_BUG_ON(offsetof(struct vc4_hdmi_audio, card) !=3D 0);
->         BUILD_BUG_ON(offsetof(struct vc4_hdmi, audio) !=3D 0);
->
-> -       if (!of_find_property(dev->of_node, "dmas", &len) || !len) {
-> +       if (!of_property_present(dev->of_node, "dmas")) {
->                 dev_warn(dev,
->                          "'dmas' DT property is missing or empty, no HDMI=
- audio\n");
->                 return 0;
-> --
-> 2.43.0
->
+I think you want a context creation flag for userspace that's not broken,
+which goes back to USAGE_BOOKKEEP for everything.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
