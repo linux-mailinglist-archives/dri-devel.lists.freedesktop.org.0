@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7939F96AA2B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 23:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A2696AA5D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2024 23:40:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECAA510E5F8;
-	Tue,  3 Sep 2024 21:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 887AC10E1A0;
+	Tue,  3 Sep 2024 21:40:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eZOZSvlT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A4goTdAB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6DF10E5F8
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 21:31:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA37B10E1A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2024 21:40:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BB8495C5669;
- Tue,  3 Sep 2024 21:31:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BAC2C4CEC4;
- Tue,  3 Sep 2024 21:31:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 66E365C567C;
+ Tue,  3 Sep 2024 21:40:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD1E2C4CEC4;
+ Tue,  3 Sep 2024 21:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725399095;
- bh=QXi/ll4uuI2edg5BwxfzCEhzkKn1Hj/er7+RJFOMUlo=;
+ s=k20201202; t=1725399615;
+ bh=oaZPjF2Hwc2UCWScGNmiQSzXQJql29ev4HaTxsSINYo=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=eZOZSvlToUkAOVqd0UgmlzLGJUkWpA5komnwhd3xww+g6jIGmcTpmsJKJAZ/u9WpK
- GU77r0k/GGoy7CrDGc/aZonl6bEJwK6ypjnhspjZlwsPAkcmt4XviAs8GBY95CbGPm
- 3Li7cKsQ+n/qMSCfHXM0Nb15U/xuM8eAAB8+LAgyAlWiLZvN4LqnH1pnYNNkVjsq6e
- MZ4RSVtCqFI6Btqrs4A0Rre3i3WYij+2y21/8CPBajl1zRcFJaR6qc7SOQ/Ot2QVKE
- beXe5GAu7dxHaeUXEb9LFKdDm4bkIOgT8TB1ospVQcxsozRXdmxvHyIG4LSGdWRaFu
- OMdwFEomkGRGw==
-Date: Tue, 3 Sep 2024 14:31:32 -0700
+ b=A4goTdABFpGLC7mNQ/iVNNtHVfhNY/snxGEsDUa98eLJzqulK3ihS0CVSipU96DK2
+ 3agJPo5pYijI12pg058sMg5p8hCcNXCEauwckXRY7h4zVH9Jd9r/OmjcWMFSD2I4Fb
+ vhOC8d29Lh3Yq20wLvewdmOt6DL0VbQUXOC2W9xf3KIahEOFazunBtOoli4RkVFfqO
+ TbsqMbuOmAvBRN0QJFCfV4KByNO/TvecjblgEuNrC5dms7rLuD7KEwUESkL47WEeSi
+ fiZs89Uax1pO4oUVtn/yjeMvhWyk9fie28eRXWUDHTlk0Xr9w4DhQPgSP9ixXxLwcd
+ a65KUuwzWJNQQ==
+Date: Tue, 3 Sep 2024 14:40:11 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -66,12 +66,14 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
  <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
  Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>
-Subject: Re: [PATCH net-next v24 07/13] net: support non paged skb frags
-Message-ID: <20240903143132.424c08e5@kernel.org>
-In-Reply-To: <20240831004313.3713467-8-almasrymina@google.com>
+ Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v24 08/13] net: add support for skbs with
+ unreadable frags
+Message-ID: <20240903144011.3e7135f9@kernel.org>
+In-Reply-To: <20240831004313.3713467-9-almasrymina@google.com>
 References: <20240831004313.3713467-1-almasrymina@google.com>
- <20240831004313.3713467-8-almasrymina@google.com>
+ <20240831004313.3713467-9-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -90,11 +92,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 31 Aug 2024 00:43:07 +0000 Mina Almasry wrote:
-> Make skb_frag_page() fail in the case where the frag is not backed
-> by a page, and fix its relevant callers to handle this case.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Reviewed-by: Eric Dumazet <edumazet@google.com>
+On Sat, 31 Aug 2024 00:43:08 +0000 Mina Almasry wrote:
+>  static inline bool tcp_skb_can_collapse_to(const struct sk_buff *skb)
+>  {
+> -	return likely(!TCP_SKB_CB(skb)->eor);
+> +	return likely(!TCP_SKB_CB(skb)->eor && skb_frags_readable(skb));
 
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+Do you remember why this is here? Both for Rx and Tx what should matter
+is whether the "readability" matches, right? We can merge two unreadable
+messages.
