@@ -2,48 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2E096BE9E
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 15:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCAA96BEC0
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 15:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6BD10E7CC;
-	Wed,  4 Sep 2024 13:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B3810E1A5;
+	Wed,  4 Sep 2024 13:39:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e8VFtS46";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KSz/r4iC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D410310E7CC
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 13:36:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CB0855C57FA;
- Wed,  4 Sep 2024 13:36:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F5DC4CEC3;
- Wed,  4 Sep 2024 13:36:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725457002;
- bh=IFdcaegOWydfCh/nHjSWm2I2IGSQCK2q5nduJfu71sw=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=e8VFtS46N+gszYbCGA0/wH9yv98oTdFQH2zf7afDnIFRUcdVBa4lYeDQXYihmphTg
- dyuFQJ6s9LHN3Faj5o4YfnIbi2BYpGjTGiB36EEPmu6L+FQ3NwSSP1S+XlX3xTzsSL
- VBTsq9F2toU7jDRhFkcvq0+NbPnAskV//FozzKlg88E/bW+THiHyu0amJM7fGlPGev
- pujQJG3rOdd95wuJ1fkfy2v0QzoedzvvXCsTHpEw9CMd1wtJK6SdWyMTN1PkZcxOZt
- RiFozsZ/okx8EfJwvBVPhTI8B0LWLFbb56u+OBXIALtnhrI0U3XwZdxFkB3LiHdQO+
- QeZYmZsGuJPxA==
-Date: Wed, 04 Sep 2024 08:36:40 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1B710E10D;
+ Wed,  4 Sep 2024 13:39:04 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-5c263118780so2744120a12.2; 
+ Wed, 04 Sep 2024 06:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725457143; x=1726061943; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=08yJDMGUC5nJvNhwZc+qx2S6bd96dFeBgNvhyQY1m4Y=;
+ b=KSz/r4iCTPiAttKyCkpdlOV7pgicZ/cQTqoq7bM170qnFL7bjxtN0RBfuS9msMfzay
+ x6MZppDU2fS3mxJSIqRIdh8KqmHyuS+Aj0NQvClUbGYpq7uXoT1uos3Y1aKGezAthWMs
+ MnqMMozbpyAr/OivJ0y7hivTr7aomn6uHTT2p/TWIWEwJDRaUO2QGvZCht4A9UtV4QU0
+ H/d8uMpZFjC68wEChjRr9Nrlx1Zqx48MYuWz/MGbTlcABmcEbHVLG8boEx9KbWpF9z7P
+ gyIpLInPHGxB09FodNqs9GU27N3lblRfYhUg/9rJ0FOe14gkaIvMZB0OVKi6nyl3S6U/
+ N9eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725457143; x=1726061943;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=08yJDMGUC5nJvNhwZc+qx2S6bd96dFeBgNvhyQY1m4Y=;
+ b=hPcANrrhLKaWMDe2wvQaz74b6NMDYu5BCZJVNax1VvqhhJgkusfPbJ28D9lNH7sak0
+ kdyAZZj+XaMXDA2mgvComzZZ3ZVOh5DlP09tiCnk/H1wkIMWaAGTvkuCpH5nqifAdCUi
+ TvdgWP7oDeR2Nst7OIr5OmkZD+66oeS/Vt6Vx9cvhWwQMtqIWVCKtLgwYi51GeeR8al4
+ vLfEA9mslMJPGqMSSQ85kqZ5kVaymS6oCLqYzV0poc8cnzGRYuLkro63uQSY/6mVLzzg
+ HlnfaR6rOd7WrQ04YSpCrYBTgd76i3BexL2RW+DPAPWFcEXfMZApuKXGso0uWzDZM4v1
+ qRUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV6u4ZyuySTty07D9QYpWnTCay2gOkoMwYpTFDWxk32gociWqphxTAE7Gq6oPrEiVOdK0J7KnN8SDmT@lists.freedesktop.org,
+ AJvYcCVmvnpYxL2MZfx4x175PZVxBTHPxxJOaXFIm8F+BdEKMW+s+FngfvzsFaqXHdWkI85jl02e8gWAHnI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJpm8LB2mE3sjWMFDXrsUR93Ck2eUQyQf0NhlxgHmTZ5CSfnnw
+ zFAJoH1tpE/zU/AoeQijR8LpuhuC2YDT06jYzcSKNLfZtxSB52mx
+X-Google-Smtp-Source: AGHT+IFMURDKJcnkYF+8eavXj8ZUdnqa5cQaVjvuPu8moS+BA4V7/R/3KDv+62gvdYtT1mL3oEKeIQ==
+X-Received: by 2002:a05:6402:2110:b0:5bf:c8:78a with SMTP id
+ 4fb4d7f45d1cf-5c25f244d2cmr7313938a12.17.1725457141638; 
+ Wed, 04 Sep 2024 06:39:01 -0700 (PDT)
+Received: from [192.168.1.17] (host-87-16-167-153.retail.telecomitalia.it.
+ [87.16.167.153]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c226c6a36fsm7611564a12.16.2024.09.04.06.39.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Sep 2024 06:39:01 -0700 (PDT)
+Message-ID: <b899d35a-fedf-4748-ac23-6389a8742160@gmail.com>
+Date: Wed, 4 Sep 2024 15:38:59 +0200
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-Cc: knoxchiou@google.com, conor+dt@kernel.org, devicetree@vger.kernel.org, 
- krzk+dt@kernel.org, linux-kernel@vger.kernel.org, hsinyi@google.com, 
- angelogioacchino.delregno@collabora.com, dri-devel@lists.freedesktop.org, 
- matthias.bgg@gmail.com
-In-Reply-To: <20240904085037.2133607-1-cengjianeng@huaqin.corp-partner.google.com>
-References: <20240904085037.2133607-1-cengjianeng@huaqin.corp-partner.google.com>
-Message-Id: <172545685814.2410454.11649436162391299581.robh@kernel.org>
-Subject: Re: [PATCH v3 2/2] arm64: dts: mediatek: Add MT8186 Ponyta Chromebooks
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/9] drm/msm/A6xx: Use posamble to reset counters on
+ preemption
+To: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com>
+ <20240830-preemption-a750-t-v2-6-86aeead2cd80@gmail.com>
+ <CAF6AEGv82=N4=motCpGhp5N7Yv8oqtBcG4bGahgF53CpFYpTgg@mail.gmail.com>
+Content-Language: en-US
+From: Antonino Maniscalco <antomani103@gmail.com>
+In-Reply-To: <CAF6AEGv82=N4=motCpGhp5N7Yv8oqtBcG4bGahgF53CpFYpTgg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,353 +96,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Wed, 04 Sep 2024 16:50:37 +0800, Jianeng Ceng wrote:
-> MT8186 ponyta, known as huaqin custom lable, is a
-> MT8186 based laptop. It is based on the "corsola" design.
-> It includes LTE, touchpad combinations.
+On 8/30/24 8:32 PM, Rob Clark wrote:
+> On Fri, Aug 30, 2024 at 8:33 AM Antonino Maniscalco
+> <antomani103@gmail.com> wrote:
+>>
+>> Use the postamble to reset perf counters when switching between rings,
+>> except when sysprof is enabled, analogously to how they are reset
+>> between submissions when switching pagetables.
+>>
+>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>> ---
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 14 +++++++++++++-
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  6 ++++++
+>>   drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 26 +++++++++++++++++++++++++-
+>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 +++++--
+>>   4 files changed, 49 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> index 1a90db5759b8..3528ecbbc1ab 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> @@ -366,7 +366,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>>   static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+>>                  struct a6xx_gpu *a6xx_gpu, struct msm_gpu_submitqueue *queue)
+>>   {
+>> -       u64 preempt_offset_priv_secure;
+>> +       bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
+>> +       u64 preempt_offset_priv_secure, preempt_postamble;
+>>
+>>          OUT_PKT7(ring, CP_SET_PSEUDO_REG, 15);
+>>
+>> @@ -403,6 +404,17 @@ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+>>          /* seems OK to set to 0 to disable it */
+>>          OUT_RING(ring, 0);
+>>          OUT_RING(ring, 0);
+>> +
+>> +       if (!sysprof && a6xx_gpu->preempt_postamble_len) {
+>> +               preempt_postamble = SCRATCH_PREEMPT_POSTAMBLE_IOVA(a6xx_gpu);
+>> +
+>> +               OUT_PKT7(ring, CP_SET_AMBLE, 3);
+>> +               OUT_RING(ring, lower_32_bits(preempt_postamble));
+>> +               OUT_RING(ring, upper_32_bits(preempt_postamble));
+>> +               OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(
+>> +                                       a6xx_gpu->preempt_postamble_len) |
+>> +                               CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
+>> +       }
 > 
-> Signed-off-by: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-> ---
-> Changes in v2:
-> - PATCH 2/2: Modify the dtb name without rev2.
-> - Link to v1:https://lore.kernel.org/all/20240902125502.1844374-1-cengjianeng@huaqin.corp-partner.google.com/
-> 
-> ---
->  arch/arm64/boot/dts/mediatek/Makefile         |  2 +
->  .../mediatek/mt8186-corsola-ponyta-sku0.dts   | 24 ++++++++++
->  .../mediatek/mt8186-corsola-ponyta-sku1.dts   | 27 ++++++++++++
->  .../dts/mediatek/mt8186-corsola-ponyta.dtsi   | 44 +++++++++++++++++++
->  4 files changed, 97 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
+> Hmm, ok, we set this in the submit path.. but do we need to clear it
+> somehow when transitioning from !sysprof to sysprof?
 > 
 
+We can always emit the packet and 0 fields out when sysprof is enabled. 
+Would that be ok for you? Only emitting it when needed might be 
+nontrivial given that there are multiple rings and we would be paying 
+the overhead for emitting it in the more common case (not profiling) anyway.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+> Also, how does this interact with UMD perfctr queries, I would expect
+> they would prefer save/restore?
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+Right so my understanding given previous discussions is that we want to 
+disable preemption from userspace in that case? The vulkan extension 
+requires to acquire and release a lock so we could use that to emit the 
+packets that enable and disable preemption perhaps.
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+> 
+> BR,
+> -R
+> 
+>>   }
+>>
+>>   static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>> index 652e49f01428..2338e36c8f47 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>> @@ -66,6 +66,7 @@ struct a6xx_gpu {
+>>          atomic_t preempt_state;
+>>          spinlock_t eval_lock;
+>>          struct timer_list preempt_timer;
+>> +       uint64_t preempt_postamble_len;
+>>
+>>          unsigned int preempt_level;
+>>          bool uses_gmem;
+>> @@ -99,6 +100,11 @@ struct a6xx_gpu {
+>>   #define SCRATCH_USER_CTX_IOVA(ring_id, a6xx_gpu) \
+>>          (a6xx_gpu->scratch_iova + (ring_id * sizeof(uint64_t)))
+>>
+>> +#define SCRATCH_PREEMPT_POSTAMBLE_OFFSET (100 * sizeof(u64))
+>> +
+>> +#define SCRATCH_PREEMPT_POSTAMBLE_IOVA(a6xx_gpu) \
+>> +       (a6xx_gpu->scratch_iova + SCRATCH_PREEMPT_POSTAMBLE_OFFSET)
+>> +
+>>   /*
+>>    * In order to do lockless preemption we use a simple state machine to progress
+>>    * through the process.
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+>> index 4b61b993f75f..f586615db97e 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+>> @@ -351,6 +351,28 @@ static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
+>>          return 0;
+>>   }
+>>
+>> +static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
+>> +{
+>> +       u32 *postamble = a6xx_gpu->scratch_ptr + SCRATCH_PREEMPT_POSTAMBLE_OFFSET;
+>> +       u32 count = 0;
+>> +
+>> +       postamble[count++] = PKT7(CP_REG_RMW, 3);
+>> +       postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
+>> +       postamble[count++] = 0;
+>> +       postamble[count++] = 1;
+>> +
+>> +       postamble[count++] = PKT7(CP_WAIT_REG_MEM, 6);
+>> +       postamble[count++] = CP_WAIT_REG_MEM_0_FUNCTION(WRITE_EQ);
+>> +       postamble[count++] = CP_WAIT_REG_MEM_1_POLL_ADDR_LO(
+>> +                               REG_A6XX_RBBM_PERFCTR_SRAM_INIT_STATUS);
+>> +       postamble[count++] = CP_WAIT_REG_MEM_2_POLL_ADDR_HI(0);
+>> +       postamble[count++] = CP_WAIT_REG_MEM_3_REF(0x1);
+>> +       postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
+>> +       postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
+>> +
+>> +       a6xx_gpu->preempt_postamble_len = count;
+>> +}
+>> +
+>>   void a6xx_preempt_fini(struct msm_gpu *gpu)
+>>   {
+>>          struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>> @@ -382,10 +404,12 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
+>>          a6xx_gpu->skip_save_restore = 1;
+>>
+>>          a6xx_gpu->scratch_ptr  = msm_gem_kernel_new(gpu->dev,
+>> -                       gpu->nr_rings * sizeof(uint64_t), MSM_BO_WC,
+>> +                       PAGE_SIZE, MSM_BO_WC,
+>>                          gpu->aspace, &a6xx_gpu->scratch_bo,
+>>                          &a6xx_gpu->scratch_iova);
+>>
+>> +       preempt_prepare_postamble(a6xx_gpu);
+>> +
+>>          if (IS_ERR(a6xx_gpu->scratch_ptr))
+>>                  goto fail;
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> index 6b1888280a83..87098567483b 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> @@ -610,12 +610,15 @@ OUT_PKT4(struct msm_ringbuffer *ring, uint16_t regindx, uint16_t cnt)
+>>          OUT_RING(ring, PKT4(regindx, cnt));
+>>   }
+>>
+>> +#define PKT7(opcode, cnt) \
+>> +       (CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) | \
+>> +               ((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23))
+>> +
+>>   static inline void
+>>   OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
+>>   {
+>>          adreno_wait_ring(ring, cnt + 1);
+>> -       OUT_RING(ring, CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) |
+>> -               ((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23));
+>> +       OUT_RING(ring, PKT7(opcode, cnt));
+>>   }
+>>
+>>   struct msm_gpu *a2xx_gpu_init(struct drm_device *dev);
+>>
+>> --
+>> 2.46.0
+>>
 
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y mediatek/mt8186-corsola-ponyta-sku0.dtb mediatek/mt8186-corsola-ponyta-sku1.dtb' for 20240904085037.2133607-1-cengjianeng@huaqin.corp-partner.google.com:
-
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-	['google,ponyta-sku1', 'google,ponyta', 'mediatek,mt8186'] is too long
-	['google,ponyta-sku1', 'google,ponyta', 'mediatek,mt8186'] is too short
-	'google,ponyta-sku1' is not one of ['mediatek,mt2701-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt2712-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt6580-evbp1']
-	'google,ponyta-sku1' is not one of ['prestigio,pmt5008-3g']
-	'google,ponyta-sku1' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-	'google,ponyta-sku1' is not one of ['mediatek,mt6592-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt6755-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt6765-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt6779-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt6795-evb', 'sony,xperia-m5']
-	'google,ponyta-sku1' is not one of ['archermind,mt6797-x20-dev', 'mediatek,mt6797-evb']
-	'google,ponyta-sku1' is not one of ['bananapi,bpi-r64', 'mediatek,mt7622-rfb1']
-	'google,ponyta-sku1' is not one of ['mediatek,mt7623a-rfb-emmc', 'mediatek,mt7623a-rfb-nand', 'mediatek,mt7623n-rfb-emmc', 'bananapi,bpi-r2']
-	'google,ponyta-sku1' is not one of ['mediatek,mt7629-rfb']
-	'google,ponyta-sku1' is not one of ['cudy,wr3000-v1', 'openwrt,one', 'xiaomi,ax3000t']
-	'google,ponyta-sku1' is not one of ['acelink,ew-7886cax', 'bananapi,bpi-r3', 'bananapi,bpi-r3mini', 'mediatek,mt7986a-rfb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt7986b-rfb']
-	'google,ponyta-sku1' is not one of ['bananapi,bpi-r4']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8127-moose']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8135-evbp1']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8167-pumpkin']
-	'google,elm-rev8' was expected
-	'google,hana-rev6' was expected
-	'google,hana-rev7' was expected
-	'google,ponyta-sku1' is not one of ['mediatek,mt8173-evb']
-	'google,burnet' was expected
-	'google,cozmo' was expected
-	'google,damu' was expected
-	'google,ponyta-sku1' is not one of ['google,fennel-sku0', 'google,fennel-sku1', 'google,fennel-sku2', 'google,fennel-sku6', 'google,fennel-sku7']
-	'google,ponyta-sku1' is not one of ['google,juniper-sku16', 'google,juniper-sku17']
-	'google,kakadu-rev3' was expected
-	'google,kakadu-rev3-sku22' was expected
-	'google,kappa' was expected
-	'google,ponyta-sku1' is not one of ['google,katsu-sku32', 'google,katsu-sku38']
-	'google,ponyta-sku1' is not one of ['google,kodama-sku16', 'google,kodama-sku272', 'google,kodama-sku288', 'google,kodama-sku32']
-	'google,ponyta-sku1' is not one of ['google,krane-sku0', 'google,krane-sku176']
-	'google,ponyta-sku1' is not one of ['google,makomo-sku0', 'google,makomo-sku1']
-	'google,ponyta-sku1' is not one of ['google,pico-sku1', 'google,pico-sku2']
-	'google,ponyta-sku1' is not one of ['google,willow-sku0', 'google,willow-sku1']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8183-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8183-pumpkin']
-	'google,steelix-sku393219' was expected
-	'google,steelix-sku393220' was expected
-	'google,steelix-sku393221' was expected
-	'google,steelix-sku196609' was expected
-	'google,ponyta-sku1' is not one of ['google,steelix-sku131072', 'google,steelix-sku131073']
-	'google,tentacruel-sku262147' was expected
-	'google,tentacruel-sku262151' was expected
-	'google,tentacruel-sku327681' was expected
-	'google,tentacruel-sku327683' was expected
-	'google,ponyta-sku1' is not one of ['google,voltorb-sku589824', 'google,voltorb-sku589825']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8186-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8188-evb']
-	'google,hayato-rev1' was expected
-	'google,hayato-rev5-sku2' was expected
-	'google,spherion-rev3' was expected
-	'google,spherion-rev4' was expected
-	'google,ponyta-sku1' is not one of ['mediatek,mt8192-evb']
-	'google,ponyta-sku1' is not one of ['google,tomato-rev2', 'google,tomato-rev1']
-	'google,tomato-rev4' was expected
-	'google,dojo-sku7' was expected
-	'google,ponyta-sku1' is not one of ['mediatek,mt8195-demo', 'mediatek,mt8195-evb']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8365-evk']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8390-evk']
-	'google,ponyta-sku1' is not one of ['kontron,3-5-sbc-i1200', 'mediatek,mt8395-evk', 'radxa,nio-12l']
-	'google,ponyta-sku1' is not one of ['mediatek,mt8516-pumpkin']
-	'mediatek,mt2701' was expected
-	'mediatek,mt2712' was expected
-	'mediatek,mt6580' was expected
-	'mediatek,mt6582' was expected
-	'mediatek,mt6589' was expected
-	'mediatek,mt6592' was expected
-	'mediatek,mt6755' was expected
-	'mediatek,mt6765' was expected
-	'mediatek,mt6779' was expected
-	'mediatek,mt6795' was expected
-	'mediatek,mt6797' was expected
-	'mediatek,mt7622' was expected
-	'mediatek,mt7623' was expected
-	'mediatek,mt7629' was expected
-	'mediatek,mt7981b' was expected
-	'mediatek,mt7986a' was expected
-	'mediatek,mt7986b' was expected
-	'mediatek,mt7988a' was expected
-	'mediatek,mt8127' was expected
-	'mediatek,mt8135' was expected
-	'mediatek,mt8167' was expected
-	'google,elm-rev7' was expected
-	'google,hana-rev5' was expected
-	'mediatek,mt8173' was expected
-	'mediatek,mt8183' was expected
-	'google,fennel' was expected
-	'google,juniper' was expected
-	'google,kakadu-rev2' was expected
-	'google,kakadu-rev2-sku22' was expected
-	'google,katsu' was expected
-	'google,kodama' was expected
-	'google,krane' was expected
-	'google,makomo' was expected
-	'google,pico' was expected
-	'google,willow' was expected
-	'google,steelix-sku393216' was expected
-	'google,steelix-sku393217' was expected
-	'google,steelix-sku393218' was expected
-	'google,steelix-sku196608' was expected
-	'google,steelix' was expected
-	'google,tentacruel-sku262146' was expected
-	'google,tentacruel-sku262150' was expected
-	'google,tentacruel' was expected
-	'google,voltorb' was expected
-	'mediatek,mt8186' was expected
-	'mediatek,mt8188' was expected
-	'google,hayato' was expected
-	'google,hayato-sku2' was expected
-	'google,spherion-rev2' was expected
-	'google,spherion' was expected
-	'mediatek,mt8192' was expected
-	'google,tomato' was expected
-	'google,tomato-rev3' was expected
-	'google,dojo-sku5' was expected
-	'mediatek,mt8195' was expected
-	'mediatek,mt8365' was expected
-	'mediatek,mt8390' was expected
-	'mediatek,mt8395' was expected
-	'mediatek,mt8516' was expected
-	'google,elm-rev6' was expected
-	'google,hana-rev4' was expected
-	'google,kakadu' was expected
-	'google,tentacruel-sku262145' was expected
-	'google,tentacruel-sku262149' was expected
-	'google,spherion-rev1' was expected
-	'google,dojo-sku3' was expected
-	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-	['google,ponyta-sku0', 'google,ponyta-sku2147483647', 'google,ponyta', 'mediatek,mt8186'] is too long
-	['google,ponyta-sku0', 'google,ponyta-sku2147483647', 'google,ponyta', 'mediatek,mt8186'] is too short
-	'google,ponyta-sku0' is not one of ['mediatek,mt2701-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt2712-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6580-evbp1']
-	'google,ponyta-sku0' is not one of ['prestigio,pmt5008-3g']
-	'google,ponyta-sku0' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6592-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6755-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6765-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6779-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6795-evb', 'sony,xperia-m5']
-	'google,ponyta-sku0' is not one of ['archermind,mt6797-x20-dev', 'mediatek,mt6797-evb']
-	'google,ponyta-sku0' is not one of ['bananapi,bpi-r64', 'mediatek,mt7622-rfb1']
-	'google,ponyta-sku0' is not one of ['mediatek,mt7623a-rfb-emmc', 'mediatek,mt7623a-rfb-nand', 'mediatek,mt7623n-rfb-emmc', 'bananapi,bpi-r2']
-	'google,ponyta-sku0' is not one of ['mediatek,mt7629-rfb']
-	'google,ponyta-sku0' is not one of ['cudy,wr3000-v1', 'openwrt,one', 'xiaomi,ax3000t']
-	'google,ponyta-sku0' is not one of ['acelink,ew-7886cax', 'bananapi,bpi-r3', 'bananapi,bpi-r3mini', 'mediatek,mt7986a-rfb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt7986b-rfb']
-	'google,ponyta-sku0' is not one of ['bananapi,bpi-r4']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8127-moose']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8135-evbp1']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8167-pumpkin']
-	'google,elm-rev8' was expected
-	'google,hana-rev6' was expected
-	'google,hana-rev7' was expected
-	'google,ponyta-sku0' is not one of ['mediatek,mt8173-evb']
-	'google,burnet' was expected
-	'google,cozmo' was expected
-	'google,damu' was expected
-	'google,ponyta-sku0' is not one of ['google,fennel-sku0', 'google,fennel-sku1', 'google,fennel-sku2', 'google,fennel-sku6', 'google,fennel-sku7']
-	'google,ponyta-sku0' is not one of ['google,juniper-sku16', 'google,juniper-sku17']
-	'google,kakadu-rev3' was expected
-	'google,kakadu-rev3-sku22' was expected
-	'google,kappa' was expected
-	'google,ponyta-sku0' is not one of ['google,katsu-sku32', 'google,katsu-sku38']
-	'google,ponyta-sku0' is not one of ['google,kodama-sku16', 'google,kodama-sku272', 'google,kodama-sku288', 'google,kodama-sku32']
-	'google,ponyta-sku0' is not one of ['google,krane-sku0', 'google,krane-sku176']
-	'google,ponyta-sku0' is not one of ['google,makomo-sku0', 'google,makomo-sku1']
-	'google,ponyta-sku0' is not one of ['google,pico-sku1', 'google,pico-sku2']
-	'google,ponyta-sku0' is not one of ['google,willow-sku0', 'google,willow-sku1']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8183-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8183-pumpkin']
-	'google,steelix-sku393219' was expected
-	'google,steelix-sku393220' was expected
-	'google,steelix-sku393221' was expected
-	'google,steelix-sku196609' was expected
-	'google,ponyta-sku0' is not one of ['google,steelix-sku131072', 'google,steelix-sku131073']
-	'google,tentacruel-sku262147' was expected
-	'google,tentacruel-sku262151' was expected
-	'google,tentacruel-sku327681' was expected
-	'google,tentacruel-sku327683' was expected
-	'google,ponyta-sku0' is not one of ['google,voltorb-sku589824', 'google,voltorb-sku589825']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8186-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8188-evb']
-	'google,hayato-rev1' was expected
-	'google,hayato-rev5-sku2' was expected
-	'google,spherion-rev3' was expected
-	'google,spherion-rev4' was expected
-	'google,ponyta-sku0' is not one of ['mediatek,mt8192-evb']
-	'google,ponyta-sku0' is not one of ['google,tomato-rev2', 'google,tomato-rev1']
-	'google,tomato-rev4' was expected
-	'google,dojo-sku7' was expected
-	'google,ponyta-sku0' is not one of ['mediatek,mt8195-demo', 'mediatek,mt8195-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8365-evk']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8390-evk']
-	'google,ponyta-sku0' is not one of ['kontron,3-5-sbc-i1200', 'mediatek,mt8395-evk', 'radxa,nio-12l']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8516-pumpkin']
-	'mediatek,mt2701' was expected
-	'mediatek,mt2712' was expected
-	'mediatek,mt6580' was expected
-	'mediatek,mt6582' was expected
-	'mediatek,mt6589' was expected
-	'mediatek,mt6592' was expected
-	'mediatek,mt6755' was expected
-	'mediatek,mt6765' was expected
-	'mediatek,mt6779' was expected
-	'mediatek,mt6795' was expected
-	'mediatek,mt6797' was expected
-	'mediatek,mt7622' was expected
-	'mediatek,mt7623' was expected
-	'mediatek,mt7629' was expected
-	'mediatek,mt7981b' was expected
-	'mediatek,mt7986a' was expected
-	'mediatek,mt7986b' was expected
-	'mediatek,mt7988a' was expected
-	'mediatek,mt8127' was expected
-	'mediatek,mt8135' was expected
-	'mediatek,mt8167' was expected
-	'google,elm-rev7' was expected
-	'google,hana-rev5' was expected
-	'mediatek,mt8173' was expected
-	'mediatek,mt8183' was expected
-	'google,fennel' was expected
-	'google,juniper' was expected
-	'google,kakadu-rev2' was expected
-	'google,kakadu-rev2-sku22' was expected
-	'google,katsu' was expected
-	'google,kodama' was expected
-	'google,krane' was expected
-	'google,makomo' was expected
-	'google,pico' was expected
-	'google,willow' was expected
-	'google,steelix-sku393216' was expected
-	'google,steelix-sku393217' was expected
-	'google,steelix-sku393218' was expected
-	'google,steelix-sku196608' was expected
-	'google,steelix' was expected
-	'google,tentacruel-sku262146' was expected
-	'google,tentacruel-sku262150' was expected
-	'google,tentacruel' was expected
-	'google,voltorb' was expected
-	'mediatek,mt8186' was expected
-	'mediatek,mt8188' was expected
-	'google,hayato' was expected
-	'google,hayato-sku2' was expected
-	'google,spherion-rev2' was expected
-	'google,spherion' was expected
-	'mediatek,mt8192' was expected
-	'google,tomato' was expected
-	'google,tomato-rev3' was expected
-	'google,dojo-sku5' was expected
-	'mediatek,mt8195' was expected
-	'mediatek,mt8365' was expected
-	'mediatek,mt8390' was expected
-	'mediatek,mt8395' was expected
-	'mediatek,mt8516' was expected
-	'google,elm-rev6' was expected
-	'google,hana-rev4' was expected
-	'google,kakadu' was expected
-	'google,tentacruel-sku262145' was expected
-	'google,tentacruel-sku262149' was expected
-	'google,spherion-rev1' was expected
-	'google,dojo-sku3' was expected
-	'google,elm-rev5' was expected
-	'google,hana-rev3' was expected
-	'google,tentacruel-sku262144' was expected
-	'google,tentacruel-sku262148' was expected
-	'google,spherion-rev0' was expected
-	'google,dojo-sku1' was expected
-	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /: failed to match any schema with compatible: ['google,ponyta-sku1', 'google,ponyta', 'mediatek,mt8186']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /: failed to match any schema with compatible: ['google,ponyta-sku1', 'google,ponyta', 'mediatek,mt8186']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /: failed to match any schema with compatible: ['google,ponyta-sku0', 'google,ponyta-sku2147483647', 'google,ponyta', 'mediatek,mt8186']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /: failed to match any schema with compatible: ['google,ponyta-sku0', 'google,ponyta-sku2147483647', 'google,ponyta', 'mediatek,mt8186']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /: failed to match any schema with compatible: ['google,ponyta-sku0', 'google,ponyta-sku2147483647', 'google,ponyta', 'mediatek,mt8186']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: 'extcon' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: 'extcon' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: sound: 'model' is a required property
-	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: sound: 'model' is a required property
-	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
-
-
-
-
+Best regards,
+-- 
+Antonino Maniscalco <antomani103@gmail.com>
 
