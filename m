@@ -2,70 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC2896C5A9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 19:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F39296C5B0
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 19:47:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E7C10E82A;
-	Wed,  4 Sep 2024 17:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0079510E829;
+	Wed,  4 Sep 2024 17:47:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WXFLa5sh";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="L6CwLQPs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A1B710E829
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 17:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725471999; x=1757007999;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=g+aKd92QBiENZVDRm1kM4shr9AJRa9pBGs1fZNeJD5w=;
- b=WXFLa5shjm+77WJ6/J2LR0srtzQPTDoEtQQXDo0ymDQHdUro8jNHjlUh
- /axYdZw/nNmGaRlES+AtIQl6m3udpBAe7Kq0GITZvCX9oUsWA0uei2G2I
- KPdK2HqWEadG0veiFxlpIKX8peo2mJc2YBe7YqYAFr3l1nZuSmd0k5MRa
- BQcm8B/vtkFcRnc+EualuE7yXYKgaABgc6jpwQljv04o5uDhDv+ID3Z1U
- iBkyco7EF225IPhAsJ4ZZz8VbNO0YGGpoUfy2tow56B6TM5zGaNNttY9G
- UCBEbPy2ppkoj84VObkv5aWir+oBg034f8Jhcfeqv/R1pWBM/mdFtqr2x A==;
-X-CSE-ConnectionGUID: xNdVYHy3Rf+pH8AyYGPBBA==
-X-CSE-MsgGUID: OtYQNAQzQOazWBE5OAPfng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="28036446"
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="28036446"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2024 10:46:39 -0700
-X-CSE-ConnectionGUID: lVSsXXMjSSuLHn0Jyr1Niw==
-X-CSE-MsgGUID: fZP5cHQZSlWbd8z0Q+RmCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="69502604"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
- by fmviesa003.fm.intel.com with ESMTP; 04 Sep 2024 10:46:34 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1slu5Q-0008PB-1o;
- Wed, 04 Sep 2024 17:46:32 +0000
-Date: Thu, 5 Sep 2024 01:45:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26D3410E829
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 17:47:24 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-42c7b5b2d01so49714005e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 10:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1725472042; x=1726076842; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8g0+DHUE+OUpJrZw/tw/EuKm9P0V302ne/WHUmgYLGs=;
+ b=L6CwLQPs+FhtHgZA0bx1HQpjiWutiqJD718elXhXS0zd1Th37bhYPHRWQPI/z6RanN
+ 3kYQ9ZPvieMvnklitKcWywRpbxbIDB3L/zZOO3kOhM4ybgvqnAakomWfaVDHs8rowmps
+ fYqOJg77/srA5xwFvQo5iJFzTQ5vu1EnBbr/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725472042; x=1726076842;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8g0+DHUE+OUpJrZw/tw/EuKm9P0V302ne/WHUmgYLGs=;
+ b=wFyAqDPbf7Y/gcHg9/RlusvBtsdhZyfPgI2Ejc0KKoZx8Bn1SDKhBzfXCbSOAZuK9J
+ kxGwam7Z5Md/RC4qxiW5oGMvK7DinFTCrKJNnVcKfohmJ8gpX4y+ZunyvVIKoYx7HXBo
+ Vyl+9ditSmqEZUBb7DwjMGPI17T3fHVgqE1szRfp5clkDhKaBWy2xNByBkbqWP1NkqLQ
+ GlKX+B5fDEBrWZ+N1VLM4CRS1fZ38VRkR9GBdmT2MuUYd2zpb7TC2rbPHjdV2eSPW7Dd
+ BAHuIBeIdQ5KsLZHyHHnezNRTp8cOybIsfI7HULE0fSftc7GUW/g7+WGdQES7f2Ybbfg
+ it7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUud4ALuCZs4StSOWRsk4PjN+vatf8qLKNLoil/46mm+KMwHsszA6/oI9HA1zBUqFZBTW8WIsTs5XE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPKnv+1V4CaRU/sIER6508cpZDDHv9ekJL1zqZilj9D8vnsHFE
+ EnlhrhmD5ryGA5iJiWqfsXuVzFCeYHYjP9eCIi4CC4dsfbxVU3P+q26SAqKR43c=
+X-Google-Smtp-Source: AGHT+IG9N7mF2lwL90P0lf9F2pLe6fmACORF/uZLvQdUsO9j+qwCmQXHTNh6Ppj1N5/V+kkq7nUj7A==
+X-Received: by 2002:adf:e406:0:b0:374:c1c5:43ca with SMTP id
+ ffacd0b85a97d-374c1c54c23mr11008410f8f.32.1725472042097; 
+ Wed, 04 Sep 2024 10:47:22 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-374ce8bbeacsm7686756f8f.92.2024.09.04.10.47.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2024 10:47:21 -0700 (PDT)
+Date: Wed, 4 Sep 2024 19:47:19 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 2/4] drm/panthor: add DRM fdinfo support
-Message-ID: <202409050134.uxrIkhqc-lkp@intel.com>
-References: <20240903202541.430225-3-adrian.larumbe@collabora.com>
+ Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [RFC PATCH] drm/sched: Fix teardown leaks with waitqueue
+Message-ID: <ZtidJ8S9THvzkQ-6@phenom.ffwll.local>
+Mail-Followup-To: Philipp Stanner <pstanner@redhat.com>,
+ Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>
+References: <20240903094446.29797-2-pstanner@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240903202541.430225-3-adrian.larumbe@collabora.com>
+In-Reply-To: <20240903094446.29797-2-pstanner@redhat.com>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,234 +95,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrián,
+On Tue, Sep 03, 2024 at 11:44:47AM +0200, Philipp Stanner wrote:
+> The GPU scheduler currently does not ensure that its pending_list is
+> empty before performing various other teardown tasks in
+> drm_sched_fini().
+> 
+> If there are still jobs in the pending_list, this is problematic because
+> after scheduler teardown, no one will call backend_ops.free_job()
+> anymore. This would, consequently, result in memory leaks.
+> 
+> One way to solves this is to implement a waitqueue that drm_sched_fini()
+> blocks on until the pending_list has become empty.
+> 
+> Add a waitqueue to struct drm_gpu_scheduler. Wake up waiters once the
+> pending_list becomes empty. Wait in drm_sched_fini() for that to happen.
+> 
+> Suggested-by: Danilo Krummrich <dakr@redhat.com>
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+> Hi all,
+> 
+> since the scheduler has many stake holders, I want this solution
+> discussed as an RFC first.
+> 
+> This version here has IMO the advantage (and disadvantage...) that it
+> blocks infinitly if the driver messed up the clean up, so problems
+> might become more visible than the refcount solution I proposed in
+> parallel.
 
-kernel test robot noticed the following build warnings:
+Very quick comment because I'm heading out for the r4l conference, but
+maybe I can discuss this there with Danilo a bit.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.11-rc6 next-20240904]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Maybe we should do step 0 first, and document the current rules? The
+kerneldoc isn't absolute zero anymore, but it's very, very bare-bones.
+Then get that acked and merged, which is a very good way to make sure
+we're actually standing on common ground.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240904-042645
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240903202541.430225-3-adrian.larumbe%40collabora.com
-patch subject: [PATCH v5 2/4] drm/panthor: add DRM fdinfo support
-config: x86_64-buildonly-randconfig-002-20240904 (https://download.01.org/0day-ci/archive/20240905/202409050134.uxrIkhqc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050134.uxrIkhqc-lkp@intel.com/reproduce)
+Then maybe step 0.5 would be to add runtime asserts to enforce the rules,
+like if you tear down the scheduler and there's stuff in flight, you splat
+on a WARN_ON.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409050134.uxrIkhqc-lkp@intel.com/
+With that foundation there should be a lot clearer basis to discuss
+whether there is an issue, and what a better design could look like. The
+little pondering I've done I've come up with a few more ideas along
+similar lines.
 
-All warnings (new ones prefixed by >>):
+One comment below, kinda unrelated.
 
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'idle' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'mem' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'ref' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gt' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'sync64' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'bo' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'offset' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'kmap' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'lock' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'id' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'last_fence' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slots' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slot_count' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'profiling_seqno' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:689: warning: Excess struct member 'data' description in 'panthor_group'
->> drivers/gpu/drm/panthor/panthor_sched.c:689: warning: Excess struct member 'lock' description in 'panthor_group'
-   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Function parameter or struct member 'profiling_slot' not described in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'size' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'latest_flush' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'end' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'profile_slot' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:1745: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1745: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:2637: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+> 
+> Cheers,
+> P.
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 40 ++++++++++++++++++++++++++
+>  include/drm/gpu_scheduler.h            |  4 +++
+>  2 files changed, 44 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 7e90c9f95611..200fa932f289 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -564,6 +564,13 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>  		 * is parked at which point it's safe.
+>  		 */
+>  		list_del_init(&job->list);
+> +
+> +		/*
+> +		 * Inform tasks blocking in drm_sched_fini() that it's now safe to proceed.
+> +		 */
+> +		if (list_empty(&sched->pending_list))
+> +			wake_up(&sched->job_list_waitque);
+> +
+>  		spin_unlock(&sched->job_list_lock);
+>  
+>  		status = job->sched->ops->timedout_job(job);
+> @@ -584,6 +591,15 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>  		drm_sched_start_timeout_unlocked(sched);
+>  }
+>  
+> +static bool drm_sched_no_jobs_pending(struct drm_gpu_scheduler *sched)
+> +{
+> +	/*
+> +	 * For list_empty() to work without a lock.
+> +	 */
 
+So this is pretty far from the gold standard for documenting memory
+barrier semantics in lockless code. Ideally we have a comment for both
+sides of the barrier (you always need two, or there's no function
+barrier), pointing at each another, and explaining exactly what's being
+synchronized against what and how.
 
-vim +689 drivers/gpu/drm/panthor/panthor_sched.c
+I did years ago add a few missing barriers with that approach, see
+b0a5303d4e14 ("drm/sched: Barriers are needed for
+entity->last_scheduled"). Reading that patch again it feels a bit on the
+terse side of things (plus I noticed spelling issues now too, oops).
 
-de85488138247d0 Boris Brezillon 2024-02-29  531  
-de85488138247d0 Boris Brezillon 2024-02-29  532  /**
-de85488138247d0 Boris Brezillon 2024-02-29  533   * struct panthor_group - Scheduling group object
-de85488138247d0 Boris Brezillon 2024-02-29  534   */
-de85488138247d0 Boris Brezillon 2024-02-29  535  struct panthor_group {
-de85488138247d0 Boris Brezillon 2024-02-29  536  	/** @refcount: Reference count */
-de85488138247d0 Boris Brezillon 2024-02-29  537  	struct kref refcount;
-de85488138247d0 Boris Brezillon 2024-02-29  538  
-de85488138247d0 Boris Brezillon 2024-02-29  539  	/** @ptdev: Device. */
-de85488138247d0 Boris Brezillon 2024-02-29  540  	struct panthor_device *ptdev;
-de85488138247d0 Boris Brezillon 2024-02-29  541  
-de85488138247d0 Boris Brezillon 2024-02-29  542  	/** @vm: VM bound to the group. */
-de85488138247d0 Boris Brezillon 2024-02-29  543  	struct panthor_vm *vm;
-de85488138247d0 Boris Brezillon 2024-02-29  544  
-de85488138247d0 Boris Brezillon 2024-02-29  545  	/** @compute_core_mask: Mask of shader cores that can be used for compute jobs. */
-de85488138247d0 Boris Brezillon 2024-02-29  546  	u64 compute_core_mask;
-de85488138247d0 Boris Brezillon 2024-02-29  547  
-de85488138247d0 Boris Brezillon 2024-02-29  548  	/** @fragment_core_mask: Mask of shader cores that can be used for fragment jobs. */
-de85488138247d0 Boris Brezillon 2024-02-29  549  	u64 fragment_core_mask;
-de85488138247d0 Boris Brezillon 2024-02-29  550  
-de85488138247d0 Boris Brezillon 2024-02-29  551  	/** @tiler_core_mask: Mask of tiler cores that can be used for tiler jobs. */
-de85488138247d0 Boris Brezillon 2024-02-29  552  	u64 tiler_core_mask;
-de85488138247d0 Boris Brezillon 2024-02-29  553  
-de85488138247d0 Boris Brezillon 2024-02-29  554  	/** @max_compute_cores: Maximum number of shader cores used for compute jobs. */
-de85488138247d0 Boris Brezillon 2024-02-29  555  	u8 max_compute_cores;
-de85488138247d0 Boris Brezillon 2024-02-29  556  
-be7ffc821f5fc2e Liviu Dudau     2024-04-02  557  	/** @max_fragment_cores: Maximum number of shader cores used for fragment jobs. */
-de85488138247d0 Boris Brezillon 2024-02-29  558  	u8 max_fragment_cores;
-de85488138247d0 Boris Brezillon 2024-02-29  559  
-de85488138247d0 Boris Brezillon 2024-02-29  560  	/** @max_tiler_cores: Maximum number of tiler cores used for tiler jobs. */
-de85488138247d0 Boris Brezillon 2024-02-29  561  	u8 max_tiler_cores;
-de85488138247d0 Boris Brezillon 2024-02-29  562  
-de85488138247d0 Boris Brezillon 2024-02-29  563  	/** @priority: Group priority (check panthor_csg_priority). */
-de85488138247d0 Boris Brezillon 2024-02-29  564  	u8 priority;
-de85488138247d0 Boris Brezillon 2024-02-29  565  
-de85488138247d0 Boris Brezillon 2024-02-29  566  	/** @blocked_queues: Bitmask reflecting the blocked queues. */
-de85488138247d0 Boris Brezillon 2024-02-29  567  	u32 blocked_queues;
-de85488138247d0 Boris Brezillon 2024-02-29  568  
-de85488138247d0 Boris Brezillon 2024-02-29  569  	/** @idle_queues: Bitmask reflecting the idle queues. */
-de85488138247d0 Boris Brezillon 2024-02-29  570  	u32 idle_queues;
-de85488138247d0 Boris Brezillon 2024-02-29  571  
-de85488138247d0 Boris Brezillon 2024-02-29  572  	/** @fatal_lock: Lock used to protect access to fatal fields. */
-de85488138247d0 Boris Brezillon 2024-02-29  573  	spinlock_t fatal_lock;
-de85488138247d0 Boris Brezillon 2024-02-29  574  
-de85488138247d0 Boris Brezillon 2024-02-29  575  	/** @fatal_queues: Bitmask reflecting the queues that hit a fatal exception. */
-de85488138247d0 Boris Brezillon 2024-02-29  576  	u32 fatal_queues;
-de85488138247d0 Boris Brezillon 2024-02-29  577  
-de85488138247d0 Boris Brezillon 2024-02-29  578  	/** @tiler_oom: Mask of queues that have a tiler OOM event to process. */
-de85488138247d0 Boris Brezillon 2024-02-29  579  	atomic_t tiler_oom;
-de85488138247d0 Boris Brezillon 2024-02-29  580  
-de85488138247d0 Boris Brezillon 2024-02-29  581  	/** @queue_count: Number of queues in this group. */
-de85488138247d0 Boris Brezillon 2024-02-29  582  	u32 queue_count;
-de85488138247d0 Boris Brezillon 2024-02-29  583  
-de85488138247d0 Boris Brezillon 2024-02-29  584  	/** @queues: Queues owned by this group. */
-de85488138247d0 Boris Brezillon 2024-02-29  585  	struct panthor_queue *queues[MAX_CS_PER_CSG];
-de85488138247d0 Boris Brezillon 2024-02-29  586  
-de85488138247d0 Boris Brezillon 2024-02-29  587  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  588  	 * @csg_id: ID of the FW group slot.
-de85488138247d0 Boris Brezillon 2024-02-29  589  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  590  	 * -1 when the group is not scheduled/active.
-de85488138247d0 Boris Brezillon 2024-02-29  591  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  592  	int csg_id;
-de85488138247d0 Boris Brezillon 2024-02-29  593  
-de85488138247d0 Boris Brezillon 2024-02-29  594  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  595  	 * @destroyed: True when the group has been destroyed.
-de85488138247d0 Boris Brezillon 2024-02-29  596  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  597  	 * If a group is destroyed it becomes useless: no further jobs can be submitted
-de85488138247d0 Boris Brezillon 2024-02-29  598  	 * to its queues. We simply wait for all references to be dropped so we can
-de85488138247d0 Boris Brezillon 2024-02-29  599  	 * release the group object.
-de85488138247d0 Boris Brezillon 2024-02-29  600  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  601  	bool destroyed;
-de85488138247d0 Boris Brezillon 2024-02-29  602  
-de85488138247d0 Boris Brezillon 2024-02-29  603  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  604  	 * @timedout: True when a timeout occurred on any of the queues owned by
-de85488138247d0 Boris Brezillon 2024-02-29  605  	 * this group.
-de85488138247d0 Boris Brezillon 2024-02-29  606  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  607  	 * Timeouts can be reported by drm_sched or by the FW. In any case, any
-de85488138247d0 Boris Brezillon 2024-02-29  608  	 * timeout situation is unrecoverable, and the group becomes useless.
-de85488138247d0 Boris Brezillon 2024-02-29  609  	 * We simply wait for all references to be dropped so we can release the
-de85488138247d0 Boris Brezillon 2024-02-29  610  	 * group object.
-de85488138247d0 Boris Brezillon 2024-02-29  611  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  612  	bool timedout;
-de85488138247d0 Boris Brezillon 2024-02-29  613  
-de85488138247d0 Boris Brezillon 2024-02-29  614  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  615  	 * @syncobjs: Pool of per-queue synchronization objects.
-de85488138247d0 Boris Brezillon 2024-02-29  616  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  617  	 * One sync object per queue. The position of the sync object is
-de85488138247d0 Boris Brezillon 2024-02-29  618  	 * determined by the queue index.
-de85488138247d0 Boris Brezillon 2024-02-29  619  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  620  	struct panthor_kernel_bo *syncobjs;
-de85488138247d0 Boris Brezillon 2024-02-29  621  
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  622  	/** @fdinfo: Per-file total cycle and timestamp values reference. */
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  623  	struct {
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  624  		/** @data: Pointer to actual per-file sample data. */
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  625  		struct panthor_gpu_usage *data;
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  626  
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  627  		/**
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  628  		 * @lock: Mutex to govern concurrent access from drm file's fdinfo callback
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  629  		 * and job post-completion processing function
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  630  		 */
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  631  		struct mutex lock;
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  632  	} fdinfo;
-d7baaf2591f58fc Adrián Larumbe  2024-09-03  633  
-de85488138247d0 Boris Brezillon 2024-02-29  634  	/** @state: Group state. */
-de85488138247d0 Boris Brezillon 2024-02-29  635  	enum panthor_group_state state;
-de85488138247d0 Boris Brezillon 2024-02-29  636  
-de85488138247d0 Boris Brezillon 2024-02-29  637  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  638  	 * @suspend_buf: Suspend buffer.
-de85488138247d0 Boris Brezillon 2024-02-29  639  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  640  	 * Stores the state of the group and its queues when a group is suspended.
-de85488138247d0 Boris Brezillon 2024-02-29  641  	 * Used at resume time to restore the group in its previous state.
-de85488138247d0 Boris Brezillon 2024-02-29  642  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  643  	 * The size of the suspend buffer is exposed through the FW interface.
-de85488138247d0 Boris Brezillon 2024-02-29  644  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  645  	struct panthor_kernel_bo *suspend_buf;
-de85488138247d0 Boris Brezillon 2024-02-29  646  
-de85488138247d0 Boris Brezillon 2024-02-29  647  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  648  	 * @protm_suspend_buf: Protection mode suspend buffer.
-de85488138247d0 Boris Brezillon 2024-02-29  649  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  650  	 * Stores the state of the group and its queues when a group that's in
-de85488138247d0 Boris Brezillon 2024-02-29  651  	 * protection mode is suspended.
-de85488138247d0 Boris Brezillon 2024-02-29  652  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  653  	 * Used at resume time to restore the group in its previous state.
-de85488138247d0 Boris Brezillon 2024-02-29  654  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  655  	 * The size of the protection mode suspend buffer is exposed through the
-de85488138247d0 Boris Brezillon 2024-02-29  656  	 * FW interface.
-de85488138247d0 Boris Brezillon 2024-02-29  657  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  658  	struct panthor_kernel_bo *protm_suspend_buf;
-de85488138247d0 Boris Brezillon 2024-02-29  659  
-de85488138247d0 Boris Brezillon 2024-02-29  660  	/** @sync_upd_work: Work used to check/signal job fences. */
-de85488138247d0 Boris Brezillon 2024-02-29  661  	struct work_struct sync_upd_work;
-de85488138247d0 Boris Brezillon 2024-02-29  662  
-de85488138247d0 Boris Brezillon 2024-02-29  663  	/** @tiler_oom_work: Work used to process tiler OOM events happening on this group. */
-de85488138247d0 Boris Brezillon 2024-02-29  664  	struct work_struct tiler_oom_work;
-de85488138247d0 Boris Brezillon 2024-02-29  665  
-de85488138247d0 Boris Brezillon 2024-02-29  666  	/** @term_work: Work used to finish the group termination procedure. */
-de85488138247d0 Boris Brezillon 2024-02-29  667  	struct work_struct term_work;
-de85488138247d0 Boris Brezillon 2024-02-29  668  
-de85488138247d0 Boris Brezillon 2024-02-29  669  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  670  	 * @release_work: Work used to release group resources.
-de85488138247d0 Boris Brezillon 2024-02-29  671  	 *
-de85488138247d0 Boris Brezillon 2024-02-29  672  	 * We need to postpone the group release to avoid a deadlock when
-de85488138247d0 Boris Brezillon 2024-02-29  673  	 * the last ref is released in the tick work.
-de85488138247d0 Boris Brezillon 2024-02-29  674  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  675  	struct work_struct release_work;
-de85488138247d0 Boris Brezillon 2024-02-29  676  
-de85488138247d0 Boris Brezillon 2024-02-29  677  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  678  	 * @run_node: Node used to insert the group in the
-de85488138247d0 Boris Brezillon 2024-02-29  679  	 * panthor_group::groups::{runnable,idle} and
-de85488138247d0 Boris Brezillon 2024-02-29  680  	 * panthor_group::reset.stopped_groups lists.
-de85488138247d0 Boris Brezillon 2024-02-29  681  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  682  	struct list_head run_node;
-de85488138247d0 Boris Brezillon 2024-02-29  683  
-de85488138247d0 Boris Brezillon 2024-02-29  684  	/**
-de85488138247d0 Boris Brezillon 2024-02-29  685  	 * @wait_node: Node used to insert the group in the
-de85488138247d0 Boris Brezillon 2024-02-29  686  	 * panthor_group::groups::waiting list.
-de85488138247d0 Boris Brezillon 2024-02-29  687  	 */
-de85488138247d0 Boris Brezillon 2024-02-29  688  	struct list_head wait_node;
-de85488138247d0 Boris Brezillon 2024-02-29 @689  };
-de85488138247d0 Boris Brezillon 2024-02-29  690  
+Cheers, Sima
+
+> +	rmb();
+> +	return list_empty(&sched->pending_list);
+> +}
+> +
+>  /**
+>   * drm_sched_stop - stop the scheduler
+>   *
+> @@ -659,6 +675,12 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+>  		}
+>  	}
+>  
+> +	/*
+> +	 * Inform tasks blocking in drm_sched_fini() that it's now safe to proceed.
+> +	 */
+> +	if (drm_sched_no_jobs_pending(sched))
+> +		wake_up(&sched->job_list_waitque);
+> +
+>  	/*
+>  	 * Stop pending timer in flight as we rearm it in  drm_sched_start. This
+>  	 * avoids the pending timeout work in progress to fire right away after
+> @@ -1085,6 +1107,12 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+>  		/* remove job from pending_list */
+>  		list_del_init(&job->list);
+>  
+> +		/*
+> +		 * Inform tasks blocking in drm_sched_fini() that it's now safe to proceed.
+> +		 */
+> +		if (list_empty(&sched->pending_list))
+> +			wake_up(&sched->job_list_waitque);
+> +
+>  		/* cancel this job's TO timer */
+>  		cancel_delayed_work(&sched->work_tdr);
+>  		/* make the scheduled timestamp more accurate */
+> @@ -1303,6 +1331,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>  	init_waitqueue_head(&sched->job_scheduled);
+>  	INIT_LIST_HEAD(&sched->pending_list);
+>  	spin_lock_init(&sched->job_list_lock);
+> +	init_waitqueue_head(&sched->job_list_waitque);
+>  	atomic_set(&sched->credit_count, 0);
+>  	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+>  	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+> @@ -1333,12 +1362,23 @@ EXPORT_SYMBOL(drm_sched_init);
+>   * @sched: scheduler instance
+>   *
+>   * Tears down and cleans up the scheduler.
+> + *
+> + * Note that this function blocks until the fences returned by
+> + * backend_ops.run_job() have been signalled.
+>   */
+>  void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>  {
+>  	struct drm_sched_entity *s_entity;
+>  	int i;
+>  
+> +	/*
+> +	 * Jobs that have neither been scheduled or which have timed out are
+> +	 * gone by now, but jobs that have been submitted through
+> +	 * backend_ops.run_job() and have not yet terminated are still pending.
+> +	 *
+> +	 * Wait for the pending_list to become empty to avoid leaking those jobs.
+> +	 */
+> +	wait_event(sched->job_list_waitque, drm_sched_no_jobs_pending(sched));
+>  	drm_sched_wqueue_stop(sched);
+>  
+>  	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 5acc64954a88..bff092784405 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -29,6 +29,7 @@
+>  #include <linux/completion.h>
+>  #include <linux/xarray.h>
+>  #include <linux/workqueue.h>
+> +#include <linux/wait.h>
+>  
+>  #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>  
+> @@ -503,6 +504,8 @@ struct drm_sched_backend_ops {
+>   *            timeout interval is over.
+>   * @pending_list: the list of jobs which are currently in the job queue.
+>   * @job_list_lock: lock to protect the pending_list.
+> + * @job_list_waitque: a waitqueue for drm_sched_fini() to block on until all
+> + *		      pending jobs have been finished.
+>   * @hang_limit: once the hangs by a job crosses this limit then it is marked
+>   *              guilty and it will no longer be considered for scheduling.
+>   * @score: score to help loadbalancer pick a idle sched
+> @@ -532,6 +535,7 @@ struct drm_gpu_scheduler {
+>  	struct delayed_work		work_tdr;
+>  	struct list_head		pending_list;
+>  	spinlock_t			job_list_lock;
+> +	wait_queue_head_t		job_list_waitque;
+>  	int				hang_limit;
+>  	atomic_t                        *score;
+>  	atomic_t                        _score;
+> -- 
+> 2.46.0
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
