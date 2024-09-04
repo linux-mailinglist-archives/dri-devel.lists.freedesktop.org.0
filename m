@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5AA96B264
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 09:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1B596B267
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 09:10:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A078110E4BC;
-	Wed,  4 Sep 2024 07:10:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A01310E66C;
+	Wed,  4 Sep 2024 07:10:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CCLrwJFq";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VmRolwsW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44CAA10E686
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 07:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725433799;
- bh=bOYHheQLtTJ02XBnSDwChY3fXk4QX4vAA1TWpbq5nkA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=CCLrwJFqIaWNJZ5IfeWbdRHu3o760+JopVy1MEPGUMHgWhcdhORvI0qX1SJz3JnSK
- 8UUWiKzNdJyTlfW7f7jdlhZ2FVeqdxfyXun3i4wwBUoR0ZqF0l8aPgQOAYsiEzPS80
- tno2vPl5DNlKxURKhhqczYeV+7xHXIhM0oVvuAAZJ3wEm9Kp2c5bj/1UbKQqAXYm4H
- v4xOUFVUdyo6I/CpPnAJhASNxGeeKIWfv2l9R/OnIiq/cFD/RDqaJ8qtWKXY5wroDf
- hrsEUez0K/1btQhToj0RkEf6EObZY/RUGm8OcyUKREywttEeu23X1GhKQq7+19TyJ9
- v1k+3T1J94C6g==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CABB910E66C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 07:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1725433811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AqXFL8n+dIt4khrh0GH2lSLGcp3WuiAgJkmy4j+JgOg=;
+ b=VmRolwsWsxY3mRIa3J+tEcJ6IP5DrCvLWc5Y+zU5yF+AbZCHEb/U1dPZv3Gk+aZZpvSVr8
+ lLH6JL/IaEanmgV+SM7tfJ3RUp38AP03XpsHDURyLTwoSCQbcMCKNo8NIEgIgaWC2r8d49
+ rpEIUjIqporFsdc3LK4widY3Wrjrco8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-164-9QkQgp4WMpOZavV647xCRw-1; Wed,
+ 04 Sep 2024 03:10:08 -0400
+X-MC-Unique: 9QkQgp4WMpOZavV647xCRw-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1592617E0F89;
- Wed,  4 Sep 2024 09:09:59 +0200 (CEST)
-Date: Wed, 4 Sep 2024 09:09:53 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, Nicolas Boichat
- <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
- Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
- <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>, Steven Price
- <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- kernel@collabora.com, Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi
- <ishitatsuyuki@gmail.com>, Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v6 10/14] drm/panthor: Add the scheduler logical block
-Message-ID: <20240904090953.77d5b8d7@collabora.com>
-In-Reply-To: <Ztdm9EdoguXKxGMV@phenom.ffwll.local>
-References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
- <20240229162230.2634044-11-boris.brezillon@collabora.com>
- <Ztdm9EdoguXKxGMV@phenom.ffwll.local>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 10D631955D44; Wed,  4 Sep 2024 07:10:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.114])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 2AF171956048; Wed,  4 Sep 2024 07:10:06 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0F4FA1800639; Wed,  4 Sep 2024 09:10:04 +0200 (CEST)
+Date: Wed, 4 Sep 2024 09:10:04 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: David Airlie <airlied@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] drm/virtio: Defer the host dumb buffer creation
+Message-ID: <pbp4kpu2wh25fu54huu62cuydlw5qhhp2r3akx6e6ipff32rrr@yra7qtiub5jr>
+References: <20240903075414.297622-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20240903075414.297622-1-jfalempe@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,29 +77,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 3 Sep 2024 21:43:48 +0200
-Simona Vetter <simona.vetter@ffwll.ch> wrote:
+  Hi,
 
-> On Thu, Feb 29, 2024 at 05:22:24PM +0100, Boris Brezillon wrote:
-> > - Add our job fence as DMA_RESV_USAGE_WRITE to all external objects
-> >   (was previously DMA_RESV_USAGE_BOOKKEEP). I don't get why, given
-> >   we're supposed to be fully-explicit, but other drivers do that, so
-> >   there must be a good reason  
-> 
-> Just spotted this: They're wrong, or they're userspace is broken and
-> doesn't use the dma_buf fence import/export ioctl in all the right places.
-> For gl this simplifies things (but setting write fences when you're only
-> reading is still bad, and setting fences on buffers you don't even touch
-> is worse), for vulkan this is just bad.
+> -	} else {
+> -		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+> -					       objs, fence);
+> -		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+> +	} else if (params->dumb) {
+> +		/* Create the host resource in virtio_gpu_user_framebuffer_create()
+> +		 * because the pixel format is not specified yet
+> +		 */
+> +		bo->ents = ents;
+> +		bo->nents = nents;
+> +		bo->deferred = true;
+>  	}
 
-For the record, I remember pointing that out in some drm_sched
-discussion, and being told that this was done on purpose :-/.
+else {
+	return -EINVAL;
+}
 
-> 
-> I think you want a context creation flag for userspace that's not broken,
-> which goes back to USAGE_BOOKKEEP for everything.
+I think this should not happen, because non-dumb buffers are only
+created with virgl being active.  Nevertheless we should catch this
+case and return an error, maybe even have a WARN_ONCE() there.
 
-Honestly, given the only user (the gallium driver) is already designed
-to do the explicit <-> implicit dance, and the fact the driver just got
-merged in the last release, I'd rather go for a silent USAGE_WRITE ->
-USAGE_BOOKKEEP if things keep working with that.
+Otherwise looks good to me, so with that fixed:
+
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+
+take care,
+  Gerd
+
