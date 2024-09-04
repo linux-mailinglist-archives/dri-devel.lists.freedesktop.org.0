@@ -2,85 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E33596C9A5
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 23:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBB496C9AD
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 23:45:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C92310E5FB;
-	Wed,  4 Sep 2024 21:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6E810E076;
+	Wed,  4 Sep 2024 21:45:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="sqM8uWV7";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="V+iN9iiN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5282C10E2AE
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 21:42:42 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-457c6389a3aso38541cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 14:42:42 -0700 (PDT)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEE1810E076
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 21:45:38 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id
+ af79cd13be357-7a803a4f6dfso6057885a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 14:45:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1725486161; x=1726090961;
+ d=chromium.org; s=google; t=1725486338; x=1726091138;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XUOw5lMiHDw0MiG7UAI15FhQeJ9HSg6Beuvp398enyw=;
- b=sqM8uWV7SMHW1pbrFGKjZGjNVxLczhrjNGoko0swcD27fOMiMSZVRP9e+YLPO8ahjD
- GwMi/PKkFX02THRED9ub+IWlyHK3BzwlASlQ1n0u6Kz3FrneoCTvBejqkVKE+4Vl484p
- 3NHVgPTSsRSTv8oZxu//HOyLt5Hp2Aso46LiX3dLaZ7wQzhPUxkj0nP3H00FdbqHwW4w
- NTNJgwntslOLzhSTQukHAiuvaQtqVAeYsB9Y3g+GA0eyW0PXFe9RvQodUdMs+sOyQ+9r
- q9O4yFN2ambKIetl1iuP1VuOXbdWx99Y5SDXwJE41PEmZtBoeVdY3qrG05zxSlIc5ivK
- 356w==
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=f4gRtmbeYp5evTSGdV4aMzXH03sVn24oEBxx8YLA2ew=;
+ b=V+iN9iiNv6a+eE8xgNCTxq0AlWZJRcmmBKjVy18YD9zmqAASgYv2NzCTHb5rOpHvB/
+ TqIaGRYv7rkG1aauxjWfsOaLj/jGBdrCUweNvXje4T73Y918skm4NYLWu28Pxp1nYR6m
+ 9P7c3dl897YLCp4QdfhwzBdUUF/xwfwwk6jgg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725486161; x=1726090961;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XUOw5lMiHDw0MiG7UAI15FhQeJ9HSg6Beuvp398enyw=;
- b=JbV9uy1PCh3u7sLX9boWimXBy2OwfkzNLJ9oZVgM97icce2XwIocQRbB9BNeeZ8KhI
- vpzMxfVHIzAxPMAbvITyCClmCdb++G6QVG8xGO9TSauTamLw8/ASypiepmag5F3lkOtF
- twoZXLYVVVFb/yQ1whMHc+hc+vEjWjZBmOFOSr6B8N8n7PwUB8AsUALcjLUOhEtwrSAp
- F4GnZCwTl+aJ7+JjRDtPGdzfRvl4AYNShYqrLkSriPKTHRizXvC+d7eTgDlDAeqBDX4q
- 8kI9rCRKsn9YiCMh9eHpLX6oDaY8jD4Q5XT22sTQGmEs9oY2nTgGj0w50MnI8C1iMp0N
- m00w==
+ d=1e100.net; s=20230601; t=1725486338; x=1726091138;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=f4gRtmbeYp5evTSGdV4aMzXH03sVn24oEBxx8YLA2ew=;
+ b=YAoUT8ylkkJ4rLDWBD8PJolruoIJzXvRU/ubFqAu8Yxg5Y0HIVhDI0LDALNxgHkycc
+ aRk/z4ltzcuJGkXzARC1VQ6WW0wHP2dluFYnd67swHlAy51ksAYGgtbDzMlNssoYFOun
+ TWiGPEHEnVTr+YmNkqTgCNDPhBHSRkf0qydoniDU8vaIeMe1GFKoMFpXvCdCC9zH6bD9
+ KLU+k81KZdQdRkBoCpRexduup/YvYNVnF1nzKkv4NBxcAbvWZmrbXPSczuonQxq4Eejz
+ CbhccDzoiF8DpdNJB4cKfpAzdbbfziGRqOnO549DVSjh60xbdadepC3fnzQKCOpbU1+Z
+ l3Vw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW6Balh3W9TshQcUrBFk7GLIOQPxS9bD20pm6OsyPILDaz1QZ8FKXx94jbtlW37dg+dsn+86a1NiJM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzPmhFh2zQ3LGLmgrSbLtpJJqk384X2kjfpw5oQHbvPxEPga8r0
- MhPKbUTzVD/ZkDH0HOycx0YFOLW5/Mj1LmjVR62KIBvjKI1IlyJu0/DPamVVJ1KfDkwHLyqhZOd
- bMqX1ySjCt3b+rLDk7YIovr3Kx2eoa8V9JAXp
-X-Google-Smtp-Source: AGHT+IEpGF7+WsKzz/JrGdpbLM/PeRMTZKHHeKwab0nvhh64NIvNlNBwZyTBj3hwa0VujqMyfqFoFxJtF/XvbPvKPO0=
-X-Received: by 2002:a05:622a:6790:b0:456:7d9f:2af8 with SMTP id
- d75a77b69052e-458033f9c82mr245311cf.7.1725486160847; Wed, 04 Sep 2024
- 14:42:40 -0700 (PDT)
+ AJvYcCUCjSH1cMtaqO9eckv53IONxnyO5DsH8H+bytS0jZDgFHJemIO3JN9mcckZM2VzLnoHSzTVoguC1NQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywp6inMQCtrb35InPrBBoQBTC7HtWTAda5uw9+Qv3qmgOdEZvNp
+ YpTvrE1zTnacru2M3r92b/9elaxJMD4T5v6arVbdKFSUP0OQmnA2y0tzt3fIaZNRF/tWhR+cBU2
+ C8tAvOJgKyc7/7hvSfL2sKNpV7DPpIXtp8RFn
+X-Google-Smtp-Source: AGHT+IE3j/hFyhOgq6UHD/BuDzpg0SIVGw+m/kAN1oVv8xhNaZUR6LUlzSWku14uLG7tUpAnX8c5Trg6ijcjDc3jYq8=
+X-Received: by 2002:a05:620a:19a6:b0:79d:569a:699f with SMTP id
+ af79cd13be357-7a8041da30cmr2373807985a.39.1725486337639; Wed, 04 Sep 2024
+ 14:45:37 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 4 Sep 2024 14:45:36 -0700
 MIME-Version: 1.0
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <20240830070351.2855919-5-jens.wiklander@linaro.org>
- <CABdmKX2KzswmiDY4oWw69_rPWs8d_Cqp7OXouSeMQaYX1SDSmw@mail.gmail.com>
- <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
-In-Reply-To: <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 4 Sep 2024 14:42:28 -0700
-Message-ID: <CABdmKX0qd0RoTn2TBQTs9zdf=_JP8pW8hFRUR_7n_t-sfxsGdg@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4] dma-buf: heaps: add Linaro restricted dmabuf heap
- support
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+In-Reply-To: <ZtgqLZXbJbpG65vD@google.com>
+References: <20240901040658.157425-1-swboyd@chromium.org>
+ <20240901040658.157425-19-swboyd@chromium.org>
+ <ZtgqLZXbJbpG65vD@google.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 4 Sep 2024 14:45:36 -0700
+Message-ID: <CAE-0n51w3AAtLPq5M-i8F6z2jSOT3xFw3g8HM1h48xXBSeoZnA@mail.gmail.com>
+Subject: Re: [PATCH v4 18/18] platform/chrome: cros_ec_typec: Handle lack of
+ HPD information
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ patches@lists.linux.dev, devicetree@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
+ Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>, 
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,280 +107,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 4, 2024 at 2:44=E2=80=AFAM Jens Wiklander <jens.wiklander@linar=
-o.org> wrote:
+Quoting Tzung-Bi Shih (2024-09-04 02:36:45)
+> On Sat, Aug 31, 2024 at 09:06:56PM -0700, Stephen Boyd wrote:
+> > +static void cros_typec_inject_hpd(struct cros_typec_data *typec,
+> > +                               struct ec_response_usb_pd_mux_info *resp,
+> > +                               struct cros_typec_port *port)
+> > +{
+> [...]
+> > +     /*
+> > +      * Only read the mux GPIO setting if we need to change the active port.
+> > +      * Otherwise, an active port is already set and HPD going high or low
+> > +      * doesn't change the muxed port until DP mode is exited.
+> > +      */
+> > +     if (!typec->active_dp_port) {
 >
-> On Tue, Sep 3, 2024 at 7:50=E2=80=AFPM T.J. Mercier <tjmercier@google.com=
-> wrote:
-> >
-> > On Fri, Aug 30, 2024 at 12:04=E2=80=AFAM Jens Wiklander
-> > <jens.wiklander@linaro.org> wrote:
-> > >
-> > > Add a Linaro restricted heap using the linaro,restricted-heap binding=
-s
-> > > implemented based on the generic restricted heap.
-> > >
-> > > The bindings defines a range of physical restricted memory. The heap
-> > > manages this address range using genalloc. The allocated dma-buf file
-> > > descriptor can later be registered with the TEE subsystem for later u=
-se
-> > > via Trusted Applications in the secure world.
-> > >
-> > > Co-developed-by: Olivier Masse <olivier.masse@nxp.com>
-> > > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > ---
-> > >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
-> > >  drivers/dma-buf/heaps/Makefile                |   1 +
-> > >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++=
-++
-> > >  3 files changed, 176 insertions(+)
-> > >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
-> > >
-> > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kc=
-onfig
-> > > index 58903bc62ac8..82e2c5d09242 100644
-> > > --- a/drivers/dma-buf/heaps/Kconfig
-> > > +++ b/drivers/dma-buf/heaps/Kconfig
-> > > @@ -28,3 +28,13 @@ config DMABUF_HEAPS_RESTRICTED_MTK
-> > >         help
-> > >           Enable restricted dma-buf heaps for MediaTek platform. This=
- heap is backed by
-> > >           TEE client interfaces. If in doubt, say N.
-> > > +
-> > > +config DMABUF_HEAPS_RESTRICTED_LINARO
-> > > +       bool "Linaro DMA-BUF Restricted Heap"
-> > > +       depends on DMABUF_HEAPS_RESTRICTED
-> > > +       help
-> > > +         Choose this option to enable the Linaro restricted dma-buf =
-heap.
-> > > +         The restricted heap pools are defined according to the DT. =
-Heaps
-> > > +         are allocated in the pools using gen allocater.
-> > > +         If in doubt, say N.
-> > > +
-> > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/M=
-akefile
-> > > index 0028aa9d875f..66b2f67c47b5 100644
-> > > --- a/drivers/dma-buf/heaps/Makefile
-> > > +++ b/drivers/dma-buf/heaps/Makefile
-> > > @@ -2,4 +2,5 @@
-> > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
-> > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)  +=3D restricted_heap.o
-> > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)      +=3D restricted_heap_=
-mtk.o
-> > > +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_LINARO)   +=3D restricted_heap_=
-linaro.o
-> > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
-> > > diff --git a/drivers/dma-buf/heaps/restricted_heap_linaro.c b/drivers=
-/dma-buf/heaps/restricted_heap_linaro.c
-> > > new file mode 100644
-> > > index 000000000000..4b08ed514023
-> > > --- /dev/null
-> > > +++ b/drivers/dma-buf/heaps/restricted_heap_linaro.c
-> > > @@ -0,0 +1,165 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * DMABUF secure heap exporter
-> > > + *
-> > > + * Copyright 2021 NXP.
-> > > + * Copyright 2024 Linaro Limited.
-> > > + */
-> > > +
-> > > +#define pr_fmt(fmt)     "rheap_linaro: " fmt
-> > > +
-> > > +#include <linux/dma-buf.h>
-> > > +#include <linux/err.h>
-> > > +#include <linux/genalloc.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/of_fdt.h>
-> > > +#include <linux/of_reserved_mem.h>
-> > > +#include <linux/scatterlist.h>
-> > > +#include <linux/slab.h>
-> > > +
-> > > +#include "restricted_heap.h"
-> > > +
-> > > +#define MAX_HEAP_COUNT 2
-> >
-> > Are multiple supported because of what Cyrille mentioned here about per=
-missions?
-> > https://lore.kernel.org/lkml/DBBPR04MB7514E006455AEA407041E4F788709@DBB=
-PR04MB7514.eurprd04.prod.outlook.com/
->
-> Yes, I kept that as is.
+> Given that cros_typec_inject_hpd() is called before `typec->active_dp_port`
+> would be set (from previous patch "platform/chrome: ...  Support DP muxing"),
+> would it possibly wrongly fall into here at the beginning?  (E.g.:
+> cros_typec_probe() -> cros_typec_port_update() -> cros_typec_configure_mux()
+> -> cros_typec_inject_hpd().)
 
-Ok thanks.
+We wouldn't get here if 'hpd_asserted' is false though. We want to fall
+into this case in the beginning, i.e. 'active_dp_port' is NULL, so that
+we can read the mux and figure out which port is actually selected.
 
-> > So this is just some arbitrary limit? I'd prefer to have some sort of
-> > documentation about this.
->
-> How about removing the limit and using dynamic allocation instead?
-
-That works too!
+If we don't have a mux gpio we assume that we aren't muxing and that
+there's only one port to begin with. I'll add a comment after the if
+(mux_gpio) condition with this info.
 
 >
-> Thanks,
-> Jens
+> > [...]
+> > +     /* Inject HPD from the GPIO state if EC firmware is broken. */
+> > +     if (typec->hpd_asserted)
+> > +             resp->flags |= USB_PD_MUX_HPD_LVL;
 >
-> >
-> >
-> > > +#define HEAP_NAME_LEN  32
-> > > +
-> > > +struct resmem_restricted {
-> > > +       phys_addr_t base;
-> > > +       phys_addr_t size;
-> > > +
-> > > +       char name[HEAP_NAME_LEN];
-> > > +
-> > > +       bool no_map;
-> > > +};
-> > > +
-> > > +static struct resmem_restricted restricted_data[MAX_HEAP_COUNT] =3D =
-{0};
-> > > +static unsigned int restricted_data_count;
-> > > +
-> > > +static int linaro_restricted_memory_allocate(struct restricted_heap =
-*heap,
-> > > +                                            struct restricted_buffer=
- *buf)
-> > > +{
-> > > +       struct gen_pool *pool =3D heap->priv_data;
-> > > +       unsigned long pa;
-> > > +       int ret;
-> > > +
-> > > +       buf->size =3D ALIGN(buf->size, PAGE_SIZE);
-> > > +       pa =3D gen_pool_alloc(pool, buf->size);
-> > > +       if (!pa)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       ret =3D sg_alloc_table(&buf->sg_table, 1, GFP_KERNEL);
-> > > +       if (ret) {
-> > > +               gen_pool_free(pool, pa, buf->size);
-> > > +               return ret;
-> > > +       }
-> > > +
-> > > +       sg_set_page(buf->sg_table.sgl, phys_to_page(pa), buf->size, 0=
-);
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +static void linaro_restricted_memory_free(struct restricted_heap *he=
-ap,
-> > > +                                         struct restricted_buffer *b=
-uf)
-> > > +{
-> > > +       struct gen_pool *pool =3D heap->priv_data;
-> > > +       struct scatterlist *sg;
-> > > +       unsigned int i;
-> > > +
-> > > +       for_each_sg(buf->sg_table.sgl, sg, buf->sg_table.nents, i)
-> > > +               gen_pool_free(pool, page_to_phys(sg_page(sg)), sg->le=
-ngth);
-> > > +       sg_free_table(&buf->sg_table);
-> > > +}
-> > > +
-> > > +static const struct restricted_heap_ops linaro_restricted_heap_ops =
-=3D {
-> > > +       .alloc =3D linaro_restricted_memory_allocate,
-> > > +       .free =3D linaro_restricted_memory_free,
-> > > +};
-> > > +
-> > > +static int add_heap(struct resmem_restricted *mem)
-> > > +{
-> > > +       struct restricted_heap *heap;
-> > > +       struct gen_pool *pool;
-> > > +       int ret;
-> > > +
-> > > +       if (mem->base =3D=3D 0 || mem->size =3D=3D 0) {
-> > > +               pr_err("restricted_data base or size is not correct\n=
-");
-> > > +               return -EINVAL;
-> > > +       }
-> > > +
-> > > +       heap =3D kzalloc(sizeof(*heap), GFP_KERNEL);
-> > > +       if (!heap)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       pool =3D gen_pool_create(PAGE_SHIFT, -1);
-> > > +       if (!pool) {
-> > > +               ret =3D -ENOMEM;
-> > > +               goto err_free_heap;
-> > > +       }
-> > > +
-> > > +       ret =3D gen_pool_add(pool, mem->base, mem->size, -1);
-> > > +       if (ret)
-> > > +               goto err_free_pool;
-> > > +
-> > > +       heap->no_map =3D mem->no_map;
-> > > +       heap->priv_data =3D pool;
-> > > +       heap->name =3D mem->name;
-> > > +       heap->ops =3D &linaro_restricted_heap_ops;
-> > > +
-> > > +       ret =3D restricted_heap_add(heap);
-> > > +       if (ret)
-> > > +               goto err_free_pool;
-> > > +
-> > > +       return 0;
-> > > +
-> > > +err_free_pool:
-> > > +       gen_pool_destroy(pool);
-> > > +err_free_heap:
-> > > +       kfree(heap);
-> > > +
-> > > +       return ret;
-> > > +}
-> > > +
-> > > +static int __init rmem_restricted_heap_setup(struct reserved_mem *rm=
-em)
-> > > +{
-> > > +       size_t len =3D HEAP_NAME_LEN;
-> > > +       const char *s;
-> > > +       bool no_map;
-> > > +
-> > > +       if (WARN_ONCE(restricted_data_count >=3D MAX_HEAP_COUNT,
-> > > +                     "Cannot handle more than %u restricted heaps\n"=
-,
-> > > +                     MAX_HEAP_COUNT))
-> > > +               return -EINVAL;
-> > > +
-> > > +       no_map =3D of_get_flat_dt_prop(rmem->fdt_node, "no-map", NULL=
-);
-> > > +       s =3D strchr(rmem->name, '@');
-> > > +       if (s)
-> > > +               len =3D umin(s - rmem->name + 1, len);
-> > > +
-> > > +       restricted_data[restricted_data_count].base =3D rmem->base;
-> > > +       restricted_data[restricted_data_count].size =3D rmem->size;
-> > > +       restricted_data[restricted_data_count].no_map =3D no_map;
-> > > +       strscpy(restricted_data[restricted_data_count].name, rmem->na=
-me, len);
-> > > +
-> > > +       restricted_data_count++;
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +RESERVEDMEM_OF_DECLARE(linaro_restricted_heap, "linaro,restricted-he=
-ap",
-> > > +                      rmem_restricted_heap_setup);
-> > > +
-> > > +static int linaro_restricted_heap_init(void)
-> > > +{
-> > > +       unsigned int i;
-> > > +       int ret;
-> > > +
-> > > +       for (i =3D 0; i < restricted_data_count; i++) {
-> > > +               ret =3D add_heap(&restricted_data[i]);
-> > > +               if (ret)
-> > > +                       return ret;
-> > > +       }
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +module_init(linaro_restricted_heap_init);
-> > > +MODULE_DESCRIPTION("Linaro Restricted Heap Driver");
-> > > +MODULE_LICENSE("GPL");
-> > > --
-> > > 2.34.1
-> > >
+> `typec->hpd_asserted` is shared between all typec->ports[...].  Would it be
+> possible that a HPD is asserted for another port but not current `port`?
+> E.g.: cros_typec_inject_hpd() for port 2 and cros_typec_dp_bridge_hpd_notify()
+> gets called due to port 1 at the same time?
+
+I'd like to avoid synchronizing the hpd notify and this injection code,
+if that's what you're asking. Thinking about this though, I've realized
+that it's broken even when HPD is working on the EC. Consider this
+scenario with two type-c ports C0 and C1:
+
+	Plug in C1
+	EC notifies AP
+	AP queues cros_typec_port_work()
+	HPD asserted
+	EC picks C1 for DP // First to have hpd asserted
+	EC notifies AP
+	AP tries to queue cros_typec_port_work() but it's pending. Skip.
+	Plug in C0
+	EC notifies AP
+	AP tries to queue cros_typec_port_work() but it's pending. Skip.
+	HPD asserted
+	EC notifies AP
+	AP tries to queue cros_typec_port_work() but it's pending. Skip.
+	Finally cros_typec_port_work() runs!
+	 for (i = 0; i < typec->num_ports; i++) // typec->num_ports = 2
+	  cros_typec_port_update(port_num=0)
+	   cros_ec_cmd(EC_CMD_USB_PD_CONTROL.port=0) // In DP mode
+	   cros_typec_configure_mux(port_num=0)
+	    cros_ec_cmd(EC_CMD_USB_PD_MUX_INFO.port=0) // hpd asserted
+	    if (!active_dp_port)
+	     active_dp_port = port0
+
+This is bad. The worker could be significantly delayed, although it's
+really unlikely in practice. It would be better if the EC pushed a
+message to AP about what happened, instead of having to query the EC
+about the state of USB. Or the EC could have a sequence number or
+something so AP could ask for the history of events. We can't fix all
+the EC firmwares though, so we get what we get.
+
+I think one solution would be to read the mux all the time and ignore
+tracking the active port based on hpd state. If we do that then we don't
+get tripped up by a delayed work iterating over both typec ports. The
+logic will be a bit more complicated though, because we'll have to
+consider all the ports when entering and exiting DP mode on one port so
+that we don't assign DP to the wrong port.
+
+Also, when hpd is broken on the EC I see an error message when I unplug
+the DP cable. It's the "No valid DP mode provided." error from
+cros_typec_enable_dp(). When I inject hpd that error goes away. I'll
+need to look closer to understand why, but I suspect I'll need to keep
+injecting hpd to avoid it.
