@@ -2,83 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E59A96BBD9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 14:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75D996BC06
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 14:26:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E1E10E78A;
-	Wed,  4 Sep 2024 12:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 877B210E793;
+	Wed,  4 Sep 2024 12:26:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ww9ui26f";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OdEF9Q8a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3B2A10E78A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 12:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1725452310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ff0y4X+QVhf0p/VEjOvJFSOlimmYM5QTv85PADhlasE=;
- b=Ww9ui26fwT7Dbd8iRemN/yaT8uanQHyT35Zvd7uTZ3UxERSLKRsLzdcMQe/e5cWkqvz1Zc
- +UZXpiG3KaLvQHrIYaRP7dsN7bcK6amyc7o7ym2Af183HW1uUu07j8DmPh3O3OLCU40apG
- NW1IWcG/DeFTqMVBr/5dGleP64XsQyc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-379-KgbKyWcQOFGLXmzRcVv-3A-1; Wed, 04 Sep 2024 08:18:29 -0400
-X-MC-Unique: KgbKyWcQOFGLXmzRcVv-3A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-374c3a31ebcso2326863f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 05:18:29 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E021E10E793
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 12:26:05 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-53346132365so8029680e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 05:26:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1725452764; x=1726057564; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ShpEItUXTPw0R0PCCwcqcGnCTzyW8rw0q9donzLK+vY=;
+ b=OdEF9Q8ad86yoIitE7sRDRNZ8M010pNitX+0ZjVCAEaIf7CK+kg4qw3MsoIMWlZKWz
+ Ir0ZnEOlV8EEY38fU4S/DwiBHucZI43R6cLbslLjHfQwkQM+Idzntd//tQYGU9xojXjz
+ kVdCjn3JpDyrlyRZZ+g76sQtSW5PgeUbYlUP4tsqou+4s4Ov8UQp7m/WpadngDDQnC4l
+ QEtTDumnbfyROLWCA4S4NLzy6kWHhCs0Wd1DDI4IRQp+WrprH62we5r/tNPhENDKJnNI
+ hC8NwCpA8t7SPjIC4ky0FX5EAWWEWcFKE2B8qmu+xMS7l39hlqAvwk1XlF1dDyLyoqcu
+ fV+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725452308; x=1726057108;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ff0y4X+QVhf0p/VEjOvJFSOlimmYM5QTv85PADhlasE=;
- b=uwdcIFxzS0/HQ73wAxKMb3IcR3wWpOtBG+eLpu6gw9nlAEHJdoXJV7LG7+uBOZ9nda
- ndYI1fmk8KPU79k57q38MFrWrNV0wuqxJEDDoncqlBbhMzGeh7g/WJkjEGJclvfRTl5Z
- hTU4Hh2dFqqSUCpfNxJHwGbQ48wnhHuz6gnE6qe649xiQq8CWYkFAsSotVwpbNNfUNdz
- odwKWlLcyxAVZ/Jdg+ebDrbGUULqk4BawbOACBan/J3W4VHnsCJBESW3x6GEuvEIkw+X
- NB0fM9QDY2Q92K6t8tz8gknX5OzLAENd2+jqQs1MOeFGYf+LG/VQ6+CbaJ+WvDi1I29K
- xP0g==
+ d=1e100.net; s=20230601; t=1725452764; x=1726057564;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ShpEItUXTPw0R0PCCwcqcGnCTzyW8rw0q9donzLK+vY=;
+ b=t2Bzkkj/lkiKlcQBEhnpnjcI5wsqb/KmGQMJNf1Q07yJtG2FP7QIn5HaQgt+BZbffH
+ UrXyvgna6vx9BUf6kwGWe9M4FHRAfIchRLawiKTc0AvIG4NkkrGx2c6ma4zaQMgYGDtv
+ XyFEX03qcdzcQwgEWAo51nw7AQTzX+h5Cag+346ca9xWxIKWQPsm6AhHUkkH+svSswGz
+ H91Vqlz21RWiSz+iMF0wDHUi/pR4JXjdpObVfq9oZmpeoSmiedlWplw+rX2bh3QuX0zO
+ CE6crCuQr0Rz9FpdPUyBvbdEoDI8JEuvnQ6MzVNcSIUg+qbvU7Ic6E2urkqlW7dibITH
+ 6ZiA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfc4SqrjZh+1ZpSGv2Ek8kUUtCx+q329pH8B0hVnHvcmjEsMKu72MAzNl1KZk8p6RscpYkoAplOfs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUr1l2AgGmzl8ZWiqFGMlrtdDKc/RlmiX+LO0qLmpvQbeSP14E
- ncqIZbrGpfkdsSv07H1b8Wv4mM+kwdByqtuT5sTpeYFTNloefeOGvCBjSGfXA2ihjAZbpIYW7es
- n38fS8vRdpqhX+Ks9gCEXREwyQST/rbALSwYDu+2+2Y42cfriErJZci2vVxEFQo7xTg==
-X-Received: by 2002:a5d:5484:0:b0:374:c45a:8afb with SMTP id
- ffacd0b85a97d-376dd15a9c0mr2962480f8f.19.1725452308150; 
- Wed, 04 Sep 2024 05:18:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFM58SacVW6qB3OGbwInnBlOw+x1XdCaBLKOjGAVJ7DXNTIXZ7mf0D4cAdkVzP6Q8BUhRUNrQ==
-X-Received: by 2002:a5d:5484:0:b0:374:c45a:8afb with SMTP id
- ffacd0b85a97d-376dd15a9c0mr2962449f8f.19.1725452307586; 
- Wed, 04 Sep 2024 05:18:27 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-374ba30d5b8sm13069521f8f.15.2024.09.04.05.18.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2024 05:18:27 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
- neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, skhan@linuxfoundation.org,
- rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel test
- robot <lkp@intel.com>
-Subject: Re: [PATCH v2] drm/panel: hx83112a: Transition to wrapped mipi_dsi
- functions
-In-Reply-To: <20240903173130.41784-1-abhishektamboli9@gmail.com>
-References: <20240903173130.41784-1-abhishektamboli9@gmail.com>
-Date: Wed, 04 Sep 2024 14:18:26 +0200
-Message-ID: <87v7zbboj1.fsf@minerva.mail-host-address-is-not-set>
+ AJvYcCUT+Hx2akGwpdPZnQywHACIp91fvckyDTGvIDP63uMTLaarxQfVtjckifptYfXxFOx+esKlx4A9IO8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/Uu42GupxbnNYxUYAZWCGDNnBKK9dmAKdMNMVj4y2PZf21V8b
+ Mrk+YNMeTw26s0H/npamellOLl4fsceFIiHzksQdHWmEIWUqzQPDnpqnipt9e24pxnJEO51gtqS
+ ryua+PJt2vuYbL9UXtCOLd8IqaMRFcFrWqqy0aQ==
+X-Google-Smtp-Source: AGHT+IHQ/WqpDHeg1ka71f0rdWw4LIiM6w3YCOG+feROT/sho6CUg2/KN5mK4Hkh/sNeYgzOJg8iR0SKY0/FJvcj+W0=
+X-Received: by 2002:a05:6512:3f11:b0:52e:fa6b:e54a with SMTP id
+ 2adb3069b0e04-53546b335a8mr12338692e87.30.1725452762836; Wed, 04 Sep 2024
+ 05:26:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20240904093140.15203-1-tzimmermann@suse.de>
+In-Reply-To: <20240904093140.15203-1-tzimmermann@suse.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 4 Sep 2024 14:25:51 +0200
+Message-ID: <CACRpkdYsZUGeoRHpFNyBX_Xs+ModmOwTP5Xmo3Pn+-PqusgfTg@mail.gmail.com>
+Subject: Re: [PATCH] drm/fbdev-dma: Only install deferred I/O if necessary
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, alexander.stein@ew.tq-group.com, daniel@ffwll.ch, 
+ airlied@gmail.com, dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,30 +81,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abhishek Tamboli <abhishektamboli9@gmail.com> writes:
+Hi Thomas,
 
-Hello Abhishek,
+quick response as always! :)
 
-> Transition to mipi_dsi_dcs_write_seq_multi() macros for initialization
-> sequences. The previous mipi_dsi_dcs_write_seq() macros were
-> non-intuitive and use other wrapped MIPI DSI functions in the
-> driver code to simplify the code pattern.
+On Wed, Sep 4, 2024 at 11:31=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+
+> Deferred I/O requires struct page for framebuffer memory, which is
+> not guaranteed for all DMA ranges. We thus only install deferred I/O
+> if we have a framebuffer that requires it.
 >
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202409040049.2hf8jrZG-lkp@intel.com/
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
-> Changes in v2:
-> - Update the commit message to explain the reason for the change.
+> A reported bug affected the ipu-v3 and pl111 drivers, which have video
+> memory in either Normal or HighMem zones
+>
+> [    0.000000] Zone ranges:
+> [    0.000000]   Normal   [mem 0x0000000010000000-0x000000003fffffff]
+> [    0.000000]   HighMem  [mem 0x0000000040000000-0x000000004fffffff]
+>
+> where deferred I/O only works correctly with HighMem. See the Closes
+> tags for bug reports.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 808a40b69468 ("drm/fbdev-dma: Implement damage handling and deferr=
+ed I/O")
+> Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Closes: https://lore.kernel.org/all/23636953.6Emhk5qWAg@steina-w/
+> Reported-by: Linus Walleij <linus.walleij@linaro.org>
+> Closes: https://lore.kernel.org/dri-devel/CACRpkdb+hb9AGavbWpY-=3DuQQ0apY=
+9en_tWJioPKf_fAbXMP4Hg@mail.gmail.com/
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
 
-Thanks for improving the commit message. The change looks good to me.
+It works like a charm and LGTM.
+Tested-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Yours,
+Linus Walleij
