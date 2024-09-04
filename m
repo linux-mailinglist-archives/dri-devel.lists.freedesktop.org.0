@@ -2,102 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778EE96B71D
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8763896B730
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8F9410E0B9;
-	Wed,  4 Sep 2024 09:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D07FF89067;
+	Wed,  4 Sep 2024 09:44:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="E3SzJNmU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uoK364oE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD3610E0B9
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:43:25 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-374c180d123so2155174f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 02:43:25 -0700 (PDT)
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
+ [209.85.161.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB2189067
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:44:46 +0000 (UTC)
+Received: by mail-oo1-f52.google.com with SMTP id
+ 006d021491bc7-5df9343b5b8so4082589eaf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 02:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1725443004; x=1726047804; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FLzi17UQU0AJMbgJwiPhnE5zR3Ae/PuDtOOwJ+Ypoyo=;
- b=E3SzJNmURm6ZGlm9Z/539uIfNgCDp2YGo8XccKz4zvg4LchrIjiGWf5e+B4u0+1zSR
- qjejM7EW+uVnJWkPaIAz7Txar3JwZiEf4To5diYKRZFNbaMWa5MU/bGgZL4Urp8OsO43
- ASnDpBS51IiKtzxLOg+CcO90iClT79nOQ4r+M=
+ d=linaro.org; s=google; t=1725443085; x=1726047885; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G2jCB3Mh2D7e/fKcpdcpOCelHevV01EHEW0KXFzYpnE=;
+ b=uoK364oEyEAbGIE0tYxOGSxKQllfPKz1lvrI2nm5L/aFx51/daRw9THbLlv3SSxPuB
+ cJhM+SUGJ1BGeUDcH0nxZSHUUoeSnjbgSFUZU7IubNfLO6AymZaeSjKCuZcdE7g3jffK
+ 7twFSntl50tk2DSfexIK1XRxLrGEbQs9zYFhUI1oGGDljoc06+qWMj6ADh6a9NgLKjmh
+ pXsiF2XVCD39EgjvQ7Jf0iLK2rTfneUHArYdyA5gB2dRWjJ3q9H4EGLf6vO4jqvI5p5W
+ Q7wcy9WueOxJwpYCDLys5yhdMZzp0ZtFHFUuDHTARdMaNlvixQQRY8KuKpmNdgsLBir4
+ 8cxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725443004; x=1726047804;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FLzi17UQU0AJMbgJwiPhnE5zR3Ae/PuDtOOwJ+Ypoyo=;
- b=sPxA1V21pW+Zr4OM6s3JDcqtmOBnKPNAOkgTfaO4YidiP37/C84LyfiOvfsfLcJlIU
- N8Bg1msETTgbnDATbxjaLHJHLXf2mWAUFSu14zaSHUH7ZLHRciAWASHUTkD1eAZDOUih
- MOGpTxa3h0HvyI32mawtVMNrG4d0W9hdlNyQpRZ7AZBddS0euScrIeqX+Y1X25Voeee/
- xRRD886WeUeMYQmavNZUFBEeRcOitdY8psK+MOB/8qGUfsZANH3q1NonxlSONvBlxPxZ
- RRfymRfRbWEuqx8FGpaNYjrzqLheN0YG79IZWdMapL0JK3b026kouKrKUSa+EFB8GXLU
- cfXw==
+ d=1e100.net; s=20230601; t=1725443085; x=1726047885;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=G2jCB3Mh2D7e/fKcpdcpOCelHevV01EHEW0KXFzYpnE=;
+ b=ZgBuWTp/yhomQ6Xja6fnXFdBs5vvJrB1YsJi+zTVnrRpPLOUUuRMDZiOHECmGAGAWI
+ shKwOqHuB2BXZidCISPWDcwxp8ukUjkdDRD13menLPmWymXbkvySF/x6mWZn73cXTc5e
+ EkDSJfIoqtNkm9LT+WmQ+OfQ1R+7ZL6ZHYsUaOeJzDjYl9PXWcdAAo2uc27ZlxwcaoAm
+ jJZjX1yezfnVeMS6obfjS665EEb3ykszm56TWKuzEyo7MztlKwYsnjiousiTAw2/GKyl
+ 5hIeHJRgXMyLe+wClzGR/XG6AdanxQTIXg1+wmTX4o00zLrHydAKyJyWOdNDP3lHdy5U
+ Tz7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBl84wHb9rpNhZ5GKKqPY12etASVYhf81X1BJmh1z/JmcfwWvK3gV4sirFVTPncWqHbHcgvHAjavY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywm/39sssSceLXF54G3Hvn4lsA6aIoQK1vHkYD9ibem4fwhci8m
- asnwVqfkgXINLj8BMXwPIVBP9/0Rdr3ylmt7ger+FOSpNpPjYUVVnBo7+5gJ5Tk=
-X-Google-Smtp-Source: AGHT+IHEDjese8/PXEN3yEO3omRIFDoAxH79JCV+mjgnzuZwdvTRzdKkfxjITeh2ZghF8abA6WzaTA==
-X-Received: by 2002:adf:f2d1:0:b0:374:c3f7:6af1 with SMTP id
- ffacd0b85a97d-374c3f76cd2mr7042390f8f.15.1725443003556; 
- Wed, 04 Sep 2024 02:43:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42bb6f9b584sm197033775e9.16.2024.09.04.02.43.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2024 02:43:23 -0700 (PDT)
-Date: Wed, 4 Sep 2024 11:43:21 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Steven Price <steven.price@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Akash Goel <akash.goel@arm.com>
-Subject: Re: [RFC PATCH 00/10] drm/panthor: Add user submission
-Message-ID: <Ztgrue4tHXrKK01v@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Steven Price <steven.price@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>,
- Akash Goel <akash.goel@arm.com>
-References: <20240828172605.19176-1-mihail.atanassov@arm.com>
- <c64be651-2f40-4535-a537-b8304e6556ce@amd.com>
- <a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com>
- <96ef7ae3-4df1-4859-8672-453055bbfe96@amd.com>
- <Ztd7g4Q8V9lFZ53R@phenom.ffwll.local>
- <090ae980-a944-4c00-a26e-d95434414417@amd.com>
+ AJvYcCVED+JlYSTVzWk47mJ5bMX3Qk5cdS7NTOEPbPoBGhY+2UTyVoH3VsIDlYcYincSaYkdbyy5zzuPWts=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwA9kgpm02PpAIWm0epGZSNsanHjCo0X/qu4c5E9/y2CsrZpPFQ
+ V5PAcxpKljESo4AZAbPedE4TrVycw0ja8bMuInm/zdTAvKmrHrWxy7565KvVtLGozlXT7HoxrFI
+ Z52DgiRDmcvWE9bnC9vjDMkWznZP9g/wf+L5eWw==
+X-Google-Smtp-Source: AGHT+IGYbHJdBZDqXfJaLvPa+cheRpz0nZvpY4lYVwTEuIeN+wJEbeHIAIs0Kb9fRcKIKf3+GKU49MLlqIZtGriKRJU=
+X-Received: by 2002:a05:6870:171d:b0:25d:f0ba:eab7 with SMTP id
+ 586e51a60fabf-27810b95f26mr7655971fac.18.1725443085257; Wed, 04 Sep 2024
+ 02:44:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <090ae980-a944-4c00-a26e-d95434414417@amd.com>
-X-Operating-System: Linux phenom 6.9.12-amd64 
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-5-jens.wiklander@linaro.org>
+ <CABdmKX2KzswmiDY4oWw69_rPWs8d_Cqp7OXouSeMQaYX1SDSmw@mail.gmail.com>
+In-Reply-To: <CABdmKX2KzswmiDY4oWw69_rPWs8d_Cqp7OXouSeMQaYX1SDSmw@mail.gmail.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Wed, 4 Sep 2024 11:44:33 +0200
+Message-ID: <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] dma-buf: heaps: add Linaro restricted dmabuf heap
+ support
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,203 +94,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 04, 2024 at 09:49:44AM +0200, Christian König wrote:
-> Am 03.09.24 um 23:11 schrieb Simona Vetter:
-> > On Tue, Sep 03, 2024 at 03:46:43PM +0200, Christian König wrote:
-> > > Hi Steven,
-> > > 
-> > > Am 29.08.24 um 15:37 schrieb Steven Price:
-> > > > Hi Christian,
-> > > > 
-> > > > Mihail should be able to give more definitive answers, but I think I can
-> > > > answer your questions.
-> > > > 
-> > > > On 29/08/2024 10:40, Christian König wrote:
-> > > > > Am 28.08.24 um 19:25 schrieb Mihail Atanassov:
-> > > > > > Hello all,
-> > > > > > 
-> > > > > > This series implements a mechanism to expose Mali CSF GPUs' queue
-> > > > > > ringbuffers directly to userspace, along with paraphernalia to allow
-> > > > > > userspace to control job synchronisation between the CPU and GPU.
-> > > > > > 
-> > > > > > The goal of these changes is to allow userspace to control work
-> > > > > > submission to the FW/HW directly without kernel intervention in the
-> > > > > > common case, thereby reducing context switching overhead. It also allows
-> > > > > > for greater flexibility in the way work is enqueued in the ringbufs.
-> > > > > > For example, the current kernel submit path only supports indirect
-> > > > > > calls, which is inefficient for small command buffers. Userspace can
-> > > > > > also skip unnecessary sync operations.
-> > > > > Question is how do you guarantee forward progress for fence signaling?
-> > > > A timeout. Although looking at it I think it's probably set too high
-> > > > currently:
-> > > > 
-> > > > > +#define JOB_TIMEOUT_MS				5000
-> > > > But basically the XGS queue is a DRM scheduler just like a normal GPU
-> > > > queue and the jobs have a timeout. If the timeout is hit then any fences
-> > > > will be signalled (with an error).
-> > > Mhm, that is unfortunately exactly what I feared.
-> > > 
-> > > > > E.g. when are fences created and published? How do they signal?
-> > > > > 
-> > > > > How are dependencies handled? How can the kernel suspend an userspace
-> > > > > queue?
-> > > > The actual userspace queue can be suspended. This is actually a
-> > > > combination of firmware and kernel driver, and this functionality is
-> > > > already present without the user submission. The firmware will multiplex
-> > > > multiple 'groups' onto the hardware, and if there are too many for the
-> > > > firmware then the kernel multiplexes the extra groups onto the ones the
-> > > > firmware supports.
-> > > How do you guarantee forward progress and that resuming of suspended queues
-> > > doesn't end up in a circle dependency?
-> > > 
-> > > > I haven't studied Mihail's series in detail yet, but if I understand
-> > > > correctly, the XGS queues are handled separately and are not suspended
-> > > > when the hardware queues are suspended. I guess this might be an area
-> > > > for improvement and might explain the currently very high timeout (to
-> > > > deal with the case where the actual GPU work has been suspended).
-> > > > 
-> > > > > How does memory management work in this case?
-> > > > I'm not entirely sure what you mean here. If you are referring to the
-> > > > potential memory issues with signalling path then this should be handled
-> > > > by the timeout - although I haven't studied the code to check for bugs here.
-> > > You might have misunderstood my question (and I might misunderstand the
-> > > code), but on first glance it strongly sounds like the current approach will
-> > > be NAKed.
-> > > 
-> > > > The actual new XGS queues don't allocate/free memory during the queue
-> > > > execution - so it's just the memory usage related to fences (and the
-> > > > other work which could be blocked on the fence).
-> > > But the kernel and the hardware could suspend the queues, right?
-> > > 
-> > > > In terms of memory management for the GPU work itself, this is handled
-> > > > the same as before. The VM_BIND mechanism allows dependencies to be
-> > > > created between syncobjs and VM operations, with XGS these can then be
-> > > > tied to GPU HW events.
-> > > I don't know the details, but that again strongly sounds like that won't
-> > > work.
-> > > 
-> > > What you need is to somehow guarantee that work doesn't run into memory
-> > > management deadlocks which are resolved by timeouts.
-> > > 
-> > > Please read up here on why that stuff isn't allowed: https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefinite-dma-fences
-> > panthor doesn't yet have a shrinker, so all memory is pinned, which means
-> > memory management easy mode.
-> 
-> Ok, that at least makes things work for the moment.
-> 
-> > But also this means there might be an uapi design bug in here, and we
-> > really don't want to commit to that. My stance is that panthor should gain
-> > a proper shrinker first, which means there will be some changes here too.
-> > And then we can properly evaluate this. As-is it's a bit too much on the
-> > toy end of things.
-> 
-> I wouldn't say toy end, it looks rather fleshed out to me.
-> 
-> But I agree that the people who design the UAPI needs to be aware of the
-> restrictions.
+On Tue, Sep 3, 2024 at 7:50=E2=80=AFPM T.J. Mercier <tjmercier@google.com> =
+wrote:
+>
+> On Fri, Aug 30, 2024 at 12:04=E2=80=AFAM Jens Wiklander
+> <jens.wiklander@linaro.org> wrote:
+> >
+> > Add a Linaro restricted heap using the linaro,restricted-heap bindings
+> > implemented based on the generic restricted heap.
+> >
+> > The bindings defines a range of physical restricted memory. The heap
+> > manages this address range using genalloc. The allocated dma-buf file
+> > descriptor can later be registered with the TEE subsystem for later use
+> > via Trusted Applications in the secure world.
+> >
+> > Co-developed-by: Olivier Masse <olivier.masse@nxp.com>
+> > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
+> >  drivers/dma-buf/heaps/Makefile                |   1 +
+> >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++++
+> >  3 files changed, 176 insertions(+)
+> >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
+> >
+> > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kcon=
+fig
+> > index 58903bc62ac8..82e2c5d09242 100644
+> > --- a/drivers/dma-buf/heaps/Kconfig
+> > +++ b/drivers/dma-buf/heaps/Kconfig
+> > @@ -28,3 +28,13 @@ config DMABUF_HEAPS_RESTRICTED_MTK
+> >         help
+> >           Enable restricted dma-buf heaps for MediaTek platform. This h=
+eap is backed by
+> >           TEE client interfaces. If in doubt, say N.
+> > +
+> > +config DMABUF_HEAPS_RESTRICTED_LINARO
+> > +       bool "Linaro DMA-BUF Restricted Heap"
+> > +       depends on DMABUF_HEAPS_RESTRICTED
+> > +       help
+> > +         Choose this option to enable the Linaro restricted dma-buf he=
+ap.
+> > +         The restricted heap pools are defined according to the DT. He=
+aps
+> > +         are allocated in the pools using gen allocater.
+> > +         If in doubt, say N.
+> > +
+> > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Mak=
+efile
+> > index 0028aa9d875f..66b2f67c47b5 100644
+> > --- a/drivers/dma-buf/heaps/Makefile
+> > +++ b/drivers/dma-buf/heaps/Makefile
+> > @@ -2,4 +2,5 @@
+> >  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
+> >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)  +=3D restricted_heap.o
+> >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)      +=3D restricted_heap_mt=
+k.o
+> > +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_LINARO)   +=3D restricted_heap_li=
+naro.o
+> >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
+> > diff --git a/drivers/dma-buf/heaps/restricted_heap_linaro.c b/drivers/d=
+ma-buf/heaps/restricted_heap_linaro.c
+> > new file mode 100644
+> > index 000000000000..4b08ed514023
+> > --- /dev/null
+> > +++ b/drivers/dma-buf/heaps/restricted_heap_linaro.c
+> > @@ -0,0 +1,165 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * DMABUF secure heap exporter
+> > + *
+> > + * Copyright 2021 NXP.
+> > + * Copyright 2024 Linaro Limited.
+> > + */
+> > +
+> > +#define pr_fmt(fmt)     "rheap_linaro: " fmt
+> > +
+> > +#include <linux/dma-buf.h>
+> > +#include <linux/err.h>
+> > +#include <linux/genalloc.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_fdt.h>
+> > +#include <linux/of_reserved_mem.h>
+> > +#include <linux/scatterlist.h>
+> > +#include <linux/slab.h>
+> > +
+> > +#include "restricted_heap.h"
+> > +
+> > +#define MAX_HEAP_COUNT 2
+>
+> Are multiple supported because of what Cyrille mentioned here about permi=
+ssions?
+> https://lore.kernel.org/lkml/DBBPR04MB7514E006455AEA407041E4F788709@DBBPR=
+04MB7514.eurprd04.prod.outlook.com/
 
-The thing is, if you have pinned memory there are no restrictions on
-userspace sync, you can do whatever you want. And then you can still bake
-that into a dma_fence and it will not deadlock (as long as there's a
-timeout and forward progress guarantee) because it cannot ever get back
-into a memory management fence because there are none.
+Yes, I kept that as is.
 
-If we merge that uapi we're forever condemned to pinning all memory, which
-I don't think is good because sooner or later every serious gpu driver
-seems to gain some shrinker support.
+>
+> So this is just some arbitrary limit? I'd prefer to have some sort of
+> documentation about this.
 
-> > That aside, I've thought this all through with tons of people, and I do
-> > think it's all possible.
-> 
-> It's certainly possible, we have user queue patches for amdgpu in the
-> pipeline as well.
-> 
-> It's just really really really hard to get right without creating some
-> circle dependencies and deadlocks in between.
-> 
-> If I would get free beer every time somebody came up with a broken dma_fence
-> design I would probably end up as alcoholic without spending a single penny.
+How about removing the limit and using dynamic allocation instead?
 
-Yeah that's exactly my fear. It's possible, but even if you understand the
-abstract rules and implement the kernel correctly it's really hard to get
-the userspace right: There's way too many broken ways, and just about
-barely one correct way to implement vulkan winsys dma_fence with userspace
-submit.
+Thanks,
+Jens
 
-This is why I called userspace direct submit without a shrinker a toy,
-because it makes the userspace trivially easy, and trivially easy to get
-wrong. Even if the kernel side looks all great and polished and solid.
-
-If we do already have a shrinker that exposes these issues, then userspace
-getting stuff wrong is a userspace bug. If we start out without a
-shrinker, and userspace gets it wrong, then ever adding a shrinker is a
-kernel regression.
-
-And "you cannot ever add dynamic memory management to this driver" is a
-uapi regression situation I don't think we want to get into, because
-there's no way out. i915-gem folks managed to pull that trick off too, and
-Dave&me where left with no other choice than to flat out revert that uapi
-and break userspace.
-
-This is not something I want to make a repeat experience.
-
-So what I think should be done, pretty much carbon copy from the xe plan:
-
-- Prerequisite: Have a shrinker or otherwise dynamic memory management, or
-  you just wont hit all the interesting bugs.
-
-- Implement support for long running context that do not have dma_fence
-  end-of-batch semantics, with the preempt context fence trick. Since this
-  would be the 3rd driver after amdkfd and xe I think it's time for a
-  little helper, which would be very little code and lots of documentation
-  explaining the concept.
-
-  But if that helper ties in with drm_exec and drm_gpuvm then I think it
-  would still be really good as a tiny little library itself and not just
-  as a good place to put documentation. Extracting that from xe_lr.c
-  should be fairly simple. amdkfd could also be used as inspiration at
-  least.
-
-- With this you can start using userspace memory fences, as long as you
-  never need to bake them into a dma_fence or syncobj that actually waits
-  (instead of waiting until rendering finishes and then handing over a
-  signalled dma_fence or something like that).
-
-- Implement userspace submit with this infrastructure.
-
-- Implement support for baking dma_fence with all this, relying on the
-  vulkan winsys fence guarantee that all the indefinite fences are
-  resolved and queued up, or the application will get a
-  VK_ERROR_DEVICE_LOST thrown its way.
-
-  This is really hard, and I don't think anyone's made it happen yet in a
-  real prototype with full-fledged userspace memory fences vulkan driver.
-
-- Bonus for adding memory fences to drm_syncobj as future fences, for
-  sharing. Could be done anytime you have long running context support.
-
-Alternative plan:
-- Implement userspace submit, but _every_ job still goes through a kernel
-  drm_sched submission and the context doesn't run without a job. That way
-  you can drive userspace-submit only hardware, but with the old
-  end-of-batch dma_fence kernel submission model, and also the userspace
-  submit thread for future fences that haven't materialized yet in a
-  drm_syncobj. This might be a good interim stop-gap for gl/vulkan winsys
-  drivers, but people seem a lot more interesting in going full userspace
-  submit with userspace memory fences for compute use cases. But could do
-  both in parallel.
-
-  Unless you absolutely know what you're doing you cannot use userspace
-  memory fences with this. I think the only case I've seen is where you
-  submit jobs in multiple engines as an atomic unit (like intel media
-  workloads split across engines), or one after the other and sync is
-  guaranteed to go only one way (like the run-ahead cs job radeonsi iirc
-  has).
-
-tldr; expect pain, I'm sorry.
-
-Cheers, Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+>
+> > +#define HEAP_NAME_LEN  32
+> > +
+> > +struct resmem_restricted {
+> > +       phys_addr_t base;
+> > +       phys_addr_t size;
+> > +
+> > +       char name[HEAP_NAME_LEN];
+> > +
+> > +       bool no_map;
+> > +};
+> > +
+> > +static struct resmem_restricted restricted_data[MAX_HEAP_COUNT] =3D {0=
+};
+> > +static unsigned int restricted_data_count;
+> > +
+> > +static int linaro_restricted_memory_allocate(struct restricted_heap *h=
+eap,
+> > +                                            struct restricted_buffer *=
+buf)
+> > +{
+> > +       struct gen_pool *pool =3D heap->priv_data;
+> > +       unsigned long pa;
+> > +       int ret;
+> > +
+> > +       buf->size =3D ALIGN(buf->size, PAGE_SIZE);
+> > +       pa =3D gen_pool_alloc(pool, buf->size);
+> > +       if (!pa)
+> > +               return -ENOMEM;
+> > +
+> > +       ret =3D sg_alloc_table(&buf->sg_table, 1, GFP_KERNEL);
+> > +       if (ret) {
+> > +               gen_pool_free(pool, pa, buf->size);
+> > +               return ret;
+> > +       }
+> > +
+> > +       sg_set_page(buf->sg_table.sgl, phys_to_page(pa), buf->size, 0);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static void linaro_restricted_memory_free(struct restricted_heap *heap=
+,
+> > +                                         struct restricted_buffer *buf=
+)
+> > +{
+> > +       struct gen_pool *pool =3D heap->priv_data;
+> > +       struct scatterlist *sg;
+> > +       unsigned int i;
+> > +
+> > +       for_each_sg(buf->sg_table.sgl, sg, buf->sg_table.nents, i)
+> > +               gen_pool_free(pool, page_to_phys(sg_page(sg)), sg->leng=
+th);
+> > +       sg_free_table(&buf->sg_table);
+> > +}
+> > +
+> > +static const struct restricted_heap_ops linaro_restricted_heap_ops =3D=
+ {
+> > +       .alloc =3D linaro_restricted_memory_allocate,
+> > +       .free =3D linaro_restricted_memory_free,
+> > +};
+> > +
+> > +static int add_heap(struct resmem_restricted *mem)
+> > +{
+> > +       struct restricted_heap *heap;
+> > +       struct gen_pool *pool;
+> > +       int ret;
+> > +
+> > +       if (mem->base =3D=3D 0 || mem->size =3D=3D 0) {
+> > +               pr_err("restricted_data base or size is not correct\n")=
+;
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       heap =3D kzalloc(sizeof(*heap), GFP_KERNEL);
+> > +       if (!heap)
+> > +               return -ENOMEM;
+> > +
+> > +       pool =3D gen_pool_create(PAGE_SHIFT, -1);
+> > +       if (!pool) {
+> > +               ret =3D -ENOMEM;
+> > +               goto err_free_heap;
+> > +       }
+> > +
+> > +       ret =3D gen_pool_add(pool, mem->base, mem->size, -1);
+> > +       if (ret)
+> > +               goto err_free_pool;
+> > +
+> > +       heap->no_map =3D mem->no_map;
+> > +       heap->priv_data =3D pool;
+> > +       heap->name =3D mem->name;
+> > +       heap->ops =3D &linaro_restricted_heap_ops;
+> > +
+> > +       ret =3D restricted_heap_add(heap);
+> > +       if (ret)
+> > +               goto err_free_pool;
+> > +
+> > +       return 0;
+> > +
+> > +err_free_pool:
+> > +       gen_pool_destroy(pool);
+> > +err_free_heap:
+> > +       kfree(heap);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int __init rmem_restricted_heap_setup(struct reserved_mem *rmem=
+)
+> > +{
+> > +       size_t len =3D HEAP_NAME_LEN;
+> > +       const char *s;
+> > +       bool no_map;
+> > +
+> > +       if (WARN_ONCE(restricted_data_count >=3D MAX_HEAP_COUNT,
+> > +                     "Cannot handle more than %u restricted heaps\n",
+> > +                     MAX_HEAP_COUNT))
+> > +               return -EINVAL;
+> > +
+> > +       no_map =3D of_get_flat_dt_prop(rmem->fdt_node, "no-map", NULL);
+> > +       s =3D strchr(rmem->name, '@');
+> > +       if (s)
+> > +               len =3D umin(s - rmem->name + 1, len);
+> > +
+> > +       restricted_data[restricted_data_count].base =3D rmem->base;
+> > +       restricted_data[restricted_data_count].size =3D rmem->size;
+> > +       restricted_data[restricted_data_count].no_map =3D no_map;
+> > +       strscpy(restricted_data[restricted_data_count].name, rmem->name=
+, len);
+> > +
+> > +       restricted_data_count++;
+> > +       return 0;
+> > +}
+> > +
+> > +RESERVEDMEM_OF_DECLARE(linaro_restricted_heap, "linaro,restricted-heap=
+",
+> > +                      rmem_restricted_heap_setup);
+> > +
+> > +static int linaro_restricted_heap_init(void)
+> > +{
+> > +       unsigned int i;
+> > +       int ret;
+> > +
+> > +       for (i =3D 0; i < restricted_data_count; i++) {
+> > +               ret =3D add_heap(&restricted_data[i]);
+> > +               if (ret)
+> > +                       return ret;
+> > +       }
+> > +       return 0;
+> > +}
+> > +
+> > +module_init(linaro_restricted_heap_init);
+> > +MODULE_DESCRIPTION("Linaro Restricted Heap Driver");
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.34.1
+> >
