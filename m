@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620E696BA46
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 13:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787CB96BA60
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 13:25:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7043710E765;
-	Wed,  4 Sep 2024 11:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 399C510E76B;
+	Wed,  4 Sep 2024 11:25:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LfZnuDM3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vKYRNwCo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF34410E765
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 11:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725448993;
- bh=LWcupDb/szoL2F6j/H+ldLsPINpu0oFbCPpV0VYTUVQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LfZnuDM3hzp9GmKkwYVU+5dKoaaiQRmBi1pNQhPpiMxJIC9bmYsgR8QrymmbztOfg
- 3gaMapqKJABuslOTjgWMUHoZRbhId0AfRfSPNeRJ0lYhMmrBpOxJtBRT/OnvYQTqJg
- DAseDjGz4hW39YnKs32Tusk/E9un/Mg0OlnpQwm2pXB6iS1S3tf4kl2QvKG/ycbxUg
- z44Le0Uey8or9LqJIdo7QUZyLD6H0mmSW/HoFgyKulspezCk/4yErzha8YsR8blcmD
- kT6uZFh4UGcz0gSR82DQPj74kpuSMCsaIv5dmFNvjGxaxvdEjZW7+m5hD5i0tskwcM
- XnJW8UmWuQ0ag==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E964217E0FD3;
- Wed,  4 Sep 2024 13:23:12 +0200 (CEST)
-Date: Wed, 4 Sep 2024 13:23:08 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Mihail
- Atanassov <mihail.atanassov@arm.com>, linux-kernel@vger.kernel.org, Liviu
- Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, David Airlie
- <airlied@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan
- <Xinhui.Pan@amd.com>, Shashank Sharma <shashank.sharma@amd.com>, Ketil
- Johnsen <ketil.johnsen@arm.com>, Akash Goel <akash.goel@arm.com>
-Subject: Re: [RFC PATCH 00/10] drm/panthor: Add user submission
-Message-ID: <20240904132308.7664902e@collabora.com>
-In-Reply-To: <80ffea9b-63a6-4ae2-8a32-2db051bd7f28@arm.com>
-References: <20240828172605.19176-1-mihail.atanassov@arm.com>
- <c64be651-2f40-4535-a537-b8304e6556ce@amd.com>
- <a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com>
- <96ef7ae3-4df1-4859-8672-453055bbfe96@amd.com>
- <Ztd7g4Q8V9lFZ53R@phenom.ffwll.local>
- <090ae980-a944-4c00-a26e-d95434414417@amd.com>
- <80ffea9b-63a6-4ae2-8a32-2db051bd7f28@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E34410E76C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 11:25:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id E4E9DA43F48
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 11:25:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE212C4CEC8
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 11:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725449134;
+ bh=+KMQuQqQRGR0aY39TlGQZ7tL4nVD2u9TC1QpZBv2oMo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=vKYRNwCo5aTWrDWigov72LRpz+0dAC1yKltddxd1Q7CLVXX4hQtfuhkwqW14asyfI
+ kvT0I7yMENz9qmMGL38fRSUqtDlC0HKAZCfFfH/kOV3Nlk1V+lh0c2mxXsCk/eEWwa
+ YXMH5tFSRUrqTAc51fLNAgryIY0gTQWvIyr3P/fWC9k51mDi9pCUc0BhODYxBYLKH4
+ 3IHLYqwKR2WzzhYBdddcdfeb4qjT4ncZOKABPnmmgFP21ZpFlhyo6m1PDjh4BCe6Ry
+ GrCpjvmSU0MS1QU636zav7JN3lV3k3mHUWbsz+XhrPlaWSXTMkn6uPKf5rLJGW9Ju2
+ Dh2m8SEXJia7w==
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-e1d06c728b8so1408134276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 04:25:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUhxrUGwkDr0PSac+wvw5Oz1W/ekIRuZE+PHNe3XpHin+DvYM7EQ09FVVL6MG4BDoUWRJy6txKI1do=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyKZLshBxcOmkEu4TUtBpDszr2C8gbbWdD3urIVxETAptTUYbcY
+ HtLeauiwbS4+Sc3bEo+LPNdwYnemwyONrUowEpQldrxmxdUft0/AZNrPlEJVAL1xUN4kHk6oXyh
+ 3rZKMfA3mnycPkW9MB6VXZsLQuymVEiAnShxJeQ==
+X-Google-Smtp-Source: AGHT+IEejZl+9S30Uc+ThJkEsWzJ8GWCDx7DoEI33JqK69Ah+TNODSU6WBUWh1C3XwAmt0bJBwA+1E9T/+gKO2LwN/E=
+X-Received: by 2002:a05:6902:1b11:b0:e1d:13a3:87af with SMTP id
+ 3f1490d57ef6-e1d13a3892emr964315276.29.1725449134017; Wed, 04 Sep 2024
+ 04:25:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20240904125206.6708daff@canb.auug.org.au>
+ <87ikvbspun.fsf@intel.com>
+In-Reply-To: <87ikvbspun.fsf@intel.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Wed, 4 Sep 2024 13:25:22 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi4bQKoT6PsGAkFEsMY5UA3B4dRpSBvqDkUFKyM=dkOcXQ@mail.gmail.com>
+Message-ID: <CAN6tsi4bQKoT6PsGAkFEsMY5UA3B4dRpSBvqDkUFKyM=dkOcXQ@mail.gmail.com>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Marc Gonzalez <mgonzalez@freebox.fr>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, 
+ DRI <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Content-Type: multipart/alternative; boundary="000000000000b639910621496e28"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,164 +75,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 4 Sep 2024 10:31:36 +0100
-Steven Price <steven.price@arm.com> wrote:
+--000000000000b639910621496e28
+Content-Type: text/plain; charset="UTF-8"
 
-> On 04/09/2024 08:49, Christian K=C3=B6nig wrote:
-> > Am 03.09.24 um 23:11 schrieb Simona Vetter: =20
-> >> On Tue, Sep 03, 2024 at 03:46:43PM +0200, Christian K=C3=B6nig wrote: =
-=20
-> >>> Hi Steven,
-> >>>
-> >>> Am 29.08.24 um 15:37 schrieb Steven Price: =20
-> >>>> Hi Christian,
-> >>>>
-> >>>> Mihail should be able to give more definitive answers, but I think I
-> >>>> can
-> >>>> answer your questions.
-> >>>>
-> >>>> On 29/08/2024 10:40, Christian K=C3=B6nig wrote: =20
-> >>>>> Am 28.08.24 um 19:25 schrieb Mihail Atanassov: =20
-> >>>>>> Hello all,
-> >>>>>>
-> >>>>>> This series implements a mechanism to expose Mali CSF GPUs' queue
-> >>>>>> ringbuffers directly to userspace, along with paraphernalia to all=
-ow
-> >>>>>> userspace to control job synchronisation between the CPU and GPU.
-> >>>>>>
-> >>>>>> The goal of these changes is to allow userspace to control work
-> >>>>>> submission to the FW/HW directly without kernel intervention in the
-> >>>>>> common case, thereby reducing context switching overhead. It also
-> >>>>>> allows
-> >>>>>> for greater flexibility in the way work is enqueued in the ringbuf=
-s.
-> >>>>>> For example, the current kernel submit path only supports indirect
-> >>>>>> calls, which is inefficient for small command buffers. Userspace c=
-an
-> >>>>>> also skip unnecessary sync operations. =20
-> >>>>> Question is how do you guarantee forward progress for fence signali=
-ng? =20
-> >>>> A timeout. Although looking at it I think it's probably set too high
-> >>>> currently:
-> >>>> =20
-> >>>>> +#define JOB_TIMEOUT_MS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 5000 =20
-> >>>> But basically the XGS queue is a DRM scheduler just like a normal GPU
-> >>>> queue and the jobs have a timeout. If the timeout is hit then any
-> >>>> fences
-> >>>> will be signalled (with an error). =20
-> >>> Mhm, that is unfortunately exactly what I feared.
-> >>> =20
-> >>>>> E.g. when are fences created and published? How do they signal?
-> >>>>>
-> >>>>> How are dependencies handled? How can the kernel suspend an userspa=
-ce
-> >>>>> queue? =20
-> >>>> The actual userspace queue can be suspended. This is actually a
-> >>>> combination of firmware and kernel driver, and this functionality is
-> >>>> already present without the user submission. The firmware will
-> >>>> multiplex
-> >>>> multiple 'groups' onto the hardware, and if there are too many for t=
-he
-> >>>> firmware then the kernel multiplexes the extra groups onto the ones =
-the
-> >>>> firmware supports. =20
-> >>> How do you guarantee forward progress and that resuming of suspended
-> >>> queues
-> >>> doesn't end up in a circle dependency? =20
->=20
-> I'm not entirely sure what you mean by "guarantee" here - the kernel by
-> itself only guarantees forward progress by the means of timeouts. User
-> space can 'easily' shoot itself in the foot by using a XGS queue to
-> block waiting on a GPU event which will never happen.
->=20
-> However dependencies between applications (and/or other device drivers)
-> will only occur via dma fences and an unsignalled fence will only be
-> returned when there is a path forward to signal it. So it shouldn't be
-> possible to create a dependency loop between contexts (or command stream
-> groups to use the Mali jargon).
->=20
-> Because the groups can't have dependency cycles it should be possible to
-> suspend/resume them without deadlocks.
->=20
-> >>>> I haven't studied Mihail's series in detail yet, but if I understand
-> >>>> correctly, the XGS queues are handled separately and are not suspend=
-ed
-> >>>> when the hardware queues are suspended. I guess this might be an area
-> >>>> for improvement and might explain the currently very high timeout (to
-> >>>> deal with the case where the actual GPU work has been suspended).
-> >>>> =20
-> >>>>> How does memory management work in this case? =20
-> >>>> I'm not entirely sure what you mean here. If you are referring to the
-> >>>> potential memory issues with signalling path then this should be
-> >>>> handled
-> >>>> by the timeout - although I haven't studied the code to check for
-> >>>> bugs here. =20
-> >>> You might have misunderstood my question (and I might misunderstand t=
-he
-> >>> code), but on first glance it strongly sounds like the current
-> >>> approach will
-> >>> be NAKed.
-> >>> =20
-> >>>> The actual new XGS queues don't allocate/free memory during the queue
-> >>>> execution - so it's just the memory usage related to fences (and the
-> >>>> other work which could be blocked on the fence). =20
-> >>> But the kernel and the hardware could suspend the queues, right?
-> >>> =20
-> >>>> In terms of memory management for the GPU work itself, this is handl=
-ed
-> >>>> the same as before. The VM_BIND mechanism allows dependencies to be
-> >>>> created between syncobjs and VM operations, with XGS these can then =
-be
-> >>>> tied to GPU HW events. =20
-> >>> I don't know the details, but that again strongly sounds like that wo=
-n't
-> >>> work.
-> >>>
-> >>> What you need is to somehow guarantee that work doesn't run into memo=
-ry
-> >>> management deadlocks which are resolved by timeouts.
-> >>>
-> >>> Please read up here on why that stuff isn't allowed:
-> >>> https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefi=
-nite-dma-fences =20
-> >> panthor doesn't yet have a shrinker, so all memory is pinned, which me=
-ans
-> >> memory management easy mode. =20
-> >=20
-> > Ok, that at least makes things work for the moment. =20
->=20
-> Ah, perhaps this should have been spelt out more clearly ;)
->=20
-> The VM_BIND mechanism that's already in place jumps through some hoops
-> to ensure that memory is preallocated when the memory operations are
-> enqueued. So any memory required should have been allocated before any
-> sync object is returned. We're aware of the issue with memory
-> allocations on the signalling path and trying to ensure that we don't
-> have that.
->=20
-> I'm hoping that we don't need a shrinker which deals with (active) GPU
-> memory with our design.
+On Wed, Sep 4, 2024, 11:58 Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-That's actually what we were planning to do: the panthor shrinker was
-about to rely on fences attached to GEM objects to know if it can
-reclaim the memory. This design relies on each job attaching its fence
-to the GEM mapped to the VM at the time the job is submitted, such that
-memory that's in-use or about-to-be-used doesn't vanish before the GPU
-is done.
+> On Wed, 04 Sep 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> > Hi all,
+> >
+> > After merging the drm-misc tree, today's linux-next build (x86_64
+> > allmodconfig) failed like this:
+> >
+> > drivers/gpu/drm/bridge/ti-tdp158.c: In function 'tdp158_enable':
+> > drivers/gpu/drm/bridge/ti-tdp158.c:31:9: error: implicit declaration of
+> function 'gpiod_set_value_cansleep' [-Wimplicit-function-declaration]
+> >    31 |         gpiod_set_value_cansleep(tdp158->enable, 1);
+> >       |         ^~~~~~~~~~~~~~~~~~~~~~~~
+> > drivers/gpu/drm/bridge/ti-tdp158.c: In function 'tdp158_probe':
+> > drivers/gpu/drm/bridge/ti-tdp158.c:80:26: error: implicit declaration of
+> function 'devm_gpiod_get_optional'; did you mean
+> 'devm_regulator_get_optional'? [-Wimplicit-function-declaration]
+> >    80 |         tdp158->enable = devm_gpiod_get_optional(dev, "enable",
+> GPIOD_OUT_LOW);
+> >       |                          ^~~~~~~~~~~~~~~~~~~~~~~
+> >       |                          devm_regulator_get_optional
+> > drivers/gpu/drm/bridge/ti-tdp158.c:80:65: error: 'GPIOD_OUT_LOW'
+> undeclared (first use in this function)
+> >    80 |         tdp158->enable = devm_gpiod_get_optional(dev, "enable",
+> GPIOD_OUT_LOW);
+> >       |
+>  ^~~~~~~~~~~~~
+> > drivers/gpu/drm/bridge/ti-tdp158.c:80:65: note: each undeclared
+> identifier is reported only once for each function it appears in
+> >
+> > Caused by commit
+> >
+> >   a15710027afb ("drm/bridge: add support for TI TDP158")
+> >
+> > I have used the drm-misc tree from next-20240903 for today.
+>
+> Fixed by commit 532f0d109658 ("drm/bridge/tdp158: fix build failure") in
+> drm-misc-next.
+>
 
-> Memory which user space thinks the GPU might
-> need should be pinned before the GPU work is submitted. APIs which
-> require any form of 'paging in' of data would need to be implemented by
-> the GPU work completing and being resubmitted by user space after the
-> memory changes (i.e. there could be a DMA fence pending on the GPU work).
+Thank you Jani
 
-Hard pinning memory could work (ioctl() around gem_pin/unpin()), but
-that means we can't really transparently swap out GPU memory, or we
-have to constantly pin/unpin around each job, which means even more
-ioctl()s than we have now. Another option would be to add the XGS fence
-to the BOs attached to the VM, assuming it's created before the job
-submission itself, but you're no longer reducing the number of user <->
-kernel round trips if you do that, because you now have to create an
-XSG job for each submission, so you basically get back to one ioctl()
-per submission.
+--000000000000b639910621496e28
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Sep 4, 2024, 11:58 Jani Nikula &lt;<a href=3D"=
+mailto:jani.nikula@linux.intel.com">jani.nikula@linux.intel.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">On Wed, 04 Sep 2024, Stephen Ro=
+thwell &lt;<a href=3D"mailto:sfr@canb.auug.org.au" target=3D"_blank" rel=3D=
+"noreferrer">sfr@canb.auug.org.au</a>&gt; wrote:<br>
+&gt; Hi all,<br>
+&gt;<br>
+&gt; After merging the drm-misc tree, today&#39;s linux-next build (x86_64<=
+br>
+&gt; allmodconfig) failed like this:<br>
+&gt;<br>
+&gt; drivers/gpu/drm/bridge/ti-tdp158.c: In function &#39;tdp158_enable&#39=
+;:<br>
+&gt; drivers/gpu/drm/bridge/ti-tdp158.c:31:9: error: implicit declaration o=
+f function &#39;gpiod_set_value_cansleep&#39; [-Wimplicit-function-declarat=
+ion]<br>
+&gt;=C2=A0 =C2=A0 31 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gpiod_set_value_can=
+sleep(tdp158-&gt;enable, 1);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~=
+~~~~~~~~~~~~~~~<br>
+&gt; drivers/gpu/drm/bridge/ti-tdp158.c: In function &#39;tdp158_probe&#39;=
+:<br>
+&gt; drivers/gpu/drm/bridge/ti-tdp158.c:80:26: error: implicit declaration =
+of function &#39;devm_gpiod_get_optional&#39;; did you mean &#39;devm_regul=
+ator_get_optional&#39;? [-Wimplicit-function-declaration]<br>
+&gt;=C2=A0 =C2=A0 80 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tdp158-&gt;enable =
+=3D devm_gpiod_get_optional(dev, &quot;enable&quot;, GPIOD_OUT_LOW);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~~~~~~~~~~~~<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 devm_regulator_get_optiona=
+l<br>
+&gt; drivers/gpu/drm/bridge/ti-tdp158.c:80:65: error: &#39;GPIOD_OUT_LOW&#3=
+9; undeclared (first use in this function)<br>
+&gt;=C2=A0 =C2=A0 80 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tdp158-&gt;enable =
+=3D devm_gpiod_get_optional(dev, &quot;enable&quot;, GPIOD_OUT_LOW);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~~<br>
+&gt; drivers/gpu/drm/bridge/ti-tdp158.c:80:65: note: each undeclared identi=
+fier is reported only once for each function it appears in<br>
+&gt;<br>
+&gt; Caused by commit<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0a15710027afb (&quot;drm/bridge: add support for TI TDP158&=
+quot;)<br>
+&gt;<br>
+&gt; I have used the drm-misc tree from next-20240903 for today.<br>
+<br>
+Fixed by commit 532f0d109658 (&quot;drm/bridge/tdp158: fix build failure&qu=
+ot;) in<br>
+drm-misc-next.<br></blockquote></div></div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto">Thank you Jani</div></div>
+
+--000000000000b639910621496e28--
