@@ -2,75 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8118B96B408
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CE196B45D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7DFA10E6B5;
-	Wed,  4 Sep 2024 08:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 259F710E6BF;
+	Wed,  4 Sep 2024 08:22:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="wYqWo+JJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b36XrRSY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA3010E6C0
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:15:18 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-2055a3f80a4so23798725ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 01:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1725437717; x=1726042517; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hRdc5AMdvByd9qcj2i6Loyq3HdJpcgiM3X+j1Pvdni0=;
- b=wYqWo+JJYnZCOJD0/Y7zDpbgeNb5MZ2VEHEt+7NRfRvIqMP5E/WW0XXQmAUQA+w+4w
- Qfkf3HqPUu5eaKw3RExrSR2PRV90V3gatwIvLWFc+Ngzu6z39n2eGX3tAHs9f3B279zi
- g99m6lFWrzA56DYsu3eIWtr44jbVZtmEebEMSRGczu+O5mxxnvWNotRgmYkigF//37It
- /YFzc028wW+NTToAA9Q1SRO0HsjwVcYxzYKeh4pPEtskLUf8fheOUTa+G54LCyAgG/NK
- n8UiN7qSY3aspU7ffCXtQEQospiZHBuoIn1j7cY/8m4MfB9t/1ryBl+Lksiwfx2vLpa7
- o5dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725437717; x=1726042517;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hRdc5AMdvByd9qcj2i6Loyq3HdJpcgiM3X+j1Pvdni0=;
- b=W9qZ+tX2gX3HMrpqZHHXf6Zqdg8MLZFiAhRJ62QVe1ba3aHCx8HOOHsNPgzV3HC5FB
- 4qnXSxc6xcIZj9ZiIs+UASX0ZlqbBiy2tEoeFQqzvmTq/FFzGumgwKFjMeELNcf501sg
- kOrJXdIqPyOLoMKfeuaoUCDVCHXNr+MpjFWCDF1nj00lqCRqmRSIeWXt//HeWPrCgR6f
- laeXqB7Ov8685yxylNCYBvkwNMInFKPdUGVjFMfqDrsC6N0asahUEkLDCMsn4lYOgmXI
- oDcht/WrS7JT37+circtb9E7VoziUdzRXaBDkDNKkRierEDr5E7UWGaD8GKtCqfD+9SL
- 4YyQ==
-X-Gm-Message-State: AOJu0YzWIGXz8Q3LadfisMLazwgPJLZpaGr6M49jUB0ew0MqVCIAC8y9
- BlGZsOfFdCV6XWXJEvGp7S4+5XFC8p+4tr9rO7RHwS5B2Lk73mGtXHnXBsKBGeI=
-X-Google-Smtp-Source: AGHT+IGK31//3XeAKFe13krwGEqRfNEJwm77L/z7hDQXuWi5CgOKPXqq/SoD9LyOe4vl6AmOSRsoGQ==
-X-Received: by 2002:a17:902:db08:b0:205:8b9e:964b with SMTP id
- d9443c01a7336-2058b9e9afamr104785765ad.39.1725437717314; 
- Wed, 04 Sep 2024 01:15:17 -0700 (PDT)
-Received: from zjn.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-206ae94980esm9024145ad.84.2024.09.04.01.15.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2024 01:15:17 -0700 (PDT)
-From: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-To: angelogioacchino.delregno@collabora.com, matthias.bgg@gmail.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- knoxchiou@google.com, hsinyi@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-Subject: [PATCH v3 1/2] dt-bindings: arm: mediatek: Add MT8186 Ponyta
- Chromebook
-Date: Wed,  4 Sep 2024 16:15:00 +0800
-Message-Id: <20240904081501.2060933-2-cengjianeng@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240904081501.2060933-1-cengjianeng@huaqin.corp-partner.google.com>
-References: <20240904081501.2060933-1-cengjianeng@huaqin.corp-partner.google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8FE710E6BF;
+ Wed,  4 Sep 2024 08:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725438141; x=1756974141;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=V1FmEQxa7lsgaFs6dxtMyqS9h9XeuCAQr3fIQa40Vko=;
+ b=b36XrRSYtOnEijRdVtqhc84dQsSheiz40xFfTEpRe8B9gFuhpCae817X
+ tvhlNPXWuxxEnhUdplmM2xrUI5BIiLERL5B9pDl/6wH+zkO9Bd7nLGo4F
+ LADt/mI6xGubd6r+Q+9We9RQvL7/cmMIyvT8X2K+7FaJWA5ucKKsXCnJi
+ sBfT4sod4EWZcod6wO/PDyQfGFHmptxGsp3yphSX88RQ36eNbBGmLMwgr
+ fudF1vc79dwbVET+H3ns9SrIPfvYYAwuAtaFeUi1rLvvxQEQM9g26/PCm
+ SeYujQbU8ZIVTsbfUjLXgXTm9C47vVDT3o6difvDk9PY1alpnv53Mb4Ry w==;
+X-CSE-ConnectionGUID: eXs+tstXTwmE38enQU8q1Q==
+X-CSE-MsgGUID: o7gBiST0T9qfJqTnn5FD0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="34743457"
+X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; d="scan'208";a="34743457"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2024 01:22:21 -0700
+X-CSE-ConnectionGUID: fhxr+nYxRoODf5yvaTE17Q==
+X-CSE-MsgGUID: rm5Y8ZLpSGWehoeNaPv1rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; d="scan'208";a="69353257"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.18])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2024 01:22:16 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, Hawking Zhang <Hawking.Zhang@amd.com>, Hamza
+ Mahfooz <hamza.mahfooz@amd.com>
+Subject: Re: [PATCH] drm/amdgpu: enable -Wformat-truncation
+In-Reply-To: <20240903200953.292717-1-hamza.mahfooz@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240903200953.292717-1-hamza.mahfooz@amd.com>
+Date: Wed, 04 Sep 2024 11:21:59 +0300
+Message-ID: <875xrbu8uw.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +72,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an entry for the MT8186 based Ponyta Chromebook (custom lable).
+On Tue, 03 Sep 2024, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+> It is enabled by W=1 and amdgpu has a clean build with it enabled. So,
+> to make sure we block future instances of it from showing up on
+> our driver, enable it by default for the module.
 
-Signed-off-by: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
----
-Changes in v3:
-- PATCH 1/2: Modify lable to label.
-- Link to v2:https://lore.kernel.org/all/20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com/
+Would prefer enabling it by default across the subsystem [1].
 
-Chage since V2:
-- No change.
+BR,
+Jani.
 
----
- Documentation/devicetree/bindings/arm/mediatek.yaml | 11 +++++++++++
- 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Documentation/devicetree/bindings/arm/mediatek.yaml
-index 1d4bb50fcd8d..410145976272 100644
---- a/Documentation/devicetree/bindings/arm/mediatek.yaml
-+++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
-@@ -257,6 +257,17 @@ properties:
-           - const: google,steelix-sku393218
-           - const: google,steelix
-           - const: mediatek,mt8186
-+      - description: Google Ponyta (Custom label)
-+        items:
-+          - const: google,ponyta-sku0
-+          - const: google,ponyta-sku2147483647
-+          - const: google,ponyta
-+          - const: mediatek,mt8186
-+      - description: Google Ponyta (Custom label)
-+        items:
-+          - const: google,ponyta-sku1
-+          - const: google,ponyta
-+          - const: mediatek,mt8186
-       - description: Google Rusty (Lenovo 100e Chromebook Gen 4)
-         items:
-           - const: google,steelix-sku196609
+[1] https://lore.kernel.org/r/cover.1716479340.git.jani.nikula@intel.com
+
+>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/Makefile | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+> index 34943b866687..64adadb56fd6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
+> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+> @@ -41,6 +41,7 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
+>  
+>  # Locally disable W=1 warnings enabled in drm subsystem Makefile
+>  subdir-ccflags-y += -Wno-override-init
+> +subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+>  subdir-ccflags-$(CONFIG_DRM_AMDGPU_WERROR) += -Werror
+>  
+>  amdgpu-y := amdgpu_drv.o
+
 -- 
-2.34.1
-
+Jani Nikula, Intel
