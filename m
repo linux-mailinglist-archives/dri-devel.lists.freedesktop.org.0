@@ -2,71 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD07B96B104
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 08:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A5496B10A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 08:10:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 415E110E446;
-	Wed,  4 Sep 2024 06:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0F710E248;
+	Wed,  4 Sep 2024 06:10:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="oOwJ3aZd";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Z9i4jIm+";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="V/HHIpoc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DECD410E446
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 06:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1725430174; x=1756966174;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=9DNqPebhl2qJdhBypVsuWI2E262XFeeAgAIjR7kOhR8=;
- b=oOwJ3aZddKpSJVFF2MkyhEGfbfHmKqba9PKKXNlxEMFPC7+cJgDV0bfE
- rJ9DS7dunHHjFHlK+lG+MKbp7QE+GWBkk0ycqZrv/K4WPo2dhWTQODi43
- iRAA1z2E45QZ4Ok5tGLsvvbDoHal42FWLNdTnrhg9ujGUwvP1p5AGDGCM
- MjyxaXDa/DBluUV4YeIxAZ9PqMpS2ns8KvfJMELNTnRxlg1z0LXhOb1ed
- QtiC6xMAHPYRNVdBMH8Z1Kdpr3A51F8qmKtmsHBaUVr8nyxPakH0zsBHh
- SUHue6i1NQucWNYEfYidWclv3znl/n+x/TREoq3PJizvgAQhRseFpRobg A==;
-X-CSE-ConnectionGUID: KjR7ONlmQQGnabThcFbHlw==
-X-CSE-MsgGUID: wo6p52RhThK9xj4chs/paQ==
-X-IronPort-AV: E=Sophos;i="6.10,201,1719871200"; d="scan'208";a="38750373"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 04 Sep 2024 08:09:32 +0200
-X-CheckPoint: {66D7F99C-3-5FF8EC80-F6CEE9F8}
-X-MAIL-CPID: 246AB71334F08AD1F3685D08755CD23D_0
-X-Control-Analysis: str=0001.0A782F25.66D7F99C.005A, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id B69E316A970; Wed,  4 Sep 2024 08:09:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1725430167;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=9DNqPebhl2qJdhBypVsuWI2E262XFeeAgAIjR7kOhR8=;
- b=Z9i4jIm+ZBjmwYC8KfEL+lqNp+0acDq1XAzD6UnZta/G+b9/Ro/CqIL6AuWoxaQQ1jOqG9
- lJlcsMevvuT3hiWeY8thU4AB9/zDfJtoK6X8hwyka7ONAdZ5oXkGdC7cmJGy8U4RMAmr/2
- B9VjSCaUkEXXgKZbfUMDu8Ow7FSUk9oSHm/loHzqP+3MB+9XunTpYPyWmZ8yTFl273hKXx
- 5dgvNEfggWamJBgv94882Jq6sMGglOPdXBav1WBOg77dqve3/z7Jb5WFNcgQTUBw9n/PBL
- 5OEs4QKw7fTXWUBMN+C0zIfBb+ieXuHY0tJKXOQRAqf37tcHXYDEA2g/KT1DVw==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: javierm@redhat.com, deller@gmx.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v3 21/43] drm/fbdev-dma: Implement damage handling and
- deferred I/O
-Date: Wed, 04 Sep 2024 08:09:25 +0200
-Message-ID: <12510239.O9o76ZdvQC@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CACRpkdb+hb9AGavbWpY-=uQQ0apY9en_tWJioPKf_fAbXMP4Hg@mail.gmail.com>
-References: <20240419083331.7761-1-tzimmermann@suse.de>
- <20240419083331.7761-22-tzimmermann@suse.de>
- <CACRpkdb+hb9AGavbWpY-=uQQ0apY9en_tWJioPKf_fAbXMP4Hg@mail.gmail.com>
+Received: from TYVP286CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11011002.outbound.protection.outlook.com [52.101.125.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAFB210E248
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 06:10:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WzLmbBEATDznAhL8coDjskldsuhIYwAdyX8/yGYtJYffoukR+SMMoBCEJsnJVqDEis8Crrf8zsG2o4od9JWai55e3bG5/lPeUTLTjnCdjzOcxUhtnMIgm6BKNQDLm/lIUBdPOSqL8b9sZZ3GI2xB9fi22BzCBMRlQoEZ9aAKK1Nb8jsum9437NOnCczUR1xuteLCFhHj3oWC0WgjVCP2tDaC6MdXW9wraK20xV3go8kT4XRdcnOSOiANH7BjYdjkA3wkS6ON35pjUFe3Az6ztQkb+DT2hraqyShALqBffNw4htCVhDm37SqHAYz7apZLw5Yxd6dc6FWRkCgSW1kZRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zZ7MSSuEtXzSVh8muvkP0VG50JwLfB5kY7ZEGSQqudk=;
+ b=lHLzfDl3NVAIxd7j12lTlrGTv7u3uaXY+GQ+onXNpnTPZipFpltSDPPugxx+kCfon4UlaID0CO7Qs1YH8bM95TPhhsKPoGKQogoch2e+EVKaiOr5LOO+EavcOu/om9fwvMvsPagsmjOx8/oLpUoh0B5OVLxYbR0d6zjROhs86W8cOMiZAYYwuZy9EhgrNLwyJzoxf4s8BT3tkUl9AxkPzPqehbU1r2+8zamu9Wvm1lh72tfHjD87HWrv681+RSujia/afbfSxjSj9JO2LDzxd1v0n5jD1dHigYmPTQy8zaEFxxrgEIPyJ6kB0gMmMqgp9AmyS4wpaDgR3H3cR7vi+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zZ7MSSuEtXzSVh8muvkP0VG50JwLfB5kY7ZEGSQqudk=;
+ b=V/HHIpocXRkI40HAQCFkGxBf044FGJJxqlePtq2fwail/zT1mB2kGZHUkSI3WgNDaz0mLIwx/IFTi6UVWibrWpUNO1PCS43hT6m+vX6OLwflg/cmAUnAtlHZi9NowZ6CU5MTbyzFOCTCTaXDESd13/9X1H2pF6/13PebJprJb7w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS0PR01MB6338.jpnprd01.prod.outlook.com
+ (2603:1096:604:e7::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Wed, 4 Sep
+ 2024 06:10:47 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
+ 06:10:47 +0000
+Message-ID: <87r0a06ja1.wl-kuninori.morimoto.gx@renesas.com>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-sound@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@iki.fi>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v5 0/9] of: property: add
+ of_graph_get_next_port/port_endpoint()
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 4 Sep 2024 06:10:46 +0000
+X-ClientProxiedBy: TYCPR01CA0172.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b2::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS0PR01MB6338:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c02ed20-3b5e-4498-7057-08dccca8515f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|1800799024|366016|376014|52116014|38350700014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pS7wTLGahc0Za8BDJKa7zIOKRTJx9r5TqlI3MJvC9LDnKnUzW44NPJ6IQSVH?=
+ =?us-ascii?Q?vRYYQDz2eed8Oe99YoP156b8uMjsFhyk58OaijQzrQdiBcNuzsFmXyKr3EXL?=
+ =?us-ascii?Q?rmbhrrZRRURvwo38yPEa9YMgAAE+Y9eQOrysvm8qLxD4uGlc+Gmwmfp33Tb4?=
+ =?us-ascii?Q?NawWF1OnZheD2v5R4i9fBE0HyxElzj+ZebqN3Fg4inPhsybdCutU4cKl4kdb?=
+ =?us-ascii?Q?Klrx+J296Im430vj+eYsntlelXiocTpOGcZm/nC9nctpxrKLSKCecquz2h+g?=
+ =?us-ascii?Q?pmqDRCocMYo9Y7X2+dq6InDTkswn7ChBKQHKeFRWb0JiIDF496/IQVJozyhO?=
+ =?us-ascii?Q?Vyvwl1nY04s4HGxnAZ3BwPMC5n6bnOBklriKkSP9jnIuf8dUnZaBimUy/SH3?=
+ =?us-ascii?Q?ejwc3ekrtAKXxNwoQOreVu+VQAfNTHSnADMKQS8SpgFgr0pADQEiQtEdpRDF?=
+ =?us-ascii?Q?vkyQwm19F0+7UpGz3glofZg43aoQzteAUW0RlEQaoThh+m98ICTKKkb1Qpwj?=
+ =?us-ascii?Q?ffHtJC94IpNdDqGugQkVldKkD2NJM4NZiHvb1THe9PfNPKbCozCeqDf+p8uy?=
+ =?us-ascii?Q?ABGOwi4npNZPZUgZFAJnqWxSxJRHNLFmXHvasSZF3bMnbdXuMC6xch05/83R?=
+ =?us-ascii?Q?yKUOrxVQCcc1VUBo/fcQj/EAA7PhTmR+ghNY+ywoec5HXv7Gw1vpI2DGO6/i?=
+ =?us-ascii?Q?i9LZjQwAI2paIUslDTTt+QOBE6MFeaqtMZPkxfM+vtZdXJwO5aGNPbryPnJs?=
+ =?us-ascii?Q?qsToEhrX4Ra8ab5lCyf5v76a1yJ4U0ySu2bFG+8S7Db3aUeLgudNJMS46f9X?=
+ =?us-ascii?Q?j55PMalndfXxcEC/FACUucwAYEJlYnh/KeVnhjlTAUu/sm1fhDg9hQlaZuve?=
+ =?us-ascii?Q?eLXvkinGA0TlPqGIpSTsWIJm0MV1ASunrTkfB+5TpepkjQexI/WtxzRNT6Ta?=
+ =?us-ascii?Q?K8qwTRfrYCunz7dB72zxYI+hFMr8R0/DB+AZ/EHPwFjfM5uJnoRkXjLACbNu?=
+ =?us-ascii?Q?qtboB6pF3Ow828WnkOTvPzl/6vG+0h5kXnrI1CLjHV9ntP1d5hcF9p3e8kAt?=
+ =?us-ascii?Q?1cdR+p9W9j7iCysao/9dtjM8LAuaKg4+Ucdnzdv+UdNg4l/l3e9ylJ2gM7LQ?=
+ =?us-ascii?Q?NGzeHBh7kzvWD1GoU4QoY6cxTV4gDq9EJEzRqsqJTX/560I9hNd1lbwRifOO?=
+ =?us-ascii?Q?p9urX67enOUn1ONsf3EiJm5yUSCNXY0tFfW/XOTnDv1gf1W2XJ/auFp57okq?=
+ =?us-ascii?Q?1qLhRXf2sGsVbxXOYNPWUXD8rFkvFTahrfPp/tAuL14FqHO+/a0l25D7rqzw?=
+ =?us-ascii?Q?V80TPWNdv5Ta9cG/w/UlHns1yxESbKwuSbOYx80cGJAzpkUipGC5bWbWtk9+?=
+ =?us-ascii?Q?ltocmFohh0Fbf4hqkkyQPmdqIF5RxGbnmvVWlbql376MQmSgdytIpkkrrwe8?=
+ =?us-ascii?Q?fVREV1CCHkA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(1800799024)(366016)(376014)(52116014)(38350700014)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?peaWUHd0yZhDL9H1tuZmCqUM/UlPS84u3fecCFxSAn1VxOCc8mwJp9Pi6dxV?=
+ =?us-ascii?Q?vQQX2EB8urchW9GPRuArLoPn34X2K/8p33lILN+Tfw/GUqdo1ALaIt3qkEqv?=
+ =?us-ascii?Q?0Bh7JudRYgUpSN3WJBYk1yGqEfEZAwc21EzqXZqlrcIz7tuf4rDLkNf3eFXE?=
+ =?us-ascii?Q?WhG6h+9y/yrCIfxmtuYtVEX0WQexIlRk78eMCF2ulA4RCMrtmFHqVhokPqqS?=
+ =?us-ascii?Q?EEzilsJjsZiln8RwIFnMl+usueEa3/nMoOrUX/6SA10tGjcXlchd3jHUSZt8?=
+ =?us-ascii?Q?AREOxF+LAZNWx3HyiJtAogqZc725krQs7WtQsh0wzYOlDdi1JBmeE499uxK2?=
+ =?us-ascii?Q?46e2UWYkxs66kH7u9r2yxqYmFzyGL168oUeEoWIELicblqM/1PJakBlP+j6U?=
+ =?us-ascii?Q?KfhisISawlmiRE02gEx5sBH+3iNouN+XzY22zHzzYSBlnBYdx3mlMUv5ckz2?=
+ =?us-ascii?Q?8A8Hg8WWEEtlSKFyTyvdQkzDXyTlhn5c0foj6Ogo7+nyCavswA2SsYf/wY2O?=
+ =?us-ascii?Q?BKR4MQzyOLkpFCJhFLSB43T/Sw7as8G2/NFvkA14FB+Zc/cd00AEZqpbLKHT?=
+ =?us-ascii?Q?S8udnKJlV1qKGNxMm3m6o6Ud5kRuBEHIL0XG6nd71/bYET2GK35uBIIEsKWQ?=
+ =?us-ascii?Q?Hiy7yLdLA6ytWkfi44Dhh7LuDQr1uInI81vIJoBKdyjAB4IzW1E+7GSe6ARH?=
+ =?us-ascii?Q?UGfPiBLNPopvjauzs1/uBnsXy7wrPCLp2aKtfE278jYNabb4SX+8BizZS4Nm?=
+ =?us-ascii?Q?G/jgGPpqpAa6NuMoNAQvUKu029O3SPt3hFsLaQ+AzVFpfRJfv08NXw+gLkud?=
+ =?us-ascii?Q?Tro6pWvOGTSK9BVUHZWBQoYvDlkCAYp3cIzbxcu+vw7VC6Yx8DqNpJvQzbzS?=
+ =?us-ascii?Q?RjF4Rq0jHqrvfc+BCG7KZvkXU550Zo6EzFLrwH835WqmIalZ7VTXMqb/0Zig?=
+ =?us-ascii?Q?kKCSYNvoYVW0ZYa/Lt952QRii6syJUyE0VdZZKhYlvXYeuxeXl4fcLcRnAQn?=
+ =?us-ascii?Q?lMFjSZNX1sZoFwSWsVf6hqVrWKLEwryHkdRBmU3ooInBIUOHQxdLM4bVH791?=
+ =?us-ascii?Q?o/rpfdtj3y5scBnaeQc1FDfSdp5MMPD4afueBt9L0EN69ODwIUmLIJ0BRJPj?=
+ =?us-ascii?Q?MmK0f7eFBHJN6Zb9kFwQF7akoZhOgKdcXM3YyrPf5gcYjcpuImhShMMDVFjr?=
+ =?us-ascii?Q?F31U68LOmbK/3rBm/PAst0oImEDDNTf7CI6h8uZ6Kr+FhIPWFS0wDLdYfx9u?=
+ =?us-ascii?Q?qydxmhAZjNlov4pcHeJw7g6fHdKUSq02P7qqMJWjz0GfI1UPt7mG7TylrMUz?=
+ =?us-ascii?Q?oYYNVyDSr+sBVxoYpNx30ZWcoYX9MC7yxGnmuxtGRSnWiNwQtRFCfkEIMeiI?=
+ =?us-ascii?Q?4duZHEHQfe3n1Ya3zcINriYcslF8YywZ2SX+YcWTF6G/oQCD42lxoN7DgZqN?=
+ =?us-ascii?Q?7sFUNbCEe+WTeYxXXLIOwmDlKgrnAVK4kn5NfrGkMLJjnf8knwKx8J0B1Upt?=
+ =?us-ascii?Q?dN57O+USIJTW2DNdyPaa8xsqMO8+5IlJv7EO+18lEcV9mpVUC9Diztf9PaE0?=
+ =?us-ascii?Q?VepYlSJ9/XOvpYwoacCU5zLOSHMA0T4b/WVjddN5J8Rxz0fT18e83oN6Rt7q?=
+ =?us-ascii?Q?bgoPw5AoU2DKHA0Y95+4c7U=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c02ed20-3b5e-4498-7057-08dccca8515f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2024 06:10:47.2692 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 61YQAMZLVcCaoz9L2r5dYK+jnbegS9UyhTxBuwvpTaGeSQOuQbXaSZejM1gDqyYEbnCOM4fRC6U12V2jt16DYnLooi0T8wXVLwiRY/GVtvjkiQurbwmTHkHO6PpYEniP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB6338
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,199 +158,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
 
-Am Mittwoch, 4. September 2024, 00:53:42 CEST schrieb Linus Walleij:
-> On Fri, Apr 19, 2024 at 10:35=E2=80=AFAM Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
->=20
-> > Add support for damage handling and deferred I/O to fbdev-dma. This
-> > enables fbdev-dma to support all DMA-memory-based DRM drivers, even
-> > such with a dirty callback in their framebuffers.
-> >
-> > The patch adds the code for deferred I/O and also sets a dedicated
-> > helper for struct fb_ops.fb_mmap that support coherent mappings.
-> >
-> > v3:
-> > - init fb_ops with FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS() (Javier)
-> >
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->=20
-> For some reason this makes the Versatile Express crash in QEMU
-> (I can retest on real hardware if necessary):
+Hi Rob, Saravana, Tomi, Laurent, Sakari, Mark
 
-This commit also breaks i.MX6 on actual hardware, see [1].
+This is v5 patch-set
 
-[1] https://lore.kernel.org/all/23636953.6Emhk5qWAg@steina-w/
+Current Of-graph has "endpoint base" for loop, but doesn't have
+"port base" loop. "endpoint base" loop only is not enough.
+This patch-set add new "port base" for loop, and use it.
 
-> 8<--- cut here ---
-> Unable to handle kernel paging request at virtual address 18095000 when w=
-rite
-> [18095000] *pgd=3D00000000
-> Internal error: Oops: 805 [#1] SMP ARM
-> CPU: 0 PID: 75 Comm: S08_ledflash Not tainted 6.9.0-rc6+ #44
-> Hardware name: ARM-Versatile Express
-> PC is at mmioset+0x34/0xac
-> LR is at 0x0
-> pc : [<809c2a54>]    lr : [<00000000>]    psr: 20000013
-> sp : f8dddc38  ip : 18095000  fp : 00000000
-> r10: 81109a18  r9 : 81238b04  r8 : 00000000
-> r7 : 00440dc0  r6 : ed4f32a0  r5 : ed4f32a0  r4 : 00000001
-> r3 : 00000000  r2 : 00000fc0  r1 : 00000000  r0 : 18095000
-> Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> Control: 10c5387d  Table: 81d6406a  DAC: 00000051
-> Register r0 information: non-paged memory
-> Register r1 information: NULL pointer
-> Register r2 information: non-paged memory
-> Register r3 information: NULL pointer
-> Register r4 information: non-paged memory
-> Register r5 information: non-slab/vmalloc memory
-> Register r6 information: non-slab/vmalloc memory
-> Register r7 information: non-paged memory
-> Register r8 information: NULL pointer
-> Register r9 information: non-slab/vmalloc memory
-> Register r10 information: non-slab/vmalloc memory
-> Register r11 information: NULL pointer
-> Register r12 information: non-paged memory
-> Process S08_ledflash (pid: 75, stack limit =3D 0x(ptrval))
-> Stack: (0xf8dddc38 to 0xf8dde000)
-> dc20:                                                       00000801 802a=
-f888
-> dc40: 80a0fb80 00440dc0 00000801 811fad80 00000000 f8dddd28 ed4f32a0 811f=
-a680
-> dc60: 00000000 802b0c30 ee1d2140 ee1d215c 95ff4385 00000001 00000001 0000=
-0001
-> dc80: 00000000 00000000 ffffffff 8196a70b 000000b0 00000064 0000006c 0000=
-0000
-> dca0: 00000001 00000002 00000001 811fa798 00000801 811fa940 80a0fb80 0000=
-0cc0
-> dcc0: 00000001 00000001 00000000 f8dddd28 811fa93c 811fa680 00000002 802b=
-0c30
-> dce0: ee1d2140 00440dc0 00000000 00000000 00000001 00000000 811fad80 0044=
-0dc0
-> dd00: 00000001 00000000 00000000 83201100 00440dc0 00000000 00000000 802a=
-fa18
-> dd20: 00000bdc 00000bd8 811fad80 00000000 811fad80 00000000 00000000 0000=
-0000
-> dd40: adf00ec5 816d5fa8 816d5fa8 821c3c00 00000000 7ebc2000 7ebe3000 0000=
-0000
-> dd60: f8ddde44 8028cfa0 816d5fa8 8288df50 8169cf00 821c3c00 7ebc2000 7ebe=
-3000
-> dd80: f8ddde44 8028e1e8 00000001 80bbe932 f8ddde44 f8dddde8 f8ddde44 8288=
-df50
-> dda0: 83201100 809cf474 f8ddde44 8169cf00 00000020 8169cf94 821c3c94 7ebe=
-3000
-> ddc0: 7ebe2fff fffffff4 00000000 816d5fa8 821c3c00 8169cf00 81d65fa8 809c=
-dbb0
-> dde0: 8288df50 81ffa910 7ebe3000 82890b00 00000000 00000000 00000000 0000=
-0000
-> de00: 00000000 00000000 adf00ec5 00000000 00000000 8169cf00 8288df50 8320=
-1100
-> de20: 821c3c00 81ffa910 f8ddde44 8011f6e4 00000000 00000000 821c3c7c 8169=
-cf7c
-> de40: 83200880 821c3c40 7ebc2000 7ebe2fff 82890b0c 76ea4000 ffffffff 0000=
-0000
-> de60: 00000000 0f000a01 f8ddde68 f8ddde68 adf00ec5 00000000 00000000 0000=
-0000
-> de80: 00000000 01200000 83201100 00000000 00000000 8011e2ac 00000000 8320=
-0d7c
-> dea0: 83201020 83200e70 83200e80 00000000 f8dddf30 83200880 00000000 0000=
-0000
-> dec0: 00000000 00000000 00000000 82182f38 adf00ec5 00000000 01200000 f8dd=
-df30
-> dee0: 00000000 00000000 00000000 00000078 000cb21c 8011fe24 00000020 0000=
-0000
-> df00: 828a5d80 80a10140 adf00ec5 01200011 00000000 00000000 00000000 f8dd=
-df30
-> df20: 00000000 00000078 000cb21c 801203d4 01200000 00000000 00000000 76f4=
-6468
-> df40: 00000000 00000000 00000011 00000000 00000000 00000000 00000000 0000=
-0000
-> df60: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000=
-0000
-> df80: 00000003 adf00ec5 76f46468 00000000 76f468c0 00000078 80100290 8320=
-1100
-> dfa0: 000cb21c 80100060 76f46468 00000000 01200011 00000000 00000000 0000=
-0000
-> dfc0: 76f46468 00000000 76f468c0 00000078 00000000 76e81000 76f46400 000c=
-b21c
-> dfe0: 00000078 7ebe2938 76e0854d 76dae7e6 20000030 01200011 00000000 0000=
-0000
-> Call trace:
->  mmioset from prep_new_page+0x160/0x194
->  prep_new_page from get_page_from_freelist+0x10f4/0x110c
->  get_page_from_freelist from __alloc_pages+0x15c/0x280
->  __alloc_pages from __pte_alloc+0x28/0x1bc
->  __pte_alloc from copy_page_range+0xc10/0xd28
->  copy_page_range from copy_mm+0x5cc/0x850
->  copy_mm from copy_process+0x508/0xd8c
->  copy_process from kernel_clone+0x94/0x338
->  kernel_clone from sys_clone+0x94/0xb0
->  sys_clone from ret_fast_syscall+0x0/0x1c
-> Exception stack(0xf8dddfa8 to 0xf8dddff0)
-> dfa0:                   76f46468 00000000 01200011 00000000 00000000 0000=
-0000
-> dfc0: 76f46468 00000000 76f468c0 00000078 00000000 76e81000 76f46400 000c=
-b21c
-> dfe0: 00000078 7ebe2938 76e0854d 76dae7e6
-> Code: e92d4100 e1a08001 e1a0e003 e2522040 (a8ac410a)
-> ---[ end trace 0000000000000000 ]---
->=20
-> I bisected down to this commit and reverting the commit solves the issue.
->=20
-> What is special about the Versatile Express graphics is that it uses a sp=
-ecial
-> dedicated video RAM, looks like this in the device tree
->=20
->=20
->         reserved-memory {
->                 #address-cells =3D <1>;
->                 #size-cells =3D <1>;
->                 ranges;
->=20
->                 /* Chipselect 3 is physically at 0x4c000000 */
->                 vram: vram@4c000000 {
->                         /* 8 MB of designated video RAM */
->                         compatible =3D "shared-dma-pool";
->                         reg =3D <0x4c000000 0x00800000>;
+Unfortunately, new helper function need to call of_node_get()
+if dts doesn't have "ports" node, so we can't replace existing
+loop by new helper, because it is using "const".
 
-Can you please check in which memory zone this VRAM is located. In my case
-it's important CMA is located in Normal zone to trigger this problem.
+I noticed that some developer posted the patch to ALSA ML and
+its and [5/9][6/9] patch will conflict. I think it is better to
+repost these to ALSA ML *after* main patches (= [1/9][2/9]) were
+included to linus/master tree (?). (Mark, can you agree ?)
+So, [5/9][6/9] wants "review" only here.
 
-Best regards,
-Alexander
+v4 -> v5
+	- tidyup comments
+	- [8/9]: parent NULL check was removed
+	- [9/9]: use for_each_of_graph_port()
 
->                         no-map;
->                 };
->         };
-> (...)
->          clcd@1f000 {
->                       compatible =3D "arm,pl111", "arm,primecell";
-> (...)
->                       memory-region =3D <&vram>;
->=20
-> This gets picked up in the driver
-> drivers/gpu/drm/pl111/pl111_drv.c
-> like this:
->=20
->         ret =3D of_reserved_mem_device_init(dev);
->         if (!ret) {
->                 dev_info(dev, "using device-specific reserved memory\n");
->                 priv->use_device_memory =3D true;
->         }
->=20
-> Yours,
-> Linus Walleij
->=20
+v3 -> v4
+	- new for_each loop includes __free()
+	 - comment indicates to use return_ptr() or no_free_ptr() if
+	   it need to continue to use node
+	 - each driver based on it
+	- care "prev" leak on of_graph_get_next_ports()
+	- of_graph_get_next_port_endpoint() indicates WARN() if port
+	  has non-endpoint node
+	- tidyup each git-log
+
+v2 -> v3
+	- return NULL if it it doesn't have ports / port
+	- add visible comment on of_graph_get_next_ports()
+
+v1 -> v2
+	- add each Reviewed-by / Acked-by
+	- tidyup/update Kernel Docs
+	- use prev as parameter
+	- update git-log explanation
+	- remove extra changes
 
 
-=2D-=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-http://www.tq-group.com/
 
+Kuninori Morimoto (9):
+  of: property: add of_graph_get_next_port()
+  of: property: add of_graph_get_next_port_endpoint()
+  ASoC: test-component: use new of_graph functions
+  ASoC: rcar_snd: use new of_graph functions
+  ASoC: audio-graph-card: use new of_graph functions
+  ASoC: audio-graph-card2: use new of_graph functions
+  gpu: drm: omapdrm: use new of_graph functions
+  fbdev: omapfb: use new of_graph functions
+  media: xilinx-tpg: use new of_graph functions
+
+ drivers/gpu/drm/omapdrm/dss/dpi.c             |   3 +-
+ drivers/gpu/drm/omapdrm/dss/sdi.c             |   3 +-
+ drivers/media/platform/xilinx/xilinx-tpg.c    |  13 +-
+ drivers/of/property.c                         | 154 ++++++++++++++++++
+ drivers/video/fbdev/omap2/omapfb/dss/dpi.c    |   3 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c |  66 --------
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  15 +-
+ drivers/video/fbdev/omap2/omapfb/dss/sdi.c    |   3 +-
+ include/linux/of_graph.h                      |  71 ++++++++
+ include/video/omapfb_dss.h                    |   8 -
+ sound/soc/generic/audio-graph-card.c          |  11 +-
+ sound/soc/generic/audio-graph-card2.c         | 113 ++++++-------
+ sound/soc/generic/test-component.c            |   3 +-
+ sound/soc/sh/rcar/core.c                      |  21 +--
+ 14 files changed, 299 insertions(+), 188 deletions(-)
+
+-- 
+2.43.0
 
