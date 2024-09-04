@@ -2,73 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AC196C76A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 21:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E33596C9A5
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 23:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC2410E48D;
-	Wed,  4 Sep 2024 19:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C92310E5FB;
+	Wed,  4 Sep 2024 21:42:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lpBi5lQO";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="sqM8uWV7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B129E10E48D;
- Wed,  4 Sep 2024 19:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725477794; x=1757013794;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=4wcsBOr2fzCHJ5b6O4hsPqGBLBwATw2oUkdqrqEwPgQ=;
- b=lpBi5lQOO/r70YMqIRzgrnXAV2p8IkMDplRxky5Lb+iHUz4/WV5u5xqE
- zLCI6iOwZz+JdVQbG43CrWGhFf5AuoOrAMEZMInfZvvMu/cBI8F7XqI+P
- LXGQWZtxQwhHi/RuFmDsWNHKO43RAGD62Bef7X2QI2LLPfagwH428kk+A
- shuJ1MPua7cixptPdKkQ0QxzOHAd4um0AUBRy8aevAFmeoLX7c1okVeqO
- JbgtY6hCuo0UEFEotRvOvXPAiFmyVaKJA4sCVM8DnNWeU0aHeXRVGN2Vm
- X7lv4x/o2Aykt8TlwHjFg+gHLHJPthxB/+CeDCPC1p0NJw8zqTbVrNpN4 Q==;
-X-CSE-ConnectionGUID: FafKYQTZTde4/2MyVhdWHg==
-X-CSE-MsgGUID: ThhKmcbLSjytzKVfM2U26w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="46690819"
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="46690819"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2024 12:23:09 -0700
-X-CSE-ConnectionGUID: To3hBdIpSra6xpZsucP93Q==
-X-CSE-MsgGUID: VjApYc4/Tzez6wViLnxSFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="65417052"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 04 Sep 2024 12:23:02 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 04 Sep 2024 22:23:01 +0300
-Date: Wed, 4 Sep 2024 22:23:01 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH 07/21] drm/msm/dpu: Check CRTC encoders are valid clones
-Message-ID: <ZtizlTxH-7EBhiSd@intel.com>
-References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-7-502b16ae2ebb@quicinc.com>
- <uqtlpynjdszqyyikj64uxwuqnk3lmzma7kd2vwxipnj4fg2eje@7toj5kww7vk7>
- <9f95704d-0699-4b11-b8cb-40f1a57eeebd@quicinc.com>
- <CAA8EJpqM0QBxLFCx22UuVmYAE258im_Up2-3fu6qez1GrOhOQg@mail.gmail.com>
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5282C10E2AE
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 21:42:42 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-457c6389a3aso38541cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 14:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1725486161; x=1726090961;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XUOw5lMiHDw0MiG7UAI15FhQeJ9HSg6Beuvp398enyw=;
+ b=sqM8uWV7SMHW1pbrFGKjZGjNVxLczhrjNGoko0swcD27fOMiMSZVRP9e+YLPO8ahjD
+ GwMi/PKkFX02THRED9ub+IWlyHK3BzwlASlQ1n0u6Kz3FrneoCTvBejqkVKE+4Vl484p
+ 3NHVgPTSsRSTv8oZxu//HOyLt5Hp2Aso46LiX3dLaZ7wQzhPUxkj0nP3H00FdbqHwW4w
+ NTNJgwntslOLzhSTQukHAiuvaQtqVAeYsB9Y3g+GA0eyW0PXFe9RvQodUdMs+sOyQ+9r
+ q9O4yFN2ambKIetl1iuP1VuOXbdWx99Y5SDXwJE41PEmZtBoeVdY3qrG05zxSlIc5ivK
+ 356w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725486161; x=1726090961;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XUOw5lMiHDw0MiG7UAI15FhQeJ9HSg6Beuvp398enyw=;
+ b=JbV9uy1PCh3u7sLX9boWimXBy2OwfkzNLJ9oZVgM97icce2XwIocQRbB9BNeeZ8KhI
+ vpzMxfVHIzAxPMAbvITyCClmCdb++G6QVG8xGO9TSauTamLw8/ASypiepmag5F3lkOtF
+ twoZXLYVVVFb/yQ1whMHc+hc+vEjWjZBmOFOSr6B8N8n7PwUB8AsUALcjLUOhEtwrSAp
+ F4GnZCwTl+aJ7+JjRDtPGdzfRvl4AYNShYqrLkSriPKTHRizXvC+d7eTgDlDAeqBDX4q
+ 8kI9rCRKsn9YiCMh9eHpLX6oDaY8jD4Q5XT22sTQGmEs9oY2nTgGj0w50MnI8C1iMp0N
+ m00w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6Balh3W9TshQcUrBFk7GLIOQPxS9bD20pm6OsyPILDaz1QZ8FKXx94jbtlW37dg+dsn+86a1NiJM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzPmhFh2zQ3LGLmgrSbLtpJJqk384X2kjfpw5oQHbvPxEPga8r0
+ MhPKbUTzVD/ZkDH0HOycx0YFOLW5/Mj1LmjVR62KIBvjKI1IlyJu0/DPamVVJ1KfDkwHLyqhZOd
+ bMqX1ySjCt3b+rLDk7YIovr3Kx2eoa8V9JAXp
+X-Google-Smtp-Source: AGHT+IEpGF7+WsKzz/JrGdpbLM/PeRMTZKHHeKwab0nvhh64NIvNlNBwZyTBj3hwa0VujqMyfqFoFxJtF/XvbPvKPO0=
+X-Received: by 2002:a05:622a:6790:b0:456:7d9f:2af8 with SMTP id
+ d75a77b69052e-458033f9c82mr245311cf.7.1725486160847; Wed, 04 Sep 2024
+ 14:42:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA8EJpqM0QBxLFCx22UuVmYAE258im_Up2-3fu6qez1GrOhOQg@mail.gmail.com>
-X-Patchwork-Hint: comment
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-5-jens.wiklander@linaro.org>
+ <CABdmKX2KzswmiDY4oWw69_rPWs8d_Cqp7OXouSeMQaYX1SDSmw@mail.gmail.com>
+ <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
+In-Reply-To: <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 4 Sep 2024 14:42:28 -0700
+Message-ID: <CABdmKX0qd0RoTn2TBQTs9zdf=_JP8pW8hFRUR_7n_t-sfxsGdg@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] dma-buf: heaps: add Linaro restricted dmabuf heap
+ support
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,111 +96,280 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 04, 2024 at 09:41:23PM +0300, Dmitry Baryshkov wrote:
-> On Wed, 4 Sept 2024 at 01:18, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+On Wed, Sep 4, 2024 at 2:44=E2=80=AFAM Jens Wiklander <jens.wiklander@linar=
+o.org> wrote:
+>
+> On Tue, Sep 3, 2024 at 7:50=E2=80=AFPM T.J. Mercier <tjmercier@google.com=
+> wrote:
 > >
-> >
-> >
-> > On 8/30/2024 10:00 AM, Dmitry Baryshkov wrote:
-> > > On Thu, Aug 29, 2024 at 01:48:28PM GMT, Jessica Zhang wrote:
-> > >> Check that each encoder in the CRTC state's encoder_mask is marked as a
-> > >> possible clone for all other encoders in the encoder_mask and that only
-> > >> one CRTC is in clone mode at a time
-> > >>
-> > >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > >> ---
-> > >>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 36 +++++++++++++++++++++++++++++++-
-> > >>   1 file changed, 35 insertions(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > >> index 5ec1b5a38922..bebae365c036 100644
-> > >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > >> @@ -1,6 +1,6 @@
-> > >>   // SPDX-License-Identifier: GPL-2.0-only
-> > >>   /*
-> > >> - * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> > >> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> > >>    * Copyright (c) 2014-2021 The Linux Foundation. All rights reserved.
-> > >>    * Copyright (C) 2013 Red Hat
-> > >>    * Author: Rob Clark <robdclark@gmail.com>
-> > >> @@ -1204,6 +1204,36 @@ static struct msm_display_topology dpu_crtc_get_topology(
-> > >>      return topology;
-> > >>   }
-> > >>
-> > >> +static bool dpu_crtc_has_valid_clones(struct drm_crtc *crtc,
-> > >> +            struct drm_crtc_state *crtc_state)
-> > >> +{
-> > >> +    struct drm_encoder *drm_enc;
-> > >> +    struct drm_crtc *temp_crtc;
-> > >> +    int num_cwb_sessions = 0;
-> > >> +
-> > >> +    drm_for_each_crtc(temp_crtc, crtc->dev)
-> > >> +            if (drm_crtc_in_clone_mode(temp_crtc->state))
+> > On Fri, Aug 30, 2024 at 12:04=E2=80=AFAM Jens Wiklander
+> > <jens.wiklander@linaro.org> wrote:
 > > >
-> > > No, get the state from drm_atomic_state. temp_crtc->state might be
-> > > irrelevant.
-> >
-> > Hi Dmitry,
-> >
-> > Ack.
-> >
+> > > Add a Linaro restricted heap using the linaro,restricted-heap binding=
+s
+> > > implemented based on the generic restricted heap.
 > > >
-> > >> +                    num_cwb_sessions++;
+> > > The bindings defines a range of physical restricted memory. The heap
+> > > manages this address range using genalloc. The allocated dma-buf file
+> > > descriptor can later be registered with the TEE subsystem for later u=
+se
+> > > via Trusted Applications in the secure world.
 > > >
-> > > Even simpler:
-> > > if (temp_crtc != crtc && drm_crtc_in_clone_mode(...))
-> > >       return false;
-> >
-> > Ack.
-> >
+> > > Co-developed-by: Olivier Masse <olivier.masse@nxp.com>
+> > > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > ---
+> > >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
+> > >  drivers/dma-buf/heaps/Makefile                |   1 +
+> > >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++=
+++
+> > >  3 files changed, 176 insertions(+)
+> > >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
 > > >
-> > >> +
-> > >> +    /*
-> > >> +     * Only support a single concurrent writeback session running
-> > >> +     * at a time
-> > >
-> > > If it is not a hardware limitation, please add:
-> > > FIXME: support more than one session
+> > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kc=
+onfig
+> > > index 58903bc62ac8..82e2c5d09242 100644
+> > > --- a/drivers/dma-buf/heaps/Kconfig
+> > > +++ b/drivers/dma-buf/heaps/Kconfig
+> > > @@ -28,3 +28,13 @@ config DMABUF_HEAPS_RESTRICTED_MTK
+> > >         help
+> > >           Enable restricted dma-buf heaps for MediaTek platform. This=
+ heap is backed by
+> > >           TEE client interfaces. If in doubt, say N.
+> > > +
+> > > +config DMABUF_HEAPS_RESTRICTED_LINARO
+> > > +       bool "Linaro DMA-BUF Restricted Heap"
+> > > +       depends on DMABUF_HEAPS_RESTRICTED
+> > > +       help
+> > > +         Choose this option to enable the Linaro restricted dma-buf =
+heap.
+> > > +         The restricted heap pools are defined according to the DT. =
+Heaps
+> > > +         are allocated in the pools using gen allocater.
+> > > +         If in doubt, say N.
+> > > +
+> > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/M=
+akefile
+> > > index 0028aa9d875f..66b2f67c47b5 100644
+> > > --- a/drivers/dma-buf/heaps/Makefile
+> > > +++ b/drivers/dma-buf/heaps/Makefile
+> > > @@ -2,4 +2,5 @@
+> > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
+> > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)  +=3D restricted_heap.o
+> > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)      +=3D restricted_heap_=
+mtk.o
+> > > +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_LINARO)   +=3D restricted_heap_=
+linaro.o
+> > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
+> > > diff --git a/drivers/dma-buf/heaps/restricted_heap_linaro.c b/drivers=
+/dma-buf/heaps/restricted_heap_linaro.c
+> > > new file mode 100644
+> > > index 000000000000..4b08ed514023
+> > > --- /dev/null
+> > > +++ b/drivers/dma-buf/heaps/restricted_heap_linaro.c
+> > > @@ -0,0 +1,165 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * DMABUF secure heap exporter
+> > > + *
+> > > + * Copyright 2021 NXP.
+> > > + * Copyright 2024 Linaro Limited.
+> > > + */
+> > > +
+> > > +#define pr_fmt(fmt)     "rheap_linaro: " fmt
+> > > +
+> > > +#include <linux/dma-buf.h>
+> > > +#include <linux/err.h>
+> > > +#include <linux/genalloc.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/of_fdt.h>
+> > > +#include <linux/of_reserved_mem.h>
+> > > +#include <linux/scatterlist.h>
+> > > +#include <linux/slab.h>
+> > > +
+> > > +#include "restricted_heap.h"
+> > > +
+> > > +#define MAX_HEAP_COUNT 2
 > >
-> > This is a hardware limitation.
-> >
-> > >
-> > >> +     */
-> > >> +    if (num_cwb_sessions > 1)
-> > >> +            return false;
-> > >> +
-> > >> +    drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
-> > >> +            if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=
-> > >> +                            crtc_state->encoder_mask) {
-> > >
-> > > Align to opening bracket, please. Granted that other drivers don't
-> > > perform this check, is it really necessary? Doesn't
-> > > validate_encoder_possible_clones() ensure the same, but during the
-> > > encoder registration?
-> >
-> > The difference here is that validate_encoder_possible_clones() is only
-> > called when the drm device is initially registered.
-> >
-> > The check here is to make sure that the encoders userspace is proposing
-> > to be cloned are actually possible clones of each other. This might not
-> > be necessary for drivers where all encoders are all possible clones of
-> > each other. But for MSM (and CWB), real-time display encoders can only
-> > be clones of writeback (and vice versa).
-> 
-> I had the feeling that encoder_mask should already take care of that,
-> but it seems I was wrong.
-> Please extract this piece as a generic helper. I think it should be
-> called from the generic atomic_check() codepath.
+> > Are multiple supported because of what Cyrille mentioned here about per=
+missions?
+> > https://lore.kernel.org/lkml/DBBPR04MB7514E006455AEA407041E4F788709@DBB=
+PR04MB7514.eurprd04.prod.outlook.com/
+>
+> Yes, I kept that as is.
 
-Yeah, if we are semi-assured that drivers aren't screwing up those
-bitmasks anymore we could shove the cloning checks into
-drm_atomic_helper_check_modeset(). It already checks possible_crtcs.
-We could then throw out the equavalent code from i915 as well...
+Ok thanks.
 
-Are there decent IGTs to make sure the kernel properly rejects
-illegal cloning configurations?
+> > So this is just some arbitrary limit? I'd prefer to have some sort of
+> > documentation about this.
+>
+> How about removing the limit and using dynamic allocation instead?
 
--- 
-Ville Syrjälä
-Intel
+That works too!
+
+>
+> Thanks,
+> Jens
+>
+> >
+> >
+> > > +#define HEAP_NAME_LEN  32
+> > > +
+> > > +struct resmem_restricted {
+> > > +       phys_addr_t base;
+> > > +       phys_addr_t size;
+> > > +
+> > > +       char name[HEAP_NAME_LEN];
+> > > +
+> > > +       bool no_map;
+> > > +};
+> > > +
+> > > +static struct resmem_restricted restricted_data[MAX_HEAP_COUNT] =3D =
+{0};
+> > > +static unsigned int restricted_data_count;
+> > > +
+> > > +static int linaro_restricted_memory_allocate(struct restricted_heap =
+*heap,
+> > > +                                            struct restricted_buffer=
+ *buf)
+> > > +{
+> > > +       struct gen_pool *pool =3D heap->priv_data;
+> > > +       unsigned long pa;
+> > > +       int ret;
+> > > +
+> > > +       buf->size =3D ALIGN(buf->size, PAGE_SIZE);
+> > > +       pa =3D gen_pool_alloc(pool, buf->size);
+> > > +       if (!pa)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       ret =3D sg_alloc_table(&buf->sg_table, 1, GFP_KERNEL);
+> > > +       if (ret) {
+> > > +               gen_pool_free(pool, pa, buf->size);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       sg_set_page(buf->sg_table.sgl, phys_to_page(pa), buf->size, 0=
+);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static void linaro_restricted_memory_free(struct restricted_heap *he=
+ap,
+> > > +                                         struct restricted_buffer *b=
+uf)
+> > > +{
+> > > +       struct gen_pool *pool =3D heap->priv_data;
+> > > +       struct scatterlist *sg;
+> > > +       unsigned int i;
+> > > +
+> > > +       for_each_sg(buf->sg_table.sgl, sg, buf->sg_table.nents, i)
+> > > +               gen_pool_free(pool, page_to_phys(sg_page(sg)), sg->le=
+ngth);
+> > > +       sg_free_table(&buf->sg_table);
+> > > +}
+> > > +
+> > > +static const struct restricted_heap_ops linaro_restricted_heap_ops =
+=3D {
+> > > +       .alloc =3D linaro_restricted_memory_allocate,
+> > > +       .free =3D linaro_restricted_memory_free,
+> > > +};
+> > > +
+> > > +static int add_heap(struct resmem_restricted *mem)
+> > > +{
+> > > +       struct restricted_heap *heap;
+> > > +       struct gen_pool *pool;
+> > > +       int ret;
+> > > +
+> > > +       if (mem->base =3D=3D 0 || mem->size =3D=3D 0) {
+> > > +               pr_err("restricted_data base or size is not correct\n=
+");
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +       heap =3D kzalloc(sizeof(*heap), GFP_KERNEL);
+> > > +       if (!heap)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       pool =3D gen_pool_create(PAGE_SHIFT, -1);
+> > > +       if (!pool) {
+> > > +               ret =3D -ENOMEM;
+> > > +               goto err_free_heap;
+> > > +       }
+> > > +
+> > > +       ret =3D gen_pool_add(pool, mem->base, mem->size, -1);
+> > > +       if (ret)
+> > > +               goto err_free_pool;
+> > > +
+> > > +       heap->no_map =3D mem->no_map;
+> > > +       heap->priv_data =3D pool;
+> > > +       heap->name =3D mem->name;
+> > > +       heap->ops =3D &linaro_restricted_heap_ops;
+> > > +
+> > > +       ret =3D restricted_heap_add(heap);
+> > > +       if (ret)
+> > > +               goto err_free_pool;
+> > > +
+> > > +       return 0;
+> > > +
+> > > +err_free_pool:
+> > > +       gen_pool_destroy(pool);
+> > > +err_free_heap:
+> > > +       kfree(heap);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static int __init rmem_restricted_heap_setup(struct reserved_mem *rm=
+em)
+> > > +{
+> > > +       size_t len =3D HEAP_NAME_LEN;
+> > > +       const char *s;
+> > > +       bool no_map;
+> > > +
+> > > +       if (WARN_ONCE(restricted_data_count >=3D MAX_HEAP_COUNT,
+> > > +                     "Cannot handle more than %u restricted heaps\n"=
+,
+> > > +                     MAX_HEAP_COUNT))
+> > > +               return -EINVAL;
+> > > +
+> > > +       no_map =3D of_get_flat_dt_prop(rmem->fdt_node, "no-map", NULL=
+);
+> > > +       s =3D strchr(rmem->name, '@');
+> > > +       if (s)
+> > > +               len =3D umin(s - rmem->name + 1, len);
+> > > +
+> > > +       restricted_data[restricted_data_count].base =3D rmem->base;
+> > > +       restricted_data[restricted_data_count].size =3D rmem->size;
+> > > +       restricted_data[restricted_data_count].no_map =3D no_map;
+> > > +       strscpy(restricted_data[restricted_data_count].name, rmem->na=
+me, len);
+> > > +
+> > > +       restricted_data_count++;
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +RESERVEDMEM_OF_DECLARE(linaro_restricted_heap, "linaro,restricted-he=
+ap",
+> > > +                      rmem_restricted_heap_setup);
+> > > +
+> > > +static int linaro_restricted_heap_init(void)
+> > > +{
+> > > +       unsigned int i;
+> > > +       int ret;
+> > > +
+> > > +       for (i =3D 0; i < restricted_data_count; i++) {
+> > > +               ret =3D add_heap(&restricted_data[i]);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +       }
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +module_init(linaro_restricted_heap_init);
+> > > +MODULE_DESCRIPTION("Linaro Restricted Heap Driver");
+> > > +MODULE_LICENSE("GPL");
+> > > --
+> > > 2.34.1
+> > >
