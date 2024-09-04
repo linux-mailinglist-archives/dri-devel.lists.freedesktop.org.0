@@ -2,97 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C196D96C515
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 19:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D54B096C53F
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 19:21:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 049E410E824;
-	Wed,  4 Sep 2024 17:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D617D10E815;
+	Wed,  4 Sep 2024 17:21:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="a5d9HA8t";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FsEHOjWC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F9910E822
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 17:17:17 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-6c358b72615so22540786d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 10:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725470236; x=1726075036;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=3OSNlGLBd8NLSWyCnfTJEaUwWihfhoQwqRJWu1zx2FI=;
- b=a5d9HA8tOMJkPrF9oB35MFXLIwPAcAMEZKt+WV7TIOFIYiT5xe7abPI+subPyqkeZU
- R0e27SPndwnTaIJO0jmpUZNLUhnqk2uCsqgZV3jvyB3LdroX8P2MacU14btBRS2Nqtwk
- CuYbBsBIzXFom2rbKhDMsEzYYU+yYPpKgb0tk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725470236; x=1726075036;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3OSNlGLBd8NLSWyCnfTJEaUwWihfhoQwqRJWu1zx2FI=;
- b=PNWawj8eQt7EDxQUcqet0Kx8bk0Q411WC3jhMiM/7U+LU9Uy1mMaiI75qfDhFMD/Bn
- wYOg6gE35AZzCbrZbftubYGO0cUWMiCHT8wZK/CM0oWJXFk3FzEQyRlBffYoCcylxp7c
- 2kuG2MNz62OOcXF9PysjjbIQ4wLS+ttoQ2jM2qUKAP7XjD69vcAetFD3hVGwQQYzRW9T
- mAR4KerD7ecuEcaYWAjbdvnL3ZAfHSvD+SJjOpawVViLtrwt6nnZFfQIuRorLxHlf9Qo
- KJeJfogLpHUltoO/iWZ5fL3rnsL2lRvvWM9aFQ6eYle0BgirvcJe8KM/SmnbFUWsN+7z
- qthQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVm7I3rUCxqew1OiMoBA3pnO0eAEMIAL6KQA4hLa83XYunY30ccoEM4U+yCWzFJdmk8d0UIQq6Nggw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+2Qpi5XSy5e8K0SyuzdFuXD0zdWrmV/03PuceNVHjpLWL1sqC
- dhZrE9pPAWl2eY9Lbt6t8HiNbFfFHjQVqSqRXip50SjXcAziJTvGpXMAWOE1Og2EKmnqJkuaV/c
- fXlPduFyWrwXElf/wI/DbwYh9YP94J9QILeQZ
-X-Google-Smtp-Source: AGHT+IEVE/zja0Ta9Tz96mzKz/L550YBB+VoIesNmcQXcpg7Z7ieAwebVwSfXt2IZeQcblS1lNC8BSuXnTTjD/SJFRM=
-X-Received: by 2002:a05:6214:3104:b0:6c3:5f8f:2745 with SMTP id
- 6a1803df08f44-6c510a93bc4mr62896466d6.27.1725470236496; Wed, 04 Sep 2024
- 10:17:16 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 4 Sep 2024 13:17:15 -0400
-MIME-Version: 1.0
-In-Reply-To: <ZthaCQel2aHhyIu4@smile.fi.intel.com>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-7-swboyd@chromium.org>
- <ZtWjEudmlR51zkU9@smile.fi.intel.com>
- <CAE-0n51eSxxvnJXwnfPrXx1=rei=8OGGEtCAgw6nhCktZ0iQDw@mail.gmail.com>
- <ZthaCQel2aHhyIu4@smile.fi.intel.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 4 Sep 2024 13:17:15 -0400
-Message-ID: <CAE-0n52PxnSMGn3TVt3iiq_3Bimnd4JPoeZ1F6XB1o4itiykUQ@mail.gmail.com>
-Subject: Re: [PATCH v4 06/18] drm/bridge: aux-hpd: Support USB Type-C DP
- altmodes via DRM lane assignment
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Daniel Scally <djrscally@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4EB10E815
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 17:21:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=cpresAn3JJDMDIjQ/jKtWP1bUeBkGCYiL49pfIxDEvI=; b=FsEHOjWCogN6nm1HBg/0fghDLC
+ TYy/TC86ZSwvUVJfzf6VG4Zg1kft5PEnaBbnx3/o5pgWEphygPiMRMDb0g/8/dWdEtoLb3518ykjp
+ lUSsSx71B41kLQkOzRg8iwjxp/6lqai4N8URu9FjxanIWRLoNp2Eeug4prLYmjIUn8mMCP7858512
+ ovLMwExr3e9yBsd0w4WQquWknP7W60k3q9c79m3uEA9xU9usJQ3lq+BDscVATKjv12FmhRAeFks/I
+ 2EvGP0e1UbNRSr2C4SG3NwcWJhjUHeDu5qe21yLQGZUVkymMmuJ6quWOBJWDCSvXAMb3lSNqMJZja
+ M18Ou6sw==;
+Received: from cust-west-lon-46-193-226-34.cust.wifirst.net ([46.193.226.34]
+ helo=[10.10.9.21]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1slthE-009blP-QX; Wed, 04 Sep 2024 19:21:32 +0200
+Message-ID: <289c4578dc8861cebae8292861be6dd42272c100.camel@igalia.com>
+Subject: Re: [PATCH v5 02/10] drm/v3d: Flush the MMU before we supply more
+ memory to the binner
+From: Iago Toral <itoral@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Date: Wed, 04 Sep 2024 19:21:30 +0200
+In-Reply-To: <20240829130954.2439316-3-mcanal@igalia.com>
+References: <20240829130954.2439316-1-mcanal@igalia.com>
+ <20240829130954.2439316-3-mcanal@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,46 +65,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Andy Shevchenko (2024-09-04 06:00:57)
-> On Tue, Sep 03, 2024 at 06:20:14PM -0400, Stephen Boyd wrote:
-> > Quoting Andy Shevchenko (2024-09-02 04:35:46)
-> > > On Sat, Aug 31, 2024 at 09:06:44PM -0700, Stephen Boyd wrote:
->
-> > > > +     adev->dev.of_node = of_node_get(parent->of_node);
-> > >
-> > > device_set_node() ?
-> >
-> > Or device_set_of_node_from_dev()?
->
-> This is quite unclear to me. The second one bumps the reference count IIRC
-> for no reason (in usual cases). Also only few drivers use that, I would hear
-> what OF people can tell about this API and its usage scope.
+Thanks!
 
-Sure, but to be equivalent to the existing code from which this has been
-copied it should use device_set_of_node_from_dev(). Seems fine to just
-use that.
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 
-> > > > +static int dp_lane_to_typec_lane(enum dp_lane lane)
-> > > > +{
-> > > > +     switch (lane) {
-> > > > +     case DP_ML0:
-> > > > +             return USB_SSTX2;
-> > > > +     case DP_ML1:
-> > > > +             return USB_SSRX2;
-> > > > +     case DP_ML2:
-> > > > +             return USB_SSTX1;
-> > > > +     case DP_ML3:
-> > > > +             return USB_SSRX1;
-> > > > +     }
-> > >
-> > > > +     return -EINVAL;
-> > >
-> > > Hmm... This can be simply made as default case.
-> >
-> > And then the enum is always "covered" and the compiler doesn't complain
-> > about missing cases (I don't think we have -Wswitch-enum)? Seems worse.
->
-> Hmm... You mean if I remove one of the above cases I will get the warning?
->
+El jue, 29-08-2024 a las 10:05 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> We must ensure that the MMU is flushed before we supply more memory
+> to
+> the binner, otherwise we might end up with invalid MMU accesses by
+> the
+> GPU.
+>=20
+> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for
+> Broadcom V3D V3.x+")
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h | 1 +
+> =C2=A0drivers/gpu/drm/v3d/v3d_irq.c | 2 ++
+> =C2=A0drivers/gpu/drm/v3d/v3d_mmu.c | 2 +-
+> =C2=A03 files changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
+> b/drivers/gpu/drm/v3d/v3d_drv.h
+> index cf4b23369dc4..75b4725d49c7 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -553,6 +553,7 @@ void v3d_irq_disable(struct v3d_dev *v3d);
+> =C2=A0void v3d_irq_reset(struct v3d_dev *v3d);
+> =C2=A0
+> =C2=A0/* v3d_mmu.c */
+> +int v3d_mmu_flush_all(struct v3d_dev *v3d);
+> =C2=A0int v3d_mmu_set_page_table(struct v3d_dev *v3d);
+> =C2=A0void v3d_mmu_insert_ptes(struct v3d_bo *bo);
+> =C2=A0void v3d_mmu_remove_ptes(struct v3d_bo *bo);
+> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c
+> b/drivers/gpu/drm/v3d/v3d_irq.c
+> index d469bda52c1a..20bf33702c3c 100644
+> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+> @@ -70,6 +70,8 @@ v3d_overflow_mem_work(struct work_struct *work)
+> =C2=A0	list_add_tail(&bo->unref_head, &v3d->bin_job->render-
+> >unref_list);
+> =C2=A0	spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+> =C2=A0
+> +	v3d_mmu_flush_all(v3d);
+> +
+> =C2=A0	V3D_CORE_WRITE(0, V3D_PTB_BPOA, bo->node.start <<
+> V3D_MMU_PAGE_SHIFT);
+> =C2=A0	V3D_CORE_WRITE(0, V3D_PTB_BPOS, obj->size);
+> =C2=A0
+> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c
+> b/drivers/gpu/drm/v3d/v3d_mmu.c
+> index 06bb44c7f35d..3b7694ee7536 100644
+> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
+> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
+> @@ -28,7 +28,7 @@
+> =C2=A0#define V3D_PTE_WRITEABLE BIT(29)
+> =C2=A0#define V3D_PTE_VALID BIT(28)
+> =C2=A0
+> -static int v3d_mmu_flush_all(struct v3d_dev *v3d)
+> +int v3d_mmu_flush_all(struct v3d_dev *v3d)
+> =C2=A0{
+> =C2=A0	int ret;
+> =C2=A0
 
-Yes.
