@@ -2,149 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8F596B3A6
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 09:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8450996B3CA
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E713610E6AF;
-	Wed,  4 Sep 2024 07:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C91CA10E6B2;
+	Wed,  4 Sep 2024 08:02:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="k02JmGhQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dUHmIPgk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TY3P286CU002.outbound.protection.outlook.com
- (mail-japaneastazon11010055.outbound.protection.outlook.com [52.101.229.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A217D10E6AF
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 07:56:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vpBNg53XIGI7yyxscfwyn/t0HCbwSM0NLwYGvrDQzga3ieSkV0C6XOvUaxaTZYK86HJKHmoWF40vrpHWIWZICsug0CIEHGlxTS9j+AjIM20o5ZAoC1TnVAofJ3IV8D9j9mn5eaJQafoZThU2lJ6PIEzUTUw2O68PDlyOZ7RA0MJd9CSuoRfTKd5FWDReLAHla6VI1TbK8OqI3sUQKbm565O351fIWu8IdfmXqqempPfx/UvPDRp1vg1NWQ9gUzTD7ikGsRw5yYvZWEJYW1Y49p1eC0v/qZkrpwj9Jc1fgFHX2ZmyHtGQARVLubiV4eph4v1Nk+dR9LYPYQ9pEBBYBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nslbi92JKKycB48b/45jHVi+nurh2rJJ7nCi7nhcMDg=;
- b=Y7rTfviT91sLTGai6+h+Qm/2sBzqlikxTx5BiEtqdSweDp6ITIfpU1CPa9WWnY9BIDEOYx7rc0DAfW+0p942wcA7g/Q7lUAcH73fLjnvPtFMSJKLTnHWmIBWdZTv6TLIyR1J5lFylBJ6SV0TWH84SqelKe4wwLmZ/23dW3b63GagBSPafnQris11xXDqHCzGowpw99Ba9fJFIySWQGXFAo8R7BX19JD6F1QkttpcihIffCf4WFm3YIq8xbgQbeW4R+RP7CuCn1RqHRNvis3zJp7jvqW4m6ppW4cWhV1zG36nUlSvlS9U7bMX86Rp8EAug6Q/5SCUpf5tnznQTQKjgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nslbi92JKKycB48b/45jHVi+nurh2rJJ7nCi7nhcMDg=;
- b=k02JmGhQZWP8GkKWNslwAYH+u09BaNM6H0MKUemOWGi3Pot50y2kKWGIclX9FC/eldrqsQGl2Nhoo/6Es4Ktn3zUS86OJGTLp02KvIa5DQHM4WYiFyLn4ozzTAjQ6WUfLRFE6nZk7XY33ElNwDOdyX0epRI2UL8E3zE4Sa5avoE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS7PR01MB11759.jpnprd01.prod.outlook.com
- (2603:1096:604:23d::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Wed, 4 Sep
- 2024 07:56:30 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
- 07:56:30 +0000
-Message-ID: <878qw77sya.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v5 9/9] media: xilinx-tpg: use new of_graph functions
-In-Reply-To: <87ed606j88.wl-kuninori.morimoto.gx@renesas.com>
-References: <87r0a06ja1.wl-kuninori.morimoto.gx@renesas.com>
- <87ed606j88.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 4 Sep 2024 07:56:30 +0000
-X-ClientProxiedBy: TYWPR01CA0044.jpnprd01.prod.outlook.com
- (2603:1096:400:17f::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3158310E6B2
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725436921;
+ bh=XeBmn7/telVY98tcBnVnUjGvx8fxxfqnV6V1SQ2n+Ho=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=dUHmIPgkfhM8EwRMkz/bit0yJZRmAOfwk2STlktZh6AKVAhyTdpuPi/Hhr0JSwAEs
+ iOGH+wkvOcrrwWCd5MdJnylXsaPa+QjLknuvXPN59B91JxA7GKWplnuzI2dOUadCgb
+ LXPVtyfTq2e0YuwbDlkYz6Qj9fp7Fs14jFA18ub6a8ICZOExUbwjjYgLGO7dfbkzG2
+ s3ulvvydeM/8Y6hCZvx2j3rqYEOGjjr7vskO3j6aasVAo4dyymfS26PkZMBM1ANrEh
+ rh13MzGXG3RA1a5r7UE2Dk3IdYcrHD4UB06bN7Ag7GS5MnPuY1KAYY2/1icvjabUi2
+ WDkrSicwHUSag==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 2AC4817E0F94;
+ Wed,  4 Sep 2024 10:02:01 +0200 (CEST)
+Date: Wed, 4 Sep 2024 10:01:56 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 2/4] drm/panthor: add DRM fdinfo support
+Message-ID: <20240904100156.4fc7cb3c@collabora.com>
+In-Reply-To: <20240903202541.430225-3-adrian.larumbe@collabora.com>
+References: <20240903202541.430225-1-adrian.larumbe@collabora.com>
+ <20240903202541.430225-3-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS7PR01MB11759:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5a071dae-5385-40fe-b17a-08dcccb71669
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|52116014|921020|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?21FyEdtMuOiKVjv8eWgBiziWmGto/bT9P5NAWKtcCu8DfCbTmbWyojexukk7?=
- =?us-ascii?Q?esaSR+cLQF7ms2aUyjy/qT1KiAnfpjtTJEo+tx2bYhazIeZsba9BIpuakuzR?=
- =?us-ascii?Q?De2Db5mrZqBOtfeO34b0NwnyIu5yrK8w8LZUxK8MHUfxhpGBKRoBEkj0Kn+M?=
- =?us-ascii?Q?r0smqCUzNkur2GR55fOTFc+7APFV0rlIfn1z/O93tZmGVdUQaJF/dQ3RPVN8?=
- =?us-ascii?Q?RxJ/WHo2g7gLg94wNZJoYq9ouKKDG6fyGP4+UoUWTflJLlF+4rRn1F56cDwP?=
- =?us-ascii?Q?B74ugBnYi9lzqj3dc8Gfk1lpOzC2HR/jLdCAb1qeSTDmcgoElXYs5xw0rpYe?=
- =?us-ascii?Q?9jRY0rWGDr/mom8/x7R7v5tXCH6HVN/o7UdvHuMdLcQ7g4VaoLeE6Y//XPdG?=
- =?us-ascii?Q?gMe2nu1OwscE9eulPaJg4wqIy0u/GtsKLhslZVPC11bsIu/PpYQ+VnRFL4h5?=
- =?us-ascii?Q?oCiWIhvodIIWyG6hOSaAKcx09yn/AWxwFDm8UFPqT07KvHcj9lN8UCLu8vZT?=
- =?us-ascii?Q?qc+yxq0jokfGBdwOU3flcXdExrR8QkgIft5Koub67CNLYjoE9FwZzVWtwIBx?=
- =?us-ascii?Q?vbsWH5a1CxRBRROX0SGHDELjsIxSulZT44BN3CdcLB9PS6RP7XMSMdY+VCyO?=
- =?us-ascii?Q?BOzQestgtbQAfmLE38lAgh6uRWyMNo40208LKxXHpwg82AJ94HUCEVDPHs/9?=
- =?us-ascii?Q?3SjoDPDtbAwuVHMnMnFkI9wyB6+H5LCOUiC2W86cUZzVScBwb0wg4Z8XWVvQ?=
- =?us-ascii?Q?CQMzRWTVIYHyNuVOT0rjXYcTkUSieU99ReI/PCKP7PJmkFrj8KQ4srpPrOT9?=
- =?us-ascii?Q?ZBqUAn+H9NiUAs+PJpQhk9DExYn02UrAjhUhtdLuFrM59dLcVQcChyuaLJkx?=
- =?us-ascii?Q?gv6t+KhWaQXAAC+UNaLeqRO3Jr+81HdDbemgpVoEgkq5CyUbaC5/YScR86zK?=
- =?us-ascii?Q?2b4bWi3dF3rLwCTMxAJ5w5Wgcw3/VcE9Q8ttBtWLskl9kcFmJLM5hUKg7NSZ?=
- =?us-ascii?Q?0kkLl8Deww+ZAezIEc/KuQPFd4Qc/+XQr3pQS53o3KBymtbgmH+A7/pnHDNz?=
- =?us-ascii?Q?Gtz5gqCtECEoGGSqlIvJpgNa29Q61UoCfRIquDaBDJHh03l1wGse+92JEfkO?=
- =?us-ascii?Q?ri2xmHgUS6K3omGfLJIO/WQCGRaqscaTBrBUVP3hcM5xKvoajyVGvRd1ykPl?=
- =?us-ascii?Q?iTSyR7HAbTrnGw9H0q0Gcp1LbMZFekgM6a+X8x3Uw1yRbYG7km3UQQMqA+hp?=
- =?us-ascii?Q?XE0bpLTkkrARLcruX6VP1PohGcR5wRy+y4JKkA3+BU/oS4p+cpQGgCsF1Tgd?=
- =?us-ascii?Q?pbde8pvLBxQqkYVFqCubfmyj2dhWAdbBkj17w4tP45jKTx95WgQn7jOU2vWs?=
- =?us-ascii?Q?4OL71sjqiuCaYgwiiEsCwkA2vUEI+bGkTk7Yrlb5TXypv/4+fQwcrCBJIao0?=
- =?us-ascii?Q?KA5QSv7dm+E=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(921020)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HmxVQWItBEPmDkffc2HLhK3AZkvi1vyG30nZfxeeuFNAai7kkez5wujepvIt?=
- =?us-ascii?Q?UAJMbwVhWdpXs5jlJuIc5cbQoOcydw5rClrg7hHcrnJEpZohTOw8fMZLAUvT?=
- =?us-ascii?Q?j7DxWJXf08En9YqLvadlFTRLoSSll1MT+8CL4gsnWGRJEq1AJy8mKMjhcJo6?=
- =?us-ascii?Q?FUKJNhzszyF50tIfhc25B0hfRsVQXBX0NCE83JXz4chJPETu2bTFs4zLrYL+?=
- =?us-ascii?Q?NnyyuMHstFZEKcYAFNchswz3KgxxXve5dS+ZnYxwOsggUOVrERHATFZpDB1Y?=
- =?us-ascii?Q?0NbENFfHpxjEUeIDa2OCXQdiebNr058H2J4UB+EJL9ACr1N7dvw/YYgtwJrT?=
- =?us-ascii?Q?iMuLcyqLAlKnnPsM44FcDATl8WCr+MN+zvFQLtbogVGX/Cf6Hp+R88TlVQlu?=
- =?us-ascii?Q?49D7Hji/4YkeRbvXk6Oiw1Led3lD2OCXETGXVglpPe94cEw9f0o6UiV6OTOg?=
- =?us-ascii?Q?wW3Vm/55XW8NpIbNueqi0xnpHFFR40KFPPRmD7iHZKWo16YlgnLG9aI8oWiZ?=
- =?us-ascii?Q?XymG9uE0R9Ffnd6PsUMhUmrkRRdIb/c1OnNEkJ656lxITCZDaWGO18fQCTc6?=
- =?us-ascii?Q?ZfXXuvg+0L3pYf4J0XMiap1R3FIAu0b6eLNqajPNZIeSMvsZCo6PeBmC05Fv?=
- =?us-ascii?Q?fYBhhLVijxqfVauU3AFYVSoYMXISFwfeCH/bret46Nf4yxmrpz9FU0tuDw23?=
- =?us-ascii?Q?UOJYiEsU4duh8DC5mLjPhOsbuj0YNsAwUmjjiqYM78x2yzbRTlbKcZhH9J5Z?=
- =?us-ascii?Q?F+cMbd/+avC2OAlROgGCxbuOIEBmxti/B55SGCSym1DVjUlMUbyCvtTDHpmB?=
- =?us-ascii?Q?sFLpY3mV2sdbq2H6Fgji+uE2ISalSecKrgunu3/ejyTr7e4aVBFjfhgFAALA?=
- =?us-ascii?Q?mf6imvvTCF1vmUlrW70BBfFEtkLDmZhYp8HP2YetINBYif4PbRJBOfGqO6GC?=
- =?us-ascii?Q?1V88i+Xw31bYEE3qpw4x+MyRUigu8a8vGCoULRnLq8w9JzHP5xUDHZOjXfIg?=
- =?us-ascii?Q?r1JqPjqpYWhhuuJ0Nxuk+pLu9vUhu1LyRQkhUmSUq2GD+ZWJTgK0aBPM4F7s?=
- =?us-ascii?Q?nwjb2aQEpWbAk/8ykqVZngAowzWua8rvu5sQ4Jb0QhVN1bj9u4nfQmJpbVFx?=
- =?us-ascii?Q?87rv2MMaFu6s7ksoUnxK/AYmxWEFmnMsWaWLDD0nACu55/Wlrs+2LfZflKYv?=
- =?us-ascii?Q?BMLbbagD/qey75eTQ+sTXklCMoTSw4rqpyUhKn4Py+fZ0sgKfB5KmB4iGS6z?=
- =?us-ascii?Q?oggmEVBRaYJc4s7Q1yeIDr4m+5qK8LOGk8jPyBsxmzDKYShTHBSPTy/SNRsQ?=
- =?us-ascii?Q?DPa1APp8EYzyaYWn+XTCTgdJhaeGneNbeV3tsUBkpzUKv5/ZCkI3ostw8ycV?=
- =?us-ascii?Q?e2tjX2DA0/Pu/gFJfsTUz8THtwiLtMu820M/cR0L63b7TY1S2SE+2b6pwHRd?=
- =?us-ascii?Q?aUxpukIQFqPc3GaAB5TpOLnBqwFVFcDaG8MoMJ8130C0Jae8R2fmvPBWilyh?=
- =?us-ascii?Q?4c8mUt/6ewg3h5+U4xKW1M6uFYgDAIW4S7Igxt2MRJWjxi/K8YfYNHp6+mX+?=
- =?us-ascii?Q?5vG4RBBJdVxpjP2xGrd2/Hioqmm14yK8Ud/99w91wR8ehwh7z3SmpMXHJF4G?=
- =?us-ascii?Q?MhGg+jjeL1MLnJUdKto8Nxw=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a071dae-5385-40fe-b17a-08dcccb71669
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2024 07:56:30.8028 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yR78lnPVRXpd2K3+GWceYQFq1sL5En284tZEHkz49OaTXU3eHsBV3dD/4J2SPWZc6qZNDQhm+oEox7VkdAQEkg32iKEfVjTiqDiYof3og2Cw9YkpwPNm3s9fxdfBb1gE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11759
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,24 +68,305 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue,  3 Sep 2024 21:25:36 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Hi
-
-> Now we can use new port related functions for port parsing. Use it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Drawing from the FW-calculated values in the previous commit, we can
+> increase the numbers for an open file by collecting them from finished jo=
+bs
+> when updating their group synchronisation objects.
+>=20
+> Display of fdinfo key-value pairs is governed by a flag that is by default
+> disabled in the present commit, and supporting manual toggle of it will be
+> the matter of a later commit.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 > ---
+>  drivers/gpu/drm/panthor/panthor_devfreq.c | 18 ++++++++-
+>  drivers/gpu/drm/panthor/panthor_device.h  | 14 +++++++
+>  drivers/gpu/drm/panthor/panthor_drv.c     | 35 ++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_sched.c   | 45 +++++++++++++++++++++++
+>  4 files changed, 111 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/=
+panthor/panthor_devfreq.c
+> index c6d3c327cc24..9d0f891b9b53 100644
+> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
+> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> @@ -62,14 +62,20 @@ static void panthor_devfreq_update_utilization(struct=
+ panthor_devfreq *pdevfreq)
+>  static int panthor_devfreq_target(struct device *dev, unsigned long *fre=
+q,
+>  				  u32 flags)
+>  {
+> +	struct panthor_device *ptdev =3D dev_get_drvdata(dev);
+>  	struct dev_pm_opp *opp;
+> +	int err;
+> =20
+>  	opp =3D devfreq_recommended_opp(dev, freq, flags);
+>  	if (IS_ERR(opp))
+>  		return PTR_ERR(opp);
+>  	dev_pm_opp_put(opp);
+> =20
+> -	return dev_pm_opp_set_rate(dev, *freq);
+> +	err =3D dev_pm_opp_set_rate(dev, *freq);
+> +	if (!err)
+> +		ptdev->current_frequency =3D *freq;
+> +
+> +	return err;
+>  }
+> =20
+>  static void panthor_devfreq_reset(struct panthor_devfreq *pdevfreq)
+> @@ -130,6 +136,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  	struct panthor_devfreq *pdevfreq;
+>  	struct dev_pm_opp *opp;
+>  	unsigned long cur_freq;
+> +	unsigned long freq =3D ULONG_MAX;
+>  	int ret;
+> =20
+>  	pdevfreq =3D drmm_kzalloc(&ptdev->base, sizeof(*ptdev->devfreq), GFP_KE=
+RNEL);
+> @@ -161,6 +168,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  		return PTR_ERR(opp);
+> =20
+>  	panthor_devfreq_profile.initial_freq =3D cur_freq;
+> +	ptdev->current_frequency =3D cur_freq;
+> =20
+>  	/* Regulator coupling only takes care of synchronizing/balancing voltage
+>  	 * updates, but the coupled regulator needs to be enabled manually.
+> @@ -204,6 +212,14 @@ int panthor_devfreq_init(struct panthor_device *ptde=
+v)
+> =20
+>  	dev_pm_opp_put(opp);
+> =20
+> +	/* Find the fastest defined rate  */
+> +	opp =3D dev_pm_opp_find_freq_floor(dev, &freq);
+> +	if (IS_ERR(opp))
+> +		return PTR_ERR(opp);
+> +	ptdev->fast_rate =3D freq;
+> +
+> +	dev_pm_opp_put(opp);
+> +
+>  	/*
+>  	 * Setup default thresholds for the simple_ondemand governor.
+>  	 * The values are chosen based on experiments.
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
+anthor/panthor_device.h
+> index a48e30d0af30..0e68f5a70d20 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -184,6 +184,17 @@ struct panthor_device {
+> =20
+>  	/** @profile_mask: User-set profiling flags for job accounting. */
+>  	u32 profile_mask;
+> +
+> +	/** @current_frequency: Device clock frequency at present. Set by DVFS*/
+> +	unsigned long current_frequency;
+> +
+> +	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+> +	unsigned long fast_rate;
+> +};
 
-I'm sorry, but this patch will get below warning
+Can we move the current_frequency/fast_rate retrieval in a separate
+patch?
 
-   drivers/media/platform/xilinx/xilinx-tpg.c: In function 'xtpg_parse_of':
->> drivers/media/platform/xilinx/xilinx-tpg.c:715:29: warning: unused variable 'port' [-Wunused-variable]
+> +
+> +struct panthor_gpu_usage {
+> +	u64 time;
+> +	u64 cycles;
+>  };
+> =20
+>  /**
+> @@ -198,6 +209,9 @@ struct panthor_file {
+> =20
+>  	/** @groups: Scheduling group pool attached to this file. */
+>  	struct panthor_group_pool *groups;
+> +
+> +	/** @stats: cycle and timestamp measures for job execution. */
+> +	struct panthor_gpu_usage stats;
+>  };
+> =20
+>  int panthor_device_init(struct panthor_device *ptdev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index b5e7b919f241..e18838754963 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -3,12 +3,17 @@
+>  /* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
+>  /* Copyright 2019 Collabora ltd. */
+> =20
+> +#ifdef CONFIG_ARM_ARCH_TIMER
+> +#include <asm/arch_timer.h>
+> +#endif
+> +
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/time64.h>
+> =20
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_drv.h>
+> @@ -1351,6 +1356,34 @@ static int panthor_mmap(struct file *filp, struct =
+vm_area_struct *vma)
+>  	return ret;
+>  }
+> =20
+> +static void panthor_gpu_show_fdinfo(struct panthor_device *ptdev,
+> +				    struct panthor_file *pfile,
+> +				    struct drm_printer *p)
+> +{
+> +	if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP) {
+> +#ifdef CONFIG_ARM_ARCH_TIMER
+> +		drm_printf(p, "drm-engine-panthor:\t%llu ns\n",
+> +			   DIV_ROUND_UP_ULL((pfile->stats.time * NSEC_PER_SEC),
+> +					    arch_timer_get_cntfrq()));
+> +#endif
+> +	}
+> +	if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+> +		drm_printf(p, "drm-cycles-panthor:\t%llu\n", pfile->stats.cycles);
 
-I will post v6 after review
+Don't know if that's an issue, but another thread might be updating the
+stats while show_fdinfo() is run, which means the data you return might
+be coming from two different sampling points.
 
-Thank you for your help !!
+> +
+> +	drm_printf(p, "drm-maxfreq-panthor:\t%lu Hz\n", ptdev->fast_rate);
+> +	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_frequenc=
+y);
+> +}
+> +
+> +static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *=
+file)
+> +{
+> +	struct drm_device *dev =3D file->minor->dev;
+> +	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
+e, base);
+> +
+> +	panthor_gpu_show_fdinfo(ptdev, file->driver_priv, p);
+> +
+> +	drm_show_memory_stats(p, file);
+> +}
+> +
+>  static const struct file_operations panthor_drm_driver_fops =3D {
+>  	.open =3D drm_open,
+>  	.release =3D drm_release,
+> @@ -1360,6 +1393,7 @@ static const struct file_operations panthor_drm_dri=
+ver_fops =3D {
+>  	.read =3D drm_read,
+>  	.llseek =3D noop_llseek,
+>  	.mmap =3D panthor_mmap,
+> +	.show_fdinfo =3D drm_show_fdinfo,
+>  };
+> =20
+>  #ifdef CONFIG_DEBUG_FS
+> @@ -1378,6 +1412,7 @@ static const struct drm_driver panthor_drm_driver =
+=3D {
+>  			   DRIVER_SYNCOBJ_TIMELINE | DRIVER_GEM_GPUVA,
+>  	.open =3D panthor_open,
+>  	.postclose =3D panthor_postclose,
+> +	.show_fdinfo =3D panthor_show_fdinfo,
+>  	.ioctls =3D panthor_drm_driver_ioctls,
+>  	.num_ioctls =3D ARRAY_SIZE(panthor_drm_driver_ioctls),
+>  	.fops =3D &panthor_drm_driver_fops,
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
+nthor/panthor_sched.c
+> index b087648bf59a..e69ab5175ae8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -619,6 +619,18 @@ struct panthor_group {
+>  	 */
+>  	struct panthor_kernel_bo *syncobjs;
+> =20
+> +	/** @fdinfo: Per-file total cycle and timestamp values reference. */
+> +	struct {
+> +		/** @data: Pointer to actual per-file sample data. */
+> +		struct panthor_gpu_usage *data;
+> +
+> +		/**
+> +		 * @lock: Mutex to govern concurrent access from drm file's fdinfo cal=
+lback
+> +		 * and job post-completion processing function
+> +		 */
+> +		struct mutex lock;
+> +	} fdinfo;
+> +
+>  	/** @state: Group state. */
+>  	enum panthor_group_state state;
+> =20
+> @@ -886,6 +898,8 @@ static void group_release_work(struct work_struct *wo=
+rk)
+>  						   release_work);
+>  	u32 i;
+> =20
+> +	mutex_destroy(&group->fdinfo.lock);
+> +
+>  	for (i =3D 0; i < group->queue_count; i++)
+>  		group_free_queue(group, group->queues[i]);
+> =20
+> @@ -2808,6 +2822,28 @@ void panthor_sched_post_reset(struct panthor_devic=
+e *ptdev, bool reset_failed)
+>  	}
+>  }
+> =20
+> +static void update_fdinfo_stats(struct panthor_job *job)
+> +{
+> +	struct panthor_group *group =3D job->group;
+> +	struct panthor_queue *queue =3D group->queues[job->queue_idx];
+> +	struct panthor_gpu_usage *fdinfo;
+> +	struct panthor_job_profiling_data *times;
+> +
+> +	times =3D (struct panthor_job_profiling_data *)
+> +		((unsigned long) queue->profiling_info.slots->kmap +
+> +		 (job->profiling_slot * sizeof(struct panthor_job_profiling_data)));
+> +
+> +	mutex_lock(&group->fdinfo.lock);
+> +	if ((group->fdinfo.data)) {
+> +		fdinfo =3D group->fdinfo.data;
+> +		if (job->profile_mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+> +			fdinfo->cycles +=3D times->cycles.after - times->cycles.before;
+> +		if (job->profile_mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+> +			fdinfo->time +=3D times->time.after - times->time.before;
+> +	}
+> +	mutex_unlock(&group->fdinfo.lock);
+> +}
+> +
+>  static void group_sync_upd_work(struct work_struct *work)
+>  {
+>  	struct panthor_group *group =3D
+> @@ -2840,6 +2876,8 @@ static void group_sync_upd_work(struct work_struct =
+*work)
+>  	dma_fence_end_signalling(cookie);
+> =20
+>  	list_for_each_entry_safe(job, job_tmp, &done_jobs, node) {
+> +		if (job->profile_mask)
+> +			update_fdinfo_stats(job);
+>  		list_del_init(&job->node);
+>  		panthor_job_put(&job->base);
+>  	}
+> @@ -3430,6 +3468,9 @@ int panthor_group_create(struct panthor_file *pfile,
+>  	}
+>  	mutex_unlock(&sched->reset.lock);
+> =20
+> +	group->fdinfo.data =3D &pfile->stats;
+> +	mutex_init(&group->fdinfo.lock);
+> +
+>  	return gid;
+> =20
+>  err_put_group:
+> @@ -3469,6 +3510,10 @@ int panthor_group_destroy(struct panthor_file *pfi=
+le, u32 group_handle)
+>  	mutex_unlock(&sched->lock);
+>  	mutex_unlock(&sched->reset.lock);
+> =20
+> +	mutex_lock(&group->fdinfo.lock);
+> +	group->fdinfo.data =3D NULL;
+> +	mutex_unlock(&group->fdinfo.lock);
+> +
+>  	group_put(group);
+>  	return 0;
+>  }
 
-Best regards
----
-Kuninori Morimoto
