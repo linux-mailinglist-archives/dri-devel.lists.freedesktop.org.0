@@ -2,71 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08EAC96B487
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC7C96B48D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:31:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9B8110E6B9;
-	Wed,  4 Sep 2024 08:29:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E991610E6C9;
+	Wed,  4 Sep 2024 08:31:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="JcgFPalb";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="PLZByGru";
+	dkim=pass (2048-bit key; unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com header.b="ILQx7ecp";
+	dkim=pass (2048-bit key; unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com header.b="b731fm+4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F9D10E6B9
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:29:50 +0000 (UTC)
+Received: from gw2.atmark-techno.com (gw2.atmark-techno.com [35.74.137.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5873B10E190
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:31:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=atmark-techno.com;
+ s=gw2_bookworm; t=1725438678;
+ bh=12N3q46XQiecPb2oufmrGICQCBcT5ecdudDGcuTf44E=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ILQx7ecpTvUCHqc5lj3wAK15OxOUbxTVwjQsW5/97Pl44LokJI8jXjsj80z25OuDF
+ iM7OkDO/nDW5vWYHvLDHeKlBrqqRpfxrbKKFel16AoF4nFao+eJTH/td1xUs18+Vg7
+ f7UyGD576y/ZkJheLuYv7be4lGBReQQunP6mAdl+v9EqiZnCDRMIwQKLyG3VrZd+W6
+ g+eJVyPOCdeVYwqoOsD4MMddFZDpjc3p6Sr54v2ITJ0Xs0lJuODf7hEZkjoB7sTxgn
+ awA6LvefK9wo3KQK8arMeelgkhNohKGrb4V7FPBBsA7XnBbXQ0m6bVtSYHizEbLKPd
+ NpsY9T02GdHag==
+Received: from gw2.atmark-techno.com (localhost [127.0.0.1])
+ by gw2.atmark-techno.com (Postfix) with ESMTP id 005A16BB
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 17:31:17 +0900 (JST)
+Authentication-Results: gw2.atmark-techno.com; dkim=pass (2048-bit key;
+ unprotected) header.d=atmark-techno.com header.i=@atmark-techno.com
+ header.a=rsa-sha256 header.s=google header.b=b731fm+4; 
+ dkim-atps=neutral
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197])
+ by gw2.atmark-techno.com (Postfix) with ESMTPS id 7EA7C684
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 17:31:15 +0900 (JST)
+Received: by mail-pg1-f197.google.com with SMTP id
+ 41be03b00d2f7-6c8f99fef10so6968395a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 01:31:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1725438591; x=1756974591;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qr5M44lPqooJeBjxin8WHsmbuDIe92aC2YJzqZ6za/c=;
- b=JcgFPalbaXbDR/Q4T+eiYO2Qx47PRsG/YvOLDG0vxC9Iek6GOOHhjCm9
- o7uuYjcp+UeWkMfr0naudMlh45KDE/fyvBBEdIlMseKL2lznkN1TF0TM5
- rLL+W3vI2GdL923VEyIGHvTEpdNX/0LlNCh/+/wcvyNtIg0MwjflU5LUM
- 919xcOzcx7NduvCwUr48Ap262nk8/Nv5PCfSOXTee0fL6UhzbzKFZ933M
- npQzUWco98W2XnTOsyJP1VaZot0kqaj/AALGfAerxNQKCdhZBZEcBaGgn
- 8JZxbDyBIZz0m5ZbKShggDiyV23AMXfLIS+EGiN0FmYrqFkfJ9NO0YDV2 A==;
-X-CSE-ConnectionGUID: OIlkvrrGSpqpBSi7JS8oAg==
-X-CSE-MsgGUID: J7pRoD1OSQCTbZ6bUEcByA==
-X-IronPort-AV: E=Sophos;i="6.10,201,1719871200"; d="scan'208";a="38755639"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 04 Sep 2024 10:29:49 +0200
-X-CheckPoint: {66D81A7D-5-C661815F-E221238E}
-X-MAIL-CPID: A3394C295629C962D413CA05F12BF974_1
-X-Control-Analysis: str=0001.0A782F22.66D81A7D.0116, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0FC85168CAC; Wed,  4 Sep 2024 10:29:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1725438584;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=qr5M44lPqooJeBjxin8WHsmbuDIe92aC2YJzqZ6za/c=;
- b=PLZByGruFuWQk9AHke+G++t4jPm4iXEISDxcOBaSDf8jU/Yp/iXgeUwltpmsOhVWHNHG1y
- 84c8HUojTbU9MdGnT7wraAoYSaAn3rvVz5nR6E3rS8KsG0QupffCJIKpwZCujPTcNf3TUj
- ebzUBEIJqnMCGaxapo/NSslM0NHbDI2RQ+CivVoQ/rJUKr2rN7SHqMAymNLvPDvgmXXJZh
- eiRt2mD7IXxkeMyrz/rjR0HGgGuR4Sq2y8ucyG1lEx7o5KoyArR5xz8NJYxTf8sQJ5/Vn0
- PUR/aguibohaQ2p+r8nOKhA4Mt3qT6mcjskKwUWjxGsOZmtRWNWYBPZZg0vG7Q==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org
-Cc: javierm@redhat.com, deller@gmx.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 21/43] drm/fbdev-dma: Implement damage handling and
- deferred I/O
-Date: Wed, 04 Sep 2024 10:29:43 +0200
-Message-ID: <3312559.aeNJFYEL58@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <2846e207-43d5-4164-8a2e-5ce9d2aaab38@suse.de>
-References: <20240419083331.7761-1-tzimmermann@suse.de>
- <CACRpkdb+hb9AGavbWpY-=uQQ0apY9en_tWJioPKf_fAbXMP4Hg@mail.gmail.com>
- <2846e207-43d5-4164-8a2e-5ce9d2aaab38@suse.de>
+ d=atmark-techno.com; s=google; t=1725438674; x=1726043474;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wl5lFlZZmqmzzNDLDZabcElQI0pBWjUywY0vrZnCNgA=;
+ b=b731fm+4JCe0OON+QX2RqrV2/21R58eMh+GqX51SxnC5yJQbP+Depdp9u2GAWSgo0M
+ dijWYOw/Um9hRlxy64ufWr2E+RkOyYMXT8A3FgToPvXc6v5vTa7g0rKvpPQtZ6zl15l5
+ fgB0/AWX3Od4g+2u59TNLt9xWUeO6MPMIytQxouvdUo2wTRhQXku0a4RB76JJER10Yly
+ WWaIkqGB+tZkWMXEBxbEzCVWq+WhPn8ub8HynWJXX4OUup8Vq76nZeL9GjgjMxL14Wab
+ /awDDaslM1NJ5/f2G7eiVm2rPxrjboAWyZi+vlyyecsExRP0BNpm6c5M9eQotBULqpuI
+ TKNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725438674; x=1726043474;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wl5lFlZZmqmzzNDLDZabcElQI0pBWjUywY0vrZnCNgA=;
+ b=oM6V7Nyi6g9xEPkjrVaB/BMLH9ib2hmKE6d9d0qKaeSYXA2TltnYaEwDG8oreC0bF9
+ 4ZoARrn74HQ+rmIIGbAKa1/jbe3Ac9a+NyuypD2faeQq59djaTwMk1T3uS6ie/eg0eMX
+ zH8Mstszr5eQeqtCCAXHPNKHlzg0H0Psb5GHaLaD/X0hShIfNAVnccuBDzrx3FdVKKdP
+ E5fUw/fSbSrcaR19Rv11oSqnLofRef7/FScewljEvQD5FJXHMcrkvr4NZnDfSuT6pKao
+ LiduO8g7dFnewTVrWqWs4FiqTAGJBAWlUhQfNdMqXbuXaxlpKUGYL5vO0N4YxQHIUh6O
+ +i8A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9BfQl8KlN5gCdAvby7gKmsU7zVbkP9CuWADNNOA6xa8IkZnRYQLDjYJNndQBc5N8KS2A4vmnXoZc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQCfq9vU3pcLFVW+x9xTQZ0MsQFInX8srJ5S/6oWQo8NQTllUz
+ cAfLWSzxI2B1afDutjcu/Hirvgvgz68qTLh2mYLNGtOAz5qJyTm18aH4ntqVPUVdbwBJlWM1ETh
+ sHrbFiEBSfOQrGoG8NBXDJG4gzwH+eOUtPeICZI43TA3i1L6nZY6xBQNW5dj/oTCffeY=
+X-Received: by 2002:a17:902:d2d0:b0:205:5544:bad6 with SMTP id
+ d9443c01a7336-20584230d75mr94740595ad.55.1725438674419; 
+ Wed, 04 Sep 2024 01:31:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEgJbK93rPoTGn7e+5VtWYSo3ES6TsSkat4XXudfYHMjSL/FnAwD5lW7dBeTsvIE7zMeiGN1A==
+X-Received: by 2002:a17:902:d2d0:b0:205:5544:bad6 with SMTP id
+ d9443c01a7336-20584230d75mr94740425ad.55.1725438674064; 
+ Wed, 04 Sep 2024 01:31:14 -0700 (PDT)
+Received: from pc-0182.atmarktech (117.209.187.35.bc.googleusercontent.com.
+ [35.187.209.117]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-206ae968f78sm9198335ad.119.2024.09.04.01.31.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 04 Sep 2024 01:31:13 -0700 (PDT)
+Received: from [::1] (helo=pc-0182.atmark.tech)
+ by pc-0182.atmarktech with esmtp (Exim 4.96)
+ (envelope-from <dominique.martinet@atmark-techno.com>)
+ id 1sllPz-005H8O-2o; Wed, 04 Sep 2024 17:31:11 +0900
+From: Dominique Martinet <dominique.martinet@atmark-techno.com>
+To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Cc: Adam Ford <aford173@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Dominique Martinet <dominique.martinet@atmark-techno.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: imx8mp-hdmi-tx: allow 0.5% margin with selected
+ clock
+Date: Wed,  4 Sep 2024 17:31:01 +0900
+Message-Id: <20240904083103.1257480-1-dominique.martinet@atmark-techno.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,212 +124,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This allows the hdmi driver to pick e.g. 64.8MHz instead of 65Mhz when we
+cannot output the exact frequency, enabling the imx8mp HDMI output to
+support more modes
 
-Am Mittwoch, 4. September 2024, 09:41:12 CEST schrieb Thomas Zimmermann:
-> Hi Linus, Alexander,
->=20
-> Attached is a patch to mitigate the problem and go back to the old=20
-> behavior for pl111. Can you please test it on affected and unaffected=20
-> systems and report the results?
+Signed-off-by: Dominique Martinet <dominique.martinet@atmark-techno.com>
+---
+This completes the patch series sent by Adam Ford here:
+https://lkml.kernel.org/r/20240904023310.163371-1-aford173@gmail.com
 
-Thank you for the patch. This indeed fixes the mmap problem on my i.MX6
-platform which only has Normal memory:
-
-[    0.000000] Zone ranges:
-[    0.000000]   Normal   [mem 0x0000000010000000-0x000000002fffffff]
-[    0.000000]   HighMem  empty
-
-But please note this is not pl111 based but IPUv3 (drivers/gpu/ipu-v3).
-You might want to adjust the commit message.
-
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-Best regards,
-Alexander
-
-> Am 04.09.24 um 00:53 schrieb Linus Walleij:
-> > On Fri, Apr 19, 2024 at 10:35=E2=80=AFAM Thomas Zimmermann <tzimmermann=
-@suse.de> wrote:
-> >
-> >> Add support for damage handling and deferred I/O to fbdev-dma. This
-> >> enables fbdev-dma to support all DMA-memory-based DRM drivers, even
-> >> such with a dirty callback in their framebuffers.
-> >>
-> >> The patch adds the code for deferred I/O and also sets a dedicated
-> >> helper for struct fb_ops.fb_mmap that support coherent mappings.
-> >>
-> >> v3:
-> >> - init fb_ops with FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS() (Javier)
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> > For some reason this makes the Versatile Express crash in QEMU
-> > (I can retest on real hardware if necessary):
-> >
-> > 8<--- cut here ---
-> > Unable to handle kernel paging request at virtual address 18095000 when=
- write
-> > [18095000] *pgd=3D00000000
-> > Internal error: Oops: 805 [#1] SMP ARM
-> > CPU: 0 PID: 75 Comm: S08_ledflash Not tainted 6.9.0-rc6+ #44
-> > Hardware name: ARM-Versatile Express
-> > PC is at mmioset+0x34/0xac
-> > LR is at 0x0
-> > pc : [<809c2a54>]    lr : [<00000000>]    psr: 20000013
-> > sp : f8dddc38  ip : 18095000  fp : 00000000
-> > r10: 81109a18  r9 : 81238b04  r8 : 00000000
-> > r7 : 00440dc0  r6 : ed4f32a0  r5 : ed4f32a0  r4 : 00000001
-> > r3 : 00000000  r2 : 00000fc0  r1 : 00000000  r0 : 18095000
-> > Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> > Control: 10c5387d  Table: 81d6406a  DAC: 00000051
-> > Register r0 information: non-paged memory
-> > Register r1 information: NULL pointer
-> > Register r2 information: non-paged memory
-> > Register r3 information: NULL pointer
-> > Register r4 information: non-paged memory
-> > Register r5 information: non-slab/vmalloc memory
-> > Register r6 information: non-slab/vmalloc memory
-> > Register r7 information: non-paged memory
-> > Register r8 information: NULL pointer
-> > Register r9 information: non-slab/vmalloc memory
-> > Register r10 information: non-slab/vmalloc memory
-> > Register r11 information: NULL pointer
-> > Register r12 information: non-paged memory
-> > Process S08_ledflash (pid: 75, stack limit =3D 0x(ptrval))
-> > Stack: (0xf8dddc38 to 0xf8dde000)
-> > dc20:                                                       00000801 80=
-2af888
-> > dc40: 80a0fb80 00440dc0 00000801 811fad80 00000000 f8dddd28 ed4f32a0 81=
-1fa680
-> > dc60: 00000000 802b0c30 ee1d2140 ee1d215c 95ff4385 00000001 00000001 00=
-000001
-> > dc80: 00000000 00000000 ffffffff 8196a70b 000000b0 00000064 0000006c 00=
-000000
-> > dca0: 00000001 00000002 00000001 811fa798 00000801 811fa940 80a0fb80 00=
-000cc0
-> > dcc0: 00000001 00000001 00000000 f8dddd28 811fa93c 811fa680 00000002 80=
-2b0c30
-> > dce0: ee1d2140 00440dc0 00000000 00000000 00000001 00000000 811fad80 00=
-440dc0
-> > dd00: 00000001 00000000 00000000 83201100 00440dc0 00000000 00000000 80=
-2afa18
-> > dd20: 00000bdc 00000bd8 811fad80 00000000 811fad80 00000000 00000000 00=
-000000
-> > dd40: adf00ec5 816d5fa8 816d5fa8 821c3c00 00000000 7ebc2000 7ebe3000 00=
-000000
-> > dd60: f8ddde44 8028cfa0 816d5fa8 8288df50 8169cf00 821c3c00 7ebc2000 7e=
-be3000
-> > dd80: f8ddde44 8028e1e8 00000001 80bbe932 f8ddde44 f8dddde8 f8ddde44 82=
-88df50
-> > dda0: 83201100 809cf474 f8ddde44 8169cf00 00000020 8169cf94 821c3c94 7e=
-be3000
-> > ddc0: 7ebe2fff fffffff4 00000000 816d5fa8 821c3c00 8169cf00 81d65fa8 80=
-9cdbb0
-> > dde0: 8288df50 81ffa910 7ebe3000 82890b00 00000000 00000000 00000000 00=
-000000
-> > de00: 00000000 00000000 adf00ec5 00000000 00000000 8169cf00 8288df50 83=
-201100
-> > de20: 821c3c00 81ffa910 f8ddde44 8011f6e4 00000000 00000000 821c3c7c 81=
-69cf7c
-> > de40: 83200880 821c3c40 7ebc2000 7ebe2fff 82890b0c 76ea4000 ffffffff 00=
-000000
-> > de60: 00000000 0f000a01 f8ddde68 f8ddde68 adf00ec5 00000000 00000000 00=
-000000
-> > de80: 00000000 01200000 83201100 00000000 00000000 8011e2ac 00000000 83=
-200d7c
-> > dea0: 83201020 83200e70 83200e80 00000000 f8dddf30 83200880 00000000 00=
-000000
-> > dec0: 00000000 00000000 00000000 82182f38 adf00ec5 00000000 01200000 f8=
-dddf30
-> > dee0: 00000000 00000000 00000000 00000078 000cb21c 8011fe24 00000020 00=
-000000
-> > df00: 828a5d80 80a10140 adf00ec5 01200011 00000000 00000000 00000000 f8=
-dddf30
-> > df20: 00000000 00000078 000cb21c 801203d4 01200000 00000000 00000000 76=
-f46468
-> > df40: 00000000 00000000 00000011 00000000 00000000 00000000 00000000 00=
-000000
-> > df60: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00=
-000000
-> > df80: 00000003 adf00ec5 76f46468 00000000 76f468c0 00000078 80100290 83=
-201100
-> > dfa0: 000cb21c 80100060 76f46468 00000000 01200011 00000000 00000000 00=
-000000
-> > dfc0: 76f46468 00000000 76f468c0 00000078 00000000 76e81000 76f46400 00=
-0cb21c
-> > dfe0: 00000078 7ebe2938 76e0854d 76dae7e6 20000030 01200011 00000000 00=
-000000
-> > Call trace:
-> >   mmioset from prep_new_page+0x160/0x194
-> >   prep_new_page from get_page_from_freelist+0x10f4/0x110c
-> >   get_page_from_freelist from __alloc_pages+0x15c/0x280
-> >   __alloc_pages from __pte_alloc+0x28/0x1bc
-> >   __pte_alloc from copy_page_range+0xc10/0xd28
-> >   copy_page_range from copy_mm+0x5cc/0x850
-> >   copy_mm from copy_process+0x508/0xd8c
-> >   copy_process from kernel_clone+0x94/0x338
-> >   kernel_clone from sys_clone+0x94/0xb0
-> >   sys_clone from ret_fast_syscall+0x0/0x1c
-> > Exception stack(0xf8dddfa8 to 0xf8dddff0)
-> > dfa0:                   76f46468 00000000 01200011 00000000 00000000 00=
-000000
-> > dfc0: 76f46468 00000000 76f468c0 00000078 00000000 76e81000 76f46400 00=
-0cb21c
-> > dfe0: 00000078 7ebe2938 76e0854d 76dae7e6
-> > Code: e92d4100 e1a08001 e1a0e003 e2522040 (a8ac410a)
-> > ---[ end trace 0000000000000000 ]---
-> >
-> > I bisected down to this commit and reverting the commit solves the issu=
-e.
-> >
-> > What is special about the Versatile Express graphics is that it uses a =
-special
-> > dedicated video RAM, looks like this in the device tree
-> >
-> >
-> >          reserved-memory {
-> >                  #address-cells =3D <1>;
-> >                  #size-cells =3D <1>;
-> >                  ranges;
-> >
-> >                  /* Chipselect 3 is physically at 0x4c000000 */
-> >                  vram: vram@4c000000 {
-> >                          /* 8 MB of designated video RAM */
-> >                          compatible =3D "shared-dma-pool";
-> >                          reg =3D <0x4c000000 0x00800000>;
-> >                          no-map;
-> >                  };
-> >          };
-> > (...)
-> >           clcd@1f000 {
-> >                        compatible =3D "arm,pl111", "arm,primecell";
-> > (...)
-> >                        memory-region =3D <&vram>;
-> >
-> > This gets picked up in the driver
-> > drivers/gpu/drm/pl111/pl111_drv.c
-> > like this:
-> >
-> >          ret =3D of_reserved_mem_device_init(dev);
-> >          if (!ret) {
-> >                  dev_info(dev, "using device-specific reserved memory\n=
-");
-> >                  priv->use_device_memory =3D true;
-> >          }
-> >
-> > Yours,
-> > Linus Walleij
->=20
->=20
+and makes the cheap screens we recommend work with our imx8mp board
+without further kludging.
 
 
-=2D-=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-http://www.tq-group.com/
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+index 13bc570c5473..9431cd5e06c3 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
++++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+@@ -23,6 +23,7 @@ imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
+ 		       const struct drm_display_mode *mode)
+ {
+ 	struct imx8mp_hdmi *hdmi = (struct imx8mp_hdmi *)data;
++	long round_rate;
+ 
+ 	if (mode->clock < 13500)
+ 		return MODE_CLOCK_LOW;
+@@ -30,8 +31,9 @@ imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
+ 	if (mode->clock > 297000)
+ 		return MODE_CLOCK_HIGH;
+ 
+-	if (clk_round_rate(hdmi->pixclk, mode->clock * 1000) !=
+-	    mode->clock * 1000)
++	round_rate = clk_round_rate(hdmi->pixclk, mode->clock * 1000);
++	/* accept 0.5% = 1/200 = 5/1000 tolerance */
++	if (abs(round_rate - mode->clock * 1000) > mode->clock * 5)
+ 		return MODE_CLOCK_RANGE;
+ 
+ 	/* We don't support double-clocked and Interlaced modes */
+-- 
+2.39.2
 
 
