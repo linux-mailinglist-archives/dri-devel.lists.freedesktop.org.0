@@ -2,78 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118DD96CA29
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 00:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62EA96CA76
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 00:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C20BA10E308;
-	Wed,  4 Sep 2024 22:21:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA8910E06E;
+	Wed,  4 Sep 2024 22:30:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fpFZ8lKr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jXAryBFh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
- [209.85.219.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA0B10E105;
- Wed,  4 Sep 2024 22:21:17 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id
- 6a1803df08f44-6c35427935eso643576d6.3; 
- Wed, 04 Sep 2024 15:21:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725488476; x=1726093276; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=t4BjDZksMUGjCuuM0wynyggvya2SNR5AumLLo86Iig0=;
- b=fpFZ8lKrusCQUWYVytMt1vaWrwIFFWzgecY+LjWv5fjr4I9gOokJE54Qp7fA90IptG
- iYTFxp7ZZJzBFfKiog/yGWw3PzfCpS+cTDCc+bi1LWNcZUq9aji1vJykDYco46g79dMj
- BpfzXZrSZntu3uRRES1qo4U0ViyPLs4qDRCS0LSWpVQaaEiyXPynDAL3rG7gF8AXB4TM
- 3qJCFV/n4RNbu3KqhS4++vrzw9oK6YcmeXT1fYASxm3qQY/Xt/cYk/w71axVB+fUkAyX
- L1Mv6go7/Mhn+7JMuwCem2FKirBsecVbn6+4gsyhYlCdCYne2qvMW9fN9wH6Hdu8GICj
- Iqcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725488476; x=1726093276;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=t4BjDZksMUGjCuuM0wynyggvya2SNR5AumLLo86Iig0=;
- b=klr90ss0sOyYwxfd0K/cddt/bF1txfjSPlqJiGwDRkNvXn+iZfNWBrM8kVAYfLQuJI
- XMB2qfknh0ySknsHQ9taF1lJeear3Q/GMZN6h2O3dxfqT3fLrdbLxCbH5xuf4frd+sus
- SEBaReThX9BOvJn7Jiun6wcePdq8o/TiZKlE19YSSFvsn972HTX4SdVbnDJ3E+jUuhHe
- KkYZI1k+R2d999unFKP+eS8oMMxn6Wmi5HpScOLMlIsXMPCPChoQsEWs3TvqWP/n7tnW
- UullwTVgSg4A//hRW3iMCTy7jQCpxtM0Nebjs7dMDBQKhkp2in617tVJBhYOUNS9aAzc
- 3wYQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkzZvDMMfe7XsPIzANvTRVuLjkeKwbzka6CsiaT1TC6HOdoXYw9hatHPJNTm82Iw8zvyua5+xb@lists.freedesktop.org,
- AJvYcCXyuMTrla4FNV2CQ2FRjbr3cNLfZ7z+VCiJMOJJIyTVzXvrw3oXLCuawwo2sV2Vek7q2i5Qq+BLwikm@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWyUXfQMvFWcwwZKWEQm1ueQzVe9ncY1E1+hfohwQ0E/V5GphS
- YDcF+Ykyzg3LJuhSlly6lmQy7XelMjmCVcpLb+7KrlD+gr8WQqIEEZs093gDVHFX4e7jxPJ5RV9
- HKqfb1zwGPjtKVmpcPCsEBVUB1t4=
-X-Google-Smtp-Source: AGHT+IFUOq7qSUlT45ozs1TrcJSJs8d8rLTchRCNkpOywHMb8zMgW3uQ2l0Hzk1KL3FjPWZ5G4dl6rpuBhPseFk8n3A=
-X-Received: by 2002:a05:6214:338a:b0:6b5:eba0:d0ab with SMTP id
- 6a1803df08f44-6c355684df7mr145628906d6.15.1725488475868; Wed, 04 Sep 2024
- 15:21:15 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09CAD10E070;
+ Wed,  4 Sep 2024 22:30:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AFB345C587B;
+ Wed,  4 Sep 2024 22:30:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC8EC4CEC2;
+ Wed,  4 Sep 2024 22:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725489032;
+ bh=7VZ8dopNb6Xw84A7ZivyftmrGW6ZT1IuRr6IdvMLH0w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jXAryBFhT3Ki0WRLE2VlwfBA2xoebFISDTyJH+j0nU2iKAMX2/+HNXfPCfuiFNQdS
+ 5Fxw1UX+w/IQXdKCznpydfoSVK+zv0OP1HLgGsfKFRqFjGjZPWSuxC2Lg0q6RAx6XE
+ OB6G15/pK04eBU2vJpxK5easAvqFKVieoWVPpa4VeEWBcEuuUXxCYHiaQNTABVK0kT
+ fhWObQER8fMijWuoij/5+r4wG8N4zp+OkHOI+17U9wIKsQBOJJPYZlVipywuV81vON
+ axD78ZETV703r/QoISiFxg+pqoF1Ku1f4rXAkj93zFtT9N8erstfpdF4Sl0kW2jvVT
+ yr43q54G0Orlg==
+Date: Wed, 4 Sep 2024 15:30:30 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH] drm: enable warnings on unused static inlines
+Message-ID: <20240904223030.GA1944054@thelio-3990X>
+References: <20240904123819.3784906-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <CABXGCsNgx6gQCqBq-L2P15ydaN_66sM9CgGa9GQYNzQsaa6Dkg@mail.gmail.com>
- <CABXGCsNztS8MLteq5=fcddwuQ1TCzeOM8TdVtpJ3crK=sV5PTQ@mail.gmail.com>
- <CABXGCsMdxHJ-MLkS0pm51Sk8g0PTghsuZxmowvj5t44bVN4ndA@mail.gmail.com>
- <ffd2c40c-1c2e-4465-b26f-88d5e08a80d9@amd.com>
-In-Reply-To: <ffd2c40c-1c2e-4465-b26f-88d5e08a80d9@amd.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Thu, 5 Sep 2024 03:21:04 +0500
-Message-ID: <CABXGCsOoL5vD0+FRALFQFr3ZBpb2z5mpGKzAD5RHoW9_sb5yaQ@mail.gmail.com>
-Subject: Re: 6.11/regression/bisected - after commit 1b04dcca4fb1, launching
- some RenPy games causes computer hang
-To: Leo Li <sunpeng.li@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, zaeem.mohamed@amd.com, 
- pekka.paalanen@collabora.com, "Wheeler, Daniel" <daniel.wheeler@amd.com>, 
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
- Linux regressions mailing list <regressions@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240904123819.3784906-1-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,83 +57,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 4, 2024 at 4:15=E2=80=AFAM Leo Li <sunpeng.li@amd.com> wrote:
-> Hi Mike,
->
-> Super sorry for the ridiculous wait. Your first two emails slipped by my =
-inbox,
-> which is really silly, given I'm first in the to field...
->
-> Thanks for bisecting and finding a free game to reproduce it on. I did no=
-t have
-> luck reproducing this today, but I am on sway and not gnome. While I get =
-gnome
-> set up, will you be able to test which one of these reverts fixes the han=
-g for
-> you? Whether just 1/2 is enough, or both 1/2 and 2/2 is required?
->
-> I applied them on top of Linus's v6.11-rc6 tag, so hopefully they'll git =
-am
-> cleanly for you:
->
-> 1/2:
-> https://gist.github.com/leeonadoh/69147b5fa8d815b39c5f4c3e005cca28#file-0=
-001-revert-drm-amd-display-move-primary-plane-zpos-highe-patch
-> 2/2:
-> https://gist.github.com/leeonadoh/69147b5fa8d815b39c5f4c3e005cca28#file-0=
-002-revert-drm-amd-display-introduce-overlay-cursor-mode-patch
->
+Hi Jani,
 
-The first patch is not enough.
-Yes, it fixes the system hang when I launch the game "Find the Orange Narwh=
-al".
-But it does not fix the issue completely.
-Some RenPy games still can lead the system to hang.
-For example "Innocence Or Money Season 1"
-https://store.steampowered.com/app/1958390/Innocence_Or_Money_Season_1__Epi=
-sodes_1_to_3/
-on the language selection screen.
+On Wed, Sep 04, 2024 at 03:38:19PM +0300, Jani Nikula wrote:
+> We enable most W=1 warnings by default subsystem wide. Also enable
+> warnings on unused static inlines when building with clang.
+> 
+> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
+> inline functions for W=1 build").
+> 
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/Makefile | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 784229d4504d..6bd2cdb08be7 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -19,6 +19,9 @@ subdir-ccflags-y += $(call cc-option, -Wformat-overflow)
+>  # FIXME: fix -Wformat-truncation warnings and uncomment
+>  #subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+>  subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
+> +
+> +subdir-ccflags-y += -DKBUILD_EXTRA_WARN1
+> +
+>  # The following turn off the warnings enabled by -Wextra
+>  ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
+>  subdir-ccflags-y += -Wno-missing-field-initializers
+> -- 
+> 2.39.2
+> 
 
-Unfortunately the kernel is not builded with both patches.
-I have got compilation error after applying second patch:
+I ran this through my test matrix and this is what it found (across
+various configuration options, I can give specifics as necessary):
 
-  CC [M]  drivers/gpu/drm/nouveau/nvkm/engine/fifo/chid.o
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In
-function =E2=80=98amdgpu_dm_atomic_check=E2=80=99:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:11003:69:
-error: unused variable =E2=80=98new_cursor_state=E2=80=99 [-Werror=3Dunused=
--variable]
-11003 |         struct drm_plane_state *old_plane_state,
-*new_plane_state, *new_cursor_state;
-      |
-     ^~~~~~~~~~~~~~~~
-  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/basics/conversion.o
-***
-  CC [M]  drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.o
-cc1: all warnings being treated as errors
-  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml/calcs/dcn_calc_auto.=
-o
-  CC [M]  drivers/gpu/drm/nouveau/nvkm/engine/gr/ga102.o
-  CC [M]  drivers/gpu/drm/nouveau/nvkm/engine/gr/ad102.o
-  CC [M]  drivers/gpu/drm/nouveau/nvkm/engine/gr/r535.o
-  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/clk_mgr.o
-  CC [M]  drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxnv40.o
-  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dce60/dce60_clk_=
-mgr.o
-make[6]: *** [scripts/Makefile.build:244:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.o] Error 1
-make[6]: *** Waiting for unfinished jobs....
-  CC [M]  drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxnv50.o
-***
-make[5]: *** [scripts/Makefile.build:485: drivers/gpu/drm/amd/amdgpu] Error=
- 2
-make[4]: *** [scripts/Makefile.build:485: drivers/gpu/drm] Error 2
-make[3]: *** [scripts/Makefile.build:485: drivers/gpu] Error 2
-make[2]: *** [scripts/Makefile.build:485: drivers] Error 2
-make[1]: *** [/home/mikhail/packaging-work/git/linux-3/Makefile:1925: .] Er=
-ror 2
-make: *** [Makefile:224: __sub-make] Error 2
+drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c:30:18: warning: unused function 'hdmi_read' [-Wunused-function]
+   30 | static inline u8 hdmi_read(struct dw_hdmi_i2s_audio_data *audio, int offset)
+      |                  ^~~~~~~~~
 
---=20
-Best Regards,
-Mike Gavrilov.
+drivers/gpu/drm/bridge/ti-sn65dsi86.c:1638:19: warning: unused function 'ti_sn_pwm_pin_request' [-Wunused-function]
+ 1638 | static inline int ti_sn_pwm_pin_request(struct ti_sn65dsi86 *pdata) { return 0; }
+      |                   ^~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/bridge/ti-sn65dsi86.c:1639:20: warning: unused function 'ti_sn_pwm_pin_release' [-Wunused-function]
+ 1639 | static inline void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata) {}
+      |                    ^~~~~~~~~~~~~~~~~~~~~
+
+drivers/gpu/drm/drm_mm.c:152:1: warning: unused function 'drm_mm_interval_tree_insert' [-Wunused-function]
+  152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  153 |                      u64, __subtree_last,
+      |                      ~~~~~~~~~~~~~~~~~~~~
+  154 |                      START, LAST, static inline, drm_mm_interval_tree)
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+include/linux/interval_tree_generic.h:38:15: note: expanded from macro 'INTERVAL_TREE_DEFINE'
+   38 | ITSTATIC void ITPREFIX ## _insert(ITSTRUCT *node,                             \
+      |               ^~~~~~~~~~~~~~~~~~~
+<scratch space>:38:1: note: expanded from here
+   38 | drm_mm_interval_tree_insert
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/drm_mm.c:152:1: warning: unused function 'drm_mm_interval_tree_iter_next' [-Wunused-function]
+  152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  153 |                      u64, __subtree_last,
+      |                      ~~~~~~~~~~~~~~~~~~~~
+  154 |                      START, LAST, static inline, drm_mm_interval_tree)
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+include/linux/interval_tree_generic.h:151:33: note: expanded from macro 'INTERVAL_TREE_DEFINE'
+  151 | ITSTATIC ITSTRUCT *                                                           \
+      |                                                                               ^
+  152 | ITPREFIX ## _iter_next(ITSTRUCT *node, ITTYPE start, ITTYPE last)             \
+      | ~~~~~~~~~~~~~~~~~~~~~~
+<scratch space>:50:1: note: expanded from here
+   50 | drm_mm_interval_tree_iter_next
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/drm_mm.c:614:20: warning: function 'drm_mm_node_scanned_block' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+  614 | static inline bool drm_mm_node_scanned_block(const struct drm_mm_node *node)
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+drivers/gpu/drm/i915/i915_sw_fence.c:97:20: error: unused function 'debug_fence_init_onstack' [-Werror,-Wunused-function]
+   97 | static inline void debug_fence_init_onstack(struct i915_sw_fence *fence)
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/i915_sw_fence.c:118:20: error: unused function 'debug_fence_free' [-Werror,-Wunused-function]
+  118 | static inline void debug_fence_free(struct i915_sw_fence *fence)
+      |                    ^~~~~~~~~~~~~~~~
+
+drivers/gpu/drm/imagination/pvr_drv.c:224:1: warning: unused function 'pvr_fw_version_packed' [-Wunused-function]
+  224 | pvr_fw_version_packed(u32 major, u32 minor)
+      | ^~~~~~~~~~~~~~~~~~~~~
+
+drivers/gpu/drm/kmb/kmb_dsi.c:822:2: warning: unused function 'set_test_mode_src_osc_freq_target_low_bits' [-Wunused-function]
+  822 |         set_test_mode_src_osc_freq_target_low_bits(struct kmb_dsi *kmb_dsi,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/kmb/kmb_dsi.c:834:2: warning: unused function 'set_test_mode_src_osc_freq_target_hi_bits' [-Wunused-function]
+  834 |         set_test_mode_src_osc_freq_target_hi_bits(struct kmb_dsi *kmb_dsi,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+drivers/gpu/drm/meson/meson_dw_hdmi.c:276:20: warning: unused function 'dw_hdmi_dwc_write_bits' [-Wunused-function]
+  276 | static inline void dw_hdmi_dwc_write_bits(struct meson_dw_hdmi *dw_hdmi,
+      |                    ^~~~~~~~~~~~~~~~~~~~~~
+
+drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused function 'rcar_cmm_read' [-Wunused-function]
+   35 | static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+      |                   ^~~~~~~~~~~~~
+
+drivers/gpu/drm/stm/ltdc.c:494:35: warning: unused function 'encoder_to_ltdc' [-Wunused-function]
+  494 | static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
+      |                                   ^~~~~~~~~~~~~~~
+
+Cheers,
+Nathan
