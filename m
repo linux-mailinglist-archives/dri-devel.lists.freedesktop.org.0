@@ -2,63 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D8596B663
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FC196B671
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E310910E566;
-	Wed,  4 Sep 2024 09:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC51189561;
+	Wed,  4 Sep 2024 09:23:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ipz7Qz2c";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="IxBXpGlI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2829D10E566
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:21:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725441701; x=1756977701;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=vBl14jc/d/Ng9281crJ+2Y9cpdIoH2pNrH43r3fm2no=;
- b=Ipz7Qz2cG89w2FRolOViOli4M9IreOMRw6N/qMiJ21p2JQHixAfvlJf1
- osw3sCp8uKmesBVcIkNUpkEl+4Sd4mAFL2wIGrSl214X+ftb6Sv8UkQSC
- kxFMWI6tLi2pA+z+jdQ1blU98oILhc6qvJ9oIaPo74fPhn6U01Kl07mTb
- xMs0YiJdkDuIJqBU4YO/gB8APqHmxYe3UgaX4AZcaecvOsog8BDetmquH
- iJTb6B/hIOAl0gqKn2uQdBi8kX6SCKjtY+O11+29Y8L3KAIZY2B2I/fFB
- +pscYyo5kVdaCBJtIgAgLlrzEDoHaIZqqKlM97jAFPsJCtOI7uHVikiG3 A==;
-X-CSE-ConnectionGUID: xmieai5qSfmUVp0NbU7b7Q==
-X-CSE-MsgGUID: WG2OWEw/SpK3jMVmdXZ41Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24199239"
-X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; d="scan'208";a="24199239"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2024 02:21:41 -0700
-X-CSE-ConnectionGUID: mEWaZHA6RKGCVBQ+ajtoBA==
-X-CSE-MsgGUID: uF3JKGWeSHGhUBtzH8diCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; d="scan'208";a="70004211"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.18])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2024 02:21:38 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, Marc Gonzalez <mgonzalez@freebox.fr>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH] drm/bridge/tdp158: fix build failure
-In-Reply-To: <qc2tixiicn26oqimypl4zxgtgkncil22hvo2nsrmim7yhmzoq4@jjp2gz6jmosg>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240904085206.3331553-1-jani.nikula@intel.com>
- <qc2tixiicn26oqimypl4zxgtgkncil22hvo2nsrmim7yhmzoq4@jjp2gz6jmosg>
-Date: Wed, 04 Sep 2024 12:21:20 +0300
-Message-ID: <87o753srjj.fsf@intel.com>
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1DAA89561
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:23:03 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-42c2e50ec6aso2975255e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 02:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1725441782; x=1726046582; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qVslFqpuPP+120vssIK6AkWG5dPpY7iEjTvwvHnyW80=;
+ b=IxBXpGlIbR3lS9NbbqDBgvRlqtNpyuf0QwLWnoH3h9fL2kE5bHBdUmwfsQZBUIA7Z6
+ TCYh7LkqyrzgVLZMAttyPkx8MCaMmEQa2l3VVBM6yJYxL/skNhG9go1SJUVlMeFI7ZcM
+ uzPCqzP5iPArQl81QQ9VCdha8mmzVSOfKLILY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725441782; x=1726046582;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qVslFqpuPP+120vssIK6AkWG5dPpY7iEjTvwvHnyW80=;
+ b=UBgeBUxXPuR3wwZ6JCHLuTaPNZBy7mxukRBmq6l+ClJLjVzLVmsbDhTrwpjmfN/ypv
+ bsmR7YvWR3+zFomwA+J43owqMrvnXaN6eJsLuNv2nxVhOwixj5wR9w1WVaByri2jkZOm
+ QswF9Rl6JPnbUiY1KquM3V7g0HgVMjtp7QZAT6IgOl1wNtbTFfYuFqSJOgSggYR6ooS7
+ 6ZANJDDtXsnrUl2859XoH9hrYC/WnUXSk4F1GlwHtYTFoURP0/MwJJAFiq4mPxB8V2j5
+ 1BJl6aC7m32bYKwnhVr9pqq+Uuwd+19u4DoajOlhMEQkrGfG6lHSEgkAJxuAkFrGWZ9Q
+ eq1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU38KPmyGTX9OJJ7cWw1Kg30jL40PuNJuWAsnDZfoOvXST0dxZNMYFKWxQ77lYlMth9S+Pqm1lWsSI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/EkCngM4dRc1iIikDW2yJaTh2BOuiLelhUPQGHs1qa6og+F3X
+ mDcKAwIj8+87MaxbWUUhRPKvZGA9/XZuYiXjPUmiG5sFYb56IlUhxuygxoQ0xP8=
+X-Google-Smtp-Source: AGHT+IGqSU633ylJiMkwwUvqLrTm57cmDl02YuXTUBO295Ehq62SsdSwLz0w24vbX7C8zDb/b41O+Q==
+X-Received: by 2002:a05:600c:310a:b0:426:676a:c4d1 with SMTP id
+ 5b1f17b1804b1-42c95b133f8mr9577635e9.8.1725441781771; 
+ Wed, 04 Sep 2024 02:23:01 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42bb6deb273sm199213375e9.8.2024.09.04.02.23.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2024 02:23:01 -0700 (PDT)
+Date: Wed, 4 Sep 2024 11:22:59 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Rob Herring <robh@kernel.org>,
+ =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Steven Price <steven.price@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
+ Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v6 10/14] drm/panthor: Add the scheduler logical block
+Message-ID: <Ztgm89fJCZ6EnK2y@phenom.ffwll.local>
+References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
+ <20240229162230.2634044-11-boris.brezillon@collabora.com>
+ <Ztdm9EdoguXKxGMV@phenom.ffwll.local>
+ <20240904090953.77d5b8d7@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240904090953.77d5b8d7@collabora.com>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,60 +95,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 04 Sep 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Wed, Sep 04, 2024 at 11:52:06AM GMT, Jani Nikula wrote:
->> ARCH=3Darm build fails with:
->>=20
->>   CC [M]  drivers/gpu/drm/bridge/ti-tdp158.o
->> ../drivers/gpu/drm/bridge/ti-tdp158.c: In function =E2=80=98tdp158_enabl=
-e=E2=80=99:
->> ../drivers/gpu/drm/bridge/ti-tdp158.c:31:9: error: implicit declaration =
-of function =E2=80=98gpiod_set_value_cansleep=E2=80=99 [-Werror=3Dimplicit-=
-function-declaration]
->>    31 |         gpiod_set_value_cansleep(tdp158->enable, 1);
->>       |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> ../drivers/gpu/drm/bridge/ti-tdp158.c: In function =E2=80=98tdp158_probe=
-=E2=80=99:
->> ../drivers/gpu/drm/bridge/ti-tdp158.c:80:26: error: implicit declaration=
- of function =E2=80=98devm_gpiod_get_optional=E2=80=99; did you mean =E2=80=
-=98devm_regulator_get_optional=E2=80=99? [-Werror=3Dimplicit-function-decla=
-ration]
->>    80 |         tdp158->enable =3D devm_gpiod_get_optional(dev, "enable"=
-, GPIOD_OUT_LOW);
->>       |                          ^~~~~~~~~~~~~~~~~~~~~~~
->>       |                          devm_regulator_get_optional
->> ../drivers/gpu/drm/bridge/ti-tdp158.c:80:65: error: =E2=80=98GPIOD_OUT_L=
-OW=E2=80=99 undeclared (first use in this function)
->>    80 |         tdp158->enable =3D devm_gpiod_get_optional(dev, "enable"=
-, GPIOD_OUT_LOW);
->>       |                                                                 =
-^~~~~~~~~~~~~
->> ../drivers/gpu/drm/bridge/ti-tdp158.c:80:65: note: each undeclared ident=
-ifier is reported only once for each function it appears in
->>=20
->> Add the proper gpio consumer #include to fix this, and juggle the
->> include order to be a bit more pleasant on the eye while at it.
->>=20
->> Fixes: a15710027afb ("drm/bridge: add support for TI TDP158")
->> Cc: Marc Gonzalez <mgonzalez@freebox.fr>
->> Cc: Robert Foss <rfoss@kernel.org>
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Jonas Karlman <jonas@kwiboo.se>
->> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/bridge/ti-tdp158.c | 7 +++++--
->>  1 file changed, 5 insertions(+), 2 deletions(-)
->>=20
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Wed, Sep 04, 2024 at 09:09:53AM +0200, Boris Brezillon wrote:
+> On Tue, 3 Sep 2024 21:43:48 +0200
+> Simona Vetter <simona.vetter@ffwll.ch> wrote:
+> 
+> > On Thu, Feb 29, 2024 at 05:22:24PM +0100, Boris Brezillon wrote:
+> > > - Add our job fence as DMA_RESV_USAGE_WRITE to all external objects
+> > >   (was previously DMA_RESV_USAGE_BOOKKEEP). I don't get why, given
+> > >   we're supposed to be fully-explicit, but other drivers do that, so
+> > >   there must be a good reason  
+> > 
+> > Just spotted this: They're wrong, or they're userspace is broken and
+> > doesn't use the dma_buf fence import/export ioctl in all the right places.
+> > For gl this simplifies things (but setting write fences when you're only
+> > reading is still bad, and setting fences on buffers you don't even touch
+> > is worse), for vulkan this is just bad.
+> 
+> For the record, I remember pointing that out in some drm_sched
+> discussion, and being told that this was done on purpose :-/.
 
-Pushed to drm-misc-next, thanks for the review.
+Nouvea gets it right, if it was xe people then I think they were a bit
+confused. I cleared that up with some irc chat on #xe yesterday evening.
 
-BR,
-Jani.
+> > I think you want a context creation flag for userspace that's not broken,
+> > which goes back to USAGE_BOOKKEEP for everything.
+> 
+> Honestly, given the only user (the gallium driver) is already designed
+> to do the explicit <-> implicit dance, and the fact the driver just got
+> merged in the last release, I'd rather go for a silent USAGE_WRITE ->
+> USAGE_BOOKKEEP if things keep working with that.
 
---=20
-Jani Nikula, Intel
+Ah yeah if you can get away with just flipping that, even better. It
+really shouldn't be needed when your driver uses the dma-buf fence
+import/export ioctls to handle implicit sync needs.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
