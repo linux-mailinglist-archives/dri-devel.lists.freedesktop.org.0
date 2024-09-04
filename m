@@ -2,55 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307BD96B8A5
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 12:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FFE96B8AC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 12:40:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58B6410E03B;
-	Wed,  4 Sep 2024 10:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B20C10E74A;
+	Wed,  4 Sep 2024 10:40:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="C7z2bSfZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DO1YRL5n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F70210E74C
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 10:35:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725446147;
- bh=sq1HLtAaTzHAr2JrOecqssPZDwWSMAtYsh1WiUbcq1E=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=C7z2bSfZZsKiH8FBsZ5X23cTwZ1fziilwy4D4NX/akQtgeapI7MueKiylFGcbyV9n
- 9VCy1L89x0bAn70tE5o8Cue+qScpoXcrZT3hUM3ueolX/vQctj1M3j5AMdI4UPR+UX
- Y2RW3sVHpaNJOeDLLQf/cx9xT/z9CrJ+61h+aC7pdEdzdWr8BKODhxWbLY83m/NSTg
- Se/m+Y/mop0SsBStfpMALerSjgQfQXjKkoffryaKjZ5YSHJLHCbMpX0GWWujWv6tDa
- KvdDa6IpxADxt+e7Ao5wIH+hFileXUwbgHQS1+I+V1icWLeo5BltuduLkX0EBDH7pI
- xeKgCJQgLmn5g==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2630E17E0FC7;
- Wed,  4 Sep 2024 12:35:47 +0200 (CEST)
-Date: Wed, 4 Sep 2024 12:35:42 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Mary Guillemard <mary.guillemard@collabora.com>
-Cc: linux-kernel@vger.kernel.org, kernel@collabora.com,
- stable@vger.kernel.org, Steven Price <steven.price@arm.com>, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/panthor: Restrict high priorities on group_create
-Message-ID: <20240904123542.2b22a92e@collabora.com>
-In-Reply-To: <20240903144955.144278-2-mary.guillemard@collabora.com>
-References: <20240903144955.144278-2-mary.guillemard@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192E710E74A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 10:40:38 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-2d8818337a5so443042a91.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 03:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725446437; x=1726051237; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UZwrkyVGnSHmjN5+64G38o2zgp8nHkbeWENAxN2xZa0=;
+ b=DO1YRL5no8qyjY/mL4s0lLNxz9sNTxiETc5L24S6pvTkdYQeSsb8EUggtqjPzqmj/I
+ GQHR2lDojYeL640zMc34cIY33+6I9JINmDXTcY1XzvBh2bjhvFuXxsM5pafrU5OmfQbE
+ g4FdGCaf2xPuixuIdL7nkPibT670dg+sKqAsteruT5pbJZY202kkvGJsdLkm8OVNTNz5
+ oTWH+pBm3GenvKnvCsXrsVFlrlv0FxSpdUWwG2G/OgP69hVCnGysqoIe7uqJyE7BFVdD
+ ZLXXQdXXY9/CooathXlMw1l62huS85767g8oC4fBhVL4K6uYBKwC13NfLANg2qyoxXzw
+ jRWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725446437; x=1726051237;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UZwrkyVGnSHmjN5+64G38o2zgp8nHkbeWENAxN2xZa0=;
+ b=txwWxSa/9b9xBLf0Srm2kd70z7KTTV/QPw0ztaz3Tbkz4IQGVAHtgAJffAzq6zLzbi
+ sFtJSXx6KPi+IqoKX6ivhtAiJnXdERNSHOqGClLIFJTjxRmLdEsBsbrEB6sUTyA+JRs0
+ WO7nRYy/EAyo24Zz/6P7iVrzy+sB0N6OlkLVkGLZslIR3cM8y9BUORmuWQe5RYWaXW2B
+ VxfYdutYN4+8XL+u1WuMR62CC+WLSXxsSS+3NpE8zdJbgLnEdgpGmkOSogIfBnyI40aS
+ DFuRijFOwvd4emrs35Z3g1Wj4cvdF9CHyxSAl8pfup73MF2/TNMADduWeyN5IW9jcBJN
+ H0yw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmBkUgV5ntON26yPpdRXdolxeaFzv0YDRXKX0MkrwF3xJDCLjNvH1phgoiJAbKuMQVaAE9KmuqNPk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKeiwLJAVaDlCjQhGyHgigsrmF5lrZcktVHr/5ooZnn2wXefXd
+ WNfNexoX8KgyxhnhSbiV+VuJaZyJ6iK6uosNmmOJZJ9wmerNq7pV
+X-Google-Smtp-Source: AGHT+IFaOTINhvFNl8FNK9LUH8YpH8X8+trhWoz1ujIDZSX9XWFRJqJPSEmIBCegsSVx9lskcKahbQ==
+X-Received: by 2002:a17:90b:4b4a:b0:2cf:f860:f13b with SMTP id
+ 98e67ed59e1d1-2da8f1f0a38mr2645014a91.17.1725446437377; 
+ Wed, 04 Sep 2024 03:40:37 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:b37a:332a:2373:a683])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2da8f2f1ba0sm1194752a91.25.2024.09.04.03.40.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2024 03:40:36 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: mripard@kernel.org
+Cc: marex@denx.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Fabio Estevam <festevam@denx.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2] dt-bindings: lcdif: Document the dmas/dma-names properties
+Date: Wed,  4 Sep 2024 07:40:27 -0300
+Message-Id: <20240904104027.2065621-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,114 +82,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  3 Sep 2024 16:49:55 +0200
-Mary Guillemard <mary.guillemard@collabora.com> wrote:
+From: Fabio Estevam <festevam@denx.de>
 
-> We were allowing any users to create a high priority group without any
-> permission checks. As a result, this was allowing possible denial of
-> service.
-> 
-> We now only allow the DRM master or users with the CAP_SYS_NICE
-> capability to set higher priorities than PANTHOR_GROUP_PRIORITY_MEDIUM.
-> 
-> As the sole user of that uAPI lives in Mesa and hardcode a value of
-> MEDIUM [1], this should be safe to do.
-> 
-> Additionally, as those checks are performed at the ioctl level,
-> panthor_group_create now only check for priority level validity.
-> 
-> [1]https://gitlab.freedesktop.org/mesa/mesa/-/blob/f390835074bdf162a63deb0311d1a6de527f9f89/src/gallium/drivers/panfrost/pan_csf.c#L1038
-> 
-> Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
-> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-> Cc: stable@vger.kernel.org
+i.MX28 has an RX DMA channel associated with the LCDIF controller.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Document the 'dmas' and 'dma-names' properties to fix the following
+dt-schema warnings:
 
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c   | 23 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_sched.c |  2 +-
->  include/uapi/drm/panthor_drm.h          |  6 +++++-
->  3 files changed, 29 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index b5e7b919f241..34182f67136c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -10,6 +10,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  
-> +#include <drm/drm_auth.h>
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_exec.h>
-> @@ -996,6 +997,24 @@ static int panthor_ioctl_group_destroy(struct drm_device *ddev, void *data,
->  	return panthor_group_destroy(pfile, args->group_handle);
->  }
->  
-> +static int group_priority_permit(struct drm_file *file,
-> +				 u8 priority)
-> +{
-> +	/* Ensure that priority is valid */
-> +	if (priority > PANTHOR_GROUP_PRIORITY_HIGH)
-> +		return -EINVAL;
-> +
-> +	/* Medium priority and below are always allowed */
-> +	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
-> +		return 0;
-> +
-> +	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
-> +	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
-> +		return 0;
-> +
-> +	return -EACCES;
-> +}
-> +
->  static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  				      struct drm_file *file)
->  {
-> @@ -1011,6 +1030,10 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  	if (ret)
->  		return ret;
->  
-> +	ret = group_priority_permit(file, args->priority);
-> +	if (ret)
-> +		return ret;
-> +
->  	ret = panthor_group_create(pfile, args, queue_args);
->  	if (ret >= 0) {
->  		args->group_handle = ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index c426a392b081..91a31b70c037 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -3092,7 +3092,7 @@ int panthor_group_create(struct panthor_file *pfile,
->  	if (group_args->pad)
->  		return -EINVAL;
->  
-> -	if (group_args->priority > PANTHOR_CSG_PRIORITY_HIGH)
-> +	if (group_args->priority >= PANTHOR_CSG_PRIORITY_COUNT)
->  		return -EINVAL;
->  
->  	if ((group_args->compute_core_mask & ~ptdev->gpu_info.shader_present) ||
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 926b1deb1116..e23a7f9b0eac 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -692,7 +692,11 @@ enum drm_panthor_group_priority {
->  	/** @PANTHOR_GROUP_PRIORITY_MEDIUM: Medium priority group. */
->  	PANTHOR_GROUP_PRIORITY_MEDIUM,
->  
-> -	/** @PANTHOR_GROUP_PRIORITY_HIGH: High priority group. */
-> +	/**
-> +	 * @PANTHOR_GROUP_PRIORITY_HIGH: High priority group.
-> +	 *
-> +	 * Requires CAP_SYS_NICE or DRM_MASTER.
-> +	 */
->  	PANTHOR_GROUP_PRIORITY_HIGH,
->  };
->  
-> 
-> base-commit: a15710027afb40c7c1e352902fa5b8c949f021de
+lcdif@80030000: 'dma-names', 'dmas' do not match any of the regexes: 'pinctrl-[0-9]+'
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+Changes since v1:
+- Add a blank line before the examples. (Krzysztof)
+
+ .../bindings/display/fsl,lcdif.yaml           | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index 0681fc49aa1b..8e3a98aeec32 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -50,6 +50,14 @@ properties:
+       - const: disp_axi
+     minItems: 1
+ 
++  dmas:
++    items:
++      - description: DMA specifier for the RX DMA channel.
++
++  dma-names:
++    items:
++      - const: rx
++
+   interrupts:
+     items:
+       - description: LCDIF DMA interrupt
+@@ -156,6 +164,18 @@ allOf:
+         interrupts:
+           maxItems: 1
+ 
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              enum:
++                - fsl,imx28-lcdif
++    then:
++      properties:
++        dmas: false
++        dma-names: false
++
+ examples:
+   - |
+     #include <dt-bindings/clock/imx6sx-clock.h>
+-- 
+2.34.1
 
