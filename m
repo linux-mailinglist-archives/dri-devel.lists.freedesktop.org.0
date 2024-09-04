@@ -2,172 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2645796C588
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 19:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC2896C5A9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 19:46:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111E810E81F;
-	Wed,  4 Sep 2024 17:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E7C10E82A;
+	Wed,  4 Sep 2024 17:46:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gpI0ibQS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WXFLa5sh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1CE10E81F;
- Wed,  4 Sep 2024 17:37:02 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A1B710E829
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 17:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725471422; x=1757007422;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=jOwtg2xIkNlYwtDLrrmV04Ue8R6zv51rI6KXe8QINS8=;
- b=gpI0ibQSjfI0wHnhOzuuZUeTSdMzGfONZIS3lVB1SQX8l6NCp0AVZfEN
- Pxko0P+oIm4ytfruPHWIs/pGmd2pkw8Z8LButnj2qQeQrfN6mL/IXZYPb
- xlqQdVpOGv6e7j1HDS3sSjn2nYt7UicoIxEaw1NgdOxfWgcc5deBOm+z6
- 0B9++wTlpUURND1u4SaWmoZQWiZcILnafDEITRK5v/dnzwdhAweEIgM0H
- t7q6I0fWPXkFGuMnDgH24zpE8h6zPWNQwM9XaeOTQGxHKcypnUYNgbTFk
- 8ei0/mqOkLToprao4XUENN1Qn6VZy43SqXY6JMhUCoLxlsqItt/7TinPW g==;
-X-CSE-ConnectionGUID: UQxLyL1HRiC7w1hXPstw7g==
-X-CSE-MsgGUID: MKTrZjTPTwmizY45vO3gPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="23953162"
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="23953162"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2024 10:37:00 -0700
-X-CSE-ConnectionGUID: vXanCpOpT0OmrvPNGUwweQ==
-X-CSE-MsgGUID: Z8hGcsZ1QquhakCkq7fjiA==
+ t=1725471999; x=1757007999;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=g+aKd92QBiENZVDRm1kM4shr9AJRa9pBGs1fZNeJD5w=;
+ b=WXFLa5shjm+77WJ6/J2LR0srtzQPTDoEtQQXDo0ymDQHdUro8jNHjlUh
+ /axYdZw/nNmGaRlES+AtIQl6m3udpBAe7Kq0GITZvCX9oUsWA0uei2G2I
+ KPdK2HqWEadG0veiFxlpIKX8peo2mJc2YBe7YqYAFr3l1nZuSmd0k5MRa
+ BQcm8B/vtkFcRnc+EualuE7yXYKgaABgc6jpwQljv04o5uDhDv+ID3Z1U
+ iBkyco7EF225IPhAsJ4ZZz8VbNO0YGGpoUfy2tow56B6TM5zGaNNttY9G
+ UCBEbPy2ppkoj84VObkv5aWir+oBg034f8Jhcfeqv/R1pWBM/mdFtqr2x A==;
+X-CSE-ConnectionGUID: xNdVYHy3Rf+pH8AyYGPBBA==
+X-CSE-MsgGUID: OtYQNAQzQOazWBE5OAPfng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="28036446"
+X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="28036446"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2024 10:46:39 -0700
+X-CSE-ConnectionGUID: lVSsXXMjSSuLHn0Jyr1Niw==
+X-CSE-MsgGUID: fZP5cHQZSlWbd8z0Q+RmCg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="64990431"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Sep 2024 10:37:00 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 4 Sep 2024 10:36:59 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 4 Sep 2024 10:36:59 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 4 Sep 2024 10:36:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jRMZSTgZfSCSfne2c/CMrcCU4DTtR8k1M0fYL0yt3AFmY3ov60bKOiViASmP2FyIvVlJyhsj4bXIdsVfsj75w+5wqVgSJXXNj+aGhQ3NIPWJYH2YhlGNup6voR0if1bqXJkHQLJNaaB/cOnI/vYHHSP280AVlA9jd+l0++J9ijt+sAYigVJBjlliavPtn7w6BL0XyxALKIQCXasNgcwGrc5oJ7iz7x9UPQGpUyXswkqdhMPFNWhcADs1159qcA6DwsdgHkb8MP0qX9LmcWg5oEz55BhyBtsWffG/BKFKFx60eaI9AvPDkp2B76p9HkBbCN3dDsT5HdDfJvdulU6cSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4B2Yiz1UOf+HEnCBgWkQaMFEWvnqSztWRxBhb9t4JQw=;
- b=EDQNDCnTZOOfDWanAUVoLFOYSweqT4h3PsKfwXnhkAtRgOIEtoftG2KTLoMaFCzxE4++A4WeU/JQR3P4sOElKjnHwZeq/BN4wh404LWRKHUxhSgYTVTFYUR5RGv7tGM5NFnTDruEgSmpvarthTGWknX7GGiw+bqZUHt9t4Y73MZ+U3IN71p2RweHxJ0LPT9n2eMSSazmL+3SnIJSCjaChNkzOES7n+316i9Sj2tmG9HuWwQJGg7Af2rzW28p7G2PS5ZcNbLmr0vgr6txIFvbwR9V9OiLrAg+du6/bHdjzinyNtjY7adq86lJdSoe5eas+q1dD8jtHdLV82wn7MAAVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
- by CY8PR11MB7778.namprd11.prod.outlook.com (2603:10b6:930:76::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Wed, 4 Sep
- 2024 17:36:53 +0000
-Received: from CH0PR11MB5444.namprd11.prod.outlook.com
- ([fe80::5f89:ba81:ff70:bace]) by CH0PR11MB5444.namprd11.prod.outlook.com
- ([fe80::5f89:ba81:ff70:bace%4]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
- 17:36:53 +0000
-From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-To: "Brost, Matthew" <matthew.brost@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: "simona.vetter@ffwll.ch" <simona.vetter@ffwll.ch>,
- "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>, "Landwerlin, 
- Lionel G" <lionel.g.landwerlin@intel.com>, "Graunke, Kenneth W"
- <kenneth.w.graunke@intel.com>, "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-Subject: RE: [PATCH 1/2] drm/xe: Add DRM_XE_VM_CREATE_FLAG_EXTOBJ_BOOKKEEP
-Thread-Topic: [PATCH 1/2] drm/xe: Add DRM_XE_VM_CREATE_FLAG_EXTOBJ_BOOKKEEP
-Thread-Index: AQHa/uybSnNBoP5WyUSLGnmS7wtOwbJH487w
-Date: Wed, 4 Sep 2024 17:36:53 +0000
-Message-ID: <CH0PR11MB54442B999B12FC28140BC6C8E59C2@CH0PR11MB5444.namprd11.prod.outlook.com>
-References: <20240904170500.3303081-1-matthew.brost@intel.com>
- <20240904170500.3303081-2-matthew.brost@intel.com>
-In-Reply-To: <20240904170500.3303081-2-matthew.brost@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|CY8PR11MB7778:EE_
-x-ms-office365-filtering-correlation-id: f507a2cc-b57d-4217-20a4-08dccd082a34
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?FYiuNnJtkQp9aNTYZfh2IltYkLvRz4xAlhswwR8vYYbpIb3v9Rm3BuDREJEn?=
- =?us-ascii?Q?P1oxCFpM0M2EcPcKZTpWxyRl7AUgvCN7HxZeMPBSIH4iUFg5vJF8bAWakpxe?=
- =?us-ascii?Q?suwXWtmnOfyzUXZweneAWj3n9SEL2QuavYX3f0KnSgsMtnafyoftYOhaLse/?=
- =?us-ascii?Q?0XT6koMpcHM0x/Lad9uVB5RT5Y+gyypqO9hE+z3nuq/yR36HHcbsotddS8Pb?=
- =?us-ascii?Q?xHcSFV2/VzqUcEtg3yaz4hvrJyK3feS1PEk5hDSp7z/OO2p9gCKDFJ3w47ZD?=
- =?us-ascii?Q?ctav7zS5UjYFQejyg1knLSKgsIoaMtjqMn2EKXxaFosM2YiIAYNrXhG8VSAA?=
- =?us-ascii?Q?ZZkY57+FyNRxGtokrjPxIckJLtLmgCsYkWlarg65pdwT5JGT8UffDWUtWYTA?=
- =?us-ascii?Q?HOEluudRcW+b7q0lIbnfcl+nqNv21RWofmL+frqLlfKz6nEBkUDKpKbGfvr2?=
- =?us-ascii?Q?tes4bK05AoIDTZK9dpQWbIZIcKod7YZIAIPLQ1gjq2mF/mKhA02XB5n9iHEj?=
- =?us-ascii?Q?KxGTE8TuAL6J4ATgV+YWxaFZVenqeemEvVkraCxSVwMb842jGvLOT+n920hV?=
- =?us-ascii?Q?ulQQ+X0hVno/riss3kU7/Iwm6/Ih9af4ll6CqjN6w067SO/4ZEIJY55zLkMS?=
- =?us-ascii?Q?X9H+bbGTAE0hUnfTTDRWeiEF6Hm8ywZZmrmZa/hihVmJpVH4AktICQ8Kx5TI?=
- =?us-ascii?Q?A67qpu03++WdgQQvZ1K1SEism0EEnxvPDRCilxPR0pCRZJVEijp5HUVHxzo5?=
- =?us-ascii?Q?lyhunpxcrRkqggDkmDsT2rL7N7dc3AiSdePQGhE5splW+BzXNgevHHX5Dctv?=
- =?us-ascii?Q?uP9L4ZgogaIPxfUpOdFodPv574lfKK7AEkGf7T5ejDgfaNN5orBYJSAl9iLz?=
- =?us-ascii?Q?F8JleskcURKRyMe138rUvS4Xw8oL5dKxXj/Nixn9tZn5lH4fYsdZnbJm/Vri?=
- =?us-ascii?Q?5eIfFBqI/wcpDpVH7UP9UfLQHccr2R1aKxa5bYUmgyrAFF6SeDjsnpPKkJk9?=
- =?us-ascii?Q?mdks7dNMvSUihxtKextthEiT2VT0Pry9/g15XxdQAE/wPm1o5kIK4m85yX7K?=
- =?us-ascii?Q?CtHvgvB+PGBj9eFIQJ+B71/OEma3e2NiVu+yxF6seIU/0DluGLLBI4M1Q3w9?=
- =?us-ascii?Q?dT2BPw43OuO6q6tzR1TIyqYJAv499QaGXQRC2HmFJD636FUIbO8A7Yh9+Xpr?=
- =?us-ascii?Q?0I+3IDKaFyJ7RsY5uM3/JwD6E2n4Ee1zdxYJAkjemBi3KwNF5O5puK9Zhb2J?=
- =?us-ascii?Q?4AzOFC1kzgJTUXyhTOQ8i0wr/wJgCgI+I3MOFPoIAKpWCkc5wPC+rO2kfV3h?=
- =?us-ascii?Q?qiTyL6yopwOhQf/coY3r0pQOJh65stBggDP2cN3agHZOBVtk2Y1S9MNuoRv4?=
- =?us-ascii?Q?D3kgOBVtHlrSdp/EEOJwb8V8dsj9f9dSnNydS7j/2yKcbegt0g=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GYn8KirZuDgyJn1ep6LQDF1i38T8nFnZeJ9YdpMecRPg6cILC+yyuWoRWi1c?=
- =?us-ascii?Q?27J10BlGNBrW9jtqcWAJPeTSRae88B5GRUMck9zCdIVMZ3xXr9bj2AZRyl5i?=
- =?us-ascii?Q?c3r3lK5wRQHe5aolUp2G58P/XRWVIQ5oxs7+qDP5o+gdYt0lVsh+4Sk4xMsB?=
- =?us-ascii?Q?VvRivhVsl5Uqjy7riFPR65dWT9CgiYu/0pZ76eV/XXlC+LIMopm42clt+Kvm?=
- =?us-ascii?Q?TlMyS4dJuPxid/jW0W2MHgjm/dNt1JjCOnwWYZ+LMOTylu8W9Rkae2xhPlKj?=
- =?us-ascii?Q?2kldprKTxv4bP7c66vOb/IhXYei/T3MD3td6ZzMBwLhlpMDFF2h5bHYO8iyf?=
- =?us-ascii?Q?bnTkeTXGCOiGSZXWjLCPSol8afSf80ib+eStO/OV+6B6sCqYNlz4y74IFTKn?=
- =?us-ascii?Q?qR455PAQQFi9k2GVXEPx7m5DhzJ8tWeP0Rfeq7oFeIeq+x+Au3/On1hRB2ci?=
- =?us-ascii?Q?SAPYvbQ1aQulqNUD/ndYvmH+DiLfJZZFiu0yb5LQ7IMBtQBM2FLoK8n+raG4?=
- =?us-ascii?Q?1WW85PJdLX8itfe72CCcI00nRehGRSfNT7SdwFHkod5KaFFoDqV3ZhgmzaKX?=
- =?us-ascii?Q?dsMRpDyTkbvXdf0e92VdpL3KJ3K8QHkHd6kef1LjXnWHSNAUYjkBYpTeryXw?=
- =?us-ascii?Q?9pVxvvp00vLRx/9aYNjuDgh7tdfGUg5mhrVaCw1pgBxM8m2OF821dEoaUCQ/?=
- =?us-ascii?Q?mFhRDgIRTHsDBr4AY/3AiimZlCOuGMy1WpAgAVqab5adHIgTaJSSp3Rtggz9?=
- =?us-ascii?Q?jjYpDbuoeQQ2lbTRwnxMt0lY6QNEeRoyT2ITO0aOKcYnTLmAM+sYsZnX/mJQ?=
- =?us-ascii?Q?q3iDkx2cpXvQ6Kl6RUsxUwIfnWbnUqjpkDN2pn2JQiwDptFc1YLl0wfGJTOy?=
- =?us-ascii?Q?LAv4lQJk8gOdYaYIQbo3aj4ehb2Ji/yOViUb1ED66G3ncwR/KRsRWdaMajoe?=
- =?us-ascii?Q?x9eQDNPQ8OfhmymT5cDAbDivPYvAslubFnmpYKAxsXns0tsvirzGryqN3QKA?=
- =?us-ascii?Q?zAUOI9x++7S8ey5tEH6n0o0CNW8LKyGLZ2wn96T6aDf5/o0nZTgJmS8lAkx2?=
- =?us-ascii?Q?8tMukogjuc74nfAxUxmsOUO5ZBK8LKf2tO2q9TmRN2O1o7397BuM96XvBF1w?=
- =?us-ascii?Q?jI7v4yPgKdX2oqqy1WGQ/e/jNtGNH1uICWt8hM/8/q+//jeoF1rN442sLCTe?=
- =?us-ascii?Q?6Ro3AWv/y6GI5WaBrDVTuZFQ/2F6uP8uRKmHUAhbKFOgv7B/inwyAz8p7oyk?=
- =?us-ascii?Q?D0gybhUHSIoHPqJ4edpp3i2XBRbENCmhy2qEMFZann8AKBYjZC/dge05SzR9?=
- =?us-ascii?Q?boRNvGGQ0OOzdDV9VwnxvQGZ1WqFJZE40nP/9/D7pGKAbcGwVpvTHN5VHJFl?=
- =?us-ascii?Q?PF0qjbKIwBUTSiVkOVmPBJ9d/Klzy8Vzn69NnyhuVWyiduuYa7q8T0W4giyE?=
- =?us-ascii?Q?1SwSbs/iFvRLtNnsoOyCiAhNZc7Podbu8Ew+lk6gj4du2WZqFLJLI/nGGuIf?=
- =?us-ascii?Q?5vHE+SqocSzJj5fzqRT8ua/W27z/ngN2L7s9eg/FCj3ki8yQLNI0M7HYe5wl?=
- =?us-ascii?Q?uXMbn2QArthmOUsplxpHk2i8yRmWZ/A4/oN5AGc3?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; d="scan'208";a="69502604"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+ by fmviesa003.fm.intel.com with ESMTP; 04 Sep 2024 10:46:34 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1slu5Q-0008PB-1o;
+ Wed, 04 Sep 2024 17:46:32 +0000
+Date: Thu, 5 Sep 2024 01:45:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+ =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 2/4] drm/panthor: add DRM fdinfo support
+Message-ID: <202409050134.uxrIkhqc-lkp@intel.com>
+References: <20240903202541.430225-3-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f507a2cc-b57d-4217-20a4-08dccd082a34
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2024 17:36:53.1024 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KIV+ux8h3A0uMP1ZyR7capBqlxPMroqXo+X1ET2CGyoFsULe+jaz3IUWDvScrjbO/hHYxTUTJ5H8JeuHXWWQRiiqDmnnZ891CROOBEYb2Q0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7778
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240903202541.430225-3-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,69 +81,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
------Original Message-----
-From: Intel-xe <intel-xe-bounces@lists.freedesktop.org> On Behalf Of Matthe=
-w Brost
-Sent: Wednesday, September 4, 2024 10:05 AM
-To: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-Cc: simona.vetter@ffwll.ch; boris.brezillon@collabora.com; Landwerlin, Lion=
-el G <lionel.g.landwerlin@intel.com>; Graunke, Kenneth W <kenneth.w.graunke=
-@intel.com>
-Subject: [PATCH 1/2] drm/xe: Add DRM_XE_VM_CREATE_FLAG_EXTOBJ_BOOKKEEP
->=20
-> Add DRM_XE_VM_CREATE_FLAG_EXTOBJ_BOOKKEEP which will install exec IOCTL
-> fence into external BO's dma-resv bookkeep slot rather than write slot.
-> A bit of confusion of the usage of the dma-buf sync uAPI lead to using
-> the write slot. With a proper user space the bookkeep slot is
-> sufficient as user space will install read / write dependencies. Flags
-> is added to not break old user spaces.
->=20
-> Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Hi Adrián,
 
-LGTM, though there may be an argument to be made that this should
-be squashed with the next patch in this series.  I won't be making that
-argument, however.
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
--Jonathan Cavitt
+kernel test robot noticed the following build warnings:
 
-> ---
->  include/uapi/drm/xe_drm.h | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> index b6fbe4988f2e..54ec1cbce895 100644
-> --- a/include/uapi/drm/xe_drm.h
-> +++ b/include/uapi/drm/xe_drm.h
-> @@ -849,6 +849,11 @@ struct drm_xe_gem_mmap_offset {
->   *    demand when accessed, and also allows per-VM overcommit of memory.
->   *    The xe driver internally uses recoverable pagefaults to implement
->   *    this.
-> + *  - %DRM_XE_VM_CREATE_FLAG_EXTOBJ_BOOKKEEP - Insert exec IOCTL fences =
-into
-> + *    external BO's bookkeep slots rather than write slots. A bit of con=
-fusion
-> + *    the dma-buf sync uAPI lead using the write slots but with a proper=
- user
-> + *    space implementation only bookkeep is required as user space will =
-install
-> + *    read / write dependecies. Flag added as an opt in to correct usage=
- model.
->   */
->  struct drm_xe_vm_create {
->  	/** @extensions: Pointer to the first extension struct, if any */
-> @@ -857,6 +862,7 @@ struct drm_xe_vm_create {
->  #define DRM_XE_VM_CREATE_FLAG_SCRATCH_PAGE	(1 << 0)
->  #define DRM_XE_VM_CREATE_FLAG_LR_MODE	        (1 << 1)
->  #define DRM_XE_VM_CREATE_FLAG_FAULT_MODE	(1 << 2)
-> +#define DRM_XE_VM_CREATE_FLAG_EXTOBJ_BOOKKEEP	(1 << 3)
->  	/** @flags: Flags */
->  	__u32 flags;
-> =20
-> --=20
-> 2.34.1
->=20
->=20
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.11-rc6 next-20240904]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240904-042645
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240903202541.430225-3-adrian.larumbe%40collabora.com
+patch subject: [PATCH v5 2/4] drm/panthor: add DRM fdinfo support
+config: x86_64-buildonly-randconfig-002-20240904 (https://download.01.org/0day-ci/archive/20240905/202409050134.uxrIkhqc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050134.uxrIkhqc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409050134.uxrIkhqc-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'idle' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'mem' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'ref' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gt' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'sync64' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'bo' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'offset' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'kmap' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'lock' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'id' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'seqno' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'last_fence' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slots' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slot_count' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'profiling_seqno' description in 'panthor_queue'
+>> drivers/gpu/drm/panthor/panthor_sched.c:689: warning: Excess struct member 'data' description in 'panthor_group'
+>> drivers/gpu/drm/panthor/panthor_sched.c:689: warning: Excess struct member 'lock' description in 'panthor_group'
+   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Function parameter or struct member 'profiling_slot' not described in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'size' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'latest_flush' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'end' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:822: warning: Excess struct member 'profile_slot' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:1745: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:1745: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:2637: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+
+
+vim +689 drivers/gpu/drm/panthor/panthor_sched.c
+
+de85488138247d0 Boris Brezillon 2024-02-29  531  
+de85488138247d0 Boris Brezillon 2024-02-29  532  /**
+de85488138247d0 Boris Brezillon 2024-02-29  533   * struct panthor_group - Scheduling group object
+de85488138247d0 Boris Brezillon 2024-02-29  534   */
+de85488138247d0 Boris Brezillon 2024-02-29  535  struct panthor_group {
+de85488138247d0 Boris Brezillon 2024-02-29  536  	/** @refcount: Reference count */
+de85488138247d0 Boris Brezillon 2024-02-29  537  	struct kref refcount;
+de85488138247d0 Boris Brezillon 2024-02-29  538  
+de85488138247d0 Boris Brezillon 2024-02-29  539  	/** @ptdev: Device. */
+de85488138247d0 Boris Brezillon 2024-02-29  540  	struct panthor_device *ptdev;
+de85488138247d0 Boris Brezillon 2024-02-29  541  
+de85488138247d0 Boris Brezillon 2024-02-29  542  	/** @vm: VM bound to the group. */
+de85488138247d0 Boris Brezillon 2024-02-29  543  	struct panthor_vm *vm;
+de85488138247d0 Boris Brezillon 2024-02-29  544  
+de85488138247d0 Boris Brezillon 2024-02-29  545  	/** @compute_core_mask: Mask of shader cores that can be used for compute jobs. */
+de85488138247d0 Boris Brezillon 2024-02-29  546  	u64 compute_core_mask;
+de85488138247d0 Boris Brezillon 2024-02-29  547  
+de85488138247d0 Boris Brezillon 2024-02-29  548  	/** @fragment_core_mask: Mask of shader cores that can be used for fragment jobs. */
+de85488138247d0 Boris Brezillon 2024-02-29  549  	u64 fragment_core_mask;
+de85488138247d0 Boris Brezillon 2024-02-29  550  
+de85488138247d0 Boris Brezillon 2024-02-29  551  	/** @tiler_core_mask: Mask of tiler cores that can be used for tiler jobs. */
+de85488138247d0 Boris Brezillon 2024-02-29  552  	u64 tiler_core_mask;
+de85488138247d0 Boris Brezillon 2024-02-29  553  
+de85488138247d0 Boris Brezillon 2024-02-29  554  	/** @max_compute_cores: Maximum number of shader cores used for compute jobs. */
+de85488138247d0 Boris Brezillon 2024-02-29  555  	u8 max_compute_cores;
+de85488138247d0 Boris Brezillon 2024-02-29  556  
+be7ffc821f5fc2e Liviu Dudau     2024-04-02  557  	/** @max_fragment_cores: Maximum number of shader cores used for fragment jobs. */
+de85488138247d0 Boris Brezillon 2024-02-29  558  	u8 max_fragment_cores;
+de85488138247d0 Boris Brezillon 2024-02-29  559  
+de85488138247d0 Boris Brezillon 2024-02-29  560  	/** @max_tiler_cores: Maximum number of tiler cores used for tiler jobs. */
+de85488138247d0 Boris Brezillon 2024-02-29  561  	u8 max_tiler_cores;
+de85488138247d0 Boris Brezillon 2024-02-29  562  
+de85488138247d0 Boris Brezillon 2024-02-29  563  	/** @priority: Group priority (check panthor_csg_priority). */
+de85488138247d0 Boris Brezillon 2024-02-29  564  	u8 priority;
+de85488138247d0 Boris Brezillon 2024-02-29  565  
+de85488138247d0 Boris Brezillon 2024-02-29  566  	/** @blocked_queues: Bitmask reflecting the blocked queues. */
+de85488138247d0 Boris Brezillon 2024-02-29  567  	u32 blocked_queues;
+de85488138247d0 Boris Brezillon 2024-02-29  568  
+de85488138247d0 Boris Brezillon 2024-02-29  569  	/** @idle_queues: Bitmask reflecting the idle queues. */
+de85488138247d0 Boris Brezillon 2024-02-29  570  	u32 idle_queues;
+de85488138247d0 Boris Brezillon 2024-02-29  571  
+de85488138247d0 Boris Brezillon 2024-02-29  572  	/** @fatal_lock: Lock used to protect access to fatal fields. */
+de85488138247d0 Boris Brezillon 2024-02-29  573  	spinlock_t fatal_lock;
+de85488138247d0 Boris Brezillon 2024-02-29  574  
+de85488138247d0 Boris Brezillon 2024-02-29  575  	/** @fatal_queues: Bitmask reflecting the queues that hit a fatal exception. */
+de85488138247d0 Boris Brezillon 2024-02-29  576  	u32 fatal_queues;
+de85488138247d0 Boris Brezillon 2024-02-29  577  
+de85488138247d0 Boris Brezillon 2024-02-29  578  	/** @tiler_oom: Mask of queues that have a tiler OOM event to process. */
+de85488138247d0 Boris Brezillon 2024-02-29  579  	atomic_t tiler_oom;
+de85488138247d0 Boris Brezillon 2024-02-29  580  
+de85488138247d0 Boris Brezillon 2024-02-29  581  	/** @queue_count: Number of queues in this group. */
+de85488138247d0 Boris Brezillon 2024-02-29  582  	u32 queue_count;
+de85488138247d0 Boris Brezillon 2024-02-29  583  
+de85488138247d0 Boris Brezillon 2024-02-29  584  	/** @queues: Queues owned by this group. */
+de85488138247d0 Boris Brezillon 2024-02-29  585  	struct panthor_queue *queues[MAX_CS_PER_CSG];
+de85488138247d0 Boris Brezillon 2024-02-29  586  
+de85488138247d0 Boris Brezillon 2024-02-29  587  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  588  	 * @csg_id: ID of the FW group slot.
+de85488138247d0 Boris Brezillon 2024-02-29  589  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  590  	 * -1 when the group is not scheduled/active.
+de85488138247d0 Boris Brezillon 2024-02-29  591  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  592  	int csg_id;
+de85488138247d0 Boris Brezillon 2024-02-29  593  
+de85488138247d0 Boris Brezillon 2024-02-29  594  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  595  	 * @destroyed: True when the group has been destroyed.
+de85488138247d0 Boris Brezillon 2024-02-29  596  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  597  	 * If a group is destroyed it becomes useless: no further jobs can be submitted
+de85488138247d0 Boris Brezillon 2024-02-29  598  	 * to its queues. We simply wait for all references to be dropped so we can
+de85488138247d0 Boris Brezillon 2024-02-29  599  	 * release the group object.
+de85488138247d0 Boris Brezillon 2024-02-29  600  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  601  	bool destroyed;
+de85488138247d0 Boris Brezillon 2024-02-29  602  
+de85488138247d0 Boris Brezillon 2024-02-29  603  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  604  	 * @timedout: True when a timeout occurred on any of the queues owned by
+de85488138247d0 Boris Brezillon 2024-02-29  605  	 * this group.
+de85488138247d0 Boris Brezillon 2024-02-29  606  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  607  	 * Timeouts can be reported by drm_sched or by the FW. In any case, any
+de85488138247d0 Boris Brezillon 2024-02-29  608  	 * timeout situation is unrecoverable, and the group becomes useless.
+de85488138247d0 Boris Brezillon 2024-02-29  609  	 * We simply wait for all references to be dropped so we can release the
+de85488138247d0 Boris Brezillon 2024-02-29  610  	 * group object.
+de85488138247d0 Boris Brezillon 2024-02-29  611  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  612  	bool timedout;
+de85488138247d0 Boris Brezillon 2024-02-29  613  
+de85488138247d0 Boris Brezillon 2024-02-29  614  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  615  	 * @syncobjs: Pool of per-queue synchronization objects.
+de85488138247d0 Boris Brezillon 2024-02-29  616  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  617  	 * One sync object per queue. The position of the sync object is
+de85488138247d0 Boris Brezillon 2024-02-29  618  	 * determined by the queue index.
+de85488138247d0 Boris Brezillon 2024-02-29  619  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  620  	struct panthor_kernel_bo *syncobjs;
+de85488138247d0 Boris Brezillon 2024-02-29  621  
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  622  	/** @fdinfo: Per-file total cycle and timestamp values reference. */
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  623  	struct {
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  624  		/** @data: Pointer to actual per-file sample data. */
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  625  		struct panthor_gpu_usage *data;
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  626  
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  627  		/**
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  628  		 * @lock: Mutex to govern concurrent access from drm file's fdinfo callback
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  629  		 * and job post-completion processing function
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  630  		 */
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  631  		struct mutex lock;
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  632  	} fdinfo;
+d7baaf2591f58fc Adrián Larumbe  2024-09-03  633  
+de85488138247d0 Boris Brezillon 2024-02-29  634  	/** @state: Group state. */
+de85488138247d0 Boris Brezillon 2024-02-29  635  	enum panthor_group_state state;
+de85488138247d0 Boris Brezillon 2024-02-29  636  
+de85488138247d0 Boris Brezillon 2024-02-29  637  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  638  	 * @suspend_buf: Suspend buffer.
+de85488138247d0 Boris Brezillon 2024-02-29  639  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  640  	 * Stores the state of the group and its queues when a group is suspended.
+de85488138247d0 Boris Brezillon 2024-02-29  641  	 * Used at resume time to restore the group in its previous state.
+de85488138247d0 Boris Brezillon 2024-02-29  642  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  643  	 * The size of the suspend buffer is exposed through the FW interface.
+de85488138247d0 Boris Brezillon 2024-02-29  644  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  645  	struct panthor_kernel_bo *suspend_buf;
+de85488138247d0 Boris Brezillon 2024-02-29  646  
+de85488138247d0 Boris Brezillon 2024-02-29  647  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  648  	 * @protm_suspend_buf: Protection mode suspend buffer.
+de85488138247d0 Boris Brezillon 2024-02-29  649  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  650  	 * Stores the state of the group and its queues when a group that's in
+de85488138247d0 Boris Brezillon 2024-02-29  651  	 * protection mode is suspended.
+de85488138247d0 Boris Brezillon 2024-02-29  652  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  653  	 * Used at resume time to restore the group in its previous state.
+de85488138247d0 Boris Brezillon 2024-02-29  654  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  655  	 * The size of the protection mode suspend buffer is exposed through the
+de85488138247d0 Boris Brezillon 2024-02-29  656  	 * FW interface.
+de85488138247d0 Boris Brezillon 2024-02-29  657  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  658  	struct panthor_kernel_bo *protm_suspend_buf;
+de85488138247d0 Boris Brezillon 2024-02-29  659  
+de85488138247d0 Boris Brezillon 2024-02-29  660  	/** @sync_upd_work: Work used to check/signal job fences. */
+de85488138247d0 Boris Brezillon 2024-02-29  661  	struct work_struct sync_upd_work;
+de85488138247d0 Boris Brezillon 2024-02-29  662  
+de85488138247d0 Boris Brezillon 2024-02-29  663  	/** @tiler_oom_work: Work used to process tiler OOM events happening on this group. */
+de85488138247d0 Boris Brezillon 2024-02-29  664  	struct work_struct tiler_oom_work;
+de85488138247d0 Boris Brezillon 2024-02-29  665  
+de85488138247d0 Boris Brezillon 2024-02-29  666  	/** @term_work: Work used to finish the group termination procedure. */
+de85488138247d0 Boris Brezillon 2024-02-29  667  	struct work_struct term_work;
+de85488138247d0 Boris Brezillon 2024-02-29  668  
+de85488138247d0 Boris Brezillon 2024-02-29  669  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  670  	 * @release_work: Work used to release group resources.
+de85488138247d0 Boris Brezillon 2024-02-29  671  	 *
+de85488138247d0 Boris Brezillon 2024-02-29  672  	 * We need to postpone the group release to avoid a deadlock when
+de85488138247d0 Boris Brezillon 2024-02-29  673  	 * the last ref is released in the tick work.
+de85488138247d0 Boris Brezillon 2024-02-29  674  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  675  	struct work_struct release_work;
+de85488138247d0 Boris Brezillon 2024-02-29  676  
+de85488138247d0 Boris Brezillon 2024-02-29  677  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  678  	 * @run_node: Node used to insert the group in the
+de85488138247d0 Boris Brezillon 2024-02-29  679  	 * panthor_group::groups::{runnable,idle} and
+de85488138247d0 Boris Brezillon 2024-02-29  680  	 * panthor_group::reset.stopped_groups lists.
+de85488138247d0 Boris Brezillon 2024-02-29  681  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  682  	struct list_head run_node;
+de85488138247d0 Boris Brezillon 2024-02-29  683  
+de85488138247d0 Boris Brezillon 2024-02-29  684  	/**
+de85488138247d0 Boris Brezillon 2024-02-29  685  	 * @wait_node: Node used to insert the group in the
+de85488138247d0 Boris Brezillon 2024-02-29  686  	 * panthor_group::groups::waiting list.
+de85488138247d0 Boris Brezillon 2024-02-29  687  	 */
+de85488138247d0 Boris Brezillon 2024-02-29  688  	struct list_head wait_node;
+de85488138247d0 Boris Brezillon 2024-02-29 @689  };
+de85488138247d0 Boris Brezillon 2024-02-29  690  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
