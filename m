@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8450996B3CA
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D60A96B3D1
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:03:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C91CA10E6B2;
-	Wed,  4 Sep 2024 08:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D79110E6B7;
+	Wed,  4 Sep 2024 08:03:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dUHmIPgk";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DBSpLNHT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3158310E6B2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:02:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F5210E6B7
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725436921;
- bh=XeBmn7/telVY98tcBnVnUjGvx8fxxfqnV6V1SQ2n+Ho=;
+ s=mail; t=1725436984;
+ bh=EvtTAN43MF9IJtI4LMQlHahxmGI3fTgZDyA4IWKhy9s=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dUHmIPgkfhM8EwRMkz/bit0yJZRmAOfwk2STlktZh6AKVAhyTdpuPi/Hhr0JSwAEs
- iOGH+wkvOcrrwWCd5MdJnylXsaPa+QjLknuvXPN59B91JxA7GKWplnuzI2dOUadCgb
- LXPVtyfTq2e0YuwbDlkYz6Qj9fp7Fs14jFA18ub6a8ICZOExUbwjjYgLGO7dfbkzG2
- s3ulvvydeM/8Y6hCZvx2j3rqYEOGjjr7vskO3j6aasVAo4dyymfS26PkZMBM1ANrEh
- rh13MzGXG3RA1a5r7UE2Dk3IdYcrHD4UB06bN7Ag7GS5MnPuY1KAYY2/1icvjabUi2
- WDkrSicwHUSag==
+ b=DBSpLNHT8iipmirt/a9Ck4pTN1x4XZzXXYCt8DjWp0BrztNv4xfbG7UuZj95liHRF
+ eA+TO50zntwE9XORnLAeD/scs+YIZERvIAcFM0r4XPgflBwuF+QVYfcqhB3ggcx9mp
+ ZC9tQnNZ3TWSABLgAR8wfa3Sxt4m/fLor+xcnMbCRi3h8N5l64NMREwBrvER7ddbbv
+ UmGb99MCSfeAiHHHnOSfBY7Yqt3uD7q7L9D4lhWck2BMmbDODyydhRUo1kl1RVvSgy
+ 46fjKRmuT++9dlVXdL9+mo5h2hoUOIG/c7k5wCYCf1ZY8FF2sPKJyhPqq9BdtKsjMA
+ GfTJbCGANc4DA==
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2AC4817E0F94;
- Wed,  4 Sep 2024 10:02:01 +0200 (CEST)
-Date: Wed, 4 Sep 2024 10:01:56 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7711717E0F95;
+ Wed,  4 Sep 2024 10:03:03 +0200 (CEST)
+Date: Wed, 4 Sep 2024 10:03:00 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -43,11 +43,11 @@ Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  <christian.koenig@amd.com>, kernel@collabora.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 2/4] drm/panthor: add DRM fdinfo support
-Message-ID: <20240904100156.4fc7cb3c@collabora.com>
-In-Reply-To: <20240903202541.430225-3-adrian.larumbe@collabora.com>
+Subject: Re: [PATCH v5 3/4] drm/panthor: enable fdinfo for memory stats
+Message-ID: <20240904100300.40ea245d@collabora.com>
+In-Reply-To: <20240903202541.430225-4-adrian.larumbe@collabora.com>
 References: <20240903202541.430225-1-adrian.larumbe@collabora.com>
- <20240903202541.430225-3-adrian.larumbe@collabora.com>
+ <20240903202541.430225-4-adrian.larumbe@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -68,305 +68,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  3 Sep 2024 21:25:36 +0100
+On Tue,  3 Sep 2024 21:25:37 +0100
 Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-> Drawing from the FW-calculated values in the previous commit, we can
-> increase the numbers for an open file by collecting them from finished jo=
-bs
-> when updating their group synchronisation objects.
+> Implement drm object's status callback.
 >=20
-> Display of fdinfo key-value pairs is governed by a flag that is by default
-> disabled in the present commit, and supporting manual toggle of it will be
-> the matter of a later commit.
+> Also, we consider a PRIME imported BO to be resident if its matching
+> dma_buf has an open attachment, which means its backing storage had alrea=
+dy
+> been allocated.
 >=20
 > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
 > ---
->  drivers/gpu/drm/panthor/panthor_devfreq.c | 18 ++++++++-
->  drivers/gpu/drm/panthor/panthor_device.h  | 14 +++++++
->  drivers/gpu/drm/panthor/panthor_drv.c     | 35 ++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_sched.c   | 45 +++++++++++++++++++++++
->  4 files changed, 111 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/panthor/panthor_gem.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/=
-panthor/panthor_devfreq.c
-> index c6d3c327cc24..9d0f891b9b53 100644
-> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
-> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
-> @@ -62,14 +62,20 @@ static void panthor_devfreq_update_utilization(struct=
- panthor_devfreq *pdevfreq)
->  static int panthor_devfreq_target(struct device *dev, unsigned long *fre=
-q,
->  				  u32 flags)
->  {
-> +	struct panthor_device *ptdev =3D dev_get_drvdata(dev);
->  	struct dev_pm_opp *opp;
-> +	int err;
-> =20
->  	opp =3D devfreq_recommended_opp(dev, freq, flags);
->  	if (IS_ERR(opp))
->  		return PTR_ERR(opp);
->  	dev_pm_opp_put(opp);
-> =20
-> -	return dev_pm_opp_set_rate(dev, *freq);
-> +	err =3D dev_pm_opp_set_rate(dev, *freq);
-> +	if (!err)
-> +		ptdev->current_frequency =3D *freq;
-> +
-> +	return err;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 38f560864879..c60b599665d8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -145,6 +145,17 @@ panthor_gem_prime_export(struct drm_gem_object *obj,=
+ int flags)
+>  	return drm_gem_prime_export(obj, flags);
 >  }
 > =20
->  static void panthor_devfreq_reset(struct panthor_devfreq *pdevfreq)
-> @@ -130,6 +136,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  	struct panthor_devfreq *pdevfreq;
->  	struct dev_pm_opp *opp;
->  	unsigned long cur_freq;
-> +	unsigned long freq =3D ULONG_MAX;
->  	int ret;
-> =20
->  	pdevfreq =3D drmm_kzalloc(&ptdev->base, sizeof(*ptdev->devfreq), GFP_KE=
-RNEL);
-> @@ -161,6 +168,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  		return PTR_ERR(opp);
-> =20
->  	panthor_devfreq_profile.initial_freq =3D cur_freq;
-> +	ptdev->current_frequency =3D cur_freq;
-> =20
->  	/* Regulator coupling only takes care of synchronizing/balancing voltage
->  	 * updates, but the coupled regulator needs to be enabled manually.
-> @@ -204,6 +212,14 @@ int panthor_devfreq_init(struct panthor_device *ptde=
-v)
-> =20
->  	dev_pm_opp_put(opp);
-> =20
-> +	/* Find the fastest defined rate  */
-> +	opp =3D dev_pm_opp_find_freq_floor(dev, &freq);
-> +	if (IS_ERR(opp))
-> +		return PTR_ERR(opp);
-> +	ptdev->fast_rate =3D freq;
-> +
-> +	dev_pm_opp_put(opp);
-> +
->  	/*
->  	 * Setup default thresholds for the simple_ondemand governor.
->  	 * The values are chosen based on experiments.
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index a48e30d0af30..0e68f5a70d20 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -184,6 +184,17 @@ struct panthor_device {
-> =20
->  	/** @profile_mask: User-set profiling flags for job accounting. */
->  	u32 profile_mask;
-> +
-> +	/** @current_frequency: Device clock frequency at present. Set by DVFS*/
-> +	unsigned long current_frequency;
-> +
-> +	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
-> +	unsigned long fast_rate;
-> +};
-
-Can we move the current_frequency/fast_rate retrieval in a separate
-patch?
-
-> +
-> +struct panthor_gpu_usage {
-> +	u64 time;
-> +	u64 cycles;
->  };
-> =20
->  /**
-> @@ -198,6 +209,9 @@ struct panthor_file {
-> =20
->  	/** @groups: Scheduling group pool attached to this file. */
->  	struct panthor_group_pool *groups;
-> +
-> +	/** @stats: cycle and timestamp measures for job execution. */
-> +	struct panthor_gpu_usage stats;
->  };
-> =20
->  int panthor_device_init(struct panthor_device *ptdev);
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> index b5e7b919f241..e18838754963 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -3,12 +3,17 @@
->  /* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
->  /* Copyright 2019 Collabora ltd. */
-> =20
-> +#ifdef CONFIG_ARM_ARCH_TIMER
-> +#include <asm/arch_timer.h>
-> +#endif
-> +
->  #include <linux/list.h>
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
->  #include <linux/pagemap.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/time64.h>
-> =20
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_drv.h>
-> @@ -1351,6 +1356,34 @@ static int panthor_mmap(struct file *filp, struct =
-vm_area_struct *vma)
->  	return ret;
->  }
-> =20
-> +static void panthor_gpu_show_fdinfo(struct panthor_device *ptdev,
-> +				    struct panthor_file *pfile,
-> +				    struct drm_printer *p)
+> +static enum drm_gem_object_status panthor_gem_status(struct drm_gem_obje=
+ct *obj)
 > +{
-> +	if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP) {
-> +#ifdef CONFIG_ARM_ARCH_TIMER
-> +		drm_printf(p, "drm-engine-panthor:\t%llu ns\n",
-> +			   DIV_ROUND_UP_ULL((pfile->stats.time * NSEC_PER_SEC),
-> +					    arch_timer_get_cntfrq()));
-> +#endif
-> +	}
-> +	if (ptdev->profile_mask & PANTHOR_DEVICE_PROFILING_CYCLES)
-> +		drm_printf(p, "drm-cycles-panthor:\t%llu\n", pfile->stats.cycles);
-
-Don't know if that's an issue, but another thread might be updating the
-stats while show_fdinfo() is run, which means the data you return might
-be coming from two different sampling points.
-
+> +	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
+> +	enum drm_gem_object_status res =3D 0;
 > +
-> +	drm_printf(p, "drm-maxfreq-panthor:\t%lu Hz\n", ptdev->fast_rate);
-> +	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_frequenc=
-y);
+> +	if (bo->base.base.import_attach || bo->base.pages)
+> +		res |=3D DRM_GEM_OBJECT_RESIDENT;
+> +
+> +	return res;
 > +}
 > +
-> +static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *=
-file)
-> +{
-> +	struct drm_device *dev =3D file->minor->dev;
-> +	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
-e, base);
-> +
-> +	panthor_gpu_show_fdinfo(ptdev, file->driver_priv, p);
-> +
-> +	drm_show_memory_stats(p, file);
-> +}
-> +
->  static const struct file_operations panthor_drm_driver_fops =3D {
->  	.open =3D drm_open,
->  	.release =3D drm_release,
-> @@ -1360,6 +1393,7 @@ static const struct file_operations panthor_drm_dri=
-ver_fops =3D {
->  	.read =3D drm_read,
->  	.llseek =3D noop_llseek,
->  	.mmap =3D panthor_mmap,
-> +	.show_fdinfo =3D drm_show_fdinfo,
+>  static const struct drm_gem_object_funcs panthor_gem_funcs =3D {
+>  	.free =3D panthor_gem_free_object,
+>  	.print_info =3D drm_gem_shmem_object_print_info,
+> @@ -154,6 +165,7 @@ static const struct drm_gem_object_funcs panthor_gem_=
+funcs =3D {
+>  	.vmap =3D drm_gem_shmem_object_vmap,
+>  	.vunmap =3D drm_gem_shmem_object_vunmap,
+>  	.mmap =3D panthor_gem_mmap,
+> +	.status =3D panthor_gem_status,
+>  	.export =3D panthor_gem_prime_export,
+>  	.vm_ops =3D &drm_gem_shmem_vm_ops,
 >  };
-> =20
->  #ifdef CONFIG_DEBUG_FS
-> @@ -1378,6 +1412,7 @@ static const struct drm_driver panthor_drm_driver =
-=3D {
->  			   DRIVER_SYNCOBJ_TIMELINE | DRIVER_GEM_GPUVA,
->  	.open =3D panthor_open,
->  	.postclose =3D panthor_postclose,
-> +	.show_fdinfo =3D panthor_show_fdinfo,
->  	.ioctls =3D panthor_drm_driver_ioctls,
->  	.num_ioctls =3D ARRAY_SIZE(panthor_drm_driver_ioctls),
->  	.fops =3D &panthor_drm_driver_fops,
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
-nthor/panthor_sched.c
-> index b087648bf59a..e69ab5175ae8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -619,6 +619,18 @@ struct panthor_group {
->  	 */
->  	struct panthor_kernel_bo *syncobjs;
-> =20
-> +	/** @fdinfo: Per-file total cycle and timestamp values reference. */
-> +	struct {
-> +		/** @data: Pointer to actual per-file sample data. */
-> +		struct panthor_gpu_usage *data;
-> +
-> +		/**
-> +		 * @lock: Mutex to govern concurrent access from drm file's fdinfo cal=
-lback
-> +		 * and job post-completion processing function
-> +		 */
-> +		struct mutex lock;
-> +	} fdinfo;
-> +
->  	/** @state: Group state. */
->  	enum panthor_group_state state;
-> =20
-> @@ -886,6 +898,8 @@ static void group_release_work(struct work_struct *wo=
-rk)
->  						   release_work);
->  	u32 i;
-> =20
-> +	mutex_destroy(&group->fdinfo.lock);
-> +
->  	for (i =3D 0; i < group->queue_count; i++)
->  		group_free_queue(group, group->queues[i]);
-> =20
-> @@ -2808,6 +2822,28 @@ void panthor_sched_post_reset(struct panthor_devic=
-e *ptdev, bool reset_failed)
->  	}
->  }
-> =20
-> +static void update_fdinfo_stats(struct panthor_job *job)
-> +{
-> +	struct panthor_group *group =3D job->group;
-> +	struct panthor_queue *queue =3D group->queues[job->queue_idx];
-> +	struct panthor_gpu_usage *fdinfo;
-> +	struct panthor_job_profiling_data *times;
-> +
-> +	times =3D (struct panthor_job_profiling_data *)
-> +		((unsigned long) queue->profiling_info.slots->kmap +
-> +		 (job->profiling_slot * sizeof(struct panthor_job_profiling_data)));
-> +
-> +	mutex_lock(&group->fdinfo.lock);
-> +	if ((group->fdinfo.data)) {
-> +		fdinfo =3D group->fdinfo.data;
-> +		if (job->profile_mask & PANTHOR_DEVICE_PROFILING_CYCLES)
-> +			fdinfo->cycles +=3D times->cycles.after - times->cycles.before;
-> +		if (job->profile_mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
-> +			fdinfo->time +=3D times->time.after - times->time.before;
-> +	}
-> +	mutex_unlock(&group->fdinfo.lock);
-> +}
-> +
->  static void group_sync_upd_work(struct work_struct *work)
->  {
->  	struct panthor_group *group =3D
-> @@ -2840,6 +2876,8 @@ static void group_sync_upd_work(struct work_struct =
-*work)
->  	dma_fence_end_signalling(cookie);
-> =20
->  	list_for_each_entry_safe(job, job_tmp, &done_jobs, node) {
-> +		if (job->profile_mask)
-> +			update_fdinfo_stats(job);
->  		list_del_init(&job->node);
->  		panthor_job_put(&job->base);
->  	}
-> @@ -3430,6 +3468,9 @@ int panthor_group_create(struct panthor_file *pfile,
->  	}
->  	mutex_unlock(&sched->reset.lock);
-> =20
-> +	group->fdinfo.data =3D &pfile->stats;
-> +	mutex_init(&group->fdinfo.lock);
-> +
->  	return gid;
-> =20
->  err_put_group:
-> @@ -3469,6 +3510,10 @@ int panthor_group_destroy(struct panthor_file *pfi=
-le, u32 group_handle)
->  	mutex_unlock(&sched->lock);
->  	mutex_unlock(&sched->reset.lock);
-> =20
-> +	mutex_lock(&group->fdinfo.lock);
-> +	group->fdinfo.data =3D NULL;
-> +	mutex_unlock(&group->fdinfo.lock);
-> +
->  	group_put(group);
->  	return 0;
->  }
 
