@@ -2,96 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CBB496C9AD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 23:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AAD796CA20
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 00:16:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6E810E076;
-	Wed,  4 Sep 2024 21:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F6A10E36A;
+	Wed,  4 Sep 2024 22:16:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="V+iN9iiN";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ihmxw3ia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEE1810E076
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 21:45:38 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id
- af79cd13be357-7a803a4f6dfso6057885a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 14:45:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725486338; x=1726091138;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=f4gRtmbeYp5evTSGdV4aMzXH03sVn24oEBxx8YLA2ew=;
- b=V+iN9iiNv6a+eE8xgNCTxq0AlWZJRcmmBKjVy18YD9zmqAASgYv2NzCTHb5rOpHvB/
- TqIaGRYv7rkG1aauxjWfsOaLj/jGBdrCUweNvXje4T73Y918skm4NYLWu28Pxp1nYR6m
- 9P7c3dl897YLCp4QdfhwzBdUUF/xwfwwk6jgg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725486338; x=1726091138;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=f4gRtmbeYp5evTSGdV4aMzXH03sVn24oEBxx8YLA2ew=;
- b=YAoUT8ylkkJ4rLDWBD8PJolruoIJzXvRU/ubFqAu8Yxg5Y0HIVhDI0LDALNxgHkycc
- aRk/z4ltzcuJGkXzARC1VQ6WW0wHP2dluFYnd67swHlAy51ksAYGgtbDzMlNssoYFOun
- TWiGPEHEnVTr+YmNkqTgCNDPhBHSRkf0qydoniDU8vaIeMe1GFKoMFpXvCdCC9zH6bD9
- KLU+k81KZdQdRkBoCpRexduup/YvYNVnF1nzKkv4NBxcAbvWZmrbXPSczuonQxq4Eejz
- CbhccDzoiF8DpdNJB4cKfpAzdbbfziGRqOnO549DVSjh60xbdadepC3fnzQKCOpbU1+Z
- l3Vw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUCjSH1cMtaqO9eckv53IONxnyO5DsH8H+bytS0jZDgFHJemIO3JN9mcckZM2VzLnoHSzTVoguC1NQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywp6inMQCtrb35InPrBBoQBTC7HtWTAda5uw9+Qv3qmgOdEZvNp
- YpTvrE1zTnacru2M3r92b/9elaxJMD4T5v6arVbdKFSUP0OQmnA2y0tzt3fIaZNRF/tWhR+cBU2
- C8tAvOJgKyc7/7hvSfL2sKNpV7DPpIXtp8RFn
-X-Google-Smtp-Source: AGHT+IE3j/hFyhOgq6UHD/BuDzpg0SIVGw+m/kAN1oVv8xhNaZUR6LUlzSWku14uLG7tUpAnX8c5Trg6ijcjDc3jYq8=
-X-Received: by 2002:a05:620a:19a6:b0:79d:569a:699f with SMTP id
- af79cd13be357-7a8041da30cmr2373807985a.39.1725486337639; Wed, 04 Sep 2024
- 14:45:37 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 4 Sep 2024 14:45:36 -0700
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02E1A10E105;
+ Wed,  4 Sep 2024 22:16:11 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484Knbrf009594;
+ Wed, 4 Sep 2024 22:16:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ h59VR1wPI3LrDYIAK4aFbXVtoBrSuEIUi90scl2kh+Q=; b=ihmxw3iaIFyfz5VI
+ fnwva9tOuNjULEbGSGPnvlcnXCgC93iv4siyqJGOmVq0P5GUCd6BVfySYPb08RV/
+ yo+nlsfI1VmnMgBA2nvGX9Iqxv3fuJd27lDMh1A32wx7NP1AWwKyc0ofkQz70fO1
+ 39sUMapMHsKRoCp71SmmmTR9PoPRZvadscJFkghFqXFb3AYaWkgICoZ5ge/JYucz
+ FMBEDSM8abTr0tNar9lj8hun1URdtlX6Fuj1iJnKd/pwZsm3t5ipJYo22OqcOvis
+ vpYIyRlnLv06Zy9JaXpiofVo1lOYJ69WS70S9wP16UiZXO1lwMfBoJynr7KuTZSY
+ PfgbOg==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41bt67480k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 Sep 2024 22:16:00 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484MFxls003956
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 4 Sep 2024 22:15:59 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
+ 15:15:59 -0700
+Message-ID: <46ed2f2d-d748-42dd-b370-7e2be8d316ce@quicinc.com>
+Date: Wed, 4 Sep 2024 15:15:58 -0700
 MIME-Version: 1.0
-In-Reply-To: <ZtgqLZXbJbpG65vD@google.com>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-19-swboyd@chromium.org>
- <ZtgqLZXbJbpG65vD@google.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 4 Sep 2024 14:45:36 -0700
-Message-ID: <CAE-0n51w3AAtLPq5M-i8F6z2jSOT3xFw3g8HM1h48xXBSeoZnA@mail.gmail.com>
-Subject: Re: [PATCH v4 18/18] platform/chrome: cros_ec_typec: Handle lack of
- HPD information
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 14/21] drm/msm/dpu: Reserve resources for CWB
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>
+References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
+ <20240829-concurrent-wb-v1-14-502b16ae2ebb@quicinc.com>
+ <yohtzxysheoybac24hxil6zzzsqi4inx6oh6x7vaoj5lvtdf3u@vd5nax37ilqd>
+ <a73def5c-46f6-4467-958d-20f28ce8ad2c@quicinc.com>
+ <CAA8EJppTqdCvaxBwretFVM6wV-NOLpxNGJCyxO8EXvvqZXF=sw@mail.gmail.com>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <CAA8EJppTqdCvaxBwretFVM6wV-NOLpxNGJCyxO8EXvvqZXF=sw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: TqcBw4hgj1QBNnKQa0sn-4KJX8vaXzzI
+X-Proofpoint-GUID: TqcBw4hgj1QBNnKQa0sn-4KJX8vaXzzI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-04_20,2024-09-04_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409040169
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,88 +100,463 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tzung-Bi Shih (2024-09-04 02:36:45)
-> On Sat, Aug 31, 2024 at 09:06:56PM -0700, Stephen Boyd wrote:
-> > +static void cros_typec_inject_hpd(struct cros_typec_data *typec,
-> > +                               struct ec_response_usb_pd_mux_info *resp,
-> > +                               struct cros_typec_port *port)
-> > +{
-> [...]
-> > +     /*
-> > +      * Only read the mux GPIO setting if we need to change the active port.
-> > +      * Otherwise, an active port is already set and HPD going high or low
-> > +      * doesn't change the muxed port until DP mode is exited.
-> > +      */
-> > +     if (!typec->active_dp_port) {
->
-> Given that cros_typec_inject_hpd() is called before `typec->active_dp_port`
-> would be set (from previous patch "platform/chrome: ...  Support DP muxing"),
-> would it possibly wrongly fall into here at the beginning?  (E.g.:
-> cros_typec_probe() -> cros_typec_port_update() -> cros_typec_configure_mux()
-> -> cros_typec_inject_hpd().)
 
-We wouldn't get here if 'hpd_asserted' is false though. We want to fall
-into this case in the beginning, i.e. 'active_dp_port' is NULL, so that
-we can read the mux and figure out which port is actually selected.
 
-If we don't have a mux gpio we assume that we aren't muxing and that
-there's only one port to begin with. I'll add a comment after the if
-(mux_gpio) condition with this info.
+On 8/30/2024 3:27 PM, Dmitry Baryshkov wrote:
+> On Fri, 30 Aug 2024 at 23:28, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>> On 8/30/2024 10:25 AM, Dmitry Baryshkov wrote:
+>>> On Thu, Aug 29, 2024 at 01:48:35PM GMT, Jessica Zhang wrote:
+>>>> Reserve dedicated pingpong blocks for CWB
+>>>
+>>> Please explain design ideas. Having just a single phrase is usually not
+>>> enough.
+>>>
+>>>>
+>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 17 ++++++--
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 65 +++++++++++++++++++++++++++++
+>>>>    3 files changed, 79 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> index 36b677cf9c7a..f1bd14d1f89e 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> @@ -2,7 +2,7 @@
+>>>>    /*
+>>>>     * Copyright (C) 2013 Red Hat
+>>>>     * Copyright (c) 2014-2018, 2020-2021 The Linux Foundation. All rights reserved.
+>>>> - * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>>     *
+>>>>     * Author: Rob Clark <robdclark@gmail.com>
+>>>>     */
+>>>> @@ -1054,6 +1054,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>       struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+>>>>       struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
+>>>>       int num_pp, num_dsc;
+>>>> +    bool is_cwb_encoder;
+>>>>       unsigned int dsc_mask = 0;
+>>>>       int i;
+>>>>
+>>>> @@ -1067,6 +1068,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>
+>>>>       priv = drm_enc->dev->dev_private;
+>>>>       dpu_kms = to_dpu_kms(priv->kms);
+>>>> +    is_cwb_encoder = drm_crtc_in_clone_mode(crtc_state) &&
+>>>> +            dpu_enc->disp_info.intf_type == INTF_WB;
+>>>>
+>>>>       global_state = dpu_kms_get_existing_global_state(dpu_kms);
+>>>>       if (IS_ERR_OR_NULL(global_state)) {
+>>>> @@ -1077,9 +1080,15 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>       trace_dpu_enc_mode_set(DRMID(drm_enc));
+>>>>
+>>>>       /* Query resource that have been reserved in atomic check step. */
+>>>> -    num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>> -            drm_enc->crtc, DPU_HW_BLK_PINGPONG, hw_pp,
+>>>> -            ARRAY_SIZE(hw_pp));
+>>>> +    if (is_cwb_encoder)
+>>>> +            num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>> +                    drm_enc->crtc, DPU_HW_BLK_DCWB_PINGPONG, hw_pp,
+>>>> +                    ARRAY_SIZE(hw_pp));
+>>>> +    else
+>>>> +            num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>> +                    drm_enc->crtc, DPU_HW_BLK_PINGPONG, hw_pp,
+>>>> +                    ARRAY_SIZE(hw_pp));
+>>>
+>>> Why is this necessary? Can we still use DPU_HW_BLK_PINGPONG?
+>>
+>> Hi Dmitry,
+>>
+>> Since both regular non-cwb pingpongs and pingpongs dedicated for cwb
+>> both share the same pingpong_to_crtc_id map, I need a way to distinguish
+>> between the real-time and dedicated cwb pingpongs.
+>>
+>> If I don't do that, get_assigned_resources would populate the hw_pp
+>> array for both the real-time and WB encoders with *only* the real-time
+>> display pingpongs.
+> 
+> I see. It looks like PINGPONG blocks should be allocated / filled
+> per-encoder, not per-CRTC. Likewise CDM is encoder-specific, not
+> CRTC-specific.
+> Does that solve the issue?
 
->
-> > [...]
-> > +     /* Inject HPD from the GPIO state if EC firmware is broken. */
-> > +     if (typec->hpd_asserted)
-> > +             resp->flags |= USB_PD_MUX_HPD_LVL;
->
-> `typec->hpd_asserted` is shared between all typec->ports[...].  Would it be
-> possible that a HPD is asserted for another port but not current `port`?
-> E.g.: cros_typec_inject_hpd() for port 2 and cros_typec_dp_bridge_hpd_notify()
-> gets called due to port 1 at the same time?
+As discussed offline, let's keep all resources allocated per-CRTC
 
-I'd like to avoid synchronizing the hpd notify and this injection code,
-if that's what you're asking. Thinking about this though, I've realized
-that it's broken even when HPD is working on the EC. Consider this
-scenario with two type-c ports C0 and C1:
+> 
+>>
+>>>
+>>>> +
+>>>>       dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>>                       drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> index c43cb55fe1d2..c87790a1b940 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> @@ -77,6 +77,7 @@ enum dpu_hw_blk_type {
+>>>>       DPU_HW_BLK_LM,
+>>>>       DPU_HW_BLK_CTL,
+>>>>       DPU_HW_BLK_PINGPONG,
+>>>> +    DPU_HW_BLK_DCWB_PINGPONG,
+>>>>       DPU_HW_BLK_INTF,
+>>>>       DPU_HW_BLK_WB,
+>>>>       DPU_HW_BLK_DSPP,
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> index 13f84375e15d..afad26556cd5 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> @@ -236,6 +236,48 @@ static int _dpu_rm_get_lm_peer(struct dpu_rm *rm, int primary_idx)
+>>>>       return -EINVAL;
+>>>>    }
+>>>>
+>>>> +static int _dpu_rm_reserve_cwb_pingpong(struct dpu_rm *rm,
+>>>> +            struct dpu_global_state *global_state, uint32_t crtc_id,
+>>>> +            struct msm_display_topology *topology)
+>>>> +{
+>>>> +    int num_cwb_pp = topology->num_lm, cwb_pp_count = 0;
+>>>> +    int cwb_pp_idx[MAX_BLOCKS];
+>>>> +
+>>>> +    /*
+>>>> +     * Reserve additional dedicated CWB pingpong blocks for each mixer
+>>>> +     *
+>>>> +     * TODO: add support for reserving non-dedicated CWB pingpong blocks
+>>>> +     */
+>>>> +    for (int i = 0; i < ARRAY_SIZE(rm->mixer_blks) &&
+>>>> +                    cwb_pp_count < num_cwb_pp; i++) {
+>>>> +            for (int j = PINGPONG_CWB_0 - PINGPONG_0;
+>>>> +                            j < ARRAY_SIZE(rm->pingpong_blks); j++) {
+>>>
+>>> Alignment...
+>>
+>> Ack -- for future reference, should I always align the second line with
+>> the bracket of the previous line?
+>>
+>> I thought the general guideline was 2 tabs, but I might be misremembering.
+> 
+> I can't find the textual reference, however .clang-format in the root
+> dir has 'AlignAfterOpenBracket: Align'. I'm more or less ignorant for
+> the function argument alignment (especially if an old function is
+> being modified), but aligning the conditions and loops makes it easier
+> to read the code.
 
-	Plug in C1
-	EC notifies AP
-	AP queues cros_typec_port_work()
-	HPD asserted
-	EC picks C1 for DP // First to have hpd asserted
-	EC notifies AP
-	AP tries to queue cros_typec_port_work() but it's pending. Skip.
-	Plug in C0
-	EC notifies AP
-	AP tries to queue cros_typec_port_work() but it's pending. Skip.
-	HPD asserted
-	EC notifies AP
-	AP tries to queue cros_typec_port_work() but it's pending. Skip.
-	Finally cros_typec_port_work() runs!
-	 for (i = 0; i < typec->num_ports; i++) // typec->num_ports = 2
-	  cros_typec_port_update(port_num=0)
-	   cros_ec_cmd(EC_CMD_USB_PD_CONTROL.port=0) // In DP mode
-	   cros_typec_configure_mux(port_num=0)
-	    cros_ec_cmd(EC_CMD_USB_PD_MUX_INFO.port=0) // hpd asserted
-	    if (!active_dp_port)
-	     active_dp_port = port0
+Ah, got it. I'll configure my editor to keep to these guidelines then.
 
-This is bad. The worker could be significantly delayed, although it's
-really unlikely in practice. It would be better if the EC pushed a
-message to AP about what happened, instead of having to query the EC
-about the state of USB. Or the EC could have a sequence number or
-something so AP could ask for the history of events. We can't fix all
-the EC firmwares though, so we get what we get.
+Thanks,
 
-I think one solution would be to read the mux all the time and ignore
-tracking the active port based on hpd state. If we do that then we don't
-get tripped up by a delayed work iterating over both typec ports. The
-logic will be a bit more complicated though, because we'll have to
-consider all the ports when entering and exiting DP mode on one port so
-that we don't assign DP to the wrong port.
+Jessica Zhang
 
-Also, when hpd is broken on the EC I see an error message when I unplug
-the DP cable. It's the "No valid DP mode provided." error from
-cros_typec_enable_dp(). When I inject hpd that error goes away. I'll
-need to look closer to understand why, but I suspect I'll need to keep
-injecting hpd to avoid it.
+> 
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+>>
+>>>
+>>>> +                    /*
+>>>> +                     * Odd LMs must be assigned to odd pingpongs and even
+>>>> +                     * LMs with even pingpongs
+>>>> +                     */
+>>>> +                    if (reserved_by_other(global_state->pingpong_to_crtc_id,
+>>>> +                                            j, crtc_id) ||
+>>>> +                                    i % 2 != j % 2)
+>>>> +                            continue;
+>>>> +
+>>>> +                    cwb_pp_idx[cwb_pp_count] = j;
+>>>> +                    cwb_pp_count++;
+>>>> +                    break;
+>>>> +            }
+>>>> +    }
+>>>> +
+>>>> +    if (cwb_pp_count != num_cwb_pp) {
+>>>> +            DPU_ERROR("Unable to reserve all cwb pingpongs\n");
+>>>> +            return -ENAVAIL;
+>>>> +    }
+>>>> +
+>>>> +    for (int i = 0; i < cwb_pp_count; i++)
+>>>> +            global_state->pingpong_to_crtc_id[cwb_pp_idx[i]] = crtc_id;
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * _dpu_rm_check_lm_and_get_connected_blks - check if proposed layer mixer meets
+>>>>     * proposed use case requirements, incl. hardwired dependent blocks like
+>>>> @@ -617,6 +659,14 @@ static int _dpu_rm_make_reservation(
+>>>>               return ret;
+>>>>       }
+>>>>
+>>>> +    if (topology->cwb_enabled) {
+>>>> +            ret = _dpu_rm_reserve_cwb_pingpong(rm, global_state,
+>>>> +                            crtc_id, topology);
+>>>> +            if (ret) {
+>>>> +                    DPU_ERROR("unable to find appropriate dcwb pingpongs\n");
+>>>> +                    return ret;
+>>>> +            }
+>>>> +    }
+>>>>
+>>>>       ret = _dpu_rm_reserve_ctls(rm, global_state, crtc_id,
+>>>>                       topology);
+>>>> @@ -706,6 +756,7 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>>>>
+>>>>       switch (type) {
+>>>>       case DPU_HW_BLK_PINGPONG:
+>>>> +    case DPU_HW_BLK_DCWB_PINGPONG:
+>>>>               hw_blks = rm->pingpong_blks;
+>>>>               hw_to_crtc_id = global_state->pingpong_to_crtc_id;
+>>>>               max_blks = ARRAY_SIZE(rm->pingpong_blks);
+>>>> @@ -745,6 +796,20 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>>>>               if (hw_to_crtc_id[i] != crtc_id)
+>>>>                       continue;
+>>>>
+>>>> +            if (type == DPU_HW_BLK_PINGPONG) {
+>>>> +                    struct dpu_hw_pingpong *pp = to_dpu_hw_pingpong(hw_blks[i]);
+>>>> +
+>>>> +                    if (pp->idx >= PINGPONG_CWB_0)
+>>>> +                            continue;
+>>>> +            }
+>>>> +
+>>>> +            if (type == DPU_HW_BLK_DCWB_PINGPONG) {
+>>>> +                    struct dpu_hw_pingpong *pp = to_dpu_hw_pingpong(hw_blks[i]);
+>>>> +
+>>>> +                    if (pp->idx < PINGPONG_CWB_0)
+>>>> +                            continue;
+>>>> +            }
+>>>> +
+>>>>               if (num_blks == blks_size) {
+>>>>                       DPU_ERROR("More than %d resources assigned to crtc %d\n",
+>>>>                                 blks_size, crtc_id);
+>>>>
+>>>> --
+>>>> 2.34.1
+>>>>
+>>>
+>>> --
+>>> With best wishes
+>>> Dmitry
+> 
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
+> On Fri, 30 Aug 2024 at 23:28, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 8/30/2024 10:25 AM, Dmitry Baryshkov wrote:
+>>> On Thu, Aug 29, 2024 at 01:48:35PM GMT, Jessica Zhang wrote:
+>>>> Reserve dedicated pingpong blocks for CWB
+>>>
+>>> Please explain design ideas. Having just a single phrase is usually not
+>>> enough.
+>>>
+>>>>
+>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 17 ++++++--
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 65 +++++++++++++++++++++++++++++
+>>>>    3 files changed, 79 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> index 36b677cf9c7a..f1bd14d1f89e 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> @@ -2,7 +2,7 @@
+>>>>    /*
+>>>>     * Copyright (C) 2013 Red Hat
+>>>>     * Copyright (c) 2014-2018, 2020-2021 The Linux Foundation. All rights reserved.
+>>>> - * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>>     *
+>>>>     * Author: Rob Clark <robdclark@gmail.com>
+>>>>     */
+>>>> @@ -1054,6 +1054,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>       struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+>>>>       struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
+>>>>       int num_pp, num_dsc;
+>>>> +    bool is_cwb_encoder;
+>>>>       unsigned int dsc_mask = 0;
+>>>>       int i;
+>>>>
+>>>> @@ -1067,6 +1068,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>
+>>>>       priv = drm_enc->dev->dev_private;
+>>>>       dpu_kms = to_dpu_kms(priv->kms);
+>>>> +    is_cwb_encoder = drm_crtc_in_clone_mode(crtc_state) &&
+>>>> +            dpu_enc->disp_info.intf_type == INTF_WB;
+>>>>
+>>>>       global_state = dpu_kms_get_existing_global_state(dpu_kms);
+>>>>       if (IS_ERR_OR_NULL(global_state)) {
+>>>> @@ -1077,9 +1080,15 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>       trace_dpu_enc_mode_set(DRMID(drm_enc));
+>>>>
+>>>>       /* Query resource that have been reserved in atomic check step. */
+>>>> -    num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>> -            drm_enc->crtc, DPU_HW_BLK_PINGPONG, hw_pp,
+>>>> -            ARRAY_SIZE(hw_pp));
+>>>> +    if (is_cwb_encoder)
+>>>> +            num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>> +                    drm_enc->crtc, DPU_HW_BLK_DCWB_PINGPONG, hw_pp,
+>>>> +                    ARRAY_SIZE(hw_pp));
+>>>> +    else
+>>>> +            num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>> +                    drm_enc->crtc, DPU_HW_BLK_PINGPONG, hw_pp,
+>>>> +                    ARRAY_SIZE(hw_pp));
+>>>
+>>> Why is this necessary? Can we still use DPU_HW_BLK_PINGPONG?
+>>
+>> Hi Dmitry,
+>>
+>> Since both regular non-cwb pingpongs and pingpongs dedicated for cwb
+>> both share the same pingpong_to_crtc_id map, I need a way to distinguish
+>> between the real-time and dedicated cwb pingpongs.
+>>
+>> If I don't do that, get_assigned_resources would populate the hw_pp
+>> array for both the real-time and WB encoders with *only* the real-time
+>> display pingpongs.
+>>
+>>>
+>>>> +
+>>>>       dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>>>                       drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> index c43cb55fe1d2..c87790a1b940 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> @@ -77,6 +77,7 @@ enum dpu_hw_blk_type {
+>>>>       DPU_HW_BLK_LM,
+>>>>       DPU_HW_BLK_CTL,
+>>>>       DPU_HW_BLK_PINGPONG,
+>>>> +    DPU_HW_BLK_DCWB_PINGPONG,
+>>>>       DPU_HW_BLK_INTF,
+>>>>       DPU_HW_BLK_WB,
+>>>>       DPU_HW_BLK_DSPP,
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> index 13f84375e15d..afad26556cd5 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>>> @@ -236,6 +236,48 @@ static int _dpu_rm_get_lm_peer(struct dpu_rm *rm, int primary_idx)
+>>>>       return -EINVAL;
+>>>>    }
+>>>>
+>>>> +static int _dpu_rm_reserve_cwb_pingpong(struct dpu_rm *rm,
+>>>> +            struct dpu_global_state *global_state, uint32_t crtc_id,
+>>>> +            struct msm_display_topology *topology)
+>>>> +{
+>>>> +    int num_cwb_pp = topology->num_lm, cwb_pp_count = 0;
+>>>> +    int cwb_pp_idx[MAX_BLOCKS];
+>>>> +
+>>>> +    /*
+>>>> +     * Reserve additional dedicated CWB pingpong blocks for each mixer
+>>>> +     *
+>>>> +     * TODO: add support for reserving non-dedicated CWB pingpong blocks
+>>>> +     */
+>>>> +    for (int i = 0; i < ARRAY_SIZE(rm->mixer_blks) &&
+>>>> +                    cwb_pp_count < num_cwb_pp; i++) {
+>>>> +            for (int j = PINGPONG_CWB_0 - PINGPONG_0;
+>>>> +                            j < ARRAY_SIZE(rm->pingpong_blks); j++) {
+>>>
+>>> Alignment...
+>>
+>> Ack -- for future reference, should I always align the second line with
+>> the bracket of the previous line?
+>>
+>> I thought the general guideline was 2 tabs, but I might be misremembering.
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+>>
+>>>
+>>>> +                    /*
+>>>> +                     * Odd LMs must be assigned to odd pingpongs and even
+>>>> +                     * LMs with even pingpongs
+>>>> +                     */
+>>>> +                    if (reserved_by_other(global_state->pingpong_to_crtc_id,
+>>>> +                                            j, crtc_id) ||
+>>>> +                                    i % 2 != j % 2)
+>>>> +                            continue;
+>>>> +
+>>>> +                    cwb_pp_idx[cwb_pp_count] = j;
+>>>> +                    cwb_pp_count++;
+>>>> +                    break;
+>>>> +            }
+>>>> +    }
+>>>> +
+>>>> +    if (cwb_pp_count != num_cwb_pp) {
+>>>> +            DPU_ERROR("Unable to reserve all cwb pingpongs\n");
+>>>> +            return -ENAVAIL;
+>>>> +    }
+>>>> +
+>>>> +    for (int i = 0; i < cwb_pp_count; i++)
+>>>> +            global_state->pingpong_to_crtc_id[cwb_pp_idx[i]] = crtc_id;
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * _dpu_rm_check_lm_and_get_connected_blks - check if proposed layer mixer meets
+>>>>     * proposed use case requirements, incl. hardwired dependent blocks like
+>>>> @@ -617,6 +659,14 @@ static int _dpu_rm_make_reservation(
+>>>>               return ret;
+>>>>       }
+>>>>
+>>>> +    if (topology->cwb_enabled) {
+>>>> +            ret = _dpu_rm_reserve_cwb_pingpong(rm, global_state,
+>>>> +                            crtc_id, topology);
+>>>> +            if (ret) {
+>>>> +                    DPU_ERROR("unable to find appropriate dcwb pingpongs\n");
+>>>> +                    return ret;
+>>>> +            }
+>>>> +    }
+>>>>
+>>>>       ret = _dpu_rm_reserve_ctls(rm, global_state, crtc_id,
+>>>>                       topology);
+>>>> @@ -706,6 +756,7 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>>>>
+>>>>       switch (type) {
+>>>>       case DPU_HW_BLK_PINGPONG:
+>>>> +    case DPU_HW_BLK_DCWB_PINGPONG:
+>>>>               hw_blks = rm->pingpong_blks;
+>>>>               hw_to_crtc_id = global_state->pingpong_to_crtc_id;
+>>>>               max_blks = ARRAY_SIZE(rm->pingpong_blks);
+>>>> @@ -745,6 +796,20 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>>>>               if (hw_to_crtc_id[i] != crtc_id)
+>>>>                       continue;
+>>>>
+>>>> +            if (type == DPU_HW_BLK_PINGPONG) {
+>>>> +                    struct dpu_hw_pingpong *pp = to_dpu_hw_pingpong(hw_blks[i]);
+>>>> +
+>>>> +                    if (pp->idx >= PINGPONG_CWB_0)
+>>>> +                            continue;
+>>>> +            }
+>>>> +
+>>>> +            if (type == DPU_HW_BLK_DCWB_PINGPONG) {
+>>>> +                    struct dpu_hw_pingpong *pp = to_dpu_hw_pingpong(hw_blks[i]);
+>>>> +
+>>>> +                    if (pp->idx < PINGPONG_CWB_0)
+>>>> +                            continue;
+>>>> +            }
+>>>> +
+>>>>               if (num_blks == blks_size) {
+>>>>                       DPU_ERROR("More than %d resources assigned to crtc %d\n",
+>>>>                                 blks_size, crtc_id);
+>>>>
+>>>> --
+>>>> 2.34.1
+>>>>
+>>>
+>>> --
+>>> With best wishes
+>>> Dmitry
+> 
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
