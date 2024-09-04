@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA6296B6D1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7F296B6D5
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:36:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5CA910E717;
-	Wed,  4 Sep 2024 09:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7EF10E71A;
+	Wed,  4 Sep 2024 09:36:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fjiksoh/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZWkIiVbC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8291110E716
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:36:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D88010E71A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:36:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DCC2DA433BD;
- Wed,  4 Sep 2024 09:35:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45089C4CEC2;
- Wed,  4 Sep 2024 09:36:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DDFE25C5683;
+ Wed,  4 Sep 2024 09:36:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50EBDC4CEC9;
+ Wed,  4 Sep 2024 09:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725442566;
- bh=LxkNSYAofDOvfm/1x55QP/ob58WB2jeme7PmvxzQTxc=;
+ s=k20201202; t=1725442582;
+ bh=9bAhJ9CJLtRo5g7kUHeOsxrCvaYqEyomg7XrEVlcoI0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fjiksoh/7cDs5GAQtGkF7NbvnZvYCQXencrq4xsA3j8WLlB5ZuhafJ9Vxjm3ZDbwH
- GUh0CvwTi2GHEpHVM44sRvCEWC8sT0VAKXN7l89dwztEdpArFDCkp2KCHsS0vTHPPC
- r8l3OrP+06WDLdb0jQSBqTOD7W64qAA4kqkYkjE9vYnrYowoV7xu79/GHYQnmyywC4
- XW3WHlGlZFOWro4shc+uMwsp5VeFQTizl6UasNkYoMWfRuDxWFL26r2MHgOvsfLEx1
- 8dKjtp7Va87ug3+24UIMvgmCZXw3juGcUHKjHsfADBFfQ9L70JyVtTPGydZclGRGzn
- +ZZ0F9aF6JDIw==
-Date: Wed, 4 Sep 2024 09:35:59 +0000
+ b=ZWkIiVbCKmH2u8CfkCeJrYGIdpLJbYj6kBpbhH/s8NG1I5YWKI721mj7Lzt43ELUr
+ 4Y/RWuEqQecX+uHlVulZn5bFL26l4g7DDrh/CsAUjWAD/gkxjxo5Gw8nKZgA1qUFKP
+ ddsnw1cBv9lkrSBYrj3fXi6N7cyMOaQBad+MHS0REatztT25RnzRjXgmy3fkdN4OYe
+ YE9QqbovUWfEnjcCfdZioSRwdtlvWWN9GveHaApRiw2JDeW47I2by+BAeP5y4eFp0+
+ nCxYUhP9VZeZHBJi5/yvUHifdUDcB7+hi+9ptjKGG8X2eL9sPITVHfDH+5PiTH+K7a
+ VUusR+s9t1Q4Q==
+Date: Wed, 4 Sep 2024 09:36:15 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Stephen Boyd <swboyd@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -63,15 +63,14 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v4 16/18] platform/chrome: cros_ec_typec: Add support for
- signaling DP HPD via drm_bridge
-Message-ID: <Ztgp_8UxEgBCiEMz@google.com>
+Subject: Re: [PATCH v4 17/18] platform/chrome: cros_ec_typec: Support DP muxing
+Message-ID: <ZtgqD3JaX2FmVWGu@google.com>
 References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-17-swboyd@chromium.org>
+ <20240901040658.157425-18-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901040658.157425-17-swboyd@chromium.org>
+In-Reply-To: <20240901040658.157425-18-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,16 +86,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 31, 2024 at 09:06:54PM -0700, Stephen Boyd wrote:
-> We can imagine that logically the EC is a device that has some number of
-> DisplayPort (DP) connector inputs, some number of USB3 connector inputs,
-> and some number of USB type-c connector outputs. If you squint enough it
-> looks like a USB type-c dock. Logically there's a crossbar pin
-> assignment capability within the EC that can assign USB and DP lanes to
-> USB type-c lanes in the connector (i.e. USB type-c pin configurations).
-> In reality, the EC is a microcontroller that has some TCPCs and
-> redrivers connected to it over something like i2c and DP/USB from the AP
-> is wired directly to those ICs, not the EC.
+On Sat, Aug 31, 2024 at 09:06:55PM -0700, Stephen Boyd wrote:
+> Most ARM based chromebooks with two usb-c-connector nodes and one DP
+> controller are muxing the DP lanes between the two USB ports. This is
+> done so that the type-c ports are at least equal in capability if not
+> functionality. Either an analog mux is used to steer the DP signal to
+> one or the other port, or a DP bridge chip has two lanes (e.g. DP
+> ML0/ML1) wired to one type-c port while the other two (e.g. DP ML2/ML3)
+> are wired to another type-c port.
 > 
 > [...]
 > 
