@@ -2,69 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16FC96BFD6
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 16:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB01B96C06E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 16:29:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAD810E3AE;
-	Wed,  4 Sep 2024 14:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0D8E10E7CE;
+	Wed,  4 Sep 2024 14:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gFfnZ158";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YHAK5Ern";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9C8110E3AE
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 14:15:32 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-70b2421471aso3891047a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 07:15:32 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE9FC10E7CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 14:29:15 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-7148912a1ebso3801673b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 07:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725459332; x=1726064132; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725460155; x=1726064955; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0u+hDSoiSEIGUR5X4+iB82bwULT80oCNwDYfyk3ru7E=;
- b=gFfnZ158OGGEdic/CZjPqaJ7+/34AsDNlVXwD+E+OBbOUyavPjL+apnutwy5g7Laxo
- E/NHH2YbLvdKl2rQrsXhigMF5rixcJraHrvQTgVUNYoEa0A3XhARlRkL8yDN6RtOLzxI
- zEDF0ugRhCANmN1ATg2Th47XZq4XP0W1l8TFh1xEf9Wv7ge4CnTUKGj+yO2Ekd/jccuU
- dgpKhNqNY55CfXHfbjZ6p7SUPO9PW9xay6R1htI3fehUfRX2Qvr1I7IYOfjpeIUZ5PpP
- karzQorzxDu9MWEWeCTJKbLWtNE/RYbJEYDDxeNovcd+LixDvnboS3ER6Q00aDQDfTjI
- b+kw==
+ bh=2wagnvc93xdBl6hG/s4kAM1tDGElsqmf7qECrntbOAA=;
+ b=YHAK5ErnQnDBZ5CKpmkxx+dA+7KjPl7USUnKbrRVBH/IuPBdlN8YZazF59ghI7ChNY
+ jE3WD8OIUocN/Nzhysy472a3qmOM3R3fvTRqafeS1ltFdbUIPl8dIDc5lOJHaLS6IFdW
+ I1b/ZWdcf8ooS3lbntmC1khbygEn/qefnjXansDPCSHc4LaNLLZ5dbudCxA1aOCg+7gM
+ suhdjqsmNKOrQOO+udtCpTUOvrv4YcAzk5as8fiRU+HUewpiTo8u3bggWG96x9BGmnSd
+ qiEe59MQb11tTPjzwfuOt2DQqInPdcfkNEdPf5pw2pJeGYPvfzPE5V/+YA7Q5nAjjhYh
+ +ksw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725459332; x=1726064132;
+ d=1e100.net; s=20230601; t=1725460155; x=1726064955;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0u+hDSoiSEIGUR5X4+iB82bwULT80oCNwDYfyk3ru7E=;
- b=HYSFjpTF+Is1ae20IQKe+virmOXTGV1j1vAtg5VJKVtJ42+nHvSknmZZI/BuGaY89k
- 48U4kDCSi2OIriJ4or2DKwy3SgnWz/KAddlgKt1AeLslBgI0OBzYSL1syZDF5JucUmAn
- JmUr+OEc+M4xV5y1jjxbuqDjkhM6uO0a3NfgzOZxqZfwxpGjbby7TLOisfAjiGZcI/3Y
- /fYZ6X0bfrINTXWT0YlpWIIO4Tv6aFQoaIOqkK5J/Wp2oRpReAMnDDlrfN3ioyu8hGfT
- ZdqcTdGABtkUESAn1PC0bIOhzAPtsp57m6pBVVHPaE/bRyMLfAGaZtzdW7577aIg9cNa
- +y5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXW4/sV5IEBqHX8bnLk/KgJZRYXtQCqbuww6DreKPsbbm7jJmcXVGjD8Y+rVhrfOFLltLdOEcJ7wwY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyIhaHXMfjzWxQUxhfngJX2wo9yCZaa6VHG2pPOzTFIqN2tdvdy
- tZMSXntTUcchdWZS7UNbvv7ab63IA8oXUXOrEQ4vjNz+NzGK4TqN
-X-Google-Smtp-Source: AGHT+IFa62vN6wka75BSUXkcLzJM5lJtAHzf8NXyvyl4/M5/9hh/iC01mgxaJaRcL7hqDzuFRuBucg==
-X-Received: by 2002:a17:90a:6888:b0:2d3:c0d4:2c33 with SMTP id
- 98e67ed59e1d1-2da5597aa0amr6720735a91.17.1725459331994; 
- Wed, 04 Sep 2024 07:15:31 -0700 (PDT)
-Received: from distilledx.srmu.edu.in ([59.152.80.69])
+ bh=2wagnvc93xdBl6hG/s4kAM1tDGElsqmf7qECrntbOAA=;
+ b=tEO9qNNXQwc17sxb0/9Wop97Ln5z2ihsanEFzrfUHn0mJ/TSnXv10efqO0yqXQ4/rC
+ x87Ma+Wgo/twdT0lOQghpxgwXj39QNlAvk0Pwf2R0SsrT5iaO8k5Na/Pt0kRqhkBKjZI
+ hU4NGC6E3P/uJdKMmJaj4VqixF0fQblyft/sSmhxiYGtsLU0O1+mR8Yxp991ohrGUhFs
+ BoaqM881dJtryXe2P0p7lXc/oB22mf8e2EvlodAmUUTNJnwuLGOlMF9i/d3WcWZpm1Ae
+ cWS4CFf8MXkZ9Q+VUEiO6TZsbZP4nb0IR4wPQo51ov1ifFRaXc4j5zU7QZfF3YL0Vwnx
+ RQoQ==
+X-Gm-Message-State: AOJu0YxZhohWpQCBDqi06a6mbOCB5wldwNUo+nBeq0d+En3pTbl4uttq
+ YfEGwIMNDdsMuhPzvgKDo5/01Z3HwOMY97EhZETHItgndVi+5c3V
+X-Google-Smtp-Source: AGHT+IFHSl3cs8LGLZK5K6yC6s8qFdueGpXSBHVjJWHT3BmFX4+NBM+gdIg+sZFHWkmTj0niEul1LQ==
+X-Received: by 2002:a05:6a00:4f93:b0:70d:11d9:8a3c with SMTP id
+ d2e1a72fcca58-7173c5c237emr12770548b3a.26.1725460155079; 
+ Wed, 04 Sep 2024 07:29:15 -0700 (PDT)
+Received: from localhost.localdomain ([103.149.249.231])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2d82a6e0700sm10778946a91.1.2024.09.04.07.15.28
+ d2e1a72fcca58-717785b4de5sm1663296b3a.190.2024.09.04.07.29.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2024 07:15:31 -0700 (PDT)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH] drm/panel: himax-hx83112a: transition to mipi_dsi wrapped
- functions
-Date: Wed,  4 Sep 2024 19:45:21 +0530
-Message-ID: <20240904141521.554451-1-tejasvipin76@gmail.com>
+ Wed, 04 Sep 2024 07:29:14 -0700 (PDT)
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Jianhua Lu <lujianhua000@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: panel: nt36523: use devm_mipi_dsi_* function to register
+ and attach dsi
+Date: Wed,  4 Sep 2024 22:29:07 +0800
+Message-ID: <20240904142907.367786-1-lujianhua000@gmail.com>
 X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -83,353 +85,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the himax-hx83112a panel to use multi style functions for
-improved error handling.
+Switch to devm_mipi_dsi_* function, we don't need to detach and
+unregister dsi manually any more.
 
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-himax-hx83112a.c | 297 +++++++++----------
- 1 file changed, 136 insertions(+), 161 deletions(-)
+ drivers/gpu/drm/panel/panel-novatek-nt36523.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx83112a.c b/drivers/gpu/drm/panel/panel-himax-hx83112a.c
-index 466c27012abf..47bce087e339 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx83112a.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx83112a.c
-@@ -56,198 +56,173 @@ static void hx83112a_reset(struct hx83112a_panel *ctx)
- 	msleep(50);
- }
- 
--static int hx83112a_on(struct hx83112a_panel *ctx)
-+static int hx83112a_on(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+index 18bd2ee71201..04f1d2676c78 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+@@ -1095,18 +1095,6 @@ static int nt36523_unprepare(struct drm_panel *panel)
+ static void nt36523_remove(struct mipi_dsi_device *dsi)
  {
--	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
+ 	struct panel_info *pinfo = mipi_dsi_get_drvdata(dsi);
 -	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETEXTC, 0x83, 0x11, 0x2a);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPOWER1,
--			       0x08, 0x28, 0x28, 0x83, 0x83, 0x4c, 0x4f, 0x33);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDISP,
--			       0x00, 0x02, 0x00, 0x90, 0x24, 0x00, 0x08, 0x19,
--			       0xea, 0x11, 0x11, 0x00, 0x11, 0xa3);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDRV,
--			       0x58, 0x68, 0x58, 0x68, 0x0f, 0xef, 0x0b, 0xc0,
--			       0x0b, 0xc0, 0x0b, 0xc0, 0x00, 0xff, 0x00, 0xff,
--			       0x00, 0x00, 0x14, 0x15, 0x00, 0x29, 0x11, 0x07,
--			       0x12, 0x00, 0x29);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDRV,
--			       0x00, 0x12, 0x12, 0x11, 0x88, 0x12, 0x12, 0x00,
--			       0x53);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x03);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
--			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
--			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
--			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
--			       0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
--			       0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
--			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
--			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
--			       0x40);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
--			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
--			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
--			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
--			       0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
--			       0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
--			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
--			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
--			       0x40);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
--			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
--			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
--			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
--			       0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
--			       0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
--			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
--			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
--			       0x40);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT, 0x01);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTCON,
--			       0x70, 0x00, 0x04, 0xe0, 0x33, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPANEL, 0x08);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPOWER2, 0x2b, 0x2b);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP0,
--			       0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x08,
--			       0x08, 0x03, 0x03, 0x22, 0x18, 0x07, 0x07, 0x07,
--			       0x07, 0x32, 0x10, 0x06, 0x00, 0x06, 0x32, 0x10,
--			       0x07, 0x00, 0x07, 0x32, 0x19, 0x31, 0x09, 0x31,
--			       0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08,
--			       0x09, 0x30, 0x00, 0x00, 0x00, 0x06, 0x0d, 0x00,
--			       0x0f);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP0,
--			       0x00, 0x00, 0x19, 0x10, 0x00, 0x0a, 0x00, 0x81);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP1,
--			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
--			       0xc0, 0xc0, 0x18, 0x18, 0x19, 0x19, 0x18, 0x18,
--			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
--			       0x28, 0x28, 0x24, 0x24, 0x02, 0x03, 0x02, 0x03,
--			       0x00, 0x01, 0x00, 0x01, 0x31, 0x31, 0x31, 0x31,
--			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP2,
--			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
--			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x19, 0x19,
--			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
--			       0x24, 0x24, 0x28, 0x28, 0x01, 0x00, 0x01, 0x00,
--			       0x03, 0x02, 0x03, 0x02, 0x31, 0x31, 0x31, 0x31,
--			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
--			       0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea,
--			       0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa,
--			       0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa, 0xaa, 0xaa);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
--			       0xaa, 0x2e, 0x28, 0x00, 0x00, 0x00, 0xaa, 0x2e,
--			       0x28, 0x00, 0x00, 0x00, 0xaa, 0xee, 0xaa, 0xaa,
--			       0xaa, 0xaa, 0xaa, 0xee, 0xaa, 0xaa, 0xaa, 0xaa);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
--			       0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xaa, 0xff,
--			       0xff, 0xff, 0xff, 0xff);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x03);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
--			       0xaa, 0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
--			       0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xff, 0xff, 0xff,
--			       0xff, 0xff, 0xaa, 0xff, 0xff, 0xff, 0xff, 0xff);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
--			       0x0e, 0x0e, 0x1e, 0x65, 0x1c, 0x65, 0x00, 0x50,
--			       0x20, 0x20, 0x00, 0x00, 0x02, 0x02, 0x02, 0x05,
--			       0x14, 0x14, 0x32, 0xb9, 0x23, 0xb9, 0x08);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
--			       0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, 0x0e);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
--			       0x00, 0x00, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00,
--			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00,
--			       0x00, 0x00, 0x00, 0x02, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0xc3);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETCLOCK, 0xd1, 0xd6);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0x3f);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0xc6);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPTBA, 0x37);
--	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0x3f);
 -
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
+-	ret = mipi_dsi_detach(pinfo->dsi[0]);
+-	if (ret < 0)
+-		dev_err(&dsi->dev, "failed to detach from DSI0 host: %d\n", ret);
+-
+-	if (pinfo->desc->is_dual_dsi) {
+-		ret = mipi_dsi_detach(pinfo->dsi[1]);
+-		if (ret < 0)
+-			dev_err(&pinfo->dsi[1]->dev, "failed to detach from DSI1 host: %d\n", ret);
+-		mipi_dsi_device_unregister(pinfo->dsi[1]);
 -	}
--	msleep(150);
--
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
--	msleep(50);
--
--	return 0;
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETEXTC, 0x83, 0x11, 0x2a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER1,
-+				     0x08, 0x28, 0x28, 0x83, 0x83, 0x4c, 0x4f, 0x33);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDISP,
-+				     0x00, 0x02, 0x00, 0x90, 0x24, 0x00, 0x08, 0x19,
-+				     0xea, 0x11, 0x11, 0x00, 0x11, 0xa3);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
-+				     0x58, 0x68, 0x58, 0x68, 0x0f, 0xef, 0x0b, 0xc0,
-+				     0x0b, 0xc0, 0x0b, 0xc0, 0x00, 0xff, 0x00, 0xff,
-+				     0x00, 0x00, 0x14, 0x15, 0x00, 0x29, 0x11, 0x07,
-+				     0x12, 0x00, 0x29);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
-+				     0x00, 0x12, 0x12, 0x11, 0x88, 0x12, 0x12, 0x00,
-+				     0x53);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
-+				     0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
-+				     0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
-+				     0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-+				     0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
-+				     0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
-+				     0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
-+				     0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
-+				     0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
-+				     0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
-+				     0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
-+				     0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-+				     0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
-+				     0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
-+				     0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
-+				     0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
-+				     0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
-+				     0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
-+				     0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
-+				     0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-+				     0x84, 0x7c, 0x74, 0x6b, 0x62, 0x5a, 0x51, 0x49,
-+				     0x41, 0x39, 0x31, 0x29, 0x21, 0x19, 0x12, 0x0a,
-+				     0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
-+				     0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
-+				     0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTCON,
-+				     0x70, 0x00, 0x04, 0xe0, 0x33, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPANEL, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER2, 0x2b, 0x2b);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
-+				     0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x08,
-+				     0x08, 0x03, 0x03, 0x22, 0x18, 0x07, 0x07, 0x07,
-+				     0x07, 0x32, 0x10, 0x06, 0x00, 0x06, 0x32, 0x10,
-+				     0x07, 0x00, 0x07, 0x32, 0x19, 0x31, 0x09, 0x31,
-+				     0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08,
-+				     0x09, 0x30, 0x00, 0x00, 0x00, 0x06, 0x0d, 0x00,
-+				     0x0f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
-+				     0x00, 0x00, 0x19, 0x10, 0x00, 0x0a, 0x00, 0x81);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP1,
-+				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+				     0xc0, 0xc0, 0x18, 0x18, 0x19, 0x19, 0x18, 0x18,
-+				     0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
-+				     0x28, 0x28, 0x24, 0x24, 0x02, 0x03, 0x02, 0x03,
-+				     0x00, 0x01, 0x00, 0x01, 0x31, 0x31, 0x31, 0x31,
-+				     0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP2,
-+				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+				     0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x19, 0x19,
-+				     0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
-+				     0x24, 0x24, 0x28, 0x28, 0x01, 0x00, 0x01, 0x00,
-+				     0x03, 0x02, 0x03, 0x02, 0x31, 0x31, 0x31, 0x31,
-+				     0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-+				     0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea,
-+				     0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa,
-+				     0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa, 0xaa, 0xaa);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-+				     0xaa, 0x2e, 0x28, 0x00, 0x00, 0x00, 0xaa, 0x2e,
-+				     0x28, 0x00, 0x00, 0x00, 0xaa, 0xee, 0xaa, 0xaa,
-+				     0xaa, 0xaa, 0xaa, 0xee, 0xaa, 0xaa, 0xaa, 0xaa);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-+				     0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xaa, 0xff,
-+				     0xff, 0xff, 0xff, 0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
-+				     0xaa, 0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-+				     0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xff, 0xff, 0xff,
-+				     0xff, 0xff, 0xaa, 0xff, 0xff, 0xff, 0xff, 0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
-+				     0x0e, 0x0e, 0x1e, 0x65, 0x1c, 0x65, 0x00, 0x50,
-+				     0x20, 0x20, 0x00, 0x00, 0x02, 0x02, 0x02, 0x05,
-+				     0x14, 0x14, 0x32, 0xb9, 0x23, 0xb9, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
-+				     0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, 0x0e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
-+				     0x00, 0x00, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00,
-+				     0x00, 0x00, 0x00, 0x02, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc3);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETCLOCK, 0xd1, 0xd6);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc6);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPTBA, 0x37);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 150);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 50);
-+
-+	return dsi_ctx.accum_err;
+ 
+ 	drm_panel_remove(&pinfo->panel);
  }
+@@ -1251,7 +1239,7 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
+ 		if (!dsi1_host)
+ 			return dev_err_probe(dev, -EPROBE_DEFER, "cannot get secondary DSI host\n");
  
- static int hx83112a_disable(struct drm_panel *panel)
- {
- 	struct hx83112a_panel *ctx = to_hx83112a_panel(panel);
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+-		pinfo->dsi[1] = mipi_dsi_device_register_full(dsi1_host, info);
++		pinfo->dsi[1] = devm_mipi_dsi_device_register_full(dev, dsi1_host, info);
+ 		if (IS_ERR(pinfo->dsi[1])) {
+ 			dev_err(dev, "cannot get secondary DSI device\n");
+ 			return PTR_ERR(pinfo->dsi[1]);
+@@ -1288,7 +1276,7 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
+ 		pinfo->dsi[i]->format = pinfo->desc->format;
+ 		pinfo->dsi[i]->mode_flags = pinfo->desc->mode_flags;
  
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
--	msleep(20);
--
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
- static int hx83112a_prepare(struct drm_panel *panel)
- {
- 	struct hx83112a_panel *ctx = to_hx83112a_panel(panel);
--	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	hx83112a_reset(ctx);
- 
--	ret = hx83112a_on(ctx);
-+	ret = hx83112a_on(ctx->dsi);
- 	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
- 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
--		return ret;
+-		ret = mipi_dsi_attach(pinfo->dsi[i]);
++		ret = devm_mipi_dsi_attach(dev, pinfo->dsi[i]);
+ 		if (ret < 0)
+ 			return dev_err_probe(dev, ret, "cannot attach to DSI%d host.\n", i);
  	}
- 
--	return 0;
-+	return ret;
- }
- 
- static int hx83112a_unprepare(struct drm_panel *panel)
 -- 
 2.46.0
 
