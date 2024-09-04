@@ -2,122 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FAF96B574
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E8E96B577
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:51:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6FB10E6FC;
-	Wed,  4 Sep 2024 08:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77EFF10E6FF;
+	Wed,  4 Sep 2024 08:51:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K7+yLv+V";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="IpLB7brH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78B7910E6FB
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:50:58 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4280ca0791bso54258865e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 01:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725439857; x=1726044657; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=lAoF/sBQT05+7maWlE4+kjdcdbz6vsNUh8P5QuhJkOk=;
- b=K7+yLv+VW/07sCrnT2y8cBCz7Fk+hhtFD4XO0ytrIc0GSMUozRpOf9Cs4Osrisltod
- zJg4mIAAN9JEG4q+QOJhnSyfeINSP8Sy9+KINbZ/ppfyEHdtOXeUvXCOoQYhFxQsJuQm
- 9alOGHQi02unCSXbv4c8BWyoOYEe/iAcSJJ0bzFYCmJIwkXEY/HIoC1EPOswZXih2LIJ
- p5cFz0tTXGEl1MNvksGPQKaRItLz1yrfLjjMteejA5oSY1SlFaRELdmdxMk2IQXHoSYz
- 7kRe0Vks2srDxvZA0Qflt0zTRxNyN4OyBu6f7ESwIAqNoDeehSwB17tLBmHIzPIoR+ob
- zW3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725439857; x=1726044657;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lAoF/sBQT05+7maWlE4+kjdcdbz6vsNUh8P5QuhJkOk=;
- b=ia9O0z/1Ux2eidkK7qQkOI0sg2vzab9tfcBr0WtmK7AL21Je6MpL0mRSazhvohIv5V
- fLpF+o5jtA//s0we8ZfyeFew8T9kCM0VvRRduhRX72cOhBBdrdHR369JUnQAp+u+z42f
- euiyDhGFRmQg638ByphONFcQtfnuhdUwF4FEeaOfcISPK5tb779H5h9dFSDMEStBaZG1
- 81qufmNbVhMfY7DjctVWv6aif2adl39ZwmLzG+DfTR9qoiCM/cjZ9A2HujgzAc7emwwJ
- zoQuVrwWvF8XA/9Nuwq2eOxwR18QQRCj0qxMAvrNe2jowcFDPDcIfT7ZCb4PcxZb50w2
- YPSg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXoWzC2ySfFlEEwqylGlKM0g2YC57+OnJdMaalsxgIB6lrr2tbF2FOrHvMQ1xgxFYCk5W2dzzKUKhw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlCYVroyTIaDt99pwsHSeF/odp8SRg5E4KP83/jc87pO7FPuHr
- yul1igqbv3IVQg7PpKFhYVTWo30PBnyKeMx0dnUEtKMFCcN28/jo
-X-Google-Smtp-Source: AGHT+IH+6NmnJHY66jzsgeQKrM8jmVMhcXpIeSKAYiGv2Ap/H1A/xxtaUNQPohLH9NiBwVWJRODIJw==
-X-Received: by 2002:a05:600c:3c90:b0:428:1a48:d5cf with SMTP id
- 5b1f17b1804b1-42c8de798b4mr30025395e9.9.1725439856577; 
- Wed, 04 Sep 2024 01:50:56 -0700 (PDT)
-Received: from [192.168.0.20] ([148.56.230.39])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-374ca42726fsm8157781f8f.9.2024.09.04.01.50.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Sep 2024 01:50:55 -0700 (PDT)
-Message-ID: <1487d7e3-184d-4832-bf6f-7fce8e14db5d@gmail.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76B4910E704;
+ Wed,  4 Sep 2024 08:51:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w73VzSdmyskqtUBhinvKxc17L4U8bFEnB/yGAOPfwWN5q9glAIUOQ9vC1dgmlGMolnCGI5e/8cMvwX5N2WYbPkXMXdnYbXFu2P+j8UZdHMu29b/WXhcHipGfPKgpV4ww9G63U/wjO2RXQWjWPTKhe4T/FWe1kQECxQc9H5e+CIZlwwlEVArBAOzGqh3qyMwX0FFlENLoOVLZo/DEz84Rdstl4QHpXlmuVzd4fehRhEBzIeS6IWLs8aCJMlVnxDDQnDSzOZcu6peg7ujx3eJIZESc4iPaWTqQyNjTOaI0wVSMdtAWwba4EHvnxmguskKPvRj+SQ4pqc1AH51VGadrqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KWR1WfvziYlEztcVdG9DP6jnVIE+p6MMyZETs/zLuPg=;
+ b=fEnNjzAxZcyofDp3EazvUZbjkkEWhtFLT9b5ynpFsOnGxsFZ5pG6j4UQsbp9u+sg5TFvomW49I8KEErUy31N/JAUw0RTrySyze8TMQ62nH5v5qORDU8moPOPyi6ybwGprJUyJMWrK1vyrN3YHfn+GDbL/sEp6NOnN7DN22PsFcn1N5dMCW+VCy579oaWasOoQQjAFXGlj4xGqsMNETcAc7uN7qpZcIi1DhtPuqwg8ESCxtOe6zywG6f4dWOCz6z9s95rw3/5z5cSl5rHtBpiEFQ/sQSGbllKqDOQglZ1TJR057K8qRWIjl3/J9nP6E4/6k1ICAa8o4Ej5u24+o+KIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KWR1WfvziYlEztcVdG9DP6jnVIE+p6MMyZETs/zLuPg=;
+ b=IpLB7brHHj6+AQQN7lYWKVo1yCwLiTzVkPvS6hNcd4w5IWOkRg+Q4IT3bMiJWzOd3xPv73x5/ZPxghUISpB1vDF5/qxlkQK9eG2yIr8YggfpvJbH7zN1d8oaSDgVn2L7n7ZdFvHlwTqy0gp5MdXs5jdm+gpOs28TpvAK/898WQg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH8PR12MB8430.namprd12.prod.outlook.com (2603:10b6:510:259::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Wed, 4 Sep
+ 2024 08:51:00 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
+ 08:50:59 +0000
+Message-ID: <91936a3d-b8c1-41f6-95e0-870fc1c2d007@amd.com>
 Date: Wed, 4 Sep 2024 10:50:54 +0200
-MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] drm/mediatek: Fix get efuse issue for MT8188 DPTX
-To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
- shuijing.li@mediatek.com, jitao.shi@mediatek.com, mac.shen@mediatek.com
-Cc: Project_Global_Chrome_Upstream_Group@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20240903121028.20689-1-liankun.yang@mediatek.com>
-Content-Language: en-US, ca-ES, es-ES
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Autocrypt: addr=matthias.bgg@gmail.com; keydata=
- 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
-In-Reply-To: <20240903121028.20689-1-liankun.yang@mediatek.com>
+Subject: Re: [PATCH v4 1/2] drm/ttm: Move swapped objects off the manager's
+ LRU list
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+References: <20240904070808.95126-1-thomas.hellstrom@linux.intel.com>
+ <20240904070808.95126-2-thomas.hellstrom@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240904070808.95126-2-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0231.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b2::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB8430:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e31ef1b-8eb7-44ea-a726-08dcccbeb29f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZFY2Y1pUTzdwTGpqSGoxNDFQRFJSWVBFeVRQQW43TytUOUxoUHFqRDZUZHlY?=
+ =?utf-8?B?M0ZWSitnVTk0ay9STkRoZ0hmTG5ydzlnaStBNGtOWEtWOVNOWC85Q2pUaWJF?=
+ =?utf-8?B?SGc5aE1XTENDTEh1Y1o1Z3Q1em9BWmhJdVNXRTNYdDRja253WGs5MkdhWGdQ?=
+ =?utf-8?B?Z1RNeldrQ0Q0blpyV0g3a0ZVNVFMVk9VTW1YZTN5YUVaakIxOUxKcGNuQ0ln?=
+ =?utf-8?B?anNNUk5BS3BISW5oZ2x0VnZ4aUNZK0NlaGE3VGk0T2ppa1NHMmVybDNENkJq?=
+ =?utf-8?B?ZEYyb2NnQXdQS1ZoSnMvdVdHSXg0a2g4ZHhZc0cwU3JNQksvZmlYSVJwRHl4?=
+ =?utf-8?B?Y05oVitFRDYvL2ZYL0duOG1HWjNWOEZ5cUo3RzdyWEdISDBXZTRUOWtDNDZF?=
+ =?utf-8?B?T2RTNEdKTHZONHdqSW5GNjF4YUpUcHZ0Z0J0dDZ3SUtrVVArN21lYndJaFgx?=
+ =?utf-8?B?Yjdnd2UyVDJoS3dkWE1kYWw5NTdXcEVNN01hZEZqdUF1ay9GcWlhNzJEU1dp?=
+ =?utf-8?B?VDdraTZpR2FYakFxa3YwL2FsZktJMENSeGFOSEs1SVBhQnQ1bUxFZ1owYnp0?=
+ =?utf-8?B?UzUzV1JaTDBNbXF1bC90UXRpM0pDY3RaQ25Bc29vOGJoeDNCd0ZBTk52ODB3?=
+ =?utf-8?B?amx4b3FhVi9mYVJPanp3ZnVNSE5MOWUvbU53T2dXaFV2cDllQVBud0tDbERw?=
+ =?utf-8?B?RExJcXZldzVTSUh2aExjQkpJR08zUEgvWTRpNUJzSTViN2poNXBWQzVWbjQx?=
+ =?utf-8?B?cnJxOWN1VS9sdU91TlBoUzd6TDJnamxWQklpZ0s1RWEwZG9ZbEh4SWNpUTJ2?=
+ =?utf-8?B?UTlsWFNsMnVIM0c4T3QwRElRUFVqVjhxWWdGaFd6UzlhVUZLeEJKdGJvZDky?=
+ =?utf-8?B?RGRMeENTcmh6R0pqYkdTTmlQNGFmYy9sRTgvV3ZDUGFVdFJObzlDOEtvZy9W?=
+ =?utf-8?B?bm91bm1rTGxWWk4wa0NhWHZFU0grSnFEOXJXYkpsTkYxd21Ba2k1eFpEZHVa?=
+ =?utf-8?B?Wlh4UW90Ui9zeDNIdnFFemxjZDltNTZ5bnNITU13K2poWnpvUWFQakNYS2JW?=
+ =?utf-8?B?Z2pHc3IwYnFwTU9aeEJaMG02MEsyUXpXWjdIRjVPUE54UWREUFdJSGlSZDZl?=
+ =?utf-8?B?Y1B0aEtDZytSSEcvRzhJb1hwWXNEMVhGOVJhUFN6NHZXWU5SWVlBVVU3TzdC?=
+ =?utf-8?B?aG8renJ5ZCsraFBrWG54S3lqb2JoZk1Qeit1eXU4QzhrRkl0K3dCQ3FuZUg1?=
+ =?utf-8?B?WnBGUDA1bDNJdWt0aTVTNnFJYzZyNnBMRUdTTDFLQmd6OG40WkduTW5vMnlJ?=
+ =?utf-8?B?SDg4WXZ4Z1h4emhxQ3U2RnBWbjdrL3NjWi9veXltZVJnbnlIZGpuUGMxWG96?=
+ =?utf-8?B?a0UzTklnemZ1UXpHb25vZ0I0KzMzRytFRUhERTVyVnl5T3kyV3ZVRzlzRjFH?=
+ =?utf-8?B?c09qdTJ4VThkR3FPSE16RXBoTlZlL2IyR3hIMVJHR3hoSXdNcEZzazBLbElm?=
+ =?utf-8?B?dG9PRXA4U3F0Z0NYRUl6bEtkRXh1RWgycmNOdTJvQ1pjYmF2MVRxcFVIUGQv?=
+ =?utf-8?B?ZjlQS2VtMnJ1L3I2Y2IyNmNaY2w3OW5ZaW9RK1JtcWlTNkpMTG1jVkFmVGJW?=
+ =?utf-8?B?WEdhMWhtZ0VqSnVXNlczcDRiaklxbGNPaXg5cEpGMHpkVm1vajZBYkc4cmxn?=
+ =?utf-8?B?S2dvS3NBelIrUm5xM0ZtVHlua2Zrb3kvcEc1b0IzRFdUYWUrMXNoSTNFTG44?=
+ =?utf-8?B?Ny9UU3MrL0M1bUY5elhUUkhVd3JGTG85NC82N2VFMWprUHhUOE9MQjFZYk1N?=
+ =?utf-8?B?L2JkclMvMTFFQzlJQkhmdz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ky82Um9OaGs4T09Tc29FVlprSUZSOTZyajF3Z2MwZTIrL1dGMmtaNVdUZHVQ?=
+ =?utf-8?B?N1VMUFpDY2d1cllkUW1lcytPZGlGQmx3eHRSMmZlUVY1dHdDVzQ4cEVNc2d2?=
+ =?utf-8?B?bmExNFhTYnNiOUhVczJYeGtrUThPWWE4Q0x0b2lDTWpCcURwdTE3TVF4N29Q?=
+ =?utf-8?B?VDdFbXNZbW9iZHE2VUtxYXI5V1hSWGtWWGhKNndOWW5KQS90STV3WHhjVlBm?=
+ =?utf-8?B?M1FrZVIweHVTTUY3RFg0NDlZWUl1REtSK0JDRHdWaFNTZm5qREdRcHkxL3BM?=
+ =?utf-8?B?Z1J5T21qb0pxTFlsM3dQbEZkK25weXQ2U0dyQ0U2a1dBYkU2VWxsZzJOUjlx?=
+ =?utf-8?B?V3BucGpBbURzUjg0MlA3TzVReTJ6WEtLRGRkZithVElMdHBYdjBxbTl3NkRu?=
+ =?utf-8?B?RkE2dklPdE5uR0R6RmJIaWpwT3hJajNzSGFJNG5MWDVGaDNWLzVXY2NoenJC?=
+ =?utf-8?B?a3M5ZEZjbm40d1drRmZUZHREMEl5bzY3U05RYTZJeXBJaXpDSlZuanNjME5Y?=
+ =?utf-8?B?Rmd2OGJTODNQbWhuZHo0RW9pUTBOakgyZVdGeXk3SkVIRVFMVmxOdmtEWklV?=
+ =?utf-8?B?anh4alpPZkdiS2htbEhSN2UrQnVQWFhQSE9ZQ2hzSEJCMXFuVE83cnlneGo1?=
+ =?utf-8?B?bWJPVFJCRHkwM2xEam5ic3RPaDREcFNXWDVQbm9IeFJKNTlVajQwK3RIaUVz?=
+ =?utf-8?B?eEhseGcwODExd0ZkK2NaRUFlSXVXQjZxWnNKVkhwRitDWUp3bi9OMFhjZ1V4?=
+ =?utf-8?B?VHlGdEtiZkJtQno2MER4ak4rTGRuL3ZoNnRBV1BBWCtvU1l1aTZSb1c1K2Z2?=
+ =?utf-8?B?N2I5QmxGNkpTb3lmUkZmbU1uaUwrdlZCdU9iTWZnU3FVek8vRTVkcmNhdUFJ?=
+ =?utf-8?B?K3ZtbmhEYW95Z3VsMHBVSHF0Z2l6eE9RcUY4UUxRcm52ZXFxMm43ZTBmN0Uw?=
+ =?utf-8?B?YWtCNUpQNG9LUlBTdUdFcVFCMHF5SnNFY1FteVdSVm41TjJQem4rSlRMZUV1?=
+ =?utf-8?B?MU5HTmZ2RStSN2VXZmxjSWNMbkJzd3Z4V3FuazV4SXBjK1lUZCtRMDBkZGIv?=
+ =?utf-8?B?bDF3c0lDMTdwVSs5U0ZYR2QrMTdWQmdsWDEzZlV3Q1l1bVhNYmNYVXQ1bHhY?=
+ =?utf-8?B?TzN4NE1XNEhueVYwYjVlMW1OcXRTVklhQ0RYUXpZTHZQaHVHUzlya0Vqb0hl?=
+ =?utf-8?B?VDRBbmR4UzBKcW12cUJaWTNWOUhTczNxMzZseWdHUm5RRUV5d0JaRlcwU0xI?=
+ =?utf-8?B?K1RENFBQaVFuTE00TUZrMmlHOTNITHhrUklvS2F1R3FqeTBXR2c1V3VCY0lr?=
+ =?utf-8?B?NGhnZnNaNDJWYSt0MXAyWWRpOU16cTYyZU0yUHZ1ZlBVL3BHb2hRUXdEOVZv?=
+ =?utf-8?B?MFBUY013OUFmTnZ4R1Zod3ZHSFdTTTNXUTBRYlJYZzUyaTVvS0hxVFpBdUNI?=
+ =?utf-8?B?NlpxYlJNcHpWZ2RmSWF6ZHUxOEJmS2E2SWUzcWFLZjllK3BPaFB3RDdvbG1l?=
+ =?utf-8?B?TXJiYnlYRHQzRTV1TWhMMWk2Y200V3QrVlM0aTBveGxvcEVZVTl0TnhIQjM1?=
+ =?utf-8?B?VnVaOHdoc01EREFwNitERklIMnltVUNGQXhhdFpVMVNvL3dQbERkUDNrRDdL?=
+ =?utf-8?B?VFdPV0NhYjU1MUtuU0phUkFIdnpBRGlLTk5mNm5pbUlrT1p3c3VXRFVoMXRr?=
+ =?utf-8?B?L2doUHFhSEQ4ZFBSK284dzNld0tNczJDV2Z3ZVBBR0FkVTYzbGIwamdNZkZm?=
+ =?utf-8?B?ZXdVcElSMFRPbjNnZzlBRXpaaWlHYTRMTmhWZDVTMWVBbmVLSXI4UFk1SmRt?=
+ =?utf-8?B?aDRqMlZTTmo4RldEWW1qL3lEWVNHbU1ZaHpKZ2dsMU1rTmkzVU9WZFdOY2Fi?=
+ =?utf-8?B?RE0xTXRSSXJjMXRPeTkyRkJXVUtIaHYxK3lhMS9kWXVrcFJ3OEE5YVEwc3VV?=
+ =?utf-8?B?Qm1uQWZhem1XWnJQRVI2b0hCaTB6eU1ZSXFlQXNjUkMyT0lJdUNzUy9QZkRH?=
+ =?utf-8?B?MG9jTzFOZEhoU24vTUxNb3pHZXcraEtYaUtaNkkwdHgvZWNDVW8veXl0NU5H?=
+ =?utf-8?B?RXFYcG9EZWtURXpobkxTbFMrd2ptL0JESnBra2M4czlKaDZKYmF5OXRJOHhV?=
+ =?utf-8?Q?FUpKv2dlZIrYnGWmEaahTjc/s?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e31ef1b-8eb7-44ea-a726-08dcccbeb29f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2024 08:50:59.4879 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ASzxN2Q/i8Voj45qndbkN3omSP97n9pwJnqBZp7FO+HwrESVtCPngIVY2t+26NEA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB8430
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,143 +162,435 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 04.09.24 um 09:08 schrieb Thomas Hellström:
+> Resources of swapped objects remains on the TTM_PL_SYSTEM manager's
+> LRU list, which is bad for the LRU walk efficiency.
+>
+> Rename the device-wide "pinned" list to "unevictable" and move
+> also resources of swapped-out objects to that list.
+>
+> An alternative would be to create an "UNEVICTABLE" priority to
+> be able to keep the pinned- and swapped objects on their
+> respective manager's LRU without affecting the LRU walk efficiency.
+>
+> v2:
+> - Remove a bogus WARN_ON (Christian König)
+> - Update ttm_resource_[add|del] bulk move (Christian König)
+> - Fix TTM KUNIT tests (Intel CI)
+> v3:
+> - Check for non-NULL bo->resource in ttm_bo_populate().
+> v4:
+> - Don't move to LRU tail during swapout until the resource
+>    is properly swapped or there was a swapout failure.
+>    (Intel Ci)
+> - Add a newline after checkpatch check.
+>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
+I really wonder if having a SWAPPED wouldn't be cleaner in the long run.
 
-On 03/09/2024 14:09, Liankun Yang wrote:
-> Update efuse data for MT8188 displayport.
-> 
-> The DP monitor can not display when DUT connected to USB-c to DP dongle.
-> Analysis view is invalid DP efuse data.
-> 
-> Fixes: 350c3fe907fb ("drm/mediatek: dp: Add support MT8188 dp/edp function")
-> 
-
-Nit: no new-line here :)
-
-> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
-
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-> ---
-> Changes in V3:
-> - Add Fixes tag.
-> - Update the commit title.
-> - Update the commit description.
-> - Update change log position in commit message.
-
-Thanks, you could have added my Reviewed-by tag, as the feedback I gave was 
-minimal and you fixed that in the submission.
+Anyway, that seems to work for now. So patch is Reviewed-by: Christian 
+König <christian.koenig@amd.com>.
 
 Regards,
-Matthias
+Christian.
 
-> Per suggestion from the previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/
-> 20240902133736.16461-1-liankun.yang@mediatek.com/
-> 
->   drivers/gpu/drm/mediatek/mtk_dp.c | 85 ++++++++++++++++++++++++++++++-
->   1 file changed, 84 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-> index d8796a904eca..f2bee617f063 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -145,6 +145,89 @@ struct mtk_dp_data {
->   	u16 audio_m_div2_bit;
->   };
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    |  4 +-
+>   drivers/gpu/drm/ttm/tests/ttm_bo_test.c       |  4 +-
+>   drivers/gpu/drm/ttm/tests/ttm_resource_test.c |  6 +-
+>   drivers/gpu/drm/ttm/ttm_bo.c                  | 59 ++++++++++++++++++-
+>   drivers/gpu/drm/ttm/ttm_bo_util.c             |  6 +-
+>   drivers/gpu/drm/ttm/ttm_bo_vm.c               |  2 +-
+>   drivers/gpu/drm/ttm/ttm_device.c              |  4 +-
+>   drivers/gpu/drm/ttm/ttm_resource.c            | 15 +++--
+>   drivers/gpu/drm/ttm/ttm_tt.c                  |  3 +
+>   drivers/gpu/drm/xe/xe_bo.c                    |  4 +-
+>   include/drm/ttm/ttm_bo.h                      |  2 +
+>   include/drm/ttm/ttm_device.h                  |  5 +-
+>   include/drm/ttm/ttm_tt.h                      |  5 ++
+>   15 files changed, 96 insertions(+), 27 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 5c72462d1f57..7de284766f82 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -808,7 +808,7 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+>   	}
 >   
-> +static const struct mtk_dp_efuse_fmt mt8188_dp_efuse_fmt[MTK_DP_CAL_MAX] = {
-> +	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
-> +		.idx = 0,
-> +		.shift = 10,
-> +		.mask = 0x1f,
-> +		.min_val = 1,
-> +		.max_val = 0x1e,
-> +		.default_val = 0xf,
-> +	},
-> +	[MTK_DP_CAL_CLKTX_IMPSE] = {
-> +		.idx = 0,
-> +		.shift = 15,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_0] = {
-> +		.idx = 1,
-> +		.shift = 0,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_1] = {
-> +		.idx = 1,
-> +		.shift = 8,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_2] = {
-> +		.idx = 1,
-> +		.shift = 16,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_3] = {
-> +		.idx = 1,
-> +		.shift = 24,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_0] = {
-> +		.idx = 1,
-> +		.shift = 4,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_1] = {
-> +		.idx = 1,
-> +		.shift = 12,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_2] = {
-> +		.idx = 1,
-> +		.shift = 20,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_3] = {
-> +		.idx = 1,
-> +		.shift = 28,
-> +		.mask = 0xf,
-> +		.min_val = 1,
-> +		.max_val = 0xe,
-> +		.default_val = 0x8,
-> +	},
-> +};
+>   	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
+> -		ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
+> +		ret = ttm_bo_populate(bo, &ctx);
+>   		if (ret)
+>   			return ret;
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> index 03b00a03a634..041dab543b78 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> @@ -624,7 +624,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+>   
+>   	/* Populate ttm with pages if needed. Typically system memory. */
+>   	if (ttm && (dst_man->use_tt || (ttm->page_flags & TTM_TT_FLAG_SWAPPED))) {
+> -		ret = ttm_tt_populate(bo->bdev, ttm, ctx);
+> +		ret = ttm_bo_populate(bo, ctx);
+>   		if (ret)
+>   			return ret;
+>   	}
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> index ad649523d5e0..61596cecce4d 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> @@ -90,7 +90,7 @@ static int i915_ttm_backup(struct i915_gem_apply_to_region *apply,
+>   		goto out_no_lock;
+>   
+>   	backup_bo = i915_gem_to_ttm(backup);
+> -	err = ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, &ctx);
+> +	err = ttm_bo_populate(backup_bo, &ctx);
+>   	if (err)
+>   		goto out_no_populate;
+>   
+> @@ -189,7 +189,7 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
+>   	if (!backup_bo->resource)
+>   		err = ttm_bo_validate(backup_bo, i915_ttm_sys_placement(), &ctx);
+>   	if (!err)
+> -		err = ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, &ctx);
+> +		err = ttm_bo_populate(backup_bo, &ctx);
+>   	if (!err) {
+>   		err = i915_gem_obj_copy_ttm(obj, backup, pm_apply->allow_gpu,
+>   					    false);
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> index f0a7eb62116c..3139fd9128d8 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> @@ -308,11 +308,11 @@ static void ttm_bo_unreserve_pinned(struct kunit *test)
+>   	err = ttm_resource_alloc(bo, place, &res2);
+>   	KUNIT_ASSERT_EQ(test, err, 0);
+>   	KUNIT_ASSERT_EQ(test,
+> -			list_is_last(&res2->lru.link, &priv->ttm_dev->pinned), 1);
+> +			list_is_last(&res2->lru.link, &priv->ttm_dev->unevictable), 1);
+>   
+>   	ttm_bo_unreserve(bo);
+>   	KUNIT_ASSERT_EQ(test,
+> -			list_is_last(&res1->lru.link, &priv->ttm_dev->pinned), 1);
+> +			list_is_last(&res1->lru.link, &priv->ttm_dev->unevictable), 1);
+>   
+>   	ttm_resource_free(bo, &res1);
+>   	ttm_resource_free(bo, &res2);
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> index 22260e7aea58..a9f4b81921c3 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> @@ -164,18 +164,18 @@ static void ttm_resource_init_pinned(struct kunit *test)
+>   
+>   	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
+>   	KUNIT_ASSERT_NOT_NULL(test, res);
+> -	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->pinned));
+> +	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->unevictable));
+>   
+>   	dma_resv_lock(bo->base.resv, NULL);
+>   	ttm_bo_pin(bo);
+>   	ttm_resource_init(bo, place, res);
+> -	KUNIT_ASSERT_TRUE(test, list_is_singular(&bo->bdev->pinned));
+> +	KUNIT_ASSERT_TRUE(test, list_is_singular(&bo->bdev->unevictable));
+>   
+>   	ttm_bo_unpin(bo);
+>   	ttm_resource_fini(man, res);
+>   	dma_resv_unlock(bo->base.resv);
+>   
+> -	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->pinned));
+> +	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->unevictable));
+>   }
+>   
+>   static void ttm_resource_fini_basic(struct kunit *test)
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 320592435252..875b024913a0 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -139,7 +139,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>   			goto out_err;
+>   
+>   		if (mem->mem_type != TTM_PL_SYSTEM) {
+> -			ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> +			ret = ttm_bo_populate(bo, ctx);
+>   			if (ret)
+>   				goto out_err;
+>   		}
+> @@ -1128,9 +1128,20 @@ ttm_bo_swapout_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
+>   	if (bo->bdev->funcs->swap_notify)
+>   		bo->bdev->funcs->swap_notify(bo);
+>   
+> -	if (ttm_tt_is_populated(bo->ttm))
+> +	if (ttm_tt_is_populated(bo->ttm)) {
+> +		spin_lock(&bo->bdev->lru_lock);
+> +		ttm_resource_del_bulk_move(bo->resource, bo);
+> +		spin_unlock(&bo->bdev->lru_lock);
 > +
->   static const struct mtk_dp_efuse_fmt mt8195_edp_efuse_fmt[MTK_DP_CAL_MAX] = {
->   	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
->   		.idx = 3,
-> @@ -2771,7 +2854,7 @@ static SIMPLE_DEV_PM_OPS(mtk_dp_pm_ops, mtk_dp_suspend, mtk_dp_resume);
->   static const struct mtk_dp_data mt8188_dp_data = {
->   	.bridge_type = DRM_MODE_CONNECTOR_DisplayPort,
->   	.smc_cmd = MTK_DP_SIP_ATF_VIDEO_UNMUTE,
-> -	.efuse_fmt = mt8195_dp_efuse_fmt,
-> +	.efuse_fmt = mt8188_dp_efuse_fmt,
->   	.audio_supported = true,
->   	.audio_pkt_in_hblank_area = true,
->   	.audio_m_div2_bit = MT8188_AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
+>   		ret = ttm_tt_swapout(bo->bdev, bo->ttm, swapout_walk->gfp_flags);
+>   
+> +		spin_lock(&bo->bdev->lru_lock);
+> +		if (ret)
+> +			ttm_resource_add_bulk_move(bo->resource, bo);
+> +		ttm_resource_move_to_lru_tail(bo->resource);
+> +		spin_unlock(&bo->bdev->lru_lock);
+> +	}
+> +
+>   out:
+>   	/* Consider -ENOMEM and -ENOSPC non-fatal. */
+>   	if (ret == -ENOMEM || ret == -ENOSPC)
+> @@ -1180,3 +1191,47 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+>   	ttm_tt_destroy(bo->bdev, bo->ttm);
+>   	bo->ttm = NULL;
+>   }
+> +
+> +/**
+> + * ttm_bo_populate() - Ensure that a buffer object has backing pages
+> + * @bo: The buffer object
+> + * @ctx: The ttm_operation_ctx governing the operation.
+> + *
+> + * For buffer objects in a memory type whose manager uses
+> + * struct ttm_tt for backing pages, ensure those backing pages
+> + * are present and with valid content. The bo's resource is also
+> + * placed on the correct LRU list if it was previously swapped
+> + * out.
+> + *
+> + * Return: 0 if successful, negative error code on failure.
+> + * Note: May return -EINTR or -ERESTARTSYS if @ctx::interruptible
+> + * is set to true.
+> + */
+> +int ttm_bo_populate(struct ttm_buffer_object *bo,
+> +		    struct ttm_operation_ctx *ctx)
+> +{
+> +	struct ttm_tt *tt = bo->ttm;
+> +	bool swapped;
+> +	int ret;
+> +
+> +	dma_resv_assert_held(bo->base.resv);
+> +
+> +	if (!tt)
+> +		return 0;
+> +
+> +	swapped = ttm_tt_is_swapped(tt);
+> +	ret = ttm_tt_populate(bo->bdev, tt, ctx);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (swapped && !ttm_tt_is_swapped(tt) && !bo->pin_count &&
+> +	    bo->resource) {
+> +		spin_lock(&bo->bdev->lru_lock);
+> +		ttm_resource_add_bulk_move(bo->resource, bo);
+> +		ttm_resource_move_to_lru_tail(bo->resource);
+> +		spin_unlock(&bo->bdev->lru_lock);
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(ttm_bo_populate);
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 3c07f4712d5c..d939925efa81 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>   	src_man = ttm_manager_type(bdev, src_mem->mem_type);
+>   	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
+>   		    dst_man->use_tt)) {
+> -		ret = ttm_tt_populate(bdev, ttm, ctx);
+> +		ret = ttm_bo_populate(bo, ctx);
+>   		if (ret)
+>   			return ret;
+>   	}
+> @@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+>   
+>   	BUG_ON(!ttm);
+>   
+> -	ret = ttm_tt_populate(bo->bdev, ttm, &ctx);
+> +	ret = ttm_bo_populate(bo, &ctx);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -507,7 +507,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
+>   		pgprot_t prot;
+>   		void *vaddr;
+>   
+> -		ret = ttm_tt_populate(bo->bdev, ttm, &ctx);
+> +		ret = ttm_bo_populate(bo, &ctx);
+>   		if (ret)
+>   			return ret;
+>   
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index 4212b8c91dd4..2c699ed1963a 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -224,7 +224,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+>   		};
+>   
+>   		ttm = bo->ttm;
+> -		err = ttm_tt_populate(bdev, bo->ttm, &ctx);
+> +		err = ttm_bo_populate(bo, &ctx);
+>   		if (err) {
+>   			if (err == -EINTR || err == -ERESTARTSYS ||
+>   			    err == -EAGAIN)
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index e7cc4954c1bc..02e797fd1891 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -216,7 +216,7 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
+>   
+>   	bdev->vma_manager = vma_manager;
+>   	spin_lock_init(&bdev->lru_lock);
+> -	INIT_LIST_HEAD(&bdev->pinned);
+> +	INIT_LIST_HEAD(&bdev->unevictable);
+>   	bdev->dev_mapping = mapping;
+>   	mutex_lock(&ttm_global_mutex);
+>   	list_add_tail(&bdev->device_list, &glob->device_list);
+> @@ -283,7 +283,7 @@ void ttm_device_clear_dma_mappings(struct ttm_device *bdev)
+>   	struct ttm_resource_manager *man;
+>   	unsigned int i, j;
+>   
+> -	ttm_device_clear_lru_dma_mappings(bdev, &bdev->pinned);
+> +	ttm_device_clear_lru_dma_mappings(bdev, &bdev->unevictable);
+>   
+>   	for (i = TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES; ++i) {
+>   		man = ttm_manager_type(bdev, i);
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index 6d764ba88aab..93b44043b428 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -30,6 +30,7 @@
+>   #include <drm/ttm/ttm_bo.h>
+>   #include <drm/ttm/ttm_placement.h>
+>   #include <drm/ttm/ttm_resource.h>
+> +#include <drm/ttm/ttm_tt.h>
+>   
+>   #include <drm/drm_util.h>
+>   
+> @@ -239,7 +240,8 @@ static void ttm_lru_bulk_move_del(struct ttm_lru_bulk_move *bulk,
+>   void ttm_resource_add_bulk_move(struct ttm_resource *res,
+>   				struct ttm_buffer_object *bo)
+>   {
+> -	if (bo->bulk_move && !bo->pin_count)
+> +	if (bo->bulk_move && !bo->pin_count &&
+> +	    (!bo->ttm || !ttm_tt_is_swapped(bo->ttm)))
+>   		ttm_lru_bulk_move_add(bo->bulk_move, res);
+>   }
+>   
+> @@ -247,7 +249,8 @@ void ttm_resource_add_bulk_move(struct ttm_resource *res,
+>   void ttm_resource_del_bulk_move(struct ttm_resource *res,
+>   				struct ttm_buffer_object *bo)
+>   {
+> -	if (bo->bulk_move && !bo->pin_count)
+> +	if (bo->bulk_move && !bo->pin_count &&
+> +	    (!bo->ttm || !ttm_tt_is_swapped(bo->ttm)))
+>   		ttm_lru_bulk_move_del(bo->bulk_move, res);
+>   }
+>   
+> @@ -259,8 +262,8 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
+>   
+>   	lockdep_assert_held(&bo->bdev->lru_lock);
+>   
+> -	if (bo->pin_count) {
+> -		list_move_tail(&res->lru.link, &bdev->pinned);
+> +	if (bo->pin_count || (bo->ttm && ttm_tt_is_swapped(bo->ttm))) {
+> +		list_move_tail(&res->lru.link, &bdev->unevictable);
+>   
+>   	} else	if (bo->bulk_move) {
+>   		struct ttm_lru_bulk_move_pos *pos =
+> @@ -301,8 +304,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>   
+>   	man = ttm_manager_type(bo->bdev, place->mem_type);
+>   	spin_lock(&bo->bdev->lru_lock);
+> -	if (bo->pin_count)
+> -		list_add_tail(&res->lru.link, &bo->bdev->pinned);
+> +	if (bo->pin_count || (bo->ttm && ttm_tt_is_swapped(bo->ttm)))
+> +		list_add_tail(&res->lru.link, &bo->bdev->unevictable);
+>   	else
+>   		list_add_tail(&res->lru.link, &man->lru[bo->priority]);
+>   	man->usage += res->size;
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 4b51b9023126..3baf215eca23 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -367,7 +367,10 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>   	}
+>   	return ret;
+>   }
+> +
+> +#if IS_ENABLED(CONFIG_DRM_TTM_KUNIT_TEST)
+>   EXPORT_SYMBOL(ttm_tt_populate);
+> +#endif
+>   
+>   void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+>   {
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index a8e4d46d9123..f34daae2cf2b 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -892,7 +892,7 @@ int xe_bo_evict_pinned(struct xe_bo *bo)
+>   		}
+>   	}
+>   
+> -	ret = ttm_tt_populate(bo->ttm.bdev, bo->ttm.ttm, &ctx);
+> +	ret = ttm_bo_populate(&bo->ttm, &ctx);
+>   	if (ret)
+>   		goto err_res_free;
+>   
+> @@ -945,7 +945,7 @@ int xe_bo_restore_pinned(struct xe_bo *bo)
+>   	if (ret)
+>   		return ret;
+>   
+> -	ret = ttm_tt_populate(bo->ttm.bdev, bo->ttm.ttm, &ctx);
+> +	ret = ttm_bo_populate(&bo->ttm, &ctx);
+>   	if (ret)
+>   		goto err_res_free;
+>   
+> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> index 7b56d1ca36d7..5804408815be 100644
+> --- a/include/drm/ttm/ttm_bo.h
+> +++ b/include/drm/ttm/ttm_bo.h
+> @@ -462,5 +462,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo);
+>   pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
+>   		     pgprot_t tmp);
+>   void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
+> +int ttm_bo_populate(struct ttm_buffer_object *bo,
+> +		    struct ttm_operation_ctx *ctx);
+>   
+>   #endif
+> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+> index c22f30535c84..438358f72716 100644
+> --- a/include/drm/ttm/ttm_device.h
+> +++ b/include/drm/ttm/ttm_device.h
+> @@ -252,9 +252,10 @@ struct ttm_device {
+>   	spinlock_t lru_lock;
+>   
+>   	/**
+> -	 * @pinned: Buffer objects which are pinned and so not on any LRU list.
+> +	 * @unevictable Buffer objects which are pinned or swapped and as such
+> +	 * not on an LRU list.
+>   	 */
+> -	struct list_head pinned;
+> +	struct list_head unevictable;
+>   
+>   	/**
+>   	 * @dev_mapping: A pointer to the struct address_space for invalidating
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index 2b9d856ff388..991edafdb2dd 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -129,6 +129,11 @@ static inline bool ttm_tt_is_populated(struct ttm_tt *tt)
+>   	return tt->page_flags & TTM_TT_FLAG_PRIV_POPULATED;
+>   }
+>   
+> +static inline bool ttm_tt_is_swapped(const struct ttm_tt *tt)
+> +{
+> +	return tt->page_flags & TTM_TT_FLAG_SWAPPED;
+> +}
+> +
+>   /**
+>    * ttm_tt_create
+>    *
+
