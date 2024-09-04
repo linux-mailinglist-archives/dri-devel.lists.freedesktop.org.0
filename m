@@ -2,162 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F66896B55D
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B6496B573
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 10:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13B8A10E6F7;
-	Wed,  4 Sep 2024 08:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E24410E6FA;
+	Wed,  4 Sep 2024 08:50:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="cHuWwZug";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="D6/n24JS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11012017.outbound.protection.outlook.com [52.101.66.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE61310E6F7
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:48:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TEmiMHAIFoPvGBycIKWIedl4Mc/qbithybsHbRMCFNMuFvC6/Tt6dfjAoVdLQULKR293+cRaypneVXGE4RPOb8cCEy7oFgbJ6Krs6tMSo840y9hhLWdUGgyKTqMz6xljT9iuwqPoyWXr9VR3RVvHu3DM462QHJRJPIk6LxkZyF19N5hBXNcp7z6h6xkRasyiFraFX4BX8ja4H77ooEmbcRXNdIOtRdjfoAHPcEY63xbtXRuF1dRA8blBUHor9bC5KgKq/NXjczj/FnqRRW9Tn/zVpCBzwVLIQxqoGpPZyY9erPFz/XDtnzO0Uh5VR4H/q5HBpjFhDJWu4gQVjiakSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z3ZSo7Jv3Is4fzSPepZ9mKVJCVrFuTveK1A8Z5Qb0fs=;
- b=oAm76FDfew8/voCj2V2l68yFxC1cTsW4AlpW1aYMRzRI1aEWA0OnKvzt1r3RiwD95tVRaMq8MqdVUOOKFqY58RiehNxb8vlM1knb4GfHBwv5xDBk9bKCJACqCNSh1vu5RXE14kxGXtDkwymeKkLf2+y0owyGPnbyKkDN3LyaNgiUkvxJ6pZuQ8xBvVR7QxPaVdOZES3JGjfT5PPnBrXZobaUQR0AsVtCJideogVurMywFgRA1ecHJ6G2PMsFyahnQNjpUCa9wekCoNGMdHUy2XzOA9dNbELh6ynNsU5RYOU8dX0j52vn+JqaE9gnpljEqYCkDOHobT58qY5w6P8Ndg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z3ZSo7Jv3Is4fzSPepZ9mKVJCVrFuTveK1A8Z5Qb0fs=;
- b=cHuWwZug059zcoU4mNBKCt5DISK5btfw4XpAGD5zbsJo97v11tJqsDqBWO4zFS9HYJxFgieBgBaV3mqCpm1HFmX2SSih/dbynIPPGnyVGpz8tK0WiFte6dE0zzKM/Sf+7sVia6/WGhWCjG1zJYxG9wSJRDViB9qWzzhlTnmnH+ypdLcDegfn362yEU87fhygRKz6dhdscmKj79OMzHplhIV2lt9AvCTNCz7rDBzMEt8cdJvhaADpyvVuUh8V/YoUkT4gT+DdoKkvNxzBVBZJG+3bFTq28hSd/PkJzFUHFOEWNYXZMicUWfkUAbennswAX6/U19kq7a2NZxKhU3CJYg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by PA4PR04MB7902.eurprd04.prod.outlook.com (2603:10a6:102:c0::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.23; Wed, 4 Sep
- 2024 08:48:24 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
- 08:48:24 +0000
-Message-ID: <918336db-3c3e-4b5e-a9c8-096c9290f9d1@nxp.com>
-Date: Wed, 4 Sep 2024 16:48:51 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/imx/ipuv3: ipuv3-plane: Round up plane width for
- IPUV3_CHANNEL_MEM_DC_SYNC
-To: Paul Pu <hui.pu@gehealthcare.com>, p.zabel@pengutronix.de,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
-Cc: HuanWang@gehealthcare.com, taowang@gehealthcare.com,
- sebastian.reichel@collabora.com, ian.ray@gehealthcare.com,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20240904024315.120-1-hui.pu@gehealthcare.com>
- <20240904075417.53-1-hui.pu@gehealthcare.com>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20240904075417.53-1-hui.pu@gehealthcare.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR01CA0040.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::14) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA68910E6FA
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 08:50:50 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-1fee6435a34so45820225ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 01:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1725439850; x=1726044650; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=N9TJFtAC8hmWP+UAAxJPRyusfukgj739mLXYWTa52wo=;
+ b=D6/n24JSQuYOwMjCqPERi73Z1MWyLAYstpzk4RKxUEeQ8zGw22A8O+LszQoefSEs4F
+ wtAK2lCKurKhfzm5ESqYYBJqXmyMQnN5PQmrUj7Ep96VlXfGKcY11Jpk2wN9nobb3xrD
+ YdoGJQD8BjVZUxNCpnDU49HBKTvtsvHcelcL0l3/hp/3csaagmPATaBTVIVjvrZkzNEB
+ Jsjq96JHWW7p4W3Ghv6DaNWm9eOkrO8SRpNvjH4zGJiz7NA1/YlVMSSs6AHsod7A0YwO
+ 7WTkNtRltBSLyimR2zFm2w2CL5EfKjEKcaJHB53FmqYiGKk6+TrJBHVHinUaO32JP3C/
+ ApMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725439850; x=1726044650;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N9TJFtAC8hmWP+UAAxJPRyusfukgj739mLXYWTa52wo=;
+ b=GHb19bNvXOjsY7BYhoh7smZ4tXUBcDN9mOQKZnn/Z3aS0L+4b0aNKHrpzFMVV+Ilrj
+ y6kQTdt1LvfY9Yq3iwMTV0hcmth8w972RgMMoYzNm9W/pDOG2O40HDIZj9wDY6vxmKr0
+ yUIvLGB08N2a15f82gJ2qzSOHAPF17vc4P6m4mEKyYJmgbgd8hd8QbPT+2PuSgQhIzOc
+ wyPquhDKNwyNQ383+ZVyIq/a4uDqHiBlJ2LYCHcPk9KtR+jrp5dsiU0fTXFqS6EnDunG
+ 2jA91c82mK6rNMYBgw47k1ULc0qjNIXinsmpaDfV/Xbg8fB73uILi3NIJLak5W+qj0HJ
+ h1jA==
+X-Gm-Message-State: AOJu0YxtnO/ppknhT8W8pl0bdpR7+xqS+aMAWvvH3AtUxs7PcCfi083n
+ ATEp15f57kU6rTNp5rXjnVsTG5tVq5Yw6IX/S4r6ZMgJyHVFNwLH9NNcMHS72X0=
+X-Google-Smtp-Source: AGHT+IGuM9dS4OkrJRAfjuFyD89ThoUdcbjVnP6TJauvDY7trZRsNgC13Aek8wGWYTLVpQLXds9H5g==
+X-Received: by 2002:a17:903:230a:b0:203:a13a:c49e with SMTP id
+ d9443c01a7336-20699acb7bfmr53299925ad.1.1725439850302; 
+ Wed, 04 Sep 2024 01:50:50 -0700 (PDT)
+Received: from zjn.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-206aea38ddcsm9533555ad.132.2024.09.04.01.50.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2024 01:50:49 -0700 (PDT)
+From: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
+To: angelogioacchino.delregno@collabora.com, matthias.bgg@gmail.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ knoxchiou@google.com, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
+Subject: [PATCH v3 2/2] arm64: dts: mediatek: Add MT8186 Ponyta Chromebooks
+Date: Wed,  4 Sep 2024 16:50:37 +0800
+Message-Id: <20240904085037.2133607-1-cengjianeng@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB7902:EE_
-X-MS-Office365-Filtering-Correlation-Id: a47dc9a8-4997-4f1b-748f-08dcccbe5652
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QVRqSlRJdXFzaFhORmVDU1NOTy9BRjQ5cDRYNXAvQXBERk9pdGJQQlZKVVZv?=
- =?utf-8?B?TVk0bGlJbi9WNGZ2Rkg5bTVpekVqODlDZStwMkQ3amorcDhiYWJhUkRGRmN4?=
- =?utf-8?B?UGE2Z05JaVhQMjR2WklxVjNZZitTVUh2N3JuQ2hLbVNpYWZOTDdyYkdqc0RY?=
- =?utf-8?B?OVc3NWp4OWlHQUF0TlpxTVRXZXhRbkpiMmpVVGJzU3RDUW50a2Z0MDVTaTd4?=
- =?utf-8?B?eUNYZUhwR3Q4ZzV3elNiZmRCOWxnVTNscTJ5VVY2blJqK0twTC9xR0U0djly?=
- =?utf-8?B?L0pxNWk4SGNES3dJMXVKODRSOWkxRzdQM1ljeEp5TVpmUjV5MHhaeDNrL0Rz?=
- =?utf-8?B?Y2pzRlBjUERCNkRpYzArZWhhMmFIc3cyRzY5MW85eUp0eVVRTnkrVE5aYVFh?=
- =?utf-8?B?VGxPZklOSnFvNHgxb1BGL0JJdExRTU15TXFPV0lxUElrRi9KRjlUcm85a2pU?=
- =?utf-8?B?eGFCQ3hXMkFpYlpNVUM2VmZrRGtQR3BkRXluQk5UcEJQN3VtRjZrNnhTaDFQ?=
- =?utf-8?B?OERNNUk1UVVWOUlTTDdvbm5LT215eW13U1AxYVRsQXE4RlQwVUNja21DN3hU?=
- =?utf-8?B?M0FKRHRLOFQvczl6SEoyUWkxT2R2S3FUSEdFUXR0SlhOamg0MUxEQy9NUnFZ?=
- =?utf-8?B?M054UDNGN1cvNUlIenNmUkgzNXJ6T2t6RHhYTWs4SFloY3I4b1lOd2tOREZx?=
- =?utf-8?B?a0VhVkhmYWNFbXhDOThDT2doK3RlNlMzNXVtYVROQnBxWlBZdmQ5VittUG1s?=
- =?utf-8?B?TjFML2RNWm1UbER5SXFFdUhZUjBUd2tKcHNjaE5ROVFoMHZvcjNWUDU5cVJk?=
- =?utf-8?B?ZzR0VnpGTld5SWVwN3J5ZnB6SXNyQk1ndnp2dTZ6c3N3OVpMS2Y5S3MzYzM2?=
- =?utf-8?B?SjQyL2pVTENJNzRwU3BRNW4vR0Z4YmdNck93dVZmYXFDQ0VuZCsyRGtkeWk4?=
- =?utf-8?B?bFhvWEdBTGc2aURqK21NZXkwVGNudENTT2RDbzFjaDNTd21FNmYzbnhuZE5D?=
- =?utf-8?B?WGc3TjZLYnNab1FJKzNMZEh3NlY1SE8xUi9pbVJQUDFmNm5Ic2pNL0FrWUd0?=
- =?utf-8?B?MEx5NHRBV05TaUxzSFZkMDhmNFdPR3J1N1hVNnFPcW5ySWJiMHY4Umw2dHlx?=
- =?utf-8?B?TXQ2bkVyaGpkUTFCbGJjcVV0azI2YnJIVS9DdWR4cVNIUHRkSWplaXdVMDl6?=
- =?utf-8?B?SzhpVVNqM3NKVFhEajBEOWlnN09nU2VHd09jNThoZzRWZXpUeG1HWTUyRys3?=
- =?utf-8?B?QW90eGhVZE9zaFVZQ2txaE1TSDcxVWk3Nm9KSlA1S1VVMW8rM3RHWFFzZ1Bm?=
- =?utf-8?B?a0tibHQzTTBldE5ZeTFRWjNyTG96TnFYT1krTVR4TytQa1UxMnViTjQ2VHlm?=
- =?utf-8?B?eVRYdTBoVTdzaGxMeVFBQ0pvakxxOEg2bk5CVWxVbFNPczBZLzdRWWdtejhE?=
- =?utf-8?B?eHdRU1JucDVyTEkyaFYxbFdtS01YKzZ1ZmdVckVGZ3BIYjMyQnc2eDhBUVBO?=
- =?utf-8?B?ZVQyVzFvdnpYakNOTGovTHl3TFQ5WHl3N3lmeTYzZ0RjVURsbERURlRNZEQ3?=
- =?utf-8?B?NUMvaXNGNDFxVU40Y0VveXFnQktmMkdxTVZ5L0RRQXZ1U28rNVAwNEtBWGlW?=
- =?utf-8?B?MzlEM1Y2RW9ubVFwbXRWRGZnRUlSQTMyMUFsNWxwWTRydEoxeWVySWJtR0hS?=
- =?utf-8?B?Q3llS2ZQYmpPZU9RL2dtUnI3T2hKNm1UUHpjK1VCVXgyUGJ2VURodHJPNlN2?=
- =?utf-8?B?cUYyUHZxNkVORTlhTDUxY0Z3Z3RQMEE5aUpEdzJrVDQ4bEFkSTF4eVAvYksx?=
- =?utf-8?B?MWNtbFpyeTJqNTF3L1VTSnpWakxWOWQ1aTExZHhDZWxLUjhDTzdNNksyYUN2?=
- =?utf-8?Q?0zVkVVPtRfsjw?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDBxcUdaY0ppNHA2dE9QdUVobHhDcy94dktYSk9hV2g3OE0zcm5YTkxUWnA2?=
- =?utf-8?B?bzBnZG9DdDQ1SWtBVlo3WUtHMGxmYXhpSmxqd1ZKL3hCNVFwZnkzUm1CSXI3?=
- =?utf-8?B?WlltelYzOVpIbkh4eHpvaUwrbHlDYVRlSEs4MmVEL3JDWldkRHdERDgwckhE?=
- =?utf-8?B?ZmYySFlCTGF1ZUtKRFpIUi9GbFhiSTFxV2hBRDVwckJteVlwYVBWTmJCazZQ?=
- =?utf-8?B?YzFDMyswdTdPeTVQellHUWRwSktvT2JKd1cwVlpsZ0xNT3dOT282NE5xUy80?=
- =?utf-8?B?ekJhbmVVUEppVkxSang4RnFWK2U3QjRwM29oa0xIM1NRdC9pYkw3RjNGMnMy?=
- =?utf-8?B?WGlhZi9PaUFsNDhJRU9pc1JEUUZmR2V4d0NtQU10MG8vbWhpSDlYVTYzM2c1?=
- =?utf-8?B?VG5aWUNOcXdPOUdtQnZkMnV6MXc2emdsZGx5U3YvMVVRQWttaHhiWUwyelVm?=
- =?utf-8?B?VG40NnJ2akxmUm9zcmJLdWZ1REJmM3BUSlFIbXg2L0RJSUtRbG5xUWQrYzRR?=
- =?utf-8?B?dnI4aGcyam55NGhFRTMxSkJTTWFVZVp4emF0WHl2TFR5L0hzdHF0ejBRZlQy?=
- =?utf-8?B?TGVpVkdibW5TS01qR1RoT0JjTjltRk1sbm5oWmtHRHp0dHl0VlhiY3lJcG1E?=
- =?utf-8?B?ajRSLzVGQm9oS3A4T3U0K1JTbjVxQzJxcnZNRkV6MUdrOGRBcXVBaExOUVFj?=
- =?utf-8?B?cUVVZ3E5SStCbHdva3VRMWM5Ly8rOUxJZzd3TWpBbHRrYW9hWVJUbWRXMEZI?=
- =?utf-8?B?cnJkYnpkTGVseDdHRDFVRGVFODVIVDM5S09iY0VPZTJnaEN0czN1ZEZHNXBx?=
- =?utf-8?B?NERudm5iLzl6ZWN1WE5SWWVleWtpTkl1WVdPU21pcGhzTEplbDB4eDgzU2FS?=
- =?utf-8?B?V3RnckpuNnRldTJhWVJkZloxVGRMenVGdjgzTFhHQkF6V25lT3dsS05FTXJC?=
- =?utf-8?B?aDlCWjVUSzVENHdNdUxVL05MQTVjTHYxdzJMcTFPa3FIRU95TEpxK2c2Vitl?=
- =?utf-8?B?bVR1Sytib25acm53L05JN09CcVRQTS9zS2tscVpqWkNUaC9GbTVmQ3lUd1Nz?=
- =?utf-8?B?dHlZbmFsVHBBUmFnZ3NWRjlMMXpCQjlCamwwV0xwMmFlS1dxc01wSU82ZC9M?=
- =?utf-8?B?bFBjZVZZZWtlVm9oOVptZkxJQkU1R21PMWw0Lzg4cDNFNlpTa1FabHd6ek4w?=
- =?utf-8?B?MEhLVitaNnJub2NQM2E0THJCbEVSTG0zaWI5TU9rcnJxblZSclMwQTFwRVZB?=
- =?utf-8?B?Q3R5SmlCY05aVXJOZjdQQjBZLzFJcFFlUnFxQitpTjRaNTdYMmI0cExWekpN?=
- =?utf-8?B?a3laOTU2MGhEbldkUkp6Y05uckJlbDVuR2VQT2oxTEpxWXJ5WmtTSG8zMVJG?=
- =?utf-8?B?aEdFSW84TUdCT09yTW1DUVdsaFNjUGFLaWZ4OWxwSzFTcEJrMFNXa3BSVFZJ?=
- =?utf-8?B?OWgwZzBEU2pmNnMyRVJtcm8vTGZYcU9GWWdYZHUydW9BK3VJK0JxclB5MU1o?=
- =?utf-8?B?MVNSMnplM2VsWndXYm5XR3lKYnM5VVlsRkVaYlhIaEU1YlFyOUtqdjlOb2c5?=
- =?utf-8?B?S2pXNFJqT0U0T3hJdVBDWmJ0UWtVQUhLVjhiTVErU0lhUWMvNWRueHBtdmEw?=
- =?utf-8?B?OW1CVG0rem1hSkRjSkllNHdJWEZvdmNmeUxRU0YyeGFkckU1VHFPZXk4WDlK?=
- =?utf-8?B?SWhkSXVZM0hWRXBJdk1jTnZJdWhjcFIvZDVWRm9mY09PQkQxa2R0RXpOV254?=
- =?utf-8?B?U29WZWZQaFd6bmZPbVpjSHBuamNKRWxNSExqK2YwbVJOdEJ2cTlBYitLdENj?=
- =?utf-8?B?YkdqL3QycGpoMjlLUXV6T0ZXbGkxRXpJL0dRZUdBb3F3R1VzUnMzSTZOVGFa?=
- =?utf-8?B?MHN0TFV2Zm1KaXkzUlBoS3kyemFxYU9kTGdPRXJPbklnTXFYM0VjeEc1UWFH?=
- =?utf-8?B?azd5RnV5all3U0xLak90dHpVK3QwcG0zc2Z3bUhsOWRCRmU2ZU85dU4zaEdS?=
- =?utf-8?B?a0FVcHRoajB4OEsrc24ySndWMTI4eEgrSDRhek8zN1NzVENSc0JIQ0trV2dt?=
- =?utf-8?B?OTVCMktlTk5VclNaZ3VQeVdYdlFnVWhOOUt4ejV3dE5Pd25iVzNzK1BvV1hq?=
- =?utf-8?Q?LAjj9dL/Sc0//6Xf7u/4+fg60?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a47dc9a8-4997-4f1b-748f-08dcccbe5652
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2024 08:48:24.7201 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QDl5Z3AJNO0hli7oqmvnCG4xODx0EZFmmGhfGZnTugLO9VPYs1cHncgwa0mCDyE+eyPHH1p1360eALs1YFvvaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7902
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,20 +82,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/04/2024, Paul Pu wrote:
-> Cc: stable@vger.kernel.org # 5.15+
+MT8186 ponyta, known as huaqin custom lable, is a
+MT8186 based laptop. It is based on the "corsola" design.
+It includes LTE, touchpad combinations.
 
-Why 5.15+ ?
+Signed-off-by: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
+---
+Changes in v2:
+- PATCH 2/2: Modify the dtb name without rev2.
+- Link to v1:https://lore.kernel.org/all/20240902125502.1844374-1-cengjianeng@huaqin.corp-partner.google.com/
 
-I think it should be 6.3+ because below commit introduced in v6.3
-moves ipuv3-plane.c from one directory to another, which makes
-this patch not being applicable to v6.2.
-commit 4b6cb2b67da8 ("drm/imx: move IPUv3 driver into separate subdirectory")
+---
+ arch/arm64/boot/dts/mediatek/Makefile         |  2 +
+ .../mediatek/mt8186-corsola-ponyta-sku0.dts   | 24 ++++++++++
+ .../mediatek/mt8186-corsola-ponyta-sku1.dts   | 27 ++++++++++++
+ .../dts/mediatek/mt8186-corsola-ponyta.dtsi   | 44 +++++++++++++++++++
+ 4 files changed, 97 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
 
-Or, it could be 6.2+ because the culprit commit 4333472f8d7b was
-introduced in v6.2.
-
+diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
+index 8fd7b2bb7a15..50b5cf04d3ae 100644
+--- a/arch/arm64/boot/dts/mediatek/Makefile
++++ b/arch/arm64/boot/dts/mediatek/Makefile
+@@ -58,6 +58,8 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-pumpkin.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393216.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393217.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393218.dtb
++dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-ponyta-sku0.dtb
++dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-ponyta-sku1.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-rusty-sku196608.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-steelix-sku131072.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-steelix-sku131073.dtb
+diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
+new file mode 100644
+index 000000000000..87e8368189d9
+--- /dev/null
++++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
+@@ -0,0 +1,24 @@
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
++/*
++ * Copyright 2023 Google LLC
++ */
++
++/dts-v1/;
++#include "mt8186-corsola-ponyta.dtsi"
++
++/ {
++	model = "Google Ponyta sku0/unprovisioned board";
++	compatible = "google,ponyta-sku0", "google,ponyta-sku2147483647",
++		     "google,ponyta", "mediatek,mt8186";
++};
++
++&i2c2 {
++	touchpad@2c {
++		compatible = "hid-over-i2c";
++		reg = <0x2c>;
++		hid-descr-addr = <0x20>;
++		interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
++		vcc-supply = <&pp3300_s3>;
++		wakeup-source;
++	};
++};
+diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
+new file mode 100644
+index 000000000000..203ee109bbf7
+--- /dev/null
++++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
+@@ -0,0 +1,27 @@
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
++/*
++ * Copyright 2023 Google LLC
++ */
++
++/dts-v1/;
++#include "mt8186-corsola-ponyta.dtsi"
++
++/ {
++	model = "Google Ponyta sku1 board";
++	compatible = "google,ponyta-sku1", "google,ponyta", "mediatek,mt8186";
++};
++
++&i2c2 {
++	touchpad@15 {
++		compatible = "elan,ekth3000";
++		reg = <0x15>;
++		interrupt-parent = <&pio>;
++		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
++		vcc-supply = <&pp3300_s3>;
++		wakeup-source;
++	};
++};
++
++&usb_c1 {
++	status = "disabled";
++};
+diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
+new file mode 100644
+index 000000000000..59594022331e
+--- /dev/null
++++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
+@@ -0,0 +1,44 @@
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
++/*
++ * Copyright 2023 Google LLC
++ */
++
++/dts-v1/;
++#include "mt8186-corsola-steelix.dtsi"
++
++&keyboard_controller {
++	function-row-physmap = <
++		MATRIX_KEY(0x00, 0x02, 0)	/* T1 */
++		MATRIX_KEY(0x03, 0x02, 0)	/* T2 */
++		MATRIX_KEY(0x02, 0x02, 0)	/* T3 */
++		MATRIX_KEY(0x01, 0x02, 0)	/* T4 */
++		MATRIX_KEY(0x03, 0x04, 0)	/* T5 */
++		MATRIX_KEY(0x02, 0x04, 0)	/* T6 */
++		MATRIX_KEY(0x01, 0x04, 0)	/* T7 */
++		MATRIX_KEY(0x00, 0x04, 0)	/* T8 */
++		MATRIX_KEY(0x00, 0x01, 0)	/* T9 */
++		MATRIX_KEY(0x02, 0x09, 0)	/* T10 */
++		MATRIX_KEY(0x01, 0x09, 0)	/* T11 */
++		MATRIX_KEY(0x01, 0x05, 0)	/* T12 */
++	>;
++
++	linux,keymap = <
++		CROS_STD_MAIN_KEYMAP
++		MATRIX_KEY(0x00, 0x02, KEY_BACK)
++		MATRIX_KEY(0x03, 0x02, KEY_REFRESH)
++		MATRIX_KEY(0x02, 0x02, KEY_ZOOM)
++		MATRIX_KEY(0x01, 0x02, KEY_SCALE)
++		MATRIX_KEY(0x03, 0x04, KEY_SYSRQ)
++		MATRIX_KEY(0x02, 0x04, KEY_BRIGHTNESSDOWN)
++		MATRIX_KEY(0x01, 0x04, KEY_BRIGHTNESSUP)
++		MATRIX_KEY(0x00, 0x04, KEY_PLAYPAUSE)
++		MATRIX_KEY(0x00, 0x01, KEY_MICMUTE)
++		MATRIX_KEY(0x02, 0x09, KEY_MUTE)
++		MATRIX_KEY(0x01, 0x09, KEY_VOLUMEDOWN)
++		MATRIX_KEY(0x01, 0x05, KEY_VOLUMEUP)
++	>;
++};
++
++&mt6366codec {
++	mediatek,dmic-mode = <1>; /* one-wire */
++};
 -- 
-Regards,
-Liu Ying
+2.34.1
 
