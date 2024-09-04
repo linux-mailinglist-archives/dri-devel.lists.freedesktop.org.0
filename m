@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9117696BE22
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 15:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06ADD96BE2A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 15:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E98910E06A;
-	Wed,  4 Sep 2024 13:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692D98905A;
+	Wed,  4 Sep 2024 13:20:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JQ6Bxug5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e4zasnJ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E0D10E06A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 13:19:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id CEF3AA4430E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 13:18:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A964EC4CECB
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 13:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725455943;
- bh=iQaWUuNayeHsxNpsOPsmiP87PVA1V+997ba5NP2/0SM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=JQ6Bxug5FhdirKhlMS1LzSU6cK2X+gpcfN6ByVYAKVerwhVesNzvrzk0mC/HPIQc0
- lQeDy1hGLjolv05LmG5ykgFQF5d6Csmed1Du/0yr4libZAqzSKaFy72YuH8D5wEOjc
- q0Wps9kL5iFimSZABpuFj6y/taVXrJikZTmh51N0mGc4NCY33V/RjPSmvat2IUUagC
- CpBY4mQDVvwk0AGtdC6DSgoDQQ6O2ZMjrL6c31qkSC0R3WtH5Nxo7phd2VGZaG82mF
- SDgXXFMn//JMH+FxWYwg9KeDtYzH10fCmRjIIb8RoBINE+W53/7ITOlT4cHONZq8lK
- rZE3TmElDEsxA==
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2f4f505118fso74319841fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 06:19:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUM6TPwlGsncZJ10cAjinKiMd5i91HpV8ZWJk3UmGHLSf1wqrBN6CvDSkuA1Ftvt4/c0BQTPpLe3VM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yws9ifwfd+YPa08nQOoSFHPA0NJmjvuHvPcGwAJIJ84ASaiFUUG
- 1rIpPnOOp9sBG5mTUL6RMqZwSWx7wWu+RXO8WpS3twOvAMEslN/EVPTXwalI+rgVLI2INAQScee
- ffrzckkkDLoReM4dJmuxLiEAOtw==
-X-Google-Smtp-Source: AGHT+IHUUeSgzSozkOQHj26+7oHV3+xzw+ZQjg6TFrBfWOYCsaBdvEQOe4/S7wY/3OtormH15qUALYau8GIPppWD+UI=
-X-Received: by 2002:a2e:bc0b:0:b0:2ef:251f:785 with SMTP id
- 38308e7fff4ca-2f6265503femr113203391fa.1.1725455942007; Wed, 04 Sep 2024
- 06:19:02 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 046818905A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 13:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725456024;
+ bh=geQ7oy+LfhaERG9upyCFDkW6co0pm3gp4kEVy7MK+fo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=e4zasnJ+v9XIbYeuXL7nQ1Rfzc1B6yc4R0H0K1jFlTNs/JEsH9q5UXRLyIhe19bZo
+ 1JKMIjzQ9HTANub+3IoAMAoC46bBksPd0cvnxDUuWHESzRENWm4/uA7SEgYc644spA
+ WraUmQVLJPmenbWAxVm8tOxMp0tiCDz6cHpO3yC9YVLNXHjJgj0WzPFkBBlo2ZEE59
+ ubAR+kUF3yOe9smBZOlLpDBmoVhaHe9IvPRMh3Y05hibua//41bJRVRKiHWTVajMRc
+ aucOHfe5wc/lxsHkNNrQmJtBpJHHb5JdUZEwG/ZR2X7H1ABQp4WJCx5XwT+xR8OZv/
+ h5BAWJo1vbU2Q==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DAB7617E1091;
+ Wed,  4 Sep 2024 15:20:23 +0200 (CEST)
+Date: Wed, 4 Sep 2024 15:20:18 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Mihail
+ Atanassov <mihail.atanassov@arm.com>, linux-kernel@vger.kernel.org, Liviu
+ Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, David Airlie
+ <airlied@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan
+ <Xinhui.Pan@amd.com>, Shashank Sharma <shashank.sharma@amd.com>, Ketil
+ Johnsen <ketil.johnsen@arm.com>, Akash Goel <akash.goel@arm.com>
+Subject: Re: [RFC PATCH 00/10] drm/panthor: Add user submission
+Message-ID: <20240904152018.3de547f6@collabora.com>
+In-Reply-To: <298d0516-3b92-47e9-ad54-185de97561ee@arm.com>
+References: <20240828172605.19176-1-mihail.atanassov@arm.com>
+ <c64be651-2f40-4535-a537-b8304e6556ce@amd.com>
+ <a3e78bf7-931e-4e49-8933-c3df9a503ffd@arm.com>
+ <96ef7ae3-4df1-4859-8672-453055bbfe96@amd.com>
+ <Ztd7g4Q8V9lFZ53R@phenom.ffwll.local>
+ <090ae980-a944-4c00-a26e-d95434414417@amd.com>
+ <80ffea9b-63a6-4ae2-8a32-2db051bd7f28@arm.com>
+ <20240904132308.7664902e@collabora.com>
+ <a5a53492-9651-403e-b613-91ef0b9e80b6@amd.com>
+ <298d0516-3b92-47e9-ad54-185de97561ee@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20240731191312.1710417-12-robh@kernel.org>
- <CAL_JsqKvA0Uw7uqpmdMP7Z4mL3Qsmay5Fqb4M97s=QsBW_Nxyg@mail.gmail.com>
- <CAPY8ntAv3Xpq45ykwX_98WJKFBxqP6Os+6KvD5xzDTFz8a1idQ@mail.gmail.com>
-In-Reply-To: <CAPY8ntAv3Xpq45ykwX_98WJKFBxqP6Os+6KvD5xzDTFz8a1idQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 4 Sep 2024 08:18:49 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKjRbHCeFoZDE_wss5HMNmt8UBWa+y_8yJ6TC80xxiTOA@mail.gmail.com>
-Message-ID: <CAL_JsqKjRbHCeFoZDE_wss5HMNmt8UBWa+y_8yJ6TC80xxiTOA@mail.gmail.com>
-Subject: Re: [PATCH] drm: vc4: Use of_property_present()
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,79 +77,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 4, 2024 at 6:18=E2=80=AFAM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Rob
->
-> On Tue, 3 Sept 2024 at 20:19, Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Wed, Jul 31, 2024 at 2:13=E2=80=AFPM Rob Herring (Arm) <robh@kernel.=
-org> wrote:
-> > >
-> > > Use of_property_present() to test for property presence rather than
-> > > of_find_property(). This is part of a larger effort to remove callers
-> > > of of_find_property() and similar functions. of_find_property() leaks
-> > > the DT struct property and data pointers which is a problem for
-> > > dynamically allocated nodes which may be freed.
-> > >
-> > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > > ---
-> > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > Ping!
->
-> Sorry, this fell through the cracks.
->
-> > >
-> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4=
-_hdmi.c
-> > > index d57c4a5948c8..049de06460d5 100644
-> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > @@ -2211,7 +2211,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi =
-*vc4_hdmi)
-> > >         struct device *dev =3D &vc4_hdmi->pdev->dev;
-> > >         struct platform_device *codec_pdev;
-> > >         const __be32 *addr;
-> > > -       int index, len;
-> > > +       int index;
-> > >         int ret;
-> > >
-> > >         /*
-> > > @@ -2234,7 +2234,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi =
-*vc4_hdmi)
-> > >         BUILD_BUG_ON(offsetof(struct vc4_hdmi_audio, card) !=3D 0);
-> > >         BUILD_BUG_ON(offsetof(struct vc4_hdmi, audio) !=3D 0);
-> > >
-> > > -       if (!of_find_property(dev->of_node, "dmas", &len) || !len) {
-> > > +       if (!of_property_present(dev->of_node, "dmas")) {
->
-> The existing conditional is true if the property is not present or is 0 l=
-ength.
-> Your new one is only true if the property isn't present, so it isn't the =
-same.
++ Adrian, who has been looking at the shrinker stuff for Panthor
 
-It is not the kernel's job to validate the DT. It does a terrible job
-of it and we have better tools for that now (schemas (though RPi
-platforms are in a pretty sad state for schemas)). I'm pretty sure a
-zero length or otherwise malformed "dmas" property would also cause a
-dtc warning as well. Non-zero length is hardly a complete test
-anyways. Any bogus value of "dmas" would pass. Or it can be completely
-valid, but the DMA driver is not enabled (whether you even probe
-depends on fw_devlinks).
+On Wed, 4 Sep 2024 13:46:12 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-The kernel should just parse the properties it wants and handle any errors =
-then.
+> On 04/09/2024 12:34, Christian K=C3=B6nig wrote:
+> > Hi Boris,
+> >=20
+> > Am 04.09.24 um 13:23 schrieb Boris Brezillon: =20
+> >>>>>> Please read up here on why that stuff isn't allowed:
+> >>>>>> https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#ind=
+efinite-dma-fences   =20
+> >>>>> panthor doesn't yet have a shrinker, so all memory is pinned, which=
+ means
+> >>>>> memory management easy mode.   =20
+> >>>> Ok, that at least makes things work for the moment.   =20
+> >>> Ah, perhaps this should have been spelt out more clearly ;)
+> >>>
+> >>> The VM_BIND mechanism that's already in place jumps through some hoops
+> >>> to ensure that memory is preallocated when the memory operations are
+> >>> enqueued. So any memory required should have been allocated before any
+> >>> sync object is returned. We're aware of the issue with memory
+> >>> allocations on the signalling path and trying to ensure that we don't
+> >>> have that.
+> >>>
+> >>> I'm hoping that we don't need a shrinker which deals with (active) GPU
+> >>> memory with our design. =20
+> >> That's actually what we were planning to do: the panthor shrinker was
+> >> about to rely on fences attached to GEM objects to know if it can
+> >> reclaim the memory. This design relies on each job attaching its fence
+> >> to the GEM mapped to the VM at the time the job is submitted, such that
+> >> memory that's in-use or about-to-be-used doesn't vanish before the GPU
+> >> is done. =20
+>=20
+> How progressed is this shrinker?
 
->
-> Is there a more appropriate of_ call to return the length of the property=
-?
+We don't have code yet. All we know is that we want to re-use Dmitry's
+generic GEM-SHMEM shrinker implementation [1], and adjust it to match
+the VM model, which means not tracking things at the BO granularity,
+but at the VM granularity. Actually it has to be an hybrid model, where
+shared BOs (those imported/exported) are tracked individually, while
+all private BOs are checked simultaneously (since they all share the VM
+resv object).
 
-There are several which are all based on the data type (string, u32,
-u8, phandle+args, etc.). This case would be
-of_count_phandle_with_args(). Unless you required something like 2
-dmas entries instead of 1, I wouldn't use that here though.
+> It would be good to have an RFC so that
+> we can look to see how user submission could fit in with it.
 
-Rob
+Unfortunately, we don't have that yet :-(. All we have is a rough idea
+of how things will work, which is basically how TTM reclaim works, but
+adapted to GEM.
+
+>=20
+> > Yeah and exactly that doesn't work any more when you are using user
+> > queues, because the kernel has no opportunity to attach a fence for each
+> > submission. =20
+>=20
+> User submission requires a cooperating user space[1]. So obviously user
+> space would need to ensure any BOs that it expects will be accessed to
+> be in some way pinned. Since the expectation of user space submission is
+> that we're reducing kernel involvement, I'd also expect these to be
+> fairly long-term pins.
+>=20
+> [1] Obviously with a timer to kill things from a malicious user space.
+>=20
+> The (closed) 'kbase' driver has a shrinker but is only used on a subset
+> of memory and it's up to user space to ensure that it keeps the relevant
+> parts pinned (or more specifically not marking them to be discarded if
+> there's memory pressure). Not that I think we should be taking it's
+> model as a reference here.
+>=20
+> >>> Memory which user space thinks the GPU might
+> >>> need should be pinned before the GPU work is submitted. APIs which
+> >>> require any form of 'paging in' of data would need to be implemented =
+by
+> >>> the GPU work completing and being resubmitted by user space after the
+> >>> memory changes (i.e. there could be a DMA fence pending on the GPU wo=
+rk). =20
+> >> Hard pinning memory could work (ioctl() around gem_pin/unpin()), but
+> >> that means we can't really transparently swap out GPU memory, or we
+> >> have to constantly pin/unpin around each job, which means even more
+> >> ioctl()s than we have now. Another option would be to add the XGS fence
+> >> to the BOs attached to the VM, assuming it's created before the job
+> >> submission itself, but you're no longer reducing the number of user <->
+> >> kernel round trips if you do that, because you now have to create an
+> >> XSG job for each submission, so you basically get back to one ioctl()
+> >> per submission. =20
+>=20
+> As you say the granularity of pinning has to be fairly coarse for user
+> space submission to make sense. My assumption (could be wildly wrong)
+> was that most memory would be pinned whenever a context is rendering.
+
+The granularity of pinning (in term of which regions are pinned) is not
+really the problem, we can just assume anything that's mapped to the VM
+will be used by the GPU (which is what we're planning to do for kernel
+submission BTW). The problem is making the timeslice during
+which VM memory is considered unreclaimable as short as possible, such
+that the system can reclaim memory under mem pressure. Ideally, you want
+to pin memory as long as you have jobs queued/running, and allow for
+reclaim when the GPU context is idle.
+
+We might be able to involve the panthor_scheduler for usermode queues,
+such that a context that's eligible for scheduling first gets its VM
+mappings pinned (fence creation + assignment to the VM/BO resvs), and
+things get reclaimable again when the group is evicted from the CSG
+slot. That implies evicting idle groups more aggressively than we do
+know, but there's probably a way around it.
+
+>=20
+> > For AMDGPU we are currently working on the following solution with
+> > memory management and user queues:
+> >=20
+> > 1. User queues are created through an kernel IOCTL, submissions work by
+> > writing into a ring buffer and ringing a doorbell.
+> >=20
+> > 2. Each queue can request the kernel to create fences for the currently
+> > pushed work for a queues which can then be attached to BOs, syncobjs,
+> > syncfiles etc...
+> >=20
+> > 3. Additional to that we have and eviction/preemption fence attached to
+> > all BOs, page tables, whatever resources we need.
+> >=20
+> > 4. When this eviction fences are requested to signal they first wait for
+> > all submission fences and then suspend the user queues and block
+> > creating new submission fences until the queues are restarted again.
+> >=20
+> > This way you can still do your memory management inside the kernel (e.g.
+> > move BOs from local to system memory) or even completely suspend and
+> > resume applications without their interaction, but as Sima said it is
+> > just horrible complicated to get right.
+> >=20
+> > We have been working on this for like two years now and it still could
+> > be that we missed something since it is not in production testing yet. =
+=20
+>=20
+> I'm not entirely sure I follow how this doesn't create a dependency
+> cycle. From your description it sounds like you create a fence from the
+> user space queue which is then used to prevent eviction of the BOs needed.
+>=20
+> So to me it sounds like:
+>=20
+> 1. Attach fence to BOs to prevent eviction.
+>=20
+> 2. User space submits work to the ring buffer, rings doorbell.
+>=20
+> 3. Call into the kernel to create the fence for step 1.
+>=20
+> Which is obviously broken. What am I missing?
+>=20
+> One other thing to note is that Mali doesn't have local memory - so the
+> only benefit of unpinning is if we want to swap to disk (or zram etc).
+
+Which would be good to have, IMHO. If we don't do the implicit swapout
+based on some sort of least-recently-used-VM, we have to rely on
+userspace freeing its buffer (or flagging them reclaimable) as soon as
+they are no longer used by the GPU.
+
+[1]https://patchwork.kernel.org/project/dri-devel/cover/20240105184624.5086=
+03-1-dmitry.osipenko@collabora.com/
