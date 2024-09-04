@@ -2,89 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06AB996AD96
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 03:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354A096ADCD
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 03:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59C310E675;
-	Wed,  4 Sep 2024 01:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E03910E677;
+	Wed,  4 Sep 2024 01:25:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VNz3LRrQ";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="0f4xHQt4";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="TLF2lO6o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6349D10E675;
- Wed,  4 Sep 2024 01:04:25 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483NVBjh020611;
- Wed, 4 Sep 2024 01:04:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- alvapbi0VYChpzGs1c+SE4QBePrSOaMdAIuaPbtJG40=; b=VNz3LRrQSaJW7bgD
- NyGLCFWDn0PhTxQv77QDWfJmDPPJxJ0tcd1SndZIuqKWdhZ6GLP4To+MD2fs4EQ2
- Oda2oVqdurgJl5nLCkV65YjUz6t1XZCqSH2pbQsrwfSftNvMIfNHqandCOatR2RL
- 3/rqy9XuqTWZYTfAExkZzzIXWe1JV3hitfzd+lC2cEoahq32Y/h0PuH0BZQ3ZmI5
- ecElLL4UeLowk6Wzvq+yCcPXUEgwGkTXAMo2dFtNTMvy4uBrZiTj1j7bfd3NA9NN
- hLvpPlHzYXhGIt0DeejGwXagzooV8fdNVH60l6j73lsyiRzV9yXwjPyqH03Twe0i
- 8AjE0g==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41btrxs4mw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Sep 2024 01:04:15 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48414EK0019853
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 4 Sep 2024 01:04:14 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Sep 2024
- 18:04:13 -0700
-Message-ID: <0e5dc874-0b50-4a6b-ba98-83cb01f7cce6@quicinc.com>
-Date: Tue, 3 Sep 2024 18:04:13 -0700
+Received: from fhigh1-smtp.messagingengine.com
+ (fhigh1-smtp.messagingengine.com [103.168.172.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C6A10E677
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 01:25:15 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal
+ [10.202.2.45])
+ by mailfhigh.phl.internal (Postfix) with ESMTP id AC09D1140211;
+ Tue,  3 Sep 2024 21:25:14 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-05.internal (MEProxy); Tue, 03 Sep 2024 21:25:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:subject
+ :subject:to:to; s=fm1; t=1725413114; x=1725499514; bh=F9GS1iarqN
+ zWAu0wrF3qX++6UW4sw7BgASdGNkCp5Lc=; b=0f4xHQt4ShvaB3N2Znz3d7asWY
+ AXoQEjYT/RHmOcdqpQv0sWVvUiYZ+4Ez8oAaDVy9QAMGihl34RVqILnz86eVOl25
+ GHTpHK/kLIp+BXn0v1KBNbW9ySQ7eE+5ecNKFNBHxv0Bx+xOF/TZZEoiRsHQMnSa
+ ENnKf4vOpH5z/wlcb3Epnv2mFXAOm101Jzf8PhZomTN3wLtpMZF1dJalcUkUbdtj
+ P9FPLtsgfJm+LY5aXS1ml+egRKDSR1YAqwrbCholshlVnslFBPBn3U4vdeU41D/U
+ mKFYnTBtHFk+Zlmim1ZxH9f3aeegvoCu9CpaECj9/BloWls7mO5ptFOlqQHg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1725413114; x=1725499514; bh=F9GS1iarqNzWAu0wrF3qX++6UW4s
+ w7BgASdGNkCp5Lc=; b=TLF2lO6o1OYWzfkLxbesby2jv5ngPa2KNC0EbKW132fz
+ 3UzGfA7b8kPUZzCvoj+7vglouyOkV3szoGLN9rrbn0aaGsFU//fDlhMWU0HDnjKx
+ w0k7FN3AVYRvBmTUKe23nozbJF/4CKLvHDql36FrCsJWeLA1hjIMBnvXSi3LNMMG
+ ygUXXxt6GGneacKC/0ntHV65AiCjuGy7XLoT0h6R6fbT2oj8rN5X0q/+tRUZbtDk
+ 7BrRHa0YO5pynP3Qs80g3cTSdPSTYhkRy0b5HA3LlcKlCzQrNxfC/Nzw4wdu08NT
+ FGrL12hd61+qE6hNECC0d70zI9FRa4R65BttaZydxg==
+X-ME-Sender: <xms:-bbXZgea2g8jbt9KM1XK6enlNtiiRUaFOeTfj6gsFoVPpZ60Vsg5BA>
+ <xme:-bbXZiP73345AYWGMBXwqxjfj_2f5237CSPxYy3JRJYCNWeI5PLguELKHjpMjGSaH
+ 6kOpQA-jxamXDuQPw>
+X-ME-Received: <xmr:-bbXZhi4oxY-xIwlOc81pfq20ov5wEuYS42JWSAxK7R0XiOM_Le_JFWhD1pm1_AwXRmhT6XIFoZP3EE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehiedggeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+ rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+ htshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfh
+ rhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtoh
+ hmqeenucggtffrrghtthgvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfeduudev
+ kefggfeftdehgeethffhffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+ grihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghpthht
+ ohepudeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurhhiqdguvghvvghlse
+ hlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepuggvvhhitggv
+ thhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvihhlrdgrrh
+ hmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehquhhitggpjhgvshhs
+ iihhrghnsehquhhitghinhgtrdgtohhmpdhrtghpthhtohepshgrmhesrhgrvhhnsghorh
+ hgrdhorhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphht
+ thhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtohepmhgrrghrthgvnhdrlh
+ grnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhi
+ phgrrhgusehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:-bbXZl9eHoZQIFMdAvP3iwBk-KZ8HFnlKadvZ3qLTW-bpFRlq6zWFw>
+ <xmx:-bbXZstMjwEInmWjUu6-v9SbvkXHj53uVU__0zD4Xo8YIv3bq2Bd4Q>
+ <xmx:-bbXZsGwDL9UAYYLkZkbRHSudmxov32FFN_s1RM4IE1CPWihPbBxNg>
+ <xmx:-bbXZrM5voH7f-wwRhiuJ0zrIac0gthyXYJXax5U0dPNJZ4WL7LFNg>
+ <xmx:-rbXZt90v5faqOPLh3SD7tLSItQnQaem6Au92RQmE7FpNa7wvI_JSu7_>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Sep 2024 21:25:08 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>, Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v3 0/2] Correct WL-355608-A8 panel compatible
+Date: Wed,  4 Sep 2024 13:23:20 +1200
+Message-ID: <20240904012456.35429-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/21] drm/msm/dpu: Add RM support for allocating CWB
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>
-References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-11-502b16ae2ebb@quicinc.com>
- <pf6xgu7yjanzjigfpupons4ud6jbcmbr5icnd7yur6qhh3n5sf@plj4bi3beguw>
- <665da6e9-d9f3-4a28-a53b-0f467967fc78@quicinc.com>
- <CAA8EJpo0X7yRaqYV-tTco9+9WyexiPN_ey8hKivFrE3jTojUpg@mail.gmail.com>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <CAA8EJpo0X7yRaqYV-tTco9+9WyexiPN_ey8hKivFrE3jTojUpg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: WWU7yhrmGWheViu9JuNeh47IoUUVEu9n
-X-Proofpoint-ORIG-GUID: WWU7yhrmGWheViu9JuNeh47IoUUVEu9n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-03_12,2024-09-03_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- clxscore=1015 suspectscore=0 phishscore=0 impostorscore=0
- priorityscore=1501 mlxscore=0 mlxlogscore=999 spamscore=0
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2409040006
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,147 +108,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+V3 of this patch updated to reflect discussion and agreement to use the integrating vendor prefix and device names for this display panel.
 
-On 8/30/2024 3:16 PM, Dmitry Baryshkov wrote:
-> On Fri, 30 Aug 2024 at 22:28, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>
->>
->>
->> On 8/30/2024 10:18 AM, Dmitry Baryshkov wrote:
->>> On Thu, Aug 29, 2024 at 01:48:32PM GMT, Jessica Zhang wrote:
->>>> Add support for allocating the concurrent writeback mux as part of the
->>>> WB allocation
->>>>
->>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>> ---
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  5 ++++-
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 30 +++++++++++++++++++++++++++--
->>>>    2 files changed, 32 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
->>>> index c17d2d356f7a..c43cb55fe1d2 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
->>>> @@ -1,5 +1,7 @@
->>>>    /* SPDX-License-Identifier: GPL-2.0-only */
->>>> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
->>>> +/*
->>>> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
->>>>     */
->>>>
->>>>    #ifndef _DPU_HW_MDSS_H
->>>> @@ -352,6 +354,7 @@ struct dpu_mdss_color {
->>>>    #define DPU_DBG_MASK_DSPP     (1 << 10)
->>>>    #define DPU_DBG_MASK_DSC      (1 << 11)
->>>>    #define DPU_DBG_MASK_CDM      (1 << 12)
->>>> +#define DPU_DBG_MASK_CWB      (1 << 13)
->>>>
->>>>    /**
->>>>     * struct dpu_hw_tear_check - Struct contains parameters to configure
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>>> index bc99b04eae3a..738e9a081b10 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>>> @@ -1,9 +1,10 @@
->>>>    // SPDX-License-Identifier: GPL-2.0-only
->>>>    /*
->>>>     * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
->>>> - * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
->>>> + * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>     */
->>>>
->>>> +#include <drm/drm_managed.h>
->>>>    #include "msm_drv.h"
->>>>    #define pr_fmt(fmt)        "[drm:%s] " fmt, __func__
->>>>    #include "dpu_kms.h"
->>>> @@ -34,6 +35,7 @@ int dpu_rm_init(struct drm_device *dev,
->>>>               void __iomem *mmio)
->>>>    {
->>>>       int rc, i;
->>>> +    struct dpu_hw_blk_reg_map *cwb_reg_map;
->>>>
->>>>       if (!rm || !cat || !mmio) {
->>>>               DPU_ERROR("invalid kms\n");
->>>> @@ -100,11 +102,35 @@ int dpu_rm_init(struct drm_device *dev,
->>>>               rm->hw_intf[intf->id - INTF_0] = hw;
->>>>       }
->>>>
->>>> +    if (cat->cwb_count > 0) {
->>>> +            cwb_reg_map = drmm_kzalloc(dev,
->>>> +                            sizeof(*cwb_reg_map) * cat->cwb_count,
->>>> +                            GFP_KERNEL);
->>>
->>> Please move CWB block pointers to dpu_rm. There is no need to allocate a
->>> separate array.
->>
->> Hi Dmitry,
->>
->> Sorry, I'm not sure what you mean here. Can you clarify your comment?
->>
->> This is just allocating an array of the CWB register addresses so that
->> the hw_wb block can use it to configure the CWB mux registers.
-> 
-> Excuse me. I asked to make the cwb_reg_map array a part of the
-> existing dpu_rm structure. This way other subblocks can access it
-> through dpu_rm API.
+The previous patch adding support for this panel [1] referred to previously by its serial number only. As discussed after the patch was committed, the preference is to use the integrating device vendor and name in this circumstance.
 
-Got it, thanks for the clarification. Just wondering, is the intent here 
-to add CWB to rm's get_assigned_resourced?
+This series corrects the panel compatible to reflect the integrating vendor (Anbernic, already in the vendor prefix table) and device names (adding fallbacks for the variants using the same panel), and updates the NV3052C panel driver with the new compatible.
 
-The CWB registers will be handled by hw_wb and isn't referenced anywhere 
-outside of hw_wb (aside from when it's being allocated and passed into 
-hw_wb_init) so I'm not sure what's the benefit of adding it to the 
-dpu_rm struct.
+Ryan Walklin (2):
+  dt-bindings: display: panel: Rename WL-355608-A8 panel to
+    rg35xx-*-panel
+  drm: panel: nv3052c: Correct WL-355608-A8 panel compatible
 
-> 
->>
->> Thanks,
->>
->> Jessica Zhang
->>
->>>
->>>> +
->>>> +            if (!cwb_reg_map) {
->>>> +                    DPU_ERROR("failed cwb object creation\n");
->>>> +                    return -ENOMEM;
->>>> +            }
->>>> +    }
->>>> +
->>>> +
->>>> +    for (i = 0; i < cat->cwb_count; i++) {
->>>> +            struct dpu_hw_blk_reg_map *cwb = &cwb_reg_map[i];
->>>> +
->>>> +            cwb->blk_addr = mmio + cat->cwb[i].base;
->>>> +            cwb->log_mask = DPU_DBG_MASK_CWB;
->>>> +    }
->>>> +
->>>>       for (i = 0; i < cat->wb_count; i++) {
->>>>               struct dpu_hw_wb *hw;
->>>>               const struct dpu_wb_cfg *wb = &cat->wb[i];
->>>>
->>>> -            hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
->>>> +            if (cat->cwb)
->>>> +                    hw = dpu_hw_wb_init_with_cwb(dev, wb, mmio,
->>>> +                                    cat->mdss_ver, cwb_reg_map);
->>>> +            else
->>>> +                    hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
->>>> +
->>>>               if (IS_ERR(hw)) {
->>>>                       rc = PTR_ERR(hw);
->>>>                       DPU_ERROR("failed wb object creation: err %d\n", rc);
->>>>
->>>> --
->>>> 2.34.1
->>>>
->>>
->>> --
->>> With best wishes
->>> Dmitry
-> 
-> 
-> 
-> -- 
-> With best wishes
-> Dmitry
+ ...08-a8.yaml => anbernic,rg35xx-plus-panel.yaml} | 15 +++++++++++----
+ drivers/gpu/drm/panel/panel-newvision-nv3052c.c   |  2 +-
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+ rename Documentation/devicetree/bindings/display/panel/{wl-355608-a8.yaml => anbernic,rg35xx-plus-panel.yaml} (67%)
+
+-- 
+2.46.0
+
