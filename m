@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7F296B6D5
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AB696B6DB
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7EF10E71A;
-	Wed,  4 Sep 2024 09:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7571010E71B;
+	Wed,  4 Sep 2024 09:36:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZWkIiVbC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JBmejodC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D88010E71A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:36:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F81810E71B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:36:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DDFE25C5683;
- Wed,  4 Sep 2024 09:36:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50EBDC4CEC9;
- Wed,  4 Sep 2024 09:36:17 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 13D005C5492;
+ Wed,  4 Sep 2024 09:36:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B08A4C4CEC6;
+ Wed,  4 Sep 2024 09:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725442582;
- bh=9bAhJ9CJLtRo5g7kUHeOsxrCvaYqEyomg7XrEVlcoI0=;
+ s=k20201202; t=1725442613;
+ bh=MBwBMik3WdpeSRwdosVELrhielfxG8FEjRiwld/tWvY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZWkIiVbCKmH2u8CfkCeJrYGIdpLJbYj6kBpbhH/s8NG1I5YWKI721mj7Lzt43ELUr
- 4Y/RWuEqQecX+uHlVulZn5bFL26l4g7DDrh/CsAUjWAD/gkxjxo5Gw8nKZgA1qUFKP
- ddsnw1cBv9lkrSBYrj3fXi6N7cyMOaQBad+MHS0REatztT25RnzRjXgmy3fkdN4OYe
- YE9QqbovUWfEnjcCfdZioSRwdtlvWWN9GveHaApRiw2JDeW47I2by+BAeP5y4eFp0+
- nCxYUhP9VZeZHBJi5/yvUHifdUDcB7+hi+9ptjKGG8X2eL9sPITVHfDH+5PiTH+K7a
- VUusR+s9t1Q4Q==
-Date: Wed, 4 Sep 2024 09:36:15 +0000
+ b=JBmejodC5PZ/bZIdUTxfbws8t13TO0dZx2NADVSzFiCdFZFONf/s5E9sIcxpk+JCj
+ ATqP3UeW/yxC5clX1Ak7Yaw2th9C9qYdbNGKyDsxM5YEGWfx+CHKOTG10nyO9Z8kj8
+ gAVqGaS7J/ed/cn3a4aQdjgY3JhaMrYopF5etv5xjpGUOGtHnV0hhCOF88BwO95epj
+ +pv2ovc++y4PXoo4NLK7icGN2N9DDHJP/SUyAnmZR6d6OwnZBZhFaWyrsQKQRMjpzP
+ c01rOWAS9ey3OIMv8vl1KhcWAyqBb2jWn7vPC8mvVlGCYQ+fLTEALKKSot5K9t+K2B
+ JkDEuYjxYbDSQ==
+Date: Wed, 4 Sep 2024 09:36:45 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Stephen Boyd <swboyd@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -63,14 +63,15 @@ Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v4 17/18] platform/chrome: cros_ec_typec: Support DP muxing
-Message-ID: <ZtgqD3JaX2FmVWGu@google.com>
+Subject: Re: [PATCH v4 18/18] platform/chrome: cros_ec_typec: Handle lack of
+ HPD information
+Message-ID: <ZtgqLZXbJbpG65vD@google.com>
 References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-18-swboyd@chromium.org>
+ <20240901040658.157425-19-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901040658.157425-18-swboyd@chromium.org>
+In-Reply-To: <20240901040658.157425-19-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,22 +87,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 31, 2024 at 09:06:55PM -0700, Stephen Boyd wrote:
-> Most ARM based chromebooks with two usb-c-connector nodes and one DP
-> controller are muxing the DP lanes between the two USB ports. This is
-> done so that the type-c ports are at least equal in capability if not
-> functionality. Either an analog mux is used to steer the DP signal to
-> one or the other port, or a DP bridge chip has two lanes (e.g. DP
-> ML0/ML1) wired to one type-c port while the other two (e.g. DP ML2/ML3)
-> are wired to another type-c port.
-> 
-> [...]
-> 
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+On Sat, Aug 31, 2024 at 09:06:56PM -0700, Stephen Boyd wrote:
+> +static void cros_typec_inject_hpd(struct cros_typec_data *typec,
+> +				  struct ec_response_usb_pd_mux_info *resp,
+> +				  struct cros_typec_port *port)
+> +{
+[...]
+> +	/*
+> +	 * Only read the mux GPIO setting if we need to change the active port.
+> +	 * Otherwise, an active port is already set and HPD going high or low
+> +	 * doesn't change the muxed port until DP mode is exited.
+> +	 */
+> +	if (!typec->active_dp_port) {
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Given that cros_typec_inject_hpd() is called before `typec->active_dp_port`
+would be set (from previous patch "platform/chrome: ...  Support DP muxing"),
+would it possibly wrongly fall into here at the beginning?  (E.g.:
+cros_typec_probe() -> cros_typec_port_update() -> cros_typec_configure_mux()
+-> cros_typec_inject_hpd().)
+
+> [...]
+> +	/* Inject HPD from the GPIO state if EC firmware is broken. */
+> +	if (typec->hpd_asserted)
+> +		resp->flags |= USB_PD_MUX_HPD_LVL;
+
+`typec->hpd_asserted` is shared between all typec->ports[...].  Would it be
+possible that a HPD is asserted for another port but not current `port`?
+E.g.: cros_typec_inject_hpd() for port 2 and cros_typec_dp_bridge_hpd_notify()
+gets called due to port 1 at the same time?
