@@ -2,62 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3B096B78D
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F1A96B793
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2024 11:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31DB310E731;
-	Wed,  4 Sep 2024 09:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12ED910E732;
+	Wed,  4 Sep 2024 09:59:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ek1/+Prc";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="SFjl3jC9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87ABE10E72F;
- Wed,  4 Sep 2024 09:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725443893; x=1756979893;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=R3f8XqqhzUhpawC1aXctJCl08zl8Q7PA+O00jmQMEOQ=;
- b=Ek1/+Prcx1wIcIuMRTRUE7bbfX9+dbKIqJcsJicVJG1Hk+6nxlPb3tua
- HTZx6fLFhfIy2kMgmMBgO+FInHvKkBW0crIFUhp3e6qDro26YRhVn6ZfY
- cW/I6rU45FsHjPPgnaeYl1wlYQblWvCAagicHeZ9EIoj1HlnONdXdx2yF
- /+jE5jxG1+Gb+R/EFo5IpgKxQnCPx1xa3uVd0DuL976nzRhrJVg53Es41
- YK3dqf9yuCuabmk7mY/fYRG6RCLsbw1JUFUofeuuJtWlWBDKBxVdstnDo
- pku7/PYgfc4LyWqnnTzax154hNkfyRdHdebQlqBkDrnXgAmlONSSsEShB A==;
-X-CSE-ConnectionGUID: tOTEZ8D1RyG9KL6j8tW+2w==
-X-CSE-MsgGUID: X34engaPR/GM7kAANTqPow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="24248095"
-X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; d="scan'208";a="24248095"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2024 02:58:13 -0700
-X-CSE-ConnectionGUID: oiYwld9UQAiVnRI/DkEpYg==
-X-CSE-MsgGUID: zHWxKB9sT2+xBNmaZkZy4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,201,1719903600"; d="scan'208";a="102626489"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.18])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2024 02:58:10 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter
- <daniel.vetter@ffwll.ch>
-Cc: Marc Gonzalez <mgonzalez@freebox.fr>, Robert Foss <rfoss@kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-In-Reply-To: <20240904125206.6708daff@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240904125206.6708daff@canb.auug.org.au>
-Date: Wed, 04 Sep 2024 12:57:52 +0300
-Message-ID: <87ikvbspun.fsf@intel.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4392510E732
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2024 09:59:33 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-427fc97a88cso5162175e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 02:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1725443972; x=1726048772; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pwTQ9BYcyCTTu26BAM9NZqDIJJHvzPy5jR6K2qm1XMo=;
+ b=SFjl3jC9K7OtJospg/O6BYjBySJpawPB/C3R3Sf6cUugIcVh1Lwc8129s6mU64s7mD
+ z+S8d9h2bmZ4gJ3RjmcTGKIKvJD0yadHPz2EXOzB39PNjFP6Ba08FGcB3yiCCfoS76cr
+ IpkZ9AdbL6Cr/q7IBQEKHm7jUDPOsIqjirYGM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725443972; x=1726048772;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pwTQ9BYcyCTTu26BAM9NZqDIJJHvzPy5jR6K2qm1XMo=;
+ b=jZngB+mJqlmh0EbN2yqcZh3CLz3eqWONQcjxeHQ0NMpEI81iei0WKfE7HxnaDYyKIs
+ D36HxSY/Oh+OdRTLNJXeYnJwZ2WeDmigDZ/+pqb81rgF2p1fW9kr/989tfgPzg377jUE
+ 6B7puRmJZK/ZfhdDMeOmWDlplQotnt67PezQp9SxKJKm3C6TOij5iBIuljN3pSvgBI+j
+ 016oG4Q8l+iNCsoVmMb7Y71/a3LeFpO4iN5NkJxGGSw0A61k+Y7TPmwHeN60Yzz/jpHK
+ mkonWGh6g+F6GgiiSMPS7EB2TgZTmwC1jjMwLt5xxc0QkVXlVipeJvQ5TnP8hFiiiVuZ
+ EOJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVuRlq3WHthdgEhzYrEZY7bXAjtSq2lRMvn8aU+damHO8Tr2HlsCDYfl8myAn7shjfDU789jxevRSQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxjDjT9usu1SHsVBy84VQ4l5PLKXkOpXAIv0NFuSnG5ufZGtgUz
+ 8j30kki8DkT9fMk+pvCi0zWmNmJaeM1j01qSUibIKkXEcTsmwe16NpbkvhDgJPo=
+X-Google-Smtp-Source: AGHT+IHt2AJa+foJP8qwCEYMoWa4eEwqC0hPk2Fg6kzprjR/w6SYD/cFQz6J/QgqZFZ6wT29RSvgnA==
+X-Received: by 2002:a05:600c:230d:b0:426:6696:9e50 with SMTP id
+ 5b1f17b1804b1-42c97fc2065mr2646505e9.14.1725443971437; 
+ Wed, 04 Sep 2024 02:59:31 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42baf1b0c18sm217483955e9.37.2024.09.04.02.59.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2024 02:59:31 -0700 (PDT)
+Date: Wed, 4 Sep 2024 11:59:29 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, alexander.stein@ew.tq-group.com,
+ linus.walleij@linaro.org, daniel@ffwll.ch, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] drm/fbdev-dma: Only install deferred I/O if necessary
+Message-ID: <ZtgvgUT-ZvLIMeIb@phenom.ffwll.local>
+References: <20240904093140.15203-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240904093140.15203-1-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 6.9.12-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,37 +83,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 04 Sep 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Hi all,
->
-> After merging the drm-misc tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->
-> drivers/gpu/drm/bridge/ti-tdp158.c: In function 'tdp158_enable':
-> drivers/gpu/drm/bridge/ti-tdp158.c:31:9: error: implicit declaration of function 'gpiod_set_value_cansleep' [-Wimplicit-function-declaration]
->    31 |         gpiod_set_value_cansleep(tdp158->enable, 1);
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/bridge/ti-tdp158.c: In function 'tdp158_probe':
-> drivers/gpu/drm/bridge/ti-tdp158.c:80:26: error: implicit declaration of function 'devm_gpiod_get_optional'; did you mean 'devm_regulator_get_optional'? [-Wimplicit-function-declaration]
->    80 |         tdp158->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
->       |                          ^~~~~~~~~~~~~~~~~~~~~~~
->       |                          devm_regulator_get_optional
-> drivers/gpu/drm/bridge/ti-tdp158.c:80:65: error: 'GPIOD_OUT_LOW' undeclared (first use in this function)
->    80 |         tdp158->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
->       |                                                                 ^~~~~~~~~~~~~
-> drivers/gpu/drm/bridge/ti-tdp158.c:80:65: note: each undeclared identifier is reported only once for each function it appears in
->
-> Caused by commit
->
->   a15710027afb ("drm/bridge: add support for TI TDP158")
->
-> I have used the drm-misc tree from next-20240903 for today.
+On Wed, Sep 04, 2024 at 11:31:23AM +0200, Thomas Zimmermann wrote:
+> Deferred I/O requires struct page for framebuffer memory, which is
+> not guaranteed for all DMA ranges. We thus only install deferred I/O
+> if we have a framebuffer that requires it.
+> 
+> A reported bug affected the ipu-v3 and pl111 drivers, which have video
+> memory in either Normal or HighMem zones
+> 
+> [    0.000000] Zone ranges:
+> [    0.000000]   Normal   [mem 0x0000000010000000-0x000000003fffffff]
+> [    0.000000]   HighMem  [mem 0x0000000040000000-0x000000004fffffff]
+> 
+> where deferred I/O only works correctly with HighMem. See the Closes
+> tags for bug reports.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 808a40b69468 ("drm/fbdev-dma: Implement damage handling and deferred I/O")
+> Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Closes: https://lore.kernel.org/all/23636953.6Emhk5qWAg@steina-w/
+> Reported-by: Linus Walleij <linus.walleij@linaro.org>
+> Closes: https://lore.kernel.org/dri-devel/CACRpkdb+hb9AGavbWpY-=uQQ0apY9en_tWJioPKf_fAbXMP4Hg@mail.gmail.com/
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
 
-Fixed by commit 532f0d109658 ("drm/bridge/tdp158: fix build failure") in
-drm-misc-next.
+I guess yet another reason we should look into vma-interception using
+mkwrite and read-only ptes, but that's a lot of typing and I think this
+should work interim at least.
 
-BR,
-Jani.
+> ---
+>  drivers/gpu/drm/drm_fbdev_dma.c | 71 ++++++++++++++++++++++++---------
+>  1 file changed, 52 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+> index 7ef5a48c8029..455dc48d17a7 100644
+> --- a/drivers/gpu/drm/drm_fbdev_dma.c
+> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
+> @@ -36,20 +36,11 @@ static int drm_fbdev_dma_fb_release(struct fb_info *info, int user)
+>  	return 0;
+>  }
+>  
+> -FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS(drm_fbdev_dma,
+> -				   drm_fb_helper_damage_range,
+> -				   drm_fb_helper_damage_area);
+> -
+>  static int drm_fbdev_dma_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+>  {
+>  	struct drm_fb_helper *fb_helper = info->par;
+> -	struct drm_framebuffer *fb = fb_helper->fb;
+> -	struct drm_gem_dma_object *dma = drm_fb_dma_get_gem_obj(fb, 0);
+>  
+> -	if (!dma->map_noncoherent)
+> -		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> -
+> -	return fb_deferred_io_mmap(info, vma);
+> +	return drm_gem_prime_mmap(fb_helper->buffer->gem, vma);
+>  }
+>  
+>  static void drm_fbdev_dma_fb_destroy(struct fb_info *info)
+> @@ -70,13 +61,40 @@ static void drm_fbdev_dma_fb_destroy(struct fb_info *info)
+>  }
+>  
+>  static const struct fb_ops drm_fbdev_dma_fb_ops = {
+> +	.owner = THIS_MODULE,
+> +	.fb_open = drm_fbdev_dma_fb_open,
+> +	.fb_release = drm_fbdev_dma_fb_release,
+> +	__FB_DEFAULT_DMAMEM_OPS_RDWR,
+> +	DRM_FB_HELPER_DEFAULT_OPS,
+> +	__FB_DEFAULT_DMAMEM_OPS_DRAW,
+> +	.fb_mmap = drm_fbdev_dma_fb_mmap,
+> +	.fb_destroy = drm_fbdev_dma_fb_destroy,
+> +};
+> +
+> +FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS(drm_fbdev_dma,
+> +				   drm_fb_helper_damage_range,
+> +				   drm_fb_helper_damage_area);
+> +
+> +static int drm_fbdev_dma_deferred_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +	struct drm_framebuffer *fb = fb_helper->fb;
+> +	struct drm_gem_dma_object *dma = drm_fb_dma_get_gem_obj(fb, 0);
+> +
+> +	if (!dma->map_noncoherent)
+> +		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> +
+> +	return fb_deferred_io_mmap(info, vma);
+> +}
+> +
+> +static const struct fb_ops drm_fbdev_dma_deferred_fb_ops = {
+>  	.owner = THIS_MODULE,
+>  	.fb_open = drm_fbdev_dma_fb_open,
+>  	.fb_release = drm_fbdev_dma_fb_release,
+>  	__FB_DEFAULT_DEFERRED_OPS_RDWR(drm_fbdev_dma),
+>  	DRM_FB_HELPER_DEFAULT_OPS,
+>  	__FB_DEFAULT_DEFERRED_OPS_DRAW(drm_fbdev_dma),
+> -	.fb_mmap = drm_fbdev_dma_fb_mmap,
+> +	.fb_mmap = drm_fbdev_dma_deferred_fb_mmap,
+>  	.fb_destroy = drm_fbdev_dma_fb_destroy,
+>  };
+>  
+> @@ -89,6 +107,7 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>  {
+>  	struct drm_client_dev *client = &fb_helper->client;
+>  	struct drm_device *dev = fb_helper->dev;
+> +	bool use_deferred_io = false;
+>  	struct drm_client_buffer *buffer;
+>  	struct drm_gem_dma_object *dma_obj;
+>  	struct drm_framebuffer *fb;
+> @@ -111,6 +130,15 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>  
+>  	fb = buffer->fb;
+>  
+> +	/*
+> +	 * Deferred I/O requires struct page for framebuffer memory,
+> +	 * which is not guaranteed for all DMA ranges. We thus only
+> +	 * install deferred I/O if we have a framebuffer that requires
+> +	 * it.
+> +	 */
+> +	if (fb->funcs->dirty)
+> +		use_deferred_io = true;
+> +
+>  	ret = drm_client_buffer_vmap(buffer, &map);
+>  	if (ret) {
+>  		goto err_drm_client_buffer_delete;
+> @@ -130,7 +158,10 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>  
+>  	drm_fb_helper_fill_info(info, fb_helper, sizes);
+>  
+> -	info->fbops = &drm_fbdev_dma_fb_ops;
+> +	if (use_deferred_io)
+> +		info->fbops = &drm_fbdev_dma_deferred_fb_ops;
+> +	else
+> +		info->fbops = &drm_fbdev_dma_fb_ops;
+>  
+>  	/* screen */
+>  	info->flags |= FBINFO_VIRTFB; /* system memory */
+> @@ -145,13 +176,15 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+>  	info->fix.smem_len = info->screen_size;
+>  
+>  	/* deferred I/O */
+> -	fb_helper->fbdefio.delay = HZ / 20;
+> -	fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
+> -
+> -	info->fbdefio = &fb_helper->fbdefio;
+> -	ret = fb_deferred_io_init(info);
+> -	if (ret)
+> -		goto err_drm_fb_helper_release_info;
+> +	if (use_deferred_io) {
+
+I think a check here that roughly matches what fb_deferred_io_get_page
+does would be good. Specifically this part
+
+	if (is_vmalloc_addr(screen_buffer + offs))
+		page = vmalloc_to_page(screen_buffer + offs);
+	else if (info->fix.smem_start)
+		page = pfn_to_page((info->fix.smem_start + offs) >> PAGE_SHIFT);
+
+So maybe something like:
+
+	if (!is_vmalloc_addr(screen_buffer))
+		if (WARN_ON(!pfn_to_page())))
+			use_deferred_io = false;
+
+With maye a comment that we assume buffers aren't a hiliarious mix? 
+
+I worry about drivers that a) are on very special platforms where our dma
+memory might not be page backed and b) use manual upload like over i2c or
+spi. That sounds like a rather like embedded use-case combo ...
+
+With something like that added:
+
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+
+Cheers, Sima
+> +		fb_helper->fbdefio.delay = HZ / 20;
+> +		fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
+> +
+> +		info->fbdefio = &fb_helper->fbdefio;
+> +		ret = fb_deferred_io_init(info);
+> +		if (ret)
+> +			goto err_drm_fb_helper_release_info;
+> +	}
+>  
+>  	return 0;
+>  
+> -- 
+> 2.46.0
+> 
 
 -- 
-Jani Nikula, Intel
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
