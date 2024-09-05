@@ -2,62 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD0096D6D4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 13:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323F496D753
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 13:38:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B94210E0D7;
-	Thu,  5 Sep 2024 11:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C32710E86C;
+	Thu,  5 Sep 2024 11:38:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="Ym9zbzFz";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="XQFrb70N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Z4EV43I7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sa0SdGUG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KO3WyBSX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3845C10E100
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 11:14:10 +0000 (UTC)
-Delivered-To: boris.brezillon@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1725534841; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LwMdIyFw98pkF8PckExUs/RxaClSNRPk8OwYaEfQsbA/Lfvd53FhF9VjMZP5ix2anux679DW8Bg3COwTX43TuoHxSJlj50gEKTmACfY210+PfKhXBalf4p5GtcdIEMMG5y7nV9T64Jhp9uFXj1CrtfseJLhHwBaPWiV99a7d5do=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1725534841;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=NBGO/wd9GUl4PZyD8FAxAuruxJAxsPb2IZdrKettOI4=; 
- b=T8bDlogkFPYi+IN2ObW7QgxZuQeJ4B4+dQk5le/OGv67Y45zV/WFaWmJe/dElogpDVitrlYjlTFHsszvdIjMnackQx6FXeecYFfG2IYV4+J6wQscaqHp7J8q4/Dmdn9ZkT1yaRLPRjXEqt8OovTs65q7vPJXxk9JcnWpgetZrDo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
- dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725534841; 
- s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=NBGO/wd9GUl4PZyD8FAxAuruxJAxsPb2IZdrKettOI4=;
- b=Ym9zbzFzGM1IBFI4y8q3fsMjmXOYljhZmN6yI7oIg/isbATbJ90TnR6BM8S+NvJX
- gcbwqIH7z5lMmH3CK+RwxyimvgctPHe+bswXpzciFSpth9I9KA5UY12K5K+3hCpDWDc
- DG2CbU48bOEZ5JjNPxFfcjod9vxsL/xZazryuAQw=
-Received: by mx.zohomail.com with SMTPS id 1725534840278552.1455558587656;
- Thu, 5 Sep 2024 04:14:00 -0700 (PDT)
-From: Mary Guillemard <mary.guillemard@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Christopher Healy <healych@amazon.com>, kernel@collabora.com,
- Mary Guillemard <mary.guillemard@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 800F110E866;
+ Thu,  5 Sep 2024 11:38:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BF78B1F812;
+ Thu,  5 Sep 2024 11:38:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725536320; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=oaf7kyQZFxYpgKREUVjDLLAkI3r1Ck3Rw40jnyLlqpw=;
+ b=XQFrb70NvHKNXkLjeTUrc2ANRsSlM7w73kqEBVgv/xcxA5KlLycu2swuWJIO+geJcxoyiP
+ T2Tf293LdtMTffoXpY0kYHM0F09gMhBGsm/UWyQEwNL6DJGzPQpxyC6uep+pQUh07EVqZt
+ Bmgvy0LO53TNcVMhjN2ceOi3GkQPTUw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725536320;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=oaf7kyQZFxYpgKREUVjDLLAkI3r1Ck3Rw40jnyLlqpw=;
+ b=Z4EV43I7n4FpmhiTa2mvzJO9+Qld6LJ9WpeMvxqeR/+TeQztO81Dj7sxw+0wXWJKho9ezL
+ BnmZEFxCPuXnecBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725536318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=oaf7kyQZFxYpgKREUVjDLLAkI3r1Ck3Rw40jnyLlqpw=;
+ b=Sa0SdGUGQP5LojYpvKCi7xpvBQDhxK+svWDIvyrGr9enYgHSWFWdfScIXccyahdA3AENsu
+ uHcZTb+o6cqbjUJcScZRT62x4n7hhqPKBamC7cnB2A7VaFSqU+rABdNX5UTgwd3nXfYmnT
+ EhaWX5N/hYxUgfsZgv/IXOqSBzNkMvA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725536318;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=oaf7kyQZFxYpgKREUVjDLLAkI3r1Ck3Rw40jnyLlqpw=;
+ b=KO3WyBSXhJr+TO2yyI4Z+3qnTvJwfVBI5/IBTezVhjCZGuqVCvEUlmhg84KvBStLGPIxlg
+ yQAF9+jUP/XMovCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 54C6F13419;
+ Thu,  5 Sep 2024 11:38:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 1l9lEz6Y2WYcYgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Sep 2024 11:38:38 +0000
+Date: Thu, 5 Sep 2024 13:38:36 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO dev query
-Date: Thu,  5 Sep 2024 13:13:38 +0200
-Message-ID: <20240905111338.95714-3-mary.guillemard@collabora.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240905111338.95714-1-mary.guillemard@collabora.com>
-References: <20240905111338.95714-1-mary.guillemard@collabora.com>
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20240905113836.GA292407@linux.fritz.box>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ MISSING_XM_UA(0.00)[]; FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,
+ imap1.dmz-prg2.suse.org:helo, linux.fritz.box:mid]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,196 +115,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose allowed group priorities with a new device query.
+Hi Dave, Sima,
 
-This new uAPI will be used in Mesa to properly report what priorities a
-user can use for EGL_IMG_context_priority.
+here's the drm-misc-next-fixes PR for this week. I cherry-picked
+the fix from drm-misc-next, as there will be no more PRs for the
+latter branch in this release cycle.
 
-Since this extends the uAPI and because userland needs a way to
-advertise priorities accordingly, this also bumps the driver minor
-version.
+Best regards
+Thomas
 
-Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_drv.c | 61 ++++++++++++++++++---------
- include/uapi/drm/panthor_drm.h        | 38 +++++++++++++++++
- 2 files changed, 80 insertions(+), 19 deletions(-)
+drm-misc-next-fixes-2024-09-05:
+Short summary of fixes pull:
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 7b1db2adcb4c..f85aa2d99f09 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -170,6 +170,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_timestamp_info, current_timestamp), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_group_priorities_info, pad), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
-@@ -777,11 +778,41 @@ static int panthor_query_timestamp_info(struct panthor_device *ptdev,
- 	return 0;
- }
- 
-+static int group_priority_permit(struct drm_file *file,
-+				 u8 priority)
-+{
-+	/* Ensure that priority is valid */
-+	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
-+		return -EINVAL;
-+
-+	/* Medium priority and below are always allowed */
-+	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
-+		return 0;
-+
-+	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
-+	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
-+		return 0;
-+
-+	return -EACCES;
-+}
-+
-+static void panthor_query_group_priorities_info(struct drm_file *file,
-+						struct drm_panthor_group_priorities_info *arg)
-+{
-+	int prio;
-+
-+	for (prio = PANTHOR_GROUP_PRIORITY_REALTIME; prio >= 0; prio--) {
-+		if (!group_priority_permit(file, prio))
-+			arg->allowed_mask |= 1 << prio;
-+	}
-+}
-+
- static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
- {
- 	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
- 	struct drm_panthor_dev_query *args = data;
- 	struct drm_panthor_timestamp_info timestamp_info;
-+	struct drm_panthor_group_priorities_info priorities_info;
- 	int ret;
- 
- 	if (!args->pointer) {
-@@ -798,6 +829,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
- 			args->size = sizeof(timestamp_info);
- 			return 0;
- 
-+		case DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO:
-+			args->size = sizeof(priorities_info);
-+			return 0;
-+
- 		default:
- 			return -EINVAL;
- 		}
-@@ -818,6 +853,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
- 
- 		return PANTHOR_UOBJ_SET(args->pointer, args->size, timestamp_info);
- 
-+	case DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO:
-+		panthor_query_group_priorities_info(file, &priorities_info);
-+		return PANTHOR_UOBJ_SET(args->pointer, args->size, priorities_info);
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -1037,24 +1076,6 @@ static int panthor_ioctl_group_destroy(struct drm_device *ddev, void *data,
- 	return panthor_group_destroy(pfile, args->group_handle);
- }
- 
--static int group_priority_permit(struct drm_file *file,
--				 u8 priority)
--{
--	/* Ensure that priority is valid */
--	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
--		return -EINVAL;
--
--	/* Medium priority and below are always allowed */
--	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
--		return 0;
--
--	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
--	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
--		return 0;
--
--	return -EACCES;
--}
--
- static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
- 				      struct drm_file *file)
- {
-@@ -1436,6 +1457,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  * PanCSF driver version:
-  * - 1.0 - initial interface
-  * - 1.1 - adds DEV_QUERY_TIMESTAMP_INFO query
-+ * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
-+ *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1449,7 +1472,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.desc = "Panthor DRM driver",
- 	.date = "20230801",
- 	.major = 1,
--	.minor = 1,
-+	.minor = 2,
- 
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index 011a555e4674..520c467f946d 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -263,6 +263,11 @@ enum drm_panthor_dev_query_type {
- 
- 	/** @DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO: Query timestamp information. */
- 	DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO,
-+
-+	/**
-+	 * @DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO: Query allowed group priorities information.
-+	 */
-+	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
- };
- 
- /**
-@@ -399,6 +404,39 @@ struct drm_panthor_timestamp_info {
- 	__u64 timestamp_offset;
- };
- 
-+/**
-+ * enum drm_panthor_allowed_group_priority - Allowed group priority flags
-+ */
-+enum drm_panthor_group_allow_priority_flags {
-+	/** @PANTHOR_GROUP_ALLOW_PRIORITY_LOW: Allow low priority group. */
-+	PANTHOR_GROUP_ALLOW_PRIORITY_LOW = 1 << 0,
-+
-+	/** @PANTHOR_GROUP_ALLOW_PRIORITY_MEDIUM: Allow medium priority group. */
-+	PANTHOR_GROUP_ALLOW_PRIORITY_MEDIUM = 1 << 1,
-+
-+	/** @PANTHOR_GROUP_ALLOW_PRIORITY_HIGH: Allow high priority group. */
-+	PANTHOR_GROUP_ALLOW_PRIORITY_HIGH = 1 << 2,
-+
-+	/** @PANTHOR_GROUP_ALLOW_PRIORITY_REALTIME: Allow realtime priority group. */
-+	PANTHOR_GROUP_ALLOW_PRIORITY_REALTIME = 1 << 3,
-+};
-+
-+/**
-+ * struct drm_panthor_group_priorities_info - Group priorities information
-+ *
-+ * Structure grouping all queryable information relating to the allowed group priorities.
-+ */
-+struct drm_panthor_group_priorities_info {
-+	/**
-+	 * @allowed_mask: A mask of drm_panthor_group_allow_priority_flags flags containing the
-+	 * allowed group priorities.
-+	 */
-+	__u8 allowed_mask;
-+
-+	/** @pad: Padding fields, MBZ. */
-+	__u8 pad[3];
-+};
-+
- /**
-  * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
-  */
+tegra:
+- Fix uninitialized variable in EDID code
+The following changes since commit e066e9aa4d9c869c92d1d03647472e4ce96c0919:
+
+  MAINATINERS: update drm maintainer contacts (2024-09-03 20:07:57 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2024-09-05
+
+for you to fetch changes up to ba2b9de0c1ac2abfbe663414a292c5881e64c361:
+
+  drm/tegra: fix potential uninitialized variable use (2024-09-05 12:40:18 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+tegra:
+- Fix uninitialized variable in EDID code
+
+----------------------------------------------------------------
+Jani Nikula (1):
+      drm/tegra: fix potential uninitialized variable use
+
+ drivers/gpu/drm/tegra/output.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.46.0
-
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
