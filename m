@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE01496D6D0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 13:14:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A616C96D6D3
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 13:14:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0C810E075;
-	Thu,  5 Sep 2024 11:14:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13FB910E0FC;
+	Thu,  5 Sep 2024 11:14:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="a2kUXhMM";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="PVnatLhI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0F410E075
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 11:13:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B94D110E0D7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 11:14:08 +0000 (UTC)
 Delivered-To: boris.brezillon@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1725534835; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1725534839; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=ko+ssTjfuzPSoVr5DCixIvL3qEV+P46vAy/qfUPUYEMINkqFX6b+LgLp05dF178JwOBoCJCY6RsZDC+JzuHkYZ4DXMKI64wAYYM7i0uXOwZzIRMXVpeJFi9cNzlx1pTz/r3LR1NB4LA4E3GyqEPkMlF2dIDRWQeyr4kUvY6oUbY=
+ b=eIzhycMEQOmscNcCZglYss8rWse+93Nc7XlnhVK/VGWbU71YOc4oR/tD7lZMyUen/VhXqK4U9Xh1HE0vOduNUdJ1TR+x6gCYB2Jt9aU6IIkRA0U82/YpKbx52ED10dT4YHig0oZuAQctovSOauWoUE8FSHN8CC0TV4JjaOuSjbQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1725534835;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=zYO5M+XyjUp7mPx9nd9oE8rcz7ltsIbCI/ZCic2x2mA=; 
- b=jiW9jWOLQDgsiUlR6U7m+ORi0LdrGwbIzGTRulyHt8ifuvJSg1tebKS3CJo4VW5YaLydYbdemYNVANEro+4i9lcSyY/vF5FiJxFr155rSsjSmbHhAjEFm6p1kUI3VHaRRcBwDf8nPf00AH+G4Lr0YUD4ZqXkM/tuezG3DPcanL8=
+ s=zohoarc; t=1725534839;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=+1shYGf4ZtDj9QHPRod0uklI3TkdqK73XIf3/9V5EeE=; 
+ b=ng7LRDidjR457oGQZesHMjObx5gFn+71UZ6g6zdFwenu2yRhpieJTXHmNTwFoUhfnEq8XYDRT4ZbaVCGR+xZgPaNzxEt4D49+kK3ETjE8b4QQO65XnYPMkIjttqOtWGKxgDvvsEjYKI9I2fkeh0N3a3eYYVx1QQfH9NCZE/fLbI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
  dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725534835; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725534839; 
  s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=zYO5M+XyjUp7mPx9nd9oE8rcz7ltsIbCI/ZCic2x2mA=;
- b=a2kUXhMMBjaPKLip3MF83DxcNCQEwhiDizIplRF43//Jm7JjnnPgZWhZRICO1bxF
- finMm+AFTsJF9/Sb2WuJ8hFDYHQINfRl4TFo5q1kHWC2JlMf8rA6V+uHZ4aCG3yABWj
- QbVz1dFCwQmdvdkFS9Otg3nkp3Uqa+22mFmE+Qkg=
-Received: by mx.zohomail.com with SMTPS id 1725534833685272.4438221352942;
- Thu, 5 Sep 2024 04:13:53 -0700 (PDT)
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=+1shYGf4ZtDj9QHPRod0uklI3TkdqK73XIf3/9V5EeE=;
+ b=PVnatLhI8Quz+SPp5mW7cC8TUbhcSqNJUdr8SOl2cUFy9iaTl0zJzyx9xzh7j57f
+ 0oakJapGPlrxi12FYn5GeDqpCqqDdL9OBBaWJMpyeKsp2yVvARoq/9mcqLwYD7QGoT4
+ 4m8Gzhi2L66G8pjpb2wTn6n9kZaVPRka/29Qd6kY=
+Received: by mx.zohomail.com with SMTPS id 17255348370753.769146788604644;
+ Thu, 5 Sep 2024 04:13:57 -0700 (PDT)
 From: Mary Guillemard <mary.guillemard@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Christopher Healy <healych@amazon.com>, kernel@collabora.com,
- Mary Guillemard <mary.guillemard@collabora.com>
-Subject: [PATCH 0/2] drm/panthor: Expose realtime group priority and allowed
- priorites to userspace
-Date: Thu,  5 Sep 2024 13:13:36 +0200
-Message-ID: <20240905111338.95714-1-mary.guillemard@collabora.com>
+ Mary Guillemard <mary.guillemard@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/2] drm/panthor: Add PANTHOR_GROUP_PRIORITY_REALTIME group
+ priority
+Date: Thu,  5 Sep 2024 13:13:37 +0200
+Message-ID: <20240905111338.95714-2-mary.guillemard@collabora.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240905111338.95714-1-mary.guillemard@collabora.com>
+References: <20240905111338.95714-1-mary.guillemard@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
@@ -67,28 +74,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series adds support for realtime group priority and exposes
-allowed priorities info with a new dev query.
+This adds a new value to drm_panthor_group_priority exposing the
+realtime priority to userspace.
 
-Those changes are required to implement EGL_IMG_context_priority and
-EGL_NV_context_priority_realtime extensions properly.
+This is required to implement NV_context_priority_realtime in Mesa.
 
-This patch series assumes that [1] is applied. (found in drm-misc-fixes)
+Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
+---
+ drivers/gpu/drm/panthor/panthor_drv.c   | 2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c | 2 --
+ include/uapi/drm/panthor_drm.h          | 7 +++++++
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-The Mesa MR using this series is available here [2].
-
-[1]https://lore.kernel.org/all/20240903144955.144278-2-mary.guillemard@collabora.com/
-[2]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30991
-
-Mary Guillemard (2):
-  drm/panthor: Add PANTHOR_GROUP_PRIORITY_REALTIME group priority
-  drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO dev query
-
- drivers/gpu/drm/panthor/panthor_drv.c   | 61 +++++++++++++++++--------
- drivers/gpu/drm/panthor/panthor_sched.c |  2 -
- include/uapi/drm/panthor_drm.h          | 45 ++++++++++++++++++
- 3 files changed, 87 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 0caf9e9a8c45..7b1db2adcb4c 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -1041,7 +1041,7 @@ static int group_priority_permit(struct drm_file *file,
+ 				 u8 priority)
+ {
+ 	/* Ensure that priority is valid */
+-	if (priority > PANTHOR_GROUP_PRIORITY_HIGH)
++	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
+ 		return -EINVAL;
+ 
+ 	/* Medium priority and below are always allowed */
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 91a31b70c037..86908ada7335 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -137,8 +137,6 @@ enum panthor_csg_priority {
+ 	 * non-real-time groups. When such a group becomes executable,
+ 	 * it will evict the group with the lowest non-rt priority if
+ 	 * there's no free group slot available.
+-	 *
+-	 * Currently not exposed to userspace.
+ 	 */
+ 	PANTHOR_CSG_PRIORITY_RT,
+ 
+diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+index 1fd8473548ac..011a555e4674 100644
+--- a/include/uapi/drm/panthor_drm.h
++++ b/include/uapi/drm/panthor_drm.h
+@@ -720,6 +720,13 @@ enum drm_panthor_group_priority {
+ 	 * Requires CAP_SYS_NICE or DRM_MASTER.
+ 	 */
+ 	PANTHOR_GROUP_PRIORITY_HIGH,
++
++	/**
++	 * @PANTHOR_GROUP_PRIORITY_REALTIME: Realtime priority group.
++	 *
++	 * Requires CAP_SYS_NICE or DRM_MASTER.
++	 */
++	PANTHOR_GROUP_PRIORITY_REALTIME,
+ };
+ 
+ /**
 -- 
 2.46.0
 
