@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8676196D0A6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 09:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57B496D0AF
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 09:46:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E936910E71D;
-	Thu,  5 Sep 2024 07:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF3810E0B1;
+	Thu,  5 Sep 2024 07:46:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MO6og5gZ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="G53eyoyx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D64B910E71D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 07:43:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9A5515C552B;
- Thu,  5 Sep 2024 07:43:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 489CBC4CEC4;
- Thu,  5 Sep 2024 07:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725522200;
- bh=2ywi2ABrKwj13e2om25ul5oQoXN4HOJZfN35u/fSyhE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MO6og5gZ6EstvJSCXUtF02tNnWU0mFhi4rrSzIyf088/j5GrSEyvjabPytVfJxN6Z
- 4MPAmW545PLoz9H0Cub9XW4uRT1WkSJXg/lnNNMBvh6UGFI2fNmmIdwTFb3eOh4TjP
- biAFTRO3ntP/yUun5rMPX6WRzrbk8T9W4QfMduQ1BKz6gI3dv0pPfjl3FtOzVVpnEf
- rIiMXAcTi2bEvtbFd7zNfmGmfHs3+TFhv+jFTTUsEecjzoGoNXsf5XILfPbDR/kh4C
- xkNjM18H4EpBBhLctiLiCWEkDt5q1eclH0NqoATDhgUYUPZ7XN0K8Mn2UIyjpJc041
- HVqezAJLhWLUw==
-From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Ryan Walklin <ryan@testtoast.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: (subset) [PATCH v3 2/2] drm: panel: nv3052c: Correct WL-355608-A8
- panel compatible
-Date: Thu,  5 Sep 2024 09:43:11 +0200
-Message-ID: <172552218878.2901646.2731877216171955845.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240904012456.35429-3-ryan@testtoast.com>
-References: <20240904012456.35429-1-ryan@testtoast.com>
- <20240904012456.35429-3-ryan@testtoast.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F12FE10E0B1
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 07:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725522385;
+ bh=QYpU67x17CbfVA21RkvhKE9DGjvoVRNHWWEv4K+vCxY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=G53eyoyxWdawLmV4K3e3GIpIf8mKKRJ2JHuum58L5JwXsO4BdxvMHawgE5vRm2qKp
+ 1b7l7taULwiBcBsGbqIb9WbJL07MaGyZJ/pYJ9KRW85smE2hlIwV/x5ydr7jpkBmWb
+ 1Kiai5tUAWU/isnajhdSvNvWGl/0GfR3vPLO9MM+qsfpNStZPgNgkbli6SwLCjTZ6I
+ rw4KrctsY0RJN33mkAtYeLxeoqGPBK3WK8JO/oOUqeCRdylXDJ8ZAK9Hd2pNn8yJAI
+ OyNH/Xbsg15ZD6qaKuF/Fy0yyPzgrESkF8O1Q20Phy25ChkdWg69itybpr0XAqKjsc
+ 3AgtcmYzDAvqw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E6C3B17E0F94;
+ Thu,  5 Sep 2024 09:46:24 +0200 (CEST)
+Date: Thu, 5 Sep 2024 09:46:20 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Liviu
+ Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>, Grant
+ Likely <grant.likely@linaro.org>, kernel@collabora.com,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/panthor: flush FW AS caches in slow reset path
+Message-ID: <20240905094620.5744ace5@collabora.com>
+In-Reply-To: <6074ec45-7642-4558-83c5-4c9af7e0543d@arm.com>
+References: <20240902130237.3440720-1-adrian.larumbe@collabora.com>
+ <6074ec45-7642-4558-83c5-4c9af7e0543d@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,20 +68,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 04 Sep 2024 13:23:22 +1200, Ryan Walklin wrote:
-> As per the previous dt-binding commit, update the WL-355608-A8 panel
-> compatible to reflect the the integrating device vendor and name as the
-> panel OEM is unknown.
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> 
-> --
-> Changelog v2..v3:
-> - Use integrating device name with vendor prefix instead of OEM serial.
-> 
-> [...]
+On Mon, 2 Sep 2024 16:11:51 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-Applied to misc/kernel.git (drm-misc-fixes).
+> On 02/09/2024 14:02, Adri=C3=A1n Larumbe wrote:
+> > In the off-chance that waiting for the firmware to signal its booted st=
+atus
+> > timed out in the fast reset path, one must flush the cache lines for the
+> > entire FW VM address space before reloading the regions, otherwise stale
+> > values eventually lead to a scheduler job timeout.
+> >=20
+> > Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> > Acked-by: Liviu Dudau <liviu.dudau@arm.com> =20
+>=20
+> Reviewed-by: Steven Price <steven.price@arm.com>
 
-Thanks!
-Maxime
+Pushed to drm-misc-fixes.
