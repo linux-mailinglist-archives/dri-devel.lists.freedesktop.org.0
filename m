@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8377596DD3D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 17:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A455F96DDF1
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 17:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF0FE10E8FC;
-	Thu,  5 Sep 2024 15:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF11710E904;
+	Thu,  5 Sep 2024 15:22:40 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="zOT5hunL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="l9Tj357O";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB29110E8FC
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 15:06:34 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-206aee40676so8759845ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 08:06:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725548794; x=1726153594;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j7TTRuuU4nlji66HB0wIsokyLV65QcKx5Ad6l4uBmgg=;
- b=paLy9v2qGGWtKo2hoZRDFboh63WNv/7vVW4Mf1QVsuvs6b08HAlFkp2T4TOXwhTCE7
- yE3pg+VOMt35LjdDUvUcGIBwWlpnrIoqUYp1uHP/m5gIX3+urEs3itD8y/8WPtqjpf4f
- w3VglCCX0lF6yw2lrlxghOicHU3PqmKelRGBoHqPyhg9O1K22kWYRkN4z8nGka2OcjN2
- cHFcWHi5oTBoD+Vg9xPN+tCxPIybE6rsjzbe8bXEGGCD8wwO4oLWwNQ5mCIQ7QKu8VHa
- oINJZYYwDbx7PnGKmKpNhl/91YbYiknfakIk6yiitvlBBPDKJoJYLD9CDmnrRLA/LIdl
- foIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUs+YHpmWeZVTT17ob9TDJmbm7k0kGgXr9ULSADimziJuKKQbVPFqbyzrILeHVWor5I5V2I1UuCvhM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylVoDfyJjXznd85VUSRvt85H9WOyc26E+Hb7QwAS0w6x0j9BTL
- xH0e7qFrZ5p95ToC1AvwObayjK90joSWmlJluMz9xKaM9KMFa3uB
-X-Google-Smtp-Source: AGHT+IGStXj7Q9ESrdDcPCzdegEEQ6geuDnclkkUo7eimkLKqJZy6a3xGuNcr2bAYNITzcnTIAKDTQ==
-X-Received: by 2002:a17:903:3586:b0:205:8a25:c11 with SMTP id
- d9443c01a7336-2058a250d9dmr147178855ad.45.1725548794015; 
- Thu, 05 Sep 2024 08:06:34 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([20.69.120.36])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-206aea5832dsm29588925ad.237.2024.09.05.08.06.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2024 08:06:33 -0700 (PDT)
-Date: Thu, 5 Sep 2024 15:06:18 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: Helge Deller <deller@gmx.de>
-Cc: Wei Liu <wei.liu@kernel.org>, Chen Ni <nichen@iscas.ac.cn>,
- kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
- gpiccoli@igalia.com, mikelley@microsoft.com,
- linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fbdev/hyperv_fb: Convert comma to semicolon
-Message-ID: <ZtnI6uWpRVf1Bvx8@liuwe-devbox-debian-v2>
-References: <20240902074402.3824431-1-nichen@iscas.ac.cn>
- <Ztlc52c6fIz3azbn@liuwe-devbox-debian-v2>
- <5f6ce496-15cc-45d1-b3d0-10e362543a3c@gmx.de>
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 949A010E904
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 15:22:38 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1725549756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q4Tg8dEgkTswTB6VvQxJ4kNv8/QdAuXjJMDGmVqHWjc=;
+ b=zOT5hunL1xI7YbxxPIBQmaQ2SgbJ8GZ8mixTDS+u5CM/ZmL5AoUPHJqEtG60XjbuXkEw6j
+ l6yj6F5yE1bGhygRbFpsUqC/2OledY2iw7+VoETsTkanJWvL6m0VnfEcTQBlO0DMsoj4eq
+ l6Aooqmsx4rWsFuslIO7seg/PmfseqyYQ34SY5lmwO9uOTiqOcK2IvFKo7sHj0H+iwqYlT
+ 21+eco3vg6PtAXLl3j/HQAChcnWP9nP2mSGuFZ6EjmCo8JFgNgAU0kYJE8ka1rXVuvhdW6
+ CbZiQzsuPCX85o9ctW+ebw1NP2SloIFjUuOo66qybaJ958Ld+FdmeA1YD94g1w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1725549756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q4Tg8dEgkTswTB6VvQxJ4kNv8/QdAuXjJMDGmVqHWjc=;
+ b=l9Tj357OjDMCl5vyh6arql/xekgxrfsNSslEVEF5iEwQP25xBf/RKhlkPP+N4MWRQvkgvb
+ he+IKgH6s/I0BaDw==
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Javier Martinez Canillas
+ <javierm@redhat.com>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 3/3] drm/log: Introduce a new boot logger to draw
+ the kmsg on the screen
+In-Reply-To: <87zfpwxqpc.fsf@jogness.linutronix.de>
+References: <20240801100640.462606-1-jfalempe@redhat.com>
+ <20240801100640.462606-4-jfalempe@redhat.com>
+ <87o76czfb2.fsf@jogness.linutronix.de>
+ <d4412d54-41b1-4671-9733-34ba1423404c@redhat.com>
+ <87zfpwxqpc.fsf@jogness.linutronix.de>
+Date: Thu, 05 Sep 2024 17:28:35 +0206
+Message-ID: <87a5gm2khw.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5f6ce496-15cc-45d1-b3d0-10e362543a3c@gmx.de>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,26 +70,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 05, 2024 at 10:30:56AM +0200, Helge Deller wrote:
-> On 9/5/24 09:25, Wei Liu wrote:
-> > On Mon, Sep 02, 2024 at 03:44:02PM +0800, Chen Ni wrote:
-> > > Replace a comma between expression statements by a semicolon.
-> > > 
-> > > Fixes: d786e00d19f9 ("drivers: hv, hyperv_fb: Untangle and refactor Hyper-V panic notifiers")
-> > > Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
-> > 
-> > Applied to hyperv-fixes, thanks!
-> 
-> I added it to the fbdev git tree 3 days ago.
-> 
-> Either you or me should drop it from our trees.
-> Please let me know what you prefer.
+On 2024-08-01, John Ogness <john.ogness@linutronix.de> wrote:
+> On 2024-08-01, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>> I think I can also register one console for each drm driver, which
+>> will simplify drm_log even further. (currently it would mean having a
+>> circular buffer and work function for each driver which is a bit too
+>> much).
+>
+> Indeed.
+>
+>> Do you know if there is a chance to have write_thread() in 6.12 or
+>> 6.13 ?
 
-Thanks for picking it up. I'll drop it from my tree.
+FYI: The full NBCON API (with write_thread()) is now available in
+linux-next.
 
-Thanks,
-Wei.
+It would be great to see a version of drm_log that only implements
+write_thread() and does not do any of its own buffering with workqueue
+and also does not need to track multiple graphic loggers at the same
+time.
 
-> 
-> Helge
-> 
+John Ogness
