@@ -2,63 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AA396D9CD
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 15:06:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734C396D9EC
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 15:13:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035DF10E896;
-	Thu,  5 Sep 2024 13:06:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="COWRd9fH";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2EF510E8A1;
+	Thu,  5 Sep 2024 13:13:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBF810E896;
- Thu,  5 Sep 2024 13:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725541572; x=1757077572;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=g1SQN7j55UMlCekE8jx808qYJxlM2mhzf/HdquuSpmo=;
- b=COWRd9fHsatP0RB8An2KCS10qPw01qS2za4GuVcHpsPe/dk/FdKEIVEx
- JtJyKuouQ8Skk56lpdMMb6atFFK1xME7I+axH7CnYGrxWaVFh5Iyts2T0
- GytZvWbI11M7Fr84rIngt5Mm2lama+KjoybyF89IH2ZLNOzfQU7zX0qg4
- wir3NPv2Kg+1eFdTtWjkCrQySBAVm07PhVoNYjfdM77VCXj/DU/bnn8NN
- 5CE2GGm88yjw8TslevA0zOqCjqng0lFslvvA/CVU1NVaHj8F/cZzRwMTS
- z7zAsa1tFrrMwSvZaLbR9GXpaCHj6+AZGjU2ZrplB2XAhRCfs5EDqT6Bo g==;
-X-CSE-ConnectionGUID: gmLvwtXNQn6ETNvGQnXf4Q==
-X-CSE-MsgGUID: w9bYeZPVRp+MXuT5Nf0f0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="27177038"
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; d="scan'208";a="27177038"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2024 06:06:12 -0700
-X-CSE-ConnectionGUID: D6YR5lCgSHyhMajcqYWpcQ==
-X-CSE-MsgGUID: ARXOi5PXRXiTHFtQOtIKOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; d="scan'208";a="70210401"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.160])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2024 06:06:09 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Uros Bizjak <ubizjak@gmail.com>, linux-kernel@vger.kernel.org
-Cc: Uros Bizjak <ubizjak@gmail.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 02/18] drm/i915/selftests: Include <linux/prandom.h>
- instead of <linux/random.h>
-In-Reply-To: <20240905122020.872466-3-ubizjak@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240905122020.872466-1-ubizjak@gmail.com>
- <20240905122020.872466-3-ubizjak@gmail.com>
-Date: Thu, 05 Sep 2024 16:06:06 +0300
-Message-ID: <871q1yqmgx.fsf@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8249B10E8A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 13:13:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7E0EFEC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 06:14:17 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DEBF83F73F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 06:13:50 -0700 (PDT)
+Date: Thu, 5 Sep 2024 14:13:47 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ Matthew Brost <matthew.brost@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: Don't add write fences to the shared BOs
+Message-ID: <ZtmuixXbIUKHcnPP@e110455-lin.cambridge.arm.com>
+References: <20240905070155.3254011-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240905070155.3254011-1-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,74 +50,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 Sep 2024, Uros Bizjak <ubizjak@gmail.com> wrote:
-> Usage of pseudo-random functions requires inclusion of
-> <linux/prandom.h> header instead of <linux/random.h>.
->
-> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
+On Thu, Sep 05, 2024 at 09:01:54AM +0200, Boris Brezillon wrote:
+> The only user (the mesa gallium driver) is already assuming explicit
+> synchronization and doing the export/import dance on shared BOs. The
+> only reason we were registering ourselves as writers on external BOs
+> is because Xe, which was the reference back when we developed Panthor,
+> was doing so. Turns out Xe was wrong, and we really want bookkeep on
+> all registered fences, so userspace can explicitly upgrade those to
+> read/write when needed.
+> 
+> Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-LGTM,
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
-for merging via whichever tree suits you best.
+Best regards,
+Liviu
 
 > ---
->  drivers/gpu/drm/i915/selftests/i915_gem.c    | 2 +-
->  drivers/gpu/drm/i915/selftests/i915_random.h | 2 +-
->  drivers/gpu/drm/i915/selftests/scatterlist.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/=
-i915/selftests/i915_gem.c
-> index 61da4ed9d521..0727492576be 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
-> @@ -4,7 +4,7 @@
->   * Copyright =C2=A9 2018 Intel Corporation
->   */
->=20=20
-> -#include <linux/random.h>
-> +#include <linux/prandom.h>
->=20=20
->  #include "gem/i915_gem_internal.h"
->  #include "gem/i915_gem_pm.h"
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_random.h b/drivers/gpu/d=
-rm/i915/selftests/i915_random.h
-> index 05364eca20f7..70330a2e80f2 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_random.h
-> +++ b/drivers/gpu/drm/i915/selftests/i915_random.h
-> @@ -26,7 +26,7 @@
->  #define __I915_SELFTESTS_RANDOM_H__
->=20=20
->  #include <linux/math64.h>
-> -#include <linux/random.h>
-> +#include <linux/prandom.h>
->=20=20
->  #include "../i915_selftest.h"
->=20=20
-> diff --git a/drivers/gpu/drm/i915/selftests/scatterlist.c b/drivers/gpu/d=
-rm/i915/selftests/scatterlist.c
-> index 805c4bfb85fe..7e59591bbed6 100644
-> --- a/drivers/gpu/drm/i915/selftests/scatterlist.c
-> +++ b/drivers/gpu/drm/i915/selftests/scatterlist.c
-> @@ -22,7 +22,7 @@
->   */
->=20=20
->  #include <linux/prime_numbers.h>
-> -#include <linux/random.h>
-> +#include <linux/prandom.h>
->=20=20
->  #include "i915_selftest.h"
->  #include "i915_utils.h"
+>  drivers/gpu/drm/panthor/panthor_sched.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 9a0ff48f7061..41260cf4beb8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -3423,13 +3423,8 @@ void panthor_job_update_resvs(struct drm_exec *exec, struct drm_sched_job *sched
+>  {
+>  	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+>  
+> -	/* Still not sure why we want USAGE_WRITE for external objects, since I
+> -	 * was assuming this would be handled through explicit syncs being imported
+> -	 * to external BOs with DMA_BUF_IOCTL_IMPORT_SYNC_FILE, but other drivers
+> -	 * seem to pass DMA_RESV_USAGE_WRITE, so there must be a good reason.
+> -	 */
+>  	panthor_vm_update_resvs(job->group->vm, exec, &sched_job->s_fence->finished,
+> -				DMA_RESV_USAGE_BOOKKEEP, DMA_RESV_USAGE_WRITE);
+> +				DMA_RESV_USAGE_BOOKKEEP, DMA_RESV_USAGE_BOOKKEEP);
+>  }
+>  
+>  void panthor_sched_unplug(struct panthor_device *ptdev)
+> -- 
+> 2.46.0
+> 
 
---=20
-Jani Nikula, Intel
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
