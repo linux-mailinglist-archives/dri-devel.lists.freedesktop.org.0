@@ -2,75 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD8C96D89E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 14:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032DF96D8A0
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 14:33:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 938D210E11D;
-	Thu,  5 Sep 2024 12:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65F4F10E11C;
+	Thu,  5 Sep 2024 12:33:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JyI3fuMj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kUpcFPaR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D17E610E11D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 12:33:30 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-374bd0da617so411682f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 05:33:30 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2241210E11C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 12:33:41 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-42c5347b2f7so6039565e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 05:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725539609; x=1726144409; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725539619; x=1726144419; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RfvHzjH+Eqg9aQgCo3Cz3Zipw1g+SvWwFvncM0vKisg=;
- b=JyI3fuMjK5amj9BreSiywFsZNItxl6bcxz4mGMbLNv0ztuJw+itZwDT21xM/1FlCJD
- LuknhudoVZdCQims/LO2wEqECgDDopnfpfvd44DOkQaxnOAVTjAlIbIs0kK6toGtzHFR
- yiRu59n6fPO4JFduE+P4B6Smb1Oj0u9bPbkeYIokThJg6z0ZB7tTDWAB7GghZ+gSbnS8
- 8wLHcx09BEcPWQIeqUrUeGi7gqQ0evr0Dzz5Ot+El1xbPN9XYwQMnNZxHvWtptixnqKt
- SNV/5xt91iSH/I/ZXUM3+HNfJU8MjEMB/cO+LNnXlPeLK4Fr9OVK+pqWPPID3b3T5DAL
- kJ6Q==
+ bh=94GbVFnsicioIdyF3xHn7JXRu2g3C+MwaoqJeRd73vg=;
+ b=kUpcFPaRnKeFUSJHMLSyyJSqmQksMssSk+P8bzANV48+85XBpnGHCKp6y7LlHCA+0h
+ I047BIEw78sIUxhq+sWR/AbXMLUcqeYy99GGqVQ4MlU9VJURD4j+u6/stf12O//lQR+h
+ bxWpzzHmEdydnSsLRaDbb1fHlym8KL3bTqNezD+92ReSNF+g3f192ElZ02L7peOspaC9
+ UcWyvvUChBw9BdS6WKpKhyjPDoNeIrJLpEPjTuI7g6XS3tZJmpfJ7bVwdg34n8Uwcow7
+ ge8ICfbhTNvZS0FlAznFr+5Bpe2DY4daIwCEucuepbKElwvpBY5/mZpOz0+HWVtM2WVr
+ ExSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725539609; x=1726144409;
+ d=1e100.net; s=20230601; t=1725539619; x=1726144419;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RfvHzjH+Eqg9aQgCo3Cz3Zipw1g+SvWwFvncM0vKisg=;
- b=vMPC9cAeN8dZsdTKdJl3hOTI6BAkoDeXEjHtcCvugtteE2H3a5IygSUp94lL4hjbO8
- ay9xnfX0FkCZUMDLr6CJPo6jS9o/6MB0X4PhIMGVVDZ9WEUJkypMQCtBTQQg+5YfwVk1
- pmZCGtwTZMBplXbAAwIk113rpcC0brg20nwYQuLJLzXszLFbZwNcpMyoMEhOvgNMEWp0
- VEQ47OHP7pVBBJXKtmvfHYua++qduAWPPFzFdD19v5v37H4oGurpUQauYTkWbvvmxQLn
- bSDNA7wiwLmu4lSZCWDaFgUk8oHkHzDtdbqK9saaQDweE4ihYIq1+MXBvHwGw9TOiGQC
- gQxQ==
+ bh=94GbVFnsicioIdyF3xHn7JXRu2g3C+MwaoqJeRd73vg=;
+ b=gnLWaaFu5IM+ogm3JqUjqkr3/sIxBSYgT7iMlhyRceHRMEfdARof6TbUnWs9fbtsUy
+ QuxSTgjfopi8r3VHrq6gjPLahPLrcQc80Dty1PiVXmpLC4GsmRvy7+wK/lB8ZfAZBTv3
+ zF3eDeRBYCzMxe8Dzf6XbIsV1lbxDcLkaQXE8Pkl4QJt+327Z2ZboSBZvXYhh5pwl3/R
+ Juq9iKtucz83CgjMHDVmNoFCCHi+k/dc/0w4vpLqY+qfsujhaTT1YH7BmMUQiHKz1eqE
+ Qc12TtwcbahKw+02URbZPAmoZCfCX6S9nxFoMfC8S+4fbKkTEuGv1veHCdOU0ctXWa0x
+ C3kA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1zaw/EFlZqca/WWNTW/5B4GEMP/Of1Je/JfaRjp4VNy/XKIvczFPniClC1cI+IOvkIb8HHAl2S+Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0jL2a2yppuCrh8Ea8SzVF23CadHqEJK1xUF9djJhg+Db4u+68
- QkouDWx9cz9wLXIVMnxuZDiBS4FbTNWsJOMkl4FP9w0ZKj59FF/x
-X-Google-Smtp-Source: AGHT+IGqrk9RY9ZJQQELiCa/NbcnoDGQ9qLtISyCVkOLNXfV5KOJMUSOzjSblaz8VUnoVwNemlMXzw==
-X-Received: by 2002:a5d:4c82:0:b0:374:b31e:3b3b with SMTP id
- ffacd0b85a97d-374bce97b23mr10572502f8f.1.1725539608840; 
- Thu, 05 Sep 2024 05:33:28 -0700 (PDT)
+ AJvYcCUVJaFMryRchij7fYlJQoypHZkqb1hEfeapvfB5VHhUdDHZieGKIVnR0Cq97BewzwMrcw1xK5WLZLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy7Iy5e1lKg402BkXbqS/NcncpRRuWkvb1/faJtlPSZojY3WrFe
+ c0ktJJesyzOG/0PGI+iCal8TIaZye9/tbXQZJ0GOOIdVosxrYzjD
+X-Google-Smtp-Source: AGHT+IGOJib7VqLZnZxrvUPVjTeAxyAAiwaW7QM0nUABaG4TCuPov69LrUP3Bp8P8DmkUM+Su7TsEQ==
+X-Received: by 2002:a05:600c:310b:b0:426:627d:5542 with SMTP id
+ 5b1f17b1804b1-42bb01e6c05mr173939965e9.28.1725539619461; 
+ Thu, 05 Sep 2024 05:33:39 -0700 (PDT)
 Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42c9c3944cesm15467855e9.30.2024.09.05.05.33.27
+ ffacd0b85a97d-374c23d6a38sm13542443f8f.38.2024.09.05.05.33.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2024 05:33:28 -0700 (PDT)
+ Thu, 05 Sep 2024 05:33:39 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- jeremie.dautheribes@bootlin.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- melissa.srw@gmail.com, miquel.raynal@bootlin.com, mripard@kernel.org,
- nicolejadeyee@google.com, rodrigosiqueiramelo@gmail.com,
- seanpaul@google.com, thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: [PATCH RFC 02/15] drm/vkms: remove possible crtc from parameters
-Date: Thu,  5 Sep 2024 14:33:27 +0200
-Message-ID: <20240905123327.3049-1-jose.exposito89@gmail.com>
+ jeremie.dautheribes@bootlin.com, jose.exposito89@gmail.com,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mairacanal@riseup.net, melissa.srw@gmail.com, miquel.raynal@bootlin.com,
+ mripard@kernel.org, nicolejadeyee@google.com,
+ rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
+ thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+Subject: [PATCH RFC 03/15] drm/vkms: Extract vkms_config header
+Date: Thu,  5 Sep 2024 14:33:36 +0200
+Message-ID: <20240905123338.3061-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240814-google-remove-crtc-index-from-parameter-v1-2-6e179abf9fd4@bootlin.com>
-References: <20240814-google-remove-crtc-index-from-parameter-v1-2-6e179abf9fd4@bootlin.com>
+In-Reply-To: <20240814-google-remove-crtc-index-from-parameter-v1-3-6e179abf9fd4@bootlin.com>
+References: <20240814-google-remove-crtc-index-from-parameter-v1-3-6e179abf9fd4@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,110 +89,268 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> As the crtc mask is dynamic, avoid hardcoding it. It is already computed
-> once all the planes are created, so it should be a no-op
+> Creating a new vkms_config structure will be more complex once we
+> start adding more options.
+> 
+> Extract the vkms_config structure to its own header and source files
+> and add functions to create and delete a vkms_config and to initialize
+> debugfs.
+> 
+> Refactor, no functional changes.
 > 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> [Changes: Cherry picked and conflict solve]
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 > ---
->  drivers/gpu/drm/vkms/vkms_drv.c   | 10 +++++-----
->  drivers/gpu/drm/vkms/vkms_plane.c |  5 +++--
->  drivers/gpu/drm/vkms/vkms_plane.h |  4 +---
->  3 files changed, 9 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/vkms/Makefile      |  3 ++-
+>  drivers/gpu/drm/vkms/vkms_config.c | 45 ++++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_config.h | 32 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_drv.c    | 41 ++++++++++------------------------
+>  drivers/gpu/drm/vkms/vkms_drv.h    | 15 +------------
+>  5 files changed, 91 insertions(+), 45 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 8d3e46dde635..2b6db5870b97 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
+> @@ -6,7 +6,8 @@ vkms-y := \
+>  	vkms_formats.o \
+>  	vkms_crtc.o \
+>  	vkms_composer.o \
+> -	vkms_writeback.o
+> +	vkms_writeback.o \
+> +	vkms_config.o
+>  
+>  obj-$(CONFIG_DRM_VKMS) += vkms.o
+>  obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += tests/
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> new file mode 100644
+> index 000000000000..ad5d814e6e83
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -0,0 +1,45 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +#include <drm/drm_debugfs.h>
+> +
+> +#include "vkms_config.h"
+> +#include "vkms_drv.h"
+
+I believe there are some missing includes. In the patch of my
+configfs series equivalent to this one I have:
+
+
+#include <linux/slab.h>
+
+#include <drm/drm_print.h>
+#include <drm/drm_debugfs.h>
+
+#include "vkms_config.h"
+#include "vkms_drv.h"
+
+> +
+> +struct vkms_config *vkms_config_create(void)
+> +{
+> +	struct vkms_config *config;
+> +
+> +	config = kzalloc(sizeof(*config), GFP_KERNEL);
+> +	if (!config)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	return config;
+> +}
+> +
+> +void vkms_config_destroy(struct vkms_config *config)
+> +{
+> +	kfree(config);
+> +}
+> +
+> +static int vkms_config_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_debugfs_entry *entry = m->private;
+> +	struct drm_device *dev = entry->dev;
+> +	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+> +
+> +	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+> +	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+> +	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_debugfs_info vkms_config_debugfs_list[] = {
+> +	{ "vkms_config", vkms_config_show, 0 },
+> +};
+> +
+> +void vkms_config_register_debugfs(struct vkms_device *vkms_device)
+> +{
+> +	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
+> +			      ARRAY_SIZE(vkms_config_debugfs_list));
+> +}
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> new file mode 100644
+> index 000000000000..b28483173874
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -0,0 +1,32 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#ifndef _VKMS_CONFIG_H
+> +#define _VKMS_CONFIG_H
+
+#ifndef _VKMS_CONFIG_H_
+#define _VKMS_CONFIG_H_
+
+> +
+> +#include <linux/types.h>
+> +#include "vkms_drv.h"
+
+You can avoid this import by forward declaring "vkms_device":
+
+struct vkms_device;
+
+> +
+> +/**
+> + * struct vkms_config - General configuration for VKMS driver
+> + *
+> + * @writeback: If true, a writeback buffer can be attached to the CRTC
+> + * @cursor: If true, a cursor plane is created in the VKMS device
+> + * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
+> + * @dev: Used to store the current vkms device. Only set when the device is instancied.
+> + */
+> +struct vkms_config {
+> +	bool writeback;
+> +	bool cursor;
+> +	bool overlay;
+> +	struct vkms_device *dev;
+> +};
+> +
+> +/**
+> + * vkms_config_register_debugfs() - Register the debugfs file to display current configuration
+> + */
+> +void vkms_config_register_debugfs(struct vkms_device *vkms_device);
+> +
+> +struct vkms_config *vkms_config_create(void);
+> +void vkms_config_destroy(struct vkms_config *config);
+> +
+> +#endif //_VKMS_CONFIG_H
+
+#endif /* _VKMS_CONFIG_H_ */
+
 > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 7ac3ab7e16e5..e71b45fcb9b8 100644
+> index e71b45fcb9b8..dbdb1f565a8f 100644
 > --- a/drivers/gpu/drm/vkms/vkms_drv.c
 > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -166,7 +166,7 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
->  	.get_modes = vkms_conn_get_modes,
->  };
+> @@ -28,6 +28,7 @@
 >  
-> -static int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc)
-> +static int vkms_output_init(struct vkms_device *vkmsdev)
->  {
->  	struct drm_device *dev = &vkmsdev->drm;
->  	struct drm_connector *connector;
-> @@ -184,20 +184,20 @@ static int vkms_output_init(struct vkms_device *vkmsdev, int possible_crtc)
->  	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
->  	 * composition.
->  	 */
-> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, possible_crtc);
-> +	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
+>  #include "vkms_drv.h"
+>  #include "vkms_crtc.h"
+> +#include "vkms_config.h"
 >  
->  	if (vkmsdev->config->overlay) {
->  		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> -			overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, possible_crtc);
-> +			overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY);
->  			if (IS_ERR(overlay))
->  				return PTR_ERR(overlay);
->  		}
->  	}
->  
->  	if (vkmsdev->config->cursor) {
-> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, possible_crtc);
-> +		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
->  		if (IS_ERR(cursor))
->  			return PTR_ERR(cursor);
->  	}
-> @@ -284,7 +284,7 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
->  	dev->mode_config.preferred_depth = 0;
->  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
->  
-> -	return vkms_output_init(vkmsdev, 0);
-> +	return vkms_output_init(vkmsdev);
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_debugfs.h>
+
+And here you can drop:
+
+#include <drm/drm_print.h>
+#include <drm/drm_debugfs.h>
+
+> @@ -85,22 +86,6 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  	drm_atomic_helper_cleanup_planes(dev, old_state);
 >  }
 >  
->  static int vkms_create(struct vkms_config *config)
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index e549c9523a34..b5740c27180b 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -5,6 +5,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_blend.h>
-> +#include <drm/drm_plane.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_atomic_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> @@ -222,12 +223,12 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
->  };
+> -static int vkms_config_show(struct seq_file *m, void *data)
+> -{
+> -	struct drm_debugfs_entry *entry = m->private;
+> -	struct drm_device *dev = entry->dev;
+> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+> -
+> -	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+> -	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+> -	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct drm_debugfs_info vkms_config_debugfs_list[] = {
+> -	{ "vkms_config", vkms_config_show, 0 },
+> -};
 >  
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int possible_crtc_index)
-> +				   enum drm_plane_type type)
+>  static const struct drm_driver vkms_driver = {
+>  	.driver_features	= DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+> @@ -325,8 +310,7 @@ static int vkms_create(struct vkms_config *config)
+>  	if (ret)
+>  		goto out_unregister;
+>  
+> -	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
+> -			      ARRAY_SIZE(vkms_config_debugfs_list));
+> +	vkms_config_register_debugfs(vkms_device);
+>  
+>  	ret = drm_dev_register(&vkms_device->drm, 0);
+>  	if (ret)
+> @@ -344,21 +328,18 @@ static int vkms_create(struct vkms_config *config)
+>  static int __init vkms_init(void)
 >  {
->  	struct drm_device *dev = &vkmsdev->drm;
->  	struct vkms_plane *plane;
+>  	int ret;
+> -	struct vkms_config *config;
+> -
+> -	config = kmalloc(sizeof(*config), GFP_KERNEL);
+> -	if (!config)
+> -		return -ENOMEM;
 >  
-> -	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << possible_crtc_index,
-> +	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
-
-Shouldn't the index be BIT(0)? I see in the commit message that
-possible_crtcs is computed once all planes are added, but I
-couldn't find where. It'd be nice if you could point to the
-function that sets the correct CRTC mask in the commit message.
-
->  					   &vkms_plane_funcs,
->  					   vkms_formats, ARRAY_SIZE(vkms_formats),
->  					   NULL, type, NULL);
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.h b/drivers/gpu/drm/vkms/vkms_plane.h
-> index 90554c9fe250..95b2428331b8 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.h
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.h
-> @@ -52,11 +52,9 @@ struct vkms_frame_info {
->   *
->   * @vkmsdev: vkms device containing the plane
->   * @type: type of plane to initialize
-> - * @possible_crtc_index: Crtc which can be attached to the plane. The caller must ensure that
-> - * possible_crtc_index is positive and less or equals to 31.
->   */
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int possible_crtc_index);
-> +				   enum drm_plane_type type);
+> -	default_config = config;
+> +	default_config = vkms_config_create();
+> +	if (IS_ERR(default_config))
+> +		return PTR_ERR(default_config);
 >  
->  #define drm_plane_state_to_vkms_plane_state(target) \
->  	container_of(target, struct vkms_plane_state, base.base)
+> -	config->cursor = enable_cursor;
+> -	config->writeback = enable_writeback;
+> -	config->overlay = enable_overlay;
+> +	default_config->cursor = enable_cursor;
+> +	default_config->writeback = enable_writeback;
+> +	default_config->overlay = enable_overlay;
+>  
+> -	ret = vkms_create(config);
+> +	ret = vkms_create(default_config);
+>  	if (ret)
+> -		kfree(config);
+> +		vkms_config_destroy(default_config);
+>  
+>  	return ret;
+>  }
+> @@ -386,7 +367,7 @@ static void __exit vkms_exit(void)
+>  	if (default_config->dev)
+>  		vkms_destroy(default_config);
+>  
+> -	kfree(default_config);
+> +	vkms_config_destroy(default_config);
+>  }
+>  
+>  module_init(vkms_init);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 08d0ef106e37..64574695f655 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -25,20 +25,7 @@
+>  
+>  #define VKMS_LUT_SIZE 256
+>  
+> -/**
+> - * struct vkms_config - General configuration for VKMS driver
+> - *
+> - * @writeback: If true, a writeback buffer can be attached to the CRTC
+> - * @cursor: If true, a cursor plane is created in the VKMS device
+> - * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
+> - * @dev: Used to store the current vkms device. Only set when the device is instancied.
+> - */
+> -struct vkms_config {
+> -	bool writeback;
+> -	bool cursor;
+> -	bool overlay;
+> -	struct vkms_device *dev;
+> -};
+> +struct vkms_config;
+>  
+>  /**
+>   * struct vkms_device - Description of a vkms device
 > 
