@@ -2,137 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB9296D0E0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 09:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD32796D12D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 10:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78DA010E753;
-	Thu,  5 Sep 2024 07:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4729710E756;
+	Thu,  5 Sep 2024 08:02:14 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="k5yTlluH";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PR0P264CU014.outbound.protection.outlook.com
- (mail-francecentralazon11022104.outbound.protection.outlook.com
- [40.107.161.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0649210E753
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 07:54:16 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2053.outbound.protection.outlook.com [40.107.101.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3787110E0C8
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 08:02:12 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dVCX5XdMZB0qk4p6jzyYYq69nH/DP1PEx9EemWdfmsudMK8vpdk8xsYjvoxQnB0vY+1WwDrXLSSACTlsFRQEdeZvHFyi6KgoVKud2Roz6KblhlynGnka9aBlZr5QWtWCa5rCMOmVB3Ck/39q66EXh3VrxRUTn8a3kBpVWxDeVqhQDrRcuisWgBmkiDSAReMnHOrYJYD4ersY1QAtWwJKu7XdG+YoNFS4A6E+D4B9wjo67VjxBLePKnaq1ixUxpo4f/xM93IoeLdDNLn3MygVkYDsr1BLhJQz2+MnQuhixuYqgbbTADg7nksBtybVD94iMJPkuDDlQjAydf6YbezxGw==
+ b=K+3aY0kDRJ8EL+y2OjpjSxniUT1NjFrnPwJAILpCN0cbXSCcOsgdgLyG58+X/aBp9AwTr2IBaKKlJnUMLPEyc+PYSu/5CVk2a4cwXmPM1L9s+xzIEVUFJ5s1e83NzlkDQv72KvRf8D6fAw0x5egfvk/7L37vfgZXfy4j0AtTlQFuoqsaOpsjXtd+7oFBY1jWm33hbtVKZYoOB10LECJ07fmHQH9sFYWD9kZm7eOZ/amGp3RBiZDP5pjyN4+yBf/rsu2bE3I40++pthvfzLEQyGdyWZE3h7asP5XugAB7wCGHe6nZs6qeV0SUQ3SfZJQ/Iqx/7kOgTikwqObJBlRyVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=giRsvzMd+xqyHvT4vYVWmfb9Pds724zWuoXr+aPCm30=;
- b=g6jiM6al/XsZB2aNuKjT3MCf9nJ73Z6x1bqgDAtkdX8yWXir7Ml8HraoVMSnPIjR4UPaHgrdVi5qEPdSl9q50PRNTTC83Aky9rh4kG77+hV7w3WoBLjSxKdZyyVqBkI9KEKx/GwvzPqfitNefXLoE0/N3luUn6FkEVe+m+x3jXx88tmwmnPUz4DVn0QhSh7qaS6ENYVvmrusqNrBCwqlZmrdhQZ6RbZrr0xDrcB8vRQtCOEkhTF5f6aZWzz5rcRDSp/CVQ8v49bNePvRoFebTC3okF4vn/gBEnp6I9I5kZ8Mj6QsgGuNtDT3p0+ccThFS4CqEedBc9ykC8CiIDHX6A==
+ bh=nmVgUUC8bvTAABlhnT+6PBVSYHvqWkU945pV7Pd2RnI=;
+ b=L54/sv/PGg1peoqgLLIQtGLwtTomw4+HacZTXX6PARRNXpUEYnQXY4ti5LuHVQS2/087nqC1Gc48IZnT3pwRxzjfZsFM8CHmtqR+Cl9cW3DvvbDSNJ4gjJC4Fw/feHMuQ9qVoJ0781AUkaHnJlnncTuAdZolVo2HZoI1QBA7w/JOqmmpe6g7hIzOGzb0mgscNoEbyewo7sR1d+xYdsAZFpI/7Fjplm5JWK63UzdTpyTmn7iUjTcXzfXIknl0ChO2nSoDnH7i+baQJnRk3imCTNfStBXpE1Q1hgXU1q7sd3gwiyerS7r5Q/73etNFtLH5Zbdiv1e9l5VVrrZVweBamg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witbe.net; dmarc=pass action=none header.from=witbe.net;
- dkim=pass header.d=witbe.net; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nmVgUUC8bvTAABlhnT+6PBVSYHvqWkU945pV7Pd2RnI=;
+ b=k5yTlluHRYwArtIxdV3CHsF+TB3Tkghd3mwUkBoAXLj4JE78wzhJ+Er/kUL/vmT8ZxyCfK3OaKGtypQXpTW/vP1sUxGtBKv/eDPb0aBerYCQx08tlLXsjWw8lMJi9aN3KpCNEGNCtZTFj4wZrtNTKGBSsYGVITwKU5AZ9HIC3q4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witbe.net;
-Received: from MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:17::5) by
- MR1P264MB3281.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:29::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7918.27; Thu, 5 Sep 2024 07:54:13 +0000
-Received: from MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4a3d:42ec:6933:fa65]) by MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
- ([fe80::4a3d:42ec:6933:fa65%5]) with mapi id 15.20.7918.024; Thu, 5 Sep 2024
- 07:54:13 +0000
-Date: Thu, 5 Sep 2024 09:54:12 +0200
-From: Paul Rolland <rol@witbe.net>
-To: Christian Heusel <christian@heusel.eu>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, Andreas Piesk
- <a.piesk@mailbox.org>, bcm-kernel-feedback-list@broadcom.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com,
- rdkehn@gmail.com, regressions@lists.linux.dev, spender@grsecurity.net,
- rol@witbe.net
-Subject: Re: [REGRESSION][BISECTED] vmwgfx crashes with command buffer error
- after update
-Message-ID: <20240905095412.243d6176@riri>
-In-Reply-To: <948af4e4-6da4-4f49-82c8-ef061485e49f@heusel.eu>
-References: <CABQX2QM09V=+G=9T6Ax8Ad3F85hU0Cg4WqD82hTN=yhktXNDaQ@mail.gmail.com>
- <40cf01ab-73ad-4243-b851-a02c377bdbde@mailbox.org>
- <CABQX2QM1A9yWCuOHV6kgi3YbPvPHz-zazkOXM6Up9RWrZ-CgPQ@mail.gmail.com>
- <20240902103436.5806f7ec@riri>
- <948af4e4-6da4-4f49-82c8-ef061485e49f@heusel.eu>
-Organization: Witbe
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
-X-Ncc-RegId: fr.witbe
-x-ms-reactions: disallow
-Content-Type: multipart/signed; boundary="Sig_/5oantwkgyLvbmvVtYQ0_jbm";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-ClientProxiedBy: PR1P264CA0149.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:346::20) To MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:17::5)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CYXPR12MB9339.namprd12.prod.outlook.com (2603:10b6:930:d5::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Thu, 5 Sep
+ 2024 08:02:07 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Thu, 5 Sep 2024
+ 08:02:07 +0000
+Message-ID: <30aa1b85-5c38-4e96-9217-7e0208fd0f6b@amd.com>
+Date: Thu, 5 Sep 2024 10:01:59 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/4] dma-buf: heaps: restricted_heap: add no_map
+ attribute
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>, Sumit Garg
+ <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-2-jens.wiklander@linaro.org>
+ <4a498990-2d9e-4555-85f3-d1d22e26b9dd@amd.com>
+ <CAHUa44G9yF2GoQD8XrE=agkGCditH1v+NYm16WpdORX4aRixYg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAHUa44G9yF2GoQD8XrE=agkGCditH1v+NYm16WpdORX4aRixYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0064.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MRZP264MB1704:EE_|MR1P264MB3281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 109fa714-910b-4080-b12a-08dccd7fef2d
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYXPR12MB9339:EE_
+X-MS-Office365-Filtering-Correlation-Id: b5714079-a33e-48de-2436-08dccd810946
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?U84O6oZJxuuvbd+JuhamN11tadJR/4M5yrUr6sOoNoyEMJCRAhTjNEcaV4Qn?=
- =?us-ascii?Q?L8L6Gq2TDavQzI4WLta8fA/ZfMfLpD4nhvuXeCmfMXStG+MfT/E9U+izxd92?=
- =?us-ascii?Q?5eCizr1WO+8bnuMFzyJcVCGmp7/4RuN94WWHbanAuJvZGurYIDhpg+UAazzE?=
- =?us-ascii?Q?5j3vnDLtoSnIx35My/gxzrEqmfAvWxVlJUgE2g85mNoLKq8pgTNit/3BRXYR?=
- =?us-ascii?Q?hniX20RC7NObTUYkMpTyxq21JACQOzP1xiHB8RRWZtJ0Wnhp4EGGlK/Nevfi?=
- =?us-ascii?Q?dHwB6g2ZhvDXbWSzAHS+3ChlhG3feW+RHC6QoPuzH7ZD5OxL8Vcntc4Xpu43?=
- =?us-ascii?Q?2WbAW4zzZRoMMEXj818/q05CUdRfBbT1BleasBoyl8UVlEnPe12dpLyifL3E?=
- =?us-ascii?Q?8L8W8AjR7AXPy7npiOgYUUEa1p0vHw787lrfjkaNICQ17KmGqvWugOtyUbJQ?=
- =?us-ascii?Q?Xz/LTnnHOSqHVrSOVhYOXndcyeqb6MEsk3y24yJZUp9tHyuGQ0PEs5guVhwn?=
- =?us-ascii?Q?0LsIGi73efXU3oOvoeglKhRLtl0iKWju3Pz3tTdJ2MjH73n0SLbw/1go7q/F?=
- =?us-ascii?Q?zI6Q313J070lq1oCMOH0Qx27OAMGrTSWAuE+MUBHQQNCto5Hajp0pRR+exls?=
- =?us-ascii?Q?81jLaBPTshRqcG+aoXrAXzjweukxR8UXHjcbMy6veosNalKtJ9KEXejOMufr?=
- =?us-ascii?Q?SK1Fe4Fgo/HQyz4ToYpaDBpFxj+uN3TzTrgESxzukP0twnPsF7h5Lm9IdBCw?=
- =?us-ascii?Q?ZGJeNXhZWzmC2/Kq6ZYpRKjXXl8Eolk1bIuUv1WaySZcmpNwgRSeIHsc+eGN?=
- =?us-ascii?Q?vB/wUwnDIXE2PQBrLxV7afTsW2KXDV0GdiKOJ4m2bbgNKLvDkAxhwAvSBhzJ?=
- =?us-ascii?Q?C3Zc/mKUfNLsg+YUNPEe4CX1F7WyJCUivuyGDL7V+z+enzf1X3fj5HxewNS4?=
- =?us-ascii?Q?mw5+YUiMqjIk/jd0OoiZLJJMD5AKyHGukBzgxoATSOnVOHrzQtG7xlKmfzu9?=
- =?us-ascii?Q?SsBZITaXO/IbM9OupQtX+qxtDG13rMssSpx828IcdQ/5szd83142WrYNETW/?=
- =?us-ascii?Q?3l2LssBY7UHVVV4UyCm3aEOEW+vr8EFRMFYv00uDqWbzFLfva5H8R/AIubuh?=
- =?us-ascii?Q?ESDYflj9Y45Pztp6Rn9j6jX4igR1MwPnAtp0DWVYAV7c0b/UyDfjgK1Im2Jd?=
- =?us-ascii?Q?LtLhaEflhzBV1wOcwx16VuND+IazM00M4CeLzea47gbGeEahaJSGa/f/zDMk?=
- =?us-ascii?Q?rJuT5DrpEQert4QlG9bc7PU5uTlorrCU9Kmd8LGM3txzI8UQBhdsrhwLsyH4?=
- =?us-ascii?Q?iigdGCF3VP3N4bPZ21DqwZwDVA96m8haFrP+5B3D0gwwlw=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SXV0Z1VwU3J6enlsY3c3WFF5V0dFOVc0aVNNbDViZ0RRUUhoVklCOUdmL1dV?=
+ =?utf-8?B?ck5haWI1Njk0a3FXc2puSGIxczc5cS8weG84aXRFV1k1T250OUhIQ2dHd016?=
+ =?utf-8?B?M0gwQnJMcFo5NHVMd1ZKM1l5R1BLN0xiZUJVV2lXWE1hWnVlTUpyOEU2M3Z5?=
+ =?utf-8?B?cUllc2s0bDBFdnVyNFh4c2FaNzlvSlF4bUluMnFmcjViQVF6Z1VlVDhZNzBI?=
+ =?utf-8?B?YW8xa095YXFaQW52dk5hd2QwcFdEdDFYWEcrV3JZVmczODNydGp4cWlTUENQ?=
+ =?utf-8?B?WnMyVlczaEk3ZEdVeHdTRXR1djVyNlNITnJqbnFKVFp4YVVSdWtldDZxQnN6?=
+ =?utf-8?B?dkxydXdEc1Mvb2w5V2FtbWozLzhlZlVheEdjMzRXZkhsRERDZGxxSjJudi9j?=
+ =?utf-8?B?RElJcFhUbmhCZXBaYzFFTm96UGdNOG1wbVNTaEdxWXROam1qSmt0dk1TK1Vs?=
+ =?utf-8?B?b1NYRHNLbXlhcldyN2ErdklHaVZKc0pzaSttQllQV3EzbmZONEJRazRoZE91?=
+ =?utf-8?B?ZjA0dE1nOWlTeEQ3czNsS09PUWJtVWdCNjI5UlRjbGNnWUtXajZ0MTQzOGtt?=
+ =?utf-8?B?bUJia3ZaWWhRMFpwbWNBZktTQmRNdWlxZUlWTmZZSmo0QmhuSGxQaVpFVzJt?=
+ =?utf-8?B?SXVjcmpycDBzOE5URm9vby9hc0VZR0diVXF3c2p1NE83TUdQR1dlL2tFeEgx?=
+ =?utf-8?B?QTZxZzV2RS9QZnRycm9hdjQyeGU4U0JMVmNGVUNmZlE3Wml6R0E1U1l4S1NQ?=
+ =?utf-8?B?Y2RpUnR1U0RjZ0wvOGd1d0dxak11WUFhSnlYblE0TThEYm8rTytZRUpQa1Ro?=
+ =?utf-8?B?bnBLWnBPNGNhT3B2REFhQ1VzaFRsdFBKZVA1ZmlYN2pNZTg3VjBRaDRDVzZZ?=
+ =?utf-8?B?RHMrUElvV2I0NlI3RGkydkJBenhucjFwMEdtSnZJTU1JVkpmV1liQnRNT1Ur?=
+ =?utf-8?B?UXJZWEY1b3ptQmN1TjN3cHcyalpvQUhtdUVWN3ZOL2Fzc2YvS1lOaGx5aEoz?=
+ =?utf-8?B?NUFMWkZLK0NCR2xuQVpmVmdwZzUrTEc4YTFoUDBxaU9DOTVlWUM4bXdiNEt0?=
+ =?utf-8?B?MFNPdnp5WWNLa1N3bmxLbDNndEgvdDRGOUc3d042L09qQnJIZXU0ZE93NVVL?=
+ =?utf-8?B?bk5uaUlkTmFqRmFvd2FxZndjWjRNblBZVkJSVW9JVnFBUWpYSFhtdWRIQWZE?=
+ =?utf-8?B?amxSREsreTJIK2xpcjhaZ0RuN0pFd3o4dFZXdFJhaVhmc0t5VTlWV0trTFM2?=
+ =?utf-8?B?UyttYUp4WWduR2g3dENxNTZjUnE1M0dHS1NSOU1uUldMVHZqTkZxdUJCMVVL?=
+ =?utf-8?B?Y09MTzlhdG83VnlXYkNkY3Z5WmQ5NHEyU3hWL2kyMXZ6ZFYzaTM4WGVPSDRW?=
+ =?utf-8?B?MDlmU05sMnBrWU9PTUNTWU8yc1dMNE42Vk15V0FXeDJkcitjbEthZzJYQmp3?=
+ =?utf-8?B?eklXVVF4Z2NHdGhvLzlIak1vVFErdlBxY1Y0V2kyWmxiR1ViTDhLU1lSOFZN?=
+ =?utf-8?B?NlhFeFFsT2gxSmVIKzRmc3pmOXVCTzR0ZHQwZHA5YVNGWWJoVy9UQ3Z4OXJx?=
+ =?utf-8?B?ZzNNWk1KbmUwbE44SGdsVG9OK3dpN0xsdWFtNGYrSUZMcnR1UzB1WnBQQUhO?=
+ =?utf-8?B?bGZ0cUZ0L3dWTURYS0hhOG1LQ0ZKbDJFSWdnMmN3NXdPTERJeWY3bVFGOTFr?=
+ =?utf-8?B?d1I5L2t5V0d2YTRBVVF5MGFxekxRa1JpR2Q0azhtU0NXMC9SS1h5VEdVN2xX?=
+ =?utf-8?B?UnArNHo3Wk02a3RGM2JzSks1MXg2VGFNaGpSM1RadU9lTmxqNHdRVnJvNjJu?=
+ =?utf-8?B?MnJ3cWEvTVZQdUZSUWxUZz09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xiRX3iMcLqhdZ1w3Agk4VsHWK5ggyCk4WmY13t+AROukFqaEvl7salROAI0I?=
- =?us-ascii?Q?KyZisLm0rFfu3p5GwSB50k0K3kzl3jhq0saK1DcsVHQD7h1r4OeZ/dPZeQzp?=
- =?us-ascii?Q?9KsWwvBbdPe7mNnf/sxT9Os8tYgDP27T0sRonzYurhLpDjOCtwmI+mOvBCam?=
- =?us-ascii?Q?oeZsDVEZkiNroP5ljEIeWhrW7F3cALarhJgktaBUFKvwG+FO076Gu3eM3H38?=
- =?us-ascii?Q?pnDibApphI64XLXIwtaQa3H5gUPomXKI87wyxIzSyBgNFeZbM8N5dO28YpfR?=
- =?us-ascii?Q?c7LkAuRa/EBjCSlZ4wbpiK/0keTbAVia6lEnH6Q33Se0Y6CRVE+8ZhX1aHuA?=
- =?us-ascii?Q?XcnmsuaeaejlY6Q9Xlh39jRn7B8vw/2qKxEXRZ6U8aAx/g64arID2y8VMA8+?=
- =?us-ascii?Q?4Ovia1G4dc6OKa2LZUrxshPXapJEf1Ex8LOpvJAHss+NuzVTnWDGmtdXMlf9?=
- =?us-ascii?Q?4+0CPk3YWZysReEPWmyRsAjWhTTfdG+xaQCFQYJZnLi3osFdI/US3necN2au?=
- =?us-ascii?Q?H9GJJ4AW1Z3mte5GQlhUgYXv40z7vIKoQcwpdQY1G24F/KKfwITYBN0UShpu?=
- =?us-ascii?Q?xx5xuBz5UFKXVPa/BHfRA+J/neJ99A9aEQ5JbCrvuwVfEoWSx8+7yH6uWd5x?=
- =?us-ascii?Q?0pwsGQ2BRu+HiqlGKxzS8anb053gbYaQj+sZzyzVLfcsXMYpRBqj8EVZFPAM?=
- =?us-ascii?Q?L9+cS6rFdm0P4l0K/aF10hhp709QM3J2joi+XwbLJh6K5Dnifjdrk6nOzW0W?=
- =?us-ascii?Q?Yw4cWleyE3Bp4TdVHBbL7z7EGfgcHFis16G/a0VwVu2454F9V50+u3XTuzri?=
- =?us-ascii?Q?9XQ9jkMKwPsSKZv1aAhDPHnlutQgbPI4yW6u5RlfwGFW12J0+1BxGoiFACuq?=
- =?us-ascii?Q?a2hYgASVNjWh7kVhgbgn77VP7c7tdAHyCh9CrKSMrMMHIIlUTGHWrrLPak1z?=
- =?us-ascii?Q?PXQ/8n7jeS9z2Wje9biQzSqOCtsZqvIywNEY3HkQYEm9ZP5axVeAvn17ju89?=
- =?us-ascii?Q?QiDCKcpB2IB4NN7TrJMas6Vz0PqX1ncXZ2qacCk/8ImNlIVb8WRA7N26kFee?=
- =?us-ascii?Q?hOHcNwm4viGWRPsk3DlBGRLg15PL4cBY5TNF3Ha56bKn/sCYJ/HagWrFlQV+?=
- =?us-ascii?Q?2ybHiP9ndMD+jejrhsu1uNCE4W5257YU2prMiaojEpI7hW8MLaIew8LPT6gb?=
- =?us-ascii?Q?spp81dyRheZdCvMKfQICxHiU/NSjd8NGMHLe9D1/BoAOqw6a6b8KyV3ET5IY?=
- =?us-ascii?Q?1MDxBC1Xq1gyQ22effbAHurCZa8tT88GAZb7OnyAajCZlDGWdL1KYalDdSQn?=
- =?us-ascii?Q?DDeKAEGwcm5ZPNI5z7txcSRbPZOGiXLL/mfvl2oluHTuPDm+Hmhww43AnGRh?=
- =?us-ascii?Q?WXNDLqhlL3gJQE9Eex27knJ5F5qKtv8TlyIu8SUV3Agrp2eM5ZeiljvYiwOw?=
- =?us-ascii?Q?y3o/EwVj3PNTcQ6l1l+UxI3ixEttLRsXQekZiEhfOi8VG13p4w7G9ju1vvn+?=
- =?us-ascii?Q?Lg5uM56nJHZ4WFSwjsPwGX7NThm+Oh5PsrLC5UpNIuL429SKjV1RzLiBzqV9?=
- =?us-ascii?Q?Vg5M08p+27g+pri23H3Xgkbu/RTQur2Xp/dNa3oc?=
-X-OriginatorOrg: witbe.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 109fa714-910b-4080-b12a-08dccd7fef2d
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1704.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmdCcGJSdE9hUjJzcnREbmh6TmZ2aHJ5MURYTmFGSXJWZERoL0FOWDlmRHJO?=
+ =?utf-8?B?ajB1WFlIL002Ulk2OXZQVFIxZkREeFBRcEhoTmN5OEhCQjJFYVFJOS9WUGdW?=
+ =?utf-8?B?c1Zud0JPb2IzU3ZJeGJrZHVTRHU4OFZSOTIvY2xxVkhaYzJJT3Y5N0dlT2Vn?=
+ =?utf-8?B?OG1zckplYnV0VGxuS2pQMXBqSXcwYUhRVmxuaWxDOFpvT0s2WCtLNkJXWTJM?=
+ =?utf-8?B?T29GNUZBZVBXU1F0dFpRVFZOb21CcGIrTnpZcHVLYW1Nd0syQ2h2VXdROFY5?=
+ =?utf-8?B?cXQ3bVkrYzZzc09WTlFQVk1EMFZnalQwTCtheWJ4c0c5T2Y3Szc3eFpvbG1N?=
+ =?utf-8?B?TGRpV0lLNHgzQUtEQnM1d0dzTTNqKzVmbDBWOGNEWTFrWkszV1BoMkVXOCt3?=
+ =?utf-8?B?TllJSklGeFlHOFdmdlBQMU5nYTlpSTdxZmJSSC9mMTVIOHFCNGZ5UXRNbzFZ?=
+ =?utf-8?B?U2lxQkpuL2RybElIcmU0R3B6Zk9WNzBiVXVJQTluRnlSQ2ZyQXhRZTE2ZlNj?=
+ =?utf-8?B?aWt4NnlnSy82ZjBWdCtONnJPOUduR01USXlROUhmQUNKelRUWXMxWlpPeExG?=
+ =?utf-8?B?Zk1HK0hQN0wxRzdMZzhUdHNIcmJsUmdNMXV2Z092blNXSnpWQWdzTHdvMUgr?=
+ =?utf-8?B?UkJjaTBsNGxmODZPNzB2QWJPamsxeUUzcHdMTnIvWENzYlZGeTFvVHpyK2Qr?=
+ =?utf-8?B?V2xjUmV1Wm14S1lVYU1WNStXcTVXTjVIZytQUGlKcXFNNzkvR1hESDQvanRp?=
+ =?utf-8?B?byt2dWhnNldQMXdtb09GR1ljNGhKMUc1R3pqZjRrRVBhRG4rd0FaTjNRcWFJ?=
+ =?utf-8?B?Ukw3ZUh4RnhVYWE2bDh4bWNhekJBYmcrQUZFMHhHZUIwWUhYeVhFM083enhx?=
+ =?utf-8?B?eGdCdlVuMTlFd3JIWEcveE9nUzVjemJHckdpblhXOWE3aXB6VTBkV056R0V2?=
+ =?utf-8?B?MkVUcTFyNDVjSjhOZWRGV0lxZFlzeTFUWkdZeTZFUGNTMkY2b2N3ajcrV1FU?=
+ =?utf-8?B?SkFJdnh0Q3RwaStkZzYyNkxMUXdCYU5sSk5xMGxIYWdoWko4bjJWa1hnVnJH?=
+ =?utf-8?B?UzFRTTAxVWhQN3d2WGdzaDZvYnBpRURSd1EvN25HTVFoOXdJOXJCV1JlT3dG?=
+ =?utf-8?B?cnRSNFl6YVQ1L0pWT3g1clNWUXdoSUZ4OFlock1USkhmOGRXdkFUZS9seUQx?=
+ =?utf-8?B?dWhRTGlvekttTGtwVitzUGttY0hOeFhjeWhURTZCc0x6ckdjdm5KMjI2UlVT?=
+ =?utf-8?B?eXplYW5uRUNGMVgwemhLckxqSmVhaU5tZElhNHBXZEF2YkkxZkZEc1IxYXE4?=
+ =?utf-8?B?c2ljd2ZCZTArejZScU56TWptRHp1K1pYaHY1V2wyWEY1RUNOWGdhMEJCcTVv?=
+ =?utf-8?B?RVpaS0ZFZmROQTlDc3dHbFRXcXc0T3RhdFB6TzFGL1BiUWtVNG80Wkt0cDdD?=
+ =?utf-8?B?VTFIZWIydFpzYzcxdU1DWDhTQVowOHo5NGVxdWZXL3dRQkMrZFYzN2U3djJZ?=
+ =?utf-8?B?SGpUNWpLYjZjVENpK3VpS0M0eE8zVVJZOFk0T0lCVE9sUnZLUjN2VXRqUStr?=
+ =?utf-8?B?bVFhWFZHWVFXYytuWlpxSVFmNHY3eVFxYmkzYVFITDhVa3ZIRlVCSys2VmZF?=
+ =?utf-8?B?TmxnekdtcW0wMDY3ZlVJUFpUU01yRnQra09JSTFLTm5tVFIrVmZOY1NZbHJ3?=
+ =?utf-8?B?QS8rOVBWZVVlL1g2LzAwRWpUbXZlR0ZMTTBuYy9OZUF3TVZjZ3dkT3RXN3Yw?=
+ =?utf-8?B?VGwyaFZWOGZxNW41VTcrL1VWYk1tOHNGOXdCVWhNZFdsRWFESHRaYmxUMDFV?=
+ =?utf-8?B?TXRPLzRBRmx0MnM5dzVzamI5MHJKbHZMVzlkVDFiQVMrQXg1NUZGK3FKTkdO?=
+ =?utf-8?B?c2t5L1R4QWgzMFZjVmJ1NkN0ZFp0OXRYK082VGJZRXNBRkVwNUVCMnhiNEJx?=
+ =?utf-8?B?dkV1anpIZEpIUytiYzJRV0w1eU1tcGpEWSs3RWUwRGpuelZGTEJocXc1T2ll?=
+ =?utf-8?B?TlNCaURwdFYrOHppa1QyeFowckxRZlA2TW5KVW1SeXJ1eDRrYldVQWkxYkJa?=
+ =?utf-8?B?akVLdkVTaSt4dWlWcm5temNqQXE5eWtiWFZBN1RmUEtpcVU3ZCtUTnBBY3V2?=
+ =?utf-8?Q?BiR95xVrknPWE4YwHx3T97kid?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5714079-a33e-48de-2436-08dccd810946
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2024 07:54:13.8038 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2024 08:02:07.0913 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3f8d401f-95c5-4cdd-94d3-64af2479cf89
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wCdeJTUoal4pl93p9N2xNhjeDh3Y74HUcMiynD4BhybY7ND5UkiPlIcvfpqDBmJb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB3281
+X-MS-Exchange-CrossTenant-UserPrincipalName: D+t4H0XkRrzEgtGB56MVBcSORS52nxzPnrqsEoHwICCXrNbD5OS2ioKg4n0Py5rz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9339
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,45 +176,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/5oantwkgyLvbmvVtYQ0_jbm
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Am 05.09.24 um 08:56 schrieb Jens Wiklander:
+> On Fri, Aug 30, 2024 at 10:47 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 30.08.24 um 09:03 schrieb Jens Wiklander:
+>>> Add a no_map attribute to struct restricted_heap_attachment and struct
+>>> restricted_heap to skip the call to dma_map_sgtable() if set. This
+>>> avoids trying to map a dma-buf that doens't refer to memory accessible
+>>> by the kernel.
+>> You seem to have a misunderstanding here dma_map_sgtable() is called to
+>> map a table into IOMMU and not any kernel address space.
+>>
+>> So please explain why you need that?
+> You're right, I had misunderstood dma_map_sgtable(). There's no need
+> for the no_map attribute, so I'll remove it.
+>
+> Perhaps you have a suggestion on how to fix a problem when using
+> dma_map_sgtable()?
+>
+> Without it, I'll have to assign a pointer to teedev->dev.dma_mask when
+> using the restricted heap with the OP-TEE driver or there will be a
+> warning in __dma_map_sg_attrs() ending with a failure when trying to
+> register the dma-buf fd. OP-TEE is probed with a platform device, and
+> taking the dma_mask pointer from that device works. Is that a good
+> approach or is there a better way of assigning dma_mask?
 
-Hello,
+Mhm, I don't know the full picture so I have to make some assumptions.
 
-On Mon, 2 Sep 2024 10:42:57 +0200
-Christian Heusel <christian@heusel.eu> wrote:
+The teedev is just a virtual device which represents the restricted 
+memory access paths of a real device?
 
-> > Any chance to see that one pushed to stable 6.10.x kernels so that we
-> > can have a working console ? =20
->=20
-> this is on the way as the stable team has already queued the patch for
-> the (to be released) 6.10.8 stable kernel:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/t=
-ree/queue-6.10/drm-vmwgfx-disable-coherent-dumb-buffers-without-3d.patch
+If that is true then taking the dma-mask from the real device is most 
+likely the right thing to do.
 
-6.10.8 is Ok (at least for me), thanks a lot to all of you !
+Regards,
+Christian.
 
-Best,
-Paul
+>
+> Thanks,
+> Jens
+>
+>> Regards,
+>> Christian.
+>>
+>>> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+>>> ---
+>>>    drivers/dma-buf/heaps/restricted_heap.c | 17 +++++++++++++----
+>>>    drivers/dma-buf/heaps/restricted_heap.h |  2 ++
+>>>    2 files changed, 15 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/heaps/restricted_heap.c
+>>> index 8bc8a5e3f969..4bf28e3727ca 100644
+>>> --- a/drivers/dma-buf/heaps/restricted_heap.c
+>>> +++ b/drivers/dma-buf/heaps/restricted_heap.c
+>>> @@ -16,6 +16,7 @@
+>>>    struct restricted_heap_attachment {
+>>>        struct sg_table                 *table;
+>>>        struct device                   *dev;
+>>> +     bool no_map;
+>>>    };
+>>>
+>>>    static int
+>>> @@ -54,6 +55,8 @@ restricted_heap_memory_free(struct restricted_heap *rheap, struct restricted_buf
+>>>    static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachment *attachment)
+>>>    {
+>>>        struct restricted_buffer *restricted_buf = dmabuf->priv;
+>>> +     struct dma_heap *heap = restricted_buf->heap;
+>>> +     struct restricted_heap *rheap = dma_heap_get_drvdata(heap);
+>>>        struct restricted_heap_attachment *a;
+>>>        struct sg_table *table;
+>>>
+>>> @@ -70,6 +73,7 @@ static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachm
+>>>        sg_dma_mark_restricted(table->sgl);
+>>>        a->table = table;
+>>>        a->dev = attachment->dev;
+>>> +     a->no_map = rheap->no_map;
+>>>        attachment->priv = a;
+>>>
+>>>        return 0;
+>>> @@ -92,9 +96,12 @@ restricted_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+>>>        struct sg_table *table = a->table;
+>>>        int ret;
+>>>
+>>> -     ret = dma_map_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
+>>> -     if (ret)
+>>> -             return ERR_PTR(ret);
+>>> +     if (!a->no_map) {
+>>> +             ret = dma_map_sgtable(attachment->dev, table, direction,
+>>> +                                   DMA_ATTR_SKIP_CPU_SYNC);
+>>> +             if (ret)
+>>> +                     return ERR_PTR(ret);
+>>> +     }
+>>>        return table;
+>>>    }
+>>>
+>>> @@ -106,7 +113,9 @@ restricted_heap_unmap_dma_buf(struct dma_buf_attachment *attachment, struct sg_t
+>>>
+>>>        WARN_ON(a->table != table);
+>>>
+>>> -     dma_unmap_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
+>>> +     if (!a->no_map)
+>>> +             dma_unmap_sgtable(attachment->dev, table, direction,
+>>> +                               DMA_ATTR_SKIP_CPU_SYNC);
+>>>    }
+>>>
+>>>    static int
+>>> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/heaps/restricted_heap.h
+>>> index 7dec4b8a471b..94cc0842f70d 100644
+>>> --- a/drivers/dma-buf/heaps/restricted_heap.h
+>>> +++ b/drivers/dma-buf/heaps/restricted_heap.h
+>>> @@ -27,6 +27,8 @@ struct restricted_heap {
+>>>        unsigned long           cma_paddr;
+>>>        unsigned long           cma_size;
+>>>
+>>> +     bool                    no_map;
+>>> +
+>>>        void                    *priv_data;
+>>>    };
+>>>
 
---Sig_/5oantwkgyLvbmvVtYQ0_jbm
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAEBCAAdFiEEfJBudf4KU8bw8ox368Rc5Xmx8y0FAmbZY6QACgkQ68Rc5Xmx
-8y3zvwwAuqlBSmDzNh16/SqwAvDE9gD6K9133rtI38NOe8aXZhNL7e4CtFwlsgzm
-/iXbrI3yeS4wjmwRVUDsA7msu/XmVava8RStwoEBeCffzfPdfPYW5i1jK4hbopuC
-HmEgkgGcoxAn5IgxSzkNWkSg20UhX0+R7s/GQppwemQDpoTZMQVcvwcpWYRHoBwu
-GPlwHq48Y7Tnsz4zu7jRUN6Vt7VUrbrhJnmhLpmKUiaZ6mSo0MBFLrXWx4tFPIF1
-ntvVyCVt+7NCRI5Aipixxu4uw4ZpTW7Qq38nzTvyndC5aWf62zJeysT7ccqrfSZD
-U7zliWvjJvZjOp4RVl6D8a/KYdQB9bq9nFNgn5fJMEG/LwLfJyMc9cRzVFjdOd27
-s0eGU0oU3ozL7dPiseOQixs7rzXn4p1jRoQK2iNct55hIjFx7PUZC9QP6XkEpzJG
-6+jAeOSiMgVfkt5a/y3zi3Val6Zse+nIN5Jly34a3XOFdefhxtjegyTeSmUdGLCz
-lWR/Tgl7
-=NQfg
------END PGP SIGNATURE-----
-
---Sig_/5oantwkgyLvbmvVtYQ0_jbm--
