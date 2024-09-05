@@ -2,84 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195A096DA57
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 15:31:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41F896DA76
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 15:35:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB9A10E8B7;
-	Thu,  5 Sep 2024 13:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 779D610E102;
+	Thu,  5 Sep 2024 13:35:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tPeVYyiH";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Wl7ToCNg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PmGDeINv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXWSsYsf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H5YBwS7b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9571610E8B4
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 13:31:02 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2f50ca18a13so10046661fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 06:31:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725543061; x=1726147861; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=u3k38Kc8SysJksU5Yyhb2OSFNacT0HPlW64jE0pgeAk=;
- b=tPeVYyiHQE3/u+Y8EydxaK/o9ThWzdSJKp+BDef3raNl67YAf6D8VPA8RHrPBmr1+4
- /WswZrq26H7SZr33HZqF7NagTlYMaVYtg8GtM+RdrpvEvQ2htYI/mbyCEa7VjfAdmExt
- 3QefimlfUiF40CajZl1Ff37nnkNHR0SVzahKOTocQe6r39CIdypgWQf4llXZwH9TC2Bz
- 4/qsSnaDPpZXLgOD7xYmnq2TSfw0dKqS7k+uLdxmayAMLzrvo4VvPBeybr0TDiBF37ys
- sj/OIJxM740wd1Z+FOnSoram3ISIF1c/9lDTLqoDN5+Q9O3N/zqLprBKZjKD2ZfBqNjP
- /v9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725543061; x=1726147861;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u3k38Kc8SysJksU5Yyhb2OSFNacT0HPlW64jE0pgeAk=;
- b=GuAxjmxqRNK1V852g20xFCUvj/7wNoFZJaGWVsJ1KqXQUUbYtfSghIOX3p2bcu1rtj
- NTKu7O6UhUaJpTOrhxbbhxbmsfpRonX/zgBmlGN3DnHItWBuMWvdmFbN9bebqNMS8QLe
- Uv9HHZ4uAt1CEQunZ+DTuDH+7FCKFXckDbD8Tt6bvkHU+PoEBFAse7AXPmD/H7vTVYV8
- BBJTriqeFTNzbliNeZY5G8IIiU9bftxCzawJX3txvH6y4tUhZ1I9wLPalqLc1fh79ahI
- Hd9QnaAUlaL+DlfcZnPkfhnoV3n/frwlNRg5cqO/RhuPAT5hT3z1Ytk9x49QcdhYEI7O
- zeiQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxx5jRG5fj3iHvidf9WJnQib/Y3S57TK+SZslp+z87xv1uF2zz1BsT9DvV9vWIFb0GhCynJ4n1EbY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwlizW/pQxZoT6DdaroSgennC6aDtoICsypsUTebcc0lEsV7/8Z
- Y4bk21wKrKd8leucxhfA9dbx00Wu+lxd2MjyB/BucgVTnjDq7AVQ/1zs3yBwsdI=
-X-Google-Smtp-Source: AGHT+IFSzRPX0vhrJF4hsWI0jD6hUXLgrjoxaCWQKO60u2DVzfx/QrL8RLTYXfoMlWEoHfD0p9vpbg==
-X-Received: by 2002:a05:651c:b13:b0:2f1:6cb1:44c0 with SMTP id
- 38308e7fff4ca-2f61038c633mr185813771fa.6.1725543060140; 
- Thu, 05 Sep 2024 06:31:00 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f614eff0d8sm28799801fa.30.2024.09.05.06.30.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2024 06:30:59 -0700 (PDT)
-Date: Thu, 5 Sep 2024 16:30:57 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH 11/21] drm/msm/dpu: Add RM support for allocating CWB
-Message-ID: <7ya6xrvbhdqddkglzzj6mtdxn735j56quguhohd5oid7vqut2w@wygb7ryzkj4r>
-References: <20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com>
- <20240829-concurrent-wb-v1-11-502b16ae2ebb@quicinc.com>
- <pf6xgu7yjanzjigfpupons4ud6jbcmbr5icnd7yur6qhh3n5sf@plj4bi3beguw>
- <665da6e9-d9f3-4a28-a53b-0f467967fc78@quicinc.com>
- <CAA8EJpo0X7yRaqYV-tTco9+9WyexiPN_ey8hKivFrE3jTojUpg@mail.gmail.com>
- <0e5dc874-0b50-4a6b-ba98-83cb01f7cce6@quicinc.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 707A210E102
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 13:35:42 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E7CC321A6A;
+ Thu,  5 Sep 2024 13:35:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725543340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
+ b=Wl7ToCNgvl7BQRXsl63WswHHHiXrogyTTem7o+3r/z6qkusVoB0ziDP3q1xSjNjUkQwzve
+ la6iuMI2LmSOwZDk1shJGCnyQh2TjqVu+pfnVVEXFdK6Lym5wzdpoqKsJC74qQx4Ur5oiM
+ I5VeikMUqUV/miMDPYBy5WBNMuXBu5w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725543340;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
+ b=PmGDeINvJASZ3nKO/DGmLsIZpZiF9eK8PGMhf9H0+Uv/Tepez/SwsY8GQVy9JAyWqn9vRi
+ yJcquDC14UuUI8DQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725543339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
+ b=MXWSsYsfnoasAzCuUFzz/CUa1t8ZYTS9Cz8NVRQgTU0grEyI+ck7rZK0f3CzIpcmr8f4sT
+ Lqx1L5b2BGUWkopKiFal8qNkHdYTzfAiPOHIgWrupriMrL4YE5mdPg99ltXAW4+qDU7MPC
+ wRvqnoF2jf76WHAkPfKRMAFdSwcek94=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725543339;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
+ b=H5YBwS7bO9ixtQY1CyqHIKmH9BePcFN9IplB3wbnSxJQM6gs7G5OyhjhSlsHAeD0XDmWd8
+ y1jJ5t79SymwI0Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 854ED13419;
+ Thu,  5 Sep 2024 13:35:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cqEjH6uz2WbVCAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Sep 2024 13:35:39 +0000
+Message-ID: <292616c8-2532-43e7-a373-dae34e7b5334@suse.de>
+Date: Thu, 5 Sep 2024 15:35:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0e5dc874-0b50-4a6b-ba98-83cb01f7cce6@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/28] backlight: lcd: Remove fbdev dependencies
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ bonbons@linux-vserver.org, jikos@kernel.org, bentiss@kernel.org,
+ shc_work@mail.ru, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ shawnguo@kernel.org, festevam@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org
+References: <20240820093452.68270-1-tzimmermann@suse.de>
+ <20240903145809.GE12939@aspen.lan>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240903145809.GE12939@aspen.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[15];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de,mail.ru];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,linux-vserver.org,mail.ru,pengutronix.de,lists.freedesktop.org,vger.kernel.org];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, linaro.org:email,
+ suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,158 +146,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 03, 2024 at 06:04:13PM GMT, Jessica Zhang wrote:
-> 
-> 
-> On 8/30/2024 3:16 PM, Dmitry Baryshkov wrote:
-> > On Fri, 30 Aug 2024 at 22:28, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> > > 
-> > > 
-> > > 
-> > > On 8/30/2024 10:18 AM, Dmitry Baryshkov wrote:
-> > > > On Thu, Aug 29, 2024 at 01:48:32PM GMT, Jessica Zhang wrote:
-> > > > > Add support for allocating the concurrent writeback mux as part of the
-> > > > > WB allocation
-> > > > > 
-> > > > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > > > ---
-> > > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  5 ++++-
-> > > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 30 +++++++++++++++++++++++++++--
-> > > > >    2 files changed, 32 insertions(+), 3 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> > > > > index c17d2d356f7a..c43cb55fe1d2 100644
-> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> > > > > @@ -1,5 +1,7 @@
-> > > > >    /* SPDX-License-Identifier: GPL-2.0-only */
-> > > > > -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> > > > > +/*
-> > > > > + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> > > > > + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> > > > >     */
-> > > > > 
-> > > > >    #ifndef _DPU_HW_MDSS_H
-> > > > > @@ -352,6 +354,7 @@ struct dpu_mdss_color {
-> > > > >    #define DPU_DBG_MASK_DSPP     (1 << 10)
-> > > > >    #define DPU_DBG_MASK_DSC      (1 << 11)
-> > > > >    #define DPU_DBG_MASK_CDM      (1 << 12)
-> > > > > +#define DPU_DBG_MASK_CWB      (1 << 13)
-> > > > > 
-> > > > >    /**
-> > > > >     * struct dpu_hw_tear_check - Struct contains parameters to configure
-> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > > > > index bc99b04eae3a..738e9a081b10 100644
-> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > > > > @@ -1,9 +1,10 @@
-> > > > >    // SPDX-License-Identifier: GPL-2.0-only
-> > > > >    /*
-> > > > >     * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
-> > > > > - * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> > > > > + * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> > > > >     */
-> > > > > 
-> > > > > +#include <drm/drm_managed.h>
-> > > > >    #include "msm_drv.h"
-> > > > >    #define pr_fmt(fmt)        "[drm:%s] " fmt, __func__
-> > > > >    #include "dpu_kms.h"
-> > > > > @@ -34,6 +35,7 @@ int dpu_rm_init(struct drm_device *dev,
-> > > > >               void __iomem *mmio)
-> > > > >    {
-> > > > >       int rc, i;
-> > > > > +    struct dpu_hw_blk_reg_map *cwb_reg_map;
-> > > > > 
-> > > > >       if (!rm || !cat || !mmio) {
-> > > > >               DPU_ERROR("invalid kms\n");
-> > > > > @@ -100,11 +102,35 @@ int dpu_rm_init(struct drm_device *dev,
-> > > > >               rm->hw_intf[intf->id - INTF_0] = hw;
-> > > > >       }
-> > > > > 
-> > > > > +    if (cat->cwb_count > 0) {
-> > > > > +            cwb_reg_map = drmm_kzalloc(dev,
-> > > > > +                            sizeof(*cwb_reg_map) * cat->cwb_count,
-> > > > > +                            GFP_KERNEL);
-> > > > 
-> > > > Please move CWB block pointers to dpu_rm. There is no need to allocate a
-> > > > separate array.
-> > > 
-> > > Hi Dmitry,
-> > > 
-> > > Sorry, I'm not sure what you mean here. Can you clarify your comment?
-> > > 
-> > > This is just allocating an array of the CWB register addresses so that
-> > > the hw_wb block can use it to configure the CWB mux registers.
-> > 
-> > Excuse me. I asked to make the cwb_reg_map array a part of the
-> > existing dpu_rm structure. This way other subblocks can access it
-> > through dpu_rm API.
-> 
-> Got it, thanks for the clarification. Just wondering, is the intent here to
-> add CWB to rm's get_assigned_resourced?
-> 
-> The CWB registers will be handled by hw_wb and isn't referenced anywhere
-> outside of hw_wb (aside from when it's being allocated and passed into
-> hw_wb_init) so I'm not sure what's the benefit of adding it to the dpu_rm
-> struct.
+Hi
 
-To have a single point where all the blocks are handled, pretty much
-like we have a single catalog where all blocks are allocated. Note how
-e.g. how MERGE_3D is handled. Or how we return harware instances for
-INTF or WB. 
+Am 03.09.24 um 16:58 schrieb Daniel Thompson:
+> On Tue, Aug 20, 2024 at 11:22:38AM +0200, Thomas Zimmermann wrote:
+>> This series removes most dependencies on fbdev from the lcd subsystem
+>> and its drivers.
+>>
+>> Patches 1 to 3 rework the fbdev notifier, the fbdev's fb_info can
+>> now refer to a dedicated lcd device, and lcd defines constants for
+>> power states. These changes resemble similar changes to the backlight
+>> code.
+>>
+>> Patches 4 to 19 update lcd drivers to the new interfaces and perform
+>> minor cleanups during the process. Patches 20 to 24 update fbdev
+>> drivers and patch 25 updates the picolcd driver from the hid subsystem.
+>>
+>> Patches 25 to 28 finally clean up various lcd interfaces and files.
+>>
+>> This patchset is part of a larger effort to implement the lcd code
+>> without depending on fbdev. Similar patches have been sent out for
+>> the backlight subsystem, such as in [1] and [2].
+>>
+>> Hopefully this series can be merged at once through the lcd tree.
+>>
+>> [1] https://patchwork.freedesktop.org/series/129782/
+>> [2] https://patchwork.freedesktop.org/series/134718/
+> I shared a could of nitpicks. You can do what you like with them since
+> none are major enough to stop me also sharing a:
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-> 
-> > 
-> > > 
-> > > Thanks,
-> > > 
-> > > Jessica Zhang
-> > > 
-> > > > 
-> > > > > +
-> > > > > +            if (!cwb_reg_map) {
-> > > > > +                    DPU_ERROR("failed cwb object creation\n");
-> > > > > +                    return -ENOMEM;
-> > > > > +            }
-> > > > > +    }
-> > > > > +
-> > > > > +
-> > > > > +    for (i = 0; i < cat->cwb_count; i++) {
-> > > > > +            struct dpu_hw_blk_reg_map *cwb = &cwb_reg_map[i];
-> > > > > +
-> > > > > +            cwb->blk_addr = mmio + cat->cwb[i].base;
-> > > > > +            cwb->log_mask = DPU_DBG_MASK_CWB;
-> > > > > +    }
-> > > > > +
-> > > > >       for (i = 0; i < cat->wb_count; i++) {
-> > > > >               struct dpu_hw_wb *hw;
-> > > > >               const struct dpu_wb_cfg *wb = &cat->wb[i];
-> > > > > 
-> > > > > -            hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
-> > > > > +            if (cat->cwb)
-> > > > > +                    hw = dpu_hw_wb_init_with_cwb(dev, wb, mmio,
-> > > > > +                                    cat->mdss_ver, cwb_reg_map);
-> > > > > +            else
-> > > > > +                    hw = dpu_hw_wb_init(dev, wb, mmio, cat->mdss_ver);
-> > > > > +
-> > > > >               if (IS_ERR(hw)) {
-> > > > >                       rc = PTR_ERR(hw);
-> > > > >                       DPU_ERROR("failed wb object creation: err %d\n", rc);
-> > > > > 
-> > > > > --
-> > > > > 2.34.1
-> > > > > 
-> > > > 
-> > > > --
-> > > > With best wishes
-> > > > Dmitry
-> > 
-> > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
+Thanks for reviewing. I'll send out an update. Why tree do these patches 
+go into? Backlight?
+
+Best regards
+Thomas
+
+>
+>
+> Daniel.
 
 -- 
-With best wishes
-Dmitry
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
