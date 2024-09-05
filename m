@@ -2,69 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5677496E1C0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 20:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A043696E21A
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 20:36:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3676310E909;
-	Thu,  5 Sep 2024 18:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED33310E0DF;
+	Thu,  5 Sep 2024 18:35:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="FpbLybXs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WQ/UvhNT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9617210E909
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 18:17:35 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-20573eb852aso15174045ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 11:17:35 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0340810E0DF;
+ Thu,  5 Sep 2024 18:35:56 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-20543c6f3b5so536415ad.0; 
+ Thu, 05 Sep 2024 11:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1725560254; x=1726165054;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KkpqUFAZ/Hl7QsOxL+C0tDMWvG5/p/xrV5VIwX3XFNw=;
- b=FpbLybXsC7N3opys0lYXo516c2P+0HCe+/Afx1YDVHSS435k3Uj2xCvfHSB9fpY1Uc
- fZggBxX9e4Fo/xWkw0AFd5CgeMcXFlIeLVqOVmlrtyGTtlFAyliJd2e5NbaqbDgTp+gf
- Ou1IyaEfUm8zI8VgeSEE5JP8PgxNgljbg7LuU=
+ d=gmail.com; s=20230601; t=1725561356; x=1726166156; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oAtDj4jgFho2b/8hV7Bo6K1tm3khS3fSEDAFzXGf8h0=;
+ b=WQ/UvhNT4Gx8HAVvx6rjm6Jz4aRC13gpnA85d94np/6JkiZ+Da3RfqUE66wJhH68/O
+ Be6oQlnqLOEzekPGezNNHeOqg44XFxdDzsRLn1KyBgHL30s3SUFaN4JU1LS2yPi56Pbl
+ zofjbGZmNVkZlkVewj0QO35Nu2vUU/HW1JcWEGQ90/FIrojM0EV8EalY6GoFQrws59A2
+ 2WSEoO4sglwqiKpySbG1zX4XpouqC5i+CyhN+8lCP2BgCgmS+61w6ZUA0c3ewFXLaMa7
+ EalHNBiv9BtvfWmeoARFKN0IU8OvjMnb2BzOqMTJZ8lFAK7UHdLNERNwoukrPwQspoUS
+ 2LlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725560254; x=1726165054;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KkpqUFAZ/Hl7QsOxL+C0tDMWvG5/p/xrV5VIwX3XFNw=;
- b=eOzgxpKwLhYtol2Ko9eS7EO/KiYvJpMjttBOlVHrKmfnFEIjg1A+kJT5lWWbq92leI
- YlUz19XUuM5Rotjgw8cNzQhOO17N3CcXCw1UjA5YRJizrdgdBtp3RK4bQRAwq52cJ4l6
- yf2ecYoFqZUe/yWRuVqneiAD/Y5fT9yO3prPuSMuVW1R/rAMJbNR2qgDt6lHJwictUg2
- szSU1pgQQtx4XkCSEVzSCPtweBFxvnOE1R3DdETX14iaf/WqLHNuwF0OyR/qhGoU6tpX
- dd6A9ZYNfZ6ZrqqJQQTwU72xHMWt87kcup8659ImRhzVm77vm2GxTXMRTy/rFBJ6vWWj
- lSMw==
-X-Gm-Message-State: AOJu0YxY7iM4fhzKSpsEMAhE7b7B5WDlgcOe9laMSK4qwpcvxNhHpeCD
- jOB6i14FvYc9d+fRIWHSzP+2u66FriRFuE8HXtc4Gitwpsn8kwqDxCYYDYESVcWoIgvxxyqHXk5
- o22iIe/cIP2NPM4wZmKfQ9S65hyYpvGAtZut1/o8DTPKgNc+YHF3XSzBYzFXTpBaaQwUHRvkTfo
- td1cIKbblrZ4XlPB3yVBnNQURWluacZCNP6A9PE6EwjWzzvcGOjYqu
-X-Google-Smtp-Source: AGHT+IFReGxzvPlxfMGPFW/8+E8X2gAMu7mYwPeLsOr3lfOzJB7gjIBD/i56Nc84I7/0wW+eQZCwig==
-X-Received: by 2002:a17:902:f68a:b0:1fc:4acb:3670 with SMTP id
- d9443c01a7336-206ee9540d9mr2511095ad.12.1725560254422; 
- Thu, 05 Sep 2024 11:17:34 -0700 (PDT)
-Received: from mtt-opossum.dhcp.broadcom.net ([192.19.144.250])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-206aea76213sm31586275ad.305.2024.09.05.11.17.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2024 11:17:33 -0700 (PDT)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, martin.krastev@broadcom.com,
- maaz.mombasawala@broadcom.com, zack.rusin@broadcom.com,
- Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH] drm/vmwgfx: Add tracepoints
-Date: Thu,  5 Sep 2024 13:17:10 -0500
-Message-Id: <20240905181710.154732-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20230601; t=1725561356; x=1726166156;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oAtDj4jgFho2b/8hV7Bo6K1tm3khS3fSEDAFzXGf8h0=;
+ b=YJSiwryuGQl39YZLdb33e2AcUPsqGOGZftGrUawQOdznzTm+1alJWURPpV05bZ/BDE
+ l/IbTtitPe6d5fDU6cP+tFE2o5SaXox+5oNwYF19tqtBGHb0wWHwY+XFXTJkhu3bRKZ0
+ FAn+NYf2jCVuwLtcDx+03+s/Or3WoRk75NWWwol4qzG48G2MOxZZUEh7HOcg4rUmnFCA
+ HVHQON8fUTkmj/BAowQaNuk6dRPXPidJy8KUH9n1mIqXfmB4+qiC7+qQKGDs2U4dPAXT
+ Bbc8d48TOrCaO7ulU2t0zaBQEORh4V5abdsua8kae8wAOM9cf4H+GROSCXfwOuADmczt
+ Rq7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWUg+ZqDusiK4eO+bWazAtt/4YXQy7KN0FK2H+eMAFKM+arkx7k23vkhAh8jAueDYcCRUT5yJHsG88i@lists.freedesktop.org,
+ AJvYcCWkyieq9ppQoXBFM0a4uizzKGEQlJkX2V4XciU5qLVoTXZ5ijyWzwpE1hxNV8b5eIxTDR6avTMg@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyK1kNnC+1kJaDMZzjoP3EOyE2aIzJZzDs41TANLAEOXfecdcK8
+ 1uifKEz464rTwwKTbzAZ//lsl21qOj1c1jArqAN2hs3+qH93+TdITH8P/fFSZbvNbi5+pFJbe6i
+ +ttdQQzanRyP2kmot0QZIE9Jp/fw=
+X-Google-Smtp-Source: AGHT+IHM5V1REwdJI3eVT3T6Wdm5s+xxUU+LN3v/BUr9HdnK+Dg6FB4m7fzcSNKHejJ3hHksejbzQbzD8bSPE3UC2eY=
+X-Received: by 2002:a17:903:1cc:b0:206:aa07:b54 with SMTP id
+ d9443c01a7336-206f0357b83mr705ad.0.1725561356205; Thu, 05 Sep 2024 11:35:56
+ -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240903045809.5025-1-mukul.sikka@broadcom.com>
+In-Reply-To: <20240903045809.5025-1-mukul.sikka@broadcom.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 5 Sep 2024 14:35:44 -0400
+Message-ID: <CADnq5_OVSD1DXgi_9f_H-uT7KSjMwz-FfhP=vRQvposSxv=BMw@mail.gmail.com>
+Subject: Re: [PATCH v5.15-v5.10] drm/amd/pm: Fix the null pointer dereference
+ for vega10_hwmgr
+To: sikkamukul <mukul.sikka@broadcom.com>
+Cc: stable@vger.kernel.org, gregkh@linuxfoundation.org, evan.quan@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie, 
+ daniel@ffwll.ch, Jun.Ma2@amd.com, kevinyang.wang@amd.com, sashal@kernel.org, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, ajay.kaher@broadcom.com, 
+ alexey.makhalov@broadcom.com, vasavi.sirnapalli@broadcom.com, 
+ Bob Zhou <bob.zhou@amd.com>, Tim Huang <Tim.Huang@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,200 +86,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds the necessary files to create tracepoints for the vmwgfx driver.
+On Tue, Sep 3, 2024 at 5:53=E2=80=AFAM sikkamukul <mukul.sikka@broadcom.com=
+> wrote:
+>
+> From: Bob Zhou <bob.zhou@amd.com>
+>
+> [ Upstream commit 50151b7f1c79a09117837eb95b76c2de76841dab ]
+>
+> Check return value and conduct null pointer handling to avoid null pointe=
+r dereference.
+>
+> Signed-off-by: Bob Zhou <bob.zhou@amd.com>
+> Reviewed-by: Tim Huang <Tim.Huang@amd.com>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Signed-off-by: Mukul Sikka <mukul.sikka@broadcom.com>
 
-Adds a single tracepoint for command buffer completion. This tracepoint
-can be used to time command buffer execution time and to decode command
-buffer errors. The submission time is also now recorded when the command
-buffer is submitted to hardware.
+Just out of curiosity, are you actually seeing an issue?  This and a
+lot of the other recent NULL check patches are just static checker
+fixes.  They don't actually fix a known issue.
 
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
----
- drivers/gpu/drm/vmwgfx/Makefile        |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c |  9 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_trace.c  | 32 +++++++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_trace.h  | 62 ++++++++++++++++++++++++++
- 4 files changed, 102 insertions(+), 3 deletions(-)
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_trace.c
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_trace.h
+Alex
 
-diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
-index 46a4ab688a7f..482c1935bde6 100644
---- a/drivers/gpu/drm/vmwgfx/Makefile
-+++ b/drivers/gpu/drm/vmwgfx/Makefile
-@@ -10,6 +10,6 @@ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
- 	    vmwgfx_simple_resource.o vmwgfx_va.o vmwgfx_blit.o \
- 	    vmwgfx_validation.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
- 	    vmwgfx_devcaps.o ttm_object.o vmwgfx_system_manager.o \
--	    vmwgfx_gem.o vmwgfx_vkms.o
-+	    vmwgfx_gem.o vmwgfx_vkms.o vmwgfx_trace.o
- 
- obj-$(CONFIG_DRM_VMWGFX) := vmwgfx.o
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-index 94e8982f5616..1ac7f382cdb1 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-@@ -27,6 +27,7 @@
- 
- #include "vmwgfx_bo.h"
- #include "vmwgfx_drv.h"
-+#include "vmwgfx_trace.h"
- 
- #include <drm/ttm/ttm_bo.h>
- 
-@@ -141,6 +142,7 @@ struct vmw_cmdbuf_man {
-  * @man: The command buffer manager.
-  * @cb_header: Device command buffer header, allocated from a DMA pool.
-  * @cb_context: The device command buffer context.
-+ * @inline_space: Whether inline command buffer space is used.
-  * @list: List head for attaching to the manager lists.
-  * @node: The range manager node.
-  * @handle: The DMA address of @cb_header. Handed to the device on command
-@@ -148,19 +150,20 @@ struct vmw_cmdbuf_man {
-  * @cmd: Pointer to the command buffer space of this buffer.
-  * @size: Size of the command buffer space of this buffer.
-  * @reserved: Reserved space of this buffer.
-- * @inline_space: Whether inline command buffer space is used.
-+ * @submit_time: When the CB was submitted to hardware in jiffies.
-  */
- struct vmw_cmdbuf_header {
- 	struct vmw_cmdbuf_man *man;
- 	SVGACBHeader *cb_header;
- 	SVGACBContext cb_context;
-+	bool inline_space;
- 	struct list_head list;
- 	struct drm_mm_node node;
- 	dma_addr_t handle;
- 	u8 *cmd;
- 	size_t size;
- 	size_t reserved;
--	bool inline_space;
-+	u64 submit_time;
- };
- 
- /**
-@@ -303,6 +306,7 @@ static int vmw_cmdbuf_header_submit(struct vmw_cmdbuf_header *header)
- 	struct vmw_cmdbuf_man *man = header->man;
- 	u32 val;
- 
-+	header->submit_time = get_jiffies_64();
- 	val = upper_32_bits(header->handle);
- 	vmw_write(man->dev_priv, SVGA_REG_COMMAND_HIGH, val);
- 
-@@ -391,6 +395,7 @@ static void vmw_cmdbuf_ctx_process(struct vmw_cmdbuf_man *man,
- 		list_del(&entry->list);
- 		wake_up_all(&man->idle_queue);
- 		ctx->num_hw_submitted--;
-+		trace_vmwgfx_cmdbuf_done(status, entry);
- 		switch (status) {
- 		case SVGA_CB_STATUS_COMPLETED:
- 			__vmw_cmdbuf_header_free(entry);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_trace.c b/drivers/gpu/drm/vmwgfx/vmwgfx_trace.c
-new file mode 100644
-index 000000000000..065365fb147f
---- /dev/null
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_trace.c
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/**************************************************************************
-+ *
-+ * Copyright (c) 2024 Broadcom. All Rights Reserved. The term
-+ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, sub license, and/or sell copies of the Software, and to
-+ * permit persons to whom the Software is furnished to do so, subject to
-+ * the following conditions:
-+ *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portions
-+ * of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-+ * USE OR OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ **************************************************************************/
-+
-+#ifndef __CHECKER__
-+#define CREATE_TRACE_POINTS
-+#include "vmwgfx_trace.h"
-+#endif
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_trace.h b/drivers/gpu/drm/vmwgfx/vmwgfx_trace.h
-new file mode 100644
-index 000000000000..808829321cf7
---- /dev/null
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_trace.h
-@@ -0,0 +1,62 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/**************************************************************************
-+ *
-+ * Copyright (c) 2024 Broadcom. All Rights Reserved. The term
-+ * “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, sub license, and/or sell copies of the Software, and to
-+ * permit persons to whom the Software is furnished to do so, subject to
-+ * the following conditions:
-+ *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portions
-+ * of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-+ * USE OR OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ **************************************************************************/
-+
-+#if !defined(_TRACE_VMWGFX_H_) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_VMWGFX_H_
-+
-+#include <linux/stringify.h>
-+#include <linux/types.h>
-+#include <linux/tracepoint.h>
-+
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM vmwgfx
-+
-+struct vmw_cmdbuf_header;
-+
-+TRACE_EVENT(vmwgfx_cmdbuf_done,
-+
-+	TP_PROTO(int status, struct vmw_cmdbuf_header *header),
-+	TP_ARGS(status, header),
-+	TP_STRUCT__entry(
-+		__field(int, status)
-+		__field(struct vmw_cmdbuf_header*, header)
-+	),
-+	TP_fast_assign(
-+		__entry->status = status;
-+		__entry->header = header;
-+	),
-+	TP_printk("status=%d", __entry->status)
-+);
-+
-+#endif /* _TRACE_VMWGFX_H_ */
-+
-+/* This part must be outside protection */
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm/vmwgfx
-+#define TRACE_INCLUDE_FILE vmwgfx_trace
-+#include <trace/define_trace.h>
--- 
-2.34.1
-
+> ---
+>  .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 30 ++++++++++++++++---
+>  1 file changed, 26 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/driv=
+ers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> index 10678b519..304874cba 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> @@ -3391,13 +3391,17 @@ static int vega10_find_dpm_states_clocks_in_dpm_t=
+able(struct pp_hwmgr *hwmgr, co
+>         const struct vega10_power_state *vega10_ps =3D
+>                         cast_const_phw_vega10_power_state(states->pnew_st=
+ate);
+>         struct vega10_single_dpm_table *sclk_table =3D &(data->dpm_table.=
+gfx_table);
+> -       uint32_t sclk =3D vega10_ps->performance_levels
+> -                       [vega10_ps->performance_level_count - 1].gfx_cloc=
+k;
+>         struct vega10_single_dpm_table *mclk_table =3D &(data->dpm_table.=
+mem_table);
+> -       uint32_t mclk =3D vega10_ps->performance_levels
+> -                       [vega10_ps->performance_level_count - 1].mem_cloc=
+k;
+> +       uint32_t sclk, mclk;
+>         uint32_t i;
+>
+> +       if (vega10_ps =3D=3D NULL)
+> +               return -EINVAL;
+> +       sclk =3D vega10_ps->performance_levels
+> +                       [vega10_ps->performance_level_count - 1].gfx_cloc=
+k;
+> +       mclk =3D vega10_ps->performance_levels
+> +                       [vega10_ps->performance_level_count - 1].mem_cloc=
+k;
+> +
+>         for (i =3D 0; i < sclk_table->count; i++) {
+>                 if (sclk =3D=3D sclk_table->dpm_levels[i].value)
+>                         break;
+> @@ -3704,6 +3708,9 @@ static int vega10_generate_dpm_level_enable_mask(
+>                         cast_const_phw_vega10_power_state(states->pnew_st=
+ate);
+>         int i;
+>
+> +       if (vega10_ps =3D=3D NULL)
+> +               return -EINVAL;
+> +
+>         PP_ASSERT_WITH_CODE(!vega10_trim_dpm_states(hwmgr, vega10_ps),
+>                         "Attempt to Trim DPM States Failed!",
+>                         return -1);
+> @@ -4828,6 +4835,9 @@ static int vega10_check_states_equal(struct pp_hwmg=
+r *hwmgr,
+>
+>         psa =3D cast_const_phw_vega10_power_state(pstate1);
+>         psb =3D cast_const_phw_vega10_power_state(pstate2);
+> +       if (psa =3D=3D NULL || psb =3D=3D NULL)
+> +               return -EINVAL;
+> +
+>         /* If the two states don't even have the same number of performan=
+ce levels they cannot be the same state. */
+>         if (psa->performance_level_count !=3D psb->performance_level_coun=
+t) {
+>                 *equal =3D false;
+> @@ -4953,6 +4963,8 @@ static int vega10_set_sclk_od(struct pp_hwmgr *hwmg=
+r, uint32_t value)
+>                 return -EINVAL;
+>
+>         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> +       if (vega10_ps =3D=3D NULL)
+> +               return -EINVAL;
+>
+>         vega10_ps->performance_levels
+>         [vega10_ps->performance_level_count - 1].gfx_clock =3D
+> @@ -5004,6 +5016,8 @@ static int vega10_set_mclk_od(struct pp_hwmgr *hwmg=
+r, uint32_t value)
+>                 return -EINVAL;
+>
+>         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> +       if (vega10_ps =3D=3D NULL)
+> +               return -EINVAL;
+>
+>         vega10_ps->performance_levels
+>         [vega10_ps->performance_level_count - 1].mem_clock =3D
+> @@ -5239,6 +5253,9 @@ static void vega10_odn_update_power_state(struct pp=
+_hwmgr *hwmgr)
+>                 return;
+>
+>         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> +       if (vega10_ps =3D=3D NULL)
+> +               return;
+> +
+>         max_level =3D vega10_ps->performance_level_count - 1;
+>
+>         if (vega10_ps->performance_levels[max_level].gfx_clock !=3D
+> @@ -5261,6 +5278,9 @@ static void vega10_odn_update_power_state(struct pp=
+_hwmgr *hwmgr)
+>
+>         ps =3D (struct pp_power_state *)((unsigned long)(hwmgr->ps) + hwm=
+gr->ps_size * (hwmgr->num_ps - 1));
+>         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> +       if (vega10_ps =3D=3D NULL)
+> +               return;
+> +
+>         max_level =3D vega10_ps->performance_level_count - 1;
+>
+>         if (vega10_ps->performance_levels[max_level].gfx_clock !=3D
+> @@ -5451,6 +5471,8 @@ static int vega10_get_performance_level(struct pp_h=
+wmgr *hwmgr, const struct pp_
+>                 return -EINVAL;
+>
+>         ps =3D cast_const_phw_vega10_power_state(state);
+> +       if (ps =3D=3D NULL)
+> +               return -EINVAL;
+>
+>         i =3D index > ps->performance_level_count - 1 ?
+>                         ps->performance_level_count - 1 : index;
+> --
+> 2.39.4
+>
