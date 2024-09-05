@@ -2,53 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4037296CC06
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 03:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7698496CCF8
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 05:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D4710E366;
-	Thu,  5 Sep 2024 01:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 915E310E3D4;
+	Thu,  5 Sep 2024 03:08:28 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JYM73ZzD";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9A010E366
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 01:06:28 +0000 (UTC)
-Received: by mail-io1-f71.google.com with SMTP id
- ca18e2360f4ac-82a3fa4ecd3so31390039f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 18:06:27 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA5F210E3D4
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 03:08:26 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52f01b8738dso106573e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 20:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1725505704; x=1726110504; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HvYt71IhRdNBRbqhn8a/BIchlxMJnpCn80h85xgik/M=;
+ b=JYM73ZzD3CUVRSf/RA3NMSOk9phvAukpS8GYfEzpA4WHBOXTeZO7P+wU76IhIjDptR
+ HVhaUuBPhKUyBsM6y8ZpMrUM3I3R52NpvZF5UtUpblj7/4rMhxWRqKYLNEuGckUOuynM
+ 9d2g9kjoeWU24tumU8habPRXY2rceCvlL+8vxDSHt6hsq81GeMTafhIB/4esGHIQ5evr
+ Ymn6GT4nzUpuzv3qGebtDm50cJW91wgnGBEhYe5mRX6rFlV0pOanohWZ4ufEtDK/GBTe
+ ANPV5GVpjJ7hIMYaAfqOJg5MqcciVTq/HfX8g5gyS8B1egDfJDRk6JLIYOJrawSpgHHU
+ v5gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725498387; x=1726103187;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OAYLa3gAJq10imgnxwcHrNfTMkbi9jOvDxj4gkfBOpk=;
- b=g0XYIcOzOm93HkmHWzEcnuhrFO+9ajFaRzxQ4BedKyLgU1inzDkY78JHm/E+8ftn+/
- rC/Jn/n1KpUkG2K0kPnWKCMfdEy4FVis4FJokUIt0bzu8jCCAzv+xExMX1k5ayOlZdJ3
- DCf3QeeJD03MHfdwLNWZ9K0txm/Tom5kryVtVXJCsZT23Ja9N+aLNCjGPOu9Gnr21cYJ
- VVNUBDHfrl1a48qi6zFEd5xOqhyQ69fkWYi+iyV2X8sNpyZmsTm388ybrKGgF+hbnIZd
- aEunXe2IET/OCg83M4hozGtLPsUNwPnz1p5F+fUpiF2fkNwv3q2K2pgYQ9WC0sKrqIdQ
- /fMQ==
+ d=1e100.net; s=20230601; t=1725505704; x=1726110504;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HvYt71IhRdNBRbqhn8a/BIchlxMJnpCn80h85xgik/M=;
+ b=V3INgrZYSvOM7eEYDSCc9DYxFAqmjK7CWG10l27ZuOkB9JClZZsO8lM0qaYhPiYlr5
+ OalzI6ONe8tBNwNsVRNwCBCF7fvf6myQNmO8ZBEcl1FI8XuTIiIoWRPB71smJoMsBQlq
+ pEL8iPVaAUGGJ+Nc4ilqdMqHPYLcVCyCAgyN+T23mnV/coP4+50qfTk2iJhmW75FMR0+
+ eSip6zPk4ijCZYmmV5YoGLeOvTPc3lpOMuJB9s+PfxgzVTTzzNo+pYwItDxdsaH60CSH
+ +aPVBKsSnHN8mQubHifH6DnR3QPl/NFQCDxSai6nTh5ZsXshFInz+sojEeFf+DwkB33Z
+ YiSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUU1Hdh5Tlz1fJRaPqpGrw5ISvgu6uxzxyA25fvLGH0XptnpCsdmjZ9oepKya/7lOJd0LkLSXepkPY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGJ+3WHiXPTP5T5fMIoCAdjcBtETrmoMXWK4zw4XW5CzJTJjow
- DcROBK2WsJdoMsUv3C9nl6weE8FfSHx6hHCSjtSoTEo8/UVOv46igPi8CdqVAO4yNb0WRJl8zRv
- sDMwY8509ZrF0pm02QJKnprTbWZOWT4NTg/rPUez7FzHY58unk4B/gVk=
-X-Google-Smtp-Source: AGHT+IE5oGFdAYetB0WLbVlthXsHM+ywys8HRBRBTS9ulokWHG3VpTsY5NmR61O+Zlkrq2VPGQF8Z2WbhGLDZk+MvNpDzvPFqaID
+ AJvYcCVummAsedWVUIjasiffV1aT+CQKdlvZakM4yYaia7TJSBX8yqxkwkZ7ZXx4Ljjp9Dcwuy3Dvbw6RT0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyK0Juk9shahoXZyB0KEKsOt5ZP7fhF8lmF6yx9IfM46UCeIfVc
+ eieVqyzZKpPE1vgIr8VJJY0E2QMWmIGK0YNBqiPJ0C4dOIRFNJdMJZwn0hBqYfA=
+X-Google-Smtp-Source: AGHT+IEiDYfVZsrNlZ5O8YNAwFl2737GXUD/v4D2IGhJ131AJFOBBx+cluZA8P+8k5TWguYcgEK3Pw==
+X-Received: by 2002:a05:6512:2803:b0:535:6cf6:92f7 with SMTP id
+ 2adb3069b0e04-5356cf694a0mr862945e87.59.1725505703317; 
+ Wed, 04 Sep 2024 20:08:23 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-535407ac190sm2485277e87.96.2024.09.04.20.08.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2024 20:08:22 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/2] drm: add two missing DRM_DISPLAY_DSC_HELPER selects
+Date: Thu, 05 Sep 2024 06:08:20 +0300
+Message-Id: <20240905-fix-dsc-helpers-v1-0-3ae4b5900f89@linaro.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:8720:b0:4b9:6f13:fb1a with SMTP id
- 8926c6da1cb9f-4d05e73844cmr161634173.4.1725498387122; Wed, 04 Sep 2024
- 18:06:27 -0700 (PDT)
-Date: Wed, 04 Sep 2024 18:06:27 -0700
-In-Reply-To: <000000000000f4447f06202eca5f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006cde9c062154e6f3@google.com>
-Subject: Re: [syzbot] [fbdev?] KASAN: vmalloc-out-of-bounds Write in imageblit
- (4)
-From: syzbot <syzbot+c4b7aa0513823e2ea880@syzkaller.appspotmail.com>
-To: daniel@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKQg2WYC/x2MQQqAIBAAvxJ7bsHKIvtKdChdcyEqXIhA/HvSc
+ WBmEghFJoGpShDpYeHrLNDUFdiwnjshu8LQqlYro3r0/KITi4GOm6Jgt416UN5uZvVQqjtSUf7
+ jvOT8AfRsPL1hAAAA
+To: Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ kernel test robot <lkp@intel.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=670;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=viS4n3xLp03m75Vm5VBHdsK94DFv3lMuD1s+hR1hOlM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBm2SClVPVGX65kkU0QRSPr0U4aIl+tCD84SrxEb
+ rkB79ppEqWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZtkgpQAKCRCLPIo+Aiko
+ 1VFjCACTrtFG/p4A2auGtjYg3mDRqLDcCvd7/H9xfsmeO1q8pLN+lwwLJ3mcHh7moIV1ykCamfk
+ vsig0eklrVMOTjUN5El/ucqiO11eIGsaFYsyJvYAHh4HaBpiFDUZO6Oz/y+yMx/l/z7jW0jt4fG
+ rkXsZJ9+w1HpA4oCLrmI78gViOgVETjg47JTRFY4BNJdUkNtyuN2UeJrN/0X3aD1Fwx/ifrJRxM
+ a9SKoACBKOe/SAqoiVagQCseXyMW1mN34htWl/Csxw9P7nEFrp58F60+irx09GtyQXqu6fdsALa
+ E6Stjms28Tz66hYuU5tyG/6yxg3zzDxAmjK5teFd7bli8OaK
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,84 +106,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has found a reproducer for the following issue on:
+Add two selects for DRM_DISPLAY_DSC_HELPER which got missed in the
+original commit ca097d4d94d8 ("drm/display: split DSC helpers from DP
+helpers") and were later reported by LKP.
 
-HEAD commit:    c7fb1692dc01 Merge tag 'for-linus' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11742d63980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=660f6eb11f9c7dc5
-dashboard link: https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11703653980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=154565b7980000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-c7fb1692.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/246da487db6f/vmlinux-c7fb1692.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f0ea1e4dac0f/bzImage-c7fb1692.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c4b7aa0513823e2ea880@syzkaller.appspotmail.com
-
-R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000001
-R13: 431bde82d7b634db R14: 0000000000000001 R15: 0000000000000001
- </TASK>
-==================================================================
-BUG: KASAN: vmalloc-out-of-bounds in fast_imageblit drivers/video/fbdev/core/sysimgblt.c:257 [inline]
-BUG: KASAN: vmalloc-out-of-bounds in sys_imageblit+0x1ec6/0x2b00 drivers/video/fbdev/core/sysimgblt.c:326
-Write of size 4 at addr ffffc90001c41000 by task syz-executor161/5103
-
-CPU: 0 UID: 0 PID: 5103 Comm: syz-executor161 Not tainted 6.11.0-rc6-syzkaller-00048-gc7fb1692dc01 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
- print_address_description mm/kasan/report.c:377 [inline]
- print_report+0x169/0x550 mm/kasan/report.c:488
- kasan_report+0x143/0x180 mm/kasan/report.c:601
- fast_imageblit drivers/video/fbdev/core/sysimgblt.c:257 [inline]
- sys_imageblit+0x1ec6/0x2b00 drivers/video/fbdev/core/sysimgblt.c:326
- drm_fbdev_shmem_defio_imageblit+0x2e/0x100 drivers/gpu/drm/drm_fbdev_shmem.c:39
- bit_putcs+0x18ba/0x1db0
- fbcon_putcs+0x255/0x390 drivers/video/fbdev/core/fbcon.c:1288
- do_update_region+0x396/0x450 drivers/tty/vt/vt.c:619
- redraw_screen+0x902/0xe90 drivers/tty/vt/vt.c:971
- con2fb_init_display drivers/video/fbdev/core/fbcon.c:794 [inline]
- set_con2fb_map+0xa6c/0x10a0 drivers/video/fbdev/core/fbcon.c:865
- fbcon_set_con2fb_map_ioctl+0x207/0x320 drivers/video/fbdev/core/fbcon.c:3092
- do_fb_ioctl+0x38f/0x7b0 drivers/video/fbdev/core/fb_chrdev.c:138
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:907 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7feb9b353729
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 a1 1a 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffde9b9f968 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007ffde9b9f980 RCX: 00007feb9b353729
-RDX: 00000000200000c0 RSI: 0000000000004610 RDI: 0000000000000003
-RBP: 0000000000000001 R08: 00007ffde9b9f707 R09: 00000000000000a0
-R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000001
-R13: 431bde82d7b634db R14: 0000000000000001 R15: 0000000000000001
- </TASK>
-
-The buggy address belongs to the virtual mapping at
- [ffffc90001941000, ffffc90001c42000) created by:
- drm_gem_shmem_vmap+0x3ac/0x630 drivers/gpu/drm/drm_gem_shmem_helper.c:343
-
-Memory state around the buggy address:
- ffffc90001c40f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc90001c40f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffffc90001c41000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-                   ^
- ffffc90001c41080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
- ffffc90001c41100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-==================================================================
-
-
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Dmitry Baryshkov (2):
+      drm/xe: select DRM_DISPLAY_DSC_HELPER
+      drm/msm: add another DRM_DISPLAY_DSC_HELPER selection
+
+ drivers/gpu/drm/msm/Kconfig | 1 +
+ drivers/gpu/drm/xe/Kconfig  | 1 +
+ 2 files changed, 2 insertions(+)
+---
+base-commit: fdadd93817f124fd0ea6ef251d4a1068b7feceba
+change-id: 20240905-fix-dsc-helpers-3b8460fcb9af
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
