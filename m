@@ -2,71 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39CBA96D5A0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 12:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9269A96D5AE
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 12:19:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3304A10E855;
-	Thu,  5 Sep 2024 10:16:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="htBiISGE";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBB410E850;
+	Thu,  5 Sep 2024 10:19:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A06710E84F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 10:16:36 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-e04196b7603so706266276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 03:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1725531395; x=1726136195;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xd6tRDcBI6nT0vpG0+47dCoixHmT48y9ZIC4bv5qVFY=;
- b=htBiISGElkQQwgK1SQoF/+qPjmAgVpRBZ3gLBuVkIckzW1XdVkeProqo/m/11NDoTh
- F81k9ZqYsq0eqFa/340NBGFp3NjNLSf48QpLhaVnhreL8XPKeSbaYmH1qMYiWUZl60jN
- Jq6j/VBDjqTP+vjCmHS5bhz3wo5D/eS17K8r7B8KPry/q2itnybvO4pJEey37nzX26nA
- ePcHnBli29Mo77rbsyZwn8xmDTHBZ0f/lYZ0l4GqQERfEbxaHDnAmz+cvXL47zAQpr/o
- K2YlHvC26r5kx8ixmf43xoHCq7r2AScRtgeoA/PelThrkRQrs1nby7LHmREoR1iNFaMu
- DX6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725531395; x=1726136195;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xd6tRDcBI6nT0vpG0+47dCoixHmT48y9ZIC4bv5qVFY=;
- b=JlG72WvC25hrMsmLywqrIcs/D04XS7zd3GaKVpIbQq3u/q4aLcgpv3z+DUaW8+pRK1
- SxI1PO6VNMTYs/y92ZBzUNZT2oHdCldbrt7GkpPSaIHHwMojxN21jaX2rXgPekZL58XN
- Qk5/l1nTbY9ZJRbLUsyMIB0+BIMFsPMwLnZ4qdBhDesDy1PUAhxnWKcSe2Zsn823ndPq
- jkmISh253AOe7nB/leP8Aoy5Qk558RYXTlA36DXP4x+lw4KMlrUmredfSGdGOhVQc2HD
- zhG32xiAfpEVIUT26go7WXPuu2XiL5huzr7ImtmJ2I8VdNN0x/7F5f6RR0+3Mt+TphUc
- 8Wuw==
-X-Gm-Message-State: AOJu0YwbmRO1sHU/RTzdunedHcsHHNrxFv7UIIkS3nVunKU38VU3/Ksb
- 5+1ewjiC9wtLXwEePo28FOA1Fk10BzW4rP/7Tgv9/MmLc5hikgVBIQrIVLZPCwSpfsn/F4lKB9A
- cPHIObfM9K86nikp1Il0ju9f0PWMJ0NZI54MYkg==
-X-Google-Smtp-Source: AGHT+IHOAa2WnFWM0m3QmtHGwmSzixacJsCBpWRBvguStq1YD37bVLj0/P6F5Iapvjw7xs8jP/X43ydPbq380G1rQQ4=
-X-Received: by 2002:a05:6902:1547:b0:e1d:1b8a:ac4 with SMTP id
- 3f1490d57ef6-e1d1b8a0cbemr3960625276.11.1725531395247; Thu, 05 Sep 2024
- 03:16:35 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 37A3F10E850
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 10:19:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 218D3FEC;
+ Thu,  5 Sep 2024 03:20:00 -0700 (PDT)
+Received: from [10.1.29.28] (e122027.cambridge.arm.com [10.1.29.28])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 541133F73F;
+ Thu,  5 Sep 2024 03:19:32 -0700 (PDT)
+Message-ID: <21f335cd-145f-42b0-929a-f0ee11efa8db@arm.com>
+Date: Thu, 5 Sep 2024 11:19:30 +0100
 MIME-Version: 1.0
-References: <20240905093935.2780632-1-vignesh.raman@collabora.com>
-In-Reply-To: <20240905093935.2780632-1-vignesh.raman@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 5 Sep 2024 11:16:23 +0100
-Message-ID: <CAPj87rPCctE=iJKfQXR-PJdUHR+5f-t2bRA5Daq2fzUTNekzcg@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/ci: uprev IGT and deqp-runner
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch, 
- robdclark@gmail.com, guilherme.gallo@collabora.com, 
- sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Don't add write fences to the shared BOs
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ Matthew Brost <matthew.brost@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, stable@vger.kernel.org
+References: <20240905070155.3254011-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240905070155.3254011-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,11 +50,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vignesh,
+On 05/09/2024 08:01, Boris Brezillon wrote:
+> The only user (the mesa gallium driver) is already assuming explicit
+> synchronization and doing the export/import dance on shared BOs. The
+> only reason we were registering ourselves as writers on external BOs
+> is because Xe, which was the reference back when we developed Panthor,
+> was doing so. Turns out Xe was wrong, and we really want bookkeep on
+> all registered fences, so userspace can explicitly upgrade those to
+> read/write when needed.
+> 
+> Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-On Thu, 5 Sept 2024 at 10:41, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> Uprev IGT to the latest version and deqp-runner
-> to v0.20.0. Also update expectation files.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Thanks! This is:
-Reviewed-by: Daniel Stone <daniels@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 9a0ff48f7061..41260cf4beb8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -3423,13 +3423,8 @@ void panthor_job_update_resvs(struct drm_exec *exec, struct drm_sched_job *sched
+>  {
+>  	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+>  
+> -	/* Still not sure why we want USAGE_WRITE for external objects, since I
+> -	 * was assuming this would be handled through explicit syncs being imported
+> -	 * to external BOs with DMA_BUF_IOCTL_IMPORT_SYNC_FILE, but other drivers
+> -	 * seem to pass DMA_RESV_USAGE_WRITE, so there must be a good reason.
+> -	 */
+>  	panthor_vm_update_resvs(job->group->vm, exec, &sched_job->s_fence->finished,
+> -				DMA_RESV_USAGE_BOOKKEEP, DMA_RESV_USAGE_WRITE);
+> +				DMA_RESV_USAGE_BOOKKEEP, DMA_RESV_USAGE_BOOKKEEP);
+>  }
+>  
+>  void panthor_sched_unplug(struct panthor_device *ptdev)
+
