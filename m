@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F3096E0D0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 19:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42CA96E12C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 19:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E09110E91C;
-	Thu,  5 Sep 2024 17:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D557810E888;
+	Thu,  5 Sep 2024 17:35:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lyoifxrQ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="Z83LRDkE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0F7710E3E3;
- Thu,  5 Sep 2024 17:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725556136; x=1757092136;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=JmeXQUT9HbpmFGVggW1RK1uQUfAvZVDA7KqXV8sMAGI=;
- b=lyoifxrQeFI+GePykx/eX98GXgvhBGEgPEVePqbwtNAHjggBG64uRvyW
- 7Jfo04mnOKAkFiOMkhQXZMKVYZlD/Xe9+mwdGjAhGPrYVM7BZrp0/I6xw
- n7MKu4of0KnDe9Q53QXMP3hzIa4YiBOvUecZBm2p0Jggv+Hl9LVqm9OCK
- 2T/VRjvREp9sdfWqZLMy88J06h1iAiyQiHxCw/tuWd/t6L9WGmZmkPHzn
- ayyLxuc4zhcVW1E8+LJ+Dic4dB1m+y0ShQn9s1Fm5RMAVMT5J2nJ7Gd70
- HEVMwu04ie0H/lsvdPErsC90g5Dczz1SuseDqj2oDrqAz1Zc3msdBGPKJ w==;
-X-CSE-ConnectionGUID: CmHRKjJMQUC4QsgXTrs/tA==
-X-CSE-MsgGUID: ynb6VnvKQmWT3YUYpCx4FA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24454065"
-X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; d="scan'208";a="24454065"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2024 10:08:55 -0700
-X-CSE-ConnectionGUID: 4LKqwEo4Sz6Rzlc/rfhfXQ==
-X-CSE-MsgGUID: nMVqxy8ESjyrD06QwCHuZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; d="scan'208";a="65724284"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.216])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2024 10:08:52 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, He Lugang <helugang@uniontech.com>
-Cc: joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
- airlied@gmail.com, daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915:Remove unused parameter in marco.
-In-Reply-To: <Ztnkt8guUcY8hg3h@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <F84191BE8AA4A690+20240831135114.497043-1-helugang@uniontech.com>
- <Ztnkt8guUcY8hg3h@intel.com>
-Date: Thu, 05 Sep 2024 20:08:48 +0300
-Message-ID: <87le06ownz.fsf@intel.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 387B910E888
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 17:35:28 +0000 (UTC)
+Delivered-To: boris.brezillon@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1725557723; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=TuLBEVWRBcDiVKWhwyNV1ctD1d72aYhSugdgXIsgM7MrawUu2WC6natXhQbjuVg1SF8SETads0m36bMrpY3yaqI7xBlR9YkbcuNacEtmWfVuX1xvwciq/WD4OgCwvXxnngsfX5i0zAblD334qIMfYFdA7dbF0DsGbkxEirzru7I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1725557723;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=uCPBpKjvFpzfgJ19E83MsJvpP3DosEZWIQfDvlOJc7s=; 
+ b=hYJpxA/2HXmN0XuT17IuLkZAd9hAYHMNn+CmhizWrPW4yYUFBEstLUDQhMbXmuAiy9HCDAldRZr5fON4ZsU/oA1HNbVZKPOfLdzsFsIbI/5vRUUn7KS5EmxgXdfBtV5OP6LDJHXNa+AUU/XBSC11oDHrvAaC7xQlmlJAoD/DGMI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
+ dmarc=pass header.from=<mary.guillemard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725557723; 
+ s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=uCPBpKjvFpzfgJ19E83MsJvpP3DosEZWIQfDvlOJc7s=;
+ b=Z83LRDkE+ZYEmnW9nYFolnk6GsossFkfcVUa9rBeNnZ4RA4Gyp2AH10M+eJSSFVI
+ zfb22JIbcOwTYiebkhCzr2jy1SXCiUtwod2A7E9Qq7fwUXkquIArO1KyknyDqH0JH2J
+ 5kf4zWIxVaNkz3zRVYtFl0c0HaXyLdtTQHQ5ubPs=
+Received: by mx.zohomail.com with SMTPS id 1725557720415634.3620957149494;
+ Thu, 5 Sep 2024 10:35:20 -0700 (PDT)
+From: Mary Guillemard <mary.guillemard@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Christopher Healy <healych@amazon.com>, kernel@collabora.com,
+ Mary Guillemard <mary.guillemard@collabora.com>
+Subject: [PATCH v2 0/2] drm/panthor: Expose realtime group priority and
+ allowed priorites to userspace
+Date: Thu,  5 Sep 2024 19:32:21 +0200
+Message-ID: <20240905173222.252641-2-mary.guillemard@collabora.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,92 +67,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 Sep 2024, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> On Sat, Aug 31, 2024 at 09:51:14PM +0800, He Lugang wrote:
->> The parameter dev_priv is actually not used in macro PORT_ALPM_CTL
->> and PORT_ALPM_LFPS_CTL,so remove it to simplify the code.
->
-> It is magically used on our back... hence the build failures that CI got.
-> Jani is doing a great clean-up work on the display code to get rid
-> of this 'dev_priv' usages in favor of a better display code separation
-> and using intel_display struct.
+This patch series adds support for realtime group priority and exposes
+allowed priorities info with a new dev query.
 
-I actually think this should(tm) work. It's just that it needs a rebase.
+Those changes are required to implement EGL_IMG_context_priority and
+EGL_NV_context_priority_realtime extensions properly.
 
-BR,
-Jani.
+This patch series assumes that [1] is applied. (found in drm-misc-fixes)
 
->
-> But thanks for the patch and the interest to help.
->
->> 
->> Signed-off-by: He Lugang <helugang@uniontech.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_alpm.c     | 4 ++--
->>  drivers/gpu/drm/i915/display/intel_psr.c      | 2 +-
->>  drivers/gpu/drm/i915/display/intel_psr_regs.h | 4 ++--
->>  3 files changed, 5 insertions(+), 5 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
->> index 82ee778b2efe..7a93ba627aa6 100644
->> --- a/drivers/gpu/drm/i915/display/intel_alpm.c
->> +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
->> @@ -330,7 +330,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
->>  			ALPM_CTL_AUX_LESS_WAKE_TIME(intel_dp->alpm_parameters.aux_less_wake_lines);
->>  
->>  		intel_de_write(display,
->> -			       PORT_ALPM_CTL(display, port),
->> +			       PORT_ALPM_CTL(port),
->>  			       PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
->>  			       PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
->>  			       PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
->> @@ -338,7 +338,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
->>  				       intel_dp->alpm_parameters.silence_period_sym_clocks));
->>  
->>  		intel_de_write(display,
->> -			       PORT_ALPM_LFPS_CTL(display, port),
->> +			       PORT_ALPM_LFPS_CTL(port),
->>  			       PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
->>  			       PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
->>  				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
->> diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
->> index 257526362b39..d66dbb529e1d 100644
->> --- a/drivers/gpu/drm/i915/display/intel_psr.c
->> +++ b/drivers/gpu/drm/i915/display/intel_psr.c
->> @@ -2076,7 +2076,7 @@ static void intel_psr_disable_locked(struct intel_dp *intel_dp)
->>  			     ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
->>  
->>  		intel_de_rmw(dev_priv,
->> -			     PORT_ALPM_CTL(dev_priv, cpu_transcoder),
->> +			     PORT_ALPM_CTL(cpu_transcoder),
->>  			     PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
->>  	}
->>  
->> diff --git a/drivers/gpu/drm/i915/display/intel_psr_regs.h b/drivers/gpu/drm/i915/display/intel_psr_regs.h
->> index 642bb15fb547..b4984e589d7e 100644
->> --- a/drivers/gpu/drm/i915/display/intel_psr_regs.h
->> +++ b/drivers/gpu/drm/i915/display/intel_psr_regs.h
->> @@ -295,7 +295,7 @@
->>  
->>  #define _PORT_ALPM_CTL_A			0x16fa2c
->>  #define _PORT_ALPM_CTL_B			0x16fc2c
->> -#define PORT_ALPM_CTL(dev_priv, port)		_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
->> +#define PORT_ALPM_CTL(port)			_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
->>  #define  PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE	REG_BIT(31)
->>  #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK	REG_GENMASK(23, 20)
->>  #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(val)	REG_FIELD_PREP(PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK, val)
->> @@ -306,7 +306,7 @@
->>  
->>  #define _PORT_ALPM_LFPS_CTL_A					0x16fa30
->>  #define _PORT_ALPM_LFPS_CTL_B					0x16fc30
->> -#define PORT_ALPM_LFPS_CTL(dev_priv, port)			_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
->> +#define PORT_ALPM_LFPS_CTL(port)				_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
->>  #define  PORT_ALPM_LFPS_CTL_LFPS_START_POLARITY			REG_BIT(31)
->>  #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MASK		REG_GENMASK(27, 24)
->>  #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MIN		7
->> -- 
->> 2.45.2
->> 
+The Mesa MR using this series is available here [2].
+
+v2:
+- Add Steven Price r-b on the first patch
+- Remove drm_panthor_group_allow_priority_flags definition and document
+  that allowed_mask is a bitmask of drm_panthor_group_priority on the
+  second patch
+
+[1]https://lore.kernel.org/all/20240903144955.144278-2-mary.guillemard@collabora.com/
+[2]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30991
+
+Mary Guillemard (2):
+  drm/panthor: Add PANTHOR_GROUP_PRIORITY_REALTIME group priority
+  drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO dev query
+
+ drivers/gpu/drm/panthor/panthor_drv.c   | 61 +++++++++++++++++--------
+ drivers/gpu/drm/panthor/panthor_sched.c |  2 -
+ include/uapi/drm/panthor_drm.h          | 29 ++++++++++++
+ 3 files changed, 71 insertions(+), 21 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.46.0
+
