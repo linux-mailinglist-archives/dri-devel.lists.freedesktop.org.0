@@ -2,115 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDEE96D228
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 10:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6F796D28C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 10:56:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ED1510E76F;
-	Thu,  5 Sep 2024 08:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24D9410E7A0;
+	Thu,  5 Sep 2024 08:56:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Cq7Nsl98";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="N7HAjZ51";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7C010E76F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 08:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1725525058; x=1726129858; i=deller@gmx.de;
- bh=Mo3pv8nna+g3MgtN4jCHH0Q7EFRuxFLuDvY0BG0S0aY=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=Cq7Nsl98uPJDCt7m2WmN9rM7oAxG0VH97r2yKTiBIBgWbivhz+tGUi3lqicwPNcL
- AVXdZbsQtCxUfh4G1W9kKyTubrj/WbtWlF2AJBEb/veUyPLv3mIEaPIuQBTXpL98O
- LYGcZzd8RQVnhAuGYNXsKdTx4axvUgC85iE4xX1NipcwDY5ulG5of9nCzoAab37l5
- SCLcE23HVJJoyWJezYL4PePmi1C/hL94h5/LQ3jE47/+TLUPFHuKbCbcspcunr92d
- /Vp6Mbi1n5+AbJ0Rkj5pTUbkYHOZVx16s6Can59rsSxDu2R5MSDwVEjoMQcb19KEW
- x5/cyoLubdgEjKGvKg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MybKf-1rpd5r2mHF-00ywNM; Thu, 05
- Sep 2024 10:30:58 +0200
-Message-ID: <5f6ce496-15cc-45d1-b3d0-10e362543a3c@gmx.de>
-Date: Thu, 5 Sep 2024 10:30:56 +0200
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2A0410E123;
+ Thu,  5 Sep 2024 08:56:31 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20240905085629euoutp026d23b874dc2b4c65d9a6a01407115ac4~yTUpf2Xb21854518545euoutp02F;
+ Thu,  5 Sep 2024 08:56:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20240905085629euoutp026d23b874dc2b4c65d9a6a01407115ac4~yTUpf2Xb21854518545euoutp02F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1725526589;
+ bh=9a8tFXSZRMxLBmYQzS/kxbNtP1L0MZWsD4TqGlp7igU=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=N7HAjZ51jmxy9BBeyooMEtGJD2xagVExFDlCmdrqM2MzvMQqhnnRdKOvvZk8v66//
+ VGI8nL3IDBhzn4wA/swMSvnSsTrNPI+i3NhlLHwm4R5sHWyAmGFbbylMFut6lJF9ce
+ ZqAIqd6NJMp7KvICb3452HHarib2yVtW2tlDZang=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20240905085628eucas1p1ed6920b6eae12d07ae7c9af3cf92d67b~yTUpJA8CL3245732457eucas1p10;
+ Thu,  5 Sep 2024 08:56:28 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id A6.A9.09875.C3279D66; Thu,  5
+ Sep 2024 09:56:28 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240905085628eucas1p22cae5811f1069426701b93fdc830d15a~yTUojeqiQ2167621676eucas1p28;
+ Thu,  5 Sep 2024 08:56:28 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20240905085628eusmtrp1efe21bd6c68924032fa05fae82051942~yTUoh9Mth2800128001eusmtrp1t;
+ Thu,  5 Sep 2024 08:56:28 +0000 (GMT)
+X-AuditID: cbfec7f4-11bff70000002693-f0-66d9723c9f03
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id A7.1D.14621.B3279D66; Thu,  5
+ Sep 2024 09:56:27 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240905085627eusmtip11ddc5ce1558090a422182326f3629f59~yTUoPhjM90089500895eusmtip1f;
+ Thu,  5 Sep 2024 08:56:27 +0000 (GMT)
+Received: from localhost (106.110.32.87) by CAMSVWEXC02.scsc.local
+ (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 5 Sep 2024 09:56:26 +0100
+Date: Thu, 5 Sep 2024 10:56:26 +0200
+From: Daniel Gomez <da.gomez@samsung.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+CC: Nicolas Schier <nicolas@fjasle.eu>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, William Hubbs
+ <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, Kirk Reiser
+ <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, Paul
+ Moore <paul@paul-moore.com>, Stephen Smalley
+ <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James
+ Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
+ <linux-kbuild@vger.kernel.org>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "speakup@linux-speakup.org"
+ <speakup@linux-speakup.org>, "selinux@vger.kernel.org"
+ <selinux@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+ <kvmarm@lists.linux.dev>, "linux-serial@vger.kernel.org"
+ <linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
+ <llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
+ (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com"
+ <gost.dev@samsung.com>
+Subject: Re: [PATCH 08/12] include: add elf.h support
+Message-ID: <20240905085626.ehhc5p7qwi57dagm@AALNPWDAGOMEZ1.aal.scsc.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/hyperv_fb: Convert comma to semicolon
-To: Wei Liu <wei.liu@kernel.org>, Chen Ni <nichen@iscas.ac.cn>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
- gpiccoli@igalia.com, mikelley@microsoft.com, linux-hyperv@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240902074402.3824431-1-nichen@iscas.ac.cn>
- <Ztlc52c6fIz3azbn@liuwe-devbox-debian-v2>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <Ztlc52c6fIz3azbn@liuwe-devbox-debian-v2>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cMBy/c8U9lDq5XB93f6BZ342XLrpxBeKJowrfuymtYdmXw6J1ax
- HPFxbxP42tnNiBBM2IrRtDuWjA1mWAu6vVHz2nuWZqs4wlYHUQk5KvMPW/ALXtt0+qiX/gJ
- Gc6Sr+eg9mSg95bu3TE07rIlAM2utPHBARFDBHtWx+Y/RUB56itqNNTKVQf3WBXNd7kPCMG
- sWb9EZzckQTka7cuA9X0g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:EGT4DGNMYqo=;082i0+0KVEi/vGisvb43p2mSlDr
- HTn8xrazGEeNsV7GjZkimBRYhyarvQuGs13EOLJ4K3rdLB4nUXz3cnnMe7kCAXaSdf2Qdyr4T
- Z+7WXBxnelqRQYHq+zk4N0NqGZWMTeuClk+Mgbsu4HODbxuLUf7hjQ7/dCTrIsgQcKby2sdg9
- A7D7xdp7lEqKu6XXh/QC7YZzgiBh7KoVG7P2vEc4DzwTv2QJgBNj9SYYrDZealCiWgXhYQCAG
- 9mbCpqPJkHq7nEjHK3bOwYWqeDy2c5jP7ffS5Scv4n3LrWZT6mL5Oa0YFI9zcrtSijuNi2gJC
- aqtjUyX01Lbvk+oxUIK9U0GRvV9OdNZ4quMB/Xq1HUhVQryKTkHW6HKTeYkG9CHTtlPCIlvup
- hqp0h+Cg0JaLOaMwAF0e3XD7ha+IAnoeMz5qtq6w6OKtZXsAlpTeRMzBPoILaYldkDw27ENqq
- 7G9D1sg/hIkj6wTUvSEJsVNBOF1mR/4oIv4fhW8bMzVZJ6gPzWdRveaGZRBn9HSkGtYep6j4t
- o7CpWFvXG3N3RfG3OgFYnyDq4f7Xy2nHiri6j/ErSvAIen0LpI2QzMNqiROQTn440Zku0UlAL
- +jD4cAaZ3CvP8OZx1Zb90ioczRcIeC19ABZ6KZP40Hw1sj6kdKmZP4/rwWbsil8T7tnVz3/oI
- Eqi+QYlwz098bje6f+jQVACO2tHZY2KKbHJskLtSbo5jzsdEJATCYhg/Pv251RUeb7xwCpTuT
- BayxediaoxRzsOAV8AW9TvSSj61GefPfMgNJDmYTn5XyMXYR9hWHvJ9bW+Sq0z68gRyIHWy1w
- H3KTiZjtSKVvwUd/FdFy9GDw==
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQhHBi7nSG5SAbqD3HFO3uMR6GHckZHcQXgWao7G8i9gw@mail.gmail.com>
+X-Originating-IP: [106.110.32.87]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0yTVxjGc75bS5fKRyHhTAlMptkgEdyFeKLMTOb0i2ZGR4iZm9EOPqoZ
+ t7TCwExFYNwGDYiKVG2AAtXCuJSLlVsXcIVOGZPKTTDAKHew3CQQHB3lw+h/v/c5z/vkff44
+ fFy0Sm3lnw+7wErDxCHulICoMaz8vctX2hu826xyQ63d+RiyFKUBZNCM46jO+gJH1ppMHD17
+ ZaFQvKqMQsuV4xgaaFRj6OVdF3SzWEUh5VMjgSarmgmkHe4i0etaHYZMtXco9ESVzkPm63oK
+ jQwXUShvrppAQ4M9JHp4x0iihjIThbSmBRIlphSRKOn+CIVmM6wYGm1oJdGNlWkKzWT8yUN9
+ 17IJpFd08dC95WyA2lsMPFSjawNorD0LoJy+PoCmdOuhVdOZJMpP3IMS+n1Qb2E570tPpkRZ
+ Aph6QxvFNCzlEkxtUyXFPFS84DG52kgm4dEMyajqJzBGq0mhGGWKEmOs6YMk88iaz2PyYm/g
+ jNJ4gtHfLeExA7+1YMfhKYFvEBtyPoqVeu8/KzjXf3WViChyi5bP1xOxYB6mAjs+pD+HXfJB
+ KhUI+CL6HoC6dgXGDYsAlk0nYzaXiF4AMLbj5JsNg7yT5ExqADVLRsAN66a+2bHNQQug9qae
+ tK0Q9A6o/v3BRhRFe8BGo5ZnYyfaE/YXJm94cFpjD+VJ3jZ2pH3ghGIRTwV8vpA+ClV1HjZZ
+ SDtAY46ZsMn4ekxZrTeH26B6jc+FuMH46tu4je3oE/C5ZYbkbt4Ob2XeJzi+BP+qer5REtKV
+ 78FmUwXOPRyEOROdm+wIJ1uqeBy7wMdZaZvLElhQqtjkCFjfpyBtN0B6H5Q/CeHkA7Arrw7n
+ 5C2wZ8aBO20LvFaTvSkLYXKiKAPsULxTS/G2luJtLcU7tXIBoQHObKQsVMLKPg1jf/aSiUNl
+ kWESr8DwUC1Y/x+P11oWdUA9OefVBDA+aAKQj7s7CaeceoJFwiBxzEVWGn5GGhnCyprANj7h
+ 7izcGeTGimiJ+AL7E8tGsNI3rxjfbmsshieuxk8VLFc/ePWvz+WegNCdK8d8/D/+FRY1r0WO
+ /8f0h+cfIT2C7SVDcd+eLoiKGTgUuFcbZyn2Fcd8JD3wMv3r+mM/fhENBsUyRV5defroyRW/
+ NbNf5txu5qj8SEdAeeVXcxFhs7wrUaXHaZmg82rWM+kfZtXC3v3KS8IC+8A049OSDo9Jk/OE
+ wz/uh5Pc9C3Xl3Sdmu+Ffk0NmKMhhjnk76yvCo8b07sU89kjrt2NrsXffCjx7y4dPay78oHK
+ 4mmKen3KMTd2jyAg/IfezLGKyu0Cvwq7NvOuqYWy1l/mb58+M3RZPTJsabRKo/d1XRyt/y7P
+ 9f2og76FCYLOzxbPLrkTsnPiTzxxqUz8P7SJ/reOBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTVxzHc+69vb2YIHelhhMwcyvLJsS1FCgeRMz+MHodms3NLZmTaEcv
+ j0gpa+kytjBYYCi4Gsp4SIcNj1BGh0PKY1BBDGBLtzFY2HgjKlIFeQpsEixdC1v0v8/v/L7n
+ k5Pz+1E4z0D6UglJKawySZooIHcQv25aJ96MUI7EBt1ySFDPUAWGFg3fAmQxPsLRDecEjpzN
+ Whz9ubZIoszKOhI9bXiEocmb1RhauLobFf1YSSL9HzYCzTZ2Ecg0NchBz8wtGBowl5Lot0oN
+ Fz0o6CDR9JSBROXLTQS6d3eYg1pLbRzUXjdAItPACgdl5xg46ELNNImW8pwYsrf3cFDh+hyJ
+ 5vNuc9FYfjGBOnSDXPTD02KA+qwWLmpu6QXoYd93AJWMjQH0uMUlbZzTclBF9n6UNS5BI1XX
+ uW8FMrX6WsC0WXpJpv3vMoIxdzaQTKtugsuUmdRMVvc8h6lsm8EYkzGHZPQ5eoxxau5ymG5n
+ BZcpzyjEGb3tJNNxtZbLTF6yYu/C08KDSoU6hX0lXqFKiRR8LEbBQnE4EgaHhgvFIfujDwRL
+ BKJDB2VsYsJnrFJ06JwwfvzrDSLZsOfzy0/aiAzwBOYCDwrSodBy+S9OLthB8egqAJeK57jb
+ jd2wftXdcLM3fDaYS26HlgFcrC4A24UJQMfYylaKoF+D1dd+xtxM0gHwps20ZeLTgXC86uJW
+ BqeNXnB6Kd3N3rQEzuhW8VxAUZ50FKy8EeA+5tG/EzBj2dfNnvRL0FbygHBHcJeyzizaRj9Y
+ vUltC/fAzKbvcTd70Cfh6OL8f09+FV7R1hDbnAZXHHaQB/i6F6S651Ldc6nuBWkZIIyAz6pV
+ 8ji5SixUSeUqdVKcMEYhNwHXwjZb1htagH52WdgJMAp0AkjhAr7nY/5wLM9TJk39glUqzirV
+ iayqE0hc36PFfXfFKFwbn5RyVhwWJBGHhoUHScLDQgQ+nkcG+mJ5dJw0hT3Pssms8v97GOXh
+ m+Ea9wfjd9YH/WY31amvC06E9ucqCyaPeY1Eau9lh7HrXaJ3FAp58FHJwjHZeF1N777pj+pF
+ kWux9V2neH4bw9nJ4vO9iRpW6O/9so9PxD9qMzVvDRnql13JiPA/7VhQTrXY+SWrZzi/eFes
+ fNnvNXrq7ayFzA3x+/auCINYNBTVLRM49mYmhPtcr94pbf8kL/2njcKLqTPpH5asfnXpvoPn
+ b6lPyz6wElxUZGeirffLi8226PxvThxP2KnRrF2j7hy2fKqN0qCmxn3WmPYjoVZnR+nQaKsY
+ 67w9d0trHJCVU2/Unzu8OuItNObX7BoqjV64cLRHfmbvUul7aQ8DMlm7gFDFS8WBuFIl/Red
+ liuoOQQAAA==
+X-CMS-MailID: 20240905085628eucas1p22cae5811f1069426701b93fdc830d15a
+X-Msg-Generator: CA
+X-RootMTR: 20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
+ <CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
+ <2024080717-cross-retiree-862e@gregkh>
+ <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
+ <2024080720-skyline-recapture-d80d@gregkh>
+ <20240807-mottled-stoic-degu-d1e4cb@lindesnes>
+ <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local>
+ <ZtIjNBhqdxmMBxfM@fjasle.eu>
+ <CAK7LNAQhHBi7nSG5SAbqD3HFO3uMR6GHckZHcQXgWao7G8i9gw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,20 +168,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/5/24 09:25, Wei Liu wrote:
-> On Mon, Sep 02, 2024 at 03:44:02PM +0800, Chen Ni wrote:
->> Replace a comma between expression statements by a semicolon.
->>
->> Fixes: d786e00d19f9 ("drivers: hv, hyperv_fb: Untangle and refactor Hyp=
-er-V panic notifiers")
->> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
->
-> Applied to hyperv-fixes, thanks!
+On Mon, Sep 02, 2024 at 01:15:01AM +0900, Masahiro Yamada wrote:
+> On Sat, Aug 31, 2024 at 4:54 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+> >
+> > On Sat, Aug 24, 2024 at 12:54:50AM +0200 Daniel Gomez wrote:
+> > > On Wed, Aug 07, 2024 at 05:46:03PM +0200, Nicolas Schier wrote:
+> > > > On Wed, Aug 07, 2024 at 04:18:54PM +0200, Greg Kroah-Hartman wrote:
+> > > > > On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
+> > > > > > > Also, as this is not internal for the kernel, but rather for userspace
+> > > > > > > builds, shouldn't the include/ path be different?
+> > > > > >
+> > > > > > Can you suggest an alternative path or provide documentation that could help
+> > > > > > identify the correct location? Perhaps usr/include?
+> > > > >
+> > > > > That is better than the generic include path as you are attempting to
+> > > > > mix userspace and kernel headers in the same directory :(
+> > > >
+> > > > Please keep in mind, that usr/include/ currently does not hold a single
+> > > > header file but is used for dynamically composing the UAPI header tree.
+> > > >
+> > > > In general, I do not like the idea of keeping a elf.h file here that
+> > > > possibly is out-of-sync with the actual system's version (even though
+> > > > elf.h should not see that much changes).  Might it be more helpful to
+> > > > provide a "development kit" for Linux devs that need to build on MacOS
+> > > > that provides necessary missing system header files, instead of merging
+> > > > those into upstream?
+> > >
+> > > I took this suggestion and tried pushing a Homebrew formula/package here [1].
+> > > I think I chose a wrong name and maybe something like "development kit" would
+> > > have been better. However, would it be possible instead to include the *.rb file
+> > > in the scripts/ directory? So users of this can generate the development kit in
+> > > their environments. I would maintain the script to keep it in sync with the
+> > > required glibc version for the latest kernel version.
+> > >
+> > > [1] https://protect2.fireeye.com/v1/url?k=96027706-f7896236-9603fc49-000babffaa23-452f645d7a72e234&q=1&e=343dd31c-5e5b-4b09-8ee5-6c59a1ff826e&u=https%3A%2F%2Fgithub.com%2FHomebrew%2Fhomebrew-core%2Fpull%2F181885
+> >
+> > I think it sounds sensible to hold that formula file in the upstream tree.  But
+> > I am not sure if scripts/ is the best location.
+> >
+> > Masahiro, what do you think?
+> 
+> 
+> I do not know much about the homebrew, but why does the upstream
+> kernel need to merge such masOS stuff?
 
-I added it to the fbdev git tree 3 days ago.
+The missing headers (in macOS) need to be provided somehow. One way can be
+having the formula (*.rb file) in-tree, so users of this can install them in
+their systems. This would also require to have a tarball with the missing
+headers either in-tree or somewhere accessible so it can be fetched.
 
-Either you or me should drop it from our trees.
-Please let me know what you prefer.
+To avoid having the formula and a tarball in-tree, I've created a Homebrew Tap
+(3rd-Party Repository) called 'Bee Headers Project' [1][2][3] that can provision
+the missing headers. The project provides a bee-headers package and formula
+that will install byteswap.h, elf.h and endian.h in the user's system Hombrew
+directory. It also provides a *.pc file so pkg-config can be used to find the
+location of these headers. I have a v2 with this solution ready, perhaps is
+easier to discuss this with the code.
 
-Helge
+I think we can extend the same package and include extra headers if we need
+more in the future. I see for x86_64 asm/types.h and others might be required.
+The bee-headers package can then be the repository to place and distribute them.
 
+Please, let me know if you think of an alternative solution, I can give a try
+and explore.
+
+[1] Project:
+https://github.com/bee-headers
+[2] Headers repository:
+https://github.com/bee-headers/headers.git
+[3] Homebrew Tap formula:
+https://github.com/bee-headers/homebrew-bee-headers.git
+
+
+> 
+> 
+> 
+> >
+> > Kind regards,
+> > Nicolas
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
