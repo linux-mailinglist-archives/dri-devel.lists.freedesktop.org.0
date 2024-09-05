@@ -2,116 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3944096D830
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 14:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9483C96D831
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 14:20:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C74B10E86B;
-	Thu,  5 Sep 2024 12:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3472610E881;
+	Thu,  5 Sep 2024 12:20:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VJv7FSE8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SowfaliC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC0E10E86B;
- Thu,  5 Sep 2024 12:20:28 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-42bbe908380so5803705e9.2; 
- Thu, 05 Sep 2024 05:20:28 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D38710E877;
+ Thu,  5 Sep 2024 12:20:30 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-42c94e59b93so10324675e9.1; 
+ Thu, 05 Sep 2024 05:20:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725538827; x=1726143627; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3/jh7PZokx9IFNSzbVHcZfaNGnzkrP5bD95SXRchUZc=;
- b=VJv7FSE88hVXVwRggxGas/nxy3i8cstnLHERKaRP2Re62sGbfmt7bcEJFhqi4o9KEA
- rtMH+3QC1wagSNv6kmEaKSSquRViwNExoenu2TzP1cbMlkW5EtkcZGA5DOJdjE2BzbJu
- ph+YwjLcQzATfwZh8UPF/N6cYRIRgw0jL3eAl9OCdGD269I1kya/vFaya7/R9fNYxXsv
- 8zSHODz6/+SM5PKrFwiQ5J+YDwn62WQbQxZ2KSGgyOh93O0xjumfYGfe61/7H+JDSxjp
- 6YaQQT57mjKJ41iKdcCUPK51TVKziKmXttsw7EbdAauTJ9uzf3WUE+KqDC+PoMIjswrp
- erHQ==
+ d=gmail.com; s=20230601; t=1725538829; x=1726143629; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iD7NTe7bgmL4j+ZOUWe6Vz/irb7OPA4CTAynHWYcSvE=;
+ b=SowfaliC2MfMuxp0NkhOE+F6aP+TKwSFcbyGFEDDZHm3IWu8SqgoXU+HXnYGOjI6p0
+ yOiYi3MOnUDidmZuo9tVGNT0KHP+JkzxKtNetanlJnM9QWAxjRLMcnd0ZBhpJ1+f0vCu
+ HWHyU3pqNVEfLHETOxjXHDLN+ZMgmcBZfQVuGIIfd5dtkdjjLDxNkSPUKY8TKToowzVo
+ UnJEwfJpx65v2ilMGgBmc78N8lkrJocc3GTtBEktVZQYUZhCaqTWVpdCmWLBfdhkqGCY
+ 98xyy542uzQUZziR1Yd95tUxfbshNLdu7I7jMXDoZygCBT36EetLzBoq7qmaaJbMjtos
+ 0Elw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725538827; x=1726143627;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3/jh7PZokx9IFNSzbVHcZfaNGnzkrP5bD95SXRchUZc=;
- b=djCZUBpBy4hEIs2vNZhjcUcOqAqnoqiSnGoRzO0nMfhod0mYu0arpY0BCTFA/FHyiV
- hiDcbD4xn3GRGW4lVbKGpZOzctSmZTiAPQPtYFvyzLNE+xobllrybgaDJsTVCnao/Lqi
- S5kMESPkjP1dngG20g2CNfX4FDKO6PdZbvz1EPCcs+Z28znZNwm2gmte37oR0eJdQ//u
- D7UxbItn5Vl24OE3DnZBMn4z7vpbyzj2I+OdzK5ROtAwyEYWTA5kYnF13KeswkoE8fi4
- DZeRxjgTJwhaUhXDsmZdawyJwQO65xa7gZNaR/rAXMY6KP3PWOamUakkQOhdpvVjxg9u
- UN5g==
+ d=1e100.net; s=20230601; t=1725538829; x=1726143629;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iD7NTe7bgmL4j+ZOUWe6Vz/irb7OPA4CTAynHWYcSvE=;
+ b=D2UixaVsXezn79iTuvyt9rPlit7+0bi+5xp0QqDrfJbQzrxlfD3XihK8BcMrvckr7e
+ 17m+J0HlontXBfWH1BrrgzpiU/6WB0XRozj9dg1t55q/dLvFSPYb6sB+vBL3CB9U0e/7
+ nR9qv2ctvfNrq0NAAirsqCbWrClY+CMDcXIqetqdZHRzceKFerqULQh9g0RbCRKho/2/
+ Ij0+Q9RVkPKkxFzguVgOC9yPkwHgkdnfibZeHQrQfg6wUut048VGSgSFL5szpibWiRqi
+ a7OlXUp6jSGcmC6KCWOOVXD35+HBNZXpAgJzFKO7YxL8r8nghIDOr8eOzGu0z8FPw0xN
+ LJzA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURHmLatdLMYbxwF/sTuce7OCiR0cKtTEts4zqWrdHOdRrxGuSUel/GSbxnYTKPT+qUzr0AobFUglk=@lists.freedesktop.org,
- AJvYcCXBgY5YlhBXUUYz/Y2SxEwlRtVBGP9TLMJaNKE2naArBjcLTZZ0efd6tudy9S1UNGdnkHuSgpHplvRG@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHOjaJ+qFMqYqJ5dWQK7Gw45H1GyChv7S71kggK2pp0+tStNd1
- qAa62ZjjKUr0NOmEKIOJDfYiaRNoBv89Pspqn5kcHjG5V9wGumpe
-X-Google-Smtp-Source: AGHT+IGWPyCho2CwtU7ltqrAmM8Ihsxd2i3XPne6K7qzyDA9oAvQKOeAenEfeGB2Pd/DmOGVTlsXwA==
-X-Received: by 2002:a05:600c:4eca:b0:426:5471:156a with SMTP id
- 5b1f17b1804b1-42bdc6334cbmr128537975e9.13.1725538826233; 
- Thu, 05 Sep 2024 05:20:26 -0700 (PDT)
+ AJvYcCUSSzhXSasoJyyYkrjjJjPPw7UEVwdFBRcmBZ786Idq6jPB05xO4GABzYbTKvzgGHNlFlSQbqSjWy99@lists.freedesktop.org,
+ AJvYcCXkS1D2ltNFK00Qh620a/FZNzE/LsBDhGrVN53LcjQsne52reCCB8WPeGzQXYMNTWuJI0tdnlT/atM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzpf9sGxR3TK+NO+8na0hB7/WbO8Y41lIH0tGbNzKGi02egYq52
+ eQyknTdm57l9O64KiazVopyQb53AzgYOxKDTnuoHLSPeXAe+40+i
+X-Google-Smtp-Source: AGHT+IHa0fVf6EKsDAw+gxmmQXJ6NX7kn1nNvzKP1vs+nY3qqO/a3JqoKC8nQD5litjqwafLqGt1BQ==
+X-Received: by 2002:a5d:464a:0:b0:374:bf6b:1021 with SMTP id
+ ffacd0b85a97d-3779bd1864fmr3502807f8f.27.1725538828407; 
+ Thu, 05 Sep 2024 05:20:28 -0700 (PDT)
 Received: from fedora.iskraemeco.si ([193.77.86.250])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42bb6e27364sm230390515e9.34.2024.09.05.05.20.23
+ 5b1f17b1804b1-42bb6e27364sm230390515e9.34.2024.09.05.05.20.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2024 05:20:25 -0700 (PDT)
+ Thu, 05 Sep 2024 05:20:27 -0700 (PDT)
 From: Uros Bizjak <ubizjak@gmail.com>
 To: linux-kernel@vger.kernel.org
-Cc: Uros Bizjak <ubizjak@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
+Cc: Uros Bizjak <ubizjak@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hans Verkuil <hverkuil@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Jaegeuk Kim <jaegeuk@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Hannes Reinecke <hare@suse.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Stephen Hemminger <stephen@networkplumber.org>,
- Jamal Hadi Salim <jhs@mojatatu.com>, Cong Wang <xiyou.wangcong@gmail.com>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com
-Subject: [PATCH 00/18] random: Include <linux/percpu.h> and resolve circular
- include dependency
-Date: Thu,  5 Sep 2024 14:17:08 +0200
-Message-ID: <20240905122020.872466-1-ubizjak@gmail.com>
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 02/18] drm/i915/selftests: Include <linux/prandom.h> instead
+ of <linux/random.h>
+Date: Thu,  5 Sep 2024 14:17:10 +0200
+Message-ID: <20240905122020.872466-3-ubizjak@gmail.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240905122020.872466-1-ubizjak@gmail.com>
+References: <20240905122020.872466-1-ubizjak@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,164 +90,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There were several attempts to resolve circular include dependency
-after the addition of percpu.h: 1c9df907da83 ("random: fix circular
-include dependency on arm64 after addition of percpu.h"), c0842fbc1b18
-("random32: move the pseudo-random 32-bit definitions to prandom.h") and
-finally d9f29deb7fe8 ("prandom: Remove unused include") that completely
-removes inclusion of <linux/percpu.h>.
+Usage of pseudo-random functions requires inclusion of
+<linux/prandom.h> header instead of <linux/random.h>.
 
-Due to legacy reasons, <linux/random.h> includes <linux/prandom.h>, but
-with the commit entry remark:
-
---quote--
-A further cleanup step would be to remove this from <linux/random.h>
-entirely, and make people who use the prandom infrastructure include
-just the new header file.  That's a bit of a churn patch, but grepping
-for "prandom_" and "next_pseudo_random32" "struct rnd_state" should
-catch most users.
-
-But it turns out that that nice cleanup step is fairly painful, because
-a _lot_ of code currently seems to depend on the implicit include of
-<linux/random.h>, which can currently come in a lot of ways, including
-such fairly core headfers as <linux/net.h>.
-
-So the "nice cleanup" part may or may never happen.
---/quote--
-
-__percpu tag is currently defined in include/linux/compiler_types.h,
-so there is no direct need for the inclusion of <linux/percpu.h>.
-However, in [1] we would like to repurpose __percpu tag as a named
-address space qualifier, where __percpu macro uses defines from
-<linux/percpu.h>.
-
-This patch series is the "nice cleanup" part, and allows us to finally
-include <linux/percpu.h> in prandom.h.
-
-The whole series was tested by compiling the kernel for x86_64 allconfig
-and some popular architectures, namely arm64 defconfig, powerpc defconfig
-and loongarch defconfig.
-
-[1] https://lore.kernel.org/lkml/20240812115945.484051-4-ubizjak@gmail.com/
-
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
+Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Cc: Tvrtko Ursulin <tursulin@ursulin.net>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
-Cc: Eric Biggers <ebiggers@kernel.org>
-Cc: "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Hannes Reinecke <hare@suse.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Daniel Borkmann <daniel@iogearbox.net>
-Cc: John Fastabend <john.fastabend@gmail.com>
-Cc: Andrii Nakryiko <andrii@kernel.org>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>
-Cc: Eduard Zingerman <eddyz87@gmail.com>
-Cc: Song Liu <song@kernel.org>
-Cc: Yonghong Song <yonghong.song@linux.dev>
-Cc: KP Singh <kpsingh@kernel.org>
-Cc: Stanislav Fomichev <sdf@fomichev.me>
-Cc: Hao Luo <haoluo@google.com>
-Cc: Jiri Olsa <jolsa@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>
-Cc: David Gow <davidgow@google.com>
-Cc: Rae Moar <rmoar@google.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Jiri Pirko <jiri@resnulli.us>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Stephen Hemminger <stephen@networkplumber.org>
-Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-Cc: Cong Wang <xiyou.wangcong@gmail.com>
-Cc: Uros Bizjak <ubizjak@gmail.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-mtd@lists.infradead.org
-Cc: linux-fscrypt@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: bpf@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: kunit-dev@googlegroups.com
+---
+ drivers/gpu/drm/i915/selftests/i915_gem.c    | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_random.h | 2 +-
+ drivers/gpu/drm/i915/selftests/scatterlist.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Uros Bizjak (18):
-  x86/kaslr: Include <linux/prandom.h> instead of <linux/random.h>
-  drm/i915/selftests: Include <linux/prandom.h> instead of
-    <linux/random.h>
-  drm/lib: Include <linux/prandom.h> instead of <linux/random.h>
-  media: vivid: Include <linux/prandom.h> in vivid-vid-cap.c
-  mtd: tests: Include <linux/prandom.h> instead of <linux/random.h>
-  fscrypt: Include <linux/prandom.h> instead of <linux/random.h>
-  scsi: libfcoe: Include <linux/prandom.h> instead of <linux/random.h>
-  bpf: Include <linux/prandom.h> instead of <linux/random.h>
-  lib/interval_tree_test.c: Include <linux/prandom.h> instead of
-    <linux/random.h>
-  kunit: string-stream-test: Include <linux/prandom.h> instead of
-    <linux/random.h>
-  random32: Include <linux/prandom.h> instead of <linux/random.h>
-  lib/rbtree-test: Include <linux/prandom.h> instead of <linux/random.h>
-  bpf/tests: Include <linux/prandom.h> instead of <linux/random.h>
-  lib/test_parman: Include <linux/prandom.h> instead of <linux/random.h>
-  lib/test_scanf: Include <linux/prandom.h> instead of <linux/random.h>
-  netem: Include <linux/prandom.h> in sch_netem.c
-  random: Do not include <linux/prandom.h>
-  prandom: Include <linux/percpu.h>
-
- arch/x86/mm/kaslr.c                              | 2 +-
- drivers/gpu/drm/i915/selftests/i915_gem.c        | 2 +-
- drivers/gpu/drm/i915/selftests/i915_random.h     | 2 +-
- drivers/gpu/drm/i915/selftests/scatterlist.c     | 2 +-
- drivers/gpu/drm/lib/drm_random.h                 | 2 +-
- drivers/media/test-drivers/vivid/vivid-vid-cap.c | 1 +
- drivers/mtd/tests/oobtest.c                      | 2 +-
- drivers/mtd/tests/pagetest.c                     | 2 +-
- drivers/mtd/tests/subpagetest.c                  | 2 +-
- fs/crypto/keyring.c                              | 2 +-
- include/linux/prandom.h                          | 1 +
- include/linux/random.h                           | 7 -------
- include/scsi/libfcoe.h                           | 2 +-
- kernel/bpf/core.c                                | 2 +-
- lib/interval_tree_test.c                         | 2 +-
- lib/kunit/string-stream-test.c                   | 1 +
- lib/random32.c                                   | 2 +-
- lib/rbtree_test.c                                | 2 +-
- lib/test_bpf.c                                   | 2 +-
- lib/test_parman.c                                | 2 +-
- lib/test_scanf.c                                 | 2 +-
- net/sched/sch_netem.c                            | 1 +
- 22 files changed, 21 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
+index 61da4ed9d521..0727492576be 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_gem.c
++++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
+@@ -4,7 +4,7 @@
+  * Copyright © 2018 Intel Corporation
+  */
+ 
+-#include <linux/random.h>
++#include <linux/prandom.h>
+ 
+ #include "gem/i915_gem_internal.h"
+ #include "gem/i915_gem_pm.h"
+diff --git a/drivers/gpu/drm/i915/selftests/i915_random.h b/drivers/gpu/drm/i915/selftests/i915_random.h
+index 05364eca20f7..70330a2e80f2 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_random.h
++++ b/drivers/gpu/drm/i915/selftests/i915_random.h
+@@ -26,7 +26,7 @@
+ #define __I915_SELFTESTS_RANDOM_H__
+ 
+ #include <linux/math64.h>
+-#include <linux/random.h>
++#include <linux/prandom.h>
+ 
+ #include "../i915_selftest.h"
+ 
+diff --git a/drivers/gpu/drm/i915/selftests/scatterlist.c b/drivers/gpu/drm/i915/selftests/scatterlist.c
+index 805c4bfb85fe..7e59591bbed6 100644
+--- a/drivers/gpu/drm/i915/selftests/scatterlist.c
++++ b/drivers/gpu/drm/i915/selftests/scatterlist.c
+@@ -22,7 +22,7 @@
+  */
+ 
+ #include <linux/prime_numbers.h>
+-#include <linux/random.h>
++#include <linux/prandom.h>
+ 
+ #include "i915_selftest.h"
+ #include "i915_utils.h"
 -- 
 2.46.0
 
