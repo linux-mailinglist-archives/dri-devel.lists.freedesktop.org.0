@@ -2,81 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FDE96D917
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 14:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A3D96D9A7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 15:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF5BC10E893;
-	Thu,  5 Sep 2024 12:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A303F10E89B;
+	Thu,  5 Sep 2024 13:03:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dJ3vJkxQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IEUBYdIs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80CAF10E893
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 12:45:50 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-e1a819488e3so794306276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 05:45:50 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3223110E89B;
+ Thu,  5 Sep 2024 13:03:39 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2f025b94e07so6765241fa.0; 
+ Thu, 05 Sep 2024 06:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725540349; x=1726145149; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1725541417; x=1726146217; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2jzrpjxUuad+0HiIAULqLfjsKNg+CAekkq3fLkMRG2A=;
- b=dJ3vJkxQX4cuk9t0/t1ZW3o8dvKlIPrxTsjEhiZKUBr8uAW1QpbM6vDCgVNlVXVfkh
- j7HJrr0HP7qGrP2szw7jSryFMFjtu84u0TsTN+4S8RtZBZ/PBblgYkgLZrEd52YaXCJy
- 1wSiB/A7YOd47a0UKCbRy2UEkD9mDqP+wEb+0JEUPbuTP+aarLh+72mYQcAXzhmWmv4U
- RB5fEQ+Q9SMKDBqHxTnnjIF0PNf70mCd75Juix953w4oYrrUrgmiCqpOLgD7advrRhYW
- 9zND891jN1GtSLyEVSVcEFKEBmqprQCCljZ89dO6GrHoA3KwQ1ZP0jIhuBTkUcPUmIzo
- P4dg==
+ bh=J4Ap3iChcCI6LjI4bbXEj5UiVcIZisPfcA3U2HCE+kE=;
+ b=IEUBYdIsF1GiML4tzwvs5sD1P3TrgSXM7798ilNc5UCG7c8IHASUvvnBmk8dg0zRll
+ SbbqxYbNiPACstyzMyLFTRm2fhjioUDyKM9WNdmsd4wEMyjESE22VJlGJsnwWfYvft0v
+ JVRffnrOp8AvlRbnWIssjm0l+60dV4l4ANRF+l0/AWB2BO/Me478bJ2jxBTE0MQ9RQ1b
+ QnJtaUrLo2KAWK7VU0JpFTuLGGIM9ixYFUJw8jQlZF4d9U8OpK0Br/df9DNhgqhEdKYJ
+ Ssi0snJIvHKj/kjoxIzmAXADLTOIdslXAbIMgQHPeyfviNswxBm7UWhnYUahVjR/YwCu
+ IC8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725540349; x=1726145149;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1725541417; x=1726146217;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2jzrpjxUuad+0HiIAULqLfjsKNg+CAekkq3fLkMRG2A=;
- b=ksLaXOrqCNZpkczqKCkGRgeVpO5pSWVru3dh9nOJRwqWK7nDvpMDHzchSKPBPUIcVE
- sJ1+Rf7jlbqHve4VMX+3pCQHzsERokJW5lZsqAk/9BVAaRMNdn2aDx6cByck3mEu+yxd
- i4JAvuO47+qYpfz42QcIjBKFS/zuv3pbZzZZSKeqA8DF1uRs+0WchqiEbpDYWH0UjaVq
- BqwOXKTVI2VDEgaGKgzmhwPB1jqRnVShE+e5dYiGOYPQNw9nLhBVxBChXAT0/ETjdT7z
- zS57ZzO4L2GjJJi5DurWG9bPPvpeeXqyz7CejVVTRWLxr97kBsG3v8iQ+toeR3B3wrr6
- 9cuQ==
+ bh=J4Ap3iChcCI6LjI4bbXEj5UiVcIZisPfcA3U2HCE+kE=;
+ b=GHBnZeK/2gzsTApsAuagHIZhnWXzx7NmfqYFeV9WBiaJc7gjWyOPdm6Fr8ETGqnm+L
+ W5Rvq7Lh1YE8FdcLhJ9Q6mGSdkikOSx2f1UUggiY8vKnSHmUNWOHrw85EwlnIhWeBzwn
+ w+OaGpN3V6qQs66G0DfCmIRXWxak0IR7uZmbeyxRh3Q9V6jPdqIo63a301gxdKgV8RbY
+ DXAP/J6ES6pMpVJZtcHcHjtRq7+p8+hc9xZP5V+Sy0zXxrCQSym2oT0O+qjH9/NW+5kR
+ KKdRmk8NVR2V0fUG0fZZVO3Djn4ycx2GVS4z4rOBIVvveOsCSxgFj9I5rsT1VpKOodTo
+ g/nw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXoT6THxF0va2QT7EFV0oEGK9rkEAW04y/JLlt4dZbHRv02ZaE3SokwyZT9voIKOEe3YgQCI0Rc1m0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpXe5PBDXUxYdqbVIdmSjkff+hyUDNk/+ok+nL5VpS44XUroDM
- +ekFYGz2qDEWufD5HQErh5k+RLvbzCRax4Mqe86hyqzPgcQN8pVl
-X-Google-Smtp-Source: AGHT+IGN4YvYKdCrkB4iet6SlV8om02bk9WzJFR6ENNlbCXtgjXRa64vtY3HizdVabW7UUnRvdeXuw==
-X-Received: by 2002:a05:6902:2b8a:b0:e0b:e2e2:8a87 with SMTP id
- 3f1490d57ef6-e1a7a0431demr22669497276.34.1725540349234; 
- Thu, 05 Sep 2024 05:45:49 -0700 (PDT)
-Received: from localhost.localdomain (140.sub-174-193-1.myvzw.com.
- [174.193.1.140]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6c52041a00csm7161116d6.114.2024.09.05.05.45.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2024 05:45:48 -0700 (PDT)
-From: Alex Lanzano <lanzano.alex@gmail.com>
-To: Alex Lanzano <lanzano.alex@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Mehdi Djait <mehdi.djait@bootlin.com>
-Cc: christophe.jaillet@wanadoo.fr, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Subject: [PATCH v6 2/2] drm/tiny: Add driver for Sharp Memory LCD
-Date: Thu,  5 Sep 2024 08:44:00 -0400
-Message-ID: <20240905124432.834831-3-lanzano.alex@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240905124432.834831-1-lanzano.alex@gmail.com>
-References: <20240905124432.834831-1-lanzano.alex@gmail.com>
+ AJvYcCUiGJ5Z+i0et1XnFhKHSeIcQBXWa/uZI2tDufvORfA0i/A7ODzXj5y/c1jIUPaZWyK0yez+kFM7GBnO@lists.freedesktop.org,
+ AJvYcCVwKYEo9rQ5zcu4LbQ5FSYe4Ze+7e5/Bc5pFZPgZQ5i/r2SHonTqBaXW2L7HlmEOmh3mDxkuhKkS+Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUp3+AyTi7YBJzZtSNRhTISViNmc3/XLKJ9OizOdUcwAXMR3Tx
+ rKhACcQ8zWXls00rV49QsvA9GIbRUn+FYGXjoI2rqEZNb1+tZl+GF3oWNlRCXFCHCURan+AwWj1
+ xJOmNHKPg9f1wnr2C4xzvw22wOng=
+X-Google-Smtp-Source: AGHT+IETBLGAu3Qd00jjqcPIw+YbfEw8PL6KVZG3phkN8mEHyaiFDy+b4h0Zi/X597x+B58/kQSA12RjAv0BY7eFUFU=
+X-Received: by 2002:a2e:a54b:0:b0:2ef:2b06:b686 with SMTP id
+ 38308e7fff4ca-2f6103a565bmr183794191fa.17.1725541415766; Thu, 05 Sep 2024
+ 06:03:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240905122020.872466-1-ubizjak@gmail.com>
+ <Ztmm00eLBQGtiwRM@smile.fi.intel.com>
+In-Reply-To: <Ztmm00eLBQGtiwRM@smile.fi.intel.com>
+From: Uros Bizjak <ubizjak@gmail.com>
+Date: Thu, 5 Sep 2024 15:03:24 +0200
+Message-ID: <CAFULd4bzyNGcJqeg7w2ZQ0Xmw-HsBhczf8yPna7mSgG4NmdcWw@mail.gmail.com>
+Subject: Re: [PATCH 00/18] random: Include <linux/percpu.h> and resolve
+ circular include dependency
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>, 
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Eric Biggers <ebiggers@kernel.org>, 
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
+ "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Hannes Reinecke <hare@suse.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jiri Pirko <jiri@resnulli.us>, 
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Stephen Hemminger <stephen@networkplumber.org>,
+ Jamal Hadi Salim <jhs@mojatatu.com>, Cong Wang <xiyou.wangcong@gmail.com>,
+ Kent Overstreet <kent.overstreet@linux.dev>, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,766 +124,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the monochrome Sharp Memory LCDs.
+On Thu, Sep 5, 2024 at 2:41=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Sep 05, 2024 at 02:17:08PM +0200, Uros Bizjak wrote:
+> > There were several attempts to resolve circular include dependency
+> > after the addition of percpu.h: 1c9df907da83 ("random: fix circular
+> > include dependency on arm64 after addition of percpu.h"), c0842fbc1b18
+> > ("random32: move the pseudo-random 32-bit definitions to prandom.h") an=
+d
+> > finally d9f29deb7fe8 ("prandom: Remove unused include") that completely
+> > removes inclusion of <linux/percpu.h>.
+> >
+> > Due to legacy reasons, <linux/random.h> includes <linux/prandom.h>, but
+> > with the commit entry remark:
+> >
+> > --quote--
+> > A further cleanup step would be to remove this from <linux/random.h>
+> > entirely, and make people who use the prandom infrastructure include
+> > just the new header file.  That's a bit of a churn patch, but grepping
+> > for "prandom_" and "next_pseudo_random32" "struct rnd_state" should
+> > catch most users.
+> >
+> > But it turns out that that nice cleanup step is fairly painful, because
+> > a _lot_ of code currently seems to depend on the implicit include of
+> > <linux/random.h>, which can currently come in a lot of ways, including
+> > such fairly core headfers as <linux/net.h>.
+> >
+> > So the "nice cleanup" part may or may never happen.
+> > --/quote--
+> >
+> > __percpu tag is currently defined in include/linux/compiler_types.h,
+> > so there is no direct need for the inclusion of <linux/percpu.h>.
+> > However, in [1] we would like to repurpose __percpu tag as a named
+> > address space qualifier, where __percpu macro uses defines from
+> > <linux/percpu.h>.
+> >
+> > This patch series is the "nice cleanup" part, and allows us to finally
+> > include <linux/percpu.h> in prandom.h.
+> >
+> > The whole series was tested by compiling the kernel for x86_64 allconfi=
+g
+> > and some popular architectures, namely arm64 defconfig, powerpc defconf=
+ig
+> > and loongarch defconfig.
+>
+> Obvious question(s) is(are):
+> 1) have you seen the Ingo's gigantic patch series towards resolving issue=
+s with
+> the headers?
+> 2) if not, please look at the preliminary work and take something from th=
+ere, I
+> believe there are many useful changes already waiting for a couple of yea=
+rs to
+> be applied.
+>
+> Because I haven't found any references nor mentions of that in the cover =
+letter
+> here and explanation why it was not taking into consideration.
 
-Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
-Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
----
- MAINTAINERS                         |   6 +
- drivers/gpu/drm/tiny/Kconfig        |  20 +
- drivers/gpu/drm/tiny/Makefile       |   1 +
- drivers/gpu/drm/tiny/sharp-memory.c | 682 ++++++++++++++++++++++++++++
- 4 files changed, 709 insertions(+)
- create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+I am aware of the series, but the patch takes only a small bite of it
+and specifically resolves the inclusion of <linux/prandom.h> from
+linux/random.h. The series fixes the missing inclusion of
+<linux/prandom.h> in files that use pseudo-random function and it was
+not meant to be a general header cleanup. The end goal is to allow us
+to include <linux/percpu.h> in linux/prandom.h - which uses __percpu
+tag without the correct include.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a38754d1cc86..7e1d318e9ffd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7265,6 +7265,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
- F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
- 
-+DRM DRIVER FOR SHARP MEMORY LCD
-+M:	Alex Lanzano <lanzano.alex@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
-+F:	drivers/gpu/drm/tiny/sharp-memory.c
-+
- DRM DRIVER FOR SITRONIX ST7586 PANELS
- M:	David Lechner <david@lechnology.com>
- S:	Maintained
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index f6889f649bc1..bc386954faa2 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -186,6 +186,26 @@ config TINYDRM_REPAPER
- 
- 	  If M is selected the module will be called repaper.
- 
-+config TINYDRM_SHARP_MEMORY
-+	tristate "DRM support for Sharp Memory LCD panels"
-+	depends on DRM && SPI
-+	select DRM_GEM_DMA_HELPER
-+	select DRM_KMS_HELPER
-+	help
-+	  DRM Driver for the following Sharp Memory Panels:
-+	  * 1.00" Sharp Memory LCD (LS010B7DH04)
-+	  * 1.10" Sharp Memory LCD (LS011B7DH03)
-+	  * 1.20" Sharp Memory LCD (LS012B7DD01)
-+	  * 1.28" Sharp Memory LCD (LS013B7DH03)
-+	  * 1.26" Sharp Memory LCD (LS013B7DH05)
-+	  * 1.80" Sharp Memory LCD (LS018B7DH02)
-+	  * 2.70" Sharp Memory LCD (LS027B7DH01)
-+	  * 2.70" Sharp Memory LCD (LS027B7DH01A)
-+	  * 3.20" Sharp Memory LCD (LS032B7DD02)
-+	  * 4.40" Sharp Memory LCD (LS044Q7DH01)
-+
-+	  If M is selected the module will be called sharp_memory.
-+
- config TINYDRM_ST7586
- 	tristate "DRM support for Sitronix ST7586 display panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 76dde89a044b..4aaf56f8707d 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -14,5 +14,6 @@ obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
- obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
- obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
- obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
-+obj-$(CONFIG_TINYDRM_SHARP_MEMORY)	+= sharp-memory.o
- obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
- obj-$(CONFIG_TINYDRM_ST7735R)		+= st7735r.o
-diff --git a/drivers/gpu/drm/tiny/sharp-memory.c b/drivers/gpu/drm/tiny/sharp-memory.c
-new file mode 100644
-index 000000000000..7ffe7c3afcf5
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/sharp-memory.c
-@@ -0,0 +1,682 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_dma_helper.h>
-+#include <drm/drm_fbdev_dma.h>
-+#include <drm/drm_format_helper.h>
-+#include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_rect.h>
-+#include <linux/bitrev.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/kthread.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/pwm.h>
-+#include <linux/spi/spi.h>
-+
-+#define SHARP_MODE_PERIOD 8
-+#define SHARP_ADDR_PERIOD 8
-+#define SHARP_DUMMY_PERIOD 8
-+
-+#define SHARP_MEMORY_DISPLAY_MAINTAIN_MODE 0
-+#define SHARP_MEMORY_DISPLAY_UPDATE_MODE 1
-+#define SHARP_MEMORY_DISPLAY_CLEAR_MODE 4
-+
-+enum sharp_memory_model {
-+	LS010B7DH04,
-+	LS011B7DH03,
-+	LS012B7DD01,
-+	LS013B7DH03,
-+	LS013B7DH05,
-+	LS018B7DH02,
-+	LS027B7DH01,
-+	LS027B7DH01A,
-+	LS032B7DD02,
-+	LS044Q7DH01,
-+};
-+
-+enum sharp_memory_vcom_mode {
-+	SHARP_MEMORY_SOFTWARE_VCOM,
-+	SHARP_MEMORY_EXTERNAL_VCOM,
-+	SHARP_MEMORY_PWM_VCOM
-+};
-+
-+struct sharp_memory_device {
-+	struct drm_device drm;
-+	struct spi_device *spi;
-+
-+	const struct drm_display_mode *mode;
-+
-+	struct drm_crtc crtc;
-+	struct drm_plane plane;
-+	struct drm_encoder encoder;
-+	struct drm_connector connector;
-+
-+	struct gpio_desc *enable_gpio;
-+
-+	struct task_struct *sw_vcom_signal;
-+	struct pwm_device *pwm_vcom_signal;
-+
-+	enum sharp_memory_vcom_mode vcom_mode;
-+	u8 vcom;
-+
-+	u32 pitch;
-+	u32 tx_buffer_size;
-+	u8 *tx_buffer;
-+
-+	/* When vcom_mode == "software" a kthread is used to periodically send a
-+	 * 'maintain display' message over spi. This mutex ensures tx_buffer access
-+	 * and spi bus usage is synchronized in this case.
-+	 */
-+	struct mutex tx_mutex;
-+};
-+
-+static inline int sharp_memory_spi_write(struct spi_device *spi, void *buf, size_t len)
-+{
-+	/* Reverse the bit order */
-+	for (u8 *b = buf; b < ((u8 *)buf) + len; ++b)
-+		*b = bitrev8(*b);
-+
-+	return spi_write(spi, buf, len);
-+}
-+
-+static inline struct sharp_memory_device *drm_to_sharp_memory_device(struct drm_device *drm)
-+{
-+	return container_of(drm, struct sharp_memory_device, drm);
-+}
-+
-+DEFINE_DRM_GEM_DMA_FOPS(sharp_memory_fops);
-+
-+static const struct drm_driver sharp_memory_drm_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &sharp_memory_fops,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
-+	.name			= "sharp_memory_display",
-+	.desc			= "Sharp Display Memory LCD",
-+	.date			= "20231129",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static inline void sharp_memory_set_tx_buffer_mode(u8 *buffer, u8 mode, u8 vcom)
-+{
-+	*buffer = mode | (vcom << 1);
-+}
-+
-+static inline void sharp_memory_set_tx_buffer_addresses(u8 *buffer,
-+							struct drm_rect clip,
-+							u32 pitch)
-+{
-+	for (u32 line = 0; line < clip.y2; ++line)
-+		buffer[line * pitch] = line + 1;
-+}
-+
-+static void sharp_memory_set_tx_buffer_data(u8 *buffer,
-+					    struct drm_framebuffer *fb,
-+					    struct drm_rect clip,
-+					    u32 pitch,
-+					    struct drm_format_conv_state *fmtcnv_state)
-+{
-+	int ret;
-+	struct iosys_map dst, vmap;
-+	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+
-+	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
-+	if (ret)
-+		return;
-+
-+	iosys_map_set_vaddr(&dst, buffer);
-+	iosys_map_set_vaddr(&vmap, dma_obj->vaddr);
-+
-+	drm_fb_xrgb8888_to_mono(&dst, &pitch, &vmap, fb, &clip, fmtcnv_state);
-+
-+	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-+}
-+
-+static int sharp_memory_update_display(struct sharp_memory_device *smd,
-+				       struct drm_framebuffer *fb,
-+				       struct drm_rect clip,
-+				       struct drm_format_conv_state *fmtcnv_state)
-+{
-+	int ret;
-+	u32 pitch = smd->pitch;
-+	u8 vcom = smd->vcom;
-+	u8 *tx_buffer = smd->tx_buffer;
-+	u32 tx_buffer_size = smd->tx_buffer_size;
-+
-+	mutex_lock(&smd->tx_mutex);
-+
-+	/* Populate the transmit buffer with frame data */
-+	sharp_memory_set_tx_buffer_mode(&tx_buffer[0],
-+					SHARP_MEMORY_DISPLAY_UPDATE_MODE, vcom);
-+	sharp_memory_set_tx_buffer_addresses(&tx_buffer[1], clip, pitch);
-+	sharp_memory_set_tx_buffer_data(&tx_buffer[2], fb, clip, pitch, fmtcnv_state);
-+
-+	ret = sharp_memory_spi_write(smd->spi, tx_buffer, tx_buffer_size);
-+
-+	mutex_unlock(&smd->tx_mutex);
-+
-+	return ret;
-+}
-+
-+static int sharp_memory_maintain_display(struct sharp_memory_device *smd)
-+{
-+	int ret;
-+	u8 vcom = smd->vcom;
-+	u8 *tx_buffer = smd->tx_buffer;
-+
-+	mutex_lock(&smd->tx_mutex);
-+
-+	sharp_memory_set_tx_buffer_mode(&tx_buffer[0], SHARP_MEMORY_DISPLAY_MAINTAIN_MODE, vcom);
-+	tx_buffer[1] = 0; // Write dummy data
-+	ret = sharp_memory_spi_write(smd->spi, tx_buffer, 2);
-+
-+	mutex_unlock(&smd->tx_mutex);
-+
-+	return ret;
-+}
-+
-+static int sharp_memory_clear_display(struct sharp_memory_device *smd)
-+{
-+	int ret;
-+	u8 vcom = smd->vcom;
-+	u8 *tx_buffer = smd->tx_buffer;
-+
-+	mutex_lock(&smd->tx_mutex);
-+
-+	sharp_memory_set_tx_buffer_mode(&tx_buffer[0], SHARP_MEMORY_DISPLAY_CLEAR_MODE, vcom);
-+	tx_buffer[1] = 0; // write dummy data
-+	ret = sharp_memory_spi_write(smd->spi, tx_buffer, 2);
-+
-+	mutex_unlock(&smd->tx_mutex);
-+
-+	return ret;
-+}
-+
-+static void sharp_memory_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect,
-+				  struct drm_format_conv_state *fmtconv_state)
-+{
-+	struct drm_rect clip;
-+	struct sharp_memory_device *smd = drm_to_sharp_memory_device(fb->dev);
-+
-+	/* Always update a full line regardless of what is dirty */
-+	clip.x1 = 0;
-+	clip.x2 = fb->width;
-+	clip.y1 = rect->y1;
-+	clip.y2 = rect->y2;
-+
-+	sharp_memory_update_display(smd, fb, clip, fmtconv_state);
-+}
-+
-+static int sharp_memory_plane_atomic_check(struct drm_plane *plane,
-+					   struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct sharp_memory_device *smd;
-+	struct drm_crtc_state *crtc_state;
-+
-+	smd = container_of(plane, struct sharp_memory_device, plane);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, &smd->crtc);
-+
-+	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-+						   DRM_PLANE_NO_SCALING,
-+						   DRM_PLANE_NO_SCALING,
-+						   false, false);
-+}
-+
-+static void sharp_memory_plane_atomic_update(struct drm_plane *plane,
-+					     struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
-+	struct drm_plane_state *plane_state = plane->state;
-+	struct drm_format_conv_state fmtcnv_state = DRM_FORMAT_CONV_STATE_INIT;
-+	struct sharp_memory_device *smd;
-+	struct drm_rect rect;
-+
-+	smd = container_of(plane, struct sharp_memory_device, plane);
-+	if (!smd->crtc.state->active)
-+		return;
-+
-+	if (drm_atomic_helper_damage_merged(old_state, plane_state, &rect))
-+		sharp_memory_fb_dirty(plane_state->fb, &rect, &fmtcnv_state);
-+
-+	drm_format_conv_state_release(&fmtcnv_state);
-+}
-+
-+static const struct drm_plane_helper_funcs sharp_memory_plane_helper_funcs = {
-+	.prepare_fb = drm_gem_plane_helper_prepare_fb,
-+	.atomic_check = sharp_memory_plane_atomic_check,
-+	.atomic_update = sharp_memory_plane_atomic_update,
-+};
-+
-+static bool sharp_memory_format_mod_supported(struct drm_plane *plane,
-+					      u32 format,
-+					      u64 modifier)
-+{
-+	return modifier == DRM_FORMAT_MOD_LINEAR;
-+}
-+
-+static const struct drm_plane_funcs sharp_memory_plane_funcs = {
-+	.update_plane = drm_atomic_helper_update_plane,
-+	.disable_plane = drm_atomic_helper_disable_plane,
-+	.destroy = drm_plane_cleanup,
-+	.reset = drm_atomic_helper_plane_reset,
-+	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
-+	.format_mod_supported = sharp_memory_format_mod_supported,
-+};
-+
-+static enum drm_mode_status sharp_memory_crtc_mode_valid(struct drm_crtc *crtc,
-+							 const struct drm_display_mode *mode)
-+{
-+	struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
-+
-+	return drm_crtc_helper_mode_valid_fixed(crtc, mode, smd->mode);
-+}
-+
-+static int sharp_memory_crtc_check(struct drm_crtc *crtc,
-+				   struct drm_atomic_state *state)
-+{
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	int ret;
-+
-+	if (!crtc_state->enable)
-+		goto out;
-+
-+	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
-+	if (ret)
-+		return ret;
-+
-+out:
-+	return drm_atomic_add_affected_planes(state, crtc);
-+}
-+
-+static int sharp_memory_sw_vcom_signal_thread(void *data)
-+{
-+	struct sharp_memory_device *smd = data;
-+
-+	while (!kthread_should_stop()) {
-+		smd->vcom ^= 1; // Toggle vcom
-+		sharp_memory_maintain_display(smd);
-+		msleep(1000);
-+	}
-+
-+	return 0;
-+}
-+
-+static void sharp_memory_crtc_enable(struct drm_crtc *crtc,
-+				     struct drm_atomic_state *state)
-+{
-+	struct pwm_state pwm_state;
-+	struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
-+
-+	sharp_memory_clear_display(smd);
-+
-+	if (smd->enable_gpio)
-+		gpiod_set_value(smd->enable_gpio, 1);
-+
-+	switch (smd->vcom_mode) {
-+	case SHARP_MEMORY_SOFTWARE_VCOM:
-+		smd->sw_vcom_signal = kthread_run(sharp_memory_sw_vcom_signal_thread,
-+						  smd, "sw_vcom_signal");
-+		break;
-+
-+	case SHARP_MEMORY_EXTERNAL_VCOM:
-+		break;
-+
-+	case SHARP_MEMORY_PWM_VCOM:
-+		pwm_get_state(smd->pwm_vcom_signal, &pwm_state);
-+		pwm_state.period =    1000000000;
-+		pwm_state.duty_cycle = 100000000;
-+		pwm_state.enabled = true;
-+		pwm_apply_might_sleep(smd->pwm_vcom_signal, &pwm_state);
-+		break;
-+	}
-+}
-+
-+static void sharp_memory_crtc_disable(struct drm_crtc *crtc,
-+				      struct drm_atomic_state *state)
-+{
-+	struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
-+
-+	sharp_memory_clear_display(smd);
-+
-+	if (smd->enable_gpio)
-+		gpiod_set_value(smd->enable_gpio, 0);
-+
-+	switch (smd->vcom_mode) {
-+	case SHARP_MEMORY_SOFTWARE_VCOM:
-+		kthread_stop(smd->sw_vcom_signal);
-+		break;
-+
-+	case SHARP_MEMORY_EXTERNAL_VCOM:
-+		break;
-+
-+	case SHARP_MEMORY_PWM_VCOM:
-+		pwm_disable(smd->pwm_vcom_signal);
-+		break;
-+	}
-+}
-+
-+static const struct drm_crtc_helper_funcs sharp_memory_crtc_helper_funcs = {
-+	.mode_valid = sharp_memory_crtc_mode_valid,
-+	.atomic_check = sharp_memory_crtc_check,
-+	.atomic_enable = sharp_memory_crtc_enable,
-+	.atomic_disable = sharp_memory_crtc_disable,
-+};
-+
-+static const struct drm_crtc_funcs sharp_memory_crtc_funcs = {
-+	.reset = drm_atomic_helper_crtc_reset,
-+	.destroy = drm_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+};
-+
-+static const struct drm_encoder_funcs sharp_memory_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
-+static int sharp_memory_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct sharp_memory_device *smd = drm_to_sharp_memory_device(connector->dev);
-+
-+	return drm_connector_helper_get_modes_fixed(connector, smd->mode);
-+}
-+
-+static const struct drm_connector_helper_funcs sharp_memory_connector_hfuncs = {
-+	.get_modes = sharp_memory_connector_get_modes,
-+};
-+
-+static const struct drm_connector_funcs sharp_memory_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+
-+};
-+
-+static const struct drm_mode_config_funcs sharp_memory_mode_config_funcs = {
-+	.fb_create = drm_gem_fb_create_with_dirty,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls010b7dh04_mode = {
-+	DRM_SIMPLE_MODE(128, 128, 18, 18),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls011b7dh03_mode = {
-+	DRM_SIMPLE_MODE(160, 68, 25, 10),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls012b7dd01_mode = {
-+	DRM_SIMPLE_MODE(184, 38, 29, 6),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls013b7dh03_mode = {
-+	DRM_SIMPLE_MODE(128, 128, 23, 23),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls013b7dh05_mode = {
-+	DRM_SIMPLE_MODE(144, 168, 20, 24),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls018b7dh02_mode = {
-+	DRM_SIMPLE_MODE(230, 303, 27, 36),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls027b7dh01_mode = {
-+	DRM_SIMPLE_MODE(400, 240, 58, 35),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls032b7dd02_mode = {
-+	DRM_SIMPLE_MODE(336, 536, 42, 68),
-+};
-+
-+static const struct drm_display_mode sharp_memory_ls044q7dh01_mode = {
-+	DRM_SIMPLE_MODE(320, 240, 89, 67),
-+};
-+
-+static const struct spi_device_id sharp_memory_ids[] = {
-+	{"ls010b7dh04", (kernel_ulong_t)&sharp_memory_ls010b7dh04_mode},
-+	{"ls011b7dh03", (kernel_ulong_t)&sharp_memory_ls011b7dh03_mode},
-+	{"ls012b7dd01", (kernel_ulong_t)&sharp_memory_ls012b7dd01_mode},
-+	{"ls013b7dh03", (kernel_ulong_t)&sharp_memory_ls013b7dh03_mode},
-+	{"ls013b7dh05", (kernel_ulong_t)&sharp_memory_ls013b7dh05_mode},
-+	{"ls018b7dh02", (kernel_ulong_t)&sharp_memory_ls018b7dh02_mode},
-+	{"ls027b7dh01", (kernel_ulong_t)&sharp_memory_ls027b7dh01_mode},
-+	{"ls027b7dh01a", (kernel_ulong_t)&sharp_memory_ls027b7dh01_mode},
-+	{"ls032b7dd02", (kernel_ulong_t)&sharp_memory_ls032b7dd02_mode},
-+	{"ls044q7dh01", (kernel_ulong_t)&sharp_memory_ls044q7dh01_mode},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(spi, sharp_memory_ids);
-+
-+static const struct of_device_id sharp_memory_of_match[] = {
-+	{.compatible = "sharp,ls010b7dh04", &sharp_memory_ls010b7dh04_mode},
-+	{.compatible = "sharp,ls011b7dh03", &sharp_memory_ls011b7dh03_mode},
-+	{.compatible = "sharp,ls012b7dd01", &sharp_memory_ls012b7dd01_mode},
-+	{.compatible = "sharp,ls013b7dh03", &sharp_memory_ls013b7dh03_mode},
-+	{.compatible = "sharp,ls013b7dh05", &sharp_memory_ls013b7dh05_mode},
-+	{.compatible = "sharp,ls018b7dh02", &sharp_memory_ls018b7dh02_mode},
-+	{.compatible = "sharp,ls027b7dh01", &sharp_memory_ls027b7dh01_mode},
-+	{.compatible = "sharp,ls027b7dh01a", &sharp_memory_ls027b7dh01_mode},
-+	{.compatible = "sharp,ls032b7dd02", &sharp_memory_ls032b7dd02_mode},
-+	{.compatible = "sharp,ls044q7dh01", &sharp_memory_ls044q7dh01_mode},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, sharp_memory_of_match);
-+
-+static const u32 sharp_memory_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+};
-+
-+static int sharp_memory_pipe_init(struct drm_device *dev,
-+				  struct sharp_memory_device *smd,
-+				  const u32 *formats, unsigned int format_count,
-+				  const u64 *format_modifiers)
-+{
-+	int ret;
-+	struct drm_encoder *encoder = &smd->encoder;
-+	struct drm_plane *plane = &smd->plane;
-+	struct drm_crtc *crtc = &smd->crtc;
-+	struct drm_connector *connector = &smd->connector;
-+
-+	drm_plane_helper_add(plane, &sharp_memory_plane_helper_funcs);
-+	ret = drm_universal_plane_init(dev, plane, 0,
-+				       &sharp_memory_plane_funcs,
-+				       formats, format_count,
-+				       format_modifiers,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret)
-+		return ret;
-+
-+	drm_crtc_helper_add(crtc, &sharp_memory_crtc_helper_funcs);
-+	ret = drm_crtc_init_with_planes(dev, crtc, plane, NULL,
-+					&sharp_memory_crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	ret = drm_encoder_init(dev, encoder, &sharp_memory_encoder_funcs,
-+			       DRM_MODE_ENCODER_NONE, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = drm_connector_init(&smd->drm, &smd->connector,
-+				 &sharp_memory_connector_funcs,
-+				 DRM_MODE_CONNECTOR_SPI);
-+	if (ret)
-+		return ret;
-+
-+	drm_connector_helper_add(&smd->connector,
-+				 &sharp_memory_connector_hfuncs);
-+
-+	return drm_connector_attach_encoder(connector, encoder);
-+}
-+
-+static int sharp_memory_init_pwm_vcom_signal(struct sharp_memory_device *smd)
-+{
-+	struct pwm_state state;
-+	struct device *dev = &smd->spi->dev;
-+
-+	smd->pwm_vcom_signal = devm_pwm_get(dev, NULL);
-+	if (IS_ERR(smd->pwm_vcom_signal))
-+		return dev_err_probe(dev, -EINVAL, "Could not get pwm device\n");
-+
-+	pwm_init_state(smd->pwm_vcom_signal, &state);
-+	state.enabled = false;
-+	pwm_apply_might_sleep(smd->pwm_vcom_signal, &state);
-+
-+	return 0;
-+}
-+
-+static int sharp_memory_probe(struct spi_device *spi)
-+{
-+	int ret;
-+	struct device *dev;
-+	struct sharp_memory_device *smd;
-+	struct drm_device *drm;
-+	const char *vcom_mode_str;
-+
-+	dev = &spi->dev;
-+
-+	ret = spi_setup(spi);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to setup spi device\n");
-+
-+	if (!dev->coherent_dma_mask) {
-+		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
-+		if (ret)
-+			return dev_err_probe(dev, ret, "Failed to set dma mask\n");
-+	}
-+
-+	smd = devm_drm_dev_alloc(dev, &sharp_memory_drm_driver,
-+				 struct sharp_memory_device, drm);
-+	if (!smd)
-+		return -ENOMEM;
-+
-+	spi_set_drvdata(spi, smd);
-+
-+	smd->spi = spi;
-+	drm = &smd->drm;
-+	ret = drmm_mode_config_init(drm);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to initialize drm config\n");
-+
-+	smd->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-+	if (!smd->enable_gpio)
-+		dev_warn(dev, "Enable gpio not defined\n");
-+
-+	/*
-+	 * VCOM is a signal that prevents DC bias from being built up in
-+	 * the panel resulting in pixels being forever stuck in one state.
-+	 *
-+	 * This driver supports three different methods to generate this
-+	 * signal depending on EXTMODE pin:
-+	 *
-+	 * software (EXTMODE = L) - This mode uses a kthread to
-+	 * periodically send a "maintain display" message to the display,
-+	 * toggling the vcom bit on and off with each message
-+	 *
-+	 * external (EXTMODE = H) - This mode relies on an external
-+	 * clock to generate the signal on the EXTCOMM pin
-+	 *
-+	 * pwm (EXTMODE = H) - This mode uses a pwm device to generate
-+	 * the signal on the EXTCOMM pin
-+	 *
-+	 */
-+	if (device_property_read_string(dev, "sharp,vcom-mode", &vcom_mode_str))
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Unable to find sharp,vcom-mode node in device tree\n");
-+
-+	if (!strcmp("software", vcom_mode_str)) {
-+		smd->vcom_mode = SHARP_MEMORY_SOFTWARE_VCOM;
-+
-+	} else if (!strcmp("external", vcom_mode_str)) {
-+		smd->vcom_mode = SHARP_MEMORY_EXTERNAL_VCOM;
-+
-+	} else if (!strcmp("pwm", vcom_mode_str)) {
-+		smd->vcom_mode = SHARP_MEMORY_PWM_VCOM;
-+		ret = sharp_memory_init_pwm_vcom_signal(smd);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "Failed to initialize external COM signal\n");
-+	} else {
-+		return dev_err_probe(dev, -EINVAL, "Invalid value set for vcom-mode\n");
-+	}
-+
-+	drm->mode_config.funcs = &sharp_memory_mode_config_funcs;
-+	smd->mode = spi_get_device_match_data(spi);
-+
-+	smd->pitch = (SHARP_ADDR_PERIOD + smd->mode->hdisplay + SHARP_DUMMY_PERIOD) / 8;
-+	smd->tx_buffer_size = (SHARP_MODE_PERIOD +
-+			       (SHARP_ADDR_PERIOD + (smd->mode->hdisplay) + SHARP_DUMMY_PERIOD) *
-+			       smd->mode->vdisplay) / 8;
-+
-+	smd->tx_buffer = devm_kzalloc(dev, smd->tx_buffer_size, GFP_KERNEL);
-+	if (!smd->tx_buffer)
-+		return -ENOMEM;
-+
-+	mutex_init(&smd->tx_mutex);
-+
-+	drm->mode_config.min_width = smd->mode->hdisplay;
-+	drm->mode_config.max_width = smd->mode->hdisplay;
-+	drm->mode_config.min_height = smd->mode->vdisplay;
-+	drm->mode_config.max_height = smd->mode->vdisplay;
-+
-+	ret = sharp_memory_pipe_init(drm, smd, sharp_memory_formats,
-+				     ARRAY_SIZE(sharp_memory_formats),
-+				     NULL);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to initialize display pipeline.\n");
-+
-+	drm_plane_enable_fb_damage_clips(&smd->plane);
-+	drm_mode_config_reset(drm);
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to register drm device.\n");
-+
-+	drm_fbdev_dma_setup(drm, 0);
-+
-+	return 0;
-+}
-+
-+static void sharp_memory_remove(struct spi_device *spi)
-+{
-+	struct sharp_memory_device *smd = spi_get_drvdata(spi);
-+
-+	drm_dev_unplug(&smd->drm);
-+	drm_atomic_helper_shutdown(&smd->drm);
-+}
-+
-+static struct spi_driver sharp_memory_spi_driver = {
-+	.driver = {
-+		.name = "sharp_memory",
-+		.of_match_table = sharp_memory_of_match,
-+	},
-+	.probe = sharp_memory_probe,
-+	.remove = sharp_memory_remove,
-+	.id_table = sharp_memory_ids,
-+};
-+module_spi_driver(sharp_memory_spi_driver);
-+
-+MODULE_AUTHOR("Alex Lanzano <lanzano.alex@gmail.com>");
-+MODULE_DESCRIPTION("SPI Protocol driver for the sharp_memory display");
-+MODULE_LICENSE("GPL");
--- 
-2.46.0
+Thus, the patch series is only tangentially connected to Ingo's patch serie=
+s.
 
+Best regards,
+Uros.
