@@ -2,68 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153F696D1D3
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 10:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDEE96D228
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 10:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98B2510E7C1;
-	Thu,  5 Sep 2024 08:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ED1510E76F;
+	Thu,  5 Sep 2024 08:31:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="YI0oukfI";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Cq7Nsl98";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB0710E759
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 08:19:39 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EA03A40E0284; 
- Thu,  5 Sep 2024 08:19:36 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id j-7o-7WItxvG; Thu,  5 Sep 2024 08:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1725524372; bh=R5dGDsP5UUAqve48fbetJtWj/XRQVM4kjtwcRHxLMAQ=;
- h=Date:From:To:Cc:Subject:From;
- b=YI0oukfIcBgEqX45/5eMWLqZrS3JiUd4miyhCLXBj5TzeHrH66qLAP4+Qd+5mRNBP
- 85oxAJO4MrFF1i5si0nCbjH/YhagZQYcGj97gJsHSNcw44iRLpyDzqhMt8QC/p/ZTM
- J7rCC4CZ7lo7Ejeu/G5nMPzSupQHQojfS4skVYNXA/BuHCOyY4TF1rQ9VamQwR4hqa
- NClV6N5oKL5UiKycbIkz9lv6rlNgIsa1RkWy15W8e8ZZeLnl5HSJdGgqP0VX3SsJZA
- XkpelkbTyMTfU5ZJagmE/T6+rQyIptw+nJy2bX4hLT1iva1ouAY28XGLwqDUO+a8Bb
- jS4fFCa4CskATy1EJenpNXZfAm7AfInhMv/wHlLzACOy++IuVv6mxAD6xsT3Bagc7g
- 1mSKV/eSFpXQCrX1Vi/idqn9/7KhaiML5dE4emN0G8/fiP2F5spPINCs8SOzqU1dP4
- h5QaLfZNc/9nTbf3TEsExuPcIpsEivDY6BGufLdtttcaz1VD3tQiFzNXCUXdaS8RDH
- ImBkjTArDnHiKbynZKTQXEhx96onu6Y2/VYOmyTzPXI0T2ywf95rIfUsVMfr267UYo
- OrJcSsCvRPTWiY/I1eZOG2cJ93dMJc+azmqaK65c5rZ8vXzUcSus6yHQ9FPyqQdSdP
- iPO8kZ9XMo1/vJSkpcH0tzbs=
-Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A61CF40E0275;
- Thu,  5 Sep 2024 08:19:18 +0000 (UTC)
-Date: Thu, 5 Sep 2024 10:19:12 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: linux-stm32@st-md-mailman.stormreply.com
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to
- `clk_hw_unregister'
-Message-ID: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7C010E76F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 08:31:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1725525058; x=1726129858; i=deller@gmx.de;
+ bh=Mo3pv8nna+g3MgtN4jCHH0Q7EFRuxFLuDvY0BG0S0aY=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=Cq7Nsl98uPJDCt7m2WmN9rM7oAxG0VH97r2yKTiBIBgWbivhz+tGUi3lqicwPNcL
+ AVXdZbsQtCxUfh4G1W9kKyTubrj/WbtWlF2AJBEb/veUyPLv3mIEaPIuQBTXpL98O
+ LYGcZzd8RQVnhAuGYNXsKdTx4axvUgC85iE4xX1NipcwDY5ulG5of9nCzoAab37l5
+ SCLcE23HVJJoyWJezYL4PePmi1C/hL94h5/LQ3jE47/+TLUPFHuKbCbcspcunr92d
+ /Vp6Mbi1n5+AbJ0Rkj5pTUbkYHOZVx16s6Can59rsSxDu2R5MSDwVEjoMQcb19KEW
+ x5/cyoLubdgEjKGvKg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MybKf-1rpd5r2mHF-00ywNM; Thu, 05
+ Sep 2024 10:30:58 +0200
+Message-ID: <5f6ce496-15cc-45d1-b3d0-10e362543a3c@gmx.de>
+Date: Thu, 5 Sep 2024 10:30:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev/hyperv_fb: Convert comma to semicolon
+To: Wei Liu <wei.liu@kernel.org>, Chen Ni <nichen@iscas.ac.cn>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
+ gpiccoli@igalia.com, mikelley@microsoft.com, linux-hyperv@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240902074402.3824431-1-nichen@iscas.ac.cn>
+ <Ztlc52c6fIz3azbn@liuwe-devbox-debian-v2>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <Ztlc52c6fIz3azbn@liuwe-devbox-debian-v2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:cMBy/c8U9lDq5XB93f6BZ342XLrpxBeKJowrfuymtYdmXw6J1ax
+ HPFxbxP42tnNiBBM2IrRtDuWjA1mWAu6vVHz2nuWZqs4wlYHUQk5KvMPW/ALXtt0+qiX/gJ
+ Gc6Sr+eg9mSg95bu3TE07rIlAM2utPHBARFDBHtWx+Y/RUB56itqNNTKVQf3WBXNd7kPCMG
+ sWb9EZzckQTka7cuA9X0g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:EGT4DGNMYqo=;082i0+0KVEi/vGisvb43p2mSlDr
+ HTn8xrazGEeNsV7GjZkimBRYhyarvQuGs13EOLJ4K3rdLB4nUXz3cnnMe7kCAXaSdf2Qdyr4T
+ Z+7WXBxnelqRQYHq+zk4N0NqGZWMTeuClk+Mgbsu4HODbxuLUf7hjQ7/dCTrIsgQcKby2sdg9
+ A7D7xdp7lEqKu6XXh/QC7YZzgiBh7KoVG7P2vEc4DzwTv2QJgBNj9SYYrDZealCiWgXhYQCAG
+ 9mbCpqPJkHq7nEjHK3bOwYWqeDy2c5jP7ffS5Scv4n3LrWZT6mL5Oa0YFI9zcrtSijuNi2gJC
+ aqtjUyX01Lbvk+oxUIK9U0GRvV9OdNZ4quMB/Xq1HUhVQryKTkHW6HKTeYkG9CHTtlPCIlvup
+ hqp0h+Cg0JaLOaMwAF0e3XD7ha+IAnoeMz5qtq6w6OKtZXsAlpTeRMzBPoILaYldkDw27ENqq
+ 7G9D1sg/hIkj6wTUvSEJsVNBOF1mR/4oIv4fhW8bMzVZJ6gPzWdRveaGZRBn9HSkGtYep6j4t
+ o7CpWFvXG3N3RfG3OgFYnyDq4f7Xy2nHiri6j/ErSvAIen0LpI2QzMNqiROQTn440Zku0UlAL
+ +jD4cAaZ3CvP8OZx1Zb90ioczRcIeC19ABZ6KZP40Hw1sj6kdKmZP4/rwWbsil8T7tnVz3/oI
+ Eqi+QYlwz098bje6f+jQVACO2tHZY2KKbHJskLtSbo5jzsdEJATCYhg/Pv251RUeb7xwCpTuT
+ BayxediaoxRzsOAV8AW9TvSSj61GefPfMgNJDmYTn5XyMXYR9hWHvJ9bW+Sq0z68gRyIHWy1w
+ H3KTiZjtSKVvwUd/FdFy9GDw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +126,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+On 9/5/24 09:25, Wei Liu wrote:
+> On Mon, Sep 02, 2024 at 03:44:02PM +0800, Chen Ni wrote:
+>> Replace a comma between expression statements by a semicolon.
+>>
+>> Fixes: d786e00d19f9 ("drivers: hv, hyperv_fb: Untangle and refactor Hyp=
+er-V panic notifiers")
+>> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+>
+> Applied to hyperv-fixes, thanks!
 
-this fires in my randbuilds here:
+I added it to the fbdev git tree 3 days ago.
 
-vmlinux.o: warning: objtool: adis16400_write_raw() falls through to next function adis16400_show_serial_number()
-ld: vmlinux.o: in function `dw_mipi_dsi_stm_remove':
-dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to `clk_hw_unregister'
-ld: vmlinux.o: in function `dw_mipi_dsi_clk_register':
-dw_mipi_dsi-stm.c:(.text+0x8db9f5): undefined reference to `clk_hw_register'
-ld: vmlinux.o: in function `lvds_remove':
-lvds.c:(.text+0x8dc605): undefined reference to `clk_hw_unregister'
-make[2]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
-make[1]: *** [/home/amd/bpetkov/kernel/linux/Makefile:1156: vmlinux] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
+Either you or me should drop it from our trees.
+Please let me know what you prefer.
 
-is there a fix somewhere?
+Helge
 
-People love to do
-
-	depends on ... COMPILE_TEST
-
-but then if no one takes care of it in time:
-
-https://lore.kernel.org/oe-kbuild-all/202407212000.rpDH64jP-lkp@intel.com
-
-that COMPILE_TEST thing is forcing me to simply blacklist it and is not really
-helping.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
