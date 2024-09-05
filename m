@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7698496CCF8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 05:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0320E96CCFE
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 05:08:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 915E310E3D4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A741B10E3DA;
 	Thu,  5 Sep 2024 03:08:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JYM73ZzD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cdpg7Wjg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA5F210E3D4
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC9E210E418
  for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 03:08:26 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-52f01b8738dso106573e87.1
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-533488ffaf7so245599e87.0
  for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 20:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725505704; x=1726110504; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=HvYt71IhRdNBRbqhn8a/BIchlxMJnpCn80h85xgik/M=;
- b=JYM73ZzD3CUVRSf/RA3NMSOk9phvAukpS8GYfEzpA4WHBOXTeZO7P+wU76IhIjDptR
- HVhaUuBPhKUyBsM6y8ZpMrUM3I3R52NpvZF5UtUpblj7/4rMhxWRqKYLNEuGckUOuynM
- 9d2g9kjoeWU24tumU8habPRXY2rceCvlL+8vxDSHt6hsq81GeMTafhIB/4esGHIQ5evr
- Ymn6GT4nzUpuzv3qGebtDm50cJW91wgnGBEhYe5mRX6rFlV0pOanohWZ4ufEtDK/GBTe
- ANPV5GVpjJ7hIMYaAfqOJg5MqcciVTq/HfX8g5gyS8B1egDfJDRk6JLIYOJrawSpgHHU
- v5gw==
+ d=linaro.org; s=google; t=1725505705; x=1726110505; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=aCUd9z1LcLMx6hSjP2k+xgb3eFs9dKtX8QI9QhSVFF0=;
+ b=cdpg7WjgDJcQdcrxi4kzuJnfOu/80ccBvVwbZXpHfO2yhiEhe2tnO/7WGaJWg5QrR/
+ HKQ8e5/6ZU27jGK6kIV7qe2/vNXinXUFEurrGs1Rxsh7e0wt7jsQ2NWf08zRgMvy7B5F
+ PWxui8URicETlZtZFRcrxj42jCdn8HdKo/bYToXzyI4YunOii13Mp+UlgC/KWEtqyQRu
+ JRRuEUifP6EIXMJzSMfSWxXMumPgSmh9f84Yz8juX45agHbwEwkoUSpM4Ag7GPukKUxk
+ ygA9CnTqOOmSB8hFIDfnUOhdPfjVcVedDdctG8NiSm26K6kRulue5scT7VdEHFnnHwWo
+ gILQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725505704; x=1726110504;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HvYt71IhRdNBRbqhn8a/BIchlxMJnpCn80h85xgik/M=;
- b=V3INgrZYSvOM7eEYDSCc9DYxFAqmjK7CWG10l27ZuOkB9JClZZsO8lM0qaYhPiYlr5
- OalzI6ONe8tBNwNsVRNwCBCF7fvf6myQNmO8ZBEcl1FI8XuTIiIoWRPB71smJoMsBQlq
- pEL8iPVaAUGGJ+Nc4ilqdMqHPYLcVCyCAgyN+T23mnV/coP4+50qfTk2iJhmW75FMR0+
- eSip6zPk4ijCZYmmV5YoGLeOvTPc3lpOMuJB9s+PfxgzVTTzzNo+pYwItDxdsaH60CSH
- +aPVBKsSnHN8mQubHifH6DnR3QPl/NFQCDxSai6nTh5ZsXshFInz+sojEeFf+DwkB33Z
- YiSw==
+ d=1e100.net; s=20230601; t=1725505705; x=1726110505;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aCUd9z1LcLMx6hSjP2k+xgb3eFs9dKtX8QI9QhSVFF0=;
+ b=udnOBI6l9mgA8RC+bLqzPWvVlGUYLl5lqEdeRHbNFtj5GjYgw0i1Atx60fZo8q1ruL
+ +L7kIWQVlH8IGqlYr91f8N0kH6q6EwGfMgL2mk+c1CFmboSRK1qy2lLXMmH1cVZI044E
+ hoqPQixgNt7hqGPD7btGI2rKEvYuGsev4H84nFXmUQ/0xpymr2DtukTCpNHYPmiF+AJY
+ C1SW/vJOXXg29vIUPOdyrNnKiLI9qyQJZqgErLQ3K1t+S15U2BHZ1HUbsCStX/uvkdFf
+ +qNc6laP8RaEJAjFro9njQ2sQ8hwe58ERDupI1UZM30nynKWeGsCFdaarYfNuWf5tIz+
+ zNNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVummAsedWVUIjasiffV1aT+CQKdlvZakM4yYaia7TJSBX8yqxkwkZ7ZXx4Ljjp9Dcwuy3Dvbw6RT0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyK0Juk9shahoXZyB0KEKsOt5ZP7fhF8lmF6yx9IfM46UCeIfVc
- eieVqyzZKpPE1vgIr8VJJY0E2QMWmIGK0YNBqiPJ0C4dOIRFNJdMJZwn0hBqYfA=
-X-Google-Smtp-Source: AGHT+IEiDYfVZsrNlZ5O8YNAwFl2737GXUD/v4D2IGhJ131AJFOBBx+cluZA8P+8k5TWguYcgEK3Pw==
-X-Received: by 2002:a05:6512:2803:b0:535:6cf6:92f7 with SMTP id
- 2adb3069b0e04-5356cf694a0mr862945e87.59.1725505703317; 
- Wed, 04 Sep 2024 20:08:23 -0700 (PDT)
+ AJvYcCUqZ+anKasNeHeDW5mtXiz76PEWE6xDqd5wzWjwkCIQaCRqBwH4cRQDYPahPz1Qh8WMX9UMmWPlkqY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsC1ai/UG+QxeSlqyA/YjnAyzwVsetCo/arn1j++bZi2zHLZDU
+ Oe0ra73/LRXkowTLuY+GPpxr8nRUMFkBd4YSKwCDRlWstOfN0zB+0WKPUmmTfFKEJcY89Wp+83f
+ 1
+X-Google-Smtp-Source: AGHT+IE/2jE3CvFlvvIXHzJupYuHbi2/1IhdOJoiEbZkzmE63Jt8Mh6dMcluwOLczC02VOgLi+O/ew==
+X-Received: by 2002:a05:6512:b82:b0:530:ae22:a6ea with SMTP id
+ 2adb3069b0e04-53546b91ef2mr14631592e87.40.1725505704199; 
+ Wed, 04 Sep 2024 20:08:24 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-535407ac190sm2485277e87.96.2024.09.04.20.08.22
+ 2adb3069b0e04-535407ac190sm2485277e87.96.2024.09.04.20.08.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2024 20:08:22 -0700 (PDT)
+ Wed, 04 Sep 2024 20:08:23 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/2] drm: add two missing DRM_DISPLAY_DSC_HELPER selects
-Date: Thu, 05 Sep 2024 06:08:20 +0300
-Message-Id: <20240905-fix-dsc-helpers-v1-0-3ae4b5900f89@linaro.org>
+Date: Thu, 05 Sep 2024 06:08:21 +0300
+Subject: [PATCH 1/2] drm/xe: select DRM_DISPLAY_DSC_HELPER
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKQg2WYC/x2MQQqAIBAAvxJ7bsHKIvtKdChdcyEqXIhA/HvSc
- WBmEghFJoGpShDpYeHrLNDUFdiwnjshu8LQqlYro3r0/KITi4GOm6Jgt416UN5uZvVQqjtSUf7
- jvOT8AfRsPL1hAAAA
+Message-Id: <20240905-fix-dsc-helpers-v1-1-3ae4b5900f89@linaro.org>
+References: <20240905-fix-dsc-helpers-v1-0-3ae4b5900f89@linaro.org>
+In-Reply-To: <20240905-fix-dsc-helpers-v1-0-3ae4b5900f89@linaro.org>
 To: Lucas De Marchi <lucas.demarchi@intel.com>, 
  =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
  Rodrigo Vivi <rodrigo.vivi@intel.com>, 
@@ -79,16 +79,16 @@ Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
  kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=670;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1005;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=viS4n3xLp03m75Vm5VBHdsK94DFv3lMuD1s+hR1hOlM=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBm2SClVPVGX65kkU0QRSPr0U4aIl+tCD84SrxEb
- rkB79ppEqWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZtkgpQAKCRCLPIo+Aiko
- 1VFjCACTrtFG/p4A2auGtjYg3mDRqLDcCvd7/H9xfsmeO1q8pLN+lwwLJ3mcHh7moIV1ykCamfk
- vsig0eklrVMOTjUN5El/ucqiO11eIGsaFYsyJvYAHh4HaBpiFDUZO6Oz/y+yMx/l/z7jW0jt4fG
- rkXsZJ9+w1HpA4oCLrmI78gViOgVETjg47JTRFY4BNJdUkNtyuN2UeJrN/0X3aD1Fwx/ifrJRxM
- a9SKoACBKOe/SAqoiVagQCseXyMW1mN34htWl/Csxw9P7nEFrp58F60+irx09GtyQXqu6fdsALa
- E6Stjms28Tz66hYuU5tyG/6yxg3zzDxAmjK5teFd7bli8OaK
+ bh=/uc/spJSdC+Q0uOvIRVDDGVfhgEPfChpAlvRBCMAkJQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBm2SClH3jAjsQwXueRbupby/Qyxo1pNCBRE+FYy
+ TrQumjDJhWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZtkgpQAKCRCLPIo+Aiko
+ 1WUdB/4mLKT7toID+4EsvnWOp5TQO7a7GiChrUuI653sWs0XNN89QO+aQlpsdo+wgVvTcrvWvBO
+ C6i8x2AwjrHm9cSIn5uu66DDhCRRCiCelWh8vwvtQNgwDP30tOt38PSkFuLdZhEQfeJZvBPBC/u
+ JS/Y5Npl49z2KqrYk9QbimEg9oy0KI9Aj0nva6UW5rNWFw0ZBy1d2taaUr/KBPdp1F2VkUtoWtx
+ ecBErdsaSdt5CHrTfB4FXFE8eVr083nB6qqd2UQNsHA2SdUD3IFLJCk0zqUkbyZ0UCXzgizmuf7
+ vixPcb25txPAUaZD+YKZIsHQ2gGnzMPV7x1YmszSmdjXVpUA
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,24 +106,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add two selects for DRM_DISPLAY_DSC_HELPER which got missed in the
-original commit ca097d4d94d8 ("drm/display: split DSC helpers from DP
-helpers") and were later reported by LKP.
+The Xe driver shares display code with the i915 driver, pulling in the
+dependency on the DSC helpers this way. However when working on
+separating DRM_DISPLAY_DSC_HELPER this was left unnoticed. Add missing
+dependency.
 
+Fixes: ca097d4d94d8 ("drm/display: split DSC helpers from DP helpers")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202409032226.x6f4SWQl-lkp@intel.com/
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (2):
-      drm/xe: select DRM_DISPLAY_DSC_HELPER
-      drm/msm: add another DRM_DISPLAY_DSC_HELPER selection
+ drivers/gpu/drm/xe/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/msm/Kconfig | 1 +
- drivers/gpu/drm/xe/Kconfig  | 1 +
- 2 files changed, 2 insertions(+)
----
-base-commit: fdadd93817f124fd0ea6ef251d4a1068b7feceba
-change-id: 20240905-fix-dsc-helpers-3b8460fcb9af
+diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
+index 7bbe46a98ff1..ebd0879e04d4 100644
+--- a/drivers/gpu/drm/xe/Kconfig
++++ b/drivers/gpu/drm/xe/Kconfig
+@@ -14,6 +14,7 @@ config DRM_XE
+ 	select DRM_PANEL
+ 	select DRM_SUBALLOC_HELPER
+ 	select DRM_DISPLAY_DP_HELPER
++	select DRM_DISPLAY_DSC_HELPER
+ 	select DRM_DISPLAY_HDCP_HELPER
+ 	select DRM_DISPLAY_HDMI_HELPER
+ 	select DRM_DISPLAY_HELPER
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
