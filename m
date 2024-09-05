@@ -2,75 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8272896CD52
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 05:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C9C96CEDF
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 08:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28FB010E68F;
-	Thu,  5 Sep 2024 03:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE30910E6D1;
+	Thu,  5 Sep 2024 06:07:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A/fz974x";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ATDEZp0Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA0FF10E649
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 03:33:46 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-53343bf5eddso222993e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2024 20:33:46 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4EB10E6CD;
+ Thu,  5 Sep 2024 06:07:04 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-6bf7ad1ec3aso2287996d6.0; 
+ Wed, 04 Sep 2024 23:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725507225; x=1726112025; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1725516423; x=1726121223; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KyUpvOqb1HnLAQIbraYek0wvreZFpF6ISG16EWHJbNQ=;
- b=A/fz974xwM7afTu1R5RyrAE879bAWcGj+j7zR1sSLHtE3hUJV0GM4ZhG4KR66SN/a9
- rqQpCY2ak4tnLiwj199Ebbbd81H+zM1jWL7QmTc3zp4TYShOTVgS/E+OVRLsKh5xT+qT
- /hYxpxNOhKbKIJ2oKmsy8Zp0qNA/ynzzn3+Ao0DGr/PjAlD9usB16NJqk3SQkHNYIVFN
- TdLi587plAabS+lFFQ6iwuSt53Ks9sky9y2LAyOW4VdcPm5q1+sH9KW8tfVvRgF2Qehw
- BEJd77dfZXqp4Er+HF6ZCDAPV3CJsepWF/ioQ99IA1sgRIDUEIo5vyZNDkHbqgTrhGmK
- 4dQA==
+ bh=5LG1d3avN5co6G6gzC32VQF9Lut496WAZe399A99cSk=;
+ b=ATDEZp0QujPIC8xf8NQrNbv+S4W7mEzi44LwYP3qJAmGL4qYr36gDvKQ8308UCQNiz
+ qgo+unWzajV8OG0wQTJ5H2iSCygSfxlOIIaOTbpWylw/s1IIbY/eAZSAs8cuAZfTq9ka
+ sexfY5nJgqidnwbnkYVvCnXtbPs0JlyihJDo21d8is4KlGDayT4aj4Rq93vx2oP4am0+
+ og3X3xQ4DiJbuLVOZMtw4BxDNYCU9G1McLAAkfGidLwAvUFDoyjO0OgbY3Nma3AFE3AA
+ MhdRXdFIY6w6Ek4B2h6jjJGWXSzDgVxUbm+r0267ET0zYwA9kqGPeqeM9DXcatVBlQWU
+ HXaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725507225; x=1726112025;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1725516423; x=1726121223;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KyUpvOqb1HnLAQIbraYek0wvreZFpF6ISG16EWHJbNQ=;
- b=K6Ue6xfsr9AJkVkIg2rBJ8+P9C4dXBGsY5MX4NghIXaTI2rKEwcHpZQeBo1i9PUqj8
- h1BGVx88G/8CgAxhQ6LlQ764uMj3xpPHg+Bu+gygdxu1647NfAV5pRytHJliwehPYRzw
- RKjUKiN/iWr71wkqqO7KssKthJUtUzAfC7g2hJ/V7m3XhkLfnioSFaCuPM1TIzYvM/2N
- WafG71GGTY1uDxrRG03xYxnrZ5fnY1P0bcp69pfnsZ+mezfoS1On6/5IRtX51NYvNsS3
- cZJNS40LlaVXRc8HC4xh8VvdxRcRGqFsjLQTLRoUM8x7uM74RpZ317rD5DGsfkOwO3Rl
- MALg==
+ bh=5LG1d3avN5co6G6gzC32VQF9Lut496WAZe399A99cSk=;
+ b=owvIVCTGeXI52j08Vs6sJzDO3GtYNyyk1yHbZbPfwKP0IiRJOOSfmZhd1qhMNFzFBQ
+ ROUXHHPe2EbBsHSo/68qNULoIDv8Kqc9w/VsGoZ6Bjqpfj+BXV1LFjxMLsm64qMuaIFn
+ m4vHApUlru4wYOVMByIec+goM6tEyJsThOMydKliDRv7Ds/5Rv9MJ/5+XnsayFL+BUv/
+ XsSl5PrHAKk8kQS9p8wDNzedopLgddtvPWi5J3Usq1w5syv3SX4+1KSQ7hN39wFfb8L3
+ W+bO4AgQ9cdsRVbLG72dTjc0Lm5BfAjhgshKrrmPmRFqrG73WNp8npPok6R7panidzls
+ vdSA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvGXrwbWlE+zEw4Lns2+eBqg6qG/tgUu7ZHnE78BUotck/q2ZiNaaGkiocqckPVQ4UL+K76pM245s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSCRsBkz2H3vxWywIILhicQ2TpmOmMM/W9kG3Pu2S52XB69Jeo
- gyiU8MhjjWGjlJsLc2nqlJa6Gq8AG5HGkR6rjvKrymo6Stbhrrr96+R8Uf7c5is=
-X-Google-Smtp-Source: AGHT+IGL24J8npgJaD6qdH/iBLmRVEB4YeGZTdlYLtr6yfSabcuuW1+0DO4dioT58qUKhW1Yg6Av3g==
-X-Received: by 2002:a05:6512:4014:b0:530:daeb:c1d4 with SMTP id
- 2adb3069b0e04-53546b1920fmr12600653e87.12.1725507224725; 
- Wed, 04 Sep 2024 20:33:44 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.90])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53565f6d409sm389165e87.35.2024.09.04.20.33.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2024 20:33:43 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch,
- ruanjinjie@huawei.com, Sherry Yang <sherry.yang@oracle.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] drm/msm: fix %s null argument error
-Date: Thu,  5 Sep 2024 06:33:38 +0300
-Message-Id: <172550712137.3299484.13467941827572106122.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240827165337.1075904-1-sherry.yang@oracle.com>
-References: <20240827165337.1075904-1-sherry.yang@oracle.com>
+ AJvYcCV77Yed6IIyKI1iKGAZIxH3j1eDkS8JHBXQotFS2R3iNYbx0f4FjppHaYsJ/Oa7tVWU/yf9S7mbUyvY@lists.freedesktop.org,
+ AJvYcCVWiFfb2Q4EHDDfArgssdfH6cU184kT97FP8JxxlSJCwlBf4AKs62CPtnxfakxrABS1Mi1qkb9k@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXlSa7/rd0YxRYN4QymRMoYDQarm7j/ZeHuxbG+jQ6DJrY9WBO
+ ejHH4+tU7ZhSxEiHAGC9oSAPLwZYWfz+bZNlP1bNlyna4xcSNaWpdQwgYEfdilMl7chvcgOA5Gl
+ yZymnJF0jDT006jsZ1Oku87HBdaY=
+X-Google-Smtp-Source: AGHT+IGB8ymXCte18l4OE7yiIbhXNCU7V0Ne5O+JMA0juqCKhfd8whLL2b7mgE/CSWSFgutJc0fE9TPCp01kmop852o=
+X-Received: by 2002:a05:6214:5982:b0:6c5:12b9:d5ce with SMTP id
+ 6a1803df08f44-6c512b9d761mr74759286d6.4.1725516422860; Wed, 04 Sep 2024
+ 23:07:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <CABXGCsNgx6gQCqBq-L2P15ydaN_66sM9CgGa9GQYNzQsaa6Dkg@mail.gmail.com>
+ <CABXGCsNztS8MLteq5=fcddwuQ1TCzeOM8TdVtpJ3crK=sV5PTQ@mail.gmail.com>
+ <CABXGCsMdxHJ-MLkS0pm51Sk8g0PTghsuZxmowvj5t44bVN4ndA@mail.gmail.com>
+ <ffd2c40c-1c2e-4465-b26f-88d5e08a80d9@amd.com>
+ <CABXGCsOoL5vD0+FRALFQFr3ZBpb2z5mpGKzAD5RHoW9_sb5yaQ@mail.gmail.com>
+ <f68020a3-c413-482d-beb2-5432d98a1d3e@amd.com>
+In-Reply-To: <f68020a3-c413-482d-beb2-5432d98a1d3e@amd.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Thu, 5 Sep 2024 11:06:52 +0500
+Message-ID: <CABXGCsMSTsBFW=OirDszPFVOiNgyOBSh3qyzAw-Coi-McnicAQ@mail.gmail.com>
+Subject: Re: 6.11/regression/bisected - after commit 1b04dcca4fb1, launching
+ some RenPy games causes computer hang
+To: Leo Li <sunpeng.li@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, zaeem.mohamed@amd.com, 
+ pekka.paalanen@collabora.com, "Wheeler, Daniel" <daniel.wheeler@amd.com>, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,23 +91,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Sep 5, 2024 at 4:06=E2=80=AFAM Leo Li <sunpeng.li@amd.com> wrote:
+>
+> Can you delete ", new_cursor_state" on that line and try again? Seems to =
+be a
+> unused variable warning being elevated to an error.
+>
 
-On Tue, 27 Aug 2024 09:53:37 -0700, Sherry Yang wrote:
-> The following build error was triggered because of NULL string argument:
-> 
-> BUILDSTDERR: drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c: In function 'mdp5_smp_dump':
-> BUILDSTDERR: drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c:352:51: error: '%s' directive argument is null [-Werror=format-overflow=]
-> BUILDSTDERR:   352 |                         drm_printf(p, "%s:%d\t%d\t%s\n",
-> BUILDSTDERR:       |                                                   ^~
-> BUILDSTDERR: drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c:352:51: error: '%s' directive argument is null [-Werror=format-overflow=]
-> 
-> [...]
+Thanks, I applied both patches and can confirm that this solved the issue.
+The first patch was definitely not enough.
 
-Applied, thanks!
+Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 
-[1/1] drm/msm: fix %s null argument error
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/25b85075150f
-
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+--=20
+Best Regards,
+Mike Gavrilov.
