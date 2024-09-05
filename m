@@ -2,34 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C9A96DEE6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 17:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F313F96DF53
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 18:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87AB010E83E;
-	Thu,  5 Sep 2024 15:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C55610E16F;
+	Thu,  5 Sep 2024 16:14:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="RTicxtnB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2E6AC10E83E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 15:51:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4AA15FEC;
- Thu,  5 Sep 2024 08:52:25 -0700 (PDT)
-Received: from e112269-lin.cambridge.arm.com (e112269-lin.cambridge.arm.com
- [10.1.194.64])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE5823F73B;
- Thu,  5 Sep 2024 08:51:57 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- Christopher Healy <healych@amazon.com>
-Subject: [PATCH] drm/panthor: Display FW version information
-Date: Thu,  5 Sep 2024 16:51:44 +0100
-Message-Id: <20240905155144.75416-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E99AF10E16F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 16:14:19 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-374ca7a10d4so617508f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 09:14:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1725552858; x=1726157658;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SQCzkFNF6R0y5OgjwiBOcxXDxjjM7SPAsOwwAJex/C0=;
+ b=RTicxtnBaq5MSJxNAPpNLEJ1AgL7r1SuoryZMd1FKL3EodAwQo2ZBLHgsEbBes1ZuD
+ thaNtvWROKvpDcVKZDPuOH0ZIudSp4rtNbkUnfH1uUGt6eplGI0aMwPloA1H6kJfEM9F
+ cpSLdHpR/Exqtn6m8LhRkYcH3NG6JbE1iYLgDjHJAa/AIRv20I4iIaGSsL4owRai5rrj
+ 5eX0xRhWvF+XtErdqz2BCBdKzbvv6noP6vEIep8Tnk5nI0/acjxiHgAIv2Kx2IWcJUwA
+ /QTvTlpG4kaB27AxJKXOsrAqGweBIMTdwalP/Nltx7osyH2ImJ9MKz12bevJyTdiHMDJ
+ SwRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725552858; x=1726157658;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SQCzkFNF6R0y5OgjwiBOcxXDxjjM7SPAsOwwAJex/C0=;
+ b=YqbyZV4NxzWB7+BlhTAddjfLxgV7c9asgu5bZ9eGNnQiS1qtYy69Tx+cM3yyH7SsCG
+ 4GzFn1f1Y8FcnKAPhvoX+XeeKSwWE5jEZ1AMBthQx2kTxHmUN7ze/MM2nyAqnwpAENds
+ WrSKpt0CLbGXoZ84nu6IOplW4SwnjkrD9uGseDDmLW9SdFSRVl8qAH0v7Qh8ZcAmYQkr
+ Xi/pTDC5gc0MBevCTwbgG2f9soSiGnkx2xrsJoOmBc4p/KDNRYpvHszh1DyYmszZ+Yd1
+ cqAJr+XR9UrlMASt/XujD3aEzOf2S1mhs5mC0hbKJeuTFyETBhraOcdJZuU4/6JXymRx
+ QXcQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3RIANGYZ+wn/hERDkhjt9QZRqdhzUo0kLVRQeceZHv+ad61ujMpWv3aJlIdeRR8JVSL3cs4qLdpU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6dpxD14SaGc1Bn8KcQrX6UJKaKowsTwy3KWtNr7km85a0yl2v
+ yhJjjGvFvfAEdxLVjP6OIr1FmclIFpJfADpXYy3Sq6BKQWuO41oLT9cOua8Oq3A=
+X-Google-Smtp-Source: AGHT+IGTeRidPfzjWMeiTd2JcaXWh07h5yeyFVwKWBYencGxKEZw41jcBDd8CO30rx53dbUA3JWpWg==
+X-Received: by 2002:a5d:6991:0:b0:374:c7d1:2ac0 with SMTP id
+ ffacd0b85a97d-3787e496687mr2221867f8f.47.1725552857141; 
+ Thu, 05 Sep 2024 09:14:17 -0700 (PDT)
+Received: from [192.168.108.50] (freebox.vlq16.iliad.fr. [213.36.7.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-374c6543ee3sm12569790f8f.12.2024.09.05.09.14.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Sep 2024 09:14:16 -0700 (PDT)
+Message-ID: <747218ab-86a1-4308-b34a-98064ccdac30@freebox.fr>
+Date: Thu, 5 Sep 2024 18:14:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/6] HDMI TX support in msm8998
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Conor Dooley <conor.dooley@microchip.com>
+References: <20240724-hdmi-tx-v7-0-e44a20553464@freebox.fr>
+ <172550712143.3299484.1580127137460046609.b4-ty@linaro.org>
+Content-Language: en-US
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <172550712143.3299484.1580127137460046609.b4-ty@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,103 +101,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The firmware binary has a git SHA embedded into it which can be used to
-identify which firmware binary is being loaded. Output this as a
-drm_info() so that it's obvious from a dmesg log which firmware binary
-is being used.
+On 05/09/2024 05:33, Dmitry Baryshkov wrote:
 
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c | 55 ++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+> On Wed, 24 Jul 2024 17:01:33 +0200, Marc Gonzalez wrote:
+>
+>> DT bits required for HDMI TX support in qcom APQ8098 (MSM8998 cousin)
+> 
+> Applied, thanks!
+> 
+> [1/6] dt-bindings: phy: add qcom,hdmi-phy-8998
+>       https://gitlab.freedesktop.org/lumag/msm/-/commit/8886def25eef
+> [2/6] dt-bindings: display/msm: hdmi: add qcom,hdmi-tx-8998
+>       https://gitlab.freedesktop.org/lumag/msm/-/commit/656810411b1d
+> [3/6] drm/msm/hdmi: add "qcom,hdmi-tx-8998" compatible
+>       https://gitlab.freedesktop.org/lumag/msm/-/commit/a61eb17f40e8
+> [4/6] drm/msm: add msm8998 hdmi phy/pll support
+>       https://gitlab.freedesktop.org/lumag/msm/-/commit/caedbf17c48d
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 857f3f11258a..ef007287575c 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -78,6 +78,12 @@ enum panthor_fw_binary_entry_type {
- 
- 	/** @CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA: Timeline metadata interface. */
- 	CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA = 4,
-+
-+	/**
-+	 * @CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA: Metadata about how
-+	 * the FW binary was built.
-+	 */
-+	CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA = 6
- };
- 
- #define CSF_FW_BINARY_ENTRY_TYPE(ehdr)					((ehdr) & 0xff)
-@@ -132,6 +138,13 @@ struct panthor_fw_binary_section_entry_hdr {
- 	} data;
- };
- 
-+struct panthor_fw_build_info_hdr {
-+	/** @meta_start: Offset of the build info data in the FW binary */
-+	u32 meta_start;
-+	/** @meta_size: Size of the build info data in the FW binary */
-+	u32 meta_size;
-+};
-+
- /**
-  * struct panthor_fw_binary_iter - Firmware binary iterator
-  *
-@@ -628,6 +641,46 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
- 	return 0;
- }
- 
-+static int panthor_fw_read_build_info(struct panthor_device *ptdev,
-+				      const struct firmware *fw,
-+				      struct panthor_fw_binary_iter *iter,
-+				      u32 ehdr)
-+{
-+	struct panthor_fw_build_info_hdr hdr;
-+	char header[9];
-+	const char git_sha_header[sizeof(header)] = "git_sha: ";
-+	int ret;
-+
-+	ret = panthor_fw_binary_iter_read(ptdev, iter, &hdr, sizeof(hdr));
-+	if (ret)
-+		return ret;
-+
-+	if (hdr.meta_start > fw->size ||
-+	    hdr.meta_start + hdr.meta_size > fw->size) {
-+		drm_err(&ptdev->base, "Firmware build info corrupt\n");
-+		/* We don't need the build info, so continue */
-+		return 0;
-+	}
-+
-+	if (memcmp(git_sha_header, fw->data + hdr.meta_start,
-+	    sizeof(git_sha_header))) {
-+		/* Not the expected header, this isn't metadata we understand */
-+		return 0;
-+	}
-+
-+	/* Check that the git SHA is NULL terminated as expected */
-+	if (fw->data[hdr.meta_start + hdr.meta_size - 1] != '\0') {
-+		drm_warn(&ptdev->base, "Firmware's git sha is not NULL terminated\n");
-+		/* Don't treat as fatal */
-+		return 0;
-+	}
-+
-+	drm_info(&ptdev->base, "Firmware git sha: %s\n",
-+		 fw->data + hdr.meta_start + sizeof(git_sha_header));
-+
-+	return 0;
-+}
-+
- static void
- panthor_reload_fw_sections(struct panthor_device *ptdev, bool full_reload)
- {
-@@ -672,6 +725,8 @@ static int panthor_fw_load_entry(struct panthor_device *ptdev,
- 	switch (CSF_FW_BINARY_ENTRY_TYPE(ehdr)) {
- 	case CSF_FW_BINARY_ENTRY_TYPE_IFACE:
- 		return panthor_fw_load_section_entry(ptdev, fw, &eiter, ehdr);
-+	case CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA:
-+		return panthor_fw_read_build_info(ptdev, fw, &eiter, ehdr);
- 
- 	/* FIXME: handle those entry types? */
- 	case CSF_FW_BINARY_ENTRY_TYPE_CONFIG:
--- 
-2.39.2
+Hello Bjorn,
+
+Now that the binding & driver parts have been merged,
+(Thanks, Dmitry! And thanks to all reviewers)
+am I right to assume that you are supposed to pick up
+patches 5 & 6 for the msm8998 DTSI?
+(Hopefully in time for 6.12-rc1)
+
+Regards
 
