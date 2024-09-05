@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BCA96D090
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 09:39:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F3996D09B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 09:40:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A7BD10E703;
-	Thu,  5 Sep 2024 07:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8E010E718;
+	Thu,  5 Sep 2024 07:40:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="l1r5SLHA";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wY1BaZq7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C28AE10E703
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 07:39:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725521966;
- bh=6PVIDeH5+SCHyQgXpSCPJGW2vBWFSE2R18JkRXg2fy4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=l1r5SLHAinmX5GH3XdbcDGHgxIP59IRIO4BfwfXkgQMjd9p1nJW8kZQhdNAY1YNAp
- 5SdAmzzPc2gp95yxF8qStTeSWSV/5IvkxZ8A7RXiDO6kuG/dWlL0o+kwbKDkco1eEJ
- Vl0g8KAasK4HPDYhviTFavg9/TnzObqu72Wqn1CDcPgd7Dth3SPXonBTBq2ptggNgB
- Rd6LpkaTGFiKeN3W4a6Etx+NIbFpBUO8xp1rZYYbH+xkW4O6lpDug35WmFrPX2IsU5
- qo8CbXYZjL3HY7f2w0ZdSN1qoKDQQMPVRJttmd3WfKG7cyNI//ccsWhsknABkhDW9e
- S1z+HfAr7aUVQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D86C217E0F93;
- Thu,  5 Sep 2024 09:39:25 +0200 (CEST)
-Date: Thu, 5 Sep 2024 09:39:23 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Mary Guillemard <mary.guillemard@collabora.com>
-Cc: linux-kernel@vger.kernel.org, kernel@collabora.com, Mihail Atanassov
- <mihail.atanassov@arm.com>, Steven Price <steven.price@arm.com>, Liviu
- Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4] drm/panthor: Add DEV_QUERY_TIMESTAMP_INFO dev query
-Message-ID: <20240905093923.64ca39e1@collabora.com>
-In-Reply-To: <20240904121911.31ddaf09@collabora.com>
-References: <20240830080349.24736-2-mary.guillemard@collabora.com>
- <20240904121911.31ddaf09@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E636E10E718;
+ Thu,  5 Sep 2024 07:40:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3BEEFA44304;
+ Thu,  5 Sep 2024 07:40:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C745C4CEC4;
+ Thu,  5 Sep 2024 07:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1725522033;
+ bh=PZJmqlHpJ1uU+ASFJIpncqC9uV3uvVokLmZ+DOZ31vY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=wY1BaZq7EaV2nxp/Ky4u1EjnAofwymLmYwxfNFMzbKe0jbHCKfdS8gsQnzSNvxLBw
+ PumHeZzyspeIqGIDgjb4BCQ/0o2i9Hx1hQmo8m8P4UXCskEjO3NFFDypxbP6bOCSaO
+ tx5sTpSbitonzYibe/kA3nVEGUcVkW8snJjYW0Ms=
+Date: Thu, 5 Sep 2024 09:40:30 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: sikkamukul <mukul.sikka@broadcom.com>
+Cc: stable@vger.kernel.org, evan.quan@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ Jun.Ma2@amd.com, kevinyang.wang@amd.com, sashal@kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ajay.kaher@broadcom.com,
+ alexey.makhalov@broadcom.com, vasavi.sirnapalli@broadcom.com,
+ Bob Zhou <bob.zhou@amd.com>, Tim Huang <Tim.Huang@amd.com>
+Subject: Re: [PATCH v5.15-v5.10] drm/amd/pm: Fix the null pointer dereference
+ for vega10_hwmgr
+Message-ID: <2024090523-collide-colonize-d914@gregkh>
+References: <20240903045809.5025-1-mukul.sikka@broadcom.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240903045809.5025-1-mukul.sikka@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +60,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 4 Sep 2024 12:19:11 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
-
-> On Fri, 30 Aug 2024 10:03:50 +0200
-> Mary Guillemard <mary.guillemard@collabora.com> wrote:
+On Tue, Sep 03, 2024 at 04:58:09AM +0000, sikkamukul wrote:
+> From: Bob Zhou <bob.zhou@amd.com>
 > 
-> > Expose timestamp information supported by the GPU with a new device
-> > query.
-> > 
-> > Mali uses an external timer as GPU system time. On ARM, this is wired to
-> > the generic arch timer so we wire cntfrq_el0 as device frequency.
-> > 
-> > This new uAPI will be used in Mesa to implement timestamp queries and
-> > VK_KHR_calibrated_timestamps.
-> > 
-> > Since this extends the uAPI and because userland needs a way to advertise
-> > those features conditionally, this also bumps the driver minor version.
-> > 
-> > v2:
-> > - Rewrote to use GPU timestamp register
-> > - Added timestamp_offset to drm_panthor_timestamp_info
-> > - Add missing include for arch_timer_get_cntfrq
-> > - Rework commit message
-> > 
-> > v3:
-> > - Add panthor_gpu_read_64bit_counter
-> > - Change panthor_gpu_read_timestamp to use
-> >   panthor_gpu_read_64bit_counter
-> > 
-> > v4:
-> > - Fix multiple typos in uAPI documentation
-> > - Mention behavior when the timestamp frequency is unknown
-> > - Use u64 instead of unsigned long long
-> >   for panthor_gpu_read_timestamp
-> > - Apply r-b from Mihail
-> > 
-> > Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
-> > Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>  
+> [ Upstream commit 50151b7f1c79a09117837eb95b76c2de76841dab ]
 > 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Check return value and conduct null pointer handling to avoid null pointer dereference.
+> 
+> Signed-off-by: Bob Zhou <bob.zhou@amd.com>
+> Reviewed-by: Tim Huang <Tim.Huang@amd.com>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Signed-off-by: Mukul Sikka <mukul.sikka@broadcom.com>
+> ---
+>  .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 30 ++++++++++++++++---
+>  1 file changed, 26 insertions(+), 4 deletions(-)
 
-Queued to drm-misc-next.
+Now queued up, thanks.
+
+greg k-h
