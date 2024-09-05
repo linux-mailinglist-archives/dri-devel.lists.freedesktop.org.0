@@ -2,88 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41F896DA76
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 15:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FEA96DA7D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2024 15:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 779D610E102;
-	Thu,  5 Sep 2024 13:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0E5510E8BB;
+	Thu,  5 Sep 2024 13:37:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Wl7ToCNg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PmGDeINv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXWSsYsf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H5YBwS7b";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="vv6NZGY/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KYyMEJWW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vv6NZGY/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KYyMEJWW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 707A210E102
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 13:35:42 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C54210E8BB
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 13:37:11 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E7CC321A6A;
- Thu,  5 Sep 2024 13:35:39 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 722EF1F7D4;
+ Thu,  5 Sep 2024 13:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725543340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1725543429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
- b=Wl7ToCNgvl7BQRXsl63WswHHHiXrogyTTem7o+3r/z6qkusVoB0ziDP3q1xSjNjUkQwzve
- la6iuMI2LmSOwZDk1shJGCnyQh2TjqVu+pfnVVEXFdK6Lym5wzdpoqKsJC74qQx4Ur5oiM
- I5VeikMUqUV/miMDPYBy5WBNMuXBu5w=
+ bh=o2BozEM+SZwYk+/eM1Y46tsnu0ABNExojFMX2//sO6w=;
+ b=vv6NZGY/6zjx5/4dJNZsKdUcr560DgUbZ4eIpRPOwWPsOXi7sR0AN8q/XqWYFV3BBShOpI
+ SjozVD27sNc2Z+ellJ0vLtpsestoDQv/oFYe/k5cgmCcx2V+mjFgeBkwQa1aSFxEGUYH6A
+ 8PjyL0fzZ/f2IAFfpswnNbMMq1M+DhQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725543340;
+ s=susede2_ed25519; t=1725543429;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
- b=PmGDeINvJASZ3nKO/DGmLsIZpZiF9eK8PGMhf9H0+Uv/Tepez/SwsY8GQVy9JAyWqn9vRi
- yJcquDC14UuUI8DQ==
-Authentication-Results: smtp-out1.suse.de;
+ bh=o2BozEM+SZwYk+/eM1Y46tsnu0ABNExojFMX2//sO6w=;
+ b=KYyMEJWWtbKaxBaMqtzywRWCF+qzRiKrhOE+fCHrvBJPe3d9bCwOeSG1QjKANPmPMUwJca
+ O0KfMFxmeTVWKABA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725543339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1725543429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
- b=MXWSsYsfnoasAzCuUFzz/CUa1t8ZYTS9Cz8NVRQgTU0grEyI+ck7rZK0f3CzIpcmr8f4sT
- Lqx1L5b2BGUWkopKiFal8qNkHdYTzfAiPOHIgWrupriMrL4YE5mdPg99ltXAW4+qDU7MPC
- wRvqnoF2jf76WHAkPfKRMAFdSwcek94=
+ bh=o2BozEM+SZwYk+/eM1Y46tsnu0ABNExojFMX2//sO6w=;
+ b=vv6NZGY/6zjx5/4dJNZsKdUcr560DgUbZ4eIpRPOwWPsOXi7sR0AN8q/XqWYFV3BBShOpI
+ SjozVD27sNc2Z+ellJ0vLtpsestoDQv/oFYe/k5cgmCcx2V+mjFgeBkwQa1aSFxEGUYH6A
+ 8PjyL0fzZ/f2IAFfpswnNbMMq1M+DhQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725543339;
+ s=susede2_ed25519; t=1725543429;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MkAZVcOmRKrQpWjAz1zGF9Xx/ipmQi8vk3MfF58lKS8=;
- b=H5YBwS7bO9ixtQY1CyqHIKmH9BePcFN9IplB3wbnSxJQM6gs7G5OyhjhSlsHAeD0XDmWd8
- y1jJ5t79SymwI0Cw==
+ bh=o2BozEM+SZwYk+/eM1Y46tsnu0ABNExojFMX2//sO6w=;
+ b=KYyMEJWWtbKaxBaMqtzywRWCF+qzRiKrhOE+fCHrvBJPe3d9bCwOeSG1QjKANPmPMUwJca
+ O0KfMFxmeTVWKABA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 854ED13419;
- Thu,  5 Sep 2024 13:35:39 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 114CA13419;
+ Thu,  5 Sep 2024 13:37:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cqEjH6uz2WbVCAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 05 Sep 2024 13:35:39 +0000
-Message-ID: <292616c8-2532-43e7-a373-dae34e7b5334@suse.de>
-Date: Thu, 5 Sep 2024 15:35:39 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id BH7hAgW02WY+CQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Sep 2024 13:37:09 +0000
+Message-ID: <26ce4869-d635-4808-a458-521004194a0f@suse.de>
+Date: Thu, 5 Sep 2024 15:37:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 00/28] backlight: lcd: Remove fbdev dependencies
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- bonbons@linux-vserver.org, jikos@kernel.org, bentiss@kernel.org,
- shc_work@mail.ru, s.hauer@pengutronix.de, kernel@pengutronix.de,
- shawnguo@kernel.org, festevam@gmail.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org
+To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ deller@gmx.de, bonbons@linux-vserver.org, jikos@kernel.org,
+ bentiss@kernel.org, shc_work@mail.ru, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, shawnguo@kernel.org, festevam@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org
 References: <20240820093452.68270-1-tzimmermann@suse.de>
- <20240903145809.GE12939@aspen.lan>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,25 +109,23 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240903145809.GE12939@aspen.lan>
+In-Reply-To: <20240820093452.68270-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Score: -4.30
 X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[15];
- MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,linux-vserver.org,mail.ru,pengutronix.de];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; MIME_TRACE(0.00)[0:+];
  FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de,mail.ru];
- RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,linux-vserver.org,mail.ru,pengutronix.de,lists.freedesktop.org,vger.kernel.org];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, linaro.org:email,
- suse.de:mid]
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_TWELVE(0.00)[15];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_NONE(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -146,45 +143,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Helge, you might want to look through the fbdev patches in this series.
 
-Am 03.09.24 um 16:58 schrieb Daniel Thompson:
-> On Tue, Aug 20, 2024 at 11:22:38AM +0200, Thomas Zimmermann wrote:
->> This series removes most dependencies on fbdev from the lcd subsystem
->> and its drivers.
->>
->> Patches 1 to 3 rework the fbdev notifier, the fbdev's fb_info can
->> now refer to a dedicated lcd device, and lcd defines constants for
->> power states. These changes resemble similar changes to the backlight
->> code.
->>
->> Patches 4 to 19 update lcd drivers to the new interfaces and perform
->> minor cleanups during the process. Patches 20 to 24 update fbdev
->> drivers and patch 25 updates the picolcd driver from the hid subsystem.
->>
->> Patches 25 to 28 finally clean up various lcd interfaces and files.
->>
->> This patchset is part of a larger effort to implement the lcd code
->> without depending on fbdev. Similar patches have been sent out for
->> the backlight subsystem, such as in [1] and [2].
->>
->> Hopefully this series can be merged at once through the lcd tree.
->>
->> [1] https://patchwork.freedesktop.org/series/129782/
->> [2] https://patchwork.freedesktop.org/series/134718/
-> I shared a could of nitpicks. You can do what you like with them since
-> none are major enough to stop me also sharing a:
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-Thanks for reviewing. I'll send out an update. Why tree do these patches 
-go into? Backlight?
-
-Best regards
-Thomas
-
+Am 20.08.24 um 11:22 schrieb Thomas Zimmermann:
+> This series removes most dependencies on fbdev from the lcd subsystem
+> and its drivers.
 >
+> Patches 1 to 3 rework the fbdev notifier, the fbdev's fb_info can
+> now refer to a dedicated lcd device, and lcd defines constants for
+> power states. These changes resemble similar changes to the backlight
+> code.
 >
-> Daniel.
+> Patches 4 to 19 update lcd drivers to the new interfaces and perform
+> minor cleanups during the process. Patches 20 to 24 update fbdev
+> drivers and patch 25 updates the picolcd driver from the hid subsystem.
+>
+> Patches 25 to 28 finally clean up various lcd interfaces and files.
+>
+> This patchset is part of a larger effort to implement the lcd code
+> without depending on fbdev. Similar patches have been sent out for
+> the backlight subsystem, such as in [1] and [2].
+>
+> Hopefully this series can be merged at once through the lcd tree.
+>
+> [1] https://patchwork.freedesktop.org/series/129782/
+> [2] https://patchwork.freedesktop.org/series/134718/
+>
+> Thomas Zimmermann (28):
+>    backlight: lcd: Rearrange code in fb_notifier_callback()
+>    backlight: lcd: Test against struct fb_info.lcd_dev
+>    backlight: lcd: Add LCD_POWER_ constants for power states
+>    backlight: corgi_lcd: Use lcd power constants
+>    backlight: hx8357: Use lcd power constants
+>    backlight: ili922x: Use lcd power constants
+>    backlight: ili9320: Use lcd power constants
+>    backlight: jornada720_lcd: Include <linux/io.h> for IOMEM() macro
+>    backlight: jornada720_lcd: Use lcd power constants
+>    backlight: l4f00242t03: Use lcd power constants
+>    backlight: lms283gf05: Use lcd power constants
+>    backlight: lms501kf03: Remove unnecessary include of
+>      <linux/backlight.h>
+>    backlight: lms501kf03: Use lcd power constants
+>    backlight: ltv350qv: Use lcd power constants
+>    backlight: otm3225a: Use lcd power constants
+>    backlight: platform_lcd: Remove include statement for
+>      <linux/backlight.h>
+>    backlight: platform_lcd: Remove match_fb from struct plat_lcd_data
+>    backlight: platform_lcd: Use lcd power constants
+>    backlight: tdo24m: Use lcd power constants
+>    fbdev: clps711x-fb: Replace check_fb in favor of struct
+>      fb_info.lcd_dev
+>    fbdev: clps711x-fb: Use lcd power constants
+>    fbdev: imxfb: Replace check_fb in favor of struct fb_info.lcd_dev
+>    fbdev: imxfb: Use lcd power constants
+>    fbdev: omap: Use lcd power constants
+>    HID: picoLCD: Replace check_fb in favor of struct fb_info.lcd_dev
+>    backlight: lcd: Replace check_fb with controls_device
+>    backlight: lcd: Remove struct fb_videomode from set_mode callback
+>    backlight: lcd: Do not include <linux/fb.h> in lcd header
+>
+>   drivers/hid/hid-picolcd_fb.c             |  4 ++
+>   drivers/hid/hid-picolcd_lcd.c            |  6 ---
+>   drivers/video/backlight/corgi_lcd.c      | 17 ++++----
+>   drivers/video/backlight/hx8357.c         |  2 +-
+>   drivers/video/backlight/ili922x.c        |  7 ++--
+>   drivers/video/backlight/ili9320.c        | 15 ++++----
+>   drivers/video/backlight/jornada720_lcd.c | 10 ++---
+>   drivers/video/backlight/l4f00242t03.c    | 32 ++++++++--------
+>   drivers/video/backlight/lcd.c            | 49 +++++++++++++++++++-----
+>   drivers/video/backlight/lms283gf05.c     |  2 +-
+>   drivers/video/backlight/lms501kf03.c     | 24 ++++++------
+>   drivers/video/backlight/ltv350qv.c       | 15 ++++----
+>   drivers/video/backlight/otm3225a.c       |  2 +-
+>   drivers/video/backlight/platform_lcd.c   | 20 ++++------
+>   drivers/video/backlight/tdo24m.c         | 19 +++++----
+>   drivers/video/fbdev/clps711x-fb.c        | 29 +++++++-------
+>   drivers/video/fbdev/imxfb.c              | 32 ++++++----------
+>   drivers/video/fbdev/omap/lcd_ams_delta.c |  8 ++--
+>   include/linux/fb.h                       | 13 +++++++
+>   include/linux/lcd.h                      | 29 ++++++++++----
+>   include/video/platform_lcd.h             |  3 --
+>   21 files changed, 182 insertions(+), 156 deletions(-)
+>
 
 -- 
 --
