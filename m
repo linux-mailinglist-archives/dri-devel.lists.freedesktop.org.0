@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2982796ED61
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3835396ED5F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 067A510E9A0;
-	Fri,  6 Sep 2024 08:14:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBE8710E99B;
+	Fri,  6 Sep 2024 08:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9209510E99B;
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2EFB10E9A0;
  Fri,  6 Sep 2024 08:14:55 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.112])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4X0TXh5DByz1j8D4;
- Fri,  6 Sep 2024 16:14:28 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X0TVh0lVxzfbjq;
+ Fri,  6 Sep 2024 16:12:44 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
- by mail.maildlp.com (Postfix) with ESMTPS id 4E0BB1400DB;
- Fri,  6 Sep 2024 16:14:51 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 39E8D180064;
+ Fri,  6 Sep 2024 16:14:52 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Sep
- 2024 16:14:50 +0800
+ 2024 16:14:51 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -36,9 +36,9 @@ To: <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
  <linux-arm-kernel@lists.infradead.org>, <freedreno@lists.freedesktop.org>,
  <linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH 4/5] drm/tegra: dpaux: Use IRQF_NO_AUTOEN flag in request_irq()
-Date: Fri, 6 Sep 2024 16:23:24 +0800
-Message-ID: <20240906082325.2677621-5-ruanjinjie@huawei.com>
+Subject: [PATCH 5/5] drm/msm/adreno: Use IRQF_NO_AUTOEN flag in request_irq()
+Date: Fri, 6 Sep 2024 16:23:25 +0800
+Message-ID: <20240906082325.2677621-6-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240906082325.2677621-1-ruanjinjie@huawei.com>
 References: <20240906082325.2677621-1-ruanjinjie@huawei.com>
@@ -67,33 +67,32 @@ disable_irq() after request_irq() still has a time gap in which
 interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
 disable IRQ auto-enable when request IRQ.
 
-Fixes: 9e532b3ad9a7 ("drm/tegra: dpaux: Disable interrupt when detached")
+Fixes: 4b565ca5a2cb ("drm/msm: Add A6XX device support")
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- drivers/gpu/drm/tegra/dpaux.c | 4 +---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-index ae12d001a04b..9646dba950e0 100644
---- a/drivers/gpu/drm/tegra/dpaux.c
-+++ b/drivers/gpu/drm/tegra/dpaux.c
-@@ -517,7 +517,7 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
- 	pm_runtime_enable(&pdev->dev);
- 	pm_runtime_get_sync(&pdev->dev);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index cb538a262d1c..db36c81d0f12 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -1505,15 +1505,13 @@ static int a6xx_gmu_get_irq(struct a6xx_gmu *gmu, struct platform_device *pdev,
  
--	err = devm_request_irq(dpaux->dev, dpaux->irq, tegra_dpaux_irq, 0,
-+	err = devm_request_irq(dpaux->dev, dpaux->irq, tegra_dpaux_irq, IRQF_NO_AUTOEN,
- 			       dev_name(dpaux->dev), dpaux);
- 	if (err < 0) {
- 		dev_err(dpaux->dev, "failed to request IRQ#%u: %d\n",
-@@ -525,8 +525,6 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
- 		goto err_pm_disable;
+ 	irq = platform_get_irq_byname(pdev, name);
+ 
+-	ret = request_irq(irq, handler, IRQF_TRIGGER_HIGH, name, gmu);
++	ret = request_irq(irq, handler, IRQF_TRIGGER_HIGH | IRQF_NO_AUTOEN, name, gmu);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(&pdev->dev, "Unable to get interrupt %s %d\n",
+ 			      name, ret);
+ 		return ret;
  	}
  
--	disable_irq(dpaux->irq);
+-	disable_irq(irq);
 -
- 	dpaux->aux.transfer = tegra_dpaux_transfer;
- 	dpaux->aux.dev = &pdev->dev;
+ 	return irq;
+ }
  
 -- 
 2.34.1
