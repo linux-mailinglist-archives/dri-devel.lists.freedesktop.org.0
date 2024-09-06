@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E6896F625
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 16:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF6F96F62A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 16:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E77510EA6A;
-	Fri,  6 Sep 2024 14:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA03410EA6B;
+	Fri,  6 Sep 2024 14:03:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H8Ag3MPq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dyMY9vi+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A3C10EA69;
- Fri,  6 Sep 2024 14:03:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337A710EA6B;
+ Fri,  6 Sep 2024 14:03:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 93DB7A44FCB;
- Fri,  6 Sep 2024 14:02:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91935C4CEC4;
- Fri,  6 Sep 2024 14:02:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C7DBF5C4AEE;
+ Fri,  6 Sep 2024 14:03:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05F2BC4AF0B;
+ Fri,  6 Sep 2024 14:03:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725631379;
- bh=OO0AElYeEOI3GYdUWGdnaZhtFPRBNB1P+5L7lTeyPbM=;
+ s=k20201202; t=1725631400;
+ bh=cCvVFVarD948ikan+/2TaJVbsKjZAcxCYUNJAassXuo=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=H8Ag3MPqCKd4Jai8sgogq497549hcaRLSGScDfOvrf/HAncWIfVrSLLJMqEDvV8E9
- 3ABjdhDRqkmE6hdFAmbSE7tSpwSmEFfvcGSz9Tua7o/XVMs3BMXt8snQwZW92ZXFTe
- 86UfhwjfRjsG0EDZv/lmRgqdsOV3R15wS9+xE+lwZQgYrxa8mIOl9IW2w9Eeb/MxPr
- bElMnnGlW1+FIgpEmLtBr74/mtZ4VXc4kruztHE4M4YfJzspEomVAElqUlyhDI4f64
- AJZwUb2vsBTmjUsxcb0zLrvyClOusruGsa48AfGUwjFil27W00qEweLjHFHOiwJiJX
- VcLytTHM+Y5Rw==
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2f406034874so24461081fa.1; 
- Fri, 06 Sep 2024 07:02:59 -0700 (PDT)
+ b=dyMY9vi+Iv/1EE4rQ5BwnYhfwk66+LJ4z96MdbykYSppKKoQ6y3a0sNfUu/b88uyD
+ CnMZ+ONw74z6CdB7oB6DTdO6H33Yg0CqFxIeKoXjlAeH7r+IeYZBwiBhKopg0VRDv1
+ gzpGPqLViAnfIcvPs8ONYWfyESePiuh7ufuvViitOGQLxvTFW462hGXk6bbFU2yUaH
+ L9ypC5UisZq5so1J2EZ4Zsx2oDa8QzGHtDF2R5KDWuQbRupAZrdUcRbDK0gOWrBwUd
+ QfmUhasthbSt1k+8xvJ7JF5Ifym3SEZdnZdQXjE4OvCP9je+KurLddBgNN2nspGq59
+ NazYJG1NuiiDw==
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5353cd2fa28so2454032e87.3; 
+ Fri, 06 Sep 2024 07:03:19 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUi7J2OXuw3yTl8jEVKQnD9Zz9d3KkqfzsHYlXnyzZkQ2QXD4S/T7jUk42yDZp0Yp+Y4vJdpUA4wBQ=@lists.freedesktop.org,
- AJvYcCXbV1WTt3QG3QKw4bPco3ouxaIt0erz9ttTe1u/kvV4UKmxlpae9g/BTZ6yWthT83MAxmVwR5zJAzI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzm0SVZlbOSoVBHiEhOzTw5AnWHvAaxPGhTDjgvkt4EElvkbukn
- iDtzyTTwG3R6Y4X7rjYakq2LVW43dI8V8uPcnyF6PjuoB+wSitV2D+C4MqNzBbIqKAAr2oaaIa2
- EY9A9DGCRfouupEJ4w561P8JgFsE=
-X-Google-Smtp-Source: AGHT+IHDPemzgtRgtIK3pe/WquzDZM64UIne/QjVdYwQNSINL5RkN2+H+MExlIZPV5kHOwbjtPDmzO7x05c0KOYPFxo=
-X-Received: by 2002:a2e:868d:0:b0:2f7:4df2:6a13 with SMTP id
- 38308e7fff4ca-2f751f33229mr16214701fa.25.1725631378202; Fri, 06 Sep 2024
- 07:02:58 -0700 (PDT)
+ AJvYcCUVl780Gw9FG7HvKLh39Go2J173g2kuY8brC2QQt4EnwFRY4xgwZUOZrudNCNYKX2wwJuiznmjps18=@lists.freedesktop.org,
+ AJvYcCXsRhrZlF00Q0m3tiKy3aFl+XEU5vfOseLuHwFlCWKggM6R9qPw1sKr6Rc82XJ/DZmACIPsjB8S8zc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx64c408ddXxlGCad52KHvArS7rplCGcYFMLIftMMcReV1UQkHQ
+ fHUou6hGmYL/raYa75sq5n4yNvbs+cwIhjx4DghmNy71zGPeFt0zjG72jtGCUzIkmr3ZgJwSRNM
+ ZP4X32gJeJhPkFO8slnhC8ldLPRU=
+X-Google-Smtp-Source: AGHT+IEwm1OihzyduuH3GdpU3yiLq9gm3KuXayVrsg5BxQSVxVXk/rmKiVyZVYISmyKuN7IvBRI5rMb23e03P34iqD4=
+X-Received: by 2002:a05:6512:39ce:b0:536:54df:bff2 with SMTP id
+ 2adb3069b0e04-53658812f84mr1830079e87.54.1725631398698; Fri, 06 Sep 2024
+ 07:03:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
- <20240906-macos-build-support-v2-4-06beff418848@samsung.com>
-In-Reply-To: <20240906-macos-build-support-v2-4-06beff418848@samsung.com>
+ <20240906-macos-build-support-v2-5-06beff418848@samsung.com>
+In-Reply-To: <20240906-macos-build-support-v2-5-06beff418848@samsung.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 6 Sep 2024 23:02:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARTnJ10ABuD96U-MaYitnX3AF=GD+N-skH7VBfAmOw9RQ@mail.gmail.com>
-Message-ID: <CAK7LNARTnJ10ABuD96U-MaYitnX3AF=GD+N-skH7VBfAmOw9RQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] arm64: nvhe: add bee-headers support
+Date: Fri, 6 Sep 2024 23:02:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQGuXzuA5tNSv0q_AMAy8Zw5MtG2RFRW0nQOwCO8Z5FLw@mail.gmail.com>
+Message-ID: <CAK7LNAQGuXzuA5tNSv0q_AMAy8Zw5MtG2RFRW0nQOwCO8Z5FLw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/8] scripts: add bee-headers support
 To: da.gomez@samsung.com
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
  Lucas De Marchi <lucas.demarchi@intel.com>, 
@@ -111,92 +111,67 @@ On Fri, Sep 6, 2024 at 8:01=E2=80=AFPM Daniel Gomez via B4 Relay
 > https://github.com/bee-headers/homebrew-bee-headers
 >
 > It requires to install bee-headers Homebrew Tap:
->
 >   brew tap bee-headers/bee-headers
 >   brew install bee-headers/bee-headers/bee-headers
 >
 > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 > ---
->  arch/arm64/kernel/pi/Makefile     | 1 +
->  arch/arm64/kernel/vdso32/Makefile | 1 +
->  arch/arm64/kvm/hyp/nvhe/Makefile  | 3 ++-
->  3 files changed, 4 insertions(+), 1 deletion(-)
+>  scripts/Makefile     | 4 +++-
+>  scripts/mod/Makefile | 5 +++++
+>  2 files changed, 8 insertions(+), 1 deletion(-)
 >
-> diff --git a/arch/arm64/kernel/pi/Makefile b/arch/arm64/kernel/pi/Makefil=
-e
-> index 4d11a8c29181..259c9a45fba0 100644
-> --- a/arch/arm64/kernel/pi/Makefile
-> +++ b/arch/arm64/kernel/pi/Makefile
-> @@ -20,6 +20,7 @@ KBUILD_CFLAGS :=3D $(filter-out $(CC_FLAGS_SCS), $(KBUI=
-LD_CFLAGS))
->  KBUILD_CFLAGS  :=3D $(filter-out $(CC_FLAGS_LTO), $(KBUILD_CFLAGS))
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index 6bcda4b9d054..40f6a9159f8c 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -25,8 +25,10 @@ generate_rust_target-rust :=3D y
+>  rustdoc_test_builder-rust :=3D y
+>  rustdoc_test_gen-rust :=3D y
 >
->  hostprogs      :=3D relacheck
-> +HOSTCFLAGS_relacheck.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-header=
-s 2> /dev/null)
->
->  quiet_cmd_piobjcopy =3D $(quiet_cmd_objcopy)
->        cmd_piobjcopy =3D $(cmd_objcopy) && $(obj)/relacheck $(@) $(<)
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32=
-/Makefile
-> index 25a2cb6317f3..6cb8a04bd829 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -107,6 +107,7 @@ VDSO_LDFLAGS +=3D --orphan-handling=3D$(CONFIG_LD_ORP=
-HAN_WARN_LEVEL)
->  # $(hostprogs) with $(obj)
->  munge :=3D ../../../arm/vdso/vdsomunge
->  hostprogs :=3D $(munge)
-> +HOSTCFLAGS_$(munge).o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-headers=
- 2> /dev/null)
->
->  c-obj-vdso :=3D note.o
->  c-obj-vdso-gettimeofday :=3D vgettimeofday.o
-> diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/M=
-akefile
-> index b43426a493df..d20a440b6964 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/Makefile
-> +++ b/arch/arm64/kvm/hyp/nvhe/Makefile
-> @@ -15,7 +15,8 @@ ccflags-y +=3D -fno-stack-protector     \
->              $(DISABLE_STACKLEAK_PLUGIN)
->
->  hostprogs :=3D gen-hyprel
-> -HOST_EXTRACFLAGS +=3D -I$(objtree)/include
-> +HOST_EXTRACFLAGS +=3D -I$(objtree)/include \
+> -HOSTCFLAGS_sorttable.o =3D -I$(srctree)/tools/include
+> +HOSTCFLAGS_sorttable.o =3D -I$(srctree)/tools/include \
 > +       $(shell $(HOSTPKG_CONFIG) --cflags bee-headers 2> /dev/null)
+>  HOSTLDLIBS_sorttable =3D -lpthread
+> +HOSTCFLAGS_insert-sys-cert.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-=
+headers 2> /dev/null)
+>  HOSTCFLAGS_asn1_compiler.o =3D -I$(srctree)/include
+>  HOSTCFLAGS_sign-file.o =3D $(shell $(HOSTPKG_CONFIG) --cflags libcrypto =
+2> /dev/null)
+>  HOSTLDLIBS_sign-file =3D $(shell $(HOSTPKG_CONFIG) --libs libcrypto 2> /=
+dev/null || echo -lcrypto)
+> diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
+> index 75c12c045f21..33bb032039ba 100644
+> --- a/scripts/mod/Makefile
+> +++ b/scripts/mod/Makefile
+> @@ -9,6 +9,11 @@ modpost-objs   :=3D modpost.o file2alias.o sumversion.o =
+symsearch.o
+>  devicetable-offsets-file :=3D devicetable-offsets.h
 >
->  lib-objs :=3D clear_page.o copy_page.o memcpy.o memset.o
->  lib-objs :=3D $(addprefix ../../../lib/, $(lib-objs))
+>  HOSTCFLAGS_file2alias.o +=3D -D_UUID_T -D__GETHOSTUUID_H
+> +HOSTCFLAGS_modpost.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-headers =
+2> /dev/null)
+> +HOSTCFLAGS_file2alias.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-heade=
+rs 2> /dev/null)
+> +HOSTCFLAGS_sumversion.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-heade=
+rs 2> /dev/null)
+> +HOSTCFLAGS_symsearch.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-header=
+s 2> /dev/null)
+> +HOSTCFLAGS_mk_elfconfig.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-hea=
+ders 2> /dev/null)
 >
-> --
-> 2.46.0
->
->
+>  $(obj)/$(devicetable-offsets-file): $(obj)/devicetable-offsets.s FORCE
+>         $(call filechk,offsets,__DEVICETABLE_OFFSETS_H__)
+
+
+
+Same as 4/8.
 
 NACK.
 
-Developers working on Linux distributions have no interest
-in your homebrew setup.
-
-For 99% of users, pkg-config does not do anything good.
-It is a waste of process forks.
 
 
 
-You need to do it outside.
-
-
- $ HOSTCFLAGS=3D$(pkg-config --cflags bee-headers) make
-
-or
-
- $ export HOSTCFLAGS=3D$(pkg-config --cflags bee-headers)
- $ make
-
-
-
-
-
---=20
+--
 Best Regards
+
 Masahiro Yamada
