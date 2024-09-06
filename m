@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A5696F147
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 12:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B00E96F1FA
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 12:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D94D910EA00;
-	Fri,  6 Sep 2024 10:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D1710EA07;
+	Fri,  6 Sep 2024 10:55:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZGdsEG8l";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id ADC9310EA00
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 10:22:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 53BA4FEC;
- Fri,  6 Sep 2024 03:23:03 -0700 (PDT)
-Received: from [10.1.36.22] (e122027.cambridge.arm.com [10.1.36.22])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25A653F73F;
- Fri,  6 Sep 2024 03:22:34 -0700 (PDT)
-Message-ID: <b6f822aa-c985-4195-9508-3df67959b662@arm.com>
-Date: Fri, 6 Sep 2024 11:22:32 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO
- dev query
-To: Mary Guillemard <mary.guillemard@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Christopher Healy <healych@amazon.com>, kernel@collabora.com,
- Liviu Dudau <liviu.dudau@arm.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793E610EA07;
+ Fri,  6 Sep 2024 10:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725620150; x=1757156150;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=+5X5RmOpW75vGBBLyLRc/lO46cBQ6s4XrK+NXXvX35c=;
+ b=ZGdsEG8lTo6AeX57uKJuBAvZACRqnRskmk7k9l5zSQEpPCbHxXQX2BPV
+ 6DR/FL2hvB1bZrao9x86Tzj3cSxVdT4I/u7rnDNUfD+WjZzhfEVieJ12f
+ hjXGlhUHm/Fh7vWmbIqaZkqdnfrtTRY/9khq8It3mbBLMiB4+5N1oagMv
+ Uz+gnWxhL7lQURrKfK7lI0aFxmFTuIVLNAjdmTDt3ngr8D7U0bDOFDr0m
+ 3zwWWQLO8r6aN91E9yTMBJVl4eat3hw3edgOvsZZFXt9WY+od7NNQiNJN
+ Nrcd0rAM7BuEORGWkDES2uxaOCq8eoCEXNbr9GiR78dKVSkuUhflq7F2/ A==;
+X-CSE-ConnectionGUID: ErdNnU/ZSXmhK+ZuQDbq5A==
+X-CSE-MsgGUID: 1sGQTskhSyKpMBaaqRUoTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="46903046"
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="46903046"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2024 03:55:50 -0700
+X-CSE-ConnectionGUID: Gr9PDKwPQvm+d8CnvufYcA==
+X-CSE-MsgGUID: buDiXADaQryY4tqkUvEcPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="70724267"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.115])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2024 03:55:47 -0700
+Date: Fri, 6 Sep 2024 13:55:43 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20240905173222.252641-2-mary.guillemard@collabora.com>
- <20240905173222.252641-4-mary.guillemard@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240905173222.252641-4-mary.guillemard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <Ztrfr_Wuurfa-3Rv@jlahtine-mobl.ger.corp.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,191 +76,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/09/2024 18:32, Mary Guillemard wrote:
-> Expose allowed group priorities with a new device query.
-> 
-> This new uAPI will be used in Mesa to properly report what priorities a
-> user can use for EGL_IMG_context_priority.
-> 
-> Since this extends the uAPI and because userland needs a way to
-> advertise priorities accordingly, this also bumps the driver minor
-> version.
-> 
-> v2:
-> - Remove drm_panthor_group_allow_priority_flags definition
-> - Document that allowed_mask is a bitmask of drm_panthor_group_priority
-> 
-> Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
+Hi Dave & Sima,
 
-With Boris' BIT() macro change:
+Here goes the final drm-intel-gt-next towards 6.12.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Primarily addition of fan speed hwmon, W/A fixups for ARL, add missing register
+for userspace into DG2/MTL/ARL. Then a few smaller fixes. 
 
-Thanks,
-Steve
+Regards, Joonas
 
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 61 ++++++++++++++++++---------
->  include/uapi/drm/panthor_drm.h        | 22 ++++++++++
->  2 files changed, 64 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 7b1db2adcb4c..f85aa2d99f09 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -170,6 +170,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_timestamp_info, current_timestamp), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_group_priorities_info, pad), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
-> @@ -777,11 +778,41 @@ static int panthor_query_timestamp_info(struct panthor_device *ptdev,
->  	return 0;
->  }
->  
-> +static int group_priority_permit(struct drm_file *file,
-> +				 u8 priority)
-> +{
-> +	/* Ensure that priority is valid */
-> +	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
-> +		return -EINVAL;
-> +
-> +	/* Medium priority and below are always allowed */
-> +	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
-> +		return 0;
-> +
-> +	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
-> +	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
-> +		return 0;
-> +
-> +	return -EACCES;
-> +}
-> +
-> +static void panthor_query_group_priorities_info(struct drm_file *file,
-> +						struct drm_panthor_group_priorities_info *arg)
-> +{
-> +	int prio;
-> +
-> +	for (prio = PANTHOR_GROUP_PRIORITY_REALTIME; prio >= 0; prio--) {
-> +		if (!group_priority_permit(file, prio))
-> +			arg->allowed_mask |= 1 << prio;
-> +	}
-> +}
-> +
->  static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
->  {
->  	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
->  	struct drm_panthor_dev_query *args = data;
->  	struct drm_panthor_timestamp_info timestamp_info;
-> +	struct drm_panthor_group_priorities_info priorities_info;
->  	int ret;
->  
->  	if (!args->pointer) {
-> @@ -798,6 +829,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
->  			args->size = sizeof(timestamp_info);
->  			return 0;
->  
-> +		case DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO:
-> +			args->size = sizeof(priorities_info);
-> +			return 0;
-> +
->  		default:
->  			return -EINVAL;
->  		}
-> @@ -818,6 +853,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
->  
->  		return PANTHOR_UOBJ_SET(args->pointer, args->size, timestamp_info);
->  
-> +	case DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO:
-> +		panthor_query_group_priorities_info(file, &priorities_info);
-> +		return PANTHOR_UOBJ_SET(args->pointer, args->size, priorities_info);
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -1037,24 +1076,6 @@ static int panthor_ioctl_group_destroy(struct drm_device *ddev, void *data,
->  	return panthor_group_destroy(pfile, args->group_handle);
->  }
->  
-> -static int group_priority_permit(struct drm_file *file,
-> -				 u8 priority)
-> -{
-> -	/* Ensure that priority is valid */
-> -	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
-> -		return -EINVAL;
-> -
-> -	/* Medium priority and below are always allowed */
-> -	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
-> -		return 0;
-> -
-> -	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
-> -	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
-> -		return 0;
-> -
-> -	return -EACCES;
-> -}
-> -
->  static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  				      struct drm_file *file)
->  {
-> @@ -1436,6 +1457,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
->   * PanCSF driver version:
->   * - 1.0 - initial interface
->   * - 1.1 - adds DEV_QUERY_TIMESTAMP_INFO query
-> + * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
-> + *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
->   */
->  static const struct drm_driver panthor_drm_driver = {
->  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> @@ -1449,7 +1472,7 @@ static const struct drm_driver panthor_drm_driver = {
->  	.desc = "Panthor DRM driver",
->  	.date = "20230801",
->  	.major = 1,
-> -	.minor = 1,
-> +	.minor = 2,
->  
->  	.gem_create_object = panthor_gem_create_object,
->  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 011a555e4674..87c9cb555dd1 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -263,6 +263,11 @@ enum drm_panthor_dev_query_type {
->  
->  	/** @DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO: Query timestamp information. */
->  	DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO: Query allowed group priorities information.
-> +	 */
-> +	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
->  };
->  
->  /**
-> @@ -399,6 +404,23 @@ struct drm_panthor_timestamp_info {
->  	__u64 timestamp_offset;
->  };
->  
-> +/**
-> + * struct drm_panthor_group_priorities_info - Group priorities information
-> + *
-> + * Structure grouping all queryable information relating to the allowed group priorities.
-> + */
-> +struct drm_panthor_group_priorities_info {
-> +	/**
-> +	 * @allowed_mask: Bitmask of the allowed group priorities.
-> +	 *
-> +	 * Each bit represents a variant of the enum drm_panthor_group_priority.
-> +	 */
-> +	__u8 allowed_mask;
-> +
-> +	/** @pad: Padding fields, MBZ. */
-> +	__u8 pad[3];
-> +};
-> +
->  /**
->   * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
->   */
+***
 
+drm-intel-gt-next-2024-09-06:
+
+Driver Changes:
+
+- Expose fan speed via hwmon (Raag)
+- Correction to Wa_14019159160 on ARL (John H)
+- Whitelist COMMON_SLICE_CHICKEN1 for UMD access on DG2/MTL/ARL (Dnyaneshwar)
+- Do not attempt to load the GSC multiple times to avoid hanging GSC HW (Daniele)
+
+- Populate /sys/class/drm/cardX/engines/ even if one engine fails (Andi)
+- Use kmemdup_array instead of kmemdup for multiple allocation (Yu)
+- Remove extra unlikely() (Hongbo)
+
+The following changes since commit 255fc1703e42321b5afdedc8259ad03c7cc533ec:
+
+  drm/i915/gem: Calculate object page offset for partial memory mapping (2024-08-21 15:28:33 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2024-09-06
+
+for you to fetch changes up to 596a7f1084e49cc65072c458c348861e9b9ceab9:
+
+  drm/i915: Remove extra unlikely helper (2024-09-05 15:44:37 -0400)
+
+----------------------------------------------------------------
+Driver Changes:
+
+- Expose fan speed via hwmon (Raag)
+- Correction to Wa_14019159160 on ARL (John H)
+- Whitelist COMMON_SLICE_CHICKEN1 for UMD access on DG2/MTL/ARL (Dnyaneshwar)
+- Do not attempt to load the GSC multiple times to avoid hanging GSC HW (Daniele)
+
+- Populate /sys/class/drm/cardX/engines/ even if one engine fails (Andi)
+- Use kmemdup_array instead of kmemdup for multiple allocation (Yu)
+- Remove extra unlikely() (Hongbo)
+
+----------------------------------------------------------------
+Andi Shyti (1):
+      drm/i915/gt: Continue creating engine sysfs files even after a failure
+
+Daniele Ceraolo Spurio (1):
+      drm/i915: Do not attempt to load the GSC multiple times
+
+Dnyaneshwar Bhadane (1):
+      drm/i915/gt: Whitelist COMMON_SLICE_CHICKEN1 for UMD access.
+
+Hongbo Li (1):
+      drm/i915: Remove extra unlikely helper
+
+John Harrison (1):
+      drm/i915/guc: Fix missing enable of Wa_14019159160 on ARL
+
+Raag Jadav (1):
+      drm/i915/hwmon: expose fan speed
+
+Yu Jiaoliang (1):
+      drm/i915/gt: Use kmemdup_array instead of kmemdup for multiple allocation
+
+ .../ABI/testing/sysfs-driver-intel-i915-hwmon      |  8 ++
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h            |  2 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        |  9 +--
+ drivers/gpu/drm/i915/gt/sysfs_engines.c            |  5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c          |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |  5 ++
+ drivers/gpu/drm/i915/i915_hwmon.c                  | 88 ++++++++++++++++++++++
+ 9 files changed, 112 insertions(+), 11 deletions(-)
