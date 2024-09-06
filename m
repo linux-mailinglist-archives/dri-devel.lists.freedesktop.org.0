@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEDE96E8BD
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 06:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6279196E95D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 07:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61A5810E907;
-	Fri,  6 Sep 2024 04:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61A7310E00C;
+	Fri,  6 Sep 2024 05:40:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FjB/DFtN";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="V1rwoY2e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5D2410E907
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 04:42:37 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a86910caf9cso481898766b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 21:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725597756; x=1726202556; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/HNTgh0Gw7k2vbgdhNpFyVMrFhVun9hfimao1T3fhE4=;
- b=FjB/DFtNVRXQpAwz3rXkB0yOJop/4sWQyfHA/HmZjzPB9J1D1LZod9pXxAG3HrSb20
- 4Tn3OaZw+DOoLdT3sauFsusj2Os02wD4cJtADNuBZClfZhmaX2yZco4aR7tqMCp1ltMk
- /3qZ7DXCATVph1j6GGsagIITre+TAcCD9MXpenuhfu+vm6ZEc6I2M/sHzNs2hyI+mH5t
- TIryxC9zh6Q0FdrSvpdeunNUBSp/joJtTeq1LmVLoLUlrF0fjcpi2IDy7YiiXY5Wxd5u
- a9xKC85T/kU6RSL8HpQXmtNPbWXQmznFGZTFkceYR3nhbfNqFhb0rcA+QvgG5Rtrptg2
- wFsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725597756; x=1726202556;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/HNTgh0Gw7k2vbgdhNpFyVMrFhVun9hfimao1T3fhE4=;
- b=Ni3YjvdR6j1BsbKbkqf/uAg05Ft0Mu5eNWw8O9FrKY1Mv2z6Kz7x2f1AppEkGHXySV
- jPXc4bhi9YiRPlHyXHFljPH3EojlYFgRubC5awfm8UUKESE9zpKtUNCMqgOGP64L+dX/
- /cGPYufyUvjXjun0S5a0tdNduFp+cX0JkYld2JodKgoyK0ODxGrUJAoPoA1cHY+enitU
- p0veILSTyykoNsq168LmRoFzYVKTzyfYpWaLt01oyzFCPX++0o3apHlS10F42BISEYHB
- S7Xb26+6yA/kL2whxNlldehQMwHKmq2gzbRlopeMO6XJk+kIBSDGHf9xuClsbmaL3Kzf
- D5tQ==
-X-Gm-Message-State: AOJu0Yycuj5RxG4A+wP8MrXEb6owmqCDJVEZhAb6C/mdOlk6OSk/iH8L
- SaNhdaHVPqhPwBiIfRLAeWLAVJo+O/SFjKAKehuYQ3hWpcq0DtUNYJupHkE0yLOmP02JYHYVlf6
- pUX0GtfESLsRIGhkIoiCdOHP3MMM=
-X-Google-Smtp-Source: AGHT+IFkdH+PKjAfxOEWEApI1PAeMzo3NRnrgpgvh8In4iDMY2t0zHfT2XRFQJXd4EDMBNQCzq9u5iiqxe+gnrfDilA=
-X-Received: by 2002:a17:906:d7dd:b0:a86:9fac:6939 with SMTP id
- a640c23a62f3a-a8a8644482bmr137611966b.30.1725597755552; Thu, 05 Sep 2024
- 21:42:35 -0700 (PDT)
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1351710E00C
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 05:40:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+ s=onoh2408; t=1725601221;
+ bh=Um2fielNufiPq2gPF+cakRDGheYfuE60dnAlgqaba+4=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=V1rwoY2egq7hA2t5O3yhm3k956+fErfFJ3lPNm6EyY5JEHnaocmMIs58Cg2dPlbK0
+ GSCuM0IOVepEkI+moHM5X+ySAPoWJEzlRXL5XREgx2G0YiQaJ0bHutsGuf5q2IytHc
+ zvYEJ/TVCMCqfUrz9rq0dv0qTy0mibq3grAl0/cA=
+X-QQ-mid: bizesmtp89t1725601217t86fmi1u
+X-QQ-Originating-IP: pp2HEb8VFRV3OyePs+K/oTB0T0vJNpih3CUIsTHdOR4=
+Received: from localhost.localdomain ( [113.57.152.160])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Fri, 06 Sep 2024 13:40:11 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 3399184416924761505
+From: WangYuli <wangyuli@uniontech.com>
+To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
+ rogerq@kernel.org, tony@atomide.com, linux@armlinux.org.uk, jgg@ziepe.ca,
+ leon@kernel.org, wangyuli@uniontech.com, gustavoars@kernel.org,
+ mitr@volny.cz, dmitry.torokhov@gmail.com, miquel.raynal@bootlin.com,
+ richard@nod.at, vigneshr@ti.com, anil.gurumurthy@qlogic.com,
+ sudarsana.kalluru@qlogic.com, James.Bottomley@HansenPartnership.com,
+ martin.petersen@oracle.com, obdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch
+Cc: linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ abhinavk@codeaurora.org, architt@codeaurora.org, chandanu@codeaurora.org,
+ jsanka@codeaurora.org, jcrouse@codeaurora.org, ryadav@codeaurora.org,
+ skolluku@codeaurora.org, seanpaul@chromium.org, robdclark@gmail.com,
+ anil_ravindranath@pmc-sierra.com, standby24x7@gmail.com, jkosina@suse.cz,
+ don.hiatt@intel.com, ira.weiny@intel.com,
+ dasaratharaman.chandramouli@intel.com, dledford@redhat.com,
+ eric.piel@tremplin-utc.net, akpm@linux-foundation.org, dtor@mail.ru,
+ vijaykumar@bravegnu.org, dwmw2@infradead.org, kgudipat@brocade.com,
+ James.Bottomley@suse.de, guanwentao@uniontech.com, zhanjun@uniontech.com
+Subject: [PATCH] treewide: Correct the typo 'retun'
+Date: Fri,  6 Sep 2024 13:40:08 +0800
+Message-ID: <63D0F870EE8E87A0+20240906054008.390188-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.43.4
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 6 Sep 2024 14:42:24 +1000
-Message-ID: <CAPM=9twtq1CjWbeNnVKRaquctv6GHYSixXofFbprS4Dk5iBkGg@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.11-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,273 +77,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+There are some spelling mistakes of 'retun' in comments which
+should be instead of 'return'.
 
-This has a fair few patches in it, but I reviewed them all and they
-seem like real things, amdgpu, i915 and xe each have a bunch of fixes
-for various things, then there is a some bridge suspend/resume
-ordering fixes for a recent rework, and then some single driver
-changes in a few others.
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ arch/arm/mach-omap2/omap-mpuss-lowpower.c | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  | 2 +-
+ drivers/infiniband/core/sa_query.c        | 2 +-
+ drivers/input/misc/wistron_btns.c         | 2 +-
+ drivers/mtd/nand/raw/nandsim.c            | 2 +-
+ drivers/scsi/bfa/bfa_fcs.c                | 2 +-
+ drivers/scsi/pmcraid.c                    | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
 
-Nothing looks too serious, hopefully next week is quiet.
+diff --git a/arch/arm/mach-omap2/omap-mpuss-lowpower.c b/arch/arm/mach-omap2/omap-mpuss-lowpower.c
+index 7ad74db951f6..f18ef45e2fe1 100644
+--- a/arch/arm/mach-omap2/omap-mpuss-lowpower.c
++++ b/arch/arm/mach-omap2/omap-mpuss-lowpower.c
+@@ -333,7 +333,7 @@ int omap4_hotplug_cpu(unsigned int cpu, unsigned int power_state)
+ 	omap_pm_ops.scu_prepare(cpu, power_state);
+ 
+ 	/*
+-	 * CPU never retuns back if targeted power state is OFF mode.
++	 * CPU never returns back if targeted power state is OFF mode.
+ 	 * CPU ONLINE follows normal CPU ONLINE ptah via
+ 	 * omap4_secondary_startup().
+ 	 */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+index b26d5fe40c72..febc3e764a63 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+@@ -231,7 +231,7 @@ struct dpu_crtc_state {
+ 	container_of(x, struct dpu_crtc_state, base)
+ 
+ /**
+- * dpu_crtc_frame_pending - retun the number of pending frames
++ * dpu_crtc_frame_pending - return the number of pending frames
+  * @crtc: Pointer to drm crtc object
+  */
+ static inline int dpu_crtc_frame_pending(struct drm_crtc *crtc)
+diff --git a/drivers/infiniband/core/sa_query.c b/drivers/infiniband/core/sa_query.c
+index 8175dde60b0a..53571e6b3162 100644
+--- a/drivers/infiniband/core/sa_query.c
++++ b/drivers/infiniband/core/sa_query.c
+@@ -1420,7 +1420,7 @@ enum opa_pr_supported {
+ /*
+  * opa_pr_query_possible - Check if current PR query can be an OPA query.
+  *
+- * Retuns PR_NOT_SUPPORTED if a path record query is not
++ * Returns PR_NOT_SUPPORTED if a path record query is not
+  * possible, PR_OPA_SUPPORTED if an OPA path record query
+  * is possible and PR_IB_SUPPORTED if an IB path record
+  * query is possible.
+diff --git a/drivers/input/misc/wistron_btns.c b/drivers/input/misc/wistron_btns.c
+index 5c4956678cd0..39d6f642cd19 100644
+--- a/drivers/input/misc/wistron_btns.c
++++ b/drivers/input/misc/wistron_btns.c
+@@ -1075,7 +1075,7 @@ static void wistron_led_init(struct device *parent)
+ 	}
+ 
+ 	if (leds_present & FE_MAIL_LED) {
+-		/* bios_get_default_setting(MAIL) always retuns 0, so just turn the led off */
++		/* bios_get_default_setting(MAIL) always returns 0, so just turn the led off */
+ 		wistron_mail_led.brightness = LED_OFF;
+ 		if (led_classdev_register(parent, &wistron_mail_led))
+ 			leds_present &= ~FE_MAIL_LED;
+diff --git a/drivers/mtd/nand/raw/nandsim.c b/drivers/mtd/nand/raw/nandsim.c
+index 179b28459b4b..df48b7d01d16 100644
+--- a/drivers/mtd/nand/raw/nandsim.c
++++ b/drivers/mtd/nand/raw/nandsim.c
+@@ -1381,7 +1381,7 @@ static inline union ns_mem *NS_GET_PAGE(struct nandsim *ns)
+ }
+ 
+ /*
+- * Retuns a pointer to the current byte, within the current page.
++ * Returns a pointer to the current byte, within the current page.
+  */
+ static inline u_char *NS_PAGE_BYTE_OFF(struct nandsim *ns)
+ {
+diff --git a/drivers/scsi/bfa/bfa_fcs.c b/drivers/scsi/bfa/bfa_fcs.c
+index 5023c0ab4277..e52ce9b01f49 100644
+--- a/drivers/scsi/bfa/bfa_fcs.c
++++ b/drivers/scsi/bfa/bfa_fcs.c
+@@ -1431,7 +1431,7 @@ bfa_cb_lps_flogo_comp(void *bfad, void *uarg)
+  *	param[in]	vf_id - VF_ID
+  *
+  *	return
+- *	If lookup succeeds, retuns fcs vf object, otherwise returns NULL
++ *	If lookup succeeds, returns fcs vf object, otherwise returns NULL
+  */
+ bfa_fcs_vf_t   *
+ bfa_fcs_vf_lookup(struct bfa_fcs_s *fcs, u16 vf_id)
+diff --git a/drivers/scsi/pmcraid.c b/drivers/scsi/pmcraid.c
+index a2a084c8075e..72a4c6e3d0c8 100644
+--- a/drivers/scsi/pmcraid.c
++++ b/drivers/scsi/pmcraid.c
+@@ -4009,7 +4009,7 @@ static void pmcraid_tasklet_function(unsigned long instance)
+  * This routine un-registers registered interrupt handler and
+  * also frees irqs/vectors.
+  *
+- * Retun Value
++ * Return Value
+  *	None
+  */
+ static
+-- 
+2.43.4
 
-Dave.
-
-drm-fixes-2024-09-06:
-drm fixes for 6.11-rc7
-
-amdgpu:
-- IPS workaround
-- Fix compatibility with older MES firmware
-- Fix CPU spikes when clearing VRAM
-- Backlight fix
-- PMO fix
-- Revert SWSMU change to fix regression
-
-xe:
-- GSC loading fix
-- PCODE mutex fix
-- Suspend/Resume fixes
-- RPM fixes
-
-i915:
-- Do not attempt to load the GSC multiple times
-- Fix readout degamma_lut mismatch on ilk/snb
-- Mark debug_fence_init_onstack() with __maybe_unused
-- fence: Mark debug_fence_free() with __maybe_unused
-- display: Add mechanism to use sink model when applying quirk
-- display: Increase Fast Wake Sync length as a quirk
-
-komeda:
-- zpos normalization fix
-
-nouveau:
-- incorrect register fix
-
-imagination:
-- memory leak fix
-
-bridge:
-- hdmi/bridge rework fixes
-
-panthor:
-- cache coherency fix
-- hi priority access fix
-
-panel:
-- change of compatible string
-
-fbdev:
-- deferred-io init with no struct page fix
-The following changes since commit 431c1646e1f86b949fa3685efc50b660a364c2b6=
-:
-
-  Linux 6.11-rc6 (2024-09-01 19:46:02 +1200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-09-06
-
-for you to fetch changes up to 141bb6bc73cf45e8b742d6fafa6734b6d5f82b77:
-
-  Merge tag 'amd-drm-fixes-6.11-2024-09-05' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2024-09-06
-11:31:02 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.11-rc7
-
-amdgpu:
-- IPS workaround
-- Fix compatibility with older MES firmware
-- Fix CPU spikes when clearing VRAM
-- Backlight fix
-- PMO fix
-- Revert SWSMU change to fix regression
-
-xe:
-- GSC loading fix
-- PCODE mutex fix
-- Suspend/Resume fixes
-- RPM fixes
-
-i915:
-- Do not attempt to load the GSC multiple times
-- Fix readout degamma_lut mismatch on ilk/snb
-- Mark debug_fence_init_onstack() with __maybe_unused
-- fence: Mark debug_fence_free() with __maybe_unused
-- display: Add mechanism to use sink model when applying quirk
-- display: Increase Fast Wake Sync length as a quirk
-
-komeda:
-- zpos normalization fix
-
-nouveau:
-- incorrect register fix
-
-imagination:
-- memory leak fix
-
-bridge:
-- hdmi/bridge rework fixes
-
-panthor:
-- cache coherency fix
-- hi priority access fix
-
-panel:
-- change of compatible string
-
-fbdev:
-- deferred-io init with no struct page fix
-
-----------------------------------------------------------------
-Adri=C3=A1n Larumbe (1):
-      drm/panthor: flush FW AS caches in slow reset path
-
-Alex Deucher (2):
-      drm/amdgpu: always allocate cleared VRAM for GEM allocations
-      Revert "drm/amdgpu: align pp_power_profile_mode with kernel docs"
-
-Andy Shevchenko (2):
-      drm/i915/fence: Mark debug_fence_init_onstack() with __maybe_unused
-      drm/i915/fence: Mark debug_fence_free() with __maybe_unused
-
-Daniele Ceraolo Spurio (2):
-      drm/i915: Do not attempt to load the GSC multiple times
-      drm/xe/gsc: Do not attempt to load the GSC multiple times
-
-Dave Airlie (5):
-      nouveau: fix the fwsec sb verification register.
-      Merge tag 'drm-intel-fixes-2024-09-05' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-09-05' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'drm-misc-fixes-2024-09-05' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.11-2024-09-05' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Dillon Varone (1):
-      drm/amd/display: Block timing sync for different signals in PMO
-
-Dmitry Baryshkov (3):
-      drm/display: stop depending on DRM_DISPLAY_HELPER
-      drm/bridge-connector: move to DRM_DISPLAY_HELPER module
-      drm/bridge-connector: reset the HDMI connector state
-
-Imre Deak (1):
-      drm/xe: Suspend/resume user access only during system s/r
-
-Jack Xiao (1):
-      drm/amdgpu/mes: add mes mapping legacy queue switch
-
-Jouni H=C3=B6gander (2):
-      drm/i915/display: Add mechanism to use sink model when applying quirk
-      drm/i915/display: Increase Fast Wake Sync length as a quirk
-
-Leo Li (2):
-      drm/amd/display: Determine IPS mode by ASIC and PMFW versions
-      drm/amd/display: Lock DC and exit IPS when changing backlight
-
-Maarten Lankhorst (1):
-      drm/xe/display: Match i915 driver suspend/resume sequences better
-
-Mary Guillemard (1):
-      drm/panthor: Restrict high priorities on group_create
-
-Matt Coster (1):
-      drm/imagination: Free pvr_vm_gpuva after unlink
-
-Matt Roper (1):
-      drm/xe/pcode: Treat pcode as per-tile rather than per-GT
-
-Rodrigo Vivi (2):
-      drm/xe: Add missing runtime reference to wedged upon gt_reset
-      drm/xe/display: Avoid encoder_suspend at runtime suspend
-
-Ryan Walklin (2):
-      dt-bindings: display: panel: Rename WL-355608-A8 panel to rg35xx-*-pa=
-nel
-      drm: panel: nv3052c: Correct WL-355608-A8 panel compatible
-
-Thomas Zimmermann (1):
-      drm/fbdev-dma: Only install deferred I/O if necessary
-
-Ville Syrj=C3=A4l=C3=A4 (1):
-      drm/i915: Fix readout degamma_lut mismatch on ilk/snb
-
-hongchi.peng (1):
-      drm: komeda: Fix an issue related to normalized zpos
-
- ...608-a8.yaml =3D> anbernic,rg35xx-plus-panel.yaml} |  15 ++-
- MAINTAINERS                                        |   2 +-
- drivers/gpu/drm/Makefile                           |   1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |   1 +
- drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  49 +++++++---
- drivers/gpu/drm/amd/amdgpu/mes_v12_0.c             |   9 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  39 +++++++-
- .../dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.c  |   3 +-
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   6 +-
- drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |  10 +-
- drivers/gpu/drm/bridge/Kconfig                     |   1 +
- drivers/gpu/drm/display/Kconfig                    |  24 +++--
- drivers/gpu/drm/display/Makefile                   |   2 +
- .../gpu/drm/{ =3D> display}/drm_bridge_connector.c   |  13 ++-
- drivers/gpu/drm/drm_fbdev_dma.c                    |  83 ++++++++++++----
- drivers/gpu/drm/i915/display/intel_alpm.c          |   2 +-
- drivers/gpu/drm/i915/display/intel_display_types.h |   4 +
- drivers/gpu/drm/i915/display/intel_dp.c            |   4 +
- drivers/gpu/drm/i915/display/intel_dp_aux.c        |  16 +++-
- drivers/gpu/drm/i915/display/intel_dp_aux.h        |   2 +-
- drivers/gpu/drm/i915/display/intel_modeset_setup.c |  31 +++++-
- drivers/gpu/drm/i915/display/intel_quirks.c        |  68 ++++++++++++++
- drivers/gpu/drm/i915/display/intel_quirks.h        |   6 ++
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c          |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |   5 +
- drivers/gpu/drm/i915/i915_sw_fence.c               |   8 +-
- drivers/gpu/drm/imagination/pvr_vm.c               |   4 +
- drivers/gpu/drm/imx/dcss/Kconfig                   |   2 +
- drivers/gpu/drm/imx/lcdc/Kconfig                   |   2 +
- drivers/gpu/drm/ingenic/Kconfig                    |   2 +
- drivers/gpu/drm/kmb/Kconfig                        |   2 +
- drivers/gpu/drm/mediatek/Kconfig                   |   2 +
- drivers/gpu/drm/meson/Kconfig                      |   2 +
- drivers/gpu/drm/msm/Kconfig                        |   1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c    |   2 +-
- drivers/gpu/drm/omapdrm/Kconfig                    |   2 +
- drivers/gpu/drm/panel/panel-newvision-nv3052c.c    |   2 +-
- drivers/gpu/drm/panthor/panthor_drv.c              |  23 +++++
- drivers/gpu/drm/panthor/panthor_fw.c               |   8 +-
- drivers/gpu/drm/panthor/panthor_mmu.c              |  21 ++++-
- drivers/gpu/drm/panthor/panthor_mmu.h              |   1 +
- drivers/gpu/drm/panthor/panthor_sched.c            |   2 +-
- drivers/gpu/drm/renesas/rcar-du/Kconfig            |   2 +
- drivers/gpu/drm/renesas/rz-du/Kconfig              |   2 +
- drivers/gpu/drm/renesas/shmobile/Kconfig           |   2 +
- drivers/gpu/drm/rockchip/Kconfig                   |   4 +
- drivers/gpu/drm/tegra/Kconfig                      |   1 +
- drivers/gpu/drm/tidss/Kconfig                      |   2 +
- .../gpu/drm/xe/compat-i915-headers/intel_pcode.h   |   8 +-
- .../gpu/drm/xe/compat-i915-headers/intel_uncore.h  |   7 ++
- drivers/gpu/drm/xe/display/xe_display.c            |  23 +++--
- drivers/gpu/drm/xe/xe_device_types.h               |   6 ++
- drivers/gpu/drm/xe/xe_gsc.c                        |  12 +++
- drivers/gpu/drm/xe/xe_gt.c                         |   7 +-
- drivers/gpu/drm/xe/xe_gt_types.h                   |   6 --
- drivers/gpu/drm/xe/xe_guc_pc.c                     |   2 +-
- drivers/gpu/drm/xe/xe_hwmon.c                      |   4 +-
- drivers/gpu/drm/xe/xe_pcode.c                      | 104 ++++++++++-------=
-----
- drivers/gpu/drm/xe/xe_pcode.h                      |  16 ++--
- drivers/gpu/drm/xe/xe_tile.c                       |   3 +
- drivers/gpu/drm/xe/xe_uc_fw.h                      |   9 +-
- drivers/gpu/drm/xe/xe_vram_freq.c                  |   6 +-
- drivers/gpu/drm/xlnx/Kconfig                       |   1 +
- include/uapi/drm/panthor_drm.h                     |   6 +-
- 66 files changed, 546 insertions(+), 178 deletions(-)
- rename Documentation/devicetree/bindings/display/panel/{wl-355608-a8.yaml
-=3D> anbernic,rg35xx-plus-panel.yaml} (67%)
- rename drivers/gpu/drm/{ =3D> display}/drm_bridge_connector.c (97%)
