@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6ABC96FBF8
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 21:15:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB75296FC13
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 21:23:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF38C10EAE7;
-	Fri,  6 Sep 2024 19:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F58E10EA31;
+	Fri,  6 Sep 2024 19:23:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oNBrTrTA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k/2tmJK0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 782EE10EAE7
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 19:15:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 142D810EA31
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 19:23:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4B65FA4524B
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 19:15:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D93BC4CEC7
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 19:15:26 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id ABD6BA4525B;
+ Fri,  6 Sep 2024 19:23:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB13C4CEC4;
+ Fri,  6 Sep 2024 19:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725650126;
- bh=8PYtUzBcRzDR+BkqAPJy0YFiShnPQgO2syJSUrN07gE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=oNBrTrTAYqb5KVvZmDYXr/Tw1x3q2PzUQw1iCxKVBQIGMk9jv/ujH8K6Oz/Xb5lyE
- zITJ6p6plvdQZy1zcSOKHAyO4JjvCQy7Y24Yu3n+1+XRIrwr7efRcyEcRD2Cj4ciME
- yUOsSxscNyPTcLXk3JreInQAnNknQIuEPzy0YqHvQDl9ZBY/CiFuz3ANmm4nrSMPWV
- rTx4TGMdsqZPUB/HVxpY3/Siw92u26oF0PoZTNsZOwQDm40aY64R4Svbaii67UBWsW
- cVZxotgdPvCM/1MKM+xF3tv4obg45rv5I4JjZgx24MVlpV4qjuSrDifnDYjRz0XT5Y
- dLIAngWfoW4kg==
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5334b0e1a8eso2906030e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 12:15:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVibSXMsOsq+V0zLs0O8u+Xq2USRr1gL4NfAoV6uQJbGQ6FWmhWvUmP2Bb7+ESjoQs9H6uMa3SafgA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yynw+Ik06midzreM0PknBTqvpxxEXc77rPphS2zJQCbkTbDzhZG
- bVs4OLlO+6QHUl63I5V1366S4lJriAO/1eiy/WAjrWaBPiLHOinJhcWwSqQrtYe7c4/2AdCdQl2
- xJLodGOj9y6fycuiQXFWi7c7KGQ==
-X-Google-Smtp-Source: AGHT+IESGdRuCUkts+rxu7pfXA/qAjquHWsXBUeusiW4kkmLl2lNFAhP28jMC+hCB9hG78a+QRBP6Rs8ZXuOucr3RL0=
-X-Received: by 2002:a05:6512:1289:b0:52e:9fda:f18a with SMTP id
- 2adb3069b0e04-536587f5be1mr2777799e87.44.1725650124666; Fri, 06 Sep 2024
- 12:15:24 -0700 (PDT)
+ s=k20201202; t=1725650606;
+ bh=/n96Kto0JZug0XlU6wzixOGIsRQmVNlzwkTH7ThriiM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=k/2tmJK0ZIGo88O1HE1+DTpj1x8V/ZUa4loaN18gbxhwGafooIAqA0snN6lcl3BnD
+ tHGE/I27eRUfMvwbykJyJz4R5y41Et/JERKNFdNNQwHmMIeHki8cANYcXazZnf5bFQ
+ AE9wie939zT1oHWDiUVa8OHBh0oQyXZ8xyRTob6KHrC7StGbvtaImoy5BYCRh4/U5I
+ 9eTWosx5C2OjaGnyRbPv2SM6zvdG01EPnLVnA89qjv14/y1d9VyD33syg1md8p3YOm
+ xPuHIAUAEc5KRrU3fHSddFxZOPySfzxiUImK1OTpqXdwpxgdHvplkDXMmvWA71/DcN
+ rKlzHB0YmkzPg==
+Date: Fri, 6 Sep 2024 12:23:23 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Alexandre Mergnat <amergnat@baylibre.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
+ Genio 350-evk board
+Message-ID: <20240906192323.GA3160860@thelio-3990X>
+References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+ <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
+ <20240906180348.GA1239602@thelio-3990X>
+ <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
 MIME-Version: 1.0
-References: <20240731191312.1710417-12-robh@kernel.org>
- <CAL_JsqKvA0Uw7uqpmdMP7Z4mL3Qsmay5Fqb4M97s=QsBW_Nxyg@mail.gmail.com>
- <CAPY8ntAv3Xpq45ykwX_98WJKFBxqP6Os+6KvD5xzDTFz8a1idQ@mail.gmail.com>
- <CAL_JsqKjRbHCeFoZDE_wss5HMNmt8UBWa+y_8yJ6TC80xxiTOA@mail.gmail.com>
- <CAPY8ntBJL9nJupadT8T1DGeQHn++MRGKbyH5xSF94a0moqWGYw@mail.gmail.com>
-In-Reply-To: <CAPY8ntBJL9nJupadT8T1DGeQHn++MRGKbyH5xSF94a0moqWGYw@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 6 Sep 2024 14:15:11 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKZSk+zY49CAzDisA3kBQf46TOvN-OF+wTH=LGLGwSQUw@mail.gmail.com>
-Message-ID: <CAL_JsqKZSk+zY49CAzDisA3kBQf46TOvN-OF+wTH=LGLGwSQUw@mail.gmail.com>
-Subject: Re: [PATCH] drm: vc4: Use of_property_present()
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,106 +78,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 6, 2024 at 9:24=E2=80=AFAM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> On Wed, 4 Sept 2024 at 14:19, Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Wed, Sep 4, 2024 at 6:18=E2=80=AFAM Dave Stevenson
-> > <dave.stevenson@raspberrypi.com> wrote:
-> > >
-> > > Hi Rob
-> > >
-> > > On Tue, 3 Sept 2024 at 20:19, Rob Herring <robh@kernel.org> wrote:
-> > > >
-> > > > On Wed, Jul 31, 2024 at 2:13=E2=80=AFPM Rob Herring (Arm) <robh@ker=
-nel.org> wrote:
-> > > > >
-> > > > > Use of_property_present() to test for property presence rather th=
-an
-> > > > > of_find_property(). This is part of a larger effort to remove cal=
-lers
-> > > > > of of_find_property() and similar functions. of_find_property() l=
-eaks
-> > > > > the DT struct property and data pointers which is a problem for
-> > > > > dynamically allocated nodes which may be freed.
-> > > > >
-> > > > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
-> > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > Ping!
-> > >
-> > > Sorry, this fell through the cracks.
-> > >
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4=
-/vc4_hdmi.c
-> > > > > index d57c4a5948c8..049de06460d5 100644
-> > > > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > > > @@ -2211,7 +2211,7 @@ static int vc4_hdmi_audio_init(struct vc4_h=
-dmi *vc4_hdmi)
-> > > > >         struct device *dev =3D &vc4_hdmi->pdev->dev;
-> > > > >         struct platform_device *codec_pdev;
-> > > > >         const __be32 *addr;
-> > > > > -       int index, len;
-> > > > > +       int index;
-> > > > >         int ret;
-> > > > >
-> > > > >         /*
-> > > > > @@ -2234,7 +2234,7 @@ static int vc4_hdmi_audio_init(struct vc4_h=
-dmi *vc4_hdmi)
-> > > > >         BUILD_BUG_ON(offsetof(struct vc4_hdmi_audio, card) !=3D 0=
-);
-> > > > >         BUILD_BUG_ON(offsetof(struct vc4_hdmi, audio) !=3D 0);
-> > > > >
-> > > > > -       if (!of_find_property(dev->of_node, "dmas", &len) || !len=
-) {
-> > > > > +       if (!of_property_present(dev->of_node, "dmas")) {
-> > >
-> > > The existing conditional is true if the property is not present or is=
- 0 length.
-> > > Your new one is only true if the property isn't present, so it isn't =
-the same.
-> >
-> > It is not the kernel's job to validate the DT. It does a terrible job
-> > of it and we have better tools for that now (schemas (though RPi
-> > platforms are in a pretty sad state for schemas)). I'm pretty sure a
-> > zero length or otherwise malformed "dmas" property would also cause a
-> > dtc warning as well. Non-zero length is hardly a complete test
-> > anyways. Any bogus value of "dmas" would pass. Or it can be completely
-> > valid, but the DMA driver is not enabled (whether you even probe
-> > depends on fw_devlinks).
-> >
-> > The kernel should just parse the properties it wants and handle any err=
-ors then.
->
-> I've followed up over the rationale of this.
->
-> The base DT enables HDMI audio.
-> On some systems there is a need to use the DMA channels for other
-> purposes and no need for HDMI audio.
+On Fri, Sep 06, 2024 at 07:27:01PM +0100, Mark Brown wrote:
+> Are these just warnings introduced by recent versions of the toolchains?
+> These commits passed an x86 allmodconfig with GCC 12 at each step (I did
+> catch one warning there with another patch in the series that didn't get
+> applied) and 0day didn't say anything at any point.
 
-If that's a user decision, I wouldn't use overlays to decide that, but
-make it a run-time OS decision...
+Not sure, I did not look too hard. At cursory glance, I am not sure x86
+allmodconfig would catch these, as this code depends on ARCH_MEDIATEK
+(not COMPILE_TEST), which only exists for arm and arm64.
 
-> As we understand it, an overlay can't remove a property from the base
-> DT, but it can set it to being empty. (Please correct us if there is a
-> way to delete an existing property).
+> > Clang 19:
+> 
+> That's relatively modern, though some of the warnings don't look
+> particularly new and exciting.
 
-There isn't currently.
+Fair although I still see some of them on old versions too:
 
-> The current check therefore allows an overlay to disable the HDMI
-> audio that is enabled in the base DT. It doesn't care how long the
-> property actually is, just whether it is totally empty or not as an
-> alternative to being present.
->
-> I understand that you may consider that abuse of DT, but that is the
-> reasoning behind it. We can drop it to a downstream patch if
-> necessary.
+https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/10738441894
 
-I guess it's going to be use of_count_phandle_with_args() instead.
+> >   sound/soc/mediatek/mt8365/mt8365-dai-adda.c:93:8: error: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551614 to 4294967294 [-Werror,-Wconstant-conversion]
+> >      91 |                 regmap_update_bits(afe->regmap, AFE_ADDA_UL_DL_CON0,
+> >         |                 ~~~~~~~~~~~~~~~~~~
+> >      92 |                                    AFE_ADDA_UL_DL_ADDA_AFE_ON,
+> >      93 |                                    ~AFE_ADDA_UL_DL_ADDA_AFE_ON);
+> >         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >   1 error generated.
+> 
+> That's a bit surprising, regmap_update_bits() takes an unsigned long?  I
+> suspect the constants need to be defined as unsigned.
 
-Rob
+Does it? I see it taking 'unsigned int' for all of its parameters.
+
+$ sed -n '1242,1250p' include/linux/regmap.h
+int regmap_update_bits_base(struct regmap *map, unsigned int reg,
+                            unsigned int mask, unsigned int val,
+                            bool *change, bool async, bool force);
+
+static inline int regmap_update_bits(struct regmap *map, unsigned int reg,
+                                     unsigned int mask, unsigned int val)
+{
+        return regmap_update_bits_base(map, reg, mask, val, NULL, false, false);
+}
+
+Cheers,
+Nathan
