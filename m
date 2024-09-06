@@ -2,66 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6279196E95D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 07:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376E696E9A1
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 07:59:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61A7310E00C;
-	Fri,  6 Sep 2024 05:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4331310E18D;
+	Fri,  6 Sep 2024 05:59:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="V1rwoY2e";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LXvGjGYj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1351710E00C
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 05:40:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1725601221;
- bh=Um2fielNufiPq2gPF+cakRDGheYfuE60dnAlgqaba+4=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=V1rwoY2egq7hA2t5O3yhm3k956+fErfFJ3lPNm6EyY5JEHnaocmMIs58Cg2dPlbK0
- GSCuM0IOVepEkI+moHM5X+ySAPoWJEzlRXL5XREgx2G0YiQaJ0bHutsGuf5q2IytHc
- zvYEJ/TVCMCqfUrz9rq0dv0qTy0mibq3grAl0/cA=
-X-QQ-mid: bizesmtp89t1725601217t86fmi1u
-X-QQ-Originating-IP: pp2HEb8VFRV3OyePs+K/oTB0T0vJNpih3CUIsTHdOR4=
-Received: from localhost.localdomain ( [113.57.152.160])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 06 Sep 2024 13:40:11 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 3399184416924761505
-From: WangYuli <wangyuli@uniontech.com>
-To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
- rogerq@kernel.org, tony@atomide.com, linux@armlinux.org.uk, jgg@ziepe.ca,
- leon@kernel.org, wangyuli@uniontech.com, gustavoars@kernel.org,
- mitr@volny.cz, dmitry.torokhov@gmail.com, miquel.raynal@bootlin.com,
- richard@nod.at, vigneshr@ti.com, anil.gurumurthy@qlogic.com,
- sudarsana.kalluru@qlogic.com, James.Bottomley@HansenPartnership.com,
- martin.petersen@oracle.com, obdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-input@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- abhinavk@codeaurora.org, architt@codeaurora.org, chandanu@codeaurora.org,
- jsanka@codeaurora.org, jcrouse@codeaurora.org, ryadav@codeaurora.org,
- skolluku@codeaurora.org, seanpaul@chromium.org, robdclark@gmail.com,
- anil_ravindranath@pmc-sierra.com, standby24x7@gmail.com, jkosina@suse.cz,
- don.hiatt@intel.com, ira.weiny@intel.com,
- dasaratharaman.chandramouli@intel.com, dledford@redhat.com,
- eric.piel@tremplin-utc.net, akpm@linux-foundation.org, dtor@mail.ru,
- vijaykumar@bravegnu.org, dwmw2@infradead.org, kgudipat@brocade.com,
- James.Bottomley@suse.de, guanwentao@uniontech.com, zhanjun@uniontech.com
-Subject: [PATCH] treewide: Correct the typo 'retun'
-Date: Fri,  6 Sep 2024 13:40:08 +0800
-Message-ID: <63D0F870EE8E87A0+20240906054008.390188-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.43.4
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85A4610E18D;
+ Fri,  6 Sep 2024 05:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725602371; x=1757138371;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=yMyT0v1kxNbfJq+8ycKl/AKn5rVKTHrtntCjDqG2Jww=;
+ b=LXvGjGYjIgybQz3KJl0IPJHbOLlXbFko/ixDIES8qnf85EH3u0TaZCp9
+ ho/ruOiAIDTVDdeoOPsZhtoz47jfw7xeqTEtk11mZsa5IursoHxj09/a3
+ vMIaBojCLxgAhuriqvt4No6U3LnBe3RU0XvUqy26+1hudH7G0JzaEP+Ae
+ AnJdFtgOOLI81wbleTeRoocQlpIkJbOkBDF0f8LHC18bTeiAl+yYUvWvx
+ QBR8i2FmwNh7TyEjtLmky4dhKqNKoDDatVnxODqaQEXkU/Tur+DRwSu5Y
+ ZCeTRmz/Se6OfR+zn0+Gleo/ZK1Yb4h6FNI9OFQ4iW1BSraHOzfgwS6pb g==;
+X-CSE-ConnectionGUID: V3qCyORGQ/Ci4IBJxEkvTg==
+X-CSE-MsgGUID: GvgoGDhBS2GTynzpInICWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24150889"
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="24150889"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2024 22:59:30 -0700
+X-CSE-ConnectionGUID: 0UIUUh0ZRp+wylHFk4u9bg==
+X-CSE-MsgGUID: gNrrE9nWR56EdWunTgr+ZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="66088329"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 05 Sep 2024 22:59:27 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1smS0C-000AjR-2a;
+ Fri, 06 Sep 2024 05:59:24 +0000
+Date: Fri, 6 Sep 2024 13:58:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Zack Rusin <zack.rusin@broadcom.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Sui Jingfeng <suijingfeng@loongson.cn>,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH 1/2] drm/ttm: Change ttm_device_init to use a struct
+ instead of multiple bools
+Message-ID: <202409061330.a2rRYEMl-lkp@intel.com>
+References: <20240905093322.29786-2-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+In-Reply-To: <20240905093322.29786-2-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,111 +80,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some spelling mistakes of 'retun' in comments which
-should be instead of 'return'.
+Hi Thomas,
 
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- arch/arm/mach-omap2/omap-mpuss-lowpower.c | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  | 2 +-
- drivers/infiniband/core/sa_query.c        | 2 +-
- drivers/input/misc/wistron_btns.c         | 2 +-
- drivers/mtd/nand/raw/nandsim.c            | 2 +-
- drivers/scsi/bfa/bfa_fcs.c                | 2 +-
- drivers/scsi/pmcraid.c                    | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/arch/arm/mach-omap2/omap-mpuss-lowpower.c b/arch/arm/mach-omap2/omap-mpuss-lowpower.c
-index 7ad74db951f6..f18ef45e2fe1 100644
---- a/arch/arm/mach-omap2/omap-mpuss-lowpower.c
-+++ b/arch/arm/mach-omap2/omap-mpuss-lowpower.c
-@@ -333,7 +333,7 @@ int omap4_hotplug_cpu(unsigned int cpu, unsigned int power_state)
- 	omap_pm_ops.scu_prepare(cpu, power_state);
- 
- 	/*
--	 * CPU never retuns back if targeted power state is OFF mode.
-+	 * CPU never returns back if targeted power state is OFF mode.
- 	 * CPU ONLINE follows normal CPU ONLINE ptah via
- 	 * omap4_secondary_startup().
- 	 */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-index b26d5fe40c72..febc3e764a63 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-@@ -231,7 +231,7 @@ struct dpu_crtc_state {
- 	container_of(x, struct dpu_crtc_state, base)
- 
- /**
-- * dpu_crtc_frame_pending - retun the number of pending frames
-+ * dpu_crtc_frame_pending - return the number of pending frames
-  * @crtc: Pointer to drm crtc object
-  */
- static inline int dpu_crtc_frame_pending(struct drm_crtc *crtc)
-diff --git a/drivers/infiniband/core/sa_query.c b/drivers/infiniband/core/sa_query.c
-index 8175dde60b0a..53571e6b3162 100644
---- a/drivers/infiniband/core/sa_query.c
-+++ b/drivers/infiniband/core/sa_query.c
-@@ -1420,7 +1420,7 @@ enum opa_pr_supported {
- /*
-  * opa_pr_query_possible - Check if current PR query can be an OPA query.
-  *
-- * Retuns PR_NOT_SUPPORTED if a path record query is not
-+ * Returns PR_NOT_SUPPORTED if a path record query is not
-  * possible, PR_OPA_SUPPORTED if an OPA path record query
-  * is possible and PR_IB_SUPPORTED if an IB path record
-  * query is possible.
-diff --git a/drivers/input/misc/wistron_btns.c b/drivers/input/misc/wistron_btns.c
-index 5c4956678cd0..39d6f642cd19 100644
---- a/drivers/input/misc/wistron_btns.c
-+++ b/drivers/input/misc/wistron_btns.c
-@@ -1075,7 +1075,7 @@ static void wistron_led_init(struct device *parent)
- 	}
- 
- 	if (leds_present & FE_MAIL_LED) {
--		/* bios_get_default_setting(MAIL) always retuns 0, so just turn the led off */
-+		/* bios_get_default_setting(MAIL) always returns 0, so just turn the led off */
- 		wistron_mail_led.brightness = LED_OFF;
- 		if (led_classdev_register(parent, &wistron_mail_led))
- 			leds_present &= ~FE_MAIL_LED;
-diff --git a/drivers/mtd/nand/raw/nandsim.c b/drivers/mtd/nand/raw/nandsim.c
-index 179b28459b4b..df48b7d01d16 100644
---- a/drivers/mtd/nand/raw/nandsim.c
-+++ b/drivers/mtd/nand/raw/nandsim.c
-@@ -1381,7 +1381,7 @@ static inline union ns_mem *NS_GET_PAGE(struct nandsim *ns)
- }
- 
- /*
-- * Retuns a pointer to the current byte, within the current page.
-+ * Returns a pointer to the current byte, within the current page.
-  */
- static inline u_char *NS_PAGE_BYTE_OFF(struct nandsim *ns)
- {
-diff --git a/drivers/scsi/bfa/bfa_fcs.c b/drivers/scsi/bfa/bfa_fcs.c
-index 5023c0ab4277..e52ce9b01f49 100644
---- a/drivers/scsi/bfa/bfa_fcs.c
-+++ b/drivers/scsi/bfa/bfa_fcs.c
-@@ -1431,7 +1431,7 @@ bfa_cb_lps_flogo_comp(void *bfad, void *uarg)
-  *	param[in]	vf_id - VF_ID
-  *
-  *	return
-- *	If lookup succeeds, retuns fcs vf object, otherwise returns NULL
-+ *	If lookup succeeds, returns fcs vf object, otherwise returns NULL
-  */
- bfa_fcs_vf_t   *
- bfa_fcs_vf_lookup(struct bfa_fcs_s *fcs, u16 vf_id)
-diff --git a/drivers/scsi/pmcraid.c b/drivers/scsi/pmcraid.c
-index a2a084c8075e..72a4c6e3d0c8 100644
---- a/drivers/scsi/pmcraid.c
-+++ b/drivers/scsi/pmcraid.c
-@@ -4009,7 +4009,7 @@ static void pmcraid_tasklet_function(unsigned long instance)
-  * This routine un-registers registered interrupt handler and
-  * also frees irqs/vectors.
-  *
-- * Retun Value
-+ * Return Value
-  *	None
-  */
- static
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on next-20240905]
+[cannot apply to drm-xe/drm-xe-next linus/master v6.11-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Change-ttm_device_init-to-use-a-struct-instead-of-multiple-bools/20240905-173606
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240905093322.29786-2-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH 1/2] drm/ttm: Change ttm_device_init to use a struct instead of multiple bools
+config: i386-randconfig-006-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061330.a2rRYEMl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061330.a2rRYEMl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409061330.a2rRYEMl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/drm_gem_vram_helper.c: In function 'drm_vram_mm_init':
+>> drivers/gpu/drm/drm_gem_vram_helper.c:981:34: error: incompatible type for argument 6 of 'ttm_device_init'
+     981 |                                  false, true);
+         |                                  ^~~~~
+         |                                  |
+         |                                  int
+   In file included from include/drm/ttm/ttm_bo.h:39,
+                    from include/drm/drm_gem_ttm_helper.h:10,
+                    from drivers/gpu/drm/drm_gem_vram_helper.c:13:
+   include/drm/ttm/ttm_device.h:303:56: note: expected 'const struct ttm_device_init_flags' but argument is of type 'int'
+     303 |                     const struct ttm_device_init_flags flags);
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/gpu/drm/drm_gem_vram_helper.c:978:15: error: too many arguments to function 'ttm_device_init'
+     978 |         ret = ttm_device_init(&vmm->bdev, &bo_driver, dev->dev,
+         |               ^~~~~~~~~~~~~~~
+   include/drm/ttm/ttm_device.h:300:5: note: declared here
+     300 | int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *funcs,
+         |     ^~~~~~~~~~~~~~~
+
+
+vim +/ttm_device_init +981 drivers/gpu/drm/drm_gem_vram_helper.c
+
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  969  
+c30b225dba01b4 Thomas Zimmermann 2019-09-11  970  static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
+b0e40e0805221d Thomas Zimmermann 2019-09-11  971  			    uint64_t vram_base, size_t vram_size)
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  972  {
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  973  	int ret;
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  974  
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  975  	vmm->vram_base = vram_base;
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  976  	vmm->vram_size = vram_size;
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  977  
+8af8a109b34fa8 Christian König   2020-10-01 @978  	ret = ttm_device_init(&vmm->bdev, &bo_driver, dev->dev,
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  979  				 dev->anon_inode->i_mapping,
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  980  				 dev->vma_offset_manager,
+ee5d2a8e549e90 Christian König   2020-10-24 @981  				 false, true);
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  982  	if (ret)
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  983  		return ret;
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  984  
+37205891d84f92 Dave Airlie       2020-08-04  985  	ret = ttm_range_man_init(&vmm->bdev, TTM_PL_VRAM,
+0fe438cec9e1d2 Christian König   2020-09-11  986  				 false, vram_size >> PAGE_SHIFT);
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  987  	if (ret)
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  988  		return ret;
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  989  
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  990  	return 0;
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  991  }
+6b5ce4a1fb8489 Thomas Zimmermann 2019-09-11  992  
+
 -- 
-2.43.4
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
