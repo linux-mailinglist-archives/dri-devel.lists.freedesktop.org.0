@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0C396F070
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 11:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C1F96F084
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 11:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2910110E9E9;
-	Fri,  6 Sep 2024 09:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B60E110E9EB;
+	Fri,  6 Sep 2024 09:56:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="b09e+0IY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mKbt3EH9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51F3410E9E8
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 09:55:38 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53654e2ed93so1832374e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 02:55:38 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51FD610E9EA
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 09:56:36 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5365aa568ceso307653e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 02:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725616536; x=1726221336; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1725616594; x=1726221394; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=E0KxWIleE3u20+F+aCD6IZbLW7v8LcTSKTjCbUE1knk=;
- b=b09e+0IY+j4QoC7qydycW+i/xoaUdWZVO0G6+c76oK0XERL+4PY5lgoZjTI25ouV3J
- peYVpAakGOX/eBRjuCVqSDE7VpPg13ZPnJaWf4UUvPIzd94chYYoRLOSDRyZJuDC/m6X
- lns1mT1zMV83n2a8lbhRdSbBpPvolIvxXrBdo820wM/VpNRPfrO0IVLN+2H+r/Y4vlSV
- gphzKVIE71SUzdy/pwyc02K6O+Qz8m0WKb2q5Afvv8h0l+Bo0Npw8gxawZvXy/p+W6c2
- WxHFFraDjS+jYTIn7CQGncQWw3AVjnIMOMlC756trmhlX6EmlWEgOox3y+KYU8ndNW4Z
- aO0g==
+ bh=v9FCxUIgBt78ivuRYf8E0aPqYHoOPKfCvJFGhphZooY=;
+ b=mKbt3EH9H/rANzq0Vcvy0vNLWpHxMlJzeBp/tqzHVr+ERQZXeZr6xBp+x0U0HGUmUm
+ pbz+w6Lv7kuCWEyU/XeH7T3B6gntr8PPkMI6Ns9wc9Gjri56u1nxiVDphiG8MiIvkQEZ
+ mMOR+tC8U9fQblmHmM4+1/FNxtCBXc7pkvRhfJupONLPwVxBnaKRYJdNaxZye1Kfxt33
+ QiQVMSvg6oDn76iUqAX81WbG28X438cJftKIiyFv5RIvl7aN3CO2oXhM9LHfWCEw6GbR
+ f/fSiA8kkVuuC0FA61NEB3NdJgdUqN1sBU6jMW0R139x1HDxIJNeEh6qlL/vUlDS5/6S
+ HTVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725616536; x=1726221336;
+ d=1e100.net; s=20230601; t=1725616594; x=1726221394;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=E0KxWIleE3u20+F+aCD6IZbLW7v8LcTSKTjCbUE1knk=;
- b=szuU3J7tzCHFPv7FLglrxLknpS6ITdeJjrX4X1uGUm7JoBpCbxPJrkeaLsUKFBi/VP
- Rgvdgmf5wVXtzsFi+kFLY8YbNN5eFDjLyDWerzxz48hSZxPEW/g3dIXZUHtis3O8S4EA
- 4k6FxEsb7De5DV1ptpXGdnupB/0X/zLFfbH4wqG2L9PEYI/8yH7OVVMZM9NPwXXQt7bB
- lWWXxoKBYQ7h3qMWDC2uR2dd8FttsGM0qvH4aUt89Ksi9tTgjIFVlYQPEWOpuTfTZJw7
- 84myB/uj7CQjP8WUuM0kpU7x/2mLkRajPpj/T9HfuZK3adWcHVfZLAPkGqawLo2OiSk3
- CSzA==
+ bh=v9FCxUIgBt78ivuRYf8E0aPqYHoOPKfCvJFGhphZooY=;
+ b=ZugXDUAgpAvZCmoZ071Upf89RZSgyx4i8y2qEcoj7jYOvBrqwI7/QvEgpagrZ42Uve
+ pFJ62K3E7Gs5sP4UbQowzTFjXxOZkpEf5GC0PTCgAoo89Hy6FKSlzg1s8T4/elidgE+X
+ mqjas3dZhm0XfMXlcOG3YIsxfDU5J1jwPArG6zDrqjvv2DnWYwRp0Cmt/y3aaWjSaoC4
+ ixc4nbCUta2cAD4Z+vsJmDSYNKCjrUzSt5lBOn3BcuS1+Ds54LpEt/+hAC/xKdW/2ynT
+ 17DLcki9f4hNMU5NseFU+CYsnKynBGG6hbkG2cdApR3hLJJ5KsPX0abULkWtwAuEkhpx
+ KFMg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNWU5D7ff4FGuhnZ+o2/q6yOHR4qve1tdXOw9XDGLHz2BuU7BDJDqPsE5GjanFo+8cnrPHhbNUDEU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxdIGlGHZTvKqNAAawLvf3/7y0ue9OtoWLaqL62FydyG27eQWiz
- jlfNGPEyD00TEMb2gMr8EHIYAfexgTeB7DKDISg4t4hIWGHdwnUFZDmKx5U1RnI=
-X-Google-Smtp-Source: AGHT+IHe6zEb04EsF0hZnI8DiBbVQp4TFTFoRxW/b4jeG49e40MhUMCQNyAhID2vjkNmhWuQrjfCRQ==
-X-Received: by 2002:a05:6512:1250:b0:535:ea75:e913 with SMTP id
- 2adb3069b0e04-536587c6333mr1667237e87.33.1725616536233; 
- Fri, 06 Sep 2024 02:55:36 -0700 (PDT)
+ AJvYcCUWySQwUv21JwwDzPfI6WofeeE04+VIgpmS6aNPuGNEN94tQYM52K2yj01nxJuZve0qv6W+XOEiVEs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAAjahkdiCcGm773Qz7TXYSDkGJMUo6kE5oad7KXpS5W6XkU12
+ wKd22SA62KBh19PTkwDNUd51o7se3iaJHxmajoE1wHbLGD364rTrVoVP/QCByUU=
+X-Google-Smtp-Source: AGHT+IG4NjSKk9CJsxL7X661oGVWb4dJGK9kAqeeKA2OE5R1RdOgN5Xic7eEYM/SdgbXf1sQD+KCfA==
+X-Received: by 2002:a05:6512:3ca2:b0:533:45c9:67fe with SMTP id
+ 2adb3069b0e04-5365880bbbemr1607806e87.48.1725616593689; 
+ Fri, 06 Sep 2024 02:56:33 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-536592c2dfcsm120331e87.260.2024.09.06.02.55.35
+ 2adb3069b0e04-5354084edc5sm2826881e87.279.2024.09.06.02.56.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Sep 2024 02:55:35 -0700 (PDT)
-Date: Fri, 6 Sep 2024 12:55:34 +0300
+ Fri, 06 Sep 2024 02:56:33 -0700 (PDT)
+Date: Fri, 6 Sep 2024 12:56:31 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jinjie Ruan <ruanjinjie@huawei.com>
 Cc: laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, 
@@ -71,15 +71,14 @@ Cc: laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de,
  jordan@cosmicpenguin.net, dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, freedreno@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 5/5] drm/msm/adreno: Use IRQF_NO_AUTOEN flag in
- request_irq()
-Message-ID: <5j626cfkrv5otd7v766r5ml6v5xtxrxe6ezp4m3agei27bvb4f@whi2rott2qrt>
+Subject: Re: [PATCH 2/5] drm/imx/dcss: Use IRQF_NO_AUTOEN flag in request_irq()
+Message-ID: <dgrmcsmqjqukta226byebvbdopcxqapq6kaf62nmttbbgcb4vk@ptkkp3672v5k>
 References: <20240906082325.2677621-1-ruanjinjie@huawei.com>
- <20240906082325.2677621-6-ruanjinjie@huawei.com>
+ <20240906082325.2677621-3-ruanjinjie@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240906082325.2677621-6-ruanjinjie@huawei.com>
+In-Reply-To: <20240906082325.2677621-3-ruanjinjie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,15 +94,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 06, 2024 at 04:23:25PM GMT, Jinjie Ruan wrote:
+On Fri, Sep 06, 2024 at 04:23:22PM GMT, Jinjie Ruan wrote:
 > disable_irq() after request_irq() still has a time gap in which
 > interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
 > disable IRQ auto-enable when request IRQ.
 > 
-> Fixes: 4b565ca5a2cb ("drm/msm: Add A6XX device support")
+> Fixes: 9021c317b770 ("drm/imx: Add initial support for DCSS on iMX8MQ")
 > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 4 +---
+>  drivers/gpu/drm/imx/dcss/dcss-dtg.c | 4 +---
 >  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
 
