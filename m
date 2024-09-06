@@ -2,76 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2879196FE92
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 01:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231B696FE93
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 01:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F86610EAF6;
-	Fri,  6 Sep 2024 23:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB2B810EB1D;
+	Fri,  6 Sep 2024 23:45:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VCgun/vC";
+	dkim=pass (1024-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="ZDtKcfWf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 665C910E9D1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 09:17:54 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-204d391f53bso17661245ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 02:17:54 -0700 (PDT)
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46E4310EAB2
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 17:16:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725614274; x=1726219074; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kdSscxu4iwCci+/8FixpdemFIaPGSwznJT41/j2DIjA=;
- b=VCgun/vC6QMgL4RgfGbD6SGi0dv1PT+rm/XdrdzmmLPcJ7rGjCMgszAhq3bO3Jo4rB
- 6yzS/u4QJ62oJ9MMvqefNlqArvwGvdC1PdsNAyoraTf4oC0CbNW1X6p4DyqHJq4wmNbt
- 417pGSdDxSwYqJbeu232lm76qhUfynlXvfZdeu8AVEyM/OJJXHvYopOn7QBxzRCcQxYy
- wAjJG/xAeqN7iWlwwYxXvr5EMTnZQsuFhEb+xm6eFHVmp5ACAcDuwWdzknYLQZ2C+KIE
- md2X5eOwINuWAnm8E01cRHL0TMKV5O+KSgnIOzqoSvI6GTGKJ10UQaYa/kOKokxzkAsm
- 8CXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725614274; x=1726219074;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kdSscxu4iwCci+/8FixpdemFIaPGSwznJT41/j2DIjA=;
- b=bmyOMh4P7UgFxAcypyQLPDoQdQ0MmUvlDmAI1CsqAmNSJp8eqINN6BWqh/RSN6loco
- CBh16XclbItjHOznpAwEwPlq8Eg/lfKQpgooEn0NEjNUFwEZMJkju9CWpelT9gNq0nQk
- MD/SKj3yJEBdzvTUwxKRxJjwdsnJ2UJQYtf7fC2fv7rpDN5YWwLDHpbF5x7rslt1OY55
- UoxoCjQzT10FMpsQB/+M8+3KOSLLuTuNamPqxm9GFd5fwW9+sYzUZkGx/AtbC51kdE+4
- u+im9/hy8lqWonOJpaVPm/zG1O0RZrtHU91FPG+pm6zwq785EIbEBNlJHrfprOVCbqsj
- bkRg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUyHFBqxa9JXkV6cnmnhxYLS5Q28NUcPgqLNLW0aUwYRWYzLWxyn8q/l0zzZhb/7lSQx2nC2xh9suA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxrrX9TyeAyOz8RZ7uXXSizYJAjbTnrUfHmEI+3lneu5ifnhO+T
- GTtAu/VSAmYYX8wAwPAQm5j9JPpjjC/nMCgExqXpsybwUMcqrJqomp1zGg==
-X-Google-Smtp-Source: AGHT+IE3cJ9IjbyOplSMh7Z19jI3h9PoXhxcIAtQiEBq9hO7fnTUR7JHLZEdW53tyndSQR8iUyPnBw==
-X-Received: by 2002:a17:902:cecd:b0:203:a0ea:63c5 with SMTP id
- d9443c01a7336-206f0367aa2mr16748195ad.0.1725614273729; 
- Fri, 06 Sep 2024 02:17:53 -0700 (PDT)
-Received: from localhost.localdomain (111-240-109-89.dynamic-ip.hinet.net.
- [111.240.109.89]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-206ae90d174sm39692105ad.48.2024.09.06.02.17.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Sep 2024 02:17:53 -0700 (PDT)
-From: Min-Hua Chen <minhuadotchen@gmail.com>
-To: andyshrk@163.com
-Cc: airlied@gmail.com, andy.yan@rock-chips.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, maarten.lankhorst@linux.intel.com,
- minhuadotchen@gmail.com, mripard@kernel.org, tzimmermann@suse.de
-Subject: Re:[PATCH] drm/rockchip: include rockchip_drm_drv.h
-Date: Fri,  6 Sep 2024 17:17:25 +0800
-Message-ID: <20240906091728.109570-1-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6f07603.7f9.191c4c887b1.Coremail.andyshrk@163.com>
-References: <6f07603.7f9.191c4c887b1.Coremail.andyshrk@163.com>
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1725642972; x=1757178972;
+ h=from:to:cc:date:message-id:references:in-reply-to:
+ content-id:content-transfer-encoding:mime-version:subject;
+ bh=4xhWtc7CtkE+FLCLNhkR4IQuATgyvvDPBA+MoqFo+W0=;
+ b=ZDtKcfWf3qCUNYR4FvpbeXPUqWpxAilZOjqW5yyr0mRwNo2zny5zgXv9
+ Gm4LT7+s0/e9itY2LjWVWjNmW8rnos00gvqV6jzfD2LosvU3U+ISfZ83J
+ WmfraDJ6NO2+AHriSu5hB9Tdkfv02EdWsPgj1IlCe9/bX40GPeC2NKSYJ 8=;
+X-IronPort-AV: E=Sophos;i="6.10,208,1719878400"; d="scan'208";a="431739480"
+Subject: Re: [PATCH v2] drm/panthor: Display FW version information
+Thread-Topic: [PATCH v2] drm/panthor: Display FW version information
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+ by smtp-border-fw-6002.iad6.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 17:16:10 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.7.35:22519]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.5.242:2525]
+ with esmtp (Farcaster)
+ id b642eb28-c552-4ced-a703-cecb39d0e46d; Fri, 6 Sep 2024 17:16:09 +0000 (UTC)
+X-Farcaster-Flow-ID: b642eb28-c552-4ced-a703-cecb39d0e46d
+Received: from EX19D003AND001.ant.amazon.com (10.37.240.251) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 6 Sep 2024 17:16:08 +0000
+Received: from EX19D037UWC001.ant.amazon.com (10.13.139.197) by
+ EX19D003AND001.ant.amazon.com (10.37.240.251) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Fri, 6 Sep 2024 17:16:06 +0000
+Received: from EX19D037UWC001.ant.amazon.com ([fe80::9936:96b9:2328:fd07]) by
+ EX19D037UWC001.ant.amazon.com ([fe80::9936:96b9:2328:fd07%5]) with
+ mapi id 15.02.1258.034; Fri, 6 Sep 2024 17:16:05 +0000
+From: "Healy, Christopher" <healych@amazon.com>
+To: Steven Price <steven.price@arm.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Liviu Dudau <liviu.dudau@arm.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Zhong, Qinglong" <qingloz@amazon.com>
+Thread-Index: AQHbAEDf8zOuA1c83kyB4gJ4DEO1LLJKiw6A
+Date: Fri, 6 Sep 2024 17:16:05 +0000
+Message-ID: <A30852B6-E4F1-45AA-89C5-D60651755BD8@amazon.com>
+References: <20240906094025.638173-1-steven.price@arm.com>
+In-Reply-To: <20240906094025.638173-1-steven.price@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.142.214.244]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <64DBCBDF14D74F4EA01F5C5343DA0030@amazon.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 06 Sep 2024 23:45:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,40 +82,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
->Hi  Min Hua，
->   Thanks for your work
->
->At 2024-09-06 06:38:50, "Min-Hua Chen" <minhuadotchen@gmail.com> wrote:
->>Include rockchip_drm_drv.h to fix the follow sparse warning:
->>
->>drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
->>warning: symbol 'vop2_platform_driver' was not declared.
->>Should it be static?
->>
->>No functional change intended.
->>
->>Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
->>---
->> drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 1 +
->> 1 file changed, 1 insertion(+)
->>
->>diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
->>index 18efb3fe1c00..c678d1b0fd7c 100644
->>--- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
->>+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
->>@@ -14,6 +14,7 @@
->> #include <drm/drm_print.h>
->> 
->> #include "rockchip_drm_vop2.h"
->>+#include "rockchip_drm_drv.h"
->> 
->
->We already have a patch[0] include rockchip_drm_drv.h in rockchip_drm_vop2.h
->
->[0]https://patchwork.kernel.org/project/linux-rockchip/patch/20240904120238.3856782-3-andyshrk@163.com/ 
-
-that's great, thanks for letting me know.
-
-Min-Hua
+VGhpcyBsb29rcyBnb29kIG9uIGEgRzMxMCBiYXNlZCBwbGF0Zm9ybSB3aXRoIG9sZGVyIEZXIGZy
+b20gTWFsaSBEREsgYW5kIFBhbnRob3IgZHJpdmVyLiAgT3V0cHV0IGxvb2tzIGFzIGZvbGxvd3M6
+DQoNClsgICAgNS44OTY5OTRdIHBhbnRob3IgMTMwMDAwMDAubWFsaTogW2RybV0gRmlybXdhcmUg
+Z2l0IHNoYTogYjQwMjcwYWMyMTkxNDY2ZmRlMTkwMWNhMGZiZTg5NTNkYmYxZDg1Yw0KDQoNCu+7
+v09uIDkvNi8yNCwgMjo0MCBBTSwgIlN0ZXZlbiBQcmljZSIgPHN0ZXZlbi5wcmljZUBhcm0uY29t
+IDxtYWlsdG86c3RldmVuLnByaWNlQGFybS5jb20+PiB3cm90ZToNCg0KVGhlIHZlcnNpb24gbnVt
+YmVyIG91dHB1dCB3aGVuIGxvYWRpbmcgdGhlIGZpcm13YXJlIGlzIGFjdHVhbGx5IHRoZQ0KaW50
+ZXJmYWNlIHZlcnNpb24gbm90IHRoZSB2ZXJzaW9uIG9mIHRoZSBmaXJtd2FyZSBpdHNlbGYuIFVw
+ZGF0ZSB0aGUNCm1lc3NhZ2UgdG8gbWFrZSB0aGlzIGNsZWFyZXIuDQoNCg0KDQoNCg==
