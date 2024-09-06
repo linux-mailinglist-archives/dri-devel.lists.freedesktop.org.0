@@ -2,33 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B496A96ECA7
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 09:54:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85BCA96ECA8
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 09:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 810FF10E97A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4DF10E97B;
 	Fri,  6 Sep 2024 07:54:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xMlkTNQp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q9InRhO1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xMlkTNQp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q9InRhO1";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5E010E977
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 07:54:45 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92C6510E976
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 07:54:46 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B84F321AC0;
- Fri,  6 Sep 2024 07:54:44 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3742D1F8A6;
+ Fri,  6 Sep 2024 07:54:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725609285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tS+2o0E6JjM3kSJbLNOX2zdRGM8g91XqQ/87oBMRnww=;
+ b=xMlkTNQpFGIK+5lpBhTG6JpKmuuwcSm4BqOFSBRUf7l2eJjQoyxHZnoSAviSZfe8cIBg8y
+ GCiKap/BKpfXbMFc8Hw6FqFrk6EZJ4Yed2kme1auR3BU/WtpZV6W0s3hsVI4ft6IsDEYvR
+ jhnXLLUjsd6a+S6xD7nz9AtWlPW5Irs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725609285;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tS+2o0E6JjM3kSJbLNOX2zdRGM8g91XqQ/87oBMRnww=;
+ b=q9InRhO1YZ7JVGAGsxkGKlb98dTadGF75MXB+wGOBhcbjvkdZ+GwhiOgToBEjbpUql2lwN
+ rSmMZbqWS+iQfvDQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725609285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tS+2o0E6JjM3kSJbLNOX2zdRGM8g91XqQ/87oBMRnww=;
+ b=xMlkTNQpFGIK+5lpBhTG6JpKmuuwcSm4BqOFSBRUf7l2eJjQoyxHZnoSAviSZfe8cIBg8y
+ GCiKap/BKpfXbMFc8Hw6FqFrk6EZJ4Yed2kme1auR3BU/WtpZV6W0s3hsVI4ft6IsDEYvR
+ jhnXLLUjsd6a+S6xD7nz9AtWlPW5Irs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725609285;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tS+2o0E6JjM3kSJbLNOX2zdRGM8g91XqQ/87oBMRnww=;
+ b=q9InRhO1YZ7JVGAGsxkGKlb98dTadGF75MXB+wGOBhcbjvkdZ+GwhiOgToBEjbpUql2lwN
+ rSmMZbqWS+iQfvDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5819C13A7A;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BE4D6136A8;
  Fri,  6 Sep 2024 07:54:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id uDI9FES12mbGPAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mA0yLUS12mbGPAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 06 Sep 2024 07:54:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
@@ -37,26 +78,33 @@ To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  shawnguo@kernel.org, festevam@gmail.com
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 07/28] backlight: ili9320: Use lcd power constants
-Date: Fri,  6 Sep 2024 09:52:21 +0200
-Message-ID: <20240906075439.98476-8-tzimmermann@suse.de>
+Subject: [PATCH v2 08/28] backlight: jornada720_lcd: Include <linux/io.h> for
+ IOMEM() macro
+Date: Fri,  6 Sep 2024 09:52:22 +0200
+Message-ID: <20240906075439.98476-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240906075439.98476-1-tzimmermann@suse.de>
 References: <20240906075439.98476-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Score: -4.00
+X-Spam-Score: -6.80
+X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
+ BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+ RCPT_COUNT_TWELVE(0.00)[15]; MIME_TRACE(0.00)[0:+];
+ TO_DN_SOME(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_TO(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,linux-vserver.org,pengutronix.de];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ R_RATELIMIT(0.00)[to_ip_from(RL7eb4yoy35resap1sns3bbybe)];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: B84F321AC0
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,91 +120,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace FB_BLANK_ constants with their counterparts from the
-lcd subsystem. The values are identical, so there's no change
-in functionality.
+Avoids the proxy include via <linux/fb.h>.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- drivers/video/backlight/ili9320.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/video/backlight/jornada720_lcd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/backlight/ili9320.c b/drivers/video/backlight/ili9320.c
-index 3e318d1891b6..2df96a882119 100644
---- a/drivers/video/backlight/ili9320.c
-+++ b/drivers/video/backlight/ili9320.c
-@@ -10,7 +10,6 @@
+diff --git a/drivers/video/backlight/jornada720_lcd.c b/drivers/video/backlight/jornada720_lcd.c
+index 5c64fa61e810..73278f6ace64 100644
+--- a/drivers/video/backlight/jornada720_lcd.c
++++ b/drivers/video/backlight/jornada720_lcd.c
+@@ -7,6 +7,7 @@
  
- #include <linux/delay.h>
- #include <linux/err.h>
--#include <linux/fb.h>
- #include <linux/init.h>
+ #include <linux/device.h>
+ #include <linux/fb.h>
++#include <linux/io.h>
+ #include <linux/kernel.h>
  #include <linux/lcd.h>
  #include <linux/module.h>
-@@ -121,7 +120,7 @@ static inline int ili9320_power_off(struct ili9320 *lcd)
- 	return 0;
- }
- 
--#define POWER_IS_ON(pwr)	((pwr) <= FB_BLANK_NORMAL)
-+#define POWER_IS_ON(pwr)	((pwr) <= LCD_POWER_REDUCED)
- 
- static int ili9320_power(struct ili9320 *lcd, int power)
- {
-@@ -223,7 +222,7 @@ int ili9320_probe_spi(struct spi_device *spi,
- 
- 	ili->dev = dev;
- 	ili->client = client;
--	ili->power = FB_BLANK_POWERDOWN;
-+	ili->power = LCD_POWER_OFF;
- 	ili->platdata = cfg;
- 
- 	spi_set_drvdata(spi, ili);
-@@ -241,7 +240,7 @@ int ili9320_probe_spi(struct spi_device *spi,
- 
- 	dev_info(dev, "initialising %s\n", client->name);
- 
--	ret = ili9320_power(ili, FB_BLANK_UNBLANK);
-+	ret = ili9320_power(ili, LCD_POWER_ON);
- 	if (ret != 0) {
- 		dev_err(dev, "failed to set lcd power state\n");
- 		return ret;
-@@ -253,7 +252,7 @@ EXPORT_SYMBOL_GPL(ili9320_probe_spi);
- 
- void ili9320_remove(struct ili9320 *ili)
- {
--	ili9320_power(ili, FB_BLANK_POWERDOWN);
-+	ili9320_power(ili, LCD_POWER_OFF);
- }
- EXPORT_SYMBOL_GPL(ili9320_remove);
- 
-@@ -262,7 +261,7 @@ int ili9320_suspend(struct ili9320 *lcd)
- {
- 	int ret;
- 
--	ret = ili9320_power(lcd, FB_BLANK_POWERDOWN);
-+	ret = ili9320_power(lcd, LCD_POWER_OFF);
- 
- 	if (lcd->platdata->suspend == ILI9320_SUSPEND_DEEP) {
- 		ili9320_write(lcd, ILI9320_POWER1, lcd->power1 |
-@@ -282,7 +281,7 @@ int ili9320_resume(struct ili9320 *lcd)
- 	if (lcd->platdata->suspend == ILI9320_SUSPEND_DEEP)
- 		ili9320_write(lcd, ILI9320_POWER1, 0x00);
- 
--	return ili9320_power(lcd, FB_BLANK_UNBLANK);
-+	return ili9320_power(lcd, LCD_POWER_ON);
- }
- EXPORT_SYMBOL_GPL(ili9320_resume);
- #endif
-@@ -290,7 +289,7 @@ EXPORT_SYMBOL_GPL(ili9320_resume);
- /* Power down all displays on reboot, poweroff or halt */
- void ili9320_shutdown(struct ili9320 *lcd)
- {
--	ili9320_power(lcd, FB_BLANK_POWERDOWN);
-+	ili9320_power(lcd, LCD_POWER_OFF);
- }
- EXPORT_SYMBOL_GPL(ili9320_shutdown);
- 
 -- 
 2.46.0
 
