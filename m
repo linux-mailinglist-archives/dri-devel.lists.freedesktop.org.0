@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799EC96EFDC
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 11:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A017D96F02C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 11:51:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7A110E9DB;
-	Fri,  6 Sep 2024 09:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170EF10E9E3;
+	Fri,  6 Sep 2024 09:51:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b8iL+Szl";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="N6FGj/mA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B14510E9DA;
- Fri,  6 Sep 2024 09:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725615792; x=1757151792;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=RKWTyFwPDUfBN6fzOOUhe2f/iAKmt3OcjbUwlENMT18=;
- b=b8iL+Szli/E9J0kk1Cgc8adU1hsAytg5uRwv2kkV1NQOc3LL3594GcnH
- kwVeuGAL3HytPclwmoDQAnfCE/xJalk9qAU4FtAO77cyqMsTvP2i980wi
- Jqtcb9aTvaSc2/CcddxuIRpIocTvypwudRyw+yhNSbD2BocImZJ+p37kx
- 0DmMG0yilfoqLVjvu6SoZtbWfPhvl45PhbDYSdp3cwe2ZeKAlwGHXduyR
- ab4Nx0qPfK0oYDd502TYksGCYfXOYHqiQjDx85ahmSHkeD7/ZapQy9pz4
- iyc4D2BHXsStbPH4Lu2WVy3MU+sYfkdEloYom/wgMc/hWyviw7b1WbPhH A==;
-X-CSE-ConnectionGUID: Pe2Ynf02TG2ATCrtgMdMFg==
-X-CSE-MsgGUID: b/1e8MdGQoW5d09mTbst4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="34965525"
-X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="34965525"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2024 02:43:12 -0700
-X-CSE-ConnectionGUID: 7bsRKj8NQ1CgKX/bKQNwvA==
-X-CSE-MsgGUID: /yAKZd4uTkOHBMJ4TXPD8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="103377587"
-Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
- by orviesa001.jf.intel.com with ESMTP; 06 Sep 2024 02:43:07 -0700
-From: Raag Jadav <raag.jadav@intel.com>
-To: airlied@gmail.com, daniel@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v4 3/3] drm/i915: Use device wedged event
-Date: Fri,  6 Sep 2024 15:12:25 +0530
-Message-Id: <20240906094225.3082162-4-raag.jadav@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240906094225.3082162-1-raag.jadav@intel.com>
-References: <20240906094225.3082162-1-raag.jadav@intel.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B981010E9E3
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 09:50:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=yXeAZMqnPEUw1nGJDqQeQa/1NXUi1sfFmoPDpYDmFng=; b=N
+ 6FGj/mAXCrJKUfSF27rqnnZGudV4uz315L8d7iECTQF8BTkxxqogAN+6mOCJanti
+ yAps4Kw4THUbfjD3VGnt18q4PbxavzuQJKB6OYePKzRZrFCRu2iccQX2P0eZwdhz
+ Ya8l6CiRf3QVvWcuyP527ghR0ZMQjqLLjiiVSgluW4=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-129 (Coremail) ; Fri, 6 Sep 2024 17:50:20 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Fri, 6 Sep 2024 17:50:20 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Diederik de Haas" <didi.debian@cknow.org>
+Cc: "Min-Hua Chen" <minhuadotchen@gmail.com>,
+ "Sandy Huang" <hjc@rock-chips.com>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ "Andy Yan" <andy.yan@rock-chips.com>, 
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, 
+ "Maxime Ripard" <mripard@kernel.org>, 
+ "Thomas Zimmermann" <tzimmermann@suse.de>, 
+ "David Airlie" <airlied@gmail.com>, 
+ "Daniel Vetter" <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH] drm/rockchip: include rockchip_drm_drv.h
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <D3Z3FN6GARPI.197HD3V38X81T@cknow.org>
+References: <20240905223852.188355-1-minhuadotchen@gmail.com>
+ <6f07603.7f9.191c4c887b1.Coremail.andyshrk@163.com>
+ <D3Z3FN6GARPI.197HD3V38X81T@cknow.org>
+X-NTES-SC: AL_Qu2ZB/qauUop5iCYZukZnEobh+Y5UcK2s/ki2YFXN5k0mCTU0SYHcVtZP2PS1cyiLhihlDywfDNM9slef49ob7A0xWS+vmLZ6I6POgSZgSD1
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <e4ca4ac.a3fb.191c6bde766.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: _____wD3P7tc0NpmWd4jAA--.24907W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gtSXmWX0Naz1wADsG
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,28 +70,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have device wedged event supported by DRM core, make use
-of it. With this in place, userspace will be notified of wedged device
-on gt reset failure.
-
-Signed-off-by: Raag Jadav <raag.jadav@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_reset.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-index 735cd23a43c6..be0906490ce5 100644
---- a/drivers/gpu/drm/i915/gt/intel_reset.c
-+++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-@@ -1409,6 +1409,8 @@ static void intel_gt_reset_global(struct intel_gt *gt,
- 
- 	if (!test_bit(I915_WEDGED, &gt->reset.flags))
- 		kobject_uevent_env(kobj, KOBJ_CHANGE, reset_done_event);
-+	else
-+		drm_dev_wedged_event(&gt->i915->drm);
- }
- 
- /**
--- 
-2.34.1
-
+CgpIae+8jApBdCAyMDI0LTA5LTA2IDE3OjI4OjMzLCAiRGllZGVyaWsgZGUgSGFhcyIgPGRpZGku
+ZGViaWFuQGNrbm93Lm9yZz4gd3JvdGU6Cj5PbiBGcmkgU2VwIDYsIDIwMjQgYXQgMjo0MiBBTSBD
+RVNULCBBbmR5IFlhbiB3cm90ZToKPj4gQXQgMjAyNC0wOS0wNiAwNjozODo1MCwgIk1pbi1IdWEg
+Q2hlbiIgPG1pbmh1YWRvdGNoZW5AZ21haWwuY29tPiB3cm90ZToKPj4gPkluY2x1ZGUgcm9ja2No
+aXBfZHJtX2Rydi5oIHRvIGZpeCB0aGUgZm9sbG93IHNwYXJzZSB3YXJuaW5nOgo+PiA+Cj4+ID5k
+cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfdm9wMl9yZWcuYzo1MDI6MjQ6IHNwYXJz
+ZToKPj4gPndhcm5pbmc6IHN5bWJvbCAndm9wMl9wbGF0Zm9ybV9kcml2ZXInIHdhcyBub3QgZGVj
+bGFyZWQuCj4+ID5TaG91bGQgaXQgYmUgc3RhdGljPwo+PiA+Cj4+ID5ObyBmdW5jdGlvbmFsIGNo
+YW5nZSBpbnRlbmRlZC4KPj4gPgo+PiA+U2lnbmVkLW9mZi1ieTogTWluLUh1YSBDaGVuIDxtaW5o
+dWFkb3RjaGVuQGdtYWlsLmNvbT4KPj4gPi0tLQo+PiA+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hp
+cC9yb2NrY2hpcF92b3AyX3JlZy5jIHwgMSArCj4+ID4gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspCj4+ID4KPj4gPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9j
+a2NoaXBfdm9wMl9yZWcuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF92b3Ay
+X3JlZy5jCj4+ID5pbmRleCAxOGVmYjNmZTFjMDAuLmM2NzhkMWIwZmQ3YyAxMDA2NDQKPj4gPi0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF92b3AyX3JlZy5jCj4+ID4rKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfdm9wMl9yZWcuYwo+PiA+QEAgLTE0
+LDYgKzE0LDcgQEAKPj4gPiAjaW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPgo+PiA+IAo+PiA+ICNp
+bmNsdWRlICJyb2NrY2hpcF9kcm1fdm9wMi5oIgo+PiA+KyNpbmNsdWRlICJyb2NrY2hpcF9kcm1f
+ZHJ2LmgiCj4+ID4gCj4+Cj4+IFdlIGFscmVhZHkgaGF2ZSBhIHBhdGNoWzBdIGluY2x1ZGUgcm9j
+a2NoaXBfZHJtX2Rydi5oIGluIHJvY2tjaGlwX2RybV92b3AyLmgKPj4KPj4gWzBdaHR0cHM6Ly9w
+YXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LXJvY2tjaGlwL3BhdGNoLzIwMjQwOTA0
+MTIwMjM4LjM4NTY3ODItMy1hbmR5c2hya0AxNjMuY29tLyAKPgo+TWF5YmUgSSdtIG1pc3Npbmcg
+c29tZXRoaW5nLCBidXQgdGhpcyBwYXRjaCBzZWVtcyB0byBmaXggYW4gYWxyZWFkeQo+ZXhpc3Rp
+bmcgYnVnICh3aGljaCBzaG91bGQgaGF2ZSBhIEZpeGVzIHRhZz8pLCB3aGljaCBBbmR5IGFsc28g
+Zml4ZWQKCj53aGlsZSBpbXBsZW1lbnRpbmcgYSBkaWZmZXJlbnQgKGFuZCB1bnJlbGF0ZWQpIGZl
+YXR1cmU/CgoKSW4gZmFjdCwgSSBkb24ndCBrbm93IGhvdyB0byByZXByb2R1Y2UgdGhpcyBjb21w
+aWxhdGlvbiBpc3N1ZS4KV2hpbGUgaW1wbGVtZW50aW5nIG15IGZlYXR1cmUsIEkgaGFwcGVuZWQg
+dG8gZmluZCB0aGF0IEkgbmVlZCB0byBpbmNsdWRlIHJvY2tjaGlwX2RybV9kcnYuaCBpbiByb2Nr
+Y2hpcF9kcm1fdm9wMi5oCgoKCj4KPkNoZWVycywKPiAgRGllZGVyaWsK
