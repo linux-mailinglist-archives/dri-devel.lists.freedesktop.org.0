@@ -2,74 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FF596E75A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 03:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E98D96E766
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 03:54:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35AB10E72A;
-	Fri,  6 Sep 2024 01:46:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CE+Jivuc";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBEE10E87F;
+	Fri,  6 Sep 2024 01:54:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C55F510E72A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 01:46:16 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7178df70f28so1279517b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 18:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725587176; x=1726191976; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=UwnV3rN27k13ClzZkPYxKb2bde4aYZdPIxzu2F5jqrY=;
- b=CE+JivucpI1HR2MizFZD//KpyAIQ9kfcN0WVSpetpCckNllSRp766BJ1WAbxaoQByp
- +Kw8xcp1S8RO5VWMjoQkFl0NFmiPTwXrZW0FlId8BflMplxtVpdmgaXVHpGq6NJ5LB84
- 1x0jpofiDDluNew1SDsVOsmZPJVTimZkaYJ+KVlgHXEQMl2k5pCFiDxZ+0e95P+dG16y
- L/Q3YN6nzHqChOAMgOrT08CERSJs6yOcxKGVg/k2WXR5A1vrDYvZhFptjZG2YKvZixT9
- sjzkWoGloQo0Oxi7UA0bPl2Af6knV+hgFvrt/mbhqHS/G4V79L2oaSRQnJjGLr9ctgI6
- iguA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725587176; x=1726191976;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UwnV3rN27k13ClzZkPYxKb2bde4aYZdPIxzu2F5jqrY=;
- b=Z/RhYgwxibefm7Azt3Oc+VMD+DtoYp/OtiGFrBenSxpIVSB45uzE9evvSEwzpORhD7
- Ig5nZVswd24qCzVOYIFXHumjD7Baxi+ds80Uh0oA2cMuAhfaMqLrz3P6eVm1XyMNXF0i
- IB6y3h40yyOtRavlHqapIjCjebU66MdFlpEDSznFYNpUHS8QOxWmaQYRH2a/rBw2cazz
- GScqZtbkrt/0MFBPFa1RNRLqUGs2MRWpsde6yaLVKyWFjCp6wbhRz1ofH/BTm/RQejQ3
- knyr7nnAUIPx5a/2/dGCpwXiwu2bCZqn8ppGjDDBrcKcQcH0aplu+NDWyQauYBJzx41a
- yWkA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7ujUjekWIgdvpHpNMpZvJqG/4XRWYx0ISXAYDedeKZhvhifunWaiSzEUW+kBUmQjD64LA+bBSy3U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwbFptDN3XvoqjLX48Cufw0EbYUINdGFc7e33zAARaD5XJVxnLO
- DUPvW1kvZsXoiU2EH/EgTab8bQUWuBz9zLYXnNNfCWUstV5UFfjZyN2JEEG2ncn0wYdv+jmfSgx
- pliqamu34aLA/qDlG57pBEQrD/Ow=
-X-Google-Smtp-Source: AGHT+IEhczTHvvDjVeg6Pvbvn7UtOLZBLuPzW6GomhWkIzl2gBVFJydJN91+AvoJ8LIJzWan+AkZyr71ZFB4mf7Tiyo=
-X-Received: by 2002:a05:6a20:e617:b0:1bd:288f:e8b4 with SMTP id
- adf61e73a8af0-1cce0fea606mr26332456637.7.1725587176167; Thu, 05 Sep 2024
- 18:46:16 -0700 (PDT)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66DC910E87F;
+ Fri,  6 Sep 2024 01:54:03 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4X0K4X25L9zyRCD;
+ Fri,  6 Sep 2024 09:53:00 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+ by mail.maildlp.com (Postfix) with ESMTPS id 1BD5C180AE8;
+ Fri,  6 Sep 2024 09:54:00 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Sep
+ 2024 09:53:59 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <mario.limonciello@amd.com>, <lijo.lazar@amd.com>, <le.ma@amd.com>,
+ <Jun.Ma2@amd.com>, <hamza.mahfooz@amd.com>, <andrealmeid@igalia.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <tglx@linutronix.de>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH] drm/amdgpu: Fix incorrect resource realease in amdgpu_init()
+Date: Fri, 6 Sep 2024 10:02:33 +0800
+Message-ID: <20240906020233.272405-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 5 Sep 2024 20:46:05 -0500
-Message-ID: <CAHCN7xLL4hrTK1OqsqUa78cdp9ZcG0sC+cO5QKC3x_Y9-QVzSA@mail.gmail.com>
-Subject: i.MX8MP IMX-LCDIF Underrun Question(s)
-To: imx@lists.linux.dev, Marek Vasut <marex@denx.de>,
- Stefan Agner <stefan@agner.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- arm-soc <linux-arm-kernel@lists.infradead.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Schrempf Frieder <frieder.schrempf@kontron.de>, 
- Dominique MARTINET <dominique.martinet@atmark-techno.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +55,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have been testing various settings on the HDMI out of the i.MX8MP.
+If pci_register_driver() fails, amdgpu_sync_slab and amdgpu_fence_slab
+should be freed in the error path, fix it.
 
-I noticed that sometimes my monitor would not sync, but sometimes it
-would on the same resolution/refresh rate.  Frieder noted the LCDIF
-was sometimes underflowing, so read up on it a little bit.
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-In the comments of the LCDIF driver, it's noted:
-    Set FIFO Panic watermarks, low 1/3, high 2/3 .
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 094498a0964b..3e73306a883d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -3046,7 +3046,14 @@ static int __init amdgpu_init(void)
+ 	amdgpu_amdkfd_init();
+ 
+ 	/* let modprobe override vga console setting */
+-	return pci_register_driver(&amdgpu_kms_pci_driver);
++	r = pci_register_driver(&amdgpu_kms_pci_driver);
++	if (r)
++		goto error_pci_register;
++
++	return 0;
++
++error_pci_register:
++	amdgpu_fence_slab_fini();
+ 
+ error_fence:
+ 	amdgpu_sync_fini();
+-- 
+2.34.1
 
-However, in the downstream kernels, NXP changes the threshold to 1/2
-and 3/4 on the LCDIF that drives the HDMI, while leaving the other
-LCDIF interfaces at the default.
-
-When I increased the threshold to 1/2 and 3/4, it appeared that
-several resolutions that my monitor was struggling to sync started
-working, and it appeared to sync faster.  I don't have an HDMI
-analyzer, so I cannot verify much beyond knowing if my monitor can or
-cannot sync.
-
-Could the threshold and underrun cause this monitor intermittent
-issue, or would this be something else?
-
-Does it make sense to have a flag or device tree option to override
-the default thresholds to change the panic level?
-
-adam
