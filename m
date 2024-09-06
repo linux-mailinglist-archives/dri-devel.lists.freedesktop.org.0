@@ -2,96 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA23796F946
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 18:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7823096F94C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 18:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D769510E088;
-	Fri,  6 Sep 2024 16:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B9610EA78;
+	Fri,  6 Sep 2024 16:29:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BJOADixo";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="RlT02/cq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B845810E088
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 16:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1725640158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NTF/nKjKqx3JSmZJNOkT6LhQPRYiMBga9bgFVidxPTg=;
- b=BJOADixo8v4yRlf/rbFYDri9kkRtG+04fP5F+FiMaeZuy6xhLAjzyIguh/dpTF74rMU82t
- 9ad16RjvbnHiybq5ZjxaesHJcNKaF+mroU2R/fDK3+nCPkrpNL3okq9jXFupvMlXptvHlq
- j+LZhQfyaC6tYGwhCfK6skthxmF+T3U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-HOEpImywORaeiPMoVD8_xw-1; Fri, 06 Sep 2024 12:29:17 -0400
-X-MC-Unique: HOEpImywORaeiPMoVD8_xw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-42c80412dc1so18075555e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 09:29:17 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0F010E975
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 16:29:53 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a868b739cd9so290855566b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 09:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725640191; x=1726244991;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UFAX7TLBdg6mTbGrs2W+S51abCNVZ2uGp7qKd93zHm0=;
+ b=RlT02/cqo1jXBx6kzLvG3CUQMULan8FVfAN4BYKnHBG4oY5m8go75vrtmH3kEfYZTm
+ uI9J0lO+8CNIUoAyqTSAd2V+yomUmPHtgp/u/A9SYJWpj1Yo+au7wcoEkyqCsXEdcn/F
+ hirqFaTdLUmSDBXB4mEYAGdzvDs6zIyuwmTSHZPYb77YvkJSz4uDGyXQCnozryNxvv9o
+ O4yzqcV6lR7PC0RSfKIDMRv/pzvdVHXTAGZZkY8ec90dw67Pf3OmkLIreIBd19lRHYQO
+ 1PtiLlc9q5Q8AAv1JTJk+qpauGSEX8cDma2/8J1dU34TfIVl42IAoMRbju2aDVdeEF7n
+ Z8iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725640156; x=1726244956;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NTF/nKjKqx3JSmZJNOkT6LhQPRYiMBga9bgFVidxPTg=;
- b=XIsxMpdte5belUz++emMKYt174ksXiersgoTOlEelSUFYPTeaqm6/TW2ZvUimfCaO5
- VisHtP7hFU0nTnI2Jdl1M50ovQutWYgtz9+U3xoPNVSWU6G867ddOfknhvyiLfuhIcO5
- W2yxIrIcJzDcK59faqlU7fujVaeOaTrOXEElU+7VUQFqgxgZuDis0LLqhj9jg9TSMLtR
- MHGOl7o+tiOccKKU+0+2lxYsVhBR4YQNrypJzlYGDbuzvQfg7HvskG7M4fNA9g7sor/a
- JbDlNnChun8caO8g1yITYX5wrpdFAP4KzeyJrgsIub31on6RRMQZZqxvOeRk+tMXsGtS
- Zspg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVtQRePg1RaI8SO/+/DbUDCHhSqAhN0NW5S5/6YL0kvFSIW9QkUH37MrZpxOjNI1VYTpWg5PyMHVv0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFitCpSQOiEVwhCKeWUzmbgYlTgEOryi6SXAgN9XdHosQj4D6a
- GRoarykfyw9eCKfq/e2QF3cyzODAoeiLLh1m+bdNr749Q6VtZpbqYiul+BqzVOd34Kyaic6SaJv
- j4eCZT1nrrWCfEAxzPWTo6x0C7o+BjFhaE7diF+84l1gXxH/htWtl1pBXFYb8AJC7dw==
-X-Received: by 2002:a05:600c:45d1:b0:426:5e91:391e with SMTP id
- 5b1f17b1804b1-42c9f9d6d1cmr24597945e9.26.1725640156049; 
- Fri, 06 Sep 2024 09:29:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE01F8H/WdLhuKvK4CLUhFcSQZEx27sCPQ1eZjRPgcGIGX7GfL6OJuouynXnk+joG/+G2USSA==
-X-Received: by 2002:a05:600c:45d1:b0:426:5e91:391e with SMTP id
- 5b1f17b1804b1-42c9f9d6d1cmr24597655e9.26.1725640155569; 
- Fri, 06 Sep 2024 09:29:15 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ d=1e100.net; s=20230601; t=1725640191; x=1726244991;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UFAX7TLBdg6mTbGrs2W+S51abCNVZ2uGp7qKd93zHm0=;
+ b=xCycBi/K0VJDqrXp2N8K4sYuGx2ZB4E0iwdvnTuvJSSle0fzMylraG7/7ebx52Duh6
+ PGCy02+rNWnpYRTpDOBk/ikpL4K10SqtnBjQTNt6TLk3PyK+tJ5qaVA8PsL58LX0nSYr
+ VXlNNeHDYtA28vSQum44EJGaBstabH1gNYn8VCAmCaI7CsZdmR7QU3u7yOdT0+a3tSel
+ M21fhnwZRMWZCjtcaVokdPSxrlyww3RdF9WBaA3/gqzxjp5ikFxrRvwj6Cu67aatRjiN
+ 2kXA38P0mWmD9FKsJT1ftBBLCHb4YROvyXUJyeRsAMA89Om5bmoKICZuv8yG+n2u23lO
+ aFUw==
+X-Gm-Message-State: AOJu0Yx2+c1k18NSaZVnHcdBigtQNKTpGMpj6HqyYLxTxVBTAWdfY6h4
+ c3XDSTaHtgtRWoYOUVnGEOfbcUD7bRdot2VpqPnXR5Fmu2sF7BwC6hEszS2nj0I=
+X-Google-Smtp-Source: AGHT+IF4LS9d7XWydGrkl99lvx5rWBPaspGyzWsUYkRal2vYT7E+cmJEaI77A/f+4eJXDF6zNvOhzQ==
+X-Received: by 2002:a17:906:6a0d:b0:a8b:5dcf:4961 with SMTP id
+ a640c23a62f3a-a8b5dcf5066mr154112666b.67.1725640191207; 
+ Fri, 06 Sep 2024 09:29:51 -0700 (PDT)
+Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42cac8543dbsm3587525e9.42.2024.09.06.09.29.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Sep 2024 09:29:15 -0700 (PDT)
-Message-ID: <c02de5fb-1daa-4afd-9887-96087ee4eb43@redhat.com>
-Date: Fri, 6 Sep 2024 18:29:13 +0200
+ a640c23a62f3a-a8a6236d374sm293638666b.139.2024.09.06.09.29.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Sep 2024 09:29:50 -0700 (PDT)
+Date: Fri, 6 Sep 2024 18:29:49 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de
+Subject: Re: [PATCH] drm: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+Message-ID: <g3g5x5iksrx45d7udloiwfuo7kw6dwgiewsg7uv4klz6eb5q2x@y3ddbso6h65j>
+References: <20240516123837.81664-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/3] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-To: John Ogness <john.ogness@linutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Petr Mladek <pmladek@suse.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240801100640.462606-1-jfalempe@redhat.com>
- <20240801100640.462606-4-jfalempe@redhat.com>
- <87o76czfb2.fsf@jogness.linutronix.de>
- <d4412d54-41b1-4671-9733-34ba1423404c@redhat.com>
- <87zfpwxqpc.fsf@jogness.linutronix.de> <87a5gm2khw.fsf@jogness.linutronix.de>
- <a421b31b-53ad-4f56-88be-66a7d4c3bb61@redhat.com>
- <87seudchlu.fsf@jogness.linutronix.de> <87plphcgo2.fsf@jogness.linutronix.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <87plphcgo2.fsf@jogness.linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="edzpg5jjhiaw67vg"
+Content-Disposition: inline
+In-Reply-To: <20240516123837.81664-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,29 +84,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/09/2024 10:47, John Ogness wrote:
-> On 2024-09-06, John Ogness <john.ogness@linutronix.de> wrote:
->> Your device_lock()/device_unlock() callbacks probably just need to
->> lock/unlock your mutex @drm_log_lock.
-> 
-> Sorry, forgot to mention that the device_lock() callback must also
-> disable migration. Since you are using a mutex, you will need to
-> manually do that as well...
-> 
-> mutex_lock(&drm_log_lock);
-> migrate_disable();
 
-Thanks a lot, I've done most of the conversion, and it's already working 
-great. I will send a new series next week.
+--edzpg5jjhiaw67vg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
+hello,
 
--- 
+On Thu, May 16, 2024 at 02:38:38PM +0200, Uwe Kleine-K=F6nig wrote:
+> These drivers don't use the driver_data member of struct i2c_device_id,
+> so don't explicitly initialize this member.
+>=20
+> This prepares putting driver_data in an anonymous union which requires
+> either no initialization or named designators. But it's also a nice
+> cleanup on its own.
+>=20
+> While add it, also remove commas after the sentinel entries.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-Jocelyn
+I didn't receive any feedback on this one. It still applies on today's
+next.
 
+Someone taking a look (or even applying it!) would be great.
 
-> 
-> John
-> 
+Thanks
+Uwe
 
+--edzpg5jjhiaw67vg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbbLfoACgkQj4D7WH0S
+/k6DlQf/V/sEKyQ0S2H7PU7/UbYZg4jqxT00S8OnihOroT51wJV1Yn/8whwWFBoW
+cVjk5/mmZLfyLxA85bmsQcLBFzDoPIodQJzsDPBe3MPuBt7yfiWaQhGghO+JKU7h
+hP8LL1q0SCea1H6A/ncBNhdM76LoIqJ424+7cQwd5IPfwASEl6tAT/uIX2K1sgoJ
+n4BdMdesOzefr3D57PFbn4pJ5OLXj6ljvljmEzmFeLUZkk/XBeK3zwKrNimOUqno
+Ruexq21l+mHFSf1uDnandhXPr+Iugr4jx8XRa9G3NvwJsORj4nKV1J5sXNtSBsOo
+uVrHBiMV2raT13fAlXCYTgCwQm0csg==
+=IK22
+-----END PGP SIGNATURE-----
+
+--edzpg5jjhiaw67vg--
