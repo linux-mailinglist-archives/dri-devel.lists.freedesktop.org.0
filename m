@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69A296EACF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 08:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C96996EB2A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 08:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9888010E185;
-	Fri,  6 Sep 2024 06:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A11F10E7FD;
+	Fri,  6 Sep 2024 06:58:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="SKC29Hq5";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="CiC6itrb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TLa0NOki";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C423510E185
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 06:39:09 +0000 (UTC)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+ [209.85.222.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0647210E7FD
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 06:58:18 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id
+ a1e0cc1a2514c-846c5995a6fso449946241.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 23:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1725604750; x=1757140750;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Dg5SF6JXmaXxF0NLRP6GCKnQQLT8CWaXwLRzR4UmnOs=;
- b=SKC29Hq5SLNOUuTdPJNVTZVo7sNQPfgOa8dg1SgPeXzcnt9f5G1js0n+
- 0Dmeru3Y0jrdbXT4mHGRJhTBcVQf3p3CyB4lQRtOjm5JJ2gnpn4E23qoi
- WshystuQ2dWXZWU1ulEwcPD7lyNJ51gwF9Cc3pqtE11stlaLEUKSqjarp
- VCDwT29EOoeKgKRH3d2Kc+wztz7hCmMmeFd6vm4EM+MfAYVrbmcXNofsT
- cnXF2MAcbj0IyVMCW26WVyI/qe0fJbVJs1drqKfhhyYxTnni5WsxDJHLQ
- KoGS1kjIoGW3WtoyM3e37sES57A76072zyFzsNy9ne2ZxLBlLuDP6rms0 w==;
-X-CSE-ConnectionGUID: DjVR2wjrShqRlWD7KLf6wg==
-X-CSE-MsgGUID: 0LO+PlrWTIiSpA4VuyZAyA==
-X-IronPort-AV: E=Sophos;i="6.10,207,1719871200"; d="scan'208";a="38800714"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 06 Sep 2024 08:39:07 +0200
-X-CheckPoint: {66DAA38B-1F-22BB8E18-F5F6D0B4}
-X-MAIL-CPID: 492BF267EFA1B926E3FE21B06D48DD7E_5
-X-Control-Analysis: str=0001.0A782F18.66DAA38B.011E, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 4DA84162421; Fri,  6 Sep 2024 08:38:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1725604743; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=Dg5SF6JXmaXxF0NLRP6GCKnQQLT8CWaXwLRzR4UmnOs=;
- b=CiC6itrbelTRi6ewhMP9FNHhuWFQHP6QFd2pZykZYifC5qDOEtEzZ0uZbARHpGUk/O8zX+
- /Wx/DcrShWriDkaJXsGSmW8GcSHt/XWBV+aJ6V5T21hg/ldTo/gbqqyLnFamC+XEKVQbRZ
- NYVarCfDsY6S2cOkuAXsE3PgnGsdNCr17GE82ZIaaL5bj9K5FYcJO/7/o4sI9AhlWlsrz7
- x70qZRwg2TU/9SVbAiW++JIrm/Q++r4s4XxSIsyKVg5k/hsew+9WVcmhNcxcwJ24xkypn3
- gSW+gO3gNjL9dZyhYkfCvmDepk3EK4PFF0CZpq6cNkxkkktJeoXh5okMnmjGzA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] drm/imx: Add missing DRM_BRIDGE_CONNECTOR dependency
-Date: Fri,  6 Sep 2024 08:38:56 +0200
-Message-Id: <20240906063857.2223442-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+ d=gmail.com; s=20230601; t=1725605897; x=1726210697; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8N8A0s45H/VLtj9tyWVe0GkyJaEn5PZatiSoHaZgnbA=;
+ b=TLa0NOki/oBIzQLWuFzd1FN89pGZUJX++zRLJpJraAIuyT+ufvQWVTJnhaMTKuyhKL
+ riY4WIVN0QbmhT+M3CdRF+QXCTQyiD6Pcas8BGn41mscTqOHMp2/NGa6R8H5M5S+OiCU
+ 5Ycaxwo3FLnC1MSiQSsHoOLNd40ZduP5aiPPWjDgsULzqlhzPvvzDNzcPzldbA6AxcUX
+ THogRoYc612OZ8BeNmAClZ3A4Qyjs4FZEei95DZ+cVIvqyoSFNSVh/lrK1ssP4HxnDsL
+ f4GLQo5laHOG+bq7iytvNfY5ixBGn/65Fbo+j9KDuxJKXo78uWEwkaFx61mxgmzF2HV8
+ Amtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725605897; x=1726210697;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8N8A0s45H/VLtj9tyWVe0GkyJaEn5PZatiSoHaZgnbA=;
+ b=MHTi4ftqCkOQLX1gZ8KpMauay5ZelBX+rA9MbWsXDo1tjy3BqR3kftmr+BLqVQzJ0J
+ 29jtADjZ21K8kYWilIAyguw6Nxs2YHsk2pI78oX4MLT4P1rifc3XsjwXCO7gu5WOgI1s
+ cDX6rY7tlbr9KFmVOz4B8EUreHnQN21MOZ5tdEeV6V/BlYxyOgLOqCQvEVNWSXeUWaSN
+ VQR8NDbHlxokxQQAq/SONjj3H57ufDEZ0Gz8yhs3kWQX+0a5+JbmqujqUHgu5tfXxNjc
+ NWXORthryN4ViNnCRKKs4ZVCQIC374sWE1LDac0CqceHyde60jBB+UyagMXWZ5YSDCBg
+ Tknw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVHJ9ga3xVnPoMjdqlZGKGla18mHQrOAmQvekTN7EumUXJL53VZDc/Szbc1Y7ngu3Pa9uZ+c1NaFE0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymBGScl19HLSdxI0qxSZjSn4/dv0AZR1k7CkDBOOPo2CxtxDtM
+ Cl5Wr/kidTU5U6SaRs+yYQMjVyVseDKWQAA3NXz/5Gy0dZDC5mioH5Ehw1muLgrnd9UR87WW0TM
+ mUgQGlJLsCLlWQUhIrbiMYtZP6xg=
+X-Google-Smtp-Source: AGHT+IF1Fi/nDHguPritS3NX2mXODBmwKdzEwTEKlD8xdN4sfaoxulLn25xubO3nmPTVcNcapnLXl53HoDgmi4q0JOI=
+X-Received: by 2002:a05:6122:915:b0:4fc:d9ef:3be6 with SMTP id
+ 71dfb90a1353d-50207af281dmr1797058e0c.2.1725605896653; Thu, 05 Sep 2024
+ 23:58:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20240825090052.22135-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240825090052.22135-1-krzysztof.kozlowski@linaro.org>
+From: Inki Dae <daeinki@gmail.com>
+Date: Fri, 6 Sep 2024 15:57:40 +0900
+Message-ID: <CAAQKjZP+1xRPBc+tfJ735AtEtBWwiLThbi_-SA28cQs0G66LOg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: MAINTAINERS: drop stale exynos file pattern
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,35 +86,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When drm/bridge-connector was moved to DRM_DISPLAY_HELPER not all
-users were updated. Add missing Kconfig selections.
+Hi Krzysztof,
 
-Fixes: 9da7ec9b19d8 ("drm/bridge-connector: move to DRM_DISPLAY_HELPER module")
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/imx/ipuv3/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+2024=EB=85=84 8=EC=9B=94 25=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 6:01, K=
+rzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> With last TXT binding converted to DT schema, all Samsung Exynos display
+> bindings are in "samsung" directory, already present in maintainers
+> entry.  Drop old "exynos" directory to fix get_maintainers.pl self-test
+> warning:
+>
+>   ./MAINTAINERS:7539: warning: no file matches  F:      Documentation/dev=
+icetree/bindings/display/exynos/
+>
+> Fixes: ad6d17e10306 ("dt-bindings: display: samsung,exynos5-dp: convert t=
+o DT Schema")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv3/Kconfig
-index 5a40c878ebb05..990e216c51cc8 100644
---- a/drivers/gpu/drm/imx/ipuv3/Kconfig
-+++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
-@@ -13,6 +13,7 @@ config DRM_IMX_PARALLEL_DISPLAY
- 	tristate "Support for parallel displays"
- 	depends on DRM_IMX
- 	select DRM_BRIDGE
-+	select DRM_BRIDGE_CONNECTOR
- 	select DRM_PANEL_BRIDGE
- 	select VIDEOMODE_HELPERS
- 
-@@ -31,6 +32,7 @@ config DRM_IMX_LDB
- 	depends on COMMON_CLK
- 	select MFD_SYSCON
- 	select DRM_BRIDGE
-+	select DRM_BRIDGE_CONNECTOR
- 	select DRM_PANEL_BRIDGE
- 	select DRM_IMX_LEGACY_BRIDGE
- 	help
--- 
-2.34.1
+Applied. Seems that RC7 is already late, so I have merged it into the
+eynox-drm-next branch.
 
+Thanks,
+Inki Dae
+
+> ---
+>  MAINTAINERS | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 028186bb4e8d..c75918994a53 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7536,7 +7536,6 @@ M:        Kyungmin Park <kyungmin.park@samsung.com>
+>  L:     dri-devel@lists.freedesktop.org
+>  S:     Supported
+>  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exy=
+nos.git
+> -F:     Documentation/devicetree/bindings/display/exynos/
+>  F:     Documentation/devicetree/bindings/display/samsung/
+>  F:     drivers/gpu/drm/exynos/
+>  F:     include/uapi/drm/exynos_drm.h
+> --
+> 2.43.0
+>
+>
