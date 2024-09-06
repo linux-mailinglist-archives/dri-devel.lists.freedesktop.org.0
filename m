@@ -2,68 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7CF96F9E4
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 19:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EF196FA07
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 19:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465D610EAB7;
-	Fri,  6 Sep 2024 17:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D15610E1AA;
+	Fri,  6 Sep 2024 17:40:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ao1ZHieF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="buz15/Vl";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E89810EAB2
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 17:28:24 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 79A9420002;
- Fri,  6 Sep 2024 17:28:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1725643702;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YSMv/7OdJ6EZQxyck8/mOm0fHTErLrIcmMsknWGUyeI=;
- b=Ao1ZHieFOhfiSnD5EuaTZp/v6nju/W6TVFBt2xYh5JJ+9IvffWCqczNZ/dUKw7628i3w+0
- FoCwqDamqHNZpI2a0CpnmART3lAIi4aEaBqmn/rhqL+3IjEAx0YPAR1CTGljNYhq+3KLNF
- OEzu25e0t2kwLMV9GhKIrMdAwjR+aA7NmbMxl4FJtqwn99fi/m0NbVpSF5Ti9jAHK2ldTw
- oM0ytr1vYPcKg6UiMNIoGgyXmzM792G0IWtOif23+RKrj0V47xTva+VEqX6hTay+Kg17Ct
- 8VIi/6j0roT5M414CEuURW4FjrUbjPmNXfGIWKa24j8DLABlIuGi0/Vmnbi8nw==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 06 Sep 2024 19:28:17 +0200
-Subject: [PATCH] drm: writeback: Introduce drm managed helpers
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1113910E1AA;
+ Fri,  6 Sep 2024 17:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725644440; x=1757180440;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LdgDGMPmb4eVJNXxRBsfn42gcT1z+9PBTaltaJNrGWY=;
+ b=buz15/Vl5SyJcAOG6IadgByHsLyX/YciKbiT4GRItOD3y8u2fp4suAgC
+ FrCcsFzULew38HZRfdchptBIJ39GdJohUTJnXXMAKR199DLyHX9iftMDa
+ olxvv1jo2d6OKZBo53cpnPT8tVqIkqW4JWVxQPtHtMMYEecOTsDJRPu07
+ 0q2cmn6Qnotf1pb2U2etlDwkw/VIRFr+bPdXupNy4YaI6ZkNZi++7KIiC
+ zWJmdx+SThy0cTxOPzqvM2XwQtXC6+Pde4+U3ZjpfcGRLs64OVmRxaEP8
+ 3gmNlsy6NhUQWAUt1QJmTP5mUmirbHs1BsFYuIa2djKxQus4TpZYfJCo0 A==;
+X-CSE-ConnectionGUID: OQXtHvSqSOOWdzlGdaC5OQ==
+X-CSE-MsgGUID: Zf8YWDmuTpaVU2GawNIicw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="24564786"
+X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; d="scan'208";a="24564786"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2024 10:40:39 -0700
+X-CSE-ConnectionGUID: w39dE457SiGBVZHWDuOqtg==
+X-CSE-MsgGUID: THLCuABWRKu05SjFVwd5yQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,208,1719903600"; d="scan'208";a="66012040"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmviesa009.fm.intel.com with ESMTP; 06 Sep 2024 10:40:39 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, Juston Li <juston.li@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
+Subject: [PATCH v2] drm/i915/guc: Enable PXP GuC autoteardown flow
+Date: Fri,  6 Sep 2024 10:40:38 -0700
+Message-ID: <20240906174038.1468026-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIALA722YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDCyNL3fKizJLUpMTkbN2Uotxc3STLJAvTlOSUxDTzJCWgpoKi1LTMCrC
- B0bG1tQA8kwBgYAAAAA==
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- jani.nikula@linux.intel.com
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11994;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=X02PdsGRwN0Xt4CRQJHfTXUpYBeHZjF9LA/tiFRLaj4=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBm2zu1Z9ULrKBF7SDivY4TdzvsiqkdWlUzHyhOh
- AWEfeqhX3SJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZts7tQAKCRAgrS7GWxAs
- 4rECD/0VZjIt+uFcKgliIOKcMoHSX31AhHteh7R5acbZRyXOLilZBGP5EcvFK2rKY64DbHzvNKm
- j5UDvmqqM8FFykbGn8llVnWG2v5ZaZwCM5+KEwY5pSGfCKZs1fP0joblO7/MsBTnaOC06186tcI
- 2Dxgl0yvrClioQdE+SEGop5Z94V+6pp+OymFhnZDBse16UZG7cU1Tnf3xSwSStCtILSzus4rPPx
- hd/CaDNB/dnRHJzzQfAGb2G0CKNLTKD3dsq1R0GATuDF+SHgmpaa31XHQQVTFuOvCbWmh2F+L4Z
- CIpxZ1Frmp2rsI1UDzN+HlVcx31JA0j04Ge0rut2d1w0FKVw88Uw+585P9Yb3vnh/SmXaqHBQ3N
- tYK+hu9lYGlLZmE1+ZjOmk4dPpDCOpb/8D7L/7yL89ujoLzcKSf/4urlgDqETJfivnTdpeg1XjH
- JVbl8yO2AfkYasgNWt51WjXWvCB8H3vFapDIp+Qp5FGwbLJOhH/oo1LlryA3SEWcJB8jgnyJQmq
- VVIBO7kYHsB4dquFhFSKWkNXAq+H7UKmdLA96TSzbjIkuPBMaGACqNqWTEN96Q5v7o2wlkvdd73
- RE2pZKLAa/4JiJKjTXWHk/W/khJ6iWLPbygJ6ODf7KCwL5+x1HKMBiaYDSLkcDGSj3ghDov52Tb
- 2qiEgXGQsjfdkKQ==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-Sasl: louis.chauvet@bootlin.com
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,340 +67,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently drm_writeback_connector are created by
-drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
-Both of the function uses drm_connector_init and drm_encoder_init, but
-there is no way to properly clean those structure from outside. By using
-drm managed variants, we can ensure that the writeback connector is
-properly cleaned.
+From: Juston Li <juston.li@intel.com>
 
-This patch introduce drmm_writeback_connector_init, an helper to initialize
-a writeback connector using drm managed helpers. This function allows the
-caller to use its own encoder.
+This feature flag enables GuC autoteardown which allows for a grace
+period before session teardown.
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Also add a HAS_PXP() helper to share with the other place that wants
+to check.
+
+Signed-off-by: Juston Li <juston.li@intel.com>
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
-Hi Maxime, Jani,
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c      | 8 ++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 1 +
+ drivers/gpu/drm/i915/i915_drv.h             | 3 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp.c        | 2 +-
+ 4 files changed, 13 insertions(+), 1 deletion(-)
 
-I tried with this commit to implement the drm-managed version of writeback 
-connector initialization. I tested with the current vkms driver, and it 
-seems to works (at least no crash/warns).
-
-As suggested by Jani, I only created one function, which takes a 
-NULL-able pointer for encoder/encoder functions/possible_crtc. What do you 
-think about it?
-
-Regarding the documentation, I think I repeated too much, can I simply add 
-comments like "see documentation of @... for the details / requirements"?
-
-Good weekend,
-Louis Chauvet
----
- drivers/gpu/drm/drm_writeback.c | 224 ++++++++++++++++++++++++++++++++++------
- include/drm/drm_writeback.h     |   7 ++
- 2 files changed, 201 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index a031c335bdb9..a161deeea908 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -18,6 +18,7 @@
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_property.h>
- #include <drm/drm_writeback.h>
-+#include <drm/drm_managed.h>
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index 097fc6bd1285e..5949ff0b0161f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -239,8 +239,16 @@ static u32 guc_ctl_debug_flags(struct intel_guc *guc)
  
- /**
-  * DOC: overview
-@@ -202,13 +203,12 @@ int drm_writeback_connector_init(struct drm_device *dev,
- EXPORT_SYMBOL(drm_writeback_connector_init);
- 
- /**
-- * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
-- * a custom encoder
-+ * __drm_writeback_connector_init - Common initialization code for writeback
-+ * connector
-  *
-  * @dev: DRM device
-  * @wb_connector: Writeback connector to initialize
-  * @enc: handle to the already initialized drm encoder
-- * @con_funcs: Connector funcs vtable
-  * @formats: Array of supported pixel formats for the writeback engine
-  * @n_formats: Length of the formats array
-  *
-@@ -224,41 +224,31 @@ EXPORT_SYMBOL(drm_writeback_connector_init);
-  * assigning the encoder helper functions, possible_crtcs and any other encoder
-  * specific operation.
-  *
-- * Drivers should always use this function instead of drm_connector_init() to
-- * set up writeback connectors if they want to manage themselves the lifetime of the
-- * associated encoder.
-- *
-  * Returns: 0 on success, or a negative error code
-  */
--int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
--		struct drm_writeback_connector *wb_connector, struct drm_encoder *enc,
--		const struct drm_connector_funcs *con_funcs, const u32 *formats,
--		int n_formats)
-+static int __drm_writeback_connector_init(
-+	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
-+	struct drm_encoder *enc, const u32 *formats, int n_formats)
+ static u32 guc_ctl_feature_flags(struct intel_guc *guc)
  {
--	struct drm_property_blob *blob;
- 	struct drm_connector *connector = &wb_connector->base;
- 	struct drm_mode_config *config = &dev->mode_config;
--	int ret = create_writeback_properties(dev);
--
--	if (ret != 0)
--		return ret;
--
--	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
--					formats);
--	if (IS_ERR(blob))
--		return PTR_ERR(blob);
--
-+	struct drm_property_blob *blob;
-+	int ret;
++	struct intel_gt *gt = guc_to_gt(guc);
+ 	u32 flags = 0;
  
- 	connector->interlace_allowed = 0;
++	/*
++	 * Enable PXP GuC autoteardown flow.
++	 * NB: MTL does things differently.
++	 */
++	if (HAS_PXP(gt->i915) && !IS_METEORLAKE(gt->i915))
++		flags |= GUC_CTL_ENABLE_GUC_PXP_CTL;
++
+ 	if (!intel_guc_submission_is_used(guc))
+ 		flags |= GUC_CTL_DISABLE_SCHEDULER;
  
--	ret = drm_connector_init(dev, connector, con_funcs,
--				 DRM_MODE_CONNECTOR_WRITEBACK);
-+	ret = create_writeback_properties(dev);
- 	if (ret)
--		goto connector_fail;
-+		return ret;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+index 263c9c3f6a034..4ce6e2332a63f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+@@ -105,6 +105,7 @@
+ #define   GUC_WA_ENABLE_TSC_CHECK_ON_RC6	BIT(22)
  
- 	ret = drm_connector_attach_encoder(connector, enc);
- 	if (ret)
--		goto attach_fail;
-+		return ret;
-+
-+	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
-+					formats);
-+	if (IS_ERR(blob))
-+		return PTR_ERR(blob);
+ #define GUC_CTL_FEATURE			2
++#define   GUC_CTL_ENABLE_GUC_PXP_CTL	BIT(1)
+ #define   GUC_CTL_ENABLE_SLPC		BIT(2)
+ #define   GUC_CTL_DISABLE_SCHEDULER	BIT(14)
  
- 	INIT_LIST_HEAD(&wb_connector->job_queue);
- 	spin_lock_init(&wb_connector->job_lock);
-@@ -281,15 +271,189 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
- 	wb_connector->pixel_formats_blob_ptr = blob;
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 39f6614a0a99a..faeba9732422f 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -693,6 +693,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
  
- 	return 0;
-+}
-+
-+/**
-+ * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
-+ * a custom encoder
-+ *
-+ * @dev: DRM device
-+ * @wb_connector: Writeback connector to initialize
-+ * @enc: handle to the already initialized drm encoder
-+ * @con_funcs: Connector funcs vtable
-+ * @formats: Array of supported pixel formats for the writeback engine
-+ * @n_formats: Length of the formats array
-+ *
-+ * This function creates the writeback-connector-specific properties if they
-+ * have not been already created, initializes the connector as
-+ * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
-+ * values.
-+ *
-+ * This function assumes that the drm_writeback_connector's encoder has already been
-+ * created and initialized before invoking this function.
-+ *
-+ * In addition, this function also assumes that callers of this API will manage
-+ * assigning the encoder helper functions, possible_crtcs and any other encoder
-+ * specific operation.
-+ *
-+ * Drivers should always use this function instead of drm_connector_init() to
-+ * set up writeback connectors if they want to manage themselves the lifetime of the
-+ * associated encoder.
-+ *
-+ * Returns: 0 on success, or a negative error code
-+ */
-+int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
-+		struct drm_writeback_connector *wb_connector, struct drm_encoder *enc,
-+		const struct drm_connector_funcs *con_funcs, const u32 *formats,
-+		int n_formats)
-+{
-+	struct drm_connector *connector = &wb_connector->base;
-+	int ret;
-+
-+	ret = drm_connector_init(dev, connector, con_funcs,
-+				 DRM_MODE_CONNECTOR_WRITEBACK);
-+	if (ret)
-+		return ret;
-+
-+	ret = __drm_writeback_connector_init(dev, wb_connector, enc, formats,
-+					     n_formats);
-+	if (ret)
-+		drm_connector_cleanup(connector);
+ #define HAS_RPS(i915)	(INTEL_INFO(i915)->has_rps)
  
--attach_fail:
--	drm_connector_cleanup(connector);
--connector_fail:
--	drm_property_blob_put(blob);
- 	return ret;
- }
- EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
++#define HAS_PXP(i915) \
++	(IS_ENABLED(CONFIG_DRM_I915_PXP) && INTEL_INFO(i915)->has_pxp)
++
+ #define HAS_HECI_PXP(i915) \
+ 	(INTEL_INFO(i915)->has_heci_pxp)
  
-+/**
-+ * drm_writeback_connector_cleanup - Cleanup the writeback connector
-+ * @dev: DRM device
-+ * @data: Opaque pointer to the writeback connector
-+ *
-+ * This will decrement the reference counter of blobs and it will clean the
-+ * remaining jobs in this writeback connector.
-+ */
-+static void drm_writeback_connector_cleanup(struct drm_device *dev, void *data)
-+{
-+	struct drm_writeback_connector *wb_connector = data;
-+	unsigned long flags;
-+	struct drm_writeback_job *pos, *n;
-+
-+	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
-+
-+	spin_lock_irqsave(&wb_connector->job_lock, flags);
-+	list_for_each_entry_safe(pos, n, &wb_connector->job_queue, list_entry) {
-+		drm_writeback_cleanup_job(pos);
-+		list_del(&pos->list_entry);
-+	}
-+	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
-+}
-+
-+/**
-+ * __drmm_writeback_connector_init - Initialize a writeback connector with
-+ * a custom encoder
-+ *
-+ * @dev: DRM device
-+ * @wb_connector: Writeback connector to initialize
-+ * @con_funcs: Connector funcs vtable
-+ * @enc: handle to the already initialized drm encoder
-+ * @formats: Array of supported pixel formats for the writeback engine
-+ * @n_formats: Length of the formats array
-+ *
-+ * This function initialize a writeback connector and register its cleanup.
-+ * It uses the common helper @__drm_writeback_connector_init to do the
-+ * general initialization.
-+ *
-+ * This function assumes that @enc has already been created and initialized
-+ * before invoking this function.
-+ *
-+ * In addition, this function also assumes that callers of this API will manage
-+ * assigning the encoder helper functions, possible_crtcs and any other encoder
-+ * specific operation.
-+ *
-+ * Returns: 0 on success, or a negative error code
-+ */
-+static int __drmm_writeback_connector_init(
-+	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
-+	const struct drm_connector_funcs *con_funcs, struct drm_encoder *enc,
-+	const u32 *formats, int n_formats)
-+{
-+	struct drm_connector *connector = &wb_connector->base;
-+	int ret;
-+
-+	ret = drmm_connector_init(dev, connector, con_funcs,
-+				  DRM_MODE_CONNECTOR_WRITEBACK, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = __drm_writeback_connector_init(dev, wb_connector, enc, formats,
-+					     n_formats);
-+	if (ret) {
-+		drm_writeback_connector_cleanup(dev, &wb_connector);
-+		return ret;
-+	}
-+
-+	ret = drmm_add_action_or_reset(dev, &drm_writeback_connector_cleanup,
-+				       wb_connector);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+/**
-+ * drmm_writeback_connector_init - Initialize a writeback connector with
-+ * a custom encoder
-+ *
-+ * @dev: DRM device
-+ * @wb_connector: Writeback connector to initialize
-+ * @con_funcs: Connector funcs vtable
-+ * @enc: handle to the already initialized drm encoder, optional
-+ * @enc_funcs: Encoder funcs vtable, optional
-+ * @formats: Array of supported pixel formats for the writeback engine
-+ * @n_formats: Length of the formats array
-+ * @possible_crtcs: if @enc is NULL, this will set the possible_crtc for the
-+ *		    newly created encoder
-+ *
-+ * This function initialize a writeback connector and register its cleanup.
-+ *
-+ * This function creates the writeback-connector-specific properties if they
-+ * have not been already created, initializes the connector as
-+ * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
-+ * values.
-+ *
-+ * If @enc is NULL, a drm-managed encoder is created and used.
-+ * If @enc_funcs is not NULL, this vtable is attached to @enc or this new
-+ * encoder.
-+ *
-+ * Returns: 0 on success, or a negative error code
-+ */
-+int drmm_writeback_connector_init(
-+	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
-+	const struct drm_connector_funcs *con_funcs,
-+	struct drm_encoder *enc,
-+	const struct drm_encoder_helper_funcs *enc_funcs, const u32 *formats,
-+	int n_formats, u32 possible_crtcs)
-+{
-+	int ret;
-+
-+	if (!enc) {
-+		ret = drmm_encoder_init(dev, &wb_connector->encoder,
-+					NULL, DRM_MODE_ENCODER_VIRTUAL, NULL);
-+		if (ret)
-+			return ret;
-+
-+		enc = &wb_connector->encoder;
-+		enc->possible_crtcs |= possible_crtcs;
-+		if (enc_funcs)
-+			drm_encoder_helper_add(enc, enc_funcs);
-+	}
-+
-+	return __drmm_writeback_connector_init(dev, wb_connector, con_funcs,
-+					       &wb_connector->encoder, formats,
-+					       n_formats);
-+}
-+EXPORT_SYMBOL(drmm_writeback_connector_init);
-+
- int drm_writeback_set_fb(struct drm_connector_state *conn_state,
- 			 struct drm_framebuffer *fb)
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+index 75278e78ca90e..5e0bf776aac0f 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+@@ -170,7 +170,7 @@ static struct intel_gt *find_gt_for_required_teelink(struct drm_i915_private *i9
+ 
+ static struct intel_gt *find_gt_for_required_protected_content(struct drm_i915_private *i915)
  {
-diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-index 17e576c80169..88abfd3d4564 100644
---- a/include/drm/drm_writeback.h
-+++ b/include/drm/drm_writeback.h
-@@ -161,6 +161,13 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
- 				const struct drm_connector_funcs *con_funcs, const u32 *formats,
- 				int n_formats);
+-	if (!IS_ENABLED(CONFIG_DRM_I915_PXP) || !INTEL_INFO(i915)->has_pxp)
++	if (!HAS_PXP(i915))
+ 		return NULL;
  
-+int drmm_writeback_connector_init(
-+	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
-+	const struct drm_connector_funcs *con_funcs,
-+	struct drm_encoder *enc,
-+	const struct drm_encoder_helper_funcs *enc_funcs, const u32 *formats,
-+	int n_formats, u32 possible_crtcs);
-+
- int drm_writeback_set_fb(struct drm_connector_state *conn_state,
- 			 struct drm_framebuffer *fb);
- 
-
----
-base-commit: a6bb1f77a94335de67dba12e7f52651c115b82d2
-change-id: 20240829-writeback-drmm-b9b85dcdaf7b
-
-Best regards,
+ 	/*
 -- 
-Louis Chauvet <louis.chauvet@bootlin.com>
+2.46.0
 
