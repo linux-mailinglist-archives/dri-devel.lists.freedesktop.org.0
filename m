@@ -2,71 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9036F96E747
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 03:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FF596E75A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 03:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0F210E3F6;
-	Fri,  6 Sep 2024 01:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A35AB10E72A;
+	Fri,  6 Sep 2024 01:46:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I0z8MhFo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CE+Jivuc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FEB310E3F6
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 01:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725585949;
- bh=twD2+guI6vGmeVSCxuwshV4bdnrlz1eKgsdVK6G0nz8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=I0z8MhFot0zBmV2E1zZE4VX6eHdN1ywxA7go0CGWS0kueNouEbeZyAX5hE4S4RRwy
- VHnrMk8pkVCJBWWcqh4HHkmujEfYaLP60JVpF4pBCTBl4w42FpMRpdVxlcWwmkeC1E
- sS0Klb/CKczuQqsfnlFk2KI+87zMeCCk97kAUzU0dROm+UjmZhMM5TOLgE8fy5+Nwx
- RlIIHyxnnS+jszl+f0krWB9vCk1ys3/RR8FGDEkb+bIZOKQSn3G1TFEhfpRt/Rym8g
- aNCmk5lGJQIVL4KwAlvNNMqmC1khf4uDATgN3bqDOxkZN1PRjBkvvGelHKzgu6sS6f
- xjYnqt815ISjQ==
-Received: from [192.168.1.90] (unknown [188.27.55.48])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9289417E0E95;
- Fri,  6 Sep 2024 03:25:48 +0200 (CEST)
-Message-ID: <fa265088-5bf4-420f-9456-44051f913164@collabora.com>
-Date: Fri, 6 Sep 2024 04:25:48 +0300
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55F510E72A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 01:46:16 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-7178df70f28so1279517b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 18:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725587176; x=1726191976; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=UwnV3rN27k13ClzZkPYxKb2bde4aYZdPIxzu2F5jqrY=;
+ b=CE+JivucpI1HR2MizFZD//KpyAIQ9kfcN0WVSpetpCckNllSRp766BJ1WAbxaoQByp
+ +Kw8xcp1S8RO5VWMjoQkFl0NFmiPTwXrZW0FlId8BflMplxtVpdmgaXVHpGq6NJ5LB84
+ 1x0jpofiDDluNew1SDsVOsmZPJVTimZkaYJ+KVlgHXEQMl2k5pCFiDxZ+0e95P+dG16y
+ L/Q3YN6nzHqChOAMgOrT08CERSJs6yOcxKGVg/k2WXR5A1vrDYvZhFptjZG2YKvZixT9
+ sjzkWoGloQo0Oxi7UA0bPl2Af6knV+hgFvrt/mbhqHS/G4V79L2oaSRQnJjGLr9ctgI6
+ iguA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725587176; x=1726191976;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UwnV3rN27k13ClzZkPYxKb2bde4aYZdPIxzu2F5jqrY=;
+ b=Z/RhYgwxibefm7Azt3Oc+VMD+DtoYp/OtiGFrBenSxpIVSB45uzE9evvSEwzpORhD7
+ Ig5nZVswd24qCzVOYIFXHumjD7Baxi+ds80Uh0oA2cMuAhfaMqLrz3P6eVm1XyMNXF0i
+ IB6y3h40yyOtRavlHqapIjCjebU66MdFlpEDSznFYNpUHS8QOxWmaQYRH2a/rBw2cazz
+ GScqZtbkrt/0MFBPFa1RNRLqUGs2MRWpsde6yaLVKyWFjCp6wbhRz1ofH/BTm/RQejQ3
+ knyr7nnAUIPx5a/2/dGCpwXiwu2bCZqn8ppGjDDBrcKcQcH0aplu+NDWyQauYBJzx41a
+ yWkA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7ujUjekWIgdvpHpNMpZvJqG/4XRWYx0ISXAYDedeKZhvhifunWaiSzEUW+kBUmQjD64LA+bBSy3U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbFptDN3XvoqjLX48Cufw0EbYUINdGFc7e33zAARaD5XJVxnLO
+ DUPvW1kvZsXoiU2EH/EgTab8bQUWuBz9zLYXnNNfCWUstV5UFfjZyN2JEEG2ncn0wYdv+jmfSgx
+ pliqamu34aLA/qDlG57pBEQrD/Ow=
+X-Google-Smtp-Source: AGHT+IEhczTHvvDjVeg6Pvbvn7UtOLZBLuPzW6GomhWkIzl2gBVFJydJN91+AvoJ8LIJzWan+AkZyr71ZFB4mf7Tiyo=
+X-Received: by 2002:a05:6a20:e617:b0:1bd:288f:e8b4 with SMTP id
+ adf61e73a8af0-1cce0fea606mr26332456637.7.1725587176167; Thu, 05 Sep 2024
+ 18:46:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm/bridge: synopsys: Add DW HDMI QP TX Controller
- support library
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+From: Adam Ford <aford173@gmail.com>
+Date: Thu, 5 Sep 2024 20:46:05 -0500
+Message-ID: <CAHCN7xLL4hrTK1OqsqUa78cdp9ZcG0sC+cO5QKC3x_Y9-QVzSA@mail.gmail.com>
+Subject: i.MX8MP IMX-LCDIF Underrun Question(s)
+To: imx@lists.linux.dev, Marek Vasut <marex@denx.de>,
+ Stefan Agner <stefan@agner.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
- <20240819-b4-rk3588-bridge-upstream-v4-2-6417c72a2749@collabora.com>
- <20240827-armored-magnificent-badger-ffb025@houat>
- <34422b7a-ce70-445d-a574-60ac36322119@collabora.com>
- <20240902-turtle-of-major-glory-efb4e8@houat>
- <6e20410a-a24d-4454-8577-2cff65319a2a@collabora.com>
- <20240903-archetypal-soft-wildebeest-b5ea68@houat>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240903-archetypal-soft-wildebeest-b5ea68@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ arm-soc <linux-arm-kernel@lists.infradead.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Schrempf Frieder <frieder.schrempf@kontron.de>, 
+ Dominique MARTINET <dominique.martinet@atmark-techno.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,91 +85,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/3/24 11:09 AM, Maxime Ripard wrote:
-> On Tue, Sep 03, 2024 at 12:12:02AM GMT, Cristian Ciocaltea wrote:
->> On 9/2/24 10:36 AM, Maxime Ripard wrote:
->>> On Sat, Aug 31, 2024 at 01:21:48AM GMT, Cristian Ciocaltea wrote:
->>>> On 8/27/24 11:58 AM, Maxime Ripard wrote:
->>>>> On Mon, Aug 19, 2024 at 01:29:29AM GMT, Cristian Ciocaltea wrote:
->>>>>> +static irqreturn_t dw_hdmi_qp_main_hardirq(int irq, void *dev_id)
->>>>>> +{
->>>>>> +	struct dw_hdmi_qp *hdmi = dev_id;
->>>>>> +	struct dw_hdmi_qp_i2c *i2c = hdmi->i2c;
->>>>>> +	u32 stat;
->>>>>> +
->>>>>> +	stat = dw_hdmi_qp_read(hdmi, MAINUNIT_1_INT_STATUS);
->>>>>> +
->>>>>> +	i2c->stat = stat & (I2CM_OP_DONE_IRQ | I2CM_READ_REQUEST_IRQ |
->>>>>> +			    I2CM_NACK_RCVD_IRQ);
->>>>>> +
->>>>>> +	if (i2c->stat) {
->>>>>> +		dw_hdmi_qp_write(hdmi, i2c->stat, MAINUNIT_1_INT_CLEAR);
->>>>>> +		complete(&i2c->cmp);
->>>>>> +	}
->>>>>> +
->>>>>> +	if (stat)
->>>>>> +		return IRQ_HANDLED;
->>>>>> +
->>>>>> +	return IRQ_NONE;
->>>>>> +}
->>>>>
->>>>> If the scrambler is enabled, you need to deal with hotplug. On hotplug,
->>>>> the monitor will drop its TMDS ratio and scrambling status, but the
->>>>> driver will keep assuming it's been programmed.
->>>>>
->>>>> If you don't have a way to deal with hotplug yet, then I'd suggest to
->>>>> just drop the scrambler setup for now.
->>>>
->>>> Thanks for the heads up!
->>>>
->>>> HPD is partially handled by the RK platform driver, which makes use of
->>>> drm_helper_hpd_irq_event(). Since the bridge sets DRM_BRIDGE_OP_DETECT
->>>> flag, the dw_hdmi_qp_bridge_detect() callback gets executed, which in turn
->>>> verifies the PHY status via ->read_hpd() implemented as
->>>> dw_hdmi_qp_rk3588_read_hpd() in the platform driver.
->>>
->>> It's not only about hotplug detection, it's also about what happens
->>> after you've detected a disconnection / reconnection.
->>>
->>> The framework expects to keep the current mode as is, despite the
->>> monitor not being setup to use the scrambler anymore, and the display
->>> remains black.
->>
->> AFAICS, the ->atomic_enable() callback is always invoked upon
->> reconnection, hence the scrambler gets properly (re)enabled via
->> dw_hdmi_qp_setup().
-> 
-> No, it's not.
-> 
->>>> During my testing so far it worked reliably when switching displays with
->>>> different capabilities.  I don't have a 4K@60Hz display at the moment, but
->>>> used the HDMI RX port on the Rock 5B board in a loopback connection to
->>>> verify this mode, which triggered the high TMDS clock ratio and scrambling
->>>> setup as well.
->>>
->>> How did you test exactly?
->>
->> I initially tested with Sway/wlroots having an app running
->> (eglgears_wayland) while unplugging/replugging the HDMI connectors in
->> every possible sequence I could think of (e.g. several times per
->> display, switching to a different one, repeating, switching again, etc).
->>
->> I've just retested the whole stuff with Weston and confirm it works as
->> expected, i.e. no black screen (or bad capture stream for the 4K@60Hz
->> case) after any of the reconnections.
-> 
-> Then I guess both sway and weston handle uevent and will change the
-> connector mode on reconnection.
-> 
-> It's not mandatory, and others will just not bother and still expect the
-> output to work.
-> 
-> I guess the easier you can test this with is modetest.
+I have been testing various settings on the HDMI out of the i.MX8MP.
 
-Indeed, modetest doesn't trigger a mode change on reconnection.
-This is handled now in v6:
+I noticed that sometimes my monitor would not sync, but sometimes it
+would on the same resolution/refresh rate.  Frieder noted the LCDIF
+was sometimes underflowing, so read up on it a little bit.
 
-https://lore.kernel.org/all/20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com/
+In the comments of the LCDIF driver, it's noted:
+    Set FIFO Panic watermarks, low 1/3, high 2/3 .
 
-Thanks,
-Cristian
+However, in the downstream kernels, NXP changes the threshold to 1/2
+and 3/4 on the LCDIF that drives the HDMI, while leaving the other
+LCDIF interfaces at the default.
+
+When I increased the threshold to 1/2 and 3/4, it appeared that
+several resolutions that my monitor was struggling to sync started
+working, and it appeared to sync faster.  I don't have an HDMI
+analyzer, so I cannot verify much beyond knowing if my monitor can or
+cannot sync.
+
+Could the threshold and underrun cause this monitor intermittent
+issue, or would this be something else?
+
+Does it make sense to have a flag or device tree option to override
+the default thresholds to change the panic level?
+
+adam
