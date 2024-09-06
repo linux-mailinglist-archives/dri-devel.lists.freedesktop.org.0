@@ -2,151 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBD396F9BF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 19:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7CF96F9E4
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 19:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0586C10EA72;
-	Fri,  6 Sep 2024 17:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 465D610EAB7;
+	Fri,  6 Sep 2024 17:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TAWiJFKF";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ao1ZHieF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2073.outbound.protection.outlook.com [40.107.223.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3937C10EA72;
- Fri,  6 Sep 2024 17:08:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JtIQVkISFK8GO44jFVH/PsUjYlx5jN6STO96/nHhGzTa+A6uls6UH/pREkt9S1jJojUEQwgvd1s6Z40gYP/VuEMZLJTQZk7nCgVRjcV0Vh6uv4+fn+tO1qkCSUhMS3j9r2Y5mrjSc8cdIcdGvzX4ElU2N+YMGKj7gGufbbmo0DYfdeRVDdUQdOCLWq3qTYDNVW/n9hl+swNTvEy0uJ4jmZzuU+lwUcS9Ar++cLE7J22ZM1gmew/Y8/x0cBDo8a77SynKIePu6jup4DIy9X3JnD4P2HZ2AGgrKQJeoIotBf9RWqwVNVgVwMKbznwVs/cmfI9sQkZiuwYYajI9lYUS9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FbtVM3scmF/LJN0M2PcArSjm1bbAM0G4SoXbdOs5dVU=;
- b=HyA7LxWP9yn3AxXtq7mFa5LKhWZofbb9AS/FjSG6bn/tzxsblZ42HoM4EPKYBt60t4Q6lRStzrROvNGvIkGJjF4WOnQaH1bHKHLrXWhINm/4RNlG1PlvTiVf80dwtwu5MCU3rVuTctCg6pv+XqKUd+xKZU6GEc90mIM/JzYrojYeZH/jFlNihA4GHH5yh0kNb6UVzlT02ze8iDhqYK5Fzf2txOUxKDPaNbY6AGGreWbrMp/F6UWak7CIEt7JpzMS5IL5f6eYNg+Af2xtXiHfYSrMBsOlgzITZDRDrdlotvP+k8eZXmQa34Z8aB5oKiRxb2V7pqvtD/7zyrKb8ayu8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FbtVM3scmF/LJN0M2PcArSjm1bbAM0G4SoXbdOs5dVU=;
- b=TAWiJFKF5ZO5W9KQxEo8VHzjwilTkGISMHxYB61c7sduvz1OoI/9z8WafEOpj+LSloQgoG/eRYZoQY81nbroRv0lofG5tM3P42dHWKXuJVuC0fuUfV2tg2WTGet+RErZhAKMjTqORSzKutXkbA+Uf1oTUHa738RhYsoXrqBphXA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by MN2PR12MB4317.namprd12.prod.outlook.com (2603:10b6:208:1d0::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Fri, 6 Sep
- 2024 17:08:32 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062%5]) with mapi id 15.20.7918.024; Fri, 6 Sep 2024
- 17:08:31 +0000
-Message-ID: <2047bf56-bd96-43e6-a0c2-2933a40b0369@amd.com>
-Date: Fri, 6 Sep 2024 13:08:28 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 19/44] drm/vkms: add 3x4 matrix in color pipeline
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org
-References: <20240819205714.316380-1-harry.wentland@amd.com>
- <20240819205714.316380-20-harry.wentland@amd.com>
- <Zs4RvhVXTg4MFMop@louis-chauvet-laptop>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <Zs4RvhVXTg4MFMop@louis-chauvet-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR01CA0078.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:3::14) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E89810EAB2
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 17:28:24 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 79A9420002;
+ Fri,  6 Sep 2024 17:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1725643702;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YSMv/7OdJ6EZQxyck8/mOm0fHTErLrIcmMsknWGUyeI=;
+ b=Ao1ZHieFOhfiSnD5EuaTZp/v6nju/W6TVFBt2xYh5JJ+9IvffWCqczNZ/dUKw7628i3w+0
+ FoCwqDamqHNZpI2a0CpnmART3lAIi4aEaBqmn/rhqL+3IjEAx0YPAR1CTGljNYhq+3KLNF
+ OEzu25e0t2kwLMV9GhKIrMdAwjR+aA7NmbMxl4FJtqwn99fi/m0NbVpSF5Ti9jAHK2ldTw
+ oM0ytr1vYPcKg6UiMNIoGgyXmzM792G0IWtOif23+RKrj0V47xTva+VEqX6hTay+Kg17Ct
+ 8VIi/6j0roT5M414CEuURW4FjrUbjPmNXfGIWKa24j8DLABlIuGi0/Vmnbi8nw==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Fri, 06 Sep 2024 19:28:17 +0200
+Subject: [PATCH] drm: writeback: Introduce drm managed helpers
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|MN2PR12MB4317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1420dd00-3af9-4664-cc44-08dcce96888d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YnNHN1ZZR3NGQWx1OTVkR2NUN1luVVZqazc5aFowMTJ0d1lFUG9uVkt4d3dI?=
- =?utf-8?B?RUQrZUpRbXdQR1BGSFMvRUk3MytMZlBtN01GVlJOV1N3VWpGRTN4S0ZWY3d4?=
- =?utf-8?B?NlRlbVpyUzh1MlZmeE1mM3cvQjdjbXJuQjc4Q1Jlb01JQmxiZEg2a3B1dDhY?=
- =?utf-8?B?UzdkN09UelpPOERua1l3MVUveGdicTYvTkRIa2hERHQ0QUV1Q1hjSHFWYjBZ?=
- =?utf-8?B?cUEzZXc5L1d5VXF2UStrYXJBZFJMYkQxTUJtSVAzd3BLK3ZKd2tmS0lrQXox?=
- =?utf-8?B?SDZzYTlPSUk1aS81NDJNbHd0UUk5TE5CVXg0aDBJZXg0MkpmeGhxNGNlNmdX?=
- =?utf-8?B?MkdvU09sbURiRTVqczZ0VzQ0RTNRZEo3WktlUVU5MnBqTE44MkN4ZFVab3Z3?=
- =?utf-8?B?SVZvbjQwNFlTS2YyWmFreVdsV29mRUZDekxEM3d5MTczWkFVYWdYUEoyNWNP?=
- =?utf-8?B?Q3VoR1hmSHFEb0JhT04rdDkwSEMrUXlWbGorejRqMDgyV3JpNkd2cUgxaEl4?=
- =?utf-8?B?RUdXUjZyRG9FbW9NTUVFNUNUcUlaKzBtYjkwUVNuZ0liVmFoTktmOHlhVmFR?=
- =?utf-8?B?OU9UWjAvejBMOXhnUUUzUEZPVmV3cXpUdURhRFlzN0hnaTBmb0dZSHhPaW8r?=
- =?utf-8?B?cTR1cWZZU1c5YzZUTWRPbHhXOGRNNTk1Si96SU5QcXU3VHNXY1M3UFpONkJi?=
- =?utf-8?B?RTcvaUNpY1hIcmwzU0M4UVZCVTVTK1BYUGRGT3NLN09TdnJuVlNDNVNqTGYy?=
- =?utf-8?B?cDJ6bWJnTkF4ZVlTQUVNWEVaeUdySU1pNjI0TnRaY1JiZG1vNkVpc0JjMi8z?=
- =?utf-8?B?TTJaNFNrUnlIMG01YWhsdFRzTjBrbStsVXkvQm9PSDc4cUFCRGFzcnBmZ1lM?=
- =?utf-8?B?Nk5XSnBkcjcyaEE3WlBxNmsydVNROHozNEtVRHI1ZnkrWUpna1VsLzU4R3dw?=
- =?utf-8?B?eGxPYjI5NXVuV0h0YlRBb2JiQWJMSlNCYTBFdzhHNWlnZkljV0gxTVFwSi93?=
- =?utf-8?B?Yi9FMmhyRUd0enpaWlVqZzNZd09WdmNlU1VxZnc0NksrVHY1dlIrLzhqMXBZ?=
- =?utf-8?B?b0cwR0N6STdScHl6SkhxVHgrQXM0SGw4MmlNWGxGOS9JbW91Unk3YWxQODNx?=
- =?utf-8?B?QWJyMXZOKytsRitJbVdkVk8vS1ptVnZlak53QzF6QkI2Q2hlcVAxSmJaS2ov?=
- =?utf-8?B?dll1T2x3dGN1dUJGcFd0NW9oL3ZiZW5PSXZMZjhGT0pMNkxBd0xtcEpJUThz?=
- =?utf-8?B?ZW5CNExWT3pHdmRjbUk0ZzVSWFdHRVV0TklkL2phcHNhZGh0ZnlyQnZ2cENi?=
- =?utf-8?B?TGdNcU02RnM0VTQrUnBjNURkYnhyRWl5S2lBNDVhQjRDWXBFSldZbGpVa25R?=
- =?utf-8?B?NUxicVlZNTFCaHBxbnBiUEM4SzI0NENIQVhUNDZtTm1nV1d6M2hWOGtHVWR5?=
- =?utf-8?B?clBEanNQbHMrV1VaaU16cW1ocE9tMXkxdFRCVW5xTTNDV216clFuTXdFSm1v?=
- =?utf-8?B?ZHA1MVphb21qMUYya3RkQ1I1RnFaRSs2QVZhb0Y4SlRoUUhsS3lIWTJBU0h6?=
- =?utf-8?B?TzI5UW9ieWNVcFp4Q0xBc3hhblNCWWtkVC9BamNUZStvNHp6VXgrcjMxblpB?=
- =?utf-8?B?SXc0dDJCbWZIaUpma1RjMGc4b0RPT0ZYZmF6TFVSenFzeDh5TWhTNHcrS3ZN?=
- =?utf-8?B?eXVJU1N1RXpoSktLNTZRYzB5bUR2UWo1eXhmanRVTjlIV2pFLzFrQUZYdVBB?=
- =?utf-8?B?Rzc4YVQrRjY3WXNNU0hnaFdjSjNXZG12RmxYc0VUc3FCR2R1RXkyN3dibDUv?=
- =?utf-8?B?LzRER0lNaGdRRHpFRzZTZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MWh5cEJYQndjdFc5ckJITzRwRWVFdndIR253c1RxencvT3V5eUEyT2lCTENv?=
- =?utf-8?B?a0Z6M3JsbllkbDBIeHdtZ2RkZXE2amtmbUVhdE1IOVdwemVqNnlSbHdCQW5V?=
- =?utf-8?B?NDVHRk94bTZSMlg1UFBOYmpYZVNtNWtiMk5VUVA5WlhDZHVKSHNiSmV5NjFP?=
- =?utf-8?B?YnhDZXp1dXJBM3VkN2JMcTBEQUVkRmlPbTRYbjVyZ3VBMEZYdCtiNDFYSEli?=
- =?utf-8?B?OFJiMGRmVXpQOWNTNWtiLytHRTJ0T3YxbFR4dmQzbkRXc0t1RFRUK0VvTmEy?=
- =?utf-8?B?MFFkTjQ3QWI1S01ZbkFjcFpXZ0RrMTY4VGJmUW9pWTRpMW1oSEFWUlFKdHdp?=
- =?utf-8?B?S0RidW1lbUtFQ09Scmhxa1NiZVBlVFM0Lzk1RXVDVm14cEE0NDRPOE1RemRm?=
- =?utf-8?B?eUZRZkZWdWFDNUsyenpnekErYnEwaVBwR2d5dldqT250TlZRVUZVbUNvVlYz?=
- =?utf-8?B?VVZLOU4zRE9oNHczdUhCa0p5TkV5bVRwYmlzbWVESFZpQll6b05FaFJMYUpS?=
- =?utf-8?B?azV2Rjhkck9SbWRnTE8yYjUxZUNsckRKc1FWQ1lmOFNWSDJ3OHRKNTJpMC9E?=
- =?utf-8?B?cWRseFZDUlJQaFZHaWU4Q0hxdWh2aHI2TkRpNE9YK2pKSVNxOHd4UXE5NDI5?=
- =?utf-8?B?bmsrYjBMb0t2S291eE9TRFFMdFB2ZC82UnhuUENnL04vbVNvV1FwRFhNMzZ6?=
- =?utf-8?B?eFlKanczTmlUcnYrV0pDZG02c0MwL1ltdFI3RFlsbHRFT0grTHZ2SFBJMFBM?=
- =?utf-8?B?SkFKei9GL0ZFckl1ZHNXTStkM05TdmZOeWsrM2FuRDBSL0d5ajM0QlBHM1kw?=
- =?utf-8?B?UVdvR21EVjVZa21ON1M4b2RVOFgxQlNjRVVON2JRWkljSFMya3NXc2Fxdnov?=
- =?utf-8?B?dkVWZ1QvNk95UDV5cnpxUjBvckQ4YUUxL3dXQUFmZmVPcEl2a3hham9vajhj?=
- =?utf-8?B?dnhvSnFZUzgvbW1LMjNpWDNDUndqZ0RFOTRHUXJET1lPZEFiZWgxVlhVUlIy?=
- =?utf-8?B?TExCWEJmZ3FDNFFwT0VLaUZrbWt1cW9saEpHZUVSb1lzMDIwYnFDOFp1WUpJ?=
- =?utf-8?B?ZE9XZGhTeGRxbW9uSFhZSE1MZEtMRnZqY1Q1dU43THFzYzFDNjdISG1sTzJI?=
- =?utf-8?B?NVU0MzRtL1o2SzdKUEUva2E2T1RrVFZGL0pPSGZFTnFmTkR4cElqdTVwU2ZH?=
- =?utf-8?B?NjB4TnJkRE0xUlZsMDFJMmc3ZTJXUDA4L2xGdUprZytJWnFMZmVKeThXalR0?=
- =?utf-8?B?dGlSS3RkR1VSaEJjd3VoUkpaMmJBR25McllYbi9Ba2sxZDJ3ckRFMDU1d1Y1?=
- =?utf-8?B?ejBDdC9ZMFhqemVJMVBIeUZHSEdrdE04LytrRitlUXF1YThqYWVVSTZBK0ly?=
- =?utf-8?B?VWVjOTFKcFVnYS9iTnpKbmdSY0NsMWROcUYrVFBraS9hdU9PbVBOT0FZU2k2?=
- =?utf-8?B?OXZ1bWYrTVpsWFJISlpmYXQ2SHR0UDVNL1ZTMU9ZcTV0UEcvWW5pN1VlYVF3?=
- =?utf-8?B?cGlRSGxJR3FVRTRBMENiVHQrUmNIbitYSjQ2S3Y2YVV6OGZlMkVqbUV2UXRm?=
- =?utf-8?B?RmRVNHRnSHhiV1c3NHJ5Qng3WHpUN04zV0JKcjU5b3YxblNvSFNVa3N1Rjdx?=
- =?utf-8?B?TEVnNEJsM1NPcUcxeE01bldUYnZFcjQwai92WEZmTmc1R21JRm84amloR3o1?=
- =?utf-8?B?VUxIVUx4QlpkWVhvdk13a1pwTGNTK0FwOEhucG1nYmNtRVEzNGd5SXpFMDMw?=
- =?utf-8?B?cnExOVhHZFR4MzVYdGNtby8xcC9yMVhpV1g2djU5YUFTb21YalpObWE5ak83?=
- =?utf-8?B?bVYrWEtuclhPaW5MbytFSXRjVGQxZWpvTTVja3E1emd2ZG1RSTgyTHgwVkFH?=
- =?utf-8?B?OHg1VmM3T3QrQ1JsOVViNUJwbDk1dVFERzY2MDY4Q0U5T1hUQ1JxaWo1bUVO?=
- =?utf-8?B?U0xkNmFSYnVjSGptVVlyWGhpbGxRU3FKMU1vK3lRek93TjJXYUxiVDRMUTBH?=
- =?utf-8?B?VGJHYVozM1BLcWVXQzZoQ3ZzdFI0dVphSk9IcVkwODE1OGk3K2tWS3hVeSsw?=
- =?utf-8?B?WmNTQkw2SDBjVWpUZDF2RWRuaVZaaEcrSzAzVjVHWjVIY0lVWUlxWHQrTGla?=
- =?utf-8?Q?xyI4vdNvbCHIqpdqFmCdNMLZR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1420dd00-3af9-4664-cc44-08dcce96888d
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 17:08:31.6077 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HUN8TnMFmVOg7xls4c/ts4Rev/TvRMmLXv6bLWlohUS9uJhadpWD7ZE1bKfDqzV/svOMFFFZ8GGwv+EHy2YlvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4317
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIALA722YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDCyNL3fKizJLUpMTkbN2Uotxc3STLJAvTlOSUxDTzJCWgpoKi1LTMCrC
+ B0bG1tQA8kwBgYAAAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ jani.nikula@linux.intel.com
+Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11994;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=X02PdsGRwN0Xt4CRQJHfTXUpYBeHZjF9LA/tiFRLaj4=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBm2zu1Z9ULrKBF7SDivY4TdzvsiqkdWlUzHyhOh
+ AWEfeqhX3SJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZts7tQAKCRAgrS7GWxAs
+ 4rECD/0VZjIt+uFcKgliIOKcMoHSX31AhHteh7R5acbZRyXOLilZBGP5EcvFK2rKY64DbHzvNKm
+ j5UDvmqqM8FFykbGn8llVnWG2v5ZaZwCM5+KEwY5pSGfCKZs1fP0joblO7/MsBTnaOC06186tcI
+ 2Dxgl0yvrClioQdE+SEGop5Z94V+6pp+OymFhnZDBse16UZG7cU1Tnf3xSwSStCtILSzus4rPPx
+ hd/CaDNB/dnRHJzzQfAGb2G0CKNLTKD3dsq1R0GATuDF+SHgmpaa31XHQQVTFuOvCbWmh2F+L4Z
+ CIpxZ1Frmp2rsI1UDzN+HlVcx31JA0j04Ge0rut2d1w0FKVw88Uw+585P9Yb3vnh/SmXaqHBQ3N
+ tYK+hu9lYGlLZmE1+ZjOmk4dPpDCOpb/8D7L/7yL89ujoLzcKSf/4urlgDqETJfivnTdpeg1XjH
+ JVbl8yO2AfkYasgNWt51WjXWvCB8H3vFapDIp+Qp5FGwbLJOhH/oo1LlryA3SEWcJB8jgnyJQmq
+ VVIBO7kYHsB4dquFhFSKWkNXAq+H7UKmdLA96TSzbjIkuPBMaGACqNqWTEN96Q5v7o2wlkvdd73
+ RE2pZKLAa/4JiJKjTXWHk/W/khJ6iWLPbygJ6ODf7KCwL5+x1HKMBiaYDSLkcDGSj3ghDov52Tb
+ 2qiEgXGQsjfdkKQ==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,151 +79,340 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Currently drm_writeback_connector are created by
+drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
+Both of the function uses drm_connector_init and drm_encoder_init, but
+there is no way to properly clean those structure from outside. By using
+drm managed variants, we can ensure that the writeback connector is
+properly cleaned.
 
+This patch introduce drmm_writeback_connector_init, an helper to initialize
+a writeback connector using drm managed helpers. This function allows the
+caller to use its own encoder.
 
-On 2024-08-27 13:49, Louis Chauvet wrote:
-> Le 19/08/24 - 16:56, Harry Wentland a écrit :
->> We add two 3x4 matrices into the VKMS color pipeline. The reason
->> we're adding matrices is so that we can test that application
->> of a matrix and its inverse yields an output equal to the input
->> image.
->>
->> One complication with the matrix implementation has to do with
->> the fact that the matrix entries are in signed-magnitude fixed
->> point, whereas the drm_fixed.h implementation uses 2s-complement.
->> The latter one is the one that we want for easy addition and
->> subtraction, so we convert all entries to 2s-complement.
-> 
-> Is there a reason to use signed-magnitude and not 2s-complement here? I 
-> did not read the whole amd driver, but it seems that the matrix is always 
-> converted to fixed point notation (amdgpu_dm_fixpt_from_s3132 in 
-> amdgpu_dm_color.c). It may reduce the complexity here and in the amd 
-> driver too.
-> 
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Hi Maxime, Jani,
 
-It's so as to keep the 3x4 matrix the same as the 3x3 one
-(drm_color_ctm_3x4 and drm_color_ctm) and the original
-3x3 one was defined to use S31.32 sign-magnitude. I'd
-prefer 2s-complement myself but that ship has sailed.
+I tried with this commit to implement the drm-managed version of writeback 
+connector initialization. I tested with the current vkms driver, and it 
+seems to works (at least no crash/warns).
 
->>
->> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
->> ---
->>  drivers/gpu/drm/vkms/vkms_colorop.c  | 32 +++++++++++++++++++++++++++-
->>  drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++++++++
->>  2 files changed, 58 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
->> index f61dfde47156..adcb08153a09 100644
->> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
->> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
->> @@ -37,7 +37,37 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
->>  
->>  	prev_op = op;
->>  
->> -	/* 2nd op: 1d curve */
->> +	/* 2nd op: 3x4 matrix */
->> +	op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
->> +	if (!op) {
->> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
->> +		return -ENOMEM;
->> +	}
-> 
-> Same as before, don't we leak memory/properties here?
-> 
+As suggested by Jani, I only created one function, which takes a 
+NULL-able pointer for encoder/encoder functions/possible_crtc. What do you 
+think about it?
 
-Thanks. Fix for this will be in v6 (for both vkms and amdgpu).
+Regarding the documentation, I think I repeated too much, can I simply add 
+comments like "see documentation of @... for the details / requirements"?
 
->> +	ret = drm_colorop_ctm_3x4_init(dev, op, plane);
->> +	if (ret)
->> +		return ret;
->> +
->> +	drm_colorop_set_next_property(prev_op, op);
->> +
->> +	prev_op = op;
->> +
->> +	/* 3rd op: 3x4 matrix */
->> +	op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
->> +	if (!op) {
->> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
->> +		return -ENOMEM;
->> +	}
->> +
->> +	ret = drm_colorop_ctm_3x4_init(dev, op, plane);
->> +	if (ret)
->> +		return ret;
->> +
->> +	drm_colorop_set_next_property(prev_op, op);
->> +
->> +	prev_op = op;
->> +
->> +	/* 4th op: 1d curve */
->>  	op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
->>  	if (!op) {
->>  		DRM_ERROR("KMS: Failed to allocate colorop\n");
->> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
->> index 6e939d3a6d5c..bd1df06ced85 100644
->> --- a/drivers/gpu/drm/vkms/vkms_composer.c
->> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
->> @@ -164,6 +164,30 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
->>  	}
->>  }
->>  
->> +static void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix)
->> +{
->> +	s64 rf, gf, bf;
->> +
->> +	rf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[0]), drm_int2fixp(pixel->r)) +
->> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[1]), drm_int2fixp(pixel->g)) +
->> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[2]), drm_int2fixp(pixel->b)) +
->> +	     drm_sm2fixp(matrix->matrix[3]);
->> +
->> +	gf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[4]), drm_int2fixp(pixel->r)) +
->> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[5]), drm_int2fixp(pixel->g)) +
->> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[6]), drm_int2fixp(pixel->b)) +
->> +	     drm_sm2fixp(matrix->matrix[7]);
->> +
->> +	bf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[8]), drm_int2fixp(pixel->r)) +
->> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[9]), drm_int2fixp(pixel->g)) +
->> +	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[10]), drm_int2fixp(pixel->b)) +
->> +	     drm_sm2fixp(matrix->matrix[11]);
->> +
->> +	pixel->r = drm_fixp2int(rf);
->> +	pixel->g = drm_fixp2int(gf);
->> +	pixel->b = drm_fixp2int(bf);
-> 
-> There is no need to round here, like done in [1]?
-> 
+Good weekend,
+Louis Chauvet
+---
+ drivers/gpu/drm/drm_writeback.c | 224 ++++++++++++++++++++++++++++++++++------
+ include/drm/drm_writeback.h     |   7 ++
+ 2 files changed, 201 insertions(+), 30 deletions(-)
 
-Good call. This makes the CTM test in IGT pass with a [0, 0] bracket,
-i.e., it means the CTM is applied with zero error. :)
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index a031c335bdb9..a161deeea908 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -18,6 +18,7 @@
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_property.h>
+ #include <drm/drm_writeback.h>
++#include <drm/drm_managed.h>
+ 
+ /**
+  * DOC: overview
+@@ -202,13 +203,12 @@ int drm_writeback_connector_init(struct drm_device *dev,
+ EXPORT_SYMBOL(drm_writeback_connector_init);
+ 
+ /**
+- * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
+- * a custom encoder
++ * __drm_writeback_connector_init - Common initialization code for writeback
++ * connector
+  *
+  * @dev: DRM device
+  * @wb_connector: Writeback connector to initialize
+  * @enc: handle to the already initialized drm encoder
+- * @con_funcs: Connector funcs vtable
+  * @formats: Array of supported pixel formats for the writeback engine
+  * @n_formats: Length of the formats array
+  *
+@@ -224,41 +224,31 @@ EXPORT_SYMBOL(drm_writeback_connector_init);
+  * assigning the encoder helper functions, possible_crtcs and any other encoder
+  * specific operation.
+  *
+- * Drivers should always use this function instead of drm_connector_init() to
+- * set up writeback connectors if they want to manage themselves the lifetime of the
+- * associated encoder.
+- *
+  * Returns: 0 on success, or a negative error code
+  */
+-int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+-		struct drm_writeback_connector *wb_connector, struct drm_encoder *enc,
+-		const struct drm_connector_funcs *con_funcs, const u32 *formats,
+-		int n_formats)
++static int __drm_writeback_connector_init(
++	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
++	struct drm_encoder *enc, const u32 *formats, int n_formats)
+ {
+-	struct drm_property_blob *blob;
+ 	struct drm_connector *connector = &wb_connector->base;
+ 	struct drm_mode_config *config = &dev->mode_config;
+-	int ret = create_writeback_properties(dev);
+-
+-	if (ret != 0)
+-		return ret;
+-
+-	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
+-					formats);
+-	if (IS_ERR(blob))
+-		return PTR_ERR(blob);
+-
++	struct drm_property_blob *blob;
++	int ret;
+ 
+ 	connector->interlace_allowed = 0;
+ 
+-	ret = drm_connector_init(dev, connector, con_funcs,
+-				 DRM_MODE_CONNECTOR_WRITEBACK);
++	ret = create_writeback_properties(dev);
+ 	if (ret)
+-		goto connector_fail;
++		return ret;
+ 
+ 	ret = drm_connector_attach_encoder(connector, enc);
+ 	if (ret)
+-		goto attach_fail;
++		return ret;
++
++	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
++					formats);
++	if (IS_ERR(blob))
++		return PTR_ERR(blob);
+ 
+ 	INIT_LIST_HEAD(&wb_connector->job_queue);
+ 	spin_lock_init(&wb_connector->job_lock);
+@@ -281,15 +271,189 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+ 	wb_connector->pixel_formats_blob_ptr = blob;
+ 
+ 	return 0;
++}
++
++/**
++ * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
++ * a custom encoder
++ *
++ * @dev: DRM device
++ * @wb_connector: Writeback connector to initialize
++ * @enc: handle to the already initialized drm encoder
++ * @con_funcs: Connector funcs vtable
++ * @formats: Array of supported pixel formats for the writeback engine
++ * @n_formats: Length of the formats array
++ *
++ * This function creates the writeback-connector-specific properties if they
++ * have not been already created, initializes the connector as
++ * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
++ * values.
++ *
++ * This function assumes that the drm_writeback_connector's encoder has already been
++ * created and initialized before invoking this function.
++ *
++ * In addition, this function also assumes that callers of this API will manage
++ * assigning the encoder helper functions, possible_crtcs and any other encoder
++ * specific operation.
++ *
++ * Drivers should always use this function instead of drm_connector_init() to
++ * set up writeback connectors if they want to manage themselves the lifetime of the
++ * associated encoder.
++ *
++ * Returns: 0 on success, or a negative error code
++ */
++int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
++		struct drm_writeback_connector *wb_connector, struct drm_encoder *enc,
++		const struct drm_connector_funcs *con_funcs, const u32 *formats,
++		int n_formats)
++{
++	struct drm_connector *connector = &wb_connector->base;
++	int ret;
++
++	ret = drm_connector_init(dev, connector, con_funcs,
++				 DRM_MODE_CONNECTOR_WRITEBACK);
++	if (ret)
++		return ret;
++
++	ret = __drm_writeback_connector_init(dev, wb_connector, enc, formats,
++					     n_formats);
++	if (ret)
++		drm_connector_cleanup(connector);
+ 
+-attach_fail:
+-	drm_connector_cleanup(connector);
+-connector_fail:
+-	drm_property_blob_put(blob);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+ 
++/**
++ * drm_writeback_connector_cleanup - Cleanup the writeback connector
++ * @dev: DRM device
++ * @data: Opaque pointer to the writeback connector
++ *
++ * This will decrement the reference counter of blobs and it will clean the
++ * remaining jobs in this writeback connector.
++ */
++static void drm_writeback_connector_cleanup(struct drm_device *dev, void *data)
++{
++	struct drm_writeback_connector *wb_connector = data;
++	unsigned long flags;
++	struct drm_writeback_job *pos, *n;
++
++	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
++
++	spin_lock_irqsave(&wb_connector->job_lock, flags);
++	list_for_each_entry_safe(pos, n, &wb_connector->job_queue, list_entry) {
++		drm_writeback_cleanup_job(pos);
++		list_del(&pos->list_entry);
++	}
++	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
++}
++
++/**
++ * __drmm_writeback_connector_init - Initialize a writeback connector with
++ * a custom encoder
++ *
++ * @dev: DRM device
++ * @wb_connector: Writeback connector to initialize
++ * @con_funcs: Connector funcs vtable
++ * @enc: handle to the already initialized drm encoder
++ * @formats: Array of supported pixel formats for the writeback engine
++ * @n_formats: Length of the formats array
++ *
++ * This function initialize a writeback connector and register its cleanup.
++ * It uses the common helper @__drm_writeback_connector_init to do the
++ * general initialization.
++ *
++ * This function assumes that @enc has already been created and initialized
++ * before invoking this function.
++ *
++ * In addition, this function also assumes that callers of this API will manage
++ * assigning the encoder helper functions, possible_crtcs and any other encoder
++ * specific operation.
++ *
++ * Returns: 0 on success, or a negative error code
++ */
++static int __drmm_writeback_connector_init(
++	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
++	const struct drm_connector_funcs *con_funcs, struct drm_encoder *enc,
++	const u32 *formats, int n_formats)
++{
++	struct drm_connector *connector = &wb_connector->base;
++	int ret;
++
++	ret = drmm_connector_init(dev, connector, con_funcs,
++				  DRM_MODE_CONNECTOR_WRITEBACK, NULL);
++	if (ret)
++		return ret;
++
++	ret = __drm_writeback_connector_init(dev, wb_connector, enc, formats,
++					     n_formats);
++	if (ret) {
++		drm_writeback_connector_cleanup(dev, &wb_connector);
++		return ret;
++	}
++
++	ret = drmm_add_action_or_reset(dev, &drm_writeback_connector_cleanup,
++				       wb_connector);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++/**
++ * drmm_writeback_connector_init - Initialize a writeback connector with
++ * a custom encoder
++ *
++ * @dev: DRM device
++ * @wb_connector: Writeback connector to initialize
++ * @con_funcs: Connector funcs vtable
++ * @enc: handle to the already initialized drm encoder, optional
++ * @enc_funcs: Encoder funcs vtable, optional
++ * @formats: Array of supported pixel formats for the writeback engine
++ * @n_formats: Length of the formats array
++ * @possible_crtcs: if @enc is NULL, this will set the possible_crtc for the
++ *		    newly created encoder
++ *
++ * This function initialize a writeback connector and register its cleanup.
++ *
++ * This function creates the writeback-connector-specific properties if they
++ * have not been already created, initializes the connector as
++ * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
++ * values.
++ *
++ * If @enc is NULL, a drm-managed encoder is created and used.
++ * If @enc_funcs is not NULL, this vtable is attached to @enc or this new
++ * encoder.
++ *
++ * Returns: 0 on success, or a negative error code
++ */
++int drmm_writeback_connector_init(
++	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
++	const struct drm_connector_funcs *con_funcs,
++	struct drm_encoder *enc,
++	const struct drm_encoder_helper_funcs *enc_funcs, const u32 *formats,
++	int n_formats, u32 possible_crtcs)
++{
++	int ret;
++
++	if (!enc) {
++		ret = drmm_encoder_init(dev, &wb_connector->encoder,
++					NULL, DRM_MODE_ENCODER_VIRTUAL, NULL);
++		if (ret)
++			return ret;
++
++		enc = &wb_connector->encoder;
++		enc->possible_crtcs |= possible_crtcs;
++		if (enc_funcs)
++			drm_encoder_helper_add(enc, enc_funcs);
++	}
++
++	return __drmm_writeback_connector_init(dev, wb_connector, con_funcs,
++					       &wb_connector->encoder, formats,
++					       n_formats);
++}
++EXPORT_SYMBOL(drmm_writeback_connector_init);
++
+ int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+ 			 struct drm_framebuffer *fb)
+ {
+diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+index 17e576c80169..88abfd3d4564 100644
+--- a/include/drm/drm_writeback.h
++++ b/include/drm/drm_writeback.h
+@@ -161,6 +161,13 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+ 				const struct drm_connector_funcs *con_funcs, const u32 *formats,
+ 				int n_formats);
+ 
++int drmm_writeback_connector_init(
++	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
++	const struct drm_connector_funcs *con_funcs,
++	struct drm_encoder *enc,
++	const struct drm_encoder_helper_funcs *enc_funcs, const u32 *formats,
++	int n_formats, u32 possible_crtcs);
++
+ int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+ 			 struct drm_framebuffer *fb);
+ 
 
-> I don't know if the performance improvment is huge, bug maybe you can 
-> precompute drm_int2fixp(pixel->r/g/b)?
-> 
+---
+base-commit: a6bb1f77a94335de67dba12e7f52651c115b82d2
+change-id: 20240829-writeback-drmm-b9b85dcdaf7b
 
-Good call. Doesn't hurt to precompute.
-
-Harry
-
-> [1]: https://lore.kernel.org/all/20240802-yuv-v9-12-08a706669e16@bootlin.com/
-> 
->> +}
->> +
->>  static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colorop)
->>  {
->>  	struct drm_colorop_state *colorop_state = colorop->state;
->> @@ -184,6 +208,9 @@ static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colo
->>  				DRM_DEBUG_DRIVER("unkown colorop 1D curve type %d\n", colorop_state->curve_1d_type);
->>  				break;
->>  		}
->> +	} else if (colorop->type == DRM_COLOROP_CTM_3X4) {
->> +		if (colorop_state->data)
->> +			apply_3x4_matrix(pixel, (struct drm_color_ctm_3x4 *) colorop_state->data->data);
->>  	}
->>  
->>  }
->> -- 
->> 2.46.0
->>
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
