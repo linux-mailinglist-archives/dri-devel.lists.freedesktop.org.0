@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F5696F280
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 13:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4DE96F319
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 13:30:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE3CD10EA23;
-	Fri,  6 Sep 2024 11:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9127010E8F4;
+	Fri,  6 Sep 2024 11:30:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="C5prNb4D";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="Zyb0aQxW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 390 seconds by postgrey-1.36 at gabe;
- Fri, 06 Sep 2024 11:14:32 UTC
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99BA910EA1D
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 11:14:32 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1725620880;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gcYaptrKBfML0qcaOM5vqkd6iW3yCKV8zFKoo34jnNM=;
- b=C5prNb4DaC/HAtXV/Yno7mJUrcByO6K6x/EAHcCpXpx6wSc3in2AnFWu3rz8GmV7sLvqbP
- Zfe9Gn1L6Vqke0xQ1iugDUrmANpmPB6dv4S4dFwGHbhBkVmJBO2qQeIQ0+Gfdk7Bclwx5r
- nB5UDc/n6YV8QNws97AU2CCPl5KyhZU5km7NHmDdgEsm+u/XMShp5NqpQ4hLagX5B82ppn
- 7EEhhrgheKFaON9Oyd4E7PFO9bI2udvokXgVzDd8JtBOan7tZOxRhIryIs7FhU21PGuyC2
- PwYrJL9O5fOoQZmJ4osl4d9sOxQhayBCbX637a/eZOmoImF3X8RUqs9xo4eBYg==
-Content-Type: multipart/signed;
- boundary=3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Date: Fri, 06 Sep 2024 13:07:47 +0200
-Message-Id: <D3Z5JMTKPQIS.2M5O5DY0S4U9G@cknow.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Andy Yan" <andyshrk@163.com>
-Cc: "Min-Hua Chen" <minhuadotchen@gmail.com>, "Sandy Huang"
- <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/rockchip: include rockchip_drm_drv.h
-References: <20240905223852.188355-1-minhuadotchen@gmail.com>
- <6f07603.7f9.191c4c887b1.Coremail.andyshrk@163.com>
- <D3Z3FN6GARPI.197HD3V38X81T@cknow.org>
- <e4ca4ac.a3fb.191c6bde766.Coremail.andyshrk@163.com>
-In-Reply-To: <e4ca4ac.a3fb.191c6bde766.Coremail.andyshrk@163.com>
-X-Migadu-Flow: FLOW_OUT
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1072C10E8F4;
+ Fri,  6 Sep 2024 11:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+ s=onoh2408; t=1725622216;
+ bh=Nt1P/gkEwLsevJn4UXiqSp5dbi52ohpe4QVRVvtzDCs=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=Zyb0aQxWBpYMsvr5OOyA9FrhYoi90LoHqTDaiCqPr0s++MyPC3fmNmjBoftLQOVN4
+ bYwWqPavxBmCGKEUkrnMS2btpGPlNcGyHChGlNeNTdyBz6DS4G0iqhkGGKupI0QsjM
+ PakadDG7gsdjVfDYjBoi0L2KXCxfdWbS/nkt6rrY=
+X-QQ-mid: bizesmtp91t1725622212tfo7pr4h
+X-QQ-Originating-IP: MoWlbzd9eCSFmT1s3QWXnAyVznxqD3uUvAEsVnaPfGY=
+Received: from localhost.localdomain ( [221.226.144.218])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Fri, 06 Sep 2024 19:30:05 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11505531661423180768
+From: He Lugang <helugang@uniontech.com>
+To: jani.nikula@linux.intel.com,
+	rodrigo.vivi@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ He Lugang <helugang@uniontech.com>
+Subject: [PATCH] [PATCH RESEND] drm/i915:Remove unused parameter in marco.
+Date: Fri,  6 Sep 2024 19:30:01 +0800
+Message-ID: <6B8E60F863EF80E4+20240906113001.1595107-1-helugang@uniontech.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,75 +58,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+The parameter dev_priv is actually not used in macro PORT_ALPM_CTL
+and PORT_ALPM_LFPS_CTL,so remove it to simplify the code.
 
-Hi,
+Reviewed-by: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: He Lugang <helugang@uniontech.com>
+---
+ drivers/gpu/drm/i915/display/intel_alpm.c     | 4 ++--
+ drivers/gpu/drm/i915/display/intel_psr.c      | 2 +-
+ drivers/gpu/drm/i915/display/intel_psr_regs.h | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-On Fri Sep 6, 2024 at 11:50 AM CEST, Andy Yan wrote:
-> At 2024-09-06 17:28:33, "Diederik de Haas" <didi.debian@cknow.org> wrote:
-> >On Fri Sep 6, 2024 at 2:42 AM CEST, Andy Yan wrote:
-> >> At 2024-09-06 06:38:50, "Min-Hua Chen" <minhuadotchen@gmail.com> wrote=
-:
-> >> >Include rockchip_drm_drv.h to fix the follow sparse warning:
-> >> >
-> >> >drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
-> >> >warning: symbol 'vop2_platform_driver' was not declared.
-> >> >Should it be static?
-> >> >
-> >> >No functional change intended.
-> >> >
-> >> >Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
-> >> >---
-> >> > drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 1 +
-> >> > 1 file changed, 1 insertion(+)
-> >> >
-> >> >diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/g=
-pu/drm/rockchip/rockchip_vop2_reg.c
-> >> >index 18efb3fe1c00..c678d1b0fd7c 100644
-> >> >--- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> >> >+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> >> >@@ -14,6 +14,7 @@
-> >> > #include <drm/drm_print.h>
-> >> >=20
-> >> > #include "rockchip_drm_vop2.h"
-> >> >+#include "rockchip_drm_drv.h"
-> >> >=20
-> >>
-> >> We already have a patch[0] include rockchip_drm_drv.h in rockchip_drm_=
-vop2.h
-> >>
-> >> [0]https://patchwork.kernel.org/project/linux-rockchip/patch/202409041=
-20238.3856782-3-andyshrk@163.com/=20
-> >
-> >Maybe I'm missing something, but this patch seems to fix an already
-> >existing bug (which should have a Fixes tag?), which Andy also fixed
-> >while implementing a different (and unrelated) feature?
->
-> In fact, I don't know how to reproduce this compilation issue.
+diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
+index 31c068f393b7..55f3ae1e68c9 100644
+--- a/drivers/gpu/drm/i915/display/intel_alpm.c
++++ b/drivers/gpu/drm/i915/display/intel_alpm.c
+@@ -332,7 +332,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
+ 			ALPM_CTL_AUX_LESS_WAKE_TIME(intel_dp->alpm_parameters.aux_less_wake_lines);
+ 
+ 		intel_de_write(display,
+-			       PORT_ALPM_CTL(display, port),
++			       PORT_ALPM_CTL(port),
+ 			       PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
+ 			       PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
+ 			       PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
+@@ -340,7 +340,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
+ 				       intel_dp->alpm_parameters.silence_period_sym_clocks));
+ 
+ 		intel_de_write(display,
+-			       PORT_ALPM_LFPS_CTL(display, port),
++			       PORT_ALPM_LFPS_CTL(port),
+ 			       PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
+ 			       PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
+ 				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index b30fa067ce6e..55ccdd6171e6 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -2097,7 +2097,7 @@ static void intel_psr_disable_locked(struct intel_dp *intel_dp)
+ 			     ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+ 
+ 		intel_de_rmw(display,
+-			     PORT_ALPM_CTL(display, cpu_transcoder),
++			     PORT_ALPM_CTL(cpu_transcoder),
+ 			     PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_psr_regs.h b/drivers/gpu/drm/i915/display/intel_psr_regs.h
+index 642bb15fb547..41f7211d4f45 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr_regs.h
++++ b/drivers/gpu/drm/i915/display/intel_psr_regs.h
+@@ -295,7 +295,7 @@
+ 
+ #define _PORT_ALPM_CTL_A			0x16fa2c
+ #define _PORT_ALPM_CTL_B			0x16fc2c
+-#define PORT_ALPM_CTL(dev_priv, port)		_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
++#define PORT_ALPM_CTL(port)		    _MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
+ #define  PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE	REG_BIT(31)
+ #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK	REG_GENMASK(23, 20)
+ #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(val)	REG_FIELD_PREP(PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK, val)
+@@ -306,7 +306,7 @@
+ 
+ #define _PORT_ALPM_LFPS_CTL_A					0x16fa30
+ #define _PORT_ALPM_LFPS_CTL_B					0x16fc30
+-#define PORT_ALPM_LFPS_CTL(dev_priv, port)			_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
++#define PORT_ALPM_LFPS_CTL(port)			    _MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
+ #define  PORT_ALPM_LFPS_CTL_LFPS_START_POLARITY			REG_BIT(31)
+ #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MASK		REG_GENMASK(27, 24)
+ #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MIN		7
+-- 
+2.45.2
 
-FWIW: I didn't see it either, but I assumed I was missing the right
-context (i.e. patches) needed to trigger that warning.
-
-> While implementing my feature, I happened to find that I need to
-> include rockchip_drm_drv.h in rockchip_drm_vop2.h
-
-Makes perfect sense :)
-But if the warning is indeed valid, it should be fixed on its own (IMO).
-
-Cheers,
-  Diederik
-
---3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZtriiAAKCRDXblvOeH7b
-bgGYAP9ZGSTkXT/5o/dRBWJ5eQlUBNNW9+epakVgWTzWTVpJYgD+KaQ5lle8XD6W
-ztX+E7hdE3sQQlhWeEwLvO2EcBldrQo=
-=6Yqr
------END PGP SIGNATURE-----
-
---3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4--
