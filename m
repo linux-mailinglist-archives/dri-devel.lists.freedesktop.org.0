@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E8896E808
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 05:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328EE96E80D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 05:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07D3310E952;
-	Fri,  6 Sep 2024 03:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2B510E95D;
+	Fri,  6 Sep 2024 03:15:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="oWna1yMQ";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="u7gtWNH6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-98.freemail.mail.aliyun.com
- (out30-98.freemail.mail.aliyun.com [115.124.30.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC6110E952;
- Fri,  6 Sep 2024 03:13:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1725592378; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=bop3mJ2S2jY8OuL0/42nc9QWoYknK6bfWbRN3vylRk8=;
- b=oWna1yMQ3hqxS/MO8sQT9QzK03pFmmYD7cZmc1kkG7GavYVU8/8bDT+K2P1wmq+HF1KD1F4QCAVSmhMRyqo7A+tOlwPMZyduh5CWFWmy8cceN4gLOApDLMoNaWMcmShccLLojoKs4yRyyv85EAMzKYf1THYxK7QTM2W6L8CKQbA=
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0WENtavF_1725592366) by smtp.aliyun-inc.com;
- Fri, 06 Sep 2024 11:12:57 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Cc: christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] drm/amdgpu/mes11: fix bad alignments
-Date: Fri,  6 Sep 2024 11:12:44 +0800
-Message-Id: <20240906031244.126285-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC9010E95D;
+ Fri,  6 Sep 2024 03:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1725592504;
+ bh=QMIlXfEUeKgJL/ulsag1T3e133MiIVGIWcDrY3RH+Ws=;
+ h=Date:From:To:Cc:Subject:From;
+ b=u7gtWNH6Jk/fXt/kPTWPmYn46m36/+XWV5rXDbFhpEhMbFV0KzSPxHuNXkwpUUwhu
+ un11fJcv6HW/eeVsCxbhZ9nw4Z5P5ACPKqLRUtGl5nlEl/gIPR49l59sy2Y5qfPwaz
+ CCyru6g3w7liA+94R9AIYqK2tJt/FJSZXCJKfExkQc/NcA+Kur5BNxABhizveFlQMC
+ rBbMj2YqU1jUNXXsAvuIT2xOLYjsruzVbDYDpaPWbdemFPYsqpPI+GdgjrKYPphmdE
+ eG0oj0befUe6EnzQ3zImoe5e3eyJOH4kdUMAhM5wrEGH5wPszCelbv0J0+w+e9dYJf
+ TD1ksuAsByKtA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4X0LvC2zVXz4wxx;
+ Fri,  6 Sep 2024 13:15:03 +1000 (AEST)
+Date: Fri, 6 Sep 2024 13:15:02 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
+ =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, DRM XE List
+ <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: manual merge of the drm-xe tree with the drm-intel tree
+Message-ID: <20240906131502.7a7d1962@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/F3S_2xZpz8_i.Yz3/rhYYC2";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,30 +63,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No functional modification involved.
+--Sig_/F3S_2xZpz8_i.Yz3/rhYYC2
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-./drivers/gpu/drm/amd/amdgpu/mes_v11_0.c:418:3-9: code aligned with following code on line 419.
+Hi all,
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=10742
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/amdgpu/mes_v11_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Today's linux-next merge of the drm-xe tree got a conflict in:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
-index 0f055d1b1da6..ee91ff9e52a2 100644
---- a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
-@@ -415,7 +415,7 @@ static int mes_v11_0_reset_queue_mmio(struct amdgpu_mes *mes, uint32_t queue_typ
- 		/* wait till dequeue take effects */
- 		for (i = 0; i < adev->usec_timeout; i++) {
- 			if (!(RREG32_SOC15(GC, 0, regCP_HQD_ACTIVE) & 1))
--			break;
-+				break;
- 			udelay(1);
- 		}
- 		if (i >= adev->usec_timeout) {
--- 
-2.32.0.3.g01195cf9f
+  drivers/gpu/drm/xe/display/xe_display.c
 
+between commit:
+
+  11d0613af7c5 ("drm/i915/display: include drm/drm_probe_helper.h where nee=
+ded")
+
+from the drm-intel tree and commit:
+
+  87d8ecf01544 ("drm/xe: replace #include <drm/xe_drm.h> with <uapi/drm/xe_=
+drm.h>")
+
+from the drm-xe tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/xe/display/xe_display.c
+index 303d00b99a68,75736faf2a80..000000000000
+--- a/drivers/gpu/drm/xe/display/xe_display.c
++++ b/drivers/gpu/drm/xe/display/xe_display.c
+@@@ -10,8 -10,7 +10,8 @@@
+ =20
+  #include <drm/drm_drv.h>
+  #include <drm/drm_managed.h>
+ +#include <drm/drm_probe_helper.h>
+- #include <drm/xe_drm.h>
++ #include <uapi/drm/xe_drm.h>
+ =20
+  #include "soc/intel_dram.h"
+  #include "i915_drv.h"		/* FIXME: HAS_DISPLAY() depends on this */
+
+--Sig_/F3S_2xZpz8_i.Yz3/rhYYC2
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmbac7YACgkQAVBC80lX
+0GyngggAk/um0PJ+wiMnG/0T4jvmtqTKfZ8/LO4Yws+D4nTJ09Qnh7nUyH/3Dt0p
+hfEjzoHhIakOQH7iPgzfwdPxEzszv8WfgSygAunI1g6QZJT6HHnrbZKGdkzGG3ma
+TVBQpTMdDJuT4yBfflM5NCStSonCjDak2SL9lVbSi9Q0mlWTyOSF134tmcxoYZmc
+OMblFMcIOt/g95Tx/1EVzli+iT2hqNc+DT7B7pVHVyqrukVUV9eXovagTF4FejDa
+fUnKx0fS+Ng8h6FUKcILE/i4heCSQ7ziygsLUZ8nWzyHsjsBi4QCIYxjMz+ELZAZ
+eBqeUbREtvf5vAXhIveJqeCNI1anag==
+=x7jU
+-----END PGP SIGNATURE-----
+
+--Sig_/F3S_2xZpz8_i.Yz3/rhYYC2--
