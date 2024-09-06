@@ -2,158 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4738B96EE1C
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FDD96EE33
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:34:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A881210E9B7;
-	Fri,  6 Sep 2024 08:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54DB610E9B8;
+	Fri,  6 Sep 2024 08:34:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="ULMvr2T3";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="tT17MRcF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2081.outbound.protection.outlook.com [40.107.215.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E042610E9B9
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 08:31:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YKM88BOtk2EPC0HxI4ULRPA7Hj8MU4inNoj3aK/AJNbjuLjF3Wn0CTJV0kKn7gZxXhXSF+3hZy57o5rWR8UUbi3AWrjoQb7IQypUnHLyAWlRF3yCIJQ4kM/MjHK+2kQ7mrww5HbutOuLVcKhSMG/0CE4N/OB9xNmBpz95xK5zCF+oO7s3CIuJp50xydmTMlNuukvsszP+VOsLyT7yqFUeOLxjC9p3t8oqWj7Yc6T2Snp9Wu2aTGKt4GXHjvwaw0utTHS6lHWzNRH8pIeFOu+wsV9O4ay04ur0QlPUZn9/TEgWT47Rum3xOu8CadhQkjD2VlN1nE+kI29QOp/E3i8Zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JbhBvyD5LbS7ledqBSI6wx2UPgRfa05EjEQ7xDy3h+Q=;
- b=DBW1Mrm+Rs7ZWn4/WtZZuv7E3Cwb2MNUeXkOr1n9ISw7Zt8mYLrczZ6/h/x1EN6kKzcedbuAZEPnA/8TxAfVwDXizBkkKA8Q90chpzPwdj96CCjjdkVvP4a3L0zDxOkTsnbj/MK44V4jDbQ/wHRinC87prRZ5DKjJK5ikth5crKgpm4hh/QmK6eH1uZHmBBuxteBriw6m5kDpeLZqN/mbdeDMR4+T2TKsr48CcQovr99YTcXraLODMh/ilWl+tUsMv0fK6hUpCHoW9fVX2kfZytm5Demc1TIoPhh8rbBO178ZQaqlkIsUlhJ77khOkWmRdR1JVPRAGIGssqOdhrRqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JbhBvyD5LbS7ledqBSI6wx2UPgRfa05EjEQ7xDy3h+Q=;
- b=ULMvr2T3sDiZ7vuHhAhckiUJIKPGBktAGh6+9kJIrOePKUv78LCEkSEMwHi6MZFWn4KcC/cHSiJIBP/muWHlwKhRTkQKNBRfk+WxgrEhfNde3J3IT1Ve46qJwfXCNc836xnh4DD7vBRjXz87l4baBZqrLjztcZpSSMBX10ChNFXomT2yKsJ7BZTfzJhIfqn6sgmAXBSAbHTpbBnlcxJ9RqMiinw6VaRnUGMPjbCSknvNDvbB/zsKXmgbYk0HLTa5aTVH5WM+1hZNJ4SRISkrtQmwRQCW/xdtzLH3w+0BiNsHBWseBMFmPdrUYTdAGsFYIqZ2T+I4a/4Gn7LmxcD3Dg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by TY0PR06MB5847.apcprd06.prod.outlook.com (2603:1096:400:276::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.28; Fri, 6 Sep
- 2024 08:31:00 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7939.017; Fri, 6 Sep 2024
- 08:31:00 +0000
-Message-ID: <d213c597-ec2a-4685-9048-5b477f64853f@vivo.com>
-Date: Fri, 6 Sep 2024 16:30:56 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/7] udmabuf: udmabuf_create pin folio codestyle cleanup
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
-References: <20240903083818.3071759-1-link@vivo.com>
- <20240903083818.3071759-5-link@vivo.com>
- <IA0PR11MB7185AA974CF7207048178187F89E2@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <IA0PR11MB7185AA974CF7207048178187F89E2@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
- To PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E30DD10E9B8;
+ Fri,  6 Sep 2024 08:34:05 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20240906083404euoutp01a22a875915c485dbf74fbdfe12683a09~ymqXIXMu11816218162euoutp01m;
+ Fri,  6 Sep 2024 08:34:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20240906083404euoutp01a22a875915c485dbf74fbdfe12683a09~ymqXIXMu11816218162euoutp01m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1725611644;
+ bh=NjES/4ZiqHQr92+NSnWRP6QiIitEC/EQXVoeY7dsf+U=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=tT17MRcFXqrpXrVF7K/eWAixeOvMMLw/TXO/VvtHCtrG/A/Egcn3cVnT8ipsDduA8
+ 9SLtLwfO4lmQvXo2E/umm5OIFrRRTFCWJOuF6XZJShvaPDQ1T/1PU7gR1k/uhd3KUa
+ KRvPfifnfvYylHZnRruG+FmIkMNaYHe//Goe6lRE=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20240906083403eucas1p11d187fb0737af321c1e6806f5e23d83e~ymqW4rgi42040120401eucas1p1x;
+ Fri,  6 Sep 2024 08:34:03 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 67.FA.09875.B7EBAD66; Fri,  6
+ Sep 2024 09:34:03 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240906083403eucas1p28e440e34cd7fa3298040bdff8334b759~ymqWSIclt2066620666eucas1p25;
+ Fri,  6 Sep 2024 08:34:03 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20240906083403eusmtrp21c1911ef518b743ee00bec16de0cd088~ymqWQwhhn1377313773eusmtrp2U;
+ Fri,  6 Sep 2024 08:34:03 +0000 (GMT)
+X-AuditID: cbfec7f4-131ff70000002693-22-66dabe7b0778
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id C8.64.14621.A7EBAD66; Fri,  6
+ Sep 2024 09:34:03 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240906083402eusmtip2b63b58cd6ba5145cd470d1448d01cfc3~ymqWAX5AT0964809648eusmtip2I;
+ Fri,  6 Sep 2024 08:34:02 +0000 (GMT)
+Received: from localhost (106.110.32.87) by CAMSVWEXC02.scsc.local
+ (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 6 Sep 2024 09:34:01 +0100
+Date: Fri, 6 Sep 2024 10:34:01 +0200
+From: Daniel Gomez <da.gomez@samsung.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+CC: Nicolas Schier <nicolas@fjasle.eu>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, William Hubbs
+ <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, Kirk Reiser
+ <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, Paul
+ Moore <paul@paul-moore.com>, Stephen Smalley
+ <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James
+ Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
+ <linux-kbuild@vger.kernel.org>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "speakup@linux-speakup.org"
+ <speakup@linux-speakup.org>, "selinux@vger.kernel.org"
+ <selinux@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+ <kvmarm@lists.linux.dev>, "linux-serial@vger.kernel.org"
+ <linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
+ <llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
+ (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com"
+ <gost.dev@samsung.com>
+Subject: Re: [PATCH 08/12] include: add elf.h support
+Message-ID: <20240906083401.gfckf7q3yanxqzis@AALNPWDAGOMEZ1.aal.scsc.local>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|TY0PR06MB5847:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24acc3cd-53e9-4189-fa13-08dcce4e3ce7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|52116014|1800799024|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sk5IZjVWTWxRMGpNVmFXblk2RllvNytya1EwSmZjczU0YmNhdCtIS1VJZ2Z1?=
- =?utf-8?B?RWZPa1grbVEzWGQrcUZUR0hLbExxMFFTdUZ0ZkR1UERGODdWVm5wQVJxYTBD?=
- =?utf-8?B?WldUeG1ldi8rbGdNOWN4NkFNTmI1Slp2YXNudnpqWmNwbWtZMTUyc2U3WmMr?=
- =?utf-8?B?Q3RNNUlHTURjbVdWcnp3U1pvRXVtRWcvWnBHOTZoTFp3Uzc5eTB2U21OakFl?=
- =?utf-8?B?bDVrV2Y3WDMyVnN2UC95MHpCN0Z5c1pNekg0cGRuL1dWbERYTjBCK2g3Sjgw?=
- =?utf-8?B?YlZSZmIzOWMwd3MvaFRBV3NoT1gwQU5zMkFXVmlEMFF3cXozRWxCT1Y1WUhs?=
- =?utf-8?B?TmhCVlVQa0F1bDl1cCtHSTZZWkFQYS9Pd29seFhTa1MvQnBidVB3Nmd4S3pv?=
- =?utf-8?B?eEhOU0FuQ2d5ZEFJNWsrY1VLQkNabnhuOFYvMkxpdXNqV0VoWUk4bTlWUEwx?=
- =?utf-8?B?UlQ4UCtySElmY1lSaGQ2aVhEZkxGNExtSkNVMzJtVUpGNEpzRzRwYUgrR1hn?=
- =?utf-8?B?THlYOW1QSmdHRFBNYmEyV1ZlekcwRlZkc0FlUFlOaXBSNHBldGVHZEwrc2hq?=
- =?utf-8?B?U0NUNC9vTytDZVo1ZVpPSFdCZmNIMFBvdlNveEJtUmhkalczclFua28xQ21F?=
- =?utf-8?B?UitKNjlhVXdGN0pvR08yZWdxamtOTWNoMmxuYXlOUSs2UGxSL1orY0RmR1JZ?=
- =?utf-8?B?ejFrVGcvSUcvblg5bVA2TUZUNW11TWZ6cmFQZG5CajhIRHlpbjdTZlgrK0hP?=
- =?utf-8?B?cFg4NmN1QXBrVnppdEM1WWdVYUFhd1g2WHhEVUJvUlRORnhHc3BjVnExNW02?=
- =?utf-8?B?UGIzTUVQOWFmdHRBRmVIWWdmRnlPUElSck81YWFYM2lMS3U4aTZwaGRPdzE5?=
- =?utf-8?B?ODdnY2RsVmVWL00rWG8zS0RMUEt5cjNhWG02UkxQeW0xTXpOWmhjOW01WG96?=
- =?utf-8?B?NGZpL2F0bHhnQ1llb0hPL3N5WWk2ZTMxRjBBeEljZWlGTGdYVDhVdlV1blFF?=
- =?utf-8?B?OHZRcEt0UnRVSHM2S1d3UmFGZCtoTU1wbTA2SlkrN2lrSE4wak4rL0RXbE5F?=
- =?utf-8?B?bHZGQURsaE40RnorWHlOQk9ZODZxS1ViQmFqUldqay9lYXFiRUE5UjlKalZr?=
- =?utf-8?B?YmovSFJOTGp3UmlkamdKSmkzNFYvNXdBV3BiOE03TWJHM1lvbjFMd05FaHRo?=
- =?utf-8?B?SklKeC9oVXdRcmZvZWVzWVZ5MnZMYStxMWdVWDJodDMvajBGT1UxamFDQ1dl?=
- =?utf-8?B?b2V4dzZPRlk5MExoWkI4bzB0cG1NZXFpSm9nTUxwdStnK1pqd2s2TUZkcnF2?=
- =?utf-8?B?WVBLODVZSVF0T0lDOE1rUUlJRFJUVkNCR2UxZFMwR0ErOFhJYjJid0hTMnE3?=
- =?utf-8?B?bzhkRWNnaEkvelBOdmhkMVJpZi96Y0JzMkJjZlpKSVdrT2cvVnEyZlF2TjZ2?=
- =?utf-8?B?UzN1YlRjM25TMmNHZWlmSnFkbjYzblQzNTFSMWdZY2lVVW00ZmR0WXMyTjJl?=
- =?utf-8?B?RG1OQ0k3UnUxMXJOVnNEdEd4UU85MU8wUlk0UFlXMktYQUQzcmtCcElrZS92?=
- =?utf-8?B?OElRK1hmWXFLcWRTeXJPVzlZUzVaVFdkeTMzYTB1TVcrcC9MSjIxcVVaR1pi?=
- =?utf-8?B?Wlh3VVlGNVpyVkN5MEdZOWJVcExIY0FwbXg0SC8vMjdDaDlyNlcwRkJwU05U?=
- =?utf-8?B?a3N0UWt6eHlwZzZGQ2lGMEtqQ1UwYlQ2aGJ3OFpXek91NkhuRUl0RFBpdmox?=
- =?utf-8?B?L2Y4MWhrc3RwaVA1LzllOEtaZUJFZmlHTTlTTnhkRHNLcTFYNWo4RmtNWlhq?=
- =?utf-8?B?VDhHSVlib1A1ZVZJNW9yWEdZdlJJN2R2VjFwVVQ5WDZYbktjN3EzWWY1a09L?=
- =?utf-8?B?Yk42cHp2RVFqS2R6bXQ0cTVrL3ZTb2M5R1ZabkVRL0N6NHc9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TSsxd0NKVUxoZjk4eU5kWWxaRnlJMUd4aDB1Q0U2RGtjN0tLOFJ3MXhFZzM4?=
- =?utf-8?B?UjgzbGZ5Q01Xakx4dndEa0lFN1o4MkJiOFVxNnRFenFocVJmdkR5UjY5Zm1E?=
- =?utf-8?B?dFVmcjN0SU03L2MySllheU9tYmtwemc3SSt4eFArWWlocjBQb2VBRSt6Zld4?=
- =?utf-8?B?ZkRYUlprbEtvTEM4TTMrMjMyVjE4MlhPV3gza0drZTVlOUh3dDdGZ2lDQlox?=
- =?utf-8?B?OVo4a25Vc1lIcFRpREd6d0N0YytCbUdXc0VCZld5L0QrNldzSEtUZ0UyWEVC?=
- =?utf-8?B?WTJtbnZUcGcxWVVnQmtQQ0xLc3ZzR2owUjJQanVHUHBlcUQ1VUZPT1Mycmcw?=
- =?utf-8?B?cUhGVUIrdzhIRU9nTkhXSGlPc0tnY05Mc0luL1hYb29VeThKQVovc25YaFdT?=
- =?utf-8?B?TzY3azBLa2FiaGVnTzB6cW5RVjZOSVZVcUtMc1kwemFsUzcwdFdFU1AwU3Br?=
- =?utf-8?B?bGdNeFZob3JFZUlyZ2grUXQ1VnVLYUNvOC9iNmpoQzZkQ05ucHVTMUV6VkFN?=
- =?utf-8?B?VVVMUG8vQTRQRlZRVG5mZnZJaWc4RVgxa2VmWFB6d3VPZHE1Qk5hUnZYcjNB?=
- =?utf-8?B?QVNVd3ZJS1FCZXd5Q0ZiTVJJbzdCN1JXSTIzbXNGQmdxcUVkcDFmTzczOGQ1?=
- =?utf-8?B?djk4aWpwek5lMmw3bHN5bHlLdjdsVHFyaW84TUEyZ2hhZlZ0cm9Uc3hWZkxl?=
- =?utf-8?B?a3VvRUk1OXJSZlpiZDRlWEVVMDVLV2FPOTZBcE9wVHJkWFB1c3RIWjl2SkhZ?=
- =?utf-8?B?dE8zV1ZYMVI3SzlDc2d0WGJDbXlab1ZQWWM5REJ6bDhLTEx5UWFETDdOUVRH?=
- =?utf-8?B?TmNlRUdUTnI0dzhaWWpzL3A4ekJMWTZyZFZUVThtWVRWY3I4TFNXN2MvQkd4?=
- =?utf-8?B?djk0cnNMSjJGZnlSdVVpMG9SS28vdDRYYk9KdzBHL2orWTMrK0xDQ1h3bGJw?=
- =?utf-8?B?LzVXSk5UWTJUMVIrNEEwTCtNOVY2VFFRZFZPUFZvWG1aOFJOSXBqT2ZabHh5?=
- =?utf-8?B?c0RaMVhKNVoyZ0xRd3NtVEVzTUl1VDVuUXpHSFA0Ty8zaVNTRTA5UE8rN2Va?=
- =?utf-8?B?Z1RpQjdVL2crb2pxSXhFZmZUNnp3VDQ4TUc5Vzc3UmdVN3VmOGoydkxLK0I1?=
- =?utf-8?B?cjdLSTBrVXQ3ZjIvL043MkNtZjdFSXJHZTBpS1dkMGpuUjJSZEE1Uld2TlJ3?=
- =?utf-8?B?N0VOa2RxbmRBT2duK0xnVWF1dlRON2dqa09PNHZRTFBHUTZTRloySEdvL3lV?=
- =?utf-8?B?M1BwcnZHcDk1cVg1d2wxZDRFZXNvd1BZSithZmVuWGVCK09Ta3B2aUJWVG9z?=
- =?utf-8?B?amRTdVR3N0dlMlNtZUZ3blRNbHhweVZjY0gvUjluaURLUzJnc1Y3bHNHSy9W?=
- =?utf-8?B?S1Z4dkxMeStZd1lYTVZLKzV4Sldxam1oOURIYmFqKzFmMFluNVVRM3NiWEFG?=
- =?utf-8?B?VDlDdjVHdXcya1c3ZlNLeE1YTnIrL3NZKzZOZ0VQeVRGanpBV2NVQmVkc0xN?=
- =?utf-8?B?N3gwcDFNelVzc3BvNVNPamtTS2k3M3hFUXUxYjlCQmllMjBQN2dJcDFzZ1Rh?=
- =?utf-8?B?SVFiS3pOTmxycU1ubzFQZEJSZzdBWmxYWVRxTE1laGZBQXcreXZQUThBaXVp?=
- =?utf-8?B?cWZtVmpSamROb3o4OTJIbU5Bd2wzaHVHYkpCYlVxNXJUNS9wc1BtdUN4cWw3?=
- =?utf-8?B?d1I0ZEVtMnZvd1ZHNEhKRStFbTY3bmNocmhLQUdXL1U5ek41U3M2c2o0UWtU?=
- =?utf-8?B?UXRxUVBySDVVTFp6Sk1KYWR3V2dLTGYvYnYwekZON01DV1VOOU9Ob1BJOVdL?=
- =?utf-8?B?bXU1Wm1ZNWxPM0UrVmJkTElGR25Fb1JvQW51SVYzTWkwcGlCdDhRenNkdHhI?=
- =?utf-8?B?Mjg1aFppbmowRmpidkEydG4vN2FXT01WcW1Lbm9Dc3RPM09CaVprVFA2bytt?=
- =?utf-8?B?UDgwM2FSY3R3RVROZnNRMExoeWtlRStURGlHRXJ6djVaQWxJWHVNckVyYTR0?=
- =?utf-8?B?eFdDdllkbG9NTDF0T2xiWjBEaUpWUmxtNE9GRlN4dUZTUzNWODVId3JudHlO?=
- =?utf-8?B?aitTbUVrNXlqVlFJdWJWME9mU0hRczhnLzVQeW9nbmxhV1YwTTVvMjBNcmpu?=
- =?utf-8?Q?Hb/pdWbG0YdwzfwL0wGJU/jbM?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24acc3cd-53e9-4189-fa13-08dcce4e3ce7
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 08:31:00.6309 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HKQohjvoatekopPUtMA94BUcHS7eMkb2iLRhgM6+RXC6vvT+8D2Qe3dl9cZ8YKK6rGncO/EK7iow1Ao209CmLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5847
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNASt2eP6q46YP0hCN=f5frt5r5qmwj25tiYrxjwOmGOwEg@mail.gmail.com>
+X-Originating-IP: [106.110.32.87]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGc27vvS042JXiOBEVJUgU+Von8yQY44Ib1xHYYMk2TTbXyAWZ
+ fK21TDQjqAgCykDRjg4qUGi1ENHyYYt8TMSWIqQiDpDKQIGJKCCjCgy0o7ZO//u973mec57n
+ j8NhOb0kV3Ji4g8wgnh+rDtpj9dp5w0+h5v6o/yf6z1RW28phqbkJwHSKsdY6Jp5gIXMdXks
+ dPf5FImOyapINFc9hqHBJgWGJotWoXMVMhJJu/Q4Gq+5gSPVcA+BFuvVGOquLyRRh+wUG43k
+ N5NodFhOopLpWhw9GOojkKZQT6DGqm4SqbpnCJSeKSdQxsVREj3LNWPo78Y2Ap2df0qiidyb
+ bGQ8LcZRs6SHjS7MiQEy6LRsVKfuBOiR4QxABUYjQE/US5fWPM0jUGn6FpR2PwDdK7/M3u5F
+ V0orAd2g7STpxhfFOF3fUk3SGskAmy5Wiei01gmCljU8xmiVMpOkpZlSjDafGiLoVnMpmy5J
+ Pcuipfpwurmokk0PZuuwL+Fu+62RTGxMEiPw2/aD/b4MqYJM7Nlw0DRdhKeCvLVZwI4Dqc1Q
+ +SwLzwL2HCfqAoDZl6+T1sEE4ITuCGEdZgBsKDRjbyxddwZtFgWAfbkL4H9VTte/Nr8KQK1p
+ hrRYcMoDKluMr5mkNsImvYptYWfKC94vP0FYmEUp34c5GX4W5lIB8LHExLKwAxUCxZcGbLwc
+ 6gtGlp7mLOk3wqp6Pyu6QsUrjvUWN3is9vfXajsqHBaYOoE19Dr4W95F3Mq/wPaafswSE1IV
+ y+Bx9V820Q74sHTUJuLCcV0N28qroFlz3tY+GpZdktg0ibDBKCEsGSAVCHM6Yq3rT2BPyTWW
+ de0I+yaWW6M5wtN1YtvaAZ5Id8oFHpJ3akne1pK8rSV5p1YxwJXAhREJ46IZIS+e+dlXyI8T
+ iuKjffcmxKnA0g+59UpnUgPF+LRvC8A4oAVADsvd2WF0Z3+Uk0MkP/kQI0jYIxDFMsIW4MrB
+ 3V0c1ke6MU5UNP8As59hEhnBm1OMY7cyFRMXbuK24VcibvpsCapIiPAfC3Hb5flPWfloUK9i
+ xxcaHaHXePIKhhoG57IDz7S7Oz/YlexIrNB6z0b0bpYFBx3uyc/Jn92e96lmmeSnD1IPZrMW
+ ZAWOK67s1GXuvS7nTO/mfSP/eO3tcW7QnuNe0rusOF7Smrlx9dffZ7vdipHzts3+6se9E+Yx
+ 4kqej/EuSb6a035yv3HSvzW8Q8SbV3ANLz4Kq05Zk+8btfjS8Yb3udu6jNXffWaoFZbVhX67
+ NSUqLbgj+JForY9b0tHV74U97HTB/hhOuZof2j4QEZu46dCfAYbFrnvBk3zxE7+gwu4or6kf
+ j+rXf/V5YKhuQ79PyBHeQog7LtzH/9CLJRDy/wOyNhqnkAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0yTZxSH9363ftxiV3C+AnHQOKMkKxQovMwLZnHb58g2iJhlc5vr4OMS
+ C9WWOthiRiIDgTWCooxOyr3USiwUy0rlsnUM6CYSxmCDglwEhoqDRkTc0K7QLPrfc3LO78nJ
+ yaFxXj3lS6emZ7CydLGET7kTvz7tufXqlx2jSSF2Ber9oxpDi5pvAOrWzePoumMcR46WYhz9
+ /nCRQqdr9BRabZ7H0ERHPYb+LvdHF6/UUEg9YCXQ3Ws/Echwe5hEa2YThgbNlyh0o0bJQTMl
+ nRSava2hUJXdSKCpyT9J1HrJSqJ2/SCFDIMPSJSbryFR3uVZCi0VOTA0195LoguPFyh0v+hn
+ DrKdKyVQp2qYg7SrpQD193RzUIupD6C/+s8DVGazAXTP5JReWygmUXVuJMoZE6GRukbO/iCm
+ Qd0AmLbuPoppX6kkGLOlmWJaVeMcptKgYHK67pNMTdsdjDHo8ilGna/GGIdykmS6HNUcpir7
+ As6orXFMZ3kDh5ko7MFi4YeCPTKpIoMNSJHKM/byjwhRqEAYhQSh4VECYVjkx6+FivjB+/Yk
+ spLUk6wseN+ngpQ8dT11fHhn5rK9nMgGxQEFwI2G3HA48NsEUQDcaR63DkB7rR5zNfxh0/IQ
+ 6WJvuDZcQLmG7ABeLezEXIUBQJVOu5EguNuhzmKj1pni7oIdVgNnnX24QXCs7syGCefqNsHZ
+ pa/W2ZsrgndUy/g6e3FjYOnVcdwlHSGgMb8duBovQmvZjHM/2hneBfXmYBf6wfqntEv5Mjxt
+ /G5D48aNg2XLfcC1dCD8tvgy4eJT8MGTOVAEfFTPSVXPpKpnUtVz0kpA6IAPq5CnJafJhQK5
+ OE2uSE8WJEjTDMD5sS3dj5tNQH3XLrAAjAYWAGmc7+M1e3A0ieeVKM76gpVJj8oUElZuASLn
+ gYpx380JUufLp2ccFUaEiIThEVEhoqiIMP4WrzcH+5N43GRxBnuMZY+zsv9zGO3mm41Rn+22
+ 3POIObmwRmjikudf0a+YHv5CMytNbgqPI2OLX6fUVu/wzDwwrdwRpnwUM51oNra+K/EruFhq
+ nn7LOHSzJD5TI/N9W1KUtUZN9X1EKc+sHmzIL2+sioxuy8qdIIPsh9H3GqPFnLfEhN7kbbGP
+ 6t1fio/OCT703rat9bYSt70HsBatpKCJd2iCn9MLvGv6h8GPH5wXn/ond1X6uZIzMBkbGs07
+ EdhaoY59vyKZ3dx47BOP1x/trn1Hm9V11vOF1JgSz3jiirbwhvGE98jC6g8B25V80j+hL/BW
+ XngXvfPwG5u2VfBMVedSt05FeJ6d65X964DLQ0szItL6xG//dT4hTxELg3CZXPwfuGyD+zoE
+ AAA=
+X-CMS-MailID: 20240906083403eucas1p28e440e34cd7fa3298040bdff8334b759
+X-Msg-Generator: CA
+X-RootMTR: 20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c
+References: <CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
+ <2024080717-cross-retiree-862e@gregkh>
+ <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
+ <2024080720-skyline-recapture-d80d@gregkh>
+ <20240807-mottled-stoic-degu-d1e4cb@lindesnes>
+ <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local>
+ <ZtIjNBhqdxmMBxfM@fjasle.eu>
+ <CAK7LNAQhHBi7nSG5SAbqD3HFO3uMR6GHckZHcQXgWao7G8i9gw@mail.gmail.com>
+ <20240905085626.ehhc5p7qwi57dagm@AALNPWDAGOMEZ1.aal.scsc.local>
+ <CAK7LNASt2eP6q46YP0hCN=f5frt5r5qmwj25tiYrxjwOmGOwEg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,241 +168,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 06, 2024 at 08:58:15AM +0900, Masahiro Yamada wrote:
+> On Thu, Sep 5, 2024 at 5:56 PM Daniel Gomez <da.gomez@samsung.com> wrote:
+> >
+> > On Mon, Sep 02, 2024 at 01:15:01AM +0900, Masahiro Yamada wrote:
+> > > On Sat, Aug 31, 2024 at 4:54 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+> > > >
+> > > > On Sat, Aug 24, 2024 at 12:54:50AM +0200 Daniel Gomez wrote:
+> > > > > On Wed, Aug 07, 2024 at 05:46:03PM +0200, Nicolas Schier wrote:
+> > > > > > On Wed, Aug 07, 2024 at 04:18:54PM +0200, Greg Kroah-Hartman wrote:
+> > > > > > > On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
+> > > > > > > > > Also, as this is not internal for the kernel, but rather for userspace
+> > > > > > > > > builds, shouldn't the include/ path be different?
+> > > > > > > >
+> > > > > > > > Can you suggest an alternative path or provide documentation that could help
+> > > > > > > > identify the correct location? Perhaps usr/include?
+> > > > > > >
+> > > > > > > That is better than the generic include path as you are attempting to
+> > > > > > > mix userspace and kernel headers in the same directory :(
+> > > > > >
+> > > > > > Please keep in mind, that usr/include/ currently does not hold a single
+> > > > > > header file but is used for dynamically composing the UAPI header tree.
+> > > > > >
+> > > > > > In general, I do not like the idea of keeping a elf.h file here that
+> > > > > > possibly is out-of-sync with the actual system's version (even though
+> > > > > > elf.h should not see that much changes).  Might it be more helpful to
+> > > > > > provide a "development kit" for Linux devs that need to build on MacOS
+> > > > > > that provides necessary missing system header files, instead of merging
+> > > > > > those into upstream?
+> > > > >
+> > > > > I took this suggestion and tried pushing a Homebrew formula/package here [1].
+> > > > > I think I chose a wrong name and maybe something like "development kit" would
+> > > > > have been better. However, would it be possible instead to include the *.rb file
+> > > > > in the scripts/ directory? So users of this can generate the development kit in
+> > > > > their environments. I would maintain the script to keep it in sync with the
+> > > > > required glibc version for the latest kernel version.
+> > > > >
+> > > > > [1] https://protect2.fireeye.com/v1/url?k=96027706-f7896236-9603fc49-000babffaa23-452f645d7a72e234&q=1&e=343dd31c-5e5b-4b09-8ee5-6c59a1ff826e&u=https%3A%2F%2Fgithub.com%2FHomebrew%2Fhomebrew-core%2Fpull%2F181885
+> > > >
+> > > > I think it sounds sensible to hold that formula file in the upstream tree.  But
+> > > > I am not sure if scripts/ is the best location.
+> > > >
+> > > > Masahiro, what do you think?
+> > >
+> > >
+> > > I do not know much about the homebrew, but why does the upstream
+> > > kernel need to merge such masOS stuff?
+> >
+> > The missing headers (in macOS) need to be provided somehow. One way can be
+> > having the formula (*.rb file) in-tree, so users of this can install them in
+> > their systems. This would also require to have a tarball with the missing
+> > headers either in-tree or somewhere accessible so it can be fetched.
+> >
+> > To avoid having the formula and a tarball in-tree, I've created a Homebrew Tap
+> > (3rd-Party Repository) called 'Bee Headers Project' [1][2][3] that can provision
+> > the missing headers. The project provides a bee-headers package and formula
+> > that will install byteswap.h, elf.h and endian.h in the user's system Hombrew
+> > directory. It also provides a *.pc file so pkg-config can be used to find the
+> > location of these headers. I have a v2 with this solution ready, perhaps is
+> > easier to discuss this with the code.
+> 
+> 
+> It is up to you what project you start in Github.
+> 
+> Then, what do you need to submit v2 for this?
 
-在 2024/9/6 16:17, Kasireddy, Vivek 写道:
-> Hi Huan,
->
->> Subject: [PATCH v5 4/7] udmabuf: udmabuf_create pin folio codestyle
->> cleanup
->>
->> This patch split pin folios into single function: udmabuf_pin_folios.
->>
->> When record folio and offset into udmabuf_folio and offsets, the outer
->> loop of this patch iterates through folios, while the inner loop correctly
->> sets the folio and corresponding offset into the udmabuf starting from
->> the offset. if reach to pgcnt or nr_folios, end of loop.
->>
->> By this, more readable.
->>
->> Signed-off-by: Huan Yang <link@vivo.com>
->> ---
->>   drivers/dma-buf/udmabuf.c | 132 ++++++++++++++++++++------------------
->>   1 file changed, 71 insertions(+), 61 deletions(-)
->>
->> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->> index 456db58446e1..ca2b21c5c57f 100644
->> --- a/drivers/dma-buf/udmabuf.c
->> +++ b/drivers/dma-buf/udmabuf.c
->> @@ -330,17 +330,67 @@ static int export_udmabuf(struct udmabuf *ubuf,
->>   	return dma_buf_fd(buf, flags);
->>   }
->>
->> +static int udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
->> +			      loff_t start, loff_t size)
->> +{
->> +	pgoff_t pgoff, pgcnt, upgcnt = ubuf->pagecount;
->> +	u32 cur_folio, cur_pgcnt;
->> +	struct folio **folios = NULL;
->> +	long nr_folios;
->> +	loff_t end;
->> +	int ret = 0;
-> Change ret's type and this function's return type to long for consistency.
->
->> +
->> +	pgcnt = size >> PAGE_SHIFT;
->> +	folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
->> +	if (!folios)
->> +		return -ENOMEM;
->> +
->> +	end = start + (pgcnt << PAGE_SHIFT) - 1;
->> +	nr_folios = memfd_pin_folios(memfd, start, end, folios, pgcnt,
->> &pgoff);
->> +	if (nr_folios <= 0) {
->> +		ret = nr_folios ? nr_folios : -EINVAL;
->> +		goto err;
->> +	}
->> +
->> +	cur_pgcnt = 0;
->> +	for (cur_folio = 0; cur_folio < nr_folios; ++cur_folio) {
->> +		pgoff_t subpgoff = pgoff;
->> +		size_t fsize = folio_size(folios[cur_folio]);
->> +
->> +		ret = add_to_unpin_list(&ubuf->unpin_list, folios[cur_folio]);
->> +		if (ret < 0)
->> +			goto err;
->> +
->> +		for (; subpgoff < fsize; subpgoff += PAGE_SIZE) {
->> +			ubuf->folios[upgcnt] = folios[cur_folio];
->> +			ubuf->offsets[upgcnt] = subpgoff;
->> +			++upgcnt;
->> +
->> +			if (++cur_pgcnt >= pgcnt)
->> +				goto end;
->> +		}
->> +
->> +		/**
->> +		 * The term range may start with offset, so the first folio
->> +		 * need take care of it. And the remain folio start from 0.
-> The comments above are not very meaningful. Please rewrite them as:
-> * In a given range, only the first subpage of the first folio has an offset, that
-> * is returned by memfd_pin_folios(). The first subpages of other folios (in the
-> * range) have an offset of 0.
->
->> +		 */
->> +		pgoff = 0;
->> +	}
->> +end:
->> +err:
-> No need to have two labels here. Keep end and get rid of err?
->
->> +	ubuf->pagecount = upgcnt;
->> +	kvfree(folios);
->> +	return ret;
->> +}
->> +
->>   static long udmabuf_create(struct miscdevice *device,
->>   			   struct udmabuf_create_list *head,
->>   			   struct udmabuf_create_item *list)
->>   {
->> -	pgoff_t pgoff, pgcnt, pglimit, pgbuf = 0;
->> -	long nr_folios, ret = -EINVAL;
->> -	struct file *memfd = NULL;
->> -	struct folio **folios;
->> +	pgoff_t pgcnt = 0, pglimit;
->> +	long ret = -EINVAL;
->>   	struct udmabuf *ubuf;
->> -	u32 i, j, k, flags;
->> -	loff_t end;
->> +	u32 i, flags;
->>
->>   	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
->>   	if (!ubuf)
->> @@ -349,81 +399,43 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>   	INIT_LIST_HEAD(&ubuf->unpin_list);
->>   	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
->>   	for (i = 0; i < head->count; i++) {
->> -		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
->> +		if (!PAGE_ALIGNED(list[i].offset))
->>   			goto err;
->> -		if (!IS_ALIGNED(list[i].size, PAGE_SIZE))
->> +		if (!PAGE_ALIGNED(list[i].size))
->>   			goto err;
->> -		ubuf->pagecount += list[i].size >> PAGE_SHIFT;
->> -		if (ubuf->pagecount > pglimit)
->> +
->> +		pgcnt += list[i].size >> PAGE_SHIFT;
->> +		if (pgcnt > pglimit)
->>   			goto err;
->>   	}
->>
->> -	if (!ubuf->pagecount)
->> +	if (!pgcnt)
->>   		goto err;
->>
->> -	ubuf->folios = kvmalloc_array(ubuf->pagecount, sizeof(*ubuf-
->>> folios),
->> -				      GFP_KERNEL);
->> +	ubuf->folios = kvmalloc_array(pgcnt, sizeof(*ubuf->folios),
->> GFP_KERNEL);
->>   	if (!ubuf->folios) {
->>   		ret = -ENOMEM;
->>   		goto err;
->>   	}
->> -	ubuf->offsets = kvcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
->> -				 GFP_KERNEL);
->> +
->> +	ubuf->offsets = kvcalloc(pgcnt, sizeof(*ubuf->offsets), GFP_KERNEL);
->>   	if (!ubuf->offsets) {
->>   		ret = -ENOMEM;
->>   		goto err;
->>   	}
->>
->> -	pgbuf = 0;
->>   	for (i = 0; i < head->count; i++) {
->> -		memfd = fget(list[i].memfd);
->> +		struct file *memfd = fget(list[i].memfd);
->> +
->>   		ret = check_memfd_seals(memfd);
->>   		if (ret < 0)
->>   			goto err;
->>
->> -		pgcnt = list[i].size >> PAGE_SHIFT;
->> -		folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
->> -		if (!folios) {
->> -			ret = -ENOMEM;
->> -			goto err;
->> -		}
->> -
->> -		end = list[i].offset + (pgcnt << PAGE_SHIFT) - 1;
->> -		ret = memfd_pin_folios(memfd, list[i].offset, end,
->> -				       folios, pgcnt, &pgoff);
->> -		if (ret <= 0) {
->> -			kvfree(folios);
->> -			if (!ret)
->> -				ret = -EINVAL;
->> -			goto err;
->> -		}
->> -
->> -		nr_folios = ret;
->> -		pgoff >>= PAGE_SHIFT;
->> -		for (j = 0, k = 0; j < pgcnt; j++) {
->> -			ubuf->folios[pgbuf] = folios[k];
->> -			ubuf->offsets[pgbuf] = pgoff << PAGE_SHIFT;
->> -
->> -			if (j == 0 || ubuf->folios[pgbuf-1] != folios[k]) {
->> -				ret = add_to_unpin_list(&ubuf->unpin_list,
->> -							folios[k]);
->> -				if (ret < 0) {
->> -					kfree(folios);
->> -					goto err;
->> -				}
->> -			}
->> -
->> -			pgbuf++;
->> -			if (++pgoff == folio_nr_pages(folios[k])) {
->> -				pgoff = 0;
->> -				if (++k == nr_folios)
->> -					break;
->> -			}
->> -		}
->> -
->> -		kvfree(folios);
->> +		ret = udmabuf_pin_folios(ubuf, memfd, list[i].offset,
->> +					 list[i].size);
->>   		fput(memfd);
->> -		memfd = NULL;
->> +		if (ret)
->> +			goto err;
->>   	}
->>
->>   	flags = head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
->> @@ -434,8 +446,6 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>   	return ret;
->>
->>   err:
->> -	if (memfd)
->> -		fput(memfd);
-> I think this needs to stay because if the seals check fails, then we would not be
-> doing fput(memfd).
+I'll just include a reference in the documentation.
 
-Yes, there a mistake, but I'd like set it into here:
+And will send the v2 later today.
 
-  		ret = check_memfd_seals(memfd);
-  		if (ret < 0) {
-			fput(memfd);
-  			goto err;
-		}
-due to only in inner look, memfd can get. and memfd change into loop var.
-Thanks
-
->
-> Thanks,
-> Vivek
->
->>   	unpin_all_folios(&ubuf->unpin_list);
->>   	kvfree(ubuf->offsets);
->>   	kvfree(ubuf->folios);
->> --
->> 2.45.2
+> 
+> 
+> 
+> 
+> 
+> >
+> > I think we can extend the same package and include extra headers if we need
+> > more in the future. I see for x86_64 asm/types.h and others might be required.
+> > The bee-headers package can then be the repository to place and distribute them.
+> >
+> > Please, let me know if you think of an alternative solution, I can give a try
+> > and explore.
+> >
+> > [1] Project:
+> > https://protect2.fireeye.com/v1/url?k=8f1b9871-ee908d54-8f1a133e-74fe485cbff6-b9b8f875df8b37c5&q=1&e=860f3982-d1e4-4fcb-ab79-f181bb7fcda3&u=https%3A%2F%2Fgithub.com%2Fbee-headers
+> > [2] Headers repository:
+> > https://protect2.fireeye.com/v1/url?k=7c995f7b-1d124a5e-7c98d434-74fe485cbff6-a20d4e643f5978f8&q=1&e=860f3982-d1e4-4fcb-ab79-f181bb7fcda3&u=https%3A%2F%2Fgithub.com%2Fbee-headers%2Fheaders.git
+> > [3] Homebrew Tap formula:
+> > https://protect2.fireeye.com/v1/url?k=148f40fc-750455d9-148ecbb3-74fe485cbff6-5d795246adb22931&q=1&e=860f3982-d1e4-4fcb-ab79-f181bb7fcda3&u=https%3A%2F%2Fgithub.com%2Fbee-headers%2Fhomebrew-bee-headers.git
+> >
+> >
+> > >
+> > >
+> > >
+> > > >
+> > > > Kind regards,
+> > > > Nicolas
+> > >
+> > >
+> > >
+> > > --
+> > > Best Regards
+> > > Masahiro Yamada
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
