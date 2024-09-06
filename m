@@ -2,32 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFAD96EFB9
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 11:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F0C96EFD5
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 11:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFE110E114;
-	Fri,  6 Sep 2024 09:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8149F10E17A;
+	Fri,  6 Sep 2024 09:43:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dHGxM4Xz";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7766B10E114
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 09:40:37 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E71ABFEC;
- Fri,  6 Sep 2024 02:41:03 -0700 (PDT)
-Received: from e112269-lin.cambridge.arm.com (e112269-lin.cambridge.arm.com
- [10.1.194.64])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0FED3F73F;
- Fri,  6 Sep 2024 02:40:35 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- Christopher Healy <healych@amazon.com>
-Subject: [PATCH v2] drm/panthor: Display FW version information
-Date: Fri,  6 Sep 2024 10:40:25 +0100
-Message-Id: <20240906094025.638173-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9114010E132;
+ Fri,  6 Sep 2024 09:42:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725615778; x=1757151778;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=upkDHeAF6QAO3X+zfPD9BoxMhLKq0ZKjpL0xoL57B1k=;
+ b=dHGxM4XztgJJqdF6Hpk/tyf9I1pDbVZtK+TJK27qse9Dq4TV8tkWuttc
+ 9pQeOFvYhnFnxlY6FEIo1mNZoAGKU92LyGhBqeEgcgTzVTTcwKMNrZqHd
+ hgd1uXWkJgbFm6XnBKH77lgxwt1QUhTMZEMk3QhwHCr4bCU02/WsfGzdz
+ 8XnV5Ts0neNL8wA8BJ1lWvGbhhJaGM7uzRQ+t2Zsjvq0vkwKWidWp8QYI
+ mg9rwFZ2kV3jJbVSJimxY8a4AugErEtgpgt4T7SMyPYkpa5tBo+EtzEc7
+ w1peVhMpVoNUL2IP/3mmSHFy/8EaX9CtT30SFsNFfRUZPhCJtnwSgpF89 w==;
+X-CSE-ConnectionGUID: eSOLopULQNWxmVL2YBYFUg==
+X-CSE-MsgGUID: +bVS6bqaRNCYldQmc+gNfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="34965476"
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="34965476"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2024 02:42:57 -0700
+X-CSE-ConnectionGUID: A9sIq1EqSomSy5XKUh+PWA==
+X-CSE-MsgGUID: fKEIPHNTSRCrUH6CiGRRSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; d="scan'208";a="103377541"
+Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
+ by orviesa001.jf.intel.com with ESMTP; 06 Sep 2024 02:42:52 -0700
+From: Raag Jadav <raag.jadav@intel.com>
+To: airlied@gmail.com, daniel@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, Raag Jadav <raag.jadav@intel.com>
+Subject: [PATCH v4 0/3] Introduce DRM device wedged event
+Date: Fri,  6 Sep 2024 15:12:22 +0530
+Message-Id: <20240906094225.3082162-1-raag.jadav@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -45,124 +70,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The version number output when loading the firmware is actually the
-interface version not the version of the firmware itself. Update the
-message to make this clearer.
+This series introduces device wedged event in DRM subsystem and uses
+it in xe and i915 drivers. Detailed description in commit message.
 
-However, the firmware binary has a git SHA embedded into it which can be
-used to identify which firmware binary is being loaded. So output this
-as a drm_info() so that it's obvious from a dmesg log which firmware
-binary is being used.
+This was earlier attempted as xe specific uevent in v1 and v2.
+https://patchwork.freedesktop.org/series/136909/
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
----
-v2:
- * Fix indentation
- * Also update the FW interface message to include "using interface" to
-   make it clear it's not the FW version
- * Add Reviewed-bys
+v2: Change authorship to Himal (Aravind)
+    Add uevent for all device wedged cases (Aravind)
+v3: Generic re-implementation in DRM subsystem (Lucas)
+v4: s/drm_dev_wedged/drm_dev_wedged_event
+    Use drm_info() (Jani)
+    Kernel doc adjustment (Aravind)
+    Change authorship to Raag (Aravind)
 
- drivers/gpu/drm/panthor/panthor_fw.c | 57 +++++++++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 1 deletion(-)
+Raag Jadav (3):
+  drm: Introduce device wedged event
+  drm/xe: Use device wedged event
+  drm/i915: Use device wedged event
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 857f3f11258a..aea5dd9a4969 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -78,6 +78,12 @@ enum panthor_fw_binary_entry_type {
- 
- 	/** @CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA: Timeline metadata interface. */
- 	CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA = 4,
-+
-+	/**
-+	 * @CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA: Metadata about how
-+	 * the FW binary was built.
-+	 */
-+	CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA = 6
- };
- 
- #define CSF_FW_BINARY_ENTRY_TYPE(ehdr)					((ehdr) & 0xff)
-@@ -132,6 +138,13 @@ struct panthor_fw_binary_section_entry_hdr {
- 	} data;
- };
- 
-+struct panthor_fw_build_info_hdr {
-+	/** @meta_start: Offset of the build info data in the FW binary */
-+	u32 meta_start;
-+	/** @meta_size: Size of the build info data in the FW binary */
-+	u32 meta_size;
-+};
-+
- /**
-  * struct panthor_fw_binary_iter - Firmware binary iterator
-  *
-@@ -628,6 +641,46 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
- 	return 0;
- }
- 
-+static int panthor_fw_read_build_info(struct panthor_device *ptdev,
-+				      const struct firmware *fw,
-+				      struct panthor_fw_binary_iter *iter,
-+				      u32 ehdr)
-+{
-+	struct panthor_fw_build_info_hdr hdr;
-+	char header[9];
-+	const char git_sha_header[sizeof(header)] = "git_sha: ";
-+	int ret;
-+
-+	ret = panthor_fw_binary_iter_read(ptdev, iter, &hdr, sizeof(hdr));
-+	if (ret)
-+		return ret;
-+
-+	if (hdr.meta_start > fw->size ||
-+	    hdr.meta_start + hdr.meta_size > fw->size) {
-+		drm_err(&ptdev->base, "Firmware build info corrupt\n");
-+		/* We don't need the build info, so continue */
-+		return 0;
-+	}
-+
-+	if (memcmp(git_sha_header, fw->data + hdr.meta_start,
-+		   sizeof(git_sha_header))) {
-+		/* Not the expected header, this isn't metadata we understand */
-+		return 0;
-+	}
-+
-+	/* Check that the git SHA is NULL terminated as expected */
-+	if (fw->data[hdr.meta_start + hdr.meta_size - 1] != '\0') {
-+		drm_warn(&ptdev->base, "Firmware's git sha is not NULL terminated\n");
-+		/* Don't treat as fatal */
-+		return 0;
-+	}
-+
-+	drm_info(&ptdev->base, "Firmware git sha: %s\n",
-+		 fw->data + hdr.meta_start + sizeof(git_sha_header));
-+
-+	return 0;
-+}
-+
- static void
- panthor_reload_fw_sections(struct panthor_device *ptdev, bool full_reload)
- {
-@@ -672,6 +725,8 @@ static int panthor_fw_load_entry(struct panthor_device *ptdev,
- 	switch (CSF_FW_BINARY_ENTRY_TYPE(ehdr)) {
- 	case CSF_FW_BINARY_ENTRY_TYPE_IFACE:
- 		return panthor_fw_load_section_entry(ptdev, fw, &eiter, ehdr);
-+	case CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA:
-+		return panthor_fw_read_build_info(ptdev, fw, &eiter, ehdr);
- 
- 	/* FIXME: handle those entry types? */
- 	case CSF_FW_BINARY_ENTRY_TYPE_CONFIG:
-@@ -921,7 +976,7 @@ static int panthor_fw_init_ifaces(struct panthor_device *ptdev)
- 			return ret;
- 	}
- 
--	drm_info(&ptdev->base, "CSF FW v%d.%d.%d, Features %#x Instrumentation features %#x",
-+	drm_info(&ptdev->base, "CSF FW using interface v%d.%d.%d, Features %#x Instrumentation features %#x",
- 		 CSF_IFACE_VERSION_MAJOR(glb_iface->control->version),
- 		 CSF_IFACE_VERSION_MINOR(glb_iface->control->version),
- 		 CSF_IFACE_VERSION_PATCH(glb_iface->control->version),
+ drivers/gpu/drm/drm_drv.c             | 20 ++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_reset.c |  2 ++
+ drivers/gpu/drm/xe/xe_device.c        |  8 ++++++--
+ include/drm/drm_drv.h                 |  1 +
+ 4 files changed, 29 insertions(+), 2 deletions(-)
+
 -- 
-2.39.2
+2.34.1
 
