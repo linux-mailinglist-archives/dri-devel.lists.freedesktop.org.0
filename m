@@ -2,82 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59AE496E743
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 03:24:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9036F96E747
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 03:25:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0347510E0C9;
-	Fri,  6 Sep 2024 01:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0F210E3F6;
+	Fri,  6 Sep 2024 01:25:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AwK8iiRL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I0z8MhFo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1312910E0C9
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 01:24:03 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-2d5f5d8cc01so1033643a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 18:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725585842; x=1726190642; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dNUn9mXf5C6UNEuTt3eUfW8jIvalDCTepQKAUNKiQ+Q=;
- b=AwK8iiRLhSYqewadNdF/lSHmLwvgIY6itKI4rL9jmfm0Sc850BmNo1ehSIoATNIiIw
- EoHEsLgLORqNZDD/k7sNWK6pxz6Y8F4oLvEoVnyjotDyGTc5q12DqSeYakKKtp7TepBy
- yeF38lrIVE9zsz5tI+3S33AJr5V6EjsWcq8iKQ4jGfYf9VzDqxEveosn4qWD9KMnd6ex
- AvMDfzAPwO0h/l3+IR44fJEXmGnMh+efNoYOEsBE0g4b3lUUNUQRdFZMlhSpsf2lqpla
- /oNxARhfbMkQ/IRho/xJBhCdmtWMBHPk0kUPHAEYyOsRD4lrMmhMVk4qttAePtpp47iG
- kYFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725585842; x=1726190642;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dNUn9mXf5C6UNEuTt3eUfW8jIvalDCTepQKAUNKiQ+Q=;
- b=QE5TVP1cLZ+BO5Mcj8uaL95LZpoCd3iM/jj3lFzlAD7J9C7eeJqEKJSbZzE3PeS2bn
- 1351eJfwUd9pkMbxQLfvavXXLURce2eF3qyKh1g8wu6hcp6ewZMuRQZ7KH0iwsw7SCCq
- 7/bpfwshO59IRz5dMoATjvk6mFgoATEt9MYbX8QfVtect1dD1q4IUzFJWGfFmBz3y/dC
- V9/xjBipNe3ICbSX7LF2lO/Ykf8aihyvFkebX7FTQuTudhFPeYEuOh7eVPUGtRmn40d6
- skJU7en+a+pmQWJGbUblLbTw4oVWOizESbehNgWgs18Ihp9njyFR7lMhtsPf2IRPoRMK
- cGhA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeLlBL2o5vt+mOloeRc6Sh5TorbbSQYPjpcGebSf/RNPtLkyi3MAw19mIcm35yyT94v1s2xzwZtjc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxxex9PhROAXB7xqLV2cuSuN0RHfooWOXMzENcwUYuoFwDvpPmj
- 8+uLWFRCi0toRPHqk9vniNiyKCQCFdI/8XIkW/tk3bMNLLnfVM+LHgjdu4B2M9sW5AyfM6URYRp
- mfQQfBWt8emAlLRZHaZei2AB/ka4=
-X-Google-Smtp-Source: AGHT+IEzidPjWUAxLPR+PLVPSNwJ7lIMn8k2LTrBVIUEZVpFdJ+OKRUvczF0LpmZQ/Y8yM7A1+ju97f0lISmBkyxGkU=
-X-Received: by 2002:a17:90a:a018:b0:2d8:719d:98a2 with SMTP id
- 98e67ed59e1d1-2dad50294d4mr1690680a91.7.1725585842408; Thu, 05 Sep 2024
- 18:24:02 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FEB310E3F6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 01:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725585949;
+ bh=twD2+guI6vGmeVSCxuwshV4bdnrlz1eKgsdVK6G0nz8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=I0z8MhFot0zBmV2E1zZE4VX6eHdN1ywxA7go0CGWS0kueNouEbeZyAX5hE4S4RRwy
+ VHnrMk8pkVCJBWWcqh4HHkmujEfYaLP60JVpF4pBCTBl4w42FpMRpdVxlcWwmkeC1E
+ sS0Klb/CKczuQqsfnlFk2KI+87zMeCCk97kAUzU0dROm+UjmZhMM5TOLgE8fy5+Nwx
+ RlIIHyxnnS+jszl+f0krWB9vCk1ys3/RR8FGDEkb+bIZOKQSn3G1TFEhfpRt/Rym8g
+ aNCmk5lGJQIVL4KwAlvNNMqmC1khf4uDATgN3bqDOxkZN1PRjBkvvGelHKzgu6sS6f
+ xjYnqt815ISjQ==
+Received: from [192.168.1.90] (unknown [188.27.55.48])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9289417E0E95;
+ Fri,  6 Sep 2024 03:25:48 +0200 (CEST)
+Message-ID: <fa265088-5bf4-420f-9456-44051f913164@collabora.com>
+Date: Fri, 6 Sep 2024 04:25:48 +0300
 MIME-Version: 1.0
-References: <20240904083103.1257480-1-dominique.martinet@atmark-techno.com>
-In-Reply-To: <20240904083103.1257480-1-dominique.martinet@atmark-techno.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 5 Sep 2024 20:23:51 -0500
-Message-ID: <CAHCN7xLmZYZcHyPh3gy20vFKP7aTDKvWu+a_mbG6LN2gdEifTA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: imx8mp-hdmi-tx: allow 0.5% margin with
- selected clock
-To: Dominique Martinet <dominique.martinet@atmark-techno.com>
-Cc: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/bridge: synopsys: Add DW HDMI QP TX Controller
+ support library
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
- Frieder Schrempf <frieder.schrempf@kontron.de>, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+References: <20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com>
+ <20240819-b4-rk3588-bridge-upstream-v4-2-6417c72a2749@collabora.com>
+ <20240827-armored-magnificent-badger-ffb025@houat>
+ <34422b7a-ce70-445d-a574-60ac36322119@collabora.com>
+ <20240902-turtle-of-major-glory-efb4e8@houat>
+ <6e20410a-a24d-4454-8577-2cff65319a2a@collabora.com>
+ <20240903-archetypal-soft-wildebeest-b5ea68@houat>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240903-archetypal-soft-wildebeest-b5ea68@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,62 +82,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 4, 2024 at 3:31=E2=80=AFAM Dominique Martinet
-<dominique.martinet@atmark-techno.com> wrote:
->
-> This allows the hdmi driver to pick e.g. 64.8MHz instead of 65Mhz when we
-> cannot output the exact frequency, enabling the imx8mp HDMI output to
-> support more modes
->
-I went from 19 options on Modetest with my AOC 4K monitor to 31.  Of
-those 31, three did not appear to sync, but not all the frequencies in
-the LUT sync for me either, so I have no objection to moving forward
-with this, but I wonder if we should have a note in there about why we
-have a 5% tolerance.
+On 9/3/24 11:09 AM, Maxime Ripard wrote:
+> On Tue, Sep 03, 2024 at 12:12:02AM GMT, Cristian Ciocaltea wrote:
+>> On 9/2/24 10:36 AM, Maxime Ripard wrote:
+>>> On Sat, Aug 31, 2024 at 01:21:48AM GMT, Cristian Ciocaltea wrote:
+>>>> On 8/27/24 11:58 AM, Maxime Ripard wrote:
+>>>>> On Mon, Aug 19, 2024 at 01:29:29AM GMT, Cristian Ciocaltea wrote:
+>>>>>> +static irqreturn_t dw_hdmi_qp_main_hardirq(int irq, void *dev_id)
+>>>>>> +{
+>>>>>> +	struct dw_hdmi_qp *hdmi = dev_id;
+>>>>>> +	struct dw_hdmi_qp_i2c *i2c = hdmi->i2c;
+>>>>>> +	u32 stat;
+>>>>>> +
+>>>>>> +	stat = dw_hdmi_qp_read(hdmi, MAINUNIT_1_INT_STATUS);
+>>>>>> +
+>>>>>> +	i2c->stat = stat & (I2CM_OP_DONE_IRQ | I2CM_READ_REQUEST_IRQ |
+>>>>>> +			    I2CM_NACK_RCVD_IRQ);
+>>>>>> +
+>>>>>> +	if (i2c->stat) {
+>>>>>> +		dw_hdmi_qp_write(hdmi, i2c->stat, MAINUNIT_1_INT_CLEAR);
+>>>>>> +		complete(&i2c->cmp);
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	if (stat)
+>>>>>> +		return IRQ_HANDLED;
+>>>>>> +
+>>>>>> +	return IRQ_NONE;
+>>>>>> +}
+>>>>>
+>>>>> If the scrambler is enabled, you need to deal with hotplug. On hotplug,
+>>>>> the monitor will drop its TMDS ratio and scrambling status, but the
+>>>>> driver will keep assuming it's been programmed.
+>>>>>
+>>>>> If you don't have a way to deal with hotplug yet, then I'd suggest to
+>>>>> just drop the scrambler setup for now.
+>>>>
+>>>> Thanks for the heads up!
+>>>>
+>>>> HPD is partially handled by the RK platform driver, which makes use of
+>>>> drm_helper_hpd_irq_event(). Since the bridge sets DRM_BRIDGE_OP_DETECT
+>>>> flag, the dw_hdmi_qp_bridge_detect() callback gets executed, which in turn
+>>>> verifies the PHY status via ->read_hpd() implemented as
+>>>> dw_hdmi_qp_rk3588_read_hpd() in the platform driver.
+>>>
+>>> It's not only about hotplug detection, it's also about what happens
+>>> after you've detected a disconnection / reconnection.
+>>>
+>>> The framework expects to keep the current mode as is, despite the
+>>> monitor not being setup to use the scrambler anymore, and the display
+>>> remains black.
+>>
+>> AFAICS, the ->atomic_enable() callback is always invoked upon
+>> reconnection, hence the scrambler gets properly (re)enabled via
+>> dw_hdmi_qp_setup().
+> 
+> No, it's not.
+> 
+>>>> During my testing so far it worked reliably when switching displays with
+>>>> different capabilities.  I don't have a 4K@60Hz display at the moment, but
+>>>> used the HDMI RX port on the Rock 5B board in a loopback connection to
+>>>> verify this mode, which triggered the high TMDS clock ratio and scrambling
+>>>> setup as well.
+>>>
+>>> How did you test exactly?
+>>
+>> I initially tested with Sway/wlroots having an app running
+>> (eglgears_wayland) while unplugging/replugging the HDMI connectors in
+>> every possible sequence I could think of (e.g. several times per
+>> display, switching to a different one, repeating, switching again, etc).
+>>
+>> I've just retested the whole stuff with Weston and confirm it works as
+>> expected, i.e. no black screen (or bad capture stream for the 4K@60Hz
+>> case) after any of the reconnections.
+> 
+> Then I guess both sway and weston handle uevent and will change the
+> connector mode on reconnection.
+> 
+> It's not mandatory, and others will just not bother and still expect the
+> output to work.
+> 
+> I guess the easier you can test this with is modetest.
 
-> Signed-off-by: Dominique Martinet <dominique.martinet@atmark-techno.com>
+Indeed, modetest doesn't trigger a mode change on reconnection.
+This is handled now in v6:
 
-Tested-by:  Adam Ford <aford173@gmail.com> #imx8mp-beacon
+https://lore.kernel.org/all/20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com/
 
-> ---
-> This completes the patch series sent by Adam Ford here:
-> https://lkml.kernel.org/r/20240904023310.163371-1-aford173@gmail.com
->
-> and makes the cheap screens we recommend work with our imx8mp board
-> without further kludging.
->
->
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/dr=
-m/bridge/imx/imx8mp-hdmi-tx.c
-> index 13bc570c5473..9431cd5e06c3 100644
-> --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-> @@ -23,6 +23,7 @@ imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *d=
-ata,
->                        const struct drm_display_mode *mode)
->  {
->         struct imx8mp_hdmi *hdmi =3D (struct imx8mp_hdmi *)data;
-> +       long round_rate;
->
->         if (mode->clock < 13500)
->                 return MODE_CLOCK_LOW;
-> @@ -30,8 +31,9 @@ imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *d=
-ata,
->         if (mode->clock > 297000)
->                 return MODE_CLOCK_HIGH;
->
-> -       if (clk_round_rate(hdmi->pixclk, mode->clock * 1000) !=3D
-> -           mode->clock * 1000)
-> +       round_rate =3D clk_round_rate(hdmi->pixclk, mode->clock * 1000);
-> +       /* accept 0.5% =3D 1/200 =3D 5/1000 tolerance */
-> +       if (abs(round_rate - mode->clock * 1000) > mode->clock * 5)
->                 return MODE_CLOCK_RANGE;
->
->         /* We don't support double-clocked and Interlaced modes */
-> --
-> 2.39.2
->
->
+Thanks,
+Cristian
