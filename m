@@ -2,90 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D25896F220
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 13:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB5D96F21D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 13:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA2BE10EA13;
-	Fri,  6 Sep 2024 11:01:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="btJcAfy2";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA35110EA0F;
+	Fri,  6 Sep 2024 11:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A1D910EA10;
- Fri,  6 Sep 2024 11:01:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 924465C5A48;
- Fri,  6 Sep 2024 11:01:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3DFD2C4CED7;
- Fri,  6 Sep 2024 11:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725620500;
- bh=c3x0bnHapZyCsRyRYyC+LIZeB+J3ImlDAXTdLaX80xs=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=btJcAfy2qgqbbzAjf01oYt2H2oCyEH+vlSb9AqgkhlNPrxpmns232Sx4cuPfLwwjM
- hHbkAWRN13hCR7wXpO++PMYCsV5cAmp2hKrfplof8dSKh7FoKXzAG6WWDLti13Vfcz
- rmWqzNmPtFb7k3trfzp+b4JT4aoeWBJOSQ3Z5fM1b6PgHfTOLg5kT+IyYSup1Z4UgI
- uqKbdZwzV7o66NMqvBqHKW0NBqoXm1QoY7dHM4kzkuhX1aPkGPoSjT6F7dHGu+wOUT
- 87PrKn1vC+Hq2JXEgbfPHChyYNK3Z19nJuPDZVUGAo4mBzIo6ScQ+HRTPA3L0AkgNQ
- N6bYnBjieudmQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 35CA2CE7AFB;
- Fri,  6 Sep 2024 11:01:40 +0000 (UTC)
-From: Daniel Gomez via B4 Relay <devnull+da.gomez.samsung.com@kernel.org>
-Date: Fri, 06 Sep 2024 13:01:30 +0200
-Subject: [PATCH v2 3/8] drm/xe: xe_gen_wa_oob: fix
- program_invocation_short_name for macos
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD7D10EA0E
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 11:01:40 +0000 (UTC)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1smWib-0007vq-40; Fri, 06 Sep 2024 13:01:33 +0200
+From: Philipp Zabel <p.zabel@pengutronix.de>
+Date: Fri, 06 Sep 2024 13:01:31 +0200
+Subject: [PATCH] drm/imx: parallel-display: select DRM_IMX_LEGACY_BRIDGE
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240906-macos-build-support-v2-3-06beff418848@samsung.com>
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-In-Reply-To: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+Message-Id: <20240906-imx-parallel-display-select-legacy-bridge-v1-1-ebb17457e936@pengutronix.de>
+X-B4-Tracking: v=1; b=H4sIAArh2mYC/x2NQQrCQAxFr1KyNjBWLepVxEWaSWsg1iEj0lJ69
+ wY3D97i/b9CFVepcG9WcPlp1c8Ucjw0wC+aRkHN4dCm9pxuqUN9z1jIyUwMs9ZitGAVE/6iyUi
+ 8YO+aI7wMLN2Jr8EMsVdcBp3/X4/ntu0sELyIewAAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, William Hubbs <w.d.hubbs@gmail.com>, 
- Chris Brannon <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- James Morse <james.morse@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- speakup@linux-speakup.org, selinux@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
- linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
- Finn Behrens <me@kloenk.dev>, 
- "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com, 
- Daniel Gomez <da.gomez@samsung.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725620498; l=1428;
- i=da.gomez@samsung.com; s=20240621; h=from:subject:message-id;
- bh=x6LVlKYatdZUIjJiYp2s+9CbUoAxRcL8dRJGWqQIBj4=;
- b=BH4HpeG8hB04KMzAeLGkcCFK3N10hMq/U4+Vzh7fajdBsdql7CZEFfKmy7OI6MFwP2a4PKqq6
- h6W1X3yzs24B7Hn3G4bxlap2pj1Vdv/+pm0/KH5H8aSiskiYjxDyb27
-X-Developer-Key: i=da.gomez@samsung.com; a=ed25519;
- pk=BqYk31UHkmv0WZShES6pIZcdmPPGay5LbzifAdZ2Ia4=
-X-Endpoint-Received: by B4 Relay for da.gomez@samsung.com/20240621 with
- auth_id=175
-X-Original-From: Daniel Gomez <da.gomez@samsung.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>, Philipp Zabel <p.zabel@pengutronix.de>
+X-Mailer: b4 0.15-dev-13183
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,60 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: da.gomez@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Gomez <da.gomez@samsung.com>
+Add the missing select DRM_IMX_LEGACY_BRIDGE to fix kernels builds that
+have the i.MX parallel-display driver enabled, but the LVDS display
+bridge driver disabled.
 
-Use getprogname() [1] instead of program_invocation_short_name() [2]
-for macOS hosts.
+Fixes build errors like:
 
-[1]:
-https://www.gnu.org/software/gnulib/manual/html_node/
-program_005finvocation_005fshort_005fname.html
+  ld: vmlinux.o: in function `imx_pd_probe':
+  parallel-display.c:(.text+0x3129db): undefined reference to `devm_imx_drm_legacy_bridge'
 
-[2]:
-https://developer.apple.com/library/archive/documentation/System/
-Conceptual/ManPages_iPhoneOS/man3/getprogname.3.html
-
-Fixes build error for macOS hosts:
-
-drivers/gpu/drm/xe/xe_gen_wa_oob.c:34:3: error: use of
-undeclared identifier 'program_invocation_short_name'    34 |
-program_invocation_short_name);       |                 ^ 1 error
-generated.
-
-Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202409060118.z8BxMg7Z-lkp@intel.com/
+Fixes: f94b9707a1c9 ("drm/imx: parallel-display: switch to imx_legacy_bridge / drm_bridge_connector")
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/xe/xe_gen_wa_oob.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/imx/ipuv3/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-index 904cf47925aa..0d933644d8a0 100644
---- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-+++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-@@ -8,6 +8,7 @@
- #include <errno.h>
- #include <stdbool.h>
- #include <stdio.h>
-+#include <stdlib.h>
- #include <string.h>
+diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv3/Kconfig
+index 5a40c878ebb0..4897fbd77f3f 100644
+--- a/drivers/gpu/drm/imx/ipuv3/Kconfig
++++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
+@@ -14,6 +14,7 @@ config DRM_IMX_PARALLEL_DISPLAY
+ 	depends on DRM_IMX
+ 	select DRM_BRIDGE
+ 	select DRM_PANEL_BRIDGE
++	select DRM_IMX_LEGACY_BRIDGE
+ 	select VIDEOMODE_HELPERS
  
- #define HEADER \
-@@ -30,6 +31,9 @@
- 
- static void print_usage(FILE *f)
- {
-+#ifdef __APPLE__
-+	const char *program_invocation_short_name = getprogname();
-+#endif
- 	fprintf(f, "usage: %s <input-rule-file> <generated-c-source-file> <generated-c-header-file>\n",
- 		program_invocation_short_name);
- }
+ config DRM_IMX_TVE
 
+---
+base-commit: 8a8a31205e62b57f1fb844d790d682286121f729
+change-id: 20240906-imx-parallel-display-select-legacy-bridge-5fce63c8ce6d
+
+Best regards,
 -- 
-2.46.0
-
+Philipp Zabel <p.zabel@pengutronix.de>
 
