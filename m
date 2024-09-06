@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF6F96F62A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 16:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A135896F68E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 16:20:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA03410EA6B;
-	Fri,  6 Sep 2024 14:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85CF910E0B4;
+	Fri,  6 Sep 2024 14:20:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dyMY9vi+";
+	dkim=pass (2048-bit key; unprotected) header.d=thaumatec-com.20230601.gappssmtp.com header.i=@thaumatec-com.20230601.gappssmtp.com header.b="SLkW9obU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 337A710EA6B;
- Fri,  6 Sep 2024 14:03:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C7DBF5C4AEE;
- Fri,  6 Sep 2024 14:03:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05F2BC4AF0B;
- Fri,  6 Sep 2024 14:03:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725631400;
- bh=cCvVFVarD948ikan+/2TaJVbsKjZAcxCYUNJAassXuo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=dyMY9vi+Iv/1EE4rQ5BwnYhfwk66+LJ4z96MdbykYSppKKoQ6y3a0sNfUu/b88uyD
- CnMZ+ONw74z6CdB7oB6DTdO6H33Yg0CqFxIeKoXjlAeH7r+IeYZBwiBhKopg0VRDv1
- gzpGPqLViAnfIcvPs8ONYWfyESePiuh7ufuvViitOGQLxvTFW462hGXk6bbFU2yUaH
- L9ypC5UisZq5so1J2EZ4Zsx2oDa8QzGHtDF2R5KDWuQbRupAZrdUcRbDK0gOWrBwUd
- QfmUhasthbSt1k+8xvJ7JF5Ifym3SEZdnZdQXjE4OvCP9je+KurLddBgNN2nspGq59
- NazYJG1NuiiDw==
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5353cd2fa28so2454032e87.3; 
- Fri, 06 Sep 2024 07:03:19 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 825A710E0B4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 14:20:41 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2f406034874so24755691fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 07:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1725632440; x=1726237240;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EyrXtbzfkJ2qcMutIVumsIJniKM+4zkeN/47MqaDQFQ=;
+ b=SLkW9obUlItNEd90B6iQsmOquV8EMiz1x4SNM2x87CupOkq/VaEZQ0wxAlUjpcxK8p
+ i6X+v0F6MXNOn78Ww2qEsVdhiCVJ3VuHZcvplHMk8e7IoTzEn+SxSEbm2GZdIVFF6FDa
+ nH/Njh1CjeV/T2ofTuMykNayEQRXG/LgoVItpxsiMKJ3EXT4nCKYHa7Y7D35LPJcVpKA
+ X8yvedbifTgAwWfT4U1b5rWVmgbkEP6tAVIctvvc+xlilhGZopZsOtDaPbBMvIv25n/u
+ dpIEPvXN5Fr+e+Z2uyOjLu/eJ0iWLr0+kXXn+84be3MN8CdS9QkYvDr28jD/9ZJ0sGfM
+ INnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725632440; x=1726237240;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EyrXtbzfkJ2qcMutIVumsIJniKM+4zkeN/47MqaDQFQ=;
+ b=iGX3H2qYXureVZove8eFg6YZXCFgngQBvQg/Wb9M/XHdJz1DPBnVtSVf2ABeuQC1kb
+ xJU8fYO1m0YmYTSVL+CQFZXzFvtVZmnjWbPwkMXGcImX2wUwUgBewkog48JwcTRIGx56
+ INkSrZYA0k0z5LCPp4CQaxCAWuUar835D+6IoHBL/W19dUQ7tW+43nrE8Ek4uzSxWvHA
+ CfdF3/LVoGjQ5r2XTBRCFhp77FOIIlzCRLmDknu12H8DXzj49bVYKcVLW5FbPxtsT5Tw
+ N426KB6QTgzHr7SiDpr2jX4FNplo1gc7hSXkTBNKHJTnQ6PrDoptdtAwBcU1KPPSt++l
+ HSbQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVl780Gw9FG7HvKLh39Go2J173g2kuY8brC2QQt4EnwFRY4xgwZUOZrudNCNYKX2wwJuiznmjps18=@lists.freedesktop.org,
- AJvYcCXsRhrZlF00Q0m3tiKy3aFl+XEU5vfOseLuHwFlCWKggM6R9qPw1sKr6Rc82XJ/DZmACIPsjB8S8zc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx64c408ddXxlGCad52KHvArS7rplCGcYFMLIftMMcReV1UQkHQ
- fHUou6hGmYL/raYa75sq5n4yNvbs+cwIhjx4DghmNy71zGPeFt0zjG72jtGCUzIkmr3ZgJwSRNM
- ZP4X32gJeJhPkFO8slnhC8ldLPRU=
-X-Google-Smtp-Source: AGHT+IEwm1OihzyduuH3GdpU3yiLq9gm3KuXayVrsg5BxQSVxVXk/rmKiVyZVYISmyKuN7IvBRI5rMb23e03P34iqD4=
-X-Received: by 2002:a05:6512:39ce:b0:536:54df:bff2 with SMTP id
- 2adb3069b0e04-53658812f84mr1830079e87.54.1725631398698; Fri, 06 Sep 2024
- 07:03:18 -0700 (PDT)
+ AJvYcCXNdx86gKVrBtbkm/UFN1Nx/3/sKvzPeGfDvn0lS2mDnqZb+DXAHqEIDtasY/XTYiGM13cEnnskUOc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxVGXduw41nHLV941PRVBX5l4ya9aKOyTvHmKAaii1s1sbZUCzf
+ wusYcOVz9TUufbvUlFjBpCkCly4gQmvfIub1e4AOFksGmI7eCmwCjNqHnnL1q8V84v818DQto/a
+ I+3TIEJr2PbgrRpzTe9rSF7WvxViCu896QmvPKg==
+X-Google-Smtp-Source: AGHT+IHtrjIX9SiVNRlY+i3UMGuEvIPbzq+NyW1Z8vRRgxniTG/aS0jGvGsF6c1SbfkZ6JVW1koyRlbyba/UViBbpEs=
+X-Received: by 2002:a2e:a587:0:b0:2f7:52c5:b67 with SMTP id
+ 38308e7fff4ca-2f752c50e4amr17556431fa.29.1725632439382; Fri, 06 Sep 2024
+ 07:20:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
- <20240906-macos-build-support-v2-5-06beff418848@samsung.com>
-In-Reply-To: <20240906-macos-build-support-v2-5-06beff418848@samsung.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 6 Sep 2024 23:02:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQGuXzuA5tNSv0q_AMAy8Zw5MtG2RFRW0nQOwCO8Z5FLw@mail.gmail.com>
-Message-ID: <CAK7LNAQGuXzuA5tNSv0q_AMAy8Zw5MtG2RFRW0nQOwCO8Z5FLw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] scripts: add bee-headers support
-To: da.gomez@samsung.com
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
+ <20240506-tc358775-fix-powerup-v1-9-545dcf00b8dd@kernel.org>
+In-Reply-To: <20240506-tc358775-fix-powerup-v1-9-545dcf00b8dd@kernel.org>
+From: Daniel Semkowicz <dse@thaumatec.com>
+Date: Fri, 6 Sep 2024 16:20:28 +0200
+Message-ID: <CAHgnY3=KCD4gyJ4nL6nN1tvWcsiRQL+Oz11RNOniDdyMoEPcSg@mail.gmail.com>
+Subject: Re: [PATCH 09/20] drm/bridge: tc358775: remove complex vsdelay
+ calculation
+To: Michael Walle <mwalle@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
- Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, 
- James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-kernel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
- selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
- Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
- gost.dev@samsung.com
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Vinay Simha BN <simhavcs@gmail.com>, Tony Lindgren <tony@atomide.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,81 +97,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 6, 2024 at 8:01=E2=80=AFPM Daniel Gomez via B4 Relay
-<devnull+da.gomez.samsung.com@kernel.org> wrote:
+Hello Michael,
+
+On Mon, May 6, 2024 at 3:35=E2=80=AFPM Michael Walle <mwalle@kernel.org> wr=
+ote:
 >
-> From: Daniel Gomez <da.gomez@samsung.com>
+> To cite the datasheet on VSDELAY:
+>   During DSI link speed is slower than that of LVDS link=E2=80=99s, data =
+needs
+>   to be buffer within 775XBG before outputting to prevent data from
+>   underflow. Register field VPCTRL[VSDELAY] is used to for this purpose
 >
-> endian.h header is not provided by default in macOS. Use pkg-config with
-> the new development package 'bee-headers' [1] to find the path where the
-> headers are installed.
+> This driver assumes that the DSI link speed is the pixel clock (as does
+> every DSI bridge driver), after all the LVDS clock is derived from the
+> DSI clock. Thus we know for a fact, that the DSI link is not slower than
+> the LVDS side. Just use the (sane) default value of the bridge and drop
+> the complicated calculation here.
+
+I am not convinced this is a good idea to revert to a default
+VSdelay value. I tested your patch series with RK3399 platform
+and default value (5) was not enough there. There was small data
+underflow visible, resulting in display offset. Removing this patch
+and using the original calculation formula fixed the problem.
+The calculated VSDELAY value seems to be a lot bigger than required,
+but keeps us on the safe side.
+
+It looks that hback-porch value for panel is used also on DSI link,
+effectively delaying hactive data delivered to TC358775 bridge.
+I suspect this causes the requirement for higher VSDELAY.
+
 >
-> [1] Bee Headers Project links:
-> https://github.com/bee-headers/headers
-> https://github.com/bee-headers/homebrew-bee-headers
+> While at it, replace the TC358775_VPCTRL_MSF() and
+> TC358775_VPCTRL_OPXLFMT() inline functions by the usual macros for a bit
+> flag.
 >
-> It requires to install bee-headers Homebrew Tap:
->   brew tap bee-headers/bee-headers
->   brew install bee-headers/bee-headers/bee-headers
->
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
 > ---
->  scripts/Makefile     | 4 +++-
->  scripts/mod/Makefile | 5 +++++
->  2 files changed, 8 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/tc358775.c | 49 +++++++--------------------------=
+------
+>  1 file changed, 8 insertions(+), 41 deletions(-)
 >
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index 6bcda4b9d054..40f6a9159f8c 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -25,8 +25,10 @@ generate_rust_target-rust :=3D y
->  rustdoc_test_builder-rust :=3D y
->  rustdoc_test_gen-rust :=3D y
+> diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/t=
+c358775.c
+> index 54aea58a3406..a9d731e87970 100644
+> --- a/drivers/gpu/drm/bridge/tc358775.c
+> +++ b/drivers/gpu/drm/bridge/tc358775.c
+> @@ -109,7 +109,9 @@
+>  #define RDPKTLN         0x0404  /* Command Read Packet Length */
 >
-> -HOSTCFLAGS_sorttable.o =3D -I$(srctree)/tools/include
-> +HOSTCFLAGS_sorttable.o =3D -I$(srctree)/tools/include \
-> +       $(shell $(HOSTPKG_CONFIG) --cflags bee-headers 2> /dev/null)
->  HOSTLDLIBS_sorttable =3D -lpthread
-> +HOSTCFLAGS_insert-sys-cert.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-=
-headers 2> /dev/null)
->  HOSTCFLAGS_asn1_compiler.o =3D -I$(srctree)/include
->  HOSTCFLAGS_sign-file.o =3D $(shell $(HOSTPKG_CONFIG) --cflags libcrypto =
-2> /dev/null)
->  HOSTLDLIBS_sign-file =3D $(shell $(HOSTPKG_CONFIG) --libs libcrypto 2> /=
-dev/null || echo -lcrypto)
-> diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
-> index 75c12c045f21..33bb032039ba 100644
-> --- a/scripts/mod/Makefile
-> +++ b/scripts/mod/Makefile
-> @@ -9,6 +9,11 @@ modpost-objs   :=3D modpost.o file2alias.o sumversion.o =
-symsearch.o
->  devicetable-offsets-file :=3D devicetable-offsets.h
+>  #define VPCTRL          0x0450  /* Video Path Control */
+> -#define EVTMODE                BIT(5)  /* Video event mode enable, tc358=
+76x only */
+> +#define VPCTRL_MSF     BIT(0)
+> +#define VPCTRL_OPXLFMT BIT(8)
+> +#define VPCTRL_EVTMODE BIT(5)  /* Video event mode enable, tc35876x only=
+ */
+>  #define HTIM1           0x0454  /* Horizontal Timing Control 1 */
+>  #define HTIM2           0x0458  /* Horizontal Timing Control 2 */
+>  #define VTIM1           0x045C  /* Vertical Timing Control 1 */
+> @@ -187,30 +189,6 @@ enum {
 >
->  HOSTCFLAGS_file2alias.o +=3D -D_UUID_T -D__GETHOSTUUID_H
-> +HOSTCFLAGS_modpost.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-headers =
-2> /dev/null)
-> +HOSTCFLAGS_file2alias.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-heade=
-rs 2> /dev/null)
-> +HOSTCFLAGS_sumversion.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-heade=
-rs 2> /dev/null)
-> +HOSTCFLAGS_symsearch.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-header=
-s 2> /dev/null)
-> +HOSTCFLAGS_mk_elfconfig.o =3D $(shell $(HOSTPKG_CONFIG) --cflags bee-hea=
-ders 2> /dev/null)
+>  #define L0EN BIT(1)
 >
->  $(obj)/$(devicetable-offsets-file): $(obj)/devicetable-offsets.s FORCE
->         $(call filechk,offsets,__DEVICETABLE_OFFSETS_H__)
+> -#define TC358775_VPCTRL_VSDELAY__MASK  0x3FF00000
+> -#define TC358775_VPCTRL_VSDELAY__SHIFT 20
+> -static inline u32 TC358775_VPCTRL_VSDELAY(uint32_t val)
+> -{
+> -       return ((val) << TC358775_VPCTRL_VSDELAY__SHIFT) &
+> -                       TC358775_VPCTRL_VSDELAY__MASK;
+> -}
+> -
+> -#define TC358775_VPCTRL_OPXLFMT__MASK  0x00000100
+> -#define TC358775_VPCTRL_OPXLFMT__SHIFT 8
+> -static inline u32 TC358775_VPCTRL_OPXLFMT(uint32_t val)
+> -{
+> -       return ((val) << TC358775_VPCTRL_OPXLFMT__SHIFT) &
+> -                       TC358775_VPCTRL_OPXLFMT__MASK;
+> -}
+> -
+> -#define TC358775_VPCTRL_MSF__MASK      0x00000001
+> -#define TC358775_VPCTRL_MSF__SHIFT     0
+> -static inline u32 TC358775_VPCTRL_MSF(uint32_t val)
+> -{
+> -       return ((val) << TC358775_VPCTRL_MSF__SHIFT) &
+> -                       TC358775_VPCTRL_MSF__MASK;
+> -}
+> -
+>  #define TC358775_LVCFG_PCLKDIV__MASK   0x000000f0
+>  #define TC358775_LVCFG_PCLKDIV__SHIFT  4
+>  static inline u32 TC358775_LVCFG_PCLKDIV(uint32_t val)
+> @@ -350,7 +328,6 @@ static void tc_bridge_enable(struct drm_bridge *bridg=
+e)
+>         u32 hback_porch, hsync_len, hfront_porch, hactive, htime1, htime2=
+;
+>         u32 vback_porch, vsync_len, vfront_porch, vactive, vtime1, vtime2=
+;
+>         unsigned int val =3D 0;
+> -       u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
+>         struct drm_display_mode *mode;
+>         struct drm_connector *connector =3D get_connector(bridge->encoder=
+);
+>
+> @@ -398,27 +375,17 @@ static void tc_bridge_enable(struct drm_bridge *bri=
+dge)
+>
+>         /* Video event mode vs pulse mode bit, does not exist for tc35877=
+5 */
+>         if (tc->type =3D=3D TC358765)
+> -               val =3D EVTMODE;
+> +               val =3D VPCTRL_EVTMODE;
+>         else
+>                 val =3D 0;
+>
+>         if (tc->bpc =3D=3D 8)
+> -               val |=3D TC358775_VPCTRL_OPXLFMT(1);
+> +               val |=3D VPCTRL_OPXLFMT;
+>         else /* bpc =3D 6; */
+> -               val |=3D TC358775_VPCTRL_MSF(1);
+> -
+> -       dsiclk =3D mode->crtc_clock * 3 * tc->bpc / tc->num_dsi_lanes / 1=
+000;
+> -       clkdiv =3D dsiclk / (tc->lvds_link =3D=3D DUAL_LINK ? DIVIDE_BY_6=
+ : DIVIDE_BY_3);
+> -       byteclk =3D dsiclk / 4;
+> -       t1 =3D hactive * (tc->bpc * 3 / 8) / tc->num_dsi_lanes;
+> -       t2 =3D ((100000 / clkdiv)) * (hactive + hback_porch + hsync_len +=
+ hfront_porch) / 1000;
+> -       t3 =3D ((t2 * byteclk) / 100) - (hactive * (tc->bpc * 3 / 8) /
+> -               tc->num_dsi_lanes);
+> -
+> -       vsdelay =3D (clkdiv * (t1 + t3) / byteclk) - hback_porch - hsync_=
+len - hactive;
+> +               val |=3D VPCTRL_MSF;
+>
+> -       val |=3D TC358775_VPCTRL_VSDELAY(vsdelay);
+> -       regmap_write(tc->regmap, VPCTRL, val);
+> +       regmap_update_bits(tc->regmap, VPCTRL, val,
+> +                          VPCTRL_OPXLFMT | VPCTRL_MSF | VPCTRL_EVTMODE);
+>
+>         regmap_write(tc->regmap, HTIM1, htime1);
+>         regmap_write(tc->regmap, VTIM1, vtime1);
+>
+> --
+> 2.39.2
+>
 
-
-
-Same as 4/8.
-
-NACK.
-
-
-
-
---
-Best Regards
-
-Masahiro Yamada
+Kind regards
+Daniel
