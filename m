@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB58F96FA58
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 20:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A9B96FA4F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 20:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3769D10EACB;
-	Fri,  6 Sep 2024 18:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3484D10EAC1;
+	Fri,  6 Sep 2024 18:06:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GEVHNJJY";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TGmBBQMU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D03110EAC1;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CB3310EAC2;
  Fri,  6 Sep 2024 18:06:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=LbRKQC2natDUa9uyMFRK4EkFcMdJKzCTr7qA14B0ZsM=; b=GEVHNJJY0gMk64Jjm2g93r+ABL
- xQW0QLOZUhxkSsVtr7zqVOLz+gUZGJG5K78vSFiC4oFCuXXxST1xDpv5sAtRmekoSHmDPP6PoKyza
- 0N8xfv2B/6G+UtgVdWgFt6W7hJL3HMu5FOb+j87l3FWv3rQd/z8leHjd3NWVOXJKb2mAm64LFORjp
- UlAVRoDuiPL63SgXcHoTz75nyNHmkE/OAWfbPAeYlQ8/BP0e467f3KiToYJSI7PnEjSKNwkB9JawR
- i/kgZYoVWUMrGv8/ero7/NIDV3+ski88WrffR6tvCECmZeUoeZYp7+LJ5pydArdVb3JKtVf+daSz1
- dS9kJaPw==;
+ bh=tF0Gxqih49lLW5OGzTjkp8Z2rb+rue64ejmqssXO1rk=; b=TGmBBQMU2mtq1tT+wPpD7P/+DM
+ K4gHKHBX0ltP3L6hmGRV7L+haMl/7d8K1DYzGMf+UCz6ZziCVJeoh2Qrr3OdjCfg/mhP+rBgScJNP
+ Fg8JYqPDQcF4c07MLmK8dMvvvqpLiGFwN97kliSgvC4ejYSZYHz7cHemtZyC5hFev5MMV1UmckGEq
+ AqulMr5Y60mzi4rRhAwK++L/Leh5xMXscbs8oYRGBJunnGKh9L7PcPvjcE9HZqKzH3kKcP8y8/ZNL
+ eCfQRmVlw1hNF/BfuGV3rYzi/QwZ1qVuSPfDxKKcjWgzBWduDirx0hg+DCZl7s4R1T++/v1CNYrht
+ WfwCN3pg==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1smdLl-00AW6J-2R; Fri, 06 Sep 2024 20:06:24 +0200
+ id 1smdLl-00AW6L-Qa; Fri, 06 Sep 2024 20:06:25 +0200
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -41,9 +41,10 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Luben Tuikov <ltuikov89@gmail.com>,
  Matthew Brost <matthew.brost@intel.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, stable@vger.kernel.org
-Subject: [RFC 1/4] drm/sched: Add locking to drm_sched_entity_modify_sched
-Date: Fri,  6 Sep 2024 19:06:15 +0100
-Message-ID: <20240906180618.12180-2-tursulin@igalia.com>
+Subject: [RFC 2/4] drm/sched: Always wake up correct scheduler in
+ drm_sched_entity_push_job
+Date: Fri,  6 Sep 2024 19:06:16 +0100
+Message-ID: <20240906180618.12180-3-tursulin@igalia.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240906180618.12180-1-tursulin@igalia.com>
 References: <20240906180618.12180-1-tursulin@igalia.com>
@@ -67,21 +68,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Without the locking amdgpu currently can race
-amdgpu_ctx_set_entity_priority() and drm_sched_job_arm(), leading to the
-latter accesing potentially inconsitent entity->sched_list and
-entity->num_sched_list pair.
-
-The comment on drm_sched_entity_modify_sched() however says:
-
-"""
- * Note that this must be called under the same common lock for @entity as
- * drm_sched_job_arm() and drm_sched_entity_push_job(), or the driver needs to
- * guarantee through some other means that this is never called while new jobs
- * can be pushed to @entity.
-"""
-
-It is unclear if that is referring to this race or something else.
+Since drm_sched_entity_modify_sched() can modify the entities run queue
+lets make sure to only derefernce the pointer once so both adding and
+waking up are guaranteed to be consistent.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Fixes: b37aced31eb0 ("drm/scheduler: implement a function to modify sched list")
@@ -94,24 +83,40 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v5.7+
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/scheduler/sched_entity.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 58c8161289fe..ae8be30472cd 100644
+index ae8be30472cd..62b07ef7630a 100644
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -133,8 +133,10 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
- {
- 	WARN_ON(!num_sched_list || !sched_list);
+@@ -599,6 +599,8 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
  
-+	spin_lock(&entity->rq_lock);
- 	entity->sched_list = sched_list;
- 	entity->num_sched_list = num_sched_list;
-+	spin_unlock(&entity->rq_lock);
+ 	/* first job wakes up scheduler */
+ 	if (first) {
++		struct drm_sched_rq *rq;
++
+ 		/* Add the entity to the run queue */
+ 		spin_lock(&entity->rq_lock);
+ 		if (entity->stopped) {
+@@ -608,13 +610,15 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+ 			return;
+ 		}
+ 
+-		drm_sched_rq_add_entity(entity->rq, entity);
++		rq = entity->rq;
++
++		drm_sched_rq_add_entity(rq, entity);
+ 		spin_unlock(&entity->rq_lock);
+ 
+ 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+ 			drm_sched_rq_update_fifo(entity, submit_ts);
+ 
+-		drm_sched_wakeup(entity->rq->sched, entity);
++		drm_sched_wakeup(rq->sched, entity);
+ 	}
  }
- EXPORT_SYMBOL(drm_sched_entity_modify_sched);
- 
+ EXPORT_SYMBOL(drm_sched_entity_push_job);
 -- 
 2.46.0
 
