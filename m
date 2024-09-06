@@ -2,162 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F9E96FC7A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 22:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A982D96FC83
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 22:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA6410EAEE;
-	Fri,  6 Sep 2024 20:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 669E910EAF0;
+	Fri,  6 Sep 2024 20:09:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mysnt.onmicrosoft.com header.i=@mysnt.onmicrosoft.com header.b="Ud0GCsTa";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hsesZ4B9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2125.outbound.protection.outlook.com [40.107.22.125])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BAF610EAEE
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 20:01:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NThFI5QD+k8DRTnDy3uEBT28zKHygY+O9fWL6mlF7DzYOyY9e+KcOCdC0FbM5+PwdlqA9WRN5je2W9tHgz3THmNhGHs4i9D6hy2maf+0rEAAa0naRq55u4SpkNuQBV6/fxLjRWDaCo9e1qRq0MyynPTdGRYwtW2eQ/eZLtVDjinEKNGqoEaHQoYKu0/4LfZQjQaW63O0421j4SwZSivmpohA6c9jHW255A1zC6oAb0Fsg35r83gLhz/jDFQ+HKUYdk2V4h7SEoZVol/MAgO308aQFL3K7GFsAmIRHUsnwpQBUJMEujp6uhzyjpfHAwOVFJ1WxGyppVhZl+0sFwKUQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LwNJqQ1ftLT2XAp0Lckwzg/atiYCuhWrWJziEuOSf88=;
- b=CEnsCv4GNUdKgZkhJ/ksJR9utoWQuLsgQmhjrKB8g2bL3i5Xi5u+n11oauC+ZQV01IAHFCK7+vbwCpBbkLoSWvHPNxM5JeA0+oJUAdlZ6U1sLAA3GtIJaaXLqOFrZTYmMcPycq458/dsQhE7HGv+zuREK+xOomqbcAYwJ4RTTbZZRLPnoEyBvfg+WAJOqo3bVhMSZio0Fff5O1hHz7rz5lc8MG1cJ7ljOyFZeh3fVwTDH4Nk9CMmIp0wJ5PW6q5wGBd7HqJuOPPr8IOyaDexMOUOQEA0u0Z2DHCCvH7BUzGR1qpSWCImGv/2zQgdM+8I6IWWO/msaLl+rzlKebrMXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LwNJqQ1ftLT2XAp0Lckwzg/atiYCuhWrWJziEuOSf88=;
- b=Ud0GCsTayf8zTOPRRhWOU5nPqJkdRRsbKTWFkPpl4+fhY4O1Nf+GFN4ireVysreZxmrbqY6jFCP0D4KsgU/IGSrJ7ohdHq/X0J7O26R0gh8jQLgFxekRH12bkVZ3AvfD3P2XfkC4cJSIK6jBRQyOben2porrNc21oKQUTqbf1sQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by AS8PR10MB6389.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:536::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.17; Fri, 6 Sep
- 2024 20:01:36 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b854:7611:1533:2a19]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b854:7611:1533:2a19%7]) with mapi id 15.20.7918.024; Fri, 6 Sep 2024
- 20:01:36 +0000
-Message-ID: <01d578b9-e42e-4767-a33f-b0892a602e23@kontron.de>
-Date: Fri, 6 Sep 2024 22:01:34 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: i.MX8MP IMX-LCDIF Underrun Question(s)
-To: Adam Ford <aford173@gmail.com>, imx@lists.linux.dev,
- Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dominique MARTINET <dominique.martinet@atmark-techno.com>
-References: <CAHCN7xLL4hrTK1OqsqUa78cdp9ZcG0sC+cO5QKC3x_Y9-QVzSA@mail.gmail.com>
-Content-Language: en-US, de-DE
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <CAHCN7xLL4hrTK1OqsqUa78cdp9ZcG0sC+cO5QKC3x_Y9-QVzSA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0228.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e9::9) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D15FF895EE;
+ Fri,  6 Sep 2024 20:09:03 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4868h33Z009760;
+ Fri, 6 Sep 2024 20:08:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=n8/YSSQQ4bnXLRA/pjVrHJsf
+ /MK1fhw/yRpLzpPDKlo=; b=hsesZ4B9PZg3CoBMBycvy/dM2XHnOaD4KrIjqpNj
+ sqZdAMVS4Z7WVPHxMvQewkLebOYze+2aGX7XXmgcxBn6a4u96Nqd6CXX57BWIiyH
+ 00/0grFr+Kr+kHDOEEIrL9g8hIBQoQlOZYNGqs2wuvIotWrECvdrTLnH/fbYsWlH
+ nUzoMtU3MDvO7Ho+0nTSDAjS3tLt5U1EBNgASFZGKbmFwV0l5v9hfarttF98VfNx
+ FLmqt93ppzWygx7vZYcpJHicDhxVgP6nxoZsaki9lsVein2ia7ZzDAp+RaVwxuog
+ zB7mvj0jykZBUNKN0fV0+1Os0PXdDoXbyR7bkKPO0AGOJA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41fhwruaqe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Sep 2024 20:08:58 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 486K8vlw027839
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 6 Sep 2024 20:08:57 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 6 Sep 2024 13:08:51 -0700
+Date: Sat, 7 Sep 2024 01:38:47 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Antonino Maniscalco <antomani103@gmail.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konrad.dybcio@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 06/10] drm/msm/A6xx: Use posamble to reset counters on
+ preemption
+Message-ID: <20240906200847.ajcrpikzl65fwbjz@hu-akhilpo-hyd.qualcomm.com>
+References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
+ <20240905-preemption-a750-t-v3-6-fd947699f7bc@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|AS8PR10MB6389:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28488c5a-1e17-496c-18ef-08dcceaeb68b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aCtYaVA2TVA5dURBaFRCdG9TSXhLaE5UMGNLaklMZ0dCM0FjNDRYSEFxckY5?=
- =?utf-8?B?UGlVczBid0NoOFQwWkdlQXkvWi9jQUNKWWtqeUYwb3ZnOWlRQk9lTXM4bDE2?=
- =?utf-8?B?RTFqYVEwUkFkQUVUVFExZlRkNXk0SStqUGFHYVhYcnd5N1pwbVhWa01hdHlz?=
- =?utf-8?B?SEFwS3RLMmZCM3JnTVJFUGlHUGwxR0NsT1paWmlZNW44elBGRkF1dFRpM21I?=
- =?utf-8?B?ekMxTTZlWXg4eVFFNDk1VEFSSXp3dk9idzhFUXdOQ0dvY204YzJKNTFsY2dU?=
- =?utf-8?B?byt0dmMvUTRiMXhZU1J1MmlLU1VqV0p4SWp1c25JVVIzVUlQZ3RvWVpCc0Fx?=
- =?utf-8?B?ZDNqRk9CRDJ2Nm93eFpmWW5MSTVrRUVUOUtvWWJnajNGM1FZV0pNalhmOEJa?=
- =?utf-8?B?VSt3WVF5cS9ieGdIOXR0UVJCdW5rME5wVFlMNGIzeWZZeGhCa09YMkxlTmhk?=
- =?utf-8?B?Z3dtckRsV0pzQTFGUHRXRlNBQzd4NTVzRzdFcktHeXRwdUErNVRPMDBZNnEv?=
- =?utf-8?B?emFObWNqSUNwRzJhbDcyZ3dnSDNYMFducS9SZUVxb1VodjVzUlZ3dmFmNHZD?=
- =?utf-8?B?d3JCcHcvYUVndFlENkhRUFpGV3p3MnZndVJpaVFKazZFQ1lleWUrdjBIRVEx?=
- =?utf-8?B?elBqVDRYb2NXUktYeEVCZVZkMlJCZ3FyY1k1Vnc5V2s2c2NEb1VUWitlVDc2?=
- =?utf-8?B?RlBJRWs2cE9QTERIdk5Xa3JDN3BmWTkvQ2gvb3ZIWlQzMzlzWmVFek8rQjRU?=
- =?utf-8?B?a2s3ZEZwRmVmTnF4c05oWnlJZTJHbTF5YW1JbzZyeEp2TGV4eFhVaGlGL2tG?=
- =?utf-8?B?WklSMjR6R0JqK25UWGZ0VjZlREZBUUhpdE45YlRYY1ExK0FreTFtUFpyazBh?=
- =?utf-8?B?OStHZXRKL0V6VlZRaDFIVmF2OFlZaGVjU0ttalAxUkxvb1djL1RCcWxPV1d1?=
- =?utf-8?B?Yno2S0d6Qi9wQ2xMSnVGc0N1cUZ4akFaTlJnMzZFMllBbzVmZERVRDZDeHVE?=
- =?utf-8?B?Y1h4VVg4RCtHeERSbUE2KzBCcGNyWkRvaUlCNVpwY0NjbDhtYTRqTHJFSS9w?=
- =?utf-8?B?NUUycjd2RkozMXQ3UGk2Ri9BcW5IL0daSitoOWlzOVRmM3FnZ3lnL0tRODVn?=
- =?utf-8?B?Y21ETENOSS9FU0hHSFFpZGFzdGlDQmpULzZsZjdSWU9TeG5sN21oRlJKRDNN?=
- =?utf-8?B?UkJLSzJ1czBMYmhCRlo2TDYwR0Qrd01PYXBZblZHbVlVcmoxRFVNYXB3d2Js?=
- =?utf-8?B?c2hMTnRobVM1em80VlppWGZRNE5JRmJWM3RONkRZdEtwU0sxdDV2d0lZVGNz?=
- =?utf-8?B?NXNIRWhScTk0RTRoVEtKMHlmenphMUVMUyszajhFSHkyRE4vRWtWSDNjaHJN?=
- =?utf-8?B?SmdMOWEwZ3ZHanBFbDRsU0dTUjQ2bWlWZHptSU4rNVkvd0JPNTdNZnBRRXpv?=
- =?utf-8?B?SklOZGdveURnUHNVeFg1Ny9hMzR5dnVLZUlYaW52VzlsQzJqOHN6WnF6UkhD?=
- =?utf-8?B?T1BFUy9DN0doeXhBV0tTUTVYa0hoT2x0WGdHSTk2M0V5MHBZR2tlUmhTVEJC?=
- =?utf-8?B?SExXZE4vWEcxZkNIdDJwaVcvVjFCRWIzeE9mNWppSmg4aDRHOFd1NFIrYkZE?=
- =?utf-8?B?ZW13dXFBM2hWamhQUkdISk5oTXV1Um1PS1lRbkhUUlJ4eHlBTlFrZWhxS29Y?=
- =?utf-8?B?S3N4QlJ0aFZpUmhFUkpGZ2hlVDE3K21mSVFZYlkrajZIL1dNWG9YU0pzTFMr?=
- =?utf-8?B?Q3J0Mk82YTFRWE1mcVNIK2puMzh3RVhYRU5CWFJzMUYxSlN6VnNHcUk4aUFt?=
- =?utf-8?B?VGRGWXJjUG1nN3FuRExaN2p4c281NnFyN2RZSmF3ZXhMTnl5TW14Zk5FNmQr?=
- =?utf-8?Q?3V6SCyI3dgQ/I?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elIzdW44NzN6SFQwRDJsdTRJMGtvbzI3bUY4SjU4aUVHS25OUnpLTGt2emg5?=
- =?utf-8?B?SS9pdXVmblNvc3FTV3NDdUpBMFJnV1R2REdUa21nUFZJQzhnTGZDYkFCZnFQ?=
- =?utf-8?B?L3NxN0xZWjFhRUdQRkE1NG04NEg1NnJRcG9Ya0ZoSXhNN1cra2VRbm01aktX?=
- =?utf-8?B?ZlBBNEowL2hvWlJaWktEUlh6YnVNaDFUeDBRM0NkQ1g2ajExN1c0NzExMlJr?=
- =?utf-8?B?YUZZQVJNSGt2S2xyVENxUzlMN2dmOUxLSWNUcEZER1RRSUl4QWdtL2poVk5o?=
- =?utf-8?B?dXFTRFd2c3JmWS82UmFqTXdiRWtZbVJhTlAzbkZRaHRJaDhrY2FpV1pEN1B1?=
- =?utf-8?B?eDlmZHp4NGUzQ1BKelpWbHRlWmV6R3d0RWo3S1F1VDB1TkZhcnp2OHE2YjhQ?=
- =?utf-8?B?ZEs1TUhuVWNxZzZ4emlNMXV3RWNCZFM1SU8vU0gwNEkrNUQxNVV0UThqSHNK?=
- =?utf-8?B?NGtEdVNETWtHbHZjN2FpcnRUTWJzcUFVU3pPWnFESithSkxGMVUrUzl6engv?=
- =?utf-8?B?LzV5UlhQcGtuS3BsOTVIVXhybUozYW9Ebk1JRE1YWCtabkhwVnVUM0tZVE1K?=
- =?utf-8?B?bkZiT3M3WDN6NUdqTjlBVnUweEF0cnZuckptN251UEZiclluZWczakpOdHRH?=
- =?utf-8?B?aEdrOEtWTVhpdldtZXJSQVhxalJRZDB6akJJaUZMNFJ1T0kwNHo1R2dNVzVt?=
- =?utf-8?B?UnVETkI1QzJRUzFjYnEzZWtOT25YV29oWTV5ZWNSSkdKRGpTZ2k1VVgyL1NE?=
- =?utf-8?B?OG5sdFZpVkFBWUc0TGM3cERsNlAwQ3NHT1dvL2YxbFBxc2lMYUtDTGhZMzZP?=
- =?utf-8?B?Ri9ld254M1pnekc3RTZYb2lXVlhBY0Y4QXFDcEI4SHJQaGhTRXprZ2RPclVE?=
- =?utf-8?B?U3ZCOGQ0c2RTcDFLWHczTEtyU0tWeUFoK1RQcTJ5WVExQmR4RWlDNllhZThR?=
- =?utf-8?B?b05URUdXUWpPZE1nclBHakQyS0d1NjdPTzFreHlBbXVQd3RCSElyZ3FlZ245?=
- =?utf-8?B?UnpQNzNEcFpuTEVRVjYxWFRKRU40cTJoWmM2bzJZNjhYd2hocWp5SEVobXlw?=
- =?utf-8?B?TVo2WDFMK1JPT3VmNmVabkdDaFhTZjF6cHFuYmREZzdHMk0zclpJZWxRNnBx?=
- =?utf-8?B?SlIxc2xKcGdYNGxwd2I5OGlUSGxPUlB6elNYcTZPd1RUVmVGTW9ocDc1dFRn?=
- =?utf-8?B?RVVHZGQvbVZBckV2S2o4b0VlbTNsemlpT2JmOGZld0JWQkJlb21TTU1iNFlh?=
- =?utf-8?B?SjlYWHFpOHBEUFJaVEo3ZmNGUXRneURXYkZVcVdwcWpvVzVBZ1FuQ09HVmtB?=
- =?utf-8?B?dE1pYnRhZkljSC9PdjU5ZHhlYWJwZ3E1NXBxaTVaeVRyZzYrdWNVUU5Ia3R0?=
- =?utf-8?B?RmlEWE9uSlByZWtPVHg2UkMvT0Z5aWVRaVllQ3Z2b1oyYm1mOENDenEzd2hN?=
- =?utf-8?B?V2p4OFVLVUlRcndVeUE2MzhoQ1YzN28rUjYzUXYyTGV2dTNibUdna0RkWGUx?=
- =?utf-8?B?TTNUV2JjRTZGYW96aDBPQmRhZDdPM25aOEQwVEc0Tm9QVm0wbW1VYWhpalRS?=
- =?utf-8?B?NzFXdmRLejR6a1ZRb0N2VVpsYXozVmppVEozUmFaRzRwcWdkODNtM3I3NVVE?=
- =?utf-8?B?TXhuQXpmcGhoT3ZlbFp6QUFIeEJZQndxMFJGdU5jZVlBV2pHS3JISnJlcDJw?=
- =?utf-8?B?ZmJlVnNVNDRZTE1EUFY4a1M3TGI2TDIrRDZURTJGbWROMmowK1JFaithZkFZ?=
- =?utf-8?B?Tk1sYXF1NmMzd0UyeVFCU2QzOFVOVGxzcTBpU1NoMW43dERBWmxxd21CNjRN?=
- =?utf-8?B?Ync3SmIvdW95eCtyVDQ5ZUVoMHlobDRBNC9tUzJyRlBKWDlmVE8yQ3JZSkh3?=
- =?utf-8?B?VnpLWGdRT2pRTW5xU0NwQ3dTaTdQeVVlbFBLM05NZW83UW1XNUcwRmI2OVNJ?=
- =?utf-8?B?U0FXMTY1TGFuamhqMkNmOHNVMmFxdm1qWGRRdm5vNmhUUjBXSktwWnRydVVl?=
- =?utf-8?B?UlBrVXFTR1c5S0M3YjVxcXVvbUhVeS9ZdHRheW15c0FzL3MzeXFTN1pRSGRn?=
- =?utf-8?B?TmhkSWFBeHk1UmlmelU3RXE1RWVTRXlRZ01FTVRtaVM2djM1Z3dmMmFhM1Zk?=
- =?utf-8?B?THp4QnFtbzJGRzBUaTRTSzRrcWxQUmM3SXBFaHJRUW1zdGk2aXUrWVYwY0cv?=
- =?utf-8?B?K0E9PQ==?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28488c5a-1e17-496c-18ef-08dcceaeb68b
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 20:01:36.3081 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0pQrLDyFpHHjI74sD+7pfPwM1si0hcKgzmsV8Zzb+RdNXJNG9O5N2pBNlrZ6C+6l/LtvsY+XMBqUbR9tlWzyoqgzh0PRdqABc/2SwH424v8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6389
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240905-preemption-a750-t-v3-6-fd947699f7bc@gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Aqt9A3GtNlZU4rQClJ39M1O-sdMCeODe
+X-Proofpoint-GUID: Aqt9A3GtNlZU4rQClJ39M1O-sdMCeODe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_05,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ malwarescore=0 bulkscore=0 mlxscore=0 adultscore=0 spamscore=0
+ impostorscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2408220000 definitions=main-2409060149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,38 +97,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.09.24 3:46 AM, Adam Ford wrote:
-> I have been testing various settings on the HDMI out of the i.MX8MP.
+On Thu, Sep 05, 2024 at 04:51:24PM +0200, Antonino Maniscalco wrote:
+> Use the postamble to reset perf counters when switching between rings,
+> except when sysprof is enabled, analogously to how they are reset
+> between submissions when switching pagetables.
 > 
-> I noticed that sometimes my monitor would not sync, but sometimes it
-> would on the same resolution/refresh rate.  Frieder noted the LCDIF
-> was sometimes underflowing, so read up on it a little bit.
+> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 20 ++++++++++++++++++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  5 +++++
+>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 32 +++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 +++++--
+>  4 files changed, 61 insertions(+), 3 deletions(-)
 > 
-> In the comments of the LCDIF driver, it's noted:
->     Set FIFO Panic watermarks, low 1/3, high 2/3 .
-> 
-> However, in the downstream kernels, NXP changes the threshold to 1/2
-> and 3/4 on the LCDIF that drives the HDMI, while leaving the other
-> LCDIF interfaces at the default.
-> 
-> When I increased the threshold to 1/2 and 3/4, it appeared that
-> several resolutions that my monitor was struggling to sync started
-> working, and it appeared to sync faster.  I don't have an HDMI
-> analyzer, so I cannot verify much beyond knowing if my monitor can or
-> cannot sync.
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index ed0b138a2d66..710ec3ce2923 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -366,7 +366,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+>  		struct a6xx_gpu *a6xx_gpu, struct msm_gpu_submitqueue *queue)
+>  {
+> -	u64 preempt_offset_priv_secure;
+> +	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
+> +	u64 preempt_offset_priv_secure, preempt_postamble;
+>  
+>  	OUT_PKT7(ring, CP_SET_PSEUDO_REG, 15);
+>  
+> @@ -398,6 +399,23 @@ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
+>  	/* seems OK to set to 0 to disable it */
+>  	OUT_RING(ring, 0);
+>  	OUT_RING(ring, 0);
+> +
+> +	/* if not profiling set postamble to clear perfcounters, else clear it */
+> +	if (!sysprof && a6xx_gpu->preempt_postamble_len) {
+> +		preempt_postamble = a6xx_gpu->preempt_postamble_iova;
+> +
+> +		OUT_PKT7(ring, CP_SET_AMBLE, 3);
+> +		OUT_RING(ring, lower_32_bits(preempt_postamble));
+> +		OUT_RING(ring, upper_32_bits(preempt_postamble));
+> +		OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(
+> +					a6xx_gpu->preempt_postamble_len) |
+> +				CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
+> +	} else {
 
-For me this change doesn't seem to cause any improved behavior. My
-monitor still fails to sync every few times I run "modetest -s" .
+Why do we need this else part?
 
-Also we have a downstream kernel based on 6.1 with backported HDMI
-support and I don't see the issues there. But I need to make some
-further tests to make any reliable statements.
+> +		OUT_PKT7(ring, CP_SET_AMBLE, 3);
+> +		OUT_RING(ring, 0);
+> +		OUT_RING(ring, 0);
+> +		OUT_RING(ring, CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
+> +	}
+>  }
+>  
+>  static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index da10060e38dc..b009732c08c5 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -71,6 +71,11 @@ struct a6xx_gpu {
+>  	bool uses_gmem;
+>  	bool skip_save_restore;
+>  
+> +	struct drm_gem_object *preempt_postamble_bo;
+> +	void *preempt_postamble_ptr;
+> +	uint64_t preempt_postamble_iova;
+> +	uint64_t preempt_postamble_len;
+> +
+>  	struct a6xx_gmu gmu;
+>  
+>  	struct drm_gem_object *shadow_bo;
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+> index 1caff76aca6e..ec44f44d925f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+> @@ -346,6 +346,28 @@ static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
+>  	return 0;
+>  }
+>  
+> +static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
+> +{
+> +	u32 *postamble = a6xx_gpu->preempt_postamble_ptr;
+> +	u32 count = 0;
+> +
+> +	postamble[count++] = PKT7(CP_REG_RMW, 3);
+> +	postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
+> +	postamble[count++] = 0;
+> +	postamble[count++] = 1;
+> +
+> +	postamble[count++] = PKT7(CP_WAIT_REG_MEM, 6);
+> +	postamble[count++] = CP_WAIT_REG_MEM_0_FUNCTION(WRITE_EQ);
+> +	postamble[count++] = CP_WAIT_REG_MEM_1_POLL_ADDR_LO(
+> +				REG_A6XX_RBBM_PERFCTR_SRAM_INIT_STATUS);
+> +	postamble[count++] = CP_WAIT_REG_MEM_2_POLL_ADDR_HI(0);
+> +	postamble[count++] = CP_WAIT_REG_MEM_3_REF(0x1);
+> +	postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
+> +	postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
 
+Isn't it better to just replace this with NOP packets when sysprof is
+enabled, just before triggering preemption? It will help to have an
+immediate effect.
+
+-Akhil
+
+> +
+> +	a6xx_gpu->preempt_postamble_len = count;
+> +}
+> +
+>  void a6xx_preempt_fini(struct msm_gpu *gpu)
+>  {
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> @@ -376,6 +398,16 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
+>  	a6xx_gpu->uses_gmem = 1;
+>  	a6xx_gpu->skip_save_restore = 1;
+>  
+> +	a6xx_gpu->preempt_postamble_ptr  = msm_gem_kernel_new(gpu->dev,
+> +			PAGE_SIZE, MSM_BO_WC | MSM_BO_MAP_PRIV,
+> +			gpu->aspace, &a6xx_gpu->preempt_postamble_bo,
+> +			&a6xx_gpu->preempt_postamble_iova);
+> +
+> +	preempt_prepare_postamble(a6xx_gpu);
+> +
+> +	if (IS_ERR(a6xx_gpu->preempt_postamble_ptr))
+> +		goto fail;
+> +
+>  	timer_setup(&a6xx_gpu->preempt_timer, a6xx_preempt_timer, 0);
+>  
+>  	return;
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 6b1888280a83..87098567483b 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -610,12 +610,15 @@ OUT_PKT4(struct msm_ringbuffer *ring, uint16_t regindx, uint16_t cnt)
+>  	OUT_RING(ring, PKT4(regindx, cnt));
+>  }
+>  
+> +#define PKT7(opcode, cnt) \
+> +	(CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) | \
+> +		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23))
+> +
+>  static inline void
+>  OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
+>  {
+>  	adreno_wait_ring(ring, cnt + 1);
+> -	OUT_RING(ring, CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) |
+> -		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23));
+> +	OUT_RING(ring, PKT7(opcode, cnt));
+>  }
+>  
+>  struct msm_gpu *a2xx_gpu_init(struct drm_device *dev);
 > 
-> Could the threshold and underrun cause this monitor intermittent
-> issue, or would this be something else?
+> -- 
+> 2.46.0
 > 
-> Does it make sense to have a flag or device tree option to override
-> the default thresholds to change the panic level?
-> 
-> adam
