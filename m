@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FF696E9C5
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 08:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5026196E9CA
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 08:12:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6EE710E173;
-	Fri,  6 Sep 2024 06:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043F510E17B;
+	Fri,  6 Sep 2024 06:12:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="EIlMwSvh";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PeBgyloQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3725710E173;
- Fri,  6 Sep 2024 06:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1725603023;
- bh=/dtohpd2jYZvgldSPgPUfPVsQXMJ8y7tzwUyHG6SqCY=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=EIlMwSvhq/xTpsgbeu0DmgAdEQrX3FtKro+WVkKt0dchOFoVHKColL59RobV2zdI5
- d+xDhYPX8nDSRuc762Nu6tcYQECmz7u6EFWcFJOtk3i6D5uE8wBiodEfSsujIGajBJ
- 4oQCuYiZf/zWpZp4njQU9/njVygyH91OJ8nWiKqM=
-X-QQ-mid: bizesmtp84t1725602801tkd3vxlw
-X-QQ-Originating-IP: WuapCiZjmsXjdr2Bs5465eW0Whoex+fovHxihMr3iZM=
-Received: from [10.4.11.213] ( [221.226.144.218])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 06 Sep 2024 14:06:31 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 293073832845237998
-Message-ID: <31331B0B65DB108E+082759df-83d7-43ac-a519-853a6e69483d@uniontech.com>
-Date: Fri, 6 Sep 2024 14:06:31 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF6110E17B
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 06:12:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725603153;
+ bh=UO6g/Ji12/elGfRu9ibvIc94caMDiFjVz4JJvAVD5ww=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=PeBgyloQf+iOZduma14RhPQXlURwqT5Ja6ymAKQnuUDH8ts92Fio0hw3LM+hnZT9h
+ gF2sAcX4kCqe/2D1UcmZroZva5wESi4Vrmai/51/3z/ugCYMXPFWxfzbvvmEJVPLHb
+ IjH+OCmMKJ3AeN+MAlvGaqX+Ey+Y/eTDY3BIv4pDm/WbVEAngWyyO1IzGrNQDz3a52
+ HQ5SMzBD/zwbxIvK6qZntwjEukKMMQQjmIVXpKO1jUn1vfx+sTxpnrvU+lxe/GbNIg
+ IxkKOIhZcSTDG+bB2LLujdMDO49sSgSe6D5UlwN2/VSxmWDE/wja/dPg6HHIt69XMF
+ 1pN7MSVc9ZeAA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D7AA17E0F87;
+ Fri,  6 Sep 2024 08:12:33 +0200 (CEST)
+Date: Fri, 6 Sep 2024 08:12:29 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Mary Guillemard <mary.guillemard@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christopher Healy <healych@amazon.com>, kernel@collabora.com, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 2/2] drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO
+ dev query
+Message-ID: <20240906081229.776899b7@collabora.com>
+In-Reply-To: <20240905173222.252641-4-mary.guillemard@collabora.com>
+References: <20240905173222.252641-2-mary.guillemard@collabora.com>
+ <20240905173222.252641-4-mary.guillemard@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915:Remove unused parameter in marco.
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com, 
- daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <F84191BE8AA4A690+20240831135114.497043-1-helugang@uniontech.com>
- <Ztnkt8guUcY8hg3h@intel.com> <87le06ownz.fsf@intel.com>
-From: HeLuang <helugang@uniontech.com>
-In-Reply-To: <87le06ownz.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,95 +67,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu,  5 Sep 2024 19:32:23 +0200
+Mary Guillemard <mary.guillemard@collabora.com> wrote:
 
+> Expose allowed group priorities with a new device query.
+> 
+> This new uAPI will be used in Mesa to properly report what priorities a
+> user can use for EGL_IMG_context_priority.
+> 
+> Since this extends the uAPI and because userland needs a way to
+> advertise priorities accordingly, this also bumps the driver minor
+> version.
+> 
+> v2:
+> - Remove drm_panthor_group_allow_priority_flags definition
+> - Document that allowed_mask is a bitmask of drm_panthor_group_priority
+> 
+> Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 61 ++++++++++++++++++---------
+>  include/uapi/drm/panthor_drm.h        | 22 ++++++++++
+>  2 files changed, 64 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 7b1db2adcb4c..f85aa2d99f09 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -170,6 +170,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_timestamp_info, current_timestamp), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_group_priorities_info, pad), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+> @@ -777,11 +778,41 @@ static int panthor_query_timestamp_info(struct panthor_device *ptdev,
+>  	return 0;
+>  }
+>  
+> +static int group_priority_permit(struct drm_file *file,
+> +				 u8 priority)
+> +{
+> +	/* Ensure that priority is valid */
+> +	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
+> +		return -EINVAL;
+> +
+> +	/* Medium priority and below are always allowed */
+> +	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
+> +		return 0;
+> +
+> +	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
+> +	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
+> +		return 0;
+> +
+> +	return -EACCES;
+> +}
+> +
+> +static void panthor_query_group_priorities_info(struct drm_file *file,
+> +						struct drm_panthor_group_priorities_info *arg)
+> +{
+> +	int prio;
+> +
+> +	for (prio = PANTHOR_GROUP_PRIORITY_REALTIME; prio >= 0; prio--) {
+> +		if (!group_priority_permit(file, prio))
+> +			arg->allowed_mask |= 1 << prio;
 
-在 2024/9/6 01:08, Jani Nikula 写道:
-> On Thu, 05 Sep 2024, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
->> On Sat, Aug 31, 2024 at 09:51:14PM +0800, He Lugang wrote:
->>> The parameter dev_priv is actually not used in macro PORT_ALPM_CTL
->>> and PORT_ALPM_LFPS_CTL,so remove it to simplify the code.
->>
->> It is magically used on our back... hence the build failures that CI got.
->> Jani is doing a great clean-up work on the display code to get rid
->> of this 'dev_priv' usages in favor of a better display code separation
->> and using intel_display struct.
-> 
-> I actually think this should(tm) work. It's just that it needs a rebase.
-> 
-> BR,
-> Jani.
-> 
-OK,thannks for your reply,I'll rebase it.
->>
->> But thanks for the patch and the interest to help.
->>
-Very glad if that will be help!
->>>
->>> Signed-off-by: He Lugang <helugang@uniontech.com>
->>> ---
->>>   drivers/gpu/drm/i915/display/intel_alpm.c     | 4 ++--
->>>   drivers/gpu/drm/i915/display/intel_psr.c      | 2 +-
->>>   drivers/gpu/drm/i915/display/intel_psr_regs.h | 4 ++--
->>>   3 files changed, 5 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
->>> index 82ee778b2efe..7a93ba627aa6 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_alpm.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
->>> @@ -330,7 +330,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
->>>   			ALPM_CTL_AUX_LESS_WAKE_TIME(intel_dp->alpm_parameters.aux_less_wake_lines);
->>>   
->>>   		intel_de_write(display,
->>> -			       PORT_ALPM_CTL(display, port),
->>> +			       PORT_ALPM_CTL(port),
->>>   			       PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
->>>   			       PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
->>>   			       PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
->>> @@ -338,7 +338,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
->>>   				       intel_dp->alpm_parameters.silence_period_sym_clocks));
->>>   
->>>   		intel_de_write(display,
->>> -			       PORT_ALPM_LFPS_CTL(display, port),
->>> +			       PORT_ALPM_LFPS_CTL(port),
->>>   			       PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
->>>   			       PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
->>>   				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
->>> diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
->>> index 257526362b39..d66dbb529e1d 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_psr.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_psr.c
->>> @@ -2076,7 +2076,7 @@ static void intel_psr_disable_locked(struct intel_dp *intel_dp)
->>>   			     ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
->>>   
->>>   		intel_de_rmw(dev_priv,
->>> -			     PORT_ALPM_CTL(dev_priv, cpu_transcoder),
->>> +			     PORT_ALPM_CTL(cpu_transcoder),
->>>   			     PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
->>>   	}
->>>   
->>> diff --git a/drivers/gpu/drm/i915/display/intel_psr_regs.h b/drivers/gpu/drm/i915/display/intel_psr_regs.h
->>> index 642bb15fb547..b4984e589d7e 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_psr_regs.h
->>> +++ b/drivers/gpu/drm/i915/display/intel_psr_regs.h
->>> @@ -295,7 +295,7 @@
->>>   
->>>   #define _PORT_ALPM_CTL_A			0x16fa2c
->>>   #define _PORT_ALPM_CTL_B			0x16fc2c
->>> -#define PORT_ALPM_CTL(dev_priv, port)		_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
->>> +#define PORT_ALPM_CTL(port)			_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
->>>   #define  PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE	REG_BIT(31)
->>>   #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK	REG_GENMASK(23, 20)
->>>   #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(val)	REG_FIELD_PREP(PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK, val)
->>> @@ -306,7 +306,7 @@
->>>   
->>>   #define _PORT_ALPM_LFPS_CTL_A					0x16fa30
->>>   #define _PORT_ALPM_LFPS_CTL_B					0x16fc30
->>> -#define PORT_ALPM_LFPS_CTL(dev_priv, port)			_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
->>> +#define PORT_ALPM_LFPS_CTL(port)				_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
->>>   #define  PORT_ALPM_LFPS_CTL_LFPS_START_POLARITY			REG_BIT(31)
->>>   #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MASK		REG_GENMASK(27, 24)
->>>   #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MIN		7
->>> -- 
->>> 2.45.2
->>>
-> 
+nit: we have a BIT() macro for that ;-). Other than that, it looks good
+to me.
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
