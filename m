@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F7F96ECC4
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 09:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67C796ECB6
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 09:55:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D973C10E98A;
-	Fri,  6 Sep 2024 07:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C89C410E985;
+	Fri,  6 Sep 2024 07:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EFDC10E97D
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4C4010E983
  for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 07:54:55 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F072421ABD;
- Fri,  6 Sep 2024 07:54:53 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9516F1F897;
+ Fri,  6 Sep 2024 07:54:54 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31936136A8;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F2EFB13A7A;
  Fri,  6 Sep 2024 07:54:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4DjmCk212mbGPAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id eJBfOE212mbGPAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 06 Sep 2024 07:54:53 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
@@ -37,9 +37,10 @@ To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  shawnguo@kernel.org, festevam@gmail.com
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 21/28] fbdev: clps711x-fb: Use lcd power constants
-Date: Fri,  6 Sep 2024 09:52:35 +0200
-Message-ID: <20240906075439.98476-22-tzimmermann@suse.de>
+Subject: [PATCH v2 22/28] fbdev: imxfb: Replace check_fb in favor of struct
+ fb_info.lcd_dev
+Date: Fri,  6 Sep 2024 09:52:36 +0200
+Message-ID: <20240906075439.98476-23-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240906075439.98476-1-tzimmermann@suse.de>
 References: <20240906075439.98476-1-tzimmermann@suse.de>
@@ -52,7 +53,7 @@ X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Score: -4.00
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: F072421ABD
+X-Rspamd-Queue-Id: 9516F1F897
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
 X-Rspamd-Action: no action
@@ -72,41 +73,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace FB_BLANK_ constants with their counterparts from the
-lcd subsystem. The values are identical, so there's no change
-in functionality.
+Store the lcd device in struct fb_info.lcd_dev. The lcd subsystem can
+now detect the lcd's fbdev device from this field.
+
+This makes the implementation of check_fb in imxfb_lcd_ops obsolete.
+Remove it.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- drivers/video/fbdev/clps711x-fb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/imxfb.c | 26 ++++++++------------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/video/fbdev/clps711x-fb.c b/drivers/video/fbdev/clps711x-fb.c
-index 4340ea3b9660..9e3df1df5ac4 100644
---- a/drivers/video/fbdev/clps711x-fb.c
-+++ b/drivers/video/fbdev/clps711x-fb.c
-@@ -168,9 +168,9 @@ static int clps711x_lcd_get_power(struct lcd_device *lcddev)
- 
- 	if (!IS_ERR_OR_NULL(cfb->lcd_pwr))
- 		if (!regulator_is_enabled(cfb->lcd_pwr))
--			return FB_BLANK_NORMAL;
-+			return LCD_POWER_REDUCED;
- 
--	return FB_BLANK_UNBLANK;
-+	return LCD_POWER_ON;
+diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
+index 4ebfe9b9df60..88c117f29f7f 100644
+--- a/drivers/video/fbdev/imxfb.c
++++ b/drivers/video/fbdev/imxfb.c
+@@ -782,16 +782,6 @@ static int imxfb_of_read_mode(struct device *dev, struct device_node *np,
+ 	return 0;
  }
  
- static int clps711x_lcd_set_power(struct lcd_device *lcddev, int blank)
-@@ -178,7 +178,7 @@ static int clps711x_lcd_set_power(struct lcd_device *lcddev, int blank)
- 	struct clps711x_fb_info *cfb = dev_get_drvdata(&lcddev->dev);
+-static int imxfb_lcd_check_fb(struct lcd_device *lcddev, struct fb_info *fi)
+-{
+-	struct imxfb_info *fbi = dev_get_drvdata(&lcddev->dev);
+-
+-	if (!fi || fi->par == fbi)
+-		return 1;
+-
+-	return 0;
+-}
+-
+ static int imxfb_lcd_get_contrast(struct lcd_device *lcddev)
+ {
+ 	struct imxfb_info *fbi = dev_get_drvdata(&lcddev->dev);
+@@ -858,7 +848,6 @@ static int imxfb_lcd_set_power(struct lcd_device *lcddev, int power)
+ }
  
- 	if (!IS_ERR_OR_NULL(cfb->lcd_pwr)) {
--		if (blank == FB_BLANK_UNBLANK) {
-+		if (blank == LCD_POWER_ON) {
- 			if (!regulator_is_enabled(cfb->lcd_pwr))
- 				return regulator_enable(cfb->lcd_pwr);
- 		} else {
+ static const struct lcd_ops imxfb_lcd_ops = {
+-	.check_fb	= imxfb_lcd_check_fb,
+ 	.get_contrast	= imxfb_lcd_get_contrast,
+ 	.set_contrast	= imxfb_lcd_set_contrast,
+ 	.get_power	= imxfb_lcd_get_power,
+@@ -1025,11 +1014,6 @@ static int imxfb_probe(struct platform_device *pdev)
+ 		goto failed_cmap;
+ 
+ 	imxfb_set_par(info);
+-	ret = register_framebuffer(info);
+-	if (ret < 0) {
+-		dev_err(&pdev->dev, "failed to register framebuffer\n");
+-		goto failed_register;
+-	}
+ 
+ 	fbi->lcd_pwr = devm_regulator_get(&pdev->dev, "lcd");
+ 	if (PTR_ERR(fbi->lcd_pwr) == -EPROBE_DEFER) {
+@@ -1046,13 +1030,19 @@ static int imxfb_probe(struct platform_device *pdev)
+ 
+ 	lcd->props.max_contrast = 0xff;
+ 
++	info->lcd_dev = lcd;
++
++	ret = register_framebuffer(info);
++	if (ret < 0) {
++		dev_err(&pdev->dev, "failed to register framebuffer\n");
++		goto failed_lcd;
++	}
++
+ 	imxfb_enable_controller(fbi);
+ 
+ 	return 0;
+ 
+ failed_lcd:
+-	unregister_framebuffer(info);
+-failed_register:
+ 	fb_dealloc_cmap(&info->cmap);
+ failed_cmap:
+ 	dma_free_wc(&pdev->dev, fbi->map_size, info->screen_buffer,
 -- 
 2.46.0
 
