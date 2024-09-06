@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D861B96ED59
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5B896ED5B
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEBBE10E99F;
-	Fri,  6 Sep 2024 08:14:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D057410E9A1;
+	Fri,  6 Sep 2024 08:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB1FC10E02A;
- Fri,  6 Sep 2024 08:14:52 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.48])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4X0TWx20xnzyQwr;
- Fri,  6 Sep 2024 16:13:49 +0800 (CST)
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D10B610E99C;
+ Fri,  6 Sep 2024 08:14:53 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4X0TWy3dGXz1P9Gk;
+ Fri,  6 Sep 2024 16:13:50 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
- by mail.maildlp.com (Postfix) with ESMTPS id 6E321180064;
- Fri,  6 Sep 2024 16:14:49 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 5EFB31800FE;
+ Fri,  6 Sep 2024 16:14:50 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Sep
- 2024 16:14:48 +0800
+ 2024 16:14:49 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -36,9 +36,9 @@ To: <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
  <linux-arm-kernel@lists.infradead.org>, <freedreno@lists.freedesktop.org>,
  <linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH 2/5] drm/imx/dcss: Use IRQF_NO_AUTOEN flag in request_irq()
-Date: Fri, 6 Sep 2024 16:23:22 +0800
-Message-ID: <20240906082325.2677621-3-ruanjinjie@huawei.com>
+Subject: [PATCH 3/5] drm/imx/ipuv3: Use IRQF_NO_AUTOEN flag in request_irq()
+Date: Fri, 6 Sep 2024 16:23:23 +0800
+Message-ID: <20240906082325.2677621-4-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240906082325.2677621-1-ruanjinjie@huawei.com>
 References: <20240906082325.2677621-1-ruanjinjie@huawei.com>
@@ -67,32 +67,33 @@ disable_irq() after request_irq() still has a time gap in which
 interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
 disable IRQ auto-enable when request IRQ.
 
-Fixes: 9021c317b770 ("drm/imx: Add initial support for DCSS on iMX8MQ")
+Fixes: 47b1be5c0f4e ("staging: imx/drm: request irq only after adding the crtc")
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- drivers/gpu/drm/imx/dcss/dcss-dtg.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-dtg.c b/drivers/gpu/drm/imx/dcss/dcss-dtg.c
-index 2968f5d5bd41..6bbfd9aa27ac 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-dtg.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-dtg.c
-@@ -134,14 +134,12 @@ static int dcss_dtg_irq_config(struct dcss_dtg *dtg,
- 		    dtg->base_reg + DCSS_DTG_INT_MASK);
- 
- 	ret = request_irq(dtg->ctxld_kick_irq, dcss_dtg_irq_handler,
--			  0, "dcss_ctxld_kick", dtg);
-+			  IRQF_NO_AUTOEN, "dcss_ctxld_kick", dtg);
- 	if (ret) {
- 		dev_err(dtg->dev, "dtg: irq request failed.\n");
- 		return ret;
+diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+index ef29c9a61a46..99db53e167bd 100644
+--- a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
++++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+@@ -410,14 +410,12 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
  	}
  
--	disable_irq(dtg->ctxld_kick_irq);
--
- 	dtg->ctxld_kick_irq_en = false;
+ 	ipu_crtc->irq = ipu_plane_irq(ipu_crtc->plane[0]);
+-	ret = devm_request_irq(ipu_crtc->dev, ipu_crtc->irq, ipu_irq_handler, 0,
+-			"imx_drm", ipu_crtc);
++	ret = devm_request_irq(ipu_crtc->dev, ipu_crtc->irq, ipu_irq_handler,
++			       IRQF_NO_AUTOEN, "imx_drm", ipu_crtc);
+ 	if (ret < 0) {
+ 		dev_err(ipu_crtc->dev, "irq request failed with %d.\n", ret);
+ 		return ret;
+ 	}
+-	/* Only enable IRQ when we actually need it to trigger work. */
+-	disable_irq(ipu_crtc->irq);
  
  	return 0;
+ }
 -- 
 2.34.1
 
