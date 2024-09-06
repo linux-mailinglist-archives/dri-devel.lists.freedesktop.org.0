@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8EC96FE8F
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 01:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2879196FE92
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 01:45:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4D810EAF5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F86610EAF6;
 	Fri,  6 Sep 2024 23:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mkuoqnOT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VCgun/vC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE3310E98C
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 08:01:51 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-42c7bc97423so17623815e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 01:01:51 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 665C910E9D1
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 09:17:54 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-204d391f53bso17661245ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 02:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725609710; x=1726214510; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=hkyikhZMpOT8gzw/xg+wgtlCLgPqat5O+1E0+bcDLIQ=;
- b=mkuoqnOTTlCjHkCuT/9V+XQUNbHePmEijU3YXzQYs03SyZ8s+5LcocVGUGZW2z+/nv
- 0IRSFk5AKXmz1QwypKDiRIwZ2vCyIiH5yikf0p3eGB8nvpUdg9IMVema4xkzCZAdZGCg
- eRxGPCHL5efHuqVgtl0IlqFA329fJkm9dBLOrjmdz5vQtq7jLsT1Kr7vK3jAtphxN04o
- poEH5c2fMo7ZG513a00c9BcW6eb+gfF6E9Nq2BjETipd2UtZIVBlvYxYgACNFwNDs2aG
- gFHWnv5i4pCK1U8flAeTP1FDdMuVObzW72YSyLgAo496WWqs2WJPZm+9pKmmUryoAwrN
- hDZA==
+ d=gmail.com; s=20230601; t=1725614274; x=1726219074; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kdSscxu4iwCci+/8FixpdemFIaPGSwznJT41/j2DIjA=;
+ b=VCgun/vC6QMgL4RgfGbD6SGi0dv1PT+rm/XdrdzmmLPcJ7rGjCMgszAhq3bO3Jo4rB
+ 6yzS/u4QJ62oJ9MMvqefNlqArvwGvdC1PdsNAyoraTf4oC0CbNW1X6p4DyqHJq4wmNbt
+ 417pGSdDxSwYqJbeu232lm76qhUfynlXvfZdeu8AVEyM/OJJXHvYopOn7QBxzRCcQxYy
+ wAjJG/xAeqN7iWlwwYxXvr5EMTnZQsuFhEb+xm6eFHVmp5ACAcDuwWdzknYLQZ2C+KIE
+ md2X5eOwINuWAnm8E01cRHL0TMKV5O+KSgnIOzqoSvI6GTGKJ10UQaYa/kOKokxzkAsm
+ 8CXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725609710; x=1726214510;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hkyikhZMpOT8gzw/xg+wgtlCLgPqat5O+1E0+bcDLIQ=;
- b=X+pH7vqUfbgfkp0aTZsY434noOwoQRevUm1FMnFo440YUgvZTqj5/b1Al8yxryr/IG
- hsw7kCgMFUZhnWn+C0B2m/02HTn5haljMO+U8NEQnSDCaCuDw0aCSXjB+UNz3C5DGoLC
- tS58iGlQq7IyGxewaxNweRWcEHnKcqpLPEHmrDkdKOU1WEBXbpjNPtbh5RJSHvT38ma6
- c08B+u1JFwwx+LryvGU9Tnk6fEC3ixy1JMwSqmHIsiyf3vbTVWY2mXU1lRUaDx5wYy3k
- /Ua0CsjFb+oTiChONIJApljTl/2xjSpSsD96W0Sl9Qn1WJpvEjJXgeuW0KuvPn72QjgL
- 6Xdw==
+ d=1e100.net; s=20230601; t=1725614274; x=1726219074;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kdSscxu4iwCci+/8FixpdemFIaPGSwznJT41/j2DIjA=;
+ b=bmyOMh4P7UgFxAcypyQLPDoQdQ0MmUvlDmAI1CsqAmNSJp8eqINN6BWqh/RSN6loco
+ CBh16XclbItjHOznpAwEwPlq8Eg/lfKQpgooEn0NEjNUFwEZMJkju9CWpelT9gNq0nQk
+ MD/SKj3yJEBdzvTUwxKRxJjwdsnJ2UJQYtf7fC2fv7rpDN5YWwLDHpbF5x7rslt1OY55
+ UoxoCjQzT10FMpsQB/+M8+3KOSLLuTuNamPqxm9GFd5fwW9+sYzUZkGx/AtbC51kdE+4
+ u+im9/hy8lqWonOJpaVPm/zG1O0RZrtHU91FPG+pm6zwq785EIbEBNlJHrfprOVCbqsj
+ bkRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWArT90HyqkvvSAeHAanE7MrXCqjdILKyzrBxFzmTOhBzDGs8jJ3llRA6AfDiFA32LR52/E9GNzwd8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMHvmCucqtcvdcxn8mrpPWwAnFD4jSgcYUC+rkxQLYeX/RsX8D
- IansvIKwYpkR6CBL2NiVdewjRuqiJAzkJ0djHzZru6iBLFxXUuMn
-X-Google-Smtp-Source: AGHT+IE9zvSX1pGjBvhr0lwumfMe5aPctcurwZt1TsZp7JV2U5tLPlrVh/c7rhSvpwdty9ypTHJMZw==
-X-Received: by 2002:a05:600c:510e:b0:426:545b:ec00 with SMTP id
- 5b1f17b1804b1-42c9f98b589mr14070935e9.19.1725609709052; 
- Fri, 06 Sep 2024 01:01:49 -0700 (PDT)
-Received: from void.void ([141.226.13.165]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42ca05c29bfsm11954555e9.5.2024.09.06.01.01.47
+ AJvYcCUyHFBqxa9JXkV6cnmnhxYLS5Q28NUcPgqLNLW0aUwYRWYzLWxyn8q/l0zzZhb/7lSQx2nC2xh9suA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxrrX9TyeAyOz8RZ7uXXSizYJAjbTnrUfHmEI+3lneu5ifnhO+T
+ GTtAu/VSAmYYX8wAwPAQm5j9JPpjjC/nMCgExqXpsybwUMcqrJqomp1zGg==
+X-Google-Smtp-Source: AGHT+IE3cJ9IjbyOplSMh7Z19jI3h9PoXhxcIAtQiEBq9hO7fnTUR7JHLZEdW53tyndSQR8iUyPnBw==
+X-Received: by 2002:a17:902:cecd:b0:203:a0ea:63c5 with SMTP id
+ d9443c01a7336-206f0367aa2mr16748195ad.0.1725614273729; 
+ Fri, 06 Sep 2024 02:17:53 -0700 (PDT)
+Received: from localhost.localdomain (111-240-109-89.dynamic-ip.hinet.net.
+ [111.240.109.89]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-206ae90d174sm39692105ad.48.2024.09.06.02.17.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Sep 2024 01:01:48 -0700 (PDT)
-From: Andrew Kreimer <algonell@gmail.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Andrew Kreimer <algonell@gmail.com>
-Subject: [PATCH] accel/qaic: Fix a typo
-Date: Fri,  6 Sep 2024 11:00:59 +0300
-Message-ID: <20240906080136.4423-1-algonell@gmail.com>
-X-Mailer: git-send-email 2.46.0
+ Fri, 06 Sep 2024 02:17:53 -0700 (PDT)
+From: Min-Hua Chen <minhuadotchen@gmail.com>
+To: andyshrk@163.com
+Cc: airlied@gmail.com, andy.yan@rock-chips.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, maarten.lankhorst@linux.intel.com,
+ minhuadotchen@gmail.com, mripard@kernel.org, tzimmermann@suse.de
+Subject: Re:[PATCH] drm/rockchip: include rockchip_drm_drv.h
+Date: Fri,  6 Sep 2024 17:17:25 +0800
+Message-ID: <20240906091728.109570-1-minhuadotchen@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6f07603.7f9.191c4c887b1.Coremail.andyshrk@163.com>
+References: <6f07603.7f9.191c4c887b1.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 06 Sep 2024 23:45:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,26 +88,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a typo in documentation.
+Hi,
 
-Signed-off-by: Andrew Kreimer <algonell@gmail.com>
----
- Documentation/accel/qaic/qaic.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>Hi  Min Hua，
+>   Thanks for your work
+>
+>At 2024-09-06 06:38:50, "Min-Hua Chen" <minhuadotchen@gmail.com> wrote:
+>>Include rockchip_drm_drv.h to fix the follow sparse warning:
+>>
+>>drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
+>>warning: symbol 'vop2_platform_driver' was not declared.
+>>Should it be static?
+>>
+>>No functional change intended.
+>>
+>>Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+>>---
+>> drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 1 +
+>> 1 file changed, 1 insertion(+)
+>>
+>>diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>>index 18efb3fe1c00..c678d1b0fd7c 100644
+>>--- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>>+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>>@@ -14,6 +14,7 @@
+>> #include <drm/drm_print.h>
+>> 
+>> #include "rockchip_drm_vop2.h"
+>>+#include "rockchip_drm_drv.h"
+>> 
+>
+>We already have a patch[0] include rockchip_drm_drv.h in rockchip_drm_vop2.h
+>
+>[0]https://patchwork.kernel.org/project/linux-rockchip/patch/20240904120238.3856782-3-andyshrk@163.com/ 
 
-diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-index efb7771273bb..628bf2f7a416 100644
---- a/Documentation/accel/qaic/qaic.rst
-+++ b/Documentation/accel/qaic/qaic.rst
-@@ -93,7 +93,7 @@ commands (does not impact QAIC).
- uAPI
- ====
- 
--QAIC creates an accel device per phsyical PCIe device. This accel device exists
-+QAIC creates an accel device per physical PCIe device. This accel device exists
- for as long as the PCIe device is known to Linux.
- 
- The PCIe device may not be in the state to accept requests from userspace at
--- 
-2.46.0
+that's great, thanks for letting me know.
 
+Min-Hua
