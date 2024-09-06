@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C96996EB2A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 08:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6194996EB5D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 09:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A11F10E7FD;
-	Fri,  6 Sep 2024 06:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DCCC10E814;
+	Fri,  6 Sep 2024 07:00:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TLa0NOki";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ixzMos6r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
- [209.85.222.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0647210E7FD
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 06:58:18 +0000 (UTC)
-Received: by mail-ua1-f48.google.com with SMTP id
- a1e0cc1a2514c-846c5995a6fso449946241.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 23:58:17 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
+ [209.85.217.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B05810E819
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 07:00:53 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id
+ ada2fe7eead31-49bd2b37fe9so446937137.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 00:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725605897; x=1726210697; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725606052; x=1726210852; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8N8A0s45H/VLtj9tyWVe0GkyJaEn5PZatiSoHaZgnbA=;
- b=TLa0NOki/oBIzQLWuFzd1FN89pGZUJX++zRLJpJraAIuyT+ufvQWVTJnhaMTKuyhKL
- riY4WIVN0QbmhT+M3CdRF+QXCTQyiD6Pcas8BGn41mscTqOHMp2/NGa6R8H5M5S+OiCU
- 5Ycaxwo3FLnC1MSiQSsHoOLNd40ZduP5aiPPWjDgsULzqlhzPvvzDNzcPzldbA6AxcUX
- THogRoYc612OZ8BeNmAClZ3A4Qyjs4FZEei95DZ+cVIvqyoSFNSVh/lrK1ssP4HxnDsL
- f4GLQo5laHOG+bq7iytvNfY5ixBGn/65Fbo+j9KDuxJKXo78uWEwkaFx61mxgmzF2HV8
- Amtg==
+ bh=m3Ez8XYl6eL7ErMydWXe0O3lPOV2uCplEY60l4avJJ4=;
+ b=ixzMos6rbS5vZiEG5lPg6QmqRLF1VYEm3E3759B0fm4Q+Im+DNq3jkjSPBGnE/beNI
+ NatnK2MSzqlZLjdnAiCBIy6eYjTn9oVP4U2xINq1VYEZF2+m+IOmGCERbAGnVcEncdl3
+ fJScDneCEpQibQptYG3Bz/zlfTQPJtzNymsXzhs7I5ep7ovasrmtREDARLJE1SHTO5xm
+ JleVVwToCP8qZDjURObTWXWOWNbkYdvKnGOTFDYW4k/BnBfxp3vPfSb114nsma1V+zxJ
+ 24vSncsS7FdDZEA/LOd2g57v8SU232suIlY+mT8VUzdRHShSE6zNmjChE9IlLc+66i+n
+ T4ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725605897; x=1726210697;
+ d=1e100.net; s=20230601; t=1725606052; x=1726210852;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8N8A0s45H/VLtj9tyWVe0GkyJaEn5PZatiSoHaZgnbA=;
- b=MHTi4ftqCkOQLX1gZ8KpMauay5ZelBX+rA9MbWsXDo1tjy3BqR3kftmr+BLqVQzJ0J
- 29jtADjZ21K8kYWilIAyguw6Nxs2YHsk2pI78oX4MLT4P1rifc3XsjwXCO7gu5WOgI1s
- cDX6rY7tlbr9KFmVOz4B8EUreHnQN21MOZ5tdEeV6V/BlYxyOgLOqCQvEVNWSXeUWaSN
- VQR8NDbHlxokxQQAq/SONjj3H57ufDEZ0Gz8yhs3kWQX+0a5+JbmqujqUHgu5tfXxNjc
- NWXORthryN4ViNnCRKKs4ZVCQIC374sWE1LDac0CqceHyde60jBB+UyagMXWZ5YSDCBg
- Tknw==
+ bh=m3Ez8XYl6eL7ErMydWXe0O3lPOV2uCplEY60l4avJJ4=;
+ b=n8Nd5VIMBEihcARlzxaAwNkDqpA9xq8yH5VX3WhWFXnU1pAnXUcQuaduxQczfsenDa
+ UYFIFBC5Qwftf1aiaQqMi+htrIFCF8MIKG341CFxfSFpdw43bPqPDipDNlYpDF5Up+Oq
+ 3iSgfyZOWEc6GUBGmfxuORYCUC4dC3yALBSSSUxkq8uhRXFVA0+kD4Vh9mWY6FzA+4OM
+ CDMkoSXuxAKYBnB+CigSItGqHHNa36POjDQHakJ+xFpKiGnBHZSBZQxNBIt63p+ZRPkI
+ M1a6l5bfSQ/Jz/MEmypEPuSse9LrG207uyajdTGCPzYAJRRIJuFP+H122Av0vwjkdpNY
+ lvbQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVHJ9ga3xVnPoMjdqlZGKGla18mHQrOAmQvekTN7EumUXJL53VZDc/Szbc1Y7ngu3Pa9uZ+c1NaFE0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymBGScl19HLSdxI0qxSZjSn4/dv0AZR1k7CkDBOOPo2CxtxDtM
- Cl5Wr/kidTU5U6SaRs+yYQMjVyVseDKWQAA3NXz/5Gy0dZDC5mioH5Ehw1muLgrnd9UR87WW0TM
- mUgQGlJLsCLlWQUhIrbiMYtZP6xg=
-X-Google-Smtp-Source: AGHT+IF1Fi/nDHguPritS3NX2mXODBmwKdzEwTEKlD8xdN4sfaoxulLn25xubO3nmPTVcNcapnLXl53HoDgmi4q0JOI=
-X-Received: by 2002:a05:6122:915:b0:4fc:d9ef:3be6 with SMTP id
- 71dfb90a1353d-50207af281dmr1797058e0c.2.1725605896653; Thu, 05 Sep 2024
- 23:58:16 -0700 (PDT)
+ AJvYcCXQZUYLa6SNMPZJNkaKhjuswJ4c8W9s8XGUypqtYX/dbet3w2sWUToDrqvFCGvNXROhd7biooLZPnk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxMs2Ca/xAuix/HNPEyyPNEUJo9CHSqQtj0kn4Q1rMdH5JGTyv6
+ f6J21sBtkt2BtQt2KhCi30qKIyFDbXgW4wqwYw2Xe80sGR64we7RRFxrx23M1UHhTggnxq1E/vZ
+ CCInlA9eN5JTB4MufCUtvu8wrBO8=
+X-Google-Smtp-Source: AGHT+IGdsNQUsmbUOUI+orNngMgxpsTQdp0snOH8gbX5DALySfY8923JRytGglN6HweIwISXhyNuq567FwNajE1v7us=
+X-Received: by 2002:a05:6102:1625:b0:49b:dd30:d168 with SMTP id
+ ada2fe7eead31-49bde130e32mr1997788137.2.1725606051772; Fri, 06 Sep 2024
+ 00:00:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240825090052.22135-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240825090052.22135-1-krzysztof.kozlowski@linaro.org>
+References: <7c4a1ca4525a1d1429c9f16ccfc6d8bf80fc2b63.1720942618.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <7c4a1ca4525a1d1429c9f16ccfc6d8bf80fc2b63.1720942618.git.christophe.jaillet@wanadoo.fr>
 From: Inki Dae <daeinki@gmail.com>
-Date: Fri, 6 Sep 2024 15:57:40 +0900
-Message-ID: <CAAQKjZP+1xRPBc+tfJ735AtEtBWwiLThbi_-SA28cQs0G66LOg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: MAINTAINERS: drop stale exynos file pattern
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Date: Fri, 6 Sep 2024 16:00:15 +0900
+Message-ID: <CAAQKjZPN742hd=BJHmS+ATOwpR+AdhyhF4W0J8vWAonMKfPXhg@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: Constify struct exynos_drm_ipp_funcs
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,48 +84,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+Hi Christophe JAILLET,
 
-2024=EB=85=84 8=EC=9B=94 25=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 6:01, K=
-rzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+2024=EB=85=84 7=EC=9B=94 14=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 4:37, C=
+hristophe JAILLET
+<christophe.jaillet@wanadoo.fr>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> With last TXT binding converted to DT schema, all Samsung Exynos display
-> bindings are in "samsung" directory, already present in maintainers
-> entry.  Drop old "exynos" directory to fix get_maintainers.pl self-test
-> warning:
+> 'struct exynos_drm_ipp_funcs' are not modified in these drivers.
 >
->   ./MAINTAINERS:7539: warning: no file matches  F:      Documentation/dev=
-icetree/bindings/display/exynos/
+> Constifying this structure moves some data to a read-only section, so
+> increase overall security.
 >
-> Fixes: ad6d17e10306 ("dt-bindings: display: samsung,exynos5-dp: convert t=
-o DT Schema")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> On a x86_64, with allmodconfig, as an example:
+> Before:
+> =3D=3D=3D=3D=3D=3D
+>    text    data     bss     dec     hex filename
+>   20446    1746      16   22208    56c0 drivers/gpu/drm/exynos/exynos_drm=
+_fimc.o
+>
+> After:
+> =3D=3D=3D=3D=3D
+>    text    data     bss     dec     hex filename
+>   20446    1714      16   22176    56a0 drivers/gpu/drm/exynos/exynos_drm=
+_fimc.o
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Applied. Seems that RC7 is already late, so I have merged it into the
-eynox-drm-next branch.
-
-Thanks,
+Applied. Thank for contribution,
 Inki Dae
 
 > ---
->  MAINTAINERS | 1 -
->  1 file changed, 1 deletion(-)
+> Compile tested-only.
+> ---
+>  drivers/gpu/drm/exynos/exynos_drm_fimc.c   | 2 +-
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c    | 2 +-
+>  drivers/gpu/drm/exynos/exynos_drm_scaler.c | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 028186bb4e8d..c75918994a53 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7536,7 +7536,6 @@ M:        Kyungmin Park <kyungmin.park@samsung.com>
->  L:     dri-devel@lists.freedesktop.org
->  S:     Supported
->  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exy=
-nos.git
-> -F:     Documentation/devicetree/bindings/display/exynos/
->  F:     Documentation/devicetree/bindings/display/samsung/
->  F:     drivers/gpu/drm/exynos/
->  F:     include/uapi/drm/exynos_drm.h
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/e=
+xynos/exynos_drm_fimc.c
+> index 142184c8c3bc..4d7ea65b7dd8 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+> @@ -1125,7 +1125,7 @@ static void fimc_abort(struct exynos_drm_ipp *ipp,
+>         }
+>  }
+>
+> -static struct exynos_drm_ipp_funcs ipp_funcs =3D {
+> +static const struct exynos_drm_ipp_funcs ipp_funcs =3D {
+>         .commit =3D fimc_commit,
+>         .abort =3D fimc_abort,
+>  };
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/ex=
+ynos/exynos_drm_gsc.c
+> index 1b111e2c3347..d80b0d1eb734 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> @@ -1162,7 +1162,7 @@ static void gsc_abort(struct exynos_drm_ipp *ipp,
+>         }
+>  }
+>
+> -static struct exynos_drm_ipp_funcs ipp_funcs =3D {
+> +static const struct exynos_drm_ipp_funcs ipp_funcs =3D {
+>         .commit =3D gsc_commit,
+>         .abort =3D gsc_abort,
+>  };
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c b/drivers/gpu/drm=
+/exynos/exynos_drm_scaler.c
+> index a9d469896824..2788105ac780 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+> @@ -403,7 +403,7 @@ static int scaler_commit(struct exynos_drm_ipp *ipp,
+>         return 0;
+>  }
+>
+> -static struct exynos_drm_ipp_funcs ipp_funcs =3D {
+> +static const struct exynos_drm_ipp_funcs ipp_funcs =3D {
+>         .commit =3D scaler_commit,
+>  };
+>
 > --
-> 2.43.0
+> 2.45.2
 >
 >
