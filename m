@@ -2,49 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC1696EE7C
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512F996EE82
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 10:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB88910E9C4;
-	Fri,  6 Sep 2024 08:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC7D10E9C5;
+	Fri,  6 Sep 2024 08:47:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="FjlbIAXF";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="jmHTdtdU";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="p4EvLS17";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3233710E9C4
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 08:46:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1725612374;
- bh=kPQRkujHjDffzDJZFt3hXOa/dO2qonvCF68KlA30AZs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FjlbIAXFWVH+qqzJgpxHcAIFtGfvOxKSZy+L30pxWpsG53Iem0MxQy3P6FXu29PXk
- ekLGWC3foZjPptGDp7C01e+0g04nTgQ5zeVVzvU7MQRoiX+SRqomguZh6cOSdrjML9
- RYgzEYnkTNK81XUvhcpyd2nMEOp/zjhBL5rsQMt3wyEe264dsveX5Fwihfr3KWx3VX
- 6z/RSyf3mD4VNZQIdouzeJmiQHz1CIaQwyWDCO2jfZXZj9m8+OPcjY/p1REhAywf3T
- ExHyUhu0ui/v9VPKGAx5N/FW8gUnrOCNwj9YdLjuac+qEdP1u0MnhRqKR3K9gbMPnH
- /ZzPYj4m9UGzA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4X0VFK64Qzz4x7F;
- Fri,  6 Sep 2024 18:46:13 +1000 (AEST)
-Date: Fri, 6 Sep 2024 18:46:13 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@redhat.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Xiaogang Chen
- <xiaogang.chen@amd.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build warning after merge of the amdgpu tree
-Message-ID: <20240906184613.563fa358@canb.auug.org.au>
-In-Reply-To: <20240826155916.59ad7d57@canb.auug.org.au>
-References: <20240826155916.59ad7d57@canb.auug.org.au>
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B42610E9C5
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 08:47:27 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1725612445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oa8B0exPuHorkfb3VBgoef687xB6sMs73RRCB0C9WhI=;
+ b=jmHTdtdUGvZY4c5xEMGMPt8nSh9czuB7Jj3l9qfv9EQigYmGn3Ie9SEOdanBnAHuPojb7l
+ hUgVGAdt7WpDxjVkLzCObUOrc4wsqiVEURn3vfiVd+CKSgRCsnrN9ecA94HQbkIFgi1Hr9
+ NlDzC73sZikE6Er/v5CtxHroxj8eNasoNl+SmnxIYVbu4xuSS1PwNy/56spFcGxTpi10oj
+ 3alpK/SvjsKYfNSt8ACVCEhta4rwCvERxeFiwfSADG5TwSM85dcyBt2QhOCX9TS7alaP6V
+ Ruwd63raIZjTRYXFDwOQj3yBsIdr5UY0vqEWeFFJ3SXDmGRlN3tHPj60/CZuxg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1725612445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oa8B0exPuHorkfb3VBgoef687xB6sMs73RRCB0C9WhI=;
+ b=p4EvLS17dbTj5Ob8xY8Oe8RB2BbwrpnLWY2cdQDAt6u+h2mzS9aSCA82XaY0xA2fN/usUZ
+ PBAoxx6bWkAvNkBA==
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Javier Martinez Canillas
+ <javierm@redhat.com>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Petr Mladek <pmladek@suse.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 3/3] drm/log: Introduce a new boot logger to draw
+ the kmsg on the screen
+In-Reply-To: <87seudchlu.fsf@jogness.linutronix.de>
+References: <20240801100640.462606-1-jfalempe@redhat.com>
+ <20240801100640.462606-4-jfalempe@redhat.com>
+ <87o76czfb2.fsf@jogness.linutronix.de>
+ <d4412d54-41b1-4671-9733-34ba1423404c@redhat.com>
+ <87zfpwxqpc.fsf@jogness.linutronix.de>
+ <87a5gm2khw.fsf@jogness.linutronix.de>
+ <a421b31b-53ad-4f56-88be-66a7d4c3bb61@redhat.com>
+ <87seudchlu.fsf@jogness.linutronix.de>
+Date: Fri, 06 Sep 2024 10:53:25 +0206
+Message-ID: <87plphcgo2.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/j/4oTsPNqvAJkdewQyCZWu2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,45 +73,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/j/4oTsPNqvAJkdewQyCZWu2
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 2024-09-06, John Ogness <john.ogness@linutronix.de> wrote:
+> Your device_lock()/device_unlock() callbacks probably just need to
+> lock/unlock your mutex @drm_log_lock.
 
-Hi all,
+Sorry, forgot to mention that the device_lock() callback must also
+disable migration. Since you are using a mutex, you will need to
+manually do that as well...
 
-On Mon, 26 Aug 2024 15:59:16 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the amdgpu tree, today's linux-next build (htmldocs)
-> produced this warning:
->=20
-> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2785: warning: Function parameter =
-or struct member 'ts' not described in 'amdgpu_vm_handle_fault'
->=20
-> Introduced by commit
->=20
->   6ef29715ac06 ("drm/amdkfd: Change kfd/svm page fault drain handling")
+mutex_lock(&drm_log_lock);
+migrate_disable();
 
-This commit is now in the drm tree and I am still seeing this warning.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/j/4oTsPNqvAJkdewQyCZWu2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmbawVUACgkQAVBC80lX
-0Gw2Xgf/QKgd4S5X0bjWTxl3iXMYZKPeb8s7uCht/dQN038tqdkTPfPw5HsBsx2r
-yjGAel+1qqLWARKoNcHcV7N/888LIyceJ3p33K7nfNixXLTLoNtS0gx6oJe3HxuF
-eHE97yEEuEJzKRs9Nii29fiUrGqHYn4vL3ywSdAAm0lzYqlQIwVLav0Svvs/Jtgg
-1DJ85c/pT8y10cNzowq8ZUCBn504F5JoskACHYfhQSmmWdjAo1YM278YDH1CXUaO
-ObNp7VagW9WFyN1Qpm/qj/IpDoy+lvAmg2aM0WET62SznbUs+DVFAlcz3VkXcvbc
-NLb80X9oxy2z96DfQqBsfZRvhCD/ZQ==
-=0cSw
------END PGP SIGNATURE-----
-
---Sig_/j/4oTsPNqvAJkdewQyCZWu2--
+John
