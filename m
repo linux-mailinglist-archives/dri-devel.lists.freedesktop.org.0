@@ -2,94 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F85C96F789
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 16:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415B396F7A0
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 17:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F5F10EA7F;
-	Fri,  6 Sep 2024 14:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8504C10EA87;
+	Fri,  6 Sep 2024 15:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.b="dPOKfUUi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fkpZZKHP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com
- [209.85.221.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0149710EA80
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 14:56:45 +0000 (UTC)
-Received: by mail-vk1-f172.google.com with SMTP id
- 71dfb90a1353d-5010c0e16baso719182e0c.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 07:56:45 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD97710EA86;
+ Fri,  6 Sep 2024 15:02:44 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-20530659f78so815465ad.1; 
+ Fri, 06 Sep 2024 08:02:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=paul-moore.com; s=google; t=1725634605; x=1726239405;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1725634964; x=1726239764; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Z8DQFAISHS7i5IP3gsOeV2GhBMoOIKb1H2ynRnefFiA=;
- b=dPOKfUUi8Tx0Nq6pweEnDfvrHsWvhRo3Z3V5jcYoJ9cNUHhta69WTc4w9BAco4grqk
- kH7yjkWRJuE8JX4pEa2pCZQamABXZv6TCdY1rwmx5DYGv+2RYN5OKQM5Rxnjw/IoYsPL
- s6ImEYCAisN8i/bcFOKemZOL2Y+cnIzonz/IOPjBiF5MNOMEygDoUYfzIUZvmoTbTgcM
- STPVCkKsAArA72Ong+TU5636QPRMP96fkS4P4nZL0az84jpvnqh8bfLBDWSziOAUeIBS
- l1OC3DL9DBKKnSq58CTuvTiHDtK+01U/ICUSZeukB4FfnlVE3sRFOXT2DqAQCwo7x6cr
- AQOQ==
+ bh=CF/y2A4EOD7AN3/RYLZIn961CP/eFEWOruxjVecjTmw=;
+ b=fkpZZKHPfp2663Kd5t15YAjvUOT5Dstk6RQtjaCbmkI1pxGfoTI8Fs1Jxp2/8XDHTU
+ ihA9H48/BB3qEufVQFPsoW9z+Xe2if8Rr+PB8PLTw0xjp3hXs8j2yQhqtxRIN48CUZNO
+ ZhrT68TZZ+JE62RiJXUD70XPU0hldlmQ653ZvsDgdf+A4/ddHmJZIpNRakHj2y1QSEHX
+ BLEfwLeEc2+7K/7pNG2exGhSvkYM1jiX1PaCNlAeiR7VWnSALpnxBpktbIBn/dkPA+fz
+ S71Y3nk5JBFTZ2EAYRgIXxS2RE/6nDhdx2EinQlu2xM1suP0dKNtSMGGcoMLAb9wJ6WM
+ 7y+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725634605; x=1726239405;
+ d=1e100.net; s=20230601; t=1725634964; x=1726239764;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Z8DQFAISHS7i5IP3gsOeV2GhBMoOIKb1H2ynRnefFiA=;
- b=Ur12Avk7uo1lJeQVY6sjBtkFSi2Hzkq3o72dePr2E4irk1PYr7Dp6mhXZ7Ev0fXvH8
- X4yzYZeScHtwuzeWkv/hqKE6oSS3fpx8vJtQxBwCkaTpbnygMz4uO5BbZqxkw9VNE7VF
- UrrCI9luhYLr31uPl4pTfFsK+MQKut9JhdwdnCPaO4DKyhQbVE1nksO2Jz5L2lxpl/G1
- BsUCKv53lqJEU+ljDxWMy8R6VpvZwVjTPB/hiFKvSTW97tfajqLVGIbe52Jp0/bSDTW/
- D0fBHTqtcabqhoZ4bx+WdxVKIhyh0+sgWhJPZRB6r1OTxfY507xcE3iwiIM40ooPgYPB
- KTtw==
+ bh=CF/y2A4EOD7AN3/RYLZIn961CP/eFEWOruxjVecjTmw=;
+ b=GyfxZsl1fxr0bvd0DGyu4htTrozsPoYU8DV89OLyloyT28f9jCr6rsKBaZM0Gjd1vg
+ 4hHzkCeWP6J/s7EP8ydbyigHNg1uwqOChGXByTF41EXZwim/J6Or4Bv2SUBuJxpFgzWi
+ hHxro44rY4BdBK/3EOjtgaGE9HYVbtLl/N0V5MEVnW6KlJN7KqZ8f5YUCh3pUZ/WACrU
+ PZuFr9vMouig3yfzfmF5qfg195yzb2ojfaiMxmlsM/eWKcTOhzJF/YltMecdtkl4uysX
+ GIF2WEsaDLnBoPjoLuCRsRpvqPM9z9wfkXc8Nanb8pXU3RC/H2lmZHrw0DC3E0GpwSb4
+ 2F+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVt//UXfRT+TlcKIl8ndiql45s2c8vipohnXSw4BZCjsiM3BVLzrXiLAW1UJrMtajXgbXPpq6btV8Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2o51hhP/Au/LH20AjC/XlXmLq8NP09zU2KZGDqZwjDOQaMf3E
- yLjzx8Eysa8gv0W1Uwa0we++YtvEZKipVb/jcuuSqg/CK+w3QQd268bGY9AZ4tDn2GOJI8tS0FE
- RvetBczkoMWHXBNKRfldwNOC6PCmCza7VJdHh
-X-Google-Smtp-Source: AGHT+IHq7ZiORKnHJ7OGW0/x1cWaLstSbHVVP69Jhc2KtxHBDUWP5W0/AltVyanWWqQY/QWC4tnW0snbDbe3WIJv/jg=
-X-Received: by 2002:a05:6122:3b17:b0:501:2842:428a with SMTP id
- 71dfb90a1353d-50128425272mr4021883e0c.8.1725634604866; Fri, 06 Sep 2024
- 07:56:44 -0700 (PDT)
+ AJvYcCUg+OYGJp8dGohA8KyXTHWojIc/tAvNWHxuAqN48oTxL8XjiXbHHf+tCvZJaHRQe2zUILLcIUScIIPK@lists.freedesktop.org,
+ AJvYcCUhB5dhlo1w7GC+HOM1Wjh+Irz6+8z963WKFDFnst/TP2MGjfxC3HgDdq4nELG8k/DJmhufKJi1@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWU6orXyjfCvEFvBIfrKgVye0R4x6QLA/DOOEQtRI3XhlLFirf
+ J7FetdfzYAVLD6IxN7Xz7Jj70lHHJAZTH3GMLgAjxFnauDOJwE7r+LbVDPzidjLLHD8Q/pBvLWr
+ iisNRpZ27wVbjhMl0fYigeqaMi0E=
+X-Google-Smtp-Source: AGHT+IFUyTc2msw9pBuDinPebsrgH2WgTVb3aopL/b6zxirXk5TlrlJwgcDG34rx6p5wEwYoay4kl+oDdVtZtxl+tQk=
+X-Received: by 2002:a17:902:f0cb:b0:205:60f5:4c0 with SMTP id
+ d9443c01a7336-206f0669d0emr15345825ad.9.1725634964083; Fri, 06 Sep 2024
+ 08:02:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
- <20240906-macos-build-support-v2-6-06beff418848@samsung.com>
-In-Reply-To: <20240906-macos-build-support-v2-6-06beff418848@samsung.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 6 Sep 2024 10:56:33 -0400
-Message-ID: <CAHC9VhRpHgqN2fp1J3x9=zBqNr3QHsSDgUnoZ7M-SuOQ6hQ4nw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] selinux: do not include <linux/*.h> headers from
- host programs
-To: da.gomez@samsung.com
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
- Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
- Justin Stitt <justinstitt@google.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- speakup@linux-speakup.org, selinux@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
- linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
- Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
- gost.dev@samsung.com
+References: <20240903045809.5025-1-mukul.sikka@broadcom.com>
+ <CADnq5_OVSD1DXgi_9f_H-uT7KSjMwz-FfhP=vRQvposSxv=BMw@mail.gmail.com>
+ <CAG99D9Jss=h5aVLDq0tkDjfZgGUbrNV1gqwcw631RbwCiPVqNg@mail.gmail.com>
+In-Reply-To: <CAG99D9Jss=h5aVLDq0tkDjfZgGUbrNV1gqwcw631RbwCiPVqNg@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 6 Sep 2024 11:02:32 -0400
+Message-ID: <CADnq5_NWX7u=S+jrC8YA6fJxN7GXpSN+kqsQieqphdOz2HT6EA@mail.gmail.com>
+Subject: Re: [PATCH v5.15-v5.10] drm/amd/pm: Fix the null pointer dereference
+ for vega10_hwmgr
+To: Mukul Sikka <mukul.sikka@broadcom.com>
+Cc: stable@vger.kernel.org, gregkh@linuxfoundation.org, evan.quan@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie, 
+ daniel@ffwll.ch, Jun.Ma2@amd.com, kevinyang.wang@amd.com, sashal@kernel.org, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, ajay.kaher@broadcom.com, 
+ alexey.makhalov@broadcom.com, vasavi.sirnapalli@broadcom.com, 
+ Bob Zhou <bob.zhou@amd.com>, Tim Huang <Tim.Huang@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,68 +88,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 6, 2024 at 7:01=E2=80=AFAM Daniel Gomez via B4 Relay
-<devnull+da.gomez.samsung.com@kernel.org> wrote:
+On Fri, Sep 6, 2024 at 4:50=E2=80=AFAM Mukul Sikka <mukul.sikka@broadcom.co=
+m> wrote:
 >
-> From: Masahiro Yamada <masahiroy@kernel.org>
->
-> Commit bfc5e3a6af39 ("selinux: use the kernel headers when building
-> scripts/selinux") is not the right thing to do.
->
-> It is clear from the warning in include/uapi/linux/types.h:
->
->   #ifndef __EXPORTED_HEADERS__
->   #warning "Attempt to use kernel headers from user space, see https://ke=
-rnelnewbies.org/KernelHeaders"
->   #endif /* __EXPORTED_HEADERS__ */
->
-> If you are inclined to define __EXPORTED_HEADERS__, you are likely doing
-> wrong.
->
-> Adding the comment:
->
->   /* NOTE: we really do want to use the kernel headers here */
->
-> does not justify the hack in any way.
->
-> Currently, <linux/*.h> headers are included for the following purposes:
->
->  - <linux/capability.h> is included to check CAP_LAST_CAP
->  - <linux/socket.h> in included to check PF_MAX
->
-> We can skip these checks when building host programs, as they will
-> be eventually tested when building the kernel space.
->
-> I got rid of <linux/stddef.h> from initial_sid_to_string.h because
-> it is likely that NULL is already defined. If you insist on making
-> it self-contained, you can add the following:
->
->   #ifdef __KERNEL__
->   #include <linux/stddef.h>
->   #else
->   #include <stddef.h>
->   #endif
->
-> scripts/selinux/mdp/mdp.c still includes <linux/kconfig.h>, which is
-> also discouraged and should be fixed by a follow-up refactoring.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->  scripts/selinux/genheaders/Makefile              |  4 +---
->  scripts/selinux/genheaders/genheaders.c          |  3 ---
->  scripts/selinux/mdp/Makefile                     |  2 +-
->  scripts/selinux/mdp/mdp.c                        |  4 ----
->  security/selinux/include/classmap.h              | 19 ++++++++++++------=
--
->  security/selinux/include/initial_sid_to_string.h |  2 --
->  6 files changed, 14 insertions(+), 20 deletions(-)
+> On Fri, Sep 6, 2024 at 12:05=E2=80=AFAM Alex Deucher <alexdeucher@gmail.c=
+om> wrote:
+> >
+> > On Tue, Sep 3, 2024 at 5:53=E2=80=AFAM sikkamukul <mukul.sikka@broadcom=
+.com> wrote:
+> > >
+> > > From: Bob Zhou <bob.zhou@amd.com>
+> > >
+> > > [ Upstream commit 50151b7f1c79a09117837eb95b76c2de76841dab ]
+> > >
+> > > Check return value and conduct null pointer handling to avoid null po=
+inter dereference.
+> > >
+> > > Signed-off-by: Bob Zhou <bob.zhou@amd.com>
+> > > Reviewed-by: Tim Huang <Tim.Huang@amd.com>
+> > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > Signed-off-by: Mukul Sikka <mukul.sikka@broadcom.com>
+> >
+> > Just out of curiosity, are you actually seeing an issue?  This and a
+> > lot of the other recent NULL check patches are just static checker
+> > fixes.  They don't actually fix a known issue.
+> >
+> No, according to the description of this patch and CVE-2024-43905.
+> It seems to be applicable to LTS.
 
-Similar to patch 7/8, please read my comments on your previous posting
-of this patch, it doesn't appear that you've made any of the changes I
-asked for in your previous posting.
+I don't know that this is really CVE material, but oh well.  I'm not
+sure if it's actually possible to hit this in practice.
 
-https://lore.kernel.org/selinux/317c7d20ab8a72975571cb554589522b@paul-moore=
-.com
+Alex
 
---=20
-paul-moore.com
+>
+> - Mukul
+>
+> > > ---
+> > >  .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 30 ++++++++++++++++-=
+--
+> > >  1 file changed, 26 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/=
+drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> > > index 10678b519..304874cba 100644
+> > > --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> > > +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> > > @@ -3391,13 +3391,17 @@ static int vega10_find_dpm_states_clocks_in_d=
+pm_table(struct pp_hwmgr *hwmgr, co
+> > >         const struct vega10_power_state *vega10_ps =3D
+> > >                         cast_const_phw_vega10_power_state(states->pne=
+w_state);
+> > >         struct vega10_single_dpm_table *sclk_table =3D &(data->dpm_ta=
+ble.gfx_table);
+> > > -       uint32_t sclk =3D vega10_ps->performance_levels
+> > > -                       [vega10_ps->performance_level_count - 1].gfx_=
+clock;
+> > >         struct vega10_single_dpm_table *mclk_table =3D &(data->dpm_ta=
+ble.mem_table);
+> > > -       uint32_t mclk =3D vega10_ps->performance_levels
+> > > -                       [vega10_ps->performance_level_count - 1].mem_=
+clock;
+> > > +       uint32_t sclk, mclk;
+> > >         uint32_t i;
+> > >
+> > > +       if (vega10_ps =3D=3D NULL)
+> > > +               return -EINVAL;
+> > > +       sclk =3D vega10_ps->performance_levels
+> > > +                       [vega10_ps->performance_level_count - 1].gfx_=
+clock;
+> > > +       mclk =3D vega10_ps->performance_levels
+> > > +                       [vega10_ps->performance_level_count - 1].mem_=
+clock;
+> > > +
+> > >         for (i =3D 0; i < sclk_table->count; i++) {
+> > >                 if (sclk =3D=3D sclk_table->dpm_levels[i].value)
+> > >                         break;
+> > > @@ -3704,6 +3708,9 @@ static int vega10_generate_dpm_level_enable_mas=
+k(
+> > >                         cast_const_phw_vega10_power_state(states->pne=
+w_state);
+> > >         int i;
+> > >
+> > > +       if (vega10_ps =3D=3D NULL)
+> > > +               return -EINVAL;
+> > > +
+> > >         PP_ASSERT_WITH_CODE(!vega10_trim_dpm_states(hwmgr, vega10_ps)=
+,
+> > >                         "Attempt to Trim DPM States Failed!",
+> > >                         return -1);
+> > > @@ -4828,6 +4835,9 @@ static int vega10_check_states_equal(struct pp_=
+hwmgr *hwmgr,
+> > >
+> > >         psa =3D cast_const_phw_vega10_power_state(pstate1);
+> > >         psb =3D cast_const_phw_vega10_power_state(pstate2);
+> > > +       if (psa =3D=3D NULL || psb =3D=3D NULL)
+> > > +               return -EINVAL;
+> > > +
+> > >         /* If the two states don't even have the same number of perfo=
+rmance levels they cannot be the same state. */
+> > >         if (psa->performance_level_count !=3D psb->performance_level_=
+count) {
+> > >                 *equal =3D false;
+> > > @@ -4953,6 +4963,8 @@ static int vega10_set_sclk_od(struct pp_hwmgr *=
+hwmgr, uint32_t value)
+> > >                 return -EINVAL;
+> > >
+> > >         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> > > +       if (vega10_ps =3D=3D NULL)
+> > > +               return -EINVAL;
+> > >
+> > >         vega10_ps->performance_levels
+> > >         [vega10_ps->performance_level_count - 1].gfx_clock =3D
+> > > @@ -5004,6 +5016,8 @@ static int vega10_set_mclk_od(struct pp_hwmgr *=
+hwmgr, uint32_t value)
+> > >                 return -EINVAL;
+> > >
+> > >         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> > > +       if (vega10_ps =3D=3D NULL)
+> > > +               return -EINVAL;
+> > >
+> > >         vega10_ps->performance_levels
+> > >         [vega10_ps->performance_level_count - 1].mem_clock =3D
+> > > @@ -5239,6 +5253,9 @@ static void vega10_odn_update_power_state(struc=
+t pp_hwmgr *hwmgr)
+> > >                 return;
+> > >
+> > >         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> > > +       if (vega10_ps =3D=3D NULL)
+> > > +               return;
+> > > +
+> > >         max_level =3D vega10_ps->performance_level_count - 1;
+> > >
+> > >         if (vega10_ps->performance_levels[max_level].gfx_clock !=3D
+> > > @@ -5261,6 +5278,9 @@ static void vega10_odn_update_power_state(struc=
+t pp_hwmgr *hwmgr)
+> > >
+> > >         ps =3D (struct pp_power_state *)((unsigned long)(hwmgr->ps) +=
+ hwmgr->ps_size * (hwmgr->num_ps - 1));
+> > >         vega10_ps =3D cast_phw_vega10_power_state(&ps->hardware);
+> > > +       if (vega10_ps =3D=3D NULL)
+> > > +               return;
+> > > +
+> > >         max_level =3D vega10_ps->performance_level_count - 1;
+> > >
+> > >         if (vega10_ps->performance_levels[max_level].gfx_clock !=3D
+> > > @@ -5451,6 +5471,8 @@ static int vega10_get_performance_level(struct =
+pp_hwmgr *hwmgr, const struct pp_
+> > >                 return -EINVAL;
+> > >
+> > >         ps =3D cast_const_phw_vega10_power_state(state);
+> > > +       if (ps =3D=3D NULL)
+> > > +               return -EINVAL;
+> > >
+> > >         i =3D index > ps->performance_level_count - 1 ?
+> > >                         ps->performance_level_count - 1 : index;
+> > > --
+> > > 2.39.4
+> > >
