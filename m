@@ -2,76 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABA296F69B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 16:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7149096F6E3
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 16:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A12810E18F;
-	Fri,  6 Sep 2024 14:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE9C310EA68;
+	Fri,  6 Sep 2024 14:34:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="kNHXbe5q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Oeodf737";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
- [209.85.219.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5F510E18F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 14:24:45 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-e1a9b40f6b3so2234425276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 07:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1725632684; x=1726237484;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p8upxWrhNyZy+NKkFxmG2+Tbfi/9d0hGpUln0sB+Ifk=;
- b=kNHXbe5qedess3ldSVAVYsttwbvks3Ahc03CyX/+o5DM5Jczv/8RhVwrAOxoIbPQiP
- KKoUIxLpqoulMo4HmlCOgUpz+dnGdB9C9NJy9rRLXAAd7BStxh4mNqyoFGc4BPyeq29o
- hLu1vEvFYnkoM/cxXlwI/Nepb17fqlbVQdPmsSQr1m2yuWlc2KZZKuyYEtsWEMEGMCD8
- dUg3AtOw8MTrr83ueVNoohcq7QHxb6W3GKrlPaGVx/jmTXJgke3Hf8HCeZBJsTYWRJXO
- ahw4TYxe85me6aspgAkeCGtSgPzC3or8bWi46KfSSGIn9IH/H0P4DjWHYt8+N/GdJImC
- bNIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725632684; x=1726237484;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p8upxWrhNyZy+NKkFxmG2+Tbfi/9d0hGpUln0sB+Ifk=;
- b=NquqiJ9fkKa0UQmZM1B7Fc00F4IHw4Ujp2c2NCxdd8sIiXfEJDU1kE/tx+uo0OskNY
- FPUHH6GZln0Ufr+ktyqwmRAD/yzhPp580/OBNjHxoh0jfLjLjo/s11TvdQbJEdX85pY8
- 3lq2GtBvVkOM0HFYFOYh8YRnBsY3I+0RBs++YQXd9kh3p6o6Sm8Ju7NmFf34Ab0ccAAS
- 0U1ZZDud2QmXeYlWlJaXTiCgs9OimphhWtt7xKcbne4tXu855DqAQbUZDFzytUcZUQA1
- Vw7MBFpcppOX2MqosUpOKByuiPfkbY5NqEvU8KALLQP8aYOVkTydzENO4mqvVYplWH2e
- tFjQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWIGjhomEOIYbjM2q1Vv1F64OkTPCAFPBVKzBaluaqoCbyQHLeUIdeZgAum/IAQXGsSH0f7IqG/zeM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGUDFztVR6WsP1zA7y9LpcxUv+SSfK1gIT9lpBlF3tarAABWIe
- EkMCAhVg7JuJqjwV9xXzSWy8XQM8qzXTL2bUnC2lZAbHLlVBwqMVf7bYb1FJyAVefZQNHD+jnk2
- 2HPphTJH5myUJGNw6XRInqKRtrbpsSSXpx7LxQg==
-X-Google-Smtp-Source: AGHT+IF4IYCGA4TBwaurNOJuIBO9gF4jdAwiekpYJjy5zBtMoqX8s84RmLYpleVlyy+Sj4InWZismzm0fDYsFOMZquQ=
-X-Received: by 2002:a05:6902:2513:b0:e1d:2f11:3eb9 with SMTP id
- 3f1490d57ef6-e1d3486c386mr3504573276.2.1725632684260; Fri, 06 Sep 2024
- 07:24:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240731191312.1710417-12-robh@kernel.org>
- <CAL_JsqKvA0Uw7uqpmdMP7Z4mL3Qsmay5Fqb4M97s=QsBW_Nxyg@mail.gmail.com>
- <CAPY8ntAv3Xpq45ykwX_98WJKFBxqP6Os+6KvD5xzDTFz8a1idQ@mail.gmail.com>
- <CAL_JsqKjRbHCeFoZDE_wss5HMNmt8UBWa+y_8yJ6TC80xxiTOA@mail.gmail.com>
-In-Reply-To: <CAL_JsqKjRbHCeFoZDE_wss5HMNmt8UBWa+y_8yJ6TC80xxiTOA@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 6 Sep 2024 15:24:28 +0100
-Message-ID: <CAPY8ntBJL9nJupadT8T1DGeQHn++MRGKbyH5xSF94a0moqWGYw@mail.gmail.com>
-Subject: Re: [PATCH] drm: vc4: Use of_property_present()
-To: Rob Herring <robh@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D14010EA79
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 14:34:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id CB682A4505B;
+ Fri,  6 Sep 2024 14:34:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48836C4CECB;
+ Fri,  6 Sep 2024 14:34:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725633267;
+ bh=GJhdh1KL6sQuQwMV3OtKllaFyTdDwk8Rn9pISls1GlQ=;
+ h=Date:To:Subject:Cc:From:References:In-Reply-To:From;
+ b=Oeodf737b6AFFx4Kr6GnO9BnmgcUssKIwZ8gGfjzhQP1O55srkqsQQfstsM5EEn0O
+ 2ZZXS4n6Cdw/xQlH9EtlcuhlHktS1nkTpHONG6XeEYcyWth+4jQHIwxUgZtbSoylsj
+ wZ11yX2W0pJ9kUiQlBq0MWEUpjbssT+k26gveVgOts2HgiGjQXfNe3axfNAJ/hSDK4
+ 1hgpkQzCc5BolbX5xQoDa3P0ptOMKBWGvnyOK7vbghZ2c7RILpbidDSzjrwC+Z7Kh8
+ dUDoWHlRMweBEbae6rkOrHIf/v83537Ushy91usqBZ+D2eB+3UgfgHC1STX5ITeKFl
+ m4+dSUdMxZPhw==
+Content-Type: multipart/signed;
+ boundary=e8ad010c817a911994476ecdfdd40bb8fa6aeac4a7fb87b11405e936193a;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Fri, 06 Sep 2024 16:34:23 +0200
+Message-Id: <D3Z9XTBHSUEN.2GW0UCIPLR6HY@kernel.org>
+To: "Daniel Semkowicz" <dse@thaumatec.com>
+Subject: Re: [PATCH 09/20] drm/bridge: tc358775: remove complex vsdelay
+ calculation
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Chun-Kuang
+ Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Sam Ravnborg"
+ <sam@ravnborg.org>, "Vinay Simha BN" <simhavcs@gmail.com>, "Tony Lindgren"
+ <tony@atomide.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>
+From: "Michael Walle" <mwalle@kernel.org>
+X-Mailer: aerc 0.16.0
+References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
+ <20240506-tc358775-fix-powerup-v1-9-545dcf00b8dd@kernel.org>
+ <CAHgnY3=KCD4gyJ4nL6nN1tvWcsiRQL+Oz11RNOniDdyMoEPcSg@mail.gmail.com>
+In-Reply-To: <CAHgnY3=KCD4gyJ4nL6nN1tvWcsiRQL+Oz11RNOniDdyMoEPcSg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,104 +73,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 4 Sept 2024 at 14:19, Rob Herring <robh@kernel.org> wrote:
+--e8ad010c817a911994476ecdfdd40bb8fa6aeac4a7fb87b11405e936193a
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+Hi Daniel,
+
+> > To cite the datasheet on VSDELAY:
+> >   During DSI link speed is slower than that of LVDS link=E2=80=99s, dat=
+a needs
+> >   to be buffer within 775XBG before outputting to prevent data from
+> >   underflow. Register field VPCTRL[VSDELAY] is used to for this purpose
+> >
+> > This driver assumes that the DSI link speed is the pixel clock (as does
+> > every DSI bridge driver), after all the LVDS clock is derived from the
+> > DSI clock. Thus we know for a fact, that the DSI link is not slower tha=
+n
+> > the LVDS side. Just use the (sane) default value of the bridge and drop
+> > the complicated calculation here.
 >
-> On Wed, Sep 4, 2024 at 6:18=E2=80=AFAM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
-> >
-> > Hi Rob
-> >
-> > On Tue, 3 Sept 2024 at 20:19, Rob Herring <robh@kernel.org> wrote:
-> > >
-> > > On Wed, Jul 31, 2024 at 2:13=E2=80=AFPM Rob Herring (Arm) <robh@kerne=
-l.org> wrote:
-> > > >
-> > > > Use of_property_present() to test for property presence rather than
-> > > > of_find_property(). This is part of a larger effort to remove calle=
-rs
-> > > > of of_find_property() and similar functions. of_find_property() lea=
-ks
-> > > > the DT struct property and data pointers which is a problem for
-> > > > dynamically allocated nodes which may be freed.
-> > > >
-> > > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > > > ---
-> > > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > Ping!
-> >
-> > Sorry, this fell through the cracks.
-> >
-> > > >
-> > > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/v=
-c4_hdmi.c
-> > > > index d57c4a5948c8..049de06460d5 100644
-> > > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > > @@ -2211,7 +2211,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdm=
-i *vc4_hdmi)
-> > > >         struct device *dev =3D &vc4_hdmi->pdev->dev;
-> > > >         struct platform_device *codec_pdev;
-> > > >         const __be32 *addr;
-> > > > -       int index, len;
-> > > > +       int index;
-> > > >         int ret;
-> > > >
-> > > >         /*
-> > > > @@ -2234,7 +2234,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdm=
-i *vc4_hdmi)
-> > > >         BUILD_BUG_ON(offsetof(struct vc4_hdmi_audio, card) !=3D 0);
-> > > >         BUILD_BUG_ON(offsetof(struct vc4_hdmi, audio) !=3D 0);
-> > > >
-> > > > -       if (!of_find_property(dev->of_node, "dmas", &len) || !len) =
-{
-> > > > +       if (!of_property_present(dev->of_node, "dmas")) {
-> >
-> > The existing conditional is true if the property is not present or is 0=
- length.
-> > Your new one is only true if the property isn't present, so it isn't th=
-e same.
->
-> It is not the kernel's job to validate the DT. It does a terrible job
-> of it and we have better tools for that now (schemas (though RPi
-> platforms are in a pretty sad state for schemas)). I'm pretty sure a
-> zero length or otherwise malformed "dmas" property would also cause a
-> dtc warning as well. Non-zero length is hardly a complete test
-> anyways. Any bogus value of "dmas" would pass. Or it can be completely
-> valid, but the DMA driver is not enabled (whether you even probe
-> depends on fw_devlinks).
->
-> The kernel should just parse the properties it wants and handle any error=
-s then.
+> I am not convinced this is a good idea to revert to a default
+> VSdelay value. I tested your patch series with RK3399 platform
+> and default value (5) was not enough there. There was small data
+> underflow visible, resulting in display offset. Removing this patch
+> and using the original calculation formula fixed the problem.
+> The calculated VSDELAY value seems to be a lot bigger than required,
+> but keeps us on the safe side.
 
-I've followed up over the rationale of this.
+Did you use just parts of this series or did you port the "lp11
+notify" mechanism to the rk3399 platform? Please keep in mind, that
+this bridge doesn't really work if the reset isn't deasserted during
+lp-11 mode and lots of odd things happen.
 
-The base DT enables HDMI audio.
-On some systems there is a need to use the DMA channels for other
-purposes and no need for HDMI audio.
-As we understand it, an overlay can't remove a property from the base
-DT, but it can set it to being empty. (Please correct us if there is a
-way to delete an existing property).
+Also, do you know if you have an EEPROM attached to the bridge or
+does any firmware part initialize that bridge?
 
-The current check therefore allows an overlay to disable the HDMI
-audio that is enabled in the base DT. It doesn't care how long the
-property actually is, just whether it is totally empty or not as an
-alternative to being present.
+> It looks that hback-porch value for panel is used also on DSI link,
+> effectively delaying hactive data delivered to TC358775 bridge.
+> I suspect this causes the requirement for higher VSDELAY.
 
-I understand that you may consider that abuse of DT, but that is the
-reasoning behind it. We can drop it to a downstream patch if
-necessary.
+It was ages ago since I've worked on this bridge and extensively
+tested and even measured and decoded the DSI link and the LVDS
+stream. But IIRC this delay was only to compensate the difference
+between the DSI clock and the LVDS clock, that is, if you push the
+pixel stream slower into the bridge than the bridge is pushing it
+out to the LVDS panel.
 
-  Dave
+So the back porch should be irrelevant here (?!).
 
-> >
-> > Is there a more appropriate of_ call to return the length of the proper=
-ty?
->
-> There are several which are all based on the data type (string, u32,
-> u8, phandle+args, etc.). This case would be
-> of_count_phandle_with_args(). Unless you required something like 2
-> dmas entries instead of 1, I wouldn't use that here though.
->
-> Rob
+-michael
+
+--e8ad010c817a911994476ecdfdd40bb8fa6aeac4a7fb87b11405e936193a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZtsS8BIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/jrSQF/dh0L7uqo4iFgWteWoYgl5oebRy9RWFyV
+GIMN9nOpNVjk4Qk35Rw5AMwTJ2loI9hGAX9gKMZj5wZtErKpKvkIAqbL0vCimlYi
+c9LSAvT6UG+2c6Fu/Fb0C0Cu0idGKpxaoCU=
+=Ydxr
+-----END PGP SIGNATURE-----
+
+--e8ad010c817a911994476ecdfdd40bb8fa6aeac4a7fb87b11405e936193a--
