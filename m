@@ -2,77 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA95296EC15
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 09:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FF696E9C5
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 08:10:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7883010E182;
-	Fri,  6 Sep 2024 07:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6EE710E173;
+	Fri,  6 Sep 2024 06:10:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ox/iFnjR";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="EIlMwSvh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4909910E343
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2024 22:39:23 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-206aee4073cso13747965ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2024 15:39:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725575963; x=1726180763; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rCDYYiCppuB7n7e+YXIEe54LH8OdKy8Qsr87xme6vNA=;
- b=Ox/iFnjRT2MJI5uKvr9M8D7ntKuT98fZuNKIAjLEgfx1IOJ2zQRrxZA4jWWz/B8qpY
- keuQISiEK9oVWgqEIjZ0qbMPpWRlHrohGE8FNXdTUdGFXIz8gJ4fOAYy/WlDshg9VjaS
- zphvx32lJa8M9mEPOFe9rNSoxs/D8h04McQTVetDzfFIgUEddEuzfvICeHSu+McK1jsA
- ZWGZ0qrE3W7QahAV8LTq7idqkHGKEzB9gQLzjbJmf5r24OtHGLclSIladUHuwOlQsxMt
- mWstalojEjDoVSYFfc9fzYn5683ulF/fFUCGa+xMZROKOt7QpmBeaPe4YMBoiCi8hIbA
- mp9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725575963; x=1726180763;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rCDYYiCppuB7n7e+YXIEe54LH8OdKy8Qsr87xme6vNA=;
- b=PSpfdcqMjmQErjzEPZIRRze1MYItPh3w9wp4DYARPxz5daV/Zv379b7KqaYOCOuP/L
- et6XT9fbN1xmKcSBkpXI/t0SvuyNSVBn30ZRN+iqbdSbgUCz7vsYTIJFpBApLfNMfH9/
- PUJsliXmjFarrX2+wNF0p3SnjziUc7i3kxgsouenRJoSRd19AM+de9WhfbomRszKLxGB
- MNkllYu0iQWkZjmW35+ztzf+Scwl12rMLl751eldAG9eGnspxjgbbjiomSHIMwh2bjhz
- GgvxMGvI2hYzT6LbtBOX2rEbQpbLDPlBUKq0APDImXxkmARlw4sp03GDBEJF/9peqJ5V
- IivQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX58lpv14rf/QDDMGJGJcfwRrx16W0qEp2xR2QBD7+4Rd/hc71BJRFtRRNQHZhN8N2aPx5qn6j0cTc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywo3+ZmsMVhyY3DdoqMct6bdXLI3uhaSUQLYtj/sg/aus1nS0Ty
- E0wWbwZm9+2Bq6n9Rs7vxQ0BHlI6xacEdNFgLE8ITCJ34EHJuZ1v
-X-Google-Smtp-Source: AGHT+IFdDlOtC7QKiZljAYe/nH8z6tsEcq87j6lrJJXzigssQI2/0okjfjiTxKTZxUmFaIUPQUJsvQ==
-X-Received: by 2002:a17:902:f610:b0:205:eec:5755 with SMTP id
- d9443c01a7336-206f0526051mr8889545ad.23.1725575962683; 
- Thu, 05 Sep 2024 15:39:22 -0700 (PDT)
-Received: from localhost.localdomain (111-240-109-89.dynamic-ip.hinet.net.
- [111.240.109.89]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-206aea574dbsm33185335ad.214.2024.09.05.15.39.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2024 15:39:22 -0700 (PDT)
-From: Min-Hua Chen <minhuadotchen@gmail.com>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Min-Hua Chen <minhuadotchen@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/rockchip: include rockchip_drm_drv.h
-Date: Fri,  6 Sep 2024 06:38:50 +0800
-Message-ID: <20240905223852.188355-1-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3725710E173;
+ Fri,  6 Sep 2024 06:10:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+ s=onoh2408; t=1725603023;
+ bh=/dtohpd2jYZvgldSPgPUfPVsQXMJ8y7tzwUyHG6SqCY=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=EIlMwSvhq/xTpsgbeu0DmgAdEQrX3FtKro+WVkKt0dchOFoVHKColL59RobV2zdI5
+ d+xDhYPX8nDSRuc762Nu6tcYQECmz7u6EFWcFJOtk3i6D5uE8wBiodEfSsujIGajBJ
+ 4oQCuYiZf/zWpZp4njQU9/njVygyH91OJ8nWiKqM=
+X-QQ-mid: bizesmtp84t1725602801tkd3vxlw
+X-QQ-Originating-IP: WuapCiZjmsXjdr2Bs5465eW0Whoex+fovHxihMr3iZM=
+Received: from [10.4.11.213] ( [221.226.144.218])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Fri, 06 Sep 2024 14:06:31 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 293073832845237998
+Message-ID: <31331B0B65DB108E+082759df-83d7-43ac-a519-853a6e69483d@uniontech.com>
+Date: Fri, 6 Sep 2024 14:06:31 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915:Remove unused parameter in marco.
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com, 
+ daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <F84191BE8AA4A690+20240831135114.497043-1-helugang@uniontech.com>
+ <Ztnkt8guUcY8hg3h@intel.com> <87le06ownz.fsf@intel.com>
+From: HeLuang <helugang@uniontech.com>
+In-Reply-To: <87le06ownz.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 06 Sep 2024 07:36:24 +0000
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,31 +63,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include rockchip_drm_drv.h to fix the follow sparse warning:
 
-drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
-warning: symbol 'vop2_platform_driver' was not declared.
-Should it be static?
 
-No functional change intended.
-
-Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
----
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-index 18efb3fe1c00..c678d1b0fd7c 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-@@ -14,6 +14,7 @@
- #include <drm/drm_print.h>
- 
- #include "rockchip_drm_vop2.h"
-+#include "rockchip_drm_drv.h"
- 
- static const uint32_t formats_cluster[] = {
- 	DRM_FORMAT_XRGB2101010,
--- 
-2.43.0
-
+在 2024/9/6 01:08, Jani Nikula 写道:
+> On Thu, 05 Sep 2024, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+>> On Sat, Aug 31, 2024 at 09:51:14PM +0800, He Lugang wrote:
+>>> The parameter dev_priv is actually not used in macro PORT_ALPM_CTL
+>>> and PORT_ALPM_LFPS_CTL,so remove it to simplify the code.
+>>
+>> It is magically used on our back... hence the build failures that CI got.
+>> Jani is doing a great clean-up work on the display code to get rid
+>> of this 'dev_priv' usages in favor of a better display code separation
+>> and using intel_display struct.
+> 
+> I actually think this should(tm) work. It's just that it needs a rebase.
+> 
+> BR,
+> Jani.
+> 
+OK,thannks for your reply,I'll rebase it.
+>>
+>> But thanks for the patch and the interest to help.
+>>
+Very glad if that will be help!
+>>>
+>>> Signed-off-by: He Lugang <helugang@uniontech.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/display/intel_alpm.c     | 4 ++--
+>>>   drivers/gpu/drm/i915/display/intel_psr.c      | 2 +-
+>>>   drivers/gpu/drm/i915/display/intel_psr_regs.h | 4 ++--
+>>>   3 files changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
+>>> index 82ee778b2efe..7a93ba627aa6 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_alpm.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
+>>> @@ -330,7 +330,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
+>>>   			ALPM_CTL_AUX_LESS_WAKE_TIME(intel_dp->alpm_parameters.aux_less_wake_lines);
+>>>   
+>>>   		intel_de_write(display,
+>>> -			       PORT_ALPM_CTL(display, port),
+>>> +			       PORT_ALPM_CTL(port),
+>>>   			       PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
+>>>   			       PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
+>>>   			       PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
+>>> @@ -338,7 +338,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
+>>>   				       intel_dp->alpm_parameters.silence_period_sym_clocks));
+>>>   
+>>>   		intel_de_write(display,
+>>> -			       PORT_ALPM_LFPS_CTL(display, port),
+>>> +			       PORT_ALPM_LFPS_CTL(port),
+>>>   			       PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
+>>>   			       PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
+>>>   				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+>>> index 257526362b39..d66dbb529e1d 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_psr.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_psr.c
+>>> @@ -2076,7 +2076,7 @@ static void intel_psr_disable_locked(struct intel_dp *intel_dp)
+>>>   			     ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+>>>   
+>>>   		intel_de_rmw(dev_priv,
+>>> -			     PORT_ALPM_CTL(dev_priv, cpu_transcoder),
+>>> +			     PORT_ALPM_CTL(cpu_transcoder),
+>>>   			     PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+>>>   	}
+>>>   
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_psr_regs.h b/drivers/gpu/drm/i915/display/intel_psr_regs.h
+>>> index 642bb15fb547..b4984e589d7e 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_psr_regs.h
+>>> +++ b/drivers/gpu/drm/i915/display/intel_psr_regs.h
+>>> @@ -295,7 +295,7 @@
+>>>   
+>>>   #define _PORT_ALPM_CTL_A			0x16fa2c
+>>>   #define _PORT_ALPM_CTL_B			0x16fc2c
+>>> -#define PORT_ALPM_CTL(dev_priv, port)		_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
+>>> +#define PORT_ALPM_CTL(port)			_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
+>>>   #define  PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE	REG_BIT(31)
+>>>   #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK	REG_GENMASK(23, 20)
+>>>   #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(val)	REG_FIELD_PREP(PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK, val)
+>>> @@ -306,7 +306,7 @@
+>>>   
+>>>   #define _PORT_ALPM_LFPS_CTL_A					0x16fa30
+>>>   #define _PORT_ALPM_LFPS_CTL_B					0x16fc30
+>>> -#define PORT_ALPM_LFPS_CTL(dev_priv, port)			_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
+>>> +#define PORT_ALPM_LFPS_CTL(port)				_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
+>>>   #define  PORT_ALPM_LFPS_CTL_LFPS_START_POLARITY			REG_BIT(31)
+>>>   #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MASK		REG_GENMASK(27, 24)
+>>>   #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MIN		7
+>>> -- 
+>>> 2.45.2
+>>>
+> 
