@@ -2,89 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D475D96F227
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 13:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F5696F280
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2024 13:14:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066A710EA25;
-	Fri,  6 Sep 2024 11:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3CD10EA23;
+	Fri,  6 Sep 2024 11:14:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MRCQHnm7";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="C5prNb4D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 156A910EA11;
- Fri,  6 Sep 2024 11:01:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 107BA5C5AA5;
- Fri,  6 Sep 2024 11:01:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C72E0C4AF55;
- Fri,  6 Sep 2024 11:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725620500;
- bh=XLEFleBi1dpezrCN0L236rCr8UnL4qKgiVJMT/gVdZo=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=MRCQHnm7DALEbPuviJjS6zZwzYuQkJA9x6div0Fqn6MZQ06mWVihWBozJsiUvGcAc
- bJR6fiu5HZGRuaPcnQFN1Genvd4fYchjFtcLVcT23784VO+uuEQRHSxBO8fDEBnhHa
- RtINq3H7JdCCsRq12zSOhLMcz03TSXWgNcf/eqBmlmVUYzaKGBFIks6ZbLh2hADNAK
- cs6fBUh/DRTcvIwpUpNC0qgp0hKNjsyVf276mku+BTTSmdHMdImMz5MqqH2VlWkXWF
- KN9Rw33I1rINwOweAvT5vZKBA1rJiD1bAr2c5/O7k5JHtpE474mXigAC3KJkRU30W8
- ouI72lr0Is0kw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id BBCBDCE7B00;
- Fri,  6 Sep 2024 11:01:40 +0000 (UTC)
-From: Daniel Gomez via B4 Relay <devnull+da.gomez.samsung.com@kernel.org>
-Date: Fri, 06 Sep 2024 13:01:35 +0200
-Subject: [PATCH v2 8/8] Documentation: add howto build in macos
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240906-macos-build-support-v2-8-06beff418848@samsung.com>
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-In-Reply-To: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, William Hubbs <w.d.hubbs@gmail.com>, 
- Chris Brannon <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- James Morse <james.morse@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- speakup@linux-speakup.org, selinux@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
- linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
- Finn Behrens <me@kloenk.dev>, 
- "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com, 
- Daniel Gomez <da.gomez@samsung.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725620498; l=3295;
- i=da.gomez@samsung.com; s=20240621; h=from:subject:message-id;
- bh=d0Jf83ehBVzZd/6sDJAXa3klyzghUuKXMDUak+RyqVk=;
- b=HHVXUAKYpwg0oAq4Llj7Qicr7YTY8yOi8z/Ymdnnl/W0ykKZJbrrJ5EOU8LrjlVkcwlA+JR2O
- 50rFNWri/6gCAgythyvckdtJX73zV3YaMq3ZWFUY7eZPAc4+9wznTjX
-X-Developer-Key: i=da.gomez@samsung.com; a=ed25519;
- pk=BqYk31UHkmv0WZShES6pIZcdmPPGay5LbzifAdZ2Ia4=
-X-Endpoint-Received: by B4 Relay for da.gomez@samsung.com/20240621 with
- auth_id=175
-X-Original-From: Daniel Gomez <da.gomez@samsung.com>
+X-Greylist: delayed 390 seconds by postgrey-1.36 at gabe;
+ Fri, 06 Sep 2024 11:14:32 UTC
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
+ [95.215.58.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99BA910EA1D
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 11:14:32 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1725620880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gcYaptrKBfML0qcaOM5vqkd6iW3yCKV8zFKoo34jnNM=;
+ b=C5prNb4DaC/HAtXV/Yno7mJUrcByO6K6x/EAHcCpXpx6wSc3in2AnFWu3rz8GmV7sLvqbP
+ Zfe9Gn1L6Vqke0xQ1iugDUrmANpmPB6dv4S4dFwGHbhBkVmJBO2qQeIQ0+Gfdk7Bclwx5r
+ nB5UDc/n6YV8QNws97AU2CCPl5KyhZU5km7NHmDdgEsm+u/XMShp5NqpQ4hLagX5B82ppn
+ 7EEhhrgheKFaON9Oyd4E7PFO9bI2udvokXgVzDd8JtBOan7tZOxRhIryIs7FhU21PGuyC2
+ PwYrJL9O5fOoQZmJ4osl4d9sOxQhayBCbX637a/eZOmoImF3X8RUqs9xo4eBYg==
+Content-Type: multipart/signed;
+ boundary=3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Fri, 06 Sep 2024 13:07:47 +0200
+Message-Id: <D3Z5JMTKPQIS.2M5O5DY0S4U9G@cknow.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Andy Yan" <andyshrk@163.com>
+Cc: "Min-Hua Chen" <minhuadotchen@gmail.com>, "Sandy Huang"
+ <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ "Andy Yan" <andy.yan@rock-chips.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/rockchip: include rockchip_drm_drv.h
+References: <20240905223852.188355-1-minhuadotchen@gmail.com>
+ <6f07603.7f9.191c4c887b1.Coremail.andyshrk@163.com>
+ <D3Z3FN6GARPI.197HD3V38X81T@cknow.org>
+ <e4ca4ac.a3fb.191c6bde766.Coremail.andyshrk@163.com>
+In-Reply-To: <e4ca4ac.a3fb.191c6bde766.Coremail.andyshrk@163.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,111 +66,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: da.gomez@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Gomez <da.gomez@samsung.com>
+--3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Add documentation under kbuild/llvm to inform about the experimental
-support for building the Linux kernel in macOS hosts environments.
+Hi,
 
-Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
----
- Documentation/kbuild/llvm.rst | 78 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
+On Fri Sep 6, 2024 at 11:50 AM CEST, Andy Yan wrote:
+> At 2024-09-06 17:28:33, "Diederik de Haas" <didi.debian@cknow.org> wrote:
+> >On Fri Sep 6, 2024 at 2:42 AM CEST, Andy Yan wrote:
+> >> At 2024-09-06 06:38:50, "Min-Hua Chen" <minhuadotchen@gmail.com> wrote=
+:
+> >> >Include rockchip_drm_drv.h to fix the follow sparse warning:
+> >> >
+> >> >drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
+> >> >warning: symbol 'vop2_platform_driver' was not declared.
+> >> >Should it be static?
+> >> >
+> >> >No functional change intended.
+> >> >
+> >> >Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+> >> >---
+> >> > drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 1 +
+> >> > 1 file changed, 1 insertion(+)
+> >> >
+> >> >diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/g=
+pu/drm/rockchip/rockchip_vop2_reg.c
+> >> >index 18efb3fe1c00..c678d1b0fd7c 100644
+> >> >--- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> >> >+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> >> >@@ -14,6 +14,7 @@
+> >> > #include <drm/drm_print.h>
+> >> >=20
+> >> > #include "rockchip_drm_vop2.h"
+> >> >+#include "rockchip_drm_drv.h"
+> >> >=20
+> >>
+> >> We already have a patch[0] include rockchip_drm_drv.h in rockchip_drm_=
+vop2.h
+> >>
+> >> [0]https://patchwork.kernel.org/project/linux-rockchip/patch/202409041=
+20238.3856782-3-andyshrk@163.com/=20
+> >
+> >Maybe I'm missing something, but this patch seems to fix an already
+> >existing bug (which should have a Fixes tag?), which Andy also fixed
+> >while implementing a different (and unrelated) feature?
+>
+> In fact, I don't know how to reproduce this compilation issue.
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index 6dc66b4f31a7..de3bde925793 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -186,6 +186,84 @@ yet. Bug reports are always welcome at the issue tracker below!
-      - Supported
-      - ``LLVM=1``
- 
-+Experimental Build in macOS
-+---------------------------
-+
-+Building on macOS with LLVM is experimental. This section provides steps to
-+install dependencies via Homebrew, set up the environment, and start the build
-+process.
-+
-+1. **Create a Case-Sensitive Volume**
-+
-+   For fetching and building the project, you need a case-sensitive volume. Use the following
-+   command to create one:
-+
-+   .. code-block:: shell
-+
-+      diskutil apfs addVolume /dev/disk<N> "Case-sensitive APFS" linux
-+
-+   Replace `/dev/disk<N>` with the appropriate disk identifier.
-+
-+2. **Install Build Dependencies**
-+
-+Use Homebrew to install the required build dependencies.
-+
-+- **Core Utilities**: `coreutils`, `findutils`, `gnu-sed`, `gnu-tar`, `grep`,
-+  `llvm`, `make`, and `pkg-config`.
-+
-+   .. code-block:: shell
-+
-+      brew install coreutils findutils gnu-sed gnu-tar grep llvm make pkg-config
-+
-+- **Bee Headers**: Install byteswap, elf and endian headers using the
-+  `Bee Headers Project <https://github.com/bee-headers/headers>`_.
-+
-+   .. code-block:: shell
-+
-+      brew tap bee-headers/bee-headers
-+      brew install bee-headers/bee-headers/bee-headers
-+
-+   After installation, verify the `CFLAGS` with `pkg-config`:
-+
-+   .. code-block:: shell
-+
-+      pkg-config --cflags bee-headers
-+      -I/opt/homebrew/Cellar/bee-headers/0.1/include
-+
-+3. **Configure the PATH**
-+
-+   Include all the required GNU tools and LLVM in your `PATH`. This ensures that
-+   the necessary tools are available during the build process.
-+
-+   .. code-block:: shell
-+
-+      PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
-+      PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
-+      PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-+      PATH="/opt/homebrew/opt/gnu-tar/libexec/gnubin:$PATH"
-+      PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
-+      PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
-+      PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-+
-+Building the Project
-+--------------------
-+
-+Once the environment is set up, you can start the build process using LLVM. Run
-+the following commands to initiate the build:
-+
-+.. code-block:: shell
-+
-+   make LLVM=1 allyesconfig
-+   make LLVM=1 -j$(nproc)
-+
-+Supported in macOS
-+~~~~~~~~~~~~~~~~~~
-+
-+At the moment, only arm64 is supported and tested with `allyesconfig` Makefile
-+configuration target. Other Kconfig options not included in `allyesconfig`
-+target and architectures may be supported as well as support in macOS is based
-+on LLVM effort and maintenance.
-+
- Getting Help
- ------------
- 
+FWIW: I didn't see it either, but I assumed I was missing the right
+context (i.e. patches) needed to trigger that warning.
 
--- 
-2.46.0
+> While implementing my feature, I happened to find that I need to
+> include rockchip_drm_drv.h in rockchip_drm_vop2.h
 
+Makes perfect sense :)
+But if the warning is indeed valid, it should be fixed on its own (IMO).
 
+Cheers,
+  Diederik
+
+--3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZtriiAAKCRDXblvOeH7b
+bgGYAP9ZGSTkXT/5o/dRBWJ5eQlUBNNW9+epakVgWTzWTVpJYgD+KaQ5lle8XD6W
+ztX+E7hdE3sQQlhWeEwLvO2EcBldrQo=
+=6Yqr
+-----END PGP SIGNATURE-----
+
+--3b244cc64b320c1a92e52653e21b3af80c1207ea33cb79acd1a135dbf8f4--
