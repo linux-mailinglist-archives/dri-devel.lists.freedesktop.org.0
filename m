@@ -2,95 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DEB970162
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 11:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753E69701F3
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 13:38:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AED410E20F;
-	Sat,  7 Sep 2024 09:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4399510E172;
+	Sat,  7 Sep 2024 11:38:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kruces-com.20230601.gappssmtp.com header.i=@kruces-com.20230601.gappssmtp.com header.b="02cuX01i";
+	dkim=pass (2048-bit key; secure) header.d=asahilina.net header.i=@asahilina.net header.b="hZsTYa2G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09AF810E210
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 09:32:49 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-a8d24f98215so35277166b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Sep 2024 02:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kruces-com.20230601.gappssmtp.com; s=20230601; t=1725701567; x=1726306367;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TYAYDwYU9XEQd7B0n4GlUaSi+kByWiSIqgApWZK2k7Y=;
- b=02cuX01iS32BLEBhVizrk6qa/WY70EWsw9S2vmafoKkhweW7lOJbsUPnqJcFS/ldT0
- fWtib0UxsPqVThO1avPtI52hWzq9bTE0I4xte3jiazMKI9tQfFey6nZKOn1D1C30yy70
- 01KMoBumjoY2PWNcGGM8h7elszcRM16BXR09Qk1Kw0G0VPEXti2n4TW/48caaJMFGExL
- P1CKzv8sCp+zgOLvMU2j2LuMvO99AGz3nkwPZ9VkU6usBGrddC+nPaVZU236EgC4aRTW
- NzHSje18cC+JkqB2X2jRczqGPQZqjzwpyhzMUZWuR5M/LEUKnf7qBYk1h0cARRd5B3N2
- cLkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725701567; x=1726306367;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TYAYDwYU9XEQd7B0n4GlUaSi+kByWiSIqgApWZK2k7Y=;
- b=jpDdgeTzAz1f2NDDgbn/nJe1KFi9NAR1pr9MBXxEmwHsnxBCZS/g8szALr1ncjr1/G
- X+MzrcTT6DuultX0AYw2tk+9dEh1YWglQk1rT+hsEiohkjo/B3qxfTXF+AEboMMSGo5M
- /ZuDjzQWWXoaCqyrR1t/Zr8cUpOgX+38ICUaIVcj29/xrmoYe6dyXYGGYNy9G57YsRIl
- /5OasbBeVCmk73f02BFMWvsNGtp6FQa4N1fsdLBSDpOApmtXD7s+AbKL9Wb9qkgJPdxd
- H1zR0dkNMfuRcU99HRumGSLBgA28ZRhA9m6cHW96lDzsAbvNx7ZRbtT8unHb7Dn69hxq
- nFJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXgI+MlyLEr2KAKpx8my9/7qYEbX3+UyEVgmQDTdVvNPXKfjlKkQalGkV7WZE7np3Q+bCbSjj6AXkw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKOC/vJopKgnq9bpT2qNRsQEcjZlX2xz+bl7VrvVeRDTtU92Ec
- vipF9gnjpkGlNZTQ5/pY7HnIcUgNCV2S9PnvRqPrUYa9GW/t2D5bAfU4cJ/EmGrz2yhkdIWNrwF
- vYCxj2oEqJu408tSCOnRo3QiORP0sUTqS8WQUxw==
-X-Google-Smtp-Source: AGHT+IGWwhV1FppouK54v3V9A8eHwS6rbK0nonXkKqq2rXZ9hT6w4qHPiZkVwNteqV+2HfQ53hj21jvfFLgYyvqTkhg=
-X-Received: by 2002:a17:906:6a15:b0:a7a:9144:e23a with SMTP id
- a640c23a62f3a-a8d248a6d5fmr79801166b.43.1725701567219; Sat, 07 Sep 2024
- 02:32:47 -0700 (PDT)
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C160010E172
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 11:38:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id B67D14254F;
+ Sat,  7 Sep 2024 11:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1725709113;
+ bh=qW+yq8dFRJ4xkdJeA8uJF262teGrDczaQOeWswuq+TU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=hZsTYa2GqndvuA7nnIX2oOQ6AvkdPLkc3nRDxw2RN1ZyyI+/2CtfOu2SPRKu+LImk
+ c2hnS+zHmJbvSpiHpMkbjE4s+3nQ9TiBaMle+SXHj4tu950ldwSrFjQa6D5JUS66WW
+ CbDMJqKFQrSUDC368l8vS6Xj6JcZK7l7J5jmTS9JO+XTXLk8k6L7LhN95N0lTIuiyL
+ 38006OCXK8J9thy9KmfOQ1SY40Lp5sqO4vppOJL7AUgQE5Da49TdohE/ZB06Qu3S4D
+ s32kj3/s+Rjm73wbHbVhIBkEjbkQ3eoSdMfldODsnWaNoDMswtKJqcFJIt3XQgEo3k
+ 3ZNQTeCCuVPAw==
+Message-ID: <7ca931aa-986d-48d4-bcee-37c3badd91c8@asahilina.net>
+Date: Sat, 7 Sep 2024 20:38:30 +0900
 MIME-Version: 1.0
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
- <20240906-macos-build-support-v2-8-06beff418848@samsung.com>
- <CAK7LNASpWSXbjF_7n0MhosNism=BpvHOnKsa344RPM_wmC9dGA@mail.gmail.com>
-In-Reply-To: <CAK7LNASpWSXbjF_7n0MhosNism=BpvHOnKsa344RPM_wmC9dGA@mail.gmail.com>
-From: "Daniel Gomez (Samsung)" <d+samsung@kruces.com>
-Date: Sat, 7 Sep 2024 11:32:20 +0200
-Message-ID: <CABj0suBQCc8=0tLng=OWW=K1hjFuLFZWhbjsqHtz2FzZt4i0sw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] Documentation: add howto build in macos
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: da.gomez@samsung.com, Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
- Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, 
- James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-kernel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
- selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
- Finn Behrens <me@kloenk.dev>, gost.dev@samsung.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] drm: Introduce device wedged event
+To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, daniel@ffwll.ch,
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com
+References: <20240906094225.3082162-1-raag.jadav@intel.com>
+ <20240906094225.3082162-2-raag.jadav@intel.com>
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <20240906094225.3082162-2-raag.jadav@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,145 +67,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 7, 2024 at 10:33=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Fri, Sep 6, 2024 at 8:01=E2=80=AFPM Daniel Gomez via B4 Relay
-> <devnull+da.gomez.samsung.com@kernel.org> wrote:
-> >
-> > From: Daniel Gomez <da.gomez@samsung.com>
-> >
-> > Add documentation under kbuild/llvm to inform about the experimental
-> > support for building the Linux kernel in macOS hosts environments.
-> >
-> > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
->
->
-> Instead, you can add this instruction to:
->
-> https://github.com/bee-headers/homebrew-bee-headers/blob/main/README.md
 
-Sure, that can be done as well. But the effort here is to have this
-integrated. So, I think documentation should be in-tree.
 
->
->
->
->
->
-> > ---
-> >  Documentation/kbuild/llvm.rst | 78 +++++++++++++++++++++++++++++++++++=
-++++++++
-> >  1 file changed, 78 insertions(+)
-> >
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.=
-rst
-> > index 6dc66b4f31a7..de3bde925793 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -186,6 +186,84 @@ yet. Bug reports are always welcome at the issue t=
-racker below!
-> >       - Supported
-> >       - ``LLVM=3D1``
-> >
-> > +Experimental Build in macOS
-> > +---------------------------
-> > +
-> > +Building on macOS with LLVM is experimental. This section provides ste=
-ps to
-> > +install dependencies via Homebrew, set up the environment, and start t=
-he build
-> > +process.
-> > +
-> > +1. **Create a Case-Sensitive Volume**
-> > +
-> > +   For fetching and building the project, you need a case-sensitive vo=
-lume. Use the following
-> > +   command to create one:
-> > +
-> > +   .. code-block:: shell
-> > +
-> > +      diskutil apfs addVolume /dev/disk<N> "Case-sensitive APFS" linux
-> > +
-> > +   Replace `/dev/disk<N>` with the appropriate disk identifier.
-> > +
-> > +2. **Install Build Dependencies**
-> > +
-> > +Use Homebrew to install the required build dependencies.
-> > +
-> > +- **Core Utilities**: `coreutils`, `findutils`, `gnu-sed`, `gnu-tar`, =
-`grep`,
-> > +  `llvm`, `make`, and `pkg-config`.
-> > +
-> > +   .. code-block:: shell
-> > +
-> > +      brew install coreutils findutils gnu-sed gnu-tar grep llvm make =
-pkg-config
-> > +
-> > +- **Bee Headers**: Install byteswap, elf and endian headers using the
-> > +  `Bee Headers Project <https://github.com/bee-headers/headers>`_.
-> > +
-> > +   .. code-block:: shell
-> > +
-> > +      brew tap bee-headers/bee-headers
-> > +      brew install bee-headers/bee-headers/bee-headers
-> > +
-> > +   After installation, verify the `CFLAGS` with `pkg-config`:
-> > +
-> > +   .. code-block:: shell
-> > +
-> > +      pkg-config --cflags bee-headers
-> > +      -I/opt/homebrew/Cellar/bee-headers/0.1/include
-> > +
-> > +3. **Configure the PATH**
-> > +
-> > +   Include all the required GNU tools and LLVM in your `PATH`. This en=
-sures that
-> > +   the necessary tools are available during the build process.
-> > +
-> > +   .. code-block:: shell
-> > +
-> > +      PATH=3D"/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
-> > +      PATH=3D"/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
-> > +      PATH=3D"/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-> > +      PATH=3D"/opt/homebrew/opt/gnu-tar/libexec/gnubin:$PATH"
-> > +      PATH=3D"/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
-> > +      PATH=3D"/opt/homebrew/opt/make/libexec/gnubin:$PATH"
-> > +      PATH=3D"/opt/homebrew/opt/llvm/bin:$PATH"
-> > +
-> > +Building the Project
-> > +--------------------
-> > +
-> > +Once the environment is set up, you can start the build process using =
-LLVM. Run
-> > +the following commands to initiate the build:
-> > +
-> > +.. code-block:: shell
-> > +
-> > +   make LLVM=3D1 allyesconfig
-> > +   make LLVM=3D1 -j$(nproc)
-> > +
-> > +Supported in macOS
-> > +~~~~~~~~~~~~~~~~~~
-> > +
-> > +At the moment, only arm64 is supported and tested with `allyesconfig` =
-Makefile
-> > +configuration target. Other Kconfig options not included in `allyescon=
-fig`
-> > +target and architectures may be supported as well as support in macOS =
-is based
-> > +on LLVM effort and maintenance.
-> > +
-> >  Getting Help
-> >  ------------
-> >
-> >
-> > --
-> > 2.46.0
-> >
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+On 9/6/24 6:42 PM, Raag Jadav wrote:
+> Introduce device wedged event, which will notify userspace of wedged
+> (hanged/unusable) state of the DRM device through a uevent. This is
+> useful especially in cases where the device is in unrecoverable state
+> and requires userspace intervention for recovery.
+> 
+> Purpose of this implementation is to be vendor agnostic. Userspace
+> consumers (sysadmin) can define udev rules to parse this event and
+> take respective action to recover the device.
+> 
+> Consumer expectations:
+> ----------------------
+> 1) Unbind driver
+> 2) Reset bus device
+> 3) Re-bind driver
+
+Is this supposed to be normative? For drm/asahi we have a "wedged"
+concept (firmware crashed), but the only possible recovery action is a
+full system reboot (which might still be desirable to allow userspace to
+trigger automatically in some scenarios) since there is no bus-level
+reset and no firmware reload possible.
+
+> 
+> v4: s/drm_dev_wedged/drm_dev_wedged_event
+>     Use drm_info() (Jani)
+>     Kernel doc adjustment (Aravind)
+> 
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> ---
+>  drivers/gpu/drm/drm_drv.c | 20 ++++++++++++++++++++
+>  include/drm/drm_drv.h     |  1 +
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 93543071a500..cca5d8295eb7 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -499,6 +499,26 @@ void drm_dev_unplug(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_dev_unplug);
+>  
+> +/**
+> + * drm_dev_wedged_event - generate a device wedged uevent
+> + * @dev: DRM device
+> + *
+> + * This generates a device wedged uevent for the DRM device specified by @dev,
+> + * on the basis of which, userspace may take respective action to recover the
+> + * device. Currently we only set WEDGED=1 in the uevent environment, but this
+> + * can be expanded in the future.
+> + */
+> +void drm_dev_wedged_event(struct drm_device *dev)
+> +{
+> +	char *event_string = "WEDGED=1";
+> +	char *envp[] = { event_string, NULL };
+> +
+> +	drm_info(dev, "device wedged, generating uevent\n");
+> +
+> +	kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+> +}
+> +EXPORT_SYMBOL(drm_dev_wedged_event);
+> +
+>  /*
+>   * DRM internal mount
+>   * We want to be able to allocate our own "struct address_space" to control
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index cd37936c3926..eed5e54c74fd 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -489,6 +489,7 @@ void drm_put_dev(struct drm_device *dev);
+>  bool drm_dev_enter(struct drm_device *dev, int *idx);
+>  void drm_dev_exit(int idx);
+>  void drm_dev_unplug(struct drm_device *dev);
+> +void drm_dev_wedged_event(struct drm_device *dev);
+>  
+>  /**
+>   * drm_dev_is_unplugged - is a DRM device unplugged
+
+~~ Lina
