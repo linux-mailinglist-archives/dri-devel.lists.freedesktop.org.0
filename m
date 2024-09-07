@@ -2,79 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F969700E7
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 10:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4049700EC
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 10:34:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22CD610E204;
-	Sat,  7 Sep 2024 08:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41F7710E208;
+	Sat,  7 Sep 2024 08:34:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cvH8XOOw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MKwpQEll";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1EB10E204
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 08:32:32 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-5e1b6e8720dso480532eaf.0
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Sep 2024 01:32:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725697951; x=1726302751; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9oKEoYV8xUI1GgTKhxgYDza28t2ifQzvK4btLf5o7Do=;
- b=cvH8XOOwkUSwq7GIUs8t/NXjO28zS5FRrMUs1fmVmIgxBZ2amo9zsUXaSKc6ufmnS9
- R23gzJaB70J/ac2Gf7J1Zo10sWLCsZqwILoDzcpjtLVOvepK09tYmdbyXyWzQ9JCdN+L
- oID117qbjkbRtNOry2MKy0gV+D58pRa+Vd6wNb1uWZz8DyOAabSmGJbA6MH1dCbIRM3X
- 5eZgf9l10/fK9WbveltGoW5p1ayl7ZDUZ6rO9cez5MPzB8fLA5QjweC69ADfoIDkxHAb
- PRdiPBPpQ07X/ltEzd/iWTBD48E5MawOSdcY8uTnF2tTe49y8HJRzjATLvsgy87iCulG
- Okzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725697951; x=1726302751;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9oKEoYV8xUI1GgTKhxgYDza28t2ifQzvK4btLf5o7Do=;
- b=hoR7Cd9Uppz58vMyOGxiV4BXM0TDQq/+mzLdhq4ORx36VWlYQnlYxGnHkJMS7EjLtX
- NfPoOJgwy1iOP0ZPjlL27nNCDSUPaOJlzJbw1XkSiaP9eLlPmDdMnvF7pDdpo1S18KKZ
- AkWVSThJZJZScGTms6UZTh7elPgwX4cFiv877O80Oj+3r3N96xOceFcj3uxfYEzgshSI
- mOh8YkseaoDlW92SpA08znlop2BTvl45LBhjYwObTXmDwFQtUYphWahgdANdNcq17XZH
- N4LVPtpkuc5d3bis0P80dywxBYCA+PS/rX/Ws+8aPK+criRUhhKf18GwH+tioMbNCnQ8
- aY3A==
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2D5310E205;
+ Sat,  7 Sep 2024 08:33:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6A649A403C8;
+ Sat,  7 Sep 2024 08:33:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F111C4CED8;
+ Sat,  7 Sep 2024 08:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725698037;
+ bh=28Hazu9X3gNJl3G8MxXIbEf04c6aPW6n4xtnOcKil40=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=MKwpQEllnQB/o8CNMzuyJtbtiSGA+c5UZDrKGjDxHolsbO1UhCd4PmE1n6r5WOdDA
+ aLy+2o9C8YF5F/xgPJ4eXT93pMOt8VR5rY62KJd77ozp/lijD7K/hpeIOOyAzloBRM
+ DuT33ZzmWKzdksD+17/mPMmpfoCnwxp1ZJkctGIbbknkfH6YVGpY7IDRG5SfkA6bSi
+ sasFCTcByKHpiVYyalHp4Qii6QkesPzs3eD8fJ/EKuw4BxDl7+v8NOY+cISIeep8cl
+ USjETT0gIF5DsrL4trTRk8waMzX2ibQg9a8xMzpyqVqP9wJyeVTsEr5XCX6nHP5toK
+ QTBAYBcP7A5jQ==
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-535be093a43so3513826e87.3; 
+ Sat, 07 Sep 2024 01:33:57 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXkMt7zgF+dtLyAOZX+OJssgoIokIVjVF7p8PKK6o2FOzCgflq66TaAnjopYq1sjIDq1Wt8oumkE5c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxne8F3j/lx0dB6VVwRbCzerM0jwMxpTCiv1rBdj2ypAGnCg7D8
- Og6w0Sq7hZcQQf5obTELUuga/Vv8v152R36dMYbnFyiTV4Ep0B03
-X-Google-Smtp-Source: AGHT+IE/nLcnyMO6Rfwuf1W5J0uq6akr6ynAJyxeX2C8vFon634p4hDsDQz0hDu/VicDFso4wwra+w==
-X-Received: by 2002:a05:6870:558d:b0:278:a21:de9 with SMTP id
- 586e51a60fabf-27b9dcc3a1dmr1840145fac.46.1725697951402; 
- Sat, 07 Sep 2024 01:32:31 -0700 (PDT)
-Received: from [192.168.210.157] ([103.4.220.252])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-718e589652asm569112b3a.12.2024.09.07.01.32.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Sep 2024 01:32:31 -0700 (PDT)
-Message-ID: <330174f9-bead-4411-b05e-ea9c009f765c@gmail.com>
-Date: Sat, 7 Sep 2024 14:02:20 +0530
+ AJvYcCVpoE8y9+rn8tLH/CaDtzOv6ZIQ4ghaVsVeQAk7fmWfGq+dmc7zfW1sAQtiyXqfbQJNOXMnhBKMdnE=@lists.freedesktop.org,
+ AJvYcCX+MES2MSU+gHFrbLhbEIVWjsrLq8Ea19wKgdeaiDbZG5FgkAeQnhPpdaICJRZEVwWzb53Aw+uDToo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzb0VBmoHQF83gXOVpGqFO3br/LHvgYvzjL3vHDr7lncL2CgD8z
+ Zu71SYpNJVmsISQD+xHf/q0tKTkNhXxU7suBlr5TO0cltwBm/GlhP/qAC5DYLsevi1RgGlCcKM/
+ 9aNhVzuZqUYNRDyzto2eceCYV1rA=
+X-Google-Smtp-Source: AGHT+IGiO0grfYCPThFgBWdbGnh5ywWPEfhApDWuSp1Dpho+N3p8He+DadB7u7HS7zJcZD43BZdwwTxPjh5NmXNMfjQ=
+X-Received: by 2002:a05:6512:e97:b0:533:3fc8:9ac0 with SMTP id
+ 2adb3069b0e04-536587c6a50mr3459219e87.34.1725698035371; Sat, 07 Sep 2024
+ 01:33:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: himax-hx83112a: transition to mipi_dsi wrapped
- functions
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, neil.armstrong@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240904141521.554451-1-tejasvipin76@gmail.com>
- <0bb94cc0-dd72-4da7-b0b6-9e1fe712709b@quicinc.com>
- <0e3bf87b-7d82-44eb-88d2-fddc8e33dd25@quicinc.com>
-Content-Language: en-US
-From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <0e3bf87b-7d82-44eb-88d2-fddc8e33dd25@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
+ <20240906-macos-build-support-v2-8-06beff418848@samsung.com>
+In-Reply-To: <20240906-macos-build-support-v2-8-06beff418848@samsung.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 7 Sep 2024 17:33:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASpWSXbjF_7n0MhosNism=BpvHOnKsa344RPM_wmC9dGA@mail.gmail.com>
+Message-ID: <CAK7LNASpWSXbjF_7n0MhosNism=BpvHOnKsa344RPM_wmC9dGA@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] Documentation: add howto build in macos
+To: da.gomez@samsung.com
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
+ Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, 
+ James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
+ selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
+ Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
+ gost.dev@samsung.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,84 +97,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 6, 2024 at 8:01=E2=80=AFPM Daniel Gomez via B4 Relay
+<devnull+da.gomez.samsung.com@kernel.org> wrote:
+>
+> From: Daniel Gomez <da.gomez@samsung.com>
+>
+> Add documentation under kbuild/llvm to inform about the experimental
+> support for building the Linux kernel in macOS hosts environments.
+>
+> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 
 
-On 9/7/24 3:53 AM, Jessica Zhang wrote:
-> 
-> 
-> On 9/6/2024 3:14 PM, Jessica Zhang wrote:
->>
->>
->> On 9/4/2024 7:15 AM, Tejas Vipin wrote:
->>> Changes the himax-hx83112a panel to use multi style functions for
->>> improved error handling.
->>>
->>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
->>
->> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> 
-> Hi Tejas,
-> 
-> Just a heads up, it seems that this might be a duplicate of this change [1]?
-> 
-> Thanks,
-> 
-> Jessica Zhang
-> 
-> [1] https://patchwork.freedesktop.org/patch/612367/?series=138155&rev=1
+Instead, you can add this instruction to:
 
-Ah, thanks for letting me know. I hadn't realized someone else had
-started working on this too. 
+https://github.com/bee-headers/homebrew-bee-headers/blob/main/README.md
 
-However, I would argue that my patch [2] is a better candidate for merging
-because of the following reasons:
 
-1) Removes unnecessary error printing:
-The mipi_dsi_*_multi() functions all have inbuilt error printing which
-makes printing errors after hx83112a_on unnecessary as is addressed in
-[2] like so:
 
-> -	ret = hx83112a_on(ctx);
-> +	ret = hx83112a_on(ctx->dsi);
->  	if (ret < 0) {
-> -		dev_err(dev, "Failed to initialize panel: %d\n", ret);
->  		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->  		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> -		return ret;
->  	}
 
-[2] also removes the unnecessary dev_err after regulator_bulk_enable as was
-addressed in [3] like so:
 
->  	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +	if (ret < 0)
->  		return ret;
-> -	}
+> ---
+>  Documentation/kbuild/llvm.rst | 78 +++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 78 insertions(+)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rs=
+t
+> index 6dc66b4f31a7..de3bde925793 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -186,6 +186,84 @@ yet. Bug reports are always welcome at the issue tra=
+cker below!
+>       - Supported
+>       - ``LLVM=3D1``
+>
+> +Experimental Build in macOS
+> +---------------------------
+> +
+> +Building on macOS with LLVM is experimental. This section provides steps=
+ to
+> +install dependencies via Homebrew, set up the environment, and start the=
+ build
+> +process.
+> +
+> +1. **Create a Case-Sensitive Volume**
+> +
+> +   For fetching and building the project, you need a case-sensitive volu=
+me. Use the following
+> +   command to create one:
+> +
+> +   .. code-block:: shell
+> +
+> +      diskutil apfs addVolume /dev/disk<N> "Case-sensitive APFS" linux
+> +
+> +   Replace `/dev/disk<N>` with the appropriate disk identifier.
+> +
+> +2. **Install Build Dependencies**
+> +
+> +Use Homebrew to install the required build dependencies.
+> +
+> +- **Core Utilities**: `coreutils`, `findutils`, `gnu-sed`, `gnu-tar`, `g=
+rep`,
+> +  `llvm`, `make`, and `pkg-config`.
+> +
+> +   .. code-block:: shell
+> +
+> +      brew install coreutils findutils gnu-sed gnu-tar grep llvm make pk=
+g-config
+> +
+> +- **Bee Headers**: Install byteswap, elf and endian headers using the
+> +  `Bee Headers Project <https://github.com/bee-headers/headers>`_.
+> +
+> +   .. code-block:: shell
+> +
+> +      brew tap bee-headers/bee-headers
+> +      brew install bee-headers/bee-headers/bee-headers
+> +
+> +   After installation, verify the `CFLAGS` with `pkg-config`:
+> +
+> +   .. code-block:: shell
+> +
+> +      pkg-config --cflags bee-headers
+> +      -I/opt/homebrew/Cellar/bee-headers/0.1/include
+> +
+> +3. **Configure the PATH**
+> +
+> +   Include all the required GNU tools and LLVM in your `PATH`. This ensu=
+res that
+> +   the necessary tools are available during the build process.
+> +
+> +   .. code-block:: shell
+> +
+> +      PATH=3D"/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+> +      PATH=3D"/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
+> +      PATH=3D"/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+> +      PATH=3D"/opt/homebrew/opt/gnu-tar/libexec/gnubin:$PATH"
+> +      PATH=3D"/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+> +      PATH=3D"/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+> +      PATH=3D"/opt/homebrew/opt/llvm/bin:$PATH"
+> +
+> +Building the Project
+> +--------------------
+> +
+> +Once the environment is set up, you can start the build process using LL=
+VM. Run
+> +the following commands to initiate the build:
+> +
+> +.. code-block:: shell
+> +
+> +   make LLVM=3D1 allyesconfig
+> +   make LLVM=3D1 -j$(nproc)
+> +
+> +Supported in macOS
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +At the moment, only arm64 is supported and tested with `allyesconfig` Ma=
+kefile
+> +configuration target. Other Kconfig options not included in `allyesconfi=
+g`
+> +target and architectures may be supported as well as support in macOS is=
+ based
+> +on LLVM effort and maintenance.
+> +
+>  Getting Help
+>  ------------
+>
+>
+> --
+> 2.46.0
+>
+>
 
-2) Better formatting
 
-The mipi_dsi_dcs_write_seq_multi statements in [1] aren't formatted
-quite right according to what has been done so far. They are written as
-such in [1]:
-
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
->  			       0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, 0x0e);
-
-Where they should be written as such in [2]:
-
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
-> +				     0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, 0x0e);
-
-All in all, the module generated using my patch ends up being a teensy
-bit smaller (1% smaller). But if chronology is what is important, then
-it would at least be nice to see the above changes as part of Abhishek's
-patch too. And I'll be sure to look at the mail in the drm inbox now
-onwards :p
-
-[1] https://patchwork.freedesktop.org/patch/612367/?series=138155&rev=1
-[2] https://lore.kernel.org/all/20240904141521.554451-1-tejasvipin76@gmail.com/
-[3] https://lore.kernel.org/all/CAD=FV=XRZKL_ppjUKDK61fQkWhHiQCJLfmVBS7wSo4sUux2g8Q@mail.gmail.com/
--- 
-Tejas Vipin
+--
+Best Regards
+Masahiro Yamada
