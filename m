@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B76970078
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 08:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4F497007F
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 08:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D64EC10E19F;
-	Sat,  7 Sep 2024 06:52:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE5CE10E729;
+	Sat,  7 Sep 2024 06:55:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="EheW/ADt";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="XrUwsnXG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 89120 seconds by postgrey-1.36 at gabe;
- Sat, 07 Sep 2024 06:52:42 UTC
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D1310E19F
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 06:52:42 +0000 (UTC)
+X-Greylist: delayed 69899 seconds by postgrey-1.36 at gabe;
+ Sat, 07 Sep 2024 06:55:33 UTC
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.58.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9AFF10E729
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 06:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1725691923;
+ s=onoh2408; t=1725692093;
  bh=yfvC59lnVqCax5p/e7Q8hKA5Ouv+EjV+B2EInFi8R5A=;
  h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=EheW/ADtun4Wi2lzLw+RUsZ7v5xEBWXq8N16GppcFdXGZMQB3irZmXguI4ZmSU2ny
- unea6lq7GCxIpGlzP9HBjLO42Uoxzi0nT2c9fc7rsPW7W0BbDLQZSSRCNG7B6Evj8S
- Bpo0tDWl/8yqQVhSEc52/RQo9iHxs7gIcq7WnlSM=
-X-QQ-mid: bizesmtpsz9t1725691920tdbo6nq
-X-QQ-Originating-IP: 2x//WS6T9GDsrQzu7lYVmF8PhvXDokIB9AI4L+PR3sg=
+ b=XrUwsnXGJPi/VdPKKGiEaiJ0yoJ/sP0fZgk3AtiMqcsQumQjeiYXK68avYaivYlYe
+ RjolHArHHmNO+yQjid/c/xc778TMXCyaQ3K3JCrzG6stNm7TvUykbdZ2gndo5zxYXa
+ sFAg+ulTDgQGfjZOatoDLqsNGrtW/YG/rkivWxYo=
+X-QQ-mid: bizesmtpsz9t1725692090tbhj9u3
+X-QQ-Originating-IP: 0YhjS5yZ+OmtEIBzYtwSZmyZaKAh8IOW6App3/aY05c=
 Received: from localhost.localdomain ( [221.226.144.218])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Sat, 07 Sep 2024 14:51:55 +0800 (CST)
+ id ; Sat, 07 Sep 2024 14:54:43 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7215337970466534823
+X-BIZMAIL-ID: 17723308322550964968
 From: He Lugang <helugang@uniontech.com>
 To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
  rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.c
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
 Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  He Lugang <helugang@uniontech.com>
 Subject: [PATCH 1/3] drm/xe: use devm_add_action_or_reset() helper
-Date: Sat,  7 Sep 2024 14:51:52 +0800
-Message-ID: <F2C380666CC48547+20240907065152.1660750-1-helugang@uniontech.com>
+Date: Sat,  7 Sep 2024 14:54:39 +0800
+Message-ID: <BE0644D06348D90D+20240907065439.1661032-1-helugang@uniontech.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
