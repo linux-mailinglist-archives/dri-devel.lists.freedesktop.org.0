@@ -2,43 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4DE96FEAF
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 02:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D982696FF7E
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 05:03:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2469010EB53;
-	Sat,  7 Sep 2024 00:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F36C10E157;
+	Sat,  7 Sep 2024 03:03:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vw6K4qWB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UdUX0OmB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 044D010EB53
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 00:18:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D420BE71;
- Sat,  7 Sep 2024 02:17:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1725668223;
- bh=8Orc6XQW99MatC1Qxg4QrMczZ3+NG6gNkj2PD97jIMM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vw6K4qWBfcx69WBSCt7CxeBthqF1L+ndbXRStpfMqPJarOqOLenQJ5YEvFXPGZ4M9
- HpeDl6WgCf4f6miRVDrWZ0h5WV+9rVr7rT2jrUTl8/72SrMCAweq5u3Y9/1Fn3rDp0
- gOwVeLk+HQMXi5um4+erzBYBAd07Ca7vCMJ+jDW0=
-Date: Sat, 7 Sep 2024 03:18:13 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [GIT PULL FOR v6.12] Miscellaneous small fixes for Renesas DRM
- drivers
-Message-ID: <20240907001813.GA8212@pendragon.ideasonboard.com>
-References: <20240822234445.GA23541@pendragon.ideasonboard.com>
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
+ [209.85.161.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D32710E157
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 03:03:27 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id
+ 006d021491bc7-5de8b17db8dso1603365eaf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 20:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725678206; x=1726283006; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BRAdeMKzd8GauuC39KSsRCc9kFo3QimzcrHIoNem7IU=;
+ b=UdUX0OmBn6/wHXec925M5IhyoZ7UL4p2tZuvw8XueIHYaf2a6BiQOOyDewXJA/Ljkk
+ v37kX9YwP3S/nV9kD2HVCn7HtbmQEdljl7GejFyTkHRDjYlLuQQhOkBSMMuh+p+jHIVU
+ skRRlCUzAGITLDB466EyvabTr0zVJHoY1HTqypx5tdNXJwzaeckVYlOk8fQJjBdVqWR6
+ pVLmnHrMuWbLajzZh0LvTOezLEF11zrmaXrXDxShetrW5vCAmx0e8leyror30NoX9+u9
+ zWoiE08gkQsoGd8P1+DTbvRoZTHfNP3zM1VECdecMVaLBrOpZ7zPnR1M3VO01BExEyn/
+ +1CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725678206; x=1726283006;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BRAdeMKzd8GauuC39KSsRCc9kFo3QimzcrHIoNem7IU=;
+ b=k+MuOYd1h4dX/7AS6tdpM4OXaytmSqq2rYUYlv6B2I+J2iq9wN1PyG3DXuI81oA5Ms
+ 8S58xaMpwX3OcLs6bEiLDKD6+gegVE4JDuhG5/HPTpFsHVEH9CO3Tn5WK7ZMS1rhaiYk
+ PmqnTA6Yu6Az2uWlHjRaMBLTdAjpKYzUN+wuA0tDBoEPap9EhkRTgcerfnfO9APUaJjO
+ WGeJ2ltwMN9ax3A028/U7QNC4rJJoBkXnIWez6FXLyMz5J8P0BCHImbWLoWhFCVyD+i8
+ 1yUQzIzxgyK5RFbCbW/9m73iSVEXWMvblog0oT1P2VB6/Aa1SZo+PhrhOJ5b2f5PBr26
+ vsng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVkbf587KN3+2H/acz6ohtxQfhWB9z3znvaeXPWx1R8h/4Zm0WxjJSwwn0G0Fut2c7c1BVAAbgqUHY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxjagMGv+SMYSQYv5zWQG+FGFhIOM4Zx9Bncmez5JrWmfnvjZE6
+ Sog7Gncw1FHaE/zqFwKHG2wReSc1fbaB93ldVVfCym5NdU1Pd8Kd
+X-Google-Smtp-Source: AGHT+IGf+cTOg4F0hrHoR0BIG5sBf2EpDaf9/wE0zTHe1c2j8df+WSLWwxBuB56wKCCNV1Nhwmt+IQ==
+X-Received: by 2002:a05:6870:6391:b0:27b:5890:bd38 with SMTP id
+ 586e51a60fabf-27b9d7cca72mr1541424fac.7.1725678206135; 
+ Fri, 06 Sep 2024 20:03:26 -0700 (PDT)
+Received: from localhost.localdomain (111-240-109-89.dynamic-ip.hinet.net.
+ [111.240.109.89]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7d825ab136asm156961a12.86.2024.09.06.20.03.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Sep 2024 20:03:25 -0700 (PDT)
+From: Min-Hua Chen <minhuadotchen@gmail.com>
+To: didi.debian@cknow.org
+Cc: airlied@gmail.com, andy.yan@rock-chips.com, andyshrk@163.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, heiko@sntech.de,
+ hjc@rock-chips.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ maarten.lankhorst@linux.intel.com, minhuadotchen@gmail.com,
+ mripard@kernel.org, tzimmermann@suse.de
+Subject: Re: [PATCH] drm/rockchip: include rockchip_drm_drv.h
+Date: Sat,  7 Sep 2024 11:02:59 +0800
+Message-ID: <20240907030259.1243487-1-minhuadotchen@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <D3Z5JMTKPQIS.2M5O5DY0S4U9G@cknow.org>
+References: <D3Z5JMTKPQIS.2M5O5DY0S4U9G@cknow.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240822234445.GA23541@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,40 +87,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Did this one fall through the cracks ? :-(
+>FWIW: I didn't see it either, but I assumed I was missing the right
+>context (i.e. patches) needed to trigger that warning.
+>
+FYI
 
-On Fri, Aug 23, 2024 at 02:44:45AM +0300, Laurent Pinchart wrote:
-> Hello Dave, Sima,
-> 
-> The following changes since commit 11df68c265460d4dff5d19a1313f0fff69470f98:
-> 
->   Merge tag 'drm-misc-next-2024-08-16' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2024-08-22 09:42:23 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/drm-next-20240823
-> 
-> for you to fetch changes up to caef454889d150d7267992f0d95fbc25dfb621a4:
-> 
->   drm: renesas: cmm: Remove unused function rcar_cmm_write (2024-08-23 02:30:26 +0300)
-> 
-> ----------------------------------------------------------------
-> Miscellaneous small fixes for Renesas DRM drivers
-> 
-> ----------------------------------------------------------------
-> Biju Das (2):
->       drm: renesas: rcar-du: rzg2l_mipi_dsi: Update the comment in rzg2l_mipi_dsi_start_video()
->       drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
-> 
-> Jiapeng Chong (1):
->       drm: renesas: cmm: Remove unused function rcar_cmm_write
-> 
->  drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c       |  5 -----
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c    | 10 ++++------
->  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c |  2 +-
->  3 files changed, 5 insertions(+), 12 deletions(-)
+I triggered the warning by the following step:
 
--- 
-Regards,
+install 'sparse' first
 
-Laurent Pinchart
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+cd linux
+ARCH=arm64 LLVM=1 make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' mrproper defconfig all -j8
+
+
+cheers,
+Min-Hua
+
+>
+>> While implementing my feature, I happened to find that I need to
+>> include rockchip_drm_drv.h in rockchip_drm_vop2.h
+>
+>Makes perfect sense :)
+>But if the warning is indeed valid, it should be fixed on its own (IMO).
+>
+>Cheers,
+>  Diederik
+
