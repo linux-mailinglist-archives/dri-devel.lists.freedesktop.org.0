@@ -2,84 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8C597024C
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 15:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0047970293
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 16:01:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00BE210E0F0;
-	Sat,  7 Sep 2024 13:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04BB210E0F6;
+	Sat,  7 Sep 2024 14:01:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=codewreck.org header.i=@codewreck.org header.b="q3O591lE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ltq4cYTx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 595 seconds by postgrey-1.36 at gabe;
- Sat, 07 Sep 2024 06:04:48 UTC
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
- by gabe.freedesktop.org (Postfix) with ESMTP id B203E10E1F5
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 06:04:48 +0000 (UTC)
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
- by submarine.notk.org (Postfix) with ESMTPS id AB4DC14C1E1;
- Sat,  7 Sep 2024 07:54:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
- s=2; t=1725688491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qj67ertlQRTeftmw+g9h4C2AnGK6C33+Vq5AG+IOQ2c=;
- b=q3O591lE2JGBwdtdtSQntarN2ZlH/P1P3gKgDcxSXQEEQc9LNmyKwIaaBIssWoBYPHvTFy
- 3zJwvtJFNNpm8t+gcrfv9bnJ7VlXXcHhNL4xSaJX3aIXo+GZhCEj46Ybn5AnamgdC5Evz8
- Y+GiT9apL96eIU0cdS6rvt1A9QmD//UR4hkGY7J1QkmJlDYaRFZnD5VXUj7TFFWbPXx7/t
- 1SPqrofM/N9ewj4zWf32a/xf7RctM4cgi8I7/rJPKGwN0eF3yJAxqzDsYp8CR8rjZSey0/
- skv5TflnSFlduQaMa50hrsCiDwEUzkQZA+To0SmhbQw+HrhjBqRfkBpv9sCD+w==
-Received: from [127.0.0.1] (localhost.lan [::1])
- by gaia.codewreck.org (OpenSMTPD) with ESMTP id 6cf0701c;
- Sat, 7 Sep 2024 05:54:42 +0000 (UTC)
-From: Dominique Martinet <asmadeus@codewreck.org>
-Date: Sat, 07 Sep 2024 14:54:33 +0900
-Subject: [PATCH v2] drm/bridge: imx8mp-hdmi-tx: allow 0.5% margin with
- selected clock
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846B110E0F6
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 14:01:45 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-718d962ad64so1439587b3a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Sep 2024 07:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725717705; x=1726322505; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yo5z6YbpFCbyn45YhRjk1uY7oiivyYsSSZRIxOYV05w=;
+ b=Ltq4cYTxCq9ywylzohSBAykPxkvmKJe0Ek2KbqHQUBeFkKGLj1c3Eq2vV1rSXVJcQ5
+ F0dQEOgpYod88DcNF8DXvnjhYMaeocZFOoEFZCjuqPf6A4hSmbBa30n0WVeZ/iYvOmh7
+ vc3k2MqGg2t0tjXVt3aspevZvYGQOHLpeHCMH+Q1YVd7ddmXWXRExIwwIgC8NFe9vmTt
+ jUH32JTnCVlB0UQMYumzIR4WTanA2gHxb66YV7q141NXoiAUQlVt409VNYnohAEFZRFT
+ kepX+blQHN0w3YG3Fi0eUGQ0+Tp/XjqWp7ZdKLH00DwbsMCnoLrV3WScZfi5fIg7eSPr
+ wUdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725717705; x=1726322505;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yo5z6YbpFCbyn45YhRjk1uY7oiivyYsSSZRIxOYV05w=;
+ b=GbFZkMJcyh9RAUdEkkLAYK7ye3unLTfnvSO3PjL8d1ioi8luCuoJlmu2zPvPO2wKsq
+ mKRR42J24zH3dBo7puKjpxzx4oTHtrjejyKIlU9yO+QeV7AZYUZKr1tiXdJ7roKONdM+
+ DYtJbsNLi5cld7aame41VvWnvGCsMzs7fplQVb28HLrB6DP7USz5ZZcO+hH15mohTJuF
+ vBlQTXSml/pjYwBGnoWl3eWCXgX1qbZy7i6aWKgEXklZu/O5REUBZnZ4SbdnZXCRS4LZ
+ 7n5v2gEj8hB0z0O2ep26WUJCsEgRxwrSbvCtAoUQtApuEauVO0uTo0nZlBcwfG85LQai
+ BjBA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUBP8oyWPbVcnipHLTk+YgyjP6cNejXiggjPQVNbhTTTDJTOf//XxJGFbpPH1eAiNq1kZRe68OP/G0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyb86BRDWF+MO3p0HtdmYiVsAZhKgMSiUFCOI9yB8xTHkE6mtyW
+ N5OE0mMEt1VsA/ZqrABvfp8yCO2S+nae+UefchkNm8JHQdpAS+nysmJATM/i
+X-Google-Smtp-Source: AGHT+IGpqmqTNRmwfY/bZDZsLNpspnrjrnzEOH1n3LP9HaM8oIrON1a1L3mL3prDKSrR4TjZIAul6A==
+X-Received: by 2002:a05:6a00:1a8b:b0:704:2563:5079 with SMTP id
+ d2e1a72fcca58-718d5f1b705mr7533743b3a.27.1725717704642; 
+ Sat, 07 Sep 2024 07:01:44 -0700 (PDT)
+Received: from distilledx.srmu.edu.in ([103.4.221.252])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-718e58b2e1bsm914232b3a.52.2024.09.07.07.01.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Sep 2024 07:01:44 -0700 (PDT)
+From: Tejas Vipin <tejasvipin76@gmail.com>
+To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tejas Vipin <tejasvipin76@gmail.com>
+Subject: [PATCH] drm/panel: raydium-rm69380: transition to mipi_dsi wrapped
+ functions
+Date: Sat,  7 Sep 2024 19:31:30 +0530
+Message-ID: <20240907140130.410349-1-tejasvipin76@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240907-hdmi-tolerance-v2-1-b9d7abd89f5c@codewreck.org>
-X-B4-Tracking: v=1; b=H4sIAJjq22YC/zWMwQ7CIBAFf8XsWRqgNFRP/ofpgcAqGwUUsNE0/
- Xexibc3L5lZoGAmLHDcLZBxpkIpNpD7HVhv4hUZucYguVT8wDXzLhCr6Y7ZRItMubHnWhk1CA1
- NemS80HsLnqfGnkpN+bP1Z/F7/ynFx17wvhNy0GrkTDCXAkV6vrALJleKWE+mtnljFa2PqbMpw
- LSu6xdNlPD1tgAAAA==
-To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>
-Cc: Adam Ford <aford173@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, 
- Frieder Schrempf <frieder.schrempf@kontron.de>, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Dominique Martinet <dominique.martinet@atmark-techno.com>
-X-Mailer: b4 0.14-dev-87f09
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2120;
- i=asmadeus@codewreck.org; h=from:subject:message-id;
- bh=nqr2dM1v6KRqxdCBlCHE8iSEaSRxPOverS1W33lMLzI=;
- b=owEBbQKS/ZANAwAIAatOm+xqmOZwAcsmYgBm2+qiwNG20vIXdu+YEeULa01ttlJy2QSvC7+R+
- q5lR89eNZCJAjMEAAEIAB0WIQT8g9txgG5a3TOhiE6rTpvsapjmcAUCZtvqogAKCRCrTpvsapjm
- cCf/EAC4hi6ChKZlBaMMneNhA2qE4PdW2Keg3zZYWMKMWodNjPR+YBT6tLWWHh7AanTLVUyRzaV
- RdNbsaIL3GBy3Z7IGQ5lQeESlFZ9A9TMOQf8UxEgNPL4bd/oWyE1toTD8nyRqzjNdqjdfBf+iw1
- zv/TuvyicWWBKTSj9QNmJc7JQD42fbSMmsEhDZ0PSjViXNx7ZW9mqtLv/OkNePmqYqnNzz08T+v
- 8V7DxK9Fpf6EH83bJFrJoZ0naeKb5W5UQ9uhCbSsxmYaowdt1ddwLrv+ZuoAvZqumcuEgVbwQYf
- 3cZdJ0f+hvRtXzT8K1bLCJnk5yuFYHquQE/B4Jytol6LWsf+4igOtrQh3QW/DP+896lV7roSmHW
- WGBl7yQ1kb63VwlEG6/tvkUYs5z+vKHJpX4VW3GF62qTespjQ9aykP0fUuEKIcockq3jI+WEZev
- F3l2a/WmXIArf1jA/15TkPtc9AaB3zYrrBf2RJ7OGnx2ecX8Hxaao+nBD3KMNwwPi6lgDXwFauB
- pTLGt6Xbr38u3xtGbqjerCN+Ri7B2LQADXd6GYDhTeT5Gy0MUOYvs+ANVaXqSdvlj5d9q1kGKpe
- nuu5hqzt5ZGR7JAm5oHlZi+AwWKlxfqJ165Eg+PtClAPPzxhDXwFTMCKw8/cjMQnhsAU6Mwak1R
- m88KRhuEw3Hjlaw==
-X-Developer-Key: i=asmadeus@codewreck.org; a=openpgp;
- fpr=B894379F662089525B3FB1B9333F1F391BBBB00A
-X-Mailman-Approved-At: Sat, 07 Sep 2024 13:03:11 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,59 +83,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dominique Martinet <dominique.martinet@atmark-techno.com>
+Changes the raydium-rm69380 panel to use multi style functions for
+improved error handling.
 
-This allows the hdmi driver to pick e.g. 64.8MHz instead of 65Mhz when we
-cannot output the exact frequency, enabling the imx8mp HDMI output to
-support more modes
-
-Tested-by: Adam Ford <aford173@gmail.com> #imx8mp-beacon
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Signed-off-by: Dominique Martinet <dominique.martinet@atmark-techno.com>
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 ---
-Changes in v2:
-- Improve comment about the tolerance
-- Link to v1: https://lore.kernel.org/r/20240904083103.1257480-1-dominique.martinet@atmark-techno.com
----
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-raydium-rm69380.c | 95 ++++++-------------
+ 1 file changed, 30 insertions(+), 65 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-index 13bc570c5473..200d65184159 100644
---- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
-@@ -23,6 +23,7 @@ imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
- 		       const struct drm_display_mode *mode)
+diff --git a/drivers/gpu/drm/panel/panel-raydium-rm69380.c b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
+index 4dca6802faef..bdab844dab55 100644
+--- a/drivers/gpu/drm/panel/panel-raydium-rm69380.c
++++ b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
+@@ -46,108 +46,73 @@ static void rm69380_reset(struct rm69380_panel *ctx)
+ static int rm69380_on(struct rm69380_panel *ctx)
  {
- 	struct imx8mp_hdmi *hdmi = (struct imx8mp_hdmi *)data;
-+	long round_rate;
+ 	struct mipi_dsi_device *dsi = ctx->dsi[0];
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
- 	if (mode->clock < 13500)
- 		return MODE_CLOCK_LOW;
-@@ -30,8 +31,14 @@ imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
- 	if (mode->clock > 297000)
- 		return MODE_CLOCK_HIGH;
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 	if (ctx->dsi[1])
+ 		ctx->dsi[1]->mode_flags |= MIPI_DSI_MODE_LPM;
  
--	if (clk_round_rate(hdmi->pixclk, mode->clock * 1000) !=
--	    mode->clock * 1000)
-+	round_rate = clk_round_rate(hdmi->pixclk, mode->clock * 1000);
-+	/* imx8mp's pixel clock generator (fsl-samsung-hdmi) cannot generate
-+	 * all possible frequencies, so allow some tolerance to support more
-+	 * modes.
-+	 * Allow 0.5% difference allowed in various standards (VESA, CEA861)
-+	 * 0.5% = 5/1000 tolerance (mode->clock is 1/1000)
-+	 */
-+	if (abs(round_rate - mode->clock * 1000) > mode->clock * 5)
- 		return MODE_CLOCK_RANGE;
+-	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd4);
+-	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd0);
+-	mipi_dsi_dcs_write_seq(dsi, 0x48, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x26);
+-	mipi_dsi_dcs_write_seq(dsi, 0x75, 0x3f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x1a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x28);
+-	mipi_dsi_dcs_write_seq(dsi, 0xc2, 0x08);
+-
+-	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set tear on: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(20);
+-
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display on: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(36);
+-
+-	return 0;
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0xd4);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0xd0);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x48, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x26);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0x3f);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1d, 0x1a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x28);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x08);
++
++	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 20);
++
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 36);
++
++	return dsi_ctx.accum_err;
+ }
  
- 	/* We don't support double-clocked and Interlaced modes */
-
----
-base-commit: 67784a74e258a467225f0e68335df77acd67b7ab
-change-id: 20240907-hdmi-tolerance-4d83074a4517
-
-Best regards,
+-static int rm69380_off(struct rm69380_panel *ctx)
++static void rm69380_off(struct rm69380_panel *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = ctx->dsi[0];
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 	if (ctx->dsi[1])
+ 		ctx->dsi[1]->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display off: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(35);
+-
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(20);
+-
+-	return 0;
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 35);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 20);
+ }
+ 
+ static int rm69380_prepare(struct drm_panel *panel)
+ {
+ 	struct rm69380_panel *ctx = to_rm69380_panel(panel);
+-	struct device *dev = &ctx->dsi[0]->dev;
+ 	int ret;
+ 
+ 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enable regulators: %d\n", ret);
+-		return ret;
+-	}
++	if (ret < 0) 
++		return ret;	
+ 
+ 	rm69380_reset(ctx);
+ 
+ 	ret = rm69380_on(ctx);
+ 	if (ret < 0) {
+-		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+ 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+-		return ret;
+ 	}
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int rm69380_unprepare(struct drm_panel *panel)
+ {
+ 	struct rm69380_panel *ctx = to_rm69380_panel(panel);
+-	struct device *dev = &ctx->dsi[0]->dev;
+-	int ret;
+ 
+-	ret = rm69380_off(ctx);
+-	if (ret < 0)
+-		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++	rm69380_off(ctx);
+ 
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
 -- 
-Dominique Martinet | Asmadeus
+2.46.0
 
