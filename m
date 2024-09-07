@@ -2,98 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAE396FE66
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 01:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4DE96FEAF
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2024 02:18:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13DF710EA20;
-	Fri,  6 Sep 2024 23:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2469010EB53;
+	Sat,  7 Sep 2024 00:18:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="naYGMrOn";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vw6K4qWB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 451BC10EA20
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2024 23:22:53 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id
- af79cd13be357-7a99fd5beb6so73391985a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2024 16:22:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1725664972; x=1726269772;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=Qy+mSIGNeS58++DzntcZUAiMsB2v+aaTI4VFNn3s3Og=;
- b=naYGMrOnX7yGd4AXUJFNp9xbVS2nrYy8mvzN1f3i0hArthCcgwPrEzPcPMVi63gkIM
- JJJaAA32yfWEzggklXrWo3/oq1PdcwFo42icISSOF+b+Q8GjuMqNaWXF2NsBquEsKaRb
- 7bcTFjRceoGLNmlp6d479ZjQ3GMwJikMPBQGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725664972; x=1726269772;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Qy+mSIGNeS58++DzntcZUAiMsB2v+aaTI4VFNn3s3Og=;
- b=mocmm4P5WHPObSK5Pm6vGO4n7nq7TLb8T6rTybrtWmMd6WdeQ0KHPa3qGXyHrk1APh
- Sh/BvkY1Z4ZOj4Q8ADb0EmngwoaqOi/9/qTpbFwxDtueL3tru1Lh66ftbkvcL4bK4i+y
- J1QFkzylT84gVnLAq2y+z+sp8rA9YEZt8xaHtOCkPCeym4Ek/LMjFYfZS1338wNeBnoH
- zQKwl5A0sYyVcDeJeBBSps7WZZgeiq31a0MGn9CD6IRWIT8jUDUCSyaVT4NV+qcLETRo
- jiZG371k/mE6lGlJKH+7lV6SZPbLpkJ4SriXDtmMVyRNQ6DulkoCXZIGvdkktcQsLGhj
- vJAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9dEomFSvomy+qOgJ3tOUItQm/+M1Apvm67zaWhXieNozqLAydQLcOWthdgURHIpPK8XrA+bHDsig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywei0GBSRhFrstSZh4irOjB4I5avvl5Enf51zILvr2fJ4QuRuIH
- xGJUmwImxds5+GM6eMC3Mwt046qxJV/uzJJJ1blWBBL6nebwXYvE2WYfwQ2KxN2JG2nc5nFmGbe
- PVpqSQ4cfdzW5pACKGYz3cAHODdAvRl+Pgi54
-X-Google-Smtp-Source: AGHT+IGdJ1Cu7WnFiLbpujMlY7s5pDdgGf67TdTERXFuJ3iEOOQRoyH/H06YxaP9An0lzToQtnM4yN/MAX8bQLOzGCM=
-X-Received: by 2002:a05:620a:4512:b0:79e:f878:7ffb with SMTP id
- af79cd13be357-7a996bb9ccdmr757628285a.9.1725664971979; Fri, 06 Sep 2024
- 16:22:51 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 6 Sep 2024 18:22:51 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 044D010EB53
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2024 00:18:18 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D420BE71;
+ Sat,  7 Sep 2024 02:17:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1725668223;
+ bh=8Orc6XQW99MatC1Qxg4QrMczZ3+NG6gNkj2PD97jIMM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vw6K4qWBfcx69WBSCt7CxeBthqF1L+ndbXRStpfMqPJarOqOLenQJ5YEvFXPGZ4M9
+ HpeDl6WgCf4f6miRVDrWZ0h5WV+9rVr7rT2jrUTl8/72SrMCAweq5u3Y9/1Fn3rDp0
+ gOwVeLk+HQMXi5um4+erzBYBAd07Ca7vCMJ+jDW0=
+Date: Sat, 7 Sep 2024 03:18:13 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [GIT PULL FOR v6.12] Miscellaneous small fixes for Renesas DRM
+ drivers
+Message-ID: <20240907001813.GA8212@pendragon.ideasonboard.com>
+References: <20240822234445.GA23541@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <Ztq6zf8n09ZcJNjT@google.com>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-19-swboyd@chromium.org>
- <ZtgqLZXbJbpG65vD@google.com>
- <CAE-0n51w3AAtLPq5M-i8F6z2jSOT3xFw3g8HM1h48xXBSeoZnA@mail.gmail.com>
- <Ztq6zf8n09ZcJNjT@google.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 6 Sep 2024 18:22:51 -0500
-Message-ID: <CAE-0n52mqK+by7O84fPMsNTfWSYzCwHpRZGi2Epfq0-iM7ysDg@mail.gmail.com>
-Subject: Re: [PATCH v4 18/18] platform/chrome: cros_ec_typec: Handle lack of
- HPD information
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240822234445.GA23541@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,66 +54,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tzung-Bi Shih (2024-09-06 01:18:21)
-> On Wed, Sep 04, 2024 at 02:45:36PM -0700, Stephen Boyd wrote:
-> > Quoting Tzung-Bi Shih (2024-09-04 02:36:45)
-> > > On Sat, Aug 31, 2024 at 09:06:56PM -0700, Stephen Boyd wrote:
-> > > > +     /* Inject HPD from the GPIO state if EC firmware is broken. */
-> > > > +     if (typec->hpd_asserted)
-> > > > +             resp->flags |= USB_PD_MUX_HPD_LVL;
-> > >
-> > > `typec->hpd_asserted` is shared between all typec->ports[...].  Would it be
-> > > possible that a HPD is asserted for another port but not current `port`?
-> > > E.g.: cros_typec_inject_hpd() for port 2 and cros_typec_dp_bridge_hpd_notify()
-> > > gets called due to port 1 at the same time?
-> >
-> > I'd like to avoid synchronizing the hpd notify and this injection code,
-> > if that's what you're asking. Thinking about this though, I've realized
-> > that it's broken even when HPD is working on the EC. Consider this
-> > scenario with two type-c ports C0 and C1:
-> >
-> > [...]
->
-> I understood it more: originally, I was wondering if it needs an array
-> `typec->hpd_asserted[...]` for storing HPD for each port.  But, no.
->
-> What cros_typec_dp_bridge_hpd_notify() get is just a connected/disconnected
-> signal.  It kicks off cros_typec_port_work() for finding which port is
-> supposed to trigger the event (with some logic with `active_dp_port`,
-> `mux_gpio`, and `hpd_asserted`).
+Did this one fall through the cracks ? :-(
 
-Ok, cool. I intend to split this device into multiple devices, one per
-DP bridge. I haven't done that though because I don't have any device
-that has two independent DP controllers.
+On Fri, Aug 23, 2024 at 02:44:45AM +0300, Laurent Pinchart wrote:
+> Hello Dave, Sima,
+> 
+> The following changes since commit 11df68c265460d4dff5d19a1313f0fff69470f98:
+> 
+>   Merge tag 'drm-misc-next-2024-08-16' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2024-08-22 09:42:23 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/drm-next-20240823
+> 
+> for you to fetch changes up to caef454889d150d7267992f0d95fbc25dfb621a4:
+> 
+>   drm: renesas: cmm: Remove unused function rcar_cmm_write (2024-08-23 02:30:26 +0300)
+> 
+> ----------------------------------------------------------------
+> Miscellaneous small fixes for Renesas DRM drivers
+> 
+> ----------------------------------------------------------------
+> Biju Das (2):
+>       drm: renesas: rcar-du: rzg2l_mipi_dsi: Update the comment in rzg2l_mipi_dsi_start_video()
+>       drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+> 
+> Jiapeng Chong (1):
+>       drm: renesas: cmm: Remove unused function rcar_cmm_write
+> 
+>  drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c       |  5 -----
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c    | 10 ++++------
+>  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c |  2 +-
+>  3 files changed, 5 insertions(+), 12 deletions(-)
 
->
->
-> Curious about one more scenario, is it possible:
->
-> Initially, no DP port and no mux is using:
->   active_dp_port = NULL
->   hpd_asserted = false
->   mux_gpio = NULL
->
-> CPU A                                        CPU B
-> ------------------------------------------------------------------------------
-> cros_typec_port_work()
->   cros_typec_port_update(port_num=0)
->                                              [C0 connected]
->                                              cros_typec_dp_bridge_hpd_notify()
->                                                hpd_asserted = true
+-- 
+Regards,
 
-The work is queued again here because it's already running.
-
->   cros_typec_port_update(port_num=1)
->     cros_typec_configure_mux(port_num=1)
->       cros_typec_inject_hpd()
->       active_dp_port = C1
-
-Yeah it's a problem because we need to read the mux_gpio to figure out
-which way it's steering. We can't recreate the "first to assert HPD"
-logic that the EC has because we can't control when the worker runs. At
-least we can skip reading the mux if only one port has entered DP mode.
-I'm hoping that the scenario where both ports are in DP mode almost
-never happens, but if it does then we'll have to read the mux when hpd
-is asserted to figure out which port DP is muxed to.
+Laurent Pinchart
