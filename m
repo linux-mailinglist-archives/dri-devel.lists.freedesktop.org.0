@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8D797062B
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 11:44:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0999B97062E
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 11:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88D0410E251;
-	Sun,  8 Sep 2024 09:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4F910E24E;
+	Sun,  8 Sep 2024 09:44:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ISbnTowJ";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="sLuJ4FwA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C51D10E24E
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 09:44:54 +0000 (UTC)
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8E10E24E
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 09:44:57 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1725788692;
+ t=1725788696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dAHogt64c5kc7Y5YIuhEER7fMKYPMI3sUmBW7MfbuoU=;
- b=ISbnTowJKRJD4v5Y/1dJoz9dC5D6tqEvzps0KId0ZtCc0xfszj0YAiQwkNq4U9rTo+jFzD
- GQSM2+s2C+MdtzcxcilN4KwtpxQOezqKL6en3A9nwo8B1Y3z3zCijWRuGLGjifBy+j5vD8
- oV2dCVJM0fknzeicdJPJ2vmzqECfPck=
+ bh=39adqGGC3e2Pv/tZE+pzQWRwMFjN4uRm877+Emztr/o=;
+ b=sLuJ4FwAmg+yPZ4oY2ShaFtmz5W5L2GAqdv1dqyLOJ0ecbbqkHp4w6DPW0n8ZyTNCWvuYN
+ vtndJmifNfANx1R5AuDmR0GGwIEJXCsHD/pvgbQjsV8MtiMOZqyuDCRKMO2fu8llyAhl4A
+ f+ppnpgsAuwfuMamlPUtu8Ga5kkqyvA=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v15 11/19] drm/etnaviv: Add etnaviv_gem_obj_remove() helper
-Date: Sun,  8 Sep 2024 17:43:49 +0800
-Message-ID: <20240908094357.291862-12-sui.jingfeng@linux.dev>
+Subject: [PATCH v15 12/19] drm/etnaviv: Add support for cached coherent
+ caching mode
+Date: Sun,  8 Sep 2024 17:43:50 +0800
+Message-ID: <20240908094357.291862-13-sui.jingfeng@linux.dev>
 In-Reply-To: <20240908094357.291862-1-sui.jingfeng@linux.dev>
 References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -57,60 +58,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Which is corresonding to the etnaviv_gem_obj_add()
+Many modern CPUs and/or platforms choose to define their peripheral devices
+as cached coherent by default, to be specific, the PCH is capable of
+snooping CPU's cache. When hit, the peripheral devices will access data
+directly from CPU's cache. This means that device drivers do not need to
+maintain the coherency issue between a processor and peripheral I/O for
+the cached buffers. Hence, it dosen't need us to sync manually on the
+software side, which is useful to avoid some overheads, especially for
+userspace, but userspace is not known this yet.
+
+Probe the hardware maintained cached coherent support with the
+dev_is_dma_coherent() function, and store the result in the
+etnaviv_drm_private structure. Since this is a host and/or platform
+implementation-defined hardware feature, and is again meant to be shared
+by all GPU cores. The probe function can be extended in the future if it
+not reflect the hardware perfectly.
+
+Expose it via etnaviv parameter mechanism to let userspace know.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 3 +++
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h | 9 +++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++++
+ include/uapi/drm/etnaviv_drm.h        | 1 +
+ 4 files changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index 39cfece67b90..3732288ff530 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -19,6 +19,8 @@
- static struct lock_class_key etnaviv_shm_lock_class;
- static struct lock_class_key etnaviv_userptr_lock_class;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 32ec1b5452ba..18686b573d77 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -5,6 +5,7 @@
  
-+static void etnaviv_gem_obj_remove(struct drm_gem_object *obj);
+ #include <linux/component.h>
+ #include <linux/dma-mapping.h>
++#include <linux/dma-map-ops.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+@@ -57,6 +58,8 @@ static int etnaviv_private_init(struct device *dev,
+ 		return -ENOMEM;
+ 	}
+ 
++	priv->cached_coherent = dev_is_dma_coherent(dev);
 +
- static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_obj)
- {
- 	struct drm_device *dev = etnaviv_obj->base.dev;
-@@ -555,15 +557,12 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
- {
- 	struct drm_device *drm = obj->dev;
- 	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
--	struct etnaviv_drm_private *priv = obj->dev->dev_private;
- 	struct etnaviv_vram_mapping *mapping, *tmp;
- 
- 	/* object should not be active */
- 	drm_WARN_ON(drm, is_active(etnaviv_obj));
- 
--	mutex_lock(&priv->gem_lock);
--	list_del(&etnaviv_obj->gem_node);
--	mutex_unlock(&priv->gem_lock);
-+	etnaviv_gem_obj_remove(obj);
- 
- 	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
- 				 obj_node) {
-@@ -595,6 +594,16 @@ void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
- 	mutex_unlock(&priv->gem_lock);
+ 	return 0;
  }
  
-+static void etnaviv_gem_obj_remove(struct drm_gem_object *obj)
-+{
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(obj->dev);
-+	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+index e2a991160cb3..02d706b34752 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+@@ -46,6 +46,15 @@ struct etnaviv_drm_private {
+ 	struct xarray active_contexts;
+ 	u32 next_context_id;
+ 
++	/*
++	 * If true, the cached mapping is consistent for all CPU cores and
++	 * peripheral bus masters in the system. It means that both of the
++	 * CPU and GPU will see the same data if the buffer being accessed
++	 * is cached. And the coherency is guaranteed by the host platform
++	 * specific hardwares.
++	 */
++	bool cached_coherent;
 +
-+	mutex_lock(&priv->gem_lock);
-+	list_del(&etnaviv_obj->gem_node);
-+	mutex_unlock(&priv->gem_lock);
-+}
+ 	/* list of GEM objects: */
+ 	struct mutex gem_lock;
+ 	struct list_head gem_list;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 0c8e394b569c..89fb36aee779 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -164,6 +164,10 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+ 		*value = gpu->identity.eco_id;
+ 		break;
+ 
++	case ETNAVIV_PARAM_CACHED_COHERENT:
++		*value = priv->cached_coherent;
++		break;
 +
- static const struct vm_operations_struct vm_ops = {
- 	.fault = etnaviv_gem_fault,
- 	.open = drm_gem_vm_open,
+ 	default:
+ 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+ 		return -EINVAL;
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index af024d90453d..61eaa8cd0f5e 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -77,6 +77,7 @@ struct drm_etnaviv_timespec {
+ #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
+ #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
+ #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
++#define ETNAVIV_PARAM_CACHED_COHERENT               0x1f
+ 
+ #define ETNA_MAX_PIPES 4
+ 
 -- 
 2.43.0
 
