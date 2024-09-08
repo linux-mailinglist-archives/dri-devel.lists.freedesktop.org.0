@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C995970817
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 16:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01551970818
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 16:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D14610E281;
-	Sun,  8 Sep 2024 14:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2DEA10E283;
+	Sun,  8 Sep 2024 14:21:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jlF63JM9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eX9MVDXu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D520B10E281
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 14:21:50 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-42cb6eebfa1so283815e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 07:21:50 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3C5310E283
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 14:21:52 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-42cae563348so1906125e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 07:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725805309; x=1726410109; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1725805311; x=1726410111; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DmNCAE4Q1YMX3Tcl8gMK7BYQKsWpwsEcc2NsJh2xrh4=;
- b=jlF63JM9fDSuOuisjkG5Qg8sqlDgDmrrIRJdZmExJnBlxD9udL3OyZlUiC0q5P4QAg
- iQ+SfWOmXtqSNgHO7jvEcNXPZxtbX9mQaXP5W00plCnLVtv3m/D9MYZ37Yp1tbqeeqzi
- uaY7pcJuxj3fQ1wZJW+8u3PGQjhUnE45YRw4j35NqS6uSLPSbDWbag7YCy/dE4TSvbPI
- TffBmS+/lFyP8xfOdoGCaHcg/4bf77w2VHyCkRiSZSU0hAPnIwQTyYxJ7vDbyYpNZb0J
- mtHLJrehHVeyYTyWNyBDlGrvq4fuSjd3kyzRB6l2MmBFv/ng+qih0CQzK31HWbtAsdzp
- HWcw==
+ :reply-to; bh=HvzK9QbnMsy2ymdJa9zUCc35kOJVXO+e6EJ8AnZPJwM=;
+ b=eX9MVDXu+kK+3VIQwzgHWQJzwwbhqno5HLgUBDFeyfSBOV2EHw8P5flM9utnfFtJ2H
+ XippQR7cXBoG0W2xc6pq2hpUPoT1RMNAq0wMlbZ9xGHFk3ybG6X9cC1nF09vzPzB+LYb
+ xYHLidffsmVRHcDV9gTtWw+dTQXfsv0PLW1A3XH4W54GPS/D6Qdw+WQ+4T4QHtOed3md
+ nM+tua6Sej+u4DdovuoztClOz0qWcZecwF+cZgbN4a1CQrprdxWl+m8jbc+LmQyzxOs5
+ KUE7IyhZui8pAoHAqLPiiGzKeCcheBAtojHEHULg9lSP5dmWJc3deC6QMCoGpmWzsW/j
+ tYzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725805309; x=1726410109;
+ d=1e100.net; s=20230601; t=1725805311; x=1726410111;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DmNCAE4Q1YMX3Tcl8gMK7BYQKsWpwsEcc2NsJh2xrh4=;
- b=HDDmU9h3c3sYP9iYRmTT7YmRO851aEPPOOZeP5ui6Ld8Mb6/z+8zFgn5tG/qpT95b7
- bvZx/VVtFM80QF62kJOsMOjw4tvod3iFjth83eXEQFKLEhV8yM0Q1RRAWjSVEZ8eIfOD
- ucouYJSoNfoXnmrmMpcbRPA2QKZM50aULk6xXHWMBK09nX9ltQBLOZZKwce/Qvieh117
- taMlDQFD/FpmNyTaxGUd2Gjjj5p3/yfiWckLtVJ9bIs+nwpUwLXlyGgSik+oKP+MM6sj
- SR2lcaFFczGo8AoSysHZmVERDl6GVvR4MrODWD8mC5X0Le85BLJsTWjgUSZTRZXnh6lJ
- Pz5w==
-X-Gm-Message-State: AOJu0Yy0yrlBEBJJX5U4juFsGSRW1kk/dFVOaKxnoQBv8A1wSyTEVurP
- iUJIFo8FHlSuNdimLhn/HzbSaJUW526NHcaSBckCcG4GN3CnbxhUxJL7eFvssUI=
-X-Google-Smtp-Source: AGHT+IEfPYmeZxoWXAcFQnFIynwYI3IhFwp318lmX0rGJhOu4zCB8JiThVgRlAkTPUtEGTM66TbBWA==
-X-Received: by 2002:a5d:5985:0:b0:374:c4c9:d501 with SMTP id
- ffacd0b85a97d-3788969f8famr2540273f8f.10.1725805308342; 
- Sun, 08 Sep 2024 07:21:48 -0700 (PDT)
+ bh=HvzK9QbnMsy2ymdJa9zUCc35kOJVXO+e6EJ8AnZPJwM=;
+ b=TwHDXuM67n+xF6A5I8seFE+0/hEP+P6ANwkT0G3XwowNmdtdvRr3BR42D4RN5nTuBt
+ eW4ZtB412Pdizsh1HvBBTOfkeVB87+smiLkzILeSK4xzY3N/KNsftLrB4H0ODhIJmEcF
+ LhSHBi5umKplW5q6W4Tp+pDlgiRbhr1Jtajz13weYF1GzC8Ei5dCAT+mMsNBHHxRWdeN
+ 7FLCykBPcRY4NxdfhYYv61EC3HRL0DaSs77K/4362MZ9y++tIsP5/2BQDRIoURnrDley
+ Xy1MZbF/ja0Vflk13wiaP22FG5elg8QG0q+/ZpPEbP17IYUfJE0cWwEEZJDmN1qgWLb8
+ wwkw==
+X-Gm-Message-State: AOJu0YwBo3DLKh84ewtfvu/ghhacdZNIoGZRGUTk5iWFspTbjiWSQd1/
+ u5z+YcX6Xic+jVjoq6QU7g9rbdNDYHXNVBJWq4k4mRqcW4LUMII97EGDnmvSKys=
+X-Google-Smtp-Source: AGHT+IFGkCKTBZFIvwjzPmyy0UxMVxAvqoCnC4DEkYoje5P7hwJW0E6txtMBs/tVw5PKSAk1OLHtoQ==
+X-Received: by 2002:a5d:598c:0:b0:378:9560:32f with SMTP id
+ ffacd0b85a97d-3789560049bmr1143708f8f.12.1725805310725; 
+ Sun, 08 Sep 2024 07:21:50 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.222.82]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37895675bc9sm3465092f8f.56.2024.09.08.07.21.46
+ ffacd0b85a97d-37895675bc9sm3465092f8f.56.2024.09.08.07.21.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Sep 2024 07:21:47 -0700 (PDT)
+ Sun, 08 Sep 2024 07:21:50 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sun, 08 Sep 2024 16:21:31 +0200
-Subject: [PATCH 1/5] drm/meson: drop unused staitc dw_hdmi_dwc_write_bits
+Date: Sun, 08 Sep 2024 16:21:32 +0200
+Subject: [PATCH 2/5] drm/meson: constify regmap_config
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240908-regmap-config-const-v1-1-28f349004811@linaro.org>
+Message-Id: <20240908-regmap-config-const-v1-2-28f349004811@linaro.org>
 References: <20240908-regmap-config-const-v1-0-28f349004811@linaro.org>
 In-Reply-To: <20240908-regmap-config-const-v1-0-28f349004811@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -81,21 +81,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
  linux-mediatek@lists.infradead.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1186;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=776;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=xt0kZ7eoXJhJeMpnCj+RSo+GXDsYwuHZwovewC7CyRM=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBm3bLzifbiOLGTfi1rakImHboSKV6MijiY+nxNL
- 64lIGN8Vw2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZt2y8wAKCRDBN2bmhouD
- 1z1VD/wOZ9MQKyB3Sw1CKjUwzx//foRb4DryywNPfnPq4l8A3dIm616OmVccvSkkz53RxzHsiSo
- Dw7eEnEx2HVoW7kyWifS/sxsqjS+ZJNu6o96aJZNPknaYTjCGqvsm31f+pa4nEJrbh5K6FiC34M
- jDlUbCSrH2rdiUg9gB8kqAX+93smcGE7+Z10Q8e+v7U3AOr+RRMuFrcAjN+fbvV85gIg4iU+3y/
- k+l+eWOMcpnaAdQPcSnMx/vgGKSJuJHpQO91fE04UmJyzAwR5F8QgYSVcKByRExvYTirjmiDD4k
- 13HJUKlryiBKlnP/3dtY3lA1eJaLwhaBnMLGwWxL4msNZF3martYB6dBVDA5Q6erhi9JEytv3Ub
- Ck26TT6lop4XdFmACe9z7xCNOvZ2yBRaE6MEG6PRcBvu8mpDivvO5qgntKo9mxltoomeo1GYOCm
- 6R1wWzMkLJdMhIqe7eamaJo2hVQ3ukJeC4co9VFodFrMVzTdfFqbMDmRQPgymuj/NrGyOszj9Wu
- BDuPkwp9WiHXiWR3TA7WFsOBTacW5opg8ZN4omiWyDM0FzJRydwvB1jYYMEcdoNasl/DdhxVwW1
- S+JC3i1S3tCLgePg2qs5HvIsCsX0OC1eAphTQ96Axhrg6L20JVzHESqtRnLYOmerln9EJal3X6C
- SIMxC/TjklYx1pQ==
+ bh=aPIjI3wvog8RSD6EiSqaW+WBy8gBpWkoykw90m+N8VY=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBm3bL0T6C6l0T+jasscr2GbjpaQ6wcbyWT35jQc
+ Va62zQLwNOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZt2y9AAKCRDBN2bmhouD
+ 1/0DD/9l6CzinqqFZnvJrhrKjqaSkq5E45kzLhr5PHD/mkCKkD0YY+T84/txfFf6/AaEP/HodmP
+ 78HhSeHWNPcjWpnxhaRVW3IbwBdX2aFF3BW+2zQ1R/y2F+Jnz6FxpsUuuUljHW2p050ebNx9x/7
+ zHQg7WBZPrCGzFSBzDmEGmZvGPfnQYBtODxdINnnoSMRDR4jdbfyXKZq7MMKkdcgBSF6w+1rGp3
+ JijCE1endeNXX7boyGXcRaPvGd6NyeeXqwjq2UbzV4NQdccHpQvAxPqhuLsh2+tT53bvTeqXB2A
+ jLYI3MzrcVxhUsYstfk2+KtczefK237WvepVp0agYSsV0fWeu4dhhjfpdjzNqXdbkBKdFzdER6b
+ IzbEI9wKEN2j66N32zv9zDouDzI8413GbVHRo6DsRQ49rKInBpthEx1mdvklnkPbGLyVrMkflM3
+ JGhj7U7GJLZquuk2dLqCQyoSfWnQMRWMQCJ3DBRmhsKLeYOe3jtQvgwxJL8wHmPlqGq+eQwzgrJ
+ drJS/MmBSCJOhUk0IqcXBeKumH5sF4VQY3ea9su0SfPWijaHAaZBZvjM/qDhnOtxZB048N5EJhZ
+ MjGGdoBwWnh/NeQ74ple37I5eEF0/6l3V82Qs0HJ+mEM9MLVmHcOuTxPeR28pOP5KrThISJF+w6
+ gV3tP7nWzxcLwlA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,40 +113,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-static inline dw_hdmi_dwc_write_bits() function is not used at all:
-
-  drivers/gpu/drm/meson/meson_dw_hdmi.c:276:20: error: unused function 'dw_hdmi_dwc_write_bits' [-Werror,-Wunused-function]
+Mark local static 'struct regmap_config' as const for safer and more
+obvious code.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/meson/meson_dw_hdmi.c | 14 --------------
- 1 file changed, 14 deletions(-)
+ drivers/gpu/drm/meson/meson_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-index 5565f7777529..b75db829b1da 100644
---- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -272,20 +272,6 @@ static inline void dw_hdmi_g12a_dwc_write(struct meson_dw_hdmi *dw_hdmi,
- 	writeb(data, dw_hdmi->hdmitx + addr);
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 4bd0baa2a4f5..6c8677d1f562 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -126,7 +126,7 @@ static bool meson_vpu_has_available_connectors(struct device *dev)
+ 	return false;
  }
  
--/* Helper to change specific bits in controller registers */
--static inline void dw_hdmi_dwc_write_bits(struct meson_dw_hdmi *dw_hdmi,
--					  unsigned int addr,
--					  unsigned int mask,
--					  unsigned int val)
--{
--	unsigned int data = dw_hdmi->data->dwc_read(dw_hdmi, addr);
--
--	data &= ~mask;
--	data |= val;
--
--	dw_hdmi->data->dwc_write(dw_hdmi, addr, data);
--}
--
- /* Bridge */
- 
- /* Setup PHY bandwidth modes */
+-static struct regmap_config meson_regmap_config = {
++static const struct regmap_config meson_regmap_config = {
+ 	.reg_bits       = 32,
+ 	.val_bits       = 32,
+ 	.reg_stride     = 4,
 
 -- 
 2.43.0
