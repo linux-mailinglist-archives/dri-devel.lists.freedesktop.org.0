@@ -2,64 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F29970525
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 07:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 729F097054F
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 09:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD13F10E160;
-	Sun,  8 Sep 2024 05:40:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 712DC10E1DD;
+	Sun,  8 Sep 2024 07:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ohc6zm8+";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="eKYbH2W3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACDF010E160
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 05:40:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3BCFDA411AC
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 05:40:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E97CC4CECA
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 05:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725774009;
- bh=eU8y7njNZTU4S5PfdrQQwBvv2TUhYeCI8xRCVEYk/00=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ohc6zm8+H5E63sD6lPeE39PE8YP+wcYqHnF3JUBFjgNhsjiZ7+KC+a99tPBlqdXZy
- KFWJeO4UTRE2zNMHzjMgXltZwdMS3xZomOhJmw12Ni/QN8DyH5eP1AIRDyvw5XOY71
- y+lD8iPQWA/UkzWs8t92RXLCtNcx9TUdWcVmkZoE/5kbHsjC5mG63raVS55PQ1iUm4
- I4izQjlGbg4yXY4cG76j29IBeNBhdP1PUbaK/MJ7UzDOi99+g92mw5olHb2UaM76lN
- ZJnX/AwFOD/9Yn34Imz7LGmoU9bHcHWj1DVkLYtcOjtcv6WKaonKKy86co23FWVy9I
- Ord6IXKrASufw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 41A84C53BC2; Sun,  8 Sep 2024 05:40:09 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206309] Experimental amdgpu w/ Dell E6540 with HD 8790M (MARS
- XTX), massive performance improvement after ACPI suspend
-Date: Sun, 08 Sep 2024 05:40:09 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: changhaitravis@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: WILL_NOT_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206309-2300-ZSSkRhvKVS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206309-2300@https.bugzilla.kernel.org/>
-References: <bug-206309-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 207A110E1DD
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 07:20:03 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1725780002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Jechb95hmorUhOngmJkF9gCQgvUHcIPjIBZ73kyW/N8=;
+ b=eKYbH2W3T8L9iU6FxtWjDR20MtrRZZ/TWlvZWwrJiCeyrgMGDnAak6jaVEcE3pqKEXkC1+
+ qjX6MBu5BSQ/sAoF2aoyzlwBg8JDqGiKcPF72+mHQjHX3UytXo2c8nXL44gbm+5W/PC8WF
+ nx6R4rgvOIW3T3VW/UC33MIQ3brZWCM=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH] drm/etnaviv: Print error message when driver can't get pages
+Date: Sun,  8 Sep 2024 15:19:50 +0800
+Message-ID: <20240908071950.200508-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,23 +55,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D206309
+This error could happen when the GFP_HIGHUSER flag is set, such an error
+can also be seen on the X86 platform. According to the kernel document in
+gfp_types.h, "the GFP_HIGHUSER is for userspace allocations that may be
+mapped to userspace, it do not need to be directly accessible by the
+kernel."
 
---- Comment #6 from Travis Juntara (changhaitravis@gmail.com) ---
-I ended up upgrading to a slightly newer dell business laptop with an AMD G=
-PU
-(with none of these issues) and getting rid of my Latitude E6540.
+However, drm/etnaviv will use the pages to implement vmap and mmap
+operations of the GEM object function. The flag still set at present.
+When we can't get pages, it certainly is a bug. Hence, we should print
+this kind of error with drm_err() instead of dev_dbg().
 
-As such, I can't really help test anymore. I also can't remember who set th=
-is
-ticket status to be "Resolved - WILL_NOT_FIX", but hesitate to re-open in c=
-ase
-it wasn't me. If you want to pursue this further, you'll want to open up a =
-new
-ticket.
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index 5c0c9d4e3be1..5ffc31f32ac9 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -61,7 +61,7 @@ static int etnaviv_gem_shmem_get_pages(struct etnaviv_gem_object *etnaviv_obj)
+ 	struct page **p = drm_gem_get_pages(&etnaviv_obj->base);
+ 
+ 	if (IS_ERR(p)) {
+-		dev_dbg(dev->dev, "could not get pages: %ld\n", PTR_ERR(p));
++		drm_err(dev, "could not get pages: %ld\n", PTR_ERR(p));
+ 		return PTR_ERR(p);
+ 	}
+ 
+-- 
+2.43.0
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
