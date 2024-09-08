@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E8C97072E
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 14:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55EB970730
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 14:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2243510E0F2;
-	Sun,  8 Sep 2024 12:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374F510E19B;
+	Sun,  8 Sep 2024 12:09:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DBz1yKy1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i/jNTRqY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7EB10E0F2
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 12:09:01 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-42c79deb7c4so28502365e9.3
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 05:09:01 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D271410E19B
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 12:09:42 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-42bc19e94bdso30214505e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 05:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725797339; x=1726402139; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725797381; x=1726402181; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :references:cc:to:from:subject:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=WXhVFne8oOPihf62uhCsGSTcnVwmoqLgUS41SPYlfAE=;
- b=DBz1yKy1NVXsLzxuXCAWEdHtd0rON3pBdvwp11o0dceiJvO1cpYxAV0GVX4GcocIUP
- PADei+OO/oBsgDbvaR7ZFTI/sIjDXGBqfzvZqn9nZkaO9lSKQGy6n+k/xbqORZJB+xuL
- JNMsbgMaXBGZ38W4obN+TVwZVgCcQq97Pqpdm3A3s60YFXnMJuImbnLiwLlsx49QB3pW
- eII8R7mI99KyIZ9b0w7IHPRxIQfzrzgyNI7PXYi8QWLfV3ELRuV9WOkQnSGo/haZYmCK
- aL6KGCdlFoAB4SEfqPnR4ey3KF3Kx71d5RpqMAFM8PtZP8pU2wGhnCVZT8JuP4yRNcjJ
- vldw==
+ bh=ID/Ggar6VB+4UOOOP3x1KhMROeEmZaWCMCZFAzzCrpU=;
+ b=i/jNTRqYr6ioI1qDVaXuZWzWeCUjkYhwpv3ZLx241/mluJkAtPZ9rLu9Zz7kw5qHov
+ a2gpWgepXAWMFqORc/DiEqi3UlI8+9OB1rQi0uGxiFmZ/9+edz0FBVkmP8zIpTUfRTf6
+ hpBTwI+W80hCYYgj4YISsO8E7R12y5QvwhmxGhpJPb1hmXZORGl2Udl9GOWZJKhd1j8F
+ yCm/PmwTCYcfb8w+fEgV/a2bevsG0F6mz+cmoh2BBe1mmxv07qdvkwmhQ+a2rBfocmo5
+ k9Wej0ttzXlzURDgAbpmnPPSwqdYaq8tvw/OwIPxBZDPFP8bZB6meEqFIzC+3AZtfjvo
+ BTbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725797339; x=1726402139;
+ d=1e100.net; s=20230601; t=1725797381; x=1726402181;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :references:cc:to:from:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=WXhVFne8oOPihf62uhCsGSTcnVwmoqLgUS41SPYlfAE=;
- b=SExlyOoHTfDhHE3QPZjKXeZhcKFpr51NlZOFP0PUeP8cvu6PHvOOcruarSOsxQlohW
- YynK+rY91TkwtcUMgyCazq3L9AqLIR0CWr5SdWbMvionp57y5hFb9u+jaLRF3ZZW3D+8
- 3SVXoqenBix5upDP9TsH4tpGVk3HzuUHYle4P4hMGth2385fYORMDjbCTGRPMgjMlr8q
- maPdvUN5S85NJwdPKDnwED+ga3YXxdyVcwScJ90ncwRrGvglI0Ba3BPgDikh9jhaPu+4
- YEPzeBltA3QEmbyr0TObsjwBF4V6UW/E6YQ/WRN2nu1Pz25F5B3ut300imfB0tYcFvAe
- oV0A==
-X-Gm-Message-State: AOJu0YyaBZBefD49ryB77100kDB8KRn3KF/QJ1ugybNZGSz+VAEsB7yt
- MzS/fn9jm9p7BR3jSbd4D7QmFbjgOPniSNagbgWrCxriIyDynHTq
-X-Google-Smtp-Source: AGHT+IHq57o3e2wBx/L29p74S62hT5Dle2BqjI485e7gbJExQUtSpAjY/KDgDeo9DajUq+uck/wbsw==
-X-Received: by 2002:a7b:c858:0:b0:42c:af06:71b with SMTP id
- 5b1f17b1804b1-42caf060978mr25759815e9.28.1725797339200; 
- Sun, 08 Sep 2024 05:08:59 -0700 (PDT)
+ bh=ID/Ggar6VB+4UOOOP3x1KhMROeEmZaWCMCZFAzzCrpU=;
+ b=D4eKcxQOpvCaD96Y+kob/K3ldmWTN4FuUfTM85sPQIoEvKn5bezQpQoxdpk2nwZQJE
+ nyToXdsP3F05UYLAXD1ZQxVpqQq6q76kcc1tAgsNSdQKmhmfcRIYRX2+CHPh55I7JtWT
+ EUs5pHOzwwwveTWOPrvZvt4MOV0snA60gkmtq3FUiCdQ7x0KaIO+nz/BZfNup/AWVFG6
+ bPB/dRJ6qye8kcRv1iAnUg8Guv1/DRnQ6v3i/o6mWH/0QtH5GuZ+I6lBGvj09hwSwYFc
+ VdmeJMzcf3cieH6j3xJzPn4T98p+zv5HAnrVsdJRjHlI6dSF1Sbr4sXR+BVeeVrdpkFz
+ +Chw==
+X-Gm-Message-State: AOJu0YzHHhNkHxbQVH/CSjRDJhKywDfHdzelYxXRG8LKRaTLz2bKyA6b
+ d4FwIIE+b+cfkaYsq6rw8jMceWZk3gveLovbQBxYV4HYYHdyFteN
+X-Google-Smtp-Source: AGHT+IGmH32JUeTNpqkxkwFLlyD3UTX9Oddl/ewkvJIA0TiHJwzzE6E9gkqMLFM5lXiE9WPLguGslQ==
+X-Received: by 2002:a05:600c:3b9e:b0:426:6551:3174 with SMTP id
+ 5b1f17b1804b1-42c9f9d6711mr62899015e9.29.1725797380622; 
+ Sun, 08 Sep 2024 05:09:40 -0700 (PDT)
 Received: from ?IPV6:2a01:c23:bd18:a600:88fa:9e17:3532:fcf4?
  (dynamic-2a01-0c23-bd18-a600-88fa-9e17-3532-fcf4.c23.pool.telefonica.de.
  [2a01:c23:bd18:a600:88fa:9e17:3532:fcf4])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-42ca05cfd03sm75056385e9.28.2024.09.08.05.08.58
+ 5b1f17b1804b1-42ca05c2656sm74465495e9.7.2024.09.08.05.09.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Sep 2024 05:08:58 -0700 (PDT)
-Message-ID: <b2d8d283-36cc-42e8-a8e7-e57e9698a9b5@gmail.com>
-Date: Sun, 8 Sep 2024 14:08:58 +0200
+ Sun, 08 Sep 2024 05:09:40 -0700 (PDT)
+Message-ID: <82ec225b-8991-4111-9492-ad1a62ac2b0e@gmail.com>
+Date: Sun, 8 Sep 2024 14:09:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 1/6] drm/sysfs: Remove version attribute
+Subject: [PATCH 2/6] drm/sysfs: Drop unused drm_class_device_(un)register
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Oded Gabbay <ogabbay@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -132,56 +132,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This undocumented attribute returns a version string which hasn't been
-changed for ages. libdrm doesn't use it and I also found no other user.
-So I think we can remove it.
+These two functions have no user, so remove them.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/gpu/drm/drm_sysfs.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/drm_sysfs.c | 32 --------------------------------
+ include/drm/drm_sysfs.h     |  3 ---
+ 2 files changed, 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index fb3bbb6ad..49e5faf11 100644
+index 49e5faf11..a713f0500 100644
 --- a/drivers/gpu/drm/drm_sysfs.c
 +++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -126,8 +126,6 @@ static const struct component_ops typec_connector_ops = {
- 	.unbind = typec_connector_unbind,
- };
- 
--static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
--
- /**
-  * drm_sysfs_init - initialize sysfs helpers
-  *
-@@ -140,19 +138,10 @@ static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
-  */
- int drm_sysfs_init(void)
- {
--	int err;
--
- 	drm_class = class_create("drm");
- 	if (IS_ERR(drm_class))
- 		return PTR_ERR(drm_class);
- 
--	err = class_create_file(drm_class, &class_attr_version.attr);
--	if (err) {
--		class_destroy(drm_class);
--		drm_class = NULL;
--		return err;
--	}
--
- 	drm_class->devnode = drm_devnode;
- 
- 	drm_sysfs_acpi_register();
-@@ -169,7 +158,6 @@ void drm_sysfs_destroy(void)
- 	if (IS_ERR_OR_NULL(drm_class))
- 		return;
- 	drm_sysfs_acpi_unregister();
--	class_remove_file(drm_class, &class_attr_version.attr);
- 	class_destroy(drm_class);
- 	drm_class = NULL;
+@@ -536,35 +536,3 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+ 	put_device(kdev);
+ 	return ERR_PTR(r);
  }
+-
+-/**
+- * drm_class_device_register - register new device with the DRM sysfs class
+- * @dev: device to register
+- *
+- * Registers a new &struct device within the DRM sysfs class. Essentially only
+- * used by ttm to have a place for its global settings. Drivers should never use
+- * this.
+- */
+-int drm_class_device_register(struct device *dev)
+-{
+-	if (!drm_class || IS_ERR(drm_class))
+-		return -ENOENT;
+-
+-	dev->class = drm_class;
+-	return device_register(dev);
+-}
+-EXPORT_SYMBOL_GPL(drm_class_device_register);
+-
+-/**
+- * drm_class_device_unregister - unregister device with the DRM sysfs class
+- * @dev: device to unregister
+- *
+- * Unregisters a &struct device from the DRM sysfs class. Essentially only used
+- * by ttm to have a place for its global settings. Drivers should never use
+- * this.
+- */
+-void drm_class_device_unregister(struct device *dev)
+-{
+-	return device_unregister(dev);
+-}
+-EXPORT_SYMBOL_GPL(drm_class_device_unregister);
+diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
+index 96a5d8584..929d957e4 100644
+--- a/include/drm/drm_sysfs.h
++++ b/include/drm/drm_sysfs.h
+@@ -7,9 +7,6 @@ struct device;
+ struct drm_connector;
+ struct drm_property;
+ 
+-int drm_class_device_register(struct device *dev);
+-void drm_class_device_unregister(struct device *dev);
+-
+ void drm_sysfs_hotplug_event(struct drm_device *dev);
+ void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
+ void drm_sysfs_connector_property_event(struct drm_connector *connector,
 -- 
 2.46.0
 
