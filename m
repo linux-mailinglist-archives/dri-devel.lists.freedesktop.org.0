@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A776F970749
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 14:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7093897074B
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 14:14:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB4210E264;
-	Sun,  8 Sep 2024 12:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEE710E265;
+	Sun,  8 Sep 2024 12:14:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k2f9w2xC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DnvEoBQO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA0E710E264
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 12:12:35 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-428e1915e18so28563395e9.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 05:12:35 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB7B10E265
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 12:14:46 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-42cae102702so11535325e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 05:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725797554; x=1726402354; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725797685; x=1726402485; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :references:cc:to:from:subject:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=mNV5vn8l5uZ1431r/aGCArHrETkDYNIRUjy3wvIhAvY=;
- b=k2f9w2xCoc5OnOUZithCR94/rchtVuqsKYseDqY64d7i33OIuhZteMzxGxhAl2o+Au
- IruM6vqCsBf9dxqrUJ27/BB1lZIIg0kWR1y9v2PW3w3fivWnPQ/TUEwz3Fk9wZDhNq6T
- IZ6AD+6MQdiM4Bjz8xYFqUezkBsM3v1vAFqdJYEopuIUZ30pXw+SSL/ObA/5rcWTpRd3
- kwkzTcz7G+/bLpR4/miGBOZk2udMegQaCJxhk/mcR29cDjbwoswWqHycaIlowAvWlc9e
- EKUfQlDZ1mELQXeX85Zk4bpxkhOev78vXJ+fXJQVGmilYpJZRgTUXmyCFHy7PSKBWnXk
- WV9Q==
+ bh=eGiC1s7LHIW+WJEyU+F6KrakFty4Nm+Okd1FA4urZLY=;
+ b=DnvEoBQO91jEvqriFHw3RnYl6Mrl7rEzgTtt6Qw0Dqh3H6ztZqu9lTQ4OKS3Pa5UHW
+ jT0ywZ5UB7cRN8mh8nuRRxTfrXoFlSD40Zv9j8IUKDZlYn0AukSUXWhaYe8b6AKNgGlO
+ u8wIPr4YEc0GRZQt/400BK6w4hW1T9No1ZBMeIpIBuFvntMgUdKiWvSk9GRssXnyTdn0
+ 3FLcp9Fl+t+Y3lYWvrvHJeAy8fnSdoVnVI/7Uw9rRt0zU3UOwXiGyqPWrNJQCkX9wGoX
+ JHpnK3v3Dl71i4m6j5UenXahEdM6EeipT1Y0AEWOERfo+c7pDmgMbMZ9hoQqFnNAlpYg
+ iNBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725797554; x=1726402354;
+ d=1e100.net; s=20230601; t=1725797685; x=1726402485;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :references:cc:to:from:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=mNV5vn8l5uZ1431r/aGCArHrETkDYNIRUjy3wvIhAvY=;
- b=uWTQ3b0+VMP11kRW36T4roFv0im3o1TFh717G5oQd7UxRUITSb1I/+Y9eZqcxnY0i8
- wNgaU98iSme8tg6gvUB6t8gDyQ0zCm1f+NbVD4aEifb81tDe0EGYd7XhwA0mWgdJs1UG
- 8oUBVMwkeN5S2JVOCaCfS1etsnpJqK5UM6nU/O9WOPx5CLF+4jfBLEA4E42nFiwI35DD
- HVrSOPPoZ9kmdv7LW71zDNKg9e8Zgt6UXfBcgii0Y392vLCCnTpTpT0JN8f6T6dZ+uJX
- ICI2qzmEqU/z/4dxTXzVIQ7V2YP0PdxSIkANcigYZ/WJdphHBcFBXtVjjudT6COLCMPt
- Qp6w==
-X-Gm-Message-State: AOJu0Yy1a+6RkacFE3dLGUilD/MhdKiEdYw+f9f21RH7o17P434wz8AJ
- TEk+rBgoHRjR/pQqU/sDa9eAzf2g/y40qWL3CBRkAJ+ufat3N7w1
-X-Google-Smtp-Source: AGHT+IGGwLarIw8jneKc+fPJFi/Xz9ip5mkVtPc37VKAva1YtAn5mti0NxmvhMUrZGhh2p0CBloxkQ==
-X-Received: by 2002:a05:600c:4f86:b0:426:6000:565a with SMTP id
- 5b1f17b1804b1-42c9f987321mr57899465e9.16.1725797553641; 
- Sun, 08 Sep 2024 05:12:33 -0700 (PDT)
+ bh=eGiC1s7LHIW+WJEyU+F6KrakFty4Nm+Okd1FA4urZLY=;
+ b=kGVGOxgW52tPj79RePrV1/jezY7MUa2jCKUjBnZupiP3GGNKV+KKn9/5mlSzeLjtfT
+ cikLJuvtIDNw1Nn9sdECS2vXdEqOTnelG8AV/lQHLHxyKVQO/3j+22cUBVIxnxzGo9V3
+ AiO6t1o42+AZCd7FXorPLIlht3Knudavl+mfbpzKUPDApLq80y6dkM/R7qThmXfmiksL
+ MegIO41P+mNqYjV4J5sk3YlwQSgbtDngVjJnkl9xM8fUodcpwxT3yy/rSfgPC5G7UTcB
+ TebxrtKgWAXiMCgib3aIN6CbWKSssTh3GPgqUcLeBFpzUrFkbvH8g7RtK+Cd1k2asrrK
+ 2kTg==
+X-Gm-Message-State: AOJu0YzdM8vIfZrFQDMsHcf6AL2wz9Mt9OOp5gcji3zwM8vf+/Qggou3
+ mEId5M1d5HCAjRmkmL/DEfNbzHhVnVUEC7Bzmj/reQtC5RcSHFrv
+X-Google-Smtp-Source: AGHT+IGQk7JuPYgt98qnWiGDyfwzAWE8mJynUSzd3/aqXBGFAlHgHymRfKZrPasHvQIsRDk/igJPhw==
+X-Received: by 2002:a05:600c:458c:b0:428:10ec:e5ca with SMTP id
+ 5b1f17b1804b1-42cae70f416mr30697985e9.14.1725797684755; 
+ Sun, 08 Sep 2024 05:14:44 -0700 (PDT)
 Received: from ?IPV6:2a01:c23:bd18:a600:88fa:9e17:3532:fcf4?
  (dynamic-2a01-0c23-bd18-a600-88fa-9e17-3532-fcf4.c23.pool.telefonica.de.
  [2a01:c23:bd18:a600:88fa:9e17:3532:fcf4])
  by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-3789564a1a0sm3257545f8f.23.2024.09.08.05.12.32
+ 5b1f17b1804b1-42caeb8182dsm42756085e9.36.2024.09.08.05.14.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Sep 2024 05:12:33 -0700 (PDT)
-Message-ID: <8f5fe817-dfcf-4cda-9ca2-99648a48534e@gmail.com>
-Date: Sun, 8 Sep 2024 14:12:32 +0200
+ Sun, 08 Sep 2024 05:14:44 -0700 (PDT)
+Message-ID: <9bf64023-cc27-435a-a1bf-f11816229d49@gmail.com>
+Date: Sun, 8 Sep 2024 14:14:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 5/6] drm: Add __init annotations
+Subject: [PATCH 6/6] drm: drm/sysfs: Remove device type drm_minor
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Oded Gabbay <ogabbay@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -132,64 +132,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Annotate few more functions being called from drm_core_init() only
-as __init.
+This device type is set but not used, so remove it.
+Whilst we're at it, constify device type drm_connector.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/gpu/drm/drm_cache.c     | 2 +-
- drivers/gpu/drm/drm_connector.c | 2 +-
- drivers/gpu/drm/drm_sysfs.c     | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_sysfs.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-index 7051c9c90..dac790108 100644
---- a/drivers/gpu/drm/drm_cache.c
-+++ b/drivers/gpu/drm/drm_cache.c
-@@ -329,7 +329,7 @@ EXPORT_SYMBOL(drm_memcpy_from_wc);
- /*
-  * drm_memcpy_init_early - One time initialization of the WC memcpy code
-  */
--void drm_memcpy_init_early(void)
-+void __init drm_memcpy_init_early(void)
- {
- 	/*
- 	 * Some hypervisors (e.g. KVM) don't support VEX-prefix instructions
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index fc35f47e2..96b234af7 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -112,7 +112,7 @@ static struct drm_conn_prop_enum_list drm_connector_enum_list[] = {
- 	{ DRM_MODE_CONNECTOR_USB, "USB" },
- };
- 
--void drm_connector_ida_init(void)
-+void __init drm_connector_ida_init(void)
- {
- 	int i;
- 
 diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index f443f9a76..b73c589c5 100644
+index b73c589c5..45a1c864a 100644
 --- a/drivers/gpu/drm/drm_sysfs.c
 +++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -87,7 +87,7 @@ static struct acpi_bus_type drm_connector_acpi_bus = {
- 	.find_companion = drm_connector_acpi_find_companion,
+@@ -50,11 +50,7 @@
+  * drm_connector_unregister().
+  */
+ 
+-static struct device_type drm_sysfs_device_minor = {
+-	.name = "drm_minor"
+-};
+-
+-static struct device_type drm_sysfs_device_connector = {
++static const struct device_type drm_sysfs_device_connector = {
+ 	.name = "drm_connector",
  };
  
--static void drm_sysfs_acpi_register(void)
-+static void __init drm_sysfs_acpi_register(void)
- {
- 	register_acpi_bus_type(&drm_connector_acpi_bus);
- }
-@@ -139,7 +139,7 @@ static const struct component_ops typec_connector_ops = {
-  *
-  * Return: 0 on success, negative error code on failure.
-  */
--int drm_sysfs_init(void)
-+int __init drm_sysfs_init(void)
- {
- 	int ret = class_register(&drm_class);
+@@ -517,7 +513,6 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
  
+ 		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
+ 		kdev->class = &drm_class;
+-		kdev->type = &drm_sysfs_device_minor;
+ 	}
+ 
+ 	kdev->parent = minor->dev->dev;
 -- 
 2.46.0
 
