@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729F097054F
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 09:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49E5970557
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 09:35:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 712DC10E1DD;
-	Sun,  8 Sep 2024 07:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27CBD10E238;
+	Sun,  8 Sep 2024 07:35:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="eKYbH2W3";
+	dkim=pass (2048-bit key; unprotected) header.d=kode54.net header.i=@kode54.net header.b="vs9QuaaM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
- [95.215.58.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 207A110E1DD
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 07:20:03 +0000 (UTC)
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
+ [91.218.175.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 978E710E238
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 07:35:22 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kode54.net; s=key1;
+ t=1725780919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D0T3JnuFovJcPSZrr0kiMqAwcD+Baav4OSrwaNtip90=;
+ b=vs9QuaaMH8C5P7D10dtuh1AepPnZZdG3yid2Oz9KNSEq4mtwRL5Cu2t3HTCYdYCt2KjVG3
+ 0QKlwtk54rU+jcrnkIwJMRMgO0DqZSDAdgvdmpodIuOFnGaDtpmWCmSEq339Epm+C9KET6
+ Vo8FlerLFeurqQyPR3+vyZevwOAdpCvE2Yc7NTqQcjcfjqb+4IKTycLtKG1bVBhGa27nXr
+ 5oeyvleig15Ll6b74NLwRUuSqj43jjc3pCu1Z3VtDcySI51KDYEyYfMkyFXlWjsbskE3Up
+ 5+1ex8AkPPMu6S9VZY1u3VitgM2madHFyWsbGMpKm9MNZaHhdadCsWz7KXCD0g==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 08 Sep 2024 00:35:15 -0700
+Message-Id: <D40Q9ZLDQIZF.3OERFS0AYREN0@kode54.net>
+Subject: Re: [PATCH 0/2] drm/amd: fix VRR race condition during IRQ handling
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1725780002;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Jechb95hmorUhOngmJkF9gCQgvUHcIPjIBZ73kyW/N8=;
- b=eKYbH2W3T8L9iU6FxtWjDR20MtrRZZ/TWlvZWwrJiCeyrgMGDnAak6jaVEcE3pqKEXkC1+
- qjX6MBu5BSQ/sAoF2aoyzlwBg8JDqGiKcPF72+mHQjHX3UytXo2c8nXL44gbm+5W/PC8WF
- nx6R4rgvOIW3T3VW/UC33MIQ3brZWCM=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH] drm/etnaviv: Print error message when driver can't get pages
-Date: Sun,  8 Sep 2024 15:19:50 +0800
-Message-ID: <20240908071950.200508-1-sui.jingfeng@linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Christopher Snowhill" <chris@kode54.net>
+To: <tjakobi@math.uni-bielefeld.de>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <cover.1725269643.git.tjakobi@math.uni-bielefeld.de>
+In-Reply-To: <cover.1725269643.git.tjakobi@math.uni-bielefeld.de>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,35 +57,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This error could happen when the GFP_HIGHUSER flag is set, such an error
-can also be seen on the X86 platform. According to the kernel document in
-gfp_types.h, "the GFP_HIGHUSER is for userspace allocations that may be
-mapped to userspace, it do not need to be directly accessible by the
-kernel."
+On Mon Sep 2, 2024 at 2:40 AM PDT, tjakobi wrote:
+> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+>
+> Hello,
+>
+> this fixes a nasty race condition in the set_drr() callbacks for DCN10
+> and DCN35 that has existed now since quite some time, see this GitLab
+> issue for reference.
+>
+> https://gitlab.freedesktop.org/drm/amd/-/issues/3142
+>
+> The report just focuses von DCN10, but the same problem also exists in
+> the DCN35 code.
 
-However, drm/etnaviv will use the pages to implement vmap and mmap
-operations of the GEM object function. The flag still set at present.
-When we can't get pages, it certainly is a bug. Hence, we should print
-this kind of error with drm_err() instead of dev_dbg().
+Does the problem not exist in the following references to funcs->set_drr?
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:      if (pipe_ct=
+x->stream_res.tg->funcs->set_drr)
+drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:              pip=
+e_ctx->stream_res.tg->funcs->set_drr(
+drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:              pip=
+e_ctx[i]->stream_res.tg->funcs->set_drr(
+drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:        if (pipe_ct=
+x->stream_res.tg->funcs->set_drr)
+drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:                pip=
+e_ctx->stream_res.tg->funcs->set_drr(
+drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:                if =
+(pipe_ctx->stream_res.tg->funcs->set_drr)
+drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:                   =
+     pipe_ctx->stream_res.tg->funcs->set_drr(
+drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c:        if (pipe_ct=
+x->stream_res.tg->funcs->set_drr)
+drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c:                pip=
+e_ctx->stream_res.tg->funcs->set_drr(
+drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c:      if (pipe_ct=
+x->stream_res.tg->funcs->set_drr)
+drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c:              pip=
+e_ctx->stream_res.tg->funcs->set_drr(
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index 5c0c9d4e3be1..5ffc31f32ac9 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -61,7 +61,7 @@ static int etnaviv_gem_shmem_get_pages(struct etnaviv_gem_object *etnaviv_obj)
- 	struct page **p = drm_gem_get_pages(&etnaviv_obj->base);
- 
- 	if (IS_ERR(p)) {
--		dev_dbg(dev->dev, "could not get pages: %ld\n", PTR_ERR(p));
-+		drm_err(dev, "could not get pages: %ld\n", PTR_ERR(p));
- 		return PTR_ERR(p);
- 	}
- 
--- 
-2.43.0
+>
+> With best wishes,
+> Tobias
+>
+> Tobias Jakobi (2):
+>   drm/amd/display: Avoid race between dcn10_set_drr() and
+>     dc_state_destruct()
+>   drm/amd/display: Avoid race between dcn35_set_drr() and
+>     dc_state_destruct()
+>
+>  .../amd/display/dc/hwss/dcn10/dcn10_hwseq.c   | 20 +++++++++++--------
+>  .../amd/display/dc/hwss/dcn35/dcn35_hwseq.c   | 20 +++++++++++--------
+>  2 files changed, 24 insertions(+), 16 deletions(-)
 
