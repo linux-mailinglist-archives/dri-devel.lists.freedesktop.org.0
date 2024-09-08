@@ -2,46 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4B397063E
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 11:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF799706CE
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 13:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1749210E260;
-	Sun,  8 Sep 2024 09:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D4610E081;
+	Sun,  8 Sep 2024 11:23:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="m2sGRkpo";
+	dkim=pass (2048-bit key; secure) header.d=math.uni-bielefeld.de header.i=@math.uni-bielefeld.de header.b="pDRBNJRs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
- [95.215.58.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 156FE10E25F
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 09:45:24 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1725788722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t0LGOVr63MzTgjkpsjkywu/CiseXOg+QYEm2YzMe//A=;
- b=m2sGRkpoAaX8t5hm9q20rCvKv/A6ZbryUZ7RVh9H6qykd44QWUf+rQZhx1hNMdrGAjdn83
- vkzlbYGVhuG+5z8xNDO1McZCqv8fzHJGD6WubzKdotgNUL1XNKGGNqAh1v1l3SHsOfCTME
- S369tlScpNkhHy7JLCYM0uZI6SJm5f0=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v15 19/19] drm/etnaviv: Expose basic sanity tests via debugfs
-Date: Sun,  8 Sep 2024 17:43:57 +0800
-Message-ID: <20240908094357.291862-20-sui.jingfeng@linux.dev>
-In-Reply-To: <20240908094357.291862-1-sui.jingfeng@linux.dev>
-References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
+Received: from smtp1.math.uni-bielefeld.de (smtp1.math.uni-bielefeld.de
+ [129.70.45.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22FA110E081;
+ Sun,  8 Sep 2024 11:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=math.uni-bielefeld.de; s=default; t=1725794599;
+ bh=GAHLsftUhhnPcpc0uT5uzBSX2NzdjwHmltUPb3AwtuI=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=pDRBNJRsaW0GEriSMht6ab29UL6njGVsDEubkhiO0XirdrZp4g1wq1hMIg5Ry1OaU
+ 3q4bJofQV2FcqELNQ74YFNKDnQkG3FUYzZWeDAW01LszqnQ/zqXSnxYfx+unsvesew
+ o/QOVhmrZsASuJcgbDWmgq0Vja4z7rHdcS9NZSjIOpKIjO4gPhgrbIVbUc83vNGwEJ
+ 5ucQ99u/UIe9IvWUlBLuGLDYbIQx5PGg2B/SEl+KNFa9YhKXIyBmWbmeAj4E3A4Ir4
+ ZAqHJGjapV1+F3EAvnrvEOgm3tzBAs70vZOPx7vwWW+tIpVrXOPs8wIN1BwvXsx7d3
+ 6wFl7geqzlc6g==
+Received: from [192.168.0.106]
+ (dslb-088-074-203-146.088.074.pools.vodafone-ip.de [88.74.203.146])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by smtp1.math.uni-bielefeld.de (Postfix) with ESMTPSA id A1059207D8;
+ Sun,  8 Sep 2024 13:23:18 +0200 (CEST)
+Message-ID: <deb6d962-f24e-4769-b313-be3b0efb873b@math.uni-bielefeld.de>
+Date: Sun, 8 Sep 2024 13:23:13 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm/amd: fix VRR race condition during IRQ handling
+To: Christopher Snowhill <chris@kode54.net>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <cover.1725269643.git.tjakobi@math.uni-bielefeld.de>
+ <D40Q9ZLDQIZF.3OERFS0AYREN0@kode54.net>
+Content-Language: en-US
+From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+Autocrypt: addr=tjakobi@math.uni-bielefeld.de; keydata=
+ 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
+ JRHWPGCL3BhOxQ==
+In-Reply-To: <D40Q9ZLDQIZF.3OERFS0AYREN0@kode54.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,293 +106,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To test the correctess of the implemented vmap() and vunmap() operations,
-to see if is works correctly on dedicated VRAM.
+On 9/8/24 09:35, Christopher Snowhill wrote:
 
-Usage:
+> On Mon Sep 2, 2024 at 2:40 AM PDT, tjakobi wrote:
+>> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+>>
+>> Hello,
+>>
+>> this fixes a nasty race condition in the set_drr() callbacks for DCN10
+>> and DCN35 that has existed now since quite some time, see this GitLab
+>> issue for reference.
+>>
+>> https://gitlab.freedesktop.org/drm/amd/-/issues/3142
+>>
+>> The report just focuses von DCN10, but the same problem also exists in
+>> the DCN35 code.
+> Does the problem not exist in the following references to funcs->set_drr?
+>
+> drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:      if (pipe_ctx->stream_res.tg->funcs->set_drr)
+> drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:              pipe_ctx->stream_res.tg->funcs->set_drr(
+> drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:              pipe_ctx[i]->stream_res.tg->funcs->set_drr(
+> drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:        if (pipe_ctx->stream_res.tg->funcs->set_drr)
+> drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:                pipe_ctx->stream_res.tg->funcs->set_drr(
+> drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:                if (pipe_ctx->stream_res.tg->funcs->set_drr)
+> drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:                        pipe_ctx->stream_res.tg->funcs->set_drr(
+> drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c:        if (pipe_ctx->stream_res.tg->funcs->set_drr)
+> drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c:                pipe_ctx->stream_res.tg->funcs->set_drr(
+> drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c:      if (pipe_ctx->stream_res.tg->funcs->set_drr)
+> drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c:              pipe_ctx->stream_res.tg->funcs->set_drr(
 
-cd /sys/kernel/debug/dri/etnaviv
-cat sanity
+Maybe. But the big difference I see here, is that in this code there 
+isn't even any kind of NULL check applied to tg. Or most of the members 
+of *pipe_ctx. If there really is the same kind of problem here, then one 
+would need to rewrite a bit more code to fix stuff.
 
-My test is able to pass on x86-64 with a JM9230P card, see below log:
+E.g. in the case of  dcn31_hwseq.c, the questionable code is in 
+dcn31_reset_back_end_for_pipe(), which is static and only called from 
+dcn31_reset_hw_ctx_wrap(). Which is assigned to the .reset_hw_ctx_wrap 
+callback. And this specific callback, from what I can see, is only 
+called from dce110_reset_hw_ctx_wrap(). Which is then assigned to the 
+.apply_ctx_to_hw callback. The callback is only called from 
+dc_commit_state_no_check(). That one is static again, and called from 
+dc_commit_streams().
 
-Test Write to VRAM 8294400 bytes
-Write to VRAM Passed: 8294400 bytes
-Test Write to SHMEM 8294400 bytes
-Write to SHMEM Passed: 8294400 bytes
+I could trace this even further. My point is: I don't think this is 
+called from any IRQ handler code. And given the depth and complexity of 
+the callgraph, I have to admit, that, at least at this point, this is a 
+bit over my head.
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/etnaviv/Makefile           |   1 +
- drivers/gpu/drm/etnaviv/etnaviv_debugfs.c  | 118 +++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_debugfs.h  |  15 +++
- drivers/gpu/drm/etnaviv/etnaviv_drv.c      |  12 +++
- drivers/gpu/drm/etnaviv/etnaviv_gem.c      |   5 +
- drivers/gpu/drm/etnaviv/etnaviv_gem.h      |   2 +
- drivers/gpu/drm/etnaviv/etnaviv_gem_vram.c |   6 ++
- drivers/gpu/drm/etnaviv/etnaviv_gem_vram.h |   2 +
- 8 files changed, 161 insertions(+)
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_debugfs.c
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_debugfs.h
+Sure, I could now sprinkle a bunch of x != NULL in the code, but that 
+would be merely voodoo. And I usually try to have a theoretical basis 
+when I apply changes to code.
 
-diff --git a/drivers/gpu/drm/etnaviv/Makefile b/drivers/gpu/drm/etnaviv/Makefile
-index aba2578966ff..f278e75ee7cd 100644
---- a/drivers/gpu/drm/etnaviv/Makefile
-+++ b/drivers/gpu/drm/etnaviv/Makefile
-@@ -17,6 +17,7 @@ etnaviv-y := \
- 	etnaviv_perfmon.o \
- 	etnaviv_sched.o
- 
-+etnaviv-$(CONFIG_DEBUG_FS) += etnaviv_debugfs.o
- etnaviv-$(CONFIG_DRM_ETNAVIV_PCI_DRIVER) += etnaviv_pci_drv.o \
- 					    pcie_ip_setup.o
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_debugfs.c b/drivers/gpu/drm/etnaviv/etnaviv_debugfs.c
-new file mode 100644
-index 000000000000..0cfedbc6574c
---- /dev/null
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_debugfs.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <drm/drm_debugfs.h>
-+
-+#include "etnaviv_debugfs.h"
-+#include "etnaviv_drv.h"
-+#include "etnaviv_gem.h"
-+#include "etnaviv_gem_vram.h"
-+
-+static void bo_test_write_to_vram_by_cpu(void *addr, unsigned int num)
-+{
-+	u32 val = 0;
-+
-+	while (num--) {
-+		writel(val, addr);
-+		++val;
-+		addr += 4;
-+	}
-+}
-+
-+static unsigned int bo_test_read_from_vram_by_cpu(void *addr, unsigned int num)
-+{
-+	unsigned int i = 0;
-+
-+	while (i < num) {
-+		u32 val = readl(addr);
-+
-+		if (val != i)
-+			return i;
-+
-+		addr += 4;
-+		++i;
-+	}
-+
-+	return 0;
-+}
-+
-+void etnaviv_sanity_test_vram_impl(struct drm_device *drm, struct drm_printer *p)
-+{
-+	struct etnaviv_gem_object *etnaviv_obj;
-+	unsigned int size = 1920 * 1080 * 4;
-+	void *addr;
-+	int ret;
-+
-+	size = ALIGN(size, PAGE_SIZE);
-+
-+	drm_printf(p, "Test Write to VRAM %u bytes\n", size);
-+
-+	ret = etnaviv_gem_new_private(drm, size, ETNA_BO_UNCACHED, false,
-+				      etnaviv_gem_get_vram_ops(),
-+				      &etnaviv_obj);
-+	if (ret) {
-+		drm_printf(p, "create dst bo failed\n");
-+		return;
-+	}
-+
-+	addr = etnaviv_gem_vmap(&etnaviv_obj->base);
-+	if (!addr) {
-+		drm_printf(p, "write to vram by cpu failed: vmap\n");
-+		goto out;
-+	}
-+
-+	etnaviv_gem_vunmap(&etnaviv_obj->base);
-+
-+	addr = etnaviv_gem_vmap(&etnaviv_obj->base);
-+
-+	bo_test_write_to_vram_by_cpu(addr, size / 4);
-+
-+	ret = bo_test_read_from_vram_by_cpu(addr, size / 4);
-+
-+	drm_printf(p, "Write to VRAM %s: %u bytes\n",
-+		   ret ? "not pass" : "Passed", ret ? ret : size);
-+
-+	etnaviv_gem_vunmap(&etnaviv_obj->base);
-+out:
-+	drm_gem_object_put(&etnaviv_obj->base);
-+}
-+
-+void etnaviv_sanity_test_shmem_impl(struct drm_device *drm, struct drm_printer *p)
-+{
-+	struct etnaviv_gem_object *etnaviv_obj;
-+	unsigned int size = 1920 * 1080 * 4;
-+	void *addr;
-+	int ret;
-+
-+	size = ALIGN(size, PAGE_SIZE);
-+
-+	drm_printf(p, "Test Write to SHMEM %u bytes\n", size);
-+
-+	ret = etnaviv_gem_new_private(drm, size, ETNA_BO_CACHED, true,
-+				      etnaviv_gem_get_shmem_ops(),
-+				      &etnaviv_obj);
-+	if (ret) {
-+		drm_printf(p, "create dst bo failed\n");
-+		return;
-+	}
-+
-+	addr = etnaviv_gem_vmap(&etnaviv_obj->base);
-+	if (!addr) {
-+		drm_printf(p, "write to shmem by cpu failed: vmap\n");
-+		goto out;
-+	}
-+
-+	etnaviv_gem_vunmap(&etnaviv_obj->base);
-+
-+	addr = etnaviv_gem_vmap(&etnaviv_obj->base);
-+
-+	bo_test_write_to_vram_by_cpu(addr, size / 4);
-+
-+	ret = bo_test_read_from_vram_by_cpu(addr, size / 4);
-+
-+	drm_printf(p, "Write to SHMEM %s: %u bytes\n",
-+		   ret ? "not pass" : "Passed", ret ? ret : size);
-+
-+	etnaviv_gem_vunmap(&etnaviv_obj->base);
-+out:
-+	drm_gem_object_put(&etnaviv_obj->base);
-+}
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_debugfs.h b/drivers/gpu/drm/etnaviv/etnaviv_debugfs.h
-new file mode 100644
-index 000000000000..5214349534ef
---- /dev/null
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_debugfs.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __ETNAVIV_DEBUGFS_H__
-+#define __ETNAVIV_DEBUGFS_H__
-+
-+#include "etnaviv_drv.h"
-+#include "etnaviv_gem.h"
-+
-+void etnaviv_sanity_test_vram_impl(struct drm_device *ddev,
-+				   struct drm_printer *p);
-+
-+void etnaviv_sanity_test_shmem_impl(struct drm_device *ddev,
-+				    struct drm_printer *p);
-+
-+#endif
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index cdc62f64b200..e500b8caf138 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_prime.h>
- 
- #include "etnaviv_cmdbuf.h"
-+#include "etnaviv_debugfs.h"
- #include "etnaviv_drv.h"
- #include "etnaviv_gpu.h"
- #include "etnaviv_gem.h"
-@@ -183,6 +184,16 @@ static int etnaviv_gem_show(struct drm_device *dev, struct seq_file *m)
- 	return 0;
- }
- 
-+static int etnaviv_sanity_test_show(struct drm_device *dev, struct seq_file *m)
-+{
-+	struct drm_printer printer = drm_seq_file_printer(m);
-+
-+	etnaviv_sanity_test_vram_impl(dev, &printer);
-+	etnaviv_sanity_test_shmem_impl(dev, &printer);
-+
-+	return 0;
-+}
-+
- static int etnaviv_mm_show(struct drm_device *dev, struct seq_file *m)
- {
- 	struct drm_printer p = drm_seq_file_printer(m);
-@@ -296,6 +307,7 @@ static struct drm_info_list etnaviv_debugfs_list[] = {
- 	{ "mm", show_unlocked, 0, etnaviv_mm_show },
- 	{"mmu", show_each_gpu, 0, etnaviv_mmu_show},
- 	{"ring", show_each_gpu, 0, etnaviv_ring_show},
-+	{"sanity", show_unlocked, 0, etnaviv_sanity_test_show },
- };
- 
- static void etnaviv_debugfs_init(struct drm_minor *minor)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index ee799c02d0aa..31bcd80770b3 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -553,6 +553,11 @@ static const struct etnaviv_gem_ops etnaviv_gem_shmem_ops = {
- 	.mmap = etnaviv_gem_mmap_obj,
- };
- 
-+const struct etnaviv_gem_ops *etnaviv_gem_get_shmem_ops(void)
-+{
-+	return &etnaviv_gem_shmem_ops;
-+}
-+
- void etnaviv_gem_free_object(struct drm_gem_object *obj)
- {
- 	struct drm_device *drm = obj->dev;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-index 60bbbbc2dd19..1836e1d82df2 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-@@ -134,4 +134,6 @@ void etnaviv_gem_mapping_unreference(struct etnaviv_vram_mapping *mapping);
- 
- u64 etnaviv_obj_gpu_phys_addr(struct etnaviv_gem_object *etnaviv_obj);
- 
-+const struct etnaviv_gem_ops *etnaviv_gem_get_shmem_ops(void);
-+
- #endif /* __ETNAVIV_GEM_H__ */
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.c
-index c2942317a64e..1ca558429387 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.c
-@@ -4,6 +4,7 @@
- 
- #include "etnaviv_drv.h"
- #include "etnaviv_gem.h"
-+#include "etnaviv_gem_vram.h"
- #include "etnaviv_pci_drv.h"
- 
- static struct lock_class_key etnaviv_vram_lock_class;
-@@ -171,6 +172,11 @@ static const struct etnaviv_gem_ops etnaviv_gem_vram_ops = {
- 	.mmap = etnaviv_gem_vram_mmap,
- };
- 
-+const struct etnaviv_gem_ops *etnaviv_gem_get_vram_ops(void)
-+{
-+	return &etnaviv_gem_vram_ops;
-+}
-+
- int etnaviv_gem_new_vram(struct drm_device *dev, struct drm_file *file,
- 			 u32 size, u32 flags, u32 *handle)
- {
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.h b/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.h
-index bbce93f118a2..54f98936ddb4 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_vram.h
-@@ -3,6 +3,8 @@
- #ifndef __ETNAVIV_GEM_VRAM_H__
- #define __ETNAVIV_GEM_VRAM_H__
- 
-+const struct etnaviv_gem_ops *etnaviv_gem_get_vram_ops(void);
-+
- int etnaviv_gem_new_vram(struct drm_device *dev, struct drm_file *file,
- 			 u32 size, u32 flags, u32 *handle);
- 
--- 
-2.43.0
+Maybe if someone from the AMD display team could give some insight if 
+there still is potentially vulnerable code in some of the instances that 
+Christopher has posted, then I would gladly take a look.
 
+With best wishes,
+Tobias
+
+>
+>> With best wishes,
+>> Tobias
+>>
+>> Tobias Jakobi (2):
+>>    drm/amd/display: Avoid race between dcn10_set_drr() and
+>>      dc_state_destruct()
+>>    drm/amd/display: Avoid race between dcn35_set_drr() and
+>>      dc_state_destruct()
+>>
+>>   .../amd/display/dc/hwss/dcn10/dcn10_hwseq.c   | 20 +++++++++++--------
+>>   .../amd/display/dc/hwss/dcn35/dcn35_hwseq.c   | 20 +++++++++++--------
+>>   2 files changed, 24 insertions(+), 16 deletions(-)
