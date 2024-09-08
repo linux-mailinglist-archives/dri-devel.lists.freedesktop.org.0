@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEE4970729
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 14:04:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E8C97072E
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2024 14:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D06910E17D;
-	Sun,  8 Sep 2024 12:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2243510E0F2;
+	Sun,  8 Sep 2024 12:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FJEuBfd0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DBz1yKy1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
  [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83A9610E17D
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 12:04:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7EB10E0F2
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2024 12:09:01 +0000 (UTC)
 Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-42bbe908380so30121305e9.2
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 05:04:49 -0700 (PDT)
+ 5b1f17b1804b1-42c79deb7c4so28502365e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 05:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725797088; x=1726401888; darn=lists.freedesktop.org;
- h=content-transfer-encoding:autocrypt:subject:from:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pMtdBLoDJGVGHaQEZcHM1icGAqYuf9SguZkIFznfapw=;
- b=FJEuBfd0aTcyjp54J2tTgBVYnROnF6zG0mwHIRSLi7jz2oLZvNBslkA3CuYtlAwF7P
- YDfksFV28bVTrS+8WLehGRuHzSKc2fZ2UOE0/SHBnRR1J/cvy4jIlqeMkV6BRed0H4ar
- 5p2a5VFtpI4lUFZdRJ/Dll0y+7xvj70F7OFB70AuWlGPaXg9KVdUvLjjIud56wQLMQvy
- Cvmsxj3bJrenxGXT5D+mzhTSf0ZuEa8nHl+FYaBqPjXANaTizu7Iba604auaJev9X+k3
- goQ8ucQZVwB23S694Qa61u3a9t9yKzDf/PpSZLJlQJPNpx9QRq29VTOlDX/ClUR4F1cp
- ME3g==
+ d=gmail.com; s=20230601; t=1725797339; x=1726402139; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :references:cc:to:from:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=WXhVFne8oOPihf62uhCsGSTcnVwmoqLgUS41SPYlfAE=;
+ b=DBz1yKy1NVXsLzxuXCAWEdHtd0rON3pBdvwp11o0dceiJvO1cpYxAV0GVX4GcocIUP
+ PADei+OO/oBsgDbvaR7ZFTI/sIjDXGBqfzvZqn9nZkaO9lSKQGy6n+k/xbqORZJB+xuL
+ JNMsbgMaXBGZ38W4obN+TVwZVgCcQq97Pqpdm3A3s60YFXnMJuImbnLiwLlsx49QB3pW
+ eII8R7mI99KyIZ9b0w7IHPRxIQfzrzgyNI7PXYi8QWLfV3ELRuV9WOkQnSGo/haZYmCK
+ aL6KGCdlFoAB4SEfqPnR4ey3KF3Kx71d5RpqMAFM8PtZP8pU2wGhnCVZT8JuP4yRNcjJ
+ vldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725797088; x=1726401888;
- h=content-transfer-encoding:autocrypt:subject:from:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pMtdBLoDJGVGHaQEZcHM1icGAqYuf9SguZkIFznfapw=;
- b=GNvGu2UIvyxgBoERJKmPD9p1+n/fjIHkfs0PgVRTz+hnzpmRi7EuHjRlDruAbupt8A
- h+ySreZYo9/SUw9Ot0H6TlvPIo5hzLmarle0X4vvWQ98RPo+48BbkmcsYQb7rQgcloAt
- dYQohbQ2qRT4sj79KLovtmaKpUiFYng6NOmlrkFkYwleL0obFG9mW4yddsBIyALj6yxG
- bgQztB+4ryhQGBztBTTXiY+kzoJJygWj3vPw4OIbF6cTroekS24ER7LufHfknvRtDb4U
- HclJeJDcjMBDBpR4xKtc9G3Q/zATvg7vBsierdWSHoGhO5PFi7I1+9Dlcm3ercgeljq3
- kG+g==
-X-Gm-Message-State: AOJu0YyZ8sT4k3BNphyuCQ2pFi7UgB1QF2SrUgfcnJrGM8VlcDM8qZtA
- vKK+gE3Pjc+VrNbWnrrUm7lxsVlHe4i/n9WqPT92WDoVTVrg67hv
-X-Google-Smtp-Source: AGHT+IEBBhK5Ay79xo4XtTWw87SDtuFOnGqy5OXBoXUpfbuOQ5fWYFJPkaCchLErndc1zAHLCqwNjw==
-X-Received: by 2002:a05:600c:3511:b0:42c:acb0:dda5 with SMTP id
- 5b1f17b1804b1-42cacb0e2c4mr36385135e9.1.1725797087283; 
- Sun, 08 Sep 2024 05:04:47 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1725797339; x=1726402139;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :references:cc:to:from:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WXhVFne8oOPihf62uhCsGSTcnVwmoqLgUS41SPYlfAE=;
+ b=SExlyOoHTfDhHE3QPZjKXeZhcKFpr51NlZOFP0PUeP8cvu6PHvOOcruarSOsxQlohW
+ YynK+rY91TkwtcUMgyCazq3L9AqLIR0CWr5SdWbMvionp57y5hFb9u+jaLRF3ZZW3D+8
+ 3SVXoqenBix5upDP9TsH4tpGVk3HzuUHYle4P4hMGth2385fYORMDjbCTGRPMgjMlr8q
+ maPdvUN5S85NJwdPKDnwED+ga3YXxdyVcwScJ90ncwRrGvglI0Ba3BPgDikh9jhaPu+4
+ YEPzeBltA3QEmbyr0TObsjwBF4V6UW/E6YQ/WRN2nu1Pz25F5B3ut300imfB0tYcFvAe
+ oV0A==
+X-Gm-Message-State: AOJu0YyaBZBefD49ryB77100kDB8KRn3KF/QJ1ugybNZGSz+VAEsB7yt
+ MzS/fn9jm9p7BR3jSbd4D7QmFbjgOPniSNagbgWrCxriIyDynHTq
+X-Google-Smtp-Source: AGHT+IHq57o3e2wBx/L29p74S62hT5Dle2BqjI485e7gbJExQUtSpAjY/KDgDeo9DajUq+uck/wbsw==
+X-Received: by 2002:a7b:c858:0:b0:42c:af06:71b with SMTP id
+ 5b1f17b1804b1-42caf060978mr25759815e9.28.1725797339200; 
+ Sun, 08 Sep 2024 05:08:59 -0700 (PDT)
 Received: from ?IPV6:2a01:c23:bd18:a600:88fa:9e17:3532:fcf4?
  (dynamic-2a01-0c23-bd18-a600-88fa-9e17-3532-fcf4.c23.pool.telefonica.de.
  [2a01:c23:bd18:a600:88fa:9e17:3532:fcf4])
  by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-3789556aa7dsm3312125f8f.0.2024.09.08.05.04.46
+ 5b1f17b1804b1-42ca05cfd03sm75056385e9.28.2024.09.08.05.08.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Sep 2024 05:04:46 -0700 (PDT)
-Message-ID: <499229fd-5344-4799-85bf-93e4b3b45eca@gmail.com>
-Date: Sun, 8 Sep 2024 14:04:45 +0200
+ Sun, 08 Sep 2024 05:08:58 -0700 (PDT)
+Message-ID: <b2d8d283-36cc-42e8-a8e7-e57e9698a9b5@gmail.com>
+Date: Sun, 8 Sep 2024 14:08:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: [PATCH 1/6] drm/sysfs: Remove version attribute
+From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Oded Gabbay <ogabbay@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Hans de Goede <hdegoede@redhat.com>
 Cc: "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH 0/6] drm: Series with core improvements/refactorings
+References: <499229fd-5344-4799-85bf-93e4b3b45eca@gmail.com>
+Content-Language: en-US
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -112,6 +114,7 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
+In-Reply-To: <499229fd-5344-4799-85bf-93e4b3b45eca@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -129,28 +132,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Series with DRM core improvements/refactorings.
+This undocumented attribute returns a version string which hasn't been
+changed for ages. libdrm doesn't use it and I also found no other user.
+So I think we can remove it.
 
-Heiner Kallweit (6):
-  drm/sysfs: Remove version attribute
-  drm/sysfs: Drop unused drm_class_device_(un)register
-  drm: Refactor drm_core_init error path
-  drm: Change drm_class from pointer to const struct class
-  drm: Add __init annotations
-  drm/sysfs: Remove device type drm_minor
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/gpu/drm/drm_sysfs.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
- drivers/accel/drm_accel.c                |  2 +-
- drivers/gpu/drm/drm_cache.c              |  2 +-
- drivers/gpu/drm/drm_connector.c          |  2 +-
- drivers/gpu/drm/drm_drv.c                | 18 +++--
- drivers/gpu/drm/drm_internal.h           |  2 +-
- drivers/gpu/drm/drm_panic.c              |  4 +-
- drivers/gpu/drm/drm_privacy_screen.c     |  2 +-
- drivers/gpu/drm/drm_privacy_screen_x86.c |  2 +-
- drivers/gpu/drm/drm_sysfs.c              | 89 +++++-------------------
- include/drm/drm_sysfs.h                  |  3 -
- 10 files changed, 39 insertions(+), 87 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index fb3bbb6ad..49e5faf11 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -126,8 +126,6 @@ static const struct component_ops typec_connector_ops = {
+ 	.unbind = typec_connector_unbind,
+ };
+ 
+-static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+-
+ /**
+  * drm_sysfs_init - initialize sysfs helpers
+  *
+@@ -140,19 +138,10 @@ static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+  */
+ int drm_sysfs_init(void)
+ {
+-	int err;
+-
+ 	drm_class = class_create("drm");
+ 	if (IS_ERR(drm_class))
+ 		return PTR_ERR(drm_class);
+ 
+-	err = class_create_file(drm_class, &class_attr_version.attr);
+-	if (err) {
+-		class_destroy(drm_class);
+-		drm_class = NULL;
+-		return err;
+-	}
+-
+ 	drm_class->devnode = drm_devnode;
+ 
+ 	drm_sysfs_acpi_register();
+@@ -169,7 +158,6 @@ void drm_sysfs_destroy(void)
+ 	if (IS_ERR_OR_NULL(drm_class))
+ 		return;
+ 	drm_sysfs_acpi_unregister();
+-	class_remove_file(drm_class, &class_attr_version.attr);
+ 	class_destroy(drm_class);
+ 	drm_class = NULL;
+ }
 -- 
 2.46.0
+
 
