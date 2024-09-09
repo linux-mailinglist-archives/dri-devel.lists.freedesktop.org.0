@@ -2,85 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6A8972945
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 08:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16B1972A55
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 09:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E92010E648;
-	Tue, 10 Sep 2024 06:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8584410E715;
+	Tue, 10 Sep 2024 07:14:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qC4GO6Xz";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="gCjWGfSG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com
- [209.85.160.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A9D10E648
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 06:06:59 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id
- 586e51a60fabf-277e6002b7dso2706302fac.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 23:06:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725948418; x=1726553218; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z9MHdiQIKbQZ7sHVzFN+NNCUWOQwDHp5p4yZrC2v9dg=;
- b=qC4GO6XzqWdh9UJPEE4PFwFUu73KHRfoKvfNiOxQd5xDt3Z8dFr4KPCx6XTcZddSbw
- 0D7XOLWqbgo0hIJdQRtEoQbx9dYGs3EnBL0LnclOFfA4ruWKXvlKKrGJ2bvAxa47ZoXM
- 3EfIxNcq2IDgV6B02fg/raEsaGI4vXo70U74VKsSXjZ4ZQJVnTDHUOO7pCY5SpBOsuDH
- NqA4zIrnH7G5+OOnr0fNV/VmiyB95sIxAEeMCQzue0QSyn06cR7uXCr0yLCOmgGcMwc6
- EL1bd4ChHn8evsWM040jcw1gmD7zgzQKP/Mha3cDr5NqRcXy2GTZyvKru+SWDZq/ZvXk
- 2CHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725948418; x=1726553218;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z9MHdiQIKbQZ7sHVzFN+NNCUWOQwDHp5p4yZrC2v9dg=;
- b=MI5O4g/QA0bKkhozr9p/gYHYifCdaFME5nMdBJ7cjPV5ET486HcC/cu3Vb1TpKTc34
- kIC91XNAkkikYPB5UrPlQJdzRXti9Stky7LWOTxBnM4RdIGG5++X+18thppoN44wwyky
- FRmMdFo7SA0ujiRxAagqJXFkTyR2NfR+xowjv7Jv54S+vxXj3sbrnTCr+eP/L12F0InS
- KCBhfOKO2pRYZQ19cObMcRkew6VpzlHefyU2lNAz6/TFup7dcWvxzNXc1tVpTIkROqwP
- BtXIRn/VcdZi97/pDsgkyRMD4oy0A2OHtfFdGk6pGRsrgAwYA/sxhfYSC5wuHdjuONOJ
- QwpA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW85GkbRA4I2RPNo3rTT3mid/jYFhxIbZ6uqpsZJudtmo3unKZSYfLnCm5OvsS4yAhdc1RFER2tfZo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwuZD6UA1U2T9ZOacaOHVHAmAdrhTKRaNAKboknxw0jbcAGIxeA
- gH4EY87SAksHB95Ks3gYqotHezkTbmu3/qVA/VkdingzR42nEYJET694Teo8JgwFqVp383OCigg
- 63bkuRMw15/583VvlVhAAXzjPn8jSCNNHlUAA1w==
-X-Google-Smtp-Source: AGHT+IEICe98dkZbn2Ns9nln8TerGdgfmay8kae6nOnNQUjTdvKEr1T8PPGslpKcLz8r5N2w/0aeGsRv9D3S4R0GNlg=
-X-Received: by 2002:a05:6870:9122:b0:278:22d3:53 with SMTP id
- 586e51a60fabf-27b82e076cdmr13465979fac.12.1725948418296; Mon, 09 Sep 2024
- 23:06:58 -0700 (PDT)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2089.outbound.protection.outlook.com [40.107.255.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3DFA10E2B7
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 08:06:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J69YG6mQz5lmktMPtEW7nPW7j17bgEOBg+80h9jIA7J0QfR7f5TeyZUK9ajnMHfVPOuEcqwov8B3f7PPv4oYMIMx+6aFn2YU0U4S2SQ49Zfq81lhWqAvQkM7JkBxy0O8saD2eJTaIfAb+Q97CxxXSRq+wfVX4cFghPmbyytR0dMAOh7fqyiDtU5xr+pD3g71zQ/VGDUuPINUOT1rTPTuqlYxQoWAhOuldDbyt+Uzu299n5FI8xfQvzQ49Oj2U9PbCCzOZ8f8aZfUYrcXkioH3M8qES7ku9B9T7+OG7K7Urzs+nc3zi/cLM3Fj6/LTy+NoWXUIu82yj+1k0N/iGAkhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QEl0d5Yp1LoVDmRqwC18nPJtFWOQ0PO2uavKQK+hIfs=;
+ b=gGReZg8AgHjCN2C7Z6GCn8yibcYndTEMvwg2BJSxiXbj+VulpojRlHKQXhW64RnmTWWvyxumHMC+s0d8N798ggLERNNSSZqgZf5dszm4PSiAxFL5i2HBrXuNTPRAi04IXkA2AMs2hlCnfcqXjFkklbE7CRH/xO+Sc5BvbQZrwyMZaJ+28oRzMO/jQo5prKN8n2ozjL2DTighW0WjEetAWlJda+Z7n5Kv/W3OOkcBdqeLpgL8iSDkD4afmgCUrkbrm6/HdZV4U0cfskbAr3i5kRjCAte2Nc+e3ZoU1BqW8WpJ/ciGShcv7zNeOU9c6f+N5AqV86WVMhgHtxQg4zMy9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QEl0d5Yp1LoVDmRqwC18nPJtFWOQ0PO2uavKQK+hIfs=;
+ b=gCjWGfSGZDafx+7qDo7lNxpHpAriWFiE1FULrzGYRJYsZPiirVliTKkICta+cmtxe/ijQW+7KAWOM7BV6AmM23VGssLnJmvvQq2oizc8yOXkTlxJErIs05E2iT2vgVlcY9RXfY0YgQvj2I+zP1ZAHDFG3lxj9/WG9eLCmne5lavGwUbqtW4DBcM5gutBhB223DOtB3Ox398yPvJWtwhq6dWY0lwW835mwus+ah6yoGLotkTtbajaueqDinmwgcfj/VbjBVx/enkcKWg9pER63EoScztKcSb/fUeu29PH2MadXt0nWSxJR7C4I6QfX0IMP9WwgBS5tQPotQsDPeyJsg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5899.apcprd06.prod.outlook.com (2603:1096:101:e3::16)
+ by TYZPR06MB6328.apcprd06.prod.outlook.com (2603:1096:400:363::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.22; Mon, 9 Sep
+ 2024 08:06:32 +0000
+Received: from SEZPR06MB5899.apcprd06.prod.outlook.com
+ ([fe80::8bfc:f1ee:8923:77ce]) by SEZPR06MB5899.apcprd06.prod.outlook.com
+ ([fe80::8bfc:f1ee:8923:77ce%3]) with mapi id 15.20.7918.024; Mon, 9 Sep 2024
+ 08:06:32 +0000
+From: Shen Lichuan <shenlichuan@vivo.com>
+To: inki.dae@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ airlied@gmail.com, simona@ffwll.ch, krzk@kernel.org
+Cc: alim.akhtar@samsung.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com,
+ Shen Lichuan <shenlichuan@vivo.com>
+Subject: [PATCH v1] drm/exynos: gsc: Fix typo in comment
+Date: Mon,  9 Sep 2024 16:06:20 +0800
+Message-Id: <20240909080620.35245-1-shenlichuan@vivo.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0046.apcprd02.prod.outlook.com
+ (2603:1096:4:196::15) To SEZPR06MB5899.apcprd06.prod.outlook.com
+ (2603:1096:101:e3::16)
 MIME-Version: 1.0
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <20240830070351.2855919-5-jens.wiklander@linaro.org>
- <CABdmKX2KzswmiDY4oWw69_rPWs8d_Cqp7OXouSeMQaYX1SDSmw@mail.gmail.com>
- <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
- <CABdmKX0qd0RoTn2TBQTs9zdf=_JP8pW8hFRUR_7n_t-sfxsGdg@mail.gmail.com>
-In-Reply-To: <CABdmKX0qd0RoTn2TBQTs9zdf=_JP8pW8hFRUR_7n_t-sfxsGdg@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 10 Sep 2024 08:06:46 +0200
-Message-ID: <CAHUa44E-7UMseWSEeneYYnAPyhH___=a1YYR6uaOVTNZytzg7g@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4] dma-buf: heaps: add Linaro restricted dmabuf heap
- support
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5899:EE_|TYZPR06MB6328:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7434ca5-e3e3-4983-0ca7-08dcd0a65119
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|52116014|376014|1800799024|366016|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hpuMStoWGVaTDlNqkDyGdge4TiAJ60hFDWXku2kqvU2WTpgvahYuph4u7w4m?=
+ =?us-ascii?Q?0jnZVrgD8Q6FYl95++gwSgLpQRXC5lhdYNGOLwv9UTYSVY37wYBLioTbw7Ip?=
+ =?us-ascii?Q?aJchLH+nSkDFl3RQzqxmWcnwx6zofL6onjyn898sECArojfJXs3sOIO7T4Yv?=
+ =?us-ascii?Q?B9ONLW4hM6r5GMojoUMeOrPuQpSidra2vqYypbwk4t1MtHBfu0rlEBGP50zZ?=
+ =?us-ascii?Q?fpeQMawXL7KRld7acdbzIc5O5SDjK1Llw6PbdMWC+5itIlPJKxjossVCj8w+?=
+ =?us-ascii?Q?7L8LR596I1q39f0jrS7Eo9JFNYLOgcGJpNWOuDI0YtaRTjXgarXcat1CoL5s?=
+ =?us-ascii?Q?buRm7ILOdX3xFT+HmO9xYGVvLOPJ2NjfzTWYG2IyhXer3bFj7KWFKXCHwwee?=
+ =?us-ascii?Q?gT7a/PROmbTwXjQRVnfjERv8Q+xvvLBTCdPc2WHZzsFjmaMa954yll6xlYFa?=
+ =?us-ascii?Q?JVqmzfpgBMnVupeqI4ENmbo6YW3eIb7kTcemfUARX5zWBHKrBxSqI2edJnpA?=
+ =?us-ascii?Q?4m4biH/p6GQaXlbusIMg/SEiQRwQx4eOaBchAhiySV+A5k7A7HkOeriU5h9x?=
+ =?us-ascii?Q?2Rn+X6nKXCyBAFferPIK2BicBQF7M60grciyg6Z5xGvoDNYN/IwxHYZjZlyx?=
+ =?us-ascii?Q?guduFhArJrbSgdfau6XlYn5AJBQwcCLx/S26fIBrnjJiyc9KSGFZD9CBT936?=
+ =?us-ascii?Q?gN+0uzciqsFBvqTxAUiTVHIoNGvt8WnpnhmqWkWOlS8Z6km7iSwmh6zjdi35?=
+ =?us-ascii?Q?UhP1JSqC4y/af0Yc8UoZO6R+Lfph6htRln/YWauD9SxuLph90L48or/O/xUG?=
+ =?us-ascii?Q?E9gmQOmjVzES2rbEal+pfooxKjuW5uzyjPeJ/Q8dK8uuE/ym7blJdLEelNRR?=
+ =?us-ascii?Q?PBgWvuVrnxGTWWQX9DL0ZAnW5oh6DUTTgddqWTb4odKX8dt2Cd0dTZQF90HZ?=
+ =?us-ascii?Q?XVv4OGT+TrZTNbrMb1r2mJB8bHYU7FXIpsmNkM6gCiD3MoAsfxQIc3sfF5Qe?=
+ =?us-ascii?Q?E6GRTgT9ruy5qO0rx97vIVzACk1+z1NuQejEigTVFaV1rcHm/+qcQUoGnXJt?=
+ =?us-ascii?Q?Ad3aZI9MEP1Gb5Dl98YQArsx5smoHj/Kcgn5pa6C4jN2gxmOZR0kXlL2BHVa?=
+ =?us-ascii?Q?LR/jw1eLAoBEFEdjSt24XYNzSO6w9TGJ4u7O5cRMsPfWuybL0MQkXXli2OvL?=
+ =?us-ascii?Q?NnAJG+ZO9GGoB2T23k/u7iXqkGfbL+nc+7E0ecf2hM2JxQ9Bansucujtr7z0?=
+ =?us-ascii?Q?p7m1MaiLW+W+vK03cuooL8sVZ4OMYgXVubr9DpXCteu73EbcmUeOcaTl6Y8b?=
+ =?us-ascii?Q?vCVXME58hekRch6e5nQ6/yl+ZV0nudHnb0mMnQtZ+qM3GMy9Rw172MyVo1HG?=
+ =?us-ascii?Q?urcLNCYo9CmhvYB0rl0G1aAjC5ZZyEtLhaVhN0FNWxkY0LPdRg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEZPR06MB5899.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JZ4eW/NxY/14DzqhY8T0Y+OJnsiSob0XOiegdmynq46ohy0vVM2SSI0AEhrm?=
+ =?us-ascii?Q?XCmQAFWtIPdkDoSMMeQv4HRx5LQp5xKe0tZpib+NCC3LT3Om9s1FRi1yi+ub?=
+ =?us-ascii?Q?k7ZsDdWY3+tsZ+kZ/7y0hjQwbnUDSbCiEOq6rExk4XhSYofBMOK6vpnzaAFl?=
+ =?us-ascii?Q?+eyPmYOt1VRRh9eFeaxIo6cHcWgPoTjphd4xB2LrJ4RwhSS57Ls4Xc0OidnN?=
+ =?us-ascii?Q?dTN7nCNUGKBOqJ79ItLXol+YZ4XLQfezdaVCdzQByvFfUWWIY7rw4NzUEpTr?=
+ =?us-ascii?Q?8lcudQeUJp6QWmSoPgif0/OZIQDaDUc6+bQiWpYCI+ONpy8DxPotPBbDF3Am?=
+ =?us-ascii?Q?AJHFxLNiBDU8qVF9Vu0XhBkbhqvp72Fkhmf14YTWkXVE7Jhjuw9olpMVvZYw?=
+ =?us-ascii?Q?zrfOHrM9rRlGH1G/EGpcINhH1LJBVWQDdxgkF5SCni8w7Tb7dm38x1Ivfdjh?=
+ =?us-ascii?Q?benRfGptXE6TF5+bsPbpdw5SsPJzgJWhTx853vZFklFK4RucpcNzTX2DTl6h?=
+ =?us-ascii?Q?nbRtQpX8sWQ6W3vfoJwuIj99d6SFSVarcbH8Js/A/fz1pM63Vfg2RUBhLQph?=
+ =?us-ascii?Q?dcya9CuaitJCtdLtzTdC1Ny5h9vxxWsroXz3OlQpm1KQRJVCHqqa1sl3zb4x?=
+ =?us-ascii?Q?Qv0qGTzmUpQl6ymA1iV0taiL16LN60Xd0/JXNqZnFv1xT79UmbpKFA6gLxGL?=
+ =?us-ascii?Q?t7F5EKzjdKaEoq1VZzp2w28US4rPCWk/lBj2A0fAujAUmQtozYs9iNq+lpM5?=
+ =?us-ascii?Q?JDx9zZpgwM1Kdb74ukdaz5lNvrwVhyv9sveKs4GPFy5nk6FbZ5NZiI6HRHul?=
+ =?us-ascii?Q?RPjMargV2gXubLjuhyNn/HAMh7rCSA6+s58mxpQuTBeMbJFGc5/e8wu6HpaU?=
+ =?us-ascii?Q?f9qWtrFo+rXxAkRMwgsWox2+Hd8Ghs5nhyy2xBuld16eA6ptNO+P/CgRLk53?=
+ =?us-ascii?Q?ThPKeQWusKv2WSuQZPnIvLIHpXA11nu4RCDEYfubHhwEjILHI2u0k9rvtWCq?=
+ =?us-ascii?Q?jgx/Lz+f2xq39EAHk6oNaGw3K6YX0cwwjBEgg87FCqMjh7knPscyeXc4dEiC?=
+ =?us-ascii?Q?UbOWEyzgEbkcxYuwUItxk7NFYwlskC56FN1WEv3Cjic3+fux/UxOxF2xu7Rh?=
+ =?us-ascii?Q?IO+Wn1g6C+AkFRXk1FsZGobFtzMRyFD63jkGxnLcoj/14BB7fGNbJPLtftIX?=
+ =?us-ascii?Q?z5K2XBvsxvOgNP0s0HQeXQxmYqgBC1kjKWfYXtYjkEa+ILMhp5FOWuceUp7b?=
+ =?us-ascii?Q?HRylJP9HdINMn7oNqOYJ0kKtLqtefOGKuFII01zX5MI6Dqo9OfRICUyc1N+8?=
+ =?us-ascii?Q?WKGDXgfzfI1KJyOhfnUS1k6R/YQ0K7j/WkolNfhNFJc/aD3N6fsnk3IgT0pb?=
+ =?us-ascii?Q?GzBRAv5CWVjLqtYwEhRbri9EUYBSC3tThlzh6LbgPKVEvwzqgHd/AE03+ADw?=
+ =?us-ascii?Q?aK2F4WCZvpGkrIfxxkmWdU5JpyqmcdD/rt8RkH/gQ816Ask1q2hZDZtfrHB3?=
+ =?us-ascii?Q?BinmQVBC+yVGXb7CXAFCTomMe9AMXWynQuujwaXZwdzGce4QhKfRm3AN0ZAW?=
+ =?us-ascii?Q?RYZUnVk6Hn2eej6+3XONg+LymEyecIRI5qPJ83de?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7434ca5-e3e3-4983-0ca7-08dcd0a65119
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5899.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 08:06:32.5774 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ny0kVSDai1DHscvRezT1iZA2BDslt4JnovkyFAhJOOh2NdnebRk8NWeDI0PqrfNQf/fbMrhQr3+lkyf4tlocRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6328
+X-Mailman-Approved-At: Tue, 10 Sep 2024 07:14:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,127 +146,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 4, 2024 at 11:42=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Wed, Sep 4, 2024 at 2:44=E2=80=AFAM Jens Wiklander <jens.wiklander@lin=
-aro.org> wrote:
-> >
-> > On Tue, Sep 3, 2024 at 7:50=E2=80=AFPM T.J. Mercier <tjmercier@google.c=
-om> wrote:
-> > >
-> > > On Fri, Aug 30, 2024 at 12:04=E2=80=AFAM Jens Wiklander
-> > > <jens.wiklander@linaro.org> wrote:
-> > > >
-> > > > Add a Linaro restricted heap using the linaro,restricted-heap bindi=
-ngs
-> > > > implemented based on the generic restricted heap.
-> > > >
-> > > > The bindings defines a range of physical restricted memory. The hea=
-p
-> > > > manages this address range using genalloc. The allocated dma-buf fi=
-le
-> > > > descriptor can later be registered with the TEE subsystem for later=
- use
-> > > > via Trusted Applications in the secure world.
-> > > >
-> > > > Co-developed-by: Olivier Masse <olivier.masse@nxp.com>
-> > > > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > > ---
-> > > >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
-> > > >  drivers/dma-buf/heaps/Makefile                |   1 +
-> > > >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++=
-++++
-> > > >  3 files changed, 176 insertions(+)
-> > > >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
-> > > >
-> > > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/=
-Kconfig
-> > > > index 58903bc62ac8..82e2c5d09242 100644
-> > > > --- a/drivers/dma-buf/heaps/Kconfig
-> > > > +++ b/drivers/dma-buf/heaps/Kconfig
-> > > > @@ -28,3 +28,13 @@ config DMABUF_HEAPS_RESTRICTED_MTK
-> > > >         help
-> > > >           Enable restricted dma-buf heaps for MediaTek platform. Th=
-is heap is backed by
-> > > >           TEE client interfaces. If in doubt, say N.
-> > > > +
-> > > > +config DMABUF_HEAPS_RESTRICTED_LINARO
-> > > > +       bool "Linaro DMA-BUF Restricted Heap"
-> > > > +       depends on DMABUF_HEAPS_RESTRICTED
-> > > > +       help
-> > > > +         Choose this option to enable the Linaro restricted dma-bu=
-f heap.
-> > > > +         The restricted heap pools are defined according to the DT=
-. Heaps
-> > > > +         are allocated in the pools using gen allocater.
-> > > > +         If in doubt, say N.
-> > > > +
-> > > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps=
-/Makefile
-> > > > index 0028aa9d875f..66b2f67c47b5 100644
-> > > > --- a/drivers/dma-buf/heaps/Makefile
-> > > > +++ b/drivers/dma-buf/heaps/Makefile
-> > > > @@ -2,4 +2,5 @@
-> > > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
-> > > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)  +=3D restricted_heap.o
-> > > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)      +=3D restricted_hea=
-p_mtk.o
-> > > > +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_LINARO)   +=3D restricted_hea=
-p_linaro.o
-> > > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
-> > > > diff --git a/drivers/dma-buf/heaps/restricted_heap_linaro.c b/drive=
-rs/dma-buf/heaps/restricted_heap_linaro.c
-> > > > new file mode 100644
-> > > > index 000000000000..4b08ed514023
-> > > > --- /dev/null
-> > > > +++ b/drivers/dma-buf/heaps/restricted_heap_linaro.c
-> > > > @@ -0,0 +1,165 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > +/*
-> > > > + * DMABUF secure heap exporter
-> > > > + *
-> > > > + * Copyright 2021 NXP.
-> > > > + * Copyright 2024 Linaro Limited.
-> > > > + */
-> > > > +
-> > > > +#define pr_fmt(fmt)     "rheap_linaro: " fmt
-> > > > +
-> > > > +#include <linux/dma-buf.h>
-> > > > +#include <linux/err.h>
-> > > > +#include <linux/genalloc.h>
-> > > > +#include <linux/module.h>
-> > > > +#include <linux/of.h>
-> > > > +#include <linux/of_fdt.h>
-> > > > +#include <linux/of_reserved_mem.h>
-> > > > +#include <linux/scatterlist.h>
-> > > > +#include <linux/slab.h>
-> > > > +
-> > > > +#include "restricted_heap.h"
-> > > > +
-> > > > +#define MAX_HEAP_COUNT 2
-> > >
-> > > Are multiple supported because of what Cyrille mentioned here about p=
-ermissions?
-> > > https://lore.kernel.org/lkml/DBBPR04MB7514E006455AEA407041E4F788709@D=
-BBPR04MB7514.eurprd04.prod.outlook.com/
-> >
-> > Yes, I kept that as is.
->
-> Ok thanks.
->
-> > > So this is just some arbitrary limit? I'd prefer to have some sort of
-> > > documentation about this.
-> >
-> > How about removing the limit and using dynamic allocation instead?
->
-> That works too!
+Replace 'initailization' with 'initialization' in the comment.
 
-It turns out that was easier said than done. The limit is hardcoded
-because dynamic memory allocation isn't available at that stage during
-boot. We have a short description of this heap in Kconfig. I'll add
-something about the limit there if that makes sense.
+Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Jens
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+index 1b111e2c3347..fc5fc65823c6 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+@@ -1286,7 +1286,7 @@ static int gsc_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	/* context initailization */
++	/* context initialization */
+ 	ctx->id = pdev->id;
+ 
+ 	platform_set_drvdata(pdev, ctx);
+-- 
+2.17.1
+
