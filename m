@@ -2,50 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74EEE971E59
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 17:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC3E971E88
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 17:57:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49F3810E5BA;
-	Mon,  9 Sep 2024 15:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD77710E5CA;
+	Mon,  9 Sep 2024 15:57:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AhzO145G";
+	dkim=pass (1024-bit key; unprotected) header.d=zx2c4.com header.i=@zx2c4.com header.b="bOIXjvAE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7110610E5BA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 15:45:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 755B510E5C8;
+ Mon,  9 Sep 2024 15:57:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 59F815C0248;
- Mon,  9 Sep 2024 15:45:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6849EC4CEC5;
- Mon,  9 Sep 2024 15:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725896717;
- bh=kytQjnfXJeBElN05Ib1j89/8KJHIp2OL0uZJWxHGeDw=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=AhzO145GeU9vEI1TCJQVW51z6K3/qmN2HpusMWOLLwm84DA+VJgqVvUhDIFA7jb1J
- P2b+AMPmqCdfezi4SkIHPeAoxa1t6LcAe+eMrgw08Oj9YzBab9ZQH7ZsCSZSS+qG+S
- 7aoafYN4pXQ5/QBFZPX2sNn1+aPobBrIRhLN5o/uqVZqJRM3n8sdDIA6fCes+BTltP
- t8P8jMIogVRhoYF/+PL/WLqR1yo5D3+sA6JWX1g4Gm8hobZl/ba43S0AQ/nMQyS2vs
- IZxWx33IOpvgT90nJqiRO2vel9Z7VRgQXzDVQTMjz2O5uHLEdp7fr9tymP3AuWB/0e
- ws+pWRbV8xKHQ==
-Date: Mon, 09 Sep 2024 10:45:16 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ by dfw.source.kernel.org (Postfix) with ESMTP id B7B8D5C01DF;
+ Mon,  9 Sep 2024 15:57:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2F1C4CEC8;
+ Mon,  9 Sep 2024 15:57:33 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="bOIXjvAE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1725897452;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bbWr4vi9pa8+Cqp83onNnmk1v5W+k1MGPgiQ/1MwNSc=;
+ b=bOIXjvAESpiyWOLfxiXwIhAtPOG1y1+0opyH9Q87ZwFnbiPRA4b3wNogUcxJqtsfJjafy2
+ EIPyfn290ab/wumQZS8/Njm/fN604qRqGzCtPRB3Oi6XyRiwcddBL2PngABSxf1zQ6eimS
+ KerTR+BY/Q0Rag++udJH9dHwTPIZMJ8=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 242879eb
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 9 Sep 2024 15:57:32 +0000 (UTC)
+Date: Mon, 9 Sep 2024 17:57:31 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: x86@kernel.org, linux-crypto@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Jaegeuk Kim <jaegeuk@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Hannes Reinecke <hare@suse.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jiri Pirko <jiri@resnulli.us>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ Jamal Hadi Salim <jhs@mojatatu.com>, Cong Wang <xiyou.wangcong@gmail.com>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+Subject: Re: [PATCH RESEND v2 00/19] random: Resolve circular include
+ dependency and include <linux/percpu.h>
+Message-ID: <Zt8a6_RwLG2pEnZ6@zx2c4.com>
+References: <20240909075641.258968-1-ubizjak@gmail.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-Cc: linux-mediatek@lists.infradead.org, 
- angelogioacchino.delregno@collabora.com, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, krzk+dt@kernel.org, knoxchiou@google.com, 
- conor+dt@kernel.org, linux-kernel@vger.kernel.org, hsinyi@google.com, 
- matthias.bgg@gmail.com, hsinyi@chromium.org
-In-Reply-To: <20240909023148.1677936-1-cengjianeng@huaqin.corp-partner.google.com>
-References: <CAJMQK-imYrDTuycVzQxkfbkZuHehE8uwc+qS2w=UDShETsBvEw@mail.gmail.com>
- <20240909023148.1677936-1-cengjianeng@huaqin.corp-partner.google.com>
-Message-Id: <172589660972.199140.1860414842334878111.robh@kernel.org>
-Subject: Re: [PATCH v5 0/2] arm64: dts: mediatek: Add MT8186 Ponyta
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240909075641.258968-1-ubizjak@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,89 +112,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Uros,
 
-On Mon, 09 Sep 2024 10:31:46 +0800, Jianeng Ceng wrote:
-> This is v5 of the MT8186 Chromebook device tree series.
-> ---
-> Changes in v5:
-> - PATCH 1/2: Remove sku2147483647.
-> - PATCH 2/2: Remove sku2147483647.
-> - Link to v4:https://lore.kernel.org/all/20240906085739.1322676-1-cengjianeng@huaqin.corp-partner.google.com/
+On Mon, Sep 09, 2024 at 09:53:43AM +0200, Uros Bizjak wrote:
+> a) Substitutes the inclusion of <linux/random.h> with the
+> inclusion of <linux/prandom.h> where needed (patches 1 - 17).
 > 
-> Changes in v4:
-> - PATCH 1/2: Add more info for Ponyta custom label in commit.
-> - Link to v3:https://lore.kernel.org/all/20240904081501.2060933-1-cengjianeng@huaqin.corp-partner.google.com/
+> b) Removes legacy inclusion of <linux/prandom.h> from
+> <linux/random.h> (patch 18).
 > 
-> Changes in v3:
-> - PATCH 0/2: Add the modify records.
-> - PATCH 1/2: Modify lable to label.
-> - Link to v2:https://lore.kernel.org/all/20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com/
-> 
-> Changes in v2:
-> - PATCH 2/2: Modify the dtb name without rev2.
-> - Link to v1:https://lore.kernel.org/all/20240902125502.1844374-1-cengjianeng@huaqin.corp-partner.google.com/
-> 
-> Jianeng Ceng (2):
->   dt-bindings: arm: mediatek: Add MT8186 Ponyta Chromebook
->   arm64: dts: mediatek: Add MT8186 Ponyta Chromebooks
-> 
->  .../devicetree/bindings/arm/mediatek.yaml     | 10 +++++
->  arch/arm64/boot/dts/mediatek/Makefile         |  2 +
->  .../mediatek/mt8186-corsola-ponyta-sku0.dts   | 23 ++++++++++
->  .../mediatek/mt8186-corsola-ponyta-sku1.dts   | 27 ++++++++++++
->  .../dts/mediatek/mt8186-corsola-ponyta.dtsi   | 44 +++++++++++++++++++
->  5 files changed, 106 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
-> 
-> --
-> 2.34.1
-> 
-> 
-> 
+> c) Includes <linux/percpu.h> in <linux/prandom.h> (patch 19).
+ 
+Thanks for doing this. That seems like a fine initiative to me. (I'm
+also curious about the future percpu changes you've got planned.)
 
+Tree-wise, were you expecting me to take this through random.git? And if
+so, what timeframe did you have in mind? For 6.12 next week (can you
+poke folks for acks in time?), or punt it for 6.13? Or did you have a
+different tree in mind for treewide changes (in which case, I'll send
+you an ack for the [p]random.h changes).
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y mediatek/mt8186-corsola-ponyta-sku0.dtb mediatek/mt8186-corsola-ponyta-sku1.dtb' for 20240909023148.1677936-1-cengjianeng@huaqin.corp-partner.google.com:
-
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: dp-bridge@5c: 'extcon' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: dp-bridge@5c: 'extcon' is a required property
-	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: sound: 'model' is a required property
-	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dtb: sound: 'model' is a required property
-	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml
-
-
-
-
-
+Regards,
+Jason
