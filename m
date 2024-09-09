@@ -2,84 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC68A971B54
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61BCA971B97
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:50:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBE110E587;
-	Mon,  9 Sep 2024 13:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 992C410E58D;
+	Mon,  9 Sep 2024 13:50:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J+/SMWcF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zy9b3D4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4719B10E586;
- Mon,  9 Sep 2024 13:43:10 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-71797e61d43so436068b3a.2; 
- Mon, 09 Sep 2024 06:43:10 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBA210E586;
+ Mon,  9 Sep 2024 13:50:32 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-42cb5b3c57eso11591265e9.2; 
+ Mon, 09 Sep 2024 06:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725889390; x=1726494190; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZgDu7K8tlaL91YL3Tof02NsN1tNN3lVywAWATfL7mwQ=;
- b=J+/SMWcFSU+rATiFiAEJoBOpuupLXYzWUyZZ4WTsfecNZLO4msPGFEDy6vAxLt00Fk
- c6s8vwkhWwcguqW5vS4p8lUOBbGyo8rw/qW/c1DQAISXKJs3Yk3+QxMrCaDSNMDOmNYE
- lv3XgKikbXNKxm2+dQKzx2RZlWQ+3BGMsHMJWEZ6ZDSDCp1DQJU4oAe6ropboB9iz4g8
- jJE17RQCSBIwzNRCb5DJAspMBlROtIB80yEJImCdKnEdjJEQ517dhKE5iN57WXEYcI+X
- WJkH7s83CPf2rvoGb3DRzg3BRBmMws1KkpYaqUUZ8fW7tM7kpcmztjo/itmGi2se1/72
- uCeQ==
+ d=gmail.com; s=20230601; t=1725889830; x=1726494630; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uTmI7FKnXchw996SUeECY59GrYXxeJtGeoLPHxq544M=;
+ b=Zy9b3D4vrPdguBzjeynYKFAkg8deFmbUEZbvcFSZ+utT3i568Fu5XqOaJ/srWoWhEv
+ kNKwDBsG6LonEBet+t33AvLrvocgJbmQoVGTZYyHj1gwKPW5c711It2pLMIPhlZqe6hP
+ rfHe5bG48i4xqYeGGzbZNaKty6mL98wwGubjtixiZtY27QL8Pzt1vse/w3gln0s7JWPr
+ qCJXGiuNCnDcw5Csp9qhc0Q1By46l5Qb6h4IxF6Bs59hIB83RYRlelEgCus0vo+B31Bx
+ IaHZLJyot1khEQUOfIaVGY6n7pKa56ESI6DetARuK/ClQqZOu6JDiXGp8CK/W4fvE+WJ
+ ynNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725889390; x=1726494190;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZgDu7K8tlaL91YL3Tof02NsN1tNN3lVywAWATfL7mwQ=;
- b=eY2J3lypqvbER+llgcHjFuA4RG6eNEO7ZR84mowxEpLEhrQj5vDlolotnudzaf6HMM
- EOmv3URgMvUQHI/zn6rbA6c3NJD8JsfHz2ZUeqC+A6NhcfrbRSHJt/HX3AuUxYJIlVn6
- LWtZZwm8kInhvYBQxWe61MLrTsa6JMREMw+qFEUGtP3u8a92mCLjzbhCsp39A39BUeN7
- Xn3AoZelgUO+IOv2koPQQPB0P5Yi5v6K0Ks0jNGNIXlAs8yPwxa7AIBvI0PWBna5//Br
- 2FcdePQEL18fGpNBfdU/48iJRRuqKJ9jM/W/cuPLvCIOVng92k1QQLHTr4ppkFIWfmOj
- 0pWw==
+ d=1e100.net; s=20230601; t=1725889830; x=1726494630;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uTmI7FKnXchw996SUeECY59GrYXxeJtGeoLPHxq544M=;
+ b=FxJbqd22D4MZxnlZQ+lCDtiAxQmYSOd7dEXuk3rN3pOpFarSSAy8UmRS2ApWLiaoQm
+ 0dJrHM8IfXQEa/CrdeqrKKLKA82cLC1y/3R76MWPIGwfVbqwxKsC+EVTt1HCncFGqzMI
+ B1MupfPWEhf7qTQ5xXW5Jzt82o7SZAEgWoEcOjTdgKTLWy98hkIYDgP77zFkMsBDFhpT
+ 3lkXveB86KavoishvNbyq6hq2QOoE25OGvCfqV7FTiq92D6t7Oj90efyGsLb1usjDNiN
+ 2+qJVPoRS/ozBbhU9s9qMiC2uWBNvRVEsZlyJfIXoFat3mgV7N2AQnbr3wBWwZ8lQT/u
+ By8A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUcp/hlMa+1nE5IyI75aWHUrIOQDOtTZ4OjUCl4eP2CSd6Bx3OTKU/9G3BwPPqB4M3cvI2aLLxRaXk=@lists.freedesktop.org,
- AJvYcCVX3y80cnJVDC0KVx3wF2f6R7qbkjFrSR9SUBf8570gPtcU+SewIHBQkcbiH8cjCowJ+J5PdvlmdV5j@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMv7AxbIG2LaMWu10p3iumhaBPCTwbW4nquf9m9Qjhsdx+UQ/c
- 1SAkEoAQ/2a1Dyh5JcMTMC1VKyrM+pKWyBWgNHaW6nTMzydNdOveAxE6DCLD/DpJELzh3asb5dg
- lCFhqkyr3LhqHjQjea/s9Xixijg8=
-X-Google-Smtp-Source: AGHT+IEpNKUplvobMAHwQsNd4YEbne1nahgYb4SFmj2oqMNm+eujaQfMJOdRxTAMDlx5AnDhOx/g4PUGM0s/XNhIBfc=
-X-Received: by 2002:a17:902:c409:b0:206:b6db:49a2 with SMTP id
- d9443c01a7336-206f0652f64mr54765785ad.8.1725889389597; Mon, 09 Sep 2024
- 06:43:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
- <20240905-preemption-a750-t-v3-4-fd947699f7bc@gmail.com>
- <20240906195444.owz4eralirekr7r7@hu-akhilpo-hyd.qualcomm.com>
- <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com>
-In-Reply-To: <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Mon, 9 Sep 2024 14:42:58 +0100
-Message-ID: <CACu1E7GSMQHa6258hV2OwS5nTGh+kTeZ-qQPMfGTy5YVP5kX3g@mail.gmail.com>
-Subject: Re: [PATCH v3 04/10] drm/msm/A6xx: Implement preemption for A7XX
- targets
-To: Antonino Maniscalco <antomani103@gmail.com>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ AJvYcCUva/4mH/kKhbvtg7x6u4316JuxGSpqJnWFNJcG4D/zIf3f9ipu3IqH+nHzQVnJNat05M96G5z69Gs=@lists.freedesktop.org,
+ AJvYcCXyxGAINxU1+Am9S19+eQcdGwrZlsGqKeHaJrMfr4qwqw0gN8Nn0a2v8p8TCGdC4XXt/DpY0dU2TQ==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykOMnjZTNm0QdUdoSNRHl0B7Ni/FzI4DxvrFzlQF0ONYfH7cB9
+ sgngIV3A/QAlc4LNZMSTD3dd6W0MD3yx0QWuLR6JB3NeWYnaWXJr
+X-Google-Smtp-Source: AGHT+IFWznISjjxuV7eQKDlaN9b6a4OoZXrdhN32jKOPKPIhtjTxNr0Q41kQYaOLItLh2+izQfDzHw==
+X-Received: by 2002:a05:600c:19ce:b0:42c:aeff:9766 with SMTP id
+ 5b1f17b1804b1-42caeff99aamr49332695e9.20.1725889829441; 
+ Mon, 09 Sep 2024 06:50:29 -0700 (PDT)
+Received: from orome (p200300e41f29d300f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f29:d300:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42caeb81ac0sm78365275e9.34.2024.09.09.06.50.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Sep 2024 06:50:28 -0700 (PDT)
+Date: Mon, 9 Sep 2024 15:50:26 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sandy Huang <hjc@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Sharat Masetty <smasetty@codeaurora.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Mikko Perttunen <mperttunen@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Kevin Tian <kevin.tian@intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/tegra: Use iommu_paging_domain_alloc()
+Message-ID: <7unmvrhiydje2fqcrmj6flbvdbpexujibatpgoqcqevmuhkcgs@pa62yzobzajj>
+References: <20240902014700.66095-1-baolu.lu@linux.intel.com>
+ <20240902014700.66095-4-baolu.lu@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sekau6utgzc3r2ki"
+Content-Disposition: inline
+In-Reply-To: <20240902014700.66095-4-baolu.lu@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,163 +98,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 9, 2024 at 2:15=E2=80=AFPM Antonino Maniscalco
-<antomani103@gmail.com> wrote:
->
-> On 9/6/24 9:54 PM, Akhil P Oommen wrote:
-> > On Thu, Sep 05, 2024 at 04:51:22PM +0200, Antonino Maniscalco wrote:
-> >> This patch implements preemption feature for A6xx targets, this allows
-> >> the GPU to switch to a higher priority ringbuffer if one is ready. A6X=
-X
-> >> hardware as such supports multiple levels of preemption granularities,
-> >> ranging from coarse grained(ringbuffer level) to a more fine grained
-> >> such as draw-call level or a bin boundary level preemption. This patch
-> >> enables the basic preemption level, with more fine grained preemption
-> >> support to follow.
-> >>
-> >> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> >> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> >> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-> >> ---
-> >>   drivers/gpu/drm/msm/Makefile              |   1 +
-> >>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 293 ++++++++++++++++++++=
-+-
-> >>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 161 ++++++++++++
-> ...
-> >
-> > we can use the lighter smp variant here.
-> >
-> >> +
-> >> +            if (a6xx_gpu->cur_ring =3D=3D ring)
-> >> +                    gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-> >> +            else
-> >> +                    ring->skip_inline_wptr =3D true;
-> >> +    } else {
-> >> +            ring->skip_inline_wptr =3D true;
-> >> +    }
-> >> +
-> >> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
-> >>   }
-> >>
-> >>   static void get_stats_counter(struct msm_ringbuffer *ring, u32 count=
-er,
-> >> @@ -138,12 +231,14 @@ static void a6xx_set_pagetable(struct a6xx_gpu *=
-a6xx_gpu,
-> >
-> > set_pagetable checks "cur_ctx_seqno" to see if pt switch is needed or
-> > not. This is currently not tracked separately for each ring. Can you
-> > please check that?
->
-> I totally missed that. Thanks for catching it!
->
-> >
-> > I wonder why that didn't cause any gpu errors in testing. Not sure if I
-> > am missing something.
-> >
->
-> I think this is because, so long as a single context doesn't submit to
-> two different rings with differenr priorities, we will only be incorrect
-> in the sense that we emit more page table switches than necessary and
-> never less. However untrusted userspace could create a context that
-> submits to two different rings and that would lead to execution in the
-> wrong context so we must fix this.
 
-FWIW, in Mesa in the future we may want to expose multiple Vulkan
-queues per device. Then this would definitely blow up.
+--sekau6utgzc3r2ki
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Connor
+On Mon, Sep 02, 2024 at 09:47:00AM GMT, Lu Baolu wrote:
+> Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
+> the bus structure. The iommu subsystem no longer relies on bus for
+> operations. So iommu_domain_alloc() interface is no longer relevant.
+>=20
+> Replace iommu_domain_alloc() with iommu_paging_domain_alloc() which takes
+> the physical device from which the host1x_device virtual device was
+> instantiated. This physical device is a common parent to all physical
+> devices that are part of the virtual device.
+>=20
+> Suggested-by: Thierry Reding <thierry.reding@gmail.com>
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/gpu/drm/tegra/drm.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
->
-> >>
-> >>      /*
-> >>       * Write the new TTBR0 to the memstore. This is good for debuggin=
-g.
-> >> +     * Needed for preemption
-> >>       */
-> >> -    OUT_PKT7(ring, CP_MEM_WRITE, 4);
-> >> +    OUT_PKT7(ring, CP_MEM_WRITE, 5);
-> >>      OUT_RING(ring, CP_MEM_WRITE_0_ADDR_LO(lower_32_bits(memptr)));
-> >>      OUT_RING(ring, CP_MEM_WRITE_1_ADDR_HI(upper_32_bits(memptr)));
-> >>      OUT_RING(ring, lower_32_bits(ttbr));
-> >> -    OUT_RING(ring, (asid << 16) | upper_32_bits(ttbr));
-> >> +    OUT_RING(ring, upper_32_bits(ttbr));
-> >> +    OUT_RING(ring, ctx->seqno);
-> >>
-> >>      /*
-> >>       * Sync both threads after switching pagetables and enable BR onl=
-y
-> >> @@ -268,6 +363,43 @@ static void a6xx_submit(struct msm_gpu *gpu, stru=
-ct msm_gem_submit *submit)
-> >>      a6xx_flush(gpu, ring);
-> >>   }
-> ...
-> >> +    struct a6xx_preempt_record *record_ptr =3D
-> >> +            a6xx_gpu->preempt[ring->id] + PREEMPT_OFFSET_PRIV_NON_SEC=
-URE;
-> >> +    u64 ttbr0 =3D ring->memptrs->ttbr0;
-> >> +    u32 context_idr =3D ring->memptrs->context_idr;
-> >> +
-> >> +    smmu_info_ptr->ttbr0 =3D ttbr0;
-> >> +    smmu_info_ptr->context_idr =3D context_idr;
-> >> +    record_ptr->wptr =3D get_wptr(ring);
-> >> +
-> >> +    /*
-> >> +     * The GPU will write the wptr we set above when we preempt. Rese=
-t
-> >> +     * skip_inline_wptr to make sure that we don't write WPTR to the =
-same
-> >> +     * thing twice. It's still possible subsequent submissions will u=
-pdate
-> >> +     * wptr again, in which case they will set the flag to true. This=
- has
-> >> +     * to be protected by the lock for setting the flag and updating =
-wptr
-> >> +     * to be atomic.
-> >> +     */
-> >> +    ring->skip_inline_wptr =3D false;
-> >> +
-> >> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
-> >> +
-> >> +    gpu_write64(gpu,
-> >> +            REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO,
-> >> +            a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_SMMU_IN=
-FO);
-> >> +
-> >> +    gpu_write64(gpu,
-> >> +            REG_A6XX_CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR,
-> >> +            a6xx_gpu->preempt_iova[ring->id] + PREEMPT_OFFSET_PRIV_NO=
-N_SECURE);
-> >> +
-> >> +    preempt_offset_priv_secure =3D
-> >> +            PREEMPT_OFFSET_PRIV_SECURE(adreno_gpu->info->preempt_reco=
-rd_size);
-> >> +    gpu_write64(gpu,
-> >> +            REG_A6XX_CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR,
-> >> +            a6xx_gpu->preempt_iova[ring->id] + preempt_offset_priv_se=
-cure);
-> >
-> > Secure buffers are not supported currently, so we can skip this and the
-> > context record allocation. Anyway this has to be a separate buffer
-> > mapped in secure pagetable which don't currently have. We can skip the
-> > same in pseudo register packet too.
-> >
->
-> Mmm it would appear that not setting it causes an hang very early. I'll
-> see if I can find out more about what is going on.
->
-> >> +
-> >> +    a6xx_gpu->next_ring =3D ring;
-> >> +
-> ...
-> >>
-> >>   struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int i=
-d,
-> >>
-> >> --
-> >> 2.46.0
-> >>
->
-> Best regards,
-> --
-> Antonino Maniscalco <antomani103@gmail.com>
->
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--sekau6utgzc3r2ki
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmbe/SIACgkQ3SOs138+
+s6GivQ/+JSKDqhg5e7WkMv/tttd5OTC46SSL0+cobiyQfyKnv+49GXf27ORgQw1S
+aVk1ecp/nPSd0KksxiAd/ZDwulfWcOZSEVKSNhhm8Ju3WrCAZcDoI7wjiOjhNK4U
+o1kbLg2ly3JhXkEhPuyvfW+1pk6rNt/xcqY5NrpW8Fh6/G1K5AJiC6oCEAsS65Ak
+QejXU8T/A6s4jfBOd3O23td1serVya4AAc+wJzKgGcmVsG6ELwWbJSD0rGX+Ai5a
+vO2IGIt5qzeibQIP/ZSOLX0lacV028ZEc0zCK/0tgoLkk/TiMfraIO6Ay3Ok5wdo
+WiLZ/VYBfsxlQO/IqlgI/WbmhwcTReCK+T46GoyFAW6fvS2TP4YQ0JGJsubrxUby
+zk8Bt9oUwJcAq9LotbPSaXgHgrkbUq1Zg4AX53UoZi6n2ClKsMusqx60Z7kbKBTU
+MefEmbsZaQCoY6PdDZPYHehE08YC3d0RlojHdxwrzJM2UHfn9fCtdD5HQJGnpGxi
+tgNrxCPCUNa7EzE0lqRIkDM3QoBaoxAQVf6Q2uI3BG3HPBowuwXXcTayfrKPJEoP
+IVZHM9lH1aEo6B2iT1zE4oXbNS8PFeJPLkzS4XEZk+Ct0ytaBLLoGykSvvk8xE5h
+oSnbslewV6UY1RVPQyOSGA/kxxwOhbB9hd65dQ87qSyKaXwc1u4=
+=K/dz
+-----END PGP SIGNATURE-----
+
+--sekau6utgzc3r2ki--
