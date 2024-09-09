@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F157697130A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250DB97130E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4909C10E340;
-	Mon,  9 Sep 2024 09:13:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ef7eqMSl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8425810E345;
+	Mon,  9 Sep 2024 09:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358F210E340;
- Mon,  9 Sep 2024 09:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=UQorVFH+3/p6XhrJD9Gg39tlZOUc67E0HuFK3IMFSis=; b=ef7eqMSlq9FT8UyfetbDJXgb3f
- N4vExWyTh3b+QUW28FwxYirERSCAFi5fuatwcelQjxpYwOvF6pbHwBA0cIGJHINnjH427i28Y1j2m
- 0rkcu6VGHBQImyparPkC5txe9OtmbKUeev8cKg9N2R6ZkZx9b0YaKG/PUCxo42Rs0SS7Gv4K1oo27
- 4rSPRqNmUIIekHZciuTiNcRu4fevcYnxQbppyoyvzobm2OjkWaFX80o7sCuPYC9gt0A7bRjJ4YYsg
- 0jygnHW0EQgQnZDCZDfVldSkfISXn8Yen3FaAWqUmRkaxji7DuETLUtPiS5ZtyhlYhBxcOTMHY6N7
- 0LDnl3PQ==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1snaSJ-00BQiz-P4; Mon, 09 Sep 2024 11:13:07 +0200
-Message-ID: <e3acac9f-021c-4113-898a-1c77e8216631@igalia.com>
-Date: Mon, 9 Sep 2024 10:13:06 +0100
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02E5E10E345
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 09:14:05 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1snaT9-0004BL-4W; Mon, 09 Sep 2024 11:13:59 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <sha@pengutronix.de>)
+ id 1snaT5-006c5g-91; Mon, 09 Sep 2024 11:13:55 +0200
+Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <sha@pengutronix.de>) id 1snaT5-00FfJM-0X;
+ Mon, 09 Sep 2024 11:13:55 +0200
+Date: Mon, 9 Sep 2024 11:13:55 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: detlev.casanova@collabora.com, heiko@sntech.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hjc@rock-chips.com, mripard@kernel.org,
+ sebastian.reichel@collabora.com, linux-rockchip@lists.infradead.org,
+ sjoerd@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
+ krzk+dt@kernel.org, robh@kernel.org
+Subject: Re: Re: [PATCH v2 05/11] drm/rockchip: vop2: Introduce vop hardware
+ version
+Message-ID: <Zt68U6hnPA0KrxXB@pengutronix.de>
+References: <20240904120238.3856782-1-andyshrk@163.com>
+ <20240904120238.3856782-6-andyshrk@163.com>
+ <ZtlZgKcDQFF_WnCn@pengutronix.de>
+ <2326e2ea.8264.191c13bab93.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Documentation/gpu: Document the situation with
- unqualified drm-memory-
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Alex Deucher <alexander.deucher@amd.com>, Rob Clark
- <robdclark@chromium.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240813135712.82611-1-tursulin@igalia.com>
- <20240813135712.82611-2-tursulin@igalia.com>
- <CADnq5_Pv8B+nXkO3t05VLger+zwLN7PRDcB44K-=wXWo3CymhQ@mail.gmail.com>
- <8c732c8e-27d3-46f8-83fe-6b3edb835d95@igalia.com>
- <CADnq5_NbC3NORJVCYifPDOP8Qt84RN=M0Cwa_LKpMKH8stRF9w@mail.gmail.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <CADnq5_NbC3NORJVCYifPDOP8Qt84RN=M0Cwa_LKpMKH8stRF9w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2326e2ea.8264.191c13bab93.Coremail.andyshrk@163.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,148 +71,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 06/09/2024 19:12, Alex Deucher wrote:
-> On Wed, Sep 4, 2024 at 4:36 AM Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
->>
->>
->> On 21/08/2024 21:47, Alex Deucher wrote:
->>> On Tue, Aug 13, 2024 at 9:57 AM Tvrtko Ursulin <tursulin@igalia.com> wrote:
->>>>
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>
->>>> Currently it is not well defined what is drm-memory- compared to other
->>>> categories.
->>>>
->>>> In practice the only driver which emits these keys is amdgpu and in them
->>>> exposes the current resident buffer object memory (including shared).
->>>>
->>>> To prevent any confusion, document that drm-memory- is deprecated and an
->>>> alias for drm-resident-memory-.
->>>>
->>>> While at it also clarify that the reserved sub-string 'memory' refers to
->>>> the memory region component, and also clarify the intended semantics of
->>>> other memory categories.
->>>>
->>>> v2:
->>>>    * Also mark drm-memory- as deprecated.
->>>>    * Add some more text describing memory categories. (Alex)
->>>>
->>>> v3:
->>>>    * Semantics of the amdgpu drm-memory is actually as drm-resident.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>>> Cc: Christian König <christian.keonig@amd.com>
->>>> Cc: Rob Clark <robdclark@chromium.org>
->>>> ---
->>>>    Documentation/gpu/drm-usage-stats.rst | 25 ++++++++++++++++++++++---
->>>>    1 file changed, 22 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
->>>> index a80f95ca1b2f..ff964c707754 100644
->>>> --- a/Documentation/gpu/drm-usage-stats.rst
->>>> +++ b/Documentation/gpu/drm-usage-stats.rst
->>>> @@ -144,7 +144,9 @@ Memory
->>>>
->>>>    Each possible memory type which can be used to store buffer objects by the
->>>>    GPU in question shall be given a stable and unique name to be returned as the
->>>> -string here.  The name "memory" is reserved to refer to normal system memory.
->>>> +string here.
->>>> +
->>>> +The region name "memory" is reserved to refer to normal system memory.
->>>>
->>>>    Value shall reflect the amount of storage currently consumed by the buffer
->>>>    objects belong to this client, in the respective memory region.
->>>> @@ -152,6 +154,9 @@ objects belong to this client, in the respective memory region.
->>>>    Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->>>>    indicating kibi- or mebi-bytes.
->>>>
->>>> +This key is deprecated and is an alias for drm-resident-<region>. Only one of
->>>> +the two should be present in the output.
->>>> +
->>>
->>> I'm not sure how best to handle this.  What should amdgpu do?  We have
->>> customers out in the field using these existing fields and then with
->>> patch 2, they go away.  Arguably we'd want both for backwards
->>> compatibility.
->>
->> Exactly, so it looks you maybe missed that 2/2 is not removing the
->> amdgpu "legacy" drm-memory-. It keeps outputting it and also duplicating
->> under drm-resident-. This is mentioned in the commit paragraph:
->>
->> """
->> Legacy keys have been preserved, with the outlook of only potentially
->> removing only the drm-memory- when the time gets right.
->> """
->>
->> Put differently, I don't think 2/2 should break the existing
->> tools/parsers. Only if they have hardcoded assumptions about the order
->> of keys perhaps?
+On Thu, Sep 05, 2024 at 04:09:58PM +0800, Andy Yan wrote:
+>    Hi Sascha,
 > 
-> You're right.  I totally missed that part.  The series is:
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-> Happy to take the patches through my tree or patch 2 via mine and
-> patch 1 via drm-misc.
+>  At 2024-09-05 15:10:56, "Sascha Hauer" <s.hauer@pengutronix.de> wrote:
+>  >Hi Andy,
+>  >
+>  >On Wed, Sep 04, 2024 at 08:02:32PM +0800, Andy Yan wrote:
+>  >> From: Andy Yan <andy.yan@rock-chips.com>
+>  >>
+>  >> There is a version number hardcoded in the VOP VERSION_INFO
+>  >> register, and the version number increments sequentially based
+>  >> on the production order of the SOC.
+>  >>
+>  >> So using this version number to distinguish different VOP features
+>  >> will simplify the code.
+>  >>
+>  >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>  >>
+>  >> ---
+>  >>
+>  >> Changes in v2:
+>  >> - Introduce vop hardware version
+>  >>
+>  >>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c |  7 ++++---
+>  >>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h | 11 +++++++++++
+>  >>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c |  3 +++
+>  >>  3 files changed, 18 insertions(+), 3 deletions(-)
+>  >>
+>  >> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>  >> index 9b269f6e576e..871d9bcd1d80 100644
+>  >> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>  >> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>  >> @@ -13,6 +13,15 @@
+>  >>  #include "rockchip_drm_drv.h"
+>  >>  #include "rockchip_drm_vop.h"
+>  >>
+>  >> +#define VOP2_VERSION(major, minor, build)     ((major) << 24 | (minor) << 16 | (build))
+>  >> +
+>  >> +/* The new SOC VOP version is bigger than the old */
+>  >> +#define VOP_VERSION_RK3568    VOP2_VERSION(0x40, 0x15, 0x8023)
+>  >> +#define VOP_VERSION_RK3588    VOP2_VERSION(0x40, 0x17, 0x6786)
+>  >> +#define VOP_VERSION_RK3528    VOP2_VERSION(0x50, 0x17, 0x1263)
+>  >> +#define VOP_VERSION_RK3562    VOP2_VERSION(0x50, 0x17, 0x4350)
+>  >> +#define VOP_VERSION_RK3576    VOP2_VERSION(0x50, 0x19, 0x9765)
+>  >
+>  >What about the RK3566? Does it have the same version code as the RK3568?
+>  >
+>  >This new version field replaces the soc_id mechanism we had before to
+>  >99%. You keep the soc_id around just for distinguishing between RK3566
+>  >and RK3568. It would be nice to fully replace it.
+>  >
+>  >I see that the VOP_VERSION_RK* numbers are the same as found in the
+>  >VOP2_SYS_VERSION_INF registers. On the other hand you never read the
+>  >value from the register which make the VOP_VERSION_RK* just arbitrary
+>  >numbers. Wouldn't it be possible to make something up for RK3566, like
+>  >VOP2_VERSION(0x40, 0x15, 0x8022) to get rid of the soc_id thingy?
+>  Yes，RK3566 and RK3568 share the same VOP IP block， so the version code at VERSION_REGISTER is
+>  the same, the difference between rk3568 and rk33566 are introduced at soc Integration。
+>  So i would still like to keep the soc_id to  handle situation like this。As we always have such  cause， one
+>  same IP block， but there are some subtle differences in features across different SOCs.
 
-Thanks!
+Fine with me. You could leave a comment in the code or commit
+message that explains why we need both.
 
-As to how to merge I don't have a strong preference. Adding Maxime and 
-Thomas to check if they would want to take 1/2 via drm-misc-next? But 
-IMO not splitting the patches between trees also kind of makes sense.
+>  I have considered reading the version register directly, but I haven't found a suitable method yet.
 
-Regards,
+You could check the expected version from the driver data against
+the register value, but that would only be an additional sanity check.
+Not sure if it's worth it.
 
-Tvrtko
+Sascha
 
-> 
-> Alex
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>>    - drm-shared-<region>: <uint> [KiB|MiB]
->>>>
->>>>    The total size of buffers that are shared with another file (e.g., have more
->>>> @@ -159,20 +164,34 @@ than a single handle).
->>>>
->>>>    - drm-total-<region>: <uint> [KiB|MiB]
->>>>
->>>> -The total size of buffers that including shared and private memory.
->>>> +The total size of all created buffers including shared and private memory. The
->>>> +backing store for the buffers does not have to be currently instantiated to be
->>>> +counted under this category.
->>>>
->>>>    - drm-resident-<region>: <uint> [KiB|MiB]
->>>>
->>>> -The total size of buffers that are resident in the specified region.
->>>> +The total size of buffers that are resident (have their backing store present or
->>>> +instantiated) in the specified region.
->>>> +
->>>> +This is an alias for drm-memory-<region> and only one of the two should be
->>>> +present in the output.
->>>>
->>>>    - drm-purgeable-<region>: <uint> [KiB|MiB]
->>>>
->>>>    The total size of buffers that are purgeable.
->>>>
->>>> +For example drivers which implement a form of 'madvise' like functionality can
->>>> +here count buffers which have instantiated backing store, but have been marked
->>>> +with an equivalent of MADV_DONTNEED.
->>>> +
->>>>    - drm-active-<region>: <uint> [KiB|MiB]
->>>>
->>>>    The total size of buffers that are active on one or more engines.
->>>>
->>>> +One practical example of this can be presence of unsignaled fences in an GEM
->>>> +buffer reservation object. Therefore the active category is a subset of
->>>> +resident.
->>>> +
->>>>    Implementation Details
->>>>    ======================
->>>>
->>>> --
->>>> 2.44.0
->>>>
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
