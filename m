@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37B3971079
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 09:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D18D971077
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 09:57:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B8610E30F;
-	Mon,  9 Sep 2024 07:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F9810E311;
+	Mon,  9 Sep 2024 07:57:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UfI0ZIFu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ErijuGjc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7545910E311;
- Mon,  9 Sep 2024 07:57:07 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-374bfc395a5so2284012f8f.0; 
- Mon, 09 Sep 2024 00:57:07 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45C1210E311;
+ Mon,  9 Sep 2024 07:57:09 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3787f30d892so2469732f8f.0; 
+ Mon, 09 Sep 2024 00:57:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725868626; x=1726473426; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725868628; x=1726473428; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KT+qqbFYGAtbtTrUYL5Ww6m96yHmU9B4q+0V5LkESPY=;
- b=UfI0ZIFuN41qN3HGANVEqdQnmmJ29LzNJzYczFA7Zq0EHYR6H0BaSRsIvcR3IgXuO8
- va5sK7rkNzUKTgrvwuX6wCaLXOSlZmgSiFTZHPCzGG+LDqD1d2uEi8VewzL/bYYCu3SQ
- VP24DX7PIVhHhWA6Pxx8H7M46CdMObRwt9jxaPUVzfpw5P/OVgvvZYJCHarrnrXtiWbZ
- UJnWzqXi+4i8jH8//GfJc0myG6agV9FC/tgy4UXJOyRRXc8dSbYpYeYW1RYczYrbigcw
- o6+lLTVN47cpaKTZuzA8QQq1Qk3By+H01TETM0e9j4FbpbqaexIIK+1I544X0J7C6gFv
- rWjg==
+ bh=dqq6NzUB0QMlVgbuEigLtg4dQP3OsIeGqq5KqtK1ysk=;
+ b=ErijuGjcvonMiK+kOMgr1S3u9ZKezurhV+IOOZCISKYbEilXG+6I3tuhCuxPlK8cbc
+ b4oR/oAzMGPWcpr4d9DBQpnruxTD0h9Z/LYzrOoS5f1XwEBWOrL03rwKHR1dnN5i3mZH
+ 2uQQ1YDCIIgvscOpTFAa8ZrYT4tmAurn34n4in69RZwwRiGKEnDDRp+uv+sCuc8y/pOB
+ fI5LyKdHEdENEL/QQ5U0ehFsD/WXuqsRecF9bi5IDef0kFSKTOFtjGte9q9rTCGyBwiU
+ l9CUxp38cv/oj2Aa/ORac2UgAYHjBsRzrjJG+2T8SBum9O6Gp8phdXYu5XgTkLSjXa7j
+ zgYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725868626; x=1726473426;
+ d=1e100.net; s=20230601; t=1725868628; x=1726473428;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KT+qqbFYGAtbtTrUYL5Ww6m96yHmU9B4q+0V5LkESPY=;
- b=H7pQY13e4ILbHcF4nv9/x8V5b5chZtzENzvmoqWbSuoNTOd/3j768mxWyW/09cScJd
- 0Mipeua6iyRGAma3SZLwgApkNERUdGoLtd7sfGYzRNV7ZZgr8cfooNaNrYdVtATrqSzu
- r9Z2BN6p+m/J8PJsLDDdOrwg8Kdy0uxR/nPABx0GTP/VXnYXCNrLvvmB4fwlxgDysZiQ
- UdksuYye3VSoeaZd0BTpZEyT1cbjnE899KRCquVm5XBYk7VWlsn/OFcuGSCA/p0qRcTX
- YpEGGlRFU+6F8MisSVlbDrKgulByK6nSyVJEzcSDchQeDPtpHVtLIej++HQaFTc9YUq+
- 9Xwg==
+ bh=dqq6NzUB0QMlVgbuEigLtg4dQP3OsIeGqq5KqtK1ysk=;
+ b=iVB0HiWrNBn10oKYivE+nzFTN5fjr6bQirjap+A0e1/eaEZDwCXmsVPYdGRnV9Jl3b
+ 4PMJyZqA5DARxqAGaGXL1UdL87PxM408G3Go/hpRNcpNzl+TW19lBJXaiRtl8d95gziu
+ yeuVfK03nqkTla20pTS7+mx/KeY4TF/gzL3yA3D1AvoOi8RoLxUJ90VG1Ym2/ZCAWjMW
+ bgoV/5W3NuL6R3YW2tB+C0PhctWywJyvpypHw+Eg01yXjK4EwdKSqw+ocu755unjT9kO
+ PHutjAjlNWqS84lPMTALjot6ez/EP4m1Lk7gGa7f4EhVOM8M8Zh/TDxV9mBvwxss3Q/P
+ qgDw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWMmVhH/TaOMUGzI/J+ptV/a7v5y4eOGjIQiLi7KPEPX7naClvCXn9HBlLhRrWJjh5yJXRuJwYt/x0=@lists.freedesktop.org,
- AJvYcCWbMrPGQf0keNYu3t929PX42HbYjGFsY2vkBiNpBrtJumZ60NNgB+Wnj2pFVI9diUN8hTuyfmIaBsCk@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyYmANH7mcYOLiN87gpvkTFI+5/B/cU641K7ZqJFIxSNj6CULIo
- XS++EgcYoWz1fGokRkPaEgif3xGEE1+s4O5mGxNfzQG3RSZqhMvuNHJd9O+/9bE=
-X-Google-Smtp-Source: AGHT+IFPgZJXpjY5OiDYTjI08iQ6tSwI+j2L4W948bn3btzf96vyOqo41buC3MxpwztDunJSgtrhpQ==
-X-Received: by 2002:adf:a395:0:b0:374:adf1:9232 with SMTP id
- ffacd0b85a97d-378885f1a1bmr5455621f8f.19.1725868625748; 
- Mon, 09 Sep 2024 00:57:05 -0700 (PDT)
+ AJvYcCU7mll8n0fVhTAccZqd3mBETqILbpgGYWGkSADfFjpESKTez/amyTias/9/rINE0pudr5g6lRnl1Nfx@lists.freedesktop.org,
+ AJvYcCWxIVk7gRhgLRvFp0oGwLTvDdisK5c1E3JsSFgPL3ACbafLExPW9AmyrGhWGWnqnraUXvUGj1QgaFs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxSpAbw0b2VItdlQPYp9k+aSKu1EPSe6Ts+4Gjy+ItUD46DJIGn
+ 2zdg4+H7RYp2NYypQZy37CefEeJXA28pNVEv2w3ShpdpnZA6hIDK
+X-Google-Smtp-Source: AGHT+IF890nGYevdgrqUf7UHJ87LKcir0BiPP7YH573XiCGqtakWSqkvGhsMvBroQEOSJMo347DAIA==
+X-Received: by 2002:a5d:4fc7:0:b0:374:bad2:6a5e with SMTP id
+ ffacd0b85a97d-378895d4894mr6553002f8f.28.1725868627558; 
+ Mon, 09 Sep 2024 00:57:07 -0700 (PDT)
 Received: from fedora.iskraemeco.si ([193.77.86.250])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37895675b7esm5303001f8f.50.2024.09.09.00.57.04
+ ffacd0b85a97d-37895675b7esm5303001f8f.50.2024.09.09.00.57.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Sep 2024 00:57:04 -0700 (PDT)
+ Mon, 09 Sep 2024 00:57:06 -0700 (PDT)
 From: Uros Bizjak <ubizjak@gmail.com>
 To: x86@kernel.org, linux-crypto@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
@@ -64,14 +64,11 @@ To: x86@kernel.org, linux-crypto@vger.kernel.org,
  linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
  bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
  kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Cc: Uros Bizjak <ubizjak@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Subject: [PATCH RESEND v2 12/19] random32: Include <linux/prandom.h> instead
- of <linux/random.h>
-Date: Mon,  9 Sep 2024 09:53:55 +0200
-Message-ID: <20240909075641.258968-13-ubizjak@gmail.com>
+Cc: Uros Bizjak <ubizjak@gmail.com>, Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH RESEND v2 13/19] lib/rbtree-test: Include <linux/prandom.h>
+ instead of <linux/random.h>
+Date: Mon,  9 Sep 2024 09:53:56 +0200
+Message-ID: <20240909075641.258968-14-ubizjak@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240909075641.258968-1-ubizjak@gmail.com>
 References: <20240909075641.258968-1-ubizjak@gmail.com>
@@ -98,27 +95,23 @@ of <linux/prandom.h> from <linux/random.h>.
 
 Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
 ---
- lib/random32.c | 2 +-
+ lib/rbtree_test.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/random32.c b/lib/random32.c
-index 32060b852668..31fc2ca68856 100644
---- a/lib/random32.c
-+++ b/lib/random32.c
-@@ -36,7 +36,7 @@
- #include <linux/percpu.h>
- #include <linux/export.h>
- #include <linux/jiffies.h>
+diff --git a/lib/rbtree_test.c b/lib/rbtree_test.c
+index 41ae3c7570d3..8655a76d29a1 100644
+--- a/lib/rbtree_test.c
++++ b/lib/rbtree_test.c
+@@ -2,7 +2,7 @@
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/rbtree_augmented.h>
 -#include <linux/random.h>
 +#include <linux/prandom.h>
- #include <linux/sched.h>
- #include <linux/bitops.h>
  #include <linux/slab.h>
+ #include <asm/timex.h>
+ 
 -- 
 2.46.0
 
