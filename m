@@ -2,51 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6674972479
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 23:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6299724AE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 23:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C6710E6C8;
-	Mon,  9 Sep 2024 21:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E889210E6D6;
+	Mon,  9 Sep 2024 21:53:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LJsGXwku";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KhdqERav";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B019E10E6C8
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 21:22:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E4F7DA43E1E;
- Mon,  9 Sep 2024 21:22:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572A0C4CECC;
- Mon,  9 Sep 2024 21:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725916976;
- bh=DHoBHitf6XqutCBUKBaXtWsNw566Wkx2sWsCIpIA5kg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LJsGXwkujv9FcaUCCoYZ1vb9KTSfWqsJj5ePQ1LmXJQcHAWA3W79P2JrqFeV2s/jv
- zNpo7fEkKTXdoeSE8pIwdUfkTDHUyGup96gAcEv8vcsFbzEJEdgJXB1bNHnHAoIdba
- 79vNjt/214TimJH42afhMYFVIvEzsLuYsCmn5ovpua0UPfyX77+b8QBUGPNn+lqQiE
- UHgwigS7Ul8uJCa39r5p86jkELBsywN76Cy37sEQvhooGcOXXZRtIvp3UNN13g7MyK
- PGxRHlybeKE/Q2FRal8JAYjGqygbYThYS6i8M/3QPrO+dtYYbNnxt0UWDVzbTitAB3
- PwgfqJ860nxiw==
-Date: Mon, 9 Sep 2024 23:22:51 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Carlos Song <carlos.song@nxp.com>
-Cc: aisheng.dong@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, sumit.semwal@linaro.org, 
- christian.koenig@amd.com, linux-i2c@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Frank Li <frank.li@nxp.com>
-Subject: Re: [PATCH V4] i2c: imx-lpi2c: add eDMA mode support for LPI2C
-Message-ID: <7czathanmppyyw5bbno6gmsfqtn75py33lccyfu6klreh74n6o@d6347uzrxwj4>
-References: <20240829093157.2714736-1-carlos.song@nxp.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C918710E6D3;
+ Mon,  9 Sep 2024 21:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725918813; x=1757454813;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=aFfx2VT/roaQgZcNSItJL0vYjeWghwPYE6gPysDxpwY=;
+ b=KhdqERavh5EDy8K/7pffw/XK11JnTeW1RLT8t0W1YHkism5kpafCq1Ma
+ XKrgLRkqcV7vLmFR7MipxbIXM3SU7RVt16NAktmdoAu1MGkyrpB4dTATf
+ TNQUFwRGAw6qk9Wn27ceWAZVEUQKAEOBhELRxZD30uFfSaRPfQDLMZvt1
+ j/qTloIZDCA64DbiHXsP6+hj9JCBXOug3cjxjGxRy0jB7WUEvzzvE7zol
+ Bch4peVDttqVIx6tPERreItuCotBn/S7s3tkfmGnh6HbXZAT8RiqBkHF/
+ GsbiO4bcapC+RoUjq4ytXg8TJfB+ZS863VIcyc3UTyFJcl2oqfVCGXIRM g==;
+X-CSE-ConnectionGUID: mXby+5fqSnmc6of0BCocqQ==
+X-CSE-MsgGUID: m+wJUEmzQmOzqbyPFoEFQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24140825"
+X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; d="scan'208";a="24140825"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2024 14:53:32 -0700
+X-CSE-ConnectionGUID: DC1rtsjQSVOCUqzvsX0IlQ==
+X-CSE-MsgGUID: M+H7c/OiQvaiaW6CRlsdHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; d="scan'208";a="90089820"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 09 Sep 2024 14:53:32 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 9 Sep 2024 14:53:32 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 9 Sep 2024 14:53:31 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 9 Sep 2024 14:53:31 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 9 Sep 2024 14:53:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A3LG1vWNA/mZnkDDNYxd5pjXRnTg2i+h0fpbe+uQzCxzKOq9ZzV3nHo737+9G7Fqfe+46hAfQGL2/Y1Qq9hpFZ09wg0bTEMjA1200+nUKHNpSUCFQCfF1qHCtAzHCMKcgI3zVdFD8QLRr9cBYEqmObtEeVYzsM8w+drv+X20MyElvf+si7UZUrA58rs4s9tDzBgOxlsWlaOESlD0VjwHfyG6NaOAkEK0MFPkPHSROXJ00QpCC9dBF3yjj5XOeJ1BgHRyuUboTLvCItDfHqvkXSF6wI0+w0xr2zICg9Q4DyrtywgrTDEbSBI1SeP11Sw8n8B6hxs6StA/uSps+juocQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Cry5OLpR2Bw/6in+BgvxZl0jYC+cIDpP1w/UXGzVCbo=;
+ b=lCJMJzTttLhGnq3pQlcYr6D4W5gz/thSX6sKPRwO7L51FBrlMA9cmeDFn75MmKZhSOda3iQq/b6ZTeJDUDMfgvzSmF8/JdiiXBzdPxm+DtknZVkwfWrOBBQzOIdmUVsV36WEODciy9kNjqFODYaWDDPP45rXiWVWtWbve+kVe+ymIKAiCCc8lZfa43aoG3oP43Jw4vMChac9iMk1U0Kzpvh6r/6x0uXt2BXELf7wrZsJPKjvUmGopMhpi+pebEYTEaEBKun2qrAbZ/678WesYhhdrQkblxtGGC9FzKkD2a5/rvph/i8f4o/NnKQjm6+xztor5rXAf4DPm5mSKUs90g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17)
+ by SA1PR11MB8256.namprd11.prod.outlook.com (2603:10b6:806:253::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Mon, 9 Sep
+ 2024 21:53:28 +0000
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::8dd1:f169:5266:e16e]) by DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::8dd1:f169:5266:e16e%6]) with mapi id 15.20.7918.024; Mon, 9 Sep 2024
+ 21:53:28 +0000
+Date: Mon, 9 Sep 2024 14:53:23 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+CC: <airlied@gmail.com>, <daniel@ffwll.ch>, <lucas.demarchi@intel.com>,
+ <thomas.hellstrom@linux.intel.com>, <rodrigo.vivi@intel.com>,
+ <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <tursulin@ursulin.net>, <intel-xe@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <himal.prasad.ghimiray@intel.com>, <francois.dugast@intel.com>,
+ <aravind.iddamsetty@linux.intel.com>, <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v4 1/3] drm: Introduce device wedged event
+Message-ID: <20240909215323.GC5774@mdroper-desk1.amr.corp.intel.com>
+References: <20240906094225.3082162-1-raag.jadav@intel.com>
+ <20240906094225.3082162-2-raag.jadav@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240829093157.2714736-1-carlos.song@nxp.com>
+In-Reply-To: <20240906094225.3082162-2-raag.jadav@intel.com>
+X-ClientProxiedBy: SJ0PR05CA0067.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::12) To DS0PR11MB8182.namprd11.prod.outlook.com
+ (2603:10b6:8:163::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8182:EE_|SA1PR11MB8256:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ec3efa7-a668-45c6-18e7-08dcd119d633
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zSayf5seicPrc+ce9v3NOGAxi2oMKIJRYTvJk0UcfHUy1lXYBMaqznPqdanq?=
+ =?us-ascii?Q?7pylxqk5fIAQkddl2HYPaKM3xdjaq3Ia73KrqlJ967w8Z/xkr73ccBgmBOPz?=
+ =?us-ascii?Q?rbMCgsXVqYwFYN2gqGxkSDMrde/w/DuLi/SGoQS2huYYZkl2KdEJvcxMzrPv?=
+ =?us-ascii?Q?85uoiqtubXuOhVW8IgMj/Su8VOpatstz0LlCnw0qHQKnWqNiVF8MA9OtTwjr?=
+ =?us-ascii?Q?ObxRZhjOS85QdqnTF3Qppi3xcgIFB+0xmrO0I9TlVf27HGyHkPV/q65PUesi?=
+ =?us-ascii?Q?nfRENocZoTdbhbFiCH0OxO2UjfB2UEi+VQ0y/sS413ScewV6pFQ8UuzqW1tl?=
+ =?us-ascii?Q?9exqGV6LfoIiGMdfQ46Kj8FeX65Rd44/tTTsN79zSL3jNZrwYu2MIXLAyLHt?=
+ =?us-ascii?Q?LWU9PvF3M1DWUzO7I02YAPtCqE9aQA2bKWGxFtLKqxQ+HIcvWyuEqoyQsTTr?=
+ =?us-ascii?Q?Bo3VWt+2/Yy5vO4fZsh/ntvYCKm9VfB9rk/i/dYDYyIxlyLApg6Qm0r2fAVa?=
+ =?us-ascii?Q?wRIu5BHn7xlGqWQPAvapFRNOZVn5ZV710SZy92TK3mx6FrRnIcMrMyUXtmcU?=
+ =?us-ascii?Q?Ei1bUiHye6FnunDF3qaP9iBjFTIBYgIuxCAgg+y2OH5mbukZ+G8B4ruCnRTP?=
+ =?us-ascii?Q?rGsXEMu8oSPBa38TWnCO8ZTEr7+3RLb+ceJc4/ll4RQ8L8W/f4tRHRIm750d?=
+ =?us-ascii?Q?0VIAV5KGTm5QtUIipNOKapj7YS9SoNgfkk+GQ33ugxN/lRdsQRvg6UqdnqOI?=
+ =?us-ascii?Q?tveXYW1shcjP9pwQN297PxAoyngh/BNtVPK8mnT0dbIgYTQFu+6/cxY8ImZ4?=
+ =?us-ascii?Q?UChw6NCu/mtOA8JK99yZQGz76gQ704ArHS7L3vZKzVF3GtFuZwZJOcwCFSk9?=
+ =?us-ascii?Q?T0idIUs215Ye7YmlfAelIudhi3FQU5LQuy9VqVoqq0iBG25346x+T+J5dER4?=
+ =?us-ascii?Q?8Gi8hU6OLNbW2LaUQR6rb9fFI87g/qdYI2j51IjwztyHIT+IXnBxq+XA4oH4?=
+ =?us-ascii?Q?AnnaTp5Bo+/axXXIMQ4+QGv+I4Mu1/rIfTb3GHAF+YZo0wyv9yq+J6b2IFXA?=
+ =?us-ascii?Q?FTSEJq7pNJbHfP8FbJYsehe7snjxypztt3SO6WvUG5lOQ9qgShgrZfJbnNWj?=
+ =?us-ascii?Q?FOn7O+6s3REepngkHiQ1kRYHvl5NwCumFwVMiutXRZf4yOgJTT2548nbcUYN?=
+ =?us-ascii?Q?nP6Zn+DbEA5DLiHGj1dOqpbbZP8H252Sl1bqlq2k8MBUZQWDWddCnfruTLmE?=
+ =?us-ascii?Q?k63xCYoJTzlwX9AjQoHQIWOGaMQeJkmq4kgZj7y2sa39rxRuJc+iGNzAXi5u?=
+ =?us-ascii?Q?cxmC+5HyZF+HAJGSUeO1lUEi/OF8tt35mlbcpiX8nWgpQw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB8182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?y1E3wMq4QxNIlcw6Qu+5w+iU6Nt4p+pSoIMMtFNucJRDki0Wj7gPipGAzYLi?=
+ =?us-ascii?Q?MKg//qNtqun/SAzDMtJZfut0jrVL5gvEDthDRu6mCnBx8exVgCGTCosA3yZa?=
+ =?us-ascii?Q?pi6AfUDEWiNpPZnsjd4RyDQZDXjrKoHFRXEwiljn/UXrll7yrNXjSAGXpxBZ?=
+ =?us-ascii?Q?GdyW4P/7Mhys1EILPAfozfiGYs0MEWrz537x2CYfZMqr5rxe0CHkLn5oGK+I?=
+ =?us-ascii?Q?Yv3hv1LjhqiirqmaeC58YVpmPWnIk2ytqN4pJJgGYCs380iCCFgkzWnb7iWN?=
+ =?us-ascii?Q?0HYWluFr7Y4C89EPZp8z1n3/cQmwb6bGx4YfM2ispOyyvmlzATWlreb7eVv2?=
+ =?us-ascii?Q?K736kNaW2yFXWRuwYcqNjB+SJPEZ/OJJAAZIVdk3uQfQqr3nACcW93T8d22d?=
+ =?us-ascii?Q?ms1z/hT53ZOmS4n8Btd8+oVKI3yF5dx8Scxe2daHA/KVTd1gZamEZX2PSRFN?=
+ =?us-ascii?Q?YuhFXKohug/AoI3mwL9q/b8UyR1J4Maz6iISiLLamiudkEAaZcu+RKnyRq4q?=
+ =?us-ascii?Q?+5l05i4Sgovpcgr0zxCeY8G9my9GhjeKRbFx0JfnaUsleNxpP/1KJ6UUUxOF?=
+ =?us-ascii?Q?mwVsQekcNdOyRqjwdDvHALlv5JpzABTEIZTby8QVWb/2peSyDc/VQF+lUfd9?=
+ =?us-ascii?Q?4QAcNuxkFtfIYmJv1xKrIHhZt9NoK+mUFYu/QJ7FRkIoDYEg52vyRJqxcI7T?=
+ =?us-ascii?Q?+e+V74SXlSLTR0YlK1HPbgqmE6jLSkCi9Hq+VFeheZQpxgDZszZ7Te6qR6yW?=
+ =?us-ascii?Q?O+o8x7a5z07F4tGT2hONrQ5FeAnHCSpLm3go/pEFbDpFPaT4N7KqjVneNqaI?=
+ =?us-ascii?Q?WFd7MR1tzy9DiocO8By7tyCsLhnVNapkMNkzigGUVKOLVTgX5R5WsRS4FQAr?=
+ =?us-ascii?Q?kbCxiXSU2iTRtKFf7FubMGZjkTk24nR6KOEdaz3yEP3+ciLcACBtMFtrnVOT?=
+ =?us-ascii?Q?lyEd0YlFBphZCtWUWo4JVIdBB2N/7GuWsiJtgY+iHc0aEApRDwbR0CfghcMM?=
+ =?us-ascii?Q?b7WcM38xMSXjJiItErsLBBT8vJp+VwNCId16em+z/8XqaHkQqCLQdfcrSw3B?=
+ =?us-ascii?Q?49j1KH3W2usI7gnZGq5wCJp653uTjF2cXzMA6r7U3z76bP5Al99iZtTRyCTo?=
+ =?us-ascii?Q?0vtTQj55Feykk2PBIkgcqFfmiftVSjWUpY8VBbY0Dtv8QBh4wetX3UF1WR+2?=
+ =?us-ascii?Q?05AJxryI11kiMWodQIe+x8tibcGarDnjvBRxPGsZ69gAgtPFWDBEuCYqYR7D?=
+ =?us-ascii?Q?owkeSPfNOyfq/xIB7RW21eHG5SY1zJ0d0FXbAagKntpzQiVVXItANOzoJbN/?=
+ =?us-ascii?Q?nLQoI9XfJG80BxKlaVQ6gCrETWRw1esnMs8lvsbCbXkkNE2uGubKYC82HNAl?=
+ =?us-ascii?Q?vuhxotsnksbb+oFZBPaFmUiamZkfvqrX8ij8u4cabOHj/Dq6FEbHPpm5B4Qd?=
+ =?us-ascii?Q?Cbnch2pKNRWS0oQDku6LVtylIjIUy8EceuWsWi08xcxEzX3SwmkSnO8BcRQ/?=
+ =?us-ascii?Q?Pd5SmUV90Mjp0nfEJg8EIGCCtNENPDeos/qgoWxVc8aHiJHaSJ2vMqGzmhEw?=
+ =?us-ascii?Q?oCqo1AkXvaqjX1rN0CTPU7nA3rY03UYEl93N+9eHzvzxLzrkJ6ijJZb1ihq8?=
+ =?us-ascii?Q?Rw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ec3efa7-a668-45c6-18e7-08dcd119d633
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8182.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 21:53:28.7643 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MK+4lJGTuZG1HNtSuMm3HxHwri4DufWytmr6NUAsnAi7dIdKkVWv1SMQpCuxipwM+MdDygdp7dNI6lVnUu2mIbIooMsW4r8Z5uCv5cK91y0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8256
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,433 +185,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Carlos,
-
-Thanks for your patch, sorry for having taken so much time, looks
-good, just some nitpicks.
-
-...
-
-> diff --git a/drivers/i2c/busses/i2c-imx-lpi2c.c b/drivers/i2c/busses/i2c-imx-lpi2c.c
-> index 976d43f73f38..530ca5d76403 100644
-> --- a/drivers/i2c/busses/i2c-imx-lpi2c.c
-> +++ b/drivers/i2c/busses/i2c-imx-lpi2c.c
-> @@ -8,6 +8,8 @@
->  #include <linux/clk.h>
->  #include <linux/completion.h>
->  #include <linux/delay.h>
-> +#include <linux/dmaengine.h>
-> +#include <linux/dma-mapping.h>
-
-please sort in alphabetical order
-
->  #include <linux/err.h>
->  #include <linux/errno.h>
->  #include <linux/i2c.h>
-
-...
-
-> +struct lpi2c_imx_dma {
-> +	bool			using_pio_mode;
-> +	u8			rx_cmd_buf_len;
-> +	u8			*dma_buf;
-> +	u16			*rx_cmd_buf;
-> +	unsigned int	dma_len;
-> +	unsigned int	tx_burst_num;
-> +	unsigned int	rx_burst_num;
-> +	unsigned long	dma_msg_flag;
-> +	resource_size_t		phy_addr;
-> +	dma_addr_t		dma_tx_addr;
-> +	dma_addr_t		dma_addr;
-> +	enum dma_data_direction dma_direction;
-> +	struct dma_chan		*chan_tx;
-> +	struct dma_chan		*chan_rx;
-> +};
-
-The alignment here is a bit off
-
-...
-
-> +static bool is_use_dma(struct lpi2c_imx_struct *lpi2c_imx, struct i2c_msg *msg)
-> +{
-> +	if (!lpi2c_imx->can_use_dma)
-> +		return false;
-> +
-> +	/*
-> +	 * When the length of data is less than I2C_DMA_THRESHOLD,
-> +	 * cpu mode is used directly to avoid low performance.
-> +	 */
-> +	if (msg->len < I2C_DMA_THRESHOLD)
-> +		return false;
-> +
-> +	return true;
-
-You could do
-
-	return !(msg->len < I2C_DMA_THRESHOLD);
-
-Just a matter of taste, your choice.
-
-> +}
-> +
-> +static int lpi2c_imx_pio_xfer(struct lpi2c_imx_struct *lpi2c_imx,
-> +				 struct i2c_msg *msg)
-> +{
-> +	int ret;
-> +
-> +	reinit_completion(&lpi2c_imx->complete);
-> +
-> +	if (msg->flags & I2C_M_RD)
-> +		lpi2c_imx_read(lpi2c_imx, msg);
-> +	else
-> +		lpi2c_imx_write(lpi2c_imx, msg);
-> +
-> +	ret = lpi2c_imx_pio_msg_complete(lpi2c_imx);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-
-You could do
-
-	return lpi2c_imx_pio_msg_complete(lpi2c_imx);
-
-Purely taste, your choice, still.
-
-> +}
-
-...
-
-> +static void lpi2c_cleanup_rx_cmd_dma(struct lpi2c_imx_dma *dma)
-> +{
-> +	dmaengine_terminate_sync(dma->chan_tx);
-> +	dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
-> +				dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-
-alignment
-
-> +}
-
-...
-
-> +static int lpi2c_dma_rx_cmd_submit(struct lpi2c_imx_struct *lpi2c_imx)
-> +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	struct dma_chan *txchan = dma->chan_tx;
-> +	struct dma_async_tx_descriptor *rx_cmd_desc;
-> +	dma_cookie_t cookie;
-> +
-> +	dma->dma_tx_addr = dma_map_single(txchan->device->dev,
-> +						 dma->rx_cmd_buf,
-> +						 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-> +	if (dma_mapping_error(txchan->device->dev, dma->dma_tx_addr)) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
-
-/dma/DMA/ and it's valid for every time you have used "dma".
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	rx_cmd_desc = dmaengine_prep_slave_single(txchan, dma->dma_tx_addr,
-> +				 dma->rx_cmd_buf_len, DMA_MEM_TO_DEV,
-> +				 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-
-alignment.
-
-> +	if (!rx_cmd_desc) {
-> +		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
-> +				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-
-put dma_unmap_single() in a goto exit path.
-
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	cookie = dmaengine_submit(rx_cmd_desc);
-> +	if (dma_submit_error(cookie)) {
-> +		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
-> +				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-> +		dmaengine_desc_free(rx_cmd_desc);
-> +		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	dma_async_issue_pending(txchan);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lpi2c_dma_submit(struct lpi2c_imx_struct *lpi2c_imx)
-> +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	bool read = dma->dma_msg_flag & I2C_M_RD;
-> +	enum dma_data_direction dir = read ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> +	struct dma_chan *chan = read ? dma->chan_rx : dma->chan_tx;
-
-I generally prefer the assignment to be done after the
-declaration. It looks more clear.
-
-> +	struct dma_async_tx_descriptor *desc;
-> +	dma_cookie_t cookie;
-> +
-> +	dma->dma_direction = dir;
-> +	dma->dma_addr = dma_map_single(chan->device->dev,
-> +					     dma->dma_buf,
-> +					     dma->dma_len, dir);
-
-alignment is off.
-
-> +	if (dma_mapping_error(chan->device->dev, dma->dma_addr)) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
-
-/dma/DMA/
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	desc = dmaengine_prep_slave_single(chan, dma->dma_addr,
-> +					 dma->dma_len, read ?
-> +					 DMA_DEV_TO_MEM : DMA_MEM_TO_DEV,
-> +					 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-
-alignment off.
-
-> +	if (!desc) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
-> +		lpi2c_dma_unmap(dma);
-
-put lpi2c_dma_unmape under a goto exit path.
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	reinit_completion(&lpi2c_imx->complete);
-> +	desc->callback = lpi2c_dma_callback;
-> +	desc->callback_param = (void *)lpi2c_imx;
-
-the cast is not needed.
-
-> +	cookie = dmaengine_submit(desc);
-> +	if (dma_submit_error(cookie)) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
-> +		lpi2c_dma_unmap(dma);
-> +		dmaengine_desc_free(desc);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Can't switch to PIO mode when DMA have started transfer */
-> +	dma->using_pio_mode = false;
-> +
-> +	dma_async_issue_pending(chan);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lpi2c_imx_find_max_burst_num(unsigned int fifosize, unsigned int len)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = fifosize / 2; i > 0; i--) {
-> +		if (!(len % i))
-> +			break;
-> +	}
-
-braces are not needed
-
-> +
-> +	return i;
-> +}
-> +
-> +/*
-> + * For a highest DMA efficiency, tx/rx burst number should be calculated according
-> + * to the FIFO depth.
-> + */
-> +static void lpi2c_imx_dma_burst_num_calculate(struct lpi2c_imx_struct *lpi2c_imx)
-> +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	unsigned int cmd_num;
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD) {
-> +		/*
-> +		 * One RX cmd word can trigger DMA receive no more than 256 bytes.
-> +		 * The number of RX cmd words should be calculated based on the data
-> +		 * length.
-> +		 */
-> +		cmd_num = DIV_ROUND_UP(dma->dma_len, CHUNK_DATA);
-> +		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
-> +				 cmd_num);
-> +		dma->rx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->rxfifosize,
-> +				 dma->dma_len);
-> +	} else {
-> +		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
-> +				 dma->dma_len);
-
-Alignment is off.
-
-> +	}
-> +}
-
-...
-
-> +/*
-> + * When lpi2c in TX DMA mode we can use one DMA TX channel to write
-
-/in/is in/
-
-> + * data word into TXFIFO, but in RX DMA mode it is different.
+On Fri, Sep 06, 2024 at 03:12:23PM +0530, Raag Jadav wrote:
+> Introduce device wedged event, which will notify userspace of wedged
+> (hanged/unusable) state of the DRM device through a uevent. This is
+> useful especially in cases where the device is in unrecoverable state
+> and requires userspace intervention for recovery.
+> 
+> Purpose of this implementation is to be vendor agnostic. Userspace
+> consumers (sysadmin) can define udev rules to parse this event and
+> take respective action to recover the device.
+> 
+> Consumer expectations:
+> ----------------------
+> 1) Unbind driver
+> 2) Reset bus device
+> 3) Re-bind driver
+> 
+> v4: s/drm_dev_wedged/drm_dev_wedged_event
+>     Use drm_info() (Jani)
+>     Kernel doc adjustment (Aravind)
+> 
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> ---
+>  drivers/gpu/drm/drm_drv.c | 20 ++++++++++++++++++++
+>  include/drm/drm_drv.h     |  1 +
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 93543071a500..cca5d8295eb7 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -499,6 +499,26 @@ void drm_dev_unplug(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_dev_unplug);
+>  
+> +/**
+> + * drm_dev_wedged_event - generate a device wedged uevent
+> + * @dev: DRM device
 > + *
-> + * LPI2C MTDR register is a command data and transmit data register.
+> + * This generates a device wedged uevent for the DRM device specified by @dev,
+> + * on the basis of which, userspace may take respective action to recover the
+> + * device. Currently we only set WEDGED=1 in the uevent environment, but this
+> + * can be expanded in the future.
 
-/LPI2C/The LPI2C/
+Just to clarify, is "wedged" intended to always mean "the entire device
+is unusable" or are there cases where it would also get sent if only
+part of the device is in a bad state?  For example, using i915/Xe
+terminology, maybe the GT is dead but display is still working.  Or one
+GT is dead, but another is still alive.
 
-> + * Bit 8-10 is command data field and Bit 0-7 is transmit data field.
+Basically, is this event intended as a signal that userspace should stop
+trying to do _anything_ with the device, or just that the device has
+degraded functionality in some way (and maybe userspace can still do
+something useful if it's lucky)?  It would be good to clarify that in
+the docs here in case different drivers have different ideas about how
+this is expected to work.
 
-/Bit 8-10 is/Bits 8-10 are the/
-/Bit 0-7 is/ Bits 0-7 are the/
 
-> + * When the LPI2C master needs to read data, the data number to read
+Matt
 
-/data number/number of bytes/
-
-> + * should be set in transmit data field and RECV_DATA should be set
-> + * into the command data field to receive (DATA[7:0] + 1) bytes. The
-> + * recv data command word is made of RECV_DATA in command data field
-
-/in command/in the command/
-
-> + * and the data number to read in transmit data field. When the length
-
-/data number/number of bytes/
-
-> + * of data that needs to be read exceeds 256 bytes, recv data command
-
-/data that needs to be read/data to be read/
-
-> + * word needs to be written to TXFIFO multiple times.
-> + *
-> + * So when in RX DMA mode, the TX channel also needs to be configured
-> + * additionally to send RX command words and the RX command word need
-
-/additionally//
-/need/must/
-
-> + * be set in advance before transmitting.
 > + */
-> +static int lpi2c_imx_dma_xfer(struct lpi2c_imx_struct *lpi2c_imx,
-> +			 struct i2c_msg *msg)
-
-The alignemnt here is off (did you run checkpatch.pl?)
-
+> +void drm_dev_wedged_event(struct drm_device *dev)
 > +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	int ret;
+> +	char *event_string = "WEDGED=1";
+> +	char *envp[] = { event_string, NULL };
 > +
-> +	/* When DMA mode failed before transferring, CPU mode can be used. */
-
-/failed/fails/
-
-> +	dma->using_pio_mode = true;
+> +	drm_info(dev, "device wedged, generating uevent\n");
 > +
-> +	dma->dma_len = msg->len;
-> +	dma->dma_msg_flag = msg->flags;
-> +	dma->dma_buf = i2c_get_dma_safe_msg_buf(msg, I2C_DMA_THRESHOLD);
-> +	if (!dma->dma_buf)
-> +		return -ENOMEM;
-> +
-> +	ret = lpi2c_dma_config(lpi2c_imx);
-> +	if (ret) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "DMA Config Fail, error %d\n", ret);
-
-Please rephrase as:
-
-	... "Failed to configure DMA (%d)\n", ret);
-
-> +		goto disable_dma;
-> +	}
-> +
-> +	lpi2c_dma_enable(lpi2c_imx);
-> +
-> +	ret = lpi2c_dma_submit(lpi2c_imx);
-> +	if (ret) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "DMA submit Fail, error %d\n", ret);
-
-Please rephrase as:
-
-	... "DMA submission failed (%d)\n", ret);
-
-> +		goto disable_dma;
-> +	}
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD) {
-> +		ret = lpi2c_imx_alloc_rx_cmd_buf(lpi2c_imx);
-> +		if (ret) {
-> +			lpi2c_cleanup_dma(dma);
-> +			goto disable_dma;
-> +		}
-> +
-> +		ret = lpi2c_dma_rx_cmd_submit(lpi2c_imx);
-> +		if (ret) {
-> +			lpi2c_cleanup_dma(dma);
-> +			goto disable_dma;
-> +		}
-> +	}
-> +
-> +	ret = lpi2c_imx_dma_msg_complete(lpi2c_imx);
-> +	if (ret) {
-> +		if (dma->dma_msg_flag & I2C_M_RD)
-> +			lpi2c_cleanup_rx_cmd_dma(dma);
-> +		lpi2c_cleanup_dma(dma);
-> +		goto disable_dma;
-> +	}
-> +
-> +	/* When meet NACK in transfer, cleanup all DMA transfer */
-
-Please rephrase as:
-
-/* When encountering NACK in transfer, clean up all DMA transfers */
-
-> +	if ((readl(lpi2c_imx->base + LPI2C_MSR) & MSR_NDF) && !ret) {
-> +		if (dma->dma_msg_flag & I2C_M_RD)
-> +			lpi2c_cleanup_rx_cmd_dma(dma);
-> +		lpi2c_cleanup_dma(dma);
-> +		ret = -EIO;
-> +		goto disable_dma;
-> +	}
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD)
-> +		dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
-> +					 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-> +	lpi2c_dma_unmap(dma);
-> +
-
-you could add here:
-
-disable_cleanup_dma:
-	lpi2c_cleanup_dma(dma);
-
-and goto here instead of calling lpi2c_cleanup_dma(dma) at each
-phase.
-
-> +disable_dma:
-> +	/* Disable I2C DMA function */
-> +	writel(0, lpi2c_imx->base + LPI2C_MDER);
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD)
-> +		kfree(dma->rx_cmd_buf);
-> +
-> +	if (ret)
-> +		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, false);
-> +	else
-> +		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, true);
-
-I could leave a blank line here to put some space between
-if...else and return.
-
-> +	return ret;
+> +	kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
 > +}
+> +EXPORT_SYMBOL(drm_dev_wedged_event);
+> +
+>  /*
+>   * DRM internal mount
+>   * We want to be able to allocate our own "struct address_space" to control
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index cd37936c3926..eed5e54c74fd 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -489,6 +489,7 @@ void drm_put_dev(struct drm_device *dev);
+>  bool drm_dev_enter(struct drm_device *dev, int *idx);
+>  void drm_dev_exit(int idx);
+>  void drm_dev_unplug(struct drm_device *dev);
+> +void drm_dev_wedged_event(struct drm_device *dev);
+>  
+>  /**
+>   * drm_dev_is_unplugged - is a DRM device unplugged
+> -- 
+> 2.34.1
+> 
 
-...
-
-Thanks,
-Andi
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
