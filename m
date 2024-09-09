@@ -2,94 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D929711EE
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 10:27:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E945971267
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 10:45:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2460110E31B;
-	Mon,  9 Sep 2024 08:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB7F910E344;
+	Mon,  9 Sep 2024 08:45:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S5H8p8P4";
+	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="cmT4ASQK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38FD10E31B
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 08:27:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4C7205C5694;
- Mon,  9 Sep 2024 08:27:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B71C4CEC5;
- Mon,  9 Sep 2024 08:27:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725870469;
- bh=WyIvNqdNKKmL6xpa/BWrmRO2x83uTD/WR+8Mx0NufFI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=S5H8p8P41rAs6xS/Wctiio5eVJHHdY05UYVKBtZyLSqSv2dckUxe2V0ZrfA/icEhX
- N43P5pOpvuPHqy7wuz8TAGJ8n1VCtbkoMgaGLWp0smBWduZb3InNTSI9zqJAFGbNUg
- QxTDpTty3+7O5jB85tAVHKADErSkVbWdvYQrPUR9fWhC6cjWJX6z5urbtJumEiKp6s
- zNeecFXPPAbxcgl7csO2KSlDahyD7diQEeLOCGElJtSxn/sEeQGvzwfRp5dDSXq/mJ
- fPWm2K10SoKoOn/QU97TJjwtDxUvygsMGicfGhihqH80a/aP3Lcw2jyDo8S3JE8NxD
- R/KwkKDC481ww==
-Message-ID: <57eafe1a-2838-4380-88a9-4fa95d37bfb1@kernel.org>
-Date: Mon, 9 Sep 2024 10:27:41 +0200
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E430B10E331
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 08:45:32 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6193D40E0284; 
+ Mon,  9 Sep 2024 08:45:31 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id Smcyy78yUVRc; Mon,  9 Sep 2024 08:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1725871527; bh=cXRkoUjvWWukIVmvh78yiiN7jPJRZwpkNqUTm59HqO0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cmT4ASQKWcfjfWlXEKk+u8iG2po9B2WRedjfHPbSDnxtY20l8Cjn9kHpALbjL67yQ
+ 3Ev1yk4OPdnSkTO3SIfPbx++/z91dDlsD4eYvI4uprDoCIJFKJJMW3XWFsLrOzCsGV
+ e7gBX9T1o4u2BpanAWGiSa8m9SsieeIiTTzj1sLiwxr8j3fxRv1q9FmxiFOLn9HNoW
+ GWK2HkGXACnGX2leKTMXwagoP08GOOdgkOhqJb9StnOYG6xZQwY/r1cpoyMROQWByA
+ tDImLNBJuvi5VQfow6Z/1e69Yzq+uB1vHyDsIEhemFZFkIkLEBPYXwuWmkNnAnkcOf
+ PbfC/j5MkCEqD8dtwyPzDmpjYmA05nmfZsndbrsc3Jt8nCUk6MaO7xp7u54KCqeEjM
+ 7ZTRYT24XiODsSRR1bL8me80E5kl3l7o1E0cEGTglDnwAD71PSTrLyqWJvk0qp+9J6
+ XqL+8RTdC6ZnFDRhS83wMDiAXELuAGFSCM5M8r5j8dqoOVkGdNPYxvzkN2yvlQIZq5
+ k3QdRRONsbXXroNIvEW8GpS8DicMPxHcVT3+UzA6nkJ1vUmHH13vdQbtren4J9z83s
+ GrJ82j8vDsX1KN5dTFuexmW95sdxTRxVLJiPanfWTo3I1plq+2neqaGPSfif2TOGj5
+ nTfnCtaxVeZLChwhjDyIhZAw=
+Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 19C4F40E0263;
+ Mon,  9 Sep 2024 08:45:13 +0000 (UTC)
+Date: Mon, 9 Sep 2024 10:45:06 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Cc: linux-stm32@st-md-mailman.stormreply.com,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to
+ `clk_hw_unregister'
+Message-ID: <20240909084506.GBZt61kqqGVUTqjKc4@fat_crate.local>
+References: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
+ <544a633e-de53-493d-9c29-de8ff52630da@foss.st.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/exynos: gsc: Fix typo in comment
-To: Shen Lichuan <shenlichuan@vivo.com>, inki.dae@samsung.com,
- sw0312.kim@samsung.com, kyungmin.park@samsung.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: alim.akhtar@samsung.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-References: <20240909080620.35245-1-shenlichuan@vivo.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240909080620.35245-1-shenlichuan@vivo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <544a633e-de53-493d-9c29-de8ff52630da@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,28 +82,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/09/2024 10:06, Shen Lichuan wrote:
-> Replace 'initailization' with 'initialization' in the comment.
+On Mon, Sep 09, 2024 at 08:57:57AM +0200, Raphael Gallais-Pou wrote:
+> Arnd Bergmann sent a patch regarding this issue on x86 that I merged several
+> weeks ago.
 > 
-> Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_gsc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> index 1b111e2c3347..fc5fc65823c6 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> @@ -1286,7 +1286,7 @@ static int gsc_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	/* context initailization */
-> +	/* context initialization */
+> https://lore.kernel.org/lkml/20240719075454.3595358-1-arnd@kernel.org/
+> https://lore.kernel.org/all/c3d0757a-07c0-4f83-9f06-c3ad205aa1e9@foss.st.com/
 
-@vivo.com, please fix all typos given subsystem in one run. One patch or
-few patches in one patchset. Not one typo per patch.
+Thanks.
 
-Best regards,
-Krzysztof
+> Now, I'm not familiar with PowerPC architecture and toolchains, but I think
+> this patch should fix your problem.  Do you have the above fixup in your
+> tree ? If not please try it.
 
+Not PowerPC - it is an x86 build. I do random config builds as part of build
+testing and when a driver depends on COMPILE_TEST, it does gets built in some
+.configs. So some may fail, as in this case.
+
+So I think you should send that patch to Linus now so that such randconfig
+builds do not fail anymore.
+
+Unfortunately, I cannot test it right now because I've removed the triggering
+randconfigs but when I hit it again, I'll make sure to apply yours.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
