@@ -2,54 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E735970E00
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 08:40:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49363970E03
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 08:40:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D680810E2D2;
-	Mon,  9 Sep 2024 06:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C3B10E2D3;
+	Mon,  9 Sep 2024 06:40:34 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UFzyTmpL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="upzODjPH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UFzyTmpL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="upzODjPH";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6BF410E2D2;
- Mon,  9 Sep 2024 06:40:14 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-03 (Coremail) with SMTP id rQCowAC3vn5BmN5mcIQUAg--.35475S2;
- Mon, 09 Sep 2024 14:40:09 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, alvin.lee2@amd.com,
- wenjing.liu@amd.com, roman.li@amd.com, dillon.varone@amd.com,
- moadhuri@amd.com, aurabindo.pillai@amd.com, akpm@linux-foundation.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ma Ke <make24@iscas.ac.cn>,
- stable@vger.kernel.org
-Subject: [PATCH RESEND] drm/amd/display: Add null check before access structs
- in dcn32_enable_phantom_plane
-Date: Mon,  9 Sep 2024 14:40:00 +0800
-Message-Id: <20240909064000.1198047-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0FD10E2D3
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 06:40:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9A18821BE4;
+ Mon,  9 Sep 2024 06:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725864031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=r/8pmPEGTLS0nYwfthKxie8srEPnbPhRDriy+MIC0a4=;
+ b=UFzyTmpLhlTyZSxGJsSB1a1EFJZ7bl9Hc1i3DLg4TIlxgiDQPIQwqzh3+JRoWDq+Ypjqzb
+ 9NkNuXrzM0bDXeR7qGsCPTtHBankcwCcavFVWBJdhVB+HJmL6uhBBzfNPC+eZUN5V9PiG/
+ 467ncPyw0/RISwrieKw50Zj5m0vJAPU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725864031;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=r/8pmPEGTLS0nYwfthKxie8srEPnbPhRDriy+MIC0a4=;
+ b=upzODjPHHbVRS9lE2eOFzOmhdRCZwq5yUdUomrXUST6hPCbgaAXqUxgbRltRMF143lINOR
+ 8xoV3Qu8rktojgBw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=UFzyTmpL;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=upzODjPH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725864031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=r/8pmPEGTLS0nYwfthKxie8srEPnbPhRDriy+MIC0a4=;
+ b=UFzyTmpLhlTyZSxGJsSB1a1EFJZ7bl9Hc1i3DLg4TIlxgiDQPIQwqzh3+JRoWDq+Ypjqzb
+ 9NkNuXrzM0bDXeR7qGsCPTtHBankcwCcavFVWBJdhVB+HJmL6uhBBzfNPC+eZUN5V9PiG/
+ 467ncPyw0/RISwrieKw50Zj5m0vJAPU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725864031;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=r/8pmPEGTLS0nYwfthKxie8srEPnbPhRDriy+MIC0a4=;
+ b=upzODjPHHbVRS9lE2eOFzOmhdRCZwq5yUdUomrXUST6hPCbgaAXqUxgbRltRMF143lINOR
+ 8xoV3Qu8rktojgBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31E9013A3A;
+ Mon,  9 Sep 2024 06:40:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id LeyLCl+Y3mZ2TgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 09 Sep 2024 06:40:31 +0000
+Message-ID: <78cf5ef4-09a1-4f7e-ab88-cbffdd967af3@suse.de>
+Date: Mon, 9 Sep 2024 08:40:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowAC3vn5BmN5mcIQUAg--.35475S2
-X-Coremail-Antispam: 1UD129KBjvJXoWrtFyftrykJF1fAr1fGrWktFb_yoW8Jryfpw
- 43Gayakw1DJrnFga9xJ3WjqFZxW3WvkFZ7KrZIywna9ayjyr93C3s8ur9xCrWUGFyjkw43
- tF1IyrsrKF4qyrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBI14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
- 0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28Icx
- kI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
- xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42
- IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
- 6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
- CY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRRH7K3UUUUU==
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bochs: use ioremap_wc() to map framebuffer during
+ driver probing
+To: Yan Zhao <yan.y.zhao@intel.com>, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, virtualization@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Kevin Tian <kevin.tian@intel.com>
+References: <20240909051529.26776-1-yan.y.zhao@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240909051529.26776-1-yan.y.zhao@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 9A18821BE4
+X-Spam-Level: 
+X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[intel.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org,vger.kernel.org];
+ RCPT_COUNT_TWELVE(0.00)[14]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -6.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,29 +153,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In dcn32_enable_phantom_plane, we should better check null pointer before
-accessing various structs.
+Hi
 
-Cc: stable@vger.kernel.org
-Fixes: 235c67634230 ("drm/amd/display: add DCN32/321 specific files for Display Core")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c | 2 ++
- 1 file changed, 2 insertions(+)
+Am 09.09.24 um 07:15 schrieb Yan Zhao:
+> Use ioremap_wc() instead of ioremap() to map framebuffer during driver
+> probing phase.
+>
+> Using ioremap() results in a VA being mapped with PAT=UC-. Additionally,
+> on x86 architectures, ioremap() invokes memtype_reserve() to reserve the
+> memory type as UC- for the physical range. This reservation can cause
+> subsequent calls to ioremap_wc() to fail to map the VA with PAT=WC to the
+> same physical range for framebuffre in ttm_kmap_iter_linear_io_init().
+> Consequently, the operation drm_gem_vram_bo_driver_move() ->
+> ttm_bo_move_memcpy() -> ttm_move_memcpy() becomes significantly slow on
+> platforms where UC memory access is slow.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-index 969658313fd6..1d1b40d22f42 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
-@@ -1650,6 +1650,8 @@ static void dcn32_enable_phantom_plane(struct dc *dc,
- 			phantom_plane = prev_phantom_plane;
- 		else
- 			phantom_plane = dc_state_create_phantom_plane(dc, context, curr_pipe->plane_state);
-+		if (!phantom_plane)
-+			return;
- 
- 		memcpy(&phantom_plane->address, &curr_pipe->plane_state->address, sizeof(phantom_plane->address));
- 		memcpy(&phantom_plane->scaling_quality, &curr_pipe->plane_state->scaling_quality,
+I've noticed this too and pushed a major update that replaces the entire 
+memory management. [1]
+
+The patch is still welcome, I think, but you may want to rebase onto the 
+latest drm-misc-next branch. [2]
+
+Best regards
+Thomas
+
+[1] https://patchwork.freedesktop.org/series/138086/
+[2] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next
+
+>
+> Here's the performance data measured in a guest on the physical machine
+> "Sapphire Rapids XCC".
+> With host KVM honors guest PAT memory types, the effective memory type
+> for this framebuffer range is
+> - WC when ioremap_wc() is used in driver probing phase
+> - UC- when ioremap() is used.
+>
+> The data presented is an average from 10 execution runs.
+> The memcpy range for the data is
+> mem->bus.offset=0xfd000000, mem->size=0x3e8000.
+>
+> --------------------------------------------------------------
+>                                |      in bochs_hw_init()       |
+>                                |    ioremap()   | ioremap_wc() |
+> ------------------------------|----------------|--------------|
+>      cycles of                 |    2227.4M     |   17.8M      |
+> drm_gem_vram_bo_driver_move() |                |              |
+> ------------------------------|----------------|--------------|
+>      time of                   |    1.24s       |   0.01s      |
+> drm_gem_vram_bo_driver_move() |                |              |
+> --------------------------------------------------------------
+>
+> Reported-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Closes: https://lore.kernel.org/all/87jzfutmfc.fsf@redhat.com/#t
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> ---
+>   drivers/gpu/drm/tiny/bochs.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+> index 31fc5d839e10..6414f0a72f6a 100644
+> --- a/drivers/gpu/drm/tiny/bochs.c
+> +++ b/drivers/gpu/drm/tiny/bochs.c
+> @@ -261,7 +261,7 @@ static int bochs_hw_init(struct drm_device *dev)
+>   	if (pci_request_region(pdev, 0, "bochs-drm") != 0)
+>   		DRM_WARN("Cannot request framebuffer, boot fb still active?\n");
+>   
+> -	bochs->fb_map = ioremap(addr, size);
+> +	bochs->fb_map = ioremap_wc(addr, size);
+>   	if (bochs->fb_map == NULL) {
+>   		DRM_ERROR("Cannot map framebuffer\n");
+>   		return -ENOMEM;
+
 -- 
-2.25.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
