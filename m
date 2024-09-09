@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEB6970E3D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 08:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26657970EA4
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 08:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43F0410E2D8;
-	Mon,  9 Sep 2024 06:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA4110E2DA;
+	Mon,  9 Sep 2024 06:54:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="R04FXvxd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i8uYuYiO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADB3B10E2D8
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 06:49:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1725864533; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KDv3TGOOMlHAoFFRw2lgcKsMgU1s5CQciN6S3aWQIml9j041/LYA7sso4IO9z8D7Jlk4nGnwJ1mRyaozgcctr7NYbWD5KOkC0VwhbVDr4+3sdH/yr4hzlaRL0iNT3N9FdxUBmzu/YrxcSNlpw024POr/IDAo7rCH8ckdQK9q+p0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1725864533;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=URFnd2Z77POtYk8MmvC3Vl5tyHzCCAlEp2xTpMqHwVQ=; 
- b=SUVFS/M97CeUNDsPQAd4nOejlMtb/IkBH9b/sYqhlIEUNdbBKHXce5S9n2pxrS5TnhNDvnK4iCqNq7THGHdJ34d6qibbKBy+Kr/wXpUvWqkhnRsH9tdfUHXkzc08+DgjkPmwVlWjB9j3Grxi8FNT3KI5b3L+2Od72G7LpO/FG4w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
- dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725864533; 
- s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=URFnd2Z77POtYk8MmvC3Vl5tyHzCCAlEp2xTpMqHwVQ=;
- b=R04FXvxd2ftbXhUwDGLUf5VqSsBvv6kzxFPDsMRC4+rGnR5K9kTmyWbARB/fAjjJ
- 8argKeQVexvfyrFjzXc8urz0Fp4XmcDTlZ+EY31MngDxLex+IGvJsDZaaQ9H0szfCoB
- 6Lm6i5+zd8V1yDp+sOZAvVWdbOTYvcwyKKYNDkIY=
-Received: by mx.zohomail.com with SMTPS id 172586453261846.07654823838766;
- Sun, 8 Sep 2024 23:48:52 -0700 (PDT)
-From: Mary Guillemard <mary.guillemard@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Christopher Healy <healych@amazon.com>, kernel@collabora.com,
- Mary Guillemard <mary.guillemard@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C2B10E2DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 06:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725864885; x=1757400885;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5CUtr5c0Taa2cv5diyyUItk9tTuJ/bOmNRRQPiYqb3E=;
+ b=i8uYuYiOpFRXbPsVKPQNbPHnQfNh+NnhEsxpJQqCm0j0zb5KJdUPZVeQ
+ ziB4LvH7Vm8Tvez1aCXLODYBjeC0zntWGhTUUm4N+/9vDREX+2yXEWrkZ
+ O8Wt5xvOilnYqVGaW0KXs/8xaPdjNvsFsXckAPPaSsCi65v0T8wzyZb2x
+ 8FsCbn5HzLAdZVOeN0mwwgAr0JLI+gaDRHcUTiY217R12LPugE0iaLiuq
+ 9oxKCUHvsB1gzK5SRlD0mienY8Rmj0956TNqU1MxTir7Sbtc9E9r2zy2L
+ gy4NPVkut9yUbx4DJ31R9+Ibh2Ff9PQaZ1d5rR1sXkAmZdj7UM+s3XsGu g==;
+X-CSE-ConnectionGUID: MlcSpetSQeCJU4h7h2V5sA==
+X-CSE-MsgGUID: E07wp8ZKSdyfGNplKukPSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24088214"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="24088214"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2024 23:54:44 -0700
+X-CSE-ConnectionGUID: BS0doVCZT46N2bu1t/06Ew==
+X-CSE-MsgGUID: Aie8GE95S4SuzoK+HwL02A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="71368229"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 08 Sep 2024 23:54:42 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1snYII-000EQU-2F;
+ Mon, 09 Sep 2024 06:54:38 +0000
+Date: Mon, 9 Sep 2024 14:54:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 2/2] drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO dev
- query
-Date: Mon,  9 Sep 2024 08:48:21 +0200
-Message-ID: <20240909064820.34982-4-mary.guillemard@collabora.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240909064820.34982-2-mary.guillemard@collabora.com>
-References: <20240909064820.34982-2-mary.guillemard@collabora.com>
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH v3] drm/edid: add CTA Video Format Data Block support
+Message-ID: <202409091450.S7bzV2ho-lkp@intel.com>
+References: <20240906224307.423250-1-hamza.mahfooz@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240906224307.423250-1-hamza.mahfooz@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,190 +78,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose allowed group priorities with a new device query.
+Hi Hamza,
 
-This new uAPI will be used in Mesa to properly report what priorities a
-user can use for EGL_IMG_context_priority.
+kernel test robot noticed the following build errors:
 
-Since this extends the uAPI and because userland needs a way to
-advertise priorities accordingly, this also bumps the driver minor
-version.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11-rc7 next-20240906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-v2:
-- Remove drm_panthor_group_allow_priority_flags definition
-- Document that allowed_mask is a bitmask of drm_panthor_group_priority
+url:    https://github.com/intel-lab-lkp/linux/commits/Hamza-Mahfooz/drm-edid-add-CTA-Video-Format-Data-Block-support/20240907-064359
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240906224307.423250-1-hamza.mahfooz%40amd.com
+patch subject: [PATCH v3] drm/edid: add CTA Video Format Data Block support
+config: arm-nhk8815_defconfig (https://download.01.org/0day-ci/archive/20240909/202409091450.S7bzV2ho-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091450.S7bzV2ho-lkp@intel.com/reproduce)
 
-v3:
-- Use BIT macro in panthor_query_group_priorities_info
-- Add r-b from Steven Price and Boris Brezillon
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091450.S7bzV2ho-lkp@intel.com/
 
-Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_drv.c | 61 ++++++++++++++++++---------
- include/uapi/drm/panthor_drm.h        | 22 ++++++++++
- 2 files changed, 64 insertions(+), 19 deletions(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 7b1db2adcb4c..0d825d63d712 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -170,6 +170,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_timestamp_info, current_timestamp), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_group_priorities_info, pad), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
-@@ -777,11 +778,41 @@ static int panthor_query_timestamp_info(struct panthor_device *ptdev,
- 	return 0;
- }
- 
-+static int group_priority_permit(struct drm_file *file,
-+				 u8 priority)
-+{
-+	/* Ensure that priority is valid */
-+	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
-+		return -EINVAL;
-+
-+	/* Medium priority and below are always allowed */
-+	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
-+		return 0;
-+
-+	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
-+	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
-+		return 0;
-+
-+	return -EACCES;
-+}
-+
-+static void panthor_query_group_priorities_info(struct drm_file *file,
-+						struct drm_panthor_group_priorities_info *arg)
-+{
-+	int prio;
-+
-+	for (prio = PANTHOR_GROUP_PRIORITY_REALTIME; prio >= 0; prio--) {
-+		if (!group_priority_permit(file, prio))
-+			arg->allowed_mask |= BIT(prio);
-+	}
-+}
-+
- static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
- {
- 	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
- 	struct drm_panthor_dev_query *args = data;
- 	struct drm_panthor_timestamp_info timestamp_info;
-+	struct drm_panthor_group_priorities_info priorities_info;
- 	int ret;
- 
- 	if (!args->pointer) {
-@@ -798,6 +829,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
- 			args->size = sizeof(timestamp_info);
- 			return 0;
- 
-+		case DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO:
-+			args->size = sizeof(priorities_info);
-+			return 0;
-+
- 		default:
- 			return -EINVAL;
- 		}
-@@ -818,6 +853,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
- 
- 		return PANTHOR_UOBJ_SET(args->pointer, args->size, timestamp_info);
- 
-+	case DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO:
-+		panthor_query_group_priorities_info(file, &priorities_info);
-+		return PANTHOR_UOBJ_SET(args->pointer, args->size, priorities_info);
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -1037,24 +1076,6 @@ static int panthor_ioctl_group_destroy(struct drm_device *ddev, void *data,
- 	return panthor_group_destroy(pfile, args->group_handle);
- }
- 
--static int group_priority_permit(struct drm_file *file,
--				 u8 priority)
--{
--	/* Ensure that priority is valid */
--	if (priority > PANTHOR_GROUP_PRIORITY_REALTIME)
--		return -EINVAL;
--
--	/* Medium priority and below are always allowed */
--	if (priority <= PANTHOR_GROUP_PRIORITY_MEDIUM)
--		return 0;
--
--	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
--	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
--		return 0;
--
--	return -EACCES;
--}
--
- static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
- 				      struct drm_file *file)
- {
-@@ -1436,6 +1457,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  * PanCSF driver version:
-  * - 1.0 - initial interface
-  * - 1.1 - adds DEV_QUERY_TIMESTAMP_INFO query
-+ * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
-+ *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1449,7 +1472,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.desc = "Panthor DRM driver",
- 	.date = "20230801",
- 	.major = 1,
--	.minor = 1,
-+	.minor = 2,
- 
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index 011a555e4674..87c9cb555dd1 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -263,6 +263,11 @@ enum drm_panthor_dev_query_type {
- 
- 	/** @DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO: Query timestamp information. */
- 	DRM_PANTHOR_DEV_QUERY_TIMESTAMP_INFO,
-+
-+	/**
-+	 * @DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO: Query allowed group priorities information.
-+	 */
-+	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
- };
- 
- /**
-@@ -399,6 +404,23 @@ struct drm_panthor_timestamp_info {
- 	__u64 timestamp_offset;
- };
- 
-+/**
-+ * struct drm_panthor_group_priorities_info - Group priorities information
-+ *
-+ * Structure grouping all queryable information relating to the allowed group priorities.
-+ */
-+struct drm_panthor_group_priorities_info {
-+	/**
-+	 * @allowed_mask: Bitmask of the allowed group priorities.
-+	 *
-+	 * Each bit represents a variant of the enum drm_panthor_group_priority.
-+	 */
-+	__u8 allowed_mask;
-+
-+	/** @pad: Padding fields, MBZ. */
-+	__u8 pad[3];
-+};
-+
- /**
-  * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
-  */
+>> ld.lld: error: undefined symbol: __aeabi_uldivmod
+   >>> referenced by drm_edid.c:5470 (drivers/gpu/drm/drm_edid.c:5470)
+   >>>               drivers/gpu/drm/drm_edid.o:(_drm_edid_connector_add_modes) in archive vmlinux.a
+   >>> referenced by drm_edid.c:5508 (drivers/gpu/drm/drm_edid.c:5508)
+   >>>               drivers/gpu/drm/drm_edid.o:(_drm_edid_connector_add_modes) in archive vmlinux.a
+   >>> referenced by drm_edid.c:5509 (drivers/gpu/drm/drm_edid.c:5509)
+   >>>               drivers/gpu/drm/drm_edid.o:(_drm_edid_connector_add_modes) in archive vmlinux.a
+   >>> referenced 1 more times
+   >>> did you mean: __aeabi_uidivmod
+   >>> defined in: vmlinux.a(arch/arm/lib/lib1funcs.o)
+
 -- 
-2.46.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
