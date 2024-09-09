@@ -2,173 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0003C971ABF
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36C6971AF4
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4084410E56A;
-	Mon,  9 Sep 2024 13:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE0B210E56C;
+	Mon,  9 Sep 2024 13:26:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="niw5kYSD";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="a9SiEeCb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9258110E56A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 13:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725888073; x=1757424073;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- in-reply-to:mime-version;
- bh=uwUvw/v/vgATc+wBmY4eI9cvOefTd/HIpghB41CNa3M=;
- b=niw5kYSD7Zk9u/nwxtBxkNZ2zIC0SO+KDMtkd47tyXGHkzD0ViEIQSVa
- C1Xv7M/b2d5HboMNKiU3vGZ/pZ7Yx7SKW6fie3+FnzlYlX1x14BusW3cv
- Ggje20vm8cvCIkKj3izeEbSFVnXXkybVaXU5eRhp2UF7VHoetQ++/iIMN
- aASnjbJutOhL1LV2edLz4SgEi34QxUKh91tWgMWC4+TTURZTpzvSxuNqf
- AKHh/XLs32xif+fScUoGm12JwRriUSKate+17WNswTnOVPiIjqydm+zKD
- FRSvRrX9gl+yKU+Jr2WRzj4zzMZOBwJmqL2irhCSmr7Qps/6rhNUj1aRp w==;
-X-CSE-ConnectionGUID: BqCQdBVpSneokFLCvUrv+Q==
-X-CSE-MsgGUID: Jwwmjp51TquGOyD3ad5sRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24693205"
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; d="scan'208";a="24693205"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2024 06:21:13 -0700
-X-CSE-ConnectionGUID: vvWuhZORRM+uX861DtLkDw==
-X-CSE-MsgGUID: 7aEMbCfGQgisIRoyu1qAlQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; d="scan'208";a="66675802"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 09 Sep 2024 06:21:13 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 9 Sep 2024 06:21:12 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 9 Sep 2024 06:21:12 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 9 Sep 2024 06:21:12 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 9 Sep 2024 06:21:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fx/xdz6ljp36IWDHZ6CevOML/lWVKA9nGW93qbe8E6c5css38DWdi8SJXL/4DFS1kGBwjX8P/Qb7ql1NTTy3Q7oU+Rwsluw6ay46OAxP37mS98PIilfNoc6X6T5yYN4dGTb+xmHiPElw/cWBGrjJrrgFP95lak2+QYxB1dwXlKWpBy0DDrxUCt6aA+X4QSpf5R/eVk409th/6aKA69d3nJDGMsP1+/N3GwRpQfgasTyYNjqpzkBZvWdVdgOLQ7Rf+n+RM/B/JpF1NXT0YOoVmsOPn44mVAYwdy/bqcrhGvMh6C+1FZv68POlQ19LVUsYnd4DlDhDovQjerHjRgkkEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BPrHCYcy0anBdislJnDBACEIv9hHvJ499aUoIA/vQCk=;
- b=DTJss6BuiOoAorTOH+3at7mLzLmVhdBtOpMAj8tajbmFYjBT1fyvMGkPP7ef4/4XsXiRKNAymYn9OwClDD6mHBvgNlJxyzJkLD2OQzXZggTgVQCOJgDvKsHPV1qsOk0+4mCNlRKrH4mEvML6pBf2r7cJO/uznp8Ywja9TMzzuK2w2jVYtbzuG4pYdZ5IRX6KdtyTyCJB4xfAHIgCsxcUuMbfEYd6R1MLIS6m/XpWQgTJar8miAHUpCnqNh/r3x4ExIEv/lXd0ayaf538LLACOsQSpkAFfYL3hXV/D/7fPhX7RKT4m8cTCtb7c/2EutNfVvpad1YTqbPBCTkntM+eng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS7PR11MB5966.namprd11.prod.outlook.com (2603:10b6:8:71::6) by
- DM4PR11MB6093.namprd11.prod.outlook.com (2603:10b6:8:b0::22) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7939.17; Mon, 9 Sep 2024 13:21:09 +0000
-Received: from DS7PR11MB5966.namprd11.prod.outlook.com
- ([fe80::e971:d8f4:66c4:12ca]) by DS7PR11MB5966.namprd11.prod.outlook.com
- ([fe80::e971:d8f4:66c4:12ca%5]) with mapi id 15.20.7939.017; Mon, 9 Sep 2024
- 13:21:09 +0000
-Date: Mon, 9 Sep 2024 21:19:12 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-CC: <kraxel@redhat.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <virtualization@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <pbonzini@redhat.com>, <seanjc@google.com>,
- <kvm@vger.kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, Kevin Tian
- <kevin.tian@intel.com>
-Subject: Re: [PATCH] drm/bochs: use ioremap_wc() to map framebuffer during
- driver probing
-Message-ID: <Zt710MSzAAcVEw0n@yzhao56-desk.sh.intel.com>
-References: <20240909051529.26776-1-yan.y.zhao@intel.com>
- <78cf5ef4-09a1-4f7e-ab88-cbffdd967af3@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <78cf5ef4-09a1-4f7e-ab88-cbffdd967af3@suse.de>
-X-ClientProxiedBy: SI2P153CA0036.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:190::11) To DS7PR11MB5966.namprd11.prod.outlook.com
- (2603:10b6:8:71::6)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0019A10E56C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 13:26:11 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4247F20009;
+ Mon,  9 Sep 2024 13:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1725888370;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rj6u0uCaoI3E5WwnapVPSNbytM7qHz8or5YX3E1UxJY=;
+ b=a9SiEeCbEt7y9wtjVZRwYF9sruJzzmU/+QkpsIRozfrDZc8ooyrKg54tjwS1hxNCgx6NQO
+ LieWvFAU0B01RkOiZqR/r64x4ZfckEVATp/BR9dsE2BrvK4pSLUlV9au+PH3vyS7LMx0ad
+ KBKXPGvDKGNCfK13aCui1wN47vsRpm3gTkYbyENmKFwT0ID8/cKXNhDzFpBENCE9XuiqSf
+ yQNbfBjGAJN9Zt5xZNYEWOvvJfeGrTfbQLhkbIJn0iNr44dtnI9P+xte66XuHSgctGnuZK
+ piNRajxmxHmYsUTXk8z637rt7a8dN1AuMWaezx26g4MPtcfNVHwN2uli0GuIMw==
+Date: Mon, 9 Sep 2024 15:26:04 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic
+ <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Saravana Kannan <saravanak@google.com>, Paul
+ Kocialkowski <contact@paulk.fr>, =?UTF-8?Q?Herv=C3=A9?= Codina
+ <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Paul
+ Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v2 0/5] Add support for GE SUNH hot-pluggable connector
+ (was: "drm: add support for hot-pluggable bridges")
+Message-ID: <20240909152604.1dd27605@booty>
+In-Reply-To: <Zs4AuPPHaFY0WzBZ@phenom.ffwll.local>
+References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
+ <ZkYIeWzYyxkURS79@phenom.ffwll.local>
+ <20240520140148.26b91240@booty>
+ <ZkyND17TGj6y0Wjq@phenom.ffwll.local>
+ <20240823123903.1c793c4b@booty>
+ <Zs4AuPPHaFY0WzBZ@phenom.ffwll.local>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR11MB5966:EE_|DM4PR11MB6093:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bdaadc1-9997-415f-028e-08dcd0d244a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?6bdxEt/rDHEX7l/wMTqRkJwKNc1cYxPpREqKTpYLvEvm0oOTQ0bBzGc7Qc67?=
- =?us-ascii?Q?UUiwKohd7RJ/4gNWuh9tsWcP9R/y5rlBe6I/XNOzFkpUZuFoAZCoPfTt0yo3?=
- =?us-ascii?Q?N/8sLHMjgVfhfBSjQniSZnSCvhKXb/i1oQnIiOcO/SonS1OmGZgYO36h28g+?=
- =?us-ascii?Q?yy65XnyF8wfqrzrl1/2LcU7kZUsdpuj3nCeti64QFrVuey9BZYZ54xssSVqr?=
- =?us-ascii?Q?4E9+z7DJO7xe66OVd99ZLvwhYjbo0C3aqSjBpECtYSZ8xAMhVcdl+RDMMJwc?=
- =?us-ascii?Q?cYkmAHik1h89R9XGsfSkQVsAo5zPgvcBdwXPRZVUXmJeGOVE/sclJI6lNp8V?=
- =?us-ascii?Q?Ri/290PB2xt5tzPR3GetItaq35fB+kYGoOwFdBQRg+kYnqdzO7FhtVZiUTOY?=
- =?us-ascii?Q?cuFweJ5D/MQu8PKk8fouaHQIhz9LXuhzlrUQECXi9bWMX/7dsCDInx7mhtPY?=
- =?us-ascii?Q?7IIPxh37vs6oJYUlT9rJi9ifUhieituvXwtYbGmhMLKNt9vxSvmlzZy4a/hU?=
- =?us-ascii?Q?HfQuZkKjlWGummM067Y9V3GHe0W58ZOg+bp2487QFtcKNQ5yVj9b5dndECZw?=
- =?us-ascii?Q?TQDpjhXomW9N/kco4YD9QObGLN8Mu051V3x0Vz6bhZn/i1OCrEQ/N93wCty2?=
- =?us-ascii?Q?mvjvL3FlIAia0qwWf1egFTwo14owKOgdOletbrwatQe4XimSTqAnaM87vP8g?=
- =?us-ascii?Q?r7Ao3n57YrZ5483F0FSF5IwpEdlCM99iT5LX14nzClKcojh917Cth6dcR/Tz?=
- =?us-ascii?Q?dwmaBpT91S6ZQsip34TCk0YBFuRuJZt6AnNDAs1LPNiYZVS8Px2f92UAGKDP?=
- =?us-ascii?Q?0bNsjpLupvywLg1imknMZyZyR4fMx8N2sMQV4PFANmPqs8f3i0P//ImPB4DV?=
- =?us-ascii?Q?IbCP86NSdyWgUTDn1O5bui3OUIywnJjMCfEYLy0j2emEVuS6w5m33mO86qHi?=
- =?us-ascii?Q?OeFxRJgyil2OmcSC0gVMmOYn18rI/Fw+ozJBx3PLERWFd3g7qdqIJtCMFnpd?=
- =?us-ascii?Q?vIAnCD3PikldPxFp1jjRMJWNrsegGwHXBa18ZRuT9+eUWg/rtZDqqB1plAhm?=
- =?us-ascii?Q?44zxqFgxlaJzdBmXB+IfPqBAwxgbGwAEEvq92bU7xp+rdZtCSCw/XKCKOa4+?=
- =?us-ascii?Q?bM3p3GNIy+HRP61fUUkYPlQuQFMgx68lGERnDXYEO+6bEii7UAs9iTPw2WvB?=
- =?us-ascii?Q?Y92g2nKOayePd/UngsKcCoymzR05XG07frZaew3cgLc9YtHUACdP0fQH9Kxd?=
- =?us-ascii?Q?aVqmKYVuc94fk2858Bpe++OHXVAqkwoMiypRzbUrGXNVrEY8nYclduTpXz6p?=
- =?us-ascii?Q?VZ8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR11MB5966.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3E38oJSch/Siyvoki4GxdWmqNrWOABRdrLXDhCw0xabf5Kki+de6jC9UFMOO?=
- =?us-ascii?Q?HsQe/6sbjQJPqkcGao9WKvt61kLm66P4mtlblMUDx11QExvdthu1nQNx0WHU?=
- =?us-ascii?Q?0Wp93UwDbGu867ShhclSW+ckqm28Gekx6WueEv0sOaudW9RkI/irLZNRXlFp?=
- =?us-ascii?Q?gMdnlUttCm7BKd2fZBdqw57XBvW4TsAhsN45GwRk1dtWk3c3wEUotw3Td17B?=
- =?us-ascii?Q?7VIhz0qqXv3ayJNodReQch0Zb3rVXd1CAc6ZcxyY6ZKJ8VQj/kvmcBbcnHe/?=
- =?us-ascii?Q?mL16o1DoWhsnA09twgq7pnQrcEV56bjS33tK1IqBOi2dKmuOeZziX6Eppa2R?=
- =?us-ascii?Q?19ULk/KfLIBleTJBTb8LuJ9I9C6moy6QwJRwLXe0ScnoQJHLDkoMci1VwAhh?=
- =?us-ascii?Q?kLegLVUEEb2d4vnfE4srP1rzU8uBx3s0oMysgQb1DOObSySJsRBKV9ZtMdaM?=
- =?us-ascii?Q?djdlMK43WggJ3tA2dS44gF47zWxRZxwhi5VJ/qVJGNuRRb5SjVL72BkcLu9c?=
- =?us-ascii?Q?oaWh14YUejw3QQoBCQZ+U+Kka4+iXe8HwVy0liqZXxA6ygB6OacipOz1C8Bq?=
- =?us-ascii?Q?UFKf9yB7EnNE4pOxma4mGx1DRm7wLhynTIUYsxezv+8eZRcYxqwA0+xq84qr?=
- =?us-ascii?Q?t9u0kFvFMR6euOnTXMZbNJp6K/npwq2hXp0NjPp05Ni3TJy9Mf79/YLcMssd?=
- =?us-ascii?Q?HGvvCvS7X4LrlZwoWdjD6OAnQX/38HzuB0YCEMzKpo9zPQQrGqEguRZaaNFp?=
- =?us-ascii?Q?gNH/vCNKT5lXdbCrhsKW5mYTxTm+2VceyKCl9b/pLcCx+2VkvSdubuDYiOUK?=
- =?us-ascii?Q?2K8rkzuhNJxb/2RJ3leyAYLwoX1wLGgSJAi2HH7QqHnVr3xooTZvtstoL7R5?=
- =?us-ascii?Q?k4axW2uioJODXt7n18lk+UpGH76esJNodjDWmu/hzIichmPhBa1stg5hpzxZ?=
- =?us-ascii?Q?JzO3/UJZKHwHxCctLu2wXbhYuZMjhv4oIxq3jDOwU39ySwEq/cOS9HjlQXGm?=
- =?us-ascii?Q?YCGGPvuXVVPrjCZE9wHjbJ7xOm3L5PgJ8EGLZCWqrwdyLnTIC7zoziQZhg8f?=
- =?us-ascii?Q?WudyJwbDxXqykb8srSbLXXJv1OWCcIlxFgwlLm5p+5Yf88R3h1vsi4gII2tp?=
- =?us-ascii?Q?V90gMSiAgLC7BAh2qeI/+8IktgCdXktjSWoGPdDH9/FrupjpTfh+CujXlf67?=
- =?us-ascii?Q?qZTY3/KfPnmc8QA/AwkRq1iH06PbX6flI3pN1cT4XrB97roNjv+Inhrbk7+s?=
- =?us-ascii?Q?YzcEF6ypnXCQ9DnzdtnA3n45XTAFNZJN0gMcR4bnSQzArXzhCwciIUml6DUL?=
- =?us-ascii?Q?a6MpaoW3DbK1hUaR+KHD+kYyUlO6zD/s4soEpqNMfVlwwiIte86f6JjIZAkP?=
- =?us-ascii?Q?Y8ehr0ojGz35vhoGifVpAslq0clN9idqisDFSoGTbTveLOxm9Fom6dm7kgrH?=
- =?us-ascii?Q?8iERa8YZd+QvdzNrvZ6Oga8y7w2BL+1mVpuPQpYBj3ZDZgQhr6tUsZ6yHQTV?=
- =?us-ascii?Q?EV+93fDQW23IDjtfP/wD7Bh9UIevv6p+vMBASHXkj9wgRADQV3VLDESIUJag?=
- =?us-ascii?Q?RRwSgA6P556TZp57xvsedyFr99bd/AtmjHs0g4cA?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bdaadc1-9997-415f-028e-08dcd0d244a8
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB5966.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 13:21:09.4747 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ESUsckCSq8vDDzEIMqcxRzGPNYWaTyZFxSQZbYDRBS3oMGu+i76SRPjf3HvJB5tlNwmv4eQmaW8nb1eJBHyeCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6093
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,38 +77,675 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 09, 2024 at 08:40:30AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 09.09.24 um 07:15 schrieb Yan Zhao:
-> > Use ioremap_wc() instead of ioremap() to map framebuffer during driver
-> > probing phase.
-> > 
-> > Using ioremap() results in a VA being mapped with PAT=UC-. Additionally,
-> > on x86 architectures, ioremap() invokes memtype_reserve() to reserve the
-> > memory type as UC- for the physical range. This reservation can cause
-> > subsequent calls to ioremap_wc() to fail to map the VA with PAT=WC to the
-> > same physical range for framebuffre in ttm_kmap_iter_linear_io_init().
-> > Consequently, the operation drm_gem_vram_bo_driver_move() ->
-> > ttm_bo_move_memcpy() -> ttm_move_memcpy() becomes significantly slow on
-> > platforms where UC memory access is slow.
-> 
-> I've noticed this too and pushed a major update that replaces the entire
-> memory management. [1]
-> 
-> The patch is still welcome, I think, but you may want to rebase onto the
-> latest drm-misc-next branch. [2]
-> 
-> Best regards
-> Thomas
-> 
-> [1] https://patchwork.freedesktop.org/series/138086/
-> [2] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next
-Thanks!
+Hello Sima,
 
-The updated version is at
-https://lore.kernel.org/all/20240909131643.28915-1-yan.y.zhao@intel.com
+again thanks for your feedback, and again I'm afraid I'm having a hard
+time in understanding large parts of your e-mail. Below I'm trying to
+focus on one fundamental aspect only, which I need to understand the
+overall approach you are suggesting.
+
+On Tue, 27 Aug 2024 18:37:12 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+
+> On Fri, Aug 23, 2024 at 12:39:03PM +0200, Luca Ceresoli wrote:
+> > Hello Sima,
+> >=20
+> > these days I started looking in more detail into some of the topics you
+> > had mentioned in your v2 review. I have questions about those I have
+> > investigated, see below.
+> >=20
+> > On Tue, 21 May 2024 14:01:19 +0200
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> >  =20
+> > > On Mon, May 20, 2024 at 02:01:48PM +0200, Luca Ceresoli wrote: =20
+> > > > Hello Daniel,
+> > > >=20
+> > > > On Thu, 16 May 2024 15:22:01 +0200
+> > > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >    =20
+> > > > > Apologies for missing v1 ...
+> > > > >=20
+> > > > > On Fri, May 10, 2024 at 09:10:36AM +0200, Luca Ceresoli wrote:   =
+=20
+> > > > > > DRM hotplug bridge driver
+> > > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > > > > >=20
+> > > > > > DRM natively supports pipelines whose display can be removed, b=
+ut all the
+> > > > > > components preceding it (all the display controller and any bri=
+dges) are
+> > > > > > assumed to be fixed and cannot be plugged, removed or modified =
+at runtime.
+> > > > > >=20
+> > > > > > This series adds support for DRM pipelines having a removable p=
+art after
+> > > > > > the encoder, thus also allowing bridges to be removed and recon=
+nected at
+> > > > > > runtime, possibly with different components.
+> > > > > >=20
+> > > > > > This picture summarizes the  DRM structure implemented by this =
+series:
+> > > > > >=20
+> > > > > >  .------------------------.
+> > > > > >  |   DISPLAY CONTROLLER   |
+> > > > > >  | .---------.   .------. |
+> > > > > >  | | ENCODER |<--| CRTC | |
+> > > > > >  | '---------'   '------' |
+> > > > > >  '------|-----------------'
+> > > > > >         |
+> > > > > >         |DSI            HOTPLUG
+> > > > > >         V              CONNECTOR
+> > > > > >    .---------.        .--.    .-.        .---------.         .-=
+------.
+> > > > > >    | 0 to N  |        | _|   _| |        | 1 to N  |         | =
+      |
+> > > > > >    | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| =
+PANEL |
+> > > > > >    |         |        |  |    | |        |         |         | =
+      |
+> > > > > >    '---------'        '--'    '-'        '---------'         '-=
+------'
+> > > > > >=20
+> > > > > >  [--- fixed components --]  [----------- removable add-on -----=
+------]
+> > > > > >=20
+> > > > > > Fixed components include:
+> > > > > >=20
+> > > > > >  * all components up to the DRM encoder, usually part of the SoC
+> > > > > >  * optionally some bridges, in the SoC and/or as external chips
+> > > > > >=20
+> > > > > > Components on the removable add-on include:
+> > > > > >=20
+> > > > > >  * one or more bridges
+> > > > > >  * a fixed connector (not one natively supporting hotplug such =
+as HDMI)
+> > > > > >  * the panel     =20
+> > > > >=20
+> > > > > So I think at a high level this design approach makes sense,   =20
+> > > >=20
+> > > > Good starting point :)
+> > > >    =20
+> > > > > but the
+> > > > > implementation needs some serious thought. One big thing upfront =
+though,
+> > > > > we need to have a clear plan for the overlay hotunload issues, ot=
+herwise
+> > > > > trying to make drm bridges hotpluggable makes no sense to me. Hot=
+unload is
+> > > > > very, very tricky, full of lifetime issues, and those need to be =
+sorted
+> > > > > out first or we're just trying to build a castle on quicksand.
+> > > > >=20
+> > > > > For bridges itself I don't think the current locking works. You'r=
+e trying
+> > > > > to really cleverly hide it all behind a normal-looking bridge dri=
+ver, but
+> > > > > there's many things beyond that which will blow up if bridges just
+> > > > > disappear. Most importantly the bridge states part of an atomic u=
+pdate.   =20
+> > > >=20
+> > > > Surely possible as atomic updates are definitely not stimulated in =
+my
+> > > > use case. Can you recommend any testing tools to be able to trigger=
+ any
+> > > > issues?   =20
+> > >=20
+> > > Uh really hard ... You'd need to create an atomic commit that's block=
+ed on
+> > > a sync_file in-fence (so that you can extend the race window). And th=
+en
+> > > hotunplug the bridge chain _before_ you signal that fence.
+> > >=20
+> > > That's not going to cover all possible races, but at least a large ch=
+unk
+> > > of the really big ones.
+> > >  =20
+> > > > The main setups I used for my testing so far are 'modetest -s' for =
+my
+> > > > daily work and a simple weston setup to periodically test a complete
+> > > > user space stack.
+> > > >    =20
+> > > > > Now in drm we have drm_connector as the only hotunpluggable thing=
+, and it
+> > > > > took years to sort out all the issues. I think we should either m=
+odel the
+> > > > > bridge hotunplug locking after that, or just outright reuse the c=
+onnector
+> > > > > locking and lifetime rules. I much prefer the latter personally.
+> > > > >=20
+> > > > > Anyway the big issues:
+> > > > >=20
+> > > > > - We need to refcount the hotpluggable bridges, because software =
+(like
+> > > > >   atomic state updates) might hang onto pointers for longer than =
+the
+> > > > >   bridge physically exists. Assuming that you can all tear it down
+> > > > >   synchronously will not work.
+> > > > >=20
+> > > > >   If we reuse connector locking/lifetime then we could put the
+> > > > >   hotpluggable part of the bridge chain into the drm_connector, s=
+ince that
+> > > > >   already has refcounting as needed. It would mean that finding t=
+he next
+> > > > >   bridge in the chain becomes a lot more tricky though. With that=
+ model
+> > > > >   we'd create a new connector every time the bridge is hotplugged=
+, which I
+> > > > >   think is also the cleaner model (because you might plug in a hd=
+mi
+> > > > >   connector after a panel, so things like the connector type chan=
+ge). =20
+> >=20
+> > So, based on your dp__mst hint I added connector creation/removal in the
+> > v3 I sent a few days ago. All other aspects in your list are unchanged
+> > from the v2 you have reviewed.
+> >=20
+> > Now I'm trying to tackle some other of the items you mentioned here,
+> > and locking/lifetime is the hardest one for me to understand at the
+> > moment.
+> >=20
+> > If I get you right, you suggest making all the removable bridges
+> > "owned" by the connector that gets hotplugged, the reason being that
+> > locking and lifetime issues for the hotplug connectors have already
+> > been sorted out, while that has not been done for bridges.
+> >=20
+> > Correct? =20
+>=20
+> Yes.
+>=20
+> > Assuming the above is correct, I'm wondering whether this would be a
+> > correct design or rather a shortcut to leverage the connector locking
+> > instead of implementing bridge locking/lifetime. Note I'm not
+> > criticizing, I'm really asking myself this question and I'd like to
+> > know your position about that.
+> >=20
+> > Again about putting the removable bridges inside the hotplug connector,
+> > I'm trying to understand how that may happen in the device tree case.
+> > The hot-pluggable bridge is populated starting from the DT code
+> > (through i2c-core-of in my case being an I2C chip), and that code is
+> > not aware that it is being instantiating a DRM device. So there is
+> > nothing we can do before the bridge probe is called. The bridge probe
+> > then does know much about any connectors. It also does not know about
+> > hotplug: this is a design decision I made to make the regular bridge
+> > drivers reusable without edits for the hotplug case, but it can be
+> > waived if needed.
+> >=20
+> > So the only way I currently to move the bridge inside the connector is
+> > to catch it in the hotplug-bridge driver, when it gets notified about
+> > the new bridge having appeared (was a notifier, I'm changing that, see
+> > below). So the hotplug-bridge would need a function line
+> > drm_connector_add_bridge(conn, br) to make the association.
+> >=20
+> > Is this the direction of development you had in mind? =20
+>=20
+> Not quite. The issue is that while bridges are getting hotplugged, you
+> don't yet have a connector. So there's nothing you can attach to. What I
+> had in mind is more:
+>=20
+
+There is a fundamental question where your position is not clear to me.
+Based on this:
+
+> - The last fixed bridges knows that all subsequent bridges are hotplugged.
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   Which means instead of just asking for the next bridge, it needs to ask
+>   for the fully formed bridge chain, including the connector.
+>=20
+
+and this:
+
+> - The hotplug bridge connector code checks every time a new bridge shows
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   up whether the chain is now complete. Once that is the case, it creates
+>   the connector (with the new bridge design this is no longer the job of
+>   the last bridge in the chain, so we need to require that for
+>   hotpluggable bridges). Then it can attach all the bridges to that
+>   connector, and hand the entire fully formed chain to the last fixed
+>   bridge to hotplug insert and register.
+
+The question is: do you think the hotplug-bridge driver should be
+present, or not? To me the two above sentences appear to contradict each
+other.
+
+The reason we decided to implement a hotplug DRM bridge is it allows to
+decouple the fixed and the remote segments of the pipeline, in such a
+way that all the regular bridge drivers don't need any special handling
+to support hotplug.
+
+In my work the upstream bridge driver is samsung-dsim.c and the
+downstream one is ti-sn65dsi83.c and none of them needed a single line
+changed to support hotplug. I think this is useful: virtually any
+physical bridge with pins can be used in a hotplug setup, either in the
+fixed or in the removable section, so not needing to modify them is
+valuable.
+
+OTOH in various parts of this and other e-mails you seem to imply that
+there should be no hotplug-bridge (not as a struct drm_bridge, not as
+a driver, or both). Except for the fact that there is no chip
+implementing such a bridge (there is a physical connector though) I do
+not see many reasons.
+
+> - Hotunplug is the same, but on inverse: The entire chain including the
+>   connector gets removed in it's entirety, before it gets dissassembled
+>   and freed (once the last refcount to the connector is dropped).
+>=20
+> There is a _lot_ of handwaving in this on the driver model side, but with
+> this the drm side should be clear and clean at least.
+>=20
+> > > > I have been investigating the option of adding/removing a connector
+> > > > based on hot-plug/unplug events initially, see my reply to Maxime a=
+fter
+> > > > v1 [0]:
+> > > >    =20
+> > > > > The first approach is based on removing the drm_connector. My lap=
+top
+> > > > > uses the i915 driver, and I have observed that attaching/removing=
+ a
+> > > > > USB-C dock with an HDMI connector connected to a monitor, a new
+> > > > > drm_connector appears/disappears for the card. User space gets no=
+tified
+> > > > > and the external monitor is enabled/disabled, just the way a desk=
+top
+> > > > > user would expect, so this is possible. I had a look at the drive=
+r but
+> > > > > how this magic happens was not clear to me honestly.   =20
+> > > >=20
+> > > > So if you could point to where/how this is done, I would certainly
+> > > > reconsider that.   =20
+> > >=20
+> > > Right now only the dp mst code uses hotplug/unplug (like you've obser=
+ved
+> > > in your testing with i915, usb-c docks are generally all dp mst). For=
+ code
+> > > reading it might be best to start with the i915 dp mst code and then =
+go
+> > > through the helpers.
+> > >  =20
+> > > > > - No notifiers please. The create a locking mess with inversions,=
+ and
+> > > > >   especially for hotunplug they create the illusion that you can
+> > > > >   synchronously keep up to date with hardware state. That's not p=
+ossible.
+> > > > >   Fundamentally all bridge drivers which might be hotunplugged ne=
+ed to be
+> > > > >   able to cope with the hardware disappearing any momemnt.   =20
+> > > >=20
+> > > > Can you clarify this point? I'm sorry I fail to understand the
+> > > > relationship between the use of notifiers and the ability of bridge
+> > > > drivers to cope with hardware disappearing.
+> > > >=20
+> > > > In this patch, the hotplug-bridge uses notifiers to be informed when
+> > > > the following bridge is disappearing: which other way would you sug=
+gest
+> > > > to make the hotplug-bridge aware of that? OTOH the hotplug-bridge is
+> > > > not meant to disappear, and it has no actual hardware that can go a=
+way,
+> > > > being just a mechanical connector.   =20
+> > >=20
+> > > Yeah you need code to handle that. My point is that using a notifier =
+is
+> > > the wrong design, because the notifier has it's own locking. Which te=
+nds
+> > > to get in the way. =20
+> >=20
+> > I went into this subject to see how drm_bridge_add() could inform the
+> > interested bridges using a DRM-specific mechanism instead of standard
+> > notifiers.
+> >=20
+> > However I think to inform *the interested* bridges, at least in the
+> > device tree case, there is a fundamental issue: DRM core has no idea
+> > about the topology. Definitely not at drm_bridge_add() time, way before
+> > drm_bridge_attach() where the 'previous' pointer introduces a minimum
+> > of topology awareness in the DRM core. =20
+>=20
+> Yeah we need special functions, which the last fixed bridge needs to call
+> instead of the current set of functions. So instead of of_drm_find_bridge
+> we need something like of_drm_register_hotplug_source_bridge or similar.
+
+Continuing on the above topic, are you suggesting that there should be
+no hotplug-bridge, and that every bridge that can be used as the "last
+fixed bridge" should handle the hotplug case individually?
+
+If that is the case, we'd need to modify any bridge driver that people
+want to use as "last fixed bridge" to:
+
+ 1. know they are the "last fixed bridge" (via device tree?)
+ 2. use of_drm_register_hotplug_source_bridge()
+    instead of of_drm_find_bridge() accordingly
+
+> > Option 1 is to iterate over all the ports and endpoints and for every
+> > remote-endpoint pointing to a bridge, inform the remote bridge about
+> > that via a new optional callback in drm_bridge_funcs. That means likely
+> > informing more bridges than needed, so when they get informed the
+> > bridges will still have to check whether they are interested or not.
+> >=20
+> > Pseudocode:
+> >=20
+> >   void drm_bridge_add(struct drm_bridge *new_bridge)
+> >   {
+> >      // existing code unchanged
+> >=20
+> > +    if (bridge->of_node) {
+> > +       for_each_remote_endpoint(bridge->of_node) {
+> > +          br =3D of_drm_find_bridge(remote_endpoint);
+> > +          if (br && br->funcs.bridge_event_notify)
+> > +              br->funcs->bridge_event_notify(br, DRM_EVENT_BRIDGE_ADD,
+> > +                                             new_bridge);
+> > +       }
+> > +    }
+> >   }
+> >=20
+> > That means informing both upstream and downstream bridges, which could
+> > even be useful, but anyway there is no reliable way to pick only the
+> > sink or source ports. It also implies having lots of of_*() calls which
+> > iterate over the tree, which is not optimal, but it happens only at
+> > add/removal so it's fine I guess.
+> >=20
+> > Option 2 is be to just inform all the bridges (using the global
+> > bridge_list). Pros and cons:
+> >=20
+> >  * less of_*() calls to crawl around the remote-endpoints
+> >  * simpler code
+> >  * more bridges than needed would be informed, could be be an issue
+> >    if many implement the .bridge_event_notify()
+> >  * notifies even in the non-OF case too, not sure it's useful
+> >=20
+> > What are your thoughts about these two options? =20
+>=20
+> I'm not sure why you need to inform bridges? Currently for fixed bridges
+> we retry with EPROBE_DEFER if the subsequent bridge isn't there yet, which
+> means we only add the bridge when the entire chain exists. I think
+> hotplugged bridge chains should work the same, which means you only ever
+> need to watch the first element shows up. Then you create the connector
+> for the entire chain and through special callbacks inform the bridge that
+> called of_drm_register_hotplug_source_bridge that it now has a connector.
+>=20
+> All the other bridges can be ignored I think, even when they're part of
+> the hotplug chain.
+>=20
+> I just realized that means we need at least a refcount on hotpluggable
+> bridges, because otherwise drm_bridge_remove will result in use-after-free
+> issues. So should probably rename those from drm_bridge_add/remove to
+> drm_bridge_register/unregister.
+>=20
+> For fixed bridges no one else should ever increment the refcount, so
+> should work exactly the same.
+>=20
+> > > Instead I think that code should be directly in core bridge code (I d=
+on't
+> > > see the benefit of having this entirely in a separate driver), using =
+drm
+> > > locking to make sure there's no races. =20
+> >=20
+> > Not sure I got what you mean here. Which one of the following?
+> >=20
+> >  1. The entire hotplug-bridge driver should not exist, and the DRM
+> >     core should handle it all (seems not doable, this driver has lots of
+> >     device-specific details)
+> >  2. The hotplug-driver should exist, but the code to attach/detach the
+> >     pipeline on hotplug/unplug should be moved to the core, with the
+> >     hotplug-driver providing callbacks for the device-specific aspects
+> >  3. Same as 2, but additionally the hotplug-bridge should become a
+> >     connector driver (hotplug-connector.c?) -- not sure it can decouple
+> >     the two sides without a bridge however
+> >  4. None of the above =20
+>=20
+> 3, roughly. The connector creation must be in core bridge code, or things
+> will go boom.
+
+Based on this I think you mean:
+
+ 1. the hotplug-*something* driver should exist
+ 2. it should add the fixed connector (DSI in my case) on probe
+ 3. it should add/remove the removable connector (LVDS) on hot(un)plug
+ 4. it should add _no_ bridge (in the sense of struct drm_bridge)
+    [not sure it can still decouple the fixed VS addon pipeline parts]
+
+Could you please clearly state your position about the above points?
+
+Best regards,
+Luca
+
+> If you also want to keep the current lifetime model for bridge (without a
+> refcount, meaning drm_bridge_remove removes the bridge from all use right
+> away) there's also additional locking and tricks you need in in that
+> bridge connector code, including the entire bridge chain. Meaning those
+> hotplugged bridges must not be visible at all to the wider driver.
+>=20
+> Or you refcount bridges and make them like driver model struct kobj (or
+> kobj directly), but that's a pile of work too. That would be the other
+> design approach, instead of only relying on drm_connector. We might need
+> both, I haven't dug into the details enough to be sure here.
+>=20
+> Cheers, Sima
+>=20
+>=20
+> > > > On the opposite side, the following bridges are physically removable
+> > > > and so their drivers will have to be fixed (if needed) to work when
+> > > > removal happens, but I don't see how that relates to the DRM core
+> > > > emitting a notification of such bridges being removed.   =20
+> > >=20
+> > > Yeah it's not directly related, just my experience that people assume
+> > > notifiers provide you more synchronization and race-preventation than=
+ they
+> > > really do. So it's better to hand-roll to make it all really explicit.
+> > >  =20
+> > > > > - Related to this: You're not allowed to shut down hardware behin=
+d the
+> > > > >   user's back with drm_atomic_helper_shutdown. We've tried that a=
+pproach
+> > > > >   with dp mst, it really pisses off userspace when a page_flip th=
+at it
+> > > > >   expected to work doesn't work.
+> > > > >=20
+> > > > > - There's also the design aspect that in atomic, only atomic_chec=
+k is
+> > > > >   allowed to fail, atomic_commit must succeed, even when the hard=
+ware is
+> > > > >   gone. Using connectors and their refcounting should help with t=
+hat.   =20
+> > > >=20
+> > > > IIUC here you are suggesting again to remove the connector instead =
+of
+> > > > marking it "disconnected". So, as above, pointers on how that is
+> > > > achieved would be helpful.   =20
+> > >=20
+> > > See dp mst code. It's complex unfortunately, so there's some reading
+> > > involved :-/ =20
+> > > >   =20
+> > > > > - Somewhat aside, but I noticed that the bridge->atomic_reset is =
+in
+> > > > >   drm_bridge_attach, and that's kinda the wrong place. It should =
+be in
+> > > > >   drm_mode_config_reset, like all the other ->atomic_reset hooks.=
+ That
+> > > > >   would make it a lot clearer that we need to figure out who/when=
+   =20
+> > > > >   ->atomic_reset should be called for hotplugged bridges, maybe a=
+s part of     =20
+> > > > >   connector registration when the entire bridge and it's new conn=
+ector is
+> > > > >   assembled?
+> > > > >=20
+> > > > > - Finally this very much means we need to rethink who/how the con=
+nector
+> > > > >   for a bridge is created. The new design is that the main driver=
+ creates
+> > > > >   this connector, once the entire bridge exists. But with hotplug=
+ging this
+> > > > >   gets a lot more complicated, so we might want to extract a pile=
+ of that
+> > > > >   encoder related code from drivers (same way dp mst helpers take=
+ care of
+> > > > >   connector creation too, it's just too much of a mess otherwise).
+> > > > >=20
+> > > > >   The current bridge chaining infrastructure requires a lot of ha=
+nd-rolled
+> > > > >   code in each bridge driver and the encoder, so that might be a =
+good
+> > > > >   thing anyway.
+> > > > >=20
+> > > > > - Finally I think the entire bridge hotplug infrastructure should=
+ be
+> > > > >   irrespective of the underlying bus. Which means for the mipi ds=
+i case we
+> > > > >   might also want to look into what's missing to make mipi dsi
+> > > > >   hotunpluggable, at least for the case where it's a proper drive=
+r. I
+> > > > >   think we should ignore the old bridge model where driver's stit=
+ched it
+> > > > >   all toghether using the component framework, in my opinion that=
+ approach
+> > > > >   should be deprecated.   =20
+> > > >=20
+> > > > The DSI side was one of my headaches on writing this driver, and I
+> > > > must say I dislike the code in hotplug_bridge_dsi_attach(), with the
+> > > > need for an initial "dummy" attach and detach the first time. At fi=
+rst
+> > > > sight I think we need a .update_format callback in struct
+> > > > mipi_dsi_host_ops so the DSI host is aware of a format change.
+> > > >=20
+> > > > Right now there are DSI host drivers which keep a copy of the struct
+> > > > mipi_dsi_device pointer and read the format from there when startin=
+g a
+> > > > stream (e.g. the tc358768.c driver [1]). That somewhat provides a w=
+ay
+> > > > to react to format changes, but keeping a pointer is bad when the D=
+SI
+> > > > device hot-unplugs, and the new format won't be seen until a
+> > > > disable/enable cycle. So a new callback looks more robust overall.
+> > > >=20
+> > > > Any opinion about this?   =20
+> > >=20
+> > > Yeah I don't like the code either.
+> > >=20
+> > > What might help for prototyping is if you start with a hotpluggeable
+> > > bridge where the bridge is a i2c device. That way I think we should be
+> > > able to benefit from the driver bind/unbind code that exists already.
+> > > Although there's going to be issues with i2c hotunplug too in i2c core
+> > > code.
+> > >=20
+> > > Then lift whatever we learn there to our dsi code. But essentially I =
+think
+> > > we should model the driver core model a lot more, so I guess you coul=
+d use
+> > > any hotunplug capable bus as a template. Usb might be closest, since
+> > > that's also a packet/message based interface, mostly at least?
+> > >  =20
+> > > > > - Finally I think we should have a lot of safety checks, like onl=
+y bridges
+> > > > >   which declare themselve to be hotunplug safe should be allowed =
+as a part
+> > > > >   of the hotpluggable bridge chain part. All others must still be=
+ attached
+> > > > >   before the entire driver is registered with drm_dev_register.  =
+ =20
+> > > >=20
+> > > > I'm fine with the principle of a "HOTPLUG" flag.
+> > > >=20
+> > > > I wonder how that should be implemented, though. Based on my (surely
+> > > > simplistic) understanding, right now bridges can be both added and
+> > > > removed, but only in a specific sequence:
+> > > >=20
+> > > >  1. add all bridges
+> > > >  2. use the card
+> > > >  3. remove all bridges
+> > > >  4. EOF
+> > > >=20
+> > > > We'd need to change to allow:
+> > > >=20
+> > > >  1. add fixed bridges (including hotplug-bridge)
+> > > >  2. add bridges on removable add-on
+> > > >  3. use card
+> > > >  4. remove bridges on removable add-on
+> > > >  5. optionally goto 2
+> > > >  6. remove fixed bridges (including hotplug-bridge)
+> > > >  7. EOF
+> > > >=20
+> > > > One na=C3=AFve idea is that the DRM core keeps a flag whenever any =
+fixed
+> > > > bridge (no HOTLPUG flag) is removed and when that happens forbid ad=
+ding
+> > > > bridges as we are now at line 5.   =20
+> > >=20
+> > > If a fixed bridge is removed while the driver is still in use (i.e. b=
+efore
+> > > drm_dev_unregister is called), that's a driver bug. Would be good to =
+catch
+> > > that, which is why I think a lot of all the bridge hotplug handling s=
+hould
+> > > be in core bridge code and not the separate hotplug driver, so that w=
+e can
+> > > enforce all these constraints.
+> > >=20
+> > > Also conceptually 3 can happen before 2 (but also before), and that's=
+ how
+> > > dp mst works too. It does add all kinds of complications though ...
+> > >  =20
+> > > > Aside for tons of subtleties I'm surely missing, does this look a
+> > > > proper approach? I'd not be surprised if there is something better =
+and
+> > > > more solid.   =20
+> > >=20
+> > > Yeah roughly. If you look through dp mst code then that also adds all
+> > > kinds of structures (since dp mst is a routed network really), not ju=
+st
+> > > the connectors. They also all come with refcounts (because the networ=
+k is
+> > > a tree), but like I said I think for your case we can avoid the per-b=
+ridge
+> > > refcounts by relying on the connector refcount we have already.
+> > >=20
+> > > But I might be overlooking something, and we need refcounting for each
+> > > bridge like dp mst also needs refcounting for all its internal struct=
+ures
+> > > that map the entire hotpluggable display chain. If you want to read s=
+ome
+> > > dp mst code, these internal structures are ports/branches with struct
+> > > drm_dp_mst_branch/port.
+> > >  =20
+> > > > >   Or that we only allow bridges with the NO_CONNECTOR flag for
+> > > > >   drm_bridge_attach.
+> > > > >=20
+> > > > > There's probably a pile more fundamental issues I've missed, but =
+this
+> > > > > should get a good discussion started.   =20
+> > > >=20
+> > > > Sure, I think it has.
+> > > >=20
+> > > > Bottom line, I'm clearly not seeing some issues that need to be
+> > > > considered, and that do not show up for my use case. Based on my
+> > > > limited DRM knowledge, this was expected, and I'm glad to work on t=
+hose
+> > > > issues with some practical indications about the path forward.   =20
+> > >=20
+> > > Yeah for learning I think dp mst is best. It's a bit complex, but sin=
+ce
+> > > you have a dock you should be able to play around and experiment with=
+ the
+> > > code with some real hardware.
+> > >=20
+> > > That should help to get a bit a feel for the complexity, since lots of
+> > > opportunities for you to ask why/how locking/refcounting is used and
+> > > against which potential issue they protect.
+> > >=20
+> > > Cheers, Sima =20
+> >=20
+> > Luca
+> >=20
+> > --=20
+> > Luca Ceresoli, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com =20
+>=20
+
+
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
