@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5EA971335
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E70F971337
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B6410E34B;
-	Mon,  9 Sep 2024 09:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC35510E349;
+	Mon,  9 Sep 2024 09:19:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="D3OxzCue";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="NiWByeHW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from APC01-TYZ-obe.outbound.protection.outlook.com
- (mail-tyzapc01on2068.outbound.protection.outlook.com [40.107.117.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98FC710E34B
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 09:19:21 +0000 (UTC)
+ (mail-tyzapc01on2047.outbound.protection.outlook.com [40.107.117.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F37810E34D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 09:19:23 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jB6H+otLvm+di6YfyUQslFNCL6fPolzH3AqFQx80CVc02oYQw+tBl0btBD3uhnmx1+S+oXWVIEcUGIgOOrSPmm6Sw/q2onUkWCeF+q5h/yubIl7CUr+k5deVe0F2SGclASIUVwYpJ+3bn/vX7zlZWuDK5sa+E5WA+DpBA0Ax6ygrvjwm3zAMl/DY7S42OR5m+mzBNO9YP7I77aSCCTQH+AwXSwOKQ11sstfXr4/wZhO80DeEgSBQ7xY9n/pil9QMIrvcEGn6F47xjMQcBZzlEa2ezzNlcNmWVOK8SCfZrUPulHCb8xgvjFeRBbSpUaX/BHGmz2gckmWzEl09yufyGg==
+ b=lHPW++6oKlcI7COgXYAYa//6Zvr3YpM3dzsjiTmvWAm4Sth2dgolpkkmmr+7QcP/Fi5xFwUHfprArPPKxExRIGSqzec87QVlye7s1B4eG5Q5uHxO7xkE6veKwuoG7sLLjlUHABkC/aSqkEhgb7PZG8MsIf4wTbOtNL3mvOsBopsv1//iGqxOS3cU/8gOzdjyMao4KZl3cy5lpULbzT8fK4+QtTd7Zdja9qeXZTnbvtL3pAauLhNzaGESYXbBuLQirQvkxmkEliomS6LqosRUgIB7kmRJ/uFLGG0xa/iw8rndaXzU/OqqwZrkfge7zE5w6aNXGOg/PS9xtVYI0iZFHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=htKih652snK6YMvQ1BKfnFkyzLJzkrbeAa0pGt3freI=;
- b=bvEuE8q0ndjsoZqLZGRwXHaqhcS6XLhrUCxg4zMZ5PH+SjQzWoIUXlGC3+gS5U67rQdCWC9engjHt9ekcOtGgZNKp2gzrXYBpfSGkpFWJ6v59v0HP9W3eY5VbgEkQ14+dZpG1TM4/IVWHOMEoMsjq165keSk39G0Vsn2CTLMo0bPFr6NUt2zv21cJaMpCf1ehT83L47J4FsubAt6T2t6SWnYPCSpGiocxoavUcGXDowFmezk2nuRqYcyYt/Z+LPXeAvykVtxfT2jYZiX2OFZ8etY1dOHkSMUB3TmuQbpUnBSBKbaJU/2v2xfOOqRy5EWw0nh90imRciNUL+usPsBDA==
+ bh=Lqv0NS7+29FLPoKDiiUKJxTlVu9rHwr9umC/2I4bD1k=;
+ b=s4zQ9f091/NgRtiFdYSIFToqh3R3wdIklz+/3y+UI9PWg21HbBZZIEXoEu4NX/cNYdLcRN2Fqi+ludJAAdoHWuoTm5xm+jsboy6/EVWwE65g0musiEwQPeG74LoaLsaLc7F961sXOL4Jz9AispRbIVThPxD9Lo4QxWHoHEjvXf+TSXwy2UejXlq8G9UKOb4iBeOtoS7FVNSnzK9yj9qo/onfj1TzVGTU7iaQFBIL/nROFUtJM7aa1EKGEeW6ETr0EAz7wkd6qZA0p8lgW98ZKIwv5kjCmiCYfBCu+JmKmkVNTlcxPIPciZ+w3jBjha9KJlJN6dVMLiPQkbwsW425bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
  dkim=pass header.d=vivo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htKih652snK6YMvQ1BKfnFkyzLJzkrbeAa0pGt3freI=;
- b=D3OxzCueFA3gRUmvkxaihXLLkAZxnkcATKpy3MgV+KIRRwbz803BC24OziIUmEDFJDIHa6+GPkgcHSXH60BCpqiXiGrcE2pqBGPMLunEGp2bZfGUOkU1EV1OrC2deGmGoxsuNknxNzXyMXF67FJv05Ks7zIxp0xruYdVfgUsiE+tY8uU220uvQf6+uEyxzXy0xR0Fow1wsZwlGUtWvEklouVij0OLzD3qI/qi360l7YzU10XRKnQPI9okHUXNjfIFfbBhg8BOoLh21m8sqJ7aVeAFt0ZoS8D8Wc61sKcEmdzYzG+I+sc0Js2q8G8BGUeRqCoZAwU517fP+mzUdma9w==
+ bh=Lqv0NS7+29FLPoKDiiUKJxTlVu9rHwr9umC/2I4bD1k=;
+ b=NiWByeHWdM//gNTqAeZKC4QenAZnl45XKyDVpFT+42HWvVJMtSkfRhlM5Eg853Alpn+XWAA4M85Dv6f96F3ZOcqBKEQGe4zkRIakYaCycAnd9HF+xOompkv9yZK4ZsDKRMVmqqXlb9uXHRjgbKWwjlYmDl2B9w/c/5LwvO3CtCnSBs1suMk+ShCyJiPPBCRnKZaX682VWudlpJJPmsmEvA4zTFFJiArvznDYgFC584C2slXoFVSWKFmGrPG7TB5r6ZPix9WqMHTT5/cBU3ewMordyf5uPY/umAQQ/db5c9ZMel8El5LX4EsTuMWCj1zrRoSSxfbIw4ECpD1yg5Hevg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vivo.com;
 Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
  by TYSPR06MB6292.apcprd06.prod.outlook.com (2603:1096:400:42d::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.23; Mon, 9 Sep
- 2024 09:19:18 +0000
+ 2024 09:19:21 +0000
 Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
  ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
  ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7939.017; Mon, 9 Sep 2024
- 09:19:18 +0000
+ 09:19:21 +0000
 From: Huan Yang <link@vivo.com>
 To: vivek.kasireddy@intel.com, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -49,9 +49,9 @@ To: vivek.kasireddy@intel.com, Sumit Semwal <sumit.semwal@linaro.org>,
  linux-kernel@vger.kernel.org
 Cc: opensource.kernel@vivo.com,
 	Huan Yang <link@vivo.com>
-Subject: [PATCH v6 5/7] udmabuf: introduce udmabuf init and deinit helper
-Date: Mon,  9 Sep 2024 17:18:43 +0800
-Message-ID: <20240909091851.1165742-6-link@vivo.com>
+Subject: [PATCH v6 6/7] udmabuf: remove udmabuf_folio
+Date: Mon,  9 Sep 2024 17:18:44 +0800
+Message-ID: <20240909091851.1165742-7-link@vivo.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240909091851.1165742-1-link@vivo.com>
 References: <20240909091851.1165742-1-link@vivo.com>
@@ -63,76 +63,76 @@ X-ClientProxiedBy: SI1PR02CA0011.apcprd02.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|TYSPR06MB6292:EE_
-X-MS-Office365-Filtering-Correlation-Id: 148ba25e-c4bc-49ac-7d3d-08dcd0b07b7c
+X-MS-Office365-Filtering-Correlation-Id: 90ecb63a-84d9-4b05-5786-08dcd0b07cf8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|1800799024|366016|376014|52116014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?u4yt+ye+F16q88bOvViqzdwUu3MOhGw5uY/CVC3Lou9ffygECzAaiTD5eH1B?=
- =?us-ascii?Q?4/GjeXErDac+2n9SfAvAaoqYQekXivnJn8HxkS5roQKLIbYI9Ha1u79+s1v9?=
- =?us-ascii?Q?J/CVngtDPzcvHqHXT3qOo9Oo9ppOrVToLabwSRDmNJCWBx+nsdDePrY0gptT?=
- =?us-ascii?Q?qIeYBa7KRcmpmRsJU4OZ08bgTOhUqs7QpOuzPBgGufTrEm4hreqfmq3wY5TR?=
- =?us-ascii?Q?GzM+mHyW/843kvoTNbRqXnocA29yppj/mKRmogxzRvY5+fpJJfAzGDPiNDD+?=
- =?us-ascii?Q?jp8yfqov7rBc0/2yyM+vsNbS9KuIiYLSvXHms6XbHIS4fZkB81wAsqj2j45G?=
- =?us-ascii?Q?uf1N9JppEjJ3vDjnr7mMR/hFCeH2QTAycysqNVp0/9hoK+LYBBJlWebHUrc2?=
- =?us-ascii?Q?xACamiLtBS8jws/JuV/zQaEDz9nR50nXHb/paTLydH6hFr3EJ3McNY1eGuoB?=
- =?us-ascii?Q?/IcHxmgXs6x5eHWTnFm5XJ7rN4DXI6tDEXj7WXf4kxABwFDdJPSiuvHm999y?=
- =?us-ascii?Q?gU159G8O/S/3k0VC03xddce2BU26+r+AZ7ki7zF96xohZcQqfOVVUBIvDj/n?=
- =?us-ascii?Q?D0gQsh+zNRJNuWafRU6tWNzNSj9NzAalor2jvKaLlGnmNgdh2kvCfQcv1JEE?=
- =?us-ascii?Q?0IMsR099S0YcY3QVI9ilTbh3763YGngN3fgh1BQAtmcemgMZKHN6+PytJMPe?=
- =?us-ascii?Q?IVDf6v1K/m6AKIUWcHt/PHOT3yL7rHKI7XSYjvDepRGF01B6TzM866HG/dMN?=
- =?us-ascii?Q?nKXqRMHmPqxyfd58P1+Yd1geoZ9u0O+5XUnihGq09v3crIRUnVbafVajjdDt?=
- =?us-ascii?Q?ILbhHw+9uGeLXKYCrkw78vis4iIbh8cCaRjcFQMplgZN8soQbZkB/jYrETAR?=
- =?us-ascii?Q?rMzUJPjiReLoePGxGwtDvrj8Oa//xSZTS9SSY0yFwTDELZMA1wsDVYmFaR0o?=
- =?us-ascii?Q?xglyy5q3dFAyxg+9QlcmPCAcDSUu/Ws8Wh1+p3jk/qftD+w0kKM5urZMOFzD?=
- =?us-ascii?Q?U65w4awJQsM6AKNoBERQ3cSOiHPUtzS85NCHHhgEs06pvX9m76nPVCRSIhGo?=
- =?us-ascii?Q?WysePGnqKKxaUdWl1Cm2JEdNKkfgCa/nXom59W89OdwpNyUkompHf422XB7q?=
- =?us-ascii?Q?pPRz2+FvzjeiDHXc1Ud+Dk4oMW++d6/e7xD7x27uYdAhlB8+639JoxF/SJWT?=
- =?us-ascii?Q?6XAQN8uOrfFpnk9QNAnrAKSZjTYtX+u4+mzCDd4dvcMXuPOEEKxdktxyFvPE?=
- =?us-ascii?Q?6plxoFZStnlCkq09l72tIO3rhfPihgsTSPrlDd+T+3lNaP7N+qI6GKvRr+Fu?=
- =?us-ascii?Q?NY/HxLMBVhnaSah/YGsltSHUwbb63wZ4GMJDd5s+wW96o861/+QYVyZ5wjb6?=
- =?us-ascii?Q?lo+ep6Q2WXA1gDLIXV0naODNUV4ACthNxfwPXEXkEIKmJqSI+A=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DRS8lprmR7zShZS9JCA6ImQrzrQBQ0Mivmk1sKsagP8sUESDye9EILczyaoz?=
+ =?us-ascii?Q?nrRO69LSpZkVT+NfKhHnsjCwltlT1gN4ZoYCCAg9813cR7xwetrhL4nz1p+B?=
+ =?us-ascii?Q?kIV6uyKoXbaTQNIpcjJcyfHaIaTsSOa9VA28gNVDdEKVe429M52Qvip33Tsg?=
+ =?us-ascii?Q?EpBbF+Dq+ZqOJoH7JShIYM8ZCdOSfbQKN/fVswI2mgpjWbOU6Swmn6Q6Ek/u?=
+ =?us-ascii?Q?QmjQ6hs8ECDHjemVCCJQLU6wwEHkV1LbZ6qIk1PAiVIm3YmsLF9oxb8gl9tI?=
+ =?us-ascii?Q?sz+jDoo7c5RRtAYZ8q0KdDP8T9gMfVEymCluCKSpSC9p0uA65i6opJNnCLBe?=
+ =?us-ascii?Q?BBi0y2Bq3RK/eQn/Xw3aO6vRH5gbre4nzte0OU+MN0q//AmEAEhfFEFbWIfy?=
+ =?us-ascii?Q?5a752XkKjNB6QeU8TGKNgQmnJd3nyFCLC6MYE/IWUxORo+Mf5IQTNi6/67dd?=
+ =?us-ascii?Q?RLn00JAVzvWpAFa23JrA1+WzxRTuL0Ocez3fcaC7zH6ClA187gPMUmvQGfjM?=
+ =?us-ascii?Q?32+9/X80OdomMzAh+0SNQ104NyIUiwftUeEZl765mQ/un9d7dRi5MUsp73h9?=
+ =?us-ascii?Q?0urJuNwmihPi+IShwUiVCY9SiLPuSiTmxUUuh94qRrw4er3zQTBlPgy7Mhma?=
+ =?us-ascii?Q?zl0+D3+lCc2wKEYT9QN5qag5EWUlFg86qeZPY04jPm5P7y9eLCTCNwngYhSE?=
+ =?us-ascii?Q?GVy66LB9eYhHjy9N3Vybfwz57SxdRK6JCzTMY8NeDz8ISrX26OGtRzWSscN6?=
+ =?us-ascii?Q?zUEECjVWWI6m4mhkTQz+ze488B4QZsQw6yTwc2ep0YpewoTZiYiR9PJRck0z?=
+ =?us-ascii?Q?UWB4KJKKPPLAuyYMY2gC6Vk1JpswmaCH2F3yxD0CWe861hIF++Ql+JzQFwEV?=
+ =?us-ascii?Q?v0uUjbF90vczEyTthGLKrNxTQsq09sANCzurmzu1lO9YsScYvAq6fWPU8GsL?=
+ =?us-ascii?Q?vjRQ4ve3qlDKM7XfrGeyeejlTepmmWAZp608KqYhvQuyyfVTsAfaxaqCSXtu?=
+ =?us-ascii?Q?KsER3RlUZuds6uc1Uv9H/+Ys9YXRadQB0Jxhpgc7VVyJdFmStmb+T9RKbc0s?=
+ =?us-ascii?Q?G+xK7cro8kwrxhDJQzNPSKdiKrkciOQSXuy+AFRZdCXSf/m0tbx5SuqYTWSo?=
+ =?us-ascii?Q?EQ26hMM27ZasCc7YWWBgL2v7LfVktJif4ZehLamtIWTjFIq5eXsUuTfs4CPT?=
+ =?us-ascii?Q?lh96LpUXyxZOBYUPqCzhp6XjyWJKheWjVDqQ/0cuVCEYL50pBaMhHU/Ep7AD?=
+ =?us-ascii?Q?77nMlCvfl83xXRD9VcI6auZSGo5djFWLVoFVFO2oXQxzNTbUVIjB17JFKvK9?=
+ =?us-ascii?Q?ItwUeqxBNUE57e14U4vTHra1LPH1si9TFdIucO2qFKUH8LCdUOLnewN2TtS0?=
+ =?us-ascii?Q?bME1Nbtav/UhNXVU05gx2K2uNTWjNpdgYQfDcUhLoJp+ck8fDg=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2xf40Xm8KVaU+FcL8KNc41r3/iaAHJD8y3niMr+nbwAH1pU+mao9Aq7wSwER?=
- =?us-ascii?Q?IGiwkyRF94gj22j7FGatg5hEIFqYOKI0RQV8Sk9z0P7GGhN4jrTVsJorzJG9?=
- =?us-ascii?Q?QVoYL42Eg6YjnqHYYd7NK9vKuIDAX6SoqqmlwCRd/ZiBSFZXPh8FCELwbvya?=
- =?us-ascii?Q?j5kJ50/crTbSDkv8ZVjOI8dbBefCKe6jMg1tSi8XEhAsjbCeiNgh6pQyvSUR?=
- =?us-ascii?Q?cwbSm87TQeCJx5KCuLrG4CHXownMiqUUQQ0MXP3J6QFq5DVYtW7Zr1myFFpC?=
- =?us-ascii?Q?4DYYIDQJ+rey2ywqkbdJMGfm1xNIof4cLbJTGu7tAKrMEfgzlLnkl91mFBim?=
- =?us-ascii?Q?NZisDoBTkKqJl+rSsUPenA+IP2UZA/fhJUYJsPr8mRklAJC8svPqbBQWAwAl?=
- =?us-ascii?Q?sKMQlOOxGllD+hy9hrEEm3Z62QQ1HzETozRNXpWHUFIb2i56yoPDcnPvgZ9q?=
- =?us-ascii?Q?ZB7fsGzYb0hpNvYV7sMQBaHyMqkjpdWq1XCYsk2GtF+zu34LaNUGkwHgrYY4?=
- =?us-ascii?Q?rJNeT7VGVL0GYmiHGnWkiwV8+P/DHwqP/Wdvsas9sijgEDyEm81tQdJLqWWs?=
- =?us-ascii?Q?KS4JKIkBaFbpiiKL0vHyH7dVRqYB67F1wFi10nFfXWLzSv+zJrDV7m/pNimw?=
- =?us-ascii?Q?Zt+/3UUecgsl0WaxZ3vH4tusODdICUXnHfgfs0dOPkRcfl4amCUE7b7zR2Yd?=
- =?us-ascii?Q?5zha1MGMvlkLAYLUTh/RerwlrkVJUS5iLTs3sNcM7euwezMDPPrjDSjLsiTW?=
- =?us-ascii?Q?yQQairXSCvmXBHGfNlqIk4IiqxOUJNKUWDrWvY8S9QlpxpER1bUhlz3k0eYV?=
- =?us-ascii?Q?4eDW6AVGo0t2ZeipkG7MpHpcM9lGpIZbtcHp7P2ZDb1UDQamDFSxbSv8NqbI?=
- =?us-ascii?Q?xY0jBhiDn0nW+p1KkcpOpZhdp/WdVzrPFIS9rGqJbKY7bapETqW+SLB9JoT3?=
- =?us-ascii?Q?g1aIuXdmHJ5CPnT8T7aAECx2dUKtqFOLbbc4R6dJ5awDkUL9WM2ussGIgaer?=
- =?us-ascii?Q?4CFctHOvAX6vq9uugTyae73c/EmftuqVj3IT/XP/UV8Kn3o61hG+AEQGVtkS?=
- =?us-ascii?Q?sdHfgj+ak5YayrS5K24WvfNZNtASS1V0ddQVZAm5iUb7eV5P/BmkJZv90hMq?=
- =?us-ascii?Q?yxVSPIUFtKzk4ca9GD1LPnNTKbigP4Y2uvVkGg45KawskaJMXZx79z3WFsKM?=
- =?us-ascii?Q?dwNJ8bJH2xS73+ZBHXftJauA3VXSdeMfLoqp+zhUaKRuGwtmzcJxiU+GiDkc?=
- =?us-ascii?Q?4nSx2tfW/hTJDy8rg8qrXhsjDSxih6UPnI43vEHgVf/CjYPreprv0vdEUfp9?=
- =?us-ascii?Q?nkVtXKDXwmNGjGIBQtv/L4QKlB9orPuRpNMjiigW6B44kOboGGdBlAXabSiG?=
- =?us-ascii?Q?PWOSFAqT7c5WFD+lMYtXcHgyI4iwc91s59P9vAKIK5keiMBiekkNi1bTDWvO?=
- =?us-ascii?Q?3FZXWYZcucz83F7nNVYNvHlePf3FVCtSOnXm4RDiW+zFvtzHV3/iu/677xC2?=
- =?us-ascii?Q?t9ZZFWCJqpUHu3EHQpvvmdCfeDjbBVgTZgUl+Ukr44Wqn6zp3UZz0ZRLf9lO?=
- =?us-ascii?Q?9XbNlf91061YDbFNUSahj3FTIqUioXh3gfdq/7CI?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GPCiCwBU4dj/M/jdv0rwSxDmtF6q45rNxtJhbqmh06Kf/nvVGAJWuMPy9kcg?=
+ =?us-ascii?Q?XkxvrdteDozrd81qJzPT5vw59ZDQpSqhzfheZI0zcWLFQ2GK9vsPZlUcOvNH?=
+ =?us-ascii?Q?6wIszCMtjHCjD8B7Svuv03QZxJLjzQw6Ao22jd2EuZ0YS6vJca2ekXmmaRgb?=
+ =?us-ascii?Q?uCG8NXKcOkhg8sBdc/9sxEspMOUDAAri0QBNA2jUuCYBhw1vXIMMiZ2r5aCD?=
+ =?us-ascii?Q?ue9c7O6ELQT50INsRkmCuPv0y/kN5ka220ztuEwGbVehkRKZz9wb8ofvtWQX?=
+ =?us-ascii?Q?RYK/RrxdgmdpqqZHK8aF+FXX34E2TIw3WjNZk/0lZUjDfnZ9shT5MJ9X7uyb?=
+ =?us-ascii?Q?zbcED5x6bS4k5o3aks0l6d6oMgrhrnY7M0zVs9eEmsPH6P4IsuXnpb7ZGBHL?=
+ =?us-ascii?Q?ScOHvaUYKQpq7KnHvtw8qQomEj/VfDjPtT4eeGkZwvWmKkLKh1h4apFVHF/U?=
+ =?us-ascii?Q?FQC5jBKwCL5Re8xnNPP81bbvbxkB1F58AmsJx6WDc0fibn6cxAid7lO54nnY?=
+ =?us-ascii?Q?W4UtP0jqrIyAM8xl+MXxTDKKqh5usqriU+ratZb56RTsbvxofjTTS3xDMtjF?=
+ =?us-ascii?Q?MWPq7tRbl2nmSyRK0YdqgRRMN2I0k47GQDoMbnAgYvmujoD8uXSOMhtJtP1D?=
+ =?us-ascii?Q?L5gpqFLQA/Jrulx0OD0uV+a4MGt8J/ucpt7o0Vb/vC9tlZpmW7PSKuk7zj1h?=
+ =?us-ascii?Q?FmUSq6VK9E8lfaQlNeD3YcyIjmlE8mGHypar9BOSkn50BVF/j7FnquPy/7CO?=
+ =?us-ascii?Q?1gRDPb79ppO5dLVchYera9rWxAk4KRY0uSk7KlBR3doHGwv8wQcbOV3HJ6BK?=
+ =?us-ascii?Q?rtooyLnZqzB+dP/kltsiJs1WabY80UKn3nDy8kqt5GzgrkgGe/IWMl6i49wJ?=
+ =?us-ascii?Q?Fy072ckalpYE8XmC2NWtvFY3kHGQZ4zoSHBG6ufkEWX6jqx7guxn7QL72WKu?=
+ =?us-ascii?Q?/04oLUeHVXFkY0M9GMLqa7901usvrZTwxv/oKovSL1p7QOd8zAHBvrhyas3Z?=
+ =?us-ascii?Q?YnAXoMN7wW2Ig2et3RgzgTskLP2StGpj0c0/sJ6lDuxiXNWTMFDC4lriIrf8?=
+ =?us-ascii?Q?SQ92SfBJpMsWv8XtMtDxvvR0FtbtKq/sV769/xmB5GGLaWQEdnEpLXs0IUzN?=
+ =?us-ascii?Q?VRYOSymm/plYyG6UXe2n260CpczzVOEca/RNFmddy8tX93MY/WXppsJ2gKhF?=
+ =?us-ascii?Q?o9FTx2JDg8dMX+KHMmo+N2dYUdeekg/6n8qbDjcZGdMwi3ZQ9JKIKSTdF5ww?=
+ =?us-ascii?Q?4yXp+dcbF+Ie5gTZGIRhoC9ra6wk9k6Nv+5dgWHr4Zdzh/wbI9oWC3AMoTkq?=
+ =?us-ascii?Q?RzgvxqhHTlwbrC96ubVm18yI4F3kHzOkThD79PsuBp5Yu1zUJBgseemP3Dcj?=
+ =?us-ascii?Q?518snhfVa0jnOqisFZhivX/YKeFARbQVwdXv2twQdpcSmwE0yNhL5KyGnLov?=
+ =?us-ascii?Q?dE8XtiWlDj76vLw+92je7zczuoqmHJDnX5AYA2sNa0DDfCtHB14GGvlxxhzv?=
+ =?us-ascii?Q?kc81G7odkBIOrfaQhcJU8iCn56wNi3fruTdqY0wvtdrQJNVN+PBbOHXVVmpv?=
+ =?us-ascii?Q?y+rChK1zewgKeLkPcl2U4dBvy+eKSU59c3E/hyTb?=
 X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 148ba25e-c4bc-49ac-7d3d-08dcd0b07b7c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90ecb63a-84d9-4b05-5786-08dcd0b07cf8
 X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 09:19:18.6017 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 09:19:21.0890 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gwurMZeiQI3gV8FRJP0mHWjmniuKuwyiFfKeUt4hwbkgF3gFgGLxTHBw0RQgk08Ais9Q8DhC9HbVGT6WZ/krHg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: DvMxfGvHMJ8MxZuN6LG6Am9ELAuF23BZEeVJY0tZcgFvFOgUMcTl5QIH14mPtl/iIF4qAhkcquuLnjAMI3Jv8A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6292
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -149,118 +149,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After udmabuf is allocated, its resources need to be initialized,
-including various array structures. The current array structure has
-already been greatly expanded.
+Currently, udmabuf handles folio by creating an unpin list to record
+each folio obtained from the list and unpinning them when released. To
+maintain this approach, many data structures have been established.
 
-Also, before udmabuf needs to be kfree, the occupied resources need to
-be released.
+However, maintaining this type of data structure requires a significant
+amount of memory and traversing the list is a substantial overhead,
+which is not friendly to the CPU cache.
 
-This part is repetitive and maybe overlooked.
+Considering that during creation, we arranged the folio array in the
+order of pin and set the offset according to pgcnt.
 
-This patch give a helper function when init and deinit, by this,
-reduce duplicate code.
+We actually don't need to use unpin_list to unpin during release.
+Instead, we can iterate through the folios array during release and
+unpin any folio that is different from the ones previously accessed.
+
+By this, not only saves the overhead of the udmabuf_folio data structure
+but also makes array access more cache-friendly.
 
 Signed-off-by: Huan Yang <link@vivo.com>
 Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/dma-buf/udmabuf.c | 52 +++++++++++++++++++++++----------------
- 1 file changed, 31 insertions(+), 21 deletions(-)
+ drivers/dma-buf/udmabuf.c | 65 +++++++++++++++++----------------------
+ 1 file changed, 29 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index fe1466f7d55a..c2eda960aaaa 100644
+index c2eda960aaaa..0e405a589ca2 100644
 --- a/drivers/dma-buf/udmabuf.c
 +++ b/drivers/dma-buf/udmabuf.c
-@@ -224,6 +224,28 @@ static int add_to_unpin_list(struct list_head *unpin_list,
+@@ -27,15 +27,21 @@ MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is
+ struct udmabuf {
+ 	pgoff_t pagecount;
+ 	struct folio **folios;
++
++	/**
++	 * Unlike folios, pinned_folios is only used for unpin.
++	 * So, nr_pinned is not the same to pagecount, the pinned_folios
++	 * only set each folio which already pinned when udmabuf_create.
++	 * Note that, since a folio may be pinned multiple times, each folio
++	 * can be added to pinned_folios multiple times, depending on how many
++	 * times the folio has been pinned when create.
++	 */
++	pgoff_t nr_pinned;
++	struct folio **pinned_folios;
++
+ 	struct sg_table *sg;
+ 	struct miscdevice *device;
+ 	pgoff_t *offsets;
+-	struct list_head unpin_list;
+-};
+-
+-struct udmabuf_folio {
+-	struct folio *folio;
+-	struct list_head list;
+ };
+ 
+ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+@@ -196,38 +202,18 @@ static void unmap_udmabuf(struct dma_buf_attachment *at,
+ 	return put_sg_table(at->dev, sg, direction);
+ }
+ 
+-static void unpin_all_folios(struct list_head *unpin_list)
++static void unpin_all_folios(struct udmabuf *ubuf)
+ {
+-	struct udmabuf_folio *ubuf_folio;
++	pgoff_t i;
+ 
+-	while (!list_empty(unpin_list)) {
+-		ubuf_folio = list_first_entry(unpin_list,
+-					      struct udmabuf_folio, list);
+-		unpin_folio(ubuf_folio->folio);
++	for (i = 0; i < ubuf->nr_pinned; ++i)
++		unpin_folio(ubuf->pinned_folios[i]);
+ 
+-		list_del(&ubuf_folio->list);
+-		kfree(ubuf_folio);
+-	}
+-}
+-
+-static int add_to_unpin_list(struct list_head *unpin_list,
+-			     struct folio *folio)
+-{
+-	struct udmabuf_folio *ubuf_folio;
+-
+-	ubuf_folio = kzalloc(sizeof(*ubuf_folio), GFP_KERNEL);
+-	if (!ubuf_folio)
+-		return -ENOMEM;
+-
+-	ubuf_folio->folio = folio;
+-	list_add_tail(&ubuf_folio->list, unpin_list);
+-	return 0;
++	kvfree(ubuf->pinned_folios);
+ }
+ 
+ static __always_inline int init_udmabuf(struct udmabuf *ubuf, pgoff_t pgcnt)
+ {
+-	INIT_LIST_HEAD(&ubuf->unpin_list);
+-
+ 	ubuf->folios = kvmalloc_array(pgcnt, sizeof(*ubuf->folios), GFP_KERNEL);
+ 	if (!ubuf->folios)
+ 		return -ENOMEM;
+@@ -236,12 +222,18 @@ static __always_inline int init_udmabuf(struct udmabuf *ubuf, pgoff_t pgcnt)
+ 	if (!ubuf->offsets)
+ 		return -ENOMEM;
+ 
++	ubuf->pinned_folios = kvmalloc_array(pgcnt,
++					     sizeof(*ubuf->pinned_folios),
++					     GFP_KERNEL);
++	if (!ubuf->pinned_folios)
++		return -ENOMEM;
++
  	return 0;
  }
  
-+static __always_inline int init_udmabuf(struct udmabuf *ubuf, pgoff_t pgcnt)
-+{
-+	INIT_LIST_HEAD(&ubuf->unpin_list);
-+
-+	ubuf->folios = kvmalloc_array(pgcnt, sizeof(*ubuf->folios), GFP_KERNEL);
-+	if (!ubuf->folios)
-+		return -ENOMEM;
-+
-+	ubuf->offsets = kvcalloc(pgcnt, sizeof(*ubuf->offsets), GFP_KERNEL);
-+	if (!ubuf->offsets)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+static __always_inline void deinit_udmabuf(struct udmabuf *ubuf)
-+{
-+	unpin_all_folios(&ubuf->unpin_list);
-+	kvfree(ubuf->offsets);
-+	kvfree(ubuf->folios);
-+}
-+
- static void release_udmabuf(struct dma_buf *buf)
+ static __always_inline void deinit_udmabuf(struct udmabuf *ubuf)
  {
- 	struct udmabuf *ubuf = buf->priv;
-@@ -232,9 +254,7 @@ static void release_udmabuf(struct dma_buf *buf)
- 	if (ubuf->sg)
- 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
- 
 -	unpin_all_folios(&ubuf->unpin_list);
--	kvfree(ubuf->offsets);
--	kvfree(ubuf->folios);
-+	deinit_udmabuf(ubuf);
- 	kfree(ubuf);
++	unpin_all_folios(ubuf);
+ 	kvfree(ubuf->offsets);
+ 	kvfree(ubuf->folios);
  }
+@@ -351,9 +343,11 @@ static int export_udmabuf(struct udmabuf *ubuf,
+ static long udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
+ 			       loff_t start, loff_t size)
+ {
+-	pgoff_t pgoff, pgcnt, upgcnt = ubuf->pagecount;
++	pgoff_t nr_pinned = ubuf->nr_pinned;
++	pgoff_t upgcnt = ubuf->pagecount;
+ 	struct folio **folios = NULL;
+ 	u32 cur_folio, cur_pgcnt;
++	pgoff_t pgoff, pgcnt;
+ 	long nr_folios;
+ 	long ret = 0;
+ 	loff_t end;
+@@ -375,9 +369,7 @@ static long udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
+ 		pgoff_t subpgoff = pgoff;
+ 		size_t fsize = folio_size(folios[cur_folio]);
  
-@@ -395,33 +415,24 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (!ubuf)
- 		return -ENOMEM;
+-		ret = add_to_unpin_list(&ubuf->unpin_list, folios[cur_folio]);
+-		if (ret < 0)
+-			goto end;
++		ubuf->pinned_folios[nr_pinned++] = folios[cur_folio];
  
--	INIT_LIST_HEAD(&ubuf->unpin_list);
- 	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
- 	for (i = 0; i < head->count; i++) {
- 		if (!PAGE_ALIGNED(list[i].offset))
--			goto err;
-+			goto err_noinit;
- 		if (!PAGE_ALIGNED(list[i].size))
--			goto err;
-+			goto err_noinit;
- 
- 		pgcnt += list[i].size >> PAGE_SHIFT;
- 		if (pgcnt > pglimit)
--			goto err;
-+			goto err_noinit;
+ 		for (; subpgoff < fsize; subpgoff += PAGE_SIZE) {
+ 			ubuf->folios[upgcnt] = folios[cur_folio];
+@@ -398,6 +390,7 @@ static long udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
  	}
- 
- 	if (!pgcnt)
--		goto err;
-+		goto err_noinit;
- 
--	ubuf->folios = kvmalloc_array(pgcnt, sizeof(*ubuf->folios), GFP_KERNEL);
--	if (!ubuf->folios) {
--		ret = -ENOMEM;
-+	ret = init_udmabuf(ubuf, pgcnt);
-+	if (ret)
- 		goto err;
--	}
--
--	ubuf->offsets = kvcalloc(pgcnt, sizeof(*ubuf->offsets), GFP_KERNEL);
--	if (!ubuf->offsets) {
--		ret = -ENOMEM;
--		goto err;
--	}
- 
- 	for (i = 0; i < head->count; i++) {
- 		struct file *memfd = fget(list[i].memfd);
-@@ -452,9 +463,8 @@ static long udmabuf_create(struct miscdevice *device,
- 	return ret;
- 
- err:
--	unpin_all_folios(&ubuf->unpin_list);
--	kvfree(ubuf->offsets);
--	kvfree(ubuf->folios);
-+	deinit_udmabuf(ubuf);
-+err_noinit:
- 	kfree(ubuf);
+ end:
+ 	ubuf->pagecount = upgcnt;
++	ubuf->nr_pinned = nr_pinned;
+ 	kvfree(folios);
  	return ret;
  }
 -- 
