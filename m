@@ -2,86 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C9C971CE2
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 16:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4972971CFF
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 16:46:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708B710E3B1;
-	Mon,  9 Sep 2024 14:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 268EE10E441;
+	Mon,  9 Sep 2024 14:46:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZhmXJ4PH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qz5KutUY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
- [209.85.166.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7395410E125;
- Mon,  9 Sep 2024 14:40:20 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id
- ca18e2360f4ac-82ade877fbeso87552439f.0; 
- Mon, 09 Sep 2024 07:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725892819; x=1726497619; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yADGgFh0Qr9khviAqSL4T0j/ayR5ihAosN0nFeWJtFw=;
- b=ZhmXJ4PHVayrLSacXX2qJrapZ+na5uXtWiBem0oBzTRCSp3ugNBHJQIqTWyW9JCHG4
- TnFTNNCCbQdtAhgdCftqgloyLBxZegW1SQUhR0hChTqtgnfBrUC+2yQQpnEPsKDEc44M
- q3YR1zhMxk0kCoO6Vn47xXvjwT67sQY8AHsCRYkJm7ViBo0kyZbmyntmJ1BEHhqWPkTV
- SL6Voe3n6UwFQuf62FXuHekgchjAbvhamZqrYw8oxkgAOinggL/A9n6P2S2MGUbRrAvl
- RYGy0qsE+/99clTeQdDsJq9T7sa43P9P3jr2hXrj/gHQ+ayU4cFNNUMNWO8x564F1k94
- Wcqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725892819; x=1726497619;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yADGgFh0Qr9khviAqSL4T0j/ayR5ihAosN0nFeWJtFw=;
- b=RVG0Qvp6VGPVUUV2L5vj4yTA66bSXpTzsrv1yMd6w5GygTz6W2JMQRSwcStksWtqZB
- BxIYFzWbg2eNeYcJilZQV3DEOy8ZCHujjcefRR74T3Rc0thz5VKFHUnxCjCSoGJ+lPtw
- L89dcqt72RmWSdN8RAOY2QBZIzOuHtP5ZrO6n0/APV2wrBRGz5gwpnRBCDwPXBVcYrf5
- n48JQsoPJjwwqwmQy08WuCd2lheRe62CMvNo24axPdCJUIzsQqvc+FhHN9u5pCxRoGyP
- tK7rwyrphYh0VJ55pgcCqI4wc7UE2OMmAuTlMFVZBAx12T85RRAktSTwSSKDVTpNZ/YQ
- FgiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0SwlVQp0Ir8Y0JLQz2grZmbw2DtF/hdegVIDjGNOBrCbiawGeIBIruQC7E8sHUcmtI/U3dXgvdTcY@lists.freedesktop.org,
- AJvYcCXsjmwLYn2PSW8vnGw3jrNM5Dzj+0qmgpDosuYAJIB2b37FpKIuHdEIYvP2JUlXlYiTNHA9hrwN0qI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqZDfZDoUCA4WkDJOy+1CBRNoEAbdy1wMuewFi5juhdaWJ6dZj
- UsBl+chs+49JhpRRdk7HWCX2ZIjhWDGyt+wkLo7x4YGIXiuwg4i5KIXglmNb9D9Uct7Mglyukhr
- mVE9SqzgX0UD2kCsTyuXtqw8DpNQ=
-X-Google-Smtp-Source: AGHT+IG/zidy3pUha3J4vBn+TgE6JlPVQqsYOcZPn1/PZgtYteEn9j/NJ/+ZfxxiFMsg3wdTfHQX1c5/CxyHbAkt+Ic=
-X-Received: by 2002:a05:6e02:1d06:b0:3a0:4a63:e7ac with SMTP id
- e9e14a558f8ab-3a04f0ccccfmr140661735ab.18.1725892819444; Mon, 09 Sep 2024
- 07:40:19 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81F5A10E3AE;
+ Mon,  9 Sep 2024 14:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725893188; x=1757429188;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=cgF9oSQeLyPiU8t6rpcfi9t/dGWgkEeYsf1tSU7qppA=;
+ b=Qz5KutUYF0I7RS3Mg/2P9IEOs1Cx7g36XvLuLkzL5k1GAfk22kaBMrvB
+ 6RJ3+W1WdXVw3ySagSKNNvT+MWkw7iMk1zMkSpu5saUwDNXlxpV8OMtbn
+ QTO8lsy90X+jeWpJ3+TGHfJpmpQbq+HJv+gdKvDuIBsdU6qtzQI79ZVYb
+ P0idtsD11U/lTx9Ioq+Qcz5j/Zc8ywo3P+Ps755OxX+VGdjfS4q0JTzNB
+ bzWZF4AMqIUn5GMAmYg4EahTAxEBLx2Ce4dmSNV2tz+r0RFLFVw9nlltM
+ 1lO3X5gE/BeWKC1UhXtt3onKvmVDbuqALoKegx1SAo/M8GprlI165L21a A==;
+X-CSE-ConnectionGUID: k+B5O/4rRmuGLsHY4CLZnQ==
+X-CSE-MsgGUID: amu7DY1fTbiigTpgAbvJCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24738118"
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; d="scan'208";a="24738118"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2024 07:46:27 -0700
+X-CSE-ConnectionGUID: nTlM4mL9RXSwKNKlTHp6/w==
+X-CSE-MsgGUID: dQKltezgTRyzrnx0NIQpPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; d="scan'208";a="66325002"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2024 07:46:26 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Lyude Paul <lyude@redhat.com>
+Subject: [PATCH] drm/dp_mst: Fix DSC decompression detection in Synaptics
+ branch devices
+Date: Mon,  9 Sep 2024 17:46:50 +0300
+Message-ID: <20240909144650.2931258-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.44.2
 MIME-Version: 1.0
-References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
- <20240905-preemption-a750-t-v3-4-fd947699f7bc@gmail.com>
- <20240906195444.owz4eralirekr7r7@hu-akhilpo-hyd.qualcomm.com>
- <df85bf24-651c-4a35-929b-4de6c05555a1@gmail.com>
- <CACu1E7GSMQHa6258hV2OwS5nTGh+kTeZ-qQPMfGTy5YVP5kX3g@mail.gmail.com>
-In-Reply-To: <CACu1E7GSMQHa6258hV2OwS5nTGh+kTeZ-qQPMfGTy5YVP5kX3g@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 9 Sep 2024 07:40:07 -0700
-Message-ID: <CAF6AEGvv60CS43dCijsUCzELLn=t1PJQVCzMx01cFJsNJ1Uk9g@mail.gmail.com>
-Subject: Re: [PATCH v3 04/10] drm/msm/A6xx: Implement preemption for A7XX
- targets
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Antonino Maniscalco <antomani103@gmail.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Sharat Masetty <smasetty@codeaurora.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,85 +67,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 9, 2024 at 6:43=E2=80=AFAM Connor Abbott <cwabbott0@gmail.com> =
-wrote:
->
-> On Mon, Sep 9, 2024 at 2:15=E2=80=AFPM Antonino Maniscalco
-> <antomani103@gmail.com> wrote:
-> >
-> > On 9/6/24 9:54 PM, Akhil P Oommen wrote:
-> > > On Thu, Sep 05, 2024 at 04:51:22PM +0200, Antonino Maniscalco wrote:
-> > >> This patch implements preemption feature for A6xx targets, this allo=
-ws
-> > >> the GPU to switch to a higher priority ringbuffer if one is ready. A=
-6XX
-> > >> hardware as such supports multiple levels of preemption granularitie=
-s,
-> > >> ranging from coarse grained(ringbuffer level) to a more fine grained
-> > >> such as draw-call level or a bin boundary level preemption. This pat=
-ch
-> > >> enables the basic preemption level, with more fine grained preemptio=
-n
-> > >> support to follow.
-> > >>
-> > >> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> > >> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> > >> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QR=
-D
-> > >> ---
-> > >>   drivers/gpu/drm/msm/Makefile              |   1 +
-> > >>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 293 ++++++++++++++++++=
-+++-
-> > >>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     | 161 ++++++++++++
-> > ...
-> > >
-> > > we can use the lighter smp variant here.
-> > >
-> > >> +
-> > >> +            if (a6xx_gpu->cur_ring =3D=3D ring)
-> > >> +                    gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-> > >> +            else
-> > >> +                    ring->skip_inline_wptr =3D true;
-> > >> +    } else {
-> > >> +            ring->skip_inline_wptr =3D true;
-> > >> +    }
-> > >> +
-> > >> +    spin_unlock_irqrestore(&ring->preempt_lock, flags);
-> > >>   }
-> > >>
-> > >>   static void get_stats_counter(struct msm_ringbuffer *ring, u32 cou=
-nter,
-> > >> @@ -138,12 +231,14 @@ static void a6xx_set_pagetable(struct a6xx_gpu=
- *a6xx_gpu,
-> > >
-> > > set_pagetable checks "cur_ctx_seqno" to see if pt switch is needed or
-> > > not. This is currently not tracked separately for each ring. Can you
-> > > please check that?
-> >
-> > I totally missed that. Thanks for catching it!
-> >
-> > >
-> > > I wonder why that didn't cause any gpu errors in testing. Not sure if=
- I
-> > > am missing something.
-> > >
-> >
-> > I think this is because, so long as a single context doesn't submit to
-> > two different rings with differenr priorities, we will only be incorrec=
-t
-> > in the sense that we emit more page table switches than necessary and
-> > never less. However untrusted userspace could create a context that
-> > submits to two different rings and that would lead to execution in the
-> > wrong context so we must fix this.
->
-> FWIW, in Mesa in the future we may want to expose multiple Vulkan
-> queues per device. Then this would definitely blow up.
+Atm it's assumed that all Synaptics MST branch devices support DSC,
+which is not exposed via a DP-to-DP peer device, rather a control flag
+in the branch device's UFP DPCD applying to all the streams going
+through it. This isn't true for all adapters with this branch device
+though (for instance the Cakitte USBC->2xHDMI adapter reported in the
+Closes link below doesn't support DSC).
 
-This will actually be required by future android versions, with the
-switch to vk hwui backend (because apparently locking is hard, the
-solution was to use different queue's for different threads)
+Fix the above by advertising the DSC decompression support only if the
+capability flag for this in the UFP DPCD is actually set.
 
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/11326
+Cc: Lyude Paul <lyude@redhat.com>
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12047
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-BR,
--R
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index a040d7dfced17..ac90118b9e7a8 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -6083,6 +6083,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
+ 	struct drm_dp_aux *immediate_upstream_aux;
+ 	struct drm_dp_mst_port *fec_port;
+ 	struct drm_dp_desc desc = {};
++	u8 upstream_dsc;
+ 	u8 endpoint_fec;
+ 	u8 endpoint_dsc;
+ 
+@@ -6109,8 +6110,6 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
+ 
+ 	/* DP-to-DP peer device */
+ 	if (drm_dp_mst_is_virtual_dpcd(immediate_upstream_port)) {
+-		u8 upstream_dsc;
+-
+ 		if (drm_dp_dpcd_read(&port->aux,
+ 				     DP_DSC_SUPPORT, &endpoint_dsc, 1) != 1)
+ 			return NULL;
+@@ -6156,6 +6155,13 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
+ 	if (drm_dp_has_quirk(&desc, DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD)) {
+ 		u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
+ 
++		if (drm_dp_dpcd_read(immediate_upstream_aux,
++				     DP_DSC_SUPPORT, &upstream_dsc, 1) != 1)
++			return NULL;
++
++		if (!(upstream_dsc & DP_DSC_DECOMPRESSION_IS_SUPPORTED))
++			return NULL;
++
+ 		if (drm_dp_read_dpcd_caps(immediate_upstream_aux, dpcd_ext) < 0)
+ 			return NULL;
+ 
+-- 
+2.44.2
+
