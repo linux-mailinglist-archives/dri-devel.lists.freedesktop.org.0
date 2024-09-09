@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CC3971DAB
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 17:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B358E971DB6
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 17:13:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E57910E58B;
-	Mon,  9 Sep 2024 15:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB5610E589;
+	Mon,  9 Sep 2024 15:13:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="MIqkl1aN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZVWS7fJj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 891BE10E589
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 15:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1725894747;
- bh=FXnPDua9oM/F12XvXaMhSoJTKFM3q06IAOZGjPkHFmo=;
- b=MIqkl1aN/8T3im1dX1soziq8GA6pmwat9BiZDsmcsvx0koHbaQqPYdTzAO2B0ORiDMypeeY3D
- eJFCy3i0+21GFeJFpQFtuVFWtFGvyEQ5zp33XvPjebX9D3NZwoAf7osh9VxoVRlCTbCY5Uxp/NN
- 4sNfPNM0CTJblZhnXo/dEMGkA1wYr9y53MaaJoeINEChbFv7tpUvqNrnBPaUKzzVPysMhW43x1Z
- DQBtQeI4u53d8fBEzJGTo57InOgT9VqdL1RZ2f4eOsaD08z5xHm7QxDo2ZlbzpMCimD06kM6Qyp
- 9TGhRcpA+aZLELZ19nndamH8FxibujyVuJbuvxNEtCfQ==
-Message-ID: <250d8e1e-20dd-4741-8cf7-c3b4ff9e82a8@kwiboo.se>
-Date: Mon, 9 Sep 2024 17:12:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] drm: bridge: dw_hdmi: Only notify connected
- status on HPD interrupt
-To: neil.armstrong@linaro.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C8C10E589
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 15:13:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 925805C0208;
+ Mon,  9 Sep 2024 15:13:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4081CC4CEC5;
+ Mon,  9 Sep 2024 15:13:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725894811;
+ bh=yV2uXKxMqi7mz1WN5z5wldbH9IOzkDhnMu2iCjQncXE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZVWS7fJjWHCb2XkF55GdXZwdBa+k3fkK+cw4UAr3EqvXyTfI5HLn3r58KlFT/WDsV
+ PbYkTrZ4q73wlMOAtln4UfzZhSNyw09TeVtwWa9cZstso/O6rFXy/25dKOep/Z+Lqg
+ 2/ryq9Rmmkg/IT5inkt7UJmyMX4C4VjXEEqEufpvMSldUx7grYFUZC95ESgJAwIzqp
+ Lfbvi7+DUpG3/H1Hdd1NyUrzTIdwyD9Taohfem49TD5DdHFTf1Sos/GP3wif/E8ULa
+ 6UG4dRuiD7mru0RBVt1NTuKA9fFOwcen268rsBW+UcX49ttd79K4myATTYwdclAO0M
+ hTWfZ2LATQ6Ow==
+Date: Mon, 9 Sep 2024 17:13:28 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240908132823.3308029-1-jonas@kwiboo.se>
- <20240908132823.3308029-3-jonas@kwiboo.se>
- <bc0b47d9-ad8d-4beb-aad4-6dff79f48842@linaro.org>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <bc0b47d9-ad8d-4beb-aad4-6dff79f48842@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 66df105755874e972a5d499f
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, 
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>, 
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [PATCH v6 1/3] drm/bridge: synopsys: Add DW HDMI QP TX
+ Controller support library
+Message-ID: <20240909-horned-congenial-curassow-ebc5fa@houat>
+References: <20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com>
+ <20240906-b4-rk3588-bridge-upstream-v6-1-a3128fb103eb@collabora.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="a6pjesfz3btllyif"
+Content-Disposition: inline
+In-Reply-To: <20240906-b4-rk3588-bridge-upstream-v6-1-a3128fb103eb@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,69 +76,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
 
-On 2024-09-09 15:16, Neil Armstrong wrote:
-> On 08/09/2024 15:28, Jonas Karlman wrote:
->> drm_helper_hpd_irq_event() and drm_bridge_hpd_notify() may incorrectly
->> be called with a connected status when HPD is high and RX sense is
->> changed. This typically happen when the HDMI cable is unplugged, shortly
->> before the HPD is changed to low.
->>
->> Fix this by only notify connected status on the HPD interrupt when HPD
->> is going high, not on the RX sense interrupt when RX sense is changed.
->>
->> Fixes: da09daf88108 ("drm: bridge: dw_hdmi: only trigger hotplug event on link change")
->> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->> ---
->> v2: New patch
->> ---
->>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index 9e7f86a0bf5c..055fc9848df4 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -3123,7 +3123,8 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->>   			mutex_unlock(&hdmi->cec_notifier_mutex);
->>   		}
->>   
->> -		if (phy_stat & HDMI_PHY_HPD)
->> +		if ((intr_stat & HDMI_IH_PHY_STAT0_HPD) &&
->> +		    (phy_stat & HDMI_PHY_HPD))
->>   			status = connector_status_connected;
->>   
->>   		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
-> 
-> Perhaps this should be also checked for the other lines checking HDMI_PHY_HPD ?
+--a6pjesfz3btllyif
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I think this is the only place we need to check to match the original
-intent of da09daf88108 ("drm: bridge: dw_hdmi: only trigger hotplug
-event on link change").
+Hi,
 
-The interrupt pattern I can see when physically unplugging are:
-- RX interrupt:  HPD=high RX=low  -> triggered connected event
-- HPD interrupt: HPD=low  RX=low  -> trigger disconnected event
+On Fri, Sep 06, 2024 at 04:17:40AM GMT, Cristian Ciocaltea wrote:
+> +static enum drm_connector_status
+> +dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge)
+> +{
+> +	struct dw_hdmi_qp *hdmi = bridge->driver_private;
+> +	enum drm_connector_status status;
+> +
+> +	status = hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
+> +
+> +	dev_dbg(hdmi->dev, "%s conn=%d scramb=%d\n", __func__,
+> +		status == connector_status_connected, hdmi->scramb_enabled);
+> +
+> +	if (hdmi->scramb_enabled) {
+> +		cancel_delayed_work_sync(&hdmi->scramb_work);
+> +
+> +		if (status == connector_status_connected)
+> +			dw_hdmi_qp_check_and_set_scramb(hdmi);
+> +	}
+> +
+> +	return status;
+> +}
 
-Based on the commit message the intent was to trigger hotplug event:
-- when HPD goes high (plugin)
-- when both HPD and RX sense has gone low (plugout)
+Unfortunately, that won't work. The HDMI Spec has (HDMI 2.0, Section
+6.1.3.1 - Scrambling Control):
 
-For plugin we should only trigger when HPD=high at HPD interrupt, as is
-done after this patch, to avoid unnecessary events when RX changes.
+The minimum time period between the write to the Scrambling_Enable bit,
+and the transmission of a scrambled video signal is not specified;
+however the Source shall not begin transmission of a scrambled video
+signal before writing a 1 to the Scrambling_Enable bit. The maximum time
+period between the write to the Scrambling_Enable bit and the
+transmission of a scrambled video signal shall be 100 ms.
 
-For plugout the event should be triggered when both HPD=low and RX=low,
-that can happen at either HPD or RX interrupt.
+So you need to disable the output and enable it again.
 
-This should probably be revisited in future, I think we should ignore
-RX sense and instead use a work queue and a small debounce timeout after
-HPD interrupt or similar, to better support EDID refresh. Something for
-a future series.
+vc4 does just that, you can have a look here:
+https://elixir.bootlin.com/linux/v6.10.9/source/drivers/gpu/drm/vc4/vc4_hdmi.c#L410
 
-Regards,
-Jonas
+Maxime
 
-> 
-> Neil
+--a6pjesfz3btllyif
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZt8QmAAKCRAnX84Zoj2+
+djUdAYDRdEgSW7Wj/UA+T/XsaiAocjWHwnktCrXecrwrTQQLmwTpGoDKU6nmsxBR
+eU74UeEBfiF7DgCZ3hfYdjQvzGKKyzvQQQitqxvSxT4+rBQyGtUKC89mLd+1wOlo
+uzb+gTqbBA==
+=hgwR
+-----END PGP SIGNATURE-----
+
+--a6pjesfz3btllyif--
