@@ -2,131 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9963971642
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 13:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353D397185E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 13:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A2C10E137;
-	Mon,  9 Sep 2024 11:07:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TK4EnWIV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1474310E3E7;
+	Mon,  9 Sep 2024 11:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF9410E137
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 11:07:28 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-374ba78f192so2479653f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 04:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725880046; x=1726484846; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=XZonbfJF60MrOr6HTUV7NctqUdDwU+6CyQCXFpoAHDY=;
- b=TK4EnWIVz4v0psE3CRRi0Cqbp+HYouPezKg7BrA4QmNxr+o+EQnUa85Eo7U6m1m3t4
- XvfVc3E+wBsC+9GnMAj81YoG3oWzk+aoueUAzzPZvaVFXoj+xALwpsvnUEdSRSsfXsuV
- coA2YoelDVlnq4hvoUamU3KZUVIJAvs7mhEfXpKkTHoN5ccK25BE9Oax+LPyzNiJr+Iu
- 9A6aH4bvuM4IPntXDFZVYYNqgazquaGDTCNjm5W0KejzAfGzpD8VwM/TeBGFGrylis2t
- Jrdujp/pKi+sJg8BTpWwTmXvqJA8tBpM3gi96SkL9vsjhN6Xp8eaz1JMrNFz3CvxbWeP
- SxrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725880046; x=1726484846;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XZonbfJF60MrOr6HTUV7NctqUdDwU+6CyQCXFpoAHDY=;
- b=GXYJb/RCyGZ1LF6Es7mhSA141u/fwSZsgbqEbODIb9rCiScr/HGS3z/bZcl59/NWzJ
- ws32B8WD2S+PEhoEIos2ZJQn3PyK871Koju3KbcHhLe9787MVLZiwILZDeb6FjCDCI3i
- FJSxiDq3DQL65iMEQl3QrPZIF0aOGbiLghS7m+g2iIbpwRoxitC4DkX4MznHZ+glED0q
- 2Jt7AnMU04wZ8xm/IKAeNuioJpuCM8hdm2Sku9UQ7K00/RUaEoyH3FMf5bVhAeyooKlX
- KN9nJLHYGK/OuZ5AVMI/XIjzCWAh9FHPdTUGQmgV9DNPuntUL7NCGOUqlRVqhNih4rM1
- DXxg==
-X-Gm-Message-State: AOJu0YxdjGeNP62LC1zRvWnLSMQSGzbvLDll4YlyWaCxnK7IRAe8tXJ4
- hGG3pUDZAfFPEhlS9Cu/A5Z2csX1KMBxU0HTSAeudChJIBB/NXA9
-X-Google-Smtp-Source: AGHT+IFf5GN2ZxFR5xiNyC1JjMsPZdLZ1bIPbUSy+hNK6EbkI2/bPy930ExxBVZNztYRfLZ4aNjKjw==
-X-Received: by 2002:a5d:5545:0:b0:374:c269:df6e with SMTP id
- ffacd0b85a97d-378895ddf36mr6270562f8f.25.1725880046079; 
- Mon, 09 Sep 2024 04:07:26 -0700 (PDT)
-Received: from [192.168.2.177] ([81.0.7.156]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956d375asm5733608f8f.66.2024.09.09.04.07.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Sep 2024 04:07:25 -0700 (PDT)
-Message-ID: <39a07b50-e403-4799-9091-edfcbfba067e@gmail.com>
-Date: Mon, 9 Sep 2024 13:07:21 +0200
+X-Greylist: delayed 990 seconds by postgrey-1.36 at gabe;
+ Mon, 09 Sep 2024 11:37:48 UTC
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49EB410E3AF
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 11:37:48 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4X2PXm2Sy2z1xv0C;
+ Mon,  9 Sep 2024 19:21:12 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+ by mail.maildlp.com (Postfix) with ESMTPS id EE4911400DC;
+ Mon,  9 Sep 2024 19:21:13 +0800 (CST)
+Received: from [10.67.120.129] (10.67.120.129) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 9 Sep 2024 19:21:13 +0800
+Message-ID: <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
+Date: Mon, 9 Sep 2024 19:21:05 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] drm/mediatek: dp: constify regmap_config
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-References: <20240908-regmap-config-const-v1-0-28f349004811@linaro.org>
- <20240908-regmap-config-const-v1-4-28f349004811@linaro.org>
-Content-Language: en-US, ca-ES, es-ES
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Autocrypt: addr=matthias.bgg@gmail.com; keydata=
- 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
-In-Reply-To: <20240908-regmap-config-const-v1-4-28f349004811@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+ <linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+ <linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+CC: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, Maciej
+ Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon
+ <jonathan.lemon@gmail.com>, Shuah Khan <shuah@kernel.org>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+ <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Pavel Begunkov
+ <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>, Harshitha Ramamurthy
+ <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de
+ Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
+References: <20240909054318.1809580-1-almasrymina@google.com>
+Content-Language: en-US
+From: Yunsheng Lin <linyunsheng@huawei.com>
+In-Reply-To: <20240909054318.1809580-1-almasrymina@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.120.129]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,31 +86,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2024/9/9 13:43, Mina Almasry wrote:
 
-
-On 08/09/2024 16:21, Krzysztof Kozlowski wrote:
-> Mark local static 'struct regmap_config' as const for safer and more
-> obvious code.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-> ---
->   drivers/gpu/drm/mediatek/mtk_dp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Perf - page-pool benchmark:
+> ---------------------------
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-> index d8796a904eca..f0f6f402994a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -311,7 +311,7 @@ static const struct mtk_dp_efuse_fmt mt8195_dp_efuse_fmt[MTK_DP_CAL_MAX] = {
->   	},
->   };
->   
-> -static struct regmap_config mtk_dp_regmap_config = {
-> +static const struct regmap_config mtk_dp_regmap_config = {
->   	.reg_bits = 32,
->   	.val_bits = 32,
->   	.reg_stride = 4,
+> bench_page_pool_simple.ko tests with and without these changes:
+> https://pastebin.com/raw/ncHDwAbn
 > 
+> AFAIK the number that really matters in the perf tests is the
+> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+> cycles without the changes but there is some 1 cycle noise in some
+> results.
+> 
+> With the patches this regresses to 9 cycles with the changes but there
+> is 1 cycle noise occasionally running this test repeatedly.
+> 
+> Lastly I tried disable the static_branch_unlikely() in
+> netmem_is_net_iov() check. To my surprise disabling the
+> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+> but the 1 cycle noise remains.
+
+Sorry for the late report, as I was adding a testing page_pool ko basing
+on [1] to avoid introducing performance regression when fixing the bug in
+[2].
+I used it to test the performance impact of devmem patchset for page_pool
+too, it seems there might be some noticable performance impact quite stably
+for the below testcases, about 5%~16% performance degradation as below in
+the arm64 system:
+
+Before the devmem patchset:
+ Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1' (100 runs):
+
+         17.167561      task-clock (msec)         #    0.003 CPUs utilized            ( +-  0.40% )
+                 8      context-switches          #    0.474 K/sec                    ( +-  0.65% )
+                 0      cpu-migrations            #    0.001 K/sec                    ( +-100.00% )
+                84      page-faults               #    0.005 M/sec                    ( +-  0.13% )
+          44576552      cycles                    #    2.597 GHz                      ( +-  0.40% )
+          59627412      instructions              #    1.34  insn per cycle           ( +-  0.03% )
+          14370325      branches                  #  837.063 M/sec                    ( +-  0.02% )
+             21902      branch-misses             #    0.15% of all branches          ( +-  0.27% )
+
+       6.818873600 seconds time elapsed                                          ( +-  0.02% )
+
+ Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1 test_direct=1' (100 runs):
+
+         17.595423      task-clock (msec)         #    0.004 CPUs utilized            ( +-  0.01% )
+                 8      context-switches          #    0.460 K/sec                    ( +-  0.50% )
+                 0      cpu-migrations            #    0.000 K/sec
+                84      page-faults               #    0.005 M/sec                    ( +-  0.15% )
+          45693020      cycles                    #    2.597 GHz                      ( +-  0.01% )
+          59676212      instructions              #    1.31  insn per cycle           ( +-  0.00% )
+          14385384      branches                  #  817.564 M/sec                    ( +-  0.00% )
+             21786      branch-misses             #    0.15% of all branches          ( +-  0.14% )
+
+       4.098627802 seconds time elapsed                                          ( +-  0.11% )
+
+After the devmem patchset:
+Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1' (100 runs):
+
+         17.047973      task-clock (msec)         #    0.002 CPUs utilized            ( +-  0.39% )
+                 8      context-switches          #    0.488 K/sec                    ( +-  0.82% )
+                 0      cpu-migrations            #    0.001 K/sec                    ( +- 70.35% )
+                84      page-faults               #    0.005 M/sec                    ( +-  0.12% )
+          44269558      cycles                    #    2.597 GHz                      ( +-  0.39% )
+          59594383      instructions              #    1.35  insn per cycle           ( +-  0.02% )
+          14362599      branches                  #  842.481 M/sec                    ( +-  0.02% )
+             21949      branch-misses             #    0.15% of all branches          ( +-  0.25% )
+
+       7.964890303 seconds time elapsed                                          ( +-  0.16% )
+
+ Performance counter stats for 'insmod ./page_pool_test.ko test_push_cpu=16 test_pop_cpu=16 nr_test=100000000 test_napi=1 test_direct=1' (100 runs):
+
+         17.660975      task-clock (msec)         #    0.004 CPUs utilized            ( +-  0.02% )
+                 8      context-switches          #    0.458 K/sec                    ( +-  0.57% )
+                 0      cpu-migrations            #    0.003 K/sec                    ( +- 43.81% )
+                84      page-faults               #    0.005 M/sec                    ( +-  0.17% )
+          45862652      cycles                    #    2.597 GHz                      ( +-  0.02% )
+          59764866      instructions              #    1.30  insn per cycle           ( +-  0.01% )
+          14404323      branches                  #  815.602 M/sec                    ( +-  0.01% )
+             21826      branch-misses             #    0.15% of all branches          ( +-  0.19% )
+
+       4.304644609 seconds time elapsed                                          ( +-  0.75% )
+
+1. https://lore.kernel.org/all/20240906073646.2930809-2-linyunsheng@huawei.com/
+2. https://lore.kernel.org/lkml/8067f204-1380-4d37-8ffd-007fc6f26738@kernel.org/T/
+
+> 
+
