@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A726971342
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7DA9713B6
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD42C10E355;
-	Mon,  9 Sep 2024 09:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E62110E35E;
+	Mon,  9 Sep 2024 09:32:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RphJp/I7";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Bl3z97aA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994DA10E351;
- Mon,  9 Sep 2024 09:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/1h8BWkktXtDv4aCLL9t99+OTSOBbd0Kpw9GYJSdS/w=; b=RphJp/I70BS1S8olzWXAhmb7gU
- tQ8dUxctlF8w6UmWZaNUn3io6AbTbN6hACa7ib0MTgNs5O4HOTQccIiQQNQHhENhfH7oPpHiWIILO
- qC5Yj+zSt83+9QOMz73LRmSDOLHVIgEZlh1hFAJzW51GyjyN1F6kHJnjv4knmbCDIffLl4ZYAe8bv
- YNrX7wlCJXmCuj4zRvi4+aGKKrjlb8VRMJJqjXp++8Rh1QZPmCaO1Uyh5jS22gclUH+VKuGChCx7K
- CAAD99pB+rUbKrmuW21/36yQwwPz4Jx3qMvVFi6Z0SsEc2TUa6M1iEOKzWvHURurJ17hde/Mr2lnZ
- 4ttmWuhg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1snaZg-00BQyk-Aj; Mon, 09 Sep 2024 11:20:44 +0200
-Message-ID: <80d8a180-75f8-4244-b25a-97ee38bf49d6@igalia.com>
-Date: Mon, 9 Sep 2024 10:20:43 +0100
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
+ [91.218.175.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D567E10E357
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 09:31:59 +0000 (UTC)
+Message-ID: <b8c5d719-5214-4e3a-84c5-b8767cd6ab7e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1725874316;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1FfY+P7ZZq0qErrG/rtogTk8M5gxtrNoLyw/ceH66qw=;
+ b=Bl3z97aA9atJ3P5QPUdShqBtJgMZnc4lBHajMHa31vgnCtkrahWYepsyJRrALVTvajAGaH
+ mepTV60NXDC5wzoMXlMDehU6z/yLF07HTKSGQLMrrd/yh/ZFKGyYE29fmfnuY2Hy2CT9z1
+ b+yZtDtxDMLNKu5VGq9cbTZnsYxxOAs=
+Date: Mon, 9 Sep 2024 15:01:26 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/4] DRM scheduler fixes, or not, or incorrect kind
-To: Philipp Stanner <pstanner@redhat.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Luben Tuikov
- <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
-References: <20240906180618.12180-1-tursulin@igalia.com>
- <3d9450d3a7334da47b0d3dd7b902be7dd9051a2d.camel@redhat.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <3d9450d3a7334da47b0d3dd7b902be7dd9051a2d.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3 0/4] drm/tidss: Add OLDI bridge support
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Francesco Dolcini <francesco@dolcini.it>, max.krummenacher@toradex.com
+Cc: Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
+References: <20240716084248.1393666-1-a-bhatia1@ti.com>
+ <20240906114311.GA32916@francesco-nb>
+ <c60d518b-ace4-48a8-87e5-35de13bc426a@ideasonboard.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <c60d518b-ace4-48a8-87e5-35de13bc426a@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,72 +73,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 09/09/2024 09:47, Philipp Stanner wrote:
+Thank you, Francesco and Max, for testing and reporting this!
+
+On 09/09/24 13:45, Tomi Valkeinen wrote:
 > Hi,
 > 
-> On Fri, 2024-09-06 at 19:06 +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> On 06/09/2024 14:43, Francesco Dolcini wrote:
+>> +Max
 >>
->> In a recent conversation with Christian there was a thought that
->> drm_sched_entity_modify_sched() should start using the entity-
->>> rq_lock to be
->> safe against job submission and simultaneous priority changes.
+>> Hello Aradhya,
+>>
+>> On Tue, Jul 16, 2024 at 02:12:44PM +0530, Aradhya Bhatia wrote:
+>>> The addition of the 2nd OLDI TX (and a 2nd DSS in AM62Px) creates a need
+>>> for some major changes for a full feature experience.
+>>>
+>>> 1. The OF graph needs to be updated to accurately show the data flow.
+>>> 2. The tidss and OLDI drivers now need to support the dual-link and the
+>>>     cloned single-link OLDI video signals.
+>>> 3. The drivers also need to support the case where 2 OLDI TXes are
+>>>     connected to 2 different VPs - thereby creating 2 independent
+>>> streams
+>>>     of single-link OLDI outputs.
+>>
+>> Have you considered/tested the use case in which only single link is
+>> used?
+>> You do not mention it here and to me this is a relevant use case.
+>>
+>> There is a workaround for this (use option 2, cloned, even if nothing is
+>> connected to the second link), but this seems not correct.
+
+I agree. The whole idea behind the series is to be able to accurately
+describe the hardware. Putting the devicetree in clone mode in order to
+get the single-link mode working is far from ideal.
+
+>>
+>> We (Max in Cc here) noticed that this specific use case is broken on
+>> your downstream v6.6 TI branch.
+
+Yes, it was been brought to my attention that the single-link usecase is
+not working over the downstream ti-6.6 kernel. As I have since
+discovered, it's not working on this series either.
+
+For some reason, the supplier-consumer dependency between the OLDI and
+the panel devicetree nodes is not getting flagged as `FWLINK_FLAG_CYCLE`
+in cases of single-link configuration.
+
+This flag allows the panel driver to continue to probe without waiting
+for the OLDI driver (panel's supplier). Absence of the flag getting set
+is causing these drivers to keep deferring probe in an endless cycle.
+
+Even with the flag, the OLDI (and tidss) cannot complete probe until the
+panel driver is probed and ready. That is because the OLDI (and tidss)
+need the panel to continue with the bridge-chain creation.
+
+However, over with the dual-lvds configuration (and as Francesco has
+now mentioned the clone configuration as well), the flag gets set by
+default, and everything works.
+
+This is what the debug has led to, so far.
+
 > 
-> There are also FIXMEs in gpu_scheduler.h that might be related.
-
-Yes there appears to be a good number of dodgy/unclear areas there.
-
->> The kerneldoc accompanying that function however is a bit unclear to
->> me. For
->> instance is amdgpu simply doing it wrongly by not serializing the two
->> in the
->> driver? Or is the comment referring to some other race condition than
->> which is
->> of concern in this series?
->>
->> To cut the long story short, first three patches try to fix this race
->> in three
->> places I *think* can manifest in different ways.
->>
->> Last patch is a trivial optimisation I spotted can be easily done.
+> What if you set "fw_devlink=off" kernel boot parameter?
 > 
-> I took a look and at least to me it doesn't appear to be that trivial,
-> mostly because it takes two locks.
 
-The code does take two locks, but the patch itself does not change any 
-of that. It just splits the locked helper out so re-locking is avoided.
+Yes! I haven't tested it, but it seems that this will bypass the
+supplier check and let the panel probe continue.
 
-> Would you mind branching that out as a separate patch so that the
-> series would 100% address bugs?
 
-I wanted to start the series with fixes so backporting will work. If I 
-put the optimisation first then fixes will not trivially apply to older 
-kernels. Assuming they are correct of course.
+Tomi, any idea, why is this issue happening only for single-link in the
+first place? It seems as if having 2 ports inside the panel devicetree
+lets the probe mechanism recognize the circular dependency and ignore
+the supplier OLDIs?
 
-Regards,
+This is the function where the difference comes down to, by the way -
+__fw_devlink_relax_cycles(), per my knowledge. I am still on my way to
+understand what exactly it is doing and why is it not relaxing the
+single-link case.
 
-Tvrtko
 
-> 
-> P.	
-> 
->>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Luben Tuikov <ltuikov89@gmail.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->>
->> Tvrtko Ursulin (4):
->>    drm/sched: Add locking to drm_sched_entity_modify_sched
->>    drm/sched: Always wake up correct scheduler in
->>      drm_sched_entity_push_job
->>    drm/sched: Always increment correct scheduler score
->>    drm/sched: Optimise drm_sched_entity_push_job
->>
->>   drivers/gpu/drm/scheduler/sched_entity.c | 17 ++++++++++++-----
->>   drivers/gpu/drm/scheduler/sched_main.c   | 21 ++++++++++++++-------
->>   include/drm/gpu_scheduler.h              |  1 +
->>   3 files changed, 27 insertions(+), 12 deletions(-)
->>
-> 
+Regards
+Aradhya
+
+
