@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0020970E19
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 08:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14822970E3B
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 08:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4A810E2D4;
-	Mon,  9 Sep 2024 06:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF4510E2D6;
+	Mon,  9 Sep 2024 06:48:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="dBNongc4";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA2910E2D6
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 06:47:20 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-03 (Coremail) with SMTP id rQCowAC3vn7rmd5mr8gUAg--.35535S2;
- Mon, 09 Sep 2024 14:47:15 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, make24@iscas.ac.cn, bskeggs@redhat.com,
- airlied@redhat.com, akpm@linux-foundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: [PATCH RESEND] drm/nouveau: fix a possible null pointer dereference
-Date: Mon,  9 Sep 2024 14:47:06 +0800
-Message-Id: <20240909064706.1199176-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9516D10E2D6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 06:48:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1725864527; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=JBZia3zCnvI6oZy7maTvumeptCtx3i8ydXti9LxynmfCTHu3Z58DrKZzeX5wcekrOo0hVUQZKipnR8QUpVyEoOPLCjlZlFOQCvE/XGhoOblO/hfC/6vaVpsZyXdt9eEB2xZYAST0DBU4y5Qovat/MwpFtHefJNdJSuim6/vadhc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1725864527;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=DQqWcutoKL6a0GFhm3Jo0PNfy9O3Da/ndDAvyoZuXPI=; 
+ b=ag3KTLZPx3WzeaiyqKa0QB4E4rmIIB685McJs4novmXBlQMSn9T7yow1lDmv2fQB3fumj3jpFIHHrnomrda8cLpDqPxHZ5HuZjWtWRc9eLD4oFnrCm1RQYYiZS8OH/07DFdzyKdjnOxdXyuSMwvYSzUxl5bTNMM0qhrdrvNmjWA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
+ dmarc=pass header.from=<mary.guillemard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725864527; 
+ s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=DQqWcutoKL6a0GFhm3Jo0PNfy9O3Da/ndDAvyoZuXPI=;
+ b=dBNongc40i87PBKU77QpWkaSFJLBYmLH3PxLm/nRViSY7inIXLIuQ/sB3Pc8rXCq
+ yj07osxJtphnl3bERHFlmyGykxrHLpyrVkIz6dhqwmhxh5tN+Zy5z6A5jsc/wgwDjLR
+ qRqEl3gzP6Flu2pUnjJSJbFPW0acUe9i3Kr4SLuo=
+Received: by mx.zohomail.com with SMTPS id 1725864525859560.608359750444;
+ Sun, 8 Sep 2024 23:48:45 -0700 (PDT)
+From: Mary Guillemard <mary.guillemard@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Christopher Healy <healych@amazon.com>, kernel@collabora.com,
+ Mary Guillemard <mary.guillemard@collabora.com>
+Subject: [PATCH v3 0/2] drm/panthor: Expose realtime group priority and
+ allowed priorites to userspace
+Date: Mon,  9 Sep 2024 08:48:19 +0200
+Message-ID: <20240909064820.34982-2-mary.guillemard@collabora.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowAC3vn7rmd5mr8gUAg--.35535S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFykCryUWr4DuFyDCF1ftFb_yoW8GFWkpF
- srG34YyFW5JFZruF18Ja4avF15G3W7JF1xuw10van3C3ZayryUtryrXryYgryfAFW3Kr12
- qwnFvFy7WF12krJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
- 0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28Icx
- kI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
- xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
- IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
- 6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
- CY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbCPfPUUUUU==
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +66,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In ch7006_encoder_get_modes(), the return value of drm_mode_duplicate() is
-used directly in drm_mode_probed_add(), which will lead to a NULL pointer
-dereference on failure of drm_mode_duplicate(). Add a check to avoid npd.
+This patch series adds support for realtime group priority and exposes
+allowed priorities info with a new dev query.
 
-Cc: stable@vger.kernel.org
-Fixes: 6ee738610f41 ("drm/nouveau: Add DRM driver for NVIDIA GPUs")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/i2c/ch7006_drv.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Those changes are required to implement EGL_IMG_context_priority and
+EGL_NV_context_priority_realtime extensions properly.
 
-diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-index 131512a5f3bd..48bf6e4e8bdb 100644
---- a/drivers/gpu/drm/i2c/ch7006_drv.c
-+++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-@@ -229,6 +229,7 @@ static int ch7006_encoder_get_modes(struct drm_encoder *encoder,
- {
- 	struct ch7006_priv *priv = to_ch7006_priv(encoder);
- 	const struct ch7006_mode *mode;
-+	struct drm_display_mode *encoder_mode = NULL;
- 	int n = 0;
- 
- 	for (mode = ch7006_modes; mode->mode.clock; mode++) {
-@@ -236,8 +237,11 @@ static int ch7006_encoder_get_modes(struct drm_encoder *encoder,
- 		    ~mode->valid_norms & 1<<priv->norm)
- 			continue;
- 
--		drm_mode_probed_add(connector,
--				drm_mode_duplicate(encoder->dev, &mode->mode));
-+		encoder_mode = drm_mode_duplicate(encoder->dev, &mode->mode);
-+		if (!encoder_mode)
-+			return 0;
-+
-+		drm_mode_probed_add(connector, encoder_mode);
- 
- 		n++;
- 	}
+This patch series assumes that [1] is applied. (found in drm-misc-fixes)
+
+The Mesa MR using this series is available here [2].
+
+v2:
+- Add Steven Price r-b on the first patch
+- Remove drm_panthor_group_allow_priority_flags definition and document
+  that allowed_mask is a bitmask of drm_panthor_group_priority on the
+  second patch
+
+v3:
+- Use BIT macro in panthor_query_group_priorities_info
+- Add r-b from Steven Price and Boris Brezillon
+
+[1]https://lore.kernel.org/all/20240903144955.144278-2-mary.guillemard@collabora.com/
+[2]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30991
+
+Mary Guillemard (2):
+  drm/panthor: Add PANTHOR_GROUP_PRIORITY_REALTIME group priority
+  drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO dev query
+
+ drivers/gpu/drm/panthor/panthor_drv.c   | 61 +++++++++++++++++--------
+ drivers/gpu/drm/panthor/panthor_sched.c |  2 -
+ include/uapi/drm/panthor_drm.h          | 29 ++++++++++++
+ 3 files changed, 71 insertions(+), 21 deletions(-)
+
 -- 
-2.25.1
+2.46.0
 
