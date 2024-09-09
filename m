@@ -2,59 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E653971AA3
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36D3971A9C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:17:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1662010E060;
-	Mon,  9 Sep 2024 13:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66DAC10E09C;
+	Mon,  9 Sep 2024 13:17:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nvydEuWP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RU8yZqUQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A9410E060
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 13:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725887922; x=1757423922;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=LaS630GWSJUP5/OlzQClgenx4KF+6YVTc43cjcpFnEE=;
- b=nvydEuWPzPtP7vERkOJV/Fzjzpm429tssi/gsHmRD54obWQgs6wS5/VA
- XNnY1lTrCHUTsR3+Dm3kJllD8AWIMMSe8tlI5U+/zJpw7K65qmj+uQMB3
- By3vAfkimRPr3v/Rzl20tjWImQ70HWg1+IroGOrOxm1v4XjBpJeHaB/sr
- tIC34E0zibfypV6reclcjkV6jjjeGoCAt3TNM70uEKvSZ0EwtAov3M9nw
- n7IHllIEuoIw3ZDEry1Hk1dKHrjMalu4+Ay9dEPVjHXcxEe9G9rV7dXss
- 2DeORF1G4BYxRRLgc+YdfNZBL1Irlhlf1r93C60F6xErm8Uy3OxIV9EHy A==;
-X-CSE-ConnectionGUID: 3lNddIxAQ4qiw2XPw7Hrcw==
-X-CSE-MsgGUID: Fkt3KgyiT1eguMbZ1SYZhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28363548"
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; d="scan'208";a="28363548"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2024 06:18:41 -0700
-X-CSE-ConnectionGUID: y9IAZPafTayJLBL4nz5pOw==
-X-CSE-MsgGUID: 0VC8m7WDSiqzEP0MrMRAvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; d="scan'208";a="104127985"
-Received: from yzhao56-desk.sh.intel.com ([10.239.159.62])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2024 06:18:37 -0700
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
- Yan Zhao <yan.y.zhao@intel.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Kevin Tian <kevin.tian@intel.com>
-Subject: [PATCH v2] drm/bochs: use devm_ioremap_wc() to map framebuffer
-Date: Mon,  9 Sep 2024 21:16:43 +0800
-Message-ID: <20240909131643.28915-1-yan.y.zhao@intel.com>
-X-Mailer: git-send-email 2.43.2
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D96E10E09C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 13:16:59 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-428e0d18666so38845725e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 06:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1725887818; x=1726492618; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Sg3XnbABoZRPJGRGcZWLT0fiHtFn27fHJD7M1+IXq9Y=;
+ b=RU8yZqUQFigZQ5gvxuCsNcDpW32uOlizofYXMF4aovDvNkfLJqCYuV7AbvZeNXlZl4
+ QKyV0aE/HAMbdOb6L0A+Ys1vKy0mVXIM1KyqYe/Q3plCxwUFLtHd7dWAldKb89w7py5X
+ jwvwk+vTLJogdo1qPidmDRYH7KEqZClSbeGgPImilvyZxaM4MF05ZcWyx80fkAebusp9
+ fXkG8WVP+K8ulY6EeQix+u8zmyOiqy6S7UwYhy7OTXhUA0ykqfwXVyCMe2ndLC4QqgBW
+ p47WQh06UD38gvc5yRptTQPc+47Ybx30QIvWltVdP9L7/6hynG/qmeRSdQrG1ik4cbU5
+ WCuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725887818; x=1726492618;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Sg3XnbABoZRPJGRGcZWLT0fiHtFn27fHJD7M1+IXq9Y=;
+ b=g6VIFqRTzmoNxSxyldrekJCAf1YR0Hcb+3hcPSDITuuA27jmQ0UCB5U96vtETnWqza
+ +XgFeiGe0+d0Z9kyIdNzDS7VAi5AO05UsPB1jGm3qPXqgW2/eXv3iMl9OMthYdh77t5s
+ 3kWHlZ99Eg4NWaOBrT2zMzzVpdmWM7jbvdZWTuYtBEopQ4zQZjQNroyauap/L5Ww0OFF
+ TQ9lDpPqYPAZfD7yc5/YZ0FrBJUjXHveKPRI+GGyFa2aobmQrRW/T1P/W6YoLTw6zyn3
+ NHQaxZ33Zwte6Dgme9rCYhzVGN3fFq+0zjr1OFLCU6VofFDmnL0lTdjoqSqYHwDzV+Pc
+ Jg3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUoBIYh6MwYeEq9ogQECHymWI84KvZQr3KTD9lfCEe34Q4PRPLsgBSPtBBBu40Bi+CfEmzm/GsHR4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXfaKWtI2lrLqaQNEsTzl4PIsu0FEVuQZXSCFec6tJITfMaG1D
+ 6nxAJb20JAy8/KXQ54dmB6hCPfuISynhLeZkK7tutnrOr9NF5RKerCuM7ocKgPc=
+X-Google-Smtp-Source: AGHT+IHLaFRmjXq7bnm5y4AJSqSjgdR4U2OGsCo8bfREbnp9ZgT2lMllHdorREM+yqOr4qBpHp+aLQ==
+X-Received: by 2002:a05:600c:548a:b0:42c:bae0:f057 with SMTP id
+ 5b1f17b1804b1-42cbae0f29fmr9879275e9.8.1725887817701; 
+ Mon, 09 Sep 2024 06:16:57 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:63a3:6883:a358:b850?
+ ([2a01:e0a:982:cbb0:63a3:6883:a358:b850])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42ca05c2656sm109292335e9.7.2024.09.09.06.16.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Sep 2024 06:16:57 -0700 (PDT)
+Message-ID: <bc0b47d9-ad8d-4beb-aad4-6dff79f48842@linaro.org>
+Date: Mon, 9 Sep 2024 15:16:56 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 02/10] drm: bridge: dw_hdmi: Only notify connected
+ status on HPD interrupt
+To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Hewitt <christianshewitt@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Christopher Obbard <chris.obbard@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240908132823.3308029-1-jonas@kwiboo.se>
+ <20240908132823.3308029-3-jonas@kwiboo.se>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240908132823.3308029-3-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +121,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Opt for devm_ioremap_wc() over devm_ioremap() when mapping the framebuffer.
+On 08/09/2024 15:28, Jonas Karlman wrote:
+> drm_helper_hpd_irq_event() and drm_bridge_hpd_notify() may incorrectly
+> be called with a connected status when HPD is high and RX sense is
+> changed. This typically happen when the HDMI cable is unplugged, shortly
+> before the HPD is changed to low.
+> 
+> Fix this by only notify connected status on the HPD interrupt when HPD
+> is going high, not on the RX sense interrupt when RX sense is changed.
+> 
+> Fixes: da09daf88108 ("drm: bridge: dw_hdmi: only trigger hotplug event on link change")
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+> v2: New patch
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 9e7f86a0bf5c..055fc9848df4 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -3123,7 +3123,8 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+>   			mutex_unlock(&hdmi->cec_notifier_mutex);
+>   		}
+>   
+> -		if (phy_stat & HDMI_PHY_HPD)
+> +		if ((intr_stat & HDMI_IH_PHY_STAT0_HPD) &&
+> +		    (phy_stat & HDMI_PHY_HPD))
+>   			status = connector_status_connected;
+>   
+>   		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
 
-Using devm_ioremap() results in the VA being mapped with PAT=UC-, which
-considerably slows down drm_fb_memcpy(). In contrast, devm_ioremap_wc()
-maps the VA with PAT set to WC, leading to better performance on platforms
-where access to UC memory is much slower than WC memory.
+Perhaps this should be also checked for the other lines checking HDMI_PHY_HPD ?
 
-Here's the performance data measured in a guest on the physical machine
-"Sapphire Rapids XCC".
-With host KVM honors guest PAT memory types, the effective memory type
-for this framebuffer range is
-- WC when devm_ioremap_wc() is used
-- UC- when devm_ioremap() is used.
-
-The data presented is an average from 10 execution runs.
-
-Cycles: Avg cycles of executed bochs_primary_plane_helper_atomic_update()
-        from VM boot to GDM show up
-Cnt:    Avg cnt of executed bochs_primary_plane_helper_atomic_update()
-        from VM boot to GDM show up
-T:      Avg time of each bochs_primary_plane_helper_atomic_update().
-
- -------------------------------------------------
-|            | devm_ioremap() | devm_ioremap_wc() |
-|------------|----------------|-------------------|
-|  Cycles    |    211.545M    |   0.157M          |
-|------------|----------------|-------------------|
-|  Cnt       |     142        |   1917            |
-|------------|----------------|-------------------|
-|  T         |    0.1748s     |   0.0004s         |
- -------------------------------------------------
-
-Note:
-Following the rebase to [3], the previously reported GDM failure on the
-VGA device [1] can no longer be reproduced, thanks to the memory management
-improvements made in [2]. Despite this, I have proceeded to submit this
-patch because of the noticeable performance improvements it provides.
-
-Reported-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Closes: https://lore.kernel.org/all/87jzfutmfc.fsf@redhat.com/#t
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-Link: https://lore.kernel.org/all/87jzfutmfc.fsf@redhat.com/#t [1]
-Link: https://patchwork.freedesktop.org/series/138086 [2]
-Link: https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next [3]
----
-v2:
-- Rebased to the latest drm-misc-next branch. [2]
-- Updated patch log to match the base code.
-
-v1: https://lore.kernel.org/all/20240909051529.26776-1-yan.y.zhao@intel.com
----
- drivers/gpu/drm/tiny/bochs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 69c5f65e9853..9055b1dd66df 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -268,7 +268,7 @@ static int bochs_hw_init(struct bochs_device *bochs)
- 	if (!devm_request_mem_region(&pdev->dev, addr, size, "bochs-drm"))
- 		DRM_WARN("Cannot request framebuffer, boot fb still active?\n");
- 
--	bochs->fb_map = devm_ioremap(&pdev->dev, addr, size);
-+	bochs->fb_map = devm_ioremap_wc(&pdev->dev, addr, size);
- 	if (bochs->fb_map == NULL) {
- 		DRM_ERROR("Cannot map framebuffer\n");
- 		return -ENOMEM;
--- 
-2.43.2
-
+Neil
