@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D3D970ECA
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 09:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1844970ECB
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 09:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB1710E2E1;
-	Mon,  9 Sep 2024 07:08:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E3210E2E2;
+	Mon,  9 Sep 2024 07:08:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fBdyDMsE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HazWVBfC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A937210E2E0;
- Mon,  9 Sep 2024 07:08:21 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-374c84dcc64so2947311f8f.1; 
- Mon, 09 Sep 2024 00:08:21 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D3210E2E2;
+ Mon,  9 Sep 2024 07:08:24 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-42cb58d810eso3995145e9.0; 
+ Mon, 09 Sep 2024 00:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725865700; x=1726470500; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1725865702; x=1726470502; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=14qfBrUBkIolMsRSnhXU/v/JiTjLcMYNIcdp3nVnQBY=;
- b=fBdyDMsEImY11zQgfDNfPVb6vHy5hJir6/QDI0OSa0wAfIZG5DfnafqhV1Z0T58b1a
- pEJzM6FXNjPRtdSph8/baxeSfZYZCdpRLcAw5pICwGDCvgLwSmXNm0FqpN8dRL874kUS
- UNzpjMOLBD1EZB0c/v59R0zwa/tONZMq194EKqH6WYQ0OLGllwmxnFrL16/tfHBP92jS
- 1TWMNCErAEW6aEd4t+w5oUKAk6OGKoORBquJdoGWAK9uCTebx3UQxRZ73TpV1RBG6uCr
- O1SUgVJz0Zr4roDa5Dulo97kC9fX0Pj04ZqZ5hLRXxvmyl1XN2GEDZneTbbbXc5aPINh
- Stlg==
+ bh=uWDfXNbOPKK8OkK/H/srkd9h9NgocC7Imjlm69NJz1o=;
+ b=HazWVBfCrXQXLU3YRjUl424H5JnFcA9Ko17dGSEFRIAvV1xKvQkQyug3j2IdWlupA2
+ oc1mDQ2bivBmdQigQYZJp+EjJfvrLFKAjjYVxyig/3m74kzTpUm9+0hzzb4V6TJeRLuN
+ npr01ZLtvsTUHk34md0uUfeJ+LU4aADF2COPeGgKVpvnaMYJX2FJWkIFi5zHFSx+/c1A
+ //6HjDz8qISu97k9pJWwtkXep56ADepLtUOFjtNoNpyMuwz/u5yD3cnc5vbum4XE4ZS3
+ zACR1meScSz97yPaOi+So/RSolgq8/eh4Gq5D4gf6WJ8IBHPw+HjzFakPtLKZJ3JcVw9
+ RZwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725865700; x=1726470500;
+ d=1e100.net; s=20230601; t=1725865702; x=1726470502;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=14qfBrUBkIolMsRSnhXU/v/JiTjLcMYNIcdp3nVnQBY=;
- b=wT6OFIKOClevktaHqCEjNUr6TtyvuftR0d1p682OjeFttLykEjfjvWSU6wf4l9Hj4v
- /1tkCr1lFwqNkkkiVeag85W1ot3/F+YKmH/po/jTnXB9nGM/vWUeRnzIUxy9Wnk0rOUL
- WMijV6mFfqQd4DkqopyETGbXn6PbHyHzShEWhJVcyC8GowseO4mRP+Xmn3I9CxQqBYgr
- 4mX6Gz9MFAoPM1h/2tSUE9CnWRPO8I3ZF3d9MdwWW1PKFyhakOJar8rOtZYucS6Bp3Ft
- lrvWL5uMTIHuUDqtOdsmlmehftQg2k2uO4QzCTQUFJKPgfGH1fyvzNgd4vzHhHd6tGCM
- 1+SQ==
+ bh=uWDfXNbOPKK8OkK/H/srkd9h9NgocC7Imjlm69NJz1o=;
+ b=rMUOYCsmAnLw2x6WhRYYhMCSNs9kMDea41paXOGLas2nPLo4dsfdpJsTX1SIuFzK2P
+ 9ITWL3hZP+2fkViHZUqrBFe2dsCb5qgAS8EeVkmab8kvJtq9nflnbHFDfyM2seOs9Gab
+ u9nANTs+DAMFxp3N9aRgJQlg+37ziIQsxYc7T+MPvrb9j2h806phZM8g9wxNlOnB4K9l
+ HUkWvT0YfBW13QK6wDYrCtxULsCWh+M3mOoyU+RoZHvjpCQPGdKcwei6Ljqrz9GpyKji
+ GD5Z7dhv+ydPWHLNraehfnyVnwWdRrPlG1BiutgNCfLLO0UnedisEkDVJimqalLJggWg
+ mAJg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfO4gLoYYqR2/Tj+taDpOnQ9tCVGt7oXc8zIm1SE0uEca1G2lk+1Xo8vW+ztjqjKt1RcGkuYBG+S4=@lists.freedesktop.org,
- AJvYcCVtNrzpLtMit1hAjwL+cnG37Z9j2ZI0dRdGtpNnchPogzlHRv9gCzwUo6f8bqH+0UgPGyhrsGnJjjvR@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzzKvX+F2Mw5cxuR4EBONu1VHUAjULGIzNRsqM8Gv5KRtFRPbr
- dDA4vyLU2Cv7yrlwYiObVLkoBjyjytRoXnEmHhd9XxlQ70rG4trE
-X-Google-Smtp-Source: AGHT+IHMxHViAQuYhY7LbiGTRSQjuSO1CzAuIEbDmKQ7N1Z92ayMooKBy6B84PbIuJbIoGvJODw6LA==
-X-Received: by 2002:adf:f4c2:0:b0:374:cb5c:2956 with SMTP id
- ffacd0b85a97d-3789243fd67mr6064910f8f.40.1725865699969; 
- Mon, 09 Sep 2024 00:08:19 -0700 (PDT)
+ AJvYcCUfx+wazmrAk1NjX8N0eeQFZPBLY0ExNlrRfRMMu/JSHaO1k5WPll6KpovEMKhTNlyQdThscYuMxlM=@lists.freedesktop.org,
+ AJvYcCXPc8f2aYXbGH6O5W8bPCDsAbEKsiUsVq73123UhbvadI21jYH1lOreDVQuXlDRHJ5V7+f74eMCsuzh@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUpXVCcsKUPF7Kt++r8ek/lJv112dnuVsxCqXzngV8CL9T+0QW
+ cEbvBNEYtwnpNZ0/aSegjqL7+3k5KuKRzbj26xd5nXZ93zNaVxbV
+X-Google-Smtp-Source: AGHT+IEyQpNRm6Z1Ke3uw6VOA9a0jndOIVoKsF8nIAl4IA619+tgnWwmZALCM8p4dz4tk9TqSiSrJA==
+X-Received: by 2002:a5d:5406:0:b0:378:7de8:df33 with SMTP id
+ ffacd0b85a97d-378888478bfmr5359523f8f.31.1725865702294; 
+ Mon, 09 Sep 2024 00:08:22 -0700 (PDT)
 Received: from fedora.iskraemeco.si ([193.77.86.250])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956d375asm5178754f8f.66.2024.09.09.00.08.19
+ ffacd0b85a97d-378956d375asm5178754f8f.66.2024.09.09.00.08.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Sep 2024 00:08:19 -0700 (PDT)
+ Mon, 09 Sep 2024 00:08:20 -0700 (PDT)
 From: Uros Bizjak <ubizjak@gmail.com>
 To: x86@kernel.org, linux-crypto@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
@@ -64,20 +64,19 @@ To: x86@kernel.org, linux-crypto@vger.kernel.org,
  linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
  bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
  kunit-dev@googlegroups.com
-Cc: Uros Bizjak <ubizjak@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+Cc: Uros Bizjak <ubizjak@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 03/19] drm/i915/selftests: Include <linux/prandom.h>
- instead of <linux/random.h>
-Date: Mon,  9 Sep 2024 09:05:17 +0200
-Message-ID: <20240909070742.75425-4-ubizjak@gmail.com>
+Subject: [PATCH v2 04/19] drm/lib: Include <linux/prandom.h> instead of
+ <linux/random.h>
+Date: Mon,  9 Sep 2024 09:05:18 +0200
+Message-ID: <20240909070742.75425-5-ubizjak@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240909070742.75425-1-ubizjak@gmail.com>
 References: <20240909070742.75425-1-ubizjak@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,57 +98,28 @@ Substitute the inclusion of <linux/random.h> header with
 of <linux/prandom.h> from <linux/random.h>.
 
 Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-Acked-by: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/i915/selftests/i915_gem.c    | 2 +-
- drivers/gpu/drm/i915/selftests/i915_random.h | 2 +-
- drivers/gpu/drm/i915/selftests/scatterlist.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/lib/drm_random.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
-index 61da4ed9d521..0727492576be 100644
---- a/drivers/gpu/drm/i915/selftests/i915_gem.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
-@@ -4,7 +4,7 @@
-  * Copyright © 2018 Intel Corporation
+diff --git a/drivers/gpu/drm/lib/drm_random.h b/drivers/gpu/drm/lib/drm_random.h
+index 5543bf0474bc..9f827260a89d 100644
+--- a/drivers/gpu/drm/lib/drm_random.h
++++ b/drivers/gpu/drm/lib/drm_random.h
+@@ -6,7 +6,7 @@
+  * be transposed to lib/ at the earliest convenience.
   */
  
 -#include <linux/random.h>
 +#include <linux/prandom.h>
  
- #include "gem/i915_gem_internal.h"
- #include "gem/i915_gem_pm.h"
-diff --git a/drivers/gpu/drm/i915/selftests/i915_random.h b/drivers/gpu/drm/i915/selftests/i915_random.h
-index 05364eca20f7..70330a2e80f2 100644
---- a/drivers/gpu/drm/i915/selftests/i915_random.h
-+++ b/drivers/gpu/drm/i915/selftests/i915_random.h
-@@ -26,7 +26,7 @@
- #define __I915_SELFTESTS_RANDOM_H__
- 
- #include <linux/math64.h>
--#include <linux/random.h>
-+#include <linux/prandom.h>
- 
- #include "../i915_selftest.h"
- 
-diff --git a/drivers/gpu/drm/i915/selftests/scatterlist.c b/drivers/gpu/drm/i915/selftests/scatterlist.c
-index 805c4bfb85fe..7e59591bbed6 100644
---- a/drivers/gpu/drm/i915/selftests/scatterlist.c
-+++ b/drivers/gpu/drm/i915/selftests/scatterlist.c
-@@ -22,7 +22,7 @@
-  */
- 
- #include <linux/prime_numbers.h>
--#include <linux/random.h>
-+#include <linux/prandom.h>
- 
- #include "i915_selftest.h"
- #include "i915_utils.h"
+ #define DRM_RND_STATE_INITIALIZER(seed__) ({				\
+ 	struct rnd_state state__;					\
 -- 
 2.46.0
 
