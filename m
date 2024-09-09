@@ -2,73 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F82971A62
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D02971A94
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 15:15:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1911610E3CA;
-	Mon,  9 Sep 2024 13:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01083897FB;
+	Mon,  9 Sep 2024 13:15:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x1JujasP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QJhmZsnq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9357910E3CA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 13:09:08 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-42cae102702so20071165e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 06:09:08 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57541897FB
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 13:15:29 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-42ca573fd5aso27170415e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 06:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725887347; x=1726492147; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1725887728; x=1726492528; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=2pp8+krOVBN4xiv3btMIYSmkgmn24OFZlDjgzfDJ46U=;
- b=x1JujasPHRjTJm8WAnkoH0rq/JZC2bb6FE0A6McjI1kFrwugXGhm2rz2FxC83bZZlg
- kOY9qVM6NszVw6B8T1vrY4IXS5jA1eKVLyM0UVz3+pAz/XLZoadHWGy1ta7Pa3FxzZTV
- LAer2xNu8xWCCwFWbMZaIxV1sxCBTrZmXnjm38r/A+g1P4xvtf17e+7KLJQFIAt+qD47
- AD0dcHjz01NAkPHD7iU88Mt65cW8I3p8u0x5kCGNLs1Dfj6Po+TMNTAUKiC4fYVLDt1C
- OlxP7Jzs3nvCNTrLloAeQ8d5TJjdPcBT16i8QxI5Y9nWdp6OOL+LK1CKUnJE31ecoq8R
- mGXg==
+ :reply-to; bh=B95ObHJpdojG5xYgPYvRks8MDbQVxroVTSkoySW7Ido=;
+ b=QJhmZsnqrhvcvtY+EF0KXCbZCPhXu6N03fRLBlOLLY/AVyMs9VR7Uvl0eHBVHP9uG0
+ ILs4bfRqPRMKjvNOzXzgqEddKZuBbGx+BBRTzXju3D0j9GmRRZT3LxiXSLCewO1XxZwc
+ qKIUowDZXdrFhvts165T8jlaOyYmtQCpMT9AtUW08SwS72a9gGnb+DgoP5JOyPx9ZpoR
+ jMGQnQLacEEJ01M6SNyP+NB/nGIKkRwrhWZCfDQ0hN+aGlu831awbGrIv8XRtfMhV4JA
+ T3971Epz0TNipmFVZDPHHwJIT/M5N/fhid8ja1JytDW+qdyaHy4FBxrb8RXQ4mRy4w8k
+ Lglw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725887347; x=1726492147;
+ d=1e100.net; s=20230601; t=1725887728; x=1726492528;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=2pp8+krOVBN4xiv3btMIYSmkgmn24OFZlDjgzfDJ46U=;
- b=sJcTfE1YT5jLmoxAKlzVbgS1ZEiMMyiCIlJrrf+kBLcqtJkgUErpGDeKq1g00Jj6pe
- vHuRVUaEkMUDx4IWk7ECk1G3aTWFdb9rUtdxsPVjTgatfZW86K/RJWn/94OXUR0xBDYp
- RgHg2NdJ4FXKscz6pi3PifzB2mcGNW4FaUAeSYw6qApHfd2fyocpyKFeWYd9OrMekdVF
- RFRkyXM0vPwzASNrajTx5EsCqwupgDASZyzTaSXe01VOmhMfzB/OEzzllIcyOFL26gCA
- lpRAQEgTIPLVUJG7VzJY4jHGMSSyPVDapTCvM3Hj93SWGAiUEkgx9hARjgwPGAnlUk/Z
- xvfw==
-X-Gm-Message-State: AOJu0YxToOjCKhPp6SnLsoW7gR5sOAmNbDkkn905TaWzexzZqRB1Qa6o
- XsdkWvk4kIEDixVX87VQgtN1igp7EYAkgdsp2I4rJyF1ji3rfnMg3s9qSRQFqtM=
-X-Google-Smtp-Source: AGHT+IHSD1+u3qLHgQQDgLd9KTZj8ktLT+x+NJyEUasmCWPbR1m2BPv58TPiHRNGozX4xwUTGBFGpA==
-X-Received: by 2002:a05:600c:3555:b0:429:a05:32fb with SMTP id
- 5b1f17b1804b1-42cae70f2c4mr59033445e9.10.1725887345788; 
- Mon, 09 Sep 2024 06:09:05 -0700 (PDT)
+ bh=B95ObHJpdojG5xYgPYvRks8MDbQVxroVTSkoySW7Ido=;
+ b=ilbfl4MVOJjYwZPiTsJQuGGrUapq8y4lTOej+2Aqldao5CovXxruF6qEKAb4HGa5sx
+ SoujdRlVB87P+CbbSSs5xh8OSt8AJC7njHlTWAkt9gCObS2Sr9vh/kCEcQ4M6H/XmyoY
+ uwMk/5YZ38acrnw+gYhgcTNxgt2DFP4rDg5JP1ZMMkBlMPD4kNqld7zrBX1PArNZChkj
+ vcE45ZA6jYK2ozopmmsTBCnMYgquNX1gnsUQcqazZQVQ3/Au1cuRoybKbdr/z4Rv9e1W
+ cSe5t9OTST0vxSgyVFs+9vDU7RRGoMDZk+7vbUf2+aQs6FxQyzuXRcoxQhv78/257tCr
+ rsFw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXT2kRtPp7egTj/JwIMvKlBvWHU/5n7Zu/e1fv5Q3QzkncNb/OK28nOTqikJn/HV5Fu57st9d2j1WU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxVSBH3WYbGhC2bOythokdp3CMX4dujKRPIVXuPw1sYvP9RBOtr
+ bxftE7TueCb3u+29IHa5QKb+E/BLsAn7l6ZTX0zeGGFiZpOhPOMpToc/juxyEcA=
+X-Google-Smtp-Source: AGHT+IEU43fgBZkJDiu5N74vNjtuUNPxSdgWTgzbyhk1oykhQZa3fOmHlH6jxK/DCxOHnZ+0No77XA==
+X-Received: by 2002:adf:f74b:0:b0:36b:b297:1419 with SMTP id
+ ffacd0b85a97d-378895ca68dmr7209193f8f.20.1725887726980; 
+ Mon, 09 Sep 2024 06:15:26 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:63a3:6883:a358:b850?
  ([2a01:e0a:982:cbb0:63a3:6883:a358:b850])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956d35e5sm6036285f8f.76.2024.09.09.06.09.05
+ ffacd0b85a97d-378956653d1sm6002863f8f.33.2024.09.09.06.15.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Sep 2024 06:09:05 -0700 (PDT)
-Message-ID: <5d4416f1-d585-44a7-a5db-7fc93c7af4fa@linaro.org>
-Date: Mon, 9 Sep 2024 15:09:04 +0200
+ Mon, 09 Sep 2024 06:15:26 -0700 (PDT)
+Message-ID: <8cdfa4f1-3acd-4839-a490-9152174e3136@linaro.org>
+Date: Mon, 9 Sep 2024 15:15:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: khadas-ts050: make ts050[v2]_panel_data static
-To: Min-Hua Chen <minhuadotchen@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+Subject: Re: [PATCH v2 01/10] drm: bridge: dw_hdmi: Disable scrambler feature
+ when not supported
+To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240908133533.112894-1-minhuadotchen@gmail.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Christian Hewitt <christianshewitt@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Christopher Obbard <chris.obbard@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240908132823.3308029-1-jonas@kwiboo.se>
+ <20240908132823.3308029-2-jonas@kwiboo.se>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -95,7 +105,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240908133533.112894-1-minhuadotchen@gmail.com>
+In-Reply-To: <20240908132823.3308029-2-jonas@kwiboo.se>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,41 +124,38 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/09/2024 15:35, Min-Hua Chen wrote:
-> make ts050_panel_data and ts050v2_panel_data static because they
-> are only used in drivers/gpu/drm/panel/panel-khadas-ts050.c,
-> and fix the following sparse warnings:
+On 08/09/2024 15:28, Jonas Karlman wrote:
+> The scrambler feature can be left enabled when hotplugging from a sink
+> and mode that require scrambling to a sink that does not support SCDC or
+> scrambling.
 > 
-> drivers/gpu/drm/panel/panel-khadas-ts050.c:620:32:
-> sparse: warning: symbol 'ts050_panel_data' was not declared. Should it be static?
-> drivers/gpu/drm/panel/panel-khadas-ts050.c:625:32:
-> sparse: warning: symbol 'ts050v2_panel_data' was not declared. Should it be static?
+> Typically a blank screen or 'no signal' message can be observed after
+> using a HDMI 2.0 4K@60Hz mode and then hotplugging to a sink that only
+> support HDMI 1.4.
 > 
-> No functional changes intended.
+> Fix this by disabling the scrambler feature when SCDC is not supported.
 > 
-> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+> Fixes: 264fce6cc2c1 ("drm/bridge: dw-hdmi: Add SCDC and TMDS Scrambling support")
+> Reported-by: Christopher Obbard <chris.obbard@collabora.com>
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > ---
->   drivers/gpu/drm/panel/panel-khadas-ts050.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> v2: New patch
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-khadas-ts050.c b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> index 14932cb3defc..0e5e8e57bd1e 100644
-> --- a/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> +++ b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-> @@ -617,12 +617,12 @@ static const struct khadas_ts050_panel_cmd ts050_init_code[] = {
->   	{0xd4, {0x04}, 0x01}, /* RGBMIPICTRL: VSYNC front porch = 4 */
->   };
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 0031f3c54882..9e7f86a0bf5c 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2117,6 +2117,8 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+>   				    HDMI_MC_SWRSTZ);
+>   			drm_scdc_set_scrambling(hdmi->curr_conn, 0);
+>   		}
+> +	} else if (hdmi->version >= 0x200a) {
+> +		hdmi_writeb(hdmi, 0, HDMI_FC_SCRAMBLER_CTRL);
+>   	}
 >   
-> -struct khadas_ts050_panel_data ts050_panel_data = {
-> +static struct khadas_ts050_panel_data ts050_panel_data = {
->   	.init_code = (struct khadas_ts050_panel_cmd *)ts050_init_code,
->   	.len = ARRAY_SIZE(ts050_init_code)
->   };
->   
-> -struct khadas_ts050_panel_data ts050v2_panel_data = {
-> +static struct khadas_ts050_panel_data ts050v2_panel_data = {
->   	.init_code = (struct khadas_ts050_panel_cmd *)ts050v2_init_code,
->   	.len = ARRAY_SIZE(ts050v2_init_code)
->   };
+>   	/* Set up horizontal active pixel width */
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
