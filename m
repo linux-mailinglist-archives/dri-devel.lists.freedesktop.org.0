@@ -2,49 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED799711DF
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 10:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D929711EE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 10:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2986010E31C;
-	Mon,  9 Sep 2024 08:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2460110E31B;
+	Mon,  9 Sep 2024 08:27:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kode54.net header.i=@kode54.net header.b="I+4Hf1d0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S5H8p8P4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
- [91.218.175.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D77F10E31E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 08:26:41 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kode54.net; s=key1;
- t=1725870399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K+IaTZWyNvLfaA2Yx5fCNnoQgcC03AEhnkKUre/aJms=;
- b=I+4Hf1d0d3CNvp7ElH51pfEZxXnYCoVn67V4JfPay8WtDcTFRdkBquERTs120VnN09CLwO
- bpWSQjSI41klmpM8uO1qRCvtP2DaImZciba0nWoXVSOZe7SZ3gpmrWKdmREDvB+0qh9fc6
- e0/W9c3oO3Ney4gfXdf2SGHK/1cbQwTf13UE7O4dEzyELjNyf1dOFKD2/dKYlOr+t26ACJ
- Yqlqqg9eGTSz0VqA+Pz/JgWnH6krmru3nNuvYg5JHJgNVW9giprna/ERNaUyxunWgKtjVY
- t/hzkIXAtv74ncXRyEdIslJLGtdEmNzlWihoNJgUc7XONvaGhZ37d7C29zngXQ==
-Content-Transfer-Encoding: quoted-printable
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A38FD10E31B
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 08:27:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4C7205C5694;
+ Mon,  9 Sep 2024 08:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B71C4CEC5;
+ Mon,  9 Sep 2024 08:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1725870469;
+ bh=WyIvNqdNKKmL6xpa/BWrmRO2x83uTD/WR+8Mx0NufFI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=S5H8p8P41rAs6xS/Wctiio5eVJHHdY05UYVKBtZyLSqSv2dckUxe2V0ZrfA/icEhX
+ N43P5pOpvuPHqy7wuz8TAGJ8n1VCtbkoMgaGLWp0smBWduZb3InNTSI9zqJAFGbNUg
+ QxTDpTty3+7O5jB85tAVHKADErSkVbWdvYQrPUR9fWhC6cjWJX6z5urbtJumEiKp6s
+ zNeecFXPPAbxcgl7csO2KSlDahyD7diQEeLOCGElJtSxn/sEeQGvzwfRp5dDSXq/mJ
+ fPWm2K10SoKoOn/QU97TJjwtDxUvygsMGicfGhihqH80a/aP3Lcw2jyDo8S3JE8NxD
+ R/KwkKDC481ww==
+Message-ID: <57eafe1a-2838-4380-88a9-4fa95d37bfb1@kernel.org>
+Date: Mon, 9 Sep 2024 10:27:41 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/exynos: gsc: Fix typo in comment
+To: Shen Lichuan <shenlichuan@vivo.com>, inki.dae@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: alim.akhtar@samsung.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <20240909080620.35245-1-shenlichuan@vivo.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240909080620.35245-1-shenlichuan@vivo.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Sep 2024 01:26:34 -0700
-Message-Id: <D41LZTT7K2N5.10I6PS6B05IDG@kode54.net>
-Subject: Re: [PATCH 0/2] drm/amd: fix VRR race condition during IRQ handling
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Christopher Snowhill" <chris@kode54.net>
-To: "Tobias Jakobi" <tjakobi@math.uni-bielefeld.de>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <cover.1725269643.git.tjakobi@math.uni-bielefeld.de>
- <D40Q9ZLDQIZF.3OERFS0AYREN0@kode54.net>
- <deb6d962-f24e-4769-b313-be3b0efb873b@math.uni-bielefeld.de>
-In-Reply-To: <deb6d962-f24e-4769-b313-be3b0efb873b@math.uni-bielefeld.de>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,103 +105,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun Sep 8, 2024 at 4:23 AM PDT, Tobias Jakobi wrote:
-> On 9/8/24 09:35, Christopher Snowhill wrote:
->
-> > On Mon Sep 2, 2024 at 2:40 AM PDT, tjakobi wrote:
-> >> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
-> >>
-> >> Hello,
-> >>
-> >> this fixes a nasty race condition in the set_drr() callbacks for DCN10
-> >> and DCN35 that has existed now since quite some time, see this GitLab
-> >> issue for reference.
-> >>
-> >> https://gitlab.freedesktop.org/drm/amd/-/issues/3142
-> >>
-> >> The report just focuses von DCN10, but the same problem also exists in
-> >> the DCN35 code.
-> > Does the problem not exist in the following references to funcs->set_dr=
-r?
-> >
-> > drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:      if (pip=
-e_ctx->stream_res.tg->funcs->set_drr)
-> > drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:             =
- pipe_ctx->stream_res.tg->funcs->set_drr(
-> > drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c:             =
- pipe_ctx[i]->stream_res.tg->funcs->set_drr(
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:        if (pip=
-e_ctx->stream_res.tg->funcs->set_drr)
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:               =
- pipe_ctx->stream_res.tg->funcs->set_drr(
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:               =
- if (pipe_ctx->stream_res.tg->funcs->set_drr)
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c:               =
-         pipe_ctx->stream_res.tg->funcs->set_drr(
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c:        if (pip=
-e_ctx->stream_res.tg->funcs->set_drr)
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c:               =
- pipe_ctx->stream_res.tg->funcs->set_drr(
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c:      if (pip=
-e_ctx->stream_res.tg->funcs->set_drr)
-> > drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c:             =
- pipe_ctx->stream_res.tg->funcs->set_drr(
->
-> Maybe. But the big difference I see here, is that in this code there=20
-> isn't even any kind of NULL check applied to tg. Or most of the members=
-=20
-> of *pipe_ctx. If there really is the same kind of problem here, then one=
-=20
-> would need to rewrite a bit more code to fix stuff.
->
-> E.g. in the case of=C2=A0 dcn31_hwseq.c, the questionable code is in=20
-> dcn31_reset_back_end_for_pipe(), which is static and only called from=20
-> dcn31_reset_hw_ctx_wrap(). Which is assigned to the .reset_hw_ctx_wrap=20
-> callback. And this specific callback, from what I can see, is only=20
-> called from dce110_reset_hw_ctx_wrap(). Which is then assigned to the=20
-> .apply_ctx_to_hw callback. The callback is only called from=20
-> dc_commit_state_no_check(). That one is static again, and called from=20
-> dc_commit_streams().
->
-> I could trace this even further. My point is: I don't think this is=20
-> called from any IRQ handler code. And given the depth and complexity of=
-=20
-> the callgraph, I have to admit, that, at least at this point, this is a=
-=20
-> bit over my head.
->
-> Sure, I could now sprinkle a bunch of x !=3D NULL in the code, but that=
-=20
-> would be merely voodoo. And I usually try to have a theoretical basis=20
-> when I apply changes to code.
->
-> Maybe if someone from the AMD display team could give some insight if=20
-> there still is potentially vulnerable code in some of the instances that=
-=20
-> Christopher has posted, then I would gladly take a look.
+On 09/09/2024 10:06, Shen Lichuan wrote:
+> Replace 'initailization' with 'initialization' in the comment.
+> 
+> Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
+> ---
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> index 1b111e2c3347..fc5fc65823c6 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> @@ -1286,7 +1286,7 @@ static int gsc_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> -	/* context initailization */
+> +	/* context initialization */
 
-Sorry, I was taking a note from someone else who mentioned set_drr function=
-s, and wasn't aware that none of the other implementations happen to be cal=
-led from IRQ handlers. Thanks for looking into this.
+@vivo.com, please fix all typos given subsystem in one run. One patch or
+few patches in one patchset. Not one typo per patch.
 
--Christopher
-
-> With best wishes,
-> Tobias
->
-> >
-> >> With best wishes,
-> >> Tobias
-> >>
-> >> Tobias Jakobi (2):
-> >>    drm/amd/display: Avoid race between dcn10_set_drr() and
-> >>      dc_state_destruct()
-> >>    drm/amd/display: Avoid race between dcn35_set_drr() and
-> >>      dc_state_destruct()
-> >>
-> >>   .../amd/display/dc/hwss/dcn10/dcn10_hwseq.c   | 20 +++++++++++------=
---
-> >>   .../amd/display/dc/hwss/dcn35/dcn35_hwseq.c   | 20 +++++++++++------=
---
-> >>   2 files changed, 24 insertions(+), 16 deletions(-)
+Best regards,
+Krzysztof
 
