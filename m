@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7DA9713B6
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7919713EA
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 11:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E62110E35E;
-	Mon,  9 Sep 2024 09:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEF710E357;
+	Mon,  9 Sep 2024 09:36:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Bl3z97aA";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="U1ctQX5e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D567E10E357
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 09:31:59 +0000 (UTC)
-Message-ID: <b8c5d719-5214-4e3a-84c5-b8767cd6ab7e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1725874316;
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC01E10E357
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 09:36:30 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1725874588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1FfY+P7ZZq0qErrG/rtogTk8M5gxtrNoLyw/ceH66qw=;
- b=Bl3z97aA9atJ3P5QPUdShqBtJgMZnc4lBHajMHa31vgnCtkrahWYepsyJRrALVTvajAGaH
- mepTV60NXDC5wzoMXlMDehU6z/yLF07HTKSGQLMrrd/yh/ZFKGyYE29fmfnuY2Hy2CT9z1
- b+yZtDtxDMLNKu5VGq9cbTZnsYxxOAs=
-Date: Mon, 9 Sep 2024 15:01:26 +0530
-MIME-Version: 1.0
-Subject: Re: [PATCH v3 0/4] drm/tidss: Add OLDI bridge support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Francesco Dolcini <francesco@dolcini.it>, max.krummenacher@toradex.com
-Cc: Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
-References: <20240716084248.1393666-1-a-bhatia1@ti.com>
- <20240906114311.GA32916@francesco-nb>
- <c60d518b-ace4-48a8-87e5-35de13bc426a@ideasonboard.com>
-Content-Language: en-US
+ bh=Ac7MnXk0+4OmEaGl+o2m4y/0M5iH7c+3GKkl4Qy3D8A=;
+ b=U1ctQX5eIeSZpzL1FGOk+YNq1zfqhAuIOYZnZk4KkZeMNWuidAVb0ZgcLHt3miY80lhy3h
+ N2+P20Z6umpmoxsROgk+CpQp0Ti6yzJWVcaQbzXjVYPTlE76xnPUMHDNsBIOnA4EOMdbTi
+ THbjO7xFXzRxHPYbD5S2Qe+nEbWOYAoFn1zgj2mtmpyF9m491GZOCkH+3zHw4BwCGQmx05
+ ox/AUJvJnH4OulTrG+t2f/zonHSyo2pjhgY5h97NVrxiXw3t55o7lLDK1MzF8jFQbkN3d1
+ xctqBIVEWLNbfql6B43xP4nZe3k8Df2lsVV7vTOfxG+D3sdTzI6kx9lffNlERA==
+Content-Type: multipart/signed;
+ boundary=8c1b658f7c448cb5c0b613f89153b15bab673f392c82b551568fd1d1d6ee;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Mon, 09 Sep 2024 11:36:14 +0200
+Message-Id: <D41NH5VO0A7T.26F04WDY1UTCR@cknow.org>
+Cc: <detlev.casanova@collabora.com>, <heiko@sntech.de>,
+ <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <hjc@rock-chips.com>, <mripard@kernel.org>,
+ <sebastian.reichel@collabora.com>, <linux-rockchip@lists.infradead.org>,
+ <sjoerd@collabora.com>, "Andy Yan" <andy.yan@rock-chips.com>,
+ <krzk+dt@kernel.org>, <robh@kernel.org>
+Subject: Re: [PATCH v2 05/11] drm/rockchip: vop2: Introduce vop hardware
+ version
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <c60d518b-ace4-48a8-87e5-35de13bc426a@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Sascha Hauer" <s.hauer@pengutronix.de>, "Andy Yan" <andyshrk@163.com>
+References: <20240904120238.3856782-1-andyshrk@163.com>
+ <20240904120238.3856782-6-andyshrk@163.com>
+ <ZtlZgKcDQFF_WnCn@pengutronix.de>
+ <2326e2ea.8264.191c13bab93.Coremail.andyshrk@163.com>
+ <Zt68U6hnPA0KrxXB@pengutronix.de>
+In-Reply-To: <Zt68U6hnPA0KrxXB@pengutronix.de>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,87 +67,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--8c1b658f7c448cb5c0b613f89153b15bab673f392c82b551568fd1d1d6ee
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Thank you, Francesco and Max, for testing and reporting this!
+On Mon Sep 9, 2024 at 11:13 AM CEST, Sascha Hauer wrote:
+> On Thu, Sep 05, 2024 at 04:09:58PM +0800, Andy Yan wrote:
+> >  At 2024-09-05 15:10:56, "Sascha Hauer" <s.hauer@pengutronix.de> wrote:
+> >  >On Wed, Sep 04, 2024 at 08:02:32PM +0800, Andy Yan wrote:
+> >  >> From: Andy Yan <andy.yan@rock-chips.com>
+> >  >>
+> >  >> There is a version number hardcoded in the VOP VERSION_INFO
+> >  >> register, and the version number increments sequentially based
+> >  >> on the production order of the SOC.
+> >  >>
+> >  >> So using this version number to distinguish different VOP features
+> >  >> will simplify the code.
+> >  >>
+> >  >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> >  >>
+> >  >> ---
+> >  >>
+> >  >> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers=
+/gpu/drm/rockchip/rockchip_drm_vop2.h
+> >  >> index 9b269f6e576e..871d9bcd1d80 100644
+> >  >> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> >  >> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> >  >> @@ -13,6 +13,15 @@
+> >  >>  #include "rockchip_drm_drv.h"
+> >  >>  #include "rockchip_drm_vop.h"
+> >  >>
+> >  >> +#define VOP2_VERSION(major, minor, build)     ((major) << 24 | (mi=
+nor) << 16 | (build))
+> >  >> +
+> >  >> +/* The new SOC VOP version is bigger than the old */
+> >  >> +#define VOP_VERSION_RK3568    VOP2_VERSION(0x40, 0x15, 0x8023)
+> >  >> +#define VOP_VERSION_RK3588    VOP2_VERSION(0x40, 0x17, 0x6786)
+> >  >> +#define VOP_VERSION_RK3528    VOP2_VERSION(0x50, 0x17, 0x1263)
+> >  >> +#define VOP_VERSION_RK3562    VOP2_VERSION(0x50, 0x17, 0x4350)
+> >  >> +#define VOP_VERSION_RK3576    VOP2_VERSION(0x50, 0x19, 0x9765)
+> >  >
+> >  >What about the RK3566? Does it have the same version code as the RK35=
+68?
+> >  >
+> >  >This new version field replaces the soc_id mechanism we had before to
+> >  >99%. You keep the soc_id around just for distinguishing between RK356=
+6
+> >  >and RK3568. It would be nice to fully replace it.
+> >  >
+> >  >I see that the VOP_VERSION_RK* numbers are the same as found in the
+> >  >VOP2_SYS_VERSION_INF registers. On the other hand you never read the
+> >  >value from the register which make the VOP_VERSION_RK* just arbitrary
+> >  >numbers. Wouldn't it be possible to make something up for RK3566, lik=
+e
+> >  >VOP2_VERSION(0x40, 0x15, 0x8022) to get rid of the soc_id thingy?
+> >  Yes=EF=BC=8CRK3566 and RK3568 share the same VOP IP block=EF=BC=8C so =
+the version code at VERSION_REGISTER is
+> >  the same, the difference between rk3568 and rk33566 are introduced at =
+soc Integration=E3=80=82
+> >  So i would still like to keep the soc_id to  handle situation like thi=
+s=E3=80=82As we always have such  cause=EF=BC=8C one
+> >  same IP block=EF=BC=8C but there are some subtle differences in featur=
+es across different SOCs.
+>
+> Fine with me. You could leave a comment in the code or commit
+> message that explains why we need both.
 
-On 09/09/24 13:45, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 06/09/2024 14:43, Francesco Dolcini wrote:
->> +Max
->>
->> Hello Aradhya,
->>
->> On Tue, Jul 16, 2024 at 02:12:44PM +0530, Aradhya Bhatia wrote:
->>> The addition of the 2nd OLDI TX (and a 2nd DSS in AM62Px) creates a need
->>> for some major changes for a full feature experience.
->>>
->>> 1. The OF graph needs to be updated to accurately show the data flow.
->>> 2. The tidss and OLDI drivers now need to support the dual-link and the
->>>     cloned single-link OLDI video signals.
->>> 3. The drivers also need to support the case where 2 OLDI TXes are
->>>     connected to 2 different VPs - thereby creating 2 independent
->>> streams
->>>     of single-link OLDI outputs.
->>
->> Have you considered/tested the use case in which only single link is
->> used?
->> You do not mention it here and to me this is a relevant use case.
->>
->> There is a workaround for this (use option 2, cloned, even if nothing is
->> connected to the second link), but this seems not correct.
+Also (or especially?) add that to the commit message of patch 6 of this
+series. Patch 6's commit message talks about RK3576 while it changes
+code related to RK3566 and I (too?) thought that not using VOP_VERSION
+was an oversight, while it turns out to be deliberate.
 
-I agree. The whole idea behind the series is to be able to accurately
-describe the hardware. Putting the devicetree in clone mode in order to
-get the single-link mode working is far from ideal.
+Cheers,
+  Diederik
 
->>
->> We (Max in Cc here) noticed that this specific use case is broken on
->> your downstream v6.6 TI branch.
+--8c1b658f7c448cb5c0b613f89153b15bab673f392c82b551568fd1d1d6ee
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yes, it was been brought to my attention that the single-link usecase is
-not working over the downstream ti-6.6 kernel. As I have since
-discovered, it's not working on this series either.
+-----BEGIN PGP SIGNATURE-----
 
-For some reason, the supplier-consumer dependency between the OLDI and
-the panel devicetree nodes is not getting flagged as `FWLINK_FLAG_CYCLE`
-in cases of single-link configuration.
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZt7BlQAKCRDXblvOeH7b
+bjNCAQD75I99I8eQyeyxfrEV5TDf/AH75sfVSERvC4tYJYmhUQEAzK6ErqvvskFA
+GFfJz2HXP1a+zRS/z7wpv3XGdG83eQ4=
+=9uHr
+-----END PGP SIGNATURE-----
 
-This flag allows the panel driver to continue to probe without waiting
-for the OLDI driver (panel's supplier). Absence of the flag getting set
-is causing these drivers to keep deferring probe in an endless cycle.
-
-Even with the flag, the OLDI (and tidss) cannot complete probe until the
-panel driver is probed and ready. That is because the OLDI (and tidss)
-need the panel to continue with the bridge-chain creation.
-
-However, over with the dual-lvds configuration (and as Francesco has
-now mentioned the clone configuration as well), the flag gets set by
-default, and everything works.
-
-This is what the debug has led to, so far.
-
-> 
-> What if you set "fw_devlink=off" kernel boot parameter?
-> 
-
-Yes! I haven't tested it, but it seems that this will bypass the
-supplier check and let the panel probe continue.
-
-
-Tomi, any idea, why is this issue happening only for single-link in the
-first place? It seems as if having 2 ports inside the panel devicetree
-lets the probe mechanism recognize the circular dependency and ignore
-the supplier OLDIs?
-
-This is the function where the difference comes down to, by the way -
-__fw_devlink_relax_cycles(), per my knowledge. I am still on my way to
-understand what exactly it is doing and why is it not relaxing the
-single-link case.
-
-
-Regards
-Aradhya
-
-
+--8c1b658f7c448cb5c0b613f89153b15bab673f392c82b551568fd1d1d6ee--
