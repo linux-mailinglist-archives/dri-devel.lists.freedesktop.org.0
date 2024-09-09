@@ -2,112 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32915970ABA
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 02:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3A7970AD0
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 02:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6711510E193;
-	Mon,  9 Sep 2024 00:21:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0124310E21C;
+	Mon,  9 Sep 2024 00:33:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ymhO0eRO";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="GOHj1aG4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0ADF10E193
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 00:21:36 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-4581cec6079so317061cf.0
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2024 17:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1725841296; x=1726446096;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+M1qVooEyNPT1gAAftfRiR4Q5Ah3XuHi08JSkLTfyCg=;
- b=ymhO0eROqIKEOCvnqXEgtmBZ5zaZeteartm/1n8RHCZnaf4FHZQrGIBd5YEFO36gyl
- zc2ZZuxQSercWeWJx78nNLH4i8almBWIxeVprxGgULCkB3pdeKhzaqeMX1JxxPxdvsj4
- l9vM2l2bBNeF+eT2sVcozIGSlHkL55SyueIdGxI5OXiSqRqVVDDvA4W3KPFZWtWVM0j2
- F3bz4OyRWK9oWjZlaPEqvz9K7TViX9LsgGsBUHxEOXOGsxFhDC2chQfIbKtsThb4Uuyo
- MBcK7DcwRgxjdlvYlXvELM2P2hjtn7JimxIdJVNYM5YhzH3MVurjDT6TUVlWDh+OxAVL
- hdQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725841296; x=1726446096;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+M1qVooEyNPT1gAAftfRiR4Q5Ah3XuHi08JSkLTfyCg=;
- b=jAg+BGOXdfb+OcKWqUhgOgdba9JjDR20EMNW9u5+WvHVU+mW+RExE0jf43BdzFJmA3
- xMw2+dSrhq2xBpOlQqSeGHgBVRLP+XWn1qXUFA5yTY6qWe43ZzcfOE+RJsPHaYUpsU5h
- 23Xee4Ps5k0Ch3A+TZBUNbCv90KAlJxNunsT2R92LVQEs9QCyRv3Af+UUVwXxHc/1O90
- L8x7d+x0YzmA4CsXHI5nsR0ZOc77DN7Dv7oJXHMwlJp0xp6fJnGXthvtfVuTVrUiiDT3
- fa8Dxcbz4l9SIA7eSHB9fILOLVHLTDI/wChcr4T+1PSA5AWlQSbGF/UEvyu/zUIASsdF
- 1Unw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUKQ7APl52lLNlL1qD6Uv3j0TTwveLDl86YToo9Y297ikvqjLjXZatI7Ah/MCJ5bq50kHmGV4gpUVU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmRgqJGoFsAXPCeHKkjS2K91iq9HLlcb+OD7cp26xLh4gX07R5
- V+XPQdvBgOLL1XcbYRBIPeoDOmtT+SWrAPJ1tk0JT+NBnp4tNR9dgxtpC9+iSdmnmC7qOLxRguf
- YvTxQ6fSC8hA2SBmx4yQ5navsodufYwwn3QfF
-X-Google-Smtp-Source: AGHT+IHeebo47LrVuqQNlmWSroknDWyh0p2+ySnmSfFMd++vvWmH0RLig1T8xF/sYDtVArFYD/iKIyTthz+4Y2vdWxE=
-X-Received: by 2002:ac8:5714:0:b0:456:796b:2fe5 with SMTP id
- d75a77b69052e-4582147fdcamr3000151cf.9.1725841295262; Sun, 08 Sep 2024
- 17:21:35 -0700 (PDT)
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED67D10E21C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 00:33:28 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20240909003326epoutp047aaa0377c919df38b22502669f3eacc7~zbCk7BJML2347223472epoutp04K
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 00:33:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20240909003326epoutp047aaa0377c919df38b22502669f3eacc7~zbCk7BJML2347223472epoutp04K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1725842006;
+ bh=1G+ASTI4bMzmwPy0O5lazP8/CD+An6upXbu/zYW46Rc=;
+ h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+ b=GOHj1aG4UmnJwaGzvVVtIUliZcmlZ4AdkBGgdjbOWWvrmF/KfRumfXXLeUT/iwlHK
+ rKZ4gPW67rReH2NZiC+iY1CmIqZRK13/9IiA6jktzBg9T/4nAq63uGsRflPRqq0c3q
+ yS5LhIezxISAhZx+U7vW1gDEsdqdXKPkizoTWUc0=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+ 20240909003326epcas1p350e5fd5906e45056a43c1aade062ecd1~zbCkqJ8Mr0118901189epcas1p3n;
+ Mon,  9 Sep 2024 00:33:26 +0000 (GMT)
+Received: from epsmgec1p1-new.samsung.com (unknown [182.195.38.232]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4X279J6cXnz4x9Pq; Mon,  9 Sep
+ 2024 00:33:24 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 87.FE.19509.4524ED66; Mon,  9 Sep 2024 09:33:24 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240909003324epcas1p1ca105cce3f7ba7f60724e0272c169fb9~zbCi4HLdq0834108341epcas1p1i;
+ Mon,  9 Sep 2024 00:33:24 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20240909003324epsmtrp28853f99e55b593fcf893c85c56dd07e7~zbCi3gsF30427904279epsmtrp2z;
+ Mon,  9 Sep 2024 00:33:24 +0000 (GMT)
+X-AuditID: b6c32a4c-17bc070000004c35-a0-66de4254604a
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 64.97.19367.4524ED66; Mon,  9 Sep 2024 09:33:24 +0900 (KST)
+Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20240909003324epsmtip1bb587d6b5395fa477c6043a1eae0ea71~zbCipoIhV0362103621epsmtip1Z;
+ Mon,  9 Sep 2024 00:33:24 +0000 (GMT)
+From: =?ks_c_5601-1987?B?tOvAzrHiL1RpemVuIFBsYXRmb3JtIExhYihTUikvu++8usD8wNo=?=
+ <inki.dae@samsung.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>
+Cc: <dri-devel@lists.freedesktop.org>, <linux-samsung-soc@vger.kernel.org>
+In-Reply-To: <20240906091331.34244-1-inki.dae@samsung.com>
+Subject: RE: [GIT PULL] exynos-drm-next
+Date: Mon, 9 Sep 2024 09:33:23 +0900
+Message-ID: <13aa01db024f$e0ff20d0$a2fd6270$@samsung.com>
 MIME-Version: 1.0
-References: <20240831004313.3713467-1-almasrymina@google.com>
- <20240831004313.3713467-7-almasrymina@google.com>
- <20240903141948.269e22bb@kernel.org>
-In-Reply-To: <20240903141948.269e22bb@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Sun, 8 Sep 2024 17:21:23 -0700
-Message-ID: <CAHS8izN_6_0VUWJzyXZ60kDjvGpdJv1a=-6mGOURapHdfHbcMQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v24 06/13] memory-provider: dmabuf devmem memory
- provider
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>, 
- Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ks_c_5601-1987"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKnWCNG2FAPxsLYb1AQ/rvYmFL7hgGws9RMsKho9SA=
+Content-Language: ko
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkk+LIzCtJLcpLzFFi42LZdljTQDfE6V6aweQ/Oha9504yWfzfNpHZ
+ 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
+ yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
+ I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITvj/7Fl7AXrJSu2LznK2MD4SLiL
+ kZNDQsBE4tWnN2xdjFwcQgJ7GCWW/f8E5XxilLi9tpsRpArM2fnREKZjaeNXqKKdjBL/nt9i
+ hnBeMkocaXjKBlLFJpAhcbd9MSuILSKgKdH1oIsJxGYW8JKYueMoC4jNKWAlMWHXT7ANwgLq
+ Eid2rAerZxFQkVh2EKKXV8BS4uT3b+wQtqDEyZlPWCDmGEksWT0faqa8xPa3c5ghrlOQ+Pl0
+ GdReK4nGWWdZIWpEJGZ3tkHVfGSXeHOMDcJ2kfhx6S5UXFji1fEt7BC2lMTnd3vBvpQQmMwo
+ cef6ChYIZwajxOGf1xkhqowl9i+dDHUFn8S7rz1A2ziA4rwSHW1CECVKEscu3oAql5C4sGQi
+ G0SJh8TdfYETGBVnIXltFpLXZiF5bRaSFxYwsqxilEotKM5NT002LDDUzUsth0d5cn7uJkZw
+ mtTy2cH4ff1fvUOMTByMhxglOJiVRHj77e6lCfGmJFZWpRblxxeV5qQWH2I0BYb4RGYp0eR8
+ YKLOK4k3NLE0MDEzMjaxMDQzVBLnPXOlLFVIID2xJDU7NbUgtQimj4mDU6qBiSkh2mqa48O/
+ v1Ivi/JsdCuep3vgx1rXpQ2hOjMrr2daOtmfSrlkmOB0QEX2kE/Dh71/1dfr/fDtvs78Plxi
+ yzP5MP6qa7euh8md73BN3PjxnOhR3xCjlkg2F9Yfh8OdH8+wWvPlvsGS82opnZ8sZ5iXHjJ+
+ ELBLU2KpUJTNfJsdZw8snJ2hVlZw0UVM5v+TnAJ1xes7TznOb7mUUV7TxbrD4fb/w7yz5I2v
+ 9uVNsYs5dEhUr4uTj+VsvdOSRYsyTzlkCrVe2MU634QlimvLmUK+r4kx5vfSFEw27asrldqv
+ s+T7erMKZ8f3MdU3Gs2Urc8c3dv25u3ET4eaBQ83L97TtkDR5Z3IP9UL++f8VmIpzkg01GIu
+ Kk4EAA2fMp4cBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJLMWRmVeSWpSXmKPExsWy7bCSnG6I0700g1/LeS16z51ksvi/bSKz
+ xZWv79ksZpzfx+TA4rH32wIWj+3fHrB63O8+zuTxeZNcAEsUl01Kak5mWWqRvl0CV8b/Y8vY
+ C9ZLVmxfcpSxgfGRcBcjJ4eEgInE0savbF2MXBxCAtsZJW5unc/axcgBlJCQ2LKVA8IUljh8
+ uBikXEjgOaPEqZX1IDabQJrEpLn7WUFsEQFtiRNrpoDZzAI+Et923WaEGNnNKLF28y0mkASn
+ gJXEhF0/GUFsYQF1iRM71oM1sAioSCw7uBjM5hWwlDj5/Rs7hC0ocXLmExaIoSYSjYe7oWx5
+ ie1v5zBD3K8g8fPpMqgjrCQaZ52FOkJEYnZnG/MERuFZSEbNQjJqFpJRs5C0LGBkWcUomlpQ
+ nJuem1xgqFecmFtcmpeul5yfu4kRHBtaQTsYl63/q3eIkYmD8RCjBAezkghvv929NCHelMTK
+ qtSi/Pii0pzU4kOM0hwsSuK8yjmdKUIC6YklqdmpqQWpRTBZJg5OqQYmzWZnqbPB69RWcU/g
+ 4ts3qdzicnWF35vwPn/XXZ3ceqmSx3wSOiYxr/q182z5TDstuy8xAebaR+T2+TWsZH7md6Gw
+ uObPtISzP2I2Ntm+LhVbZ5lkZxhySU8h/avthaWzul/zaaiteX3wp0xaaOp0wzf8Xswiq03n
+ WIl2CkTdnKB/7OeXC0XpYr9X+uuVqB5i0S96qnxJYvqUrEltxSwvxC0tfn1j0whaJx79b06Z
+ 4ofXfT1KomZ1yw9nZ09cHHJJv8niQV+hnO9GLrNDGw62uhwONz4780cd853LxVNmrZO+bsOp
+ M0m5zfXqH9ZPbmf6eqSZXi3esnBKfIbmsXz/nAsTGcJTw6PnzbGa/laJpTgj0VCLuag4EQCn
+ dqjH/AIAAA==
+X-CMS-MailID: 20240909003324epcas1p1ca105cce3f7ba7f60724e0272c169fb9
+X-Msg-Generator: CA
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240906091343epcas1p4e83ab2ca25edbed8e129f2c6a9f7292d
+References: <CGME20240906091343epcas1p4e83ab2ca25edbed8e129f2c6a9f7292d@epcas1p4.samsung.com>
+ <20240906091331.34244-1-inki.dae@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,81 +123,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 3, 2024 at 2:19=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
-te:
->
-> On Sat, 31 Aug 2024 00:43:06 +0000 Mina Almasry wrote:
-> > diff --git a/include/net/mp_dmabuf_devmem.h b/include/net/mp_dmabuf_dev=
-mem.h
-> > new file mode 100644
-> > index 000000000000..6d1cf2a77f6b
-> > --- /dev/null
-> > +++ b/include/net/mp_dmabuf_devmem.h
->
-> this header can live under net/core/ like netmem_priv.h right?
-> devmem internals should be of no interest outside of core networking.
->
+Hi Dave and Daniel,
 
-Yes, those can be moved under net/core trivially. done.
+There was my mistake. One patch not related to Exynos was included to this
+PR.
+I will resend it again.
 
-> In fact the same is true for include/net/devmem.h ?
->
-
-This turned out to be possible, but with a minor moving around of some
-helpers. Basically netmem.h included devmem.h to get access to some
-devmem internals for some of the net_iov helpers specific to devmem.
-Moving these helpers to devmem.h enabled me to keep
-include/net/netmem.h but put devmem.h under net/core. Now netmem.h
-doesn't need to include devmem.h. I think this is an improvement.
-
-> > +static inline netmem_ref mp_dmabuf_devmem_alloc_netmems(struct page_po=
-ol *pool,
-> > +                                                     gfp_t gfp)
->
-> Please break the lines after the return type if the line gets long:
->
-> static inline netmem_ref
-> mp_dmabuf_devmem_alloc_netmems(struct page_pool *pool, gfp_t gfp)
->
-> Please fix where you can (at least where it cases going over 80 chars)
->
-
-FWIW I use a formatting tool (clang-format) which seems to prefer
-breaking in between the args, but I'll fix this manually and wherever
-else I notice.
-
-> >       struct_group_tagged(page_pool_params_slow, slow,
-> >               struct net_device *netdev;
-> > +             struct netdev_rx_queue *queue;
->
-> Why set a pointer? It should work but drivers don't usually deal with
-> netdev_rx_queue struct directly. struct xdp_rxq_info takes an integer
-> queue id, and it serves a somewhat similar function.
->
-> Keep in mind that there will be more drivers than core code, so
-> convenience for them matters more.
->
-
-Makes sense.
-
-> > +bool mp_dmabuf_devmem_release_page(struct page_pool *pool, netmem_ref =
-netmem)
-> > +{
-> > +     if (WARN_ON_ONCE(!netmem_is_net_iov(netmem)))
-> > +             return false;
-> > +
-> > +     if (WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(net=
-mem)) !=3D
-> > +                  1))
->
-> something needs factoring out here, to make this line shorter, please..
-> either netmem -> net_iov conversion or at least reading of the ref
-> count?
->
-
-Ah, sorry I think you pointed this out earlier and I missed applying
-it. Should be done in the next iteration.
-
---
 Thanks,
-Mina
+Inki Dae
+
+> -----Original Message-----
+> From: Inki Dae <daeinki@gmail.com> On Behalf Of Inki Dae
+> Sent: Friday, September 6, 2024 6:14 PM
+> To: airlied@linux.ie; daniel@ffwll.ch
+> Cc: dri-devel@lists.freedesktop.org; linux-samsung-soc@vger.kernel.org
+> Subject: [GIT PULL] exynos-drm-next
+> 
+> Hi Dave and Daniel,
+> 
+>    Just three cleanups and one fixup.
+> 
+> Please kindly let me know if there is any problem.
+> 
+> Thanks,
+> 
+> 
+> The following changes since commit
+> b1aa0491fad27f030c94ed42c873c3f46f5e7364:
+> 
+>   drm/xe: Fix merge fails related to display runtime PM (2024-09-02
+> 14:14:07 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos
+> tags/exynos-drm-next-for-v6.12
+> 
+> for you to fetch changes up to 94ebc3d3235c5c516f67315059ce657e5090e94b:
+> 
+>   drivers:drm:exynos_drm_gsc:Fix wrong assignment in gsc_bind() (2024-09-
+> 06 16:08:30 +0900)
+> 
+> ----------------------------------------------------------------
+> Three cleanups
+> - Drop stale exynos file pattern from MAINTAINERS file
+>   The old "exynos" directory is removed from MAINTAINERS as Samsung Exynos
+>   display bindings have been relocated. This resolves a warning
+>   from get_maintainers.pl about no files matching the outdated directory.
+> 
+> - Constify struct exynos_drm_ipp_funcs
+>   By making struct exynos_drm_ipp_funcs constant, the patch enhances
+> security
+>   by moving the structure to a read-only section of memory.
+>   This change results in a slight reduction in the data section size.
+> 
+> - Remove unnecessary code
+>   The function exynos_atomic_commit is removed as it became redundant
+>   after a previous update. This cleans up the code and eliminates
+>   unused function declarations.
+> 
+> One fixup
+> - Fix wrong assignment in gsc_bind()
+>   A double assignment in gsc_bind() was flagged by the cocci tool and
+>   corrected to fix an incorrect assignment, addressing a potential issue
+>   introduced in a prior commit.
+> 
+> ----------------------------------------------------------------
+> Christophe JAILLET (1):
+>       drm/exynos: Constify struct exynos_drm_ipp_funcs
+> 
+> Krzysztof Kozlowski (1):
+>       dt-bindings: MAINTAINERS: drop stale exynos file pattern
+> 
+> Kwanghoon Son (1):
+>       drm/exynos: Remove unnecessary code
+> 
+> Simona Vetter (1):
+>       MAINATINERS: update drm maintainer contacts
+> 
+> Yuesong Li (1):
+>       drivers:drm:exynos_drm_gsc:Fix wrong assignment in gsc_bind()
+> 
+>  .mailmap                                   |  4 ++++
+>  Documentation/gpu/introduction.rst         | 10 ++++-----
+>  Documentation/gpu/todo.rst                 | 34 +++++++++++++++----------
+----
+> -
+>  MAINTAINERS                                |  7 +++---
+>  drivers/gpu/drm/exynos/exynos_drm_drv.h    |  4 ----
+>  drivers/gpu/drm/exynos/exynos_drm_fimc.c   |  2 +-
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c    |  4 ++--
+>  drivers/gpu/drm/exynos/exynos_drm_scaler.c |  2 +-
+>  8 files changed, 33 insertions(+), 34 deletions(-)
+
+
