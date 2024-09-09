@@ -2,46 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E04970C26
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 05:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624BB970CAE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 06:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6698B10E0D3;
-	Mon,  9 Sep 2024 03:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E090A10E2AA;
+	Mon,  9 Sep 2024 04:20:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="HzwSmNtI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BcqpWlqs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42D3110E0D3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 03:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1725851481;
- bh=1v72/rcYDS0zRktF/YD11IjuRHLtXhb86rJRmWyRvrY=;
- h=Date:From:To:Cc:Subject:From;
- b=HzwSmNtIQZfq7cykQ8/GQjInkwf4LBqXZ9xWyksTatIJuvBEp+hFi4l4qMD/naN3b
- kc+zdtv0p5PwAtT6eEzSJfMRyLijMJLNu3kZYa5e/jJ1GHZbKlyz+/PJfCufHdW4nz
- dTV41jkbnd/IOVnS8lFTbsEWXRVgC9Q7iBMmVkgJ1LuO+GWj+yl5a6MB1TAoby5Oey
- Ho+7r7eQweirYCcwhg5efcKqVd950T7twBcchvfFW0aDG9gryggkNI0ccXH/vdKMg4
- G6AOk7C8Zas53QLtEKK611tMKl2n33HlVzSnDvPlMaFMVyvv3IK9ptZ1f+qiSAk1Tc
- l+rb1JG2YfIrA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4X2BgX4zjpz4wb0;
- Mon,  9 Sep 2024 13:11:20 +1000 (AEST)
-Date: Mon, 9 Sep 2024 13:11:20 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Jani Nikula <jani.nikula@intel.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20240909131120.030c1d6f@canb.auug.org.au>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 082AE10E2AA
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 04:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725855626; x=1757391626;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=NaSTuZ29xtisfHK6oFsWaXwTGdnu0Y3RxdzbZTVcbRk=;
+ b=BcqpWlqsskoJwhieaL6xJoUJ2G+wi5eYGRMSsZHuzKscJaqBKwSwVihr
+ VIIOJlnNyEtVJfeWz6KrsByVFr22Fk/U9/Rnsyvjczsz6bLbMNGqXI2YB
+ 65KmVm4KElYUemuxHFWRcFf1RBXAdhXYfozp9nT78Xt8H1PQURkw+0tdR
+ 5lVy91fKZNXQOH8Sfniix0awxGzRIgfyG5KdMG70FovndivzfyWySKDFY
+ plRMdFwIbVZTEb3dv030OmrPjfVszg4tMCvr3GTMgpyJ1ysWgX8i4RjEx
+ bbCCRgpwIbrqHmr1ePOsP3u9o0cxj95lockky0d2f4Pt93XUs+BLX/7bo w==;
+X-CSE-ConnectionGUID: nu+PzqHHTz6uetAOnvbA1A==
+X-CSE-MsgGUID: nxPoKwPkR3GPbo1imm+6SA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35904178"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="35904178"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2024 21:20:26 -0700
+X-CSE-ConnectionGUID: mPbKn40jTMufi/M76P0qVA==
+X-CSE-MsgGUID: SioWlhpvQnSLqpJ4Pq4FVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="66578338"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 08 Sep 2024 21:20:22 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1snVsy-000EHT-1K;
+ Mon, 09 Sep 2024 04:20:20 +0000
+Date: Mon, 9 Sep 2024 12:19:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH v3] drm/edid: add CTA Video Format Data Block support
+Message-ID: <202409091135.VFcWIvXN-lkp@intel.com>
+References: <20240906224307.423250-1-hamza.mahfooz@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/iVcqoWFXbHt=imaJWxm7oC_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240906224307.423250-1-hamza.mahfooz@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,73 +78,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/iVcqoWFXbHt=imaJWxm7oC_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Hamza,
 
-Hi all,
+kernel test robot noticed the following build errors:
 
-Today's linux-next merge of the drm tree got a conflict in:
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11-rc7 next-20240906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  drivers/gpu/drm/xe/display/xe_display.c
+url:    https://github.com/intel-lab-lkp/linux/commits/Hamza-Mahfooz/drm-edid-add-CTA-Video-Format-Data-Block-support/20240907-064359
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240906224307.423250-1-hamza.mahfooz%40amd.com
+patch subject: [PATCH v3] drm/edid: add CTA Video Format Data Block support
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240909/202409091135.VFcWIvXN-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091135.VFcWIvXN-lkp@intel.com/reproduce)
 
-between commit:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091135.VFcWIvXN-lkp@intel.com/
 
-  4bfc9c553f5e ("drm/xe/display: Avoid encoder_suspend at runtime suspend")
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-from Linus' tree and commit:
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+>> ERROR: modpost: "__umoddi3" [drivers/gpu/drm/drm.ko] undefined!
+>> ERROR: modpost: "__udivdi3" [drivers/gpu/drm/drm.ko] undefined!
 
-  769b081c18b9 ("drm/i915/opregion: convert to struct intel_display")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/xe/display/xe_display.c
-index c860fda410c8,710b1e2170c1..000000000000
---- a/drivers/gpu/drm/xe/display/xe_display.c
-+++ b/drivers/gpu/drm/xe/display/xe_display.c
-@@@ -331,12 -345,12 +345,12 @@@ void xe_display_pm_suspend(struct xe_de
- =20
-  	intel_hpd_cancel_work(xe);
- =20
- -	if (!runtime && has_display(xe))
- +	if (!runtime && has_display(xe)) {
-  		intel_display_driver_suspend_access(xe);
- -
- -	intel_encoder_suspend_all(&xe->display);
- +		intel_encoder_suspend_all(&xe->display);
- +	}
- =20
-- 	intel_opregion_suspend(xe, s2idle ? PCI_D1 : PCI_D3cold);
-+ 	intel_opregion_suspend(display, s2idle ? PCI_D1 : PCI_D3cold);
- =20
-  	intel_dmc_suspend(xe);
-  }
-
---Sig_/iVcqoWFXbHt=imaJWxm7oC_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmbeZ1gACgkQAVBC80lX
-0Gzf3wf8CZjsTcUuiP77Xy7iDHdwAFNHY0XIxXJY9sA4X3kCwqXPN76O3aRHPA2x
-3h66J7KyDQH0RKJlat353yL6+742h8nwHDhcahQpG1NuY8yREt8zzfb53sUDff7o
-ZLPIgI6wFUDvy5EuZkRsVvueJg2l9iYQRWGzTx7YhD9E/RPofSVLXyMZIhq96xX0
-QrNXIuVh2nETV9jsBMunZmM+Nd4/9yL4yJP/LUd9RLPPX+wjAn264Wxbm7bvB5qV
-jabkFODKwVuF7cYZMwtIwsQQnD1BVmX6bDFD7r6BwhxHn0A+8d1nRL+WksKiGiOG
-SGfOvtz/vtuaAOwhtFqXEl0fWpO/4A==
-=J+cB
------END PGP SIGNATURE-----
-
---Sig_/iVcqoWFXbHt=imaJWxm7oC_--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
