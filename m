@@ -2,140 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3671971C30
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 16:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8AD6971CAD
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 16:34:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ABFE10E58A;
-	Mon,  9 Sep 2024 14:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A9810E10D;
+	Mon,  9 Sep 2024 14:34:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="PUZHJEmh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R+VMf+mn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PUZHJEmh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R+VMf+mn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IJ2taYqr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA63C10E58A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 14:14:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 40F0521A79;
- Mon,  9 Sep 2024 14:14:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725891273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=H+yw8+7OOFhqHoimGCFVdKWUlAcV1UbPpI3rPBjJgZw=;
- b=PUZHJEmhI2Ql1wy698fw2kg+iyu2rgv+cbqK5/ZzgEObzM3e5Ms6JJYu2cTtF0hK+AUHeD
- J64rgjz7i7XXmppoPCvEz/SuQba62PZVKd9USSOYMrOeZXKa5yMwlagCQNF/nyo16omz+t
- onqVdfRw+xnVS2YEFGkD3rWLTde4sS4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725891273;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=H+yw8+7OOFhqHoimGCFVdKWUlAcV1UbPpI3rPBjJgZw=;
- b=R+VMf+mnN+xrRvjmZ5hG5MBnh+NuqVTsh6rV8+UZaywYPp1sw54tfeTrcrGvepA7+FvbdX
- ztQ4tmi3st7LUvAw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PUZHJEmh;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=R+VMf+mn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1725891273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=H+yw8+7OOFhqHoimGCFVdKWUlAcV1UbPpI3rPBjJgZw=;
- b=PUZHJEmhI2Ql1wy698fw2kg+iyu2rgv+cbqK5/ZzgEObzM3e5Ms6JJYu2cTtF0hK+AUHeD
- J64rgjz7i7XXmppoPCvEz/SuQba62PZVKd9USSOYMrOeZXKa5yMwlagCQNF/nyo16omz+t
- onqVdfRw+xnVS2YEFGkD3rWLTde4sS4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1725891273;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=H+yw8+7OOFhqHoimGCFVdKWUlAcV1UbPpI3rPBjJgZw=;
- b=R+VMf+mnN+xrRvjmZ5hG5MBnh+NuqVTsh6rV8+UZaywYPp1sw54tfeTrcrGvepA7+FvbdX
- ztQ4tmi3st7LUvAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17AA713312;
- Mon,  9 Sep 2024 14:14:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id XVNjBMkC32ZodgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 09 Sep 2024 14:14:33 +0000
-Message-ID: <3b5f4413-fe7d-413d-8c24-870f0456b2d6@suse.de>
-Date: Mon, 9 Sep 2024 16:14:32 +0200
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
+ [209.85.166.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 969F910E10D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 14:34:19 +0000 (UTC)
+Received: by mail-il1-f169.google.com with SMTP id
+ e9e14a558f8ab-3a018296fffso15280925ab.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 07:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725892459; x=1726497259; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1yalQ0PqAoEpQ+0mxi6q4Zu3SSW0r6fWcxEYqzEdiBY=;
+ b=IJ2taYqr+kSgTevkUitGT0f5cM+y0owPFgQDmxkT2paivyfQdFiOELQN/O8tObwl6N
+ pYbfopioZ/SPFVYu5D6BeBtQfg67cYRpVyEtcsgDUtEZDZNrRi/Xk3gpOu71LU7V8Heo
+ +uk706rUUe+ka5uxZgfq2M052WWWRWZwizsIfEi05aJuh+5iHDEsuBzvbEGsvz3B1RyA
+ XuRiDy9iNFSkV+P/VNJ2CnkW0JSVQIIthuHUQ85ybxyWTarx+D/pcLDJHgreYnL2wyKL
+ UTXC8URMMo4hdWMsWaEPmQhEvA7DYNWWQaKrv0uvODA2d7AYWYbBhgh9Z4ZRNB1ovo+6
+ CAYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725892459; x=1726497259;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1yalQ0PqAoEpQ+0mxi6q4Zu3SSW0r6fWcxEYqzEdiBY=;
+ b=QVEOVWhYA2CFx7gDJFghZdLg4NUNXhiqaXl/oJsnrcat9ETX4tlHkR103uZXQDSXci
+ miXcismuzYYuuESFYpY0ZtAcgYONBYlwdwoiS2hIUZ2VSjoM31qJ1qvh3bu5myyVO41K
+ 7V3rWTMM9wI6aub7NXFG2BWcAsTaCp5otedSL9GAH1VR8w4AFuyEeSBbu5GuHWeMXD1p
+ WfM3LtkU0bP05fYwb5Ktpjr/8U0O0vj+WlnxBfL+NsQMNe6WNxAMvLEqX8aKf9gWJRnH
+ B/e9xwuvdPGtZ3nkwEnIeSITvdxkRVkCEmg+kFQBal1/0DSwryq9segV4wTNcU/pircZ
+ bt0w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5Og3P912wNmKBFatL2D3hm98nGTSRZa42EjH4scPaqP4827BIH1y0NySk1omHen4hKuaX3uGEuP0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjgxGK3hYSHrFO8fcVRg5/vG3/fyvKARoenVI4A/Tpzs7WrUDq
+ El99IgEHbulUnQfBc0fbrqMLfByk5uGAYvNWIuvHA/BJlc991rHtVLb15ydiEgxabL6HFyYx6zK
+ tJ5otnCDzw/k99jMN+VmxIKuqQYY=
+X-Google-Smtp-Source: AGHT+IFBQdvcvKf3ouDXUIT4AyxgVHQSjnjakGcNquoK+Hpgd855BZSPSjrjxrspmJdDHl5O2911+JiC1M8uihdgR9s=
+X-Received: by 2002:a05:6e02:194e:b0:3a0:4355:11f7 with SMTP id
+ e9e14a558f8ab-3a0576adeddmr70214565ab.17.1725892458629; Mon, 09 Sep 2024
+ 07:34:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/panthor: Display FW version information
-To: Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Christopher Healy <healych@amazon.com>
-References: <20240906094025.638173-1-steven.price@arm.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240906094025.638173-1-steven.price@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 40F0521A79
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCPT_COUNT_FIVE(0.00)[5];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,collabora.com:email];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+References: <CAF6AEGu0X43O0-p=LaVmDgZrHnkHctuv=uLeqG+JEJXbfh=mjg@mail.gmail.com>
+ <Zn72laHlmWW3So9f@phenom.ffwll.local>
+ <CAF6AEGv6Hd65OPJm6DBB=yPRtLLB1BZpRodLr-Bk5stGzULMew@mail.gmail.com>
+ <Zoas4JJ3uhrR9lH7@phenom.ffwll.local>
+ <CAF6AEGtCEbhBo2CXLQymf2g5RogtdYv2LLXUNQO7Tvuw7x6ujA@mail.gmail.com>
+ <ZofMlSIjFV9iGZNM@phenom.ffwll.local>
+ <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
+ <Zouo16MCRRCNyYAs@phenom.ffwll.local>
+ <CAF6AEGvGZp=WhGxmqVjqPnR3G33GTng+L0kwABCRxAKb0nHc9g@mail.gmail.com>
+ <CAA8EJppyM_-5fBL6VFp+kxyg36LAbjxqUgA+ico9LBuJvaahxQ@mail.gmail.com>
+ <20240909-marvellous-ostrich-of-improvement-c7d2c8@houat>
+ <CAA8EJpoe=Ei7fjZNd24OCVrapt5Y13ZFk8mheqPOy2FBF1a43Q@mail.gmail.com>
+In-Reply-To: <CAA8EJpoe=Ei7fjZNd24OCVrapt5Y13ZFk8mheqPOy2FBF1a43Q@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 9 Sep 2024 07:34:04 -0700
+Message-ID: <CAF6AEGub4O86pRM6iM5xaDKVrR57D=OCm00ifFksG1LT9a4+og@mail.gmail.com>
+Subject: Re: Time for drm-ci-next?
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxime Ripard <mripard@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel@ffwll.ch>, Helen Koike <helen.koike@collabora.com>, 
+ Vignesh Raman <vignesh.raman@collabora.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Dave Airlie <airlied@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ Daniel Stone <daniels@collabora.com>, Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,146 +94,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 06.09.24 um 11:40 schrieb Steven Price:
-> The version number output when loading the firmware is actually the
-> interface version not the version of the firmware itself. Update the
-> message to make this clearer.
+On Mon, Sep 9, 2024 at 2:54=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> However, the firmware binary has a git SHA embedded into it which can be
-> used to identify which firmware binary is being loaded. So output this
-> as a drm_info() so that it's obvious from a dmesg log which firmware
-> binary is being used.
+> On Mon, 9 Sept 2024 at 10:50, Maxime Ripard <mripard@redhat.com> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Jul 09, 2024 at 01:27:51AM GMT, Dmitry Baryshkov wrote:
+> > > On Mon, 8 Jul 2024 at 21:38, Rob Clark <robdclark@gmail.com> wrote:
+> > > >
+> > > > On Mon, Jul 8, 2024 at 1:52=E2=80=AFAM Daniel Vetter <daniel.vetter=
+@ffwll.ch> wrote:
+> > > > >
+> > > > > On Fri, Jul 05, 2024 at 12:31:36PM -0700, Rob Clark wrote:
+> > > > > > On Fri, Jul 5, 2024 at 3:36=E2=80=AFAM Daniel Vetter <daniel.ve=
+tter@ffwll.ch> wrote:
+> > > > > > >
+> > > > > > > On Thu, Jul 04, 2024 at 08:40:26AM -0700, Rob Clark wrote:
+> > > > > > > > On Thu, Jul 4, 2024 at 7:08=E2=80=AFAM Daniel Vetter <danie=
+l.vetter@ffwll.ch> wrote:
+> > > > > > > > >
+> > > > > > > > > On Tue, Jul 02, 2024 at 05:32:39AM -0700, Rob Clark wrote=
+:
+> > > > > > > > > > On Fri, Jun 28, 2024 at 10:44=E2=80=AFAM Daniel Vetter =
+<daniel@ffwll.ch> wrote:
+> > > > > > > > > > >
+> > > > > > > > > > > On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark w=
+rote:
+> > > > > > > > > > > > On Wed, Jun 26, 2024 at 10:47=E2=80=AFAM Daniel Vet=
+ter <daniel@ffwll.ch> wrote:
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry =
+Baryshkov wrote:
+> > > > > > > > > > > > > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel =
+Vetter wrote:
+> > > > > > > > > > > > > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Hel=
+en Koike wrote:
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
+> > > > > > > > > > > > > > > > > Hi,
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > On 15/03/24 22:50, Rob Clark wrote:
+> > > > > > > > > > > > > > > > > > Basically, I often find myself needing =
+to merge CI patches on top of
+> > > > > > > > > > > > > > > > > > msm-next in order to run CI, and then a=
+fter a clean CI run, reset HEAD
+> > > > > > > > > > > > > > > > > > back before the merge and force-push.  =
+Which isn't really how things
+> > > > > > > > > > > > > > > > > > should work.
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > This sounds more like you want an integration=
+ tree like drm-tip. Get msm
+> > > > > > > > > > > > > > > branches integrated there, done. Backmerges j=
+ust for integration testing
+> > > > > > > > > > > > > > > are not a good idea indeed.
+> > > > > > > > > > > >
+> > > > > > > > > > > > But AFAIU this doesn't help for pre-merge testing, =
+ie. prior to a
+> > > > > > > > > > > > patch landing in msm-next
+> > > > > > > > > > > >
+> > > > > > > > > > > > My idea was to have a drm-ci-next managed similar t=
+o drm-misc-next, if
+> > > > > > > > > > > > we have needed drm/ci patches we could push them to=
+ drm-ci-next, and
+> > > > > > > > > > > > then merge that into the driver tree (along with a =
+PR from drm-ci-next
+> > > > > > > > > > > > to Dave).
+> > > > > > > > > > >
+> > > > > > > > > > > I guess I'm confused about what kind of pre-merge tes=
+ting we're talking
+> > > > > > > > > > > about then ... Or maybe this just doesn't work too we=
+ll with the linux
+> > > > > > > > > > > kernel. The model is that you have some pile of trees=
+, they're split up,
+> > > > > > > > > > > and testing of all the trees together is done in inte=
+gration trees like
+> > > > > > > > > > > linux-next or drm-tip.
+> > > > > > > > > >
+> > > > > > > > > > pre-merge: for msm we've been collecting up patches fro=
+m list into a
+> > > > > > > > > > fast-forward MR which triggers CI before merging to msm=
+-next/msm-fixes
+> > > > > > > > > >
+> > > > > > > > > > Ideally drm-misc and other trees would do similar, we'd=
+ catch more
+> > > > > > > > > > regressions that way.  For example, in msm-next the nod=
+ebugfs build is
+> > > > > > > > > > currently broken, because we merged drm-misc-next at a =
+time when
+> > > > > > > > > > komeda was broken:
+> > > > > > > > > >
+> > > > > > > > > > https://gitlab.freedesktop.org/drm/msm/-/jobs/60575681#=
+L9520
+> > > > > > > > > >
+> > > > > > > > > > If drm-misc was using pre-merge CI this would have been=
+ caught and the
+> > > > > > > > > > offending patch dropped.
+> > > > > > > > >
+> > > > > > > > > That sounds more like we should push on the drm-misc pre-=
+merge CI boulder
+> > > > > > > > > to move it uphill, than add even more trees to make it ev=
+en harder to get
+> > > > > > > > > there long term ...
+> > > > > > > > >
+> > > > > > > > > Short term it helps locally to have finer trees, but only=
+ short term and
+> > > > > > > > > only very locally.
+> > > > > > > >
+> > > > > > > > The path to have fewer trees (ideally only one for all of d=
+rm) is to
+> > > > > > > > use gitlab MRs to land everything :-)
+> > > > > > > >
+> > > > > > > > drm-ci-next is only a stop-gap.. but one that we need.  The
+> > > > > > > > ${branchname}-external-fixes trick covers _most_ cases wher=
+e we need
+> > > > > > > > unrelated patches (ie. to fix random ToT breakage outside o=
+f drm or in
+> > > > > > > > core drm), but it doesn't help when the needed changes are =
+yml
+> > > > > > > > (because gitlab processes all the yml before merging the
+> > > > > > > > -external-fixes branch).  This is where we need drm-ci-next=
+, otherwise
+> > > > > > > > we are having to create a separate MR which cherry-picks dr=
+m/ci
+> > > > > > > > patches for doing the CI.  This is a rather broken process.
+> > > > > > >
+> > > > > > > So what I don't get is ... if we CI drm-misc, how does that n=
+ot help
+> > > > > > > improve the situation here? Step one would be post-merge (i.e=
+. just enable
+> > > > > > > CI in the repo), then get MRs going.
+> > > > > >
+> > > > > > I guess post-merge is better than nothing.. but pre-merge is be=
+tter.
+> > > > > >
+> > > > > > post-merge can work if you have a "sheriff" system where someon=
+e
+> > > > > > (perhaps on a rotation) is actively monitoring results and "rev=
+ert and
+> > > > > > ask questions later" when something breaks.  Pre-merge ensures =
+the
+> > > > > > interested party is involved in the process ;-)
+> > > > >
+> > > > > So ... make that happen? And it doesn't have to be for all of drm=
+-misc,
+> > > > > mesa after all switched over to MR also on a bit a driver/area ba=
+sis. So
+> > > > > agreeing among all drm-ci folks to use gitlab MR in drm-misc for =
+pre-merge
+> > > > > testing shouldn't be that hard to make happen. And unlike a separ=
+ate
+> > > > > branch it's not some kind of detour with a good chance to get stu=
+ck in a
+> > > > > local optimum.
+> > > >
+> > > > Tree vs branch doesn't really have much in the way of distinction,
+> > > > modulo gitlab permissions.  In that it doesn't do much good if drm/=
+ci
+> > > > patches are landing on a different branch.
+> > > >
+> > > > I guess what you are suggesting is that we have a single tree/branc=
+h
+> > > > that drm/ci + drm/msm + (plus whoever else wants to get in on the
+> > > > drm/ci, so probably at least vkms) lands patches into via gitlab MR=
+s?
+> > >
+> > > This again brings a separate CI-enabled tree. I think it has been
+> > > suggested to start with enabling DRM CI for drm-misc branches. Then w=
+e
+> > > can possibly start landing MRs with CI testing (probably starting wit=
+h
+> > > vkms).
+> >
+> > It's something we've discussed with Sima for a while, but enabling CI o=
+n
+> > drm-misc at some point will make sense so we could just as well start
+> > now.
+> >
+> > The biggest unknown at the moment to start doing so is how we could kee=
+p
+> > drm-tip and the rerere repo with MR.
 >
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
-> v2:
->   * Fix indentation
->   * Also update the FW interface message to include "using interface" to
->     make it clear it's not the FW version
->   * Add Reviewed-bys
+> Let's do a slow start and begin with post-merge testing. At least this
+> gives us an idea of how stable it is (and what does it take to keep it
+> green). Maybe we can perform post-merge testing for both drm-misc and
+> drm-tip.
+
+The one thing is that currently the runtime for igt is quite long
+(~1hr) because you can't really parallelize kms tests.  So maybe
+nightly scheduled runs would be a better idea.
+
+BR,
+-R
+
 >
->   drivers/gpu/drm/panthor/panthor_fw.c | 57 +++++++++++++++++++++++++++-
->   1 file changed, 56 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 857f3f11258a..aea5dd9a4969 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -78,6 +78,12 @@ enum panthor_fw_binary_entry_type {
->   
->   	/** @CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA: Timeline metadata interface. */
->   	CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA = 4,
-> +
-> +	/**
-> +	 * @CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA: Metadata about how
-> +	 * the FW binary was built.
-> +	 */
-> +	CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA = 6
->   };
->   
->   #define CSF_FW_BINARY_ENTRY_TYPE(ehdr)					((ehdr) & 0xff)
-> @@ -132,6 +138,13 @@ struct panthor_fw_binary_section_entry_hdr {
->   	} data;
->   };
->   
-> +struct panthor_fw_build_info_hdr {
-> +	/** @meta_start: Offset of the build info data in the FW binary */
-> +	u32 meta_start;
-> +	/** @meta_size: Size of the build info data in the FW binary */
-> +	u32 meta_size;
-> +};
-> +
->   /**
->    * struct panthor_fw_binary_iter - Firmware binary iterator
->    *
-> @@ -628,6 +641,46 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
->   	return 0;
->   }
->   
-> +static int panthor_fw_read_build_info(struct panthor_device *ptdev,
-> +				      const struct firmware *fw,
-> +				      struct panthor_fw_binary_iter *iter,
-> +				      u32 ehdr)
-> +{
-> +	struct panthor_fw_build_info_hdr hdr;
-> +	char header[9];
-> +	const char git_sha_header[sizeof(header)] = "git_sha: ";
-> +	int ret;
-> +
-> +	ret = panthor_fw_binary_iter_read(ptdev, iter, &hdr, sizeof(hdr));
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (hdr.meta_start > fw->size ||
-> +	    hdr.meta_start + hdr.meta_size > fw->size) {
-> +		drm_err(&ptdev->base, "Firmware build info corrupt\n");
-> +		/* We don't need the build info, so continue */
-> +		return 0;
-> +	}
-> +
-> +	if (memcmp(git_sha_header, fw->data + hdr.meta_start,
-> +		   sizeof(git_sha_header))) {
-> +		/* Not the expected header, this isn't metadata we understand */
-> +		return 0;
-> +	}
-> +
-> +	/* Check that the git SHA is NULL terminated as expected */
-> +	if (fw->data[hdr.meta_start + hdr.meta_size - 1] != '\0') {
-> +		drm_warn(&ptdev->base, "Firmware's git sha is not NULL terminated\n");
-> +		/* Don't treat as fatal */
-> +		return 0;
-> +	}
-> +
-> +	drm_info(&ptdev->base, "Firmware git sha: %s\n",
-> +		 fw->data + hdr.meta_start + sizeof(git_sha_header));
-
-Please consider making this debugging-only information. Printing takes 
-time and the information is not essential unless for debugging.
-
-> +
-> +	return 0;
-> +}
-> +
->   static void
->   panthor_reload_fw_sections(struct panthor_device *ptdev, bool full_reload)
->   {
-> @@ -672,6 +725,8 @@ static int panthor_fw_load_entry(struct panthor_device *ptdev,
->   	switch (CSF_FW_BINARY_ENTRY_TYPE(ehdr)) {
->   	case CSF_FW_BINARY_ENTRY_TYPE_IFACE:
->   		return panthor_fw_load_section_entry(ptdev, fw, &eiter, ehdr);
-> +	case CSF_FW_BINARY_ENTRY_TYPE_BUILD_INFO_METADATA:
-> +		return panthor_fw_read_build_info(ptdev, fw, &eiter, ehdr);
->   
->   	/* FIXME: handle those entry types? */
->   	case CSF_FW_BINARY_ENTRY_TYPE_CONFIG:
-> @@ -921,7 +976,7 @@ static int panthor_fw_init_ifaces(struct panthor_device *ptdev)
->   			return ret;
->   	}
->   
-> -	drm_info(&ptdev->base, "CSF FW v%d.%d.%d, Features %#x Instrumentation features %#x",
-> +	drm_info(&ptdev->base, "CSF FW using interface v%d.%d.%d, Features %#x Instrumentation features %#x",
->   		 CSF_IFACE_VERSION_MAJOR(glb_iface->control->version),
->   		 CSF_IFACE_VERSION_MINOR(glb_iface->control->version),
->   		 CSF_IFACE_VERSION_PATCH(glb_iface->control->version),
-
-Same.
-
-Best regards
-Thomas
-
-
-
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+> --
+> With best wishes
+> Dmitry
