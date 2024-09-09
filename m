@@ -2,112 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3A7970AD0
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 02:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B308970AD2
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 02:43:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0124310E21C;
-	Mon,  9 Sep 2024 00:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 908E310E257;
+	Mon,  9 Sep 2024 00:43:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="GOHj1aG4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CG4XrGo4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED67D10E21C
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 00:33:28 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20240909003326epoutp047aaa0377c919df38b22502669f3eacc7~zbCk7BJML2347223472epoutp04K
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 00:33:26 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20240909003326epoutp047aaa0377c919df38b22502669f3eacc7~zbCk7BJML2347223472epoutp04K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1725842006;
- bh=1G+ASTI4bMzmwPy0O5lazP8/CD+An6upXbu/zYW46Rc=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=GOHj1aG4UmnJwaGzvVVtIUliZcmlZ4AdkBGgdjbOWWvrmF/KfRumfXXLeUT/iwlHK
- rKZ4gPW67rReH2NZiC+iY1CmIqZRK13/9IiA6jktzBg9T/4nAq63uGsRflPRqq0c3q
- yS5LhIezxISAhZx+U7vW1gDEsdqdXKPkizoTWUc0=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTP id
- 20240909003326epcas1p350e5fd5906e45056a43c1aade062ecd1~zbCkqJ8Mr0118901189epcas1p3n;
- Mon,  9 Sep 2024 00:33:26 +0000 (GMT)
-Received: from epsmgec1p1-new.samsung.com (unknown [182.195.38.232]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 4X279J6cXnz4x9Pq; Mon,  9 Sep
- 2024 00:33:24 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 87.FE.19509.4524ED66; Mon,  9 Sep 2024 09:33:24 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20240909003324epcas1p1ca105cce3f7ba7f60724e0272c169fb9~zbCi4HLdq0834108341epcas1p1i;
- Mon,  9 Sep 2024 00:33:24 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20240909003324epsmtrp28853f99e55b593fcf893c85c56dd07e7~zbCi3gsF30427904279epsmtrp2z;
- Mon,  9 Sep 2024 00:33:24 +0000 (GMT)
-X-AuditID: b6c32a4c-17bc070000004c35-a0-66de4254604a
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 64.97.19367.4524ED66; Mon,  9 Sep 2024 09:33:24 +0900 (KST)
-Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20240909003324epsmtip1bb587d6b5395fa477c6043a1eae0ea71~zbCipoIhV0362103621epsmtip1Z;
- Mon,  9 Sep 2024 00:33:24 +0000 (GMT)
-From: =?ks_c_5601-1987?B?tOvAzrHiL1RpemVuIFBsYXRmb3JtIExhYihTUikvu++8usD8wNo=?=
- <inki.dae@samsung.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>
-Cc: <dri-devel@lists.freedesktop.org>, <linux-samsung-soc@vger.kernel.org>
-In-Reply-To: <20240906091331.34244-1-inki.dae@samsung.com>
-Subject: RE: [GIT PULL] exynos-drm-next
-Date: Mon, 9 Sep 2024 09:33:23 +0900
-Message-ID: <13aa01db024f$e0ff20d0$a2fd6270$@samsung.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B252110E249
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 00:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725842598; x=1757378598;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XNNSjYDp2/vVWve1yWNzSRejqISxf3CiHc/EGOCbqS8=;
+ b=CG4XrGo4yR0qwOrkw3rbK1i8MIfQ0KXRZBQSUs3NVkCh86tXrqM/NPU/
+ uI5I6DqAhDyC7lTSfLEqcETUZfF8x1XiSRxjnWFPfa7Nl3UWdnsu+N49b
+ 9OpS6+6kMvuRIt3iVQT6MdSSxN9X/ZgoWjLxq7OnwZFOMe7f5YEbtou64
+ SZFb8b0D2/LxT8/M8bfgmFd6+7++sXLfQ1DwRM4O68VbgJw/plRTnAOWn
+ 7RQ7LsXoTj+gJNVda0a2kr4pYjQPsIgjiU+LE0ZDAxx98F3v3Vlx/OTkJ
+ wMkJGMWiVB3SUnr80FwL69LIJeL8BsVyKSqHajZv4V/wbJ1z21Z+3jL60 A==;
+X-CSE-ConnectionGUID: gu4hHoRFQ9OG5KIIRnX9Hg==
+X-CSE-MsgGUID: YfcwlM5vSHWVlMfkfMILJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24380707"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="24380707"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2024 17:43:16 -0700
+X-CSE-ConnectionGUID: 0TF1Qs4nRxmSO0LssqBdig==
+X-CSE-MsgGUID: nHhGW951T3ePC2vI+90hZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="89764067"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 08 Sep 2024 17:43:10 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1snSUl-000E7t-2r;
+ Mon, 09 Sep 2024 00:43:07 +0000
+Date: Mon, 9 Sep 2024 08:42:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Mark Yao <markyao0591@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
+Message-ID: <202409090615.l6BkuR5K-lkp@intel.com>
+References: <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ks_c_5601-1987"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKnWCNG2FAPxsLYb1AQ/rvYmFL7hgGws9RMsKho9SA=
-Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkk+LIzCtJLcpLzFFi42LZdljTQDfE6V6aweQ/Oha9504yWfzfNpHZ
- 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
- yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
- I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITvj/7Fl7AXrJSu2LznK2MD4SLiL
- kZNDQsBE4tWnN2xdjFwcQgJ7GCWW/f8E5XxilLi9tpsRpArM2fnREKZjaeNXqKKdjBL/nt9i
- hnBeMkocaXjKBlLFJpAhcbd9MSuILSKgKdH1oIsJxGYW8JKYueMoC4jNKWAlMWHXT7ANwgLq
- Eid2rAerZxFQkVh2EKKXV8BS4uT3b+wQtqDEyZlPWCDmGEksWT0faqa8xPa3c5ghrlOQ+Pl0
- GdReK4nGWWdZIWpEJGZ3tkHVfGSXeHOMDcJ2kfhx6S5UXFji1fEt7BC2lMTnd3vBvpQQmMwo
- cef6ChYIZwajxOGf1xkhqowl9i+dDHUFn8S7rz1A2ziA4rwSHW1CECVKEscu3oAql5C4sGQi
- G0SJh8TdfYETGBVnIXltFpLXZiF5bRaSFxYwsqxilEotKM5NT002LDDUzUsth0d5cn7uJkZw
- mtTy2cH4ff1fvUOMTByMhxglOJiVRHj77e6lCfGmJFZWpRblxxeV5qQWH2I0BYb4RGYp0eR8
- YKLOK4k3NLE0MDEzMjaxMDQzVBLnPXOlLFVIID2xJDU7NbUgtQimj4mDU6qBiSkh2mqa48O/
- v1Ivi/JsdCuep3vgx1rXpQ2hOjMrr2daOtmfSrlkmOB0QEX2kE/Dh71/1dfr/fDtvs78Plxi
- yzP5MP6qa7euh8md73BN3PjxnOhR3xCjlkg2F9Yfh8OdH8+wWvPlvsGS82opnZ8sZ5iXHjJ+
- ELBLU2KpUJTNfJsdZw8snJ2hVlZw0UVM5v+TnAJ1xes7TznOb7mUUV7TxbrD4fb/w7yz5I2v
- 9uVNsYs5dEhUr4uTj+VsvdOSRYsyTzlkCrVe2MU634QlimvLmUK+r4kx5vfSFEw27asrldqv
- s+T7erMKZ8f3MdU3Gs2Urc8c3dv25u3ET4eaBQ83L97TtkDR5Z3IP9UL++f8VmIpzkg01GIu
- Kk4EAA2fMp4cBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJLMWRmVeSWpSXmKPExsWy7bCSnG6I0700g1/LeS16z51ksvi/bSKz
- xZWv79ksZpzfx+TA4rH32wIWj+3fHrB63O8+zuTxeZNcAEsUl01Kak5mWWqRvl0CV8b/Y8vY
- C9ZLVmxfcpSxgfGRcBcjJ4eEgInE0savbF2MXBxCAtsZJW5unc/axcgBlJCQ2LKVA8IUljh8
- uBikXEjgOaPEqZX1IDabQJrEpLn7WUFsEQFtiRNrpoDZzAI+Et923WaEGNnNKLF28y0mkASn
- gJXEhF0/GUFsYQF1iRM71oM1sAioSCw7uBjM5hWwlDj5/Rs7hC0ocXLmExaIoSYSjYe7oWx5
- ie1v5zBD3K8g8fPpMqgjrCQaZ52FOkJEYnZnG/MERuFZSEbNQjJqFpJRs5C0LGBkWcUomlpQ
- nJuem1xgqFecmFtcmpeul5yfu4kRHBtaQTsYl63/q3eIkYmD8RCjBAezkghvv929NCHelMTK
- qtSi/Pii0pzU4kOM0hwsSuK8yjmdKUIC6YklqdmpqQWpRTBZJg5OqQYmzWZnqbPB69RWcU/g
- 4ts3qdzicnWF35vwPn/XXZ3ceqmSx3wSOiYxr/q182z5TDstuy8xAebaR+T2+TWsZH7md6Gw
- uObPtISzP2I2Ntm+LhVbZ5lkZxhySU8h/avthaWzul/zaaiteX3wp0xaaOp0wzf8Xswiq03n
- WIl2CkTdnKB/7OeXC0XpYr9X+uuVqB5i0S96qnxJYvqUrEltxSwvxC0tfn1j0whaJx79b06Z
- 4ofXfT1KomZ1yw9nZ09cHHJJv8niQV+hnO9GLrNDGw62uhwONz4780cd853LxVNmrZO+bsOp
- M0m5zfXqH9ZPbmf6eqSZXi3esnBKfIbmsXz/nAsTGcJTw6PnzbGa/laJpTgj0VCLuag4EQCn
- dqjH/AIAAA==
-X-CMS-MailID: 20240909003324epcas1p1ca105cce3f7ba7f60724e0272c169fb9
-X-Msg-Generator: CA
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240906091343epcas1p4e83ab2ca25edbed8e129f2c6a9f7292d
-References: <CGME20240906091343epcas1p4e83ab2ca25edbed8e129f2c6a9f7292d@epcas1p4.samsung.com>
- <20240906091331.34244-1-inki.dae@samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,97 +86,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Hi Cristian,
 
-There was my mistake. One patch not related to Exynos was included to this
-PR.
-I will resend it again.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Inki Dae
+[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
 
-> -----Original Message-----
-> From: Inki Dae <daeinki@gmail.com> On Behalf Of Inki Dae
-> Sent: Friday, September 6, 2024 6:14 PM
-> To: airlied@linux.ie; daniel@ffwll.ch
-> Cc: dri-devel@lists.freedesktop.org; linux-samsung-soc@vger.kernel.org
-> Subject: [GIT PULL] exynos-drm-next
-> 
-> Hi Dave and Daniel,
-> 
->    Just three cleanups and one fixup.
-> 
-> Please kindly let me know if there is any problem.
-> 
-> Thanks,
-> 
-> 
-> The following changes since commit
-> b1aa0491fad27f030c94ed42c873c3f46f5e7364:
-> 
->   drm/xe: Fix merge fails related to display runtime PM (2024-09-02
-> 14:14:07 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos
-> tags/exynos-drm-next-for-v6.12
-> 
-> for you to fetch changes up to 94ebc3d3235c5c516f67315059ce657e5090e94b:
-> 
->   drivers:drm:exynos_drm_gsc:Fix wrong assignment in gsc_bind() (2024-09-
-> 06 16:08:30 +0900)
-> 
-> ----------------------------------------------------------------
-> Three cleanups
-> - Drop stale exynos file pattern from MAINTAINERS file
->   The old "exynos" directory is removed from MAINTAINERS as Samsung Exynos
->   display bindings have been relocated. This resolves a warning
->   from get_maintainers.pl about no files matching the outdated directory.
-> 
-> - Constify struct exynos_drm_ipp_funcs
->   By making struct exynos_drm_ipp_funcs constant, the patch enhances
-> security
->   by moving the structure to a read-only section of memory.
->   This change results in a slight reduction in the data section size.
-> 
-> - Remove unnecessary code
->   The function exynos_atomic_commit is removed as it became redundant
->   after a previous update. This cleans up the code and eliminates
->   unused function declarations.
-> 
-> One fixup
-> - Fix wrong assignment in gsc_bind()
->   A double assignment in gsc_bind() was flagged by the cocci tool and
->   corrected to fix an incorrect assignment, addressing a potential issue
->   introduced in a prior commit.
-> 
-> ----------------------------------------------------------------
-> Christophe JAILLET (1):
->       drm/exynos: Constify struct exynos_drm_ipp_funcs
-> 
-> Krzysztof Kozlowski (1):
->       dt-bindings: MAINTAINERS: drop stale exynos file pattern
-> 
-> Kwanghoon Son (1):
->       drm/exynos: Remove unnecessary code
-> 
-> Simona Vetter (1):
->       MAINATINERS: update drm maintainer contacts
-> 
-> Yuesong Li (1):
->       drivers:drm:exynos_drm_gsc:Fix wrong assignment in gsc_bind()
-> 
->  .mailmap                                   |  4 ++++
->  Documentation/gpu/introduction.rst         | 10 ++++-----
->  Documentation/gpu/todo.rst                 | 34 +++++++++++++++----------
-----
-> -
->  MAINTAINERS                                |  7 +++---
->  drivers/gpu/drm/exynos/exynos_drm_drv.h    |  4 ----
->  drivers/gpu/drm/exynos/exynos_drm_fimc.c   |  2 +-
->  drivers/gpu/drm/exynos/exynos_drm_gsc.c    |  4 ++--
->  drivers/gpu/drm/exynos/exynos_drm_scaler.c |  2 +-
->  8 files changed, 33 insertions(+), 34 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Ciocaltea/drm-bridge-synopsys-Add-DW-HDMI-QP-TX-Controller-support-library/20240906-092027
+base:   8400291e289ee6b2bf9779ff1c83a291501f017b
+patch link:    https://lore.kernel.org/r/20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb%40collabora.com
+patch subject: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
+config: powerpc64-randconfig-r122-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090615.l6BkuR5K-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce: (https://download.01.org/0day-ci/archive/20240909/202409090615.l6BkuR5K-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409090615.l6BkuR5K-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c:679:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct dw_hdmi_qp * @@     got void [noderef] __iomem *[assigned] regs @@
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c:679:24: sparse:     expected struct dw_hdmi_qp *
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c:679:24: sparse:     got void [noderef] __iomem *[assigned] regs
+
+vim +679 drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  653  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  654  struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  655  				   struct drm_encoder *encoder,
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  656  				   const struct dw_hdmi_qp_plat_data *plat_data)
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  657  {
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  658  	struct device *dev = &pdev->dev;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  659  	struct dw_hdmi_qp *hdmi;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  660  	void __iomem *regs;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  661  	int ret;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  662  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  663  	if (!plat_data->phy_ops || !plat_data->phy_ops->init ||
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  664  	    !plat_data->phy_ops->disable || !plat_data->phy_ops->read_hpd) {
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  665  		dev_err(dev, "Missing platform PHY ops\n");
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  666  		return ERR_PTR(-ENODEV);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  667  	}
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  668  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  669  	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  670  	if (!hdmi)
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  671  		return ERR_PTR(-ENOMEM);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  672  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  673  	INIT_DELAYED_WORK(&hdmi->scramb_work, dw_hdmi_qp_scramb_work);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  674  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  675  	hdmi->dev = dev;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  676  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  677  	regs = devm_platform_ioremap_resource(pdev, 0);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  678  	if (IS_ERR(regs))
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06 @679  		return regs;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  680  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  681  	hdmi->regm = devm_regmap_init_mmio(dev, regs, &dw_hdmi_qp_regmap_config);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  682  	if (IS_ERR(hdmi->regm)) {
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  683  		dev_err(dev, "Failed to configure regmap\n");
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  684  		return ERR_CAST(hdmi->regm);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  685  	}
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  686  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  687  	hdmi->phy.ops = plat_data->phy_ops;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  688  	hdmi->phy.data = plat_data->phy_data;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  689  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  690  	dw_hdmi_qp_init_hw(hdmi);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  691  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  692  	ret = devm_request_threaded_irq(dev, plat_data->main_irq,
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  693  					dw_hdmi_qp_main_hardirq, NULL,
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  694  					IRQF_SHARED, dev_name(dev), hdmi);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  695  	if (ret)
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  696  		return ERR_PTR(ret);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  697  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  698  	hdmi->bridge.driver_private = hdmi;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  699  	hdmi->bridge.funcs = &dw_hdmi_qp_bridge_funcs;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  700  	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT |
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  701  			   DRM_BRIDGE_OP_EDID |
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  702  			   DRM_BRIDGE_OP_HDMI |
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  703  			   DRM_BRIDGE_OP_HPD;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  704  	hdmi->bridge.of_node = pdev->dev.of_node;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  705  	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  706  	hdmi->bridge.vendor = "Synopsys";
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  707  	hdmi->bridge.product = "DW HDMI QP TX";
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  708  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  709  	hdmi->bridge.ddc = dw_hdmi_qp_i2c_adapter(hdmi);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  710  	if (IS_ERR(hdmi->bridge.ddc))
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  711  		hdmi->bridge.ddc = NULL;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  712  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  713  	ret = devm_drm_bridge_add(dev, &hdmi->bridge);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  714  	if (ret)
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  715  		return ERR_PTR(ret);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  716  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  717  	ret = drm_bridge_attach(encoder, &hdmi->bridge, NULL,
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  718  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  719  	if (ret)
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  720  		return ERR_PTR(ret);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  721  
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  722  	return hdmi;
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  723  }
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  724  EXPORT_SYMBOL_GPL(dw_hdmi_qp_bind);
+4ae2f13b217e6c Cristian Ciocaltea 2024-09-06  725  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
