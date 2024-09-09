@@ -2,67 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26657970EA4
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 08:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBD4970EBD
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 09:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA4110E2DA;
-	Mon,  9 Sep 2024 06:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0202410E2DC;
+	Mon,  9 Sep 2024 07:02:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i8uYuYiO";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="7ymmRER4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9C2B10E2DA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 06:54:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725864885; x=1757400885;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5CUtr5c0Taa2cv5diyyUItk9tTuJ/bOmNRRQPiYqb3E=;
- b=i8uYuYiOpFRXbPsVKPQNbPHnQfNh+NnhEsxpJQqCm0j0zb5KJdUPZVeQ
- ziB4LvH7Vm8Tvez1aCXLODYBjeC0zntWGhTUUm4N+/9vDREX+2yXEWrkZ
- O8Wt5xvOilnYqVGaW0KXs/8xaPdjNvsFsXckAPPaSsCi65v0T8wzyZb2x
- 8FsCbn5HzLAdZVOeN0mwwgAr0JLI+gaDRHcUTiY217R12LPugE0iaLiuq
- 9oxKCUHvsB1gzK5SRlD0mienY8Rmj0956TNqU1MxTir7Sbtc9E9r2zy2L
- gy4NPVkut9yUbx4DJ31R9+Ibh2Ff9PQaZ1d5rR1sXkAmZdj7UM+s3XsGu g==;
-X-CSE-ConnectionGUID: MlcSpetSQeCJU4h7h2V5sA==
-X-CSE-MsgGUID: E07wp8ZKSdyfGNplKukPSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24088214"
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="24088214"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2024 23:54:44 -0700
-X-CSE-ConnectionGUID: BS0doVCZT46N2bu1t/06Ew==
-X-CSE-MsgGUID: Aie8GE95S4SuzoK+HwL02A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; d="scan'208";a="71368229"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 08 Sep 2024 23:54:42 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1snYII-000EQU-2F;
- Mon, 09 Sep 2024 06:54:38 +0000
-Date: Mon, 9 Sep 2024 14:54:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>, Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH v3] drm/edid: add CTA Video Format Data Block support
-Message-ID: <202409091450.S7bzV2ho-lkp@intel.com>
-References: <20240906224307.423250-1-hamza.mahfooz@amd.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF22A10E2DC
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 07:02:00 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 488NJcI3004295;
+ Mon, 9 Sep 2024 09:01:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ e9ORReuSJ12+IscNIptFNf/Mkrft3JTYJ/7DOdslGQU=; b=7ymmRER43PNFeJqX
+ XsPv/MQu+krLusDvyyjX/b26RXKmSiMW5EoZERbn1WpA9zltUTyDf/71SBJ0RMth
+ ipNqez2cQigCb7QIYj/Y0lRXvHneEt4P4uqbiCilHf0ojTaDsM4sP/cTMSjA2OcL
+ 1f1TQ9Xn8Q0uopGOJFDJ3gTyGy+RjyAkV6PbuhMpcX1gkDd5XAuPvcsS3p77vMdM
+ v5LA2N+nIIlCgZt8JZ7V8OCpS22BYwOobq85dquTjXny/1T/eYCp/j1qT+Dvwla3
+ zyWtNhg5jz2p2iWGgUSk64Yk1Vl58q0bYHN6Kjh3y0XqF8w5o2cnCNnI1UQM0mQ8
+ iLdq9Q==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41gy7s3rku-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Sep 2024 09:01:37 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A163D40044;
+ Mon,  9 Sep 2024 09:00:16 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 60761246F19;
+ Mon,  9 Sep 2024 08:57:58 +0200 (CEST)
+Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 9 Sep
+ 2024 08:57:57 +0200
+Message-ID: <544a633e-de53-493d-9c29-de8ff52630da@foss.st.com>
+Date: Mon, 9 Sep 2024 08:57:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240906224307.423250-1-hamza.mahfooz@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to
+ `clk_hw_unregister'
+To: Borislav Petkov <bp@alien8.de>, <linux-stm32@st-md-mailman.stormreply.com>
+CC: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.129.178.17]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,42 +86,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hamza,
 
-kernel test robot noticed the following build errors:
+On 9/5/24 10:19, Borislav Petkov wrote:
+> Hi all,
+>
+> this fires in my randbuilds here:
+>
+> vmlinux.o: warning: objtool: adis16400_write_raw() falls through to next function adis16400_show_serial_number()
+> ld: vmlinux.o: in function `dw_mipi_dsi_stm_remove':
+> dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to `clk_hw_unregister'
+> ld: vmlinux.o: in function `dw_mipi_dsi_clk_register':
+> dw_mipi_dsi-stm.c:(.text+0x8db9f5): undefined reference to `clk_hw_register'
+> ld: vmlinux.o: in function `lvds_remove':
+> lvds.c:(.text+0x8dc605): undefined reference to `clk_hw_unregister'
+> make[2]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
+> make[1]: *** [/home/amd/bpetkov/kernel/linux/Makefile:1156: vmlinux] Error 2
+> make: *** [Makefile:224: __sub-make] Error 2
+>
+> is there a fix somewhere?
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11-rc7 next-20240906]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hi Borislav,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hamza-Mahfooz/drm-edid-add-CTA-Video-Format-Data-Block-support/20240907-064359
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240906224307.423250-1-hamza.mahfooz%40amd.com
-patch subject: [PATCH v3] drm/edid: add CTA Video Format Data Block support
-config: arm-nhk8815_defconfig (https://download.01.org/0day-ci/archive/20240909/202409091450.S7bzV2ho-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091450.S7bzV2ho-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409091450.S7bzV2ho-lkp@intel.com/
+Arnd Bergmann sent a patch regarding this issue on x86 that I merged several
+weeks ago.
 
-All errors (new ones prefixed by >>):
+https://lore.kernel.org/lkml/20240719075454.3595358-1-arnd@kernel.org/
+https://lore.kernel.org/all/c3d0757a-07c0-4f83-9f06-c3ad205aa1e9@foss.st.com/
 
->> ld.lld: error: undefined symbol: __aeabi_uldivmod
-   >>> referenced by drm_edid.c:5470 (drivers/gpu/drm/drm_edid.c:5470)
-   >>>               drivers/gpu/drm/drm_edid.o:(_drm_edid_connector_add_modes) in archive vmlinux.a
-   >>> referenced by drm_edid.c:5508 (drivers/gpu/drm/drm_edid.c:5508)
-   >>>               drivers/gpu/drm/drm_edid.o:(_drm_edid_connector_add_modes) in archive vmlinux.a
-   >>> referenced by drm_edid.c:5509 (drivers/gpu/drm/drm_edid.c:5509)
-   >>>               drivers/gpu/drm/drm_edid.o:(_drm_edid_connector_add_modes) in archive vmlinux.a
-   >>> referenced 1 more times
-   >>> did you mean: __aeabi_uidivmod
-   >>> defined in: vmlinux.a(arch/arm/lib/lib1funcs.o)
+>
+> People love to do
+>
+> 	depends on ... COMPILE_TEST
+>
+> but then if no one takes care of it in time:
+>
+> https://lore.kernel.org/oe-kbuild-all/202407212000.rpDH64jP-lkp@intel.com
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Now, I'm not familiar with PowerPC architecture and toolchains, but I think this
+patch should fix your problem.
+Do you have the above fixup in your tree ? If not please try it.
+
+Thanks,
+
+Regards,
+Raphaël
+
+>
+> that COMPILE_TEST thing is forcing me to simply blacklist it and is not really
+> helping.
+>
+> Thx.
+>
