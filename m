@@ -2,75 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBD4970EBD
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 09:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E4E970EC5
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2024 09:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0202410E2DC;
-	Mon,  9 Sep 2024 07:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5DB10E2DE;
+	Mon,  9 Sep 2024 07:08:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="7ymmRER4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VddFcR4g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF22A10E2DC
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2024 07:02:00 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 488NJcI3004295;
- Mon, 9 Sep 2024 09:01:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- e9ORReuSJ12+IscNIptFNf/Mkrft3JTYJ/7DOdslGQU=; b=7ymmRER43PNFeJqX
- XsPv/MQu+krLusDvyyjX/b26RXKmSiMW5EoZERbn1WpA9zltUTyDf/71SBJ0RMth
- ipNqez2cQigCb7QIYj/Y0lRXvHneEt4P4uqbiCilHf0ojTaDsM4sP/cTMSjA2OcL
- 1f1TQ9Xn8Q0uopGOJFDJ3gTyGy+RjyAkV6PbuhMpcX1gkDd5XAuPvcsS3p77vMdM
- v5LA2N+nIIlCgZt8JZ7V8OCpS22BYwOobq85dquTjXny/1T/eYCp/j1qT+Dvwla3
- zyWtNhg5jz2p2iWGgUSk64Yk1Vl58q0bYHN6Kjh3y0XqF8w5o2cnCNnI1UQM0mQ8
- iLdq9Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41gy7s3rku-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Sep 2024 09:01:37 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A163D40044;
- Mon,  9 Sep 2024 09:00:16 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 60761246F19;
- Mon,  9 Sep 2024 08:57:58 +0200 (CEST)
-Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 9 Sep
- 2024 08:57:57 +0200
-Message-ID: <544a633e-de53-493d-9c29-de8ff52630da@foss.st.com>
-Date: Mon, 9 Sep 2024 08:57:57 +0200
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA1010E2DE;
+ Mon,  9 Sep 2024 07:08:18 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-374bfc395a5so2253369f8f.0; 
+ Mon, 09 Sep 2024 00:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725865697; x=1726470497; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=miIa0uylE1UFUz+fjwRH8q3H5W2F4hzW6ItDHV+UbYY=;
+ b=VddFcR4gQFKd4nBk6ZeE+dBo/WueZFdgzalDFXNjjzYWV9UD9cTDGEfRM/4QLULU0r
+ J6x7A45hW6JRcviP7Ghj6+vqXiAQ1fDcQIKAv2CQDehNETRzIruoo5xi2QXHTvXw/leI
+ eJIKETdPKNMSqavQy8P6RdujMalkCKYZp9wzDtAoziu7BNgzBzpGzKWr88zQLQSuJxH6
+ EVvDPiWamlROHo5xcwyG0mCup2LzNvXfGkJKtaHB15qdsd543FYYQfLO1lkCKu1mLkFf
+ weVj7NVSSdqoFkpzzCyldF7qqvpYDsWZlxaSRGiUM8kJJBXWhzbSRLJO97txetrfhUYo
+ HYBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725865697; x=1726470497;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=miIa0uylE1UFUz+fjwRH8q3H5W2F4hzW6ItDHV+UbYY=;
+ b=wzQWRw5HGt+WRKwG0f7dkGY0IllGZHtQyjmehyU0lDYhwBvL41CZu4c3WwSwTRbkzm
+ GgIMWS7v5dLJzdA7NU+6lH2lVLYCgCC0zOrmNCLWQk2UuAsiBGL3WP+sCO/DTKMYOWwy
+ NaaZ72XUBNTdCAzPvZRPbqwAWrcQ/uCWknwzLQpSv6VphKqTeW8bLWLew7q5F3aPmqYa
+ 4l1oX6y8aM6MCS67i6aPz9KtNGWkSVzJeiMVtQBQhtdTSglVxbjkJ0HRee5CiwZSf+DL
+ 37Mk5CKgo5OIMizIvf59Pz1T8wTpZ+6YleoollYaZKIwissQIPKImkJ9JjMq5UUHeU2O
+ MVyw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2O1MgS2lVktIh726wt3kPg2eFs759RqB7MRV10RvPMJnG+2K6n6WOSneCZC6jjQSMp2GVNods+zs=@lists.freedesktop.org,
+ AJvYcCVDe8q3G7Ah8ddKiEdolWJHu3dlxCPD3AqlNoJ883F5VYO1PRzE3YpF3s/NYE+tBvFEf3xUdeSj/a3J@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGKA9bVrlwyzsLAmSPzvnPhoYkLk/0kVi8hWSLUDqW3NzT6IVU
+ Ue+/tyk0ulk4kfAwffxis8wW5Z6lT8J00d2BZHO3q4QCn/1LqR63
+X-Google-Smtp-Source: AGHT+IF7PvU559w9RG/+WWePAWHfln7qrp/xZmFruXqBgk/EtXWofmJCF9Gu7pllhU4Q5vs+uudvoA==
+X-Received: by 2002:a5d:4146:0:b0:367:938f:550 with SMTP id
+ ffacd0b85a97d-3779bb2e591mr10665534f8f.25.1725865696041; 
+ Mon, 09 Sep 2024 00:08:16 -0700 (PDT)
+Received: from fedora.iskraemeco.si ([193.77.86.250])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-378956d375asm5178754f8f.66.2024.09.09.00.08.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Sep 2024 00:08:15 -0700 (PDT)
+From: Uros Bizjak <ubizjak@gmail.com>
+To: x86@kernel.org, linux-crypto@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com
+Cc: Uros Bizjak <ubizjak@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Hannes Reinecke <hare@suse.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ Jamal Hadi Salim <jhs@mojatatu.com>, Cong Wang <xiyou.wangcong@gmail.com>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [PATCH v2 00/19] random: Resolve circular include dependency and
+ include <linux/percpu.h>
+Date: Mon,  9 Sep 2024 09:05:14 +0200
+Message-ID: <20240909070742.75425-1-ubizjak@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to
- `clk_hw_unregister'
-To: Borislav Petkov <bp@alien8.de>, <linux-stm32@st-md-mailman.stormreply.com>
-CC: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.17]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,55 +127,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There were several attempts to resolve circular include dependency
+after the addition of percpu.h: 1c9df907da83 ("random: fix circular
+include dependency on arm64 after addition of percpu.h"), c0842fbc1b18
+("random32: move the pseudo-random 32-bit definitions to prandom.h") and
+finally d9f29deb7fe8 ("prandom: Remove unused include") that completely
+removes the inclusion of <linux/percpu.h>.
 
-On 9/5/24 10:19, Borislav Petkov wrote:
-> Hi all,
->
-> this fires in my randbuilds here:
->
-> vmlinux.o: warning: objtool: adis16400_write_raw() falls through to next function adis16400_show_serial_number()
-> ld: vmlinux.o: in function `dw_mipi_dsi_stm_remove':
-> dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to `clk_hw_unregister'
-> ld: vmlinux.o: in function `dw_mipi_dsi_clk_register':
-> dw_mipi_dsi-stm.c:(.text+0x8db9f5): undefined reference to `clk_hw_register'
-> ld: vmlinux.o: in function `lvds_remove':
-> lvds.c:(.text+0x8dc605): undefined reference to `clk_hw_unregister'
-> make[2]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
-> make[1]: *** [/home/amd/bpetkov/kernel/linux/Makefile:1156: vmlinux] Error 2
-> make: *** [Makefile:224: __sub-make] Error 2
->
-> is there a fix somewhere?
+Due to legacy reasons, <linux/random.h> includes <linux/prandom.h>, but
+with the commit entry remark:
 
-Hi Borislav,
+--quote--
+A further cleanup step would be to remove this from <linux/random.h>
+entirely, and make people who use the prandom infrastructure include
+just the new header file.  That's a bit of a churn patch, but grepping
+for "prandom_" and "next_pseudo_random32" "struct rnd_state" should
+catch most users.
 
+But it turns out that that nice cleanup step is fairly painful, because
+a _lot_ of code currently seems to depend on the implicit include of
+<linux/random.h>, which can currently come in a lot of ways, including
+such fairly core headfers as <linux/net.h>.
 
-Arnd Bergmann sent a patch regarding this issue on x86 that I merged several
-weeks ago.
+So the "nice cleanup" part may or may never happen.
+--/quote--
 
-https://lore.kernel.org/lkml/20240719075454.3595358-1-arnd@kernel.org/
-https://lore.kernel.org/all/c3d0757a-07c0-4f83-9f06-c3ad205aa1e9@foss.st.com/
+We would like to include <linux/percpu.h> in <linux/prandom.h>.
+In [1] we would like to repurpose __percpu tag as a named address space
+qualifier, where __percpu macro uses defines from <linux/percpu.h>.
 
->
-> People love to do
->
-> 	depends on ... COMPILE_TEST
->
-> but then if no one takes care of it in time:
->
-> https://lore.kernel.org/oe-kbuild-all/202407212000.rpDH64jP-lkp@intel.com
+The major roadblock to inclusion of <linux/percpu.h> is the above
+mentioned legacy inclusion of <linux/prandom.h> in <linux/random.h> that
+causes circular include dependency that prevents <linux/percpu.h>
+inclusion.
 
-Now, I'm not familiar with PowerPC architecture and toolchains, but I think this
-patch should fix your problem.
-Do you have the above fixup in your tree ? If not please try it.
+This patch series is the "nice cleanup" part that:
 
-Thanks,
+a) Substitutes the inclusion of <linux/random.h> with the
+inclusion of <linux/prandom.h> where needed (patches 1 - 17).
 
-Regards,
-Raphaël
+b) Removes legacy inclusion of <linux/prandom.h> from
+<linux/random.h> (patch 18).
 
->
-> that COMPILE_TEST thing is forcing me to simply blacklist it and is not really
-> helping.
->
-> Thx.
->
+c) Includes <linux/percpu.h> in <linux/prandom.h> (patch 19).
+
+The whole series was tested by compiling the kernel for x86_64 allconfig
+and some popular architectures, namely arm64 defconfig, powerpc defconfig
+and loongarch defconfig.
+
+[1] https://lore.kernel.org/lkml/20240812115945.484051-4-ubizjak@gmail.com/
+
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Eduard Zingerman <eddyz87@gmail.com>
+Cc: Song Liu <song@kernel.org>
+Cc: Yonghong Song <yonghong.song@linux.dev>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: Hao Luo <haoluo@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>
+---
+v2: - Reword commit messages to mention the removal of legacy inclusion
+    of <linux/prandom.h> from <linux/random.h>
+    - Add missing substitution in crypto/testmgr.c
+    (reported by kernel test robot)
+    - Add Acked-by:.
+
+Uros Bizjak (19):
+  x86/kaslr: Include <linux/prandom.h> instead of <linux/random.h>
+  crypto: testmgr: Include <linux/prandom.h> instead of <linux/random.h>
+  drm/i915/selftests: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  drm/lib: Include <linux/prandom.h> instead of <linux/random.h>
+  media: vivid: Include <linux/prandom.h> in vivid-vid-cap.c
+  mtd: tests: Include <linux/prandom.h> instead of <linux/random.h>
+  fscrypt: Include <linux/once.h> in fs/crypto/keyring.c
+  scsi: libfcoe: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/interval_tree_test.c: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  kunit: string-stream-test: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  random32: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/rbtree-test: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf/tests: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_parman: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_scanf: Include <linux/prandom.h> instead of <linux/random.h>
+  netem: Include <linux/prandom.h> in sch_netem.c
+  random: Do not include <linux/prandom.h> in <linux/random.h>
+  prandom: Include <linux/percpu.h> in <linux/prandom.h>
+
+ arch/x86/mm/kaslr.c                              | 2 +-
+ crypto/testmgr.c                                 | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem.c        | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_random.h     | 2 +-
+ drivers/gpu/drm/i915/selftests/scatterlist.c     | 2 +-
+ drivers/gpu/drm/lib/drm_random.h                 | 2 +-
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 1 +
+ drivers/mtd/tests/oobtest.c                      | 2 +-
+ drivers/mtd/tests/pagetest.c                     | 2 +-
+ drivers/mtd/tests/subpagetest.c                  | 2 +-
+ fs/crypto/keyring.c                              | 1 +
+ include/linux/prandom.h                          | 1 +
+ include/linux/random.h                           | 7 -------
+ include/scsi/libfcoe.h                           | 2 +-
+ kernel/bpf/core.c                                | 2 +-
+ lib/interval_tree_test.c                         | 2 +-
+ lib/kunit/string-stream-test.c                   | 1 +
+ lib/random32.c                                   | 2 +-
+ lib/rbtree_test.c                                | 2 +-
+ lib/test_bpf.c                                   | 2 +-
+ lib/test_parman.c                                | 2 +-
+ lib/test_scanf.c                                 | 2 +-
+ net/sched/sch_netem.c                            | 1 +
+ 23 files changed, 22 insertions(+), 24 deletions(-)
+
+-- 
+2.46.0
+
