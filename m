@@ -2,81 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3916972BD4
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 10:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47629972BB8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 10:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2608F10E747;
-	Tue, 10 Sep 2024 08:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BCC910E744;
+	Tue, 10 Sep 2024 08:13:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="P6+nbddx";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="MSdY733J";
+	dkim=pass (1024-bit key; unprotected) header.d=citrix.com header.i=@citrix.com header.b="s0V4lT8R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 363 seconds by postgrey-1.36 at gabe;
- Tue, 10 Sep 2024 08:14:45 UTC
-Received: from a7-40.smtp-out.eu-west-1.amazonses.com
- (a7-40.smtp-out.eu-west-1.amazonses.com [54.240.7.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEF310E747
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1725955720;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
- bh=CMzM2OmUAjHBG7xyXlb5CqeG7AYsJx3XrH0ReYN+K80=;
- b=P6+nbddx9e8GQe8AEJCW5t1Wu7f5l0l96bnP+ujVgcAgIROuRWvJIdBhySUQsOtw
- j7Lt8UqBZNfztPGgr2ARPCEnl56LBm9jkfZf0QVfToehnx62GnGlNRMErQ+ChNLBb4Z
- r2GGVsh0pt3C//K7D2A6oQuCNUMNRSSF/Y65xC2lWU6p7bUmjbMiaq2iLsXx7oOVKOV
- I95MP0BzEtmWEcJQG134t3/sHo5NuSb3dODZ0MyM2H1QE/JpGjQmDxicFxhZNED7pR+
- aEL7JGQC1PCW1LWMH5FtGsZjq/xJ6X8hrh9SbVIkDmgqXdiae8NqFmflFz4f1lyifQv
- 2ZI1Aee8lA==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1725955720;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
- bh=CMzM2OmUAjHBG7xyXlb5CqeG7AYsJx3XrH0ReYN+K80=;
- b=MSdY733JFvyqSrkXqPdO6T2dgUOs8csMz301DyjJ3BBiuHbsC/UDV8fx4LaXZQae
- oY+V2/L9RO7BgNdUoLzsEsTCawwLhgru3Q4yqIi4sL3zoBjs3KA5BjJm/se1Ny4FoA7
- 1ZmGsBhP2uozcYc/b6rxC2EQEW0DD71Dfujeh9cc=
-Message-ID: <01020191dafa43a8-cca2fb3f-7eda-4e39-9ca1-eccb78c566a4-000000@eu-west-1.amazonses.com>
-Date: Tue, 10 Sep 2024 08:08:40 +0000
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAE8710E744
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:13:04 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a8d100e9ce0so479567966b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 01:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.com; s=google; t=1725955983; x=1726560783; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ZrAkDLaXld3+MjEVbLTf0QH6amL7yZTph2uE3DVa+eA=;
+ b=s0V4lT8RenMbj6qWJic0GJ4vEi1tgmhK6teCVmI4h0+enUASU8QFqCRtkMuj2ytiO1
+ np53BSPg34R/QWx7LCDIKuBfAJhLsCulhpxduKutg82HZZHGrKtIkSHgTx3CqGqj3HCz
+ 5mHex41YcViCJy5cEfqaufj7ZXyliUmjtbAnc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725955983; x=1726560783;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZrAkDLaXld3+MjEVbLTf0QH6amL7yZTph2uE3DVa+eA=;
+ b=nzkmz+vahVh0cbPzLBFtIKf9QALkWkffzcY7g/TtGb/wDGB/ZVsvIJAIAQEjkYmkT0
+ SRwy3n9HemQ/usaW1ogaHoH9yqRCsnzERXlN10Bg3DWavqRG07L+/mw49F8pVIUcY9XB
+ /kUIv00zEDZ8jiuQcVdFz8JV02rnMVDLvZFwrB+CUgGFL/x6qBkkfUyL12TAwsTpx6HT
+ hiuMJ3e5DgSd/b22YbdgmVFI+oWqxgU4uREqyupgCl+inGb99QuAIaDB+G1DKChFjTh8
+ BTEYBD0ICVBVwUrHBu20b9pDh3Ftsscyc5Sk4ElRDP9VFrO1EIvLGkfs/SZkIdMkCBQL
+ rjng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWDWq3C1/UQQr9hmAWFHwZDcmqhKpgd7qN6HpwCCvB4CNU3FTm1zgIllgmabP4LIn9dlnF/F8VzFbQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzChy3GG/AMQwl9eHOJBoMzvtviaBIZLsjkkhYWIXP4/7hVz6Zq
+ tjGBI2RMFDgQ3saV+lkEmGWUpG1p9e6ZuyDFkWuU0PN4PxKy77m5gXH2MKViYsc=
+X-Google-Smtp-Source: AGHT+IHiB9BjTCtXbGr3lRX9SELZFUb5HLAig7DxMwgiilncoD8W9NU5mPh05hS+XdfHoA6qWwrRQQ==
+X-Received: by 2002:a17:907:1c23:b0:a8d:4d76:a75e with SMTP id
+ a640c23a62f3a-a8d4d76a983mr600932766b.30.1725955982405; 
+ Tue, 10 Sep 2024 01:13:02 -0700 (PDT)
+Received: from localhost ([213.195.124.163]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a8d258354f7sm445482166b.2.2024.09.10.01.13.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Sep 2024 01:13:02 -0700 (PDT)
+Date: Tue, 10 Sep 2024 10:13:01 +0200
+From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jason Andryuk <jandryuk@gmail.com>, Helge Deller <deller@gmx.de>,
+ Arnd Bergmann <arnd@arndb.de>, Sam Ravnborg <sam@ravnborg.org>,
+ xen-devel@lists.xenproject.org, Jason Andryuk <jason.andryuk@amd.com>,
+ Arthur Borsboom <arthurborsboom@gmail.com>, stable@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fbdev/xen-fbfront: Assign fb_info->device
+Message-ID: <Zt__jTESjI7P7Vkj@macbook.local>
+References: <20240910020919.5757-1-jandryuk@gmail.com>
+ <Zt_zvt3VXwim_DwS@macbook.local>
+ <ad9e19af-fabd-4ce0-a9ac-741149f9aab3@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/3] dt-bindings: display: mediatek: Add OF graph
- support for board path
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- "sui.jingfeng@linux.dev" <sui.jingfeng@linux.dev>, 
- "wenst@chromium.org" <wenst@chromium.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>, 
- "mripard@kernel.org" <mripard@kernel.org>, 
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>, 
- "michael@walle.cc" <michael@walle.cc>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
- "robh@kernel.org" <robh@kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "airlied@gmail.com" <airlied@gmail.com>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
- "kernel@collabora.com" <kernel@collabora.com>, 
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "amergnat@baylibre.com" <amergnat@baylibre.com>
-References: <20240618101726.110416-1-angelogioacchino.delregno@collabora.com>
- <20240618101726.110416-2-angelogioacchino.delregno@collabora.com>
- <3e58a224e6323e28c370d460fa72e23b958bcf62.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <3e58a224e6323e28c370d460fa72e23b958bcf62.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.09.10-54.240.7.40
+In-Reply-To: <ad9e19af-fabd-4ce0-a9ac-741149f9aab3@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,91 +86,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/08/24 05:45, CK Hu (胡俊光) ha scritto:
-> Hi, Angelo:
+On Tue, Sep 10, 2024 at 09:29:30AM +0200, Thomas Zimmermann wrote:
+> Hi
 > 
-> On Tue, 2024-06-18 at 12:17 +0200, AngeloGioacchino Del Regno wrote:
->> The display IPs in MediaTek SoCs support being interconnected with
->> different instances of DDP IPs (for example, merge0 or merge1) and/or
->> with different DDP IPs (for example, rdma can be connected with either
->> color, dpi, dsi, merge, etc), forming a full Display Data Path that
->> ends with an actual display.
->>
->> The final display pipeline is effectively board specific, as it does
->> depend on the display that is attached to it, and eventually on the
->> sensors supported by the board (for example, Adaptive Ambient Light
->> would need an Ambient Light Sensor, otherwise it's pointless!), other
->> than the output type.
->>
->> Add support for OF graphs to most of the MediaTek DDP (display) bindings
->> to add flexibility to build custom hardware paths, hence enabling board
->> specific configuration of the display pipeline and allowing to finally
->> migrate away from using hardcoded paths.
->>
->> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
->> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
+> Am 10.09.24 um 09:22 schrieb Roger Pau Monné:
+> > On Mon, Sep 09, 2024 at 10:09:16PM -0400, Jason Andryuk wrote:
+> > > From: Jason Andryuk <jason.andryuk@amd.com>
+> > > 
+> > > Probing xen-fbfront faults in video_is_primary_device().  The passed-in
+> > > struct device is NULL since xen-fbfront doesn't assign it and the
+> > > memory is kzalloc()-ed.  Assign fb_info->device to avoid this.
+> > > 
+> > > This was exposed by the conversion of fb_is_primary_device() to
+> > > video_is_primary_device() which dropped a NULL check for struct device.
+> > > 
+> > > Fixes: f178e96de7f0 ("arch: Remove struct fb_info from video helpers")
+> > > Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
+> > > Closes: https://lore.kernel.org/xen-devel/CALUcmUncX=LkXWeiSiTKsDY-cOe8QksWhFvcCneOKfrKd0ZajA@mail.gmail.com/
+> > > Tested-by: Arthur Borsboom <arthurborsboom@gmail.com>
+> > > CC: stable@vger.kernel.org
+> > > Signed-off-by: Jason Andryuk <jason.andryuk@amd.com>
+> > Reviewed-by: Roger Pau Monné <roger.pau@citrix.com>
+> > 
+> > > ---
+> > > The other option would be to re-instate the NULL check in
+> > > video_is_primary_device()
+> > I do think this is needed, or at least an explanation.  The commit
+> > message in f178e96de7f0 doesn't mention anything about
+> > video_is_primary_device() not allowing being passed a NULL device
+> > (like it was possible with fb_is_primary_device()).
+> > 
+> > Otherwise callers of video_is_primary_device() would need to be
+> > adjusted to check for device != NULL.
 > 
-> [snip]
-> 
->>   
->> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
->> index 677882348ede..98db47894eeb 100644
->> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
->> @@ -110,6 +110,28 @@ properties:
->>         include/dt-bindings/gce/<chip>-gce.h, mapping to the register of display
->>         function block.
->>   
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +    description:
->> +      Input and output ports can have multiple endpoints, each of those
->> +      connects to either the primary, secondary, etc, display pipeline.
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: ETHDR input, usually from one of the MERGE blocks.
-> 
-> Sorry, I find one question now.
-> I think ETHDR may have multiple input, and ETHDR receive data from all input at the same time.
-> Why here has only one input port?
-> 
-> MERGE -->+-----------------+
->           |                 |
-> MERGE -->|                 |
->           |      ETHDR      |
-> MERGE -->|                 |
->           |                 |
-> MERGE -->+-----------------+
-> 
+> The helper expects a non-NULL pointer. We might want to document this.
 
-Because ETHDR takes one input (ex. "one image", or "one data stream") port, which
-is composed of multiple input endpoints (where each endpoint is a MERGE block) :-)
+A BUG_ON(!dev); might be enough documentation that the function
+expected a non-NULL dev IMO.
 
-Cheers,
-Angelo
-
-> Regards,
-> CK
-> 
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description:
->> +          ETHDR output to the input of the next desired component in the
->> +          display pipeline, for example one of the available MERGE blocks,
->> +          or others.
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->>   required:
->>     - compatible
->>     - reg
->>
-
+Thanks, Roger.
