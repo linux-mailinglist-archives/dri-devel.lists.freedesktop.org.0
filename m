@@ -2,74 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D51E972A54
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 09:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F30972A37
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 09:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF3810E6CD;
-	Tue, 10 Sep 2024 07:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5354710E70F;
+	Tue, 10 Sep 2024 07:08:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jY5TzzUK";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZGuRqyxu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2AEC10E6E4
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 02:10:08 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id
- d75a77b69052e-4581d2b0fbaso19701821cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 19:10:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725934207; x=1726539007; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dUxVq/uYkeEKFMBzDLEyObgx5MyTJN7izveNlmy8shU=;
- b=jY5TzzUKffLUAWLQK12cnu3z3WUG3pcWnvlCDwwQDrsJ54AX9HEqB9opEIGbzHWcDX
- D+wykMEddH9WAaP7HnyV9MKIZgJGaLatuVQebW+Jjz2p31C7pycQnTFzidHGJJa88sH6
- 7XuEHOCPdqw9ITik21nze8HjvzasNgXTjNYp8MnLGL7bCZvep6/zc4Kqo6gqCpcMHQ36
- RIw/vuK1AhqEbjdHKUdDfWwj0Oo0xS9n4S9tyu9rjsgksA6hRkgq0uZWNxxBdTEQYzZv
- 9zY9DDXWYJn7kbeAt+pG5Bwj3p4ob23Yrp8GdG/KdvDXtesumhXkKSdQjmo9CHnT2gzG
- opng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725934207; x=1726539007;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dUxVq/uYkeEKFMBzDLEyObgx5MyTJN7izveNlmy8shU=;
- b=UpoR2x0ks+zzU5MCzFH16tvkMBzpn1+ZRfZ9uuV52ioQunZjUyqByxR7IyMEtlE2zk
- e7gKAiBoap0EINIxqa+57TsAQiDHMb/vjbXgQK8VJlF/9yR8wlc5s0s5pA5qQCR6JqOJ
- LoTsS9qGyymd2bEdWj+t5tGhNik3lNFwMaqFSufBrG59ayXT9L5NaxoPcNYl1DJiAQZi
- vL222+jwW2iPBa+1JizR8X2dftjK8bXGTknsAdfeSMYiYfrm/qbgbGiVZB4zjqcgcvIp
- bTrWUnzL6Y2/7qm4C+ilPR1urOhSXmED6KhV61apptfK86PENiPlmiVeZg058mwhKhvI
- GZjg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzib8h2BEghwJqvgzyOg4rVBVVpG27KEAqm54/y/h5p834D+TolfZ5iAFXvApygXEky5iRzhq7drU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGsHtsE5xO1OFf1LphFrq2Z8vOGwQwQjvnOoc9INEE0yUubNVA
- 8JAJlswZzSj4OtQOghISn7wMjE5DWz6qIzF65tmIyKu2HXrOPlgB
-X-Google-Smtp-Source: AGHT+IGmeDSS1xPUmyjEW8yUJFMAPO/V2CCsh6Yw95JK0OmbyicAdVkM/O8FfObtrVcamHw/ybV/0Q==
-X-Received: by 2002:a05:622a:144c:b0:457:c776:e350 with SMTP id
- d75a77b69052e-4580c75a11dmr124180981cf.46.1725934207271; 
- Mon, 09 Sep 2024 19:10:07 -0700 (PDT)
-Received: from shine.lan
- (216-15-0-36.s8994.c3-0.slvr-cbr1.lnh-slvr.md.cable.rcncustomer.com.
- [216.15.0.36]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-45822f6097fsm25377241cf.63.2024.09.09.19.10.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Sep 2024 19:10:06 -0700 (PDT)
-From: Jason Andryuk <jandryuk@gmail.com>
-To: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Sam Ravnborg <sam@ravnborg.org>
-Cc: xen-devel@lists.xenproject.org, Jason Andryuk <jason.andryuk@amd.com>,
- Arthur Borsboom <arthurborsboom@gmail.com>, stable@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAFB510E70F
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 07:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1725952089;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=p52drQQWWMDPDWHyDAHWFf4kflo+RvAWsxo4nv351ts=;
+ b=ZGuRqyxuZ66yr7eTjK6oIsqlrcU5ZTTcgbvCtSTkMQYC8EqkkI6b7Rf4gIn+XpZOqh51+m
+ OZLUKogoUCmwlclU9S3mvPuhT8F9pQCHahZk7VFXfqibn2I1sxS1Qo2BBxSfy805Fp+Lcl
+ QERLMHr6FZd2PWjfMp0qHvhplOcvLYk=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-636-5WRrWSkaM2SiVqXkOYDQOA-1; Tue,
+ 10 Sep 2024 03:08:03 -0400
+X-MC-Unique: 5WRrWSkaM2SiVqXkOYDQOA-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 244741954209; Tue, 10 Sep 2024 07:08:01 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.27])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id F256119560A3; Tue, 10 Sep 2024 07:07:56 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] fbdev/xen-fbfront: Assign fb_info->device
-Date: Mon,  9 Sep 2024 22:09:16 -0400
-Message-ID: <20240910020919.5757-1-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v3 0/4] drm/log: Introduce a new boot logger to draw the kmsg
+ on the screen
+Date: Tue, 10 Sep 2024 08:56:27 +0200
+Message-ID: <20240910070733.156127-1-jfalempe@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 10 Sep 2024 07:14:50 +0000
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,40 +73,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jason Andryuk <jason.andryuk@amd.com>
+drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
+This is not a full replacement to fbcon, as it will only print the kmsg.
+It will never handle user input, or a terminal because this is better done in userspace.
 
-Probing xen-fbfront faults in video_is_primary_device().  The passed-in
-struct device is NULL since xen-fbfront doesn't assign it and the
-memory is kzalloc()-ed.  Assign fb_info->device to avoid this.
+If you're curious on how it looks like, I've put a small demo here:
+https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
 
-This was exposed by the conversion of fb_is_primary_device() to
-video_is_primary_device() which dropped a NULL check for struct device.
-
-Fixes: f178e96de7f0 ("arch: Remove struct fb_info from video helpers")
-Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
-Closes: https://lore.kernel.org/xen-devel/CALUcmUncX=LkXWeiSiTKsDY-cOe8QksWhFvcCneOKfrKd0ZajA@mail.gmail.com/
-Tested-by: Arthur Borsboom <arthurborsboom@gmail.com>
-CC: stable@vger.kernel.org
-Signed-off-by: Jason Andryuk <jason.andryuk@amd.com>
----
-The other option would be to re-instate the NULL check in
-video_is_primary_device()
----
- drivers/video/fbdev/xen-fbfront.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/video/fbdev/xen-fbfront.c b/drivers/video/fbdev/xen-fbfront.c
-index 66d4628a96ae..c90f48ebb15e 100644
---- a/drivers/video/fbdev/xen-fbfront.c
-+++ b/drivers/video/fbdev/xen-fbfront.c
-@@ -407,6 +407,7 @@ static int xenfb_probe(struct xenbus_device *dev,
- 	/* complete the abuse: */
- 	fb_info->pseudo_palette = fb_info->par;
- 	fb_info->par = info;
-+	fb_info->device = &dev->dev;
+Design decisions:
+  * It uses the drm_client API, so it should work on all drm drivers from the start.
+  * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
+    It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
+  * drm_log can only be built-in (and drm must be built-in too).
+    The reason is that, if you build it as a module, then a userspace application will be more appropriate than this module.
+  * It uses the new non-blocking console API, so it should work well with PREEMPT_RT
  
- 	fb_info->screen_buffer = info->fb;
- 
+v2:
+ * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+ * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+ * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+ * Add color support for the timestamp prefix, like what dmesg does.
+ * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
+
+v3:
+ * Remove the work thread and circular buffer, and use the new write_thread() console API.
+ * Register a console for each drm driver.
+
+Thanks and best regards,
+
+Jocelyn Falempe (4):
+  drm/panic: Move drawing functions to drm_draw
+  drm/log: Introduce a new boot logger to draw the kmsg on the screen
+  drm/log: Do not draw if drm_master is taken
+  drm/log: Color the timestamp, to improve readability
+
+ drivers/gpu/drm/Kconfig     |  19 ++
+ drivers/gpu/drm/Makefile    |   3 +
+ drivers/gpu/drm/drm_draw.c  | 216 ++++++++++++++++++++
+ drivers/gpu/drm/drm_draw.h  |  56 ++++++
+ drivers/gpu/drm/drm_drv.c   |   2 +
+ drivers/gpu/drm/drm_log.c   | 391 ++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_log.h   |  11 +
+ drivers/gpu/drm/drm_panic.c | 247 +++--------------------
+ 8 files changed, 721 insertions(+), 224 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_draw.c
+ create mode 100644 drivers/gpu/drm/drm_draw.h
+ create mode 100644 drivers/gpu/drm/drm_log.c
+ create mode 100644 drivers/gpu/drm/drm_log.h
+
+
+base-commit: 9aaeb87ce1e966169a57f53a02ba05b30880ffb8
 -- 
-2.43.0
+2.46.0
 
