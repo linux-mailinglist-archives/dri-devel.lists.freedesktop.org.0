@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DA1973D66
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 18:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF56973D6D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 18:37:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8708710E88B;
-	Tue, 10 Sep 2024 16:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5B310E88A;
+	Tue, 10 Sep 2024 16:37:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eQVRxNbM";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="Xo9nJXF7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1FA10E887;
- Tue, 10 Sep 2024 16:37:03 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-2d8a9a15a7fso726449a91.0; 
- Tue, 10 Sep 2024 09:37:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725986223; x=1726591023; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lATwDGFeJ+qRWtCHldgAPm/E2odi0ls4dzip5e6x6e8=;
- b=eQVRxNbMdSnAxofSq8HP/G0ymKVjriVkGJ73vk4s3mzJrlkO7oBgjuDhqFKMZxn322
- fpwy5wH20ZKIeJ/h5pT14YYTUErCVLaNAgvavKTtU3oHv1SqkuBvAdoEKoCqMnjomtoW
- RXAyUds6iHuaJJgs88HI6yW4a2dGSxrnHwcxqB31X71pJ0BhKHs2yN9wQM+2Q1n3f8KX
- WHCoe14iFaapkynz+YtFEGfi2wF6UV6Jf0nTQqLvRQq82Q3lZae/aOIwRUrhNjNXxM53
- qPOfQgBlAehQd1aIRgD4VSiRUJ7VRVo39XIXLPEKYv1V29XyGASPAX/wtSYB5YgWyMVI
- ef1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725986223; x=1726591023;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lATwDGFeJ+qRWtCHldgAPm/E2odi0ls4dzip5e6x6e8=;
- b=r6gtN9G6XjdlL3DByvG3yS0+JUlZoKML/9GGhydqA+GRxEPtNqvuW0NNFvoZNzIaav
- TimyKDWiR5OgXza8sXBKaobDR3KjNbgoOKZmZtD/Ox6cjphKnItwQ8VrbiczSF+qkLtP
- eJLsE3G8v00F6cSJKxdV2MK6PGaA2RRKeTMd4kKzodiEiVkZlV1d4KfGT2XpP02IupNj
- cXq8ybJnatWybn3S53QTvw2NSrZ4hxxVxSd7a1YAeuKSmIUtFss0SH0/d0ezq/qWV6yv
- ACfiyjE0C9DTz9+lM6tXlmwO7EJ6PZ1APWmqoiMQOaOOoUi+QZPQh8yDlTnlLF2dsRMj
- 8cHg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVRZ8eLH4UwKk4piZUKIXOGxRzpWTsK+m3EGPyG1IVyWi9N2C8b2UbL74RnaMI4blCGRfbKVi80@lists.freedesktop.org,
- AJvYcCWKZ3AHk/3YUpWwVYYkQMEiqT+aw4ReuORk1LTT2Cf/Wx+LlBXNT6UPsJqK9fom49Ieq1YsMzPl8F1f@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPW4dG3E7dAPzLdUXdJjki9AuGBAf9VJSOeuf50zLfB2/ZldZG
- VxJH8/SxqSRCfr6njKona+jGbbXhk86ZTYu/iF5gDqEn1XVNRSuChtuqePYhCpOeozdbZc0eXP5
- 3kidZucHB97p8A+0xdlkzAVyX4fA=
-X-Google-Smtp-Source: AGHT+IHPTQ2JXj6SfhMfrfcG/POT/OFolYS5tLjGM55IyUhR09RlxqVBqzO4qOkZODU36a/D31prVXKsvOwKe7zNexE=
-X-Received: by 2002:a17:902:f542:b0:206:ad19:c0f2 with SMTP id
- d9443c01a7336-2074c5e61f1mr7305625ad.1.1725986222667; Tue, 10 Sep 2024
- 09:37:02 -0700 (PDT)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B939810E88A
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 16:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yUa3TLnRUIgVIBOiAVf2d1Rp6JcumIEXWfBSjgDQ8Oo=; b=Xo9nJXF74V8gMBzUmSZ96XzpCK
+ V0luRgiAHN4MhSDj3P4e1VklMl3LrZbtIMcu9GaUgOTfoAPWDwM6qi1drgoaGCHQ4cA+J8+k5laru
+ x9YzXc4fUUgUxklnMScdN8rOnwpO71QhSLcVmJFN1abK/+s1J3P07CmnCPOonerecZmgp2F8DnHrs
+ 7hxEKSbGdolTzLgxa3tIva67RUfXrKNEMv1g00kvM/rWbIw1VbVpES0GYLcMnBkj7zykPD7Dgo7F3
+ QHwzx9Nn/bb3N7LMdoqin1ExRbaWTCvISmQ78ddHn3zgiIs9HsQzzdbsCxJhITo86Xq78ZaIRjb9c
+ gpRUd6zA==;
+Received: from i53875a02.versanet.de ([83.135.90.2] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1so3rr-0006Fs-F9; Tue, 10 Sep 2024 18:37:27 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
+ Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
+Date: Tue, 10 Sep 2024 18:39:54 +0200
+Message-ID: <1796743.esFFXGZ24q@diego>
+In-Reply-To: <324b12ea-805a-499c-909d-3723f0bca7cb@collabora.com>
+References: <20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com>
+ <1899262.u6TykanW85@diego>
+ <324b12ea-805a-499c-909d-3723f0bca7cb@collabora.com>
 MIME-Version: 1.0
-References: <20240812065656.GI13701@ZenIV>
- <20240812065906.241398-1-viro@zeniv.linux.org.uk>
- <57520a28-fff2-41ae-850b-fa820d2b0cfa@suse.de> <20240822152022.GU504335@ZenIV>
- <20240823015719.GV504335@ZenIV> <50379388-302d-420a-8397-163433c31bdc@suse.de>
- <20240823075331.GE1049718@ZenIV>
-In-Reply-To: <20240823075331.GE1049718@ZenIV>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 10 Sep 2024 12:36:51 -0400
-Message-ID: <CADnq5_P+xddzv4WvV71sZwXStTg+g-AfwQbPBcbVg9NaV7p_Rw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] new helper: drm_gem_prime_handle_to_dmabuf()
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,56 +76,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks.  I cherry-picked these to my tree.  Sorry for the delay.
+Am Dienstag, 10. September 2024, 17:41:42 CEST schrieb Cristian Ciocaltea:
+> On 9/10/24 6:21 PM, Heiko St=FCbner wrote:
+> > Am Dienstag, 10. September 2024, 17:07:57 CEST schrieb Heiko St=FCbner:
+> >> Am Freitag, 6. September 2024, 03:17:42 CEST schrieb Cristian Ciocalte=
+a:
+> >>> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2=
+=2E1
+> >>> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on=
+ a
+> >>> Samsung IP block.
+> >>>
+> >>> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
+> >>> without audio, CEC or any of the HDMI 2.1 specific features.
+> >>>
+> >>> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
+> >>> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
+> >>> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> >>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> >>
+> >> I had switched from the v3 to this v6 in my playground-kernel today,
+> >> with v3 I've never seen those, but now with v6 I have gotten multiple
+> >> times:
+> >>
+> >> [  805.730608] Internal error: synchronous external abort: 00000000960=
+00010 [#1] PREEMPT SMP
+> >> [  805.739764] Modules linked in: snd_soc_simple_card crct10dif_ce snd=
+_soc_simple_card_utils panthor drm_gpuvm drm_exec fuse
+> >> [  805.752031] CPU: 3 UID: 0 PID: 775 Comm: Xorg Not tainted 6.11.0-rc=
+7-00099-g459302f1f908-dirty #934
+> >> [  805.762143] Hardware name: Theobroma Systems RK3588-Q7 SoM on Haiko=
+u devkit (DT)
+> >> [  805.770407] pstate: 204000c9 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS B=
+TYPE=3D--)
+> >> [  805.778186] pc : regmap_mmio_read32le+0x8/0x20
+> >> [  805.783155] lr : regmap_mmio_read+0x44/0x70
+> >> [  805.787828] sp : ffff80008293b830
+> >> [  805.791516] x29: ffff80008293b830 x28: ffff80008293bce8 x27: ffff00=
+01f20ab080
+> >> [  805.799495] x26: ffff800081139500 x25: 0000000000000000 x24: 000000=
+0000000010
+> >> [  805.807472] x23: 0000000000000000 x22: ffff0001f5a4b400 x21: ffff80=
+008293b8c4
+> >> [  805.815450] x20: 0000000000000968 x19: ffff0001f5a27a80 x18: 000000=
+0000000070
+> >> [  805.823428] x17: 0002441400000005 x16: 000004650441043c x15: 043800=
+0008980804
+> >> [  805.831406] x14: 07d8089807800780 x13: 0438000008980804 x12: ffff80=
+0081133630
+> >> [  805.839384] x11: 0002441400000005 x10: 000004650441043c x9 : ffff80=
+0081a59000
+> >> [  805.847361] x8 : 07d8089807800780 x7 : 0000000000000000 x6 : ffff00=
+01f5b453c0
+> >> [  805.855339] x5 : ffff800080750dc0 x4 : 0000000000000968 x3 : 000000=
+0000000968
+> >> [  805.863316] x2 : ffff800080751520 x1 : 0000000000000968 x0 : ffff80=
+0083b20968
+> >> [  805.871294] Call trace:
+> >> [  805.874012]  regmap_mmio_read32le+0x8/0x20
+> >> [  805.878588]  _regmap_bus_reg_read+0x6c/0xac
+> >> [  805.883262]  _regmap_read+0x60/0xd8
+> >> [  805.887159]  _regmap_update_bits+0xf4/0x140
+> >> [  805.891832]  regmap_update_bits_base+0x64/0xa0
+> >> [  805.896797]  dw_hdmi_qp_bridge_atomic_enable+0x134/0x220
+> >> [  805.902734]  drm_atomic_bridge_chain_enable+0x54/0xc8
+> >> [  805.908380]  drm_atomic_helper_commit_modeset_enables+0x194/0x280
+> >> [  805.915190]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+> >> [  805.921125]  commit_tail+0xa0/0x1a0
+> >> [  805.925021]  drm_atomic_helper_commit+0x17c/0x1b0
+> >> [  805.930276]  drm_atomic_commit+0xb8/0x100
+> >> [  805.934754]  drm_atomic_connector_commit_dpms+0xe0/0x110
+> >> [  805.940690]  drm_mode_obj_set_property_ioctl+0x1c0/0x420
+> >> [  805.946626]  drm_connector_property_set_ioctl+0x3c/0x68
+> >> [  805.952465]  drm_ioctl_kernel+0xc0/0x130
+> >> [  805.956846]  drm_ioctl+0x214/0x4a0
+> >> [  805.960643]  __arm64_sys_ioctl+0xac/0xf8
+> >> [  805.965025]  invoke_syscall+0x48/0x104
+> >> [  805.969214]  el0_svc_common.constprop.0+0x40/0xe0
+> >> [  805.974470]  do_el0_svc+0x1c/0x28
+> >> [  805.978171]  el0_svc+0x34/0xe0
+> >> [  805.981582]  el0t_64_sync_handler+0x120/0x12c
+> >> [  805.986449]  el0t_64_sync+0x190/0x194
+> >> [  805.990540] Code: d503201f d503201f f9400000 8b214000 (b9400000)
+> >>
+> >> I guess that might be some clocking issue?
+> >=20
+> > Forgot to add, this happens when the display has blanked and then is
+> > supposed to unblank again.
+>=20
+> Hmm, I've never encountered this while testing with my v6.11-rc1 based
+> tree.  What is your current kernel base?  Did you change it while
+> switching from v3 to v6?
+>=20
+> I'll rebase my tree onto latest linux-next and see if I can reproduce.
 
-Alex
+The setup is 6.11-rc7 with your hdmi series + my wip dsi + X11 running
+on top.
 
-On Fri, Aug 23, 2024 at 3:53=E2=80=AFAM Al Viro <viro@zeniv.linux.org.uk> w=
-rote:
->
-> On Fri, Aug 23, 2024 at 09:21:14AM +0200, Thomas Zimmermann wrote:
->
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> > Thank you so much.
->
-> OK, Acked-by added, branch force-pushed to
-> git://git.kernel.org:/pub/scm/linux/kernel/git/viro/vfs.git #for-drm
->
-> In case if anybody wants a signed pull request, see below; or just
-> cherry-pick, etc. - entirely up to drm and amd folks...
->
-> The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f01=
-7b:
->
->   Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git tags/pull-fo=
-r-drm
->
-> for you to fetch changes up to 30581926c42d1886cce2a04dcf615f551d829814:
->
->   amdgpu: get rid of bogus includes of fdtable.h (2024-08-23 03:46:46 -04=
-00)
->
-> ----------------------------------------------------------------
-> get rid of racy manipulations of descriptor table in amdgpu
->
-> ----------------------------------------------------------------
-> Al Viro (4):
->       new helper: drm_gem_prime_handle_to_dmabuf()
->       amdgpu: fix a race in kfd_mem_export_dmabuf()
->       amdkfd CRIU fixes
->       amdgpu: get rid of bogus includes of fdtable.h
->
->  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c    |  1 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   | 12 +---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c          |  1 -
->  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           | 64 ++++++++++++----=
--
->  drivers/gpu/drm/drm_prime.c                        | 84 ++++++++++++++--=
-------
->  include/drm/drm_prime.h                            |  3 +
->  6 files changed, 106 insertions(+), 59 deletions(-)
+At some point after being idle a while this blanks the display, which will
+probably turn off clocks and such. After moving the mouse or just
+doing anything else that unblanks the display, that splat happens.
+
+Apart from updating mesa from 24.2.0 to 24.2.2 I haven't changed
+anything in my test-setup so far.
+
+
