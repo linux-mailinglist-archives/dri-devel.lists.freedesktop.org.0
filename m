@@ -2,86 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845C6973008
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 11:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69FF97304B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 11:59:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0638910E123;
-	Tue, 10 Sep 2024 09:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE5E10E75F;
+	Tue, 10 Sep 2024 09:59:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K6U3jAGZ";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gTvRXqMm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 318DA10E754
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 09:57:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1725962227;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5PiDJuasXThJ7vbj/ldyoca5Jl01N0InxFIbiVHzjY0=;
- b=K6U3jAGZGX5LUaZBveIAzmwkC1ae12iCazwBOfDHqqdqhzUQqkmgEZK7/K8N1nXG+H1901
- 9O8Gg9lCp/IbTk4JxQQa24tZQHd4cVZMDQKWBluXvbT9CD+Fyi9MCdkdMBKOPauIUXQnJZ
- diiKPhT8uY4csebCkRowaqEbgcE+s00=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-548-pl5R_gdLOESRc_tvNDarjw-1; Tue, 10 Sep 2024 05:57:04 -0400
-X-MC-Unique: pl5R_gdLOESRc_tvNDarjw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-374bfc57e2aso3269598f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 02:57:03 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A0210E75F
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 09:59:37 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-374c7d14191so3510186f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 02:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725962375; x=1726567175;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OxZS7VLlvlNcdBPu4dATlqzqCH0SG09iCapcqr1ry4w=;
+ b=gTvRXqMm6BvTq2D/HCkfcj3xN0no26FR3yQyVoWPIlkNBUcGOQAGCUNgVtXD4QF5vl
+ 6StsuOrjEeFnt9iL20h0cTUtN9N2vT1HvddbSFg7NiB58PfKIpfOR/dbZFH0qQL8WZN0
+ GzZRhboMJ+IY8pRlo3zzb+rtksW0PchOUrsbukAJBzm/YA86imFCxOGJN/LRAmsU3LUD
+ NwdJ0aOeqG+yVwe+mKllTdsVPyJypRcXRE5KANICOoF9EmCCjqQFEImhYvobTUTZGEa0
+ qb3Uo88clLvkb2nXTlRCfSOH6R4rTShREHTgxrPMT5xfF4mT8gjzEPuMzfi+FMN+ml3g
+ CGoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725962223; x=1726567023;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6xmJDJHCrFEJG1w4322U2zHbVoLSbOK3ERE+KWCaag8=;
- b=trziozLTCPb/QIqUeijM4RJALRhzkMbMeAnh+hoPMzk0eIENJe0shvJ9B1vzIL6nic
- bS+R8LehZ8TGtrzrgkZwMWrvXCKmDUb1PcZbmkzkD57Ip0fXI6ZxSguO+HNCQIrBTefP
- MJo9mqKJowQFq9smhRmKScqIWJgLOro2uoaQUfC2tailZTCkc02TGJydZmwRTPpqqnIC
- KSUFkCVCy8YsyVxBnX2cYGflxsKt79NLsgH6GqtXOjPuJID+izwB+IjuG5/e3xU1DVa4
- PMCPmQCszCnI1GxAoKCrlHXhisivRbhhnfUBWCvY6Jp8Rhr1qrW/+y9ks2Lc7euqQWjH
- IHwA==
+ d=1e100.net; s=20230601; t=1725962375; x=1726567175;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OxZS7VLlvlNcdBPu4dATlqzqCH0SG09iCapcqr1ry4w=;
+ b=Wy/4pP6dx43CHWX3iZEBUjwMmByfSJXlTvfjFRjtsVRgfZ1caGyz0+7MToaG4VnBDC
+ Wxr0/ZxPX9C+SRzfisF2e8X8TlF+MJgP1aSbI1F9m17qJwvdJOrKVoEZp2zuCz76CmEv
+ mbpoBM3mRon1ExREjULZ57EUVuam3rlB+XuLVqP2Wgrlb0BCyZ/2O6qL+9xup6a7H7LE
+ MWPWc6rtu/lysLhXw32aRIiuPT4NcFpKdR3QPbOU24N58phDccwLSG7QdRbvMWn0lujB
+ ex5fhFqwD48xYISnQ6hLtrVelBEuBO49DCu3GpM66u5Cq8JvQgZ9FndHchHIiu9AOIav
+ ggNQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUF/Ixt7+w2+q6Odmi510EffPTFZjJTRgaWBp2Hb6mahHdbI/4+wvS7xVU7A+FGhTTWmlHnkCDgQek=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYcqsVxkiKjkQ6Ic4ibXP9V1k9mZX5dXtmst3//hi3uUzsJL/d
- SVFVL/Uxs86tnRIlyBhLTvWaaDzLvSN7teVTmDeD3CLHNBXlnCwVxtQiI3THGmcu/L5BIgZseHB
- LtSR+lPA/UTcfM8ZQUvX8YkiEIsoXkFYcXAPu1RybwSmXr8OYmZfDEVj+4mLGXZB9kQ==
-X-Received: by 2002:adf:a407:0:b0:374:c318:2188 with SMTP id
- ffacd0b85a97d-37889670950mr8629342f8f.42.1725962222727; 
- Tue, 10 Sep 2024 02:57:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFQFd5NJamzzjdq+dxtvPLXnw545coT4h9RSKBn5pqWHp/OzlFLx8WTZz6cV76JxVC0FLq4dg==
-X-Received: by 2002:adf:a407:0:b0:374:c318:2188 with SMTP id
- ffacd0b85a97d-37889670950mr8629320f8f.42.1725962222149; 
- Tue, 10 Sep 2024 02:57:02 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3dba:4b00:6ba1:ad1b:2dfb:e2a2])
+ AJvYcCXE0TaznBm4uKD7X47+kbPno8sqtb0h6tmBs3IKiDYnI0ch2Z1+k91CFnfUAoCJezYsQ9sZ1jF63O8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwehOW1JZ+3R+HPTFfCMpevOxM8gUEgsCoxzUDYrV/jnWYlIiI1
+ /W0zMnSkj7021KVlnwqLF7n1cdOOw/CfyH1HV2jPterNKQM8FNL2tvRnPKGDq/s=
+X-Google-Smtp-Source: AGHT+IEtmAPvqyyaWuRoKy32eCJyGneGNTbPJN2tRd224P8AECPcesi7ike/qTX7P5GRwYiq+pSdJw==
+X-Received: by 2002:a5d:46ca:0:b0:374:c3e4:d6e3 with SMTP id
+ ffacd0b85a97d-378a89fd45fmr1331874f8f.5.1725962375253; 
+ Tue, 10 Sep 2024 02:59:35 -0700 (PDT)
+Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956dbf42sm8366725f8f.102.2024.09.10.02.57.01
+ ffacd0b85a97d-3789564a072sm8465192f8f.2.2024.09.10.02.59.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2024 02:57:01 -0700 (PDT)
-Message-ID: <0f3309f2fee746879a941e45e63a67facbc98f6d.camel@redhat.com>
-Subject: Re: [PATCH 5/8] drm/sched: Stop setting current entity in FIFO mode
-From: Philipp Stanner <pstanner@redhat.com>
-To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, Luben Tuikov <ltuikov89@gmail.com>, Matthew
- Brost <matthew.brost@intel.com>
-Date: Tue, 10 Sep 2024 11:57:00 +0200
-In-Reply-To: <20240909171937.51550-6-tursulin@igalia.com>
-References: <20240909171937.51550-1-tursulin@igalia.com>
- <20240909171937.51550-6-tursulin@igalia.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+ Tue, 10 Sep 2024 02:59:34 -0700 (PDT)
+Date: Tue, 10 Sep 2024 11:59:33 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: dmitry.baryshkov@linaro.org, Sebastian Reichel <sre@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v4 27/28] gcc-sdm845: Add general purpose clock ops
+Message-ID: <uevafpb6r7rfutiqrm5asfvv7zfxcb3acrlxqpispele5er52x@eegonpzqlm7j>
+References: <20240719-starqltechn_integration_upstream-v4-0-a7f644821941@gmail.com>
+ <20240719-starqltechn_integration_upstream-v4-27-a7f644821941@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="d2rlzxmgwshy2k4w"
+Content-Disposition: inline
+In-Reply-To: <20240719-starqltechn_integration_upstream-v4-27-a7f644821941@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,45 +105,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2024-09-09 at 18:19 +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+--d2rlzxmgwshy2k4w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Fri, Jul 19, 2024 at 03:55:04PM +0300, Dzmitry Sankouski wrote:
+> SDM845 has "General Purpose" clocks that can be muxed to
+> SoC pins to clock various external devices.
+> Those clocks may be used as e.g. PWM sources for external peripherals.
 >=20
-> It does not seem there is a need to set the current entity in FIFO
-> mode
-> since ot only serves as being a "cursor" in round-robin mode. Even if
-> scheduling mode is changed at runtime the change in behaviour is
-> simply
-> to restart from the first entity, instead of continuing in RR mode
-> from
-> where FIFO left it, and that sounds completely fine.
+> GPCLK can in theory have arbitrary value depending on the use case, so
+> the concept of frequency tables, used in rcg2 clock driver, is not
+> efficient, because it allows only defined frequencies.
 >=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-I went through the code and agree that this looks good.
-
-Reviewed-by: Philipp Stanner <pstanner@redhat.com>
-
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Luben Tuikov <ltuikov89@gmail.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <pstanner@redhat.com>
+> Introduce clk_rcg2_gp_ops, which automatically calculate clock
+> mnd values for arbitrary clock rate.
+>=20
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 > ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 1 -
-> =C2=A01 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index 10abbcefe9d8..54c5fe7a7d1d 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -356,7 +356,6 @@ drm_sched_rq_select_entity_fifo(struct
-> drm_gpu_scheduler *sched,
-> =C2=A0=09=09=09=09return ERR_PTR(-ENOSPC);
-> =C2=A0=09=09=09}
-> =C2=A0
-> -=09=09=09rq->current_entity =3D entity;
-> =C2=A0=09=09=09reinit_completion(&entity->entity_idle);
-> =C2=A0=09=09=09break;
-> =C2=A0=09=09}
+>  drivers/clk/qcom/clk-rcg.h    |   1 +
+>  drivers/clk/qcom/clk-rcg2.c   | 162 ++++++++++++++++++++++++++++++++++++=
+++++--
+>  drivers/clk/qcom/gcc-sdm845.c |  19 ++---
+>  drivers/pwm/pwm-clk.c         |   5 ++
 
+I don't understand why a change to some qcom clk implementation detail
+needs a change to drivers/pwm/pwm-clk.c in the same commit. I guess if
+the change to drivers/pwm/pwm-clk.c is needed it should better go into a
+separate patch with an appropriate commit log?!
+
+Best regards
+Uwe
+
+--d2rlzxmgwshy2k4w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmbgGIIACgkQj4D7WH0S
+/k7x2AgAluuv/f/FtpsMhu/tAKjHUOr1Y+1vUefo+pFCKzhUDjMyHMtIz8by9GsE
+1pZ9fiw/to0h6iyEctQmMN3sqoMqkEwL4aKMYb9WOopkDgY36I7oAWjXs4mio6Ed
+DPguLwTovw/p+OJMmgb/ndu5GNyQCb9AsmjekXGIx4ZVDJPX3pc8v/DX5HQj2y3x
+sCi8NmmXABsckLz42oxrky2ZGcNmFddqBJxJdgjVcXfa5BEetdtLnUhmtmhiKyJy
+g1rWCprL53Lj1ZWKLdQgu6yiNCQK9LS45ETRzHX8idzAODnagfx6by+X58QljgMg
+i72ZlH212j1K035K3UHJar7Lo0D7FQ==
+=xssr
+-----END PGP SIGNATURE-----
+
+--d2rlzxmgwshy2k4w--
