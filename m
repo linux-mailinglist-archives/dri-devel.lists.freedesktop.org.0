@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC6E972C23
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 10:30:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2C9972C30
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 10:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A15C610E06E;
-	Tue, 10 Sep 2024 08:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6145010E2FE;
+	Tue, 10 Sep 2024 08:33:59 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jcLdne6W";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8424B10E06E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:30:37 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1snwGe-0007ov-Hd; Tue, 10 Sep 2024 10:30:32 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1snwGd-006qth-Q5; Tue, 10 Sep 2024 10:30:31 +0200
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1snwGd-0002Bs-2O;
- Tue, 10 Sep 2024 10:30:31 +0200
-Message-ID: <e634d5390cf00660e1e41509959d0365e1b5aa71.camel@pengutronix.de>
-Subject: Re: [PATCH v4 20/80] drm/imx/ipuv3: Run DRM default client setup
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com,  jfalempe@redhat.com, javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
-Date: Tue, 10 Sep 2024 10:30:31 +0200
-In-Reply-To: <20240909113633.595465-21-tzimmermann@suse.de>
-References: <20240909113633.595465-1-tzimmermann@suse.de>
- <20240909113633.595465-21-tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB3D910E2FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:33:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id F1C0D5C018A;
+ Tue, 10 Sep 2024 08:33:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2D83C4CEC3;
+ Tue, 10 Sep 2024 08:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1725957236;
+ bh=7fN2QW4VeStjSZ6oT3iXJeTQYiGdecAGUoenFSAEiog=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jcLdne6WlOPXpt9HAXecfWUAErV3zON5CbSWgnYkv0R9ahlM1S8YPgF40RkTRzgBk
+ YCBKJP3lIH4IKhla33l+NtemuMfsHVlV90tpIKvZkCCeJTFgHuehMNtnfkytpLds13
+ WIValR9lsOsVpJWxdRTixskS/ArntXyaOwnCJqEg=
+Date: Tue, 10 Sep 2024 10:33:53 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Jason Andryuk <jandryuk@gmail.com>, Helge Deller <deller@gmx.de>,
+ Arnd Bergmann <arnd@arndb.de>, Sam Ravnborg <sam@ravnborg.org>,
+ xen-devel@lists.xenproject.org, Jason Andryuk <jason.andryuk@amd.com>,
+ Arthur Borsboom <arthurborsboom@gmail.com>, stable@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fbdev/xen-fbfront: Assign fb_info->device
+Message-ID: <2024091033-copilot-autistic-926a@gregkh>
+References: <20240910020919.5757-1-jandryuk@gmail.com>
+ <Zt_zvt3VXwim_DwS@macbook.local>
+ <ad9e19af-fabd-4ce0-a9ac-741149f9aab3@suse.de>
+ <Zt__jTESjI7P7Vkj@macbook.local>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zt__jTESjI7P7Vkj@macbook.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,20 +63,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mo, 2024-09-09 at 13:30 +0200, Thomas Zimmermann wrote:
-> Call drm_client_setup_with_color_mode() to run the kernel's default
-> client setup for DRM. Set fbdev_probe in struct drm_driver, so that
-> the client setup can start the common fbdev client.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+On Tue, Sep 10, 2024 at 10:13:01AM +0200, Roger Pau Monné wrote:
+> On Tue, Sep 10, 2024 at 09:29:30AM +0200, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 10.09.24 um 09:22 schrieb Roger Pau Monné:
+> > > On Mon, Sep 09, 2024 at 10:09:16PM -0400, Jason Andryuk wrote:
+> > > > From: Jason Andryuk <jason.andryuk@amd.com>
+> > > > 
+> > > > Probing xen-fbfront faults in video_is_primary_device().  The passed-in
+> > > > struct device is NULL since xen-fbfront doesn't assign it and the
+> > > > memory is kzalloc()-ed.  Assign fb_info->device to avoid this.
+> > > > 
+> > > > This was exposed by the conversion of fb_is_primary_device() to
+> > > > video_is_primary_device() which dropped a NULL check for struct device.
+> > > > 
+> > > > Fixes: f178e96de7f0 ("arch: Remove struct fb_info from video helpers")
+> > > > Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
+> > > > Closes: https://lore.kernel.org/xen-devel/CALUcmUncX=LkXWeiSiTKsDY-cOe8QksWhFvcCneOKfrKd0ZajA@mail.gmail.com/
+> > > > Tested-by: Arthur Borsboom <arthurborsboom@gmail.com>
+> > > > CC: stable@vger.kernel.org
+> > > > Signed-off-by: Jason Andryuk <jason.andryuk@amd.com>
+> > > Reviewed-by: Roger Pau Monné <roger.pau@citrix.com>
+> > > 
+> > > > ---
+> > > > The other option would be to re-instate the NULL check in
+> > > > video_is_primary_device()
+> > > I do think this is needed, or at least an explanation.  The commit
+> > > message in f178e96de7f0 doesn't mention anything about
+> > > video_is_primary_device() not allowing being passed a NULL device
+> > > (like it was possible with fb_is_primary_device()).
+> > > 
+> > > Otherwise callers of video_is_primary_device() would need to be
+> > > adjusted to check for device != NULL.
+> > 
+> > The helper expects a non-NULL pointer. We might want to document this.
+> 
+> A BUG_ON(!dev); might be enough documentation that the function
+> expected a non-NULL dev IMO.
 
-Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-regards
-Philipp
+No need for that, don't check for things that will never happen.
