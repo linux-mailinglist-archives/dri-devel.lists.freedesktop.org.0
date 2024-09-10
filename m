@@ -2,82 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35FA2973BFC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FE6973C53
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:39:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C179310E2FC;
-	Tue, 10 Sep 2024 15:31:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF2F10E85D;
+	Tue, 10 Sep 2024 15:38:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="u2xgjajk";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="aDoVumcQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4060E10E2FC
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:31:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1725982255; x=1726587055; i=markus.elfring@web.de;
- bh=eJC+kqRjyZcpC2/bebvTq1qfNAeGTMeo7J5yG0OUZXM=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=u2xgjajknzGDhf+ssonbDZB7xsBJCSJgAqG+CIO7QQuQIzPrjPyLuHsXJTPy18SY
- ge5uMGdogVvVBYXdr9GaaQTY7yKyIqHywriI6PxPa5bNEGpkcFjv0UuB2844hs8+q
- bLJvyqaSfoe3DHVdPSJ/laj0Ga5aVqH16GJCwROUZAdPZmE5wP9pnmchrqg0T6KQZ
- a1wlo9b8JVJUIzVkL2mT4eIXVgWkhfgRYYhiln8e9uwZqVi2Pdx9MKxgiotKc9bAn
- 6zCSEnHP1osIhjfltjnamJR9Ji52Ubn1tWgiFksUgtjBP9L3IaJVPKcWMiySg2bCZ
- AB718kmO++yVWpRADw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N1u6n-1rqy5G2q4n-00w0J0; Tue, 10
- Sep 2024 17:30:55 +0200
-Message-ID: <34e1ae43-0b81-46bd-8fa8-a5fcf48def3e@web.de>
-Date: Tue, 10 Sep 2024 17:30:30 +0200
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7461510E85D
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:38:57 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-4582fa01090so300271cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:38:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1725982736; x=1726587536;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3gszVQrHTml2s4rQX/N3KISfWtIKCjIZkEmtrFN+rLM=;
+ b=aDoVumcQgePMFZuHgcZruUmG9At8AXSgVb6TzxjbXO2McZB77FprjAgbghOPzryMYS
+ OeD9Fw1siXFyJ9xSMHb1+1PyzqQY/SThgeR+jRAXFvHmkV8BnYEfrbg2AHBlg5boSg6w
+ Y2o6xIn1x2IWOKqRWFMvAjigLmTvWuiTg8xWLOW1McwbnsEebGn5WdzvqQgTAPwZDacy
+ 0E/Yot6YJYUhgczhblrSQQUuFSXeHyArs2LGfmU9BQeLdOH/9waedS7diO0AC5sG6yss
+ kzVhOkhoPXg9YcgS3Un0Q6q2vNihLkI8zJ/tbNsZ/b08JtQiRJbL3MjaOQZngGSyGBeF
+ 8e9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725982736; x=1726587536;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3gszVQrHTml2s4rQX/N3KISfWtIKCjIZkEmtrFN+rLM=;
+ b=ivUbLSGsO+cCHv2+Sa/MwI8KYf1q5KyqRQhIVoJ6ipv7764z/ZYZ8rTnugHD2UnITF
+ iDFuRkiqttqllQS9OybXF6jLqe5IWN4I3CNRfwJ8W+aoBaHm8ex77fywIoh0tyGJd2BQ
+ HjiwPKJAiZE6WGZbRxR8tSCi6jTMNhyYb/HWN7WHm+PsyQcq/JRuj9HLL4u7I974djA5
+ OuQQco1lxxqQzD1dxrX2rOyDYt0ZHu9Vvmr1GZy7bQ+AoV/Z7XBHTqGeoqxYOLZIB8jX
+ 1qNzYBny0XOG8IOFFclTptxqjvnx5FF/gL5lQwrHvqas5gd8neyKGG7cS1lA4PCkqCZo
+ e97A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUdS+r4GKAFxoKTQ9cGOlgiHVJiVsL/+xfBEJL9i31isOAk02xIhQehmXjR52ltLc7Us9HQLq1y6o0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx75bR5bKmqRWOCSp+emuLeuz92trkr5lF+EMWaGWQT9dO7TDkc
+ K2HP5R2e4DInybtppDR90IxWM/2h4f/PqMsy9wQTVCxj7BttFPEliHIRC4kfsRmP6sd4dWWcLPT
+ l41gTrS2BKADmmz6gzqU7Ee228vQjIMO13z8d
+X-Google-Smtp-Source: AGHT+IEK6weRhBb+6I+yqObyHVaZqmcs2wOCh/JwTg5EmvszzOI8s/itZSBxrrNFolb48wNjfmGjViIMiDzaN91ZR8I=
+X-Received: by 2002:a05:622a:13ca:b0:447:e0e1:2a7b with SMTP id
+ d75a77b69052e-4583f0063b0mr2792721cf.23.1725982736186; Tue, 10 Sep 2024
+ 08:38:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Michal Simek <michal.simek@amd.com>, Rob Herring <robh+dt@kernel.org>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Vishal Sagar <vishal.sagar@amd.com>
-References: <20240910-xilinx-dp-audio-v3-3-75560793f4d0@ideasonboard.com>
-Subject: Re: [PATCH v3 3/3] drm: xlnx: zynqmp_dpsub: Add DP audio support
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240910-xilinx-dp-audio-v3-3-75560793f4d0@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20240909054318.1809580-1-almasrymina@google.com>
+ <20240910080237.2372cfa6@kernel.org>
+In-Reply-To: <20240910080237.2372cfa6@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 10 Sep 2024 08:38:42 -0700
+Message-ID: <CAHS8izP4EO3t=7-n2Ok5pgKe+JjJV+T3EH1PaTW=YU234kEpGw@mail.gmail.com>
+Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+ Magnus Karlsson <magnus.karlsson@intel.com>, 
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bySk54JGcMbhmtuQtab+ZIYd90iRLYDy4cyGodf0+0SKBhIHF4X
- 2c7nU4+iyl0rHOUT//1JBqHbCk+M06V38dZH//XMeF1Bncayi0GhGAYdftI7S2SdALYfK+O
- iPfdacH6mUu0KaFaCvx/I/33rvvWyXaXi5dmiDfyd+PgZu1P0Q9R+O5skjy+AcQcbF1qiwy
- AQkwSv5n1sOz6PTCilFYA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:3ui97cDDXso=;dRaVWEMbGIXm9DghmuVlbauQK/2
- HqZexSToc1soV3sjJdCYw36x6MAjZ4WJjn0dbJWLOfh2iZ8xg5S6Siy3oJ6peT+27MYe4pC2x
- Fn0TdmOrP6yNueX1SeFa3tg2pDVMIdK1TMwUyfuMa14fQ2VBrh6ht7CqNXGdZS6AZst5y2CoB
- ImLYSDNNhE/j1nDMKcG9M5H+K2Yg7XYXqkNSZWDilWCJjGspmz2La181oN32+fVFYY0iFfgqw
- pg5v5wfX5i9Odk4mdKIRBqOx5XBE67/YHfa1KvKkyJ0ezCFyIC+s0klkwmlOxEJWkznhHmpoy
- V7WS7ZQ8RawDzL81Pb2crJDMDqtDLk5obpgR+6aaMs+/XwFU5pxC66jwjpXL5O59yAZ17mCfn
- gszaguKZ0DKWQA1t45KHCIudGHx8uho31+jij3Ir8ERuH2sErcGlnFmES6fUuSV20OWipZPA3
- 9GD3WFh14/s/Xhx+pjqc2g8WBXVZltXUIfIg1CpbL/LkTYc3uZQDqxQfem0Jlr5QErO3bwybB
- vKgfriC0OAaFH+0XAe52zOWCodOuH0g1PsputHTVRK9pseUbtD/BPriY/1848w8ag6ef0L7pM
- dVUsNuO402D00FFrnJA8FTrEWBreQCsixpve3DW4bPCQ0BWVniOc/uSp47mHKSiTSIrTeLTHL
- Rd6A+/FMeCi/pVJ4+zLwK87YuT1+VK8suZUzGAGg+9RVW7OMi3FVot/BKJp4q2Hzc5HgyBE61
- wIpTNv1VzG8uP6sFSuhXRZ09HmnI1MQetRUuRaQGaFG5UYxn/2LbuBuICuJG3KV4Uc/R0tjdZ
- +3jpV8MW+5dFr2rpAtoaG4pA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,30 +120,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
-> @@ -0,0 +1,461 @@
-=E2=80=A6
-> +static int dp_dai_hw_free(struct snd_pcm_substream *substream,
-> +			  struct snd_soc_dai *socdai)
-> +{
-=E2=80=A6
-> +	struct zynqmp_dpsub_audio *audio =3D dpsub->audio;
-> +
-> +	mutex_lock(&audio->enable_lock);
-=E2=80=A6
-> +	audio->enabled_streams--;
-> +
-> +	mutex_unlock(&audio->enable_lock);
-> +
-> +	return 0;
-> +}
-=E2=80=A6
+On Tue, Sep 10, 2024 at 8:02=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Mon,  9 Sep 2024 05:43:05 +0000 Mina Almasry wrote:
+> > Device memory TCP (devmem TCP) is a proposal for transferring data to a=
+nd/or
+> > from device memory efficiently, without bouncing the data to a host mem=
+ory
+> > buffer.
+>
+> Mina, if you'd like to see this in v6.12 -- please fix the nits and
+> repost ASAP.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&audio->enable_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.11-rc7/source/include/linux/mutex.h#L1=
-96
+Running my presubmits now and will repost in the next 2 hours or so.
 
-Regards,
-Markus
+--
+Thanks,
+Mina
