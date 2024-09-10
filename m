@@ -2,82 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEDB9737E3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 14:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE97697388E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 15:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3DDD10E7B9;
-	Tue, 10 Sep 2024 12:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46DB810E10A;
+	Tue, 10 Sep 2024 13:25:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZUEi1fxA";
+	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="ml6PPGQU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8925610E121
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 12:49:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1725972577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6nd62AWkPIK5gIXPiUm1JLX0Wy6uPdrxO6zecHjvld0=;
- b=ZUEi1fxAStn1fwPuDmBH6pWhIqphxwJZbSMylVl025zK5/UxkVAksNzElR/Ef7NX44ld3Q
- JHYJN9hVaYIhwId5TJZXS9CH68yvmyvgzLO9UTS2Loqlzm65v13nmcenVmdUOOjtLaSFEm
- neaCZYg/rvDpxtYVIHHW/zIHK7m5RPE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-108-bD1Ew4XuMyeQu-wfY4lsaA-1; Tue, 10 Sep 2024 08:49:36 -0400
-X-MC-Unique: bD1Ew4XuMyeQu-wfY4lsaA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-374c79bf194so517439f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 05:49:36 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B13610E10A
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 13:25:01 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-53661a131b4so3648068e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 06:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1725974699; x=1726579499;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eGZtZlbcVTuqfHipICSHcU4nVCOOqo16078EY8ojHwg=;
+ b=ml6PPGQUvmhkzzEXynerFGDXDKndTO6i+9vA/rtjEfZFXGRwMsPGqppmTRuSbpzgHj
+ twdGUumHyctjXcGsoZglCr/S5fxsYJuJOWV2D8xC0WYr9M8oBZm4erfi4wLW+gDqCQe0
+ G66/fzYXZa82XQGG5ScU7gFaxBVPOfHQAZp+4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725972575; x=1726577375;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6nd62AWkPIK5gIXPiUm1JLX0Wy6uPdrxO6zecHjvld0=;
- b=QVFu+b5GFTkdoniCHFLBJq8ixkuM/QDt3tZ1h6Bzc0XmqoKesVbZgzZeudz/b+VO2Q
- C5vsf5VJ3mcZITq1VmLbwfDh2J8Xv5/TvEcHGaY7eLTCKcLNFBr66yrUpZNtYFURuv5v
- DNXnR/aRAiX7sdrbyVtU1E5eAm6wFwlZemF1Cias6V6sLzolmbOGrzIeLiWb8tTp1NaE
- 1X5A+xc5VmXwGNz3XIFpXeV6PA3s3lUKzZAIiJpmp51HnOz1jlVZsJwft6sj4yl9pqww
- vdKJWf1Cy37GLW0vNHFJvB/YLRdwJ1Ow8kveKDso6dQLswuCnhrGDTbDh5Z4QJVVbnLF
- bdwQ==
+ d=1e100.net; s=20230601; t=1725974699; x=1726579499;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eGZtZlbcVTuqfHipICSHcU4nVCOOqo16078EY8ojHwg=;
+ b=VOxQQ6yCcILdWlUYL8GzH65xOZ0AhweT26Jx4v85Ng3q39yYVr5F0PLfFdWXAUXSAi
+ zQv412aCwTRx4aUbMLKUObTGbvx3uUbKHqkS+ivJjILCNvsW+OLr3L2BOa0YXZ2Jo5Wn
+ szeO0IFYj/tpGk6quVP0Su+XOonK5p2e7yr+xqTL3+ZCUpinQCkNiMnt36NKP+E5+h2Q
+ DQLc307qXtLZbQGbEd/0EXPZeQX2gbuQ7KtWgJVT5MbQNbT+axZvTo9xSuzP9cQzA5yS
+ n+s/hSd7Dw14uKQBkpGsb7kt/SSjQhnDOuw06knMW0zXfpY6F6CBu5XsbfWiFOOaSD0C
+ yPoA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVEieJGs1tTUQTzbzPpON/2lbq0xNQrhA8ENsYpIXifk8kQWoEBt/XWzptp4vjVzA7nu+tE1zBxnwc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxLd8+9JgZ7KJ8wCEzqBMj5uWSkpx2l3DlCwnjKLoW9OQqrcYhP
- HLcZEfgs1TjLj6DiPfIAaVFtTyDKaCw7gaqoeaS4ao8kthY6YKR7YDa1yo6GDDvsgZav8PvYsh6
- P8ZfYmwxkMEVtmrlJq2kfIFl8yWTBL1C759x4dNVSlys3iokTgbSlt/KjL7ZP/yuIGA==
-X-Received: by 2002:adf:f744:0:b0:366:eade:bfbb with SMTP id
- ffacd0b85a97d-37889682e0fmr9248511f8f.46.1725972575096; 
- Tue, 10 Sep 2024 05:49:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFn1VOKKhA4WLT+ujhN0UWmvu2oY3V+R+ECDiuNE+P04fsSNUprDeK4EvgDC0oQ+l+wSJkUiA==
-X-Received: by 2002:adf:f744:0:b0:366:eade:bfbb with SMTP id
- ffacd0b85a97d-37889682e0fmr9248486f8f.46.1725972574606; 
- Tue, 10 Sep 2024 05:49:34 -0700 (PDT)
-Received: from fedora (g2.ign.cz. [91.219.240.8])
+ AJvYcCXKuzrGR7SSLx3WgnV7LWXbv0qwCn2xOO98TTwB+n4FgrW92ABxYKvf8jaMi6JjCHaxOyv++TIwXYU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzY1xxzh2NWvfe+dv1ItcXoDuEaGFJcqswfyokjfBfZN0mHtdLI
+ m7Sefr3cXjjzt2RXt+Fbqk/nfc6Uwe9kRB1ao8EdgByqq9QDw6jJYST7Z5ZH9nw=
+X-Google-Smtp-Source: AGHT+IHsmFPtrT1rSIk5RiTefYRMq3ghTe9BDIFfC44mu3CVeXviOQJGEyxWNRFR0JE7b31QmsEJrw==
+X-Received: by 2002:a05:6512:1283:b0:533:4820:275a with SMTP id
+ 2adb3069b0e04-536588130c0mr11624002e87.52.1725974699152; 
+ Tue, 10 Sep 2024 06:24:59 -0700 (PDT)
+Received: from andrea-amarula.homenet.telecomitalia.it ([95.236.207.79])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42caeb8afc9sm112219705e9.44.2024.09.10.05.49.33
+ 4fb4d7f45d1cf-5c3ebd76ef0sm4274900a12.63.2024.09.10.06.24.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2024 05:49:34 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org, Yan Zhao
- <yan.y.zhao@intel.com>, Kevin Tian <kevin.tian@intel.com>,
- kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/bochs: use devm_ioremap_wc() to map framebuffer
-In-Reply-To: <20240909131643.28915-1-yan.y.zhao@intel.com>
-References: <20240909131643.28915-1-yan.y.zhao@intel.com>
-Date: Tue, 10 Sep 2024 14:49:33 +0200
-Message-ID: <87a5gf4qsi.fsf@redhat.com>
+ Tue, 10 Sep 2024 06:24:58 -0700 (PDT)
+From: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
+To: gregkh@linuxfoundation.org, rafael@kernel.org,
+ dri-devel@lists.freedesktop.org, l.stach@pengutronix.de
+Cc: trivial@kernel.org, linux-amarula@amarulasolutions.com,
+ andrea.calabrese@amarulasolutions.com
+Subject: [RESEND PATCH v4] devres: Refactor using guards
+Date: Tue, 10 Sep 2024 15:15:21 +0200
+Message-ID: <20240910131520.150610-2-andrea.calabrese@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,88 +79,271 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Yan Zhao <yan.y.zhao@intel.com> writes:
+Code refactoring using the recent guard and scoped_guard macros
+for automatic cleanup of the spinlocks. This does not change the
+effective behaviour of the kernel, but guarantees a cleaned-up exit from
+each lock, automatically avoiding potential deadlocks.
 
-> Opt for devm_ioremap_wc() over devm_ioremap() when mapping the framebuffer.
->
-> Using devm_ioremap() results in the VA being mapped with PAT=UC-, which
-> considerably slows down drm_fb_memcpy(). In contrast, devm_ioremap_wc()
-> maps the VA with PAT set to WC, leading to better performance on platforms
-> where access to UC memory is much slower than WC memory.
->
-> Here's the performance data measured in a guest on the physical machine
-> "Sapphire Rapids XCC".
-> With host KVM honors guest PAT memory types, the effective memory type
-> for this framebuffer range is
-> - WC when devm_ioremap_wc() is used
-> - UC- when devm_ioremap() is used.
->
-> The data presented is an average from 10 execution runs.
->
-> Cycles: Avg cycles of executed bochs_primary_plane_helper_atomic_update()
->         from VM boot to GDM show up
-> Cnt:    Avg cnt of executed bochs_primary_plane_helper_atomic_update()
->         from VM boot to GDM show up
-> T:      Avg time of each bochs_primary_plane_helper_atomic_update().
->
->  -------------------------------------------------
-> |            | devm_ioremap() | devm_ioremap_wc() |
-> |------------|----------------|-------------------|
-> |  Cycles    |    211.545M    |   0.157M          |
-> |------------|----------------|-------------------|
-> |  Cnt       |     142        |   1917            |
-> |------------|----------------|-------------------|
-> |  T         |    0.1748s     |   0.0004s         |
->  -------------------------------------------------
->
-> Note:
-> Following the rebase to [3], the previously reported GDM failure on the
-> VGA device [1] can no longer be reproduced, thanks to the memory management
-> improvements made in [2]. Despite this, I have proceeded to submit this
-> patch because of the noticeable performance improvements it provides.
->
-> Reported-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Signed-off-by: Andrea Calabrese <andrea.calabrese@amarulasolutions.com>
 
-FWIW, this patch (alone) resolves the observed issue, thanks!
+---
+Diff from V3: as Greg KH and Lucas Stach noticed, there was a
+behavioural change between the two versions: I used guard(spinlock),
+while the expected behaviour should have come from a spinlock_irqsave
+guard. This has been fixed.
 
-Tested-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-
-I, however, share Paolo's concern around existing VMs which KVM's change
-is effectively breaking.
-
-> Closes: https://lore.kernel.org/all/87jzfutmfc.fsf@redhat.com/#t
-> Cc: Sean Christopherson <seanjc@google.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> Link: https://lore.kernel.org/all/87jzfutmfc.fsf@redhat.com/#t [1]
-> Link: https://patchwork.freedesktop.org/series/138086 [2]
-> Link: https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next [3]
-> ---
-> v2:
-> - Rebased to the latest drm-misc-next branch. [2]
-> - Updated patch log to match the base code.
->
-> v1: https://lore.kernel.org/all/20240909051529.26776-1-yan.y.zhao@intel.com
-> ---
->  drivers/gpu/drm/tiny/bochs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-> index 69c5f65e9853..9055b1dd66df 100644
-> --- a/drivers/gpu/drm/tiny/bochs.c
-> +++ b/drivers/gpu/drm/tiny/bochs.c
-> @@ -268,7 +268,7 @@ static int bochs_hw_init(struct bochs_device *bochs)
->  	if (!devm_request_mem_region(&pdev->dev, addr, size, "bochs-drm"))
->  		DRM_WARN("Cannot request framebuffer, boot fb still active?\n");
->  
-> -	bochs->fb_map = devm_ioremap(&pdev->dev, addr, size);
-> +	bochs->fb_map = devm_ioremap_wc(&pdev->dev, addr, size);
->  	if (bochs->fb_map == NULL) {
->  		DRM_ERROR("Cannot map framebuffer\n");
->  		return -ENOMEM;
-
+diff --git a/drivers/base/devres.c b/drivers/base/devres.c
+index 3df0025d12aa..4872756426dd 100644
+--- a/drivers/base/devres.c
++++ b/drivers/base/devres.c
+@@ -194,14 +194,12 @@ void devres_for_each_res(struct device *dev, dr_release_t release,
+ {
+ 	struct devres_node *node;
+ 	struct devres_node *tmp;
+-	unsigned long flags;
+ 
+ 	if (!fn)
+ 		return;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	list_for_each_entry_safe_reverse(node, tmp,
+-			&dev->devres_head, entry) {
++	guard(spinlock_irqsave)(&dev->devres_lock);
++	list_for_each_entry_safe_reverse(node, tmp, &dev->devres_head, entry) {
+ 		struct devres *dr = container_of(node, struct devres, node);
+ 
+ 		if (node->release != release)
+@@ -210,7 +208,6 @@ void devres_for_each_res(struct device *dev, dr_release_t release,
+ 			continue;
+ 		fn(dev, dr->data, data);
+ 	}
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(devres_for_each_res);
+ 
+@@ -243,11 +240,9 @@ EXPORT_SYMBOL_GPL(devres_free);
+ void devres_add(struct device *dev, void *res)
+ {
+ 	struct devres *dr = container_of(res, struct devres, data);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 	add_dr(dev, &dr->node);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(devres_add);
+ 
+@@ -287,11 +282,8 @@ void * devres_find(struct device *dev, dr_release_t release,
+ 		   dr_match_t match, void *match_data)
+ {
+ 	struct devres *dr;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 	dr = find_dr(dev, release, match, match_data);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 
+ 	if (dr)
+ 		return dr->data;
+@@ -318,16 +310,14 @@ void * devres_get(struct device *dev, void *new_res,
+ {
+ 	struct devres *new_dr = container_of(new_res, struct devres, data);
+ 	struct devres *dr;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	dr = find_dr(dev, new_dr->node.release, match, match_data);
+-	if (!dr) {
+-		add_dr(dev, &new_dr->node);
+-		dr = new_dr;
+-		new_res = NULL;
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		dr = find_dr(dev, new_dr->node.release, match, match_data);
++		if (!dr) {
++			add_dr(dev, &new_dr->node);
++			dr = new_dr;
++			new_res = NULL;
++		}
+ 	}
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 	devres_free(new_res);
+ 
+ 	return dr->data;
+@@ -353,15 +343,13 @@ void * devres_remove(struct device *dev, dr_release_t release,
+ 		     dr_match_t match, void *match_data)
+ {
+ 	struct devres *dr;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	dr = find_dr(dev, release, match, match_data);
+-	if (dr) {
+-		list_del_init(&dr->node.entry);
+-		devres_log(dev, &dr->node, "REM");
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		dr = find_dr(dev, release, match, match_data);
++		if (dr) {
++			list_del_init(&dr->node.entry);
++			devres_log(dev, &dr->node, "REM");
++		}
+ 	}
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 
+ 	if (dr)
+ 		return dr->data;
+@@ -516,7 +504,6 @@ static void release_nodes(struct device *dev, struct list_head *todo)
+  */
+ int devres_release_all(struct device *dev)
+ {
+-	unsigned long flags;
+ 	LIST_HEAD(todo);
+ 	int cnt;
+ 
+@@ -528,9 +515,9 @@ int devres_release_all(struct device *dev)
+ 	if (list_empty(&dev->devres_head))
+ 		return 0;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	cnt = remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &todo);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		cnt = remove_nodes(dev, dev->devres_head.next, &dev->devres_head, &todo);
++	}
+ 
+ 	release_nodes(dev, &todo);
+ 	return cnt;
+@@ -552,7 +539,6 @@ int devres_release_all(struct device *dev)
+ void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+ 
+ 	grp = kmalloc(sizeof(*grp), gfp);
+ 	if (unlikely(!grp))
+@@ -568,9 +554,8 @@ void * devres_open_group(struct device *dev, void *id, gfp_t gfp)
+ 	if (id)
+ 		grp->id = id;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 	add_dr(dev, &grp->node[0]);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 	return grp->id;
+ }
+ EXPORT_SYMBOL_GPL(devres_open_group);
+@@ -609,17 +594,14 @@ static struct devres_group * find_group(struct device *dev, void *id)
+ void devres_close_group(struct device *dev, void *id)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 
+ 	grp = find_group(dev, id);
+ 	if (grp)
+ 		add_dr(dev, &grp->node[1]);
+ 	else
+ 		WARN_ON(1);
+-
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(devres_close_group);
+ 
+@@ -635,19 +617,16 @@ EXPORT_SYMBOL_GPL(devres_close_group);
+ void devres_remove_group(struct device *dev, void *id)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-
+-	grp = find_group(dev, id);
+-	if (grp) {
+-		list_del_init(&grp->node[0].entry);
+-		list_del_init(&grp->node[1].entry);
+-		devres_log(dev, &grp->node[0], "REM");
+-	} else
+-		WARN_ON(1);
+ 
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		grp = find_group(dev, id);
++		if (grp) {
++			list_del_init(&grp->node[0].entry);
++			list_del_init(&grp->node[1].entry);
++			devres_log(dev, &grp->node[0], "REM");
++		} else
++			WARN_ON(1);
++	}
+ 
+ 	kfree(grp);
+ }
+@@ -668,11 +647,10 @@ EXPORT_SYMBOL_GPL(devres_remove_group);
+ int devres_release_group(struct device *dev, void *id)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+ 	LIST_HEAD(todo);
+ 	int cnt = 0;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	guard(spinlock_irqsave)(&dev->devres_lock);
+ 
+ 	grp = find_group(dev, id);
+ 	if (grp) {
+@@ -683,12 +661,9 @@ int devres_release_group(struct device *dev, void *id)
+ 			end = grp->node[1].entry.next;
+ 
+ 		cnt = remove_nodes(dev, first, end, &todo);
+-		spin_unlock_irqrestore(&dev->devres_lock, flags);
+-
+ 		release_nodes(dev, &todo);
+ 	} else {
+ 		WARN_ON(1);
+-		spin_unlock_irqrestore(&dev->devres_lock, flags);
+ 	}
+ 
+ 	return cnt;
+@@ -860,7 +835,6 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
+ {
+ 	size_t total_new_size, total_old_size;
+ 	struct devres *old_dr, *new_dr;
+-	unsigned long flags;
+ 
+ 	if (unlikely(!new_size)) {
+ 		devm_kfree(dev, ptr);
+@@ -906,20 +880,17 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
+ 	 * The spinlock protects the linked list against concurrent
+ 	 * modifications but not the resource itself.
+ 	 */
+-	spin_lock_irqsave(&dev->devres_lock, flags);
++	scoped_guard(spinlock_irqsave, &dev->devres_lock) {
++		old_dr = find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
++		if (!old_dr) {
++			kfree(new_dr);
++			WARN(1, "Memory chunk not managed or managed by a different device.");
++			return NULL;
++		}
+ 
+-	old_dr = find_dr(dev, devm_kmalloc_release, devm_kmalloc_match, ptr);
+-	if (!old_dr) {
+-		spin_unlock_irqrestore(&dev->devres_lock, flags);
+-		kfree(new_dr);
+-		WARN(1, "Memory chunk not managed or managed by a different device.");
+-		return NULL;
++		replace_dr(dev, &old_dr->node, &new_dr->node);
+ 	}
+ 
+-	replace_dr(dev, &old_dr->node, &new_dr->node);
+-
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
+-
+ 	/*
+ 	 * We can copy the memory contents after releasing the lock as we're
+ 	 * no longer modifying the list links.
 -- 
-Vitaly
+2.34.1
 
