@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080E79738B6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 15:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42847973936
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 15:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2463F10E7EB;
-	Tue, 10 Sep 2024 13:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 471A710E80A;
+	Tue, 10 Sep 2024 13:59:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iwV2qZmF";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="RuN7+7yE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7444410E7C6;
- Tue, 10 Sep 2024 13:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725975368; x=1757511368;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=bWD+o8KR69qXBUVSFXEAR0R1mo4D5zSs0Cl53nCCUp4=;
- b=iwV2qZmFBcdBj2dZ4BS9veSSEQWNhQB04k+P+/3XzNAQ1F1WRjLBr88g
- z0qafE3Hi0yPeK43KbB/6hj8lanuUoCdlpmlIkVPtm9Ap2/5HjtrWu3dS
- SY0rVfOR4RRJak9KmdTCwMOI/EEsh0S9IG2FCt0PhRfOjB/AL1fQK7bFB
- fHYMxJSN53s60TgSjxmZwLmkKSB+EBUjjzfmWcB7Qnp2obKhlvc6Q2VYE
- RfWZ7kJ9+PHB1wjHGk5uOkVWf9iYA0nE0GYXdaqYl//J8FtQH31Efv6Op
- 0ji/Vx3FY9AHZRjQz81tFeLM/qxnVICS/vjojuZ2H1lcWlLyzx/3zjF7q Q==;
-X-CSE-ConnectionGUID: d1xTW1EJRaSLBcg/AG7uAQ==
-X-CSE-MsgGUID: ifbWFApLQ8qgIEiHwIDnsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28501156"
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="28501156"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2024 06:36:07 -0700
-X-CSE-ConnectionGUID: ZbmI76sOT6q2eUd+7Tv9gA==
-X-CSE-MsgGUID: GamQzzQKQ8isLVFasF1m1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="71624320"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.43])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2024 06:36:04 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/8] drm: renesas: rcar-du: annotate rcar_cmm_read()
- with __maybe_unused
-In-Reply-To: <CAMuHMdWJDKO-0o9GiGzuZ=yuYpZ1myB+A00zYwNj=+6baAq3Rw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <f2b721e28b9ee2711d7848abf1774ecb8ce8e5e2.1725962479.git.jani.nikula@intel.com>
- <CAMuHMdWJDKO-0o9GiGzuZ=yuYpZ1myB+A00zYwNj=+6baAq3Rw@mail.gmail.com>
-Date: Tue, 10 Sep 2024 16:36:01 +0300
-Message-ID: <87jzfjk4vy.fsf@intel.com>
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AF110E80A;
+ Tue, 10 Sep 2024 13:59:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Cc:To:Subject:Message-ID:From:Content-Transfer-Encoding:
+ Content-Type:Date:MIME-Version:Sender:Reply-To:Content-ID:Content-Description
+ :Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=/srlUpi7y9C3zrteMvJN9inZYqF69BwthYbBUGYq088=; b=RuN7+7yEO6iA2xZtQqKCqwMf/W
+ CzXkDgQkK8/owv1+kkaKYp+BgaMhCVyza16NLq39BjZoh8pZsrrQtxRqMeFPaeM0TADNHX/Ke9BFN
+ EDBkWmxcVLA8AAXnlVGxhsEb+8T8olzUCjOOc+ldFRuMJ+PTfG+CK5bIbr0Z0nMXyrdWgVHepnulp
+ n5W5uh2DiXDN+ibf9rRPHt1l+dCmQ6DL0zzewKZq/fKDaOOpRIZBS02r4vFBlLfO/QD7aXkq9H1aQ
+ +CBINL77mrVrUOUdmsXCV6dHn63SL9lmwG4ic9MKdNdN9FmTQUEAzmj040CpZDFlNSbAMHP14jU7Y
+ lxs1DS1w==;
+Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=rainloop.kapsi.fi)
+ by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <jyri.sarha@iki.fi>) id 1so1OY-0078RP-0q;
+ Tue, 10 Sep 2024 16:59:01 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Date: Tue, 10 Sep 2024 13:58:59 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+From: jyri.sarha@iki.fi
+Message-ID: <ce2520bb554e9682445f9700f3cf929045fcd017@iki.fi>
+Subject: Re: [PATCH v4 42/80] drm/tilcdc: Run DRM default client setup
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, "Jyri 
+ Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>
+X-SA-Exim-Connect-IP: 91.232.154.200
+X-SA-Exim-Mail-From: jyri.sarha@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,48 +63,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Sep 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> Hi Jani,
->
-> On Tue, Sep 10, 2024 at 12:06=E2=80=AFPM Jani Nikula <jani.nikula@intel.c=
-om> wrote:
->> Building with clang and and W=3D1 leads to warning about unused
->> rcar_cmm_read(). Fix by annotating it with __maybe_unused.
->>
->> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
->> inline functions for W=3D1 build").
->>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Thanks for your patch!
->
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
->> @@ -32,7 +32,7 @@ struct rcar_cmm {
->>         } lut;
->>  };
->>
->> -static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
->> +static inline __maybe_unused int rcar_cmm_read(struct rcar_cmm *rcmm, u=
-32 reg)
->>  {
->>         return ioread32(rcmm->base + reg);
->>  }
->
-> This function was never used. Why not remove it instead?
+September 9, 2024 at 2:30 PM, "Thomas Zimmermann" <tzimmermann@suse.de ma=
+ilto:tzimmermann@suse.de?to=3D%22Thomas%20Zimmermann%22%20%3Ctzimmermann%=
+40suse.de%3E > wrote:
 
-Can do if that's what the maintainers desire. It's just that sometimes
-it's better to have the implementation reviewed and ready waiting for
-the users than requiring the first user to add the implementation. I
-opted for __maybe_unused across the series.
+>=20
+>=20Call drm_client_setup_with_color_mode() to run the kernel's default
+> client setup for DRM. Set fbdev_probe in struct drm_driver, so that
+> the client setup can start the common fbdev client.
+>=20
+>=20v3:
+> - add DRM_FBDEV_DMA_DRIVER_OPS macro
+>=20
+>=20Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+>=20
 
-BR,
-Jani.
+tilcdc=20patch looks identical to the previous version, but here is my ac=
+k again:
 
+Acked-by: Jyri Sarha <jyri.sarha@iki.fi>
+
+Best regards,
+Jyri
+
+>=20
+>=20---
+> drivers/gpu/drm/tilcdc/tilcdc_drv.c | 5 ++++-
+> 1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+>=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/ti=
+lcdc/tilcdc_drv.c
+> index cd5eefa06060..8c9f3705aa6c 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> @@ -14,6 +14,7 @@
+> #include <linux/pm_runtime.h>
+>=20
+>=20#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_client_setup.h>
+> #include <drm/drm_debugfs.h>
+> #include <drm/drm_drv.h>
+> #include <drm/drm_fbdev_dma.h>
+> @@ -374,7 +375,8 @@ static int tilcdc_init(const struct drm_driver *ddr=
+v, struct device *dev)
+> goto init_failed;
+> priv->is_registered =3D true;
+>=20
+>=20- drm_fbdev_dma_setup(ddev, bpp);
+> + drm_client_setup_with_color_mode(ddev, bpp);
+> +
+> return 0;
+>=20
+>=20init_failed:
+> @@ -472,6 +474,7 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
+> static const struct drm_driver tilcdc_driver =3D {
+> .driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> DRM_GEM_DMA_DRIVER_OPS,
+> + DRM_FBDEV_DMA_DRIVER_OPS,
+> #ifdef CONFIG_DEBUG_FS
+> .debugfs_init =3D tilcdc_debugfs_init,
+> #endif
+> --=20
+>=202.46.0
 >
-> Gr{oetje,eeting}s,
->
->                         Geert
-
---=20
-Jani Nikula, Intel
