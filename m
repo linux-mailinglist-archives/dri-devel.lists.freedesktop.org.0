@@ -2,80 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD45973A45
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 16:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9078E973A72
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 16:48:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E172910E82F;
-	Tue, 10 Sep 2024 14:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E694210E84A;
+	Tue, 10 Sep 2024 14:48:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QeYKS4EM";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Vkfjpxk+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE6010E82E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 14:45:08 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-52f01b8738dso785170e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 07:45:08 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0BFD10E84E
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 14:48:08 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-4582b71df40so262061cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 07:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1725979506; x=1726584306; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fyheDlGANeq6Wl6O+ghUD4wV0JahjuF+9A+tjmIT3aI=;
- b=QeYKS4EMXuOeexZGihWm9Hosl5UY/fXpYDRml9OZpz3zdKDvuGfMsXvSitUhI2HF8g
- cjGAoIENi/GYJh2OWwOttv/tLeamZni3UQBQOPaEhSRriw3ixysFz3jltKEfn+OecMTb
- C4zmofvt8pATBE1WuG60RPliEFsw7Hmk+j0cOJgGD+Atpsjo9bo+s8JttEsKjl4a67wY
- DXBGHypBVOKrwhb+aFkZ8UNDi51OwW8eV32IDYzfPIOPsHIHFK2emCqgpWV+dA6TaV7o
- AZh6HLLznK+iSms0On4dLIjdnKiuXwfu9UlEMZpADGH+OIQQAl+eXEtqshWYd9wbdFKE
- 0HsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725979506; x=1726584306;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=google.com; s=20230601; t=1725979687; x=1726584487;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fyheDlGANeq6Wl6O+ghUD4wV0JahjuF+9A+tjmIT3aI=;
- b=lj1KS9C3POkdstsm1ZSTZvv+1TfDA7blwYNgJiEb6eQcpWV5hZ5wgKb56VMUze4Tv8
- J25onJ5b0NqZ0L4Z5SrlFTZItFEi1298FGrq5R6RVSnT5/2r3tqJhRzk/15kIExCGTNV
- jO3xrXEnWNa+Rzpo+iCOQAyqbHK6jsP5WDYzbgJLAwqXowcm5H5uN2gwRmrs2tVZhIYH
- PhIMqnjOzqyr5yY+tr19NtO11YOsgZT3ghzYPDYQ3DzkVQiCowVV9ytwGn6sIJe8zuXE
- 2Z7U4TGQhvIA4r5bexg6PnDPGcXCG4ppdzxJ0HcmlWZj6syYRGf6oOVoGNy3SuK5HDRQ
- 4big==
+ bh=gXuvHsDaQa5JaJy5jQ+KF3M9U1DYD4thlJa2X3LO3FE=;
+ b=Vkfjpxk+jNm4FCjpgCHhvxTYrOdAXJzOlG3jrD9snRwCrKbYX4Sb5oud8be5N7+FsC
+ DcrfZUIuTpqhQzpaHPSXzXzA8CKLbVLxH4/jUh/ooTGsZjjQIUnJ5psH/2dzpJtLdZX/
+ WEdGNFJfarr0nXdqrcKVabJOvXWvUkJunE6TFssGH4bnn3A4g89nNTUkQkabhA1DDi+o
+ cDqdzuktFTife0wTOkmD2SqoSr7G+LoHL+I5U26LfGVhvk9k1FcxpFWhcnrUQPy5/l/P
+ ynZ0Z+9W8S/LJpnKNtSJcqpR5cVodjpF/oN9bhRil9/Y3ZszNt6dWaeZgjsPj56Ot+P4
+ pMGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725979687; x=1726584487;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gXuvHsDaQa5JaJy5jQ+KF3M9U1DYD4thlJa2X3LO3FE=;
+ b=ijipUoCc5zWjp49W2kXCpqaf1Ksn34F3dkFhJVFurTeoC4N5VaS9AekRuSKo7vQDbx
+ fOCQWA2YOZ/7rPiIJpFlZ5woRkT1yZSIeKPAKcv+AdxnGCg1c59iWXEZ+/fgyiyn6aKR
+ iiiT3i6780979WwBrhQvHTWO6V4z9AJQi/fbQ47TfrQ5UKIBPcEFhauu2gN76mNMyfTf
+ A0fjdl94rkYfNWD66pNjk8eIgA6JMrjrvWQ6Uchw8A5jYGFbBrDpRYYAiIXwxmBMdPTi
+ Q7pW2Wdy8QZU5b8ehaH65Bxo6/VehGVgapLvM8AjgyKeYADIvfE+6Gv1w1F3Cj3RSvFI
+ XpcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1x8dZBnlKmGTijqDM9RpxS22wrNk62nM4kg2RKj+ZqRN1LgW0ZrLNT5fnq9ajqim9ZhqVJSigKUg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBxTsXffmj0JG7ZbLejXnIe5qHa+3iaLJouXC7V0sngzNXSs07
- 2Viv43S+BHVmXP4lKBEKkcDUTKS7d8k9XoVqoj7dXzHx2zHe4IOzKtBHMpqG1dw=
-X-Google-Smtp-Source: AGHT+IGkucxQAPF17vtiwykU1NzQbKTsUYePLM268UsuU7sXnhSJr57nWX2ddN1l8A7ibNcX6hceFQ==
-X-Received: by 2002:a05:6512:2385:b0:52e:9f17:841a with SMTP id
- 2adb3069b0e04-536587a4006mr11605403e87.6.1725979505297; 
- Tue, 10 Sep 2024 07:45:05 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5365f90d8ebsm1190511e87.281.2024.09.10.07.45.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2024 07:45:04 -0700 (PDT)
-Date: Tue, 10 Sep 2024 17:45:03 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, robdclark@gmail.com, quic_abhinavk@quicinc.com,
- sean@poorly.run, 
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch, 
- Daniel Stone <daniels@collabora.com>,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>, 
- Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
- Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>
-Subject: Re: drm-ci: flaky tests for msm driver testing
-Message-ID: <2t263tpqv53kqs3dv46x6obkh2cpw7jxj54hnyhxtbiu6tew33@c7ec7yhobqqv>
-References: <661483c8-ad82-400d-bcd8-e94986d20d7d@collabora.com>
- <c96d719b-1d26-4f16-812f-ede92da3869f@collabora.com>
- <64bc4bcf-de51-4e60-a9f7-1295a1e64c65@collabora.com>
+ AJvYcCUW8Lrcqy114mo6NOPbpC7yB6Rz3xr0CF7Z0ak/gAKySJ7kLSPKStN6QKUJ4a5vghKP2MsDfAqhfjo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCVqcW54ZUc1nKIYwpJPobUIXQ8074b/e3MLTmTwvKVtdP1P2+
+ A4+qPCAoFTORchA8IYm49NRUIQeTsoiQ03IVw45ytHnsxcsBPtpJofdbQmUOWsLMG/VShkRkkQj
+ JgDaB/iD7QHmbnugXsJl6zFFgqxG53foNb110
+X-Google-Smtp-Source: AGHT+IEq/HMZp5o3EyXBDHxohcy+QIAG1sIzXY3bhN/i50uhErJAdEz/UfNt8X3xCTRPtpghCBVQVMyvOC3kysU9hnI=
+X-Received: by 2002:ac8:5dc6:0:b0:456:7ef1:929d with SMTP id
+ d75a77b69052e-4583d0600f1mr4023421cf.12.1725979687336; Tue, 10 Sep 2024
+ 07:48:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <64bc4bcf-de51-4e60-a9f7-1295a1e64c65@collabora.com>
+References: <20240909205400.3498337-1-tjmercier@google.com>
+ <c970dfb2-078c-4bf1-8b50-6e535cf4adf7@ursulin.net>
+ <7aef07b2-9859-40a8-ba5b-22aba68c2d9c@amd.com>
+In-Reply-To: <7aef07b2-9859-40a8-ba5b-22aba68c2d9c@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 10 Sep 2024 07:47:54 -0700
+Message-ID: <CABdmKX2JRi-7x_pkSrkuwjzzjDnDQyMEcZmfWrn2AXLuOHQ6Qw@mail.gmail.com>
+Subject: Re: [PATCH] drm/syncobj: Fix syncobj leak in drm_syncobj_eventfd_ioctl
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Xingyu Jin <xingyuj@google.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,122 +88,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 10, 2024 at 08:48:09AM GMT, Vignesh Raman wrote:
-> Hi Maintainers,
-> 
-> On 12/07/24 11:35, Vignesh Raman wrote:
-> > Hi Maintainers,
-> > 
-> > On 28/05/24 11:39, Vignesh Raman wrote:
-> > > Hi Maintainers,
-> > > 
-> > > There are some flaky tests reported for msm driver testing in drm-ci
-> > > for the below boards.
-> > > 
-> > > *)
-> > > # Board Name: apq8096-db820c
-> > > # IGT Version: 1.28-g0df7b9b97
-> > > # Linux Version: 6.9.0-rc7
-> > > # Failure Rate: 50
-> > > dumb_buffer@create-clear
-> > > 
-> > > *)
-> > > # Board Name: sc7180-trogdor-kingoftown
-> > > # IGT Version: 1.28-g0df7b9b97
-> > > # Linux Version: 6.9.0-rc7
-> > > # Failure Rate: 50
-> > > msm_mapping@shadow
-> > > msm_shrink@copy-gpu-oom-32
-> > > msm_shrink@copy-gpu-oom-8
-> > > 
-> > > *)
-> > > # Board Name: sc7180-trogdor-lazor-limozeen-nots-r5
-> > > # IGT Version: 1.28-g0df7b9b97
-> > > # Linux Version: 6.9.0-rc7
-> > > # Failure Rate: 50
-> > > msm_mapping@shadow
-> > > 
-> > > *)
-> > > # Board Name: sdm845-cheza-r3
-> > > # IGT Version: 1.28-g0df7b9b97
-> > > # Linux Version: 6.9.0-rc7
-> > > # Failure Rate: 50
-> > > kms_cursor_legacy@basic-flip-after-cursor-atomic
-> > > kms_cursor_legacy@basic-flip-after-cursor-legacy
-> > > kms_cursor_legacy@basic-flip-after-cursor-varying-size
-> > > kms_cursor_legacy@basic-flip-before-cursor-varying-size
-> > > kms_cursor_legacy@flip-vs-cursor-atomic-transitions
-> > > kms_cursor_legacy@flip-vs-cursor-atomic-transitions-varying-size
-> > > kms_cursor_legacy@flip-vs-cursor-varying-size
-> > > kms_cursor_legacy@short-flip-after-cursor-atomic-transitions
-> > > kms_cursor_legacy@short-flip-after-cursor-atomic-transitions-varying-size
-> > > kms_cursor_legacy@short-flip-after-cursor-toggle
-> > > kms_cursor_legacy@short-flip-before-cursor-atomic-transitions
-> > > kms_cursor_legacy@short-flip-before-cursor-atomic-transitions-varying-size
-> > > msm_shrink@copy-gpu-32
-> > > msm_shrink@copy-gpu-oom-32
-> > > 
-> > > Will add these tests in,
-> > > drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
-> > > drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
-> > > drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-flakes.txt
-> > > drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
-> > > 
-> > > (https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70)
-> > > 
-> > > Please could you have a look at these test results and let us know
-> > > if you need more information. Thank you.
-> > 
-> > There are some flaky tests reported for msm driver testing in drm-ci
-> > with the recent IGT uprev (https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0e7f4e6a20d550252c4f355d5a303b1d9c8ff052)
-> > 
-> > *)
-> > # Board Name: sc7180-trogdor-lazor-limozeen-nots-r5
-> > # Bug Report: https://lore.kernel.org/linux-arm-msm/661483c8-ad82-400d-bcd8-e94986d20d7d@collabora.com/T/#u
-> > # Failure Rate: 100
-> > # IGT Version: 1.28-gf13702b8e
-> > # Linux Version: 6.10.0-rc5
-> > kms_lease@page-flip-implicit-plane
-> > 
-> > *)
-> > # Board Name: sdm845-cheza-r3
-> > # Bug Report: https://lore.kernel.org/linux-arm-msm/661483c8-ad82-400d-bcd8-e94986d20d7d@collabora.com/T/#u
-> > # Failure Rate: 50
-> > # IGT Version: 1.28-gf13702b8e
-> > # Linux Version: 6.10.0-rc5
-> > kms_cursor_legacy@short-flip-before-cursor-toggle
-> > kms_cursor_legacy@flip-vs-cursor-toggle
-> > msm/msm_shrink@copy-mmap-oom-8s
-> > 
-> > The expectation files have been updated with these tests,
-> > https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-flakes.txt
-> > 
-> > https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
-> 
-> There are some flaky tests reported for msm driver testing in drm-ci with
-> the recent IGT uprev.
-> 
-> # Board Name: sdm845-cheza-r3
-> # Failure Rate: 50
-> # IGT Version: 1.28-ga73311079
-> # Linux Version: 6.11.0-rc2
-> kms_lease@page-flip-implicit-plane
-> 
-> # Board Name: sdm845-cheza-r3
-> # Failure Rate: 50
-> # IGT Version: 1.28-ga73311079
-> # Linux Version: 6.11.0-rc5
-> kms_flip@flip-vs-expired-vblank
-> 
-> The expectation files have been updated with these tests,
-> 
-> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
-> 
-> Please could you have a look at these test results and let us know if you
-> need more information. Thank you.
+On Tue, Sep 10, 2024 at 12:30=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 10.09.24 um 09:26 schrieb Tvrtko Ursulin:
+> >
+> > On 09/09/2024 21:53, T.J. Mercier wrote:
+> >> A syncobj reference is taken in drm_syncobj_find, but not released if
+> >> eventfd_ctx_fdget or kzalloc fails. Put the reference in these error
+> >> paths.
+> >>
+> >> Reported-by: Xingyu Jin <xingyuj@google.com>
+> >> Fixes: c7a472297169 ("drm/syncobj: add IOCTL to register an eventfd")
+> >> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_syncobj.c | 17 +++++++++++++----
+> >>   1 file changed, 13 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_syncobj.c
+> >> b/drivers/gpu/drm/drm_syncobj.c
+> >> index a0e94217b511..4fcfc0b9b386 100644
+> >> --- a/drivers/gpu/drm/drm_syncobj.c
+> >> +++ b/drivers/gpu/drm/drm_syncobj.c
+> >> @@ -1464,6 +1464,7 @@ drm_syncobj_eventfd_ioctl(struct drm_device
+> >> *dev, void *data,
+> >>       struct drm_syncobj *syncobj;
+> >>       struct eventfd_ctx *ev_fd_ctx;
+> >>       struct syncobj_eventfd_entry *entry;
+> >> +    int ret;
+> >>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
+> >>           return -EOPNOTSUPP;
+> >> @@ -1479,13 +1480,15 @@ drm_syncobj_eventfd_ioctl(struct drm_device
+> >> *dev, void *data,
+> >>           return -ENOENT;
+> >>         ev_fd_ctx =3D eventfd_ctx_fdget(args->fd);
+> >> -    if (IS_ERR(ev_fd_ctx))
+> >> -        return PTR_ERR(ev_fd_ctx);
+> >> +    if (IS_ERR(ev_fd_ctx)) {
+> >> +        ret =3D PTR_ERR(ev_fd_ctx);
+> >> +        goto err_fdget;
+> >> +    }
+> >>         entry =3D kzalloc(sizeof(*entry), GFP_KERNEL);
+> >>       if (!entry) {
+> >> -        eventfd_ctx_put(ev_fd_ctx);
+> >> -        return -ENOMEM;
+> >> +        ret =3D -ENOMEM;
+> >> +        goto err_kzalloc;
+> >>       }
+> >>       entry->syncobj =3D syncobj;
+> >>       entry->ev_fd_ctx =3D ev_fd_ctx;
+> >> @@ -1496,6 +1499,12 @@ drm_syncobj_eventfd_ioctl(struct drm_device
+> >> *dev, void *data,
+> >>       drm_syncobj_put(syncobj);
+> >>         return 0;
+> >> +
+> >> +err_kzalloc:
+> >> +    eventfd_ctx_put(ev_fd_ctx);
+> >> +err_fdget:
+> >> +    drm_syncobj_put(syncobj);
+> >> +    return ret;
+> >>   }
+> >>     int
+> >
+> > Easy enough to review while browsing the list:
+> >
+> > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>
+> Looks reasonable to me as well.
+>
+> Reviewed-by. Christian K=C3=B6nig <christian.koenig@amd.com>
 
-Thanks for the info. We will discuss this internally.
+Thanks!
 
--- 
-With best wishes
-Dmitry
+> CC: stable?
+
+Yes, I think we should. 6.6 and 6.10
+
+> Let me know when you need someone to push it to drm-misc-fixes.
+
+Anytime is good, no rush for this one.
+
+>
+> Regards,
+> Christian.
+>
+> >
+> > Regards,
+> >
+> > Tvrtko
+>
