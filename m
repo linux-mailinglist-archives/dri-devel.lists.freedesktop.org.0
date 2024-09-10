@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7622A973F3F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 19:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E03973F44
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 19:24:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D12D610E8AF;
-	Tue, 10 Sep 2024 17:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1843B10E8B1;
+	Tue, 10 Sep 2024 17:24:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CoLWo9aG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O/SFggGW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E380210E78B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 17:24:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C900210E8B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 17:24:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B677E5C0347;
- Tue, 10 Sep 2024 17:24:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6190C4CECE;
- Tue, 10 Sep 2024 17:24:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A703C5C0414;
+ Tue, 10 Sep 2024 17:24:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492B1C4CEC3;
+ Tue, 10 Sep 2024 17:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725989053;
- bh=Doo8ztSrQS+RUYxDlrPXbAgQWij2KmYKJLiuohWgCuk=;
+ s=k20201202; t=1725989062;
+ bh=Y1oiPIpBgTdpuKr0fyT3Wi7Zryu3iuPTCUZiEhfA+U8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CoLWo9aGkc62KMSGvaWcNnuKqP7NmQsZWIb0NPjA7jtyz0Pvvc6bZSKGxRxCwjO04
- 0LsVJqjgynVC80uagCQWK9O9SYn8b9NEfNcrTJrzd3ZDEjgbG61+KOyWGWldKbYwSp
- 3NE3ueTlHYUmWd5kj7mAAuSrJYg0RoUPKuvU8WezyAbbnsPL+vHU47gyROdai9SSb1
- nXQxkcUD037j9YyQsuxsRLwS1uGZTHccboOpgHJf7s4pY40Gy+B81smtKrTew1fqLl
- 8xOpUwvFJnkOQUoisPX0e0/+VkmYPT/WP0q0p8Z0iKtqAxs07rX+610FUJXNY8vkTK
- fyk6PVq3rALcg==
+ b=O/SFggGW7+ipU8+YEiCeCm6Hq6fO4pZwqTyURJZX/rjjjXaxtTpegu46Ys1m8nCmM
+ PLAMda+Sj9SdGYJQu3GmLpGnZvt9omKPMsaAc5I/PaTrNqeqpQq4cmaiBC3L9VFqXm
+ OahnacRQy6SEuLEoKbCN5mgjsB2QJ/QipMKBYA4Pp71fndZ9uPBHS6i2+hp+Y0yD6W
+ +1lgEOZfIhqo831Atoy7ljDZTH0q950T64lbx49r8bXx6j2q9Snz4HN31Pyq68ve6e
+ DFH2mMzgaYvmdpDty2TFDpHwHfpjiVWtRCCvdxJvhPDpB3WQ+/iuk01H3HoxFQEeti
+ cpmi3rLF/hbNw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,17 @@ Cc: "hongchi.peng" <hongchi.peng@siengine.com>,
  Liviu Dudau <liviu.dudau@arm.com>, Sasha Levin <sashal@kernel.org>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 3/4] drm: komeda: Fix an issue related to
+Subject: [PATCH AUTOSEL 5.4 2/3] drm: komeda: Fix an issue related to
  normalized zpos
-Date: Tue, 10 Sep 2024 13:24:02 -0400
-Message-ID: <20240910172406.2416588-3-sashal@kernel.org>
+Date: Tue, 10 Sep 2024 13:24:14 -0400
+Message-ID: <20240910172418.2416688-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240910172406.2416588-1-sashal@kernel.org>
-References: <20240910172406.2416588-1-sashal@kernel.org>
+In-Reply-To: <20240910172418.2416688-1-sashal@kernel.org>
+References: <20240910172418.2416688-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.225
+X-stable-base: Linux 5.4.283
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,10 +107,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-index 1f6682032ca4..ac8b7fb20d8f 100644
+index ae274902ff92..4e9c3184a906 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-@@ -142,6 +142,7 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+@@ -148,6 +148,7 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
  	struct drm_plane *plane;
  	struct list_head zorder_list;
  	int order = 0, err;
@@ -118,7 +118,7 @@ index 1f6682032ca4..ac8b7fb20d8f 100644
  
  	DRM_DEBUG_ATOMIC("[CRTC:%d:%s] calculating normalized zpos values\n",
  			 crtc->base.id, crtc->name);
-@@ -181,10 +182,13 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+@@ -187,10 +188,13 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
  				 plane_st->zpos, plane_st->normalized_zpos);
  
  		/* calculate max slave zorder */
