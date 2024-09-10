@@ -2,158 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5E9973B44
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194AC973B5D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:19:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7CB610E2FA;
-	Tue, 10 Sep 2024 15:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F36210E4F8;
+	Tue, 10 Sep 2024 15:19:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="h9WgBh/C";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="bQZuqxW3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6720C10E2FA
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:17:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Npuk+0n2Pb/gUkX5yaDAMxOissVMMTn8c0Kq0dKcKMLvn8m1CNDnSRULyrWStwukVNQK6NgDmXrHedejZWgSBh0NabyNORTB+G1LNPWbXIjC1jzyDmoX9eFLpi0xhmfd6qV7nbih/3EiUQ55tkLFDYYsXm97foGHd+LP3+85xBP3d5GdPiMNG5pcUwRSL5thOz7Qe3NDLoQJJnbocLaopyBwJmdcyWKtkkmrhiZ9wl2Yofx+2gc0pntphJf4PsaDRe+ljlA+Gmseksy2xBsTuJQBe0KFWj/tU92dZvAC4PEjDPTXSRzxkDMTlSVpRp00ZMqUHolZTZGJS+G3buAW3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eiZu5BE/BCetUzjlcfOxYsjHc1W6c2PYnwYJX1VCsaQ=;
- b=w9/T44vWflFuLA80lfqRH9GDhcHfjzoC3gm/dVDe6xy6k5rcnQv6cvyZrdWldLC2n3JmV+z+zMKJpA4MobpRUINProNz3SL40XCURmUZ3hRibj3NLGEhP6BKIuGcBVyWCZzLPlI2/mGqvGFapkZJ/U3SevUX80LS5TSCtIqTVPhVpzUSm3y9Efk5rusd8q6tai8Czdn2gmTZQJAmqc2PXOxSMn9+2xeuZH78fpbiRkko9ACAt0OHrHtmPnIvyTzJEK1pg7qGp9APpB7rQeJ3kgf4eeO2eSg4LQN91yFZrIpzTlpOQ6xTLaIoLp6D7X2KqgDIZ7T+82HPwvkpSJjiWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eiZu5BE/BCetUzjlcfOxYsjHc1W6c2PYnwYJX1VCsaQ=;
- b=h9WgBh/C2OSiKSzGyQOEXq8wxkF8WQKj7CUO/zvnskEYTHtaVktgSEuTfpsK1wFv0wPkkfjL1BdO2AGZhIG77gBNahkEhrvbL2+KrljRWgjEqLVWCo3c3ssBATwCqSmHDJXrTgV4T9VpbRbuUSBAyvfOLAmhwUEg//1A6W32Qys=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ0PR12MB7475.namprd12.prod.outlook.com (2603:10b6:a03:48d::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25; Tue, 10 Sep
- 2024 15:17:03 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Tue, 10 Sep 2024
- 15:17:03 +0000
-Message-ID: <88b7e403-5910-44ab-8f42-fc183beafc67@amd.com>
-Date: Tue, 10 Sep 2024 17:16:56 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/syncobj: Fix syncobj leak in drm_syncobj_eventfd_ioctl
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE8BD10E4F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OHTaPFU7IxdysyuX/tN5EzMTydhIoay+K+w5Wew1vlA=; b=bQZuqxW3egMUmeGk2K3dn2mgUk
+ q3z7m1ypz51hUzQgzkUHrTUpWt87uhkuU1OnJJ7etrwMpzri+/kULWEqoqwUKNHEBk/0d1ZzUxcDT
+ wqXjn/kTM8kryz9l14qJmPu8l9DG5I6szJnMuyZATk0cP364QUbVXTlznzOJ6O/77yNSkhGFpuEpq
+ VZj0zVumkA2nWca9W34f8xR0Y09m3uAE6zg5VpxqlfWG4DesKKmrheyYiupz9rHdoe5CZU/ex1nve
+ ybZzNk2gc+4B19S2EeNAA2WN420714viUaqfPd4MKyZoEezfjNxYiVTLjOQ/oIRJO1Zi8oy8ixKgd
+ hHEo5Fsw==;
+Received: from i53875a02.versanet.de ([83.135.90.2] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1so2dx-0005bU-1b; Tue, 10 Sep 2024 17:19:01 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Xingyu Jin <xingyuj@google.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240909205400.3498337-1-tjmercier@google.com>
- <c970dfb2-078c-4bf1-8b50-6e535cf4adf7@ursulin.net>
- <7aef07b2-9859-40a8-ba5b-22aba68c2d9c@amd.com>
- <CABdmKX2JRi-7x_pkSrkuwjzzjDnDQyMEcZmfWrn2AXLuOHQ6Qw@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABdmKX2JRi-7x_pkSrkuwjzzjDnDQyMEcZmfWrn2AXLuOHQ6Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0110.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:bb::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
+ Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
+Date: Tue, 10 Sep 2024 17:21:27 +0200
+Message-ID: <1899262.u6TykanW85@diego>
+In-Reply-To: <1785617.Ii9rTq9gLj@diego>
+References: <20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com>
+ <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
+ <1785617.Ii9rTq9gLj@diego>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB7475:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c6e13e9-5817-43dd-0c4f-08dcd1aba01b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YUpVMTBaS2NyNHY2WlNNVGFKOHRMeUZpTXR5T01GZllJSlZ5aHlTRnBmcVc4?=
- =?utf-8?B?MWNYU1FiVXRNbFdzeG9iZzBrM3pOUEVJd1l0bnhCcWVhR01aNkFhWlN0a0tY?=
- =?utf-8?B?L0QyQms0dEJxRnBiZmpuSkZoa3ExWDdraUNBaEI0R3VPRGU3NFdiTnNuam5B?=
- =?utf-8?B?VnBma3JvNG81SkluY3Q3bUUzVjY2MEtRY0pOV3ZiY1FTbVBjdkhhRkNLR1V0?=
- =?utf-8?B?cjIyRTFXK24rd0o4WEpEdXQ0akhLN0EweFdueXJoZU1SNGp1azNSZVZMWmNw?=
- =?utf-8?B?WVZ1VWVXb2d0SmV5c1R0bHRFR2xnRjJhZDhCdUVpRG0wN2lZaDlFRWEranlZ?=
- =?utf-8?B?cVlYQ1QwSUkzeWVGSFRXWlo2cEM2eWNST0dxTGxKNGRLYlRtbDFDVzk5TElB?=
- =?utf-8?B?TGhwek5FL0thaWg1M3pvSktKSkpTcWJlaWZISzRmdGl0R1MvZmpReWJwR1d3?=
- =?utf-8?B?d3RTMTJCU0JLczRad1lUbUkwbTVCREQ3aHFEK2lkdE9oTE9IUDU3b3F2YS9Z?=
- =?utf-8?B?NkhQa2pHVUxpMEFnUndxVnl6eWJXR3VCSHJNNkYvTGxRZEE2RVNJVG9ERFQz?=
- =?utf-8?B?MnlNR2ZJeEdHbnorSmxEQ3FwTEZrNTJNN05SNW1xMkVXSENnQmQzemVpMDZ2?=
- =?utf-8?B?TlBpNFV2QnVqMCsxVkJsVjExbGtzU2VRZFAyRmNBSjVvN1l1Z0xNallxZzFJ?=
- =?utf-8?B?RGN4WlhORkErSm5lWTB0TnhwcWdZQ3pKV3JPSEVJa20rMGtvSk5ab0JDNWVy?=
- =?utf-8?B?clFnK1pRUVlWZVBLeTJVZ2ZwajNKYmpLbDBjS0w2SGxlUmQxMk9wMkNjdzBY?=
- =?utf-8?B?aGNSMTRVKzd6WHpSMmJwYUY1T0xqa0Q4amF1TVl1U0ZEQ09MTHl4Y1JOYzN1?=
- =?utf-8?B?M3ZtVS96Sy9SSUJNU0tZYzdHam9sbU15Ujk1ejRBdVYwREVVQUxva0RpTE1Q?=
- =?utf-8?B?cHVUYkpGN0JTNjhGRHZ1cWhTajE4eVAvUlRiK0QwUTY3bHpua1JFNHpiTjk3?=
- =?utf-8?B?c0ZTYlpWeTNjUWlBZ1FyZ1dFaUFqSjlxdnlrOWk1L1dxeXlWZ29LcngrVnVE?=
- =?utf-8?B?SVlhSE5YWXY0c2tYZXRtUk40SzUvOGZycVBZRU1ZaXFKVDhwYWJVWGppNVNR?=
- =?utf-8?B?Ymhpb3FkQkpmdnJidk10YmFhUVpUazNXVUw3dHNtOWtQYkpTV0dvWEtRSmd2?=
- =?utf-8?B?ME9Wd3ZVVFl1Nm80WnBQTGhjSFJaZkpVNjlpZnk5R0I4UlJQK3JCaXZJT1ZV?=
- =?utf-8?B?aXRpQzFOamxNNitUM2dZZ09vNllLSEg2V1ZaWjgvTzNqa1gwK2pqTjBjR0R3?=
- =?utf-8?B?S2JDZnRFME5OcURCWEVqQ1NvWWZJa1crc0ZGYVpQNGUxUGgzLzlzZDRZNzh6?=
- =?utf-8?B?cEc2V3RwelpvWWYraTNIUUhCdXcxZmlmWCt0OHNUMFRkdzcxZVBMbUN3ZExN?=
- =?utf-8?B?cE80WnNYV3ptdjRhV2lydktSOVdDbnIxeTM4dWRrRzNEM0IwZVlHc1Q5UXVo?=
- =?utf-8?B?UDdtbHk5aVRmcHdrbEFxSlVhQmJzem5qZW1SRXYvYUpOSXJJVzE1alRHNDJU?=
- =?utf-8?B?OHYzWmIxak12TEVTdGV3dHN3Mm9EbnpZVXNNUjNlOWxaQVBVM3hCTVFaR0M4?=
- =?utf-8?B?bVAxUTAxM20wSUg1UTVZSXZBKzRFMzh3TnFMWHBGTWYyNkJxa0hMY3kvZmoy?=
- =?utf-8?B?bEdaNFloRlpUcTZ3YU0wNkpsdkthOVM3RVJ5bjlDa1NQVnV1KzBTVGozQUoz?=
- =?utf-8?B?Z0dPb2pmR3l5cnRvRUdLOTdQY0JuVENuWXUwc3VWaDFWRTVCdTI5M3ZiV01U?=
- =?utf-8?B?VThmSm5PaXAvRksxTURzUT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUVHNDIwczhlK2xncDJGbVk1UVk3bnZPcEE1TjJWZXk0eDJnWWkzVDVrblF2?=
- =?utf-8?B?bHEvNldxV044Sk45bG1FNkUxTlNKODVwWERvU2NmS2VWcmc5K3dGUXZmZEpT?=
- =?utf-8?B?UFBqQUZ3TEx3RU1rRnhBOFJXd3JQY0FpNnd5NlBtQ0MrdCtsNTZyTnoxbzVL?=
- =?utf-8?B?RldsNGRPYkUySXhDT0RTVlloMk96RllkRHdiOG9DV1o5ZkY3eWpid01wVVFz?=
- =?utf-8?B?UnFSZHg0TklHajVlYUhFWHo0R00xUC9PTXY4NEFOQUhvVHlaQjNKejhjb1Uz?=
- =?utf-8?B?YVJrSCt2ZFBJV09MeHN2cEpkcDBqMmRsWGpieFhuOFpCRHl3V3pWNWRXMHRQ?=
- =?utf-8?B?Z2hGYmwzS0xxL3diSnJqYUFlUmFuMGhPTE0zNTNKVTh6NElXMVE4L2g0aFRD?=
- =?utf-8?B?dW85WXBEMW93UDFCeEZUdHpKdTRwUWFWTFhwd3RCWnZFVHowb1lyT05VRGl1?=
- =?utf-8?B?TDJvcWtGRTEySjlvZWtVSGJ1YnRRRXpwQVlZclUxdFVXeTJIY1A0dHJIOHZR?=
- =?utf-8?B?NXJxaWEwK0dYUFV3V0FBQjY0SXF3SDNCaEFHTEd5Wms0S2d2ekh0K3kybXI3?=
- =?utf-8?B?QnRqV3VzZXBjYkNVR054VHpYVUJEY2tGM1NBV1FFeTR0WDBJTW5hM3pCVGoy?=
- =?utf-8?B?MVJ5UTRSdlk2VkxMc3FFa3pmZ0thVXduVHdXd1piSDlLN3lUUngzRlRnRDlH?=
- =?utf-8?B?eXMxVmNUanlORUxVeDZlNFFwSUpmVUk0WVZQU0FucG44VFZ5WEZFUDdiRFlC?=
- =?utf-8?B?U2FJY01JS1U1MGdLNnhpUUg5N3hLbElZV0tjZ0NIL3pmSDNUemxpOHNnRmVI?=
- =?utf-8?B?eDhkbTl1bExTSlNvUTU2NGROWVJ0Nmh5aE9XTzhlaStqdUthNHFXbWs5V2Rk?=
- =?utf-8?B?eEt5dzNGRHVPQit4WTZOUGttVDRsTFdYTnpwMlhFU1hXWm5JRUFxajhtTUZs?=
- =?utf-8?B?NnMwdnVjcEwwT0xOVC9DeWZnWUkvTXFRbnlUcFZBUTcxQmZqa0cwRzNmV1VV?=
- =?utf-8?B?NWUrN0FzdFdHdTNuTGtvd0hGWEJ5TTdMTTh3NnhtOXRNbW9sNTFUM1RZenBK?=
- =?utf-8?B?eGxBUlpvSi9TTUU1dHNCK3FwR1Rxbkl6RHVpek05T2lZMDVSZnlnUXFnYi96?=
- =?utf-8?B?L3dVcVNZM3puRXRwT1BMZHNjUTFRZmR3L2JZVUE3eWJhdUMxdzA4VVo1VXJn?=
- =?utf-8?B?d2diU3VsdUNKWUF2SlhrdWJtK2tFd0M1ZzhQeXB2MGFWcCtleElTc2FVTUFG?=
- =?utf-8?B?SWlwZjhvRWJHZ0RBTTQ1SlpMRC9RRXh1cUNSVGJvZlpqYTVXOHg1SjNRK3E5?=
- =?utf-8?B?dGRVVkM1UjRKRDFRUzhqSGFDakxzWDhjcDRrWHFYamxZUmwvc29HOHF5cnhp?=
- =?utf-8?B?RlpEZjdIajlmam9IM0gxdmpWbnByaDVhRkZDRW5qVmM5MHZpSHJPQXlOcDly?=
- =?utf-8?B?bnR4RHV4d0RzZWRUeGVUL2JSV2tUYitlWDcxZTFjZDEwRCtTNzhBNTFIS0g4?=
- =?utf-8?B?U25NTXhzZitXY0IzOW93dFFiNGtBaTVvZ3J3RlZjZmQ0RnJ4VzN3a1RhMFRl?=
- =?utf-8?B?anQwRDRvSzVNTDRzRFYxMjZ2WkZNVUFWeWozaGYxNlNRS0tlekthRTA1L3g4?=
- =?utf-8?B?Y0dKa3FNOHplREw0NkI2dk1BNnFHTmJsTkhoUjJvVk1hamxvZHU1UDQxWlk3?=
- =?utf-8?B?L1ZPak5YWmVmUm5NMmVaV1o1TERwZUtOUHQ3Znl3c2lITzlnbVgrTkhkMm5O?=
- =?utf-8?B?eEZxZTZVaENBT1pVM2wrRkowWUV1YSs2QllHWHVHNVlkVDZkY1c4Zk5Dd01X?=
- =?utf-8?B?RHZkallNRFRRWG1Gd09TWDRnOFNCcGZhZHUvVWRDb0UwL2dVa1FwNTJjQ0du?=
- =?utf-8?B?TmRDUVVmRWp5UjRxYmtobjZQSG1JcHJkZUtLR21jaHVML3JZT2dLSGRKa245?=
- =?utf-8?B?M08xZExLN3ZNM0gyQXV1aVYzeGQ2bElIY1BqWUJiSVlESWNNbi9pQWlhNHM4?=
- =?utf-8?B?TTQ4SldleWs3dzJyZ2JkU0dBOEdGUDNwdzlVK3YzVkVpNnFaS3U0b1ZTMWlP?=
- =?utf-8?B?a3dya1BjYmVsdi80dEpBbWFOVlVBRkZWMThxRElYM3pqYmk5V1dLd0NCTW9V?=
- =?utf-8?Q?Fdbc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c6e13e9-5817-43dd-0c4f-08dcd1aba01b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 15:17:03.7962 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tlahinr+eQ2i/a6TA6OMyeCtjOQ8Rz9YVtsRiy1FKgiYbU//e07dng/DnQO8rHEO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7475
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,89 +76,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.09.24 um 16:47 schrieb T.J. Mercier:
-> On Tue, Sep 10, 2024 at 12:30 AM Christian König
-> <christian.koenig@amd.com> wrote:
->> Am 10.09.24 um 09:26 schrieb Tvrtko Ursulin:
->>> On 09/09/2024 21:53, T.J. Mercier wrote:
->>>> A syncobj reference is taken in drm_syncobj_find, but not released if
->>>> eventfd_ctx_fdget or kzalloc fails. Put the reference in these error
->>>> paths.
->>>>
->>>> Reported-by: Xingyu Jin <xingyuj@google.com>
->>>> Fixes: c7a472297169 ("drm/syncobj: add IOCTL to register an eventfd")
->>>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_syncobj.c | 17 +++++++++++++----
->>>>    1 file changed, 13 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_syncobj.c
->>>> b/drivers/gpu/drm/drm_syncobj.c
->>>> index a0e94217b511..4fcfc0b9b386 100644
->>>> --- a/drivers/gpu/drm/drm_syncobj.c
->>>> +++ b/drivers/gpu/drm/drm_syncobj.c
->>>> @@ -1464,6 +1464,7 @@ drm_syncobj_eventfd_ioctl(struct drm_device
->>>> *dev, void *data,
->>>>        struct drm_syncobj *syncobj;
->>>>        struct eventfd_ctx *ev_fd_ctx;
->>>>        struct syncobj_eventfd_entry *entry;
->>>> +    int ret;
->>>>          if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
->>>>            return -EOPNOTSUPP;
->>>> @@ -1479,13 +1480,15 @@ drm_syncobj_eventfd_ioctl(struct drm_device
->>>> *dev, void *data,
->>>>            return -ENOENT;
->>>>          ev_fd_ctx = eventfd_ctx_fdget(args->fd);
->>>> -    if (IS_ERR(ev_fd_ctx))
->>>> -        return PTR_ERR(ev_fd_ctx);
->>>> +    if (IS_ERR(ev_fd_ctx)) {
->>>> +        ret = PTR_ERR(ev_fd_ctx);
->>>> +        goto err_fdget;
->>>> +    }
->>>>          entry = kzalloc(sizeof(*entry), GFP_KERNEL);
->>>>        if (!entry) {
->>>> -        eventfd_ctx_put(ev_fd_ctx);
->>>> -        return -ENOMEM;
->>>> +        ret = -ENOMEM;
->>>> +        goto err_kzalloc;
->>>>        }
->>>>        entry->syncobj = syncobj;
->>>>        entry->ev_fd_ctx = ev_fd_ctx;
->>>> @@ -1496,6 +1499,12 @@ drm_syncobj_eventfd_ioctl(struct drm_device
->>>> *dev, void *data,
->>>>        drm_syncobj_put(syncobj);
->>>>          return 0;
->>>> +
->>>> +err_kzalloc:
->>>> +    eventfd_ctx_put(ev_fd_ctx);
->>>> +err_fdget:
->>>> +    drm_syncobj_put(syncobj);
->>>> +    return ret;
->>>>    }
->>>>      int
->>> Easy enough to review while browsing the list:
->>>
->>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Looks reasonable to me as well.
->>
->> Reviewed-by. Christian König <christian.koenig@amd.com>
-> Thanks!
->
->> CC: stable?
-> Yes, I think we should. 6.6 and 6.10
->
->> Let me know when you need someone to push it to drm-misc-fixes.
-> Anytime is good, no rush for this one.
+Am Dienstag, 10. September 2024, 17:07:57 CEST schrieb Heiko St=FCbner:
+> Am Freitag, 6. September 2024, 03:17:42 CEST schrieb Cristian Ciocaltea:
+> > The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
+> > Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
+> > Samsung IP block.
+> >=20
+> > Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
+> > without audio, CEC or any of the HDMI 2.1 specific features.
+> >=20
+> > Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
+> > Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
+> > Tested-by: Heiko Stuebner <heiko@sntech.de>
+> > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>=20
+> I had switched from the v3 to this v6 in my playground-kernel today,
+> with v3 I've never seen those, but now with v6 I have gotten multiple
+> times:
+>=20
+> [  805.730608] Internal error: synchronous external abort: 00000000960000=
+10 [#1] PREEMPT SMP
+> [  805.739764] Modules linked in: snd_soc_simple_card crct10dif_ce snd_so=
+c_simple_card_utils panthor drm_gpuvm drm_exec fuse
+> [  805.752031] CPU: 3 UID: 0 PID: 775 Comm: Xorg Not tainted 6.11.0-rc7-0=
+0099-g459302f1f908-dirty #934
+> [  805.762143] Hardware name: Theobroma Systems RK3588-Q7 SoM on Haikou d=
+evkit (DT)
+> [  805.770407] pstate: 204000c9 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYP=
+E=3D--)
+> [  805.778186] pc : regmap_mmio_read32le+0x8/0x20
+> [  805.783155] lr : regmap_mmio_read+0x44/0x70
+> [  805.787828] sp : ffff80008293b830
+> [  805.791516] x29: ffff80008293b830 x28: ffff80008293bce8 x27: ffff0001f=
+20ab080
+> [  805.799495] x26: ffff800081139500 x25: 0000000000000000 x24: 000000000=
+0000010
+> [  805.807472] x23: 0000000000000000 x22: ffff0001f5a4b400 x21: ffff80008=
+293b8c4
+> [  805.815450] x20: 0000000000000968 x19: ffff0001f5a27a80 x18: 000000000=
+0000070
+> [  805.823428] x17: 0002441400000005 x16: 000004650441043c x15: 043800000=
+8980804
+> [  805.831406] x14: 07d8089807800780 x13: 0438000008980804 x12: ffff80008=
+1133630
+> [  805.839384] x11: 0002441400000005 x10: 000004650441043c x9 : ffff80008=
+1a59000
+> [  805.847361] x8 : 07d8089807800780 x7 : 0000000000000000 x6 : ffff0001f=
+5b453c0
+> [  805.855339] x5 : ffff800080750dc0 x4 : 0000000000000968 x3 : 000000000=
+0000968
+> [  805.863316] x2 : ffff800080751520 x1 : 0000000000000968 x0 : ffff80008=
+3b20968
+> [  805.871294] Call trace:
+> [  805.874012]  regmap_mmio_read32le+0x8/0x20
+> [  805.878588]  _regmap_bus_reg_read+0x6c/0xac
+> [  805.883262]  _regmap_read+0x60/0xd8
+> [  805.887159]  _regmap_update_bits+0xf4/0x140
+> [  805.891832]  regmap_update_bits_base+0x64/0xa0
+> [  805.896797]  dw_hdmi_qp_bridge_atomic_enable+0x134/0x220
+> [  805.902734]  drm_atomic_bridge_chain_enable+0x54/0xc8
+> [  805.908380]  drm_atomic_helper_commit_modeset_enables+0x194/0x280
+> [  805.915190]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+> [  805.921125]  commit_tail+0xa0/0x1a0
+> [  805.925021]  drm_atomic_helper_commit+0x17c/0x1b0
+> [  805.930276]  drm_atomic_commit+0xb8/0x100
+> [  805.934754]  drm_atomic_connector_commit_dpms+0xe0/0x110
+> [  805.940690]  drm_mode_obj_set_property_ioctl+0x1c0/0x420
+> [  805.946626]  drm_connector_property_set_ioctl+0x3c/0x68
+> [  805.952465]  drm_ioctl_kernel+0xc0/0x130
+> [  805.956846]  drm_ioctl+0x214/0x4a0
+> [  805.960643]  __arm64_sys_ioctl+0xac/0xf8
+> [  805.965025]  invoke_syscall+0x48/0x104
+> [  805.969214]  el0_svc_common.constprop.0+0x40/0xe0
+> [  805.974470]  do_el0_svc+0x1c/0x28
+> [  805.978171]  el0_svc+0x34/0xe0
+> [  805.981582]  el0t_64_sync_handler+0x120/0x12c
+> [  805.986449]  el0t_64_sync+0x190/0x194
+> [  805.990540] Code: d503201f d503201f f9400000 8b214000 (b9400000)
+>=20
+> I guess that might be some clocking issue?
 
-Done.
+=46orgot to add, this happens when the display has blanked and then is
+supposed to unblank again.
 
-Christian.
+Heiko
 
->
->> Regards,
->> Christian.
->>
->>> Regards,
->>>
->>> Tvrtko
 
