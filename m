@@ -2,73 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578509735E8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 13:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FAC973614
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 13:19:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D10C10E790;
-	Tue, 10 Sep 2024 11:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 536EF10E797;
+	Tue, 10 Sep 2024 11:19:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="h1euPbz/";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wAZgJ9Dw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D86C10E790
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 11:07:08 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8128C40E0285; 
- Tue, 10 Sep 2024 11:07:06 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id qrGWVqrTr6ZO; Tue, 10 Sep 2024 11:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1725966422; bh=q7/7i/hleCHmeIelV+J/jkKAUyMAdVAI7TwF0D/iof4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h1euPbz/eINJg26bo1VdAuCGL3YtT4WXke/s/QTbdUBNuaw4tN4CZ2Tmwg7p4jGrx
- XOrZ1Xbpw3qhbn77G5Igcv5fYT+S+6uiE5sTP8nx+qOoSK22Y9s1QGQhszVhQTlqvZ
- XeWOGIsqIMyMmgKYujxQO/9aerou17O6fY6rmGm6fQEm81kDLJ8ub8rUWE/lR8tYiu
- qsuFZQ4h4iVZKFTgoPnTnYfPQQajXawwBusQNj+z9DEprwXor4oNiT5trlmEzjVqXO
- AJfJQu5usxw27FxDDFy2XRTRQSfguyIOC3VK+g1jkrGnKkvo3mud8NlPuLkkutJ6yN
- H183fcPIn54bti3UYfOsqDvQXv21LJsuvhtySTvjhXO/vCc6T9ypjtTf79gjYbvea4
- WN41/pCIA+Sutaigak2gTF7//QjGVuP8D35AuD2TyJ83/la7RGt1MhawAV7paR2f6Z
- wlYaCF8+xUWqsXEKTcJ6+e9Dxae+rMN79LkY17PpWBCZG9TjqdXa5LeRLsLqobHXYQ
- S/DZjwPJsC/1cLTT9SQ3CGgqs45SE7Gd/c4KKJhibWXGjCd4MJL17ovU5O0pj6nzs1
- GXilzgnSdSObcBPWsf2F5ugfx+owoNuu6uxoj8iQfRgKyEU1rdJHfArG4Y1zDxFeJQ
- rllAmw1rHXWh9frbC1OqTDQo=
-Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C421740E0081;
- Tue, 10 Sep 2024 11:06:47 +0000 (UTC)
-Date: Tue, 10 Sep 2024 13:06:42 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Cc: linux-stm32@st-md-mailman.stormreply.com,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to
- `clk_hw_unregister'
-Message-ID: <20240910110642.GAZuAoQnZqcr98x5en@fat_crate.local>
-References: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
- <544a633e-de53-493d-9c29-de8ff52630da@foss.st.com>
- <20240909084506.GBZt61kqqGVUTqjKc4@fat_crate.local>
- <0e9018d0-c49f-4dac-aa0f-b05504f9c6f6@foss.st.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1EE10E797
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 11:19:42 +0000 (UTC)
+Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BBABC8A;
+ Tue, 10 Sep 2024 13:18:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1725967104;
+ bh=NITUG13tg6OeRjUeeRV7q4yVc5SHqZar4SuO8+29cuA=;
+ h=From:Subject:Date:To:Cc:From;
+ b=wAZgJ9Dwzdy0Cy+BVVn5PYr7PFtBpzLdqbkdrdKJQzvzuIJMUSUkBJLjYAwUbDFYC
+ vVUGAbxYZFVmcpGoKvthtIWHC/WIbsD2w3kPyOgL/xeYGD5MJgQZLrDfZWX4omnYEl
+ d8UckE94fKz9ZYFpWYejNYBEGTlmdou1Afcw/3co=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 0/3] drm: xlnx: zynqmp: Add DP audio support
+Date: Tue, 10 Sep 2024 14:19:18 +0300
+Message-Id: <20240910-xilinx-dp-audio-v3-0-75560793f4d0@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0e9018d0-c49f-4dac-aa0f-b05504f9c6f6@foss.st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADcr4GYC/3XNQQ7CIBCF4as0rMUU2lBx5T2MiykDdhKFBpTUN
+ L27tCsTdfm/ZL6ZWbKRbGLHambRZkoUfIlmVzEzgL9aTliayVq2dSMkn+hGfuI4cngiBd6qA6C
+ QTjvVsnI1Ruto2sTzpfRA6RHia3uQxbr+t7LgNVdamU47MH2vT4QWUvB9gIh7E+5sJbP8ZPQ3I
+ wujJSpsoDPQ2R/Msixv8Z7ofvwAAAA=
+To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>, 
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3325;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=NITUG13tg6OeRjUeeRV7q4yVc5SHqZar4SuO8+29cuA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBm4CtFkj2OEzt5vjCDAw7ixveNwniJGPXDDCDjG
+ 3q9ejfqVZyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZuArRQAKCRD6PaqMvJYe
+ 9cOBEACK/WWJMncR8gV/veFBv7cUYc7po2u4ALuJ/rDNhCEQjnerX31CWZOFsBTiRQpIKzWSFYP
+ vGZCwxwunaszhccgL05hhkYN8v7dKgpuLgFJicmjLq/OpE3KJoyDSIwwtcyptzMPPAuV7nz3976
+ WamvaCeWoB/J9B1cFqan2GK09+XCW8XY2+DCFLEYStNoYm/4ZyzMMbH1b1AIrtn8nfEfwd3A2AO
+ 0TL4YHSMJcuyOwXqf51pu47u/vrg0FESIO9SXowYExsaM4sfOZICfPVgVnQfpZk9MDCZwPubmUS
+ yGXQcRrHADZcKop3zIATQszwQtgBxuQiXRkDSplVhB7pISQLa1okZkWQYKyJ5nnsC7nvFQsqDTY
+ 1f2nG0Q5TNoXTgzzHaxUlrCuqG0NIJavKf8jmt5r+e35c62Pj0w1Hj1Bg7yVS9ZOwTzhPRylJqJ
+ v15kk+z8IT0ES9nSzSXTSOSTlR9S/CIEyl+K4yNyIn1vNJLmrPQgt7DjZZ2TyYEmgFtjtwMIato
+ HVgcOF+sQ/qv8a+9Qgr0+bf6OnU24eC7FUK3oC6EvxONdvRuBUgsqyonWH589Cgnp+O5NCaAI2I
+ OObfIKVT0fHCtVrj8DyIIOm5oESeONwDRenPvW0XLF6XYnAtsoKN3bi2JRLWqvLKd1BAepeYRdj
+ Bf9RdgmrHaZbaHA==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,23 +87,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 10, 2024 at 12:48:49PM +0200, Raphael Gallais-Pou wrote:
-> Unless I am mistaken, the link you provided refers to a PowerPC linker error:
+Add DisplayPort audio support for Xilinx ZynqMP platforms.
 
-Ah, the kernel test robot is doing other architectures now too, sorry about
-that. In any case, I am triggering it on x86 too.
+This depends on patch adding cyclic DMA mode for DPDMA driver:
 
-> What do you mean by 'sending it to Linus' ? If you meant to do a pull request,
-> then no. This patch is already in the drm-misc tree, which means it will keep
-> its usual pace of merging with the rest of the drm-misc tree.
+https://lore.kernel.org/all/20240228042124.3074044-3-vishal.sagar@amd.com/
 
-That's ok - I'll simply disable CONFIG_DRM_STM from building in my randconfigs
-for the time being.
+If that patch is missing, starting an audio playback will fail with an
+ASoC error. The cyclic DMA patch has recently been accepted to the DMA
+tree.
 
-Thx.
+The current DT is, for some reason, missing the DMA channels for the
+audio. This series adds that to the bindings and the dts file, but to
+support older dtb files without the audio DMA, the driver will not fail
+if the audio DMA is missing, but will just mark the audio support as
+disabled.
 
+To: Lars-Peter Clausen <lars@metafoo.de>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Michal Simek <michal.simek@amd.com>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: Vishal Sagar <vishal.sagar@amd.com>
+Cc: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Péter Ujfalusi <peter.ujfalusi@gmail.com>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+Changes in v3:
+- Expand the description in "dt-bindings: display/xlnx/zynqmp-dpsub: Add
+  audio DMAs" to be more clear about the DT binding change.
+- Rebased on top of current upstream
+- Link to v2: https://lore.kernel.org/r/20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com
+
+Changes in v2:
+- Fix a missing double-quote in the DT binding
+- Link to v1: https://lore.kernel.org/r/20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com
+
+---
+Tomi Valkeinen (3):
+      dt-bindings: display/xlnx/zynqmp-dpsub: Add audio DMAs
+      arm64: dts: zynqmp: Add DMA for DP audio
+      drm: xlnx: zynqmp_dpsub: Add DP audio support
+
+ .../bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml   |  10 +-
+ arch/arm64/boot/dts/xilinx/zynqmp.dtsi             |   7 +-
+ drivers/gpu/drm/xlnx/Kconfig                       |   9 +
+ drivers/gpu/drm/xlnx/Makefile                      |   1 +
+ drivers/gpu/drm/xlnx/zynqmp_disp.c                 |  48 ---
+ drivers/gpu/drm/xlnx/zynqmp_disp_regs.h            |   7 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  54 ++-
+ drivers/gpu/drm/xlnx/zynqmp_dp.h                   |   7 +
+ drivers/gpu/drm/xlnx/zynqmp_dp_audio.c             | 461 +++++++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |  39 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h                |  15 +-
+ 11 files changed, 553 insertions(+), 105 deletions(-)
+---
+base-commit: 431c1646e1f86b949fa3685efc50b660a364c2b6
+change-id: 20240312-xilinx-dp-audio-468ad12f9f64
+
+Best regards,
 -- 
-Regards/Gruss,
-    Boris.
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-https://people.kernel.org/tglx/notes-about-netiquette
