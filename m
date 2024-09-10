@@ -2,66 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567619736CF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 14:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8641F9736F1
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 14:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96D8810E7A9;
-	Tue, 10 Sep 2024 12:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4EE18999E;
+	Tue, 10 Sep 2024 12:16:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GJZyv6xw";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="MIjHtFZf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5265710E7A9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 12:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725969983;
- bh=5G2bEKkJcecYb9XE+wS/gPtywdeG0cO3XP6VeQpEfNo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GJZyv6xw5Qm7FPXTcKy0CZ7+P31lxGKdzJcpjFJPgTbvz4ctuZi6LXPv6hzyvKg4n
- Jb5Nc4KywTamuEiuyQHqZYOQ7Ur7YsmP/0SKqPvJF5jigNlEUtSOaVZFH0/YY4IUJK
- 0kXFU9420xXNqGVh68ycI581XIbrILDmOuHtxMRPvF/Nq3Ng35GRisJy+TK9/Pqn4n
- lWFYhNEufGVSZg0SdrZms6Q5TL8bnpbfXIRjARj/fhS73YZlkDpWEoBKvfZfzb2aDj
- PbaTMBPUfJWI2gKCZatxzuLykuSc7Ac+8yieHYvGc4rejfHxRMXRYSb3fWDl3EqjOS
- PUZuVZIyCcPRw==
-Received: from [192.168.1.90] (unknown [188.27.55.48])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D6EC017E10C7;
- Tue, 10 Sep 2024 14:06:22 +0200 (CEST)
-Message-ID: <de3a907a-bafe-4cd0-a0e4-264015151e86@collabora.com>
-Date: Tue, 10 Sep 2024 15:06:22 +0300
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 549378999E
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 12:16:14 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48A81HtJ011709;
+ Tue, 10 Sep 2024 14:15:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ ioOMx4SZoDn6Y4I5z6mPsXYFUS0WP23smSQRZ2j69ro=; b=MIjHtFZft5ESF+0r
+ WnHUXVLSZ+bXJzkMdpgXmCowdh5tFCDNW2D4gy5M/M5vtS9fTS4qif1h7shoVBsz
+ t0kx9y9rIBfbYeTtl5yMDVUvac5S1TmwbA7fosczroQZm4286xfzc0UTkvypxVUh
+ MNCxDHhoegcTsyH9jBiisDzpOk6ATt+Y5kagb/Gie/k//1jt/oTIoL6eP2KbvNDj
+ sLsuGGRcrOrmnBFOJ8F0LINlONwnu4R3Wp9r6j0ESzNebYBT4oJR2ZWlv3OLS6VN
+ q/1kLQ5klo8MPT65lvvhra1Bg7zlxkqYva6UbFSdxhNc7xd+kX9O1o2xMHCqLBd/
+ sFQaAQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41gy7s9u01-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Sep 2024 14:15:58 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id BE71A40045;
+ Tue, 10 Sep 2024 14:14:41 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EC59B2681BC;
+ Tue, 10 Sep 2024 14:13:26 +0200 (CEST)
+Received: from [10.252.24.111] (10.252.24.111) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 10 Sep
+ 2024 14:13:25 +0200
+Message-ID: <2f5b8627-60c0-4528-83fb-25d5af324516@foss.st.com>
+Date: Tue, 10 Sep 2024 14:13:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
- Algea Cao <algea.cao@rock-chips.com>
-References: <20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com>
- <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
- <2241188.nHSHbJBgIm@diego>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: Re: dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to
+ `clk_hw_unregister'
+To: Maxime Ripard <mripard@kernel.org>
+CC: Borislav Petkov <bp@alien8.de>, <linux-stm32@st-md-mailman.stormreply.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
+ <544a633e-de53-493d-9c29-de8ff52630da@foss.st.com>
+ <20240909084506.GBZt61kqqGVUTqjKc4@fat_crate.local>
+ <0e9018d0-c49f-4dac-aa0f-b05504f9c6f6@foss.st.com>
+ <20240910-gleaming-boa-of-drama-d0a4db@houat>
 Content-Language: en-US
-In-Reply-To: <2241188.nHSHbJBgIm@diego>
-Content-Type: text/plain; charset=UTF-8
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20240910-gleaming-boa-of-drama-d0a4db@houat>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.252.24.111]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,58 +89,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/10/24 2:27 PM, Heiko Stübner wrote:
-> Am Freitag, 6. September 2024, 03:17:42 CEST schrieb Cristian Ciocaltea:
->> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
->> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
->> Samsung IP block.
+
+On 9/10/24 13:59, Maxime Ripard wrote:
+> On Tue, Sep 10, 2024 at 12:48:49PM GMT, Raphael Gallais-Pou wrote:
+>> On 9/9/24 10:45, Borislav Petkov wrote:
+>>> On Mon, Sep 09, 2024 at 08:57:57AM +0200, Raphael Gallais-Pou wrote:
+>>>> Arnd Bergmann sent a patch regarding this issue on x86 that I merged several
+>>>> weeks ago.
+>>>>
+>>>> https://lore.kernel.org/lkml/20240719075454.3595358-1-arnd@kernel.org/
+>>>> https://lore.kernel.org/all/c3d0757a-07c0-4f83-9f06-c3ad205aa1e9@foss.st.com/
+>>> Thanks.
+>>>
+>>>> Now, I'm not familiar with PowerPC architecture and toolchains, but I think
+>>>> this patch should fix your problem.  Do you have the above fixup in your
+>>>> tree ? If not please try it.
+>>> Not PowerPC - it is an x86 build. I do random config builds as part of build
+>>> testing and when a driver depends on COMPILE_TEST, it does gets built in some
+>>> .configs. So some may fail, as in this case.
+>> Unless I am mistaken, the link you provided refers to a PowerPC linker error:
 >>
->> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
->> without audio, CEC or any of the HDMI 2.1 specific features.
+>> [...]
 >>
->> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
->> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
->> Tested-by: Heiko Stuebner <heiko@sntech.de>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  drivers/gpu/drm/rockchip/Kconfig               |   8 +
->>  drivers/gpu/drm/rockchip/Makefile              |   1 +
->>  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 437 +++++++++++++++++++++++++
->>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c    |   2 +
->>  drivers/gpu/drm/rockchip/rockchip_drm_drv.h    |   1 +
->>  5 files changed, 449 insertions(+)
+>> compiler: powerpc-linux-gcc (GCC) 14.1.0
 >>
->> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
->> index 7df875e38517..4da7cef24f57 100644
->> --- a/drivers/gpu/drm/rockchip/Kconfig
->> +++ b/drivers/gpu/drm/rockchip/Kconfig
->> @@ -8,6 +8,7 @@ config DRM_ROCKCHIP
->>  	select VIDEOMODE_HELPERS
->>  	select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
->>  	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
->> +	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
->>  	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
->>  	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
->>  	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
->> @@ -63,6 +64,13 @@ config ROCKCHIP_DW_HDMI
->>  	  enable HDMI on RK3288 or RK3399 based SoC, you should select
->>  	  this option.
->>  
->> +config ROCKCHIP_DW_HDMI_QP
->> +	bool "Rockchip specific extensions for Synopsys DW HDMI QP"
-> 
-> this needs a
-> +       select DRM_BRIDGE_CONNECTOR
-> 
-> now, otherwise it can't link the drm_bridge_connector_init function
+>> [...]
+>>    powerpc-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_remove':
+>>    dw_mipi_dsi-stm.c:(.text+0x664): undefined reference to `of_clk_del_provider'
+>>>> powerpc-linux-ld: dw_mipi_dsi-stm.c:(.text+0x66c): undefined reference to `clk_hw_unregister'    powerpc-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_probe':
+>>    dw_mipi_dsi-stm.c:(.text+0x98c): undefined reference to `clk_hw_register'
+>>
+>>> So I think you should send that patch to Linus now so that such randconfig
+>>> builds do not fail anymore.
+>> What do you mean by 'sending it to Linus' ? If you meant to do a pull request,
+>> then no. This patch is already in the drm-misc tree, which means it will keep
+>> its usual pace of merging with the rest of the drm-misc tree.
+>>
+>> For more information about drm-misc tree:
+>> https://drm.pages.freedesktop.org/maintainer-tools/repositories/drm-misc.html#merge-timeline
+> That's not entirely correct. This should have been merged in
+> drm-misc-fixes to begin with. I've cherry-picked the patch and pushed
+> it.
 
-That's because of a recent change [1] which I was aware of, but didn't
-actually follow when that got merged.  This series is still based on
-v6.11-rc1, hence we should probably switch to linux-next starting with the
-next revision.
+Hi Maxime,
 
-Thanks,
-Cristian
+Oops I stand corrected, I effectively should have thought about sending this to
+drm-misc-fixes.
+Thank you for doing this.
 
-[1] https://lore.kernel.org/dri-devel/20240715-drm-bridge-connector-fix-hdmi-reset-v4-4-61e6417cfd99@linaro.org/
+Regards,
 
+Raphaël
+
+>
+> Maxime
