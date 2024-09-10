@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42847973936
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 15:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3CE973A4C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 16:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 471A710E80A;
-	Tue, 10 Sep 2024 13:59:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91BB910E830;
+	Tue, 10 Sep 2024 14:45:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="RuN7+7yE";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ThXfbiuT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1AF110E80A;
- Tue, 10 Sep 2024 13:59:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Cc:To:Subject:Message-ID:From:Content-Transfer-Encoding:
- Content-Type:Date:MIME-Version:Sender:Reply-To:Content-ID:Content-Description
- :Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=/srlUpi7y9C3zrteMvJN9inZYqF69BwthYbBUGYq088=; b=RuN7+7yEO6iA2xZtQqKCqwMf/W
- CzXkDgQkK8/owv1+kkaKYp+BgaMhCVyza16NLq39BjZoh8pZsrrQtxRqMeFPaeM0TADNHX/Ke9BFN
- EDBkWmxcVLA8AAXnlVGxhsEb+8T8olzUCjOOc+ldFRuMJ+PTfG+CK5bIbr0Z0nMXyrdWgVHepnulp
- n5W5uh2DiXDN+ibf9rRPHt1l+dCmQ6DL0zzewKZq/fKDaOOpRIZBS02r4vFBlLfO/QD7aXkq9H1aQ
- +CBINL77mrVrUOUdmsXCV6dHn63SL9lmwG4ic9MKdNdN9FmTQUEAzmj040CpZDFlNSbAMHP14jU7Y
- lxs1DS1w==;
-Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=rainloop.kapsi.fi)
- by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <jyri.sarha@iki.fi>) id 1so1OY-0078RP-0q;
- Tue, 10 Sep 2024 16:59:01 +0300
+X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Sep 2024 14:25:33 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C364810E825;
+ Tue, 10 Sep 2024 14:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=rHHxa53jnkhjtd37FzahttNapP2RZOmkSFY37zgUFPs=; b=T
+ hXfbiuTIV+cBYLSoIelXDS+q3sG2kWK4DSHJ8WbD2YjvF9d53LCIkh3G31+at+fh
+ HI8le8CIbU3PAqfGnWgSyka16WU+5a+9x7fHl8YT0wKeMPMV7fAmP+m4G2PH7h47
+ Ccwo9gbcQ+BKFSs4vAfHdhUtlY8gQqFcmWaHcNzcZw=
+Received: from zhanghe9702$163.com ( [183.14.214.29] ) by
+ ajax-webmail-wmsvr-40-130 (Coremail) ; Tue, 10 Sep 2024 22:10:04 +0800
+ (CST)
+X-Originating-IP: [183.14.214.29]
+Date: Tue, 10 Sep 2024 22:10:04 +0800 (CST)
+From: =?GBK?B?1cW60w==?= <zhanghe9702@163.com>
+To: "Andi Shyti" <andi.shyti@linux.intel.com>
+Cc: trivial@kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re:Re: [PATCH] drm/i915/gt: Fixed an typo
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <ZuAQUGMTa4btT-ga@ashyti-mobl2.lan>
+References: <20240907092443.81661-1-zhanghe9702@163.com>
+ <ZuAQUGMTa4btT-ga@ashyti-mobl2.lan>
+X-NTES-SC: AL_Qu2ZB/WcuEwr4ieYZekXnk4bgeY3XMS5sv4k34FUOZE0mCX13joKQ2B5DGXa7vujOSumrweXeQVp0tZ3Y5tEZLKczuAmEGEXsbrKNGFQLG11
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_182745_367905845.1725977404708"
 MIME-Version: 1.0
-Date: Tue, 10 Sep 2024 13:58:59 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: jyri.sarha@iki.fi
-Message-ID: <ce2520bb554e9682445f9700f3cf929045fcd017@iki.fi>
-Subject: Re: [PATCH v4 42/80] drm/tilcdc: Run DRM default client setup
-To: "Thomas Zimmermann" <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, jfalempe@redhat.com, javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, "Jyri 
- Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>
-X-SA-Exim-Connect-IP: 91.232.154.200
-X-SA-Exim-Mail-From: jyri.sarha@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Message-ID: <21386152.c170.191dc452525.Coremail.zhanghe9702@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: _____wD3X7M_U+BmaaN0AA--.5335W
+X-CM-SenderInfo: x2kd0wlkhzliqs6rljoofrz/1tbiDxxWamVOGkupSQAEsx
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Mailman-Approved-At: Tue, 10 Sep 2024 14:45:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +64,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-September 9, 2024 at 2:30 PM, "Thomas Zimmermann" <tzimmermann@suse.de ma=
-ilto:tzimmermann@suse.de?to=3D%22Thomas%20Zimmermann%22%20%3Ctzimmermann%=
-40suse.de%3E > wrote:
+------=_Part_182745_367905845.1725977404708
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
->=20
->=20Call drm_client_setup_with_color_mode() to run the kernel's default
-> client setup for DRM. Set fbdev_probe in struct drm_driver, so that
-> the client setup can start the common fbdev client.
->=20
->=20v3:
-> - add DRM_FBDEV_DMA_DRIVER_OPS macro
->=20
->=20Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
->=20
+OiksIGkgdGhpbmsgeW91IG1lYW4gc2hvdWxkIHVzZSBDUFUgY29sdW1uIGhlYWQ/IGJlY2F1c2Ug
+dGhlIHJlZyB2YWx1ZSBqdXN0IHJlZmxlY3QgQ1BVIHJlbGF0ZWQgaW5mb3JtYXRpb24KCgoKCgoK
+CgoKCgoKCgoKCgpBdCAyMDI0LTA5LTEwIDE3OjI0OjMyLCAiQW5kaSBTaHl0aSIgPGFuZGkuc2h5
+dGlAbGludXguaW50ZWwuY29tPiB3cm90ZToKPkhpIFpoYW5naGUsCj4KPlRoYW5rcyBmb3IgeW91
+ciBwYXRjaC4gUGxlYXNlIG5leHQgdGltZSBjaGVjayBmcm9tCj5nZXRfbWFpbnRhaW5lcnMucGwg
+dGhlIG1haWxpbmcgbGlzdHMgdGhhdCBuZWVkIHRvIGJlIGluY2x1ZGVkIGluCj55b3VyIHBhdGNo
+ZXMuCj4KPkluIHRoaXMgY2FzZSB5b3Ugc2hvdWxkIGhhdmUgaW5jbHVkZWQgYXQgbGVhc3QgdGhl
+Cj5pbnRlbC1nZnggPGludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+IGFuZCB0aGUKPmRy
+aS1kZXZlbCA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gbWFpbGluZyBsaXN0cy4K
+Pgo+T24gU2F0LCBTZXAgMDcsIDIwMjQgYXQgMDU6MjQ6NDNQTSArMDgwMCwgemhhbmdoZTk3MDIg
+d3JvdGU6Cj4+IGNvbHVtbiBoZWFkZXIgc2hvdWxkIGJlIEdQVSwgbm90IENQVQo+PiAKPj4gU2ln
+bmVkLW9mZi1ieTogemhhbmdoZTk3MDIgPHpoYW5naGU5NzAyQDE2My5jb20+Cj4KPkRvIHlvdSBy
+ZWFsbHkgd2FudCB5b3VyIG5hbWUgdG8gYXBwZWFyIGFzIHpoYW5naGU5NzAyPyBJZiB5b3UgZ2l0
+Cj5sb2cgdGhlIGxpbnV4IGRpcmVjdG9yeSB5b3Ugd2lsbCBzZSB0aGF0IHBlb3BsZSBub3JtYWxs
+eSB1c2UKPnRoZSAiTmFtZSBTdXJuYW1lIDxlbWFpbD4iIHN0eWxlLiBBcyB5b3Ugd2lzaC4KPgo+
+PiAtLS0KPj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2RlYnVnZnMuYyB8
+IDIgKy0KPj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+
+PiAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2Rl
+YnVnZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2RlYnVnZnMuYwo+
+PiBpbmRleCA4ZDA4YjM4ODc0ZWYuLmI2MzVhYTI4MjBkOSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3RfcG1fZGVidWdmcy5jCj4+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2RlYnVnZnMuYwo+PiBAQCAtNDMxLDcgKzQzMSw3
+IEBAIHN0YXRpYyBpbnQgbGxjX3Nob3coc3RydWN0IHNlcV9maWxlICptLCB2b2lkICpkYXRhKQo+
+PiAgCQltYXhfZ3B1X2ZyZXEgLz0gR0VOOV9GUkVRX1NDQUxFUjsKPj4gIAl9Cj4+ICAKPj4gLQlz
+ZXFfcHV0cyhtLCAiR1BVIGZyZXEgKE1IeilcdEVmZmVjdGl2ZSBDUFUgZnJlcSAoTUh6KVx0RWZm
+ZWN0aXZlIFJpbmcgZnJlcSAoTUh6KVxuIik7Cj4+ICsJc2VxX3B1dHMobSwgIkdQVSBmcmVxIChN
+SHopXHRFZmZlY3RpdmUgR1BVIGZyZXEgKE1IeilcdEVmZmVjdGl2ZSBSaW5nIGZyZXEgKE1Ieilc
+biIpOwo+Cj5UaGlzIGlzIGNvcnJlY3Q6Cj4KPlJldmlld2VkLWJ5OiBBbmRpIFNoeXRpIDxhbmRp
+LnNoeXRpQGxpbnV4LmludGVsLmNvbT4KPgo+VGhhbmtzLAo+QW5kaQo=
+------=_Part_182745_367905845.1725977404708
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-tilcdc=20patch looks identical to the previous version, but here is my ac=
-k again:
+PGRpdiBkYXRhLW50ZXM9Im50ZXNfbWFpbF9ib2R5X3Jvb3QiIHN0eWxlPSJsaW5lLWhlaWdodDox
+Ljc7Y29sb3I6IzAwMDAwMDtmb250LXNpemU6MTRweDtmb250LWZhbWlseTpBcmlhbCI+PGRpdiBp
+ZD0ic3BuRWRpdG9yQ29udGVudCI+PHAgc3R5bGU9Im1hcmdpbjogMDsiPjopLCBpIHRoaW5rIHlv
+dSBtZWFuIHNob3VsZCB1c2UgQ1BVIGNvbHVtbiBoZWFkPyBiZWNhdXNlIHRoZSByZWcgdmFsdWUg
+anVzdCByZWZsZWN0IENQVSByZWxhdGVkIGluZm9ybWF0aW9uPC9wPjxwIHN0eWxlPSJtYXJnaW46
+IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJn
+aW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjwvZGl2PjxkaXYg
+c3R5bGU9InBvc2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PC9kaXY+PGRpdiBpZD0iZGl2TmV0ZWFz
+ZU1haWxDYXJkIj48L2Rpdj48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cHJlPjxicj5B
+dCAyMDI0LTA5LTEwIDE3OjI0OjMyLCAiQW5kaSBTaHl0aSIgJmx0O2FuZGkuc2h5dGlAbGludXgu
+aW50ZWwuY29tJmd0OyB3cm90ZToKJmd0O0hpIFpoYW5naGUsCiZndDsKJmd0O1RoYW5rcyBmb3Ig
+eW91ciBwYXRjaC4gUGxlYXNlIG5leHQgdGltZSBjaGVjayBmcm9tCiZndDtnZXRfbWFpbnRhaW5l
+cnMucGwgdGhlIG1haWxpbmcgbGlzdHMgdGhhdCBuZWVkIHRvIGJlIGluY2x1ZGVkIGluCiZndDt5
+b3VyIHBhdGNoZXMuCiZndDsKJmd0O0luIHRoaXMgY2FzZSB5b3Ugc2hvdWxkIGhhdmUgaW5jbHVk
+ZWQgYXQgbGVhc3QgdGhlCiZndDtpbnRlbC1nZnggJmx0O2ludGVsLWdmeEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcmZ3Q7IGFuZCB0aGUKJmd0O2RyaS1kZXZlbCAmbHQ7ZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZyZndDsgbWFpbGluZyBsaXN0cy4KJmd0OwomZ3Q7T24gU2F0LCBTZXAgMDcs
+IDIwMjQgYXQgMDU6MjQ6NDNQTSArMDgwMCwgemhhbmdoZTk3MDIgd3JvdGU6CiZndDsmZ3Q7IGNv
+bHVtbiBoZWFkZXIgc2hvdWxkIGJlIEdQVSwgbm90IENQVQomZ3Q7Jmd0OyAKJmd0OyZndDsgU2ln
+bmVkLW9mZi1ieTogemhhbmdoZTk3MDIgJmx0O3poYW5naGU5NzAyQDE2My5jb20mZ3Q7CiZndDsK
+Jmd0O0RvIHlvdSByZWFsbHkgd2FudCB5b3VyIG5hbWUgdG8gYXBwZWFyIGFzIHpoYW5naGU5NzAy
+PyBJZiB5b3UgZ2l0CiZndDtsb2cgdGhlIGxpbnV4IGRpcmVjdG9yeSB5b3Ugd2lsbCBzZSB0aGF0
+IHBlb3BsZSBub3JtYWxseSB1c2UKJmd0O3RoZSAiTmFtZSBTdXJuYW1lICZsdDtlbWFpbCZndDsi
+IHN0eWxlLiBBcyB5b3Ugd2lzaC4KJmd0OwomZ3Q7Jmd0OyAtLS0KJmd0OyZndDsgIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2RlYnVnZnMuYyB8IDIgKy0KJmd0OyZndDsgIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQomZ3Q7Jmd0OyAKJmd0
+OyZndDsgZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2Rl
+YnVnZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2RlYnVnZnMuYwom
+Z3Q7Jmd0OyBpbmRleCA4ZDA4YjM4ODc0ZWYuLmI2MzVhYTI4MjBkOSAxMDA2NDQKJmd0OyZndDsg
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3RfcG1fZGVidWdmcy5jCiZndDsm
+Z3Q7ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtX2RlYnVnZnMuYwom
+Z3Q7Jmd0OyBAQCAtNDMxLDcgKzQzMSw3IEBAIHN0YXRpYyBpbnQgbGxjX3Nob3coc3RydWN0IHNl
+cV9maWxlICptLCB2b2lkICpkYXRhKQomZ3Q7Jmd0OyAgCQltYXhfZ3B1X2ZyZXEgLz0gR0VOOV9G
+UkVRX1NDQUxFUjsKJmd0OyZndDsgIAl9CiZndDsmZ3Q7ICAKJmd0OyZndDsgLQlzZXFfcHV0cyht
+LCAiR1BVIGZyZXEgKE1IeilcdEVmZmVjdGl2ZSBDUFUgZnJlcSAoTUh6KVx0RWZmZWN0aXZlIFJp
+bmcgZnJlcSAoTUh6KVxuIik7CiZndDsmZ3Q7ICsJc2VxX3B1dHMobSwgIkdQVSBmcmVxIChNSHop
+XHRFZmZlY3RpdmUgR1BVIGZyZXEgKE1IeilcdEVmZmVjdGl2ZSBSaW5nIGZyZXEgKE1IeilcbiIp
+OwomZ3Q7CiZndDtUaGlzIGlzIGNvcnJlY3Q6CiZndDsKJmd0O1Jldmlld2VkLWJ5OiBBbmRpIFNo
+eXRpICZsdDthbmRpLnNoeXRpQGxpbnV4LmludGVsLmNvbSZndDsKJmd0OwomZ3Q7VGhhbmtzLAom
+Z3Q7QW5kaQo8L3ByZT48L2Rpdj4=
+------=_Part_182745_367905845.1725977404708--
 
-Acked-by: Jyri Sarha <jyri.sarha@iki.fi>
-
-Best regards,
-Jyri
-
->=20
->=20---
-> drivers/gpu/drm/tilcdc/tilcdc_drv.c | 5 ++++-
-> 1 file changed, 4 insertions(+), 1 deletion(-)
->=20
->=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/ti=
-lcdc/tilcdc_drv.c
-> index cd5eefa06060..8c9f3705aa6c 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -14,6 +14,7 @@
-> #include <linux/pm_runtime.h>
->=20
->=20#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_client_setup.h>
-> #include <drm/drm_debugfs.h>
-> #include <drm/drm_drv.h>
-> #include <drm/drm_fbdev_dma.h>
-> @@ -374,7 +375,8 @@ static int tilcdc_init(const struct drm_driver *ddr=
-v, struct device *dev)
-> goto init_failed;
-> priv->is_registered =3D true;
->=20
->=20- drm_fbdev_dma_setup(ddev, bpp);
-> + drm_client_setup_with_color_mode(ddev, bpp);
-> +
-> return 0;
->=20
->=20init_failed:
-> @@ -472,6 +474,7 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
-> static const struct drm_driver tilcdc_driver =3D {
-> .driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> DRM_GEM_DMA_DRIVER_OPS,
-> + DRM_FBDEV_DMA_DRIVER_OPS,
-> #ifdef CONFIG_DEBUG_FS
-> .debugfs_init =3D tilcdc_debugfs_init,
-> #endif
-> --=20
->=202.46.0
->
