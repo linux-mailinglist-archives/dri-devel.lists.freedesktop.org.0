@@ -2,77 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CB897358C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 12:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046019735B9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 12:57:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5845010E781;
-	Tue, 10 Sep 2024 10:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 710C210E786;
+	Tue, 10 Sep 2024 10:57:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="GdbIfRJP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dEi1MC6V";
+	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="NNiMHoRI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B13B510E781
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 10:52:17 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48A7dsqE017268;
- Tue, 10 Sep 2024 12:51:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- GTXIqttQsTFPl8RhA+OuEhkVjdhqa/BUezdHeMsd0Wg=; b=GdbIfRJPuU8F36gC
- WGXi8Xtn39pr/LMPeX7E6Ge5LKWfgz6967HXE86UFD5HPiKUase7aUfuViEyK63V
- URMFwQ5iLjSxL65ebj+ZUeVHTjeLxJe3Cn1oRJ1GD9LDeY4NS0Q3inWSL/jn3OZA
- MduPLVb20pTW6bn062RasuZG9WDJT19dN6/WZ5OWihAUxTxqzz4tO4sZKaLXTuk+
- sbNmQBHB1Emzcsc5Qa51KSUZ0VMZooa0WHwQgS3z+1p87pKPCs5NOHjB4vr/k2cA
- vNJTMQT1rQ4uhA+YcOHZKiMe5/7zkmA29idhQK/m/TjcoXgE6Saw3emsTbT6uZ4K
- 87DIwA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41gy7s9g89-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Sep 2024 12:51:55 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 0E8E440047;
- Tue, 10 Sep 2024 12:50:32 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 194A7260266;
- Tue, 10 Sep 2024 12:48:50 +0200 (CEST)
-Received: from [10.129.178.17] (10.129.178.17) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 10 Sep
- 2024 12:48:49 +0200
-Message-ID: <0e9018d0-c49f-4dac-aa0f-b05504f9c6f6@foss.st.com>
-Date: Tue, 10 Sep 2024 12:48:49 +0200
+X-Greylist: delayed 372 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Sep 2024 10:57:25 UTC
+Received: from a7-29.smtp-out.eu-west-1.amazonses.com
+ (a7-29.smtp-out.eu-west-1.amazonses.com [54.240.7.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E27010E786
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 10:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1725965471;
+ h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
+ bh=W1RD6ZLtwjUpl7BZiSTOXdvCCFBmyzBB/xrjT+EHRy0=;
+ b=dEi1MC6VI7idl3wBXJe9St+zHTHKtAbF0KbKCYWZLhIvxC7WlQdL0rCs4qkKX5nS
+ WJoBmMDpWsGnDDkujajj4qpIyFAl4MBeLQ76+P7a3Sju27BrTc3XtjDjb2PjwZHe362
+ HrmC+bE+G9sE6DdkS+awN1muphbrgZd9f2F7Yi3cJZtlgO2M+mcMaOQSIdnMlrHiL7S
+ zeXYli7aU2osU1R148P5GWM88JBUsJvc35gzdUfqvHy2AEcl9rpLSCeHL+vflUIXpaa
+ 1NgKDNuTYePyEREEN3IMrdx93MbaIQX6z7FWwIQRIQiqTdeWgsLtOjxQy9zHYksVKA8
+ nu22FOw4/g==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1725965471;
+ h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+ bh=W1RD6ZLtwjUpl7BZiSTOXdvCCFBmyzBB/xrjT+EHRy0=;
+ b=NNiMHoRIJxffH5Kbdl2+xL5MLtYZVlJmUgee3+pR8VXszBTvQo4BDNNiLDkWRSih
+ vbMOunhHfhE3Z42xhAB1gknR/ChGKTyLnupEmsTPfCfpPxWTUdWtPIJJyrny0Ssd6LS
+ o2KcRbxpbDDiR0ABWEpQ5rKwC35CRVpoPajwSYec=
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, matthias.bgg@gmail.com, 
+ angelogioacchino.delregno@collabora.com, shawn.sung@mediatek.com, 
+ yu-chang.lee@mediatek.com, ck.hu@mediatek.com, 
+ jitao.shi@mediatek.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, wenst@chromium.org, 
+ kernel@collabora.com, sui.jingfeng@linux.dev, michael@walle.cc, 
+ sjoerd@collabora.com
+Subject: [PATCH v10 0/3] drm/mediatek: Add support for OF graphs
+Date: Tue, 10 Sep 2024 10:51:11 +0000
+Message-ID: <01020191db8f0f22-7d4eed45-6265-420c-8dfa-d7c0f6637f9e-000000@eu-west-1.amazonses.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: dw_mipi_dsi-stm.c:(.text+0x8db9a3): undefined reference to
- `clk_hw_unregister'
-To: Borislav Petkov <bp@alien8.de>
-CC: <linux-stm32@st-md-mailman.stormreply.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20240905081902.GAZtlpdlQp5XOm5XtO@fat_crate.local>
- <544a633e-de53-493d-9c29-de8ff52630da@foss.st.com>
- <20240909084506.GBZt61kqqGVUTqjKc4@fat_crate.local>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240909084506.GBZt61kqqGVUTqjKc4@fat_crate.local>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.17]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
+X-SES-Outgoing: 2024.09.10-54.240.7.29
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,55 +73,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes in v10:
+ - Removed erroneously added *.orig/*.rej files
 
-On 9/9/24 10:45, Borislav Petkov wrote:
-> On Mon, Sep 09, 2024 at 08:57:57AM +0200, Raphael Gallais-Pou wrote:
->> Arnd Bergmann sent a patch regarding this issue on x86 that I merged several
->> weeks ago.
->>
->> https://lore.kernel.org/lkml/20240719075454.3595358-1-arnd@kernel.org/
->> https://lore.kernel.org/all/c3d0757a-07c0-4f83-9f06-c3ad205aa1e9@foss.st.com/
-> Thanks.
->
->> Now, I'm not familiar with PowerPC architecture and toolchains, but I think
->> this patch should fix your problem.  Do you have the above fixup in your
->> tree ? If not please try it.
-> Not PowerPC - it is an x86 build. I do random config builds as part of build
-> testing and when a driver depends on COMPILE_TEST, it does gets built in some
-> .configs. So some may fail, as in this case.
+Changes in v9:
+ - Rebased on next-20240910
+ - Removed redundant assignment and changed a print to dev_err()
+ - Dropped if branch to switch conversion as requested; this will
+   be sent as a separate commit out of this series.
 
-Unless I am mistaken, the link you provided refers to a PowerPC linker error:
+Changes in v8:
+ - Rebased on next-20240617
+ - Changed to allow probing a VDO with no available display outputs
 
-[...]
+Changes in v7:
+ - Fix typo in patch 3/3
 
-compiler: powerpc-linux-gcc (GCC) 14.1.0
+Changes in v6:
+ - Added EPROBE_DEFER check to fix dsi/dpi false positive DT fallback case
+ - Dropped refcount of ep_out in mtk_drm_of_get_ddp_ep_cid()
+ - Fixed double refcount drop during path building
+ - Removed failure upon finding a DT-disabled path as requested
+ - Tested again on MT8195, MT8395 boards
 
-[...]
-   powerpc-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_remove':
-   dw_mipi_dsi-stm.c:(.text+0x664): undefined reference to `of_clk_del_provider'
->> powerpc-linux-ld: dw_mipi_dsi-stm.c:(.text+0x66c): undefined reference to `clk_hw_unregister'    powerpc-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_probe':
-   dw_mipi_dsi-stm.c:(.text+0x98c): undefined reference to `clk_hw_register'
+Changes in v5:
+ - Fixed commit [2/3], changed allOf -> anyOf to get the
+   intended allowance in the binding
 
->
-> So I think you should send that patch to Linus now so that such randconfig
-> builds do not fail anymore.
+Changes in v4:
+ - Fixed a typo that caused pure OF graphs pipelines multiple
+   concurrent outputs to not get correctly parsed (port->id); 
+ - Added OVL_ADAPTOR support for OF graph specified pipelines;
+ - Now tested with fully OF Graph specified pipelines on MT8195
+   Chromebooks and MT8395 boards;
+ - Rebased on next-20240516
 
-What do you mean by 'sending it to Linus' ? If you meant to do a pull request,
-then no. This patch is already in the drm-misc tree, which means it will keep
-its usual pace of merging with the rest of the drm-misc tree.
+Changes in v3:
+ - Rebased on next-20240502 because of renames in mediatek-drm
 
-For more information about drm-misc tree:
-https://drm.pages.freedesktop.org/maintainer-tools/repositories/drm-misc.html#merge-timeline
+Changes in v2:
+ - Fixed wrong `required` block indentation in commit [2/3]
 
->
-> Unfortunately, I cannot test it right now because I've removed the triggering
-> randconfigs but when I hit it again, I'll make sure to apply yours.
-Thank you for this. Do not hesitate to reach if you encounter any problems with
-this patch.
 
-Regards,
-Raphaël
+The display IPs in MediaTek SoCs are *VERY* flexible and those support
+being interconnected with different instances of DDP IPs (for example,
+merge0 or merge1) and/or with different DDP IPs (for example, rdma can
+be connected with either color, dpi, dsi, merge, etc), forming a full
+Display Data Path that ends with an actual display.
 
->
-> Thx.
->
+This series was born because of an issue that I've found while enabling
+support for MT8195/MT8395 boards with DSI output as main display: the
+current mtk_drm_route variations would not work as currently, the driver
+hardcodes a display path for Chromebooks, which have a DisplayPort panel
+with DSC support, instead of a DSI panel without DSC support.
+
+There are other reasons for which I wrote this series, and I find that
+hardcoding those paths - when a HW path is clearly board-specific - is
+highly suboptimal. Also, let's not forget about keeping this driver from
+becoming a huge list of paths for each combination of SoC->board->disp
+and... this and that.
+
+For more information, please look at the commit description for each of
+the commits included in this series.
+
+This series is essential to enable support for the MT8195/MT8395 EVK,
+Kontron i1200, Radxa NIO-12L and, mainly, for non-Chromebook boards
+and Chromebooks to co-exist without conflicts.
+
+Besides, this is also a valid option for MT8188 Chromebooks which might
+have different DSI-or-eDP displays depending on the model (as far as I
+can see from the mtk_drm_route attempt for this SoC that is already
+present in this driver).
+
+This series was tested on MT8195 Cherry Tomato and on MT8395 Radxa
+NIO-12L with both hardcoded paths, OF graph support and partially
+hardcoded paths, and pure OF graph support including pipelines that
+require OVL_ADAPTOR support.
+
+
+AngeloGioacchino Del Regno (3):
+  dt-bindings: display: mediatek: Add OF graph support for board path
+  dt-bindings: arm: mediatek: mmsys: Add OF graph support for board path
+  drm/mediatek: Implement OF graphs support for display paths
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |  28 ++
+ .../display/mediatek/mediatek,aal.yaml        |  40 +++
+ .../display/mediatek/mediatek,ccorr.yaml      |  21 ++
+ .../display/mediatek/mediatek,color.yaml      |  22 ++
+ .../display/mediatek/mediatek,dither.yaml     |  22 ++
+ .../display/mediatek/mediatek,dpi.yaml        |  25 +-
+ .../display/mediatek/mediatek,dsc.yaml        |  24 ++
+ .../display/mediatek/mediatek,dsi.yaml        |  27 +-
+ .../display/mediatek/mediatek,ethdr.yaml      |  22 ++
+ .../display/mediatek/mediatek,gamma.yaml      |  19 ++
+ .../display/mediatek/mediatek,merge.yaml      |  23 ++
+ .../display/mediatek/mediatek,od.yaml         |  22 ++
+ .../display/mediatek/mediatek,ovl-2l.yaml     |  22 ++
+ .../display/mediatek/mediatek,ovl.yaml        |  22 ++
+ .../display/mediatek/mediatek,postmask.yaml   |  21 ++
+ .../display/mediatek/mediatek,rdma.yaml       |  22 ++
+ .../display/mediatek/mediatek,ufoe.yaml       |  21 ++
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   1 +
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  40 ++-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  21 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 253 +++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |  14 +-
+ 23 files changed, 709 insertions(+), 25 deletions(-)
+
+-- 
+2.46.0
+
