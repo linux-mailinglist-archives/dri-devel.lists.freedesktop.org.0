@@ -2,53 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C889742E5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 21:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A019742DB
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 20:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047A410E8FB;
-	Tue, 10 Sep 2024 19:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 911E310E8F9;
+	Tue, 10 Sep 2024 18:57:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="RidbVF29";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VlVWWyKU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 411 seconds by postgrey-1.36 at gabe;
- Tue, 10 Sep 2024 19:04:12 UTC
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F5B110E8FB
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 19:04:12 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4X3Ccc3Cd2zDqQb;
- Tue, 10 Sep 2024 18:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1725994640; bh=bZeq4Z0ebYhUDCoVLKa5FdvS8mzxM7LPMAKj+72Khq8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RidbVF29rcddgvB1cUw8jtrfsKRJiSaaNnJf2ZwdwcaGShZfJUlSOpLs2OYkdHBSS
- Y83L/a3wzynlNa1STRtO9KjLDRK8WNgdMEzhN4+ANvnC2RS1rEmiW7h0q/djNva5iX
- 7RG/yMG6DLH85BDbta5GLVPmEDbPSdPQqYt73V0g=
-X-Riseup-User-ID: 16F9D23D34EC5F58F723AA569FAF8A047F08E4FE3B91D97D89884668576CD256
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4X3CcX1n6HzJtyM;
- Tue, 10 Sep 2024 18:57:16 +0000 (UTC)
-Message-ID: <68da3932-10ab-4001-a978-f0f54034a64d@riseup.net>
-Date: Tue, 10 Sep 2024 15:57:13 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C316010E8F9;
+ Tue, 10 Sep 2024 18:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725994665; x=1757530665;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=sngCqDXufygTAJcpwEA7hV5Ke4xjq5Ybf1VZL/j93Lg=;
+ b=VlVWWyKU8ZTm4+ZtIZFt3hDrYmqtfKZvDNkCesFySx+5qKw5rAdOPdMy
+ tYKIRnWWEhof1sb4Jh8vWj8k89qSD8Y7LpQ46gqtshP1nWCzL0Lr4+HwT
+ TJGltcITqilSxZMrcTpCOuj1g5eWfWerJwzcdSZF0IDtvBVXjXlAI59ly
+ +ULsO2dJSPrTowTdpIXVz/Mxms9pX1aI/bnSbT8h4TkURspDlsTgpNrCA
+ g4nbVDFcjS2xMUoCXl6ZpLdpySND6Pjau4kaMPuQFFCZKWs89Q6Zjzdl6
+ 6ZnpbkwjCM/N7RBlTKQQFkjIav1h+lJY7yLSl/je6LX/cmihW1+8tajTj A==;
+X-CSE-ConnectionGUID: bmwPp/CBTE+BhJMe67NUpw==
+X-CSE-MsgGUID: 06rwD0FQTpu39wJF+53cUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24908910"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; d="scan'208";a="24908910"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2024 11:57:45 -0700
+X-CSE-ConnectionGUID: g1f2kpLcRXSiH4WtgmtCoA==
+X-CSE-MsgGUID: 3WrKf6TKRGyceL5edJx/bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; d="scan'208";a="67641592"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 10 Sep 2024 11:57:44 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 10 Sep 2024 11:57:43 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 10 Sep 2024 11:57:43 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 10 Sep 2024 11:57:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Py88ZfIlO4mnIWQnMXJLNy00Op9KnbqOrfYSNTCIpnUBX2EvzxZ7/JKSiyhX+y+ivVXhPaKU+oh1KxGQqZygkZbZ1yHe3KjFqQfW4/LyLXkzJsFTWIfaVVnou+/wlJru2rJGdHZx1gejtAk1pKzcD6GGlYL4gA/v3eKIjPtRGwoln0SLAk3iWRARVtraDt28Tav5Uc4PHZRVEoI0RecEOstuz8OBmgJo+ZMuTcJGODLEplHqb2tix82l/IhpK5yc72tJwEwnJWS9cHSmRJ2Jjwe9nKTvigB6fZbniniCXdDHOulFogADY5eLFZcVQVCJMpRX43kRRF4NfbDQe8Lk5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BK4iWOY87o63t7DPSvTw3yuyOa6T/vYq97LHI2KQjeo=;
+ b=NhNCcOiLvyf8YDiaElEI6thFiGbz1J58Eq0uEEi8/U89JNm8TvEKoAWAs5H8P/5iP7AyaJMHe3skfd8P0bzoOqAW8tlkaAkH2lZfe8Ptpcjn8BFzVqZ6ULZYSNY3aoS+HqZrUsq7Cp1oTZ0FLyuW8gm9DlHHJKvvoNcw7qXFhbVtKGbjm2ciW73+2ox1rRSBFaSrGhzuXm+/HP4I+is/L1p4hqQIpo1XrYiL8C9mZV17DQ31QSAnXtGVzqrj/UR2w0/28JhAWHTC/DITGujwXCKiRlM6e+coSf/GX4U2i9Wvo6iv2khWYUe0aesjSJLc1jjg5lxnvjn+KpGIDyqEEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
+ by SA3PR11MB7487.namprd11.prod.outlook.com (2603:10b6:806:317::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.20; Tue, 10 Sep
+ 2024 18:57:40 +0000
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42%5]) with mapi id 15.20.7918.024; Tue, 10 Sep 2024
+ 18:57:40 +0000
+Date: Tue, 10 Sep 2024 14:57:36 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: He Lugang <helugang@uniontech.com>
+CC: <lucas.demarchi@intel.com>, <thomas.hellstrom@linux.intel.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 1/3] drm/xe: use devm_add_action_or_reset() helper
+Message-ID: <ZuCWoP1LeqlRPvaQ@intel.com>
+References: <BE0644D06348D90D+20240907065439.1661032-1-helugang@uniontech.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <BE0644D06348D90D+20240907065439.1661032-1-helugang@uniontech.com>
+X-ClientProxiedBy: MW3PR06CA0016.namprd06.prod.outlook.com
+ (2603:10b6:303:2a::21) To BYAPR11MB2854.namprd11.prod.outlook.com
+ (2603:10b6:a02:c9::12)
 MIME-Version: 1.0
-Subject: Re: [PATCH] MAINTAINERS: Add myself as VKMS Maintainer
-To: Louis Chauvet <louis.chauvet@bootlin.com>, rodrigosiqueiramelo@gmail.com, 
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, sean@poorly.run
-Cc: thomas.petazzoni@bootlin.com, linux-kernel@vger.kernel.org,
- seanpaul@google.com
-References: <20240910-vkms-maintainer-v1-1-e7a6c7a4ae71@bootlin.com>
-Content-Language: en-US
-From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20240910-vkms-maintainer-v1-1-e7a6c7a4ae71@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|SA3PR11MB7487:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7f0d3ab-f880-4667-1f2e-08dcd1ca71c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zbKyhBz6orCnJANG0lHJgPwdOD1kToDjaV1zE+B9USIzqRbRirMcJn+ZZ02J?=
+ =?us-ascii?Q?GDMZV3euXVEFh6SAz8nZ158yh1czaTwijBG212zxcJJilcrC8/+aYvl+nsrg?=
+ =?us-ascii?Q?4G0EheCZfhWcpQmroxkzNGJRJsvghwgKn2rhVhVLvsewGx9MdvpWVKKr1uc+?=
+ =?us-ascii?Q?QuHm4Lfc4NtH+Eyu4kZ2mGx/sVNRMZeOfLWreXlF5/pWYhogpyIb1tLCj1A5?=
+ =?us-ascii?Q?xyKnTrWL7BqIz1Z9ENesAW+61JVX34IssOacy0KUxbuMQ8nlBR+N7FFWg1Ri?=
+ =?us-ascii?Q?ySnFnhrqs9qq59nlS2DppGVhpMeAW3B8W/THewNfW2hja50/3Hb5zsKT0lCU?=
+ =?us-ascii?Q?r5sx6FjoKyRPIgRJ2i7hSeOCTLbjqcLHMNde4Ix/bys+dRvHZcgL81yggzIb?=
+ =?us-ascii?Q?DZ3wFsGlsaJfreFS1SvGYKshts0GQ9DKTa9bIXNqDoj18VUTyhJaUsiwX2d/?=
+ =?us-ascii?Q?KFlzxUCmfxO+8Zeg3rNtGOZuDuu6YkxFZMNiIXWFURhpi6Lxsj9hH/0RxgRh?=
+ =?us-ascii?Q?SicXJ+OW6p3LI2ESFV7QUJeFY2tjwdv3G1Uv+VFz76mhbsssuyB+eF2cqzn1?=
+ =?us-ascii?Q?1zmSIJgVsWHLSi6boSS1QRvfzA+wXlmLk01/EBSHAF5BHGgu84ovMWnKqLZC?=
+ =?us-ascii?Q?DuOIs9/h+DWVpF+2z23biDsUs4dDwrNgyc4vbIBQeEZ6fhoh4fhWA3bx9aGw?=
+ =?us-ascii?Q?TO2c32A0NFuIgrS5JEITN/gd+1KkwLPB5H/Hnc28ogdpnV/ishO97GwDwAPq?=
+ =?us-ascii?Q?QR/kX7RBUWWIVNm/dwoBgfjPL0CwnwjnYLnSbkWiADsdj6HKAvo7scTBSJMS?=
+ =?us-ascii?Q?d/JFoxroU8L5kxoP6JSk5Oyw7iZM3CgMo5V7WfG9TE4HSavbuDW2cIqPw6AZ?=
+ =?us-ascii?Q?JBQxRquVHqeyR1gd3spvONh8x4b8rE1uQKGFufPoCDzIdEtYKPNgurlUi7MG?=
+ =?us-ascii?Q?tCRpiSTY3EAB1cjAPaDLK8MO4YnVDcds9Je5YMjIE6RiqYKqQp1tuUq/Ooaa?=
+ =?us-ascii?Q?NcUn/HMhjtInpAxBd1GF1YSjLE4JFru2yh0Y78uiUsDmqmOsdaVFmI9bQaFM?=
+ =?us-ascii?Q?6SyJtt0uFQxIZi5YABMRUO2a43GAAWerJe4l5aVs+UKFEJbNlrIenQzEsJ1p?=
+ =?us-ascii?Q?oLoqWRbwQ3ww3KirYorb5kAM1k9sb3Hm5h12WRIyQmUbyvDQp5HoxjQVERws?=
+ =?us-ascii?Q?qv1sV/gs4k1K9cV0E9uChx9nmGg3B7od5PtRr+0vXoJMNcYW3sjLv6PP7CDO?=
+ =?us-ascii?Q?HpDrSTPHkVCir0VvurqGm0mjkKv8jLUWnkispUMZkHplHk+nx9GA6Kst8zIJ?=
+ =?us-ascii?Q?GkT8UdDBFOqs8vzQmb4e6A1ib7ELmP0cQpNLtmwDPRrIZw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gbfRQ2IzgpRYeGxly64PZ48FPWbpUxZO/spvJb7oEcDg+fgYpOyQzzVqzbK9?=
+ =?us-ascii?Q?ZTA4ja1Qkg33P/pL1YSP/XrVH2areNJ2dBbhRYmOPmVjQCJ15zCHkLqL+Am/?=
+ =?us-ascii?Q?vp/q2bmiqSLP5sOwKkuFJahk+2ppDkw38bioSOn2JVm5SJQaznpG227FaG/X?=
+ =?us-ascii?Q?4Amo1UjMM77y55F0JkY+HdgYEp/sauAeOGQeBzVXWZEEj1WhFHwYAsWrxOnx?=
+ =?us-ascii?Q?minFzL52ZIeeTY2bhKAcvGx2ZlooyxbN6bPtpqXxwpOcmKoidLsO7pNema9X?=
+ =?us-ascii?Q?TDrXEigifiQWhjhWBWywQldQ3RTxktAXvmQBECi+M3/1Z+BM+04Fue+HvaLR?=
+ =?us-ascii?Q?uzfyOpJsHPP7DPNksXatelERD9P/iEPWqrb3YyRLxx6I5skxBg7/HZVDchnp?=
+ =?us-ascii?Q?q1eqRmmZDbwhQMOY6KqiA5OcVWDQgBT/lfpKk23SxxlrxKs9Mv1EGTZOjQRR?=
+ =?us-ascii?Q?LLtfulhEsVPGhMHZ6jXJO0p0pIa+knvIhjlVVFH8S/0fcnIikMLnfVp75gC+?=
+ =?us-ascii?Q?Ueb8G1RVdUZoRm03zKTobeakCzkLZHRusxzTvfITxql3TUWBOgwOiOD8AbYN?=
+ =?us-ascii?Q?1Bvgz0ZHwK0nFkAJ1JsMcXB3T2S9v9wMf6vF6IlO3jilmI0rM/ghj5gx9lqi?=
+ =?us-ascii?Q?aeBjLCxTZHXbNSjZ5kt/bCfs8+8Mm9n+KH9/zATfiDt08jr2Vcp0RPfGXYCa?=
+ =?us-ascii?Q?dpSlX5dYXrrxCqEOzpDF6bJqJ2ZsNpu96eareh231mHiDvJs+l1ixtzLuAhR?=
+ =?us-ascii?Q?PiQGG9oZ9Ez4pWoISjLs47WU0nImBPx10mmhj0Yk1ToVhgSdhX8BhEKilr5B?=
+ =?us-ascii?Q?8l1pUTMw20joeXhwF2NFdxdmPd+qOt4TUhAUcGE6MDentkE9pmG3d8/0DJBw?=
+ =?us-ascii?Q?nbXex9ixOF8iE7exOxLp6l1DajVkQIiSbruafxMPpioeLSqIFmULQIA5Ex3P?=
+ =?us-ascii?Q?muwk/ge+FLn6bvSZODd7iD9b9yf5nsNrHjtGxyysoPC4cUa1mraINY8FQson?=
+ =?us-ascii?Q?91QvLw8A7wfAJrWkBJwpbAwcy8szA+ibuzID8jrd/NTGo/W9VlEsgoAqBCFX?=
+ =?us-ascii?Q?3vXx8RDtXKtD3b/rqKdy6VRVpP7y7cnWbu5CFE/Z6qDEtUQ1ydfPiDw1+Dfb?=
+ =?us-ascii?Q?vPKqtl392QzFpM49k68vq4EXptagF7HXmjEH9YJfZsupbePvRSna6tekFkLB?=
+ =?us-ascii?Q?jJTqcm0eU4f3dAKuh8obNv6OjgLOyAu7caSxHOFkNx9kwTLxju2R7cOoh3aL?=
+ =?us-ascii?Q?Y1RlXI3FtYtfFlWn7gxw//+JrMEic2I3DSQXjDt4n3N1IC6K1BvrzIkFgupJ?=
+ =?us-ascii?Q?gvF734rNtzwVaDsdOegZzbyixE1W92LbhZEdoVMJ5rs4aBlxaHiRE81EDpiu?=
+ =?us-ascii?Q?eiHbrCjnwC+1jmKyPqHR78Gdd7UkpssFaBPxPhPDjz0V0J+NpEh9ZWyJVtOi?=
+ =?us-ascii?Q?4jK3nVw4dGmHW90Th7B8uG55VdmbkYTqV85AGhQnfefLvkpGMJDzuKFw7XPk?=
+ =?us-ascii?Q?g2h2WccRnjVcbgU1BVChiZ/TIh8C/g7fkRB365fuFgHIDwHpGYWWsEY4solr?=
+ =?us-ascii?Q?ZFLFnVJ8wES/aXM+Ho2M9SbzBg8XUU4OPCOHFn3putZlYEAjbdX6LzNBcq5T?=
+ =?us-ascii?Q?Zw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7f0d3ab-f880-4667-1f2e-08dcd1ca71c0
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 18:57:40.4294 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EiJ+lADXWDBQZwgk94w4b1TTteMdgXArp7k1bObGcXPeJdr7QRmgxmc4a7jvzHV3UoRAICfol6NY3M0kVz54sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7487
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +177,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/10/24 12:10, Louis Chauvet wrote:
-> I've been actively working on VKMS to provide new features and
-> participated in reviews and testing. To help Maìra with her work, add
-> myself as co-maintainer of VKMS.
+On Sat, Sep 07, 2024 at 02:54:39PM +0800, He Lugang wrote:
+> Use devm_add_action_or_reset() to release resources in case of failure,
+> because the cleanup function will be automatically called.
 > 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-Acked-by: Maíra Canal <mairacanal@riseup.net>
-
-Please, check the procedures to apply for commit rights in drm-misc and
-apply it. This way you will be able to commit your patches.
-
-Thanks for volunteering!
-
-Best Regards,
-- Maíra
-
+> Signed-off-by: He Lugang <helugang@uniontech.com>
 > ---
-> Hi everyone,
+>  drivers/gpu/drm/xe/xe_gt_freq.c  | 2 +-
+>  drivers/gpu/drm/xe/xe_gt_sysfs.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> This series [1] has been waiting for a while now, it was proposed first in
-> February. The first iterations had few reactions (thanks to Arthur, Pekka,
-> Maìra, ...), but since v8 (in May) no major issues were reported, Maìra
-> seemed satisfied, and only minor cosmetic changes were reported. Two other
-> series ([2] and [3]), that I submitted first in May, did not have receive
-> any reactions.
+> diff --git a/drivers/gpu/drm/xe/xe_gt_freq.c b/drivers/gpu/drm/xe/xe_gt_freq.c
+> index 68a5778b4319..71bcd60d0866 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_freq.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_freq.c
+> @@ -237,7 +237,7 @@ int xe_gt_freq_init(struct xe_gt *gt)
+>  	if (!gt->freq)
+>  		return -ENOMEM;
+>  
+> -	err = devm_add_action(xe->drm.dev, freq_fini, gt->freq);
+> +	err = devm_add_action_or_reset(xe->drm.dev, freq_fini, gt->freq);
+
+you need to move this to a lower point then...
+otherwise fini function will try to remove the sysfs files that
+hadn't been created.
+
+>  	if (err)
+>  		return err;
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sysfs.c b/drivers/gpu/drm/xe/xe_gt_sysfs.c
+> index a05c3699e8b9..ec2b8246204b 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sysfs.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_sysfs.c
+> @@ -51,5 +51,5 @@ int xe_gt_sysfs_init(struct xe_gt *gt)
+>  
+>  	gt->sysfs = &kg->base;
+>  
+> -	return devm_add_action(xe->drm.dev, gt_sysfs_fini, gt);
+> +	return devm_add_action_or_reset(xe->drm.dev, gt_sysfs_fini, gt);
+
+this one looks right indeed.
+
+>  }
+> -- 
+> 2.45.2
 > 
-> In addition, there is also some significant addition to VKMS being
-> proposed, such as ConfigFS support, and without a clear maintainer having
-> the time to review and approve these changes, these changes have very
-> little changes to get in.
-> 
-> VKMS is not a fundamental driver for "normal" Linux users, but I had some
-> feedback from userspace developpers that VKMS could be a very good testing
-> tool if only it had more features (I think P0xx formats were asked to
-> test HDR for example). This could also help to detect issues in DRM core
-> by emulating a wide range of configurations.
-> 
-> I believe the only active maintainer is Maìra, but as she's mentioned before,
-> she doesn't have much time to work on VKMS. So, I'd like to volunteer as a
-> maintainer. I have plenty of time to dedicate to VKMS.
-> 
-> I hope I've gained enough understanding of VKMS to be helful with this role.
-> I am eager to move forward and improve this subsystem. I've also talked to Sean
-> about this, and he agrees that it would be good if I could commit code to
-> drm-misc.
-> 
-> [1]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/
-> [2]: https://lore.kernel.org/all/20240814-b4-new-color-formats-v2-0-8b3499cfe90e@bootlin.com/
-> [3]: https://lore.kernel.org/all/20240814-writeback_line_by_line-v2-0-36541c717569@bootlin.com/
-> ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 10430778c998b57944c1a6c5f07d676127e47faa..62f10356e11ab7fa9c8f79ba63b335eb6580d0a8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7340,6 +7340,7 @@ DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
->   M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
->   M:	Melissa Wen <melissa.srw@gmail.com>
->   M:	Maíra Canal <mairacanal@riseup.net>
-> +M:	Louis Chauvet <louis.chauvet@bootlin.com>
->   R:	Haneen Mohammed <hamohammed.sa@gmail.com>
->   R:	Daniel Vetter <daniel@ffwll.ch>
->   L:	dri-devel@lists.freedesktop.org
-> 
-> ---
-> base-commit: da3ea35007d0af457a0afc87e84fddaebc4e0b63
-> change-id: 20240910-vkms-maintainer-7b3d2210cc1b
-> 
-> Best regards,
