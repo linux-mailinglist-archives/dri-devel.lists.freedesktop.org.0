@@ -2,174 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA539741C2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 20:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C889742E5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 21:04:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A53110E8D0;
-	Tue, 10 Sep 2024 18:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047A410E8FB;
+	Tue, 10 Sep 2024 19:04:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gp7OH0Lv";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="RidbVF29";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D520B10E8CF;
- Tue, 10 Sep 2024 18:11:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725991888; x=1757527888;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=RvM7p6FVYsBnr89IGnErMlDGsn3r9hW8fIDjr0DuoK8=;
- b=gp7OH0LvTF7MQjbaFscFUe4EZellKDB1G1N+ajZV825zbjHr3zkDXCXI
- j/fQN+pm2SUsaRpn7SHod+Zj+N0GCSqMfw0gutk9ij5vwdv1tCq1xquY3
- wSUUWsb+sWXBLxqtsbLgzwWLpE1tBhDD/7xqzVD9BfQfT1Sbpn5+UNLj0
- I3Xrur/fhJyF6Cu/cRyRj1AZKAsxvOWYkkzxuFyAL/+NtTP870w094QSo
- oOuSP+Et8No7SEKlMV0HoKG+eFJzD9NK4MBl/7Ac7nbwtBP18LNLJFhe7
- +N9wWt3AFrRnWVu//dEL2XZ/sVSYq+A/7hJJjG1ct7yVHWTSFbmwrFi4R Q==;
-X-CSE-ConnectionGUID: EAJFCCaWStm2oYlhCSYSSA==
-X-CSE-MsgGUID: Cq5ezQzxTduOx1Wfhm4JbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24577085"
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="24577085"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2024 11:11:28 -0700
-X-CSE-ConnectionGUID: zvk2egsERxO9V3c9RLxwSg==
-X-CSE-MsgGUID: z0L+F7NKSiaBnoQo9Ep5Bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="66748668"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 10 Sep 2024 11:11:27 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 10 Sep 2024 11:11:27 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 10 Sep 2024 11:11:27 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.175)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 10 Sep 2024 11:11:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZVfB/ddwaehdt1fCJv2I8jH3i95W9xl3UhRU+P1ApnLN7syY+oXyNYywHkVQnmutb5EM+88/aAu5UWmSldY4xGJg1HF/XZeh477SRgtjgvfKyQ7w34rwwdE7FgwSMv/BNEu6yvf1N3Jy8ZLone2t1c1jRLRMAa0Ndpq/nfzX1g90B3DRQCMHsRFErAT7jTFpUks1LrDh30KegjTBQPLmoZJeXl0z0950nNPeuS35aCpPSoFgUfh7mUOGg9ck75LEoAQfGVzNvXgc5o5MSgA+xPO8q9wgi3OZ4dlBak+TJN2bzzOWik5bjVO/WI7g9MFuLsMRHb5s69RvtbfVeqN4Qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qYftcO+Dfo2UDyd842IyW+MLQbKy5zB6QXktBQITQgY=;
- b=Gc5RFC2920UcNeL839nkUx60j9yT3CzX/bDPc00pOK26pohKvkExG+xomQIH3d89vhG4oebbp9A9tYQ3igJLOnr6LLepSPmhx6+ASnE/SDTn2OIu9rqS2wqqIwYEfVs+eX7tnti5Eagg1l0kcXF3xrVwD1VmLd/oeHAchZjevYxMgfNWsa5/F7gdDU39G1POZ0rMoUsKLvaALj8RYcs4NfZ5n7OuFBQmfe/TZhaCtfbVjBouw6c8UipZbWdUtocSOMWs1NPXZTeAs6+AjkpqbufMAzXY27YSP8bic7JYvrITthTxrN2Hef+D7Ar5liYbORLijYlysufCFThBEdm8GQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DS0PR11MB7903.namprd11.prod.outlook.com (2603:10b6:8:f7::10) by
- CY5PR11MB6488.namprd11.prod.outlook.com (2603:10b6:930:30::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7939.25; Tue, 10 Sep 2024 18:11:23 +0000
-Received: from DS0PR11MB7903.namprd11.prod.outlook.com
- ([fe80::44f8:aece:f6a8:e42a]) by DS0PR11MB7903.namprd11.prod.outlook.com
- ([fe80::44f8:aece:f6a8:e42a%3]) with mapi id 15.20.7939.022; Tue, 10 Sep 2024
- 18:11:20 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: "Nikula, Jani" <jani.nikula@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Nathan
- Chancellor" <nathan@kernel.org>, Edmund Dea <edmund.j.dea@intel.com>
-Subject: RE: [PATCH 3/8] drm/kmb: annotate
- set_test_mode_src_osc_freq_target_{low,hi}_bits() with __maybe_unused
-Thread-Topic: [PATCH 3/8] drm/kmb: annotate
- set_test_mode_src_osc_freq_target_{low,hi}_bits() with __maybe_unused
-Thread-Index: AQHbA2jViHeZYYz/fkWpDpXfBThEgrJRUk3Q
-Date: Tue, 10 Sep 2024 18:11:20 +0000
-Message-ID: <DS0PR11MB7903E49100A373DBE8085B608C9A2@DS0PR11MB7903.namprd11.prod.outlook.com>
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <29a83771edd9b85032095ed3ecc1e91a77229b90.1725962479.git.jani.nikula@intel.com>
-In-Reply-To: <29a83771edd9b85032095ed3ecc1e91a77229b90.1725962479.git.jani.nikula@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR11MB7903:EE_|CY5PR11MB6488:EE_
-x-ms-office365-filtering-correlation-id: ba6f5160-5b24-495d-c2b9-08dcd1c3f8cb
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?vyDLghmG1iRk/aPkdD07ytA5GbecG22XcQGUTlwgy3V8hT05WgNPWgA0CA0d?=
- =?us-ascii?Q?rC1N2xVOjZcHwB69X338kvtQS9Dea5aNjVpdLI/mtqRW70QY7MeBYl8/ALiM?=
- =?us-ascii?Q?iaZBn5inUTmV1SOa9Bg4FfHaB3W0nYRG7cWQFoJpG5jSqclLw2xI45jJ2sNB?=
- =?us-ascii?Q?wgFFe3o/i6mdHL6LnbzwNv+pQIPUh5EeNb+0G6xG/ylCjv3Fx+Vsbjj9nioq?=
- =?us-ascii?Q?EVpH2pDBVNLUIGgJdE6SO5q/YYkRpNqYMy4fVS1EhVrfMBv+V6e5kIumda70?=
- =?us-ascii?Q?C8gAFWg/7eEYNhYbRmgxviAAipkks8JLDZLSsw7SrQV7FX+Pe3Z6BVF8I1EM?=
- =?us-ascii?Q?7Z0XnIPAXtnzb9K2cJ46SWRzg5pUtg5oLJfkf8JyLwErICD7DWVWXMMZ+0dQ?=
- =?us-ascii?Q?WTFJSEfKb1UA4FtM6dYkvr6yfPM+BvRkyhugFjN41HFBoeTrpdbr50UkBimo?=
- =?us-ascii?Q?355iU6cmH5/dpRg8eHa89zZRH3Jb200Ot1Y+s6ager7aYWIO3IHlkzBWKBAZ?=
- =?us-ascii?Q?t9wOdoYXLl+bkH+1yJi8R2CN+DHL9Pks917XgdlW7mXaBLVBSZZ2FX7hVFjT?=
- =?us-ascii?Q?lq52++jjfeAgFLJ5PixNMgcwqa/ldGajrJbnMsyrsqNxbv8yr1jZO/JT50l1?=
- =?us-ascii?Q?RSogZmdPBo3qtYUf2//bpDdLAAjtGR7Zi52utZtdLrERXqUqefeHph/yecUW?=
- =?us-ascii?Q?miXRYne/Wz7Uovt73ocfMam85eDxR9/x+cw/+jgdsVDLHHvOOfc44I2vnABm?=
- =?us-ascii?Q?fOuyrmQObSS9jgJiAedrMmMLgpL3E3D3svzahUxPPngXO7aqNJy4bOj942lK?=
- =?us-ascii?Q?FqS9GjHqJSJaVoKlSH0KUNDF735ENqFZGu2bW6STK5HMJzAw7Tkm9Z/igahv?=
- =?us-ascii?Q?A2nVDXbVUGUo+cQgh0MdgBExb7K4TwTa4ibdamZj+oV+GT/8z1LKVKIDzSrA?=
- =?us-ascii?Q?NaexArDGFjpfUjvjSCdBJUsS33vF03lMW+LOP7H+i3ZR3R7IXeKBOrJANAVU?=
- =?us-ascii?Q?thrD/fv/pIbmDIXmUoQH9OYsgyuC26yEgEfL/5sIte1JMoKR6bc7gaqFjyJ+?=
- =?us-ascii?Q?1BFWwlZr7LLz0NEzyr7x7pELCa2MWmzlEV+1CIEPGGLJCiqzutwstMFd9QX3?=
- =?us-ascii?Q?6zaGxnZntAeJkMhpALdoU8a982yqPJe2ju3sXCQUdSvfx4RIQV3CEErLZlzo?=
- =?us-ascii?Q?pRrIOckBdTzBPx4Xxys2xg0QwQNa8XZrayrM/Q7CvNgTXXMS3z3M1a6k8PBY?=
- =?us-ascii?Q?095y9WrlpJjR+Wysq7HxONYmUgF6578zVC76uJr+KoVcImwipWJ+OzHliUSq?=
- =?us-ascii?Q?5auZ5oomjOr4ajAriiAb9rhJ/CGthJf23xX/HWcNcCofuau7Ez0ogPqmlFWz?=
- =?us-ascii?Q?LjyFzu5Zi30njh4nZAh4OI8hD2Zi4jb6OR3ldu15mZ2oHQJL4A=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7903.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ANYTb32Ex95K3jeYBtApe8pck95tG0fXZANdG6j1smfleMiK14aK1leqcvaT?=
- =?us-ascii?Q?u4TlR+ilKn7Vgu6Ttie+t99hS/Ukqcjz+Mg/Pm+jyX8mvYIZVF7uB6YVIiwl?=
- =?us-ascii?Q?PpUoMsvrgm4PvmBFQnNZ+M0K48+PO3D5n1sG5XNZxUg4+yAp/Nz9vwHr3iYj?=
- =?us-ascii?Q?ALB6P9zn52qSbxpX2XeXzc2syiI2pYVVkoEkTjODYFetPC5kSotRjyMOC+ny?=
- =?us-ascii?Q?RXN6aejKk3Qr+ABooWqRMtC+zzpNX+nflsMp7oJh266njfF0S/Fo4G4UpJVa?=
- =?us-ascii?Q?Dw4Y45vyXduxSpLFYvE/tP5Ho0aeX8d6uLsU+LvMVf/hSOy7nDmeGo6eKtpp?=
- =?us-ascii?Q?KBE0js98F45IXhPYwYpp3t5+RIEKpZ/t+lPmr+SVxXChN0KnI8nREQSYh8gW?=
- =?us-ascii?Q?heW782EfJ6kEsy06scxQnQLoZ6ZY33xKlW5kIuqAV1lKIwLWhmvPESQ0wxbe?=
- =?us-ascii?Q?P4DoDzN1z0Si6PPO/mhCbWYbz0gfDdze+JLriMeOh5ijpDMCfrP6vtWQo86r?=
- =?us-ascii?Q?fL0Llxmu4ECLhAyx0r9X1hgVof0WVRQHdYiLmA+r5VJXBsjvqC4P3B7OOEEd?=
- =?us-ascii?Q?mWXhkJ8NLQtN7DS0MZ8OkyOHkZ4/gSJ0cCMW1BqMeeHgh7E4x2iogT1t9iCK?=
- =?us-ascii?Q?xblJ1VuNBVviGcEN8Ia0lATyg7KY4BxO0dLzI70+VDg4YvlpzExfs7RVF5Ak?=
- =?us-ascii?Q?9m7vh29hltWB3pobwXcb0ZZ/vfhVOiNV0Z5XoRYiC97D9FlWYEhyc/L/EE6u?=
- =?us-ascii?Q?5DtH8DrXmY9ndpB+QfgALyDZxH3VnWVX2bOGAjLrgfenXzX1WGfZVKU0ZTQ3?=
- =?us-ascii?Q?yOghaaBa0nJ2iYJ04/e2aBCOd7Ix/n7BFfk7CkB31KUYQmvqq5wb5AINpyvK?=
- =?us-ascii?Q?OR88Oh1cntwMahsvXquO6W+oAjR4rPOlGUAlhRIs6lRlmT/vGClnY9eJE1r+?=
- =?us-ascii?Q?fqCftoiUyPEmtvGpUN5ydVgU3OfOFRXVbk7VbYNBXLejXS93b42nidMwAx1J?=
- =?us-ascii?Q?4iXlzUi6fpihyPfBdboTbNNHeGG0LqvEJi4xHCTUu0DxJX0ThfgZ03Z1DzLB?=
- =?us-ascii?Q?KWibvKiomD64dzRNyT6VgPYgk//dVypIrmXrpZdhzCnmOejwtcpkGgj/kIwv?=
- =?us-ascii?Q?Mb0A5QGNK5gNbKpx7o00xc1bRTI6pdfjBPYJ4cRj3OZ0RXifJGXHMfRSbD2H?=
- =?us-ascii?Q?4icEMkwoFoW79MAk7r1tu2dxUEb/uKDuxPTZ9F7tlREK2o052VmqoESAQRn6?=
- =?us-ascii?Q?F2MP0MaBOQe/zxTCtoC8EaV3ie3Nvih4kDysEKZruCEyxJdqYlwTc7iD2XWP?=
- =?us-ascii?Q?Uciw08VNVe+/b8DOfsM1jyFvW3zC4IrHkaSPP/x3ozfCaVy0zIW/wwa/j+gY?=
- =?us-ascii?Q?6dDIXSiUp/Wf/5qwHAoQAcJc6ylHkJJc+9JR1qrfnLjrAglRwAaTQApVr8U9?=
- =?us-ascii?Q?kApoygO7yPSjsSOzitPFqShCc+yPYNcHDiPohE84I8ejfNptwGgutkGQoitW?=
- =?us-ascii?Q?4dtoDlguEb3Pp10oB6WjEXThCjjIQw2dqfU3rsWnkhyl4OXs6pTIh11wT0OY?=
- =?us-ascii?Q?rGeD8g69wh8uNx170O5uGYgfusMsnhfwIiwSBbK5s0qY6Akj1fu+xVCnhCts?=
- =?us-ascii?Q?/w=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 411 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Sep 2024 19:04:12 UTC
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F5B110E8FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 19:04:12 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4X3Ccc3Cd2zDqQb;
+ Tue, 10 Sep 2024 18:57:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1725994640; bh=bZeq4Z0ebYhUDCoVLKa5FdvS8mzxM7LPMAKj+72Khq8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=RidbVF29rcddgvB1cUw8jtrfsKRJiSaaNnJf2ZwdwcaGShZfJUlSOpLs2OYkdHBSS
+ Y83L/a3wzynlNa1STRtO9KjLDRK8WNgdMEzhN4+ANvnC2RS1rEmiW7h0q/djNva5iX
+ 7RG/yMG6DLH85BDbta5GLVPmEDbPSdPQqYt73V0g=
+X-Riseup-User-ID: 16F9D23D34EC5F58F723AA569FAF8A047F08E4FE3B91D97D89884668576CD256
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4X3CcX1n6HzJtyM;
+ Tue, 10 Sep 2024 18:57:16 +0000 (UTC)
+Message-ID: <68da3932-10ab-4001-a978-f0f54034a64d@riseup.net>
+Date: Tue, 10 Sep 2024 15:57:13 -0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7903.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba6f5160-5b24-495d-c2b9-08dcd1c3f8cb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Sep 2024 18:11:20.2314 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r/a+XoBdUUL3jYhC89kDeFiR1TvBr42CblZAf4k0H68eAQO95lQw9zhbYIUWmGANfVuiCu2WyuJfT6KsEq24ilgk1oD4T+GCMQkEnmAsZCI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6488
-X-OriginatorOrg: intel.com
+Subject: Re: [PATCH] MAINTAINERS: Add myself as VKMS Maintainer
+To: Louis Chauvet <louis.chauvet@bootlin.com>, rodrigosiqueiramelo@gmail.com, 
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, sean@poorly.run
+Cc: thomas.petazzoni@bootlin.com, linux-kernel@vger.kernel.org,
+ seanpaul@google.com
+References: <20240910-vkms-maintainer-v1-1-e7a6c7a4ae71@bootlin.com>
+Content-Language: en-US
+From: Maira Canal <mairacanal@riseup.net>
+In-Reply-To: <20240910-vkms-maintainer-v1-1-e7a6c7a4ae71@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,67 +64,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the patch.
+On 9/10/24 12:10, Louis Chauvet wrote:
+> I've been actively working on VKMS to provide new features and
+> participated in reviews and testing. To help Maìra with her work, add
+> myself as co-maintainer of VKMS.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Acked-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Acked-by: Maíra Canal <mairacanal@riseup.net>
 
-Anitha
-> -----Original Message-----
-> From: Nikula, Jani <jani.nikula@intel.com>
-> Sent: Tuesday, September 10, 2024 3:04 AM
-> To: dri-devel@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; Niku=
-la, Jani
-> <jani.nikula@intel.com>; Nathan Chancellor <nathan@kernel.org>; Chrisanth=
-us,
-> Anitha <anitha.chrisanthus@intel.com>; Edmund Dea
-> <edmund.j.dea@intel.com>
-> Subject: [PATCH 3/8] drm/kmb: annotate
-> set_test_mode_src_osc_freq_target_{low,hi}_bits() with __maybe_unused
->=20
-> Building with clang and and W=3D1 leads to warning about unused
-> set_test_mode_src_osc_freq_target_low_bits() and
-> set_test_mode_src_osc_freq_target_hi_bits(). Fix by annotating them with
-> __maybe_unused.
->=20
-> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
-> inline functions for W=3D1 build").
->=20
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->=20
+Please, check the procedures to apply for commit rights in drm-misc and
+apply it. This way you will be able to commit your patches.
+
+Thanks for volunteering!
+
+Best Regards,
+- Maíra
+
 > ---
->=20
-> Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> Cc: Edmund Dea <edmund.j.dea@intel.com>
-> Cc: Nathan Chancellor <nathan@kernel.org>
+> Hi everyone,
+> 
+> This series [1] has been waiting for a while now, it was proposed first in
+> February. The first iterations had few reactions (thanks to Arthur, Pekka,
+> Maìra, ...), but since v8 (in May) no major issues were reported, Maìra
+> seemed satisfied, and only minor cosmetic changes were reported. Two other
+> series ([2] and [3]), that I submitted first in May, did not have receive
+> any reactions.
+> 
+> In addition, there is also some significant addition to VKMS being
+> proposed, such as ConfigFS support, and without a clear maintainer having
+> the time to review and approve these changes, these changes have very
+> little changes to get in.
+> 
+> VKMS is not a fundamental driver for "normal" Linux users, but I had some
+> feedback from userspace developpers that VKMS could be a very good testing
+> tool if only it had more features (I think P0xx formats were asked to
+> test HDR for example). This could also help to detect issues in DRM core
+> by emulating a wide range of configurations.
+> 
+> I believe the only active maintainer is Maìra, but as she's mentioned before,
+> she doesn't have much time to work on VKMS. So, I'd like to volunteer as a
+> maintainer. I have plenty of time to dedicate to VKMS.
+> 
+> I hope I've gained enough understanding of VKMS to be helful with this role.
+> I am eager to move forward and improve this subsystem. I've also talked to Sean
+> about this, and he agrees that it would be good if I could commit code to
+> drm-misc.
+> 
+> [1]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/
+> [2]: https://lore.kernel.org/all/20240814-b4-new-color-formats-v2-0-8b3499cfe90e@bootlin.com/
+> [3]: https://lore.kernel.org/all/20240814-writeback_line_by_line-v2-0-36541c717569@bootlin.com/
 > ---
->  drivers/gpu/drm/kmb/kmb_dsi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.=
-c
-> index cf7cf0b07541..faf38ca9e44c 100644
-> --- a/drivers/gpu/drm/kmb/kmb_dsi.c
-> +++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-> @@ -818,7 +818,7 @@ static void test_mode_send(struct kmb_dsi *kmb_dsi,
-> u32 dphy_no,
->  	}
->  }
->=20
-> -static inline void
-> +static inline __maybe_unused void
->  	set_test_mode_src_osc_freq_target_low_bits(struct kmb_dsi *kmb_dsi,
->  						   u32 dphy_no,
->  						   u32 freq)
-> @@ -830,7 +830,7 @@ static inline void
->  		       (freq & 0x7f));
->  }
->=20
-> -static inline void
-> +static inline __maybe_unused void
->  	set_test_mode_src_osc_freq_target_hi_bits(struct kmb_dsi *kmb_dsi,
->  						  u32 dphy_no,
->  						  u32 freq)
-> --
-> 2.39.2
-
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 10430778c998b57944c1a6c5f07d676127e47faa..62f10356e11ab7fa9c8f79ba63b335eb6580d0a8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7340,6 +7340,7 @@ DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
+>   M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+>   M:	Melissa Wen <melissa.srw@gmail.com>
+>   M:	Maíra Canal <mairacanal@riseup.net>
+> +M:	Louis Chauvet <louis.chauvet@bootlin.com>
+>   R:	Haneen Mohammed <hamohammed.sa@gmail.com>
+>   R:	Daniel Vetter <daniel@ffwll.ch>
+>   L:	dri-devel@lists.freedesktop.org
+> 
+> ---
+> base-commit: da3ea35007d0af457a0afc87e84fddaebc4e0b63
+> change-id: 20240910-vkms-maintainer-7b3d2210cc1b
+> 
+> Best regards,
