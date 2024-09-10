@@ -2,64 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FCA973AF7
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:05:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B683973AFF
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C11F310E850;
-	Tue, 10 Sep 2024 15:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7426210E852;
+	Tue, 10 Sep 2024 15:08:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="2Pm3vRG6";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Rwc+OP15";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9BE10E850
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=MbtVK41xgK4idgq8PGW89PrBOMGskTuzUaGyT2iw6+Q=; b=2Pm3vRG68XGpfyN2ZCgPfKGopi
- we4pslGmbNcTqh8LaiL9VvtvJ9i0dITV4GyirSq363XY6TySOhmHg23VcnplIbKJZfdfPMIJB01TN
- dUg96aoBCxn580xFvbFxPBS2CTsEYmYv2H6z/QQ/0DuEQmMHIFXrYFlo+GtCkI3pXXRw9HkRyAXAQ
- zl8sQZQVRkaG973q46UFmxdARTOog4suJE9YUV4DWXNSj7saAxXFoi+ng0N/nVkbrJZFVkx0X26NI
- wGxiZj6r645B1cBZI2XfZ92Q9x6kgUrWJqCGEBjTuwhanFKELn7o7Aqr87Li0qISJY94eKMpMXdhf
- if5auyIQ==;
-Received: from i53875a02.versanet.de ([83.135.90.2] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1so2Qt-0005VN-MJ; Tue, 10 Sep 2024 17:05:31 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, kernel@collabora.com,
- Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
- Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-Date: Tue, 10 Sep 2024 17:07:57 +0200
-Message-ID: <1785617.Ii9rTq9gLj@diego>
-In-Reply-To: <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
-References: <20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com>
- <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
+ [209.85.160.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43F6D10E852
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:08:23 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id
+ d75a77b69052e-4582fa01090so289181cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1725980902; x=1726585702;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HiSPE2re4i7ztv5W1E1npIwrh98/6F2AGMg3S1xMoPU=;
+ b=Rwc+OP15ok/sYDKuoTC43m05rTaSl7MXx48XWizTBvtx6DwMfLKJubfzOz222iR7Sc
+ 7Y+KxDU4wpfFFSpSb3zeRH2Hq1w1vlYLu5MSJZbkHvOTDHO76ZEGwsexpNSp/YWqX2TJ
+ muMmS/LL5O977sy26mH5mzYGp5YMjH1PQTTg4xNFnSDcYYnjmlpHPzCokxGWn8MZdNXI
+ UZPAhelXjQlf7gOxDyVkRPANV2pLGURfXLW+0Cnc/G1A4vLhivg42aF/BDKjX0Ur0FJF
+ c2wm2dbgimk6ounacfLqhCr1nrpiMlEjpvIoGzImA7rm3bzoXiZ0dEoCtI6cwd8XRoau
+ EAcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725980902; x=1726585702;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HiSPE2re4i7ztv5W1E1npIwrh98/6F2AGMg3S1xMoPU=;
+ b=qy62CSGNXsCL6KCGxMOlR1ndslQ1nIVXxxdWMEJt+jvm8JEBK1bbxKa3MpczEcp+CK
+ GMvOVNk/hU3AwdgRQxE9YxKmib1uRo51QsDCju/meDYW82MxRorc8wEpfSQmUeExo5/6
+ 9aKWHJrB9zh3u6o4o9slUoWNUFDbHgTRg4Rn/gVQnE9CZ53oztvuJQFblAFPbCqnm9qq
+ fIQqhxZqEqtYT3f1gqE6g3cm5i4//FBVQ5lF+sTkP1Mz04XUj+85Lwi5WzYDSsvWUon2
+ 3B/N7L25QSm3TZljq5i50pnGdluiFUk+gfI3YRmDjWw2HVMafKjZXAivpMpUFlMFYClJ
+ 3e9g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgQlSGZTI1u0bJoCYxxmd8ytCwsUGxAj1L85PGD/jqeH7+NS4OID1zzwcXrDnrOXVbgRLyjPb+FHQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9bI+xTGLLE3O8ZI1HiEFzOmvW6vpeiCLFCGqdvAhrYKl/7FW4
+ JRN5IB9slPRzXxr2XCOgfMDDAn9233TtRMaWZDT2pqa+kbutdaVSojNdvaqCFDZFTjXlbOLze4K
+ wR3q7X18zME2GSzU0SjOl+qp3Q3vie5hkbqun
+X-Google-Smtp-Source: AGHT+IGk/+MqjVLBNa+qD5EowmlfqCvCzaFlTfS1uq8t2r3RhadFZpBGCv9ceFcyyjW5GiIdk+Cu14iQs471/8FCg7c=
+X-Received: by 2002:ac8:5dc6:0:b0:456:7ef1:929d with SMTP id
+ d75a77b69052e-4583d0600f1mr4121411cf.12.1725980901915; Tue, 10 Sep 2024
+ 08:08:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-5-jens.wiklander@linaro.org>
+ <CABdmKX2KzswmiDY4oWw69_rPWs8d_Cqp7OXouSeMQaYX1SDSmw@mail.gmail.com>
+ <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
+ <CABdmKX0qd0RoTn2TBQTs9zdf=_JP8pW8hFRUR_7n_t-sfxsGdg@mail.gmail.com>
+ <CAHUa44E-7UMseWSEeneYYnAPyhH___=a1YYR6uaOVTNZytzg7g@mail.gmail.com>
+In-Reply-To: <CAHUa44E-7UMseWSEeneYYnAPyhH___=a1YYR6uaOVTNZytzg7g@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 10 Sep 2024 08:08:10 -0700
+Message-ID: <CABdmKX2Tsp-KG6_Lth7VUcZcxCfgbsBYqZ5N2h574J+sNP2SxA@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] dma-buf: heaps: add Linaro restricted dmabuf heap
+ support
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,68 +98,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 6. September 2024, 03:17:42 CEST schrieb Cristian Ciocaltea:
-> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
-> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
-> Samsung IP block.
-> 
-> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
-> without audio, CEC or any of the HDMI 2.1 specific features.
-> 
-> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
-> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+On Mon, Sep 9, 2024 at 11:06=E2=80=AFPM Jens Wiklander
+<jens.wiklander@linaro.org> wrote:
+>
+> On Wed, Sep 4, 2024 at 11:42=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> >
+> > On Wed, Sep 4, 2024 at 2:44=E2=80=AFAM Jens Wiklander <jens.wiklander@l=
+inaro.org> wrote:
+> > >
+> > > On Tue, Sep 3, 2024 at 7:50=E2=80=AFPM T.J. Mercier <tjmercier@google=
+.com> wrote:
+> > > >
+> > > > On Fri, Aug 30, 2024 at 12:04=E2=80=AFAM Jens Wiklander
+> > > > <jens.wiklander@linaro.org> wrote:
+> > > > >
+> > > > > Add a Linaro restricted heap using the linaro,restricted-heap bin=
+dings
+> > > > > implemented based on the generic restricted heap.
+> > > > >
+> > > > > The bindings defines a range of physical restricted memory. The h=
+eap
+> > > > > manages this address range using genalloc. The allocated dma-buf =
+file
+> > > > > descriptor can later be registered with the TEE subsystem for lat=
+er use
+> > > > > via Trusted Applications in the secure world.
+> > > > >
+> > > > > Co-developed-by: Olivier Masse <olivier.masse@nxp.com>
+> > > > > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > > > ---
+> > > > >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
+> > > > >  drivers/dma-buf/heaps/Makefile                |   1 +
+> > > > >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++=
+++++++
+> > > > >  3 files changed, 176 insertions(+)
+> > > > >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.=
+c
+> > > > >
+> > > > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heap=
+s/Kconfig
+> > > > > index 58903bc62ac8..82e2c5d09242 100644
+> > > > > --- a/drivers/dma-buf/heaps/Kconfig
+> > > > > +++ b/drivers/dma-buf/heaps/Kconfig
+> > > > > @@ -28,3 +28,13 @@ config DMABUF_HEAPS_RESTRICTED_MTK
+> > > > >         help
+> > > > >           Enable restricted dma-buf heaps for MediaTek platform. =
+This heap is backed by
+> > > > >           TEE client interfaces. If in doubt, say N.
+> > > > > +
+> > > > > +config DMABUF_HEAPS_RESTRICTED_LINARO
+> > > > > +       bool "Linaro DMA-BUF Restricted Heap"
+> > > > > +       depends on DMABUF_HEAPS_RESTRICTED
+> > > > > +       help
+> > > > > +         Choose this option to enable the Linaro restricted dma-=
+buf heap.
+> > > > > +         The restricted heap pools are defined according to the =
+DT. Heaps
+> > > > > +         are allocated in the pools using gen allocater.
+> > > > > +         If in doubt, say N.
+> > > > > +
+> > > > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/hea=
+ps/Makefile
+> > > > > index 0028aa9d875f..66b2f67c47b5 100644
+> > > > > --- a/drivers/dma-buf/heaps/Makefile
+> > > > > +++ b/drivers/dma-buf/heaps/Makefile
+> > > > > @@ -2,4 +2,5 @@
+> > > > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
+> > > > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)  +=3D restricted_heap.o
+> > > > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)      +=3D restricted_h=
+eap_mtk.o
+> > > > > +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_LINARO)   +=3D restricted_h=
+eap_linaro.o
+> > > > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
+> > > > > diff --git a/drivers/dma-buf/heaps/restricted_heap_linaro.c b/dri=
+vers/dma-buf/heaps/restricted_heap_linaro.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..4b08ed514023
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/dma-buf/heaps/restricted_heap_linaro.c
+> > > > > @@ -0,0 +1,165 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > > +/*
+> > > > > + * DMABUF secure heap exporter
+> > > > > + *
+> > > > > + * Copyright 2021 NXP.
+> > > > > + * Copyright 2024 Linaro Limited.
+> > > > > + */
+> > > > > +
+> > > > > +#define pr_fmt(fmt)     "rheap_linaro: " fmt
+> > > > > +
+> > > > > +#include <linux/dma-buf.h>
+> > > > > +#include <linux/err.h>
+> > > > > +#include <linux/genalloc.h>
+> > > > > +#include <linux/module.h>
+> > > > > +#include <linux/of.h>
+> > > > > +#include <linux/of_fdt.h>
+> > > > > +#include <linux/of_reserved_mem.h>
+> > > > > +#include <linux/scatterlist.h>
+> > > > > +#include <linux/slab.h>
+> > > > > +
+> > > > > +#include "restricted_heap.h"
+> > > > > +
+> > > > > +#define MAX_HEAP_COUNT 2
+> > > >
+> > > > Are multiple supported because of what Cyrille mentioned here about=
+ permissions?
+> > > > https://lore.kernel.org/lkml/DBBPR04MB7514E006455AEA407041E4F788709=
+@DBBPR04MB7514.eurprd04.prod.outlook.com/
+> > >
+> > > Yes, I kept that as is.
+> >
+> > Ok thanks.
+> >
+> > > > So this is just some arbitrary limit? I'd prefer to have some sort =
+of
+> > > > documentation about this.
+> > >
+> > > How about removing the limit and using dynamic allocation instead?
+> >
+> > That works too!
+>
+> It turns out that was easier said than done. The limit is hardcoded
+> because dynamic memory allocation isn't available at that stage during
+> boot. We have a short description of this heap in Kconfig. I'll add
+> something about the limit there if that makes sense.
+>
+> Thanks,
+> Jens
 
-I had switched from the v3 to this v6 in my playground-kernel today,
-with v3 I've never seen those, but now with v6 I have gotten multiple
-times:
+Ah ok sounds good.
 
-[  805.730608] Internal error: synchronous external abort: 0000000096000010 [#1] PREEMPT SMP
-[  805.739764] Modules linked in: snd_soc_simple_card crct10dif_ce snd_soc_simple_card_utils panthor drm_gpuvm drm_exec fuse
-[  805.752031] CPU: 3 UID: 0 PID: 775 Comm: Xorg Not tainted 6.11.0-rc7-00099-g459302f1f908-dirty #934
-[  805.762143] Hardware name: Theobroma Systems RK3588-Q7 SoM on Haikou devkit (DT)
-[  805.770407] pstate: 204000c9 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  805.778186] pc : regmap_mmio_read32le+0x8/0x20
-[  805.783155] lr : regmap_mmio_read+0x44/0x70
-[  805.787828] sp : ffff80008293b830
-[  805.791516] x29: ffff80008293b830 x28: ffff80008293bce8 x27: ffff0001f20ab080
-[  805.799495] x26: ffff800081139500 x25: 0000000000000000 x24: 0000000000000010
-[  805.807472] x23: 0000000000000000 x22: ffff0001f5a4b400 x21: ffff80008293b8c4
-[  805.815450] x20: 0000000000000968 x19: ffff0001f5a27a80 x18: 0000000000000070
-[  805.823428] x17: 0002441400000005 x16: 000004650441043c x15: 0438000008980804
-[  805.831406] x14: 07d8089807800780 x13: 0438000008980804 x12: ffff800081133630
-[  805.839384] x11: 0002441400000005 x10: 000004650441043c x9 : ffff800081a59000
-[  805.847361] x8 : 07d8089807800780 x7 : 0000000000000000 x6 : ffff0001f5b453c0
-[  805.855339] x5 : ffff800080750dc0 x4 : 0000000000000968 x3 : 0000000000000968
-[  805.863316] x2 : ffff800080751520 x1 : 0000000000000968 x0 : ffff800083b20968
-[  805.871294] Call trace:
-[  805.874012]  regmap_mmio_read32le+0x8/0x20
-[  805.878588]  _regmap_bus_reg_read+0x6c/0xac
-[  805.883262]  _regmap_read+0x60/0xd8
-[  805.887159]  _regmap_update_bits+0xf4/0x140
-[  805.891832]  regmap_update_bits_base+0x64/0xa0
-[  805.896797]  dw_hdmi_qp_bridge_atomic_enable+0x134/0x220
-[  805.902734]  drm_atomic_bridge_chain_enable+0x54/0xc8
-[  805.908380]  drm_atomic_helper_commit_modeset_enables+0x194/0x280
-[  805.915190]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
-[  805.921125]  commit_tail+0xa0/0x1a0
-[  805.925021]  drm_atomic_helper_commit+0x17c/0x1b0
-[  805.930276]  drm_atomic_commit+0xb8/0x100
-[  805.934754]  drm_atomic_connector_commit_dpms+0xe0/0x110
-[  805.940690]  drm_mode_obj_set_property_ioctl+0x1c0/0x420
-[  805.946626]  drm_connector_property_set_ioctl+0x3c/0x68
-[  805.952465]  drm_ioctl_kernel+0xc0/0x130
-[  805.956846]  drm_ioctl+0x214/0x4a0
-[  805.960643]  __arm64_sys_ioctl+0xac/0xf8
-[  805.965025]  invoke_syscall+0x48/0x104
-[  805.969214]  el0_svc_common.constprop.0+0x40/0xe0
-[  805.974470]  do_el0_svc+0x1c/0x28
-[  805.978171]  el0_svc+0x34/0xe0
-[  805.981582]  el0t_64_sync_handler+0x120/0x12c
-[  805.986449]  el0t_64_sync+0x190/0x194
-[  805.990540] Code: d503201f d503201f f9400000 8b214000 (b9400000)
-
-I guess that might be some clocking issue?
-
-
+I noticed one other thing, linaro_restricted_heap_init and add_heap
+should probably have __init. Last week I sent a patch to add that for
+the CMA and system heaps.
