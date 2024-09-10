@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5009973CB3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094ED973CBD
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:52:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C47F410E86A;
-	Tue, 10 Sep 2024 15:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB1B10E86B;
+	Tue, 10 Sep 2024 15:52:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KZ2Dfh7u";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eQguQaDh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FCC810E0FA;
- Tue, 10 Sep 2024 15:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1725983353; x=1757519353;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tXfZjIelOoATVNRuNd2M0e7G5jk07wceckIyCC+aQBQ=;
- b=KZ2Dfh7uJh0ET76KFTLpB5Ls4gMQT6Dfj5fIcdUDf5lqmlvf2AALfjP6
- xP+A+4CFPZxXkNxFgPcMHhEK49zBG1Jk9ASYZnHVH8tc6jaRokvU5Rh5v
- /XsP7DAVvpWqFR4GEG3bFAPsshrJBSOWYlr3KQFvRpkU77rWIp0oWSgek
- WfAHHz2QITV01R1kuvHLHehSowGkRdCydIzHdwtDKLNEyFrglt1TB9QM4
- hN+4G8k9T/LsvzrasyaiRHYCUoHQO8jDbaWy5H4pGE6Ercd1RNRYyCRlP
- YdULvGfhVfLDHnHgBhs4yezbeXbSYYVILVMYf7z11PwUhaeAK23IBxnap w==;
-X-CSE-ConnectionGUID: rB3xF2XiQxiw8A0xqNKoZA==
-X-CSE-MsgGUID: TycIBNApTb+c+TE3OoCoRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24882976"
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="24882976"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2024 08:49:08 -0700
-X-CSE-ConnectionGUID: H7SzwbTlRCOeZTMc2fExpw==
-X-CSE-MsgGUID: lIwTWrPDT3+N2TflfhFYPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="71860233"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2024 08:49:04 -0700
-Date: Tue, 10 Sep 2024 18:49:00 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: airlied@gmail.com, daniel@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com
-Subject: Re: [PATCH v4 1/3] drm: Introduce device wedged event
-Message-ID: <ZuBqbFA8_d0khPCY@black.fi.intel.com>
-References: <20240906094225.3082162-1-raag.jadav@intel.com>
- <20240906094225.3082162-2-raag.jadav@intel.com>
- <20240909215323.GC5774@mdroper-desk1.amr.corp.intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8623B10E86B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:52:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1725983557;
+ bh=VqVYu4N/Tf1UtM3sawFVKjYsdrOcwFFbjlE2c3Q5n6o=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eQguQaDhVq678MgrPKfPcNoIMM+tkkuOFHGC4Nfix43E7Oqd4JTJqZUW3043HaUQG
+ brN2zMOxEQ3YE8qsp8XT8qjaxfA0cPPhVj8mE+aPqHARpYIhuBv95ZYVNOJeN9JTIK
+ 8rxZ1EjcGMV0Ui7aHnw6oltLy99/yrWBpYKKvue3LZ9cTlX4TGsN0iS6ab8lG4xB+a
+ 45uzTdAnunuUvTjqO+unl/H+VH802SJaVkurGGZ2oB/abHUN2tctLqmN6tBxbkEzGT
+ aCxBdWj+tSvxBaN3Dtj74F7fRp23DVaapGtixCj6b9zk7xbvOrmcLlm4QeLSmOuwHh
+ TcOWGrZ9IzLsA==
+Received: from [192.168.1.90] (unknown [188.27.55.48])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3B9FA17E12D3;
+ Tue, 10 Sep 2024 17:52:36 +0200 (CEST)
+Message-ID: <ae4db880-d64c-446b-bbf8-954b7bebca83@collabora.com>
+Date: Tue, 10 Sep 2024 18:52:35 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240909215323.GC5774@mdroper-desk1.amr.corp.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/4] drm/bridge: synopsys: Add DW HDMI QP TX Controller
+ support library
+To: Markus Elfring <Markus.Elfring@web.de>,
+ Algea Cao <algea.cao@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Yao <markyao0591@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Alexandre Arnoud <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>
+References: <20240831-b4-rk3588-bridge-upstream-v5-2-9503bece0136@collabora.com>
+ <ab8a17d0-9505-4e81-b5ec-4a3025c48245@web.de>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <ab8a17d0-9505-4e81-b5ec-4a3025c48245@web.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,67 +78,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 09, 2024 at 02:53:23PM -0700, Matt Roper wrote:
-> On Fri, Sep 06, 2024 at 03:12:23PM +0530, Raag Jadav wrote:
-> > Introduce device wedged event, which will notify userspace of wedged
-> > (hanged/unusable) state of the DRM device through a uevent. This is
-> > useful especially in cases where the device is in unrecoverable state
-> > and requires userspace intervention for recovery.
-> > 
-> > Purpose of this implementation is to be vendor agnostic. Userspace
-> > consumers (sysadmin) can define udev rules to parse this event and
-> > take respective action to recover the device.
-> > 
-> > Consumer expectations:
-> > ----------------------
-> > 1) Unbind driver
-> > 2) Reset bus device
-> > 3) Re-bind driver
-> > 
-> > v4: s/drm_dev_wedged/drm_dev_wedged_event
-> >     Use drm_info() (Jani)
-> >     Kernel doc adjustment (Aravind)
-> > 
-> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_drv.c | 20 ++++++++++++++++++++
-> >  include/drm/drm_drv.h     |  1 +
-> >  2 files changed, 21 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index 93543071a500..cca5d8295eb7 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -499,6 +499,26 @@ void drm_dev_unplug(struct drm_device *dev)
-> >  }
-> >  EXPORT_SYMBOL(drm_dev_unplug);
-> >  
-> > +/**
-> > + * drm_dev_wedged_event - generate a device wedged uevent
-> > + * @dev: DRM device
-> > + *
-> > + * This generates a device wedged uevent for the DRM device specified by @dev,
-> > + * on the basis of which, userspace may take respective action to recover the
-> > + * device. Currently we only set WEDGED=1 in the uevent environment, but this
-> > + * can be expanded in the future.
+On 9/8/24 12:11 PM, Markus Elfring wrote:
+> …
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+>> @@ -0,0 +1,708 @@
+> …
+>> +static int dw_hdmi_qp_i2c_xfer(struct i2c_adapter *adap,
+>> +			       struct i2c_msg *msgs, int num)
+>> +{
+> …
+>> +	mutex_lock(&i2c->lock);
+> …
+>> +	dw_hdmi_qp_mod(hdmi, 0, I2CM_OP_DONE_MASK_N | I2CM_NACK_RCVD_MASK_N,
+>> +		       MAINUNIT_1_INT_MASK_N);
+>> +
+>> +	mutex_unlock(&i2c->lock);
+>> +
+>> +	return ret;
+>> +}
+> …
 > 
-> Just to clarify, is "wedged" intended to always mean "the entire device
-> is unusable" or are there cases where it would also get sent if only
-> part of the device is in a bad state?  For example, using i915/Xe
-> terminology, maybe the GT is dead but display is still working.  Or one
-> GT is dead, but another is still alive.
+> Under which circumstances would you become interested to apply a statement
+> like “guard(mutex)(&i2c->lock);”?
+> https://elixir.bootlin.com/linux/v6.11-rc6/source/include/linux/mutex.h#L196
 
-The idea is to provide drivers a way to recover through userspace intervention.
-It is upto the drivers to decide when they see the need for recovery and how
-they want to recover.
+Applied for the upcoming v7.
 
-> Basically, is this event intended as a signal that userspace should stop
-> trying to do _anything_ with the device, or just that the device has
-> degraded functionality in some way (and maybe userspace can still do
-> something useful if it's lucky)?  It would be good to clarify that in
-> the docs here in case different drivers have different ideas about how
-> this is expected to work.
-
-And hence the open discussion. Improvements are welcome :)
-
-Raag
+Thanks,
+Cristian
