@@ -2,80 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47960973CC2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF7F973CC4
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD9410E871;
-	Tue, 10 Sep 2024 15:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC2310E873;
+	Tue, 10 Sep 2024 15:55:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="NjoyDP3E";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="iNnhWeW3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3C810E876
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:54:48 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-42bbffe38e6so44091775e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1725983687; x=1726588487;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6PxrvNA8ZTQVOz0CWahQR48w5Gv7e/oF6A+jLaE/Ydo=;
- b=NjoyDP3EIoblnuYOdQC3VqYc0lgMLO1ESkcJa4AzAM9f+39RlOp6mznehS5Qh1vq2A
- LDK4vkr4GX5KD7fYMk9wzkPVt6zPp1YRKk1k8Mx6hOP5oO/XgrnBGQvpAAnCdMe8E/G7
- NCAugbkN+BjU9CUCwxkbYbSn4dNGoQ3rvmnGUP3aYg8sbvoB4sObRY58yFbZCZVlg6eW
- RHfxQ8M+l67kD89ikqYNbsPUZDhCJ750ZyM2X6tHqgaKP3v5jiFDchc8RYYVrRVe/zd/
- mp5xiSm1x+nL8hX5UHArdM6A5CxfyQGuc5NrWGzznrt0DzyGR8cRVSzwRLCpq11h5ivp
- /6bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725983687; x=1726588487;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6PxrvNA8ZTQVOz0CWahQR48w5Gv7e/oF6A+jLaE/Ydo=;
- b=IIG+mhdddL+pONCNirDHGCcYsUNUY9M1BTNcFbBqDwDi4pnsyskvrkaKT8Ofa6+Y6x
- 9TlpU8plInrfj4ANJ6CNL5FbeVEE9Cu4NtOnbOJJ+tA7KfWPLcR7ennKavrUWP73qaUM
- N1j3LgKwj5S6lO89EkOWPMDbBAhi4h/hEv9DpffOqmMoG6Mjp/gBWvlZTk6wxEiYYR9Y
- DEyqDCbFlvKux2R0U6l7SDSDxLMOrjT2exDf+305CDD1Cg55LoW6YhNBWF6wmrELAoPA
- GD2jaViLqP0bR5ocfzEt47538XbADUV2VP7jd4Jc5PwXGHGCQJTgO1oB1VdVOkArZ3QM
- +RcQ==
-X-Gm-Message-State: AOJu0Yy6TJKY6qOZRQps0aKlMbuBm9qeVoHtXYMCWY2LLj/uczdGH8Y3
- Fefw6KFPpkb0qAVgp7XmEFOJ0uBzBdUrYjGjBK9+nxd0fQUfmYNdJgjF6lxusoM=
-X-Google-Smtp-Source: AGHT+IEb0qA5EpGtNaNVZJscuK0KLM4oa8DNMmxJuy4xu6oN9fz+YV9+rQWeonEJ5VU15eSCcYGm4A==
-X-Received: by 2002:a05:600c:3d11:b0:426:5e91:3920 with SMTP id
- 5b1f17b1804b1-42cad87f264mr87685255e9.29.1725983686172; 
- Tue, 10 Sep 2024 08:54:46 -0700 (PDT)
-Received: from [192.168.108.50] (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42cc1375c6esm20178245e9.1.2024.09.10.08.54.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Sep 2024 08:54:45 -0700 (PDT)
-Message-ID: <19ac4e25-7609-4d92-8687-585c6ea00c79@freebox.fr>
-Date: Tue, 10 Sep 2024 17:54:44 +0200
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D345310E873
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1725983715; x=1726588515; i=markus.elfring@web.de;
+ bh=LwPewJzw4V4WuTKlqB1K5tYOXWB1kJNCFgItpQi5tGA=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=iNnhWeW3g+hAODGfDoNqaFNmgaqEIFIxBYn1ZoP8hSe3x+BD1sV4B325L2GnuTw+
+ rS5hC4/0u5R9vMk6U6UONrI/LkdfzeoCsQD1AIzg7Tdi/LuH1fqugv67ZSHvtDbET
+ HJ9a8cYpiZLslSqJwZ1fK/Hn5lFR5UCt3+WqWud4qhwzKSVUF84iQ6KGvEbmFBprA
+ up6ONxaeOGoIOqGRvij8NW5BAV+mKVF8u8nWEH66WZx4XM7m9GQDdskq9x0DLM/MP
+ 22qsnFjSI3lDJy7K7XL4M9//MLnEse9PHKT5aeCeAfVywoKfbktkSMz1VPqyZAbMM
+ wAuWVvadLOnXO+PB6g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1My6lX-1s5r9Z3SZD-010uBy; Tue, 10
+ Sep 2024 17:55:14 +0200
+Message-ID: <aa9efb22-9ff1-412a-a949-bd727350532f@web.de>
+Date: Tue, 10 Sep 2024 17:55:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] drm/msmi: annotate pll_cmp_to_fdata() with
- __maybe_unused
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>, Arnaud Vrac <avrac@freebox.fr>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <3553b1db35665e6ff08592e35eb438a574d1ad65.1725962479.git.jani.nikula@intel.com>
- <4ag2efwiizn5bnskauekqwfhgl4gioafcvetpvsmbdgg37bdja@3g6tt4rlfwcb>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <4ag2efwiizn5bnskauekqwfhgl4gioafcvetpvsmbdgg37bdja@3g6tt4rlfwcb>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, Rob Herring <robh+dt@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Vishal Sagar <vishal.sagar@amd.com>
+References: <20240910-xilinx-dp-audio-v3-3-75560793f4d0@ideasonboard.com>
+Subject: Re: [PATCH v3 3/3] drm: xlnx: zynqmp_dpsub: Add DP audio support
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240910-xilinx-dp-audio-v3-3-75560793f4d0@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dUTuMxY+RIMsMYSPo9z08ag0Ve3CqYJZF0sCAewlSlRgL/pPk2w
+ Bh98DzjKfd4e9R76Fd1HDYqZURqHHYgrJRckEUrNxqB3X6bXg9R/DkqHB1XHiqgsndIDFUc
+ QThopc9jqRyEGyURUeg8lLZe3q55FgeDAcDsCAKTqYoSR3CmmVqngB4aTA1Ff03bCxpT5yT
+ tMQk16/syJxIlSKpUCuiQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Y7xr2WFazI4=;iydN9FdWvdIe7qftthK9MZ1odcD
+ nAoXuuHvB4+sRQ1usDd7/6WSBME0otRiam/ITa91XIkTcbFqZm75z/vJ58h/mlTj4cr5YzzhX
+ tE5pxnpILRxoSefbCbwx0BS/2HFfu2ITXG0I5WdX/tcBTtklPHUqNLQ2JnJVUyFxp6SyoAeN8
+ x2RRB3L070cQ5ugwsv8t/AC67zu308FVzXtj57unFrwZrkSrfUwaXSx/tWy8oIeEPla8NZgTV
+ o7rJXO/2E9Zt2GqPir5MEfrOsmUXT9JJTZZ1VSwzmDTwXENJStPO18x/bgzKRWyIuQGwagTeI
+ L7l2RR7KdS1tfiSb7B8WBHWieKbYczY3HZwcy6MfaBvwdHRGhHDdJLCht0qmNjyimuGL0Fgns
+ gEFDQkL4sEUCPwfCxzbm4S8HFo9gn7GJGLalPnc0h99/6fVf0v3bOVzvfIwUDII/lOzvVRCgE
+ 0at1gKa4Iq6fd7EHbpKV7OnhsRthI/EXBJ5iVyJEWX0qqVqutSuYyWuFKlE46z2n9+wSUtnEb
+ 1mC8TU+/7T730+T18HM5l7kLpoY2bxknMOzkBQBN58vUnVuR9m1fKCC3ODocmUfpYIdk6lNz8
+ C1iJquV191W0yVWbXussHkVDB3RESzvkiqETiPxXezxnjQLCsW8nhDYWjMMUUX1p9l4TUC/2+
+ 8qA3ajwJ1tl44IiJfNyo927sXUobOpsM5UQwpwwF2eSQdOdQw5nzrcPurVZ+0deO0Gxc4KQVn
+ rWIe6YtiLFhMxb9Xv4SO+xOEH+LOJ7GpznOwoGvlYXQHql9xJWiRE8f8qAyNKkd9QYYNNR4RZ
+ dOi80qkX9EC2hU09JSLseCkg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,52 +93,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/09/2024 16:51, Dmitry Baryshkov wrote:
+=E2=80=A6
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
+> @@ -0,0 +1,461 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * ZynqMP DisplayPort Subsystem Driver - Audio support
+> + *
+> + * Copyright (C) 2015 - 2023 Xilinx, Inc.
+> + *
+> + * Authors:
+=E2=80=A6
 
-> On Tue, Sep 10, 2024 at 01:03:43PM GMT, Jani Nikula wrote:
->
->> Building with clang and and W=1 leads to warning about unused
->> pll_cmp_to_fdata(). Fix by annotating it with __maybe_unused.
->>
->> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
->> inline functions for W=1 build").
->>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> I think this function can be dropped. Marc, your call, as an author of
-> the patch?
+Would such information need another adjustment (according to the current y=
+ear)?
 
-( Why is the patch prefixed "drm/msmi", is "msmi" a typo? )
-
--> For the record, Arnaud is the driver's author.
-
-pll_cmp_to_fdata() was used in hdmi_8998_pll_recalc_rate()
-in a commented code block which was later removed.
-
-Thus, yes, it is safe to completely delete the unused function.
-I'm surprised gcc didn't catch that...
-
-Regards
-
-
->> ---
->>  drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
->> index 0e3a2b16a2ce..c0bf1f35539e 100644
->> --- a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
->> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
->> @@ -153,7 +153,7 @@ static inline u32 pll_get_pll_cmp(u64 fdata, unsigned long ref_clk)
->>  	return dividend - 1;
->>  }
->>  
->> -static inline u64 pll_cmp_to_fdata(u32 pll_cmp, unsigned long ref_clk)
->> +static inline __maybe_unused u64 pll_cmp_to_fdata(u32 pll_cmp, unsigned long ref_clk)
->>  {
->>  	u64 fdata = ((u64)pll_cmp) * ref_clk * 10;
->>  
->> -- 
->> 2.39.2
-
-
+Regards,
+Markus
