@@ -2,70 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCABB973FB5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 19:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3CB974105
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 19:49:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD7A10E8B3;
-	Tue, 10 Sep 2024 17:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9379910E8BC;
+	Tue, 10 Sep 2024 17:49:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="muuZ7fOS";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dWS5sdF5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0AC610E8B6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 17:32:08 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48AGx2pQ002705;
- Tue, 10 Sep 2024 19:31:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=selector1; bh=6ws8DZHi3fGww8Oc+C3Gn/62
- lB+b6V2NTWERTjva7Os=; b=muuZ7fOSWhUxNay+jXU8tahr27iS4oGdalKlgCAv
- GFP2EyAP7u4ESgKDDy9Fe4wj+XaqCRfQv3gJt4+83wKVkbpEZIImPS24USD4tude
- PlZK35AjO++fSCYpVvga43B0RJLa+5Z9UEs+7vSwZyqkT4acTYx3vMoi4Tr6oGeU
- u7D7NDhWzROllyPFxqClxSIZKcgBBm3melPjWTmyZnYthVfM+Itv9ZOj+jaBCRPm
- QwIXAcvyll/EPRN1EXnAfXhOAJC+083UCH+bFJ/9PPigTu49fOJu6Na/e1UsoyNI
- Y7uVbmL04DSgaPvQdIGAgEYo/dvK6f0pz5v5VcwjtX3AJw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41h1sgafs4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Sep 2024 19:31:43 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id BDC9240049;
- Tue, 10 Sep 2024 19:30:23 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3E84527D535;
- Tue, 10 Sep 2024 19:26:54 +0200 (CEST)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 10 Sep
- 2024 19:26:53 +0200
-Date: Tue, 10 Sep 2024 19:26:52 +0200
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: Ma Ke <make24@iscas.ac.cn>
-CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <benjamin.gaignard@linaro.org>, <vincent.abriou@st.com>,
- <akpm@linux-foundation.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
- <alain.volmat@foss.st.com>
-Subject: Re: [PATCH RESEND] drm/sti: avoid potential dereference of error
- pointers in sti_gdp_atomic_check
-Message-ID: <20240910172652.GB3518200@gnbcxd0016.gnb.st.com>
-References: <20240909063359.1197065-1-make24@iscas.ac.cn>
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B777010E8BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 17:49:09 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-718d8d6af8fso3758616b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 10:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1725990549; x=1726595349;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=XjTGqVxL/lXZ4Xq5oA9wMyb/w66vC8I8vd+hq2N9dLc=;
+ b=dWS5sdF5ca9raTM50E7V7ZPq6NaM0ApM1R6VkIOztUmynFwOSQ+/bdk6uIzBFPRTUf
+ GG2a9gEaopT4O5PS39tD2Pla1XH5cP5WxanynOJNgxCnpHVYl4fqnstmJ4LCPeqAdO9Q
+ kNwCcoBQbtKoqrfZpMFD+v9q9NCNMFQy2N4PY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725990549; x=1726595349;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XjTGqVxL/lXZ4Xq5oA9wMyb/w66vC8I8vd+hq2N9dLc=;
+ b=mzlf93Ad2R1EF+tFiy/sRjgaFbEMPw9eZBkYIix0bl0WkgQPH+5svVvetjQM3Co6Mo
+ mLpnc9jCQoFh0aeeGta5bdE66jeLAn1WFUGHy2ZHFt4L8LCtLMVjnI6AX/sz7eMtVSWo
+ PzzhyweJFrCJ9ANdJbxi+yIY7gwxCbALS5wrC5oYzYpYHCTikSpW5Uq6zv133Ql2biV7
+ 17KzZSNWl3ZheGweHxyvdW7q1J1mmFElU31FzQJeufly5uBog+DedNGuYGroDh6XvqVP
+ unIdhDr6NplWIQzqkap0tBGrQgYi++EegdRcN5zKjN1fIbYED008fNb9Qzk02+5teYd4
+ rcxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXOMWy+/PxmIrdpN9d0VAEDTHirrl0GvjbxLLVJprksdi5BSAVSnENiEVMkRRPjhbzvYuJ4yPITa10=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyoPBlfQ36LyGaLY6TCzMoCm8Z4OLHPynej8mT4abLWJH2BI3F2
+ BisghTe4uVcPM8oPfYhGz+8gPmHP6taWydZq4xEdDZvxKlNXvo2rhGj01h6eRw==
+X-Google-Smtp-Source: AGHT+IH7ewLbjt6vpK16Q9MSvs4t2UHHLsqVCiuJv68f8tihw1AECgjvOqgbtRKJbxklGND7j0FnJg==
+X-Received: by 2002:a05:6a21:6481:b0:1cf:37bd:b553 with SMTP id
+ adf61e73a8af0-1cf5e1ab920mr1717836637.46.1725990549167; 
+ Tue, 10 Sep 2024 10:49:09 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e14:7:a9f8:b780:a61c:6acb])
+ by smtp.gmail.com with UTF8SMTPSA id
+ d9443c01a7336-20710f3229esm51179035ad.268.2024.09.10.10.49.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Sep 2024 10:49:08 -0700 (PDT)
+Date: Tue, 10 Sep 2024 10:49:06 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Fenghua Yu <fenghua.yu@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Tony Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Julius Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate device
+ name "simple-framebuffer.0"
+Message-ID: <ZuCGkjoxKxpnhEh6@google.com>
+References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+ <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240909063359.1197065-1-make24@iscas.ac.cn>
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.129.178.213]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+In-Reply-To: <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,41 +91,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+(Tweaking subject; this indeed isn't related to the regression at all)
+
 Hi,
 
-Thank you for your patch.
-
-Acked-by: Alain Volmat <alain.volmat@foss.st.com>
-
-Regards,
-Alain
-
-On Mon, Sep 09, 2024 at 02:33:59PM +0800, Ma Ke wrote:
-> The return value of drm_atomic_get_crtc_state() needs to be
-> checked. To avoid use of error pointer 'crtc_state' in case
-> of the failure.
+On Mon, Sep 09, 2024 at 10:02:00AM +0200, Borislav Petkov wrote:
+> Looking at your log, the first warn is in framebuffer_coreboot. Some mess in
+> the sysfs platform devices registration.
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: dd86dc2f9ae1 ("drm/sti: implement atomic_check for the planes")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
->  drivers/gpu/drm/sti/sti_gdp.c | 3 +++
->  1 file changed, 3 insertions(+)
+> Adding the relevant people for that:
 > 
-> diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
-> index 43c72c2604a0..f046f5f7ad25 100644
-> --- a/drivers/gpu/drm/sti/sti_gdp.c
-> +++ b/drivers/gpu/drm/sti/sti_gdp.c
-> @@ -638,6 +638,9 @@ static int sti_gdp_atomic_check(struct drm_plane *drm_plane,
->  
->  	mixer = to_sti_mixer(crtc);
->  	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-> +	if (IS_ERR(crtc_state))
-> +		return PTR_ERR(crtc_state);
-> +
->  	mode = &crtc_state->mode;
->  	dst_x = new_plane_state->crtc_x;
->  	dst_y = new_plane_state->crtc_y;
-> -- 
-> 2.25.1
-> 
+> Aug 20 20:29:36 luna kernel: sysfs: cannot create duplicate filename '/bus/platform/devices/simple-framebuffer.0'
+> Aug 20 20:29:36 luna kernel: CPU: 5 PID: 571 Comm: (udev-worker) Tainted: G           OE      6.10.6-arch1-1 #1 703d152c24f1971e36f16e505405e456fc9e23f8
+> Aug 20 20:29:36 luna kernel: Hardware name: Purism Librem 14/Librem 14, BIOS 4.14-Purism-1 06/18/2021
+> Aug 20 20:29:36 luna kernel: Call Trace:
+> Aug 20 20:29:36 luna kernel:  <TASK>
+> Aug 20 20:29:36 luna kernel:  dump_stack_lvl+0x5d/0x80
+> Aug 20 20:29:36 luna kernel:  sysfs_warn_dup.cold+0x17/0x23
+> Aug 20 20:29:36 luna kernel:  sysfs_do_create_link_sd+0xcf/0xe0
+> Aug 20 20:29:36 luna kernel:  bus_add_device+0x6b/0x130
+> Aug 20 20:29:36 luna kernel:  device_add+0x3b3/0x870
+> Aug 20 20:29:36 luna kernel:  platform_device_add+0xed/0x250
+> Aug 20 20:29:36 luna kernel:  platform_device_register_full+0xbb/0x140
+> Aug 20 20:29:36 luna kernel:  platform_device_register_resndata.constprop.0+0x54/0x80 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
+> Aug 20 20:29:36 luna kernel:  framebuffer_probe+0x165/0x1b0 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
+> Aug 20 20:29:36 luna kernel:  really_probe+0xdb/0x340
+> Aug 20 20:29:36 luna kernel:  ? pm_runtime_barrier+0x54/0x90
+> Aug 20 20:29:36 luna kernel:  ? __pfx___driver_attach+0x10/0x10
+> Aug 20 20:29:36 luna kernel:  __driver_probe_device+0x78/0x110
+> Aug 20 20:29:36 luna kernel:  driver_probe_device+0x1f/0xa0
+> Aug 20 20:29:36 luna kernel:  __driver_attach+0xba/0x1c0
+> Aug 20 20:29:36 luna kernel:  bus_for_each_dev+0x8c/0xe0
+> Aug 20 20:29:36 luna kernel:  bus_add_driver+0x112/0x1f0
+> Aug 20 20:29:36 luna kernel:  driver_register+0x72/0xd0
+> Aug 20 20:29:36 luna kernel:  ? __pfx_framebuffer_driver_init+0x10/0x10 [framebuffer_coreboot a587d2fc243ebaa0205c3badd33442a004d284e0]
+> Aug 20 20:29:36 luna kernel:  do_one_initcall+0x58/0x310
+> Aug 20 20:29:36 luna kernel:  do_init_module+0x60/0x220
+> Aug 20 20:29:36 luna kernel:  init_module_from_file+0x89/0xe0
+> Aug 20 20:29:36 luna kernel:  idempotent_init_module+0x121/0x320
+> Aug 20 20:29:36 luna kernel:  __x64_sys_finit_module+0x5e/0xb0
+> Aug 20 20:29:36 luna kernel:  do_syscall_64+0x82/0x190
+> Aug 20 20:29:36 luna kernel:  ? __do_sys_newfstatat+0x3c/0x80
+> Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
+> Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
+> Aug 20 20:29:36 luna kernel:  ? do_sys_openat2+0x9c/0xe0
+> Aug 20 20:29:36 luna kernel:  ? syscall_exit_to_user_mode+0x72/0x200
+> Aug 20 20:29:36 luna kernel:  ? do_syscall_64+0x8e/0x190
+> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
+> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
+> Aug 20 20:29:36 luna kernel:  ? clear_bhb_loop+0x25/0x80
+> Aug 20 20:29:36 luna kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> Aug 20 20:29:36 luna kernel: RIP: 0033:0x7b1bee2f81fd
+
+Looks like it might be a conflict with
+drivers/firmware/sysfb_simplefb.c, which also uses the
+"simple-framebuffer" name with a constant ID of 0. It's possible both
+drivers should be switched to use PLATFORM_DEVID_AUTO? Or at least one
+of them. Or they should use different base names.
+
+I'm not really sure what the best option is (does anyone rely on or care
+about the device naming?), and I don't actually use this driver. But
+here's an untested diff to try if you'd really like. If you test it,
+feel free to submit as a proper patch with my:
+
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+
+diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+index daadd71d8ddd..3f1b8f664c3f 100644
+--- a/drivers/firmware/google/framebuffer-coreboot.c
++++ b/drivers/firmware/google/framebuffer-coreboot.c
+@@ -62,7 +62,8 @@ static int framebuffer_probe(struct coreboot_device *dev)
+ 		return -EINVAL;
+ 
+ 	pdev = platform_device_register_resndata(&dev->dev,
+-						 "simple-framebuffer", 0,
++						 "simple-framebuffer",
++						 PLATFORM_DEVID_AUTO,
+ 						 &res, 1, &pdata,
+ 						 sizeof(pdata));
+ 	if (IS_ERR(pdev))
