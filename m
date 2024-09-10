@@ -2,81 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C940972C72
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 10:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A1D972C52
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 10:38:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5828310E0B1;
-	Tue, 10 Sep 2024 08:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A624B10E574;
+	Tue, 10 Sep 2024 08:38:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BSQ+svfI";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="P+rChaA+";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PNc6jbkp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
- Tue, 10 Sep 2024 08:45:07 UTC
-Received: from a7-40.smtp-out.eu-west-1.amazonses.com
- (a7-40.smtp-out.eu-west-1.amazonses.com [54.240.7.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 713EB10E0B1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 08:45:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1725957504;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
- bh=5r0O453WBmztErQtUlLR0a1dpPzv1lXgS4sYoMKCPcg=;
- b=BSQ+svfIm3CD9z6iunpSP9NPxattYd2Hp3mfh52GBWzezh1RjbQfm7zfbG9Mjx+J
- +okvrk5LkppiBQVonu1+hoWUVOLCxNCsqoomipijXOQmxqM+vQSYUtFBJoTuKrBX+/0
- m620wjlii4sk4zVW6Upo01Q+C/uc0zLeWp5r2M0S2IjV7izaTqxq+kWBzqx/q54RNwq
- TDJaI1v6KcHVyMK5zpWxH/301z7iMMgFdmQCjJKthOUAEKzlfytVAvXQwLSGe+XGWjS
- 0FA70qVcOtsr7mT4m3c6hiDwcZ4AMwJVfErMezhnDsd9fkRqHt41kZ8alHqcLfqRtBF
- fhu95KwaQQ==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1725957504;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
- bh=5r0O453WBmztErQtUlLR0a1dpPzv1lXgS4sYoMKCPcg=;
- b=P+rChaA+FT24fTpFt3ba+88su2Kd97jw+JdL1LwHKMEovHZmcxzEsT5oJPTj99Q4
- UtNtGg3L4HxnqUYj/BpENrwiI/Z4/v8qDgEkh46bqh2QXIDjMcQKrgCqrwZuuf2rA/P
- FgflllaWgJiW1iv4hAY/2Ecka4InuciUooQ4UsRw=
-Message-ID: <01020191db157c68-71e1f1a2-46c3-4c9f-a561-132319742e69-000000@eu-west-1.amazonses.com>
-Date: Tue, 10 Sep 2024 08:38:24 +0000
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793D610E571;
+ Tue, 10 Sep 2024 08:38:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wXe0f+7gPdW13Cx7cj1DgXJK24A51RuVFGD8LKHcnT51ZjAOfnojUzle0J8ghgNWC4nyPaUCeUjlbPsfQD+Cg74sQGU20z5q5giHrsV/arLMsHOnd90irudLqqukmNT8g0FV2aKLnTQqUP5tG8nkuKBUYDT9NPl3PJ/Hqn5ulz3MUJSZAAXum27aIuhOjOMsXhDWAoargx70sADBueVsiNG3q05MOk1l2OUbU3zW2Bp7/3klTcvqxKamNAgU+MSa7Ha6+uK5UOiPimfTDKC9A+cA6beuvGZpRw2J0PM8g+5EkcMVr0iPjAjc4daNq+ge87E5btZqsxC4RTc8q+O1RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sMQHMy8aCUpydibf/BEax0e0bttL6LXwt6589WFgJsU=;
+ b=ZcEvz359l4dRtUshFkNgyfL0NqsdD7FqIU0dvkBxFQ8tdaeKUgnozMuOBvEuPXO5ZudbMA5e2lx/0YeUEunyM3OMjrIx5Vc0B1SrA4kDhkuHiqNB+ymUiooMKtftyXNpBzRftZ4nIYEN2XLBaUqjIgEBNY6I+th4h+sQn5PsRKtqjZihMolW9JRR+2ixCbMuHSu0MmFD/z7bIAWR1ax6s6uBml0kHY+17JEagDOcTw6yZ4NJn9/KaVkWlyv6zke2TBCIZ24DGLjnhBpO1xFMDqWXRCZ141vb+NRMjWwJalh+J5AjMOK20E6T5wq2XS04LU7ws3H/jjoWrzgG8Lfkbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sMQHMy8aCUpydibf/BEax0e0bttL6LXwt6589WFgJsU=;
+ b=PNc6jbkpg/6I3QJv1e4Yw+u0iCsDEMYmrSjOY0vzvkmhYhY0v6nTTRnb9oCEUWKsPcXq+WzhNtq+iNxa7DkKxpSMb6848EIWf3GLiJAKCW7IlssopO7l/OxEh/eUEIufZ+axmdw18LEX5ptATc/lbsWx22HsgRlkww8dXLED3DY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB7641.namprd12.prod.outlook.com (2603:10b6:610:150::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Tue, 10 Sep
+ 2024 08:38:35 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.024; Tue, 10 Sep 2024
+ 08:38:35 +0000
+Message-ID: <ab0783f7-7b40-4160-aec5-f4fe31759ae5@amd.com>
+Date: Tue, 10 Sep 2024 10:38:29 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/3] drm/mediatek: Implement OF graphs support for
- display paths
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- "sui.jingfeng@linux.dev" <sui.jingfeng@linux.dev>, 
- "wenst@chromium.org" <wenst@chromium.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>, 
- "mripard@kernel.org" <mripard@kernel.org>, 
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>, 
- "michael@walle.cc" <michael@walle.cc>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
- "robh@kernel.org" <robh@kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "airlied@gmail.com" <airlied@gmail.com>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
- "kernel@collabora.com" <kernel@collabora.com>, 
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "amergnat@baylibre.com" <amergnat@baylibre.com>
-References: <20240618101726.110416-1-angelogioacchino.delregno@collabora.com>
- <20240618101726.110416-4-angelogioacchino.delregno@collabora.com>
- <1e1b0ff224dfa99041b54408c16633d5885efda9.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH 5/8] drm/sched: Stop setting current entity in FIFO mode
+To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Luben Tuikov
+ <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>
+References: <20240909171937.51550-1-tursulin@igalia.com>
+ <20240909171937.51550-6-tursulin@igalia.com>
 Content-Language: en-US
-In-Reply-To: <1e1b0ff224dfa99041b54408c16633d5885efda9.camel@mediatek.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240909171937.51550-6-tursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.09.10-54.240.7.40
+X-ClientProxiedBy: FR0P281CA0138.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7641:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e06f176-ebe8-4544-2e66-08dcd173f599
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bmtrWUsxTC9IZTQxV2ZFK05hZlEwZm9jNXlSNzdoRzhpVHVTUTJldWcwRlc5?=
+ =?utf-8?B?U25wMVdNNkFVZk5rRTB1bktNL2FWUHQySHNPQ1Rxa1lLRmtjTjMyUmwwVU01?=
+ =?utf-8?B?NDc3aDRIUG1wNHpnbkhCd2NMVEpsbWUrK1BMQ2xiMU01WXZVdUsrSlgvVFFl?=
+ =?utf-8?B?OXVpWTBuUy93azZIb000NWtDTVpnVk9MZStiZHUvSUFXbXpONElIdWprelpu?=
+ =?utf-8?B?MFBnNWtQVUc1ZFlsbWkraGdBUVROT0pyeXBhNUpSeDFUVVNPZWdBRjkyTllJ?=
+ =?utf-8?B?QlM4bHkyb1ZkWk5HNHZ3dTV2UWczZzhuaVpvN2NwYXU1aitXUzlEZngwV0pY?=
+ =?utf-8?B?UFZGWktWTFRLTnNaeCtKb2NTeVJUMHNnZVBkNVJMM29NTkpudHRNMHZSdDlj?=
+ =?utf-8?B?em1tYVFUQlorcmFreElBR0E0UXpQYjA3UGN0blVlSFQ5M2d1Q3VVemlKOTI0?=
+ =?utf-8?B?VzM4L25RUGV2V0lRaWRKNzVYbnFydWlWRUQyWTYvd1MzRm91RDdKK3ZXaDlH?=
+ =?utf-8?B?bHdQc05PU0JBM2NXRWd4YXBvM0JCbzNFTVk5L2NGNWtGQ1JHNVdvajZxcTV4?=
+ =?utf-8?B?TXM3NlBvWERzdzN4NFhvMk1aWGtzREZJZmFWV1pVRHdFUHR6cjVXbWV4dEZz?=
+ =?utf-8?B?ZjZaa0xjQWQ2cmNLZTJQcjRzVHdQZlJFdjNrbkMwVDBHMVl5djVJUHNoMnVE?=
+ =?utf-8?B?cWhoWTM0aENhREVjbm44QTZrUGhlZ3cwUm12MjJ6ZnByMTlrcStJVjNhcFdO?=
+ =?utf-8?B?N05JVHNzQ2lOWFhPUDYxcWtHZFFiWFYwcDM4dnlBemd1MGpMWlJRdGxOeWF0?=
+ =?utf-8?B?K0FJRC9nM0hnQ2pXekIwV0prVUtld083N0RkN0FjU1kwYXdNTkYwMUZUdWhV?=
+ =?utf-8?B?V1VFbmttaGttQUZka2JXazZHNjltVURRbk96WDM3Tjk4eTY0dzdVdUFXKys5?=
+ =?utf-8?B?TEdYY0x1ckpmWEMxSXp3UlMvMWRyY2JXanpUWEtBckwzVU0xcTJyTWk1RDN4?=
+ =?utf-8?B?YjB6QStyR3pFZXR0cDFBaVE4N1M2R0x3aEVNY21kTjRydmFKOC9ReFRVZFQz?=
+ =?utf-8?B?ZGVZNU5TbVA3V0x0cldnVEdHMFRXcyt5SlRGZmhubnE4dkRscFNkL3JJVER4?=
+ =?utf-8?B?ZlRjOG8vMSthRzZTZm1QSTNJLzJNTG12b0tzbDlZdTY3dHpibkhnRnROUFJ0?=
+ =?utf-8?B?bnd3QWJicWhidk81MjdtTjhwKzM1WVNCSXBFZTNYZmpKb2tkQ1BkcitIRlNi?=
+ =?utf-8?B?bk16T01xR3NuWFhZR0QwYWxITll2UFlacXBHNkhNZEIvZmJNVy9mUTlZK1Fn?=
+ =?utf-8?B?OHpDenZpTmlLaVYwSkZJdTMvTmt5Ty9JUjluSkw3Vlkwc0JpYURjQWkwNGNX?=
+ =?utf-8?B?dDVzWU5tRjRMVmRUUjAwSWxZQ2VER1hpb1lBRXlPamZNWG5PemNZNFlPR29V?=
+ =?utf-8?B?V0ZHMnFPYjlFaDVyVFhScFZSTGVGVno4eGdLbzJVVmUyWllHc2wzVmtCMjI2?=
+ =?utf-8?B?Ykt4bXVybG5UaUJpYno4MEt6L2tlVEU4WFNyTlJKNGo2a0M4aXBNWXRNdzV3?=
+ =?utf-8?B?SnhvZTY1TTQvTlF0OTNNVDhHSCsxajlqNEFmYVRPQXk5dXFKdkxsNmE5YThl?=
+ =?utf-8?B?K0tuKzkvZFB1TmhGU1pTS3JmQStkenI1K2RpMk1aVkxJWUVNTWtqMW9xWWxH?=
+ =?utf-8?B?ZmhyeVBSZituV2hvNHpSTDJ6aHBJNzBONlhwL1pOL2psZ1hlZzAxdUpJL2h5?=
+ =?utf-8?B?TDJRNkR5UUI2L3BhNTNRWWRuWUR1Q3o2REQwcEhoZlZueHNSL0dtK3RPS0h2?=
+ =?utf-8?B?dk9GQ1dZZFhMUm5HSDJQdz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkhEbThxOUJVemVIb21Ha21IQUQyS0VwN3VTZjEyUDBzVUJsQkk2SEhycHlZ?=
+ =?utf-8?B?R2dWNlBTN0pUWU4xS0ZDY1cvTTMrYXFoVjQzWStOV3IvNCtDT1F3NWtFR2lE?=
+ =?utf-8?B?SlhiNnR4cUY1dFp1NnNnTFFhMnQ2YmU5SmJ5elllb2JKWnd0NzNobzRnaUR6?=
+ =?utf-8?B?aEVHc3ZjRGJObzdvN3lXbVhGZ2NoazB1RnY5N3hwZGlLSEF4Y3lNdEN5S3Q3?=
+ =?utf-8?B?ekMwN0hNUHlocklTM1MzL3kxVlRlcVFZbS9FaE9nK0ttZDZ6TkxaR2QzYnhR?=
+ =?utf-8?B?clhWU1d3MzRUd0NFNVFnU2hnVmFSMDU4U3dsajVxODQzV3NqTzFQbklPSWxj?=
+ =?utf-8?B?eU1idDlJVys4OW45NHhad2RHb3d6djdVYjFab1UzbndUNWhhMlFhL2NIRFJy?=
+ =?utf-8?B?L0ZWV1lOaDg3S1J4aFh6Z1lZdHpNMUtUWWdoZkJWdXFNcXhubkJhVnA3SWJ5?=
+ =?utf-8?B?RTZDbU9zV3gvZ2lodWdoM2NpS1pRNzBTMjNJSXZITSt0Vm9DazlFMTZtUTJK?=
+ =?utf-8?B?SjdiZ2ZoRHBCSDZZRGkzUDBPNmJXZnFydmtCRGhPRXpaKzFXRWw5RlpsdkE0?=
+ =?utf-8?B?L01vR3pzdDZJS3F6YWNjWkR2OTJkTEF2Zi90RFBFTHZNZmVNLzZSUUNYakdn?=
+ =?utf-8?B?UEVqeDVCazdaK1R5cmN1dEFBbjJsRksrWFZhSmJxd3h4ZnJ2ZU9lTGNsSFRT?=
+ =?utf-8?B?NytOVUZZWDUrTmRlWDVoV1hhYzFWUmdPWjN5dmNnZHlueE5BNmNjWklnVmtL?=
+ =?utf-8?B?NENmSVdwaGFyMUh2aVBYalNabHZxTzB4REdZbEhleXpjNHAvZ1U2UStBZHl3?=
+ =?utf-8?B?NWZNQUpBK0RMUWVpRkRBRVFCL1VBektpMDlHbndLMG5uVHErZkp2eHphczhK?=
+ =?utf-8?B?d1RmaTBMN1VTVllhbnUzcDFmTXdYbS9mSjcyQU50Y0paaEN5Q0w1Vk9zNS84?=
+ =?utf-8?B?MEdDNWRFK3FCcGorZmVFL3VHNlNRT3dzbTc4MEFkRVc5TStONGRoWGlkTUhO?=
+ =?utf-8?B?YnpsUFRxWDdXcTlELzBEd2M4Y0JraTB3Mnd0aDRWL253bnFLdWpHdXNybXQ4?=
+ =?utf-8?B?aElsV3Y2Tkx1amxndEtrL2JOVlI5cWcyYlpDcEo1N1Q3VStPcFBDbW1RMGVB?=
+ =?utf-8?B?OUZZajN2NXEzZmR4WEFtcFQyejE4TXNjYjVQVDB2Nkt0YU9uNHcvdnlUdlhz?=
+ =?utf-8?B?bUdBdFJBcHhEOTNCUEpJcU5heG1TclRRcVV2RTRDV20yNk1SZTFwTGRjSjYy?=
+ =?utf-8?B?dlBJWmdQci9kemZub1o4N2JiQlVLY0ZBTEU2bzJqTkJvK3g1TEdmTndEcW1z?=
+ =?utf-8?B?YjJSbDNSMERRMElZVDVCQ3c5ancxZ2xtRm03dno2STR1WE5KTEd5dkNlK0h0?=
+ =?utf-8?B?eWlUbE1QYktSWlNYZDVScVd2T1BEN0ZERTVYMkFwYzZYZ29LYStlYmF6TXRL?=
+ =?utf-8?B?NW1sZTJraGozZTRlZjVuSFdvcHhidzErdUdzRlR2ZW9hTzZtMTVnc1ZqTmpH?=
+ =?utf-8?B?bXU0SXAva3Y0QWRocUNmaWtOL0g5dDBwVEtrWWF3cVZRcndzdnl1aFVLNGgx?=
+ =?utf-8?B?TkVlVXYrMzBROVo3cFRUc3VkQm1Ka1JETnFqV0tIWGFSTTlkU1lvNHllYlh0?=
+ =?utf-8?B?cXNoSko4OGVRdFRRdSs4Z0JOZFIvZWg2SGdvdUt5WHd0QzA4TmhKeGlveGR4?=
+ =?utf-8?B?eDhCb1FtditYbytpUSswRVdndXhPUXdLeFozcnlCemJqRlo5MVgzQmVtSUNx?=
+ =?utf-8?B?Y0R1VUN4Q3VxazFSbFYvOHNaZG9oN1NYOEY1TmZ2bEU3SFJldittLzNGRU83?=
+ =?utf-8?B?NllkV3NHUXhKMFQ3VlN6cURUNEdwaWpnY1c2bFh0Ui9uT2ZkM0FMdFZiQmhR?=
+ =?utf-8?B?c1ZLSFdweUdSWHh5eUN4bnFCdUJTMm9qYXAzOTNiV0VQaDNRdTFvMGptQ0Vx?=
+ =?utf-8?B?cGRHbzZZTVlTZWlYa0EwcllWM2hZNHg4WndZbzhTUHNTWk5zUWFzTVd6RW4w?=
+ =?utf-8?B?Sy9EZGFvNDRXT3hpUVRkSmdWZW5xZUExSXE1Tk93VzBkU1ZleHdsMm9SYWRu?=
+ =?utf-8?B?NTdUQnFwdDlDL2J0Y1Y2UTMzK3YvV1dPdzJqekVzSXppV3hTbnIwZEVYcklI?=
+ =?utf-8?Q?1cmQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e06f176-ebe8-4544-2e66-08dcd173f599
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 08:38:35.4190 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QY9wR+NYJclve28Z0wfTlQv2LAJEGe0WcMEeN+WCb1N8GZnnfTFyS6MMmRwhorMQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7641
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,349 +164,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/08/24 05:48, CK Hu (胡俊光) ha scritto:
-> Hi, Angelo:
-> 
-> On Tue, 2024-06-18 at 12:17 +0200, AngeloGioacchino Del Regno wrote:
->> It is impossible to add each and every possible DDP path combination
->> for each and every possible combination of SoC and board: right now,
->> this driver hardcodes configuration for 10 SoCs and this is going to
->> grow larger and larger, and with new hacks like the introduction of
->> mtk_drm_route which is anyway not enough for all final routes as the
->> DSI cannot be connected to MERGE if it's not a dual-DSI, or enabling
->> DSC preventively doesn't work if the display doesn't support it, or
->> others.
->>
->> Since practically all display IPs in MediaTek SoCs support being
->> interconnected with different instances of other, or the same, IPs
->> or with different IPs and in different combinations, the final DDP
->> pipeline is effectively a board specific configuration.
->>
->> Implement OF graphs support to the mediatek-drm drivers, allowing to
->> stop hardcoding the paths, and preventing this driver to get a huge
->> amount of arrays for each board and SoC combination, also paving the
->> way to share the same mtk_mmsys_driver_data between multiple SoCs,
->> making it more straightforward to add support for new chips.
->>
->> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
->> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
-> 
-> [snip]
-> 
->> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_crtc_path cpath,
->> +					 const unsigned int **out_path,
->> +					 unsigned int *out_path_len)
->> +{
->> +	struct device_node *next, *prev, *vdo = dev->parent->of_node;
->> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] = { 0 };
->> +	unsigned int *final_ddp_path;
->> +	unsigned short int idx = 0;
->> +	bool ovl_adaptor_comp_added = false;
->> +	int ret;
->> +
->> +	/* Get the first entry for the temp_path array */
->> +	ret = mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]);
->> +	if (ret) {
->> +		if (next && temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
->> +			dev_err(dev, "Adding OVL Adaptor for %pOF\n", next);
-> 
-> This looks not an error.
-> 
+Am 09.09.24 um 19:19 schrieb Tvrtko Ursulin:
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>
+> It does not seem there is a need to set the current entity in FIFO mode
+> since ot only serves as being a "cursor" in round-robin mode. Even if
+> scheduling mode is changed at runtime the change in behaviour is simply
+> to restart from the first entity, instead of continuing in RR mode from
+> where FIFO left it, and that sounds completely fine.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Luben Tuikov <ltuikov89@gmail.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <pstanner@redhat.com>
 
-Thanks for catching that, I used that line for debugging and forgot to change it
-back to dev_dbg(). Will fix.
+Acked-by: Christian König <christian.koenig@amd.com>
 
->> +			ovl_adaptor_comp_added = true;
->> +		} else {
->> +			if (next)
->> +				dev_err(dev, "Invalid component %pOF\n", next);
->> +			else
->> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
->> +
->> +			return ret;
->> +		}
->> +	}
->> +	idx++;
->> +
->> +	/*
->> +	 * Walk through port outputs until we reach the last valid mediatek-drm component.
->> +	 * To be valid, this must end with an "invalid" component that is a display node.
->> +	 */
->> +	do {
->> +		prev = next;
->> +		ret = mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[idx]);
->> +		of_node_put(prev);
->> +		if (ret) {
->> +			of_node_put(next);
->> +			break;
->> +		}
->> +
->> +		/*
->> +		 * If this is an OVL adaptor exclusive component and one of those
->> +		 * was already added, don't add another instance of the generic
->> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
->> +		 * to probe that component master driver of which only one instance
->> +		 * is needed and possible.
->> +		 */
->> +		if (temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
->> +			if (!ovl_adaptor_comp_added)
->> +				ovl_adaptor_comp_added = true;
->> +			else
->> +				idx--;
->> +		}
->> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
->> +
->> +	/*
->> +	 * The device component might not be enabled: in that case, don't
->> +	 * check the last entry and just report that the device is missing.
->> +	 */
->> +	if (ret == -ENODEV)
->> +		return ret;
->> +
->> +	/* If the last entry is not a final display output, the configuration is wrong */
->> +	switch (temp_path[idx - 1]) {
->> +	case DDP_COMPONENT_DP_INTF0:
->> +	case DDP_COMPONENT_DP_INTF1:
->> +	case DDP_COMPONENT_DPI0:
->> +	case DDP_COMPONENT_DPI1:
->> +	case DDP_COMPONENT_DSI0:
->> +	case DDP_COMPONENT_DSI1:
->> +	case DDP_COMPONENT_DSI2:
->> +	case DDP_COMPONENT_DSI3:
->> +		break;
->> +	default:
->> +		dev_err(dev, "Invalid display hw pipeline. Last component: %d (ret=%d)\n",
->> +			temp_path[idx - 1], ret);
->> +		return -EINVAL;
->> +	}
->> +
->> +	final_ddp_path = devm_kmemdup(dev, temp_path, idx * sizeof(temp_path[0]), GFP_KERNEL);
->> +	if (!final_ddp_path)
->> +		return -ENOMEM;
->> +
->> +	dev_dbg(dev, "Display HW Pipeline built with %d components.\n", idx);
->> +
->> +	/* Pipeline built! */
->> +	*out_path = final_ddp_path;
->> +	*out_path_len = idx;
->> +
->> +	return 0;
->> +}
->> +
->> +static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_node *node,
->> +				     struct mtk_mmsys_driver_data *data)
->> +{
->> +	struct device_node *ep_node;
->> +	struct of_endpoint of_ep;
->> +	bool output_present[MAX_CRTC] = { false };
->> +	int ret;
->> +
->> +	for_each_endpoint_of_node(node, ep_node) {
->> +		ret = of_graph_parse_endpoint(ep_node, &of_ep);
->> +		if (ret) {
->> +			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
->> +			break;
->> +		}
->> +
->> +		if (of_ep.id >= MAX_CRTC) {
->> +			ret = dev_err_probe(dev, -EINVAL,
->> +					    "Invalid endpoint%u number\n", of_ep.port);
->> +			break;
->> +		}
->> +
->> +		output_present[of_ep.id] = true;
->> +	}
->> +
->> +	if (ret) {
->> +		of_node_put(ep_node);
->> +		return ret;
->> +	}
->> +
->> +	if (output_present[CRTC_MAIN]) {
->> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
->> +						    &data->main_path, &data->main_len);
->> +		if (ret && ret != -ENODEV)
->> +			return ret;
->> +	}
->> +
->> +	if (output_present[CRTC_EXT]) {
->> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
->> +						    &data->ext_path, &data->ext_len);
->> +		if (ret && ret != -ENODEV)
->> +			return ret;
->> +	}
->> +
->> +	if (output_present[CRTC_THIRD]) {
->> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
->> +						    &data->third_path, &data->third_len);
->> +		if (ret && ret != -ENODEV)
->> +			return ret;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->>   static int mtk_drm_probe(struct platform_device *pdev)
->>   {
->>   	struct device *dev = &pdev->dev;
->>   	struct device_node *phandle = dev->parent->of_node;
->>   	const struct of_device_id *of_id;
->>   	struct mtk_drm_private *private;
->> +	struct mtk_mmsys_driver_data *mtk_drm_data;
->>   	struct device_node *node;
->>   	struct component_match *match = NULL;
->>   	struct platform_device *ovl_adaptor;
->> @@ -824,7 +1048,31 @@ static int mtk_drm_probe(struct platform_device *pdev)
->>   	if (!of_id)
->>   		return -ENODEV;
->>   
->> -	private->data = of_id->data;
->> +	mtk_drm_data = (struct mtk_mmsys_driver_data *)of_id->data;
->> +	if (!mtk_drm_data)
->> +		return -EINVAL;
->> +
->> +	private->data = kmemdup(mtk_drm_data, sizeof(*mtk_drm_data), GFP_KERNEL);
-> 
-> This is redundant. You would assign private->data below.
-> 
-
-Right. Will remove.
-
->> +	if (!private->data)
->> +		return -ENOMEM;
->> +
->> +	/* Try to build the display pipeline from devicetree graphs */
->> +	if (of_graph_is_present(phandle)) {
->> +		dev_dbg(dev, "Building display pipeline for MMSYS %u\n",
->> +			mtk_drm_data->mmsys_id);
->> +		private->data = devm_kmemdup(dev, mtk_drm_data,
->> +					     sizeof(*mtk_drm_data), GFP_KERNEL);
->> +		if (!private->data)
->> +			return -ENOMEM;
->> +
->> +		ret = mtk_drm_of_ddp_path_build(dev, phandle, private->data);
->> +		if (ret)
->> +			return ret;
->> +	} else {
->> +		/* No devicetree graphs support: go with hardcoded paths if present */
->> +		dev_dbg(dev, "Using hardcoded paths for MMSYS %u\n", mtk_drm_data->mmsys_id);
->> +		private->data = mtk_drm_data;
->> +	};
->>   
->>   	private->all_drm_private = devm_kmalloc_array(dev, private->data->mmsys_dev_num,
->>   						      sizeof(*private->all_drm_private),
->> @@ -846,12 +1094,11 @@ static int mtk_drm_probe(struct platform_device *pdev)
->>   
->>   	/* Iterate over sibling DISP function blocks */
->>   	for_each_child_of_node(phandle->parent, node) {
->> -		const struct of_device_id *of_id;
->>   		enum mtk_ddp_comp_type comp_type;
->>   		int comp_id;
->>   
->> -		of_id = of_match_node(mtk_ddp_comp_dt_ids, node);
->> -		if (!of_id)
->> +		ret = mtk_drm_of_get_ddp_comp_type(node, &comp_type);
->> +		if (ret)
->>   			continue;
->>   
->>   		if (!of_device_is_available(node)) {
->> @@ -860,8 +1107,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
->>   			continue;
->>   		}
->>   
->> -		comp_type = (enum mtk_ddp_comp_type)(uintptr_t)of_id->data;
->> -
->>   		if (comp_type == MTK_DISP_MUTEX) {
->>   			int id;
->>   
->> @@ -890,22 +1135,24 @@ static int mtk_drm_probe(struct platform_device *pdev)
->>   		 * blocks have separate component platform drivers and initialize their own
->>   		 * DDP component structure. The others are initialized here.
->>   		 */
->> -		if (comp_type == MTK_DISP_AAL ||
->> -		    comp_type == MTK_DISP_CCORR ||
->> -		    comp_type == MTK_DISP_COLOR ||
->> -		    comp_type == MTK_DISP_GAMMA ||
->> -		    comp_type == MTK_DISP_MERGE ||
->> -		    comp_type == MTK_DISP_OVL ||
->> -		    comp_type == MTK_DISP_OVL_2L ||
->> -		    comp_type == MTK_DISP_OVL_ADAPTOR ||
->> -		    comp_type == MTK_DISP_RDMA ||
->> -		    comp_type == MTK_DP_INTF ||
->> -		    comp_type == MTK_DPI ||
->> -		    comp_type == MTK_DSI) {
->> -			dev_info(dev, "Adding component match for %pOF\n",
->> -				 node);
->> -			drm_of_component_match_add(dev, &match, component_compare_of,
->> -						   node);
->> +		switch (comp_type) {
->> +		default:
->> +			break;
->> +		case MTK_DISP_AAL:
->> +		case MTK_DISP_CCORR:
->> +		case MTK_DISP_COLOR:
->> +		case MTK_DISP_GAMMA:
->> +		case MTK_DISP_MERGE:
->> +		case MTK_DISP_OVL:
->> +		case MTK_DISP_OVL_2L:
->> +		case MTK_DISP_OVL_ADAPTOR:
->> +		case MTK_DISP_RDMA:
->> +		case MTK_DP_INTF:
->> +		case MTK_DPI:
->> +		case MTK_DSI:
->> +			dev_info(dev, "Adding component match for %pOF\n", node);
->> +			drm_of_component_match_add(dev, &match, component_compare_of, node);
->> +			break;
-> 
-> This modification seems not related to OF graphs support. If you need this, separate this to another patch.
-> 
-
-Will do for v9.
-
-Thanks,
-Angelo
-
->>   		}
->>   
->>   		ret = mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id);
->> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
->> index 78d698ede1bf..7e54d86e25a3 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
->> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
->> @@ -59,7 +59,7 @@ struct mtk_drm_private {
->>   	struct device *mmsys_dev;
->>   	struct device_node *comp_node[DDP_COMPONENT_DRM_ID_MAX];
->>   	struct mtk_ddp_comp ddp_comp[DDP_COMPONENT_DRM_ID_MAX];
->> -	const struct mtk_mmsys_driver_data *data;
->> +	struct mtk_mmsys_driver_data *data;
->>   	struct drm_atomic_state *suspend_state;
->>   	unsigned int mbox_index;
->>   	struct mtk_drm_private **all_drm_private;
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
->> index c255559cc56e..880ea37937da 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
->> @@ -904,9 +904,17 @@ static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
->>   	dsi->lanes = device->lanes;
->>   	dsi->format = device->format;
->>   	dsi->mode_flags = device->mode_flags;
->> -	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
->> -	if (IS_ERR(dsi->next_bridge))
->> -		return PTR_ERR(dsi->next_bridge);
->> +	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
->> +	if (IS_ERR(dsi->next_bridge)) {
->> +		ret = PTR_ERR(dsi->next_bridge);
->> +		if (ret == -EPROBE_DEFER)
->> +			return ret;
->> +
->> +		/* Old devicetree has only one endpoint */
->> +		dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
->> +		if (IS_ERR(dsi->next_bridge))
->> +			return PTR_ERR(dsi->next_bridge);
->> +	}
->>   
->>   	drm_bridge_add(&dsi->bridge);
->>   
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 10abbcefe9d8..54c5fe7a7d1d 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -356,7 +356,6 @@ drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
+>   				return ERR_PTR(-ENOSPC);
+>   			}
+>   
+> -			rq->current_entity = entity;
+>   			reinit_completion(&entity->entity_idle);
+>   			break;
+>   		}
 
