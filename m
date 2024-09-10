@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094ED973CBD
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238AD973CC0
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 17:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB1B10E86B;
-	Tue, 10 Sep 2024 15:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACCD10E86D;
+	Tue, 10 Sep 2024 15:53:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eQguQaDh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nnejubvT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8623B10E86B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 15:52:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1725983557;
- bh=VqVYu4N/Tf1UtM3sawFVKjYsdrOcwFFbjlE2c3Q5n6o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eQguQaDhVq678MgrPKfPcNoIMM+tkkuOFHGC4Nfix43E7Oqd4JTJqZUW3043HaUQG
- brN2zMOxEQ3YE8qsp8XT8qjaxfA0cPPhVj8mE+aPqHARpYIhuBv95ZYVNOJeN9JTIK
- 8rxZ1EjcGMV0Ui7aHnw6oltLy99/yrWBpYKKvue3LZ9cTlX4TGsN0iS6ab8lG4xB+a
- 45uzTdAnunuUvTjqO+unl/H+VH802SJaVkurGGZ2oB/abHUN2tctLqmN6tBxbkEzGT
- aCxBdWj+tSvxBaN3Dtj74F7fRp23DVaapGtixCj6b9zk7xbvOrmcLlm4QeLSmOuwHh
- TcOWGrZ9IzLsA==
-Received: from [192.168.1.90] (unknown [188.27.55.48])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3B9FA17E12D3;
- Tue, 10 Sep 2024 17:52:36 +0200 (CEST)
-Message-ID: <ae4db880-d64c-446b-bbf8-954b7bebca83@collabora.com>
-Date: Tue, 10 Sep 2024 18:52:35 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F80710E86D;
+ Tue, 10 Sep 2024 15:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1725983606; x=1757519606;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8A0sImRzGqYtKcvvYf4KPHb7ANZNl5JY3dQAxnuE3e0=;
+ b=nnejubvT/D3MnRIyorg4B5QE19JA13IYhzh1y+Mh4qU8GrqN6D0F7vNB
+ 5n/kAkjh1c7qAWb86xPDeMSWXuRsiRot/37mcdgoyalgeyU15S/5mEy+o
+ 5lNcWel4sCXtqhTYKTWT+pvs0uXpJSNHzPjB1qnkH7L6HAsDHJhKs4wOY
+ lU8xJgOhhCmQaji7Szxr/RXoH7en3GGSp+o+pHcDrIdA2o7omVDNIyEUC
+ hikSGIoMWkqlDLvCtyAhJmBvgo4s4ftolnJ4qkrWectXhoptwrNVVBkRw
+ +C5dVbBvHsP6CXqqM4j3E0EIrdlTEw90FJ15klQ6xAqUdbAXQng8Oe8hE Q==;
+X-CSE-ConnectionGUID: fpCNPlnjTKKKV0MRnm5utQ==
+X-CSE-MsgGUID: 8nvRVBZPTvKWFsNqT3I+2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24616902"
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="24616902"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2024 08:53:25 -0700
+X-CSE-ConnectionGUID: QDcrU6nDQhiTcBfA1nBe0w==
+X-CSE-MsgGUID: CuemNpeITxu2h4/8xT6hbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; d="scan'208";a="66699035"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2024 08:53:22 -0700
+Date: Tue, 10 Sep 2024 18:53:19 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Asahi Lina <lina@asahilina.net>, airlied@gmail.com, daniel@ffwll.ch,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com
+Subject: Re: [PATCH v4 1/3] drm: Introduce device wedged event
+Message-ID: <ZuBrb0KTIxHtio7Z@black.fi.intel.com>
+References: <20240906094225.3082162-1-raag.jadav@intel.com>
+ <20240906094225.3082162-2-raag.jadav@intel.com>
+ <7ca931aa-986d-48d4-bcee-37c3badd91c8@asahilina.net>
+ <x5kvnv6cdo6d2wdcsokvvsedzpr5crcncmmiqnkyomf4nez4mk@er3axfov44fc>
+ <4c9ce216-9762-4dfd-80c7-fe285cae05c2@asahilina.net>
+ <dk67ybpmfdx5dabrcsu4ueesk4prcrifhwcvoo73epskyimyfa@x54wxfe6lagf>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/4] drm/bridge: synopsys: Add DW HDMI QP TX Controller
- support library
-To: Markus Elfring <Markus.Elfring@web.de>,
- Algea Cao <algea.cao@rock-chips.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Yan <andy.yan@rock-chips.com>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Yao <markyao0591@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Alexandre Arnoud <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>
-References: <20240831-b4-rk3588-bridge-upstream-v5-2-9503bece0136@collabora.com>
- <ab8a17d0-9505-4e81-b5ec-4a3025c48245@web.de>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <ab8a17d0-9505-4e81-b5ec-4a3025c48245@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dk67ybpmfdx5dabrcsu4ueesk4prcrifhwcvoo73epskyimyfa@x54wxfe6lagf>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,31 +78,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/8/24 12:11 PM, Markus Elfring wrote:
-> …
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
->> @@ -0,0 +1,708 @@
-> …
->> +static int dw_hdmi_qp_i2c_xfer(struct i2c_adapter *adap,
->> +			       struct i2c_msg *msgs, int num)
->> +{
-> …
->> +	mutex_lock(&i2c->lock);
-> …
->> +	dw_hdmi_qp_mod(hdmi, 0, I2CM_OP_DONE_MASK_N | I2CM_NACK_RCVD_MASK_N,
->> +		       MAINUNIT_1_INT_MASK_N);
->> +
->> +	mutex_unlock(&i2c->lock);
->> +
->> +	return ret;
->> +}
-> …
+On Mon, Sep 09, 2024 at 03:01:50PM -0500, Lucas De Marchi wrote:
+> On Sun, Sep 08, 2024 at 11:08:39PM GMT, Asahi Lina wrote:
+> > On 9/8/24 12:07 AM, Lucas De Marchi wrote:
+> > > On Sat, Sep 07, 2024 at 08:38:30PM GMT, Asahi Lina wrote:
+> > > > On 9/6/24 6:42 PM, Raag Jadav wrote:
+> > > > > Introduce device wedged event, which will notify userspace of wedged
+> > > > > (hanged/unusable) state of the DRM device through a uevent. This is
+> > > > > useful especially in cases where the device is in unrecoverable state
+> > > > > and requires userspace intervention for recovery.
+> > > > > 
+> > > > > Purpose of this implementation is to be vendor agnostic. Userspace
+> > > > > consumers (sysadmin) can define udev rules to parse this event and
+> > > > > take respective action to recover the device.
+> > > > > 
+> > > > > Consumer expectations:
+> > > > > ----------------------
+> > > > > 1) Unbind driver
+> > > > > 2) Reset bus device
+> > > > > 3) Re-bind driver
+> > > > 
+> > > > Is this supposed to be normative? For drm/asahi we have a "wedged"
+> > > > concept (firmware crashed), but the only possible recovery action is a
+> > > > full system reboot (which might still be desirable to allow userspace to
+> > > > trigger automatically in some scenarios) since there is no bus-level
+> > > > reset and no firmware reload possible.
+> > > 
+> > > maybe let drivers hint possible/supported recovery mechanisms and then
+> > > sysadmin chooses what to do?
+> > 
+> > How would we do this? A textual value for the event or something like
+> > that? ("WEDGED=bus-reset" vs "WEDGED=reboot"?)
 > 
-> Under which circumstances would you become interested to apply a statement
-> like “guard(mutex)(&i2c->lock);”?
-> https://elixir.bootlin.com/linux/v6.11-rc6/source/include/linux/mutex.h#L196
+> If there's a need for more than one, than I think exposing the supported
+> ones sorted by "side effect" in sysfs would be good. Something like:
+> 
+> 	$ cat /sys/class/drm/card0/device/wedge_recover
+> 	rebind
+> 	bus-reset
+> 	reboot
 
-Applied for the upcoming v7.
+How do we expect the drivers to flag supported ones? Extra hooks?
 
-Thanks,
-Cristian
+Raag
