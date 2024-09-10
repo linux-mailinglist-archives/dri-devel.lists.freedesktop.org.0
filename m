@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06C59727C0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 06:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66649728DD
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 07:20:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0795210E6EA;
-	Tue, 10 Sep 2024 04:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8E7E10E092;
+	Tue, 10 Sep 2024 05:20:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="TIqCd6Z9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OJuWncct";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8138E10E6EA
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 04:00:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1725940809; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=fOLWoiqRpJJzDPuCEgm+pcjdBnvLeZCYRpz9mx49sY7EKvQieaHe7evU/AxfCl46Eyx+YSqR8BDuXPWko9xeeybdKHx2N17EUIC75OQvxbR8IJHkPp02gdVend73vJhURpWZY9E97uo5e187D3dlhgsHFcHSFUQprMkal/Oxw+Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1725940809;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=6Tc/mF2U2wzvf3mrYJCr0yMdRenMZYLzl0u+t98aPv8=; 
- b=Ucfvrw77y8T7j8PLscpLldfpSQMDL49UdKhuWZtXaRTR+T7T7W1A9OYRNj0CKkZ/PQZYW3aoqvHzcGJI0122vDjKtIdq6nUrz5DXRC/V606OTLVJyk4KOi9UqatDu6UriH1THZ3ik1YSF9LAqrj+lDBkQpvlEfuhMZIKZX2kEoQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
- dmarc=pass header.from=<vignesh.raman@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725940809; 
- s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=6Tc/mF2U2wzvf3mrYJCr0yMdRenMZYLzl0u+t98aPv8=;
- b=TIqCd6Z9Cr0IjSYbrIUaKb49af0hUHGUlBXWiUbbOnvENcSzwHVkgUrzqzpfsU0e
- imf16ANSPWBZ0SAqxOAP0Fzf5+XQzGmpVA5FofFzWPzedtmSFs106Giw/ulQf7Vfgdt
- f9k6jpbv+r7xog2cw4cQT0et9P/t8S9djAA+H3A4=
-Received: by mx.zohomail.com with SMTPS id 1725940808393866.7829529888131;
- Mon, 9 Sep 2024 21:00:08 -0700 (PDT)
-Message-ID: <7505ac00-29ef-4ad9-8904-94b4c024c02b@collabora.com>
-Date: Tue, 10 Sep 2024 09:30:01 +0530
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1D410E092
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 05:20:27 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2057c6c57b5so27961765ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2024 22:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1725945627; x=1726550427; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=38ixz8H0ArhjT/fAPUPjglJ0fnVIDwgldPg04iXAj68=;
+ b=OJuWncctd57JpcFsKOyWJbS/WO3Ox+bbcrwl0QM2RxpV/4OQCYnTwQwRdU4QhP8j5l
+ 4R8b05YigL3+XoVpPam6X9BQSwb6Hh14yKKoxETWliWQKxsvIwx3WAPyMyuKMaDHNT8H
+ b4JojeAn+6gvo9TGAGauFzHw5jW8kTxJUduDTLwxpiu4cfY9DzGn07CWBHgUXXar8XWc
+ toydy+usnCp0dVlcvxysMFgI6C0KxZJhXFB93Dxhwj64/8HPgu69kpkP/e12Qxd0TCIJ
+ HSmgzDbHa4qi96dEwIlwXWgOoR6z84OjfGgxxlhkVQXhLugULNlIi9GfB4X078csEKY6
+ YlKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1725945627; x=1726550427;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=38ixz8H0ArhjT/fAPUPjglJ0fnVIDwgldPg04iXAj68=;
+ b=nd3jrjjNU06etrpjADXTPi2GWmumeBIprna8zgmXYrP9tdM7O7ecIVj5Zg8Dixln7y
+ ed6zN3xvK5vY3ool5xgVA/0xEKc1MENVryFvLYQymx6Vlt8rURsus93kEqhPsRVesiV5
+ xecxwBQl7NrpKNfAfS994c2Ne4Whh2qHhLUt5UovTE1v0h3qluUjTsk1Qu+kiinq0Rh2
+ 5lFNnr39FHNmFf5G4QyDX8JtVfLjzIIZM3hxYnz0CTpXiYxkuy6I7B7cK+O8GqrxEA2I
+ IVqhPIynSkRFmcN1YqzS+1Z0s5BsyoYc+ZDGeMEZskPDdHylmkBct4WnMmvTRE+xbeLF
+ x+sw==
+X-Gm-Message-State: AOJu0YzZ2ETSfG1PPcM/uS9Us6cb0aG9OK6YAos3QvKptCfpss1Um+Lk
+ smKcI1lxrrOz0Bs80fRsSa6GQxTGzhHDprBaVJnC1SoZsynEaDyGxESd20F5
+X-Google-Smtp-Source: AGHT+IGu3Y1CcJmRFdUpSbd0OW2QBX0fNyuk7bD9zsfOdokX/bim2pYUB/hyYkbt4ewLxgurBIZ5Sg==
+X-Received: by 2002:a17:903:a88:b0:207:2093:99bc with SMTP id
+ d9443c01a7336-20743a2150emr28751155ad.14.1725945626627; 
+ Mon, 09 Sep 2024 22:20:26 -0700 (PDT)
+Received: from distilledx.srmu.edu.in ([59.152.80.69])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-20710f1e93bsm41288535ad.199.2024.09.09.22.20.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Sep 2024 22:20:26 -0700 (PDT)
+From: Tejas Vipin <tejasvipin76@gmail.com>
+To: Laurent.pinchart@ideasonboard.com, patrik.r.jakobsson@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tejas Vipin <tejasvipin76@gmail.com>
+Subject: [PATCH] drm/gma500: replace drm_detect_hdmi_monitor() with
+ drm_display_info.is_hdmi
+Date: Tue, 10 Sep 2024 10:48:56 +0530
+Message-ID: <20240910051856.700210-1-tejasvipin76@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm-ci: flaky tests for rockchip driver testing
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: linux-rockchip@lists.infradead.org,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, Maxime Ripard <mripard@kernel.org>,
- tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>,
- Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
- Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
- Deborah Brouwer <deborah.brouwer@collabora.com>
-References: <3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com>
-Content-Language: en-US
-In-Reply-To: <3e267d0c-fde4-4533-b001-6ab7d7c03546@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,78 +81,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi since
+monitor HDMI information is available after EDID is parsed. Additionally
+rewrite the code the code to have fewer indentation levels.
 
-On 24/07/24 14:22, Vignesh Raman wrote:
-> Hi Maintainers,
-> 
-> There are some flaky tests reported for rockchip driver testing
-> in drm-ci.
-> 
-> === rockchip rk3288 ===
-> # Board Name: rk3288-veyron-jaq
-> # Failure Rate: 100
-> # IGT Version: 1.28-gf13702b8e
-> # Linux Version: 6.10.0-rc5
-> kms_cursor_legacy@flip-vs-cursor-atomic
-> 
-> === rockchip rk3399 ===
-> # Board Name: rk3399-gru-kevin
-> # Failure Rate: 50
-> # IGT Version: 1.28-gf13702b8e
-> # Linux Version: 6.10.0-rc5
-> kms_bw@linear-tiling-1-displays-2560x1440p
-> kms_cursor_legacy@nonblocking-modeset-vs-cursor-atomic
-> kms_flip@dpms-vs-vblank-race-interruptible
-> kms_flip@flip-vs-absolute-wf_vblank-interruptible
-> kms_flip@flip-vs-wf_vblank-interruptible
-> kms_setmode@basic
-> kms_bw@connected-linear-tiling-1-displays-2560x1440p
-> 
-> Will add these tests in 
-> drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt and 
-> drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt 
-> (https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70)
-> 
-> Please could you have a look at these test results and let us know if 
-> you need more information. Thank you.
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+---
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-There are some flaky tests reported for rockchip driver testing
-in drm-ci.
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+index 2d95e0471291..cfbf3137e144 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+@@ -135,16 +135,16 @@ static enum drm_connector_status cdv_hdmi_detect(
+ 
+ 	hdmi_priv->has_hdmi_sink = false;
+ 	hdmi_priv->has_hdmi_audio = false;
+-	if (edid) {
+-		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
+-			status = connector_status_connected;
+-			hdmi_priv->has_hdmi_sink =
+-						drm_detect_hdmi_monitor(edid);
+-			hdmi_priv->has_hdmi_audio =
+-						drm_detect_monitor_audio(edid);
+-		}
+-		kfree(edid);
++	if (!edid)
++		return status;
++
++	if (edid->input & DRM_EDID_INPUT_DIGITAL) {
++		status = connector_status_connected;
++		hdmi_priv->has_hdmi_sink = connector->display_info.is_hdmi;
++		hdmi_priv->has_hdmi_audio = drm_detect_monitor_audio(edid);
+ 	}
++	kfree(edid);
++
+ 	return status;
+ }
+ 
+-- 
+2.46.0
 
-=== rockchip rk3288 ===
-# Board Name: rk3288-veyron-jaq
-# Failure Rate: 100
-# IGT Version: 1.28-ga73311079
-# Linux Version: 6.11.0-rc2
-kms_cursor_crc@cursor-offscreen-32x10
-kms_cursor_edge_walk@64x64-left-edge
-kms_flip@plain-flip-ts-check
-kms_cursor_crc@cursor-alpha-opaque
-
-=== rockchip rk3399 ===
-# Board Name: rk3399-gru-kevin
-# Failure Rate: 50
-# IGT Version: 1.28-ga73311079
-# Linux Version: 6.11.0-rc2
-kms_flip@wf_vblank-ts-check
-
-# Board Name: rk3399-gru-kevin
-# Failure Rate: 100
-# IGT Version: 1.28-ga73311079
-# Linux Version: 6.11.0-rc5
-kms_flip@dpms-vs-vblank-race
-kms_bw@linear-tiling-2-displays-2160x1440p
-kms_flip@flip-vs-expired-vblank
-
-
-Will add these tests in 
-drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt and 
-drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt 
-(https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70)
-
-Please could you have a look at these test results and let us know if 
-you need more information. Thank you.
-
-Regards,
-Vignesh
