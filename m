@@ -2,88 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24F89744E4
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 23:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9747974567
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 00:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E924910E92D;
-	Tue, 10 Sep 2024 21:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9960010E8E0;
+	Tue, 10 Sep 2024 22:09:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JKKEHfgP";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="C/din1z5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C136410E92B;
- Tue, 10 Sep 2024 21:34:28 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48AFAGOW020308;
- Tue, 10 Sep 2024 21:34:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=/8YvRtEGh/rrd/XSJPHpbJwX
- vwaw+cSYdAjRpmZdS8I=; b=JKKEHfgP3Q1Jqn6S5q3agtg/IfkQzfZtyFPvK/ni
- s34GefNv8GVNx+D0MAdfXEjDjwtIaF1GwrXHcIYi2426wUOWMq8basvfl4YMswx4
- hCICETA7wY22eCG7VpjL7OgUc7/y715YQwNdzPc8A5oTBM+IpLB68x8zb07kxwPL
- km/dcIRHjC7kS0MpyksP9s8lvMzvjOdgZIjYKBIP28YlejsR2QgBoiuzhCsF77Qm
- WDRUj87QCjv6BiU4xCTOXTBn2pDvjAW5WId2ouulfEp5fuhZc7GUMsQtgobZvz+t
- s+IhhrOOzWL7mUEdD7FxFOwCqGkOwsibcJXsndvgylRLoA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41he5dxn11-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Sep 2024 21:34:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48ALYLYm010958
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Sep 2024 21:34:21 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 10 Sep 2024 14:34:16 -0700
-Date: Wed, 11 Sep 2024 03:04:12 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Antonino Maniscalco <antomani103@gmail.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konrad.dybcio@linaro.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 06/10] drm/msm/A6xx: Use posamble to reset counters on
- preemption
-Message-ID: <20240910213412.xfw6abex5aqp7b66@hu-akhilpo-hyd.qualcomm.com>
-References: <20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com>
- <20240905-preemption-a750-t-v3-6-fd947699f7bc@gmail.com>
- <20240906200847.ajcrpikzl65fwbjz@hu-akhilpo-hyd.qualcomm.com>
- <69efbf90-7ce1-429f-bf3a-d19acd7d649d@gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A902210E8E0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 22:09:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1726006191; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=V2vIcpcIauuUp5+xPbBnNJLpD4oJamgM3B3c/BfWWjH3f1WrPnHdy9dFEVdzEBONBb5/9fQPtGkNmZXLYa07fcxzeNVuLciCx8UZvsOBk4bSrKm5CSHvRlJcdtkRTjEYxMLhCZTtKrLDSINek1pFuC5gQfzfONT1JyucVwsqJNo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1726006191;
+ h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=xZrAGWr1vgflX2NJ6oEKbznz0eNRLLJeiY/3xI8KYt0=; 
+ b=IR9GPDs7+Ft5mTARLTAxAy70I6IWAeLLIAO3Xf0duuZmwCuoSD9tzAWJSPD2EyRsN6RqnEVmZOp/NK8S5VCM7mj+4vjUPTuh4OH9iLNFkx/ubsi94/afhQ0KZASBJJ4rtrX6MzcjgpZ10sP0ibzY+XYf4eBwR8tTEVuG2fHiREM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726006191; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+ bh=xZrAGWr1vgflX2NJ6oEKbznz0eNRLLJeiY/3xI8KYt0=;
+ b=C/din1z5WK8a0WJ56TVzsud50b3zdn0lazw8gBbx2Zgb3uMmFADHZ0apvGeFtYjG
+ aGLsGJQtnmjfq9iHqEdyN+brZ4EqZCkEKNPbr7QJeTMzxAos/OTvwjDuKBGLcePcfbW
+ 9ZTtb0OM5UAe6CCx2PenIbSEWNV2cnF1kZqlaaVs=
+Received: by mx.zohomail.com with SMTPS id 1726006189098665.9031583467041;
+ Tue, 10 Sep 2024 15:09:49 -0700 (PDT)
+Message-ID: <dc88e7b9-ff0d-4405-88d1-bd94df550ae7@collabora.com>
+Date: Wed, 11 Sep 2024 01:09:44 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <69efbf90-7ce1-429f-bf3a-d19acd7d649d@gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: -LsNJKvZl1vFyAp3lzcqKu6XdHnPxM5V
-X-Proofpoint-GUID: -LsNJKvZl1vFyAp3lzcqKu6XdHnPxM5V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409100161
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/virtio: Defer the host dumb buffer creation
+To: Jocelyn Falempe <jfalempe@redhat.com>, David Airlie <airlied@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev
+References: <20240903075414.297622-1-jfalempe@redhat.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20240903075414.297622-1-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,184 +71,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 09, 2024 at 05:07:42PM +0200, Antonino Maniscalco wrote:
-> On 9/6/24 10:08 PM, Akhil P Oommen wrote:
-> > On Thu, Sep 05, 2024 at 04:51:24PM +0200, Antonino Maniscalco wrote:
-> > > Use the postamble to reset perf counters when switching between rings,
-> > > except when sysprof is enabled, analogously to how they are reset
-> > > between submissions when switching pagetables.
-> > > 
-> > > Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> > > ---
-> > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 20 ++++++++++++++++++-
-> > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  5 +++++
-> > >   drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 32 +++++++++++++++++++++++++++++++
-> > >   drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 +++++--
-> > >   4 files changed, 61 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > index ed0b138a2d66..710ec3ce2923 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > @@ -366,7 +366,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-> > >   static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
-> > >   		struct a6xx_gpu *a6xx_gpu, struct msm_gpu_submitqueue *queue)
-> > >   {
-> > > -	u64 preempt_offset_priv_secure;
-> > > +	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
-> > > +	u64 preempt_offset_priv_secure, preempt_postamble;
-> > >   	OUT_PKT7(ring, CP_SET_PSEUDO_REG, 15);
-> > > @@ -398,6 +399,23 @@ static void a6xx_emit_set_pseudo_reg(struct msm_ringbuffer *ring,
-> > >   	/* seems OK to set to 0 to disable it */
-> > >   	OUT_RING(ring, 0);
-> > >   	OUT_RING(ring, 0);
-> > > +
-> > > +	/* if not profiling set postamble to clear perfcounters, else clear it */
-> > > +	if (!sysprof && a6xx_gpu->preempt_postamble_len) {
-
-Setting len = 0 is enough to skip processing postamble packets. So how
-about a simpler:
-
-len = a6xx_gpu->preempt_postamble_len;
-if (sysprof)
-	len = 0;
-
-OUT_PKT7(ring, CP_SET_AMBLE, 3);
-OUT_RING(ring, lower_32_bits(preempt_postamble));
-OUT_RING(ring, upper_32_bits(preempt_postamble));
-OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(len) |
-		CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
-
-> > > +		preempt_postamble = a6xx_gpu->preempt_postamble_iova;
-> > > +
-> > > +		OUT_PKT7(ring, CP_SET_AMBLE, 3);
-> > > +		OUT_RING(ring, lower_32_bits(preempt_postamble));
-> > > +		OUT_RING(ring, upper_32_bits(preempt_postamble));
-> > > +		OUT_RING(ring, CP_SET_AMBLE_2_DWORDS(
-> > > +					a6xx_gpu->preempt_postamble_len) |
-> > > +				CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
-> > > +	} else {
-> > 
-> > Why do we need this else part?
+On 9/3/24 10:48, Jocelyn Falempe wrote:
+> The host dumb buffer command needs a format, but the
+> DRM_IOCTL_MODE_CREATE_DUMB only provides a buffer size.
+> So wait for the DRM_IOCTL_MODE_ADDFB(2), to get the format, and create
+> the host resources at this time.
 > 
-> Wouldn't the postmable remain set if we don't explicitly set it to 0?
-
-Aah, that is a genuine concern. I am not sure! Lets keep it.
-
+> This will allow virtio-gpu to support multiple pixel formats.
 > 
-> > 
-> > > +		OUT_PKT7(ring, CP_SET_AMBLE, 3);
-> > > +		OUT_RING(ring, 0);
-> > > +		OUT_RING(ring, 0);
-> > > +		OUT_RING(ring, CP_SET_AMBLE_2_TYPE(KMD_AMBLE_TYPE));
-> > > +	}
-> > >   }
-> > >   static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> > > index da10060e38dc..b009732c08c5 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> > > @@ -71,6 +71,11 @@ struct a6xx_gpu {
-> > >   	bool uses_gmem;
-> > >   	bool skip_save_restore;
-> > > +	struct drm_gem_object *preempt_postamble_bo;
-> > > +	void *preempt_postamble_ptr;
-> > > +	uint64_t preempt_postamble_iova;
-> > > +	uint64_t preempt_postamble_len;
-> > > +
-> > >   	struct a6xx_gmu gmu;
-> > >   	struct drm_gem_object *shadow_bo;
-> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
-> > > index 1caff76aca6e..ec44f44d925f 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
-> > > @@ -346,6 +346,28 @@ static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
-> > >   	return 0;
-> > >   }
-> > > +static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
-> > > +{
-> > > +	u32 *postamble = a6xx_gpu->preempt_postamble_ptr;
-> > > +	u32 count = 0;
-> > > +
-> > > +	postamble[count++] = PKT7(CP_REG_RMW, 3);
-> > > +	postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
-> > > +	postamble[count++] = 0;
-> > > +	postamble[count++] = 1;
-> > > +
-> > > +	postamble[count++] = PKT7(CP_WAIT_REG_MEM, 6);
-> > > +	postamble[count++] = CP_WAIT_REG_MEM_0_FUNCTION(WRITE_EQ);
-> > > +	postamble[count++] = CP_WAIT_REG_MEM_1_POLL_ADDR_LO(
-> > > +				REG_A6XX_RBBM_PERFCTR_SRAM_INIT_STATUS);
-> > > +	postamble[count++] = CP_WAIT_REG_MEM_2_POLL_ADDR_HI(0);
-> > > +	postamble[count++] = CP_WAIT_REG_MEM_3_REF(0x1);
-> > > +	postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
-> > > +	postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
-> > 
-> > Isn't it better to just replace this with NOP packets when sysprof is
-> > enabled, just before triggering preemption? It will help to have an
-> > immediate effect.
-> > 
-> > -Akhil
-> > 
+> This problem was noticed in commit 42fd9e6c29b39 ("drm/virtio: fix
+> DRM_FORMAT_* handling")
 > 
-> Mmm, this being a postamble I wonder whether we have the guarantee that it
-> finishes execution before the IRQ is called so updating it doesn't race with
-> the CP executing it.
+> Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+> 
+> v2:
+>  * Move virtio_gpu_object deferred field to its own block (Geerd Hoffmann)
+>  * Check that the size of the dumb buffer can hold the framebuffer (Geerd Hoffmann)
+> 
+>  drivers/gpu/drm/virtio/virtgpu_display.c | 33 ++++++++++++++++++++++++
+>  drivers/gpu/drm/virtio/virtgpu_drv.h     |  5 ++++
+>  drivers/gpu/drm/virtio/virtgpu_gem.c     |  1 -
+>  drivers/gpu/drm/virtio/virtgpu_object.c  | 13 +++++++---
+>  4 files changed, 47 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+> index 64baf2f22d9f0..5e8ca742c6d00 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> @@ -290,6 +290,30 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
+>  	return 0;
+>  }
+>  
+> +static int virtio_gpu_deferred_create(struct virtio_gpu_object *bo,
+> +				      struct virtio_gpu_device *vgdev,
+> +				      const struct drm_mode_fb_cmd2 *mode_cmd)
+> +{
+> +	struct virtio_gpu_object_params params = { 0 };
+> +
+> +	params.format = virtio_gpu_translate_format(mode_cmd->pixel_format);
+> +	params.dumb = true;
+> +	params.width = mode_cmd->width;
+> +	params.height = mode_cmd->height;
+> +	params.size = params.height * params.width * 4;
+> +	params.size = ALIGN(params.size, PAGE_SIZE);
+> +
+> +	if (params.size > bo->base.base.size)
+> +		return -EINVAL;
+> +
+> +	virtio_gpu_cmd_create_resource(vgdev, bo, &params, NULL, NULL);
+> +	virtio_gpu_object_attach(vgdev, bo, bo->ents, bo->nents);
+> +
+> +	bo->deferred = false;
+> +	bo->ents = NULL;
+> +	return 0;
+> +}
+> +
+>  static struct drm_framebuffer *
+>  virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+>  				   struct drm_file *file_priv,
+> @@ -297,6 +321,8 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+>  {
+>  	struct drm_gem_object *obj = NULL;
+>  	struct virtio_gpu_framebuffer *virtio_gpu_fb;
+> +	struct virtio_gpu_device *vgdev = dev->dev_private;
+> +	struct virtio_gpu_object *bo;
+>  	int ret;
+>  
+>  	if (mode_cmd->pixel_format != DRM_FORMAT_HOST_XRGB8888 &&
+> @@ -308,6 +334,13 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+>  	if (!obj)
+>  		return ERR_PTR(-EINVAL);
+>  
+> +	bo = gem_to_virtio_gpu_obj(obj);
+> +	if (bo->deferred) {
+> +		ret = virtio_gpu_deferred_create(bo, vgdev, mode_cmd);
+> +		if (ret)
+> +			return ERR_PTR(ret);
+> +	}
+> +
+>  	virtio_gpu_fb = kzalloc(sizeof(*virtio_gpu_fb), GFP_KERNEL);
+>  	if (virtio_gpu_fb == NULL) {
+>  		drm_gem_object_put(obj);
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 64c236169db88..4302933e5067c 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -95,6 +95,11 @@ struct virtio_gpu_object {
+>  	bool host3d_blob, guest_blob;
+>  	uint32_t blob_mem, blob_flags;
+>  
+> +	/* For deferred dumb buffer creation */
+> +	bool deferred;
+> +	struct virtio_gpu_mem_entry *ents;
+> +	unsigned int nents;
+> +
+>  	int uuid_state;
+>  	uuid_t uuid;
+>  };
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> index 7db48d17ee3a8..33ad15fed30f6 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> @@ -75,7 +75,6 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+>  	args->size = pitch * args->height;
+>  	args->size = ALIGN(args->size, PAGE_SIZE);
+>  
+> -	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
 
-Yes, it will be complete. But on a second thought now, this suggestion from me
-looks like an overkill.
+This will break the guest blob code path in virtio_gpu_object_create(),
+AFAICT.
 
--Akhil.
+>  	params.width = args->width;
+>  	params.height = args->height;
+>  	params.size = args->size;
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index c7e74cf130221..b5a537a761294 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -67,6 +67,8 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+>  
+>  	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+>  	if (virtio_gpu_is_shmem(bo)) {
+> +		if (bo->deferred)
+> +			kvfree(bo->ents);
+>  		drm_gem_shmem_free(&bo->base);
+>  	} else if (virtio_gpu_is_vram(bo)) {
+>  		struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
+> @@ -228,10 +230,13 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>  		virtio_gpu_cmd_resource_create_3d(vgdev, bo, params,
+>  						  objs, fence);
+>  		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+> -	} else {
+> -		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+> -					       objs, fence);
+> -		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+> +	} else if (params->dumb) {
+> +		/* Create the host resource in virtio_gpu_user_framebuffer_create()
+> +		 * because the pixel format is not specified yet
+> +		 */
+> +		bo->ents = ents;
+> +		bo->nents = nents;
+> +		bo->deferred = true;
+>  	}
 
-> 
-> > > +
-> > > +	a6xx_gpu->preempt_postamble_len = count;
-> > > +}
-> > > +
-> > >   void a6xx_preempt_fini(struct msm_gpu *gpu)
-> > >   {
-> > >   	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> > > @@ -376,6 +398,16 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
-> > >   	a6xx_gpu->uses_gmem = 1;
-> > >   	a6xx_gpu->skip_save_restore = 1;
-> > > +	a6xx_gpu->preempt_postamble_ptr  = msm_gem_kernel_new(gpu->dev,
-> > > +			PAGE_SIZE, MSM_BO_WC | MSM_BO_MAP_PRIV,
-> > > +			gpu->aspace, &a6xx_gpu->preempt_postamble_bo,
-> > > +			&a6xx_gpu->preempt_postamble_iova);
-> > > +
-> > > +	preempt_prepare_postamble(a6xx_gpu);
-> > > +
-> > > +	if (IS_ERR(a6xx_gpu->preempt_postamble_ptr))
-> > > +		goto fail;
-> > > +
-> > >   	timer_setup(&a6xx_gpu->preempt_timer, a6xx_preempt_timer, 0);
-> > >   	return;
-> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > > index 6b1888280a83..87098567483b 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > > @@ -610,12 +610,15 @@ OUT_PKT4(struct msm_ringbuffer *ring, uint16_t regindx, uint16_t cnt)
-> > >   	OUT_RING(ring, PKT4(regindx, cnt));
-> > >   }
-> > > +#define PKT7(opcode, cnt) \
-> > > +	(CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) | \
-> > > +		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23))
-> > > +
-> > >   static inline void
-> > >   OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
-> > >   {
-> > >   	adreno_wait_ring(ring, cnt + 1);
-> > > -	OUT_RING(ring, CP_TYPE7_PKT | (cnt << 0) | (PM4_PARITY(cnt) << 15) |
-> > > -		((opcode & 0x7F) << 16) | (PM4_PARITY(opcode) << 23));
-> > > +	OUT_RING(ring, PKT7(opcode, cnt));
-> > >   }
-> > >   struct msm_gpu *a2xx_gpu_init(struct drm_device *dev);
-> > > 
-> > > -- 
-> > > 2.46.0
-> > > 
-> 
-> Best regards,
-> -- 
-> Antonino Maniscalco <antomani103@gmail.com>
-> 
+AFAICS, the "params.dumb = true" should be set in
+virtio_gpu_mode_dumb_create() and not in virtio_gpu_deferred_create().
+Was this patch tested?
+
+Overall, this deferred resource creation doesn't look robust. Could be
+better to either add SET_SCANOUT2 with the format info or add cmd that
+overrides the res fmt.
+
