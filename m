@@ -2,60 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9747974567
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 00:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A70897457B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 00:16:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9960010E8E0;
-	Tue, 10 Sep 2024 22:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92CCD10E910;
+	Tue, 10 Sep 2024 22:16:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="C/din1z5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QzuHiKux";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A902210E8E0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 22:09:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1726006191; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=V2vIcpcIauuUp5+xPbBnNJLpD4oJamgM3B3c/BfWWjH3f1WrPnHdy9dFEVdzEBONBb5/9fQPtGkNmZXLYa07fcxzeNVuLciCx8UZvsOBk4bSrKm5CSHvRlJcdtkRTjEYxMLhCZTtKrLDSINek1pFuC5gQfzfONT1JyucVwsqJNo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1726006191;
- h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=xZrAGWr1vgflX2NJ6oEKbznz0eNRLLJeiY/3xI8KYt0=; 
- b=IR9GPDs7+Ft5mTARLTAxAy70I6IWAeLLIAO3Xf0duuZmwCuoSD9tzAWJSPD2EyRsN6RqnEVmZOp/NK8S5VCM7mj+4vjUPTuh4OH9iLNFkx/ubsi94/afhQ0KZASBJJ4rtrX6MzcjgpZ10sP0ibzY+XYf4eBwR8tTEVuG2fHiREM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726006191; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
- bh=xZrAGWr1vgflX2NJ6oEKbznz0eNRLLJeiY/3xI8KYt0=;
- b=C/din1z5WK8a0WJ56TVzsud50b3zdn0lazw8gBbx2Zgb3uMmFADHZ0apvGeFtYjG
- aGLsGJQtnmjfq9iHqEdyN+brZ4EqZCkEKNPbr7QJeTMzxAos/OTvwjDuKBGLcePcfbW
- 9ZTtb0OM5UAe6CCx2PenIbSEWNV2cnF1kZqlaaVs=
-Received: by mx.zohomail.com with SMTPS id 1726006189098665.9031583467041;
- Tue, 10 Sep 2024 15:09:49 -0700 (PDT)
-Message-ID: <dc88e7b9-ff0d-4405-88d1-bd94df550ae7@collabora.com>
-Date: Wed, 11 Sep 2024 01:09:44 +0300
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE7E10E8F0;
+ Tue, 10 Sep 2024 22:16:17 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-6c524b4a3aeso34989706d6.3; 
+ Tue, 10 Sep 2024 15:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726006576; x=1726611376; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hHIg8i0gS3Bf6sinh0WN3XoEPUmj8P+7fJP2LdbCtG0=;
+ b=QzuHiKuxfcRy4N10vLpbt5b+n+wvK3tSKyF/6vU83v4Qws2aJu3zPWdbuuHk4b5+u9
+ PoivuPBvG9yObiUPKoVuavA8ZkSagV1ldSG2oq+/LTmnNApuU5VUipX4v5/zOsxR6LzH
+ jo7AKve4sz+7nqhaZdNBRrUblbNNbcJM8BBEyyw6MQAohhGisYwoGt5XDT7VkldutpAM
+ Bu374Lwn5uFhPNRGa/q2aUaBqkCAwz8hqYIh56H45Jwe6CvMM6Xgb1rY/OsTQcz5UCSG
+ 5LYXFS6qqnFdHmZcerK2JLFKPBOQwtUyuvwha8ZyHQMr6ezc0R7BySL6ynddIy3FceU2
+ e0Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726006576; x=1726611376;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hHIg8i0gS3Bf6sinh0WN3XoEPUmj8P+7fJP2LdbCtG0=;
+ b=vRcEjd/agHbSljiRfb0BnsJ5NMOSMlE71MumPZbexX7x2ZOSEwL8aZSdoj5rtJFa8S
+ iOSpUrzwKrApMkLolR+A5/9Z3GKTo0bWNuewZ2RDUxk0GomqGlWRgGaT45Q3MjycgZzM
+ m5hF6gZxdE/f/h3iCx/7O32HzXAIXiYsbp/SHGOND6XhgJ83hvTG5Kbb6a4st5Qk04Sf
+ UQJ+SixTBk8/YGsk0Ip4qL4cNKQzZQL6pXKlR2tsmvkiydq3wncINVbgmP5UzNbQjO3c
+ iiuJAJ6ks46oYoMMAGQDY5HBIglvG44iF87i/PJmSVUxdyX3XaIP6/t1G+p14/ULuDLv
+ m7Nw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUdlz72mbZQ/zkm1Dcx0F/61V4SUx8wEBxRUdgDzbbIM4IHpRcwuTLo+TPMVeQd0A1v2ZuDmYFP@lists.freedesktop.org,
+ AJvYcCUu0Hp4cOd8O3Py8y9WZBxRJKEeT2IybLDC5UvLMxSGQ1EfY/+bBDyD5f/A/AE+AlALHjqvnnSJ4eAl@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyw4H9X2whs3GtnKBWjowEsDWmDVuBWK7VgsCRcw/EIX+5DI19Z
+ 3oMc0PrU4fDTj+0MsANG4RgTdfm8pY3gnzSCq7Ijur+pwg5dXK3ifvdguLXMV36gJE5KRFSqmZ+
+ t9q7ZEgB6rIB6vT74NSJQkh23iLE=
+X-Google-Smtp-Source: AGHT+IH6j1CjcbCzXOH1/LDwJczOXPOc2Hu+rc7nUbxX9+q+uyt7yEQs7pN/cUoLVtxP6duCgszTtKHpKX9DYMGhazM=
+X-Received: by 2002:a05:6214:3d08:b0:6c1:6b4c:6ba4 with SMTP id
+ 6a1803df08f44-6c5282fd494mr199592026d6.8.1726006576325; Tue, 10 Sep 2024
+ 15:16:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/virtio: Defer the host dumb buffer creation
-To: Jocelyn Falempe <jfalempe@redhat.com>, David Airlie <airlied@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev
-References: <20240903075414.297622-1-jfalempe@redhat.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20240903075414.297622-1-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+References: <CABXGCsNgx6gQCqBq-L2P15ydaN_66sM9CgGa9GQYNzQsaa6Dkg@mail.gmail.com>
+ <CABXGCsNztS8MLteq5=fcddwuQ1TCzeOM8TdVtpJ3crK=sV5PTQ@mail.gmail.com>
+ <CABXGCsMdxHJ-MLkS0pm51Sk8g0PTghsuZxmowvj5t44bVN4ndA@mail.gmail.com>
+ <ffd2c40c-1c2e-4465-b26f-88d5e08a80d9@amd.com>
+ <CABXGCsOoL5vD0+FRALFQFr3ZBpb2z5mpGKzAD5RHoW9_sb5yaQ@mail.gmail.com>
+ <f68020a3-c413-482d-beb2-5432d98a1d3e@amd.com>
+ <CABXGCsMSTsBFW=OirDszPFVOiNgyOBSh3qyzAw-Coi-McnicAQ@mail.gmail.com>
+ <04d3755d-f295-46d7-b35d-008b888b39ae@amd.com>
+ <CABXGCsMDk59-P0Nr1v7KajKsoQh2966mykLPWQxajPtq=OGgXg@mail.gmail.com>
+ <eeab54b4-c055-4992-9ca4-f9e382db68c4@amd.com>
+ <6db472e4-cd90-4ba6-8368-725b10ba5b4a@amd.com>
+In-Reply-To: <6db472e4-cd90-4ba6-8368-725b10ba5b4a@amd.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Wed, 11 Sep 2024 03:16:05 +0500
+Message-ID: <CABXGCsMaXUjHyySQqw7fPmoyDHSJ0yc0f6NPfOU2BRd_Hvj8TA@mail.gmail.com>
+Subject: Re: 6.11/regression/bisected - after commit 1b04dcca4fb1, launching
+ some RenPy games causes computer hang
+To: Leo Li <sunpeng.li@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, zaeem.mohamed@amd.com, 
+ pekka.paalanen@collabora.com, "Wheeler, Daniel" <daniel.wheeler@amd.com>, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,156 +96,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/3/24 10:48, Jocelyn Falempe wrote:
-> The host dumb buffer command needs a format, but the
-> DRM_IOCTL_MODE_CREATE_DUMB only provides a buffer size.
-> So wait for the DRM_IOCTL_MODE_ADDFB(2), to get the format, and create
-> the host resources at this time.
-> 
-> This will allow virtio-gpu to support multiple pixel formats.
-> 
-> This problem was noticed in commit 42fd9e6c29b39 ("drm/virtio: fix
-> DRM_FORMAT_* handling")
-> 
-> Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
-> 
-> v2:
->  * Move virtio_gpu_object deferred field to its own block (Geerd Hoffmann)
->  * Check that the size of the dumb buffer can hold the framebuffer (Geerd Hoffmann)
-> 
->  drivers/gpu/drm/virtio/virtgpu_display.c | 33 ++++++++++++++++++++++++
->  drivers/gpu/drm/virtio/virtgpu_drv.h     |  5 ++++
->  drivers/gpu/drm/virtio/virtgpu_gem.c     |  1 -
->  drivers/gpu/drm/virtio/virtgpu_object.c  | 13 +++++++---
->  4 files changed, 47 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-> index 64baf2f22d9f0..5e8ca742c6d00 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-> @@ -290,6 +290,30 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
->  	return 0;
->  }
->  
-> +static int virtio_gpu_deferred_create(struct virtio_gpu_object *bo,
-> +				      struct virtio_gpu_device *vgdev,
-> +				      const struct drm_mode_fb_cmd2 *mode_cmd)
-> +{
-> +	struct virtio_gpu_object_params params = { 0 };
-> +
-> +	params.format = virtio_gpu_translate_format(mode_cmd->pixel_format);
-> +	params.dumb = true;
-> +	params.width = mode_cmd->width;
-> +	params.height = mode_cmd->height;
-> +	params.size = params.height * params.width * 4;
-> +	params.size = ALIGN(params.size, PAGE_SIZE);
-> +
-> +	if (params.size > bo->base.base.size)
-> +		return -EINVAL;
-> +
-> +	virtio_gpu_cmd_create_resource(vgdev, bo, &params, NULL, NULL);
-> +	virtio_gpu_object_attach(vgdev, bo, bo->ents, bo->nents);
-> +
-> +	bo->deferred = false;
-> +	bo->ents = NULL;
-> +	return 0;
-> +}
-> +
->  static struct drm_framebuffer *
->  virtio_gpu_user_framebuffer_create(struct drm_device *dev,
->  				   struct drm_file *file_priv,
-> @@ -297,6 +321,8 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
->  {
->  	struct drm_gem_object *obj = NULL;
->  	struct virtio_gpu_framebuffer *virtio_gpu_fb;
-> +	struct virtio_gpu_device *vgdev = dev->dev_private;
-> +	struct virtio_gpu_object *bo;
->  	int ret;
->  
->  	if (mode_cmd->pixel_format != DRM_FORMAT_HOST_XRGB8888 &&
-> @@ -308,6 +334,13 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
->  	if (!obj)
->  		return ERR_PTR(-EINVAL);
->  
-> +	bo = gem_to_virtio_gpu_obj(obj);
-> +	if (bo->deferred) {
-> +		ret = virtio_gpu_deferred_create(bo, vgdev, mode_cmd);
-> +		if (ret)
-> +			return ERR_PTR(ret);
-> +	}
-> +
->  	virtio_gpu_fb = kzalloc(sizeof(*virtio_gpu_fb), GFP_KERNEL);
->  	if (virtio_gpu_fb == NULL) {
->  		drm_gem_object_put(obj);
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> index 64c236169db88..4302933e5067c 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -95,6 +95,11 @@ struct virtio_gpu_object {
->  	bool host3d_blob, guest_blob;
->  	uint32_t blob_mem, blob_flags;
->  
-> +	/* For deferred dumb buffer creation */
-> +	bool deferred;
-> +	struct virtio_gpu_mem_entry *ents;
-> +	unsigned int nents;
-> +
->  	int uuid_state;
->  	uuid_t uuid;
->  };
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> index 7db48d17ee3a8..33ad15fed30f6 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> @@ -75,7 +75,6 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
->  	args->size = pitch * args->height;
->  	args->size = ALIGN(args->size, PAGE_SIZE);
->  
-> -	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
+On Tue, Sep 10, 2024 at 8:47=E2=80=AFPM Leo Li <sunpeng.li@amd.com> wrote:
+>
+> Thanks Mikhail, I think I know what's going on now.
+>
+> The `scale-monitor-framebuffer` experimental setting is what puts us down=
+ the
+> bad code path. It seems VRR has nothing to do with this issue, just setti=
+ng
+> `scale-monitor-framebuffer` is enough to reproduce.
 
-This will break the guest blob code path in virtio_gpu_object_create(),
-AFAICT.
+I ran some additional tests:
 
->  	params.width = args->width;
->  	params.height = args->height;
->  	params.size = args->size;
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index c7e74cf130221..b5a537a761294 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -67,6 +67,8 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
->  
->  	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
->  	if (virtio_gpu_is_shmem(bo)) {
-> +		if (bo->deferred)
-> +			kvfree(bo->ents);
->  		drm_gem_shmem_free(&bo->base);
->  	} else if (virtio_gpu_is_vram(bo)) {
->  		struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
-> @@ -228,10 +230,13 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
->  		virtio_gpu_cmd_resource_create_3d(vgdev, bo, params,
->  						  objs, fence);
->  		virtio_gpu_object_attach(vgdev, bo, ents, nents);
-> -	} else {
-> -		virtio_gpu_cmd_create_resource(vgdev, bo, params,
-> -					       objs, fence);
-> -		virtio_gpu_object_attach(vgdev, bo, ents, nents);
-> +	} else if (params->dumb) {
-> +		/* Create the host resource in virtio_gpu_user_framebuffer_create()
-> +		 * because the pixel format is not specified yet
-> +		 */
-> +		bo->ents = ents;
-> +		bo->nents = nents;
-> +		bo->deferred = true;
->  	}
+1)
+$ gsettings set org.gnome.mutter experimental-features
+"['variable-refresh-rate']"
+Symptoms: No
 
-AFAICS, the "params.dumb = true" should be set in
-virtio_gpu_mode_dumb_create() and not in virtio_gpu_deferred_create().
-Was this patch tested?
+2)
+$ gsettings set org.gnome.mutter experimental-features
+"['scale-monitor-framebuffer']"
+Symptoms: Screen flickers happening when moving cursor.
 
-Overall, this deferred resource creation doesn't look robust. Could be
-better to either add SET_SCANOUT2 with the format info or add cmd that
-overrides the res fmt.
+3)
+$ gsettings set org.gnome.mutter experimental-features
+"['variable-refresh-rate', 'scale-monitor-framebuffer']"
+But Variable Refresh Rate is disabled in the display settings.
+Symptoms: As previous - Screen flickers happening when moving cursor.
 
+4)
+$ gsettings set org.gnome.mutter experimental-features
+"['variable-refresh-rate', 'scale-monitor-framebuffer']"
+And Variable Refresh Rate is enabled in the display settings.
+Symptoms: On Radeon 7900XTX hardware computer completely hangs without
+any messages in kernel logs.
+
+On Wed, Sep 11, 2024 at 2:11=E2=80=AFAM Leo Li <sunpeng.li@amd.com> wrote:
+>
+> Hi Mikhail,
+>
+> Can you give this patch a try to see if it helps?
+> https://gist.github.com/leeonadoh/3271e90ec95d768424c572c970ada743
+>
+
+Thanks, with this patch, the issue is not reproduced anymore.
+Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+
+The only thing that worries me is the thought that the problem with
+hang is now hidden.
+It's one thing when the GPU hangs but the system continues to work,
+another thing when the system hangs completely and even
+Alt+SysRq+REISUB does not help to reboot the system. It shouldn't be
+like this...
+
+--=20
+Best Regards,
+Mike Gavrilov.
