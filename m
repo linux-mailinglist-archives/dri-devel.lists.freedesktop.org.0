@@ -2,114 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D8797375E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 14:31:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F5A9737B0
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 14:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6573310E7AF;
-	Tue, 10 Sep 2024 12:31:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nKiBKnFd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 395E710E7B2;
+	Tue, 10 Sep 2024 12:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7991810E7AF
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 12:31:33 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-53659867cbdso6879853e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 05:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1725971491; x=1726576291; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AtcRhukYoCtt3zbp0P2CQXM3Yj4Vl3Xs7XXdCTCWAv4=;
- b=nKiBKnFdcKX16wKaFI5zl50T0SVMhc5Y1pBZplpDe4l/nEvTdCSI+JQm7+XwpjttQu
- VP2pk6GTsMwJqAXl1vYzc+JPkyDMG3JXCI0Dx4mxgnfGUILPz6BboHG5gCQt/0Xsg/A/
- Pxa/eheJUz34CswqPU7PkvteboREoF/g7rNnlzkBcIQkda/YNPVno/HHZag0U1LPyFB8
- Fpnl1WjB+gfVaE8VeGKxe9Dbk+Nmd0+tXgVdJ50zZNRcRYc45otpfEUAgcjzNqGEOGUX
- RCN/XhOvdkOl+WdgjvvxTeWj8vvSh48a1TF7kY7y1KybdnfnumNKB4ZmoGMHoJm+Cm5W
- LVlQ==
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A1710E673;
+ Tue, 10 Sep 2024 12:40:15 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e116d2f5f7fso5148690276.1; 
+ Tue, 10 Sep 2024 05:40:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725971491; x=1726576291;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AtcRhukYoCtt3zbp0P2CQXM3Yj4Vl3Xs7XXdCTCWAv4=;
- b=SZyPHBxcFw62aw50ElBxE58lxZHDh+/MDBRHZrpt270tsNlNCWLhKubacgd1VcvL8H
- 5THWP48IHJ18FDxw5jTX9H8wZ5/n2HuTCT/JdAlnQQ0xxgP+/+126epK/7iuLqlpbqxU
- O5/6vTT0QJsdkMu2QuugwOKyFTp7+lwZq5AlSWFA/YmdUoB8D95fOjYHL9vdr9JSTQdZ
- t49n/k52iM+BsRk/9pG+RE9l1NzTEIpO18NSopILbEI7ypAchbuZ8QBe5SEm2c6/wDxE
- u3U0LVQJh4Sci8egjXfxf8iHhxOSiR5c4xETnIibvFZ0Glya9IFLS7JP7mqpScKDA8qH
- EkoQ==
+ d=1e100.net; s=20230601; t=1725972014; x=1726576814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rxkC6elmujDdAfnsTNRTMrFadUmhU0gDj/DcldHNh9Q=;
+ b=f6U1TIy91UPxqzcucePpSsY51OHp2Fgn5SxRj1hg9AGF02eEcrLwB2D9mSKhgh3s1X
+ rQIhWh+hvQdGYlfvGVozW6qbxK+Jx2gk9KWbJYWX3J96g7WPb7Pn+xW2P6bA8dbqonDg
+ CT3sFGfaLSR+12Lma5lGIajXSWQhfoelhPb2fKRh6GT8+oMVCDXbsSIUu8SbH7IifByt
+ Q33+ZIEOBYP455u/K4Gj5v2xDvrrLMLwWJgSWBt9Sf9Z1eMTwUaGm3W1TuJk4xsV6eDz
+ E3zpc7r+leouyCEQ7XKnRoz1Ad26NuiAjkKj/1K2qH4mECk9WE19cMw/Z12tAbfXHdla
+ OaMw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWf98ZC8w4p9ZTCCAEwqoTQG6GQIBNxjhrKjIu+zM1RMQs31JgLFzryhGGqCd0C/XZa15vZndZyNvo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/8OdSUJeuwfEDbloBKmeIRAf528pIEkBcJIN9rHZHCNgdl5xK
- ylcLZAw0EuPDV4+fYjlEj0Xz3TRMQzEkgkJqyaOXVOY3Cs8hoiXG
-X-Google-Smtp-Source: AGHT+IGEVkB6nnSie3fLjpdXReDnDVW5WUCRhLkJsLhAZYuUFak44mbGNRXGfWfCij7/1bK1evFE2Q==
-X-Received: by 2002:a05:6512:4021:b0:536:5810:e89 with SMTP id
- 2adb3069b0e04-5365880b041mr13327012e87.49.1725971490461; 
- Tue, 10 Sep 2024 05:31:30 -0700 (PDT)
-Received: from [192.168.42.252] ([163.114.131.193])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a8d259511c0sm475844966b.62.2024.09.10.05.31.28
+ AJvYcCX3x4DQ1FoJ+ZacDu916Kcyt7ltqpHmP+l9pImn8mSM1Z5zcb8wO0Vx/RDfQLAc+kiB1K3bT6LZ5mE=@lists.freedesktop.org,
+ AJvYcCXwx4692JcfHna67Qnu8o/mWpLtpFcDyE1twczSj+KUZTD3clRJRoDILBK2eaDXm1nIiFSPl9f0GAk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsaRmrqxXtImQcH/R0/3FI2rSYFq9ZYk6hav+gyG8t2dkaTrkk
+ z2XR1Mjw4XGjJWXo7sDHRh2lxE3PSRMbQcO+UTBV2pzFbxamSFcVeh1cZNLQ
+X-Google-Smtp-Source: AGHT+IFmVAP5rOEd9M5gL23YDPikZl+RDcuMvj39376pdfajUicgricvrRgbGrJI5DpQlRVOm5oCuQ==
+X-Received: by 2002:a05:6902:287:b0:e1c:ff8a:68f9 with SMTP id
+ 3f1490d57ef6-e1d79e74167mr2475640276.11.1725972013535; 
+ Tue, 10 Sep 2024 05:40:13 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
+ [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6db9652d8fasm2763667b3.142.2024.09.10.05.40.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Sep 2024 05:31:29 -0700 (PDT)
-Message-ID: <9116f069-63a7-4cc9-b197-1f39ebfd0a57@gmail.com>
-Date: Tue, 10 Sep 2024 13:31:56 +0100
+ Tue, 10 Sep 2024 05:40:12 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-6cdae28014dso40793517b3.1; 
+ Tue, 10 Sep 2024 05:40:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXkV/b2s679LCkUBLcLtXZq/+6c+5mzLTO20/0sypWoFaUuRXWEedyOzsE15DotjUvNZ54xj+J/wvA=@lists.freedesktop.org,
+ AJvYcCXug2mUjyNo9M5SaNwCfKYDs065WXORJsDHtvjlviGFg+vvzBKhuCvZZ6OchbPEaM6McFL5Kd+9bOk=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:25c4:b0:664:74cd:5548 with SMTP id
+ 00721157ae682-6db95311ca7mr24962807b3.1.1725972012286; Tue, 10 Sep 2024
+ 05:40:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
-To: Yunsheng Lin <linyunsheng@huawei.com>,
- Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Magnus Karlsson <magnus.karlsson@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
-References: <20240909054318.1809580-1-almasrymina@google.com>
- <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
- <CAHS8izMX+9F1NngbPx6w7ikKR9TgPvm+jMwZ8168NJYhFC7sVQ@mail.gmail.com>
- <95e6c282-1e4f-458b-9e40-9b626d64b3bd@huawei.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <95e6c282-1e4f-458b-9e40-9b626d64b3bd@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1725962479.git.jani.nikula@intel.com>
+ <f2b721e28b9ee2711d7848abf1774ecb8ce8e5e2.1725962479.git.jani.nikula@intel.com>
+In-Reply-To: <f2b721e28b9ee2711d7848abf1774ecb8ce8e5e2.1725962479.git.jani.nikula@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 10 Sep 2024 14:39:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWJDKO-0o9GiGzuZ=yuYpZ1myB+A00zYwNj=+6baAq3Rw@mail.gmail.com>
+Message-ID: <CAMuHMdWJDKO-0o9GiGzuZ=yuYpZ1myB+A00zYwNj=+6baAq3Rw@mail.gmail.com>
+Subject: Re: [PATCH 2/8] drm: renesas: rcar-du: annotate rcar_cmm_read() with
+ __maybe_unused
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,78 +84,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/10/24 11:44, Yunsheng Lin wrote:
-> On 2024/9/10 0:54, Mina Almasry wrote:
->> On Mon, Sep 9, 2024 at 4:21 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>>
->>> On 2024/9/9 13:43, Mina Almasry wrote:
->>>
->>>>
->>>> Perf - page-pool benchmark:
->>>> ---------------------------
->>>>
->>>> bench_page_pool_simple.ko tests with and without these changes:
->>>> https://pastebin.com/raw/ncHDwAbn
->>>>
->>>> AFAIK the number that really matters in the perf tests is the
->>>> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
->>>> cycles without the changes but there is some 1 cycle noise in some
->>>> results.
->>>>
->>>> With the patches this regresses to 9 cycles with the changes but there
->>>> is 1 cycle noise occasionally running this test repeatedly.
->>>>
->>>> Lastly I tried disable the static_branch_unlikely() in
->>>> netmem_is_net_iov() check. To my surprise disabling the
->>>> static_branch_unlikely() check reduces the fast path back to 8 cycles,
->>>> but the 1 cycle noise remains.
->>>
->>> Sorry for the late report, as I was adding a testing page_pool ko basing
->>> on [1] to avoid introducing performance regression when fixing the bug in
->>> [2].
->>> I used it to test the performance impact of devmem patchset for page_pool
->>> too, it seems there might be some noticable performance impact quite stably
->>> for the below testcases, about 5%~16% performance degradation as below in
->>> the arm64 system:
->>>
->>
->> Correct me if I'm wrong here, but on the surface here it seems that
->> you're re-reporting a known issue. Consensus seems to be that it's a
->> non-issue.
->>
->> In v6 I reported that the bench_page_pool_simple.ko test reports a 1
->> cycle regression with these patches, from 8->9 cycles. That is roughly
->> consistent with the 5-15% you're reporting.
-> 
->  From the description above in the cover letter, I thought the performance
-> data using the out of tree testing ko is not stable enough to justify the
-> performance impact.
-> 
->>
->> I root caused the reason for the regression to be the
->> netmem_is_net_iov() check in the fast path. I removed this regression
->> in v7 (see the change log) by conditionally compiling the check in
->> that function.
->>
->> In v8, Pavel/Jens/David pushed back on the ifdef check. See this
->> entire thread, but in particular this response from Jens:
-> 
-> It seemed the main objection is about how to enable this feature
-> for the io_uring?
+Hi Jani,
 
-The pushback was that config checks as optimisation don't work in real
-life, they inevitably get enabled everywhere but some niche cases.
-io_uring could do another config for memory providers, but even if it's
-not enabled by default (which is not a great option), distributions will
-eventually turn it on.
+On Tue, Sep 10, 2024 at 12:06=E2=80=AFPM Jani Nikula <jani.nikula@intel.com=
+> wrote:
+> Building with clang and and W=3D1 leads to warning about unused
+> rcar_cmm_read(). Fix by annotating it with __maybe_unused.
+>
+> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
+> inline functions for W=3D1 build").
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-So, if you have that "niche use case" that fully controls the kernel and
-wants to shed this overhead, we can do a config structure, but if it's
-about overhead for everyone in general, configs hardly help anything,
-even without any io_uring in the picture.
+Thanks for your patch!
 
-> And it seemed that you had added the CONFIG_NET_DEVMEM for this
-> devmem thing, why not use it for that?
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
+> @@ -32,7 +32,7 @@ struct rcar_cmm {
+>         } lut;
+>  };
+>
+> -static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> +static inline __maybe_unused int rcar_cmm_read(struct rcar_cmm *rcmm, u3=
+2 reg)
+>  {
+>         return ioread32(rcmm->base + reg);
+>  }
 
--- 
-Pavel Begunkov
+This function was never used. Why not remove it instead?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
