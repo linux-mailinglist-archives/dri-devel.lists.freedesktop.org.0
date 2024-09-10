@@ -2,163 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163E597449A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 23:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6F69744B7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 23:20:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D354010E923;
-	Tue, 10 Sep 2024 21:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8AE10E926;
+	Tue, 10 Sep 2024 21:20:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="CFFE+uJq";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lmxIP6aD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2044.outbound.protection.outlook.com [40.107.96.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A65110E923;
- Tue, 10 Sep 2024 21:11:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H2ljKMusdwtdIbDAfICZxY3gougJd4SV6YDKeD9jakEpoLN17NVaswjUpBRkhBYX2A1pzeDzkqx9f+qeE9SMWls4XK6pGTu1fQjm/0u3pgCPdEx/gQMSNOQkBefbRDoPG/4caP5hPj91hoSmz5s1oSBd/ZE1E3Kagbp25oW46CEZCy9+T+U/Xh6+1aqQkKRYfrTB1rXFSSkQgKRxOCgTtpkHC5dwIDC61isRFlcrK7EXBzBWLliGF03wqHUcU/y0aAIBG711dvPfB8cWOVVNMf1XDv5Y2FDMABlhDbNS0ZH8w6mZ7xs0CAjSe4QaQc3SVagnxTneusbnkotqprTA7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tSU21KnsWofBjK5DC/7rQs1et6CvyKR8gUXExFHInnM=;
- b=vS70FpyHzpg6BmaP1u7FWxxj8TYZHs4AD4hKOaHYkgaTuYWdTA/348c6E6lD0IwR//efFk36DwcqPm4WLoclZSusYSv7wdgYyYmqZ+NN7l0DD+cdnJttGFBnuol3x9okUcuh+jmcD9pP1MRy2XT80l6MeTQiar56HbDygwthAercCRLR+PMzeJstgKCp2DFOkYTBvjUmSEUSev7LDIaAfhls0fKYZ97hWY+R+gY0dcySrVnYn4hNNRAL2qK4RRbpzmnfypulHiIm21LOIZ1+8QbkDYIwcdB+/C58PkEUK9wKfYHg2uQAqdM/TjYM/iqhr7Aiuoo+A1lIoxBiFGwlZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tSU21KnsWofBjK5DC/7rQs1et6CvyKR8gUXExFHInnM=;
- b=CFFE+uJqUzjSCuAcwgNPrYxkRPJwdkrbSQN7lNaaMo3ugdO5muWTvLy8txpB8id7Z61tpcp9A25dYm0CaPZG26z9PAKMK59gwLAmqj4QPyUaMAu0huaFYU9qdyoxf/Yq06xODmBfcm/xFd+urZfpUIIGm8XpwVVxiyRPp++z4RE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH0PR12MB5300.namprd12.prod.outlook.com (2603:10b6:610:d7::22)
- by SA1PR12MB8700.namprd12.prod.outlook.com (2603:10b6:806:388::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Tue, 10 Sep
- 2024 21:11:46 +0000
-Received: from CH0PR12MB5300.namprd12.prod.outlook.com
- ([fe80::5313:a4b0:89d7:7b76]) by CH0PR12MB5300.namprd12.prod.outlook.com
- ([fe80::5313:a4b0:89d7:7b76%6]) with mapi id 15.20.7939.022; Tue, 10 Sep 2024
- 21:11:46 +0000
-Message-ID: <6db472e4-cd90-4ba6-8368-725b10ba5b4a@amd.com>
-Date: Tue, 10 Sep 2024 17:11:42 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: 6.11/regression/bisected - after commit 1b04dcca4fb1, launching
- some RenPy games causes computer hang
-From: Leo Li <sunpeng.li@amd.com>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, zaeem.mohamed@amd.com,
- pekka.paalanen@collabora.com, "Wheeler, Daniel" <daniel.wheeler@amd.com>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>
-References: <CABXGCsNgx6gQCqBq-L2P15ydaN_66sM9CgGa9GQYNzQsaa6Dkg@mail.gmail.com>
- <CABXGCsNztS8MLteq5=fcddwuQ1TCzeOM8TdVtpJ3crK=sV5PTQ@mail.gmail.com>
- <CABXGCsMdxHJ-MLkS0pm51Sk8g0PTghsuZxmowvj5t44bVN4ndA@mail.gmail.com>
- <ffd2c40c-1c2e-4465-b26f-88d5e08a80d9@amd.com>
- <CABXGCsOoL5vD0+FRALFQFr3ZBpb2z5mpGKzAD5RHoW9_sb5yaQ@mail.gmail.com>
- <f68020a3-c413-482d-beb2-5432d98a1d3e@amd.com>
- <CABXGCsMSTsBFW=OirDszPFVOiNgyOBSh3qyzAw-Coi-McnicAQ@mail.gmail.com>
- <04d3755d-f295-46d7-b35d-008b888b39ae@amd.com>
- <CABXGCsMDk59-P0Nr1v7KajKsoQh2966mykLPWQxajPtq=OGgXg@mail.gmail.com>
- <eeab54b4-c055-4992-9ca4-f9e382db68c4@amd.com>
-Content-Language: en-US
-In-Reply-To: <eeab54b4-c055-4992-9ca4-f9e382db68c4@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0049.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:88::13) To CH0PR12MB5300.namprd12.prod.outlook.com
- (2603:10b6:610:d7::22)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A92A810E926
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 21:20:16 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id
+ af79cd13be357-7a99d23e036so341961385a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 14:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1726003213; x=1726608013;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qLUmgdzEq+2+OB6qY0gPHsSbUC+SX5+BHRNu1RdMAF0=;
+ b=lmxIP6aDm0RdTKyFqgxGZnO93Wc1zjIGdWDqPPIhbJ3XeRqUet+AEkTBVaeh+4ku3P
+ 5Y4QgVkX+nBbaeS9lVsAlBZujESYWOwbgmaUMpLPQ3D3joVHiCrgTr8ttSY4dQU8AzUl
+ VVD2rfO3AKUFTkmzV+4TofSqhilz+6/X+rsY0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726003213; x=1726608013;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qLUmgdzEq+2+OB6qY0gPHsSbUC+SX5+BHRNu1RdMAF0=;
+ b=jxD8lCKEXGXXWcNQA7HjNfZMoE9wXK7jSSpAyh1wWg/fcyErEEESNEDSt6U8IRkSJu
+ IM7ER1O70IYpsTr9J5I/JIS3LiPe1F6of8sTKnVu8PTv+O3duYBb/lnyGTcX8FIf49x5
+ vLpf8nXxo/5bmohsylUMg/7gTBh7on+mijkk8bde1NA0eVGSkr5qxs2fqXFeqh64M8z3
+ v5sfZVUwU9bFEdDJOmDpaqPYnc7WeNow9d3F9BEoWUfDg+dhD+4//Ns1qvWIpDfRRnWS
+ /F1GHPyyfxVcgxdf5V/djv2/Njsu1JGF//uLm2n+LPD/vfcKePJXVu+7IwGWV9gosuWb
+ /mqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWcyWV0O5s8tsoo42mWEqQjIK72asQum9MF5wFg/7e1KxB/UNU6axFyDSygmYoTosW3Ayewww7+pYA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YysCOY7bHMAP1SLT0vULjJhwGCnQXpDm6TjRri+bd1xFz1EfBtr
+ DButLQ5rYIbha30ttmf37YSnN7off22fVbYA3COBmoC0kbCM6/gZDeDEkKvSDSHfKUwmuJlg99Q
+ =
+X-Google-Smtp-Source: AGHT+IFPB4KQLfJ5oTcBTuwkfolpVTkrbP9mW+L7V+B+F9n39lzjb0pxG3Ks1pwnCLsEqjfEY/9a7g==
+X-Received: by 2002:a05:6214:2b95:b0:6bf:8f95:6a81 with SMTP id
+ 6a1803df08f44-6c5282fd2fdmr182304766d6.11.1726003213009; 
+ Tue, 10 Sep 2024 14:20:13 -0700 (PDT)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com.
+ [209.85.219.53]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6c53433b69dsm33808916d6.53.2024.09.10.14.20.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Sep 2024 14:20:12 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-6c3567a143eso38506926d6.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 14:20:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXF+QZvNdobHMnBfI+1BDKVT7v0Gi1BAJfSlHwzd44Mklv9aX7TjsQd3sUd/HUIXgPRk2ihKE4Q0Ck=@lists.freedesktop.org
+X-Received: by 2002:a05:6214:3213:b0:6bf:6ef6:22d5 with SMTP id
+ 6a1803df08f44-6c5283f8ecdmr222283746d6.17.1726003211375; Tue, 10 Sep 2024
+ 14:20:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5300:EE_|SA1PR12MB8700:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59fe02e7-c64a-4110-c800-08dcd1dd2d19
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TlJ3a1dwTDhEVmRmbDV5RnNEV3EvcHkvMWdlT0pSNjFHS3huMFRHZTNFS0RF?=
- =?utf-8?B?M0hFZVVGT2VONWVFaUZqcWtlYkNYQXE1RzF4ODgrNVdDd3hsNWtMUVVmZ3JJ?=
- =?utf-8?B?RW5BWEhoNzBjeWxIcysvbU4rZUNIQ01tWmNYa0JQTGNVZ2VvSHJWMnBCL2pM?=
- =?utf-8?B?Rkp5WTQ5L1lXdjNvRjFEZWVnakdPWDhiY29TYTRZcTVpMkZ1U3dNMnEyT1FR?=
- =?utf-8?B?dzQ4MWRzSGRwdHV4NzF2RjAxc0wrMlRzUjRWZ2lsTnhOaS9QTWczQS9WR2pB?=
- =?utf-8?B?MVRiMklSbHhxSGFYVUVVcTg2Um9mZEU1ZUVKeVl2MTg0U0sxTXRWUEQ2OGwy?=
- =?utf-8?B?bm9XUXI3UEVpT2FTMXJMekJKV2Yxa09XV0I4TGdqY09rNnVjRy9ZR3c1U05l?=
- =?utf-8?B?LzVEdHgvdVNtUXJxQm96MnFKVWQvWUpHRDhBVmxEUE9qU29QcHNJZDd4LzVz?=
- =?utf-8?B?VzRwcnFkRXRqNDgxNFh2K05UbEhVWmNKNmpzTHRCbjRpWGxUak9OSEV1OFlv?=
- =?utf-8?B?aThuVzU1ZkVnQkNNQ0hCS1hBZ1pCSFV1Um5qT0JzSVN2NTlLUzJYV09YT1Jh?=
- =?utf-8?B?aTR4akJRVEZHdytGZUFNVVpBdkNmODZyeE9nNU1CYm96Myt3ckVlQmsyaHB0?=
- =?utf-8?B?dzJWMTJvcStkTktBZVV1aXBWdnNmbTNDWnJUbXlhT24zM1RGZ3dDQjFFd1Yx?=
- =?utf-8?B?UVJmdEgxcnRXWG8ydnRUcVdPNWZjbUpBVGl2MWZGelE4T0YyTlBBcE1tM3ZF?=
- =?utf-8?B?cmdFM3hLeWFqMVAvYWdyNGlsbWN2alRrQ056MWlyTC9UNElnM3RCZnkzb3Zz?=
- =?utf-8?B?YWhNL1ppV3Irc1JKcVVYZzBpRkwzdnVySnlmdXc4d2c0ZEVTdlZrOU15ZUhQ?=
- =?utf-8?B?VGZSdXUvbkhYMVJRVXpMYnFvWCtUZjdJU2lzNVFDUkFWRGhHekR0T2dtOE5U?=
- =?utf-8?B?R0ZPM0swZVJETVRNVVRpQ3M2WUJlWUwrN0M0MmpteUh0ZVVmSG1LV2RCZGor?=
- =?utf-8?B?U2RlRm16YjA5dklidVMyQzVGQjlKL1FMRzJlaTJCeDB0WURwd1N2aFZ2STVP?=
- =?utf-8?B?bDNZekZlcVQzaGZSZzNPUDVPM1c0YXB6Q2FhWDVoVzVMc3FQZVBoOGRSZngv?=
- =?utf-8?B?YUlUbU94M21KMU84ZnVOVHY2VzBwKzdONzJhVDdPa0FYZGNqU1BXZzRHVG1W?=
- =?utf-8?B?ckw3SDJNL1hiN0JJY2tvUTErMW9nb3hUSDRvdEgvYm00ZWJuQVZCK2FMTGpl?=
- =?utf-8?B?Y09JNkxmU0w5ZWMvVUZPaXdGaGdHbnUwMHpZSG1uZW84OWpsZHZOWTd1Q3Nt?=
- =?utf-8?B?cjVVUkNmVUQ1OHZBcVZSNXNIb1V6dzlUTUxGTmtSd09sK1NQSE5vRTBlVGcy?=
- =?utf-8?B?NTRzNTlGUlE2WU5Mb1ZwTTlqRXJhZFhMYUdtaU1xbjAzRG55VHoxeGs5MDMr?=
- =?utf-8?B?ZGZhT0lvRmhEWE8zeHZhUlZjcUI0Z1M5K3hhL0k3RUx2RENZeGdUU2s5akxI?=
- =?utf-8?B?cmM4ait1a0tDSVo3Z0RsUlQ1Mko2R3ozUzYwRzlZMUcreE4zaFdwMHpsUnVh?=
- =?utf-8?B?cWUzT2crRTJsa2dzT2RBVEcwQW0vcGdldG1mUzlwckJnVEVmRGZwdTMrbzNJ?=
- =?utf-8?B?dFVkZlo3b3FnaWlML1FKb21abGJzREFad1JQUEorTUxuMU9xWjFOemRQLzc4?=
- =?utf-8?B?UnJIQkFMYWNkQUt0WnJqZ1FrWkZua2RhV3orRFpTNjdUa2VXMEcwWE8xaFhu?=
- =?utf-8?Q?cQrLjDVU8e9fSRXlfI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR12MB5300.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eUhNaWFERDduMVQzc0t1eW9LbEs4Yzh0MlQyQ1laSzZ6US9SRmMrcnNhcFZK?=
- =?utf-8?B?b1VzV04zVEVmMkpaTVZlam94Z3FFV1FOL3lCZlVuM0oyNGRBd3daM2tRNGcy?=
- =?utf-8?B?UHpNMHFIRk9NKzFJU2ZnNGY4ZVZmbW1qTS9hRnJkUllOWGkzcUpmR0J0V29O?=
- =?utf-8?B?UlIxQ3RTbyttOTFmUjk5QlRITmpnRENqek5tYU9jVjIwMlQ1Wjk5Z1FUSnk4?=
- =?utf-8?B?LzE1WnBYbS9BTnY3bnVhaCtaYlhkekR3N2RiZXE0bkZ4R1BzL0k1b1lWZkJ3?=
- =?utf-8?B?MWxCaFFseTFPcmFyNk11VlJQS0I1WUhaRW5JU3V2Y3FacWhQd1lzQVl4a3dY?=
- =?utf-8?B?L28wc2UraURTTFVYc0JVelhpa203SWxBdU9Ec0JURmpZOU5CM2Z3cDVPV09H?=
- =?utf-8?B?RGxnYnBYTVkzelhRVGxtcklvU2dWektmQmN4eFFzUkVyVEh6VmtZTWtzZnZ4?=
- =?utf-8?B?czBuK1FlTDIvdjhQWFhDNkg0dzcyZjFlV1ZZak1MeG9QYitUeGQxUDRGQmo3?=
- =?utf-8?B?MkVCaDVjZ21sMGM5VVJPV3A4SXNmUmFLQ3lHbEVwQlhIc09jL0oyOW9GTGlr?=
- =?utf-8?B?R1VEa2pxQzVoZU5HS1IvdWs5U2ZSenpma01pZktCVjBCWFcwQTR5WldVYm1k?=
- =?utf-8?B?aC85R2wrcFRaQ1VvUEtmZkRrZ1Jjc0xHQmQ1aTBETFMrY3RSQnU2N3E0dHVS?=
- =?utf-8?B?WGhQak1sdnoyclltRy92Q2JacWRBRVIrR251bGJSMXBPa2tueWdEb29qWEZq?=
- =?utf-8?B?cnViSHUzTXlNQWVGcUJlTHd3djlDOXpYcXZmRWVraWJSbGFpUGdnWWN3Ry9B?=
- =?utf-8?B?cXEyVWh6aWQ5dkxKNVRsR2FxM0E2Y3I4WjdvVW1Kb1ViVXN3RjFpOGpna0FL?=
- =?utf-8?B?UjdYSUhNVTl4eWtVVDNHK1h0Q0NXRGlGbUxDZmxvVnJBdnViOTZUS1ljS0Rt?=
- =?utf-8?B?WndqeWZJK0FrOENVVlAyZXNhNTBGVHpzcXRReStScExkaE9KVUxpZVZYYVVW?=
- =?utf-8?B?TEYwT05QRXg3MkFtRXdhQ1J6K1pXaGM5N2F5QlFEM1h1a1poVk1CMUlxc1c5?=
- =?utf-8?B?eVNCUkhwNGZvK01mQndRNXg1bzhhdUwxT3RMMmppRU5XUDNhM2Y0MkdHN2cv?=
- =?utf-8?B?Wk9vU3FLS0V6UElKTHlkdDFsc0pCODBaT0JheDRuU242RXhyTnhXYlI0ZWVk?=
- =?utf-8?B?a08xckwzTHV0b0Z1SUtHRmYycUJ6WWVkd1RPUnVLaHlxbEZXL0NkTm5ZTURJ?=
- =?utf-8?B?UkJ6QW1rNmFHVjFHODRzRnhmdVk0OThIVFltV1JFREFabXpJNDQwWExVQTdj?=
- =?utf-8?B?VWo3MnBSYllQMEkzWXdmNTZmajdrWW5EZTJ0YktXQWZTZnYrVkJtMlRXU2Jk?=
- =?utf-8?B?Q0o1L0JDRXdSSUNsMS9rcWtaN0JIZWtvRTlKNndoZW10K2FUY0RGMU53bks4?=
- =?utf-8?B?amlmVDhkejd5bDUwYmQ3VGFSMXltK2ZCRDRIQ2Jkc0dFR2puT0NuS0lHZk44?=
- =?utf-8?B?NitLQ2ExNjRVRjN2UHBPSmJHbjAyc01KTU5iWk96djU1TWYxWFRSdGxKSStr?=
- =?utf-8?B?YnFhaUkxb3NwWThuZ0FtdndST2hVMXdzRk5tcWNhdWxtVzMxd1J5c0dSZ0xL?=
- =?utf-8?B?blRNb2FjRnlZcEhZUmpQV3FkdzAvTC9UZDVGZ3EzMkN0akNRYk4wOHdDZWhx?=
- =?utf-8?B?eUZXSnpFOTc0bFdtK3hzMm9Vb3ZMcGdRU2o3aVVLTGl2ajA2bkNNWEt2ZllC?=
- =?utf-8?B?U3Q2Umx3ck1iaU1YL2c2MEJGTXhxSkU5OEFVME5SaDBLZDYvSG1WZDNEdzJx?=
- =?utf-8?B?ZkxQNi9rQ1RTYXB2cklUMXdLWEliR3J2OU5QallSdVFueTNrQ1ROeUNKci9i?=
- =?utf-8?B?aWFubEIyM01IZ2VKYnZGVG5uZEtpM05vV0lMeW04UHorTnkzY05BeHU0WUZ4?=
- =?utf-8?B?MTZKZG92UXhwNFI1RXQ1NkNRNnduOXo1N1FHT3pQZmMyNXlGYi8yYVZPdXpT?=
- =?utf-8?B?b3F5VkdmVVBuaElxbDZHOTlHQUpZejByOEM5OTdGKzF6cHArQ09KR3VwL0Iy?=
- =?utf-8?B?ZDlreTNtbWp3RTQxZjI1b0lxY0J6VzBCM0R1ZlJhTXhpd3NDM3M2SXdqOHk1?=
- =?utf-8?Q?d1ZG7xarVKQ2QKpzfSPgAjGCe?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59fe02e7-c64a-4110-c800-08dcd1dd2d19
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5300.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 21:11:46.0080 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t+LZVRexnu+0t5cY1MzHPlcFvOaKTyAqjxwWihQ53RZFeipI97oiOzVXn8txacxz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8700
+References: <20240904141521.554451-1-tejasvipin76@gmail.com>
+ <0bb94cc0-dd72-4da7-b0b6-9e1fe712709b@quicinc.com>
+ <0e3bf87b-7d82-44eb-88d2-fddc8e33dd25@quicinc.com>
+ <330174f9-bead-4411-b05e-ea9c009f765c@gmail.com>
+In-Reply-To: <330174f9-bead-4411-b05e-ea9c009f765c@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 10 Sep 2024 14:19:53 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XsHuhprN-ijw8-ZmOKV6CnCrR=s4X4L57p9J8e02MTBg@mail.gmail.com>
+Message-ID: <CAD=FV=XsHuhprN-ijw8-ZmOKV6CnCrR=s4X4L57p9J8e02MTBg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: himax-hx83112a: transition to mipi_dsi wrapped
+ functions
+To: Tejas Vipin <tejasvipin76@gmail.com>, neil.armstrong@linaro.org, 
+ Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,58 +100,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mikhail,
+Hi,
 
-Can you give this patch a try to see if it helps?
-https://gist.github.com/leeonadoh/3271e90ec95d768424c572c970ada743
+On Sat, Sep 7, 2024 at 1:32=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com>=
+ wrote:
+>
+> On 9/7/24 3:53 AM, Jessica Zhang wrote:
+> >
+> >
+> > On 9/6/2024 3:14 PM, Jessica Zhang wrote:
+> >>
+> >>
+> >> On 9/4/2024 7:15 AM, Tejas Vipin wrote:
+> >>> Changes the himax-hx83112a panel to use multi style functions for
+> >>> improved error handling.
+> >>>
+> >>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> >>
+> >> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >
+> > Hi Tejas,
+> >
+> > Just a heads up, it seems that this might be a duplicate of this change=
+ [1]?
+> >
+> > Thanks,
+> >
+> > Jessica Zhang
+> >
+> > [1] https://patchwork.freedesktop.org/patch/612367/?series=3D138155&rev=
+=3D1
+>
+> Ah, thanks for letting me know. I hadn't realized someone else had
+> started working on this too.
+>
+> However, I would argue that my patch [2] is a better candidate for mergin=
+g
+> because of the following reasons:
+>
+> 1) Removes unnecessary error printing:
+> The mipi_dsi_*_multi() functions all have inbuilt error printing which
+> makes printing errors after hx83112a_on unnecessary as is addressed in
+> [2] like so:
+>
+> > -     ret =3D hx83112a_on(ctx);
+> > +     ret =3D hx83112a_on(ctx->dsi);
+> >       if (ret < 0) {
+> > -             dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> >               gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> >               regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->su=
+pplies);
+> > -             return ret;
+> >       }
+>
+> [2] also removes the unnecessary dev_err after regulator_bulk_enable as w=
+as
+> addressed in [3] like so:
+>
+> >       ret =3D regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->sup=
+plies);
+> > -     if (ret < 0) {
+> > -             dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> > +     if (ret < 0)
+> >               return ret;
+> > -     }
+>
+> 2) Better formatting
+>
+> The mipi_dsi_dcs_write_seq_multi statements in [1] aren't formatted
+> quite right according to what has been done so far. They are written as
+> such in [1]:
+>
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
+> >                              0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, =
+0x0e);
+>
+> Where they should be written as such in [2]:
+>
+> > +     mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
+> > +                                  0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, =
+0xa4, 0x0e);
+>
+> All in all, the module generated using my patch ends up being a teensy
+> bit smaller (1% smaller). But if chronology is what is important, then
+> it would at least be nice to see the above changes as part of Abhishek's
+> patch too. And I'll be sure to look at the mail in the drm inbox now
+> onwards :p
+>
+> [1] https://patchwork.freedesktop.org/patch/612367/?series=3D138155&rev=
+=3D1
+> [2] https://lore.kernel.org/all/20240904141521.554451-1-tejasvipin76@gmai=
+l.com/
+> [3] https://lore.kernel.org/all/CAD=3DFV=3DXRZKL_ppjUKDK61fQkWhHiQCJLfmVB=
+S7wSo4sUux2g8Q@mail.gmail.com/
 
-Thanks,
-Leo
+I would tend to agree that Tejas's patch looks slightly better, but
+Abhishek's patch appears to have been posted first.
 
-On 2024-09-10 11:47, Leo Li wrote:
-> 
-> 
-> On 2024-09-08 19:30, Mikhail Gavrilov wrote:
->> I have done additional tests:
->> 1. The computer does not hang with 6900XT instead the screen flickers
->> when moving the cursor.
->> 2. The computer does not hang with 7900XTX if I turn off VRR. But the
->> screen flickers when moving the cursor, as on 6900XT.
->> To enable VRR, please set 'variable-refresh-rate' in
->> experimental-features, and in the Display setting, enable Variable
->> Refresh Rate.
->> $ gsettings set org.gnome.mutter experimental-features
->> "['variable-refresh-rate', 'scale-monitor-framebuffer']"
->> https://postimg.cc/PvXYdvGR
-> 
-> Thanks Mikhail, I think I know what's going on now.
-> 
-> The `scale-monitor-framebuffer` experimental setting is what puts us down the
-> bad code path. It seems VRR has nothing to do with this issue, just setting
-> `scale-monitor-framebuffer` is enough to reproduce.
-> 
-> It seems that mutter with this setting is opting for HW scaling rather than GPU
-> scaling. I see that "Find the Orange Narwhal" sends out a 1080p buffer,
-> which with this setting, gets directly scanned out and scaled by DCN HW to 4k in
-> full screen.
-> 
-> An oddity with current gen DCN hardware is that the cursor inherits the scaling
-> of the HW plane underneath. So if mutter requests a hw cursor with a different
-> scaling than the game's plane, amdgpu will reject that, and likely force mutter
-> into SW cursor.
-> 
-> My offending patch changed this behavior by rerouting DCN HW pipes to
-> accommodate such a configuration. It essentially takes a full-fledged DCN
-> overlay plane, and uses that just for the cursor, and thereby freeing it from
-> inheriting things from the underlying hw plane.
-> 
-> My guess is this causes flickering due to how DC (display core driver) handles
-> updates; it needs all enabled planes in it's update state. However, a KMS cursor
-> update will only include the cursor plane. It's likely that amdgpu_dm only adds
-> the dedicated cursor plane to DC's update state, leaving the game's plane out.
-> 
-> The fix isn't exactly trivial. If I don't get anywhere before the fixes window,
-> I'll send out a revert.
-> 
-> Cheers,
-> Leo
+Neil: any idea what to do here? Maybe a Co-Developed-by or something?
+...or we could land Abhishek and Tejas could post a followup for the
+extra cleanup?
+
+Abhishek: are you planning to post more _multi cleanups? If so, please
+make sure to CC Tejas (who has been posting a bunch of them) and
+perhaps me since I've been helping to review them a bit.
+
+-Doug
