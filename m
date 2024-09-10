@@ -2,82 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2721A972AA0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 09:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9C0972AB9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 09:29:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B4F710E726;
-	Tue, 10 Sep 2024 07:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B436410E725;
+	Tue, 10 Sep 2024 07:29:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="yRgaRtce";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ZHJtm0Sg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iYY32GUH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZHJtm0Sg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iYY32GUH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 385F110E725
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 07:26:54 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-374d29ad8a7so3307721f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 00:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1725953212; x=1726558012;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PxMzW8bRkSWH7N3FT2nOWV85gkTf+9ZwqbV1H9/D7u0=;
- b=yRgaRtce4PN9NMk1qjPuJmVSa11pM7elCs6K58ZyMmtRYrCKN+NnUCLE9s6DyZhDmb
- f3bNZ+kkAePXwCELDmSv+yF2IKUMYlghg9IdJ0A0C8+rkFREZ4w6pbliycJDBKcLbWmA
- n7vNgesdxjUX9VHIj1lTG4ijpvjKpaWLkQTQv21oaR7AFbiyHAvhthU06R7734G1Smm7
- HxBfUhwurX0OWfewMfbsMOJdG1vLq1yxVXr4CohBicg5iPhPR5y/o9J+MzxQaU44rv6a
- BmgYkpeWNDJ6Ojv4dMtOeYPX7T1iF6XGp8IExFn2imtyckUCiqqxYK0Qt00KQZ7Yofdd
- ZlTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1725953212; x=1726558012;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PxMzW8bRkSWH7N3FT2nOWV85gkTf+9ZwqbV1H9/D7u0=;
- b=W9q9CgVgGiAiBJPLPysx88IbDOmU1ErflRRcaA5iTEpijJ4w8LlmF6dvGDXFNN22e2
- HNi0Koc7xD8FE9oxeBSQSzMg0F+plfBt2CwJdHM/NjAxAVp5SO0Zsv1wM7dxsS+o8Fld
- 18IZS8KZCp52O2YvRqwGPbv2hqSNdPUtO2/omcjYiznvn38/BLH4n1KcHS3XACHHRae/
- W7VAlj5uZ+HSil66GyIsHsADV4uRyu0Lg24k+7Vg1KlukAxKKrK8t0gfV0YXTGQpxvTN
- 6aCwlMMcvHnQBFRdl0xM1pEoameLTCK65Zkdp9rldkEsnToPyQZsoyRp96oQsMW4ERjN
- CO6g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLqIlOvSU3x033Yax/DDWzkkZOJqh8ChbYkE17fWUj0eWkhW1BSeH+cqFE1nu13Jrk/n9FPKubt/Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywz8OQbI0oFKSJzH2DTliJ3mfAF7foGxpxu48RaKwkTCVnA40BB
- 4c+YJJWqY7+WEWlR4KZ8KC6QlLaVsxf7LolJ7J+gmxzu/7aDZUUxuxIAW1MJQIQQcsDhtzKJ2tW
- l
-X-Google-Smtp-Source: AGHT+IGESuTP3eLnl+EJI3vciZdTv1kUP9QMFpZOxqQKA5bFwEZ0VHvpLLczzXOyCMDvE2xlo0xZ8w==
-X-Received: by 2002:a05:6000:a8c:b0:371:7dda:d7d9 with SMTP id
- ffacd0b85a97d-378895c3004mr8487755f8f.9.1725953211362; 
- Tue, 10 Sep 2024 00:26:51 -0700 (PDT)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956655fcsm8006471f8f.38.2024.09.10.00.26.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Sep 2024 00:26:51 -0700 (PDT)
-Message-ID: <c970dfb2-078c-4bf1-8b50-6e535cf4adf7@ursulin.net>
-Date: Tue, 10 Sep 2024 08:26:49 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921B910E725
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 07:29:32 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3BFAB219FB;
+ Tue, 10 Sep 2024 07:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725953371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MiDi2FHA9vw0R48kbGJoZgqTSRc3ZSboY8rVX/ccVPU=;
+ b=ZHJtm0SgubpIDNQVqhNDd4qeu16fDkdq1hs9xlRV+iLvxqrUdWbsxiauuD/ipALIv3AbeJ
+ JAlyn4gECJXQd1NUvCaQwuQ/GmocrLlCb3Kh1E86/L+GNQFKOIkZM1/YMd4Yy+mG4bmDwP
+ klGCXjqhQmC9n+1Tq0FkKCoNzp8sV4g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725953371;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MiDi2FHA9vw0R48kbGJoZgqTSRc3ZSboY8rVX/ccVPU=;
+ b=iYY32GUHw+AubQO8jsoZje/xUgexavsARV3esphtazmJSVfQZMdQPucZcUwTx7jX/Xxxqj
+ +TOJ/XsVC4ngw7CA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1725953371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MiDi2FHA9vw0R48kbGJoZgqTSRc3ZSboY8rVX/ccVPU=;
+ b=ZHJtm0SgubpIDNQVqhNDd4qeu16fDkdq1hs9xlRV+iLvxqrUdWbsxiauuD/ipALIv3AbeJ
+ JAlyn4gECJXQd1NUvCaQwuQ/GmocrLlCb3Kh1E86/L+GNQFKOIkZM1/YMd4Yy+mG4bmDwP
+ klGCXjqhQmC9n+1Tq0FkKCoNzp8sV4g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1725953371;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MiDi2FHA9vw0R48kbGJoZgqTSRc3ZSboY8rVX/ccVPU=;
+ b=iYY32GUHw+AubQO8jsoZje/xUgexavsARV3esphtazmJSVfQZMdQPucZcUwTx7jX/Xxxqj
+ +TOJ/XsVC4ngw7CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E133313A3A;
+ Tue, 10 Sep 2024 07:29:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id t5SwNVr132boJgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 10 Sep 2024 07:29:30 +0000
+Message-ID: <ad9e19af-fabd-4ce0-a9ac-741149f9aab3@suse.de>
+Date: Tue, 10 Sep 2024 09:29:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/syncobj: Fix syncobj leak in drm_syncobj_eventfd_ioctl
-To: "T.J. Mercier" <tjmercier@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Xingyu Jin <xingyuj@google.com>, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH] fbdev/xen-fbfront: Assign fb_info->device
+To: =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+ Jason Andryuk <jandryuk@gmail.com>
+Cc: Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
+ Sam Ravnborg <sam@ravnborg.org>, xen-devel@lists.xenproject.org,
+ Jason Andryuk <jason.andryuk@amd.com>,
+ Arthur Borsboom <arthurborsboom@gmail.com>, stable@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20240909205400.3498337-1-tjmercier@google.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20240909205400.3498337-1-tjmercier@google.com>
+References: <20240910020919.5757-1-jandryuk@gmail.com>
+ <Zt_zvt3VXwim_DwS@macbook.local>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <Zt_zvt3VXwim_DwS@macbook.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[12];
+ FREEMAIL_TO(0.00)[citrix.com,gmail.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[gmx.de,arndb.de,ravnborg.org,lists.xenproject.org,amd.com,gmail.com,vger.kernel.org,lists.freedesktop.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,69 +149,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
-On 09/09/2024 21:53, T.J. Mercier wrote:
-> A syncobj reference is taken in drm_syncobj_find, but not released if
-> eventfd_ctx_fdget or kzalloc fails. Put the reference in these error
-> paths.
-> 
-> Reported-by: Xingyu Jin <xingyuj@google.com>
-> Fixes: c7a472297169 ("drm/syncobj: add IOCTL to register an eventfd")
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> ---
->   drivers/gpu/drm/drm_syncobj.c | 17 +++++++++++++----
->   1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index a0e94217b511..4fcfc0b9b386 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -1464,6 +1464,7 @@ drm_syncobj_eventfd_ioctl(struct drm_device *dev, void *data,
->   	struct drm_syncobj *syncobj;
->   	struct eventfd_ctx *ev_fd_ctx;
->   	struct syncobj_eventfd_entry *entry;
-> +	int ret;
->   
->   	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
->   		return -EOPNOTSUPP;
-> @@ -1479,13 +1480,15 @@ drm_syncobj_eventfd_ioctl(struct drm_device *dev, void *data,
->   		return -ENOENT;
->   
->   	ev_fd_ctx = eventfd_ctx_fdget(args->fd);
-> -	if (IS_ERR(ev_fd_ctx))
-> -		return PTR_ERR(ev_fd_ctx);
-> +	if (IS_ERR(ev_fd_ctx)) {
-> +		ret = PTR_ERR(ev_fd_ctx);
-> +		goto err_fdget;
-> +	}
->   
->   	entry = kzalloc(sizeof(*entry), GFP_KERNEL);
->   	if (!entry) {
-> -		eventfd_ctx_put(ev_fd_ctx);
-> -		return -ENOMEM;
-> +		ret = -ENOMEM;
-> +		goto err_kzalloc;
->   	}
->   	entry->syncobj = syncobj;
->   	entry->ev_fd_ctx = ev_fd_ctx;
-> @@ -1496,6 +1499,12 @@ drm_syncobj_eventfd_ioctl(struct drm_device *dev, void *data,
->   	drm_syncobj_put(syncobj);
->   
->   	return 0;
-> +
-> +err_kzalloc:
-> +	eventfd_ctx_put(ev_fd_ctx);
-> +err_fdget:
-> +	drm_syncobj_put(syncobj);
-> +	return ret;
->   }
->   
->   int
+Am 10.09.24 um 09:22 schrieb Roger Pau Monné:
+> On Mon, Sep 09, 2024 at 10:09:16PM -0400, Jason Andryuk wrote:
+>> From: Jason Andryuk <jason.andryuk@amd.com>
+>>
+>> Probing xen-fbfront faults in video_is_primary_device().  The passed-in
+>> struct device is NULL since xen-fbfront doesn't assign it and the
+>> memory is kzalloc()-ed.  Assign fb_info->device to avoid this.
+>>
+>> This was exposed by the conversion of fb_is_primary_device() to
+>> video_is_primary_device() which dropped a NULL check for struct device.
+>>
+>> Fixes: f178e96de7f0 ("arch: Remove struct fb_info from video helpers")
+>> Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
+>> Closes: https://lore.kernel.org/xen-devel/CALUcmUncX=LkXWeiSiTKsDY-cOe8QksWhFvcCneOKfrKd0ZajA@mail.gmail.com/
+>> Tested-by: Arthur Borsboom <arthurborsboom@gmail.com>
+>> CC: stable@vger.kernel.org
+>> Signed-off-by: Jason Andryuk <jason.andryuk@amd.com>
+> Reviewed-by: Roger Pau Monné <roger.pau@citrix.com>
+>
+>> ---
+>> The other option would be to re-instate the NULL check in
+>> video_is_primary_device()
+> I do think this is needed, or at least an explanation.  The commit
+> message in f178e96de7f0 doesn't mention anything about
+> video_is_primary_device() not allowing being passed a NULL device
+> (like it was possible with fb_is_primary_device()).
+>
+> Otherwise callers of video_is_primary_device() would need to be
+> adjusted to check for device != NULL.
 
-Easy enough to review while browsing the list:
+The helper expects a non-NULL pointer. We might want to document this.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Best regards
+Thomas
 
-Regards,
+>
+> Thanks, Roger.
+>
 
-Tvrtko
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
