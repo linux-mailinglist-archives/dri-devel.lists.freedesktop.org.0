@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74ABE9726C3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 03:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F869726CF
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2024 03:57:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77DF810E637;
-	Tue, 10 Sep 2024 01:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABF710E63F;
+	Tue, 10 Sep 2024 01:57:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LsjAGTQM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A4/ZBQtc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD2310E637
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 01:56:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14C4D10E6DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 01:57:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 68887A40E16;
- Tue, 10 Sep 2024 01:56:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D09B3C4CEC5;
- Tue, 10 Sep 2024 01:56:17 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8ED56A44056;
+ Tue, 10 Sep 2024 01:57:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F36CC4CEC5;
+ Tue, 10 Sep 2024 01:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1725933379;
- bh=hQIohTpGoGCWnimJ1WTILi++IMB0fJOotB8xmPurEMY=;
+ s=k20201202; t=1725933471;
+ bh=Mpc367Qq2KgjGSWneG8t1t7ylvaiUYfcTC1evuPCSo0=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LsjAGTQMGnJ6P2MG1V7Cg14/mW7M47zCU3SUxtCsppTwztGealCF8izjpQT2zu61A
- wYHXnyY4N0r09fOMnUWI5YC3b4HmKxm+Ay0HQTYrk+Dm1IEMe0T8CAGnDfTpmaTgdb
- WBrDLGImIhSrlix8oxBiFCHVhhDVCkXVX3PGTjURUIgLMdPDjJ3b7BwdShJQ4BfDaj
- GnnwTU0+HMb7C05k51WOPUbMUik7MLxyhB5Buwf1hXG0dLn9zUHLsMTQJsQ/D3cb/i
- h+uqGxW9xZ5PAiQLKeH5dZLeHwdme2LgmmdAPBg0rfO8+OcOXh7k+PNEZcNV0ansmm
- /T+2TYSXw2xIw==
-Date: Mon, 9 Sep 2024 18:56:17 -0700
+ b=A4/ZBQtcLIVb6iJZdngcey0BUW2zuO3KEn6O5mQs+NSHCdaQh93+fSfs+dgmnhku8
+ w5t+tKZKrGWg4mG1LanrIl+K/MzOHj1TaUy02KZpXCIv2VcTQWCjZp/THeUSS+BriL
+ Chv4kikV2OgmKAFg8mkArn+YqHk2DUbnMrQ5AacoQXJzNZma9akXcs16C7z9hxlJEZ
+ 5Srv0B7MY5lD3KerRnih5ibEHCZtSXAQVJJIVEOewhIq32CUfjES6fhrQTG5rWjVyE
+ bncyE1+MM6CNLsmeO51LG0Ng53/ZcyW+bA113+7RFtBT0ry4kFbQ5QTmr3qm3SAMBe
+ n1+sOElpSPkQw==
+Date: Mon, 9 Sep 2024 18:57:48 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -68,12 +68,12 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
  Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
  Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v25 06/13] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240909185617.79b0d3fa@kernel.org>
-In-Reply-To: <20240909054318.1809580-7-almasrymina@google.com>
+Subject: Re: [PATCH net-next v25 08/13] net: add support for skbs with
+ unreadable frags
+Message-ID: <20240909185748.0ac082fd@kernel.org>
+In-Reply-To: <20240909054318.1809580-9-almasrymina@google.com>
 References: <20240909054318.1809580-1-almasrymina@google.com>
- <20240909054318.1809580-7-almasrymina@google.com>
+ <20240909054318.1809580-9-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -92,45 +92,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  9 Sep 2024 05:43:11 +0000 Mina Almasry wrote:
-> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> index 5eccc40df92d..8a6e20be4b9d 100644
-> --- a/include/net/netmem.h
-> +++ b/include/net/netmem.h
-> @@ -8,6 +8,7 @@
->  #ifndef _NET_NETMEM_H
->  #define _NET_NETMEM_H
->  
-> +#include <linux/mm.h>
->  #include <net/net_debug.h>
+On Mon,  9 Sep 2024 05:43:13 +0000 Mina Almasry wrote:
+> For device memory TCP, we expect the skb headers to be available in host
+> memory for access, and we expect the skb frags to be in device memory
+> and unaccessible to the host. We expect there to be no mixing and
+> matching of device memory frags (unaccessible) with host memory frags
+> (accessible) in the same skb.
+> 
+> Add a skb->devmem flag which indicates whether the frags in this skb
+> are device memory frags or not.
+> 
+> __skb_fill_netmem_desc() now checks frags added to skbs for net_iov,
+> and marks the skb as skb->devmem accordingly.
+> 
+> Add checks through the network stack to avoid accessing the frags of
+> devmem skbs and avoid coalescing devmem skbs with non devmem skbs.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Reviewed-by: Eric Dumazet <edumazet@google.com>
 
-This should be in the previous patch, I think. page_address() etc.
-
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index 52659db2d765..c737200f4fac 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -11,6 +11,7 @@
->  #include <linux/slab.h>
->  #include <linux/device.h>
->  
-> +#include <net/netdev_rx_queue.h>
->  #include <net/page_pool/helpers.h>
->  #include <net/xdp.h>
->  
-> @@ -24,8 +25,10 @@
->  
->  #include <trace/events/page_pool.h>
->  
-> +#include "mp_dmabuf_devmem.h"
->  #include "netmem_priv.h"
->  #include "page_pool_priv.h"
-> +#include "mp_dmabuf_devmem.h"
-
-nit: duplicate include
-
-With that:
+I'm sure we'll find more cases which need a check but I can't think 
+of any now, so:
 
 Reviewed-by: Jakub Kicinski <kuba@kernel.org>
--- 
-pw-bot: cr
