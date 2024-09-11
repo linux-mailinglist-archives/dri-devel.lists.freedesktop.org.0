@@ -2,87 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A404974A01
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 07:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6FE974A05
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 08:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5894F10E00C;
-	Wed, 11 Sep 2024 05:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C644C10E971;
+	Wed, 11 Sep 2024 05:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bz5hBQ8l";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="J1b8b/GJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
- [209.85.160.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA76810E00C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 05:58:48 +0000 (UTC)
-Received: by mail-oa1-f44.google.com with SMTP id
- 586e51a60fabf-277c861d9f6so3489085fac.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2024 22:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726034328; x=1726639128; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NQuYmmGkZQSTH3xLGsMnzwcqDZfFYWN76TvS9W1XNG8=;
- b=bz5hBQ8lVq9KUIJyatHe0z5OHEHHnxMhqimQgybFQhF7lCheC6EIn47wZrqyH9+6+U
- GVkXlxcLrC+dQmLqG05GBDVaHa8ECpuTkhpcTEvoa3fFX8d/Ru7n/WjXeLh9I6tZ6Oo6
- e1vNImyX/LLOichzssz4aOS9wsDOMyQNBLfOlceeYYMiiNdjfP417WQ3GF0ZNQHWhvCx
- rnWNu7ykqVLGME5YNrHziBnmux0lNPlOfBIfib2ZkfhjJ6DZyQj9YOFjguGDcDPwirLj
- Z0NQ4lTMFEMwz5yKEQZ2ZV4LYH+Sbn9iDvT6yfrkZk2OoIFTZxsfyr0EY5GN3cl8pNW2
- lNRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726034328; x=1726639128;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NQuYmmGkZQSTH3xLGsMnzwcqDZfFYWN76TvS9W1XNG8=;
- b=GY4hIBb3yjmWCP98Pxvfosb4zOdaU3oucP48byoBi8zKSSplLz3qjJv0PGsZHiIavi
- +1WIMvPeChTaBuAqCZayFcynAqgDS9MVcPDju49Gdr7DxzB/APlX0Yb9iifuLzOIxtUe
- kNQsDy+A3KyovlNAgac+mYhi/5iemlufCkVqslPUtLBaQVKo1u8sLkCBLzctvAUqfuhJ
- +OxrhfBAfdYhcD5XdUxzDZH71wQV3qpUvw26pNHh6ESbBqlWg7L6roJ7YlonQXUCcaGA
- /Cu1ay10LCIWwD5Obro2xgrxGCSVZekTUi3GbKTHV0d5krCJP653uPUkfIt8pOwmPvqu
- YKNA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7xaauSqqgqJPor3xj6VMvz5h0bm1/LwGsOK6B1IqQwt89KPRAAi1SCm/Jq9M2Zb2pOvlQcSGSPow=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzN+6VTdrpDNNAw4W+96/wST5x17YZmj8PSwCnm6XhgPtRooit3
- jKp4XhAsMYu1PDkSP7zbaWN3s6lu/RlIVeQOvRgyX6nLsRADD5+DbYRq63W2rAc3TG8MFCMyrHY
- daDmGRzKyUthe/R2m626IJn1Ji1AqDOPwEa13SQ==
-X-Google-Smtp-Source: AGHT+IGW84UWOA5xC2203pkvht57DpEX0/BC3BhwlaltfaRSJeBxnIuKEFhXcRdVK9MgL8mADdwKjHbUJPQhBWPPeEQ=
-X-Received: by 2002:a05:6870:469e:b0:277:ca2f:905 with SMTP id
- 586e51a60fabf-27b82fab148mr16719695fac.29.1726034327791; Tue, 10 Sep 2024
- 22:58:47 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C63A10E971
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 05:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1726034384; x=1726639184; i=deller@gmx.de;
+ bh=3b82UITyOxmOM9vRItxI3DHJ73eMoLwBC3BgV5yPcEQ=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=J1b8b/GJcCJ4w6TmIrYj0pK/2hP7dJgWnBRF8iSPYe5y/IH8Sz+7V5ZlEnnTDclj
+ +NojcrFVSirUg0FVe3hP+PguDyKEJADUwiZ4ynI6IaWNoVdn9FnB0Hz0am3Jc/aiD
+ 0rjh9m0HeJObMj+6nr1nax7QJNSACGMdvj/XqSthOy4ZaVKgLXVxXP/nvJGx6xVnj
+ bhYWfgG3B765dacoWAmJN+1do8VaN+SsFU5Yi5tegR9atq0HE+uo3c9QqwXiqqMRh
+ qCJ6T37LUx39gQVKPuzufbN61cgg5C6EeGXPwNNnnUjxxK41598aVS69iGezf/PhY
+ i8Jr6OxCRYEE75CGqg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mi2Nv-1sJJDd2qqv-00lnZY; Wed, 11
+ Sep 2024 07:59:44 +0200
+Message-ID: <69952d52-3c3a-44a0-9288-38b0383d3379@gmx.de>
+Date: Wed, 11 Sep 2024 07:59:42 +0200
 MIME-Version: 1.0
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <20240830070351.2855919-5-jens.wiklander@linaro.org>
- <CABdmKX2KzswmiDY4oWw69_rPWs8d_Cqp7OXouSeMQaYX1SDSmw@mail.gmail.com>
- <CAHUa44FYYFVQWf0DGUXNHoOVQEC0-HRyYa0386dHNjo4y1qSiQ@mail.gmail.com>
- <CABdmKX0qd0RoTn2TBQTs9zdf=_JP8pW8hFRUR_7n_t-sfxsGdg@mail.gmail.com>
- <CAHUa44E-7UMseWSEeneYYnAPyhH___=a1YYR6uaOVTNZytzg7g@mail.gmail.com>
- <CABdmKX2Tsp-KG6_Lth7VUcZcxCfgbsBYqZ5N2h574J+sNP2SxA@mail.gmail.com>
-In-Reply-To: <CABdmKX2Tsp-KG6_Lth7VUcZcxCfgbsBYqZ5N2h574J+sNP2SxA@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Wed, 11 Sep 2024 07:58:36 +0200
-Message-ID: <CAHUa44G9j4rOZHX+XCQyM+mkru12Hy01iyj=USHHiD0raTDfZA@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4] dma-buf: heaps: add Linaro restricted dmabuf heap
- support
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev/xen-fbfront: Assign fb_info->device
+To: Jason Andryuk <jandryuk@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: xen-devel@lists.xenproject.org, Jason Andryuk <jason.andryuk@amd.com>,
+ Arthur Borsboom <arthurborsboom@gmail.com>, stable@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240910020919.5757-1-jandryuk@gmail.com>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240910020919.5757-1-jandryuk@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QmWTlB3DIIbT/yRTL83FJmTRimqUTjlC8ZTCwCcF5dueJqx7tck
+ cwZp0lQMgxnoO3nMtjgHB/JTIpjLAEee+BdSNtbcp9zbFmoHWxkDbcw8ON87lVYgUpfPhwo
+ zAzhj5grj2A0n8Tdw5Mf08Fr+dobF04H2OFST/pJfMEOFhVnKa7ix5poAbr29A02/00GZvp
+ vCLSWsWLSy301nZKLrt9g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:K1nZCGCwO5w=;SfG1kgmeWqjZabSHXkfS8oByMkK
+ SgBE5zPnZeylPa4GYh4SmQroEe400qeY8J8SyVwR6f84W5YUXUD5ufpiHFSNGvAybshgzKBMu
+ KGcltUiOVvNVUVo9zkRzHLRezShpBZl5Xtma0PPZE3eOCEe6iuA0m8Vhu+dtQPXnWnumXh96e
+ hWmWomAHpMEvvlIuUc5oSnyjbFU5Akj15QED+uVkdOoVJRKnwvyGZbpf8iqRDFlBxoylT89bY
+ 3WHawluxFHOs1Wbk9Z/IMzwf0J1FICKKke1osNhE1RBzRZvquzOWqf6wJtOxwtIMmx4Nr21AD
+ 4gGqxr6iyst83jDP0Ol6B1EuHeL05kaKHEbVInulf4ALGnp5JzGwaAT5ZwNG00GQqHn5FmbVp
+ H7I7MEDhdXHf23koQSfwXMC/S1FsyNR9W1nkyiMYuurdWNiwYOIzTkto6tZTpqzXq4qD56CCP
+ OYcQtebsv6id9XUoHM29uqW4qUbUYzosFkmDqYAwqHecFN43wUQ8jaJ4lVyBFz+MCbnEVK5cU
+ 8NaVsrZZKiEFYx/j5Z+xRdNKeTppzdGYCFZXzAopc9jlZDgpZzoXyaaaMTQOsczfii0YVpPKV
+ XsSJeB/72oVx8N3PFK8V9HWYfPaY6amw+D768IoiQZ6Hcl6ZNNOgNAkiLdrUaggBmyW5C/duT
+ nBkrXT712ZLfOiJKL/IwEnNymYj2JGr1LAAWS/qt7Idl9Fic1FBIo4EFsLHYC12gFZIE58g8/
+ /t1WHT6BVTqupynV0WIwDGyryA0dcGAvMRuUoyG/Snvi1q/wUICjY6RLtgZM++6G186ufzlxK
+ KR4n5FQK1oQK4eJ4R0MOJthw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,146 +127,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 10, 2024 at 5:08=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
- wrote:
+On 9/10/24 04:09, Jason Andryuk wrote:
+> From: Jason Andryuk <jason.andryuk@amd.com>
 >
-> On Mon, Sep 9, 2024 at 11:06=E2=80=AFPM Jens Wiklander
-> <jens.wiklander@linaro.org> wrote:
-> >
-> > On Wed, Sep 4, 2024 at 11:42=E2=80=AFPM T.J. Mercier <tjmercier@google.=
-com> wrote:
-> > >
-> > > On Wed, Sep 4, 2024 at 2:44=E2=80=AFAM Jens Wiklander <jens.wiklander=
-@linaro.org> wrote:
-> > > >
-> > > > On Tue, Sep 3, 2024 at 7:50=E2=80=AFPM T.J. Mercier <tjmercier@goog=
-le.com> wrote:
-> > > > >
-> > > > > On Fri, Aug 30, 2024 at 12:04=E2=80=AFAM Jens Wiklander
-> > > > > <jens.wiklander@linaro.org> wrote:
-> > > > > >
-> > > > > > Add a Linaro restricted heap using the linaro,restricted-heap b=
-indings
-> > > > > > implemented based on the generic restricted heap.
-> > > > > >
-> > > > > > The bindings defines a range of physical restricted memory. The=
- heap
-> > > > > > manages this address range using genalloc. The allocated dma-bu=
-f file
-> > > > > > descriptor can later be registered with the TEE subsystem for l=
-ater use
-> > > > > > via Trusted Applications in the secure world.
-> > > > > >
-> > > > > > Co-developed-by: Olivier Masse <olivier.masse@nxp.com>
-> > > > > > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > > > > ---
-> > > > > >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
-> > > > > >  drivers/dma-buf/heaps/Makefile                |   1 +
-> > > > > >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++=
-++++++++
-> > > > > >  3 files changed, 176 insertions(+)
-> > > > > >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linar=
-o.c
-> > > > > >
-> > > > > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/he=
-aps/Kconfig
-> > > > > > index 58903bc62ac8..82e2c5d09242 100644
-> > > > > > --- a/drivers/dma-buf/heaps/Kconfig
-> > > > > > +++ b/drivers/dma-buf/heaps/Kconfig
-> > > > > > @@ -28,3 +28,13 @@ config DMABUF_HEAPS_RESTRICTED_MTK
-> > > > > >         help
-> > > > > >           Enable restricted dma-buf heaps for MediaTek platform=
-. This heap is backed by
-> > > > > >           TEE client interfaces. If in doubt, say N.
-> > > > > > +
-> > > > > > +config DMABUF_HEAPS_RESTRICTED_LINARO
-> > > > > > +       bool "Linaro DMA-BUF Restricted Heap"
-> > > > > > +       depends on DMABUF_HEAPS_RESTRICTED
-> > > > > > +       help
-> > > > > > +         Choose this option to enable the Linaro restricted dm=
-a-buf heap.
-> > > > > > +         The restricted heap pools are defined according to th=
-e DT. Heaps
-> > > > > > +         are allocated in the pools using gen allocater.
-> > > > > > +         If in doubt, say N.
-> > > > > > +
-> > > > > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/h=
-eaps/Makefile
-> > > > > > index 0028aa9d875f..66b2f67c47b5 100644
-> > > > > > --- a/drivers/dma-buf/heaps/Makefile
-> > > > > > +++ b/drivers/dma-buf/heaps/Makefile
-> > > > > > @@ -2,4 +2,5 @@
-> > > > > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
-> > > > > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)  +=3D restricted_heap.o
-> > > > > >  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)      +=3D restricted=
-_heap_mtk.o
-> > > > > > +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_LINARO)   +=3D restricted=
-_heap_linaro.o
-> > > > > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
-> > > > > > diff --git a/drivers/dma-buf/heaps/restricted_heap_linaro.c b/d=
-rivers/dma-buf/heaps/restricted_heap_linaro.c
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..4b08ed514023
-> > > > > > --- /dev/null
-> > > > > > +++ b/drivers/dma-buf/heaps/restricted_heap_linaro.c
-> > > > > > @@ -0,0 +1,165 @@
-> > > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > > +/*
-> > > > > > + * DMABUF secure heap exporter
-> > > > > > + *
-> > > > > > + * Copyright 2021 NXP.
-> > > > > > + * Copyright 2024 Linaro Limited.
-> > > > > > + */
-> > > > > > +
-> > > > > > +#define pr_fmt(fmt)     "rheap_linaro: " fmt
-> > > > > > +
-> > > > > > +#include <linux/dma-buf.h>
-> > > > > > +#include <linux/err.h>
-> > > > > > +#include <linux/genalloc.h>
-> > > > > > +#include <linux/module.h>
-> > > > > > +#include <linux/of.h>
-> > > > > > +#include <linux/of_fdt.h>
-> > > > > > +#include <linux/of_reserved_mem.h>
-> > > > > > +#include <linux/scatterlist.h>
-> > > > > > +#include <linux/slab.h>
-> > > > > > +
-> > > > > > +#include "restricted_heap.h"
-> > > > > > +
-> > > > > > +#define MAX_HEAP_COUNT 2
-> > > > >
-> > > > > Are multiple supported because of what Cyrille mentioned here abo=
-ut permissions?
-> > > > > https://lore.kernel.org/lkml/DBBPR04MB7514E006455AEA407041E4F7887=
-09@DBBPR04MB7514.eurprd04.prod.outlook.com/
-> > > >
-> > > > Yes, I kept that as is.
-> > >
-> > > Ok thanks.
-> > >
-> > > > > So this is just some arbitrary limit? I'd prefer to have some sor=
-t of
-> > > > > documentation about this.
-> > > >
-> > > > How about removing the limit and using dynamic allocation instead?
-> > >
-> > > That works too!
-> >
-> > It turns out that was easier said than done. The limit is hardcoded
-> > because dynamic memory allocation isn't available at that stage during
-> > boot. We have a short description of this heap in Kconfig. I'll add
-> > something about the limit there if that makes sense.
-> >
-> > Thanks,
-> > Jens
+> Probing xen-fbfront faults in video_is_primary_device().  The passed-in
+> struct device is NULL since xen-fbfront doesn't assign it and the
+> memory is kzalloc()-ed.  Assign fb_info->device to avoid this.
 >
-> Ah ok sounds good.
+> This was exposed by the conversion of fb_is_primary_device() to
+> video_is_primary_device() which dropped a NULL check for struct device.
 >
-> I noticed one other thing, linaro_restricted_heap_init and add_heap
-> should probably have __init. Last week I sent a patch to add that for
-> the CMA and system heaps.
+> Fixes: f178e96de7f0 ("arch: Remove struct fb_info from video helpers")
+> Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
+> Closes: https://lore.kernel.org/xen-devel/CALUcmUncX=3DLkXWeiSiTKsDY-cOe=
+8QksWhFvcCneOKfrKd0ZajA@mail.gmail.com/
+> Tested-by: Arthur Borsboom <arthurborsboom@gmail.com>
+> CC: stable@vger.kernel.org
+> Signed-off-by: Jason Andryuk <jason.andryuk@amd.com>
 
-Thanks, I'll add it.
+applied to fbdev git tree.
 
-Cheers,
-Jens
+Thanks!
+Helge
+
