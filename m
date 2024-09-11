@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E2A974DB7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 10:59:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88D6974DB9
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 10:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A06B10E872;
-	Wed, 11 Sep 2024 08:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E101410E87B;
+	Wed, 11 Sep 2024 08:59:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qk9S1aXt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fPLGnulF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5BEC10E816
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 08:59:16 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-42cb1e623d1so17194995e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 01:59:16 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AEDE10E816
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 08:59:17 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-374c84dcc90so3821043f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 01:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726045155; x=1726649955; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1726045156; x=1726649956; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=+5DzxjRuMSjJEY/eYl8K1VoMi7LfZwGHMM4HnyDsBXs=;
- b=Qk9S1aXtytAYEkhWPda3KIoGgTJSM+GAGnC67YGy1D/V/2AMAtcD1+bJSWyCM44mdJ
- gCNjNyBF6ZyDziJOjzvQhP/NT2SO5KOF33KGPgzORExnDvl47LAI8IAgw58+QczTuhM5
- 75hdhrQpFj1h9ywlId6i3PWibriLODi7iUrpaUaIYnmyK5+7GlDPUewniYhH+aYOZy7g
- o9nu8bz8Tu2klXbE/hzzRCajFGtmb5gRmiyjGo2H5fgVKZpY+TnllYc28TVtNI6CoXDa
- pX56nnlLgICpKDVemREYM32zXysrADFpK/dKAPbpYpqYgRANzXjVp0N/UvafwHJp0Qkk
- /xEw==
+ :reply-to; bh=/VAcYiktjAOJPpzJiYbjfEF7dkzgGfOdawVE+zsgY2o=;
+ b=fPLGnulFn5qjZGu93KYflEsqQ8Qk881HcecBEvj9WWxtRNteEh+6QgEJozCosKkAM2
+ FDcuYX2jqloLnicG1WBSQQzRlmcYj+HTpn46eKGUqG0FzIDZ5PlGXaTunLncEq64wBiQ
+ aZ8dpb3TajGveRh0hHPwvjkh5Lem09TIqcy76K3zeLSxEDTxHlLA3M8LKMwf/JE+kC/5
+ psR6uYA/A/aLB5yJHS1r8djYFIU7im3mHaflN70DKUBYKve/83chn+ZIUdIy0Cdiv9uW
+ mzDUqEyFQ/9XaHbTJnp0GNuwdtFV1n+kNa2rrATyKmiMSoGQtk3mEgXLkraRdR1L8XwY
+ Gm5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726045155; x=1726649955;
+ d=1e100.net; s=20230601; t=1726045156; x=1726649956;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+5DzxjRuMSjJEY/eYl8K1VoMi7LfZwGHMM4HnyDsBXs=;
- b=TBZcLTeKKyoNX181i8qOm/9ZIndcmWKy0/Arf+XmAtRbZWZlVxuFUUgHi4nWToHnoU
- L4HDt5rID7NXV9djKAQ6+LuYW2bs8quSQLh/GYBW61Vv80wH0sdJzZsJFZ4Ne8XOy5oJ
- MDVJTFTM/kB/IMTdrKlCrZhZbej6u1zAQ6ceo+X6rZFKUjZDIOlbvy1TCKRWMDzbjGJm
- kGMQDsDb626B3Cfz/LsLrtcuDwrg0wUDMbEow9KtRkuq5IvyJUFWPvj151JHilt6F6hS
- uJs4bDHfOi1mZQdiFM9TL4llo+2sjCGZ8kw8Epg/6bo3xYeNF58hx+MHWo2IQZ/a/F+n
- 9fQQ==
+ bh=/VAcYiktjAOJPpzJiYbjfEF7dkzgGfOdawVE+zsgY2o=;
+ b=eNTiHgNRQ27VrFNcY+vP2fNishSDrU1O4LbeNv8pFsbQt4CaGiBegUcOX4IVzVv8el
+ lHBR5Y8Eow8v+xvBWzBjEWzVg3lBc9Kg11SGBfvxbeZNbCZ12RbIDRC/jNSyJ6FcASe5
+ 5Eer2Z5GLos94eGyhkW72Yit9yVm7ZE23uS51RMo5fHuvhgArTo3FE81h8zxAY26n2cJ
+ IqSq44Tz4UQW1/cdLNH3sArgCmeWK/NQjIo06LYyb6pQB5XbYsyER/JjQPKgcaF2I1xG
+ bUGI6UNylIFtEhmwSFx6vqTiVrNiF+R4fJcMaaN0xHnSIJKfkbquNnj6xR3XpC4Aofx4
+ e5vQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXSw04m7dmlKq9ZYtUCFXsENzxCmOVCnIt+ose6Gq8NGehfc42ewGLM0WCUds42qUFwuIEpEjC7pNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzKPvIEgsYUSOhXetCYbZvQrhrRJmpgFukXDe0qDObQf5wUvzv
- jePPrNLvOBBvFFYccncBfQdDpFXFUvLrI5OiyvzIIpSxNPdWssTMYmiDPUOPFB4=
-X-Google-Smtp-Source: AGHT+IH/07rdnMu/EvoJf9PNMsJwuc09iqdZhztu/aaPpLIFe05T3V4S4jM8DC2GM6GpWSRu/3IlDg==
-X-Received: by 2002:a05:600c:5122:b0:42c:b995:20d9 with SMTP id
- 5b1f17b1804b1-42ccd35b1e0mr18516595e9.28.1726045149597; 
- Wed, 11 Sep 2024 01:59:09 -0700 (PDT)
+ AJvYcCXqJU9UtUm3SJxTpix3fZHlzQuG9FTzMtaeF3Y0tpusPWJhHqHB1bGVhHdJp3TGuX5mhMUmkq/OUXo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbjX8djgqsaLkmnm2L6SqgmjtzceKU6YOEAWALLcrkQ2rQ5aLl
+ tx34hT2XNTO8+sA8qlRrIlPNh2XtdZcwbkBg7OE7bUHRI1sbPjne
+X-Google-Smtp-Source: AGHT+IHyOX3jsbfFC+Dh1o1p4iVLlXZsZZqdmyY4VwjkGUyzjSCa+KK/hx6hWYQeCJ+QNMQ4bHmJ1Q==
+X-Received: by 2002:a5d:4a88:0:b0:374:baeb:2ec with SMTP id
+ ffacd0b85a97d-378895ca351mr11595408f8f.19.1726045155801; 
+ Wed, 11 Sep 2024 01:59:15 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:15d6:de00:8f84:56ce:f670:6ad4])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956de4b9sm10978174f8f.111.2024.09.11.01.59.09
+ ffacd0b85a97d-378956de4b9sm10978174f8f.111.2024.09.11.01.59.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2024 01:59:09 -0700 (PDT)
+ Wed, 11 Sep 2024 01:59:15 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: simona.vetter@ffwll.ch,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/7] drm/vmwgfx: rework questionable enable_signaling
- implementation
-Date: Wed, 11 Sep 2024 10:59:01 +0200
-Message-Id: <20240911085903.1496-6-christian.koenig@amd.com>
+Subject: [PATCH 6/7] drm/amdgpu: rework fallback timer handling
+Date: Wed, 11 Sep 2024 10:59:02 +0200
+Message-Id: <20240911085903.1496-7-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240911085903.1496-1-christian.koenig@amd.com>
 References: <20240911085903.1496-1-christian.koenig@amd.com>
@@ -85,52 +84,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The implementation just tests if the fence is signaled or not and
-doesn't enable any further handling. On the other hand the callback
-to test if a fence is signaled or not is missing.
-
-So remove the enable_signaling callback and implement the signaled
-callback instead.
+Arm the fallback timer directly while submitting fences, it should only
+be used on broken hardware anyway.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 64 ++++++-----------------
+ 1 file changed, 16 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 588d50ababf6..255ef677c712 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -143,7 +143,7 @@ static const char *vmw_fence_get_timeline_name(struct dma_fence *f)
- 	return "svga";
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+index 2f24a6aa13bf..a5256ba2b03f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+@@ -125,6 +125,19 @@ static u32 amdgpu_fence_read(struct amdgpu_ring *ring)
+ 	return seq;
  }
  
--static bool vmw_fence_enable_signaling(struct dma_fence *f)
-+static bool vmw_fence_signaled(struct dma_fence *f)
- {
- 	struct vmw_fence_obj *fence =
- 		container_of(f, struct vmw_fence_obj, base);
-@@ -153,9 +153,9 @@ static bool vmw_fence_enable_signaling(struct dma_fence *f)
++/**
++ * amdgpu_fence_schedule_fallback - schedule fallback check
++ *
++ * @ring: pointer to struct amdgpu_ring
++ *
++ * Start a timer as fallback to our interrupts.
++ */
++static void amdgpu_fence_schedule_fallback(struct amdgpu_ring *ring)
++{
++	mod_timer(&ring->fence_drv.fallback_timer,
++		  jiffies + AMDGPU_FENCE_JIFFIES_TIMEOUT);
++}
++
+ /**
+  * amdgpu_fence_emit - emit a fence on the requested ring
+  *
+@@ -206,6 +219,9 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f, struct amd
  
- 	u32 seqno = vmw_fence_read(dev_priv);
- 	if (seqno - fence->base.seqno < VMW_FENCE_WRAP)
--		return false;
-+		return true;
+ 	*f = fence;
  
++	if (!timer_pending(&ring->fence_drv.fallback_timer))
++		amdgpu_fence_schedule_fallback(ring);
++
+ 	return 0;
+ }
+ 
+@@ -244,19 +260,6 @@ int amdgpu_fence_emit_polling(struct amdgpu_ring *ring, uint32_t *s,
+ 	return 0;
+ }
+ 
+-/**
+- * amdgpu_fence_schedule_fallback - schedule fallback check
+- *
+- * @ring: pointer to struct amdgpu_ring
+- *
+- * Start a timer as fallback to our interrupts.
+- */
+-static void amdgpu_fence_schedule_fallback(struct amdgpu_ring *ring)
+-{
+-	mod_timer(&ring->fence_drv.fallback_timer,
+-		  jiffies + AMDGPU_FENCE_JIFFIES_TIMEOUT);
+-}
+-
+ /**
+  * amdgpu_fence_process - check for fence activity
+  *
+@@ -785,39 +788,6 @@ static const char *amdgpu_job_fence_get_timeline_name(struct dma_fence *f)
+ 	return (const char *)to_amdgpu_ring(job->base.sched)->name;
+ }
+ 
+-/**
+- * amdgpu_fence_enable_signaling - enable signalling on fence
+- * @f: fence
+- *
+- * This function is called with fence_queue lock held, and adds a callback
+- * to fence_queue that checks if this fence is signaled, and if so it
+- * signals the fence and removes itself.
+- */
+-static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
+-{
+-	if (!timer_pending(&to_amdgpu_fence(f)->ring->fence_drv.fallback_timer))
+-		amdgpu_fence_schedule_fallback(to_amdgpu_fence(f)->ring);
+-
 -	return true;
-+	return false;
- }
- 
- struct vmwgfx_wait_cb {
-@@ -251,7 +251,7 @@ static long vmw_fence_wait(struct dma_fence *f, bool intr, signed long timeout)
- static const struct dma_fence_ops vmw_fence_ops = {
- 	.get_driver_name = vmw_fence_get_driver_name,
- 	.get_timeline_name = vmw_fence_get_timeline_name,
--	.enable_signaling = vmw_fence_enable_signaling,
-+	.signaled = vmw_fence_signaled,
- 	.wait = vmw_fence_wait,
- 	.release = vmw_fence_obj_destroy,
+-}
+-
+-/**
+- * amdgpu_job_fence_enable_signaling - enable signalling on job fence
+- * @f: fence
+- *
+- * This is the simliar function with amdgpu_fence_enable_signaling above, it
+- * only handles the job embedded fence.
+- */
+-static bool amdgpu_job_fence_enable_signaling(struct dma_fence *f)
+-{
+-	struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
+-
+-	if (!timer_pending(&to_amdgpu_ring(job->base.sched)->fence_drv.fallback_timer))
+-		amdgpu_fence_schedule_fallback(to_amdgpu_ring(job->base.sched));
+-
+-	return true;
+-}
+-
+ /**
+  * amdgpu_fence_free - free up the fence memory
+  *
+@@ -877,14 +847,12 @@ static void amdgpu_job_fence_release(struct dma_fence *f)
+ static const struct dma_fence_ops amdgpu_fence_ops = {
+ 	.get_driver_name = amdgpu_fence_get_driver_name,
+ 	.get_timeline_name = amdgpu_fence_get_timeline_name,
+-	.enable_signaling = amdgpu_fence_enable_signaling,
+ 	.release = amdgpu_fence_release,
  };
+ 
+ static const struct dma_fence_ops amdgpu_job_fence_ops = {
+ 	.get_driver_name = amdgpu_fence_get_driver_name,
+ 	.get_timeline_name = amdgpu_job_fence_get_timeline_name,
+-	.enable_signaling = amdgpu_job_fence_enable_signaling,
+ 	.release = amdgpu_job_fence_release,
+ };
+ 
 -- 
 2.34.1
 
