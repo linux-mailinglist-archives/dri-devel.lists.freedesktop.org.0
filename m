@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B5E9751D1
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 14:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59399751D2
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 14:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2B510E9D2;
-	Wed, 11 Sep 2024 12:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 027A310E9E1;
+	Wed, 11 Sep 2024 12:19:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="S3URSJs7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W5je9elE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A740A10E4A7;
- Wed, 11 Sep 2024 12:19:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726057156; x=1757593156;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5KobOXhOhC/mIkWteKXZzGJF6DvfPtGBbolRysMK61k=;
- b=S3URSJs7Ct2QhB6oxKrAN8A7ew2lmRc9zW6LHp2ZeFVUU0fDdKnde4Dc
- v+GcGVX+qkeGNc9Xvl1xw3MtqwXXU4nvOLDgNGH0oNZ9b6Vi8d3H7py0d
- y3ZkBV0yWp4ptiPA/v/A5x9mYPM7xPbQZ8uf6owsO6yAMLr4+vuY2GKm/
- F+fd7DsF3RYjthWn1fGwCsbMt4VcnlIzkhnkp/FeLfOg9mc5XATYqc9g2
- EYlmbAuNGeuxNLTHu9sSd+iojEer8eQo4yL1++v3zfL63HGJ11DR5rZZ+
- qTzTzfnsNqYWK1Jvgd3G0nJMu78TODU/ovw8p3cchNY0HQl30phNXreGi Q==;
-X-CSE-ConnectionGUID: CC+Q78nWTqSVj3rwbpLjIg==
-X-CSE-MsgGUID: M6TrXkbfS0CCvALfvHl/+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="27773778"
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="27773778"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2024 05:19:15 -0700
-X-CSE-ConnectionGUID: OJrdzBmrTNSEgVmJaajxxg==
-X-CSE-MsgGUID: vgKqsx4YQH+Cln7AoG8aBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="72121281"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO fedora..)
- ([10.245.244.71])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2024 05:19:14 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 2/2] drm/ttm: Move pinned objects off LRU lists when pinning
-Date: Wed, 11 Sep 2024 14:18:59 +0200
-Message-ID: <20240911121859.85387-3-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240911121859.85387-1-thomas.hellstrom@linux.intel.com>
-References: <20240911121859.85387-1-thomas.hellstrom@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE6E10E9BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 12:19:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B70ED5C03EF;
+ Wed, 11 Sep 2024 12:19:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0316C4CEC5;
+ Wed, 11 Sep 2024 12:19:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726057158;
+ bh=5PsmU56NuOPr4PjDarmvJ2zilM7G3LlNuVQh/ZeBfK0=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=W5je9elEocNKVAtL2QAmLpgf/gs9kCzpYDYgydSh6CnxiOlUhboQ3K6MIP2pnI37X
+ 8+ujhbz3REVYdANAZ2TxJDu9w9O5/bIpNECeAoX1yaHPwJD1X2hJvnC8rhjtSEaSNv
+ vQukWB9/gMLJzT2ntWokDpncbaOam0LYVkeQA6+oF6VQiUns6INU3/1Y0Tms/eSouW
+ CFs61z/70mqYSKubuz1A8UF+d0BfylUmto+++sJjg2mbsMAo3/hYnY2ZjqTb87S1E5
+ jifI4seOKV9PiFHTGH0GvRhayH6OSbvuYrUZDZAQG0G9rjbzaNL0xOL/hgi4w5Oz9G
+ cfb5HWxZMuWzg==
+From: Maxime Ripard <mripard@kernel.org>
+To: dri-devel@lists.freedesktop.org, 
+ Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ Arthur Grillo <arthurgrillo@riseup.net>, 
+ Tales Lelo da Aparecida <tales.aparecida@gmail.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+In-Reply-To: <20240911001559.28284-1-gcarlos@disroot.org>
+References: <20240911001559.28284-1-gcarlos@disroot.org>
+Subject: Re: [PATCH v4 RESEND 0/9] Increase coverage on drm_framebuffer.c
+Message-Id: <172605715531.956551.13163712003461695066.b4-ty@kernel.org>
+Date: Wed, 11 Sep 2024 14:19:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,57 +64,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ttm_bo_pin() and ttm_bo_unpin() functions weren't moving their
-resources off the LRU list to the unevictable list.
+On Tue, 10 Sep 2024 21:15:25 -0300, Carlos Eduardo Gallo Filho wrote:
+> This patchset includes new KUnit tests for 5 untested functions from
+> drm_framebuffer.c and improvements to the existent one.
+> 
+> The first patch replace the use of dev_private member from drm_device
+> mock on the existent test by embedding it into an outer struct containing
+> a generic pointer.
+> 
+> [...]
 
-Make sure that happens so that pinned objects don't accidently linger
-on the LRU lists, and also make sure to move them back once they
-are unpinned.
+Applied to misc/kernel.git (drm-misc-next).
 
-v2:
-- Removing from a bulk move must be done with the pin-count still zero.
-v3:
-- ttm_resource_move_to_lru_tail must be done after pinning with a non-
-  NULL resource (Intel CI).
-v6:
-- Use a TAB instead of space (checkpatch.pl error).
-
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com> #v1
----
- drivers/gpu/drm/ttm/ttm_bo.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 875b024913a0..48c5365efca1 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -594,7 +594,8 @@ void ttm_bo_pin(struct ttm_buffer_object *bo)
- 	spin_lock(&bo->bdev->lru_lock);
- 	if (bo->resource)
- 		ttm_resource_del_bulk_move(bo->resource, bo);
--	++bo->pin_count;
-+	if (!bo->pin_count++ && bo->resource)
-+		ttm_resource_move_to_lru_tail(bo->resource);
- 	spin_unlock(&bo->bdev->lru_lock);
- }
- EXPORT_SYMBOL(ttm_bo_pin);
-@@ -613,9 +614,10 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo)
- 		return;
- 
- 	spin_lock(&bo->bdev->lru_lock);
--	--bo->pin_count;
--	if (bo->resource)
-+	if (!--bo->pin_count && bo->resource) {
- 		ttm_resource_add_bulk_move(bo->resource, bo);
-+		ttm_resource_move_to_lru_tail(bo->resource);
-+	}
- 	spin_unlock(&bo->bdev->lru_lock);
- }
- EXPORT_SYMBOL(ttm_bo_unpin);
--- 
-2.46.0
+Thanks!
+Maxime
 
