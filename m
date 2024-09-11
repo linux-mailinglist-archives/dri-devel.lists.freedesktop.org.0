@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA045974CEB
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 10:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2EC6974DB4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 10:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29E110E759;
-	Wed, 11 Sep 2024 08:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28DA810E803;
+	Wed, 11 Sep 2024 08:59:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lp/Lu+uf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Stks1/Ih";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3371F10E366;
- Wed, 11 Sep 2024 08:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726044203; x=1757580203;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=pSQDs7KMoH7HaIy4NIvWWkshPAjMFbu930zgWis30To=;
- b=lp/Lu+ufTVJ2fMnvi6D/6A1TTjEYOZxgOdkWAs1tLf0OUfi/wBeWFSQ4
- ql3qPkKn105smUzLk6YUje4B8H41/GyF1uulkMyvcPQrcS7iKG4kZ4z4V
- LWuzUL2ZS1KFL6vgh0rBThiURdmztCp9lYkzNM93oiKxtlF47MkW3R6px
- T8DSTo0hSOTkuf1+6MJNQGAkC2qyee26xqAkQmMeHUGuHYYXftldDgG21
- xhT6hOMFNNprmoXb7LDbS6msEQ5ng5sIUC0myrRNYmZ8z/lvM84utiHHL
- XZPBxgsaXMkmGy7/UkTtjczUM84MPuk0tGMczmiF0djqT9SGdcnejyI3q g==;
-X-CSE-ConnectionGUID: Nh1+ovwdQSe7dtv4x7vtfQ==
-X-CSE-MsgGUID: ifTOEgK9TwKNhSCNJW0G1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24700047"
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="24700047"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2024 01:43:23 -0700
-X-CSE-ConnectionGUID: ssBJW64jSTeZXEl5I3m4lg==
-X-CSE-MsgGUID: ZAxfyomMSEOqQal2KBgxSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="66929497"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.149])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2024 01:43:18 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Simona Vetter
- <simona.vetter@ffwll.ch>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr?=
- =?utf-8?Q?=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- DRM XE List <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: manual merge of the drm-xe tree with the drm-intel
- tree
-In-Reply-To: <20240911135249.543da06a@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240906131502.7a7d1962@canb.auug.org.au>
- <20240911135249.543da06a@canb.auug.org.au>
-Date: Wed, 11 Sep 2024 11:43:15 +0300
-Message-ID: <87ed5qk2cc.fsf@intel.com>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B665510E17C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 08:59:08 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-42cb2191107so29056645e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 01:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726045147; x=1726649947; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1IbTjyxmaxCeWQaYBY/pYeV1dKT2HEoXsh/mY2Cbox0=;
+ b=Stks1/IhF12MdQrFP177qP3xMqYnODLHHiP4mDozJAicUDuR3ms+lsEW1dGf5DbTKA
+ y6atYgjf49ZKftk+ZDWX53M/BRMeugMW+XTdTFf5OFpz4WLsb6v2GROw9j79CPjEslu4
+ DWRYKWB8YJqm6Tk5Obf3pQjQsXHbXFlKp3+TKbHn5KGabP8hC7J1lKnGm831W/j6Bm59
+ OKQReKvfcsixPXi1+ZFi/MuY7MnSaBARU+fzSQmgiTgJ6g5tc536Cioc4g2CAqezQxb8
+ LS1XFdtoSSx6k5hJEgn5QHTuLGqE5jFeZcMOl+AJ+/gqit6evdonPupprM9HidFoVTN9
+ pBGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726045147; x=1726649947;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1IbTjyxmaxCeWQaYBY/pYeV1dKT2HEoXsh/mY2Cbox0=;
+ b=gS15RbHTfYTIAUcFxqcww0BN6vmmH9AhgBXX7D6CjT2kPk+h/gbwZMd5qJJ6+cHply
+ 8KZ3E44e3pajjAnl4cAp2VWGYIQbAEXNTQ92jezEbDcuGpVQHZZRkoeHnu5xvvo3nUvr
+ 1RcYG9qGVaPeyQRoNPZvkefVMVjxNqxR0KWOzXUddAUB9CcT8jZnd7/gXUpgPdkO3Iso
+ KJo4/5jd/vibMqlAkvvzbSXuQZUfwXYx0UNiqAxX4m968xWRIOuv99/7vCQZF9T4pfb7
+ B32zaJpwEYxwYcjQT7Zc0P0D5by3k5gpH8/arGXXB1fzJLqzLUouW0yJeWTTHi1QiPAH
+ c89w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDrsp+V0tFEQ4ZrWzHl7ROE0yrbPy0O3pu7bTHrBzbpq+brjgxw13BHI9OJcvMRrHYc84UOaqZYSs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4qJynjaYL7rkKtcN8qMUVOT/pqxasJsa/bsjqrp3w1MC+YW/M
+ GinKUI14BXeWWNfZh3P2stwztHmgvitgfehvR1Rl0DPu1U0N8p3/
+X-Google-Smtp-Source: AGHT+IEVwOrpeq1ygzLvsq1aSKLsP/Hrv5UNabmPm9iDStecdLZD53LYkyN+WqAGbpn0NR2wqEtQ4w==
+X-Received: by 2002:a5d:58d5:0:b0:378:80c8:57a with SMTP id
+ ffacd0b85a97d-378926857e4mr8294124f8f.9.1726045145999; 
+ Wed, 11 Sep 2024 01:59:05 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:15d6:de00:8f84:56ce:f670:6ad4])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-378956de4b9sm10978174f8f.111.2024.09.11.01.59.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Sep 2024 01:59:05 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: simona.vetter@ffwll.ch,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC] Re-working dma_fence to not call enable_signaling with
+Date: Wed, 11 Sep 2024 10:58:56 +0200
+Message-Id: <20240911085903.1496-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,57 +81,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Sep 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Hi all,
->
-> On Fri, 6 Sep 2024 13:15:02 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->>
->> Today's linux-next merge of the drm-xe tree got a conflict in:
->> 
->>   drivers/gpu/drm/xe/display/xe_display.c
->> 
->> between commit:
->> 
->>   11d0613af7c5 ("drm/i915/display: include drm/drm_probe_helper.h where needed")
->> 
->> from the drm-intel tree and commit:
->> 
->>   87d8ecf01544 ("drm/xe: replace #include <drm/xe_drm.h> with <uapi/drm/xe_drm.h>")
->> 
->> from the drm-xe tree.
->> 
->> I fixed it up (see below) and can carry the fix as necessary. This
->> is now fixed as far as linux-next is concerned, but any non trivial
->> conflicts should be mentioned to your upstream maintainer when your tree
->> is submitted for merging.  You may also want to consider cooperating
->> with the maintainer of the conflicting tree to minimise any particularly
->> complex conflicts.
->> 
->> -- 
->> Cheers,
->> Stephen Rothwell
->> 
->> diff --cc drivers/gpu/drm/xe/display/xe_display.c
->> index 303d00b99a68,75736faf2a80..000000000000
->> --- a/drivers/gpu/drm/xe/display/xe_display.c
->> +++ b/drivers/gpu/drm/xe/display/xe_display.c
->> @@@ -10,8 -10,7 +10,8 @@@
->>   
->>   #include <drm/drm_drv.h>
->>   #include <drm/drm_managed.h>
->>  +#include <drm/drm_probe_helper.h>
->> - #include <drm/xe_drm.h>
->> + #include <uapi/drm/xe_drm.h>
->>   
->>   #include "soc/intel_dram.h"
->>   #include "i915_drv.h"		/* FIXME: HAS_DISPLAY() depends on this */
->
-> This is now a conflict between the drm-intel and drm trees.
+Hello everyone,
 
-I backmerged drm-next to drm-intel-next, resolving the conflict.
+The enable_signaling callback is the only function the dma_fence
+objects calls with the fence lock held (the signaled callback might be
+called with the fence lock held as well, but that isn't guaranted).
+    
+The background of that decision was to avoid races with other
+CPUs trying to signal the fence at the same time and potentially
+enforce an ordering of fence signaling.
+    
+The only problem is that this never worked correctly.
+    
+First of all the enabling_signaling call can still race with
+signaling a fence, it's just that informing the installed callbacks
+is blocking for the enable signaling to finish. If that is required
+(radeon is an example of that) then drivers can still grab the fence
+themselves, everybody else doesn't need that.
 
-Thanks,
-Jani.
+Then regarding fence ordering it is perfectly possible that fences
+emitted in the order A,B,C call their installed callbacks in the
+order B, C, A. The background is that the optimization to signal
+fences from dma_fence_is_signaled() decouples the fence signaling
+from the interrupt handlers. The result is that fence C can signal
+because somebody queried it's state while A and B still wait for their
+interrupt to arrive.
 
--- 
-Jani Nikula, Intel
+While those two reasons are just unnecessary churn the documentation
+is simply erroneous and suggests an illegal operation to
+implementations: "This function can be called from atomic context,
+but not from irq context, so normal spinlocks can be used.". Since
+the enable_signaling callback was called with interrupts disabled that
+practice could deadlock.
+
+Furtunately nobody actually ran into problems with that, but
+considering that we should probably re-work the locking to allow
+dma_fence objects to exists after their drivers were unloaded this
+patch re-works all this to not call the callback with the dma_fence
+spinlock held and rather move the handling into the drivers which
+actually need it.
+
+Going to send this out once more to the individual driver maintainers
+affected, but wanted to get a general feedback first if that is the
+right approach.
+
+Please comment and/or review,
+Christian.
+
+
