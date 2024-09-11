@@ -2,67 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA48975124
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 13:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420BE975162
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 14:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054D710E9BF;
-	Wed, 11 Sep 2024 11:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9E0610E9D9;
+	Wed, 11 Sep 2024 12:03:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="OtrxramE";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Hco7YKrU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B87A310E9BE;
- Wed, 11 Sep 2024 11:53:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1726055620; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Ffe6Mj882aL3Oan09wgXiMxfYT3t4iUjmQEVmF6PENS8HaaBYeGOFkojuOXlJilDmE641DR2WHeU/MFEXXkQ+gLFpzA8AeS5oLSXdX7vYpxhFvd4UN2KawhWDDd0TQMxf9eHQx4bXb23ntfaj2vV278j4rT5BXA4nw9mIgN95Xg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1726055620;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=TkWrsY6A2OrEHWlL+vFcgYS/ZSRypgxW3gP/fSCiyhQ=; 
- b=n9TPxNcGOSKzk/QsKGR5Bauevva0lVdcFuRaRMZQVP0eSUJln+3ZDg4TYt2Wz5x/BezSy21nx/9o5zeo5J8OEie2IVvftWHo78vZBC1V+OjGrFRSNVeIYnZz3HM25M3dQgRRn5gTnihf1OV817Brx+ztN2YgmrUcMvydpX0AFRs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
- dmarc=pass header.from=<vignesh.raman@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726055620; 
- s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=TkWrsY6A2OrEHWlL+vFcgYS/ZSRypgxW3gP/fSCiyhQ=;
- b=OtrxramEr/js4CoDsBv8UJMKEgw0V4Oi94Ium5NZ4+EosGQ3J0u7ZUw+8L+DG3JQ
- fT7TSstKop58WGOAQgzIWQyaMpyCHyRi3YMA0FuM0h1Y60NbJ/cioYg+IXdecgOSeNt
- gPy7YTLBYYiA8rJZYdQLGBSLfADTWMH5v6Jl8qpQ=
-Received: by mx.zohomail.com with SMTPS id 1726055619007402.2625058274426;
- Wed, 11 Sep 2024 04:53:39 -0700 (PDT)
-Message-ID: <e50f1614-d70d-4766-8c08-20bde7af56ea@collabora.com>
-Date: Wed, 11 Sep 2024 17:23:32 +0530
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84E7310E9F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 12:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1726056179; x=1726660979; i=markus.elfring@web.de;
+ bh=to/dI+U8c82M6OElNphf9TFg4NuIv4FJo3rnED38GM0=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=Hco7YKrUwUPLHLTI+twaLWbzmwXkV0mINsS6UdWH0Ao4XcME4uYbNUftJ3kU1pHV
+ 3TnV+338SIWsnrYLfBGOePElSld13/qNvlJzwiGtQ3iGlpC+H7hbOvZM7TyhO7fll
+ j6Igv1gKAJbFpN3QKa0DoYV8pdLnS8gvG7G0jL1s1BVle1excKCC5rDKt/mV5bfOz
+ uvSA1U51+g6XacpRV91OjjW5OTJibj9W/f6N4h3/N6zkoGazT0xycNsGIfmfsW0ZA
+ q7TFkNuWXMuarFC58jEqaiUmN3y9MLvljDU9RCR47gd9+K6X1cWrd2Up2l+TQ8H9R
+ y8sK5w41dgaVC01TgA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mq182-1sBDbl0Two-00cfwJ; Wed, 11
+ Sep 2024 14:02:59 +0200
+Message-ID: <ba285b99-96a6-4fbf-b72e-b264a300ce6f@web.de>
+Date: Wed, 11 Sep 2024 14:02:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: drm-ci: flaky tests for i915 driver testing
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, daniel@ffwll.ch,
- Daniel Stone <daniels@collabora.com>,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>,
- Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
- Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
- robdclark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maxime Ripard <mripard@kernel.org>
-References: <af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com>
- <48fb86a9-b863-468e-ae74-35423b22b76d@collabora.com>
- <61f62c86-3e82-4eff-bd3c-8123fa0ca332@collabora.com>
- <ZuCfdbFZiJ-1z4pU@intel.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <ZuCfdbFZiJ-1z4pU@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
+Subject: Re: [PATCH 8/9] accel/rocket: Add job submission IOCTL
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:gBOc2VelSGYN7vMulw3gUfHiDfi7Fce6hUGRA3ig0e7CkPk7ctW
+ 02fliq1YqKL5NKGvp3rgm2vGCmn6B7aS1N/nr+h0YbeeRcbBWnwr7+rO2Hwhq057gL31eNi
+ LR1cvkK0e+qFvnrh0GnTB7rpMSh2/emhZOdJ2z2xi7Ae1r7gPW55kJ+Yp8MMxUhxUlDXyUk
+ vYuXx5zKe7w6f1ZlWKmSg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:kwUCKjmSRow=;GXfTPl9KFQxzuxjHbnw0svEf0G3
+ Uctcq9Kr/ho6Y0LyjZNPPDYlzYjtlry3asr8W82jx14bpGu3jCx2WlCJNwLO0/RybxYvHtqyt
+ 0eJR2xvpk1mD3BfD6ES4G4nPghEA0Xe0VmyS/bOP3h7e5ccgwFG6rh5+NcRay3ifHOEpc2dJq
+ 3lz97Wz4Jwb+bX9qUxV2p21EKo0fk/MGTTw+ic/kF7yL3Hj0qMX55emMFpldoG2w1wb3XZSas
+ NTbXmQfGKosykNVgoNLaRCy92S00vVSewSAIGc7NLaQksiPebe2x0I0CrEBOSyFKCiJ1lRKHs
+ sXoJDShFfVErAk+ftvVPr/5f+uwSALx5Rn4ga/tYXitIuOicPsv9lctt2RJvUUeu7CopQY/J7
+ x3Gm3cmwjHVs4GpfTV5F3yUxpiX6gHTwl420nPg98AEQKnlw+9G56/eEv/UOYcHYRq3Plq8xo
+ 3BzcllAiZYFg/2VEUN85RXJ8nvHYIV6O2UPR0dIeVS97RQfqr5ZDQ58q/KjOl2l2TTgvLYDwo
+ 9z08q7kvWwjdKsZp7dfTFcdDRsL54w4z7bFZ9Pri6T9YrKUSbIdKGaElp2z7CW+1e4YP0L3Zz
+ RkpV3P0IioN2RRARyS9Q4KgwspVFg+nS7lYw/QAgc2hYLa4ve7+kGrWH+XeYK99OXePLIThWj
+ oIhQy4AkUaIfiAw2vIr5HWObE/R3WDhulqPh2xWizhETqAPkKZJbRPr6v/yopUUdtUnQB9Kwg
+ 3id6Oi229ubAiXjr8QtfEw3lsksciZSnl8UuBNhEEOYXyXsNd/B84HnV1Z6/QUqaoKJRztkHQ
+ Al0RJc+9fpFxCgs5ckOfnE1w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,224 +91,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
+=E2=80=A6
+> +++ b/drivers/accel/rocket/rocket_job.h
+> @@ -0,0 +1,49 @@
+=E2=80=A6
+> +#ifndef __ROCKET_JOB_H__
+> +#define __ROCKET_JOB_H__
+=E2=80=A6
 
-On 11/09/24 01:05, Rodrigo Vivi wrote:
-> On Tue, Sep 10, 2024 at 07:32:56AM +0530, Vignesh Raman wrote:
->> Hi Maintainers,
->>
->> On 12/07/24 11:22, Vignesh Raman wrote:
->>> Hi Maintainers,
->>>
->>> On 28/05/24 12:07, Vignesh Raman wrote:
->>>> Hi Maintainers,
->>>>
->>>> There are some flaky tests reported for i915 driver testing in
->>>> drm-ci for the below boards.
->>>>
->>>> *)
->>>> # Board Name: asus-C523NA-A20057-coral
->>>> # IGT Version: 1.28-g0df7b9b97
->>>> # Linux Version: 6.9.0-rc7
->>>> # Failure Rate: 50
->>>> kms_fb_coherency@memset-crc
->>>>
->>>> *)
->>>> # Board Name: asus-C436FA-Flip-hatch
->>>> # IGT Version: 1.28-g0df7b9b97
->>>> # Linux Version: 6.9.0-rc7
->>>> # Failure Rate: 50
->>>> kms_plane_alpha_blend@constant-alpha-min
->>>>
->>>> *)
->>>> # Board Name: hp-x360-12b-ca0010nr-n4020-octopus
->>>> # IGT Version: 1.28-g0df7b9b97
->>>> # Linux Version: 6.9.0-rc7
->>>> # Failure Rate: 50
->>>> core_hotunplug@unplug-rescan
->>>> kms_fb_coherency@memset-crc
->>>>
->>>> *)
->>>> # Board Name: hp-x360-14-G1-sona
->>>> # IGT Version: 1.28-g0df7b9b97
->>>> # Linux Version: 6.9.0-rc7
->>>> # Failure Rate: 50
->>>> prime_busy@hang
->>>>
->>>> *)
->>>> # Board Name: dell-latitude-5400-8665U-sarien
->>>> # IGT Version: 1.28-g0df7b9b97
->>>> # Linux Version: 6.9.0-rc7
->>>> # Failure Rate: 50
->>>> kms_pm_rpm@modeset-lpsp-stress
->>>>
->>>> *)
->>>> # Board Name: asus-C433TA-AJ0005-rammus
->>>> # IGT Version: 1.28-g0df7b9b97
->>>> # Linux Version: 6.9.0-rc7
->>>> # Failure Rate: 50
->>>> i915_hangman@engine-engine-error
->>>> i915_hangman@gt-engine-hang
->>>> kms_async_flips@crc
->>>> kms_universal_plane@cursor-fb-leak
->>>>
->>>> Will add these tests in,
->>>> drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->>>> drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
->>>> drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->>>> drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
->>>> drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
->>>> drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
->>>>
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70
->>>>
->>>> Please could you have a look at these test results and let us know
->>>> if you need more information. Thank you.
->>>
->>> There are some flaky tests reported for i915 driver testing in drm-ci
->>> with the recent IGT uprev in drm-ci (https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0e7f4e6a20d550252c4f355d5a303b1d9c8ff052)
->>>
->>> *)
->>> # Board Name: asus-C433TA-AJ0005-rammus
->>> # Bug Report: https://lore.kernel.org/intel-gfx/af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com/T/#u
->>> # Failure Rate: 50
->>> # IGT Version: 1.28-gf13702b8e
->>> # Linux Version: 6.10.0-rc5
->>> kms_sysfs_edid_timing
->>> i915_hangman@engine-engine-hang
->>> kms_pm_rpm@modeset-lpsp-stress
->>>
->>> *)
->>> # Board Name: asus-C436FA-Flip-hatch
->>> # Bug Report: https://lore.kernel.org/intel-gfx/af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com/T/#u
->>> # Failure Rate: 50
->>> # IGT Version: 1.28-gf13702b8e
->>> # Linux Version: 6.10.0-rc5
->>> kms_atomic_transition@plane-all-modeset-transition-internal-panels
->>>
->>> The expectation files have been updated with these tests,
->>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->>>
->>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->>
->> There are some flaky tests reported for i915 driver testing in drm-ci with
->> the recent IGT uprev in drm-ci.
->>
->> *)
->> # Board Name: asus-C433TA-AJ0005-rammus
->> # Failure Rate: 50
->> # IGT Version: 1.28-ga73311079
->> # Linux Version: 6.11.0-rc2
->> kms_pm_rpm@drm-resources-equal
->>
->> *)
->> # Board Name: asus-C523NA-A20057-coral
->> # Failure Rate: 100
->> # IGT Version: 1.28-ga73311079
->> # Linux Version: 6.11.0-rc2
->> kms_universal_plane@cursor-fb-leak
->>
->> *)
->> # Board Name: asus-C436FA-Flip-hatch
->> # Failure Rate: 100
->> # IGT Version: 1.28-ga73311079
->> # Linux Version: 6.11.0-rc2
->> kms_plane_alpha_blend@constant-alpha-min
->>
->> # Board Name: asus-C436FA-Flip-hatch
->> # Failure Rate: 50
->> # IGT Version: 1.28-ga73311079
->> # Linux Version: 6.11.0-rc2
->> kms_async_flips@crc
->>
->> The expectation files have been updated with these tests,
->> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->>
->> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
->>
->> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->>
->> Please could you have a look at these test results and let us know if you
->> need more information. Thank you.
-> 
-> Hi Vignesh,
-> 
-> Where are exactly the logs? Any gitlab/issue reported for each case?
-
-There is no gitlab issue created. It is a good idea to create a gitlab 
-issue in https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/ (for 
-i915 driver) and https://gitlab.freedesktop.org/drm/misc/kernel/-/issues 
-for other drivers for each flake test.
-
-Please let me know if this works.
-
-> 
-> Getting this for instance:
-> 
-> # Board Name: asus-C436FA-Flip-hatch
-> # Failure Rate: 100
-> # IGT Version: 1.28-ga73311079
-> # Linux Version: 6.11.0-rc2
-> kms_plane_alpha_blend@constant-alpha-min
-> 
-> Looking to drm-tip CI:
-> https://intel-gfx-ci.01.org/tree/drm-tip/shards-all.html?testfilter=constant-alpha-min
-> 
-> it doesn't look like a 100% failure there.
-
-Yes, so it is reported as flake.
-
-Logs are in,
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/63394178
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/63340372
-
-The artifacts are available for only 4 weeks.
-
- From the artifacts,
-IGT-Version: 1.28-ga73311079 (x86_64) (Linux: 6.11.0-rc5-g5d3429a7e9aa 
-x86_64)
-Using IGT_SRANDOM=1725947780 for randomisation
-Opened device: /dev/dri/card0
-Starting subtest: constant-alpha-min
-Starting dynamic subtest: pipe-A-eDP-1
-Testing plane 0
-Testing plane 1
-Dynamic subtest pipe-A-eDP-1: SUCCESS (1.094s)
-Starting dynamic subtest: pipe-C-eDP-1
-Testing plane 0
-Testing plane 1
-Stack trace:
-   #0 ../lib/igt_core.c:2051 __igt_fail_assert()
-   #1 [igt_assert_crc_equal+0x9b]
-   #2 ../tests/kms_plane_alpha_blend.c:376 constant_alpha_min()
-   #3 ../tests/kms_plane_alpha_blend.c:568 run_subtests()
-   #4 ../tests/kms_plane_alpha_blend.c:752 __igt_unique____real_main730()
-   #5 ../tests/kms_plane_alpha_blend.c:730 main()
-   #6 [__libc_init_first+0x8a]
-   #7 [__libc_start_main+0x85]
-   #8 [_start+0x21]
-Dynamic subtest pipe-C-eDP-1: FAIL (1.334s)
-Subtest constant-alpha-min: FAIL (2.568s)
-
-
-> 
-> Also, nothing special on 6.11.0-rc2 that could trigger that I'm afraid.
-> 
-> So, it would be good to have real individual bug reports [1] for each case
-> and some help on bisecting the commit level as well.
-
-Agree. Will create individual gitlab issues.
-
-> 
-> So, with more information we might get more attention to help these cases.
-> Otherwise I believe this list will just grow without a proper plan to move
-> back to the basic test list.
-> 
-> Thanks,
-> Rodrigo.
-> 
-> [1] - https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
-> 
+I suggest to omit leading underscores from such identifiers.
+https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+d=
+efine+a+reserved+identifier
 
 Regards,
-Vignesh
+Markus
