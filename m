@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9278975C92
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 23:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918D6975C93
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 23:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A7C10EAC0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CECB210EAC3;
 	Wed, 11 Sep 2024 21:36:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lWOsx+xk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R0JZyRAU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3843E10EABC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D0E10EABD;
  Wed, 11 Sep 2024 21:36:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 145B85C0780;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8A1475C0776;
  Wed, 11 Sep 2024 21:36:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DB9CC4CEC6;
- Wed, 11 Sep 2024 21:36:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBFA0C4CECF;
+ Wed, 11 Sep 2024 21:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726090564;
+ s=k20201202; t=1726090565;
  bh=vPifgjQo5kfkxp7/usZZ/zXq5MkQ4YXB2TR4R9P+6to=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lWOsx+xkn4GMYUaPZerv91xbG1y9De2q8/atCT2XKvISoc/7ILzCNL73IRBXUJTn/
- aSFjLbovI61QItNJh78824cXKSc5KO5U/7qzWWRxXrdYC0hbRsq5v4XoZ308+ftfOp
- 17SJHXGkybpqxAltdiSNQ2BdON54W28fnXWTjwPysMOVu52u9yIqy3fhVu+6UReiUn
- 8+naKVGMfP6SYU5RXDEx2sCkrxC59ybPhT7XceRJcoO8938F+nBYvKy3kLTOn2sWcX
- 7QnnrDQB/HYr6cNXUVjWw7BQybtTLnkjeRuZ/p0+dAPs0pl6eQeccKO9s4BwTRSXfa
- vSeG69t0WKXUA==
+ b=R0JZyRAUd9vdZ2yTuOJxD1dbMuKqHFF0wqAjuI8uMUS6y6vz3ILJK7vHXgaUduyhr
+ flAkDRoLLFQYczu45Yp+PsCbst+qK04Mdo8UJxe5Sl54ikn4B0wD3EG8O/50l1dt7z
+ g2121TUgq2ZLittrqfNLDpOZ2IuPrgngbPSqjPlRPyFdsNdX/Ck/JXNJckLDNqwLRh
+ oYf//9wviCQNA6R9GBzaUS0NkRZ0jwvwx+1RlDps3/HZCLdcpzmO4mVpZ13FXwMQmf
+ wB6RHl+Ew62hDdpN7bnZDFtG0XfxYISbexzqjgSvW08vCVBXG6/oCUrW4gHLIiZpqs
+ z+viwonWwbAAQ==
 From: Mario Limonciello <superm1@kernel.org>
 To: Alex Hung <alex.hung@amd.com>,
  Alexander Deucher <alexander.deucher@amd.com>,
@@ -38,10 +38,10 @@ Cc: kernel-dev@igalia.com, Mario Limonciello <mario.limonciello@amd.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  harry.wentland@amd.com, sunpeng.li@amd.com,
  Mark Pearson <mpearson-lenovo@squebb.ca>
-Subject: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if
- available for eDP
-Date: Wed, 11 Sep 2024 16:35:36 -0500
-Message-ID: <20240911213537.2338164-11-superm1@kernel.org>
+Subject: [PATCH v6 10/10] drm/amd: Fetch the EDID from _DDC if available for
+ eDP
+Date: Wed, 11 Sep 2024 16:35:37 -0500
+Message-ID: <20240911213537.2338164-12-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240911213537.2338164-1-superm1@kernel.org>
 References: <20240911213537.2338164-1-superm1@kernel.org>
