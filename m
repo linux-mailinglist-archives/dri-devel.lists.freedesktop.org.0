@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AF197473A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 02:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3846974740
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 02:20:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B0BD10E933;
-	Wed, 11 Sep 2024 00:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1064110E962;
+	Wed, 11 Sep 2024 00:20:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="ZudMLgO4";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="NYapCHOS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 424 seconds by postgrey-1.36 at gabe;
- Wed, 11 Sep 2024 00:20:02 UTC
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCCF10E594
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4858F10E93C
  for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 00:20:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 677BD41C4D;
- Wed, 11 Sep 2024 02:13:24 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 8DC2A41CCA;
+ Wed, 11 Sep 2024 02:13:27 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kvjhzpeXbR77; Wed, 11 Sep 2024 02:13:23 +0200 (CEST)
+ with ESMTP id PmVVX9HrrK6A; Wed, 11 Sep 2024 02:13:26 +0200 (CEST)
 From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1726013603; bh=3d7IJSOtZj007dEKYdJ98kyAdZzqzlCA1H3qob533Z4=;
+ t=1726013606; bh=eIiKDd7PD5sklMxxfFS9fHCxQ/wJduZqr50Xb84T8kA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=ZudMLgO4ps2UQm3+nFKs3ZG0TrUDjtsnKqsiX5p9nqBSvgDmK4RgsdMuUNgUf8Lhu
- EB4Qz297hndVC4Qe+94708lwSSHqxOe/QyNHhD0UKSunu7OLqRVOR2Hb5ow5QOI2rN
- zH9yOBKpobOuj3/I87ZbotElExZC2jYWfoQeeQeNnXYqctBDQgBAeoEXZfr8+bCNg7
- jgKrn3vNCDrESehjUjBdwVHDQbRqzHQqNgde5b6FTlBmdjsffmLIkyuCQM8IpMwIll
- IkHLMc5Ps0GMntqXmcmEU3taw3kL6TH7zKNxD3W0ED/EtpbBmLZZCQqur5Q0GyiUxN
- ytOikvU6jtA5Q==
+ b=NYapCHOS5T6hqgvPSxIiugdH+/onz6ZKYv1cCgmuN8GTnBWrc5ypC21oAAEzG0xUW
+ ZCFc2dZn3ts2UmBIETJ4obgdATLQslwHwkgpBLRULeZ4ElnwTayb5PkLIIED/eWJP9
+ ELvfE3Ur0mjbmvjccdXRHTIYZhfO/DFjJDgo29xgA4jpH6qS4rF6Yoqk2ebAyUEq/w
+ auIh0G1jf1R+rh391i+0QJAmVUZ7hixUxmA5yOfFXdBUSdzLXc01hpzfG81nG5iYjD
+ 6JfleYxj1CN7R0S5U0kyvPjrVf0Nu/OG0CAlgQI1E6nASCVHP1DWNde9tkisoAjx2A
+ JmySpnk9E7FmA==
 To: dri-devel@lists.freedesktop.org
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -44,13 +42,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Arthur Grillo <arthurgrillo@riseup.net>,
  Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
  Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-Subject: [PATCH v4 RESEND 8/9] drm/tests: Add test for drm_framebuffer_init()
-Date: Tue, 10 Sep 2024 21:15:33 -0300
-Message-ID: <20240911001559.28284-9-gcarlos@disroot.org>
+Subject: [PATCH v4 RESEND 9/9] drm/tests: Add test for drm_framebuffer_free()
+Date: Tue, 10 Sep 2024 21:15:34 -0300
+Message-ID: <20240911001559.28284-10-gcarlos@disroot.org>
 In-Reply-To: <20240911001559.28284-1-gcarlos@disroot.org>
 References: <20240911001559.28284-1-gcarlos@disroot.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,151 +64,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add three KUnit test cases for the drm_framebuffer_init function:
-
-1. Test if expected values are being set after drm_framebuffer_init() call.
-2. Try to init a framebuffer without setting its format.
-3. Try calling drm_framebuffer_init() with mismatch of the drm_device
-   passed at the first argument and the one pointed by fb->dev.
+Add a single KUnit test case for the drm_framebuffer_free function.
 
 Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
 v2:
   - Reorder kunit cases alphabetically.
-  - Let fb1.dev unset instead of set it to wrong_drm to test mismatched
-    drm_device passed as drm_framebuffer_init() argument.
-  - Clean the framebuffer object.
 v3:
-  - Split into three tests.
+  - Replace the use of void pointer on drm_framebuffer_test_priv struct.
+  - Remove the test with unregistered framebuffer object.
   - Add documentation.
-  - Stop testing lookup here.
 v4:
-  - Export drm_framebuffer_free for test.
-  - Document what is expected on drm_test_framebuffer_init test.
-  - Use a valid drm_device on drm_test_framebuffer_init_dev_mismatch test.
+  - Export drm_mode_object_add for test.
 ---
- drivers/gpu/drm/drm_framebuffer.c            |  1 +
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 84 ++++++++++++++++++++
- 2 files changed, 85 insertions(+)
+ drivers/gpu/drm/drm_mode_object.c            |  1 +
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 50 ++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 9cd85ac789bb..47e6e8577b62 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -839,6 +839,7 @@ void drm_framebuffer_free(struct kref *kref)
- 
- 	fb->funcs->destroy(fb);
+diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+index df4cc0e8e263..e943205a2394 100644
+--- a/drivers/gpu/drm/drm_mode_object.c
++++ b/drivers/gpu/drm/drm_mode_object.c
+@@ -81,6 +81,7 @@ int drm_mode_object_add(struct drm_device *dev,
+ {
+ 	return __drm_mode_object_add(dev, obj, obj_type, true, NULL);
  }
-+EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebuffer_free);
++EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_mode_object_add);
  
- /**
-  * drm_framebuffer_init - initialize a framebuffer
+ void drm_mode_object_register(struct drm_device *dev,
+ 			      struct drm_mode_object *obj)
 diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index e11b5bc9a105..72314805839d 100644
+index 72314805839d..6ea04cc8f324 100644
 --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
 +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2022 Maíra Canal <mairacanal@riseup.net>
-  */
+@@ -358,6 +358,7 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
+ struct drm_framebuffer_test_priv {
+ 	struct drm_device dev;
+ 	bool buffer_created;
++	bool buffer_freed;
+ };
  
-+#include <kunit/device.h>
- #include <kunit/test.h>
- 
- #include <drm/drm_device.h>
-@@ -568,10 +569,93 @@ static void drm_test_framebuffer_lookup_inexistent(struct kunit *test)
- 	KUNIT_EXPECT_NULL(test, fb);
+ static struct drm_framebuffer *fb_create_mock(struct drm_device *dev,
+@@ -649,10 +650,59 @@ static void drm_test_framebuffer_init_dev_mismatch(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
  }
  
++static void destroy_free_mock(struct drm_framebuffer *fb)
++{
++	struct drm_framebuffer_test_priv *priv = container_of(fb->dev, typeof(*priv), dev);
++
++	priv->buffer_freed = true;
++}
++
++static struct drm_framebuffer_funcs framebuffer_funcs_free_mock = {
++	.destroy = destroy_free_mock,
++};
++
 +/*
-+ * Test if drm_framebuffer_init initializes the framebuffer successfully,
-+ * asserting that its modeset object struct and its refcount are correctly
-+ * set and that strictly one framebuffer is initialized.
++ * In summary, the drm_framebuffer_free() function must implicitly call
++ * fb->funcs->destroy() and garantee that the framebufer object is unregistered
++ * from the drm_device idr pool.
 + */
-+static void drm_test_framebuffer_init(struct kunit *test)
++static void drm_test_framebuffer_free(struct kunit *test)
 +{
 +	struct drm_framebuffer_test_priv *priv = test->priv;
 +	struct drm_device *dev = &priv->dev;
-+	struct drm_format_info format = { };
-+	struct drm_framebuffer fb1 = { .dev = dev, .format = &format };
-+	struct drm_framebuffer_funcs funcs = { };
-+	int ret;
++	struct drm_mode_object *obj;
++	struct drm_framebuffer fb = {
++		.dev = dev,
++		.funcs = &framebuffer_funcs_free_mock,
++	};
++	int id, ret;
 +
-+	ret = drm_framebuffer_init(dev, &fb1, &funcs);
++	priv->buffer_freed = false;
++
++	/*
++	 * Mock	a framebuffer that was not unregistered	at the moment of the
++	 * drm_framebuffer_free() call.
++	 */
++	ret = drm_mode_object_add(dev, &fb.base, DRM_MODE_OBJECT_FB);
 +	KUNIT_ASSERT_EQ(test, ret, 0);
++	id = fb.base.id;
 +
-+	/* Check if fb->funcs is actually set to the drm_framebuffer_funcs passed on */
-+	KUNIT_EXPECT_PTR_EQ(test, fb1.funcs, &funcs);
++	drm_framebuffer_free(&fb.base.refcount);
 +
-+	/* The fb->comm must be set to the current running process */
-+	KUNIT_EXPECT_STREQ(test, fb1.comm, current->comm);
++	/* The framebuffer object must be unregistered */
++	obj = drm_mode_object_find(dev, NULL, id, DRM_MODE_OBJECT_FB);
++	KUNIT_EXPECT_PTR_EQ(test, obj, NULL);
++	KUNIT_EXPECT_EQ(test, fb.base.id, 0);
 +
-+	/* The fb->base must be successfully initialized */
-+	KUNIT_EXPECT_NE(test, fb1.base.id, 0);
-+	KUNIT_EXPECT_EQ(test, fb1.base.type, DRM_MODE_OBJECT_FB);
-+	KUNIT_EXPECT_EQ(test, kref_read(&fb1.base.refcount), 1);
-+	KUNIT_EXPECT_PTR_EQ(test, fb1.base.free_cb, &drm_framebuffer_free);
-+
-+	/* There must be just that one fb initialized */
-+	KUNIT_EXPECT_EQ(test, dev->mode_config.num_fb, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.prev, &fb1.head);
-+	KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.next, &fb1.head);
-+
-+	drm_framebuffer_cleanup(&fb1);
-+}
-+
-+/* Try to init a framebuffer without setting its format */
-+static void drm_test_framebuffer_init_bad_format(struct kunit *test)
-+{
-+	struct drm_framebuffer_test_priv *priv = test->priv;
-+	struct drm_device *dev = &priv->dev;
-+	struct drm_framebuffer fb1 = { .dev = dev, .format = NULL };
-+	struct drm_framebuffer_funcs funcs = { };
-+	int ret;
-+
-+	/* Fails if fb.format isn't set */
-+	ret = drm_framebuffer_init(dev, &fb1, &funcs);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+}
-+
-+/*
-+ * Test calling drm_framebuffer_init() passing a framebuffer linked to a
-+ * different drm_device parent from the one passed on the first argument, which
-+ * must fail.
-+ */
-+static void drm_test_framebuffer_init_dev_mismatch(struct kunit *test)
-+{
-+	struct drm_framebuffer_test_priv *priv = test->priv;
-+	struct drm_device *right_dev = &priv->dev;
-+	struct drm_device *wrong_dev;
-+	struct device *wrong_dev_parent;
-+	struct drm_format_info format = { };
-+	struct drm_framebuffer fb1 = { .dev = right_dev, .format = &format };
-+	struct drm_framebuffer_funcs funcs = { };
-+	int ret;
-+
-+	wrong_dev_parent = kunit_device_register(test, "drm-kunit-wrong-device-mock");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, wrong_dev_parent);
-+
-+	wrong_dev = __drm_kunit_helper_alloc_drm_device(test, wrong_dev_parent,
-+							sizeof(struct drm_device),
-+							0, 0);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, wrong_dev);
-+
-+	/* Fails if fb->dev doesn't point to the drm_device passed on first arg */
-+	ret = drm_framebuffer_init(wrong_dev, &fb1, &funcs);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
++	/* Test if fb->funcs->destroy() was called */
++	KUNIT_EXPECT_EQ(test, priv->buffer_freed, true);
 +}
 +
  static struct kunit_case drm_framebuffer_tests[] = {
  	KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, check_src_coords_gen_params),
  	KUNIT_CASE(drm_test_framebuffer_cleanup),
  	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
-+	KUNIT_CASE(drm_test_framebuffer_init),
-+	KUNIT_CASE(drm_test_framebuffer_init_bad_format),
-+	KUNIT_CASE(drm_test_framebuffer_init_dev_mismatch),
- 	KUNIT_CASE(drm_test_framebuffer_lookup),
- 	KUNIT_CASE(drm_test_framebuffer_lookup_inexistent),
- 	KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
++	KUNIT_CASE(drm_test_framebuffer_free),
+ 	KUNIT_CASE(drm_test_framebuffer_init),
+ 	KUNIT_CASE(drm_test_framebuffer_init_bad_format),
+ 	KUNIT_CASE(drm_test_framebuffer_init_dev_mismatch),
 -- 
 2.44.2
 
