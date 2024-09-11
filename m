@@ -2,66 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E985974FA6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 12:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D526C974FC0
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 12:35:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3967C10E749;
-	Wed, 11 Sep 2024 10:23:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F3510E7BE;
+	Wed, 11 Sep 2024 10:35:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MdEdfs44";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XI+5VaaT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99EF10E749;
- Wed, 11 Sep 2024 10:23:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726050212; x=1757586212;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=5K4tAcFBHvPTFN8Wakkvp/Wjtxx7ZDotyHbB7iJQI5E=;
- b=MdEdfs44InGSpskK7hkFDw3HvkRymI0F6yDIg03t6B1+2eE267Jt1Ev6
- rKg/izDhq5ObJsnbdvQVLvCtmL6kEv/ThZWzc8z0byYZGhoebw1V8hFuS
- liTexmSJpTloEViBPTQSnRVC39qsblh0FqmSvH9+9rtlcrz5WYxni4fqU
- CYxU5feW0IJGdBgZi52HHZ+0gJVKkdTdLc+3hQocmNLtYL9kazSI/w3gL
- RoBS1AmkEB0tvVlKo6iVcuUM/X+A7AdyQF8V38id7nOxeYN2Ay6cKn7tK
- Kt+S5csxXWNY1lbCASTQWbqR5VdhK0yEtJrGdoOLOYXYdavHrZhIj2i9P g==;
-X-CSE-ConnectionGUID: as9V3/LhQwyAsFKbyVSYIA==
-X-CSE-MsgGUID: QI7lxJ8eTMaFQBKsLhmXpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24986952"
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="24986952"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2024 03:23:32 -0700
-X-CSE-ConnectionGUID: CK2HXmxAT3KuAAFMtdSU6w==
-X-CSE-MsgGUID: 2zqkdFhVQKGTCdjHtZvtsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="104781745"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.181])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2024 03:23:27 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Marc Gonzalez <mgonzalez@freebox.fr>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Arnaud Vrac <avrac@freebox.fr>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>, Rob
- Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 7/8] drm/msmi: annotate pll_cmp_to_fdata() with
- __maybe_unused
-In-Reply-To: <19ac4e25-7609-4d92-8687-585c6ea00c79@freebox.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <3553b1db35665e6ff08592e35eb438a574d1ad65.1725962479.git.jani.nikula@intel.com>
- <4ag2efwiizn5bnskauekqwfhgl4gioafcvetpvsmbdgg37bdja@3g6tt4rlfwcb>
- <19ac4e25-7609-4d92-8687-585c6ea00c79@freebox.fr>
-Date: Wed, 11 Sep 2024 13:23:23 +0300
-Message-ID: <878qvyjxpg.fsf@intel.com>
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1816F10E7BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 10:35:06 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-6db4b602e38so45797327b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 03:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726050905; x=1726655705; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pguXKho2iGtNY7bbPN64vthkTwD/qntrSgD7BpHG+7Y=;
+ b=XI+5VaaTB/6yDieaELjHPKEEmoi0dHaqCxLvJNWeQ07oUwE3dJ2IeSKY5WfpkfXCOD
+ cVsU+Bf4WzIC+NZiDj+SRo4524H8GBpzXCmq2K8s+A6nw0U8odgHCrHm8Ahlg99zNL+X
+ 40yu3ddxMrB0H0VKWfX12qaKJ9Xpz8lkh6/bxHKRjouy7vuiuO8Tp2MifAqvKs8Ti9pm
+ Hpg5eHtN8yRzoUR96dtRw6E7QcJ1cYJvcSga5XSGlX/0JJEne9ZZHdxaqsPkeGrLepFs
+ aPuVhIm0oaX6ZTkMLT7ZUFPYifnb0cpP+XMsz5+IG4FDdL0xWM0Qbgh3sUYnOVqXenUN
+ TNeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726050905; x=1726655705;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pguXKho2iGtNY7bbPN64vthkTwD/qntrSgD7BpHG+7Y=;
+ b=J9ln5i+JoeIWxFNG8URecgwlyNBabN2MpeOM7s+y6cI3juVUgTPygfxsOOBl1HDVVo
+ HZd3dZgwPm5a10GwF5Gx9yZ3wx1I2Q61W0acPhmL+34gSpxxc1JoMj4c73/LEqn9aVbF
+ b5ZpSpLgFAyqOYCbHh33EaTMgMJuYrubxdwjic/OEvMrHiSJZJusp4ulC5U7oU/0Ka6u
+ YmjBesY50NrRk3vUVF403VbLRRdNRi3t8J9iJT6DdhiBZalhqtYWvzV1T7oC2xRSgGOl
+ 6tISHRrc549d+8588y3DBiFY6ADgy5c1MOKv4a5rInOgRIoFTr18Ov6r/AXHBNXR0pTP
+ CAfg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVa33KjdqeiQOuDjnkwhdEwNg1NfrliQWcLfbbTqrBUn2yKH9RuEHktNuhRLw5116bNLCLoWj2f5eA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwMmc6EovZEsYv18g+9ZCI7SC8Oo2jQIdXIgYt/7bGVcRYK0kxS
+ iRcVu6/TmfIecjTIws+q3950IP7iI09TIy8dVCpXn/udCz2X64GXsh8S62qmiwCbSjH36R7NLYx
+ DRckc648eIYdDdWqT9b5i04dLp/oSU2hfhkhsuw==
+X-Google-Smtp-Source: AGHT+IEXGUo8iYr83kd7B9iECVwc8bdMpc/xy3+lDcZrAKDkVX5G5H8kLtfBabKLQx3cToAQvvvkY6Dr2nHmCs148Lw=
+X-Received: by 2002:a05:690c:2889:b0:65f:8209:3ede with SMTP id
+ 00721157ae682-6db452740b1mr148903587b3.44.1726050904691; Wed, 11 Sep 2024
+ 03:35:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240911100813.338-1-quic_mukhopad@quicinc.com>
+ <20240911100813.338-3-quic_mukhopad@quicinc.com>
+In-Reply-To: <20240911100813.338-3-quic_mukhopad@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 11 Sep 2024 13:34:53 +0300
+Message-ID: <CAA8EJppLFWpf0QSmzAo5nqu=iMALyKzxEvy7sD5R0LDYSbA_7w@mail.gmail.com>
+Subject: Re: [PATCH 2/5] phy: qcom: edp: Introduce aux_cfg array for version
+ specific aux settings
+To: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
+Cc: vkoul@kernel.org, kishon@kernel.org, konradybcio@kernel.org, 
+ andersson@kernel.org, simona@ffwll.ch, abel.vesa@linaro.org, 
+ robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ quic_khsieh@quicinc.com, konrad.dybcio@linaro.org, quic_parellan@quicinc.com, 
+ quic_bjorande@quicinc.com, linux-arm-msm@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, quic_riteshk@quicinc.com, 
+ quic_vproddut@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,68 +89,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Sep 2024, Marc Gonzalez <mgonzalez@freebox.fr> wrote:
-> On 10/09/2024 16:51, Dmitry Baryshkov wrote:
+On Wed, 11 Sept 2024 at 13:08, Soutrik Mukhopadhyay
+<quic_mukhopad@quicinc.com> wrote:
 >
->> On Tue, Sep 10, 2024 at 01:03:43PM GMT, Jani Nikula wrote:
->>
->>> Building with clang and and W=1 leads to warning about unused
->>> pll_cmp_to_fdata(). Fix by annotating it with __maybe_unused.
->>>
->>> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
->>> inline functions for W=1 build").
->>>
->>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> 
->> I think this function can be dropped. Marc, your call, as an author of
->> the patch?
+> In order to support different HW versions, introduce aux_cfg array
+> to move v4 specific aux configuration settings.
 >
-> ( Why is the patch prefixed "drm/msmi", is "msmi" a typo? )
-
-Whoops, a typo.
-
+> Signed-off-by: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
+> ---
+>  drivers/phy/qualcomm/phy-qcom-edp.c | 34 +++++++++++++++++------------
+>  1 file changed, 20 insertions(+), 14 deletions(-)
 >
-> -> For the record, Arnaud is the driver's author.
+> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+> index da2b32fb5b45..0f860a807d1b 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+> @@ -90,6 +90,7 @@ struct phy_ver_ops {
 >
-> pll_cmp_to_fdata() was used in hdmi_8998_pll_recalc_rate()
-> in a commented code block which was later removed.
+>  struct qcom_edp_phy_cfg {
+>         bool is_edp;
+> +       u8 *aux_cfg;
+>         const struct qcom_edp_swing_pre_emph_cfg *swing_pre_emph_cfg;
+>         const struct phy_ver_ops *ver_ops;
+>  };
+> @@ -186,11 +187,14 @@ static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg = {
+>         .pre_emphasis_hbr3_hbr2 = &edp_pre_emp_hbr2_hbr3,
+>  };
 >
-> Thus, yes, it is safe to completely delete the unused function.
-> I'm surprised gcc didn't catch that...
+> +static u8 edp_phy_aux_cfg_v4[10] = {
 
-Thanks, I'll change this to drop the function.
-
-GCC doesn't catch unused static inlines, while Clang does.
-
-BR,
-Jani.
+static const u8, please.
 
 
+> +       0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
+> +};
+> +
+>  static int qcom_edp_phy_init(struct phy *phy)
+>  {
+>         struct qcom_edp *edp = phy_get_drvdata(phy);
+>         int ret;
+> -       u8 cfg8;
 >
-> Regards
+>         ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
+>         if (ret)
+> @@ -222,22 +226,20 @@ static int qcom_edp_phy_init(struct phy *phy)
+>          * even needed.
+>          */
+>         if (edp->cfg->swing_pre_emph_cfg && !edp->is_edp)
+> -               cfg8 = 0xb7;
+> -       else
+> -               cfg8 = 0x37;
+> +               edp->cfg->aux_cfg[8] = 0xb7;
 >
+>         writel(0xfc, edp->edp + DP_PHY_MODE);
 >
->>> ---
->>>  drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
->>> index 0e3a2b16a2ce..c0bf1f35539e 100644
->>> --- a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
->>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
->>> @@ -153,7 +153,7 @@ static inline u32 pll_get_pll_cmp(u64 fdata, unsigned long ref_clk)
->>>  	return dividend - 1;
->>>  }
->>>  
->>> -static inline u64 pll_cmp_to_fdata(u32 pll_cmp, unsigned long ref_clk)
->>> +static inline __maybe_unused u64 pll_cmp_to_fdata(u32 pll_cmp, unsigned long ref_clk)
->>>  {
->>>  	u64 fdata = ((u64)pll_cmp) * ref_clk * 10;
->>>  
->>> -- 
->>> 2.39.2
+> -       writel(0x00, edp->edp + DP_PHY_AUX_CFG0);
+> -       writel(0x13, edp->edp + DP_PHY_AUX_CFG1);
+> -       writel(0x24, edp->edp + DP_PHY_AUX_CFG2);
+> -       writel(0x00, edp->edp + DP_PHY_AUX_CFG3);
+> -       writel(0x0a, edp->edp + DP_PHY_AUX_CFG4);
+> -       writel(0x26, edp->edp + DP_PHY_AUX_CFG5);
+> -       writel(0x0a, edp->edp + DP_PHY_AUX_CFG6);
+> -       writel(0x03, edp->edp + DP_PHY_AUX_CFG7);
+> -       writel(cfg8, edp->edp + DP_PHY_AUX_CFG8);
+> -       writel(0x03, edp->edp + DP_PHY_AUX_CFG9);
+> +       writel(edp->cfg->aux_cfg[0], edp->edp + DP_PHY_AUX_CFG0);
+> +       writel(edp->cfg->aux_cfg[1], edp->edp + DP_PHY_AUX_CFG1);
+> +       writel(edp->cfg->aux_cfg[2], edp->edp + DP_PHY_AUX_CFG2);
+> +       writel(edp->cfg->aux_cfg[3], edp->edp + DP_PHY_AUX_CFG3);
+> +       writel(edp->cfg->aux_cfg[4], edp->edp + DP_PHY_AUX_CFG4);
+> +       writel(edp->cfg->aux_cfg[5], edp->edp + DP_PHY_AUX_CFG5);
+> +       writel(edp->cfg->aux_cfg[6], edp->edp + DP_PHY_AUX_CFG6);
+> +       writel(edp->cfg->aux_cfg[7], edp->edp + DP_PHY_AUX_CFG7);
+> +       writel(edp->cfg->aux_cfg[8], edp->edp + DP_PHY_AUX_CFG8);
+> +       writel(edp->cfg->aux_cfg[9], edp->edp + DP_PHY_AUX_CFG9);
 >
+>         writel(PHY_AUX_STOP_ERR_MASK | PHY_AUX_DEC_ERR_MASK |
+>                PHY_AUX_SYNC_ERR_MASK | PHY_AUX_ALIGN_ERR_MASK |
+> @@ -519,16 +521,19 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v4 = {
+>  };
+>
+>  static const struct qcom_edp_phy_cfg sc7280_dp_phy_cfg = {
+> +       .aux_cfg = edp_phy_aux_cfg_v4,
+>         .ver_ops = &qcom_edp_phy_ops_v4,
+>  };
+>
+>  static const struct qcom_edp_phy_cfg sc8280xp_dp_phy_cfg = {
+> +       .aux_cfg = edp_phy_aux_cfg_v4,
+>         .swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
+>         .ver_ops = &qcom_edp_phy_ops_v4,
+>  };
+>
+>  static const struct qcom_edp_phy_cfg sc8280xp_edp_phy_cfg = {
+>         .is_edp = true,
+> +       .aux_cfg = edp_phy_aux_cfg_v4,
+>         .swing_pre_emph_cfg = &edp_phy_swing_pre_emph_cfg,
+>         .ver_ops = &qcom_edp_phy_ops_v4,
+>  };
+> @@ -707,6 +712,7 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v6 = {
+>  };
+>
+>  static struct qcom_edp_phy_cfg x1e80100_phy_cfg = {
+> +       .aux_cfg = edp_phy_aux_cfg_v4,
+
+Is this correct? Judging by ver_ops, X Elite uses v6 of the PHY, so
+maybe it should also use v5 AUX tables?
+
+>         .swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
+>         .ver_ops = &qcom_edp_phy_ops_v6,
+>  };
+> --
+> 2.17.1
 >
 
--- 
-Jani Nikula, Intel
+
+--
+With best wishes
+Dmitry
