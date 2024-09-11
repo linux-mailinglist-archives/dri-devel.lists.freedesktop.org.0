@@ -2,142 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC3D974FC5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 12:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00288974FD7
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 12:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ED3F10E81F;
-	Wed, 11 Sep 2024 10:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E58F110E7C3;
+	Wed, 11 Sep 2024 10:40:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uiNatkQn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XZ7tMtS/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="daCLlupK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HLFWRNAC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aXKJPl5t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A8410E7C3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 10:35:12 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3C4A21F8A3;
- Wed, 11 Sep 2024 10:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726050911; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yjOFaB9mBWyLeXwmIHufqxc3zOVZnZqzDa5NPytTYy8=;
- b=uiNatkQnXBxJR0SzCdahyyAQQlBHUiAJcS62mZLh9WkjnAO8tNJlSrffV1mufOWl8QyNsf
- 0TpG7lwecTkjxf/7gl8AMdBGZWP8h1a/32pIltH2j5vn6tWosccqC8gq3kXzGRUwxFcnvd
- obLg7pH7ea6jnax49Vhne07EH6MnVgo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726050911;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yjOFaB9mBWyLeXwmIHufqxc3zOVZnZqzDa5NPytTYy8=;
- b=XZ7tMtS/1irQ921RCDS2cjuQc09+sybauZzFB0rbJOxfyPwdvO6jtLHS+ZABxBcLvuOdZe
- rCTR/eGVlSxZUMBA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=daCLlupK;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HLFWRNAC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726050910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yjOFaB9mBWyLeXwmIHufqxc3zOVZnZqzDa5NPytTYy8=;
- b=daCLlupKF6Mpu8DNyCMo0wd72m45GLLgOe4eQwdPSAVCYzVsFVPMchyb/+xyEU394x8xL5
- f59HJ2Daaigj4NKae3Y/yCzWJF7ywfWIOigCbGlaciBbtnSfQAhd5rTqiSvgkt6HIpmlnP
- UdA4dUstD/xYkPviR8nTfgzAdW8J0qs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726050910;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yjOFaB9mBWyLeXwmIHufqxc3zOVZnZqzDa5NPytTYy8=;
- b=HLFWRNACAI3CCl3VGGeXgioM+uMBOrK2HILDgTU99eVrJmqQKWlsLfBr7e7Ii/msTEe/Sf
- 1rUYOQYy2I85rHCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DFEDE132CB;
- Wed, 11 Sep 2024 10:35:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id pL/9NF1y4WZYCAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 11 Sep 2024 10:35:09 +0000
-Message-ID: <552e4269-31f3-4851-8769-de3fe65fd475@suse.de>
-Date: Wed, 11 Sep 2024 12:35:09 +0200
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1656B10E7C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 10:40:14 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-6d3f017f80eso57203177b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 03:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726051213; x=1726656013; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=quaLdCg89/Q3ErVCYpGz/S7qzPrQHkWX+pHMVVZKZIc=;
+ b=aXKJPl5tJg5sgpG4txHEQwyhSR7hDQdoYO75rxkRAlHAxi+zXuMdKYO/mUWwDbu1ux
+ 3y4tSn8BJAtf/c7w6onec12RoGziQbfGNikbQctlspn94liDiAmDmBmfRsKFtugWND1T
+ Z69oiBugRBKx1kB4RbhozF/H8jU/PkRYhNdhhfgLxezMutV11+BbOOZXPkENsCaPqogR
+ G6fIePDDgxqnpGXHfxfOUBVxj0tmPwvZ3FtTwK1nPHYiUlusQS/3T0ENYsxBnRJZ9b3M
+ RkzoJONMKjRMyYHPplg759a40VSCOFri3V6V3898Ej0SJiyekiYcTjzADEpHrRmvKefn
+ QQSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726051213; x=1726656013;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=quaLdCg89/Q3ErVCYpGz/S7qzPrQHkWX+pHMVVZKZIc=;
+ b=f4QlWodpnjNNMGikhHS1WwoxcXmoFPFsjklXX14jTbAHDNPmLYuNyoMUL7xOfrbzKU
+ ZSWSQxmP0Iv1V4Sq+tHqYcN1gNjWMBLSBx1X3pWgxugFq+V6WuirWGOVjzENepa/PkqS
+ BHAdSmjfAoqGQvdZVSmpHmqdmI2r/kUfdxB1tv24dyMrrgc5lWah/4qfanauNAtKxxk/
+ ZA0W8TCJhxEKc8ZEc8h84FV8OfrtS9/EHPpJKAANGPTA10q0ehh7crhPN+lfGRhZTEzq
+ xKBQTEPI/nYPW+f+Gufw9gVfzKXNX7Z70MdC0hRtnCFOtDMomVadBY4fcG2vO8afNPQC
+ Q7Zg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX3CUOPR/OwVtw42H9NpObZt4WBeHqd9ro403fqXtblJUtXwKj8S/swsIdXYH1CGYCdfZ9kpqKCK1U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy5ulcDqxsg7Y/WkW6tX7RCFQ6yAGfZAt7zb8NOgyZXy4UmJm5W
+ FrYq8GckdQHIeZkOyVaaNUxACOCCeU96fAogHEqh13ZYa35gWzgr74sIPP0p0AZF2wy76pjT4D1
+ jL0e3dzDIzoWcH5JZugJSj4Fhw4crQiz3J7POMw==
+X-Google-Smtp-Source: AGHT+IFBbb4wmETvjaXqgLn/MDWKCHL6pj57SkqVhM0/cPEdnbQlphBpHqZfas0PwZIxjI6E5z9qO73trRYEsWxee9I=
+X-Received: by 2002:a05:690c:660e:b0:6b3:a6ff:768e with SMTP id
+ 00721157ae682-6db44a63f29mr197379867b3.0.1726051212892; Wed, 11 Sep 2024
+ 03:40:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/display: fix kerneldocs references
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20240911-drm-fix-dbc-docs-v1-1-ae5cb82fce1e@linaro.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240911-drm-fix-dbc-docs-v1-1-ae5cb82fce1e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 3C4A21F8A3
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,lwn.net];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[10]; MID_RHS_MATCH_FROM(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,linaro.org:email];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -6.51
-X-Spam-Flag: NO
+References: <20240911100813.338-1-quic_mukhopad@quicinc.com>
+ <20240911100813.338-4-quic_mukhopad@quicinc.com>
+In-Reply-To: <20240911100813.338-4-quic_mukhopad@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 11 Sep 2024 13:40:02 +0300
+Message-ID: <CAA8EJpqurbPKjmRH8zdqPkMuze4zwJVu+=W0nP=Ldc6o_4Tu4w@mail.gmail.com>
+Subject: Re: [PATCH 3/5] phy: qcom: edp: Add support for eDP PHY on SA8775P
+To: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
+Cc: vkoul@kernel.org, kishon@kernel.org, konradybcio@kernel.org, 
+ andersson@kernel.org, simona@ffwll.ch, abel.vesa@linaro.org, 
+ robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ quic_khsieh@quicinc.com, konrad.dybcio@linaro.org, quic_parellan@quicinc.com, 
+ quic_bjorande@quicinc.com, linux-arm-msm@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, quic_riteshk@quicinc.com, 
+ quic_vproddut@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,59 +88,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 11.09.24 um 12:16 schrieb Dmitry Baryshkov:
-> The commit 9da7ec9b19d8 ("drm/bridge-connector: move to
-> DRM_DISPLAY_HELPER module") renamed the drm_bridge_connector.c file, but
-> didn't update the kerneldocs. Fix that.
+On Wed, 11 Sept 2024 at 13:08, Soutrik Mukhopadhyay
+<quic_mukhopad@quicinc.com> wrote:
 >
-> Fixes: 9da7ec9b19d8 ("drm/bridge-connector: move to DRM_DISPLAY_HELPER module")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/dri-devel/20240904163018.214efaa7@canb.auug.org.au/
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
+> Add support for eDP PHY v5 found on the Qualcomm SA8775P platform.
+>
+> Signed-off-by: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
 > ---
->   Documentation/gpu/drm-kms-helpers.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/phy/qualcomm/phy-qcom-edp.c | 47 +++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
 >
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-> index 8435e8621cc0..c3e58856f75b 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -181,7 +181,7 @@ Bridge Operations
->   Bridge Connector Helper
->   -----------------------
->   
-> -.. kernel-doc:: drivers/gpu/drm/drm_bridge_connector.c
-> +.. kernel-doc:: drivers/gpu/drm/display/drm_bridge_connector.c
->      :doc: overview
->   
->   
-> @@ -204,7 +204,7 @@ MIPI-DSI bridge operation
->   Bridge Connector Helper Reference
->   ---------------------------------
->   
-> -.. kernel-doc:: drivers/gpu/drm/drm_bridge_connector.c
-> +.. kernel-doc:: drivers/gpu/drm/display/drm_bridge_connector.c
->      :export:
->   
->   Panel-Bridge Helper Reference
+> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+> index 0f860a807d1b..34a47cd2919d 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+> @@ -191,6 +191,45 @@ static u8 edp_phy_aux_cfg_v4[10] = {
+>         0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
+>  };
 >
-> ---
-> base-commit: 9aaeb87ce1e966169a57f53a02ba05b30880ffb8
-> change-id: 20240911-drm-fix-dbc-docs-8ac42d0c2e4f
+> +static const u8 edp_swing_hbr_rbr_v5[4][4] = {
+> +       { 0x07, 0x0f, 0x16, 0x1f },
+> +       { 0x0d, 0x16, 0x1e, 0xff },
+> +       { 0x11, 0x1b, 0xff, 0xff },
+> +       { 0x16, 0xff, 0xff, 0xff }
+> +};
+
+Same as v4
+
+> +
+> +static const u8 edp_pre_emp_hbr_rbr_v5[4][4] = {
+> +       { 0x05, 0x11, 0x17, 0x1d },
+> +       { 0x05, 0x11, 0x18, 0xff },
+> +       { 0x06, 0x11, 0xff, 0xff },
+> +       { 0x00, 0xff, 0xff, 0xff }
+> +};
+
+Could you please confirm that there is a single value difference?
+
+> +
+> +static const u8 edp_swing_hbr2_hbr3_v5[4][4] = {
+> +       { 0x0b, 0x11, 0x17, 0x1c },
+> +       { 0x10, 0x19, 0x1f, 0xff },
+> +       { 0x19, 0x1f, 0xff, 0xff },
+> +       { 0x1f, 0xff, 0xff, 0xff }
+> +};
+
+Same as v4
+
+> +
+> +static const u8 edp_pre_emp_hbr2_hbr3_v5[4][4] = {
+> +       { 0x0c, 0x15, 0x19, 0x1e },
+> +       { 0x0b, 0x15, 0x19, 0xff },
+> +       { 0x0e, 0x14, 0xff, 0xff },
+> +       { 0x0d, 0xff, 0xff, 0xff }
+> +};
+
+This one looks fine
+
+> +
+> +static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg_v5 = {
+> +       .swing_hbr_rbr = &edp_swing_hbr_rbr_v5,
+> +       .swing_hbr3_hbr2 = &edp_swing_hbr2_hbr3_v5,
+> +       .pre_emphasis_hbr_rbr = &edp_pre_emp_hbr_rbr_v5,
+> +       .pre_emphasis_hbr3_hbr2 = &edp_pre_emp_hbr2_hbr3_v5,
+> +};
+> +
+> +static u8 edp_phy_aux_cfg_v5[10] = {
+> +       0x00, 0x13, 0xa4, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
+> +};
+> +
+>  static int qcom_edp_phy_init(struct phy *phy)
+>  {
+>         struct qcom_edp *edp = phy_get_drvdata(phy);
+> @@ -520,6 +559,13 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v4 = {
+>         .com_configure_ssc      = qcom_edp_com_configure_ssc_v4,
+>  };
 >
-> Best regards,
+> +static const struct qcom_edp_phy_cfg sa8775p_dp_phy_cfg = {
+> +       .is_edp = false,
+> +       .aux_cfg = edp_phy_aux_cfg_v5,
+> +       .swing_pre_emph_cfg = &edp_phy_swing_pre_emph_cfg_v5,
+> +       .ver_ops = &qcom_edp_phy_ops_v4,
+> +};
+> +
+>  static const struct qcom_edp_phy_cfg sc7280_dp_phy_cfg = {
+>         .aux_cfg = edp_phy_aux_cfg_v4,
+>         .ver_ops = &qcom_edp_phy_ops_v4,
+> @@ -1114,6 +1160,7 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
+>  }
+>
+>  static const struct of_device_id qcom_edp_phy_match_table[] = {
+> +       { .compatible = "qcom,sa8775p-edp-phy", .data = &sa8775p_dp_phy_cfg, },
+>         { .compatible = "qcom,sc7280-edp-phy", .data = &sc7280_dp_phy_cfg, },
+>         { .compatible = "qcom,sc8180x-edp-phy", .data = &sc7280_dp_phy_cfg, },
+>         { .compatible = "qcom,sc8280xp-dp-phy", .data = &sc8280xp_dp_phy_cfg, },
+> --
+> 2.17.1
+>
+
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+With best wishes
+Dmitry
