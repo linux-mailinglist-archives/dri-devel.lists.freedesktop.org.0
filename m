@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420BE975162
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 14:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DEE9751AA
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 14:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9E0610E9D9;
-	Wed, 11 Sep 2024 12:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A42C210E181;
+	Wed, 11 Sep 2024 12:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Hco7YKrU";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Rgnrr0z6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84E7310E9F2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 12:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1726056179; x=1726660979; i=markus.elfring@web.de;
- bh=to/dI+U8c82M6OElNphf9TFg4NuIv4FJo3rnED38GM0=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=Hco7YKrUwUPLHLTI+twaLWbzmwXkV0mINsS6UdWH0Ao4XcME4uYbNUftJ3kU1pHV
- 3TnV+338SIWsnrYLfBGOePElSld13/qNvlJzwiGtQ3iGlpC+H7hbOvZM7TyhO7fll
- j6Igv1gKAJbFpN3QKa0DoYV8pdLnS8gvG7G0jL1s1BVle1excKCC5rDKt/mV5bfOz
- uvSA1U51+g6XacpRV91OjjW5OTJibj9W/f6N4h3/N6zkoGazT0xycNsGIfmfsW0ZA
- q7TFkNuWXMuarFC58jEqaiUmN3y9MLvljDU9RCR47gd9+K6X1cWrd2Up2l+TQ8H9R
- y8sK5w41dgaVC01TgA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mq182-1sBDbl0Two-00cfwJ; Wed, 11
- Sep 2024 14:02:59 +0200
-Message-ID: <ba285b99-96a6-4fbf-b72e-b264a300ce6f@web.de>
-Date: Wed, 11 Sep 2024 14:02:56 +0200
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D8410E181
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 12:15:11 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 34F7D4000C;
+ Wed, 11 Sep 2024 12:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1726056908;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PdhTEPQQk02wc+pOBZoyGtVA8GtF9vfPKRysImY6ZaU=;
+ b=Rgnrr0z6fQ4IXXpeAwlVOJw9IQV5uo3s7kGx7MGqe0XxySTghtLtsUwwyffeG5+kAfPN1w
+ XwYpwJ7F5C+qWnGh9gDEFQiNd+T3TGBQHG6uSThhdbgeZSwFbljyu8VylR9GhXVHHuurq/
+ DNuHyzKtx7pdxEp7gm8FkHcBN8sIqYkedYiuDyAeVp/qqsBAbuDXyRvnFI/tRM0NwOigeW
+ 6K/BgHyLFKrBRuIXtOUCo28AMImZ+m022ddbE9jnnZspRRmyh8TwBWR+rBvFN9NBAx2vfU
+ vtSndq4owKg6nn750jcrjJpOs//P0ZNWSfD5mO7Q7unTt5D4QMOGt3tGJC1lKw==
+Date: Wed, 11 Sep 2024 14:15:05 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maira Canal <mairacanal@riseup.net>
+Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, sean@poorly.run,
+ thomas.petazzoni@bootlin.com, linux-kernel@vger.kernel.org,
+ seanpaul@google.com
+Subject: Re: [PATCH] MAINTAINERS: Add myself as VKMS Maintainer
+Message-ID: <ZuGJyfhkQe93jKlz@louis-chauvet-laptop>
+Mail-Followup-To: Maira Canal <mairacanal@riseup.net>,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, sean@poorly.run,
+ thomas.petazzoni@bootlin.com, linux-kernel@vger.kernel.org,
+ seanpaul@google.com
+References: <20240910-vkms-maintainer-v1-1-e7a6c7a4ae71@bootlin.com>
+ <68da3932-10ab-4001-a978-f0f54034a64d@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
-Subject: Re: [PATCH 8/9] accel/rocket: Add job submission IOCTL
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:gBOc2VelSGYN7vMulw3gUfHiDfi7Fce6hUGRA3ig0e7CkPk7ctW
- 02fliq1YqKL5NKGvp3rgm2vGCmn6B7aS1N/nr+h0YbeeRcbBWnwr7+rO2Hwhq057gL31eNi
- LR1cvkK0e+qFvnrh0GnTB7rpMSh2/emhZOdJ2z2xi7Ae1r7gPW55kJ+Yp8MMxUhxUlDXyUk
- vYuXx5zKe7w6f1ZlWKmSg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:kwUCKjmSRow=;GXfTPl9KFQxzuxjHbnw0svEf0G3
- Uctcq9Kr/ho6Y0LyjZNPPDYlzYjtlry3asr8W82jx14bpGu3jCx2WlCJNwLO0/RybxYvHtqyt
- 0eJR2xvpk1mD3BfD6ES4G4nPghEA0Xe0VmyS/bOP3h7e5ccgwFG6rh5+NcRay3ifHOEpc2dJq
- 3lz97Wz4Jwb+bX9qUxV2p21EKo0fk/MGTTw+ic/kF7yL3Hj0qMX55emMFpldoG2w1wb3XZSas
- NTbXmQfGKosykNVgoNLaRCy92S00vVSewSAIGc7NLaQksiPebe2x0I0CrEBOSyFKCiJ1lRKHs
- sXoJDShFfVErAk+ftvVPr/5f+uwSALx5Rn4ga/tYXitIuOicPsv9lctt2RJvUUeu7CopQY/J7
- x3Gm3cmwjHVs4GpfTV5F3yUxpiX6gHTwl420nPg98AEQKnlw+9G56/eEv/UOYcHYRq3Plq8xo
- 3BzcllAiZYFg/2VEUN85RXJ8nvHYIV6O2UPR0dIeVS97RQfqr5ZDQ58q/KjOl2l2TTgvLYDwo
- 9z08q7kvWwjdKsZp7dfTFcdDRsL54w4z7bFZ9Pri6T9YrKUSbIdKGaElp2z7CW+1e4YP0L3Zz
- RkpV3P0IioN2RRARyS9Q4KgwspVFg+nS7lYw/QAgc2hYLa4ve7+kGrWH+XeYK99OXePLIThWj
- oIhQy4AkUaIfiAw2vIr5HWObE/R3WDhulqPh2xWizhETqAPkKZJbRPr6v/yopUUdtUnQB9Kwg
- 3id6Oi229ubAiXjr8QtfEw3lsksciZSnl8UuBNhEEOYXyXsNd/B84HnV1Z6/QUqaoKJRztkHQ
- Al0RJc+9fpFxCgs5ckOfnE1w==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <68da3932-10ab-4001-a978-f0f54034a64d@riseup.net>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,17 +71,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/accel/rocket/rocket_job.h
-> @@ -0,0 +1,49 @@
-=E2=80=A6
-> +#ifndef __ROCKET_JOB_H__
-> +#define __ROCKET_JOB_H__
-=E2=80=A6
+Le 10/09/24 - 15:57, Maira Canal a écrit :
+> On 9/10/24 12:10, Louis Chauvet wrote:
+> > I've been actively working on VKMS to provide new features and
+> > participated in reviews and testing. To help Maìra with her work, add
+> > myself as co-maintainer of VKMS.
+> > 
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> 
+> Acked-by: Maíra Canal <mairacanal@riseup.net>
+> 
+> Please, check the procedures to apply for commit rights in drm-misc and
+> apply it. This way you will be able to commit your patches.
 
-I suggest to omit leading underscores from such identifiers.
-https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+d=
-efine+a+reserved+identifier
+Thanks for your support!
 
-Regards,
-Markus
+I just checked the rules to become a commiter, and it requires at least 10 
+non-trivial patches, so I can't apply right now.
+
+Few months ago, you seemed interested in merging few patchs from [1] ([2] 
+is the last iteration and can be applied on drm-misc/drm-misc-next, and 
+I just ran few igt tests, they pass), can you do it so I can apply to be a 
+commiter? Thanks a lot!
+
+[1]: https://lore.kernel.org/all/c83255f4-745e-43e6-98e0-2e89c31d569a@igalia.com/
+[2]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/ 
+
+> Thanks for volunteering!
+> 
+> Best Regards,
+> - Maíra
+> 
+> > ---
+> > Hi everyone,
+> > 
+> > This series [1] has been waiting for a while now, it was proposed first in
+> > February. The first iterations had few reactions (thanks to Arthur, Pekka,
+> > Maìra, ...), but since v8 (in May) no major issues were reported, Maìra
+> > seemed satisfied, and only minor cosmetic changes were reported. Two other
+> > series ([2] and [3]), that I submitted first in May, did not have receive
+> > any reactions.
+> > 
+> > In addition, there is also some significant addition to VKMS being
+> > proposed, such as ConfigFS support, and without a clear maintainer having
+> > the time to review and approve these changes, these changes have very
+> > little changes to get in.
+> > 
+> > VKMS is not a fundamental driver for "normal" Linux users, but I had some
+> > feedback from userspace developpers that VKMS could be a very good testing
+> > tool if only it had more features (I think P0xx formats were asked to
+> > test HDR for example). This could also help to detect issues in DRM core
+> > by emulating a wide range of configurations.
+> > 
+> > I believe the only active maintainer is Maìra, but as she's mentioned before,
+> > she doesn't have much time to work on VKMS. So, I'd like to volunteer as a
+> > maintainer. I have plenty of time to dedicate to VKMS.
+> > 
+> > I hope I've gained enough understanding of VKMS to be helful with this role.
+> > I am eager to move forward and improve this subsystem. I've also talked to Sean
+> > about this, and he agrees that it would be good if I could commit code to
+> > drm-misc.
+> > 
+> > [1]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/
+> > [2]: https://lore.kernel.org/all/20240814-b4-new-color-formats-v2-0-8b3499cfe90e@bootlin.com/
+> > [3]: https://lore.kernel.org/all/20240814-writeback_line_by_line-v2-0-36541c717569@bootlin.com/
+> > ---
+> >   MAINTAINERS | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 10430778c998b57944c1a6c5f07d676127e47faa..62f10356e11ab7fa9c8f79ba63b335eb6580d0a8 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -7340,6 +7340,7 @@ DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
+> >   M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> >   M:	Melissa Wen <melissa.srw@gmail.com>
+> >   M:	Maíra Canal <mairacanal@riseup.net>
+> > +M:	Louis Chauvet <louis.chauvet@bootlin.com>
+> >   R:	Haneen Mohammed <hamohammed.sa@gmail.com>
+> >   R:	Daniel Vetter <daniel@ffwll.ch>
+> >   L:	dri-devel@lists.freedesktop.org
+> > 
+> > ---
+> > base-commit: da3ea35007d0af457a0afc87e84fddaebc4e0b63
+> > change-id: 20240910-vkms-maintainer-7b3d2210cc1b
+> > 
+> > Best regards,
