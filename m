@@ -2,104 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C3197512C
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 13:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA48975124
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 13:53:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6937510E9C7;
-	Wed, 11 Sep 2024 11:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 054D710E9BF;
+	Wed, 11 Sep 2024 11:53:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="APfmoWJi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AJKkK24i";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="APfmoWJi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AJKkK24i";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="OtrxramE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7834C10E9C7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 11:53:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3A1A41F8B4;
- Wed, 11 Sep 2024 11:53:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726055633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZSQz8C3TyKNgu/fGwsYJ+kMkbsBbbLA+gjxxbPuZUmg=;
- b=APfmoWJiR6aQMY5MVNQ9kAfPwLHOS/R0dhzuTxUDXVvXC77h2mEr+44lsQyKa3aCy7sWCa
- zQJFmNsAkHApJTGn+GkCpVKbTiH7VkPjMf+eYwpUejXt3/FA9kAZZVeAa0oXXE8Dxu6e7y
- FgTzniKVOEIc6ZkMspzR1ye8s5uqXcQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726055633;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZSQz8C3TyKNgu/fGwsYJ+kMkbsBbbLA+gjxxbPuZUmg=;
- b=AJKkK24iEeDgqIv+nhG9JkFUUCodLqxaAzlGhJQuLnf/JzPEs4pe4yH3DbXojjYfZC0Wm9
- GU6m6Axeetp3LsCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726055633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZSQz8C3TyKNgu/fGwsYJ+kMkbsBbbLA+gjxxbPuZUmg=;
- b=APfmoWJiR6aQMY5MVNQ9kAfPwLHOS/R0dhzuTxUDXVvXC77h2mEr+44lsQyKa3aCy7sWCa
- zQJFmNsAkHApJTGn+GkCpVKbTiH7VkPjMf+eYwpUejXt3/FA9kAZZVeAa0oXXE8Dxu6e7y
- FgTzniKVOEIc6ZkMspzR1ye8s5uqXcQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726055633;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZSQz8C3TyKNgu/fGwsYJ+kMkbsBbbLA+gjxxbPuZUmg=;
- b=AJKkK24iEeDgqIv+nhG9JkFUUCodLqxaAzlGhJQuLnf/JzPEs4pe4yH3DbXojjYfZC0Wm9
- GU6m6Axeetp3LsCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 067E413A7C;
- Wed, 11 Sep 2024 11:53:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id wMwsANGE4WbGIgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 11 Sep 2024 11:53:53 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com,
-	airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 10/10] drm/ast: Avoid upcasting to struct ast_device
-Date: Wed, 11 Sep 2024 13:51:28 +0200
-Message-ID: <20240911115347.899148-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240911115347.899148-1-tzimmermann@suse.de>
-References: <20240911115347.899148-1-tzimmermann@suse.de>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B87A310E9BE;
+ Wed, 11 Sep 2024 11:53:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1726055620; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Ffe6Mj882aL3Oan09wgXiMxfYT3t4iUjmQEVmF6PENS8HaaBYeGOFkojuOXlJilDmE641DR2WHeU/MFEXXkQ+gLFpzA8AeS5oLSXdX7vYpxhFvd4UN2KawhWDDd0TQMxf9eHQx4bXb23ntfaj2vV278j4rT5BXA4nw9mIgN95Xg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1726055620;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=TkWrsY6A2OrEHWlL+vFcgYS/ZSRypgxW3gP/fSCiyhQ=; 
+ b=n9TPxNcGOSKzk/QsKGR5Bauevva0lVdcFuRaRMZQVP0eSUJln+3ZDg4TYt2Wz5x/BezSy21nx/9o5zeo5J8OEie2IVvftWHo78vZBC1V+OjGrFRSNVeIYnZz3HM25M3dQgRRn5gTnihf1OV817Brx+ztN2YgmrUcMvydpX0AFRs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
+ dmarc=pass header.from=<vignesh.raman@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726055620; 
+ s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=TkWrsY6A2OrEHWlL+vFcgYS/ZSRypgxW3gP/fSCiyhQ=;
+ b=OtrxramEr/js4CoDsBv8UJMKEgw0V4Oi94Ium5NZ4+EosGQ3J0u7ZUw+8L+DG3JQ
+ fT7TSstKop58WGOAQgzIWQyaMpyCHyRi3YMA0FuM0h1Y60NbJ/cioYg+IXdecgOSeNt
+ gPy7YTLBYYiA8rJZYdQLGBSLfADTWMH5v6Jl8qpQ=
+Received: by mx.zohomail.com with SMTPS id 1726055619007402.2625058274426;
+ Wed, 11 Sep 2024 04:53:39 -0700 (PDT)
+Message-ID: <e50f1614-d70d-4766-8c08-20bde7af56ea@collabora.com>
+Date: Wed, 11 Sep 2024 17:23:32 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_COUNT_TWO(0.00)[2]; FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- R_RATELIMIT(0.00)[to_ip_from(RLc3yndobo9xjuzryszaastcfq)];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm-ci: flaky tests for i915 driver testing
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, airlied@gmail.com, daniel@ffwll.ch,
+ Daniel Stone <daniels@collabora.com>,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>,
+ Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
+ robdclark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>
+References: <af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com>
+ <48fb86a9-b863-468e-ae74-35423b22b76d@collabora.com>
+ <61f62c86-3e82-4eff-bd3c-8123fa0ca332@collabora.com>
+ <ZuCfdbFZiJ-1z4pU@intel.com>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <ZuCfdbFZiJ-1z4pU@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,191 +78,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several functions receive an instance of struct drm_device only to
-upcast it to struct ast_device. Improve type safety by passing the
-AST device directly.
+Hi Rodrigo,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_drv.c  |  2 +-
- drivers/gpu/drm/ast/ast_drv.h  |  2 +-
- drivers/gpu/drm/ast/ast_main.c |  8 ++++----
- drivers/gpu/drm/ast/ast_mode.c |  6 +++---
- drivers/gpu/drm/ast/ast_post.c | 30 ++++++++++++------------------
- 5 files changed, 21 insertions(+), 27 deletions(-)
+On 11/09/24 01:05, Rodrigo Vivi wrote:
+> On Tue, Sep 10, 2024 at 07:32:56AM +0530, Vignesh Raman wrote:
+>> Hi Maintainers,
+>>
+>> On 12/07/24 11:22, Vignesh Raman wrote:
+>>> Hi Maintainers,
+>>>
+>>> On 28/05/24 12:07, Vignesh Raman wrote:
+>>>> Hi Maintainers,
+>>>>
+>>>> There are some flaky tests reported for i915 driver testing in
+>>>> drm-ci for the below boards.
+>>>>
+>>>> *)
+>>>> # Board Name: asus-C523NA-A20057-coral
+>>>> # IGT Version: 1.28-g0df7b9b97
+>>>> # Linux Version: 6.9.0-rc7
+>>>> # Failure Rate: 50
+>>>> kms_fb_coherency@memset-crc
+>>>>
+>>>> *)
+>>>> # Board Name: asus-C436FA-Flip-hatch
+>>>> # IGT Version: 1.28-g0df7b9b97
+>>>> # Linux Version: 6.9.0-rc7
+>>>> # Failure Rate: 50
+>>>> kms_plane_alpha_blend@constant-alpha-min
+>>>>
+>>>> *)
+>>>> # Board Name: hp-x360-12b-ca0010nr-n4020-octopus
+>>>> # IGT Version: 1.28-g0df7b9b97
+>>>> # Linux Version: 6.9.0-rc7
+>>>> # Failure Rate: 50
+>>>> core_hotunplug@unplug-rescan
+>>>> kms_fb_coherency@memset-crc
+>>>>
+>>>> *)
+>>>> # Board Name: hp-x360-14-G1-sona
+>>>> # IGT Version: 1.28-g0df7b9b97
+>>>> # Linux Version: 6.9.0-rc7
+>>>> # Failure Rate: 50
+>>>> prime_busy@hang
+>>>>
+>>>> *)
+>>>> # Board Name: dell-latitude-5400-8665U-sarien
+>>>> # IGT Version: 1.28-g0df7b9b97
+>>>> # Linux Version: 6.9.0-rc7
+>>>> # Failure Rate: 50
+>>>> kms_pm_rpm@modeset-lpsp-stress
+>>>>
+>>>> *)
+>>>> # Board Name: asus-C433TA-AJ0005-rammus
+>>>> # IGT Version: 1.28-g0df7b9b97
+>>>> # Linux Version: 6.9.0-rc7
+>>>> # Failure Rate: 50
+>>>> i915_hangman@engine-engine-error
+>>>> i915_hangman@gt-engine-hang
+>>>> kms_async_flips@crc
+>>>> kms_universal_plane@cursor-fb-leak
+>>>>
+>>>> Will add these tests in,
+>>>> drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+>>>> drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+>>>> drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+>>>> drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
+>>>> drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
+>>>> drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
+>>>>
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70
+>>>>
+>>>> Please could you have a look at these test results and let us know
+>>>> if you need more information. Thank you.
+>>>
+>>> There are some flaky tests reported for i915 driver testing in drm-ci
+>>> with the recent IGT uprev in drm-ci (https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0e7f4e6a20d550252c4f355d5a303b1d9c8ff052)
+>>>
+>>> *)
+>>> # Board Name: asus-C433TA-AJ0005-rammus
+>>> # Bug Report: https://lore.kernel.org/intel-gfx/af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com/T/#u
+>>> # Failure Rate: 50
+>>> # IGT Version: 1.28-gf13702b8e
+>>> # Linux Version: 6.10.0-rc5
+>>> kms_sysfs_edid_timing
+>>> i915_hangman@engine-engine-hang
+>>> kms_pm_rpm@modeset-lpsp-stress
+>>>
+>>> *)
+>>> # Board Name: asus-C436FA-Flip-hatch
+>>> # Bug Report: https://lore.kernel.org/intel-gfx/af4ca4df-a3ef-4943-bdbf-4c3af2c333af@collabora.com/T/#u
+>>> # Failure Rate: 50
+>>> # IGT Version: 1.28-gf13702b8e
+>>> # Linux Version: 6.10.0-rc5
+>>> kms_atomic_transition@plane-all-modeset-transition-internal-panels
+>>>
+>>> The expectation files have been updated with these tests,
+>>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+>>>
+>>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+>>
+>> There are some flaky tests reported for i915 driver testing in drm-ci with
+>> the recent IGT uprev in drm-ci.
+>>
+>> *)
+>> # Board Name: asus-C433TA-AJ0005-rammus
+>> # Failure Rate: 50
+>> # IGT Version: 1.28-ga73311079
+>> # Linux Version: 6.11.0-rc2
+>> kms_pm_rpm@drm-resources-equal
+>>
+>> *)
+>> # Board Name: asus-C523NA-A20057-coral
+>> # Failure Rate: 100
+>> # IGT Version: 1.28-ga73311079
+>> # Linux Version: 6.11.0-rc2
+>> kms_universal_plane@cursor-fb-leak
+>>
+>> *)
+>> # Board Name: asus-C436FA-Flip-hatch
+>> # Failure Rate: 100
+>> # IGT Version: 1.28-ga73311079
+>> # Linux Version: 6.11.0-rc2
+>> kms_plane_alpha_blend@constant-alpha-min
+>>
+>> # Board Name: asus-C436FA-Flip-hatch
+>> # Failure Rate: 50
+>> # IGT Version: 1.28-ga73311079
+>> # Linux Version: 6.11.0-rc2
+>> kms_async_flips@crc
+>>
+>> The expectation files have been updated with these tests,
+>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+>>
+>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+>>
+>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+>>
+>> Please could you have a look at these test results and let us know if you
+>> need more information. Thank you.
+> 
+> Hi Vignesh,
+> 
+> Where are exactly the logs? Any gitlab/issue reported for each case?
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 225817087b4d..63b7ef02513d 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -396,7 +396,7 @@ static int ast_drm_thaw(struct drm_device *dev)
- 	ast_enable_vga(ast->ioregs);
- 	ast_open_key(ast->ioregs);
- 	ast_enable_mmio(dev->dev, ast->ioregs);
--	ast_post_gpu(dev);
-+	ast_post_gpu(ast);
- 
- 	return drm_mode_config_helper_resume(dev);
- }
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index e29db59bb7d8..21ce3769bf0d 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -446,7 +446,7 @@ int ast_mode_config_init(struct ast_device *ast);
- int ast_mm_init(struct ast_device *ast);
- 
- /* ast post */
--void ast_post_gpu(struct drm_device *dev);
-+void ast_post_gpu(struct ast_device *ast);
- u32 ast_mindwm(struct ast_device *ast, u32 r);
- void ast_moutdwm(struct ast_device *ast, u32 r, u32 v);
- void ast_patch_ahb_2500(void __iomem *regs);
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 3aeb0f4b19d5..3d92d9e5208f 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -132,10 +132,10 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
- 	drm_info(dev, "Using %s\n", info_str[ast->tx_chip]);
- }
- 
--static int ast_get_dram_info(struct drm_device *dev)
-+static int ast_get_dram_info(struct ast_device *ast)
- {
-+	struct drm_device *dev = &ast->base;
- 	struct device_node *np = dev->dev->of_node;
--	struct ast_device *ast = to_ast_device(dev);
- 	uint32_t mcr_cfg, mcr_scu_mpll, mcr_scu_strap;
- 	uint32_t denum, num, div, ref_pll, dsel;
- 
-@@ -277,7 +277,7 @@ struct drm_device *ast_device_create(struct pci_dev *pdev,
- 	ast_detect_widescreen(ast);
- 	ast_detect_tx_chip(ast, need_post);
- 
--	ret = ast_get_dram_info(dev);
-+	ret = ast_get_dram_info(ast);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -285,7 +285,7 @@ struct drm_device *ast_device_create(struct pci_dev *pdev,
- 		 ast->mclk, ast->dram_type, ast->dram_bus_width);
- 
- 	if (need_post)
--		ast_post_gpu(dev);
-+		ast_post_gpu(ast);
- 
- 	ret = ast_mm_init(ast);
- 	if (ret)
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index f90fade5d681..9d5321c81e68 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1287,9 +1287,9 @@ static const struct drm_crtc_funcs ast_crtc_funcs = {
- 	.atomic_destroy_state = ast_crtc_atomic_destroy_state,
- };
- 
--static int ast_crtc_init(struct drm_device *dev)
-+static int ast_crtc_init(struct ast_device *ast)
- {
--	struct ast_device *ast = to_ast_device(dev);
-+	struct drm_device *dev = &ast->base;
- 	struct drm_crtc *crtc = &ast->crtc;
- 	int ret;
- 
-@@ -1396,7 +1396,7 @@ int ast_mode_config_init(struct ast_device *ast)
- 	if (ret)
- 		return ret;
- 
--	ret = ast_crtc_init(dev);
-+	ret = ast_crtc_init(ast);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 324778c72d23..364030f97571 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -34,16 +34,14 @@
- #include "ast_dram_tables.h"
- #include "ast_drv.h"
- 
--static void ast_post_chip_2300(struct drm_device *dev);
--static void ast_post_chip_2500(struct drm_device *dev);
-+static void ast_post_chip_2300(struct ast_device *ast);
-+static void ast_post_chip_2500(struct ast_device *ast);
- 
- static const u8 extreginfo[] = { 0x0f, 0x04, 0x1c, 0xff };
- static const u8 extreginfo_ast2300[] = { 0x0f, 0x04, 0x1f, 0xff };
- 
--static void
--ast_set_def_ext_reg(struct drm_device *dev)
-+static void ast_set_def_ext_reg(struct ast_device *ast)
- {
--	struct ast_device *ast = to_ast_device(dev);
- 	u8 i, index, reg;
- 	const u8 *ext_reg_info;
- 
-@@ -252,9 +250,8 @@ static void cbrdlli_ast2150(struct ast_device *ast, int busw)
- 
- 
- 
--static void ast_init_dram_reg(struct drm_device *dev)
-+static void ast_init_dram_reg(struct ast_device *ast)
- {
--	struct ast_device *ast = to_ast_device(dev);
- 	u8 j;
- 	u32 data, temp, i;
- 	const struct ast_dramstruct *dram_reg_info;
-@@ -343,22 +340,20 @@ static void ast_init_dram_reg(struct drm_device *dev)
- 	} while ((j & 0x40) == 0);
- }
- 
--void ast_post_gpu(struct drm_device *dev)
-+void ast_post_gpu(struct ast_device *ast)
- {
--	struct ast_device *ast = to_ast_device(dev);
--
--	ast_set_def_ext_reg(dev);
-+	ast_set_def_ext_reg(ast);
- 
- 	if (IS_AST_GEN7(ast)) {
- 		if (ast->tx_chip == AST_TX_ASTDP)
- 			ast_dp_launch(ast);
- 	} else if (ast->config_mode == ast_use_p2a) {
- 		if (IS_AST_GEN6(ast))
--			ast_post_chip_2500(dev);
-+			ast_post_chip_2500(ast);
- 		else if (IS_AST_GEN5(ast) || IS_AST_GEN4(ast))
--			ast_post_chip_2300(dev);
-+			ast_post_chip_2300(ast);
- 		else
--			ast_init_dram_reg(dev);
-+			ast_init_dram_reg(ast);
- 
- 		ast_init_3rdtx(ast);
- 	} else {
-@@ -1569,9 +1564,8 @@ static void ddr2_init(struct ast_device *ast, struct ast2300_dram_param *param)
- 
- }
- 
--static void ast_post_chip_2300(struct drm_device *dev)
-+static void ast_post_chip_2300(struct ast_device *ast)
- {
--	struct ast_device *ast = to_ast_device(dev);
- 	struct ast2300_dram_param param;
- 	u32 temp;
- 	u8 reg;
-@@ -2038,9 +2032,9 @@ void ast_patch_ahb_2500(void __iomem *regs)
- 	__ast_moutdwm(regs, 0x1e6e207c, 0x08000000); /* clear fast reset */
- }
- 
--void ast_post_chip_2500(struct drm_device *dev)
-+void ast_post_chip_2500(struct ast_device *ast)
- {
--	struct ast_device *ast = to_ast_device(dev);
-+	struct drm_device *dev = &ast->base;
- 	u32 temp;
- 	u8 reg;
- 
--- 
-2.46.0
+There is no gitlab issue created. It is a good idea to create a gitlab 
+issue in https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/ (for 
+i915 driver) and https://gitlab.freedesktop.org/drm/misc/kernel/-/issues 
+for other drivers for each flake test.
 
+Please let me know if this works.
+
+> 
+> Getting this for instance:
+> 
+> # Board Name: asus-C436FA-Flip-hatch
+> # Failure Rate: 100
+> # IGT Version: 1.28-ga73311079
+> # Linux Version: 6.11.0-rc2
+> kms_plane_alpha_blend@constant-alpha-min
+> 
+> Looking to drm-tip CI:
+> https://intel-gfx-ci.01.org/tree/drm-tip/shards-all.html?testfilter=constant-alpha-min
+> 
+> it doesn't look like a 100% failure there.
+
+Yes, so it is reported as flake.
+
+Logs are in,
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/63394178
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/63340372
+
+The artifacts are available for only 4 weeks.
+
+ From the artifacts,
+IGT-Version: 1.28-ga73311079 (x86_64) (Linux: 6.11.0-rc5-g5d3429a7e9aa 
+x86_64)
+Using IGT_SRANDOM=1725947780 for randomisation
+Opened device: /dev/dri/card0
+Starting subtest: constant-alpha-min
+Starting dynamic subtest: pipe-A-eDP-1
+Testing plane 0
+Testing plane 1
+Dynamic subtest pipe-A-eDP-1: SUCCESS (1.094s)
+Starting dynamic subtest: pipe-C-eDP-1
+Testing plane 0
+Testing plane 1
+Stack trace:
+   #0 ../lib/igt_core.c:2051 __igt_fail_assert()
+   #1 [igt_assert_crc_equal+0x9b]
+   #2 ../tests/kms_plane_alpha_blend.c:376 constant_alpha_min()
+   #3 ../tests/kms_plane_alpha_blend.c:568 run_subtests()
+   #4 ../tests/kms_plane_alpha_blend.c:752 __igt_unique____real_main730()
+   #5 ../tests/kms_plane_alpha_blend.c:730 main()
+   #6 [__libc_init_first+0x8a]
+   #7 [__libc_start_main+0x85]
+   #8 [_start+0x21]
+Dynamic subtest pipe-C-eDP-1: FAIL (1.334s)
+Subtest constant-alpha-min: FAIL (2.568s)
+
+
+> 
+> Also, nothing special on 6.11.0-rc2 that could trigger that I'm afraid.
+> 
+> So, it would be good to have real individual bug reports [1] for each case
+> and some help on bisecting the commit level as well.
+
+Agree. Will create individual gitlab issues.
+
+> 
+> So, with more information we might get more attention to help these cases.
+> Otherwise I believe this list will just grow without a proper plan to move
+> back to the basic test list.
+> 
+> Thanks,
+> Rodrigo.
+> 
+> [1] - https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
+> 
+
+Regards,
+Vignesh
