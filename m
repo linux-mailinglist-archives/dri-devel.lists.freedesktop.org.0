@@ -2,81 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA4F9750C6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 13:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8EE975125
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 13:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6DA310E9C0;
-	Wed, 11 Sep 2024 11:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 612C010E9C3;
+	Wed, 11 Sep 2024 11:53:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="v7O+hv0P";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Ezx3nKJd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V5Ns+7O4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ezx3nKJd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V5Ns+7O4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45BA210E9C3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 11:28:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1726054066; x=1726658866; i=markus.elfring@web.de;
- bh=yTtZxWE0JHb3TnA6oJ50YzGe95/FIcKE44d4OiLu6iY=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=v7O+hv0Pzxur6hSXyQsSyzWcSvALNs8t7DoMepgzk/EIvE6coR6h5wrLCiV84VP2
- yWGTGdFq8d2lGn4B1OfVqsyFJgIlfpjHymgYNYA9yUAbtorOqP1EDndL+reSaKsTq
- k2v7NX1ZLhl23YUlMOJdlb5ylRrT5MdmNXZWkukOPFBKHTuTNAo0BuLPirsHOpmWS
- /Zun4/Bg1c4xr2nhs0HQspM7IqYmhm+nX7Tg6byaFLaP4bnIonedU5zYWDrGyMMBY
- 1NhZNIQxfgE143BOpBQ/oxj9Lw2QAh3jvx9vKvlcY8SiZ5Q3eZEsgD5W41Fwbrdt9
- 5HLRQpxflVyC3BLDMw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MSIF2-1sQ2I61AYC-00NmSK; Wed, 11
- Sep 2024 13:27:46 +0200
-Message-ID: <50b75b24-afbd-46cf-af4d-01e6ea4832dc@web.de>
-Date: Wed, 11 Sep 2024 13:27:30 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A59A10E9C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 11:53:52 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3774B219CE;
+ Wed, 11 Sep 2024 11:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1726055631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ab9jTX5DYsB3fexShu2GlytARGwOx6NjVMVBEXETxrQ=;
+ b=Ezx3nKJdig/VLDlictP4wQjslgEs/G/MQ/M5QXMt22h6AKYEaqRaFMwvDxkfO7+wkubjfy
+ LI59hYR4kpaH0G+IC80TuysEC7LZMQyCmjRhqM4RwluUbcbyDi+AKTnGZtYAHsI0ABntTd
+ b1u3L1RYmHUKWWTsdfujoefAWkrrP1E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1726055631;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ab9jTX5DYsB3fexShu2GlytARGwOx6NjVMVBEXETxrQ=;
+ b=V5Ns+7O4zjtbXaQbLemAtal111jOfJAqXXD4yyMB1G2gqUBJOysMwfNrwDtuTopZ05JD3c
+ 5HY9IgATvuQK48Dw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1726055631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ab9jTX5DYsB3fexShu2GlytARGwOx6NjVMVBEXETxrQ=;
+ b=Ezx3nKJdig/VLDlictP4wQjslgEs/G/MQ/M5QXMt22h6AKYEaqRaFMwvDxkfO7+wkubjfy
+ LI59hYR4kpaH0G+IC80TuysEC7LZMQyCmjRhqM4RwluUbcbyDi+AKTnGZtYAHsI0ABntTd
+ b1u3L1RYmHUKWWTsdfujoefAWkrrP1E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1726055631;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ab9jTX5DYsB3fexShu2GlytARGwOx6NjVMVBEXETxrQ=;
+ b=V5Ns+7O4zjtbXaQbLemAtal111jOfJAqXXD4yyMB1G2gqUBJOysMwfNrwDtuTopZ05JD3c
+ 5HY9IgATvuQK48Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0FF7113A7C;
+ Wed, 11 Sep 2024 11:53:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id KZaEAs+E4WbGIgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 Sep 2024 11:53:51 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com,
+	airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/10] drm/ast: Various cleanups
+Date: Wed, 11 Sep 2024 13:51:18 +0200
+Message-ID: <20240911115347.899148-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>
-References: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
-Subject: Re: [PATCH 8/9] accel/rocket: Add job submission IOCTL
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YmCb7NXdmFPxc7xnbYpPH3gDEvf/+oJCB9LfDAxISh25xOGXJhX
- xJqwC0k2vwG8Wg4Ljwp7J46b69w5H04HZv2saRwka7NMsngHoOuHBmnF99t40n/HTDcyhGv
- OrfeycGLIHZUB7lOU6SsqIQpHvz9/XbkMtydirXYtDwk1N8Bm+5VGFHufghtREbqgs5ak67
- RyCZOjWVRgOrA3ww41D7A==
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; MIME_TRACE(0.00)[0:+];
+ TO_DN_SOME(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vOiVie10tQI=;pJqeoruLOD0q7PLKWjhqjCwpMIi
- wUbyfof0VkY56VFhYv5E8enK/5ratFGUpbica8CWkS3qKC1hdYt+nL1C9lBq/QYL3ggZ7tHMK
- Ay6RFBIY1peAsoplJfuNsFcf5yc/+e0a1vH3K54FG1XxeFO/KyBd1FagIie5cpHn4hag4+IGq
- Fk9XkUeWuK/w2igQAWvqKiRbdKvW4FrMZDe29pyjluya5cnGhRG6ymxugx0zGew4ta+fGLMAs
- c9e0y95ig0wgeGxExJx7DlNodPGaWckOHFx1DqwNW/ebOYhaKCljiQCWBe26rXyLX3QKbRNQB
- OD+26NpEXB3m31Scmy6ikiA5W31Fn30ExYO4LYL+yvtad8t1VygAI+DPUEOo5HsWylUeIQSJ2
- ZpAD586s5jnQmq4W3Vc9+Hf098axsiatJr+6qwvvHzrWzBLI2erE2nmpWo2hcgATmBTSUwZT4
- GM4qWb6SKc7gxH2I1Ye0b9Z+gc6ZDgFSu2HDMr9DGS5qWGTpQJfJGuV1VNaLqEFGeGQwkvUwd
- giCNsWeWCkGNvKws6NOLjWJUhsjYO6jLNeIIyjD4oWwKikAujz/MpjFh9H7AXFtJgTkdUvov/
- ra0USbAlz9O58lp7DkyTQtNap5DGe9arwchl5QkVTe8pGtvxjMhJFb7frOH2X+fsPNCINrQFT
- y3amKgwJB2dzOEWcwV84QlydNzgJQhe86O2ihbbEBl5Buiz7slG7BWBF//5tzRxwmyOoA5o4F
- YIZExP3lWGJX0GcnA7zpzTCgIAqCRuoqiG+/TnWhl2oVEQloxmjuIMK5APcPETjfdyRYsdvNM
- ufMAAL+QG9jA4fAnPdJj9w4A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,25 +103,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -0,0 +1,708 @@
-=E2=80=A6
-> +static int rocket_job_push(struct rocket_job *job)
-> +{
-=E2=80=A6
-> +	mutex_lock(&rdev->sched_lock);
-> +	drm_sched_job_arm(&job->base);
-=E2=80=A6
-> +	drm_sched_entity_push_job(&job->base);
-> +
-> +	mutex_unlock(&rdev->sched_lock);
-=E2=80=A6
+Here are various cleanups for the ast driver. Most of the patches
+inline functions or avoid upcasting. Some internal helpers of the
+astdp support are now easier to understand.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&rdev->sched_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.11-rc7/source/include/linux/mutex.h#L1=
-96
+Tested on AST2600 HW.
 
-Regards,
-Markus
+Thomas Zimmermann (10):
+  drm/ast: astdp: Inline ast_astdp_connector_init()
+  drm/ast: astdp: Avoid upcasting to struct ast_device
+  drm/ast: astdp: Replace power_on helpers
+  drm/ast: astdp: Replace ast_dp_set_on_off()
+  drm/ast: dp501: Inline ast_dp501_connector_init()
+  drm/ast: dp501: Avoid upcasting to struct ast_device
+  drm/ast: sil164: Inline ast_sil164_connector_init()
+  drm/ast: vga: Inline ast_vga_connector_init()
+  drm/ast: Respect return value from CRTC init
+  drm/ast: Avoid upcasting to struct ast_device
+
+ drivers/gpu/drm/ast/ast_dp.c     | 141 ++++++++++++++++---------------
+ drivers/gpu/drm/ast/ast_dp501.c  |  96 ++++++++++-----------
+ drivers/gpu/drm/ast/ast_drv.c    |   2 +-
+ drivers/gpu/drm/ast/ast_drv.h    |   9 +-
+ drivers/gpu/drm/ast/ast_main.c   |  10 +--
+ drivers/gpu/drm/ast/ast_mode.c   |   8 +-
+ drivers/gpu/drm/ast/ast_post.c   |  32 +++----
+ drivers/gpu/drm/ast/ast_reg.h    |  15 +---
+ drivers/gpu/drm/ast/ast_sil164.c |  55 ++++++------
+ drivers/gpu/drm/ast/ast_vga.c    |  55 ++++++------
+ 10 files changed, 200 insertions(+), 223 deletions(-)
+
+-- 
+2.46.0
+
