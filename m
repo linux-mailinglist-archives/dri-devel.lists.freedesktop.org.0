@@ -2,72 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D843975979
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 19:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFB8975986
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 19:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1597B10E7BC;
-	Wed, 11 Sep 2024 17:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF9E10E9B6;
+	Wed, 11 Sep 2024 17:35:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Rb/UUYNY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XrHc1PSM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9C410E09F;
- Wed, 11 Sep 2024 17:34:26 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-718e65590easo1314b3a.3; 
- Wed, 11 Sep 2024 10:34:26 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6991210E0A2;
+ Wed, 11 Sep 2024 17:35:57 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2da4e84c198so55889a91.0; 
+ Wed, 11 Sep 2024 10:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726076066; x=1726680866; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C8Hs3sP0IaWm8QtSoZF4bycUgTm7RYb8rZnwj5x6l28=;
- b=Rb/UUYNYjDvmW7NWX8a0wSNKgM3zYV/45wVWAYB3SVfkLt7PVlL0GG/qIZBJFiPQBR
- bUVzDIqp/lEWT9ADd5EApLSufgdiSaez6FKcyJYjOEW8z95yHnYHa6C4eNEsXBwNwRSt
- kNRSebgjK9YD9TqwT5IGvgj3lJPweI0TWvFf+esJKQnY6a53cjn38QmMTrFLwesIjQfi
- 31LyvMfnoHxIG54JJYzfjydWTHRVkKQriyMrHUWNQHmqb/4VjvC6/6l4L+Lim+lvyvxq
- mMjL5S6aVTL2U8J1NEXCTvk7gKzSu/vandWeqlEilbApYzKlT6KIgNVQ12et35b24/Ac
- GsNg==
+ d=gmail.com; s=20230601; t=1726076157; x=1726680957; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=J+zugMFoquGTXa/VfqrdIPbdRGro0VHIjtqIBxGTLnU=;
+ b=XrHc1PSM1hWTFiu9U1q3J6O8biKf4Iknj0DiLknDJP9E4tkSYNlrT/rg9v7JjsdS2y
+ EaK6CZ1z2MwB+3tJPrPcCmfieI7+BQEs9vN2v2qLvRbJy8aPCs7Zho4uSZf2Cw/Q5RyH
+ xJh0t3scEFq4Yu1cca1juHLq2k+4LoVBY+Oy9ELttLhN1/zCSEzKefy6EWJvCoPaXs9G
+ NZoVbGzQ8+1jteVqLDd0PEFezjlRBne454U4HpcPSCZogsydktCz4uxsPXbowdrxff0U
+ RfWLqq7CVC6vIjPuIg848iqJOcY3UA+SYurrLgsPPhq28Y79oSE1ueecj1wVzkcQiDs8
+ HRSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726076066; x=1726680866;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=C8Hs3sP0IaWm8QtSoZF4bycUgTm7RYb8rZnwj5x6l28=;
- b=aV+DRXzedZwOqOdVQLA+nbvxQ9fQi32KozpbME4NcuMbIBK0PwoYGklJ6rNkef2gki
- UWHi7aZYD503blTgEnUQuYURVWZDTORRWGR1jRQiQ2+WnZbT9frO+UQehuWKie6KhvGB
- 6GunNpDNtUEnZi3oulkjqo+D1Nw17QG56+gCcJYXmdyDLQm9il+h9+yRUCb7AngT8osG
- EXIZmNdSdqugTb5ZrwOzScAMGUpqBfBp5nwv8ayFHaKHeBQDQDsHyz4B4l7ZFl8QumrL
- +XxG/0aEPMN3AODRp/toEde6Gl53+RAZD8zAy/btO5tloo6/kCm2ZtNibZiPhCMdy84D
- SPFg==
+ d=1e100.net; s=20230601; t=1726076157; x=1726680957;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J+zugMFoquGTXa/VfqrdIPbdRGro0VHIjtqIBxGTLnU=;
+ b=ZmOe7OTlAUm/tnoIaicMDBotDdpOpqr70hbyauT96TVWjYkNsrqABSY//Ojxc+Wp1E
+ z3jHiGrxWjC9foQIWoVbq6D1cXhEtXe+cdEZF6KAAB3SfHOWJnP5z2vicKv1P4ei0pn1
+ uYkimknRPPRrt+v8XvHAvMSz7PFuaUst+r0Mu1ge4Ip0VAzjJbVc3ShZfB5ZaB2EAEHY
+ dsGyhkxnyD8V+CK0DhMoui+YyOMbRjoTDS2OhpVNyVrsZhgmc1+wlPeF0QhPi3wTZz6o
+ OXBCTPqSoLnou+OBGCG/jVewIN4zGrj5N1x01Unij0qeGXBKERZOmWiwhCINnHZA8A9M
+ Tu5w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVU/KLCEk4dRKcO+2sS/vbIkE8IZG3UEphousim83MdoK0SY2tiQzSw035kTDuk2y3zCQuecttV@lists.freedesktop.org,
- AJvYcCVi/Y0IrljDJBmR7mckzfJyilrXtW32eTr07QSU+yyXeo2Qay5viHEgmIVxqfczgEwyBNS10fYPFl8u@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzY4eoQ3sMbq3HsExZGqG85ie43M+NErLCK35+4mkgRFuHs/8Jk
- hTZOcS0ESdWRdCW2t62z2w1pJQCT0J77dY+7ChMBSdb5XOw2gAtJwTUGm8Skuyu+iKQZh41yHyY
- 14raFjk763P80PBxenyi5IDOQM/Q=
-X-Google-Smtp-Source: AGHT+IEsHfx9RR9F1XpDKtrYe/P98LpItY1guYFun3MnIcCzCN4FO0QecDfQI2YOMVrjCp8APNdhPGll9ns6GE+FNWM=
-X-Received: by 2002:a05:6a00:2d05:b0:718:e49f:137a with SMTP id
- d2e1a72fcca58-71926339ea9mr80244b3a.6.1726076065587; Wed, 11 Sep 2024
- 10:34:25 -0700 (PDT)
+ AJvYcCWOzfiojDLmOI+HOb1PprDQt+4tvlvB1oY6rsTt0CpTgXGd23Z8iysXjB2rJfZ0dyk0TQCMVwhARTY=@lists.freedesktop.org,
+ AJvYcCXkh2k9DXQOYCRUdXzwoErT0TMy3z3T6WBqLjRpYWfM4lJMRF1kKE1pgbJPvWzImwm8RSOhOt1b3w==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyEZxLIj8TVCGiyseMcluvmMRLmqbIPf9f2NTCtQUCggVNSx5Fl
+ wj+k7/EWQRfg5OEq5KqRr2PSa8HoFWmrpHBN9ADCJcn6AAByfbMUpOBVt/qdulqTduNKFULgN9J
+ 1IuJj8D++GbDafUazkl7K8yqlN8U=
+X-Google-Smtp-Source: AGHT+IGmCpPj+I32nVJBJWnsPgRGIwZW08YCd5TauOT9KzvM3pY9ncXxsjRUyjSchdeuMp3HLi2SRenTt9L9UoAjmUg=
+X-Received: by 2002:a17:90b:3696:b0:2d3:dca0:89b7 with SMTP id
+ 98e67ed59e1d1-2daffa3a9d4mr15698133a91.3.1726076156520; Wed, 11 Sep 2024
+ 10:35:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240911042738.3886250-1-yanzhen@vivo.com>
- <024a5eb1-0255-483f-9674-dba431c01593@amd.com>
-In-Reply-To: <024a5eb1-0255-483f-9674-dba431c01593@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 11 Sep 2024 13:34:13 -0400
-Message-ID: <CADnq5_O0FCHksdf37X+RxJ56SEDj9DBB3e20xft6CY8vkLGjQw@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/amdgpu: fix typo in the comment
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Yan Zhen <yanzhen@vivo.com>, alexander.deucher@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- opensource.kernel@vivo.com
+References: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
+In-Reply-To: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 11 Sep 2024 19:35:44 +0200
+Message-ID: <CAH9NwWczgAmgRbHiKD1614Yc1fAXRYV2ZDUeuEunPDUcRmPwgA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/etnaviv: Request pages from DMA32 zone on
+ addressing_limited
+To: Xiaolei Wang <xiaolei.wang@windriver.com>
+Cc: sui.jingfeng@linux.dev, l.stach@pengutronix.de, 
+ linux+etnaviv@armlinux.org.uk, airlied@gmail.com, daniel@ffwll.ch, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,168 +81,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Am Di., 3. Sept. 2024 um 04:09 Uhr schrieb Xiaolei Wang
+<xiaolei.wang@windriver.com>:
+>
+> Remove __GFP_HIGHMEM when requesting a page from DMA32 zone,
+> and since all vivante GPUs in the system will share the same
+> DMA constraints, move the check of whether to get a page from
+> DMA32 to etnaviv_bind().
+>
+> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when needed")
+> Suggested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
 
-On Wed, Sep 11, 2024 at 2:58=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
+> ---
 >
-> Am 11.09.24 um 06:27 schrieb Yan Zhen:
-> > Correctly spelled comments make it easier for the reader to understand
-> > the code.
-> >
-> > Replace 'udpate' with 'update' in the comment &
-> > replace 'recieved' with 'received' in the comment &
-> > replace 'dsiable' with 'disable' in the comment &
-> > replace 'Initiailize' with 'Initialize' in the comment &
-> > replace 'disble' with 'disable' in the comment &
-> > replace 'Disbale' with 'Disable' in the comment &
-> > replace 'enogh' with 'enough' in the comment &
-> > replace 'availabe' with 'available' in the comment.
-> >
-> > Signed-off-by: Yan Zhen <yanzhen@vivo.com>
+> change log
 >
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> v1:
+>   https://patchwork.kernel.org/project/dri-devel/patch/20240806104733.2018783-1-xiaolei.wang@windriver.com/
 >
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/imu_v11_0.c  | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c  | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c  | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/smuio_v9_0.c | 2 +-
-> >   8 files changed, 8 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_aca.c
-> > index 57bda66e8..2ca127173 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-> > @@ -511,7 +511,7 @@ static int __aca_get_error_data(struct amdgpu_devic=
-e *adev, struct aca_handle *h
-> >               return -EINVAL;
-> >       }
-> >
-> > -     /* udpate aca bank to aca source error_cache first */
-> > +     /* update aca bank to aca source error_cache first */
-> >       ret =3D aca_banks_update(adev, smu_type, handler_aca_log_bank_err=
-or, qctx, NULL);
-> >       if (ret)
-> >               return ret;
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_psp.c
-> > index 189574d53..e9e599ff3 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-> > @@ -2853,7 +2853,7 @@ static int psp_load_non_psp_fw(struct psp_context=
- *psp)
-> >               if (ret)
-> >                       return ret;
-> >
-> > -             /* Start rlc autoload after psp recieved all the gfx firm=
-ware */
-> > +             /* Start rlc autoload after psp received all the gfx firm=
-ware */
-> >               if (psp->autoload_supported && ucode->ucode_id =3D=3D (am=
-dgpu_sriov_vf(adev) ?
-> >                   adev->virt.autoload_ucode_id : AMDGPU_UCODE_ID_RLC_G)=
-) {
-> >                       ret =3D psp_rlc_autoload_start(psp);
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ras.c
-> > index 61a2f386d..71069b198 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > @@ -882,7 +882,7 @@ int amdgpu_ras_feature_enable_on_boot(struct amdgpu=
-_device *adev,
-> >                       if (ret)
-> >                               return ret;
-> >
-> > -                     /* gfx block ras dsiable cmd must send to ras-ta =
-*/
-> > +                     /* gfx block ras disable cmd must send to ras-ta =
-*/
-> >                       if (head->block =3D=3D AMDGPU_RAS_BLOCK__GFX)
-> >                               con->features |=3D BIT(head->block);
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ttm.c
-> > index b8bc7fa8c..74adb983a 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > @@ -1970,7 +1970,7 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
-> >       DRM_INFO("amdgpu: %uM of GTT memory ready.\n",
-> >                (unsigned int)(gtt_size / (1024 * 1024)));
-> >
-> > -     /* Initiailize doorbell pool on PCI BAR */
-> > +     /* Initialize doorbell pool on PCI BAR */
-> >       r =3D amdgpu_ttm_init_on_chip(adev, AMDGPU_PL_DOORBELL, adev->doo=
-rbell.size / PAGE_SIZE);
-> >       if (r) {
-> >               DRM_ERROR("Failed initializing doorbell heap.\n");
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/imu_v11_0.c b/drivers/gpu/drm/a=
-md/amdgpu/imu_v11_0.c
-> > index 6c1891889..d4f72e47a 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/imu_v11_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/imu_v11_0.c
-> > @@ -153,7 +153,7 @@ static void imu_v11_0_setup(struct amdgpu_device *a=
-dev)
-> >               WREG32_SOC15(GC, 0, regGFX_IMU_C2PMSG_16, imu_reg_val);
-> >       }
-> >
-> > -     //disble imu Rtavfs, SmsRepair, DfllBTC, and ClkB
-> > +     //disable imu Rtavfs, SmsRepair, DfllBTC, and ClkB
-> >       imu_reg_val =3D RREG32_SOC15(GC, 0, regGFX_IMU_SCRATCH_10);
-> >       imu_reg_val |=3D 0x10007;
-> >       WREG32_SOC15(GC, 0, regGFX_IMU_SCRATCH_10, imu_reg_val);
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c b/drivers/gpu/drm/a=
-md/amdgpu/nbio_v2_3.c
-> > index fa479dfa1..739fce4fa 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c
-> > @@ -365,7 +365,7 @@ static void nbio_v2_3_enable_aspm(struct amdgpu_dev=
-ice *adev,
-> >
-> >               data &=3D ~PCIE_LC_CNTL__LC_PMI_TO_L1_DIS_MASK;
-> >       } else {
-> > -             /* Disbale ASPM L1 */
-> > +             /* Disable ASPM L1 */
-> >               data &=3D ~PCIE_LC_CNTL__LC_L1_INACTIVITY_MASK;
-> >               /* Disable ASPM TxL0s */
-> >               data &=3D ~PCIE_LC_CNTL__LC_L0S_INACTIVITY_MASK;
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c b/drivers/gpu/drm/a=
-md/amdgpu/sdma_v3_0.c
-> > index aa637541d..e65194fe9 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
-> > @@ -710,7 +710,7 @@ static int sdma_v3_0_gfx_resume(struct amdgpu_devic=
-e *adev)
-> >                      upper_32_bits(wptr_gpu_addr));
-> >               wptr_poll_cntl =3D RREG32(mmSDMA0_GFX_RB_WPTR_POLL_CNTL +=
- sdma_offsets[i]);
-> >               if (ring->use_pollmem) {
-> > -                     /*wptr polling is not enogh fast, directly clean =
-the wptr register */
-> > +                     /*wptr polling is not enough fast, directly clean=
- the wptr register */
-> >                       WREG32(mmSDMA0_GFX_RB_WPTR + sdma_offsets[i], 0);
-> >                       wptr_poll_cntl =3D REG_SET_FIELD(wptr_poll_cntl,
-> >                                                      SDMA0_GFX_RB_WPTR_=
-POLL_CNTL,
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/smuio_v9_0.c b/drivers/gpu/drm/=
-amd/amdgpu/smuio_v9_0.c
-> > index e4e30b9d4..c04fdd2d5 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/smuio_v9_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/smuio_v9_0.c
-> > @@ -60,7 +60,7 @@ static void smuio_v9_0_get_clock_gating_state(struct =
-amdgpu_device *adev, u64 *f
-> >   {
-> >       u32 data;
-> >
-> > -     /* CGTT_ROM_CLK_CTRL0 is not availabe for APUs */
-> > +     /* CGTT_ROM_CLK_CTRL0 is not available for APUs */
-> >       if (adev->flags & AMD_IS_APU)
-> >               return;
-> >
+> v2:
+>   Modify the issue of not retaining GFP_USER in v1 and update the commit log.
 >
+> v3:
+>   Use "priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
+> instead of
+>   "priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
+> and move the check of whether to get a page from DMA32 to etnaviv_bind().
+>
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++++++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  8 --------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 6500f3999c5f..8cb2c3ec8e5d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -536,7 +536,15 @@ static int etnaviv_bind(struct device *dev)
+>         mutex_init(&priv->gem_lock);
+>         INIT_LIST_HEAD(&priv->gem_list);
+>         priv->num_gpus = 0;
+> -       priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
+> +       priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
+> +
+> +       /*
+> +        * If the GPU is part of a system with DMA addressing limitations,
+> +        * request pages for our SHM backend buffers from the DMA32 zone to
+> +        * hopefully avoid performance killing SWIOTLB bounce buffering.
+> +        */
+> +       if (dma_addressing_limited(dev))
+> +               priv->shm_gfp_mask |= GFP_DMA32;
+>
+>         priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(drm->dev);
+>         if (IS_ERR(priv->cmdbuf_suballoc)) {
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 7c7f97793ddd..5e753dd42f72 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -839,14 +839,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>         if (ret)
+>                 goto fail;
+>
+> -       /*
+> -        * If the GPU is part of a system with DMA addressing limitations,
+> -        * request pages for our SHM backend buffers from the DMA32 zone to
+> -        * hopefully avoid performance killing SWIOTLB bounce buffering.
+> -        */
+> -       if (dma_addressing_limited(gpu->dev))
+> -               priv->shm_gfp_mask |= GFP_DMA32;
+> -
+>         /* Create buffer: */
+>         ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+>                                   PAGE_SIZE);
+> --
+> 2.25.1
+>
+
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
