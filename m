@@ -2,74 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DD9974BEF
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 09:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20F4974BFD
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2024 10:02:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD13010E182;
-	Wed, 11 Sep 2024 07:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55CE710E108;
+	Wed, 11 Sep 2024 08:01:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GTLqK+Zx";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="hbJ7HBdK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="akWMcRau";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 917 seconds by postgrey-1.36 at gabe;
- Wed, 11 Sep 2024 07:57:53 UTC
-Received: from a7-45.smtp-out.eu-west-1.amazonses.com
- (a7-45.smtp-out.eu-west-1.amazonses.com [54.240.7.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE66010E108
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 07:57:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1726040554;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
- bh=+z0iaYPRF8aOAeyudpMIOAITImEM365oGsItYDeMrNE=;
- b=GTLqK+Zxla3s5iAGSe/h9kxrPUSF87jCwiNhqceQcGgcSXvpl305psrUwII5SwKf
- b24gxrEovDeflPUEpV1YVET4Ls0IBxHJo9ORtqxk838sOZrsK8AjSL9R0opIdKx1WMB
- iTZBAayeKXwiqbZulfTtXKoqKahSzJPCaUNf0JUmhB7TQdTIQ+BpLOOHVu9/33/gsKK
- Ez6U4I0w0VT/1uxv8DxSjCNzUmUNX0gPWCuFTVq0WIRgu0QoD/0q1NoSBvmocQJVQz3
- 8NE4JiZY1u9uci+sixDZINIEYt5O/OIK4XsrDtZpT8PqMNtlwFldLbtaouHBn8MCfFm
- qu6rNL65gw==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1726040554;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
- bh=+z0iaYPRF8aOAeyudpMIOAITImEM365oGsItYDeMrNE=;
- b=hbJ7HBdKOzai+xLjoaWwAVtHEd+Wao7fakZkcpV33sHkzS3JaM6vVCgzN6mD97Jm
- mVWtXv8wZyidNiSvh8UfItBq/8gnlS5oNFp+6HrWeDzrhpuz8oEzuBE9Fesx608DK1K
- CYAuH00qqq+JkPU+I7knFpOtsiuJmnPf0dwiuxaU=
-Message-ID: <01020191e008baec-ca547413-aeba-4508-8a05-2c35b06150c2-000000@eu-west-1.amazonses.com>
-Date: Wed, 11 Sep 2024 07:42:34 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D996510E02D;
+ Wed, 11 Sep 2024 08:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726041717; x=1757577717;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=FCYJeZC+oSTZJzCIsgcWnGwHPLaijSSXhYP4FcqeAsw=;
+ b=akWMcRauXSxyr+f1Dve/LoGwT68KUsgh+Sqiw/LRY7xE4avDiK7hAKG3
+ w7d72VenIrGwVOfCFrpR7/lp4poDbGi2ImQ58uf9L7NJjsGZsO2gDT6qL
+ QTM/MOzibLdgDB8mb+LV0J9KzxTXeLwV/p68KPT9YWuEDGB3kdZOw6ar0
+ E1UMWOzUZ/HRZWutBL/Gph292aA49IOu4GRyDSxe4SO5lKtFFrxcQBGWF
+ 3qxX3xJeEasQ20dyl5ChH2ZcRi2D7jSqAudO0kSI8npQX67/JRkx/fckA
+ VEBfEY4ZDtdNmLWl1QfXd9WhEizs3thVRHm0307GDJf5L3E/2Nfj2ka9v w==;
+X-CSE-ConnectionGUID: 6uZQIUsSTXKe2nDBEVda8w==
+X-CSE-MsgGUID: t6JjSPHYRaukSv9OtMtzUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="35395833"
+X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="35395833"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2024 01:01:56 -0700
+X-CSE-ConnectionGUID: QOdlNPrLS/urVS1FyGk7cg==
+X-CSE-MsgGUID: AD0UmJG7SYq5UonpHZSTkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; d="scan'208";a="104752146"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.149])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2024 01:01:52 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Doug Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 4/8] drm/bridge: ti-sn65dsi86: annotate
+ ti_sn_pwm_pin_{request, release} with __maybe_unused
+In-Reply-To: <CAD=FV=XgddDYmOiX1ouQo2ayhJn4GVQrErj-XBy3og5eJ0uBOA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1725962479.git.jani.nikula@intel.com>
+ <136ecd978aedd7df39d1b1c37b70596027ff0a3e.1725962479.git.jani.nikula@intel.com>
+ <CAD=FV=XgddDYmOiX1ouQo2ayhJn4GVQrErj-XBy3og5eJ0uBOA@mail.gmail.com>
+Date: Wed, 11 Sep 2024 11:01:49 +0300
+Message-ID: <87h6amk49e.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] drm/mediatek: dp: constify regmap_config
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org
-References: <20240908-regmap-config-const-v1-0-28f349004811@linaro.org>
- <20240908-regmap-config-const-v1-4-28f349004811@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240908-regmap-config-const-v1-4-28f349004811@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.09.11-54.240.7.45
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,11 +77,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/09/24 16:21, Krzysztof Kozlowski ha scritto:
-> Mark local static 'struct regmap_config' as const for safer and more
-> obvious code.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Tue, 10 Sep 2024, Doug Anderson <dianders@chromium.org> wrote:
+> Hi,
+>
+> On Tue, Sep 10, 2024 at 3:04=E2=80=AFAM Jani Nikula <jani.nikula@intel.co=
+m> wrote:
+>>
+>> Building with clang, W=3D1, CONFIG_PM=3Dn and CONFIG_OF_GPIO=3Dn leads to
+>> warning about unused ti_sn_pwm_pin_request() and
+>> ti_sn_pwm_pin_release(). Fix by annotating them with __maybe_unused.
+>>
+>> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
+>> inline functions for W=3D1 build").
+>>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>
+>> ---
+>>
+>> Cc: Douglas Anderson <dianders@chromium.org>
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Nathan Chancellor <nathan@kernel.org>
+>> ---
+>>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> I'm happy to land this in drm-misc-next unless there are any extra
+> dependencies. Let me know. In some sense I guess this could even be
+> considered a "Fix", though I guess given the history of the compiler
+> options that might be a bit of a stretch.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+drm-misc-next is fine. Agree on not considering this a fix.
 
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel
