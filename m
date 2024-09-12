@@ -2,88 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CE7976093
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 07:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2616797622C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 09:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 736BD10E9DD;
-	Thu, 12 Sep 2024 05:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20CBD10EAE7;
+	Thu, 12 Sep 2024 07:08:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FFqK6NOz";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="hv0ela+t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 417E410E9DD
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 05:48:20 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53568ffc525so686331e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2024 22:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726120098; x=1726724898; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=67Y80IcyVFtNF05+ntsX/eyDU3tUGp9aI1V7Mj8pqIk=;
- b=FFqK6NOzebAvC4nPM536DKvPBMMBP/zFV4vJkg4es9DfDAtHoBC1PfRvMr+ffAJP/F
- eoMO+m3ZplVDikgby+KnAAjFeq5S4JZjjBra0IvAhVq4xmyBA5HWoRMS3pMgRJ6dYBTt
- A0u0fXOCrg/XdFlS8qdZRb5j7Fj9zwScOZKngpdvyK2QHCkpDxneOMJYsT+LED3+X92z
- lrssD9iuXf3PUVIvCSadQSp5TJvpVCMN4ISrQqODzX5cqUhYkHGDMG0KjxdGkbCA6Qtp
- xEWAbMCYcO9Zte+7crUmXewD57KWgErRGPLYsGgrMuq4xTtg5K0Z15VtcJqZsk7EymfN
- ScRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726120098; x=1726724898;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=67Y80IcyVFtNF05+ntsX/eyDU3tUGp9aI1V7Mj8pqIk=;
- b=LyJsM3q6PIHIMJAJs63OGziDmznH9RMNeAPTgaZS1t74JhWwKZyoZZNJ8f7fXXPwey
- VNtFIFuQ/KIZvwTmZOEHlJ6LRBaB988SvtxYLBHjDZYR2IsCAEmTCGvGNMi5/Xzke2rw
- UKAB7nkWJqALjNPsnCGBsoXtdtdmJt83f6qK/CyyXGyuI0t+W641C/KWtQgO4/AE/8KK
- 5YrIcbYogBl8UmkN+oM2pvGc2rLzd0JmERTp60YeKcN+Of58czyiwRzjXoZHhwRk5Nby
- udxoMGgB3s0Q34TBk1SN1l7Z8lhtdOmez/S9zgIAuO1CRJYk4dWZ9iXiKxj02mrzmIl+
- U85g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWVjBrXYIvoDl3uwF6iKvW3B9qmEXq15BM145ESwrPJvbTSy/kbKYmcNmb9D+G/N3Vk305hro+iXKo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1F/5d9HW717bB/S1zU1jWBJDcbZ2CumU+Pj4h27oshk11vFND
- SUhq1tWLJICFH6pta5vc31mDi8zTzE/Jj+k0qpqcTOYnMM25wImfRoMvRYAq0yI=
-X-Google-Smtp-Source: AGHT+IHCfphwntWdxOXeEYmRfAKEHq37BQ5cXsVNQKb/rOdDdIkwAvYtTZl9N0jFdK1qXAwkYkMvbw==
-X-Received: by 2002:a05:6512:3e02:b0:536:569b:a59c with SMTP id
- 2adb3069b0e04-53678fb1ed6mr854489e87.4.1726120097170; 
- Wed, 11 Sep 2024 22:48:17 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5365f868e6bsm1768347e87.41.2024.09.11.22.48.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Sep 2024 22:48:16 -0700 (PDT)
-Date: Thu, 12 Sep 2024 08:48:14 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Cc: Maxime Ripard <mripard@redhat.com>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, Daniel Vetter <daniel@ffwll.ch>, 
- Helen Koike <helen.koike@collabora.com>,
- Vignesh Raman <vignesh.raman@collabora.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Stone <daniels@collabora.com>, Rob Clark <robdclark@chromium.org>
-Subject: Re: Time for drm-ci-next?
-Message-ID: <qs72n3l6l63er3d5lrxoravqbjrjllscnyhs7crb6anabvaez4@4hathpqkwnnd>
-References: <Zoas4JJ3uhrR9lH7@phenom.ffwll.local>
- <CAF6AEGtCEbhBo2CXLQymf2g5RogtdYv2LLXUNQO7Tvuw7x6ujA@mail.gmail.com>
- <ZofMlSIjFV9iGZNM@phenom.ffwll.local>
- <CAF6AEGvDFLBC6BWUdC6L1czn044EuTerPWqLib5hhRVkZyEpig@mail.gmail.com>
- <Zouo16MCRRCNyYAs@phenom.ffwll.local>
- <CAF6AEGvGZp=WhGxmqVjqPnR3G33GTng+L0kwABCRxAKb0nHc9g@mail.gmail.com>
- <CAA8EJppyM_-5fBL6VFp+kxyg36LAbjxqUgA+ico9LBuJvaahxQ@mail.gmail.com>
- <20240909-marvellous-ostrich-of-improvement-c7d2c8@houat>
- <CAA8EJpoe=Ei7fjZNd24OCVrapt5Y13ZFk8mheqPOy2FBF1a43Q@mail.gmail.com>
- <CAF6AEGub4O86pRM6iM5xaDKVrR57D=OCm00ifFksG1LT9a4+og@mail.gmail.com>
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2052.outbound.protection.outlook.com [40.107.255.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E8A10E721;
+ Thu, 12 Sep 2024 04:24:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wP3m9GOhWyQ8UWPgx0EpQr4KogfbaEZnsZRtT5DKMIkoiQDSQhcxFYUMhH0kfE3q2q6f6Vo0V3yGnAjlFUP1ZhzxSm1xjUEXxkSQ4RkzOLkIuCap1ZqUCJQnc6r2BSgMjLwuNOyqqhaXiEjwEyVFlkTDZtRBIFeldPI1qXf1q4kJoSjzK/sBNEGnYgZ2qRWhvULlcY+pN1OW/5zlzptIX1UVjuvvHta17toF0hc1C8DJ41PJHwerbZtjs1ggpEvEDkTGySed+FyIKCUJobplJ2bqa30AYc4Y+jLyx76K9grDVL+3EaEZCdXg9lSLeEAbphuqHEJXax7g8cjdgB/TdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U2ZG7Rokpn3ocPjOAULaoJrHC46P9xn2RDCWmnk2r3Y=;
+ b=mAg2PKJvN04KF/nGMMV2BSMIkCs8+uxZ1n9XxKO+jgZ5BYqEvY3h+MVkTB0Kg0kQb61gItSJMFrtp3ecYOnQ17/jmKFiIIXgL7mUiTvXCXqHcY7QoDbM4GZ62sofuebo7C+KUn6XMtF8F9PvwbDNvad0n7DG+i0Bq1A/yGiDEX4u+sZpFm2aFKkjmAxLW2CSQJzeg+atggLj3nE6o7jmEoEHov9BDc2Gc6vnSOsA25qweuP0EfTkHDi/1s07fLXQXRnNf24mQtEfkwPT55h0QiH4pfOq4lMf0mx9pHWtMpdg7B0zZTkOJgG0q3+KuIw9eicfxuHcjLTZOUJuXiMURw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U2ZG7Rokpn3ocPjOAULaoJrHC46P9xn2RDCWmnk2r3Y=;
+ b=hv0ela+tue8H7t+Xhi6N4CLsoHFm1Hb89fdrBNHoybKAzCi1+M7fjEsUo+9keUTQfk2E3EGTOg1xvDBX7uC5XBuxLpz1dRTG/9zz4Flo5JDLCEa9E280IcA9dhUAkqM2ehJuOB3dCprmpx16sL0A412wn6duNtOK989RqtnqlrbEIfrsC/Yq+g7HD2Zh/FYRsX/cftTZEIV+rrX+mtqZTHBBJ77+mzGg9tK7quu3WoMmArBo2D8tYpSaqePW30zpy8P8fnGTYCYvhCF3LuHrXilIN017jfuOadqNoGI3odakBm8VrN7RioRJVcD8+JwsLsWYPJ3IXCGkw6A87zkclg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5899.apcprd06.prod.outlook.com (2603:1096:101:e3::16)
+ by PUZPR06MB5888.apcprd06.prod.outlook.com (2603:1096:301:105::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Thu, 12 Sep
+ 2024 04:24:38 +0000
+Received: from SEZPR06MB5899.apcprd06.prod.outlook.com
+ ([fe80::8bfc:f1ee:8923:77ce]) by SEZPR06MB5899.apcprd06.prod.outlook.com
+ ([fe80::8bfc:f1ee:8923:77ce%3]) with mapi id 15.20.7962.016; Thu, 12 Sep 2024
+ 04:24:38 +0000
+From: Shen Lichuan <shenlichuan@vivo.com>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, airlied@gmail.com, simona@ffwll.ch
+Cc: sean@poorly.run, konradybcio@kernel.org, marijn.suijten@somainline.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ opensource.kernel@vivo.com, Shen Lichuan <shenlichuan@vivo.com>
+Subject: [PATCH v1] drm/msm/dpu: Fix some typos in comment
+Date: Thu, 12 Sep 2024 12:24:25 +0800
+Message-Id: <20240912042425.4703-1-shenlichuan@vivo.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0049.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::13) To SEZPR06MB5899.apcprd06.prod.outlook.com
+ (2603:1096:101:e3::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGub4O86pRM6iM5xaDKVrR57D=OCm00ifFksG1LT9a4+og@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5899:EE_|PUZPR06MB5888:EE_
+X-MS-Office365-Filtering-Correlation-Id: f70d3c1f-8b2c-4afe-a448-08dcd2e2d070
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|52116014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+WaYLft/iSYHeWIbz7KRZvZ2X2aEc3Ynygx2GLX7IoPJMnJnD3kqBHdNzJir?=
+ =?us-ascii?Q?BaWhPbH6Jyu4NRBFZ17Qwru1xChLEITeDuLw6oyfFZEt2EDR5rHTXJ5vDN4V?=
+ =?us-ascii?Q?p3QLtMoWyJ5kNkCmXc6yUYAC8boZ5cJELWKObYUkcuL0KPUBKoal1WYvz6Ua?=
+ =?us-ascii?Q?UO/scwyfXP2IrwwAZXKFFb4TN5SfDJnZ6KSaX2kvU5RgtRN07zTR+CjMAcCY?=
+ =?us-ascii?Q?QQwQgj4eRUC0KRjQfNIkwPyRnwt9UefBiysdAoY1t6lLWDvblOIfkT4hUuJc?=
+ =?us-ascii?Q?7azHPZkaU2L2axrUCtshDEtFDWcB5Xv41NG4MAmSyieyw4Bj8X1ClgkwSHHQ?=
+ =?us-ascii?Q?V19DwdimZro4V+Zi4+8geW4muvTFdkReBlLT5D2ePpJdhtWV295JNDOrB5Dt?=
+ =?us-ascii?Q?faupdKWdaofnemzOfinaVk5cwIFafsTJilH4HlTkMumEceoiIl9sRF0bKIcJ?=
+ =?us-ascii?Q?AU2fDDyEbZGLngslcBqf8ubxpI25XdCTQLj0BU05XSNQpFwimgGpaoUWfTXa?=
+ =?us-ascii?Q?1+QLDnJ1We80l31XqvVeUs0O+MNuvh2ljdIWR7QeJh53T0IzxBWeeJBV7ZJe?=
+ =?us-ascii?Q?eWPwCyrNmhOV0JF1uK6Y//PfDFB8UIIG8D/YnOibYDhIEutkV/1d0WN3SKMa?=
+ =?us-ascii?Q?yuef1wj4m0cebdqTx0JKioRxExPFLK3APzP9fQaVqHhQoQl4TBEGSwwPhyCG?=
+ =?us-ascii?Q?PQVZCS9BEC1ZA1vcscj/XfIVv3a1VkTSFUbMipSNS3b+2RQHK0E60I9V35Su?=
+ =?us-ascii?Q?qXy7b2fzRV0wOkZbrtTHZi30LvAbLPQ7ZaThPw/i+HAXytPNPYHt0PlUZLOb?=
+ =?us-ascii?Q?rlXIdml9G+5tmjxzvnge3WYgXn+VFI4VUpEpl3ZO6ji0MjDqIYDVXbrq89bK?=
+ =?us-ascii?Q?c3kKCP00aLFLoyEGPGLPw0kVepuyLofGDMKqYKdldA75JSILzyJsGkLU6ItX?=
+ =?us-ascii?Q?SV1SMibclF+KcOIFBmBXmjKKOqraGlutAHdoougTs3XNfY4SRIs79181HV84?=
+ =?us-ascii?Q?x2e/eajEyLSv5L4Bj99a0Oga4rEH5jFqAs0ZEGtdIrRDH8pxskAI2fnhsZg/?=
+ =?us-ascii?Q?p1iF4bzVMmT2LMRLDf7xqmsB06L0AI9GBQzn0bQC3KQhZPRvkfRpiouFKr5S?=
+ =?us-ascii?Q?LUmLtMBPKcybo0OtQobWQSj/amHsG6KMIFzjvdBhWaVSMuaI9Lr38hM0ee50?=
+ =?us-ascii?Q?oDvxg/ZdQO1geG3wpMTXDHp0Tme7eCPh7Km5391r9RQHrbFBOPfQFARD7aXe?=
+ =?us-ascii?Q?E8Uq2XfXA15d3BQ1nZrh7AyaHS9ipcjqJ2oEPuTNbKqnBIn1Kp5PMXadUlYo?=
+ =?us-ascii?Q?+FzrfDYP+0xqCOEFUIMlJAgoA1JljtGsW2XIlu+nT5Vz7EtncDR7PZWnFwFZ?=
+ =?us-ascii?Q?YX+sFXa3SrYPQ5XjlXE5VtLJoGN9o2drEQ5VT7FTVFFvolnx9g=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEZPR06MB5899.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(52116014)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?X+LqvFC4wKvjtVMajZDe7pC8galr0IhzUGmpW5fgSlOTMIcpgfJ2GH1mEmUF?=
+ =?us-ascii?Q?fOKUEZ+uNj8ie6AlRXlFGMMss1ZFdeX6GYci3TJGnI1KAdxVvPEJhVKc9pK5?=
+ =?us-ascii?Q?99gEvkGTojHmhgKhkkTUl464tTvy6wgVUAMLB8HfZVar/Tf8It3ph6QJXyl/?=
+ =?us-ascii?Q?Aua+rTDNO6TVd4PNkvooUcAGmb1724AGiwi9wbK/AcERxWLR3LzV4WlCYvsp?=
+ =?us-ascii?Q?B5rThNiibZump9j3zIFZfrNwFllKIIVEmmwKBd8v/gUZRYPi3+0yfavU0xC1?=
+ =?us-ascii?Q?LCBR7N4kl6VZrhPJSdMcqe1r3k1xFTXJll0dWgQGJkyNhSU5a5EUyX507H0a?=
+ =?us-ascii?Q?8FUguOdaB+xBJPHJ/phOsyPYf/vmpHQ2Hq0tRaD3q/B1l9lYpNXL2orZGrCd?=
+ =?us-ascii?Q?zOdK2Uin6CZtPR3LUgMLzDYacCR0+ZBKHl8dgI9OVnoYajk/JBfk+9fgN2xK?=
+ =?us-ascii?Q?GgmNEUFeifjvS5GSQeqDdEmCXZfgfmrwwsPgAY3aKvWet9fE5VRRuo8ea9yB?=
+ =?us-ascii?Q?MuyOeRiG1iFeCue15L5fPYg9LDEUPu+vg4oBRaeJvE3sFJEvJDY6/lFnOoKb?=
+ =?us-ascii?Q?NT/dxrc7meCxdMIJIOl3PFwU4tQG2YLVJMeoQYZZlEMlEg3etbHEQplJsJBJ?=
+ =?us-ascii?Q?lkfEcLb0ho5SCxrHi6pnA6R42kr7GRgextvuWOn/ZMBWqKkZ10ItnVg1Yr4m?=
+ =?us-ascii?Q?RpZF7Q5AemBooqEVnCMsfua2qlAqS9IOv2fEM9uJNLXQZ2I0ju2JHkbADYXb?=
+ =?us-ascii?Q?AZex8m3wIs4E0+jrNxPzhjUsuT1s4xZLMaMfZoEL/z4n8pa9JRzVTwMnrWP4?=
+ =?us-ascii?Q?2JOXXXHm8ntJ5Xewn8pOq58yTY5UM9E8I7EliwfuxErLwazWTQM8SaqbGsei?=
+ =?us-ascii?Q?5pnGX2eh7ye4h0+Dn2SMbcdBJ07Oy98NvaAexMb7cSMCIkTNVroGbxHoJMEz?=
+ =?us-ascii?Q?i351zTO8/LoEFpYb2+IGfcaNcH7MIdcsafiCC02122sHJjvlwJ1200SC7K+s?=
+ =?us-ascii?Q?a/+InYm2mEjRNuFOKat5JmDkgnc3xjnAB8TZwGYhdd+KRHzEvwZ5rdY1pKpQ?=
+ =?us-ascii?Q?3mx04mIRHpprIGbXFEQOdr9XLoMYVniB4LCVEfP2CRXeHzAG8hFn4D6XnIOc?=
+ =?us-ascii?Q?d/UjHlU9ZfntAKok6sr4pT4X3m3GAm4hUOMyahm62VC8AluZrZBFhdwkfwvw?=
+ =?us-ascii?Q?QOi3N3PV3SkcLlIR73EP7FN2UAZOzPddJzj183w3M47oE3hyGk1v1xv+osRP?=
+ =?us-ascii?Q?vkeKCFLawY7fb1piZ0ICjxh2s2N+Q9Fo+gRraSvqwyL3rJ5yM0BCkETZ+GcP?=
+ =?us-ascii?Q?H7bfqXnmjLi0Z7abYGb6JvidWVEHejOnl8yCrGD5A+6Ur5p8vxRQuod2nvSF?=
+ =?us-ascii?Q?EGsy7DJHpTEafHXpgFJ5rubvyMOQojPpbV+8lu9nymB2GPRkBdLk1il+paFV?=
+ =?us-ascii?Q?PSrrFIuhZ7d6N48XxDYU0tXA3C//6G/uump1LsLQodEVrK5E/4mtDvvgqLNj?=
+ =?us-ascii?Q?Isf+XCcC0siizTJQENe8YAbu+MQPUqXSTpJgcmKJpUADqOn8Vdhq3XAoYF5H?=
+ =?us-ascii?Q?DPXZ4DwuDB14p/vBkCfbefo9MIw9BpjnZTQfMnlt?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f70d3c1f-8b2c-4afe-a448-08dcd2e2d070
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5899.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2024 04:24:38.3136 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ciriEMYQuCOaAaYV+SPpGeLrgbNyjKnEINzY+BuYhv2GkPxhnknO+lztyODQVFHdpVzq6aICmZDqvgSLr9u/ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5888
+X-Mailman-Approved-At: Thu, 12 Sep 2024 07:08:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,144 +146,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 09, 2024 at 07:34:04AM GMT, Rob Clark wrote:
-> On Mon, Sep 9, 2024 at 2:54 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On Mon, 9 Sept 2024 at 10:50, Maxime Ripard <mripard@redhat.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Tue, Jul 09, 2024 at 01:27:51AM GMT, Dmitry Baryshkov wrote:
-> > > > On Mon, 8 Jul 2024 at 21:38, Rob Clark <robdclark@gmail.com> wrote:
-> > > > >
-> > > > > On Mon, Jul 8, 2024 at 1:52 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > > > >
-> > > > > > On Fri, Jul 05, 2024 at 12:31:36PM -0700, Rob Clark wrote:
-> > > > > > > On Fri, Jul 5, 2024 at 3:36 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Jul 04, 2024 at 08:40:26AM -0700, Rob Clark wrote:
-> > > > > > > > > On Thu, Jul 4, 2024 at 7:08 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > > > > > > > >
-> > > > > > > > > > On Tue, Jul 02, 2024 at 05:32:39AM -0700, Rob Clark wrote:
-> > > > > > > > > > > On Fri, Jun 28, 2024 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > > > > > >
-> > > > > > > > > > > > On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark wrote:
-> > > > > > > > > > > > > On Wed, Jun 26, 2024 at 10:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry Baryshkov wrote:
-> > > > > > > > > > > > > > > On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel Vetter wrote:
-> > > > > > > > > > > > > > > > On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen Koike wrote:
-> > > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > On 24/06/2024 02:34, Vignesh Raman wrote:
-> > > > > > > > > > > > > > > > > > Hi,
-> > > > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > > On 15/03/24 22:50, Rob Clark wrote:
-> > > > > > > > > > > > > > > > > > > Basically, I often find myself needing to merge CI patches on top of
-> > > > > > > > > > > > > > > > > > > msm-next in order to run CI, and then after a clean CI run, reset HEAD
-> > > > > > > > > > > > > > > > > > > back before the merge and force-push.  Which isn't really how things
-> > > > > > > > > > > > > > > > > > > should work.
-> > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > This sounds more like you want an integration tree like drm-tip. Get msm
-> > > > > > > > > > > > > > > > branches integrated there, done. Backmerges just for integration testing
-> > > > > > > > > > > > > > > > are not a good idea indeed.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > But AFAIU this doesn't help for pre-merge testing, ie. prior to a
-> > > > > > > > > > > > > patch landing in msm-next
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > My idea was to have a drm-ci-next managed similar to drm-misc-next, if
-> > > > > > > > > > > > > we have needed drm/ci patches we could push them to drm-ci-next, and
-> > > > > > > > > > > > > then merge that into the driver tree (along with a PR from drm-ci-next
-> > > > > > > > > > > > > to Dave).
-> > > > > > > > > > > >
-> > > > > > > > > > > > I guess I'm confused about what kind of pre-merge testing we're talking
-> > > > > > > > > > > > about then ... Or maybe this just doesn't work too well with the linux
-> > > > > > > > > > > > kernel. The model is that you have some pile of trees, they're split up,
-> > > > > > > > > > > > and testing of all the trees together is done in integration trees like
-> > > > > > > > > > > > linux-next or drm-tip.
-> > > > > > > > > > >
-> > > > > > > > > > > pre-merge: for msm we've been collecting up patches from list into a
-> > > > > > > > > > > fast-forward MR which triggers CI before merging to msm-next/msm-fixes
-> > > > > > > > > > >
-> > > > > > > > > > > Ideally drm-misc and other trees would do similar, we'd catch more
-> > > > > > > > > > > regressions that way.  For example, in msm-next the nodebugfs build is
-> > > > > > > > > > > currently broken, because we merged drm-misc-next at a time when
-> > > > > > > > > > > komeda was broken:
-> > > > > > > > > > >
-> > > > > > > > > > > https://gitlab.freedesktop.org/drm/msm/-/jobs/60575681#L9520
-> > > > > > > > > > >
-> > > > > > > > > > > If drm-misc was using pre-merge CI this would have been caught and the
-> > > > > > > > > > > offending patch dropped.
-> > > > > > > > > >
-> > > > > > > > > > That sounds more like we should push on the drm-misc pre-merge CI boulder
-> > > > > > > > > > to move it uphill, than add even more trees to make it even harder to get
-> > > > > > > > > > there long term ...
-> > > > > > > > > >
-> > > > > > > > > > Short term it helps locally to have finer trees, but only short term and
-> > > > > > > > > > only very locally.
-> > > > > > > > >
-> > > > > > > > > The path to have fewer trees (ideally only one for all of drm) is to
-> > > > > > > > > use gitlab MRs to land everything :-)
-> > > > > > > > >
-> > > > > > > > > drm-ci-next is only a stop-gap.. but one that we need.  The
-> > > > > > > > > ${branchname}-external-fixes trick covers _most_ cases where we need
-> > > > > > > > > unrelated patches (ie. to fix random ToT breakage outside of drm or in
-> > > > > > > > > core drm), but it doesn't help when the needed changes are yml
-> > > > > > > > > (because gitlab processes all the yml before merging the
-> > > > > > > > > -external-fixes branch).  This is where we need drm-ci-next, otherwise
-> > > > > > > > > we are having to create a separate MR which cherry-picks drm/ci
-> > > > > > > > > patches for doing the CI.  This is a rather broken process.
-> > > > > > > >
-> > > > > > > > So what I don't get is ... if we CI drm-misc, how does that not help
-> > > > > > > > improve the situation here? Step one would be post-merge (i.e. just enable
-> > > > > > > > CI in the repo), then get MRs going.
-> > > > > > >
-> > > > > > > I guess post-merge is better than nothing.. but pre-merge is better.
-> > > > > > >
-> > > > > > > post-merge can work if you have a "sheriff" system where someone
-> > > > > > > (perhaps on a rotation) is actively monitoring results and "revert and
-> > > > > > > ask questions later" when something breaks.  Pre-merge ensures the
-> > > > > > > interested party is involved in the process ;-)
-> > > > > >
-> > > > > > So ... make that happen? And it doesn't have to be for all of drm-misc,
-> > > > > > mesa after all switched over to MR also on a bit a driver/area basis. So
-> > > > > > agreeing among all drm-ci folks to use gitlab MR in drm-misc for pre-merge
-> > > > > > testing shouldn't be that hard to make happen. And unlike a separate
-> > > > > > branch it's not some kind of detour with a good chance to get stuck in a
-> > > > > > local optimum.
-> > > > >
-> > > > > Tree vs branch doesn't really have much in the way of distinction,
-> > > > > modulo gitlab permissions.  In that it doesn't do much good if drm/ci
-> > > > > patches are landing on a different branch.
-> > > > >
-> > > > > I guess what you are suggesting is that we have a single tree/branch
-> > > > > that drm/ci + drm/msm + (plus whoever else wants to get in on the
-> > > > > drm/ci, so probably at least vkms) lands patches into via gitlab MRs?
-> > > >
-> > > > This again brings a separate CI-enabled tree. I think it has been
-> > > > suggested to start with enabling DRM CI for drm-misc branches. Then we
-> > > > can possibly start landing MRs with CI testing (probably starting with
-> > > > vkms).
-> > >
-> > > It's something we've discussed with Sima for a while, but enabling CI on
-> > > drm-misc at some point will make sense so we could just as well start
-> > > now.
-> > >
-> > > The biggest unknown at the moment to start doing so is how we could keep
-> > > drm-tip and the rerere repo with MR.
-> >
-> > Let's do a slow start and begin with post-merge testing. At least this
-> > gives us an idea of how stable it is (and what does it take to keep it
-> > green). Maybe we can perform post-merge testing for both drm-misc and
-> > drm-tip.
-> 
-> The one thing is that currently the runtime for igt is quite long
-> (~1hr) because you can't really parallelize kms tests.  So maybe
-> nightly scheduled runs would be a better idea.
+Fixed some spelling errors, the details are as follows:
 
-SGTM. So, the question would be, who can set it up?
+-in the code comments:
+	collpase->collapse
+	firwmare->firmware
+	everwhere->everywhere
 
+Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
+---
+ drivers/gpu/drm/msm/adreno/a5xx_power.c | 2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_power.c b/drivers/gpu/drm/msm/adreno/a5xx_power.c
+index 7705f8010484..6b91e0bd1514 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_power.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_power.c
+@@ -307,7 +307,7 @@ int a5xx_power_init(struct msm_gpu *gpu)
+ 	else if (adreno_is_a540(adreno_gpu))
+ 		a540_lm_setup(gpu);
+ 
+-	/* Set up SP/TP power collpase */
++	/* Set up SP/TP power collapse */
+ 	a5xx_pc_init(gpu);
+ 
+ 	/* Start the GPMU */
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 465a4cd14a43..076be0473eb5 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -533,7 +533,7 @@ int adreno_load_fw(struct adreno_gpu *adreno_gpu)
+ 		if (!adreno_gpu->info->fw[i])
+ 			continue;
+ 
+-		/* Skip loading GMU firwmare with GMU Wrapper */
++		/* Skip loading GMU firmware with GMU Wrapper */
+ 		if (adreno_has_gmu_wrapper(adreno_gpu) && i == ADRENO_FW_GMU)
+ 			continue;
+ 
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+index 9d6655f96f0c..c803556a8f64 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.c
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+@@ -64,7 +64,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
+ 	char name[32];
+ 	int ret;
+ 
+-	/* We assume everwhere that MSM_GPU_RINGBUFFER_SZ is a power of 2 */
++	/* We assume everywhere that MSM_GPU_RINGBUFFER_SZ is a power of 2 */
+ 	BUILD_BUG_ON(!is_power_of_2(MSM_GPU_RINGBUFFER_SZ));
+ 
+ 	ring = kzalloc(sizeof(*ring), GFP_KERNEL);
 -- 
-With best wishes
-Dmitry
+2.17.1
+
