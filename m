@@ -2,88 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06043975E9E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 03:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55952976007
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 06:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE75D10EA84;
-	Thu, 12 Sep 2024 01:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9313C10E721;
+	Thu, 12 Sep 2024 04:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="M42jQbQd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f9a/ZSq5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 618BC10EA84;
- Thu, 12 Sep 2024 01:45:35 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48BEm5Tj019815;
- Thu, 12 Sep 2024 01:45:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=WscEjiD9hzzpsqZveTR3VhIR
- Mm9+9juNOelysgcOnVI=; b=M42jQbQdi0MeOEB+4DwDxloLVQr+avuBfq9h3sgW
- sbIP9dz6dBtclyOscqiKpQBPRjkPetYRxPoc8pvnxQZZDrFr8jSUCLy1wFTZIgpw
- c4nCxPwctH7UhGtDwqSJQ8ep8S3PrXo1qhpEXObAMd8JFW2+yyrrJ2N+v3D6Y712
- anYqOt/oISr3BDnd2SrB1Luy3CxHhmTl/V/vt6KTs7TyZY423rNs8ebwBqaRs01o
- z0imjUCbHdAEXYaPrXPYC99V1pIA1AiVSF1U7vVLArK3/ntN/BpyF4C//vTjqcZq
- sg+FnIl7iQAHBCLqFFAeGDIEAfnp1yJXSkG6OqAlJHnVPw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41gybpuf60-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Sep 2024 01:45:27 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48C1jQDP007857
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Sep 2024 01:45:27 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 11 Sep 2024 18:45:26 -0700
-Date: Wed, 11 Sep 2024 18:45:25 -0700
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
-CC: <vkoul@kernel.org>, <kishon@kernel.org>, <konradybcio@kernel.org>,
- <andersson@kernel.org>, <simona@ffwll.ch>,
- <dmitry.baryshkov@linaro.org>, <abel.vesa@linaro.org>,
- <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <quic_khsieh@quicinc.com>,
- <konrad.dybcio@linaro.org>, <quic_parellan@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <quic_riteshk@quicinc.com>, <quic_vproddut@quicinc.com>
-Subject: Re: [PATCH 2/5] phy: qcom: edp: Introduce aux_cfg array for version
- specific aux settings
-Message-ID: <ZuJHtXrZIRDd7Kyg@hu-bjorande-lv.qualcomm.com>
-References: <20240911100813.338-1-quic_mukhopad@quicinc.com>
- <20240911100813.338-3-quic_mukhopad@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D65A10E721
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 04:40:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 545835C4CBB;
+ Thu, 12 Sep 2024 04:40:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 621D0C4CEC3;
+ Thu, 12 Sep 2024 04:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726116039;
+ bh=atZ4KPNKSjb83Uge3zpflsYcUJEL/us60I8XWzukpe0=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=f9a/ZSq5MjAJpdiUDHoVavctM5HOoilo2YhcN45JiEfgJYuD+evoGy3GTwFy3dWNK
+ MCcZexV/mRsbKVhAIikQXE7layOfhJ3sIvPU5XZi6xuLqnLkHkdE/Qx+MQdf+g1ZYB
+ gce1dGWnviJLx6aL4O8iqydw5+DCEJVlzFx2Q4DVfqfcYtCglZ0a3zjxo4FLA5531c
+ BDOtc/uZ1bzZ/QMAIY/iMLCh/H1rCZm7mMteXHfen+24mVBLqbsIC2bNyatAA+Kt/j
+ RB4GjdEViDywOWSDVtOg00irITukuSvO9eccISaYhdBZr0Vmo/BFTcf9+Idkdg7vhE
+ pfG55SGZsz4KA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ AE1073806656; Thu, 12 Sep 2024 04:40:41 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240911100813.338-3-quic_mukhopad@quicinc.com>
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: -f8-IAEYCXekWPLFcgq1cRigKHN0bHZD
-X-Proofpoint-GUID: -f8-IAEYCXekWPLFcgq1cRigKHN0bHZD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 spamscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409120012
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v26 00/13] Device Memory TCP
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <172611604053.1162260.14936560637203902304.git-patchwork-notify@kernel.org>
+Date: Thu, 12 Sep 2024 04:40:40 +0000
+References: <20240910171458.219195-1-almasrymina@google.com>
+In-Reply-To: <20240910171458.219195-1-almasrymina@google.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, donald.hunter@gmail.com, corbet@lwn.net,
+ richard.henderson@linaro.org, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+ tsbogend@alpha.franken.de, James.Bottomley@HansenPartnership.com,
+ deller@gmx.de, andreas@gaisler.com, hawk@kernel.org,
+ ilias.apalodimas@linaro.org, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, arnd@arndb.de, steffen.klassert@secunet.com,
+ herbert@gondor.apana.org.au, dsahern@kernel.org,
+ willemdebruijn.kernel@gmail.com, bjorn@kernel.org, magnus.karlsson@intel.com, 
+ maciej.fijalkowski@intel.com, jonathan.lemon@gmail.com, shuah@kernel.org,
+ ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, asml.silence@gmail.com,
+ dw@davidwei.uk, jgg@ziepe.ca, linyunsheng@huawei.com, shailend@google.com,
+ hramamurthy@google.com, shakeel.butt@linux.dev, jeroendb@google.com,
+ pkaligineedi@google.com, bagasdotme@gmail.com, hch@infradead.org,
+ razor@blackwall.org, ap420073@gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,118 +80,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 11, 2024 at 03:38:10PM +0530, Soutrik Mukhopadhyay wrote:
-> In order to support different HW versions, introduce aux_cfg array
-> to move v4 specific aux configuration settings.
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue, 10 Sep 2024 17:14:44 +0000 you wrote:
+> v26: https://patchwork.kernel.org/project/netdevbpf/list/?series=888227&state=*
+> ====
 > 
-> Signed-off-by: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
-> ---
->  drivers/phy/qualcomm/phy-qcom-edp.c | 34 +++++++++++++++++------------
->  1 file changed, 20 insertions(+), 14 deletions(-)
+> No major changes. Only applied Reviewed-by tags from Jakub and addressed
+> reported nits.
 > 
-> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-> index da2b32fb5b45..0f860a807d1b 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-> @@ -90,6 +90,7 @@ struct phy_ver_ops {
->  
->  struct qcom_edp_phy_cfg {
->  	bool is_edp;
-> +	u8 *aux_cfg;
->  	const struct qcom_edp_swing_pre_emph_cfg *swing_pre_emph_cfg;
->  	const struct phy_ver_ops *ver_ops;
->  };
-> @@ -186,11 +187,14 @@ static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg = {
->  	.pre_emphasis_hbr3_hbr2 = &edp_pre_emp_hbr2_hbr3,
->  };
->  
-> +static u8 edp_phy_aux_cfg_v4[10] = {
-> +	0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
-> +};
-> +
->  static int qcom_edp_phy_init(struct phy *phy)
->  {
->  	struct qcom_edp *edp = phy_get_drvdata(phy);
->  	int ret;
-> -	u8 cfg8;
->  
->  	ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
->  	if (ret)
-> @@ -222,22 +226,20 @@ static int qcom_edp_phy_init(struct phy *phy)
->  	 * even needed.
->  	 */
->  	if (edp->cfg->swing_pre_emph_cfg && !edp->is_edp)
-> -		cfg8 = 0xb7;
-> -	else
-> -		cfg8 = 0x37;
-> +		edp->cfg->aux_cfg[8] = 0xb7;
-
-If you have multiple instances of the eDP PHY they will all point to the
-same edp_phy_aux_cfg_v4[], so making instance-specific modifications
-to that array will not be okay.
-
-
-Make edp_phy_aux_cfg_v4[] const to reduce the likelihood for someone
-else to make this mistake in the future and make a local copy of the
-array on the stack so that you can modify it.
-
-Regards,
-Bjorn
-
->  
->  	writel(0xfc, edp->edp + DP_PHY_MODE);
->  
-> -	writel(0x00, edp->edp + DP_PHY_AUX_CFG0);
-> -	writel(0x13, edp->edp + DP_PHY_AUX_CFG1);
-> -	writel(0x24, edp->edp + DP_PHY_AUX_CFG2);
-> -	writel(0x00, edp->edp + DP_PHY_AUX_CFG3);
-> -	writel(0x0a, edp->edp + DP_PHY_AUX_CFG4);
-> -	writel(0x26, edp->edp + DP_PHY_AUX_CFG5);
-> -	writel(0x0a, edp->edp + DP_PHY_AUX_CFG6);
-> -	writel(0x03, edp->edp + DP_PHY_AUX_CFG7);
-> -	writel(cfg8, edp->edp + DP_PHY_AUX_CFG8);
-> -	writel(0x03, edp->edp + DP_PHY_AUX_CFG9);
-> +	writel(edp->cfg->aux_cfg[0], edp->edp + DP_PHY_AUX_CFG0);
-> +	writel(edp->cfg->aux_cfg[1], edp->edp + DP_PHY_AUX_CFG1);
-> +	writel(edp->cfg->aux_cfg[2], edp->edp + DP_PHY_AUX_CFG2);
-> +	writel(edp->cfg->aux_cfg[3], edp->edp + DP_PHY_AUX_CFG3);
-> +	writel(edp->cfg->aux_cfg[4], edp->edp + DP_PHY_AUX_CFG4);
-> +	writel(edp->cfg->aux_cfg[5], edp->edp + DP_PHY_AUX_CFG5);
-> +	writel(edp->cfg->aux_cfg[6], edp->edp + DP_PHY_AUX_CFG6);
-> +	writel(edp->cfg->aux_cfg[7], edp->edp + DP_PHY_AUX_CFG7);
-> +	writel(edp->cfg->aux_cfg[8], edp->edp + DP_PHY_AUX_CFG8);
-> +	writel(edp->cfg->aux_cfg[9], edp->edp + DP_PHY_AUX_CFG9);
->  
->  	writel(PHY_AUX_STOP_ERR_MASK | PHY_AUX_DEC_ERR_MASK |
->  	       PHY_AUX_SYNC_ERR_MASK | PHY_AUX_ALIGN_ERR_MASK |
-> @@ -519,16 +521,19 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v4 = {
->  };
->  
->  static const struct qcom_edp_phy_cfg sc7280_dp_phy_cfg = {
-> +	.aux_cfg = edp_phy_aux_cfg_v4,
->  	.ver_ops = &qcom_edp_phy_ops_v4,
->  };
->  
->  static const struct qcom_edp_phy_cfg sc8280xp_dp_phy_cfg = {
-> +	.aux_cfg = edp_phy_aux_cfg_v4,
->  	.swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
->  	.ver_ops = &qcom_edp_phy_ops_v4,
->  };
->  
->  static const struct qcom_edp_phy_cfg sc8280xp_edp_phy_cfg = {
->  	.is_edp = true,
-> +	.aux_cfg = edp_phy_aux_cfg_v4,
->  	.swing_pre_emph_cfg = &edp_phy_swing_pre_emph_cfg,
->  	.ver_ops = &qcom_edp_phy_ops_v4,
->  };
-> @@ -707,6 +712,7 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v6 = {
->  };
->  
->  static struct qcom_edp_phy_cfg x1e80100_phy_cfg = {
-> +	.aux_cfg = edp_phy_aux_cfg_v4,
->  	.swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
->  	.ver_ops = &qcom_edp_phy_ops_v6,
->  };
-> -- 
-> 2.17.1
+> v25: https://patchwork.kernel.org/project/netdevbpf/list/?series=885396&state=*
+> ===
 > 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v26,01/13] netdev: add netdev_rx_queue_restart()
+    https://git.kernel.org/netdev/net-next/c/7c88f86576f3
+  - [net-next,v26,02/13] net: netdev netlink api to bind dma-buf to a net device
+    https://git.kernel.org/netdev/net-next/c/3efd7ab46d0a
+  - [net-next,v26,03/13] netdev: support binding dma-buf to netdevice
+    https://git.kernel.org/netdev/net-next/c/170aafe35cb9
+  - [net-next,v26,04/13] netdev: netdevice devmem allocator
+    https://git.kernel.org/netdev/net-next/c/28c5c74eeaa0
+  - [net-next,v26,05/13] page_pool: devmem support
+    https://git.kernel.org/netdev/net-next/c/8ab79ed50cf1
+  - [net-next,v26,06/13] memory-provider: dmabuf devmem memory provider
+    https://git.kernel.org/netdev/net-next/c/0f9214046893
+  - [net-next,v26,07/13] net: support non paged skb frags
+    https://git.kernel.org/netdev/net-next/c/9f6b619edf2e
+  - [net-next,v26,08/13] net: add support for skbs with unreadable frags
+    https://git.kernel.org/netdev/net-next/c/65249feb6b3d
+  - [net-next,v26,09/13] tcp: RX path for devmem TCP
+    https://git.kernel.org/netdev/net-next/c/8f0b3cc9a4c1
+  - [net-next,v26,10/13] net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+    https://git.kernel.org/netdev/net-next/c/678f6e28b5f6
+  - [net-next,v26,11/13] net: add devmem TCP documentation
+    https://git.kernel.org/netdev/net-next/c/09d1db26b5e5
+  - [net-next,v26,12/13] selftests: add ncdevmem, netcat for devmem TCP
+    https://git.kernel.org/netdev/net-next/c/85585b4bc8d8
+  - [net-next,v26,13/13] netdev: add dmabuf introspection
+    https://git.kernel.org/netdev/net-next/c/d0caf9876a1c
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
