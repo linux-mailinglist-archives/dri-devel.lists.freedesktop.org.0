@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633EB976464
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 10:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1987797647A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 10:29:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AAAA10E8DB;
-	Thu, 12 Sep 2024 08:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF0110E212;
+	Thu, 12 Sep 2024 08:29:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dTQaUltQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sWdnb8CX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C379D10E8DB
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 08:24:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=smn6EbNtZIXcJVpd7FXC/Iia65TIT1bx5W1DPQ5lPks=; b=dTQaUltQV5oOt8WC2mEa7gyikB
- oCBxB2P5+i6Meeb40Xt58VEXV1uO6z+5nyE7GiElIFtMDPyiZRbMFiiQwgcLbYe5IGiH+HbdipXXU
- Ok9rNhNdReydODioD1GWswpl4KfY2E83HyZRgEJb6kmjkcCfew++w084pZ3YjrB8FEt3Bj3NgqNMa
- a3gs+7yD6vyvLLXx7JGOmCcnFb797QkHJQxjJKjiinF21WrbQesJn/sYpJiy4e3QoYmiPXkwjyriW
- lTeGS7FckE/hjuwu4KunTQ7kgOfi+zwZHs60rpkC5IO+8p6BgdfOpQSFINIX+s5aLRfdEUjEAwt/E
- aI9GH69A==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sof8J-00Cmmu-7X; Thu, 12 Sep 2024 10:24:55 +0200
-Message-ID: <8b6c8d4d-4e27-49ff-a954-e93235b06a28@igalia.com>
-Date: Thu, 12 Sep 2024 09:24:54 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DBAD10E212;
+ Thu, 12 Sep 2024 08:29:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B2038A44283;
+ Thu, 12 Sep 2024 08:29:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BCFEC4CEC3;
+ Thu, 12 Sep 2024 08:29:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726129790;
+ bh=vVZSVYNNMpsxf/Mtb1DzmqrGNnMqIEIm+Nt2IKnA8hA=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=sWdnb8CXle8EwZQtK4FF2OPZiO4WYQ+RQ0yo731sacd6+s9mXxQkLvJR41dZJLHR5
+ ku1BzgEoYxHHcVg9eIRn9Z0MrgaYViDkjpaq3AQLvODziVTMB+jfMBOz45mNR4JbpC
+ hIVnQqQx54h9mSjhfscWiRH4TVXlV9xw1ffrSWIXtARfD/oabDu/C6rhGUsCco9iYn
+ 8OgavysBhYcM677c8qTtpjdsvUGDcLOlJLauSgOfdo2XwN7IAVWVoYnnRVVPrF8Pz7
+ 3ebkCbIpvxUv7Rp50WELU2xHRUrEXQ9wUhklmQODO6Fawg2QlY1TkzbGMHH/ud68Wf
+ 014aV9hnrDymQ==
+Date: Thu, 12 Sep 2024 03:29:48 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/amdgpu: use drm_file name
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com
-References: <20240911145836.734080-1-pierre-eric.pelloux-prayer@amd.com>
- <20240911145836.734080-3-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240911145836.734080-3-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Mahadevan <quic_mahap@quicinc.com>
+Cc: andersson@kernel.org, dmitry.baryshkov@linaro.org, sean@poorly.run, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ quic_jmadiset@quicinc.com, quic_vpolimer@quicinc.com, 
+ neil.armstrong@linaro.org, swboyd@chromium.org, mailingradian@gmail.com, 
+ quic_abhinavk@quicinc.com, freedreno@lists.freedesktop.org, 
+ danila@jiaxyga.com, quic_kalyant@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, mripard@kernel.org, 
+ konrad.dybcio@linaro.org, linux-arm-msm@vger.kernel.org, 
+ marijn.suijten@somainline.org, robdclark@gmail.com, krzk+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, quic_jesszhan@quicinc.com, 
+ conor+dt@kernel.org, airlied@gmail.com, bigfoot@classfun.cn
+In-Reply-To: <20240912071437.1708969-2-quic_mahap@quicinc.com>
+References: <20240912071437.1708969-1-quic_mahap@quicinc.com>
+ <20240912071437.1708969-2-quic_mahap@quicinc.com>
+Message-Id: <172612978700.2592228.2560116576416075874.robh@kernel.org>
+Subject: Re: [PATCH 1/5] dt-bindings: display/msm: Document MDSS on SA8775P
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,152 +68,46 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 11/09/2024 15:58, Pierre-Eric Pelloux-Prayer wrote:
-> In debugfs gem_info/vm_info files, timeout handler and page fault reports.
+On Thu, 12 Sep 2024 12:44:33 +0530, Mahadevan wrote:
+> Document the MDSS hardware found on the Qualcomm SA8775P platform.
 > 
-> This information is useful with the virtio/native-context driver: this
-> allows the guest applications identifier to visible in amdgpu's output.
-> 
-> The output in amdgpu_vm_info/amdgpu_gem_info looks like this:
->     pid:12255	Process:glxgears/test-set-fd-name ----------
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
 > ---
->   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 11 ++++++++--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 20 +++++++++++++++++--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  4 ++--
->   5 files changed, 31 insertions(+), 8 deletions(-)
+>  .../display/msm/qcom,sa8775p-mdss.yaml        | 225 ++++++++++++++++++
+>  1 file changed, 225 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 6d5fd371d5ce..1712feb2c238 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -1577,7 +1577,7 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
->   	if (ret)
->   		return ret;
->   
-> -	amdgpu_vm_set_task_info(avm);
-> +	amdgpu_vm_set_task_info(avm, NULL);
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 1e475eb01417..d32dc547cc80 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -310,7 +310,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->   	kvfree(chunk_array);
->   
->   	/* Use this opportunity to fill in task info for the vm */
-> -	amdgpu_vm_set_task_info(vm);
-> +	amdgpu_vm_set_task_info(vm, p->filp);
->   
->   	return 0;
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> index 0e617dff8765..0e0d49060ca8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -1012,8 +1012,15 @@ static int amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused)
->   		rcu_read_lock();
->   		pid = rcu_dereference(file->pid);
->   		task = pid_task(pid, PIDTYPE_TGID);
-> -		seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
-> -			   task ? task->comm : "<unknown>");
-> +		seq_printf(m, "pid %8d command %s", pid_nr(pid),
-> +				   task ? task->comm : "<unknown>");
-> +		if (file->name) {
-> +			mutex_lock(&file->name_lock);
 
-As mentioned taking a mutex under rcu_read_lock is not allowed. It will 
-need to either be re-arranged or, also as mentioned, alternatively 
-aligned to use the same RCU access rules.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> +			seq_putc(m, '/');
-> +			seq_puts(m, file->name);
-> +			mutex_unlock(&file->name_lock);
-> +		}
-> +		seq_puts(m, ":\n");
->   		rcu_read_unlock();
->   
->   		spin_lock(&file->table_lock);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index e20d19ae01b2..385211846ae3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2370,7 +2370,7 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
->    *
->    * @vm: vm for which to set the info
->    */
-> -void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-> +void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *file)
->   {
->   	if (!vm->task_info)
->   		return;
-> @@ -2385,7 +2385,23 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
->   		return;
->   
->   	vm->task_info->tgid = current->group_leader->pid;
-> -	get_task_comm(vm->task_info->process_name, current->group_leader);
-> +	__get_task_comm(vm->task_info->process_name, TASK_COMM_LEN,
-> +			current->group_leader);
-> +	/* Append drm_client_name if set. */
-> +	if (file && file->name) {
-> +		int n;
-> +
-> +		mutex_lock(&file->name_lock);
-> +		n = strlen(vm->task_info->process_name);
-> +		if (n < NAME_MAX) {
+yamllint warnings/errors:
 
-NAME_MAX because sizeof(vm->task_info->process_name) is NAME_MAX? (hint)
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml: ^display-controller@[0-9a-f]+$: Missing additionalProperties/unevaluatedProperties constraint
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml: ^displayport-controller@[0-9a-f]+$: Missing additionalProperties/unevaluatedProperties constraint
+Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dts:24:18: fatal error: dt-bindings/clock/qcom,sa8775p-dispcc.h: No such file or directory
+   24 |         #include <dt-bindings/clock/qcom,sa8775p-dispcc.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.lib:442: Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1432: dt_binding_check] Error 2
+make: *** [Makefile:224: __sub-make] Error 2
 
-> +			if (file->name) {
+doc reference errors (make refcheckdocs):
 
-FWIW could check before strlen.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240912071437.1708969-2-quic_mahap@quicinc.com
 
-> +				vm->task_info->process_name[n] = '/';
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Can this replace the null terminator at process_name[NAME_MAX - 1] with 
-a '/'?
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-> +				strscpy_pad(&vm->task_info->process_name[n + 1],
-> +					    file->name, NAME_MAX - (n + 1));
-> +			}
-> +		}
-> +		mutex_unlock(&file->name_lock);
-> +	}
->   }
->   
->   /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> index d12d66dca8e9..cabec384b4d4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -232,7 +232,7 @@ struct amdgpu_vm_pte_funcs {
->   };
->   
->   struct amdgpu_task_info {
-> -	char		process_name[TASK_COMM_LEN];
-> +	char		process_name[NAME_MAX];
+pip3 install dtschema --upgrade
 
-Would not fit the longest process name plus the longest drm_file name by 
-definition so I suggest size it as TASK_COMM_LEN + 1 + NAME_MAX or so.
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-Regards,
-
-Tvrtko
-
->   	char		task_name[TASK_COMM_LEN];
->   	pid_t		pid;
->   	pid_t		tgid;
-> @@ -561,7 +561,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
->   			    u32 vmid, u32 node_id, uint64_t addr, uint64_t ts,
->   			    bool write_fault);
->   
-> -void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
-> +void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *file);
->   
->   void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
->   				struct amdgpu_vm *vm);
