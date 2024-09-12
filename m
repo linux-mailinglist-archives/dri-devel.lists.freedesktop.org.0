@@ -2,137 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA89976A11
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40634976A72
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:25:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD4710E0BC;
-	Thu, 12 Sep 2024 13:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCFF10EB73;
+	Thu, 12 Sep 2024 13:25:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OTrCnIy8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MwbdIc9x";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OTrCnIy8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MwbdIc9x";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MKTgkDMf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A31D410E0BC
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:10:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5048921AEF;
- Thu, 12 Sep 2024 13:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726146642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7t6MzumqzqCdwegoUnGthXs+e27vzUpQ278onbeKBNo=;
- b=OTrCnIy8GLpVPoUUd8dcXy2vejRcpZKAT7TIWt8ElF7DfXimbB+1DxvtmMbYDug+OxtA14
- C3KuO9RTRbqkVZ9baR9U+YDC/VSH9CFJyS+0hOBzsuFKLp9pWLGqeWHUEr+5SpvTyhIIB1
- jIDtAnBEYlaDmguGh5GvoFmM14M33gc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726146642;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7t6MzumqzqCdwegoUnGthXs+e27vzUpQ278onbeKBNo=;
- b=MwbdIc9xOInhvJkTnCp84ocWE3WqgQ5/2MepFFgi6eM//A+fBojKmmqVXfCtdyjgUrx23Z
- HpfuSm1ToYFIKFCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726146642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7t6MzumqzqCdwegoUnGthXs+e27vzUpQ278onbeKBNo=;
- b=OTrCnIy8GLpVPoUUd8dcXy2vejRcpZKAT7TIWt8ElF7DfXimbB+1DxvtmMbYDug+OxtA14
- C3KuO9RTRbqkVZ9baR9U+YDC/VSH9CFJyS+0hOBzsuFKLp9pWLGqeWHUEr+5SpvTyhIIB1
- jIDtAnBEYlaDmguGh5GvoFmM14M33gc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726146642;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7t6MzumqzqCdwegoUnGthXs+e27vzUpQ278onbeKBNo=;
- b=MwbdIc9xOInhvJkTnCp84ocWE3WqgQ5/2MepFFgi6eM//A+fBojKmmqVXfCtdyjgUrx23Z
- HpfuSm1ToYFIKFCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02D2413AD8;
- Thu, 12 Sep 2024 13:10:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id aB98OlHo4mYOagAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 12 Sep 2024 13:10:41 +0000
-Message-ID: <1d16c1ae-2e27-4daa-b8a6-5eab179ef551@suse.de>
-Date: Thu, 12 Sep 2024 15:10:41 +0200
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D4A10E00A
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:25:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CFC564000A;
+ Thu, 12 Sep 2024 13:25:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1726147518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZNRqgvianzN3IRB8vf0Folh27Fs9kKbgdl8Cp6aHy3I=;
+ b=MKTgkDMf371LagYal+PhEzcuSVQ9ziYC+/cdOmROZS/xahW1ygKatTpQKbYKE6Nd4lwCnj
+ qwnX4yAOFgHrHd+iMTHTursEzgRVfjPlHL752/4EVCoZWL3m6HjfAEl93ojcXoJ2a99W7b
+ PrcewU6Wbda9kemCajzoDt9NS6JW8cCP5wgGMDoYNVknN1ymwIDSVWgq1wu0uFi5SUeRvo
+ wFSZHgT4PysLX5YrBp5B3A+I3nnHMiceTA9EYkX2SWhflEI0V4L7N2VIilLa6sCZhE+t9S
+ ZF0WDnzjw+6/c6WGnEu8rLdcwC0dyovHw7mZcifPKTv5W5lEOWiS4zTP4M0+Aw==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v3 0/4] drm/vkms: Switch all vkms object to DRM managed objects
+Date: Thu, 12 Sep 2024 15:25:13 +0200
+Message-Id: <20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/gma500: replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Tejas Vipin <tejasvipin76@gmail.com>, Laurent.pinchart@ideasonboard.com,
- patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240911180650.820598-1-tejasvipin76@gmail.com>
- <b0f77fcc-5d84-4727-9a17-9d1f1e2c5b76@suse.de> <87o74ti7g5.fsf@intel.com>
- <87ldzxi71s.fsf@intel.com> <988bb389-13e6-4465-ab37-3ed94ecee9be@suse.de>
- <87y13xgqj3.fsf@intel.com> <57016d01-4525-4685-b029-41e03b0abbda@suse.de>
- <87bk0tgll7.fsf@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87bk0tgll7.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCPT_COUNT_SEVEN(0.00)[10];
- FREEMAIL_TO(0.00)[linux.intel.com,gmail.com,ideasonboard.com,kernel.org,ffwll.ch];
- ARC_NA(0.00)[]; TAGGED_RCPT(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+X-B4-Tracking: v=1; b=H4sIALnr4mYC/3XQ3U7DIBQH8FdpuPYo0HaljTG+h/GCj9OObBSFi
+ jVL313GYrIl844/5Pw455xIxGAxkqE6kYDJRuvnHOqHiui9nCcEa3ImnPKGtpzB5P10REgHF8H
+ JWU5ooJGo+77ZMdl1JFd+BBztWtS390sO+PmV8eVySZSMCNo7Z5ehMsGBs1E//R1gxnU5Qw5jl
+ KWHoXouLfR0B98hO0rqA+QCB4kBA8rQYM0FE1y/Ku+Xo50f8wcv/zNlhIDOp/wyG1wvUq1HNEZ
+ orfh4K51H2du4+PBT9pVYmaWAgjV3V5NJCp1UQomeM0bra7KIiV8pvLuv8KyMTa5v2raWqG6Vb
+ dt+ARfOf+3JAQAA
+X-Change-ID: 20240521-google-vkms-managed-4aec99461a77
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2678;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=iHq3eNdKgsYGlwtr+CdIy04TnSmMaePg0ryEiV/pQTU=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBm4uu81QC7GWjOTYVRV+uJU9FBktsstAxxhTYfh
+ LSp/Xp8aB2JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZuLrvAAKCRAgrS7GWxAs
+ 4qyNEADM9Am1y3Maz9fE8dIneWLQDF3kyPM616KpP4j9qMC1JOfFCT6UlA3H9qgdWqyA8sIKocf
+ KBScH5Aqo1Xarxzflt0OuTgn9e58PdazJio5OtIFeo7pnSOD/wbzVWhO+QPQk7MkBiLo5j/PkDw
+ 5mN4WQjXvlgqQNHucCNI27sN0Dv9Ag7OdAJxndI0tvOflJvvHs5ruGbVTtzASsQLdpKAKshFXNh
+ BeKTTrU+dhB02uc38zUNGygeuAppCNEWYq2a9A/N2DmScie95W2ci0eIPmuH1BUUsvxsho+h+fW
+ 0XpFOZ2wJulWyI/koQsC2IlayD+L9ckiibtoouMsydjgo2mFlNr8vo2aHRkl9OwzFvdE48PJSLW
+ F6d6Cq8Ov+vW1R5r7JgZMANTa9OdaskUh2zwOpwCS1wuxt8VS0fja3L/D00MdduvMzSQmJ8In0z
+ bzP4q/A4Jf4YSFdeBObX29Hupv7lBY5VIcky0qZgSIwCclZl+W9h7q8KZRkP5G0eCDuaizeKSLQ
+ Y2X+HNIxCk10IGb/KgVjUQLgTVnIzE6KMqJBTmcPtDZ1w/40U0fHR//Li9NtAqitHKyqvJnC+NT
+ w2CwPRIOJjexvWpVMZZ07a5cxMNlAyKrWxBGlPBVrgkpPmrwwpGlDKRgda74hSFfpjASknBPfgC
+ SygzvdGiImQT6vw==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,75 +89,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+To simplify the memory managment this series replace all manual drm 
+object managment by drm-managed one. This way the VKMS code don't have to 
+manage it directly and the DRM core will handle the object destruction.
 
-Am 12.09.24 um 13:25 schrieb Jani Nikula:
-> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi
->>
->> Am 12.09.24 um 11:38 schrieb Jani Nikula:
->>> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>>> Am 12.09.24 um 10:56 schrieb Jani Nikula:
->>>>> Moreover, in this case .detect() only detects digital displays as
->>>>> reported by EDID. If you postpone that to .get_modes(), the probe helper
->>>>> will still report connected, and invent non-EDID fallback modes. The
->>>>> behaviour changes.
->>>> The change in behavior is intentional, because the current test seems
->>>> arbitrary. Does the driver not work with analog outputs?
->>> Not on a DVI/HDMI port. Same with i915.
->>>
->>> That's possibly the only way to distinguish a DVI-A display connected to
->>> DVI-D source.
->> That's a detect failure, but IMHO our probe helpers should really handle
->> this case.
-> How? Allow returning detect failures from .get_modes()?
+No functional changes are intended in this series. This series depends on 
+[1] (for writeback connector) and [2] (for cleaning code).
 
-Something like that, I guess.
+PATCH 1/4: Migrate connector managment to drmm
+PATCH 2/4: Migrate encoder managment to drmm
+PATCH 3/4: Migrate connector management to drm
+PATCH 4/4: Migrate writeback connector management to drm
 
-For the specific problem it would be enough to read the first 20 bytes 
-of EDID data on DVI connectors and test the digital-input flag bit 
-against the exact connector requirements. drm_probe_ddc() could do this. 
-Non-DVI connectors would continue to read a single bytes to detect the DDC.
+[1]: https://lore.kernel.org/all/20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com/
+[2]: https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
 
-For more sophisticated problems, it would be good to introduce an 
-intermediate callback that updates the connector state. So the probe 
-logic would look like:
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v3:
+- As suggested by Maxime, split the managed and the dynamic allocation 
+  parts in different series
+- To reduce the diff in this series, extract the "remove crtc index" part, 
+  see https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
+- Link to v2: https://lore.kernel.org/r/20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com
 
-  1) call ->detect to read physical connector status
-  2) return if physical status did not change
-  3) increment epoch counter
-  4) call ->update to update connector state and properties (EDID, etc) 
-get new connector status
-  5) call ->get_modes if connected
+Changes in v2:
+- Applied comments from José
+- Extract the rename vkms_output -> vkms_crtc to avoid useless changes in 
+  the last commit
+- Extract the rename to_vkms_crtc_state to
+  drm_crtc_state_to_vkms_crtc_state to avoid useless changes in last 
+  commit
+- Extract the drm_mode_crtc_set_gamma_size result check in its own commit
+- Rebased on drm-misc/drm-misc-next
+- Link to v1: https://lore.kernel.org/r/20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com
 
-The initial ->detect would be minimal. The ->update, if implemented, 
-could do more processing and error checking. It's result would be the 
-connector's new status.
+---
+Louis Chauvet (4):
+      drm/vkms: Switch to managed for connector
+      drm/vkms: Switch to managed for encoder
+      drm/vkms: Switch to managed for crtc
+      drm/vkms: Switch to managed for writeback connector
 
-On a side note, I've recently spend quite a few patches on getting the 
-BMC output for ast and mgag200 usable. Something like the above logic 
-would have helped, I think. Because with the current probe logic, I had 
-to implement steps 1 to 4 in ->detect itself. The result has to maintain 
-physical status and epoch counter by itself. [1]
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 14 ++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.c       |  9 ---------
+ drivers/gpu/drm/vkms/vkms_output.c    | 25 +++++++------------------
+ drivers/gpu/drm/vkms/vkms_writeback.c | 13 ++++++-------
+ 4 files changed, 27 insertions(+), 34 deletions(-)
+---
+base-commit: d2194256049910d286cd6c308c2689df521d8842
+change-id: 20240521-google-vkms-managed-4aec99461a77
+prerequisite-message-id: <20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com>
+prerequisite-patch-id: 93bfa5c36385932ea291789faa7356639d9e4bfc
+prerequisite-message-id: <20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com>
+prerequisite-patch-id: 130816a16434cafa13b7a2b629398a20782be3a6
 
-Best regards
-Thomas
-
-[1] 
-https://gitlab.freedesktop.org/drm/kernel/-/commit/2a2391f857cdc5cf16f8df030944cef8d3d2bc30
-
->
-> BR,
-> Jani.
->
->
-
+Best regards,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Louis Chauvet <louis.chauvet@bootlin.com>
 
