@@ -2,93 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D932976718
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 12:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A2197672A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 13:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1AF10E91E;
-	Thu, 12 Sep 2024 10:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38BB10E9A5;
+	Thu, 12 Sep 2024 11:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CYtfd8iw";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="wYtJeOs6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tY5idWfM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D86QzUYZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OoK/u2Kf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD0D10E8A9
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 10:58:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1726138721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C97210E9A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 11:08:08 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C2E281FB6E;
+ Thu, 12 Sep 2024 11:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1726139287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8KfxXIJl6sSUrt0oCskygd0emWR47w0CtNjllXkmzZ0=;
- b=CYtfd8iwUetPQVnmqvmZvup0NRfk0v5Nb0tIh87mrd/yKqZXWkI+f87DWvM8FkyhcTJsMN
- zNVfDuNdqTQKwE3aL0T282XcdFN5a1IQ4rLJtivCfCdLgmA9VI+OC7wyQQsQPx2vVJ/1sO
- iuskca0xgi2WoLs1+scv/DdfObS6Q8E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-BOSI77nAOsiXC5H5jdcesw-1; Thu, 12 Sep 2024 06:58:40 -0400
-X-MC-Unique: BOSI77nAOsiXC5H5jdcesw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-42cbfc2aac6so5103665e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 03:58:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726138719; x=1726743519;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8KfxXIJl6sSUrt0oCskygd0emWR47w0CtNjllXkmzZ0=;
- b=S7gFGc7Y3vzLzxgzHnQvyAtBcaXBLpSXVJoDLtJuTO6gsUEu3As64I7c1uaFSOvddT
- fZyI8jzJ+zOS3q9hnDjSg6xWWyyTXUzfY5rZyi0S47rOWYH07EYkoCX+RiySkGVOtAZt
- fyV2x0EAijDjwgISWQZ0av7JVnBS3bG9mSWC35mXQEuaxoWrrL+vxFtC3xefgEPciqZ3
- HFS82Dft01xG1xtrJ7Fc9Jplk53gZkP4FPcyxiGRkragexr4PlJ5SJtziUXzNLJV+GFq
- 9nSHBD9SIwRKAQ5iA/qtJz8c40QzVpEulcW9tcRFog6RGxpwZ78ob9TQI2i1kBN6ZMDy
- zwrg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWS7VrC4zWmTYLOSSmio35BXwP6wpT+ai+USvSrgmag9Q37iCZyddj06cYwDEWTXS6AuQ8tqJ5IwzY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyEnUQHirhLY5KElADH9lGPfyL/gQNccQ5U5EkbJRRXCtM7Q1TO
- IyZHUG77oUPOu0W8LtQs40PaxSK54BHYpiOEKgnXrXbmxgo4anhfaXOxY5qXsMqdnUVOoThagQH
- kCPF9vAbM/zvw3hP3gV48LsPJTXBF+hnLJAZw70I7lSUaNyRzl4c1K8kAUk6CUq7fsg==
-X-Received: by 2002:a05:600c:4709:b0:42c:ac9f:b505 with SMTP id
- 5b1f17b1804b1-42cdb58e130mr20444415e9.31.1726138718986; 
- Thu, 12 Sep 2024 03:58:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG1kIFj2gZcJpQft3Ip9R95sfyHMqUrmQJsZC95T9uKYSfa2rNf2Foa4QJ4mM6FRnsdjjYg7Q==
-X-Received: by 2002:a05:600c:4709:b0:42c:ac9f:b505 with SMTP id
- 5b1f17b1804b1-42cdb58e130mr20444125e9.31.1726138718419; 
- Thu, 12 Sep 2024 03:58:38 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42cae117aeesm174467035e9.6.2024.09.12.03.58.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Sep 2024 03:58:37 -0700 (PDT)
-Message-ID: <2c97cb8f-94ff-4aa6-be55-c03bcd91cc9f@redhat.com>
-Date: Thu, 12 Sep 2024 12:58:36 +0200
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=h/4Z5Sa2rW9H/76fL3w9v4HT3sraQ0XOlhLYae/Uthk=;
+ b=wYtJeOs6PGlrlWb4smlcbtDG3n/J2KHCauKQYSbjf3rwQK2HXDO6VvzJLS+FlV76tc70AM
+ PiBal+pfiKp0mBpmveXiesL9EZa5mJnebwjn2Ck7EOUjhbjCZkVDdpI30LJc567hETMpar
+ p6IauntO1cAIzout/RAXvdlwSbIOrzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1726139287;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=h/4Z5Sa2rW9H/76fL3w9v4HT3sraQ0XOlhLYae/Uthk=;
+ b=tY5idWfM1C78aJzvGLWzXTW66Jv/nr6oSn3ZEb4SHskFJAQqdcSBqpVBb4M8bx08Rc+PpB
+ 6PtI7xBS0SjKiFBg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=D86QzUYZ;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="OoK/u2Kf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1726139286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=h/4Z5Sa2rW9H/76fL3w9v4HT3sraQ0XOlhLYae/Uthk=;
+ b=D86QzUYZlXbO9l6GM19mIpgOq8gxEE764kbLz4dwb03kOVu24AMqwdotL5a5N7Eioru8ZY
+ FA9Q1czJKi2DqAYdvlbqRb0pbkgCk+U3sKU7WiIY5TaA7f1aVPUWv3J/akkCqJSt5GFg0k
+ PdsEofVY09bSmW3uqxNRqKMbVx6SH7k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1726139286;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=h/4Z5Sa2rW9H/76fL3w9v4HT3sraQ0XOlhLYae/Uthk=;
+ b=OoK/u2KfInsJcKzxPLYAcGctxJFg6QGPfOUm9KO4W4U7U2Jb/kCWOOAm06nyh1DpFs1hSH
+ ZgCisYmU3BcrmVAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D5AB13AD8;
+ Thu, 12 Sep 2024 11:08:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Uqv0HJbL4mbGQQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 Sep 2024 11:08:06 +0000
+Message-ID: <f360d860-e02b-4751-b55d-6a078b261a7f@suse.de>
+Date: Thu, 12 Sep 2024 13:08:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/nouveau: Add drm_panic support for nv50+
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Cc: James Jones <jajones@nvidia.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-References: <20240906100434.1171093-1-jfalempe@redhat.com>
- <20240906100434.1171093-4-jfalempe@redhat.com>
- <CAKb7UviZ_SZyuEV3apP80oEHZZKm4mAY1pSGueSOEswvzwgdkQ@mail.gmail.com>
- <21e44532-7989-43a9-99dd-04461c346be6@nvidia.com>
- <2fb7978b-9d1f-49f1-afe0-f32cc3b6a0c0@redhat.com>
- <CAKb7Uvh8x0z00DY_w-16voWwBbm6pRGLLMBKai-M6_8CDLQfGw@mail.gmail.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <CAKb7Uvh8x0z00DY_w-16voWwBbm6pRGLLMBKai-M6_8CDLQfGw@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH v2] drm/gma500: replace drm_detect_hdmi_monitor() with
+ drm_display_info.is_hdmi
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Tejas Vipin <tejasvipin76@gmail.com>, Laurent.pinchart@ideasonboard.com,
+ patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240911180650.820598-1-tejasvipin76@gmail.com>
+ <b0f77fcc-5d84-4727-9a17-9d1f1e2c5b76@suse.de> <87o74ti7g5.fsf@intel.com>
+ <42b27020-a68e-4c43-800e-61977324be78@suse.de> <871q1pi5i3.fsf@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <871q1pi5i3.fsf@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: C2E281FB6E
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[linux.intel.com,gmail.com,ideasonboard.com,kernel.org,ffwll.ch];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ TAGGED_RCPT(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -5.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,81 +155,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/09/2024 16:39, Ilia Mirkin wrote:
-> On Wed, Sep 11, 2024 at 10:19 AM Jocelyn Falempe <jfalempe@redhat.com 
-> <mailto:jfalempe@redhat.com>> wrote:
-> 
->     On 06/09/2024 21:36, James Jones wrote:
->      > Right, there are 3 iterations of block linear tiling actually.
->     NV50 does
->      > support scanout of block linear surfaces. All block-linear-
->     capable GPUs
->      > do. The 3 generations are:
->      >
->      > NV5x/G8x/GTXXX line: Original block size.
->      > GFXXX(nvc0 I believe in nouveau terms)-GV100: double the block
->     height I
->      > believe.
->      > GTXXX+: Same block size, but the layout within a block is subtly
->      > different, at least as visible in CPU mappings.
->      >
-> 
->     I'm looking at how to check for specific chip in nouveau, and fix the
->     tiling for other cards than Turing.
->     It looks like in most case nouveau uses device->info.chipset, with
->     hardcoded hex value. so for nvc0+ I should check device-
->      >info.chipset >=
->     0xc0 ?
-> 
->     chipset < c0 : block_height 4, "old layout"
->     chipset >= c0 : block_height 8, "old layout"
->     chispet >= ?? : block_height 8, "new layout"
-> 
->     For testing, I have at hand a GTX1650 (Turing) and an old Geforce
->     8800GTS (Tesla?), so it's a NV92, and still uses this nv50+ code ?
-> 
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ 
-> drivers/gpu/drm/nouveau/nvkm/engine/device/base.c#n2399 <https:// 
-> git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/ 
-> gpu/drm/nouveau/nvkm/engine/device/base.c#n2399>
-> 
-> So probably >= 0x160
-> 
-> There should also be a device->card_type which is an enum that you can 
-> use too, depending on what you have available? Set here:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ 
-> drivers/gpu/drm/nouveau/nvkm/engine/device/base.c#n3177 <https:// 
-> git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/ 
-> gpu/drm/nouveau/nvkm/engine/device/base.c#n3177>
-> 
-> Once you have a patch tested, ideally someone with the hardware should 
-> test on a >= fermi && < turing card.
+Hi
 
-I'm testing on my 8800 GTS.
+Am 12.09.24 um 11:30 schrieb Jani Nikula:
+> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Hi
+>>
+>> Am 12.09.24 um 10:48 schrieb Jani Nikula:
+>>> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>>> Hi
+>>>>
+>>>> Am 11.09.24 um 20:06 schrieb Tejas Vipin:
+>>>>> Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi since
+>>>>> monitor HDMI information is available after EDID is parsed. Additionally
+>>>>> rewrite the code the code to have fewer indentation levels.
+>>>> The problem is that the entire logic is outdated. The content
+>>>> of cdv_hdmi_detect() should go into cdv_hdmi_get_modes(), the detect_ctx
+>>>> callback should be set to drm_connector_helper_detect_from_ddc() and
+>>>> cdv_hdmi_detect() should be deleted. The result is that ->detect_ctx
+>>>> will detect the presence of a display and ->get_modes will update EDID
+>>>> and other properties.
+>>> I guess I didn't get the memo on this one.
+>>>
+>>> What's the problem with reading the EDID at detect? The subsequent
+>>> drm_edid_connector_add_modes() called from .get_modes() does not need to
+>>> read the EDID again.
+>> With drm_connector_helper_detect_from_ddc() there is already a helper
+>> for detection. It makes sense to use it. And if we continue to update
+>> the properties in detect (instead of get_modes), what is the correct
+>> connector_status on errors? Right now and with the patch applied, detect
+>> returns status_disconnected on errors. But this isn't correct if there
+>> actually is a display. By separating detect and get_modes cleanly, we
+>> can detect the display reliably, but also handle errors better than we
+>> currently do in gma500. Get_modes is already expected to update the EDID
+>> property, [1] for detect it's not so clear AFAICT. I think that from a
+>> design perspective, it makes sense to have a read-only function that
+>> only detects the physical state of the connector and a read-write
+>> function that updates the connector's properties. Best regards Thomas
+>> [1]
+>> https://elixir.bootlin.com/linux/v6.10.9/source/include/drm/drm_modeset_helper_vtables.h#L865
+> So what if you can probe DDC but can't actually read an EDID of any
+> kind? IMO that's a detect failure.
 
-The problem I have is that fb->modifier is 0, but the buffer is still 
-tiled. I found there is a nouveau_framebuffer_get_layout() which gives 
-tile_mode and kind, and works on my Tesla.
+Not being able to read the EDID is not a failure IMHO. It's better to 
+report a detected display and only provide minimal support, than to 
+outright reject it. The display is essential for most users being able 
+to use the computer at all, so it's often better to display something at 
+lower quality than display nothing at all.
 
-So if I understand correctly, if kind != 0, there is tiling, and the 
-block size is 8 * (1 << tile_mode). (and half this on Tesla).
+>
+> Or how about things like CEC attach? Seems natural to do it at
+> .detect(). Doing it at .get_modes() just seems wrong. However, it needs
+> the EDID for physical address.
+>
+> I just don't think one size fits all here.
 
-At least tiling is much easier on Tesla, there is no tiling inside the 
-block. In my test, block size is 4K, 16x64 pixels, tile_mode is 4, and 
-kind is 122.
+The good thing about the EDID probe helpers is that it only reads a 
+minimal amount of data, like a single byte or the EDID header, so 
+something like that. Many drivers poll the DDC every 10 seconds via 
+->detect. Which means that code running in ->detect possibly runs 
+concurrently to other DRM operations, such as page flips. Hence, 
+->detect can interfere with the driver's hot path. The call to 
+->get_modes usually only runs after the connector status changes to 
+connected, which rarely happens. It's also not time critical as no 
+modeset has happened yet.
 
-I will send a v3 which works on Tesla and Turing soon.
+And as everyone copies code from everyone else, we should establish best 
+practices that take such things into account. Even with drivers that 
+don't use connector polling, such as gma500, we should encourage devs to 
+do the right thing and move code out of ->detect.
 
-Thanks for your help.
+Best regards
+Thomas
+
+
+>
+> BR,
+> Jani.
+>
+>
+>>> I think it should be fine to do incremental refactors like the patch at
+>>> hand (modulo some issues I mention below).
+>>>
+>>> BR,
+>>> Jani.
+>>>
+>>>
+>>>> Do you have  a device for testing such a change?
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+>>>>> ---
+>>>>> Changes in v2:
+>>>>>        - Use drm_edid instead of edid
+>>>>>
+>>>>> Link to v1: https://lore.kernel.org/all/20240910051856.700210-1-tejasvipin76@gmail.com/
+>>>>> ---
+>>>>>     drivers/gpu/drm/gma500/cdv_intel_hdmi.c | 24 +++++++++++++-----------
+>>>>>     1 file changed, 13 insertions(+), 11 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+>>>>> index 2d95e0471291..701f8bbd5f2b 100644
+>>>>> --- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+>>>>> +++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+>>>>> @@ -128,23 +128,25 @@ static enum drm_connector_status cdv_hdmi_detect(
+>>>>>     {
+>>>>>     	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
+>>>>>     	struct mid_intel_hdmi_priv *hdmi_priv = gma_encoder->dev_priv;
+>>>>> -	struct edid *edid = NULL;
+>>>>> +	const struct drm_edid *drm_edid;
+>>>>> +	int ret;
+>>>>>     	enum drm_connector_status status = connector_status_disconnected;
+>>>>>     
+>>>>> -	edid = drm_get_edid(connector, connector->ddc);
+>>>>> +	drm_edid = drm_edid_read_ddc(connector, connector->ddc);
+>>> Just drm_edid_read() is enough when you're using connector->ddc.
+>>>
+>>>>> +	ret = drm_edid_connector_update(connector, drm_edid);
+>>>>>     
+>>>>>     	hdmi_priv->has_hdmi_sink = false;
+>>>>>     	hdmi_priv->has_hdmi_audio = false;
+>>>>> -	if (edid) {
+>>>>> -		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
+>>>>> -			status = connector_status_connected;
+>>>>> -			hdmi_priv->has_hdmi_sink =
+>>>>> -						drm_detect_hdmi_monitor(edid);
+>>>>> -			hdmi_priv->has_hdmi_audio =
+>>>>> -						drm_detect_monitor_audio(edid);
+>>>>> -		}
+>>>>> -		kfree(edid);
+>>>>> +	if (ret)
+>>> This error path leaks the EDID.
+>>>
+>>>>> +		return status;
+>>>>> +
+>>>>> +	if (drm_edid_is_digital(drm_edid)) {
+>>>>> +		status = connector_status_connected;
+>>>>> +		hdmi_priv->has_hdmi_sink = connector->display_info.is_hdmi;
+>>>>> +		hdmi_priv->has_hdmi_audio = connector->display_info.has_audio;
+>>>>>     	}
+>>>>> +	drm_edid_free(drm_edid);
+>>>>> +
+>>>>>     	return status;
+>>>>>     }
+>>>>>     
 
 -- 
-
-Jocelyn
-
-> 
-> Hope this helps,
-> 
->    -ilia
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
