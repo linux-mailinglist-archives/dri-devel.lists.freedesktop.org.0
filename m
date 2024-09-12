@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0352C977413
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 00:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC059772E0
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 22:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCFC10EC59;
-	Thu, 12 Sep 2024 22:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6949E10EC58;
+	Thu, 12 Sep 2024 20:47:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KbiOymI5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tkrEAY8k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA9F010EC47
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 20:29:06 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-37747c1d928so152375f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726172945; x=1726777745; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=K+Vvlq6kPIRv3v2sNDT50A07Twv9J2TV9GHlO+JqyOA=;
- b=KbiOymI5qOy/dr0Z0isLD1/rmu5ZprMK6tyQ6pUVZpjZDezlak+Rb2ZFgpxUYzB/h4
- 1UK5oaHLSl5c3NrDfb/JQRDep+pUy7MgpvUE+eYKy09+tZXp+PDZtyqRU5eU/ClSFLqG
- mncixRu7MjHHsGu3Y9CNEOC2P8muhnf/hYZg5ewObMhih9Qjcjzb/NkDFwSa2+QuWYWr
- JnBDVpI2bbvIt3EAWMmHP8saJ45EZzfBpYbV7KO3UFBPxrfTabmZ6kO3nIEcJoRAGNP5
- /Oe5n+TM4ypmgaUB8af+hO0Oegjl3XzIwsLW4rP4BT/Kgi+a/nRZDQmFanM7Z5wkngMv
- Ljtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726172945; x=1726777745;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K+Vvlq6kPIRv3v2sNDT50A07Twv9J2TV9GHlO+JqyOA=;
- b=bld4jvuJDqHfS6lmsCF+elgqWIdFPzd8BvE7IdHJ7kjchIggr1ru4D0RdVqOFNd3uP
- AomYXZ8JRK0QQrpHR/dqEVHIKFIgJV9Np5gXEIxK820n5wyniLN14u/pZTiHltBc7obU
- AjBX+pvlplr8kqc0Zi/eaB6jU5v4CSzrKSms4mRR4D/zopKBKS/kziwXKPkc1jTUWNWz
- ejWAGMiD2nSb51lp1exTZtyziHequLql30WzhXaZn2YQcTa9ikjJtUsWsJhaH1sYWGx8
- q7MSLyGzHy//SOxmlWX6o+5UmimaU1ORVVXoPiqmBiIDKOLmO6bJVt1Rvu9sYkqC55Xj
- +K5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwbVk8Gci/OkvbfGTeFezsACxNmT0S+gF8C2EaIy6kzjOkiXqIwUlSv/82RnjwDf8J/IjzVfxlun4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCuAf4k6d3xxElxxyDaGbzaFBSR1Ou1+2q81sW8d9lFIxRmYgL
- 9mSIcU9XQ7euDrthYNTqiUCXwDvxFfS3be1E7msadkoeQRRCPRZ+
-X-Google-Smtp-Source: AGHT+IF6AGfDleGr42k1egNIDn9NzhhgPE6NVPwmZsDi9VTBrErzhGtAmkQv7+/UngllSM9A8ndaPg==
-X-Received: by 2002:a05:6000:1445:b0:374:b9d7:5120 with SMTP id
- ffacd0b85a97d-378d61e2adcmr279407f8f.23.1726172944504; 
- Thu, 12 Sep 2024 13:29:04 -0700 (PDT)
-Received: from [192.168.0.10] ([178.233.24.52])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37895675c11sm15086968f8f.55.2024.09.12.13.29.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Sep 2024 13:29:03 -0700 (PDT)
-Message-ID: <6c9b7f85-f92d-44ed-ae9d-00f6d55ea614@gmail.com>
-Date: Thu, 12 Sep 2024 23:29:00 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F02FF10EC54
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 20:47:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 493925C5C77;
+ Thu, 12 Sep 2024 20:47:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63177C4CEC3;
+ Thu, 12 Sep 2024 20:47:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726174059;
+ bh=ZtSD5K0e6Z+ns0W+5JedcbhZtsHEZvKpK6AXhvJswYs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tkrEAY8k0IwA4k4V1KF662ZibemcHq1JMzUspGoTSqHJZ9UVENG+H8vnNERdib6qZ
+ iBDcOo5CueZQeouNeFXDz5jmmxP0kDh1hwb+jQyWj5YuiNK+0q3fWmCWph/aEcdgBy
+ /h69/xs0IOzb0RZxEK/GaCnao1csSbKZ5AiwJAY0xIRmFAQ6TGBr32/kYh19HG7DqT
+ xs0pqpVm3F1mRo31iEM4ui5vGjnEB8CY+YJfJQCO44uCrKWc7qhR3ep9eODOAUKDHs
+ Ipc3KLpd+oanu9ZCtdNJ7ePg3XQUPs4R4BRxziqUfY+XOhCO2993n52HQgFL13U2Ln
+ gI2lvcVX4SQ6w==
+Message-ID: <c501c5d3-d715-4ac5-98be-35d23ad1cfbe@kernel.org>
+Date: Thu, 12 Sep 2024 22:47:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Support alpha blending in MTK display driver
-To: linux-mediatek@lists.infradead.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Hsiao Chien Sung <shawn.sung@mediatek.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>,
- CK Hu <ck.hu@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>
-References: <20240717-alpha-blending-v4-0-4b1c806c0749@mediatek.com>
- <CAAOTY_8ThuusfHk9Gd5pFP8VhJkG2seuJmkFiruK1rPQFZGBzg@mail.gmail.com>
-From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
-Content-Language: en-US, tr, en-GB
-In-Reply-To: <CAAOTY_8ThuusfHk9Gd5pFP8VhJkG2seuJmkFiruK1rPQFZGBzg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 12 Sep 2024 22:03:18 +0000
+Subject: Re: [PATCH] drm/tidss: Add MIT license along with GPL-2.0
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, praneeth@ti.com, nm@ti.com, vigneshr@ti.com,
+ r-ravikumar@ti.com, j-choudhary@ti.com, grandmaster@al2klimov.de,
+ caihuoqing@baidu.com, ahalaney@redhat.com, cai.huoqing@linux.dev,
+ colin.i.king@gmail.com, javierm@redhat.com, dmitry.baryshkov@linaro.org,
+ geert+renesas@glider.be, laurent.pinchart@ideasonboard.com,
+ u.kleine-koenig@pengutronix.de, robh@kernel.org, sam@ravnborg.org,
+ simona.vetter@ffwll.ch, ville.syrjala@linux.intel.com,
+ wangxiaojun11@huawei.com, yuanjilin@cdjrlc.com, yuehaibing@huawei.com
+References: <20240912171142.3241719-1-devarsht@ti.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20240912171142.3241719-1-devarsht@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,30 +68,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2024-07-31 16:34 +03:00, Chun-Kuang Hu wrote:
-> Hi, Shawn:
+On 9/12/24 7:11 PM, Devarsh Thakkar wrote:
+> Modify license to include dual licensing as GPL-2.0-only OR MIT license for
+> tidss display driver. This allows other operating system ecosystems such as
+> Zephyr and also the commercial firmwares to refer and derive code from this
+> display driver in a more permissive manner.
 > 
-> Hsiao Chien Sung via B4 Relay
-> <devnull+shawn.sung.mediatek.com@kernel.org> 於 2024年7月17日 週三 下午1:24寫道：
->>
->> Support "Pre-multiplied" and "None" blend mode on MediaTek's chips by
->> adding correct blend mode property when the planes init.
->> Before this patch, only the "Coverage" mode (default) is supported.
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+
+My only contribution to this driver was through DRM refactorings,
+but anyways:
+
+Acked-by: Danilo Krummrich <dakr@kernel.org>
+
+> ---
+>   drivers/gpu/drm/tidss/Makefile            | 2 +-
+>   drivers/gpu/drm/tidss/tidss_crtc.c        | 2 +-
+>   drivers/gpu/drm/tidss/tidss_crtc.h        | 2 +-
+>   drivers/gpu/drm/tidss/tidss_dispc.c       | 2 +-
+>   drivers/gpu/drm/tidss/tidss_dispc.h       | 2 +-
+>   drivers/gpu/drm/tidss/tidss_dispc_regs.h  | 2 +-
+>   drivers/gpu/drm/tidss/tidss_drv.c         | 2 +-
+>   drivers/gpu/drm/tidss/tidss_drv.h         | 2 +-
+>   drivers/gpu/drm/tidss/tidss_encoder.c     | 2 +-
+>   drivers/gpu/drm/tidss/tidss_encoder.h     | 2 +-
+>   drivers/gpu/drm/tidss/tidss_irq.c         | 2 +-
+>   drivers/gpu/drm/tidss/tidss_irq.h         | 2 +-
+>   drivers/gpu/drm/tidss/tidss_kms.c         | 2 +-
+>   drivers/gpu/drm/tidss/tidss_kms.h         | 2 +-
+>   drivers/gpu/drm/tidss/tidss_plane.c       | 2 +-
+>   drivers/gpu/drm/tidss/tidss_plane.h       | 2 +-
+>   drivers/gpu/drm/tidss/tidss_scale_coefs.c | 2 +-
+>   drivers/gpu/drm/tidss/tidss_scale_coefs.h | 2 +-
+>   18 files changed, 18 insertions(+), 18 deletions(-)
 > 
-> For the whole series, applied to mediatek-drm-next [1], thanks.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next
-
-I am seeing broken colors on an MT8173 Chromebook with next-20240912,
-which goes away if I git-revert this series (commits 1f66fe62cc09
-eb17c5909481 a3f7f7ef4bfe 59e9d9de25f0 4225d5d5e779).
-
-To illustrate, I took a picture [1] of some color mixing diagrams from
-Wikipedia [2]. Do you have an idea of what goes wrong?
-
-(I'm busy with too many things so I don't want to debug it now...)
-
-[1] https://i.imgur.com/tNFvovB.jpeg
-[2] https://en.wikipedia.org/wiki/Color_space#Generic
+> diff --git a/drivers/gpu/drm/tidss/Makefile b/drivers/gpu/drm/tidss/Makefile
+> index 312645271014..c67ff32d02e1 100644
+> --- a/drivers/gpu/drm/tidss/Makefile
+> +++ b/drivers/gpu/drm/tidss/Makefile
+> @@ -1,4 +1,4 @@
+> -# SPDX-License-Identifier: GPL-2.0
+> +# SPDX-License-Identifier: GPL-2.0 OR MIT
+>   
+>   tidss-y := tidss_crtc.o \
+>   	tidss_drv.o \
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index 94f8e3178df5..43dfbead9fa9 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.h b/drivers/gpu/drm/tidss/tidss_crtc.h
+> index 040d1205496b..da03873e2ef0 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index 1ad711f8d2a8..3321a1c731b1 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2016-2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Jyri Sarha <jsarha@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index 086327d51a90..e6e4396a0d63 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+> index 13feedfe5d6d..6e27b6d444ab 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2016-2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Jyri Sarha <jsarha@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+> index d15f836dca95..b060e420ddec 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+> index d7f27b0b0315..d4209234f59c 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
+> index 17a86bed8054..9749fbc0e056 100644
+> --- a/drivers/gpu/drm/tidss/tidss_encoder.c
+> +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.h b/drivers/gpu/drm/tidss/tidss_encoder.h
+> index 3e561d6b1e83..85db3835a335 100644
+> --- a/drivers/gpu/drm/tidss/tidss_encoder.h
+> +++ b/drivers/gpu/drm/tidss/tidss_encoder.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
+> index 604334ef526a..51939744695a 100644
+> --- a/drivers/gpu/drm/tidss/tidss_irq.c
+> +++ b/drivers/gpu/drm/tidss/tidss_irq.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_irq.h b/drivers/gpu/drm/tidss/tidss_irq.h
+> index b512614d5863..cbfd684ecd26 100644
+> --- a/drivers/gpu/drm/tidss/tidss_irq.h
+> +++ b/drivers/gpu/drm/tidss/tidss_irq.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+> index f371518f8697..05afd57b9128 100644
+> --- a/drivers/gpu/drm/tidss/tidss_kms.c
+> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_kms.h b/drivers/gpu/drm/tidss/tidss_kms.h
+> index 632d79f5983f..69b6bca14550 100644
+> --- a/drivers/gpu/drm/tidss/tidss_kms.h
+> +++ b/drivers/gpu/drm/tidss/tidss_kms.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+> index a5d86822c9e3..37ffaea15c73 100644
+> --- a/drivers/gpu/drm/tidss/tidss_plane.c
+> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_plane.h b/drivers/gpu/drm/tidss/tidss_plane.h
+> index e933e158b617..3e00bc853813 100644
+> --- a/drivers/gpu/drm/tidss/tidss_plane.h
+> +++ b/drivers/gpu/drm/tidss/tidss_plane.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_scale_coefs.c b/drivers/gpu/drm/tidss/tidss_scale_coefs.c
+> index c2b84fea89a5..686ea63e0f45 100644
+> --- a/drivers/gpu/drm/tidss/tidss_scale_coefs.c
+> +++ b/drivers/gpu/drm/tidss/tidss_scale_coefs.c
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Jyri Sarha <jsarha@ti.com>
+> diff --git a/drivers/gpu/drm/tidss/tidss_scale_coefs.h b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
+> index 9c560d0fdac0..4689109fe560 100644
+> --- a/drivers/gpu/drm/tidss/tidss_scale_coefs.h
+> +++ b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+>   /*
+>    * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
+>    * Author: Jyri Sarha <jsarha@ti.com>
