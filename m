@@ -2,77 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30037976554
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 11:18:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020B297657B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 11:26:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8243D10E1FF;
-	Thu, 12 Sep 2024 09:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6597610EB1F;
+	Thu, 12 Sep 2024 09:26:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="QTJoWxLg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n8R3xjgo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cd7+Tu/y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="159hUFmc";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Wr0YNEn1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T4MUvHoe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eQXdIOm0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ctc0istA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA0C10E1FF
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 09:18:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A925110EB1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 09:26:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7A01D1F76C;
- Thu, 12 Sep 2024 09:18:46 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CCAB41F76C;
+ Thu, 12 Sep 2024 09:26:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726132727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1726133192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kn6dikhq1SSERuKzRRXDJMSAhN3YN1fucw643Y596JY=;
- b=QTJoWxLgJBU+hbx8PH51rj7Fjxr0JMfPy04s6tdYpVbXCwHK8a5XCvt/eFAHn9BNh6hDE/
- BLJey3/2ztjRWs+RRHK8+qF5n6GluIrlVHopONYEEtUAgkpXZAEjtBk34+TMUVKgcrMERr
- yFSzYkfOISMgRyUmZL07ibornYdyO80=
+ bh=+gfKavm6hNALa+fgSv1tQpvY/oFh7dPR7Rl3fsR1mJ4=;
+ b=Wr0YNEn1D8DaRyqh8vBN3awAZkSXLKS/rR41arkM10FePh3vcxzRobqRcX7ABJhYW/F2YV
+ rRorEHHtK5UrWwxeI2XVoewGv2WyY0z3UdcGFeXTq7akqMjM52NJDs2LcfYqusMBoc6iaP
+ mHl7eRlvUk+XuHdPfoCPYI+3PkgQzNA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726132727;
+ s=susede2_ed25519; t=1726133192;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kn6dikhq1SSERuKzRRXDJMSAhN3YN1fucw643Y596JY=;
- b=n8R3xjgoE28p9qNEImIy6JvWXoBNaAfJU+1rUP/euxKg2DZx7I+gCxodMkUzdI0dMtIDhq
- G/KmkTThzHX1i9Dg==
+ bh=+gfKavm6hNALa+fgSv1tQpvY/oFh7dPR7Rl3fsR1mJ4=;
+ b=T4MUvHoeTO/JWTYdmuLGI781fGPDjeg8h06vxaxCAzo8RBhSdIgljHl980+Fu2DoHA43tY
+ 3kg/SYS01Pz5taCA==
 Authentication-Results: smtp-out2.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eQXdIOm0;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ctc0istA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726132726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1726133191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kn6dikhq1SSERuKzRRXDJMSAhN3YN1fucw643Y596JY=;
- b=Cd7+Tu/ybzujfY2LZ2mxLb6LRivQuEFALaM5Ajj8c+JY+aZ4J5LXmts4MJeGLoqeQ/2mIo
- TMrv4o1p876NJ60xOx8Z0yklSyZu4Ffzbs347HlZdBdiSsIeE09YXgI3u+O42BEcHRrCLf
- 3OEFJD9W0O//UYAkFlhyDX6IfzV2vLs=
+ bh=+gfKavm6hNALa+fgSv1tQpvY/oFh7dPR7Rl3fsR1mJ4=;
+ b=eQXdIOm0l1eXf2/lvI98N5U6C95wXi7coGUqsPX029iZp0hJZS4zNmXukdsIFat0vRADVz
+ zcJ5aS7g3cO0LSU2vkYGf5D/Dsasbr9X1EIBOCKGa5X2Ss8Edo6F+q7r3B8pl3OCnRKmOY
+ enaXr9w9JZRt1LCK6U1n/X+sumVwUlU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726132726;
+ s=susede2_ed25519; t=1726133191;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kn6dikhq1SSERuKzRRXDJMSAhN3YN1fucw643Y596JY=;
- b=159hUFmc9MHxey5NtdxxbvbpGwjOR9HaTHhh7TmNzkN/ifrShZ9/lJkqFnrTauqxT7vrca
- b6ViZU8FI3PzZwDQ==
+ bh=+gfKavm6hNALa+fgSv1tQpvY/oFh7dPR7Rl3fsR1mJ4=;
+ b=ctc0istADgJ+F91W/wajHiq2luCHCSSOHvNXII/w0cfgQy84KZg8NCXIyz62QXo6C94OGd
+ CWqd1dLl9WbWRcDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FEAA13A73;
- Thu, 12 Sep 2024 09:18:46 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 869E913A73;
+ Thu, 12 Sep 2024 09:26:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id DA2LCfax4mY4HwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 12 Sep 2024 09:18:46 +0000
-Message-ID: <42b27020-a68e-4c43-800e-61977324be78@suse.de>
-Date: Thu, 12 Sep 2024 11:18:45 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OY0VH8ez4maSIQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 Sep 2024 09:26:31 +0000
+Message-ID: <988bb389-13e6-4465-ab37-3ed94ecee9be@suse.de>
+Date: Thu, 12 Sep 2024 11:26:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] drm/gma500: replace drm_detect_hdmi_monitor() with
@@ -84,6 +86,7 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20240911180650.820598-1-tejasvipin76@gmail.com>
  <b0f77fcc-5d84-4727-9a17-9d1f1e2c5b76@suse.de> <87o74ti7g5.fsf@intel.com>
+ <87ldzxi71s.fsf@intel.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,27 +113,36 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87o74ti7g5.fsf@intel.com>
+In-Reply-To: <87ldzxi71s.fsf@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[linux.intel.com,gmail.com,ideasonboard.com,kernel.org,ffwll.ch];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[10]; MID_RHS_MATCH_FROM(0.00)[];
- TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url, imap1.dmz-prg2.suse.org:helo,
- suse.de:mid, suse.de:email]
-X-Spam-Flag: NO
+X-Rspamd-Queue-Id: CCAB41F76C
 X-Spam-Level: 
+X-Spamd-Result: default: False [-5.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_TO(0.00)[linux.intel.com,gmail.com,ideasonboard.com,kernel.org,ffwll.ch];
+ TO_DN_SOME(0.00)[]; ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[10]; TAGGED_RCPT(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns, intel.com:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -5.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,109 +160,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 12.09.24 um 10:48 schrieb Jani Nikula:
-> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi
+Am 12.09.24 um 10:56 schrieb Jani Nikula:
+> On Thu, 12 Sep 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>> Hi
+>>>
+>>> Am 11.09.24 um 20:06 schrieb Tejas Vipin:
+>>>> Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi since
+>>>> monitor HDMI information is available after EDID is parsed. Additionally
+>>>> rewrite the code the code to have fewer indentation levels.
+>>> The problem is that the entire logic is outdated. The content
+>>> of cdv_hdmi_detect() should go into cdv_hdmi_get_modes(), the detect_ctx
+>>> callback should be set to drm_connector_helper_detect_from_ddc() and
+>>> cdv_hdmi_detect() should be deleted. The result is that ->detect_ctx
+>>> will detect the presence of a display and ->get_modes will update EDID
+>>> and other properties.
+>> I guess I didn't get the memo on this one.
 >>
->> Am 11.09.24 um 20:06 schrieb Tejas Vipin:
->>> Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi since
->>> monitor HDMI information is available after EDID is parsed. Additionally
->>> rewrite the code the code to have fewer indentation levels.
->> The problem is that the entire logic is outdated. The content
->> of cdv_hdmi_detect() should go into cdv_hdmi_get_modes(), the detect_ctx
->> callback should be set to drm_connector_helper_detect_from_ddc() and
->> cdv_hdmi_detect() should be deleted. The result is that ->detect_ctx
->> will detect the presence of a display and ->get_modes will update EDID
->> and other properties.
-> I guess I didn't get the memo on this one.
->
-> What's the problem with reading the EDID at detect? The subsequent
-> drm_edid_connector_add_modes() called from .get_modes() does not need to
-> read the EDID again.
+>> What's the problem with reading the EDID at detect? The subsequent
+>> drm_edid_connector_add_modes() called from .get_modes() does not need to
+>> read the EDID again.
+> Moreover, in this case .detect() only detects digital displays as
+> reported by EDID. If you postpone that to .get_modes(), the probe helper
+> will still report connected, and invent non-EDID fallback modes. The
+> behaviour changes.
 
-With drm_connector_helper_detect_from_ddc() there is already a helper 
-for detection. It makes sense to use it. And if we continue to update 
-the properties in detect (instead of get_modes), what is the correct 
-connector_status on errors? Right now and with the patch applied, detect 
-returns status_disconnected on errors. But this isn't correct if there 
-actually is a display. By separating detect and get_modes cleanly, we 
-can detect the display reliably, but also handle errors better than we 
-currently do in gma500. Get_modes is already expected to update the EDID 
-property, [1] for detect it's not so clear AFAICT. I think that from a 
-design perspective, it makes sense to have a read-only function that 
-only detects the physical state of the connector and a read-write 
-function that updates the connector's properties. Best regards Thomas 
-[1] 
-https://elixir.bootlin.com/linux/v6.10.9/source/include/drm/drm_modeset_helper_vtables.h#L865 
+The change in behavior is intentional, because the current test seems 
+arbitrary. Does the driver not work with analog outputs?
+
+Best regards
+Thomas
 
 >
-> I think it should be fine to do incremental refactors like the patch at
-> hand (modulo some issues I mention below).
+>> I think it should be fine to do incremental refactors like the patch at
+>> hand (modulo some issues I mention below).
+> Another issue in the patch is that it should also change .get_modes() to
+> not read the EDID again, but just call drm_edid_connector_add_modes().
 >
 > BR,
 > Jani.
 >
->
->> Do you have  a device for testing such a change?
+>> BR,
+>> Jani.
 >>
->> Best regards
->> Thomas
 >>
->>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
->>> ---
->>> Changes in v2:
->>>       - Use drm_edid instead of edid
+>>> Do you have  a device for testing such a change?
 >>>
->>> Link to v1: https://lore.kernel.org/all/20240910051856.700210-1-tejasvipin76@gmail.com/
->>> ---
->>>    drivers/gpu/drm/gma500/cdv_intel_hdmi.c | 24 +++++++++++++-----------
->>>    1 file changed, 13 insertions(+), 11 deletions(-)
+>>> Best regards
+>>> Thomas
 >>>
->>> diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
->>> index 2d95e0471291..701f8bbd5f2b 100644
->>> --- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
->>> +++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
->>> @@ -128,23 +128,25 @@ static enum drm_connector_status cdv_hdmi_detect(
->>>    {
->>>    	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
->>>    	struct mid_intel_hdmi_priv *hdmi_priv = gma_encoder->dev_priv;
->>> -	struct edid *edid = NULL;
->>> +	const struct drm_edid *drm_edid;
->>> +	int ret;
->>>    	enum drm_connector_status status = connector_status_disconnected;
->>>    
->>> -	edid = drm_get_edid(connector, connector->ddc);
->>> +	drm_edid = drm_edid_read_ddc(connector, connector->ddc);
-> Just drm_edid_read() is enough when you're using connector->ddc.
->
->>> +	ret = drm_edid_connector_update(connector, drm_edid);
->>>    
->>>    	hdmi_priv->has_hdmi_sink = false;
->>>    	hdmi_priv->has_hdmi_audio = false;
->>> -	if (edid) {
->>> -		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
->>> -			status = connector_status_connected;
->>> -			hdmi_priv->has_hdmi_sink =
->>> -						drm_detect_hdmi_monitor(edid);
->>> -			hdmi_priv->has_hdmi_audio =
->>> -						drm_detect_monitor_audio(edid);
->>> -		}
->>> -		kfree(edid);
->>> +	if (ret)
-> This error path leaks the EDID.
->
->>> +		return status;
->>> +
->>> +	if (drm_edid_is_digital(drm_edid)) {
->>> +		status = connector_status_connected;
->>> +		hdmi_priv->has_hdmi_sink = connector->display_info.is_hdmi;
->>> +		hdmi_priv->has_hdmi_audio = connector->display_info.has_audio;
->>>    	}
->>> +	drm_edid_free(drm_edid);
->>> +
->>>    	return status;
->>>    }
->>>    
+>>>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+>>>> ---
+>>>> Changes in v2:
+>>>>       - Use drm_edid instead of edid
+>>>>
+>>>> Link to v1: https://lore.kernel.org/all/20240910051856.700210-1-tejasvipin76@gmail.com/
+>>>> ---
+>>>>    drivers/gpu/drm/gma500/cdv_intel_hdmi.c | 24 +++++++++++++-----------
+>>>>    1 file changed, 13 insertions(+), 11 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+>>>> index 2d95e0471291..701f8bbd5f2b 100644
+>>>> --- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+>>>> +++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+>>>> @@ -128,23 +128,25 @@ static enum drm_connector_status cdv_hdmi_detect(
+>>>>    {
+>>>>    	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
+>>>>    	struct mid_intel_hdmi_priv *hdmi_priv = gma_encoder->dev_priv;
+>>>> -	struct edid *edid = NULL;
+>>>> +	const struct drm_edid *drm_edid;
+>>>> +	int ret;
+>>>>    	enum drm_connector_status status = connector_status_disconnected;
+>>>>    
+>>>> -	edid = drm_get_edid(connector, connector->ddc);
+>>>> +	drm_edid = drm_edid_read_ddc(connector, connector->ddc);
+>> Just drm_edid_read() is enough when you're using connector->ddc.
+>>
+>>>> +	ret = drm_edid_connector_update(connector, drm_edid);
+>>>>    
+>>>>    	hdmi_priv->has_hdmi_sink = false;
+>>>>    	hdmi_priv->has_hdmi_audio = false;
+>>>> -	if (edid) {
+>>>> -		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
+>>>> -			status = connector_status_connected;
+>>>> -			hdmi_priv->has_hdmi_sink =
+>>>> -						drm_detect_hdmi_monitor(edid);
+>>>> -			hdmi_priv->has_hdmi_audio =
+>>>> -						drm_detect_monitor_audio(edid);
+>>>> -		}
+>>>> -		kfree(edid);
+>>>> +	if (ret)
+>> This error path leaks the EDID.
+>>
+>>>> +		return status;
+>>>> +
+>>>> +	if (drm_edid_is_digital(drm_edid)) {
+>>>> +		status = connector_status_connected;
+>>>> +		hdmi_priv->has_hdmi_sink = connector->display_info.is_hdmi;
+>>>> +		hdmi_priv->has_hdmi_audio = connector->display_info.has_audio;
+>>>>    	}
+>>>> +	drm_edid_free(drm_edid);
+>>>> +
+>>>>    	return status;
+>>>>    }
+>>>>    
 
 -- 
 --
