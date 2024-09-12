@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B090A97701A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 20:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9EC977019
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 20:08:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6AB10EC03;
-	Thu, 12 Sep 2024 18:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B6E10EC04;
+	Thu, 12 Sep 2024 18:08:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SCa9xe9N";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cl+JHoUw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9BC110EC03
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 18:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726164497; x=1757700497;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/Sk/qoDmW0VfyaSu2qOZfuZuosCJXcI1/acp4e1YASM=;
- b=SCa9xe9Nw194KnEBQcqyslTRePrpeEnlNeHIWadONftMhR2GIzDe9CQb
- myykZZpLA1pYl84gUjJPIFZoiSqMez7hL5ufDeEj+OgOuoF9ajMoykqEp
- x4NSNUYS7qm6K3B3YqKwafEJepUd5AXQgkNZVKa3+IOlrI3UhnJJz+i3m
- xos8CHd7ghsmlDevJe18wVzFeZMvjbmogs1Vshg0acm1htJewCWSlXDeV
- XMZPthBYLxbZV8KQi22L+1dNebqhwyoMeU9L45buRnRmcw3fG4JNkLuS2
- jK9FA8XCnOTeS/vfegIXYTMoO+n3f2gJcTA58V2Fq/U9Ib9CjFJNJfnUJ A==;
-X-CSE-ConnectionGUID: KL3ConcNQNajOhe1trAQkw==
-X-CSE-MsgGUID: A8wENU3mSrCcRNFnHuKIOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24977121"
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="24977121"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2024 11:08:17 -0700
-X-CSE-ConnectionGUID: 2eYzWbarRF2JKH1ZmFOrwg==
-X-CSE-MsgGUID: NQhZjoKTQvSe0sfleF6BGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="67725108"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 12 Sep 2024 11:08:15 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sooEm-0005ZG-2x;
- Thu, 12 Sep 2024 18:08:12 +0000
-Date: Fri, 13 Sep 2024 02:07:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- simona.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 7/7] dma-buf: rework the enable_signaling handling
-Message-ID: <202409130132.ScyyyHQm-lkp@intel.com>
-References: <20240911085903.1496-8-christian.koenig@amd.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0089A10EC04
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 18:08:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8152C5C5B78;
+ Thu, 12 Sep 2024 18:08:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41F99C4CEC3;
+ Thu, 12 Sep 2024 18:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726164492;
+ bh=pHVKUgc037QIkkMyjr0klM/vGrCs08KRmgG5kkq2IOo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Cl+JHoUwBpwclc34hmilJ/q47jZx/83/7BecIXcqQ3i15eaMvyUyvDkyVtBH+ljVU
+ Y/LW00U/BVdjCbRovmFC8jfzPl4q9HAY810zAT6QHoSIAoyvTk4pFWpmh0z/UgG1JK
+ ao3oKXxWsX09TLncKVI9LNfi5i8zS9c/cEWMwt+wNEd3RRggwgSwrJUTGu5Z/dBj+9
+ OSMz4SXe7Tr23uIjUpzTMaDFzTlXwUTAsUshPNVLrLQTmNdxf5gol1iBLPhlAcCVSP
+ R17Rnhgn/dqXTW4AM99THV2x7s7ASK5nTwX31PfGQNAY2iztkH1k+DySqKQcXYPaAX
+ w2+/LLy82OclQ==
+Date: Thu, 12 Sep 2024 20:08:10 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: ahalaney@redhat.com, airlied@gmail.com, cai.huoqing@linux.dev, 
+ caihuoqing@baidu.com, colin.i.king@gmail.com, dakr@redhat.com, daniel@ffwll.ch,
+ dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
+ geert+renesas@glider.be, 
+ grandmaster@al2klimov.de, j-choudhary@ti.com, javierm@redhat.com,
+ jyri.sarha@iki.fi, 
+ laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, 
+ nm@ti.com, praneeth@ti.com, r-ravikumar@ti.com, robh@kernel.org, 
+ sam@ravnborg.org, simona.vetter@ffwll.ch, tomi.valkeinen@ideasonboard.com, 
+ tzimmermann@suse.de, u.kleine-koenig@pengutronix.de, vigneshr@ti.com, 
+ ville.syrjala@linux.intel.com, wangxiaojun11@huawei.com, yuanjilin@cdjrlc.com, 
+ yuehaibing@huawei.com
+Subject: Re: [PATCH] drm/tidss: Add MIT license along with GPL-2.0
+Message-ID: <20240912-unyielding-mottled-bumblebee-6bb69f@houat>
+References: <20240912171142.3241719-1-devarsht@ti.com>
+ <993bbe0a1b503505dd2e9b33b94e2b83@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="7xixjsp4uufbegwa"
 Content-Disposition: inline
-In-Reply-To: <20240911085903.1496-8-christian.koenig@amd.com>
+In-Reply-To: <993bbe0a1b503505dd2e9b33b94e2b83@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +70,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-kernel test robot noticed the following build errors:
+--7xixjsp4uufbegwa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next drm-tip/drm-tip next-20240912]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.11-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Thu, Sep 12, 2024 at 06:04:11PM GMT, Maxime Ripard wrote:
+> On Thu, 12 Sep 2024 22:41:42 +0530, Devarsh Thakkar wrote:
+> > Modify license to include dual licensing as GPL-2.0-only OR MIT license=
+ for
+> > tidss display driver. This allows other operating system ecosystems suc=
+h as
+> > Zephyr and also the commercial firmwares to refer and derive code from =
+this
+> > display driver in a more permissive manner.
+> >=20
+> >=20
+> > [ ... ]
+>=20
+> Acked-by: Maxime Ripard <mripard@kernel.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/dma-buf-sw_sync-remove-pointless-enable_signaling-implementation/20240911-175943
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20240911085903.1496-8-christian.koenig%40amd.com
-patch subject: [PATCH 7/7] dma-buf: rework the enable_signaling handling
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240913/202409130132.ScyyyHQm-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409130132.ScyyyHQm-lkp@intel.com/reproduce)
+Also, we need the ack of all contributors to that driver, so my ack
+isn't enough to merge that patch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409130132.ScyyyHQm-lkp@intel.com/
+Maxime
 
-All errors (new ones prefixed by >>):
+--7xixjsp4uufbegwa
+Content-Type: application/pgp-signature; name="signature.asc"
 
-   drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c: In function 'dma_resv_kunit_active_fence_init':
->> drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:72:9: error: implicit declaration of function 'dma_fence_enable_sw_signaling'; did you mean 'dma_fence_enable_signaling'? [-Wimplicit-function-declaration]
-      72 |         dma_fence_enable_sw_signaling(fence);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         dma_fence_enable_signaling
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZuMuAgAKCRAnX84Zoj2+
+dv6eAYCi4jOdtVoIy60SAAMJCLFrI4wf7YQQruU/aVFo0Pb9/tge5AFz3X5pYtjc
+Rf7vB2YBgOnnpVUNtwn8u0Jvfq0gpOx4oc+XmD1jRbINJ2ZTY7fRtiv0TLKB1DBI
+IzF2KlDEWA==
+=8muI
+-----END PGP SIGNATURE-----
 
-vim +72 drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  64  
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  65  static void dma_resv_kunit_active_fence_init(struct kunit *test,
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  66  					     struct dma_resv *resv,
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  67  					     enum dma_resv_usage usage)
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  68  {
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  69  	struct dma_fence *fence;
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  70  
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  71  	fence = alloc_mock_fence(test);
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12 @72  	dma_fence_enable_sw_signaling(fence);
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  73  
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  74  	dma_resv_lock(resv, NULL);
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  75  	dma_resv_reserve_fences(resv, 1);
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  76  	dma_resv_add_fence(resv, fence, usage);
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  77  	dma_resv_unlock(resv);
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  78  }
-8eda41dfc9b2f0 Karolina Stolarek 2024-06-12  79  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--7xixjsp4uufbegwa--
