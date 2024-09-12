@@ -2,90 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708439773C1
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 23:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3C1977415
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 00:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4972A10E99F;
-	Thu, 12 Sep 2024 21:45:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0268610EC5A;
+	Thu, 12 Sep 2024 22:04:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MfLT6cLC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hqbOGY5H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1F010E99F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 21:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1726177499;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LdWPfLJMdgjvfegYvi5NNo76eeOdhcq5LsVGADnslwU=;
- b=MfLT6cLC0AGx7KqCMwJVylhtFWxSGtRW/pfP4QGZCjrY5yO5xY2OxVZ8wy9DdQA8B0s/tH
- mtYgT2hurborTV2xBtFYN/L9+2w7uagSPS5D+EBbn1E76x2NrB8sRTYs4JqHCr3ihvJB2W
- /TafUcctu2B6obUk6PfcCK5H0LSvjic=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-570-MEs0AzaZNDWn0Kik4uq6Dg-1; Thu, 12 Sep 2024 17:44:58 -0400
-X-MC-Unique: MEs0AzaZNDWn0Kik4uq6Dg-1
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6c518ae847dso26209696d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 14:44:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726177498; x=1726782298;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LdWPfLJMdgjvfegYvi5NNo76eeOdhcq5LsVGADnslwU=;
- b=G/L6AakN8sgCMkPUORAHVcZsUpTsnDM5STbv4MyNdmkjHvI9HkndzrUo7/BNLWrR6D
- wu1+sVXyKZBWM/wD5+NNqkmZAt2bUyiPN24XO3xtZutfvzxG4uHr2csPeeLBs80DCRBN
- +HimiDxBfBcuLBQgLgszNfRqMN+ZOgbSyfWXi8Ocy1S+G+6fTlRNKAMqtph16o6fAcHr
- 7M4HTokbyPE3TFt98jW7V+QYv8aP+pncqkYJFGp3XvEjblDeNEHvHFB7AGCHvwUA3mmd
- XcPIvH06Wg1wBwZpOcMyWMz/e9B9tvYT8x5qpkb+MOguqLVyOTJabbtAis9gZWYQ0xks
- KQPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVvxXuA6KFePdFfD/qvKO4WBBYQufinQR+45a36MHgIXXyDnDxEjgJUhaw+RQpcfanZSf+W0P31ijw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEWGKHWtmUVRfFPZ8dL7Tk/Sy0LxkeL4BuJbDUgKsPisRbPxbP
- cZD397W+z0YPmaO4cfUeTU/KVntdovYYyhNimdtVYevOSHnJEU8nPm4sUFNXnQLmuUrlhIdbohW
- 68irmLmY2NFWhn4Npyw3gcOztBihl1NPRgioXjJtUNrh6DUPz0A8E1vhoHvsjkK/b5Q==
-X-Received: by 2002:a05:6214:3c8f:b0:6bf:79e5:b129 with SMTP id
- 6a1803df08f44-6c57358f603mr67686986d6.49.1726177497685; 
- Thu, 12 Sep 2024 14:44:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEE/NWkPqwUt7Wnb8G+NCwIzrvRbMj/H8FdfBBi21HmBardcXcnuVFiEXhPR/VFHQFmrZ602Q==
-X-Received: by 2002:a05:6214:3c8f:b0:6bf:79e5:b129 with SMTP id
- 6a1803df08f44-6c57358f603mr67686556d6.49.1726177497294; 
- Thu, 12 Sep 2024 14:44:57 -0700 (PDT)
-Received: from x1gen2nano ([2600:1700:1ff0:d0e0::33])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6c5343296a4sm58893506d6.18.2024.09.12.14.44.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Sep 2024 14:44:56 -0700 (PDT)
-Date: Thu, 12 Sep 2024 16:44:54 -0500
-From: Andrew Halaney <ahalaney@redhat.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com, 
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- praneeth@ti.com, nm@ti.com, vigneshr@ti.com, r-ravikumar@ti.com, 
- j-choudhary@ti.com, grandmaster@al2klimov.de, caihuoqing@baidu.com, 
- cai.huoqing@linux.dev, colin.i.king@gmail.com, javierm@redhat.com, 
- dmitry.baryshkov@linaro.org, geert+renesas@glider.be,
- laurent.pinchart@ideasonboard.com, 
- dakr@redhat.com, u.kleine-koenig@pengutronix.de, robh@kernel.org, 
- sam@ravnborg.org, simona.vetter@ffwll.ch, ville.syrjala@linux.intel.com, 
- wangxiaojun11@huawei.com, yuanjilin@cdjrlc.com, yuehaibing@huawei.com
-Subject: Re: [PATCH] drm/tidss: Add MIT license along with GPL-2.0
-Message-ID: <mdpjvdik4eu7eruaslidf35hhybswwbyd5gusx2dgxkzcaoel2@z57f3eyppfac>
-References: <20240912171142.3241719-1-devarsht@ti.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1104B10EC5A
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 22:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726178668; x=1757714668;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fFGyqoL+rPxCekW4/SvaEA14xSlOVqoYnpwB66u9eqg=;
+ b=hqbOGY5HdFjOsx8mIK1ip5u5KOOzl5rA/10jB41aroCxvLLONdTIJjmp
+ 5PlFQ2DYguklGKqfmmJOveKoUugPXbLYcBXeczThUpQL5PpkjeQDVZIFl
+ 8/8yDMORPvILbjepvtWaOerHz/CC4Qe5gcOgnWmF5/hLk06ymuyhp/U+Y
+ 4TdWKxMheG7xuUD+gjkaqQcbxiZ97QUaRwHBRT6O9g4805U3PmuzW5Z/b
+ Bj24FByJk35aQ6ny/C2U8cW55V00OLoe2pc/lNRZk0nruh0jXttad0Fw5
+ pFcZNxgUyfTK4vBKHfYzhKG2SoJF9I9XERMURuWmdLmrXwxeacrELxFlO w==;
+X-CSE-ConnectionGUID: cmxt5lEKQGqvOp1Yo6I3ag==
+X-CSE-MsgGUID: 8AZUY4MBQUKHVXpGsG8ykQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="24935468"
+X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; d="scan'208";a="24935468"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2024 15:04:25 -0700
+X-CSE-ConnectionGUID: /P5/i26oSXu9cdc3VNbDaA==
+X-CSE-MsgGUID: 3KPHfaHyTOi0/E9faBSrJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; d="scan'208";a="67691430"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by orviesa010.jf.intel.com with ESMTP; 12 Sep 2024 15:04:23 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sorvI-0005ks-0d;
+ Thu, 12 Sep 2024 22:04:20 +0000
+Date: Fri, 13 Sep 2024 06:04:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH 3/3] drm/amdgpu: use drm_file name
+Message-ID: <202409130526.fve4aEMs-lkp@intel.com>
+References: <20240911145836.734080-3-pierre-eric.pelloux-prayer@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20240912171142.3241719-1-devarsht@ti.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240911145836.734080-3-pierre-eric.pelloux-prayer@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,13 +72,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 12, 2024 at 10:41:42PM GMT, Devarsh Thakkar wrote:
-> Modify license to include dual licensing as GPL-2.0-only OR MIT license for
-> tidss display driver. This allows other operating system ecosystems such as
-> Zephyr and also the commercial firmwares to refer and derive code from this
-> display driver in a more permissive manner.
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+Hi Pierre-Eric,
 
-Acked-by: Andrew Halaney <ahalaney@redhat.com>
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11-rc7 next-20240912]
+[cannot apply to drm/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-use-drm_file-name-in-fdinfo/20240911-230058
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20240911145836.734080-3-pierre-eric.pelloux-prayer%40amd.com
+patch subject: [PATCH 3/3] drm/amdgpu: use drm_file name
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240913/202409130526.fve4aEMs-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409130526.fve4aEMs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409130526.fve4aEMs-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2374: warning: Function parameter or struct member 'file' not described in 'amdgpu_vm_set_task_info'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2801: warning: Function parameter or struct member 'ts' not described in 'amdgpu_vm_handle_fault'
+
+
+vim +2374 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2367  
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2368  /**
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2369   * amdgpu_vm_set_task_info - Sets VMs task info.
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2370   *
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2371   * @vm: vm for which to set the info
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2372   */
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2373  void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *file)
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18 @2374  {
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2375  	if (!vm->task_info)
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2376  		return;
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2377  
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2378  	if (vm->task_info->pid == current->pid)
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2379  		return;
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2380  
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2381  	vm->task_info->pid = current->pid;
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2382  	get_task_comm(vm->task_info->task_name, current);
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2383  
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2384  	if (current->group_leader->mm != current->mm)
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2385  		return;
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2386  
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2387  	vm->task_info->tgid = current->group_leader->pid;
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2388  	__get_task_comm(vm->task_info->process_name, TASK_COMM_LEN,
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2389  			current->group_leader);
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2390  	/* Append drm_client_name if set. */
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2391  	if (file && file->name) {
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2392  		int n;
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2393  
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2394  		mutex_lock(&file->name_lock);
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2395  		n = strlen(vm->task_info->process_name);
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2396  		if (n < NAME_MAX) {
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2397  			if (file->name) {
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2398  				vm->task_info->process_name[n] = '/';
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2399  				strscpy_pad(&vm->task_info->process_name[n + 1],
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2400  					    file->name, NAME_MAX - (n + 1));
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2401  			}
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2402  		}
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2403  		mutex_unlock(&file->name_lock);
+cd1125e8edc565 Pierre-Eric Pelloux-Prayer 2024-09-11  2404  	}
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2405  }
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2406  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
