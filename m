@@ -2,70 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4FE976A99
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748C9976AC7
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:37:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87A2110EB87;
-	Thu, 12 Sep 2024 13:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 560A110EB83;
+	Thu, 12 Sep 2024 13:37:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yg25aqL2";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QMd5rozE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC2B10EB84
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:30:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726147827; x=1757683827;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=OnAHtlModD3HN9QVHtPCU0r+HMeTJuzd7Va2+Q7poGg=;
- b=Yg25aqL2OubA2Nx5t+SMYVUzebcCaxwzLXghQ40cY/CNvhiX7Ww1/5yW
- e1P81glTJUP9XoESZmOPI2yQ8fN7UqhGsUqKRQQq88RU1Cerx/yWeXoLk
- 2CVDBPTd5VI/FD1wG00qM9s6UsTfEKUjfYoLAYLJ6wpB6IWEg4dSA7uVS
- Mbwh99jIGXGOsOZDMq1bK7d5mO3Sodgr4ZQg9UZO0w4cjDNFwqQXc2PDx
- /u0o/ttr/mm2nk3WChkpI7NTbfY5vVXQlxopmKWvNrKaxQ02BZc8Wjutl
- h0ACdsysIToJpV118ojFlN2I/5bh3rpzWClC+zVneUqdDceq4K6wyRfXh w==;
-X-CSE-ConnectionGUID: 3nktFJO9SViAUMgMG+LFCw==
-X-CSE-MsgGUID: IpYkIS6RQL+CjEPjT0nDwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="36137176"
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="36137176"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2024 06:30:24 -0700
-X-CSE-ConnectionGUID: LLYuoqszQKyQO++59u7nwA==
-X-CSE-MsgGUID: fPlCJ5yBTaWUWXmka/MJQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="67784955"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 12 Sep 2024 06:30:19 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 12 Sep 2024 16:30:18 +0300
-Date: Thu, 12 Sep 2024 16:30:18 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Tejas Vipin <tejasvipin76@gmail.com>,
- Laurent.pinchart@ideasonboard.com, patrik.r.jakobsson@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/gma500: replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-Message-ID: <ZuLs6squDEHUKJS-@intel.com>
-References: <20240911180650.820598-1-tejasvipin76@gmail.com>
- <b0f77fcc-5d84-4727-9a17-9d1f1e2c5b76@suse.de>
- <87o74ti7g5.fsf@intel.com>
- <42b27020-a68e-4c43-800e-61977324be78@suse.de>
- <871q1pi5i3.fsf@intel.com>
- <f360d860-e02b-4751-b55d-6a078b261a7f@suse.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B1FB10EB83
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726148225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m1Iwmt9sTkRV0ZmpvpKUhBxgVtFjW6lz95SN6og9FQo=;
+ b=QMd5rozEgIBKhPdQu6re0rojfnPYBrgLuizNdA43lAI5Xlsojc4Sz1xsTK3fQrWrmFiynM
+ +tLGbjknZgmV0BFLyYWO8guRix2Y6h//7AZYyl3/CYv1Fan3HeFYRk4niHZbCREfQnQDoP
+ KEamZ7Q4CqMLE/Vdyw0Phmb2n2lTVSY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-454-ZLHiORHYMMC_4meNwhI8Hw-1; Thu, 12 Sep 2024 09:37:04 -0400
+X-MC-Unique: ZLHiORHYMMC_4meNwhI8Hw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-42cb0ed9072so8385425e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 06:37:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726148223; x=1726753023;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=m1Iwmt9sTkRV0ZmpvpKUhBxgVtFjW6lz95SN6og9FQo=;
+ b=XtsFZzHbG77UDo2yU71Ihro7Y9UGdCLsvQFzkj6fDHT5s1HiUQAnN9MjPNQyskdoZb
+ E4be7/Gsg2bPLEH2c6HR/1fQCnCbUImUaPCXhjIvpU8AgtcgkBFDj03mHzHfLvEAsTd/
+ nLZAVNrBWxnRW+LZ0gf571sWdCfB05lcrOB0u2BSfUa/VjbE2tkOPZIyqU+FHLysPiZt
+ UTPD19fEqTMpIV4cfW+Lv4L2CvjsxMhkR8LxmknDGdG9IDns1zZO14eUemNkdH1Ip/tz
+ YAQ4quxtM/uTGtWzZdbz6is7dmW/no6riuFosnH/CX7mkQAuxIM1LhpNliqx9C8bvKTL
+ wPAA==
+X-Gm-Message-State: AOJu0YwSk3LUsqNMU65eImCxnDfaPJ11inZStXLBagn+vfZPHkp/X1vO
+ dLnZMmD1UjSuURKkVfCemzeVeMkSZc4PNMeDaYtxhjV0Tl9EM7lXo9N2qXSfHkSnOJfUDOzt/Yd
+ RcNY2YYxa0EDy9ZTryRoNyROzS4xFlNSBmZ7/nqP7pN/0lOKm8bD+OJZXsWbPY92OCw==
+X-Received: by 2002:a05:600c:4695:b0:42c:bb58:a077 with SMTP id
+ 5b1f17b1804b1-42cdb53cac5mr29259945e9.14.1726148223106; 
+ Thu, 12 Sep 2024 06:37:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGGVtnaN2yARSQTwHWx+mlM6qCU81zGWjZPVLfBNd23iI9L3t30QhB905/vlAKKvEJSKcKHDA==
+X-Received: by 2002:a05:600c:4695:b0:42c:bb58:a077 with SMTP id
+ 5b1f17b1804b1-42cdb53cac5mr29259615e9.14.1726148222578; 
+ Thu, 12 Sep 2024 06:37:02 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-378956de023sm14318778f8f.106.2024.09.12.06.37.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Sep 2024 06:37:02 -0700 (PDT)
+Message-ID: <a69511f5-d957-44dd-b37a-30595acc03cb@redhat.com>
+Date: Thu, 12 Sep 2024 15:37:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f360d860-e02b-4751-b55d-6a078b261a7f@suse.de>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] drm/ast: astdp: Inline ast_astdp_connector_init()
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240911115347.899148-1-tzimmermann@suse.de>
+ <20240911115347.899148-2-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240911115347.899148-2-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,82 +93,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 12, 2024 at 01:08:06PM +0200, Thomas Zimmermann wrote:
-> Hi
+On 11/09/2024 13:51, Thomas Zimmermann wrote:
+> Inline ast_astdp_connector_init() into its only caller. The helper
+> currently only does half of the connector-init work and is trivial
+> enough to be inlined.
 > 
-> Am 12.09.24 um 11:30 schrieb Jani Nikula:
-> > On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >> Hi
-> >>
-> >> Am 12.09.24 um 10:48 schrieb Jani Nikula:
-> >>> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >>>> Hi
-> >>>>
-> >>>> Am 11.09.24 um 20:06 schrieb Tejas Vipin:
-> >>>>> Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi since
-> >>>>> monitor HDMI information is available after EDID is parsed. Additionally
-> >>>>> rewrite the code the code to have fewer indentation levels.
-> >>>> The problem is that the entire logic is outdated. The content
-> >>>> of cdv_hdmi_detect() should go into cdv_hdmi_get_modes(), the detect_ctx
-> >>>> callback should be set to drm_connector_helper_detect_from_ddc() and
-> >>>> cdv_hdmi_detect() should be deleted. The result is that ->detect_ctx
-> >>>> will detect the presence of a display and ->get_modes will update EDID
-> >>>> and other properties.
-> >>> I guess I didn't get the memo on this one.
-> >>>
-> >>> What's the problem with reading the EDID at detect? The subsequent
-> >>> drm_edid_connector_add_modes() called from .get_modes() does not need to
-> >>> read the EDID again.
-> >> With drm_connector_helper_detect_from_ddc() there is already a helper
-> >> for detection. It makes sense to use it. And if we continue to update
-> >> the properties in detect (instead of get_modes), what is the correct
-> >> connector_status on errors? Right now and with the patch applied, detect
-> >> returns status_disconnected on errors. But this isn't correct if there
-> >> actually is a display. By separating detect and get_modes cleanly, we
-> >> can detect the display reliably, but also handle errors better than we
-> >> currently do in gma500. Get_modes is already expected to update the EDID
-> >> property, [1] for detect it's not so clear AFAICT. I think that from a
-> >> design perspective, it makes sense to have a read-only function that
-> >> only detects the physical state of the connector and a read-write
-> >> function that updates the connector's properties. Best regards Thomas
-> >> [1]
-> >> https://elixir.bootlin.com/linux/v6.10.9/source/include/drm/drm_modeset_helper_vtables.h#L865
-> > So what if you can probe DDC but can't actually read an EDID of any
-> > kind? IMO that's a detect failure.
-> 
-> Not being able to read the EDID is not a failure IMHO. It's better to 
-> report a detected display and only provide minimal support, than to 
-> outright reject it. The display is essential for most users being able 
-> to use the computer at all, so it's often better to display something at 
-> lower quality than display nothing at all.
-> 
-> >
-> > Or how about things like CEC attach? Seems natural to do it at
-> > .detect(). Doing it at .get_modes() just seems wrong. However, it needs
-> > the EDID for physical address.
-> >
-> > I just don't think one size fits all here.
-> 
-> The good thing about the EDID probe helpers is that it only reads a 
-> minimal amount of data, like a single byte or the EDID header, so 
-> something like that. Many drivers poll the DDC every 10 seconds via 
-> ->detect. Which means that code running in ->detect possibly runs 
-> concurrently to other DRM operations, such as page flips. Hence, 
-> ->detect can interfere with the driver's hot path. The call to 
-> ->get_modes usually only runs after the connector status changes to 
-> connected, which rarely happens. It's also not time critical as no 
-> modeset has happened yet.
+> Also set the local variables for encoder and connector as late as
+> possible, so that the compiler warns if we use them before having
+> initialized the instance.
 
-I don't see how you can really optimize polling with this because
-the only way to figure out if the EDID changed is to read it.
+Thanks, it looks good to me.
 
-Anyways, my gut feeling is that we need things in .detect()
-because that's also where DPCD is read, and we defintiely need that
-to do anything sensible. And dongles can also snoop the EDID reads
-and I think even potentially change their DPCD based on that, so
-having that go out of sync by skipping the EDID read might end up
-with weird behaviour.
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_dp.c | 45 ++++++++++++++++++------------------
+>   1 file changed, 22 insertions(+), 23 deletions(-)
+> 
 
--- 
-Ville Syrjälä
-Intel
