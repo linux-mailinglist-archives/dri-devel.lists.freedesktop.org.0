@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BC5976B9E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 16:11:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3D6976BE5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 16:24:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0475A10E0F0;
-	Thu, 12 Sep 2024 14:11:26 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="YbehUcRl";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="85PBOx26";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A728310E1C9;
+	Thu, 12 Sep 2024 14:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECE4410E0F0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 14:11:23 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1726150280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BmQQn0NA7A3HI6f1goHSPD5Aj/1Se9SJOMQU+5q5BMQ=;
- b=YbehUcRlxZcSdo5Y0dF6Se8GM+qSQwyeeQb5GTwLEHG4/rkxv5sXDtzm3i1on3JbIp8ZDs
- syg3HqOYYf2c592xFZnAGn43OBKmUhJ98nWcxQSrnTt3WNJdUFSB2GUAEUzPGwIJ8fggfv
- 7D4xO/L3jmRivoXdbq6tpwz/5a9Ok/3hK3cGZZJW2T8Gp71PEH9QPzwmS3g8fH0dY1x5oM
- vE+S1Ne9H/ytoQL0i70NwoGoxFKAy5kZQb7ITWHslB4ge7i556IPLCfOAqUmRnOaBoh8lb
- TfuubwCXS3zXsu5DZoiAX4uepoQKy0AxwbvMMSWms1pQ3Rf3fv4xJFoVMtkBlA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1726150280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BmQQn0NA7A3HI6f1goHSPD5Aj/1Se9SJOMQU+5q5BMQ=;
- b=85PBOx26vkTENLN2s5DG+kjBS1IdzrtdYgcfJxebHNu6/e0TtEBEsP6iiixzfNgpjIe2WI
- uQ0bSrxtrvJr4cDA==
-To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Javier Martinez Canillas
- <javierm@redhat.com>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v3 2/4] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-In-Reply-To: <20240910070733.156127-3-jfalempe@redhat.com>
-References: <20240910070733.156127-1-jfalempe@redhat.com>
- <20240910070733.156127-3-jfalempe@redhat.com>
-Date: Thu, 12 Sep 2024 16:17:19 +0206
-Message-ID: <84cyl9c67s.fsf@jogness.linutronix.de>
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAE1E10E1C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 14:24:29 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id
+ e9e14a558f8ab-3a045d88853so13943485ab.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 07:24:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726151069; x=1726755869;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OuQKzZLpf5NGkYThLq5i18wfitTNOX4EEkZm7JE9LoA=;
+ b=tXCeAEvpvcCjXtmP33ncrUIYwWlOyp7fM4+1d0UTqvaP4pE4HT4LjMBe/GnArH1PlX
+ BZOQLUtU+1Gn9MhNmcLG/pBM7d2n1YT2WUrN8LSB6ZTSRMEwhzcWm9Ap5FKe6/oK1VM4
+ 8MV7qzVu2efpddL2XLagqItg1vMRsETp94YPzJxmQ3DnDcj4hXBKDEU/BbfujltqWdPB
+ TUzg5oeolqv56HZduQQT5TUQ942XxeTvbJpyD/RXqIhVllIA7+dh8MR4YObyKKaMbc0d
+ c535Mq2sqx3BA3FNuVnFEhJF0tMrTuVQMb8JE9SgT1DAJU001F5MRzbfmmYHkxKxU8hp
+ vMUg==
+X-Gm-Message-State: AOJu0YyugfXnxj1FizDNkBhOsm83wB6uLV7immuk8WN1yp5nylMtoR55
+ GB9MnyxZNc97929dEkJJs65qEAKBOZaHVZ6Quut7bbWkIkdjNi83THbXIA5RODeXXAVDtINg3CD
+ 0REXjVtPTq11VWEALAoxhDxwDJuhVpt5rnkr5TE1BWjuqsaTCihzHeIk=
+X-Google-Smtp-Source: AGHT+IGtAMEBFXov4olRqQ8fx0hqnNccYpwhxRwwRoVYQbK8zJ1FGNMi9MrcukcWzJrCWidjuVJzWAd4yDB3IDF5mxgQhB5kVjSX
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Received: by 2002:a05:6e02:1a68:b0:39f:5557:857f with SMTP id
+ e9e14a558f8ab-3a084900bc8mr31537715ab.6.1726151068912; Thu, 12 Sep 2024
+ 07:24:28 -0700 (PDT)
+Date: Thu, 12 Sep 2024 07:24:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000004acdbb0621ecdd59@google.com>
+Subject: [syzbot] Monthly dri report (Sep 2024)
+From: syzbot <syzbot+list2bf3238f8b427087cb3d@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,25 +59,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-09-10, Jocelyn Falempe <jfalempe@redhat.com> wrote:
-> drm_log is a simple logger that uses the drm_client API to print the
-> kmsg boot log on the screen. This is not a full replacement to fbcon,
-> as it will only print the kmsg. It will never handle user input, or a
-> terminal because this is better done in userspace.
->
-> Design decisions:
->  * It uses the drm_client API, so it should work on all drm drivers
->    from the start.
->  * It doesn't scroll the message, that way it doesn't need to redraw
->    the whole screen for each new message.
->    It also means it doesn't have to keep drawn messages in memory, to
->    redraw them when scrolling.
->  * It uses the new non-blocking console API, so it should work well
->    with PREEMPT_RT.
->  * drm_log can only be built-in (and drm must be built-in too).
->    The reason is that, if you build it as a module, then a userspace
->    application will be more appropriate than this module.
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Hello dri maintainers/developers,
 
-Reviewed-by: John Ogness <john.ogness@linutronix.de> # console API
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
+
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 18 issues are still open and 31 have been fixed so far.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 569     Yes   WARNING in drm_syncobj_array_find
+                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+<2> 292     Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<3> 66      Yes   WARNING in drm_mode_create_lease_ioctl
+                  https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
+<4> 17      Yes   WARNING in drm_gem_prime_fd_to_handle
+                  https://syzkaller.appspot.com/bug?extid=268d319a7bfd92f4ae01
+<5> 11      Yes   divide error in drm_mode_vrefresh
+                  https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
+<6> 8       No    WARNING in drm_wait_one_vblank (2)
+                  https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+<7> 4       Yes   WARNING in drm_gem_object_handle_put_unlocked
+                  https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
+<8> 4       Yes   divide error in drm_mode_debug_printmodeline
+                  https://syzkaller.appspot.com/bug?extid=2e93e6fb36e6fdc56574
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
