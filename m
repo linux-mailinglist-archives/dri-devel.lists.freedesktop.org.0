@@ -2,82 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9168297670F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 12:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D932976718
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 12:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057AF10E0CC;
-	Thu, 12 Sep 2024 10:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1AF10E91E;
+	Thu, 12 Sep 2024 10:58:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="GYnPQS/V";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CYtfd8iw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B9010E0CC
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 10:56:07 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3787f30d892so570595f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 03:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1726138566; x=1726743366;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Nt9opV20XXsOa5z/RzMwdzRNoh6hR/E6GTyAUXLI6Is=;
- b=GYnPQS/V5PSvitV3+TJ99AI9CBqKMeRDHsRwjGsS9YTAv0/iUoHjM8cy+Uf4puYcid
- z4E+yT79sReHbXkFs9/EsmBN0TpKIof6vbKjkhgrEy01ZDFRsktDY4MotAMEvfoLzuzu
- dYBZS0+66KWLm4XQ7j1njQ3C0xJlMD5F0fFhxBXPWqJ52ONk3JxJjCW6T+fvwLSxUbzg
- GiE90JPbYkY5A6foTB/fu35Ig/TD+Zha8eIQdjMtsLsfVEsUVa8BOQS1m/Lxv62mJON3
- N8GbRTXvNv5Ds8I2Q/lZS717QP96o9ZKFP/VYO4+Ur2uESkg71cp1ehwA1Hc8uXTmeAc
- q8hg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD0D10E8A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 10:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726138721;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8KfxXIJl6sSUrt0oCskygd0emWR47w0CtNjllXkmzZ0=;
+ b=CYtfd8iwUetPQVnmqvmZvup0NRfk0v5Nb0tIh87mrd/yKqZXWkI+f87DWvM8FkyhcTJsMN
+ zNVfDuNdqTQKwE3aL0T282XcdFN5a1IQ4rLJtivCfCdLgmA9VI+OC7wyQQsQPx2vVJ/1sO
+ iuskca0xgi2WoLs1+scv/DdfObS6Q8E=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-605-BOSI77nAOsiXC5H5jdcesw-1; Thu, 12 Sep 2024 06:58:40 -0400
+X-MC-Unique: BOSI77nAOsiXC5H5jdcesw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-42cbfc2aac6so5103665e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 03:58:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726138566; x=1726743366;
+ d=1e100.net; s=20230601; t=1726138719; x=1726743519;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Nt9opV20XXsOa5z/RzMwdzRNoh6hR/E6GTyAUXLI6Is=;
- b=IUamfz2NF0lynR7TP+id97L/Dbvt5eVPg4hwGTyBmmgGhlKFImqMMa9fNbZGzqzmWv
- G8+SfNDh0OOxuu2OpfMjolbeFw0IO8OroW5Ukp6tJkxSFkcDA/MEuGvypMN7qAXjUP+L
- hgmzfDh13f8TgOXV5C6g8MwsHi4VS2EHX9ziv50Vd4ov1f4I2rLsDG4Z+V3//6L7fYl1
- NzIbR6IPZu8fjay9x58IX0cMaxYTJX8y8lf4G/dNsFRNE4amBEGuvrUeJAHHO3PUcNXR
- pAVshV3WlU26XSGVLJmCi/3w7yDHhzQSswhTYGsUoVwE28g3luceT5VLeisCLUl7yUiJ
- AP5A==
-X-Gm-Message-State: AOJu0Yz3ptP3OfPKKTNJmT8OaU9Cs+tBC0co46RaApMiyIrDZs8Dzchl
- BoHhx1qxX4B1lTXCpKJHcFpzLXT3mlMt1f+0yQt8ARuwKPcqkORwuk8DeUBRGAs=
-X-Google-Smtp-Source: AGHT+IE9+wQX/1J2KsVADvG1QVUpPXoig/hsO7v0VZ7xjkRspuEnpc2g7y3vNOnUaSl7AMnmsynS5Q==
-X-Received: by 2002:adf:ef4a:0:b0:368:31c7:19dd with SMTP id
- ffacd0b85a97d-378c2cd3ae1mr1221292f8f.5.1726138565430; 
- Thu, 12 Sep 2024 03:56:05 -0700 (PDT)
-Received: from [192.168.108.50] (freebox.vlq16.iliad.fr. [213.36.7.13])
+ bh=8KfxXIJl6sSUrt0oCskygd0emWR47w0CtNjllXkmzZ0=;
+ b=S7gFGc7Y3vzLzxgzHnQvyAtBcaXBLpSXVJoDLtJuTO6gsUEu3As64I7c1uaFSOvddT
+ fZyI8jzJ+zOS3q9hnDjSg6xWWyyTXUzfY5rZyi0S47rOWYH07EYkoCX+RiySkGVOtAZt
+ fyV2x0EAijDjwgISWQZ0av7JVnBS3bG9mSWC35mXQEuaxoWrrL+vxFtC3xefgEPciqZ3
+ HFS82Dft01xG1xtrJ7Fc9Jplk53gZkP4FPcyxiGRkragexr4PlJ5SJtziUXzNLJV+GFq
+ 9nSHBD9SIwRKAQ5iA/qtJz8c40QzVpEulcW9tcRFog6RGxpwZ78ob9TQI2i1kBN6ZMDy
+ zwrg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWS7VrC4zWmTYLOSSmio35BXwP6wpT+ai+USvSrgmag9Q37iCZyddj06cYwDEWTXS6AuQ8tqJ5IwzY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyEnUQHirhLY5KElADH9lGPfyL/gQNccQ5U5EkbJRRXCtM7Q1TO
+ IyZHUG77oUPOu0W8LtQs40PaxSK54BHYpiOEKgnXrXbmxgo4anhfaXOxY5qXsMqdnUVOoThagQH
+ kCPF9vAbM/zvw3hP3gV48LsPJTXBF+hnLJAZw70I7lSUaNyRzl4c1K8kAUk6CUq7fsg==
+X-Received: by 2002:a05:600c:4709:b0:42c:ac9f:b505 with SMTP id
+ 5b1f17b1804b1-42cdb58e130mr20444415e9.31.1726138718986; 
+ Thu, 12 Sep 2024 03:58:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG1kIFj2gZcJpQft3Ip9R95sfyHMqUrmQJsZC95T9uKYSfa2rNf2Foa4QJ4mM6FRnsdjjYg7Q==
+X-Received: by 2002:a05:600c:4709:b0:42c:ac9f:b505 with SMTP id
+ 5b1f17b1804b1-42cdb58e130mr20444125e9.31.1726138718419; 
+ Thu, 12 Sep 2024 03:58:38 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956e8a98sm14084691f8f.117.2024.09.12.03.56.04
+ 5b1f17b1804b1-42cae117aeesm174467035e9.6.2024.09.12.03.58.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Sep 2024 03:56:04 -0700 (PDT)
-Message-ID: <9028f858-8c6d-4292-a6aa-27eedff3ac8b@freebox.fr>
-Date: Thu, 12 Sep 2024 12:56:04 +0200
+ Thu, 12 Sep 2024 03:58:37 -0700 (PDT)
+Message-ID: <2c97cb8f-94ff-4aa6-be55-c03bcd91cc9f@redhat.com>
+Date: Thu, 12 Sep 2024 12:58:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] drm/msmi: annotate pll_cmp_to_fdata() with
- __maybe_unused
-To: Jani Nikula <jani.nikula@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Arnaud Vrac <avrac@freebox.fr>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <3553b1db35665e6ff08592e35eb438a574d1ad65.1725962479.git.jani.nikula@intel.com>
- <4ag2efwiizn5bnskauekqwfhgl4gioafcvetpvsmbdgg37bdja@3g6tt4rlfwcb>
- <19ac4e25-7609-4d92-8687-585c6ea00c79@freebox.fr> <878qvyjxpg.fsf@intel.com>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <878qvyjxpg.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 3/3] drm/nouveau: Add drm_panic support for nv50+
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Cc: James Jones <jajones@nvidia.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20240906100434.1171093-1-jfalempe@redhat.com>
+ <20240906100434.1171093-4-jfalempe@redhat.com>
+ <CAKb7UviZ_SZyuEV3apP80oEHZZKm4mAY1pSGueSOEswvzwgdkQ@mail.gmail.com>
+ <21e44532-7989-43a9-99dd-04461c346be6@nvidia.com>
+ <2fb7978b-9d1f-49f1-afe0-f32cc3b6a0c0@redhat.com>
+ <CAKb7Uvh8x0z00DY_w-16voWwBbm6pRGLLMBKai-M6_8CDLQfGw@mail.gmail.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <CAKb7Uvh8x0z00DY_w-16voWwBbm6pRGLLMBKai-M6_8CDLQfGw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,42 +104,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/09/2024 12:23, Jani Nikula wrote:
-> On Tue, 10 Sep 2024, Marc Gonzalez <mgonzalez@freebox.fr> wrote:
->> On 10/09/2024 16:51, Dmitry Baryshkov wrote:
->>> On Tue, Sep 10, 2024 at 01:03:43PM GMT, Jani Nikula wrote:
->>>
->>>> Building with clang and and W=1 leads to warning about unused
->>>> pll_cmp_to_fdata(). Fix by annotating it with __maybe_unused.
->>>>
->>>> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
->>>> inline functions for W=1 build").
->>>>
->>>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>>
->>> I think this function can be dropped. Marc, your call, as an author of
->>> the patch?
->>
->> ( Why is the patch prefixed "drm/msmi", is "msmi" a typo? )
+On 11/09/2024 16:39, Ilia Mirkin wrote:
+> On Wed, Sep 11, 2024 at 10:19 AM Jocelyn Falempe <jfalempe@redhat.com 
+> <mailto:jfalempe@redhat.com>> wrote:
 > 
-> Whoops, a typo.
+>     On 06/09/2024 21:36, James Jones wrote:
+>      > Right, there are 3 iterations of block linear tiling actually.
+>     NV50 does
+>      > support scanout of block linear surfaces. All block-linear-
+>     capable GPUs
+>      > do. The 3 generations are:
+>      >
+>      > NV5x/G8x/GTXXX line: Original block size.
+>      > GFXXX(nvc0 I believe in nouveau terms)-GV100: double the block
+>     height I
+>      > believe.
+>      > GTXXX+: Same block size, but the layout within a block is subtly
+>      > different, at least as visible in CPU mappings.
+>      >
 > 
->>> For the record, Arnaud is the driver's author.
->>
->> pll_cmp_to_fdata() was used in hdmi_8998_pll_recalc_rate()
->> in a commented code block which was later removed.
->>
->> Thus, yes, it is safe to completely delete the unused function.
->> I'm surprised gcc didn't catch that...
+>     I'm looking at how to check for specific chip in nouveau, and fix the
+>     tiling for other cards than Turing.
+>     It looks like in most case nouveau uses device->info.chipset, with
+>     hardcoded hex value. so for nvc0+ I should check device-
+>      >info.chipset >=
+>     0xc0 ?
 > 
-> Thanks, I'll change this to drop the function.
+>     chipset < c0 : block_height 4, "old layout"
+>     chipset >= c0 : block_height 8, "old layout"
+>     chispet >= ?? : block_height 8, "new layout"
 > 
-> GCC doesn't catch unused static inlines, while Clang does.
+>     For testing, I have at hand a GTX1650 (Turing) and an old Geforce
+>     8800GTS (Tesla?), so it's a NV92, and still uses this nv50+ code ?
+> 
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ 
+> drivers/gpu/drm/nouveau/nvkm/engine/device/base.c#n2399 <https:// 
+> git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/ 
+> gpu/drm/nouveau/nvkm/engine/device/base.c#n2399>
+> 
+> So probably >= 0x160
+> 
+> There should also be a device->card_type which is an enum that you can 
+> use too, depending on what you have available? Set here:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ 
+> drivers/gpu/drm/nouveau/nvkm/engine/device/base.c#n3177 <https:// 
+> git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/ 
+> gpu/drm/nouveau/nvkm/engine/device/base.c#n3177>
+> 
+> Once you have a patch tested, ideally someone with the hardware should 
+> test on a >= fermi && < turing card.
 
-It makes no sense to me that adding "inline" would prevent
-GCC from diagnosing the issue... GCC should simply ignore
-the "inline" keyword when definition is not in a header file
-(maybe they don't store "origin").
+I'm testing on my 8800 GTS.
 
-Regards
+The problem I have is that fb->modifier is 0, but the buffer is still 
+tiled. I found there is a nouveau_framebuffer_get_layout() which gives 
+tile_mode and kind, and works on my Tesla.
+
+So if I understand correctly, if kind != 0, there is tiling, and the 
+block size is 8 * (1 << tile_mode). (and half this on Tesla).
+
+At least tiling is much easier on Tesla, there is no tiling inside the 
+block. In my test, block size is 4K, 16x64 pixels, tile_mode is 4, and 
+kind is 122.
+
+I will send a v3 which works on Tesla and Turing soon.
+
+Thanks for your help.
+
+-- 
+
+Jocelyn
+
+> 
+> Hope this helps,
+> 
+>    -ilia
 
