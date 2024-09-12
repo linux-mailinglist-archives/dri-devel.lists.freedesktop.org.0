@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C02976B51
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:57:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2C7976B57
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:57:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943F610EB9A;
-	Thu, 12 Sep 2024 13:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E853F10EBA1;
+	Thu, 12 Sep 2024 13:57:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GIfFZZMN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Q6Ak4qbD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 521FA10EB9A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:57:24 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-53660856a21so921877e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 06:57:24 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10BB610EBA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:57:55 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-53659c8d688so737354e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 06:57:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726149442; x=1726754242; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1726149473; x=1726754273; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZxodDRt3a+SyobH5GyQ0Lcp+FOevXLEoWI9ixPWDPRY=;
- b=GIfFZZMNb/Se94EZU8Lk8UuoJB66gwHafV6AX3onj+tV7bSMNeMWWnDKa4HfEYZa9e
- bHafy41/s6CI9HbsoodIGkQp9ukkhrD2f4naXmO6C8DiINi1KEoVCztBnRXNaNMH8WIZ
- WpRhdFCYBF594DxGrJXFmD1iSru3w12hyOoTfwlVTiFSpnPLQI5A97JnBBzl2DHZQll9
- KpKTAIkilpOLintUre7DWybmh6MIZ8zC4xFoU6BGCIxqylhvz9S1IKVX9H+BkIKjgpMK
- 1xbH63qkvIQwdATFRGN4+QRKHQ7jAPLpHfJFe/W0+nnCis5OzSbhPW/nisVa7m2FJQYK
- zKUQ==
+ bh=BquzwUboHzXTtdjd0oA0kjxZhS1hFAwbnuUx4HBJ0HA=;
+ b=Q6Ak4qbDpqGo11BYgJ0luQSpv5LyrnvPtVkNXLZv0O6Lpa7ago4d0gIBWcBZ7mAqcl
+ VRON1mBmchNqNSdGj+ytySd2Y3m0Hta56WsbZFpZlMoxUPT7NX0QTBs2Ra0YiQGDJFIz
+ Qs0TyfVJaZVXecLQ2BEYEz8te9ZHP9GJgpzDOtCcvbTGHdtY7S8vJB9v46BGsKsPk9jz
+ BH2XjJuFWfU2e3i5NuHf5K8fv5y+TPc3HVYxtn/WS/Jm7o+Jz2fZy0Wg8mBk2eRYxRpk
+ MFYWlXwa+IhLXRX+VTTtefrb4Kva6IdOcKRWtguSj13nAasP5TUTx9Plfu/jCJsRcFPS
+ MSWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726149442; x=1726754242;
+ d=1e100.net; s=20230601; t=1726149473; x=1726754273;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZxodDRt3a+SyobH5GyQ0Lcp+FOevXLEoWI9ixPWDPRY=;
- b=Oc/ryGVmnSHhwtvOYuhKJtKhBzRqhS+gDaanUv51CXAaMbeJpIYsOaIGZjSbaud9Dp
- G9fH4Ug4gASNFbnBASirsfxWA4AuzXq5ngPeRcyeaqhidkXTTdr2G4j93anbHpVNk/Ir
- dK2FIWoOKI1NVM9UhE8d36uFqYVmsHfBcetXbikEApAU5QhNpB1Puj1Cih92nNkSB10a
- cDMYLr4pdV/xEz3hOukG5IoXIJ92h2ZkpFFcEfHDJh9hP57xD+is5T3i9tKB5rRKTyeF
- xaI3mqezhbNr54zuGjTDpEqISerslIzkVfdfhm2RAyQuSuWyaPdMMiBEOFheGHfl1vpo
- 8X/A==
+ bh=BquzwUboHzXTtdjd0oA0kjxZhS1hFAwbnuUx4HBJ0HA=;
+ b=kh1ZlkmbMVOrgvZQpU3dnrIHa8cuuPxHAuZIH03pZ2+tjjFn09iR8PRlg9I5A9BVpI
+ ViXFFcxIYmidyja/jHXUxVTXgLIjPkVElKc4slPmFlu3Rplh243cbuD233z7/V20NzMs
+ 4yMFLeGC216OltArClzlRr4UIk8hISLPosFs/3CgbTzN1WtPl0eMUNdgm0V6PIgqohoP
+ CZRoCb9SGwFkG+kzFKsMq9HRdg/ToveVbaiyhOkrZmb+83mASGErCoKBiMmG6ET9sIEX
+ XUWnj5KBlh2bP6sSsrquCmS+JCsywhz0T56i1p7L77GgoCJGx5nL/K1779SD6v2oz49t
+ 97SA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5N6FIQwp615CTYjZgrF6//6yRoN+POO9Fxr2ixrqlI5SNP3CbKtY+vScv3IzyDTRob4We1MBf5Ng=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxujRAnQ6yo0yOWDlVIQKg+hfLfvNV/MmTPbWY8kIUpbCTCarc8
- A2qTGFdDtJCjykqSTbbJoDWBeKnpNuAYgBWNebfJbCO5fWDrjFOTVNVRm3p4RhQ=
-X-Google-Smtp-Source: AGHT+IG4YoAbMmcA+J1Hax+CKsVf5G0FGoirjqzHgyGFRWLbGqZEPnd5b0NwRpdmxwNgp7uwofuZ8Q==
-X-Received: by 2002:a05:6512:e92:b0:535:682a:b6c0 with SMTP id
- 2adb3069b0e04-53678ff5307mr1368799e87.61.1726149441977; 
- Thu, 12 Sep 2024 06:57:21 -0700 (PDT)
+ AJvYcCUXOySaZTZEwoJy8ABNvq/qKxMmAV/1fTtfWb0KbcspaG+w4jtJHGzZ5Hw+WNU8nuW/a6aNHTMNzdg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqAi2/WchK67V8f5JvODAP/aidJUu9Zut70xOZPF0NImPAF0bB
+ EOHUjw7HP/O4ZwEiJ/4xQJO+0G2ictUiEbOMO6nEMeJ9effuIEfd5hKgFvQ+aj4=
+X-Google-Smtp-Source: AGHT+IHHjX/elZwmUhRzKmMZTPFW8UNakvXLNck40dZybOYY8Xg9afuQtW40j5sB4fM0Jm7lNQ5O5A==
+X-Received: by 2002:a05:6512:3d93:b0:533:32cf:6420 with SMTP id
+ 2adb3069b0e04-53679075a23mr986727e87.8.1726149472778; 
+ Thu, 12 Sep 2024 06:57:52 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5365f86fb8fsm1938352e87.66.2024.09.12.06.57.21
+ 2adb3069b0e04-5365f868cc4sm1923399e87.33.2024.09.12.06.57.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Sep 2024 06:57:21 -0700 (PDT)
-Date: Thu, 12 Sep 2024 16:57:20 +0300
+ Thu, 12 Sep 2024 06:57:52 -0700 (PDT)
+Date: Thu, 12 Sep 2024 16:57:50 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] drm/doc: Update drm_bridge_connector path
-Message-ID: <6okkm2beziulck4unx7ibvkeuk6r4g2s35x6yrmcozjais6rzw@ltm3rawzqqyz>
-References: <20240912084540.1213343-1-mripard@kernel.org>
- <rq77jt6wfq2s6i5mk4x4v7hfvpz7cgl5uqnwrq7odyz5k6rbxo@riierkdmvhp5>
- <20240912-smoky-fast-mole-c6eebf@houat>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, 
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warning after merge of the drm-misc-fixes tree
+Message-ID: <porwsaq63pizqyzq7agmt72lmowramhp6z5yqgu4fzs5n624ge@wyvmaahjmx7b>
+References: <20240904163018.214efaa7@canb.auug.org.au>
+ <20240911180741.45311006@canb.auug.org.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240912-smoky-fast-mole-c6eebf@houat>
+In-Reply-To: <20240911180741.45311006@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,27 +88,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 12, 2024 at 11:59:57AM GMT, Maxime Ripard wrote:
-> On Thu, Sep 12, 2024 at 12:46:50PM GMT, Dmitry Baryshkov wrote:
-> > On Thu, Sep 12, 2024 at 10:45:40AM GMT, Maxime Ripard wrote:
-> > > Commit 9da7ec9b19d8 ("drm/bridge-connector: move to DRM_DISPLAY_HELPER
-> > > module") recently moved the drm_bridge_connector file, but didn't update
-> > > the doc resulting in a doc build warning. Update it for the new location.
-> > > 
-> > > Fixes: 9da7ec9b19d8 ("drm/bridge-connector: move to DRM_DISPLAY_HELPER module")
-> > > Closes: https://lore.kernel.org/dri-devel/20240904163018.214efaa7@canb.auug.org.au/
-> > > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  Documentation/gpu/drm-kms-helpers.rst | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > 
-> > https://lore.kernel.org/dri-devel/20240911-drm-fix-dbc-docs-v1-1-ae5cb82fce1e@linaro.org/
+On Wed, Sep 11, 2024 at 06:07:41PM GMT, Stephen Rothwell wrote:
+> Hi all,
 > 
-> Sigh... sorry, I missed that one. Can you apply your patch?
+> On Wed, 4 Sep 2024 16:30:18 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> >
+> > After merging the drm-misc-fixes tree, today's linux-next build (htmldocs)
+> > produced this warning:
+> > 
+> > Error: Cannot open file drivers/gpu/drm/drm_bridge_connector.c
+> > 
+> > Introduced by commit
+> > 
+> >   9da7ec9b19d8 ("drm/bridge-connector: move to DRM_DISPLAY_HELPER module")
+> 
+> That commit is now in Linus' tree, but I am still getting the warning.
 
-No worries, it means that my subj wasn't obvious. Pushed out.
+Pushed out the fix to the drm-misc-fixes branch.
 
 -- 
 With best wishes
