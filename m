@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0FF97647C
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 10:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728A8976451
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 10:21:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048D310EB0A;
-	Thu, 12 Sep 2024 08:29:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DMQSB9fP";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A5310EB11;
+	Thu, 12 Sep 2024 08:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF03810E212;
- Thu, 12 Sep 2024 08:29:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 28DDE5C5A22;
- Thu, 12 Sep 2024 08:29:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FE8FC4CECC;
- Thu, 12 Sep 2024 08:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726129791;
- bh=eAUIlyp5qcM+w+YA1LphnKTG2D4G9lYzmAurJarHO5M=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=DMQSB9fPLxf8PIfjzcs5vllUIlSpcMxGXXdNF8+gVAg00HzoFWR4/hthDP9n3U5t6
- C8N1feL+6JScojQrfFgN2dWzs9ZeaH9GoMlwHJI0TZXoAzj3uC8xQOE5oklCscNEyt
- JHMX/HmDqnCI249/4+vM74YjnvhvUK3hITa1AAS0RqWmV6GXJTBQaKYy1ScSOPiFL5
- IDweBsuotpYbDhhrGJSATuaIfbes33+6OYJT+Dk6Mf0Uzxa2jj25e9jsIh7C9K9Pou
- K3sYUyjCfk2bTnq74Y4TarAobEoj0BTsrKDGSPhHfG2Q7yrvWXzVM3FcWV8BGI8Zkm
- sVjAC1K5S44ng==
-Date: Thu, 12 Sep 2024 03:29:50 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA35110E209;
+ Thu, 12 Sep 2024 08:21:18 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4X49PY5WvQz20nnp;
+ Thu, 12 Sep 2024 16:21:05 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+ by mail.maildlp.com (Postfix) with ESMTPS id B04AB1A0188;
+ Thu, 12 Sep 2024 16:21:12 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 12 Sep
+ 2024 16:21:11 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+ <festevam@gmail.com>, <p.zabel@pengutronix.de>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <konradybcio@kernel.org>, <quic_abhinavk@quicinc.com>,
+ <dmitry.baryshkov@linaro.org>, <marijn.suijten@somainline.org>,
+ <thierry.reding@gmail.com>, <mperttunen@nvidia.com>, <jonathanh@nvidia.com>,
+ <agx@sigxcpu.org>, <gregkh@linuxfoundation.org>, <jordan@cosmicpenguin.net>,
+ <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+ <linux-tegra@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH v2 0/5] drm: Use IRQF_NO_AUTOEN flag in request_irq()
+Date: Thu, 12 Sep 2024 16:30:15 +0800
+Message-ID: <20240912083020.3720233-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Mahadevan <quic_mahap@quicinc.com>
-Cc: quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org, 
- conor+dt@kernel.org, swboyd@chromium.org, bigfoot@classfun.cn, 
- devicetree@vger.kernel.org, airlied@gmail.com, konrad.dybcio@linaro.org, 
- neil.armstrong@linaro.org, mailingradian@gmail.com, 
- freedreno@lists.freedesktop.org, quic_jmadiset@quicinc.com, 
- quic_vpolimer@quicinc.com, quic_jesszhan@quicinc.com, 
- dri-devel@lists.freedesktop.org, quic_kalyant@quicinc.com, sean@poorly.run, 
- linux-kernel@vger.kernel.org, krzk+dt@kernel.org, andersson@kernel.org, 
- danila@jiaxyga.com, daniel@ffwll.ch, robdclark@gmail.com, 
- dmitry.baryshkov@linaro.org, maarten.lankhorst@linux.intel.com, 
- marijn.suijten@somainline.org, mripard@kernel.org, tzimmermann@suse.de
-In-Reply-To: <20240912071437.1708969-3-quic_mahap@quicinc.com>
-References: <20240912071437.1708969-1-quic_mahap@quicinc.com>
- <20240912071437.1708969-3-quic_mahap@quicinc.com>
-Message-Id: <172612978829.2592275.5038712419296813855.robh@kernel.org>
-Subject: Re: [PATCH 2/5] dt-bindings: display/msm: Document the DPU for SA8775P
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,38 +62,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As commit cbe16f35bee6 ("genirq: Add IRQF_NO_AUTOEN for request_irq/nmi()")
+said, reqeust_irq() and then disable_irq() is unsafe. In the small time gap
+between request_irq() and disable_irq(), interrupts can still come.
 
-On Thu, 12 Sep 2024 12:44:34 +0530, Mahadevan wrote:
-> Document the DPU for Qualcomm SA8775P platform.
-> 
-> Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
-> ---
->  .../display/msm/qcom,sa8775p-dpu.yaml         | 120 ++++++++++++++++++
->  1 file changed, 120 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-dpu.yaml
-> 
+IRQF_NO_AUTOEN flag can be used by drivers to request_irq(). It prevents
+the automatic enabling of the requested interrupt in the same
+safe way. With that the usage can be simplified and corrected.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Compile-tested only.
 
-yamllint warnings/errors:
+Changes in v2:
+- Correct the commit subject.
+- Add reviewed-by.
 
-dtschema/dtc warnings/errors:
+Jinjie Ruan (5):
+  drm/imx: Use IRQF_NO_AUTOEN flag in request_irq()
+  drm/imx/dcss: Use IRQF_NO_AUTOEN flag in request_irq()
+  drm/imx/ipuv3: Use IRQF_NO_AUTOEN flag in request_irq()
+  drm/tegra: dpaux: Use IRQF_NO_AUTOEN flag in request_irq()
+  drm/msm/adreno: Use IRQF_NO_AUTOEN flag in request_irq()
 
+ drivers/gpu/drm/imx/dcss/dcss-crtc.c   | 6 ++----
+ drivers/gpu/drm/imx/dcss/dcss-dtg.c    | 4 +---
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c | 6 ++----
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c  | 4 +---
+ drivers/gpu/drm/tegra/dpaux.c          | 4 +---
+ 5 files changed, 7 insertions(+), 17 deletions(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240912071437.1708969-3-quic_mahap@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.34.1
 
