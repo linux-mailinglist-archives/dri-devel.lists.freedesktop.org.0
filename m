@@ -2,38 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA74977412
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 00:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1A1977414
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 00:03:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E4E10EC4A;
-	Thu, 12 Sep 2024 22:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED0D10EC5B;
+	Thu, 12 Sep 2024 22:03:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="WtmoiKHh";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6B510E588
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 12:42:48 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::223])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 3463FC3DA9
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 12:42:44 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A83C760010;
- Thu, 12 Sep 2024 12:42:37 +0000 (UTC)
-From: walker@interruptlabs.ca
-To: dsimic@manjaro.org
-Cc: airlied@gmail.com, andy.yan@rock-chips.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de
-Subject: Re: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
- firmware loading
-Date: Thu, 12 Sep 2024 14:42:34 +0200
-Message-ID: <20240912124234.58864-1-walker@interruptlabs.ca>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
-References: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0719110E009
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 16:03:52 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-4582fa01090so315911cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 09:03:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1726157031; x=1726761831;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=CrCjW0ic6Db+J3kjsTPKwgfDJbBARSVIXo7Ekp4qkxU=;
+ b=WtmoiKHhWZ9/PBOMtX2YXXtphtapd5yEufcXZc9KK6hRFPZX9x1JmIXHTzB/xrCN0W
+ 536mJWf7aAC0oZRRB6Tb+fkLrgRkihyGCEiKnBgAXN3m+CU/Gt+bt+s/ujKJPgYVHDYU
+ oSkah7QcB9KlYFrS+Qas/Qg+VNePDMLCUEZ9I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726157031; x=1726761831;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CrCjW0ic6Db+J3kjsTPKwgfDJbBARSVIXo7Ekp4qkxU=;
+ b=HzjQP5snDfGcRIZKjWT8gzB75hesnF7dIKxx3a6BHoj1N2KmA+OTq+wm53z9b+ORPU
+ 5uhrqtriPoacUzP1+A9/LAw/DNAbpBXK6hlYJRGV+O0E9X/+MrQkW92UnV/B97N1KZ/7
+ 3zuJ6L35juJL7ZQgaruGmu4srcYLi6d2vYr+a2N6FZeng+K9NGUn/Ztswte/0iCTlWcF
+ wAmIPJp2C04c1YXRzd9tQxoFPUzbKEypj6ekwXTK9FhoUtkLHvsKmbq4lmirLUanK4W/
+ 13LR14JUdOL2ImCqaqCnN3Y3YPBgIOkX1/vug1TMyWQQK6iVuHT9MPEctaztWyi/6bGd
+ 8ipg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXpIYR9pf52cAsliRN18hmA7cOCocufh7PaWq9NAnB9rqfRjFGOBcfqa3i1Ca4KBug1ewwl5ks9wsY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwyQ1ZMXKppt42jnNl0mVjkqsRPs963C4dZ64HV0ozI7pJFxcxR
+ cbCY1XMmkCPBzdc/nX4NBrPiZbE6FRg5yGtZt+GqF7iZ3ycfa59XNC2wNsj0pqASJjpCdnKXYmi
+ oxK64Ry92wEJkx4iOND+ZsWdKsrv+bP3cH3xd
+X-Google-Smtp-Source: AGHT+IFQu3yAL5DEk7oQCeXw0JvR4PFs6pcDDf5vf1OMase0DRLjYTPZIp+SdT/fDhzrb2YiYvR+LjfvMad1ROIciKA=
+X-Received: by 2002:ac8:5845:0:b0:453:5f2f:d5d2 with SMTP id
+ d75a77b69052e-45864403792mr2236481cf.1.1726157030402; Thu, 12 Sep 2024
+ 09:03:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: walker@interruptlabs.ca
+References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+ <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
+ <ZuCGkjoxKxpnhEh6@google.com>
+ <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
+From: Julius Werner <jwerner@chromium.org>
+Date: Thu, 12 Sep 2024 09:03:34 -0700
+Message-ID: <CAODwPW8P+jcF0erUph5XyWoyQgLFbZWxEM6Ygi_LFCCTLmH89Q@mail.gmail.com>
+Subject: Re: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate
+ device name "simple-framebuffer.0"
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Brian Norris <briannorris@chromium.org>, Borislav Petkov <bp@alien8.de>, 
+ Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org, 
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>,
+ Tony Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Julius Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Thu, 12 Sep 2024 22:03:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,49 +89,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm having issues relevant to this thread. I want to build my rtl8723ds driver into the kernel. When fw_loader tries to load rtw8723d_fw.bin, my sysfs isn't mounted. Ideally, I don't have to use the driver as a module, use initramfs, or build the firmware into the kernel. Please let me know if I can do anything to help with the efforts.
+> On Coreboot platforms, a system framebuffer may be provided to the Linux
+> kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
+> it seems SeaBIOS payload can also provide a VGA mode in the boot params.
+>
+> [...]
+>
+> To prevent the issue, make the framebuffer_core driver to disable sysfb
+> if there is system framebuffer data in the Coreboot table. That way only
+> this driver will register a device and sysfb would not attempt to do it
+> (or remove its registered device if was already executed before).
 
-[    0.193910] gpio gpiochip1: Static allocation of GPIO base is deprecated, use dynamic allocation.
-[    0.196848] sun8i-a33-pinctrl 1c20800.pinctrl: initialized sunXi PIO driver
-[    0.197475] sun8i-a33-pinctrl 1c20800.pinctrl: supply vcc-pb not found, using dummy regulator
-[    0.198599] printk: legacy console [ttyS0] disabled
-[    0.219380] 1c28000.serial: ttyS0 at MMIO 0x1c28000 (irq = 142, base_baud = 1500000) is a U6_16550A
-[    0.226341] printk: legacy console [ttyS0] enabled
-[    1.158740] sun8i-a33-pinctrl 1c20800.pinctrl: supply vcc-pg not found, using dummy regulator
-[    1.189006] 1c28400.serial: ttyS1 at MMIO 0x1c28400 (irq = 143, base_baud = 1500000) is a U6_16550A
-[    1.204192] cfg80211: Loading compiled-in X.509 certificates for regulatory database
-[    1.205291] sun8i-a33-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
-[    1.220994] Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
-[    1.227118] sunxi-mmc 1c10000.mmc: allocated mmc-pwrseq
-[    1.231759] Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
-[    1.239605] clk: Disabling unused clocks
-[    1.240126] sunxi-mmc 1c0f000.mmc: Got CD GPIO
-[    1.243767] ALSA device list:
-[    1.250965]   No soundcards found.
-[    1.255508] platform regulatory.0: Direct firmware load for regulatory.db failed with error -2
-[    1.257835] sunxi-mmc 1c10000.mmc: initialized, max. request size: 16384 KB
-[6 [    1.273169] sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
-[    1.280679] Waiting for root device /dev/mmcblk1p1...
-[    1.285837] sunxi-mmc 1c10000.mmc: card claims to support voltages below defined range
-[    1.304227] mmc0: new high speed SDIO card at address 0001
-[    1.312047] rtw_8723ds mmc0:0001:1: Direct firmware load for rtw88/rtw8723d_fw.bin failed with error -2
-[    1.321568] rtw_8723ds mmc0:0001:1: failed to request firmware
-[    1.330441] mmc1: host does not support reading read-only switch, assuming write-enable
-[    1.334030] rtw_8723ds mmc0:0001:1: failed to load firmware
-[    1.343207] mmc1: new high speed SDHC card at address aaaa
-[    1.344048] rtw_8723ds mmc0:0001:1: failed to setup chip efuse info
-[    1.351159] mmcblk1: mmc1:aaaa SC32G 29.7 GiB
-[    1.355846] rtw_8723ds mmc0:0001:1: failed to setup chip information
-[    1.366892] rtw_8723ds mmc0:0001:1: probe with driver rtw_8723ds failed with error -22
-[    1.367560]  mmcblk1: p1
-[    1.434987] EXT4-fs (mmcblk1p1): orphan cleanup on readonly fs
-[    1.443377] EXT4-fs (mmcblk1p1): mounted filesystem c5551457-88e0-47ae-9094-06babfcdeded ro with ordered data mode. Quota mode: disabled.
-[    1.455974] VFS: Mounted root (ext4 filesystem) readonly on device 179:1.
-[    1.465835] devtmpfs: mounted
-[    1.470605] Freeing unused kernel image (initmem) memory: 1024K
-[    1.476798] Run /sbin/init as init process
-[    1.781051] EXT4-fs (mmcblk1p1): re-mounted c5551457-88e0-47ae-9094-06babfcdeded r/w. Quota mode: disabled.
-
-Thanks,
-
-Walker
+I wonder if the priority should be the other way around? coreboot's
+framebuffer is generally only valid when coreboot exits to the payload
+(e.g. SeaBIOS). Only if the payload doesn't touch the display
+controller or if there is no payload and coreboot directly hands off
+to a kernel does the kernel driver for LB_TAG_FRAMEBUFFER make sense.
+But if there is some other framebuffer information passed to the
+kernel from a firmware component running after coreboot, most likely
+that one is more up to date and the framebuffer described by the
+coreboot table doesn't work anymore (because the payload usually
+doesn't modify the coreboot tables again, even if it changes hardware
+state). So if there are two drivers fighting over which firmware
+framebuffer description is the correct one, the coreboot driver should
+probably give way.
