@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233249763B2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 09:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2B29763C2
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 10:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EFD710E965;
-	Thu, 12 Sep 2024 07:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBFDD10EAF3;
+	Thu, 12 Sep 2024 08:00:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Xme/e0+V";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="d/ZpzBFq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D6CA10E965
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 07:57:59 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-53661ac5ba1so671702e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 00:57:59 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16E8D10EAF3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 08:00:41 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-53659867cbdso904679e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 01:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726127877; x=1726732677; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1726128039; x=1726732839; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Ox1m01XCLNWbr8nh6dVZJd3HpwbkC9RDWpp/m3khnEc=;
- b=Xme/e0+V+8aGB/Rx99T1dGZ9VPxGiaU1XfQAPvLs/0k0VfB2QJS92X6Ajncxf10/Jx
- tUCcT+S4+WPOlRTRS0X/WvC46MfWeDShy6w/Omr0yQKORZbW6yn1P5EDZsFvKPl97Syp
- KAAWgHdl1odCwaUwj4YDomfWd2Y882LsvBKTjCFO6DdbnPBNzuvjDhqDQSjLRfnIbPPY
- tp5KnZq/gw/RgfIL3ES4AA6PEP4baPRszF9m/Qingn14USq6wzLp5eqiXoSgq3biSidT
- T7E/HVPRUGHp3z1aYHTrZbGAEVJO+ye9qoMmcQ1nDGgwez/SqV32jZGtJ9o3u9VdQFAA
- FkTA==
+ bh=5modn5x5ktb92R2/Sf1154fPo8VvDbqrTciHNWoobzQ=;
+ b=d/ZpzBFqnSYDkVl+y8RQW/GESGZrr/xsJ/gWY4TO7bgh1XRpxoGZjQ8u0DrcLRsNQQ
+ I4BSxJ6E3JMgyns7W7QxHG/wmn5j9isu/akC6UGdkmbQruedJ7noOM3W03w5ObPA6Ry0
+ KuF2HyddZHqQt7tDJLig4cjEHD1E4Q2/SQGw2Gn5Sj87p2eU9KumOJ/O9xpMhYADtTDS
+ txW+9e/ujmyZEu5sj02QdnDUVo6fLiQtNFtmmbnfhvwQ4Y3jnzBkR+s6kkBb3gXaL+BK
+ 9ANxhJlvFiI1zHoOGal2Cqrt+r8K4Y5XR9BA4DK8AIYwxXRsdwXsC6Ki9rkd87qTYKfT
+ 2GSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726127877; x=1726732677;
+ d=1e100.net; s=20230601; t=1726128039; x=1726732839;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ox1m01XCLNWbr8nh6dVZJd3HpwbkC9RDWpp/m3khnEc=;
- b=QztOHaFRR65guwB4wivF8KfHzZDgRLeBm/PsM3vAIrTB9M18natyRurBiMxUNpMW5M
- NMIeEQ7AHJAn5lKXHGX1y56YoxSJtQOdVbcHX1lQXmWadgeujGvcTRfmOdaEyZAbzxxO
- uF9tZojdB+saZvH4B7N9Cg+xmp1fG8y261QZ1c5nWKsTA7Y3fQ/vsXO1+9qhNUVZwfUa
- jp4TzlI+qko85H0Q6VpIU8DlsN0DnxuStkBH2f739xw8IJEBM37fMo7sgomOKsV1aPWB
- XOLGlDB5WBKxC7aWAdJuHjhKWplJtTw699X6yJdRY9wMu0liksJOOtgGzLXuCDPmxNTM
- jGxg==
+ bh=5modn5x5ktb92R2/Sf1154fPo8VvDbqrTciHNWoobzQ=;
+ b=ken3c5wWEYuxwJkZGrjVzxJCsIX6Oly4pLDzKvBa2DhpBUpWFkWUEFnIBKMOA6lb18
+ NjdQDNnZXkAdAQ42KKjEZie85myX9Ma/NVIya89nDUJv/fD398JumYw33R7qOhoG+PP8
+ Kf/XsnNpfFiBwnU39gjF9NRanlNZmS82J+BJpMLbpiMoT04N8lrAVMCyu0EliLi7vOCe
+ CZzqGpYgY0vxqGV/rtPK6ZyaY21L7fcYt2ciTVAgV6WHGZfCThxnlVlEqr2HE2kxtP42
+ VKjOQocWzivzktEUfgsquzr/KsD1P1OILyluw4YjiHtuGr2gKo11KBYOz24PjJDuBpB8
+ hZSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQsHfWKgrRpfxTxWFu8fKQ8TlesvcGzyPCv3GtXxbUeVq9EpAkycKDdRXHhu4SQbZv2l8bRY2GGRI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwbJ329MJ11b1ZQVrzOBF+reTpiTFxBYQwXpDIQaCqn5Ow1cUZQ
- 0gm8CtqoMz88WIKle6MPwIda7pJdiaKEQivkfrbkw371ps0p7qADBiw5Rpn9CdM=
-X-Google-Smtp-Source: AGHT+IEMx5McwfR5w48GvyKDso1IkapKp/bxkvo0CGrrFUuAGOcvr7DDSK6O5G6wN5uQdo3VlohPbw==
-X-Received: by 2002:a05:6512:39c7:b0:536:545c:bbf6 with SMTP id
- 2adb3069b0e04-53678fb1dc9mr956157e87.1.1726127876818; 
- Thu, 12 Sep 2024 00:57:56 -0700 (PDT)
+ AJvYcCVOmk39D92E98nyBakYKOrycj/0U1iVYhuH+dfnuFGuQicJ1r3ojcO+qIl2YfJfTLxrBFdarD7Dh4E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsUNUSjOH9b+54Hso0ekCQppXrd+0UbYgZOefKvMRqARETJepc
+ D51L6FupsTX4TU2FfRHJBd8kQ2Yzi+/bJwbj/+fs1Nbr4mYanKtOkFzg6SqxDbM=
+X-Google-Smtp-Source: AGHT+IHahBSHVXIeldwwf3pO17r+LD9jwU2Se1YwQ3QQIuNHAGAmDpStfbv4s0gMC389h59Yw6vybA==
+X-Received: by 2002:a05:6512:3b22:b0:536:741a:6bc5 with SMTP id
+ 2adb3069b0e04-53678fab49dmr1746967e87.12.1726128037823; 
+ Thu, 12 Sep 2024 01:00:37 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5365f903ca4sm1825185e87.192.2024.09.12.00.57.56
+ 2adb3069b0e04-5365f8cb73esm1831653e87.174.2024.09.12.01.00.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Sep 2024 00:57:56 -0700 (PDT)
-Date: Thu, 12 Sep 2024 10:57:54 +0300
+ Thu, 12 Sep 2024 01:00:37 -0700 (PDT)
+Date: Thu, 12 Sep 2024 11:00:35 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Mahadevan <quic_mahap@quicinc.com>
 Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
@@ -71,14 +71,14 @@ Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  quic_kalyant@quicinc.com, quic_jmadiset@quicinc.com, quic_vpolimer@quicinc.com
-Subject: Re: [PATCH 3/5] drm/msm: mdss: Add SA8775P support
-Message-ID: <5uttdpchtd7wjzppve3e3hby2s4adft2tv7ceshyuarir3ppiq@u2fcdqs4uqr2>
+Subject: Re: [PATCH 5/5] arm64: dts: qcom: sa8775p: add display dt nodes
+Message-ID: <kxxcjrqndc2qzmexn4mm4vmfugfo23y63aa6oyia3uiwpe3arr@sbvdni2f2hq2>
 References: <20240912071437.1708969-1-quic_mahap@quicinc.com>
- <20240912071437.1708969-4-quic_mahap@quicinc.com>
+ <20240912071437.1708969-6-quic_mahap@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240912071437.1708969-4-quic_mahap@quicinc.com>
+In-Reply-To: <20240912071437.1708969-6-quic_mahap@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,48 +94,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 12, 2024 at 12:44:35PM GMT, Mahadevan wrote:
-> Add support for MDSS on SA8775P.
-
-Patch subject doesn't follow existing practice.
-
+On Thu, Sep 12, 2024 at 12:44:37PM GMT, Mahadevan wrote:
+> Add mdss and mdp DT nodes for SA8775P.
 > 
 > Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/msm_mdss.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 85 +++++++++++++++++++++++++++
+>  1 file changed, 85 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index faa88fd6eb4d..272207573dbb 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -684,6 +684,15 @@ static const struct msm_mdss_data sm8350_data = {
->  	.reg_bus_bw = 74000,
->  };
+> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> index 67ba124d20f8..d5d8e02fdb29 100644
+> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> @@ -6,6 +6,7 @@
+>  #include <dt-bindings/interconnect/qcom,icc.h>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/clock/qcom,rpmh.h>
+> +#include <dt-bindings/clock/qcom,sa8775p-dispcc.h>
+>  #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+>  #include <dt-bindings/clock/qcom,sa8775p-gpucc.h>
+>  #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
+> @@ -2937,6 +2938,90 @@ camcc: clock-controller@ade0000 {
+>  			#power-domain-cells = <1>;
+>  		};
 >  
-> +static const struct msm_mdss_data sa8775p_data = {
-> +	.ubwc_enc_version = UBWC_4_0,
-> +	.ubwc_dec_version = UBWC_4_0,
-> +	.ubwc_swizzle = 4,
-> +	.ubwc_static = 1,
-> +	.highest_bank_bit = 0,
-> +	.macrotile_mode = 1,
+> +		mdss0: display-subsystem@ae00000 {
 
-Missing .reg_bus_bw
+Is there going to be mdss1?
 
-> +};
+> +			compatible = "qcom,sa8775p-mdss";
+> +			reg = <0x0 0x0ae00000 0x0 0x1000>;
+> +			reg-names = "mdss";
 > +
->  static const struct msm_mdss_data sm8550_data = {
->  	.ubwc_enc_version = UBWC_4_0,
->  	.ubwc_dec_version = UBWC_4_3,
-> @@ -725,6 +734,7 @@ static const struct of_device_id mdss_dt_match[] = {
->  	{ .compatible = "qcom,sm8250-mdss", .data = &sm8250_data },
->  	{ .compatible = "qcom,sm8350-mdss", .data = &sm8350_data },
->  	{ .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
-> +	{ .compatible = "qcom,sa8775p-mdss", .data = &sa8775p_data },
->  	{ .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
->  	{ .compatible = "qcom,sm8650-mdss", .data = &sm8550_data},
->  	{ .compatible = "qcom,x1e80100-mdss", .data = &x1e80100_data},
+> +			/* same path used twice */
+> +			interconnects = <&mmss_noc MASTER_MDP0 0 &mc_virt SLAVE_EBI1 0>,
+> +					<&mmss_noc MASTER_MDP1 0 &mc_virt SLAVE_EBI1 0>,
+> +					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+> +					 &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
+> +			interconnect-names = "mdp0-mem",
+> +					     "mdp1-mem",
+> +					     "cpu-cfg";
+> +
+> +			power-domains = <&dispcc0 MDSS_DISP_CC_MDSS_CORE_GDSC>;
+> +
+> +			clocks = <&dispcc0 MDSS_DISP_CC_MDSS_AHB_CLK>,
+> +				 <&gcc GCC_DISP_HF_AXI_CLK>,
+> +				 <&dispcc0 MDSS_DISP_CC_MDSS_MDP_CLK>;
+> +
+> +			interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-controller;
+> +			#interrupt-cells = <1>;
+> +
+> +			iommus = <&apps_smmu 0x1000 0x402>;
+> +
+> +			#address-cells = <2>;
+> +			#size-cells = <2>;
+> +			ranges;
+> +
+> +			status = "disabled";
+> +
+> +			mdss0_mdp: display-controller@ae01000 {
+> +				compatible = "qcom,sa8775p-dpu";
+> +				reg = <0x0 0x0ae01000 0x0 0x8f000>,
+> +				      <0x0 0x0aeb0000 0x0 0x2008>;
+> +				reg-names = "mdp", "vbif";
+> +
+> +				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
+> +					<&dispcc0 MDSS_DISP_CC_MDSS_AHB_CLK>,
+> +					<&dispcc0 MDSS_DISP_CC_MDSS_MDP_LUT_CLK>,
+> +					<&dispcc0 MDSS_DISP_CC_MDSS_MDP_CLK>,
+> +					<&dispcc0 MDSS_DISP_CC_MDSS_VSYNC_CLK>;
+
+Wrong indentation
+
+> +				clock-names = "bus",
+> +					      "iface",
+> +					      "lut",
+> +					      "core",
+> +					      "vsync";
+> +
+> +				assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_VSYNC_CLK>;
+> +				assigned-clock-rates = <19200000>;
+> +
+> +				operating-points-v2 = <&mdss0_mdp_opp_table>;
+> +				power-domains = <&rpmhpd RPMHPD_MMCX>;
+> +
+> +				interrupt-parent = <&mdss0>;
+> +				interrupts = <0>;
+> +
+> +				mdss0_mdp_opp_table: opp-table {
+> +					compatible = "operating-points-v2";
+> +
+> +					opp-375000000 {
+> +						opp-hz = /bits/ 64 <375000000>;
+> +						required-opps = <&rpmhpd_opp_svs_l1>;
+> +					};
+> +
+> +					opp-500000000 {
+> +						opp-hz = /bits/ 64 <500000000>;
+> +						required-opps = <&rpmhpd_opp_nom>;
+> +					};
+> +
+> +					opp-575000000 {
+> +						opp-hz = /bits/ 64 <575000000>;
+> +						required-opps = <&rpmhpd_opp_turbo>;
+> +					};
+> +
+> +					opp-650000000 {
+> +						opp-hz = /bits/ 64 <650000000>;
+> +						required-opps = <&rpmhpd_opp_turbo_l1>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+>  		dispcc0: clock-controller@af00000 {
+>  			compatible = "qcom,sa8775p-dispcc0";
+>  			reg = <0x0 0x0af00000 0x0 0x20000>;
 > -- 
 > 2.34.1
 > 
