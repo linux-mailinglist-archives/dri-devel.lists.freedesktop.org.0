@@ -2,47 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40634976A72
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A685976A71
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCFF10EB73;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4E310EB6E;
 	Thu, 12 Sep 2024 13:25:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MKTgkDMf";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CDPxMND5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
  [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D4A10E00A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6853610EB6E
  for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:25:20 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CFC564000A;
- Thu, 12 Sep 2024 13:25:16 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3C4DB4000E;
+ Thu, 12 Sep 2024 13:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1726147518;
+ t=1726147519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZNRqgvianzN3IRB8vf0Folh27Fs9kKbgdl8Cp6aHy3I=;
- b=MKTgkDMf371LagYal+PhEzcuSVQ9ziYC+/cdOmROZS/xahW1ygKatTpQKbYKE6Nd4lwCnj
- qwnX4yAOFgHrHd+iMTHTursEzgRVfjPlHL752/4EVCoZWL3m6HjfAEl93ojcXoJ2a99W7b
- PrcewU6Wbda9kemCajzoDt9NS6JW8cCP5wgGMDoYNVknN1ymwIDSVWgq1wu0uFi5SUeRvo
- wFSZHgT4PysLX5YrBp5B3A+I3nnHMiceTA9EYkX2SWhflEI0V4L7N2VIilLa6sCZhE+t9S
- ZF0WDnzjw+6/c6WGnEu8rLdcwC0dyovHw7mZcifPKTv5W5lEOWiS4zTP4M0+Aw==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g34sFbJmZ8FTG/UCaYFEJPYIDmiuCfsWD/gVjbMaAdU=;
+ b=CDPxMND5j0TvekZ7GfQb6Q4eErc9oQOrKXBMi5VzM/nUFPkNvszOHgroEjeaeXKnRljvum
+ gliUHLfJFJv25uBKyXu3VhLovVOVFU1mqU8C+SjABaZdH+P2KyC75JnUSMup8WjAsTtl5g
+ Fi06l5V5mc2s+xB+SplE1VbCblfkbMgwgbMKNYsh2eR2Su430qE9prZeb+hAcUTBpIwDJ9
+ u/Cz1ArUw255ldp+H7NZUFCQpYYjPsBksNdvn/ubwhBpLLfj5GGzIVlY82bkeIxVd7Jnhp
+ wRtfSVGaZvvVigDQ47YuqnDmfC4N2Ho7wladFa+rJuMBvDAXCYAimCqVyf6mSw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: [PATCH v3 0/4] drm/vkms: Switch all vkms object to DRM managed objects
-Date: Thu, 12 Sep 2024 15:25:13 +0200
-Message-Id: <20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com>
+Date: Thu, 12 Sep 2024 15:25:14 +0200
+Subject: [PATCH v3 1/4] drm/vkms: Switch to managed for connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIALnr4mYC/3XQ3U7DIBQH8FdpuPYo0HaljTG+h/GCj9OObBSFi
- jVL313GYrIl844/5Pw455xIxGAxkqE6kYDJRuvnHOqHiui9nCcEa3ImnPKGtpzB5P10REgHF8H
- JWU5ooJGo+77ZMdl1JFd+BBztWtS390sO+PmV8eVySZSMCNo7Z5ehMsGBs1E//R1gxnU5Qw5jl
- KWHoXouLfR0B98hO0rqA+QCB4kBA8rQYM0FE1y/Ku+Xo50f8wcv/zNlhIDOp/wyG1wvUq1HNEZ
- orfh4K51H2du4+PBT9pVYmaWAgjV3V5NJCp1UQomeM0bra7KIiV8pvLuv8KyMTa5v2raWqG6Vb
- dt+ARfOf+3JAQAA
-X-Change-ID: 20240521-google-vkms-managed-4aec99461a77
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240912-google-vkms-managed-v3-1-7708d6ad262d@bootlin.com>
+References: <20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com>
+In-Reply-To: <20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
  Melissa Wen <melissa.srw@gmail.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
@@ -56,21 +52,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  seanpaul@google.com, nicolejadeyee@google.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2678;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2084;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=iHq3eNdKgsYGlwtr+CdIy04TnSmMaePg0ryEiV/pQTU=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBm4uu81QC7GWjOTYVRV+uJU9FBktsstAxxhTYfh
- LSp/Xp8aB2JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZuLrvAAKCRAgrS7GWxAs
- 4qyNEADM9Am1y3Maz9fE8dIneWLQDF3kyPM616KpP4j9qMC1JOfFCT6UlA3H9qgdWqyA8sIKocf
- KBScH5Aqo1Xarxzflt0OuTgn9e58PdazJio5OtIFeo7pnSOD/wbzVWhO+QPQk7MkBiLo5j/PkDw
- 5mN4WQjXvlgqQNHucCNI27sN0Dv9Ag7OdAJxndI0tvOflJvvHs5ruGbVTtzASsQLdpKAKshFXNh
- BeKTTrU+dhB02uc38zUNGygeuAppCNEWYq2a9A/N2DmScie95W2ci0eIPmuH1BUUsvxsho+h+fW
- 0XpFOZ2wJulWyI/koQsC2IlayD+L9ckiibtoouMsydjgo2mFlNr8vo2aHRkl9OwzFvdE48PJSLW
- F6d6Cq8Ov+vW1R5r7JgZMANTa9OdaskUh2zwOpwCS1wuxt8VS0fja3L/D00MdduvMzSQmJ8In0z
- bzP4q/A4Jf4YSFdeBObX29Hupv7lBY5VIcky0qZgSIwCclZl+W9h7q8KZRkP5G0eCDuaizeKSLQ
- Y2X+HNIxCk10IGb/KgVjUQLgTVnIzE6KMqJBTmcPtDZ1w/40U0fHR//Li9NtAqitHKyqvJnC+NT
- w2CwPRIOJjexvWpVMZZ07a5cxMNlAyKrWxBGlPBVrgkpPmrwwpGlDKRgda74hSFfpjASknBPfgC
- SygzvdGiImQT6vw==
+ bh=tR2Pek6p+Z1Y/CCm8gFsRbPMfMtJuv7bIWglOMvOdFY=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBm4uu8q0Cm3Vmu3KFO5KNH6YiN/uDaU+NLuFMQc
+ NUoLZjbQTCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZuLrvAAKCRAgrS7GWxAs
+ 4j3RD/wML80ppF2mUtV6BVZUfH2mypdVpWRaTp5b/JqWTEolEgkZV0LbwOwtv/PWEK3UU32fF5J
+ 5rrUB+YTUUBS5fopmSyuAn7opZJd/2fJB3hdjbQkT6953w33W/1eXloXVPj/Xn7tKQUzWW562EK
+ ggYuwvQyd0H6VbxNC9aiHI4/OEopWmu8KgiL9lM5Pk/S5v57jNo+E7TQN5zGkWL5rLZKWTZMHzs
+ oFlkY1zTrjJRtJxI2pEeLfmPkQvCFm7hEX3wKaXF7CZpbSS0MiosC1AUcRp8sw80zmZFBmxIhXc
+ jqS8zzEuxuxTykQ0QG2hjtGTPKkadLM+VatZokFrx3yJNg79+vIFdFIA75Auw0rZNU8t0s97MYT
+ OF9uecZRmTYKyMcr4Wzothk5HeCjozFLELP+SWyme+KbQZWtDwb5ZqM/HGtWrM8MBmvn7D2t5RD
+ SK9Q0fFnWFmvULwqM7fxVPYk/nn9TjXOXS6VdaXs1IX0y4lYow38mxRR8tGJXhIwmDqXcLKTEg4
+ gZqC+dha2m52bX7qSWpbaesXnIFm4wN/HtFxP+Pm9Ty/oiQUfDA45pgxb2ueC9Jfi8dk2bDLL61
+ 8EWQZ6ymBwHKfCvYnJ+kl5TAb4hUI7BcV9ueSYNtlBnhA4Uz1m53se+5N4KzZ07taUfltpm+g0V
+ 3yRS5euMZ/qeARA==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -89,62 +85,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To simplify the memory managment this series replace all manual drm 
-object managment by drm-managed one. This way the VKMS code don't have to 
-manage it directly and the DRM core will handle the object destruction.
-
-No functional changes are intended in this series. This series depends on 
-[1] (for writeback connector) and [2] (for cleaning code).
-
-PATCH 1/4: Migrate connector managment to drmm
-PATCH 2/4: Migrate encoder managment to drmm
-PATCH 3/4: Migrate connector management to drm
-PATCH 4/4: Migrate writeback connector management to drm
-
-[1]: https://lore.kernel.org/all/20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com/
-[2]: https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
+The current VKMS driver uses non-managed function to create connectors. It
+is not an issue yet, but in order to support multiple devices easily,
+convert this code to use drm and device managed helpers.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
-Changes in v3:
-- As suggested by Maxime, split the managed and the dynamic allocation 
-  parts in different series
-- To reduce the diff in this series, extract the "remove crtc index" part, 
-  see https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
-- Link to v2: https://lore.kernel.org/r/20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com
+ drivers/gpu/drm/vkms/vkms_output.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-Changes in v2:
-- Applied comments from José
-- Extract the rename vkms_output -> vkms_crtc to avoid useless changes in 
-  the last commit
-- Extract the rename to_vkms_crtc_state to
-  drm_crtc_state_to_vkms_crtc_state to avoid useless changes in last 
-  commit
-- Extract the drm_mode_crtc_set_gamma_size result check in its own commit
-- Rebased on drm-misc/drm-misc-next
-- Link to v1: https://lore.kernel.org/r/20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index a6a942b4f84f0caffe1e9e1523edb262e1b7bcfb..1a445a4ff6ffb023a1c1ef7e141c771277146251 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -3,11 +3,11 @@
+ #include "vkms_drv.h"
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_managed.h>
+ #include <drm/drm_probe_helper.h>
+ 
+ static const struct drm_connector_funcs vkms_connector_funcs = {
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = drm_connector_cleanup,
+ 	.reset = drm_atomic_helper_connector_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+@@ -66,8 +66,8 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 		}
+ 	}
+ 
+-	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
+-				 DRM_MODE_CONNECTOR_VIRTUAL);
++	ret = drmm_connector_init(dev, connector, &vkms_connector_funcs,
++				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to init connector\n");
+ 		goto err_connector;
+@@ -79,7 +79,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to init encoder\n");
+-		goto err_encoder;
++		return ret;
+ 	}
+ 	encoder->possible_crtcs = drm_crtc_mask(crtc);
+ 
+@@ -101,12 +101,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 
+ err_attach:
+ 	drm_encoder_cleanup(encoder);
+-
+-err_encoder:
+-	drm_connector_cleanup(connector);
+-
+ err_connector:
+ 	drm_crtc_cleanup(crtc);
+-
+ 	return ret;
+ }
 
----
-Louis Chauvet (4):
-      drm/vkms: Switch to managed for connector
-      drm/vkms: Switch to managed for encoder
-      drm/vkms: Switch to managed for crtc
-      drm/vkms: Switch to managed for writeback connector
-
- drivers/gpu/drm/vkms/vkms_crtc.c      | 14 ++++++++++++++
- drivers/gpu/drm/vkms/vkms_drv.c       |  9 ---------
- drivers/gpu/drm/vkms/vkms_output.c    | 25 +++++++------------------
- drivers/gpu/drm/vkms/vkms_writeback.c | 13 ++++++-------
- 4 files changed, 27 insertions(+), 34 deletions(-)
----
-base-commit: d2194256049910d286cd6c308c2689df521d8842
-change-id: 20240521-google-vkms-managed-4aec99461a77
-prerequisite-message-id: <20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com>
-prerequisite-patch-id: 93bfa5c36385932ea291789faa7356639d9e4bfc
-prerequisite-message-id: <20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com>
-prerequisite-patch-id: 130816a16434cafa13b7a2b629398a20782be3a6
-
-Best regards,
 -- 
-Louis Chauvet <louis.chauvet@bootlin.com>
+2.44.2
 
