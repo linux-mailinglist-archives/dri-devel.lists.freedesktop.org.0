@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE15976AE4
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E662F976B0F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:48:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B4510EB9F;
-	Thu, 12 Sep 2024 13:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D94B10EB92;
+	Thu, 12 Sep 2024 13:48:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cvXEDST5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SwxDtWoz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D0710EB8F;
- Thu, 12 Sep 2024 13:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726148441; x=1757684441;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=CPTdyPorIugoPLcyIJ9zAu157zFgi0+UdCY/EuPyqfM=;
- b=cvXEDST5HQanK+Rawtv+96K8wRbF3jMQvxdSzITt5/T2xguuRV8qAQFU
- 2sa8VF6RhhCuXgl3r393BflV9T4kNIsq3Z0suWvMCjvELmSSd0waJMKEP
- fi34LnLm2yeHqp/+6fhyf5rm+5vQ0cmVRV3RVFIvS+UZczoWRtt5Ou8XS
- /DN1b7pthdfuxqRweiiNCoaN8+xcDnPnZZdmr9T7MI9V0u0jhNvp9dEUa
- yjH6IJhQeVtgeAsEyerRv0Q2rYVZXo0L/XkAIwlu/Z6qqdu7Ec1USbYGm
- mFKjboWKxB3EiBEK0SjN2u+IASGw/od271GCOUT7PiwV8J8PvSzXeRARb w==;
-X-CSE-ConnectionGUID: NlHPEEltT6Gi/VKUjWXGug==
-X-CSE-MsgGUID: 1TjkrdFqReKKetaA4Qu3Gg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="28889976"
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="28889976"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2024 06:40:40 -0700
-X-CSE-ConnectionGUID: 38ttWvPdQ96X+AOesHvZdg==
-X-CSE-MsgGUID: PqqCs3oQRseSV2caos9FBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="67542660"
-Received: from mlehtone-mobl.ger.corp.intel.com (HELO [10.245.244.236])
- ([10.245.244.236])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2024 06:40:38 -0700
-Message-ID: <954958e10350b5e1cd0a4197a4a0ea68f74b6470.camel@linux.intel.com>
-Subject: Re: [PATCH v4 1/2] drm/ttm: Move swapped objects off the manager's
- LRU list
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-Date: Thu, 12 Sep 2024 15:40:36 +0200
-In-Reply-To: <78c687b5-2dd1-4d6f-a6c3-22769d75bbb6@amd.com>
-References: <20240904070808.95126-1-thomas.hellstrom@linux.intel.com>
- <20240904070808.95126-2-thomas.hellstrom@linux.intel.com>
- <91936a3d-b8c1-41f6-95e0-870fc1c2d007@amd.com>
- <e3c6ba4eb2349cb160996a913132e022af63abd8.camel@linux.intel.com>
- <78c687b5-2dd1-4d6f-a6c3-22769d75bbb6@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A262210EB92
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:48:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726148902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=78LxwfWGHXBSnluhDfLnN2ocHmUZwGROl48HNDSU/PQ=;
+ b=SwxDtWozwM7t0Tki1SHDKEINjrF/aZ0mikrV2nsecd6SIs2e/We2VSOAKBLaMQKTL0Q37s
+ +4tVfQvcN6Ih4ngztySDhL6LOeuDPCDwQGY9MWzVxBAQCFbgQdGjT+IL7TRzqdh6tpsewX
+ 7htlB9uRfuKNYtjJTvZitfgV5hUjw7w=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-74-IkUs7qqOO0SK4Q-zyg97aw-1; Thu, 12 Sep 2024 09:48:20 -0400
+X-MC-Unique: IkUs7qqOO0SK4Q-zyg97aw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-42ac185e26cso7522045e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 06:48:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726148899; x=1726753699;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=78LxwfWGHXBSnluhDfLnN2ocHmUZwGROl48HNDSU/PQ=;
+ b=l6DV9gW/pgeCGhrOy9IQZPVJ3aSrMuBHW2nhTZKfz9aOrr3XfHILArdmzpeTdsdvuX
+ Tir7kRIejKvUFV8qeET8gaxkzn2N/+UqZdgpyYSuLXtkGrXAeLjH/MdcD3Gg1byutI2s
+ bBf+wLQHCJpaIzwubdWy02M9asd2Hcmle8DMxjbj+Wcg4vRtpLN5V7ALmSv0TgQLh4vX
+ 7k8/69rS81U4RNCxaYVehVkte82G/Ds1ROyXha1ViAFNUmHAyiRNpFGDH/UaVpJxqGPg
+ yNgyLWwJbPN7vcxaXp34fvnLZdoHKGNsi/xpu8E+4SunyZetQGMjhFagaRAVDbTNgzVW
+ qp1A==
+X-Gm-Message-State: AOJu0Yy+1HYz6W0n7y6s9fDMJhuBa7irmFNNbTWw7KYzQRG7dCim28Or
+ UwXD7B6x/xshW+IxxEdfFSYvR15nziCNFN5EY0luFTdP/P42XOavWdrVxx5BClJablwaom3faRQ
+ ae5CmqKrn6rx6uHgom9vmdK8hKh+Iqi/AHMU9kWJ+cSxgKrWQWtJBK969kxBRBKD9QA==
+X-Received: by 2002:a05:600c:3581:b0:42c:b995:20b6 with SMTP id
+ 5b1f17b1804b1-42cdb5385b2mr24321725e9.2.1726148899056; 
+ Thu, 12 Sep 2024 06:48:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEX08c1r/KjQy/kuDsCzDhgkM4PkzEXDVsqIZ4RoIQiQe4suwA/Z/6hrImJ5/DnVIHbgNV/UQ==
+X-Received: by 2002:a05:600c:3581:b0:42c:b995:20b6 with SMTP id
+ 5b1f17b1804b1-42cdb5385b2mr24321495e9.2.1726148898501; 
+ Thu, 12 Sep 2024 06:48:18 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42caeb8afd4sm173411175e9.46.2024.09.12.06.48.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Sep 2024 06:48:17 -0700 (PDT)
+Message-ID: <c673e697-c20c-492f-8a58-fac01a5ec896@redhat.com>
+Date: Thu, 12 Sep 2024 15:48:17 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/10] drm/ast: dp501: Avoid upcasting to struct ast_device
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20240911115347.899148-1-tzimmermann@suse.de>
+ <20240911115347.899148-7-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240911115347.899148-7-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,608 +93,231 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
+On 11/09/2024 13:51, Thomas Zimmermann wrote:
+> Several functions receive an instance of struct drm_device only to
+> upcast it to struct ast_device. Improve type safety by passing the
+> AST device directly.
+> 
+Thanks, it looks good to me. One small comment below
 
-On Wed, 2024-09-04 at 12:47 +0200, Christian K=C3=B6nig wrote:
-> Am 04.09.24 um 10:54 schrieb Thomas Hellstr=C3=B6m:
-> > On Wed, 2024-09-04 at 10:50 +0200, Christian K=C3=B6nig wrote:
-> > > Am 04.09.24 um 09:08 schrieb Thomas Hellstr=C3=B6m:
-> > > > Resources of swapped objects remains on the TTM_PL_SYSTEM
-> > > > manager's
-> > > > LRU list, which is bad for the LRU walk efficiency.
-> > > >=20
-> > > > Rename the device-wide "pinned" list to "unevictable" and move
-> > > > also resources of swapped-out objects to that list.
-> > > >=20
-> > > > An alternative would be to create an "UNEVICTABLE" priority to
-> > > > be able to keep the pinned- and swapped objects on their
-> > > > respective manager's LRU without affecting the LRU walk
-> > > > efficiency.
-> > > >=20
-> > > > v2:
-> > > > - Remove a bogus WARN_ON (Christian K=C3=B6nig)
-> > > > - Update ttm_resource_[add|del] bulk move (Christian K=C3=B6nig)
-> > > > - Fix TTM KUNIT tests (Intel CI)
-> > > > v3:
-> > > > - Check for non-NULL bo->resource in ttm_bo_populate().
-> > > > v4:
-> > > > - Don't move to LRU tail during swapout until the resource
-> > > > =C2=A0=C2=A0=C2=A0 is properly swapped or there was a swapout failu=
-re.
-> > > > =C2=A0=C2=A0=C2=A0 (Intel Ci)
-> > > > - Add a newline after checkpatch check.
-> > > >=20
-> > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > > Cc: <dri-devel@lists.freedesktop.org>
-> > > > Signed-off-by: Thomas Hellstr=C3=B6m
-> > > > <thomas.hellstrom@linux.intel.com>
-> > > I really wonder if having a SWAPPED wouldn't be cleaner in the
-> > > long
-> > > run.
-> > >=20
-> > > Anyway, that seems to work for now. So patch is Reviewed-by:
-> > > Christian
-> > > K=C3=B6nig <christian.koenig@amd.com>.
-> > Thanks. Are you ok with the changes to the pinning patch that
-> > happened
-> > after yoour R-B as well?
->=20
-> I was already wondering why the increment used to be separate while=20
-> reviewing the initial version. So yes that looks better now.
->=20
-> >=20
-> > Ack to merge through drm-misc-next once CI is clean?
->=20
-> Yeah, works for me.
->=20
-> Christian.
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-i915 & xe CI is clean now for this series but I had to change patch 1
-slightly to avoid putting *all* resources that were created for a
-swapped bo on the unevictable list (Typically VRAM resources that were
-created for validation back to VRAM).
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_dp501.c | 53 ++++++++++++++-------------------
+>   drivers/gpu/drm/ast/ast_drv.h   |  4 +--
+>   drivers/gpu/drm/ast/ast_main.c  |  2 +-
+>   drivers/gpu/drm/ast/ast_post.c  |  2 +-
+>   4 files changed, 27 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+> index abb03d14c338..e5553334bfde 100644
+> --- a/drivers/gpu/drm/ast/ast_dp501.c
+> +++ b/drivers/gpu/drm/ast/ast_dp501.c
+> @@ -21,9 +21,9 @@ static void ast_release_firmware(void *data)
+>   	ast->dp501_fw = NULL;
+>   }
+>   
+> -static int ast_load_dp501_microcode(struct drm_device *dev)
+> +static int ast_load_dp501_microcode(struct ast_device *ast)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+> +	struct drm_device *dev = &ast->base;
+>   	int ret;
+>   
+>   	ret = request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev);
+> @@ -109,10 +109,10 @@ static bool wait_fw_ready(struct ast_device *ast)
+>   }
+>   #endif
+>   
+> -static bool ast_write_cmd(struct drm_device *dev, u8 data)
+> +static bool ast_write_cmd(struct ast_device *ast, u8 data)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+>   	int retry = 0;
+> +
+>   	if (wait_nack(ast)) {
+>   		send_nack(ast);
+>   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9a, 0x00, data);
+> @@ -131,10 +131,8 @@ static bool ast_write_cmd(struct drm_device *dev, u8 data)
+>   	return false;
+>   }
+>   
+> -static bool ast_write_data(struct drm_device *dev, u8 data)
+> +static bool ast_write_data(struct ast_device *ast, u8 data)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+> -
+>   	if (wait_nack(ast)) {
+>   		send_nack(ast);
+>   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x9a, 0x00, data);
+> @@ -175,10 +173,10 @@ static void clear_cmd(struct ast_device *ast)
+>   }
+>   #endif
+>   
+> -static void ast_set_dp501_video_output(struct drm_device *dev, u8 mode)
+> +static void ast_set_dp501_video_output(struct ast_device *ast, u8 mode)
+>   {
+> -	ast_write_cmd(dev, 0x40);
+> -	ast_write_data(dev, mode);
+> +	ast_write_cmd(ast, 0x40);
+> +	ast_write_data(ast, mode);
+>   
+>   	msleep(10);
+>   }
+> @@ -188,9 +186,8 @@ static u32 get_fw_base(struct ast_device *ast)
+>   	return ast_mindwm(ast, 0x1e6e2104) & 0x7fffffff;
+>   }
+>   
+> -bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size)
+> +bool ast_backup_fw(struct ast_device *ast, u8 *addr, u32 size)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+>   	u32 i, data;
+>   	u32 boot_address;
+>   
+> @@ -207,9 +204,8 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size)
+>   	return false;
+>   }
+>   
+> -static bool ast_launch_m68k(struct drm_device *dev)
+> +static bool ast_launch_m68k(struct ast_device *ast)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+>   	u32 i, data, len = 0;
+>   	u32 boot_address;
+>   	u8 *fw_addr = NULL;
+> @@ -226,7 +222,7 @@ static bool ast_launch_m68k(struct drm_device *dev)
+>   			len = 32*1024;
+>   		} else {
+>   			if (!ast->dp501_fw &&
+> -			    ast_load_dp501_microcode(dev) < 0)
+> +			    ast_load_dp501_microcode(ast) < 0)
+>   				return false;
+>   
+>   			fw_addr = (u8 *)ast->dp501_fw->data;
+> @@ -348,9 +344,8 @@ static int ast_dp512_read_edid_block(void *data, u8 *buf, unsigned int block, si
+>   	return true;
+>   }
+>   
+> -static bool ast_init_dvo(struct drm_device *dev)
+> +static bool ast_init_dvo(struct ast_device *ast)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+>   	u8 jreg;
+>   	u32 data;
+>   	ast_write32(ast, 0xf004, 0x1e6e0000);
+> @@ -421,9 +416,8 @@ static bool ast_init_dvo(struct drm_device *dev)
+>   }
+>   
+>   
+> -static void ast_init_analog(struct drm_device *dev)
+> +static void ast_init_analog(struct ast_device *ast)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+>   	u32 data;
+>   
+>   	/*
+> @@ -448,28 +442,27 @@ static void ast_init_analog(struct drm_device *dev)
+>   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x00);
+>   }
+>   
+> -void ast_init_3rdtx(struct drm_device *dev)
+> +void ast_init_3rdtx(struct ast_device *ast)
+>   {
+> -	struct ast_device *ast = to_ast_device(dev);
+>   	u8 jreg;
+>   
+>   	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast)) {
+>   		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, 0xff);
+>   		switch (jreg & 0x0e) {
+>   		case 0x04:
+> -			ast_init_dvo(dev);
+> +			ast_init_dvo(ast);
+>   			break;
+>   		case 0x08:
+> -			ast_launch_m68k(dev);
+> +			ast_launch_m68k(ast);
+>   			break;
+>   		case 0x0c:
+> -			ast_init_dvo(dev);
+> +			ast_init_dvo(ast);
+>   			break;
+>   		default:
+>   			if (ast->tx_chip == AST_TX_SIL164)
+> -				ast_init_dvo(dev);
+> +				ast_init_dvo(ast);
+>   			else
+> -				ast_init_analog(dev);
+> +				ast_init_analog(ast);
+>   		}
+>   	}
+>   }
+> @@ -485,17 +478,17 @@ static const struct drm_encoder_funcs ast_dp501_encoder_funcs = {
+>   static void ast_dp501_encoder_helper_atomic_enable(struct drm_encoder *encoder,
+>   						   struct drm_atomic_state *state)
+>   {
+> -	struct drm_device *dev = encoder->dev;
+> +	struct ast_device *ast = to_ast_device(encoder->dev);
+>   
+> -	ast_set_dp501_video_output(dev, 1);
+> +	ast_set_dp501_video_output(ast, 1);
+>   }
+>   
+>   static void ast_dp501_encoder_helper_atomic_disable(struct drm_encoder *encoder,
+>   						    struct drm_atomic_state *state)
+>   {
+> -	struct drm_device *dev = encoder->dev;
+> +	struct ast_device *ast = to_ast_device(encoder->dev);
+>   
+> -	ast_set_dp501_video_output(dev, 0);
+> +	ast_set_dp501_video_output(ast, 0);
+>   }
+>   
+>   static const struct drm_encoder_helper_funcs ast_dp501_encoder_helper_funcs = {
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index cafc4234e839..e29db59bb7d8 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -455,8 +455,8 @@ int ast_vga_output_init(struct ast_device *ast);
+>   int ast_sil164_output_init(struct ast_device *ast);
+>   
+>   /* ast dp501 */
+> -bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
+> -void ast_init_3rdtx(struct drm_device *dev);
+> +bool ast_backup_fw(struct ast_device *ast, u8 *addr, u32 size);
+> +void ast_init_3rdtx(struct ast_device *ast);
+>   int ast_dp501_output_init(struct ast_device *ast);
+>   
+>   /* aspeed DP */
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index d7d503e78e25..3aeb0f4b19d5 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -110,7 +110,7 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+>   			ast->dp501_fw_addr = drmm_kzalloc(dev, 32*1024, GFP_KERNEL);
+>   			if (ast->dp501_fw_addr) {
+>   				/* backup firmware */
+> -				if (ast_backup_fw(dev, ast->dp501_fw_addr, 32*1024)) {
+> +				if (ast_backup_fw(ast, ast->dp501_fw_addr, 32*1024)) {
 
-So question is if your R-B still holds. Series is now at version 6.
+Maybe we can remove the fw_addr parameter of ast_backup_fw(), it's the 
+only call to this function.
 
-Thanks,
-Thomas
-
-
->=20
-> >=20
-> > /Thomas
-> >=20
-> >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > ---
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c=C2=A0 |=
-=C2=A0 2 +-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 4 +-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/tests/ttm_bo_test.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/tests/ttm_resource_test.c |=C2=A0 =
-6 +-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 59
-> > > > ++++++++++++++++++-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_bo_util.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_bo_vm.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +=
--
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_device.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +-
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_resource.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 15 +++--
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_tt.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 3 +
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/xe/xe_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 4 +-
-> > > > =C2=A0=C2=A0 include/drm/ttm/ttm_bo.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
-> > > > =C2=A0=C2=A0 include/drm/ttm/ttm_device.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 5 +-
-> > > > =C2=A0=C2=A0 include/drm/ttm/ttm_tt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 ++
-> > > > =C2=A0=C2=A0 15 files changed, 96 insertions(+), 27 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > > index 5c72462d1f57..7de284766f82 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > > @@ -808,7 +808,7 @@ static int __i915_ttm_get_pages(struct
-> > > > drm_i915_gem_object *obj,
-> > > > =C2=A0=C2=A0=C2=A0	}
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
-> > > > -		ret =3D ttm_tt_populate(bo->bdev, bo->ttm,
-> > > > &ctx);
-> > > > +		ret =3D ttm_bo_populate(bo, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0		if (ret)
-> > > > =C2=A0=C2=A0=C2=A0			return ret;
-> > > > =C2=A0=C2=A0=20
-> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > > > index 03b00a03a634..041dab543b78 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > > > @@ -624,7 +624,7 @@ int i915_ttm_move(struct ttm_buffer_object
-> > > > *bo,
-> > > > bool evict,
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	/* Populate ttm with pages if needed. Typically =
-system
-> > > > memory. */
-> > > > =C2=A0=C2=A0=C2=A0	if (ttm && (dst_man->use_tt || (ttm->page_flags =
-&
-> > > > TTM_TT_FLAG_SWAPPED))) {
-> > > > -		ret =3D ttm_tt_populate(bo->bdev, ttm, ctx);
-> > > > +		ret =3D ttm_bo_populate(bo, ctx);
-> > > > =C2=A0=C2=A0=C2=A0		if (ret)
-> > > > =C2=A0=C2=A0=C2=A0			return ret;
-> > > > =C2=A0=C2=A0=C2=A0	}
-> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> > > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> > > > index ad649523d5e0..61596cecce4d 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> > > > @@ -90,7 +90,7 @@ static int i915_ttm_backup(struct
-> > > > i915_gem_apply_to_region *apply,
-> > > > =C2=A0=C2=A0=C2=A0		goto out_no_lock;
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	backup_bo =3D i915_gem_to_ttm(backup);
-> > > > -	err =3D ttm_tt_populate(backup_bo->bdev, backup_bo->ttm,
-> > > > &ctx);
-> > > > +	err =3D ttm_bo_populate(backup_bo, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0	if (err)
-> > > > =C2=A0=C2=A0=C2=A0		goto out_no_populate;
-> > > > =C2=A0=C2=A0=20
-> > > > @@ -189,7 +189,7 @@ static int i915_ttm_restore(struct
-> > > > i915_gem_apply_to_region *apply,
-> > > > =C2=A0=C2=A0=C2=A0	if (!backup_bo->resource)
-> > > > =C2=A0=C2=A0=C2=A0		err =3D ttm_bo_validate(backup_bo,
-> > > > i915_ttm_sys_placement(), &ctx);
-> > > > =C2=A0=C2=A0=C2=A0	if (!err)
-> > > > -		err =3D ttm_tt_populate(backup_bo->bdev,
-> > > > backup_bo-
-> > > > > ttm, &ctx);
-> > > > +		err =3D ttm_bo_populate(backup_bo, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0	if (!err) {
-> > > > =C2=A0=C2=A0=C2=A0		err =3D i915_gem_obj_copy_ttm(obj, backup,
-> > > > pm_apply-
-> > > > > allow_gpu,
-> > > > =C2=A0=C2=A0=C2=A0					=C2=A0=C2=A0=C2=A0 false);
-> > > > diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-> > > > b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-> > > > index f0a7eb62116c..3139fd9128d8 100644
-> > > > --- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-> > > > +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-> > > > @@ -308,11 +308,11 @@ static void
-> > > > ttm_bo_unreserve_pinned(struct
-> > > > kunit *test)
-> > > > =C2=A0=C2=A0=C2=A0	err =3D ttm_resource_alloc(bo, place, &res2);
-> > > > =C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_EQ(test, err, 0);
-> > > > =C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_EQ(test,
-> > > > -			list_is_last(&res2->lru.link, &priv-
-> > > > > ttm_dev->pinned), 1);
-> > > > +			list_is_last(&res2->lru.link, &priv-
-> > > > > ttm_dev->unevictable), 1);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	ttm_bo_unreserve(bo);
-> > > > =C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_EQ(test,
-> > > > -			list_is_last(&res1->lru.link, &priv-
-> > > > > ttm_dev->pinned), 1);
-> > > > +			list_is_last(&res1->lru.link, &priv-
-> > > > > ttm_dev->unevictable), 1);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	ttm_resource_free(bo, &res1);
-> > > > =C2=A0=C2=A0=C2=A0	ttm_resource_free(bo, &res2);
-> > > > diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-> > > > b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-> > > > index 22260e7aea58..a9f4b81921c3 100644
-> > > > --- a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-> > > > +++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-> > > > @@ -164,18 +164,18 @@ static void
-> > > > ttm_resource_init_pinned(struct
-> > > > kunit *test)
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	res =3D kunit_kzalloc(test, sizeof(*res), GFP_KE=
-RNEL);
-> > > > =C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_NOT_NULL(test, res);
-> > > > -	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
-> > > > >pinned));
-> > > > +	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
-> > > > > unevictable));
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	dma_resv_lock(bo->base.resv, NULL);
-> > > > =C2=A0=C2=A0=C2=A0	ttm_bo_pin(bo);
-> > > > =C2=A0=C2=A0=C2=A0	ttm_resource_init(bo, place, res);
-> > > > -	KUNIT_ASSERT_TRUE(test, list_is_singular(&bo->bdev-
-> > > > > pinned));
-> > > > +	KUNIT_ASSERT_TRUE(test, list_is_singular(&bo->bdev-
-> > > > > unevictable));
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	ttm_bo_unpin(bo);
-> > > > =C2=A0=C2=A0=C2=A0	ttm_resource_fini(man, res);
-> > > > =C2=A0=C2=A0=C2=A0	dma_resv_unlock(bo->base.resv);
-> > > > =C2=A0=C2=A0=20
-> > > > -	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
-> > > > >pinned));
-> > > > +	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
-> > > > > unevictable));
-> > > > =C2=A0=C2=A0 }
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0 static void ttm_resource_fini_basic(struct kunit *test=
-)
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > index 320592435252..875b024913a0 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > @@ -139,7 +139,7 @@ static int ttm_bo_handle_move_mem(struct
-> > > > ttm_buffer_object *bo,
-> > > > =C2=A0=C2=A0=C2=A0			goto out_err;
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0		if (mem->mem_type !=3D TTM_PL_SYSTEM) {
-> > > > -			ret =3D ttm_tt_populate(bo->bdev, bo-
-> > > > >ttm,
-> > > > ctx);
-> > > > +			ret =3D ttm_bo_populate(bo, ctx);
-> > > > =C2=A0=C2=A0=C2=A0			if (ret)
-> > > > =C2=A0=C2=A0=C2=A0				goto out_err;
-> > > > =C2=A0=C2=A0=C2=A0		}
-> > > > @@ -1128,9 +1128,20 @@ ttm_bo_swapout_cb(struct ttm_lru_walk
-> > > > *walk,
-> > > > struct ttm_buffer_object *bo)
-> > > > =C2=A0=C2=A0=C2=A0	if (bo->bdev->funcs->swap_notify)
-> > > > =C2=A0=C2=A0=C2=A0		bo->bdev->funcs->swap_notify(bo);
-> > > > =C2=A0=C2=A0=20
-> > > > -	if (ttm_tt_is_populated(bo->ttm))
-> > > > +	if (ttm_tt_is_populated(bo->ttm)) {
-> > > > +		spin_lock(&bo->bdev->lru_lock);
-> > > > +		ttm_resource_del_bulk_move(bo->resource, bo);
-> > > > +		spin_unlock(&bo->bdev->lru_lock);
-> > > > +
-> > > > =C2=A0=C2=A0=C2=A0		ret =3D ttm_tt_swapout(bo->bdev, bo->ttm,
-> > > > swapout_walk->gfp_flags);
-> > > > =C2=A0=C2=A0=20
-> > > > +		spin_lock(&bo->bdev->lru_lock);
-> > > > +		if (ret)
-> > > > +			ttm_resource_add_bulk_move(bo-
-> > > > >resource,
-> > > > bo);
-> > > > +		ttm_resource_move_to_lru_tail(bo->resource);
-> > > > +		spin_unlock(&bo->bdev->lru_lock);
-> > > > +	}
-> > > > +
-> > > > =C2=A0=C2=A0 out:
-> > > > =C2=A0=C2=A0=C2=A0	/* Consider -ENOMEM and -ENOSPC non-fatal. */
-> > > > =C2=A0=C2=A0=C2=A0	if (ret =3D=3D -ENOMEM || ret =3D=3D -ENOSPC)
-> > > > @@ -1180,3 +1191,47 @@ void ttm_bo_tt_destroy(struct
-> > > > ttm_buffer_object *bo)
-> > > > =C2=A0=C2=A0=C2=A0	ttm_tt_destroy(bo->bdev, bo->ttm);
-> > > > =C2=A0=C2=A0=C2=A0	bo->ttm =3D NULL;
-> > > > =C2=A0=C2=A0 }
-> > > > +
-> > > > +/**
-> > > > + * ttm_bo_populate() - Ensure that a buffer object has backing
-> > > > pages
-> > > > + * @bo: The buffer object
-> > > > + * @ctx: The ttm_operation_ctx governing the operation.
-> > > > + *
-> > > > + * For buffer objects in a memory type whose manager uses
-> > > > + * struct ttm_tt for backing pages, ensure those backing pages
-> > > > + * are present and with valid content. The bo's resource is
-> > > > also
-> > > > + * placed on the correct LRU list if it was previously swapped
-> > > > + * out.
-> > > > + *
-> > > > + * Return: 0 if successful, negative error code on failure.
-> > > > + * Note: May return -EINTR or -ERESTARTSYS if
-> > > > @ctx::interruptible
-> > > > + * is set to true.
-> > > > + */
-> > > > +int ttm_bo_populate(struct ttm_buffer_object *bo,
-> > > > +		=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx)
-> > > > +{
-> > > > +	struct ttm_tt *tt =3D bo->ttm;
-> > > > +	bool swapped;
-> > > > +	int ret;
-> > > > +
-> > > > +	dma_resv_assert_held(bo->base.resv);
-> > > > +
-> > > > +	if (!tt)
-> > > > +		return 0;
-> > > > +
-> > > > +	swapped =3D ttm_tt_is_swapped(tt);
-> > > > +	ret =3D ttm_tt_populate(bo->bdev, tt, ctx);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	if (swapped && !ttm_tt_is_swapped(tt) && !bo-
-> > > > >pin_count &&
-> > > > +	=C2=A0=C2=A0=C2=A0 bo->resource) {
-> > > > +		spin_lock(&bo->bdev->lru_lock);
-> > > > +		ttm_resource_add_bulk_move(bo->resource, bo);
-> > > > +		ttm_resource_move_to_lru_tail(bo->resource);
-> > > > +		spin_unlock(&bo->bdev->lru_lock);
-> > > > +	}
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL(ttm_bo_populate);
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > > b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > > index 3c07f4712d5c..d939925efa81 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > > @@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct
-> > > > ttm_buffer_object
-> > > > *bo,
-> > > > =C2=A0=C2=A0=C2=A0	src_man =3D ttm_manager_type(bdev, src_mem->mem_=
-type);
-> > > > =C2=A0=C2=A0=C2=A0	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPP=
-ED) ||
-> > > > =C2=A0=C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0 dst_man->use_tt)) {
-> > > > -		ret =3D ttm_tt_populate(bdev, ttm, ctx);
-> > > > +		ret =3D ttm_bo_populate(bo, ctx);
-> > > > =C2=A0=C2=A0=C2=A0		if (ret)
-> > > > =C2=A0=C2=A0=C2=A0			return ret;
-> > > > =C2=A0=C2=A0=C2=A0	}
-> > > > @@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct
-> > > > ttm_buffer_object *bo,
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	BUG_ON(!ttm);
-> > > > =C2=A0=C2=A0=20
-> > > > -	ret =3D ttm_tt_populate(bo->bdev, ttm, &ctx);
-> > > > +	ret =3D ttm_bo_populate(bo, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0	if (ret)
-> > > > =C2=A0=C2=A0=C2=A0		return ret;
-> > > > =C2=A0=C2=A0=20
-> > > > @@ -507,7 +507,7 @@ int ttm_bo_vmap(struct ttm_buffer_object
-> > > > *bo,
-> > > > struct iosys_map *map)
-> > > > =C2=A0=C2=A0=C2=A0		pgprot_t prot;
-> > > > =C2=A0=C2=A0=C2=A0		void *vaddr;
-> > > > =C2=A0=C2=A0=20
-> > > > -		ret =3D ttm_tt_populate(bo->bdev, ttm, &ctx);
-> > > > +		ret =3D ttm_bo_populate(bo, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0		if (ret)
-> > > > =C2=A0=C2=A0=C2=A0			return ret;
-> > > > =C2=A0=C2=A0=20
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > index 4212b8c91dd4..2c699ed1963a 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > @@ -224,7 +224,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct
-> > > > vm_fault *vmf,
-> > > > =C2=A0=C2=A0=C2=A0		};
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0		ttm =3D bo->ttm;
-> > > > -		err =3D ttm_tt_populate(bdev, bo->ttm, &ctx);
-> > > > +		err =3D ttm_bo_populate(bo, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0		if (err) {
-> > > > =C2=A0=C2=A0=C2=A0			if (err =3D=3D -EINTR || err =3D=3D -
-> > > > ERESTARTSYS
-> > > > > >=20
-> > > > =C2=A0=C2=A0=C2=A0			=C2=A0=C2=A0=C2=A0 err =3D=3D -EAGAIN)
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_device.c
-> > > > b/drivers/gpu/drm/ttm/ttm_device.c
-> > > > index e7cc4954c1bc..02e797fd1891 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_device.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> > > > @@ -216,7 +216,7 @@ int ttm_device_init(struct ttm_device
-> > > > *bdev,
-> > > > const struct ttm_device_funcs *func
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	bdev->vma_manager =3D vma_manager;
-> > > > =C2=A0=C2=A0=C2=A0	spin_lock_init(&bdev->lru_lock);
-> > > > -	INIT_LIST_HEAD(&bdev->pinned);
-> > > > +	INIT_LIST_HEAD(&bdev->unevictable);
-> > > > =C2=A0=C2=A0=C2=A0	bdev->dev_mapping =3D mapping;
-> > > > =C2=A0=C2=A0=C2=A0	mutex_lock(&ttm_global_mutex);
-> > > > =C2=A0=C2=A0=C2=A0	list_add_tail(&bdev->device_list, &glob->device_=
-list);
-> > > > @@ -283,7 +283,7 @@ void ttm_device_clear_dma_mappings(struct
-> > > > ttm_device *bdev)
-> > > > =C2=A0=C2=A0=C2=A0	struct ttm_resource_manager *man;
-> > > > =C2=A0=C2=A0=C2=A0	unsigned int i, j;
-> > > > =C2=A0=C2=A0=20
-> > > > -	ttm_device_clear_lru_dma_mappings(bdev, &bdev-
-> > > > >pinned);
-> > > > +	ttm_device_clear_lru_dma_mappings(bdev, &bdev-
-> > > > > unevictable);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	for (i =3D TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES;=
- ++i) {
-> > > > =C2=A0=C2=A0=C2=A0		man =3D ttm_manager_type(bdev, i);
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
-> > > > b/drivers/gpu/drm/ttm/ttm_resource.c
-> > > > index 6d764ba88aab..93b44043b428 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> > > > @@ -30,6 +30,7 @@
-> > > > =C2=A0=C2=A0 #include <drm/ttm/ttm_bo.h>
-> > > > =C2=A0=C2=A0 #include <drm/ttm/ttm_placement.h>
-> > > > =C2=A0=C2=A0 #include <drm/ttm/ttm_resource.h>
-> > > > +#include <drm/ttm/ttm_tt.h>
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0 #include <drm/drm_util.h>
-> > > > =C2=A0=C2=A0=20
-> > > > @@ -239,7 +240,8 @@ static void ttm_lru_bulk_move_del(struct
-> > > > ttm_lru_bulk_move *bulk,
-> > > > =C2=A0=C2=A0 void ttm_resource_add_bulk_move(struct ttm_resource *r=
-es,
-> > > > =C2=A0=C2=A0=C2=A0				struct ttm_buffer_object *bo)
-> > > > =C2=A0=C2=A0 {
-> > > > -	if (bo->bulk_move && !bo->pin_count)
-> > > > +	if (bo->bulk_move && !bo->pin_count &&
-> > > > +	=C2=A0=C2=A0=C2=A0 (!bo->ttm || !ttm_tt_is_swapped(bo->ttm)))
-> > > > =C2=A0=C2=A0=C2=A0		ttm_lru_bulk_move_add(bo->bulk_move, res);
-> > > > =C2=A0=C2=A0 }
-> > > > =C2=A0=C2=A0=20
-> > > > @@ -247,7 +249,8 @@ void ttm_resource_add_bulk_move(struct
-> > > > ttm_resource *res,
-> > > > =C2=A0=C2=A0 void ttm_resource_del_bulk_move(struct ttm_resource *r=
-es,
-> > > > =C2=A0=C2=A0=C2=A0				struct ttm_buffer_object *bo)
-> > > > =C2=A0=C2=A0 {
-> > > > -	if (bo->bulk_move && !bo->pin_count)
-> > > > +	if (bo->bulk_move && !bo->pin_count &&
-> > > > +	=C2=A0=C2=A0=C2=A0 (!bo->ttm || !ttm_tt_is_swapped(bo->ttm)))
-> > > > =C2=A0=C2=A0=C2=A0		ttm_lru_bulk_move_del(bo->bulk_move, res);
-> > > > =C2=A0=C2=A0 }
-> > > > =C2=A0=C2=A0=20
-> > > > @@ -259,8 +262,8 @@ void ttm_resource_move_to_lru_tail(struct
-> > > > ttm_resource *res)
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	lockdep_assert_held(&bo->bdev->lru_lock);
-> > > > =C2=A0=C2=A0=20
-> > > > -	if (bo->pin_count) {
-> > > > -		list_move_tail(&res->lru.link, &bdev->pinned);
-> > > > +	if (bo->pin_count || (bo->ttm && ttm_tt_is_swapped(bo-
-> > > > > ttm))) {
-> > > > +		list_move_tail(&res->lru.link, &bdev-
-> > > > > unevictable);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	} else	if (bo->bulk_move) {
-> > > > =C2=A0=C2=A0=C2=A0		struct ttm_lru_bulk_move_pos *pos =3D
-> > > > @@ -301,8 +304,8 @@ void ttm_resource_init(struct
-> > > > ttm_buffer_object
-> > > > *bo,
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	man =3D ttm_manager_type(bo->bdev, place->mem_ty=
-pe);
-> > > > =C2=A0=C2=A0=C2=A0	spin_lock(&bo->bdev->lru_lock);
-> > > > -	if (bo->pin_count)
-> > > > -		list_add_tail(&res->lru.link, &bo->bdev-
-> > > > >pinned);
-> > > > +	if (bo->pin_count || (bo->ttm && ttm_tt_is_swapped(bo-
-> > > > > ttm)))
-> > > > +		list_add_tail(&res->lru.link, &bo->bdev-
-> > > > > unevictable);
-> > > > =C2=A0=C2=A0=C2=A0	else
-> > > > =C2=A0=C2=A0=C2=A0		list_add_tail(&res->lru.link, &man->lru[bo-
-> > > > > priority]);
-> > > > =C2=A0=C2=A0=C2=A0	man->usage +=3D res->size;
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > b/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > index 4b51b9023126..3baf215eca23 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > @@ -367,7 +367,10 @@ int ttm_tt_populate(struct ttm_device
-> > > > *bdev,
-> > > > =C2=A0=C2=A0=C2=A0	}
-> > > > =C2=A0=C2=A0=C2=A0	return ret;
-> > > > =C2=A0=C2=A0 }
-> > > > +
-> > > > +#if IS_ENABLED(CONFIG_DRM_TTM_KUNIT_TEST)
-> > > > =C2=A0=C2=A0 EXPORT_SYMBOL(ttm_tt_populate);
-> > > > +#endif
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0 void ttm_tt_unpopulate(struct ttm_device *bdev, struct
-> > > > ttm_tt
-> > > > *ttm)
-> > > > =C2=A0=C2=A0 {
-> > > > diff --git a/drivers/gpu/drm/xe/xe_bo.c
-> > > > b/drivers/gpu/drm/xe/xe_bo.c
-> > > > index a8e4d46d9123..f34daae2cf2b 100644
-> > > > --- a/drivers/gpu/drm/xe/xe_bo.c
-> > > > +++ b/drivers/gpu/drm/xe/xe_bo.c
-> > > > @@ -892,7 +892,7 @@ int xe_bo_evict_pinned(struct xe_bo *bo)
-> > > > =C2=A0=C2=A0=C2=A0		}
-> > > > =C2=A0=C2=A0=C2=A0	}
-> > > > =C2=A0=C2=A0=20
-> > > > -	ret =3D ttm_tt_populate(bo->ttm.bdev, bo->ttm.ttm,
-> > > > &ctx);
-> > > > +	ret =3D ttm_bo_populate(&bo->ttm, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0	if (ret)
-> > > > =C2=A0=C2=A0=C2=A0		goto err_res_free;
-> > > > =C2=A0=C2=A0=20
-> > > > @@ -945,7 +945,7 @@ int xe_bo_restore_pinned(struct xe_bo *bo)
-> > > > =C2=A0=C2=A0=C2=A0	if (ret)
-> > > > =C2=A0=C2=A0=C2=A0		return ret;
-> > > > =C2=A0=C2=A0=20
-> > > > -	ret =3D ttm_tt_populate(bo->ttm.bdev, bo->ttm.ttm,
-> > > > &ctx);
-> > > > +	ret =3D ttm_bo_populate(&bo->ttm, &ctx);
-> > > > =C2=A0=C2=A0=C2=A0	if (ret)
-> > > > =C2=A0=C2=A0=C2=A0		goto err_res_free;
-> > > > =C2=A0=C2=A0=20
-> > > > diff --git a/include/drm/ttm/ttm_bo.h
-> > > > b/include/drm/ttm/ttm_bo.h
-> > > > index 7b56d1ca36d7..5804408815be 100644
-> > > > --- a/include/drm/ttm/ttm_bo.h
-> > > > +++ b/include/drm/ttm/ttm_bo.h
-> > > > @@ -462,5 +462,7 @@ int ttm_bo_pipeline_gutting(struct
-> > > > ttm_buffer_object *bo);
-> > > > =C2=A0=C2=A0 pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, str=
-uct
-> > > > ttm_resource *res,
-> > > > =C2=A0=C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 pgprot_t tmp);
-> > > > =C2=A0=C2=A0 void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
-> > > > +int ttm_bo_populate(struct ttm_buffer_object *bo,
-> > > > +		=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0 #endif
-> > > > diff --git a/include/drm/ttm/ttm_device.h
-> > > > b/include/drm/ttm/ttm_device.h
-> > > > index c22f30535c84..438358f72716 100644
-> > > > --- a/include/drm/ttm/ttm_device.h
-> > > > +++ b/include/drm/ttm/ttm_device.h
-> > > > @@ -252,9 +252,10 @@ struct ttm_device {
-> > > > =C2=A0=C2=A0=C2=A0	spinlock_t lru_lock;
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	/**
-> > > > -	 * @pinned: Buffer objects which are pinned and so not
-> > > > on
-> > > > any LRU list.
-> > > > +	 * @unevictable Buffer objects which are pinned or
-> > > > swapped
-> > > > and as such
-> > > > +	 * not on an LRU list.
-> > > > =C2=A0=C2=A0=C2=A0	 */
-> > > > -	struct list_head pinned;
-> > > > +	struct list_head unevictable;
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	/**
-> > > > =C2=A0=C2=A0=C2=A0	 * @dev_mapping: A pointer to the struct address=
-_space
-> > > > for
-> > > > invalidating
-> > > > diff --git a/include/drm/ttm/ttm_tt.h
-> > > > b/include/drm/ttm/ttm_tt.h
-> > > > index 2b9d856ff388..991edafdb2dd 100644
-> > > > --- a/include/drm/ttm/ttm_tt.h
-> > > > +++ b/include/drm/ttm/ttm_tt.h
-> > > > @@ -129,6 +129,11 @@ static inline bool
-> > > > ttm_tt_is_populated(struct
-> > > > ttm_tt *tt)
-> > > > =C2=A0=C2=A0=C2=A0	return tt->page_flags & TTM_TT_FLAG_PRIV_POPULAT=
-ED;
-> > > > =C2=A0=C2=A0 }
-> > > > =C2=A0=C2=A0=20
-> > > > +static inline bool ttm_tt_is_swapped(const struct ttm_tt *tt)
-> > > > +{
-> > > > +	return tt->page_flags & TTM_TT_FLAG_SWAPPED;
-> > > > +}
-> > > > +
-> > > > =C2=A0=C2=A0 /**
-> > > > =C2=A0=C2=A0=C2=A0 * ttm_tt_create
-> > > > =C2=A0=C2=A0=C2=A0 *
->=20
+>   					drmm_kfree(dev, ast->dp501_fw_addr);
+>   					ast->dp501_fw_addr = NULL;
+>   				}
+> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+> index 902bf8114b6e..324778c72d23 100644
+> --- a/drivers/gpu/drm/ast/ast_post.c
+> +++ b/drivers/gpu/drm/ast/ast_post.c
+> @@ -360,7 +360,7 @@ void ast_post_gpu(struct drm_device *dev)
+>   		else
+>   			ast_init_dram_reg(dev);
+>   
+> -		ast_init_3rdtx(dev);
+> +		ast_init_3rdtx(ast);
+>   	} else {
+>   		if (ast->tx_chip == AST_TX_SIL164)
+>   			ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);	/* Enable DVO */
 
