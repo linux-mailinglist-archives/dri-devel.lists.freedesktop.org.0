@@ -2,65 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C119E976A7A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF6A976A96
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 15:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 577A510EB79;
-	Thu, 12 Sep 2024 13:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F1710EB7B;
+	Thu, 12 Sep 2024 13:30:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MM7/2yr4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QhwrdRL7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4328510EB79
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726147551; x=1757683551;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=xITUTQRl45ipox7CJz4yV6/g4MnIuHZA5arLXxNw0d4=;
- b=MM7/2yr4SZihDHUhMeOOdPC8xcTEbkBDIYgUVoPgMCs3z+dqa5V4Eh0k
- IHimXa8lggwYdKzvS/jcnugxClNEcVEBMO2R65kbbQ7PBP3NqdTujzaoe
- H1SAnwOa6yIflqta2/QWnK7RHl9sttnMfKjKkEG3MQHWkhJuTLV2lxuai
- 37P8wVcbSVdgExBgdOkl2y3nc/Hx85dANuLmMd/swahXHzqH8pUx6Mxs2
- 2tQq93oA0HyPBQxu5IaptIjSgzM7O0ca6m3e3UUWaTrKKzOs9jivSCTrr
- JTyIGnoYoIGpqt1Qj32jzb5qvwZ2dTX96YC/kgyPrsdIUvd56OwjWM2Sa A==;
-X-CSE-ConnectionGUID: NoUcd+7sR8CBygAFNFfOlg==
-X-CSE-MsgGUID: g3aZ7xKgTmmEhtVuiQGKIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24822065"
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="24822065"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2024 06:25:50 -0700
-X-CSE-ConnectionGUID: +CKDuMijSYue4qvW/tYUVg==
-X-CSE-MsgGUID: JIG+0YWCTMOhzOyUEBe6+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,223,1719903600"; d="scan'208";a="67328839"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.160])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2024 06:25:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Tejas Vipin
- <tejasvipin76@gmail.com>, Laurent.pinchart@ideasonboard.com,
- patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/gma500: replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-In-Reply-To: <1d16c1ae-2e27-4daa-b8a6-5eab179ef551@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240911180650.820598-1-tejasvipin76@gmail.com>
- <b0f77fcc-5d84-4727-9a17-9d1f1e2c5b76@suse.de> <87o74ti7g5.fsf@intel.com>
- <87ldzxi71s.fsf@intel.com> <988bb389-13e6-4465-ab37-3ed94ecee9be@suse.de>
- <87y13xgqj3.fsf@intel.com> <57016d01-4525-4685-b029-41e03b0abbda@suse.de>
- <87bk0tgll7.fsf@intel.com> <1d16c1ae-2e27-4daa-b8a6-5eab179ef551@suse.de>
-Date: Thu, 12 Sep 2024 16:25:44 +0300
-Message-ID: <87mskdf1gn.fsf@intel.com>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF50910EB7B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 13:30:06 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-42cd74c0d16so9180205e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 06:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726147805; x=1726752605; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=31vuczscfrohitTr22PmxSxpLT+YhLOaIZ8Pw2lBn5s=;
+ b=QhwrdRL7HLobnWK0NSsV2Ukj0FWk8TztDlTBtRrNoJaAdP7UYvlAvUYkcXlf+zrUIE
+ fNkxwniKxyhCQtFH2fwvVqhQ294Jt0W2rVevSHBuoAOgUeXnMffmueGrG/ic8Rlswr7r
+ G7m7wfCjlKgyd4FF/hOiSSNeMpcpp0CoiefUT5sHc0Mn3VxdOzWKL6YF7togUGoUaO+2
+ iPXP1fiXBzTS9AAy+t/Xi9Wrj8ymJC6wAkM01StzA/qoF+duu9l9I5syqMAcQLkGcEe+
+ EXfAv7tTlVUHltw6PqSIs9PgCQS2jsR7wrMHvq/jz1Yb1YjmsqK21jNqex6K1LKs3g7C
+ OEFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726147805; x=1726752605;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=31vuczscfrohitTr22PmxSxpLT+YhLOaIZ8Pw2lBn5s=;
+ b=GT8kU3urIu/IabHVxXzJj79QYCRBrQ8JRY85ePlqXwbOVyW1STst6n0p8FZcViz+8F
+ xVaTiPJ8+6Fh568S2FxvHHV2FTDZdl2+bgxjS9IS/spS1a+DNYitSngHGgdenDBTYK7p
+ 6+JyzFanAcAIUHAxl7nb13EyHHWvk3sLzKW9YZ6kxZYGEz2d+5/ZheaDtHqXRSIh7SiK
+ WWlI3tVOooKODUNPT2RrIthRm+wjGQJL383UkZQmJ9XVZwvF0m+STB3SUvcJ5Es5v5Da
+ blUsVNS6kL1rRHxws65MUkydufAUTJh0nrjDfaHUbAZY37Cpc+FR7lL0mRY0CYAsbSrf
+ LsGA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUpF5OVv6afRkRURdNfBpn+MAi28fmGfZiVmexpSI38xiv5akBNpYHpG4D/sYqKVV7Ow8NEhDW+/ps=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCQJhari6aE9qmPCZrXjCQx1HKSi55GDc8/hMbjG2mHVr3wL8b
+ uIiQByLntoUNLaPzjWpQUq43zJWMqafYn8+NojTOm46904R1B1Zw
+X-Google-Smtp-Source: AGHT+IGzVzLXofsdgNNXgFJHkQ58sJOkqe1BUUgZwCpXjNdePvaiYdfkXqFXBFazbMIOcP73wP/qvg==
+X-Received: by 2002:a05:600c:3b15:b0:42c:bdb0:c625 with SMTP id
+ 5b1f17b1804b1-42cdb539d15mr24385645e9.14.1726147804722; 
+ Thu, 12 Sep 2024 06:30:04 -0700 (PDT)
+Received: from localhost
+ (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42cc137556esm83578455e9.1.2024.09.12.06.30.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Sep 2024 06:30:03 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Ofir Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] accel/habanalabs/gaudi2: Make read-only array
+ edma_queues_id static const
+Date: Thu, 12 Sep 2024 14:30:03 +0100
+Message-Id: <20240912133003.589686-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,87 +84,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 12.09.24 um 13:25 schrieb Jani Nikula:
->> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>> Hi
->>>
->>> Am 12.09.24 um 11:38 schrieb Jani Nikula:
->>>> On Thu, 12 Sep 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>>>> Am 12.09.24 um 10:56 schrieb Jani Nikula:
->>>>>> Moreover, in this case .detect() only detects digital displays as
->>>>>> reported by EDID. If you postpone that to .get_modes(), the probe he=
-lper
->>>>>> will still report connected, and invent non-EDID fallback modes. The
->>>>>> behaviour changes.
->>>>> The change in behavior is intentional, because the current test seems
->>>>> arbitrary. Does the driver not work with analog outputs?
->>>> Not on a DVI/HDMI port. Same with i915.
->>>>
->>>> That's possibly the only way to distinguish a DVI-A display connected =
-to
->>>> DVI-D source.
->>> That's a detect failure, but IMHO our probe helpers should really handle
->>> this case.
->> How? Allow returning detect failures from .get_modes()?
->
-> Something like that, I guess.
->
-> For the specific problem it would be enough to read the first 20 bytes=20
-> of EDID data on DVI connectors and test the digital-input flag bit=20
-> against the exact connector requirements. drm_probe_ddc() could do this.=
-=20
+Don't populate the read-only array edma_queues_id on the stack at
+run time, instead make it static const.
 
-Just a quick reply on this particular point:
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-I'm very strongly against doing partial EDID reads. It's all geared
-towards EDID block sized handling. And you can't do checksum checking on
-the 20 bytes. It would be a maze of special casing, something the EDID
-code could have less, not more.
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index a38b88baadf2..1e401f42eef7 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -10304,10 +10304,12 @@ static int gaudi2_memset_memory_chunk_using_edma_qm(struct hl_device *hdev,
+ 
+ static int gaudi2_memset_device_memory(struct hl_device *hdev, u64 addr, u64 size, u64 val)
+ {
+-	u32 edma_queues_id[] = {GAUDI2_QUEUE_ID_DCORE0_EDMA_0_0,
+-					GAUDI2_QUEUE_ID_DCORE1_EDMA_0_0,
+-					GAUDI2_QUEUE_ID_DCORE2_EDMA_0_0,
+-					GAUDI2_QUEUE_ID_DCORE3_EDMA_0_0};
++	static const u32 edma_queues_id[] = {
++		GAUDI2_QUEUE_ID_DCORE0_EDMA_0_0,
++		GAUDI2_QUEUE_ID_DCORE1_EDMA_0_0,
++		GAUDI2_QUEUE_ID_DCORE2_EDMA_0_0,
++		GAUDI2_QUEUE_ID_DCORE3_EDMA_0_0
++	};
+ 	u32 chunk_size, dcore, edma_idx, sob_offset, sob_addr, comp_val,
+ 		old_mmubp, mmubp, num_of_pkts, busy, pkt_size, cb_len;
+ 	u64 comp_addr, cur_addr = addr, end_addr = addr + size;
+-- 
+2.39.2
 
-BR,
-Jani.
-
-> Non-DVI connectors would continue to read a single bytes to detect the DD=
-C.
->
-> For more sophisticated problems, it would be good to introduce an=20
-> intermediate callback that updates the connector state. So the probe=20
-> logic would look like:
->
->  =C2=A01) call ->detect to read physical connector status
->  =C2=A02) return if physical status did not change
->  =C2=A03) increment epoch counter
->  =C2=A04) call ->update to update connector state and properties (EDID, e=
-tc)=20
-> get new connector status
->  =C2=A05) call ->get_modes if connected
->
-> The initial ->detect would be minimal. The ->update, if implemented,=20
-> could do more processing and error checking. It's result would be the=20
-> connector's new status.
->
-> On a side note, I've recently spend quite a few patches on getting the=20
-> BMC output for ast and mgag200 usable. Something like the above logic=20
-> would have helped, I think. Because with the current probe logic, I had=20
-> to implement steps 1 to 4 in ->detect itself. The result has to maintain=
-=20
-> physical status and epoch counter by itself. [1]
->
-> Best regards
-> Thomas
->
-> [1]=20
-> https://gitlab.freedesktop.org/drm/kernel/-/commit/2a2391f857cdc5cf16f8df=
-030944cef8d3d2bc30
->
->>
->> BR,
->> Jani.
->>
->>
-
---=20
-Jani Nikula, Intel
