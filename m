@@ -2,90 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84409765EF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 11:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9A69765F5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 11:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB60110E150;
-	Thu, 12 Sep 2024 09:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D79610E15D;
+	Thu, 12 Sep 2024 09:46:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GzOl82t9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AvrxgYmi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79F9710E066;
- Thu, 12 Sep 2024 09:43:49 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48C2KuDY006232;
- Thu, 12 Sep 2024 09:43:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=DEBvwT7B3XwqH5kqFq1f14/t
- r/p42D8mAwQ9roVsWBc=; b=GzOl82t9/t/hgDjYEA4INO1c1nWHOYM52rF/fe5j
- 6dVH7XjdhkKToRcfub8lIrHxl7mmGUzreprJctD2uBh2x8vk+VtjSMXNhvb8HSAi
- abCi/+gHUX2pM1POHVV2yK3J2wHPJnS3OmMGEN2DqrYUFX2KhbyCMqLtZpx3GZvo
- v7jkZRSBV/ICaq5ESeWmMPkjUIJd1OhcYatLtTOTJdA4WJKZV6QdN+cEM0O0r1+H
- vJsJdHVY0AhRRMjL5YBkzT28BOJoWK35V9JF0vRdBwe6svgEIycW7mECu/B4Fgca
- 22kse8lIykzJHxU0yVNdUoJpVevl5smf+95OdI1jyomdFQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41gy6pcp0b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Sep 2024 09:43:44 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48C9hhAS008140
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Sep 2024 09:43:43 GMT
-Received: from [10.204.67.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 12 Sep
- 2024 02:43:34 -0700
-Content-Type: multipart/alternative;
- boundary="------------Pdm5sDlRGBLqrAiul0aoMDuq"
-Message-ID: <d616fe67-6d02-401e-8325-694676b84b61@quicinc.com>
-Date: Thu, 12 Sep 2024 15:13:31 +0530
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60F310E15D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 09:46:55 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-5365392cfafso730230e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 02:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726134414; x=1726739214; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xjtqfHfRcfKQ5w0sEXjGIUYVnAdujJDo61KSjXXwUAc=;
+ b=AvrxgYmi8hB/qQ4n7WPDf9BZzZleDauOTM1fMUW+LvSmzg2j06FVpm4g/4ZquKleLM
+ fvD82Ughwa4HzES5kVtpL47M38MLRmTJRqzfPBDt8lN5Y8H4tRkjjPhSB9Z2Qvn85xSt
+ pO7Z6FZgJ3oHg+vitZCxwg3RUxAjIrndkk65dsKSxD32/Rg6J7Ez50+QSOffhdDzfmYO
+ uTZw/90slav+QlVPHCiNQmCyajbEHi2+wKEsLNcgmQhgo0tIwF+ZuR3gY2Eg+9Dycv/a
+ OSAcGRekqKvVE6LK5qhrLF+XtVQOqWrs37bzLmmOGSSx+aBLrG2L2ZAd+AR7niHSIm7v
+ 0VDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726134414; x=1726739214;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xjtqfHfRcfKQ5w0sEXjGIUYVnAdujJDo61KSjXXwUAc=;
+ b=onjAJefPAPgZ6FZPJ3iJw51+ke7MmJsQAM1O2U+XcrkOeH2jNBRlxo66stfewsy96I
+ O9CwTHIAA+KFBuKIy5il7r0bkVYGUcAXmACwxi7MI0UL+QyC/hSDm1bAf4qL/q9u+rzG
+ +9qNdy6l/RJiboflMDXIe2TZ8N9TngrU/mvzDT3NyNBDq8KGQFnQUh9MKM+duzxWYtsi
+ AULaW0pMfAT1/J7zD59+d68PDeGzCqdY08k3nArYdl1aDeP/SaLvAF0X+rspYm68yfpO
+ HjCMjBt1S01hhEmCZx18T3YnfZBCMabCMYTq3OesVhvafevZSLuFQe+IPOH2NmTDWcpC
+ yojQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV7yGTZLK6SumMfxWCSyUuq9Rja1s2S9pVK2Uvodcveu0fkQg1Hkd/PxfZrHXya7a8+aceQ4zZW8bQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxfsi7qT2rU9M6NDSCfr+y+oCsLPcSmpYYYFh+TdxHOC6bQMWjV
+ byEjmCWwTg9/r/dkLwzSShe6yqybrADtkGCKj2MUIB6xl7ITcffKhD6LY2pLGos=
+X-Google-Smtp-Source: AGHT+IG5cW7iOqsMFNTTX9UV+7kHmIMbFWnDYcjy69de1cGerUaeAt5gV+fLAilQojfIG0emqxXgqw==
+X-Received: by 2002:a05:6512:1095:b0:536:54fd:275b with SMTP id
+ 2adb3069b0e04-53678ff62f4mr1313521e87.54.1726134412981; 
+ Thu, 12 Sep 2024 02:46:52 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5365f868e60sm1849080e87.38.2024.09.12.02.46.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Sep 2024 02:46:52 -0700 (PDT)
+Date: Thu, 12 Sep 2024 12:46:50 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] drm/doc: Update drm_bridge_connector path
+Message-ID: <rq77jt6wfq2s6i5mk4x4v7hfvpz7cgl5uqnwrq7odyz5k6rbxo@riierkdmvhp5>
+References: <20240912084540.1213343-1-mripard@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] phy: qcom: edp: Add support for eDP PHY on SA8775P
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <vkoul@kernel.org>, <kishon@kernel.org>, <konradybcio@kernel.org>,
- <andersson@kernel.org>, <simona@ffwll.ch>, <abel.vesa@linaro.org>,
- <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <quic_khsieh@quicinc.com>,
- <konrad.dybcio@linaro.org>, <quic_parellan@quicinc.com>,
- <quic_bjorande@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <linux-phy@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <quic_riteshk@quicinc.com>,
- <quic_vproddut@quicinc.com>
-References: <20240911100813.338-1-quic_mukhopad@quicinc.com>
- <20240911100813.338-4-quic_mukhopad@quicinc.com>
- <CAA8EJpqurbPKjmRH8zdqPkMuze4zwJVu+=W0nP=Ldc6o_4Tu4w@mail.gmail.com>
-From: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
-In-Reply-To: <CAA8EJpqurbPKjmRH8zdqPkMuze4zwJVu+=W0nP=Ldc6o_4Tu4w@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: EJP-e0TrQjw-b6Rxj9gIZo5JB35B6wJV
-X-Proofpoint-GUID: EJP-e0TrQjw-b6Rxj9gIZo5JB35B6wJV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- bulkscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0 phishscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409120068
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240912084540.1213343-1-mripard@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,284 +85,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------Pdm5sDlRGBLqrAiul0aoMDuq
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+On Thu, Sep 12, 2024 at 10:45:40AM GMT, Maxime Ripard wrote:
+> Commit 9da7ec9b19d8 ("drm/bridge-connector: move to DRM_DISPLAY_HELPER
+> module") recently moved the drm_bridge_connector file, but didn't update
+> the doc resulting in a doc build warning. Update it for the new location.
+> 
+> Fixes: 9da7ec9b19d8 ("drm/bridge-connector: move to DRM_DISPLAY_HELPER module")
+> Closes: https://lore.kernel.org/dri-devel/20240904163018.214efaa7@canb.auug.org.au/
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/gpu/drm-kms-helpers.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
+https://lore.kernel.org/dri-devel/20240911-drm-fix-dbc-docs-v1-1-ae5cb82fce1e@linaro.org/
 
-On 9/11/2024 4:10 PM, Dmitry Baryshkov wrote:
-> On Wed, 11 Sept 2024 at 13:08, Soutrik Mukhopadhyay
-> <quic_mukhopad@quicinc.com>  wrote:
->> Add support for eDP PHY v5 found on the Qualcomm SA8775P platform.
->>
->> Signed-off-by: Soutrik Mukhopadhyay<quic_mukhopad@quicinc.com>
->> ---
->>   drivers/phy/qualcomm/phy-qcom-edp.c | 47 +++++++++++++++++++++++++++++
->>   1 file changed, 47 insertions(+)
->>
->> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
->> index 0f860a807d1b..34a47cd2919d 100644
->> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
->> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
->> @@ -191,6 +191,45 @@ static u8 edp_phy_aux_cfg_v4[10] = {
->>          0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
->>   };
->>
->> +static const u8 edp_swing_hbr_rbr_v5[4][4] = {
->> +       { 0x07, 0x0f, 0x16, 0x1f },
->> +       { 0x0d, 0x16, 0x1e, 0xff },
->> +       { 0x11, 0x1b, 0xff, 0xff },
->> +       { 0x16, 0xff, 0xff, 0xff }
->> +};
-> Same as v4
-
-
-Yes, we will reuse edp_swing_hbr_rbr for v5.
-
->
->> +
->> +static const u8 edp_pre_emp_hbr_rbr_v5[4][4] = {
->> +       { 0x05, 0x11, 0x17, 0x1d },
->> +       { 0x05, 0x11, 0x18, 0xff },
->> +       { 0x06, 0x11, 0xff, 0xff },
->> +       { 0x00, 0xff, 0xff, 0xff }
->> +};
-> Could you please confirm that there is a single value difference?
-
-
-Yes, there is a single value difference.
-
-
->
->> +
->> +static const u8 edp_swing_hbr2_hbr3_v5[4][4] = {
->> +       { 0x0b, 0x11, 0x17, 0x1c },
->> +       { 0x10, 0x19, 0x1f, 0xff },
->> +       { 0x19, 0x1f, 0xff, 0xff },
->> +       { 0x1f, 0xff, 0xff, 0xff }
->> +};
-> Same as v4
-
-
-Yes, we will reuse edp_swing_hbr2_hbr3 for v5.
-
->
->> +
->> +static const u8 edp_pre_emp_hbr2_hbr3_v5[4][4] = {
->> +       { 0x0c, 0x15, 0x19, 0x1e },
->> +       { 0x0b, 0x15, 0x19, 0xff },
->> +       { 0x0e, 0x14, 0xff, 0xff },
->> +       { 0x0d, 0xff, 0xff, 0xff }
->> +};
-> This one looks fine
->
->> +
->> +static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg_v5 = {
->> +       .swing_hbr_rbr = &edp_swing_hbr_rbr_v5,
->> +       .swing_hbr3_hbr2 = &edp_swing_hbr2_hbr3_v5,
->> +       .pre_emphasis_hbr_rbr = &edp_pre_emp_hbr_rbr_v5,
->> +       .pre_emphasis_hbr3_hbr2 = &edp_pre_emp_hbr2_hbr3_v5,
->> +};
->> +
->> +static u8 edp_phy_aux_cfg_v5[10] = {
->> +       0x00, 0x13, 0xa4, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
->> +};
->> +
->>   static int qcom_edp_phy_init(struct phy *phy)
->>   {
->>          struct qcom_edp *edp = phy_get_drvdata(phy);
->> @@ -520,6 +559,13 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v4 = {
->>          .com_configure_ssc      = qcom_edp_com_configure_ssc_v4,
->>   };
->>
->> +static const struct qcom_edp_phy_cfg sa8775p_dp_phy_cfg = {
->> +       .is_edp = false,
->> +       .aux_cfg = edp_phy_aux_cfg_v5,
->> +       .swing_pre_emph_cfg = &edp_phy_swing_pre_emph_cfg_v5,
->> +       .ver_ops = &qcom_edp_phy_ops_v4,
->> +};
->> +
->>   static const struct qcom_edp_phy_cfg sc7280_dp_phy_cfg = {
->>          .aux_cfg = edp_phy_aux_cfg_v4,
->>          .ver_ops = &qcom_edp_phy_ops_v4,
->> @@ -1114,6 +1160,7 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
->>   }
->>
->>   static const struct of_device_id qcom_edp_phy_match_table[] = {
->> +       { .compatible = "qcom,sa8775p-edp-phy", .data = &sa8775p_dp_phy_cfg, },
->>          { .compatible = "qcom,sc7280-edp-phy", .data = &sc7280_dp_phy_cfg, },
->>          { .compatible = "qcom,sc8180x-edp-phy", .data = &sc7280_dp_phy_cfg, },
->>          { .compatible = "qcom,sc8280xp-dp-phy", .data = &sc8280xp_dp_phy_cfg, },
->> --
->> 2.17.1
->>
->
---------------Pdm5sDlRGBLqrAiul0aoMDuq
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 9/11/2024 4:10 PM, Dmitry Baryshkov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAA8EJpqurbPKjmRH8zdqPkMuze4zwJVu+=W0nP=Ldc6o_4Tu4w@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Wed, 11 Sept 2024 at 13:08, Soutrik Mukhopadhyay
-<a class="moz-txt-link-rfc2396E" href="mailto:quic_mukhopad@quicinc.com">&lt;quic_mukhopad@quicinc.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Add support for eDP PHY v5 found on the Qualcomm SA8775P platform.
-
-Signed-off-by: Soutrik Mukhopadhyay <a class="moz-txt-link-rfc2396E" href="mailto:quic_mukhopad@quicinc.com">&lt;quic_mukhopad@quicinc.com&gt;</a>
----
- drivers/phy/qualcomm/phy-qcom-edp.c | 47 +++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
-
-diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-index 0f860a807d1b..34a47cd2919d 100644
---- a/drivers/phy/qualcomm/phy-qcom-edp.c
-+++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-@@ -191,6 +191,45 @@ static u8 edp_phy_aux_cfg_v4[10] = {
-        0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
- };
-
-+static const u8 edp_swing_hbr_rbr_v5[4][4] = {
-+       { 0x07, 0x0f, 0x16, 0x1f },
-+       { 0x0d, 0x16, 0x1e, 0xff },
-+       { 0x11, 0x1b, 0xff, 0xff },
-+       { 0x16, 0xff, 0xff, 0xff }
-+};
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Same as v4</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Yes, we will reuse  <span style="white-space: pre-wrap">edp_swing_hbr_rbr for v5.</span></p>
-    <p><span style="white-space: pre-wrap">
-</span></p>
-    <blockquote type="cite"
-cite="mid:CAA8EJpqurbPKjmRH8zdqPkMuze4zwJVu+=W0nP=Ldc6o_4Tu4w@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+
-+static const u8 edp_pre_emp_hbr_rbr_v5[4][4] = {
-+       { 0x05, 0x11, 0x17, 0x1d },
-+       { 0x05, 0x11, 0x18, 0xff },
-+       { 0x06, 0x11, 0xff, 0xff },
-+       { 0x00, 0xff, 0xff, 0xff }
-+};
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Could you please confirm that there is a single value difference?</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Yes, there is a single value difference.</p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CAA8EJpqurbPKjmRH8zdqPkMuze4zwJVu+=W0nP=Ldc6o_4Tu4w@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+
-+static const u8 edp_swing_hbr2_hbr3_v5[4][4] = {
-+       { 0x0b, 0x11, 0x17, 0x1c },
-+       { 0x10, 0x19, 0x1f, 0xff },
-+       { 0x19, 0x1f, 0xff, 0xff },
-+       { 0x1f, 0xff, 0xff, 0xff }
-+};
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Same as v4</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Yes, we will reuse  <span style="white-space: pre-wrap">edp_swing_hbr2_hbr3 for v5.</span></p>
-    <p><span style="white-space: pre-wrap">
-</span></p>
-    <blockquote type="cite"
-cite="mid:CAA8EJpqurbPKjmRH8zdqPkMuze4zwJVu+=W0nP=Ldc6o_4Tu4w@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+
-+static const u8 edp_pre_emp_hbr2_hbr3_v5[4][4] = {
-+       { 0x0c, 0x15, 0x19, 0x1e },
-+       { 0x0b, 0x15, 0x19, 0xff },
-+       { 0x0e, 0x14, 0xff, 0xff },
-+       { 0x0d, 0xff, 0xff, 0xff }
-+};
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-This one looks fine
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+
-+static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg_v5 = {
-+       .swing_hbr_rbr = &amp;edp_swing_hbr_rbr_v5,
-+       .swing_hbr3_hbr2 = &amp;edp_swing_hbr2_hbr3_v5,
-+       .pre_emphasis_hbr_rbr = &amp;edp_pre_emp_hbr_rbr_v5,
-+       .pre_emphasis_hbr3_hbr2 = &amp;edp_pre_emp_hbr2_hbr3_v5,
-+};
-+
-+static u8 edp_phy_aux_cfg_v5[10] = {
-+       0x00, 0x13, 0xa4, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
-+};
-+
- static int qcom_edp_phy_init(struct phy *phy)
- {
-        struct qcom_edp *edp = phy_get_drvdata(phy);
-@@ -520,6 +559,13 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v4 = {
-        .com_configure_ssc      = qcom_edp_com_configure_ssc_v4,
- };
-
-+static const struct qcom_edp_phy_cfg sa8775p_dp_phy_cfg = {
-+       .is_edp = false,
-+       .aux_cfg = edp_phy_aux_cfg_v5,
-+       .swing_pre_emph_cfg = &amp;edp_phy_swing_pre_emph_cfg_v5,
-+       .ver_ops = &amp;qcom_edp_phy_ops_v4,
-+};
-+
- static const struct qcom_edp_phy_cfg sc7280_dp_phy_cfg = {
-        .aux_cfg = edp_phy_aux_cfg_v4,
-        .ver_ops = &amp;qcom_edp_phy_ops_v4,
-@@ -1114,6 +1160,7 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
- }
-
- static const struct of_device_id qcom_edp_phy_match_table[] = {
-+       { .compatible = "qcom,sa8775p-edp-phy", .data = &amp;sa8775p_dp_phy_cfg, },
-        { .compatible = "qcom,sc7280-edp-phy", .data = &amp;sc7280_dp_phy_cfg, },
-        { .compatible = "qcom,sc8180x-edp-phy", .data = &amp;sc7280_dp_phy_cfg, },
-        { .compatible = "qcom,sc8280xp-dp-phy", .data = &amp;sc8280xp_dp_phy_cfg, },
---
-2.17.1
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------Pdm5sDlRGBLqrAiul0aoMDuq--
+-- 
+With best wishes
+Dmitry
