@@ -2,58 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E8E9761C6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 08:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2CC976212
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2024 09:03:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF1D210EAE4;
-	Thu, 12 Sep 2024 06:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D09710EAE3;
+	Thu, 12 Sep 2024 07:03:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="HnW07QIC";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="GW7WJBQR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3EB4210EAE4
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 06:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=NSwbv3RzHztwGPofv8zYBn4+43JFyZKE9ZUFMN8oMh4=; b=H
- nW07QICKXXut+YBsNqTjAUIFJk7IOEZnb/oYIBT+OLIBG/M5hj1YhVqW7+plXLKp
- WbbJSugLri166py19CGEVjhKXPaKUY/T8SN2WMd/t5l6EJ+XnpeExaTkkvloFxiX
- B7d84LVqW9CbUXTekuTFpkLRmDbj/fJ5UhGiNXiXm0=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-118 (Coremail) ; Thu, 12 Sep 2024 14:44:11 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Thu, 12 Sep 2024 14:44:11 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Diederik de Haas" <didi.debian@cknow.org>
-Cc: "Sascha Hauer" <s.hauer@pengutronix.de>, detlev.casanova@collabora.com, 
- heiko@sntech.de, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, hjc@rock-chips.com, 
- mripard@kernel.org, sebastian.reichel@collabora.com, 
- linux-rockchip@lists.infradead.org, sjoerd@collabora.com, 
- "Andy Yan" <andy.yan@rock-chips.com>, krzk+dt@kernel.org, robh@kernel.org
-Subject: Re:Re: [PATCH v2 05/11] drm/rockchip: vop2: Introduce vop hardware
- version
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <D41NH5VO0A7T.26F04WDY1UTCR@cknow.org>
-References: <20240904120238.3856782-1-andyshrk@163.com>
- <20240904120238.3856782-6-andyshrk@163.com>
- <ZtlZgKcDQFF_WnCn@pengutronix.de>
- <2326e2ea.8264.191c13bab93.Coremail.andyshrk@163.com>
- <Zt68U6hnPA0KrxXB@pengutronix.de> <D41NH5VO0A7T.26F04WDY1UTCR@cknow.org>
-X-NTES-SC: AL_Qu2ZBP2ZvEwu5yGZYOkZnEobh+Y5UcK2s/ki2YFXN5k0qCTV5jkBWWZDIkXN6NmkFCKFqQG+fRRj0uF4R4BKeJxW9ZfBu/1qh3H8Yn4m2E6B
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2176710EAE3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 07:03:22 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48BMuH40012392;
+ Thu, 12 Sep 2024 09:03:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=selector1; bh=3mki8FvljTnvJDZ5qn4LULmA
+ s0UwFtiL5BA99RUWmWs=; b=GW7WJBQRm7G8yIgBLmp9t91VXgIt4WcGpx4cVQM3
+ FkiIi4v/2rDrAl+CF44UqFrb6XULXRMEgu6yeFqjKa1w/v2wOXPwvbS+kiteaQJ3
+ 5Ip2YwN1gg7HAzGbk/29jvjwwkTWCzac/R6VDJGF9C9ZsCT4yd4zBwSot7FeEsV9
+ sYoAk9yB2JImyaHbhF7yeOCfCpOTJBGNdaQzy0UmtV1WBHcoPqABgeTL0xDl8MN7
+ ryHFM/s8wahv/oEy0kvG7N4wbQAyrQhE/haPVih7ToyyyFgwjIHbvhpgKqKrkHAw
+ DVDXy8GrjhuVTN7NISWWodXP6PyqTur0+Tzh6niP1hYAPw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41h0cytf9c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Sep 2024 09:03:05 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C19D440045;
+ Thu, 12 Sep 2024 09:01:42 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E98BA24D998;
+ Thu, 12 Sep 2024 09:01:29 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 12 Sep
+ 2024 09:01:29 +0200
+Date: Thu, 12 Sep 2024 09:01:18 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Ma Ke <make24@iscas.ac.cn>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <laurent.pinchart@ideasonboard.com>, <akpm@linux-foundation.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <stable@vger.kernel.org>, <alain.volmat@foss.st.com>
+Subject: Re: [PATCH RESEND] drm/sti: avoid potential dereference of error
+ pointers
+Message-ID: <20240912070118.GA3783204@gnbcxd0016.gnb.st.com>
+References: <20240826052652.2565521-1-make24@iscas.ac.cn>
+ <20240910172543.GA3518200@gnbcxd0016.gnb.st.com>
 MIME-Version: 1.0
-Message-ID: <56a02879.5ff0.191e4f9a2ef.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: _____wD3H2i7jeJmxCURAA--.1379W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxpYXmXAnzzHHwABsw
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240910172543.GA3518200@gnbcxd0016.gnb.st.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +81,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSDvvIwKQXQgMjAyNC0wOS0wOSAxNzozNjoxNCwgIkRpZWRlcmlrIGRlIEhhYXMiIDxkaWRp
-LmRlYmlhbkBja25vdy5vcmc+IHdyb3RlOgo+T24gTW9uIFNlcCA5LCAyMDI0IGF0IDExOjEzIEFN
-IENFU1QsIFNhc2NoYSBIYXVlciB3cm90ZToKPj4gT24gVGh1LCBTZXAgMDUsIDIwMjQgYXQgMDQ6
-MDk6NThQTSArMDgwMCwgQW5keSBZYW4gd3JvdGU6Cj4+ID4gIEF0IDIwMjQtMDktMDUgMTU6MTA6
-NTYsICJTYXNjaGEgSGF1ZXIiIDxzLmhhdWVyQHBlbmd1dHJvbml4LmRlPiB3cm90ZToKPj4gPiAg
-Pk9uIFdlZCwgU2VwIDA0LCAyMDI0IGF0IDA4OjAyOjMyUE0gKzA4MDAsIEFuZHkgWWFuIHdyb3Rl
-Ogo+PiA+ICA+PiBGcm9tOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4+ID4g
-ID4+Cj4+ID4gID4+IFRoZXJlIGlzIGEgdmVyc2lvbiBudW1iZXIgaGFyZGNvZGVkIGluIHRoZSBW
-T1AgVkVSU0lPTl9JTkZPCj4+ID4gID4+IHJlZ2lzdGVyLCBhbmQgdGhlIHZlcnNpb24gbnVtYmVy
-IGluY3JlbWVudHMgc2VxdWVudGlhbGx5IGJhc2VkCj4+ID4gID4+IG9uIHRoZSBwcm9kdWN0aW9u
-IG9yZGVyIG9mIHRoZSBTT0MuCj4+ID4gID4+Cj4+ID4gID4+IFNvIHVzaW5nIHRoaXMgdmVyc2lv
-biBudW1iZXIgdG8gZGlzdGluZ3Vpc2ggZGlmZmVyZW50IFZPUCBmZWF0dXJlcwo+PiA+ICA+PiB3
-aWxsIHNpbXBsaWZ5IHRoZSBjb2RlLgo+PiA+ICA+Pgo+PiA+ICA+PiBTaWduZWQtb2ZmLWJ5OiBB
-bmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4+ID4gID4+Cj4+ID4gID4+IC0tLQo+
-PiA+ICA+Pgo+PiA+ICA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3Jv
-Y2tjaGlwX2RybV92b3AyLmggYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJt
-X3ZvcDIuaAo+PiA+ICA+PiBpbmRleCA5YjI2OWY2ZTU3NmUuLjg3MWQ5YmNkMWQ4MCAxMDA2NDQK
-Pj4gPiAgPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3Ay
-LmgKPj4gPiAgPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92
-b3AyLmgKPj4gPiAgPj4gQEAgLTEzLDYgKzEzLDE1IEBACj4+ID4gID4+ICAjaW5jbHVkZSAicm9j
-a2NoaXBfZHJtX2Rydi5oIgo+PiA+ICA+PiAgI2luY2x1ZGUgInJvY2tjaGlwX2RybV92b3AuaCIK
-Pj4gPiAgPj4KPj4gPiAgPj4gKyNkZWZpbmUgVk9QMl9WRVJTSU9OKG1ham9yLCBtaW5vciwgYnVp
-bGQpICAgICAoKG1ham9yKSA8PCAyNCB8IChtaW5vcikgPDwgMTYgfCAoYnVpbGQpKQo+PiA+ICA+
-PiArCj4+ID4gID4+ICsvKiBUaGUgbmV3IFNPQyBWT1AgdmVyc2lvbiBpcyBiaWdnZXIgdGhhbiB0
-aGUgb2xkICovCj4+ID4gID4+ICsjZGVmaW5lIFZPUF9WRVJTSU9OX1JLMzU2OCAgICBWT1AyX1ZF
-UlNJT04oMHg0MCwgMHgxNSwgMHg4MDIzKQo+PiA+ICA+PiArI2RlZmluZSBWT1BfVkVSU0lPTl9S
-SzM1ODggICAgVk9QMl9WRVJTSU9OKDB4NDAsIDB4MTcsIDB4Njc4NikKPj4gPiAgPj4gKyNkZWZp
-bmUgVk9QX1ZFUlNJT05fUkszNTI4ICAgIFZPUDJfVkVSU0lPTigweDUwLCAweDE3LCAweDEyNjMp
-Cj4+ID4gID4+ICsjZGVmaW5lIFZPUF9WRVJTSU9OX1JLMzU2MiAgICBWT1AyX1ZFUlNJT04oMHg1
-MCwgMHgxNywgMHg0MzUwKQo+PiA+ICA+PiArI2RlZmluZSBWT1BfVkVSU0lPTl9SSzM1NzYgICAg
-Vk9QMl9WRVJTSU9OKDB4NTAsIDB4MTksIDB4OTc2NSkKPj4gPiAgPgo+PiA+ICA+V2hhdCBhYm91
-dCB0aGUgUkszNTY2PyBEb2VzIGl0IGhhdmUgdGhlIHNhbWUgdmVyc2lvbiBjb2RlIGFzIHRoZSBS
-SzM1Njg/Cj4+ID4gID4KPj4gPiAgPlRoaXMgbmV3IHZlcnNpb24gZmllbGQgcmVwbGFjZXMgdGhl
-IHNvY19pZCBtZWNoYW5pc20gd2UgaGFkIGJlZm9yZSB0bwo+PiA+ICA+OTklLiBZb3Uga2VlcCB0
-aGUgc29jX2lkIGFyb3VuZCBqdXN0IGZvciBkaXN0aW5ndWlzaGluZyBiZXR3ZWVuIFJLMzU2Ngo+
-PiA+ICA+YW5kIFJLMzU2OC4gSXQgd291bGQgYmUgbmljZSB0byBmdWxseSByZXBsYWNlIGl0Lgo+
-PiA+ICA+Cj4+ID4gID5JIHNlZSB0aGF0IHRoZSBWT1BfVkVSU0lPTl9SSyogbnVtYmVycyBhcmUg
-dGhlIHNhbWUgYXMgZm91bmQgaW4gdGhlCj4+ID4gID5WT1AyX1NZU19WRVJTSU9OX0lORiByZWdp
-c3RlcnMuIE9uIHRoZSBvdGhlciBoYW5kIHlvdSBuZXZlciByZWFkIHRoZQo+PiA+ICA+dmFsdWUg
-ZnJvbSB0aGUgcmVnaXN0ZXIgd2hpY2ggbWFrZSB0aGUgVk9QX1ZFUlNJT05fUksqIGp1c3QgYXJi
-aXRyYXJ5Cj4+ID4gID5udW1iZXJzLiBXb3VsZG4ndCBpdCBiZSBwb3NzaWJsZSB0byBtYWtlIHNv
-bWV0aGluZyB1cCBmb3IgUkszNTY2LCBsaWtlCj4+ID4gID5WT1AyX1ZFUlNJT04oMHg0MCwgMHgx
-NSwgMHg4MDIyKSB0byBnZXQgcmlkIG9mIHRoZSBzb2NfaWQgdGhpbmd5Pwo+PiA+ICBZZXPvvIxS
-SzM1NjYgYW5kIFJLMzU2OCBzaGFyZSB0aGUgc2FtZSBWT1AgSVAgYmxvY2vvvIwgc28gdGhlIHZl
-cnNpb24gY29kZSBhdCBWRVJTSU9OX1JFR0lTVEVSIGlzCj4+ID4gIHRoZSBzYW1lLCB0aGUgZGlm
-ZmVyZW5jZSBiZXR3ZWVuIHJrMzU2OCBhbmQgcmszMzU2NiBhcmUgaW50cm9kdWNlZCBhdCBzb2Mg
-SW50ZWdyYXRpb27jgIIKPj4gPiAgU28gaSB3b3VsZCBzdGlsbCBsaWtlIHRvIGtlZXAgdGhlIHNv
-Y19pZCB0byAgaGFuZGxlIHNpdHVhdGlvbiBsaWtlIHRoaXPjgIJBcyB3ZSBhbHdheXMgaGF2ZSBz
-dWNoICBjYXVzZe+8jCBvbmUKPj4gPiAgc2FtZSBJUCBibG9ja++8jCBidXQgdGhlcmUgYXJlIHNv
-bWUgc3VidGxlIGRpZmZlcmVuY2VzIGluIGZlYXR1cmVzIGFjcm9zcyBkaWZmZXJlbnQgU09Dcy4K
-Pj4KPj4gRmluZSB3aXRoIG1lLiBZb3UgY291bGQgbGVhdmUgYSBjb21tZW50IGluIHRoZSBjb2Rl
-IG9yIGNvbW1pdAo+PiBtZXNzYWdlIHRoYXQgZXhwbGFpbnMgd2h5IHdlIG5lZWQgYm90aC4KPgo+
-QWxzbyAob3IgZXNwZWNpYWxseT8pIGFkZCB0aGF0IHRvIHRoZSBjb21taXQgbWVzc2FnZSBvZiBw
-YXRjaCA2IG9mIHRoaXMKPnNlcmllcy4gUGF0Y2ggNidzIGNvbW1pdCBtZXNzYWdlIHRhbGtzIGFi
-b3V0IFJLMzU3NiB3aGlsZSBpdCBjaGFuZ2VzCj5jb2RlIHJlbGF0ZWQgdG8gUkszNTY2IGFuZCBJ
-ICh0b28/KSB0aG91Z2h0IHRoYXQgbm90IHVzaW5nIFZPUF9WRVJTSU9OCgo+d2FzIGFuIG92ZXJz
-aWdodCwgd2hpbGUgaXQgdHVybnMgb3V0IHRvIGJlIGRlbGliZXJhdGUuCgoKT0vvvIwgd2lsbCBk
-byBpbiB2My4+Cj5DaGVlcnMsCj4gIERpZWRlcmlrCg==
+Hi,
+
+I probably went a bit fast on the commit message.  It seems to me that
+the Fixes line would be probably better with below one instead.
+
+Fixes: dd86dc2f9ae1 ("drm/sti: implement atomic_check for the planes")
+
+The same fix is actually necessary for all planes (cursor / gdp / hqvdp),
+which is related to the same original commit.  Hence sti_cursor/sti_gdp
+and sti_hqvdp.
+
+Would you be ok to have those 3 fixes within a commit ?
+
+Regards,
+Alain
+
+On Tue, Sep 10, 2024 at 07:25:43PM +0200, Alain Volmat wrote:
+> Hi,
+> 
+> Thanks for your patch.
+> 
+> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+> 
+> Regards,
+> Alain
+> 
+> On Mon, Aug 26, 2024 at 01:26:52PM +0800, Ma Ke wrote:
+> > The return value of drm_atomic_get_crtc_state() needs to be
+> > checked. To avoid use of error pointer 'crtc_state' in case
+> > of the failure.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: dec92020671c ("drm: Use the state pointer directly in planes atomic_check")
+> > 
+> > Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> > ---
+> >  drivers/gpu/drm/sti/sti_cursor.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
+> > index db0a1eb53532..e460f5ba2d87 100644
+> > --- a/drivers/gpu/drm/sti/sti_cursor.c
+> > +++ b/drivers/gpu/drm/sti/sti_cursor.c
+> > @@ -200,6 +200,8 @@ static int sti_cursor_atomic_check(struct drm_plane *drm_plane,
+> >  		return 0;
+> >  
+> >  	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> > +	if (IS_ERR(crtc_state))
+> > +		return PTR_ERR(crtc_state);
+> >  	mode = &crtc_state->mode;
+> >  	dst_x = new_plane_state->crtc_x;
+> >  	dst_y = new_plane_state->crtc_y;
+> > -- 
+> > 2.25.1
+> > 
