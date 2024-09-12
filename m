@@ -2,95 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B9C977411
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 00:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA74977412
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 00:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 551F110EC46;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E4E10EC4A;
 	Thu, 12 Sep 2024 22:03:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N9dWWZSY";
-	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C0710EB66;
- Thu, 12 Sep 2024 12:02:16 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- 46e09a7af769-70f645a30dcso432207a34.3; 
- Thu, 12 Sep 2024 05:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726142535; x=1726747335; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RhlE/sT3sXQgkwTWsPGrGAWEL/QnHXai566ohH4s0z0=;
- b=N9dWWZSYFtt6AXeJpdQAKIetLUXzlKys1zrr+2domoECrnv/477sbePL3XmFtXhjw1
- VKU2pOI9RI2LOIaax2zNeKtoOvDV+lyfxwbLMCpd6fsgyEm++xh2o8m6J+AxN8/apT9C
- /VwVniufexZQXxVZoRtRPEViEPcU0xhah+N63kB2dAjHDqpBLInI+H5gq6Ouyxv3NrKC
- kGzj6/AwuWFsELAClbeeuqKtNo4+iRRHJYVvg26p+K4obT93B4BXLjbxVRm8YAGkjy8C
- Jb1mWwiZDrGsBdVEorU46zEbsrMlQbeww8Rlyy1K5NeAYwVMkb0R7NPXTeXXzAYab/LL
- H17w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726142535; x=1726747335;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RhlE/sT3sXQgkwTWsPGrGAWEL/QnHXai566ohH4s0z0=;
- b=mP8JsBH2N7lprTWi1q7jT0/LQUwADYAFv5ZCsGsRwgsav4UDcWoDxqX2iXgnCOfTpZ
- CWXzvFYlgkEZxlHhHrPc9XLsgaeHxcGkMU1P9H1iAKiPv2tGcezG7nA7hGUKokM1EAwY
- xRlouU4I1eWfWG51GT6DqD70s+mHMzF4h74KWxWMEggIHAdZeZnQzDn+e+36faYzT73S
- f8lSNjPDGRY1JCofdoqk8YJQGzow4GVPEd7adDon6cVACR4jalO2HER5y/AGkWNhmSX8
- BoLe7SCsBW1M2x2SCPNexUDCv+ZmfRbQT3WdmbVOEBxDQt1rIYe138b0XPuDf6zaV30w
- w7tg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLohD6kNgDeszJZBOGhrgVpbBK4nCz6foIxu9h0BUA1eJ8TcvglZPloCa5kHQLT4sjIVzYeFMsbHw=@lists.freedesktop.org,
- AJvYcCXocDiJL+Icl2pUTXksxSmzpjH5n02NYZW38j1mWsHlD+ubWrKT0OTB9FC2cGwEMOUeH+Thcbv0N2s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6qoJVbWklCIV+wiChvQI0XMOUKx3u0Zpx+Rcc3dqS4eJbjuml
- OatxZIX75eGISYVnBzRtR2vZBXT+pmqwNXQzEVeR6YSnSLobn9YrpmQj7MTQUPiejWCaKdXxBzp
- cTcijv+KeJNr3GqYXmvTf8iGKINY=
-X-Google-Smtp-Source: AGHT+IFDEn0YDYeD/9jctAipL6iMdSyGrxKEkVhZltDVHssnsNZVCgDM2BbSFzNex8/uLR3y/m0Zd6KEYQB/81KqoJU=
-X-Received: by 2002:a05:6808:1897:b0:3e0:422e:f05b with SMTP id
- 5614622812f47-3e071ae3bdamr1684193b6e.29.1726142534514; Thu, 12 Sep 2024
- 05:02:14 -0700 (PDT)
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6B510E588
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 12:42:48 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::223])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 3463FC3DA9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 12:42:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A83C760010;
+ Thu, 12 Sep 2024 12:42:37 +0000 (UTC)
+From: walker@interruptlabs.ca
+To: dsimic@manjaro.org
+Cc: airlied@gmail.com, andy.yan@rock-chips.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de
+Subject: Re: [PATCH] drm/rockchip: cdn-dp: Remove redundant workarounds for
+ firmware loading
+Date: Thu, 12 Sep 2024 14:42:34 +0200
+Message-ID: <20240912124234.58864-1-walker@interruptlabs.ca>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
+References: <9b7a9e9b88ad8c7489ee1b4c70b8751eeb5cf6f9.1720049413.git.dsimic@manjaro.org>
 MIME-Version: 1.0
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-In-Reply-To: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-From: Jeff Xie <xiehuan09@gmail.com>
-Date: Thu, 12 Sep 2024 20:02:03 +0800
-Message-ID: <CAEr6+EAcwq5n7R8BmsKg8B46TkrSvEL9hDmjZeD3ek_1rKg_hQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] Enable build system on macOS hosts
-To: da.gomez@samsung.com
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
- Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, 
- James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-kernel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
- selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
- Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
- gost.dev@samsung.com, Nick Desaulniers <nick.desaulniers@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: walker@interruptlabs.ca
 X-Mailman-Approved-At: Thu, 12 Sep 2024 22:03:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,188 +50,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thank you for submitting this patchset. This problem has troubled me
-for two years.
-I have always built the kernel in the docker container. I have tested
-this patchset and it is very good.
-Tested-by: Jeff Xie <xiehuan09@gmail.com>
+I'm having issues relevant to this thread. I want to build my rtl8723ds driver into the kernel. When fw_loader tries to load rtw8723d_fw.bin, my sysfs isn't mounted. Ideally, I don't have to use the driver as a module, use initramfs, or build the firmware into the kernel. Please let me know if I can do anything to help with the efforts.
 
-On Fri, Sep 6, 2024 at 7:04=E2=80=AFPM Daniel Gomez via B4 Relay
-<devnull+da.gomez.samsung.com@kernel.org> wrote:
->
-> This patch set allows for building the Linux kernel for arm64 in macOS
-> with LLVM.
->
-> Patches are based on previous Nick's work and suggestions [1][2][3] to
-> enable the Linux kernel build system on macOS hosts.
->
-> macOS does not provide certain headers that are available in a GNU/Linux
-> distribution with development headers installed, usually provided by
-> the GNU C Library (glibc) and/or other projects. These missing headers
-> are needed as build dependencies. To address this, the patches depend
-> on a new Bee Headers Homebrew Tap formula [6][7][8] that provides them
-> together with a pkg-config file to locate the include directory.
->
-> To locate them, Makefiles include something like:
->         $(shell $(HOSTPKG_CONFIG) --cflags bee-headers 2> /dev/null)
->
-> [6] Project:
-> https://github.com/bee-headers
-> [7] Headers repository:
-> https://github.com/bee-headers/headers.git
-> [8] Homebrew Tap formula:
-> https://github.com/bee-headers/homebrew-bee-headers.git
->
-> To set up the environment, documentation is provided via last patch in
-> this series.
->
-> More configurations and architectures as well as support for Rust
-> (from Finn Behrens [4] [5]) can be added in the future to extend build
-> support.
->
-> [1]: WIP: build Linux on MacOS
-> https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340=
-355f471c1dfe95a
->
-> [2] Subject: [PATCH] scripts: subarch.include: fix SUBARCH on MacOS hosts
-> https://lore.kernel.org/all/20221113233812.36784-1-nick.desaulniers@gmail=
-.com/
->
-> [3] Subject: Any interest in building the Linux kernel from a MacOS host?
-> https://lore.kernel.org/all/CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=3DTv5Z9zGyn=
-5SS+gsUw@mail.gmail.com/
->
-> [4] https://github.com/kloenk/linux/commits/rust-project_macos-dylib/
->
-> [5] https://kloenk.eu/posts/build-linux-on-m1-macos/
->
-> To: Masahiro Yamada <masahiroy@kernel.org>
-> To: Nathan Chancellor <nathan@kernel.org>
-> To: Nicolas Schier <nicolas@fjasle.eu>
-> To: Lucas De Marchi <lucas.demarchi@intel.com>
-> To: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: William Hubbs <w.d.hubbs@gmail.com>
-> To: Chris Brannon <chris@the-brannons.com>
-> To: Kirk Reiser <kirk@reisers.ca>
-> To: Samuel Thibault <samuel.thibault@ens-lyon.org>
-> To: Paul Moore <paul@paul-moore.com>
-> To: Stephen Smalley <stephen.smalley.work@gmail.com>
-> To: Ondrej Mosnacek <omosnace@redhat.com>
-> To: Catalin Marinas <catalin.marinas@arm.com>
-> To: Will Deacon <will@kernel.org>
-> To: Marc Zyngier <maz@kernel.org>
-> To: Oliver Upton <oliver.upton@linux.dev>
-> To: James Morse <james.morse@arm.com>
-> To: Suzuki K Poulose <suzuki.poulose@arm.com>
-> To: Zenghui Yu <yuzenghui@huawei.com>
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> To: Jiri Slaby <jirislaby@kernel.org>
-> To: Nick Desaulniers <ndesaulniers@google.com>
-> To: Bill Wendling <morbo@google.com>
-> To: Justin Stitt <justinstitt@google.com>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: speakup@linux-speakup.org
-> Cc: selinux@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: kvmarm@lists.linux.dev
-> Cc: linux-serial@vger.kernel.org
-> Cc: llvm@lists.linux.dev
-> Cc: Finn Behrens <me@kloenk.dev>
-> Cc: Daniel Gomez (Samsung) <d+samsung@kruces.com>
-> Cc: gost.dev@samsung.com
->
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-> ---
-> Changes in v2:
-> - Add documentation and set this 'feature' as experimental.
-> - Update cover letter.
-> - Drop unnecessary changes. Patches removed:
->         - kbuild: add header_install dependency to scripts
->         - include: add endian.h support
->         - include: add elf.h support
-> - Update Makefiles to find Bee Headers with pkg-config.
-> - Update file2alias to solve uuid_t conflicts inside Makefile as
-> suggested by Nicolas Schier.
-> - Adapt xe_gen_wa_oob to solve getprogname()/
-> program_invocation_short_name in runtime. as suggested by Lucas De
-> Marchi.
-> - Remove linux/version.h in accessibility/speakup as suggested by
-> Masahiro Yamada.
-> - Replace selinux patches with new Masahiro Yamada's patches:
->         Message-id: 20240809122007.1220219-1-masahiroy@kernel.org
->         Link: https://lore.kernel.org/all/20240809122007.1220219-1-masahi=
-roy@kernel.org/
-> - Replace tty/vt with new Masahiro Yamada's patch:
->         Message-id: 20240809160853.1269466-1-masahiroy@kernel.org
->         Link: https://lore.kernel.org/all/20240809160853.1269466-1-masahi=
-roy@kernel.org/
->         (Already merged in the linux-next tag used)
-> - Replace scripts/kallsyms patch with Masahiro Yamada's patch:
->         Message-id: 20240807181148.660157-1-masahiroy@kernel.org
->         Link: https://lore.kernel.org/all/20240807181148.660157-1-masahir=
-oy@kernel.org/
->         (Already merged in the linux-next tag used)
-> - Link to v1: https://lore.kernel.org/r/20240807-macos-build-support-v1-0=
--4cd1ded85694@samsung.com
->
-> ---
-> Daniel Gomez (5):
->       file2alias: fix uuid_t definitions for macos
->       drm/xe: xe_gen_wa_oob: fix program_invocation_short_name for macos
->       arm64: nvhe: add bee-headers support
->       scripts: add bee-headers support
->       Documentation: add howto build in macos
->
-> Masahiro Yamada (2):
->       selinux: do not include <linux/*.h> headers from host programs
->       selinux: move genheaders to security/selinux/
->
-> Nick Desaulniers (1):
->       scripts: subarch.include: fix SUBARCH on macOS hosts
->
->  Documentation/kbuild/llvm.rst                      | 78 ++++++++++++++++=
-++++++
->  arch/arm64/kernel/pi/Makefile                      |  1 +
->  arch/arm64/kernel/vdso32/Makefile                  |  1 +
->  arch/arm64/kvm/hyp/nvhe/Makefile                   |  3 +-
->  drivers/gpu/drm/xe/xe_gen_wa_oob.c                 |  4 ++
->  scripts/Makefile                                   |  4 +-
->  scripts/mod/Makefile                               |  7 ++
->  scripts/mod/file2alias.c                           |  3 +
->  scripts/remove-stale-files                         |  3 +
->  scripts/selinux/Makefile                           |  2 +-
->  scripts/selinux/genheaders/.gitignore              |  2 -
->  scripts/selinux/genheaders/Makefile                |  5 --
->  scripts/selinux/mdp/Makefile                       |  2 +-
->  scripts/selinux/mdp/mdp.c                          |  4 --
->  scripts/subarch.include                            |  2 +-
->  security/selinux/.gitignore                        |  1 +
->  security/selinux/Makefile                          |  7 +-
->  .../genheaders =3D> security/selinux}/genheaders.c   |  3 -
->  security/selinux/include/classmap.h                | 19 ++++--
->  security/selinux/include/initial_sid_to_string.h   |  2 -
->  20 files changed, 123 insertions(+), 30 deletions(-)
-> ---
-> base-commit: ad40aff1edffeccc412cde93894196dca7bc739e
-> change-id: 20240807-macos-build-support-9ca0d77adb17
->
-> Best regards,
-> --
-> Daniel Gomez <da.gomez@samsung.com>
->
->
->
+[    0.193910] gpio gpiochip1: Static allocation of GPIO base is deprecated, use dynamic allocation.
+[    0.196848] sun8i-a33-pinctrl 1c20800.pinctrl: initialized sunXi PIO driver
+[    0.197475] sun8i-a33-pinctrl 1c20800.pinctrl: supply vcc-pb not found, using dummy regulator
+[    0.198599] printk: legacy console [ttyS0] disabled
+[    0.219380] 1c28000.serial: ttyS0 at MMIO 0x1c28000 (irq = 142, base_baud = 1500000) is a U6_16550A
+[    0.226341] printk: legacy console [ttyS0] enabled
+[    1.158740] sun8i-a33-pinctrl 1c20800.pinctrl: supply vcc-pg not found, using dummy regulator
+[    1.189006] 1c28400.serial: ttyS1 at MMIO 0x1c28400 (irq = 143, base_baud = 1500000) is a U6_16550A
+[    1.204192] cfg80211: Loading compiled-in X.509 certificates for regulatory database
+[    1.205291] sun8i-a33-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
+[    1.220994] Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+[    1.227118] sunxi-mmc 1c10000.mmc: allocated mmc-pwrseq
+[    1.231759] Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
+[    1.239605] clk: Disabling unused clocks
+[    1.240126] sunxi-mmc 1c0f000.mmc: Got CD GPIO
+[    1.243767] ALSA device list:
+[    1.250965]   No soundcards found.
+[    1.255508] platform regulatory.0: Direct firmware load for regulatory.db failed with error -2
+[    1.257835] sunxi-mmc 1c10000.mmc: initialized, max. request size: 16384 KB
+[6 [    1.273169] sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
+[    1.280679] Waiting for root device /dev/mmcblk1p1...
+[    1.285837] sunxi-mmc 1c10000.mmc: card claims to support voltages below defined range
+[    1.304227] mmc0: new high speed SDIO card at address 0001
+[    1.312047] rtw_8723ds mmc0:0001:1: Direct firmware load for rtw88/rtw8723d_fw.bin failed with error -2
+[    1.321568] rtw_8723ds mmc0:0001:1: failed to request firmware
+[    1.330441] mmc1: host does not support reading read-only switch, assuming write-enable
+[    1.334030] rtw_8723ds mmc0:0001:1: failed to load firmware
+[    1.343207] mmc1: new high speed SDHC card at address aaaa
+[    1.344048] rtw_8723ds mmc0:0001:1: failed to setup chip efuse info
+[    1.351159] mmcblk1: mmc1:aaaa SC32G 29.7 GiB
+[    1.355846] rtw_8723ds mmc0:0001:1: failed to setup chip information
+[    1.366892] rtw_8723ds mmc0:0001:1: probe with driver rtw_8723ds failed with error -22
+[    1.367560]  mmcblk1: p1
+[    1.434987] EXT4-fs (mmcblk1p1): orphan cleanup on readonly fs
+[    1.443377] EXT4-fs (mmcblk1p1): mounted filesystem c5551457-88e0-47ae-9094-06babfcdeded ro with ordered data mode. Quota mode: disabled.
+[    1.455974] VFS: Mounted root (ext4 filesystem) readonly on device 179:1.
+[    1.465835] devtmpfs: mounted
+[    1.470605] Freeing unused kernel image (initmem) memory: 1024K
+[    1.476798] Run /sbin/init as init process
+[    1.781051] EXT4-fs (mmcblk1p1): re-mounted c5551457-88e0-47ae-9094-06babfcdeded r/w. Quota mode: disabled.
 
-
---=20
 Thanks,
-JeffXie
+
+Walker
