@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB56E978379
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 17:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32D697837A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 17:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 498A410ED33;
-	Fri, 13 Sep 2024 15:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA8510ED2E;
+	Fri, 13 Sep 2024 15:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wy45n8m9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Rch2qx4w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8EF10ED31
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 15:08:57 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5c260b19f71so2564008a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 08:08:57 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54D1810ED2E
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 15:09:01 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2f760f7e25bso24329631fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 08:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726240136; x=1726844936; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1726240139; x=1726844939; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=xTfratRyuq67AZV4B16yqUQQ15TZWLuOZUKKSVeMFLU=;
- b=Wy45n8m9KzkW9YedIaX/jGHhFpolisw79oZ52pA4O59h+RXuDxFn9E07H2HMj8ke37
- 8jbfyXDzNtEsoa1kDJnrKvPnVdgFdFsQBrvZDxTOunXWMbLMNKpQO5/Q6OIPov4IJII0
- 8CyprPfCgDDk2f4B6dlZzw0KOzy1mDpW1QF0ZdAT8wz3z0oE+DOpjcYcSkGcv7JSxRZH
- NCBTKy//UD3JczJyw30OppCzIWiTA0x6iBEj8cDjdC3sJ2DJxTQkKgI5kB1AJpp3pEWd
- piGagQ36GNnLRev/SVZI7sGKl3ZsbLvLhb44kGuwKBbVsGBR8axDCAnwxn7SYTHZrCY9
- Y1sQ==
+ :reply-to; bh=+MogS/GsWGussElbxSTITWgB14U3ovrKNCk5uQtTkgQ=;
+ b=Rch2qx4wZXocnM5iKXI1uu3kxCaozG/nZGYqo5sipwvvbwdzmnwsfvZKE4TdQMVgwF
+ yBqIMahzfxk2rYSTyv9zuSfw6YL6RCqQA5ZB04gTUUq0WQtsHS344zF4E782VVDSjITj
+ rxSUd7hfyM7epGtdjSqzK5cRURN8jlphNX6M3qNxHHYCE/3Pygc23sM7EmPcg7UnkjE1
+ c2e2W+vGMrXgGSHKc9TdlfvGMn2kogVu151Nue5VftR0JFzl8oQ7tz9VbfEonSKCH8et
+ tRV0K0LOXTOSlangx0RKG9qoRqfFAOP+w+bAYOfg4v3xfBy3hTdPb51kxPg1iedbl/5X
+ T77w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726240136; x=1726844936;
+ d=1e100.net; s=20230601; t=1726240139; x=1726844939;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xTfratRyuq67AZV4B16yqUQQ15TZWLuOZUKKSVeMFLU=;
- b=T2FPZK7qKpF6A7e7hjnLQe/4vLq+5LXfzAgPsT6RWwcRhoAH9emlrS/zxketzeU/Ar
- GDovEfw+sg7kt5MWJayTsGEFibfOJL22mLz570mTb21c1aWSrR7lo5qElZIDVK1UBsVo
- Kn3RnWiG4cN51H9J7iOdMCDkypEnhNGdTonIRwNeuiVN8N4tn4oNohTEKGNe5D0HwFbN
- yEHe6G499sZO06W2S0jPccowY/aCp1tenAYz5zN6TJ9+mvjBFGnm4+VJoE87lJV79xfk
- RqFnty1ZU2qihcyE1CsqFcmBx5Klf3SUbYUQECjtWLpgqofuXnDI3v8ftY+WZZA2ZW3D
- zOfg==
+ bh=+MogS/GsWGussElbxSTITWgB14U3ovrKNCk5uQtTkgQ=;
+ b=p32P1lghPUyohEFmyC/zAhLilpIpy6IoSns4Is5wLsrDGkjuxyOdAfoeIeUPhNnwFn
+ 7Ku8Syxcu6IEqwdG0G84qSdrO1AyO9Fvmf+R4hh2U0nMfwhShP60IpR/Bu/4DC8k4WJA
+ FRYDix2nRpx9vMp5mrAY4fZkDQL0+31kwzeyBqWK8+f3aiZsItNgj0RDnQFElHy9ryRd
+ 1dAq4b6S/wMeBLKxsMqrYBRH/rbZFZ3EhBLcgYmunl70/ddV9JdidveiyED5C9jOQl6q
+ snNVOQIMpdYe0L9/R2iZM6gvcHdxCsjGzGcGb3N1eTU5Ipqc+KAdXiATGnpf6BZXezFl
+ Y+WQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUuUWlLjo9cE06VFbOXrX9Jr7HAuxMttEAvAC3W2/+B0BLNwmonvBWRYhjJHebdfboTsAImg5ITB+E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7GrKHvag1ED4tO/r7yW5pmRarEExEcD7lRHwBgbJiZWgfSPRh
- 6yKMCBBYhpSd/GvFOEyQ7vdCrUAtC3saN6kjvnDilQjSGStMIFjL
-X-Google-Smtp-Source: AGHT+IGnH2Qg/ZVH+t5yBK8/6cZxMgcc2yO30j7Z0MVpdCvW68EAVdYqOzZsoNLDjONJTNNxLjdrhA==
-X-Received: by 2002:a05:6402:2750:b0:5c2:60ac:fdd8 with SMTP id
- 4fb4d7f45d1cf-5c413e12321mr4607671a12.13.1726240136234; 
- Fri, 13 Sep 2024 08:08:56 -0700 (PDT)
+ AJvYcCXAA81P+v44AebRSNG1we8888xMzNHmeX6nxNaDkmdDeUHWSCWAXe4HOW8pk4L+eEKm+aQQjKe4jn4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwoXwegw69gbFQ0nYM2LkXCOq7fusEp9XcZI8ms8+SU7N9B43No
+ 7Pc0MHjnzFC1EZyk3eNeNJpSGXBTM89iNwL0yeB7/QTXhrYQtYdY
+X-Google-Smtp-Source: AGHT+IG15UZQPWFKTrEWMJoYpOjTZRs1/pybTllYbPk3ZUCPtTA6NrMHeSupfUSZWg7LhFQUdQrI6A==
+X-Received: by 2002:a2e:a9a6:0:b0:2f7:7f76:992b with SMTP id
+ 38308e7fff4ca-2f787f4484dmr38107941fa.37.1726240139396; 
+ Fri, 13 Sep 2024 08:08:59 -0700 (PDT)
 Received: from [127.0.1.1] ([178.127.153.210])
  by smtp.googlemail.com with ESMTPSA id
- 4fb4d7f45d1cf-5c3ebd523b4sm7774318a12.51.2024.09.13.08.08.52
+ 4fb4d7f45d1cf-5c3ebd523b4sm7774318a12.51.2024.09.13.08.08.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Sep 2024 08:08:54 -0700 (PDT)
+ Fri, 13 Sep 2024 08:08:58 -0700 (PDT)
 From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Fri, 13 Sep 2024 18:07:59 +0300
-Subject: [PATCH v4 16/27] arm64: dts: qcom: sdm845: enable gmu
+Date: Fri, 13 Sep 2024 18:08:00 +0300
+Subject: [PATCH v4 17/27] arm64: dts: qcom: starqltechn: remove wifi
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240913-starqltechn_integration_upstream-v4-16-2d2efd5c5877@gmail.com>
+Message-Id: <20240913-starqltechn_integration_upstream-v4-17-2d2efd5c5877@gmail.com>
 References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
 In-Reply-To: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
 To: Sebastian Reichel <sre@kernel.org>, 
@@ -89,11 +89,11 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
  Dzmitry Sankouski <dsankouski@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1726240085; l=4473;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1726240085; l=1053;
  i=dsankouski@gmail.com; s=20240618; h=from:subject:message-id;
- bh=TWhbLRHfFDz9yA9edxLZxAOMPF84aLyauDMExbKBA/I=;
- b=C8aX8Dj2cCP4OKpYbwpqDfK4kLs39w/QmL2hpGyOr0fraXfQ9aXJ94InXPuEDu9NQVEQ39bkD
- CPgTNAmlnHfDz8Bvo5lvW1khQtDQLpt6K0HMdk/rsv/kbU+YSvoYKZJ
+ bh=Eph7e0S45r0MTRyCXF3ejlfGwAhuMntaPM1lDGhJahM=;
+ b=vALQnYl3+w5MCg7sDPNqQFdT/NtoYAqeD+ucytbEKKHkbRr5ArqYw4dNgJg++Oy86E0lACe3V
+ f9aB8bebsZhDs8mQDd098TOeyreaGhbxS6kdp6OHR7eJJBg8bLkG6CV
 X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
  pk=6pMMVVDDReSiRgPCbMOUauN5nS3ty4Sf5b7a2gi4x0M=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,154 +111,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Leave gmu enabled, because it's only probed when
-GPU is.
+Starqltechn has broadcom chip for wifi, so sdm845 wifi part
+can be disabled.
 
+Fixes: d711b22eee55 ("arm64: dts: qcom: starqltechn: add initial device tree for starqltechn")
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi                   | 4 ----
- arch/arm64/boot/dts/qcom/sdm845-db845c.dts                   | 4 ----
- arch/arm64/boot/dts/qcom/sdm845-mtp.dts                      | 4 ----
- arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi          | 4 ----
- arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts            | 4 ----
- arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi        | 4 ----
- arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi | 4 ----
- arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts           | 4 ----
- arch/arm64/boot/dts/qcom/sdm845.dtsi                         | 2 --
- 9 files changed, 34 deletions(-)
+ arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-index e8276db9eabb..a5149a384167 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-@@ -741,10 +741,6 @@ touchscreen@10 {
- 	};
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts b/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts
+index d37a433130b9..6fc30fd1262b 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts
++++ b/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts
+@@ -418,14 +418,6 @@ &usb_1_qmpphy {
+ 	status = "okay";
  };
  
--&gmu {
+-&wifi {
+-	vdd-0.8-cx-mx-supply = <&vreg_l5a_0p8>;
+-	vdd-1.8-xo-supply = <&vreg_l7a_1p8>;
+-	vdd-1.3-rfa-supply = <&vreg_l17a_1p3>;
+-	vdd-3.3-ch0-supply = <&vreg_l25a_3p3>;
 -	status = "okay";
 -};
 -
- &gpu {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-index 9a6d3d0c0ee4..59cb6e6e434c 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-@@ -444,10 +444,6 @@ &gcc {
- 			   <GCC_LPASS_SWAY_CLK>;
- };
- 
--&gmu {
--	status = "okay";
--};
--
- &gpi_dma0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-mtp.dts b/arch/arm64/boot/dts/qcom/sdm845-mtp.dts
-index 2391f842c903..d31efad8a321 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-mtp.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-mtp.dts
-@@ -414,10 +414,6 @@ &gcc {
- 			   <GCC_LPASS_SWAY_CLK>;
- };
- 
--&gmu {
--	status = "okay";
--};
--
- &gpu {
- 	status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index 46e25c53829a..8a0f154bffc3 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -345,10 +345,6 @@ &gcc {
- 				<GCC_LPASS_SWAY_CLK>;
- };
- 
--&gmu {
--	status = "okay";
--};
--
- &gpu {
- 	status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-index 486ce175e6bc..87fc4021e024 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-@@ -419,10 +419,6 @@ &gcc {
- 			   <GCC_LPASS_SWAY_CLK>;
- };
- 
--&gmu {
--	status = "okay";
--};
--
- &gpu {
- 	status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi b/arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi
-index b02a1dc5fecd..a3a304e1ac87 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi
-@@ -415,10 +415,6 @@ &gcc {
- 			<GCC_LPASS_SWAY_CLK>;
- };
- 
--&gmu {
--	status = "okay";
--};
--
- &gpi_dma0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi
-index 617b17b2d7d9..f790eb73abdd 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi
-@@ -239,10 +239,6 @@ &gcc {
- 			   <GCC_LPASS_SWAY_CLK>;
- };
- 
--&gmu {
--	status = "okay";
--};
--
- &gpu {
- 	status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts
-index e386b504e978..501575c9beda 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts
-@@ -381,10 +381,6 @@ &gcc {
- 				<GCC_LPASS_SWAY_CLK>;
- };
- 
--&gmu {
--	status = "okay";
--};
--
- &gpi_dma0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 54077549b9da..fe154216f138 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -4948,8 +4948,6 @@ gmu: gmu@506a000 {
- 
- 			operating-points-v2 = <&gmu_opp_table>;
- 
--			status = "disabled";
--
- 			gmu_opp_table: opp-table {
- 				compatible = "operating-points-v2";
+ &tlmm {
+ 	gpio-reserved-ranges = <0 4>, <27 4>, <81 4>, <85 4>;
  
 
 -- 
