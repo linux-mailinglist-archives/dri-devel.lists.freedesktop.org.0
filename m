@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB06977A76
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 10:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B64977A7C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 10:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6757A10ECA9;
-	Fri, 13 Sep 2024 08:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1331C10ECAF;
+	Fri, 13 Sep 2024 08:03:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KDv8ZXub";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Nk4Uvpc0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06EC610ECA9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 08:02:16 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-374b25263a3so450264f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 01:02:15 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C46A310ECAF
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 08:03:03 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-374c326c638so442942f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 01:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726214534; x=1726819334; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1726214582; x=1726819382; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=KAjUdoyXPSNHLiRF/5bnxLG0wpq4kPs9TC2hjddZOXw=;
- b=KDv8ZXub53OPTQ4nQAdRPs0oTfLYlr6JGmQQ7hlUZ69BR6Yd9Rcx1meu4x+VDSVUST
- yZCh1tIPZS1igidcs6lx+luTdeOVBy5CKULe+k2xzose1F95Q+7ngCCamjjR6AFb002w
- 7yGXqAELcnZs74I+ICztazjlXlUxfh9skdEIR8EmpNMllLXU2jKLJLtz1vqMyK5bsaO/
- 2X8hVLNyfH6pcbceIKlKF70JflDuj21+WNRl0lKzp4QNbej7G7Tv4Uv9nHQT1j5J0nQX
- 67dBkO23TuibQy0/32G+dbYtb4fxM/38Mtt8DG5xGT03/pkho+PRx2nCFWVdjoIUdM5s
- Ds3w==
+ :reply-to; bh=WuKvojtCZg7g14c14RQDvHtxwoqt5QeCZyN0kUqDmA0=;
+ b=Nk4Uvpc035iwrFpEvIrJYaWdx/T7fm0taETQr+4B0I/1zTcUbSOCFTqu21Zp5peMWT
+ yB49XGY8XwrDwfnpY7d4ufWvVNgCmYwx7DIcQFisRMozqU9HeeiipsiFkOmnJHlRpLXT
+ EYSMmPGz4hX5JsR+VOaSuQYqkGNGY1QD0I1I6dEM1tBk4j0OUs3ch4owV5HNZ+gPvee7
+ kpu7aFz3OttQKTnYTrPkHvUkJOBqw+YFhfLtEpbG0/vlYBClt5+jy/DotjzqVLu0L2Sv
+ sq8AuvOIqn/feDe/wmBpVUIBKpZnrADCvXAWqiBI194gvcW+68e2FhbvMbUsOSFI7C0m
+ J3uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726214534; x=1726819334;
+ d=1e100.net; s=20230601; t=1726214582; x=1726819382;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=KAjUdoyXPSNHLiRF/5bnxLG0wpq4kPs9TC2hjddZOXw=;
- b=GS/6fAReHo208IB3ETW+rw8EOJBpB34lc15sxQX4SBt0xCrVNo2Lln0vkLPWlX+DPe
- pdjlaVCvI5Z+Miy1PxgqDfRq3ZyFEMA7T+dDTZbb3XyBOlK/PP+jkb4iLrf8GRYwmqFm
- 6wDsCNQiSePydlzvJOFZ+gBSEmDDfNiU1OIBppJyfjebRADWTtlaMlFXc1JULJabxQLa
- 5Usq4/hP8zSMRxQibSCTzlZlhPU5zuoYFVIbniJUx/DByHJihcF47o9kIwRY+S7EAoBu
- 1OfRYN797fzO6DvTE5CfYVMgSsu5CKwZN2h9x6ltB76ML822v5fcEG6NkLh5En2/u8ko
- +Whg==
+ bh=WuKvojtCZg7g14c14RQDvHtxwoqt5QeCZyN0kUqDmA0=;
+ b=CHz2GJX9sv8M3r177s4LJh3cG4tlBY6Nx7m3zSts/ASoPBDA2cYAC8Mlkblv4INUt/
+ re1UTeVZLSrmr4v6uppVZzlf8H/02YMvAJDQpmYZP6JrYZaNAjgvQHBNT3s+to3nKDuo
+ euqOrXA2l8R0CyF3rpODZmc/1c4BVPRq7sJdMb7PfbF5QjmApU3gslyp4peCNJidKd1y
+ 91yQtbqdve07hf4L8FgxJPiYrfXNBG7ztXs/e/pntqKpjj9Jno96r2+jV4ClwGgRR/co
+ 9hUIBcaELfpBGvImVQ+92L5Y9e7MudOei1qiEA31bd+xZrXUCV44amvB3kluUGePTJcU
+ BFHA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUViEhxcELD7Z7ZR8DoZjq/RfjS2dVsf0OH6ujOj+HmzZpBlAKQVCWjOShZnngLUG0bZEeG8WWUiAI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHudlBTVWiFm/4Ujkz2T7EpuPs4JifkrLFlAKsMa63fqxWw3C8
- 8JL07rmr2Tdbn3q9EHeLFSBfMiMGBWvGfqtAwX2rX6XfztQzDxNBODsA5S5/O8w=
-X-Google-Smtp-Source: AGHT+IFqhk+bK1ONAFkVcGqoWxYXj5S5OT3U3eVNN4v3VLfYwyLCWyCWI1nrQX0GDWFegfWc7EvPkg==
-X-Received: by 2002:adf:f045:0:b0:374:c101:32 with SMTP id
- ffacd0b85a97d-378d623c027mr995199f8f.46.1726214533967; 
- Fri, 13 Sep 2024 01:02:13 -0700 (PDT)
+ AJvYcCW+akShN/t44Nawpu5Tx1jk7ewYA1n49wZndzVZuuM3Z8QMaWyV1I81UPlVytJNZPUFQltptnkTjSw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwLVfYPryb9OupdP/b8WhevuVUX4CS1vNGcUv465hPd4a7RBKnz
+ RYiprhZX/WmGR4aFzCpDoCD52HDKgTP3MMAcekMXwQwhBLECuq91N4Ie98e1cjk=
+X-Google-Smtp-Source: AGHT+IGjWX8++sbopvCOcrzHWzZMeCZ109rEfa8ItpaKA91i9e/Yn1nIyeUmaUhA27muapNY9/QnTA==
+X-Received: by 2002:adf:edc6:0:b0:34d:ae98:4e7 with SMTP id
+ ffacd0b85a97d-378d6241ff8mr1021335f8f.41.1726214581833; 
+ Fri, 13 Sep 2024 01:03:01 -0700 (PDT)
 Received: from [192.168.7.202] ([212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37895665108sm16057316f8f.28.2024.09.13.01.02.13
+ ffacd0b85a97d-378956761c6sm16112834f8f.61.2024.09.13.01.03.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Sep 2024 01:02:13 -0700 (PDT)
-Message-ID: <4bc6a5e6-f2cf-43ab-8555-4f8aaf9f2cd0@linaro.org>
-Date: Fri, 13 Sep 2024 10:02:12 +0200
+ Fri, 13 Sep 2024 01:03:01 -0700 (PDT)
+Message-ID: <17aece51-fe00-4c60-85cc-f89cb14b2e6a@linaro.org>
+Date: Fri, 13 Sep 2024 10:03:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 09/10] drm: bridge: dw_hdmi: Update EDID during hotplug
- processing
+Subject: Re: [PATCH v2 06/10] drm: bridge: dw_hdmi: Remove previous_mode and
+ mode_set
 To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
  Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -77,7 +77,7 @@ Cc: Christian Hewitt <christianshewitt@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20240908132823.3308029-1-jonas@kwiboo.se>
- <20240908132823.3308029-10-jonas@kwiboo.se>
+ <20240908132823.3308029-7-jonas@kwiboo.se>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -104,7 +104,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240908132823.3308029-10-jonas@kwiboo.se>
+In-Reply-To: <20240908132823.3308029-7-jonas@kwiboo.se>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,41 +124,67 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 08/09/2024 15:28, Jonas Karlman wrote:
-> Update successfully read EDID during hotplug processing to ensure the
-> connector diplay_info is always up-to-date.
+> With the use of adjusted_mode directly from the crtc_state there is no
+> longer a need to store a copy in previous_mode, remove it and the now
+> unneeded mode_set ops.
 > 
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > ---
 > v2: No change
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 19 +------------------
+>   1 file changed, 1 insertion(+), 18 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index c19307120909..7bd9f895f03f 100644
+> index 1eefa633ff78..6a94376a3da3 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2457,6 +2457,18 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
+> @@ -154,8 +154,6 @@ struct dw_hdmi {
+>   		bool enabled;
+>   	} phy;
 >   
->   	status = dw_hdmi_detect(hdmi);
+> -	struct drm_display_mode previous_mode;
+> -
+>   	struct i2c_adapter *ddc;
+>   	void __iomem *regs;
+>   	bool sink_is_hdmi;
+> @@ -165,7 +163,7 @@ struct dw_hdmi {
+>   	struct pinctrl_state *default_state;
+>   	struct pinctrl_state *unwedge_state;
 >   
-> +	/* Update EDID during hotplug processing (force=false) */
-> +	if (status == connector_status_connected && !force) {
-> +		const struct drm_edid *drm_edid;
-> +
-> +		drm_edid = dw_hdmi_edid_read(hdmi, connector);
-> +		if (drm_edid)
-> +			drm_edid_connector_update(connector, drm_edid);
-> +		cec_notifier_set_phys_addr(hdmi->cec_notifier,
-> +			connector->display_info.source_physical_address);
-> +		drm_edid_free(drm_edid);
-> +	}
-> +
->   	if (status == connector_status_disconnected)
->   		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
+> -	struct mutex mutex;		/* for state below and previous_mode */
+> +	struct mutex mutex;		/* for state below */
+>   	enum drm_connector_force force;	/* mutex-protected force state */
+>   	struct drm_connector *curr_conn;/* current connector (only valid when !disabled) */
+>   	bool disabled;			/* DRM has disabled our bridge */
+> @@ -2894,20 +2892,6 @@ dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
+>   	return mode_status;
+>   }
 >   
+> -static void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
+> -				    const struct drm_display_mode *orig_mode,
+> -				    const struct drm_display_mode *mode)
+> -{
+> -	struct dw_hdmi *hdmi = bridge->driver_private;
+> -
+> -	mutex_lock(&hdmi->mutex);
+> -
+> -	/* Store the display mode for plugin/DKMS poweron events */
+> -	drm_mode_copy(&hdmi->previous_mode, mode);
+> -
+> -	mutex_unlock(&hdmi->mutex);
+> -}
+> -
+>   static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
+>   					  struct drm_bridge_state *old_state)
+>   {
+> @@ -2971,7 +2955,6 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+>   	.atomic_get_input_bus_fmts = dw_hdmi_bridge_atomic_get_input_bus_fmts,
+>   	.atomic_enable = dw_hdmi_bridge_atomic_enable,
+>   	.atomic_disable = dw_hdmi_bridge_atomic_disable,
+> -	.mode_set = dw_hdmi_bridge_mode_set,
+>   	.mode_valid = dw_hdmi_bridge_mode_valid,
+>   	.detect = dw_hdmi_bridge_detect,
+>   	.edid_read = dw_hdmi_bridge_edid_read,
 
-I wonder why we should read edid at each dw_hdmi_connector_detect() call,
-AFAIK it should only be when we have HPD pulses
-
-Neil
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
