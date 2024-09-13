@@ -2,56 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDCE9779DA
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32A69779F1
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:43:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D8F910EB1A;
-	Fri, 13 Sep 2024 07:41:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qTlAyQlN";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E94E610EB23;
+	Fri, 13 Sep 2024 07:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5CE10EB1A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:41:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 355275C593F;
- Fri, 13 Sep 2024 07:41:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2002EC4CEC0;
- Fri, 13 Sep 2024 07:41:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726213270;
- bh=idzju25k6AAbg0CWdFlQaDNm/nx8kDbWsvmyijUpmKs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qTlAyQlNos6cRY6EFMQGURSwuz1jKyUo1jzTSVV3AZvOevNGaHz1+SBsXMIpcDr0Q
- LEapd9kyGfTAJdDT+sBTKU0bLbpgAgxEqWPupIQaF2Rkzsq9jjJWvN5Ieh7uK1JTcZ
- OhfWmw4N58V+x3ybRO7ReQ5zsphKgHpRI4txCrPj83LnfsAEDyhn0Jc5Yc8HZxxdMR
- aqRnAroYIT0ihkVWlYpYNjq/WUECBvUQtIscnclcuY28tbTNvF1sqOqev7zLwFDLQt
- KHD+C6wTdz1KihjRAGRMEyCpbc/dCkNAWusMGa1zsNTwUReziPHR2GHga0dMiec7Qy
- WW8u88DlipC+g==
-Date: Fri, 13 Sep 2024 09:41:07 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, 
- Arthur Grillo <arthurgrillo@riseup.net>,
- Tales Lelo da Aparecida <tales.aparecida@gmail.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v4 RESEND 0/9] Increase coverage on drm_framebuffer.c
-Message-ID: <20240913-sly-chameleon-of-love-e6531f@houat>
-References: <20240911001559.28284-1-gcarlos@disroot.org>
- <172605715531.956551.13163712003461695066.b4-ty@kernel.org>
- <87ttekdn7n.fsf@intel.com>
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C64510EB23
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:43:27 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e1a9e4fa5aaso1845945276.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:43:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726213406; x=1726818206;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Uob8wHcFsSqO1Ywd9b+SmTX4fajQu+yvDZdClendtRg=;
+ b=B+A9PThv9WkVvz9Q/FSJwfHtmwV2pwWN+6dEum/uYWfgpD3372nEBP4flko4ix+sne
+ ENdVP7g1v2wYBYpZ9GR+kguzWAVHJ3S1/1PLog986+CEksnG1cXj5Pg2U4CG+MCBRR8J
+ woFqL43VlXNlLeSkQ1wPRWkIureZMmknkIV+8hacD3qkxBxs5h7IqPJx2uSdylP+7IDg
+ bcQqd53l781lCrlgr2WGB/1HQcRUKwpBtjQG2iQQawCYPSe41oSh5dSPBD/BDmum0/ro
+ bLUPjIib1AT1CZQU5Rp7Qer3adRS7axRdhpqlkRXK9x+L8y/OUrDTrWNC4mrC0ProZL0
+ cF3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXkGh5aKBChLusisnsI1BjWzcVdUHVmU/658zDR+rjvM/fb3tS4aL5CNBFaD6LK2W722kbBOj9X+mo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgifutJkgMwOKA30I701/R9e2AHrrvhRlbvISGTggeFnK4sT/z
+ xtYXeSNDgSnxsRZmTZk67BDHs9A6Jo1RwT7HfxRqJcKTh7f1V3ffVp1UKguN
+X-Google-Smtp-Source: AGHT+IGJmODOH3UrAsEpjCBW9R0KXJrpbcoKjvOVQDFLZIJnrSPK3rOYHDFabENfdt4Go9Cu1zASag==
+X-Received: by 2002:a05:6902:1b8e:b0:e1a:ab3c:2a97 with SMTP id
+ 3f1490d57ef6-e1d9dc419a8mr5052659276.40.1726213406270; 
+ Fri, 13 Sep 2024 00:43:26 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
+ [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
+ 3f1490d57ef6-e1d7b9dca65sm1329710276.5.2024.09.13.00.43.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Sep 2024 00:43:26 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-6d5a4615a56so15623747b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:43:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWAWdDWl2cWlJ8kVe9T1jFw2t9oR1n1JHjB4RLsYb/iLlA8RgnDfubVrYRHtMquOpD0f08Fpb3Ur+g=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:a8b:b0:6db:d27f:dd96 with SMTP id
+ 00721157ae682-6dbd27fde76mr4703747b3.45.1726213405883; Fri, 13 Sep 2024
+ 00:43:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="22pj7sitg6x72uqp"
-Content-Disposition: inline
-In-Reply-To: <87ttekdn7n.fsf@intel.com>
+References: <20240912171142.3241719-1-devarsht@ti.com>
+ <c501c5d3-d715-4ac5-98be-35d23ad1cfbe@kernel.org>
+ <3y4pqlazkuofc37s6zlw7waqzmtdl5iydhm4i3i45n6d6pnflc@osyocv7wxtif>
+ <87ed5oypeh.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87ed5oypeh.fsf@minerva.mail-host-address-is-not-set>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 13 Sep 2024 09:43:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWYtsERgJH+Epq2d0P34PfVtEG69HHDLgz_nsKaxbDu4g@mail.gmail.com>
+Message-ID: <CAMuHMdWYtsERgJH+Epq2d0P34PfVtEG69HHDLgz_nsKaxbDu4g@mail.gmail.com>
+Subject: Re: [PATCH] drm/tidss: Add MIT license along with GPL-2.0
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Danilo Krummrich <dakr@kernel.org>, Devarsh Thakkar <devarsht@ti.com>,
+ jyri.sarha@iki.fi, 
+ tomi.valkeinen@ideasonboard.com, airlied@gmail.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ praneeth@ti.com, nm@ti.com, vigneshr@ti.com, r-ravikumar@ti.com, 
+ j-choudhary@ti.com, grandmaster@al2klimov.de, caihuoqing@baidu.com, 
+ ahalaney@redhat.com, cai.huoqing@linux.dev, colin.i.king@gmail.com, 
+ dmitry.baryshkov@linaro.org, geert+renesas@glider.be, 
+ laurent.pinchart@ideasonboard.com, robh@kernel.org, sam@ravnborg.org, 
+ simona.vetter@ffwll.ch, ville.syrjala@linux.intel.com, 
+ wangxiaojun11@huawei.com, yuanjilin@cdjrlc.com, yuehaibing@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +92,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 13, 2024 at 9:38=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> writes:
 
---22pj7sitg6x72uqp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 13, 2024 at 10:31:08AM GMT, Jani Nikula wrote:
-> On Wed, 11 Sep 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> > On Tue, 10 Sep 2024 21:15:25 -0300, Carlos Eduardo Gallo Filho wrote:
-> >> This patchset includes new KUnit tests for 5 untested functions from
-> >> drm_framebuffer.c and improvements to the existent one.
-> >>=20
-> >> The first patch replace the use of dev_private member from drm_device
-> >> mock on the existent test by embedding it into an outer struct contain=
-ing
-> >> a generic pointer.
-> >>=20
-> >> [...]
+> > On Thu, Sep 12, 2024 at 10:47:31PM +0200, Danilo Krummrich wrote:
+> >> On 9/12/24 7:11 PM, Devarsh Thakkar wrote:
+> >> > Modify license to include dual licensing as GPL-2.0-only OR MIT lice=
+nse for
+> >> > tidss display driver. This allows other operating system ecosystems =
+such as
+> >> > Zephyr and also the commercial firmwares to refer and derive code fr=
+om this
+> >> > display driver in a more permissive manner.
+> >> >
+> >> > Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> >>
+> >> My only contribution to this driver was through DRM refactorings,
+> >> but anyways:
+> >>
+> >> Acked-by: Danilo Krummrich <dakr@kernel.org>
 > >
-> > Applied to misc/kernel.git (drm-misc-next).
->=20
-> How was this series itself tested? It would be prudent to Cc: intel-gfx
-> on stuff like this to run it through our CI. I don't think it ever
-> passed [1].
+> > Similar for me. I only touched one of the affected files with a
+> > refactoring change (34cdd1f691ade28abd36ce3cab8f9d442f43bf3f). I don't
+> > assume this gives me any copyright to that driver, but to simplify
+> > things:
+> >
+> > Acked-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+>
+> Similar for me too. My only change to this driver I think was to add DRM
+> panic support in commit b2cb6011bcaf ("drm/tidss: Add drm_panic support")=
+.
+>
+> But I'm also OK with the change, so:
+>
+> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
-I'm not sure what's going on, but:
+Similar for me, just a forgotten comment update.
 
-=2E/tools/testing/kunit/kunit.py run --kunitconfig=3Ddrivers/gpu/drm//tests
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Works like a charm with this series
+Gr{oetje,eeting}s,
 
-Maxime
+                        Geert
 
---22pj7sitg6x72uqp
-Content-Type: application/pgp-signature; name="signature.asc"
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZuPsigAKCRAnX84Zoj2+
-dg6lAYC8YtGN6iCERvFLMDs2XfJ7Txe8/5TjuYW4srRbLBMFipCrT99WGw1iDLQr
-1zBcRvsBfA6FXlKiT/n+kM93E6/a4yCJQoK3/fpKhzcr/Ri3IXVraIlSYldcnKUm
-hBgQSUh04A==
-=oDZe
------END PGP SIGNATURE-----
-
---22pj7sitg6x72uqp--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
