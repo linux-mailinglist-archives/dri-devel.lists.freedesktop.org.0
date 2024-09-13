@@ -2,179 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2970D977C80
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 11:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8D5977CA6
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 11:57:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A518710ECD8;
-	Fri, 13 Sep 2024 09:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7FD910E1E6;
+	Fri, 13 Sep 2024 09:57:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Y7BTL8BP";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="k2Yjy/Ez";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com
- (mail-westeuropeazon11010004.outbound.protection.outlook.com [52.101.69.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B7F010ECD7
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 09:46:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xSKPOvFbXMfOLz6oZjhUUSepIaSojU+iEq1pJ+ERvfX2VKD9RvfX2GlcbvSgWiWLd/MslSAqJi/AtGTbzfpkxfNr/XhP6ZHC8Bj8ga7lEXYAVahGrmpSfmKgAVAEZq0WE2fCBX5xkwxyghQIF96rezjXmlLalHPVTBi2G0KKt9GO9ag0JUqEfcE/AciJYtAmajE8MZriTbJlXcfN+IPtnHIXTVW8N1dPOZoEZqb+wI9ZPMrpWcvWKgBTzc95yYioucyeTTH1DQX2vCdeaN56X0dsWEu6hbh7AUl2ufz/rDZdhui0sMRZeP2NwNXZIQFm/3sBsPcpVYEsoU/IdRnZyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sNTnGkN76FW0WoEOzunRwxbciAPLmSowPjUVdj2le8o=;
- b=wATziyn3tUA9L6sQ/vVpNYGH5eWMZUXIAXVUjPCSwoHqJtzV2SG0xRAbdT64iY+8OGNqMlJnr80YI8jVfKaXLmXKDblqgENBjDboAXj2EzogIpVxnW4vbCHN1pGY9DulWvWTAY+DPyUlN79E2zYcM7aDiIN2UEe00sQ3/FcwZm1KP+cL73EIj3XLohsCWMgQpsFNSZpwMOpoMz1DTdC489teu42aEs7JBW95cQi+GAQFQsCq9IVmbenw0WpFeuYAo7MF8/yRtwXvjO1VzXeAfVE0cnLil7nAiOfnBxZJWNZS9UXunauSB+6EDQLWbm8FM4qEIsYCjONIod+L4wmVAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sNTnGkN76FW0WoEOzunRwxbciAPLmSowPjUVdj2le8o=;
- b=Y7BTL8BPt2AKJqxyk2tL3RPh6EWsNvYuIkhfy6PVi4VMLCV/pM8BcY0hS4ky8pUBy0Ia9His7poVj7m+2A6MhsCalHRrem9rk+NXymaLgFiPaPQTzzQvhV61MWegAjWC/IpqoMlDCFavGFIAPPIPzhWEiTeq6tGgKjijkxg4TBWhSwzn+juHriKEj7Jlr/24RHWRzLBptYGMUtcpBgNnR1WVKo6uXc3AF9cJJWGnvcWgSGmYh0vVOEmdaUfHqsIm6fOCJxOXpz3KByVUe5KM/Br2mNhu/ToBexDGP82tpw2bwUZQfZJZCUFgGYU1arV0Lt5/8jI7MdQikUrwCV6esQ==
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by AM0PR04MB7025.eurprd04.prod.outlook.com (2603:10a6:208:19c::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.18; Fri, 13 Sep
- 2024 09:46:12 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc%5]) with mapi id 15.20.7962.018; Fri, 13 Sep 2024
- 09:46:12 +0000
-From: Sandor Yu <sandor.yu@nxp.com>
-To: Maxime Ripard <mripard@kernel.org>
-CC: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "airlied@gmail.com"
- <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
- <s.hauer@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
- "vkoul@kernel.org" <vkoul@kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-phy@lists.infradead.org"
- <linux-phy@lists.infradead.org>, "kernel@pengutronix.de"
- <kernel@pengutronix.de>, dl-linux-imx <linux-imx@nxp.com>, Oliver Brown
- <oliver.brown@nxp.com>, "alexander.stein@ew.tq-group.com"
- <alexander.stein@ew.tq-group.com>, "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: RE: [EXT] Re: [PATCH v16 4/8] drm: bridge: Cadence: Add MHDP8501
- DP/HDMI driver
-Thread-Topic: [EXT] Re: [PATCH v16 4/8] drm: bridge: Cadence: Add MHDP8501
- DP/HDMI driver
-Thread-Index: AQHa/ceM/yU/2b4d50CxTBdHIjulM7JFutqAgAFv2nCADPi2gIABP4Mw
-Date: Fri, 13 Sep 2024 09:46:12 +0000
-Message-ID: <PAXPR04MB94484D86A71A7527ADD42EA4F4652@PAXPR04MB9448.eurprd04.prod.outlook.com>
-References: <cover.1719903904.git.Sandor.yu@nxp.com>
- <359914108b879e995d4a39de32a33310009f0fab.1719903904.git.Sandor.yu@nxp.com>
- <20240702-quartz-salamander-of-culture-eec264@houat>
- <PAXPR04MB94480AB0490BBF00D2BA17BBF4932@PAXPR04MB9448.eurprd04.prod.outlook.com>
- <20240903-gay-capable-hound-3cbef2@houat>
- <PAXPR04MB9448EF507CB5C18A43239A80F49E2@PAXPR04MB9448.eurprd04.prod.outlook.com>
- <20240912-zippy-mongoose-of-domination-2ebc1d@houat>
-In-Reply-To: <20240912-zippy-mongoose-of-domination-2ebc1d@houat>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9448:EE_|AM0PR04MB7025:EE_
-x-ms-office365-filtering-correlation-id: 0ec5743f-6e88-4e9d-ad72-08dcd3d8e718
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?bUdZQkVQekFlTVRnTFZBWUV1SmpkQWphNTBGYXJqY2tqdWZJRXRYNVJLMlNy?=
- =?utf-8?B?M0h6ODZLQTljVWVwa25DeVliWWRKek1LVXRzYmh6SVZ5eGt2RWQ5emJhM05V?=
- =?utf-8?B?N3dFMTVFeVRsbHh3ZkZkWEpSV3l4Y0ZiVWsvK3NINlc4aTA4dEhvMVNLZ2NF?=
- =?utf-8?B?bDIxb0IxNWkrNXN4YlJVdmxvZm15NDlZTjQ2cWNLeUVqMDV5aEFXd3dZYitt?=
- =?utf-8?B?T2tRN3lyakJNbnVkWDZld1UxOVFrdFErWVRoWXJwdnBnbUpIcysyUWZ5aFVa?=
- =?utf-8?B?WmtJc0x3eGQ3UndaZUVDS2ZKdW1KQ3gwOVU2Z1pGbzYzN2h6dEErSStBR2hV?=
- =?utf-8?B?cmwzTWdzeGR3N1ExeVhEbmZBSzhSVFloWHRiNE9OQmpwUmQrU1U1SkM1a3ZZ?=
- =?utf-8?B?NDZVRzFyVXpCUGd0S1dZTkhpU2cvV2h4cVMyeG1uUXV1Q3hPS2ZyL3MyWGtD?=
- =?utf-8?B?RXRvVnMrc0tTK0FyeFcxdmJ5Tkw4N3lJSElQL0JEU2JZMGVBNzB6Q2hSSTdk?=
- =?utf-8?B?WFpGbktGSjdyOUFkSE1ONjFFS2VaSlMxUlZ4NUtFZWRqS05FL1N4TmZ4WWdJ?=
- =?utf-8?B?TmROS3FOQ2R4a1IveXhGSitLVmlEMHpNbkJRa3FjWUUrN1Rmb2VUVXBubmxU?=
- =?utf-8?B?K3hXc245aTRSTUxUV0hIL2lSVGN0c3pITC96V2RrdGNZb1hwQWpvc3lBT09h?=
- =?utf-8?B?QzBDVHYyNVhMQ1BsWEw1V01tR0E3bER0eGtEUXJxajVPeCtMN0k2aWt5Zmdr?=
- =?utf-8?B?bUlKcE9DMlU2WlpBQURCb1NxNzUreXd1R3JpRTU3SUNBVjZYTkJsNTZQSWtV?=
- =?utf-8?B?Tjh6ZnlQRTE2ZkxWUlRSOWI3RlBxb3FsU2xMY3Jaa20vaFlhbjhNblJlNkJ4?=
- =?utf-8?B?dUlzcGFQRDJLZWI5b3o0QnVQRmFKeE15Q1VVQXJrWXUwRkR0M01aN2QrTHlF?=
- =?utf-8?B?bUs5TVJhV1RyTllmZW1RSlpMMFFIQUl4T3BudXBndytRVE55V3FVS2d1VVI3?=
- =?utf-8?B?NDBscVNKRldzTVIwSjJnLzZlK3FTRDFVNTAvZXlRMlA3WFdVS3gzVGFpWjd3?=
- =?utf-8?B?WXNzRk1HaW4rMFIvajd1eE9BRGpUTjU1RDRBK2Y2Y0ZuUFZWUzFNanhwTU5J?=
- =?utf-8?B?enNSS3NJRHhjWkd3Ni9ZK3kzNjdKS3Q5NEZUdG10OUlZeEtxeStSQzYvQTNS?=
- =?utf-8?B?QlJqd2RkYzQvd0cxSmQ2KzlISVdnZWtDMzhyLzgvTWdrTWh2TXRoWGp4RGdS?=
- =?utf-8?B?YkFvVUVBWi90cG1XYnlOTTAxRTlvaGlWVE0wN2tkcnJVc0p0UkNMRitsSVcx?=
- =?utf-8?B?R0xod0hWOWh1amVYQytqNENxRUNWZ3hqdFp0bUkyOWo0eEtFWjV3M0FpWjdM?=
- =?utf-8?B?L1R1NUZ3WE5tcEFwRldaVURvTzlkWDJMdDVnUXBheTBYLzR3WGU1NzhmTGY2?=
- =?utf-8?B?Y05XdnYxUkhNOGdwakhUYWpNR29KVmFyYnFiUkR3VUxPY3hvcEJPY0N2K3F6?=
- =?utf-8?B?bnJTMDdhRFl1TysrRDhRY1dDY1lGYVVkSG0yVXhjVXM1ODJJcEVvWnZyL2xE?=
- =?utf-8?B?STNQb1UyY1JoZGR0TjZvQmJ5OElvcVZhWTlhUWtvSzYwU3VRVW4vODd5aFZh?=
- =?utf-8?B?V0t1RyticWJkQm1maFROKzdpNEpwQ0xMZzlRUzViODBueGFhb0NCV1YrZnhj?=
- =?utf-8?B?THRXV2ZUcm9WL3Bzd3hleCtmRjllbW9Jem4vajczeUttSlFiN2hUckpDSlJM?=
- =?utf-8?B?bERxUkUvdzQwS2YybHluWWVoZkdhbkFxaGUxMDdpSEJHdVV4aHN4NFJMQjFl?=
- =?utf-8?B?TWVjdWEzVkhJTjZLVXh3U255RlRIZm40YkNhQ0lCenFzTDZiWGhqbk5uK3dQ?=
- =?utf-8?B?c2FZOHdjaDV5RVdWU3FuQzlYV0xudEZGRUxHMHdzNlVqNUE9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dUJXYm9BSVMyLzROYkVGRkpCYVdTaWFUVXpGV0YvK0Y4YkM3bFNyU29NMkhD?=
- =?utf-8?B?WUhHZFdLajRQTmVHV0pHY3J0aWhRTTV1S1JHdHZFYW5uK1hCaW8wenAyVWo3?=
- =?utf-8?B?QlIwM1BCdmloc3NQZlhjYktGTllFSWRWeldQVW00eHU2N2hsVEpXVGQyTVJ2?=
- =?utf-8?B?Tlh5U2tXN21KZHpTSzhBSEsyUXB6bG90cUdndEJBRmxiSVZIb0xOVHNYRk1E?=
- =?utf-8?B?a2c5MDVvR3F5R01WR0RtT0laSEtNeDJFQ2djU3pVZmNENEFneGJsK1ViQzRN?=
- =?utf-8?B?UDZ4Vm1IL1ltTEdHeTErK0ljRTFNVHRsaEppUjZibGRSMUgwZjlpc2g4dGRM?=
- =?utf-8?B?bm0vMHVNdDVibEdIOWlWZ3l0NkNJNnNwTVNoSjFoandMVU1pY29Qd1FuYjFH?=
- =?utf-8?B?SE02Z2hET0gyQkhKUHJ3UWZjNFQxSVlyYlpzbVdZc3J3NU53SFZIc0dQMjFT?=
- =?utf-8?B?bERIZjVsTjBRUmZIUlZHTDJVQndkSzFyR1VFZ3g5UWhUY1QzRWNzNXNYRTdU?=
- =?utf-8?B?amF3WHFBMXExRmhEUXRBNGJwcnl5eXIrb295YVYzM0lkVnVBQXlCREFLcGdQ?=
- =?utf-8?B?UG5EeHhkWm5TUnBseE04UDNwdUp0MUZlOWpkTThGZThnMFgya2lYN0pxWE03?=
- =?utf-8?B?SjRxSzU5SlZzcnNCckVaZENjTHJpaE9iS1JETGNna1YrbFdGdjlXbS9yaVRu?=
- =?utf-8?B?UUxZRHVKZzY4d2NEOHNPMVozNzB2YnVRNkFKUHhqZkdBZXdJTElzN3poNlkv?=
- =?utf-8?B?RFRKNGdzL1NESmJiTXBCWG8rWWJnc3VQUVFkSEpvQThQUUh4ODJFZ2tZZzUw?=
- =?utf-8?B?YVFIMThjZk15Z1psTjVRYVpEdHEveDRwRnJCTTNvK0JzOHcyUFV4RmtiNWY5?=
- =?utf-8?B?UHlUYllNOGhYdnFrOWtXSjNQZFl4SFg2MWhzdHN0YS9ndmxzSEplaUM1Nld5?=
- =?utf-8?B?T08wcUc4TmZURE5VTWhveTRSZWZhRDQ4c1pGTlZPa3F2Y0JHRFJLNit6eUtR?=
- =?utf-8?B?NGFMa29xdmVSeDh6aW5MMTNUK3NQa1dWWENmMUJYUm9BZitRZlhMeGlETGk5?=
- =?utf-8?B?clI4c1ZYd1g1TndVaEJUaER6RzNNM0xMS24xWjVaVXQrQ1ZOcmNIdVJIbTZo?=
- =?utf-8?B?VWZXMUc1OUdYZ0s3cWxsWmFJM3lRdnVTTVZxY2JOMzZRRE81ditValdwTjQz?=
- =?utf-8?B?eU8rajFENlhRbjdoSWtOMW1EdFFSMEJzOC9HTjJsMlo3ZE5Cd29STGVEVnRr?=
- =?utf-8?B?dDhDNGxxV3VQZmw5Mk03bFdZT1dwWXpXeW5lUTQ2eTFwTHBHenJQL08vZXNZ?=
- =?utf-8?B?MWVqNmNyYUhVTms5YVlOL2c0TUhSMzMzU0ZOMm0yNC9BZ1IrczZqanVRR2o5?=
- =?utf-8?B?WkJlaDJQU2k0aVFweVB5elE2UG8yZ3lxYXBhSTNEbVR5NktvRExYb0p0ZUlo?=
- =?utf-8?B?RVNSYTJuS1VGTER0OTljZFVXNm12VTRYcWtKNkF3aTRzakExZjdpRlpSeGhY?=
- =?utf-8?B?cUZRdVE5dnYwOWJOOGZjT3hsNGVrTWRKT3NacS9qNWZ4L3VRazk3bU9aaTlj?=
- =?utf-8?B?MlJ4S2pGY0pFYmhXUnhnRHo1WS9ETzE2TkJxZXpZUC9mZzlXeE9VRzNPN0Q3?=
- =?utf-8?B?SUMzUnJRbHEyN0hNY09zV2RBRy9BblZrSDRIdE16eDAzUVNkUWJPQlVDMFZ1?=
- =?utf-8?B?U21vNXRyaHQxUnBUSkNYNE9QT3hxZVVnWmpLR2J4akNXSkhJMGpoRmExRmFE?=
- =?utf-8?B?NEcrZFBFQUxhUjFsNmF6WXlYa3gyZ1VuTXZ1M2h5bGYxOEhoc2I5NTV1cC9t?=
- =?utf-8?B?Z3FROE45NUJ5cjFxcEIwM2ZEVTAwN0ZVOWp3VnlDQjV1Uk85dmIweUpDMjQ5?=
- =?utf-8?B?UGhRenB0MVNMQjlzTG1vbDhaQmdNR1ZPNzlWY2Z1YmNma2JVUDlYcm9nbFov?=
- =?utf-8?B?aEhhSERXMXlwSWx1M0Z4TkJ3b0hIVDl3NVpYWnY4SXVCT3orMW5vZDVoNC85?=
- =?utf-8?B?UGRwZ0ZiRmlsTmd1dVQyYzVXU05uRVV2KzhlTWVxVElxemY0bXdCcnpqbFpw?=
- =?utf-8?B?VUxSVExUSFRvWHhpY3ZkRGNlV0hUd1FJeDdsazl6WDh4bmpkZ0M2VElHQThW?=
- =?utf-8?Q?3exU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81A8210E1E6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 09:57:06 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-374c1120a32so1354616f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 02:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1726221425; x=1726826225;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=VZBQSU7wqUSakLW2Lt1LRimv+z5XtRIP+7DmUOFqUQM=;
+ b=k2Yjy/EzgWD9wLAZgV4UdvMFEiqtsEMwtOmqbxW+3qUCvgwDHQgEqHEV7dwSwbTazF
+ 904vUZm92JllAOBIm5xHf48XCNWhj2Lp2v1ZdTLxmMXwrmm4zdGR5n1fL0ZcBUG1ARr4
+ D7ewe7WinSBrzzn+0BUdvlw+gFeaEavWc8i9ocxy5GbbeXgjw1A8d/xnCNgZiZf8ft20
+ Ig1614IVdCyGPcvK8ZLC7XknrJrpDem7yc2nKPFZPaYapQv6rdBAAOWk7mungZzCOFwj
+ p97no5UfJDzqcDMTTuo0UeW6/7Doeb0fkEqytmyi4FWau+iwa84DE9UQIo0euPV7qNBo
+ zF7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726221425; x=1726826225;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VZBQSU7wqUSakLW2Lt1LRimv+z5XtRIP+7DmUOFqUQM=;
+ b=YlLHHLSmKYw6Eoy3yJMZX5su11mrebWtUxFcXeBs17I932455bVRcEeAS41MZRUvAe
+ BEnXyZkYhsK4i47Kue0GT1CKaqyPDRHiVvIFy1FDTqAPBxZtL3Q2GEsBfutklzFVaOW7
+ lCSnwB7uRpIhK7xTNVEfis4Zl8QcVq8fb+qXRXOmLbHpsGyoJEs4DYE0wQU/HmVOk29U
+ iEGSvToIbNZsDPP7jGv8kfyvwBsF7wJ7ZyH/FmXgRdyxigPHpjkm+hd9lvWFXWFyCQ0p
+ x2Ar42FcSo6i8CDCtllcboPAuuVeJhUHP4Y1XrGzjrrSLKr2mgE3x9xazXYc7MjzmGax
+ hxSw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9sCqn7N3O6KQLsygBy/JVzSpJPRFH13m5XSwyp5bEuNurfjbT6shhpyuWuLBOdlZzc7yd6H675S4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzNLc9PNPh9yLT9G1v8M5Rpn9chrPoxjzsZxr4BJjt7Zttx0Jex
+ 7Z30z+HZHjrcRUAQqatboWkC0TWvj/4Mq/jYYKRCO3iAe6LJCM2A1WrRyjJ0sDg=
+X-Google-Smtp-Source: AGHT+IGrb00XGTrCnT91irY2IMrHQycoxTAzD2nqF+EQkczpunQUdej1AC7AeAeTHzdKjI+Yfb0Ccw==
+X-Received: by 2002:a05:6000:12cb:b0:371:8c75:a085 with SMTP id
+ ffacd0b85a97d-378c2d579aamr3147917f8f.58.1726221423647; 
+ Fri, 13 Sep 2024 02:57:03 -0700 (PDT)
+Received: from [192.168.0.101] ([90.241.98.187])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42d9b1948fasm18504885e9.43.2024.09.13.02.57.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Sep 2024 02:57:03 -0700 (PDT)
+Message-ID: <5f4a6be3-8422-43c1-96e1-45815a40be55@ursulin.net>
+Date: Fri, 13 Sep 2024 10:57:02 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ec5743f-6e88-4e9d-ad72-08dcd3d8e718
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2024 09:46:12.2703 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MNEyWqQKJ+B++47wouNdZaYNUuQ60gFNA41GO5UWSbK27kIT4FFrT3OSIukSq2GvrQIlHwRpiOXGPbeOYKx6bQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB7025
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/7] dma-buf: rework the enable_signaling handling
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ simona.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
+References: <20240911085903.1496-1-christian.koenig@amd.com>
+ <20240911085903.1496-8-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20240911085903.1496-8-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,190 +86,930 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQo+IFN1YmplY3Q6IFJlOiBbRVhUXSBSZTogW1BBVENIIHYxNiA0LzhdIGRybTogYnJpZGdlOiBD
-YWRlbmNlOiBBZGQgTUhEUDg1MDENCj4gRFAvSERNSSBkcml2ZXINCj4gDQo+IE9uIEZyaSwgU2Vw
-IDA2LCAyMDI0IGF0IDAyOjUwOjA4QU0gR01ULCBTYW5kb3IgWXUgd3JvdGU6DQo+ID4gPiBPbiBU
-dWUsIFNlcCAwMywgMjAyNCBhdCAwNjowNzoyNUFNIEdNVCwgU2FuZG9yIFl1IHdyb3RlOg0KPiA+
-ID4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiA+ID4gRnJvbTogZHJpLWRl
-dmVsIDxkcmktZGV2ZWwtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uDQo+ID4gPiA+
-ID4gQmVoYWxmIE9mIE1heGltZSBSaXBhcmQNCj4gPiA+ID4gPiBTZW50OiAyMDI05bm0N+aciDLm
-l6UgMjE6MjUNCj4gPiA+ID4gPiBUbzogU2FuZG9yIFl1IDxzYW5kb3IueXVAbnhwLmNvbT4NCj4g
-PiA+ID4gPiBDYzogZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnOyBhbmRyemVqLmhhamRhQGlu
-dGVsLmNvbTsNCj4gPiA+ID4gPiBuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnOyBMYXVyZW50IFBp
-bmNoYXJ0DQo+ID4gPiA+ID4gPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT47IGpv
-bmFzQGt3aWJvby5zZTsNCj4gPiA+ID4gPiBqZXJuZWouc2tyYWJlY0BnbWFpbC5jb207IGFpcmxp
-ZWRAZ21haWwuY29tOyBkYW5pZWxAZmZ3bGwuY2g7DQo+ID4gPiA+ID4gcm9iaCtkdEBrZXJuZWwu
-b3JnOyBrcnp5c3p0b2Yua296bG93c2tpK2R0QGxpbmFyby5vcmc7DQo+ID4gPiA+ID4gc2hhd25n
-dW9Aa2VybmVsLm9yZzsgcy5oYXVlckBwZW5ndXRyb25peC5kZTsNCj4gZmVzdGV2YW1AZ21haWwu
-Y29tOw0KPiA+ID4gPiA+IHZrb3VsQGtlcm5lbC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmc7DQo+ID4gPiA+ID4gZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPiA+
-ID4gbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnOw0KPiA+ID4gPiA+IGxpbnV4
-LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LXBoeUBsaXN0cy5pbmZyYWRlYWQub3JnOw0K
-PiA+ID4gPiA+IGtlcm5lbEBwZW5ndXRyb25peC5kZTsgZGwtbGludXgtaW14IDxsaW51eC1pbXhA
-bnhwLmNvbT47IE9saXZlcg0KPiA+ID4gPiA+IEJyb3duIDxvbGl2ZXIuYnJvd25AbnhwLmNvbT47
-IGFsZXhhbmRlci5zdGVpbkBldy50cS1ncm91cC5jb207DQo+ID4gPiA+ID4gc2FtQHJhdm5ib3Jn
-Lm9yZw0KPiA+ID4gPiA+IFN1YmplY3Q6IFtFWFRdIFJlOiBbUEFUQ0ggdjE2IDQvOF0gZHJtOiBi
-cmlkZ2U6IENhZGVuY2U6IEFkZA0KPiA+ID4gPiA+IE1IRFA4NTAxIERQL0hETUkgZHJpdmVyDQo+
-ID4gPiA+ID4NCj4gPiA+ID4gPiBIaSwNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoZXJlJ3Mgc3Rp
-bGwgdGhlIHNjcmFtYmxlciBpc3N1ZSB3ZSBkaXNjdXNzZWQgb24gdjE1LCBidXQgSQ0KPiA+ID4g
-PiA+IGhhdmUgc29tZSBtb3JlIGNvbW1lbnRzLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gT24gVHVl
-LCBKdWwgMDIsIDIwMjQgYXQgMDg6MjI6MzZQTSBHTVQsIFNhbmRvciBZdSB3cm90ZToNCj4gPiA+
-ID4gPiA+ICtlbnVtIGRybV9jb25uZWN0b3Jfc3RhdHVzIGNkbnNfbWhkcDg1MDFfZGV0ZWN0KHN0
-cnVjdA0KPiA+ID4gPiA+ID4gK2NkbnNfbWhkcDg1MDFfZGV2aWNlICptaGRwKSB7DQo+ID4gPiA+
-ID4gPiArCXU4IGhwZCA9IDB4ZjsNCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ICsJaHBkID0g
-Y2Ruc19taGRwODUwMV9yZWFkX2hwZChtaGRwKTsNCj4gPiA+ID4gPiA+ICsJaWYgKGhwZCA9PSAx
-KQ0KPiA+ID4gPiA+ID4gKwkJcmV0dXJuIGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkOw0KPiA+
-ID4gPiA+ID4gKwllbHNlIGlmIChocGQgPT0gMCkNCj4gPiA+ID4gPiA+ICsJCXJldHVybiBjb25u
-ZWN0b3Jfc3RhdHVzX2Rpc2Nvbm5lY3RlZDsNCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ICsJ
-ZGV2X3dhcm4obWhkcC0+ZGV2LCAiVW5rbm93biBjYWJsZSBzdGF0dXMsIGhkcD0ldVxuIiwNCj4g
-aHBkKTsNCj4gPiA+ID4gPiA+ICsJcmV0dXJuIGNvbm5lY3Rvcl9zdGF0dXNfdW5rbm93bjsgfQ0K
-PiA+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ID4gK3N0YXRpYyB2b2lkIGhvdHBsdWdfd29ya19mdW5j
-KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykgew0KPiA+ID4gPiA+ID4gKwlzdHJ1Y3QgY2Ruc19t
-aGRwODUwMV9kZXZpY2UgKm1oZHAgPSBjb250YWluZXJfb2Yod29yaywNCj4gPiA+ID4gPiA+ICsJ
-CQkJCQkgICAgIHN0cnVjdCBjZG5zX21oZHA4NTAxX2RldmljZSwNCj4gPiA+ID4gPiA+ICsJCQkJ
-CQkgICAgIGhvdHBsdWdfd29yay53b3JrKTsNCj4gPiA+ID4gPiA+ICsJZW51bSBkcm1fY29ubmVj
-dG9yX3N0YXR1cyBzdGF0dXMgPQ0KPiA+ID4gY2Ruc19taGRwODUwMV9kZXRlY3QobWhkcCk7DQo+
-ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiArCWRybV9icmlkZ2VfaHBkX25vdGlmeSgmbWhkcC0+
-YnJpZGdlLCBzdGF0dXMpOw0KPiA+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ID4gKwlpZiAoc3RhdHVz
-ID09IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkKSB7DQo+ID4gPiA+ID4gPiArCQkvKiBDYWJs
-ZSBjb25uZWN0ZWQgICovDQo+ID4gPiA+ID4gPiArCQlEUk1fSU5GTygiSERNSS9EUCBDYWJsZSBQ
-bHVnIEluXG4iKTsNCj4gPiA+ID4gPiA+ICsJCWVuYWJsZV9pcnEobWhkcC0+aXJxW0lSUV9PVVRd
-KTsNCj4gPiA+ID4gPiA+ICsJfSBlbHNlIGlmIChzdGF0dXMgPT0gY29ubmVjdG9yX3N0YXR1c19k
-aXNjb25uZWN0ZWQpIHsNCj4gPiA+ID4gPiA+ICsJCS8qIENhYmxlIERpc2Nvbm5lY3RlZCAgKi8N
-Cj4gPiA+ID4gPiA+ICsJCURSTV9JTkZPKCJIRE1JL0RQIENhYmxlIFBsdWcgT3V0XG4iKTsNCj4g
-PiA+ID4gPiA+ICsJCWVuYWJsZV9pcnEobWhkcC0+aXJxW0lSUV9JTl0pOw0KPiA+ID4gPiA+ID4g
-Kwl9DQo+ID4gPiA+ID4gPiArfQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gWW91IHNob3VsZG4ndCBw
-bGF5IHdpdGggdGhlIGludGVycnVwdCBiZWluZyBlbmFibGVkIGhlcmU6DQo+ID4gPiA+ID4gaG90
-cGx1ZyBpbnRlcnJ1cHRzIHNob3VsZCBhbHdheXMgZW5hYmxlZC4NCj4gPiA+ID4gPg0KPiA+ID4g
-PiA+IElmIHlvdSBjYW4ndCBmb3Igc29tZSByZWFzb24sIHRoZSByZWFzb24gc2hvdWxkIGJlIGRv
-Y3VtZW50ZWQgaW4NCj4gPiA+ID4gPiB5b3VyDQo+ID4gPiBkcml2ZXIuDQo+ID4gPiA+DQo+ID4g
-PiA+IGlNWDhNUSBoYXZlIHR3byBIUEQgaW50ZXJydXB0ZXJzLCBvbmUgZm9yIHBsdWdvdXQgYW5k
-IHRoZSBvdGhlcg0KPiA+ID4gPiBmb3IgcGx1Z2luLCBiZWNhdXNlIHRoZXkgY291bGQgbm90IGJl
-IG1hc2tlZCwgc28gd2UgaGF2ZSB0byBlbmFibGUNCj4gPiA+ID4gb25lIGFuZA0KPiA+ID4gZGlz
-YWJsZSB0aGUgb3RoZXIuDQo+ID4gPiA+IEkgd2lsbCBhZGQgbW9yZSBjb21tZW50cyBoZXJlLg0K
-PiA+ID4NCj4gPiA+IFJpZ2h0LCBidXQgd2h5IGRvIHlvdSBuZWVkIHRvIGVuYWJsZSBhbmQgZGlz
-YWJsZSB0aGVtPyBEbyB5b3UgZ2V0DQo+ID4gPiBzcHVyaW91cyBpbnRlcnJ1cHRzPw0KPiA+DQo+
-ID4gVGhleSBkb24ndCBoYXZlIHN0YXR1cyByZWdpc3RlcnMgYW5kIGNhbm5vdCBiZSBtYXNrZWQu
-IElmIHRoZXkgYXJlIG5vdA0KPiA+IGRpc2FibGVkLCB0aGV5IHdpbGwgY29udGludW91c2x5IGdl
-bmVyYXRlIGludGVycnVwdHMuIFRoZXJlZm9yZSwgSSBoYXZlIHRvDQo+IGRpc2FibGUgb25lIGFu
-ZCBlbmFibGUgdGhlIG90aGVyLg0KPiANCj4gU29ycnksIEkgc3RpbGwgZG9uJ3QgZ2V0IGl0LiBI
-b3cgY2FuIGl0IGJlIHVzZWZ1bCB0byBkZXRlY3QgaG90cGx1ZyBpbnRlcnJ1cHRzIGlmIGl0DQo+
-IGNvbnN0YW50bHkgc2VuZHMgc3B1cmlvdXMgaW50ZXJydXB0cyB3aGVuIGl0J3MgZW5hYmxlZD8N
-Cg0KWWVzLCB0aGlzIGludGVycnVwdCBpcyBkaWZmZXJlbnQgZnJvbSBhIG5vcm1hbCBvbmU7IGl0
-J3MgbGlrZWx5IGEgZGVzaWduIGZsYXcuIA0KRm9yIGluc3RhbmNlLCB0aGUgcGx1Z2luIGludGVy
-cnVwdCBpcyBjb250aW51b3VzbHkgZ2VuZXJhdGVkIGFzIGxvbmcgYXMgdGhlIGNhYmxlIGlzIHBs
-dWdnZWQgaW4sDQpvbmx5IHN0b3BwaW5nIHdoZW4gdGhlIGNhYmxlIGlzIHVucGx1Z2dlZC4gDQpU
-aGF0J3Mgd2h5IHR3byBpbnRlcnJ1cHRzIGFyZSB1c2VkIHRvIGRldGVjdCBjYWJsZSBwbHVnb3V0
-IGFuZCBwbHVnaW4gc2VwYXJhdGVseS4gDQpJZiBpbnRlcnJ1cHRzIGFyZW4ndCB1c2VkLCB0aGUg
-b25seSBvcHRpb24gaXMgcG9sbGluZy4NCg0KPiANCj4gPiA+ID4gPiA+ICsJLyogTWFpbGJveCBw
-cm90ZWN0IGZvciBIRE1JIFBIWSBhY2Nlc3MgKi8NCj4gPiA+ID4gPiA+ICsJbXV0ZXhfbG9jaygm
-bWhkcC0+bWJveF9tdXRleCk7DQo+ID4gPiA+ID4gPiArCXJldCA9IHBoeV9pbml0KG1oZHAtPnBo
-eSk7DQo+ID4gPiA+ID4gPiArCW11dGV4X3VubG9jaygmbWhkcC0+bWJveF9tdXRleCk7DQo+ID4g
-PiA+ID4gPiArCWlmIChyZXQpIHsNCj4gPiA+ID4gPiA+ICsJCWRldl9lcnIoZGV2LCAiRmFpbGVk
-IHRvIGluaXRpYWxpemUgUEhZOiAlZFxuIiwgcmV0KTsNCj4gPiA+ID4gPiA+ICsJCWdvdG8gY2xr
-X2Rpc2FibGU7DQo+ID4gPiA+ID4gPiArCX0NCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ICsJ
-LyogTWFpbGJveCBwcm90ZWN0IGZvciBIRE1JIFBIWSBhY2Nlc3MgKi8NCj4gPiA+ID4gPiA+ICsJ
-bXV0ZXhfbG9jaygmbWhkcC0+bWJveF9tdXRleCk7DQo+ID4gPiA+ID4gPiArCXJldCA9IHBoeV9z
-ZXRfbW9kZShtaGRwLT5waHksIHBoeV9tb2RlKTsNCj4gPiA+ID4gPiA+ICsJbXV0ZXhfdW5sb2Nr
-KCZtaGRwLT5tYm94X211dGV4KTsNCj4gPiA+ID4gPiA+ICsJaWYgKHJldCkgew0KPiA+ID4gPiA+
-ID4gKwkJZGV2X2VycihkZXYsICJGYWlsZWQgdG8gY29uZmlndXJlIFBIWTogJWRcbiIsIHJldCk7
-DQo+ID4gPiA+ID4gPiArCQlnb3RvIGNsa19kaXNhYmxlOw0KPiA+ID4gPiA+ID4gKwl9DQo+ID4g
-PiA+ID4NCj4gPiA+ID4gPiBXaHkgZG8geW91IG5lZWQgYSBzaGFyZWQgbXV0ZXggYmV0d2VlbiB0
-aGUgcGh5IGFuZCBIRE1JDQo+IGNvbnRyb2xsZXI/DQo+ID4gPiA+DQo+ID4gPiA+IEJvdGggUEhZ
-IGFuZCBIRE1JIGNvbnRyb2xsZXIgY291bGQgYWNjZXNzIHRvIHRoZSBIRE1JIGZpcm13YXJlIGJ5
-DQo+ID4gPiA+IG1haWxib3gsIFNvIGFkZCBtdXRleCB0byBhdm9pZCByYWNlIGNvbmRpdGlvbi4N
-Cj4gPiA+DQo+ID4gPiBUaGF0IHNob3VsZCBiZSBoYW5kbGVkIGF0IGVpdGhlciB0aGUgcGh5IG9y
-IG1haWxib3ggbGV2ZWwsIG5vdCBpbg0KPiA+ID4geW91ciBoZG1pIGRyaXZlci4NCj4gPg0KPiA+
-IEluIGJvdGggSERNSSBkcml2ZXIgYW5kIFBIWSBkcml2ZXIsIGV2ZXJ5IG1haWxib3ggYWNjZXNz
-IGhhZCBwcm90ZWN0ZWQNCj4gPiBieSBpdHMgb3ducyBtdXRleC4gSG93ZXZlciwgdGhpcyBtdXRl
-eCBjYW4gb25seSBwcm90ZWN0IGVhY2ggbWFpbGJveA0KPiA+IGFjY2VzcyB3aXRoaW4gdGhlaXIg
-cmVzcGVjdGl2ZSBkcml2ZXJzLCBhbmQgaXQgY2Fubm90IHByb3ZpZGUNCj4gPiBwcm90ZWN0aW9u
-IGZvciBhY2Nlc3MgYmV0d2VlbiB0aGUgSERNSSBhbmQgUEhZIGRyaXZlcnMuDQo+ID4NCj4gPiBU
-aGUgUEhZIGRyaXZlciBvbmx5IHByb3ZpZGVzIHR3byBBUEkgZnVuY3Rpb25zLCBhbmQgdGhlc2Ug
-ZnVuY3Rpb25zDQo+ID4gYXJlIG9ubHkgY2FsbGVkIGluIHRoZSBIRE1JIGRyaXZlci4gVGhlcmVm
-b3JlLCB3aGVuIGFjY2Vzc2luZyB0aGVzZQ0KPiA+IGZ1bmN0aW9ucywgd2UgdXNlIGEgbXV0ZXgg
-dG8gcHJvdGVjdCB0aGVtLiBUaGlzIGVuc3VyZXMgdGhhdCBtYWlsYm94DQo+ID4gYWNjZXNzIGlz
-IHByb3RlY3RlZCBhY3Jvc3MgZGlmZmVyZW50IFBIWSBhbmQgSERNSSBkcml2ZXJzLg0KPiANCj4g
-SXQncyByZWFsbHkgYWJvdXQgYWJzdHJhY3Rpb24uIFlvdSdyZSB1c2luZyBhIHB1YmxpY2x5IGRl
-ZmluZWQgQVBJLCBhbmQgY2hhbmdlDQo+IHRoZSBzZW1hbnRpY3MgZm9yIHlvdXIgZHJpdmVyIG9u
-bHksIGFuZCB0aGF0J3Mgbm90IG9rLg0KPiANCj4gV2h5IGNhbid0IHRoZSBtYWlsYm94IGRyaXZl
-ciBpdHNlbGYgc2VyaWFsaXplIHRoZSBhY2Nlc3NlcyBmcm9tIGFueSB1c2VyLCBIRE1JDQo+IGFu
-ZCBQSFkgZHJpdmVycyBpbmNsdWRlZD8NCj4gDQoNCkluIHRoZSBjdXJyZW50IGNvZGUgaW1wbGVt
-ZW50YXRpb24sIGNkbnMtbWhkcC1oZWxwZXIuYyBpc24ndCBhIHN0YW5kYWxvbmUgZHJpdmVyIGJ1
-dCByYXRoZXIgYSBsaWJyYXJ5LiANCkl0IHByb3ZpZGVzIGZ1bmRhbWVudGFsIG1haWxib3ggYWNj
-ZXNzIGZ1bmN0aW9ucyBhbmQgYmFzaWMgcmVnaXN0ZXIgcmVhZC93cml0ZSBvcGVyYXRpb25zIHRo
-YXQgcmVseSBvbiB0aGUgbWFpbGJveC4gDQpUaGVzZSBmdW5jdGlvbnMgYXJlIGhpZ2hseSByZXVz
-YWJsZSBhY3Jvc3MgTUhEUDg1MDEgYW5kIE1IRFA4NTQ2IGFuZCBjYW4gYmUgbGV2ZXJhZ2VkIGJ5
-IGZ1dHVyZSBNSERQIHZlcnNpb25zLg0KDQpIb3dldmVyLCBtb3N0IE1IRFAgZmlybXdhcmUgaW50
-ZXJhY3Rpb25zIGludm9sdmUgYSBzZXF1ZW5jZSBvZiBtYWlsYm94IGFjY2Vzc2VzLCBpbmNsdWRp
-bmcgc2VuZGluZyBjb21tYW5kcyBhbmQgcmVjZWl2aW5nIGZpcm13YXJlIHJlc3BvbnNlcy4gDQpU
-aGVzZSBjb21tYW5kcyBjb25zdGl0dXRlIGEgc2lnbmlmaWNhbnQgcG9ydGlvbiBvZiBhbGwgZmly
-bXdhcmUgaW50ZXJhY3Rpb25zLCBlbmNvbXBhc3Npbmcgb3BlcmF0aW9ucyBsaWtlIEVESUQgcmVh
-ZGluZyBhbmQgRFAgbGluayB0cmFpbmluZy4gDQpVbmZvcnR1bmF0ZWx5LCB0aGVzZSBjb21tYW5k
-cyBjYW5ub3QgYmUgcmV1c2VkIGJldHdlZW4gTUhEUDg1MDEgYW5kIE1IRFA4NTQ2Lg0KDQpDcmVh
-dGluZyBhIGRlZGljYXRlZCBtYWlsYm94IGRyaXZlciB3aXRoIGl0cyBvd24gbXV0ZXggd291bGQg
-ZWZmZWN0aXZlbHkgYWRkcmVzcyByYWNlIGNvbmRpdGlvbnMuIA0KSG93ZXZlciwgdGhpcyB3b3Vs
-ZCBuZWNlc3NpdGF0ZSByZWxvY2F0aW5nIGFsbCBtYWlsYm94LXJlbGF0ZWQgZnVuY3Rpb25zIHRv
-IHRoaXMgZHJpdmVyLiANCkluY2x1ZGluZyB0aGVzZSBub24tcmV1c2FibGUgZnVuY3Rpb25zIHdv
-dWxkIGRlZmVhdCB0aGUgcHVycG9zZSBvZiBjb2RlIHJldXNlLg0KDQpUbyBzdHJpa2UgYSBiYWxh
-bmNlIGJldHdlZW4gY29kZSByZXVzYWJpbGl0eSBhbmQgcmFjZSBjb25kaXRpb24gbWl0aWdhdGlv
-biwgYWRkaW5nIG11dGV4ZXMgdG8gUEhZIGFjY2VzcyBmdW5jdGlvbnMgc2VlbXMgbGlrZSBhIHJl
-YXNvbmFibGUgc29sdXRpb24uDQoNClNhbmRvcg0KDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ICtz
-dGF0aWMgZW51bSBkcm1fbW9kZV9zdGF0dXMNCj4gPiA+ID4gPiA+ICtjZG5zX2hkbWlfdG1kc19j
-aGFyX3JhdGVfdmFsaWQoY29uc3Qgc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwNCj4gPiA+ID4g
-PiA+ICsJCQkgICAgICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUsDQo+ID4g
-PiA+ID4gPiArCQkJICAgICAgIHVuc2lnbmVkIGxvbmcgbG9uZyB0bWRzX3JhdGUpIHsNCj4gPiA+
-ID4gPiA+ICsJc3RydWN0IGNkbnNfbWhkcDg1MDFfZGV2aWNlICptaGRwID0NCj4gYnJpZGdlLT5k
-cml2ZXJfcHJpdmF0ZTsNCj4gPiA+ID4gPiA+ICsJdW5pb24gcGh5X2NvbmZpZ3VyZV9vcHRzIHBo
-eV9jZmc7DQo+ID4gPiA+ID4gPiArCWludCByZXQ7DQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
-PiArCXBoeV9jZmcuaGRtaS50bWRzX2NoYXJfcmF0ZSA9IHRtZHNfcmF0ZTsNCj4gPiA+ID4gPiA+
-ICsNCj4gPiA+ID4gPiA+ICsJLyogTWFpbGJveCBwcm90ZWN0IGZvciBIRE1JIFBIWSBhY2Nlc3Mg
-Ki8NCj4gPiA+ID4gPiA+ICsJbXV0ZXhfbG9jaygmbWhkcC0+bWJveF9tdXRleCk7DQo+ID4gPiA+
-ID4gPiArCXJldCA9IHBoeV92YWxpZGF0ZShtaGRwLT5waHksIFBIWV9NT0RFX0hETUksIDAsDQo+
-ICZwaHlfY2ZnKTsNCj4gPiA+ID4gPiA+ICsJbXV0ZXhfdW5sb2NrKCZtaGRwLT5tYm94X211dGV4
-KTsNCj4gPiA+ID4gPiA+ICsJaWYgKHJldCA8IDApDQo+ID4gPiA+ID4gPiArCQlyZXR1cm4gTU9E
-RV9DTE9DS19SQU5HRTsNCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ICsJcmV0dXJuIE1PREVf
-T0s7DQo+ID4gPiA+ID4gPiArfQ0KPiA+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ID4gK3N0YXRpYyBl
-bnVtIGRybV9tb2RlX3N0YXR1cw0KPiA+ID4gPiA+ID4gK2NkbnNfaGRtaV9icmlkZ2VfbW9kZV92
-YWxpZChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLA0KPiA+ID4gPiA+ID4gKwkJCSAgICBjb25z
-dCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfaW5mbyAqaW5mbywNCj4gPiA+ID4gPiA+ICsJCQkgICAgY29u
-c3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpIHsNCj4gPiA+ID4gPiA+ICsJdW5zaWdu
-ZWQgbG9uZyBsb25nIHRtZHNfcmF0ZTsNCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ICsJLyog
-V2UgZG9uJ3Qgc3VwcG9ydCBkb3VibGUtY2xvY2tlZCBhbmQgSW50ZXJsYWNlZCBtb2RlcyAqLw0K
-PiA+ID4gPiA+ID4gKwlpZiAobW9kZS0+ZmxhZ3MgJiBEUk1fTU9ERV9GTEFHX0RCTENMSyB8fA0K
-PiA+ID4gPiA+ID4gKwkgICAgbW9kZS0+ZmxhZ3MgJiBEUk1fTU9ERV9GTEFHX0lOVEVSTEFDRSkN
-Cj4gPiA+ID4gPiA+ICsJCXJldHVybiBNT0RFX0JBRDsNCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4g
-PiA+ICsJLyogTUFYIHN1cHBvcnQgcGl4ZWwgY2xvY2sgcmF0ZSA1OTRNSHogKi8NCj4gPiA+ID4g
-PiA+ICsJaWYgKG1vZGUtPmNsb2NrID4gNTk0MDAwKQ0KPiA+ID4gPiA+ID4gKwkJcmV0dXJuIE1P
-REVfQ0xPQ0tfSElHSDsNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoaXMgbmVlZHMgdG8gYmUgaW4g
-dGhlIHRtZHNfY2hhcl9yYXRlX3ZhbGlkIGZ1bmN0aW9uDQo+ID4gPiA+IFRoaXMgY2xvY2sgcmF0
-ZSBjaGVjayBpcyBjb3ZlcmVkIGJ5IGZ1bmN0aW9uDQo+ID4gPiA+IHRtZHNfY2hhcl9yYXRlX3Zh
-bGlkKCkgSXQgY291bGQgYmUgcmVtb3ZlZCBpZiBrZWVwIGZ1bmN0aW9uDQo+ID4gPiA+IHRtZHNf
-Y2hhcl9yYXRlX3ZhbGlkKCkgYmUgY2FsbGVkIGJ5DQo+ID4gPiBtb2RlX3ZhbGlkLg0KPiA+ID4N
-Cj4gPiA+IFllYWgsIGl0J3Mgbm90IHNvbWV0aGluZyB5b3Ugc2hvdWxkIGhhdmUgdG8gZHVwbGlj
-YXRlLg0KPiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gKwlpZiAobW9kZS0+aGRpc3BsYXkg
-PiAzODQwKQ0KPiA+ID4gPiA+ID4gKwkJcmV0dXJuIE1PREVfQkFEX0hWQUxVRTsNCj4gPiA+ID4g
-PiA+ICsNCj4gPiA+ID4gPiA+ICsJaWYgKG1vZGUtPnZkaXNwbGF5ID4gMjE2MCkNCj4gPiA+ID4g
-PiA+ICsJCXJldHVybiBNT0RFX0JBRF9WVkFMVUU7DQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
-PiArCXRtZHNfcmF0ZSA9IG1vZGUtPmNsb2NrICogMTAwMFVMTDsNCj4gPiA+ID4gPiA+ICsJcmV0
-dXJuIGNkbnNfaGRtaV90bWRzX2NoYXJfcmF0ZV92YWxpZChicmlkZ2UsIG1vZGUsDQo+ID4gPiA+
-ID4gPiArdG1kc19yYXRlKTsNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEl0IHdpbGwgYWxyZWFkeSBi
-ZSBjYWxsZWQgYnkgdGhlIGNvcmUgc28gdGhpcyBpcyByZWR1bmRhbnQuDQo+ID4gPiA+DQo+ID4g
-PiA+IG1vZGVfdmFsaWQgZnVuY3Rpb24gaXMgdXNlIHRvIGZpbHRlciB0aGUgbW9kZSBsaXN0IGlu
-DQo+ID4gPiA+IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2RlcygpLA0KPiA+
-ID4gPiBpZiBmdW5jdGlvbiBjZG5zX2hkbWlfdG1kc19jaGFyX3JhdGVfdmFsaWQoKSBpcyBub3Qg
-Y2FsbGVkLA0KPiA+ID4gPiB1bnN1cHBvcnRlZA0KPiA+ID4gbW9kZXMgd2lsbCBpbiBtb2RlIGxp
-c3QuDQo+ID4gPg0KPiA+ID4gSXQncyBwcm9iYWJseSBzb21ldGhpbmcgd2Ugc2hvdWxkIGRlYWwg
-d2l0aCBpbiB0aGUgY29yZSBzb21laG93LiBJJ20NCj4gPiA+IG5vdCBlbnRpcmVseSBzdXJlIGhv
-dyB0byByZWNvbmNpbGUgZHJtX2JyaWRnZV9jb25uZWN0b3IgYW5kIHRoZSBoZG1pDQo+ID4gPiBm
-cmFtZXdvcmsgdGhlcmUsIGJ1dCB3ZSBzaG91bGQgYXQgdGhlIHZlcnkgbGVhc3QgcHJvdmlkZSBh
-DQo+ID4gPiBtb2RlX3ZhbGlkIGhlbHBlciBmb3IgYnJpZGdlcy4NCj4gPg0KPiA+IEkgYWdyZWUg
-d2l0aCB0aGF0LiBJbiBmYWN0LCBJJ20gYSBiaXQgY29uZnVzZWQgYWJvdXQgdGhlIGN1cnJlbnQN
-Cj4gPiBtb2RlX3ZhbGlkIGFuZCB0bWRzX2NoYXJfcmF0ZV92YWxpZCBmdW5jdGlvbnMuIElkZWFs
-bHksIHdlIHNob3VsZCBmaW5kDQo+ID4gYSB3YXkgdG8gbWFrZSB0bWRzX2NoYXJfcmF0ZV92YWxp
-ZCBhbHNvIHdvcmsgZm9yIGZpbHRlcmluZyBvdXQgdGhlDQo+ID4gbW9kZSBsaXN0LCByYXRoZXIg
-dGhhbiBqdXN0IGR1cmluZyBhdG9taWNfY2hlY2suDQo+IA0KPiBZZWFoLCBkZWZpbml0ZWx5LiBU
-aGUgd2F5IHdlIGRpZCBzbyBvbiB2YzQgZm9yIGV4YW1wbGUgd2FzIHRvIGNvbXB1dGUgdGhlDQo+
-IHJhdGUgZm9yIGEgOGJwYywgUkdCLCBvdXRwdXQgYW5kIHRyeSB0byB2YWxpZGF0ZSB0aGF0LiBJ
-IHRoaW5rIGl0IHdvdWxkIGJlDQo+IHJlYXNvbmFibGUgdG8gc3RhcnQgd2l0aCB0aGF0Lg0KPiAN
-Cj4gTWF4aW1lDQo=
+
+On 11/09/2024 09:59, Christian König wrote:
+> The enable_signaling callback is the only function the dma_fence
+> objects calls with the fence lock held (the signaled callback might be
+> called with the fence lock held as well, but that isn't guaranted).
+> 
+> The background of that decision was to avoid races with other
+> CPUs trying to signal the fence at the same time and potentially
+> enforce an ordering of fence signaling.
+> 
+> The only problem is that this never worked correctly.
+> 
+> First of all the enabling_signaling call can still race with
+> signaling a fence, it's just that informing the installed callbacks
+> is blocking for the enable signaling to finish. If that is required
+> (radeon is an example of that) then drivers can still grab the fence
+> themselves, everybody else doesn't need that.
+> 
+> Then regarding fence ordering it is perfectly possible that fences
+> emitted in the order A,B,C call their installed callbacks in the
+> order B, C, A. The background is that the optimization to signal
+> fences from dma_fence_is_signaled() decouples the fence signaling
+> from the interrupt handlers. The result is that fence C can signal
+> because somebody queried it's state while A and B still wait for their
+> interrupt to arrive.
+> 
+> While those two reasons are just unnecessary churn the documentation
+> is simply erroneous and suggests an illegal operation to
+> implementations: "This function can be called from atomic context,
+> but not from irq context, so normal spinlocks can be used.". Since
+> the enable_signaling callback was called with interrupts disabled that
+> practice could deadlock.
+> 
+> Furtunately nobody actually ran into problems with that, but
+> considering that we should probably re-work the locking to allow
+> dma_fence objects to exists after their drivers were unloaded this
+> patch re-works all this to not call the callback with the dma_fence
+> spinlock held and rather move the handling into the drivers which
+> actually need it.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/dma-fence-array.c             |  7 +-
+>   drivers/dma-buf/dma-fence-chain.c             | 13 ++--
+>   drivers/dma-buf/dma-fence.c                   | 68 +++++++------------
+>   drivers/dma-buf/st-dma-fence-chain.c          |  4 +-
+>   drivers/dma-buf/st-dma-fence-unwrap.c         | 22 +++---
+>   drivers/dma-buf/st-dma-fence.c                | 16 ++---
+>   drivers/dma-buf/st-dma-resv.c                 | 10 +--
+>   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  | 12 ++--
+>   drivers/gpu/drm/i915/i915_active.c            |  2 +-
+>   drivers/gpu/drm/i915/i915_request.c           | 12 +++-
+>   drivers/gpu/drm/nouveau/nouveau_fence.c       |  9 ++-
+>   drivers/gpu/drm/radeon/radeon_fence.c         | 17 +++--
+>   drivers/gpu/drm/ttm/ttm_bo.c                  |  2 +-
+>   drivers/gpu/drm/xe/xe_bo.c                    |  2 +-
+>   drivers/gpu/drm/xe/xe_hw_fence.c              |  4 +-
+>   drivers/gpu/drm/xe/xe_preempt_fence.c         |  3 +-
+>   drivers/gpu/drm/xe/xe_pt.c                    |  2 +-
+>   drivers/gpu/drm/xe/xe_sched_job.c             |  2 +-
+>   drivers/gpu/drm/xe/xe_vm.c                    |  6 +-
+>   drivers/gpu/host1x/fence.c                    | 14 ++--
+>   include/linux/dma-fence.h                     | 35 +++-------
+>   21 files changed, 123 insertions(+), 139 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+> index c74ac197d5fe..1022b08c9b42 100644
+> --- a/drivers/dma-buf/dma-fence-array.c
+> +++ b/drivers/dma-buf/dma-fence-array.c
+> @@ -67,7 +67,7 @@ static void dma_fence_array_cb_func(struct dma_fence *f,
+>   		dma_fence_put(&array->base);
+>   }
+>   
+> -static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+> +static void dma_fence_array_enable_signaling(struct dma_fence *fence)
+>   {
+>   	struct dma_fence_array *array = to_dma_fence_array(fence);
+>   	struct dma_fence_array_cb *cb = array->callbacks;
+> @@ -92,12 +92,11 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+>   			dma_fence_put(&array->base);
+>   			if (atomic_dec_and_test(&array->num_pending)) {
+>   				dma_fence_array_clear_pending_error(array);
+> -				return false;
+> +				dma_fence_signal(&array->base);
+> +				return;
+>   			}
+>   		}
+>   	}
+> -
+> -	return true;
+>   }
+>   
+>   static bool dma_fence_array_signaled(struct dma_fence *fence)
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> index 9663ba1bb6ac..f56baa214a6c 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -9,7 +9,7 @@
+>   
+>   #include <linux/dma-fence-chain.h>
+>   
+> -static bool dma_fence_chain_enable_signaling(struct dma_fence *fence);
+> +static void dma_fence_chain_enable_signaling(struct dma_fence *fence);
+>   
+>   /**
+>    * dma_fence_chain_get_prev - use RCU to get a reference to the previous fence
+> @@ -125,10 +125,7 @@ static void dma_fence_chain_irq_work(struct irq_work *work)
+>   
+>   	chain = container_of(work, typeof(*chain), work);
+>   
+> -	/* Try to rearm the callback */
+> -	if (!dma_fence_chain_enable_signaling(&chain->base))
+> -		/* Ok, we are done. No more unsignaled fences left */
+> -		dma_fence_signal(&chain->base);
+> +	dma_fence_chain_enable_signaling(&chain->base);
+>   	dma_fence_put(&chain->base);
+>   }
+>   
+> @@ -142,7 +139,7 @@ static void dma_fence_chain_cb(struct dma_fence *f, struct dma_fence_cb *cb)
+>   	dma_fence_put(f);
+>   }
+>   
+> -static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+> +static void dma_fence_chain_enable_signaling(struct dma_fence *fence)
+>   {
+>   	struct dma_fence_chain *head = to_dma_fence_chain(fence);
+>   
+> @@ -153,12 +150,12 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+>   		dma_fence_get(f);
+>   		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
+>   			dma_fence_put(fence);
+> -			return true;
+> +			return;
+>   		}
+>   		dma_fence_put(f);
+>   	}
+>   	dma_fence_put(&head->base);
+> -	return false;
+> +	dma_fence_signal(fence);
+>   }
+>   
+>   static bool dma_fence_chain_signaled(struct dma_fence *fence)
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 325a263ac798..f0084a7aeebe 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -509,7 +509,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>   
+>   	__dma_fence_might_wait();
+>   
+> -	dma_fence_enable_sw_signaling(fence);
+> +	dma_fence_enable_signaling(fence);
+
+I like the rename since sw in the name always annoyed me. What about 
+splitting it out to a standalone patch though? If it comes first, this 
+one gets a bit smaller and easier to review.
+
+>   
+>   	trace_dma_fence_wait_start(fence);
+>   	if (fence->ops->wait)
+> @@ -576,47 +576,30 @@ void dma_fence_free(struct dma_fence *fence)
+>   }
+>   EXPORT_SYMBOL(dma_fence_free);
+>   
+> -static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+> +/**
+> + * dma_fence_enable_signaling - tell implementation that fence must signal
+> + * @fence: the fence to enable
+> + *
+> + * This will request for signaling to be enabled, to make the fence complete
+> + * as soon as possible. This calls &dma_fence_ops.enable_signaling internally.
+> + */
+> +void dma_fence_enable_signaling(struct dma_fence *fence)
+>   {
+>   	bool was_set;
+>   
+> -	lockdep_assert_held(fence->lock);
+> -
+>   	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>   				   &fence->flags);
+>   
+>   	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> -		return false;
+> +		return;
+>   
+>   	if (!was_set && fence->ops->enable_signaling) {
+>   		trace_dma_fence_enable_signal(fence);
+>   
+> -		if (!fence->ops->enable_signaling(fence)) {
+> -			dma_fence_signal_locked(fence);
+> -			return false;
+> -		}
+> +		fence->ops->enable_signaling(fence);
+>   	}
+> -
+> -	return true;
+> -}
+> -
+> -/**
+> - * dma_fence_enable_sw_signaling - enable signaling on fence
+> - * @fence: the fence to enable
+> - *
+> - * This will request for sw signaling to be enabled, to make the fence
+> - * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
+> - * internally.
+> - */
+> -void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+> -{
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(fence->lock, flags);
+> -	__dma_fence_enable_signaling(fence);
+> -	spin_unlock_irqrestore(fence->lock, flags);
+>   }
+> -EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+> +EXPORT_SYMBOL(dma_fence_enable_signaling);
+>   
+>   /**
+>    * dma_fence_add_callback - add a callback to be called when the fence
+> @@ -644,29 +627,30 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
+>   			   dma_fence_func_t func)
+>   {
+>   	unsigned long flags;
+> -	int ret = 0;
+>   
+>   	if (WARN_ON(!fence || !func))
+>   		return -EINVAL;
+>   
+> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
+> -		INIT_LIST_HEAD(&cb->node);
+> -		return -ENOENT;
+> -	}
+> +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +		goto out_signaled;
+> +
+> +	dma_fence_enable_signaling(fence);
+>   
+>   	spin_lock_irqsave(fence->lock, flags);
+
+On a low-level, if time comes to that after the high-level discussion, 
+this affectively drops and re-acquires the lock. Which raises questions 
+about correctness and, if not that, why not optimize it.
+
+> +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> +		goto out_unlock;
+>   
+> -	if (__dma_fence_enable_signaling(fence)) {
+> -		cb->func = func;
+> -		list_add_tail(&cb->node, &fence->cb_list);
+> -	} else {
+> -		INIT_LIST_HEAD(&cb->node);
+> -		ret = -ENOENT;
+> -	}
+> +	cb->func = func;
+> +	list_add_tail(&cb->node, &fence->cb_list);
+> +	spin_unlock_irqrestore(fence->lock, flags);
+> +	return 0;
+>   
+> +out_unlock:
+>   	spin_unlock_irqrestore(fence->lock, flags);
+>   
+> -	return ret;
+> +out_signaled:
+> +	INIT_LIST_HEAD(&cb->node);
+> +	return -ENOENT;
+>   }
+>   EXPORT_SYMBOL(dma_fence_add_callback);
+>   
+> diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
+> index ed4b323886e4..455f6f6c3b90 100644
+> --- a/drivers/dma-buf/st-dma-fence-chain.c
+> +++ b/drivers/dma-buf/st-dma-fence-chain.c
+> @@ -85,7 +85,7 @@ static int sanitycheck(void *arg)
+>   
+>   	chain = mock_chain(NULL, f, 1);
+>   	if (chain)
+> -		dma_fence_enable_sw_signaling(chain);
+> +		dma_fence_enable_signaling(chain);
+>   	else
+>   		err = -ENOMEM;
+>   
+> @@ -146,7 +146,7 @@ static int fence_chains_init(struct fence_chains *fc, unsigned int count,
+>   
+>   		fc->tail = fc->chains[i];
+>   
+> -		dma_fence_enable_sw_signaling(fc->chains[i]);
+> +		dma_fence_enable_signaling(fc->chains[i]);
+>   	}
+>   
+>   	fc->chain_length = i;
+> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
+> index f0cee984b6c7..1a6cef01fda9 100644
+> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
+> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
+> @@ -102,7 +102,7 @@ static int sanitycheck(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	array = mock_array(1, f);
+>   	if (!array)
+> @@ -126,7 +126,7 @@ static int unwrap_array(void *arg)
+>   	if (!f1)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f1);
+> +	dma_fence_enable_signaling(f1);
+>   
+>   	f2 = mock_fence();
+>   	if (!f2) {
+> @@ -134,7 +134,7 @@ static int unwrap_array(void *arg)
+>   		return -ENOMEM;
+>   	}
+>   
+> -	dma_fence_enable_sw_signaling(f2);
+> +	dma_fence_enable_signaling(f2);
+>   
+>   	array = mock_array(2, f1, f2);
+>   	if (!array)
+> @@ -170,7 +170,7 @@ static int unwrap_chain(void *arg)
+>   	if (!f1)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f1);
+> +	dma_fence_enable_signaling(f1);
+>   
+>   	f2 = mock_fence();
+>   	if (!f2) {
+> @@ -178,7 +178,7 @@ static int unwrap_chain(void *arg)
+>   		return -ENOMEM;
+>   	}
+>   
+> -	dma_fence_enable_sw_signaling(f2);
+> +	dma_fence_enable_signaling(f2);
+>   
+>   	chain = mock_chain(f1, f2);
+>   	if (!chain)
+> @@ -214,7 +214,7 @@ static int unwrap_chain_array(void *arg)
+>   	if (!f1)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f1);
+> +	dma_fence_enable_signaling(f1);
+>   
+>   	f2 = mock_fence();
+>   	if (!f2) {
+> @@ -222,7 +222,7 @@ static int unwrap_chain_array(void *arg)
+>   		return -ENOMEM;
+>   	}
+>   
+> -	dma_fence_enable_sw_signaling(f2);
+> +	dma_fence_enable_signaling(f2);
+>   
+>   	array = mock_array(2, f1, f2);
+>   	if (!array)
+> @@ -262,7 +262,7 @@ static int unwrap_merge(void *arg)
+>   	if (!f1)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f1);
+> +	dma_fence_enable_signaling(f1);
+>   
+>   	f2 = mock_fence();
+>   	if (!f2) {
+> @@ -270,7 +270,7 @@ static int unwrap_merge(void *arg)
+>   		goto error_put_f1;
+>   	}
+>   
+> -	dma_fence_enable_sw_signaling(f2);
+> +	dma_fence_enable_signaling(f2);
+>   
+>   	f3 = dma_fence_unwrap_merge(f1, f2);
+>   	if (!f3) {
+> @@ -314,13 +314,13 @@ static int unwrap_merge_complex(void *arg)
+>   	if (!f1)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f1);
+> +	dma_fence_enable_signaling(f1);
+>   
+>   	f2 = mock_fence();
+>   	if (!f2)
+>   		goto error_put_f1;
+>   
+> -	dma_fence_enable_sw_signaling(f2);
+> +	dma_fence_enable_signaling(f2);
+>   
+>   	f3 = dma_fence_unwrap_merge(f1, f2);
+>   	if (!f3)
+> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
+> index 6a1bfcd0cc21..eb740b4fe4fe 100644
+> --- a/drivers/dma-buf/st-dma-fence.c
+> +++ b/drivers/dma-buf/st-dma-fence.c
+> @@ -102,7 +102,7 @@ static int sanitycheck(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_fence_signal(f);
+>   	dma_fence_put(f);
+> @@ -119,7 +119,7 @@ static int test_signaling(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	if (dma_fence_is_signaled(f)) {
+>   		pr_err("Fence unexpectedly signaled on creation\n");
+> @@ -194,7 +194,7 @@ static int test_late_add_callback(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_fence_signal(f);
+>   
+> @@ -288,7 +288,7 @@ static int test_status(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	if (dma_fence_get_status(f)) {
+>   		pr_err("Fence unexpectedly has signaled status on creation\n");
+> @@ -316,7 +316,7 @@ static int test_error(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_fence_set_error(f, -EIO);
+>   
+> @@ -347,7 +347,7 @@ static int test_wait(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	if (dma_fence_wait_timeout(f, false, 0) != -ETIME) {
+>   		pr_err("Wait reported complete before being signaled\n");
+> @@ -391,7 +391,7 @@ static int test_wait_timeout(void *arg)
+>   	if (!wt.f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(wt.f);
+> +	dma_fence_enable_signaling(wt.f);
+>   
+>   	if (dma_fence_wait_timeout(wt.f, false, 1) != -ETIME) {
+>   		pr_err("Wait reported complete before being signaled\n");
+> @@ -472,7 +472,7 @@ static int thread_signal_callback(void *arg)
+>   			break;
+>   		}
+>   
+> -		dma_fence_enable_sw_signaling(f1);
+> +		dma_fence_enable_signaling(f1);
+>   
+>   		rcu_assign_pointer(t->fences[t->id], f1);
+>   		smp_wmb();
+> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
+> index 15dbea1462ed..f030b43ee4da 100644
+> --- a/drivers/dma-buf/st-dma-resv.c
+> +++ b/drivers/dma-buf/st-dma-resv.c
+> @@ -45,7 +45,7 @@ static int sanitycheck(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_fence_signal(f);
+>   	dma_fence_put(f);
+> @@ -71,7 +71,7 @@ static int test_signaling(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_resv_init(&resv);
+>   	r = dma_resv_lock(&resv, NULL);
+> @@ -118,7 +118,7 @@ static int test_for_each(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_resv_init(&resv);
+>   	r = dma_resv_lock(&resv, NULL);
+> @@ -179,7 +179,7 @@ static int test_for_each_unlocked(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_resv_init(&resv);
+>   	r = dma_resv_lock(&resv, NULL);
+> @@ -252,7 +252,7 @@ static int test_get_fences(void *arg)
+>   	if (!f)
+>   		return -ENOMEM;
+>   
+> -	dma_fence_enable_sw_signaling(f);
+> +	dma_fence_enable_signaling(f);
+>   
+>   	dma_resv_init(&resv);
+>   	r = dma_resv_lock(&resv, NULL);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> index 1ef758ac5076..9ec4daa23665 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> @@ -116,24 +116,24 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
+>    *
+>    *  @f: dma_fence
+>    */
+> -static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+> +static void amdkfd_fence_enable_signaling(struct dma_fence *f)
+>   {
+>   	struct amdgpu_amdkfd_fence *fence = to_amdgpu_amdkfd_fence(f);
+>   
+>   	if (!fence)
+> -		return false;
+> +		return;
+>   
+>   	if (dma_fence_is_signaled(f))
+> -		return true;
+> +		return;
+>   
+>   	if (!fence->svm_bo) {
+>   		if (!kgd2kfd_schedule_evict_and_restore_process(fence->mm, f))
+> -			return true;
+> +			return;
+>   	} else {
+>   		if (!svm_range_schedule_evict_svm_bo(fence))
+> -			return true;
+> +			return;
+>   	}
+> -	return false;
+> +	dma_fence_signal(f);
+>   }
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+> index 5ec293011d99..3f2425966263 100644
+> --- a/drivers/gpu/drm/i915/i915_active.c
+> +++ b/drivers/gpu/drm/i915/i915_active.c
+> @@ -562,7 +562,7 @@ static void enable_signaling(struct i915_active_fence *active)
+>   	if (!fence)
+>   		return;
+>   
+> -	dma_fence_enable_sw_signaling(fence);
+> +	dma_fence_enable_signaling(fence);
+>   	dma_fence_put(fence);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 519e096c607c..db4891c7cc7b 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -90,9 +90,17 @@ static bool i915_fence_signaled(struct dma_fence *fence)
+>   	return i915_request_completed(to_request(fence));
+>   }
+>   
+> -static bool i915_fence_enable_signaling(struct dma_fence *fence)
+> +static void i915_fence_enable_signaling(struct dma_fence *fence)
+>   {
+> -	return i915_request_enable_breadcrumb(to_request(fence));
+> +	struct i915_request *rq = to_request(fence);
+> +	unsigned long flags;
+> +	bool ret;
+> +
+> +	spin_lock_irqsave(&rq->lock, flags);
+> +	ret = i915_request_enable_breadcrumb(to_request(fence));
+> +	spin_unlock_irqrestore(&rq->lock, flags);
+> +	if (!ret)
+> +		dma_fence_signal(fence);
+
+I didn't immediately pick up where do you add (document?) the 
+requirement to signal from enable signaling?
+
+Also, again on a low level, here too would be nicer if re-lock dance was 
+avoided here (and in the other call backs).
+
+>   }
+>   
+>   static signed long i915_fence_wait(struct dma_fence *fence,
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> index 61d193e41f8c..1ad692a033c0 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -503,10 +503,11 @@ static const struct dma_fence_ops nouveau_fence_ops_legacy = {
+>   	.release = nouveau_fence_release
+>   };
+>   
+> -static bool nouveau_fence_enable_signaling(struct dma_fence *f)
+> +static void nouveau_fence_enable_signaling(struct dma_fence *f)
+>   {
+>   	struct nouveau_fence *fence = from_fence(f);
+>   	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+> +	unsigned long flags;
+>   
+>   	/*
+>   	 * caller should have a reference on the fence,
+> @@ -514,6 +515,7 @@ static bool nouveau_fence_enable_signaling(struct dma_fence *f)
+>   	 */
+>   	WARN_ON(kref_read(&fence->base.refcount) <= 1);
+>   
+> +	spin_lock_irqsave(&fctx->lock, flags);
+>   	if (!fctx->notify_ref++)
+>   		nvif_event_allow(&fctx->event);
+>   
+> @@ -523,10 +525,11 @@ static bool nouveau_fence_enable_signaling(struct dma_fence *f)
+>   		dma_fence_put(&fence->base);
+>   		if (!--fctx->notify_ref)
+>   			nvif_event_block(&fctx->event);
+> -		return false;
+> +		spin_unlock_irqrestore(&fctx->lock, flags);
+> +		dma_fence_signal(f);
+>   	} else {
+>   		set_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags);
+> -		return true;
+> +		spin_unlock_irqrestore(&fctx->lock, flags);
+>   	}
+>   }
+>   
+> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+> index daff61586be5..fd1d617c3331 100644
+> --- a/drivers/gpu/drm/radeon/radeon_fence.c
+> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+> @@ -378,14 +378,19 @@ static bool radeon_fence_is_signaled(struct dma_fence *f)
+>    * to fence_queue that checks if this fence is signaled, and if so it
+>    * signals the fence and removes itself.
+>    */
+> -static bool radeon_fence_enable_signaling(struct dma_fence *f)
+> +static void radeon_fence_enable_signaling(struct dma_fence *f)
+>   {
+>   	struct radeon_fence *fence = to_radeon_fence(f);
+>   	struct radeon_device *rdev = fence->rdev;
+> +	unsigned long flags;
+>   
+> -	if (atomic64_read(&rdev->fence_drv[fence->ring].last_seq) >= fence->seq)
+> -		return false;
+> +	if (atomic64_read(&rdev->fence_drv[fence->ring].last_seq)
+> +	    >= fence->seq) {
+> +		dma_fence_signal(f);
+> +		return;
+> +	}
+>   
+> +	spin_lock_irqsave(&rdev->fence_queue.lock, flags);
+>   	if (down_read_trylock(&rdev->exclusive_lock)) {
+>   		radeon_irq_kms_sw_irq_get(rdev, fence->ring);
+>   
+> @@ -396,7 +401,9 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
+>   		if (atomic64_read(&rdev->fence_drv[fence->ring].last_seq) >= fence->seq) {
+>   			radeon_irq_kms_sw_irq_put(rdev, fence->ring);
+>   			up_read(&rdev->exclusive_lock);
+> -			return false;
+> +			spin_unlock_irqrestore(&rdev->fence_queue.lock, flags);
+> +			dma_fence_signal(f);
+> +			return;
+>   		}
+>   
+>   		up_read(&rdev->exclusive_lock);
+> @@ -412,7 +419,7 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
+>   	fence->fence_wake.func = radeon_fence_check_signaled;
+>   	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
+>   	dma_fence_get(f);
+> -	return true;
+> +	spin_unlock_irqrestore(&rdev->fence_queue.lock, flags);
+>   }
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 320592435252..9b060a82c6df 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -219,7 +219,7 @@ static void ttm_bo_flush_all_fences(struct ttm_buffer_object *bo)
+>   	dma_resv_iter_begin(&cursor, resv, DMA_RESV_USAGE_BOOKKEEP);
+>   	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>   		if (!fence->ops->signaled)
+> -			dma_fence_enable_sw_signaling(fence);
+> +			dma_fence_enable_signaling(fence);
+>   	}
+>   	dma_resv_iter_end(&cursor);
+>   }
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index 25d0c939ba31..3a1840560ef9 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -495,7 +495,7 @@ static int xe_bo_trigger_rebind(struct xe_device *xe, struct xe_bo *bo,
+>   		dma_resv_iter_begin(&cursor, bo->ttm.base.resv,
+>   				    DMA_RESV_USAGE_BOOKKEEP);
+>   		dma_resv_for_each_fence_unlocked(&cursor, fence)
+> -			dma_fence_enable_sw_signaling(fence);
+> +			dma_fence_enable_signaling(fence);
+>   		dma_resv_iter_end(&cursor);
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+> index 0b4f12be3692..77c5b16f835d 100644
+> --- a/drivers/gpu/drm/xe/xe_hw_fence.c
+> +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+> @@ -168,7 +168,7 @@ static bool xe_hw_fence_signaled(struct dma_fence *dma_fence)
+>   		!__dma_fence_is_later(dma_fence->seqno, seqno, dma_fence->ops);
+>   }
+>   
+> -static bool xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
+> +static void xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
+>   {
+>   	struct xe_hw_fence *fence = to_xe_hw_fence(dma_fence);
+>   	struct xe_hw_fence_irq *irq = xe_hw_fence_irq(fence);
+> @@ -179,8 +179,6 @@ static bool xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
+>   	/* SW completed (no HW IRQ) so kick handler to signal fence */
+>   	if (xe_hw_fence_signaled(dma_fence))
+>   		xe_hw_fence_irq_run(irq);
+> -
+> -	return true;
+>   }
+>   
+>   static void xe_hw_fence_release(struct dma_fence *dma_fence)
+> diff --git a/drivers/gpu/drm/xe/xe_preempt_fence.c b/drivers/gpu/drm/xe/xe_preempt_fence.c
+> index 83fbeea5aa20..963af6825875 100644
+> --- a/drivers/gpu/drm/xe/xe_preempt_fence.c
+> +++ b/drivers/gpu/drm/xe/xe_preempt_fence.c
+> @@ -56,7 +56,7 @@ preempt_fence_get_timeline_name(struct dma_fence *fence)
+>   	return "preempt";
+>   }
+>   
+> -static bool preempt_fence_enable_signaling(struct dma_fence *fence)
+> +static void preempt_fence_enable_signaling(struct dma_fence *fence)
+>   {
+>   	struct xe_preempt_fence *pfence =
+>   		container_of(fence, typeof(*pfence), base);
+> @@ -64,7 +64,6 @@ static bool preempt_fence_enable_signaling(struct dma_fence *fence)
+>   
+>   	pfence->error = q->ops->suspend(q);
+>   	queue_work(q->vm->xe->preempt_fence_wq, &pfence->preempt_work);
+> -	return true;
+>   }
+>   
+>   static const struct dma_fence_ops preempt_fence_ops = {
+> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+> index 579ed31b46db..7556bc45e592 100644
+> --- a/drivers/gpu/drm/xe/xe_pt.c
+> +++ b/drivers/gpu/drm/xe/xe_pt.c
+> @@ -1236,7 +1236,7 @@ static int vma_check_userptr(struct xe_vm *vm, struct xe_vma *vma,
+>   			dma_resv_iter_begin(&cursor, xe_vm_resv(vm),
+>   					    DMA_RESV_USAGE_BOOKKEEP);
+>   			dma_resv_for_each_fence_unlocked(&cursor, fence)
+> -				dma_fence_enable_sw_signaling(fence);
+> +				dma_fence_enable_signaling(fence);
+>   			dma_resv_iter_end(&cursor);
+>   
+>   			err = dma_resv_wait_timeout(xe_vm_resv(vm),
+> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
+> index 55d47450b2c6..fe2d5edac92d 100644
+> --- a/drivers/gpu/drm/xe/xe_sched_job.c
+> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
+> @@ -210,7 +210,7 @@ void xe_sched_job_set_error(struct xe_sched_job *job, int error)
+>   
+>   	trace_xe_sched_job_set_error(job);
+>   
+> -	dma_fence_enable_sw_signaling(job->fence);
+> +	dma_fence_enable_signaling(job->fence);
+>   	xe_hw_fence_irq_run(job->q->fence_irq);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> index 3eb76d874eb2..b33636976669 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -259,7 +259,7 @@ int xe_vm_add_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q)
+>   	 */
+>   	wait = __xe_vm_userptr_needs_repin(vm) || preempt_fences_waiting(vm);
+>   	if (wait)
+> -		dma_fence_enable_sw_signaling(pfence);
+> +		dma_fence_enable_signaling(pfence);
+>   
+>   	up_read(&vm->userptr.notifier_lock);
+>   
+> @@ -289,7 +289,7 @@ void xe_vm_remove_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q)
+>   		--vm->preempt.num_exec_queues;
+>   	}
+>   	if (q->lr.pfence) {
+> -		dma_fence_enable_sw_signaling(q->lr.pfence);
+> +		dma_fence_enable_signaling(q->lr.pfence);
+>   		dma_fence_put(q->lr.pfence);
+>   		q->lr.pfence = NULL;
+>   	}
+> @@ -634,7 +634,7 @@ static bool vma_userptr_invalidate(struct mmu_interval_notifier *mni,
+>   	dma_resv_iter_begin(&cursor, xe_vm_resv(vm),
+>   			    DMA_RESV_USAGE_BOOKKEEP);
+>   	dma_resv_for_each_fence_unlocked(&cursor, fence)
+> -		dma_fence_enable_sw_signaling(fence);
+> +		dma_fence_enable_signaling(fence);
+>   	dma_resv_iter_end(&cursor);
+>   
+>   	err = dma_resv_wait_timeout(xe_vm_resv(vm),
+> diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
+> index 139ad1afd935..0581aa23cd41 100644
+> --- a/drivers/gpu/host1x/fence.c
+> +++ b/drivers/gpu/host1x/fence.c
+> @@ -30,12 +30,17 @@ static struct host1x_syncpt_fence *to_host1x_fence(struct dma_fence *f)
+>   	return container_of(f, struct host1x_syncpt_fence, base);
+>   }
+>   
+> -static bool host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
+> +static void host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
+>   {
+>   	struct host1x_syncpt_fence *sf = to_host1x_fence(f);
+> +	unsigned long flags;
+>   
+> -	if (host1x_syncpt_is_expired(sf->sp, sf->threshold))
+> -		return false;
+> +	spin_lock_irqsave(f->lock, flags);
+> +	if (host1x_syncpt_is_expired(sf->sp, sf->threshold)) {
+> +		spin_unlock_irqrestore(f->lock, flags);
+> +		dma_fence_signal(f);
+> +		return;
+> +	}
+>   
+>   	/* Reference for interrupt path. */
+>   	dma_fence_get(f);
+> @@ -62,8 +67,7 @@ static bool host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
+>   	 * so we need to initialize all state used by signalling
+>   	 * before it.
+>   	 */
+> -
+> -	return true;
+> +	spin_unlock_irqrestore(f->lock, flags);
+>   }
+>   
+>   static const struct dma_fence_ops host1x_syncpt_fence_ops = {
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index e7ad819962e3..93b6176bbf48 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -158,39 +158,24 @@ struct dma_fence_ops {
+>   	/**
+>   	 * @enable_signaling:
+>   	 *
+> -	 * Enable software signaling of fence.
+> +	 * Guarantee that installed callbacks are called at some point.
+
+This is one of the big/key changes, right? I would suggest to improve 
+the commit message to talk about its what why and how directly and 
+explicity.
+
+I am not sure how it guarantees it when it is left to driver 
+implementations? That is, dma_fence_signal_locked is removed from 
+dma_fence_enable_signaling.
+
+Or you mean because you added dma_fence_enable_signaling to 
+dma_fence_add_callback?
+
+But then there is a lock re-acquire there and if signal raced 
+"correctly" with dma_fence_add_callback, callback may not get called.
+
+>   	 *
+> -	 * For fence implementations that have the capability for hw->hw
+> -	 * signaling, they can implement this op to enable the necessary
+> -	 * interrupts, or insert commands into cmdstream, etc, to avoid these
+> -	 * costly operations for the common case where only hw->hw
+> -	 * synchronization is required.  This is called in the first
+> -	 * dma_fence_wait() or dma_fence_add_callback() path to let the fence
+> -	 * implementation know that there is another driver waiting on the
+> -	 * signal (ie. hw->sw case).
+> +	 * Drivers can implement this op to enable the necessary interrupts or
+> +	 * tell the hardware through other means that somebody is requesting
+> +	 * this fence to signal. This is called in the first dma_fence_wait()
+> +	 * or dma_fence_add_callback() path.
+>   	 *
+>   	 * This function can be called from atomic context, but not
+>   	 * from irq context, so normal spinlocks can be used.
+
+I thought commit message stated this paragraph was wrong. Or it becomes 
+right after this patch?
+
+Regards,
+
+Tvrtko
+
+>   	 *
+> -	 * A return value of false indicates the fence already passed,
+> -	 * or some failure occurred that made it impossible to enable
+> -	 * signaling. True indicates successful enabling.
+> -	 *
+> -	 * &dma_fence.error may be set in enable_signaling, but only when false
+> -	 * is returned.
+> -	 *
+> -	 * Since many implementations can call dma_fence_signal() even when before
+> -	 * @enable_signaling has been called there's a race window, where the
+> -	 * dma_fence_signal() might result in the final fence reference being
+> -	 * released and its memory freed. To avoid this, implementations of this
+> -	 * callback should grab their own reference using dma_fence_get(), to be
+> -	 * released when the fence is signalled (through e.g. the interrupt
+> -	 * handler).
+> +	 * dma_fence_set_error() as well as dma_fence_signal() may be used in
+> +	 * enable_signaling if the implementation detects an error or that the
+> +	 * fence already completed succesfully.
+>   	 *
+>   	 * This callback is optional. If this callback is not present, then the
+>   	 * driver must always have signaling enabled.
+>   	 */
+> -	bool (*enable_signaling)(struct dma_fence *fence);
+> +	void (*enable_signaling)(struct dma_fence *fence);
+>   
+>   	/**
+>   	 * @signaled:
+> @@ -400,7 +385,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
+>   			   dma_fence_func_t func);
+>   bool dma_fence_remove_callback(struct dma_fence *fence,
+>   			       struct dma_fence_cb *cb);
+> -void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+> +void dma_fence_enable_signaling(struct dma_fence *fence);
+>   
+>   /**
+>    * dma_fence_is_signaled_locked - Return an indication if the fence
