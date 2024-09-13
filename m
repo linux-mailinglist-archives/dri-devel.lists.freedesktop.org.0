@@ -2,50 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD595977BCE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 11:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E72977BDC
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 11:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2241E10ECCA;
-	Fri, 13 Sep 2024 09:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 745FA10ECCE;
+	Fri, 13 Sep 2024 09:08:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tEOfFBdV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD99F10ECCA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 09:04:35 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-03 (Coremail) with SMTP id rQCowAA3P38MAORmj8pWAw--.309S2;
- Fri, 13 Sep 2024 17:04:21 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: alain.volmat@foss.st.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, vincent.abriou@st.com, benjamin.gaignard@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
-Subject: [PATCH v2] drm/sti: avoid potential dereference of error pointers
-Date: Fri, 13 Sep 2024 17:04:12 +0800
-Message-Id: <20240913090412.2022848-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D60D110ECCE
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 09:08:20 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-42cb806623eso17173815e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 02:08:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726218499; x=1726823299; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=2zXx0z+xH+ztolGxVZqnELYkWb3KijRHRTYHi+pwjgg=;
+ b=tEOfFBdVQGVgZaVaWcG0z3Tdd8YKhNs5hdfTYWDM++todXbosm/P7vJZOSu21IHTWI
+ eB25iYQopQ6SWkef+EWJU2fi8jO0bt85/Bmtm7GeNaK8JLixnt0nSM7QdwJP17+pJEJ1
+ 1iW3m94zVVuxqTugmIwnyFMxzpMGBXmLJmKiUqRUJpFuQmlx+deIK9pp+INmE+G5wJge
+ v2BYo057Bzf0U7/BJY1ajw3q5/YEuXs79bcZOFYt2A7byLzmLzqYdeeDRbBcCwyQhn9Q
+ CqyznKOCkwLf9rCT5XHGvwjMXgqlyTre/a6/T7/U/BjDfxwDEy5F/eDQ921LNveIB2/E
+ 162Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726218499; x=1726823299;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=2zXx0z+xH+ztolGxVZqnELYkWb3KijRHRTYHi+pwjgg=;
+ b=Kn9CoVvkN/7S6C2M0qnWsAc4hC9TooQ92gcKI8Ozztppx7Kp1BK1tELDqYLv7gyXwD
+ Hy3HagdMViTCPnGHd2nNqVM5qG+YdHoLx6ScH2eWFEjmxONAK15Jb3GyyuMcTRPqZca0
+ 56EU1xF27zun0BSVFvW10MovUgrWUnsFZRVgxtqBk8zvQQQou4zIS7lWbofk4QyvcDUJ
+ W+F9R8BkbYQ/abJRlXrrGp76wn6RaBupCBHQZ3LT45vUi0Vr8b6kj6OU8UfZ1yIu7Qfb
+ VR0NAwV5QbzE0yp+PCJeS4HMJvxnGsqtVHJI7gin0npYk9CVb0X0jkiYKFdP8BdF/utM
+ 9YGA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUKu6Vwq6pHa2dXiX5ryeM6gYzdAF/EadWwtBrg/qSGqME/1z0vLgke+UQXOhM8O18qeBjTGiNaXaA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoLp0+gxCkxqdxuMKZFf0SNEPA392jQMlU7/5aOqlcVOyRxWU8
+ Vai1XoTMbQYJqyK/0Th0d3zrGXe0/xQs/LSVlJ6f97glcFF3MlyLpkM7uB9Mq9E=
+X-Google-Smtp-Source: AGHT+IHzdj8Qdeqcflbe7N/Vxy3Vcy9D7hn8FJ/UrFypGxQko7JmlxIesFhGpEOKh4a8XIeaKuTKZw==
+X-Received: by 2002:a05:600c:3108:b0:42c:be90:fa2f with SMTP id
+ 5b1f17b1804b1-42cdb5662bfmr49050235e9.25.1726218498820; 
+ Fri, 13 Sep 2024 02:08:18 -0700 (PDT)
+Received: from [192.168.7.202] ([212.114.21.58])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42d9b05d5dbsm17380175e9.13.2024.09.13.02.08.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Sep 2024 02:08:18 -0700 (PDT)
+Message-ID: <d9ef7158-5cf9-49a2-96b3-c2b91b23e210@linaro.org>
+Date: Fri, 13 Sep 2024 11:08:17 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowAA3P38MAORmj8pWAw--.309S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruF4kGrW7Gw18WF43ZFykAFb_yoWDCrX_G3
- WUXrn3Kr9rGF1jva1jyrn8Aa9Y9rWv9F48X340qa9IyrWDAry8X3yxWF1fWr1UWF1UtF9r
- t3WfC3s0krnIkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbS8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
- rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
- 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQvtAUUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/panel: raydium-rm69380: transition to mipi_dsi
+ wrapped functions
+To: Tejas Vipin <tejasvipin76@gmail.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240907140130.410349-1-tejasvipin76@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240907140130.410349-1-tejasvipin76@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,38 +110,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The return value of drm_atomic_get_crtc_state() needs to be
-checked. To avoid use of error pointer 'crtc_state' in case
-of the failure.
+Hi,
+On 07/09/2024 16:01, Tejas Vipin wrote:
+> Changes the raydium-rm69380 panel to use multi style functions for
+> improved error handling.
+> 
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+>   drivers/gpu/drm/panel/panel-raydium-rm69380.c | 95 ++++++-------------
+>   1 file changed, 30 insertions(+), 65 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-raydium-rm69380.c b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
+> index 4dca6802faef..bdab844dab55 100644
+> --- a/drivers/gpu/drm/panel/panel-raydium-rm69380.c
+> +++ b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
+> @@ -46,108 +46,73 @@ static void rm69380_reset(struct rm69380_panel *ctx)
+>   static int rm69380_on(struct rm69380_panel *ctx)
+>   {
+>   	struct mipi_dsi_device *dsi = ctx->dsi[0];
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+>   
+>   	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+>   	if (ctx->dsi[1])
+>   		ctx->dsi[1]->mode_flags |= MIPI_DSI_MODE_LPM;
+>   
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd4);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x80);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd0);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x48, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x26);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x75, 0x3f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x1a);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x28);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xc2, 0x08);
+> -
+> -	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set tear on: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(20);
+> -
+> -	ret = mipi_dsi_dcs_set_display_on(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display on: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(36);
+> -
+> -	return 0;
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0xd4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x80);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0xd0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x48, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x26);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1d, 0x1a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x28);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x08);
+> +
+> +	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 20);
+> +
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 36);
+> +
+> +	return dsi_ctx.accum_err;
+>   }
+>   
+> -static int rm69380_off(struct rm69380_panel *ctx)
+> +static void rm69380_off(struct rm69380_panel *ctx)
+>   {
+>   	struct mipi_dsi_device *dsi = ctx->dsi[0];
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+>   
+>   	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+>   	if (ctx->dsi[1])
+>   		ctx->dsi[1]->mode_flags &= ~MIPI_DSI_MODE_LPM;
+>   
+> -	ret = mipi_dsi_dcs_set_display_off(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display off: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(35);
+> -
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(20);
+> -
+> -	return 0;
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 35);
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 20);
+>   }
+>   
+>   static int rm69380_prepare(struct drm_panel *panel)
+>   {
+>   	struct rm69380_panel *ctx = to_rm69380_panel(panel);
+> -	struct device *dev = &ctx->dsi[0]->dev;
+>   	int ret;
+>   
+>   	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (ret < 0)
+> +		return ret;	
+>   
+>   	rm69380_reset(ctx);
+>   
+>   	ret = rm69380_on(ctx);
+>   	if (ret < 0) {
+> -		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+>   		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+>   		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> -		return ret;
+>   	}
+>   
+> -	return 0;
+> +	return ret;
+>   }
+>   
+>   static int rm69380_unprepare(struct drm_panel *panel)
+>   {
+>   	struct rm69380_panel *ctx = to_rm69380_panel(panel);
+> -	struct device *dev = &ctx->dsi[0]->dev;
+> -	int ret;
+>   
+> -	ret = rm69380_off(ctx);
+> -	if (ret < 0)
+> -		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+> +	rm69380_off(ctx);
+>   
+>   	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+>   	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
 
-Cc: stable@vger.kernel.org
-Fixes: dd86dc2f9ae1 ("drm/sti: implement atomic_check for the planes")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
-Changes in v2:
-- modified the Fixes tag according to suggestions;
-- added necessary blank line.
----
- drivers/gpu/drm/sti/sti_cursor.c | 3 +++
- 1 file changed, 3 insertions(+)
+I get:
+-:129: ERROR:TRAILING_WHITESPACE: trailing whitespace
+#129: FILE: drivers/gpu/drm/panel/panel-raydium-rm69380.c:97:
++^Iif (ret < 0) $
 
-diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
-index db0a1eb53532..c59fcb4dca32 100644
---- a/drivers/gpu/drm/sti/sti_cursor.c
-+++ b/drivers/gpu/drm/sti/sti_cursor.c
-@@ -200,6 +200,9 @@ static int sti_cursor_atomic_check(struct drm_plane *drm_plane,
- 		return 0;
- 
- 	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
-+
- 	mode = &crtc_state->mode;
- 	dst_x = new_plane_state->crtc_x;
- 	dst_y = new_plane_state->crtc_y;
--- 
-2.25.1
+-:130: ERROR:TRAILING_WHITESPACE: trailing whitespace
+#130: FILE: drivers/gpu/drm/panel/panel-raydium-rm69380.c:98:
++^I^Ireturn ret;^I$
+
+could you fix those ?
+
+Thanks,
+Neil
 
