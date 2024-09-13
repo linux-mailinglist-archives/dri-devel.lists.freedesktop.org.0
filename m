@@ -2,58 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D47A97832C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 17:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD83978344
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 17:06:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B721210E27C;
-	Fri, 13 Sep 2024 15:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23DA510EA95;
+	Fri, 13 Sep 2024 15:06:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JSHig6wl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FXO8x/fH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E1710E27C;
- Fri, 13 Sep 2024 15:01:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jRtvym4vdFZsRu+vOfh/4TCoAnkQvlh4RpJ2P11oRSo=; b=JSHig6wl9A9S/PMOqtZov/5CUM
- u+YDakoQHl0N7jxTKID7uZPewnzKbMrKL9Vd+VCs3hF5HV3lY8CFye4pg98roPeH8g6TKkPyTSJeD
- ACIIehKA0Q36bQsrSaq20sZ8XxUNYfLUwn1Ag5wTePtPzQWoev05gYHL2fyv/OM8Uo03eTO2ZeIYr
- 5fVy5frPKwr2Ri6GnUzAq480BuDAQeLbC26607vYT/CLWhk3DGpxf7oTAv31qZPq2DMulO3IJZ9K6
- k8/Qo+TCxVICdV22UrvKHUDbFjEu20CChHQc9d4sZsSsIip9auDyMxTGbmPBbmbRom4kWIw6EWBPS
- 5waavAMg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sp7nP-00DNRU-6n; Fri, 13 Sep 2024 17:01:15 +0200
-Message-ID: <1d68285d-0734-4eb1-a4b6-f695b8728f46@igalia.com>
-Date: Fri, 13 Sep 2024 16:01:14 +0100
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFF4B10EA95
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 15:06:48 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id
+ 46e09a7af769-710dead5d2aso1147034a34.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 08:06:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726240007; x=1726844807; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s5xW7wFZXBPvsr8C7DrncpqkE2kHm1pCShCK0/i9/lc=;
+ b=FXO8x/fHOFAno931fLdlFbMGEQxyWjYV9Aaz8L7iLWE7TJAvYB86P00GAVnNrkn+6a
+ 17hlfdllz2KAug0eOuJrYsj4WdwzWc+IuN1Jw8oV6kO92/ay9ZmxSTsuiPenCo5nkZbm
+ QBfWO7hzl9w+Z69oRHz7Ty+WrNm/torHhzdhPCDQCMmrrq8FR++0pky1kvLto33csVej
+ SjKLZRxfBi3N8BJhsKLZN+aed0LpwaniZmO3KiBSE5V/UxKSjegbGv0ks+qGV3YW55Rm
+ 2WCm2OyKtI5o+iF0HvMHAhfrec8eJGX7Iu8khFCPBB+ie5q6E35xzqntu4KPXtR4+3hh
+ t9MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726240007; x=1726844807;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=s5xW7wFZXBPvsr8C7DrncpqkE2kHm1pCShCK0/i9/lc=;
+ b=vk23NrlcDUuwGYIU/nib1BR5uSOKe4DJEslFZDNRbm1ULwWXEAWdhVXK3HtFB+uHuY
+ obmMVtW+sIcRjImVdr3y6QWOQLTpNeMwfM0wD5jnZWzIQcdQJ81Krj9SKru1OkoAq1no
+ mXIojJJY7cYV75O/0kwOKS4VOcoTn8ZZumgCsv+/sgk4szW+4e3IB4rM9aDW8urbEao1
+ GFtB0WI/3yMjObs3s5nZI09Amas3Efj2MY0VcU44a8jH9MWg4yDmiss4vzBKGsj1hjbu
+ o20LAJ07owG/daxvMpdH0aZR+xWdnGgfgauRL2SEkZ4waAFgYthpUE/NEUxSVqX02/Qd
+ 6GIg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUVxCO6IIHkM2GoL63RmJQ02v0UJjuZ+HEJotp2s3FfKHLV7iUedRYdmGppd3Iazj0sg07l1hlCHLg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYOqOqbAYJ1fOLAmFWqVUMa9I5QpO0Ngrgwf/7dKZJq2ttwwS7
+ 1/JJWqrQ2Fu4W+X8QjYX0qG3wSB3dO38vsadDJNgaUOlEIK9w+0R69KMDvgRJ8En+8xGxrmEWoE
+ E+lRIzbSsBYcFledYLyqgWHrZdKI=
+X-Google-Smtp-Source: AGHT+IHpQNpk1RPbqhgaZak33vQVpNCMrUXMzkQcxSmZLbxJpQEgL7VG8czofXsUN5d9oYR08U0ZzgsDFVqScsKOzcg=
+X-Received: by 2002:a05:6808:220b:b0:3d9:245c:4225 with SMTP id
+ 5614622812f47-3e071a93899mr4047532b6e.6.1726240007552; Fri, 13 Sep 2024
+ 08:06:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] drm/sched: Further optimise drm_sched_entity_push_job
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-References: <20240909171937.51550-1-tursulin@igalia.com>
- <20240909171937.51550-9-tursulin@igalia.com>
- <cd0dcdf4-a001-4fc3-9803-3e8b85cbc89f@gmail.com>
- <48b74e60-6e75-4929-aa30-503f4a4cd5e8@igalia.com>
- <aed37179-292b-41d0-878d-95f248d5ee8e@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <aed37179-292b-41d0-878d-95f248d5ee8e@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240719-starqltechn_integration_upstream-v4-0-a7f644821941@gmail.com>
+ <20240719-starqltechn_integration_upstream-v4-27-a7f644821941@gmail.com>
+ <uevafpb6r7rfutiqrm5asfvv7zfxcb3acrlxqpispele5er52x@eegonpzqlm7j>
+In-Reply-To: <uevafpb6r7rfutiqrm5asfvv7zfxcb3acrlxqpispele5er52x@eegonpzqlm7j>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Fri, 13 Sep 2024 18:06:36 +0300
+Message-ID: <CABTCjFA+4+37+gF2FcvGVMLmzwM01MVvSjBDinVJyRaw007jTg@mail.gmail.com>
+Subject: Re: [PATCH v4 27/28] gcc-sdm845: Add general purpose clock ops
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: dmitry.baryshkov@linaro.org, Sebastian Reichel <sre@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +100,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+=D0=B2=D1=82, 10 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 12:5=
+9, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>:
+>
+> Hello,
+>
+> On Fri, Jul 19, 2024 at 03:55:04PM +0300, Dzmitry Sankouski wrote:
+> > SDM845 has "General Purpose" clocks that can be muxed to
+> > SoC pins to clock various external devices.
+> > Those clocks may be used as e.g. PWM sources for external peripherals.
+> >
+> > GPCLK can in theory have arbitrary value depending on the use case, so
+> > the concept of frequency tables, used in rcg2 clock driver, is not
+> > efficient, because it allows only defined frequencies.
+> >
+> > Introduce clk_rcg2_gp_ops, which automatically calculate clock
+> > mnd values for arbitrary clock rate.
+> >
+> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> > ---
+> >  drivers/clk/qcom/clk-rcg.h    |   1 +
+> >  drivers/clk/qcom/clk-rcg2.c   | 162 ++++++++++++++++++++++++++++++++++=
+++++++--
+> >  drivers/clk/qcom/gcc-sdm845.c |  19 ++---
+> >  drivers/pwm/pwm-clk.c         |   5 ++
+>
+> I don't understand why a change to some qcom clk implementation detail
+> needs a change to drivers/pwm/pwm-clk.c in the same commit. I guess if
+> the change to drivers/pwm/pwm-clk.c is needed it should better go into a
+> separate patch with an appropriate commit log?!
+>
+You're right, I'll fix that. Also I heavily rewrote this patch, and
+included it in
+starqltechn patch series. Since this patch has the wrong version (sorry for=
+ my
+mistake) and order numbering, please consider the next patch a successor of=
+ it.
 
-On 10/09/2024 16:03, Christian König wrote:
-> Am 10.09.24 um 11:46 schrieb Tvrtko Ursulin:
->>
->> On 10/09/2024 10:08, Christian König wrote:
->>> Am 09.09.24 um 19:19 schrieb Tvrtko Ursulin:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>
->>>> Having removed one re-lock cycle on the entity->lock in a patch titled
->>>> "drm/sched: Optimise drm_sched_entity_push_job", with only a tiny bit
->>>> larger refactoring we can do the same optimisation on the rq->lock.
->>>> (Currently both drm_sched_rq_add_entity() and
->>>> drm_sched_rq_update_fifo_locked() take and release the same lock.)
->>>
->>> I think that goes into the wrong direction.
->>>
->>> Probably better to move this here into drm_sched_rq_add_entity():
->>>
->>>            if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>>               drm_sched_rq_update_fifo_locked(entity, submit_ts);
->>>
->>> We can then also drop adding the entity to the rr list when FIFO is 
->>> in use.
->>
->> Unfortuntely there is a few other places which appear to rely on the 
->> list. Like drm_sched_fini,
-> 
-> That should be only a warning.
+--=20
 
-Warning as in?
-
->> drm_sched_increase_karma and 
-> 
-> The karma handling was another bad idea from AMD how to populate back 
-> errors to userspace and I've just recently documented together with Sima 
-> that we should use dma-fence errors instead.
-> 
-> Just didn't had time to tackle cleaning that up yet.
-> 
->> even amdgpu_job_stop_all_jobs_on_sched.
-> 
-> Uff, seeing that for the first time just now. Another bad idea how to 
-> handle things which doesn't take the appropriate locks and looks racy to 
-> me.
-> 
-> 
->> Latter could perhaps be solved by adding an iterator helper to the 
->> scheduler, which would perhaps be a good move for component isolation. 
->> And first two could be handled by implementing a complete and mutually 
->> exclusive duality of how entities are walked depending on scheduling 
->> mode. Plus making the scheduling mode only be configurable at boot. It 
->> feels doable but significant work and in the meantime removing the 
->> double re-lock maybe acceptable?
-> 
-> I don't think we should optimize for something we want to remove in the 
-> long term.
-
-I knew using the term optimise would just making things more difficult 
-for myself. :) Lets view this as cleaning up the API to avoid the 
-inelegance of taking the same lock twice right next to each other.
-
-If we can achieve this while not making the API worse then there is 
-nothing to lose either short, med or long term.
-
-> If possible I would rather say that we should completely drop the RR 
-> approach and only use FIFO or even something more sophisticated.
-
-No complaints from me, but I don't know how that would work other than 
-putting a depreciation warning if someone selected RR. And keeping that 
-for a good number of kernel releases. Any other ideas?
-
-Regards,
-
-Tvrtko
+Best regards,
+Dzmitry
