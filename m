@@ -2,72 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C71C977A4A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8894A977A50
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94CEA10ECAA;
-	Fri, 13 Sep 2024 07:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF4610E180;
+	Fri, 13 Sep 2024 07:55:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LHd8ISEf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NTBi6eRP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E14D10ECAA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:49:47 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-374c1963cb6so1261700f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:49:47 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C045810E180
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:55:30 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3787f30d892so434418f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726213786; x=1726818586; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1726214129; x=1726818929; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=rDq7EDSXEQgrT90d6komWOFIyy09UnN04IDKdYKFcYk=;
- b=LHd8ISEfbaUhAiCUm+pppo1X5/JUQGwWKaYWSN/to6Nmk5ZqTBrXbMZ9ycMwn6wuAl
- GkMCCcGeusJ3hxWDGShGmM7gDyp8SzS8jJwqlMGPAUiT1BGjOhNlbOJFg5oIY7yXM7Z9
- Gs1e9bo2yyL7LCpB4CDN2W7b5VOn6neJnuKvpgIsny4e0Z1l5vPNYgYFGRg1YfPBIB7B
- /SDZoulEJ9Uvtai6bO68wKz3zrrkp+bbLxg2NkWQevxDzxcXxCgz0X2NWpv0z6A7TpuU
- dYDq8lVTw46Go3o3vC8kDO1vDEiq/77B87qGHG15OJWxSPib9XdHVKyC2gNiajFm5Isz
- iCcA==
+ :reply-to; bh=4F47Y0ZqCWvW1BKyuPVAeIWPAa8pt/mVlnZt3/WuCck=;
+ b=NTBi6eRPsRPWzDd5oHDHf2UJYo/8DIVG4RnFARD0n0oVMhe17HjJcjCfUYtVmqbRIs
+ SaEWNr8fePKVNGE8dYkYMbhNpTdiRFQXFmGvMELnyPqPxE3OYVdNhohMPzcj3roVvRHI
+ cs0GGWHfY7VJXqC/r4svcwlaKJyL//UOy+qbdFscs59auodtDQe02pMzhc7jKeDLe38G
+ 7lm8ufmx4DgkxR+U26ZCSOeWnr/qIl9lfHsYZxH06iDj3LcVCUc7nBf1I+X9XE0ZCNuv
+ oRkNmJp4zYujKt3Yd1yY7wDpC7i+2g/ioOjT2flsqiiqwO45uc7KjPlEsO5/U0c2ElqT
+ QRAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726213786; x=1726818586;
+ d=1e100.net; s=20230601; t=1726214129; x=1726818929;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=rDq7EDSXEQgrT90d6komWOFIyy09UnN04IDKdYKFcYk=;
- b=nVicrtEDJPYDezoA9IdFSzdt7E0mh9enpXo7SWrJyMMlTsTdQPkmevK8gR8LIhII1q
- U3qp4PE5rK1VUbsaHfrMRf7D7MJXHIsOe0QAa+qQyyzYuxvW5UGuXUMysPZl8X4F9pCx
- w3/8Xt/ipi04ebuvOq8UquOc/oOx5aDGlt1V+s9z7rv8wlt6G2ni5VVA/Fd81O3ThVhZ
- YgBnnJd+e3GembDXw4dX1NckzRPLfu2jeMCB05eX3hIT7UEW541rQO+RweIOine448r2
- vwaCX3s2TNHRD1GQCo2bxdXrjdVO5iQ5GREz6y1vN5Qa4O3N9MggzWjnoKxAxUghw66l
- cr1A==
+ bh=4F47Y0ZqCWvW1BKyuPVAeIWPAa8pt/mVlnZt3/WuCck=;
+ b=u1pmDLP5fJEufgN83YG/FvHF4LXUa+MxqV90M59AlqdewTG1oc2QGADysrpsq1hYUt
+ DfmRxYJZ3wF0lEnxpLS6IIpeiI6lKLH2CyAbneUHKPLgLW2UtFWzRuSE/DSAMAwrQSpp
+ sTnV3s5jpcXZPdjWSvuIMAyMAwrHuur1/LKiqxcgSQLw0rOyIQat8ZMkMCwGmUfvI2o7
+ e9AM8cxNyuxn8crJuYzFp/fXZiL+mDrG/p19GA0ZwgmnJZlABA6+KJpiks/gDX2ECvqH
+ QGKcL23Nf/yxLSlIlUPYbS+xZg2AcV79hQ2JVfnx/NxtjFcUspuD5+wjtrqjwTgkfJKk
+ RGrQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWollS3/i5Tmf442viYwt7rBFqw3irqwlz1iHcltUR8a69i8mZbvsSjWpehJfD1+uKl76QiKojb4Eg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIz6u4o6XVFlmQF/hqICo6AaOlMOpYGpv0mLBEAUD64O+hvI1V
- U529tXsnRYFYrmsdYJXkhc8LJn21O13Iw1tK6VKsVbMhSxoT27wLZRwvqx89X9g=
-X-Google-Smtp-Source: AGHT+IEeRUWBEfEf8XKRbZFVuDuAUvumIvsA4Amfg1ykGBP9UGS1pYeuJ58j0g7e3wmhWchVjy8KTw==
-X-Received: by 2002:a5d:5747:0:b0:377:27f1:d54f with SMTP id
- ffacd0b85a97d-378c2d5b27fmr3364681f8f.45.1726213785502; 
- Fri, 13 Sep 2024 00:49:45 -0700 (PDT)
+ AJvYcCUDRgQfhUBg/hBSLLDbx6N9IK11fd09yKnLiEwzVo/bCcbNcmmJ0AFBMj7nyUL5O+wuvTwvELSd4WM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxemRssPkltIoJ1xLxNtwWzzU4MjxJbAltvhwGbQOmyFaJ3lhS7
+ 3sXvx78Z7kukufhfliy80tlYYRE/S9j1675EoiFNC9p5IEgnmQiliHCh87scDEc=
+X-Google-Smtp-Source: AGHT+IFWCJ/6kVaBdFU6S4UaLYSM5aXgd7sHJI8AFELv8kzA9BpSNDQLlguwkKv+WU3rzncuwMzl9g==
+X-Received: by 2002:a5d:46cb:0:b0:371:c518:6f54 with SMTP id
+ ffacd0b85a97d-378d61f1276mr892538f8f.29.1726214128842; 
+ Fri, 13 Sep 2024 00:55:28 -0700 (PDT)
 Received: from [192.168.7.202] ([212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378956652ddsm16172755f8f.29.2024.09.13.00.49.44
+ ffacd0b85a97d-37895676117sm16006632f8f.60.2024.09.13.00.55.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Sep 2024 00:49:45 -0700 (PDT)
-Message-ID: <9432c068-3508-4780-8314-c43228fb6126@linaro.org>
-Date: Fri, 13 Sep 2024 09:49:44 +0200
+ Fri, 13 Sep 2024 00:55:28 -0700 (PDT)
+Message-ID: <d9fe0fd3-c494-4c93-8f86-98dbb6fea4f3@linaro.org>
+Date: Fri, 13 Sep 2024 09:55:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 6/6] drm/bridge: imx8qxp-ldb: Switch to RUNTIME_PM_OPS()
-To: Fabio Estevam <festevam@gmail.com>, rfoss@kernel.org
-Cc: victor.liu@nxp.com, dri-devel@lists.freedesktop.org,
- Fabio Estevam <festevam@denx.de>
-References: <20240626230704.708234-1-festevam@gmail.com>
- <20240626230704.708234-6-festevam@gmail.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/2] drm/bridge: dw-hdmi: Move vmalloc PCM buffer
+ management into the driver
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240807152725.18948-1-tiwai@suse.de>
+ <20240807152725.18948-2-tiwai@suse.de>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -94,7 +99,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240626230704.708234-6-festevam@gmail.com>
+In-Reply-To: <20240807152725.18948-2-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,60 +118,83 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2024 01:07, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
+On 07/08/2024 17:27, Takashi Iwai wrote:
+> The dw-hdmi drm bridge driver is the only one who still uses the ALSA
+> vmalloc helper API functions.  A previous attempt to change the way of
+> buffer management wasn't taken for this legacy stuff, as we had little
+> chance for test and some risk of major breaking.
+> Instead, this patch moves the vmalloc buffer stuff into the dw-hdmi
+> driver code itself, so that we can drop them from ALSA core code
+> afterwards.
 > 
-> Replace SET_RUNTIME_PM_OPS with its modern RUNTIME_PM_OPS() alternative.
+> There should be no functional changes.
 > 
-> The combined usage of pm_ptr() and RUNTIME_PM_OPS()
-> allows the compiler to evaluate if the runtime suspend/resume() functions
-> are used at build time or are simply dead code.
-> 
-> This allows removing the __maybe_unused notation from the runtime
-> suspend/resume() functions.
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> Link: https://lore.kernel.org/20191210154536.29819-1-tiwai@suse.de
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > ---
->   drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
+>   .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   | 30 ++++++++++++++++---
+>   1 file changed, 26 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-> index 7984da9c0a35..b33011f397f0 100644
-> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-> @@ -678,12 +678,12 @@ static void imx8qxp_ldb_remove(struct platform_device *pdev)
->   	pm_runtime_disable(&pdev->dev);
->   }
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index 67b8d17a722a..221e9a4edb40 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/interrupt.h>
+>   #include <linux/module.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/vmalloc.h>
+>   #include <drm/bridge/dw_hdmi.h>
+>   #include <drm/drm_edid.h>
 >   
-> -static int __maybe_unused imx8qxp_ldb_runtime_suspend(struct device *dev)
-> +static int imx8qxp_ldb_runtime_suspend(struct device *dev)
+> @@ -388,15 +389,36 @@ static int dw_hdmi_close(struct snd_pcm_substream *substream)
+>   
+>   static int dw_hdmi_hw_free(struct snd_pcm_substream *substream)
 >   {
->   	return 0;
+> -	return snd_pcm_lib_free_vmalloc_buffer(substream);
+> +	struct snd_pcm_runtime *runtime = substream->runtime;
+> +
+> +	vfree(runtime->dma_area);
+> +	runtime->dma_area = NULL;
+> +	return 0;
 >   }
 >   
-> -static int __maybe_unused imx8qxp_ldb_runtime_resume(struct device *dev)
-> +static int imx8qxp_ldb_runtime_resume(struct device *dev)
+>   static int dw_hdmi_hw_params(struct snd_pcm_substream *substream,
+>   	struct snd_pcm_hw_params *params)
 >   {
->   	struct imx8qxp_ldb *imx8qxp_ldb = dev_get_drvdata(dev);
->   	struct ldb *ldb = &imx8qxp_ldb->base;
-> @@ -695,8 +695,7 @@ static int __maybe_unused imx8qxp_ldb_runtime_resume(struct device *dev)
+> +	struct snd_pcm_runtime *runtime = substream->runtime;
+> +	size_t size = params_buffer_bytes(params);
+> +
+>   	/* Allocate the PCM runtime buffer, which is exposed to userspace. */
+> -	return snd_pcm_lib_alloc_vmalloc_buffer(substream,
+> -						params_buffer_bytes(params));
+> +	if (runtime->dma_area) {
+> +		if (runtime->dma_bytes >= size)
+> +			return 0; /* already large enough */
+> +		vfree(runtime->dma_area);
+> +	}
+> +	runtime->dma_area = vzalloc(size);
+> +	if (!runtime->dma_area)
+> +		return -ENOMEM;
+> +	runtime->dma_bytes = size;
+> +	return 1;
+> +}
+> +
+> +static struct page *dw_hdmi_get_page(struct snd_pcm_substream *substream,
+> +				     unsigned long offset)
+> +{
+> +	return vmalloc_to_page(substream->runtime->dma_area + offset);
 >   }
 >   
->   static const struct dev_pm_ops imx8qxp_ldb_pm_ops = {
-> -	SET_RUNTIME_PM_OPS(imx8qxp_ldb_runtime_suspend,
-> -			   imx8qxp_ldb_runtime_resume, NULL)
-> +	RUNTIME_PM_OPS(imx8qxp_ldb_runtime_suspend, imx8qxp_ldb_runtime_resume, NULL)
+>   static int dw_hdmi_prepare(struct snd_pcm_substream *substream)
+> @@ -515,7 +537,7 @@ static const struct snd_pcm_ops snd_dw_hdmi_ops = {
+>   	.prepare = dw_hdmi_prepare,
+>   	.trigger = dw_hdmi_trigger,
+>   	.pointer = dw_hdmi_pointer,
+> -	.page = snd_pcm_lib_get_vmalloc_page,
+> +	.page = dw_hdmi_get_page,
 >   };
 >   
->   static const struct of_device_id imx8qxp_ldb_dt_ids[] = {
-> @@ -709,7 +708,7 @@ static struct platform_driver imx8qxp_ldb_driver = {
->   	.probe	= imx8qxp_ldb_probe,
->   	.remove_new = imx8qxp_ldb_remove,
->   	.driver	= {
-> -		.pm = &imx8qxp_ldb_pm_ops,
-> +		.pm = pm_ptr(&imx8qxp_ldb_pm_ops),
->   		.name = DRIVER_NAME,
->   		.of_match_table = imx8qxp_ldb_dt_ids,
->   	},
+>   static int snd_dw_hdmi_probe(struct platform_device *pdev)
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
