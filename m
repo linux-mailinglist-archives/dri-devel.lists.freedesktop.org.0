@@ -2,67 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98302977928
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9614C97791A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A3710EC9B;
-	Fri, 13 Sep 2024 07:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F93D10E084;
+	Fri, 13 Sep 2024 07:05:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CsJ8FaQ1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iYtVYiPF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85FFD10EC9F
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:11:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 030AB10E084
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:05:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1726211465;
+ s=mimecast20190719; t=1726211157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ANNgLqlDsK2GEZg0OWThjkQlD6f7PCxsPZ0zCB2M9/Q=;
- b=CsJ8FaQ1qE9x6nLipUZXl3kzjEMzKTLROnFmNN8DL2DvDdzX7Q9V+4DjsjfwTH74D8vq8p
- tJ5JP6FEAsoGXHmJWX1afdApodFwUo54tOZVNISdhK+7RN8B7vov0orEBV+pa5+WHK+/Ab
- QeaKjk7MU89V1W0UFk/gcJn/X5Xxwjs=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-460-5bPV_2iVPfuiDD7BAFpvMA-1; Fri,
- 13 Sep 2024 03:11:02 -0400
-X-MC-Unique: 5bPV_2iVPfuiDD7BAFpvMA-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id D3F4C1956048; Fri, 13 Sep 2024 07:11:00 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.27])
- by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id D4C4719560AA; Fri, 13 Sep 2024 07:10:56 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Ilia Mirkin <imirkin@alum.mit.edu>, James Jones <jajones@nvidia.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v3 2/2] drm/nouveau: Add drm_panic support for nv50+
-Date: Fri, 13 Sep 2024 09:03:11 +0200
-Message-ID: <20240913071036.574782-3-jfalempe@redhat.com>
-In-Reply-To: <20240913071036.574782-1-jfalempe@redhat.com>
-References: <20240913071036.574782-1-jfalempe@redhat.com>
+ bh=JUxInk0S7cxq8bV5NiblehkhBP73tYJxMaYlFtxjxPg=;
+ b=iYtVYiPF9uMOm77EGJcIB5gEXPIi/PE6fLK99xfp+SIilWrvPxVSi8Hdx07z7uPD44QpWN
+ 6feAjg4Bb/FgBkrC2TIQeUFwc32YJUgTtkuYa7wv22lp0RaLD9eOefzo5X25fyPTcBNvKt
+ fUrBCyBUbu08oJatwAOXkugNjzR5cK4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-136-Fp0xS2p7NKK65KDE8XfuPQ-1; Fri, 13 Sep 2024 03:05:54 -0400
+X-MC-Unique: Fp0xS2p7NKK65KDE8XfuPQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-42cb2c5d634so4196915e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:05:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726211153; x=1726815953;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JUxInk0S7cxq8bV5NiblehkhBP73tYJxMaYlFtxjxPg=;
+ b=RMfY/oiePzD5MRT82VtUFZA9Z2PFiaHbU7nMeLluhK2r4zqra5z5s3WQZAl/m1ftPF
+ Pn0Bo4S/LwQgSTI+GjlLfn2q6RlAaARKJa4+r/5C5s9UrD3sS5OFqFEk4Bu0o4oV2XPH
+ oOShY/tK/rXlkNKigMp7f7ucVSirvns7XauFvgi1n0NiIKKdunsIGDKQ1BvKVWUDH7tC
+ D8GcjbvNSAn+Hiz8u50yWfsS/977FLHyZA2Tt2wVFXMvoVBzgI5HlHGDewt3GCyC2Fvb
+ T/+neTFY7QEAZXviX1DuIEy/RjENIvOmc/4VkglhuBsdt1CHIDGrr0J8yxX5bPYdLhtW
+ b0GQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJ91UWFlsrQk6TU7Bgx58pfDkSE3Lx5KNpWvlM/67vb+ErRYld3uUPUiP6KGQjnrv9QVVb+fhgF4k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9NjmZDqlH/miKSgDZRztwv0WNPWnQnxIcEqDgfg4i1YephXeu
+ 7RXjpdcGapfmbfr1077UKRBNhQeGMDoggYMoQPIMmA6HVGK/rJF2dN4Jr0oVW3ckgnnWZZq5LOu
+ 08fkqM7GlPpR+F+009ulJCKmS4CwZgP2f08iGP5z32O6aVj0eWFko61P9wqojNoX1yw==
+X-Received: by 2002:a05:600c:3490:b0:42c:cd88:d0f7 with SMTP id
+ 5b1f17b1804b1-42d9072211bmr12409565e9.10.1726211152895; 
+ Fri, 13 Sep 2024 00:05:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF7ixvDig6mKPxUj06bVVHzX7pqCmSzpaF/KDzUc+5ujBIqwcPkJ/QygFJDl0Ehw9m+hB1r+A==
+X-Received: by 2002:a05:600c:3490:b0:42c:cd88:d0f7 with SMTP id
+ 5b1f17b1804b1-42d9072211bmr12409095e9.10.1726211152304; 
+ Fri, 13 Sep 2024 00:05:52 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-378956d37a1sm15945167f8f.77.2024.09.13.00.05.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2024 00:05:51 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Julius Werner
+ <jwerner@chromium.org>
+Cc: Brian Norris <briannorris@chromium.org>, Borislav Petkov <bp@alien8.de>,
+ Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org, Fenghua Yu
+ <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, Tony
+ Luck <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ chrome-platform@lists.linux.dev, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate
+ device name "simple-framebuffer.0"
+In-Reply-To: <6bf656e0-e0b6-4b97-b7a2-ff0bdc86b098@suse.de>
+References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+ <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
+ <ZuCGkjoxKxpnhEh6@google.com>
+ <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
+ <CAODwPW8P+jcF0erUph5XyWoyQgLFbZWxEM6Ygi_LFCCTLmH89Q@mail.gmail.com>
+ <87mskczv9l.fsf@minerva.mail-host-address-is-not-set>
+ <6bf656e0-e0b6-4b97-b7a2-ff0bdc86b098@suse.de>
+Date: Fri, 13 Sep 2024 09:05:50 +0200
+Message-ID: <87jzfgyqwh.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,204 +105,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_panic support, for nv50+ cards.
-It's enough to get the panic screen while running Gnome/Wayland on a
-GTX 1650.
-It doesn't support multi-plane or compressed format.
-Support for other formats and older cards will come later.
-Tiling is only tested on GTX1650, and might be wrong for other cards.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
+Hello Thomas,
 
-v2:
- * Rebase and drop already merged patches.
- * Rework the tiling algorithm, using "swizzle" to compute the offset
-   inside the block.
-   
-v3:
- * Fix support for Tesla GPU, which have simpler tiling.
- * Use nouveau_framebuffer_get_layout() to get the tiling parameters.
- * Have 2 set_pixel() functions, depending on GPU family.
+> Hi Javier,
+>
+> thanks for the patch.
+>
 
- drivers/gpu/drm/nouveau/dispnv50/wndw.c | 139 +++++++++++++++++++++++-
- 1 file changed, 137 insertions(+), 2 deletions(-)
+Thanks for your feedback.
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index 7a2cceaee6e9..419c5f359711 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -30,11 +30,16 @@
- #include <nvhw/class/cl507e.h>
- #include <nvhw/class/clc37e.h>
- 
-+#include <linux/iosys-map.h>
-+
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
--#include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_panic.h>
-+#include <drm/ttm/ttm_bo.h>
- 
- #include "nouveau_bo.h"
- #include "nouveau_gem.h"
-@@ -577,6 +582,125 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- 	return 0;
- }
- 
-+#define NV_TILE_BLK_BASE_HEIGHT_TESLA 4 /* In pixel */
-+#define NV_TILE_BLK_BASE_HEIGHT 8	/* In pixel */
-+#define NV_TILE_GOB_SIZE 64	/* In bytes */
-+#define NV_TILE_BLK_WIDTH (NV_TILE_GOB_SIZE / 4) /* For 32 bits pixel */
-+
-+/* Only used by drm_panic get_scanout_buffer() and set_pixel(), so it is
-+ * protected by the drm panic spinlock
-+ */
-+static u32 nv50_panic_blk_h;
-+
-+/* Return the framebuffer offset of the start of the block where pixel(x,y) is */
-+static u32
-+nv50_get_block_off(unsigned int x, unsigned int y, unsigned int width)
-+{
-+	u32 blk_x, blk_y, blk_columns;
-+
-+	blk_columns = DIV_ROUND_UP(width, NV_TILE_BLK_WIDTH);
-+	blk_x = x / NV_TILE_BLK_WIDTH;
-+	blk_y = y / nv50_panic_blk_h;
-+
-+	return ((blk_y * blk_columns) + blk_x) * NV_TILE_GOB_SIZE * nv50_panic_blk_h;
-+}
-+
-+/* Turing and later have 2 level of tiles inside the block */
-+static void
-+nv50_set_pixel_swizzle(struct drm_scanout_buffer *sb, unsigned int x,
-+		       unsigned int y, u32 color)
-+{
-+	u32 blk_off, off, swizzle;
-+
-+	blk_off = nv50_get_block_off(x, y, sb->width);
-+
-+	y = y % nv50_panic_blk_h;
-+
-+	/* Inside the block, use the fast address swizzle to compute the offset
-+	 * For nvidia blocklinear, bit order is yn..y3 x3 y2 x2 y1 y0 x1 x0
-+	 */
-+	swizzle = (x & 3) | (y & 3) << 2 | (x & 4) << 2 | (y & 4) << 3;
-+	swizzle |= (x & 8) << 3 | (y >> 3) << 7;
-+	off = blk_off + swizzle * 4;
-+
-+	iosys_map_wr(&sb->map[0], off, u32, color);
-+}
-+
-+static void
-+nv50_set_pixel(struct drm_scanout_buffer *sb, unsigned int x, unsigned int y,
-+	       u32 color)
-+{
-+	u32 blk_off, off;
-+
-+	blk_off = nv50_get_block_off(x, y, sb->width);
-+
-+	x = x % NV_TILE_BLK_WIDTH;
-+	y = y % nv50_panic_blk_h;
-+	off = blk_off + (x + y * NV_TILE_BLK_WIDTH) * 4;
-+
-+	iosys_map_wr(&sb->map[0], off, u32, color);
-+}
-+
-+static u32
-+nv50_get_block_height(u32 tile_mode, u16 chipset)
-+{
-+	if (chipset < 0xc0)
-+		return NV_TILE_BLK_BASE_HEIGHT_TESLA * (1 << tile_mode);
-+	else
-+		return NV_TILE_BLK_BASE_HEIGHT * (1 << (tile_mode >> 4));
-+}
-+
-+static int
-+nv50_wndw_get_scanout_buffer(struct drm_plane *plane, struct drm_scanout_buffer *sb)
-+{
-+	struct drm_framebuffer *fb;
-+	struct nouveau_bo *nvbo;
-+	struct nouveau_drm *drm = nouveau_drm(plane->dev);
-+	u16 chipset = drm->client.device.info.chipset;
-+	u32 tile_mode;
-+	u8 kind;
-+
-+	if (!plane->state || !plane->state->fb)
-+		return -EINVAL;
-+
-+	fb = plane->state->fb;
-+	nvbo = nouveau_gem_object(fb->obj[0]);
-+
-+	/* Don't support compressed format, or multiplane yet. */
-+	if (nvbo->comp || fb->format->num_planes != 1)
-+		return -EOPNOTSUPP;
-+
-+	if (nouveau_bo_map(nvbo)) {
-+		pr_warn("nouveau bo map failed, panic won't be displayed\n");
-+		return -ENOMEM;
-+	}
-+
-+	if (nvbo->kmap.bo_kmap_type & TTM_BO_MAP_IOMEM_MASK)
-+		iosys_map_set_vaddr_iomem(&sb->map[0], (void __iomem *) nvbo->kmap.virtual);
-+	else
-+		iosys_map_set_vaddr(&sb->map[0], nvbo->kmap.virtual);
-+
-+	sb->height = fb->height;
-+	sb->width = fb->width;
-+	sb->pitch[0] = fb->pitches[0];
-+	sb->format = fb->format;
-+
-+	nouveau_framebuffer_get_layout(fb, &tile_mode, &kind);
-+	if (kind) {
-+		/* If tiling is enabled, use set_pixel() to display correctly.
-+		 * Only handle 32bits format for now.
-+		 */
-+		if (fb->format->cpp[0] != 4)
-+			return -EOPNOTSUPP;
-+		nv50_panic_blk_h = nv50_get_block_height(tile_mode, chipset);
-+		if (chipset >= 0x160)
-+			sb->set_pixel = nv50_set_pixel_swizzle;
-+		else
-+			sb->set_pixel = nv50_set_pixel;
-+	}
-+	return 0;
-+}
-+
- static const struct drm_plane_helper_funcs
- nv50_wndw_helper = {
- 	.prepare_fb = nv50_wndw_prepare_fb,
-@@ -584,6 +708,14 @@ nv50_wndw_helper = {
- 	.atomic_check = nv50_wndw_atomic_check,
- };
- 
-+static const struct drm_plane_helper_funcs
-+nv50_wndw_primary_helper = {
-+	.prepare_fb = nv50_wndw_prepare_fb,
-+	.cleanup_fb = nv50_wndw_cleanup_fb,
-+	.atomic_check = nv50_wndw_atomic_check,
-+	.get_scanout_buffer = nv50_wndw_get_scanout_buffer,
-+};
-+
- static void
- nv50_wndw_atomic_destroy_state(struct drm_plane *plane,
- 			       struct drm_plane_state *state)
-@@ -732,7 +864,10 @@ nv50_wndw_new_(const struct nv50_wndw_func *func, struct drm_device *dev,
- 		return ret;
- 	}
- 
--	drm_plane_helper_add(&wndw->plane, &nv50_wndw_helper);
-+	if (type == DRM_PLANE_TYPE_PRIMARY)
-+		drm_plane_helper_add(&wndw->plane, &nv50_wndw_primary_helper);
-+	else
-+		drm_plane_helper_add(&wndw->plane, &nv50_wndw_helper);
- 
- 	if (wndw->func->ilut) {
- 		ret = nv50_lut_init(disp, mmu, &wndw->ilut);
+> Am 12.09.24 um 18:33 schrieb Javier Martinez Canillas:
+>> Julius Werner <jwerner@chromium.org> writes:
+
+[...]
+
+>> ---
+>>   drivers/firmware/google/framebuffer-coreboot.c | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+>> index daadd71d8ddd..4e50da17cd7e 100644
+>> --- a/drivers/firmware/google/framebuffer-coreboot.c
+>> +++ b/drivers/firmware/google/framebuffer-coreboot.c
+>> @@ -15,6 +15,7 @@
+>>   #include <linux/module.h>
+>>   #include <linux/platform_data/simplefb.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/screen_info.h>
+>>   
+>>   #include "coreboot_table.h"
+>>   
+>> @@ -27,6 +28,7 @@ static int framebuffer_probe(struct coreboot_device *dev)
+>>   	int i;
+>>   	u32 length;
+>>   	struct lb_framebuffer *fb = &dev->framebuffer;
+>> +	struct screen_info *si = &screen_info;
+>
+> Probably 'const'.
+>
+
+Ok.
+
+>>   	struct platform_device *pdev;
+>>   	struct resource res;
+>>   	struct simplefb_platform_data pdata = {
+>> @@ -36,6 +38,20 @@ static int framebuffer_probe(struct coreboot_device *dev)
+>>   		.format = NULL,
+>>   	};
+>>   
+>> +	/*
+>> +	 * If the global screen_info data has been filled, the Generic
+>> +	 * System Framebuffers (sysfb) will already register a platform
+>> +	 * and pass the screen_info as platform_data to a driver that
+>> +	 * could scan-out using the system provided framebuffer.
+>> +	 *
+>> +	 * On Coreboot systems, the advertise LB_TAG_FRAMEBUFFER entry
+>> +	 * in the Coreboot table should only be used if the payload did
+>> +	 * not set video mode info and passed it to the Linux kernel.
+>> +	 */
+>> +	if (si->orig_video_isVGA == VIDEO_TYPE_VLFB ||
+>> +            si->orig_video_isVGA == VIDEO_TYPE_EFI)
+>
+> Rather call screen_info_video_type(si) [1] to get the type. If it
+
+Indeed. I missed that helper, I'll change it.
+
+> returns 0, the screen_info is unset and the corebios code can handle the 
+> framebuffer. In any other case, the framebuffer went through a 
+> bootloader, which might have modified it. This also handles awkward 
+> cases, such as if the bootloader programs a VGA text mode.
+>
+> [1] 
+> https://elixir.bootlin.com/linux/v6.10.10/source/include/linux/screen_info.h#L92
+>
+> With these changes:
+>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+
+Thanks. I'll wait for others in this thread to comment and if all agree
+with the solution, I'll post a proper patch (addressing your comments).
+
+> Best regards
+> Thomas
+>
+
 -- 
-2.46.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
