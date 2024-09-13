@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367D8978615
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 18:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E6597863C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 18:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD39510EC8A;
-	Fri, 13 Sep 2024 16:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F3B210ED3D;
+	Fri, 13 Sep 2024 16:53:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dxp3WfnE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ctb4nLFh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E998510EC8A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 16:47:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2A3A8A456CB;
- Fri, 13 Sep 2024 16:47:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 331EBC4CEC0;
- Fri, 13 Sep 2024 16:47:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726246068;
- bh=u5+27xyUUOfs9JlsXpfN9e9YD2zu86QlM9sNV0ZIPIs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dxp3WfnEec3z+Qchn+RvKHnza6/Hd4uDbbnNLerZze1hvLkeiDERjv7JNPfYXMTxB
- +yG0urQnyu1DGsT6N96ZYFogXCsf8vCxMHJz2AmbL7uWO9AYnat8RjV9ZRrxpyd/jB
- I7UdijVMgYL6yyQ9rdOqmqQ9Wr2qvbwlRAGZNw27Z1WaL/Lm3Lus+q6bJ2dBqTlFMQ
- ith8yad7QZFl49dI9nKDsriqsuhifcF1gqEjnNPWNFpdkHI7C6XOzA7ijcBblDRW9s
- pTDf4jG85eiowyGp7EFgovmeIki1pSyssjiMGhONgjuRyePS8bf7DPKQZzU4eYsv/q
- +WL06gHoXA3ew==
-Date: Fri, 13 Sep 2024 17:47:40 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C703110ED3D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 16:53:30 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-718e2855479so1789943b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 09:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726246410; x=1726851210; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=pRpY/CVpMYAkC/cmsUyFHgCRongi0M1NU9h2RBhRUd4=;
+ b=ctb4nLFhCLOji+Vpvi8WcwgQ2ZrAHhwH8BNU5eOP0BRLti12+LliShayxhZ1jjWTG/
+ a0nNHh7THtQ8/t2oLzYIR1FpQYwDKNiB/otJtTqylneHAq1plsaDbluP9gElQZeWhLg2
+ rRw1yJsLNnNl2f4z5BOi+T/2z3FoQz7OairIr1FCdgSrs5y3WMC8pm7M5xakI56QosNp
+ YckVrn4/Nb73slq6AjdJhR4p17UxJscX/FKc/XsUcFeTgheqPZJ33sGztGZhGm//3O8h
+ u+stsNJUxRtfr/NAEDsnB3jN5nmJQO7l6juE3QN7/8u8KKPmLz9yfEiZYs5H4tK8CRQq
+ CPkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726246410; x=1726851210;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pRpY/CVpMYAkC/cmsUyFHgCRongi0M1NU9h2RBhRUd4=;
+ b=ZTF5vk83rgzhIagZelb58MG8xFhbDabgblUtDP4wZB7ewXzPCPHpgVjp8t4U3aq172
+ ShNJ59HLqQo3y2UDYki5RHZXfda415Q7HcjSZDTJCgna9PDJvtZRYYLtMgOPdwktVmGG
+ TW06N3W3a+KXbLSZ8kMv3Bhl6eQWTelahgMQ0rbICj+GjSOv1Yj90sLKRzVZO8gIEqA1
+ +nBjcw87TmT1ibUx2py6TCuNfm96jTfKBRl/sTSclepaHO0V/pDalWES9eiKbMhGukiU
+ p4GAxlj1WKWs32USfnytB2h4ZHG9DB84rRuicFt+S64AFR/69u3L5lrFxF0Bls61QNyy
+ BYog==
+X-Gm-Message-State: AOJu0Yyhy88hRLLEcEMVRhb0b6Hvd1LOoZDDV2od3Ho9c4mIJbvN6812
+ ONF+QL0yFEsvOK2QNsq6LGwc6Ug9nek12zova0pj78fu6Dxag81kJrBizQ==
+X-Google-Smtp-Source: AGHT+IGTpWeAJiptrTee9xaItPApwu1R5b8PiG62o5nmp4riaQE4k+sNYOGCJP4vR1hs7n/+rBdjoQ==
+X-Received: by 2002:a05:6a20:5296:b0:1d0:3a28:d2a7 with SMTP id
+ adf61e73a8af0-1d03a28d33bmr6257690637.41.1726246409439; 
+ Fri, 13 Sep 2024 09:53:29 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-71908fc9c7csm6291139b3a.43.2024.09.13.09.53.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2024 09:53:28 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Asahi Lina <lina@asahilina.net>,
+ Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 04/23] dt-bindings: mfd: add maxim,max77705
-Message-ID: <20240913-platter-reset-2ec8d7c7295a@spud>
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
- <13a650f4-7ca7-4c95-b536-9814a22f00ff@kernel.org>
- <CABTCjFCOTd5V5WyRbD1OCS9Hatk0mOCtNy5WWfp0KkUBgqXs+A@mail.gmail.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/sched: Fix dynamic job-flow control race
+Date: Fri, 13 Sep 2024 09:53:25 -0700
+Message-ID: <20240913165326.8856-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ye/AKZ4nM3H9W2aP"
-Content-Disposition: inline
-In-Reply-To: <CABTCjFCOTd5V5WyRbD1OCS9Hatk0mOCtNy5WWfp0KkUBgqXs+A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,44 +84,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Rob Clark <robdclark@chromium.org>
 
---ye/AKZ4nM3H9W2aP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes a race condition reported here: https://github.com/AsahiLinux/linux/issues/309#issuecomment-2238968609
 
-On Fri, Sep 13, 2024 at 05:51:56PM +0300, Dzmitry Sankouski wrote:
-> =D1=87=D1=82, 20 =D0=B8=D1=8E=D0=BD. 2024=E2=80=AF=D0=B3. =D0=B2 18:46, K=
-rzysztof Kozlowski <krzk@kernel.org>:
-> >
-> > On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> > > maxim,max77705 is MAX77705 pmic binding part
-> > >
-> > > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > > ---
-> > >  .../devicetree/bindings/mfd/maxim,max77705.yaml    | 112 +++++++++++=
-++++++++++
-> >
-> > Your patch order is totally messed. Not tested by automation. Only
-> > limited review follows.
-> >
-> Hmm, not sure what was wrong. I sent version 4 to myself with `b4 send
-> --reflect`, the order looks good.
+The whole premise of lockless access to a single-producer-single-
+consumer queue is that there is just a single producer and single
+consumer.  That means we can't call drm_sched_can_queue() (which is
+about queueing more work to the hw, not to the spsc queue) from
+anywhere other than the consumer (wq).
 
-I suspect that the order that he is referring to is not what you think,
-and that the patches do appear in the order to him that they did to you,
-but that order you committed changes is likely not bisectable due
-dependencies coming after their users.
+This call in the producer is just an optimization to avoid scheduling
+the consuming worker if it cannot yet queue more work to the hw.  It
+is safe to drop this optimization to avoid the race condition.
 
---ye/AKZ4nM3H9W2aP
-Content-Type: application/pgp-signature; name="signature.asc"
+Suggested-by: Asahi Lina <lina@asahilina.net>
+Fixes: a78422e9dff3 ("drm/sched: implement dynamic job-flow control")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index ab53ab486fe6..1af1dbe757d5 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1020,8 +1020,7 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
+ void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
+ 		      struct drm_sched_entity *entity)
+ {
+-	if (drm_sched_can_queue(sched, entity))
+-		drm_sched_run_job_queue(sched);
++	drm_sched_run_job_queue(sched);
+ }
+ 
+ /**
+-- 
+2.46.0
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuRsrAAKCRB4tDGHoIJi
-0sARAP9HtB47ae3VUBdcqtRSXtfh9F/QtUAtZQYTV93JLHGAvwEAgE6iBhZNSP8y
-/bl7XakNdZvek3z1WJ6OStgIn8KeBQ4=
-=yLFY
------END PGP SIGNATURE-----
-
---ye/AKZ4nM3H9W2aP--
