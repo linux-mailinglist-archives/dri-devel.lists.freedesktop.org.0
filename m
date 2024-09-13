@@ -2,42 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24B1977896
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 08:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70367977912
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80A3E10E0E2;
-	Fri, 13 Sep 2024 06:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A3B10EC8B;
+	Fri, 13 Sep 2024 07:03:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="fgfPBWyx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XITGnsX8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-132.freemail.mail.aliyun.com
- (out30-132.freemail.mail.aliyun.com [115.124.30.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B4410E0E2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 06:03:21 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33E6610EC84
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:12:02 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-42cd46f3ac9so14425515e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 17:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1726207399; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=IXY6foCUKJL70y4wvAm3n7YmrfSbfkYbIltLyuQlMbk=;
- b=fgfPBWyxZgGNZB5VcrH1mIYmSUD4e7zzq0EGHNv7U+OvilryQRvnchKWMSOFGFOgqznD5PDdEpjeLBf2qsWjwblXvF3bwjXO9nAg/82ZIH/ySlCcK+sNXmeKyGEd/T/ffYLq5nBCGKJwwYp2vdOfpSlznJdRG3rF21Bby1sde9A=
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0WEtgHGI_1726207383) by smtp.aliyun-inc.com;
- Fri, 13 Sep 2024 14:03:18 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: lucas.demarchi@intel.com
-Cc: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
+ d=gmail.com; s=20230601; t=1726186320; x=1726791120; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y1VVC89CjtWo5QJDEpjt4COs8h+KH+eSP/sYp+7PqSI=;
+ b=XITGnsX89gJjCpiEoy2TIhTHJUjsV2kFmFLK4PTT1K33UbRLMwLSsrin3BjLmiCYoW
+ BUmuoHw02NiPihDCgtvA3fa061zqtxLWzPxcy+pYak1ZMzxPAlszY5dx+gVgSbSJJU9q
+ Y4R8PwQ+H4g5EjVYi2fvua9gJRICb2owg2GOjfm80ydD2Dx4YJQHxKcGVZbmzZltbM1g
+ mKLKuwT0sxiuXWWanrgUNdjMgwrbfr5d+JA4/bmB4bpJNwX5Lz1Ay9A4UBNZuzgIUESE
+ zLa9j1bJ3Cd664bNR5VMSS25zybHrABSnSn5kpoWHJp1KbcI7O2uOcw4pOkEqWBQsXOx
+ PqqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726186320; x=1726791120;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y1VVC89CjtWo5QJDEpjt4COs8h+KH+eSP/sYp+7PqSI=;
+ b=KG3U7Ba54rL6ldbrwPj8Wu4OO6g9C/rzIjz2ddGnIHh03A4ApBS/RW2Z4Y0Eo1hfHt
+ SCXRzmbslAAjAx+Ijnta4e7XdQ+WusSIBKKbakcGILe6NPyBmzC00fpDe3A/zQgEdVOb
+ PT6v6nw5V5PmXWezQ+kA2uTxnsjIDQFvxKrSJXaNWPFbdDGcpUULz6qTWIIk0e9Tplbi
+ fIGXUFy/cvpP+FS4Hd0u5Sdi8YLbtVyxeDaA6/NLSoqg4kHB1UmVPDAKBTShB2nMqJkP
+ QTqgvaHi/a2bIqa2Si9+3xghgAWujHQVTEU6NxrLiOfWoJhHoB/XuGaXlT5icCiZ2n67
+ 1Y5w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2+6rVqYTvcNHipoFcV7OeVwtWdTq/4BKMPKaN5aDT0uQ/dONdwE0rpTy/E/SszgTCILA0CBM9sOo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9/KTAR53f/qHn9VjnUw1gT23t5Xcnxd5hj3jlZETuhHlq0ZVS
+ fDsN1LNCXIJ0yneKrXS+vyCo43kJPgg12Cbsjh0rBnBOV/lPhXYT
+X-Google-Smtp-Source: AGHT+IEGzAmYspOtVt8nmwDG+Sn38HCQP1W9OJHEufd1QFajnmY3ZWK0gmu6itOTP3RzmCrv9irZ9Q==
+X-Received: by 2002:a05:600c:1c91:b0:42b:af52:2525 with SMTP id
+ 5b1f17b1804b1-42cdb54dd62mr40724645e9.16.1726186320227; 
+ Thu, 12 Sep 2024 17:12:00 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:82:7577:85e4:cf41:16db:65d5])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42d9b002a9asm6433075e9.0.2024.09.12.17.11.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Sep 2024 17:11:59 -0700 (PDT)
+From: Vasileios Amoiridis <vassilisamir@gmail.com>
+To: linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+Cc: tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH v3 -next] drm/xe/irq: Remove unneeded semicolon
-Date: Fri, 13 Sep 2024 14:02:54 +0800
-Message-Id: <20240913060254.26678-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+ andriy.shevchenko@linux.intel.com,
+ Vasileios Amoiridis <vassilisamir@gmail.com>
+Subject: [PATCH v2 0/1] Use functionality of irq_get_trigger_type()
+Date: Fri, 13 Sep 2024 02:11:55 +0200
+Message-Id: <20240913001156.56634-1-vassilisamir@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 13 Sep 2024 07:03:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,31 +84,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unnecessary semicolon in pick_engine_gt().
+Changes in v2:
+        - Split patches to subsystems
+        - Add tag
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=8757
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
-Changes in v3:
-  -Amend the submission information to "Remove unnecessary semicolon in pick_engine_gt()".
+v1: https://lore.kernel.org/all/20240902225534.130383-1-vassilisamir@gmail.com/
 
- drivers/gpu/drm/xe/xe_irq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Vasileios Amoiridis (1):
+  drm/i2c: tda998x: Make use of irq_get_trigger_type()
 
-diff --git a/drivers/gpu/drm/xe/xe_irq.c b/drivers/gpu/drm/xe/xe_irq.c
-index 07577b418205..e501002e8a04 100644
---- a/drivers/gpu/drm/xe/xe_irq.c
-+++ b/drivers/gpu/drm/xe/xe_irq.c
-@@ -280,7 +280,7 @@ static struct xe_gt *pick_engine_gt(struct xe_tile *tile,
- 			return tile->media_gt;
- 		default:
- 			break;
--		};
-+		}
- 		fallthrough;
- 	default:
- 		return tile->primary_gt;
+ drivers/gpu/drm/i2c/tda998x_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+
+base-commit: 57f962b956f1d116cd64d5c406776c4975de549d
 -- 
-2.32.0.3.g01195cf9f
+2.25.1
 
