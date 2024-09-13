@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E38977FCC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 14:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C274D977FB2
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 14:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A278F10ED10;
-	Fri, 13 Sep 2024 12:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B77B10E081;
+	Fri, 13 Sep 2024 12:19:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="P3Rq8MxE";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="vFlp/LtF";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="DpDYps18";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACC610ED10
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 12:26:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1726229839;
- bh=ZaXv5PcSi3Q1RITLgJRi/a0
- 2oOUMv+eZ5SZxjlb/K24=; b=P3Rq8MxE+eO7sApOH4Mmc5XYKOXlD1ZFXsAtwZpESav4U4ZdBB
- +6MnIIHN/qJmSBCIWmE0tFP82ULSmGBiCZd8Jcug/07txXy2wpz3Qh2iTUnpeOFVD5zyvWUjnLW
- nkjW2fvcPYBOaGDqtVyI1szsypXN2/Rw5c1YGrAFlOTbPJprLtpedmdnZPOICWVMlP8O5jKU8YZ
- xQNQ3nlojiV6Cau8sausgUCyQQsLiXw9V6vR/ZMqJJfWRxhNWbS6BS+XfaUByiaTsqfC03iRmUc
- Ruun+BH7g6t/kZdyKQRrEdXAFo3SpEDa88xxWhf7fiZoCGdMxWvRTowI1DhSTqBcFVQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1726229839; bh=ZaXv5PcSi3Q1RITLgJRi/a0
- 2oOUMv+eZ5SZxjlb/K24=; b=vFlp/LtF1r9o2yWC324UzX0bP7sqVt9mudyefJFilfNY8y1znb
- mCyE/blyeuEBfXlClk3iqvmXvlMwB9ENU8CA==;
-Message-ID: <b9162c5d-b856-4450-91df-b3b8c25896e0@damsy.net>
-Date: Fri, 13 Sep 2024 14:17:18 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA4010E081
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 12:19:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1726229954; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AA0OWO+k8gJ6Wg9omSdFa5q1lTJY5LDIZnPSjAEbBkT6fTyytaw1FwtwPebjtyz5WdSP4g0pE+IYPsy/q2vQx5XmtuHR8VuSb4T8p89pQvp6QI0VfhV13ftcYEFDZ1GdCYzCzc4vkqy6UQqzh3K2yp+umTD41dShkNBHDpzQWeE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1726229954;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=cVUFU5KIUA6rufOpcTvDgHhdvtoTT7WEsa6cwDCimqs=; 
+ b=X5AyFhZqmTjs+4vGcb0orUaK96tdfG/mNh1GM3fhhPI9tdpUKkituHJZTPuW3knoDJCKdHLY4a3hiTQfQE++pk2c+qL6d5aomODLlqFfp4G/BrcYctJRSXyka045knMUA8DV6w2Y5pjNCHW95pfKWhbAKsSawW9mSo4jR5T/jpg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
+ dmarc=pass header.from=<vignesh.raman@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726229954; 
+ s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=cVUFU5KIUA6rufOpcTvDgHhdvtoTT7WEsa6cwDCimqs=;
+ b=DpDYps18x7sGxBrgRJyK1xEF5Kso6NMelwumV6vr05WMPd3yrovcEWiXZVWTPdzZ
+ JnBDMWzCvu74n98k71VgN9Ft/nluh8EpLcL5390Xluj1uUarcjy3u7/oL/SDFjBg61+
+ VbFNxBYq6QH42k0kKnzacxXzTPcUCnPKH/RcO12Y=
+Received: by mx.zohomail.com with SMTPS id 1726229952619949.3254555456753;
+ Fri, 13 Sep 2024 05:19:12 -0700 (PDT)
+Message-ID: <a81d8d9d-8aa6-4b59-976e-5bca7c8fdaa9@collabora.com>
+Date: Fri, 13 Sep 2024 17:49:02 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm: add DRM_SET_NAME ioctl
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com
-References: <20240911145836.734080-1-pierre-eric.pelloux-prayer@amd.com>
- <83219d37-74c4-4a3e-bdca-59d81040dea3@igalia.com>
+Subject: Re: [PATCH v1] drm/ci: enable lockdep detection
+To: Rob Clark <robdclark@gmail.com>
+Cc: Helen Mae Koike Fornazier <helen.koike@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, daniels
+ <daniels@collabora.com>, airlied <airlied@gmail.com>,
+ daniel <daniel@ffwll.ch>, "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
+ "deborah.brouwer" <deborah.brouwer@collabora.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+References: <20240812112030.81774-1-vignesh.raman@collabora.com>
+ <191483d05a3.129198f97500814.8001634600010504645@collabora.com>
+ <0a3db7dc-4533-4111-bec9-35cc68e35d83@collabora.com>
+ <1914d612d8e.f2d5101b916106.3138016556910118397@collabora.com>
+ <42753719-9619-45f1-b76a-8ff8d19cec22@collabora.com>
+ <CAF6AEGuWHER=k-xGad-aAtOfS10R55W37FcU45phNnJpOwFhWw@mail.gmail.com>
 Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <83219d37-74c4-4a3e-bdca-59d81040dea3@igalia.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <CAF6AEGuWHER=k-xGad-aAtOfS10R55W37FcU45phNnJpOwFhWw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,230 +77,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+Hi Rob, Helen,
 
-Le 12/09/2024 à 10:13, Tvrtko Ursulin a écrit :
-> 
-> On 11/09/2024 15:58, Pierre-Eric Pelloux-Prayer wrote:
->> Giving the opportunity to userspace to associate a free-form
->> name with a drm_file struct is helpful for tracking and debugging.
+On 14/08/24 23:11, Rob Clark wrote:
+> On Wed, Aug 14, 2024 at 2:42 AM Vignesh Raman
+> <vignesh.raman@collabora.com> wrote:
 >>
->> This is similar to the existing DMA_BUF_SET_NAME ioctl.
+>> Hi Helen,
 >>
->> Access to name is protected by a mutex, and the 'clients' debugfs
->> file has been updated to print it.
+>> On 14/08/24 01:44, Helen Mae Koike Fornazier wrote:
+>>>
+>>>
+>>>
+>>>
+>>> ---- On Tue, 13 Aug 2024 02:26:48 -0300 Vignesh Raman  wrote ---
+>>>
+>>>    > Hi Helen,
+>>>    >
+>>>    > On 13/08/24 01:47, Helen Mae Koike Fornazier wrote:
+>>>    > >
+>>>    > > Hi Vignesh,
+>>>    > >
+>>>    > > Thanks for your patch.
+>>>    > >
+>>>    > >
+>>>    > > ---- On Mon, 12 Aug 2024 08:20:28 -0300 Vignesh Raman  wrote ---
+>>>    > >
+>>>    > >   > We have enabled PROVE_LOCKING (which enables LOCKDEP) in drm-ci.
+>>>    > >   > This will output warnings when kernel locking errors are encountered
+>>>    > >   > and will continue executing tests. To detect if lockdep has been
+>>>    > >   > triggered, check the debug_locks value in /proc/lockdep_stats after
+>>>    > >   > the tests have run. When debug_locks is 0, it indicates that lockdep
+>>>    > >   > has detected issues and turned itself off. So check this value and
+>>>    > >   > exit with an error if lockdep is detected.
+>>>    > >
+>>>    > > Should we exit with an error? Or with a warning? (GitLab-CI supports that).
+>>>    > > Well, I guess it is serious enough.
+>>>    >
+>>>    > I think we can exit with an error since we check the status at the end
+>>>    > of the tests.
+>>>
+>>> I mean, we can exit with a specific error and configure this specific error in gitlab-ci to be a warning,
+>>> so the job will be yellow and not red.
+>>>
+>>> But maybe the lockdep issue should be a strong error.
 >>
->> Userspace MR to use this ioctl:
->>     https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1428
+>> Yes agree. We can exit with an error for lockdep issue instead of a warning.
 > 
-> Idea seems useful to me. Various classes of comments/questions below:
+> I think that is too strong, lockdep can warn about things which can
+> never happen in practice.  (We've never completely solved some of the
+> things that lockdep complains about in runpm vs shrinker reclaim.)
 > 
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/drm_debugfs.c | 12 ++++++++----
->>   drivers/gpu/drm/drm_file.c    |  5 +++++
->>   drivers/gpu/drm/drm_ioctl.c   | 28 ++++++++++++++++++++++++++++
->>   include/drm/drm_file.h        |  9 +++++++++
->>   include/uapi/drm/drm.h        | 14 ++++++++++++++
->>   5 files changed, 64 insertions(+), 4 deletions(-)
+> Surfacing it as a warning is fine.
+
+Will send another patch which will exit with an error if lockdep is 
+detected and configure it as a warning in GitLab CI.
+
+Regards,
+Vignesh
+
+> 
+> BR,
+> -R
+> 
+>>>
+>>>    >
+>>>    > >
+>>>    > > Should we also track on the xfail folder? So we can annotate those errors as well?
+>>>    >
+>>>    > Do you mean reporting this error in expectation files?
+>>>
+>>> I wonder if there will be cases were we are getting this error and we should ignore it, so in the code
+>>> we should check the xfail files to see if we should exit with an error or ignore it.
+>>>
+>>> For instance, if we have a case where we are having this error, and it is flaky, we might want to add it
+>>> to the flakes file list.
+>>>
+>>> Maybe this is not the case, I'm just wondering.
 >>
->> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
->> index 6b239a24f1df..b7492225ae88 100644
->> --- a/drivers/gpu/drm/drm_debugfs.c
->> +++ b/drivers/gpu/drm/drm_debugfs.c
->> @@ -78,12 +78,13 @@ static int drm_clients_info(struct seq_file *m, void *data)
->>       kuid_t uid;
->>       seq_printf(m,
->> -           "%20s %5s %3s master a %5s %10s\n",
->> +           "%20s %5s %3s master a %5s %10s %20s\n",
->>              "command",
->>              "tgid",
->>              "dev",
->>              "uid",
->> -           "magic");
->> +           "magic",
->> +           "name");
->>       /* dev->filelist is sorted youngest first, but we want to present
->>        * oldest first (i.e. kernel, servers, clients), so walk backwardss.
->> @@ -94,19 +95,22 @@ static int drm_clients_info(struct seq_file *m, void *data)
->>           struct task_struct *task;
->>           struct pid *pid;
->> +        mutex_lock(&priv->name_lock);
->>           rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
->>           pid = rcu_dereference(priv->pid);
->>           task = pid_task(pid, PIDTYPE_TGID);
->>           uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
->> -        seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
->> +        seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %20s\n",
->>                  task ? task->comm : "<unknown>",
->>                  pid_vnr(pid),
->>                  priv->minor->index,
->>                  is_current_master ? 'y' : 'n',
->>                  priv->authenticated ? 'y' : 'n',
->>                  from_kuid_munged(seq_user_ns(m), uid),
->> -               priv->magic);
->> +               priv->magic,
->> +               priv->name ? priv->name : "");
->>           rcu_read_unlock();
->> +        mutex_unlock(&priv->name_lock);
-> 
-> FWIW it is possible you could get away without the need for a lock on the read side if you make the 
-> pointer RCU managed and stick a synchronize_rcu before kfree in the ioctl update path.
-> 
-> Not because this lock would be a contentended one per se, but mostly to avoid complications such as 
-> amdgpu_debugfs_gem_info_show() where 3/3 has it broken - cannot take the mutex in rcu locked 
-> section. Just something to consider in case it would end up simpler code.
-
-I don't mind using RCU or a mutex. Christian suggested a mutex, so I used that, but I'm happy to 
-switch if the RCU approach is preferred.
-
-
-> 
->>       }
->>       mutex_unlock(&dev->filelist_mutex);
->>       return 0;
->> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->> index 01fde94fe2a9..558151c3912e 100644
->> --- a/drivers/gpu/drm/drm_file.c
->> +++ b/drivers/gpu/drm/drm_file.c
->> @@ -158,6 +158,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
->>       spin_lock_init(&file->master_lookup_lock);
->>       mutex_init(&file->event_read_lock);
->> +    mutex_init(&file->name_lock);
->>       if (drm_core_check_feature(dev, DRIVER_GEM))
->>           drm_gem_open(dev, file);
->> @@ -259,6 +260,10 @@ void drm_file_free(struct drm_file *file)
->>       WARN_ON(!list_empty(&file->event_list));
->>       put_pid(rcu_access_pointer(file->pid));
->> +
->> +    mutex_destroy(&file->name_lock);
->> +    kvfree(file->name);
-> 
-> I think kfree is correct here.
-> 
-
-OK, I'll update in v2.
-
->> +
->>       kfree(file);
->>   }
->> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
->> index 51f39912866f..ba2f2120e99b 100644
->> --- a/drivers/gpu/drm/drm_ioctl.c
->> +++ b/drivers/gpu/drm/drm_ioctl.c
->> @@ -540,6 +540,32 @@ int drm_version(struct drm_device *dev, void *data,
->>       return err;
->>   }
->> +static int drm_set_name(struct drm_device *dev, void *data,
->> +            struct drm_file *file_priv)
->> +{
->> +    struct drm_set_name *name = data;
->> +    void *user_ptr;
->> +    char *new_name;
->> +
->> +    if (name->name_len >= NAME_MAX)
->> +        return -EINVAL;
-> 
-> Any special reason to use the filesystem NAME_MAX?
-
-Not really - feel free to suggest something else.
-
-> 
->> +
->> +    user_ptr = u64_to_user_ptr(name->name);
->> +
->> +    new_name = memdup_user_nul(user_ptr, name->name_len);
->> +
->> +    if (IS_ERR(new_name))
->> +        return PTR_ERR(new_name);
->> +
->> +    mutex_lock(&file_priv->name_lock);
->> +    if (file_priv->name)
->> +        kvfree(file_priv->name);
->> +    file_priv->name = new_name;
->> +    mutex_unlock(&file_priv->name_lock);
-> 
-> One question is whether allowing name changes is interesting or it should be one shot?
-
-dma_buf_set_name allows to override the name, so I re-used the same logic.
-
-> 
-> Second issue is to avoid any Little Bobby Tables situations and somewhat validate the input. At 
-> least when kernel dumps in in debugfs and fdinfo, we probably don't want to allow userspace to be 
-> too creative. Like output newlines or some other special characters.
-
-You mean checking "isgraph(c)" for each char? Or even stricter "isalnum(c) || c == '_' || c == '-'"?
-
-Thanks,
-Pierre-Eric
-
-
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->> +
->> +    return 0;
->> +}
->> +
->>   static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
->>   {
->>       /* ROOT_ONLY is only for CAP_SYS_ADMIN */
->> @@ -610,6 +636,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
->>       DRM_IOCTL_DEF(DRM_IOCTL_PRIME_HANDLE_TO_FD, drm_prime_handle_to_fd_ioctl, DRM_RENDER_ALLOW),
->>       DRM_IOCTL_DEF(DRM_IOCTL_PRIME_FD_TO_HANDLE, drm_prime_fd_to_handle_ioctl, DRM_RENDER_ALLOW),
->> +    DRM_IOCTL_DEF(DRM_IOCTL_SET_NAME, drm_set_name, DRM_RENDER_ALLOW),
->> +
->>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPLANERESOURCES, drm_mode_getplane_res, 0),
->>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETCRTC, drm_mode_getcrtc, 0),
->>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETCRTC, drm_mode_setcrtc, DRM_MASTER),
->> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->> index 8c0030c77308..df26eee8f79c 100644
->> --- a/include/drm/drm_file.h
->> +++ b/include/drm/drm_file.h
->> @@ -388,6 +388,15 @@ struct drm_file {
->>        * Per-file buffer caches used by the PRIME buffer sharing code.
->>        */
->>       struct drm_prime_file_private prime;
->> +
->> +    /**
->> +     * @name:
->> +     *
->> +     * Userspace-provided name; useful for accounting and debugging.
->> +     */
->> +    const char *name;
->> +    /** @name_lock: Protects @name. */
->> +    struct mutex name_lock;
->>   };
->>   /**
->> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
->> index 16122819edfe..fc62bb21f79e 100644
->> --- a/include/uapi/drm/drm.h
->> +++ b/include/uapi/drm/drm.h
->> @@ -1024,6 +1024,12 @@ struct drm_crtc_queue_sequence {
->>       __u64 user_data;    /* user data passed to event */
->>   };
->> +struct drm_set_name {
->> +    __u64 name_len;
->> +    __u64 name;
->> +};
->> +
->> +
->>   #if defined(__cplusplus)
->>   }
->>   #endif
->> @@ -1288,6 +1294,14 @@ extern "C" {
->>    */
->>   #define DRM_IOCTL_MODE_CLOSEFB        DRM_IOWR(0xD0, struct drm_mode_closefb)
->> +/**
->> + * DRM_IOCTL_SET_NAME - Attach a name to a drm_file
->> + *
->> + * This ioctl is similar to DMA_BUF_SET_NAME - it allows for easier tracking
->> + * and debugging.
->> + */
->> +#define DRM_IOCTL_SET_NAME        DRM_IOWR(0xD1, struct drm_set_name)
->> +
->>   /*
->>    * Device specific ioctls should only be in their respective headers
->>    * The device specific ioctl range is from 0x40 to 0x9f.
+>>
+>> The tests are passing but log shows lockdep warning
+>> (https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/62177711).
+>>
+>> Moreover if the lockdep warning is emitted, lockdep will not continue to
+>> run and there is no need to check this warning for each tests.
+>> So added the check at the end of the tests.
+>>
+>>>
+>>>
+>>>    >
+>>>    > > Did you have an entire pipeline with this? To see if everything is still green?
+>>>    >
+>>>    > Yes. https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/62177711
+>>>    >
+>>>    > This is a test branch in which I reverted a fix for the lockdep issue.
+>>>    > We see 'WARNING: bad unlock balance detected!' in logs and pipeline is
+>>>    > still green.
+>>>
+>>> But with your patch, it would red right?
+>>
+>> Yes it would fail and the pipeline will be red.
+>>
+>>> With the current patch, is the pipeline still all green?
+>>
+>> With this current patch, it will fail.
+>> Pipeline link to show lockdep_stats before and after tests,
+>> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721
+>>
+>> Regards,
+>> Vignesh
+>>
+>>>
+>>> Regards,
+>>> Helen
+>>>
+>>>    >
+>>>    > Regards,
+>>>    > Vignesh
+>>>    >
+>>>    > >
+>>>    > > Helen
+>>>    > >
+>>>    > >   >
+>>>    > >   > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com>
+>>>    > >   > ---
+>>>    > >   >
+>>>    > >   > v1:
+>>>    > >   >  - Pipeline link to show lockdep_stats before and after tests,
+>>>    > >   > https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721
+>>>    > >   >
+>>>    > >   > ---
+>>>    > >   >  drivers/gpu/drm/ci/igt_runner.sh | 11 +++++++++++
+>>>    > >   >  1 file changed, 11 insertions(+)
+>>>    > >   >
+>>>    > >   > diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+>>>    > >   > index f38836ec837c..d2c043cd8c6a 100755
+>>>    > >   > --- a/drivers/gpu/drm/ci/igt_runner.sh
+>>>    > >   > +++ b/drivers/gpu/drm/ci/igt_runner.sh
+>>>    > >   > @@ -85,6 +85,17 @@ deqp-runner junit \
+>>>    > >   >  --limit 50 \
+>>>    > >   >  --template "See https://$CI_PROJECT_ROOT_NAMESPACE.pages.freedesktop.org/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/results/{{testcase}}.xml"
+>>>    > >   >
+>>>    > >   > +# Check if /proc/lockdep_stats exists
+>>>    > >   > +if [ -f /proc/lockdep_stats ]; then
+>>>    > >   > +    # If debug_locks is 0, it indicates lockdep is detected and it turns itself off.
+>>>    > >   > +    debug_locks=$(grep 'debug_locks:' /proc/lockdep_stats | awk '{print $2}')
+>>>    > >   > +    if [ "$debug_locks" -eq 0 ]; then
+>>>    > >   > +        echo "LOCKDEP issue detected. Please check dmesg logs for more information."
+>>>    > >   > +        cat /proc/lockdep_stats
+>>>    > >   > +        ret=1
+>>>    > >   > +    fi
+>>>    > >   > +fi
+>>>    > >   > +
+>>>    > >   >  # Store the results also in the simpler format used by the runner in ChromeOS CI
+>>>    > >   >  #sed -r 's/(dmesg-warn|pass)/success/g' /results/results.txt > /results/results_simple.txt
+>>>    > >   >
+>>>    > >   > --
+>>>    > >   > 2.43.0
+>>>    > >   >
+>>>    > >   >
+>>>    >
