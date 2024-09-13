@@ -2,51 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6BC977BE9
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 11:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42586977BEB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 11:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2ED10ECBE;
-	Fri, 13 Sep 2024 09:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B262010ECD2;
+	Fri, 13 Sep 2024 09:09:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VKoR3AhW";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E8B10ECD5
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 09:09:43 +0000 (UTC)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
- by APP-03 (Coremail) with SMTP id rQCowACXndlHAeRmbBRXAw--.41S2;
- Fri, 13 Sep 2024 17:09:34 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: alain.volmat@foss.st.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, vincent.abriou@st.com, benjamin.gaignard@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
-Subject: [PATCH] drm/sti: avoid potential dereference of error pointers in
- sti_hqvdp_atomic_check
-Date: Fri, 13 Sep 2024 17:09:26 +0800
-Message-Id: <20240913090926.2023716-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC31910ECD2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 09:09:53 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-428e1915e18so5839135e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 02:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726218592; x=1726823392; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=HLdIqxoqb5KmhEW9QOZTVpHsg4gXaPJ+uFC0FI+XoTg=;
+ b=VKoR3AhWyPCaTtR7VwgM8K4kc3FAkalSRJy7cL89NrCIi83pg5D2Lu65X6DR1l9uxZ
+ ItJFx65WluWDbXltNogIt1p4QSguINTA5tW8qXhoe5Rjv8E9aZMcSCQ624lKWYoeWBBz
+ HOrGs+/7dui2lid3LfhCInk7Usl5cbfQFUVSsjSil/2VWuPWKbd5jVgdLTtVBRol4XDx
+ +HAPz7q2Fg6obPXyZsj5Zx+RYvx5S6H5AhlmcErQIsIakoukHF4mN0mKjRfVjNHHpV+F
+ Ut+Rm8HxRzylOToIlqBkctloeOm5mppiD+tTJ6sK6XISb/kRDnOhx8SHiCdd4fvp0w6U
+ GoKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726218592; x=1726823392;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=HLdIqxoqb5KmhEW9QOZTVpHsg4gXaPJ+uFC0FI+XoTg=;
+ b=gQLYaUHdFb7aSjoF4oXm7TKSrVJqmRkc8JynU/i9JBcbnaxTOG1sUfNnDcR2hmrF51
+ 3XNPHI9iGfvL/6OuH9a2ju6U8cJrEndOqGMcr4Bc9jWZN7ECZfRrBAzsOEox6F+cfYoA
+ k4X+n/TEdBN9BYAyrcP5Ww2N+rehPeBl1MwflF5UUlGhkimtQ5yUD/voWPrWVlyd/p3V
+ TgZ9/sPUIirIuatKE5exnxqOQo/DfJFKus8bKGBW9zrorlb+otMP+rqpErjs117PTpl/
+ Nth/YyHfBCVpv5NX40kwZ2avXErhvVNMQg3dUekfJDVPz69CLIZrsb5Tc8bZHTcOdDgN
+ /mJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLM2vxqzUtthThNiZutXxSeF2Mr+ruhBKnc2b+0HcqgewptNjZAXSh8V+ljfqtxH5g201V7W+w13k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycZZ3ZcLzAjIOVvP+BkHMNQxPgNJMLN0wSjckI3/WnWrvS02y6
+ zxzjfR80d47tYtxWw7/BW/k/x99N18lexoURFI0UBCexVUDJWF6WpsuV118lgi0=
+X-Google-Smtp-Source: AGHT+IGMM6FHc1+2pXKvJHwC8ZMUtG/4vrXn88JK9L1ByLH/Gw4r9nZUG93Mmb+5ORn+tb2EgY4CGw==
+X-Received: by 2002:a05:600c:3ba9:b0:42c:b949:328e with SMTP id
+ 5b1f17b1804b1-42d964f3455mr12537865e9.31.1726218592165; 
+ Fri, 13 Sep 2024 02:09:52 -0700 (PDT)
+Received: from [192.168.7.202] ([212.114.21.58])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42d9b054f97sm17501755e9.4.2024.09.13.02.09.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Sep 2024 02:09:51 -0700 (PDT)
+Message-ID: <c79a615a-ed9b-4768-a1df-e64e2e2c2c48@linaro.org>
+Date: Fri, 13 Sep 2024 11:09:51 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowACXndlHAeRmbBRXAw--.41S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruF4kGrW7Gw18WF43uryrXrb_yoWfZFg_G3
- WUWrnagFy7KF1vva1jyr98Xa4F9FZYgF48Ww1jva9xArWDWryrX3yxWFyrGw4UWF40qFyD
- ta1xCryqgrna9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbSxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
- 648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2
- Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
- kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF0eHDUUUU
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v1 1/1] drm/panel: sony-acx565akm: Use %*ph to print small
+ buffer
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20240911200125.2886384-1-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240911200125.2886384-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,34 +113,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The return value of drm_atomic_get_crtc_state() needs to be
-checked. To avoid use of error pointer 'crtc_state' in case
-of the failure.
+On 11/09/2024 22:01, Andy Shevchenko wrote:
+> Use %*ph format to print small buffer as hex string.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>   drivers/gpu/drm/panel/panel-sony-acx565akm.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+> index 217f03569494..d437f5c84f5f 100644
+> --- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+> +++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+> @@ -562,8 +562,7 @@ static int acx565akm_detect(struct acx565akm_panel *lcd)
+>   		lcd->enabled ? "enabled" : "disabled ", status);
+>   
+>   	acx565akm_read(lcd, MIPI_DCS_GET_DISPLAY_ID, lcd->display_id, 3);
+> -	dev_dbg(&lcd->spi->dev, "MIPI display ID: %02x%02x%02x\n",
+> -		lcd->display_id[0], lcd->display_id[1], lcd->display_id[2]);
+> +	dev_dbg(&lcd->spi->dev, "MIPI display ID: %3phN\n", lcd->display_id);
+>   
+>   	switch (lcd->display_id[0]) {
+>   	case 0x10:
 
-Cc: stable@vger.kernel.org
-Fixes: dd86dc2f9ae1 ("drm/sti: implement atomic_check for the planes")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/gpu/drm/sti/sti_hqvdp.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-index 0fb48ac044d8..abab92df78bd 100644
---- a/drivers/gpu/drm/sti/sti_hqvdp.c
-+++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-@@ -1037,6 +1037,9 @@ static int sti_hqvdp_atomic_check(struct drm_plane *drm_plane,
- 		return 0;
- 
- 	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
-+
- 	mode = &crtc_state->mode;
- 	dst_x = new_plane_state->crtc_x;
- 	dst_y = new_plane_state->crtc_y;
--- 
-2.25.1
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
