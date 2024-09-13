@@ -2,65 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3608978EF5
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 09:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39D7978F9C
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 11:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7AB710E11E;
-	Sat, 14 Sep 2024 07:43:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50EF510E190;
+	Sat, 14 Sep 2024 09:50:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="inCsllv3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c0P2m/V5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
- [136.143.188.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B64CB10E11E
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 07:43:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1726299810; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RbnwAjEucXAKzNeT8OSRgFyVTfJqTiNV1SPybCL8HFrpn3cfwaUHlG6q4wteMAQhVbeD111Xkr+hWuYayvI9nD6ohp9DUjN9RhAKdVttQqlmZswlLEDC1xsWRodjUO2gjgCz0v2wPcmxu5ivWJKvo9vFSbsSe6IQF3oNp53ERFk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1726299810;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=9s6xbgvRK66eWsct5dwCUnVpO4nqDb+N6HYnzutOOR4=; 
- b=Us3Eit+cTSmh7lDAwTyHD2I8Z54xM5bK0ZlCk6g+TNt5pDkZceUW3g0hk0vuwCa/vZllB5RO+ytgxh4znYVoTShjh6Ammz7FPOkXM2RZsQZ2oYqgiXZ8eUpWxCcQjl9+3BIMKU8n4Iru6AimuDxt+VUijelEN9FztkayAhJ8/Lk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726299810; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=9s6xbgvRK66eWsct5dwCUnVpO4nqDb+N6HYnzutOOR4=;
- b=inCsllv3x9n7C2tlssmPf/tMvrPWt9e3mLm60cAKlcsL6P7/Mny4uzdiM8TtUqJ9
- zXyDR1I8sZv6zMOq4egzE2rXWSDfnPaR5Dqfthbp7O5ynv5UK/HRfhJiytTQMPERiZZ
- j8EPRzwEsb8F5UyNHWxv1sBqaqzExKqmFEkkSfYw=
-Received: by mx.zohomail.com with SMTPS id 172629980865397.08858448934461;
- Sat, 14 Sep 2024 00:43:28 -0700 (PDT)
-Received: by mercury (Postfix, from userid 1000)
- id 18B7A1060578; Sat, 14 Sep 2024 09:43:18 +0200 (CEST)
-Date: Sat, 14 Sep 2024 09:43:18 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH 0/3] drm/omap: Minor fixes
-Message-ID: <p63avbtt3vovvmcjpz5xywpneuegb2yasvfllo6leskldbac7p@rkfhsgvjusrf>
-References: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB3FC10EDB0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 21:28:34 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-206aee4073cso28575965ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 14:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726262914; x=1726867714; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=eUXF5H5IXAzMNdp+0PMvadCYVO9boEDpM2jvPihbWCo=;
+ b=c0P2m/V5WSy4gheg1yP4jKvW1W3oxJpEAJW/PFhk97JvEaQuKFRDGint+dNoiQqc4c
+ Vhw9cG2+r6sDj/0e9/zb+Ih493+dhwXJsZNTfgjWEoaA0KuirsAteQLEzQWsqU2iAmc+
+ qa0e1IsdQuPuO6L4Mm0Rj9v3dGMJz9ToonZuh+V8xc/fbkRqxOAQbUve9O2UPqPza3Yk
+ zbyKXryhqfUA9pG2Bv6ZOmD8U28zAEh+TdXZW3cjO9IZYo5D00DwpYokzzbs78Jkz2Qe
+ s7VvziKgRXmB6/lkYs+AxfFdZ5Y0unBVULRn2/iS3XAE+2gvRCl7VDNY+0FXT3OoKkER
+ OUOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726262914; x=1726867714;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eUXF5H5IXAzMNdp+0PMvadCYVO9boEDpM2jvPihbWCo=;
+ b=RucpmMUottP46paSxZ25JhF3jIIHB2R6WhQSWIXtQ+02GRD0ulgYNaiH3GO2ljT1zT
+ wh/v8yXcInhRsX7jI8+k7hGfgBxZFi+vpI1M/idB69BHFnCtcqL446J5i3xj+55+MG4I
+ Kj4scGn23+nVWgWuHtz1toMjQ79MWPPlr2hLbb1CNV071pCXnztlyr5mD22f6TEJV5nq
+ mt69caL09XTjqFThIeNsfbbOfRNaSZoDGddOF1ODDNio/EDkCGizgJvtu6/IDPf/j9tE
+ 7uWAC8oTt0QSVhfxYzRFQZqRO4uMv3/l0byrrYw41l257FpMsnxHjW2sWCNp8rFZQGsh
+ BCbw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDm8T3NhbPcKOsTE4zv7A2pHTTfgSUcDknolNW+kQxJCZvn4KnBy+bz36HJuVX0KM1hQDbBZJ4wWU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/TMdZy9eajClch7EldDdzN5ah2Um4302RZ7DeNgM3l9FuX2ul
+ ulIfe9EJ1M2gkI2d9nFNo6guALbn6fl2E8ToxJu2UXhnpS/jNHUqNO/p5w==
+X-Google-Smtp-Source: AGHT+IErA4QcPhjRnWC+bHzkpYBAkSoV3mGELKKhRk+7WAcjf+ONdJ1RhUqC8LGm0+14W5f3lPmJOA==
+X-Received: by 2002:a17:902:e54a:b0:205:7835:38dc with SMTP id
+ d9443c01a7336-2076e44917bmr108642345ad.60.1726262913925; 
+ Fri, 13 Sep 2024 14:28:33 -0700 (PDT)
+Received: from geday ([2804:7f2:8006:9f55:654b:622b:2859:2848])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-20794731494sm680765ad.257.2024.09.13.14.28.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2024 14:28:33 -0700 (PDT)
+Date: Fri, 13 Sep 2024 18:28:29 -0300
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+To: Hugh Cole-Baker <sigmaris@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ ALSA-devel <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [RESEND PATCH v2] drm/bridge: dw-hdmi-i2s: set insert_pcuv bit
+ if hardware supports it
+Message-ID: <ZuSufaLavkdMdsSL@geday>
+References: <Y01E5MvrnmVhnekO@geday>
+ <9b0a0cd8-0994-4235-9823-37f0da1a751d@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ecfymshjkc7m26ry"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/223.982.64
-X-ZohoMailClient: External
+In-Reply-To: <9b0a0cd8-0994-4235-9823-37f0da1a751d@gmail.com>
+X-Mailman-Approved-At: Sat, 14 Sep 2024 09:50:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,69 +87,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 13, 2024 at 10:12:39PM +0100, Hugh Cole-Baker wrote:
+> I added printk to show the value of AUD_CONF2, and found that on 6.1.23, the
+> value is 0 before the code in this patch sets the insert_pcuv bit. On 6.10.3
+> the value is 4, i.e. insert_pcuv is already set.
+> 
+> According to the RK3399 TRM, the value-after-reset of the insert_pcuv bit is 1,
+> so apparently on the 6.1.23 kernel something is clearing the bit after HW reset
+> but before this driver sets the hw_params, and this patch sets it back to the
+> correct value. On 6.10.3 the bit is not cleared, i.e. this patch is seemingly
+> no longer necessary (but is a harmless no-op).
 
---ecfymshjkc7m26ry
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Hugh,
 
-Hi,
+Thank you for your extensive testing. It seems then there's no action we
+need to take for mainline, as it's already fixed there.
 
-On Tue, Aug 06, 2024 at 04:50:26PM GMT, Tomi Valkeinen wrote:
-> A few minor fixes to omapdrm, mostly to remove sparse or other checker
-> warnings.
->=20
->  Tomi
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-20221017.h
+> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-20221017.h
+> 
+> btw, this patch doesn't apply without edits as these filenames are incorrect.
+> 
 
-For the series:
+Yeah, I see. My bad.
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
-Greetings,
-
--- Sebastian
-
-> ---
-> Tomi Valkeinen (3):
->       drm/omap: Fix possible NULL dereference
->       drm/omap: Hide sparse warnings
->       drm/omap: Fix locking in omap_gem_new_dmabuf()
->=20
->  drivers/gpu/drm/omapdrm/dss/base.c       | 25 ++++++-------------------
->  drivers/gpu/drm/omapdrm/dss/omapdss.h    |  3 +--
->  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c |  6 +++---
->  drivers/gpu/drm/omapdrm/omap_drv.c       |  4 ++--
->  drivers/gpu/drm/omapdrm/omap_gem.c       | 10 ++--------
->  5 files changed, 14 insertions(+), 34 deletions(-)
-> ---
-> base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
-> change-id: 20240806-omapdrm-misc-fixes-2ea920193dde
->=20
-> Best regards,
-> --=20
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->=20
-
---ecfymshjkc7m26ry
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmblPpIACgkQ2O7X88g7
-+prUWg/9EdoySBxDqVDFjyZIU8WKrTZK2WPiQUn4aJsTugo8jA1jQrX+c4CNUO8h
-8fa6s9RjZMqpP0EKEmyp3I3801cJmN8cZwdS5YjkiWIjFTlsrWPIlf4Ve+ukMINX
-k3qizRuWLSOTiJgdu0u3vaKjh4uhjWzlPyl/uKFx5N3pSVxw1OQQBXFSYsqY5AFj
-hHN14+j4hmomtDHRB+OicWVV4+KBsvvCcFhknGSbVvs4je2CKn9Fn83JNY6WJz9r
-sAMFAHN9jsJWX0L6OQNFbutoW9p+ym+8YLoaNO4OKgBJyIeVNVHb9h5bjASLusI4
-XXjrHOTpaRL8cJGrqnJJ65fzX7+4dif5ZNUUt13MvQO+hSlM6nXLRzhYzGskBpJn
-rxnmfVhrGMD+X1tmBqShwutklogpFjYgFGX2TwmJDpZOU2chViNbDvDsuz5pZmOf
-n1K2OF4wDMaG/wZ9XkeahbSbjNkObRHehkRIBocGPcjppiRDiGCgPZX9x1RzyTGi
-P0uOG3sjjPA4pAhrfZVaVMZoX68lngd5wMot2PtcMBiSe1v7maEnLtNgjd7pACgv
-dlz6h0QAk2u0ZpCmx6POKatzakP0QoBgHAaqqVJKgbWTzo5/y3cZoiWfOzJuvygj
-C6m06J0AK7lvaAo/8bixuT+w85IJfn9MyqerjCc1zrKifyrgSVA=
-=Tzmd
------END PGP SIGNATURE-----
-
---ecfymshjkc7m26ry--
+Thank you,
+Geraldo Nascimento
