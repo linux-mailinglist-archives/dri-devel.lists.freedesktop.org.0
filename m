@@ -2,69 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C902978AB7
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 23:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063A7978AC1
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 23:44:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C85C10EDB2;
-	Fri, 13 Sep 2024 21:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 341E610EDB7;
+	Fri, 13 Sep 2024 21:44:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TnskXcut";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BNJaGVPb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 387F010EDB2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 21:39:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C5460A45A39
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 21:39:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB759C4CEC7
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 21:39:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726263563;
- bh=29lldcaIiks9/LfCKap1Yktuq2JC3H3MvPcdHX/euBs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=TnskXcutylpvBl9psxUrUfUCRPAzJGzmd8y9uJnn49340vS09VnNflnBAhFARrcMn
- IeSpHw6/nWrPg1N6jtMkHHEJpBw96cHY8PioWhedzjHpsV3dwmsC2vTS8f9vlANP5p
- +HoUS4oiP2V76PpFhUocCnKBbWUPVpSkWJAOgahqgRMzQ9pkJy/TUgljsiqiOHeWj/
- fu6o5gKxrN51JtIBvAdl8ErSWEHkk/S9RiuQ6CZapIx8/DrqfSYzBAACLCSsdgblPm
- 6TFJvXE/t+34KGDYtsxzIHLLGK5ePjSCFibY6KWREM9KQP4r5wyoCIO35Q1RDacKa+
- bfRvrVFijIrcg==
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5367ae52a01so1959694e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 14:39:23 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C070710EDB7
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 21:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726263839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=fKkSG8VqZnRHGkrVPV+pI0HT1H3VA+Urh2h620VqLak=;
+ b=BNJaGVPbDWm9+SVkG+lhHbGkaN+Ln1IpYAUhJ5HiQAAxlBfuRsMCA1rMOVBvZdnwtK+bPX
+ 9RWzaIvn9t0DXxImOJSivxlZoYA64EVBrybQqB6imiN9X3k8QML7kSnShAD/qWhQUHA/E4
+ ctu30RRldynp8Ii+kVLEB1hloGbICCQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-157-xLeW_MjHMo22cnFmp_SKeQ-1; Fri, 13 Sep 2024 17:43:58 -0400
+X-MC-Unique: xLeW_MjHMo22cnFmp_SKeQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-42cb635b108so18564715e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 14:43:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726263837; x=1726868637;
+ h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fKkSG8VqZnRHGkrVPV+pI0HT1H3VA+Urh2h620VqLak=;
+ b=ia16cp+Djblw9Jvp02CrOgPjgQJV4gvgy1mvwWephursclaYPbVDsLEIflPyj1N8DE
+ uBq80r48swJTNps8R3s1VFqId0nD0LJEixLE/KtjzxmxbGABhp/3MIzteZUJgl0ftdq0
+ Pp7FtrUvV3ZfN2uj8BRCYUNOn+bg4XbuW3ttQY5E6W2rlDrhv4PwNc98jT3aIpXz8K2s
+ T+QJX2jgNJYyM210zSFnb2NfQ2fUMLtISk/jgBZFBNGZpp6W4okJ2XHdqwKvfZdWEvF/
+ WsStgqwwLT3JWNGcWCc53EksLCmr/XH1AxQKhjqfCfbCIfH0kB9p0QgZmNAC80nqdhNw
+ aUzQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVVWs11/Wgdjs9QInXOSV4U8y9VJvrmVJC3Lw3dwi9LgvxcLhwJUgHHoTOhq9g1Xqghwp9TEDtlsE8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhSGDrU7NfU71Bx5FCmch4Ja/ED0v93q3lsBZisX+MC3nqrhVV
- HMwJNiTYMDhsCPMfBWqJkfaFNiURhTh8sTW+Q3qIdjbGBrTUYqyAcaKs0lAOpy6omyMd7ZXy+Pi
- ZY0gPsvsmGV/gCuwh7mDAVmDfPQ==
-X-Google-Smtp-Source: AGHT+IHja0EdX+FTr55htGcN7Jpd0i8VmeMa2FJm1kpulhqYl5C0BU8PCxBt6UcQdsqHXvue4VOMzQdKb8SnPRakjGM=
-X-Received: by 2002:a05:6512:2393:b0:52e:98f6:c21f with SMTP id
- 2adb3069b0e04-5367fec3915mr2947015e87.16.1726263562116; Fri, 13 Sep 2024
- 14:39:22 -0700 (PDT)
+ AJvYcCXLoPyi1AHhJHJ/q1mVJiM4uVHnpuwFiDJj7fvEnrfoopLS3bCArYZ46U6hTPe7Wl9nGxzJo6uNgAU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzIQzZB6d9rnNne3yySkwRVeq76kGYCs9MwB71ErMFoX/P6R5A
+ H4ud5DpVsEs6Z2bSQkWCB9ONJFbzAiTReDWWe53f8fUx2i/UBo6bNhGhJ11Yhidm+uGFkN/o7cF
+ mCWRmrQncxNipseL2lrS+JCbplJBdFV10NhkTC3VgtPFZl4TmIOMKW9YKEaNJ372CnA==
+X-Received: by 2002:a05:600c:4e10:b0:42b:a9b4:3f59 with SMTP id
+ 5b1f17b1804b1-42cdb529b15mr63531165e9.14.1726263837559; 
+ Fri, 13 Sep 2024 14:43:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGmgVixelwyphAF04b6dZiaPA5Oxiya0I3gktrct+B5i0gL94h0PMPytDOlN/HdvI08wJsm+g==
+X-Received: by 2002:a05:600c:4e10:b0:42b:a9b4:3f59 with SMTP id
+ 5b1f17b1804b1-42cdb529b15mr63531025e9.14.1726263836950; 
+ Fri, 13 Sep 2024 14:43:56 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42da242736bsm2598215e9.40.2024.09.13.14.43.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2024 14:43:56 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Julius Werner <jwerner@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Hugues
+ Bruant <hugues.bruant@gmail.com>, Julius Werner <jwerner@chromium.org>,
+ Brian Norris <briannorris@chromium.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Borislav Petkov <bp@alien8.de>, Tzung-Bi Shih
+ <tzungbi@kernel.org>
+Subject: Re: [PATCH v2] firmware: coreboot: Don't register a pdev if
+ screen_info data is present
+Date: Fri, 13 Sep 2024 23:43:55 +0200
+Message-ID: <87h6aj6xgk.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20240912144430.3161717-1-treapking@chromium.org>
- <20240912144430.3161717-2-treapking@chromium.org>
-In-Reply-To: <20240912144430.3161717-2-treapking@chromium.org>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 13 Sep 2024 16:39:10 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLhnuqASgOab7RjdrUxGs4ags8CutL0K9Vr_57HmL+TpQ@mail.gmail.com>
-Message-ID: <CAL_JsqLhnuqASgOab7RjdrUxGs4ags8CutL0K9Vr_57HmL+TpQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: mediatek: dpi: Add
- power-domains to the bindings
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- CK Hu <ck.hu@mediatek.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, Fabien Parent <fparent@baylibre.com>, 
- Jitao shi <jitao.shi@mediatek.com>, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 1
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,38 +91,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 12, 2024 at 9:44=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> The power-domains property is used by most DT nodes using mediatek,dpi
-> bindings. Add this to the bindings to fix the schema check error.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> ---
->
->  .../bindings/display/mediatek/mediatek,dpi.yaml           | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.=
-yaml
-> index 5ca7679d5427..7e0bb88f5856 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
-l
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
-l
-> @@ -42,6 +42,12 @@ properties:
->    interrupts:
->      maxItems: 1
->
-> +  power-domains:
-> +    description:
-> +      A phandle and PM domain specifier as defined by bindings
-> +      of the power controller specified by phandle. See
-> +      Documentation/devicetree/bindings/power/power-domain.yaml for deta=
-ils.
+Julius Werner <jwerner@chromium.org> writes:
 
-power-domains was already added recently, but mt8183 was not included.
-So you'll need to adjust the if/then schema for it.
+Hello Julius,
 
-Rob
+>> +       /*
+>> +        * On Coreboot systems, the advertised LB_TAG_FRAMEBUFFER entry
+>> +        * in the Coreboot table should only be used if the payload did
+>> +        * not pass a framebuffer information to the Linux kernel.
+>
+> nit: The official brand spelling is "coreboot", always lowercase (even
+> at the start of a sentence). Not a big deal though.
+>
+> Reviewed-by: Julius Werner <jwerner@chromium.org>
+>
+
+Thanks for pointing that out, I wasn't aware. I just posted a v3 with
+the proper coreboot spelling and your Reviewed-by tag collected.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
