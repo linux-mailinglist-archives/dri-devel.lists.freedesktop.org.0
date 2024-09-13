@@ -2,61 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1BF9778F0
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 08:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFD09778FF
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 08:53:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEAE10EB6F;
-	Fri, 13 Sep 2024 06:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A8410EC5E;
+	Fri, 13 Sep 2024 06:53:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SqlmQJfg";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ymF+olb+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CMTHBgrt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xZ1vCzb4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NC6VsYty";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7734B10EB6F
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 06:46:43 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-a8a897bd4f1so63483366b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2024 23:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726210002; x=1726814802; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=smMa8B5bRHDRz1/lPizULbe3C4Z8KUeTa44Yd/ZIa8I=;
- b=SqlmQJfg5QkjIwtV+iJhmAy7h6UemeD5jhcfZKfqSmH0ZpmQoHT7E2f8OkDscdFEW7
- C21RQDFmsAIdZSLrJvvb46kiYzMeF4Tnc5qJkj2nP5KsT1Ffj7/vlVnge++oCHpXgygQ
- zgQa0RnuId99mw2OAiPWAjxDfb3lLYMYQcXx9omystwywnYVaaEhFZKbDZKSD3wltC31
- +FQwOe6qLoh+XUSu/rB5x5WsThQdPFiAkibPBbve0rYpQqMd2VGoVhQLqK5zFvhXVSjC
- Ey2+dLa+kOAfM+OdMIgmnVgQkkw4lrycyX7JtuFLuzXvn5Iz0E85qhxLjrKxG2yopgSz
- ickA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726210002; x=1726814802;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=smMa8B5bRHDRz1/lPizULbe3C4Z8KUeTa44Yd/ZIa8I=;
- b=pTwMDz+uD08UkBCLx3694fZUfVCXBPeDWnS157yc2TWKipBQzrvzWIDgaDqS3jpP/2
- 5i365GE5NRRgM+tA9sPSUlVS8ActmT67dm5HzKjJFi8FAbCqlR2SoAWMPQxs3mXo4MP/
- SJGEnoKDeDFK5Ta9pFw+qluqV8YAo4L1wWu23my6q3EHQS2UuAtMcEqZpGpBXnhkc4/t
- eQEtxlR/XwNxXqY/OnQjNsEIkKIiarS+bAAN08qDiEyPi3eLjr8Yuf89NJQQ9MIUfEp2
- Cf+ZDFDk9fSLG1L9cJaEGZdWP5dP3Z8CIgi0TKcArRxE0orICb3tEtPI79fGnYfkMpwm
- 13vQ==
-X-Gm-Message-State: AOJu0YzP8gjNrDg1bV99MpwOjQS6miCbnUKo8WeF8PjbIhiACNRdT8B3
- aMGtnkuSOtTHis+ZVq5nuIic73nMHjm+jgpNGulIrQMhMZ1TyhcL//payRsU3PEb18EXATonNCw
- kV6p0O8qMeD6farzNhCgjS36dZBjhIZ+e
-X-Google-Smtp-Source: AGHT+IGFIE0/ZOcDEPolMk8IJA9VxyAyQezzhh2vLOuPFzpZ1w7BptM9JEBsFT44Ziy9ZBA1a7hV6xiokysK/EVCuaA=
-X-Received: by 2002:a17:907:86a3:b0:a7a:9f0f:ab18 with SMTP id
- a640c23a62f3a-a9047ca87aemr109485866b.20.1726210001470; Thu, 12 Sep 2024
- 23:46:41 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D52F10EC31;
+ Fri, 13 Sep 2024 06:53:48 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C4B7B1F7C8;
+ Fri, 13 Sep 2024 06:53:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1726210427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yodNtgpzY0RHuizbdjq7+LdG3DurlGyACVx8nEHLOGk=;
+ b=ymF+olb+t/h3K766R2TSotEHM+fPyH9YXSS88pZvotya0kG4QjwYSKLFwue1DLkn/62KHW
+ DH+cSOrj65nqxIxrscVFQ/r9F/m7sS39IY6ybtDAjEdtP3oseo08VYj87xhd57YjkKpK/e
+ IH54zRe+9OQJi3pPwN5oG5FCA+aJjCs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1726210427;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yodNtgpzY0RHuizbdjq7+LdG3DurlGyACVx8nEHLOGk=;
+ b=CMTHBgrtf0acS3lwMX1PkeFVW3uArXeW1MKv5EI3MTIPTwm3maz9x9Z9tK3K+Moth1xIKL
+ Q69CS6LH+hkPrHAw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xZ1vCzb4;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NC6VsYty
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1726210426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yodNtgpzY0RHuizbdjq7+LdG3DurlGyACVx8nEHLOGk=;
+ b=xZ1vCzb4WXdH1w4owimLUMwJay3dIUyUYNbp1xjjwlpWLB/xEnl0vwaxhOwEoCiW24LFYT
+ j1ICE//ZpN97Ok9Cs7+jHeDEy/hpk8fojWFPyXbzPU/rYhaO04Z0jBMOKAC81JGxVaUvEt
+ 6SQROsq5kllpffdeG1Xrb8Vcg/Wg5YI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1726210426;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yodNtgpzY0RHuizbdjq7+LdG3DurlGyACVx8nEHLOGk=;
+ b=NC6VsYtyvJTUa0jK9KyiqwnHc+fk8ZkYIg66wCiw/oEawU3CIwddsLRnHrqcXuSZIZ8HAV
+ tsYRtCv7hxs61aAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 43F3413A73;
+ Fri, 13 Sep 2024 06:53:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id VMA+D3rh42byHgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 13 Sep 2024 06:53:46 +0000
+Message-ID: <6bf656e0-e0b6-4b97-b7a2-ff0bdc86b098@suse.de>
+Date: Fri, 13 Sep 2024 08:53:45 +0200
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 13 Sep 2024 16:46:14 +1000
-Message-ID: <CAPM=9tyi5A8t9bfCC3gtbG18Ai9cPS0bLrFVL_eJ1N1UyT4uBg@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.11-rc8
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [NOT A REGRESSION] firmware: framebuffer-coreboot: duplicate
+ device name "simple-framebuffer.0"
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Julius Werner <jwerner@chromium.org>
+Cc: Brian Norris <briannorris@chromium.org>, Borislav Petkov <bp@alien8.de>,
+ Hugues Bruant <hugues.bruant@gmail.com>, stable@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Fenghua Yu <fenghua.yu@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Tony Luck
+ <tony.luck@intel.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ chrome-platform@lists.linux.dev, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <CALvjV29jozswRtmYxDur2TuEQ=1JSDrM+uWVHmghW3hG5Y9F+w@mail.gmail.com>
+ <20240909080200.GAZt6reI9c98c9S_Xc@fat_crate.local>
+ <ZuCGkjoxKxpnhEh6@google.com>
+ <87jzfhayul.fsf@minerva.mail-host-address-is-not-set>
+ <CAODwPW8P+jcF0erUph5XyWoyQgLFbZWxEM6Ygi_LFCCTLmH89Q@mail.gmail.com>
+ <87mskczv9l.fsf@minerva.mail-host-address-is-not-set>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87mskczv9l.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: C4B7B1F7C8
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCPT_COUNT_TWELVE(0.00)[19];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[chromium.org,alien8.de,gmail.com,vger.kernel.org,lists.linux.dev,intel.com,kernel.org,linux.intel.com,ursulin.net,lists.freedesktop.org];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -5.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,224 +169,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Javier,
 
-Regular fixes pull, the amdgpu JPEG engine fixes are probably the
-biggest, they look to block some register accessing, otherwise there
-are just minor fixes and regression fixes all over. nouveau had a
-regression report going back a few kernels that finally got fixed, Not
-entirely happy with so many changes so late, but they all seem quite
-benign apart from the jpeg one.
+thanks for the patch.
 
-I should be fine for the merge window next week, see you in Vienna.
+Am 12.09.24 um 18:33 schrieb Javier Martinez Canillas:
+> Julius Werner <jwerner@chromium.org> writes:
+>
+> Hello Julius,
+>
+>>> On Coreboot platforms, a system framebuffer may be provided to the Linux
+>>> kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
+>>> it seems SeaBIOS payload can also provide a VGA mode in the boot params.
+>>>
+>>> [...]
+>>>
+>>> To prevent the issue, make the framebuffer_core driver to disable sysfb
+>>> if there is system framebuffer data in the Coreboot table. That way only
+>>> this driver will register a device and sysfb would not attempt to do it
+>>> (or remove its registered device if was already executed before).
+>> I wonder if the priority should be the other way around? coreboot's
+>> framebuffer is generally only valid when coreboot exits to the payload
+>> (e.g. SeaBIOS). Only if the payload doesn't touch the display
+>> controller or if there is no payload and coreboot directly hands off
+>> to a kernel does the kernel driver for LB_TAG_FRAMEBUFFER make sense.
+>> But if there is some other framebuffer information passed to the
+>> kernel from a firmware component running after coreboot, most likely
+>> that one is more up to date and the framebuffer described by the
+>> coreboot table doesn't work anymore (because the payload usually
+>> doesn't modify the coreboot tables again, even if it changes hardware
+>> state). So if there are two drivers fighting over which firmware
+>> framebuffer description is the correct one, the coreboot driver should
+>> probably give way.
+>>
+> That's a very good point. I'm actually not familiar with Coreboot and I
+> used an educated guess (in the case of DT for example, that's the main
+> source of truth and I didn't know if a Core table was in a similar vein).
+>
+> Maybe something like the following (untested) patch then?
+>
+>  From de1c32017006f4671d91b695f4d6b4e99c073ab2 Mon Sep 17 00:00:00 2001
+> From: Javier Martinez Canillas <javierm@redhat.com>
+> Date: Thu, 12 Sep 2024 18:31:55 +0200
+> Subject: [PATCH] firmware: coreboot: Don't register a pdev if screen_info data
+>   is available
+>
+> On Coreboot platforms, a system framebuffer may be provided to the Linux
+> kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
+> a Coreboot payload (e.g: SeaBIOS) could also provide this information to
+> the Linux kernel.
+>
+> If that the case, early arch x86 boot code will fill the global struct
+> screen_info data and that data used by the Generic System Framebuffers
+> (sysfb) framework to add a platform device with platform data about the
+> system framebuffer.
+>
+> But later then the framebuffer_coreboot driver will try to do the same
+> framebuffer (using the information from the Coreboot table), which will
+> lead to an error due a simple-framebuffer.0 device already registered:
+>
+>      sysfs: cannot create duplicate filename '/bus/platform/devices/simple-framebuffer.0'
+>      ...
+>      coreboot: could not register framebuffer
+>      framebuffer coreboot8: probe with driver framebuffer failed with error -17
+>
+> To prevent the issue, make the framebuffer_core driver to not register a
+> platform device if the global struct screen_info data has been filled.
+>
+> Reported-by: Brian Norris <briannorris@chromium.org>
+> Link: https://lore.kernel.org/all/ZuCG-DggNThuF4pj@b20ea791c01f/T/#ma7fb65acbc1a56042258adac910992bb225a20d2
+> Suggested-by: Julius Werner <jwerner@chromium.org>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>   drivers/firmware/google/framebuffer-coreboot.c | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+>
+> diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+> index daadd71d8ddd..4e50da17cd7e 100644
+> --- a/drivers/firmware/google/framebuffer-coreboot.c
+> +++ b/drivers/firmware/google/framebuffer-coreboot.c
+> @@ -15,6 +15,7 @@
+>   #include <linux/module.h>
+>   #include <linux/platform_data/simplefb.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/screen_info.h>
+>   
+>   #include "coreboot_table.h"
+>   
+> @@ -27,6 +28,7 @@ static int framebuffer_probe(struct coreboot_device *dev)
+>   	int i;
+>   	u32 length;
+>   	struct lb_framebuffer *fb = &dev->framebuffer;
+> +	struct screen_info *si = &screen_info;
 
-Dave.
+Probably 'const'.
 
-drm-fixes-2024-09-13:
-drm fixes for 6.11-rc8
+>   	struct platform_device *pdev;
+>   	struct resource res;
+>   	struct simplefb_platform_data pdata = {
+> @@ -36,6 +38,20 @@ static int framebuffer_probe(struct coreboot_device *dev)
+>   		.format = NULL,
+>   	};
+>   
+> +	/*
+> +	 * If the global screen_info data has been filled, the Generic
+> +	 * System Framebuffers (sysfb) will already register a platform
+> +	 * and pass the screen_info as platform_data to a driver that
+> +	 * could scan-out using the system provided framebuffer.
+> +	 *
+> +	 * On Coreboot systems, the advertise LB_TAG_FRAMEBUFFER entry
+> +	 * in the Coreboot table should only be used if the payload did
+> +	 * not set video mode info and passed it to the Linux kernel.
+> +	 */
+> +	if (si->orig_video_isVGA == VIDEO_TYPE_VLFB ||
+> +            si->orig_video_isVGA == VIDEO_TYPE_EFI)
 
-dma-buf/heaps:
-- fix off by one in CMA heap fault handler
+Rather call screen_info_video_type(si) [1] to get the type. If it 
+returns 0, the screen_info is unset and the corebios code can handle the 
+framebuffer. In any other case, the framebuffer went through a 
+bootloader, which might have modified it. This also handles awkward 
+cases, such as if the bootloader programs a VGA text mode.
 
-syncobj:
-- fix syncobj leak in drm_syncobj_eventfd_ioctl
+[1] 
+https://elixir.bootlin.com/linux/v6.10.10/source/include/linux/screen_info.h#L92
 
-amdgpu:
-- Avoid races between set_drr() functions and dc_state_destruct()
-- Fix regression related to zpos
-- Fix regression related to overlay cursor
-- SMU 14.x updates
-- JPEG fixes
-- Silence an UBSAN warning
+With these changes:
 
-amdkfd:
-- Fetch cacheline size from IP discovery
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-i915:
-- Prevent a possible int overflow in wq offsets
+Best regards
+Thomas
 
-xe:
-- Remove a double include
-- Fix null checks and UAF
-- Fix access_ok check in user_fence_create
-- Fix compat IS_DISPLAY_STEP() range
-- OA fix
-- Fixes in show_meminfo
+> +		return -EINVAL;
+> +
+>   	if (!fb->physical_address)
+>   		return -ENODEV;
+>   
 
-nouveau:
-- fix GP10x regression on boot
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-stm:
-- add COMMON_CLK dep
-
-rockchip:
-- iommu api change
-
-tegra:
-- iommu api change
-The following changes since commit da3ea35007d0af457a0afc87e84fddaebc4e0b63:
-
-  Linux 6.11-rc7 (2024-09-08 14:50:28 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-09-13
-
-for you to fetch changes up to 135be1dc46c64c454f2828dbb7f239d035f47180:
-
-  Merge tag 'drm-xe-fixes-2024-09-12' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2024-09-13 15:18:18 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.11-rc8
-
-dma-buf/heaps:
-- fix off by one in CMA heap fault handler
-
-syncobj:
-- fix syncobj leak in drm_syncobj_eventfd_ioctl
-
-amdgpu:
-- Avoid races between set_drr() functions and dc_state_destruct()
-- Fix regerssion related to zpos
-- Fix regression related to overlay cursor
-- SMU 14.x updates
-- JPEG fixes
-- Silence an UBSAN warning
-
-amdkfd:
-- Fetch cacheline size from IP discovery
-
-i915:
-- Prevent a possible int overflow in wq offsets
-
-xe:
-- Remove a double include
-- Fix null checks and UAF
-- Fix access_ok check in user_fence_create
-- Fix compat IS_DISPLAY_STEP() range
-- OA fix
-- Fixes in show_meminfo
-
-nouveau:
-- fix GP10x regression on boot
-
-stm:
-- add COMMON_CLK dep
-
-rockchip:
-- iommu api change
-
-tegra:
-- iommu api change
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu/atomfirmware: Silence UBSAN warning
-
-Arnd Bergmann (1):
-      drm/stm: add COMMON_CLK dependency
-
-Ashutosh Dixit (1):
-      drm/xe/oa: Enable Xe2+ PES disaggregation
-
-Ben Skeggs (1):
-      drm/nouveau/fb: restore init() for ramgp102
-
-Dave Airlie (4):
-      Merge tag 'amd-drm-fixes-6.11-2024-09-11' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2024-09-12' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-misc-fixes-2024-09-12' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-09-12' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-David (Ming Qiang) Wu (2):
-      drm/amd/amdgpu: apply command submission parser for JPEG v2+
-      drm/amd/amdgpu: apply command submission parser for JPEG v1
-
-David Belanger (1):
-      drm/amdkfd: Add cache line size info
-
-Jani Nikula (1):
-      drm/xe/display: fix compat IS_DISPLAY_STEP() range end
-
-Kenneth Feng (2):
-      drm/amd/pm: update the features set on smu v14.0.2/3
-      drm/amd/pm: fix the pp_dpm_pcie issue on smu v14.0.2/3
-
-Leo Li (2):
-      drm/amd/display: Do not reset planes based on crtc zpos_changed
-      drm/amd/display: Add all planes on CRTC to state for overlay cursor
-
-Lu Baolu (2):
-      drm/rockchip: Use iommu_paging_domain_alloc()
-      drm/tegra: Use iommu_paging_domain_alloc()
-
-Lucas De Marchi (1):
-      drm/xe/gt: Remove double include
-
-Matthew Auld (2):
-      drm/xe/client: fix deadlock in show_meminfo()
-      drm/xe/client: add missing bo locking in show_meminfo()
-
-Matthew Brost (2):
-      drm/xe: Remove fence check from send_tlb_invalidation
-      drm/xe: Fix possible UAF in guc_exec_queue_process_msg
-
-Nikita Zhandarovich (1):
-      drm/i915/guc: prevent a possible int overflow in wq offsets
-
-Nirmoy Das (1):
-      drm/xe: Fix access_ok check in user_fence_create
-
-T.J. Mercier (2):
-      dma-buf: heaps: Fix off-by-one in CMA heap fault handler
-      drm/syncobj: Fix syncobj leak in drm_syncobj_eventfd_ioctl
-
-Tobias Jakobi (2):
-      drm/amd/display: Avoid race between dcn10_set_drr() and
-dc_state_destruct()
-      drm/amd/display: Avoid race between dcn35_set_drr() and
-dc_state_destruct()
-
- drivers/dma-buf/heaps/cma_heap.c                   |  2 +-
- drivers/gpu/drm/amd/amdgpu/jpeg_v1_0.c             | 76 +++++++++++++++++++++-
- drivers/gpu/drm/amd/amdgpu/jpeg_v1_0.h             | 11 ++++
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c             | 63 +++++++++++++++++-
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.h             |  6 ++
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c             |  2 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c             |  1 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             |  1 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.h             |  1 -
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c           | 57 +---------------
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.h           |  7 +-
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_5.c           |  1 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_0.c           |  3 +-
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |  8 ++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 13 +++-
- .../drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c    | 20 +++---
- .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    | 20 +++---
- drivers/gpu/drm/amd/include/atomfirmware.h         |  4 +-
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       | 11 +++-
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   | 12 ++++
- drivers/gpu/drm/drm_syncobj.c                      | 17 +++--
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  4 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ram.h       |  2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c  |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp102.c  |  1 +
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c        | 10 ++-
- drivers/gpu/drm/stm/Kconfig                        |  1 +
- drivers/gpu/drm/tegra/drm.c                        |  5 +-
- drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h  |  2 +-
- drivers/gpu/drm/xe/regs/xe_oa_regs.h               |  1 +
- drivers/gpu/drm/xe/xe_drm_client.c                 | 45 +++++++++++--
- drivers/gpu/drm/xe/xe_gt.c                         |  1 -
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c        |  4 +-
- drivers/gpu/drm/xe/xe_guc_submit.c                 |  4 +-
- drivers/gpu/drm/xe/xe_oa.c                         |  4 ++
- drivers/gpu/drm/xe/xe_sync.c                       |  2 +-
- 36 files changed, 315 insertions(+), 109 deletions(-)
