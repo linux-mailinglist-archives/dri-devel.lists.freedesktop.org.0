@@ -2,72 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B557977A46
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2909C977A47
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:49:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0D0810ECA5;
-	Fri, 13 Sep 2024 07:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9465210ECA6;
+	Fri, 13 Sep 2024 07:49:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Zc2JuNVF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r/2ce/lA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA6E10ECA5
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:49:19 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-42cbbb1727eso15688455e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:49:19 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE46510ECA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:49:26 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-42cb5b3c57eso17298705e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726213757; x=1726818557; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1726213765; x=1726818565; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=H0O9MoWTqvZaEeAdFYF60ujkYQPiUaLOiXidmFBkv5I=;
- b=Zc2JuNVFiyxcJYw612muXPlzCiEicwiznWrb/ztrzd2PAlGKqgbGqTObTU5t64Npo0
- 6EIPly09dPevdfRT1sRjTvqTb21fIpaNUqLaHwcTj8kxkQ3AsGcuojTUlucTP4XKFxi/
- L7jL/3de11Jn+g6DEr6LDVV4fba+HlCnnIxYNGiPF6doZrHufuX1NviOvs8HBhQ8WJIH
- 6Dy60oZG4W2GnmTDqm3ZNptfw9h+DedkBopgoqFMIK1qeFMPGi+R87d/qRcw7fU7J98q
- 7Il2lyBcz0jlKZ/F277KrDfXsxzN8tL8twJV0CIs5H7mcf9v9fAwPw3obCc+ndrqBk4b
- soSA==
+ :reply-to; bh=qUjVjWYX5HPulUO+IlZVugiYWLFyMhQ8G8GELBNvEr4=;
+ b=r/2ce/lAEaeKdb9ZP4UhkdcqMBRytqzEAMXgVOAkRyin5tyxHZTbuElDIi7qUTFznN
+ Aza013hAx1hmclAWYcgtJgC/G1orugt/WIk5D+fT/Kg9hqFkJUzlRp8zGr+R6WzQ7S62
+ 7HX3HH9VlbwunNjgsBjbKu7eLFOPuuDfmE6JLnA3RAMc0fEWPFjtPVmVP1PNxZ0/sx9M
+ e6lYIDHcCffdN/SVrHSgrMIV1HTcS0KwK33eDnma+HMEroDiMB7k772W/lZ2779e8BGz
+ GDNg72OaT1mvtXNgJbVTTPG7Z8kedir1Y8T16dyT9JDxFOSsgMZZwOro9U4ysq1ro+to
+ h75Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726213757; x=1726818557;
+ d=1e100.net; s=20230601; t=1726213765; x=1726818565;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=H0O9MoWTqvZaEeAdFYF60ujkYQPiUaLOiXidmFBkv5I=;
- b=HG5QDBG/WkQZ2QNek4pGF9yg+d8kRp9CyHXgBeTYp8yvkuxNQxZuKNUWmYHYsXXamZ
- Cuz9wtd7ADWUAZ5mofTtRc/eII8PzzLFNlB1+YNWEIiNIyFxjkkfYEUB8sNtvuqTlXRm
- LCoZr3uRV/VPLp7U31GmKnVQRHWz2xN7yelPakKFCmpoWPoMI2CG4mQQcW1nLPycYEik
- G4gT6+mWvDlbmSHe3pYqTaXJI/rGyL7mRRs5pM2y3aXAfQ0ZGriuM2BkRMKD3coQqZnX
- oKD+BB3RnYE8pt+ndlXK/Lyf1gI/CsB3cpiJiXg8IreHwl0L8wKAtcQB75Mx/rXbFttT
- vseA==
+ bh=qUjVjWYX5HPulUO+IlZVugiYWLFyMhQ8G8GELBNvEr4=;
+ b=p/xNnWRSI7qpmP/2/pQ2N7vn4yG7e8M5aw60VvZ1rHIdfGp3bQOSGcUKdoL+JeHbXF
+ x6yk8zihq8K1xXtmpdRmc8jUghOvmROETxvsNKlJYrVDS7b9vYJIxwbxI2LdR3yi2dCS
+ ncZGXo7ExR2MsVJsC0TX2WaU1W0M0hr+OgSMEnGo/wQQ2Z2KHN+QgZUQdKdQxHbkTUOf
+ CiLHsas4P6R7oB7DOUjTej/8Y3QkMw3k8oTyFotWju/XsKdlwVzflAfOzirEumHW2XdN
+ A6vs9qb1ZLc17tmY6zGS2UQzywPtF+JM55CpIvEKTcEgDdB1nOo36d76KcBMq0SSBlxN
+ XMBQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUU+BdvHSEsAV8tvdoRE5smyPXltJ5t3w0uWWUuJHRFllWZjmBgqPF5oRLbSwfua0nHU06mjuc/0ro=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznaiWJixqX7lAm/MPxb4ur6ysadLyfsJkXQKIjFT1yY4udczId
- PWgi+rtPiR5ehD/Osc4jr8Wrhrl08Q/+dbcIZIIqNYXLyTrdaRKjwan61YnsyAk=
-X-Google-Smtp-Source: AGHT+IFkYr6GVCuD5wEVmqXXwcDaIj0pW23nPyuWEdN1LrD6z6v9mAWyAhoRr7HNrYphfyTb33EKaQ==
-X-Received: by 2002:a05:600c:297:b0:42c:afea:2a10 with SMTP id
- 5b1f17b1804b1-42cdb54d5e8mr43291365e9.21.1726213757269; 
- Fri, 13 Sep 2024 00:49:17 -0700 (PDT)
+ AJvYcCVnu3B+qEtOQ+VaSypWrt+nL4LNXIoTK0M4TGYbm7zQX+P3XN7VkJ34zUfJlylzi29Td3xkiFev7JQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyo5E6zrj9ys751btuaSf8AIDu9HKcw3C0r4K1L0WPPLhpveHX6
+ xm0ruCyu8Z+stC+hAh2HR/D80UpBhu4wUNSzNnjk8X6xGIUhWYF9VMYZBgMpST6/0XXh0SmElXS
+ j
+X-Google-Smtp-Source: AGHT+IFZIIK3e3Y04UIcB7VWE2sxPCdw/hzqTyEJbwACH7uYsLYAz33/31NT+ZyWhBYlaWIlgsfGcw==
+X-Received: by 2002:a05:600c:21d9:b0:42c:b1a4:c3ef with SMTP id
+ 5b1f17b1804b1-42cdfb15de5mr31271455e9.33.1726213764886; 
+ Fri, 13 Sep 2024 00:49:24 -0700 (PDT)
 Received: from [192.168.7.202] ([212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42d9b189a1esm14671165e9.31.2024.09.13.00.49.16
+ 5b1f17b1804b1-42d9b05da47sm14717215e9.17.2024.09.13.00.49.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Sep 2024 00:49:16 -0700 (PDT)
-Message-ID: <384e500d-d30d-417b-a53b-2d02efd8c5ad@linaro.org>
-Date: Fri, 13 Sep 2024 09:49:16 +0200
+ Fri, 13 Sep 2024 00:49:24 -0700 (PDT)
+Message-ID: <7e6d6fb6-fb4f-4d9f-8184-c825d9ca7de2@linaro.org>
+Date: Fri, 13 Sep 2024 09:49:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 2/6] drm/bridge: imx8qm-ldb: Switch to RUNTIME_PM_OPS()
+Subject: Re: [PATCH 3/6] drm/bridge: imx8qxp-pixel-combiner: Switch to
+ RUNTIME_PM_OPS()
 To: Fabio Estevam <festevam@gmail.com>, rfoss@kernel.org
 Cc: victor.liu@nxp.com, dri-devel@lists.freedesktop.org,
  Fabio Estevam <festevam@denx.de>
 References: <20240626230704.708234-1-festevam@gmail.com>
- <20240626230704.708234-2-festevam@gmail.com>
+ <20240626230704.708234-3-festevam@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -94,7 +96,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240626230704.708234-2-festevam@gmail.com>
+In-Reply-To: <20240626230704.708234-3-festevam@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,46 +129,49 @@ On 27/06/2024 01:07, Fabio Estevam wrote:
 > 
 > Signed-off-by: Fabio Estevam <festevam@denx.de>
 > ---
->   drivers/gpu/drm/bridge/imx/imx8qm-ldb.c | 9 ++++-----
+>   drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 9 ++++-----
 >   1 file changed, 4 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-> index 21471a9a28b2..c879e37f5811 100644
-> --- a/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-> +++ b/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-> @@ -542,12 +542,12 @@ static void imx8qm_ldb_remove(struct platform_device *pdev)
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+> index e6dbbdc87ce2..ce43e4069e21 100644
+> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+> @@ -371,7 +371,7 @@ static void imx8qxp_pc_bridge_remove(struct platform_device *pdev)
 >   	pm_runtime_disable(&pdev->dev);
 >   }
 >   
-> -static int __maybe_unused imx8qm_ldb_runtime_suspend(struct device *dev)
-> +static int imx8qm_ldb_runtime_suspend(struct device *dev)
+> -static int __maybe_unused imx8qxp_pc_runtime_suspend(struct device *dev)
+> +static int imx8qxp_pc_runtime_suspend(struct device *dev)
 >   {
->   	return 0;
+>   	struct platform_device *pdev = to_platform_device(dev);
+>   	struct imx8qxp_pc *pc = platform_get_drvdata(pdev);
+> @@ -393,7 +393,7 @@ static int __maybe_unused imx8qxp_pc_runtime_suspend(struct device *dev)
+>   	return ret;
 >   }
 >   
-> -static int __maybe_unused imx8qm_ldb_runtime_resume(struct device *dev)
-> +static int imx8qm_ldb_runtime_resume(struct device *dev)
+> -static int __maybe_unused imx8qxp_pc_runtime_resume(struct device *dev)
+> +static int imx8qxp_pc_runtime_resume(struct device *dev)
 >   {
->   	struct imx8qm_ldb *imx8qm_ldb = dev_get_drvdata(dev);
->   	struct ldb *ldb = &imx8qm_ldb->base;
-> @@ -559,8 +559,7 @@ static int __maybe_unused imx8qm_ldb_runtime_resume(struct device *dev)
+>   	struct platform_device *pdev = to_platform_device(dev);
+>   	struct imx8qxp_pc *pc = platform_get_drvdata(pdev);
+> @@ -415,8 +415,7 @@ static int __maybe_unused imx8qxp_pc_runtime_resume(struct device *dev)
 >   }
 >   
->   static const struct dev_pm_ops imx8qm_ldb_pm_ops = {
-> -	SET_RUNTIME_PM_OPS(imx8qm_ldb_runtime_suspend,
-> -			   imx8qm_ldb_runtime_resume, NULL)
-> +	RUNTIME_PM_OPS(imx8qm_ldb_runtime_suspend, imx8qm_ldb_runtime_resume, NULL)
+>   static const struct dev_pm_ops imx8qxp_pc_pm_ops = {
+> -	SET_RUNTIME_PM_OPS(imx8qxp_pc_runtime_suspend,
+> -			   imx8qxp_pc_runtime_resume, NULL)
+> +	RUNTIME_PM_OPS(imx8qxp_pc_runtime_suspend, imx8qxp_pc_runtime_resume, NULL)
 >   };
 >   
->   static const struct of_device_id imx8qm_ldb_dt_ids[] = {
-> @@ -573,7 +572,7 @@ static struct platform_driver imx8qm_ldb_driver = {
->   	.probe	= imx8qm_ldb_probe,
->   	.remove_new = imx8qm_ldb_remove,
+>   static const struct of_device_id imx8qxp_pc_dt_ids[] = {
+> @@ -430,7 +429,7 @@ static struct platform_driver imx8qxp_pc_bridge_driver = {
+>   	.probe	= imx8qxp_pc_bridge_probe,
+>   	.remove_new = imx8qxp_pc_bridge_remove,
 >   	.driver	= {
-> -		.pm = &imx8qm_ldb_pm_ops,
-> +		.pm = pm_ptr(&imx8qm_ldb_pm_ops),
+> -		.pm = &imx8qxp_pc_pm_ops,
+> +		.pm = pm_ptr(&imx8qxp_pc_pm_ops),
 >   		.name = DRIVER_NAME,
->   		.of_match_table = imx8qm_ldb_dt_ids,
+>   		.of_match_table = imx8qxp_pc_dt_ids,
 >   	},
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
