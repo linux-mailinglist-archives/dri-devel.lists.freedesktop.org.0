@@ -2,73 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43BD9786BE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 19:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005E19786CA
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 19:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA66110ED55;
-	Fri, 13 Sep 2024 17:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3C610ED5A;
+	Fri, 13 Sep 2024 17:30:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e38URErb";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="J3bn2shj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
- [209.85.166.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86A6F10ED55
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 17:28:59 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id
- e9e14a558f8ab-3a08c907245so3579585ab.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 10:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726248538; x=1726853338; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IxOXBnMiL21PBJM6uKoe7HLZ86EpzfC5VehNtOteI+g=;
- b=e38URErbGJ5Dxm4AURpiRKnGF7rynpLFNpNC9mqyVRJxuupCtR4dJdnGEz3l8qluF5
- ClqcKFb4WIyzSZgEc+l3MkohOSWEo018UoB9vSSB7jHke7RTBzgp3ixWZ4mBH8CLFjuh
- ka0hSZNoPZukdGo+EUQW3NXSS1NSM/bKrUmxrq5MfDKOAZ89/qq9r4tdzKmuneWkEqYu
- blhUEh1aahQ8Xsd6AAk0GaRvW9ZsYOf0bYSvV+1UrQl8wE6u1mitfnF5PoHZxtk0r9IG
- irL80tsW2We7xwQs/eetbNwNoI+7GuImWkLA/7GpHIZ1vPLfblMNTnzWLfQkUWunhf8n
- qRDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726248538; x=1726853338;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IxOXBnMiL21PBJM6uKoe7HLZ86EpzfC5VehNtOteI+g=;
- b=XzEpogJAFtTEpNmj9ShHfcEp900wAMoZAIGpuB5I7SV3rxXuUTJiWBgpaohF4Q0UvS
- hquhhxFBSjK2hl9BH1Dcu/4DjpUby6sGNvucK1/llApW0ZkcOZR6f7AoZPxxNUpmPlNJ
- vDSFTmJru8jywVI5mFEasUkR3u4QWS0lOlGuv6V/usX35X0dm2iVGBvdk4Je96iMvmaW
- aXqxBPjRVZy0A7J14zgQtpeNrNeUEuqD2IsVUGdvq9VwZFWjs7j7x7D6PJOdVC/x6nyV
- VlHSvpFlUd1KpJSxB2vVibyYtrhGmjHP3ACYDOZyKMeDtYYfryld/Sg2z7fy3Pj7okIT
- 7PVQ==
-X-Gm-Message-State: AOJu0YxTuJGRGSTq9JupwF+JXc/iWb5Bu6IOiaR7nIAve47wshyi8Z4i
- IfUpq9lTm9sVo1NavSgwbuOLGy9S15Mpu8HO1TjhyytvatY5r/xErQt/rFMDXVregS2BldxAcG0
- pRtAes2zQt9jOKDEXCHCAvsusD3E=
-X-Google-Smtp-Source: AGHT+IEKX2EIDXwhlSkFf4Al7/dq4lAUUmNHq96waCVvHxlWAdUIptNZ7AMZnQS7FMl3hYwUP2PcTwOAHigWf/TpBXo=
-X-Received: by 2002:a92:c548:0:b0:3a0:8dcb:b033 with SMTP id
- e9e14a558f8ab-3a08dcbb224mr22846555ab.24.1726248538452; Fri, 13 Sep 2024
- 10:28:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240913165326.8856-1-robdclark@gmail.com>
- <fa243d3e-abe2-47d9-928f-70e24065baf1@mailbox.org>
-In-Reply-To: <fa243d3e-abe2-47d9-928f-70e24065baf1@mailbox.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 13 Sep 2024 10:28:46 -0700
-Message-ID: <CAF6AEGtFJu5DEuA+Urv7zdrsO-zV-y0o0wQnTdGojTNjwwRqNQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: Fix dynamic job-flow control race
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
- Asahi Lina <lina@asahilina.net>, Luben Tuikov <ltuikov89@gmail.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Danilo Krummrich <dakr@redhat.com>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 441F610ED5A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 17:30:26 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1726248623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nke/5YLh6MHWfzE6gklOT9y6TbGopcbIdlXZPOZs7oA=;
+ b=J3bn2shjG8JKynQlOWputFVEI1nNGcv2ULoyvL5XC54Cq0m4QV6Ax0dJNDcWW3CG7GEBRi
+ jWezVb1MnzTkjxIQZKr15UxggV3fEbRNRExzG6zKoru5jwADrg0LpANpRmQskJHe8+z7lM
+ PtbWLrHUZRSGjBvepXvbUcS3aitT/1Z199Nqnbd6Ln7SHW1RSB/YKoR0171FDoKs9yZgDq
+ DkoMyH3KM+QDzI/7suxfaxxAsb+6QYxT5G1U7qKoyejQXdbEdpGXIk7eazPKBF74ZFx1Nk
+ Bvnl1WZ/IrVcxypl583dxVPjzxTlVTdnLGjFdJpVSDjj77YWlWBvwyXggcZB8Q==
+Content-Type: multipart/signed;
+ boundary=d6f0c6cf338a74127d2f7d5ac197597d4aebc3a0a9a16533c3439fd9f222;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Fri, 13 Sep 2024 19:30:13 +0200
+Message-Id: <D45C28ZF5US9.1BCL9HBVRERJB@cknow.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Jonas Karlman" <jonas@kwiboo.se>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
+Cc: "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Christian Hewitt"
+ <christianshewitt@gmail.com>, "Christopher Obbard" <obbardc@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 00/10] drm: bridge: dw_hdmi: Misc enable/disable, CEC
+ and EDID cleanup
+References: <20240908132823.3308029-1-jonas@kwiboo.se>
+In-Reply-To: <20240908132823.3308029-1-jonas@kwiboo.se>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,62 +67,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 10:03=E2=80=AFAM Michel D=C3=A4nzer
-<michel.daenzer@mailbox.org> wrote:
->
-> On 2024-09-13 18:53, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Fixes a race condition reported here: https://github.com/AsahiLinux/lin=
-ux/issues/309#issuecomment-2238968609
-> >
-> > The whole premise of lockless access to a single-producer-single-
-> > consumer queue is that there is just a single producer and single
-> > consumer.  That means we can't call drm_sched_can_queue() (which is
-> > about queueing more work to the hw, not to the spsc queue) from
-> > anywhere other than the consumer (wq).
-> >
-> > This call in the producer is just an optimization to avoid scheduling
-> > the consuming worker if it cannot yet queue more work to the hw.  It
-> > is safe to drop this optimization to avoid the race condition.
-> >
-> > Suggested-by: Asahi Lina <lina@asahilina.net>
-> > Fixes: a78422e9dff3 ("drm/sched: implement dynamic job-flow control")
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/scheduler/sched_main.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index ab53ab486fe6..1af1dbe757d5 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -1020,8 +1020,7 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
-> >  void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
-> >                     struct drm_sched_entity *entity)
-> >  {
-> > -     if (drm_sched_can_queue(sched, entity))
-> > -             drm_sched_run_job_queue(sched);
-> > +     drm_sched_run_job_queue(sched);
-> >  }
-> >
-> >  /**
->
-> The entity parameter is unused now.
+--d6f0c6cf338a74127d2f7d5ac197597d4aebc3a0a9a16533c3439fd9f222
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Right.. and we probably should collapse drm_sched_wakeup() and
-drm_sched_run_job_queue()..
+Hi Jonas,
 
-But this fix needs to be cherry picked back to a bunch of release
-branches, so I intentionally avoided refactoring as part of the fix.
-
-BR,
--R
-
+On Sun Sep 8, 2024 at 3:28 PM CEST, Jonas Karlman wrote:
+> This series ensure poweron/poweroff and CEC phys addr invalidation is
+> happening under drm mode_config mutex lock, and also ensure EDID is
+> updated (when the dw-hdmi connector is used) after a hotplug pulse.
 >
->
-> --
-> Earthling Michel D=C3=A4nzer       \        GNOME / Xwayland / Mesa devel=
-oper
-> https://redhat.com             \               Libre software enthusiast
+> These changes has mainly been tested on Rockchip devices together with a
+> series [1] that add HDMI 2.0 4K@60Hz support to RK3228, RK3328, RK3399
+> and RK3568.
+
+I did some tests with this series (together with the 4K60Hz one).
+
+Test setup:
+- TV capable of display 4K@60Hz
+- monitor capable of displaying 1080p@60Hz
+- Quartz64 Model-A
+- Rock64
+
+When I booted up connected to the 4K TV, the boot messages were
+displayed in 1080p resolution. IIUC it was to be considered an
+improvement when it would be illegible at 4K, but that did not happen.
+Neither on the Q64-A or the Rock64.
+
+When executing ``cat /sys/class/graphics/*/modes`` it returned
+``U:3840x2160p-0``, so that was good.
+
+I then went on the HDMI-hot-plug-swap-test and connected it to my 1080p
+monitor while the system was still online. That did not change the
+output of the previous command. As my monitor doesn't support 4K it
+seems to have chosen a 640p or 720p resolution.
+IOW the letters were rather big. With enough output on the screen, it
+went off the visible area, so all I could do then was 'blind' typing.
+
+If I booted up connected to the 1080p monitor then it reported a 1080p
+resolution and when swapping to the 4K TV, it kept reporting that value
+and displaying things in 1080p resolution, but ofc there were no
+abnormal big letters or output falling off the screen this time.
+
+If I did those test when Sway was running, all the data (``swaymsg -t
+get_outputs --pretty``) showed that a proper resolution switch was made
+and the display was correctly adjusted accordingly.
+
+I then tried to do the keep-swapping-until-output-breaks what Chris
+reported about in the previous series.
+At some point I thought I was able to reproduce the issue ... to then
+conclude I had likely hit the poweroff button when swapping the cables.
+And another time I thought I had managed to reproduce it ... to then
+find out display wasn't working at all anymore. Turned out that likely
+due to all that swapping, it was no longer properly inserted into my
+monitor.
+I've tried it a LOT of times, but I have to conclude that I was not able
+to reproduce the problem and therefor also not the solution.
+
+HTH,
+  Diederik
+
+--d6f0c6cf338a74127d2f7d5ac197597d4aebc3a0a9a16533c3439fd9f222
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZuR2qAAKCRDXblvOeH7b
+blXRAQCfKcyHODxabQQ1dpuHfkKeLr6Iu72WhQRxgUdBVsfp1gD+LBWU+xjKnYb5
+mVxYjuNwxGIjjztpo9Dy4jtfBMoYbwI=
+=lsyh
+-----END PGP SIGNATURE-----
+
+--d6f0c6cf338a74127d2f7d5ac197597d4aebc3a0a9a16533c3439fd9f222--
