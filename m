@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7AD1978AE0
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 23:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66353978AE8
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 23:55:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A6F10E071;
-	Fri, 13 Sep 2024 21:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF4A910E23D;
+	Fri, 13 Sep 2024 21:55:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JNksxS01";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WcQMUsYv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D039310E071
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 21:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726264473; x=1757800473;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=u2Ahxvhg/4cmIB2NS2TyIW6kyvQjVb+fS+f9vi5tKR4=;
- b=JNksxS01w7Uy5Lf/K40GYZeeWFn5VmkLK41PkjTacAc8WLnMkSv8ZkIC
- rXbrre/qmtNs1vVM7r06OGVTQMLD6FOcMq240iqCk++b2pUTHjSSbc6I6
- vtM+WwlCbcHXgRKZqXSdGjkWdKdpRHHe1LZRtsmzRIJAvBACnn/IQ0F5c
- m+L0mdW8nV9N9ccLeIP28JcmvOR39BU/Ra1oHSJ7x6ME0mBn4Pv3IcQpi
- iNOiTQsTw3FtwYK/LBpPzGe0DPnF6CUtsoXGlgwDNajVGW37QoARurM1k
- wjYSEL3kuI5IJYpM9iYGAIbxhkpUA1dS45BxdkPXAz4BMH9LbR1mojHWh Q==;
-X-CSE-ConnectionGUID: xjUooCWAS7ujpL1jcPEL/A==
-X-CSE-MsgGUID: x9h6QdheT3iK3UCnfdsgWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="28964291"
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; d="scan'208";a="28964291"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2024 14:54:33 -0700
-X-CSE-ConnectionGUID: lco3PineQ0qLLO2xIY9tnw==
-X-CSE-MsgGUID: l+nYzBSmT9SL+8H7GUXq/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; d="scan'208";a="72802512"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 13 Sep 2024 14:54:28 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1spEFF-00074i-29;
- Fri, 13 Sep 2024 21:54:25 +0000
-Date: Sat, 14 Sep 2024 05:53:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D36E010E1B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 21:55:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4041E5C5BA1;
+ Fri, 13 Sep 2024 21:55:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B8EC4CECC;
+ Fri, 13 Sep 2024 21:55:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726264522;
+ bh=q6149tWf9a83IHhHEMU2VwoiZlrZy13ezqBewO8qXZM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WcQMUsYvo9iMfCXqKzz6WfBOeSf3QnxCe7qBB55jtluaLCdkajX3PK+h6pyWyBX07
+ PnEet5lNBh2xMOHyEUtFlosiTzo3hwcMA6t3RS+egfoow2NGG+5Npxa7L2SoCr/Fwq
+ +7PxDup8jdlmXiDh0wY+Xr8SAzjC+G1FGXhlQ9FtrV5qrJACiTJ7rzq5GLGeGaPylO
+ GB8gfB5GU9GIUuRgX2zsW3uP0oSuG9V+oz/AGRvxv9tI7ACCSGFP0+5eFAjyG+icUO
+ Rv2Mvreqixc/gkn8utok04BwajsZETiwRjz2Yoy/B6F6jeyNk8jWAZP9/okZ+fjhXI
+ EJdZKnyjanX/A==
+Date: Fri, 13 Sep 2024 16:55:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <202409140506.OBoqSiVk-lkp@intel.com>
-References: <20240913124857.389630-2-adrian.larumbe@collabora.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>,
+ cros-qcom-dts-watchers@chromium.org,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v4 05/27] dt-bindings: mfd: add maxim,max77705
+Message-ID: <20240913215521.GA864207-robh@kernel.org>
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-5-2d2efd5c5877@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240913124857.389630-2-adrian.larumbe@collabora.com>
+In-Reply-To: <20240913-starqltechn_integration_upstream-v4-5-2d2efd5c5877@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,174 +80,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrián,
+On Fri, Sep 13, 2024 at 06:07:48PM +0300, Dzmitry Sankouski wrote:
+> Add maxim,max77705 core binding part.
+> 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> 
+> ---
+> Changes in v4:
+> - change dts example intendation from tabs
+>  to spaces
+> - remove interrupt-names property
+> - remove obvious reg description
+> - split long(>80) lines
+> ---
+>  .../devicetree/bindings/mfd/maxim,max77705.yaml    | 169 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 170 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> new file mode 100644
+> index 000000000000..40a67d15e312
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/maxim,max77705.yaml
+> @@ -0,0 +1,169 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim MAX77705 Companion Power Management IC and USB Type-C interface IC
+> +
+> +maintainers:
+> +  - Dzmitry Sankouski <dsankouski@gmail.com>
+> +
+> +description: |
+> +  This is a part of device tree bindings for Maxim MAX77705 multi functional
+> +  device.
+> +
+> +  The Maxim MAX77705 is a Companion Power Management and Type-C
+> +  interface IC which includes charger, fuelgauge, LED, haptic motor driver and
+> +  Type-C management IC.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max77705
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  charger:
+> +    $ref: /schemas/power/supply/power-supply.yaml
+> +    additionalProperties: true
 
-kernel test robot noticed the following build warnings:
+No, true is only valid for incomplete schemas (i.e. common ones included 
+by another complete schema).
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.11-rc7 next-20240913]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+And since you reference another schema, you want 'unevaluatedProperties' 
+instead if you want to use any properties defined in power-supply.yaml.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240913-205038
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240913124857.389630-2-adrian.larumbe%40collabora.com
-patch subject: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp accounting
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240914/202409140506.OBoqSiVk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140506.OBoqSiVk-lkp@intel.com/reproduce)
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-charger
+> +
+> +    required:
+> +      - compatible
+> +      - monitored-battery
+> +
+> +  fuel_gauge:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140506.OBoqSiVk-lkp@intel.com/
+fuel-gauge
 
-All warnings (new ones prefixed by >>):
+> +    $ref: /schemas/power/supply/power-supply.yaml
+> +    type: object
+> +    additionalProperties: true
+> +    description: MAX77705 fuel gauge with ModelGauge m5 EZ algorithm support.
 
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'idle' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Function parameter or struct member 'profiling' not described in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'mem' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'ref' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gt' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'sync64' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'bo' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'offset' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'kmap' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'lock' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'id' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'last_fence' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'profiling_info' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slots' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slot_count' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'profiling_seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'size' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'latest_flush' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'end' description in 'panthor_job'
->> drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'mask' description in 'panthor_job'
->> drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'slot' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:1734: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1734: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:2626: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+blank line
 
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-fuel-gauge
+> +
+> +      shunt-resistor-micro-ohms:
+> +        description: |
 
-vim +494 drivers/gpu/drm/panthor/panthor_sched.c
+Don't need '|'.
 
-de85488138247d Boris Brezillon 2024-02-29  397  
-de85488138247d Boris Brezillon 2024-02-29  398  	/** @ringbuf: Command stream ring-buffer. */
-de85488138247d Boris Brezillon 2024-02-29  399  	struct panthor_kernel_bo *ringbuf;
-de85488138247d Boris Brezillon 2024-02-29  400  
-de85488138247d Boris Brezillon 2024-02-29  401  	/** @iface: Firmware interface. */
-de85488138247d Boris Brezillon 2024-02-29  402  	struct {
-de85488138247d Boris Brezillon 2024-02-29  403  		/** @mem: FW memory allocated for this interface. */
-de85488138247d Boris Brezillon 2024-02-29  404  		struct panthor_kernel_bo *mem;
-de85488138247d Boris Brezillon 2024-02-29  405  
-de85488138247d Boris Brezillon 2024-02-29  406  		/** @input: Input interface. */
-de85488138247d Boris Brezillon 2024-02-29  407  		struct panthor_fw_ringbuf_input_iface *input;
-de85488138247d Boris Brezillon 2024-02-29  408  
-de85488138247d Boris Brezillon 2024-02-29  409  		/** @output: Output interface. */
-de85488138247d Boris Brezillon 2024-02-29  410  		const struct panthor_fw_ringbuf_output_iface *output;
-de85488138247d Boris Brezillon 2024-02-29  411  
-de85488138247d Boris Brezillon 2024-02-29  412  		/** @input_fw_va: FW virtual address of the input interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  413  		u32 input_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  414  
-de85488138247d Boris Brezillon 2024-02-29  415  		/** @output_fw_va: FW virtual address of the output interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  416  		u32 output_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  417  	} iface;
-de85488138247d Boris Brezillon 2024-02-29  418  
-de85488138247d Boris Brezillon 2024-02-29  419  	/**
-de85488138247d Boris Brezillon 2024-02-29  420  	 * @syncwait: Stores information about the synchronization object this
-de85488138247d Boris Brezillon 2024-02-29  421  	 * queue is waiting on.
-de85488138247d Boris Brezillon 2024-02-29  422  	 */
-de85488138247d Boris Brezillon 2024-02-29  423  	struct {
-de85488138247d Boris Brezillon 2024-02-29  424  		/** @gpu_va: GPU address of the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  425  		u64 gpu_va;
-de85488138247d Boris Brezillon 2024-02-29  426  
-de85488138247d Boris Brezillon 2024-02-29  427  		/** @ref: Reference value to compare against. */
-de85488138247d Boris Brezillon 2024-02-29  428  		u64 ref;
-de85488138247d Boris Brezillon 2024-02-29  429  
-de85488138247d Boris Brezillon 2024-02-29  430  		/** @gt: True if this is a greater-than test. */
-de85488138247d Boris Brezillon 2024-02-29  431  		bool gt;
-de85488138247d Boris Brezillon 2024-02-29  432  
-de85488138247d Boris Brezillon 2024-02-29  433  		/** @sync64: True if this is a 64-bit sync object. */
-de85488138247d Boris Brezillon 2024-02-29  434  		bool sync64;
-de85488138247d Boris Brezillon 2024-02-29  435  
-de85488138247d Boris Brezillon 2024-02-29  436  		/** @bo: Buffer object holding the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  437  		struct drm_gem_object *obj;
-de85488138247d Boris Brezillon 2024-02-29  438  
-de85488138247d Boris Brezillon 2024-02-29  439  		/** @offset: Offset of the synchronization object inside @bo. */
-de85488138247d Boris Brezillon 2024-02-29  440  		u64 offset;
-de85488138247d Boris Brezillon 2024-02-29  441  
-de85488138247d Boris Brezillon 2024-02-29  442  		/**
-de85488138247d Boris Brezillon 2024-02-29  443  		 * @kmap: Kernel mapping of the buffer object holding the
-de85488138247d Boris Brezillon 2024-02-29  444  		 * synchronization object.
-de85488138247d Boris Brezillon 2024-02-29  445  		 */
-de85488138247d Boris Brezillon 2024-02-29  446  		void *kmap;
-de85488138247d Boris Brezillon 2024-02-29  447  	} syncwait;
-de85488138247d Boris Brezillon 2024-02-29  448  
-de85488138247d Boris Brezillon 2024-02-29  449  	/** @fence_ctx: Fence context fields. */
-de85488138247d Boris Brezillon 2024-02-29  450  	struct {
-de85488138247d Boris Brezillon 2024-02-29  451  		/** @lock: Used to protect access to all fences allocated by this context. */
-de85488138247d Boris Brezillon 2024-02-29  452  		spinlock_t lock;
-de85488138247d Boris Brezillon 2024-02-29  453  
-de85488138247d Boris Brezillon 2024-02-29  454  		/**
-de85488138247d Boris Brezillon 2024-02-29  455  		 * @id: Fence context ID.
-de85488138247d Boris Brezillon 2024-02-29  456  		 *
-de85488138247d Boris Brezillon 2024-02-29  457  		 * Allocated with dma_fence_context_alloc().
-de85488138247d Boris Brezillon 2024-02-29  458  		 */
-de85488138247d Boris Brezillon 2024-02-29  459  		u64 id;
-de85488138247d Boris Brezillon 2024-02-29  460  
-de85488138247d Boris Brezillon 2024-02-29  461  		/** @seqno: Sequence number of the last initialized fence. */
-de85488138247d Boris Brezillon 2024-02-29  462  		atomic64_t seqno;
-de85488138247d Boris Brezillon 2024-02-29  463  
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  464  		/**
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  465  		 * @last_fence: Fence of the last submitted job.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  466  		 *
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  467  		 * We return this fence when we get an empty command stream.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  468  		 * This way, we are guaranteed that all earlier jobs have completed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  469  		 * when drm_sched_job::s_fence::finished without having to feed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  470  		 * the CS ring buffer with a dummy job that only signals the fence.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  471  		 */
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  472  		struct dma_fence *last_fence;
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  473  
-de85488138247d Boris Brezillon 2024-02-29  474  		/**
-de85488138247d Boris Brezillon 2024-02-29  475  		 * @in_flight_jobs: List containing all in-flight jobs.
-de85488138247d Boris Brezillon 2024-02-29  476  		 *
-de85488138247d Boris Brezillon 2024-02-29  477  		 * Used to keep track and signal panthor_job::done_fence when the
-de85488138247d Boris Brezillon 2024-02-29  478  		 * synchronization object attached to the queue is signaled.
-de85488138247d Boris Brezillon 2024-02-29  479  		 */
-de85488138247d Boris Brezillon 2024-02-29  480  		struct list_head in_flight_jobs;
-de85488138247d Boris Brezillon 2024-02-29  481  	} fence_ctx;
-a706810cebb072 Adrián Larumbe  2024-09-13  482  
-a706810cebb072 Adrián Larumbe  2024-09-13  483  	/** @profiling_info: Job profiling data slots and access information. */
-a706810cebb072 Adrián Larumbe  2024-09-13  484  	struct {
-a706810cebb072 Adrián Larumbe  2024-09-13  485  		/** @slots: Kernel BO holding the slots. */
-a706810cebb072 Adrián Larumbe  2024-09-13  486  		struct panthor_kernel_bo *slots;
-a706810cebb072 Adrián Larumbe  2024-09-13  487  
-a706810cebb072 Adrián Larumbe  2024-09-13  488  		/** @slot_count: Number of jobs ringbuffer can hold at once. */
-a706810cebb072 Adrián Larumbe  2024-09-13  489  		u32 slot_count;
-a706810cebb072 Adrián Larumbe  2024-09-13  490  
-a706810cebb072 Adrián Larumbe  2024-09-13  491  		/** @profiling_seqno: Index of the next available profiling information slot. */
-a706810cebb072 Adrián Larumbe  2024-09-13  492  		u32 seqno;
-a706810cebb072 Adrián Larumbe  2024-09-13  493  	} profiling;
-de85488138247d Boris Brezillon 2024-02-29 @494  };
-de85488138247d Boris Brezillon 2024-02-29  495  
+> +          The value of current sense resistor in microohms.
+> +
+> +    required:
+> +      - compatible
+> +      - shunt-resistor-micro-ohms
+> +      - monitored-battery
+> +      - power-supplies
+> +
+> +  haptic:
+> +    type: object
+> +    additionalProperties: false
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+blank line
+
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-haptic
+> +
+> +      haptic-supply: true
+> +
+> +      pwms:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - haptic-supply
+> +      - pwms
+> +
+> +  leds:
+> +    type: object
+> +    additionalProperties: false
+> +    description:
+> +      Up to 4 LEDs supported. One LED is represented by one child node.
+
+blank line
+
+> +    properties:
+> +      compatible:
+> +        const: maxim,max77705-led
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^led@[0-3]$":
+> +        type: object
+> +        $ref: /schemas/leds/common.yaml#
+
+blank line
+
+> +        properties:
+> +          reg:
+> +            description:
+> +              LED index.
+
+blank line
+
+> +        unevaluatedProperties: false
+
+blank line
+
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - compatible
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        pmic@66 {
+> +            compatible = "maxim,max77705";
+> +            reg = <0x66>;
+> +            interrupt-parent = <&pm8998_gpios>;
+> +            interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
+> +            pinctrl-0 = <&chg_int_default>;
+> +            pinctrl-names = "default";
+> +
+> +            leds {
+> +                compatible = "maxim,max77705-led";
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                led@1 {
+> +                    reg = <1>;
+> +                    label = "red:usr1";
+> +                };
+> +
+> +                led@2 {
+> +                    reg = <2>;
+> +                    label = "green:usr2";
+> +                };
+> +
+> +                led@3 {
+> +                    reg = <3>;
+> +                    label = "blue:usr3";
+> +                };
+> +            };
+> +
+> +            max77705_charger: charger {
+> +                compatible = "maxim,max77705-charger";
+> +                monitored-battery = <&battery>;
+> +            };
+> +
+> +            fuel_gauge {
+> +                compatible = "maxim,max77705-fuel-gauge";
+> +                monitored-battery = <&battery>;
+> +                power-supplies = <&max77705_charger>;
+> +                rsense = <5>;
+
+Not documented.
+
+> +            };
+> +
+> +
+> +            haptic {
+> +                compatible = "maxim,max77705-haptic";
+> +                haptic-supply = <&vib_regulator>;
+> +                pwms = <&vib_pwm 0 50000>;
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b65cfa1d322d..59d027591e34 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14064,6 +14064,7 @@ B:	mailto:linux-samsung-soc@vger.kernel.org
+>  F:	Documentation/devicetree/bindings/*/maxim,max14577.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77686.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77693.yaml
+> +F:	Documentation/devicetree/bindings/*/maxim,max77705*.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77843.yaml
+>  F:	Documentation/devicetree/bindings/clock/maxim,max77686.txt
+>  F:	drivers/*/*max77843.c
+> 
+> -- 
+> 2.39.2
+> 
