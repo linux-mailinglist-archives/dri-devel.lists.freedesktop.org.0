@@ -2,77 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E596E977F00
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 13:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CD4977F41
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 14:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAF7310ECF7;
-	Fri, 13 Sep 2024 11:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE01F10ED04;
+	Fri, 13 Sep 2024 12:08:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="hl/pEL5C";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EsUJLtBm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4530610ECF7
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 11:56:30 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4280ca0791bso19816605e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 04:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1726228588; x=1726833388;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=b28g9Qh6wbp8sFAAmBj0WXV4vMJYAGNB1czPJCNOJh8=;
- b=hl/pEL5CEfG/TEoYPXdNc0NfSrzGbx883foGTJtcy54adS0e2Zm50zTfbYdjwAq3rT
- 8fobyEOMtkyEJgHLjgt0TUZE8Ze/sbF8Uf7Ok8SyD9ltjbG0MjXiEB1E/k5PPBohRNQa
- CD0Dpd/+ay1rKmSgrUldHnilEt9J62z3W8xiFW0a/BYrqdCXXJSZxo/yloe4TwarmZDM
- //g06pceBhaXv4KoA/r+gVBppwsy9W6FEZYNeLuWCh8WFyJjjF4hG0zKmYRJ2yv2Lo7f
- LiX7k3WMv9JluywzEMa9DAVuqF3CTnXsVpsIn/a8d9jNBcW4EkQmL5LIdzGc8+wXAlsK
- /Osw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9214A10ED04
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 12:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726229288;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gt2K4SpnjvNK2RNfN5QlvVm+/InFTkHwPX02Iy2nOWY=;
+ b=EsUJLtBm2dkeq8poLhk9IT/3kDTfg1fMwwohyTpfwMh8wpQFCAyU6saqQxkVCLoXLgR1Bt
+ kIwb3gHSGKBagTrvE0LOnlvOzFNLk+q30wPRcOTG2gqyCZrHBSR/n8IRAnf1CkC7rSbhha
+ 1BUBt3u4SPrz8qwiFAxLu0XzHxg93ag=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-645-wqzX17T_N5CgetTPx4aqlA-1; Fri, 13 Sep 2024 08:08:07 -0400
+X-MC-Unique: wqzX17T_N5CgetTPx4aqlA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-53654fd283bso541710e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 05:08:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726228588; x=1726833388;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1726229286; x=1726834086;
+ h=mime-version:message-id:date:references:in-reply-to:subject:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=b28g9Qh6wbp8sFAAmBj0WXV4vMJYAGNB1czPJCNOJh8=;
- b=nDOW4y0gkd7F9TZitn4FpF5Dy7ErG91VsTClvxPqnVn0is0jsOLbseS6GIyMsCh1L/
- zgVXID4gpywIQZykVjEF3ApdlEY1vsS9J+q/rvlYSisC50L32etWHVJWvcjkjedpBVH4
- f3c7i1NiAv+TBDW77goQWCOzF0h/sTcRdCGI7LWa3eailLR3fV7OFR/ylgHv6f0ycqvX
- /5FDDRYy1FMvhQTlvm0qs1Sdyxie2KCvmRHEtv+evj8xavcWD2ej28wpvTIkOEdE6aQX
- X50pt499qKJgum/nEp6/PhgOchCnOMIf0pgxIBe+spzKDnBP+pr3TwrXlLainmI0IUBh
- HFug==
-X-Gm-Message-State: AOJu0YzmVmpxMQZwotLaY+3sPkmbcgWZc+OWHzNCxfd60/eq3HtXoI3q
- 7EC1zQy4fLP605OoV7FCufOPXOiyBsM9TWuz9C2rv5wBLuW1ztbBzSAM/PmecNo=
-X-Google-Smtp-Source: AGHT+IHcUXeBZBOEM+H7QN71Pqp8IN5OgZbq+vY6D+e8DBFynITqywYcxExRNOpgBMESa2uv7BiL6g==
-X-Received: by 2002:a05:600c:19ce:b0:42c:b4f2:7c30 with SMTP id
- 5b1f17b1804b1-42cdb56ae9bmr50228735e9.23.1726228587234; 
- Fri, 13 Sep 2024 04:56:27 -0700 (PDT)
-Received: from [192.168.0.101] ([90.241.98.187])
+ bh=Gt2K4SpnjvNK2RNfN5QlvVm+/InFTkHwPX02Iy2nOWY=;
+ b=CZ1/QAzC0sbrqxRhnNOk/RPaHkiCu60B7o3LrbkXezWKB2cz8yJzLCMpvqPfQW+lcX
+ KlJH5GwUybiNatojlmRBCUGsHIepHZPtS4Df8ce3xxTp1A2poQ0bU18WEWIKMvUebb9S
+ WWASmxw2VRI56rVLAeSQAufWVyPcTBJ25Jz5yg6LJZBBDWTsx4XdG7soHgMhCjndObm+
+ 7k7wi86bZyqFaPaC3PPjYFBurqbJ3T/JnV0QOwvGyTzozjLdqKq8ghXLeRCgnm0eLzgC
+ 6FxSgaE6/Wa14xt3incOQ+jDOQxg4dPqvUD0VuxQNmKQOxwQpmoJrLe3th391MzbfNBu
+ WZnA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4h94JILSA78r8y3+mNQLLdn3uARNFfWZPr1kPQ11Z2LABPWYgyD4MlHYq7tFGhq5XYyYXR0/T724=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7Q0/pbKH+ppL0ikxwtY0l/11t624lz9hIf0t9Vyu/iIfTWg7k
+ 1SZyO/6nK1pGrHEZThbaumZ6qT8L01tFh1uCusAjNc4cd5kRwSWwxeSjE9Ka3V4JMMaCIeXBVWt
+ Ddf4FYDbnGaJNwO2/ABn0kmIbhumCA1cbPA6gLox2b61XXSAg55mJkumAaPmuOr5fCA==
+X-Received: by 2002:a05:6512:10d0:b0:536:5515:e9b5 with SMTP id
+ 2adb3069b0e04-5367ff3230fmr1587034e87.52.1726229285570; 
+ Fri, 13 Sep 2024 05:08:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGla7q5cNgYR21HLWSQMiw4+4Hf61aEwlK/E6xC07i5HWwpkVKw4V8vM9Gds6M7ClHhBHI/w==
+X-Received: by 2002:a05:6512:10d0:b0:536:5515:e9b5 with SMTP id
+ 2adb3069b0e04-5367ff3230fmr1586995e87.52.1726229284977; 
+ Fri, 13 Sep 2024 05:08:04 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42d9b05a6f5sm22478835e9.4.2024.09.13.04.56.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Sep 2024 04:56:26 -0700 (PDT)
-Message-ID: <92a123f1-73c9-45a1-8e0a-af72dd0a70e7@ursulin.net>
-Date: Fri, 13 Sep 2024 12:56:25 +0100
+ 5b1f17b1804b1-42d9b159d99sm22588765e9.11.2024.09.13.05.08.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2024 05:08:04 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Ilia Mirkin
+ <imirkin@alum.mit.edu>, James Jones <jajones@nvidia.com>, Karol Herbst
+ <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
+ <dakr@redhat.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v3 1/2] drm/panic: Add ABGR2101010 support
+In-Reply-To: <a58be9b0-d766-401f-8666-8e693b1b38da@redhat.com>
+References: <20240913071036.574782-1-jfalempe@redhat.com>
+ <20240913071036.574782-2-jfalempe@redhat.com>
+ <87h6akyq49.fsf@minerva.mail-host-address-is-not-set>
+ <a58be9b0-d766-401f-8666-8e693b1b38da@redhat.com>
+Date: Fri, 13 Sep 2024 14:08:03 +0200
+Message-ID: <87bk0rzrh8.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/sched: memset() 'job' in drm_sched_job_init()
-To: Philipp Stanner <pstanner@redhat.com>, Luben Tuikov
- <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240828094133.17402-2-pstanner@redhat.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20240828094133.17402-2-pstanner@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,80 +97,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-Hi,
+> On 13/09/2024 09:22, Javier Martinez Canillas wrote:
+>> Jocelyn Falempe <jfalempe@redhat.com> writes:
+>> 
+>> Hello Jocelyn,
+>> 
+>>> Add support for ABGR2101010, used by the nouveau driver.
+>>>
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_panic.c | 10 ++++++++++
+>>>   1 file changed, 10 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+>>> index 74412b7bf936..0a9ecc1380d2 100644
+>>> --- a/drivers/gpu/drm/drm_panic.c
+>>> +++ b/drivers/gpu/drm/drm_panic.c
+>>> @@ -209,6 +209,14 @@ static u32 convert_xrgb8888_to_argb2101010(u32 pix)
+>>>   	return GENMASK(31, 30) /* set alpha bits */ | pix | ((pix >> 8) & 0x00300C03);
+>>>   }
+>>>   
+>>> +static u32 convert_xrgb8888_to_abgr2101010(u32 pix)
+>>> +{
+>>> +	pix = ((pix & 0x00FF0000) >> 14) |
+>>> +	      ((pix & 0x0000FF00) << 4) |
+>>> +	      ((pix & 0x000000FF) << 22);
+>>> +	return GENMASK(31, 30) /* set alpha bits */ | pix | ((pix >> 8) & 0x00300C03);
+>>> +}
+>> 
+>> Maybe we can move this format conversion helper and the others in the
+>> driver to drivers/gpu/drm/drm_format_helper.c ?
+>
+> I think there are still a few issues with that. First is that 
+> drm_format_helper.c is in a separate module, so you can't call its 
+> functions from the main drm module, where drm_panic is.
+>
 
-On 28/08/2024 10:41, Philipp Stanner wrote:
-> drm_sched_job_init() has no control over how users allocate struct
-> drm_sched_job. Unfortunately, the function can also not set some struct
-> members such as job->sched.
+I see.
 
-job->sched usage from within looks like a bug. But not related to the 
-memset you add.
+> In my drm_log series, https://patchwork.freedesktop.org/series/136789/ I 
+> moved this to drm_draw.c, and maybe drm_format_helper could re-use that ?
+>
 
-For this one something like this looks easiest for a start:
+That makes sense to me as well. Thomas, what do you think ?
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
-b/drivers/gpu/drm/scheduler/sched_main.c
-index ab53ab486fe6..877113b01af2 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -788,7 +788,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
-                  * or worse--a blank screen--leave a trail in the
-                  * logs, so this can be debugged easier.
-                  */
--               drm_err(job->sched, "%s: entity has no rq!\n", __func__);
-+               pr_err("%s: entity has no rq!\n", __func__);
-                 return -ENOENT;
-         }
+-- 
+Best regards,
 
-Fixes: 56e449603f0a ("drm/sched: Convert the GPU scheduler to variable 
-number of run-queues")
-Cc: <stable@vger.kernel.org> # v6.7+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-> This could theoretically lead to UB by users dereferencing the struct's
-> pointer members too early.
-
-Hmm if drm_sched_job_init returned an error callers should not 
-dereference anything. What was actually the issue you were debugging?
-
-Adding a memset is I think not the best solution since it is very likely 
-redundant to someone doing a kzalloc in the first place.
-
-Regards,
-
-Tvrtko
-
-> It is easier to debug such issues if these pointers are initialized to
-> NULL, so dereferencing them causes a NULL pointer exception.
-> Accordingly, drm_sched_entity_init() does precisely that and initializes
-> its struct with memset().
-> 
-> Initialize parameter "job" to 0 in drm_sched_job_init().
-> 
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
-> No changes in v2.
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 356c30fa24a8..b0c8ad10b419 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -806,6 +806,14 @@ int drm_sched_job_init(struct drm_sched_job *job,
->   		return -EINVAL;
->   	}
->   
-> +	/*
-> +	 * We don't know for sure how the user has allocated. Thus, zero the
-> +	 * struct so that unallowed (i.e., too early) usage of pointers that
-> +	 * this function does not set is guaranteed to lead to a NULL pointer
-> +	 * exception instead of UB.
-> +	 */
-> +	memset(job, 0, sizeof(*job));
-> +
->   	job->entity = entity;
->   	job->credits = credits;
->   	job->s_fence = drm_sched_fence_alloc(entity, owner);
