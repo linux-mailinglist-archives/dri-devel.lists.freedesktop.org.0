@@ -2,85 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2FA9788AF
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 21:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458A8978922
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 21:51:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3B410ED7E;
-	Fri, 13 Sep 2024 19:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16AAA10ED4E;
+	Fri, 13 Sep 2024 19:51:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gn8OnToN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eGgB881q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06BE710ED7E
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 19:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1726254876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kEDaZq1JvqwS7B5a6C/b79xspKvNtOtKMLXgoPqkWiU=;
- b=gn8OnToNjz4Pg7jXMn6YFiD2+exz+iT56wTI1/3KMVy2WJ7fBg/jD6U2U1dc5AqJt/ty5i
- IejIdaqd3LmfQSJdUMjCtaMtlY6QBr8aCgBkuFu9Dz4qNRtvgy7r4uGq9D7MLe23U9GIuk
- Qb7Ft8lN6kZFXOQpB2BQYKM2WYvpHSs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-663-vmzeetMNPByzxIWiYV0UtA-1; Fri, 13 Sep 2024 15:14:34 -0400
-X-MC-Unique: vmzeetMNPByzxIWiYV0UtA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-42cb0b0514bso19183105e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 12:14:34 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A9710ED4D;
+ Fri, 13 Sep 2024 19:51:37 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2053a0bd0a6so26432985ad.3; 
+ Fri, 13 Sep 2024 12:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726257096; x=1726861896; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=CB8jZGjPjnOyT8KVsrlJmg/A4Cpb/kxqtggkRJsoV9U=;
+ b=eGgB881qm/khZaBKlh2m7gGJcknj0QF0kxPgDWJHYwTorjRrzG2Qb3kyi671uog/iD
+ Fgjz1v7QuchTnZw9eu6d7iTAS/aL7VTMW9sGys6zfrcu8mBaRa0HVm5lSHLiO5XzNOyk
+ 1ecIdjc0Ip/mlK4t2Xn03Ec3igeLFoRrZ2qBEARq+4WmA2di87S/tpbl4EFV9Qma/7Kw
+ r9dsSNH/215zjCkRVNE5T7ukoQ9gGLFhugDyDmcXcYN3HY36cAjCp567/zU/6FUZyMt4
+ z/C3FUyNNtJbwT4i1MF2qv7nAXJmL9XlSDtTWQi0XSKr9Kn6n/vBxBw1kgYvZV9zY/eR
+ a5ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726254873; x=1726859673;
+ d=1e100.net; s=20230601; t=1726257096; x=1726861896;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kEDaZq1JvqwS7B5a6C/b79xspKvNtOtKMLXgoPqkWiU=;
- b=pKMKmXWyhPtEZiM5tUiZ13Bg27LQQAhA4jCI1F0IPe1mOZ0UWe/KFhKlyR8NS+e1Qa
- DMivSGwa4iX/mZUXv7iIHriIQvz+trM/6A3S/uGc9gAtK8vSK0KXKXQLGXcwDMSjfPiH
- MdHPR2KUFWn/AbNhoMfDaseRbgmPU8uVhbCnY7Pz3obHMN5PHrxrXYe0FIphcaKYdkEW
- TpukU7lNhIUQfTWHAd6BAOqf8PgzNBKdtPH8pnvu297r/lSQfQRGWihodKwIK8rJT9GL
- iXHiMIsAKcS2KhWVEQU1AbsPYgIBwWELQ7AFohZP1l+srnCz0ePZL7KqCqdZhyKIkT0E
- m3CQ==
+ bh=CB8jZGjPjnOyT8KVsrlJmg/A4Cpb/kxqtggkRJsoV9U=;
+ b=OgvLVxFgclddBf3msmljc43tzvjyiZkkWvZ3iFjeZopggaNO4dPPfAbKLThdq4zOmT
+ e0JkOi9gedxjTVddZqE9Fjyte3SmGLyLaJ2qMl7rmu+UpXhdidlGgIwrHXQ1a46AfvlL
+ zqiS/J4S2+GuDv8V7Fqc1InlTj2EUc0VVYfgfJxyqRihszLH/cqSphCzRqL35ACXYLeT
+ 3QTHmOHgJnTyD4BEE9MjkymqNnFkPK7Ndwi+4ChXVlvmd6CZju3/mwA5T9VigkntpbXi
+ cECcSQaCIeMPQ2ZRmWjEjR5CSm5Rc0LkbKSFuH3OrlROllK94cwtlMApeHtMfz2YK6GP
+ vcPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXNq5XbO5O90gOPH5jhL4SLGO8GAB7udqMGKt1693fk7qdtZBi6dt823oHvrZ9QFA8bhDX3v71telc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxq+bQIKJQX8LM1YSV9k9qjDlu7aHoAVKSSpVJrNzr1byK1O7yE
- gz8kfgG6XJI0+7kwFhdFZS3mN7PP2sbo278KiYVWRFvMu0yDuAc9zQhAQDWF09wgCYrNO2jLBfc
- 0BdI404xke8p5abtjIMMjMMu/2sNnJPMJiYqTqw/+6O6781QySiboH7b6H8xpiNoiBQ==
-X-Received: by 2002:a05:600c:3514:b0:42c:df67:1d35 with SMTP id
- 5b1f17b1804b1-42cdf671f9emr58878255e9.1.1726254873459; 
- Fri, 13 Sep 2024 12:14:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEv6ZqQqprM8k1B6dy7IN1qr0vv0mBK5M/OuTZw60w5IV+Msv048q6Y8MOMeLK+vWaPrKuugg==
-X-Received: by 2002:a05:600c:3514:b0:42c:df67:1d35 with SMTP id
- 5b1f17b1804b1-42cdf671f9emr58878005e9.1.1726254872862; 
- Fri, 13 Sep 2024 12:14:32 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ AJvYcCU8wxiuDXfW0Q8XjE/wGNSOeRlffedEVPW1yW7t+e40o05RZs3quMNhDkj5KSEFl1TyExuM6ARo5sQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdJAVLw8wOGjuMtVb8ZOCR1sTWCDB0mVDuhDqYbyVC3R+BgEyf
+ WJf+bKDOb5OFsfkO71HROInQF6ijxNwcGW4AajZCtGiSsSXs6Fxwz7G7eA==
+X-Google-Smtp-Source: AGHT+IF2m8yqpRXDRCpHC9T48pLfZDaKaeeZwKrb5xVVqT8J3uKIrDGq4EO2eV7HtkaI2gEwjhuChA==
+X-Received: by 2002:a17:902:f693:b0:205:68a4:b2d8 with SMTP id
+ d9443c01a7336-2076e3155e9mr125176375ad.11.1726257096201; 
+ Fri, 13 Sep 2024 12:51:36 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42da22b8b49sm380015e9.2.2024.09.13.12.14.32
+ d9443c01a7336-207945daa86sm169925ad.61.2024.09.13.12.51.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Sep 2024 12:14:32 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: chrome-platform@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Hugues Bruant <hugues.bruant@gmail.com>,
- Julius Werner <jwerner@chromium.org>,
- Brian Norris <briannorris@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Borislav Petkov <bp@alien8.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [PATCH v2] firmware: coreboot: Don't register a pdev if screen_info
- data is present
-Date: Fri, 13 Sep 2024 21:13:59 +0200
-Message-ID: <20240913191428.1539653-1-javierm@redhat.com>
+ Fri, 13 Sep 2024 12:51:35 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm/a6xx+: Insert a fence wait before SMMU table update
+Date: Fri, 13 Sep 2024 12:51:31 -0700
+Message-ID: <20240913195132.8282-1-robdclark@gmail.com>
 X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,91 +88,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Coreboot platforms, a system framebuffer may be provided to the Linux
-kernel by filling a LB_TAG_FRAMEBUFFER entry in the Coreboot table. But
-a Coreboot payload (e.g: SeaBIOS) could also provide its own framebuffer
-information to the Linux kernel.
+From: Rob Clark <robdclark@chromium.org>
 
-If that's the case, arch x86 boot code will fill the global screen_info
-data and this used by the Generic System Framebuffers (sysfb) framework,
-to register a platform device with pdata about the system's framebuffer.
+The CP_SMMU_TABLE_UPDATE _should_ be waiting for idle, but on some
+devices (x1-85, possibly others), it seems to pass that barrier while
+there are still things in the event completion FIFO waiting to be
+written back to memory.
 
-But later, the framebuffer_coreboot driver will try to do the same and
-attempt to register a "simple-framebuffer" platform device (using the
-information from the Coreboot table), which will lead to an error due a
-device with the same name already being registered:
+Work around that by adding a fence wait before context switch.  The
+CP_EVENT_WRITE that writes the fence is the last write from a submit,
+so seeing this value hit memory is a reliable indication that it is
+safe to proceed with the context switch.
 
-    sysfs: cannot create duplicate filename '/bus/platform/devices/simple-framebuffer.0'
-    ...
-    coreboot: could not register framebuffer
-    framebuffer coreboot8: probe with driver framebuffer failed with error -17
-
-To prevent this issue, make the framebuffer_core driver to not register
-a platform device if the global struct screen_info data has been filled.
-
-Reported-by: Brian Norris <briannorris@chromium.org>
-Closes: https://lore.kernel.org/all/ZuCG-DggNThuF4pj@b20ea791c01f/T/#ma7fb65acbc1a56042258adac910992bb225a20d2
-Suggested-by: Julius Werner <jwerner@chromium.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Brian Norris <briannorris@chromium.org>
+Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/63
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-Changes in v2:
-- Declare the struct screen_info as constant variable (Thomas Zimmermann).
-- Use screen_info_video_type() instead of checking the screen_info video
-  types directly (Thomas Zimmermann).
-- Fix missing "device" word in a comment (Brian Norris).
-- Fix some mispellings in a comment (Brian Norris).
-- Change error code returned from -EINVAL to -ENODEV (Brian Norris).
-
- drivers/firmware/google/framebuffer-coreboot.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index daadd71d8ddd..49eeb13814e4 100644
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -15,6 +15,7 @@
- #include <linux/module.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
-+#include <linux/screen_info.h>
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index bcaec86ac67a..ba5b35502e6d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -101,9 +101,10 @@ static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
+ }
  
- #include "coreboot_table.h"
+ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
+-		struct msm_ringbuffer *ring, struct msm_file_private *ctx)
++		struct msm_ringbuffer *ring, struct msm_gem_submit *submit)
+ {
+ 	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
++	struct msm_file_private *ctx = submit->queue->ctx;
+ 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+ 	phys_addr_t ttbr;
+ 	u32 asid;
+@@ -115,6 +116,13 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
+ 	if (msm_iommu_pagetable_params(ctx->aspace->mmu, &ttbr, &asid))
+ 		return;
  
-@@ -27,8 +28,10 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 	int i;
- 	u32 length;
- 	struct lb_framebuffer *fb = &dev->framebuffer;
-+	const struct screen_info *si = &screen_info;
- 	struct platform_device *pdev;
- 	struct resource res;
-+	unsigned int type;
- 	struct simplefb_platform_data pdata = {
- 		.width = fb->x_resolution,
- 		.height = fb->y_resolution,
-@@ -36,6 +39,20 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 		.format = NULL,
- 	};
- 
-+	/*
-+	 * On Coreboot systems, the advertised LB_TAG_FRAMEBUFFER entry
-+	 * in the Coreboot table should only be used if the payload did
-+	 * not pass a framebuffer information to the Linux kernel.
-+	 *
-+	 * If the global screen_info data has been filled, the Generic
-+	 * System Framebuffers (sysfb) will already register a platform
-+	 * device and pass that screen_info as platform_data to a driver
-+	 * that can scan-out using the system provided framebuffer.
-+	 */
-+	type = screen_info_video_type(si);
-+	if (type)
-+		return -ENODEV;
++	/* Wait for previous submit to complete before continuing: */
++	OUT_PKT7(ring, CP_WAIT_TIMESTAMP, 4);
++	OUT_RING(ring, 0);
++	OUT_RING(ring, lower_32_bits(rbmemptr(ring, fence)));
++	OUT_RING(ring, upper_32_bits(rbmemptr(ring, fence)));
++	OUT_RING(ring, submit->seqno - 1);
 +
- 	if (!fb->physical_address)
- 		return -ENODEV;
+ 	if (!sysprof) {
+ 		if (!adreno_is_a7xx(adreno_gpu)) {
+ 			/* Turn off protected mode to write to special registers */
+@@ -193,7 +201,7 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	struct msm_ringbuffer *ring = submit->ring;
+ 	unsigned int i, ibs = 0;
  
+-	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
++	a6xx_set_pagetable(a6xx_gpu, ring, submit);
+ 
+ 	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP(0),
+ 		rbmemptr_stats(ring, index, cpcycles_start));
+@@ -283,7 +291,7 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
+ 	OUT_RING(ring, CP_THREAD_CONTROL_0_SYNC_THREADS | CP_SET_THREAD_BR);
+ 
+-	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
++	a6xx_set_pagetable(a6xx_gpu, ring, submit);
+ 
+ 	get_stats_counter(ring, REG_A7XX_RBBM_PERFCTR_CP(0),
+ 		rbmemptr_stats(ring, index, cpcycles_start));
 -- 
 2.46.0
 
