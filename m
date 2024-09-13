@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8894A977A50
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507DB977A55
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 09:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF4610E180;
-	Fri, 13 Sep 2024 07:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8C710ECAE;
+	Fri, 13 Sep 2024 07:55:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NTBi6eRP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="B6+QAD9o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C045810E180
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:55:30 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-3787f30d892so434418f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:55:30 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10A8110ECAE
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:55:59 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-42cb806623eso16452875e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 00:55:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726214129; x=1726818929; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1726214157; x=1726818957; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=4F47Y0ZqCWvW1BKyuPVAeIWPAa8pt/mVlnZt3/WuCck=;
- b=NTBi6eRPsRPWzDd5oHDHf2UJYo/8DIVG4RnFARD0n0oVMhe17HjJcjCfUYtVmqbRIs
- SaEWNr8fePKVNGE8dYkYMbhNpTdiRFQXFmGvMELnyPqPxE3OYVdNhohMPzcj3roVvRHI
- cs0GGWHfY7VJXqC/r4svcwlaKJyL//UOy+qbdFscs59auodtDQe02pMzhc7jKeDLe38G
- 7lm8ufmx4DgkxR+U26ZCSOeWnr/qIl9lfHsYZxH06iDj3LcVCUc7nBf1I+X9XE0ZCNuv
- oRkNmJp4zYujKt3Yd1yY7wDpC7i+2g/ioOjT2flsqiiqwO45uc7KjPlEsO5/U0c2ElqT
- QRAQ==
+ :reply-to; bh=qpTzSDvBYrkyHKuoj+wO5zn+z4Yh1FOYkc1VxdL7vAc=;
+ b=B6+QAD9ozaSs+6EncqONld1lqzlQBBt970tQbqWFm+hb0bCkoh4rMifCgGaqRw7wSC
+ zVcN6CHW9iK+oBbrgyyEXDHzGZP0azx7uIinSv1nAt+KewxMCnW3ODtsNzsx7OvCHog4
+ LgPcbrpHVVLY1R9QloonLWP+wQpYvf5sI9TQjd0hXg+QDY/ndf6qLhwCUojKDPJDDwlX
+ rqoLclzKC3pKIuREIfGmc2b7mSF1KZXyOII/ezXTtJ6I8tcRB0iBRM+Tl+OaPJhNurXU
+ wLrio4ANRDZmLgXuhivJsXIhxCHeLA6Gg5j1cdz4hMgOAwRdl5GRp0XBr5j3dVL+sg4z
+ Pqzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726214129; x=1726818929;
+ d=1e100.net; s=20230601; t=1726214157; x=1726818957;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=4F47Y0ZqCWvW1BKyuPVAeIWPAa8pt/mVlnZt3/WuCck=;
- b=u1pmDLP5fJEufgN83YG/FvHF4LXUa+MxqV90M59AlqdewTG1oc2QGADysrpsq1hYUt
- DfmRxYJZ3wF0lEnxpLS6IIpeiI6lKLH2CyAbneUHKPLgLW2UtFWzRuSE/DSAMAwrQSpp
- sTnV3s5jpcXZPdjWSvuIMAyMAwrHuur1/LKiqxcgSQLw0rOyIQat8ZMkMCwGmUfvI2o7
- e9AM8cxNyuxn8crJuYzFp/fXZiL+mDrG/p19GA0ZwgmnJZlABA6+KJpiks/gDX2ECvqH
- QGKcL23Nf/yxLSlIlUPYbS+xZg2AcV79hQ2JVfnx/NxtjFcUspuD5+wjtrqjwTgkfJKk
- RGrQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUDRgQfhUBg/hBSLLDbx6N9IK11fd09yKnLiEwzVo/bCcbNcmmJ0AFBMj7nyUL5O+wuvTwvELSd4WM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxemRssPkltIoJ1xLxNtwWzzU4MjxJbAltvhwGbQOmyFaJ3lhS7
- 3sXvx78Z7kukufhfliy80tlYYRE/S9j1675EoiFNC9p5IEgnmQiliHCh87scDEc=
-X-Google-Smtp-Source: AGHT+IFWCJ/6kVaBdFU6S4UaLYSM5aXgd7sHJI8AFELv8kzA9BpSNDQLlguwkKv+WU3rzncuwMzl9g==
-X-Received: by 2002:a5d:46cb:0:b0:371:c518:6f54 with SMTP id
- ffacd0b85a97d-378d61f1276mr892538f8f.29.1726214128842; 
- Fri, 13 Sep 2024 00:55:28 -0700 (PDT)
+ bh=qpTzSDvBYrkyHKuoj+wO5zn+z4Yh1FOYkc1VxdL7vAc=;
+ b=Xrs4pE2GXzPMi9tjMBTjPwcZwIYhkqmVvPZt5wQwn19yL/TfCcpqZKehyWO9cqGcPz
+ 2v8fR+NyDeHA/MQSEb1DpQ+oYkghGmArqGBQf6YbCMy81fl51VVWFHeZFOLEC7eC9zuK
+ n15ge1WQdhovfksAwMF+U2Jd/3fRvv+uOWJ6mb3RC2yeLeDzp96Z4nh4+V9VNql12kWw
+ mq3x860Y9cvs1XvIrQSsb6UHNd9crKjrqoJGtSZj/rZSQkJycg+/g/xCovaBJFhgVIrm
+ fKRlLyujkV/bi1poozbRpUo7EJQh9nVZuIuxVEo3ok3a0x/C8uex50Yn+rEUyZY/mznW
+ 4BXQ==
+X-Gm-Message-State: AOJu0YxhQ6G42J5D1h9dENpWlcAiZoXJWpjrHggHN9N4UfmsuFZrnZt2
+ dSUzxo3dlpiOUWoB3QnsOPhxVkYnbK0+2zWnLPr2KJJaYldIrX7034+wYsZadUU=
+X-Google-Smtp-Source: AGHT+IEMJDCWhsJ1G+6tU9z1uEdB6hFH+MN3Eo32SqDktckuuO3ZulfwrdeZkxDnoTWA251Oe42UZQ==
+X-Received: by 2002:a05:600c:2058:b0:42c:de9b:a1b5 with SMTP id
+ 5b1f17b1804b1-42cde9ba226mr36532255e9.32.1726214157104; 
+ Fri, 13 Sep 2024 00:55:57 -0700 (PDT)
 Received: from [192.168.7.202] ([212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37895676117sm16006632f8f.60.2024.09.13.00.55.27
+ 5b1f17b1804b1-42d9b054dd3sm15035345e9.5.2024.09.13.00.55.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Sep 2024 00:55:28 -0700 (PDT)
-Message-ID: <d9fe0fd3-c494-4c93-8f86-98dbb6fea4f3@linaro.org>
-Date: Fri, 13 Sep 2024 09:55:27 +0200
+ Fri, 13 Sep 2024 00:55:56 -0700 (PDT)
+Message-ID: <ba9c9e9e-006e-40c8-b4cf-45dc08a5ea57@linaro.org>
+Date: Fri, 13 Sep 2024 09:55:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/2] drm/bridge: dw-hdmi: Move vmalloc PCM buffer
- management into the driver
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+Subject: Re: [PATCH] drm/bridge: nwl-dsi: Use vsync/hsync polarity from
+ display mode
+To: Esben Haabendal <esben@geanix.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240807152725.18948-1-tiwai@suse.de>
- <20240807152725.18948-2-tiwai@suse.de>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240814-nwl-dsi-sync-polarity-v1-1-ee198e369196@geanix.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -99,7 +97,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240807152725.18948-2-tiwai@suse.de>
+In-Reply-To: <20240814-nwl-dsi-sync-polarity-v1-1-ee198e369196@geanix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,83 +116,65 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/08/2024 17:27, Takashi Iwai wrote:
-> The dw-hdmi drm bridge driver is the only one who still uses the ALSA
-> vmalloc helper API functions.  A previous attempt to change the way of
-> buffer management wasn't taken for this legacy stuff, as we had little
-> chance for test and some risk of major breaking.
-> Instead, this patch moves the vmalloc buffer stuff into the dw-hdmi
-> driver code itself, so that we can drop them from ALSA core code
-> afterwards.
+On 14/08/2024 12:37, Esben Haabendal wrote:
+> Using the correct bit helps. The documentation specifies bit 0 in both
+> registers to be controlling polarity of dpi_vsync_input and
+> dpi_hsync_input polarity. Bit 1 is reserved, and should therefore not be
+> set.
 > 
-> There should be no functional changes.
+> Tested with panel that requires active high vsync and hsync.
 > 
-> Link: https://lore.kernel.org/20191210154536.29819-1-tiwai@suse.de
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Esben Haabendal <esben@geanix.com>
 > ---
->   .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   | 30 ++++++++++++++++---
->   1 file changed, 26 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/bridge/nwl-dsi.c | 8 ++++----
+>   drivers/gpu/drm/bridge/nwl-dsi.h | 4 ++--
+>   2 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> index 67b8d17a722a..221e9a4edb40 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> @@ -8,6 +8,7 @@
->   #include <linux/interrupt.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
-> +#include <linux/vmalloc.h>
->   #include <drm/bridge/dw_hdmi.h>
->   #include <drm/drm_edid.h>
+> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+> index 8d54091ec66e..5f05647a3bea 100644
+> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
+> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+> @@ -289,13 +289,13 @@ static int nwl_dsi_config_dpi(struct nwl_dsi *dsi)
 >   
-> @@ -388,15 +389,36 @@ static int dw_hdmi_close(struct snd_pcm_substream *substream)
+>   	nwl_dsi_write(dsi, NWL_DSI_INTERFACE_COLOR_CODING, NWL_DSI_DPI_24_BIT);
+>   	nwl_dsi_write(dsi, NWL_DSI_PIXEL_FORMAT, color_format);
+> -	/*
+> -	 * Adjusting input polarity based on the video mode results in
+> -	 * a black screen so always pick active low:
+> -	 */
+>   	nwl_dsi_write(dsi, NWL_DSI_VSYNC_POLARITY,
+> +		      dsi->mode.flags & DRM_MODE_FLAG_PVSYNC ?
+> +		      NWL_DSI_VSYNC_POLARITY_ACTIVE_HIGH :
+>   		      NWL_DSI_VSYNC_POLARITY_ACTIVE_LOW);
+>   	nwl_dsi_write(dsi, NWL_DSI_HSYNC_POLARITY,
+> +		      dsi->mode.flags & DRM_MODE_FLAG_PHSYNC ?
+> +		      NWL_DSI_HSYNC_POLARITY_ACTIVE_HIGH :
+>   		      NWL_DSI_HSYNC_POLARITY_ACTIVE_LOW);
 >   
->   static int dw_hdmi_hw_free(struct snd_pcm_substream *substream)
->   {
-> -	return snd_pcm_lib_free_vmalloc_buffer(substream);
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +
-> +	vfree(runtime->dma_area);
-> +	runtime->dma_area = NULL;
-> +	return 0;
->   }
+>   	burst_mode = (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_BURST) &&
+> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.h b/drivers/gpu/drm/bridge/nwl-dsi.h
+> index a247a8a11c7c..61e7d65cb1eb 100644
+> --- a/drivers/gpu/drm/bridge/nwl-dsi.h
+> +++ b/drivers/gpu/drm/bridge/nwl-dsi.h
+> @@ -30,11 +30,11 @@
+>   #define NWL_DSI_PIXEL_FORMAT			0x20c
+>   #define NWL_DSI_VSYNC_POLARITY			0x210
+>   #define NWL_DSI_VSYNC_POLARITY_ACTIVE_LOW	0
+> -#define NWL_DSI_VSYNC_POLARITY_ACTIVE_HIGH	BIT(1)
+> +#define NWL_DSI_VSYNC_POLARITY_ACTIVE_HIGH	BIT(0)
 >   
->   static int dw_hdmi_hw_params(struct snd_pcm_substream *substream,
->   	struct snd_pcm_hw_params *params)
->   {
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +	size_t size = params_buffer_bytes(params);
-> +
->   	/* Allocate the PCM runtime buffer, which is exposed to userspace. */
-> -	return snd_pcm_lib_alloc_vmalloc_buffer(substream,
-> -						params_buffer_bytes(params));
-> +	if (runtime->dma_area) {
-> +		if (runtime->dma_bytes >= size)
-> +			return 0; /* already large enough */
-> +		vfree(runtime->dma_area);
-> +	}
-> +	runtime->dma_area = vzalloc(size);
-> +	if (!runtime->dma_area)
-> +		return -ENOMEM;
-> +	runtime->dma_bytes = size;
-> +	return 1;
-> +}
-> +
-> +static struct page *dw_hdmi_get_page(struct snd_pcm_substream *substream,
-> +				     unsigned long offset)
-> +{
-> +	return vmalloc_to_page(substream->runtime->dma_area + offset);
->   }
+>   #define NWL_DSI_HSYNC_POLARITY			0x214
+>   #define NWL_DSI_HSYNC_POLARITY_ACTIVE_LOW	0
+> -#define NWL_DSI_HSYNC_POLARITY_ACTIVE_HIGH	BIT(1)
+> +#define NWL_DSI_HSYNC_POLARITY_ACTIVE_HIGH	BIT(0)
 >   
->   static int dw_hdmi_prepare(struct snd_pcm_substream *substream)
-> @@ -515,7 +537,7 @@ static const struct snd_pcm_ops snd_dw_hdmi_ops = {
->   	.prepare = dw_hdmi_prepare,
->   	.trigger = dw_hdmi_trigger,
->   	.pointer = dw_hdmi_pointer,
-> -	.page = snd_pcm_lib_get_vmalloc_page,
-> +	.page = dw_hdmi_get_page,
->   };
->   
->   static int snd_dw_hdmi_probe(struct platform_device *pdev)
+>   #define NWL_DSI_VIDEO_MODE			0x218
+>   #define NWL_DSI_HFP				0x21c
+> 
+> ---
+> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+> change-id: 20240814-nwl-dsi-sync-polarity-ddc58435a4c4
+> 
+> Best regards,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
