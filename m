@@ -2,111 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BEE977AA1
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 10:06:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC629977ACB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 10:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFBE10ECAD;
-	Fri, 13 Sep 2024 08:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2458D10ECBA;
+	Fri, 13 Sep 2024 08:16:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mATffZSY";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="eqFRaqaL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F4510ECAD
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 08:06:44 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-374c1e5fe79so1360966f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 01:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726214803; x=1726819603; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=TqZBhFB8cimpwzbXgNKnIbtzzD95dG7Ue+nxOw3CDQA=;
- b=mATffZSYuEJ6M7AUraEDSieiwxTN9qZSJSXm3uYwAQZ903VUJ/3iOpXBwRqY4Slzul
- K9GAwA0HL9YLMKwB/kwogavYQxtREbZh3YppJzuIwHy3Rqi0/DsU8FiM9sseeryrTy7r
- RQnIh3R22r5nRbL0XHXEalcEAC2jGosIw9tGa79VjHgl4tTmXrJEmoeqEi65xz+hEjv+
- ByKsLGm7RqFEf9LPH9/IVaQTqmf4HnWta6dWv2udgeKbrDzq8achtDu5tuCJd+j0E5Li
- PgS/ie685JbljPOoa4lvWBfsdyM9bymgpLwlTcDfsx5h7dhgDkwMd2vXsqfaatm4qdCT
- hViw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726214803; x=1726819603;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=TqZBhFB8cimpwzbXgNKnIbtzzD95dG7Ue+nxOw3CDQA=;
- b=q/9DNbdeJmqzrZ9o6oW8m3MYnvK8WeW851/O/8aMAXorPIJ5shGXzz0kztZyQQfant
- m7G9NRrowQ8Nck4sKS6zH3prBE8bEra6qs1CHYPWau3zIYe50DJiJ6kBxOyy0rfUw5SS
- natOYo9gpUzctn7n8F3bHjlHEqaasR8BL2tgvh2E5iSsQrnpi8bGITzqE52klV3tx0nw
- OZvSgL6tlZWr4HukdzAQrd4ybiYtJChqsfjtTTj4fCsbtd1qQC8jK3lKMk+3tWuJu5xP
- Tqcg5M80hW9+dThicJBHeUOnIHT030qeSbYeszMhcLYmKCJi2l+2OfWiMsiIWWxXskku
- dRcQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxTUKco54+xyA9wFlktz+JERQ9ujrPiL9dB7g92EsXe92DqbTCaACbSW++WOCqbkYllO2a/nmyeiM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0KcCIuBS+tjmcmbZIp+5k4/YVFQt/amAROCEzN0jXleQt1ObZ
- +84z4FxPrm22YFFueuBuZQnVO4y4h0h/rWOoceg4v+ybpSAPsvv3dOxAAVUahqs=
-X-Google-Smtp-Source: AGHT+IHvWtfMha2KoMqPuP5/ukwrpi/HAR3rzVEdnlOieo8WnEC/635MZTdG6ngo/RnXP69csoG+mw==
-X-Received: by 2002:a5d:4e42:0:b0:374:bb2b:e7c4 with SMTP id
- ffacd0b85a97d-378c2d62438mr3242559f8f.57.1726214802860; 
- Fri, 13 Sep 2024 01:06:42 -0700 (PDT)
-Received: from [192.168.7.202] ([212.114.21.58])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42d9b16bfb4sm15121095e9.28.2024.09.13.01.06.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Sep 2024 01:06:42 -0700 (PDT)
-Message-ID: <ff114d4e-11f6-4fe7-9963-a30874f4df17@linaro.org>
-Date: Fri, 13 Sep 2024 10:06:41 +0200
+X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Sep 2024 08:16:32 UTC
+Received: from omta034.useast.a.cloudfilter.net
+ (omta034.useast.a.cloudfilter.net [44.202.169.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB49810ECB7
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 08:16:32 +0000 (UTC)
+Received: from eig-obgw-5010a.ext.cloudfilter.net ([10.0.29.199])
+ by cmsmtp with ESMTPS
+ id ozrgs99ZG1zuHp1Mqsw2lF; Fri, 13 Sep 2024 08:09:24 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+ id p1Mpsh0lqr1Jup1Mpsiedt; Fri, 13 Sep 2024 08:09:23 +0000
+X-Authority-Analysis: v=2.4 cv=VPjbncPX c=1 sm=1 tr=0 ts=66e3f333
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=rpUMG24A1zG+UrzXDtAMsg==:17
+ a=IkcTkHD0fZMA:10 a=EaEq8P2WXUwA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
+ a=1NbDYHN2ElJTStc2awIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=Xt_RvD8W3m28Mn_h3AK8:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ioUqqHWbZA3ZxtqcF1IJZFQ0PDlv9LdpcpzewA1m3Os=; b=eqFRaqaLU7ofpW1I2KdGDkAT0G
+ 86CwVyJZZA0DQhQ3D+0MTRNIk+P7tQBxWOVf7gxioiPQLlK5yLBb8kn26pVn0oiEM7raxVXb9xLV/
+ oJ2wtveKcWytzcKOn/qY4lwODhdOyyUSJujA9sAAj+NsbbdknhAslTaAnDrQeN7Y+yt+G2nfrCUBb
+ xwbLo4YNFuGVeMU0PT4xtTEwLPSxT/ot2z7WgJYOJ5kmYn8Yzyja965S95psRvpIdaxfMmdto06SY
+ UGduZDn/p6fXNtBAyIKdZ1QOgYMEU0EfY+bnDfEC67ssmTVMtTJut6sxvwEgYhvThnb093TPZBkKa
+ AQRdd36g==;
+Received: from [185.44.53.103] (port=38116 helo=[192.168.1.187])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
+ (envelope-from <gustavo@embeddedor.com>) id 1sp1Mo-003kZT-0Q;
+ Fri, 13 Sep 2024 03:09:22 -0500
+Message-ID: <ef5a8e6d-cb97-4872-901c-cf4bbec23be6@embeddedor.com>
+Date: Fri, 13 Sep 2024 10:09:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 05/10] drm: bridge: dw_hdmi: Fold poweron and setup
- functions
-To: Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Christian Hewitt <christianshewitt@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Christopher Obbard <chris.obbard@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20240908132823.3308029-1-jonas@kwiboo.se>
- <20240908132823.3308029-6-jonas@kwiboo.se>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240908132823.3308029-6-jonas@kwiboo.se>
+Subject: Re: [PATCH][next] drm/nouveau: Avoid -Wflex-array-member-not-at-end
+ warning
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <ZsZLFS1CsHkKjw+C@elsanto>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <ZsZLFS1CsHkKjw+C@elsanto>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 185.44.53.103
+X-Source-L: No
+X-Exim-ID: 1sp1Mo-003kZT-0Q
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.187]) [185.44.53.103]:38116
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 23
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfCpLtVk/THS5djlrv5e99viAOwS7RBg4FPgO1ISLyMCAJQJoZWOsDXMqfUQIo2pT30J4yeo9JNXuJ99XIg+7SFLs0g/an46B1uuFAfd+C7sUV7vpulm1
+ 04JqtoV8f2j+Px6FliilBUqibo/YHPXcEmV5MJwhM/kwCvMuFuCUC2JljcY1tdfPrm9j4cdKNDkBJqRwHl2tznFGVJSHrhCDrE9yJZRAATFu95kT6YxW4lKc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,75 +96,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/09/2024 15:28, Jonas Karlman wrote:
-> Fold the poweron and setup functions into one function and use the
-> adjusted_mode directly from the new crtc_state to remove the need of
-> storing previous_mode.
-> 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
-> v2: No change
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 21 ++++++++-------------
->   1 file changed, 8 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 87fb6fd5cffd..1eefa633ff78 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2236,9 +2236,9 @@ static void hdmi_disable_overflow_interrupts(struct dw_hdmi *hdmi)
->   		    HDMI_IH_MUTE_FC_STAT2);
->   }
->   
-> -static int dw_hdmi_setup(struct dw_hdmi *hdmi,
-> -			 const struct drm_connector *connector,
-> -			 const struct drm_display_mode *mode)
-> +static int dw_hdmi_poweron(struct dw_hdmi *hdmi,
-> +			   const struct drm_connector *connector,
-> +			   const struct drm_display_mode *mode)
->   {
->   	const struct drm_display_info *display = &connector->display_info;
->   	int ret;
-> @@ -2378,15 +2378,6 @@ static void initialize_hdmi_ih_mutes(struct dw_hdmi *hdmi)
->   	hdmi_writeb(hdmi, ih_mute, HDMI_IH_MUTE);
->   }
->   
-> -static void dw_hdmi_poweron(struct dw_hdmi *hdmi)
-> -{
-> -	/*
-> -	 * The curr_conn field is guaranteed to be valid here, as this function
-> -	 * is only be called when !hdmi->disabled.
-> -	 */
-> -	dw_hdmi_setup(hdmi, hdmi->curr_conn, &hdmi->previous_mode);
-> -}
-> -
->   static void dw_hdmi_poweroff(struct dw_hdmi *hdmi)
->   {
->   	if (hdmi->phy.enabled) {
-> @@ -2936,15 +2927,19 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
->   {
->   	struct dw_hdmi *hdmi = bridge->driver_private;
->   	struct drm_atomic_state *state = old_state->base.state;
-> +	const struct drm_display_mode *mode;
->   	struct drm_connector *connector;
-> +	struct drm_crtc *crtc;
->   
->   	connector = drm_atomic_get_new_connector_for_encoder(state,
->   							     bridge->encoder);
-> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-> +	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
->   
->   	mutex_lock(&hdmi->mutex);
->   	hdmi->disabled = false;
->   	hdmi->curr_conn = connector;
-> -	dw_hdmi_poweron(hdmi);
-> +	dw_hdmi_poweron(hdmi, connector, mode);
->   	dw_hdmi_update_phy_mask(hdmi);
->   	handle_plugged_change(hdmi, true);
->   	mutex_unlock(&hdmi->mutex);
+Hi all,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Friendly ping: who can take this, please? 🙂
+
+Thanks
+-Gustavo
+
+On 21/08/24 22:16, Gustavo A. R. Silva wrote:
+> Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
+> a flexible structure where the size of the flexible-array member
+> is known at compile-time, and refactor the rest of the code,
+> accordingly.
+> 
+> So, with this, fix the following warning:
+> 
+> drivers/gpu/drm/nouveau/dispnv50/disp.c:779:47: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+>   drivers/gpu/drm/nouveau/dispnv50/disp.c | 20 +++++++++-----------
+>   1 file changed, 9 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> index eed579a6c858..ddddc69640be 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -774,11 +774,9 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
+>   	struct drm_hdmi_info *hdmi = &nv_connector->base.display_info.hdmi;
+>   	union hdmi_infoframe infoframe = { 0 };
+>   	const u8 rekey = 56; /* binary driver, and tegra, constant */
+> +	DEFINE_RAW_FLEX(struct nvif_outp_infoframe_v0, args, data, 17);
+> +	const u8 data_len = 17; /* same length as in DEFINE_RAW_FLEX above. */
+>   	u32 max_ac_packet;
+> -	struct {
+> -		struct nvif_outp_infoframe_v0 infoframe;
+> -		u8 data[17];
+> -	} args = { 0 };
+>   	int ret, size;
+>   
+>   	max_ac_packet  = mode->htotal - mode->hdisplay;
+> @@ -815,29 +813,29 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
+>   		return;
+>   
+>   	/* AVI InfoFrame. */
+> -	args.infoframe.version = 0;
+> -	args.infoframe.head = nv_crtc->index;
+> +	args->version = 0;
+> +	args->head = nv_crtc->index;
+>   
+>   	if (!drm_hdmi_avi_infoframe_from_display_mode(&infoframe.avi, &nv_connector->base, mode)) {
+>   		drm_hdmi_avi_infoframe_quant_range(&infoframe.avi, &nv_connector->base, mode,
+>   						   HDMI_QUANTIZATION_RANGE_FULL);
+>   
+> -		size = hdmi_infoframe_pack(&infoframe, args.data, ARRAY_SIZE(args.data));
+> +		size = hdmi_infoframe_pack(&infoframe, args->data, data_len);
+>   	} else {
+>   		size = 0;
+>   	}
+>   
+> -	nvif_outp_infoframe(&nv_encoder->outp, NVIF_OUTP_INFOFRAME_V0_AVI, &args.infoframe, size);
+> +	nvif_outp_infoframe(&nv_encoder->outp, NVIF_OUTP_INFOFRAME_V0_AVI, args, size);
+>   
+>   	/* Vendor InfoFrame. */
+> -	memset(&args.data, 0, sizeof(args.data));
+> +	memset(args->data, 0, data_len);
+>   	if (!drm_hdmi_vendor_infoframe_from_display_mode(&infoframe.vendor.hdmi,
+>   							 &nv_connector->base, mode))
+> -		size = hdmi_infoframe_pack(&infoframe, args.data, ARRAY_SIZE(args.data));
+> +		size = hdmi_infoframe_pack(&infoframe, args->data, data_len);
+>   	else
+>   		size = 0;
+>   
+> -	nvif_outp_infoframe(&nv_encoder->outp, NVIF_OUTP_INFOFRAME_V0_VSI, &args.infoframe, size);
+> +	nvif_outp_infoframe(&nv_encoder->outp, NVIF_OUTP_INFOFRAME_V0_VSI, args, size);
+>   
+>   	nv_encoder->hdmi.enabled = true;
+>   }
