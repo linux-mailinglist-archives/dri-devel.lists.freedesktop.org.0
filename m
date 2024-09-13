@@ -2,66 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C274D977FB2
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 14:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DC3977FB4
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 14:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B77B10E081;
-	Fri, 13 Sep 2024 12:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DAC710ED0C;
+	Fri, 13 Sep 2024 12:19:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="DpDYps18";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OMYHnQ3C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA4010E081
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 12:19:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1726229954; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=AA0OWO+k8gJ6Wg9omSdFa5q1lTJY5LDIZnPSjAEbBkT6fTyytaw1FwtwPebjtyz5WdSP4g0pE+IYPsy/q2vQx5XmtuHR8VuSb4T8p89pQvp6QI0VfhV13ftcYEFDZ1GdCYzCzc4vkqy6UQqzh3K2yp+umTD41dShkNBHDpzQWeE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1726229954;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=cVUFU5KIUA6rufOpcTvDgHhdvtoTT7WEsa6cwDCimqs=; 
- b=X5AyFhZqmTjs+4vGcb0orUaK96tdfG/mNh1GM3fhhPI9tdpUKkituHJZTPuW3knoDJCKdHLY4a3hiTQfQE++pk2c+qL6d5aomODLlqFfp4G/BrcYctJRSXyka045knMUA8DV6w2Y5pjNCHW95pfKWhbAKsSawW9mSo4jR5T/jpg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
- dmarc=pass header.from=<vignesh.raman@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726229954; 
- s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=cVUFU5KIUA6rufOpcTvDgHhdvtoTT7WEsa6cwDCimqs=;
- b=DpDYps18x7sGxBrgRJyK1xEF5Kso6NMelwumV6vr05WMPd3yrovcEWiXZVWTPdzZ
- JnBDMWzCvu74n98k71VgN9Ft/nluh8EpLcL5390Xluj1uUarcjy3u7/oL/SDFjBg61+
- VbFNxBYq6QH42k0kKnzacxXzTPcUCnPKH/RcO12Y=
-Received: by mx.zohomail.com with SMTPS id 1726229952619949.3254555456753;
- Fri, 13 Sep 2024 05:19:12 -0700 (PDT)
-Message-ID: <a81d8d9d-8aa6-4b59-976e-5bca7c8fdaa9@collabora.com>
-Date: Fri, 13 Sep 2024 17:49:02 +0530
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 756A410ED0C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 12:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726229995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=74g+6Lc20YMUCLnZEXSet2FyAPh+zgOsXvUzgQi+s9Y=;
+ b=OMYHnQ3CvSe2WJ+DJAuBO+7zBLu0OCD74vHB7eMBC7ZkcewjeDWSt08VZvlXSMumCne7uA
+ lWLAnuoxFinnhaAs8R5KdpgNc+2vqi90IKYFPNuhZt36hn+W4YuS2IP2oMdSL4eCEJ4fdb
+ vTWsWi/8bS3zhoMDHlWJpNU2BGoMRlI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-553-3uUk2SIOPICL1KexeTT5lw-1; Fri, 13 Sep 2024 08:19:54 -0400
+X-MC-Unique: 3uUk2SIOPICL1KexeTT5lw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-374c25d886aso1024368f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 05:19:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726229993; x=1726834793;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9XKJAOxxildor2C+JyAi309c2iCVs3etP4p4DATyTUo=;
+ b=hjHPiL8n1nkwPwBfimb9T5e5X98Lh8DgU7GpZspOlOBbbb77zhlc6xlJPHZaDYQ7Fm
+ oo1PjgtG9+aZXHiLeIiEkcX3IAN3MqiFnwUuGLNxdRs6m532FN9lP+Q+lYSa6a5+8BRP
+ S9acjn2CrJ3/9VnoLcTPloNROzTeQ1A5+cfNxyVJLWqz4BH5UCpcOTgg9hCUTAbf7tZO
+ K4QitF47gJA0suEApixTcY+0ovwtmhTMVDCi4GZQvHG7sKQpUinHoFOlDSR8RoNNEX1L
+ qufZI2TYhIKFnb6Ml/hISzwNFF9slBJZv+tX0J2R47JrX4KMKF4huQjAVpSXGdNPODnP
+ SgNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXnH5Q6wi6HAzbZbcyTD5n0ZVsvmJHgGBp17pRTXHvotkbenlf8vqna7L4w9Fo0ueEJ0ypLfE3Nk9U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhGaZWI3kaUSIDhDlJFdpxWhU1lsFryeRralV9rElssP22lXxZ
+ if9BT/V3M6GcglKIK68QOSYkSN6bNBAS/uUq0g7hQxDwX0JWhptjTGpfIszWhy//dEsh/8GjCqf
+ x96G7+4A0JZ75mQKxOh3+2J4XHfC/kCtMaK+53JiMsMebRwFoG8Qkjr5V51Y71MAQFw==
+X-Received: by 2002:a5d:428f:0:b0:374:b9a1:28f with SMTP id
+ ffacd0b85a97d-378c2d5b0f1mr3873956f8f.43.1726229993358; 
+ Fri, 13 Sep 2024 05:19:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEHtMpeBsSe/ie77wRssbK27CLDdBmkI+eYg1BeRPyWcphE9e6GW9bPrh3yaBITdTRr10k2Ng==
+X-Received: by 2002:a5d:428f:0:b0:374:b9a1:28f with SMTP id
+ ffacd0b85a97d-378c2d5b0f1mr3873931f8f.43.1726229992758; 
+ Fri, 13 Sep 2024 05:19:52 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3d2a:6400:5050:48a2:62f2:4d16])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3789564b02asm17029823f8f.4.2024.09.13.05.19.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2024 05:19:52 -0700 (PDT)
+Message-ID: <661856cf6695ee063db2d49527b2ed539d941b8e.camel@redhat.com>
+Subject: Re: [PATCH 8/8] drm/sched: Further optimise drm_sched_entity_push_job
+From: Philipp Stanner <pstanner@redhat.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Tvrtko Ursulin
+ <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>, Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Date: Fri, 13 Sep 2024 14:19:51 +0200
+In-Reply-To: <60d30fe6-9485-4cbe-8b72-69b3214edd3f@igalia.com>
+References: <20240909171937.51550-1-tursulin@igalia.com>
+ <20240909171937.51550-9-tursulin@igalia.com>
+ <5be10361b0b77f2eaf54c52367b5c4e3934443ab.camel@redhat.com>
+ <60d30fe6-9485-4cbe-8b72-69b3214edd3f@igalia.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/ci: enable lockdep detection
-To: Rob Clark <robdclark@gmail.com>
-Cc: Helen Mae Koike Fornazier <helen.koike@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, daniels
- <daniels@collabora.com>, airlied <airlied@gmail.com>,
- daniel <daniel@ffwll.ch>, "guilherme.gallo" <guilherme.gallo@collabora.com>,
- "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
- "deborah.brouwer" <deborah.brouwer@collabora.com>,
- linux-kernel <linux-kernel@vger.kernel.org>
-References: <20240812112030.81774-1-vignesh.raman@collabora.com>
- <191483d05a3.129198f97500814.8001634600010504645@collabora.com>
- <0a3db7dc-4533-4111-bec9-35cc68e35d83@collabora.com>
- <1914d612d8e.f2d5101b916106.3138016556910118397@collabora.com>
- <42753719-9619-45f1-b76a-8ff8d19cec22@collabora.com>
- <CAF6AEGuWHER=k-xGad-aAtOfS10R55W37FcU45phNnJpOwFhWw@mail.gmail.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <CAF6AEGuWHER=k-xGad-aAtOfS10R55W37FcU45phNnJpOwFhWw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,163 +99,389 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob, Helen,
+On Wed, 2024-09-11 at 13:22 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 10/09/2024 11:25, Philipp Stanner wrote:
+> > On Mon, 2024-09-09 at 18:19 +0100, Tvrtko Ursulin wrote:
+> > > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > >=20
+> > > Having removed one re-lock cycle on the entity->lock in a patch
+> > > titled
+> > > "drm/sched: Optimise drm_sched_entity_push_job", with only a tiny
+> > > bit
+> > > larger refactoring we can do the same optimisation on the rq-
+> > > >lock
+> > > (Currently both drm_sched_rq_add_entity() and
+> > > drm_sched_rq_update_fifo_locked() take and release the same
+> > > lock.)
+> > >=20
+> > > To achieve this we rename drm_sched_rq_add_entity() to
+> > > drm_sched_rq_add_entity_locked(), making it expect the rq->lock
+> > > to be
+> > > held, and also add the same expectation to
+> > > drm_sched_rq_update_fifo_locked().
+> > >=20
+> > > For more stream-lining we also add the run-queue as an explicit
+> > > parameter
+> > > to drm_sched_rq_remove_fifo_locked() to avoid both callers and
+> > > callee
+> > > having to dereference entity->rq.
+> >=20
+> > Why is dereferencing it a problem?
+>=20
+> As you have noticed below the API is a bit unsightly. Consider for=20
+> example this call chain:
+>=20
+> drm_sched_entity_kill(entity)
+> =C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_rq_remove_entity(entity->rq, entity);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_rq_remove_fifo=
+_locked(entity);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+struct drm_sched_rq *rq =3D entity->rq;
+>=20
+> A bit confused, no?
+>=20
+> I thought adding rq to remove_fifo_locked at least removes one back
+> and=20
+> forth between the entity->rq and rq.
+>=20
+> And then if we cache the rq in a local variable, after having
+> explicitly=20
+> taken the correct lock, we have this other call chain example:
+>=20
+> drm_sched_entity_push_job()
+> ...
+> =C2=A0=C2=A0=C2=A0=C2=A0 rq =3D entity->rq;
+> =C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(rq->lock);
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_rq_add_entity_locked(rq, entity);
+> =C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_rq_update_fifo_locked(rq, entity, subm=
+it_ts);
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock(rq->lock);
+>=20
+> To me at least this reads more streamlined.
 
-On 14/08/24 23:11, Rob Clark wrote:
-> On Wed, Aug 14, 2024 at 2:42 AM Vignesh Raman
-> <vignesh.raman@collabora.com> wrote:
->>
->> Hi Helen,
->>
->> On 14/08/24 01:44, Helen Mae Koike Fornazier wrote:
->>>
->>>
->>>
->>>
->>> ---- On Tue, 13 Aug 2024 02:26:48 -0300 Vignesh Raman  wrote ---
->>>
->>>    > Hi Helen,
->>>    >
->>>    > On 13/08/24 01:47, Helen Mae Koike Fornazier wrote:
->>>    > >
->>>    > > Hi Vignesh,
->>>    > >
->>>    > > Thanks for your patch.
->>>    > >
->>>    > >
->>>    > > ---- On Mon, 12 Aug 2024 08:20:28 -0300 Vignesh Raman  wrote ---
->>>    > >
->>>    > >   > We have enabled PROVE_LOCKING (which enables LOCKDEP) in drm-ci.
->>>    > >   > This will output warnings when kernel locking errors are encountered
->>>    > >   > and will continue executing tests. To detect if lockdep has been
->>>    > >   > triggered, check the debug_locks value in /proc/lockdep_stats after
->>>    > >   > the tests have run. When debug_locks is 0, it indicates that lockdep
->>>    > >   > has detected issues and turned itself off. So check this value and
->>>    > >   > exit with an error if lockdep is detected.
->>>    > >
->>>    > > Should we exit with an error? Or with a warning? (GitLab-CI supports that).
->>>    > > Well, I guess it is serious enough.
->>>    >
->>>    > I think we can exit with an error since we check the status at the end
->>>    > of the tests.
->>>
->>> I mean, we can exit with a specific error and configure this specific error in gitlab-ci to be a warning,
->>> so the job will be yellow and not red.
->>>
->>> But maybe the lockdep issue should be a strong error.
->>
->> Yes agree. We can exit with an error for lockdep issue instead of a warning.
-> 
-> I think that is too strong, lockdep can warn about things which can
-> never happen in practice.  (We've never completely solved some of the
-> things that lockdep complains about in runpm vs shrinker reclaim.)
-> 
-> Surfacing it as a warning is fine.
+Alright, doesn't sound to bad, but
 
-Will send another patch which will exit with an error if lockdep is 
-detected and configure it as a warning in GitLab CI.
+>=20
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: Luben Tuikov <ltuikov89@gmail.com>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Philipp Stanner <pstanner@redhat.com>
+> > > ---
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_entity.c |=C2=A0 7 ++--
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0 | 41 +=
+++++++++++++----
+> > > -----
+> > > --
+> > > =C2=A0=C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 ++--
+> > > =C2=A0=C2=A03 files changed, 31 insertions(+), 24 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > index b4c4f9923e0b..2102c726d275 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > @@ -614,11 +614,14 @@ void drm_sched_entity_push_job(struct
+> > > drm_sched_job *sched_job)
+> > > =C2=A0=C2=A0=09=09sched =3D rq->sched;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0=09=09atomic_inc(sched->score);
+> > > -=09=09drm_sched_rq_add_entity(rq, entity);
+> > > +
+> > > +=09=09spin_lock(&rq->lock);
+> > > +=09=09drm_sched_rq_add_entity_locked(rq, entity);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0=09=09if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > > -=09=09=09drm_sched_rq_update_fifo_locked(entity,
+> > > submit_ts);
+> > > +=09=09=09drm_sched_rq_update_fifo_locked(entity,
+> > > rq,
+> > > submit_ts);
+> > > =C2=A0=20
+> > > +=09=09spin_unlock(&rq->lock);
+> > > =C2=A0=C2=A0=09=09spin_unlock(&entity->lock);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0=09=09drm_sched_wakeup(sched, entity);
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index 937e7d1cfc49..1ccd2aed2d32 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -153,41 +153,44 @@ static __always_inline bool
+> > > drm_sched_entity_compare_before(struct rb_node *a,
+> > > =C2=A0=C2=A0=09return ktime_before(ent_a->oldest_job_waiting, ent_b-
+> > > > oldest_job_waiting);
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > -static inline void drm_sched_rq_remove_fifo_locked(struct
+> > > drm_sched_entity *entity)
+> > > +static void drm_sched_rq_remove_fifo_locked(struct
+> > > drm_sched_entity
+> > > *entity,
+> > > +=09=09=09=09=09=C2=A0=C2=A0=C2=A0 struct drm_sched_rq
+> > > *rq)
 
-Regards,
-Vignesh
+I would then at least like to see a comment somewhere telling the
+reader why rq is taken as a separate variable. One might otherwise
+easily wonder why it's not obtained through the entity and what the
+difference is.
 
-> 
-> BR,
-> -R
-> 
->>>
->>>    >
->>>    > >
->>>    > > Should we also track on the xfail folder? So we can annotate those errors as well?
->>>    >
->>>    > Do you mean reporting this error in expectation files?
->>>
->>> I wonder if there will be cases were we are getting this error and we should ignore it, so in the code
->>> we should check the xfail files to see if we should exit with an error or ignore it.
->>>
->>> For instance, if we have a case where we are having this error, and it is flaky, we might want to add it
->>> to the flakes file list.
->>>
->>> Maybe this is not the case, I'm just wondering.
->>
->>
->> The tests are passing but log shows lockdep warning
->> (https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/62177711).
->>
->> Moreover if the lockdep warning is emitted, lockdep will not continue to
->> run and there is no need to check this warning for each tests.
->> So added the check at the end of the tests.
->>
->>>
->>>
->>>    >
->>>    > > Did you have an entire pipeline with this? To see if everything is still green?
->>>    >
->>>    > Yes. https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/62177711
->>>    >
->>>    > This is a test branch in which I reverted a fix for the lockdep issue.
->>>    > We see 'WARNING: bad unlock balance detected!' in logs and pipeline is
->>>    > still green.
->>>
->>> But with your patch, it would red right?
->>
->> Yes it would fail and the pipeline will be red.
->>
->>> With the current patch, is the pipeline still all green?
->>
->> With this current patch, it will fail.
->> Pipeline link to show lockdep_stats before and after tests,
->> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721
->>
->> Regards,
->> Vignesh
->>
->>>
->>> Regards,
->>> Helen
->>>
->>>    >
->>>    > Regards,
->>>    > Vignesh
->>>    >
->>>    > >
->>>    > > Helen
->>>    > >
->>>    > >   >
->>>    > >   > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com>
->>>    > >   > ---
->>>    > >   >
->>>    > >   > v1:
->>>    > >   >  - Pipeline link to show lockdep_stats before and after tests,
->>>    > >   > https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1246721
->>>    > >   >
->>>    > >   > ---
->>>    > >   >  drivers/gpu/drm/ci/igt_runner.sh | 11 +++++++++++
->>>    > >   >  1 file changed, 11 insertions(+)
->>>    > >   >
->>>    > >   > diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
->>>    > >   > index f38836ec837c..d2c043cd8c6a 100755
->>>    > >   > --- a/drivers/gpu/drm/ci/igt_runner.sh
->>>    > >   > +++ b/drivers/gpu/drm/ci/igt_runner.sh
->>>    > >   > @@ -85,6 +85,17 @@ deqp-runner junit \
->>>    > >   >  --limit 50 \
->>>    > >   >  --template "See https://$CI_PROJECT_ROOT_NAMESPACE.pages.freedesktop.org/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/results/{{testcase}}.xml"
->>>    > >   >
->>>    > >   > +# Check if /proc/lockdep_stats exists
->>>    > >   > +if [ -f /proc/lockdep_stats ]; then
->>>    > >   > +    # If debug_locks is 0, it indicates lockdep is detected and it turns itself off.
->>>    > >   > +    debug_locks=$(grep 'debug_locks:' /proc/lockdep_stats | awk '{print $2}')
->>>    > >   > +    if [ "$debug_locks" -eq 0 ]; then
->>>    > >   > +        echo "LOCKDEP issue detected. Please check dmesg logs for more information."
->>>    > >   > +        cat /proc/lockdep_stats
->>>    > >   > +        ret=1
->>>    > >   > +    fi
->>>    > >   > +fi
->>>    > >   > +
->>>    > >   >  # Store the results also in the simpler format used by the runner in ChromeOS CI
->>>    > >   >  #sed -r 's/(dmesg-warn|pass)/success/g' /results/results.txt > /results/results_simple.txt
->>>    > >   >
->>>    > >   > --
->>>    > >   > 2.43.0
->>>    > >   >
->>>    > >   >
->>>    >
+> >=20
+> > So here we'd add a new function parameter that still doesn't allow
+> > for
+> > getting rid of 'entity' as a parameter.
+>=20
+> We can't get rid of the entity.
+>=20
+> Maaaybe instead we could get rid of the rq in the whole chain, I mean
+> from drm_sched_rq_add_entity and drm_sched_rq_remove_entity to start
+> with.
+
+Let's postpone that.
+
+>=20
+> But then to remove double re-lock we still (like in this patch) need
+> to=20
+> make the callers take the locks and rename the helpers with _locked=20
+> suffix. Otherwise it would be incosistent that a lock is taken
+> outside=20
+> the helpers with no _locked suffix.
+>=20
+> I am not sure if that is better. All it achieves is remove the rq as=20
+> explicit parameter my making the callees dereference it from the
+> entity.
+
+OK, as I see it now it would actually be desirable to have suffix
+_locked indicate that the caller must hold all necessary locks. So your
+patch would actually make that consistent within drm/sched/.
+
+Looks good
+
+P.
+
+>=20
+> Worst part is all these helpers have drm_sched_rq_ prefix.. which to
+> me=20
+> reads as "we operate on rq". So not passing in rq is confusing to
+> start=20
+> with.
+>=20
+> Granted, some confusion still remains with my approach since ideally,
+> to=20
+> those helpers, I wanted to add some asserts that rq =3D=3D entity->rq...
+>=20
+> > The API gets larger that way and readers will immediately wonder
+> > why
+> > sth is passed as a separate variable that could also be obtained
+> > through the pointer.
+> >=20
+> > > =C2=A0=C2=A0{
+> > > -=09struct drm_sched_rq *rq =3D entity->rq;
+> > > -
+> > > =C2=A0=C2=A0=09if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
+> > > =C2=A0=C2=A0=09=09rb_erase_cached(&entity->rb_tree_node, &rq-
+> > > > rb_tree_root);
+> > > =C2=A0=C2=A0=09=09RB_CLEAR_NODE(&entity->rb_tree_node);
+> > > =C2=A0=C2=A0=09}
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+> > > *entity, ktime_t ts)
+> > > +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+> > > *entity,
+> > > +=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq,
+> > > +=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t ts)
+> >=20
+> > The function is still called _locked. That implies to the reader
+> > that
+> > this function takes care of locking. But it doesn't anymore.
+> > Instead,
+> >=20
+> > > =C2=A0=C2=A0{
+> > > =C2=A0=C2=A0=09lockdep_assert_held(&entity->lock);
+> > > +=09lockdep_assert_held(&rq->lock);
+> > > =C2=A0=20
+> > > -=09spin_lock(&entity->rq->lock);
+> > > -
+> > > -=09drm_sched_rq_remove_fifo_locked(entity);
+> > > +=09drm_sched_rq_remove_fifo_locked(entity, rq);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0=09entity->oldest_job_waiting =3D ts;
+> > > =C2=A0=20
+> > > -=09rb_add_cached(&entity->rb_tree_node, &entity->rq-
+> > > > rb_tree_root,
+> > > +=09rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > > =C2=A0=C2=A0=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_com=
+pare_before);
+> > > -
+> > > -=09spin_unlock(&entity->rq->lock);
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0void drm_sched_rq_update_fifo(struct drm_sched_entity *en=
+tity,
+> > > ktime_t ts)
+> > > =C2=A0=C2=A0{
+> > > +=09struct drm_sched_rq *rq;
+> > > +
+> > > =C2=A0=C2=A0=09/*
+> > > =C2=A0=C2=A0=09 * Both locks need to be grabbed, one to protect from
+> > > entity->rq change
+> > > =C2=A0=C2=A0=09 * for entity from within concurrent
+> > > drm_sched_entity_select_rq and the
+> > > =C2=A0=C2=A0=09 * other to update the rb tree structure.
+> > > =C2=A0=C2=A0=09 */
+> > > =C2=A0=C2=A0=09spin_lock(&entity->lock);
+> > > -=09drm_sched_rq_update_fifo_locked(entity, ts);
+> > > +=09rq =3D entity->rq;
+> > > +=09spin_lock(&rq->lock);
+> > > +=09drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> > > +=09spin_unlock(&rq->lock);
+> >=20
+> > its caller, drm_sched_rq_update_fifo(), now takes care of the
+> > locking.
+> > So if it all drm_sched_rq_update_fifo_locked() should be called
+> > drm_sched_rq_update_fifo_unlocked().
+> >=20
+> > If such a change is really being done, we have to go through the
+> > entire
+> > scheduler and make sure that the suffix "_locked" is used
+> > consistently
+> > throughout the scheduler. And even better, as consistent with the
+> > kernel as possible.
+>=20
+> Use of _locked follows the existing pattern of=20
+> drm_sched_rq_remove_fifo_locked :shrug:
+>=20
+> Are you referring to drm_sched_start_timeout(_unlocked) which is the=20
+> opposite pattern? (Although a more recent addition.)
+>=20
+> The wider kernel also uses both patterns so don't know. Would be nice
+> to=20
+> align in the scheduler but drm_sched_start_timeout is out of scope
+> for=20
+> this series.
+>=20
+> > To be honest folks, I don't think this entire "optimization" patch
+> > is
+> > that much of a good idea. The scheduler has real, big problems,
+> > such as
+> > race conditions, memory leaks and lack of documentation.
+> >=20
+> > I think we should for the forseeable future dedicate our attention
+> > towards solving those problems, instead of optimizing things.
+> > Especially if the optimization might decrease readability as with
+> > the
+> > naming here.
+>=20
+> In principle I agree, but on the other hand lets first see if this
+> patch=20
+> is really making things any worse, or is perhaps just maintaining the
+> status quo in the API elegance department, while at the same time=20
+> removing the quite lazy double re-lock from the main submission path.
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> >=20
+> > P.
+> >=20
+> >=20
+> > > =C2=A0=C2=A0=09spin_unlock(&entity->lock);
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > @@ -210,25 +213,23 @@ static void drm_sched_rq_init(struct
+> > > drm_gpu_scheduler *sched,
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0/**
+> > > - * drm_sched_rq_add_entity - add an entity
+> > > + * drm_sched_rq_add_entity_locked - add an entity
+> > > =C2=A0=C2=A0 *
+> > > =C2=A0=C2=A0 * @rq: scheduler run queue
+> > > =C2=A0=C2=A0 * @entity: scheduler entity
+> > > =C2=A0=C2=A0 *
+> > > =C2=A0=C2=A0 * Adds a scheduler entity to the run queue.
+> > > =C2=A0=C2=A0 */
+> > > -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+> > > -=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_entity *entity)
+> > > +void drm_sched_rq_add_entity_locked(struct drm_sched_rq *rq,
+> > > +=09=09=09=09=C2=A0=C2=A0=C2=A0 struct drm_sched_entity
+> > > *entity)
+> > > =C2=A0=C2=A0{
+> > > +=09lockdep_assert_held(&rq->lock);
+> > > +
+> > > =C2=A0=C2=A0=09if (!list_empty(&entity->list))
+> > > =C2=A0=C2=A0=09=09return;
+> > > =C2=A0=20
+> > > -=09spin_lock(&rq->lock);
+> > > -
+> > > =C2=A0=C2=A0=09atomic_inc(rq->sched->score);
+> > > =C2=A0=C2=A0=09list_add_tail(&entity->list, &rq->entities);
+> > > -
+> > > -=09spin_unlock(&rq->lock);
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0/**
+> > > @@ -242,6 +243,8 @@ void drm_sched_rq_add_entity(struct
+> > > drm_sched_rq
+> > > *rq,
+> > > =C2=A0=C2=A0void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+> > > =C2=A0=C2=A0=09=09=09=09struct drm_sched_entity *entity)
+> > > =C2=A0=C2=A0{
+> > > +=09lockdep_assert_held(&entity->lock);
+> > > +
+> > > =C2=A0=C2=A0=09if (list_empty(&entity->list))
+> > > =C2=A0=C2=A0=09=09return;
+> > > =C2=A0=20
+> > > @@ -254,7 +257,7 @@ void drm_sched_rq_remove_entity(struct
+> > > drm_sched_rq *rq,
+> > > =C2=A0=C2=A0=09=09rq->current_entity =3D NULL;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0=09if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > > -=09=09drm_sched_rq_remove_fifo_locked(entity);
+> > > +=09=09drm_sched_rq_remove_fifo_locked(entity, rq);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0=09spin_unlock(&rq->lock);
+> > > =C2=A0=C2=A0}
+> > > diff --git a/include/drm/gpu_scheduler.h
+> > > b/include/drm/gpu_scheduler.h
+> > > index 5a1e4c803b90..2ad33e2fe2d2 100644
+> > > --- a/include/drm/gpu_scheduler.h
+> > > +++ b/include/drm/gpu_scheduler.h
+> > > @@ -591,13 +591,14 @@ bool drm_sched_dependency_optimized(struct
+> > > dma_fence* fence,
+> > > =C2=A0=C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0 struct drm_sched_entity
+> > > *entity);
+> > > =C2=A0=C2=A0void drm_sched_fault(struct drm_gpu_scheduler *sched);
+> > > =C2=A0=20
+> > > -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+> > > -=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_entity *entity);
+> > > +void drm_sched_rq_add_entity_locked(struct drm_sched_rq *rq,
+> > > +=09=09=09=09=C2=A0=C2=A0=C2=A0 struct drm_sched_entity
+> > > *entity);
+> > > =C2=A0=C2=A0void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+> > > =C2=A0=C2=A0=09=09=09=09struct drm_sched_entity
+> > > *entity);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0void drm_sched_rq_update_fifo(struct drm_sched_entity *en=
+tity,
+> > > ktime_t ts);
+> > > -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+> > > *entity, ktime_t ts);
+> > > +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+> > > *entity,
+> > > +=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq,
+> > > ktime_t ts);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0int drm_sched_entity_init(struct drm_sched_entity *entity=
+,
+> > > =C2=A0=C2=A0=09=09=09=C2=A0 enum drm_sched_priority priority,
+> >=20
+>=20
+
