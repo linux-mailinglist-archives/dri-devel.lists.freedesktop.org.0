@@ -2,63 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE92977ECF
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 13:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E596E977F00
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 13:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B49BA10ECED;
-	Fri, 13 Sep 2024 11:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAF7310ECF7;
+	Fri, 13 Sep 2024 11:56:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="anzhaZUb";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="hl/pEL5C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E4010ECEA;
- Fri, 13 Sep 2024 11:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726228033; x=1757764033;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=9Kb5uQFj2rlWuIItuuA0YD6oucyhftnZoRXdtQ3VhFk=;
- b=anzhaZUbIHast6c1ZhqBy0dC3TSVt4j2DqsCwxYOw+KzVR3EWHhcE9N9
- ol6Pb91amemIZaSEeH6OC/iAXql/TgRJuBpg8Pjfl6v6/pQ+8ZI0OUMUm
- vuLaQcVbgKhid8swFXbICoHL2iOT29TjeJEIGMW0McBXlrcN3XSh/NGCi
- DP6d8NggbJ7cBVl/DhtbPtsaMIj+H75iOfZun/DtiXD6hVCb2rj0QiuIn
- SlIBjqRGoyzJylfoX8eTLiuAOr3809TD0KLbHzyueUX9jvKGJnSftzRoH
- SdoD9XKovbE1HRB70B795y3YaqZ5n9o1hXYH00sSLVagfLZMKyUDgL3j0 g==;
-X-CSE-ConnectionGUID: 6FyUdglbS8+G8Qr7o5jKEw==
-X-CSE-MsgGUID: M5sLBk5XR86vZbqw6e/eXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="25251277"
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; d="scan'208";a="25251277"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2024 04:47:12 -0700
-X-CSE-ConnectionGUID: aramv6uoRkexLjnYATkw7A==
-X-CSE-MsgGUID: mVxZi3mdQfCEnKS6S/CKbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; d="scan'208";a="67969687"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.64])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2024 04:47:10 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Matt Coster <Matt.Coster@imgtec.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, Nathan
- Chancellor <nathan@kernel.org>, Frank Binns <Frank.Binns@imgtec.com>
-Subject: Re: [PATCH 5/8] drm/imagination: annotate pvr_fw_version_packed()
- with __maybe_unused
-In-Reply-To: <8c97287c-732d-475a-83d6-1c470ad68109@imgtec.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <190e4eefef6c5e62052a01af0084c69361e216ef.1725962479.git.jani.nikula@intel.com>
- <8c97287c-732d-475a-83d6-1c470ad68109@imgtec.com>
-Date: Fri, 13 Sep 2024 14:47:05 +0300
-Message-ID: <87bk0repxi.fsf@intel.com>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4530610ECF7
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 11:56:30 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4280ca0791bso19816605e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 04:56:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1726228588; x=1726833388;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=b28g9Qh6wbp8sFAAmBj0WXV4vMJYAGNB1czPJCNOJh8=;
+ b=hl/pEL5CEfG/TEoYPXdNc0NfSrzGbx883foGTJtcy54adS0e2Zm50zTfbYdjwAq3rT
+ 8fobyEOMtkyEJgHLjgt0TUZE8Ze/sbF8Uf7Ok8SyD9ltjbG0MjXiEB1E/k5PPBohRNQa
+ CD0Dpd/+ay1rKmSgrUldHnilEt9J62z3W8xiFW0a/BYrqdCXXJSZxo/yloe4TwarmZDM
+ //g06pceBhaXv4KoA/r+gVBppwsy9W6FEZYNeLuWCh8WFyJjjF4hG0zKmYRJ2yv2Lo7f
+ LiX7k3WMv9JluywzEMa9DAVuqF3CTnXsVpsIn/a8d9jNBcW4EkQmL5LIdzGc8+wXAlsK
+ /Osw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726228588; x=1726833388;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=b28g9Qh6wbp8sFAAmBj0WXV4vMJYAGNB1czPJCNOJh8=;
+ b=nDOW4y0gkd7F9TZitn4FpF5Dy7ErG91VsTClvxPqnVn0is0jsOLbseS6GIyMsCh1L/
+ zgVXID4gpywIQZykVjEF3ApdlEY1vsS9J+q/rvlYSisC50L32etWHVJWvcjkjedpBVH4
+ f3c7i1NiAv+TBDW77goQWCOzF0h/sTcRdCGI7LWa3eailLR3fV7OFR/ylgHv6f0ycqvX
+ /5FDDRYy1FMvhQTlvm0qs1Sdyxie2KCvmRHEtv+evj8xavcWD2ej28wpvTIkOEdE6aQX
+ X50pt499qKJgum/nEp6/PhgOchCnOMIf0pgxIBe+spzKDnBP+pr3TwrXlLainmI0IUBh
+ HFug==
+X-Gm-Message-State: AOJu0YzmVmpxMQZwotLaY+3sPkmbcgWZc+OWHzNCxfd60/eq3HtXoI3q
+ 7EC1zQy4fLP605OoV7FCufOPXOiyBsM9TWuz9C2rv5wBLuW1ztbBzSAM/PmecNo=
+X-Google-Smtp-Source: AGHT+IHcUXeBZBOEM+H7QN71Pqp8IN5OgZbq+vY6D+e8DBFynITqywYcxExRNOpgBMESa2uv7BiL6g==
+X-Received: by 2002:a05:600c:19ce:b0:42c:b4f2:7c30 with SMTP id
+ 5b1f17b1804b1-42cdb56ae9bmr50228735e9.23.1726228587234; 
+ Fri, 13 Sep 2024 04:56:27 -0700 (PDT)
+Received: from [192.168.0.101] ([90.241.98.187])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-42d9b05a6f5sm22478835e9.4.2024.09.13.04.56.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Sep 2024 04:56:26 -0700 (PDT)
+Message-ID: <92a123f1-73c9-45a1-8e0a-af72dd0a70e7@ursulin.net>
+Date: Fri, 13 Sep 2024 12:56:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/sched: memset() 'job' in drm_sched_job_init()
+To: Philipp Stanner <pstanner@redhat.com>, Luben Tuikov
+ <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240828094133.17402-2-pstanner@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20240828094133.17402-2-pstanner@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,24 +88,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Sep 2024, Matt Coster <Matt.Coster@imgtec.com> wrote:
-> On 10/09/2024 11:03, Jani Nikula wrote:
->> Building with clang and and W=1 leads to warning about unused
->> pvr_fw_version_packed(). Fix by annotating it with __maybe_unused.
->> 
->> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
->> inline functions for W=1 build").
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> I've been meaning to do something about this for a while, thanks!
->
-> Reviewed-by: Matt Coster <matt.coster@imgtec.com>
 
-Thanks, pushed to drm-misc-next.
+Hi,
 
-BR,
-Jani.
+On 28/08/2024 10:41, Philipp Stanner wrote:
+> drm_sched_job_init() has no control over how users allocate struct
+> drm_sched_job. Unfortunately, the function can also not set some struct
+> members such as job->sched.
 
--- 
-Jani Nikula, Intel
+job->sched usage from within looks like a bug. But not related to the 
+memset you add.
+
+For this one something like this looks easiest for a start:
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+b/drivers/gpu/drm/scheduler/sched_main.c
+index ab53ab486fe6..877113b01af2 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -788,7 +788,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
+                  * or worse--a blank screen--leave a trail in the
+                  * logs, so this can be debugged easier.
+                  */
+-               drm_err(job->sched, "%s: entity has no rq!\n", __func__);
++               pr_err("%s: entity has no rq!\n", __func__);
+                 return -ENOENT;
+         }
+
+Fixes: 56e449603f0a ("drm/sched: Convert the GPU scheduler to variable 
+number of run-queues")
+Cc: <stable@vger.kernel.org> # v6.7+
+
+> This could theoretically lead to UB by users dereferencing the struct's
+> pointer members too early.
+
+Hmm if drm_sched_job_init returned an error callers should not 
+dereference anything. What was actually the issue you were debugging?
+
+Adding a memset is I think not the best solution since it is very likely 
+redundant to someone doing a kzalloc in the first place.
+
+Regards,
+
+Tvrtko
+
+> It is easier to debug such issues if these pointers are initialized to
+> NULL, so dereferencing them causes a NULL pointer exception.
+> Accordingly, drm_sched_entity_init() does precisely that and initializes
+> its struct with memset().
+> 
+> Initialize parameter "job" to 0 in drm_sched_job_init().
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+> No changes in v2.
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 356c30fa24a8..b0c8ad10b419 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -806,6 +806,14 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>   		return -EINVAL;
+>   	}
+>   
+> +	/*
+> +	 * We don't know for sure how the user has allocated. Thus, zero the
+> +	 * struct so that unallowed (i.e., too early) usage of pointers that
+> +	 * this function does not set is guaranteed to lead to a NULL pointer
+> +	 * exception instead of UB.
+> +	 */
+> +	memset(job, 0, sizeof(*job));
+> +
+>   	job->entity = entity;
+>   	job->credits = credits;
+>   	job->s_fence = drm_sched_fence_alloc(entity, owner);
