@@ -2,89 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391EA9782ED
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 16:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D47A97832C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 17:01:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36BB410E274;
-	Fri, 13 Sep 2024 14:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B721210E27C;
+	Fri, 13 Sep 2024 15:01:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H/PtmWC7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JSHig6wl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4CE010E274
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 14:52:08 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-846cc83c3c4so296593241.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 07:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726239127; x=1726843927; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SC7Qi9CJ/UlqMx5HJFGorczxcYiMNzmkMF/PjtSiNQc=;
- b=H/PtmWC7RJtg6THRl2dqZgUnHc7lPKeo+3m+SQCVkqlNyl5EIgXFZXa8YcEyNjo66X
- IxAosWUHQZhYD5z6WYFN0Pz9oaWXmIOgmCTqf3XC2tb7Wf80/+X67zq2uo2k5VKUr82i
- /3vRrv0bPn2LG14KMxeanofCqkZiRfkUhCHYGaJUUqGJNE4iXEk9NSsG5fx0rFkJFgvw
- nUsxrgHXH+KzB1d8u3i2t0FkoSMHp1igzIhvAcTncTAEtALsO9wnE3uVMFRaoubVXKy9
- tkYVbPYEHzFKdLgtwpm+8/sPVU988vdqAUhLQWfEcUu3WsU+aYgNk1e5fFscX7uswh0q
- Mupg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726239127; x=1726843927;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SC7Qi9CJ/UlqMx5HJFGorczxcYiMNzmkMF/PjtSiNQc=;
- b=fUUCVRsr6bqmgXWZ8MRM0LK0fGZ936Lb9R84wPHA8aFvgEPfcEjsljX8elaqVz4ram
- Tx1QK0eESfZnlKSG0rn6+oA36kbWS2YZT07zubgZ7sIro7AJ1OEUlUhmltXvimp5hOL/
- 3GaHGdxV0JmVnwR4q80+qYj7p9uGp7wzN/XKvsN1p6g+mFdaox4SCgMJ8vemhUCgvHYh
- ujtE14SEyUyy9d3ryyPB1MF6KgkvhzxxmWYCKKtwbFS0wvRGimfMjBdyRI41B1b7cEZ6
- wy8f/N6tw31+PJHHfDbN9UIE999/NbLtHpntK7ZI3sWMIjxTB6tp7oK8QNuDN2ShZZWK
- SlVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW7xNIKbfs8zKg7eBusa0jdOJg8S7LRxTVG/q5It2JGISzk8vNqKboBaVfUN0Gxzo329y/T+nE2Wx0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxu5FMbULnDV1/7v92BP0IqFo2FkvZHY/ztTIDvtS8qbXYrHbN6
- g1lKVDqwbiNF+elcrzHoMdRHtaBsO0Eqi4rFIvKnpyGj90Ye29VLZ3LGE9/pyILyCjVyHT+oNd4
- sHUNfKH5OcrSHU4IWMvc7lhmm2v4=
-X-Google-Smtp-Source: AGHT+IFzt77B+UQvTyXWnWYICtP+/AmJJ5rq6JqNXDt5n+hgGmGESoN8kaR8YY1ZG0wjobVeQOsHMwrHDFFr4Mg31HU=
-X-Received: by 2002:a05:6102:e14:b0:49c:1bc:1eff with SMTP id
- ada2fe7eead31-49d4f6fafc6mr2074878137.28.1726239127329; Fri, 13 Sep 2024
- 07:52:07 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0E1710E27C;
+ Fri, 13 Sep 2024 15:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=jRtvym4vdFZsRu+vOfh/4TCoAnkQvlh4RpJ2P11oRSo=; b=JSHig6wl9A9S/PMOqtZov/5CUM
+ u+YDakoQHl0N7jxTKID7uZPewnzKbMrKL9Vd+VCs3hF5HV3lY8CFye4pg98roPeH8g6TKkPyTSJeD
+ ACIIehKA0Q36bQsrSaq20sZ8XxUNYfLUwn1Ag5wTePtPzQWoev05gYHL2fyv/OM8Uo03eTO2ZeIYr
+ 5fVy5frPKwr2Ri6GnUzAq480BuDAQeLbC26607vYT/CLWhk3DGpxf7oTAv31qZPq2DMulO3IJZ9K6
+ k8/Qo+TCxVICdV22UrvKHUDbFjEu20CChHQc9d4sZsSsIip9auDyMxTGbmPBbmbRom4kWIw6EWBPS
+ 5waavAMg==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sp7nP-00DNRU-6n; Fri, 13 Sep 2024 17:01:15 +0200
+Message-ID: <1d68285d-0734-4eb1-a4b6-f695b8728f46@igalia.com>
+Date: Fri, 13 Sep 2024 16:01:14 +0100
 MIME-Version: 1.0
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-4-e3f6662017ac@gmail.com>
- <13a650f4-7ca7-4c95-b536-9814a22f00ff@kernel.org>
-In-Reply-To: <13a650f4-7ca7-4c95-b536-9814a22f00ff@kernel.org>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Fri, 13 Sep 2024 17:51:56 +0300
-Message-ID: <CABTCjFCOTd5V5WyRbD1OCS9Hatk0mOCtNy5WWfp0KkUBgqXs+A@mail.gmail.com>
-Subject: Re: [PATCH v3 04/23] dt-bindings: mfd: add maxim,max77705
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- phone-devel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/8] drm/sched: Further optimise drm_sched_entity_push_job
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>
+References: <20240909171937.51550-1-tursulin@igalia.com>
+ <20240909171937.51550-9-tursulin@igalia.com>
+ <cd0dcdf4-a001-4fc3-9803-3e8b85cbc89f@gmail.com>
+ <48b74e60-6e75-4929-aa30-503f4a4cd5e8@igalia.com>
+ <aed37179-292b-41d0-878d-95f248d5ee8e@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <aed37179-292b-41d0-878d-95f248d5ee8e@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,24 +69,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D1=87=D1=82, 20 =D0=B8=D1=8E=D0=BD. 2024=E2=80=AF=D0=B3. =D0=B2 18:46, Krz=
-ysztof Kozlowski <krzk@kernel.org>:
->
-> On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> > maxim,max77705 is MAX77705 pmic binding part
-> >
-> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > ---
-> >  .../devicetree/bindings/mfd/maxim,max77705.yaml    | 112 +++++++++++++=
-++++++++
->
-> Your patch order is totally messed. Not tested by automation. Only
-> limited review follows.
->
-Hmm, not sure what was wrong. I sent version 4 to myself with `b4 send
---reflect`, the order looks good.
 
---=20
+On 10/09/2024 16:03, Christian König wrote:
+> Am 10.09.24 um 11:46 schrieb Tvrtko Ursulin:
+>>
+>> On 10/09/2024 10:08, Christian König wrote:
+>>> Am 09.09.24 um 19:19 schrieb Tvrtko Ursulin:
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>
+>>>> Having removed one re-lock cycle on the entity->lock in a patch titled
+>>>> "drm/sched: Optimise drm_sched_entity_push_job", with only a tiny bit
+>>>> larger refactoring we can do the same optimisation on the rq->lock.
+>>>> (Currently both drm_sched_rq_add_entity() and
+>>>> drm_sched_rq_update_fifo_locked() take and release the same lock.)
+>>>
+>>> I think that goes into the wrong direction.
+>>>
+>>> Probably better to move this here into drm_sched_rq_add_entity():
+>>>
+>>>            if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>>>               drm_sched_rq_update_fifo_locked(entity, submit_ts);
+>>>
+>>> We can then also drop adding the entity to the rr list when FIFO is 
+>>> in use.
+>>
+>> Unfortuntely there is a few other places which appear to rely on the 
+>> list. Like drm_sched_fini,
+> 
+> That should be only a warning.
 
-Best regards,
-Dzmitry
+Warning as in?
+
+>> drm_sched_increase_karma and 
+> 
+> The karma handling was another bad idea from AMD how to populate back 
+> errors to userspace and I've just recently documented together with Sima 
+> that we should use dma-fence errors instead.
+> 
+> Just didn't had time to tackle cleaning that up yet.
+> 
+>> even amdgpu_job_stop_all_jobs_on_sched.
+> 
+> Uff, seeing that for the first time just now. Another bad idea how to 
+> handle things which doesn't take the appropriate locks and looks racy to 
+> me.
+> 
+> 
+>> Latter could perhaps be solved by adding an iterator helper to the 
+>> scheduler, which would perhaps be a good move for component isolation. 
+>> And first two could be handled by implementing a complete and mutually 
+>> exclusive duality of how entities are walked depending on scheduling 
+>> mode. Plus making the scheduling mode only be configurable at boot. It 
+>> feels doable but significant work and in the meantime removing the 
+>> double re-lock maybe acceptable?
+> 
+> I don't think we should optimize for something we want to remove in the 
+> long term.
+
+I knew using the term optimise would just making things more difficult 
+for myself. :) Lets view this as cleaning up the API to avoid the 
+inelegance of taking the same lock twice right next to each other.
+
+If we can achieve this while not making the API worse then there is 
+nothing to lose either short, med or long term.
+
+> If possible I would rather say that we should completely drop the RR 
+> approach and only use FIFO or even something more sophisticated.
+
+No complaints from me, but I don't know how that would work other than 
+putting a depreciation warning if someone selected RR. And keeping that 
+for a good number of kernel releases. Any other ideas?
+
+Regards,
+
+Tvrtko
