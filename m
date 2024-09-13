@@ -2,150 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1C09778D6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 08:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6409778DA
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2024 08:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F071B10EB18;
-	Fri, 13 Sep 2024 06:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A58D10EBA6;
+	Fri, 13 Sep 2024 06:31:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gWMxENFo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="evM2f68H";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SJSTv8MO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pUDY8KUZ";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="Gzh5uKVF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F23610E983;
- Fri, 13 Sep 2024 06:28:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A072D21A6D;
- Fri, 13 Sep 2024 06:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726208924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FWCSUuSwEBVw/1X5plK41lIwK6V0FfAKM6yMG/RVw4E=;
- b=gWMxENFoPU98Xjx7UeZwVrLnxRwWDOGM0BZVtw3GkOYPbZihKK4aH9mW6kbsKxeL8KyLGy
- Zj5p3YXSGp5yUj8Ki8QQllYVgwmH0op6yWQbnl1TU7kortIzP5Ehth/sDRiGwXokOsNVT5
- XrSQWkBTJhYRdnX2zbDda/JlZYAmcWg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726208924;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FWCSUuSwEBVw/1X5plK41lIwK6V0FfAKM6yMG/RVw4E=;
- b=evM2f68HIVHc9417OUU7AYJH5hNSR5l8qD07DtO7o0R2X2tln07mr+mC05Lz2AAdckZ5sv
- 8dRVnYyM6DiW8BDw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SJSTv8MO;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pUDY8KUZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1726208923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FWCSUuSwEBVw/1X5plK41lIwK6V0FfAKM6yMG/RVw4E=;
- b=SJSTv8MOoUtCUCqjrnofh2+NEVYkTDAFy91QGnMyIVRFvd6XDhVaekSUBZUiFrMfSRIzSh
- vG6ybTzi2Zt0DYQDswrN084kWANxCc3TiqP2yb7M6P3W3Baw+rqnLZt86483LQa6PXh4IE
- PrU/gDJaYdwur6BVWF8jbUoNEYymRH0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1726208923;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FWCSUuSwEBVw/1X5plK41lIwK6V0FfAKM6yMG/RVw4E=;
- b=pUDY8KUZ3v1z2FmZEav0f8IYok2JVSo/hjxAdKAvnyMOt7nMwj/jb9rDg5nVtyNZgxkcd4
- +U9acCobe7euGCAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C35413999;
- Fri, 13 Sep 2024 06:28:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id R9g7EZvb42ZhFwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 13 Sep 2024 06:28:43 +0000
-Message-ID: <a3b06bbe-4eaa-4d4c-95a0-76b63ff20aa2@suse.de>
-Date: Fri, 13 Sep 2024 08:28:42 +0200
-MIME-Version: 1.0
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2060.outbound.protection.outlook.com [40.107.255.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD71310EBA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 06:31:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k4+yAt4L2nuBmtREWhSRi9ELYMhvVG+HotjiwmuIp2X+ESCQrAJCvfm66w/XzET8DbU8s/7RLF+ZzDBjEep8wreoFIe6/YT0dIzhLpnxBfswsyPG6T/n2uvSs29XMcDoeGDl+hI+P93uY/ycc0WFGfhKzNZhfxGcmooJOHx++qTYGvf4AGlqR9PLfAaJSVO09zUUmVmSqVzj/CEvtvjRCqpCAYs+k2cvXWrZDUNH/dwIV/L8iJ/fPLWqm7DZ05RaXQi3j2FvSKMFbILYwbgyU9QRtqYC3Ar32hJcVrfCCbvlU+uH6g7Ocln3+4KCmKnL4GG9iagUvtd8GuEUxV+icQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vbYMjrud4zEvIY6c++bulnEs/QmujSjYlOaOEhxEvcY=;
+ b=ueOuooJJFm/CB4DMujLVQS7HbXxBSMSchaspc7VfRaTIbnm9QFfel4C89gAUg5C5HOzbC8tAqU9dhQR2gQkFeBvog3DoVW8R7zBRQtDY/BsTIpzjy9qPhZr974pvCtG68+9AJRxfv4myTo4vjhEOzyM2t2m3QKxvdvXs+ZrLRnDt09mQr0mWfCkZMC3V4C88rMPtBoLqnCPzdfWbtvJ3tnyODBA7DlDwd2iPpKNNsErJRAPDgweQaAawZO0Aw5I7LTtHUSazrmqDLj5V1j7I1I5C8InXjrDZq9axvhIFL5QxqK/4XesdOGVLfxjEBSJZrBlhBPjBBQ3thE9dyJ/UcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vbYMjrud4zEvIY6c++bulnEs/QmujSjYlOaOEhxEvcY=;
+ b=Gzh5uKVFkeqcqMdYR1zCKAQWWF7oV0xmavjG1Zfto2bsDLZHiIggGxDyigvAD3F76FKHaK4bl7LO+sh/zlj05IpKFy3P/wwBtWemUFBY0GXOIRQEWk5SbQdzaFRP3B6mOUG8RifDvE2VXlvW6xsrPdG4CsLSxmgH2hLnSVXZfoZDCs/ECBWcyjmvgAE4CUogq1hBPcGDsaaHcHqg/GWEycHmOctGWhP3Z/U5lmGnSxCAXjxcpczbHDm0qWeO+q5ENd1eqfJivKG+RRBoV+v79ilq3/aw7jbHhxP0JjuJkqpLkT3Gs18QWI9ys4i8RGTHP41DHRrYCuSeH+j0vF1Cdg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by SEYPR06MB5868.apcprd06.prod.outlook.com (2603:1096:101:d1::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Fri, 13 Sep
+ 2024 06:31:42 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7962.018; Fri, 13 Sep 2024
+ 06:31:42 +0000
+Message-ID: <37e1f8a7-aa94-4a2b-9cd0-cb788a4f0b01@vivo.com>
+Date: Fri, 13 Sep 2024 14:31:36 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 71/80] drm/vmwgfx: Run DRM default client setup
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: simona@ffwll.ch, airlied@gmail.com, jfalempe@redhat.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-References: <20240909113633.595465-1-tzimmermann@suse.de>
- <20240909113633.595465-72-tzimmermann@suse.de>
- <CABQX2QP705HDDUNFCQ0SNkq2-_SaXPGG4KZOw5EhZU68Yu_nZQ@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CABQX2QP705HDDUNFCQ0SNkq2-_SaXPGG4KZOw5EhZU68Yu_nZQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] udmabuf: fix vmap_udmabuf error page set
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
+References: <20240909091851.1165742-1-link@vivo.com>
+ <20240909091851.1165742-4-link@vivo.com>
+ <IA0PR11MB718549B45FCA4C85C1C99CA4F8642@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: Huan Yang <link@vivo.com>
+In-Reply-To: <IA0PR11MB718549B45FCA4C85C1C99CA4F8642@IA0PR11MB7185.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A072D21A6D
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,redhat.com,lists.freedesktop.org,broadcom.com];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[10]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
- broadcom.com:email, imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -6.51
-X-Spam-Flag: NO
+X-ClientProxiedBy: SG2PR01CA0116.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::20) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SEYPR06MB5868:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dca8d0c-e44a-4b1e-f029-08dcd3bdbb0d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|52116014|366016|376014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dS9oKzBHSTdUa3FXdzZ3dGpmdnVvdWdhZGtPYW5peHVReEQ2a00zSHRmbC83?=
+ =?utf-8?B?cm1Dbk5FVDhLeGd1OEowa2F6QjkvSVJTZkVSeFpIcVdDME1talJXMkh1amRT?=
+ =?utf-8?B?Q0RueUFjRG0waGtCM256ZS8xQjN2Si83ZXU3QUhucmNXbFlhN3YrczJMTzNF?=
+ =?utf-8?B?VG9OV1BNNElRUG55UTYxZHNRSlJQalBJL1JBdDlkSW1IWTl5VWtqbUtGa0ZQ?=
+ =?utf-8?B?OCttZGRDSGw5SU9Qdm9EcDhKWitnblpiMFVRRDJFQXl3d2RlMldHZ3pyU3E2?=
+ =?utf-8?B?bG50blcxczRtak8wUFI3bHYrV3E0T3JYQTFJUjFqMEpaYUVmNVA5WG5QQVZn?=
+ =?utf-8?B?N0VtMjBweStDUjg4YnY5d2pvcVBZSHlhdjNzTE9ZdkxsMWQyZXFGSXphNUFY?=
+ =?utf-8?B?VVZMVG4yRkR1dUlRN1FYWUFwcEY4L1lXY2ZWeFBHMWFZNXJtM0lpVmlnN2gz?=
+ =?utf-8?B?UWR3TW9tekFSNDJpOTgyQTdCRDdwVjBCYVlwMEhaSjFOZmphNnIyT2JzVnJT?=
+ =?utf-8?B?NHVhd0ZQRng5VVhBUk1SR0lySHR1TlhDWTVDOHJCdFRZbXhHdEhZcERKM25k?=
+ =?utf-8?B?OHFEOUJGVEpQTWx6cGI3aGlKS25za28vRGp5dGdvaDZSOUJsL1FlYzRXUlhP?=
+ =?utf-8?B?cUNWL0lrYXdTb3d6cXRCR2IxTmxGRXZ3clZPSHFmTUlONit6aWNRTkEyNGo2?=
+ =?utf-8?B?KzVMd2RacUprSDlPZWxYZkZiWkh4MEdlU1pGUjBOU21McUtYNWhtZDNyR2t2?=
+ =?utf-8?B?dHhnK2tsWElBdHRrdWlhL001YnI3NjhnTEVGaGxBTVQ2WFVqS0xIZE44ejEz?=
+ =?utf-8?B?N2JEUWdoY21HbjIxa3pxNEFkdUw0d0RLZzE5YklPSnFpRXFpMjJ3U0tSMVNF?=
+ =?utf-8?B?akVnNkN1alBqM1FlMzMrTnhJbG1ITjhQZEY5Ni9JN1hqZTVvS202aVB0SEZk?=
+ =?utf-8?B?a1RxNS9sYmVZc0hnYU5RVDJvb0Yva0pIMEN5ZE9MWXdRUEgwckNsUXgvd2dn?=
+ =?utf-8?B?dldGVDVHcjY1b0ZXRHR1NEp4SS9rUFpVZUhib25wUUN3Z2w0S2d2UGIwOGhq?=
+ =?utf-8?B?dk1weEFaU0lGNjdySGw3TGozdngzcm85djRPTnJZWVQ1S3JtL1FyVGZGQ2M4?=
+ =?utf-8?B?MDl1YkZIcHF2cnl3N1crOUpsU3ZwYWx1RGY1U09RVlN5cUk4eS9wU0Nramk1?=
+ =?utf-8?B?TXhtY016V3k1WEpMT0x3UGtSL2pETGpXM096R21vbDFhQlBlRXZlaTZDSDNL?=
+ =?utf-8?B?Wjhmc2VjV2lmeS9SSERiSWJyY1FtbVc4TXR0c2ZsNWVtYk5FT1cvZFI2dkw2?=
+ =?utf-8?B?V0lia01QS2xIRXlHUTd3eDlqTmdRcStQbUtXc05oN0w4MFVwcEl1cHpiQzVa?=
+ =?utf-8?B?STFERkFPVUowSjNaZlNMeUdidS81ODQ1Rm5QMDFhTWxoVEtkdjdqQkExUnNB?=
+ =?utf-8?B?LzRJWndUNlpwL05GRjY1M0xjaUR4aFZ3K2JEZkxWSTZQd1hja1pWbHA2Nisv?=
+ =?utf-8?B?VXh3Z3ZOd0cwNmVOYUFLcDBtZU4xbExiZld4ZFliZU5zckwxclZheTVXcTcr?=
+ =?utf-8?B?ZitzWDlnVDZXNlppRi8wL1MrOGRYeENJdWE0dXRXUUo5dHZpY1llTUcwNElz?=
+ =?utf-8?B?UUFhOUpySi80d2ovUzVzcUJNZC8xOXg4Q3RGbEN5V3BHTGQrUG5SZmRIVjZZ?=
+ =?utf-8?B?WFUxLzlZT0E3WVByQzA2VGpCR09TVmJydkVVWTkrazR1cldpZVRmeHVqOGN1?=
+ =?utf-8?B?VlA0VWpIaDVzd2FEWTFIdjhqNytwcG9BM0wyTG1TWlVpQnBEZTh0Vzl1b2pJ?=
+ =?utf-8?B?ejFnQk1Ddkh4dWVvUDZqTkZSQmtIdXRnL041OHBUQzRCVnAxTWFuL1h4Tk9p?=
+ =?utf-8?B?Z2xDaXhDU3lMeUdvaGNiVlUrSjJFRTRLYjVEK1lGYWQzU1E9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(52116014)(366016)(376014)(38350700014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?enh5TGJSSGZwSkVCVXVrZzRTR3dnc01hVjVqUTdpcTg0TWMrOFVZTWFxTVYw?=
+ =?utf-8?B?UFNMS1VsS0l2VTJVSTNtSzRrRFVoTjFwbE4wbEdxMHJ2ZXZKOFR1S2ZSVlFR?=
+ =?utf-8?B?dHA5TUIwajBFUk4xeGVWd2gyUVpRZ0VjQ3NhUlBJWktVa1RQbzNtQS83dmRh?=
+ =?utf-8?B?VXpEVk1RTDNlaFVlR1RselNERmRRYncwN29waWNhRUJzRzhIQXhUTlp4TldL?=
+ =?utf-8?B?NWRNMGhiMmxXb2FqcDNKWi9ET3R0aUdCS0l4T056L1dMNWNMMnV0bVVIOUpy?=
+ =?utf-8?B?RkoxWWhCK2Z2S2t6VTk0c1c1eUFic2U2bUIxZzVKdHUzWjY2b3lPZUVHaCtC?=
+ =?utf-8?B?UndITUJBbkhjK25xM1U5ME04VlNqeklkd2NjWCttYmxJZjJGQWh6alA4YzNB?=
+ =?utf-8?B?MG9Xd0ppb2tjNnNqMHlNNldra0lRV2pEckVpYWVURU93eXQ5K2x4UEpqa1dQ?=
+ =?utf-8?B?SEY4anBnZTNEUzcwcE1TaW1USmZRbmVOSHVOYi9BYmMxNmlRVEY0bHVhLzF1?=
+ =?utf-8?B?Z2wzZ2JtV0JFWUpUVjZzYVRuSHZFQVZMOFdCQlFLRUY0QS9MWGlvSmZ0c2dh?=
+ =?utf-8?B?a25kOUN4SWt5anB3c3dFTHpOc1JZOHk3WmxkWGo0YklLTWhPNHdLRi9mUmJT?=
+ =?utf-8?B?MkhWNGNqa2tucisycUlvVGhIOFpINDJjWGxjMTE1a1lkU2hwblFqSG1iQlJ6?=
+ =?utf-8?B?TW1yMUREbmNhSkJ2eHlBdlVEd2lTNWZpN0lCbDRLSkcyVVh0M3pwN3JLWTdM?=
+ =?utf-8?B?OFR1enR1dWlZUjUxSjIzTU5uVVNBd0dHOVpkaXpBRTRHMFJiNWhINUtFem5Y?=
+ =?utf-8?B?WVM2dnJObWxnQ1pHRkZhbG0yUWNKK2NjSFoyd25jWHZHTm9VTjZaRzhyOUwz?=
+ =?utf-8?B?ZDNZb2duUjFWRlJJQkdLL2JNQ2JvcnlVa2RzNUNzdkJtSXRwbENTeEpCbm5h?=
+ =?utf-8?B?c2t4Q0dCaHlUWXpuSWlPRnk3OWxFQitSdVgxWE56ekF1WHMwZ2NqSndxMkRQ?=
+ =?utf-8?B?RWhUQzdJN2tEWmVxTjBuSFBmVFB1c0ovYmFQREtiV053Ui9oV1dRZ3hVdTdL?=
+ =?utf-8?B?MFIyNUxlblFYbHpSZTltK1IyZnJHS3YxWVV0alRnUjJnM2czNWUvM3F6endT?=
+ =?utf-8?B?ZmQvaVZIM2RPNyt0d1pHMUY3OWhVQ1RsNEZpVVV4ZllhU0Z1cnZmMHRDMkpu?=
+ =?utf-8?B?K0w3YUh2dkFNdlc1UUdOMm9rUUJiSmpEVnorWlZYK3dIVVEvV2RPOVg0UUxa?=
+ =?utf-8?B?TEN0eTVlaGtkOEh4SFVtRU9qRlNZM2pGblNaTW84TldLYmxpWFNBQ3NXSVlH?=
+ =?utf-8?B?YWNGeUFGWVhrNk9aSE0vdnZWeForMDREZGora1VneDBlYlpRS1VlbmVzRnIr?=
+ =?utf-8?B?OEwyQ05XRVhFMWhMYnhMTUFISGF0WjlZemVGSjB6emd5dnBPRXljVzFOSEI0?=
+ =?utf-8?B?L3RuYWpKYVJ3OTJzQVhCKzBZdnh6YzRQYUxBdHduTHZ1bU1mU0k1VTdVaFBx?=
+ =?utf-8?B?aW1nM04vU2RzbWxoR2ZWTkc3bjZBTmtObkdGTFNVWnNKckM2eVFsVTFrRTB0?=
+ =?utf-8?B?R2JZYnA4UU1Yc09zWU5ocVFqazhzNGFwdkg3aGNKc3k4Y21SUmRva3RqUzJw?=
+ =?utf-8?B?TE01SUdmT0NhSTBtZCs2WGhlcEprbFhqTVphYjcrVDNRYmU4MmV1cmRFMS9Y?=
+ =?utf-8?B?cytSVElFeXRUWmYvcFVnNTJ1bXFjVDhlZGRqczRnUnI1RUxkUWdjbVpBbU9p?=
+ =?utf-8?B?eEtuMXFaZnZRMmFFTzlCNDJja0srQzQ3MVVrQ1VOb09YQVN4RnRCZDA4OHRC?=
+ =?utf-8?B?QngvZFRiVHZ2d0pJSE9xYzhoS1Fic2treStZUU1FUEFSRjNleW9PeUZNY1Jh?=
+ =?utf-8?B?S3I2NUhDN2JwTlVIWUFYeEtWaTl3aENCaW4rQTN1ekNiNGZSeDlMcjZXdXBw?=
+ =?utf-8?B?ZHU0QS9lS1NhRldYL0xXcDUzaTJUOURISk5LaTFHeXRTYVNLVzdROWJES0RH?=
+ =?utf-8?B?eG5YR2ZOazE0OFU4VGMrT2FRLy9MZGhUeENWL25vQ0dLS1VaV2RBRUFXSUVD?=
+ =?utf-8?B?UlJ2Mk15bkJUbTZUWitiSFJRaEdRV2J2NDkwbzUrUWxTRDN6RE9PVnl5MEor?=
+ =?utf-8?Q?16eewULiAGTmBodY1TKVLxS91?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dca8d0c-e44a-4b1e-f029-08dcd3bdbb0d
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2024 06:31:42.2763 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y0I087LjUfNZMPycJzwh7pGUyooirLPiewdrtpZ5jFr01KZsc0msb1hCt6z7K6qYaJOYG8o1OqZplQGPXfNE9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5868
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,43 +170,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 09.09.24 um 19:52 schrieb Zack Rusin:
-> On Mon, Sep 9, 2024 at 7:37 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Call drm_client_setup() to run the kernel's default client setup
->> for DRM. Set fbdev_probe in struct drm_driver, so that the client
->> setup can start the common fbdev client.
+在 2024/9/13 6:37, Kasireddy, Vivek 写道:
+> Hi Huan,
+>
+>> Subject: [PATCH v6 3/7] udmabuf: fix vmap_udmabuf error page set
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Zack Rusin <zack.rusin@broadcom.com>
->> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
->> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-> Quick note: I love what you did with drm client and drm fbdev. Thanks
-> a lot for that work!
-
-Thanks for the kind words. Noralf deserves his share of praise here, as 
-he first implemented the client code. And Javier went through *a lot* of 
-patches reviewing them.
-
-Once drm_client_setup() has been merged, I hope that there won't be any 
-such large patch series. The rest of the work should be internal rework 
-that doesn't touch the whole subsystem.
-
-Best regards
-Thomas
-
+>> Currently vmap_udmabuf set page's array by each folio.
+>> But, ubuf->folios is only contain's the folio's head page.
+>>
+>> That mean we repeatedly mapped the folio head page to the vmalloc area.
+>>
+>> Due to udmabuf can use hugetlb, if HVO enabled, tail page may not exist,
+>> so, we can't use page array to map, instead, use pfn array.
+>>
+>> By this, we removed page usage in udmabuf totally.
+>>
+> I think this would probably need a Fixes tag:
+> Fixes: 5e72b2b41a21 ("udmabuf: convert udmabuf driver to use folios")
+OK, I'll update it
 >
-> Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+> Thanks,
+> Vivek
 >
-> z
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+>> Suggested-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+>> Signed-off-by: Huan Yang <link@vivo.com>
+>> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+>> ---
+>>   drivers/dma-buf/Kconfig   |  1 +
+>>   drivers/dma-buf/udmabuf.c | 22 +++++++++++++++-------
+>>   2 files changed, 16 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+>> index b46eb8a552d7..fee04fdb0822 100644
+>> --- a/drivers/dma-buf/Kconfig
+>> +++ b/drivers/dma-buf/Kconfig
+>> @@ -36,6 +36,7 @@ config UDMABUF
+>>   	depends on DMA_SHARED_BUFFER
+>>   	depends on MEMFD_CREATE || COMPILE_TEST
+>>   	depends on MMU
+>> +	select VMAP_PFN
+>>   	help
+>>   	  A driver to let userspace turn memfd regions into dma-bufs.
+>>   	  Qemu can use this to create host dmabufs for guest framebuffers.
+>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>> index ba9dbc7caf71..aa182a9dcdfa 100644
+>> --- a/drivers/dma-buf/udmabuf.c
+>> +++ b/drivers/dma-buf/udmabuf.c
+>> @@ -103,21 +103,29 @@ static int mmap_udmabuf(struct dma_buf *buf,
+>> struct vm_area_struct *vma)
+>>   static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+>>   {
+>>   	struct udmabuf *ubuf = buf->priv;
+>> -	struct page **pages;
+>> +	unsigned long *pfns;
+>>   	void *vaddr;
+>>   	pgoff_t pg;
+>>
+>>   	dma_resv_assert_held(buf->resv);
+>>
+>> -	pages = kvmalloc_array(ubuf->pagecount, sizeof(*pages),
+>> GFP_KERNEL);
+>> -	if (!pages)
+>> +	/**
+>> +	 * HVO may free tail pages, so just use pfn to map each folio
+>> +	 * into vmalloc area.
+>> +	 */
+>> +	pfns = kvmalloc_array(ubuf->pagecount, sizeof(*pfns), GFP_KERNEL);
+>> +	if (!pfns)
+>>   		return -ENOMEM;
+>>
+>> -	for (pg = 0; pg < ubuf->pagecount; pg++)
+>> -		pages[pg] = &ubuf->folios[pg]->page;
+>> +	for (pg = 0; pg < ubuf->pagecount; pg++) {
+>> +		unsigned long pfn = folio_pfn(ubuf->folios[pg]);
+>>
+>> -	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
+>> -	kvfree(pages);
+>> +		pfn += ubuf->offsets[pg] >> PAGE_SHIFT;
+>> +		pfns[pg] = pfn;
+>> +	}
+>> +
+>> +	vaddr = vmap_pfn(pfns, ubuf->pagecount, PAGE_KERNEL);
+>> +	kvfree(pfns);
+>>   	if (!vaddr)
+>>   		return -EINVAL;
+>>
+>> --
+>> 2.45.2
