@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F789790B4
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 14:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C34979143
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 16:08:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF18810E137;
-	Sat, 14 Sep 2024 12:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB6FA10E2BA;
+	Sat, 14 Sep 2024 14:08:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VHd+rnyt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DDEFHr5z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A17610E03B
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 12:05:00 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-e116d2f5f7fso3262776276.1
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 05:05:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726315499; x=1726920299; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=v/BwEPPxE9nFO1CcsZ05pg5b/eN2UhsgUftUMF1y+k0=;
- b=VHd+rnytuI1cfgsxjpdTIchKZWK0TQ08j5G4UGCegcSLH1+wgFe1V6fkWlkaQXLtfS
- UFMG6ufcYMlyr+Gd3pkFKa7dRXFZ0gYgLVEfaVUEGFJMINYq0hg8FNnIR8DDMQ9SPuHN
- 28NGUWJu6TBdmqj9XbP42IKW32PW7pcCKn2ndVwkBcpkeGS2vb1Tk/Pp2BoH/YDRTuGk
- HUg2tpYjH7ytn+T5l87gekz1kswWBxkmfKnxlABa7fpH0GnHOv1W3sLZG4o1zG1KjP09
- z4CqD8c2thXYvLfFe9X+o78IWq8EChebdiqu/g93yFPMOO4D46qYhWgOEjExjuYu+np4
- 0PCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726315499; x=1726920299;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v/BwEPPxE9nFO1CcsZ05pg5b/eN2UhsgUftUMF1y+k0=;
- b=Y0wO/08dyH8fnwVt9LMh56D1kZjNshblkiP8+aToWyA0hBXDT50kmKkM5vjsiAtXMD
- kIvyFOXBjW5iLbUcxbQGQl8zfRXQOHFirElLJrfvhb632bB6T4hWYUXEGGezsgd0An5j
- zsZdYH/IDjdDjKNEJbiStzef3qZtyeoCEMiN79WfwG1XsCERxrH0n5n48c2Fq1zXX8Sl
- uD8hlSzNfNwB3dLeugVPaMg/a4FgXQ6nSfTBatd0udMQt06pxYg1ZDMNHHbWAzm6FPkl
- x4ZVxKjvqewadkFvxi+TVM9GEYqtnjvXPyNpUcaYDjzx3b9DeSm7+v0LQP49KUliZNRD
- r/Qw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX4t3UqsvtbJO4WFZ4W19sNaDVONzhItaSSDn+Q6nlwab0DkdblRFRuBAt6rnvtLLyuxiIDx3OIeDs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDftjrT5ToCUXf2W1VFLuLMWTKr+5P5Nhr7SG621xwNKb5UP6a
- NfC/gtrSb6yzGgJoRyFXccwE2qqibxsUb5em0kIUC7ZcB33hWxpIFHmePawqdyFa4K7FwL2v1OP
- P780p70MePVKBfPhAEsvbqVzpv1BYEZdx1HGGVA==
-X-Google-Smtp-Source: AGHT+IFr6ztHkdXR12yHJt9BqfgF+oj8X/upMI/MFEq0hVIM1jdcxlJa5xJkzkTkMIDH+Ri6BPcsmXHfSOGUlyxg2dU=
-X-Received: by 2002:a05:690c:660c:b0:6d0:f91e:2ffa with SMTP id
- 00721157ae682-6dbb7015a8cmr71152697b3.3.1726315498811; Sat, 14 Sep 2024
- 05:04:58 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D43F410E2BA
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 14:08:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726322886; x=1757858886;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=if8DTh8EU5bT2w+u+uOfO7v+N6zaMH73Nilq6miPoiA=;
+ b=DDEFHr5zxius6oLG1ng45MhPepgy8yqYNwUR4LroQIsgOJ7HJiP0dgQW
+ Hc6RUc5gxt+4/VBl/shr/pLR552/VTZlDqjMMKbO/7QPIb9esObIT7SU4
+ RzuUQEcJRV3OnmpnPU7qRA5MX+V/n6OwNdkkepFzbdxKlzMYqpL2lfofj
+ OmbjV0hRM9nPzDsUr/2sn5mUw5bCBD7sX6F1kBwN4dH4gNrMA8B94LD9T
+ W1nVJFJEmAgmUpvXsZfCAtjRAti9oz3I+pNT7Tf1wAF+JYV0xSfIgs46D
+ Huxgvt+Oh3bkWQKcdgO+eYA446rKqh4lST7cILyo1Lah7Oaj4sZC1/rdb g==;
+X-CSE-ConnectionGUID: hOkh/Lw5QQKjrXXl7S0JiQ==
+X-CSE-MsgGUID: /rdI5/f7Qm+HnZZdEDHatw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="28962287"
+X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; d="scan'208";a="28962287"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2024 07:08:05 -0700
+X-CSE-ConnectionGUID: HK4+3lcQTEmrDJeDvGsYSA==
+X-CSE-MsgGUID: jnfhv6XsQMyLnY9gpiNn+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; d="scan'208";a="73164848"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by orviesa003.jf.intel.com with ESMTP; 14 Sep 2024 07:08:03 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1spTRQ-0007p2-1r;
+ Sat, 14 Sep 2024 14:08:00 +0000
+Date: Sat, 14 Sep 2024 22:07:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Lizhi Hou <lizhi.hou@amd.com>, linux-kernel@vger.kernel.org,
+ min.ma@amd.com, max.zhen@amd.com, sonal.santan@amd.com, king.tam@amd.com
+Subject: Re: [PATCH V3 06/11] accel/amdxdna: Add GEM buffer object management
+Message-ID: <202409142134.BxN16uQN-lkp@intel.com>
+References: <20240911180604.1834434-7-lizhi.hou@amd.com>
 MIME-Version: 1.0
-References: <20240913103755.7290-1-quic_mukhopad@quicinc.com>
- <20240913103755.7290-3-quic_mukhopad@quicinc.com>
- <9fee28de-24eb-46b1-aa5b-6febc2972a3c@kernel.org>
-In-Reply-To: <9fee28de-24eb-46b1-aa5b-6febc2972a3c@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 14 Sep 2024 15:04:48 +0300
-Message-ID: <CAA8EJpquBih8jO_Tv8RFLVYN0c+N7KC45VztGSJHV87x22tdcA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] phy: qcom: edp: Introduce aux_cfg array for
- version specific aux settings
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>, vkoul@kernel.org,
- kishon@kernel.org, 
- andersson@kernel.org, simona@ffwll.ch, abel.vesa@linaro.org, 
- robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- quic_khsieh@quicinc.com, konrad.dybcio@linaro.org, quic_parellan@quicinc.com, 
- quic_bjorande@quicinc.com, linux-arm-msm@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, quic_riteshk@quicinc.com, 
- quic_vproddut@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240911180604.1834434-7-lizhi.hou@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,48 +72,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 14 Sept 2024 at 14:29, Konrad Dybcio <konradybcio@kernel.org> wrote:
->
-> On 13.09.2024 12:37 PM, Soutrik Mukhopadhyay wrote:
-> > In order to support different HW versions, introduce aux_cfg array
-> > to move v4 specific aux configuration settings.
-> >
-> > Signed-off-by: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
-> > ---
-> > v2: Fixed review comments from Bjorn and Dmitry
-> >       - Made aux_cfg array as const.
-> >
-> > ---
-> >  drivers/phy/qualcomm/phy-qcom-edp.c | 37 ++++++++++++++++++-----------
-> >  1 file changed, 23 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-> > index da2b32fb5b45..bcd5aced9e06 100644
-> > --- a/drivers/phy/qualcomm/phy-qcom-edp.c
-> > +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-> > @@ -90,6 +90,7 @@ struct phy_ver_ops {
-> >
-> >  struct qcom_edp_phy_cfg {
-> >       bool is_edp;
-> > +     const u8 *aux_cfg;
-> >       const struct qcom_edp_swing_pre_emph_cfg *swing_pre_emph_cfg;
-> >       const struct phy_ver_ops *ver_ops;
-> >  };
-> > @@ -186,11 +187,15 @@ static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg = {
-> >       .pre_emphasis_hbr3_hbr2 = &edp_pre_emp_hbr2_hbr3,
-> >  };
-> >
-> > +static const u8 edp_phy_aux_cfg_v4[10] = {
-> > +     0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
-> > +};
->
-> How about we only abstract the values that differ? It would seem like more
-> platforms reuse about half of these magic bytes
+Hi Lizhi,
 
-I think it's easier to review and compare the whole sequence rather
-than numbers here and then numbers there.
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lizhi-Hou/accel-amdxdna-Add-documentation-for-AMD-NPU-accelerator-driver/20240912-020807
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240911180604.1834434-7-lizhi.hou%40amd.com
+patch subject: [PATCH V3 06/11] accel/amdxdna: Add GEM buffer object management
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240914/202409142134.BxN16uQN-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409142134.BxN16uQN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409142134.BxN16uQN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/accel/amdxdna/aie2_ctx.c:13:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:16:26: error: use of undeclared identifier 'count'
+      16 |         u32 data[] __counted_by(count);
+         |                                 ^
+   1 error generated.
+--
+   In file included from drivers/accel/amdxdna/aie2_pci.c:16:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:16:26: error: use of undeclared identifier 'count'
+      16 |         u32 data[] __counted_by(count);
+         |                                 ^
+   drivers/accel/amdxdna/aie2_pci.c:406:46: warning: shift count >= width of type [-Wshift-count-overflow]
+     406 |         ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+         |                                                     ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   1 warning and 1 error generated.
+
+
+vim +/count +16 drivers/accel/amdxdna/amdxdna_ctx.h
+
+     8	
+     9	/* Exec buffer command header format */
+    10	#define AMDXDNA_CMD_STATE		GENMASK(3, 0)
+    11	#define AMDXDNA_CMD_EXTRA_CU_MASK	GENMASK(11, 10)
+    12	#define AMDXDNA_CMD_COUNT		GENMASK(22, 12)
+    13	#define AMDXDNA_CMD_OPCODE		GENMASK(27, 23)
+    14	struct amdxdna_cmd {
+    15		u32 header;
+  > 16		u32 data[] __counted_by(count);
+    17	};
+    18	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
