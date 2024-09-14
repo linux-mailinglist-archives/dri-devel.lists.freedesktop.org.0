@@ -2,61 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C7B978BAE
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 01:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E886A978C6E
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 03:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF80F10E15E;
-	Fri, 13 Sep 2024 23:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE7C10E095;
+	Sat, 14 Sep 2024 01:32:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ah/1mmTe";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="g4B+0WRu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79CDB10E15E
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 23:06:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726268794; x=1757804794;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1GPrf+aOP1Wb6hv1CV4Q9bpX6pTqgU0R8e3l68zJf20=;
- b=ah/1mmTeMIuSKvFKoxNG/PU1ILOvFkwBiZVaHWd369zzIkKf3uFaeQSP
- v6+lcMNCBcWAd/FqKphQX82bcOigCX4/oVe0iNfkAEI9dqrrdTRivF2bv
- gkfLOq8TqgnVTvkjevqaaRvYSGfPU8CxVE6pWr3Sb9bk/22nhsrTtAUoK
- wbJSSycdFpO4v8gCD/1vYcoBRkoWuRH2Vm1Cw6NEwNUWNTHKkF5GLCfzW
- rIbdPntz+p+cs0fKVUea6kDfNArs0+ERwJxJJBWE1cpO8r3sthmWkSFFL
- U+G0Feip/knbUKUMIadQcu5ydxIsn/drAy46Q+yMN49cWPSZbLjNTB+hm Q==;
-X-CSE-ConnectionGUID: t28uFUlFTMGCkbWgDhS0KQ==
-X-CSE-MsgGUID: UE9aZ/bIQp2p9vRpTVuuYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="36533418"
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; d="scan'208";a="36533418"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2024 16:06:34 -0700
-X-CSE-ConnectionGUID: UR+FZ7rpQqOBkpAlsNLeaQ==
-X-CSE-MsgGUID: a7hG6zERQWaJzL+RlP4RLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; d="scan'208";a="68733765"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 13 Sep 2024 16:06:31 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1spFMy-00077e-2R;
- Fri, 13 Sep 2024 23:06:28 +0000
-Date: Sat, 14 Sep 2024 07:06:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH 1/3] drm: add DRM_SET_NAME ioctl
-Message-ID: <202409140642.ZDKf0cja-lkp@intel.com>
-References: <20240911145836.734080-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C4FC310E095;
+ Sat, 14 Sep 2024 01:32:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=b5ISz
+ Ocl87C2Oa7hmnu46pT5UEWK+FR4Ymk/RNFCsoc=; b=g4B+0WRuTXRGlfAdhbVqN
+ HLW1kIE0TuIYSQTP7PSD4WcoQQHX8IkeYf1LeCuMAX6xPifzVX9YW/6c8sn0S3Gn
+ XsGb6myaXXY3DyHcy+2R9QKZWevOvMu+f7v+CnfYth7fE72OkSRIHLKkdYlVFtXl
+ o/FA8IR9sMuY73vNzOPFBI=
+Received: from zhanghe-System-Product-Name.. (unknown [183.14.213.146])
+ by gzga-smtp-mta-g2-0 (Coremail) with SMTP id _____wD3v7Ko5+Rmp8TEDw--.62024S4;
+ Sat, 14 Sep 2024 09:32:25 +0800 (CST)
+From: Zhang He <zhanghe9702@163.com>
+To: andi.shyti@linux.intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Zhang He <zhanghe9702@163.com>
+Subject: [PATCH 2/2] drm/i915/gt: Fixed an typo
+Date: Sat, 14 Sep 2024 09:31:46 +0800
+Message-Id: <20240914013146.65757-1-zhanghe9702@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240913140721.31165-1-zhanghe9702@163.com>
+References: <20240913140721.31165-1-zhanghe9702@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240911145836.734080-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD3v7Ko5+Rmp8TEDw--.62024S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWruw1rJr15ZF4rtr1fXw4rAFb_yoWkArb_Kw
+ 47tr4xAa43Ga909w17Ar13ZF1jkanIvr97WF1xtrW3Ary2yr45Xas3ury7Xrs5Ga13JayD
+ Aa4kXr1fZwsxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7VUUItCUUUUUU==
+X-Originating-IP: [183.14.213.146]
+X-CM-SenderInfo: x2kd0wlkhzliqs6rljoofrz/1tbiWwtaamV4LmnRgQAAsq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,68 +58,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pierre-Eric,
+column header should be GPU, not CPU
 
-kernel test robot noticed the following build warnings:
+---
+ChangeLog:
+    v1: use correct name as Author and Signer
+    v2: change one line in drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c,
+        LLC's information header from "Effective CPU freq" to "Effective GPU freq"
 
-[auto build test WARNING on drm-exynos/exynos-drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11-rc7 next-20240913]
-[cannot apply to drm/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Zhang He <zhanghe9702@163.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-use-drm_file-name-in-fdinfo/20240911-230058
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20240911145836.734080-1-pierre-eric.pelloux-prayer%40amd.com
-patch subject: [PATCH 1/3] drm: add DRM_SET_NAME ioctl
-config: x86_64-randconfig-121-20240913 (https://download.01.org/0day-ci/archive/20240914/202409140642.ZDKf0cja-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140642.ZDKf0cja-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140642.ZDKf0cja-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_ioctl.c:553:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *user_ptr @@     got void [noderef] __user * @@
-   drivers/gpu/drm/drm_ioctl.c:553:18: sparse:     expected void *user_ptr
-   drivers/gpu/drm/drm_ioctl.c:553:18: sparse:     got void [noderef] __user *
->> drivers/gpu/drm/drm_ioctl.c:555:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user * @@     got void *user_ptr @@
-   drivers/gpu/drm/drm_ioctl.c:555:36: sparse:     expected void const [noderef] __user *
-   drivers/gpu/drm/drm_ioctl.c:555:36: sparse:     got void *user_ptr
-
-vim +553 drivers/gpu/drm/drm_ioctl.c
-
-   542	
-   543	static int drm_set_name(struct drm_device *dev, void *data,
-   544				struct drm_file *file_priv)
-   545	{
-   546		struct drm_set_name *name = data;
-   547		void *user_ptr;
-   548		char *new_name;
-   549	
-   550		if (name->name_len >= NAME_MAX)
-   551			return -EINVAL;
-   552	
- > 553		user_ptr = u64_to_user_ptr(name->name);
-   554	
- > 555		new_name = memdup_user_nul(user_ptr, name->name_len);
-   556	
-   557		if (IS_ERR(new_name))
-   558			return PTR_ERR(new_name);
-   559	
-   560		mutex_lock(&file_priv->name_lock);
-   561		if (file_priv->name)
-   562			kvfree(file_priv->name);
-   563		file_priv->name = new_name;
-   564		mutex_unlock(&file_priv->name_lock);
-   565	
-   566		return 0;
-   567	}
-   568	
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 8d08b38874ef..b635aa2820d9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -431,7 +431,7 @@ static int llc_show(struct seq_file *m, void *data)
+ 		max_gpu_freq /= GEN9_FREQ_SCALER;
+ 	}
+ 
+-	seq_puts(m, "GPU freq (MHz)\tEffective CPU freq (MHz)\tEffective Ring freq (MHz)\n");
++	seq_puts(m, "GPU freq (MHz)\tEffective GPU freq (MHz)\tEffective Ring freq (MHz)\n");
+ 
+ 	wakeref = intel_runtime_pm_get(gt->uncore->rpm);
+ 	for (gpu_freq = min_gpu_freq; gpu_freq <= max_gpu_freq; gpu_freq++) {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
