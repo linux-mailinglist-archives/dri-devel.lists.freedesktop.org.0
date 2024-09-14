@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA75979194
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 16:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67EAF9792F2
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 20:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4066910E040;
-	Sat, 14 Sep 2024 14:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33BC010E00D;
+	Sat, 14 Sep 2024 18:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="EqFXdrlx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eh1sKraz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77B3410E040
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 14:44:37 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C772C10E00D
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 18:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1726338541;
+ bh=2yDJGLRu2gAeWgfvO6TGgF4YVt64dhBuu/OY77p7t8A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eh1sKraz7x9kS3czQy+9/fxF6N5XeQ2mG7h7DIfI7MMRO6tTWxgv44vLDlA+n1bh+
+ jSnYtFGAzkeFL3gvy2XX5PhQ48FW7Od8+q1a/w6/w24Bi88Z4k8YKJ4YenNRROaVFd
+ LdrDqbRzdDz8z3hP1pqzcVPqWVDyzMtEdc4F8zzruM2k5sXsjqxw/lJA1vmspSz9aB
+ zmVW9wsE1p4W+ZGO+rHnHKC7oKXrfPpGuLZW9O4YFa8EtEiYpwNeV3lVcqwPaCyOVe
+ wDl3AuaAwFipLxjpYHtml4e5MpY5mMw6mBIUDjovM5Vye9DGWYZcn4APWVFdF/dhKH
+ 9q4wvwp3UZMtw==
+Received: from [192.168.1.90] (unknown [188.27.55.48])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4X5Yq56Prkz9tDK;
- Sat, 14 Sep 2024 16:44:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1726325073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ihSJ9eF4ScrNd9BOfaQDzUXZj/8RZhBWCPJuGCfS0ZQ=;
- b=EqFXdrlxdQ6rsT3KnO5yBD4xwPzuUalpJb2o2+7Ub8HK+QTu9k3ROi0oU3OxCBT8vH+By7
- xZgW2B1Z9gGQie0vzhLjixm6mbk6ZBy/Dykl9EvhUQfOzFXziUQfITgkaakZ9NtDEoyQ2Q
- fIBTx0RIirLVRKW2MMMQoE/scsQ9+cDJx020mqDrcBfR7UdL2+xbH/UHFD8Hif3Q8F5WKZ
- 47HKnU+wfNSQh2yT9sXna8CSAJ1zRk/fTWdsEjsS8eTyFFzGyQFJ9bfdMVKZCiHL3g48ia
- 4RaNa5lo83TzhCP4tvgJERDEbSqLgWC85jPGvhEJN/hpIHTcpVdq+9qeHiwa8A==
-Message-ID: <aa44441a-fca2-476d-9ad9-c4eb69a5ae83@mailbox.org>
-Date: Sat, 14 Sep 2024 16:44:29 +0200
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5F8BF17E3608;
+ Sat, 14 Sep 2024 20:29:00 +0200 (CEST)
+Message-ID: <4766d230-c9c3-414d-a954-3b0c890e7e08@collabora.com>
+Date: Sat, 14 Sep 2024 21:28:59 +0300
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/sched: Fix dynamic job-flow control race
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- Asahi Lina <lina@asahilina.net>, Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] drm/rockchip: Add basic RK3588 HDMI output support
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Danilo Krummrich <dakr@redhat.com>, open list <linux-kernel@vger.kernel.org>
-References: <20240913165326.8856-1-robdclark@gmail.com>
- <fa243d3e-abe2-47d9-928f-70e24065baf1@mailbox.org>
- <CAF6AEGtFJu5DEuA+Urv7zdrsO-zV-y0o0wQnTdGojTNjwwRqNQ@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <CAF6AEGtFJu5DEuA+Urv7zdrsO-zV-y0o0wQnTdGojTNjwwRqNQ@mail.gmail.com>
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, kernel@collabora.com,
+ Alexandre ARNOUD <aarnoud@me.com>, Luis de Arquer <ldearquer@gmail.com>,
+ Algea Cao <algea.cao@rock-chips.com>
+References: <20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com>
+ <20240906-b4-rk3588-bridge-upstream-v6-3-a3128fb103eb@collabora.com>
+ <2376712.1SvkZsmPdQ@diego>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <2376712.1SvkZsmPdQ@diego>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: y15k1xc6apq5unq74trq3f3cycbg7zzq
-X-MBO-RS-ID: ee693a0b81cceefaf31
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +77,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-09-13 19:28, Rob Clark wrote:
-> On Fri, Sep 13, 2024 at 10:03 AM Michel Dänzer
-> <michel.daenzer@mailbox.org> wrote:
+On 9/10/24 10:08 PM, Heiko Stübner wrote:
+> Am Freitag, 6. September 2024, 03:17:42 CEST schrieb Cristian Ciocaltea:
+>> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
+>> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
+>> Samsung IP block.
 >>
->> On 2024-09-13 18:53, Rob Clark wrote:
->>> From: Rob Clark <robdclark@chromium.org>
->>>
->>> Fixes a race condition reported here: https://github.com/AsahiLinux/linux/issues/309#issuecomment-2238968609
->>>
->>> The whole premise of lockless access to a single-producer-single-
->>> consumer queue is that there is just a single producer and single
->>> consumer.  That means we can't call drm_sched_can_queue() (which is
->>> about queueing more work to the hw, not to the spsc queue) from
->>> anywhere other than the consumer (wq).
->>>
->>> This call in the producer is just an optimization to avoid scheduling
->>> the consuming worker if it cannot yet queue more work to the hw.  It
->>> is safe to drop this optimization to avoid the race condition.
->>>
->>> Suggested-by: Asahi Lina <lina@asahilina.net>
->>> Fixes: a78422e9dff3 ("drm/sched: implement dynamic job-flow control")
->>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>> ---
->>>  drivers/gpu/drm/scheduler/sched_main.c | 3 +--
->>>  1 file changed, 1 insertion(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index ab53ab486fe6..1af1dbe757d5 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -1020,8 +1020,7 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
->>>  void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
->>>                     struct drm_sched_entity *entity)
->>>  {
->>> -     if (drm_sched_can_queue(sched, entity))
->>> -             drm_sched_run_job_queue(sched);
->>> +     drm_sched_run_job_queue(sched);
->>>  }
->>>
->>>  /**
+>> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
+>> without audio, CEC or any of the HDMI 2.1 specific features.
 >>
->> The entity parameter is unused now.
+>> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
+>> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
+>> Tested-by: Heiko Stuebner <heiko@sntech.de>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > 
-> Right.. and we probably should collapse drm_sched_wakeup() and
-> drm_sched_run_job_queue()..
+> [...]
+> 
+>> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
+>> index 3ff7b21c0414..3eab662a5a1d 100644
+>> --- a/drivers/gpu/drm/rockchip/Makefile
+>> +++ b/drivers/gpu/drm/rockchip/Makefile
+>> @@ -11,6 +11,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_VOP) += rockchip_drm_vop.o rockchip_vop_reg.o
+> 
+>> +static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+>> +				    void *data)
+>> +{
+>> +	static const char * const clk_names[] = {
+>> +		"pclk", "earc", "aud", "hdp", "hclk_vo1",
+>> +		"ref" /* keep "ref" last */
+>> +	};
+> 
+> [...]
+> 
+>> +	for (i = 0; i < ARRAY_SIZE(clk_names); i++) {
+>> +		clk = devm_clk_get_enabled(hdmi->dev, clk_names[i]);
+>> +
+>> +		if (IS_ERR(clk)) {
+>> +			ret = PTR_ERR(clk);
+>> +			if (ret != -EPROBE_DEFER)
+>> +				drm_err(hdmi, "Failed to get %s clock: %d\n",
+>> +					clk_names[i], ret);
+>> +			return ret;
+>> +		}
+>> +	}
+>> +	hdmi->ref_clk = clk;
+> 
+> How about using devm_clk_bulk_get_all_enable() for everything except the
+> refclk and a separate call to devm_clk_get_enabled() for that refclk .
 
-I looked into that as well, seems fine to leave them separate for now though.
+This helper seems to be partially broken as it doesn't return the number of
+clocks stored in the clk_bulk_data table referenced by the clks argument,
+meaning it's not possible to iterate these clocks.  I provided a new helper
+[1] as a possible fix.
 
+If that gets accepted, we could rewrite this as:
 
-> But this fix needs to be cherry picked back to a bunch of release
-> branches, so I intentionally avoided refactoring as part of the fix.
+	ret = devm_clk_bulk_get_all_enabled(hdmi->dev, &clks);
+	if (ret < 0) {
+		drm_err(hdmi, "Failed to get clocks: %d\n", ret);
+		return ret;
+	}
 
-Fixing up the drm_sched_wakeup caller(s) when backporting doesn't seem like a big deal.
+	for (i = 0; i < ret; i++) {
+		if (!strcmp(clks[i].id, "ref")) {
+			hdmi->ref_clk = clks[1].clk;
+			break;
+		}
+	}
+	if (!hdmi->ref_clk) {
+		drm_err(hdmi, "Missing ref clock\n");
+		return -EINVAL;
+	}
 
+> That hdmi->ref_clk just accidentially falls out of that loop at the end
+> looks somewhat strange, so getting and keeping that refclk
+> separately would make this look cleaner.
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+I've added /* keep "ref" last */ comment above, but I agree it's not really
+the best approach.
+
+I'm going to submit v7 in the meantime, as this was the last remaining open
+topic on my list.  I guess we can figure this out afterwards.
+
+Thanks,
+Cristian
+
+[1] https://lore.kernel.org/lkml/20240914-clk_bulk_ena_fix-v1-0-ce3537585c06@collabora.com/
+
