@@ -2,76 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096C0978F9D
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 11:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC50C978F24
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 10:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFC0C10E266;
-	Sat, 14 Sep 2024 09:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7342610E258;
+	Sat, 14 Sep 2024 08:38:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fDLB1vee";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="UD9rh84s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C2C10E095
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 01:17:10 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-2d86f71353dso2015210a91.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2024 18:17:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726276630; x=1726881430; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PTN/Iyx1fmNv4bUuNCbr/8MD5bSrQHUUXAacttKOu3k=;
- b=fDLB1veeWlAjD01xkGkdz3DICpJF2Ae3iU8bMJeO0bUi9x4ZYHh11HWkV9Wj4a3y/O
- VPUaspYIw12sXFSbSGU5NwvfBWW67anD1/s6SE2C+K1mlxBNggyUpwUuRbgbBNSocyKz
- 35thURH7cSEjhNfALM7+cer5zCs79aakn5LEAt3/YGo9zIV/OvrZ83Wez37eCGAsyGAZ
- ivMhK1g/IDhw0VYA5Qv7WXJL2gs/TcHIJTAwB8Q6qgHW/wi7z/iGWOkVs0o1QJnhdgYf
- rT7P6rqOr1fi9nf9E6rtKppJQQUTYnLGF12f0aIgR5MmpLF6DxOI5iQ3g7C32b3Jrcwe
- +Nzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726276630; x=1726881430;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PTN/Iyx1fmNv4bUuNCbr/8MD5bSrQHUUXAacttKOu3k=;
- b=WJFRpMs5BjvX08NbpfWi5p0iaT0IhiVRJ04lZ3RFjbgtR75G4jhYm1iwQo7L9yq+Id
- krm17KQJgwwFW708d+4PcBwYyxX+jeOvob+DwdJ65f8lqbuWTKxBS5ihR/PwLUXTSb/O
- pVFNQEITXijthrT8h5Rthkdy0vpUcbyisCsGpk2VY2jBAihUKgxLsabk6bGC2y/XXh33
- vXdgeNGvmz9CgMbkXdMKp4S5w3ONMIWjT4BvQGqL6CCuX5WlBB0cZfF/GcRVzROVrtHw
- 3/oQqS5RjDN4663rP23e6r4WbrXdvkAFEN3g8M8IgwmPrK1UVHKBbgt/RI7Qdc35KQOL
- LKvA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXXsw7knNk757jj1MIdJGAB892dyEUhjEIBf7Bh4myBpwac6eW3qaXlpUoq+unRX+chg/BQOojxdGs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwrxhhX5J+d0BOt0lPD5BNhtrOHK02P8XK8M8CwsjBtm97loA77
- Pe00SPheWcRZFoOVyj+rXhXhB9A/0tY8BE/l0Mtyr0aQblFwatrG
-X-Google-Smtp-Source: AGHT+IGMf7gnqJVZSKs42t/gcn1+j6/nD/tGqsbkcOn8iLdJLkWkWIxDqgRtg60Y5HjYECc6+vcQVA==
-X-Received: by 2002:a17:90a:d346:b0:2d8:dd14:79ed with SMTP id
- 98e67ed59e1d1-2dba0048e18mr8253613a91.31.1726276629951; 
- Fri, 13 Sep 2024 18:17:09 -0700 (PDT)
-Received: from geday ([2804:7f2:8006:9f55:654b:622b:2859:2848])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2dbb9ccb87dsm2460726a91.32.2024.09.13.18.17.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Sep 2024 18:17:09 -0700 (PDT)
-Date: Fri, 13 Sep 2024 22:17:00 -0300
-From: Geraldo Nascimento <geraldogabriel@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Mark Brown <broonie@kernel.org>, Hugh Cole-Baker <sigmaris@gmail.com>,
- ALSA-devel <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [RESEND PATCH v2] drm/bridge: dw-hdmi-i2s: set insert_pcuv bit
- if hardware supports it
-Message-ID: <ZuTkDMx4qalIFKdH@geday>
-References: <Y01E5MvrnmVhnekO@geday>
- <9b0a0cd8-0994-4235-9823-37f0da1a751d@gmail.com>
- <ZuSufaLavkdMdsSL@geday>
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
+ [136.143.188.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0AA510E2AD
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 08:38:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1726303126; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=MLOmakQrtsg4TH4ciQgVKKbaYfee0msm0gpHo0IRm2TCR1PjW/dhublzRh0fRtGTGALhk45SIBObhSMIdaclT1VZ9llt1dpmAWq4/rrRaZnP0TlystVIRu8JLbEtT5I9dAY40SMVINghKRE66+gmMtnaXLBPvrGwUkoll0SY1iU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1726303126;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Ej6QX9G1dmM07ksR/FVgVBTC5gPecCY6T1R8JXBXxZk=; 
+ b=QY6lMDWN3HqBg2CDOf4cd+x4CEh43tB3mXTwIHABzoMI9JNSgz3eCEZESG2I+hR6nX15ncOa5pdT8gmwe3yMArbB0phGyXskFZyfoOp4NyvlZWvqyKpCJ2GuN5ZhbcTzbw8Mtg8QOC6CbLtFeId2ZLx38RRRTlrcB5KrD33AbT0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726303126; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=Ej6QX9G1dmM07ksR/FVgVBTC5gPecCY6T1R8JXBXxZk=;
+ b=UD9rh84s/7G9dAEtd71GxxzLUEpLcscRJ47S8/+Pe+224BS1cdckHNW/uTnB9dg5
+ ie+cQG6VuPJdexJ7jiJPsrCstd7qabLh6ikWCE7quHAz3dCrzp0Zv10KpGsPVcL2ajR
+ EzZkbOiu/30stenQoIDwq5734cnSfpNxAyU85Jbc=
+Received: by mx.zohomail.com with SMTPS id 1726303124615201.60398788551277;
+ Sat, 14 Sep 2024 01:38:44 -0700 (PDT)
+Received: by mercury (Postfix, from userid 1000)
+ id 3FFFB1060578; Sat, 14 Sep 2024 10:38:28 +0200 (CEST)
+Date: Sat, 14 Sep 2024 10:38:28 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
+ Simona Vetter <simona@ffwll.ch>, cros-qcom-dts-watchers@chromium.org, 
+ Konrad Dybcio <konradybcio@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
+ linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v4 01/27] power: supply: add undervoltage health status
+ property
+Message-ID: <uta55qswxp43tdziertbwvopytx26kjanouxfffvkjfnhrkwj2@bwoyfygw3pp7>
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-1-2d2efd5c5877@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="r7xlkoqbyyg5k4lc"
 Content-Disposition: inline
-In-Reply-To: <ZuSufaLavkdMdsSL@geday>
-X-Mailman-Approved-At: Sat, 14 Sep 2024 09:50:57 +0000
+In-Reply-To: <20240913-starqltechn_integration_upstream-v4-1-2d2efd5c5877@gmail.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/223.982.64
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,28 +93,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 06:28:34PM -0300, Geraldo Nascimento wrote:
-> On Fri, Sep 13, 2024 at 10:12:39PM +0100, Hugh Cole-Baker wrote:
-> > I added printk to show the value of AUD_CONF2, and found that on 6.1.23, the
-> > value is 0 before the code in this patch sets the insert_pcuv bit. On 6.10.3
-> > the value is 4, i.e. insert_pcuv is already set.
-> > 
-> > According to the RK3399 TRM, the value-after-reset of the insert_pcuv bit is 1,
-> > so apparently on the 6.1.23 kernel something is clearing the bit after HW reset
-> > but before this driver sets the hw_params, and this patch sets it back to the
-> > correct value. On 6.10.3 the bit is not cleared, i.e. this patch is seemingly
-> > no longer necessary (but is a harmless no-op).
-> 
-> Hi Hugh,
-> 
-> Thank you for your extensive testing. It seems then there's no action we
-> need to take for mainline, as it's already fixed there.
 
-Unless Neil wants to pick-up it up for Stable? Neil, although not a
-regression, this is definitely a show-stopper for sound on RK3399
-for older, still supported kernels. And thanks to Hugh detailed
-report we now have confirmation that this happens on vanilla
-RK3399 and is not a quirk of my Rock Pi N10 board or sink.
+--r7xlkoqbyyg5k4lc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Geraldo Nascimento
+Hi,
+
+On Fri, Sep 13, 2024 at 06:07:44PM GMT, Dzmitry Sankouski wrote:
+> Add POWER_SUPPLY_HEALTH_UNDERVOLTAGE status for power supply
+> to report under voltage lockout failures.
+>=20
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+
+This is missing updates to
+Documentation/ABI/testing/sysfs-class-power and
+drivers/power/supply/power_supply_sysfs.c
+(POWER_SUPPLY_HEALTH_TEXT).
+
+Greetings,
+
+-- Sebastian
+
+>  include/linux/power_supply.h | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+> index 910d407ebe63..8682e6466544 100644
+> --- a/include/linux/power_supply.h
+> +++ b/include/linux/power_supply.h
+> @@ -58,6 +58,7 @@ enum {
+>  	POWER_SUPPLY_HEALTH_OVERHEAT,
+>  	POWER_SUPPLY_HEALTH_DEAD,
+>  	POWER_SUPPLY_HEALTH_OVERVOLTAGE,
+> +	POWER_SUPPLY_HEALTH_UNDERVOLTAGE,
+>  	POWER_SUPPLY_HEALTH_UNSPEC_FAILURE,
+>  	POWER_SUPPLY_HEALTH_COLD,
+>  	POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE,
+>=20
+> --=20
+> 2.39.2
+>=20
+
+--r7xlkoqbyyg5k4lc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmblS3wACgkQ2O7X88g7
++prRCxAAlhYUU4yJX7NEhfMbNTVWhURSBhobZ62HayXzgdpD6Mq48r79Maug7GC9
+GT0mcYXyGLCZjLkte5Qn0695klYG9JsIWdZqOdQV7fgHhH6gDBkFYghMVv8NVnXF
+Pmcmwc1QOCjmDp37EkvxjXKOc+XNdnVuAlSwpnP3zkXKtexwe3kvZtD3qLToP7vs
+Q+6qA8/9KVvC83i5VqrHUoWdkR514ZI8YcPzjStj6FecIRitH0xtOm9inpeLj1tv
+fFcknMQkRSdNAarhfpZNzFLoyOSpImY/yeUEx3qFUqKNGtDZVkXvWNHVaEEEtxih
++1mX44QV5thBOSuKfuIA0deafptEjaP/eXhQEwS619aqDJd7J+JBmnZAdlmiBLqK
+iEsBgTeThbx7RuOvBvRUVYPlUPG1jpYBgfWT4OT6w7x9tkkfemxU/JT1tXJNmKAp
+onm6UftL9rF/olPVoXIL4AZ8QhsLkGQ+2iDNWaUbcvhWdEAo0AFnJNIRJHdbUT4a
+fPlTrlZ5DO/ufGCPj7rbPehkVjKD/apDK84Dp8mQrIjlzuxqMacWFBv0Szrj9k4L
+ZpUae4iBOygN1fXd6M8w3SvZw+9JOixLL/1vm2Av8vJwMYUUt4eNInyN4Pr1cjMh
+Rd6zPpSmphSU+AgGnN70hqkRetW7+zUoyFzoKWtQeWApkEdHhVE=
+=Gfk0
+-----END PGP SIGNATURE-----
+
+--r7xlkoqbyyg5k4lc--
