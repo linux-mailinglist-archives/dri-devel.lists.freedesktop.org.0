@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E886A978C6E
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 03:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92996978C8B
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 04:06:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE7C10E095;
-	Sat, 14 Sep 2024 01:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C648910E253;
+	Sat, 14 Sep 2024 02:06:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="g4B+0WRu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wx0lFibl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id C4FC310E095;
- Sat, 14 Sep 2024 01:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=b5ISz
- Ocl87C2Oa7hmnu46pT5UEWK+FR4Ymk/RNFCsoc=; b=g4B+0WRuTXRGlfAdhbVqN
- HLW1kIE0TuIYSQTP7PSD4WcoQQHX8IkeYf1LeCuMAX6xPifzVX9YW/6c8sn0S3Gn
- XsGb6myaXXY3DyHcy+2R9QKZWevOvMu+f7v+CnfYth7fE72OkSRIHLKkdYlVFtXl
- o/FA8IR9sMuY73vNzOPFBI=
-Received: from zhanghe-System-Product-Name.. (unknown [183.14.213.146])
- by gzga-smtp-mta-g2-0 (Coremail) with SMTP id _____wD3v7Ko5+Rmp8TEDw--.62024S4;
- Sat, 14 Sep 2024 09:32:25 +0800 (CST)
-From: Zhang He <zhanghe9702@163.com>
-To: andi.shyti@linux.intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Zhang He <zhanghe9702@163.com>
-Subject: [PATCH 2/2] drm/i915/gt: Fixed an typo
-Date: Sat, 14 Sep 2024 09:31:46 +0800
-Message-Id: <20240914013146.65757-1-zhanghe9702@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240913140721.31165-1-zhanghe9702@163.com>
-References: <20240913140721.31165-1-zhanghe9702@163.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D08D410E257
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 02:06:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726279576; x=1757815576;
+ h=message-id:date:mime-version:cc:subject:to:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=r1SPEaFbtgONlYp9N92wMuvszR631+QcjZT+HAM08G8=;
+ b=Wx0lFiblieA/9/9zel9rjGGqiBhBg5zYjJ/ObIHxufVPcAMw1Fk+5oEb
+ zjOJOQL72vzWiy8zQsKghpnSbtgajYcGTpXhEBXRi9FkGj/Q7G3uHH/k6
+ Mp6q9arZJUfEnohcT+UYK9SFpVyVg8lfV+784+4Kc3JSkMqmKfyfZf8l3
+ 1fSe3I8qlsUlHfu1PSil9tghCgNGIa+ZCDyWZFVxhf8+D3hJskkidrG+u
+ 8y2xVFJhTo7kBnkBtA1zftgd7EosIg7aXwbmWoHQ6B2E3lw32By4gB1MF
+ HvIqeRGlSQns9/n+49kVgwbAc6m84o675WYdjX7T5Ea9Rc23HTk1zQ702 A==;
+X-CSE-ConnectionGUID: PsZCuLF1RNKdgkfU/AdBbw==
+X-CSE-MsgGUID: lIMDaYOxQZGJXl1Qr6b3Yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="47706731"
+X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; d="scan'208";a="47706731"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2024 19:06:15 -0700
+X-CSE-ConnectionGUID: hrcCDiI6S7qL/42olX80Rg==
+X-CSE-MsgGUID: gzoUIxuVSy6K+Ux6zmuDmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; d="scan'208";a="67968803"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.127])
+ ([10.239.159.127])
+ by fmviesa007.fm.intel.com with ESMTP; 13 Sep 2024 19:06:12 -0700
+Message-ID: <42bbc500-578c-474b-98ec-1988906f31ef@linux.intel.com>
+Date: Sat, 14 Sep 2024 10:02:05 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3v7Ko5+Rmp8TEDw--.62024S4
-X-Coremail-Antispam: 1Uf129KBjvdXoWruw1rJr15ZF4rtr1fXw4rAFb_yoWkArb_Kw
- 47tr4xAa43Ga909w17Ar13ZF1jkanIvr97WF1xtrW3Ary2yr45Xas3ury7Xrs5Ga13JayD
- Aa4kXr1fZwsxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7VUUItCUUUUUU==
-X-Originating-IP: [183.14.213.146]
-X-CM-SenderInfo: x2kd0wlkhzliqs6rljoofrz/1tbiWwtaamV4LmnRgQAAsq
+User-Agent: Mozilla Thunderbird
+Cc: baolu.lu@linux.intel.com, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/tegra: Fix NULL vs IS_ERR() check in probe()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <ba31cf3a-af3d-4ff1-87a8-f05aaf8c780b@stanley.mountain>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <ba31cf3a-af3d-4ff1-87a8-f05aaf8c780b@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,32 +74,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-column header should be GPU, not CPU
+On 9/13/24 10:34 PM, Dan Carpenter wrote:
+> The iommu_paging_domain_alloc() function doesn't  return NULL pointers,
+> it returns error pointers.  Update the check to match.
+> 
+> Fixes: 45c690aea8ee ("drm/tegra: Use iommu_paging_domain_alloc()")
+> Signed-off-by: Dan Carpenter<dan.carpenter@linaro.org>
+> ---
+>   drivers/gpu/drm/tegra/drm.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
----
-ChangeLog:
-    v1: use correct name as Author and Signer
-    v2: change one line in drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c,
-        LLC's information header from "Effective CPU freq" to "Effective GPU freq"
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-Signed-off-by: Zhang He <zhanghe9702@163.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-index 8d08b38874ef..b635aa2820d9 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-@@ -431,7 +431,7 @@ static int llc_show(struct seq_file *m, void *data)
- 		max_gpu_freq /= GEN9_FREQ_SCALER;
- 	}
- 
--	seq_puts(m, "GPU freq (MHz)\tEffective CPU freq (MHz)\tEffective Ring freq (MHz)\n");
-+	seq_puts(m, "GPU freq (MHz)\tEffective GPU freq (MHz)\tEffective Ring freq (MHz)\n");
- 
- 	wakeref = intel_runtime_pm_get(gt->uncore->rpm);
- 	for (gpu_freq = min_gpu_freq; gpu_freq <= max_gpu_freq; gpu_freq++) {
--- 
-2.34.1
-
+Thanks,
+baolu
