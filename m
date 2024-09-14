@@ -2,78 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB2E978E8A
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 08:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3608978EF5
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2024 09:43:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8A1B10E163;
-	Sat, 14 Sep 2024 06:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7AB710E11E;
+	Sat, 14 Sep 2024 07:43:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G0+QHPCl";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="inCsllv3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71F7410E163
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 06:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726297014; x=1757833014;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=z82qoXfdXrLYs3jMxnQP89C3VVMg1koj+ufGNLLviTY=;
- b=G0+QHPClqpztL4q1gszdIj/Jax2lSZlm/wtYKhCDZbyZTgaRi2fM0DkO
- IrF022bg1z49ZT0qKZY5bSmpbuMz/w2sX3aQplbiv+oqOzDAmuEVMXcQZ
- bqaY1CwYyQdbc3+565FHcffjLpO1iZCHGDkB+svefUeXJ12LzSIlxklMb
- qn7qrwoXL0FUsw4hwV/pBXo2flCYNWiaD2eKghFtleViZ8ZOB5OAT1d8x
- Ql77av5CJU2dfkM9tRwlvLw9rbj2OAL1dur0mYplR54RVaYEPyPL8Z+ro
- RSGJD7YT8o8h7hizbz8FBNrwaWHgsY2gx7XUBCyRy5fDTRiiphqrXfntU A==;
-X-CSE-ConnectionGUID: 77d06ugiQXe6c3aXai73gQ==
-X-CSE-MsgGUID: Iz/qL/wfRzujdWIt3R+IoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="35878474"
-X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; d="scan'208";a="35878474"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2024 23:56:53 -0700
-X-CSE-ConnectionGUID: 0Ta95WA3Rs+rO+CmSX4CtQ==
-X-CSE-MsgGUID: 5n97j3mcQOyiIWczxHzCcA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; d="scan'208";a="68320761"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by fmviesa009.fm.intel.com with ESMTP; 13 Sep 2024 23:56:47 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1spMi5-0007TQ-0T;
- Sat, 14 Sep 2024 06:56:45 +0000
-Date: Sat, 14 Sep 2024 14:56:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>,
- cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 03/27] gcc-sdm845: Add general purpose clock ops
-Message-ID: <202409141429.Wv6WJPEQ-lkp@intel.com>
-References: <20240913-starqltechn_integration_upstream-v4-3-2d2efd5c5877@gmail.com>
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
+ [136.143.188.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B64CB10E11E
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2024 07:43:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1726299810; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=RbnwAjEucXAKzNeT8OSRgFyVTfJqTiNV1SPybCL8HFrpn3cfwaUHlG6q4wteMAQhVbeD111Xkr+hWuYayvI9nD6ohp9DUjN9RhAKdVttQqlmZswlLEDC1xsWRodjUO2gjgCz0v2wPcmxu5ivWJKvo9vFSbsSe6IQF3oNp53ERFk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1726299810;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=9s6xbgvRK66eWsct5dwCUnVpO4nqDb+N6HYnzutOOR4=; 
+ b=Us3Eit+cTSmh7lDAwTyHD2I8Z54xM5bK0ZlCk6g+TNt5pDkZceUW3g0hk0vuwCa/vZllB5RO+ytgxh4znYVoTShjh6Ammz7FPOkXM2RZsQZ2oYqgiXZ8eUpWxCcQjl9+3BIMKU8n4Iru6AimuDxt+VUijelEN9FztkayAhJ8/Lk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726299810; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=9s6xbgvRK66eWsct5dwCUnVpO4nqDb+N6HYnzutOOR4=;
+ b=inCsllv3x9n7C2tlssmPf/tMvrPWt9e3mLm60cAKlcsL6P7/Mny4uzdiM8TtUqJ9
+ zXyDR1I8sZv6zMOq4egzE2rXWSDfnPaR5Dqfthbp7O5ynv5UK/HRfhJiytTQMPERiZZ
+ j8EPRzwEsb8F5UyNHWxv1sBqaqzExKqmFEkkSfYw=
+Received: by mx.zohomail.com with SMTPS id 172629980865397.08858448934461;
+ Sat, 14 Sep 2024 00:43:28 -0700 (PDT)
+Received: by mercury (Postfix, from userid 1000)
+ id 18B7A1060578; Sat, 14 Sep 2024 09:43:18 +0200 (CEST)
+Date: Sat, 14 Sep 2024 09:43:18 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH 0/3] drm/omap: Minor fixes
+Message-ID: <p63avbtt3vovvmcjpz5xywpneuegb2yasvfllo6leskldbac7p@rkfhsgvjusrf>
+References: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ecfymshjkc7m26ry"
 Content-Disposition: inline
-In-Reply-To: <20240913-starqltechn_integration_upstream-v4-3-2d2efd5c5877@gmail.com>
+In-Reply-To: <20240806-omapdrm-misc-fixes-v1-0-15d31aea0831@ideasonboard.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/223.982.64
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,82 +76,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dzmitry,
 
-kernel test robot noticed the following build errors:
+--ecfymshjkc7m26ry
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on 5acd9952f95fb4b7da6d09a3be39195a80845eb6]
+Hi,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/power-supply-add-undervoltage-health-status-property/20240913-231027
-base:   5acd9952f95fb4b7da6d09a3be39195a80845eb6
-patch link:    https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-3-2d2efd5c5877%40gmail.com
-patch subject: [PATCH v4 03/27] gcc-sdm845: Add general purpose clock ops
-config: arm-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141429.Wv6WJPEQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141429.Wv6WJPEQ-lkp@intel.com/reproduce)
+On Tue, Aug 06, 2024 at 04:50:26PM GMT, Tomi Valkeinen wrote:
+> A few minor fixes to omapdrm, mostly to remove sparse or other checker
+> warnings.
+>=20
+>  Tomi
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409141429.Wv6WJPEQ-lkp@intel.com/
+For the series:
 
-All errors (new ones prefixed by >>):
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-   arm-linux-gnueabi-ld: drivers/clk/qcom/clk-rcg2.o: in function `clk_rcg2_calc_mnd':
->> drivers/clk/qcom/clk-rcg2.c:437:(.text.clk_rcg2_calc_mnd+0x26): undefined reference to `__aeabi_uldivmod'
->> arm-linux-gnueabi-ld: drivers/clk/qcom/clk-rcg2.c:438:(.text.clk_rcg2_calc_mnd+0x38): undefined reference to `__aeabi_uldivmod'
+Greetings,
 
+-- Sebastian
 
-vim +437 drivers/clk/qcom/clk-rcg2.c
+> ---
+> Tomi Valkeinen (3):
+>       drm/omap: Fix possible NULL dereference
+>       drm/omap: Hide sparse warnings
+>       drm/omap: Fix locking in omap_gem_new_dmabuf()
+>=20
+>  drivers/gpu/drm/omapdrm/dss/base.c       | 25 ++++++-------------------
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h    |  3 +--
+>  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c |  6 +++---
+>  drivers/gpu/drm/omapdrm/omap_drv.c       |  4 ++--
+>  drivers/gpu/drm/omapdrm/omap_gem.c       | 10 ++--------
+>  5 files changed, 14 insertions(+), 34 deletions(-)
+> ---
+> base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
+> change-id: 20240806-omapdrm-misc-fixes-2ea920193dde
+>=20
+> Best regards,
+> --=20
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>=20
 
-   427	
-   428	static void clk_rcg2_calc_mnd(u64 parent_rate, u64 rate, struct freq_tbl *f,
-   429				unsigned int mnd_max, unsigned int hid_max)
-   430	{
-   431		int i = 2, count = 0;
-   432		unsigned int pre_div_pure = 1;
-   433		unsigned long rates_gcd, scaled_parent_rate;
-   434		u16 m, n = 1, n_candidate = 1, n_max;
-   435	
-   436		rates_gcd = gcd(parent_rate, rate);
- > 437		m = rate / rates_gcd;
- > 438		scaled_parent_rate = parent_rate / rates_gcd;
-   439		while (scaled_parent_rate > (mnd_max + m) * hid_max) {
-   440			// we're exceeding divisor's range, trying lower scale.
-   441			if (m > 1) {
-   442				m--;
-   443				scaled_parent_rate = mult_frac(scaled_parent_rate, m, (m + 1));
-   444			} else {
-   445				f->n = mnd_max + m;
-   446				f->pre_div = hid_max;
-   447				f->m = m;
-   448			}
-   449		}
-   450	
-   451		n_max = m + mnd_max;
-   452	
-   453		while (scaled_parent_rate > 1) {
-   454			while (scaled_parent_rate % i == 0) {
-   455				n_candidate *= i;
-   456				if (n_candidate < n_max)
-   457					n = n_candidate;
-   458				else if (pre_div_pure * i < hid_max)
-   459					pre_div_pure *= i;
-   460				else
-   461					clk_rcg2_split_div(i, &pre_div_pure, &n, hid_max);
-   462	
-   463				scaled_parent_rate /= i;
-   464			}
-   465			i++;
-   466			count++;
-   467		}
-   468	
-   469		f->m = m;
-   470		f->n = n;
-   471		f->pre_div = pre_div_pure > 1 ? pre_div_pure : 0;
-   472	}
-   473	
+--ecfymshjkc7m26ry
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmblPpIACgkQ2O7X88g7
++prUWg/9EdoySBxDqVDFjyZIU8WKrTZK2WPiQUn4aJsTugo8jA1jQrX+c4CNUO8h
+8fa6s9RjZMqpP0EKEmyp3I3801cJmN8cZwdS5YjkiWIjFTlsrWPIlf4Ve+ukMINX
+k3qizRuWLSOTiJgdu0u3vaKjh4uhjWzlPyl/uKFx5N3pSVxw1OQQBXFSYsqY5AFj
+hHN14+j4hmomtDHRB+OicWVV4+KBsvvCcFhknGSbVvs4je2CKn9Fn83JNY6WJz9r
+sAMFAHN9jsJWX0L6OQNFbutoW9p+ym+8YLoaNO4OKgBJyIeVNVHb9h5bjASLusI4
+XXjrHOTpaRL8cJGrqnJJ65fzX7+4dif5ZNUUt13MvQO+hSlM6nXLRzhYzGskBpJn
+rxnmfVhrGMD+X1tmBqShwutklogpFjYgFGX2TwmJDpZOU2chViNbDvDsuz5pZmOf
+n1K2OF4wDMaG/wZ9XkeahbSbjNkObRHehkRIBocGPcjppiRDiGCgPZX9x1RzyTGi
+P0uOG3sjjPA4pAhrfZVaVMZoX68lngd5wMot2PtcMBiSe1v7maEnLtNgjd7pACgv
+dlz6h0QAk2u0ZpCmx6POKatzakP0QoBgHAaqqVJKgbWTzo5/y3cZoiWfOzJuvygj
+C6m06J0AK7lvaAo/8bixuT+w85IJfn9MyqerjCc1zrKifyrgSVA=
+=Tzmd
+-----END PGP SIGNATURE-----
+
+--ecfymshjkc7m26ry--
