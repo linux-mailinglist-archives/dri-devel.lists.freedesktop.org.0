@@ -2,73 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C917597987A
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 21:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D37979903
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 23:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A57210E301;
-	Sun, 15 Sep 2024 19:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C123810E002;
+	Sun, 15 Sep 2024 21:01:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="jTJ3UW8t";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C2aeeC3V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DB010E301;
- Sun, 15 Sep 2024 19:35:50 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-205722ba00cso31354745ad.0; 
- Sun, 15 Sep 2024 12:35:50 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+ [209.85.217.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E1910E167;
+ Sun, 15 Sep 2024 20:31:16 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id
+ ada2fe7eead31-49bcd11fc37so1178554137.3; 
+ Sun, 15 Sep 2024 13:31:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1726428950; x=1727033750;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=New3rH6yb16RO+F7ZmxoIv5gWT8XEiNExKpmL8xStLI=;
- b=jTJ3UW8tZInCpJXdXDp3nuoGHsn1d7qOZLBDdM0Qifmz9Mz03XTDUuj4ykgji1Mkd3
- M+eWuARLHY/4ESn7kMlJqsmBY3Jti0fUDMuu0mcRpJNByHhZKi2qjBQxiBmbfNhdDmyB
- OiFxaw2bzwD/mTvTyWixuPhKGSOkfGLG4Omio0rFmtOvDQGMWqQ7M71e6ArGjYQHhoim
- OoNRxhdoYrNy78qDhGBL5lZNmwQ926LEia2poFn8SKQPnxZQrrMBZPHdOccKn60mFJeR
- xRI3DOznmr9kl0EVnBd4Z3Y9IpoWP9CBPaGWTHQmi7W6Hs/BTx6iNwiBdG6Mqn/Mv0v/
- Jobw==
+ d=gmail.com; s=20230601; t=1726432276; x=1727037076; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=hAYZQWw2HWWFjLpbJ1p/0HLGKECZhCFOlFWY0I17SDI=;
+ b=C2aeeC3V4HTNXvzWB3TaH/YTCjOahz/+EdRhtrkVgpkXmfES//LvhczqggYoDk1hwF
+ WbQZUNE3B3GPb2U0em3+8lFs+6EpZUk+O6DIvpYdXLTYXf5Pgswg4CMOyw5ec0TbFQgH
+ 570cCfNE8roLn8HWkZvF+wqWhf5KaGCdQCKtfAIpxQxmDBZNGpVJbgM21kxyMAf8POku
+ B3su5qZDeD7BbILAj1rcbk3lgclhWV7kmudOAVwEzK6yJVWQDuecIZPUwTweU6gACfvj
+ pAnxg9ihKV2UazFumc/+pPyoL9tBCyrnGrW+AoLJemN5Z4OhKZyret+4n4EnBc6ZQG2N
+ Eouw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726428950; x=1727033750;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=New3rH6yb16RO+F7ZmxoIv5gWT8XEiNExKpmL8xStLI=;
- b=pG+9BTv1KgMnTvaRb/Ag4+LCj6Xbjh57PKR0ehDsia7iOcbQ/ptDJYcCidi2gKHI6y
- mCgUSgUm+j7G1qp64IQlB8DvidrF/MKwNH5DMQAu22vhLKJHxkUI7cJ9Ge6QiYflgcu7
- ROAOpvYescX65vcPjY3DB48MYKO77FlZkSuMn+BbuEY/FygoGINAoQZVlmuCiU8aOZqL
- 2Hi2nbENCr9AtXtQydsX1qtRP/I0WzfYODPu5mL5uVaQCRdaViUc+2c+gOn2QYH+4ZI+
- q7cMiEna74kneZVWmCbJQy9IjP+8eQxO8R5aZYEFJIVUaKOvQJjdnDe2W/Qnvkka91Fd
- Cgrw==
+ d=1e100.net; s=20230601; t=1726432276; x=1727037076;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hAYZQWw2HWWFjLpbJ1p/0HLGKECZhCFOlFWY0I17SDI=;
+ b=WCZA91H17EosV91Jn2W+SSvOLpAcFxsxpFEDWvdc9NSp5dSqofTvlVJWeV7WyoQ11z
+ iavMrZWgo5G75m5NKzhF2vdbUUjXLzuNqgI150jUv9rR8MMjTIzaL8E0hMkPoIIRydvF
+ PDG3qWht0rPOl16J1DgThi2ey/HLd1a38pdPMVGvFqI5pvs2bSmKjpVg2eU6tp30X52f
+ hXbd769thvu+rzwMzojoGHXQQuJSBughgopEGHiAB6mETt7iM8fNzdEMHiO7Tvj0BxXi
+ ic1Y5RgIo779kGsRTBl4LSMa2COURDLGvtp3U5KxJb243pDNUhZVL8VrCe8v8TVoLE5h
+ d7ww==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1d3RlWKPlTPJjncO/nt7twTKWr8MLcQNOyAmxaSRk3kOrbV1tpAnt41mzjKcs3AN4PEgFxadsK5A=@lists.freedesktop.org,
- AJvYcCVWoDDbjjxcdT3DRd6GKdaWlneZHjchheZE+Q2nPkQs7oZyDw/p2OVocV68Fg604flfrvR6zOLOhCo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywd2C+/LUpMDdtoDbrixooptR8C/haXGICfHF9m1JNOkjZIAE+Q
- Nd0SgjBshq/WKC3OgizhaFnZFunZAzRQz85mbiqSgIyK6wK+gW5OedcJidMXlgZ9orY3B8R7NYn
- FUD3S5MaviULVWQFd1/shYqGYpoU=
-X-Google-Smtp-Source: AGHT+IEeEBWXAkvZAos6gb/1nBcqfIooFzWaDaf/vow493N7u4RygEa1Dt72D3/O8Hf0ci8+dAfBbMiVeaB8K6wpuVU=
-X-Received: by 2002:a17:902:eb8a:b0:206:ca91:1dda with SMTP id
- d9443c01a7336-2076e39c56bmr163749985ad.17.1726428950005; Sun, 15 Sep 2024
- 12:35:50 -0700 (PDT)
+ AJvYcCWywI2grQxdWBLKmxqIzLZs8nPjAXKPaf4BLKuNB7jcf/qywx0tNi8sRyUhKQUciIvupWp+1Fr8iEmY@lists.freedesktop.org,
+ AJvYcCXOp72yf8ivUioln2hJunYg5/4Nupkij3ZR2qOplyb9HMAIk/V9bCYuXhPqEPNhdSNN3xvUyo6e@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+eiO65s3Z4MC1px40bQ+5BGrcCBPA6DIz0qvyUncorq1hQFZK
+ 6A9ItcRb7TUf96/8fSi0dp7Hj8HN/LGHTCLefO1Q22E+YbDLxxbgyxPl2kRmCHohUZDu/JQDypW
+ cWZRGwEMd+5gNqOqCSN0EEyr+b1o=
+X-Google-Smtp-Source: AGHT+IHkL+Fo29ENavizDkxBSHVbm5AxIaQ/IPFYlxQc47hbs0WOkM73B9jK2Vn7Gni7WkxT1w/aQziQGBzOWSnFhTE=
+X-Received: by 2002:a05:6102:f0d:b0:49b:f255:1779 with SMTP id
+ ada2fe7eead31-49d41479c01mr10368014137.12.1726432275602; Sun, 15 Sep 2024
+ 13:31:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <fdc82abdabed667fc85d278cfb03d19e5c472d7b.1725962479.git.jani.nikula@intel.com>
-In-Reply-To: <fdc82abdabed667fc85d278cfb03d19e5c472d7b.1725962479.git.jani.nikula@intel.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 15 Sep 2024 21:35:39 +0200
-Message-ID: <CAFBinCDQzHkvo1tQxa2pcgBHngtiXyCgdbnr=9nW7xDHy0RLdg@mail.gmail.com>
-Subject: Re: [PATCH 6/8] drm/meson: dw-hdmi: annotate dw_hdmi_dwc_write_bits()
- with __maybe_unused
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, linux-amlogic@lists.infradead.org
+From: Sitsofe Wheeler <sitsofe@gmail.com>
+Date: Sun, 15 Sep 2024 21:30:49 +0100
+Message-ID: <CALjAwxidmwCT5ZwbZRhf9GwshYbzQZ4N8K3B8KGLi5DnRzj8wQ@mail.gmail.com>
+Subject: Kernel hang when amdgpu driver is loaded on old radeon card
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sun, 15 Sep 2024 21:01:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,20 +79,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hello,
 
-On Tue, Sep 10, 2024 at 12:08=E2=80=AFPM Jani Nikula <jani.nikula@intel.com=
-> wrote:
->
-> Building with clang and and W=3D1 leads to warning about unused
-> dw_hdmi_dwc_write_bits(). Fix by annotating it with __maybe_unused.
->
-> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
-> inline functions for W=3D1 build").
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-I prefer dropping this function for which there's a patch already: [0]
+(Apologies if I have CC'd the wrong people/places - I just went by
+what get_maintainer.pl -f drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+said)
 
+I recently upgraded from Ubuntu 20.04 (5.15.0-119.129~20.04.1-generic
+kernel) to Ubuntu 24.04 (6.8.0-44-generic kernel) and found that while
+booting the kernel hangs for around 15 seconds just before the amdgpu
+driver is loaded:
 
-[0] https://lore.kernel.org/linux-amlogic/20240908-regmap-config-const-v1-1=
--28f349004811@linaro.org/
+[    4.459519] radeon 0000:01:05.0: [drm] Cannot find any crtc or sizes
+[    4.460118] probe of 0000:01:05.0 returned 0 after 902266 usecs
+[    4.460184] initcall radeon_module_init+0x0/0xff0 [radeon] returned
+0 after 902473 usecs
+[    4.465797] calling  drm_buddy_module_init+0x0/0xff0 [drm_buddy] @ 122
+[    4.465853] initcall drm_buddy_module_init+0x0/0xff0 [drm_buddy]
+returned 0 after 29 usecs
+[    4.469419] radeon 0000:01:05.0: [drm] Cannot find any crtc or sizes
+[    4.473831] calling  drm_sched_fence_slab_init+0x0/0xff0 [gpu_sched] @ 122
+[    4.473892] initcall drm_sched_fence_slab_init+0x0/0xff0
+[gpu_sched] returned 0 after 31 usecs
+[   18.724442] calling  amdgpu_init+0x0/0xff0 [amdgpu] @ 122
+[   18.726303] [drm] amdgpu kernel modesetting enabled.
+[   18.726576] amdgpu: Virtual CRAT table created for CPU
+[   18.726609] amdgpu: Topology: Add CPU node
+[   18.726787] initcall amdgpu_init+0x0/0xff0 [amdgpu] returned 0
+after 528 usecs
+
+I've checked and the problem still exists in 6.11.0-061100rc7-generic
+(which is close to vanilla upstream).
+
+The graphics card I have is:
+01:05.0 VGA compatible controller: Advanced Micro Devices, Inc.
+[AMD/ATI] RS880M [Mobility Radeon HD 4225/4250] (prog-if 00 [VGA
+controller])
+01:05.0 0300: 1002:9712 (prog-if 00 [VGA controller])
+Subsystem: 103c:1609
+
+At first I thought the problem was related to the change
+https://github.com/torvalds/linux/commit/eb4fd29afd4aa1c98d882800ceeee7d1f5262803
+("drm/amdgpu: bind to any 0x1002 PCI diplay [sic] class device") which
+now means my card is claimed by two drivers (radeon and amdgpu). That
+change complicated things because:
+- The amdgpu module and its dependencies remain permanently present (which
+  never used to happen)
+- It took some time for me to realise that the amdgpu driver hadn't suddenly
+  grown the ability to support this old card :-) There is a nice table on
+  https://www.x.org/wiki/RadeonFeature/#decoderringforengineeringvsmarketingnames
+  that shows it is part of the R600 family and
+  https://www.x.org/wiki/RadeonFeature/#featurematrixforfreeradeondrivers shows
+  that R600 is only supported by the radeon driver.
+
+However, testing a 5.16.20-051620-generic kernel showed that while the
+amdgpu module is loaded, there is no 15 second hang... So far my
+testing has the following results:
+- 5.16.20-051620-generic - amdgpu loaded, no hang
+- 5.18.19-051819-generic - amdgpu loaded, no hang
+- 6.0.0-060000-generic - amdgpu loaded, hang
+- 6.2.0-060200-generic - amdgpu loaded, hang
+- 6.8.0-44-generic - amdgpu loaded, hang
+- 6.11.0-061100rc7-generic - amdgpu loaded, hang
+
+To work around the problem I've taken to blacklisting amdgpu in
+/etc/modprobe.d/ which makes the hang disappear.
+
+Does anyone else see this issue? Is there something better than my
+current workaround? What do other drivers that want to bind to such a
+large set of devices do? Further, while I'm already using
+initcall_debug, is there any other kernel boot parameter to make
+what's happening more visible?
+
+--
+Sitsofe
