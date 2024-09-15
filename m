@@ -2,79 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17A99797C7
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 18:12:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5CE9797D8
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 18:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B1810E2F3;
-	Sun, 15 Sep 2024 16:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E68310E069;
+	Sun, 15 Sep 2024 16:43:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="UELd1nZ5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="do3LLPZ6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6D110E2F3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 16:12:53 +0000 (UTC)
-X-UUID: 5a58eeb8737d11ef8b96093e013ec31c-20240916
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=hNZ1r0i2EWsUM1gTtvTP6iHnQAcCgxDwEygERSSrjaI=; 
- b=UELd1nZ5jD+Sdu8QtRm2jq0SlkATlSBA93Xi0Wj7Uz9ie8spnXQeiXowEA5vLN9kYlPVCbPWkvYsYFlXvtGaQOVtJady5Kp6ColTINfIBoMHezbvbWRcaVqeJJHezkwqcE7zBWLNDi+ndJR1JWspfz5hTMgmR5M7PKDd9qXiUi0=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:d53c865f-77dd-48b5-a397-5d8dd5d4333b, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:1caa3dd0-7921-4900-88a1-3aef019a55ce,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
- SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 5a58eeb8737d11ef8b96093e013ec31c-20240916
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 768547468; Mon, 16 Sep 2024 00:12:49 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 16 Sep 2024 00:12:46 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 16 Sep 2024 00:12:46 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Alper Nebi Yasak <alpernebiyasak@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-CC: Shawn Sung <shawn.sung@mediatek.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
- <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Nancy
- Lin" <nancy.lin@mediatek.com>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2] drm/mediatek: ovl: Add fmt_support_man for MT8192 and
- MT8195
-Date: Mon, 16 Sep 2024 00:12:45 +0800
-Message-ID: <20240915161245.30296-1-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2CC10E069
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 16:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726418636; x=1757954636;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=jtr1z9sq//ff08X+wS3ZIAFe7Sp8ILl0NmP39G+1LZo=;
+ b=do3LLPZ6JwDrhavvcGLroxbCAdmRZRcH1beKl7tFCDTvsEeTRuZdqxan
+ NX1G/C227HGYp41TWYXo/Axm5dHXT38ZLMejE0MOhuYrAd4BDISoDK2Yn
+ VNNMsx36ThTZawRpaOi3gxwn/9Nm+y0ZpMSH0MhcjQ32CnjnW0SxcByYN
+ dMXcpUZb7FH+PcHWfe5VZ3M+GA3JAAo2Phm4KpCJj+8at4RlS+V8iVtQ4
+ SF6aG+3szPq251VbwMZjanCnjxzWNM+gnenHNfARh3XndWXUlmNX2Uqkt
+ hdQm3DKcNWIe8dCgvOknPW34TSsJDEUxramoOgX8FbXX+Y9pN+S+CUAmG g==;
+X-CSE-ConnectionGUID: GDSJ1krpRhm9EhtHLTdv5Q==
+X-CSE-MsgGUID: mBOUgDZVQhS4oww3qOTV6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="35938941"
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="35938941"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2024 09:43:55 -0700
+X-CSE-ConnectionGUID: Ac/7OfB2S9Kj8B5ZUPZ0VQ==
+X-CSE-MsgGUID: lf7J0Mv/TKS5oTaaBKo4uw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="73255176"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 15 Sep 2024 09:43:52 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1spsLl-0008qk-23;
+ Sun, 15 Sep 2024 16:43:49 +0000
+Date: Mon, 16 Sep 2024 00:43:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+ =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
+ accounting
+Message-ID: <202409160050.m7VEd3pY-lkp@intel.com>
+References: <20240913124857.389630-2-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--12.635900-8.000000
-X-TMASE-MatchedRID: LIcGYmSXSDozP1+hKLmUcMu00lnG8+PWIaLR+2xKRDLb6Y+fnTZUL0/3
- ZkXeY1OA6eS1Op7zNynNm52TpbFN7NMd/xz9OgvcA9lly13c/gHmELBDcs0dnQqiCYa6w8tv5sZ
- TwYHfBM5BHv20aQGKCx1+KsAVmYZiXHEPHmpuRH0URSScn+QSXt0H8LFZNFG7bkV4e2xSge79/t
- TnQt11ajNTj3nkQ/kevBS707Nog9ImKZteJCYG+0sMHBii02BH
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--12.635900-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 8B727294A5D89EEAA7E4A3D476C35C50F3980071A25ADD2361203F28CC166F6F2000:8
-X-MTK: N
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240913124857.389630-2-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,132 +82,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-OVL_CON_CLRFMT_MAN is an configuration for extending color format
-settings of DISP_REG_OVL_CON(n).
-It will change some of the original color format settings.
+Hi Adrián,
 
-Take the settings of (3 << 12) for example.
-- If OVL_CON_CLRFMT_MAN = 0 means OVL_CON_CLRFMT_RGBA8888.
-- If OVL_CON_CLRFMT_MAN = 1 means OVL_CON_CLRFMT_PARGB8888.
+kernel test robot noticed the following build errors:
 
-Since OVL_CON_CLRFMT_MAN is not supported on previous SoCs,
-It breaks the OVL color format setting of MT8173.
-So add fmt_support_man to the driver data of MT8192 and MT8195
-to solve the downgrade problem.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11 next-20240913]
+[cannot apply to drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fixes: a3f7f7ef4bfe ("drm/mediatek: Support "Pre-multiplied" blending in OVL")
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 43 ++++++++++++++++++++-----
- 1 file changed, 35 insertions(+), 8 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240913-205038
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240913124857.389630-2-adrian.larumbe%40collabora.com
+patch subject: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp accounting
+config: i386-buildonly-randconfig-002-20240915 (https://download.01.org/0day-ci/archive/20240916/202409160050.m7VEd3pY-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409160050.m7VEd3pY-lkp@intel.com/reproduce)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 89b439dcf3a6..7b053ca25b10 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -70,10 +70,33 @@
- #define OVL_CON_CLRFMT_UYVY	(4 << 12)
- #define OVL_CON_CLRFMT_YUYV	(5 << 12)
- #define OVL_CON_MTX_YUV_TO_RGB	(6 << 16)
--#define OVL_CON_CLRFMT_PARGB8888 ((3 << 12) | OVL_CON_CLRFMT_MAN)
--#define OVL_CON_CLRFMT_PABGR8888 (OVL_CON_CLRFMT_PARGB8888 | OVL_CON_RGB_SWAP)
--#define OVL_CON_CLRFMT_PBGRA8888 (OVL_CON_CLRFMT_PARGB8888 | OVL_CON_BYTE_SWAP)
--#define OVL_CON_CLRFMT_PRGBA8888 (OVL_CON_CLRFMT_PABGR8888 | OVL_CON_BYTE_SWAP)
-+
-+#define OVL_CON_CLRFMT_PARGB8888(ovl)  ({ \
-+	struct mtk_disp_ovl *_ovl = (ovl); \
-+	(_ovl->data->fmt_support_man ? \
-+	((3 << 12) | OVL_CON_CLRFMT_MAN) : OVL_CON_CLRFMT_ARGB8888); \
-+})
-+
-+#define OVL_CON_CLRFMT_PABGR8888(ovl)  ({ \
-+	struct mtk_disp_ovl *_ovl = (ovl); \
-+	(_ovl->data->fmt_support_man ? \
-+	(OVL_CON_CLRFMT_PARGB8888(_ovl) | OVL_CON_RGB_SWAP) : OVL_CON_CLRFMT_ABGR8888); \
-+})
-+
-+#define OVL_CON_CLRFMT_PBGRA8888(ovl)  ({ \
-+	struct mtk_disp_ovl *_ovl = (ovl); \
-+	(_ovl->data->fmt_support_man ? \
-+	(OVL_CON_CLRFMT_PARGB8888(_ovl) | OVL_CON_BYTE_SWAP) : \
-+	 OVL_CON_CLRFMT_BGRA8888); \
-+})
-+
-+#define OVL_CON_CLRFMT_PRGBA8888(ovl)  ({ \
-+	struct mtk_disp_ovl *_ovl = (ovl); \
-+	(_ovl->data->fmt_support_man ? \
-+	(OVL_CON_CLRFMT_PABGR8888(_ovl) | OVL_CON_BYTE_SWAP) : \
-+	OVL_CON_CLRFMT_RGBA8888); \
-+})
-+
- #define OVL_CON_CLRFMT_RGB565(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
- 					0 : OVL_CON_CLRFMT_RGB)
- #define OVL_CON_CLRFMT_RGB888(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
-@@ -144,6 +167,7 @@ struct mtk_disp_ovl_data {
- 	unsigned int gmc_bits;
- 	unsigned int layer_nr;
- 	bool fmt_rgb565_is_0;
-+	bool fmt_support_man;
- 	bool smi_id_en;
- 	bool supports_afbc;
- 	const u32 *formats;
-@@ -410,28 +434,28 @@ static unsigned int ovl_fmt_convert(struct mtk_disp_ovl *ovl, unsigned int fmt,
- 	case DRM_FORMAT_RGBA1010102:
- 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
- 		       OVL_CON_CLRFMT_RGBA8888 :
--		       OVL_CON_CLRFMT_PRGBA8888;
-+		       OVL_CON_CLRFMT_PRGBA8888(ovl);
- 	case DRM_FORMAT_BGRX8888:
- 	case DRM_FORMAT_BGRA8888:
- 	case DRM_FORMAT_BGRX1010102:
- 	case DRM_FORMAT_BGRA1010102:
- 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
- 		       OVL_CON_CLRFMT_BGRA8888 :
--		       OVL_CON_CLRFMT_PBGRA8888;
-+		       OVL_CON_CLRFMT_PBGRA8888(ovl);
- 	case DRM_FORMAT_XRGB8888:
- 	case DRM_FORMAT_ARGB8888:
- 	case DRM_FORMAT_XRGB2101010:
- 	case DRM_FORMAT_ARGB2101010:
- 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
- 		       OVL_CON_CLRFMT_ARGB8888 :
--		       OVL_CON_CLRFMT_PARGB8888;
-+		       OVL_CON_CLRFMT_PARGB8888(ovl);
- 	case DRM_FORMAT_XBGR8888:
- 	case DRM_FORMAT_ABGR8888:
- 	case DRM_FORMAT_XBGR2101010:
- 	case DRM_FORMAT_ABGR2101010:
- 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
- 		       OVL_CON_CLRFMT_ABGR8888 :
--		       OVL_CON_CLRFMT_PABGR8888;
-+		       OVL_CON_CLRFMT_PABGR8888(ovl);
- 	case DRM_FORMAT_UYVY:
- 		return OVL_CON_CLRFMT_UYVY | OVL_CON_MTX_YUV_TO_RGB;
- 	case DRM_FORMAT_YUYV:
-@@ -662,6 +686,7 @@ static const struct mtk_disp_ovl_data mt8192_ovl_driver_data = {
- 	.gmc_bits = 10,
- 	.layer_nr = 4,
- 	.fmt_rgb565_is_0 = true,
-+	.fmt_support_man = true,
- 	.smi_id_en = true,
- 	.formats = mt8173_formats,
- 	.num_formats = ARRAY_SIZE(mt8173_formats),
-@@ -672,6 +697,7 @@ static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
- 	.gmc_bits = 10,
- 	.layer_nr = 2,
- 	.fmt_rgb565_is_0 = true,
-+	.fmt_support_man = true,
- 	.smi_id_en = true,
- 	.formats = mt8173_formats,
- 	.num_formats = ARRAY_SIZE(mt8173_formats),
-@@ -682,6 +708,7 @@ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
- 	.gmc_bits = 10,
- 	.layer_nr = 4,
- 	.fmt_rgb565_is_0 = true,
-+	.fmt_support_man = true,
- 	.smi_id_en = true,
- 	.supports_afbc = true,
- 	.formats = mt8195_formats,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409160050.m7VEd3pY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: call to __compiletime_assert_341 marked "dontcall-error": min(ringbuf_size - start, size) signedness error
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
