@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0C6979688
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 14:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B73597969B
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 14:39:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6AF10E09B;
-	Sun, 15 Sep 2024 12:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B544B10E14D;
+	Sun, 15 Sep 2024 12:39:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q0HLDVFp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kGt1mAJh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F27CB10E09B;
- Sun, 15 Sep 2024 12:02:15 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-42cb58d810eso28480165e9.0; 
- Sun, 15 Sep 2024 05:02:15 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5557610E0EC
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 12:39:55 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-374b5f27cf2so2404490f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 05:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726401734; x=1727006534; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1726403993; x=1727008793; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=P40wET+w71UJyEkZ9BoZfs/VvG0c/BBfUWCIfkdVP7I=;
- b=Q0HLDVFpHzkHyP67ws8Fsgok/VbJtFGAG0IIqrz2MkHBJFWY6NtrPWsokn+4om3tWI
- ecqYu5ulFSupo96DXbcJ/R64Sajv0mFYVkqonCBzEZj6hs5tNAeHQD48dsUR9sq2RRi0
- 38PM8XNl+lDZ3j56ERqlgolcZb8N09tyQ5XwrTN3V1ujfP0H3Ncf7Nh1tgbmU8Ez2SQt
- N8qt+ljn9oANRSRnn9LH/90BtueKp9Iv0JgomGwRme3H8rpHsU/ERCFrBTKJU4qfQ+dg
- mRe+LaumH8DIWdN80qMA0GYdTZ6TQF+7EOWNTs1bok7U7ZlTdUlPdfNQIUX80+HlzE1P
- 4Aug==
+ bh=zAJvtt6cCaAPu3t5jkNa8gI7ECPeAAidmTEnPEphaJs=;
+ b=kGt1mAJhklg1a468IjvXspRd8uzOVmlESO4hteNILYrgPl5sskJ9ehbT0lx79hKjIS
+ P/ZpmAQk7seVpVjB5mNFd9sWE6nKD9Lan+7s3qmJe1rRlBUByOP1ufrIKfwldNwXqqz/
+ z7DiuBFGtyTGzObJ8BoLOH3kFENNk9xnfOPlUec3XV2bDmRqsdudDxLwfjct6ark2stA
+ BwaTqibJS/6zYY1zxJwEGUQqE/pu1BtzfkO4apQ3vNFoVBaSY1kX6yGgeASvt3R4Hx3X
+ n0/kL+VN0IhESgQfIuhTVOXoHnDP0lokCF30CHlLl7J0T30rTTC4VudEawL4KAYLOxfh
+ oWRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726401734; x=1727006534;
+ d=1e100.net; s=20230601; t=1726403993; x=1727008793;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=P40wET+w71UJyEkZ9BoZfs/VvG0c/BBfUWCIfkdVP7I=;
- b=mp60SN/7r7jsF3t8WzlKgA2SaKjW88w0BOjk0Tvo0Vmi4O2puPUB6yi5C1rzZAYKl3
- sS89xWEia/cijvuXR7VhtBuhRA8oK0pZL7VVXh6ANRnxNm/9M5DJgmKeJm9L/FI5d8FN
- Isn6FfFgeV5YsspbfMqs4Iqk8DxZmOQGD5pKC4+E4qQhR4ft5vzFm6QrH5HSk0z+vHGs
- N5zLioLhjGwisE/wy+pKVUbX/qWAOd08WG5MYgblEbBopvgX1gM2bze4VCtDaX2yB++t
- TntKG4qNwBaiS7KXjtsRfcrWlp77urI8x6aibCeLQWZmTbKmHuV3cNjYwBxSo44s5h3i
- zesw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkFGwR7hMBuJecgx3Yd+jEqsSkGjwrt3FTKHr7IBeDuBeY7HnwLBH3r4sbDAht3HLytQvIq/P+Bnc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyM5QkssWb2wg1TFdD79hZzuKy9VTsLFzbmQOPU8T+fv92SBAj1
- bGh8E4sT7/i2Vt5Wj4jtVd/NZ0EI1xv+Z6XMNML1zFV0myQ7D+1F
-X-Google-Smtp-Source: AGHT+IEMZq4/JjBZ/u6UVGa7+slA/nrX41Tt9k6PRPk4mhaKvy6qtno+rb2b7xGKC7WriVIwr6K5xA==
-X-Received: by 2002:a5d:5745:0:b0:374:ca0c:51b0 with SMTP id
- ffacd0b85a97d-378c27a8a55mr7714570f8f.12.1726401734007; 
- Sun, 15 Sep 2024 05:02:14 -0700 (PDT)
+ bh=zAJvtt6cCaAPu3t5jkNa8gI7ECPeAAidmTEnPEphaJs=;
+ b=PfqzxO//LpKrcNwHO3hePb5AVQYRFKiPAEthUInQgqhyE2TWTbILqB6eanuEYcRZxp
+ IBikW8t/GBjh/7X7BOOoRmUWnMDE9XQpR8N4sk2BS9sqZP73BFtZmzqV1/yxoDLwysnY
+ Zk62KFgDaLvlRy7jm8e38w8BMm+CBfEIUonqC2UNbxGu5yHVaPS7lInfTHzELFFgR64P
+ Gh2ldQLO3vYcuGKs/NspuDtlGqkg4lpWNZ35MNNvh+MwS69aHWGbQVCv3piZJQ1elp8J
+ jZ4u4WJQX7FybnKjQCIWhpK3YJdfs/3W6VOc6cBZ4/xnLd0xGGuMwSzE/ez89/DqIBk1
+ 8q7g==
+X-Gm-Message-State: AOJu0YzWijTUkQSEj6zEQc4C3669PdCd14BjctJzYgjQQb1NqIqqMUOI
+ iI5LKR7MdjRa1rv5jZPhkbmtx8VEw6OCLcuxUWTFkQrUPWHQxC07
+X-Google-Smtp-Source: AGHT+IHBPPBKefp8NRK/dgswYdOSXCV8qCsyXvN01NXfuxQbDklw/gSHxJdtyH6/9QHf15El0OwTqA==
+X-Received: by 2002:a5d:5e0b:0:b0:378:e8cd:71fa with SMTP id
+ ffacd0b85a97d-378e8cd72fbmr2497222f8f.39.1726403993391; 
+ Sun, 15 Sep 2024 05:39:53 -0700 (PDT)
 Received: from void.void ([141.226.169.213]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378e78054b6sm4497832f8f.107.2024.09.15.05.02.12
+ ffacd0b85a97d-378e72e4a46sm4599867f8f.14.2024.09.15.05.39.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Sep 2024 05:02:13 -0700 (PDT)
+ Sun, 15 Sep 2024 05:39:53 -0700 (PDT)
 From: Andrew Kreimer <algonell@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Andrew Kreimer <algonell@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH] drm/i915: Fix typos
-Date: Sun, 15 Sep 2024 15:01:55 +0300
-Message-Id: <20240915120155.101395-1-algonell@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Andrew Kreimer <algonell@gmail.com>,
+ Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH] drm/rockchip: Fix a typo
+Date: Sun, 15 Sep 2024 15:39:43 +0300
+Message-Id: <20240915123943.105118-1-algonell@gmail.com>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -84,41 +85,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix typos in documentation.
+Fix a typo in comments.
 
 Reported-by: Matthew Wilcox <willy@infradead.org>
 Signed-off-by: Andrew Kreimer <algonell@gmail.com>
 ---
- drivers/gpu/drm/i915/display/intel_psr.c | 2 +-
- drivers/gpu/drm/i915/gt/shaders/README   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/cdn-dp-reg.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 1f83b3b67ea6..062e61cf70a0 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -1017,7 +1017,7 @@ static void hsw_activate_psr2(struct intel_dp *intel_dp)
- 		};
- 		/*
- 		 * Still using the default IO_BUFFER_WAKE and FAST_WAKE, see
--		 * comments bellow for more information
-+		 * comments below for more information
- 		 */
- 		int tmp;
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.h b/drivers/gpu/drm/rockchip/cdn-dp-reg.h
+index 441248b7a79e..c7780ae3272a 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-reg.h
++++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.h
+@@ -77,7 +77,7 @@
+ #define SOURCE_PIF_PKT_ALLOC_WR_EN	0x30830
+ #define SOURCE_PIF_SW_RESET		0x30834
  
-diff --git a/drivers/gpu/drm/i915/gt/shaders/README b/drivers/gpu/drm/i915/gt/shaders/README
-index e7e96d7073c7..4f5dab3fdcca 100644
---- a/drivers/gpu/drm/i915/gt/shaders/README
-+++ b/drivers/gpu/drm/i915/gt/shaders/README
-@@ -24,7 +24,7 @@ on building.
- Please make sure your Mesa tool is compiled with "-Dtools=intel" and
- "-Ddri-drivers=i965", and run this script from IGT source root directory"
- 
--The instructions bellow assume:
-+The instructions below assume:
-     *  IGT gpu tools source code is located on your home directory (~) as ~/igt
-     *  Mesa source code is located on your home directory (~) as ~/mesa
-        and built under the ~/mesa/build directory
+-/* bellow registers need access by mailbox */
++/* below registers need access by mailbox */
+ /* source car addr */
+ #define SOURCE_HDTX_CAR			0x0900
+ #define SOURCE_DPTX_CAR			0x0904
 -- 
 2.39.5
 
