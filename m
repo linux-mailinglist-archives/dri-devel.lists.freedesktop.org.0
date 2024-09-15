@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F809797D3
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 18:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17A99797C7
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 18:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047B910E2F7;
-	Sun, 15 Sep 2024 16:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B1810E2F3;
+	Sun, 15 Sep 2024 16:12:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ROmc+cAv";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="UELd1nZ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73D310E2F7
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 16:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726417387; x=1757953387;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=9PNpdT7NhLOV6FcI7/WPYl82APaEths7Nsk2D6B5e2E=;
- b=ROmc+cAvwquTYYdZRl56T/5WkN5cyH4qzF0HodtSU6hcQBNpO93nfbOl
- YyDmHMTC9F+45l5a3oiMif2hKohawxmEFtx2cxbSBKaIyTfHsZbsonvTc
- Qey74LBN8bkScw52mFBgbeVzuWnAlQbz6WIXTgxdYZljr7eyCkjvFD9tW
- WtX5nbXT5cuXEuYMzt9gsmp0gwF9u/PgApv0bQYZQL/PDsV4YFTynRtq1
- Fj0kNV+4ve1CkFjQEo+DYTNeXSliWfaDB77K7oQmVqQcOBM60cF0TmEj5
- 4J3Hx89MUlZoYZPa47XZSOrIldPeAI2w5uZeMzAfGGeQqdkUZjUtU02G2 A==;
-X-CSE-ConnectionGUID: HVNODH/nS5mzpBftnw/PBw==
-X-CSE-MsgGUID: fdl0wgd2TtOXuzqoR4W3uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="24746528"
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="24746528"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2024 09:23:07 -0700
-X-CSE-ConnectionGUID: uMUBW4l0TOa+qgPNu4rjrQ==
-X-CSE-MsgGUID: R5naiiRsTwuc4DuSP8cG3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="68894552"
-Received: from osgc-linux-buildserver.sh.intel.com ([10.112.232.61])
- by fmviesa010.fm.intel.com with ESMTP; 15 Sep 2024 09:23:06 -0700
-From: Shuicheng Lin <shuicheng.lin@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Subject: [PATCH] drm/scheduler: correct comments relate to scheduler
-Date: Sun, 15 Sep 2024 15:52:23 +0000
-Message-Id: <20240915155223.2485535-1-shuicheng.lin@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6D110E2F3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 16:12:53 +0000 (UTC)
+X-UUID: 5a58eeb8737d11ef8b96093e013ec31c-20240916
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=hNZ1r0i2EWsUM1gTtvTP6iHnQAcCgxDwEygERSSrjaI=; 
+ b=UELd1nZ5jD+Sdu8QtRm2jq0SlkATlSBA93Xi0Wj7Uz9ie8spnXQeiXowEA5vLN9kYlPVCbPWkvYsYFlXvtGaQOVtJady5Kp6ColTINfIBoMHezbvbWRcaVqeJJHezkwqcE7zBWLNDi+ndJR1JWspfz5hTMgmR5M7PKDd9qXiUi0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:d53c865f-77dd-48b5-a397-5d8dd5d4333b, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:1caa3dd0-7921-4900-88a1-3aef019a55ce,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 5a58eeb8737d11ef8b96093e013ec31c-20240916
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 768547468; Mon, 16 Sep 2024 00:12:49 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 16 Sep 2024 00:12:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 16 Sep 2024 00:12:46 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Alper Nebi Yasak <alpernebiyasak@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+CC: Shawn Sung <shawn.sung@mediatek.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
+ <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Nancy
+ Lin" <nancy.lin@mediatek.com>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v2] drm/mediatek: ovl: Add fmt_support_man for MT8192 and
+ MT8195
+Date: Mon, 16 Sep 2024 00:12:45 +0800
+Message-ID: <20240915161245.30296-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--12.635900-8.000000
+X-TMASE-MatchedRID: LIcGYmSXSDozP1+hKLmUcMu00lnG8+PWIaLR+2xKRDLb6Y+fnTZUL0/3
+ ZkXeY1OA6eS1Op7zNynNm52TpbFN7NMd/xz9OgvcA9lly13c/gHmELBDcs0dnQqiCYa6w8tv5sZ
+ TwYHfBM5BHv20aQGKCx1+KsAVmYZiXHEPHmpuRH0URSScn+QSXt0H8LFZNFG7bkV4e2xSge79/t
+ TnQt11ajNTj3nkQ/kevBS707Nog9ImKZteJCYG+0sMHBii02BH
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--12.635900-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 8B727294A5D89EEAA7E4A3D476C35C50F3980071A25ADD2361203F28CC166F6F2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,151 +90,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-function drm_sched_entity_push_job doesn't have return value,
-remove the return value description for it.
-Correct several other typo errors.
+OVL_CON_CLRFMT_MAN is an configuration for extending color format
+settings of DISP_REG_OVL_CON(n).
+It will change some of the original color format settings.
 
-Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
+Take the settings of (3 << 12) for example.
+- If OVL_CON_CLRFMT_MAN = 0 means OVL_CON_CLRFMT_RGBA8888.
+- If OVL_CON_CLRFMT_MAN = 1 means OVL_CON_CLRFMT_PARGB8888.
+
+Since OVL_CON_CLRFMT_MAN is not supported on previous SoCs,
+It breaks the OVL color format setting of MT8173.
+So add fmt_support_man to the driver data of MT8192 and MT8195
+to solve the downgrade problem.
+
+Fixes: a3f7f7ef4bfe ("drm/mediatek: Support "Pre-multiplied" blending in OVL")
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c |  8 +++-----
- drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
- include/drm/gpu_scheduler.h              | 12 ++++++------
- include/linux/dma-resv.h                 |  4 ++--
- 4 files changed, 13 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 43 ++++++++++++++++++++-----
+ 1 file changed, 35 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 58c8161289fe..4d6a05fc35ca 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -51,7 +51,7 @@
-  * drm_sched_entity_set_priority(). For changing the set of schedulers
-  * @sched_list at runtime see drm_sched_entity_modify_sched().
-  *
-- * An entity is cleaned up by callind drm_sched_entity_fini(). See also
-+ * An entity is cleaned up by calling drm_sched_entity_fini(). See also
-  * drm_sched_entity_destroy().
-  *
-  * Returns 0 on success or a negative error code on failure.
-@@ -370,7 +370,7 @@ static void drm_sched_entity_clear_dep(struct dma_fence *f,
- }
- 
- /*
-- * drm_sched_entity_clear_dep - callback to clear the entities dependency and
-+ * drm_sched_entity_wakeup - callback to clear the entities dependency and
-  * wake up scheduler
-  */
- static void drm_sched_entity_wakeup(struct dma_fence *f,
-@@ -389,7 +389,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
-  * @entity: scheduler entity
-  * @priority: scheduler priority
-  *
-- * Update the priority of runqueus used for the entity.
-+ * Update the priority of runqueues used for the entity.
-  */
- void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
- 				   enum drm_sched_priority priority)
-@@ -574,8 +574,6 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
-  * fence sequence number this function should be called with drm_sched_job_arm()
-  * under common lock for the struct drm_sched_entity that was set up for
-  * @sched_job in drm_sched_job_init().
-- *
-- * Returns 0 for success, negative error code otherwise.
-  */
- void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- {
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index f093616fe53c..6e8c7651bd95 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -41,7 +41,7 @@
-  * 4. Entities themselves maintain a queue of jobs that will be scheduled on
-  *    the hardware.
-  *
-- * The jobs in a entity are always scheduled in the order that they were pushed.
-+ * The jobs in an entity are always scheduled in the order that they were pushed.
-  *
-  * Note that once a job was taken from the entities queue and pushed to the
-  * hardware, i.e. the pending queue, the entity must not be referenced anymore
-@@ -1340,7 +1340,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
- 		list_for_each_entry(s_entity, &rq->entities, list)
- 			/*
- 			 * Prevents reinsertion and marks job_queue as idle,
--			 * it will removed from rq in drm_sched_entity_fini
-+			 * it will be removed from rq in drm_sched_entity_fini
- 			 * eventually
- 			 */
- 			s_entity->stopped = true;
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index a8d19b10f9b8..9e1b12ca84b9 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -33,11 +33,11 @@
- #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
- 
- /**
-- * DRM_SCHED_FENCE_DONT_PIPELINE - Prefent dependency pipelining
-+ * DRM_SCHED_FENCE_DONT_PIPELINE - Prevent dependency pipelining
-  *
-  * Setting this flag on a scheduler fence prevents pipelining of jobs depending
-  * on this fence. In other words we always insert a full CPU round trip before
-- * dependen jobs are pushed to the hw queue.
-+ * dependent jobs are pushed to the hw queue.
-  */
- #define DRM_SCHED_FENCE_DONT_PIPELINE	DMA_FENCE_FLAG_USER_BITS
- 
-@@ -71,7 +71,7 @@ enum drm_sched_priority {
- 	DRM_SCHED_PRIORITY_COUNT
- };
- 
--/* Used to chose between FIFO and RR jobs scheduling */
-+/* Used to choose between FIFO and RR jobs scheduling */
- extern int drm_sched_policy;
- 
- #define DRM_SCHED_POLICY_RR    0
-@@ -198,7 +198,7 @@ struct drm_sched_entity {
- 	 *
- 	 * Points to the finished fence of the last scheduled job. Only written
- 	 * by the scheduler thread, can be accessed locklessly from
--	 * drm_sched_job_arm() iff the queue is empty.
-+	 * drm_sched_job_arm() if the queue is empty.
- 	 */
- 	struct dma_fence __rcu		*last_scheduled;
- 
-@@ -247,7 +247,7 @@ struct drm_sched_entity {
-  * @sched: the scheduler to which this rq belongs to.
-  * @entities: list of the entities to be scheduled.
-  * @current_entity: the entity which is to be scheduled.
-- * @rb_tree_root: root of time based priory queue of entities for FIFO scheduling
-+ * @rb_tree_root: root of time based priority queue of entities for FIFO scheduling
-  *
-  * Run queue is a set of entities scheduling command submissions for
-  * one specific ring. It implements the scheduling policy that selects
-@@ -321,7 +321,7 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
-  * @s_fence: contains the fences for the scheduling of job.
-  * @finish_cb: the callback for the finished fence.
-  * @credits: the number of credits this job contributes to the scheduler
-- * @work: Helper to reschdeule job kill to different context.
-+ * @work: Helper to reschedule job kill to different context.
-  * @id: a unique id assigned to each job scheduled on the scheduler.
-  * @karma: increment on every hang caused by this job. If this exceeds the hang
-  *         limit of the scheduler then the job is marked guilty and will not
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 8d0e34dad446..a53a9b802108 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -105,10 +105,10 @@ enum dma_resv_usage {
- 	 * This should be used by submissions which don't want to participate in
- 	 * any implicit synchronization.
- 	 *
--	 * The most common case are preemption fences, page table updates, TLB
-+	 * The most common cases are preemption fences, page table updates, TLB
- 	 * flushes as well as explicit synced user submissions.
- 	 *
--	 * Explicit synced user user submissions can be promoted to
-+	 * Explicit synced user submissions can be promoted to
- 	 * DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE as needed using
- 	 * dma_buf_import_sync_file() when implicit synchronization should
- 	 * become necessary after initial adding of the fence.
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index 89b439dcf3a6..7b053ca25b10 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -70,10 +70,33 @@
+ #define OVL_CON_CLRFMT_UYVY	(4 << 12)
+ #define OVL_CON_CLRFMT_YUYV	(5 << 12)
+ #define OVL_CON_MTX_YUV_TO_RGB	(6 << 16)
+-#define OVL_CON_CLRFMT_PARGB8888 ((3 << 12) | OVL_CON_CLRFMT_MAN)
+-#define OVL_CON_CLRFMT_PABGR8888 (OVL_CON_CLRFMT_PARGB8888 | OVL_CON_RGB_SWAP)
+-#define OVL_CON_CLRFMT_PBGRA8888 (OVL_CON_CLRFMT_PARGB8888 | OVL_CON_BYTE_SWAP)
+-#define OVL_CON_CLRFMT_PRGBA8888 (OVL_CON_CLRFMT_PABGR8888 | OVL_CON_BYTE_SWAP)
++
++#define OVL_CON_CLRFMT_PARGB8888(ovl)  ({ \
++	struct mtk_disp_ovl *_ovl = (ovl); \
++	(_ovl->data->fmt_support_man ? \
++	((3 << 12) | OVL_CON_CLRFMT_MAN) : OVL_CON_CLRFMT_ARGB8888); \
++})
++
++#define OVL_CON_CLRFMT_PABGR8888(ovl)  ({ \
++	struct mtk_disp_ovl *_ovl = (ovl); \
++	(_ovl->data->fmt_support_man ? \
++	(OVL_CON_CLRFMT_PARGB8888(_ovl) | OVL_CON_RGB_SWAP) : OVL_CON_CLRFMT_ABGR8888); \
++})
++
++#define OVL_CON_CLRFMT_PBGRA8888(ovl)  ({ \
++	struct mtk_disp_ovl *_ovl = (ovl); \
++	(_ovl->data->fmt_support_man ? \
++	(OVL_CON_CLRFMT_PARGB8888(_ovl) | OVL_CON_BYTE_SWAP) : \
++	 OVL_CON_CLRFMT_BGRA8888); \
++})
++
++#define OVL_CON_CLRFMT_PRGBA8888(ovl)  ({ \
++	struct mtk_disp_ovl *_ovl = (ovl); \
++	(_ovl->data->fmt_support_man ? \
++	(OVL_CON_CLRFMT_PABGR8888(_ovl) | OVL_CON_BYTE_SWAP) : \
++	OVL_CON_CLRFMT_RGBA8888); \
++})
++
+ #define OVL_CON_CLRFMT_RGB565(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
+ 					0 : OVL_CON_CLRFMT_RGB)
+ #define OVL_CON_CLRFMT_RGB888(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
+@@ -144,6 +167,7 @@ struct mtk_disp_ovl_data {
+ 	unsigned int gmc_bits;
+ 	unsigned int layer_nr;
+ 	bool fmt_rgb565_is_0;
++	bool fmt_support_man;
+ 	bool smi_id_en;
+ 	bool supports_afbc;
+ 	const u32 *formats;
+@@ -410,28 +434,28 @@ static unsigned int ovl_fmt_convert(struct mtk_disp_ovl *ovl, unsigned int fmt,
+ 	case DRM_FORMAT_RGBA1010102:
+ 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+ 		       OVL_CON_CLRFMT_RGBA8888 :
+-		       OVL_CON_CLRFMT_PRGBA8888;
++		       OVL_CON_CLRFMT_PRGBA8888(ovl);
+ 	case DRM_FORMAT_BGRX8888:
+ 	case DRM_FORMAT_BGRA8888:
+ 	case DRM_FORMAT_BGRX1010102:
+ 	case DRM_FORMAT_BGRA1010102:
+ 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+ 		       OVL_CON_CLRFMT_BGRA8888 :
+-		       OVL_CON_CLRFMT_PBGRA8888;
++		       OVL_CON_CLRFMT_PBGRA8888(ovl);
+ 	case DRM_FORMAT_XRGB8888:
+ 	case DRM_FORMAT_ARGB8888:
+ 	case DRM_FORMAT_XRGB2101010:
+ 	case DRM_FORMAT_ARGB2101010:
+ 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+ 		       OVL_CON_CLRFMT_ARGB8888 :
+-		       OVL_CON_CLRFMT_PARGB8888;
++		       OVL_CON_CLRFMT_PARGB8888(ovl);
+ 	case DRM_FORMAT_XBGR8888:
+ 	case DRM_FORMAT_ABGR8888:
+ 	case DRM_FORMAT_XBGR2101010:
+ 	case DRM_FORMAT_ABGR2101010:
+ 		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
+ 		       OVL_CON_CLRFMT_ABGR8888 :
+-		       OVL_CON_CLRFMT_PABGR8888;
++		       OVL_CON_CLRFMT_PABGR8888(ovl);
+ 	case DRM_FORMAT_UYVY:
+ 		return OVL_CON_CLRFMT_UYVY | OVL_CON_MTX_YUV_TO_RGB;
+ 	case DRM_FORMAT_YUYV:
+@@ -662,6 +686,7 @@ static const struct mtk_disp_ovl_data mt8192_ovl_driver_data = {
+ 	.gmc_bits = 10,
+ 	.layer_nr = 4,
+ 	.fmt_rgb565_is_0 = true,
++	.fmt_support_man = true,
+ 	.smi_id_en = true,
+ 	.formats = mt8173_formats,
+ 	.num_formats = ARRAY_SIZE(mt8173_formats),
+@@ -672,6 +697,7 @@ static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
+ 	.gmc_bits = 10,
+ 	.layer_nr = 2,
+ 	.fmt_rgb565_is_0 = true,
++	.fmt_support_man = true,
+ 	.smi_id_en = true,
+ 	.formats = mt8173_formats,
+ 	.num_formats = ARRAY_SIZE(mt8173_formats),
+@@ -682,6 +708,7 @@ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
+ 	.gmc_bits = 10,
+ 	.layer_nr = 4,
+ 	.fmt_rgb565_is_0 = true,
++	.fmt_support_man = true,
+ 	.smi_id_en = true,
+ 	.supports_afbc = true,
+ 	.formats = mt8195_formats,
 -- 
-2.25.1
+2.43.0
 
