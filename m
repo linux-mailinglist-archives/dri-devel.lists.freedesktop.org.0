@@ -2,71 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AD1979778
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 17:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F809797D3
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 18:23:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C88F10E0FD;
-	Sun, 15 Sep 2024 15:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047B910E2F7;
+	Sun, 15 Sep 2024 16:23:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ah82fA33";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ROmc+cAv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 719E910E0FD
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 15:22:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B73D310E2F7
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 16:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726413774; x=1757949774;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=NVlaJRwu5MkrPgwa92PGxeVbjk47p31EDUshxyzMVr4=;
- b=ah82fA33+nvsGEZbYnwgz8g7xmSC0btPK+Ou03xOZ9Pk+kpcqLaxDh7p
- tsBMvfmZlUNAeCH5LgkyXQE8+CfBjHCIV8F8rbY0imgTjALbVyjskykrb
- C/VhZxdsByuVwFdv7IguTiA9/toISber0pFBMLcURnKA1wMVKG6WYlu43
- n3H8fQ5CR4apZeXzEBZf2LrCT/2OluE78ePJMM1CyGFk3aIVoV+9vZgQS
- DCwAEEl8sO2W2QFKmTvXf7OvcvSh+VJX3sPdaH9Hsuh8MYlGgtBzHCnE/
- TERigT5OkhPJNwZ73e4SAJjPksLjlpP0RJEbbTwODLJfrkmYuJoyocqb2 A==;
-X-CSE-ConnectionGUID: PZGpnSlgRuaomgv08TmLnw==
-X-CSE-MsgGUID: KYLi25K9R82oJpQ2uhb8lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25194616"
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="25194616"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2024 08:22:53 -0700
-X-CSE-ConnectionGUID: aFJRiIn4TjSfak9xpvgJrw==
-X-CSE-MsgGUID: qS48OZcoQZScV1N2DFmNqA==
+ t=1726417387; x=1757953387;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9PNpdT7NhLOV6FcI7/WPYl82APaEths7Nsk2D6B5e2E=;
+ b=ROmc+cAvwquTYYdZRl56T/5WkN5cyH4qzF0HodtSU6hcQBNpO93nfbOl
+ YyDmHMTC9F+45l5a3oiMif2hKohawxmEFtx2cxbSBKaIyTfHsZbsonvTc
+ Qey74LBN8bkScw52mFBgbeVzuWnAlQbz6WIXTgxdYZljr7eyCkjvFD9tW
+ WtX5nbXT5cuXEuYMzt9gsmp0gwF9u/PgApv0bQYZQL/PDsV4YFTynRtq1
+ Fj0kNV+4ve1CkFjQEo+DYTNeXSliWfaDB77K7oQmVqQcOBM60cF0TmEj5
+ 4J3Hx89MUlZoYZPa47XZSOrIldPeAI2w5uZeMzAfGGeQqdkUZjUtU02G2 A==;
+X-CSE-ConnectionGUID: HVNODH/nS5mzpBftnw/PBw==
+X-CSE-MsgGUID: fdl0wgd2TtOXuzqoR4W3uQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="24746528"
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="24746528"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2024 09:23:07 -0700
+X-CSE-ConnectionGUID: uMUBW4l0TOa+qgPNu4rjrQ==
+X-CSE-MsgGUID: R5naiiRsTwuc4DuSP8cG3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="106088082"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 15 Sep 2024 08:22:48 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1spr5K-0008m2-0b;
- Sun, 15 Sep 2024 15:22:46 +0000
-Date: Sun, 15 Sep 2024 23:22:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <202409152243.r3t2jdOJ-lkp@intel.com>
-References: <20240913124857.389630-2-adrian.larumbe@collabora.com>
+X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="68894552"
+Received: from osgc-linux-buildserver.sh.intel.com ([10.112.232.61])
+ by fmviesa010.fm.intel.com with ESMTP; 15 Sep 2024 09:23:06 -0700
+From: Shuicheng Lin <shuicheng.lin@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Subject: [PATCH] drm/scheduler: correct comments relate to scheduler
+Date: Sun, 15 Sep 2024 15:52:23 +0000
+Message-Id: <20240915155223.2485535-1-shuicheng.lin@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240913124857.389630-2-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,93 +64,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrián,
+function drm_sched_entity_push_job doesn't have return value,
+remove the return value description for it.
+Correct several other typo errors.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c |  8 +++-----
+ drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
+ include/drm/gpu_scheduler.h              | 12 ++++++------
+ include/linux/dma-resv.h                 |  4 ++--
+ 4 files changed, 13 insertions(+), 15 deletions(-)
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.11-rc7 next-20240913]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240913-205038
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240913124857.389630-2-adrian.larumbe%40collabora.com
-patch subject: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp accounting
-config: i386-buildonly-randconfig-003-20240915 (https://download.01.org/0day-ci/archive/20240915/202409152243.r3t2jdOJ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409152243.r3t2jdOJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409152243.r3t2jdOJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/panthor/panthor_sched.c:2885:12: error: call to '__compiletime_assert_371' declared with 'error' attribute: min(ringbuf_size - start, size) signedness error
-    2885 |         written = min(ringbuf_size - start, size);
-         |                   ^
-   include/linux/minmax.h:129:19: note: expanded from macro 'min'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^
-   include/linux/minmax.h:105:2: note: expanded from macro '__careful_cmp'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^
-   include/linux/minmax.h:100:2: note: expanded from macro '__careful_cmp_once'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:68:1: note: expanded from here
-      68 | __compiletime_assert_371
-         | ^
-   1 error generated.
-
-
-vim +2885 drivers/gpu/drm/panthor/panthor_sched.c
-
-  2862	
-  2863	#define JOB_INSTR(__prof, __instr) \
-  2864		{ \
-  2865			.profile_mask = __prof, \
-  2866			.instr = __instr, \
-  2867		}
-  2868	
-  2869	static void
-  2870	copy_instrs_to_ringbuf(struct panthor_queue *queue,
-  2871			       struct panthor_job *job,
-  2872			       struct panthor_job_ringbuf_instrs *instrs)
-  2873	{
-  2874		ssize_t ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
-  2875		u32 start = job->ringbuf.start & (ringbuf_size - 1);
-  2876		ssize_t size, written;
-  2877	
-  2878		/*
-  2879		 * We need to write a whole slot, including any trailing zeroes
-  2880		 * that may come at the end of it. Also, because instrs.buffer has
-  2881		 * been zero-initialised, there's no need to pad it with 0's
-  2882		 */
-  2883		instrs->count = ALIGN(instrs->count, NUM_INSTRS_PER_CACHE_LINE);
-  2884		size = instrs->count * sizeof(u64);
-> 2885		written = min(ringbuf_size - start, size);
-  2886	
-  2887		memcpy(queue->ringbuf->kmap + start, instrs->buffer, written);
-  2888	
-  2889		if (written < size)
-  2890			memcpy(queue->ringbuf->kmap,
-  2891			       &instrs->buffer[(ringbuf_size - start)/sizeof(u64)],
-  2892			       size - written);
-  2893	}
-  2894	
-
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 58c8161289fe..4d6a05fc35ca 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -51,7 +51,7 @@
+  * drm_sched_entity_set_priority(). For changing the set of schedulers
+  * @sched_list at runtime see drm_sched_entity_modify_sched().
+  *
+- * An entity is cleaned up by callind drm_sched_entity_fini(). See also
++ * An entity is cleaned up by calling drm_sched_entity_fini(). See also
+  * drm_sched_entity_destroy().
+  *
+  * Returns 0 on success or a negative error code on failure.
+@@ -370,7 +370,7 @@ static void drm_sched_entity_clear_dep(struct dma_fence *f,
+ }
+ 
+ /*
+- * drm_sched_entity_clear_dep - callback to clear the entities dependency and
++ * drm_sched_entity_wakeup - callback to clear the entities dependency and
+  * wake up scheduler
+  */
+ static void drm_sched_entity_wakeup(struct dma_fence *f,
+@@ -389,7 +389,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
+  * @entity: scheduler entity
+  * @priority: scheduler priority
+  *
+- * Update the priority of runqueus used for the entity.
++ * Update the priority of runqueues used for the entity.
+  */
+ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+ 				   enum drm_sched_priority priority)
+@@ -574,8 +574,6 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+  * fence sequence number this function should be called with drm_sched_job_arm()
+  * under common lock for the struct drm_sched_entity that was set up for
+  * @sched_job in drm_sched_job_init().
+- *
+- * Returns 0 for success, negative error code otherwise.
+  */
+ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+ {
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index f093616fe53c..6e8c7651bd95 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -41,7 +41,7 @@
+  * 4. Entities themselves maintain a queue of jobs that will be scheduled on
+  *    the hardware.
+  *
+- * The jobs in a entity are always scheduled in the order that they were pushed.
++ * The jobs in an entity are always scheduled in the order that they were pushed.
+  *
+  * Note that once a job was taken from the entities queue and pushed to the
+  * hardware, i.e. the pending queue, the entity must not be referenced anymore
+@@ -1340,7 +1340,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ 		list_for_each_entry(s_entity, &rq->entities, list)
+ 			/*
+ 			 * Prevents reinsertion and marks job_queue as idle,
+-			 * it will removed from rq in drm_sched_entity_fini
++			 * it will be removed from rq in drm_sched_entity_fini
+ 			 * eventually
+ 			 */
+ 			s_entity->stopped = true;
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index a8d19b10f9b8..9e1b12ca84b9 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -33,11 +33,11 @@
+ #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+ 
+ /**
+- * DRM_SCHED_FENCE_DONT_PIPELINE - Prefent dependency pipelining
++ * DRM_SCHED_FENCE_DONT_PIPELINE - Prevent dependency pipelining
+  *
+  * Setting this flag on a scheduler fence prevents pipelining of jobs depending
+  * on this fence. In other words we always insert a full CPU round trip before
+- * dependen jobs are pushed to the hw queue.
++ * dependent jobs are pushed to the hw queue.
+  */
+ #define DRM_SCHED_FENCE_DONT_PIPELINE	DMA_FENCE_FLAG_USER_BITS
+ 
+@@ -71,7 +71,7 @@ enum drm_sched_priority {
+ 	DRM_SCHED_PRIORITY_COUNT
+ };
+ 
+-/* Used to chose between FIFO and RR jobs scheduling */
++/* Used to choose between FIFO and RR jobs scheduling */
+ extern int drm_sched_policy;
+ 
+ #define DRM_SCHED_POLICY_RR    0
+@@ -198,7 +198,7 @@ struct drm_sched_entity {
+ 	 *
+ 	 * Points to the finished fence of the last scheduled job. Only written
+ 	 * by the scheduler thread, can be accessed locklessly from
+-	 * drm_sched_job_arm() iff the queue is empty.
++	 * drm_sched_job_arm() if the queue is empty.
+ 	 */
+ 	struct dma_fence __rcu		*last_scheduled;
+ 
+@@ -247,7 +247,7 @@ struct drm_sched_entity {
+  * @sched: the scheduler to which this rq belongs to.
+  * @entities: list of the entities to be scheduled.
+  * @current_entity: the entity which is to be scheduled.
+- * @rb_tree_root: root of time based priory queue of entities for FIFO scheduling
++ * @rb_tree_root: root of time based priority queue of entities for FIFO scheduling
+  *
+  * Run queue is a set of entities scheduling command submissions for
+  * one specific ring. It implements the scheduling policy that selects
+@@ -321,7 +321,7 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
+  * @s_fence: contains the fences for the scheduling of job.
+  * @finish_cb: the callback for the finished fence.
+  * @credits: the number of credits this job contributes to the scheduler
+- * @work: Helper to reschdeule job kill to different context.
++ * @work: Helper to reschedule job kill to different context.
+  * @id: a unique id assigned to each job scheduled on the scheduler.
+  * @karma: increment on every hang caused by this job. If this exceeds the hang
+  *         limit of the scheduler then the job is marked guilty and will not
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 8d0e34dad446..a53a9b802108 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -105,10 +105,10 @@ enum dma_resv_usage {
+ 	 * This should be used by submissions which don't want to participate in
+ 	 * any implicit synchronization.
+ 	 *
+-	 * The most common case are preemption fences, page table updates, TLB
++	 * The most common cases are preemption fences, page table updates, TLB
+ 	 * flushes as well as explicit synced user submissions.
+ 	 *
+-	 * Explicit synced user user submissions can be promoted to
++	 * Explicit synced user submissions can be promoted to
+ 	 * DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE as needed using
+ 	 * dma_buf_import_sync_file() when implicit synchronization should
+ 	 * become necessary after initial adding of the fence.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
