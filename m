@@ -2,71 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5CE9797D8
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 18:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DDB979904
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2024 23:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E68310E069;
-	Sun, 15 Sep 2024 16:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95E2210E0D5;
+	Sun, 15 Sep 2024 21:01:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="do3LLPZ6";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=rosa.ru header.i=@rosa.ru header.b="BUkaGEHp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2CC10E069
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 16:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726418636; x=1757954636;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=jtr1z9sq//ff08X+wS3ZIAFe7Sp8ILl0NmP39G+1LZo=;
- b=do3LLPZ6JwDrhavvcGLroxbCAdmRZRcH1beKl7tFCDTvsEeTRuZdqxan
- NX1G/C227HGYp41TWYXo/Axm5dHXT38ZLMejE0MOhuYrAd4BDISoDK2Yn
- VNNMsx36ThTZawRpaOi3gxwn/9Nm+y0ZpMSH0MhcjQ32CnjnW0SxcByYN
- dMXcpUZb7FH+PcHWfe5VZ3M+GA3JAAo2Phm4KpCJj+8at4RlS+V8iVtQ4
- SF6aG+3szPq251VbwMZjanCnjxzWNM+gnenHNfARh3XndWXUlmNX2Uqkt
- hdQm3DKcNWIe8dCgvOknPW34TSsJDEUxramoOgX8FbXX+Y9pN+S+CUAmG g==;
-X-CSE-ConnectionGUID: GDSJ1krpRhm9EhtHLTdv5Q==
-X-CSE-MsgGUID: mBOUgDZVQhS4oww3qOTV6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="35938941"
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="35938941"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2024 09:43:55 -0700
-X-CSE-ConnectionGUID: Ac/7OfB2S9Kj8B5ZUPZ0VQ==
-X-CSE-MsgGUID: lf7J0Mv/TKS5oTaaBKo4uw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; d="scan'208";a="73255176"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 15 Sep 2024 09:43:52 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1spsLl-0008qk-23;
- Sun, 15 Sep 2024 16:43:49 +0000
-Date: Mon, 16 Sep 2024 00:43:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <202409160050.m7VEd3pY-lkp@intel.com>
-References: <20240913124857.389630-2-adrian.larumbe@collabora.com>
+X-Greylist: delayed 3603 seconds by postgrey-1.36 at gabe;
+ Sun, 15 Sep 2024 18:41:01 UTC
+Received: from mail.rosa.ru (mail.rosa.ru [176.109.80.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82F0C10E05A;
+ Sun, 15 Sep 2024 18:41:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=rosa.ru;
+ s=mail; bh=AWlzurw8TjVSJHL81PnGiT03F3c0KZ6Bu9J4LY1ExbA=;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ b=BUkaGEHpVeR+imcr5SkWnflzoRg5liO3N7CvuAJEVGFMDlxP3VUuzrA5YLKmJF1OiJ/2ooQbAsr
+ rtvjcZWfiWvJSqX2Gu5hJycCU3lIJmw/wotEe791xvLeZ+ixWC8ZW9tL2GJZkWgBWpcjOzpGLBjm4
+ 7jgxOm+0pzLa25mzTOs=
+Received: from [194.9.26.89] (account m.arhipov@rosa.ru HELO
+ localhost.localdomain) by mail.rosa.ru (CommuniGate Pro SMTP 6.4.1j)
+ with ESMTPSA id 130329; Sun, 15 Sep 2024 20:40:54 +0300
+From: Mikhail Arkhipov <m.arhipov@rosa.ru>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: Mikhail Arkhipov <m.arhipov@rosa.ru>, Jake Wang <haonan.wang2@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Wenjing Liu <wenjing.liu@amd.com>,
+ Swapnil Patel <swapnil.patel@amd.com>, Sasha Levin <sashal@kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+ lvc-patches@linuxtesting.org
+Subject: [PATCH] drm/amd/display: Add NULL check for panel_cntl in
+ dce110_edp_backlight_control
+Date: Sun, 15 Sep 2024 20:40:50 +0300
+Message-Id: <20240915174050.78956-1-m.arhipov@rosa.ru>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240913124857.389630-2-adrian.larumbe@collabora.com>
+X-Mailman-Approved-At: Sun, 15 Sep 2024 21:01:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,34 +61,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrián,
+If link->panel_cntl is NULL, the function dce110_edp_backlight_control
+attempts to dereference it at line 1019, leading to a potential NULL
+pointer dereference and a kernel crash.
 
-kernel test robot noticed the following build errors:
+This bug can manifest when the eDP panel is not correctly configured
+or initialized during certain power or display state transitions,
+leaving link->panel_cntl unset or NULL. In such cases, the dereference
+of a NULL pointer can result in an immediate kernel panic or
+system instability.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.11 next-20240913]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Add a NULL check for link->panel_cntl before using it. Ensure that
+the function safely returns if link->panel_cntl is not properly set,
+preventing any attempts to dereference a NULL pointer and avoiding
+potential crashes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240913-205038
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240913124857.389630-2-adrian.larumbe%40collabora.com
-patch subject: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp accounting
-config: i386-buildonly-randconfig-002-20240915 (https://download.01.org/0day-ci/archive/20240916/202409160050.m7VEd3pY-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409160050.m7VEd3pY-lkp@intel.com/reproduce)
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409160050.m7VEd3pY-lkp@intel.com/
+Fixes: 06ddcee49a35 ("drm/amd/display: Added multi instance support for panel control")
+Signed-off-by: Mikhail Arkhipov <m.arhipov@rosa.ru>
+---
+ .../display/dc/dce110/dce110_hw_sequencer.c   | 50 ++++++++++---------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
 
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: call to __compiletime_assert_341 marked "dontcall-error": min(ringbuf_size - start, size) signedness error
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index 508f5fe26848..1269628a4014 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -1016,32 +1016,34 @@ void dce110_edp_backlight_control(
+ 	 */
+ 	/* dc_service_sleep_in_milliseconds(50); */
+ 		/*edp 1.2*/
+-	panel_instance = link->panel_cntl->inst;
++	if (link->panel_cntl) {
++		panel_instance = link->panel_cntl->inst;
+ 
+-	if (cntl.action == TRANSMITTER_CONTROL_BACKLIGHT_ON) {
+-		if (!link->dc->config.edp_no_power_sequencing)
+-		/*
+-		 * Sometimes, DP receiver chip power-controlled externally by an
+-		 * Embedded Controller could be treated and used as eDP,
+-		 * if it drives mobile display. In this case,
+-		 * we shouldn't be doing power-sequencing, hence we can skip
+-		 * waiting for T7-ready.
+-		 */
+-			edp_receiver_ready_T7(link);
+-		else
+-			DC_LOG_DC("edp_receiver_ready_T7 skipped\n");
+-	}
++		if (cntl.action == TRANSMITTER_CONTROL_BACKLIGHT_ON) {
++			if (!link->dc->config.edp_no_power_sequencing)
++				/*
++				 * Sometimes, DP receiver chip power-controlled externally by an
++				 * Embedded Controller could be treated and used as eDP,
++				 * if it drives mobile display. In this case,
++				 * we shouldn't be doing power-sequencing, hence we can skip
++				 * waiting for T7-ready.
++				 */
++				edp_receiver_ready_T7(link);
++			else
++				DC_LOG_DC("edp_receiver_ready_T7 skipped\n");
++		}
+ 
+-	if (ctx->dc->ctx->dmub_srv &&
+-			ctx->dc->debug.dmub_command_table) {
+-		if (cntl.action == TRANSMITTER_CONTROL_BACKLIGHT_ON)
+-			ctx->dc_bios->funcs->enable_lvtma_control(ctx->dc_bios,
+-					LVTMA_CONTROL_LCD_BLON,
+-					panel_instance);
+-		else
+-			ctx->dc_bios->funcs->enable_lvtma_control(ctx->dc_bios,
+-					LVTMA_CONTROL_LCD_BLOFF,
+-					panel_instance);
++		if (ctx->dc->ctx->dmub_srv &&
++				ctx->dc->debug.dmub_command_table) {
++			if (cntl.action == TRANSMITTER_CONTROL_BACKLIGHT_ON)
++				ctx->dc_bios->funcs->enable_lvtma_control(ctx->dc_bios,
++						LVTMA_CONTROL_LCD_BLON,
++						panel_instance);
++			else
++				ctx->dc_bios->funcs->enable_lvtma_control(ctx->dc_bios,
++						LVTMA_CONTROL_LCD_BLOFF,
++						panel_instance);
++		}
+ 	}
+ 
+ 	link_transmitter_control(ctx->dc_bios, &cntl);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.3 (Apple Git-146)
+
