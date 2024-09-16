@@ -2,70 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F8797ABAB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 08:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020FB97A5F2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 18:26:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6381C10E421;
-	Tue, 17 Sep 2024 06:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F56D10E3B7;
+	Mon, 16 Sep 2024 16:26:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q4Z6WQ5/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WyYm2Qg4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 191AD10E089
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 15:46:20 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-5c241feb80dso10618100a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 08:46:19 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 992D210E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 16:26:01 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-42cb5b3c57eso46417755e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 09:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726501578; x=1727106378; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CzBVpjhXKUoL0xgLw1etM9xeyX7HCpA0ArG5AFuON5A=;
- b=Q4Z6WQ5/ptIwHBygEQt+Pkl6RIHaMhL8r0d2BW7gOJv20ai4LDnYI4qnQ+qMAN8ZHW
- Q8ZdjqTDGoj9p6NlaiDkrhcqUOXb+pvjzw380f/npb8LiVfaqlyUi6I6DdRLDH3EyshM
- OywhzfqbdilZqAHI8uJelNGytxHi8RU8FfsNQMrz99yVa9NCU9aGlwFsVsQGk2A1DcZ8
- WaqK6GsCb7ktRfwuErzQ2IKHng6YfQCkl89YY8keZxYH2xwvt6dfZ9X9IiJzxhtGxPez
- YUmmuOkECcJ8zq57G8osdTEoP+nCtATe04tBzejdveGc2CmgFzxBO0MTRxEet9BTt6ZG
- QTHQ==
+ d=gmail.com; s=20230601; t=1726503960; x=1727108760; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=O/DYkCdH/gmU3Os/Pwqx0cgxO12Vdt0xg3X05ImTUp8=;
+ b=WyYm2Qg4hZr9oMSpxOA/9LqSwmOtcCoPeQ9tPJpbPy3ZeikkRppTo3MQ1TjzhL29pP
+ 6Gmu+6rt6/oJH+6ZGG1Upj06je4iDhqpaK+i4JCYA34m/c0E+TKhcD+IQfXsUgJlFNGb
+ eo3NNxJihzsA3kLsMeiyMeVhfvc8fL5VUxx3wjWTTWxzFy2KqIb/X/1RG5oTfxhd3Qsx
+ kJ+2PY30gZ2+gWOErpBusXIehqKx+ducCW6epFVGEjWRAZ5dUFQo7z1sVwW4dyvOOp51
+ EC0mcFg+WzOw+JBxzxWLO9HE0zUT/wIwf178xkW2DSaicIJZX/Y05Q3QHAyyMXCc91nr
+ AJVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726501578; x=1727106378;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CzBVpjhXKUoL0xgLw1etM9xeyX7HCpA0ArG5AFuON5A=;
- b=EssSIHFNwrsr+AgQvJl8N6FFxO7mVdcZMlkbcnp8ahVSmGXc+sa2ea3DBaBhGK41YA
- vSn6Eb/TZilqFfJ2LNyDjPIezL+PRXHXBsBYHvwTozt1LIzxCb9vC2anUf0Jb5xWOr7s
- MguIy7tq71Kk0w0vzYIkJEtR1YJeYsxseYVoPZXH3qPOX7084iHKk6MuaAHk/JWNtQUU
- jZbpUp0AaM2MFE7hWgzwsMoAQxUi2rr/qYbxYtXMv1KbG7xbavmoxKfihXaRHGktpAtJ
- PHU3rGEvkiEV/cjUXcokkFubSkPRM4OJdXcRM9zR4t5LAxMj+PLC5xMTOfDzRzZWmQqk
- I0cQ==
+ d=1e100.net; s=20230601; t=1726503960; x=1727108760;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O/DYkCdH/gmU3Os/Pwqx0cgxO12Vdt0xg3X05ImTUp8=;
+ b=DHuWY1UW3DT+iDRNxnpMUYGSPfFWsymZvmHQr7ntvBEfHUxXEkQi8wQl+4zkrLgqPA
+ NbobEuMuMhyPXT4ZrIYQvXolNugGpaGwel/FfeYsnALeFDQ/shWffU0sVASvs/D08J09
+ 4b8Y0J7WlBbM5BhT5KzniLRCalYiWeljDjFrAJ0TFC4ishKubgH0A+n4dN8DLBEQwQuV
+ Q3shYKB8Guu5MFUJdlpOJESwRJtoIzWZw/pd7Zh2T960WngobphBj3eBEJuc8tSQ3N+A
+ YQIyzyGStGie1CcVxxGOi4MhM3rkltiklJLTX+243RBWxU3oGl3+miUJO6jSnLVYx1tG
+ llxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV/xF59DMvCeJk3yI1ch9BjkAuh/k2xraR2wLaaftnkO1tk0uh7OEY074tyEz56D68cFuMPgqWFxvQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzT5TJ/x7K8h8Q/hDoHHl7Pu1yn78ycYHb/EAWxECgZyS0+riI
- qsXAet6JjEZMMFcl9kESskQZnY+wsC3A7Ompu+2A6hG91/O2PG50nDetuInf/TAUgPrRk3rHD7c
- 5sTimwjPg8LwX9xbkjIy/ATeqW2U=
-X-Google-Smtp-Source: AGHT+IFitERibNlCs69b508h8u87CaCZ1BGQnopfANJdJvpfiAa/nXWo8c9qjy6z7F1P46s7d1u6H27Kfm1EdACCW3U=
-X-Received: by 2002:a05:6402:42c2:b0:5c4:24ce:4f8 with SMTP id
- 4fb4d7f45d1cf-5c424ce075fmr9998636a12.12.1726501578015; Mon, 16 Sep 2024
- 08:46:18 -0700 (PDT)
+ AJvYcCWLjQeWnbImUSWfOkfVx1bS0r3MCxWJF2/WDa9GokvBVrhHnbeIKEdfS8f/yL7gt96E6yHVIF1PJJM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHN4fOTDpac5K5MnVkL1PoqYZLEsDIJeUBoZ4n7qOLQL8wdTBY
+ IQPODZQMLkBrIvZoE6Crpk5KeXGJkGwPEkRioUlOurZp8WQwJEufXjeWF/oF
+X-Google-Smtp-Source: AGHT+IHdtK4eYtnmHmLxW/z0qkevWcipo3F4LfK611EvaMbZJea3I5V4XWBz27XMAZ+Qt+QiI0wJcg==
+X-Received: by 2002:a5d:4811:0:b0:374:c6ad:a7c6 with SMTP id
+ ffacd0b85a97d-378c2d065c0mr7874708f8f.20.1726503959418; 
+ Mon, 16 Sep 2024 09:25:59 -0700 (PDT)
+Received: from [192.168.0.10] ([178.233.24.52])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-378e780defdsm7485344f8f.115.2024.09.16.09.25.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Sep 2024 09:25:58 -0700 (PDT)
+Message-ID: <63ca91a9-f2f4-483e-b7bf-11febcd49f1d@gmail.com>
+Date: Mon, 16 Sep 2024 19:25:56 +0300
 MIME-Version: 1.0
-From: YJ Lin <0xff07@gmail.com>
-Date: Mon, 16 Sep 2024 23:46:07 +0800
-Message-ID: <CAHhBtNqB=jQTnY1eu8or=toczr93ehUeuBkAZ7axFPr4ZHPjCQ@mail.gmail.com>
-Subject: Intend to work on the DRM_* logging macro conversion
-To: sean@poorly.run, rodrigosiqueiramelo@gmail.com, mairacanal@riseup.net, 
- hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, YJ Lin <0xff07@gmail.com>
-Cc: ricardo@marliere.net, skhan@linuxfoundation.org, 
- Shuah Khan <shuah@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 17 Sep 2024 06:50:48 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/mediatek: ovl: Add fmt_support_man for MT8192 and
+ MT8195
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Singo Chang
+ <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240915161245.30296-1-jason-jh.lin@mediatek.com>
+From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+Content-Language: en-US, tr, en-GB
+In-Reply-To: <20240915161245.30296-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,26 +91,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sean and the vkms maintainers:
+Hi,
 
-I=E2=80=99m Leo, currently one of the mentees of the Linux Kernel Bug Fixin=
-g
-Program 2024 Summer Unpaid[1]. I saw an item on the DRM TODO list
-regarding "Convert logging to drm_* functions with drm_device
-parameter"[2]. It also suggests reaching out to the driver maintainers
-beforehand. So I=E2=80=99d like to understand your opinions toward making t=
-his
-conversion on the vkms driver, and I=E2=80=99d like to start working on it =
-if
-you consider it suitable. Thank you!
+On 2024-09-15 19:12 +03:00, Jason-JH.Lin wrote:
+> OVL_CON_CLRFMT_MAN is an configuration for extending color format
+> settings of DISP_REG_OVL_CON(n).
+> It will change some of the original color format settings.
+> 
+> Take the settings of (3 << 12) for example.
+> - If OVL_CON_CLRFMT_MAN = 0 means OVL_CON_CLRFMT_RGBA8888.
+> - If OVL_CON_CLRFMT_MAN = 1 means OVL_CON_CLRFMT_PARGB8888.
+> 
+> Since OVL_CON_CLRFMT_MAN is not supported on previous SoCs,
+> It breaks the OVL color format setting of MT8173.
+> So add fmt_support_man to the driver data of MT8192 and MT8195
+> to solve the downgrade problem.
+> 
+> Fixes: a3f7f7ef4bfe ("drm/mediatek: Support "Pre-multiplied" blending in OVL")
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 43 ++++++++++++++++++++-----
+>  1 file changed, 35 insertions(+), 8 deletions(-)
 
-(Also, do feel free to share tips for DRM and kernel development in general=
-.)
+Tested-by: Alper Nebi Yasak <alpernebiyasak@gmail.com>
 
-Best,
-Leo
-
-[1] https://mentorship.lfx.linuxfoundation.org/project/9c354ea7-f08e-4d85-a=
-93d-94d2a3cb30c8
-[2] https://www.kernel.org/doc/html/latest/gpu/todo.html#convert-logging-to=
--drm-functions-with-drm-device-parameter
+Thanks!
