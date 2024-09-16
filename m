@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7104097A52F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 17:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1288797A543
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 17:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A9E10E3A9;
-	Mon, 16 Sep 2024 15:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CCC210E3AB;
+	Mon, 16 Sep 2024 15:24:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B5ITreaq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iCSYIdJ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAD0710E089;
- Mon, 16 Sep 2024 15:21:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5F3010E089;
+ Mon, 16 Sep 2024 15:23:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7EF615C5C68;
- Mon, 16 Sep 2024 15:21:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4741C4CEC4;
- Mon, 16 Sep 2024 15:21:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 619BB5C5501;
+ Mon, 16 Sep 2024 15:23:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9645C4CEC4;
+ Mon, 16 Sep 2024 15:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726500075;
- bh=15KPeQUmUDmhfRZADjOpKO9OZuRW742vA+qq24d9DQo=;
+ s=k20201202; t=1726500238;
+ bh=qD4ujfWspewbmLI96zIOIwR+FCHU3GJLIZW/IsoDLFQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B5ITreaqD66aCZn0ZnFRJQUnkcv9GGjMkBePgY00QODxUerihkKlQ/zgReoKJwE2Q
- Cap3vUp5CkErTeHLvGn0fZa13YQzZxOCbR+88hd5sTElej40AgSEz+toE+/ngvMUZm
- EGEtYX8jlXedfWk40Ep2CJOYrGNjS+8XUqV2K1kWZrw2P2vndv/Lw9zb9VL3pQPHkj
- YoGmZkYSS0I/H58sA1yM0QCgNHLkjE8SSN+w1RelY8FwpUsdq2uBiKyEOb1rirrEHc
- Z5C2xlsId/ivtorQ6nAOg7xPJ7QU550v4Z35ZhWnUq/g3VyAo/65+vr4nsezSW3mtV
- 0C29kzbyIC/YQ==
-Date: Mon, 16 Sep 2024 17:21:12 +0200
+ b=iCSYIdJ2R+jEL8qu1nVKJBsW7jCgmQs5cI9Y5u8/Rdvzt9tlTuPysbpyuuhcIUoZe
+ UNAgJYN1dLkgYF9EnKhnJfo9XR9xCdQRUtuVp0qqvOmCDa14lH1FWjLUMb6eGiDkxA
+ 0QAvQr2+JKAA1ZEyx2DNMWXuhMHqtHm7/7rHgxrL2zqWOMQgN01TFWE6yX2u9gqNnT
+ 1cirZm6IuULvnnJsw7c4OYtXiLQkyG/ncfu8uWYN2IRvP91kt9IlWcUWvqgWih4tWg
+ FaoqRG1UjZfUFnd96G6GEGkVskI0iZoFOmK7vnMwpEmWu8Yj7av7oMVxf+lCoUkuYw
+ 5WVHbeMZCQEXg==
+Date: Mon, 16 Sep 2024 17:23:55 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
 Cc: vkoul@kernel.org, kishon@kernel.org, konradybcio@kernel.org, 
@@ -49,7 +49,7 @@ Cc: vkoul@kernel.org, kishon@kernel.org, konradybcio@kernel.org,
  quic_riteshk@quicinc.com, quic_vproddut@quicinc.com
 Subject: Re: [PATCH v2 1/5] dt-bindings: phy: Add eDP PHY compatible for
  sa8775p
-Message-ID: <qy4hizhsrz6nnfq4a5eremcc7b2gtw6czpav2j34nyj4i6fenv@p6vzlxanhmd5>
+Message-ID: <2hv2hcpbanduw4wg2wbza4jkze4sgilrtyc7zack23uygwsjol@ckskl2rkd5xp>
 References: <20240913103755.7290-1-quic_mukhopad@quicinc.com>
  <20240913103755.7290-2-quic_mukhopad@quicinc.com>
 MIME-Version: 1.0
@@ -78,10 +78,8 @@ On Fri, Sep 13, 2024 at 04:07:51PM +0530, Soutrik Mukhopadhyay wrote:
 > ---
 > v2: No change
 >  
-> ---
->  Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml | 1 +
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 
 Best regards,
 Krzysztof
