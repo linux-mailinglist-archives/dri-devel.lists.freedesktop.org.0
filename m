@@ -2,68 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C7E979D32
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 10:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B8A979D61
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 10:57:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C896210E30B;
-	Mon, 16 Sep 2024 08:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEDB110E310;
+	Mon, 16 Sep 2024 08:57:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MGERhGvz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b1I807zE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E2010E30B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 08:49:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726476546; x=1758012546;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=y0dx8GuuARn90ku6mYhVfzCBpFhP6UXFQhwsQUiVQI4=;
- b=MGERhGvzLteDxxIu56FAtIyjEJ0u6HilgWZBKb+tmfAUz3NQhtZx1A1g
- eF5QrubKqx/QrV7pMduVFxgEsthcxsfPLeVDIeEY60LLWmxARpBuAwD/v
- K7z+OZ9XlhQaCXI0Eat9pzGt27IulAB4A3M8+Nw3FRG13XGUjWJpQzkJw
- x+K2oExZ9untgN7fi90SGcWo0ZosQdvugcgpYy9lTHxNtqoFBXXlhbLJK
- M9zmga0l7BRL6Q7Mvd5eyEgfe4AJdCwwkS4iItnVV5sIejHilaI7egPVc
- goRXPf7B7NUMfX8mfWwLi8mlsjk3yc0uF+7wW/k+NObcAqsX1e8AbEHkV g==;
-X-CSE-ConnectionGUID: JV3AyXGGTLORWENTH32c9Q==
-X-CSE-MsgGUID: 96snBwXLQNaU1mt40IniuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="36674294"
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; d="scan'208";a="36674294"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2024 01:49:05 -0700
-X-CSE-ConnectionGUID: RFCo+OPDTvC+TUA0mOrxTA==
-X-CSE-MsgGUID: sezL4nipQQyTDiFzW7/z/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; d="scan'208";a="99658833"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.249])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2024 01:49:01 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6CF10E182;
+ Mon, 16 Sep 2024 08:57:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B2A78A414A4;
+ Mon, 16 Sep 2024 08:57:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 387CBC4CEC4;
+ Mon, 16 Sep 2024 08:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726477032;
+ bh=PcBTAwXOWPj47CjUgTUY9x+/PCIpKzX5I+Fb50RUGH8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=b1I807zEv2QNBqhK00UPY0QSDLzVfjXcjoQ66JeOO9pQtEmZedwg8ZRP1sPDAEkz7
+ St24H0/TohUxUQr8OCq3v/ic1b6KeKs2wEXmtqbUfRgGHxo875DkggBaOA1VG4HYBO
+ FXuu4BYyrScj6FsZLeb+h7gdiVQVRRmFRFasQ7bIg1gls7dD62YnHKGZQdacMG9UzM
+ eBb+f0fyKc2nsyNBGlVPBPsUbTLldtkeNR25lHQlAVAU2BIfF3xhEwNcBGb4EScPvN
+ odvFY2gKWfqYUFfKATW6edPjc5AQmZfgwJ9FWGTfGaetlOW5fHYfybv9a7kXh80Qd2
+ CZobHmyRxM2wA==
+Date: Mon, 16 Sep 2024 10:57:05 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Zhang He <zhanghe9702@163.com>
+Cc: andi.shyti@linux.intel.com, intel-gfx@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, =?utf-8?Q?Ma?=
- =?utf-8?Q?=C3=ADra?= Canal
- <mairacanal@riseup.net>, =?utf-8?Q?Andr=C3=A9?= Almeida
- <andrealmeid@igalia.com>, Arthur
- Grillo <arthurgrillo@riseup.net>, Tales Lelo da Aparecida
- <tales.aparecida@gmail.com>, Carlos Eduardo Gallo Filho
- <gcarlos@disroot.org>
-Subject: Re: [PATCH v4 RESEND 8/9] drm/tests: Add test for
- drm_framebuffer_init()
-In-Reply-To: <20240911001559.28284-9-gcarlos@disroot.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240911001559.28284-1-gcarlos@disroot.org>
- <20240911001559.28284-9-gcarlos@disroot.org>
-Date: Mon, 16 Sep 2024 11:48:58 +0300
-Message-ID: <87wmjcc7b9.fsf@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/gt: Fixed an typo
+Message-ID: <d7ofced5jycyryh3su6qmv7wrait243rnznapcsfh3nawngeag@s6eqm4kiqufy>
+References: <20240913140721.31165-1-zhanghe9702@163.com>
+ <20240914013146.65757-1-zhanghe9702@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240914013146.65757-1-zhanghe9702@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +58,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Sep 2024, Carlos Eduardo Gallo Filho <gcarlos@disroot.org> wrote:
-> +/* Try to init a framebuffer without setting its format */
-> +static void drm_test_framebuffer_init_bad_format(struct kunit *test)
-> +{
-> +	struct drm_framebuffer_test_priv *priv = test->priv;
-> +	struct drm_device *dev = &priv->dev;
-> +	struct drm_framebuffer fb1 = { .dev = dev, .format = NULL };
-> +	struct drm_framebuffer_funcs funcs = { };
-> +	int ret;
-> +
-> +	/* Fails if fb.format isn't set */
-> +	ret = drm_framebuffer_init(dev, &fb1, &funcs);
+Hi Zhang He,
 
-Not only does this fail, it spits a WARN_ON_ONCE() in dmesg. Which in
-turn gets flagged as a failure in the test in our CI.
+I merged your previous patch so that you don't need to resend it
+anymore.
 
-What's the policy with kunit tests causing warnings? I think it's
-reasonable for any CI to flag dmesg warnings. We shouldn't be hitting
-those. Filtering the warnigs is a tricky business.
+I already asked you not to resend it in the past version. Please,
+read carefully the comments you receive.
 
-BR,
-Jani.
+I repeat: add the versioning. When you do:
 
+   git format patch ...
 
+you get:
 
-> +	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-> +}
+   [PATCH 1/1] drm/....
 
--- 
-Jani Nikula, Intel
+if you do
+
+   git format patch -v 2 ...
+
+you get:
+
+   [PATCH v2 1/1] drm/....
+
+This is what I asked you to do.
+
+The 1/1 or 2/2 is the patch counter for multi patch series, not
+the version. The version is given by "-v 2" from the git
+format-patch command.
+
+Please read the SubmittingPatches document, it's essential for
+sending patches.
+
+On Sat, Sep 14, 2024 at 09:31:46AM GMT, Zhang He wrote:
+> column header should be GPU, not CPU
+> 
+> ---
+> ChangeLog:
+>     v1: use correct name as Author and Signer
+>     v2: change one line in drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c,
+>         LLC's information header from "Effective CPU freq" to "Effective GPU freq"
+
+Good that the changelog is here. The v2, though, is not a
+changelog, but a description.
+
+> Signed-off-by: Zhang He <zhanghe9702@163.com>
+
+The signature goes above the "---" section, otherwise it doesn't
+show up when I apply the patch.
+
+Thanks for your patch,
+Andi
