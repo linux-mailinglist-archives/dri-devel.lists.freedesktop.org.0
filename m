@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63B2979E4E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 11:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FB3979E71
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 11:27:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D819010E17C;
-	Mon, 16 Sep 2024 09:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8317010E31F;
+	Mon, 16 Sep 2024 09:27:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jsPGQlYB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="n0LoAxo0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E860E10E17C
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 09:22:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B961B10E31F;
+ Mon, 16 Sep 2024 09:27:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B0C7F5C0117;
- Mon, 16 Sep 2024 09:21:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D82BC4CEC4;
- Mon, 16 Sep 2024 09:22:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 83CC55C05FE;
+ Mon, 16 Sep 2024 09:27:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04422C4CEC4;
+ Mon, 16 Sep 2024 09:27:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726478521;
- bh=A5qBoko8pAMwveL+v901lMUwnWa5DeXCPvgTk3pPW/c=;
+ s=k20201202; t=1726478862;
+ bh=pUAMi86rwTq+wVgJgsM5jMxxeBpOkJO3emrkyOgd2JQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jsPGQlYBPSTiFJMXX9gAj5l7zVJTiyzJzXpksrqR1WURfgNlsR0edZrPFBFebfxPh
- 1naZciVddWbs2v5+7UTUIxbnrMUVzYbF5ER+r4g7G90IE6v7I0XAKjcFMgpbg4pig/
- wQ1XSQ+SdxEj2650FQa2tjaQT0SoQ+ylNtYEqDp9dTqjaKiOECALJJSYA7VNitOgMh
- AjMnnhcHLCDsPFpPK6KW1AURzv0wx3qvnIOHepmhmYrEopdQjswknmjwCMOOKs1mS4
- TWRHOApsZFFUD1JA6Wcz85YIauCpiAwmve4uFw0m7r0nd+IqVpw4u51eyKxUASgxfI
- 5W4F6EODAOv9w==
-Date: Mon, 16 Sep 2024 11:21:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
- cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ b=n0LoAxo0hDsXYtBeVuVt0ft4mZW3HZUYeDl0Q/kED3+MwrED5vAuFGnVpfVemwzM3
+ it+g1Hb+0fpACtumqFcyD/RKJSZMR6uYb5c48nuhJbX0x6JV/C6VsS7KL0sfqpieI+
+ bmE5p4okg2YXdu0WfJktgHa0Dl6pA8JEYhNNxORslZibW5/7KRyDEs55+yQBWjp8f8
+ v+topeF22rxS9vzC5mw+XyOFbivWr8UawD+jIwykyylbSBE882XbA/pWMSHAXc1nzi
+ sPCu3LukN9D5uiohLJRHSSm71FWJbu/HKYxMQpScYdtFjmxK6was6MCNK/o7L3YIeb
+ AXG6+VEs0IccQ==
+Date: Mon, 16 Sep 2024 11:27:35 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Yuesong Li <liyuesong@vivo.com>
+Cc: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com, 
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v4 15/27] regulator: add s2dos05 regulator support
-Message-ID: <35liocltjuxv3gjueuvpaytx44crebbc4c63atztakuq5dfpax@bquve7tkrvtx>
-References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-15-2d2efd5c5877@gmail.com>
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+Subject: Re: [PATCH v1] drm/i915/dp: Remove double assignment in
+ intel_dp_compute_as_sdp()
+Message-ID: <thvv6gywqkygj2tcmbnmpwp7opy3nswphc7n3nxdj7r3roshsf@tm4ntfmv7dun>
+References: <20240823023612.3027849-1-liyuesong@vivo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913-starqltechn_integration_upstream-v4-15-2d2efd5c5877@gmail.com>
+In-Reply-To: <20240823023612.3027849-1-liyuesong@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,175 +62,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 06:07:58PM +0300, Dzmitry Sankouski wrote:
-> S2dos05 has 1 buck and 4 LDO regulators, used for powering
-> panel/touchscreen.
+Hi Yuesong,
+
+On Fri, Aug 23, 2024 at 10:36:12AM GMT, Yuesong Li wrote:
+> cocci report a double assignment warning. 'as_sdp->duration_incr_ms'
+> was assigned twice in intel_dp_compute_as_sdp().
 > 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> 
+> Signed-off-by: Yuesong Li <liyuesong@vivo.com>
 
-...
+reviewed and merged to drm-intel-next.
 
-> +#include <linux/bug.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/slab.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regulator/driver.h>
-> +#include <linux/regulator/machine.h>
-> +#include <linux/regulator/of_regulator.h>
-> +#include <linux/mfd/samsung/core.h>
-> +#include <linux/regulator/s2dos05.h>
-> +#include <linux/i2c.h>
-> +
-> +struct s2dos05_data {
-> +	struct regmap *regmap;
-> +	struct device *dev;
-> +};
-> +
-> +static const struct regulator_ops s2dos05_ops = {
-
-Keep definitions together. This goes down, after all declarations and
-macros.
-
-> +	.list_voltage		= regulator_list_voltage_linear,
-> +	.map_voltage		= regulator_map_voltage_linear,
-> +	.is_enabled		= regulator_is_enabled_regmap,
-> +	.enable			= regulator_enable_regmap,
-> +	.disable		= regulator_disable_regmap,
-> +	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
-> +	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
-> +	.set_voltage_time_sel	= regulator_set_voltage_time_sel,
-> +	.set_active_discharge	= regulator_set_active_discharge_regmap,
-> +};
-> +
-> +#define _BUCK(macro)	S2DOS05_BUCK##macro
-> +#define _buck_ops(num)	s2dos05_ops##num
-> +
-> +#define _LDO(macro)	S2DOS05_LDO##macro
-> +#define _REG(ctrl)	S2DOS05_REG##ctrl
-> +#define _ldo_ops(num)	s2dos05_ops##num
-> +#define _MASK(macro)	S2DOS05_ENABLE_MASK##macro
-> +#define _TIME(macro)	S2DOS05_ENABLE_TIME##macro
-> +
-
-...
-
-> +
-> +static struct regulator_desc regulators[S2DOS05_REGULATOR_MAX] = {
-
-This should be const.
-
-> +		// name, id, ops, min_uv, uV_step, vsel_reg, enable_reg
-> +		LDO_DESC("ldo1", _LDO(1), &_ldo_ops(), _LDO(_MIN1),
-> +			_LDO(_STEP1), _REG(_LDO1_CFG),
-> +			_REG(_EN), _MASK(_L1), _TIME(_LDO), _REG(_LDO1_CFG)),
-> +		LDO_DESC("ldo2", _LDO(2), &_ldo_ops(), _LDO(_MIN1),
-> +			_LDO(_STEP1), _REG(_LDO2_CFG),
-> +			_REG(_EN), _MASK(_L2), _TIME(_LDO), _REG(_LDO2_CFG)),
-> +		LDO_DESC("ldo3", _LDO(3), &_ldo_ops(), _LDO(_MIN2),
-> +			_LDO(_STEP1), _REG(_LDO3_CFG),
-> +			_REG(_EN), _MASK(_L3), _TIME(_LDO), _REG(_LDO3_CFG)),
-> +		LDO_DESC("ldo4", _LDO(4), &_ldo_ops(), _LDO(_MIN2),
-> +			_LDO(_STEP1), _REG(_LDO4_CFG),
-> +			_REG(_EN), _MASK(_L4), _TIME(_LDO), _REG(_LDO4_CFG)),
-> +		BUCK_DESC("buck1", _BUCK(1), &_buck_ops(), _BUCK(_MIN1),
-> +			_BUCK(_STEP1), _REG(_BUCK_VOUT),
-> +			_REG(_EN), _MASK(_B1), _TIME(_BUCK), _REG(_BUCK_CFG)),
-> +};
-> +
-> +static int s2dos05_pmic_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct sec_pmic_dev *iodev = dev_get_drvdata(pdev->dev.parent);
-> +	struct of_regulator_match *rdata = NULL;
-> +	struct s2dos05_data *s2dos05;
-> +	struct regulator_config config = { };
-> +	unsigned int rdev_num = ARRAY_SIZE(regulators);
-> +	int i, ret;
-> +
-> +	s2dos05 = devm_kzalloc(dev, sizeof(struct s2dos05_data),
-> +				GFP_KERNEL);
-
-sizeof(*)
-
-> +	if (!s2dos05)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, s2dos05);
-> +
-> +	rdata = devm_kcalloc(dev, rdev_num, sizeof(*rdata), GFP_KERNEL);
-> +	if (!rdata)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < rdev_num; i++)
-> +		rdata[i].name = regulators[i].name;
-> +
-> +	s2dos05->regmap = iodev->regmap_pmic;
-> +	s2dos05->dev = dev;
-> +	if (!dev->of_node)
-> +		dev->of_node = dev->parent->of_node;
-> +
-> +	for (i = 0; i < rdev_num; i++) {
-> +		struct regulator_dev *regulator;
-> +
-> +		config.init_data = rdata[i].init_data;
-> +		config.of_node = rdata[i].of_node;
-> +		config.dev = dev;
-> +		config.driver_data = s2dos05;
-> +		regulator = devm_regulator_register(&pdev->dev,
-> +						&regulators[i], &config);
-> +		if (IS_ERR(regulator)) {
-> +			ret = PTR_ERR(regulator);
-> +			dev_err(&pdev->dev, "regulator init failed for %d\n",
-> +				i);
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct platform_device_id s2dos05_pmic_id[] = {
-> +	{ "s2dos05-regulator" },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(platform, s2dos05_pmic_id);
-> +
-> +static struct platform_driver s2dos05_platform_driver = {
-> +	.driver = {
-> +		.name = "s2dos05",
-> +	},
-> +	.probe = s2dos05_pmic_probe,
-> +	.id_table = s2dos05_pmic_id,
-> +};
-> +module_platform_driver(s2dos05_platform_driver);
-> +
-> +MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-> +MODULE_DESCRIPTION("SAMSUNG s2dos05 Regulator Driver");
-
-s/SAMSUNG/Samsung/
-
-Also, your Kconfig used different name, so please use one - probably
-Samsung.
-
-This applies to MFD patch as well.
-
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/linux/regulator/s2dos05.h b/include/linux/regulator/s2dos05.h
-> new file mode 100644
-> index 000000000000..2e89fcbce769
-> --- /dev/null
-> +++ b/include/linux/regulator/s2dos05.h
-> @@ -0,0 +1,73 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-
-Are you sure that here (and other places) you want any newer GPL? This
-is quite odd. Does original code (from which you took 2016 copyrights)
-have this as well?
-
-Best regards,
-Krzysztof
-
+Thanks,
+Andi
