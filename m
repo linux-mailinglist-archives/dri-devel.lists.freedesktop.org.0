@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C1497A89D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 23:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FFA97A8B2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 23:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F75110E1AB;
-	Mon, 16 Sep 2024 21:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E11210E3DE;
+	Mon, 16 Sep 2024 21:22:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AlbwODHe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WakJpZiT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37DAF10E0B8;
- Mon, 16 Sep 2024 21:12:31 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-2d88ec20283so409227a91.0; 
- Mon, 16 Sep 2024 14:12:31 -0700 (PDT)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF9010E0DA;
+ Mon, 16 Sep 2024 21:22:21 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-71790698b22so1283274b3a.1; 
+ Mon, 16 Sep 2024 14:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726521151; x=1727125951; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1726521741; x=1727126541; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xAbP4b2QjvrKLx9SqOhnM4gtxKV8osDm1elhFRlMK3w=;
- b=AlbwODHeOJaNtaemTb0ccDeEb98EEUWMW1dCw5G7RD+J2QDkEc/H4VYPElTWJ8XL1Z
- ZJzyQ+cXCyr8Z3vTMYhkaZJyqgd0NSRereFHLHJDwER1ZKyhqrJ1xFKVN7EYyt+suNIV
- +snZoz9eC/IVMyP005N6vgWaI42UqKMg2gv49WrLKHdTkJCOWxn+KAC1WzES4nnEQwT4
- YIcuQhPfZgs9KaUUqvheJRt7+UR76qR8VIGgn3RCbihs5h6KCRmjRxv+1j6DdZg9ajWz
- 1QwbVa/bnGq471Ateg94CoH64OQFLmxoOxcRl+o5rvPa4/pUmTbmIZ78GgrY8JB2b40g
- VZKQ==
+ bh=MnZ+w3zQ4IHZ8UMqW7Wlzbtf2x6KfNdPBGv/gNGn4hE=;
+ b=WakJpZiTcm+smJay1k/VBT2k/UUDdAwILQ12KQh0Yaom72qaxb374SllWkeJGoHb4R
+ Dk/OEa4RfNbVVc2eNcrV+qJjt4kB8X3P8k9xi1w3TYyjWAujqLLIhmtlKztdDngkP4eA
+ 7SGU7GpRR48VgCpb1pR8biTlvWKiGO4GjUQOS8piblcWnrIW/qGF/3bIAWYCImX1mXDH
+ MNixK0t615TM8uiTaTB5DD7jrn5376jRJFg9juaGuVKsiDWFm/1Db9h5vQaNXfNImhkJ
+ ogaoUQGfa9gBsylqIr6QgAeaJb1OHxIIFXJO/s7T0b+Eo5t5Ofmg3KcymnjKBYJsZpuK
+ YqpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726521151; x=1727125951;
+ d=1e100.net; s=20230601; t=1726521741; x=1727126541;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xAbP4b2QjvrKLx9SqOhnM4gtxKV8osDm1elhFRlMK3w=;
- b=l9UMkvXY+d7qfVDt4uwWvde3qcwI+fvq+yDUAvgJOqryOFrX6MReP/q7gYrXu9kSE9
- X9I99PidRlUrb5eWiO+TabJb3MXHi85f+1SEgcgMwKRUqC1Wgjv2aF5ZccZbNKobeCU3
- PH6+cdH9U87UBlRNRdbP+CatQrcjOhnhqu+qkEG8FA+Yo0SfuMaCjimV/oKkgRHTImJY
- l/mYRTXtHzBBnkdOb8+EMhdW7/LEDeaFHkllCJcWdd2Z9teVNdJGM7J7TuBCEGymnbYe
- TZmSSzYxmtOCb/6e89IcAt7yc78G7z5jEEb4u89lW+VDh3a5hLMwOhU92QEt+HT3/zL9
- sigA==
+ bh=MnZ+w3zQ4IHZ8UMqW7Wlzbtf2x6KfNdPBGv/gNGn4hE=;
+ b=VYks1fUrEI88O9EY2H7gEGOf9RcdfBnk6CAYOgOSCjHh3WhyVcUewOQmpO9TxGk9Ql
+ 63u/Zli3+f1s2nZUvM99GK9YAQ0EwZcTDDveHmJ1y93jNvAN+EvMCKLeJhI9tEyYvV9a
+ QS0JaUKi2y1p4Xc29QMHSIzFTzwoCFnSZGXHsAcW30avLMXbR66PqeeLhq6kN1k4jhAf
+ zCyomit5R+RZTTyJxrLOuqLMEP3eHE6cmf/TDQ155/5khu0OZmnQGd/7JuUpZNChahM1
+ 9RIHyqGud+yFUFFYoFz5qNP2EJCJvl8oD8nrDDHM1B3Zb7fRUUN60c9dl22/fgsOUP2R
+ XPzA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW29sbxVjcFVpAZsfGTfd90MfkeShNIw0HybCT/SIhezhjuBqKrVJy9cgmtZF5L4KzQ+fBqoigA@lists.freedesktop.org,
- AJvYcCWF1gsbj509PWAiFTWQQXeM3JL7Fjfb+cQlqBqQAwIMAhkMn485/v1l4N38984MmHVP1r3DG7S9V5Cu@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnP19n57vJ/NFBiTKfewp1t6rXFCezoBj9PUXJodTzyI16RTXY
- GWam/87LUVyTpdosURviMOIbat5JZFFz8TOL3uz8wm/UDM8urvcS9Gf/H7++JabZgYwM9FyBCxR
- qyHEIyigyZ4VOoDmsMc2pgnNM/k4=
-X-Google-Smtp-Source: AGHT+IFRrNEmKtbJ19RItAc5lDSWsHbDbxi/uYfqJjYD4JxA1G6o1DQn01TL1PPolbqBg/Dhpyu2JdwgHzd6trRYmE4=
-X-Received: by 2002:a17:902:e845:b0:207:d98:52ec with SMTP id
- d9443c01a7336-2076e448080mr105306865ad.14.1726521150347; Mon, 16 Sep 2024
- 14:12:30 -0700 (PDT)
+ AJvYcCV6pOy3Z5iVf44RBvIHVU2AC9xnoldrdNR0FqPATH98j+YR//9rJMOUElgPbcPnn9p3cOEqjoomfNOM@lists.freedesktop.org,
+ AJvYcCXCxmixGPXmNVfQl7pCbk/hCUYKxhvHYM5pWchdStmL0zOEnlfCdGtJmeGrTrXJHSxP78Y22pVm@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzzSsz7ONzQyn2fpbpGN7gzCVMw9bNqprHh5j6kvvA1MoZ4AhoP
+ O80F1e2zIo3wGM6PmEWE6ngEcwCtVTn7fB+fTP2l/vQNqkSW2HGJ0PAg+72jvl3kkhlk6VOtHwN
+ IciwNTB4rRGt7MzCeN0jp9thtjgfAm3jC
+X-Google-Smtp-Source: AGHT+IH5SjI+U0A7P/wtoSude0aArR/OHyFC0Phr5mIxCQoIJV8kcO5I/Gdj3ckinVYf82EStXGIVhanMBob4xTNuA0=
+X-Received: by 2002:a17:902:d2c1:b0:206:99a2:b058 with SMTP id
+ d9443c01a7336-2076e35fdd8mr105279965ad.5.1726521740510; Mon, 16 Sep 2024
+ 14:22:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1726490926.git.tjakobi@math.uni-bielefeld.de>
- <24dcaa14eba59e211355d4798df02ccb64d460ba.1726490926.git.tjakobi@math.uni-bielefeld.de>
-In-Reply-To: <24dcaa14eba59e211355d4798df02ccb64d460ba.1726490926.git.tjakobi@math.uni-bielefeld.de>
+References: <20240915140144.36988-1-linux@treblig.org>
+In-Reply-To: <20240915140144.36988-1-linux@treblig.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Sep 2024 17:12:18 -0400
-Message-ID: <CADnq5_OxGp6AH+H3igpZNs_OK1wN=hu5AkQK9EBwfrJ2T2etLw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] drm/amd/display: handle nulled pipe context in
- DCE110's set_drr()
-To: tjakobi@math.uni-bielefeld.de
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Mario Limonciello <mario.limonciello@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Mon, 16 Sep 2024 17:22:08 -0400
+Message-ID: <CADnq5_OGNOfDkpGumipdpwJBCa1_UCB0NHQQ5otnPrH9b=_V8Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Remove unused function
+ bios_get_vga_enabled_displays
+To: linux@treblig.org
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,69 +89,53 @@ And applied.
 
 Thanks!
 
-On Mon, Sep 16, 2024 at 9:03=E2=80=AFAM <tjakobi@math.uni-bielefeld.de> wro=
-te:
+On Sun, Sep 15, 2024 at 10:19=E2=80=AFAM <linux@treblig.org> wrote:
 >
-> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
 >
-> As set_drr() is called from IRQ context, it can happen that the
-> pipe context has been nulled by dc_state_destruct().
+> bios_get_vga_enabled_displays has been unused since
+>   commit 5a8132b9f606 ("drm/amd/display: remove dead dc vbios code")
 >
-> Apply the same protection here that is already present for
-> dcn35_set_drr() and dcn10_set_drr(). I.e. fetch the tg pointer
-> first (to avoid a race with dc_state_destruct()), and then
-> check the local copy before using it.
+> Remove it.
 >
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3142
-> Fixes: 06ad7e164256 ("drm/amd/display: Destroy DC context while keeping D=
-ML and DML2")
-> Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 > ---
->  .../amd/display/dc/hwss/dce110/dce110_hwseq.c | 21 ++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.c | 7 -------
+>  drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.h | 1 -
+>  2 files changed, 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/=
-drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-> index 0d3ea291eeee..666dfc6d192e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-> @@ -1970,13 +1970,20 @@ static void set_drr(struct pipe_ctx **pipe_ctx,
->          * as well.
->          */
->         for (i =3D 0; i < num_pipes; i++) {
-> -               pipe_ctx[i]->stream_res.tg->funcs->set_drr(
-> -                       pipe_ctx[i]->stream_res.tg, &params);
-> -
-> -               if (adjust.v_total_max !=3D 0 && adjust.v_total_min !=3D =
-0)
-> -                       pipe_ctx[i]->stream_res.tg->funcs->set_static_scr=
-een_control(
-> -                                       pipe_ctx[i]->stream_res.tg,
-> -                                       event_triggers, num_frames);
-> +               /* dc_state_destruct() might null the stream resources, s=
-o fetch tg
-> +                * here first to avoid a race condition. The lifetime of =
-the pointee
-> +                * itself (the timing_generator object) is not a problem =
-here.
-> +                */
-> +               struct timing_generator *tg =3D pipe_ctx[i]->stream_res.t=
-g;
-> +
-> +               if ((tg !=3D NULL) && tg->funcs) {
-> +                       if (tg->funcs->set_drr)
-> +                               tg->funcs->set_drr(tg, &params);
-> +                       if (adjust.v_total_max !=3D 0 && adjust.v_total_m=
-in !=3D 0)
-> +                               if (tg->funcs->set_static_screen_control)
-> +                                       tg->funcs->set_static_screen_cont=
-rol(
-> +                                               tg, event_triggers, num_f=
-rames);
-> +               }
->         }
+> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.c b/d=
+rivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.c
+> index adc710fe4a45..8d2cf95ae739 100644
+> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.c
+> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.c
+> @@ -78,10 +78,3 @@ void bios_set_scratch_critical_state(
+>         uint32_t critial_state =3D state ? 1 : 0;
+>         REG_UPDATE(BIOS_SCRATCH_6, S6_CRITICAL_STATE, critial_state);
 >  }
+> -
+> -uint32_t bios_get_vga_enabled_displays(
+> -       struct dc_bios *bios)
+> -{
+> -       return REG_READ(BIOS_SCRATCH_3) & 0XFFFF;
+> -}
+> -
+> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.h b/d=
+rivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.h
+> index e1b4a40a353d..ab162f2fe577 100644
+> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.h
+> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser_helper.h
+> @@ -34,7 +34,6 @@ uint8_t *bios_get_image(struct dc_bios *bp, uint32_t of=
+fset,
+>  bool bios_is_accelerated_mode(struct dc_bios *bios);
+>  void bios_set_scratch_acc_mode_change(struct dc_bios *bios, uint32_t sta=
+te);
+>  void bios_set_scratch_critical_state(struct dc_bios *bios, bool state);
+> -uint32_t bios_get_vga_enabled_displays(struct dc_bios *bios);
+>
+>  #define GET_IMAGE(type, offset) ((type *) bios_get_image(&bp->base, offs=
+et, sizeof(type)))
 >
 > --
-> 2.44.2
+> 2.46.0
 >
