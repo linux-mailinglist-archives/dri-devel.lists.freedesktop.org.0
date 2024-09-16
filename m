@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BE3979DE5
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 11:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4FA979DEB
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 11:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E72610E317;
-	Mon, 16 Sep 2024 09:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF0C510E318;
+	Mon, 16 Sep 2024 09:10:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jWEPET8G";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ifszd/5b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C528310E317
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 09:09:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E950D10E318
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 09:10:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 426D4A41B06;
- Mon, 16 Sep 2024 09:09:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A20F3C4CEC4;
- Mon, 16 Sep 2024 09:09:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 53C585C5B13;
+ Mon, 16 Sep 2024 09:09:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DCDAC4CEC4;
+ Mon, 16 Sep 2024 09:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726477754;
- bh=6bAu07qqR/oy28Hk63f8SgDGRZgodwoDApVLtXIhnKU=;
+ s=k20201202; t=1726477800;
+ bh=ONqZl6C9+SC1X648huCoHAghc9uia2nzJ+bhJls5Sds=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jWEPET8GkRDhZlgwScXUjeqyarWO78GNRYSkz/w8ZpRRjHhDg/XQPWVoclsA0hYkW
- 43B9rmTeVO5JALDYDUutwRRZlkYiPuHA7uh4MFiDsNjD9rsrkldQS9EQ22TUVhGMcB
- 2KYpxXEdqqs/fIUpwTSHAJV0V2lW8QHCBC6VEgnUY58JJJenIgWHYXVdHrS/N9KvNV
- QvZJYvNXyVXO/B/csMhAztgdAD5RW4jz0EjaEB/3de/xQ07rsOqVTVZ/Yl1gAJrR1J
- XyR/AaG/dFz0Wt4jqE+QmPLDXu2sZcqPkoXrEOYRoemvRnBf1B2cJPPU5LWecB+Jrc
- dEjtkixUyXY6w==
-Date: Mon, 16 Sep 2024 11:09:11 +0200
+ b=Ifszd/5bBzotwBrw9X54H47h4CDgIg0rfIXAvpXq43kD8mGl7Mee/Wbszn1Ce5o/H
+ D2fSN1NVAUS+hRqIiCiVT1Id+C/tjEQA4psHvyF5yUzdJkTi2RA+84xsqo5Sud2lR+
+ KTpQ8A5XbcHPEnetz+bXsjkgF+p+RjaoVVr3nwFcctFiUhmcgGeArtF4RS+bzcJ1fx
+ oAmRuYIh0zPK251BpzdomeAoM7GqINOltXYvAg5y/VxrLQfgKDan84ZQchnGn+SDff
+ kWgNgsolsrztSSM3BXj8zFZYasn7EE5Mj9gS3gp59szQ1P3HaGmHBXT+QuQoGHrbqs
+ Rhhdd6Jyidv8Q==
+Date: Mon, 16 Sep 2024 11:09:57 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dzmitry Sankouski <dsankouski@gmail.com>
 Cc: Sebastian Reichel <sre@kernel.org>, 
@@ -56,14 +56,14 @@ Cc: Sebastian Reichel <sre@kernel.org>,
  devicetree@vger.kernel.org, linux-input@vger.kernel.org,
  linux-leds@vger.kernel.org, 
  linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v4 14/27] mfd: sec-core: add s2dos05 support
-Message-ID: <konn3okav5pzval7cjbuhjgesvhhf7a2cmuz3cxsob4nn6sxgq@nz2bc3i3acx6>
+Subject: Re: [PATCH v4 08/27] mfd: max77693: remove unused declarations
+Message-ID: <wywp6vj2pqqe7to55k7ssh5sbqrmy7emvwruvm2waytancf3r4@aygtw3y6huwx>
 References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-14-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-8-2d2efd5c5877@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240913-starqltechn_integration_upstream-v4-14-2d2efd5c5877@gmail.com>
+In-Reply-To: <20240913-starqltechn_integration_upstream-v4-8-2d2efd5c5877@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,16 +79,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 06:07:57PM +0300, Dzmitry Sankouski wrote:
-> S2dos05 is a panel/touchscreen PMIC, often found in
-> Samsung phones. We define 2 sub-devices for which drivers will
-> be added in subsequent patches.
+On Fri, Sep 13, 2024 at 06:07:51PM +0300, Dzmitry Sankouski wrote:
+> Remove `enum max77693_irq_source` declaration because unused.
 > 
 > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 > ---
->  drivers/mfd/sec-core.c           | 11 +++++++++++
->  include/linux/mfd/samsung/core.h |  1 +
->  2 files changed, 12 insertions(+)
+>  include/linux/mfd/max77693-private.h | 11 -----------
+>  1 file changed, 11 deletions(-)
+
+Please split your patchset per subsystems. There is no dependency on MFD
+bits from your DTS... (if there is, this needs to be fixed anyway)
 
 Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
