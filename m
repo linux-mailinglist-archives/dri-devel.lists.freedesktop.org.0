@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F45C979A62
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 06:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43244979AA2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 07:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2020A10E074;
-	Mon, 16 Sep 2024 04:30:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B1910E09D;
+	Mon, 16 Sep 2024 05:11:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UMfmKDI9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sCx0+0Yj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F108A10E074;
- Mon, 16 Sep 2024 04:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726461056; x=1757997056;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=kGKwQsa5LY7zTU/w6kahcoUb6uO4yOJn+ssgNH3DOqA=;
- b=UMfmKDI914ApbDK/JCzCRofoZUaI1v4S8sedP0j+FpRr3XANWciEXda/
- dDOeBpo8LkEIM60diLmvQX2uYDEY4dV7QQDZhi22ETCLVTlDs6Vm3aX1p
- Pw/TnYqoc66djaUfoFUlOOPmO2kv6A8MT1MAFM2vu3TH/EFQWeLN1wSci
- cMJcoMyqgBy+SXbUk2EK98ES2ZQOLRmw9CySfqn8Z/umZr3u5MBEAgIdW
- TpLnaEBIVXVde9qJDF38OgJD4FmZX1e1U3FrJhOaM9Uhan9OpsUKIx5xL
- Ky24qWJjdLNOxv/khb1TVtb7XQbnFe8ym1d1CZgoM5rED7nrSc7P4qrWf Q==;
-X-CSE-ConnectionGUID: 5uuDaU+0RPCzgpCYmntH3Q==
-X-CSE-MsgGUID: OH2/uQgLRL+QAXSneuQc7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25408619"
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; d="scan'208";a="25408619"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2024 21:30:54 -0700
-X-CSE-ConnectionGUID: HX9MfthFQUe7lhJiZsCfPg==
-X-CSE-MsgGUID: xhk4qz6rTWiCFPYmrYmGPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; d="scan'208";a="68860743"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by fmviesa008.fm.intel.com with ESMTP; 15 Sep 2024 21:30:51 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sq3Nx-0009O0-1N;
- Mon, 16 Sep 2024 04:30:49 +0000
-Date: Mon, 16 Sep 2024 12:30:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, Alex Hung <alex.hung@amd.com>,
- Alexander Deucher <alexander.deucher@amd.com>,
- Melissa Wen <mwen@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
- Mario Limonciello <mario.limonciello@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- harry.wentland@amd.com, sunpeng.li@amd.com,
- Mark Pearson <mpearson-lenovo@squebb.ca>
-Subject: Re: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if
- available for eDP
-Message-ID: <202409161225.xuQVKkoR-lkp@intel.com>
-References: <20240911213537.2338164-11-superm1@kernel.org>
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0D010E09D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 05:11:30 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-6d74ff7216eso19796607b3.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2024 22:11:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726463489; x=1727068289; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xClosrKSKvRQXSe4g+NTsfgEyk3rcyU/wxole1yQDT0=;
+ b=sCx0+0YjwUyeqj8NFZP8J7yu8TR6oIY76/PI8aKsC0DnK2SwSkVk5XQMuQOknVN48R
+ Vtoc5SZRzre3TCP1nSuJrxUPAN+0VTJ48ONxpqcJh4S4L2DtSCh5qSDebso6NNmnqnqK
+ J8R1v3j4ARrbywUXFZMurJMclf/DadtQpVfzhCPVCV3JMfKcOMLlebsqiMiKx9AxbV2Z
+ VexKEg9ITChkBEKPf7LAIWjUKQPVUq4pyinjrFiHsHljvuqlFe/2XwlV5XlOqRgThHBP
+ /OL6ZsHiqOvTFNPQOtw31SXhf6wWZ1hQmSBUP0GMCFdHoNqe6PuSPxNrfeFMCMl82Ylv
+ /cGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726463489; x=1727068289;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xClosrKSKvRQXSe4g+NTsfgEyk3rcyU/wxole1yQDT0=;
+ b=qH5manUm9eto1bdyiBycBoOg2SrzqRgT401lodw4ysh1CPwBkm94D7hP0rA9BVkBVC
+ TV2hQXh8t3cZ7NziBaDZsBLTEbwSpiBjmA/4sLUi42f67aRRrbjP6mlDIXdQSgdlYCT2
+ bNVrWDtHudTk+QHaqOojEQai4CcCL+5263+klEqzDWegm5eciuQwV4vMfAAyDLTXXNLG
+ UzygYLQIH3MSvPUUt3L2D3nwySzAYTIqPZf33BL0K+1fEwx0bGYcC9Fv1aPXDdKT0Ud0
+ ZU3dk31Obu3EzTWldBCJHYJ7QA288bX73Jo8Lqg20NC9CW2CtqrIjbDEdjmy1m1BMtuK
+ pDRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV5DCCFDDDcBd9G/cjYSzxYrA/ZFnmWJCteIFe0nLqRxFfZYCu2QHr7LEyVaQwF8042Dn0bnyk0VRI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5KiG4brEL3IAv3NX2c512vpQWegTfbVJR+HXi1RYVeOtvpQ2B
+ N5vNbzxajX0Nbc8im7zJ2GNpuJAWZ22wU65QGltvJS2fgkXtWyNlvRjaKhgPFPuKTwsHNHKTYE9
+ 9fJy6GBtnHxFF+MoQbvQikvMmRaKmhsioFB9+DA==
+X-Google-Smtp-Source: AGHT+IHw0+9JwP/NwY/8uibNHIFwJiOUTZZF4F6o99jcFoo8qq9n9ykue29sInrAe1E0S1koV97Qqsuk5tzD/GYpnQE=
+X-Received: by 2002:a05:690c:4a10:b0:6d3:be51:6d03 with SMTP id
+ 00721157ae682-6dbcc3b3a4cmr89104197b3.23.1726463489085; Sun, 15 Sep 2024
+ 22:11:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240911213537.2338164-11-superm1@kernel.org>
+References: <20240915080830.11318-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240915080830.11318-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240915080830.11318-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 16 Sep 2024 07:11:17 +0200
+Message-ID: <CAA8EJpp1ZHFFY9M3i47d658Q-m3ggJzhxSRUapX=tckgdAwcNg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] drm/panel: jd9365da: Modify Kingdisplay and Melfas
+ panel timing
+To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dianders@chromium.org, hsinyi@google.com, 
+ awarnecke002@hotmail.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,75 +82,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mario,
+On Sun, 15 Sept 2024 at 10:10, Zhaoxiong Lv
+<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+>
+> In order to meet the timing, remove the delay between "backlight off"
+> and "display off"
+>
+> Removing variables: display_off_to_enter_sleep_delay_ms
 
-kernel test robot noticed the following build warnings:
+This is not enough. If this is a fix, then describe why the original
+commit is incorrect, provide necessary explanation, details, etc.
+Otherwise it looks as if you are removing the delay that was necessary
+for other panels
 
-[auto build test WARNING on amd-pstate/linux-next]
-[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.11]
-[cannot apply to next-20240913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Also if this is a fix, it should be properly notated with the Fixes
+tag, maybe cc:stable, etc.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-amd-display-switch-amdgpu_dm_connector-to-use-struct-drm_edid/20240912-093827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20240911213537.2338164-11-superm1%40kernel.org
-patch subject: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if available for eDP
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/reproduce)
+In its current state: NAK.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409161225.xuQVKkoR-lkp@intel.com/
+>
+> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> index 44897e5218a6..2f8af86bc2a0 100644
+> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> @@ -31,7 +31,6 @@ struct jadard_panel_desc {
+>         bool reset_before_power_off_vcioo;
+>         unsigned int vcioo_to_lp11_delay_ms;
+>         unsigned int lp11_to_reset_delay_ms;
+> -       unsigned int backlight_off_to_display_off_delay_ms;
+>         unsigned int display_off_to_enter_sleep_delay_ms;
+>         unsigned int enter_sleep_to_reset_down_delay_ms;
+>  };
+> @@ -69,9 +68,6 @@ static int jadard_disable(struct drm_panel *panel)
+>         struct jadard *jadard = panel_to_jadard(panel);
+>         struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
+>
+> -       if (jadard->desc->backlight_off_to_display_off_delay_ms)
+> -               mipi_dsi_msleep(&dsi_ctx, jadard->desc->backlight_off_to_display_off_delay_ms);
+> -
+>         mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+>
+>         if (jadard->desc->display_off_to_enter_sleep_delay_ms)
+> @@ -858,7 +854,6 @@ static const struct jadard_panel_desc kingdisplay_kd101ne3_40ti_desc = {
+>         .reset_before_power_off_vcioo = true,
+>         .vcioo_to_lp11_delay_ms = 5,
+>         .lp11_to_reset_delay_ms = 10,
+> -       .backlight_off_to_display_off_delay_ms = 100,
+>         .display_off_to_enter_sleep_delay_ms = 50,
+>         .enter_sleep_to_reset_down_delay_ms = 100,
+>  };
+> @@ -1109,7 +1104,6 @@ static const struct jadard_panel_desc melfas_lmfbx101117480_desc = {
+>         .reset_before_power_off_vcioo = true,
+>         .vcioo_to_lp11_delay_ms = 5,
+>         .lp11_to_reset_delay_ms = 10,
+> -       .backlight_off_to_display_off_delay_ms = 100,
+>         .display_off_to_enter_sleep_delay_ms = 50,
+>         .enter_sleep_to_reset_down_delay_ms = 100,
+>  };
+> --
+> 2.17.1
+>
 
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c: In function 'dm_helpers_probe_acpi_edid':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:883:28: warning: unused variable 'ddev' [-Wunused-variable]
-     883 |         struct drm_device *ddev = connector->dev;
-         |                            ^~~~
-
-
-vim +/ddev +883 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c
-
-   878	
-   879	static int
-   880	dm_helpers_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
-   881	{
-   882		struct drm_connector *connector = data;
- > 883		struct drm_device *ddev = connector->dev;
-   884		struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
-   885		unsigned char start = block * EDID_LENGTH;
-   886		void *edid;
-   887		int r;
-   888	
-   889		if (!acpidev)
-   890			return -ENODEV;
-   891	
-   892		/* fetch the entire edid from BIOS */
-   893		r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
-   894		if (r < 0) {
-   895			DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
-   896			return r;
-   897		}
-   898		if (len > r || start > r || start + len > r) {
-   899			r = -EINVAL;
-   900			goto cleanup;
-   901		}
-   902	
-   903		memcpy(buf, edid + start, len);
-   904		r = 0;
-   905	
-   906	cleanup:
-   907		kfree(edid);
-   908	
-   909		return r;
-   910	}
-   911	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
