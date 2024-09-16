@@ -2,81 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944D1979CCF
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 10:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A73C979CD9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 10:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8603410E2F4;
-	Mon, 16 Sep 2024 08:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56D4410E30C;
+	Mon, 16 Sep 2024 08:36:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="A9wAh9Th";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xz4OHicY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B31A10E2F4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 08:32:02 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE24610E30A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 08:36:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1726475521;
+ s=mimecast20190719; t=1726475786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FfmZ7r+4kwU9DVbLoOZ4dYqtnh8vMlpqZa7ABre/L54=;
- b=A9wAh9ThSKhGjnuvvc1ctJncrwhWinhKNFGyuZHZMW1fJiLCoqVrSQT6zShG6d5N/4OQFG
- +31HnvIubBvaeGBuLgTB+dpsxv69EYT5nu83X8GPo54iP2jKXfciidxKAIVb92bc9Wn9zA
- BfRRreNOCWgOFjTIVeG9LhLqz5Ab2l8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SZghuNl8RSxhnXryd0EQnOpNodf1ePXadDKLScPEidI=;
+ b=Xz4OHicYetMR0XuOwvwxsaRFx2F4xM6ynnukJWYqbxj0pA0NKZreD4uiZEIcY33io8jpvp
+ PR2a1vrmnhmNgK/cVnTTTUW8FEb4tWJso4Yww6CsdlRqy2plU5xi23L3f4RG2sCKjYP18X
+ Yrk6VjTgSljWs7eS28zbBnY/vOsHEls=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-463-QtkaS6XSOxStxA6n_2giSA-1; Mon, 16 Sep 2024 04:31:19 -0400
-X-MC-Unique: QtkaS6XSOxStxA6n_2giSA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-42cb89fbb8cso26899575e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 01:31:19 -0700 (PDT)
+ us-mta-60-LISlBDxLNsaQ68vVQ8NWOQ-1; Mon, 16 Sep 2024 04:36:24 -0400
+X-MC-Unique: LISlBDxLNsaQ68vVQ8NWOQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3771b6da3ceso1063285f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 01:36:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726475478; x=1727080278;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=d0Jt6i7I6Y3nd6kTg5Hxd+Fnuhmk7ooLU20QKU05hWk=;
- b=Ryn9IWwv1FZbmNolAWeJny2Gre0gOkJS/s5bCC0r9rN9pTYSpKe7SZh1qoKo8je5M3
- MyU+FNzRZJSxRHMO+SsfeA0PJklzNKFj+57XXIyzXD5D0/8sCQ70ATrBJD2DD/OQauCo
- 3nKbtZTwrzTsmfoZvCH+OAAtI/UcTNSVJoojXBwCa4Rjht2E6clqdfBr6yKmATSWWFHQ
- ViJHQk8UlRYB1lbWu3KMxRD2MDxfc52Faqp/d/kF/csZRUgaWZdsI8KTr4ey+J/2PpA+
- 4EiVOan/+4wNUJ7UbSZtCef7XQTPI3J6pheZxFnO2P3yq9TqAD8J0Kz3+UUdcQw3db1t
- 3yaA==
+ d=1e100.net; s=20230601; t=1726475783; x=1727080583;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SZghuNl8RSxhnXryd0EQnOpNodf1ePXadDKLScPEidI=;
+ b=fkdj4fEWbTCmr0r1NdmKd1/hA7SJX48jZcH6J/L4LWCtNvYg1IgniYwSbcg/dZgxrF
+ fgd/N5nPNtPFQWMGerrbmZmPOWURZHfcF4h0BYl4+GYtU6NFM1xg5FEgENuLWZR9W/7q
+ H1jycbwXxdGF/UP+XrzG2Y7i25TFr0aobON+5P3X6cYVmtv7yIQ7nrQIbsJjlTHymjnU
+ n3vCkShRFMpwHlnoAQV091PyVQBYc939oJGXQDOm0QahArs5jk0XS6gO7K/kk/Yb48JL
+ RxwhgukjANpzofPPU92s8Mpnfuh6lYbECiwNmbXtGNSQSfuJ1A8qwha3yEI526H2l+BY
+ NK5Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUe+oznQ8YTIa8ZxTPCwu5ed6FJY2SDNUpqpyVwRjch25MNiX6sU4t3YGBYz7pVIDTIFnzYy5/6fHs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yww4rk+7KoBB4ifgw12/XkQq12pxprkqv+WxNh9ddIAg67525qy
- IE6/vzEK5PIrRPbCjuPkTuFttCP6rTKDGTeePhLaDMECiopbuMS+2xtHq6jRtBmOzdUtEcNHQi2
- JbUuCg9+ywf3n2Q+VCI5dWLDDyRexSudmhN7nY9NuFdLenN47eNI5uo2RcVG4/xQI5qnbtsB5ow
- ==
-X-Received: by 2002:a05:600c:548e:b0:42c:a802:a8cd with SMTP id
- 5b1f17b1804b1-42cdb529fbamr93665265e9.11.1726475477555; 
- Mon, 16 Sep 2024 01:31:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF7UfACTTjv5cjv3Sfxcsvn1GqN39pF9ZHXy2h+z7nZhP7GREPtDEIvyzjWoKu1R41TdIy2qQ==
-X-Received: by 2002:a05:600c:548e:b0:42c:a802:a8cd with SMTP id
- 5b1f17b1804b1-42cdb529fbamr93664655e9.11.1726475476531; 
- Mon, 16 Sep 2024 01:31:16 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3d97:9600:c4de:e8e2:392:1c61])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42d9b054fc0sm104983855e9.7.2024.09.16.01.31.15
+ AJvYcCUcaCb3/BjKjWZ4IZXN6RXaHs22LV7wxK5Qn/yxOqkK1TPIIVNabjuHpSzxln/TKPpN2rH1bCv97SQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmSRXzny1/NxcXDS/lPRC1mJrHTXNHmNJZlHjCuLziclWHldyi
+ KNWlUzYwlSWs3Yp9MhbHqhoOTHpxyVX119h6TZ8rOWDC/23Uh0YwN3L9UEs74OrDE2bTqUUbj0R
+ t/VueEg1BIbdzjurSnO2b4Md8fDxbcpEXJZzrsZXfIQt6PNJgASlv5/iw6F/ZlJ8Z4A==
+X-Received: by 2002:adf:facb:0:b0:374:babf:ac4d with SMTP id
+ ffacd0b85a97d-378d625360bmr4960094f8f.58.1726475783580; 
+ Mon, 16 Sep 2024 01:36:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHeUS2MF6BwNmrHrtyITHuRjTmMKPOYmdWcd0GIjcbKqPN/sItyo4uvsPMndSeuH50X7fkZOA==
+X-Received: by 2002:adf:facb:0:b0:374:babf:ac4d with SMTP id
+ ffacd0b85a97d-378d625360bmr4960068f8f.58.1726475783006; 
+ Mon, 16 Sep 2024 01:36:23 -0700 (PDT)
+Received: from localhost (red-hat-inc.vlan560.asr1.mad1.gblx.net.
+ [159.63.51.90]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-378e72e49d5sm6620646f8f.17.2024.09.16.01.36.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Sep 2024 01:31:16 -0700 (PDT)
-Message-ID: <1c9cb208dd2ecbbc6b3db44d2d047635c6da1ed5.camel@redhat.com>
-Subject: Re: [PATCH] drm/scheduler: correct comments relate to scheduler
-From: Philipp Stanner <pstanner@redhat.com>
-To: Shuicheng Lin <shuicheng.lin@intel.com>, dri-devel@lists.freedesktop.org
-Date: Mon, 16 Sep 2024 10:31:15 +0200
-In-Reply-To: <20240915155223.2485535-1-shuicheng.lin@intel.com>
-References: <20240915155223.2485535-1-shuicheng.lin@intel.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+ Mon, 16 Sep 2024 01:36:22 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot
+ <lkp@intel.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Julius Werner
+ <jwerner@chromium.org>, Hugues Bruant <hugues.bruant@gmail.com>,
+ intel-gfx@lists.freedesktop.org, Brian Norris <briannorris@chromium.org>,
+ dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ chrome-platform@lists.linux.dev, Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: Re: [PATCH v3] firmware: coreboot: Don't register a pdev if
+ screen_info data is present
+In-Reply-To: <eeac1c3c-4a21-4cd5-b513-8e55cffe0bae@suse.de>
+References: <20240913213246.1549213-1-javierm@redhat.com>
+ <202409151528.CIWZRPBq-lkp@intel.com>
+ <eeac1c3c-4a21-4cd5-b513-8e55cffe0bae@suse.de>
+Date: Mon, 16 Sep 2024 10:36:21 +0200
+Message-ID: <8734m0atbu.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,230 +96,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-I would call the commit "drm/scheduler: Improve documentation"
+Hello Thomas and Tzung-Bi,
 
-On Sun, 2024-09-15 at 15:52 +0000, Shuicheng Lin wrote:
-> function drm_sched_entity_push_job doesn't have return value,
+> Hi
+>
+> Am 15.09.24 um 09:44 schrieb kernel test robot:
+>> Hi Javier,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on chrome-platform/for-next]
+>> [also build test ERROR on chrome-platform/for-firmware-next linus/master v6.11-rc7 next-20240913]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/firmware-coreboot-Don-t-register-a-pdev-if-screen_info-data-is-present/20240914-053323
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+>> patch link:    https://lore.kernel.org/r/20240913213246.1549213-1-javierm%40redhat.com
+>> patch subject: [PATCH v3] firmware: coreboot: Don't register a pdev if screen_info data is present
+>> config: riscv-randconfig-001-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/config)
+>> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409151528.CIWZRPBq-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202409151528.CIWZRPBq-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> ld.lld: error: undefined symbol: screen_info
+>>     >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/google/framebuffer-coreboot.c:27)
+>>     >>>               drivers/firmware/google/framebuffer-coreboot.o:(framebuffer_probe) in archive vmlinux.a
+>>     >>> referenced by framebuffer-coreboot.c:27 (drivers/firmware/google/framebuffer-coreboot.c:27)
+>>     >>>               drivers/firmware/google/framebuffer-coreboot.o:(framebuffer_probe) in archive vmlinux.a
+>
+> Not all platforms define screen_info. Maybe fix this by following
 
-s/function/Function
+Yes, after reading the build errors reported by the robot I remembered
+that we had similar issues with sysfb, for example commit 1260b9a7020
+("drivers/firmware: fix SYSFB depends to prevent build failures") fixed
+one of those.
 
-It's also nice to always terminate a function's name with its
-parenthesis: drm_sched_entity_push_job()
+> Tzung-Bi's advice of removing the local variables and then guard the
+> test by CONFIG_SYSFB. If SYSFB has been defined, screen_info has to be 
+> there. It's not a super pretty solution, though.
+>
 
-> remove the return value description for it.
-> Correct several other typo errors.
->=20
-> Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c |=C2=A0 8 +++-----
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0 |=C2=A0 4 ++--
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ++++++------
-> =C2=A0include/linux/dma-resv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
-> =C2=A04 files changed, 13 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
-> b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 58c8161289fe..4d6a05fc35ca 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -51,7 +51,7 @@
-> =C2=A0 * drm_sched_entity_set_priority(). For changing the set of
-> schedulers
-> =C2=A0 * @sched_list at runtime see drm_sched_entity_modify_sched().
-> =C2=A0 *
-> - * An entity is cleaned up by callind drm_sched_entity_fini(). See
-> also
-> + * An entity is cleaned up by calling drm_sched_entity_fini(). See
-> also
-> =C2=A0 * drm_sched_entity_destroy().
-> =C2=A0 *
-> =C2=A0 * Returns 0 on success or a negative error code on failure.
-> @@ -370,7 +370,7 @@ static void drm_sched_entity_clear_dep(struct
-> dma_fence *f,
-> =C2=A0}
-> =C2=A0
-> =C2=A0/*
-> - * drm_sched_entity_clear_dep - callback to clear the entities
-> dependency and
-> + * drm_sched_entity_wakeup - callback to clear the entities
-> dependency and
+If possible I would prefer to avoid the ifdefery in the driver. I also
+believe that the local variables makes the code easier to read. But if
+you folks think that's better to drop them, I can do it in the next rev.
 
-While you're at it:
+Another option is to restrict the architectures where this driver could
+be build. As far as I understand it is mainly for x86 and ARM64 arches.
 
-s/entities dependency/entity's dependency
+These two have a screen_info defined so the driver will build correctly.
+I can include a preparatory patch that adds a "depends on x86 || ARM64".
 
-> =C2=A0 * wake up scheduler
-> =C2=A0 */
-> =C2=A0static void drm_sched_entity_wakeup(struct dma_fence *f,
-> @@ -389,7 +389,7 @@ static void drm_sched_entity_wakeup(struct
-> dma_fence *f,
-> =C2=A0 * @entity: scheduler entity
-> =C2=A0 * @priority: scheduler priority
-> =C2=A0 *
-> - * Update the priority of runqueus used for the entity.
-> + * Update the priority of runqueues used for the entity.
-> =C2=A0 */
-> =C2=A0void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
-> =C2=A0=09=09=09=09=C2=A0=C2=A0 enum drm_sched_priority priority)
-> @@ -574,8 +574,6 @@ void drm_sched_entity_select_rq(struct
-> drm_sched_entity *entity)
-> =C2=A0 * fence sequence number this function should be called with
-> drm_sched_job_arm()
-> =C2=A0 * under common lock for the struct drm_sched_entity that was set u=
-p
-> for
-> =C2=A0 * @sched_job in drm_sched_job_init().
-> - *
-> - * Returns 0 for success, negative error code otherwise.
-> =C2=A0 */
-> =C2=A0void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
-> =C2=A0{
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index f093616fe53c..6e8c7651bd95 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -41,7 +41,7 @@
-> =C2=A0 * 4. Entities themselves maintain a queue of jobs that will be
-> scheduled on
-> =C2=A0 *=C2=A0=C2=A0=C2=A0 the hardware.
-> =C2=A0 *
-> - * The jobs in a entity are always scheduled in the order that they
-> were pushed.
-> + * The jobs in an entity are always scheduled in the order that they
-> were pushed.
+> Best regards
+> Thomas
+>
 
-"in the order in which they were ..."?
+-- 
+Best regards,
 
-> =C2=A0 *
-> =C2=A0 * Note that once a job was taken from the entities queue and pushe=
-d
-> to the
-> =C2=A0 * hardware, i.e. the pending queue, the entity must not be
-> referenced anymore
-> @@ -1340,7 +1340,7 @@ void drm_sched_fini(struct drm_gpu_scheduler
-> *sched)
-> =C2=A0=09=09list_for_each_entry(s_entity, &rq->entities, list)
-> =C2=A0=09=09=09/*
-> =C2=A0=09=09=09 * Prevents reinsertion and marks job_queue
-> as idle,
-> -=09=09=09 * it will removed from rq in
-> drm_sched_entity_fini
-> +=09=09=09 * it will be removed from rq in
-> drm_sched_entity_fini
-
-"from the rq"?
-
-s/drm_sched_entity_fini/drm_sched_entity_fini()
-
-> =C2=A0=09=09=09 * eventually
-> =C2=A0=09=09=09 */
-> =C2=A0=09=09=09s_entity->stopped =3D true;
-> diff --git a/include/drm/gpu_scheduler.h
-> b/include/drm/gpu_scheduler.h
-> index a8d19b10f9b8..9e1b12ca84b9 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -33,11 +33,11 @@
-> =C2=A0#define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
-> =C2=A0
-> =C2=A0/**
-> - * DRM_SCHED_FENCE_DONT_PIPELINE - Prefent dependency pipelining
-> + * DRM_SCHED_FENCE_DONT_PIPELINE - Prevent dependency pipelining
-> =C2=A0 *
-> =C2=A0 * Setting this flag on a scheduler fence prevents pipelining of
-> jobs depending
-> =C2=A0 * on this fence. In other words we always insert a full CPU round
-> trip before
-> - * dependen jobs are pushed to the hw queue.
-> + * dependent jobs are pushed to the hw queue.
-> =C2=A0 */
-> =C2=A0#define DRM_SCHED_FENCE_DONT_PIPELINE=09DMA_FENCE_FLAG_USER_BITS
-> =C2=A0
-> @@ -71,7 +71,7 @@ enum drm_sched_priority {
-> =C2=A0=09DRM_SCHED_PRIORITY_COUNT
-> =C2=A0};
-> =C2=A0
-> -/* Used to chose between FIFO and RR jobs scheduling */
-> +/* Used to choose between FIFO and RR jobs scheduling */
-
-s/jobs scheduling/job-scheduling
-
-> =C2=A0extern int drm_sched_policy;
-> =C2=A0
-> =C2=A0#define DRM_SCHED_POLICY_RR=C2=A0=C2=A0=C2=A0 0
-> @@ -198,7 +198,7 @@ struct drm_sched_entity {
-> =C2=A0=09 *
-> =C2=A0=09 * Points to the finished fence of the last scheduled job.
-> Only written
-> =C2=A0=09 * by the scheduler thread, can be accessed locklessly from
-> -=09 * drm_sched_job_arm() iff the queue is empty.
-> +=09 * drm_sched_job_arm() if the queue is empty.
-> =C2=A0=09 */
-> =C2=A0=09struct dma_fence __rcu=09=09*last_scheduled;
-> =C2=A0
-> @@ -247,7 +247,7 @@ struct drm_sched_entity {
-> =C2=A0 * @sched: the scheduler to which this rq belongs to.
-> =C2=A0 * @entities: list of the entities to be scheduled.
-> =C2=A0 * @current_entity: the entity which is to be scheduled.
-> - * @rb_tree_root: root of time based priory queue of entities for
-> FIFO scheduling
-> + * @rb_tree_root: root of time based priority queue of entities for
-> FIFO scheduling
-> =C2=A0 *
-> =C2=A0 * Run queue is a set of entities scheduling command submissions fo=
-r
-> =C2=A0 * one specific ring. It implements the scheduling policy that
-> selects
-> @@ -321,7 +321,7 @@ struct drm_sched_fence *to_drm_sched_fence(struct
-> dma_fence *f);
-> =C2=A0 * @s_fence: contains the fences for the scheduling of job.
-> =C2=A0 * @finish_cb: the callback for the finished fence.
-> =C2=A0 * @credits: the number of credits this job contributes to the
-> scheduler
-> - * @work: Helper to reschdeule job kill to different context.
-> + * @work: Helper to reschedule job kill to different context.
-> =C2=A0 * @id: a unique id assigned to each job scheduled on the scheduler=
-.
-> =C2=A0 * @karma: increment on every hang caused by this job. If this
-> exceeds the hang
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 limit of the sch=
-eduler then the job is marked guilty and
-> will not
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index 8d0e34dad446..a53a9b802108 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -105,10 +105,10 @@ enum dma_resv_usage {
-> =C2=A0=09 * This should be used by submissions which don't want to
-> participate in
-> =C2=A0=09 * any implicit synchronization.
-> =C2=A0=09 *
-> -=09 * The most common case are preemption fences, page table
-> updates, TLB
-> +=09 * The most common cases are preemption fences, page table
-> updates, TLB
-> =C2=A0=09 * flushes as well as explicit synced user submissions.
-
-Hm, would it make sense here to say "explicitly"?
-
-> =C2=A0=09 *
-> -=09 * Explicit synced user user submissions can be promoted to
-> +=09 * Explicit synced user submissions can be promoted to
-
-Same here
-
-> =C2=A0=09 * DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE as needed
-> using
-> =C2=A0=09 * dma_buf_import_sync_file() when implicit synchronization
-> should
-> =C2=A0=09 * become necessary after initial adding of the fence.
-
-
-Thanks,
-P.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
