@@ -2,56 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDAA979F41
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 12:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B2197ABA9
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 08:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEE8710E33D;
-	Mon, 16 Sep 2024 10:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57B3610E1F4;
+	Tue, 17 Sep 2024 06:50:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="n8zXW76h";
+	dkim=pass (2048-bit key; unprotected) header.d=maxima.ru header.i=@maxima.ru header.b="gbV6jSE2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6850E10E341;
- Mon, 16 Sep 2024 10:26:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gcpsuHo0gHtQ30vF7JeygP+gAgFIpnqC6Q93rgiIQgw=; b=n8zXW76hApCgkVGgtllIJP9TrQ
- K10rYLTKfzMymjvxzIXDgb3z1LC9fP2w7OPh0CzBRNMaZeszAMATVokGvELFaooED1tlPOo1ZZTZF
- kAvCk1O0SKTbl1NdaPhVlpUYWcIMbktUQnDoUWA/YGYwDvcYe/P+JHpVi6J8LVv57CUsotU5q6npu
- +p45LZQESfSKmlw3rPW6w0SyD/O82lJu69hcJVkwQ66o4JHXKkTfLkMILANPPl6ajvgN221xDBc5V
- 0Y9vQ2odH5cRKYj8N3dujpx+sWy9Xbjup45Ower0Y9ZReMyCpu8AJXKBS4kKSFLWJgaaRH22lBkHw
- pz+ODGPQ==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sq8wT-00EOz0-Mq; Mon, 16 Sep 2024 12:26:49 +0200
-Message-ID: <0d9850c5-0f47-49cf-b613-cf409c9ac936@igalia.com>
-Date: Mon, 16 Sep 2024 11:26:48 +0100
+X-Greylist: delayed 385 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Sep 2024 10:50:34 UTC
+Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFA110E27E;
+ Mon, 16 Sep 2024 10:50:34 +0000 (UTC)
+Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
+ by ksmg02.maxima.ru (Postfix) with ESMTP id 0CE481E0004;
+ Mon, 16 Sep 2024 13:44:04 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru 0CE481E0004
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
+ t=1726483444; bh=ThbJ6N0R8e00LokNP2VgWULnWOsZlMXMwlpzar1AU8c=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+ b=gbV6jSE2Ssz1pyhMQKepO3iiL6sbXccEtWhqWaybBv62a4g5UyV/wrB5Nk+9Tdn4g
+ KdEi5+Pr6fiCD5v1DtC4vXjDIqYeUFHvnYrJSqW0BLPCuSqVxEi6d441IHuy66AHxX
+ n0RL8gEqmniCAW6OjaydzYguaYXeFXOjqz8DrMVcm3xpxhDyI6De3ne2+98UGo3zbG
+ 4Sj1251IHUb1ZP7uVAoKsGh23odgIrDL4wOpqy8ujwuckm/hxcRniZxDi0WWdRhcqj
+ KHJ5S5p7kWH33JYtXnS4yDo18m+/+sH5Cbz9fp8DkTNrEhl2EqTjHdkhjdoqZRnQem
+ D9/y0JR9ACMNw==
+Received: from ksmg02.maxima.ru (unknown [81.200.124.62])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.maxima.ru",
+ Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+ by ksmg02.maxima.ru (Postfix) with ESMTPS;
+ Mon, 16 Sep 2024 13:44:03 +0300 (MSK)
+Received: from GS-NOTE-190.mt.ru (10.0.247.10) by mmail-p-exch02.mt.ru
+ (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Mon, 16 Sep
+ 2024 13:44:00 +0300
+From: Murad Masimov <m.masimov@maxima.ru>
+To: <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Murad Masimov <m.masimov@maxima.ru>, Harry Wentland
+ <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira
+ <Rodrigo.Siqueira@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, "Pan, Xinhui"
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Alvin Lee <alvin.lee2@amd.com>, Sasha Levin
+ <sashal@kernel.org>, Chaitanya Dhere <chaitanya.dhere@amd.com>, Tom Chung
+ <chiahsuan.chung@amd.com>, Sohaib Nadeem <sohaib.nadeem@amd.com>, Hersen Wu
+ <hersenxs.wu@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Daniel
+ Wheeler <daniel.wheeler@amd.com>, Rodrigo Siqueira
+ <rodrigo.siqueira@amd.com>, Samson Tam <samson.tam@amd.com>
+Subject: [PATCH 6.1] drm/amd/display: Fix subvp+drr logic errors
+Date: Mon, 16 Sep 2024 13:43:23 +0300
+Message-ID: <20240916104325.1532-1-m.masimov@maxima.ru>
+X-Mailer: git-send-email 2.46.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] drm/sched: Re-order struct drm_sched_rq members for
- clarity
-To: Philipp Stanner <pstanner@redhat.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
-References: <20240913160559.49054-1-tursulin@igalia.com>
- <20240913160559.49054-7-tursulin@igalia.com>
- <f193ac6e13c9069eacf3498e1df41c97577c58e4.camel@redhat.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <f193ac6e13c9069eacf3498e1df41c97577c58e4.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.247.10]
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
+ (81.200.124.62)
+X-KSMG-Rule-ID: 7
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 187760 [Sep 16 2024]
+X-KSMG-AntiSpam-Version: 6.1.1.5
+X-KSMG-AntiSpam-Envelope-From: m.masimov@maxima.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;
+ spf=none smtp.mailfrom=maxima.ru; dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34
+ 8a1fac695d5606478feba790382a59668a4f0039, {rep_avail},
+ {Tracking_from_domain_doesnt_match_to}, maxima.ru:7.1.1; 81.200.124.62:7.1.2;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; ksmg02.maxima.ru:7.1.1;
+ 127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.62, {DNS
+ response errors}
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960,
+ bases: 2024/09/16 05:22:00 #26594998
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Mailman-Approved-At: Tue, 17 Sep 2024 06:50:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,89 +104,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Alvin Lee <alvin.lee2@amd.com>
 
-On 16/09/2024 09:16, Philipp Stanner wrote:
-> On Fri, 2024-09-13 at 17:05 +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>
->> Current kerneldoc for struct drm_sched_rq incompletely documents what
->> fields are protected by the lock.
->>
->> This is not good because it is misleading.
->>
->> Lets fix it by listing all the elements which are protected by the
->> lock.
->>
->> While at it, lets also re-order the members so all protected by the
->> lock
->> are in a single group.
->>
->> v2:
->>   * Refer variables by kerneldoc syntax, more verbose commit text.
->> (Philipp)
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Luben Tuikov <ltuikov89@gmail.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <pstanner@redhat.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
-> 
-> Looks good, thx
-> 
-> Reviewed-by: Philipp Stanner <pstanner@redhat.com>
+commit 8a0f02b7beed7b2b768dbdf3b79960de68f460c5 upstream.
 
-Thanks!
+[Why]
+There is some logic error where the wrong variable was used to check for
+OTG_MASTER and DPP_PIPE.
 
-4/8 and 8/8 are now the only two left with no r-b.
->> ---
->>   include/drm/gpu_scheduler.h | 10 ++++++----
->>   1 file changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/include/drm/gpu_scheduler.h
->> b/include/drm/gpu_scheduler.h
->> index 38465b78c7d5..2f58af00f792 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -243,10 +243,10 @@ struct drm_sched_entity {
->>   /**
->>    * struct drm_sched_rq - queue of entities to be scheduled.
->>    *
->> - * @lock: to modify the entities list.
->>    * @sched: the scheduler to which this rq belongs to.
->> - * @entities: list of the entities to be scheduled.
->> + * @lock: protects @entities, @rb_tree_root and @current_entity.
-> 
-> nit: in case you'll provide a new version anyways you could consider
-> sorting these three to be congruent with the lines below.
+[How]
+Add booleans to confirm that the expected pipes were found before
+validating schedulability.
 
-To me it looks the order of kerneldoc vs members is aligned. Unless I 
-missed what you mean here?
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Reviewed-by: Samson Tam <samson.tam@amd.com>
+Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
+Signed-off-by: Alvin Lee <alvin.lee2@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+[m.masimov@maxima.ru: In order to adapt this patch to branch 6.1
+only changes related to finding the SubVP pipe were applied
+as in 6.1 drr_pipe is passed as a function argument.]
+Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
+---
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Regards,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index 85e0d1c2a908..4b0719392d28 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -862,6 +862,7 @@ static bool subvp_drr_schedulable(struct dc *dc, struct dc_state *context, struc
+ 	int16_t stretched_drr_us = 0;
+ 	int16_t drr_stretched_vblank_us = 0;
+ 	int16_t max_vblank_mallregion = 0;
++	bool subvp_found = false;
+ 
+ 	// Find SubVP pipe
+ 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+@@ -873,10 +874,15 @@ static bool subvp_drr_schedulable(struct dc *dc, struct dc_state *context, struc
+ 			continue;
+ 
+ 		// Find the SubVP pipe
+-		if (pipe->stream->mall_stream_config.type == SUBVP_MAIN)
++		if (pipe->stream->mall_stream_config.type == SUBVP_MAIN) {
++			subvp_found = true;
+ 			break;
++		}
+ 	}
+ 
++	if (!subvp_found)
++		return false;
++
+ 	main_timing = &pipe->stream->timing;
+ 	phantom_timing = &pipe->stream->mall_stream_config.paired_stream->timing;
+ 	drr_timing = &drr_pipe->stream->timing;
+-- 
+2.39.2
 
-Tvrtko
-
->>    * @current_entity: the entity which is to be scheduled.
->> + * @entities: list of the entities to be scheduled.
->>    * @rb_tree_root: root of time based priory queue of entities for
->> FIFO scheduling
->>    *
->>    * Run queue is a set of entities scheduling command submissions for
->> @@ -254,10 +254,12 @@ struct drm_sched_entity {
->>    * the next entity to emit commands from.
->>    */
->>   struct drm_sched_rq {
->> -	spinlock_t			lock;
->>   	struct drm_gpu_scheduler	*sched;
->> -	struct list_head		entities;
->> +
->> +	spinlock_t			lock;
->> +	/* Following members are protected by the @lock: */
->>   	struct drm_sched_entity		*current_entity;
->> +	struct list_head		entities;
->>   	struct rb_root_cached		rb_tree_root;
->>   };
->>   
-> 
