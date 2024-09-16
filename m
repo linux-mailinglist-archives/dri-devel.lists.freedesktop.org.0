@@ -2,100 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D722979CC8
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 10:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E59B979CC6
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 10:29:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10C5E10E2EB;
-	Mon, 16 Sep 2024 08:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C3E10E2E6;
+	Mon, 16 Sep 2024 08:29:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bFUhnq5M";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6Dz9SOPG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bFUhnq5M";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6Dz9SOPG";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xrRj7vYN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+kVVEquA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xrRj7vYN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+kVVEquA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E38F910E2E6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 08:29:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4292410E2EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 08:29:27 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 84B0121BAE;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B26E721BBF;
  Mon, 16 Sep 2024 08:29:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1726475365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Dcu1Fc6HkWfNcVcPM8R7zEW4feCWV/Nslrs64dfSETo=;
- b=bFUhnq5Mud1HJ5Urjh/d8ThgPGjexRvv4YykSbiuraG3Yccmo78p6aObq5OX7Wx/zU9oc1
- 1Dybimr72qaW0LtDkimrxLSQSL2g9HCrdMtSAO+/xxYMKf8b69bOSrvVeWF4CfsDWGq5U6
- M1MXRuwzZJw702tJx4SS1ZaCgqSfHuo=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZMsRmGEm94Ie9ny9uhoYcRnO7ddqfA95iGvKC0ipILE=;
+ b=xrRj7vYNA6mIdevwJeG9Mm3RT0zjRNvfLwAFWDLIOIpCfoIJXCwphAeXuk9om7m1/+N30u
+ NT1669SmVjuH+1ear0q/J8iqaWUm0jMHxriHTHwmpL+ElIAq8BGeUpdkJDlyXpzQqU/5yK
+ EwLjN0If9xSzGxAGeGFBZQdRQ8pTr+g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1726475365;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Dcu1Fc6HkWfNcVcPM8R7zEW4feCWV/Nslrs64dfSETo=;
- b=6Dz9SOPGkU6VLCn/NZlr+5pm5/b5CILDyqX3oFOBcq7fKFCtl43mTys9Mag1PsMRVrhKco
- Asy3VmqNLxD7jTAA==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZMsRmGEm94Ie9ny9uhoYcRnO7ddqfA95iGvKC0ipILE=;
+ b=+kVVEquAvOC1C/RWlA5jZisaKSrgbAzlFj0tFKUHOEHceUJSvHxT3Mzf/lc2NfstqhCzKB
+ hLC7dutPqDVK60AA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bFUhnq5M;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6Dz9SOPG
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1726475365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Dcu1Fc6HkWfNcVcPM8R7zEW4feCWV/Nslrs64dfSETo=;
- b=bFUhnq5Mud1HJ5Urjh/d8ThgPGjexRvv4YykSbiuraG3Yccmo78p6aObq5OX7Wx/zU9oc1
- 1Dybimr72qaW0LtDkimrxLSQSL2g9HCrdMtSAO+/xxYMKf8b69bOSrvVeWF4CfsDWGq5U6
- M1MXRuwzZJw702tJx4SS1ZaCgqSfHuo=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZMsRmGEm94Ie9ny9uhoYcRnO7ddqfA95iGvKC0ipILE=;
+ b=xrRj7vYNA6mIdevwJeG9Mm3RT0zjRNvfLwAFWDLIOIpCfoIJXCwphAeXuk9om7m1/+N30u
+ NT1669SmVjuH+1ear0q/J8iqaWUm0jMHxriHTHwmpL+ElIAq8BGeUpdkJDlyXpzQqU/5yK
+ EwLjN0If9xSzGxAGeGFBZQdRQ8pTr+g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1726475365;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Dcu1Fc6HkWfNcVcPM8R7zEW4feCWV/Nslrs64dfSETo=;
- b=6Dz9SOPGkU6VLCn/NZlr+5pm5/b5CILDyqX3oFOBcq7fKFCtl43mTys9Mag1PsMRVrhKco
- Asy3VmqNLxD7jTAA==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZMsRmGEm94Ie9ny9uhoYcRnO7ddqfA95iGvKC0ipILE=;
+ b=+kVVEquAvOC1C/RWlA5jZisaKSrgbAzlFj0tFKUHOEHceUJSvHxT3Mzf/lc2NfstqhCzKB
+ hLC7dutPqDVK60AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 55B37139CE;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A07213A91;
  Mon, 16 Sep 2024 08:29:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 8u+yE2Xs52bOPwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id YCiEIGXs52bOPwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 16 Sep 2024 08:29:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com,
 	airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 0/3] drm/ast: Clean up use of TX-chip register constants
-Date: Mon, 16 Sep 2024 10:25:12 +0200
-Message-ID: <20240916082920.56234-1-tzimmermann@suse.de>
+Subject: [PATCH 1/3] drm/ast: Rename register constants for TX-chip types
+Date: Mon, 16 Sep 2024 10:25:13 +0200
+Message-ID: <20240916082920.56234-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240916082920.56234-1-tzimmermann@suse.de>
+References: <20240916082920.56234-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 84B0121BAE
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
 X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; MIME_TRACE(0.00)[0:+];
+ TO_DN_SOME(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,22 +113,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On GEN4 and later, VGACRD1 returns the device's TX chip. Clean up the
-use of the constants. Warn about unsupported chips.
+The type of the TX chip is provided in VGACRD1. Rename the constants
+accordingly.
 
-Tested on various Aspeed devices. Really cleaning this up needs more
-work, but at least the TX-chip warnings can be added now.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_main.c |  4 ++--
+ drivers/gpu/drm/ast/ast_reg.h  | 26 ++++++++++++--------------
+ 2 files changed, 14 insertions(+), 16 deletions(-)
 
-Thomas Zimmermann (3):
-  drm/ast: Rename register constants for TX-chip types
-  drm/ast: Use TX-chip register constants
-  drm/ast: Warn about unsupported TX chips
-
- drivers/gpu/drm/ast/ast_dp501.c | 13 +++++++------
- drivers/gpu/drm/ast/ast_main.c  | 30 +++++++++++++++++++++++-------
- drivers/gpu/drm/ast/ast_reg.h   | 26 ++++++++++++--------------
- 3 files changed, 42 insertions(+), 27 deletions(-)
-
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 3d92d9e5208f..d0e4f0dc9234 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -120,8 +120,8 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
+ 			ast->tx_chip = AST_TX_DP501;
+ 		}
+ 	} else if (IS_AST_GEN7(ast)) {
+-		if (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xD1, TX_TYPE_MASK) ==
+-		    ASTDP_DPMCU_TX) {
++		if (ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, AST_IO_VGACRD1_TX_TYPE_MASK) ==
++		    AST_IO_VGACRD1_TX_ASTDP) {
+ 			int ret = ast_dp_launch(ast);
+ 
+ 			if (!ret)
+diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
+index 6a1f756650ab..daa5d3a9e6a1 100644
+--- a/drivers/gpu/drm/ast/ast_reg.h
++++ b/drivers/gpu/drm/ast/ast_reg.h
+@@ -37,7 +37,18 @@
+ #define AST_IO_VGACRCB_HWC_16BPP	BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
+ #define AST_IO_VGACRCB_HWC_ENABLED	BIT(1)
+ 
+-#define AST_IO_VGACRD1_MCU_FW_EXECUTING	BIT(5)
++#define AST_IO_VGACRD1_MCU_FW_EXECUTING		BIT(5)
++/* Display Transmitter Type */
++#define AST_IO_VGACRD1_TX_TYPE_MASK		GENMASK(3, 1)
++#define AST_IO_VGACRD1_NO_TX			0x00
++#define AST_IO_VGACRD1_TX_ITE66121_VBIOS	0x02
++#define AST_IO_VGACRD1_TX_SIL164_VBIOS		0x04
++#define AST_IO_VGACRD1_TX_CH7003_VBIOS		0x06
++#define AST_IO_VGACRD1_TX_DP501_VBIOS		0x08
++#define AST_IO_VGACRD1_TX_ANX9807_VBIOS		0x0a
++#define AST_IO_VGACRD1_TX_FW_EMBEDDED_FW	0x0c
++#define AST_IO_VGACRD1_TX_ASTDP			0x0e
++
+ #define AST_IO_VGACRD7_EDID_VALID_FLAG	BIT(0)
+ #define AST_IO_VGACRDC_LINK_SUCCESS	BIT(0)
+ #define AST_IO_VGACRDF_HPD		BIT(0)
+@@ -49,19 +60,6 @@
+ #define AST_IO_VGAIR1_R			(0x5A)
+ #define AST_IO_VGAIR1_VREFRESH		BIT(3)
+ 
+-/*
+- * Display Transmitter Type
+- */
+-
+-#define TX_TYPE_MASK			GENMASK(3, 1)
+-#define NO_TX				(0 << 1)
+-#define ITE66121_VBIOS_TX		(1 << 1)
+-#define SI164_VBIOS_TX			(2 << 1)
+-#define CH7003_VBIOS_TX			(3 << 1)
+-#define DP501_VBIOS_TX			(4 << 1)
+-#define ANX9807_VBIOS_TX		(5 << 1)
+-#define TX_FW_EMBEDDED_FW_TX		(6 << 1)
+-#define ASTDP_DPMCU_TX			(7 << 1)
+ 
+ #define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
+ //#define AST_VRAM_INIT_BY_BMC		BIT(7)
 -- 
 2.46.0
 
