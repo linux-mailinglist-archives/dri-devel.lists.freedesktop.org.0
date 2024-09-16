@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5400979A44
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 06:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F45C979A62
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2024 06:31:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E7C10E013;
-	Mon, 16 Sep 2024 04:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2020A10E074;
+	Mon, 16 Sep 2024 04:30:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="bMsTXyvy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UMfmKDI9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E03910E013
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2024 04:15:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1726460121;
- bh=aSMGNOW8vImcRzjGRzIsVUvVAA6VLJ9IpG/L1pmcNJw=;
- h=Date:From:To:Cc:Subject:From;
- b=bMsTXyvyjD60NmFjP3DNMjJRGM2GSjWfWj9cAop6UPf1SExGyqBCSvbEeJ2oMYlpq
- LPg/SH5Bn9C08Qc8he9wXuvpGfuJRtELI4Z+tqw2mLIQEcEWy6A89HKJLiLSV3eiKY
- YPbnrWWDaqJHfLQSH/83RTVRAyIpKVvRH0EuTqZcHLDlPuaHvt0uPsxNvzmNhfaA4B
- y+BzViOp3e8AcjcAx9n0M8hs5MtCbV7dvGRvmFGoqbwnUpnoeeuvwJAbxSmkuExRWw
- eEPC3q0YfURp9q/MieKoB0XmXh5T8swsdB91ibbmwuyZJqy/8vYgLzarxrVWFNhbIP
- X8vyLAi9jIF3g==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4X6Wm65Bglz4x8F;
- Mon, 16 Sep 2024 14:15:18 +1000 (AEST)
-Date: Mon, 16 Sep 2024 14:15:17 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Jerry Zuo <jerry.zuo@amd.com>,
- DRI <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Mario Limonciello
- <mario.limonciello@amd.com>, Sung Joon Kim <sungjoon.kim@amd.com>, Tobias
- Jakobi <tjakobi@math.uni-bielefeld.de>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20240916141517.3ef8b349@canb.auug.org.au>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F108A10E074;
+ Mon, 16 Sep 2024 04:30:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726461056; x=1757997056;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=kGKwQsa5LY7zTU/w6kahcoUb6uO4yOJn+ssgNH3DOqA=;
+ b=UMfmKDI914ApbDK/JCzCRofoZUaI1v4S8sedP0j+FpRr3XANWciEXda/
+ dDOeBpo8LkEIM60diLmvQX2uYDEY4dV7QQDZhi22ETCLVTlDs6Vm3aX1p
+ Pw/TnYqoc66djaUfoFUlOOPmO2kv6A8MT1MAFM2vu3TH/EFQWeLN1wSci
+ cMJcoMyqgBy+SXbUk2EK98ES2ZQOLRmw9CySfqn8Z/umZr3u5MBEAgIdW
+ TpLnaEBIVXVde9qJDF38OgJD4FmZX1e1U3FrJhOaM9Uhan9OpsUKIx5xL
+ Ky24qWJjdLNOxv/khb1TVtb7XQbnFe8ym1d1CZgoM5rED7nrSc7P4qrWf Q==;
+X-CSE-ConnectionGUID: 5uuDaU+0RPCzgpCYmntH3Q==
+X-CSE-MsgGUID: OH2/uQgLRL+QAXSneuQc7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="25408619"
+X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; d="scan'208";a="25408619"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2024 21:30:54 -0700
+X-CSE-ConnectionGUID: HX9MfthFQUe7lhJiZsCfPg==
+X-CSE-MsgGUID: xhk4qz6rTWiCFPYmrYmGPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,232,1719903600"; d="scan'208";a="68860743"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 15 Sep 2024 21:30:51 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sq3Nx-0009O0-1N;
+ Mon, 16 Sep 2024 04:30:49 +0000
+Date: Mon, 16 Sep 2024 12:30:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>, Alex Hung <alex.hung@amd.com>,
+ Alexander Deucher <alexander.deucher@amd.com>,
+ Melissa Wen <mwen@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: Re: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if
+ available for eDP
+Message-ID: <202409161225.xuQVKkoR-lkp@intel.com>
+References: <20240911213537.2338164-11-superm1@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/HvdUI/1MpsauEbBmWYRX.8l";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240911213537.2338164-11-superm1@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,83 +76,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/HvdUI/1MpsauEbBmWYRX.8l
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Mario,
 
-Hi all,
+kernel test robot noticed the following build warnings:
 
-Today's linux-next merge of the drm tree got a conflict in:
+[auto build test WARNING on amd-pstate/linux-next]
+[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.11]
+[cannot apply to next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-amd-display-switch-amdgpu_dm_connector-to-use-struct-drm_edid/20240912-093827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20240911213537.2338164-11-superm1%40kernel.org
+patch subject: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if available for eDP
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240916/202409161225.xuQVKkoR-lkp@intel.com/reproduce)
 
-between commit:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409161225.xuQVKkoR-lkp@intel.com/
 
-  e835d5144f5e ("drm/amd/display: Avoid race between dcn35_set_drr() and dc=
-_state_destruct()")
+All warnings (new ones prefixed by >>):
 
-from Linus' tree and commit:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c: In function 'dm_helpers_probe_acpi_edid':
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:883:28: warning: unused variable 'ddev' [-Wunused-variable]
+     883 |         struct drm_device *ddev = connector->dev;
+         |                            ^~~~
 
-  be7a6a517164 ("drm/amd/display: Check stream pointer is initialized befor=
-e accessing")
 
-from the drm tree.
+vim +/ddev +883 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+   878	
+   879	static int
+   880	dm_helpers_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
+   881	{
+   882		struct drm_connector *connector = data;
+ > 883		struct drm_device *ddev = connector->dev;
+   884		struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
+   885		unsigned char start = block * EDID_LENGTH;
+   886		void *edid;
+   887		int r;
+   888	
+   889		if (!acpidev)
+   890			return -ENODEV;
+   891	
+   892		/* fetch the entire edid from BIOS */
+   893		r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
+   894		if (r < 0) {
+   895			DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
+   896			return r;
+   897		}
+   898		if (len > r || start > r || start + len > r) {
+   899			r = -EINVAL;
+   900			goto cleanup;
+   901		}
+   902	
+   903		memcpy(buf, edid + start, len);
+   904		r = 0;
+   905	
+   906	cleanup:
+   907		kfree(edid);
+   908	
+   909		return r;
+   910	}
+   911	
 
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-index d5e9aec52a05,a4c6decee0f8..000000000000
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c
-@@@ -1462,17 -1414,10 +1414,17 @@@ void dcn35_set_drr(struct pipe_ctx **pi
-  	params.vertical_total_mid_frame_num =3D adjust.v_total_mid_frame_num;
- =20
-  	for (i =3D 0; i < num_pipes; i++) {
- -		if ((pipe_ctx[i]->stream_res.tg !=3D NULL) && pipe_ctx[i]->stream_res.t=
-g->funcs) {
- +		/* dc_state_destruct() might null the stream resources, so fetch tg
- +		 * here first to avoid a race condition. The lifetime of the pointee
- +		 * itself (the timing_generator object) is not a problem here.
- +		 */
- +		struct timing_generator *tg =3D pipe_ctx[i]->stream_res.tg;
- +
- +		if ((tg !=3D NULL) && tg->funcs) {
-- 			struct dc_crtc_timing *timing =3D &pipe_ctx[i]->stream->timing;
-- 			struct dc *dc =3D pipe_ctx[i]->stream->ctx->dc;
- +
-- 			if (dc->debug.static_screen_wait_frames) {
-+ 			if (pipe_ctx[i]->stream && pipe_ctx[i]->stream->ctx->dc->debug.static_=
-screen_wait_frames) {
-+ 				struct dc_crtc_timing *timing =3D &pipe_ctx[i]->stream->timing;
-+ 				struct dc *dc =3D pipe_ctx[i]->stream->ctx->dc;
-  				unsigned int frame_rate =3D timing->pix_clk_100hz / (timing->h_total =
-* timing->v_total);
- =20
-  				if (frame_rate >=3D 120 && dc->caps.ips_support &&
-
---Sig_/HvdUI/1MpsauEbBmWYRX.8l
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmbnsNUACgkQAVBC80lX
-0GxHvQgAj60CcQjHqGW9DeZwTLnIAkTkI69oWMob4SjNdxTfMq92EvdjZosF+QCL
-jGq217kLdUlrpABe0xGyswi3oGjDR1H7fFnDr7yQeVsmrSgSMuDjIL52ypLEDhJ+
-P9hMXZ1q0ZKJ4loRFuPXZujaWsGz2woZvGxfG/XNBLiOtyX9k+zkSrXVZb8fiZCa
-ygtyYsHb6OmXVe6+w/UMeaOKPK7HyvA6gB1Xy8kUx1SCIA2qNsgSamKvv5h3DzPt
-wj+cuzzvGIHgy8TApcQ+uuyJ6/hBTVI9j4SOJfujKPr8rX1YFCKbAK9M/RwZAh2x
-N6Zi4qBdaKv+WZWx6+6BlDBc7bOpkg==
-=fI6z
------END PGP SIGNATURE-----
-
---Sig_/HvdUI/1MpsauEbBmWYRX.8l--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
