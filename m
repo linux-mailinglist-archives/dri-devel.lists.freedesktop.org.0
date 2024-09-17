@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A0197B3A4
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 19:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A1B97B3BF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 19:42:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16CED10E22D;
-	Tue, 17 Sep 2024 17:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F079E10E4CF;
+	Tue, 17 Sep 2024 17:42:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="iGJSKSPX";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="nOLSqfeU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 889E110E22D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 17:36:59 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D00E010E4CF
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 17:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1726594604; x=1727199404; i=markus.elfring@web.de;
- bh=bWD4f7dfwXe5y0GSYL8/IHvYiyGgzS9bmzMjIkp1VS8=;
+ s=s29768273; t=1726594963; x=1727199763; i=markus.elfring@web.de;
+ bh=pWO2K5IT291YPVVlABU0X2IXqhtsWWaMdnFFVbIS0nQ=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
  Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
  cc:content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=iGJSKSPXpn/91agvrzEwwyzNTBNQy2JRfBNN7q60pNOGfQ4p7CkCR/miQ1DEvFQn
- C/YFxm8khH06N9LLqQYkNqPFF3AAm9SfTwvMqW4QF1W4PRG0Kv76hoKs5zNod7uwi
- 6q32LWWJAZAB0D9u8rs4WOS00JO+qI/DuZlPZAyW4Cp10HBtJGAwtQkrtap9J5C3Z
- umppao+AHbKQXBzlhowA0xjiqBiMKPmEyJOXKou/4CTiZJuBTTPLHH1zMIte+xXGq
- R0dH6sbEfPq39v23d74Tg8YDH3U8r1AsoiyJcH75DUjgob84JII2JSTacYhsaRkkh
- RkhbGgdEwhUqwa0uNA==
+ b=nOLSqfeUaAi/83mr3M7ve0VpFC+MafCe5E5429bRzapNrRIOPMPsRzkVLZO1K/H3
+ 2bR5Rda94WOeJvm0+8XiyVygNF0W1PxKTRaEJ285+FjrYCJ8RQysQLmVMst1jsjEY
+ rrlIlQcoPH//5mTrQUnbT3L1nwPkkCPpY7AQWeqwGgqB68KTh1ahcnGA8gEJHf2bO
+ a+P6c4m8SfDU2SQOX33RY9Yhs/13em0DGRGxCweNTKT28e5ad/m++RdBQuzVL/gP6
+ PpXkmDbTCMnw7Bh/3DCETCfedAdQWYrOKZlfbU0LYxwJehAh/h6/kMQNf2TbX7Qxd
+ R8nCzfd/eOc7ATV5LQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N9cLR-1rw7UP3IeL-00u3wf; Tue, 17
- Sep 2024 19:36:44 +0200
-Message-ID: <02507a9b-87e2-45a6-9410-d4dfb0e4b1a2@web.de>
-Date: Tue, 17 Sep 2024 19:36:43 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mmhjm-1sA5bw3xmo-00fzWz; Tue, 17
+ Sep 2024 19:42:43 +0200
+Message-ID: <aa103a36-8cb3-4232-b4b7-3ffd117e303b@web.de>
+Date: Tue, 17 Sep 2024 19:42:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 1/2] drm/mediatek: Avoid duplicate sg_free_table(sgt) call in
+Subject: [PATCH 2/2] drm/mediatek: Use common error handling code in
  mtk_gem_prime_vmap()
 From: Markus Elfring <Markus.Elfring@web.de>
 To: linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
@@ -53,24 +53,24 @@ Content-Language: en-GB
 In-Reply-To: <254d16d9-d56a-4f26-9914-db75e7aa4287@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:s2zlqnaimkLloyDBZKpVNVmP31XuxmPGr/MvuG2wfUihOUwc+w8
- F9XqNIY3gPN2nnjG0HoiVtYgevNcH6/7iBXfnKOYNUeJXuAj8qYZe6op+d0OxCKYrRFhbeE
- b+lWmg9kgZqf7w6aEnSSWdhh6YvXWnRLiZjwiWR63fRCMX2Jh53tu95xFTrVcJ7od9bRrv0
- ewQAAHMFY30mVcn8/WRDQ==
+X-Provags-ID: V03:K1:ezgH/8fZhFI1IrNh24hqxGOueTJdBwXGIwmeneXLT7XGQmG+3V4
+ z//xu1M6oMbjsPr4NXuaJ03mTgKWia4i1uBGqfgmZ8Q28a3Dkm65V1D+MJmuufEsX0sg4mc
+ tjL9pBs6prJYXwFEZyRK2Ivb8gMtHOle/MHWPYU3IU8mK71vUkSWAZrcmaXiepPEzCL/RXc
+ sfT1Q9i/g1tuB1VN+us7A==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:rsij0WevMas=;HYt8wbxNbi49h3gl7Fe/5B5Mdzj
- PNY2ivtAG9TG0kY/lOPjlxRsHuhoI0RbnegQ5CsDaylNuqiEKFziXB+qOF8M2TFEiKAu/W96C
- CgB4Shoi3PJ9em0Aq0dg5eRIZ2Y+VLlShmHJBoSKLjB6RND3P77sqYxPZLOpDFv8XbOGhmng1
- EOOa9xsZ+kc8lZoe4Ck+IoxdA0Dz+vnIYe7h/07ygtoaBz0eT8IlP0zavMNoZz4fO8yUOH0sU
- eEfKoASyxzXPG7f/mUgT1G9im3t+mIfLqSyqDQEtlMuUs27hnFxOr8q3iKEC7HIovPkj4eS+b
- 9JYV/JR0hP5uYq7uKez3DHU47Oo3GbRTUWTb3wWvdZJMlFJV/fEh1iviHNdbZr8SvAo7KmC+L
- u5SRuZEq8rQPEV/5SE4ZC7pZ+Q+Qb2NITeIW/REuUhH58CXbhJTTW5cQ293wfzbdulbXUxpT6
- X0Z41tG5MT3PW0RjhE0qYJSb2z/VzfxfZ8SXQ6ydDDaefrgM371PukKwo+5vIgJjKKA2dWhaU
- H99HeFoS7E8hZmKVl5Xz0iOAODCG0WOUzmDJbU9SWoecJvMNQkcjSCBn0T35VIAGXnb5h4mBV
- gK7chp54V/CTB2riOF8gGSknJHRmgnThNMFAz6okAvjuh/CzwYF/C/NpnDeXVVWeOjAo/DSzw
- seOCf3oypk/aV2HBjMD2afoxF+ydU5asGz4zg/bGGYst43YZ/3FzqQonzJf+vKagC3xRQAKaa
- tJwkE/P4KtbikEuiXNTM5bakWN1A22wSiX/WG2smQjMkbUAxmmA13lWH6j2kAsV2IgQinbDt0
- yEk/GQodAcw2GxQoavgwgcnQ==
+UI-OutboundReport: notjunk:1;M01:P0:aomhZC9t42M=;tH2TV6U/oikQBx24ke6cbQaKNNk
+ 5aVG/0ORPx83Ltc+EJ6HAwycWg8bWs4jcBpBMqoB48FpOl8kA5105zrzU3FXdzIWxSMS+bGn0
+ GxkRFke8i+DFXmE5ET6OUboflcwOLDHBvC22gFwVizMbvS87dZh9a/drZ6PKQ644DnnncFiTr
+ 71eZ83L0dT7bxdAPQ9c6DhgBp6w+ulfyKeioAmHvAsK2yhoaNvW4crGDETlKaXqxaO7Aco/L7
+ N4IRnZUyDH77qweJ1nWZkU1Ol1cL9X+Yolu3XLex48Z8wdcMXYbVkE4/qgJ24cDJB6QU35Z3N
+ JqBzC1GXbeXzIei4+gUKeopqr2hR0p9dq0IhXOMLzFQ7bEz0VpUoYNt+5bGw8ty0RNrxe89JN
+ tAHl17rzrScENx72+etL1s7YXg4RHBNCOEz2FDuhdIaEOqoE1D7OsusXT0pXObw3q20DVWD/Y
+ A+kP7X8XUnjM1Yi6Tqg/oWPtOf48FnBPwvN+Ee77N5BSgAdPFTZKGUHQwhIiQtBygT4EqwSzp
+ 1gAv+gpTUFzQTb4JJBvp8JUM6BrMSfYKntquoBp6MiHB+WAKN/2Lo4KQmXB2qeQeWqRM6BUp9
+ vxCNMZDdZB2fo3U0v/LCfc36U9kKgmjrW7nX91SAWEjMI1HVLudgGL6a9GJcBAqE1TccDSBI8
+ qe5WM+Vknyw3ru4gxh5d5AJRp+nizJQu8576r16nQkg0Kd28UEFKcdn2OU9X8305s0P/xIXmz
+ gbOpjrW/pd8Tq/1bLxxbHIk/xaoS+w0cQa0CtLHMqk6bj7McA9DExt33JwE/j95JViOIxc2so
+ BrSSOZpqessm8iBfa5zGFMHA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,42 +87,57 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 17 Sep 2024 18:50:37 +0200
+Date: Tue, 17 Sep 2024 19:06:23 +0200
 
-A sg_free_table(sgt) call was immediately used after a null pointer check
-for the data structure member =E2=80=9Ckvaddr=E2=80=9D in this function im=
-plementation.
-Thus use such a function call only once instead directly before the check.
-
-This issue was transformed by using the Coccinelle software.
+Add a jump target so that a bit of exception handling can be better reused
+at the end of this function implementation.
 
 Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 =2D--
- drivers/gpu/drm/mediatek/mtk_gem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_gem.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_gem.c b/drivers/gpu/drm/mediatek=
 /mtk_gem.c
-index a172456d1d7b..9c7b7d0a3ffc 100644
+index 9c7b7d0a3ffc..5713156efb4e 100644
 =2D-- a/drivers/gpu/drm/mediatek/mtk_gem.c
 +++ b/drivers/gpu/drm/mediatek/mtk_gem.c
-@@ -259,13 +259,13 @@ int mtk_gem_prime_vmap(struct drm_gem_object *obj, s=
-truct iosys_map *map)
-
- 	mtk_gem->kvaddr =3D vmap(mtk_gem->pages, npages, VM_MAP,
- 			       pgprot_writecombine(PAGE_KERNEL));
-+	sg_free_table(sgt);
- 	if (!mtk_gem->kvaddr) {
--		sg_free_table(sgt);
- 		kfree(sgt);
- 		kfree(mtk_gem->pages);
- 		return -ENOMEM;
+@@ -251,8 +251,7 @@ int mtk_gem_prime_vmap(struct drm_gem_object *obj, str=
+uct iosys_map *map)
+ 	mtk_gem->pages =3D kcalloc(npages, sizeof(*mtk_gem->pages), GFP_KERNEL);
+ 	if (!mtk_gem->pages) {
+ 		sg_free_table(sgt);
+-		kfree(sgt);
+-		return -ENOMEM;
++		goto free_sgt;
  	}
--	sg_free_table(sgt);
-+
- 	kfree(sgt);
 
- out:
+ 	drm_prime_sg_to_page_array(sgt, mtk_gem->pages, npages);
+@@ -261,9 +260,8 @@ int mtk_gem_prime_vmap(struct drm_gem_object *obj, str=
+uct iosys_map *map)
+ 			       pgprot_writecombine(PAGE_KERNEL));
+ 	sg_free_table(sgt);
+ 	if (!mtk_gem->kvaddr) {
+-		kfree(sgt);
+ 		kfree(mtk_gem->pages);
+-		return -ENOMEM;
++		goto free_sgt;
+ 	}
+
+ 	kfree(sgt);
+@@ -272,6 +270,10 @@ int mtk_gem_prime_vmap(struct drm_gem_object *obj, st=
+ruct iosys_map *map)
+ 	iosys_map_set_vaddr(map, mtk_gem->kvaddr);
+
+ 	return 0;
++
++free_sgt:
++	kfree(sgt);
++	return -ENOMEM;
+ }
+
+ void mtk_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *m=
+ap)
 =2D-
 2.46.0
 
