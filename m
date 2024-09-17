@@ -2,78 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE8597B286
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 18:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B9A97B557
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 23:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D34110E4A0;
-	Tue, 17 Sep 2024 16:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8F910E231;
+	Tue, 17 Sep 2024 21:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J1zqAZzy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Rz/MvnPh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ACBF10E4A0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 16:02:47 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2f762de00fbso61900181fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 09:02:46 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8E5410E009;
+ Tue, 17 Sep 2024 16:31:53 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2057835395aso67356375ad.3; 
+ Tue, 17 Sep 2024 09:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726588965; x=1727193765; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qmO+mvccPH3HoFLjdOHsVRubWAgC2YHdv7d1kMMRDLg=;
- b=J1zqAZzyJTrCdHIPhnsMFkEqANEN5Tf3D6zaqrRnwHJCh40NxP64O12H0CcNwjOciC
- A4FptWRyAmhIuz1OKL0iwrUwf0SsDRGGhYaaeybGpC0MA+M6yp/lF1ZHFqCVHzEjStqg
- Qixs8zyryPm85mni8z1lfJqAOruZ8sBqV6Pie60BhkIjCEo5vilNxRmYk723u1vBNyET
- 1eFO2tvik5m3YT4dNnLPwkbIzhAM6TRIwgnstB+I61/KH0/12gqILFOSd2iRempzRT0Y
- DlM2bgR96UfLbSZKeNmeNxulf3/Dm5sijKxn2bDEtkWvdCBxuRKfhpqa5q31zGL0wuYu
- 5K9g==
+ d=gmail.com; s=20230601; t=1726590713; x=1727195513; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=d27QiDpZTEWMptlUUQTdMGUQ8QM0KhEAFxduxL82zGo=;
+ b=Rz/MvnPhnoTUMCTxAEWMGwBVxrJ7oWEsIYJdtehvWPsQtqlsqDJvadwnnpO8ikK66P
+ qauZBFsgZ90Dl+ZEkzb9HVxhQkzk4IWicjRuj4lf5fnVQbDplElJHVh1xIMRCTf8oTps
+ wsME5NysW4Gi6A3XDTPrc7opqQfxw7Xx9nIzVJtjcPwg7NdECO8DA5jB8inyqWSfNeh7
+ 2gNgUDTN/vdUpvCRML5rsR0BY5hh7dew7Xy+RlW5JbMtwDvrUqISkY+VSDB0W8Le4L+k
+ 3dI2iGA5E9yxQZhJTfW+sEFX/me9fqx0UaApqJl7IDjrPyMqEfLXP1P3VKi4ZsRvZA4X
+ bSpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726588965; x=1727193765;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qmO+mvccPH3HoFLjdOHsVRubWAgC2YHdv7d1kMMRDLg=;
- b=Wngvyjxh29MmudFXRWzCS3yKn23JWbv+qwdU8bQs4+gRrAv7w1wJvrmprmi2DqDdj5
- ra8TgT+WN7gqmLY90hMzSge4wODjYHLnJFW8t11XTR97vLLBYEYQ9nN0zk77Mid6OPDu
- VEr+OSSM3Pzmm+/YzAuApX6qFKXZ68rCxlfBCk4g1UpIjsGPCM/cpP7D+8r99QEV8eOr
- L8dv98gh/eFID6YYS9kQb3Zkt6W/6H1LVwqNkNcXk8bfR0YyYTiMx+EqhqDcn9Auwo7o
- Mmgdxtp7AB72ENCdaTmDrc2MaDo2IgIDe6SE8KAB3GCKGOVTGMTyF6NmgSo51bGb/MbM
- emlA==
+ d=1e100.net; s=20230601; t=1726590713; x=1727195513;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d27QiDpZTEWMptlUUQTdMGUQ8QM0KhEAFxduxL82zGo=;
+ b=YEFBqgyh1iic6LHDEDG1YubfQLVrv9ZiJrjOWzKQCA+n9JVscF4Psary1DGbhhc6TV
+ 89uxBorVV87PuukCydr8y3iG8fdWb/kTVV6aQ1s43abLVdVxt4larrpCPROmtGKwNw9S
+ ds4raQyPWOeZY3oSe4uuoueCyc8CaQDfw8vbklZEWPl3h+/TFICAQM9VXFZkKUm4Rye5
+ /r/7LMRv66avfYZvWeAgWTHmwvyJdcBPjNd0KEYsimEUWkUuiu4AR3aEQDc2omYxeWx3
+ +R/XdhLClvCcTVmnL/pEg/wq3uTTMz7nvOmonjo9KA5C79pbskb75xXG1KqWmR00fAsP
+ 9zWg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbsTBNIwQJDzhYug/hnmC+3bgSAnpjjmdvSE4szcvgrIk6kqefu3OcRX5nbmYH4VPKmYfiDaVb0Pc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzSqkolhHj2EUki3Nc5AiJ2x+l/wnLIZEmiieoKhLBq5ax7beUZ
- 3MlmRU3lT8GXkMYbpQMD++5RdG/nwqcAdBLQGXOpJUJ1rzCS/F/F
-X-Google-Smtp-Source: AGHT+IEPgD8VnvpPcMCe+0rWVyMAZssxXAum20O0qWKZ6bEljf5n74TaMyhUGEPO6EJYfZZNVvUPUQ==
-X-Received: by 2002:a2e:a587:0:b0:2f7:5d73:92a3 with SMTP id
- 38308e7fff4ca-2f787edbc0dmr121273931fa.24.1726588964937; 
- Tue, 17 Sep 2024 09:02:44 -0700 (PDT)
-Received: from fedora.. ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378e73e81e2sm9862759f8f.37.2024.09.17.09.02.44
+ AJvYcCWQ2P060JepSDVJ/aysP1mrPn+t7cFnJmW0LLrKcksDy3038nKcj25gCh6TOa9Y8NjqdOOxRs0PJstq@lists.freedesktop.org,
+ AJvYcCWwLVRdoobSaRVySJhEWg/02ATvgCKacCvhcNv7iSEVITMkYwjfs+Hhn4gD9jaVaVpI4RUiGL4n@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxaDaBtdcZArfdrJT1PD05xeY1RyqCxHUxdi+s7lMTPlmsb6HgU
+ FNXuOjscBXdSOco0jr5XQ7KOH1rQ354HlaWhqcXeiKjh7AQIyR/s
+X-Google-Smtp-Source: AGHT+IFFlrNfeYfMhMuiPypYqGCnUQvsDDZj3HK01mH9YI++IePCMwELFaevFE/102AniKVZ+sAUMw==
+X-Received: by 2002:a17:902:d509:b0:202:28b1:9f34 with SMTP id
+ d9443c01a7336-2076e41cbcamr299882855ad.56.1726590713151; 
+ Tue, 17 Sep 2024 09:31:53 -0700 (PDT)
+Received: from dev.. ([129.41.59.4]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-207946dec8bsm51854065ad.163.2024.09.17.09.31.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2024 09:02:44 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: louis.chauvet@bootlin.com
-Cc: airlied@gmail.com, arthurgrillo@riseup.net, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- jeremie.dautheribes@bootlin.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- melissa.srw@gmail.com, miquel.raynal@bootlin.com, mripard@kernel.org,
- nicolejadeyee@google.com, rodrigosiqueiramelo@gmail.com,
- seanpaul@google.com, thomas.petazzoni@bootlin.com, tzimmermann@suse.de,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v3 0/4] drm/vkms: Switch all vkms object to DRM managed objects
-Date: Tue, 17 Sep 2024 18:02:41 +0200
-Message-ID: <20240917160242.2959-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com>
-References: <20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com>
+ Tue, 17 Sep 2024 09:31:52 -0700 (PDT)
+From: Rohit Chavan <roheetchavan@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Rohit Chavan <roheetchavan@gmail.com>
+Subject: [PATCH] drm/amd/display: Fix unnecessary cast warnings from checkpatch
+Date: Tue, 17 Sep 2024 22:01:19 +0530
+Message-Id: <20240917163119.890276-1-roheetchavan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 17 Sep 2024 21:49:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,45 +86,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+This patch addresses warnings produced by the checkpatch script
+related to unnecessary casts that could potentially hide bugs.
 
-Thanks for making this change even more atomic.
+The specific warnings are as follows:
+- Warning at drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c:16
+- Warning at drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c:20
+- Warning at drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c:30
 
-> To simplify the memory managment this series replace all manual drm 
-> object managment by drm-managed one. This way the VKMS code don't have to 
-> manage it directly and the DRM core will handle the object destruction.
-> 
-> No functional changes are intended in this series. This series depends on 
-> [1] (for writeback connector) and [2] (for cleaning code).
-> 
-> PATCH 1/4: Migrate connector managment to drmm
-> PATCH 2/4: Migrate encoder managment to drmm
-> PATCH 3/4: Migrate connector management to drm
-> PATCH 4/4: Migrate writeback connector management to drm
-> 
-> [1]: https://lore.kernel.org/all/20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com/
-> [2]: https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-The 4 patches:
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
+index 41ecf00ed196..3ab401729f9b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
+@@ -13,11 +13,11 @@
+ 
+ static bool dml21_allocate_memory(struct dml2_context **dml_ctx)
+ {
+-	*dml_ctx = (struct dml2_context *)kzalloc(sizeof(struct dml2_context), GFP_KERNEL);
++	*dml_ctx = kzalloc(sizeof(struct dml2_context), GFP_KERNEL);
+ 	if (!(*dml_ctx))
+ 		return false;
+ 
+-	(*dml_ctx)->v21.dml_init.dml2_instance = (struct dml2_instance *)kzalloc(sizeof(struct dml2_instance), GFP_KERNEL);
++	(*dml_ctx)->v21.dml_init.dml2_instance = kzalloc(sizeof(struct dml2_instance), GFP_KERNEL);
+ 	if (!((*dml_ctx)->v21.dml_init.dml2_instance))
+ 		return false;
+ 
+@@ -27,7 +27,7 @@ static bool dml21_allocate_memory(struct dml2_context **dml_ctx)
+ 	(*dml_ctx)->v21.mode_support.display_config = &(*dml_ctx)->v21.display_config;
+ 	(*dml_ctx)->v21.mode_programming.display_config = (*dml_ctx)->v21.mode_support.display_config;
+ 
+-	(*dml_ctx)->v21.mode_programming.programming = (struct dml2_display_cfg_programming *)kzalloc(sizeof(struct dml2_display_cfg_programming), GFP_KERNEL);
++	(*dml_ctx)->v21.mode_programming.programming = kzalloc(sizeof(struct dml2_display_cfg_programming), GFP_KERNEL);
+ 	if (!((*dml_ctx)->v21.mode_programming.programming))
+ 		return false;
+ 
+-- 
+2.34.1
 
-> ---
-> Changes in v3:
-> - As suggested by Maxime, split the managed and the dynamic allocation 
->   parts in different series
-> - To reduce the diff in this series, extract the "remove crtc index" part, 
->   see https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
-> - Link to v2: https://lore.kernel.org/r/20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com
-> 
-> Changes in v2:
-> - Applied comments from José
-> - Extract the rename vkms_output -> vkms_crtc to avoid useless changes in 
->   the last commit
-> - Extract the rename to_vkms_crtc_state to
->   drm_crtc_state_to_vkms_crtc_state to avoid useless changes in last 
->   commit
-> - Extract the drm_mode_crtc_set_gamma_size result check in its own commit
-> - Rebased on drm-misc/drm-misc-next
-> - Link to v1: https://lore.kernel.org/r/20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com> 
