@@ -2,92 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FB897ACFA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 10:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB8A97AD24
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 10:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DDE10E42F;
-	Tue, 17 Sep 2024 08:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A5B10E19F;
+	Tue, 17 Sep 2024 08:53:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MsvaIlJ8";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="i6V6HJvx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD0310E42F;
- Tue, 17 Sep 2024 08:40:33 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48H7ImM1003647;
- Tue, 17 Sep 2024 08:40:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- HNmVVqJ/mbN61tjwbZuFKzRaf2S3xTimJ/qqkaE6le4=; b=MsvaIlJ8nKVMp73M
- gZFoJ5kq3ThDXFvNHTLE7iG2pkTX54Tfp/2m4SVJyUyV67wt09i0J8hOM6sGJ0US
- UV26y5Vlq3Rv4+XzhAr8hh5xQD/WeC1fJ0km5TgH9CAO2/sF40faIUbZQuhv2zfS
- dJ6vsYxdqC2RbpuRUHk4GGnt++gJsspiGH71jPeMVR1LqOMAWsr1K6N+PiHzb/9k
- 94zW2eBOif+1aAw2X34xxlWnsNoeHZ2BRtF3KbveocScCaG8811KDJ16t5oghEY/
- bWbmSM5zkP1EWiYhNZ3EShcylsMKmWOleu9uFcO09pMFeRS6/f4/EZCGQpajnb9V
- 0UsyXw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41n4hex8kd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Sep 2024 08:40:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48H8eM2a032454
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Sep 2024 08:40:22 GMT
-Received: from [10.204.67.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Sep
- 2024 01:40:13 -0700
-Message-ID: <3ea1189b-8b06-45bb-9d60-178f69ee407d@quicinc.com>
-Date: Tue, 17 Sep 2024 14:10:10 +0530
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA38E10E19F
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 08:53:18 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C7161240010;
+ Tue, 17 Sep 2024 08:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1726563197;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bzu2/LmSSLYu3+75znhBlPlRp+dz7fISgxExqm/c8QM=;
+ b=i6V6HJvxmhhvu5Zd6EyaEPZ++xBUKLhkGVTkSR25mE/usbouz88eTxcbGt9wtvfaLo81Cm
+ lJOgqyH96kaOdO41T0SU/H+tvQWHesZkgOIvvxN/LxS7a2zYraFHSzDbR0DMrmLFk78Y6W
+ /zSnitoIe4Wp+Y9VdkC/KI76RYbg/xL/W89S75L2tKC8ZlvIj+82MlxQItJXSVfUqNb82+
+ Be1GJSFDC2eSODOvB85dskjwI2pk+E03miSR4OYWTZR0UnXt/nD8kb2WK87rtXmLKDOEN2
+ WlQb9/Rot73SvB65iwU+7CFO8WER+9GDqtphDC8M+tigV/+hhg4CV6Gb8CmtCA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v4 0/8] Add support for GE SUNH hot-pluggable connector
+Date: Tue, 17 Sep 2024 10:53:04 +0200
+Message-Id: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] phy: qcom: edp: Introduce aux_cfg array for
- version specific aux settings
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <vkoul@kernel.org>, <kishon@kernel.org>, <konradybcio@kernel.org>,
- <andersson@kernel.org>, <simona@ffwll.ch>, <abel.vesa@linaro.org>,
- <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <quic_khsieh@quicinc.com>,
- <konrad.dybcio@linaro.org>, <quic_parellan@quicinc.com>,
- <quic_bjorande@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <linux-phy@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <quic_riteshk@quicinc.com>,
- <quic_vproddut@quicinc.com>
-References: <20240913103755.7290-1-quic_mukhopad@quicinc.com>
- <20240913103755.7290-3-quic_mukhopad@quicinc.com>
- <CAA8EJppddLmzJ9WSkLLr-nwM-qe647Sm6jV8SpHdB=0vRQT-=Q@mail.gmail.com>
-From: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
-In-Reply-To: <CAA8EJppddLmzJ9WSkLLr-nwM-qe647Sm6jV8SpHdB=0vRQT-=Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: EW7-YFs4rYSVK7VBeqBZUWpboj-UHtU3
-X-Proofpoint-GUID: EW7-YFs4rYSVK7VBeqBZUWpboj-UHtU3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- suspectscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
- mlxlogscore=999 adultscore=0 malwarescore=0 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
- definitions=main-2409170064
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHFD6WYC/23PTQqDMBAF4KtI1k3Jj4naVe9RumiSUQNqJLGhR
+ bx7oxSk1OUb5n3DzCiAtxDQJZuRh2iDdUMK+SlDun0MDWBrUkaMsJxwWuHWTWP3bLDxPVbemrR
+ BpSolyKKGiqFUHD3U9rWht3vKrQ2T8+/tRqTr9MsxecRFignOlaBKgCqEEVfl3NTZ4axdj1Yws
+ h0RlBwiLCGgOauZltII+Y/wHSnJ4WORJ0TlmhYlL4nS1S+yLMsHQFr+9UABAAA=
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Derek Kiernan <derek.kiernan@amd.com>, 
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Saravana Kannan <saravanak@google.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc: Paul Kocialkowski <contact@paulk.fr>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-i2c@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.1
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,143 +80,437 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
-On 9/13/2024 5:12 PM, Dmitry Baryshkov wrote:
-> On Fri, 13 Sept 2024 at 13:38, Soutrik Mukhopadhyay
-> <quic_mukhopad@quicinc.com> wrote:
->> In order to support different HW versions, introduce aux_cfg array
->> to move v4 specific aux configuration settings.
->>
->> Signed-off-by: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
->> ---
->> v2: Fixed review comments from Bjorn and Dmitry
->>          - Made aux_cfg array as const.
->>
->> ---
->>   drivers/phy/qualcomm/phy-qcom-edp.c | 37 ++++++++++++++++++-----------
->>   1 file changed, 23 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
->> index da2b32fb5b45..bcd5aced9e06 100644
->> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
->> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
->> @@ -90,6 +90,7 @@ struct phy_ver_ops {
->>
->>   struct qcom_edp_phy_cfg {
->>          bool is_edp;
->> +       const u8 *aux_cfg;
->>          const struct qcom_edp_swing_pre_emph_cfg *swing_pre_emph_cfg;
->>          const struct phy_ver_ops *ver_ops;
->>   };
->> @@ -186,11 +187,15 @@ static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg = {
->>          .pre_emphasis_hbr3_hbr2 = &edp_pre_emp_hbr2_hbr3,
->>   };
->>
->> +static const u8 edp_phy_aux_cfg_v4[10] = {
->> +       0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
->> +};
->> +
->>   static int qcom_edp_phy_init(struct phy *phy)
->>   {
->>          struct qcom_edp *edp = phy_get_drvdata(phy);
->> +       u8 aux_cfg[10];
-> Please define 10, so that there are no magic numbers (and less chance
-> of damaging the stack if it gets changed in one place only.
+this series aims at supporting a Linux device with a connector to
+physically add and remove an add-on to/from the main device to augment its
+features at runtime, adding devices on non-discoverable busses, using
+device tree overlays.
 
+Changes since v4 are limited, but I'm sending this to have the state of the
+art public before the discussion at the Lonux Plumbers Conference tomorrow
+(https://lpc.events/event/18/contributions/1750/). See the changelog at the
+end for the details.
 
-Sure, we will update this in the next version.
+The high-level description below is an updated version of to the one in v3.
 
+Use case
+========
 
->
->>          int ret;
->> -       u8 cfg8;
->>
->>          ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
->>          if (ret)
->> @@ -200,6 +205,8 @@ static int qcom_edp_phy_init(struct phy *phy)
->>          if (ret)
->>                  goto out_disable_supplies;
->>
->> +       memcpy(aux_cfg, edp->cfg->aux_cfg, sizeof(aux_cfg));
->> +
->>          writel(DP_PHY_PD_CTL_PWRDN | DP_PHY_PD_CTL_AUX_PWRDN |
->>                 DP_PHY_PD_CTL_PLL_PWRDN | DP_PHY_PD_CTL_DP_CLAMP_EN,
->>                 edp->edp + DP_PHY_PD_CTL);
->> @@ -222,22 +229,20 @@ static int qcom_edp_phy_init(struct phy *phy)
->>           * even needed.
->>           */
->>          if (edp->cfg->swing_pre_emph_cfg && !edp->is_edp)
->> -               cfg8 = 0xb7;
->> -       else
->> -               cfg8 = 0x37;
->> +               aux_cfg[8] = 0xb7;
->>
->>          writel(0xfc, edp->edp + DP_PHY_MODE);
->>
->> -       writel(0x00, edp->edp + DP_PHY_AUX_CFG0);
->> -       writel(0x13, edp->edp + DP_PHY_AUX_CFG1);
->> -       writel(0x24, edp->edp + DP_PHY_AUX_CFG2);
->> -       writel(0x00, edp->edp + DP_PHY_AUX_CFG3);
->> -       writel(0x0a, edp->edp + DP_PHY_AUX_CFG4);
->> -       writel(0x26, edp->edp + DP_PHY_AUX_CFG5);
->> -       writel(0x0a, edp->edp + DP_PHY_AUX_CFG6);
->> -       writel(0x03, edp->edp + DP_PHY_AUX_CFG7);
->> -       writel(cfg8, edp->edp + DP_PHY_AUX_CFG8);
->> -       writel(0x03, edp->edp + DP_PHY_AUX_CFG9);
->> +       writel(aux_cfg[0], edp->edp + DP_PHY_AUX_CFG0);
->> +       writel(aux_cfg[1], edp->edp + DP_PHY_AUX_CFG1);
->> +       writel(aux_cfg[2], edp->edp + DP_PHY_AUX_CFG2);
->> +       writel(aux_cfg[3], edp->edp + DP_PHY_AUX_CFG3);
->> +       writel(aux_cfg[4], edp->edp + DP_PHY_AUX_CFG4);
->> +       writel(aux_cfg[5], edp->edp + DP_PHY_AUX_CFG5);
->> +       writel(aux_cfg[6], edp->edp + DP_PHY_AUX_CFG6);
->> +       writel(aux_cfg[7], edp->edp + DP_PHY_AUX_CFG7);
->> +       writel(aux_cfg[8], edp->edp + DP_PHY_AUX_CFG8);
->> +       writel(aux_cfg[9], edp->edp + DP_PHY_AUX_CFG9);
-> Replace this with a loop?
+This series targets a professional product (GE SUNH) that is composed of a
+"main" part running on battery, with the main SoC and able to work
+autonomously with limited features, and an optional "add-on" that enables
+more features by adding more hardware peripherals, some of which are on
+non-discoverable busses such as I2C and MIPI DSI.
 
+The add-on can be connected and disconnected at runtime at any moment by
+the end user, and add-on features need to be enabled and disabled
+automatically at runtime.
 
-Can we use below approach for this :
+The add-on has status pins that are connected to GPIOs on the main board,
+allowing the CPU to detect add-on insertion and removal. It also has a
+reset GPIO allowing to reset all peripherals on the add-on at once.
 
-#define DP_PHY_AUX_CFG(n)        (0x24 + (0x04 * (n)))
+The features provided by the add-on include a display and a battery charger
+to recharge the battery of the main part. The display on the add-on has an
+LVDS input but the connector between the base and the add-on has a MIPI DSI
+bus, so a DSI-to-LVDS bridge is present on the add-on.
 
-for (int i = 0; i < 10; i++)
+Different add-on models can be connected to the main part, and for this a
+model ID is stored in the add-on itself so the software running on the CPU
+on the main part knows which non-discoverable hardware to probe.
 
-     writel(aux_cfg[i], edp->edp + DP_PHY_AUX_CFG(i));
+Overall approach
+================
 
+Device tree overlays appear as the most natural solution to support the
+addition and removal of devices from a running system.
 
->
->>          writel(PHY_AUX_STOP_ERR_MASK | PHY_AUX_DEC_ERR_MASK |
->>                 PHY_AUX_SYNC_ERR_MASK | PHY_AUX_ALIGN_ERR_MASK |
->> @@ -519,16 +524,19 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v4 = {
->>   };
->>
->>   static const struct qcom_edp_phy_cfg sc7280_dp_phy_cfg = {
->> +       .aux_cfg = edp_phy_aux_cfg_v4,
->>          .ver_ops = &qcom_edp_phy_ops_v4,
->>   };
->>
->>   static const struct qcom_edp_phy_cfg sc8280xp_dp_phy_cfg = {
->> +       .aux_cfg = edp_phy_aux_cfg_v4,
->>          .swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
->>          .ver_ops = &qcom_edp_phy_ops_v4,
->>   };
->>
->>   static const struct qcom_edp_phy_cfg sc8280xp_edp_phy_cfg = {
->>          .is_edp = true,
->> +       .aux_cfg = edp_phy_aux_cfg_v4,
->>          .swing_pre_emph_cfg = &edp_phy_swing_pre_emph_cfg,
->>          .ver_ops = &qcom_edp_phy_ops_v4,
->>   };
->> @@ -707,6 +715,7 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v6 = {
->>   };
->>
->>   static struct qcom_edp_phy_cfg x1e80100_phy_cfg = {
->> +       .aux_cfg = edp_phy_aux_cfg_v4,
->>          .swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
->>          .ver_ops = &qcom_edp_phy_ops_v6,
->>   };
->> --
->> 2.17.1
->>
->
+Several features are missing from the mainline Linux kernel in order to
+support this use case:
+
+ 1. runtime (un)loading of device tree overlays is currently not exposed
+ 2. if enabled, overlay (un)loading exposes several issues and limitations
+ 3. the DRM subsystem assumes video bridges are non-removable
+
+This series targets items 1 and 3 and some of the issues mentioned in item
+2. Other issues are being handled separately (see "Device tree overlay
+issues" below).
+
+Device tree representation and connector driver
+===============================================
+
+The device tree description we propose involves 3 main parts.
+
+1: the main (fixed) device tree
+
+The main device tree describes the connector itself along with the status
+and reset GPIOs. It also provides specific nodes for the various interfaces
+(I2C and DSI). Here is how the connector is represented in the fixed part
+of the device tree:
+
+    / {
+        #include <dt-bindings/gpio/gpio.h>
+
+        addon_connector: addon-connector {
+            compatible = "ge,sunh-addon-connector";
+            reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+            plugged-gpios = <&gpio1 2 GPIO_ACTIVE_LOW>;
+
+            i2c-dbat {
+                i2c-parent = <&i2c2_ch1>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+            };
+
+            i2c-gp {
+                i2c-parent = <&i2c5>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+            };
+
+            i2c-btp {
+                i2c-parent = <&i2c3>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+            };
+
+            dsi {
+                ports {
+                    #address-cells = <1>;
+                    #size-cells = <0>;
+
+                    port@0 {
+                        reg = <0>;
+
+                        hotplug_bridge_sink: endpoint {
+                            remote-endpoint = <&dsi_to_hotplug_bridge>;
+                        };
+                    };
+                };
+            };
+        };
+    };
+
+The connector has a specific compatible string, and this series adds a
+driver supporting it. This driver uses the device tree overlay loading and
+unloading facilities already implemented by the kernel but not currently
+exposed.
+
+The driver detects the connection status from the "plugged" GPIO and reacts
+to a connection event by loading a first overlay (the "base" overlay, see
+below).
+
+The 'i2c-*' nodes represent the hot-pluggable section of I2C busses
+crossing the connector, whose controller is on the main board but which
+have devices on the add-on. There is one node per each such bus: this
+allows full decoupling between the base board and the overlay, but requires
+an additional info to associate the 'i2c-*' node to the physical bus
+controller.
+
+Similarly, the 'dsi' node describes how the two sides of the MIPI DSI bus
+connect to each other. The base device tree describes the fixed part of the
+video pipeline as 'port@0', i.e. the physical bus that terminates on the
+connector. 'port@1', representing the continuation of the video bus on the
+add-on, will be added by an overlay.
+
+The 'dsi' node would also allow to describe a similar connector having
+multiple video busses: these would have one node each, such as 'dsi-foo',
+'dsi-bar', 'lvds-foo', 'lvds-bar' etc while keeping the ports for each
+connector appropriately separated.
+
+2: the "base" overlay
+
+The "base" overlay describes the common components that are required to
+read the model ID. These components are identical for all add-on models,
+thus only one "base" overlay is needed:
+
+    /dts-v1/;
+    /plugin/;
+
+    / {
+        fragment@0 {
+            target-path = "";
+
+            __overlay__ {
+                nvmem-cells = <&addon_id>;
+                nvmem-cell-names = "id";
+
+                i2c-dbat {
+                    addon_eeprom: eeprom@51 {
+                        compatible = "atmel,24c64";
+                        reg = <0x51>;
+                        pagesize = <32>;
+
+                        nvmem-layout {
+                            compatible = "fixed-layout";
+                            #address-cells = <1>;
+                            #size-cells = <1>;
+
+                            /* Data cells */
+                            addon_id: addon-id@400 {
+                                reg = <0x400 0x1>;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+
+Note the overlay does not have a target node. This allows the overlay to be
+fully decoupled from the base tree, and to allow multiple compatible
+connectors on the same base board. It also avoids the need to add
+properties to nodes in the base tree by avoiding phandle references across
+the overlay boundaries. With an exception. Indeed the 'nvmem-cells' and
+'nvmem-cell-names' are the only two properties added to a node that is in
+the base tree. This is still waiting for a different representation to
+avoid adding such properties and all the deadprops and leaks thereof.
+
+Here an I2C device is added by a subnode of 'i2c-dbat' for an EEPROM. The
+i2c-dbat node itself is already present in the base tree, carrying the link
+to the actual I2C adapter node.
+
+The EEPROM holds the model ID of each add-on, using always the same I2C
+address and memory offset.
+
+3: the "add-on-specific" overlay
+
+Based on the model ID, the connector driver loads the second overlay, which
+describes all the add-on hardware not yet described by the base
+overlay. This overlay is model-specific.
+
+Excerpt:
+
+    / {
+        fragment@0 {
+            target-path = "";
+
+            __overlay__ {
+                dsi {
+                    ports {
+                        port@1 {
+                            reg = <1>;
+                            hotplug_bridge_source: endpoint {
+                                remote-endpoint = <&sn65dsi84_from_bridge>;
+                            };
+                        };
+                    };
+                };
+
+                i2c-gp {
+                    #address-cells = <1>;
+                    #size-cells = <0>;
+
+                    dsi-lvds-bridge@2c {
+                        compatible = "ti,sn65dsi84";
+                        reg = <0x2c>;
+
+                        ports {
+                            port@0 {
+                                reg = <0>;
+                                sn65dsi84_from_bridge: endpoint {
+                                    remote-endpoint = <&hotplug_bridge_source>;
+                                    data-lanes = <1 2 3 4>;
+                                };
+                            };
+                            port@2 {
+                                reg = <2>;
+                                sn65dsi84_out0: endpoint {
+                                    remote-endpoint = <&panel_dsi_lvds_in0>;
+                                };
+                            };
+                            port@3 {
+                                reg = <3>;
+                                sn65dsi84_out1: endpoint {
+                                    remote-endpoint = <&panel_dsi_lvds_in1>;
+                                };
+                            };
+                        };
+                    };
+                };
+
+                devices {
+                    reg_addon_3v3_lcd: regulator-addon-3v3-lcd {
+                        compatible = "regulator-fixed";
+                        regulator-name = "3V3_LCD_ADDON";
+                        ...
+                    };
+
+                    backlight_addon: backlight-addon {
+                        compatible = "led-backlight";
+                        ...
+                    };
+
+                    addon_panel_dsi_lvds: panel-dsi-lvds {
+                        compatible = "...";
+                        power-supply = <&reg_addon_3v3_lcd>;
+                        backlight = <&backlight_addon>;
+
+                        ports {
+                            #address-cells = <1>;
+                            #size-cells = <0>;
+                            port@0{
+                                reg = <0>;
+                                dual-lvds-odd-pixels;
+                                panel_dsi_lvds_in0: endpoint {
+                                    remote-endpoint = <&sn65dsi84_out0>;
+                                };
+                            };
+
+                            port@1{
+                                reg = <1>;
+                                dual-lvds-even-pixels;
+                                panel_dsi_lvds_in1: endpoint {
+                                    remote-endpoint = <&sn65dsi84_out1>;
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+
+Here the 'dsi/ports/port@1' node is completing the 'dsi' section already
+present in the base tree, thus describing that this add-on is connecting
+those DSI lines to something, in this case the SN65DSI84 DSI-to-LVDS bridge
+and from to an LVDS panel.
+
+The 'devices' node, containts one subnode for each device that is not on
+any CPU-reachable bus (I2C, DSI, etc): fixed/GPIO regulators, backlight,
+the panel etc. In normal (no overlay) device tree systems nodes for these
+devices are children of the root node, and are probed as platform devices
+by kernel code. With the connector we need to have them under the connector
+node, and the choice was to let them be children of the connector node or
+to group them into a new subnode. We chose the latter because that provides
+a more explicit representation of reality, and is coherent with the 'dsi'
+and 'i2c-*' nodes. As a good side effect for the implementation, this means
+other nodes under the connector node (dsi, i2c-*) are not considered when
+populating platform devices.
+
+After these steps, the add-on is fully described and working on the
+system. When the "plugged" GPIO reports a disconnection, the overlays are
+unloaded in reverse order and devices removed.
+
+DRM hotplug bridge driver
+=========================
+
+DRM natively supports pipelines whose display can be removed, but all the
+components preceding it (all the display controller and any bridges) are
+assumed to be fixed and cannot be plugged, removed or modified at runtime.
+
+This series adds support for DRM pipelines having a removable part after
+the encoder, thus also allowing bridges to be removed and reconnected at
+runtime, possibly with different components.
+
+This picture summarizes the DRM structure implemented by this series:
+
+ .------------------------.
+ |   DISPLAY CONTROLLER   |
+ | .---------.   .------. |
+ | | ENCODER |<--| CRTC | |
+ | '---------'   '------' |
+ '------|-----------------'
+        |
+        |DSI            HOTPLUG
+        V              CONNECTOR
+   .---------.        .--.    .-.        .---------.         .-------.
+   | 0 to N  |        | _|   _| |        | 1 to N  |         |       |
+   | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| PANEL |
+   |         |        |  |    | |        |         |         |       |
+   '---------'        '--'    '-'        '---------'         '-------'
+
+ [--- fixed components --]  [----------- removable add-on -----------]
+
+Fixed components include:
+
+ * all components up to the DRM encoder, usually part of the SoC
+ * optionally some bridges, in the SoC and/or as external chips
+
+Components on the removable add-on include:
+
+ * one or more bridges
+ * a fixed connector (not one natively supporting hotplug such as HDMI)
+ * the panel
+
+The video bus is MIPI DSI in the example and in the implementation provided
+by this series, but the implementation is meant to allow generalization to
+other video busses without native hotplug support, such as parallel video
+and LVDS.
+
+Note that the term "connector" in this context is different from the "DRM
+connector" abstraction already present in the DRM subsystem (struct
+drm_connector).
+
+More details in the commit message of patch 4.
+
+That's all
+==========
+
+Thanks for you patience in reading this!
+
+Luca
+
+Changes in v4:
+- Replaced DRM bridge notifier with a new callback in struct drm_bridge_funcs
+- Added patch for missing devlink (LEDs used by backlight)
+- Various cleanups
+- Rebased on v6.11
+- Link to v3: https://lore.kernel.org/r/20240809-hotplug-drm-bridge-v3-0-b4c178380bc9@bootlin.com
+
+Changes in v3 (too many changes in v3 to mention them all, but here are the
+big ones):
+- Rewrote the DT format to allow fully decoupled overlays and to avoid
+  adding properties (with the NVMEM exception still to be solved)
+- Implemented device instantiation based on the new DT format: i2c in
+  i2c-core-of.c nobus-devices in the connector driver
+- DRM: insert/remove an LVDS DRM connector on hot(un)plug events
+- Added patch for a devlink issue on overlay removal (mostly to start
+  discussion)
+- Link to v2: https://lore.kernel.org/r/20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com
+
+Changes in v2:
+- Added bindings and driver for ge,sunh-addon-connector
+- Removed bindings for the hotplug-video-connector, this is now represented
+  in DT as part of the ge,sunh-addon-connector
+- Various monior improvements to the DRM hotplug-bridge driver
+- Link to v1: https://lore.kernel.org/r/20240326-hotplug-drm-bridge-v1-0-4b51b5eb75d5@bootlin.com
+
+Co-developed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (8):
+      dt-bindings: connector: add GE SUNH hotplug addon connector
+      drm/bridge: allow bridges to be informed about added and removed bridges
+      drm/encoder: add drm_encoder_cleanup_from()
+      drm/bridge: hotplug-bridge: add driver to support hot-pluggable DSI bridges
+      i2c: i2c-core-of: follow i2c-parent phandle to probe devices from added nodes
+      backlight: led-backlight: add devlink to supplier LEDs
+      [RFC] driver core: devlink: do not unblock consumers without any drivers found
+      misc: add ge-addon-connector driver
+
+ .../connector/ge,sunh-addon-connector.yaml         | 177 ++++++
+ MAINTAINERS                                        |  11 +
+ drivers/base/core.c                                |  21 -
+ drivers/gpu/drm/bridge/Kconfig                     |  17 +
+ drivers/gpu/drm/bridge/Makefile                    |   1 +
+ drivers/gpu/drm/bridge/hotplug-bridge.c            | 661 +++++++++++++++++++++
+ drivers/gpu/drm/drm_bridge.c                       |  12 +
+ drivers/gpu/drm/drm_encoder.c                      |  21 +
+ drivers/i2c/i2c-core-of.c                          |   9 +
+ drivers/misc/Kconfig                               |  18 +
+ drivers/misc/Makefile                              |   1 +
+ drivers/misc/ge-sunh-connector.c                   | 481 +++++++++++++++
+ drivers/video/backlight/led_bl.c                   |  13 +
+ include/drm/drm_bridge.h                           |  23 +
+ include/drm/drm_encoder.h                          |   1 +
+ 15 files changed, 1446 insertions(+), 21 deletions(-)
+---
+base-commit: c377ce116b054708c8106e58a89123f1eb43e426
+change-id: 20240319-hotplug-drm-bridge-16b86e67fe92
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
