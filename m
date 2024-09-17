@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E3597AA8C
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 06:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29C597AA8D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 06:03:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9ABE10E332;
-	Tue, 17 Sep 2024 04:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B21310E406;
+	Tue, 17 Sep 2024 04:03:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m1E5+AiB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dszERGC5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A28310E332;
- Tue, 17 Sep 2024 04:03:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E92010E404;
+ Tue, 17 Sep 2024 04:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726545813; x=1758081813;
+ t=1726545819; x=1758081819;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=U5X7DprDXAM1iIvXBrPSSCmo6qVTMWAwY4c3tE8APrM=;
- b=m1E5+AiBR2uglG6Ecf2N4f/QuBt83HxMppmTNqxocjAjEx5XNIg6KJjb
- dF4cHeYnR0WvpJITCEl8N0IsQTLfPVdI73fGbbAOlC/XpJor+TLzI4qzf
- 2OWlfeip+jEm1bWhSSC2q1oHoK1f/NoxciM/k6Ql8jgFvQq5pjlvH3Ejc
- K6PcG4lpnjkEQN+E4AKy2ZAcslc5DhFl21/zP8HVH9VAFsRjYO5FBGdYf
- +C8trPWA1UXQJrftrWCQo/mFuzGg03kXN9MANZNJEOfLja53TKqEouAsF
- Ny3vQFYnfjHjO43cqkwlExGVHF5Xe0zCSkrtJFFQu3eC97M4eYnN2pMa1 A==;
-X-CSE-ConnectionGUID: yB9zzmQcQjGe6yqu7AfFHw==
-X-CSE-MsgGUID: ZIarDkW8QPuC3gRHZQnkrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="42865168"
-X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; d="scan'208";a="42865168"
+ bh=DCYR0za9l8qE1OWNI2AHKrT5zsJWMR8uZ3p9q7rJ1t0=;
+ b=dszERGC5I+0Y5JJKxos7CyNadk482S8g7GbumeWb8/bERCQIkjfmXtwT
+ Qiqp8pegru6y+aWf8/x57aunOHL3jVrC3w96ZBzT1Zms0rV0KtoyWuAve
+ OR6qycGG7KvHym47boRqv42oxa6S0InqsuwlDbaMuPlSMS6GVbVu+PE+d
+ tpkzjeXolLAG5k5rDtWLPxObUqIqD3xNp+xgGikFJO0swGJhqHSiCtyNT
+ jsCskUtDx1snnYuh5IzIk4J6RnNQ9Nxar4PZxBTmNdM39Tdr/xsMuQbQA
+ N1u84bAdBrDhx4N6/67mVi1JkZLuOa94nJ8qFJfytRX2WlMsPfpKKttY/ g==;
+X-CSE-ConnectionGUID: i9RLQABARAO+hg5t1YDokg==
+X-CSE-MsgGUID: ohIIk7K3Szy5Dg68wNv1kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="42865179"
+X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; d="scan'208";a="42865179"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2024 21:03:33 -0700
-X-CSE-ConnectionGUID: sxM0JrslTDWH6C8FByS9Hw==
-X-CSE-MsgGUID: pcT8D/UiRpCciO3NmKNsUg==
+ 16 Sep 2024 21:03:39 -0700
+X-CSE-ConnectionGUID: lij/9bTJRUOKdO1bSJmiRA==
+X-CSE-MsgGUID: udCEXefpRwm9ukmAlVxqyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; d="scan'208";a="69168595"
+X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; d="scan'208";a="69168599"
 Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
- by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2024 21:03:28 -0700
+ by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2024 21:03:33 -0700
 From: Raag Jadav <raag.jadav@intel.com>
 To: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
  thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
@@ -51,9 +51,9 @@ Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
  andriy.shevchenko@linux.intel.com, matthew.d.roper@intel.com,
  Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v5 2/4] drm: Expose wedge recovery methods
-Date: Tue, 17 Sep 2024 09:32:33 +0530
-Message-Id: <20240917040235.197019-3-raag.jadav@intel.com>
+Subject: [PATCH v5 3/4] drm/xe: Use device wedged event
+Date: Tue, 17 Sep 2024 09:32:34 +0530
+Message-Id: <20240917040235.197019-4-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240917040235.197019-1-raag.jadav@intel.com>
 References: <20240917040235.197019-1-raag.jadav@intel.com>
@@ -74,69 +74,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have device wedged event in place, add wedge_recovery sysfs
-attribute which will expose recovery methods supported by the DRM device.
-This is useful for userspace consumers in cases where the device supports
-multiple recovery methods which can be used as fallbacks.
+This was previously attempted as xe specific reset uevent but dropped
+in commit 77a0d4d1cea2 ("drm/xe/uapi: Remove reset uevent for now")
+as part of refactoring.
 
-$ cat /sys/class/drm/card0/wedge_recovery
-rebind
-bus-reset
-reboot
+Now that we have device wedged event supported by DRM core, make use
+of it. With this in place userspace will be notified of wedged device,
+on the basis of which, userspace may take respective action to recover
+the device.
+
+$ udevadm monitor --property --kernel
+monitor will print the received events for:
+KERNEL - the kernel uevent
+
+KERNEL[265.802982] change   /devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0 (drm)
+ACTION=change
+DEVPATH=/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0
+SUBSYSTEM=drm
+WEDGED=bus-reset
+DEVNAME=/dev/dri/card0
+DEVTYPE=drm_minor
+SEQNUM=5208
+MAJOR=226
+MINOR=0
+
+v2: Change authorship to Himal (Aravind)
+    Add uevent for all device wedged cases (Aravind)
+v3: Generic re-implementation in DRM subsystem (Lucas)
+v4: Change authorship to Raag (Aravind)
 
 Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 ---
- drivers/gpu/drm/drm_sysfs.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/gpu/drm/xe/xe_device.c | 17 +++++++++++++++--
+ drivers/gpu/drm/xe/xe_device.h |  1 +
+ drivers/gpu/drm/xe/xe_pci.c    |  2 ++
+ 3 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index fb3bbb6adcd1..b88cdbfa3b5e 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -36,6 +36,8 @@
- #define to_drm_minor(d) dev_get_drvdata(d)
- #define to_drm_connector(d) dev_get_drvdata(d)
- 
-+extern const char *const wedge_recovery_opts[];
-+
- /**
-  * DOC: overview
-  *
-@@ -508,6 +510,26 @@ void drm_sysfs_connector_property_event(struct drm_connector *connector,
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 4d3c794f134c..1b097643aacb 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -780,6 +780,15 @@ int xe_device_probe(struct xe_device *xe)
+ 	return err;
  }
- EXPORT_SYMBOL(drm_sysfs_connector_property_event);
  
-+static ssize_t wedge_recovery_show(struct device *device,
-+				   struct device_attribute *attr, char *buf)
++void xe_setup_wedge_recovery(struct xe_device *xe)
 +{
-+	struct drm_minor *minor = to_drm_minor(device);
-+	struct drm_device *dev = minor->dev;
-+	int opt, count = 0;
++	struct drm_device *dev = &xe->drm;
 +
-+	for_each_set_bit(opt, &dev->wedge_recovery, DRM_WEDGE_RECOVERY_MAX)
-+		count += sysfs_emit_at(buf, count, "%s\n", wedge_recovery_opts[opt]);
-+
-+	return count;
++	/* Support both driver rebind and bus reset based recovery. */
++	set_bit(DRM_WEDGE_RECOVERY_REBIND, &dev->wedge_recovery);
++	set_bit(DRM_WEDGE_RECOVERY_BUS_RESET, &dev->wedge_recovery);
 +}
-+static DEVICE_ATTR_RO(wedge_recovery);
 +
-+static struct attribute *minor_dev_attrs[] = {
-+	&dev_attr_wedge_recovery.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(minor_dev);
-+
- struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+ static void xe_device_remove_display(struct xe_device *xe)
  {
- 	const char *minor_str;
-@@ -532,6 +554,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
- 		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
- 		kdev->class = drm_class;
- 		kdev->type = &drm_sysfs_device_minor;
-+		kdev->groups = minor_dev_groups;
+ 	xe_display_unregister(xe);
+@@ -986,11 +995,12 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
+  * xe_device_declare_wedged - Declare device wedged
+  * @xe: xe device instance
+  *
+- * This is a final state that can only be cleared with a mudule
++ * This is a final state that can only be cleared with a module
+  * re-probe (unbind + bind).
+  * In this state every IOCTL will be blocked so the GT cannot be used.
+  * In general it will be called upon any critical error such as gt reset
+- * failure or guc loading failure.
++ * failure or guc loading failure. Userspace will be notified of this state
++ * by a DRM uevent.
+  * If xe.wedged module parameter is set to 2, this function will be called
+  * on every single execution timeout (a.k.a. GPU hang) right after devcoredump
+  * snapshot capture. In this mode, GT reset won't be attempted so the state of
+@@ -1020,6 +1030,9 @@ void xe_device_declare_wedged(struct xe_device *xe)
+ 			"IOCTLs and executions are blocked. Only a rebind may clear the failure\n"
+ 			"Please file a _new_ bug report at https://gitlab.freedesktop.org/drm/xe/kernel/issues/new\n",
+ 			dev_name(xe->drm.dev));
++
++		/* Notify userspace of wedged device */
++		drm_dev_wedged_event(&xe->drm, DRM_WEDGE_RECOVERY_BUS_RESET);
  	}
  
- 	kdev->parent = minor->dev->dev;
+ 	for_each_gt(gt, xe, id)
+diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
+index ca8d8ef6342b..77a2332b4b87 100644
+--- a/drivers/gpu/drm/xe/xe_device.h
++++ b/drivers/gpu/drm/xe/xe_device.h
+@@ -174,6 +174,7 @@ static inline bool xe_device_wedged(struct xe_device *xe)
+ 	return atomic_read(&xe->wedged.flag);
+ }
+ 
++void xe_setup_wedge_recovery(struct xe_device *xe);
+ void xe_device_declare_wedged(struct xe_device *xe);
+ 
+ struct xe_file *xe_file_get(struct xe_file *xef);
+diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
+index a1d08e20cd34..60a8a60f1d9f 100644
+--- a/drivers/gpu/drm/xe/xe_pci.c
++++ b/drivers/gpu/drm/xe/xe_pci.c
+@@ -872,6 +872,8 @@ static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (err)
+ 		goto err_driver_cleanup;
+ 
++	xe_setup_wedge_recovery(xe);
++
+ 	drm_dbg(&xe->drm, "d3cold: capable=%s\n",
+ 		str_yes_no(xe->d3cold.capable));
+ 
 -- 
 2.34.1
 
