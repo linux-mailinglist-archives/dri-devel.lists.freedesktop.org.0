@@ -2,54 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D6897B1B9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 17:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABF397B19E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 16:52:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9571A10E22C;
-	Tue, 17 Sep 2024 15:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 301B610E224;
+	Tue, 17 Sep 2024 14:52:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IhDHEY4c";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mQ07V7eM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E53410E22C
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 15:19:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726586396; x=1758122396;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Zz6Czlb70Rtm4aNMxeyt1ekQoo/4chx7f/zCxsEz7q4=;
- b=IhDHEY4cYX+wiwd8GaCno2eQBTkVz2Css4x8oLSpy3QGbguZyTXCXCzm
- 0Q/SsspD3hxdj9Mx3byhHxlhFMC+8NNi76LhWqqTX1/8K33VFleMfoHxT
- MiN9TmeLRBbU30y4bNApa9Y/WjlnrjtnuIGbX7mnnpjhYTQnvcsk2rWiS
- mzg/1Yi4h0fpJJ1htyeaXn2DRZH3Vv5XRCYiN1KkBg6gyvrM1bkYgLiGw
- 7NH3yDLdp4Tqrlbj4trFlCDr6Br9+Kl1dmsfBa/L2e/7prSZ3SJU/vjZt
- DEggtzDkXhClUi4+Vj2bsAcKROseQJskj2Zr6f7qJK8WNebYogoHBYqix w==;
-X-CSE-ConnectionGUID: 6KA5xaEIS6mZJgEvrD3gXg==
-X-CSE-MsgGUID: WLWqWJwmTDmDN+zHmuKY6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="36586098"
-X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="36586098"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2024 08:19:56 -0700
-X-CSE-ConnectionGUID: clSUahrpSFKSRi96ZHXyDA==
-X-CSE-MsgGUID: iOaG9Qf0SB6pMO0u/AJGow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="73795113"
-Received: from osgc-linux-buildserver.sh.intel.com ([10.112.232.61])
- by fmviesa004.fm.intel.com with ESMTP; 17 Sep 2024 08:19:54 -0700
-From: Shuicheng Lin <shuicheng.lin@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v3] drm/scheduler: Improve documentation
-Date: Tue, 17 Sep 2024 14:47:32 +0000
-Message-Id: <20240917144732.2758572-1-shuicheng.lin@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22E5210E224;
+ Tue, 17 Sep 2024 14:52:19 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48H4nup4022480;
+ Tue, 17 Sep 2024 14:52:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=uoeJcBQMFmqPhQZTMkUWS61i
+ HoEJCARe4P2fr3s12lw=; b=mQ07V7eMcv0zD1hXPhsi4ljJVNKJmG7FpgpYyrsx
+ fU1gTpYmMADt0trRvi117XSd6TmrqdIBybK7VEwDzvn0mlK07oW07KbZYeG4rnUA
+ YxBbgYTcPC+1FgH5N0e/Bx3yAim8oeevkwey3GVTF4yvLfAKFXM9pv+V9Pn602X1
+ iQXYjRe1homrJtbGLg+d+f0s0QYNLeeXNQctdg2GRsH1ZfFQsXGW8pwR9xPEgiD4
+ eJpsu7zEkUgiGCqiLc4omXzHTbobtE0Kugon9nDOdzgeWr8lcq1YteT3S6We5MzO
+ 74zYeV7A9TSeHfYcjKADlinmyeYle+Jqvytv9pjqByRqMA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41n4gnq2jn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Sep 2024 14:52:12 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48HEqBnL008974
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Sep 2024 14:52:11 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 17 Sep 2024 07:52:07 -0700
+Date: Tue, 17 Sep 2024 20:22:03 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Konrad Dybcio <konradybcio@kernel.org>
+CC: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>, "Connor
+ Abbott" <cwabbott0@gmail.com>,
+ Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/msm/a6xx+: Insert a fence wait before SMMU table
+ update
+Message-ID: <20240917145203.2nznqdkrsfanttex@hu-akhilpo-hyd.qualcomm.com>
+References: <20240913195132.8282-1-robdclark@gmail.com>
+ <e6991910-5058-4ef0-bfdf-6d33953535dd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <e6991910-5058-4ef0-bfdf-6d33953535dd@kernel.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: bQw_K9KxeX0BK0awkjyWmeW6Kc1ARqs2
+X-Proofpoint-ORIG-GUID: bQw_K9KxeX0BK0awkjyWmeW6Kc1ARqs2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ mlxlogscore=869 malwarescore=0 suspectscore=0 clxscore=1011 phishscore=0
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409170106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,158 +94,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Function drm_sched_entity_push_job() doesn't have a return value,
-remove the return value description for it.
-Correct several other typo errors.
+On Tue, Sep 17, 2024 at 03:47:09PM +0200, Konrad Dybcio wrote:
+> On 13.09.2024 9:51 PM, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> > 
+> > The CP_SMMU_TABLE_UPDATE _should_ be waiting for idle, but on some
+> > devices (x1-85, possibly others), it seems to pass that barrier while
+> > there are still things in the event completion FIFO waiting to be
+> > written back to memory.
+> 
+> Can we try to force-fault around here on other GPUs and perhaps
+> limit this workaround?
+> 
+> Akhil, do we have any insight on this?
 
-v2 (Philipp):
-- more correction with related comments.
+Nothing at the moment. I will check this further.
 
-Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
-Reviewed-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 10 ++++------
- drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
- include/drm/gpu_scheduler.h              | 12 ++++++------
- include/linux/dma-resv.h                 |  6 +++---
- 4 files changed, 15 insertions(+), 17 deletions(-)
+-Akhil.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 58c8161289fe..ffa3e765f5db 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -51,7 +51,7 @@
-  * drm_sched_entity_set_priority(). For changing the set of schedulers
-  * @sched_list at runtime see drm_sched_entity_modify_sched().
-  *
-- * An entity is cleaned up by callind drm_sched_entity_fini(). See also
-+ * An entity is cleaned up by calling drm_sched_entity_fini(). See also
-  * drm_sched_entity_destroy().
-  *
-  * Returns 0 on success or a negative error code on failure.
-@@ -370,8 +370,8 @@ static void drm_sched_entity_clear_dep(struct dma_fence *f,
- }
- 
- /*
-- * drm_sched_entity_clear_dep - callback to clear the entities dependency and
-- * wake up scheduler
-+ * drm_sched_entity_wakeup - callback to clear the entity's dependency and
-+ * wake up the scheduler
-  */
- static void drm_sched_entity_wakeup(struct dma_fence *f,
- 				    struct dma_fence_cb *cb)
-@@ -389,7 +389,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
-  * @entity: scheduler entity
-  * @priority: scheduler priority
-  *
-- * Update the priority of runqueus used for the entity.
-+ * Update the priority of runqueues used for the entity.
-  */
- void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
- 				   enum drm_sched_priority priority)
-@@ -574,8 +574,6 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
-  * fence sequence number this function should be called with drm_sched_job_arm()
-  * under common lock for the struct drm_sched_entity that was set up for
-  * @sched_job in drm_sched_job_init().
-- *
-- * Returns 0 for success, negative error code otherwise.
-  */
- void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- {
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index ab53ab486fe6..cadf1662bc01 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -41,7 +41,7 @@
-  * 4. Entities themselves maintain a queue of jobs that will be scheduled on
-  *    the hardware.
-  *
-- * The jobs in a entity are always scheduled in the order that they were pushed.
-+ * The jobs in an entity are always scheduled in the order in which they were pushed.
-  *
-  * Note that once a job was taken from the entities queue and pushed to the
-  * hardware, i.e. the pending queue, the entity must not be referenced anymore
-@@ -1339,7 +1339,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
- 		list_for_each_entry(s_entity, &rq->entities, list)
- 			/*
- 			 * Prevents reinsertion and marks job_queue as idle,
--			 * it will removed from rq in drm_sched_entity_fini
-+			 * it will be removed from the rq in drm_sched_entity_fini()
- 			 * eventually
- 			 */
- 			s_entity->stopped = true;
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index fe8edb917360..ef23113451e4 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -33,11 +33,11 @@
- #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
- 
- /**
-- * DRM_SCHED_FENCE_DONT_PIPELINE - Prefent dependency pipelining
-+ * DRM_SCHED_FENCE_DONT_PIPELINE - Prevent dependency pipelining
-  *
-  * Setting this flag on a scheduler fence prevents pipelining of jobs depending
-  * on this fence. In other words we always insert a full CPU round trip before
-- * dependen jobs are pushed to the hw queue.
-+ * dependent jobs are pushed to the hw queue.
-  */
- #define DRM_SCHED_FENCE_DONT_PIPELINE	DMA_FENCE_FLAG_USER_BITS
- 
-@@ -71,7 +71,7 @@ enum drm_sched_priority {
- 	DRM_SCHED_PRIORITY_COUNT
- };
- 
--/* Used to chose between FIFO and RR jobs scheduling */
-+/* Used to choose between FIFO and RR job-scheduling */
- extern int drm_sched_policy;
- 
- #define DRM_SCHED_POLICY_RR    0
-@@ -198,7 +198,7 @@ struct drm_sched_entity {
- 	 *
- 	 * Points to the finished fence of the last scheduled job. Only written
- 	 * by the scheduler thread, can be accessed locklessly from
--	 * drm_sched_job_arm() iff the queue is empty.
-+	 * drm_sched_job_arm() if the queue is empty.
- 	 */
- 	struct dma_fence __rcu		*last_scheduled;
- 
-@@ -247,7 +247,7 @@ struct drm_sched_entity {
-  * @sched: the scheduler to which this rq belongs to.
-  * @entities: list of the entities to be scheduled.
-  * @current_entity: the entity which is to be scheduled.
-- * @rb_tree_root: root of time based priory queue of entities for FIFO scheduling
-+ * @rb_tree_root: root of time based priority queue of entities for FIFO scheduling
-  *
-  * Run queue is a set of entities scheduling command submissions for
-  * one specific ring. It implements the scheduling policy that selects
-@@ -321,7 +321,7 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
-  * @s_fence: contains the fences for the scheduling of job.
-  * @finish_cb: the callback for the finished fence.
-  * @credits: the number of credits this job contributes to the scheduler
-- * @work: Helper to reschdeule job kill to different context.
-+ * @work: Helper to reschedule job kill to different context.
-  * @id: a unique id assigned to each job scheduled on the scheduler.
-  * @karma: increment on every hang caused by this job. If this exceeds the hang
-  *         limit of the scheduler then the job is marked guilty and will not
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 8d0e34dad446..c5ab6fd9ebe8 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -105,10 +105,10 @@ enum dma_resv_usage {
- 	 * This should be used by submissions which don't want to participate in
- 	 * any implicit synchronization.
- 	 *
--	 * The most common case are preemption fences, page table updates, TLB
--	 * flushes as well as explicit synced user submissions.
-+	 * The most common cases are preemption fences, page table updates, TLB
-+	 * flushes as well as explicitly synced user submissions.
- 	 *
--	 * Explicit synced user user submissions can be promoted to
-+	 * Explicitly synced user submissions can be promoted to
- 	 * DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE as needed using
- 	 * dma_buf_import_sync_file() when implicit synchronization should
- 	 * become necessary after initial adding of the fence.
--- 
-2.25.1
-
+> 
+> Konrad
