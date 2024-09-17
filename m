@@ -2,75 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A1B97B3BF
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 19:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A61D97B3C3
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 19:44:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F079E10E4CF;
-	Tue, 17 Sep 2024 17:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD7710E4DA;
+	Tue, 17 Sep 2024 17:44:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="nOLSqfeU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CGRWcxAk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D00E010E4CF
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 17:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1726594963; x=1727199763; i=markus.elfring@web.de;
- bh=pWO2K5IT291YPVVlABU0X2IXqhtsWWaMdnFFVbIS0nQ=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
- Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=nOLSqfeUaAi/83mr3M7ve0VpFC+MafCe5E5429bRzapNrRIOPMPsRzkVLZO1K/H3
- 2bR5Rda94WOeJvm0+8XiyVygNF0W1PxKTRaEJ285+FjrYCJ8RQysQLmVMst1jsjEY
- rrlIlQcoPH//5mTrQUnbT3L1nwPkkCPpY7AQWeqwGgqB68KTh1ahcnGA8gEJHf2bO
- a+P6c4m8SfDU2SQOX33RY9Yhs/13em0DGRGxCweNTKT28e5ad/m++RdBQuzVL/gP6
- PpXkmDbTCMnw7Bh/3DCETCfedAdQWYrOKZlfbU0LYxwJehAh/h6/kMQNf2TbX7Qxd
- R8nCzfd/eOc7ATV5LQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mmhjm-1sA5bw3xmo-00fzWz; Tue, 17
- Sep 2024 19:42:43 +0200
-Message-ID: <aa103a36-8cb3-4232-b4b7-3ffd117e303b@web.de>
-Date: Tue, 17 Sep 2024 19:42:30 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE24E10E4DA;
+ Tue, 17 Sep 2024 17:44:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726595053; x=1758131053;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HSPNFzhTJd15Mp7HTNNVxOD47iliuq38qp2Ft4CjGYQ=;
+ b=CGRWcxAkZC/moLgWvFGjfm2nHlxQDYmYxQCbu+0JUbewJdhxo6VaSlp9
+ qWHkbaXZ0Z1rhfzWVxrv3ALJs58P5evpPDVwqSLxmFITLw6j/os0VCLZd
+ sVQ43hwYfKCqZpFbjFx8lA8doe1LSBPh1zT3+hEX8H3zN4uiqyRQlsWex
+ iBq+kdxGpZgIYY0tihdivfRJ9gXkm4HX6NK5m0OGuyB54Hl6oOTjpW3nz
+ +xBqiYDQQ/42uesE4z/irh9lhfAMO5mpq0Y3oTTkZBRHS2ySDdxFzq/9x
+ iS14xOZUQssWqKoyOAakzaQLPh1Mlo3yf9r0Apzi0oA3XL/kqXZB0kLcj Q==;
+X-CSE-ConnectionGUID: 7cwCm/vDQC+2Z+HcS3pB0g==
+X-CSE-MsgGUID: iBYxWaMCTj6KbNbaOy7lzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="13561341"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="13561341"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2024 10:44:08 -0700
+X-CSE-ConnectionGUID: pnTSV40AQd2ZgHsOwtylXQ==
+X-CSE-MsgGUID: gi8rXowpR/qUT8ZMU+15AQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="100104435"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.102])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2024 10:43:57 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
+ Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>
+Subject: [PATCH 0/2] drm: revert some framebuffer API tests
+Date: Tue, 17 Sep 2024 20:43:50 +0300
+Message-Id: <cover.1726594684.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH 2/2] drm/mediatek: Use common error handling code in
- mtk_gem_prime_vmap()
-From: Markus Elfring <Markus.Elfring@web.de>
-To: linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, Alexandre Mergnat <amergnat@baylibre.com>,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <254d16d9-d56a-4f26-9914-db75e7aa4287@web.de>
-Content-Language: en-GB
-In-Reply-To: <254d16d9-d56a-4f26-9914-db75e7aa4287@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ezgH/8fZhFI1IrNh24hqxGOueTJdBwXGIwmeneXLT7XGQmG+3V4
- z//xu1M6oMbjsPr4NXuaJ03mTgKWia4i1uBGqfgmZ8Q28a3Dkm65V1D+MJmuufEsX0sg4mc
- tjL9pBs6prJYXwFEZyRK2Ivb8gMtHOle/MHWPYU3IU8mK71vUkSWAZrcmaXiepPEzCL/RXc
- sfT1Q9i/g1tuB1VN+us7A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aomhZC9t42M=;tH2TV6U/oikQBx24ke6cbQaKNNk
- 5aVG/0ORPx83Ltc+EJ6HAwycWg8bWs4jcBpBMqoB48FpOl8kA5105zrzU3FXdzIWxSMS+bGn0
- GxkRFke8i+DFXmE5ET6OUboflcwOLDHBvC22gFwVizMbvS87dZh9a/drZ6PKQ644DnnncFiTr
- 71eZ83L0dT7bxdAPQ9c6DhgBp6w+ulfyKeioAmHvAsK2yhoaNvW4crGDETlKaXqxaO7Aco/L7
- N4IRnZUyDH77qweJ1nWZkU1Ol1cL9X+Yolu3XLex48Z8wdcMXYbVkE4/qgJ24cDJB6QU35Z3N
- JqBzC1GXbeXzIei4+gUKeopqr2hR0p9dq0IhXOMLzFQ7bEz0VpUoYNt+5bGw8ty0RNrxe89JN
- tAHl17rzrScENx72+etL1s7YXg4RHBNCOEz2FDuhdIaEOqoE1D7OsusXT0pXObw3q20DVWD/Y
- A+kP7X8XUnjM1Yi6Tqg/oWPtOf48FnBPwvN+Ee77N5BSgAdPFTZKGUHQwhIiQtBygT4EqwSzp
- 1gAv+gpTUFzQTb4JJBvp8JUM6BrMSfYKntquoBp6MiHB+WAKN/2Lo4KQmXB2qeQeWqRM6BUp9
- vxCNMZDdZB2fo3U0v/LCfc36U9kKgmjrW7nX91SAWEjMI1HVLudgGL6a9GJcBAqE1TccDSBI8
- qe5WM+Vknyw3ru4gxh5d5AJRp+nizJQu8576r16nQkg0Kd28UEFKcdn2OU9X8305s0P/xIXmz
- gbOpjrW/pd8Tq/1bLxxbHIk/xaoS+w0cQa0CtLHMqk6bj7McA9DExt33JwE/j95JViOIxc2so
- BrSSOZpqessm8iBfa5zGFMHA==
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,58 +72,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 17 Sep 2024 19:06:23 +0200
+The tests consistently trigger WARNs in drm_framebuffer code. I'm not
+sure what the point is with type of belts and suspenders tests. The
+warnings *are* the way to flag erroneous API usage.
 
-Add a jump target so that a bit of exception handling can be better reused
-at the end of this function implementation.
+Warnings in turn trigger failures in CI. Filtering the warnings are
+error prone, and, crucially, would also filter actual errors in case the
+kunit tests are not run.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/gpu/drm/mediatek/mtk_gem.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+I acknowledge there may be complex test cases where you'd end up
+triggering warnings somewhere deep, but these are not it. These are
+simple.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_gem.c b/drivers/gpu/drm/mediatek=
-/mtk_gem.c
-index 9c7b7d0a3ffc..5713156efb4e 100644
-=2D-- a/drivers/gpu/drm/mediatek/mtk_gem.c
-+++ b/drivers/gpu/drm/mediatek/mtk_gem.c
-@@ -251,8 +251,7 @@ int mtk_gem_prime_vmap(struct drm_gem_object *obj, str=
-uct iosys_map *map)
- 	mtk_gem->pages =3D kcalloc(npages, sizeof(*mtk_gem->pages), GFP_KERNEL);
- 	if (!mtk_gem->pages) {
- 		sg_free_table(sgt);
--		kfree(sgt);
--		return -ENOMEM;
-+		goto free_sgt;
- 	}
+Revert the tests, back to the drawing board.
 
- 	drm_prime_sg_to_page_array(sgt, mtk_gem->pages, npages);
-@@ -261,9 +260,8 @@ int mtk_gem_prime_vmap(struct drm_gem_object *obj, str=
-uct iosys_map *map)
- 			       pgprot_writecombine(PAGE_KERNEL));
- 	sg_free_table(sgt);
- 	if (!mtk_gem->kvaddr) {
--		kfree(sgt);
- 		kfree(mtk_gem->pages);
--		return -ENOMEM;
-+		goto free_sgt;
- 	}
+BR,
+Jani.
 
- 	kfree(sgt);
-@@ -272,6 +270,10 @@ int mtk_gem_prime_vmap(struct drm_gem_object *obj, st=
-ruct iosys_map *map)
- 	iosys_map_set_vaddr(map, mtk_gem->kvaddr);
 
- 	return 0;
-+
-+free_sgt:
-+	kfree(sgt);
-+	return -ENOMEM;
- }
+Cc: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jeff Johnson <quic_jjohnson@quicinc.com>
 
- void mtk_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *m=
-ap)
-=2D-
-2.46.0
+
+Jani Nikula (2):
+  Revert "drm/tests: Add test for drm_framebuffer_free()"
+  Revert "drm/tests: Add test for drm_framebuffer_init()"
+
+ drivers/gpu/drm/drm_framebuffer.c            |   1 -
+ drivers/gpu/drm/drm_mode_object.c            |   1 -
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 134 -------------------
+ 3 files changed, 136 deletions(-)
+
+-- 
+2.39.2
 
