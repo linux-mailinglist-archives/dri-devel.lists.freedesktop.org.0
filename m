@@ -2,76 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30A697B1CD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 17:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F3C97B21A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 17:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C55910E1D4;
-	Tue, 17 Sep 2024 15:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69C0D10E058;
+	Tue, 17 Sep 2024 15:45:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MhURv13K";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oyoHUmUG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
- [209.85.166.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C84BC10E1D4;
- Tue, 17 Sep 2024 15:30:39 +0000 (UTC)
-Received: by mail-il1-f180.google.com with SMTP id
- e9e14a558f8ab-3a09af86744so10375935ab.1; 
- Tue, 17 Sep 2024 08:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726587039; x=1727191839; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rPW/AgdMn9HEEBlCh+UVWWKGsOQrfUimterFynorjKM=;
- b=MhURv13KLad6WW9wscEu1/SAD/MAsQkHEl1i1dMd2CJGYOqs2ypDE8gX2mn+TUAbxN
- pojTSQ4yoLfIJts3hQFv2EUPol9Xi6MXoM7jSSiWsjxN0klNS1jOR9tl6M8w7fE511YE
- SMAcTv+GdbdESprALuIPyuaWg2SDnfkro0GuG08jsQsItcJ0mMX8AFWyWfipvWdl/2sK
- Zk9ac+DkUfeUlDqnBJpVagGQkiXq2YEjxdEEQXOMQoPrnzkMMtmFUCC2pKk9f+7tJkhn
- IcO38YbwyoqgoaX2imC2f8/oR4AqHGo2hamtrpOoMuYlewyNbidLLxpLjfxmfTbmzCRa
- 2iFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726587039; x=1727191839;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rPW/AgdMn9HEEBlCh+UVWWKGsOQrfUimterFynorjKM=;
- b=sUHrVs5zZ9wRoN/c6TDfPE8rQNTixQdpTYFnJQPMCwNUSVYrnolNG7W/QLrb5togWI
- IvXySXRQJ1gg7f2vHSvyADFhjEVNkULuO9st+ts9uv31RK2S4kUrpb1Ih/bL8n62PAos
- 8bmbsoJegqm+Hrc8gzADL0ZLqvLPjbhnhvkb+m5TORlikA4DyGNR50pnbjoXamj/ii9I
- 0bdPdxgLtv0KndXIUp6jMi7p+QgtF4H8Vy48+dhIFfawHJA3wSRtuPILfFfE6tg2bKNC
- oAhJeZp7ShMyFqOGJCJfOEM87zgY9Bxdo5g3Ulah0xKHXVU67+WSzNoSsLQPKv/DmOGi
- nYiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5hRJX49LoGh6bizxe75a9R5hG2WttEBO1C858nM9bcWQwXSoKE07ZI3ddJljy2kD1siH4mBJ2ziU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzeQXAV/LNQT6BgLNY7lMLiksgqlajAnrEjNr8VZRHA+f4CZE7k
- z45hFbDv3gCuGaDWBb4y7f6bn4lN04+v14zXxWcMYzYpH00GP3n9RgB7AiN7dRAbg6PR0WWoEiX
- nFwTvXEczwKlR4N/W8bzdexLbJwc=
-X-Google-Smtp-Source: AGHT+IFnQfX2Dm7t85FaLReCnsm/k3IVJHP6S0jDSauS+A3CY0LNPlrSmf9NZpTDLnGuUiYPAko0KJRt85OCKIPoMnY=
-X-Received: by 2002:a05:6e02:5a9:b0:3a0:8c68:7705 with SMTP id
- e9e14a558f8ab-3a08c6877c6mr117243125ab.21.1726587038839; Tue, 17 Sep 2024
- 08:30:38 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC9E210E058
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 15:45:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id BE940A41C69;
+ Tue, 17 Sep 2024 15:45:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3638C4CEC5;
+ Tue, 17 Sep 2024 15:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726587945;
+ bh=KWtkj0GL9S0bCz/hrLAjMTZkpobKDEnlNQquUiw4hWY=;
+ h=Date:From:To:Subject:From;
+ b=oyoHUmUG6QRDskcwLX+4a6Eqfo/Upl5AQkkSjeX1VjqxVTLJL0fQHCOPlog1RQxVf
+ r0O7kcDy6igsh7DiMv2Cbbdf88Xnv2xaG8wic2albBDExAHsVA20Ao7iSKmvyttN/1
+ dGI6kwau+KG7F0tWiO75IUSQ7wIvl8QNGB3i2YUgkiQF+omNFhgjTkSBRUhNdIOO+1
+ HwatWXJF/gKnQC+LDylCrl+4sEsL6Ley9DrJuZWRCNrjV5Yq8kWfOTDg2om8ACtKNr
+ 0syy7bBb0ZAXOoipRCA7yeUSt01LYbpo6hm4mzvlisy1Yn03EDp7lTMUQiPVKDcT+J
+ 8XZ6uOC36ieMg==
+Date: Tue, 17 Sep 2024 17:45:40 +0200
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes and cleanups for v6.12-rc1
+Message-ID: <ZumkJA3zfB8AhDsF@carbonx1>
 MIME-Version: 1.0
-References: <20240913195132.8282-1-robdclark@gmail.com>
- <e6991910-5058-4ef0-bfdf-6d33953535dd@kernel.org>
-In-Reply-To: <e6991910-5058-4ef0-bfdf-6d33953535dd@kernel.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 17 Sep 2024 08:30:25 -0700
-Message-ID: <CAF6AEGvgS-DD0+qGX_Mud75aES4AQQjmWx2j2gyz7uakTpnp0w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx+: Insert a fence wait before SMMU table
- update
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>, 
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,31 +56,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 17, 2024 at 6:47=E2=80=AFAM Konrad Dybcio <konradybcio@kernel.o=
-rg> wrote:
->
-> On 13.09.2024 9:51 PM, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > The CP_SMMU_TABLE_UPDATE _should_ be waiting for idle, but on some
-> > devices (x1-85, possibly others), it seems to pass that barrier while
-> > there are still things in the event completion FIFO waiting to be
-> > written back to memory.
->
-> Can we try to force-fault around here on other GPUs and perhaps
-> limit this workaround?
+Hi Linus,
 
-not sure what you mean by "force-fault"... we could probably limit
-this to certain GPUs, the only reason I didn't is (a) it should be
-harmless when it is not needed, and (b) I have no real good way to get
-an exhaustive list of where it is needed.  Maybe/hopefully it is only
-x1-85, but idk.
+please pull some updates and cleanups for the fbdev drivers for kernel 6.12-rc1.
+This patchset includes a crashfix for xen and a possible use-after-free fix in pxafb.
 
-It does bring up an interesting question about preemption, though
+Thanks!
+Helge
 
-BR,
--R
+----------------------------------------------------------------
+The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
 
-> Akhil, do we have any insight on this?
->
-> Konrad
+  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.12-rc1
+
+for you to fetch changes up to de5e89b6654ea0b021a5737e0f55fc6bed625550:
+
+  fbdev: omapfb: Fix typo in comment (2024-09-11 20:53:04 +0200)
+
+----------------------------------------------------------------
+fbdev fixes and updates for 6.12-rc1:
+
+- video: Reduce code when CONFIG_HAS_IOPORT=n
+- xenfb: Fix crash by assigning fb_info->device
+- pxafb: Fix possible use after free in pxafb_task()
+- efifb: Introduce and use new devm_register_framebuffer() function
+- mmpfb: Utilize devm_clk_get_enabled() helpers
+- various typo fixes and code cleanups
+
+----------------------------------------------------------------
+Andrew Kreimer (1):
+      fbdev: omapfb: Fix typo in comment
+
+Chen Ni (3):
+      fbdev: pxa3xx-gcu: Convert comma to semicolon
+      fbdev: imsttfb: convert comma to semicolon
+      fbdev: hyperv_fb: Convert comma to semicolon
+
+Christophe JAILLET (3):
+      fbdev: hpfb: Fix an error handling path in hpfb_dio_probe()
+      fbdev: omapfb: panel-sony-acx565akm: Simplify show_cabc_available_modes()
+      fbdev: omapfb: Use sysfs_emit_at() to simplify code
+
+Jason Andryuk (1):
+      fbdev: xen-fbfront: Assign fb_info->device
+
+Kaixin Wang (1):
+      fbdev: pxafb: Fix possible use after free in pxafb_task()
+
+Niklas Schnelle (1):
+      video: Handle HAS_IOPORT dependencies
+
+Thomas Weiﬂschuh (4):
+      fbdev: Introduce devm_register_framebuffer()
+      fbdev: efifb: Register sysfs groups through driver core
+      fbdev: efifb: Use devm_register_framebuffer()
+      fbdev: efifb: Use driver-private screen_info for sysfs
+
+ying zuxin (1):
+      fbdev: mmp: Use devm_clk_get_enabled() helpers
+
+ drivers/video/fbdev/core/fbmem.c                   | 30 +++++++++++
+ drivers/video/fbdev/efifb.c                        | 27 +++-------
+ drivers/video/fbdev/hpfb.c                         |  1 +
+ drivers/video/fbdev/hyperv_fb.c                    |  2 +-
+ drivers/video/fbdev/imsttfb.c                      |  4 +-
+ drivers/video/fbdev/mmp/hw/mmp_ctrl.c              |  6 +--
+ drivers/video/fbdev/omap/omapfb_main.c             | 36 ++++++--------
+ .../omap2/omapfb/displays/panel-sony-acx565akm.c   | 15 +++---
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi.h        |  2 +-
+ drivers/video/fbdev/pxa3xx-gcu.c                   |  4 +-
+ drivers/video/fbdev/pxafb.c                        |  1 +
+ drivers/video/fbdev/xen-fbfront.c                  |  1 +
+ include/linux/fb.h                                 |  1 +
+ include/video/vga.h                                | 58 ++++++++++++++++------
+ 14 files changed, 111 insertions(+), 77 deletions(-)
