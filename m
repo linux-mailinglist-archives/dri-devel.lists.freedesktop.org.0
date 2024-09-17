@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A65E97AC61
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 09:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 717B097AC7F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 09:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F04E10E429;
-	Tue, 17 Sep 2024 07:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 391BF10E1D2;
+	Tue, 17 Sep 2024 07:59:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hZ1taoZx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ILvyiLcg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD3610E1FE;
- Tue, 17 Sep 2024 07:49:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EEF710E166;
+ Tue, 17 Sep 2024 07:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726559357; x=1758095357;
+ t=1726559969; x=1758095969;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=VupqYhN1WRFuxJ07hRvshueuKjhF5q1GGZek8yzN44k=;
- b=hZ1taoZxF6hMkt6IUaU4dJQsyiQr095OEHa/rMgPwwqmEF2TiODvQ6E9
- yASSTq4Tx0i1ABbeZztmuU6Jyjy8wlHUry8Kr3yWHrYBpIuUxoRJRhXkB
- sSuY5V4OSPYPEtlH4XHlge/FGvfLCcJgJsh5zaxTR6DiBNkbPaWluuEHk
- NbRd6dhwtr8HaF9Y+nQzJKriX9KpFzrPp1Ka/Iwb1A4mpWmwa46h1XygG
- FWBhX9RlZbJ5teC3OQrV9RHretB/a8wfchlJs7e+4rJpSnQVlZclKW5QL
- tL3nrGrmd22jJYfaKO6yABlcxR5KCTRG2dgB83g0kS7/5SfgqdqIq8EYl g==;
-X-CSE-ConnectionGUID: Utk/9t9gTfezoTXKqW4jZQ==
-X-CSE-MsgGUID: vI7PTaBHR/qqhrqLmSrBHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="25527682"
-X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="25527682"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2024 00:49:16 -0700
-X-CSE-ConnectionGUID: EIf81ltNTcCXpsH9Hok4YQ==
-X-CSE-MsgGUID: SGAFcZkbQ0mIwOirtBhhmQ==
+ bh=UG8LqdzeXSaEAAFcyA5nqjSctWoPpzwU0FOM7G9g5X4=;
+ b=ILvyiLcgpkH0T7H1KJT6VjLZ/K8rXPXU3QxMOYb/X6zOZn7/BW81RkrX
+ 1E+iAesQEXMEKDq3+/CNcm8WlbI4b+DRtS811ZnaqjKVEhzqvQxkNivTi
+ JDtsVDQwpU+VMvqqYO1AE9gEeSsAD7ZKf5eiphBmr+oZNwAR0rpFqoHtn
+ +k7XC6DRyv4OhTEpvMxNtdm/9IhVWKiY/mcsFgYAcQARozlGKyw9vPMwA
+ 7B3mOgW6Sih4N+Hf2DLuzrTrVelwsqY4JztW9668/0cEzTRhr7taCNPaB
+ xy/mGiXCdvjlzdbxb48OHc2GUV+WXyt4b4RKmJnmJuJZtBLbrMYg2cwvl w==;
+X-CSE-ConnectionGUID: G2cSCZJCSOaioZLjDvMlZQ==
+X-CSE-MsgGUID: frBFflYjSNWthBHVz5hzsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="25284035"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="25284035"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2024 00:59:29 -0700
+X-CSE-ConnectionGUID: XzjX9IC0RTq85FgSLV0w9Q==
+X-CSE-MsgGUID: R45W4e/RRbaeFeboDkwYMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="69075543"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="69211784"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.102])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2024 00:49:10 -0700
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2024 00:59:25 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- andriy.shevchenko@linux.intel.com, matthew.d.roper@intel.com, Raag Jadav
- <raag.jadav@intel.com>
-Subject: Re: [PATCH v5 2/4] drm: Expose wedge recovery methods
-In-Reply-To: <20240917040235.197019-3-raag.jadav@intel.com>
+To: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>,
+ gustavo.sousa@intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: skhan@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/i915/cx0: Set power state to ready only on owned
+ PHY lanes
+In-Reply-To: <20240916180137.9203-1-vamsikrishna.brahmajosyula@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240917040235.197019-1-raag.jadav@intel.com>
- <20240917040235.197019-3-raag.jadav@intel.com>
-Date: Tue, 17 Sep 2024 10:49:07 +0300
-Message-ID: <87msk6d8jw.fsf@intel.com>
+References: <20240916180137.9203-1-vamsikrishna.brahmajosyula@gmail.com>
+Date: Tue, 17 Sep 2024 10:59:22 +0300
+Message-ID: <87h6aed82t.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,79 +74,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
-> Now that we have device wedged event in place, add wedge_recovery sysfs
-> attribute which will expose recovery methods supported by the DRM device.
-> This is useful for userspace consumers in cases where the device supports
-> multiple recovery methods which can be used as fallbacks.
+On Mon, 16 Sep 2024, Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com> wrote:
+> In DP alt mode, when pin assignment is D, only one PHY lane is owned
+> by the display. intel_cx0pll_enable currently performs a power cycle
+> ready on both the lanes in all cases.
 >
-> $ cat /sys/class/drm/card0/wedge_recovery
-> rebind
-> bus-reset
-> reboot
+> Address the todo to perfom power state ready on owned lanes.
 >
-> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> ---
->  drivers/gpu/drm/drm_sysfs.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+> Tested on Meteor Lake-P [Intel Arc Graphics] with DP alt mode.
 >
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index fb3bbb6adcd1..b88cdbfa3b5e 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -36,6 +36,8 @@
->  #define to_drm_minor(d) dev_get_drvdata(d)
->  #define to_drm_connector(d) dev_get_drvdata(d)
->  
-> +extern const char *const wedge_recovery_opts[];
+> v1 -> v2: Address comments from Gustavo Sousa
 
-Data is not an interface. Please add a function for this.
-
-Side note, extern declarations for outside stuff don't belong in .c
-files anyway.
+Please briefly describe the actual change. This does not help at all.
 
 BR,
 Jani.
 
-> +
->  /**
->   * DOC: overview
->   *
-> @@ -508,6 +510,26 @@ void drm_sysfs_connector_property_event(struct drm_connector *connector,
->  }
->  EXPORT_SYMBOL(drm_sysfs_connector_property_event);
+>
+> Signed-off-by: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_cx0_phy.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_cx0_phy.c b/drivers/gpu/drm/i915/display/intel_cx0_phy.c
+> index 4a6c3040ca15..cbed53d3b250 100644
+> --- a/drivers/gpu/drm/i915/display/intel_cx0_phy.c
+> +++ b/drivers/gpu/drm/i915/display/intel_cx0_phy.c
+> @@ -2934,6 +2934,7 @@ static void intel_cx0pll_enable(struct intel_encoder *encoder,
+>  	enum phy phy = intel_encoder_to_phy(encoder);
+>  	struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
+>  	bool lane_reversal = dig_port->saved_port_bits & DDI_BUF_PORT_REVERSAL;
+> +	u8 owned_lane_mask = intel_cx0_get_owned_lane_mask(encoder);
+>  	u8 maxpclk_lane = lane_reversal ? INTEL_CX0_LANE1 :
+>  					  INTEL_CX0_LANE0;
+>  	intel_wakeref_t wakeref = intel_cx0_phy_transaction_begin(encoder);
+> @@ -2948,10 +2949,9 @@ static void intel_cx0pll_enable(struct intel_encoder *encoder,
+>  	intel_cx0_phy_lane_reset(encoder, lane_reversal);
 >  
-> +static ssize_t wedge_recovery_show(struct device *device,
-> +				   struct device_attribute *attr, char *buf)
-> +{
-> +	struct drm_minor *minor = to_drm_minor(device);
-> +	struct drm_device *dev = minor->dev;
-> +	int opt, count = 0;
-> +
-> +	for_each_set_bit(opt, &dev->wedge_recovery, DRM_WEDGE_RECOVERY_MAX)
-> +		count += sysfs_emit_at(buf, count, "%s\n", wedge_recovery_opts[opt]);
-> +
-> +	return count;
-> +}
-> +static DEVICE_ATTR_RO(wedge_recovery);
-> +
-> +static struct attribute *minor_dev_attrs[] = {
-> +	&dev_attr_wedge_recovery.attr,
-> +	NULL
-> +};
-> +ATTRIBUTE_GROUPS(minor_dev);
-> +
->  struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
->  {
->  	const char *minor_str;
-> @@ -532,6 +554,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
->  		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
->  		kdev->class = drm_class;
->  		kdev->type = &drm_sysfs_device_minor;
-> +		kdev->groups = minor_dev_groups;
->  	}
+>  	/*
+> -	 * 3. Change Phy power state to Ready.
+> -	 * TODO: For DP alt mode use only one lane.
+> +	 * 3. Change Phy power state to Ready on owned lanes.
+>  	 */
+> -	intel_cx0_powerdown_change_sequence(encoder, INTEL_CX0_BOTH_LANES,
+> +	intel_cx0_powerdown_change_sequence(encoder, owned_lane_mask,
+>  					    CX0_P2_STATE_READY);
 >  
->  	kdev->parent = minor->dev->dev;
+>  	/*
+>
+> base-commit: ad060dbbcfcfcba624ef1a75e1d71365a98b86d8
 
 -- 
 Jani Nikula, Intel
