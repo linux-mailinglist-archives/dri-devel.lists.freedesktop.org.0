@@ -2,68 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7374797AD2F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 10:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC9C97ADD3
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 11:26:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D605F10E43D;
-	Tue, 17 Sep 2024 08:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80FFC10E449;
+	Tue, 17 Sep 2024 09:26:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PBtMUpvs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RjIelsm6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE9910E201
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 08:53:37 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EC972240013;
- Tue, 17 Sep 2024 08:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1726563216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HXAI/3ju1VCCwHCAXzm98BOlwNQZ+fS3qOU0jxqqHME=;
- b=PBtMUpvsQ6u8B6br9fNHriTcfs27bbqmsPcDiOOvE/K0+CWYRz7KkOmv96eLDMjFhye0BJ
- MCDjrTItCm0F/ZfRddlYvKkPyhQKl+4xrPd+REuiksVuV4kPnSjeBO4evplsR19lgrZ93x
- TCLy9AKbH6uRdSbIjbtG5p6y95P2awGt0h5p1EJ1q3qPCm2uFFxHGEOf7XqlU7SqD+YPTP
- ryjavBsToaMvdfQ12aiYGivWaPmNIFOB300pqtuW8GFCT0ST8IBlHs1nU/OyHraG1R05b/
- Np1MCqZWxZlXqI2duqti4I5eJsScFndC6D9/zsfCIV8mpF9MC6NSw/+fE/V2Zg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 17 Sep 2024 10:53:12 +0200
-Subject: [PATCH v4 8/8] misc: add ge-addon-connector driver
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959EA10E447;
+ Tue, 17 Sep 2024 09:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726565213; x=1758101213;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uB/PgTi3mMpr15zn5U0JX8fPkgY7CMKT0DWb3xRBAmg=;
+ b=RjIelsm6pw803OvMV9IKTT2NYrXvTVGQzJWJmWXnq5zhZjeeT6t3MYWD
+ 2IBhDq6DhoM2jG+qLG1wQzKlC2aF6mvcPDpbMxCcB3w56ERz+P6whwCkT
+ slocoW/rD+42Fef+ChqowwWx7lDjClSQ/3dnsWcHUs3W0z4vXPZ8fpbWV
+ 8ORJp1sC1LB8JlaISqEi4U5JhkK6tGiVNu9MrgWCBoZBa4vkHXRoj+d4z
+ 9PUXNBddFYEChR/pJ+Fg/3hTggiEFouD2YGqaCIOwLdPz5Ca3npbo7wNt
+ G/6sqj/s4/AE7U3Bi5+SS1sGuFb6riueXu4jCW6tNWPVnRykTksOIMnSA Q==;
+X-CSE-ConnectionGUID: goIW44q1TMSERLx0bKSx/Q==
+X-CSE-MsgGUID: 5EYP+PUcRCaSfI82e5GKbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="36789028"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="36789028"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2024 02:26:52 -0700
+X-CSE-ConnectionGUID: +9VjOmE1SVipFPQtmaR1JA==
+X-CSE-MsgGUID: rwH0X3gSR02zy+vJ+/rTjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="99815974"
+Received: from nemesa.iind.intel.com ([10.190.239.22])
+ by orviesa002.jf.intel.com with ESMTP; 17 Sep 2024 02:26:50 -0700
+From: Nemesa Garg <nemesa.garg@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Nemesa Garg <nemesa.garg@intel.com>
+Subject: [PATCH 0/5]  Introduce drm sharpness property
+Date: Tue, 17 Sep 2024 14:56:29 +0530
+Message-Id: <20240917092634.1109572-1-nemesa.garg@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240917-hotplug-drm-bridge-v4-8-bc4dfee61be6@bootlin.com>
-References: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
-In-Reply-To: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Derek Kiernan <derek.kiernan@amd.com>, 
- Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Saravana Kannan <saravanak@google.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: Paul Kocialkowski <contact@paulk.fr>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-i2c@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.1
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,600 +65,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a driver to support the runtime hot-pluggable add-on connector on the
-GE SUNH device. This connector allows connecting and disconnecting an
-add-on to/from the main device to augment its features. Connection and
-disconnection can happen at runtime at any moment without notice.
+ Many a times images are blurred or upscaled content is also not as
+crisp as original rendered image. Traditional sharpening techniques often
+apply a uniform level of enhancement across entire image, which sometimes
+result in over-sharpening of some areas and potential loss of natural details. 
 
-Different add-on models can be connected, and each has an EEPROM with a
-model identifier at a fixed address.
+Intel has come up with Display Engine based adaptive sharpening filter 
+with minimal power and performance impact. From LNL onwards, the Display
+hardware can use one of the pipe scaler for adaptive sharpness filter.
+This can be used for both gaming and non-gaming use cases like photos,
+image viewing. It works on a region of pixels depending on the tap size.
 
-The add-on hardware is added and removed using device tree overlay loading
-and unloading.
-
-Co-developed-by: Herve Codina <herve.codina@bootlin.com>
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
----
-
-Changed in v4:
- - rename 'nobus-devices' to 'devices' as per new bindings
- - remove the 'powergood' GPIO, removed from hardware design
- - rename "base" and "addon" overlays to "overlay 0" and "overlay 1" as the
-   "addon" name is ambiguous
- - remove unused enum sunh_conn_overlay_level entries, then move the only
-   remaining enum value to a define
-
-Changed in v3:
- - update to the new overlay representation that now does not include the
-   target node; instead the target node is the connector node itself and is
-   now passed by the connector driver to of_overlay_fdt_apply(), so the
-   overlay is now decoupled from the base device tree
- - update to explicitely probe devices not reachable by the CPU on any
-   physical bus (which probe as platform devices) which are now inside a
-   'nobus-devices' subnode of the connector node
- - change how the DRM bridge is populated to use the new device tree
-   representation, having the video ports inside the 'dsi' node
-
-   **NOTE** this specific change opens up a question about the
-            .of_node_reused flag: setting it to true might be wrong now as
-            the bridge will be handed the 'dsi' subnode of the connector
-            node; however not setting it to true prevents the hotplug
-            bridge module autoloading due to the alias string changing from
-            "platform:hotplug-dsi-bridge" to "of:NdsiT(null)".
-
- - remove dev_info() and uninformative dev_dbg() calls
- - Kconfig: use 'depends on' instead of 'select'
- - Kconfig: improve help text and add module name
-
-This patch first appeared in v2.
----
- MAINTAINERS                      |   1 +
- drivers/misc/Kconfig             |  18 ++
- drivers/misc/Makefile            |   1 +
- drivers/misc/ge-sunh-connector.c | 481 +++++++++++++++++++++++++++++++++++++++
- 4 files changed, 501 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 95a05eb75202..7dec59888df2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10278,6 +10278,7 @@ F:	drivers/iio/pressure/mprls0025pa*
- HOTPLUG CONNECTOR FOR GE SUNH ADDONS
- M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
- S:	Maintained
-+F:	drivers/misc/ge-sunh-connector.c
- F:	Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.yaml
+This is an attempt to introduce an adaptive sharpness solution which
+helps in improving the image quality. For this new CRTC property is added.
+The user can set this property with desired sharpness strength value with
+0-255. A value of 1 representing minimum sharpening strength and 255
+representing maximum sharpness strength. A strength value of 0 means no
+sharpening or sharpening feature disabled.
+It works on a region of pixels depending on the tap size. The coefficients
+are used to generate an alpha value which is used to blend the sharpened
+image to original image.
  
- HP BIOSCFG DRIVER
-diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index 41c54051347a..e2a5bcce0073 100644
---- a/drivers/misc/Kconfig
-+++ b/drivers/misc/Kconfig
-@@ -600,6 +600,24 @@ config MARVELL_CN10K_DPI
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called mrvl_cn10k_dpi.
- 
-+config GE_SUNH_CONNECTOR
-+	tristate "GE SUNH hotplug add-on connector"
-+	depends on OF_OVERLAY
-+	depends on NVMEM
-+	depends on DRM_HOTPLUG_BRIDGE
-+	select FW_LOADER
-+	help
-+	  Driver for the runtime hot-pluggable add-on connector on the GE
-+	  SUNH device. This connector allows connecting an add-on to the
-+	  main device to augment its features, and to later disconnect
-+	  it. Connection and disconnection can be done at runtime at any
-+	  moment without notice. Different add-on models can be connected,
-+	  and each has an EEPROM with a model identifier at a fixed
-+	  address.
-+
-+	  To compile this driver as a module, choose M here.
-+	  The module will be called ge-sunh-connector.
-+
- source "drivers/misc/c2port/Kconfig"
- source "drivers/misc/eeprom/Kconfig"
- source "drivers/misc/cb710/Kconfig"
-diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-index c2f990862d2b..69747b048046 100644
---- a/drivers/misc/Makefile
-+++ b/drivers/misc/Makefile
-@@ -70,4 +70,5 @@ obj-$(CONFIG_TPS6594_ESM)	+= tps6594-esm.o
- obj-$(CONFIG_TPS6594_PFSM)	+= tps6594-pfsm.o
- obj-$(CONFIG_NSM)		+= nsm.o
- obj-$(CONFIG_MARVELL_CN10K_DPI)	+= mrvl_cn10k_dpi.o
-+obj-$(CONFIG_GE_SUNH_CONNECTOR)	+= ge-sunh-connector.o
- obj-y				+= keba/
-diff --git a/drivers/misc/ge-sunh-connector.c b/drivers/misc/ge-sunh-connector.c
-new file mode 100644
-index 000000000000..0e6064a9a519
---- /dev/null
-+++ b/drivers/misc/ge-sunh-connector.c
-@@ -0,0 +1,481 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * GE SUNH hotplug add-on connector
-+ *
-+ * Driver for the runtime hot-pluggable add-on connector on the GE SUNH
-+ * device. Add-on connection is detected via GPIOs (+ a debugfs
-+ * trigger). On connection, a "base" DT overlay is added that describes
-+ * enough to reach the NVMEM cell with the model ID. Based on the ID, an
-+ * add-on-specific overlay is loaded on top to describe everything else.
-+ *
-+ * Copyright (C) 2024, GE HealthCare
-+ *
-+ * Authors:
-+ * Luca Ceresoli <luca.ceresoli@bootlin.com>
-+ * Herve Codina <herve.codina@bootlin.com>
-+ */
-+
-+#include <linux/debugfs.h>
-+#include <linux/delay.h>
-+#include <linux/firmware.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/nvmem-consumer.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
-+#include <linux/workqueue.h>
-+
-+#define SUNH_CONN_OVERLAY_N_LEVELS       2
-+
-+struct sunh_conn {
-+	struct device *dev;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *plugged_gpio;
-+
-+	bool plugged;
-+	int ovcs_id[SUNH_CONN_OVERLAY_N_LEVELS];
-+	struct mutex ovl_mutex; // serialize overlay code
-+	struct notifier_block nvmem_nb;
-+	struct work_struct nvmem_notifier_work;
-+
-+	struct platform_device *hpb_pdev;
-+	struct dentry *debugfs_root;
-+};
-+
-+/*
-+ * Populate all platform devices that are not on any bus.
-+ *
-+ * Populate devices without any I/O access from the CPU, (e.g. fixed
-+ * regulators and gpio regulators). In the normal case of a device tree
-+ * without runtime-loaded overlays these are direct children of the root
-+ * node and as such they are populated as a special case.
-+ *
-+ * Within the hotplug connector they need to be at a deeper level of the
-+ * tree. Moreover they are "segregated" in the "devices" node which allows
-+ * to avoid trying of_platform_default_populate() on other kind of nodes.
-+ *
-+ * No need to depopulate them in this driver: of_platform_notify() will do
-+ * that on overlay removal.
-+ *
-+ * In case a generalized framework for OF_based hotplug connector drivers
-+ * will exist in the future, this function is definitely meant for the
-+ * framework.
-+ */
-+static int sunh_conn_populate_nobus_devices(struct sunh_conn *conn)
-+{
-+	struct device_node *nobus_devs_dn;
-+	int err;
-+
-+	nobus_devs_dn = of_get_child_by_name(conn->dev->of_node, "devices");
-+	if (!nobus_devs_dn)
-+		return 0;
-+
-+	err = of_platform_default_populate(nobus_devs_dn, NULL, conn->dev);
-+	if (err)
-+		dev_err(conn->dev, "Failed to populate nobus devices\n");
-+
-+	of_node_put(nobus_devs_dn);
-+	return err;
-+}
-+
-+static int sunh_conn_insert_overlay(struct sunh_conn *conn,
-+				    unsigned int level,
-+				    const char *filename)
-+{
-+	const struct firmware *fw;
-+	int err;
-+
-+	err = request_firmware(&fw, filename, conn->dev);
-+	if (err)
-+		return dev_err_probe(conn->dev, err, "Error requesting overlay %s", filename);
-+
-+	dev_dbg(conn->dev, "insert overlay %d: %s", level, filename);
-+	err = of_overlay_fdt_apply(fw->data, fw->size, &conn->ovcs_id[level], conn->dev->of_node);
-+	if (err)
-+		dev_err_probe(conn->dev, err, "Failed to apply overlay %s\n", filename);
-+	else
-+		err = sunh_conn_populate_nobus_devices(conn);
-+
-+	if (err) {
-+		int err2;
-+
-+		/* changeset may be partially applied */
-+		err2 = of_overlay_remove(&conn->ovcs_id[level]);
-+		if (err2 < 0)
-+			dev_err_probe(conn->dev, err2,
-+				      "Failed to remove failed overlay %s\n", filename);
-+	}
-+
-+	release_firmware(fw);
-+
-+	return err;
-+}
-+
-+/* Load the overlay common to all add-ons (enough to read the model ID) */
-+static int sunh_conn_load_overlay_0(struct sunh_conn *conn)
-+{
-+	int err = 0;
-+
-+	mutex_lock(&conn->ovl_mutex);
-+
-+	if (conn->ovcs_id[0] != 0) {
-+		dev_dbg(conn->dev, "base overlay already loaded\n");
-+		goto out_unlock;
-+	}
-+
-+	err = sunh_conn_insert_overlay(conn, 0, "imx8mp-sundv1-addon-base.dtbo");
-+
-+out_unlock:
-+	mutex_unlock(&conn->ovl_mutex);
-+	return err;
-+}
-+
-+/* Load the model-specific overlay describing everything not in the overlay 0 */
-+static int sunh_conn_load_overlay_1(struct sunh_conn *conn)
-+{
-+	u8 addon_id;
-+	const char *filename;
-+	int err;
-+
-+	mutex_lock(&conn->ovl_mutex);
-+
-+	if (conn->ovcs_id[0] == 0) {
-+		dev_dbg(conn->dev, "base overlay not loaded\n");
-+		err = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	if (conn->ovcs_id[1] != 0) {
-+		dev_dbg(conn->dev, "addon overlay already loaded\n");
-+		err = -EEXIST;
-+		goto out_unlock;
-+	}
-+
-+	err = nvmem_cell_read_u8(conn->dev, "id", &addon_id);
-+	if (err)
-+		goto out_unlock;
-+
-+	dev_dbg(conn->dev, "Found add-on ID %d\n", addon_id);
-+
-+	switch (addon_id) {
-+	case 23:
-+		filename = "imx8mp-sundv1-addon-13.dtbo";
-+		break;
-+	case 24:
-+		filename = "imx8mp-sundv1-addon-15.dtbo";
-+		break;
-+	case 25:
-+		filename = "imx8mp-sundv1-addon-18.dtbo";
-+		break;
-+	default:
-+		dev_warn(conn->dev, "Unknown add-on ID %d\n", addon_id);
-+		err = -ENODEV;
-+		goto out_unlock;
-+	}
-+
-+	err = sunh_conn_insert_overlay(conn, 1, filename);
-+
-+out_unlock:
-+	mutex_unlock(&conn->ovl_mutex);
-+	return err;
-+}
-+
-+static void sunh_conn_unload_overlays(struct sunh_conn *conn)
-+{
-+	int level = SUNH_CONN_OVERLAY_N_LEVELS;
-+	int err;
-+
-+	mutex_lock(&conn->ovl_mutex);
-+	while (level) {
-+		level--;
-+
-+		if (conn->ovcs_id[level] == 0)
-+			continue;
-+
-+		dev_dbg(conn->dev, "remove overlay %d (ovcs id %d)",
-+			level, conn->ovcs_id[level]);
-+
-+		err = of_overlay_remove(&conn->ovcs_id[level]);
-+		if (err)
-+			dev_err_probe(conn->dev, err, "Failed to remove overlay %d\n", level);
-+	}
-+	mutex_unlock(&conn->ovl_mutex);
-+}
-+
-+static void sunh_conn_reset(struct sunh_conn *conn, bool keep_reset)
-+{
-+	gpiod_set_value_cansleep(conn->reset_gpio, 1);
-+
-+	if (keep_reset)
-+		return;
-+
-+	mdelay(10);
-+	gpiod_set_value_cansleep(conn->reset_gpio, 0);
-+	mdelay(10);
-+}
-+
-+static int sunh_conn_detach(struct sunh_conn *conn)
-+{
-+	/* Cancel any pending NVMEM notification jobs */
-+	cancel_work_sync(&conn->nvmem_notifier_work);
-+
-+	/* Unload previouly loaded overlays */
-+	sunh_conn_unload_overlays(conn);
-+
-+	/* Set reset signal to have it set on next plug */
-+	sunh_conn_reset(conn, true);
-+
-+	return 0;
-+}
-+
-+static int sunh_conn_attach(struct sunh_conn *conn)
-+{
-+	int err;
-+
-+	/* Reset the plugged board in order to start from a stable state */
-+	sunh_conn_reset(conn, false);
-+
-+	err = sunh_conn_load_overlay_0(conn);
-+	if (err)
-+		goto err;
-+
-+	/*
-+	 * -EPROBE_DEFER can be due to NVMEM cell not yet available, so
-+	 * don't give up, an NVMEM event could arrive later
-+	 */
-+	err = sunh_conn_load_overlay_1(conn);
-+	if (err && err != -EPROBE_DEFER)
-+		goto err;
-+
-+	return 0;
-+
-+err:
-+	sunh_conn_detach(conn);
-+	return err;
-+}
-+
-+static int sunh_conn_handle_event(struct sunh_conn *conn, bool plugged)
-+{
-+	int err;
-+
-+	if (plugged == conn->plugged)
-+		return 0;
-+
-+	dev_dbg(conn->dev, "%s\n", plugged ? "connected" : "disconnected");
-+
-+	err = (plugged ?
-+	       sunh_conn_attach(conn) :
-+	       sunh_conn_detach(conn));
-+
-+	conn->plugged = plugged;
-+
-+	return err;
-+}
-+
-+/*
-+ * Return the current status of the connector as reported by the hardware,
-+ * logging any errors.
-+ */
-+static int sunh_conn_get_connector_status(struct sunh_conn *conn)
-+{
-+	int val = gpiod_get_value_cansleep(conn->plugged_gpio);
-+
-+	if (val < 0)
-+		dev_err(conn->dev, "Error reading plugged GPIO (%d)\n", val);
-+
-+	return val;
-+}
-+
-+static irqreturn_t sunh_conn_gpio_irq(int irq, void *data)
-+{
-+	struct sunh_conn *conn = data;
-+	int conn_status;
-+
-+	conn_status = sunh_conn_get_connector_status(conn);
-+	if (conn_status >= 0)
-+		sunh_conn_handle_event(conn, conn_status);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int plugged_read(void *dat, u64 *val)
-+{
-+	struct sunh_conn *conn = dat;
-+
-+	*val = conn->plugged;
-+
-+	return 0;
-+}
-+
-+static int plugged_write(void *dat, u64 val)
-+{
-+	struct sunh_conn *conn = dat;
-+
-+	if (val > 1)
-+		return -EINVAL;
-+
-+	return sunh_conn_handle_event(conn, val);
-+}
-+
-+DEFINE_DEBUGFS_ATTRIBUTE(plugged_fops, plugged_read, plugged_write, "%lld\n");
-+
-+static void sunh_conn_nvmem_notifier_work(struct work_struct *work)
-+{
-+	struct sunh_conn *conn = container_of(work, struct sunh_conn, nvmem_notifier_work);
-+
-+	sunh_conn_load_overlay_1(conn);
-+}
-+
-+static int sunh_conn_nvmem_notifier(struct notifier_block *nb, unsigned long action, void *arg)
-+{
-+	struct sunh_conn *conn = container_of(nb, struct sunh_conn, nvmem_nb);
-+
-+	if (action == NVMEM_CELL_ADD)
-+		queue_work(system_power_efficient_wq, &conn->nvmem_notifier_work);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static int sunh_conn_register_drm_bridge(struct sunh_conn *conn)
-+{
-+	struct device *dev = conn->dev;
-+	struct device_node *dsi_np;
-+
-+	dsi_np = of_get_child_by_name(dev->of_node, "dsi");
-+	if (!dsi_np)
-+		return dev_err_probe(dev, -ENOENT, "dsi node not found");
-+
-+	const struct platform_device_info hpb_info = {
-+		.parent = dev,
-+		.fwnode = of_fwnode_handle(dsi_np),
-+		.of_node_reused = true,
-+		.name = "hotplug-dsi-bridge",
-+		.id = PLATFORM_DEVID_NONE,
-+	};
-+
-+	conn->hpb_pdev = platform_device_register_full(&hpb_info);
-+	of_node_put(dsi_np); // platform core gets/puts the device node
-+	if (IS_ERR(conn->hpb_pdev))
-+		return dev_err_probe(dev, PTR_ERR(conn->hpb_pdev),
-+				     "Error registering DRM bridge\n");
-+
-+	return 0;
-+}
-+
-+static void sunh_conn_unregister_drm_bridge(struct sunh_conn *conn)
-+{
-+	platform_device_unregister(conn->hpb_pdev);
-+}
-+
-+static int sunh_conn_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct sunh_conn *conn;
-+	int conn_status;
-+	int err;
-+
-+	/* Cannot load overlay from filesystem before rootfs is mounted */
-+	if (system_state < SYSTEM_RUNNING)
-+		return -EPROBE_DEFER;
-+
-+	conn = devm_kzalloc(dev, sizeof(*conn), GFP_KERNEL);
-+	if (!conn)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, conn);
-+	conn->dev = dev;
-+
-+	mutex_init(&conn->ovl_mutex);
-+	INIT_WORK(&conn->nvmem_notifier_work, sunh_conn_nvmem_notifier_work);
-+
-+	conn->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(conn->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(conn->reset_gpio),
-+				     "Error getting reset GPIO\n");
-+
-+	conn->plugged_gpio = devm_gpiod_get_optional(dev, "plugged", GPIOD_IN);
-+	if (IS_ERR(conn->plugged_gpio))
-+		return dev_err_probe(dev, PTR_ERR(conn->plugged_gpio),
-+				     "Error getting plugged GPIO\n");
-+
-+	err = sunh_conn_register_drm_bridge(conn);
-+	if (err)
-+		return err;
-+
-+	conn->nvmem_nb.notifier_call = sunh_conn_nvmem_notifier;
-+	err = nvmem_register_notifier(&conn->nvmem_nb);
-+	if (err) {
-+		dev_err_probe(dev, err, "Error registering NVMEM notifier\n");
-+		goto err_unregister_drm_bridge;
-+	}
-+
-+	if (conn->plugged_gpio) {
-+		err = devm_request_threaded_irq(dev, gpiod_to_irq(conn->plugged_gpio),
-+						NULL, sunh_conn_gpio_irq,
-+						IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
-+						IRQF_ONESHOT,
-+						dev_name(dev), conn);
-+		if (err) {
-+			dev_err_probe(dev, err, "Error getting plugged GPIO IRQ\n");
-+			goto err_nvmem_unregister_notifier;
-+		}
-+	}
-+
-+	conn_status = sunh_conn_get_connector_status(conn);
-+	if (conn_status < 0) {
-+		err = conn_status;
-+		goto err_nvmem_unregister_notifier;
-+	}
-+
-+	/* Ensure initial state is known and overlay loaded if plugged */
-+	sunh_conn_handle_event(conn, conn_status);
-+
-+	conn->debugfs_root = debugfs_create_dir(dev_name(dev), NULL);
-+	debugfs_create_file("plugged", 0644, conn->debugfs_root, conn, &plugged_fops);
-+
-+	return 0;
-+
-+err_nvmem_unregister_notifier:
-+	nvmem_unregister_notifier(&conn->nvmem_nb);
-+	cancel_work_sync(&conn->nvmem_notifier_work);
-+err_unregister_drm_bridge:
-+	sunh_conn_unregister_drm_bridge(conn);
-+	return err;
-+}
-+
-+static void sunh_conn_remove(struct platform_device *pdev)
-+{
-+	struct sunh_conn *conn = platform_get_drvdata(pdev);
-+
-+	debugfs_remove(conn->debugfs_root);
-+	sunh_conn_detach(conn);
-+
-+	nvmem_unregister_notifier(&conn->nvmem_nb);
-+	cancel_work_sync(&conn->nvmem_notifier_work);
-+
-+	sunh_conn_unregister_drm_bridge(conn);
-+}
-+
-+static const struct of_device_id sunh_conn_dt_ids[] = {
-+	{ .compatible = "ge,sunh-addon-connector" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, sunh_conn_dt_ids);
-+
-+static struct platform_driver sunh_conn_driver = {
-+	.driver = {
-+		.name = "sunh-addon-connector",
-+		.of_match_table = sunh_conn_dt_ids,
-+	},
-+	.probe = sunh_conn_probe,
-+	.remove_new = sunh_conn_remove,
-+};
-+module_platform_driver(sunh_conn_driver);
-+
-+MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
-+MODULE_AUTHOR("Herve Codina <herve.codina@bootlin.com>");
-+MODULE_DESCRIPTION("GE SUNH hotplug add-on connector");
-+MODULE_LICENSE("GPL");
+Middleware MR link: https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3665
+IGT patchwork link: https://patchwork.freedesktop.org/series/130218/
+
+Continuing discussions from:  https://patchwork.freedesktop.org/series/129888/
+
+Nemesa Garg (5):
+  drm: Introduce sharpness strength property
+  drm/i915/display: Compute the scaler filter coefficients
+  drm/i915/display: Enable the second scaler for sharpness
+  drm/i915/display: Add registers and compute the strength
+  drm/i915/display: Load the lut values and enable sharpness
+
+ drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
+ drivers/gpu/drm/drm_crtc.c                    |  35 +++
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/display/intel_crtc.c     |   3 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  23 +-
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ .../drm/i915/display/intel_modeset_verify.c   |   1 +
+ drivers/gpu/drm/i915/display/intel_panel.c    |   7 +
+ .../drm/i915/display/intel_sharpness_filter.c | 226 ++++++++++++++++++
+ .../drm/i915/display/intel_sharpness_filter.h |  44 ++++
+ drivers/gpu/drm/i915/display/skl_scaler.c     |  91 ++++++-
+ drivers/gpu/drm/i915/display/skl_scaler.h     |   1 +
+ drivers/gpu/drm/i915/i915_reg.h               |  19 ++
+ drivers/gpu/drm/xe/Makefile                   |   1 +
+ include/drm/drm_crtc.h                        |  17 ++
+ 15 files changed, 461 insertions(+), 14 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_sharpness_filter.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_sharpness_filter.h
 
 -- 
-2.34.1
+2.25.1
 
