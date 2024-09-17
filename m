@@ -2,83 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C685F97B543
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 23:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4263897B551
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 23:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A05010E0F5;
-	Tue, 17 Sep 2024 21:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85FE810E0EB;
+	Tue, 17 Sep 2024 21:43:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BcNrsQ/Y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LwKGBgKg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E32D10E231
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 21:34:37 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2f752d9ab62so48175911fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2024 14:34:37 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 199B010E0EB;
+ Tue, 17 Sep 2024 21:43:41 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-718e25d8b67so980074b3a.3; 
+ Tue, 17 Sep 2024 14:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726608875; x=1727213675; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HFldS9Osdx5r6O9PMhBljuz6I+61/ph8KM1Rie1JbL4=;
- b=BcNrsQ/Y5JqCTbwEudhHwkoqp8fQZreBC6r8eThhSRlvPaAF96zkbjtFsxHw7cm7qv
- 9X1vzQuCPCMiOBbE/t54zpg5BxBSXI8FMpxaMEzfYXk2feHmH4AYCiXSRKZEHv+puEKi
- axLBc+h+5M3sb6m0/lF75UzZuRCu9g5c0oNRt3TPs8NJKCbnobyALL2BWHBoReo+Bbck
- 342sTQLvsY0L0uvllOaBI6fBuK5IpvwBDHUD560W85H1TCA8m1lUW2zuPa+pvGAABrXC
- YEsDwfFu6XZ0bSETYQ5GBdgOo1I2/vnmy2vrtVGrV+D1vzAO5mBVEbbB+uHwrR9ltiIk
- fL2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726608875; x=1727213675;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1726609420; x=1727214220; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HFldS9Osdx5r6O9PMhBljuz6I+61/ph8KM1Rie1JbL4=;
- b=sRVjizlUaDr3T5tJYxUmkgvMaaPTTRxyJbeB4UWQkbl7OZ3ZGjOabuq7mB40vX8m05
- YFGJpT9cvdegezE0t6MQYer5qpuPyxlwrye6NsBF+efovDvXNOk8IUT7USYy7Ut68F4g
- zDu9IyoE70oxoa/1Z3qvlOl/YiWqRcG/DGtWASekkw1HoLnpJQtkI9jZssfyJ6nKryjv
- zpXKYlpJX7eFwGZ+HKv6aG5v3K9Ys1DIfXRiHn7YZbufcz5hit6zDhNQ5BcZJpymZmkz
- mW1mOQM24UcGcPoIWSlAf7My4x8bjdI4fyCKGONpJqR7oUiD+V/Ek3YRVWpMsIMMUwmm
- Flgg==
+ bh=zJQxiek1sqcvJHX5DqbudjsXRtWsNh8pviYM7nr6zLw=;
+ b=LwKGBgKgRVdVyY+2o9ydx/n1yKaAq9FHsn/WAk2hLNanbV81Cm+S+AMqO2C85AlSuU
+ mmyfu9ormjpoE3bFzbs8CE7Va6voDrDrFUsSzp6PV8HBG1weNoX45whQH/PgUuroXefB
+ 1mlCvSMzrQoIVAFtY3Xn932+cs1E7NKtHcutycQPmj1UmZgn7leenU2JYvaFRSWLhKu4
+ sZFF/hQ1IRSt/6YJ5aKPGSdn1UwVAtnxu8ULb6/UrRxfFbo6r8VGsHuN/LNZ0fSwCiwr
+ ftxDvgFtZadgYK4SmWlZ557hGaaEyDs4onmqkU8vasTB34Dlw44ffe1vTPVq7KvEVyjK
+ oL8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726609420; x=1727214220;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zJQxiek1sqcvJHX5DqbudjsXRtWsNh8pviYM7nr6zLw=;
+ b=E0NaNyoPC97Gbrx67x9GGaViyawv3BxN4sUII/pYFv9/yTx1fG/eMm1a56BwdzkUPk
+ jdkczqHbrjwCuXuSS/OcdQv4Pv/h35+MSN/Wb12nIvCuJf6wmZQZHLtkqoi4vW9oVT1W
+ VQxZrWeoOH+ICqcaQU/Pk8NQfNRnn9+N0Yi6bFwJGuMKBGrsQ9lfXxrQyLSQaSPetV/Y
+ 8DZYF7CrqoZ9LVrf0hRT5hqYmfOOQCOLWJ5nQJ9IiEbSQKCkCnrfT1QnBa1lKwRVPV5a
+ U6Tv5gQBVVYY/vYzt6abwIPxj0MuSuMV5tjG1FU0srToGAaMxgM7j94h/ZUBHXw/rGLV
+ 9QOw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIim2kEAkqtSNz03IHHkcJGqUmrhuCeGjgn1uedK2qrOpfzkplHLKTDdJxnecyxUwwlTaLx/1hfVM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznKU4vgYDP+zzPbCsaT0GJXZx10go+70M0Fz9IRTsVl+dr5zZp
- ELh4o9eIeUvfC1nFkOrDiHOSOgijjrdcm0br0CLOH8/uL1pYCrbdyCSyKeLpqNk=
-X-Google-Smtp-Source: AGHT+IFP+a/C17oarNAKaUkNRdE2Hq0QrQUtL8hBbqvyTR7hjc/+lmNIHk6fTZvBOLwdgfVvs5vVbA==
-X-Received: by 2002:a05:651c:509:b0:2f3:f5aa:b3d0 with SMTP id
- 38308e7fff4ca-2f791a58278mr74395181fa.35.1726608874759; 
- Tue, 17 Sep 2024 14:34:34 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f79d2e1c91sm12083751fa.17.2024.09.17.14.34.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2024 14:34:34 -0700 (PDT)
-Date: Wed, 18 Sep 2024 00:34:32 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-Subject: Re: [PATCH 0/3] DRM/MSM: Support for Adreno 663 GPU
-Message-ID: <5fxmsbtyagtzt2pizdjoadiwxt3klafaulrhxoz4adevapxyoj@5jg7qaqhwkgr>
-References: <20240918-a663-gpu-support-v1-0-25fea3f3d64d@quicinc.com>
+ AJvYcCW1bWlXcUAtOQ+cJCTY3GEgCYMYZNsI+XaE8zvyRseUs9/vW2qd/yon7o4elqO3mMWF2U6c5I7fVqjG@lists.freedesktop.org,
+ AJvYcCWDe0PKoSsKhNDGpK17fkNPpZ+UfXExHMJqnysVNXlJU/Kov5ETR4N5c/2HvBS6gU3VlKaDTDEv@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2x99Tuq60DnmllPSs0XuvjG3Mj5PSCcMn1ujdw/hC11NQkAIu
+ FROyrtQNHTbFI5kK03DAnzDg5i5eWTWB8Z1le20h2IwPDZMskIQOhUoZwdvAhnsDjzIOgGbDEd5
+ j2eXeZMTkaSrGvaYdMlWIlz5I4dMX0wd7
+X-Google-Smtp-Source: AGHT+IEsXGCscBSTzIZVFtTph5eEx9lv5jv9JkQZOd19AaH9N95Zw/Y9F1oQohL0rT+gFkpUIK4JksVk3CM0ErG+xqk=
+X-Received: by 2002:a05:6a20:3d8f:b0:1cf:4845:67f with SMTP id
+ adf61e73a8af0-1cf76233425mr12955383637.9.1726609420351; Tue, 17 Sep 2024
+ 14:43:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240918-a663-gpu-support-v1-0-25fea3f3d64d@quicinc.com>
+References: <CALjAwxidmwCT5ZwbZRhf9GwshYbzQZ4N8K3B8KGLi5DnRzj8wQ@mail.gmail.com>
+In-Reply-To: <CALjAwxidmwCT5ZwbZRhf9GwshYbzQZ4N8K3B8KGLi5DnRzj8wQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 17 Sep 2024 17:43:27 -0400
+Message-ID: <CADnq5_ODjqwMS8WNbjdMq++YU3XeVtEEn=KnyoWOzdddyyUw0g@mail.gmail.com>
+Subject: Re: Kernel hang when amdgpu driver is loaded on old radeon card
+To: Sitsofe Wheeler <sitsofe@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,68 +84,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 18, 2024 at 02:08:40AM GMT, Akhil P Oommen wrote:
-> This series adds support for Adreno 663 gpu found in SA8775P chipsets.
-> The closest gpu which is currently supported in drm-msm is A660.
-> Following are the major differences with that:
-> 	1. gmu/zap firmwares
-> 	2. Recommended to disable Level2 swizzling
-> 
-> Verified kmscube with the below Mesa change [1]. This series is rebased
-> on top of msm-next.
+On Sun, Sep 15, 2024 at 5:28=E2=80=AFPM Sitsofe Wheeler <sitsofe@gmail.com>=
+ wrote:
+>
+> Hello,
+>
+> (Apologies if I have CC'd the wrong people/places - I just went by
+> what get_maintainer.pl -f drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> said)
+>
+> I recently upgraded from Ubuntu 20.04 (5.15.0-119.129~20.04.1-generic
+> kernel) to Ubuntu 24.04 (6.8.0-44-generic kernel) and found that while
+> booting the kernel hangs for around 15 seconds just before the amdgpu
+> driver is loaded:
+>
+> [    4.459519] radeon 0000:01:05.0: [drm] Cannot find any crtc or sizes
+> [    4.460118] probe of 0000:01:05.0 returned 0 after 902266 usecs
+> [    4.460184] initcall radeon_module_init+0x0/0xff0 [radeon] returned
+> 0 after 902473 usecs
+> [    4.465797] calling  drm_buddy_module_init+0x0/0xff0 [drm_buddy] @ 122
+> [    4.465853] initcall drm_buddy_module_init+0x0/0xff0 [drm_buddy]
+> returned 0 after 29 usecs
+> [    4.469419] radeon 0000:01:05.0: [drm] Cannot find any crtc or sizes
+> [    4.473831] calling  drm_sched_fence_slab_init+0x0/0xff0 [gpu_sched] @=
+ 122
+> [    4.473892] initcall drm_sched_fence_slab_init+0x0/0xff0
+> [gpu_sched] returned 0 after 31 usecs
+> [   18.724442] calling  amdgpu_init+0x0/0xff0 [amdgpu] @ 122
+> [   18.726303] [drm] amdgpu kernel modesetting enabled.
+> [   18.726576] amdgpu: Virtual CRAT table created for CPU
+> [   18.726609] amdgpu: Topology: Add CPU node
+> [   18.726787] initcall amdgpu_init+0x0/0xff0 [amdgpu] returned 0
+> after 528 usecs
+>
+> I've checked and the problem still exists in 6.11.0-061100rc7-generic
+> (which is close to vanilla upstream).
+>
+> The graphics card I have is:
+> 01:05.0 VGA compatible controller: Advanced Micro Devices, Inc.
+> [AMD/ATI] RS880M [Mobility Radeon HD 4225/4250] (prog-if 00 [VGA
+> controller])
+> 01:05.0 0300: 1002:9712 (prog-if 00 [VGA controller])
+> Subsystem: 103c:1609
+>
+> At first I thought the problem was related to the change
+> https://github.com/torvalds/linux/commit/eb4fd29afd4aa1c98d882800ceeee7d1=
+f5262803
+> ("drm/amdgpu: bind to any 0x1002 PCI diplay [sic] class device") which
+> now means my card is claimed by two drivers (radeon and amdgpu). That
+> change complicated things because:
+> - The amdgpu module and its dependencies remain permanently present (whic=
+h
+>   never used to happen)
+> - It took some time for me to realise that the amdgpu driver hadn't sudde=
+nly
+>   grown the ability to support this old card :-) There is a nice table on
+>   https://www.x.org/wiki/RadeonFeature/#decoderringforengineeringvsmarket=
+ingnames
+>   that shows it is part of the R600 family and
+>   https://www.x.org/wiki/RadeonFeature/#featurematrixforfreeradeondrivers=
+ shows
+>   that R600 is only supported by the radeon driver.
+>
+> However, testing a 5.16.20-051620-generic kernel showed that while the
+> amdgpu module is loaded, there is no 15 second hang... So far my
+> testing has the following results:
+> - 5.16.20-051620-generic - amdgpu loaded, no hang
+> - 5.18.19-051819-generic - amdgpu loaded, no hang
+> - 6.0.0-060000-generic - amdgpu loaded, hang
+> - 6.2.0-060200-generic - amdgpu loaded, hang
+> - 6.8.0-44-generic - amdgpu loaded, hang
+> - 6.11.0-061100rc7-generic - amdgpu loaded, hang
+>
+> To work around the problem I've taken to blacklisting amdgpu in
+> /etc/modprobe.d/ which makes the hang disappear.
+>
+> Does anyone else see this issue? Is there something better than my
+> current workaround? What do other drivers that want to bind to such a
+> large set of devices do? Further, while I'm already using
+> initcall_debug, is there any other kernel boot parameter to make
+> what's happening more visible?
 
-Is there a chance of you sharing Vulkan CTS results?
+Do you have secureboot enabled?  If so, perhaps this is relevant:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219229
 
-> 
-> Patch (1) & (2) for Rob Clark and Patch (3) for Bjorn
-> 
-> [0] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/31211
-> 
-> To: Rob Clark <robdclark@gmail.com>
-> To: Sean Paul <sean@poorly.run>
-> To: Konrad Dybcio <konrad.dybcio@linaro.org>
-> To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> To: Marijn Suijten <marijn.suijten@somainline.org>
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: Rob Herring <robh@kernel.org>
-> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Bjorn Andersson <andersson@kernel.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
-> Puranam V G Tejaswi (3):
->       drm/msm/a6xx: Add support for A663
->       dt-bindings: display/msm/gmu: Add Adreno 663 GMU
->       arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
-> 
->  .../devicetree/bindings/display/msm/gmu.yaml       |  1 +
->  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi         |  8 +++
->  arch/arm64/boot/dts/qcom/sa8775p.dtsi              | 75 ++++++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_catalog.c          | 19 ++++++
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  8 ++-
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.c              | 33 ++++++++++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  5 ++
->  7 files changed, 148 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 15302579373ed2c8ada629e9e7bcf9569393a48d
-> change-id: 20240917-a663-gpu-support-b1475c828606
-> 
-> Best regards,
-> -- 
-> Akhil P Oommen <quic_akhilpo@quicinc.com>
-> 
+Alex
 
--- 
-With best wishes
-Dmitry
+>
+> --
+> Sitsofe
