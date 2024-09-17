@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2B197ADD8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 11:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BE197ADDB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2024 11:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3C310E451;
-	Tue, 17 Sep 2024 09:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2098910E44D;
+	Tue, 17 Sep 2024 09:27:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dGT8gBUq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WSMK9nSn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9542F10E452;
- Tue, 17 Sep 2024 09:27:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8167710E448;
+ Tue, 17 Sep 2024 09:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726565221; x=1758101221;
+ t=1726565224; x=1758101224;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ANFPzVK1/+M+AaKnZGvJ+wgTepEp/wJUzWwZRWoWua8=;
- b=dGT8gBUqnk4/aj+tkohz+w7J7MacJflhzS24S99Gh4I5he20MYAr1aau
- WBtE9BUl07qiYdt8rmrOy7tywISmXtjjGWg7HKcDN+Yv/BDsckKW6ex2f
- J+/bLRU26nmKNB83WyaLuCT+CmdXjJNK2aNjoNKnkz/CFzLh8acMGv5+D
- p4Hv/9JTeJpBanbYhD610zdmhimsNTRisjREXMW7g3ybR6vY+xQB0Gmwj
- 8YlTYMHmE2YCKC+ty0TmI1PHH1QLoKGsMt+bbuhrmenntHzaWlfbB17Lm
- 8zFS71lsgPKkH48oR4pyZ12sfLO6K/57w3G5VeWghuZB/e41jc9wQYyxH A==;
-X-CSE-ConnectionGUID: Z6LQQecdT4CWdc/b88NWHg==
-X-CSE-MsgGUID: tOEOT0XJSxK8zP2IPVgsmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="36789042"
-X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="36789042"
+ bh=ePJfw7sNgoP9Y4K7TXzuce9Abu7t09sxYL8TLIiGjkA=;
+ b=WSMK9nSn1AbUMIqK+LGp3NtB8qRVtOqC9VaWe2tWOfSJmH3dtHoB6x0/
+ U1NO7uN3AYWYGjIig/XMVwZzkJu02vD/JEXboCtdvYMRMoHu+KJmjjX4k
+ fSSwVRYvaWgIo5+gW+H/7swj/DGiBr/Y1fx3sUctUh7GEWXBaawemHZxe
+ IJErvkcrgjfroU2JUsCbERQ4g71hTa7eJxuf8SSfgV3qM1DRxeHGNNc6v
+ cKuwaOKPtY5LEM7+Iu7HRMFR8h1HEMyE5+ZoSRvRida0zjwbz1siL44DA
+ a/jxYX7Gk0YoDrjEIesjclkZnZ34gQ8k/SXDIJnOv8MNS2E31RD9KS3+b A==;
+X-CSE-ConnectionGUID: RMlQmHvtRaCPJCnW+6hawg==
+X-CSE-MsgGUID: nPFf8wclTtuoaEtHuA07CA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="36789048"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="36789048"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2024 02:27:00 -0700
-X-CSE-ConnectionGUID: uIsVfR/4T6mjH+djGEIvug==
-X-CSE-MsgGUID: jqifkaRMRfOpcK9Ey9s8Dg==
+ 17 Sep 2024 02:27:03 -0700
+X-CSE-ConnectionGUID: 9g68xvxpRW+9cy5AFK9u4g==
+X-CSE-MsgGUID: yQR0wJYCTiiYnauxSZOtDg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="99815991"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; d="scan'208";a="99816001"
 Received: from nemesa.iind.intel.com ([10.190.239.22])
- by orviesa002.jf.intel.com with ESMTP; 17 Sep 2024 02:26:59 -0700
+ by orviesa002.jf.intel.com with ESMTP; 17 Sep 2024 02:27:02 -0700
 From: Nemesa Garg <nemesa.garg@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: Nemesa Garg <nemesa.garg@intel.com>
-Subject: [PATCH v3 3/5] drm/i915/display: Enable the second scaler for
- sharpness
-Date: Tue, 17 Sep 2024 14:56:32 +0530
-Message-Id: <20240917092634.1109572-4-nemesa.garg@intel.com>
+Subject: [PATCH v2 4/5] drm/i915/display: Add registers and compute the
+ strength
+Date: Tue, 17 Sep 2024 14:56:33 +0530
+Message-Id: <20240917092634.1109572-5-nemesa.garg@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240917092634.1109572-1-nemesa.garg@intel.com>
 References: <20240917092634.1109572-1-nemesa.garg@intel.com>
@@ -68,298 +68,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As only second scaler can be used for sharpness check if it
-is available and also check if panel fitting is also not enabled,
-then set the sharpness. Panel fitting will have the preference
-over sharpness property.
+Add new registers and related bits. Compute the strength
+value and tap value based on display mode.
 
-v2: Add the panel fitting check before enabling sharpness
-v3: Reframe commit message[Arun]
+v2: Replace i915/dev_priv with display[Jani]
 
 Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c  | 10 ++-
- .../drm/i915/display/intel_modeset_verify.c   |  1 +
- drivers/gpu/drm/i915/display/intel_panel.c    |  7 ++
- .../drm/i915/display/intel_sharpness_filter.c | 10 +++
- .../drm/i915/display/intel_sharpness_filter.h |  1 +
- drivers/gpu/drm/i915/display/skl_scaler.c     | 78 ++++++++++++++++---
- drivers/gpu/drm/i915/display/skl_scaler.h     |  1 +
- 7 files changed, 95 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c  |   7 +-
+ .../drm/i915/display/intel_sharpness_filter.c | 112 +++++++++++++++++-
+ .../drm/i915/display/intel_sharpness_filter.h |   5 +
+ drivers/gpu/drm/i915/i915_reg.h               |  17 +++
+ 4 files changed, 139 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index e447a316ec38..a6e33238dac8 100644
+index a6e33238dac8..6fe434708cd7 100644
 --- a/drivers/gpu/drm/i915/display/intel_display.c
 +++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -2039,7 +2039,7 @@ static void get_crtc_power_domains(struct intel_crtc_state *crtc_state,
- 	set_bit(POWER_DOMAIN_PIPE(pipe), mask->bits);
- 	set_bit(POWER_DOMAIN_TRANSCODER(cpu_transcoder), mask->bits);
- 	if (crtc_state->pch_pfit.enabled ||
--	    crtc_state->pch_pfit.force_thru)
-+	    crtc_state->pch_pfit.force_thru || crtc_state->hw.casf_params.need_scaler)
- 		set_bit(POWER_DOMAIN_PIPE_PANEL_FITTER(pipe), mask->bits);
+@@ -5921,7 +5921,12 @@ static int intel_atomic_check_planes(struct intel_atomic_state *state)
+ 		if (ret)
+ 			return ret;
  
- 	drm_for_each_encoder_mask(encoder, &dev_priv->drm,
-@@ -2295,7 +2295,7 @@ static u32 ilk_pipe_pixel_rate(const struct intel_crtc_state *crtc_state)
- 	 * PF-ID we'll need to adjust the pixel_rate here.
- 	 */
+-		intel_sharpness_scaler_compute_config(new_crtc_state);
++		if (sharp_compute(new_crtc_state)) {
++			intel_sharpness_scaler_compute_config(new_crtc_state);
++			ret = intel_sharpness_filter_compute_config(new_crtc_state);
++			if (ret)
++				return ret;
++		}
  
--	if (!crtc_state->pch_pfit.enabled)
-+	if (!crtc_state->pch_pfit.enabled || crtc_state->hw.casf_params.need_scaler)
- 		return pixel_rate;
- 
- 	drm_rect_init(&src, 0, 0,
-@@ -4306,7 +4306,8 @@ static int intel_crtc_atomic_check(struct intel_atomic_state *state,
- 
- 	if (DISPLAY_VER(dev_priv) >= 9) {
- 		if (intel_crtc_needs_modeset(crtc_state) ||
--		    intel_crtc_needs_fastset(crtc_state)) {
-+		    intel_crtc_needs_fastset(crtc_state) ||
-+		    crtc_state->hw.casf_params.need_scaler) {
- 			ret = skl_update_scaler_crtc(crtc_state);
- 			if (ret)
- 				return ret;
-@@ -5492,6 +5493,9 @@ intel_pipe_config_compare(const struct intel_crtc_state *current_config,
- 		PIPE_CONF_CHECK_BOOL(cmrr.enable);
- 	}
- 
-+	if (pipe_config->uapi.sharpness_strength > 0)
-+		PIPE_CONF_CHECK_BOOL(hw.casf_params.need_scaler);
-+
- #undef PIPE_CONF_CHECK_X
- #undef PIPE_CONF_CHECK_I
- #undef PIPE_CONF_CHECK_LLI
-diff --git a/drivers/gpu/drm/i915/display/intel_modeset_verify.c b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-index 3491db5cad31..ed75934bed6b 100644
---- a/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-+++ b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-@@ -177,6 +177,7 @@ verify_crtc_state(struct intel_atomic_state *state,
- 		    crtc->base.name);
- 
- 	hw_crtc_state->hw.enable = sw_crtc_state->hw.enable;
-+	hw_crtc_state->hw.casf_params.need_scaler = sw_crtc_state->hw.casf_params.need_scaler;
- 
- 	intel_crtc_get_pipe_config(hw_crtc_state);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index 71454ddef20f..6ed13245bdc8 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -389,6 +389,9 @@ static int pch_panel_fitting(struct intel_crtc_state *crtc_state,
- {
- 	const struct drm_display_mode *adjusted_mode =
- 		&crtc_state->hw.adjusted_mode;
-+	struct intel_atomic_state *state = to_intel_atomic_state(conn_state->state);
-+	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-+	struct intel_crtc_state *old_crtc_state = intel_atomic_get_old_crtc_state(state, crtc);
- 	int pipe_src_w = drm_rect_width(&crtc_state->pipe_src);
- 	int pipe_src_h = drm_rect_height(&crtc_state->pipe_src);
- 	int x, y, width, height;
-@@ -399,6 +402,9 @@ static int pch_panel_fitting(struct intel_crtc_state *crtc_state,
- 	    crtc_state->output_format != INTEL_OUTPUT_FORMAT_YCBCR420)
- 		return 0;
- 
-+	if (old_crtc_state->hw.casf_params.need_scaler)
-+		return -EINVAL;
-+
- 	switch (conn_state->scaling_mode) {
- 	case DRM_MODE_SCALE_CENTER:
- 		width = pipe_src_w;
-@@ -451,6 +457,7 @@ static int pch_panel_fitting(struct intel_crtc_state *crtc_state,
- 
- 	drm_rect_init(&crtc_state->pch_pfit.dst,
- 		      x, y, width, height);
-+
- 	crtc_state->pch_pfit.enabled = true;
- 
- 	return 0;
+ 		/*
+ 		 * On some platforms the number of active planes affects
 diff --git a/drivers/gpu/drm/i915/display/intel_sharpness_filter.c b/drivers/gpu/drm/i915/display/intel_sharpness_filter.c
-index e5fbffbe0428..42073aa25edc 100644
+index 42073aa25edc..28cd5c51e5b8 100644
 --- a/drivers/gpu/drm/i915/display/intel_sharpness_filter.c
 +++ b/drivers/gpu/drm/i915/display/intel_sharpness_filter.c
-@@ -45,6 +45,16 @@ void intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state)
- 		intel_de_write_fw(display, GLK_PS_COEF_DATA_SET(crtc->pipe, id, 1),
- 				  crtc_state->hw.casf_params. scaler_coefficient[index]);
- 	}
+@@ -27,11 +27,88 @@ FILTER_COEFF_0_5, FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_25, FILTER_
+ const u16 filtercoeff_3[] = {FILTER_COEFF_0_125, FILTER_COEFF_0_25,
+ FILTER_COEFF_0_5, FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_25, FILTER_COEFF_0_125};
+ 
+-void intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state)
++/* Default LUT values to be loaded one time. */
++static const u16 lut_data[] = {
++	4095, 2047, 1364, 1022, 816, 678, 579,
++	504, 444, 397, 357, 323, 293, 268, 244, 224,
++	204, 187, 170, 154, 139, 125, 111, 98, 85,
++	73, 60, 48, 36, 24, 12, 0
++};
 +
-+	casf_scaler_enable(crtc_state);
++void intel_filter_lut_load(struct intel_crtc *crtc,
++			   const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_display *display = to_intel_display(crtc);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	int i;
++
++	intel_de_write(display, SHRPLUT_INDEX(crtc->pipe), INDEX_AUTO_INCR | INDEX_VALUE(0));
++
++	for (i = 0; i < ARRAY_SIZE(lut_data); i++)
++		intel_de_write(display, SHRPLUT_DATA(crtc->pipe), lut_data[i]);
 +}
 +
-+int intel_sharpness_filter_compute_config(struct intel_crtc_state *crtc_state)
++static void intel_sharpness_filter_size_compute(struct intel_crtc_state *crtc_state)
 +{
-+	if (!crtc_state->pch_pfit.enabled)
-+		crtc_state->hw.casf_params.need_scaler = true;
++	const struct drm_display_mode *mode = &crtc_state->hw.adjusted_mode;
 +
-+	return 0;
- }
- 
- static void convert_sharpness_coef_binary(struct scaler_filter_coeff *coeff,
-diff --git a/drivers/gpu/drm/i915/display/intel_sharpness_filter.h b/drivers/gpu/drm/i915/display/intel_sharpness_filter.h
-index d1dc65e747fe..84f47d511cdc 100644
---- a/drivers/gpu/drm/i915/display/intel_sharpness_filter.h
-+++ b/drivers/gpu/drm/i915/display/intel_sharpness_filter.h
-@@ -34,5 +34,6 @@ struct intel_sharpness_filter {
- 
- void intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state);
- void intel_sharpness_scaler_compute_config(struct intel_crtc_state *crtc_state);
-+int intel_sharpness_filter_compute_config(struct intel_crtc_state *crtc_state);
- 
- #endif /* __INTEL_SHARPEN_FILTER_H__ */
-diff --git a/drivers/gpu/drm/i915/display/skl_scaler.c b/drivers/gpu/drm/i915/display/skl_scaler.c
-index baa601d27815..af40288a6709 100644
---- a/drivers/gpu/drm/i915/display/skl_scaler.c
-+++ b/drivers/gpu/drm/i915/display/skl_scaler.c
-@@ -97,7 +97,12 @@ static u16 skl_scaler_calc_phase(int sub, int scale, bool chroma_cosited)
- #define MTL_MAX_DST_H 8192
- #define SKL_MIN_YUV_420_SRC_W 16
- #define SKL_MIN_YUV_420_SRC_H 16
--
-+#define SCALER_FILTER_SELECT \
-+	(PS_FILTER_PROGRAMMED | \
-+	PS_Y_VERT_FILTER_SELECT(1) | \
-+	PS_Y_HORZ_FILTER_SELECT(0) | \
-+	PS_UV_VERT_FILTER_SELECT(1) | \
-+	PS_UV_HORZ_FILTER_SELECT(0))
- static int
- skl_update_scaler(struct intel_crtc_state *crtc_state, bool force_detach,
- 		  unsigned int scaler_user, int *scaler_id,
-@@ -253,7 +258,8 @@ int skl_update_scaler_crtc(struct intel_crtc_state *crtc_state)
- 				 drm_rect_width(&crtc_state->pipe_src),
- 				 drm_rect_height(&crtc_state->pipe_src),
- 				 width, height, NULL, 0,
--				 crtc_state->pch_pfit.enabled);
-+				 crtc_state->pch_pfit.enabled ||
-+				 crtc_state->hw.casf_params.need_scaler);
- }
- 
- /**
-@@ -353,9 +359,10 @@ static int intel_atomic_setup_scaler(struct intel_crtc_scaler_state *scaler_stat
- 				     int num_scalers_need, struct intel_crtc *intel_crtc,
- 				     const char *name, int idx,
- 				     struct intel_plane_state *plane_state,
--				     int *scaler_id)
-+				     int *scaler_id, bool casf_scaler)
- {
- 	struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.dev);
-+	struct intel_crtc_state *crtc_state = to_intel_crtc_state(intel_crtc->base.state);
- 	int j;
- 	u32 mode;
- 
-@@ -365,6 +372,11 @@ static int intel_atomic_setup_scaler(struct intel_crtc_scaler_state *scaler_stat
- 			if (scaler_state->scalers[j].in_use)
- 				continue;
- 
-+			if (!strcmp(name, "CRTC")) {
-+				if (casf_scaler && j != 1)
-+					continue;
-+			}
++	if (mode->hdisplay <= 1920 && mode->vdisplay <= 1080)
++		crtc_state->hw.casf_params.win_size = 0;
++	else if (mode->hdisplay <= 3840 && mode->vdisplay <= 2160)
++		crtc_state->hw.casf_params.win_size = 1;
++	else
++		crtc_state->hw.casf_params.win_size = 2;
++}
 +
- 			*scaler_id = j;
- 			scaler_state->scalers[*scaler_id].in_use = 1;
- 			break;
-@@ -375,6 +387,10 @@ static int intel_atomic_setup_scaler(struct intel_crtc_scaler_state *scaler_stat
- 		     "Cannot find scaler for %s:%d\n", name, idx))
- 		return -EINVAL;
- 
-+	if (crtc_state->hw.casf_params.need_scaler) {
-+		mode = SKL_PS_SCALER_MODE_HQ;
++bool intel_sharpness_strength_changed(struct intel_atomic_state *state)
++{
++	int i;
++	struct intel_crtc_state *old_crtc_state, *new_crtc_state;
++	struct intel_crtc *crtc;
++
++	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
++					    new_crtc_state, i) {
++		if (new_crtc_state->uapi.sharpness_strength !=
++				old_crtc_state->uapi.sharpness_strength)
++			return true;
 +	}
 +
- 	/* set scaler mode */
- 	if (plane_state && plane_state->hw.fb &&
- 	    plane_state->hw.fb->format->is_yuv &&
-@@ -598,7 +614,8 @@ int intel_atomic_setup_scalers(struct drm_i915_private *dev_priv,
++	return false;
++}
++
++void intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state)
++{
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
++	struct intel_display *display = to_intel_display(crtc);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+ 	int id = crtc_state->scaler_state.scaler_id;
++	u32 sharpness_ctl;
++	u8 val;
++
++	if (crtc_state->uapi.sharpness_strength == 0 ||
++	    crtc_state->pch_pfit.enabled) {
++		intel_sharpness_disable(crtc_state);
++
++		return;
++	}
++
++	/*
++	 * HW takes a value in form (1.0 + strength) in 4.4 fixed format.
++	 * Strength is from 0.0-14.9375 ie from 0-239.
++	 * User can give value from 0-255 but is clamped to 239.
++	 * Ex. User gives 85 which is 5.3125 and adding 1.0 gives 6.3125.
++	 * 6.3125 in 4.4 format is 01100101 which is equal to 101.
++	 * Also 85 + 16 = 101.
++	 */
++	val = min(crtc_state->uapi.sharpness_strength, 0xEF) + 0x10;
++
++	drm_dbg(&dev_priv->drm, "Filter strength value: %d\n", val);
++
++	sharpness_ctl =	FILTER_EN | FILTER_STRENGTH(val) |
++		FILTER_SIZE(crtc_state->hw.casf_params.win_size);
++
++	intel_de_write(display, SHARPNESS_CTL(crtc->pipe),
++		       sharpness_ctl);
  
- 		ret = intel_atomic_setup_scaler(scaler_state, num_scalers_need,
- 						intel_crtc, name, idx,
--						plane_state, scaler_id);
-+						plane_state, scaler_id,
-+						crtc_state->hw.casf_params.need_scaler);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -705,6 +722,44 @@ static void skl_scaler_setup_filter(struct drm_i915_private *dev_priv, enum pipe
- 	}
+ 	intel_de_write_fw(display, GLK_PS_COEF_INDEX_SET(crtc->pipe, id, 0),
+ 			  PS_COEF_INDEX_AUTO_INC);
+@@ -51,9 +128,24 @@ void intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state)
+ 
+ int intel_sharpness_filter_compute_config(struct intel_crtc_state *crtc_state)
+ {
++	struct intel_crtc *intel_crtc = to_intel_crtc(crtc_state->uapi.crtc);
++	struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.dev);
++
++	if (crtc_state->uapi.sharpness_strength == 0) {
++		crtc_state->hw.casf_params.need_scaler = false;
++		return 0;
++	}
++
++	if (crtc_state->pch_pfit.enabled)
++		return -EINVAL;
++
+ 	if (!crtc_state->pch_pfit.enabled)
+ 		crtc_state->hw.casf_params.need_scaler = true;
+ 
++	intel_sharpness_filter_size_compute(crtc_state);
++	drm_dbg(&dev_priv->drm, "Tap Size: %d\n",
++		crtc_state->hw.casf_params.win_size);
++
+ 	return 0;
  }
  
-+void casf_scaler_enable(struct intel_crtc_state *crtc_state)
+@@ -114,3 +206,21 @@ void intel_sharpness_scaler_compute_config(struct intel_crtc_state *crtc_state)
+ 		}
+ 	}
+ }
++
++void intel_sharpness_disable(struct intel_crtc_state *crtc_state)
 +{
 +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
 +	struct intel_display *display = to_intel_display(crtc);
-+	struct drm_display_mode *adjusted_mode =
-+		&crtc_state->hw.adjusted_mode;
-+	struct intel_crtc_scaler_state *scaler_state =
-+		&crtc_state->scaler_state;
-+	struct drm_rect src, dest;
-+	int id, width, height;
-+	int x, y;
-+	enum pipe pipe = crtc->pipe;
-+	u32 ps_ctrl;
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
 +
-+	width = adjusted_mode->crtc_hdisplay;
-+	height = adjusted_mode->crtc_vdisplay;
-+
-+	x = y = 0;
-+	drm_rect_init(&dest, x, y, width, height);
-+
-+	width = drm_rect_width(&dest);
-+	height = drm_rect_height(&dest);
-+	id = scaler_state->scaler_id;
-+
-+	drm_rect_init(&src, 0, 0,
-+		      drm_rect_width(&crtc_state->pipe_src) << 16,
-+		      drm_rect_height(&crtc_state->pipe_src) << 16);
-+
-+	ps_ctrl = PS_SCALER_EN | PS_BINDING_PIPE | scaler_state->scalers[id].mode |
-+		PS_BYPASS_ARMING | PS_DB_STALL | SCALER_FILTER_SELECT;
-+
-+	intel_de_write_fw(display, SKL_PS_CTRL(pipe, id), ps_ctrl);
-+	intel_de_write_fw(display, SKL_PS_WIN_POS(pipe, id),
-+			  PS_WIN_XPOS(x) | PS_WIN_YPOS(y));
-+	intel_de_write_fw(display, SKL_PS_WIN_SZ(pipe, id),
-+			  PS_WIN_XSIZE(width) | PS_WIN_YSIZE(height));
++	intel_de_write(display, SHARPNESS_CTL(crtc->pipe), 0);
++	drm_dbg(&dev_priv->drm, "Filter strength value: %d\n", 0);
 +}
 +
- void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
- {
- 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-@@ -875,16 +930,19 @@ void skl_scaler_get_config(struct intel_crtc_state *crtc_state)
- 			continue;
- 
- 		id = i;
--		crtc_state->pch_pfit.enabled = true;
++bool sharp_compute(struct intel_crtc_state *crtc_state)
++{
++	if (!(FILTER_EN & 1) && crtc_state->uapi.sharpness_strength != 0)
++		return true;
 +
-+		if (!crtc_state->hw.casf_params.need_scaler)
-+			crtc_state->pch_pfit.enabled = true;
++	return false;
++}
+diff --git a/drivers/gpu/drm/i915/display/intel_sharpness_filter.h b/drivers/gpu/drm/i915/display/intel_sharpness_filter.h
+index 84f47d511cdc..85b2b8975383 100644
+--- a/drivers/gpu/drm/i915/display/intel_sharpness_filter.h
++++ b/drivers/gpu/drm/i915/display/intel_sharpness_filter.h
+@@ -35,5 +35,10 @@ struct intel_sharpness_filter {
+ void intel_sharpness_filter_enable(struct intel_crtc_state *crtc_state);
+ void intel_sharpness_scaler_compute_config(struct intel_crtc_state *crtc_state);
+ int intel_sharpness_filter_compute_config(struct intel_crtc_state *crtc_state);
++void intel_filter_lut_load(struct intel_crtc *crtc,
++			   const struct intel_crtc_state *crtc_state);
++bool intel_sharpness_strength_changed(struct intel_atomic_state *state);
++void intel_sharpness_disable(struct intel_crtc_state *crtc_state);
++bool sharp_compute(struct intel_crtc_state *crtc_state);
  
- 		pos = intel_de_read(dev_priv, SKL_PS_WIN_POS(crtc->pipe, i));
- 		size = intel_de_read(dev_priv, SKL_PS_WIN_SZ(crtc->pipe, i));
+ #endif /* __INTEL_SHARPEN_FILTER_H__ */
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 84b05b57ad52..41c6c56d83d6 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -2396,6 +2396,23 @@
+ 			_ID(id, _PS_COEF_SET0_DATA_1A, _PS_COEF_SET0_DATA_2A) + (set) * 8, \
+ 			_ID(id, _PS_COEF_SET0_DATA_1B, _PS_COEF_SET0_DATA_2B) + (set) * 8)
  
--		drm_rect_init(&crtc_state->pch_pfit.dst,
--			      REG_FIELD_GET(PS_WIN_XPOS_MASK, pos),
--			      REG_FIELD_GET(PS_WIN_YPOS_MASK, pos),
--			      REG_FIELD_GET(PS_WIN_XSIZE_MASK, size),
--			      REG_FIELD_GET(PS_WIN_YSIZE_MASK, size));
-+		if (!crtc_state->hw.casf_params.need_scaler)
-+			drm_rect_init(&crtc_state->pch_pfit.dst,
-+				      REG_FIELD_GET(PS_WIN_XPOS_MASK, pos),
-+				      REG_FIELD_GET(PS_WIN_YPOS_MASK, pos),
-+				      REG_FIELD_GET(PS_WIN_XSIZE_MASK, size),
-+				      REG_FIELD_GET(PS_WIN_YSIZE_MASK, size));
- 
- 		scaler_state->scalers[i].in_use = true;
- 		break;
-diff --git a/drivers/gpu/drm/i915/display/skl_scaler.h b/drivers/gpu/drm/i915/display/skl_scaler.h
-index 63f93ca03c89..444527e6a15b 100644
---- a/drivers/gpu/drm/i915/display/skl_scaler.h
-+++ b/drivers/gpu/drm/i915/display/skl_scaler.h
-@@ -33,5 +33,6 @@ void skl_detach_scalers(const struct intel_crtc_state *crtc_state);
- void skl_scaler_disable(const struct intel_crtc_state *old_crtc_state);
- 
- void skl_scaler_get_config(struct intel_crtc_state *crtc_state);
-+void casf_scaler_enable(struct intel_crtc_state *crtc_state);
- 
- #endif
++#define _SHARPNESS_CTL_A               0x682B0
++#define SHARPNESS_CTL(trans)           _MMIO_PIPE2(dev_priv, trans, _SHARPNESS_CTL_A)
++#define  FILTER_EN                      REG_BIT(31)
++#define  FILTER_STRENGTH_MASK           REG_GENMASK(15, 8)
++#define  FILTER_STRENGTH(x)             REG_FIELD_PREP(FILTER_STRENGTH_MASK, (x))
++#define  FILTER_SIZE_MASK               REG_GENMASK(1, 0)
++#define  FILTER_SIZE(x)                 REG_FIELD_PREP(FILTER_SIZE_MASK, (x))
++
++#define _SHRPLUT_DATA_A                        0x682B8
++#define SHRPLUT_DATA(trans)            _MMIO_PIPE2(dev_priv, trans, _SHRPLUT_DATA_A)
++
++#define _SHRPLUT_INDEX_A               0x682B4
++#define SHRPLUT_INDEX(trans)           _MMIO_PIPE2(dev_priv, trans, _SHRPLUT_INDEX_A)
++#define  INDEX_AUTO_INCR               REG_BIT(10)
++#define  INDEX_VALUE_MASK              REG_GENMASK(4, 0)
++#define  INDEX_VALUE(x)                        REG_FIELD_PREP(INDEX_VALUE_MASK, (x))
++
+ /* Display Internal Timeout Register */
+ #define RM_TIMEOUT		_MMIO(0x42060)
+ #define RM_TIMEOUT_REG_CAPTURE	_MMIO(0x420E0)
 -- 
 2.25.1
 
