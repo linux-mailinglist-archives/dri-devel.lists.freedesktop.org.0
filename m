@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E06B97BBC6
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 13:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C491197BBC7
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 13:55:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A87110E24C;
-	Wed, 18 Sep 2024 11:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4568710E255;
+	Wed, 18 Sep 2024 11:55:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Y4g5gxPN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L7NEk9hB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE4E10E24C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 11:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9upZVFdQMskb90PaXVMiXraLUFDk9ov2A+mmuMpfLd8=; b=Y4g5gxPN9u5h2FK1sZrfWZaXIF
- G7dCF0FH+g8umiV4mKRBAFDvapSRUoJvmjLbIY+PdbbZhDNYghAr5UBF7N/Q5dIjohpfq98fNV1QO
- rs8OLxn/QArFyjgXEDZjSw7d03Hb2aeHHBu3WdRw6mvP1HhqAJvfxqsJP/+qz+Gj+3k1NghI9d1BB
- 8ifKnH0mmaA2eY7+GEqq8xpwL23aV29accGKODvWYfVdbmSfuB1nDx6gsgPB/eRZLj330Noap7/Fr
- ExTPvqF0dCPiqdJ4t92GspIIHv5cxhirmLLt0wwBEO6xS0V/UCwG+raNhidq0OVUZIroKrNMYm41O
- v7ADM0ZQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sqtGi-00FFyB-5W; Wed, 18 Sep 2024 13:54:48 +0200
-Message-ID: <0d08cadd-c9f0-4953-adca-f97a55042df2@igalia.com>
-Date: Wed, 18 Sep 2024 08:54:40 -0300
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B50310E251
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 11:55:17 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a8d56155f51so865648666b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 04:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726660515; x=1727265315; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9Z7RJn/OX3EE3dFLS31Zgm+/e3Z34XMTjZ23ojfB1qo=;
+ b=L7NEk9hBjkZ3AZcSpn9c/qeD/BgGt+NK+DOlyGCWXKPjgDytOGDHl6wSJ+aO12TzX6
+ J0Y47vqFB/gCjbuOdXcpWqAld2g1Sz8XNCb8C3tu2wzImQ1iemk80kIZN7A5IncFP7t/
+ 1NXhu2uT187Pi0VbSW1S4sKRPsCG8FNUPMiNoBKvOA9SxEeTHtEUg+oYlqwZfsaVFGYG
+ HFUKUaiwf3KwmT4WzYg8w/Wqpoh0XUHzrw6karOcbQk35qSUPX3KGAv2S6gb0vh3FEHi
+ X+Cah8wRgQuB91p07xGoofdIvI8bm+Jok+ZCGC5NTdCZ5VRg6o1c8v56MunuMUVRvPYV
+ 0AVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726660515; x=1727265315;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9Z7RJn/OX3EE3dFLS31Zgm+/e3Z34XMTjZ23ojfB1qo=;
+ b=Usy+WlZ5oF15OCad0EnryNxKDPDK+PKJX34eukt4U/QXGFM4D9A1rWlNCcOnTa3uTB
+ Ay0BOM2meUSZrRGAv+bamxNervzvlzek9uUqYpR1y6wLJ1EgnrDpNP6MU7edC7UZ19+l
+ KYnq5qcM+3sCCYKShbRq0x7IT2EiktoL7fbySogVF0PSOf20eGVxgMBubEyiJAWYsHWj
+ eV1ZxInhFyy56iUzM2LvSkEi7Jd48IwstUah8ECnKnLtsnBwyy56pPPyVsptaSD51EVE
+ K8veNRu0k5TuTDEczl53NzoeG4MdVQKmzuq0C77PJ/rTQL/5c9aZCdCkQAtIg6plXLlm
+ BE2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX1rJaOiK3NpQS2yKiMQLj4RO2/ap7BD89iSwvJsJM3rslACIMf/YCwCxZzukVP+jZq+2k3h7oYP9c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwP8KuilM87lOAwuez0vQMDbUbec3/W/1fs1igQOP90N+H8KOBm
+ zSbVQUuEkg698YRTXkVg1HiWalGrwtoAU0adX2Sdu+O07w4Zfreg
+X-Google-Smtp-Source: AGHT+IG4wFN94Yv0d+PnVl2amsN4Hf6nb3weUX0u/t36QbB7MLTU/OpMM61Hp0PIh0fhSX7L080PuQ==
+X-Received: by 2002:a17:907:26c3:b0:a72:50f7:3c6f with SMTP id
+ a640c23a62f3a-a9029432757mr2260981866b.14.1726660515060; 
+ Wed, 18 Sep 2024 04:55:15 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:155d:1400:17ae:e091:3b52:93d])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a90612df563sm575281966b.151.2024.09.18.04.55.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Sep 2024 04:55:14 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: sumit.semwal@linaro.org, daniel@ffwll.ch, tursulin@ursulin.net,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 1/2] dma-buf/dma-fence: remove unnecessary callbacks
+Date: Wed, 18 Sep 2024 13:55:12 +0200
+Message-Id: <20240918115513.2716-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/10] drm/v3d: Fix the MMU flush order
-To: Iago Toral <itoral@igalia.com>, Melissa Wen <mwen@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20240829130954.2439316-1-mcanal@igalia.com>
- <20240829130954.2439316-2-mcanal@igalia.com>
- <f686b0113ed782e9defc112b2d9a3bb877730bd9.camel@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <f686b0113ed782e9defc112b2d9a3bb877730bd9.camel@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,122 +82,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Iago,
+The fence_value_str and timeline_value_str callbacks were just an
+unnecessary abstraction in the SW sync implementation.
 
-On 9/4/24 05:24, Iago Toral wrote:
-> Hi Maira,
-> 
-> El jue, 29-08-2024 a las 10:05 -0300, Maíra Canal escribió:
->> We must first flush the MMU cache and then, flush the TLB, not the
->> other
->> way around. Currently, we can see a race condition between the MMU
->> cache
->> and the TLB when running multiple rendering processes at the same
->> time.
->> This is evidenced by MMU errors triggered by the IRQ.
->>
->> Fix the MMU flush order by flushing the MMU cache and then the TLB.
-> 
-> the patch is making 2 changes, it is changing the ordering of the
-> flushes but also the fact that now we wait for the first flush to
-> commplete before starting the second while the previous version would
-> start both flushes and then wait for both to complete. The commit log
-> seems to suggest that the first change is the one that fixes the issue
-> but I wonder if that is really what is happening.
-> 
-> Also, have you tested keeping the original order of operations but with
-> interleaved waits like we do here? Either way, I think we probably
+The only caller of those callbacks already knew that the fence in
+questions is a timeline_fence. So print the values directly instead
+of using a redirection.
 
-I just tested keeping the order of the operations but using interleaved
-waits and I end up having MMU errors that crash the GPU. Changing the
-order of the operations was a deliberated choice due the GPU design and
-and waiting for each of those to finish is needed to avoid race
-conditions.
+Additional to that remove the implementations from virtgpu and vgem.
+As far as I can see those were never used in the first place.
 
-> should emphasized more in the committ log the fact that we are now
-> waiting for each flush to complete before starting the other flush.
-> 
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/sw_sync.c              | 16 ----------------
+ drivers/dma-buf/sync_debug.c           | 21 ++-------------------
+ drivers/gpu/drm/vgem/vgem_fence.c      | 15 ---------------
+ drivers/gpu/drm/virtio/virtgpu_fence.c | 16 ----------------
+ include/linux/dma-fence.h              | 21 ---------------------
+ 5 files changed, 2 insertions(+), 87 deletions(-)
 
-But you are absolutely right. I need to mention it on the commit log.
-I'll add this information in the next version.
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index c353029789cf..f7ce4c6b8b8e 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -178,20 +178,6 @@ static bool timeline_fence_enable_signaling(struct dma_fence *fence)
+ 	return true;
+ }
+ 
+-static void timeline_fence_value_str(struct dma_fence *fence,
+-				    char *str, int size)
+-{
+-	snprintf(str, size, "%lld", fence->seqno);
+-}
+-
+-static void timeline_fence_timeline_value_str(struct dma_fence *fence,
+-					     char *str, int size)
+-{
+-	struct sync_timeline *parent = dma_fence_parent(fence);
+-
+-	snprintf(str, size, "%d", parent->value);
+-}
+-
+ static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+ {
+ 	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+@@ -214,8 +200,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
+ 	.enable_signaling = timeline_fence_enable_signaling,
+ 	.signaled = timeline_fence_signaled,
+ 	.release = timeline_fence_release,
+-	.fence_value_str = timeline_fence_value_str,
+-	.timeline_value_str = timeline_fence_timeline_value_str,
+ 	.set_deadline = timeline_fence_set_deadline,
+ };
+ 
+diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
+index 237bce21d1e7..270daae7d89a 100644
+--- a/drivers/dma-buf/sync_debug.c
++++ b/drivers/dma-buf/sync_debug.c
+@@ -82,25 +82,8 @@ static void sync_print_fence(struct seq_file *s,
+ 		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
+ 	}
+ 
+-	if (fence->ops->timeline_value_str &&
+-		fence->ops->fence_value_str) {
+-		char value[64];
+-		bool success;
+-
+-		fence->ops->fence_value_str(fence, value, sizeof(value));
+-		success = strlen(value);
+-
+-		if (success) {
+-			seq_printf(s, ": %s", value);
+-
+-			fence->ops->timeline_value_str(fence, value,
+-						       sizeof(value));
+-
+-			if (strlen(value))
+-				seq_printf(s, " / %s", value);
+-		}
+-	}
+-
++	seq_printf(s, ": %lld", fence->seqno);
++	seq_printf(s, " / %d", parent->value);
+ 	seq_putc(s, '\n');
+ }
+ 
+diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+index e15754178395..5298d995faa7 100644
+--- a/drivers/gpu/drm/vgem/vgem_fence.c
++++ b/drivers/gpu/drm/vgem/vgem_fence.c
+@@ -53,25 +53,10 @@ static void vgem_fence_release(struct dma_fence *base)
+ 	dma_fence_free(&fence->base);
+ }
+ 
+-static void vgem_fence_value_str(struct dma_fence *fence, char *str, int size)
+-{
+-	snprintf(str, size, "%llu", fence->seqno);
+-}
+-
+-static void vgem_fence_timeline_value_str(struct dma_fence *fence, char *str,
+-					  int size)
+-{
+-	snprintf(str, size, "%llu",
+-		 dma_fence_is_signaled(fence) ? fence->seqno : 0);
+-}
+-
+ static const struct dma_fence_ops vgem_fence_ops = {
+ 	.get_driver_name = vgem_fence_get_driver_name,
+ 	.get_timeline_name = vgem_fence_get_timeline_name,
+ 	.release = vgem_fence_release,
+-
+-	.fence_value_str = vgem_fence_value_str,
+-	.timeline_value_str = vgem_fence_timeline_value_str,
+ };
+ 
+ static void vgem_fence_timeout(struct timer_list *t)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+index f28357dbde35..44c1d8ef3c4d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_fence.c
++++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+@@ -49,26 +49,10 @@ static bool virtio_gpu_fence_signaled(struct dma_fence *f)
+ 	return false;
+ }
+ 
+-static void virtio_gpu_fence_value_str(struct dma_fence *f, char *str, int size)
+-{
+-	snprintf(str, size, "[%llu, %llu]", f->context, f->seqno);
+-}
+-
+-static void virtio_gpu_timeline_value_str(struct dma_fence *f, char *str,
+-					  int size)
+-{
+-	struct virtio_gpu_fence *fence = to_virtio_gpu_fence(f);
+-
+-	snprintf(str, size, "%llu",
+-		 (u64)atomic64_read(&fence->drv->last_fence_id));
+-}
+-
+ static const struct dma_fence_ops virtio_gpu_fence_ops = {
+ 	.get_driver_name     = virtio_gpu_get_driver_name,
+ 	.get_timeline_name   = virtio_gpu_get_timeline_name,
+ 	.signaled            = virtio_gpu_fence_signaled,
+-	.fence_value_str     = virtio_gpu_fence_value_str,
+-	.timeline_value_str  = virtio_gpu_timeline_value_str,
+ };
+ 
+ struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index e7ad819962e3..cf91cae6e30f 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -238,27 +238,6 @@ struct dma_fence_ops {
+ 	 */
+ 	void (*release)(struct dma_fence *fence);
+ 
+-	/**
+-	 * @fence_value_str:
+-	 *
+-	 * Callback to fill in free-form debug info specific to this fence, like
+-	 * the sequence number.
+-	 *
+-	 * This callback is optional.
+-	 */
+-	void (*fence_value_str)(struct dma_fence *fence, char *str, int size);
+-
+-	/**
+-	 * @timeline_value_str:
+-	 *
+-	 * Fills in the current value of the timeline as a string, like the
+-	 * sequence number. Note that the specific fence passed to this function
+-	 * should not matter, drivers should only use it to look up the
+-	 * corresponding timeline structures.
+-	 */
+-	void (*timeline_value_str)(struct dma_fence *fence,
+-				   char *str, int size);
+-
+ 	/**
+ 	 * @set_deadline:
+ 	 *
+-- 
+2.34.1
 
-> 
->>
->> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for
->> Broadcom V3D V3.x+")
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   drivers/gpu/drm/v3d/v3d_mmu.c | 29 ++++++++++-------------------
->>   1 file changed, 10 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c
->> b/drivers/gpu/drm/v3d/v3d_mmu.c
->> index 14f3af40d6f6..06bb44c7f35d 100644
->> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
->> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
->> @@ -32,32 +32,23 @@ static int v3d_mmu_flush_all(struct v3d_dev *v3d)
->>   {
->>   	int ret;
->>   
->> -	/* Make sure that another flush isn't already running when
->> we
->> -	 * start this one.
->> -	 */
->> -	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
->> -			 V3D_MMU_CTL_TLB_CLEARING), 100);
->> -	if (ret)
->> -		dev_err(v3d->drm.dev, "TLB clear wait idle pre-wait
->> failed\n");
->> -
-> 
-> are we certain we can't have a flush in flux when a new one comes in?
-
-We can, but it doesn't really matter, as by the end of both requests,
-the TLB will be flushed.
-
-Best Regards,
-- Maíra
-
-> 
->> -	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
->> -		  V3D_MMU_CTL_TLB_CLEAR);
->> -
->> -	V3D_WRITE(V3D_MMUC_CONTROL,
->> -		  V3D_MMUC_CONTROL_FLUSH |
->> +	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_FLUSH |
->>   		  V3D_MMUC_CONTROL_ENABLE);
->>   
->> -	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
->> -			 V3D_MMU_CTL_TLB_CLEARING), 100);
->> +	ret = wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
->> +			 V3D_MMUC_CONTROL_FLUSHING), 100);
->>   	if (ret) {
->> -		dev_err(v3d->drm.dev, "TLB clear wait idle
->> failed\n");
->> +		dev_err(v3d->drm.dev, "MMUC flush wait idle
->> failed\n");
->>   		return ret;
->>   	}
->>   
->> -	ret = wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
->> -			 V3D_MMUC_CONTROL_FLUSHING), 100);
->> +	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
->> +		  V3D_MMU_CTL_TLB_CLEAR);
->> +
->> +	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
->> +			 V3D_MMU_CTL_TLB_CLEARING), 100);
->>   	if (ret)
->> -		dev_err(v3d->drm.dev, "MMUC flush wait idle
->> failed\n");
->> +		dev_err(v3d->drm.dev, "TLB clear wait idle
->> failed\n");
-> 
-> I'd maybe use "MMU TLB clear wait idle failed", so we can more easily
-> identify this message comes from the MMU implementation.
-> 
-> Iago
-> 
->>   
->>   	return ret;
->>   }
-> 
