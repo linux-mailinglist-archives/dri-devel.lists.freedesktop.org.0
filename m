@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2B597C17F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 23:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B882E97C183
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 23:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A61110E65D;
-	Wed, 18 Sep 2024 21:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3215310E658;
+	Wed, 18 Sep 2024 21:39:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rDaYavDm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BDpYdO0j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2044.outbound.protection.outlook.com [40.107.101.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2710710E65A;
- Wed, 18 Sep 2024 21:39:25 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2086.outbound.protection.outlook.com [40.107.212.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073CD10E65E;
+ Wed, 18 Sep 2024 21:39:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mc1DrVDY0Y0V3KNPw6+KITUfLCfKZ06ru+mZcQfUaut3GAZVYhNsfmvqDxLjxtRMF9mPh/8jtRLfJK1cOYXg5hpKwOvKj44dnDEHLqYLsAA4/dHkGyFFQjUqvJYx8hTLRboGQBfFgWaVCYEPxEi82fD8wx2VAyJbSapoaebI3tWgNf6QGc/AHRD5zvpnWH8FIDHqy3lDJkoLLKpg2SLCQ4412cYlxm0fzXAaEufchZq3YDv4Xv0aZo1rr72/SrY0BPF8QXeRTvtlEc/uOqETGYatnRDPxZi8Ff85C+ot3mgIFi24ZZ9XSidDqCSPFLery39YGcJAdlx87ITIDaYOBw==
+ b=AEQCaTe96Ldvl8cOZfpe9nsejV0GpsOLRcpfnc+neLjLHhNxknwUxVxrEJt4RUbzSP0dX9lxyxhHe9qlUR0K5o4uEry149HB69G3tAuCILc+Jj+eM8GONnuvdrNRXsc5SpXV5sarpEBe1bQXDUNTh/DEU2x/niypKGC/kvU+avVCAgJsuLBVVkebGglifRFPduDKnsXSJ64329y3NPdl//GVSEL4iYYc9ksNFsgp1x83Wowu5auEPVEYQz/uetjrrZhxckOlxO2TfNkimSSy6Xh+IMVipAusLbCggwOynu3EguNIOLJO7OPXaNSwgfzb0W6z0tgbLS7RmLzUmMfbsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dh9DX60BcQXwnX95FHcWSrEWRrOn+6KBib/XkNMOu2k=;
- b=iyX77Y8V88yTF+hSHgnpWA3kBrI0gWGRugkh2wxJlOrCKDWhI0eBNiUQ+WGBH17dBaIMqY1JfJLxkQcmQVtGGOTYgTa8QXz1eBB5WZ6o+OoI4VlFXZ6M4Kr6BptphhpRTLIPao7CnfJaTCSOgtu4qikQ07e9Nmwx8VT1PTVZZsjJ/lGfaffSioRyIgXz9ruDyV6YdTKmjjm3Z1e2JWAsyBSjV2uBrqy2gEuAX9SJTvNGomwjGbiwohUPPqRxw6mbjsnC1Wfqcz1c6Sc7Sbzh9vnXfhpX+2noLUeYkc4pzg6VjRQaTgVPlELIAzhbevm8ru2kOz6iZYTFcjtsKbxNkA==
+ bh=nY9lHuxmg6YhEaKekT6cpJgQoSawY6eDrtDkEPFHx3E=;
+ b=k1YSZkG6fjmWKX71fV3IpSKvBSFxrWIcawLVoHZCsKkDsLGAaoKNHlWlf/eWdEi9IGwMMX40CVisHeq284xvxkwVZIvoW9YkL8RE1wzF/cz4hjBA8lsCTC1lIxDIl4cHEvVnCnWZy/8p86VugIG21Psai5w9DyfP4KwaWqtlG92HLH0HravwPk/oUPle56vtZGd0ODK1NCsmr32eybXVJ/IF5q2y27/LZPdnEKEzY5dXmi9sBpYYkhbFlnwxv6S04WGB1HQNzf16eWvmzucb9wwzW1b6sfKmzREeUaoR4IhxI8vsm3UXlJ69j83R4tQr3z+TAgHDDSaJWo6j/UJqgA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dh9DX60BcQXwnX95FHcWSrEWRrOn+6KBib/XkNMOu2k=;
- b=rDaYavDmngMp9gTL6mKGNxeoyOXImbn/13/8HlQI/Bxw4nnEuIboLChyNiHByP1X6j1PgvFNrETxi2pYUc7RGfukn44JvHsjWc+TKnDFWWjxEf5lJ0bcC1T1xyZRUvqNENvC/Ozbg/mbS8mc+GCR4QYDh0h4SNdSj8Zwk2SRDLg=
-Received: from SA1PR02CA0012.namprd02.prod.outlook.com (2603:10b6:806:2cf::17)
- by DS0PR12MB7827.namprd12.prod.outlook.com (2603:10b6:8:146::9) with
+ bh=nY9lHuxmg6YhEaKekT6cpJgQoSawY6eDrtDkEPFHx3E=;
+ b=BDpYdO0jYz+peg1HPh/JhTdUwW9F49bfR9pVxl1jfqNiyWxb4Ep+IX7DN4tkELmGsS2JLO9XInLXFSa3Kwvgk9YzfkQfL2F8oyvHr9F3dkiWS9tneJZlqkvPuVOJL6mo+ow+7T44YXAD2EIPU0QU157DrhMTDlM2EIyj9jJezcY=
+Received: from SA1PR02CA0004.namprd02.prod.outlook.com (2603:10b6:806:2cf::8)
+ by DM3PR12MB9434.namprd12.prod.outlook.com (2603:10b6:0:4b::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Wed, 18 Sep
- 2024 21:39:21 +0000
+ 2024 21:39:22 +0000
 Received: from SA2PEPF000015C9.namprd03.prod.outlook.com
- (2603:10b6:806:2cf:cafe::eb) by SA1PR02CA0012.outlook.office365.com
- (2603:10b6:806:2cf::17) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:806:2cf:cafe::e1) by SA1PR02CA0004.outlook.office365.com
+ (2603:10b6:806:2cf::8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.30 via Frontend
- Transport; Wed, 18 Sep 2024 21:39:21 +0000
+ Transport; Wed, 18 Sep 2024 21:39:22 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -54,7 +54,7 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 18 Sep
- 2024 16:39:18 -0500
+ 2024 16:39:19 -0500
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: Alex Hung <alex.hung@amd.com>, Alexander Deucher
  <alexander.deucher@amd.com>, Melissa Wen <mwen@igalia.com>
@@ -62,10 +62,10 @@ CC: <kernel-dev@igalia.com>, <amd-gfx@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <sunpeng.li@amd.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, "Mario
  Limonciello" <mario.limonciello@amd.com>
-Subject: [PATCH v7 09/10] drm/amd/display: remove dc_edid handler from
- dm_helpers_parse_edid_caps
-Date: Wed, 18 Sep 2024 16:38:44 -0500
-Message-ID: <20240918213845.158293-10-mario.limonciello@amd.com>
+Subject: [PATCH v7 10/10] drm/amd/display: Fetch the EDID from _DDC if
+ available for eDP
+Date: Wed, 18 Sep 2024 16:38:45 -0500
+Message-ID: <20240918213845.158293-11-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240918213845.158293-1-mario.limonciello@amd.com>
 References: <20240918213845.158293-1-mario.limonciello@amd.com>
@@ -77,51 +77,51 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015C9:EE_|DS0PR12MB7827:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a6c717c-e751-4367-0e94-08dcd82a5b42
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C9:EE_|DM3PR12MB9434:EE_
+X-MS-Office365-Filtering-Correlation-Id: 48020fb3-36de-414a-e0f2-08dcd82a5bd5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?c595RlyWrZcRpzg8kx4Sz7tzsVYUtqvu6amyVMz+OCj5Ij2YIdGuXEs7dSOu?=
- =?us-ascii?Q?Yrap/hrEecS9zImOkr9istdHofUawAGg6KplB4SNRCTirUS2PyXkYSOZySkB?=
- =?us-ascii?Q?uJpjd4HUBS9tBhWZfzA7wN9baKFOax4Q8eW4V+ZubGR1aO0WipKn1z9IwMU9?=
- =?us-ascii?Q?Pd49Xk7lac8FgoGM1EcnOa/NMZ2m0GjQqnG8DSzhJ8QQ+BcS5eEbRhsfHtsA?=
- =?us-ascii?Q?DA4imLveHGqx7D3MqlICDP26TFe3WlWBgsMVaAJrxfeA4xLTYURyJxBsRBzC?=
- =?us-ascii?Q?/C7cpMCwSZ/kDgIbPZwBNP62tUnYNV9PuQuPfD4nwgLYf/0dh3Ps1F0kISpD?=
- =?us-ascii?Q?c2FEWr+AU5hy/9SyMopRq1FoJxNTxUNBwBJcc1A3Qs0PgJ5A0coI2lUmt5XI?=
- =?us-ascii?Q?7rV29Jq+OJcfo9wwT21kSzubGzmS6GmDn8d/suYsh9O/7QeBQJXfpRsu+O1d?=
- =?us-ascii?Q?I1kE1RTIyeeX9xgCxecuYf3eJ31M5G+LD+jlzTLP5JUpSLH1k5cRcTbJ5KyN?=
- =?us-ascii?Q?yE//s+F5FbOJ+g5sjwOgDsLoIWg8mxQ/MtwhN2Y+NGM65dmJ0aolMk4j48/j?=
- =?us-ascii?Q?Y2m42QmD/2TLsW7YGbngdTk+S5vSt630/9+L9aYDycYgqPFVLIyMe5nhL5bm?=
- =?us-ascii?Q?FFLPNJjLO5Weo26Jgp/Yr0CpIXoz3I7iNMZ3aY5+UldbCyOUjcCUWwieksbA?=
- =?us-ascii?Q?6RQTN2ZIizszM08Jdn2x/r9WhxncGZp2PKPJILQuhRH+dCdzJvsYUQ6qDHHG?=
- =?us-ascii?Q?c7uGClPRl73KJVkOPy1hDn6cPWMEOBkVFU6Qya3gt3BnpK+6gYTLakKW5WWI?=
- =?us-ascii?Q?rzpMfXgPWYrNVKAGIvA+3PPYvaGrg/E/H9SpKtf15rz6/6VD3GgtCFOmD/nU?=
- =?us-ascii?Q?Eab2+l+4Chq4jsZAIPOJDHpVV2TRLxz2RCcjvUWclwOaEkBhzq7LeZ9f3hiO?=
- =?us-ascii?Q?FK9t8DtY4i9XBnoDMcUjnaq7ZkNXnBBsE8Ofp6lJp9pwOSe8JnCJYbmgjQtD?=
- =?us-ascii?Q?PQyhH+1fONKE+WqHD79FMTTnXGmOzDPnXvw1MHOQhPgisdfxjyW/aGdD7e3N?=
- =?us-ascii?Q?G8SNFgLYqaLKITYPQf18H3t79+Jv8kzGOrFwKJD1CkQBkrJ4pMCh8lGoI/hd?=
- =?us-ascii?Q?dctr3/1vu29O0sTlCcUtk4osHSUcppjlpPXeGlr4DY20iPblxbp5hngfiE0S?=
- =?us-ascii?Q?7CiaHXyEKiTr4DPLjbUHibjmluuPU3/+Sob6foCV6EQhPrN7SemiGMCaSsDS?=
- =?us-ascii?Q?znnx3FNbpFEo9asKOXmCt1pS675NCM4kcuRq/5KcxoxTlp5N4uR+NC5aIhwg?=
- =?us-ascii?Q?ztme9iAkDYfKIoiL0GriLvHGvhG6BGYJ1p62hxsIVbvxKyrygy/CiKALJA/3?=
- =?us-ascii?Q?TdeWZXQSCV9clDpYX5Wzxb0OCEwAmQ0qf8t/V33Xqhscth7weYkdOc/3inP9?=
- =?us-ascii?Q?9QIysChubtBJ7e+OcLK2Dn5fG1/LL3Ai?=
+ ARA:13230040|82310400026|376014|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dqJ4152FIu8lD8aOmzzoVI2yELcznBqNTuva4B91/vLDhX18ePtFZEtsjJqT?=
+ =?us-ascii?Q?ocoomiX3E0kyKv5AxspIsYO+nL21oM8JbTA5xwgxePLYsdqpyHzVRsomzYrU?=
+ =?us-ascii?Q?m3jvY19V6/BR5vqANTCFPY9sQKcH/jAzdkc0mvLFCNcSl8jEo0582Hdt+xgV?=
+ =?us-ascii?Q?idgHBGXcq59YuAAPdiKN20WseMbHl2ci3w/EIQRq0sC/ZC6KsE1qzNode3kN?=
+ =?us-ascii?Q?zWDSESqS5DdyZPCMPRZUJbbHNBlHPgiLLuQWiymAl4ypFNmRDDDIA98Rd0Fl?=
+ =?us-ascii?Q?aGvqZsGNEgUCh/8aQGX/sOOxwi5EJ7a2E3xMfyZGrSc/SFnUrqpkjnNICfHW?=
+ =?us-ascii?Q?Hh+17UVCvztDUb2iV9icQ3ftTSokJsn2qWlzBcmFqol5LRG5ej9DirB6ZBAX?=
+ =?us-ascii?Q?E6+xGim8ilZIlwHRhi2o/1QyA5Aty17dKphkv7ZA4iIc32HHfLZzQWwDSD7M?=
+ =?us-ascii?Q?rsmiHqEO+NbeuV254n4FbSmiQcpc6O4huDIMQNDCxpqJBRmTrf02pXtTzLtd?=
+ =?us-ascii?Q?HO2kbhcK3D8XbC6yYqLzFcdpCd2NRSRo3jGqvFzv2NQcHfYRYykMdANI21nl?=
+ =?us-ascii?Q?KJEGLzyk1h6GV5yYqlg75HKsaoKEXODlFy2BvOXDqWkZSr2RQSKfx8qdOJ+p?=
+ =?us-ascii?Q?5CkC+9QdlnjnJeMTCK3MX4U2EPy9xs5bTIx3ZsFIm64X+2kgtPg4HKOklG4q?=
+ =?us-ascii?Q?U5EvzIJAAl4bpBKyYzYUvPgZ6zTIvNffRlF5h/JA4MIT9u4hrJCBLwpHWjrw?=
+ =?us-ascii?Q?RPyr07GqIFvr8PL/rrwaRBheFtz8PdMgSsNCjNfd82zEGNzZRw52tEpAOQML?=
+ =?us-ascii?Q?0p1xPNx0woUgMz4qhzFfpc5sW9pr5YVBRPAPLurEOJ3y1hKNGGKma2JRBhGk?=
+ =?us-ascii?Q?2l9AJnPYRZ741NuBrir9puNkO35/6RT+AAQGfRndj8MXhuDINqcfYNH3dFFH?=
+ =?us-ascii?Q?LqtaiV5LUJ1SypSVeZMJMvssksSZ8K56g/LF3xRaayTmjjwLrtCqSD0iSOFQ?=
+ =?us-ascii?Q?XCDpHTdv5TWzHd8IUu4Lxdbx2sAyzcn4qfouP5s13RWZ8HXxSYpkVkfvw1g2?=
+ =?us-ascii?Q?nuL6xDJXbf8p/DplX3YWztIzHMEAq8NtlXpdnURJ4AzYr3UvsbZtXhv4x6jw?=
+ =?us-ascii?Q?byaejbZcrP6bsgUXo4gMHEkHAK7mT/tS2aAZPH6sWXcisE1jTW5Cmv0yTjdt?=
+ =?us-ascii?Q?Ko+hGEte11C4i0IkCXVRgVfjWVH2Ccm2lkGHAmBwYsSs2I8XbkEDsADL1Hpg?=
+ =?us-ascii?Q?sk/rh7NKLG7hmEXQSqBGTwFRajmJKoS/SJ2aygF7b+RAWJtxc1lwiox7LtyN?=
+ =?us-ascii?Q?w5OiGPEhWIz9PU7iM9VKOKca741HZC0sJz02dvQArgTTgyKgyEJHlVjcj0GF?=
+ =?us-ascii?Q?PRTwKeK/3BiqI5OOMblSsaxQjFPrLH0M2CqSCwpboMyedSnhOPtDnAWCAXML?=
+ =?us-ascii?Q?nsQipyznaUcjq8+secStjyQBKeZn+NrE?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
+ SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 21:39:21.0268 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a6c717c-e751-4367-0e94-08dcd82a5b42
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 21:39:21.9799 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48020fb3-36de-414a-e0f2-08dcd82a5bd5
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015C9.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7827
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9434
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,137 +137,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Melissa Wen <mwen@igalia.com>
+Some manufacturers have intentionally put an EDID that differs from
+the EDID on the internal panel on laptops.
 
-We can parse edid caps from drm_edid and drm_eld and any calls of
-dm_helpers_parse_edid_caps is made in a state that we have drm_edid set
-to amdgpu connector.
+Attempt to fetch this EDID if it exists and prefer it over the EDID
+that is provided by the panel. If a user prefers to use the EDID from
+the panel, offer a DC debugging parameter that would disable this.
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
-Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +---
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 30 ++++++++-----------
- drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  1 -
- .../drm/amd/display/dc/link/link_detection.c  |  6 ++--
- 4 files changed, 16 insertions(+), 26 deletions(-)
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 62 ++++++++++++++++++-
+ drivers/gpu/drm/amd/include/amd_shared.h      |  5 ++
+ 2 files changed, 66 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index bd8fb9968c7c..bf847ac55475 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7123,10 +7123,7 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- 		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
- 		memmove(dc_em_sink->dc_edid.raw_edid, edid,
- 			(edid->extensions + 1) * EDID_LENGTH);
--		dm_helpers_parse_edid_caps(
--			dc_link,
--			&dc_em_sink->dc_edid,
--			&dc_em_sink->edid_caps);
-+		dm_helpers_parse_edid_caps(dc_link, &dc_em_sink->edid_caps);
- 	}
- }
- 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index d43ed3ea000b..8f4be7a1ec45 100644
+index 8f4be7a1ec45..05d3e00ecce0 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -83,32 +83,24 @@ static void apply_edid_quirks(struct drm_edid_product_id *product_id,
-  * dm_helpers_parse_edid_caps() - Parse edid caps
+@@ -23,6 +23,8 @@
   *
-  * @link: current detected link
-- * @edid:	[in] pointer to edid
-  * @edid_caps:	[in] pointer to edid caps
-  *
-  * Return: void
   */
--enum dc_edid_status dm_helpers_parse_edid_caps(
--		struct dc_link *link,
--		const struct dc_edid *edid,
--		struct dc_edid_caps *edid_caps)
-+enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
-+					       struct dc_edid_caps *edid_caps)
- {
- 	struct amdgpu_dm_connector *aconnector = link->priv;
- 	struct drm_connector *connector = &aconnector->base;
- 	const struct drm_edid *drm_edid = aconnector->drm_edid;
- 	struct drm_edid_product_id product_id;
--	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
- 	int sad_count;
- 	int i = 0;
--
- 	enum dc_edid_status result = EDID_OK;
  
--	if (!edid_caps || !edid)
-+	if (!edid_caps || !drm_edid)
- 		return EDID_BAD_INPUT;
++#include <acpi/video.h>
++
+ #include <linux/string.h>
+ #include <linux/acpi.h>
+ #include <linux/i2c.h>
+@@ -874,6 +876,60 @@ bool dm_helpers_is_dp_sink_present(struct dc_link *link)
+ 	return dp_sink_present;
+ }
  
--	if (!drm_edid_is_valid(edid_buf))
--		result = EDID_BAD_CHECKSUM;
--
- 	drm_edid_get_product_id(drm_edid, &product_id);
++static int
++dm_helpers_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
++{
++	struct drm_connector *connector = data;
++	struct acpi_device *acpidev = ACPI_COMPANION(connector->dev->dev);
++	unsigned char start = block * EDID_LENGTH;
++	void *edid;
++	int r;
++
++	if (!acpidev)
++		return -ENODEV;
++
++	/* fetch the entire edid from BIOS */
++	r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
++	if (r < 0) {
++		DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
++		return r;
++	}
++	if (len > r || start > r || start + len > r) {
++		r = -EINVAL;
++		goto cleanup;
++	}
++
++	memcpy(buf, edid + start, len);
++	r = 0;
++
++cleanup:
++	kfree(edid);
++
++	return r;
++}
++
++static const struct drm_edid *
++dm_helpers_read_acpi_edid(struct amdgpu_dm_connector *aconnector)
++{
++	struct drm_connector *connector = &aconnector->base;
++
++	if (amdgpu_dc_debug_mask & DC_DISABLE_ACPI_EDID)
++		return NULL;
++
++	switch (connector->connector_type) {
++	case DRM_MODE_CONNECTOR_LVDS:
++	case DRM_MODE_CONNECTOR_eDP:
++		break;
++	default:
++		return NULL;
++	}
++
++	if (connector->force == DRM_FORCE_OFF)
++		return NULL;
++
++	return drm_edid_read_custom(connector, dm_helpers_probe_acpi_edid, connector);
++}
++
+ enum dc_edid_status dm_helpers_read_local_edid(
+ 		struct dc_context *ctx,
+ 		struct dc_link *link,
+@@ -896,7 +952,11 @@ enum dc_edid_status dm_helpers_read_local_edid(
+ 	 * do check sum and retry to make sure read correct edid.
+ 	 */
+ 	do {
+-		drm_edid = drm_edid_read_ddc(connector, ddc);
++		drm_edid = dm_helpers_read_acpi_edid(aconnector);
++		if (drm_edid)
++			DRM_DEBUG_KMS("Using ACPI provided EDID for %s\n", connector->name);
++		else
++			drm_edid = drm_edid_read_ddc(connector, ddc);
+ 		drm_edid_connector_update(connector, drm_edid);
+ 		aconnector->drm_edid = drm_edid;
  
- 	edid_caps->manufacturer_id = le16_to_cpu(product_id.manufacturer_name);
-@@ -920,19 +912,23 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 		if (!drm_edid)
- 			return EDID_NO_RESPONSE;
+diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
+index 3f91926a50e9..1ec7c5e5249e 100644
+--- a/drivers/gpu/drm/amd/include/amd_shared.h
++++ b/drivers/gpu/drm/amd/include/amd_shared.h
+@@ -337,6 +337,11 @@ enum DC_DEBUG_MASK {
+ 	 * @DC_FORCE_IPS_ENABLE: If set, force enable all IPS, all the time.
+ 	 */
+ 	DC_FORCE_IPS_ENABLE = 0x4000,
++	/**
++	 * @DC_DISABLE_ACPI_EDID: If set, don't attempt to fetch EDID for
++	 * eDP display from ACPI _DDC method.
++	 */
++	DC_DISABLE_ACPI_EDID = 0x8000,
+ };
  
--		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
-+		/* FIXME: Get rid of drm_edid_raw()
-+		 * Raw edid is still needed for dm_helpers_dp_write_dpcd()
-+		 */
-+		edid = drm_edid_raw(drm_edid);
- 		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
- 		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
- 
- 		edid_status = dm_helpers_parse_edid_caps(
- 						link,
--						&sink->dc_edid,
- 						&sink->edid_caps);
- 
--		/* We don't need the original edid anymore */
--		drm_edid_free(drm_edid);
--
--	} while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
-+		if (edid_status != EDID_OK) {
-+			/* We can discard the drm_edid and retry */
-+			drm_edid_free(drm_edid);
-+			drm_edid_connector_update(connector, drm_edid);
-+		}
-+	} while (edid_status != EDID_OK && --retry > 0);
- 
- 	if (edid_status != EDID_OK)
- 		DRM_ERROR("EDID err: %d, on connector: %s",
-diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-index 2e4a46f1b499..4e1776b5f0d4 100644
---- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-+++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-@@ -61,7 +61,6 @@ void dm_helpers_free_gpu_mem(
- 
- enum dc_edid_status dm_helpers_parse_edid_caps(
- 	struct dc_link *link,
--	const struct dc_edid *edid,
- 	struct dc_edid_caps *edid_caps);
- 
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index d21ee9d12d26..94c911742dd3 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-@@ -1413,10 +1413,8 @@ struct dc_sink *link_add_remote_sink(
- 			dc_sink))
- 		goto fail_add_sink;
- 
--	edid_status = dm_helpers_parse_edid_caps(
--			link,
--			&dc_sink->dc_edid,
--			&dc_sink->edid_caps);
-+	edid_status = dm_helpers_parse_edid_caps(link,
-+						 &dc_sink->edid_caps);
- 
- 	/*
- 	 * Treat device as no EDID device if EDID
+ enum amd_dpm_forced_level;
 -- 
 2.34.1
 
