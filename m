@@ -2,68 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C491197BBC7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 13:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6688D97BBC9
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 13:55:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4568710E255;
-	Wed, 18 Sep 2024 11:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E721C10E251;
+	Wed, 18 Sep 2024 11:55:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L7NEk9hB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QLYb/+41";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B50310E251
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 11:55:17 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a8d56155f51so865648666b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 04:55:17 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3920F10E251
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 11:55:18 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-5c24ebaa427so1125065a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 04:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726660515; x=1727265315; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=9Z7RJn/OX3EE3dFLS31Zgm+/e3Z34XMTjZ23ojfB1qo=;
- b=L7NEk9hBjkZ3AZcSpn9c/qeD/BgGt+NK+DOlyGCWXKPjgDytOGDHl6wSJ+aO12TzX6
- J0Y47vqFB/gCjbuOdXcpWqAld2g1Sz8XNCb8C3tu2wzImQ1iemk80kIZN7A5IncFP7t/
- 1NXhu2uT187Pi0VbSW1S4sKRPsCG8FNUPMiNoBKvOA9SxEeTHtEUg+oYlqwZfsaVFGYG
- HFUKUaiwf3KwmT4WzYg8w/Wqpoh0XUHzrw6karOcbQk35qSUPX3KGAv2S6gb0vh3FEHi
- X+Cah8wRgQuB91p07xGoofdIvI8bm+Jok+ZCGC5NTdCZ5VRg6o1c8v56MunuMUVRvPYV
- 0AVw==
+ d=gmail.com; s=20230601; t=1726660516; x=1727265316; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=b+IEnAh17rPx86HTPr3+SszG4P4edMw5KT10nkvzKf4=;
+ b=QLYb/+41CPGfTGqIJfsfrqXUetKNg7NEvZstooM9OtvaCrTJKQ0nJYRBdRk89fZ5qH
+ jF8xfAltsMzS7vwGZSr42otfzHYHXjbWlX8xHJu6IuFwogZBUpzdNlepGYqfmmHarlpp
+ YHRNnC/zec9FcJ9J4rxD5cZlZpuvnsdhP3MFIVbS6eKtQCGsq8CbdnS1yvvHNanfHJqP
+ +C9QoZSmowT5I2XTw5i/y3DqiDq7tuSvlWhwlFQEWwy48mQCyeZlprLHkg6d+hkNx82d
+ m86TugIedaduBC8E25cl8zzMpgc8S9q/rvfygurLwENoj1RVwk6p7jvkalPg9a0sp7Y7
+ AlDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726660515; x=1727265315;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9Z7RJn/OX3EE3dFLS31Zgm+/e3Z34XMTjZ23ojfB1qo=;
- b=Usy+WlZ5oF15OCad0EnryNxKDPDK+PKJX34eukt4U/QXGFM4D9A1rWlNCcOnTa3uTB
- Ay0BOM2meUSZrRGAv+bamxNervzvlzek9uUqYpR1y6wLJ1EgnrDpNP6MU7edC7UZ19+l
- KYnq5qcM+3sCCYKShbRq0x7IT2EiktoL7fbySogVF0PSOf20eGVxgMBubEyiJAWYsHWj
- eV1ZxInhFyy56iUzM2LvSkEi7Jd48IwstUah8ECnKnLtsnBwyy56pPPyVsptaSD51EVE
- K8veNRu0k5TuTDEczl53NzoeG4MdVQKmzuq0C77PJ/rTQL/5c9aZCdCkQAtIg6plXLlm
- BE2A==
+ d=1e100.net; s=20230601; t=1726660516; x=1727265316;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b+IEnAh17rPx86HTPr3+SszG4P4edMw5KT10nkvzKf4=;
+ b=wSAGGPPZSFfsciRM+y0B314hTqDBny0E5p++TIxTrEClX7qAu7SsjRxpkgQJvyRlKY
+ vjlNMk7ccGtRXp4eYyJDS/TbFJWmfcUTi/VKM6c0ndBB7uMVmH3ZLJoG3Xu5T0Q1VDt4
+ id5C3/p5wZNVzLasOiZy919h1f3RTVX8PgE27wJL+YIJlSdVlzQJR+17B9ptg0z960ZH
+ xASa83a1xaUWMKWFOIyeCqK9hvMSBvmsy/eiIHYYaRelYGysx/mJu04uMoS3qGzngiWu
+ 5LBNWEK6+u49rN2mxiJxjMJTq7zvwdxfzmyeidOfEIqYiXc0OUSMnkG37pxhZis5EZ/m
+ l4UQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1rJaOiK3NpQS2yKiMQLj4RO2/ap7BD89iSwvJsJM3rslACIMf/YCwCxZzukVP+jZq+2k3h7oYP9c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwP8KuilM87lOAwuez0vQMDbUbec3/W/1fs1igQOP90N+H8KOBm
- zSbVQUuEkg698YRTXkVg1HiWalGrwtoAU0adX2Sdu+O07w4Zfreg
-X-Google-Smtp-Source: AGHT+IG4wFN94Yv0d+PnVl2amsN4Hf6nb3weUX0u/t36QbB7MLTU/OpMM61Hp0PIh0fhSX7L080PuQ==
-X-Received: by 2002:a17:907:26c3:b0:a72:50f7:3c6f with SMTP id
- a640c23a62f3a-a9029432757mr2260981866b.14.1726660515060; 
- Wed, 18 Sep 2024 04:55:15 -0700 (PDT)
+ AJvYcCVlhljoy69UqPyIq/VlDuT5AivNo4/ltHr52ND8flNdUN1oaGhl6dbWMlXjR2vfKNjpFunqZmZdSKI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUi94m7/2ZINV3Rda2RawqKktD5JaNWiAE7R2yAjTlhL8jqFyc
+ vSrJHiK+qkk6X86oO6OeGc3yIPtMzf61XceK/5QdLEzZi2dIUA6R
+X-Google-Smtp-Source: AGHT+IGIQEnLUH2F+0BmL9+O02A2TFiGRGngmR1FWPvsYb5yaI1ZCdVF0g+DEhZ3A3D4N9KhSxPoLw==
+X-Received: by 2002:a17:907:3f17:b0:a72:7a71:7f4f with SMTP id
+ a640c23a62f3a-a902a3d2e92mr2517054966b.7.1726660516212; 
+ Wed, 18 Sep 2024 04:55:16 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:155d:1400:17ae:e091:3b52:93d])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a90612df563sm575281966b.151.2024.09.18.04.55.13
+ a640c23a62f3a-a90612df563sm575281966b.151.2024.09.18.04.55.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2024 04:55:14 -0700 (PDT)
+ Wed, 18 Sep 2024 04:55:15 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: sumit.semwal@linaro.org, daniel@ffwll.ch, tursulin@ursulin.net,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 1/2] dma-buf/dma-fence: remove unnecessary callbacks
-Date: Wed, 18 Sep 2024 13:55:12 +0200
-Message-Id: <20240918115513.2716-1-christian.koenig@amd.com>
+Subject: [PATCH 2/2] dma-buf/dma-fence: add wrappers for driver and timeline
+ name
+Date: Wed, 18 Sep 2024 13:55:13 +0200
+Message-Id: <20240918115513.2716-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240918115513.2716-1-christian.koenig@amd.com>
+References: <20240918115513.2716-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -82,184 +86,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fence_value_str and timeline_value_str callbacks were just an
-unnecessary abstraction in the SW sync implementation.
+As discussed with Sima we want dma_fence objects to be able to outlive
+their backend ops. Because of this timeline and driver name shouldn't
+be queried any more after the fence has signaled.
 
-The only caller of those callbacks already knew that the fence in
-questions is a timeline_fence. So print the values directly instead
-of using a redirection.
-
-Additional to that remove the implementations from virtgpu and vgem.
-As far as I can see those were never used in the first place.
+Add wrappers around the two queries and only return an empty string
+if the fence was already signaled. There is still an obvious race
+between signaling and querying the values, but that can only be
+closed if we rework the locking as well.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/sw_sync.c              | 16 ----------------
- drivers/dma-buf/sync_debug.c           | 21 ++-------------------
- drivers/gpu/drm/vgem/vgem_fence.c      | 15 ---------------
- drivers/gpu/drm/virtio/virtgpu_fence.c | 16 ----------------
- include/linux/dma-fence.h              | 21 ---------------------
- 5 files changed, 2 insertions(+), 87 deletions(-)
+ drivers/dma-buf/dma-fence.c                 | 39 ++++++++++++++++++---
+ drivers/dma-buf/sync_file.c                 |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c |  4 +--
+ drivers/gpu/drm/i915/i915_request.c         |  2 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c        |  4 +--
+ include/linux/dma-fence.h                   |  2 ++
+ include/trace/events/dma_fence.h            |  4 +--
+ 8 files changed, 49 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index c353029789cf..f7ce4c6b8b8e 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -178,20 +178,6 @@ static bool timeline_fence_enable_signaling(struct dma_fence *fence)
- 	return true;
- }
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 0393a9bba3a8..d82f6c9ac018 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -538,8 +538,8 @@ void dma_fence_release(struct kref *kref)
+ 	if (WARN(!list_empty(&fence->cb_list) &&
+ 		 !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags),
+ 		 "Fence %s:%s:%llx:%llx released with pending signals!\n",
+-		 fence->ops->get_driver_name(fence),
+-		 fence->ops->get_timeline_name(fence),
++		 dma_fence_driver_name(fence),
++		 dma_fence_timeline_name(fence),
+ 		 fence->context, fence->seqno)) {
+ 		unsigned long flags;
  
--static void timeline_fence_value_str(struct dma_fence *fence,
--				    char *str, int size)
--{
--	snprintf(str, size, "%lld", fence->seqno);
--}
--
--static void timeline_fence_timeline_value_str(struct dma_fence *fence,
--					     char *str, int size)
--{
--	struct sync_timeline *parent = dma_fence_parent(fence);
--
--	snprintf(str, size, "%d", parent->value);
--}
--
- static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+@@ -973,6 +973,37 @@ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+ }
+ EXPORT_SYMBOL(dma_fence_set_deadline);
+ 
++/**
++ * dma_fence_driver_name - return the driver name for a fence
++ * @fence:	the fence to query the driver name on
++ *
++ * Returns the driver name or empty string if the fence is already signaled.
++ */
++const char *dma_fence_driver_name(struct dma_fence *fence)
++{
++	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
++		return "";
++
++	return fence->ops->get_driver_name(fence);
++}
++EXPORT_SYMBOL(dma_fence_driver_name);
++
++/**
++ * dma_fence_timeline_name - return the name of the fence context
++ * @fence:	the fence to query the context on
++ *
++ * Returns the name of the context this fence belongs to or empty string if the
++ * fence is already signaled.
++ */
++const char *dma_fence_timeline_name(struct dma_fence *fence)
++{
++	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
++		return "";
++
++	return fence->ops->get_timeline_name(fence);
++}
++EXPORT_SYMBOL(dma_fence_timeline_name);
++
+ /**
+  * dma_fence_describe - Dump fence description into seq_file
+  * @fence: the fence to describe
+@@ -983,8 +1014,8 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
+ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
  {
- 	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
-@@ -214,8 +200,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
- 	.enable_signaling = timeline_fence_enable_signaling,
- 	.signaled = timeline_fence_signaled,
- 	.release = timeline_fence_release,
--	.fence_value_str = timeline_fence_value_str,
--	.timeline_value_str = timeline_fence_timeline_value_str,
- 	.set_deadline = timeline_fence_set_deadline,
- };
+ 	seq_printf(seq, "%s %s seq %llu %ssignalled\n",
+-		   fence->ops->get_driver_name(fence),
+-		   fence->ops->get_timeline_name(fence), fence->seqno,
++		   dma_fence_driver_name(fence),
++		   dma_fence_timeline_name(fence), fence->seqno,
+ 		   dma_fence_is_signaled(fence) ? "" : "un");
+ }
+ EXPORT_SYMBOL(dma_fence_describe);
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index d9b1c1b2a72b..212df4b849fe 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -137,8 +137,8 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
+ 		struct dma_fence *fence = sync_file->fence;
  
-diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
-index 237bce21d1e7..270daae7d89a 100644
---- a/drivers/dma-buf/sync_debug.c
-+++ b/drivers/dma-buf/sync_debug.c
-@@ -82,25 +82,8 @@ static void sync_print_fence(struct seq_file *s,
- 		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
+ 		snprintf(buf, len, "%s-%s%llu-%lld",
+-			 fence->ops->get_driver_name(fence),
+-			 fence->ops->get_timeline_name(fence),
++			 dma_fence_driver_name(fence),
++			 dma_fence_timeline_name(fence),
+ 			 fence->context,
+ 			 fence->seqno);
  	}
+@@ -262,9 +262,9 @@ static long sync_file_ioctl_merge(struct sync_file *sync_file,
+ static int sync_fill_fence_info(struct dma_fence *fence,
+ 				 struct sync_fence_info *info)
+ {
+-	strscpy(info->obj_name, fence->ops->get_timeline_name(fence),
++	strscpy(info->obj_name, dma_fence_timeline_name(fence),
+ 		sizeof(info->obj_name));
+-	strscpy(info->driver_name, fence->ops->get_driver_name(fence),
++	strscpy(info->driver_name, dma_fence_driver_name(fence),
+ 		sizeof(info->driver_name));
  
--	if (fence->ops->timeline_value_str &&
--		fence->ops->fence_value_str) {
--		char value[64];
--		bool success;
--
--		fence->ops->fence_value_str(fence, value, sizeof(value));
--		success = strlen(value);
--
--		if (success) {
--			seq_printf(s, ": %s", value);
--
--			fence->ops->timeline_value_str(fence, value,
--						       sizeof(value));
--
--			if (strlen(value))
--				seq_printf(s, " / %s", value);
--		}
--	}
--
-+	seq_printf(s, ": %lld", fence->seqno);
-+	seq_printf(s, " / %d", parent->value);
- 	seq_putc(s, '\n');
- }
+ 	info->status = dma_fence_get_status(fence);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+index 383fce40d4dd..224a40e03b36 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+@@ -33,7 +33,7 @@
+ #define TRACE_INCLUDE_FILE amdgpu_trace
  
-diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
-index e15754178395..5298d995faa7 100644
---- a/drivers/gpu/drm/vgem/vgem_fence.c
-+++ b/drivers/gpu/drm/vgem/vgem_fence.c
-@@ -53,25 +53,10 @@ static void vgem_fence_release(struct dma_fence *base)
- 	dma_fence_free(&fence->base);
- }
+ #define AMDGPU_JOB_GET_TIMELINE_NAME(job) \
+-	 job->base.s_fence->finished.ops->get_timeline_name(&job->base.s_fence->finished)
++	dma_fence_timeline_name(&job->base.s_fence->finished)
  
--static void vgem_fence_value_str(struct dma_fence *fence, char *str, int size)
--{
--	snprintf(str, size, "%llu", fence->seqno);
--}
--
--static void vgem_fence_timeline_value_str(struct dma_fence *fence, char *str,
--					  int size)
--{
--	snprintf(str, size, "%llu",
--		 dma_fence_is_signaled(fence) ? fence->seqno : 0);
--}
--
- static const struct dma_fence_ops vgem_fence_ops = {
- 	.get_driver_name = vgem_fence_get_driver_name,
- 	.get_timeline_name = vgem_fence_get_timeline_name,
- 	.release = vgem_fence_release,
--
--	.fence_value_str = vgem_fence_value_str,
--	.timeline_value_str = vgem_fence_timeline_value_str,
- };
+ TRACE_EVENT(amdgpu_device_rreg,
+ 	    TP_PROTO(unsigned did, uint32_t reg, uint32_t value),
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+index d1a382dfaa1d..ae3557ed6c1e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+@@ -252,8 +252,8 @@ void intel_gt_watchdog_work(struct work_struct *work)
+ 			struct dma_fence *f = &rq->fence;
  
- static void vgem_fence_timeout(struct timer_list *t)
-diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
-index f28357dbde35..44c1d8ef3c4d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_fence.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
-@@ -49,26 +49,10 @@ static bool virtio_gpu_fence_signaled(struct dma_fence *f)
- 	return false;
- }
+ 			pr_notice("Fence expiration time out i915-%s:%s:%llx!\n",
+-				  f->ops->get_driver_name(f),
+-				  f->ops->get_timeline_name(f),
++				  dma_fence_driver_name(f),
++				  dma_fence_timeline_name(f),
+ 				  f->seqno);
+ 			i915_request_cancel(rq, -EINTR);
+ 		}
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 519e096c607c..aaec28fd4864 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -2184,7 +2184,7 @@ void i915_request_show(struct drm_printer *m,
+ 		       const char *prefix,
+ 		       int indent)
+ {
+-	const char *name = rq->fence.ops->get_timeline_name((struct dma_fence *)&rq->fence);
++	const char *name = dma_fence_timeline_name((struct dma_fence *)&rq->fence);
+ 	char buf[80] = "";
+ 	int x = 0;
  
--static void virtio_gpu_fence_value_str(struct dma_fence *f, char *str, int size)
--{
--	snprintf(str, size, "[%llu, %llu]", f->context, f->seqno);
--}
--
--static void virtio_gpu_timeline_value_str(struct dma_fence *f, char *str,
--					  int size)
--{
--	struct virtio_gpu_fence *fence = to_virtio_gpu_fence(f);
--
--	snprintf(str, size, "%llu",
--		 (u64)atomic64_read(&fence->drv->last_fence_id));
--}
--
- static const struct dma_fence_ops virtio_gpu_fence_ops = {
- 	.get_driver_name     = virtio_gpu_get_driver_name,
- 	.get_timeline_name   = virtio_gpu_get_timeline_name,
- 	.signaled            = virtio_gpu_fence_signaled,
--	.fence_value_str     = virtio_gpu_fence_value_str,
--	.timeline_value_str  = virtio_gpu_timeline_value_str,
- };
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+index 8a9aad523eec..b805ce8b8ab8 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence.c
++++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+@@ -435,8 +435,8 @@ static void timer_i915_sw_fence_wake(struct timer_list *t)
+ 		return;
  
- struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
+ 	pr_notice("Asynchronous wait on fence %s:%s:%llx timed out (hint:%ps)\n",
+-		  cb->dma->ops->get_driver_name(cb->dma),
+-		  cb->dma->ops->get_timeline_name(cb->dma),
++		  dma_fence_driver_name(cb->dma),
++		  dma_fence_timeline_name(cb->dma),
+ 		  cb->dma->seqno,
+ 		  i915_sw_fence_debug_hint(fence));
+ 
 diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index e7ad819962e3..cf91cae6e30f 100644
+index cf91cae6e30f..4b0634e42a36 100644
 --- a/include/linux/dma-fence.h
 +++ b/include/linux/dma-fence.h
-@@ -238,27 +238,6 @@ struct dma_fence_ops {
- 	 */
- 	void (*release)(struct dma_fence *fence);
+@@ -264,6 +264,8 @@ void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
  
--	/**
--	 * @fence_value_str:
--	 *
--	 * Callback to fill in free-form debug info specific to this fence, like
--	 * the sequence number.
--	 *
--	 * This callback is optional.
--	 */
--	void (*fence_value_str)(struct dma_fence *fence, char *str, int size);
--
--	/**
--	 * @timeline_value_str:
--	 *
--	 * Fills in the current value of the timeline as a string, like the
--	 * sequence number. Note that the specific fence passed to this function
--	 * should not matter, drivers should only use it to look up the
--	 * corresponding timeline structures.
--	 */
--	void (*timeline_value_str)(struct dma_fence *fence,
--				   char *str, int size);
--
- 	/**
- 	 * @set_deadline:
- 	 *
+ void dma_fence_release(struct kref *kref);
+ void dma_fence_free(struct dma_fence *fence);
++const char *dma_fence_driver_name(struct dma_fence *fence);
++const char *dma_fence_timeline_name(struct dma_fence *fence);
+ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+ 
+ /**
+diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
+index a4de3df8500b..84c83074ee81 100644
+--- a/include/trace/events/dma_fence.h
++++ b/include/trace/events/dma_fence.h
+@@ -16,8 +16,8 @@ DECLARE_EVENT_CLASS(dma_fence,
+ 	TP_ARGS(fence),
+ 
+ 	TP_STRUCT__entry(
+-		__string(driver, fence->ops->get_driver_name(fence))
+-		__string(timeline, fence->ops->get_timeline_name(fence))
++		__string(driver, dma_fence_driver_name(fence))
++		__string(timeline, dma_fence_timeline_name(fence))
+ 		__field(unsigned int, context)
+ 		__field(unsigned int, seqno)
+ 	),
 -- 
 2.34.1
 
