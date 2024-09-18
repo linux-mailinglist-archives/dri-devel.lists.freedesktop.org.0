@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8FC97B9A1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 10:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EAD97B9A7
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 10:57:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 662D810E18A;
-	Wed, 18 Sep 2024 08:54:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mary.guillemard@collabora.com header.b="lHkVF0ht";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234B110E564;
+	Wed, 18 Sep 2024 08:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E3810E18A
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 08:54:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1726649647; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SJRn11XEnlanBSLP6sC6TyydwVCQ7DYRENByuQGuJ+MfT1y8n0nk/fsTKL+uCidVfbOx9krD2QJpCFhrZbdVLIBXwiM47n+BgYy9GhUQPiOdleaQGliEaNH+/PHGgrAboRnpMQwfEhzYYwb4ohFH88cpdoEr5P1IuwV/cYtKukk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1726649647;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=dllsse1ukskOvEmQg/58+68rmkSOqjApie4FUwPoeJ8=; 
- b=g5T/SE9hQRiTWOlBVkeNbZX6BZgvWjzdFZq/PlcHDfr8Wrozv4aD3i+CWpO2vcHXIfJs162KgW8HBsuYBWchqNeGsDAE9qZCJvT37oj0427KRYUjgcRv37cEENNhea5ZbfM0xmRQAN7WLrQMmJydRPbVBOVgUdZGtbbKRvynA0A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mary.guillemard@collabora.com;
- dmarc=pass header.from=<mary.guillemard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726649647; 
- s=zohomail; d=collabora.com; i=mary.guillemard@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=dllsse1ukskOvEmQg/58+68rmkSOqjApie4FUwPoeJ8=;
- b=lHkVF0ht7fLVQf0t/YOZqEqBad2J9SXtJvsiDvvYlPQNePJDCHW0noZeQe1Z0bXD
- PVF4y+oLCkybyeuIKiRS9MP6MAf9XALc9PF38oEMOGCBRyVYC+0E0CgNK8QP1QcujUn
- 3sw9y0Vsnt+b6nuoh0SXqrigbsvdKwN+uy7Q3lLM=
-Received: by mx.zohomail.com with SMTPS id 1726649646092669.3219050924438;
- Wed, 18 Sep 2024 01:54:06 -0700 (PDT)
-From: Mary Guillemard <mary.guillemard@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Christopher Healy <healych@amazon.com>, kernel@collabora.com,
- Mary Guillemard <mary.guillemard@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/panthor: Expose scheduler groups info in debugfs
-Date: Wed, 18 Sep 2024 10:50:56 +0200
-Message-ID: <20240918085056.24422-4-mary.guillemard@collabora.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240918085056.24422-2-mary.guillemard@collabora.com>
-References: <20240918085056.24422-2-mary.guillemard@collabora.com>
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CB7E10E564
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 08:56:56 +0000 (UTC)
+Received: from localhost (unknown [124.16.138.129])
+ by APP-03 (Coremail) with SMTP id rQCowAAHD9fNlepmqNFiBA--.408S2;
+ Wed, 18 Sep 2024 16:56:46 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: stefan@agner.ch, alison.wang@nxp.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH net-next] sfc: remove newlines in NL_SET_ERR_MSG_MOD
+Date: Wed, 18 Sep 2024 16:56:14 +0800
+Message-Id: <20240918085614.2508563-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-CM-TRANSID: rQCowAAHD9fNlepmqNFiBA--.408S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZF4fXw18Zw1UKFyxGw43trb_yoWfWFXEkF
+ 4q9F43JF4rZrWj9a1FyF4Y9a4Y934DXws5ZFZ2yayaq39rZa4Iq395Xr17Jw1DWry0kF9r
+ Wr9xWFWIy342yjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbTkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrw
+ CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+ 14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+ IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
+ x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+ 0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUPOz3UUUUU=
+X-Originating-IP: [124.16.138.129]
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,187 +60,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a new debugfs file named "sched_groups" allowing a user to
-query information about all userspace clients scheduler groups.
+Fix following coccicheck warning:
+./drivers/net/ethernet/sfc/tc.c:1584:29-80: WARNING avoid newline at end
+of message in NL_SET_ERR_MSG_MOD
 
-As we uses drm_device.filelist to achieve it, we also expose the
-client_id with the task information to differentiate one client
-from another inside the same task.
-
-Signed-off-by: Mary Guillemard <mary.guillemard@collabora.com>
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c   |   1 +
- drivers/gpu/drm/panthor/panthor_sched.c | 127 ++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_sched.h |   4 +
- 3 files changed, 132 insertions(+)
+ drivers/net/ethernet/sfc/tc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 0d825d63d712..aa390597d355 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1450,6 +1450,7 @@ static const struct file_operations panthor_drm_driver_fops = {
- static void panthor_debugfs_init(struct drm_minor *minor)
- {
- 	panthor_mmu_debugfs_init(minor);
-+	panthor_sched_debugfs_init(minor);
- }
- #endif
+diff --git a/drivers/net/ethernet/sfc/tc.c b/drivers/net/ethernet/sfc/tc.c
+index 0d93164988fc..e2cd20350178 100644
+--- a/drivers/net/ethernet/sfc/tc.c
++++ b/drivers/net/ethernet/sfc/tc.c
+@@ -1581,7 +1581,7 @@ static int efx_tc_flower_replace_foreign_lhs(struct efx_nic *efx,
  
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index f15abeef4ece..0c1ddbfbe164 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- /* Copyright 2023 Collabora ltd. */
+ 	type = efx_tc_indr_netdev_type(net_dev);
+ 	if (type == EFX_ENCAP_TYPE_NONE) {
+-		NL_SET_ERR_MSG_MOD(extack, "Egress encap match on unsupported tunnel device\n");
++		NL_SET_ERR_MSG_MOD(extack, "Egress encap match on unsupported tunnel device");
+ 		return -EOPNOTSUPP;
+ 	}
  
-+#include <drm/drm_debugfs.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_exec.h>
- #include <drm/drm_gem_shmem_helper.h>
-@@ -3581,3 +3582,129 @@ int panthor_sched_init(struct panthor_device *ptdev)
- 	ptdev->scheduler = sched;
- 	return 0;
- }
-+
-+#ifdef CONFIG_DEBUG_FS
-+static const char *panthor_csg_priority_names[PANTHOR_CSG_PRIORITY_COUNT] = {
-+	"LOW",
-+	"MEDIUM",
-+	"HIGH",
-+	"REALTIME"
-+};
-+
-+static const char *panthor_group_state_names[PANTHOR_CS_GROUP_UNKNOWN_STATE] = {
-+	"CREATED",
-+	"ACTIVE",
-+	"SUSPENDED",
-+	"TERMINATED"
-+};
-+
-+static void show_panthor_queue(const struct panthor_queue *queue,
-+			       u32 queue_index,
-+			       struct seq_file *m)
-+{
-+	seq_printf(m, "queue %u:", queue_index);
-+	seq_printf(m, " priority %u", queue->priority);
-+	seq_printf(m, " doorbell_id %d", queue->doorbell_id);
-+	seq_puts(m, "\n");
-+}
-+
-+static void show_panthor_group(struct panthor_group *group,
-+			       u32 group_handle,
-+			       struct seq_file *m)
-+{
-+	u32 i;
-+
-+	group_get(group);
-+
-+	seq_printf(m, "group %u:", group_handle);
-+	seq_printf(m, " priority %s", group->priority < PANTHOR_CSG_PRIORITY_COUNT ?
-+		   panthor_csg_priority_names[group->priority] : "UNKNOWN");
-+	seq_printf(m, " state %s", group->state < PANTHOR_CS_GROUP_UNKNOWN_STATE ?
-+		   panthor_group_state_names[group->state] : "UNKNOWN");
-+	seq_printf(m, " csg_id %d", group->csg_id);
-+	seq_printf(m, " csg_priority %d", group->csg_priority);
-+	seq_printf(m, " compute_core_mask 0x%016llx", group->compute_core_mask);
-+	seq_printf(m, " fragment_core_mask 0x%016llx", group->fragment_core_mask);
-+	seq_printf(m, " tiler_core_mask 0x%016llx", group->tiler_core_mask);
-+	seq_printf(m, " max_compute_cores %d", group->max_compute_cores);
-+	seq_printf(m, " max_fragment_cores %d", group->max_fragment_cores);
-+	seq_printf(m, " max_tiler_cores %d", group->max_tiler_cores);
-+	seq_puts(m, "\n");
-+
-+	for (i = 0; i < group->queue_count; i++)
-+		show_panthor_queue(group->queues[i], i, m);
-+
-+	group_put(group);
-+}
-+
-+static int show_file_group_pool(const struct panthor_file *pfile, struct seq_file *m)
-+{
-+	struct panthor_group_pool *gpool = pfile->groups;
-+	struct panthor_group *group;
-+	unsigned long i;
-+
-+	if (IS_ERR_OR_NULL(gpool))
-+		return 0;
-+
-+	xa_for_each(&gpool->xa, i, group)
-+		show_panthor_group(group, i, m);
-+
-+	return 0;
-+}
-+
-+static int show_each_file(struct seq_file *m, void *arg)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *)m->private;
-+	struct drm_device *ddev = node->minor->dev;
-+	int (*show)(const struct panthor_file *, struct seq_file *) = node->info_ent->data;
-+	struct drm_file *file;
-+	int ret;
-+
-+	ret = mutex_lock_interruptible(&ddev->filelist_mutex);
-+	if (ret)
-+		return ret;
-+
-+	list_for_each_entry(file, &ddev->filelist, lhead) {
-+		struct task_struct *task;
-+		struct panthor_file *pfile = file->driver_priv;
-+		struct pid *pid;
-+
-+		/*
-+		 * Although we have a valid reference on file->pid, that does
-+		 * not guarantee that the task_struct who called get_pid() is
-+		 * still alive (e.g. get_pid(current) => fork() => exit()).
-+		 * Therefore, we need to protect this ->comm access using RCU.
-+		 */
-+		rcu_read_lock();
-+		pid = rcu_dereference(file->pid);
-+		task = pid_task(pid, PIDTYPE_TGID);
-+		seq_printf(m, "client_id %8llu pid %8d command %s:\n", file->client_id,
-+			   pid_nr(pid), task ? task->comm : "<unknown>");
-+		rcu_read_unlock();
-+
-+		ret = show(pfile, m);
-+		if (ret < 0)
-+			break;
-+
-+		seq_puts(m, "\n");
-+	}
-+
-+	mutex_unlock(&ddev->filelist_mutex);
-+	return ret;
-+}
-+
-+static struct drm_info_list panthor_sched_debugfs_list[] = {
-+	{ "sched_groups", show_each_file, 0, show_file_group_pool },
-+};
-+
-+/**
-+ * panthor_sched_debugfs_init() - Initialize scheduler debugfs entries
-+ * @minor: Minor.
-+ */
-+void panthor_sched_debugfs_init(struct drm_minor *minor)
-+{
-+	drm_debugfs_create_files(panthor_sched_debugfs_list,
-+				 ARRAY_SIZE(panthor_sched_debugfs_list),
-+				 minor->debugfs_root, minor);
-+}
-+#endif /* CONFIG_DEBUG_FS */
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
-index 3a30d2328b30..577239aa66bf 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.h
-+++ b/drivers/gpu/drm/panthor/panthor_sched.h
-@@ -47,4 +47,8 @@ void panthor_sched_resume(struct panthor_device *ptdev);
- void panthor_sched_report_mmu_fault(struct panthor_device *ptdev);
- void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events);
- 
-+#ifdef CONFIG_DEBUG_FS
-+void panthor_sched_debugfs_init(struct drm_minor *minor);
-+#endif
-+
- #endif
 -- 
-2.46.0
+2.25.1
 
