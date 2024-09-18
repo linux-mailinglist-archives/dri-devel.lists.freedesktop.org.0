@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C5197BD29
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 15:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A1297BD2A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 15:39:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27AF410E5A4;
-	Wed, 18 Sep 2024 13:38:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F24510E1AE;
+	Wed, 18 Sep 2024 13:39:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Sr881fBs";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ifdgk4eC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16CD510E1AE;
- Wed, 18 Sep 2024 13:38:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 73A28A438D4;
- Wed, 18 Sep 2024 13:38:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49985C4CEC3;
- Wed, 18 Sep 2024 13:38:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726666729;
- bh=yRPq43EYLk/2EzyDM6tG0c8iqpX450B91OXwoyOimAc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sr881fBs+dGrmaBALleXBYM+IUQ9mG5hugrO//ONmJXr4DUIShArn1NXHSbUP5AIn
- uQpfwbInbK3PvcGjrGts+InBaRSv+dsjJ3kOSStZKmRRyCPi4TGjCr1A8PgMSPWS27
- LgQ5D8hiKFSXj7s/1noF4MbJ1q67H/K5roJE0vw5Of2+1N4wBXgEhEaM+hKGXGFNwR
- kGbr25WPzBuXBsi+oYCVYUQzQtvvecFgHLPmPyeEgQCcDKRHNrCGnUPEgPIkRjdLD0
- AGj7Oe+7k5UCzUKAr1Elfep6IJsmMyyx3Wm+a5gIW0/FbqaTm8akh8ah+vGruMQvDw
- k30EeF6xvYdug==
-Date: Wed, 18 Sep 2024 15:38:43 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Tomas Winkler <tomas.winkler@intel.com>,
- Vitaly Lubart <vitaly.lubart@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v6 04/12] spi: intel-dg: spi register with mtd
-Message-ID: <ZurX4xcy7TK45Omq@finisterre.sirena.org.uk>
-References: <20240916134928.3654054-1-alexander.usyskin@intel.com>
- <20240916134928.3654054-5-alexander.usyskin@intel.com>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36FD710E1AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 13:39:28 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 19ED01C000F;
+ Wed, 18 Sep 2024 13:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1726666766;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rVeKnWxaNpVxsIAc9HPLTlzEDqHJ7vPdmZMa8pzgBis=;
+ b=ifdgk4eCesLWlfrokNQRvSdunE47acjIsd2ra+9Jsdl3wNjGlgYLrdaDvSF6t/rtKJ+C+v
+ vlFYWnW5fGo/ymEKSgYkH4oae/T8A7cXrhRKZMhaTqKDFYuzlZRdTwDl9sbSZ4IiYy2NdE
+ wimorRXNCM93+DxNE4jg+WGF4dk8Pl9eRDKDGsAjAscjOdCYJOPlE2FdXISJOBSIetQzWZ
+ k9gMf1kbbp1Cl15RW3IaFqRK2M0puu41TlP8EITcDzrDYw+peccPLJ22eZKWwqXgyJ6DSQ
+ vdaatoovlsjIisHUJe/uS4skqjsq1UJ4i8KxI2AS75Sdd0C1I/yPQVc5qq0yUQ==
+Date: Wed, 18 Sep 2024 15:39:23 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ melissa.srw@gmail.com, mripard@kernel.org,
+ rodrigosiqueiramelo@gmail.com, thomas.petazzoni@bootlin.com,
+ tzimmermann@suse.de
+Subject: Re: [PATCH] drm/vkms: Add missing check for CRTC initialization
+Message-ID: <ZurYC1Ez8K0UsJ_Y@localhost.localdomain>
+Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
+ <jose.exposito89@gmail.com>, 
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ melissa.srw@gmail.com, mripard@kernel.org,
+ rodrigosiqueiramelo@gmail.com, thomas.petazzoni@bootlin.com,
+ tzimmermann@suse.de
+References: <20240906-vkms-add-missing-check-v1-1-1afb3bf3d0a6@bootlin.com>
+ <20240917160208.2905-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="BOpsQOSM3Yla4fmU"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240916134928.3654054-5-alexander.usyskin@intel.com>
-X-Cookie: Editing is a rewording activity.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240917160208.2905-1-jose.exposito89@gmail.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +72,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Le 17/09/24 - 18:02, José Expósito a écrit :
+> Hi Louis,
+> 
+> > CRTC initialization call drm_mode_crtc_set_gamma_size without the proper
+> > checks, introduce this check to avoid issues.
+> > 
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> 
+> Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+> 
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_crtc.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > 
+> > ---
+> > base-commit: a6bb1f77a94335de67dba12e7f52651c115b82d2
+> > change-id: 20240906-vkms-add-missing-check-e1b6ee8d1b39
+> > 
+> > Best regards,
+> > 
+> > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > index 40b4d084e3ce..e4f93dfbd071 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > @@ -287,7 +287,12 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+> >  
+> >  	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
+> >  
+> > -	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
+> > +	ret = drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
+> > +	if (ret) {
+> > +		DRM_ERROR("Failed to set gamma size\n");
+> 
+> This will conflit with "drm/vkms: Switch to dynamic allocation
+> for CRTC" [1], where you switched to DRM_DEV_ERROR.
 
---BOpsQOSM3Yla4fmU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I did not check if my series had conflict between them, so I'm not 
+surprised. I will change it to the DEV variant and send a v2, espicially 
+since Leo [1] wants to work to clean the logging in VKMS :-)
 
-On Mon, Sep 16, 2024 at 04:49:20PM +0300, Alexander Usyskin wrote:
+[1]:https://lore.kernel.org/all/CAHhBtNqB=jQTnY1eu8or=toczr93ehUeuBkAZ7axFPr4ZHPjCQ@mail.gmail.com/
 
-> From: Tomas Winkler <tomas.winkler@intel.com>
->=20
-> Register the on-die spi device with the mtd subsystem.
-> Refcount spi object on _get and _put mtd callbacks.
-
-This is a MTD driver, it should be in drivers/mtd.
-
-> +static int intel_dg_spi_erase(struct mtd_info *mtd, struct erase_info *i=
-nfo)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int intel_dg_spi_read(struct mtd_info *mtd, loff_t from, size_t l=
-en,
-> +			     size_t *retlen, u_char *buf)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int intel_dg_spi_write(struct mtd_info *mtd, loff_t to, size_t le=
-n,
-> +			      size_t *retlen, const u_char *buf)
-> +{
-> +	return 0;
-> +}
-
-If these functions can legitimately be empty they should be removed.
-
---BOpsQOSM3Yla4fmU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbq1+MACgkQJNaLcl1U
-h9Ayagf9GPGo4W57/efjC84ILvNOGI01XOT5VcydyCnDW7yLFbLVZx4itXNHOQdo
-FxDfbUojjK/z4006rT0QARLDtVZASgEy27GwNRwNvbVCFHghZbjx4YA8PWuj0dFx
-QuN1M0gGrzkXlDIjdKfv521VwYjzvcxjGFKjFJu3qP10UkhL57dS/0Do/Wpdxy0I
-lTPf0CiK9k4qKoLBRMnQQl3Zu31EtVI2fIHd9K+2ZAiWodDEW+RlO/v/ScCLd8jT
-otJ2YUe+jBVaUZrMVhZxazYCOGAhhGXIfY5HRe5KyKFaDaVBUvjKFtgREomKPh8y
-dyFiKCPztQSgFSPjfD8lr5D+5Usd9A==
-=lK/X
------END PGP SIGNATURE-----
-
---BOpsQOSM3Yla4fmU--
+> No proferences about the log function, just a heads up so when
+> you rebase one of the patches we keep logging consistent.
+> 
+> [1] https://patchwork.kernel.org/project/dri-devel/patch/20240912-b4-vkms-allocated-v1-3-29abbaa14af9@bootlin.com/
+> 
+> > +		return ret;
+> > +	}
+> > +
+> >  	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
+> >  
+> >  	spin_lock_init(&vkms_out->lock);
+> > 
