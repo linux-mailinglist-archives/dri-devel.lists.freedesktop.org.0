@@ -2,67 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A6197BC4A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 14:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D716A97BC8C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 14:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD56210E585;
-	Wed, 18 Sep 2024 12:34:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18A8E10E081;
+	Wed, 18 Sep 2024 12:53:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OnCIt62M";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EozqlIxc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D48D410E155;
- Wed, 18 Sep 2024 12:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726662871; x=1758198871;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=bZbV7ze0i1dB7v5BDyvTK4JJd7HVSRJeS0x/d1Wd2Hk=;
- b=OnCIt62MM2qkdjZFJHmSYKtrmmjA4OLhHTizeS4pMdxJIla2jJlkL1av
- 6RJvyd4MWGq+yRJ6F4OZ1qkJbaji/D9m/4tmQjUsVplsYRlltRINRcbWk
- mXvRqcXf6j9wSrlu9GUSZY3wL8IdiNrPDabYew03GQv25KsXRCXnoB9BY
- CqymMk4QdSokLjVjdBLqJoVuGk8qtTLcrjyCbkK1RKw/oVJxYzna7yPe5
- oUlNyMg/5mbmyJ60Gxr5mFFoL+vits1kDyXX+T3hWAb/HH2QFPpwCkL1Y
- I6cQVxBf/kd4u0ZrXyICqeekdcn5pz1KNV299v4gApzsZmCrpok7b+Xua A==;
-X-CSE-ConnectionGUID: 7AqMeKCMQ669AFCwqj1FRQ==
-X-CSE-MsgGUID: 7ZWCayBgSZyulrJGFTxk7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36237861"
-X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; d="scan'208";a="36237861"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2024 05:34:31 -0700
-X-CSE-ConnectionGUID: ZTeNLq2IQpG0/jAfu09X1w==
-X-CSE-MsgGUID: 3yHErZuyS/eQ9cnbMe4SdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; d="scan'208";a="70021600"
-Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
- [10.245.245.230]) ([10.245.245.230])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2024 05:34:28 -0700
-Message-ID: <a97c5f63053000b5fcfc14cb56c79c8ff976b4ad.camel@linux.intel.com>
-Subject: RESEND Re: [RFC PATCH] dma-buf/dma-fence: Use a successful
- read_trylock() annotation for dma_fence_begin_signalling()
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian Koenig <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
- linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Date: Wed, 18 Sep 2024 14:34:26 +0200
-In-Reply-To: <0d406a89b1b63ebf53c5d0848843c72299c1ff75.camel@linux.intel.com>
-References: <20230428125233.228353-1-thomas.hellstrom@linux.intel.com>
- <be9b192a-a125-6774-bb4f-8b9fb517ce0d@linux.intel.com>
- <ZrxYdIDdEJXRTFrn@phenom.ffwll.local>
- <0d406a89b1b63ebf53c5d0848843c72299c1ff75.camel@linux.intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
+ [209.85.222.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD74210E081
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 12:53:47 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id
+ a1e0cc1a2514c-846d1ba933eso1452468241.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 05:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726664027; x=1727268827; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/g9NdqeVcPa5WEMV/Sz1b6LsprRcVfh5a8jA898vriU=;
+ b=EozqlIxcsL51e7udh4c9BvZcL4ca/dcUao2MfIe/7G/dwrPUg9qfX5WjTvBBZ05777
+ 6clr8DIgphACstckEi2cvf1jQPQDwGlr6Gh5Ow4l0qPBL8qR1o/7G9/jJtf8gwa1wcm/
+ VGVsfNF8z/4Iw/KUVFI4F9PGjKhFxJLH3yULui/PLV0OVqu0CYdW42RDq/kuSLJ19SCZ
+ ZRSe4U3KGWA9Hhh6PGylWmJS+Bh2dEolc9cn8qQcoRFIVg7l5T1aeDsskN9/y+iHdyRN
+ 12wDf1iB4OXQRxCY9oAmzzl6Dox0831XYaqmrACIkZqOsneQyO12huBs2xO97VeW96fA
+ T9dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726664027; x=1727268827;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/g9NdqeVcPa5WEMV/Sz1b6LsprRcVfh5a8jA898vriU=;
+ b=XohjevABNYEAzE44cLw7gQ8PF+ZTX3CgPAhEsb/GxfOhwTKlByDs3gCaeuB9xG1qD7
+ 82WJpBkVgqUUXSkZPYONaqttjbR295r0/XlgGy9C1lhKuIFdv86sVSyj3rOeJ7wCeYW3
+ km/WLSyu2mwgXt/0d6ePBIwd3vfDrGq1ihV0afDEPX1mZpJo8uEmGdmhZ50wTUvBX82c
+ 2djcT+uW026TShD3zrLX8ScCqcvb1fBMTM18umAEamr3IhX562WV34DgHENtVG7SQvhm
+ YkhzwW7n/3lS+C5mrIJkhtsB7KyUlMQskQ8wz0tfD7QASd8zt+Jcsu/oXpN1yIlYZwxS
+ Zv7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUuDNo7sRhD4Rlg38zF0a/zBeWZGW70DxQhOolYwdnXUFxJkx6lToI+ZcoBj2mB5i2DiqoFpfyiDCs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRGUrCFznhp1nZAoeFFrggsPHaS2wtm8cDZhR9GksOgNKfNt4a
+ CCiqC9z+Y2Wl/eIGs0M5Rv058rxMAord56aFYMjaBokrcEoUiFR0jMvUgZaQER4gy9S8/CfK9zk
+ aZoY0R1VzLfwsmJmycLD2LldgmJo=
+X-Google-Smtp-Source: AGHT+IFGmph15ldtpeLTYgiO51oUhmQH5ahITzDspFrnSZzNrk9TuFGJLzehC4MTF6p1O8lGGsMcGjzI/fRVh7pjEYU=
+X-Received: by 2002:a05:6102:3746:b0:49b:facb:15f0 with SMTP id
+ ada2fe7eead31-49d4147e852mr16147058137.12.1726664026626; Wed, 18 Sep 2024
+ 05:53:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-8-2d2efd5c5877@gmail.com>
+ <wywp6vj2pqqe7to55k7ssh5sbqrmy7emvwruvm2waytancf3r4@aygtw3y6huwx>
+In-Reply-To: <wywp6vj2pqqe7to55k7ssh5sbqrmy7emvwruvm2waytancf3r4@aygtw3y6huwx>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Wed, 18 Sep 2024 15:53:34 +0300
+Message-ID: <CABTCjFAvXYrRJS3Dwf-TMq3OW_vN1hskk+qPjosbRym7xOvy1Q@mail.gmail.com>
+Subject: Re: [PATCH v4 08/27] mfd: max77693: remove unused declarations
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
+ cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,147 +100,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Christian,
+=D0=BF=D0=BD, 16 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 12:1=
+0, Krzysztof Kozlowski <krzk@kernel.org>:
+>
+> On Fri, Sep 13, 2024 at 06:07:51PM +0300, Dzmitry Sankouski wrote:
+> > Remove `enum max77693_irq_source` declaration because unused.
+> >
+> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> > ---
+> >  include/linux/mfd/max77693-private.h | 11 -----------
+> >  1 file changed, 11 deletions(-)
+>
+> Please split your patchset per subsystems. There is no dependency on MFD
+> bits from your DTS... (if there is, this needs to be fixed anyway)
 
-Ping?
-
-
-On Wed, 2024-08-14 at 10:37 +0200, Thomas Hellstr=C3=B6m wrote:
-> Christian,
->=20
-> Ack to merge this through drm-misc-next, or do you want to pick it up
-> for dma-buf?
->=20
-> Thanks,
-> Thomas
->=20
->=20
-> On Wed, 2024-08-14 at 09:10 +0200, Daniel Vetter wrote:
-> > On Fri, May 26, 2023 at 01:11:28PM +0200, Thomas Hellstr=C3=B6m wrote:
-> > > Daniel,
-> > >=20
-> > > On 4/28/23 14:52, Thomas Hellstr=C3=B6m wrote:
-> > > > Condsider the following call sequence:
-> > > >=20
-> > > > /* Upper layer */
-> > > > dma_fence_begin_signalling();
-> > > > lock(tainted_shared_lock);
-> > > > /* Driver callback */
-> > > > dma_fence_begin_signalling();
-> > > > ...
-> > > >=20
-> > > > The driver might here use a utility that is annotated as
-> > > > intended
-> > > > for the
-> > > > dma-fence signalling critical path. Now if the upper layer
-> > > > isn't
-> > > > correctly
-> > > > annotated yet for whatever reason, resulting in
-> > > >=20
-> > > > /* Upper layer */
-> > > > lock(tainted_shared_lock);
-> > > > /* Driver callback */
-> > > > dma_fence_begin_signalling();
-> > > >=20
-> > > > We will receive a false lockdep locking order violation
-> > > > notification from
-> > > > dma_fence_begin_signalling(). However entering a dma-fence
-> > > > signalling
-> > > > critical section itself doesn't block and could not cause a
-> > > > deadlock.
-> > > >=20
-> > > > So use a successful read_trylock() annotation instead for
-> > > > dma_fence_begin_signalling(). That will make sure that the
-> > > > locking order
-> > > > is correctly registered in the first case, and doesn't register
-> > > > any
-> > > > locking order in the second case.
-> > > >=20
-> > > > The alternative is of course to make sure that the "Upper
-> > > > layer"
-> > > > is always
-> > > > correctly annotated. But experience shows that's not easily
-> > > > achievable
-> > > > in all cases.
-> > > >=20
-> > > > Signed-off-by: Thomas Hellstr=C3=B6m
-> > > > <thomas.hellstrom@linux.intel.com>
-> > >=20
-> > > Resurrecting the discussion on this one. I can't see a situation
-> > > where we
-> > > would miss *relevant* locking
-> > > order violation warnings with this patch. Ofc if we have a
-> > > scheduler
-> > > annotation patch that would work fine as well, but the lack of
-> > > annotation in
-> > > the scheduler callbacks is really starting to hurt us.
-> >=20
-> > Yeah this is just a bit too brain-melting to review, but I concur
-> > now.
-> >=20
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
-> >=20
-> > I think what would help is some lockdep selftests to check that we
-> > both
-> > catch the stuff we want to, and don't incur false positives. Maybe
-> > with a
-> > plea that lockdep should have some native form of cross-release
-> > annotations ...
-> >=20
-> > But definitely seperate patch set, since it might take a few rounds
-> > of
-> > review by lockdep folks.
-> > -Sima
-> >=20
-> > >=20
-> > > Thanks,
-> > >=20
-> > > Thomas
-> > >=20
-> > >=20
-> > >=20
-> > > > ---
-> > > > =C2=A0 drivers/dma-buf/dma-fence.c | 6 +++---
-> > > > =C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-
-> > > > fence.c
-> > > > index f177c56269bb..17f632768ef9 100644
-> > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > @@ -308,8 +308,8 @@ bool dma_fence_begin_signalling(void)
-> > > > =C2=A0=C2=A0	if (in_atomic())
-> > > > =C2=A0=C2=A0		return true;
-> > > > -	/* ... and non-recursive readlock */
-> > > > -	lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL,
-> > > > _RET_IP_);
-> > > > +	/* ... and non-recursive successful read_trylock */
-> > > > +	lock_acquire(&dma_fence_lockdep_map, 0, 1, 1, 1, NULL,
-> > > > _RET_IP_);
-> > > > =C2=A0=C2=A0	return false;
-> > > > =C2=A0 }
-> > > > @@ -340,7 +340,7 @@ void __dma_fence_might_wait(void)
-> > > > =C2=A0=C2=A0	lock_map_acquire(&dma_fence_lockdep_map);
-> > > > =C2=A0=C2=A0	lock_map_release(&dma_fence_lockdep_map);
-> > > > =C2=A0=C2=A0	if (tmp)
-> > > > -		lock_acquire(&dma_fence_lockdep_map, 0, 0, 1,
-> > > > 1,
-> > > > NULL, _THIS_IP_);
-> > > > +		lock_acquire(&dma_fence_lockdep_map, 0, 1, 1,
-> > > > 1,
-> > > > NULL, _THIS_IP_);
-> > > > =C2=A0 }
-> > > > =C2=A0 #endif
-> >=20
->=20
-
+Indeed, my dts has no dependency on this patch.
+However, my dts has dependency on MAX77705, so AFAIU,
+I should send this patch separately, while leaving other drivers in same
+patchset, right?
