@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A67C97BA9E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 12:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB6297BAD6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2024 12:31:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B0810E4D3;
-	Wed, 18 Sep 2024 10:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2513210E17F;
+	Wed, 18 Sep 2024 10:31:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="g7h4R+JP";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="SlVi7rjt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C866E10E120
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 10:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1726654521;
- bh=ngZrcRDlM5CWBR80rje1RK9nTLokmmBXmMbbHkuM5P0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=g7h4R+JPJFvG4wo1gZY7K4fOAOoEr3AxH6k0hlsP107hvZuoX1yw40g28rTlRMLAN
- WrMwDCBsKpC6YBCS6pdHcSDj2039i+wY8tlhox3wumHROkpM2QIFLnJA6F3ubh6ofZ
- AOX/MIr13YAAHxA0O/LKMCr1HDR3K5wHnVuQcgVWe3exr60QqdcGuTl55e+I9wwg1I
- VK0e25qb0YzPKbNRZRxXsMKSx/IP2D1pvgCH3l8vW9AaTOIMT0Qdvo77Hkyu0kpY6M
- fwx9hxH0scgNWr+4weo+1aFK8+DLQ1sk+cdUpeFmy6wPeTKNvZ/90DvMDr31VZXm5y
- HyJgXpMIkZqpw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B497917E10AE;
- Wed, 18 Sep 2024 12:15:20 +0200 (CEST)
-Message-ID: <92a8d48f-e109-461b-bb6a-29da98a444ad@collabora.com>
-Date: Wed, 18 Sep 2024 12:15:20 +0200
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55FAB10E17F
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2024 10:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1726655495; x=1758191495;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zRwVKxY/ljPw+PWBx03TIerZJoDRcw2Ws1V9+SjbY18=;
+ b=SlVi7rjt2LjmrxKFXITZksUbCvPefOteT1ZzTof3vcj1nRGhwySv7CNJ
+ tKtfG4+HW2L3dRBXGrlWjqjZOH4ZGdiEX4uIpEQwG4Gkx9Pz11XBz89kU
+ xsM6yQF4AfRSAkOtP/Vrq3Ceux2dWG4HjRRA8ZwVf45mAKpTj4olnoDgN
+ m4u8yaSwiuGhKZKTKlPml2aU78/otJNEL23CWvALN/Rq4+XrWkuDWqvtT
+ mhKkVordN7Gi7LmzXN7MU9qL6bxoJtOTTE/39sRWoZnFp+mxwBTolwUmk
+ lRlGpeChFt/J+7A/Tit63RsF1q8ewuJdECr84ZLgG2w5nvi4AJPZqntbn Q==;
+X-CSE-ConnectionGUID: XkM55Ki9SVKEk/iYTQx3pQ==
+X-CSE-MsgGUID: GsVaWKZST8K4Wl0q9UIIhw==
+X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; d="scan'208";a="35129244"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Sep 2024 03:31:33 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 18 Sep 2024 03:31:29 -0700
+Received: from che-lt-i67131.microchip.com (10.10.85.11) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Wed, 18 Sep 2024 03:31:21 -0700
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
+To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <linux@armlinux.org.uk>,
+ <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+ <claudiu.beznea@tuxon.dev>, <dharma.b@microchip.com>, <arnd@arndb.de>,
+ <hari.prasathge@microchip.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>
+CC: <manikandan.m@microchip.com>
+Subject: [PATCH v4 0/4] MIPI DSI Controller support for SAM9X75 series
+Date: Wed, 18 Sep 2024 16:01:15 +0530
+Message-ID: <20240918103119.385597-1-manikandan.m@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/mediatek: ovl: Add fmt_convert function pointer to
- driver data
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Singo Chang
- <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240917164434.17794-1-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240917164434.17794-1-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,29 +77,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 17/09/24 18:44, Jason-JH.Lin ha scritto:
-> OVL_CON_CLRFMT_MAN is a configuration for extending color format
-> settings of DISP_REG_OVL_CON(n).
-> It will change some of the original color format settings.
-> 
-> Take the settings of (3 << 12) for example.
-> - If OVL_CON_CLRFMT_MAN = 0 means OVL_CON_CLRFMT_RGBA8888.
-> - If OVL_CON_CLRFMT_MAN = 1 means OVL_CON_CLRFMT_PARGB8888.
-> 
-> Since OVL_CON_CLRFMT_MAN is not supported on previous SoCs,
-> It breaks the OVL color format setting of MT8173.
-> 
-> Therefore, the fmt_convert function pointer is added to the driver data
-> and mtk_ovl_fmt_convert_with_blend is implemented for MT8192 and MT8195
-> that support OVL_CON_CLRFMT_MAN, and mtk_ovl_fmt_convert is implemented
-> for other SoCs that do not support it to solve the degradation problem.
-> 
-> Fixes: a3f7f7ef4bfe ("drm/mediatek: Support "Pre-multiplied" blending in OVL")
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Tested-by: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+This patch series adds support for the Microchip's MIPI DSI Controller
+wrapper driver that uses the Synopsys DesignWare MIPI DSI host controller
+bridge for SAM9X75 SoC series.
 
-Awesome.
+Changelogs are available in respective patches.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Manikandan Muralidharan (4):
+  dt-bindings: display: bridge: add sam9x75-mipi-dsi binding
+  drm/bridge: add Microchip DSI controller support for sam9x7 SoC series
+  MAINTAINERS: add SAM9X7 SoC's Microchip's MIPI DSI host wrapper driver
+  ARM: configs: at91: Enable Microchip's MIPI DSI Host Controller
+    support
 
+ .../bridge/microchip,sam9x75-mipi-dsi.yaml    | 109 ++++
+ MAINTAINERS                                   |   7 +
+ arch/arm/configs/at91_dt_defconfig            |   1 +
+ drivers/gpu/drm/bridge/Kconfig                |   8 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c     | 545 ++++++++++++++++++
+ 6 files changed, 671 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
+ create mode 100644 drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c
+
+-- 
+2.25.1
 
