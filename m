@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E63997C5E2
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 10:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF72497C5FF
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 10:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCB4510E69E;
-	Thu, 19 Sep 2024 08:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFF310E6B7;
+	Thu, 19 Sep 2024 08:39:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Yg7mcCNk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CgKkmGzu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C7A10E69F;
- Thu, 19 Sep 2024 08:31:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B1E825C5CA4;
- Thu, 19 Sep 2024 08:31:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E005C4CEC5;
- Thu, 19 Sep 2024 08:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726734695;
- bh=XUDUjYx1n5EqHbXvR2UutCS29aT+iofPiEWLkzpEESU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Yg7mcCNket5MY6e7spHe7os8VSA0YVWaIfkeHVRwo8YP9tm8Q2oOLq+V0WpwMZK04
- 3du/zC5+G86zIQxBUi/TlX5XGt/w0mtFCBlnMpYSn+VvfSecUJ+JlAWXk3HMvkRwyW
- g/wgqbyj2LmXr5tZGaerXsr1g1GaaYeI+RcQlY5kkb9UafZuSxmwdyb0OPI820CxGr
- imu2LGwVGtou5ILxiTX96mk3T1pM11yRFiCwuGFOKlvrFcPbnlJTFxqXMLddGcztbu
- ar1GHJnRSLmZa1VVnzUp+bgAnL1LSNxsjIZuT4PxPRA41LXlxnu/56yqleUoXH2Qpf
- m+RqUOdAQvgJg==
-Date: Thu, 19 Sep 2024 10:31:31 +0200
-From: Mark Brown <broonie@kernel.org>
-To: "Usyskin, Alexander" <alexander.usyskin@intel.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "Winkler, Tomas" <tomas.winkler@intel.com>,
- "Lubart, Vitaly" <vitaly.lubart@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v6 00/12] spi: add driver for Intel discrete graphics
-Message-ID: <ZuvhY3SX7ZwEfkgq@finisterre.sirena.org.uk>
-References: <20240916134928.3654054-1-alexander.usyskin@intel.com>
- <ZurZZ1pzmbWifjAD@finisterre.sirena.org.uk>
- <CY5PR11MB63661407645579333EFFED35ED632@CY5PR11MB6366.namprd11.prod.outlook.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D60510E6A4;
+ Thu, 19 Sep 2024 08:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726735138; x=1758271138;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/m+pyS//DNV9f7FmkrXey9WKou5dgta3AvsLE4Dz58c=;
+ b=CgKkmGzu/UbKCgMzfLdyrpHzsUvWA6gxII2AzGg6u2kdKWH5qDEe09oQ
+ mW6MKnBg6f9jpMWFkIawXWR1WFQgvnLwexN+vg9huV7LLynBrmPnErxWp
+ Mz1oksMsEWi7u47RWNlz6wOTd+JKDrj05j1438LZT3esn+YUZjz3MQcc2
+ 2vVgyfEhPsMRkiVZjc7MVV1UkH62c0iDmxF9F2oJV5o3oSXvBUMeeIpxF
+ K1WmYaZVcx564wyAYTtg6/w4BLUMQEMsBcdqW3XS8moh138+AZPDkQsK7
+ pjsNW5KI1HuRpkPMxYVUn4MNXl2SM5hRewTHXs+9jTPtZjIaoJt/8J3ZM w==;
+X-CSE-ConnectionGUID: 4VkYIHUbSkmEdP+IGJz2Bw==
+X-CSE-MsgGUID: sT5z+ipaTDOk+LQpnMfiSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="43151922"
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; d="scan'208";a="43151922"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2024 01:38:57 -0700
+X-CSE-ConnectionGUID: Mli78OqhQzK8DXBhN2jsag==
+X-CSE-MsgGUID: AA72/D/NQ5yBpOlcuCyVgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; d="scan'208";a="74222822"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2024 01:38:53 -0700
+Date: Thu, 19 Sep 2024 11:38:50 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
+ lina@asahilina.net, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ andi.shyti@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ matthew.d.roper@intel.com
+Subject: Re: [PATCH v5 2/4] drm: Expose wedge recovery methods
+Message-ID: <ZuvjGpIdOgGpbBQu@black.fi.intel.com>
+References: <20240917040235.197019-1-raag.jadav@intel.com>
+ <20240917040235.197019-3-raag.jadav@intel.com>
+ <87msk6d8jw.fsf@intel.com> <ZuujCuVxFnOAKdgR@black.fi.intel.com>
+ <87r09g9jp0.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Pq7754Zke+ES0h8H"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CY5PR11MB63661407645579333EFFED35ED632@CY5PR11MB6366.namprd11.prod.outlook.com>
-X-Cookie: Editing is a rewording activity.
+In-Reply-To: <87r09g9jp0.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,57 +78,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Sep 19, 2024 at 10:38:51AM +0300, Jani Nikula wrote:
+> On Thu, 19 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+> > On Tue, Sep 17, 2024 at 10:49:07AM +0300, Jani Nikula wrote:
+> >> On Tue, 17 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+> >> > Now that we have device wedged event in place, add wedge_recovery sysfs
+> >> > attribute which will expose recovery methods supported by the DRM device.
+> >> > This is useful for userspace consumers in cases where the device supports
+> >> > multiple recovery methods which can be used as fallbacks.
+> >> >
+> >> > $ cat /sys/class/drm/card0/wedge_recovery
+> >> > rebind
+> >> > bus-reset
+> >> > reboot
+> >> >
+> >> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> >> > ---
+> >> >  drivers/gpu/drm/drm_sysfs.c | 23 +++++++++++++++++++++++
+> >> >  1 file changed, 23 insertions(+)
+> >> >
+> >> > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> >> > index fb3bbb6adcd1..b88cdbfa3b5e 100644
+> >> > --- a/drivers/gpu/drm/drm_sysfs.c
+> >> > +++ b/drivers/gpu/drm/drm_sysfs.c
+> >> > @@ -36,6 +36,8 @@
+> >> >  #define to_drm_minor(d) dev_get_drvdata(d)
+> >> >  #define to_drm_connector(d) dev_get_drvdata(d)
+> >> >  
+> >> > +extern const char *const wedge_recovery_opts[];
+> >> 
+> >> Data is not an interface. Please add a function for this.
+> >
+> > For a single user?
+> 
+> Yes.
+> 
+> Well, you kind of have two, and both places need to do bounds checking
+> on indexing the array. You also need to do bounds checking on the string
+> manipulation, you can't just strcat and assume it'll be all right.
 
---Pq7754Zke+ES0h8H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Which would be true if we were to receive an unknown string. Here we sorta
+know it offhand so we're not gonna shoot in our foot :D
 
-On Thu, Sep 19, 2024 at 06:56:39AM +0000, Usyskin, Alexander wrote:
-> > On Mon, Sep 16, 2024 at 04:49:16PM +0300, Alexander Usyskin wrote:
+Anyway, would you prefer strlcat instead?
 
-> > As far as I can tell this does not actually provide a SPI driver, there
-> > is no call to any SPI API that I've noticed here.  The SPI framework
-> > does have support for SPI controllers with specific flash support via
-> > spi_controller_mem_ops but this does not appear to use them.  Either it
-> > should do that or it should just be a MTD driver.
-
-> I have had some talks with Miquel on this and he was not sure where this =
-driver belongs.
-> Miquel - can this driver be put in drivers/mtd, as spi cleanly do not wan=
-t it?
-
-To be clear, it's not that this hardware shouldn't be supported in the
-SPI subsystem it's that if the driver is in the SPI subsystem it should
-be written in terms of the relevant APIs.  Simply taking a MTD driver
-and dropping it in a random other directory with no further updates
-is clearly not the way forwards.
-
-> > The series is also split up into too many patches with minimal
-> > explanation, making it hard to follow what's going on.  I would
-> > recommend making the first patch be a minimal functional driver and then
-> > building on top of that.
-
-> As I understand, better to have small amount of big patches
-> than big list of smaller patches?=20
-
-The patches should be individually standalone and useful, the problem
-here is that it's difficult to review any of the patches by themselves
-because they've not been split up with a clear goal.
-
---Pq7754Zke+ES0h8H
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbr4WIACgkQJNaLcl1U
-h9CDpgf/bWF1XGCKsAy88Qyo9dxO3VrRQizlslkgTjx+7bLuR/ygkVm6hDnV6F7O
-ibdWqnfvNAEKEJ/cvxrbU45V6cTsczMgTrww3tGKkJf+aEr4jaEeOojGGO5pbOaR
-br8UEpR7GnhpaHBY/YyTQOSOIo8IYpf9JP1sw1V+IpK43D7eaeekfT3uvnVqelXY
-JsCohtROEEYQRWxYRpktkd53/eSypHhaFxassblKSCTXuxG7xXbTXBF8xNkQID5e
-t6V9ZTbwt/fNeIw+PUOQoBVNz0QwzHXorJF376/wR2xHH5agfk+Gun3j/K7aSTTO
-hOZIkFf9byF5NdyttU2DfOsP3YXH6g==
-=tT2r
------END PGP SIGNATURE-----
-
---Pq7754Zke+ES0h8H--
+Raag
