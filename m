@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F8097D1A1
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA0B97C708
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 11:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF3F710E7C1;
-	Fri, 20 Sep 2024 07:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED2510E258;
+	Thu, 19 Sep 2024 09:24:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="MqeUvm6J";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UCUhKSBo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2E810E258
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 09:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=9z9UGdgk9MPxd1ynPoki1CPpX1B3DsdgFQ83VM+CmXk=;
- b=MqeUvm6JRA/5LU2oVvhTuYWuXz7zCZQCld7Kzq12BX2UXUs8vep4Vw2U
- 7I6G14upUmWKEXE6waRLQm+Tgb8fJlMb2GVZGdVdRwik9WvmRfqkLa0lH
- xIDY4fQMatYNybAFE9VVVr3AE7DumKvyFIcvVI3R60jZjHOa08cCui86Q
- gOM2mMvC6M5exV6/dSSFn9r/hwndsxr6bhKC2h++HiZiCeFzpYaRPSV1C
- ka8t8OBzBmDFM+hGsL8hOwwqbokwQtTzENVs7/1jZ9hgTutumwIbV5uD/
- A/tqaZ9uZraVlr7rG0a+ExOPU/Znfd43XAaqEPSSHSA8aONSNbVKakK3M w==;
-X-CSE-ConnectionGUID: 4FxOiOCaQR69B7RhMI/McA==
-X-CSE-MsgGUID: ZLSd1G3URH6shpKKy25XIQ==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 19 Sep 2024 17:20:11 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48J9K4Aa051461;
- Thu, 19 Sep 2024 17:20:04 +0800 (GMT-8)
- (envelope-from Hermes.Wu@ite.com.tw)
-Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 19 Sep 2024 17:20:05 +0800
-From: Hermes Wu <Hermes.Wu@ite.com.tw>
-To: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss
- <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, "Hermes.Wu" <Hermes.wu@ite.com.tw>
-Subject: [PATCH v1 2/2] drm/bridge: it6505:  Add MSSC suport
-Date: Thu, 19 Sep 2024 17:19:16 +0800
-Message-ID: <20240919091916.1484-3-Hermes.Wu@ite.com.tw>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240919091916.1484-1-Hermes.Wu@ite.com.tw>
-References: <20240919091916.1484-1-Hermes.Wu@ite.com.tw>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC53410E6B6;
+ Thu, 19 Sep 2024 09:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726737859; x=1758273859;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Q+itF1pibq9H7Z4mTEQZlz5fG7sbs0aLTXQCSID35bU=;
+ b=UCUhKSBoYaXxWshghkYsyLYNTooBO1Ae35n1dwt8EZJW1UkB3n7YwJW+
+ 3CjqdOqwS7vln3LYDBgabWB9E3oSmh84t7Ts3PE5c5Sqe4pwoq+PgTmz1
+ GyVaSI0lSeJ+mapGrcpBp+cqOgZOdwxOL6LlUT4xbxZWG49+pm/yS1QqO
+ bOBOKWSn4fYZVYTU8n683DtaO07mOqhfi1bxobnaGEig4A0ZDD+ezOcgJ
+ TiGZFc74WzFJ14ejTFKg+WAs0pq4E5TJgbFWTcZa38SMwB45iUyT7whuZ
+ D7eV3Ee3x3AL9AJkvGEi/n8mdyDhFidvDppq1JWTjKMJTG9hWhSv9Wl2L g==;
+X-CSE-ConnectionGUID: rHGu3DeBQzCSXiAn0l2afw==
+X-CSE-MsgGUID: olVaJLdRRHiB0oh3frpZXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="25882533"
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; d="scan'208";a="25882533"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2024 02:24:18 -0700
+X-CSE-ConnectionGUID: Cre5BtJ+Qg6RNbHoRFE2Yg==
+X-CSE-MsgGUID: kKfolhReSya2QVEZTg9KcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; d="scan'208";a="74233600"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.59])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2024 02:24:12 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, matthew.d.roper@intel.com
+Subject: Re: [PATCH v5 2/4] drm: Expose wedge recovery methods
+In-Reply-To: <ZuvjGpIdOgGpbBQu@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240917040235.197019-1-raag.jadav@intel.com>
+ <20240917040235.197019-3-raag.jadav@intel.com> <87msk6d8jw.fsf@intel.com>
+ <ZuujCuVxFnOAKdgR@black.fi.intel.com> <87r09g9jp0.fsf@intel.com>
+ <ZuvjGpIdOgGpbBQu@black.fi.intel.com>
+Date: Thu, 19 Sep 2024 12:24:09 +0300
+Message-ID: <87ikus9eti.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [192.168.82.6]
-X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
- TPEMAIL1.internal.ite.com.tw (192.168.15.58)
-X-TM-SNTS-SMTP: 91B360ED5822D2E4940C8FBA3A618D6AE2246F3D1D3FE4CC472BCCAAB889E14F2002:8
-X-MAIL: mse.ite.com.tw 48J9K4Aa051461
-X-Mailman-Approved-At: Fri, 20 Sep 2024 07:22:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,328 +78,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Hermes.Wu" <Hermes.wu@ite.com.tw>
+On Thu, 19 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+> On Thu, Sep 19, 2024 at 10:38:51AM +0300, Jani Nikula wrote:
+>> On Thu, 19 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+>> > On Tue, Sep 17, 2024 at 10:49:07AM +0300, Jani Nikula wrote:
+>> >> On Tue, 17 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+>> >> >  
+>> >> > +extern const char *const wedge_recovery_opts[];
+>> >> 
+>> >> Data is not an interface. Please add a function for this.
+>> >
+>> > For a single user?
+>> 
+>> Yes.
+>> 
+>> Well, you kind of have two, and both places need to do bounds checking
+>> on indexing the array. You also need to do bounds checking on the string
+>> manipulation, you can't just strcat and assume it'll be all right.
+>
+> Which would be true if we were to receive an unknown string. Here we sorta
+> know it offhand so we're not gonna shoot in our foot :D
 
-add AUX-I2C functionality to support MCCS. 
+The thing about long term code maintenance is that "we know" often turns
+into "not too obvious" and "probably" somewhere down the line, as
+features get added and code gets refactored and moved about.
 
-Change-Id: I63e1a0e5da67526f89f35605a82944be67dee8ac
-Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 209 ++++++++++++++++++++++++++--
- 1 file changed, 200 insertions(+), 9 deletions(-)
+Here, it only takes a new, longer string, and failure to manually check
+that the lengths don't exceed the magic 32 bytes. Just be safe from the
+start, and you don't have to worry about it later.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index cef02c8c363e..1a272c67e82b 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -127,6 +127,9 @@
- #define REG_AUX_ADR_16_19 0x26
- #define REG_AUX_OUT_DATA0 0x27
- 
-+#define REG_AUX_I2C_ADR 0x25
-+#define REG_AUX_I2C_OP 0x26
-+
- #define REG_AUX_CMD_REQ 0x2B
- #define AUX_BUSY BIT(5)
- 
-@@ -268,6 +271,19 @@
- #define REG_SSC_CTRL1 0x189
- #define REG_SSC_CTRL2 0x18A
- 
-+#define REG_AUX_USER_CTRL 0x190
-+#define EN_USER_AUX BIT(0)
-+#define USER_AUX_DONE BIT(1)
-+#define AUX_EVENT BIT(4)
-+
-+#define REG_AUX_USER_DATA_REC 0x191
-+#define M_AUX_IN_REC   0xF0
-+#define M_AUX_OUT_REC  0x0F
-+
-+#define REG_AUX_USER_TXB 0x190
-+#define REG_AUX_USER_REPLY 0x19A
-+#define REG_AUX_USER_RXB(n) (n + 0x19B)
-+
- #define RBR DP_LINK_BW_1_62
- #define HBR DP_LINK_BW_2_7
- #define HBR2 DP_LINK_BW_5_4
-@@ -303,6 +319,8 @@
- #define MAX_EQ_LEVEL 0x03
- #define AUX_WAIT_TIMEOUT_MS 15
- #define AUX_FIFO_MAX_SIZE 16
-+#define AUX_I2C_MAX_SIZE 4
-+#define AUX_I2C_DEFER_RETRY 4
- #define PIXEL_CLK_DELAY 1
- #define PIXEL_CLK_INVERSE 0
- #define ADJUST_PHASE_THRESHOLD 80000
-@@ -325,7 +343,12 @@
- enum aux_cmd_type {
- 	CMD_AUX_NATIVE_READ = 0x0,
- 	CMD_AUX_NATIVE_WRITE = 0x5,
-+	CMD_AUX_GI2C_ADR = 0x08,
-+	CMD_AUX_GI2C_READ = 0x09,
-+	CMD_AUX_GI2C_WRITE = 0x0A,
- 	CMD_AUX_I2C_EDID_READ = 0xB,
-+	CMD_AUX_I2C_READ = 0x0D,
-+	CMD_AUX_I2C_WRITE = 0x0C,
- 
- 	/*extend read ncommand */
- 	CMD_AUX_GET_KSV_LIST = 0x10,
-@@ -333,8 +356,11 @@ enum aux_cmd_type {
- 
- enum aux_cmd_reply {
- 	REPLY_ACK,
--	REPLY_NACK,
--	REPLY_DEFER,
-+	REPLY_NACK = 1,
-+	REPLY_DEFER = 2,
-+
-+	REPLY_I2C_NACK = 4,
-+	REPLY_I2C_DEFER = 8,
- };
- 
- enum link_train_status {
-@@ -1087,7 +1113,6 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
- 				      size_t size, enum aux_cmd_reply *reply)
- {
- 	int i, ret_size, ret = 0, request_size;
--	struct device *dev = &it6505->client->dev;
- 
- 	mutex_lock(&it6505->aux_lock);
- 	for (i = 0; i < size; ) {
-@@ -1114,6 +1139,168 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
- 	return ret;
- }
- 
-+
-+static int it6505_aux_i2c_wait(struct it6505 *it6505, u8 *reply)
-+{
-+	int err = 0;
-+	unsigned long timeout;
-+	struct device *dev = &it6505->client->dev;
-+
-+	timeout = jiffies + msecs_to_jiffies(AUX_WAIT_TIMEOUT_MS) + 1;
-+
-+	do {
-+		if (it6505_read(it6505, REG_AUX_USER_CTRL) & AUX_EVENT)
-+			break;
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(dev, "Timed out waiting AUX I2C, BUSY = %X\n",
-+					it6505_aux_op_finished(it6505));
-+			err = -ETIMEDOUT;
-+			goto end_aux_i2c_wait;
-+		}
-+		usleep_range(300, 800);
-+
-+	} while (!it6505_aux_op_finished(it6505));
-+
-+	if (reply == NULL)
-+		goto end_aux_i2c_wait;
-+
-+	*reply = it6505_read(it6505, REG_AUX_USER_REPLY) >> 4;
-+
-+	if (*reply == 0)
-+		goto end_aux_i2c_wait;
-+
-+	if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
-+			(*reply == DP_AUX_I2C_REPLY_DEFER))
-+		err = -EBUSY;
-+	else if ((*reply == DP_AUX_NATIVE_REPLY_NACK) ||
-+			(*reply == DP_AUX_I2C_REPLY_NACK))
-+		err = -ENXIO;
-+
-+end_aux_i2c_wait:
-+	it6505_set_bits(it6505, REG_AUX_USER_CTRL, USER_AUX_DONE, USER_AUX_DONE);
-+	return err;
-+}
-+
-+static int it6505_aux_i2c_readb(struct it6505 *it6505, u8 *buf, size_t size, u8 *reply)
-+{
-+	int ret, i;
-+	int retry = 0;
-+
-+	for (retry = 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
-+
-+		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_READ);
-+
-+		ret = it6505_aux_i2c_wait(it6505, reply);
-+
-+		if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
-+			(*reply == DP_AUX_I2C_REPLY_DEFER))
-+			continue;
-+
-+		if (ret >= 0)
-+			break;
-+	}
-+
-+	for (i = 0; i < size; i++)
-+		buf[i] =  (u8) it6505_read(it6505, REG_AUX_USER_RXB(0 + i));
-+
-+	return size;
-+}
-+
-+static int it6505_aux_i2c_writeb(struct it6505 *it6505, u8 *buf, size_t size, u8 *reply)
-+{
-+	int i, ret;
-+	int retry = 0;
-+
-+	for (i = 0; i < size; i++)
-+		it6505_write(it6505, REG_AUX_OUT_DATA0 + i, buf[i]);
-+
-+	for (retry = 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
-+
-+		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_WRITE);
-+
-+		ret = it6505_aux_i2c_wait(it6505, reply);
-+
-+		if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
-+			(*reply == DP_AUX_I2C_REPLY_DEFER))
-+			continue;
-+
-+		if (ret >= 0)
-+			break;
-+	}
-+	return size;
-+}
-+
-+static ssize_t it6505_aux_i2c_operation(struct it6505 *it6505,
-+					struct drm_dp_aux_msg *msg)
-+{
-+	int ret;
-+	ssize_t request_size, data_cnt = 0;
-+	struct device *dev = &it6505->client->dev;
-+	u8 *buffer = msg->buffer;
-+
-+	/* set AUX user mode */
-+	it6505_set_bits(it6505, REG_AUX_CTRL,
-+			AUX_USER_MODE | AUX_NO_SEGMENT_WR, AUX_USER_MODE);
-+	it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, EN_USER_AUX);
-+	/* clear AUX FIFO */
-+	it6505_set_bits(it6505, REG_AUX_CTRL,
-+			AUX_EN_FIFO_READ | CLR_EDID_FIFO,
-+			AUX_EN_FIFO_READ | CLR_EDID_FIFO);
-+
-+	it6505_set_bits(it6505, REG_AUX_CTRL,
-+			AUX_EN_FIFO_READ | CLR_EDID_FIFO, 0x00);
-+
-+	it6505_write(it6505, REG_AUX_ADR_0_7, 0x00);
-+	it6505_write(it6505, REG_AUX_I2C_ADR, msg->address << 1);
-+
-+	if (msg->size == 0) {
-+		/* IIC Start/STOP dummy write */
-+		it6505_write(it6505, REG_AUX_I2C_OP, msg->request);
-+		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_ADR);
-+		ret = it6505_aux_i2c_wait(it6505, &msg->reply);
-+		goto end_aux_i2c_transfer;
-+	}
-+
-+	/* IIC data transfer */
-+	for (data_cnt = 0; data_cnt < msg->size; ) {
-+		request_size = min(msg->size - data_cnt, AUX_I2C_MAX_SIZE);
-+		it6505_write(it6505, REG_AUX_I2C_OP,
-+					(msg->request) | ((request_size - 1) << 4));
-+
-+		if ((msg->request & DP_AUX_I2C_READ) == DP_AUX_I2C_READ)
-+			ret = it6505_aux_i2c_readb(it6505, &buffer[data_cnt],
-+							request_size, &msg->reply);
-+		else
-+			ret = it6505_aux_i2c_writeb(it6505, &buffer[data_cnt],
-+							request_size, &msg->reply);
-+
-+		if (ret < 0)
-+			goto end_aux_i2c_transfer;
-+
-+		data_cnt += request_size;
-+	}
-+	ret = data_cnt;
-+end_aux_i2c_transfer:
-+
-+	it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, 0);
-+	it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, 0);
-+	return ret;
-+}
-+
-+
-+static ssize_t it6505_aux_i2c_transfer(struct drm_dp_aux *aux,
-+				   struct drm_dp_aux_msg *msg)
-+{
-+	struct it6505 *it6505 = container_of(aux, struct it6505, aux);
-+	int ret;
-+
-+	mutex_lock(&it6505->aux_lock);
-+	ret = it6505_aux_i2c_operation(it6505, msg);
-+	mutex_unlock(&it6505->aux_lock);
-+	return ret;
-+}
-+
-+
- static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
- 				   struct drm_dp_aux_msg *msg)
- {
-@@ -1125,7 +1312,7 @@ static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
- 
- 	/* IT6505 doesn't support arbitrary I2C read / write. */
- 	if (is_i2c)
--		return -EINVAL;
-+		return it6505_aux_i2c_transfer(aux, msg);
- 
- 	switch (msg->request) {
- 	case DP_AUX_NATIVE_READ:
-@@ -1153,6 +1340,8 @@ static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
- 	case REPLY_DEFER:
- 		msg->reply = DP_AUX_NATIVE_REPLY_DEFER;
- 		break;
-+	default:
-+		break;
- 	}
- 
- 	return ret;
-@@ -1180,7 +1369,7 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
- 		switch (reply) {
- 		case REPLY_ACK:
- 			DRM_DEV_DEBUG_DRIVER(dev, "[0x%02x]: %8ph", offset,
--					     buf + offset);
-+								uf + offset);
- 			offset += 8;
- 			aux_retry = 100;
- 			break;
-@@ -1190,6 +1379,8 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
- 			msleep(20);
- 			if (!(--aux_retry))
- 				return -EIO;
-+		default:
-+			break;
- 		}
- 	}
- 
-@@ -2031,8 +2222,8 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- 
- 
- 	err =  it6505_get_ksvlist(it6505, sha1_input, down_stream_count * 5);
--	if (err < 0)
--		return err;
-+		if (err < 0)
-+			return err;
- 
- 	msg_count += down_stream_count * 5;
- 
-@@ -2075,7 +2266,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- 	for (retry = 0; retry < 3; retry++) {
- 
- 		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
--					sizeof(bv));
-+			      sizeof(bv));
- 
- 		if (err < 0) {
- 			dev_err(dev, "Read V' value Fail %d", retry);
-@@ -2126,7 +2317,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 
- 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
- 	DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
--				ksv_list_check ? "pass" : "fail");
-+			     ksv_list_check ? "pass" : "fail");
- 
- 	if (ksv_list_check)
- 		return;
+> Anyway, would you prefer strlcat instead?
+
+I think the cleaner option is:
+
+	char event_string[32];
+
+	snprintf(event_string, sizeof(event_string), "WEDGED=%s", wedge_name(method));
+
+which is also what most other code constructing environments for
+kobject_uevent_env() do.
+
+BR,
+Jani.
+
+
 -- 
-2.34.1
-
+Jani Nikula, Intel
