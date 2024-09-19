@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518EF97D19C
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A74797D1A2
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C942E10E7C3;
-	Fri, 20 Sep 2024 07:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB6510E7C5;
+	Fri, 20 Sep 2024 07:22:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="d4a12F3o";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="j1RU2oUi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B0F10E725
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F28C10E723
  for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 15:19:47 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id E438521B06;
- Thu, 19 Sep 2024 17:11:35 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 26EBA2384D;
+ Thu, 19 Sep 2024 17:11:42 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id BqxMisKfJAsW; Thu, 19 Sep 2024 17:11:35 +0200 (CEST)
+ id jdkrb6ejJlZP; Thu, 19 Sep 2024 17:11:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1726758695; bh=W9NCakkUrBU6rZgTcjvry5F2W8keaA/67v1TEQpKKeQ=;
+ t=1726758701; bh=GP7vulBylMtNMk0x+Curx74hl3PAursdsxiHeXQyGIc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=d4a12F3oc0//7xbMft44unULEDptgyZ8hdZsHJlcawbcBix+0C+teeomT+TQazSR7
- SOksXV3EVD937F1dSYO19M5XUN17GvEzjOLK4FKngNBfaJYdLzc15b+wTnR/HJ357o
- E1aVNVLV6v9m2OStYcGw2/oFeuxqapya0gsURwvrRkNlczUhFiQPeeLAkfD16qebIT
- Preyv5iXYzQQD0LLiZot9ukE+IB/aLsBrDQzAwRKJLUFx5z+ZNk1A6UnP7Amuv7Xxt
- u5ZDzpfXXVbfEbl4BpsJpI/OZaLM70BBqdWikkdjLjRtZUi8gLc8BGXAfjJBDKjk10
- zhAg/u/3bWK8g==
+ b=j1RU2oUifgRfrDVJQxO5RYwZI3+S9p3yFuP19csagm0z4pTVEaXm8Gd7hIpcKPMPt
+ ZIBH2f/A50JsqmhZZrmSkXN+RhjYYi4URKZDg3jV3d/oF/IOc7q+lkRSEWjcOD1NlZ
+ g3ir59c/YHCO1WXX8HBTmmQVH+bPgbwI2oRquA7jbCLJXuuSAQjsAZXRDedzpsGU8R
+ 0Tj84BcIBVZjJZuZ6bsib1xq5p+GhTqtrSpWAz3+Ysp80o+GIlcVJVOyb6j84XzIwq
+ JjouLksHiEeK0NeUFcpL1Ydcsl23Gu316L0EhSiiIBzwsS64ySJLd/KHUjOZBNIDo2
+ /NCwekO55hZ4g==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Thu, 19 Sep 2024 20:41:01 +0530
-Subject: [PATCH 2/6] drm/exynos: exynos7_drm_decon: fix suspended condition
- in decon_commit()
+Date: Thu, 19 Sep 2024 20:41:02 +0530
+Subject: [PATCH 3/6] drm/exynos: exynos7_drm_decon: fix ideal_clk by
+ converting it to Hz
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240919-exynosdrm-decon-v1-2-6c5861c1cb04@disroot.org>
+Message-Id: <20240919-exynosdrm-decon-v1-3-6c5861c1cb04@disroot.org>
 References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
 In-Reply-To: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
 To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
@@ -67,9 +67,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-decon_commit() gets called during atomic_enable. At this stage, DECON is
-suspended, and thus the function refuses to run. Fix the suspended
-condition checking in decon_commit().
+The clkdiv values are incorrect as ideal_clk is in kHz and the clock
+rate of vclk is in Hz. Multiply 1000 to ideal_clk to bring it to Hz.
 
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
@@ -77,18 +76,18 @@ Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-index e994779694f0..2c4ee87ae6ec 100644
+index 2c4ee87ae6ec..4e4ced50ff15 100644
 --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
 +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-@@ -152,7 +152,7 @@ static void decon_commit(struct exynos_drm_crtc *crtc)
- 	struct drm_display_mode *mode = &crtc->base.state->adjusted_mode;
- 	u32 val, clkdiv;
+@@ -137,7 +137,7 @@ static void decon_ctx_remove(struct decon_context *ctx)
+ static u32 decon_calc_clkdiv(struct decon_context *ctx,
+ 		const struct drm_display_mode *mode)
+ {
+-	unsigned long ideal_clk = mode->clock;
++	unsigned long ideal_clk = mode->clock * 1000;
+ 	u32 clkdiv;
  
--	if (ctx->suspended)
-+	if (!ctx->suspended)
- 		return;
- 
- 	/* nothing to do if we haven't set the mode yet */
+ 	/* Find the clock divider value that gets us closest to ideal_clk */
 
 -- 
 2.46.1
