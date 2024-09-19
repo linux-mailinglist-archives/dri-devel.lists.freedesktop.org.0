@@ -2,57 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398EE97C9C6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 15:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B7F97C9FA
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 15:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4480410E2BD;
-	Thu, 19 Sep 2024 13:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D6E10E6D4;
+	Thu, 19 Sep 2024 13:17:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T74+YVZU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GM6WNubn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB66410E2BD
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 13:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1726751555;
- bh=mbKPeHX5dPDsgxkJ1kYk8sbygspVme8Eho7Kxjhv+gE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=T74+YVZUmPw6cCqQlEIa43Em8BrGfi1YTE7GEDSgxOkWRHnWKKsm6PuemZ/v1gq52
- X5ZGvb3IBCm3dSE+4ADp62mOBKgjDL9X8esS3O45+2ci7/eaL+kBP3f3H+lgpsExia
- NnoAkuz35WnhQ052/t8gpCqaRiqxwXgtgqUfEiQ38tKG50zw8FQ1b92iguajWxENuH
- zoRjcpzBpvy0uAigH03DnHc4n512HX2T80jGl0tmDhDq7Iuvd2kwS540eojo/2GCEg
- 5kHE+ppWrQX6hH/JaKLqNd8kfScBTdpPBU3wwlKrX4TqxS8mh87eq1zbwTN8eaCORz
- BYDX4AW2s3xXg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 91A6917E14F9;
- Thu, 19 Sep 2024 15:12:34 +0200 (CEST)
-Message-ID: <ff80024a-90b2-4a19-b827-23be69352f78@collabora.com>
-Date: Thu, 19 Sep 2024 15:12:33 +0200
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B64410E6D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 13:17:57 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-4581e0ed0f2so16153471cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 06:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726751876; x=1727356676; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=anfCIpzkOCIiGL9EDPttCS594d1L2okUuXy0ncEeGXA=;
+ b=GM6WNubn0YgTNBbXa/zRAm0j/WXcZ2wZiggOK+MtpyVjv8LpMj6g9n69EXx91z46qt
+ 5kVW4fkCoE8P5vQowuZdrowCylAtjDmL2kdtHTA25FRKwbwFcu3n64LMeYMHKxlj9uc8
+ bLF8uyaf4MOUPAgd2gar8xKB/sWfUwaXXAEv1DWOCQCu0omqrLTx2KvikaoI4WOgPQz4
+ s09hgNjYHYYgX5r52SDBTdGDXZ/RQNbZ4VOGlfaHy8Grtq/XeyHcQeclA1cTeugPOeEx
+ WjkQI8+hgi8JPb51GUauFAE1t0g0rt94V6mE8X+rwjCp+FubhPVhn2OGEO8qKV3kSEKa
+ Z6xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726751876; x=1727356676;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=anfCIpzkOCIiGL9EDPttCS594d1L2okUuXy0ncEeGXA=;
+ b=YgOlb5qcOVuIVeaVdpVcn/s8Lu8iPgMOO8UrTUXoBQN2OHT+qol4GG9fWcFVxtL+K9
+ 6+dPt1GlI0BwStdUlZQmj2KDqQAcMDqF6gl6880KJDTIYFryYGPXWZ1wGd5sqclwACSh
+ 6cyVriKPxgeTnTZNGJgADkT/gi2ZZHNbCHX22uANowKHWzpoAALplR4w12tK8AO7KUja
+ jxj78CbblVdUds21/Ih3dtFnJE5qhT6uTPmDX/a2i7mHJOr4/6NEDeDWHzAzsk4aT8Xq
+ +ipNFrJx4nmQ5nwXlBT1cKOixRG2BMTwP2YyD5pTA8BMegKtULwotI772e0t2eRjNpZN
+ +vMA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNAX90YmVS2m9gng1YmPtMGWeLRkBBhfWRv+OXCUUVsdkY91pYmbt4N517TptaSNJ/AX5Wmjolqf8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPLQ9ZuRWAYQjgq/J/fmDA9YHJmDnKLuTJxjMf3DdcubSiO0SV
+ XOPVrbHePlS7A2FacsUy3Y3KqQ99APQMd2ytxv7QJ2s4U+RHb/9VdS3pdy0e+LwqvrF2Nael6nJ
+ K1wTxeCIbJ+hcz5CsvRxjHmb2//s=
+X-Google-Smtp-Source: AGHT+IF9IGnoFymNrY96ZdfBvRdXpeFvTASmMi6xugMQ0/+PzTD5PFJN6ulZK08RbShyMHH/uKX0/0RAUmq5n3tkuIs=
+X-Received: by 2002:a05:620a:1728:b0:7a7:d6f2:95f8 with SMTP id
+ af79cd13be357-7acaf5a0246mr459527785a.20.1726751875987; Thu, 19 Sep 2024
+ 06:17:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm/mediatek: Adjustments for mtk_gem_prime_vmap()
-To: Markus Elfring <Markus.Elfring@web.de>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Alexandre Mergnat <amergnat@baylibre.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <254d16d9-d56a-4f26-9914-db75e7aa4287@web.de>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <254d16d9-d56a-4f26-9914-db75e7aa4287@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-23-2d2efd5c5877@gmail.com>
+ <rfoxnd4axyqxvexgq3mm2zntzvpihv4g424hepkoh7bfr2izjz@htjeqbfuq2gu>
+In-Reply-To: <rfoxnd4axyqxvexgq3mm2zntzvpihv4g424hepkoh7bfr2izjz@htjeqbfuq2gu>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Thu, 19 Sep 2024 16:17:44 +0300
+Message-ID: <CABTCjFCwg9HJcAQOG4+jeHviPiXoSiQgzX-ogUPQt1M2494aBQ@mail.gmail.com>
+Subject: Re: [PATCH v4 23/27] arm64: dts: qcom: starqltechn: add display PMIC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
+ cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,34 +98,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 17/09/24 19:34, Markus Elfring ha scritto:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Tue, 17 Sep 2024 19:16:45 +0200
-> 
-> A few update suggestions were taken into account
-> from static source code analysis.
+> > +             pmic@60 {
+> > +                     compatible = "samsung,s2dos05";
+> > +                     reg = <0x60>;
+> > +
+> > +                     regulators {
+> > +                             s2dos05_ldo1: ldo1 {
+> > +                                     regulator-active-discharge = <1>;
+> > +                                     regulator-enable-ramp-delay = <12000>;
+> > +                                     regulator-min-microvolt = <1500000>;
+> > +                                     regulator-max-microvolt = <2000000>;
+> > +                                     regulator-name = "s2dos05-ldo1";
+>
+> Useless name. Please use rather names from the schematics, but I guess
+> you might not have them, so maybe downstream has reasonable name?
 
-Hello Markus,
+Unfortunately, downstream uses that same name.
 
-In my opinion, the suggested changes aren't bringing any improvement, not
-in readability nor performance ... nor anything else, really.
+-- 
 
-For how I see it, the code is fine as it is, but then, that all boils down
-to code style preferences and nothing else.
-
-Cheers,
-angelo
-
-> 
-> Markus Elfring (2):
->    Avoid duplicate sg_free_table(sgt) call
->    Use common error handling code
-> 
->   drivers/gpu/drm/mediatek/mtk_gem.c | 14 ++++++++------
->   1 file changed, 8 insertions(+), 6 deletions(-)
-> 
-> --
-> 2.46.0
-> 
-
-
+Best regards,
+Dzmitry
