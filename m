@@ -2,91 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A9197C609
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 10:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FCD97C620
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 10:46:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0682288668;
-	Thu, 19 Sep 2024 08:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91EB10E14A;
+	Thu, 19 Sep 2024 08:46:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VHweQgvA";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ltkUfERn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB9A10E6A6
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 08:40:44 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-84876d069acso164654241.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 01:40:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726735243; x=1727340043; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xykemnfjHLjw1rPIo+7O6AS00C6CkkoCorxyDrzMaEQ=;
- b=VHweQgvAyC/yNgpRIpUot6sUql98nAlyOXs981j6KAfOkXUPcmccexwutoqibj65NT
- UaobyCpO1St/612/LNljZVGQk8ZJiH3qJwlNRhtCs0kck9nfRMMD6qCADu2rNn0it9CF
- TTgBEzgQIJEEH/X0Ctl0YKxZsIb/g8T0A5ZDn3Nsr09JVfYcpBm/CDZKHB5+0gA3suzE
- Jzj1dfqVEwnLjz4OxcNwsfK6geQ35XV2kFNXjc8toAPplX8TAkW9Hi2GuP9lZ4oE0UIb
- oGDpntw2avo4IFh/AxldcCZvsDBhEXMoGotrQITFf6fTD24Er8AxefdBTnvQWi3PiC5g
- rPwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726735243; x=1727340043;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xykemnfjHLjw1rPIo+7O6AS00C6CkkoCorxyDrzMaEQ=;
- b=hUpFmGsrAvmhY8MKKKqbnBYJN3uKolV3gdkciANYKVeWQutLoO08hsGjQFvQFxfz6X
- QgT1go3rEd6Mhk5GMlmYUMtxoWbFbH8RunI+AB6FfaI5xJF0CIaGiBDeU/WLJ7KVE/lH
- a0KiFd+gMigvCO4eVsebslp3XEesjiSh5GM1K9SyTho9tLZJ+0CZ4Td2svQftDYvB/go
- worqqqZd8mi2K6E3CbB+wSji+e/Nd5psYW/womRABNokEtDoHt7OlUWx/KCQD2oPj+6B
- QwBe5MtdNqoHBV8lB0NCgotn4cnvwZssPVcORxEHSAKNKYG6x1+Rwr36ukozzBxyP+6i
- llGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbtuCBcLyY4I0ImAw9swGo/Ab/EicKpojLEU6b+a9OufhZC8XzNdN+b9isKL3/ihDn9y2XbP/BAbo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxa5OtCKRxkuTpt6gLKVUr61z/05o1HtunBa/d8yaNLgJgSjwbQ
- SP4inFNd0MokzpOd/uod5PBLjhmIj3b67qUIXZjNjceIx2xGNJuKTBTLXIp0dgEo23bOR5+PoKs
- oUP+HaiRcTf7wyqkBRizZFUyeQe4=
-X-Google-Smtp-Source: AGHT+IEPF6qaPSTwKWIjFiNSfRRNnkJYm1P330LaZ6f6Fgj87ECtB4FGVzstCMCjXzBEMRn+f/qNz2tsedSZyWrs7oI=
-X-Received: by 2002:a05:6102:38d1:b0:49b:f5ed:4bcb with SMTP id
- ada2fe7eead31-49d4157db8cmr17162683137.24.1726735243511; Thu, 19 Sep 2024
- 01:40:43 -0700 (PDT)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B46D10E14A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 08:46:19 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 55C5540009;
+ Thu, 19 Sep 2024 08:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1726735577;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qKVBGdQ0KGRHXbva3sixdjzkPFtoOD1WGEsGhWuEFRs=;
+ b=ltkUfERnCDH6Z2lgs/Sxo/WYi7r9FY1M5UMPeOe4pwNRnjoplWnGRIKeVf+rpu1HjzjwZU
+ gmGDirv51tnGRPZQIrryyfXblgiv86pd6uDHXFw7CkVJtrh1qZ/slU6d8kP4QwDIuqq37k
+ /3WvC/4HOCtBOMcdRpj7Jz9mhOegMx37FXbnYSwWpp3TM6OTpZJrJEdxbMzV3WnLlOERQk
+ C4kVBcDqjpk/v/cIh3vbRAm5sBQdB0JgcznW5OKHpCAy9k3cJu3L8bGMroB5lilVVTvHDl
+ Jl4oNgeFUlXgXgfG+xCmOe4I7Bl12xme5Kettr7pJJ/Gi2uDwPWlsTjbDr8ZZA==
+Date: Thu, 19 Sep 2024 10:46:14 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+Subject: Re: [PATCH] drm: writeback: Introduce drm managed helpers
+Message-ID: <Zuvk1k8VMnx7eVYp@localhost.localdomain>
+Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
+ <jose.exposito89@gmail.com>, 
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+References: <20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com>
+ <20240917160235.2947-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-8-2d2efd5c5877@gmail.com>
- <wywp6vj2pqqe7to55k7ssh5sbqrmy7emvwruvm2waytancf3r4@aygtw3y6huwx>
- <CABTCjFAvXYrRJS3Dwf-TMq3OW_vN1hskk+qPjosbRym7xOvy1Q@mail.gmail.com>
- <6886f561-b9e4-468b-9515-72053d57911f@kernel.org>
-In-Reply-To: <6886f561-b9e4-468b-9515-72053d57911f@kernel.org>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Thu, 19 Sep 2024 11:40:32 +0300
-Message-ID: <CABTCjFDKuEM2wogLcJXX+0eCOTCDUSycPi7JCjvdRCbXaP2EOg@mail.gmail.com>
-Subject: Re: [PATCH v4 08/27] mfd: max77693: remove unused declarations
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
- cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240917160235.2947-1-jose.exposito89@gmail.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,35 +68,417 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D1=87=D1=82, 19 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 10:0=
-0, Krzysztof Kozlowski <krzk@kernel.org>:
->
-> On 18/09/2024 14:53, Dzmitry Sankouski wrote:
-> > =D0=BF=D0=BD, 16 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 =
-12:10, Krzysztof Kozlowski <krzk@kernel.org>:
-> >>
-> >> On Fri, Sep 13, 2024 at 06:07:51PM +0300, Dzmitry Sankouski wrote:
-> >>> Remove `enum max77693_irq_source` declaration because unused.
-> >>>
-> >>> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> >>> ---
-> >>>  include/linux/mfd/max77693-private.h | 11 -----------
-> >>>  1 file changed, 11 deletions(-)
-> >>
-> >> Please split your patchset per subsystems. There is no dependency on M=
-FD
-> >> bits from your DTS... (if there is, this needs to be fixed anyway)
-> >
-> > Indeed, my dts has no dependency on this patch.
-> > However, my dts has dependency on MAX77705, so AFAIU,
-> > I should send this patch separately, while leaving other drivers in sam=
-e
-> > patchset, right?
->
-> How DTS could have dependency on MAX77705? It's a clear no go - broken
-> patch. And something very weird, almost never happening for new hardware.
->
-Oh right, dts only depends on driver bindings, not driver code, so I
-can send dts
-patches with bindings in separate series, and per subsystem series for new
-driver code.
+Le 17/09/24 - 18:02, José Expósito a écrit :
+> Hey Louis,
+> 
+> > Currently drm_writeback_connector are created by
+> > drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
+> > Both of the function uses drm_connector_init and drm_encoder_init, but
+> > there is no way to properly clean those structure from outside. By using
+> > drm managed variants, we can ensure that the writeback connector is
+> > properly cleaned.
+> > 
+> > This patch introduce drmm_writeback_connector_init, an helper to initialize
+> > a writeback connector using drm managed helpers. This function allows the
+> > caller to use its own encoder.
+> > 
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > ---
+> > Hi Maxime, Jani,
+> > 
+> > I tried with this commit to implement the drm-managed version of writeback 
+> > connector initialization. I tested with the current vkms driver, and it 
+> > seems to works (at least no crash/warns).
+> > 
+> > As suggested by Jani, I only created one function, which takes a 
+> > NULL-able pointer for encoder/encoder functions/possible_crtc. What do you 
+> > think about it?
+> > 
+> > Regarding the documentation, I think I repeated too much, can I simply add 
+> > comments like "see documentation of @... for the details / requirements"?
+> > 
+> > Good weekend,
+> > Louis Chauvet
+> > ---
+> >  drivers/gpu/drm/drm_writeback.c | 224 ++++++++++++++++++++++++++++++++++------
+> >  include/drm/drm_writeback.h     |   7 ++
+> >  2 files changed, 201 insertions(+), 30 deletions(-)
+> > 
+> > 
+> > ---
+> > base-commit: a6bb1f77a94335de67dba12e7f52651c115b82d2
+> > change-id: 20240829-writeback-drmm-b9b85dcdaf7b
+> > 
+> > Best regards,
+> > 
+> > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> > index a031c335bdb9..a161deeea908 100644
+> > --- a/drivers/gpu/drm/drm_writeback.c
+> > +++ b/drivers/gpu/drm/drm_writeback.c
+> > @@ -18,6 +18,7 @@
+> >  #include <drm/drm_modeset_helper_vtables.h>
+> >  #include <drm/drm_property.h>
+> >  #include <drm/drm_writeback.h>
+> > +#include <drm/drm_managed.h>
+> 
+> Includes are sort alphabetically, you might want to move this one up.
+> 
+> >  
+> >  /**
+> >   * DOC: overview
+> > @@ -202,13 +203,12 @@ int drm_writeback_connector_init(struct drm_device *dev,
+> >  EXPORT_SYMBOL(drm_writeback_connector_init);
+> >  
+> >  /**
+> > - * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
+> > - * a custom encoder
+> > + * __drm_writeback_connector_init - Common initialization code for writeback
+> > + * connector
+> >   *
+> >   * @dev: DRM device
+> >   * @wb_connector: Writeback connector to initialize
+> >   * @enc: handle to the already initialized drm encoder
+> > - * @con_funcs: Connector funcs vtable
+> >   * @formats: Array of supported pixel formats for the writeback engine
+> >   * @n_formats: Length of the formats array
+> >   *
+> > @@ -224,41 +224,31 @@ EXPORT_SYMBOL(drm_writeback_connector_init);
+> >   * assigning the encoder helper functions, possible_crtcs and any other encoder
+> >   * specific operation.
+> >   *
+> > - * Drivers should always use this function instead of drm_connector_init() to
+> > - * set up writeback connectors if they want to manage themselves the lifetime of the
+> > - * associated encoder.
+> > - *
+> >   * Returns: 0 on success, or a negative error code
+> >   */
+> > -int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> > -		struct drm_writeback_connector *wb_connector, struct drm_encoder *enc,
+> > -		const struct drm_connector_funcs *con_funcs, const u32 *formats,
+> > -		int n_formats)
+> > +static int __drm_writeback_connector_init(
+> > +	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
+> > +	struct drm_encoder *enc, const u32 *formats, int n_formats)
+> 
+> Not a big deal, but ./scripts/checkpatch.pl complains about this
+> ideantation:
+> 
+>     CHECK: Lines should not end with a '('
+>     CHECK: Alignment should match open parenthesis
+> 
+> You can fix it with:
+> 
+> static int __drm_writeback_connector_init(struct drm_device *dev,
+> 					  struct drm_writeback_connector *wb_connector,
+> 					  struct drm_encoder *enc,
+> 					  const u32 *formats,
+> 					  int n_formats)
+> 
+> >  {
+> > -	struct drm_property_blob *blob;
+> >  	struct drm_connector *connector = &wb_connector->base;
+> >  	struct drm_mode_config *config = &dev->mode_config;
+> > -	int ret = create_writeback_properties(dev);
+> > -
+> > -	if (ret != 0)
+> > -		return ret;
+> > -
+> > -	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
+> > -					formats);
+> > -	if (IS_ERR(blob))
+> > -		return PTR_ERR(blob);
+> > -
+> > +	struct drm_property_blob *blob;
+> > +	int ret;
+> >  
+> >  	connector->interlace_allowed = 0;
+> >  
+> > -	ret = drm_connector_init(dev, connector, con_funcs,
+> > -				 DRM_MODE_CONNECTOR_WRITEBACK);
+> > +	ret = create_writeback_properties(dev);
+> >  	if (ret)
+> > -		goto connector_fail;
+> > +		return ret;
+> >  
+> >  	ret = drm_connector_attach_encoder(connector, enc);
+> >  	if (ret)
+> > -		goto attach_fail;
+> > +		return ret;
+> > +
+> > +	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
+> > +					formats);
+> > +	if (IS_ERR(blob))
+> > +		return PTR_ERR(blob);
+> >  
+> >  	INIT_LIST_HEAD(&wb_connector->job_queue);
+> >  	spin_lock_init(&wb_connector->job_lock);
+> > @@ -281,15 +271,189 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> >  	wb_connector->pixel_formats_blob_ptr = blob;
+> >  
+> >  	return 0;
+> > +}
+> > +
+> > +/**
+> > + * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
+> > + * a custom encoder
+> > + *
+> > + * @dev: DRM device
+> > + * @wb_connector: Writeback connector to initialize
+> > + * @enc: handle to the already initialized drm encoder
+> > + * @con_funcs: Connector funcs vtable
+> > + * @formats: Array of supported pixel formats for the writeback engine
+> > + * @n_formats: Length of the formats array
+> > + *
+> > + * This function creates the writeback-connector-specific properties if they
+> > + * have not been already created, initializes the connector as
+> > + * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
+> > + * values.
+> > + *
+> > + * This function assumes that the drm_writeback_connector's encoder has already been
+> > + * created and initialized before invoking this function.
+> > + *
+> > + * In addition, this function also assumes that callers of this API will manage
+> > + * assigning the encoder helper functions, possible_crtcs and any other encoder
+> > + * specific operation.
+> > + *
+> > + * Drivers should always use this function instead of drm_connector_init() to
+> > + * set up writeback connectors if they want to manage themselves the lifetime of the
+> > + * associated encoder.
+> > + *
+> > + * Returns: 0 on success, or a negative error code
+> > + */
+> > +int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> > +		struct drm_writeback_connector *wb_connector, struct drm_encoder *enc,
+> > +		const struct drm_connector_funcs *con_funcs, const u32 *formats,
+> > +		int n_formats)
+> > +{
+> > +	struct drm_connector *connector = &wb_connector->base;
+> > +	int ret;
+> > +
+> > +	ret = drm_connector_init(dev, connector, con_funcs,
+> > +				 DRM_MODE_CONNECTOR_WRITEBACK);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = __drm_writeback_connector_init(dev, wb_connector, enc, formats,
+> > +					     n_formats);
+> > +	if (ret)
+> > +		drm_connector_cleanup(connector);
+> >  
+> > -attach_fail:
+> > -	drm_connector_cleanup(connector);
+> > -connector_fail:
+> > -	drm_property_blob_put(blob);
+> >  	return ret;
+> >  }
+> >  EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+> >  
+> > +/**
+> > + * drm_writeback_connector_cleanup - Cleanup the writeback connector
+> > + * @dev: DRM device
+> > + * @data: Opaque pointer to the writeback connector
+> > + *
+> > + * This will decrement the reference counter of blobs and it will clean the
+> > + * remaining jobs in this writeback connector.
+> > + */
+> > +static void drm_writeback_connector_cleanup(struct drm_device *dev, void *data)
+> > +{
+> > +	struct drm_writeback_connector *wb_connector = data;
+> > +	unsigned long flags;
+> > +	struct drm_writeback_job *pos, *n;
+> > +
+> > +	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
+> > +
+> > +	spin_lock_irqsave(&wb_connector->job_lock, flags);
+> > +	list_for_each_entry_safe(pos, n, &wb_connector->job_queue, list_entry) {
+> > +		drm_writeback_cleanup_job(pos);
+> > +		list_del(&pos->list_entry);
+> > +	}
+> > +	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
+> > +}
+> > +
+> > +/**
+> > + * __drmm_writeback_connector_init - Initialize a writeback connector with
+> > + * a custom encoder
+> > + *
+> > + * @dev: DRM device
+> > + * @wb_connector: Writeback connector to initialize
+> > + * @con_funcs: Connector funcs vtable
+> > + * @enc: handle to the already initialized drm encoder
+> > + * @formats: Array of supported pixel formats for the writeback engine
+> > + * @n_formats: Length of the formats array
+> > + *
+> > + * This function initialize a writeback connector and register its cleanup.
+> > + * It uses the common helper @__drm_writeback_connector_init to do the
+> > + * general initialization.
+> > + *
+> > + * This function assumes that @enc has already been created and initialized
+> > + * before invoking this function.
+> > + *
+> > + * In addition, this function also assumes that callers of this API will manage
+> > + * assigning the encoder helper functions, possible_crtcs and any other encoder
+> > + * specific operation.
+> > + *
+> > + * Returns: 0 on success, or a negative error code
+> > + */
+> > +static int __drmm_writeback_connector_init(
+> > +	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
+> > +	const struct drm_connector_funcs *con_funcs, struct drm_encoder *enc,
+> > +	const u32 *formats, int n_formats)
+> 
+> checkpatch warnings here as well.
+> 
+> > +{
+> > +	struct drm_connector *connector = &wb_connector->base;
+> > +	int ret;
+> > +
+> > +	ret = drmm_connector_init(dev, connector, con_funcs,
+> > +				  DRM_MODE_CONNECTOR_WRITEBACK, NULL);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = __drm_writeback_connector_init(dev, wb_connector, enc, formats,
+> > +					     n_formats);
+> > +	if (ret) {
+> > +		drm_writeback_connector_cleanup(dev, &wb_connector);
+> 
+> Is it safe to call drm_writeback_connector_cleanup() without initializing
+> the job_queue and job_lock?
+
+Right, I don't need to cleanup anything here.
+
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = drmm_add_action_or_reset(dev, &drm_writeback_connector_cleanup,
+> > +				       wb_connector);
+> > +	if (ret)
+> 
+> Missing call to drm_writeback_connector_cleanup()?
+
+I don't need to call it, the version _or_reset already does it [1,2].
+
+[1]:https://dri.freedesktop.org/docs/drm/gpu/drm-internals.html#c.drmm_add_action_or_reset
+[2]:https://elixir.bootlin.com/linux/v6.11/source/drivers/gpu/drm/drm_managed.c#L165
+
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/**
+> > + * drmm_writeback_connector_init - Initialize a writeback connector with
+> > + * a custom encoder
+> > + *
+> > + * @dev: DRM device
+> > + * @wb_connector: Writeback connector to initialize
+> > + * @con_funcs: Connector funcs vtable
+> > + * @enc: handle to the already initialized drm encoder, optional
+> > + * @enc_funcs: Encoder funcs vtable, optional
+> 
+> I think that this is only used if @enc is NULL, it'd be nice to clarify
+> it like you did with @possible_crtcs.
+
+Yes, definitly. On my first implementation it was always used and I forgot 
+to update doc.
+
+	@enc_funcs: Encoder funcs vtable, optional, only used when @enc is 
+	NULL and a new encoder is created
+
+> > + * @formats: Array of supported pixel formats for the writeback engine
+> > + * @n_formats: Length of the formats array
+> > + * @possible_crtcs: if @enc is NULL, this will set the possible_crtc for the
+> > + *		    newly created encoder
+> > + *
+> > + * This function initialize a writeback connector and register its cleanup.
+> > + *
+> > + * This function creates the writeback-connector-specific properties if they
+> > + * have not been already created, initializes the connector as
+> > + * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
+> > + * values.
+> > + *
+> > + * If @enc is NULL, a drm-managed encoder is created and used.
+> > + * If @enc_funcs is not NULL, this vtable is attached to @enc or this new
+> > + * encoder.
+> 
+> Isn't it only attached when @enc is NULL?
+
+Yes!
+
+> > + *
+> > + * Returns: 0 on success, or a negative error code
+> > + */
+> > +int drmm_writeback_connector_init(
+> > +	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
+> > +	const struct drm_connector_funcs *con_funcs,
+> > +	struct drm_encoder *enc,
+> > +	const struct drm_encoder_helper_funcs *enc_funcs, const u32 *formats,
+> > +	int n_formats, u32 possible_crtcs)
+> 
+> Same checkpatch issues.
+> 
+> > +{
+> > +	int ret;
+> > +
+> > +	if (!enc) {
+> > +		ret = drmm_encoder_init(dev, &wb_connector->encoder,
+> > +					NULL, DRM_MODE_ENCODER_VIRTUAL, NULL);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		enc = &wb_connector->encoder;
+> 
+> This modifies an input function parameter, not sure if it's intended
+> but undocumented.
+
+It does not change the input function parameter, it changes the pointer 
+value, not the pointee value. If I want to change the input functino 
+parameter, I would have to use
+
+	*enc = smthing;
+
+> > +		enc->possible_crtcs |= possible_crtcs;
+> > +		if (enc_funcs)
+> > +			drm_encoder_helper_add(enc, enc_funcs);
+> > +	}
+> > +
+> > +	return __drmm_writeback_connector_init(dev, wb_connector, con_funcs,
+> > +					       &wb_connector->encoder, formats,
+> > +					       n_formats);
+> > +}
+> > +EXPORT_SYMBOL(drmm_writeback_connector_init);
+> > +
+> >  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+> >  			 struct drm_framebuffer *fb)
+> >  {
+> > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> > index 17e576c80169..88abfd3d4564 100644
+> > --- a/include/drm/drm_writeback.h
+> > +++ b/include/drm/drm_writeback.h
+> > @@ -161,6 +161,13 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> >  				const struct drm_connector_funcs *con_funcs, const u32 *formats,
+> >  				int n_formats);
+> >  
+> > +int drmm_writeback_connector_init(
+> > +	struct drm_device *dev, struct drm_writeback_connector *wb_connector,
+> > +	const struct drm_connector_funcs *con_funcs,
+> > +	struct drm_encoder *enc,
+> > +	const struct drm_encoder_helper_funcs *enc_funcs, const u32 *formats,
+> > +	int n_formats, u32 possible_crtcs);
+> > +
+> 
+> This indentation make checkpatch happy:
+> 
+> int drmm_writeback_connector_init(struct drm_device *dev,
+> 				  struct drm_writeback_connector *wb_connector,
+> 				  const struct drm_connector_funcs *con_funcs,
+> 				  struct drm_encoder *enc,
+> 				  const struct drm_encoder_helper_funcs *enc_funcs,
+> 				  const u32 *formats,
+> 				  int n_formats,
+> 				  u32 possible_crtcs);
+> 
+> >  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+> >  			 struct drm_framebuffer *fb);
+> >  
+> > 
