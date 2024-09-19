@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A5B97D1A3
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518EF97D19C
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10DA110E7BD;
-	Fri, 20 Sep 2024 07:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C942E10E7C3;
+	Fri, 20 Sep 2024 07:22:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="Z8QZNb6p";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="d4a12F3o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 389C510E722
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B0F10E725
  for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 15:19:47 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 5E2BA23C84;
- Thu, 19 Sep 2024 17:11:29 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id E438521B06;
+ Thu, 19 Sep 2024 17:11:35 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id C22g_44K2jCi; Thu, 19 Sep 2024 17:11:28 +0200 (CEST)
+ id BqxMisKfJAsW; Thu, 19 Sep 2024 17:11:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1726758688; bh=vtqJW4WoUdJcxU3RW65FntLJKHSrz+r77iQWDTkRUAg=;
+ t=1726758695; bh=W9NCakkUrBU6rZgTcjvry5F2W8keaA/67v1TEQpKKeQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=Z8QZNb6p6RID89WXQnJeGWWbD9a9lgxAaXxrg3vO+S9gRVFSvO1j88l+7OTuvqBNa
- leX1+EguSnOiHgsB2G/SxQAd5kx/eVtcwLPKJxwVfQ0x/qs/d4GiHj2eui1r/cb/tQ
- 2H7foP02Jy0PRTUqkLrrDCN3pFs4uqehqt5Nwqt40clxUghJy1gFvI8h0O5lgxCVyj
- WznF6VnhNUEBCd/V572JzsGzB6HqsDJ8MiUNIr3pEsWqFl8jyjLq0+gDpP6ahvwbV3
- UdlhQVwMOp2dH2RmBM/gVs9LgZ+jbHDI87yEF9hhtJIZGMMyyONYl7L7xqUIe96/Zi
- PNl777QQ66hpQ==
+ b=d4a12F3oc0//7xbMft44unULEDptgyZ8hdZsHJlcawbcBix+0C+teeomT+TQazSR7
+ SOksXV3EVD937F1dSYO19M5XUN17GvEzjOLK4FKngNBfaJYdLzc15b+wTnR/HJ357o
+ E1aVNVLV6v9m2OStYcGw2/oFeuxqapya0gsURwvrRkNlczUhFiQPeeLAkfD16qebIT
+ Preyv5iXYzQQD0LLiZot9ukE+IB/aLsBrDQzAwRKJLUFx5z+ZNk1A6UnP7Amuv7Xxt
+ u5ZDzpfXXVbfEbl4BpsJpI/OZaLM70BBqdWikkdjLjRtZUi8gLc8BGXAfjJBDKjk10
+ zhAg/u/3bWK8g==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Thu, 19 Sep 2024 20:41:00 +0530
-Subject: [PATCH 1/6] drm/exynos: exynos7_drm_decon: fix uninitialized crtc
- reference in functions
+Date: Thu, 19 Sep 2024 20:41:01 +0530
+Subject: [PATCH 2/6] drm/exynos: exynos7_drm_decon: fix suspended condition
+ in decon_commit()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240919-exynosdrm-decon-v1-1-6c5861c1cb04@disroot.org>
+Message-Id: <20240919-exynosdrm-decon-v1-2-6c5861c1cb04@disroot.org>
 References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
 In-Reply-To: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
 To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
@@ -67,64 +67,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-decon_clear_channels() and decon_wait_for_vblank() accept a pointer to
-struct exynos_drm_crtc. However, these functions are called when the
-crtc is still uninitialized. Moreover, both functions use the pointer to
-retrieve and use struct decon_context, which is initialized.
-
-Modify the functions to accept a pointer to struct decon_context
-instead.
+decon_commit() gets called during atomic_enable. At this stage, DECON is
+suspended, and thus the function refuses to run. Fix the suspended
+condition checking in decon_commit().
 
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- drivers/gpu/drm/exynos/exynos7_drm_decon.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-index 0d185c0564b9..e994779694f0 100644
+index e994779694f0..2c4ee87ae6ec 100644
 --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
 +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-@@ -81,10 +81,8 @@ static const enum drm_plane_type decon_win_types[WINDOWS_NR] = {
- 	DRM_PLANE_TYPE_CURSOR,
- };
+@@ -152,7 +152,7 @@ static void decon_commit(struct exynos_drm_crtc *crtc)
+ 	struct drm_display_mode *mode = &crtc->base.state->adjusted_mode;
+ 	u32 val, clkdiv;
  
--static void decon_wait_for_vblank(struct exynos_drm_crtc *crtc)
-+static void decon_wait_for_vblank(struct decon_context *ctx)
- {
--	struct decon_context *ctx = crtc->ctx;
--
- 	if (ctx->suspended)
+-	if (ctx->suspended)
++	if (!ctx->suspended)
  		return;
  
-@@ -100,9 +98,8 @@ static void decon_wait_for_vblank(struct exynos_drm_crtc *crtc)
- 		DRM_DEV_DEBUG_KMS(ctx->dev, "vblank wait timed out.\n");
- }
- 
--static void decon_clear_channels(struct exynos_drm_crtc *crtc)
-+static void decon_clear_channels(struct decon_context *ctx)
- {
--	struct decon_context *ctx = crtc->ctx;
- 	unsigned int win, ch_enabled = 0;
- 
- 	/* Check if any channel is enabled. */
-@@ -118,7 +115,7 @@ static void decon_clear_channels(struct exynos_drm_crtc *crtc)
- 
- 	/* Wait for vsync, as disable channel takes effect at next vsync */
- 	if (ch_enabled)
--		decon_wait_for_vblank(ctx->crtc);
-+		decon_wait_for_vblank(ctx);
- }
- 
- static int decon_ctx_initialize(struct decon_context *ctx,
-@@ -126,7 +123,7 @@ static int decon_ctx_initialize(struct decon_context *ctx,
- {
- 	ctx->drm_dev = drm_dev;
- 
--	decon_clear_channels(ctx->crtc);
-+	decon_clear_channels(ctx);
- 
- 	return exynos_drm_register_dma(drm_dev, ctx->dev, &ctx->dma_priv);
- }
+ 	/* nothing to do if we haven't set the mode yet */
 
 -- 
 2.46.1
