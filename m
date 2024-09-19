@@ -2,67 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF72497C5FF
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 10:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A9197C609
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 10:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFF310E6B7;
-	Thu, 19 Sep 2024 08:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0682288668;
+	Thu, 19 Sep 2024 08:40:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CgKkmGzu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VHweQgvA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D60510E6A4;
- Thu, 19 Sep 2024 08:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726735138; x=1758271138;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/m+pyS//DNV9f7FmkrXey9WKou5dgta3AvsLE4Dz58c=;
- b=CgKkmGzu/UbKCgMzfLdyrpHzsUvWA6gxII2AzGg6u2kdKWH5qDEe09oQ
- mW6MKnBg6f9jpMWFkIawXWR1WFQgvnLwexN+vg9huV7LLynBrmPnErxWp
- Mz1oksMsEWi7u47RWNlz6wOTd+JKDrj05j1438LZT3esn+YUZjz3MQcc2
- 2vVgyfEhPsMRkiVZjc7MVV1UkH62c0iDmxF9F2oJV5o3oSXvBUMeeIpxF
- K1WmYaZVcx564wyAYTtg6/w4BLUMQEMsBcdqW3XS8moh138+AZPDkQsK7
- pjsNW5KI1HuRpkPMxYVUn4MNXl2SM5hRewTHXs+9jTPtZjIaoJt/8J3ZM w==;
-X-CSE-ConnectionGUID: 4VkYIHUbSkmEdP+IGJz2Bw==
-X-CSE-MsgGUID: sT5z+ipaTDOk+LQpnMfiSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="43151922"
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; d="scan'208";a="43151922"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2024 01:38:57 -0700
-X-CSE-ConnectionGUID: Mli78OqhQzK8DXBhN2jsag==
-X-CSE-MsgGUID: AA72/D/NQ5yBpOlcuCyVgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,241,1719903600"; d="scan'208";a="74222822"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2024 01:38:53 -0700
-Date: Thu, 19 Sep 2024 11:38:50 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
- lina@asahilina.net, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- andi.shyti@linux.intel.com, andriy.shevchenko@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: Re: [PATCH v5 2/4] drm: Expose wedge recovery methods
-Message-ID: <ZuvjGpIdOgGpbBQu@black.fi.intel.com>
-References: <20240917040235.197019-1-raag.jadav@intel.com>
- <20240917040235.197019-3-raag.jadav@intel.com>
- <87msk6d8jw.fsf@intel.com> <ZuujCuVxFnOAKdgR@black.fi.intel.com>
- <87r09g9jp0.fsf@intel.com>
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAB9A10E6A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 08:40:44 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id
+ a1e0cc1a2514c-84876d069acso164654241.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 01:40:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726735243; x=1727340043; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xykemnfjHLjw1rPIo+7O6AS00C6CkkoCorxyDrzMaEQ=;
+ b=VHweQgvAyC/yNgpRIpUot6sUql98nAlyOXs981j6KAfOkXUPcmccexwutoqibj65NT
+ UaobyCpO1St/612/LNljZVGQk8ZJiH3qJwlNRhtCs0kck9nfRMMD6qCADu2rNn0it9CF
+ TTgBEzgQIJEEH/X0Ctl0YKxZsIb/g8T0A5ZDn3Nsr09JVfYcpBm/CDZKHB5+0gA3suzE
+ Jzj1dfqVEwnLjz4OxcNwsfK6geQ35XV2kFNXjc8toAPplX8TAkW9Hi2GuP9lZ4oE0UIb
+ oGDpntw2avo4IFh/AxldcCZvsDBhEXMoGotrQITFf6fTD24Er8AxefdBTnvQWi3PiC5g
+ rPwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726735243; x=1727340043;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xykemnfjHLjw1rPIo+7O6AS00C6CkkoCorxyDrzMaEQ=;
+ b=hUpFmGsrAvmhY8MKKKqbnBYJN3uKolV3gdkciANYKVeWQutLoO08hsGjQFvQFxfz6X
+ QgT1go3rEd6Mhk5GMlmYUMtxoWbFbH8RunI+AB6FfaI5xJF0CIaGiBDeU/WLJ7KVE/lH
+ a0KiFd+gMigvCO4eVsebslp3XEesjiSh5GM1K9SyTho9tLZJ+0CZ4Td2svQftDYvB/go
+ worqqqZd8mi2K6E3CbB+wSji+e/Nd5psYW/womRABNokEtDoHt7OlUWx/KCQD2oPj+6B
+ QwBe5MtdNqoHBV8lB0NCgotn4cnvwZssPVcORxEHSAKNKYG6x1+Rwr36ukozzBxyP+6i
+ llGw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbtuCBcLyY4I0ImAw9swGo/Ab/EicKpojLEU6b+a9OufhZC8XzNdN+b9isKL3/ihDn9y2XbP/BAbo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxa5OtCKRxkuTpt6gLKVUr61z/05o1HtunBa/d8yaNLgJgSjwbQ
+ SP4inFNd0MokzpOd/uod5PBLjhmIj3b67qUIXZjNjceIx2xGNJuKTBTLXIp0dgEo23bOR5+PoKs
+ oUP+HaiRcTf7wyqkBRizZFUyeQe4=
+X-Google-Smtp-Source: AGHT+IEPF6qaPSTwKWIjFiNSfRRNnkJYm1P330LaZ6f6Fgj87ECtB4FGVzstCMCjXzBEMRn+f/qNz2tsedSZyWrs7oI=
+X-Received: by 2002:a05:6102:38d1:b0:49b:f5ed:4bcb with SMTP id
+ ada2fe7eead31-49d4157db8cmr17162683137.24.1726735243511; Thu, 19 Sep 2024
+ 01:40:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87r09g9jp0.fsf@intel.com>
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-8-2d2efd5c5877@gmail.com>
+ <wywp6vj2pqqe7to55k7ssh5sbqrmy7emvwruvm2waytancf3r4@aygtw3y6huwx>
+ <CABTCjFAvXYrRJS3Dwf-TMq3OW_vN1hskk+qPjosbRym7xOvy1Q@mail.gmail.com>
+ <6886f561-b9e4-468b-9515-72053d57911f@kernel.org>
+In-Reply-To: <6886f561-b9e4-468b-9515-72053d57911f@kernel.org>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Thu, 19 Sep 2024 11:40:32 +0300
+Message-ID: <CABTCjFDKuEM2wogLcJXX+0eCOTCDUSycPi7JCjvdRCbXaP2EOg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/27] mfd: max77693: remove unused declarations
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
+ cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,48 +102,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 19, 2024 at 10:38:51AM +0300, Jani Nikula wrote:
-> On Thu, 19 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
-> > On Tue, Sep 17, 2024 at 10:49:07AM +0300, Jani Nikula wrote:
-> >> On Tue, 17 Sep 2024, Raag Jadav <raag.jadav@intel.com> wrote:
-> >> > Now that we have device wedged event in place, add wedge_recovery sysfs
-> >> > attribute which will expose recovery methods supported by the DRM device.
-> >> > This is useful for userspace consumers in cases where the device supports
-> >> > multiple recovery methods which can be used as fallbacks.
-> >> >
-> >> > $ cat /sys/class/drm/card0/wedge_recovery
-> >> > rebind
-> >> > bus-reset
-> >> > reboot
-> >> >
-> >> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> >> > ---
-> >> >  drivers/gpu/drm/drm_sysfs.c | 23 +++++++++++++++++++++++
-> >> >  1 file changed, 23 insertions(+)
-> >> >
-> >> > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> >> > index fb3bbb6adcd1..b88cdbfa3b5e 100644
-> >> > --- a/drivers/gpu/drm/drm_sysfs.c
-> >> > +++ b/drivers/gpu/drm/drm_sysfs.c
-> >> > @@ -36,6 +36,8 @@
-> >> >  #define to_drm_minor(d) dev_get_drvdata(d)
-> >> >  #define to_drm_connector(d) dev_get_drvdata(d)
-> >> >  
-> >> > +extern const char *const wedge_recovery_opts[];
-> >> 
-> >> Data is not an interface. Please add a function for this.
+=D1=87=D1=82, 19 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 10:0=
+0, Krzysztof Kozlowski <krzk@kernel.org>:
+>
+> On 18/09/2024 14:53, Dzmitry Sankouski wrote:
+> > =D0=BF=D0=BD, 16 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 =
+12:10, Krzysztof Kozlowski <krzk@kernel.org>:
+> >>
+> >> On Fri, Sep 13, 2024 at 06:07:51PM +0300, Dzmitry Sankouski wrote:
+> >>> Remove `enum max77693_irq_source` declaration because unused.
+> >>>
+> >>> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> >>> ---
+> >>>  include/linux/mfd/max77693-private.h | 11 -----------
+> >>>  1 file changed, 11 deletions(-)
+> >>
+> >> Please split your patchset per subsystems. There is no dependency on M=
+FD
+> >> bits from your DTS... (if there is, this needs to be fixed anyway)
 > >
-> > For a single user?
-> 
-> Yes.
-> 
-> Well, you kind of have two, and both places need to do bounds checking
-> on indexing the array. You also need to do bounds checking on the string
-> manipulation, you can't just strcat and assume it'll be all right.
-
-Which would be true if we were to receive an unknown string. Here we sorta
-know it offhand so we're not gonna shoot in our foot :D
-
-Anyway, would you prefer strlcat instead?
-
-Raag
+> > Indeed, my dts has no dependency on this patch.
+> > However, my dts has dependency on MAX77705, so AFAIU,
+> > I should send this patch separately, while leaving other drivers in sam=
+e
+> > patchset, right?
+>
+> How DTS could have dependency on MAX77705? It's a clear no go - broken
+> patch. And something very weird, almost never happening for new hardware.
+>
+Oh right, dts only depends on driver bindings, not driver code, so I
+can send dts
+patches with bindings in separate series, and per subsystem series for new
+driver code.
