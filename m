@@ -2,90 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5D697CD9B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 20:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5217797D19B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:22:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DDC10E16D;
-	Thu, 19 Sep 2024 18:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9163D10E7B8;
+	Fri, 20 Sep 2024 07:22:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pWEPHfSD";
+	dkim=pass (1024-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="yMC1I47k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0C610E16D;
- Thu, 19 Sep 2024 18:33:50 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48J9P1tq031418;
- Thu, 19 Sep 2024 18:33:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- E2v9W5ToTAXSX0uVR1sXtPadf0VJTte9c1GTqVCirCc=; b=pWEPHfSDcQIoV4Wz
- y8QRrJuXXmYACz7WxrGCO6a1c71RR2+4x3xFFwXAqg4owgjCjCNsZYMuQzp9Yk98
- 65BWQR3ZFiA3uRN8uGWyjVKempiYlpBIZJhez65H3c4rUJA/4jHa6e6lGWp5Up10
- GgVH23091NyKgN+JqaMeB8aUkmFEZqmkzGiu0/2BRDe7gIDMf/qd5tN/H4vOsj+n
- UmmxqzGVSBM9W1SerD/AEIstxwYjXOfRHR2gjP60+xRrF0tw+CHEyUC0qae6cmEH
- 70ow2f9JHClSbGgLsMoUUtcL09pd5jPC5yqCO922uqSTQjAzBEJ+EWu79/l3ReaO
- 0dmAfA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41n4gee5y3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Sep 2024 18:33:02 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48JIX1xi028143
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Sep 2024 18:33:01 GMT
-Received: from [10.110.111.10] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 19 Sep
- 2024 11:33:00 -0700
-Message-ID: <08494313-5ff4-4730-90f2-4fad14071c91@quicinc.com>
-Date: Thu, 19 Sep 2024 11:32:59 -0700
+X-Greylist: delayed 322 seconds by postgrey-1.36 at gabe;
+ Thu, 19 Sep 2024 18:41:36 UTC
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7312F10E761
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 18:41:36 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by linux1587.grserver.gr (Postfix) with ESMTPSA id 890B92E09D41
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 21:36:11 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+ s=default; t=1726770972;
+ bh=s+yF+li2j831a0ZBLYu9KANv2eyqLt5OF+PS5kwZbeo=;
+ h=Received:From:Subject:To;
+ b=yMC1I47kmzqoZdL1g/5XBccq6b1RElIDUOyk5E8fcrfUx4MgD+K7GfD9qc89Mc5/a
+ R4xZzVZ5ITTX64m76Exi3JziGqLUo9L4o4QxZpMIIFdB0nCzyBal6/mhhKvQ68SsKL
+ xNnWneZuQoHCsqa89ydBhCEIIwZ3Bnb4ON0QGDZ4=
+Authentication-Results: linux1587.grserver.gr;
+ spf=pass (sender IP is 209.85.208.170) smtp.mailfrom=lkml@antheas.dev
+ smtp.helo=mail-lj1-f170.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2f7502f09fdso9581151fa.1
+ for <dri-devel@lists.freedesktop.org>;
+ Thu, 19 Sep 2024 11:36:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV8WSx4OxWXEarKoFQPptCQ3bcDKn2EPHA31sVWufmq5SZNaWZkffQxjt/5tc5mOgvIkEqVjFn5uG8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5zJOYTSFuvNajggO6NikdnhLlZDYdKfOjrlSVjwnCYNCNzsuD
+ WUzFSXET3hDjb8zSdMzhRLYU6yA/o30K3/1zv9VJ/LthiwARLTg9Ru1Hou/F6xI/BhaWXCF63cY
+ G1uD1rTGnfMsE1kuL3wJwx09qyPk=
+X-Google-Smtp-Source: AGHT+IHmNya4OPcOSlW1TjozX0vzXq3jKpe0VXQKwfXwNhht30gBxB456OdVxlYcQYq7rFNsvLLSWCiZGYtUBsg+xMM=
+X-Received: by 2002:a05:651c:221e:b0:2f7:5ca2:6d10 with SMTP id
+ 38308e7fff4ca-2f7cb364489mr1808451fa.15.1726770970830; Thu, 19 Sep 2024
+ 11:36:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/msm/dpu: drop LM_3 / LM_4 on MSM8998
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Sravanthi
- Kollukuduru <skolluku@codeaurora.org>,
- Rajesh Yadav <ryadav@codeaurora.org>,
- Archit Taneja <architt@codeaurora.org>, Jami Kettunen
- <jami.kettunen@somainline.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@somainline.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Jeykumar
- Sankaran <jsanka@codeaurora.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>
-References: <20240905-dpu-fix-sdm845-catalog-v1-0-3363d03998bd@linaro.org>
- <20240905-dpu-fix-sdm845-catalog-v1-3-3363d03998bd@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240905-dpu-fix-sdm845-catalog-v1-3-3363d03998bd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: KIfRM3LUNuoShbYbhEDhOEKIdzxXR4Zf
-X-Proofpoint-ORIG-GUID: KIfRM3LUNuoShbYbhEDhOEKIdzxXR4Zf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=768 impostorscore=0 bulkscore=0 clxscore=1015
- lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2408220000
- definitions=main-2409190124
+References: <20240919171952.403745-1-lkml@antheas.dev>
+ <20240919171952.403745-3-lkml@antheas.dev>
+ <1cbc0cda-549a-4333-9045-470c51981af5@amd.com>
+ <CADnq5_N63ncHDdr+=xB5RqYZXnMjjrVCgqTDz0zmPdSP98ip-A@mail.gmail.com>
+ <248d6066-bf38-43a5-bfb1-91ce855ea03b@amd.com>
+In-Reply-To: <248d6066-bf38-43a5-bfb1-91ce855ea03b@amd.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Thu, 19 Sep 2024 20:35:59 +0200
+X-Gmail-Original-Message-ID: <CAGwozwHy28hrZ1WxVEtd2cAB9YjrZZSoeA3QYity+Jks4Xr6Ug@mail.gmail.com>
+Message-ID: <CAGwozwHy28hrZ1WxVEtd2cAB9YjrZZSoeA3QYity+Jks4Xr6Ug@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] acpi/x86: s2idle: handle screen off/on calls
+ outside of suspend sequence
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexdeucher@gmail.com>, "Luke D. Jones" <luke@ljones.dev>,
+ linux-pm@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, me@kylegospodneti.ch
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: <172677097190.13681.4123086449836388250@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
+X-Mailman-Approved-At: Fri, 20 Sep 2024 07:22:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,20 +84,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+as noted in the cover letter, I think the connection to DRM is a red herring.
 
+The Display off callback in Windows is always called 5 seconds after
+the screen turns off due to inactivity or instantly if the user
+presses the power button. Likewise, Display on is called when the
+display is about to turn on.
 
-On 9/4/2024 8:26 PM, Dmitry Baryshkov wrote:
-> On the MSM8998 platform ther are no LM_3 and LM_4 blocks. Drop them from
-> the MSM8998 catalog.
-> 
-> Fixes: 94391a14fc27 ("drm/msm/dpu1: Add MSM8998 to hw catalog")
-> Reported-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h | 12 ------------
->   1 file changed, 12 deletions(-)
-> 
+In fact, pressing the powerbutton in Windows no longer suspends the
+device. It just locks the session and turns off the screen. Then
+Windows can do whatever it wants for however long it wants before
+suspending the device. It took me 2 days to realise this, as my dev
+unit was updating and it stayed happily on for 10-20 minutes after
+pressing the power button when connected to a charger.
 
-LGTM
+I think "Screen Off" is what Microsoft decided to call their
+background wakelock state (as it is called in Android). That means
+that if there is ever a laptop with an Always On display, it will be
+on the "Screen Off" state while the screen is on.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Antheas
