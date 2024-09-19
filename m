@@ -2,49 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F81E97CA83
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 15:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C015497CA9A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 16:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D01A210E70C;
-	Thu, 19 Sep 2024 13:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9D910E6F9;
+	Thu, 19 Sep 2024 14:00:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="HlSaHcvJ";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="CirY8fIF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I5tsIDHN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F8B10E702
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 13:53:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1726753978;
- bh=LM3bEgyCD5y65PbOZxGGwJT
- 6mgQqPyVEMbvg3K1YI/g=; b=HlSaHcvJ7b8vNA3Kn1gh5guMw/CTQkzaq05xUC9QTgLtMb71DT
- jLThFNGZKBYKqTHNuvb6ZU+14v6w7f3j1wzOqj8muJL0+xgYrfnJh4S5bm5Io8kiEn4jETUfDfr
- Z5uB8VNYWBJQZQAi4rVvKJ36Dv0e65tKRNMDRuvKPwONRjelmyrt5x6NZ95Dl7TCRexSONiBtBj
- MbadndoGDkW3XPWg2UyVCi4OKz2PxXPrnleZDxtyUQ3KR8QYAkiw7SiFVUKwBV15NOMntNiprtc
- BAACfz8CxPyOmxekN42SrAfavCik8GwP3MJsxlJqttE5dfIGaYFBu2nIid1QGHmqfFw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1726753978; bh=LM3bEgyCD5y65PbOZxGGwJT
- 6mgQqPyVEMbvg3K1YI/g=; b=CirY8fIFaqAAirMyE1RSI0B1Srx1TM1SeTbtujxFOUgCWd+1bk
- IOhOgDvr0oTYmmvW4CO1bPI9G0olUHgJomAg==;
-Message-ID: <4e73aa28-c6b3-45e1-bf30-e17de5da7853@damsy.net>
-Date: Thu, 19 Sep 2024 15:52:57 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71ABC10E6F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 14:00:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B53105C0FC4;
+ Thu, 19 Sep 2024 14:00:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19DEC4CEC6;
+ Thu, 19 Sep 2024 14:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1726754439;
+ bh=xsR/5exj7o7om66IEpVcbxeHqPW7nX2/GTDCySXOyjg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=I5tsIDHNGhVj0N/fknYIDHJB39HdZU77iSdzD3QjcRhfhPXfJ0mA7ZXMoTufpLPRu
+ hj2/ljNFYt4mo/s5LFlq8OSY5mf1fmb0vPYmlch2fPU6Jaxrml6Ve17ptUEhGAiT7d
+ hKzWa6NcNY5VIRevaX/dbsFQU6Q+PDVsnNFWX+S5U3prVXGK/XW1woREfummlk8wpb
+ NtY/VfLKcILzNRa+TrIN/MZgoquwJwAW4Ti+D3GceRH0DKz4rq0MPCdFs3TNJz73qD
+ d/CJ0u7IEiLT79CJReBjt0ic52uu+C3N8MqVsr7oa0Q54W3KeYIMgsw7BTOWQqO87O
+ rSbavqEeNIrmw==
+Message-ID: <e390ed47-1f24-4911-87f6-a66e45275b6c@kernel.org>
+Date: Thu, 19 Sep 2024 16:00:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm: add DRM_SET_NAME ioctl
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com
-References: <20240916133223.1023773-1-pierre-eric.pelloux-prayer@amd.com>
- <0a5ca0c1-712e-481f-b7c2-02c76885fcb8@igalia.com>
+Subject: Re: [PATCH v4 23/27] arm64: dts: qcom: starqltechn: add display PMIC
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson
+ <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>,
+ cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
+ <20240913-starqltechn_integration_upstream-v4-23-2d2efd5c5877@gmail.com>
+ <rfoxnd4axyqxvexgq3mm2zntzvpihv4g424hepkoh7bfr2izjz@htjeqbfuq2gu>
+ <CABTCjFCwg9HJcAQOG4+jeHviPiXoSiQgzX-ogUPQt1M2494aBQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <0a5ca0c1-712e-481f-b7c2-02c76885fcb8@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CABTCjFCwg9HJcAQOG4+jeHviPiXoSiQgzX-ogUPQt1M2494aBQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,259 +123,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 16/09/2024 à 16:35, Tvrtko Ursulin a écrit :
-> 
-> On 16/09/2024 14:32, Pierre-Eric Pelloux-Prayer wrote:
->> Giving the opportunity to userspace to associate a free-form
->> name with a drm_file struct is helpful for tracking and debugging.
+On 19/09/2024 15:17, Dzmitry Sankouski wrote:
+>>> +             pmic@60 {
+>>> +                     compatible = "samsung,s2dos05";
+>>> +                     reg = <0x60>;
+>>> +
+>>> +                     regulators {
+>>> +                             s2dos05_ldo1: ldo1 {
+>>> +                                     regulator-active-discharge = <1>;
+>>> +                                     regulator-enable-ramp-delay = <12000>;
+>>> +                                     regulator-min-microvolt = <1500000>;
+>>> +                                     regulator-max-microvolt = <2000000>;
+>>> +                                     regulator-name = "s2dos05-ldo1";
 >>
->> This is similar to the existing DMA_BUF_SET_NAME ioctl.
->>
->> Access to name is protected by a mutex, and the 'clients' debugfs
->> file has been updated to print it.
->>
->> Userspace MR to use this ioctl:
->>     https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1428
->>
->> The string passed by userspace is filtered a bit, to avoid messing
->> output when it's going to be printed (in dmesg, fdinfo, etc):
->>    * all chars failing isgraph() are replaced by '-'
->>    * if a 0-length string is passed the name is cleared
->>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/drm_debugfs.c | 12 ++++++----
->>   drivers/gpu/drm/drm_file.c    |  5 +++++
->>   drivers/gpu/drm/drm_ioctl.c   | 42 +++++++++++++++++++++++++++++++++++
->>   include/drm/drm_file.h        |  9 ++++++++
->>   include/uapi/drm/drm.h        | 14 ++++++++++++
->>   5 files changed, 78 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
->> index 6b239a24f1df..b7492225ae88 100644
->> --- a/drivers/gpu/drm/drm_debugfs.c
->> +++ b/drivers/gpu/drm/drm_debugfs.c
->> @@ -78,12 +78,13 @@ static int drm_clients_info(struct seq_file *m, void *data)
->>       kuid_t uid;
->>       seq_printf(m,
->> -           "%20s %5s %3s master a %5s %10s\n",
->> +           "%20s %5s %3s master a %5s %10s %20s\n",
->>              "command",
->>              "tgid",
->>              "dev",
->>              "uid",
->> -           "magic");
->> +           "magic",
->> +           "name");
->>       /* dev->filelist is sorted youngest first, but we want to present
->>        * oldest first (i.e. kernel, servers, clients), so walk backwardss.
->> @@ -94,19 +95,22 @@ static int drm_clients_info(struct seq_file *m, void *data)
->>           struct task_struct *task;
->>           struct pid *pid;
->> +        mutex_lock(&priv->name_lock);
->>           rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
->>           pid = rcu_dereference(priv->pid);
->>           task = pid_task(pid, PIDTYPE_TGID);
->>           uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
->> -        seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
->> +        seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %20s\n",
->>                  task ? task->comm : "<unknown>",
->>                  pid_vnr(pid),
->>                  priv->minor->index,
->>                  is_current_master ? 'y' : 'n',
->>                  priv->authenticated ? 'y' : 'n',
->>                  from_kuid_munged(seq_user_ns(m), uid),
->> -               priv->magic);
->> +               priv->magic,
->> +               priv->name ? priv->name : "");
->>           rcu_read_unlock();
->> +        mutex_unlock(&priv->name_lock);
->>       }
->>       mutex_unlock(&dev->filelist_mutex);
->>       return 0;
->> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->> index 01fde94fe2a9..e9dd0e90a1f9 100644
->> --- a/drivers/gpu/drm/drm_file.c
->> +++ b/drivers/gpu/drm/drm_file.c
->> @@ -158,6 +158,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
->>       spin_lock_init(&file->master_lookup_lock);
->>       mutex_init(&file->event_read_lock);
->> +    mutex_init(&file->name_lock);
->>       if (drm_core_check_feature(dev, DRIVER_GEM))
->>           drm_gem_open(dev, file);
->> @@ -259,6 +260,10 @@ void drm_file_free(struct drm_file *file)
->>       WARN_ON(!list_empty(&file->event_list));
->>       put_pid(rcu_access_pointer(file->pid));
->> +
->> +    mutex_destroy(&file->name_lock);
->> +    kfree(file->name);
->> +
->>       kfree(file);
->>   }
->> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
->> index 51f39912866f..b7d7bede0ab3 100644
->> --- a/drivers/gpu/drm/drm_ioctl.c
->> +++ b/drivers/gpu/drm/drm_ioctl.c
->> @@ -540,6 +540,46 @@ int drm_version(struct drm_device *dev, void *data,
->>       return err;
->>   }
->> +static int drm_set_name(struct drm_device *dev, void *data,
->> +            struct drm_file *file_priv)
->> +{
->> +    struct drm_set_name *name = data;
->> +    void *user_ptr;
+>> Useless name. Please use rather names from the schematics, but I guess
+>> you might not have them, so maybe downstream has reasonable name?
 > 
-> __user as kernel test robot reminds us.
+> Unfortunately, downstream uses that same name.
 
-Fixed in v3.
+Then "ldo1" is enough.
 
-> 
->> +    char *new_name;
->> +    size_t i, len;
->> +
->> +    if (name->name_len >= NAME_MAX)
->> +        return -EINVAL;
-> 
-> Maybe it is a bit unsubstantiated, but I am leaning towards a feeling of lets define own smaller 
-> limit, like dma-buf does. If 32 is deemed too restrictive make it larger but 255 feels unnecessary. 
-> But I don't feel to strongly about this so if people insist we need the names this long then so be it.
+Best regards,
+Krzysztof
 
-v3 has "#define DRM_NAME_MAX_LEN       64".
-
-> 
->> +
->> +    user_ptr = u64_to_user_ptr(name->name);
->> +
->> +    new_name = memdup_user_nul(user_ptr, name->name_len);
->> +
-> 
-> Nit: I'd zap this blank line since it is breaking a logical group.
-
-Done in v3.
-
-> 
->> +    if (IS_ERR(new_name))
->> +        return PTR_ERR(new_name);
->> +
->> +    /* Filter out control char / spaces / new lines etc in the name
->> +     * since it's going to be used in dmesg or fdinfo's output.
->> +     */
-> 
-> Nit: Preferred kernel style for multi-line comments is:
-> 
-> /*
->   * Comment
->   */
-> 
-> Unless amdgpu preferes to stick with the above. I think I've seen both used so don't know.
-
-Done in v3.
-
-> 
->> +    len = strlen(new_name);
-> 
-> Made me think if it is worth cross-checking against name->name_len and reject on mismatch? Probably 
-> yes.
-
-Added to v3.
-
-> 
->> +    for (i = 0; i < len; i++) {
->> +        if (!isgraph(new_name[i]))
->> +            new_name[i] = '-';
->> +    }
-> 
-> For completeness, alternative is to -EINVAL it. I have no strong opinions either way.
-
-For now I've kept the filtering approach and added a comment about it in include/uapi/drm/drm.h.
-
-> 
->> +
->> +    mutex_lock(&file_priv->name_lock);
->> +    kfree(file_priv->name);
->> +    if (len > 0) {
->> +        file_priv->name = new_name;
->> +    } else {
->> +        kfree(new_name);
->> +        file_priv->name = NULL;
-> 
-> FWIW you could not bother allocating new_file in this case.
-
-I've kept the code as-is, I kind of prefer it done the way it is.
-
-Thanks for your review,
-Pierre-Eric
-
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->> +    }
->> +    mutex_unlock(&file_priv->name_lock);
->> +
->> +    return 0;
->> +}
->> +
->>   static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
->>   {
->>       /* ROOT_ONLY is only for CAP_SYS_ADMIN */
->> @@ -610,6 +650,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
->>       DRM_IOCTL_DEF(DRM_IOCTL_PRIME_HANDLE_TO_FD, drm_prime_handle_to_fd_ioctl, DRM_RENDER_ALLOW),
->>       DRM_IOCTL_DEF(DRM_IOCTL_PRIME_FD_TO_HANDLE, drm_prime_fd_to_handle_ioctl, DRM_RENDER_ALLOW),
->> +    DRM_IOCTL_DEF(DRM_IOCTL_SET_NAME, drm_set_name, DRM_RENDER_ALLOW),
->> +
->>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPLANERESOURCES, drm_mode_getplane_res, 0),
->>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETCRTC, drm_mode_getcrtc, 0),
->>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETCRTC, drm_mode_setcrtc, DRM_MASTER),
->> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->> index 8c0030c77308..df26eee8f79c 100644
->> --- a/include/drm/drm_file.h
->> +++ b/include/drm/drm_file.h
->> @@ -388,6 +388,15 @@ struct drm_file {
->>        * Per-file buffer caches used by the PRIME buffer sharing code.
->>        */
->>       struct drm_prime_file_private prime;
->> +
->> +    /**
->> +     * @name:
->> +     *
->> +     * Userspace-provided name; useful for accounting and debugging.
->> +     */
->> +    const char *name;
->> +    /** @name_lock: Protects @name. */
->> +    struct mutex name_lock;
->>   };
->>   /**
->> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
->> index 16122819edfe..fc62bb21f79e 100644
->> --- a/include/uapi/drm/drm.h
->> +++ b/include/uapi/drm/drm.h
->> @@ -1024,6 +1024,12 @@ struct drm_crtc_queue_sequence {
->>       __u64 user_data;    /* user data passed to event */
->>   };
->> +struct drm_set_name {
->> +    __u64 name_len;
->> +    __u64 name;
->> +};
->> +
->> +
->>   #if defined(__cplusplus)
->>   }
->>   #endif
->> @@ -1288,6 +1294,14 @@ extern "C" {
->>    */
->>   #define DRM_IOCTL_MODE_CLOSEFB        DRM_IOWR(0xD0, struct drm_mode_closefb)
->> +/**
->> + * DRM_IOCTL_SET_NAME - Attach a name to a drm_file
->> + *
->> + * This ioctl is similar to DMA_BUF_SET_NAME - it allows for easier tracking
->> + * and debugging.
->> + */
->> +#define DRM_IOCTL_SET_NAME        DRM_IOWR(0xD1, struct drm_set_name)
->> +
->>   /*
->>    * Device specific ioctls should only be in their respective headers
->>    * The device specific ioctl range is from 0x40 to 0x9f.
