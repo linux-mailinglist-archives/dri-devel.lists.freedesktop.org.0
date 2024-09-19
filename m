@@ -2,159 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFFC97CDEE
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 21:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DA797CE0D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 21:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ECA310E76E;
-	Thu, 19 Sep 2024 19:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B801A10E00D;
+	Thu, 19 Sep 2024 19:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mBb5TT4I";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="fzvLBANY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2083.outbound.protection.outlook.com [40.107.100.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F29C410E76E;
- Thu, 19 Sep 2024 19:01:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iYRFFerVPKDlFiDHFAqylHjZLGkmN+LeSeqPF3HhW/IWKxfQXlyB50qaj3TDKP0aOpnScwzoBACEcEvgKS6Kj3tvRyX9W1KZa5LZmkyodFGcGwlmpSXLnM8pglT/QvWRipwqnJ/o/HSytBB8n1AAdTPlOX+EokqAQj0NjU6b0Awb4sqY3pb1LmmoB5mQuYVV6tnINQk6Ate0V5A6bBhVGQ4JZvKQhEjznBf4A8ISakrlo4hBktf6u2mWABPnIg4n9yNy/Xv8br7LncUGmpEYJKlASEp1+mOFug0ZR00u+8hKHEhhVNC4kbGfMxQuh5As3eLqCP8pL+5ptFFM/ZaCXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=djK3fO/uIF3DwuAEFZfzytFkt3c9k8cEkyZGwS2CmVA=;
- b=i3najr3cfKFM/YyyumCyTcvjBTsuME0AnN1yUMx4Jm/t3X1lbd8JO+cfGZo0N0diVzfI3UpIzDF2vd4sf6Ovcl9/fRBsrDtybhNSOiB/6Qnd1TY3QBhtnMT+TTCamsgX9gh6QxlnwBEG45ZvFFT7IZMvrc5sExv5IRg4zt5Zfyhrl1blmIvL+mMG3/YyROQjx7cii3XZ4ZJAo7KI545ysiBKK5LAB6WYCSshJatTYh3Ch1bEdD28WLhteZcLI4JOUghbS6PR12aFxM2m7GLos/4j+UcD8yLCQ6hd2SgUFnnQHiLL3Ix2zax/RNjpXWpIf1EcfMYJ3jB7sd/4CzMn7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=djK3fO/uIF3DwuAEFZfzytFkt3c9k8cEkyZGwS2CmVA=;
- b=mBb5TT4I44ogJqSW0ivnDngRg9QcKxABqSrf2C/3Rti8G187ARbZPRYHlIYG2qNcEzD3qRNjPs+tBdk80gJnJoPv6aqPFZyvonWbV1q102NojPLBuCFfQYdU4vgZwOQzTuQMDQBLdiuIrQpRJiDwe4Ao/PuhNFpUqLnDnIuR8k8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB6601.namprd12.prod.outlook.com (2603:10b6:208:3a3::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Thu, 19 Sep
- 2024 19:01:51 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7982.012; Thu, 19 Sep 2024
- 19:01:51 +0000
-Message-ID: <f75fbe30-528e-404f-97e4-854d27d7a401@amd.com>
-Date: Thu, 19 Sep 2024 21:01:42 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] treewide: Correct the typo 'acccess'
-To: WangYuli <wangyuli@uniontech.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, vitaly.prosyak@amd.com, yifan1.zhang@amd.com,
- Tim.Huang@amd.com, jesse.zhang@amd.com, Prike.Liang@amd.com,
- Hawking.Zhang@amd.com, kevinyang.wang@amd.com, srinivasan.shanmugam@amd.com,
- Jiadong.Zhu@amd.com, tao.zhou1@amd.com, pavel@ucw.cz, lee@kernel.org,
- aren@peacevolution.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, le.ma@amd.com,
- Wenhui.Sheng@amd.com, jjhiblot@traphandler.com, guanwentao@uniontech.com,
- zhanjun@uniontech.com
-References: <4AB1F900B5D100C2+20240919182855.85840-1-wangyuli@uniontech.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <4AB1F900B5D100C2+20240919182855.85840-1-wangyuli@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0120.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a3::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D1010E00D;
+ Thu, 19 Sep 2024 19:12:23 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20240919191221euoutp010ddd44cc9e7483f2de1362b72161a6e4~2uwYTi6ct2616526165euoutp01c;
+ Thu, 19 Sep 2024 19:12:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20240919191221euoutp010ddd44cc9e7483f2de1362b72161a6e4~2uwYTi6ct2616526165euoutp01c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1726773141;
+ bh=5wMWZ+g85x3/VQ4fe0nCOsxCOPo6Ph9ygPWjlPbrfW0=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=fzvLBANYeCN29tswLwUd47pXXc6AIHl4SdOotmBcpN7h4RgkQuES0RWvwTyB+1PqY
+ l6fR+qZymcrJAUga1SRkwi8ZqVPiz8MlXoCeBIAsBlKEdUKM91n2A8+xvmdQxxaeiC
+ HXq/LEs57wGuy/k0nXaH8BWMs//KbjyFOD+WNJ8w=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20240919191221eucas1p17631c52c12e9eac528029fc313e0de7c~2uwX8PxpR2404624046eucas1p1A;
+ Thu, 19 Sep 2024 19:12:21 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 7C.44.09624.5977CE66; Thu, 19
+ Sep 2024 20:12:21 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240919191220eucas1p23f207681d0268c632f46323fd5ac9107~2uwXFO6tm3227632276eucas1p2i;
+ Thu, 19 Sep 2024 19:12:20 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20240919191220eusmtrp2b6213760a633a6ab532f5875087dc3ab~2uwXCvxYJ2424224242eusmtrp2m;
+ Thu, 19 Sep 2024 19:12:20 +0000 (GMT)
+X-AuditID: cbfec7f2-c11ff70000002598-0c-66ec7795e51c
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 13.E4.14621.4977CE66; Thu, 19
+ Sep 2024 20:12:20 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240919191220eusmtip26823cf362cdfc852c6290fd3d6148856~2uwWtZnoN2388723887eusmtip2S;
+ Thu, 19 Sep 2024 19:12:20 +0000 (GMT)
+Received: from [106.110.32.87] (106.110.32.87) by CAMSVWEXC02.scsc.local
+ (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 19 Sep 2024 20:12:17 +0100
+Message-ID: <d2726a61-37fa-4c39-aad6-08bf99d8d14b@samsung.com>
+Date: Thu, 19 Sep 2024 21:12:15 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB6601:EE_
-X-MS-Office365-Filtering-Correlation-Id: af41b901-651c-4774-c680-08dcd8dd8524
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|1800799024|376014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cDNoODV3QnUxMSsxNVZlY2RqZ2xTYWx5YTJZMDZuUlREMERIRDgvSUJvUFVs?=
- =?utf-8?B?OVBaTEZ4N2g3MENZS2U1RTNRWkZWOUlHaG1VYWRvaExzZ3VHYW5FdWRSNkRp?=
- =?utf-8?B?bEZBblVsNGZ0N0VVZm1pVkVPMkQyZjY3cWt0eUI4RHVVQ2R6dFJMQ1ZONENw?=
- =?utf-8?B?YUNRVmRiKzQ0ekNLaS9HUHllY0VQUWt1b2JwUWhtUzJPeTZ0a0xWbTVuUHNL?=
- =?utf-8?B?dlN2SDg5cXlDVS9rUDVZL3lDMkdmNHRSZmEyM2JGQzFmK0YwTHpjWEF4SHFC?=
- =?utf-8?B?aDlWUFczY2ZVcnRHaVhPc2dRNi95dXBnNHdoVFJKZnc1bGxlbTVTYmhLOWk5?=
- =?utf-8?B?MzJuamFwb3gzUFFwc0Nud2tLYW9CamZLS0VKeGJQTGZjNFZsZnpNZFlpQU40?=
- =?utf-8?B?RUp0UkNqNXVVWVEzVUV6ZzZYWlJaeTc1NnBuK3BvaERXbzZoR3JyK0JUQTNw?=
- =?utf-8?B?M1RabU5HR2ZhOWM1d0xaaWRldHJkVktSY0ZKZ3Fub0xRejJhek5qckw2cEQ0?=
- =?utf-8?B?cW1vcXc2Qy84YnkwTFc5RU5VUy9SSU16MjA5NlRuNXliSzZCU2x5NGtXMlR5?=
- =?utf-8?B?bTRhNTVETFFmRHBrYitBRGtVTkNHcktpZTdyTm0xZTBPSXNhK3RYUS9tV2FZ?=
- =?utf-8?B?UVVUQ0doMmVrUDE3c1RFSllGOVRJS3ljbWdhYXV5YjNKZnJocVF2dkdLbFBK?=
- =?utf-8?B?dk16NS9sR3ZQdnlRME9FcGJUcUoxWWxaNERQb2V3VFB2eTZTVTdkZ0FPT3R2?=
- =?utf-8?B?dXdlSFlkbWNMZUo4dE9OcklMK0pFc2FMSFk1SmxiTm8vdWJCWkZpMjM0ckor?=
- =?utf-8?B?bE1QZjJrVjNScEVQRHowSGQyMkRJaTFOSzFZWDJiV3hycjhGcHJndjFqaDR0?=
- =?utf-8?B?dXErb1VvR3A3d1hYRWM2bGFYalhCekVRMHpDYnFLNVQvS1FHNExZWXRsWGNq?=
- =?utf-8?B?a3FZdFNYSldTZzQzY0JNN2duZHI4R2J4b0FrS2QwQU5rbnc0cUlwYWtLVGcr?=
- =?utf-8?B?TmRRWE5nZVFrZi9CakpBeUdLTDRWVHhGTzFDODc3Vm91Vis2Qk5jNzlMQzEv?=
- =?utf-8?B?L3FhUFlFL1N2eVJQRjBHaFZ5c01iRUtoUGE0cHp1QVFVYVB3YWhwSnl5SVg5?=
- =?utf-8?B?T3g5Ymk5Z1oyMG82WHFSN3pBK1lDMWhUZFlIZk5XUG1LSXFPcFFuSTIxbStW?=
- =?utf-8?B?Z0JqazgrTzVna0xwaGh5SmVuVmtwQVZUSkppNStOcXc3dnd5dHJjSm4yRHVw?=
- =?utf-8?B?OXV3T0xoZWp5bjZVRGFQeFVJMmJqMGpScklRcXBOck9oZ3Vrd1JMbXZ4T2lT?=
- =?utf-8?B?V2lTam1ldkY2aXR0VCtJTklzNFA5MjNIWSt0aFE3by85NkI2WXNWbXlGYWFx?=
- =?utf-8?B?Q3g3RHY2WmxIU0RDTWI0MTNxUzA4UUpKOVJpcEo3c01zdG5xbzVxNTZEbTFv?=
- =?utf-8?B?Vm1Bb0RrRngxZW91UUxpc0ErNjhqMmJ4RzUyM0syMFNlc1F4QmFZaVdPSlNP?=
- =?utf-8?B?ZjhjOHpJSFZIY1AwZEluUjZ6ZEJpbTlyeHJkS053TzI4UjdKQklqMFExMnZr?=
- =?utf-8?B?VzhqcmdCNHVxTmFXcXZmWmROdGFJOFN4b1N1TVVqaUovVHVGYStNTkhHL2E0?=
- =?utf-8?B?bUlReEtVN0lTN00zUTBKYm1EU2h5Y3BvZ3lhSC80WmpmTmI2cTZXb3lYbVp5?=
- =?utf-8?B?eCsxVVZlTUx6eTV3S2RmTHN1R3dvZHFqcFpVTmRqODhiV2lrVkdEd0Q1T2Jy?=
- =?utf-8?B?dzRzWFhFWktNMHgyUktSUWZIU0VOK0tjektQTnhZRDI0V0pXbkdWQlJuY3Ay?=
- =?utf-8?B?ZFMxYXF0ZVpaYkZtUVNkL2E2YWdtK1B4K3BuL1RsR2lBV2tQWXhUWnlLOXhk?=
- =?utf-8?Q?NID171z8Na6tz?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M2p2eC9IZjJ0OFV5T1NEQ2NyQW9YZDZWbEd3cmhlVVlVRzNhQmJlRVdKeERF?=
- =?utf-8?B?Wk1FemZER3hxcFhYNkRNTFJWVCtzWU1NRTNnamkyY0dMV1pSelRjUmhHUG9J?=
- =?utf-8?B?TGtGR1AyY093UDFCRXR5dGswOU1wRm1aOUF1M29zaTI0cVZUOERMQm9ua1R6?=
- =?utf-8?B?SVlLNEh4dzVlQlpFMlkxOXlkdVpuZzlmZi8vVGRmTGNXSHRiZXRDcE1Pb1dk?=
- =?utf-8?B?clBXaTByOTNUUHFwN0NySVhYT2dFQXJISytreXZwOUM2RmxCQ0R1elJrNkVB?=
- =?utf-8?B?OGp5Mi9mVG9iWnpEWit1MVVqOTNvemg0c3dodFQyUkNHS0JNVURXb1E0Y2lP?=
- =?utf-8?B?VmFyMjJqd3oxcmZDaVJNMnFlZi9yMEZEaHJsZUx1VEtxeHdaTy90RXlyczd0?=
- =?utf-8?B?NkxTS05rSERmR3dYZFpxVzA4c3VlaHRuN1ZCcFpZTUtiNXhkbktmb3BwMEZY?=
- =?utf-8?B?cnhDM2d5ckZBY05QeUhtTEllOEVYS08yODJCRHhoT290Mk9FT3J3cmRmc3pw?=
- =?utf-8?B?SFp4UUl1YXh1NGM0T0VxU2FwMnBhZFROajNJaDdaWWo2QUNaVmQ0ankyZzNr?=
- =?utf-8?B?M1FXdXprNTcvUUVmQWxxaDVrbm95YXRpeXFaUUwxU0FHMmd2elErYTI1dml3?=
- =?utf-8?B?clQxSmppVkpqaHFDb0VCek1rZ1c5TDRxT3BZYnUrcXhKcVlHTzA0S0lFbHpW?=
- =?utf-8?B?ZEk2R1dBTWVxRGtPcXhMNzdyL1pMZ2ZWTEU2VXN2VU85MlVrSXV1L1J6UGFh?=
- =?utf-8?B?M21SR3ErR2l3QWdTSjFrZWgvRnJObE1sNnQxa1Zmb3BHTlVYaDdyUXg0NkxM?=
- =?utf-8?B?S1pFOWFpNStPd2pqWmNxbnNSODdTK2ZQV3FNeXp6TmFCeDlsd1JlTFA4MDZU?=
- =?utf-8?B?cFlQbERVRXlPOGZBZWNQb1hlZHZoZ29rcFRES2YvU1J0OC9ocGhpdENEQnQv?=
- =?utf-8?B?WENIZmhBOVhheDczcUV0aUs0VlJXcXp2VDZxc0dzQ2RFT200OUMxY1RxYm5X?=
- =?utf-8?B?aVJBSWxqSHJiM241NmVERGN2S08rOTBuZFUyRmdVbU9tRFhMUmF2VHdWS09T?=
- =?utf-8?B?bkdoOEF1VjBETUZTdk1VOHZJbHpCbGlHT2lXUmlVaXlSeUFFSnYxVWtjUGNY?=
- =?utf-8?B?c1laZC95UWdmK0FVc0J0NUpkajR5emhnbkxheXlsdnJaODBTN2NIZlZZbWd0?=
- =?utf-8?B?WTlOUS9vLzg2QWNpL1QxQ1htS0xKM1VVWVd6Ym9TaFd5bU1YUFV2V25wbzJV?=
- =?utf-8?B?ZUpLVU12ZUFBTzFSZk9xMERTZU4xTlhQSWFXTmhXWlU0YlRSVnF1V1h2Z3hi?=
- =?utf-8?B?MWVMcXA2ckdFUHJvWUlGSTdWeFBjMTNYSUZiOHNFbjlUbHQrUG9PeHlPK01a?=
- =?utf-8?B?cGx5ZjlkeE1HdXlwS2pOQVJJRGFGOG1yUGJML3BLL09wR0xhRUlxRm1mT0tH?=
- =?utf-8?B?Vi9rMFNzQ2tYS1E1U2h0WUxTcVJjN3p2MFZVczRVeDZSNWJBNjB5ZkhYOGJw?=
- =?utf-8?B?aFVSZ3hlakZSbmlidEZPZTczR0FYRmJqMXBUYzc0YjRncHJNYmkwMFlNZnhB?=
- =?utf-8?B?OVYrQTRiUUsxd09iK0Y4RkFtQm1KUFhpVmJwY2RJMkNiTzlFcUVGbXE4dUx3?=
- =?utf-8?B?ZGdxdjlwZVJKaFVUa1F0VjBZQ3pNTmZBQ1RiVG1hSDB6VVlNbENMRGYwTHZV?=
- =?utf-8?B?Rk40WWtOWFFPREgzTDZtS0hmSjBaRkE1dFpjRGhFSjRWbVhQa1U4cFp5SU5T?=
- =?utf-8?B?Rks0SzRUWGV6VkFWMUhFTDR6OEVZUFBuUUpBandrN3ZCdUZiRk1icTdPNU9p?=
- =?utf-8?B?a053bVBpR1I5RFVHakFSSFdpckIwZzRXT3Rrd2xraXBtZTBwVTRZOUJ0SUJp?=
- =?utf-8?B?TU1DVi8yWG51dkxkTW5xQnhTQVJJSmxpbmNSMjJSV3hiYXllTjl6SW5DYitj?=
- =?utf-8?B?d2M4R0o0VC9SUXNqemh0c3BkUnJSaiticjJvelgxMDh0bHpOMTQ3NWNmKzQ2?=
- =?utf-8?B?eE9ISTArT1NQbHkvUE1wZDhKdHZ2TnpxRENWVFhUNDZPbzVZZVBxc044dzRI?=
- =?utf-8?B?TzRpajFPSXk5NjRITVhtWGk3M1B1TkxvdTJtMGJERDdtMXh0VXQxZHQ4NGRa?=
- =?utf-8?Q?/+cY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af41b901-651c-4774-c680-08dcd8dd8524
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2024 19:01:51.4402 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rFNwOT0ireB7i8ZnNXSaK2I3VBLf0wnRpmRnBj309E7h7vzDGnND36whfk8SKERq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6601
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/8] drm/xe: xe_gen_wa_oob: fix
+ program_invocation_short_name for macos
+Content-Language: en-GB
+To: Masahiro Yamada <masahiroy@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
+ <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>,
+ Kirk Reiser <kirk@reisers.ca>, Samuel Thibault
+ <samuel.thibault@ens-lyon.org>, Paul Moore <paul@paul-moore.com>, "Stephen
+ Smalley" <stephen.smalley.work@gmail.com>, Ondrej Mosnacek
+ <omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+ <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
+ Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, "Bill
+ Wendling" <morbo@google.com>, Justin Stitt <justinstitt@google.com>, "Simona
+ Vetter" <simona.vetter@ffwll.ch>, <linux-kernel@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <speakup@linux-speakup.org>,
+ <selinux@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <kvmarm@lists.linux.dev>, <linux-serial@vger.kernel.org>,
+ <llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
+ (Samsung)" <d+samsung@kruces.com>, <gost.dev@samsung.com>
+From: Daniel Gomez <da.gomez@samsung.com>
+In-Reply-To: <CAK7LNAQDxVGOa5g3f_dqZ5nD_u8_a++T+ussL+AWuOXs-XOsow@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [106.110.32.87]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ta0yTVxjHPe+1INWXStejEIldumUQmCboziZBt/DhXYKJlw8ys0y68YJM
+ bmkpbm5GRO7gxkUodNAhlFtlQysgV3HAWjpAQBCRy2CRu1ynjovMjlLM+PZ/nvP7P8/5n+Tw
+ cMFrag8vIDiMkwVLA8WUNVGpX+lwSb8w47d/6qUQtTzOw9B8YRJAeu0kjmpNQzjqeTlPoav5
+ ZRRavjOJoeF7RRiay3FAGTfzKaTuMhJouryJQLqnvSRaq6nCUHdNNoXa8q/RaPR6A4XGnhZS
+ 6MZiBYH+GukjUXW2kUT1Zd0U0nU/J1FMfCGJYkvGKLSQbMLQeH0LidJXZig0m/w7jQZSlQRq
+ UPXSqHhZCVCHQU8jU8NeVFnVDtBERxpAWQMDAD2rWh9cPpNCoryYD1DU4EH0pOAWfdSJLVWX
+ ArZO306x9f/kEmxN4x2KrVYN0WyuTsFGNc+SbH7dFMbqtPEUq45XY6zp2gjJNpvyaPZGRDrO
+ qo0n2IacUpodTjRgx+EZa3dfLjAgnJO97+FjfS6mNpMOnd77TcTN7RFgUpQArHiQcYPKSTVI
+ ANY8AVMMYFNsBW0pXgAYvZyHmykB8xzAfzMlbxxZtRGUBSoCcHC2ebNYh14tpW0W1QDqO1oI
+ s4XPeEDdgyVg1gQjgbdq50hL3xYas0Y3GCHjCIf7M2mz3sX4wIIE5QaPMyIY+aJkg7djnOBg
+ QRxpXoAzUzZwIrVzw0wx78F7Rt2G2Yo5AdVRf65r3jr0EVS2fGqZ4wivVvyEWyLsg5kpJYRF
+ X4J/lPdj5pmQqd0OC283kpYDTzg3ZtyEdsFpQzlt0Q7QVP0zZtH+UPOrapMJhXUDKtK8FzKH
+ 4Q9tgZb2x7BszYBZ2jtg36yt5To7YGqlEk8GEtWWl1BtSaz6P4BqS4BcQGiBiFPIg/w5+YFg
+ 7oKrXBokVwT7u34VEqQD61+k9bXh7yqQM73o2ggwHmgEkIeL7fiihSk/Ad9X+u1FThZyVqYI
+ 5OSNwJ5HiEV8ia8jJ2D8pWHceY4L5WRvTjGe1Z4IjBdx+rvVw5rVDLfOZ6aetyQtXp2/ZPu8
+ i+mzT43f9r4c03vSTubYcX/V9vShhVFh/nzSqZNj9p454R9OdOFKr6b6ZEnrl5ELS2ekI3e1
+ ogRx0aL7F9ijT74XeOAZLp2XNCkhjo8Mv7Xv65OIAxTuV8Z3DmmOK1wOKdWSh86Ul+agzcP4
+ aFrS/06c/2fO2kjC/ZV18f36Rd+gNJFwjZdUW9fNVwjHghyWcx7HSJOqekabvS+mGBShsZrG
+ bd47n5iOxF05u63ncrhNtN+K9q7n1yFt9keDAj8vSuZnHdv99phDz/Wu+dYmbX54lPD8j4nO
+ 6snoBjc2/kHskd1FiWGD5ftnmsSE/Jz0gBMuk0v/A5xW+OaRBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0yTVxjGPV+/S0GYHxXCgRHFJixCYqFA8WCAbQmZ3xYzZWK2wQAb+bhf
+ TEsFXYzNIHUUMSAqUKFiG1Aum65cLJTLYKzIGJLRwZgIuClyEUEGKjiwA8oS/vud8z7v87zn
+ 5Bwuh3eXdObGp6SxkhRxEp+0xnvedo3uu5w+E+NlGnBA9/7QYGiu4gJAxqpJDjKYRzjo95dz
+ JMrU3ibRUu0khsZab2JottQFXa3Wkkj9WzeOput+wpHu8SCBVpr0GDI1lZDoV20uhZ5cbiPR
+ +OMKEt2Yr8fRX4+GCNRY0k2gltsmEulMCwRSZFcQ6HzlOIle5Jkx9LTlHoGuLM+Q6HnezxQa
+ vlSIozbVIIVuLRUC1NdlpJC5bRdq0PcCNNFXAFDx8DBAz/RrxnUz+QTSKPajrIci9Gf5HeoD
+ D6ZGXQOYZmMvybS8KsOZpo5akmlUjVBMmU7GZHU+Jxht8xTG6KqySUadrcYYc+4jguk0ayjm
+ hvwKh1F3hzBtpTUUM5bThR2BYYIASaosjXWNS5WmBfLDhchbIPRHAm9ff4HQZ3/EAW8R3zMo
+ IJpNij/FSjyDjgviFIYi6uT0rgx59XY5mHRUAisupH1hsUFOKoE1l0eXA9hfqsEsBRf4w+IA
+ YeGdcGVQuSmaB7BCn7O5aASwaDxzo8OWDoK6+6/BOuO0G7xjmCUs+3awu/gJvs4O9G449qCI
+ Wued9HFYrizc0HNoR/jNYuWG3p72gA/LvyXWAzj0hA08f0uHWdI0GOzXjm6kkbQ7bO3WbThZ
+ 0SFQnTVKWZwQ1M60b/JumFl/jWM5wx5YlF+JW/gsXFh9CvKAg2rLgKotg6i2WKm2WJUBvArY
+ szJpcmyyVCiQipOlspRYwYnUZB1Ye8ENxuVaPVBPzws6AMYFHQByOXx7W8cXUzE822jx6TOs
+ JDVKIktipR1AtHZL+RxnhxOpa18gJS1K6OclEvr6+XuJ/P18+I62H5n6Ynh0rDiNTWTZk6zk
+ /z6Ma+Usx04lMZ9mlX14eDl0OXdHztRLyvcXm72dE831nzXyE2Nmffr1wW6ai1czMkcC4NeG
+ g4PtxRE20ZENipCDRVYXI123lZTWykP6icaZQNPNdCv3c70GP55LwqF/ek43/AgJuGB0c7Ie
+ 0r/zSWhynsLp+6++e/8s7RmGuEcH4qvD/9W/MkGdKGT2820KLLp9X/r2yXEZqZrLiFsNi+ap
+ 90TefYZlX3fvNKY05a944b0fc5WH/r7+4FigwT3qrS48tL4kaNU1ZuTI/OuFa+L77znWti6t
+ RPRgb84l2CgTqYL6gpwCWH3mSx/jgPldwZtFeztZwiWe3URZ3Y4+py8OD104EBx8lI9L48RC
+ D45EKv4P8XlwBEoEAAA=
+X-CMS-MailID: 20240919191220eucas1p23f207681d0268c632f46323fd5ac9107
+X-Msg-Generator: CA
+X-RootMTR: 20240906144003eucas1p1b8c2be4807e04ced52c4902bfbfb9783
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240906144003eucas1p1b8c2be4807e04ced52c4902bfbfb9783
+References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
+ <20240906-macos-build-support-v2-3-06beff418848@samsung.com>
+ <CGME20240906144003eucas1p1b8c2be4807e04ced52c4902bfbfb9783@eucas1p1.samsung.com>
+ <CAK7LNAQDxVGOa5g3f_dqZ5nD_u8_a++T+ussL+AWuOXs-XOsow@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,67 +159,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 19.09.24 um 20:28 schrieb WangYuli:
-> There are some spelling mistakes of 'acccess' in comments which
-> should be instead of 'access'.
->
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c   | 2 +-
->   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c  | 2 +-
->   drivers/leds/rgb/leds-group-multicolor.c | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> index d3e8be82a172..f847a9fc61e1 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> @@ -1894,7 +1894,7 @@ static void gfx_v11_0_init_compute_vmid(struct amdgpu_device *adev)
->   	mutex_unlock(&adev->srbm_mutex);
->   
->   	/* Initialize all compute VMIDs to have no GDS, GWS, or OA
-> -	   acccess. These should be enabled by FW for target VMIDs. */
-> +	   access. These should be enabled by FW for target VMIDs. */
-
-While at it could you fix the comment style here? E.g. use
-
-/*
-  * Text
-  * Text
-  */
-
-Thanks,
-Christian.
-
->   	for (i = adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; i++) {
->   		WREG32_SOC15_OFFSET(GC, 0, regGDS_VMID0_BASE, 2 * i, 0);
->   		WREG32_SOC15_OFFSET(GC, 0, regGDS_VMID0_SIZE, 2 * i, 0);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> index 408e5600bb61..13dca7377f53 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> @@ -1248,7 +1248,7 @@ static void gfx_v9_4_3_xcc_init_compute_vmid(struct amdgpu_device *adev,
->   	mutex_unlock(&adev->srbm_mutex);
->   
->   	/* Initialize all compute VMIDs to have no GDS, GWS, or OA
-> -	   acccess. These should be enabled by FW for target VMIDs. */
-> +	   access. These should be enabled by FW for target VMIDs. */
->   	for (i = adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; i++) {
->   		WREG32_SOC15_OFFSET(GC, GET_INST(GC, xcc_id), regGDS_VMID0_BASE, 2 * i, 0);
->   		WREG32_SOC15_OFFSET(GC, GET_INST(GC, xcc_id), regGDS_VMID0_SIZE, 2 * i, 0);
-> diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
-> index b6c7679015fd..548c7dd63ba1 100644
-> --- a/drivers/leds/rgb/leds-group-multicolor.c
-> +++ b/drivers/leds/rgb/leds-group-multicolor.c
-> @@ -55,7 +55,7 @@ static void restore_sysfs_write_access(void *data)
+On 9/6/2024 4:39 PM, Masahiro Yamada wrote:
+> On Fri, Sep 6, 2024 at 8:01 PM Daniel Gomez via B4 Relay
+> <devnull+da.gomez.samsung.com@kernel.org> wrote:
+>>
+>> From: Daniel Gomez <da.gomez@samsung.com>
+>>
+>> Use getprogname() [1] instead of program_invocation_short_name() [2]
+>> for macOS hosts.
+>>
+>> [1]:
+>> https://www.gnu.org/software/gnulib/manual/html_node/
+>> program_005finvocation_005fshort_005fname.html
+>>
+>> [2]:
+>> https://developer.apple.com/library/archive/documentation/System/
+>> Conceptual/ManPages_iPhoneOS/man3/getprogname.3.html
+>>
+>> Fixes build error for macOS hosts:
+>>
+>> drivers/gpu/drm/xe/xe_gen_wa_oob.c:34:3: error: use of
+>> undeclared identifier 'program_invocation_short_name'    34 |
+>> program_invocation_short_name);       |                 ^ 1 error
+>> generated.
+>>
+>> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+>> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> ---
+>>   drivers/gpu/drm/xe/xe_gen_wa_oob.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+>> index 904cf47925aa..0d933644d8a0 100644
+>> --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+>> +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+>> @@ -8,6 +8,7 @@
+>>   #include <errno.h>
+>>   #include <stdbool.h>
+>>   #include <stdio.h>
+>> +#include <stdlib.h>
+>>   #include <string.h>
+>>
+>>   #define HEADER \
+>> @@ -30,6 +31,9 @@
+>>
+>>   static void print_usage(FILE *f)
+>>   {
+>> +#ifdef __APPLE__
+>> +       const char *program_invocation_short_name = getprogname();
+>> +#endif
+>>          fprintf(f, "usage: %s <input-rule-file> <generated-c-source-file> <generated-c-header-file>\n",
+>>                  program_invocation_short_name);
+>>   }
+>>
+>> --
+>> 2.46.0
+>>
+>>
+> 
+> 
+> 
+> Before adding such #ifdef, you should check how other programs do.
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> Solution 1 : hard-code the program name
+> 
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> index 106ee2b027f0..9e9a29e2cecf 100644
+> --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> @@ -30,8 +30,7 @@
+> 
+>   static void print_usage(FILE *f)
 >   {
->   	struct led_classdev *led_cdev = data;
->   
-> -	/* Restore the write acccess to the LED */
-> +	/* Restore the write access to the LED */
->   	mutex_lock(&led_cdev->led_access);
->   	led_sysfs_enable(led_cdev);
->   	mutex_unlock(&led_cdev->led_access);
+> -       fprintf(f, "usage: %s <input-rule-file>
+> <generated-c-source-file> <generated-c-header-file>\n",
+> -               program_invocation_short_name);
+> +       fprintf(f, "usage: xe_gen_wa_oob <input-rule-file>
+> <generated-c-source-file> <generated-c-header-file>\n");
+>   }
+> 
+>   static void print_parse_error(const char *err_msg, const char *line,
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> Solution 2: use argv[0]
+> 
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> index 106ee2b027f0..600c63e88e46 100644
+> --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> @@ -28,10 +28,10 @@
+>          "\n" \
+>          "#endif\n"
+> 
+> -static void print_usage(FILE *f)
+> +static void print_usage(FILE *f, const char *progname)
+>   {
+>          fprintf(f, "usage: %s <input-rule-file>
+> <generated-c-source-file> <generated-c-header-file>\n",
+> -               program_invocation_short_name);
+> +               progname);
+>   }
+> 
+>   static void print_parse_error(const char *err_msg, const char *line,
+> @@ -136,7 +136,7 @@ int main(int argc, const char *argv[])
+> 
+>          if (argc < 3) {
+>                  fprintf(stderr, "ERROR: wrong arguments\n");
+> -               print_usage(stderr);
+> +               print_usage(stderr, argv[0]);
+>                  return 1;
+>          }
+
+
+This approach looks good to me. I will drop Lucas' tag in favor to this. 
+Please, Lucas let me know if you disagree any of the proposals here or 
+if you have any preference. Otherwise, I'll resend this with solution 2.
+
+
+
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
 
