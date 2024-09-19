@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CD797C597
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 10:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F2497C33F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 06:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62AB10E2A0;
-	Thu, 19 Sep 2024 08:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD44110E13E;
+	Thu, 19 Sep 2024 04:05:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="VATSfTeD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GFA+K4mU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 915 seconds by postgrey-1.36 at gabe;
- Thu, 19 Sep 2024 03:13:37 UTC
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 711D410E095
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 03:13:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ehoi8s4/Stw7NaDdZRfk9eWo3epo4qJYjwJjrMen4bk=;
- b=VATSfTeDCRcy1o4dPuu9U+3JJ4BRJR2ado5KKLmud0TEluGVcwZ97qWk
- h16EO+hD73eoidlPwOEbpLHwxtBddbLm0DVRBetR5AAVOO7F21ztED5If
- lp4SPweyav8i01DKj1Atjmcj+ejaWHKvDgOTIDZTZ24KgE3nex4BqbWIf
- jXHaVmbCiuOzSRtiM3mH5DBOk8klXv6MrDnSbSpXc61Ed0jAz+yeO6v+T
- qyMndqRsZnbFqNIbAk9E8g/DnN9HI/EBHEzungZuZ68CUK8YgB1PiX0M7
- hzeMzDeGVU3yo//cgf13Z6B9Sp8A9CR4MeQHqoQ/fRdt/dca/xG8XHvh+ A==;
-X-CSE-ConnectionGUID: zeKSpeN5RRKmT5fCMuzrKg==
-X-CSE-MsgGUID: UESHdbqLRk+Mj1jD98qGFQ==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 19 Sep 2024 10:58:19 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48J2wGBk089262;
- Thu, 19 Sep 2024 10:58:16 +0800 (GMT-8)
- (envelope-from Hermes.Wu@ite.com.tw)
-Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 19 Sep 2024 10:58:16 +0800
-From: <Hermes.Wu@ite.com.tw>
-To: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss
- <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-CC: Kenneth hung <kenneth.hung@ite.com.tw>, Hermes Wu <Hermes.Wu@ite.com.tw>
-Subject: [PATCH v1] drm/bridge:  it6505: HDCP CTS fail on repeater items
-Date: Thu, 19 Sep 2024 10:55:52 +0800
-Message-ID: <20240919025551.254-1-Hermes.Wu@ite.com.tw>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5061F10E095;
+ Thu, 19 Sep 2024 04:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726718712; x=1758254712;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wTHnD7Gvi9qJW3/ug+em7TPU7wZwVhLkr75aYfMV7Rk=;
+ b=GFA+K4mUju5BuqRY/aAQLYrJs8D2KOZWaYf8LyrOyZtdmLZYzTo014Ol
+ kaelAlwSCVCIbW+3alb3D8EmFOUHjRefMdZUPUU43fWG9p0+MRRNUBBCJ
+ xho+N6/iL5FRTxjQd1mXo1/aHGl5EZXuc5ekZ4l0/xN8Oi2Oq77a3EdBN
+ O8u1S0VJ42GXgavtsurvrZ+/s/Wpx58bDmYrGcSTt2XM8X91ni+GHDhKh
+ X06/YwsVO4NYCf1WmcC5aKcSLLGkn7dlYbb51Wh7iGVAPg4zKbZKBDOHI
+ 4REU5wkaYGc6/qZsKGAqa0jbjUP/KAfHQgRfAcWs98ISp0PjOEz5CVpGG w==;
+X-CSE-ConnectionGUID: 9ZmQkEDtSceXtT1bQb11cQ==
+X-CSE-MsgGUID: tlnQr11qRB2oJ5jUBrFK0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36244160"
+X-IronPort-AV: E=Sophos;i="6.10,240,1719903600"; d="scan'208";a="36244160"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2024 21:05:12 -0700
+X-CSE-ConnectionGUID: 5uXZqJYzTTmTcNytw/lJug==
+X-CSE-MsgGUID: pUI1d4+OTH6lOJ+7aFuhVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,240,1719903600"; d="scan'208";a="69401890"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by fmviesa007.fm.intel.com with ESMTP; 18 Sep 2024 21:05:08 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sr8Pi-000CsG-24;
+ Thu, 19 Sep 2024 04:05:06 +0000
+Date: Thu, 19 Sep 2024 12:05:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>, Alex Hung <alex.hung@amd.com>,
+ Alexander Deucher <alexander.deucher@amd.com>,
+ Melissa Wen <mwen@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: Re: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if
+ available for eDP
+Message-ID: <202409191128.4bvJysve-lkp@intel.com>
+References: <20240911213537.2338164-11-superm1@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.82.6]
-X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
- TPEMAIL1.internal.ite.com.tw (192.168.15.58)
-X-TM-SNTS-SMTP: E69BDB43CECD890DF345017636854D7C8DF0EE4AC3C03E7A93D5BBE5425D323E2002:8
-X-MAIL: mse.ite.com.tw 48J2wGBk089262
-X-Mailman-Approved-At: Thu, 19 Sep 2024 08:10:55 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240911213537.2338164-11-superm1@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,358 +76,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hermes Wu <Hermes.Wu@ite.com.tw>
+Hi Mario,
 
-Fix HDCP CTS items on UNIGRAF DPR-100.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Hermes Wu <Hermes.Wu@ite.com.tw>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 152 ++++++++++++++++++----------
- 1 file changed, 101 insertions(+), 51 deletions(-)
+[auto build test ERROR on amd-pstate/linux-next]
+[also build test ERROR on amd-pstate/bleeding-edge linus/master v6.11]
+[cannot apply to next-20240918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 7a4608844de3..cef02c8c363e 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -298,11 +298,11 @@
- #define MAX_LANE_COUNT 4
- #define MAX_LINK_RATE HBR
- #define AUTO_TRAIN_RETRY 3
--#define MAX_HDCP_DOWN_STREAM_COUNT 10
-+#define MAX_HDCP_DOWN_STREAM_COUNT 127
- #define MAX_CR_LEVEL 0x03
- #define MAX_EQ_LEVEL 0x03
- #define AUX_WAIT_TIMEOUT_MS 15
--#define AUX_FIFO_MAX_SIZE 32
-+#define AUX_FIFO_MAX_SIZE 16
- #define PIXEL_CLK_DELAY 1
- #define PIXEL_CLK_INVERSE 0
- #define ADJUST_PHASE_THRESHOLD 80000
-@@ -326,6 +326,9 @@ enum aux_cmd_type {
- 	CMD_AUX_NATIVE_READ = 0x0,
- 	CMD_AUX_NATIVE_WRITE = 0x5,
- 	CMD_AUX_I2C_EDID_READ = 0xB,
-+
-+	/*extend read ncommand */
-+	CMD_AUX_GET_KSV_LIST = 0x10,
- };
- 
- enum aux_cmd_reply {
-@@ -973,7 +976,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 	it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, AUX_USER_MODE);
- 
- aux_op_start:
--	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
- 		/* AUX EDID FIFO has max length of AUX_FIFO_MAX_SIZE bytes. */
- 		size = min_t(size_t, size, AUX_FIFO_MAX_SIZE);
- 		/* Enable AUX FIFO read back and clear FIFO */
-@@ -1004,7 +1007,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 				  size);
- 
- 	/* Aux Fire */
--	it6505_write(it6505, REG_AUX_CMD_REQ, cmd);
-+	it6505_write(it6505, REG_AUX_CMD_REQ, (cmd & 0x0F));
- 
- 	ret = it6505_aux_wait(it6505);
- 	if (ret < 0)
-@@ -1038,7 +1041,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 		goto aux_op_start;
- 	}
- 
--	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
- 		for (i = 0; i < size; i++) {
- 			ret = it6505_read(it6505, REG_AUX_DATA_FIFO);
- 			if (ret < 0)
-@@ -1063,7 +1066,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 	ret = i;
- 
- aux_op_err:
--	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
- 		/* clear AUX FIFO */
- 		it6505_set_bits(it6505, REG_AUX_CTRL,
- 				AUX_EN_FIFO_READ | CLR_EDID_FIFO,
-@@ -1084,18 +1087,25 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
- 				      size_t size, enum aux_cmd_reply *reply)
- {
- 	int i, ret_size, ret = 0, request_size;
-+	struct device *dev = &it6505->client->dev;
- 
- 	mutex_lock(&it6505->aux_lock);
--	for (i = 0; i < size; i += 4) {
--		request_size = min((int)size - i, 4);
-+	for (i = 0; i < size; ) {
-+		if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST)
-+			request_size = min((int)size - i, AUX_FIFO_MAX_SIZE);
-+		else
-+			request_size = min((int)size - i, 4);
-+
- 		ret_size = it6505_aux_operation(it6505, cmd, address + i,
- 						buffer + i, request_size,
- 						reply);
-+
- 		if (ret_size < 0) {
- 			ret = ret_size;
- 			goto aux_op_err;
- 		}
- 
-+		i += request_size;
- 		ret += ret_size;
- 	}
- 
-@@ -1186,6 +1196,35 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
- 	return 0;
- }
- 
-+static int it6505_get_ksvlist(struct it6505 *it6505, u8 *buf, size_t len)
-+{
-+	int i, request_size, ret;
-+	struct device *dev = &it6505->client->dev;
-+	enum aux_cmd_reply reply;
-+
-+	for (i = 0; i < len; ) {
-+		request_size = min((int)len - i, 15);
-+
-+		ret = it6505_aux_do_transfer(it6505, CMD_AUX_GET_KSV_LIST,
-+					     DP_AUX_HDCP_KSV_FIFO,
-+					     buf + i, request_size, &reply);
-+
-+		DRM_DEV_DEBUG_DRIVER(dev, "request_size = %d, ret =%d", request_size, ret);
-+		if (ret < 0)
-+			return ret;
-+
-+		i += request_size;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "ksv read cnt = %d down_stream_cnt=%d ", i, i/5);
-+
-+	for (i = 0 ; i < len; i += 5)
-+		DRM_DEV_DEBUG_DRIVER(dev, "ksv[%d] = %02X%02X%02X%02X%02X",
-+				i/5, buf[i], buf[i + 1], buf[i + 2], buf[i + 3], buf[i + 4]);
-+
-+	return len;
-+}
-+
- static void it6505_variable_config(struct it6505 *it6505)
- {
- 	it6505->link_rate_bw_code = HBR;
-@@ -1927,6 +1966,7 @@ static void it6505_hdcp_part1_auth(struct it6505 *it6505)
- 	it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_START,
- 			HDCP_TRIGGER_START);
- 
-+	it6505->is_repeater = (hdcp_bcaps & DP_BCAPS_REPEATER_PRESENT);
- 	it6505->hdcp_status = HDCP_AUTH_GOING;
- }
- 
-@@ -1963,7 +2003,7 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- {
- 	struct device *dev = &it6505->client->dev;
- 	u8 binfo[2];
--	int down_stream_count, i, err, msg_count = 0;
-+	int down_stream_count, err, msg_count = 0;
- 
- 	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_BINFO, binfo,
- 			      ARRAY_SIZE(binfo));
-@@ -1989,17 +2029,12 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- 		return 0;
- 	}
- 
--	for (i = 0; i < down_stream_count; i++) {
--		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_KSV_FIFO +
--				      (i % 3) * DRM_HDCP_KSV_LEN,
--				      sha1_input + msg_count,
--				      DRM_HDCP_KSV_LEN);
- 
--		if (err < 0)
--			return err;
-+	err =  it6505_get_ksvlist(it6505, sha1_input, down_stream_count * 5);
-+	if (err < 0)
-+		return err;
- 
--		msg_count += 5;
--	}
-+	msg_count += down_stream_count * 5;
- 
- 	it6505->hdcp_down_stream_count = down_stream_count;
- 	sha1_input[msg_count++] = binfo[0];
-@@ -2027,7 +2062,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
- 	u8 av[5][4], bv[5][4];
--	int i, err;
-+	int i, err, retry;
- 
- 	i = it6505_setup_sha1_input(it6505, it6505->sha1_input);
- 	if (i <= 0) {
-@@ -2037,21 +2072,28 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- 
- 	it6505_sha1_digest(it6505, it6505->sha1_input, i, (u8 *)av);
- 
--	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
--			      sizeof(bv));
-+	for (retry = 0; retry < 3; retry++) {
- 
--	if (err < 0) {
--		dev_err(dev, "Read V' value Fail");
--		return false;
--	}
-+		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
-+					sizeof(bv));
- 
--	for (i = 0; i < 5; i++)
--		if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
--		    bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
--			return false;
-+		if (err < 0) {
-+			dev_err(dev, "Read V' value Fail %d", retry);
-+			continue;
-+		}
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "V' all match!!");
--	return true;
-+		for (i = 0; i < 5; i++) {
-+			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
-+				bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
-+				break;
-+
-+			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
-+			return true;
-+		}
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "V' NOT match!! %d", retry);
-+	return false;
- }
- 
- static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
-@@ -2059,7 +2101,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 	struct it6505 *it6505 = container_of(work, struct it6505,
- 					     hdcp_wait_ksv_list);
- 	struct device *dev = &it6505->client->dev;
--	unsigned int timeout = 5000;
-+	unsigned int timeout = 2000;
- 	u8 bstatus = 0;
- 	bool ksv_list_check;
- 
-@@ -2079,21 +2121,18 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 
- 	if (timeout == 0) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "timeout and ksv list wait failed");
--		goto timeout;
-+		goto hdcp_ksvlist_fail;
- 	}
- 
- 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
- 	DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
--			     ksv_list_check ? "pass" : "fail");
--	if (ksv_list_check) {
--		it6505_set_bits(it6505, REG_HDCP_TRIGGER,
--				HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
-+				ksv_list_check ? "pass" : "fail");
-+
-+	if (ksv_list_check)
- 		return;
--	}
--timeout:
--	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
--			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL,
--			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL);
-+
-+hdcp_ksvlist_fail:
-+	it6505_start_hdcp(it6505);
- }
- 
- static void it6505_hdcp_work(struct work_struct *work)
-@@ -2139,7 +2178,7 @@ static void it6505_hdcp_work(struct work_struct *work)
- 	it6505_hdcp_part1_auth(it6505);
- }
- 
--static void it6505_show_hdcp_info(struct it6505 *it6505)
-+static void it6505_show_hdcp_info(struct it6505 *it6505, bool repeater_info)
- {
- 	struct device *dev = &it6505->client->dev;
- 	int i;
-@@ -2150,7 +2189,7 @@ static void it6505_show_hdcp_info(struct it6505 *it6505)
- 	DRM_DEV_DEBUG_DRIVER(dev, "bksv = 0x%*ph",
- 			     (int)ARRAY_SIZE(it6505->bksvs), it6505->bksvs);
- 
--	if (it6505->is_repeater) {
-+	if ((repeater_info) && (it6505->is_repeater)) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "hdcp_down_stream_count: %d",
- 				     it6505->hdcp_down_stream_count);
- 		DRM_DEV_DEBUG_DRIVER(dev, "sha1_input: 0x%*ph",
-@@ -2251,12 +2290,11 @@ static void it6505_link_training_work(struct work_struct *work)
- 	if (ret) {
- 		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
- 		it6505_link_train_ok(it6505);
--		return;
- 	} else {
- 		it6505->auto_train_retry--;
-+		it6505_dump(it6505);
- 	}
- 
--	it6505_dump(it6505);
- }
- 
- static void it6505_plugged_status_to_codec(struct it6505 *it6505)
-@@ -2311,14 +2349,22 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
- 	DRM_DEV_DEBUG_DRIVER(dev, "dp_irq_vector = 0x%02x", dp_irq_vector);
- 
- 	if (dp_irq_vector & DP_CP_IRQ) {
--		it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
--				HDCP_TRIGGER_CPIRQ);
- 
- 		bstatus = it6505_dpcd_read(it6505, DP_AUX_HDCP_BSTATUS);
- 		if (bstatus < 0)
- 			return bstatus;
- 
- 		DRM_DEV_DEBUG_DRIVER(dev, "Bstatus = 0x%02x", bstatus);
-+
-+		/*1B-02 ignore when bstatus is 0 */
-+		if ((bstatus & DP_BSTATUS_R0_PRIME_READY) &&
-+				(it6505->hdcp_status == HDCP_AUTH_GOING))
-+			it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
-+					HDCP_TRIGGER_CPIRQ);
-+		else if ((bstatus & (DP_BSTATUS_REAUTH_REQ | DP_BSTATUS_LINK_FAILURE)) &&
-+				(it6505->hdcp_status == HDCP_AUTH_DONE))
-+			it6505_start_hdcp(it6505);
-+
- 	}
- 
- 	ret = drm_dp_dpcd_read_link_status(&it6505->aux, link_status);
-@@ -2431,7 +2477,7 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_DONE;
--	it6505_show_hdcp_info(it6505);
-+	it6505_show_hdcp_info(it6505, false);
- }
- 
- static void it6505_irq_hdcp_fail(struct it6505 *it6505)
-@@ -2440,7 +2486,7 @@ static void it6505_irq_hdcp_fail(struct it6505 *it6505)
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp fail interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_IDLE;
--	it6505_show_hdcp_info(it6505);
-+	it6505_show_hdcp_info(it6505, true);
- 	it6505_start_hdcp(it6505);
- }
- 
-@@ -2455,7 +2501,11 @@ static void it6505_irq_hdcp_ksv_check(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "HDCP event Interrupt");
-+	DRM_DEV_DEBUG_DRIVER(dev, "HDCP repeater R0 event Interrupt");
-+
-+	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
-+			HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
-+
- 	schedule_work(&it6505->hdcp_wait_ksv_list);
- }
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-amd-display-switch-amdgpu_dm_connector-to-use-struct-drm_edid/20240912-093827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20240911213537.2338164-11-superm1%40kernel.org
+patch subject: [PATCH v6 10/10] drm/amd/display: Fetch the EDID from _DDC if available for eDP
+config: arm64-randconfig-003-20240918 (https://download.01.org/0day-ci/archive/20240919/202409191128.4bvJysve-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409191128.4bvJysve-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409191128.4bvJysve-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c: In function 'dm_helpers_probe_acpi_edid':
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:883:28: error: unused variable 'ddev' [-Werror=unused-variable]
+     883 |         struct drm_device *ddev = connector->dev;
+         |                            ^~~~
+   cc1: all warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
+
+
+vim +/ddev +883 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c
+
+   878	
+   879	static int
+   880	dm_helpers_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
+   881	{
+   882		struct drm_connector *connector = data;
+ > 883		struct drm_device *ddev = connector->dev;
+   884		struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
+   885		unsigned char start = block * EDID_LENGTH;
+   886		void *edid;
+   887		int r;
+   888	
+   889		if (!acpidev)
+   890			return -ENODEV;
+   891	
+   892		/* fetch the entire edid from BIOS */
+   893		r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
+   894		if (r < 0) {
+   895			DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
+   896			return r;
+   897		}
+   898		if (len > r || start > r || start + len > r) {
+   899			r = -EINVAL;
+   900			goto cleanup;
+   901		}
+   902	
+   903		memcpy(buf, edid + start, len);
+   904		r = 0;
+   905	
+   906	cleanup:
+   907		kfree(edid);
+   908	
+   909		return r;
+   910	}
+   911	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
