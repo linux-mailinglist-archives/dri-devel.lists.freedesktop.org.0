@@ -2,89 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8710C97C978
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 14:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398EE97C9C6
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2024 15:12:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D2110E6BC;
-	Thu, 19 Sep 2024 12:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4480410E2BD;
+	Thu, 19 Sep 2024 13:12:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xmez9ih5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T74+YVZU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
- [209.85.222.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A77FB10E6BC
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 12:50:37 +0000 (UTC)
-Received: by mail-ua1-f42.google.com with SMTP id
- a1e0cc1a2514c-846c2471f0eso207169241.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 05:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726750236; x=1727355036; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lynh9AqoNJtlb54yCwbo34NdMY498MNudPm3PDmLEVM=;
- b=Xmez9ih5BepCJgnuwIvgaCZIHP7ChxiBLNQjdAqvAD8YMCYr4qYROln2hC/GFO33Mx
- bBA8jfGhy9OHJHhxMao5ynrvwHCF8pk3sLZHZG9+i9Rgcu0XXDWBtlFlg4KldjBKE5RX
- MM0EYgTrOXy+RJ1k9O5bqygnH5ArJpI6urta7wqkcxF5rhMhmMOQZrrUfJtK7mw3ZPib
- 3FCzRjrNqXwzhhPw4JFAqkYaynxQyapLjC8FoGX3Fk2RKUWqTvlRwALlu6y13tg1JvqB
- LoLtfy9IEC4bKqJrfJzirDSyWcLE3li8QqaVootoUUUPjxNKHF6qU8i2FnrVvzZrtKbY
- Nrrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726750236; x=1727355036;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lynh9AqoNJtlb54yCwbo34NdMY498MNudPm3PDmLEVM=;
- b=mrRpQsGuNHLM2v1WmVYtZU4n8hhb1DpwIu02ZBnwMw4L7NgfUsHnrJS00/DK8ghtVG
- ICZIWTqR9lx/ygcA+XTkCBlqMdn/2x4FEPISjJaVZgt9L+hrYjgPbxSR7zxFxGmS67mM
- pWaizxcQIkcogoV/yOAaTbMEoplqUXVAc2+fdRBSvQFW17pDMFaI7tvMppbHQ4Nap7Yy
- Zlzqa0LW+Webft65GGbZl5rp/i6F9Q7NecdM8tyzzAfqGho1pcargFryMmEpJTvnz37+
- Gst7VbVjhTijf2KfsoPVLGGpy+dIeCh8YYrstqVj9FhSChd8jkaTEVOSrr365CzTLis3
- VyDw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUA6xbRZzvCiMHYGHCBZUAqKxxhKmZaqYARdLg4AJAlU+REwUpQ6WKfC5wQrYbyliiPUiFlfonXxLg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwYbsBqumG3C89Af7P4wtbCudX+vatM4sytSjxFtCp90EmrhB/C
- N5eKQaGIBwaY3+dmXEEXAAUbk4e2UpDlsZCpYmTi8U6alPTuFcaaoOcr3xcnZoMfsUsFRcLH1Q1
- ly/yJ9Dywv9xGApSGzgLP5fhoAUI=
-X-Google-Smtp-Source: AGHT+IEKMNbTQZXLRsS7SXG2H/9yDkohzhnwPtb9QKmG2n0WI6EVG/Fv5duzKAwAkVqQrCI53KiuMLSBZ1iaMAbwZsI=
-X-Received: by 2002:a05:6102:e0d:b0:493:dee7:9b8a with SMTP id
- ada2fe7eead31-49d41513da0mr18959356137.13.1726750236464; Thu, 19 Sep 2024
- 05:50:36 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB66410E2BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 13:12:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1726751555;
+ bh=mbKPeHX5dPDsgxkJ1kYk8sbygspVme8Eho7Kxjhv+gE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=T74+YVZUmPw6cCqQlEIa43Em8BrGfi1YTE7GEDSgxOkWRHnWKKsm6PuemZ/v1gq52
+ X5ZGvb3IBCm3dSE+4ADp62mOBKgjDL9X8esS3O45+2ci7/eaL+kBP3f3H+lgpsExia
+ NnoAkuz35WnhQ052/t8gpCqaRiqxwXgtgqUfEiQ38tKG50zw8FQ1b92iguajWxENuH
+ zoRjcpzBpvy0uAigH03DnHc4n512HX2T80jGl0tmDhDq7Iuvd2kwS540eojo/2GCEg
+ 5kHE+ppWrQX6hH/JaKLqNd8kfScBTdpPBU3wwlKrX4TqxS8mh87eq1zbwTN8eaCORz
+ BYDX4AW2s3xXg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 91A6917E14F9;
+ Thu, 19 Sep 2024 15:12:34 +0200 (CEST)
+Message-ID: <ff80024a-90b2-4a19-b827-23be69352f78@collabora.com>
+Date: Thu, 19 Sep 2024 15:12:33 +0200
 MIME-Version: 1.0
-References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-6-2d2efd5c5877@gmail.com>
- <bpujvanzp4yph2jkgog2rkvoywjtqad3jgk47kkex6v223flpb@66zporslyjzt>
-In-Reply-To: <bpujvanzp4yph2jkgog2rkvoywjtqad3jgk47kkex6v223flpb@66zporslyjzt>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Thu, 19 Sep 2024 15:50:25 +0300
-Message-ID: <CABTCjFCTKoZK58rXBnTd22J2w_mkPp5=nx292eOwW5dAMbp9OA@mail.gmail.com>
-Subject: Re: [PATCH v4 06/27] dt-bindings: mfd: add samsung,s2dos05
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
- cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm/mediatek: Adjustments for mtk_gem_prime_vmap()
+To: Markus Elfring <Markus.Elfring@web.de>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Alexandre Mergnat <amergnat@baylibre.com>,
+ Chen-Yu Tsai <wenst@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ David Airlie <airlied@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
+ Sui Jingfeng <suijingfeng@loongson.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <254d16d9-d56a-4f26-9914-db75e7aa4287@web.de>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <254d16d9-d56a-4f26-9914-db75e7aa4287@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,76 +68,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=BF=D0=BD, 16 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 12:1=
-4, Krzysztof Kozlowski <krzk@kernel.org>:
->
-> On Fri, Sep 13, 2024 at 06:07:49PM +0300, Dzmitry Sankouski wrote:
-> > Add samsung,s2dos05 MFD module binding.
-> >
-> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> >
-> > ---
-> > Changes in v4:
-> > - split long(>80) lines
-> > - fix indentation
-> > - merge with regulators binding
-> > - drop pmic suffix
-> > - drop unused labels in example
-> > - correct description
-> > ---
-> >  .../devicetree/bindings/mfd/samsung,s2dos05.yaml   | 99 ++++++++++++++=
-++++++++
-> >  MAINTAINERS                                        |  1 +
-> >  2 files changed, 100 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml=
- b/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml
-> > new file mode 100644
-> > index 000000000000..534434002045
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/mfd/samsung,s2dos05.yaml
-> > @@ -0,0 +1,99 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/mfd/samsung,s2dos05.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Samsung S2DOS05 Power Management IC
-> > +
-> > +maintainers:
-> > +  - Dzmitry Sankouski <dsankouski@gmail.com>
-> > +
-> > +description:
-> > +  This is a device tree bindings for S2DOS family of Power Management =
-IC (PMIC).
->
-> Drop this sentence, not really useful. I know that I put it into other
-> Samsung PMIC bindings, but let's don't grow this pattern.
->
-> > +
-> > +  The S2DOS05 is a companion power management IC for the panel and tou=
-chscreen
-> > +  in smart phones. Provides voltage regulators and
-> > +  ADC for power/current measurements.
-> > +
-> > +  Regulator section has 4 LDO and 1 BUCK regulators and also
-> > +  provides ELVDD, ELVSS, AVDD lines.
->
-> What are these? Input supplies?
->
+Il 17/09/24 19:34, Markus Elfring ha scritto:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Tue, 17 Sep 2024 19:16:45 +0200
+> 
+> A few update suggestions were taken into account
+> from static source code analysis.
 
-ELVSS and ELVDD are common abbreviations for AMOLED panel backlight supplie=
-s,
-AVDD for panel electronics. I conclude that s2dos05 ic provides
-ELVSS, ELVDD, AVDD from the facts, it can measure its current and power.
-Those power lines are controlled by display hardware [1],
-i.e. vendor kernel driver has no clue how to control those regulators.
+Hello Markus,
 
-I guess they just combined regular regulator ic with ELVSS, ELVDD, AVDD ic
-like [2].
+In my opinion, the suggested changes aren't bringing any improvement, not
+in readability nor performance ... nor anything else, really.
 
-[1]: https://github.com/klabit87/twrp_android_samsung_kernel_sdm845/blob/an=
-droid-8.0/drivers/gpu/drm/msm/samsung/S6E3HA8_AMB577PX01/dsi_panel_S6E3HA8_=
-AMB577PX01_wqhd_octa_cmd.dtsi#L3508
-[2]: https://www.st.com/resource/en/data_brief/stmp30.pdf
+For how I see it, the code is fine as it is, but then, that all boils down
+to code style preferences and nothing else.
+
+Cheers,
+angelo
+
+> 
+> Markus Elfring (2):
+>    Avoid duplicate sg_free_table(sgt) call
+>    Use common error handling code
+> 
+>   drivers/gpu/drm/mediatek/mtk_gem.c | 14 ++++++++------
+>   1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> --
+> 2.46.0
+> 
+
+
