@@ -2,69 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD70497D1F2
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0022497D258
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4890910E7D0;
-	Fri, 20 Sep 2024 07:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A1110E094;
+	Fri, 20 Sep 2024 08:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M+NudMcg";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="XkbuQzK5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C665710E0AC;
- Fri, 20 Sep 2024 07:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726818396; x=1758354396;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=sh9MfekUbazKEajbVSy1ZCdAZiqR3S/QEcTbLqenAdA=;
- b=M+NudMcgLDOEDciVa3IcRYUV57IsvMfUCOxF8uABLpLMZF7WoQ4Zyxh0
- B2YoaWtLj1CKqyp1WcBh9NcN4DlwwUbrUaP8/uVn+/5kkBsKlwprhLf44
- NK7OQ1f0CQMKzn+bIuybPNuXGlk53WQX+q2fpBwSqhrICdMZwdjgTO1Rm
- /VaWi+G0ASiBerb6RvRYGvTjAihaHYkDVXv8fyXXbo2SWCJxDY0qMV4B8
- 7iSDky/BpT9ZHPXeO4O5n7CmoRNx+A+cxxOsZHqOCmmE87Q9yAaz5UDF2
- Fr21wXvXKFlLA+oC1aRKHJgEsnCD26oxcXPoD0Rf3RA9grt3HabxlBWNd Q==;
-X-CSE-ConnectionGUID: zNVmC5iEQ3WmMk5Ml7tGYA==
-X-CSE-MsgGUID: 2VsW6Mi3QCKi+jZ9PAIhIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25961482"
-X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="25961482"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2024 00:46:36 -0700
-X-CSE-ConnectionGUID: 3sUMhZ/vSxuQWSRbBEh1yg==
-X-CSE-MsgGUID: Ge+iiJX/ROKrhVGt+YbvZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="70453949"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.245.0])
- ([10.245.245.0])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2024 00:46:34 -0700
-Message-ID: <3a31238d9477902b63499a5587e6c79bbfe293a0.camel@linux.intel.com>
-Subject: Re: RESEND Re: [RFC PATCH] dma-buf/dma-fence: Use a successful
- read_trylock() annotation for dma_fence_begin_signalling()
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
- linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Date: Fri, 20 Sep 2024 09:46:31 +0200
-In-Reply-To: <b6808146-b798-45b6-b2b3-61d97825a85f@amd.com>
-References: <20230428125233.228353-1-thomas.hellstrom@linux.intel.com>
- <be9b192a-a125-6774-bb4f-8b9fb517ce0d@linux.intel.com>
- <ZrxYdIDdEJXRTFrn@phenom.ffwll.local>
- <0d406a89b1b63ebf53c5d0848843c72299c1ff75.camel@linux.intel.com>
- <a97c5f63053000b5fcfc14cb56c79c8ff976b4ad.camel@linux.intel.com>
- <b6808146-b798-45b6-b2b3-61d97825a85f@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C9D1310E094
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=BEGbI
+ sQTh+g3JWARPrbSM2LwRVGpbQaDzPpAvAWnYdQ=; b=XkbuQzK5OxEZbDHFOwj2N
+ Psnjq7i20w5qVIu/QhkgSmvMfmRVaz9p2PCh8vadah/rSPQdKKDhrvA91htuxsjj
+ 6Zm3voIpxCnswed2YVrPsKNHT9fPN3F9gILxRJI9cZUAxCkF7IT9DGKRHfCxN/h+
+ Aq1MpTNYkN2X5xSBhOFVVc=
+Received: from ProDesk.. (unknown [58.22.7.114])
+ by gzsmtp2 (Coremail) with SMTP id sSgvCgBHPThcL+1mkXNnBg--.49626S2;
+ Fri, 20 Sep 2024 16:16:32 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
+ conor+dt@kernel.org, s.hauer@pengutronix.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, minhuadotchen@gmail.com,
+ detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v3 00/15] VOP Support for rk3576
+Date: Fri, 20 Sep 2024 16:16:24 +0800
+Message-ID: <20240920081626.6433-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: sSgvCgBHPThcL+1mkXNnBg--.49626S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuF1fXF4UAF4UGF13uw4UArb_yoW5Xr15p3
+ 98CryrXrZ7CFyjqrn7Gw4UCrWSqwnayay7Ww4fG3ZrA3WSyFnrKr9xuFn8ZrZIq3WxZF4U
+ Crs7X34UGF4IvFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UtWrAUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hRgXmWX0hsNzwABsA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,168 +60,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-09-18 at 15:18 +0200, Christian K=C3=B6nig wrote:
-> Sorry, somehow completely missed that. Feel free to push it to=20
-> drm-misc-next.
->=20
-> Christian.
-
-Pushed, thanks.
-/Thomas
+From: Andy Yan <andy.yan@rock-chips.com>
 
 
->=20
-> Am 18.09.24 um 14:34 schrieb Thomas Hellstr=C3=B6m:
-> > Christian,
-> >=20
-> > Ping?
-> >=20
-> >=20
-> > On Wed, 2024-08-14 at 10:37 +0200, Thomas Hellstr=C3=B6m wrote:
-> > > Christian,
-> > >=20
-> > > Ack to merge this through drm-misc-next, or do you want to pick
-> > > it up
-> > > for dma-buf?
-> > >=20
-> > > Thanks,
-> > > Thomas
-> > >=20
-> > >=20
-> > > On Wed, 2024-08-14 at 09:10 +0200, Daniel Vetter wrote:
-> > > > On Fri, May 26, 2023 at 01:11:28PM +0200, Thomas Hellstr=C3=B6m
-> > > > wrote:
-> > > > > Daniel,
-> > > > >=20
-> > > > > On 4/28/23 14:52, Thomas Hellstr=C3=B6m wrote:
-> > > > > > Condsider the following call sequence:
-> > > > > >=20
-> > > > > > /* Upper layer */
-> > > > > > dma_fence_begin_signalling();
-> > > > > > lock(tainted_shared_lock);
-> > > > > > /* Driver callback */
-> > > > > > dma_fence_begin_signalling();
-> > > > > > ...
-> > > > > >=20
-> > > > > > The driver might here use a utility that is annotated as
-> > > > > > intended
-> > > > > > for the
-> > > > > > dma-fence signalling critical path. Now if the upper layer
-> > > > > > isn't
-> > > > > > correctly
-> > > > > > annotated yet for whatever reason, resulting in
-> > > > > >=20
-> > > > > > /* Upper layer */
-> > > > > > lock(tainted_shared_lock);
-> > > > > > /* Driver callback */
-> > > > > > dma_fence_begin_signalling();
-> > > > > >=20
-> > > > > > We will receive a false lockdep locking order violation
-> > > > > > notification from
-> > > > > > dma_fence_begin_signalling(). However entering a dma-fence
-> > > > > > signalling
-> > > > > > critical section itself doesn't block and could not cause a
-> > > > > > deadlock.
-> > > > > >=20
-> > > > > > So use a successful read_trylock() annotation instead for
-> > > > > > dma_fence_begin_signalling(). That will make sure that the
-> > > > > > locking order
-> > > > > > is correctly registered in the first case, and doesn't
-> > > > > > register
-> > > > > > any
-> > > > > > locking order in the second case.
-> > > > > >=20
-> > > > > > The alternative is of course to make sure that the "Upper
-> > > > > > layer"
-> > > > > > is always
-> > > > > > correctly annotated. But experience shows that's not easily
-> > > > > > achievable
-> > > > > > in all cases.
-> > > > > >=20
-> > > > > > Signed-off-by: Thomas Hellstr=C3=B6m
-> > > > > > <thomas.hellstrom@linux.intel.com>
-> > > > > Resurrecting the discussion on this one. I can't see a
-> > > > > situation
-> > > > > where we
-> > > > > would miss *relevant* locking
-> > > > > order violation warnings with this patch. Ofc if we have a
-> > > > > scheduler
-> > > > > annotation patch that would work fine as well, but the lack
-> > > > > of
-> > > > > annotation in
-> > > > > the scheduler callbacks is really starting to hurt us.
-> > > > Yeah this is just a bit too brain-melting to review, but I
-> > > > concur
-> > > > now.
-> > > >=20
-> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > > > I think what would help is some lockdep selftests to check that
-> > > > we
-> > > > both
-> > > > catch the stuff we want to, and don't incur false positives.
-> > > > Maybe
-> > > > with a
-> > > > plea that lockdep should have some native form of cross-release
-> > > > annotations ...
-> > > >=20
-> > > > But definitely seperate patch set, since it might take a few
-> > > > rounds
-> > > > of
-> > > > review by lockdep folks.
-> > > > -Sima
-> > > >=20
-> > > > > Thanks,
-> > > > >=20
-> > > > > Thomas
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > > ---
-> > > > > > =C2=A0=C2=A0 drivers/dma-buf/dma-fence.c | 6 +++---
-> > > > > > =C2=A0=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > > >=20
-> > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-
-> > > > > > buf/dma-
-> > > > > > fence.c
-> > > > > > index f177c56269bb..17f632768ef9 100644
-> > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > @@ -308,8 +308,8 @@ bool dma_fence_begin_signalling(void)
-> > > > > > =C2=A0=C2=A0=C2=A0	if (in_atomic())
-> > > > > > =C2=A0=C2=A0=C2=A0		return true;
-> > > > > > -	/* ... and non-recursive readlock */
-> > > > > > -	lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1,
-> > > > > > NULL,
-> > > > > > _RET_IP_);
-> > > > > > +	/* ... and non-recursive successful read_trylock
-> > > > > > */
-> > > > > > +	lock_acquire(&dma_fence_lockdep_map, 0, 1, 1, 1,
-> > > > > > NULL,
-> > > > > > _RET_IP_);
-> > > > > > =C2=A0=C2=A0=C2=A0	return false;
-> > > > > > =C2=A0=C2=A0 }
-> > > > > > @@ -340,7 +340,7 @@ void __dma_fence_might_wait(void)
-> > > > > > =C2=A0=C2=A0=C2=A0	lock_map_acquire(&dma_fence_lockdep_map);
-> > > > > > =C2=A0=C2=A0=C2=A0	lock_map_release(&dma_fence_lockdep_map);
-> > > > > > =C2=A0=C2=A0=C2=A0	if (tmp)
-> > > > > > -		lock_acquire(&dma_fence_lockdep_map, 0, 0,
-> > > > > > 1,
-> > > > > > 1,
-> > > > > > NULL, _THIS_IP_);
-> > > > > > +		lock_acquire(&dma_fence_lockdep_map, 0, 1,
-> > > > > > 1,
-> > > > > > 1,
-> > > > > > NULL, _THIS_IP_);
-> > > > > > =C2=A0=C2=A0 }
-> > > > > > =C2=A0=C2=A0 #endif
->=20
+Thanks for the basic work from Collabora, I can bringup a HDMI
+display out on rk3576.
+
+PATCH 1 is a carryover from the working when add support for rk3588,
+        is very usefull when some people want me help debug some issue
+        online, so I really hope it can be merged at this round.
+PATCH 2~5 are bugfix of rk3588 alpha blending which report and test by
+         Derek
+PATCH 6~13 are preparations for rk3576 support
+PATCH 14~15 are real support for rk376
+
+The hdmi depends on WIP patch from Cristian[1]
+I test it with a 1080P/4K HDMI output with modetest and weston output.
+
+If there are some one want to have a try, I have a tree here[2]
+
+[0] https://patchwork.kernel.org/project/linux-rockchip/cover/20231211115547.1784587-1-andyshrk@163.com/
+[1] https://lore.kernel.org/lkml/20240819-b4-rk3588-bridge-upstream-v4-0-6417c72a2749@collabora.com/
+[2] https://github.com/andyshrk/linux/tree/rk3576-vop2-upstream-v3
+
+Changes in v3:
+- Add comments for why we should treat rk3566 with special care.
+- Add hardware version check
+- Add description for newly added interrupt
+- Share the alpha setup function with rk3568
+- recoder the code block by soc
+
+Changes in v2:
+- split it from main patch add support for rk3576
+- Add platform specific callback
+- Introduce vop hardware version
+- Add dt bindings
+- Add platform specific callback
+
+Andy Yan (15):
+  drm/rockchip: vop2: Add debugfs support
+  drm/rockchip: Set dma mask to 64 bit
+  drm/rockchip: vop2: Fix cluster windows alpha ctrl regsiters offset
+  drm/rockchip: vop2: Fix the mixer alpha setup for layer 0
+  drm/rockchip: vop2: Fix the windows switch between different layers
+  drm/rockchip: vop2: include rockchip_drm_drv.h
+  drm/rockchip: vop2: Support 32x8 superblock afbc
+  drm/rockchip: vop2: Add platform specific callback
+  drm/rockchip: vop2: Support for different layer selet configuration
+    between VPs
+  drm/rockchip: vop2: Introduce vop hardware version
+  drm/rockchip: vop2: Register the primary plane and overlay plane
+    separately
+  drm/rockchip: vop2: Set plane possible crtcs by possible vp mask
+  drm/rockchip: vop2: Add uv swap for cluster window
+  dt-bindings: display: vop2: Add rk3576 support
+  drm/rockchip: vop2: Add support for rk3576
+
+ .../display/rockchip/rockchip-vop2.yaml       |   13 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    4 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 1572 ++++---------
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  274 ++-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 1948 ++++++++++++++++-
+ 5 files changed, 2683 insertions(+), 1128 deletions(-)
+
+-- 
+2.34.1
 
