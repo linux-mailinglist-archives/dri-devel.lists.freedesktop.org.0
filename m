@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BD797D25D
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC4397D261
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:18:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAC610E7D2;
-	Fri, 20 Sep 2024 08:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29F610E7D7;
+	Fri, 20 Sep 2024 08:18:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ozpUVoE1";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="XoSKhMTG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7D39810E7D5
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:17:38 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 156F210E7D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
  s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=BEGbI
- sQTh+g3JWARPrbSM2LwRVGpbQaDzPpAvAWnYdQ=; b=ozpUVoE1zCGAMAElO+FjF
- 7W546U8aTZ/CJ5ZAnPWfvtDwxgN/J3QY97pwAlZ+/hDFquX3CvAfBKQUSublpUf+
- HPVqUAhC3AsArLTLL79QLl3Ta+KV8siJ3WOnAPpRxvGU/jRxiiNMCoD/8L1LcDlM
- i/1mUFLODpYvVFW0pUtzHg=
+ sQTh+g3JWARPrbSM2LwRVGpbQaDzPpAvAWnYdQ=; b=XoSKhMTGTUNJk8iECTY71
+ XuA87dQvz63oAupjFOccPcVYFruMmqSE9mnEaUCJBUWK3GT6GZBlqIwCvtbGGLMs
+ uv1Iya6zXkE5GFvj9i/diFdkTQc804B42ZdJv6RO0OoaPLBPCo9MTCn8oSgTIRk+
+ nenqU8yjGw0Jq2OhlPiF6A=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by gzga-smtp-mta-g2-1 (Coremail) with SMTP id _____wDnr2yIL+1mqL21Gw--.53445S2;
- Fri, 20 Sep 2024 16:17:16 +0800 (CST)
+ by gzga-smtp-mta-g3-0 (Coremail) with SMTP id _____wD3X2eVL+1mAqBPBg--.40332S2;
+ Fri, 20 Sep 2024 16:17:28 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
@@ -33,20 +33,20 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
  derek.foreman@collabora.com, minhuadotchen@gmail.com,
  detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
 Subject: [PATCH v3 00/15] VOP Support for rk3576
-Date: Fri, 20 Sep 2024 16:17:10 +0800
-Message-ID: <20240920081711.6493-1-andyshrk@163.com>
+Date: Fri, 20 Sep 2024 16:17:22 +0800
+Message-ID: <20240920081724.6520-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <.patch/rk3576_vop_upstream_v3/0002-drm-rockchip-Set-dma-mask-to-64-bit.patch>
-References: <.patch/rk3576_vop_upstream_v3/0002-drm-rockchip-Set-dma-mask-to-64-bit.patch>
+In-Reply-To: <.patch/rk3576_vop_upstream_v3/0003-drm-rockchip-vop2-Fix-cluster-windows-alpha-ctrl-reg.patch>
+References: <.patch/rk3576_vop_upstream_v3/0003-drm-rockchip-vop2-Fix-cluster-windows-alpha-ctrl-reg.patch>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDnr2yIL+1mqL21Gw--.53445S2
+X-CM-TRANSID: _____wD3X2eVL+1mAqBPBg--.40332S2
 X-Coremail-Antispam: 1Uf129KBjvJXoWxuF1fXF4UAF4UGF13uw4UArb_yoW5Xr15p3
  98CryrXrZ7CFyjqrn7Gw4UCrWSqwnayay7Ww4fG3ZrA3WSyFnrKr9xuFn8ZrZIq3WxZF4U
  Crs7X34UGF4IvFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UtWrAUUUUU=
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UumhwUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqR5gXmVODBG+xwABsH
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqR5gXmVODBG+xwADsF
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
